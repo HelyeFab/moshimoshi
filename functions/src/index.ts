@@ -343,6 +343,15 @@ export {
 } from './scheduled/storyScheduler'
 
 /**
+ * Export scheduled comic generator functions
+ * Generates a new "Moshi Goes to Japan" comic episode weekly on Sundays
+ */
+export {
+  scheduledComicGeneratorFunction,
+  manualComicGeneratorFunction,
+} from './scheduled/comicScheduler'
+
+/**
  * Export scheduled streak auto-break function
  * Phase 2.5: Automatically breaks streaks beyond grace period every hour
  */

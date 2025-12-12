@@ -46,6 +46,11 @@ export const strings = {
           description: 'All vocabulary from Genki, Minna no Nihongo, and more',
           badge: 'Academic Power',
         },
+        comics: {
+          title: 'Moshi Comics',
+          description: 'Learn Japanese through original manga adventures',
+          badge: 'Unique to Moshimoshi',
+        },
       },
     },
 
@@ -148,6 +153,20 @@ export const strings = {
           benefit4: 'Save unknown words directly to SRS review',
         },
         cta: 'Explore AI Stories',
+      },
+
+      comics: {
+        title: 'Moshi Comics: Learn Through Manga',
+        subtitle: 'Original Japanese comics created just for learners',
+        description:
+          'Follow Moshi on adventures through Japan in our original manga series. Each episode features natural dialogue, cultural insights, and vocabulary tailored to your level - all with beautiful AI-generated artwork.',
+        benefits: {
+          benefit1: 'Original manga stories with consistent characters',
+          benefit2: 'Natural Japanese dialogue with furigana support',
+          benefit3: 'Cultural notes and real-world context',
+          benefit4: 'Built-in quizzes and vocabulary lists per episode',
+        },
+        cta: 'Read Moshi Comics',
       },
     },
 
@@ -2495,6 +2514,11 @@ export const strings = {
         title: 'Stories',
         subtitle: '物語',
         description: 'AI-generated stories',
+      },
+      comics: {
+        title: 'Moshi Comics',
+        subtitle: 'もしの漫画',
+        description: 'Moshi Goes to Japan',
       },
       textbookVocab: {
         title: 'Textbook Vocab',

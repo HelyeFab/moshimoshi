@@ -3,6 +3,7 @@
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Suspense } from 'react'
 import Link from 'next/link'
+import { useLocalePath } from '@/i18n/I18nContext'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 
 const errorMessages: Record<string, { title: string; message: string }> = {
@@ -39,6 +40,7 @@ const errorMessages: Record<string, { title: string; message: string }> = {
 function AuthErrorContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
+  const { getLocalePath } = useLocalePath()
   const errorCode = searchParams?.get('code') || 'DEFAULT'
   const error = errorMessages[errorCode] || errorMessages.DEFAULT
 
@@ -78,7 +80,7 @@ function AuthErrorContent() {
           {/* Actions */}
           <div className="space-y-3">
             <button
-              onClick={() => router.push('/auth/signup')}
+              onClick={() => router.push(getLocalePath('/auth/signup'))}
               className="w-full py-3 bg-primary-500 text-white rounded-lg font-medium hover:bg-primary-600 transition-colors"
             >
               Try Again

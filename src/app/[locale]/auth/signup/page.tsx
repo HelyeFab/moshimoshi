@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { getUserFriendlyErrorMessage } from '@/utils/errorMessages'
-import { useTranslation, buildLocalePath } from '@/i18n/I18nContext'
+import { useTranslation, buildLocalePath, useLocalePath } from '@/i18n/I18nContext'
 import logger from '@/lib/logger'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 import { useReCaptcha } from '@/components/ReCaptchaProvider'
@@ -14,6 +14,7 @@ export default function SignUpPage() {
   const router = useRouter()
   const { showToast } = useToast()
   const { strings, t } = useTranslation()
+  const { getLocalePath } = useLocalePath()
   const { executeRecaptcha } = useReCaptcha()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -57,7 +58,7 @@ export default function SignUpPage() {
 
         // Show success message and redirect
         showToast(strings.auth.signup.messages.signupSuccess, 'success', 4000)
-        router.push('/auth/signin')
+        router.push(getLocalePath('/auth/signin'))
       } else {
         console.error('Sign up error:', data.error, 'Full response:', data)
         // Handle various error response structures
@@ -405,7 +406,7 @@ export default function SignUpPage() {
           )}
 
           <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
-            <Link href="/auth/signin" className="text-primary-600 dark:text-primary-400 hover:underline font-medium">
+            <Link href={getLocalePath('/auth/signin')} className="text-primary-600 dark:text-primary-400 hover:underline font-medium">
               {strings.auth.signup.links.signinLink}
             </Link>
           </p>

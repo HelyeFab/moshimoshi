@@ -6,7 +6,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import MoshimoshiLogo from "@/components/ui/MoshimoshiLogo";
 import ThemeToggle from "@/components/ui/ThemeToggle";
-import { useI18n } from "@/i18n/I18nContext";
+import { useI18n, useLocalePath } from "@/i18n/I18nContext";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useIsMobile } from "@/hooks/useMediaQuery";
 import { PremiumBadge } from "@/components/common/PremiumBadge";
@@ -38,6 +38,7 @@ export default function Navbar({
   const router = useRouter();
   const pathname = usePathname();
   const { strings, language } = useI18n();
+  const { getLocalePath } = useLocalePath();
   const { isPremium } = useSubscription();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
@@ -99,7 +100,7 @@ export default function Navbar({
         sessionStorage.removeItem("guest_welcomed");
       }
 
-      router.push("/auth/signin");
+      router.push(getLocalePath("/auth/signin"));
     } catch (error) {
       console.error("Sign out failed:", error);
     }

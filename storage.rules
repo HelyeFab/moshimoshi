@@ -55,6 +55,18 @@ service firebase.storage {
       allow write: if false; // Server-only via Admin SDK
     }
 
+    // Comic panel images (server-generated)
+    match /comics/{allPaths=**} {
+      allow read: if true;
+      allow write: if false; // Server-only via Admin SDK
+    }
+
+    // Character model sheets and references (server-generated)
+    match /characters/{allPaths=**} {
+      allow read: if true;
+      allow write: if false; // Server-only via Admin SDK
+    }
+
     // Default: deny all other paths
     match /{allPaths=**} {
       allow read, write: if false;

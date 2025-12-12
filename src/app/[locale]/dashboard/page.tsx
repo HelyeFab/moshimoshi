@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { useToast } from '@/components/ui/Toast/ToastContext'
-import { useI18n } from '@/i18n/I18nContext'
+import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import LearningVillage from '@/components/dashboard/LearningVillage'
 import PokedexCard from '@/components/pokedex/PokedexCard'
@@ -27,6 +27,7 @@ function DashboardContent() {
   const searchParams = useSearchParams()
   const { showToast } = useToast()
   const { user, loading: authLoading, isGuest } = useAuth()
+  const { getLocalePath } = useLocalePath()
   const [isFirstVisit, setIsFirstVisit] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
   const [hasCheckedFirstVisit, setHasCheckedFirstVisit] = useState(false)
@@ -121,10 +122,10 @@ function DashboardContent() {
   useEffect(() => {
     if (!authLoading && !user && !isGuest) {
       logger.auth('[Dashboard] No user found, redirecting to signin')
-      const timer = setTimeout(() => router.push('/auth/signin'), 100)
+      const timer = setTimeout(() => router.push(getLocalePath('/auth/signin')), 100)
       return () => clearTimeout(timer)
     }
-  }, [authLoading, user, isGuest, router])
+  }, [authLoading, user, isGuest, router, getLocalePath])
 
   const { strings } = useI18n()
 

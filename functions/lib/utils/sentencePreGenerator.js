@@ -54,6 +54,8 @@ exports.storeSentenceDataForBook = storeSentenceDataForBook;
 exports.preGenerateArticleSentences = preGenerateArticleSentences;
 exports.preGenerateStorySentences = preGenerateStorySentences;
 exports.preGenerateBookSentences = preGenerateBookSentences;
+exports.storeSentenceDataForComic = storeSentenceDataForComic;
+exports.preGenerateComicSentences = preGenerateComicSentences;
 const admin = __importStar(require("firebase-admin"));
 const logger = __importStar(require("firebase-functions/logger"));
 const params_1 = require("firebase-functions/params");
@@ -498,5 +500,158 @@ async function preGenerateStorySentences(storyId, pages) {
 async function preGenerateBookSentences(bookId, content) {
     const result = await preGenerateSentences(bookId, content, 'book');
     await storeSentenceDataForBook(bookId, result.sentences);
+}
+/**
+ * Store sentence data for a comic episode
+ */
+async function storeSentenceDataForComic(episodeId, data) {
+    try {
+        const docRef = db.collection('comic_sentence_data').doc(episodeId);
+        await docRef.set(Object.assign(Object.assign({}, data), { generatedAt: admin.firestore.FieldValue.serverTimestamp() }));
+        logger.info('[SentencePreGen] Sentence data stored for comic', {
+            episodeId,
+            dialogueCount: data.dialogues.length,
+            narrationCount: data.narrations.length,
+        });
+    }
+    catch (error) {
+        logger.error('[SentencePreGen] Error storing sentence data for comic', {
+            episodeId,
+            error: error instanceof Error ? error.message : 'Unknown error',
+        });
+        throw error;
+    }
+}
+/**
+ * Pre-generate audio for all dialogues and narrations in a comic episode
+ */
+async function preGenerateComicSentences(episodeId, panels, title, titleJa) {
+    var _a;
+    logger.info('[SentencePreGen] Starting comic sentence pre-generation', {
+        episodeId,
+        panelCount: panels.length,
+    });
+    const dialogueSentences = [];
+    const narrationSentences = [];
+    const allTextForFullAudio = [];
+    for (const panel of panels) {
+        // Process dialogues
+        if (panel.dialogues) {
+            for (let dIndex = 0; dIndex < panel.dialogues.length; dIndex++) {
+                const dialogue = panel.dialogues[dIndex];
+                if (dialogue.textJa) {
+                    allTextForFullAudio.push(dialogue.textJa);
+                    try {
+                        const audioUrl = await generateSentenceAudio(dialogue.textJa, episodeId, panel.panelNumber * 100 + dIndex, // Unique index
+                        'comic');
+                        dialogueSentences.push({
+                            panelNumber: panel.panelNumber,
+                            dialogueIndex: dIndex,
+                            characterId: dialogue.characterId,
+                            characterName: dialogue.characterName,
+                            text: dialogue.textJa,
+                            textEn: dialogue.textEn,
+                            audioUrl,
+                            emotion: dialogue.emotion,
+                        });
+                        logger.debug('[SentencePreGen] Comic dialogue audio generated', {
+                            episodeId,
+                            panelNumber: panel.panelNumber,
+                            dialogueIndex: dIndex,
+                        });
+                    }
+                    catch (error) {
+                        logger.error('[SentencePreGen] Error generating dialogue audio', {
+                            episodeId,
+                            panelNumber: panel.panelNumber,
+                            dialogueIndex: dIndex,
+                            error: error instanceof Error ? error.message : 'Unknown',
+                        });
+                        // Add with empty audioUrl
+                        dialogueSentences.push({
+                            panelNumber: panel.panelNumber,
+                            dialogueIndex: dIndex,
+                            characterId: dialogue.characterId,
+                            characterName: dialogue.characterName,
+                            text: dialogue.textJa,
+                            textEn: dialogue.textEn,
+                            audioUrl: '',
+                            emotion: dialogue.emotion,
+                        });
+                    }
+                    // Rate limiting delay
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                }
+            }
+        }
+        // Process narration
+        if ((_a = panel.narration) === null || _a === void 0 ? void 0 : _a.textJa) {
+            allTextForFullAudio.push(panel.narration.textJa);
+            try {
+                const audioUrl = await generateSentenceAudio(panel.narration.textJa, episodeId, panel.panelNumber * 100 + 99, // Use 99 for narration
+                'comic');
+                narrationSentences.push({
+                    panelNumber: panel.panelNumber,
+                    text: panel.narration.textJa,
+                    textEn: panel.narration.textEn,
+                    audioUrl,
+                });
+                logger.debug('[SentencePreGen] Comic narration audio generated', {
+                    episodeId,
+                    panelNumber: panel.panelNumber,
+                });
+            }
+            catch (error) {
+                logger.error('[SentencePreGen] Error generating narration audio', {
+                    episodeId,
+                    panelNumber: panel.panelNumber,
+                    error: error instanceof Error ? error.message : 'Unknown',
+                });
+                narrationSentences.push({
+                    panelNumber: panel.panelNumber,
+                    text: panel.narration.textJa,
+                    textEn: panel.narration.textEn,
+                    audioUrl: '',
+                });
+            }
+            await new Promise(resolve => setTimeout(resolve, 300));
+        }
+    }
+    // Generate full episode audio
+    let fullAudioUrl = '';
+    if (allTextForFullAudio.length > 0) {
+        try {
+            const fullText = allTextForFullAudio.join('。\n');
+            fullAudioUrl = await generateSentenceAudio(fullText, episodeId, 9999, // Special index for full audio
+            'comic');
+            logger.info('[SentencePreGen] Full episode audio generated', { episodeId });
+        }
+        catch (error) {
+            logger.error('[SentencePreGen] Error generating full episode audio', {
+                episodeId,
+                error: error instanceof Error ? error.message : 'Unknown',
+            });
+        }
+    }
+    // Store sentence data
+    await storeSentenceDataForComic(episodeId, {
+        episodeId,
+        title,
+        titleJa,
+        dialogues: dialogueSentences,
+        narrations: narrationSentences,
+        fullAudioUrl,
+    });
+    logger.info('[SentencePreGen] Comic sentence pre-generation completed', {
+        episodeId,
+        dialogueCount: dialogueSentences.length,
+        narrationCount: narrationSentences.length,
+        hasFullAudio: !!fullAudioUrl,
+    });
+    return {
+        fullAudioUrl,
+        dialogueCount: dialogueSentences.length,
+        narrationCount: narrationSentences.length,
+    };
 }
 //# sourceMappingURL=sentencePreGenerator.js.map

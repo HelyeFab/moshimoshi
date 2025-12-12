@@ -243,76 +243,314 @@ export const strings = {
 
   // Landing Page
   landing: {
-    header: {
-      navigation: {
-        about: 'Chi siamo',
-        pricing: 'Prezzi',
-        signIn: 'Accedi',
-      },
-    },
+    // Hero Section
     hero: {
-      badge: 'GRATIS!',
-      title: 'Impara il giapponese',
-      subtitle: 'In modo divertente!',
-      description:
-        "Padroneggia hiragana, katakana e kanji con lezioni brevi e ripetizione spaziata che fa sì che l'apprendimento rimanga!",
-      primaryCta: 'Inizia ad imparare ora',
-      secondaryCta: 'Ho già un account',
+      headline: 'Padroneggia il giapponese con strumenti di apprendimento rivoluzionari',
+      subheadline:
+        "L'unica piattaforma che combina shadowing su YouTube, connessioni kanji intelligenti, importazione Anki con un clic e integrazione completa dei libri di testo",
+      ctaPrimary: 'Inizia a imparare gratis',
+      ctaSecondary: 'Guarda la demo',
+
+      // Carousel Slides
+      carousel: {
+        shadowing: {
+          title: 'Shadowing su YouTube',
+          description: 'Perfeziona la pronuncia con contenuti giapponesi autentici',
+          badge: 'Più popolare',
+        },
+        kanji: {
+          title: 'Sistema di connessione Kanji',
+          description: 'Comprendi 2.136 kanji attraverso pattern visivi e famiglie',
+          badge: 'Esclusivo Moshimoshi',
+        },
+        conjugation: {
+          title: 'Motore di coniugazione',
+          description: 'Più di 100 forme di coniugazione - il più completo sul mercato',
+          badge: 'Padronanza grammaticale',
+        },
+        news: {
+          title: 'Articoli di notizie giapponesi',
+          description: "Impara dall'attualità autentica con supporto IA",
+          badge: 'Contenuti reali',
+        },
+        stories: {
+          title: 'Storie generate da IA',
+          description: 'Storie personalizzate adattate al tuo livello',
+          badge: 'Apprendimento adattivo',
+        },
+        anki: {
+          title: 'Importazione Anki con un clic',
+          description: 'Migra i tuoi mazzi Anki istantaneamente - nessuna perdita di dati',
+          badge: 'Migrazione senza problemi',
+        },
+        textbooks: {
+          title: 'Integrazione completa dei libri di testo',
+          description: 'Tutto il vocabolario da Genki, Minna no Nihongo e altro',
+          badge: 'Potenza accademica',
+        },
+        comics: {
+          title: 'Moshi Comics',
+          description: 'Impara il giapponese attraverso avventure manga originali',
+          badge: 'Esclusivo Moshimoshi',
+        },
+      },
     },
-    mascots: {
-      sakura: 'Sakura',
-      matcha: 'Matcha',
-      fuji: 'Fuji',
-      torii: 'Torii',
-    },
+
+    // Feature Sections
     features: {
-      personalizedLearning: {
-        title: 'Apprendimento personalizzato',
-        description: "Le lezioni basate sull'IA si adattano al tuo ritmo e stile di apprendimento",
+      shadowing: {
+        title: 'Shadowing su YouTube: impara dai contenuti nativi',
+        subtitle: "L'arma segreta che gli studenti di giapponese non conoscono",
+        description:
+          "Fai shadowing con video YouTube autentici, drama e podcast giapponesi. Il nostro sistema basato su IA suddivide i contenuti in porzioni di apprendimento perfette con tempi di pausa regolabili.",
+        benefits: {
+          benefit1: 'Pratica con la vera pronuncia nativa',
+          benefit2: 'Velocità di riproduzione regolabile (0,5x - 2x)',
+          benefit3: 'Pausa automatica per la pratica dello shadowing',
+          benefit4: 'Traccia i progressi su tutti i video',
+        },
+        cta: 'Prova lo Shadowing ora',
       },
-      stayMotivated: {
-        title: 'Rimani motivato',
-        description: 'Guadagna XP, mantieni serie e sblocca risultati',
+
+      kanji: {
+        title: 'Sistema di connessione Kanji: rivoluzione visiva',
+        subtitle: 'Scopri i pattern che nessun altro ti mostra',
+        description:
+          'Il nostro sistema unico connette tutti i 2.136 kanji joyo attraverso famiglie fonetiche, radicali semantici e pattern visivi. Impara i kanji in gruppi connessi invece che come caratteri isolati.',
+        benefits: {
+          benefit1: '214 radicali con scomposizione dei componenti',
+          benefit2: 'Raggruppamenti per famiglie fonetiche',
+          benefit3: 'Visualizzazione interattiva della rete',
+          benefit4: 'Tecniche mnemoniche per ogni pattern',
+        },
+        cta: 'Esplora le connessioni Kanji',
       },
-      smartReview: {
-        title: 'Sistema di ripasso intelligente',
-        description: "L'algoritmo SRS garantisce che tu ripeta al momento perfetto",
+
+      conjugation: {
+        title: 'Padroneggia la coniugazione giapponese',
+        subtitle: 'Più di 100 forme di coniugazione - il più completo sul mercato',
+        description:
+          "Il nostro motore di coniugazione avanzato copre ogni forma di verbo, aggettivo e copula con precisione perfetta. Rilevamento intelligente del tipo di parola, esercizi a difficoltà ponderata e architettura pulita rendono la pratica grammaticale senza sforzo.",
+        benefits: {
+          benefit1: 'Più di 100 forme di coniugazione (il più completo disponibile)',
+          benefit2: 'Implementazione accurata delle regole grammaticali giapponesi',
+          benefit3: 'Rilevamento intelligente del tipo di parola con punteggio di confidenza',
+          benefit4: 'Eccellente integrazione di esercizi con difficoltà ponderata',
+        },
+        cta: 'Pratica la coniugazione',
+      },
+
+      anki: {
+        title: 'Importazione Anki con un clic: mantieni i tuoi progressi',
+        subtitle: 'Cambia senza perdere migliaia di ore di lavoro',
+        description:
+          "Importa tutti i tuoi mazzi Anki con la cronologia SRS completa, la pianificazione delle carte e le note personalizzate. Il nostro sistema di migrazione intelligente preserva tutto migliorando la tua esperienza di apprendimento.",
+        benefits: {
+          benefit1: '100% della cronologia SRS preservata',
+          benefit2: 'Carte personalizzate importate perfettamente',
+          benefit3: 'Tag e struttura dei mazzi mantenuti',
+          benefit4: 'Potenziato con funzionalità basate su IA',
+        },
+        cta: 'Importa i miei mazzi Anki',
+      },
+
+      textbooks: {
+        title: 'Vocabolario dei libri di testo: eccellenza accademica',
+        subtitle: 'Ogni parola dai libri che già usi',
+        description:
+          'Vocabolario completo da Genki I e II, Minna no Nihongo, Tobira e altro. Organizzato per lezione con frasi di esempio, audio e ripasso SRS.',
+        textbookList: 'Genki - Minna no Nihongo - Tobira - Japanese from Zero - Marugoto',
+        benefits: {
+          benefit1: 'Organizzato per libro di testo e lezione',
+          benefit2: 'Audio nativo per ogni parola',
+          benefit3: 'Frasi di esempio con contesto',
+          benefit4: 'Sincronizza con il programma delle tue lezioni',
+        },
+        cta: 'Sfoglia il vocabolario dei libri di testo',
+      },
+
+      news: {
+        title: 'Articoli di notizie giapponesi reali',
+        subtitle: "Impara dall'attualità autentica",
+        description:
+          "Leggi articoli di notizie giapponesi reali con supporto alla comprensione integrato. La nostra IA scompone frasi complesse, fornisce suggerimenti sul vocabolario e traccia i tuoi progressi di lettura.",
+        benefits: {
+          benefit1: 'Contenuti di notizie autentiche aggiornati quotidianamente',
+          benefit2: 'Scomposizione e analisi delle frasi basate su IA',
+          benefit3: 'Ricerca vocabolario istantanea con integrazione SRS',
+          benefit4: 'Tracciamento dei progressi di lettura e statistiche',
+        },
+        cta: 'Leggi articoli di notizie',
+      },
+
+      stories: {
+        title: 'Storie generate da IA',
+        subtitle: 'Storie personalizzate per il tuo livello',
+        description:
+          'Pratica la lettura con storie generate da IA adattate al tuo livello di vocabolario e ai tuoi interessi. Ogni storia include furigana, liste di vocabolario e domande di comprensione.',
+        benefits: {
+          benefit1: 'Storie generate esattamente al tuo livello',
+          benefit2: 'Supporto furigana e vocabolario',
+          benefit3: 'Domande di comprensione e quiz',
+          benefit4: 'Salva le parole sconosciute direttamente nel ripasso SRS',
+        },
+        cta: 'Esplora le storie IA',
+      },
+
+      comics: {
+        title: 'Moshi Comics: impara attraverso i manga',
+        subtitle: 'Fumetti giapponesi originali creati appositamente per gli studenti',
+        description:
+          'Segui Moshi nelle sue avventure attraverso il Giappone nella nostra serie manga originale. Ogni episodio presenta dialoghi naturali, approfondimenti culturali e vocabolario adattato al tuo livello - il tutto con bellissime illustrazioni generate da IA.',
+        benefits: {
+          benefit1: 'Storie manga originali con personaggi ricorrenti',
+          benefit2: 'Dialoghi giapponesi naturali con supporto furigana',
+          benefit3: 'Note culturali e contesto del mondo reale',
+          benefit4: 'Quiz integrati e liste di vocabolario per episodio',
+        },
+        cta: 'Leggi Moshi Comics',
       },
     },
-    stats: {
-      title: 'Unisciti a migliaia di studenti di giapponese!',
-      activeLearners: {
-        number: '5M+',
-        label: 'Studenti attivi',
+
+    // Comparison Table
+    comparison: {
+      title: 'Perche Moshimoshi batte la concorrenza',
+      subtitle: "L'unica piattaforma costruita per studenti seri",
+      tableHeaders: {
+        feature: 'Funzionalita',
+        moshimoshi: 'Moshimoshi',
+        anki: 'Anki',
+        wanikani: 'WaniKani',
+        duolingo: 'Duolingo',
       },
-      lessons: {
-        number: '10K+',
-        label: 'Lezioni',
+      features: {
+        shadowing: 'Shadowing su YouTube',
+        kanjiSystem: 'Sistema Kanji visivo',
+        ankiImport: 'Importazione Anki',
+        textbooks: 'Integrazione libri di testo',
+        customCards: 'Flashcard personalizzate',
+        offline: 'Modalita offline',
+        gamification: 'Gamification',
+        community: 'Funzionalita community',
       },
-      successRate: {
-        number: '95%',
-        label: 'Tasso di successo',
-      },
-    },
-    progressPreview: {
-      title: 'Il tuo percorso di apprendimento',
-      stage1: {
-        title: 'Hiragana e Katakana',
-        description: 'Padroneggia le basi in 2 settimane',
-      },
-      stage2: {
-        title: 'Kanji essenziali',
-        description: 'Impara più di 100 kanji di base con mnemonici',
-      },
-      stage3: {
-        title: 'Kanji avanzati',
-        description: 'Padroneggia più di 1000 kanji per la fluenza',
+      values: {
+        yes: 'Si',
+        no: 'No',
+        limited: 'Limitato',
       },
     },
+
+    // Social Proof
+    socialProof: {
+      title: 'Amato dagli studenti di giapponese in tutto il mondo',
+      subtitle: 'Dai principianti ai candidati JLPT N1',
+      testimonials: {
+        testimonial1: {
+          quote:
+            "Sono migrato da Anki dopo 3 anni. L'importazione e stata impeccabile e la funzione di shadowing ha migliorato drasticamente la mia pronuncia.",
+          author: 'Sarah Chen',
+          role: 'Studentessa JLPT N2',
+          context: 'Migrata da Anki',
+        },
+        testimonial2: {
+          quote:
+            'Il sistema di connessione kanji finalmente mi ha fatto capire i kanji. Vedere le famiglie e i pattern ha cambiato tutto.',
+          author: 'Marcus Rodriguez',
+          role: 'Studente universitario di giapponese',
+          context: 'Utente Connessione Kanji',
+        },
+        testimonial3: {
+          quote:
+            'Come studentessa di Genki, avere tutto il vocabolario organizzato per lezione con audio e una svolta per i miei studi.',
+          author: 'Emma Thompson',
+          role: 'Autodidatta',
+          context: 'Utente Integrazione Libri di Testo',
+        },
+        testimonial4: {
+          quote:
+            'Fare shadowing con contenuti YouTube autentici batte qualsiasi libro di testo. I miei amici giapponesi non credono che sia autodidatta.',
+          author: 'Kenji Yamamoto',
+          role: 'Professionista',
+          context: 'Utente Shadowing YouTube',
+        },
+      },
+      stats: {
+        cards: 'Milioni di flashcard create',
+        kanji: 'Copertura completa kanji joyo',
+        textbooks: 'Principali libri di testo integrati',
+        languages: "Lingue dell'interfaccia",
+      },
+    },
+
+    // FAQ Section
+    faq: {
+      title: 'Domande frequenti',
+      subtitle: 'Tutto quello che devi sapere',
+      questions: {
+        q1: {
+          question: 'Posso davvero importare tutti i miei mazzi Anki?',
+          answer:
+            "Si! Il nostro strumento di importazione gestisce i file .apkg e preserva la tua cronologia SRS completa, la pianificazione, i tag e i formati delle carte personalizzate. La maggior parte delle importazioni si completa in meno di 60 secondi.",
+        },
+        q2: {
+          question: 'Cosa rende unico il Sistema di connessione Kanji?',
+          answer:
+            "A differenza di altre app che insegnano i kanji isolatamente, ti mostriamo famiglie fonetiche, pattern semantici e relazioni visive. Ad esempio, tutti i kanji con il componente 青 (blu/verde) sono raggruppati e insegnati insieme con i loro pattern di pronuncia.",
+        },
+        q3: {
+          question: 'Lo shadowing su YouTube e disponibile per tutti i video?',
+          answer:
+            "Supportiamo qualsiasi video YouTube con sottotitoli giapponesi. La nostra IA suddivide il contenuto in segmenti apprendibili con tempi di pausa regolabili per la pratica dello shadowing.",
+        },
+        q4: {
+          question: 'Quali libri di testo supportate?',
+          answer:
+            'Abbiamo copertura completa del vocabolario per Genki I e II, Minna no Nihongo I e II, Tobira, Japanese from Zero e Marugoto. Ogni voce include audio, frasi di esempio e organizzazione per lezione.',
+        },
+        q5: {
+          question: 'Posso usare Moshimoshi offline?',
+          answer:
+            'Si! Tutte le tue flashcard, i dati kanji e il vocabolario dei libri di testo funzionano offline. I ripassi si sincronizzano automaticamente quando torni online.',
+        },
+        q6: {
+          question: 'In cosa e diverso da Duolingo o WaniKani?',
+          answer:
+            "Moshimoshi combina la personalizzazione di Anki, la profondita dei kanji di WaniKani e funzionalita uniche come lo shadowing su YouTube e l'integrazione dei libri di testo - tutto in un'unica piattaforma. Siamo costruiti per studenti seri che vogliono strumenti completi.",
+        },
+      },
+    },
+
+    // Final CTA
     finalCta: {
-      title: 'Pronto per iniziare il tuo viaggio?',
-      description: 'È gratis, divertente e richiede solo 5 minuti al giorno!',
-      buttonText: 'Inizia il mio viaggio gratuito',
+      title: 'Pronto a trasformare il tuo apprendimento del giapponese?',
+      subtitle: 'Unisciti a migliaia di studenti che raggiungono la fluenza piu velocemente',
+      features: 'Il livello gratuito include le funzionalita principali - Nessuna carta di credito richiesta - Aggiorna quando vuoi',
+      ctaPrimary: 'Inizia a imparare gratis',
+      ctaSecondary: 'Vedi i prezzi',
+    },
+
+    // Footer
+    footer: {
+      tagline: 'La piattaforma di apprendimento del giapponese completa per studenti seri',
+      sections: {
+        product: 'Prodotto',
+        features: 'Funzionalita',
+        company: 'Azienda',
+        support: 'Supporto',
+      },
+      links: {
+        shadowing: 'Shadowing su YouTube',
+        kanji: 'Connessione Kanji',
+        anki: 'Importazione Anki',
+        textbooks: 'Vocabolario libri di testo',
+        pricing: 'Prezzi',
+        blog: 'Blog',
+        about: 'Chi siamo',
+        contact: 'Contatti',
+        privacy: 'Privacy',
+        terms: 'Termini',
+      },
+      copyright: '© 2025 Moshimoshi. Tutti i diritti riservati.',
     },
   },
 

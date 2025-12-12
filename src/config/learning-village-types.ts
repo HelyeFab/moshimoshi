@@ -38,6 +38,7 @@ export const STALL_OFFLINE_SUPPORT: Record<string, OfflineSupport> = {
   stories: 'partial', // Stories cached in IndexedDB after first visit
   news: 'partial', // Articles cached in IndexedDB after first visit
   library: 'partial', // Books cached in IndexedDB after first visit
+  comics: 'partial', // Comics cached in IndexedDB after first visit
   'youtube-shadowing': 'none', // Requires YouTube API
   'popular-videos': 'none', // Video streaming
   'youtube-series': 'none', // Video streaming
@@ -71,6 +72,7 @@ export const STALL_IDS = [
   'stories',
   'news',
   'library',
+  'comics',
   'youtube-shadowing',
   'popular-videos',
   'youtube-series',
@@ -136,22 +138,23 @@ export const DEFAULT_CONFIG: LearningVillageConfig = {
     { id: 'stories', order: 11, isPopular: false, enabled: true },
     { id: 'news', order: 12, isPopular: false, enabled: true },
     { id: 'library', order: 13, isPopular: false, enabled: true },
-    { id: 'youtube-shadowing', order: 14, isPopular: true, enabled: true },
-    { id: 'popular-videos', order: 15, isPopular: false, enabled: true },
-    { id: 'youtube-series', order: 16, isPopular: false, enabled: true },
-    { id: 'my-videos', order: 17, isPopular: false, enabled: true },
+    { id: 'comics', order: 14, isPopular: true, enabled: true },
+    { id: 'youtube-shadowing', order: 15, isPopular: true, enabled: true },
+    { id: 'popular-videos', order: 16, isPopular: false, enabled: true },
+    { id: 'youtube-series', order: 17, isPopular: false, enabled: true },
+    { id: 'my-videos', order: 18, isPopular: false, enabled: true },
 
     // Review & Games
-    { id: 'flashcards', order: 18, isPopular: false, enabled: true },
-    { id: 'games', order: 19, isPopular: true, enabled: true },
-    { id: 'review-hub', order: 20, isPopular: false, enabled: true },
+    { id: 'flashcards', order: 19, isPopular: false, enabled: true },
+    { id: 'games', order: 20, isPopular: true, enabled: true },
+    { id: 'review-hub', order: 21, isPopular: false, enabled: true },
 
     // Progress & Community
-    { id: 'achievements', order: 21, isPopular: false, enabled: true },
-    { id: 'leaderboard', order: 22, isPopular: true, enabled: true },
-    { id: 'resources', order: 23, isPopular: false, enabled: true },
-    { id: 'blog', order: 24, isPopular: false, enabled: true },
-    { id: 'todos', order: 25, isPopular: false, enabled: true },
+    { id: 'achievements', order: 22, isPopular: false, enabled: true },
+    { id: 'leaderboard', order: 23, isPopular: true, enabled: true },
+    { id: 'resources', order: 24, isPopular: false, enabled: true },
+    { id: 'blog', order: 25, isPopular: false, enabled: true },
+    { id: 'todos', order: 26, isPopular: false, enabled: true },
   ],
 }
 

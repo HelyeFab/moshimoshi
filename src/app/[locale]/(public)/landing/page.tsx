@@ -6,7 +6,7 @@ export const dynamic = 'force-dynamic'
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useI18n } from '@/i18n/I18nContext'
+import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import { strings as enStrings } from '@/i18n/locales/en/strings'
 import Logo from '@/components/ui/Logo'
 import { Button } from '@/components/ui/button'
@@ -28,6 +28,7 @@ import {
 const LandingPage = () => {
   const router = useRouter()
   const { strings } = useI18n()
+  const { getLocalePath } = useLocalePath()
   const [currentSlide, setCurrentSlide] = useState(0)
 
   // Use landing strings, with proper fallback to English
@@ -87,7 +88,7 @@ const LandingPage = () => {
         <nav className="flex items-center gap-4">
           <ThemeToggle />
           <Button
-            onClick={() => router.push('/auth/signin')}
+            onClick={() => router.push(getLocalePath('/auth/signin'))}
             className="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-white"
           >
             {strings?.common?.signIn || 'Sign In'}
@@ -106,7 +107,7 @@ const LandingPage = () => {
           </p>
           <div className="flex gap-4 justify-center">
             <Button
-              onClick={() => router.push('/auth/signup')}
+              onClick={() => router.push(getLocalePath('/auth/signup'))}
               className="bg-indigo-600 hover:bg-indigo-700 text-white text-xl py-6 px-8 rounded-lg shadow-lg hover:shadow-xl transition-all"
             >
               {landingStrings.hero.ctaPrimary}
@@ -597,7 +598,7 @@ const LandingPage = () => {
           <p className="text-sm text-white/80 mb-8">{landingStrings.finalCta.features}</p>
           <div className="flex gap-4 justify-center">
             <Button
-              onClick={() => router.push('/auth/signup')}
+              onClick={() => router.push(getLocalePath('/auth/signup'))}
               className="bg-white text-indigo-600 hover:bg-gray-100 text-xl py-6 px-8 rounded-lg shadow-lg"
             >
               {landingStrings.finalCta.ctaPrimary}

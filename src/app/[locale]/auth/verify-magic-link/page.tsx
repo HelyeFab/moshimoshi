@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { signInWithEmailLink, isSignInWithEmailLink } from 'firebase/auth'
 import { auth } from '@/lib/firebase/config'
 import { useToast } from '@/components/ui/Toast/ToastContext'
-import { useTranslation } from '@/i18n/I18nContext'
+import { useTranslation, useLocalePath } from '@/i18n/I18nContext'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 
 function VerifyMagicLinkContent() {
@@ -13,6 +13,7 @@ function VerifyMagicLinkContent() {
   const searchParams = useSearchParams()
   const { showToast } = useToast()
   const { strings } = useTranslation()
+  const { getLocalePath } = useLocalePath()
   const [verifying, setVerifying] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [needsEmail, setNeedsEmail] = useState(false)
@@ -166,7 +167,7 @@ function VerifyMagicLinkContent() {
 
               <button
                 type="button"
-                onClick={() => router.push('/auth/signup')}
+                onClick={() => router.push(getLocalePath('/auth/signup'))}
                 className="w-full py-3 bg-gray-100 dark:bg-dark-800 text-gray-700 dark:text-gray-300 rounded-lg font-medium hover:bg-gray-200 dark:hover:bg-dark-700 transition-colors"
               >
                 Back to Sign Up
@@ -221,7 +222,7 @@ function VerifyMagicLinkContent() {
                 {error}
               </p>
               <button
-                onClick={() => router.push('/auth/signup')}
+                onClick={() => router.push(getLocalePath('/auth/signup'))}
                 className="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
               >
                 Back to Sign Up

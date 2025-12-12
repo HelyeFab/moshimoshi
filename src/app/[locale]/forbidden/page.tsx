@@ -2,11 +2,13 @@
 
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import { useLocalePath } from '@/i18n/I18nContext'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 import ThemeToggle from '@/components/ui/ThemeToggle'
 
 export default function Custom403() {
+  const { getLocalePath } = useLocalePath()
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -83,7 +85,7 @@ export default function Custom403() {
               {/* Actions */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  href="/auth/signin"
+                  href={getLocalePath('/auth/signin')}
                   className="group inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-xl font-medium hover:shadow-lg transform hover:scale-105 transition-all duration-200"
                 >
                   <span>Sign in</span>

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
-import { useI18n } from '@/i18n/I18nContext';
+import { useI18n, useLocalePath } from '@/i18n/I18nContext';
 import { PRICING_PLANS, PricingPlan } from '@/lib/stripe/types';
 import { PRICING_CONFIG } from '@/config/pricing';
 import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
@@ -16,6 +16,7 @@ import { useToast } from '@/components/ui/Toast';
 export default function PricingPage() {
   const router = useRouter();
   const { t } = useI18n();
+  const { getLocalePath } = useLocalePath();
   const { user } = useAuth();
   const { subscription, isLoading, upgradeToPremium, manageBilling } = useSubscription();
   const { showToast } = useToast();
@@ -26,7 +27,7 @@ export default function PricingPage() {
     // Free plan - just need to sign up
     if (plan.id === 'free') {
       if (!user) {
-        router.push('/auth/signup');
+        router.push(getLocalePath('/auth/signup'));
       } else {
         showToast(t('pricing.messages.alreadyFree'), 'info');
       }
@@ -37,7 +38,7 @@ export default function PricingPage() {
     if (!user) {
       // Save intended plan and redirect to signup
       sessionStorage.setItem('intendedPlan', plan.id);
-      router.push('/auth/signup');
+      router.push(getLocalePath('/auth/signup'));
       return;
     }
 

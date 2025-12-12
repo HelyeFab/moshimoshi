@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { useLocalePath } from '@/i18n/I18nContext'
 
 interface GuestModeBannerProps {
   className?: string
@@ -9,6 +10,7 @@ interface GuestModeBannerProps {
 
 export default function GuestModeBanner({ className = '' }: GuestModeBannerProps) {
   const [isVisible, setIsVisible] = useState(true)
+  const { getLocalePath } = useLocalePath()
 
   if (!isVisible) return null
 
@@ -30,7 +32,7 @@ export default function GuestModeBanner({ className = '' }: GuestModeBannerProps
         </div>
         <div className="flex items-center gap-2">
           <Link
-            href="/auth/signup"
+            href={getLocalePath("/auth/signup")}
             className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white text-sm font-medium rounded-lg transition-colors"
           >
             Sign Up Free

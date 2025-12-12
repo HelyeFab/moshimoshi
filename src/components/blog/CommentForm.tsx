@@ -2,6 +2,7 @@
 
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
+import { useLocalePath } from '@/i18n/I18nContext';
 import { createComment, validateCommentContent, type Comment } from '@/services/commentService';
 
 interface CommentFormProps {
@@ -12,6 +13,7 @@ interface CommentFormProps {
 
 export function CommentForm({ postId, isAuthenticated, onCommentAdded }: CommentFormProps) {
   const router = useRouter();
+  const { getLocalePath } = useLocalePath();
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -54,7 +56,7 @@ export function CommentForm({ postId, isAuthenticated, onCommentAdded }: Comment
           Sign in to share your thoughts and connect with other readers
         </p>
         <button
-          onClick={() => router.push('/auth/signin')}
+          onClick={() => router.push(getLocalePath('/auth/signin'))}
           className="px-6 py-3 bg-gradient-to-r from-primary-500 to-japanese-sakura text-white rounded-lg hover:from-primary-600 hover:to-japanese-sakuraDark transition-all font-medium shadow-md hover:shadow-lg"
         >
           Sign in to comment

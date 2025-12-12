@@ -2,7 +2,7 @@
 
 import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useI18n } from '@/i18n/I18nContext'
+import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useAuth } from '@/hooks/useAuth'
 import { LoadingOverlay } from '@/components/ui/Loading'
@@ -26,6 +26,7 @@ function KanjiMasteryContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { strings } = useI18n()
+  const { getLocalePath } = useLocalePath()
   const { showToast } = useToast()
   const { user, loading: authLoading, isGuest } = useAuth()
 
@@ -39,9 +40,9 @@ function KanjiMasteryContent() {
   // Redirect to signin if not authenticated
   useEffect(() => {
     if (!authLoading && !user && !isGuest) {
-      router.push('/auth/signin')
+      router.push(getLocalePath('/auth/signin'))
     }
-  }, [authLoading, user, isGuest, router])
+  }, [authLoading, user, isGuest, router, getLocalePath])
 
   // Load saved settings from user-specific storage
   const [settings, setSettings] = useState<StudySettings>(() => {

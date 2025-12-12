@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
 import { validateSession } from '@/lib/auth/session';
 import { PRICING_CONFIG, MONTHLY_EQUIVALENT_FROM_YEARLY } from '@/config/pricing';
-import { getUserTier, isPremiumUser } from '@/lib/auth/tier-utils';
+import { isPremiumUser } from '@/lib/auth/tier-utils';
 
 export async function GET(request: NextRequest) {
   try {
@@ -41,11 +41,9 @@ export async function GET(request: NextRequest) {
     // Fetch real statistics from Firestore
     const [
       usersSnapshot,
-      lessonsSnapshot,
       subscriptionsSnapshot,
     ] = await Promise.all([
       adminFirestore.collection('users').get(),
-      adminFirestore.collection('lessons').get(),
       adminFirestore.collection('subscriptions').where('status', '==', 'active').get(),
     ]);
 
@@ -91,44 +89,58 @@ export async function GET(request: NextRequest) {
       }
     });
 
-    // Get lesson stats
-    const totalLessons = lessonsSnapshot.size || 150; // Default if no lessons collection
+    // Get total view counts from content collections
+    // These are cumulative counters stored on each content document
+    const [
+      booksSnapshot,
+      storiesSnapshot,
+      comicsSnapshot,
+      articlesSnapshot,
+    ] = await Promise.all([
+      // Books - viewCount incremented when user opens book
+      adminFirestore
+        .collection('books')
+        .where('status', '==', 'published')
+        .get()
+        .catch(() => null),
+      // Stories - viewCount incremented when user opens story
+      adminFirestore
+        .collection('stories')
+        .where('status', '==', 'published')
+        .get()
+        .catch(() => null),
+      // Comics - viewCount incremented when user opens episode
+      adminFirestore
+        .collection('comics')
+        .where('status', '==', 'published')
+        .get()
+        .catch(() => null),
+      // Articles - count total articles (no viewCount tracking yet)
+      adminFirestore
+        .collection('news_articles')
+        .get()
+        .catch(() => null),
+    ]);
 
-    // Get completed lessons from review engine sessions
-    let completedLessonsToday = 0;
-    let totalCompletedLessons = 0;
+    // Sum up viewCounts from each collection
+    let totalBookViews = 0;
+    let totalStoryViews = 0;
+    let totalComicViews = 0;
 
-    // Query review sessions for today's completed items
-    const reviewSessionsSnapshot = await adminFirestore
-      .collection('reviewSessions')
-      .where('completedAt', '>=', new Date(todayTimestamp))
-      .get()
-      .catch(() => null);
+    booksSnapshot?.forEach(doc => {
+      totalBookViews += doc.data().viewCount || 0;
+    });
 
-    if (reviewSessionsSnapshot) {
-      reviewSessionsSnapshot.forEach(doc => {
-        const session = doc.data();
-        // Count items reviewed in each session
-        if (session.itemsReviewed && Array.isArray(session.itemsReviewed)) {
-          completedLessonsToday += session.itemsReviewed.length;
-        }
-      });
-    }
+    storiesSnapshot?.forEach(doc => {
+      totalStoryViews += doc.data().viewCount || 0;
+    });
 
-    // Get total completed items across all time
-    const allSessionsSnapshot = await adminFirestore
-      .collection('reviewSessions')
-      .get()
-      .catch(() => null);
+    comicsSnapshot?.forEach(doc => {
+      totalComicViews += doc.data().viewCount || 0;
+    });
 
-    if (allSessionsSnapshot) {
-      allSessionsSnapshot.forEach(doc => {
-        const session = doc.data();
-        if (session.itemsReviewed && Array.isArray(session.itemsReviewed)) {
-          totalCompletedLessons += session.itemsReviewed.length;
-        }
-      });
-    }
+    // Articles don't have viewCount tracking, show total article count instead
+    const totalArticles = articlesSnapshot?.size || 0;
 
     // Get recent users (last 5)
     const recentUsersSnapshot = await adminFirestore
@@ -197,11 +209,13 @@ export async function GET(request: NextRequest) {
       totalUsers,
       activeUsers,
       newUsersToday,
-      totalLessons,
-      completedLessons: completedLessonsToday, // Today's completed
-      totalCompletedLessons, // All-time completed
       activeSubscriptions: premiumUsers, // Use premium users count from tier field
       monthlyRevenue: Math.round(monthlyRevenue * 100) / 100,
+      // Total content views (all-time cumulative)
+      totalArticles,     // Note: Articles don't have view tracking, this is article count
+      totalBookViews,
+      totalStoryViews,
+      totalComicViews,
       recentUsers,
       premiumUsers, // Add this for clarity
       freeUsers,    // Add this for clarity

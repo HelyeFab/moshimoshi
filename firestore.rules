@@ -474,6 +474,59 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // ========================================
+    // Comics Collections - "Moshi Goes to Japan"
+    // ========================================
+
+    // Comic series info - public read
+    match /comic_series/{seriesId} {
+      allow read: if true;
+      allow write: if false; // Server-only via Admin SDK
+    }
+
+    // Published comic episodes - public read for published
+    match /comics/{episodeId} {
+      allow read: if resource.data.status == 'published';
+      allow write: if false; // Server-only via Admin SDK
+    }
+
+    // Comic drafts - server only
+    match /comic_drafts/{draftId} {
+      allow read, write: if false; // Server-only via Admin SDK
+    }
+
+    // Saved character references - server only
+    match /saved_characters/{characterId} {
+      allow read, write: if false; // Server-only via Admin SDK
+    }
+
+    // Comic generation logs - admin read only
+    match /comic_generation_logs/{logId} {
+      allow read: if isAdmin();
+      allow write: if false; // Server-only via Admin SDK
+    }
+
+    // Comic progress - users can track their reading progress
+    match /comic_progress/{progressId} {
+      allow read: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid;
+
+      allow create: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid;
+
+      allow update: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == request.auth.uid;
+
+      allow delete: if false;
+    }
+
+    // Comic word explanations - pre-cached vocabulary explanations
+    match /comic_word_explanations/{episodeId} {
+      allow read: if true;
+      allow write: if false; // Server-only via Admin SDK
+    }
+
     // Default deny all
     match /{document=**} {
       allow read, write: if false;

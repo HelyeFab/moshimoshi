@@ -14,6 +14,57 @@ const API_VERSIONS = {
 // Cookie name for locale preference (used by next-intl)
 const LOCALE_COOKIE = 'NEXT_LOCALE';
 
+// Routes that require authentication (not admin, just logged in)
+// These routes will redirect to signin if no session cookie exists
+const PROTECTED_ROUTES = [
+  '/news',
+  '/dashboard',
+  '/statistics',
+  '/account',
+  '/lists',
+  '/drill',
+  '/review-hub',
+  '/onboarding',
+  '/tools/kanji-mastery',
+  '/tools/textbook-vocabulary',
+  '/textbook-vocabulary',
+  '/youtube-shadowing',
+  '/my-videos',
+  '/stories',
+  '/comics',
+];
+
+/**
+ * Extract locale from pathname or return default locale
+ */
+function extractLocaleFromPath(pathname: string): string {
+  const localeMatch = pathname.match(/^\/([a-z]{2})(?:\/|$)/);
+  if (localeMatch && routing.locales.includes(localeMatch[1] as typeof routing.locales[number])) {
+    return localeMatch[1];
+  }
+  return routing.defaultLocale;
+}
+
+/**
+ * Build a locale-aware redirect URL
+ */
+function getLocaleAwareRedirect(request: NextRequest, path: string): URL {
+  const locale = extractLocaleFromPath(request.nextUrl.pathname);
+  return new URL(`/${locale}${path}`, request.url);
+}
+
+/**
+ * Check if a pathname matches a protected route
+ */
+function isProtectedRoute(pathname: string): boolean {
+  // Remove locale prefix to get the actual route
+  const routeWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/';
+
+  return PROTECTED_ROUTES.some(route =>
+    routeWithoutLocale === route || routeWithoutLocale.startsWith(`${route}/`)
+  );
+}
+
 /**
  * Create the next-intl middleware with our routing configuration.
  *
@@ -56,6 +107,15 @@ export async function middleware(request: NextRequest) {
     // If null, continue to intl middleware (admin access granted)
   }
 
+  // Check protected routes - requires authentication (but not admin)
+  if (isProtectedRoute(pathname)) {
+    const protectedResponse = handleProtectedRoute(request);
+    if (protectedResponse) {
+      return protectedResponse; // Redirect to signin
+    }
+    // If null, user is authenticated - continue
+  }
+
   // Apply next-intl middleware for locale routing
   const response = intlMiddleware(request);
 
@@ -63,6 +123,23 @@ export async function middleware(request: NextRequest) {
   applySecurityHeaders(response);
 
   return response;
+}
+
+/**
+ * Handle protected route authentication.
+ * Returns a redirect response if no session, or null if authenticated.
+ * This is a lightweight check - just verifies session cookie exists.
+ */
+function handleProtectedRoute(request: NextRequest): NextResponse | null {
+  const sessionCookie = request.cookies.get('session');
+
+  if (!sessionCookie?.value) {
+    // No session cookie - redirect to signin
+    return NextResponse.redirect(getLocaleAwareRedirect(request, '/auth/signin'));
+  }
+
+  // Session exists - allow access (full validation happens in the page/API)
+  return null;
 }
 
 /**
@@ -75,7 +152,7 @@ async function handleAdminRoute(request: NextRequest): Promise<NextResponse | nu
   if (!sessionCookie?.value) {
     // No session, redirect to signin
     console.log('[Middleware] No session for admin route access');
-    return NextResponse.redirect(new URL('/auth/signin', request.url));
+    return NextResponse.redirect(getLocaleAwareRedirect(request, '/auth/signin'));
   }
 
   // Use Edge-compatible JWT decoder (no signature verification in middleware)
@@ -97,7 +174,7 @@ async function handleAdminRoute(request: NextRequest): Promise<NextResponse | nu
         '[Middleware] Invalid session token for admin route:',
         validation.reason
       );
-      return NextResponse.redirect(new URL('/auth/signin', request.url));
+      return NextResponse.redirect(getLocaleAwareRedirect(request, '/auth/signin'));
     }
 
     // Check if user has admin flag in JWT
@@ -108,7 +185,7 @@ async function handleAdminRoute(request: NextRequest): Promise<NextResponse | nu
         `[Middleware] Non-admin user attempted admin route: ${validation.payload?.uid?.substring(0, 8)}...`
       );
       console.warn('[Middleware] Full payload:', validation.payload);
-      return NextResponse.redirect(new URL('/dashboard', request.url));
+      return NextResponse.redirect(getLocaleAwareRedirect(request, '/dashboard'));
     }
 
     // Token appears valid and user appears to be admin
@@ -117,7 +194,7 @@ async function handleAdminRoute(request: NextRequest): Promise<NextResponse | nu
   } catch (error) {
     console.error('[Middleware] Error validating admin session:', error);
     // On error, redirect to signin for security
-    return NextResponse.redirect(new URL('/auth/signin', request.url));
+    return NextResponse.redirect(getLocaleAwareRedirect(request, '/auth/signin'));
   }
 }
 

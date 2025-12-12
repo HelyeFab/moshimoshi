@@ -513,6 +513,23 @@
       "limitType": "daily",
       "notifications": false,
       "description": "Browse and explore Japanese vocabulary"
+    },
+    {
+      "id": "comics",
+      "name": "Moshi Comics",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Read Japanese manga-style comics with furigana and vocabulary support",
+      "metadata": {
+        "contentType": "reading",
+        "difficulty": "intermediate",
+        "estimatedDuration": "10-15 minutes",
+        "countsForStreak": true,
+        "givesXp": true
+      }
     }
   ],
   "limits": {
@@ -547,7 +564,8 @@
         "flashcards": 0,
         "resources": -1,
         "blogs": -1,
-        "vocabulary": -1
+        "vocabulary": -1,
+        "comics": 0
       },
       "monthly": {
         "custom_lists": 0,
@@ -587,7 +605,8 @@
         "flashcards": 0,
         "resources": -1,
         "blogs": -1,
-        "vocabulary": -1
+        "vocabulary": -1,
+        "comics": 0
       },
       "monthly": {
         "custom_lists": 3,
@@ -627,7 +646,8 @@
         "flashcards": -1,
         "resources": -1,
         "blogs": -1,
-        "vocabulary": -1
+        "vocabulary": -1,
+        "comics": -1
       },
       "monthly": {
         "custom_lists": -1,
@@ -667,7 +687,8 @@
         "flashcards": -1,
         "resources": -1,
         "blogs": -1,
-        "vocabulary": -1
+        "vocabulary": -1,
+        "comics": -1
       },
       "monthly": {
         "custom_lists": -1,

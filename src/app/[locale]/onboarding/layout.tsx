@@ -2,6 +2,11 @@ import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth/session'
 import { onboardingCache } from '@/lib/auth/onboarding-cache'
 
+interface OnboardingLayoutProps {
+  children: React.ReactNode
+  params: Promise<{ locale: string }>
+}
+
 /**
  * Onboarding Layout - Server Component
  *
@@ -12,9 +17,11 @@ import { onboardingCache } from '@/lib/auth/onboarding-cache'
  */
 export default async function OnboardingLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
+  params,
+}: OnboardingLayoutProps) {
+  // Await params to get the locale
+  const { locale } = await params
+
   // Check if user is authenticated
   const session = await getSession()
 
@@ -22,7 +29,7 @@ export default async function OnboardingLayout({
     // Unauthenticated users can't access onboarding
     // They need to sign up first
     console.log('[OnboardingLayout] No session, redirecting to signin')
-    redirect('/auth/signin')
+    redirect(`/${locale}/auth/signin`)
   }
 
   // Check if user has already completed onboarding
@@ -31,7 +38,7 @@ export default async function OnboardingLayout({
   if (hasCompleted) {
     // User already completed onboarding, redirect to dashboard
     console.log(`[OnboardingLayout] User ${session.uid} already completed onboarding, redirecting to dashboard`)
-    redirect('/dashboard')
+    redirect(`/${locale}/dashboard`)
   }
 
   // User is authenticated but hasn't completed onboarding - show the flow

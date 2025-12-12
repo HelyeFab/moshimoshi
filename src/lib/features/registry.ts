@@ -361,6 +361,16 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     notifications: false,
     description: 'Browse and explore Japanese vocabulary',
   },
+  comics: {
+    id: 'comics',
+    name: 'Moshi Comics',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Read Japanese manga-style comics with furigana and vocabulary support',
+  },
 }
 
 export function getFeature(id: FeatureId): FeatureDefinition {

@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useI18n } from '@/i18n/I18nContext'
+import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useRouter } from 'next/navigation'
@@ -21,6 +21,7 @@ import { Pencil, FileJson, FileSpreadsheet, Trash2 } from 'lucide-react'
 
 export default function MyListsPage() {
   const { t, strings } = useI18n()
+  const { getLocalePath } = useLocalePath()
   const { user, loading: authLoading } = useAuth()
   const { isPremium, isLoading: subscriptionLoading } = useSubscription()
   const router = useRouter()
@@ -203,7 +204,7 @@ export default function MyListsPage() {
               {t('lists.errors.signInRequired')}
             </h2>
             <button
-              onClick={() => router.push('/auth/signin')}
+              onClick={() => router.push(getLocalePath('/auth/signin'))}
               className="mt-4 px-6 py-3 bg-primary-500 text-white rounded-xl hover:bg-primary-600
                 transition-all font-medium"
             >

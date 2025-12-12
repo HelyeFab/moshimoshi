@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 // import Link from 'next/link'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useErrorToast } from '@/hooks/useErrorToast'
-import { useTranslation } from '@/i18n/I18nContext'
+import { useTranslation, useLocalePath } from '@/i18n/I18nContext'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useAuth } from '@/hooks/useAuth'
 import { SubscriptionStatus } from '@/components/subscription/SubscriptionStatus'
@@ -40,6 +40,7 @@ function AccountPageContent() {
   const { strings } = useTranslation()
   const router = useRouter()
   const searchParams = useSearchParams()
+  const { getLocalePath } = useLocalePath()
   const { showToast } = useToast()
   const { showError } = useErrorToast()
   const { subscription, upgradeToPremium, isPremium } = useSubscription()
@@ -92,18 +93,18 @@ function AccountPageContent() {
           setUser(data.user)
           setDisplayName(data.user.displayName || '')
         } else {
-          router.push('/auth/signin')
+          router.push(getLocalePath('/auth/signin'))
         }
       } catch (error) {
         logger.error('Session check failed:', error)
-        router.push('/auth/signin')
+        router.push(getLocalePath('/auth/signin'))
       } finally {
         setLoading(false)
       }
     }
 
     checkSession()
-  }, [router, isPremium])
+  }, [router, isPremium, getLocalePath])
 
   const [displayNameError, setDisplayNameError] = useState<string>('')
 

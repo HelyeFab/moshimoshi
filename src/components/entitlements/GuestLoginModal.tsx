@@ -4,7 +4,7 @@
 
 import React from 'react';
 import { useRouter } from 'next/navigation';
-import { useI18n } from '@/i18n/I18nContext';
+import { useI18n, useLocalePath } from '@/i18n/I18nContext';
 import Modal from '@/components/ui/Modal';
 import DoshiMascot from '@/components/ui/DoshiMascot';
 import {
@@ -29,13 +29,14 @@ export function GuestLoginModal({
 }: GuestLoginModalProps) {
   const router = useRouter();
   const { t } = useI18n();
+  const { getLocalePath } = useLocalePath();
 
   const handleSignIn = () => {
     // Save the feature they were trying to access for redirect after login
     if (featureName) {
       sessionStorage.setItem('redirectFeature', featureName);
     }
-    router.push('/auth/signin');
+    router.push(getLocalePath('/auth/signin'));
     onClose();
   };
 
@@ -44,7 +45,7 @@ export function GuestLoginModal({
     if (featureName) {
       sessionStorage.setItem('redirectFeature', featureName);
     }
-    router.push('/auth/signup');
+    router.push(getLocalePath('/auth/signup'));
     onClose();
   };
 

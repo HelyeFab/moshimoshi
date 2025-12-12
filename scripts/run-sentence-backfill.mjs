@@ -4,12 +4,20 @@
  * Directly executes the backfill logic using Firebase Admin SDK
  *
  * Usage:
- *   node scripts/run-sentence-backfill.mjs [contentType] [--dry-run]
+ *   node scripts/run-sentence-backfill.mjs [contentType] [--dry-run] [--repair] [--rebackfill-corrupted]
+ *
+ * Modes:
+ *   (default)             Backfill new content that doesn't have sentence data
+ *   --repair              Fix missing audio/translations in existing sentence data
+ *   --rebackfill-corrupted  Delete and regenerate articles with corrupted data (no text field)
  *
  * Examples:
- *   node scripts/run-sentence-backfill.mjs all --dry-run    # Count all content
- *   node scripts/run-sentence-backfill.mjs articles         # Backfill articles only
- *   node scripts/run-sentence-backfill.mjs all              # Backfill everything
+ *   node scripts/run-sentence-backfill.mjs all --dry-run              # Count all content
+ *   node scripts/run-sentence-backfill.mjs articles                   # Backfill articles only
+ *   node scripts/run-sentence-backfill.mjs all                        # Backfill everything
+ *   node scripts/run-sentence-backfill.mjs all --repair               # Fix missing audio/translations
+ *   node scripts/run-sentence-backfill.mjs --rebackfill-corrupted     # Delete & regenerate corrupted articles
+ *   node scripts/run-sentence-backfill.mjs --rebackfill-corrupted --dry-run  # List corrupted articles
  */
 
 import { initializeApp, cert } from 'firebase-admin/app'
@@ -62,13 +70,17 @@ const args = process.argv.slice(2)
 const contentType = args.find(a => !a.startsWith('--')) || 'all'
 const dryRun = args.includes('--dry-run')
 const repairMode = args.includes('--repair')
+const rebackfillCorrupted = args.includes('--rebackfill-corrupted')
+
+const modeLabel = rebackfillCorrupted ? ' (REBACKFILL CORRUPTED)' : repairMode ? ' (REPAIR MODE)' : ''
 
 console.log(`\n========================================`)
-console.log(`Sentence Data Backfill${repairMode ? ' (REPAIR MODE)' : ''}`)
+console.log(`Sentence Data Backfill${modeLabel}`)
 console.log(`========================================`)
 console.log(`Content Type: ${contentType}`)
 console.log(`Dry Run: ${dryRun}`)
 console.log(`Repair Mode: ${repairMode}`)
+console.log(`Rebackfill Corrupted: ${rebackfillCorrupted}`)
 console.log(`========================================\n`)
 
 // ============================================
@@ -598,6 +610,95 @@ async function repairBooks() {
 }
 
 // ============================================
+// Rebackfill Corrupted Functions
+// ============================================
+
+async function rebackfillCorruptedArticles() {
+  console.log('\n--- Rebackfilling Corrupted Articles ---\n')
+
+  // First, find all articles with corrupted sentence data
+  const translationsSnapshot = await db.collection('news_article_translations').get()
+  console.log(`Found ${translationsSnapshot.size} article translation documents`)
+
+  // Find corrupted entries (sentences without text field)
+  const corruptedArticleIds = []
+  for (const doc of translationsSnapshot.docs) {
+    const data = doc.data()
+    if (!data.sentences || data.sentences.length === 0) continue
+
+    // Check if any sentence is missing the text field
+    const hasCorrupted = data.sentences.some(s => !s.text && !s.translation?.originalText)
+    if (hasCorrupted) {
+      corruptedArticleIds.push(doc.id)
+    }
+  }
+
+  console.log(`Found ${corruptedArticleIds.length} articles with corrupted sentence data\n`)
+
+  if (corruptedArticleIds.length === 0) {
+    console.log('No corrupted articles found!')
+    return { deleted: 0, reprocessed: 0, failed: 0, total: 0 }
+  }
+
+  if (dryRun) {
+    console.log('Corrupted article IDs:')
+    corruptedArticleIds.forEach(id => console.log(`  - ${id}`))
+    return { deleted: 0, reprocessed: corruptedArticleIds.length, failed: 0, total: corruptedArticleIds.length }
+  }
+
+  let deleted = 0, reprocessed = 0, failed = 0
+
+  for (const articleId of corruptedArticleIds) {
+    console.log(`\n[Article] ${articleId}`)
+
+    // Get the original article content
+    const articleDoc = await db.collection('news_articles').doc(articleId).get()
+    if (!articleDoc.exists) {
+      console.log(`  [Skip] Article not found in news_articles collection`)
+      failed++
+      continue
+    }
+
+    const articleData = articleDoc.data()
+    if (!articleData.content || articleData.content.trim().length === 0) {
+      console.log(`  [Skip] No content in original article`)
+      failed++
+      continue
+    }
+
+    try {
+      // Step 1: Delete the corrupted translation document
+      console.log(`  [Deleting] Corrupted sentence data...`)
+      await db.collection('news_article_translations').doc(articleId).delete()
+      deleted++
+
+      // Step 2: Regenerate sentence data
+      console.log(`  [Regenerating] Processing ${splitIntoSentences(articleData.content).length} sentences...`)
+      const sentenceData = await processSentences(articleId, articleData.content, 'news_article')
+
+      // Step 3: Store fresh sentence data
+      await db.collection('news_article_translations').doc(articleId).set({
+        articleId,
+        sentences: sentenceData,
+        sentencesGeneratedAt: new Date(),
+        rebackfilledAt: new Date(),
+      })
+
+      console.log(`  [Success] Rebackfilled ${sentenceData.length} sentences`)
+      reprocessed++
+
+      // Delay between articles
+      await new Promise(resolve => setTimeout(resolve, 2000))
+    } catch (error) {
+      console.error(`  [Failed] ${error.message}`)
+      failed++
+    }
+  }
+
+  return { deleted, reprocessed, failed, total: corruptedArticleIds.length }
+}
+
+// ============================================
 // Backfill Functions
 // ============================================
 
@@ -825,7 +926,15 @@ async function main() {
   const results = {}
 
   try {
-    if (repairMode) {
+    if (rebackfillCorrupted) {
+      // REBACKFILL CORRUPTED MODE: Delete and regenerate corrupted sentence data
+      console.log('Finding and rebackfilling corrupted articles...')
+      results.articles = await rebackfillCorruptedArticles()
+
+      console.log('\n========================================')
+      console.log('Rebackfill Corrupted Complete!')
+      console.log('========================================')
+    } else if (repairMode) {
       // REPAIR MODE: Fix missing audio/translations in existing data
       if (contentType === 'articles' || contentType === 'all') {
         results.articles = await repairArticles()

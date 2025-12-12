@@ -10,7 +10,7 @@ import {
 } from 'firebase/auth'
 import { auth } from '@/lib/firebase/client'
 import { useToast } from '@/components/ui/Toast/ToastContext'
-import { useTranslation } from '@/i18n/I18nContext'
+import { useTranslation, useLocalePath } from '@/i18n/I18nContext'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import PageContainer from '@/components/ui/PageContainer'
@@ -20,6 +20,7 @@ function AuthActionContent() {
   const searchParams = useSearchParams()
   const { showToast } = useToast()
   const { strings } = useTranslation()
+  const { getLocalePath } = useLocalePath()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
@@ -117,7 +118,7 @@ function AuthActionContent() {
 
         // Redirect to sign in page
         setTimeout(() => {
-          router.push('/auth/signin')
+          router.push(getLocalePath('/auth/signin'))
         }, 2000)
       }
     } catch (error: any) {
@@ -176,7 +177,7 @@ function AuthActionContent() {
                   {error}
                 </p>
                 <button
-                  onClick={() => router.push('/auth/signin')}
+                  onClick={() => router.push(getLocalePath('/auth/signin'))}
                   className="mt-4 px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors"
                 >
                   Go to Sign In

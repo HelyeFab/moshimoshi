@@ -51,6 +51,7 @@ const STALL_NAMES: Record<StallId, string> = {
   'stories': 'AI Stories',
   'news': 'NHK News',
   'library': 'Library',
+  'comics': 'Moshi Comics',
   'youtube-shadowing': 'YouTube Shadowing',
   'popular-videos': 'Popular Videos',
   'youtube-series': 'YouTube Series',

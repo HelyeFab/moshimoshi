@@ -12,11 +12,13 @@ interface DashboardStats {
   totalUsers: number;
   activeUsers: number;
   newUsersToday: number;
-  totalLessons: number;
-  completedLessons: number;
-  totalCompletedLessons: number;
   activeSubscriptions: number;
   monthlyRevenue: number;
+  // Total content views (all-time cumulative)
+  totalArticles: number;    // Article count (no view tracking)
+  totalBookViews: number;
+  totalStoryViews: number;
+  totalComicViews: number;
   recentUsers: Array<{
     id: string;
     email: string;
@@ -148,20 +150,36 @@ export default function AdminDashboard() {
       bgColor: 'bg-emerald-50 dark:bg-emerald-900/20',
     },
     {
-      title: strings.admin?.statCards?.totalLessons || 'Total Lessons',
-      value: stats?.totalLessons || 0,
-      change: null,
+      title: 'Total Articles',
+      value: stats?.totalArticles || 0,
+      change: 'count',
+      icon: '📰',
+      gradient: 'from-sky-400 to-sky-600',
+      bgColor: 'bg-sky-50 dark:bg-sky-900/20',
+    },
+    {
+      title: 'Book Views',
+      value: stats?.totalBookViews || 0,
+      change: 'all-time',
       icon: '📚',
       gradient: 'from-pink-400 to-pink-600',
       bgColor: 'bg-pink-50 dark:bg-pink-900/20',
     },
     {
-      title: strings.admin?.statCards?.completedToday || 'Completed',
-      value: stats?.completedLessons || 0,
-      change: stats?.totalCompletedLessons ? `${stats.totalCompletedLessons} total` : null,
-      icon: '✅',
-      gradient: 'from-teal-400 to-teal-600',
-      bgColor: 'bg-teal-50 dark:bg-teal-900/20',
+      title: 'Story Views',
+      value: stats?.totalStoryViews || 0,
+      change: 'all-time',
+      icon: '📖',
+      gradient: 'from-amber-400 to-amber-600',
+      bgColor: 'bg-amber-50 dark:bg-amber-900/20',
+    },
+    {
+      title: 'Comic Views',
+      value: stats?.totalComicViews || 0,
+      change: 'all-time',
+      icon: '🦝',
+      gradient: 'from-rose-400 to-rose-600',
+      bgColor: 'bg-rose-50 dark:bg-rose-900/20',
     },
   ];
 

@@ -30,7 +30,7 @@ import { useSubscription } from '@/hooks/useSubscription'
 import { useLeaderboardPreview } from '@/hooks/useLeaderboard'
 import { DrillProgressManager } from '@/lib/review-engine/progress/DrillProgressManager'
 import { validateStreakDisplay, getStreakDeadline } from '@/lib/gamification/utils/streakValidation'
-import { useI18n } from '@/i18n/I18nContext'
+import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
@@ -69,6 +69,7 @@ function StatisticsContent() {
   const router = useRouter()
   const { user, loading: authLoading, isGuest } = useAuth()
   const { strings } = useI18n()
+  const { getLocalePath } = useLocalePath()
   const { isPremium } = useSubscription()
 
   // Gamification data
@@ -269,9 +270,9 @@ function StatisticsContent() {
   // Redirect if not authenticated
   useEffect(() => {
     if (!authLoading && !user && !isGuest) {
-      router.push('/auth/signin')
+      router.push(getLocalePath('/auth/signin'))
     }
-  }, [authLoading, user, isGuest, router])
+  }, [authLoading, user, isGuest, router, getLocalePath])
 
   // Calculate hours until streak deadline
   const calculateTimeUntilDeadline = (): { hours: number; isActiveToday: boolean } | null => {

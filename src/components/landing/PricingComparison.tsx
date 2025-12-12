@@ -6,7 +6,7 @@ import { CheckIcon, XMarkIcon, SparklesIcon, StarIcon } from '@heroicons/react/2
 import { Button } from '@/components/ui/button'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { useTranslation } from '@/i18n/I18nContext'
+import { useTranslation, useLocalePath } from '@/i18n/I18nContext'
 
 interface CompetitorApp {
   name: string
@@ -19,6 +19,7 @@ interface CompetitorApp {
 export default function PricingComparison() {
   const router = useRouter()
   const { strings } = useTranslation()
+  const { getLocalePath } = useLocalePath()
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'yearly'>('monthly')
 
   // Get pricing comparison strings with fallback
@@ -305,7 +306,7 @@ export default function PricingComparison() {
               </ul>
 
               <Button
-                onClick={() => router.push('/auth/signup')}
+                onClick={() => router.push(getLocalePath('/auth/signup'))}
                 className="w-full bg-gray-100 dark:bg-dark-700 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-dark-600"
               >
                 {moshimoshiPricing.free?.cta || "Get Started Free"}
@@ -378,7 +379,7 @@ export default function PricingComparison() {
               </ul>
 
               <Button
-                onClick={() => router.push('/auth/signup?plan=premium')}
+                onClick={() => router.push(getLocalePath('/auth/signup?plan=premium'))}
                 className="w-full bg-white text-indigo-600 hover:bg-gray-100 font-bold text-lg py-6"
               >
                 {moshimoshiPricing.premium?.cta || "Start 7-Day Free Trial"}
@@ -440,7 +441,7 @@ export default function PricingComparison() {
               {bottomCta.subtitle || "One app, every feature, fraction of the cost. Start your journey today!"}
             </p>
             <Button
-              onClick={() => router.push('/auth/signup')}
+              onClick={() => router.push(getLocalePath('/auth/signup'))}
               className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-3 text-lg font-semibold shadow-lg"
             >
               {bottomCta.button || "Start Free Trial"}

@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useTranslation } from '@/i18n/I18nContext'
+import { useTranslation, useLocalePath } from '@/i18n/I18nContext'
 import { strings as enStrings } from '@/i18n/locales/en/strings'
 import Logo from '@/components/ui/Logo'
 import { Button } from '@/components/ui/button'
@@ -25,11 +25,13 @@ import {
   LanguageIcon,
   NewspaperIcon,
   DocumentTextIcon,
+  ChatBubbleLeftRightIcon,
 } from '@heroicons/react/24/outline'
 
 export default function LandingPageClient() {
   const router = useRouter()
   const { strings } = useTranslation()
+  const { getLocalePath } = useLocalePath()
   const [currentSlide, setCurrentSlide] = useState(0)
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
   const [mounted, setMounted] = useState(false)
@@ -43,7 +45,7 @@ export default function LandingPageClient() {
   // Auto-rotate carousel every 5 seconds - MUST be before any conditional returns
   useEffect(() => {
     const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % 7)
+      setCurrentSlide((prev) => (prev + 1) % 8)
     }, 5000)
     return () => clearInterval(timer)
   }, [])
@@ -95,6 +97,11 @@ export default function LandingPageClient() {
       ...landingStrings.hero.carousel.textbooks,
       color: 'from-orange-500 to-red-500',
     },
+    {
+      icon: <ChatBubbleLeftRightIcon className="w-12 h-12" />,
+      ...landingStrings.hero.carousel.comics,
+      color: 'from-pink-500 to-rose-500',
+    },
   ]
 
   // Show loading state while mounting (AFTER all hooks)
@@ -116,13 +123,13 @@ export default function LandingPageClient() {
         <nav className="hidden md:flex items-center gap-4">
           <ThemeToggle />
           <Button
-            onClick={() => router.push('/auth/signin')}
+            onClick={() => router.push(getLocalePath('/auth/signin'))}
             className="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-white"
           >
             {strings?.common?.signIn || 'Sign In'}
           </Button>
           <Button
-            onClick={() => router.push('/auth/signup')}
+            onClick={() => router.push(getLocalePath('/auth/signup'))}
             className="bg-indigo-600 hover:bg-indigo-700 text-white"
           >
             {strings?.common?.signUp || 'Sign Up'}
@@ -193,7 +200,7 @@ export default function LandingPageClient() {
           <Button
             onClick={() => {
               setMobileMenuOpen(false)
-              router.push('/auth/signin')
+              router.push(getLocalePath('/auth/signin'))
             }}
             className="w-full bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 justify-center"
           >
@@ -204,7 +211,7 @@ export default function LandingPageClient() {
           <Button
             onClick={() => {
               setMobileMenuOpen(false)
-              router.push('/auth/signup')
+              router.push(getLocalePath('/auth/signup'))
             }}
             className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white justify-center shadow-lg"
           >
@@ -227,19 +234,13 @@ export default function LandingPageClient() {
           <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto px-4">
             {landingStrings.hero.subheadline}
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center px-4">
+          <div className="flex justify-center px-4">
             <Button
-              onClick={() => router.push('/auth/signup')}
+              onClick={() => router.push(getLocalePath('/auth/signup'))}
               className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white text-base sm:text-lg md:text-xl py-4 sm:py-5 md:py-6 px-6 sm:px-8 rounded-lg shadow-lg hover:shadow-xl transition-all"
             >
               {landingStrings.hero.ctaPrimary}
               <ArrowRightIcon className="w-5 h-5 ml-2 inline" />
-            </Button>
-            <Button
-              onClick={() => router.push('/youtube-shadowing')}
-              className="w-full sm:w-auto bg-white dark:bg-gray-800 border-2 border-indigo-600 dark:border-indigo-400 text-indigo-600 dark:text-indigo-400 text-base sm:text-lg md:text-xl py-4 sm:py-5 md:py-6 px-6 sm:px-8 rounded-lg hover:bg-indigo-50 dark:hover:bg-gray-700 transition-all"
-            >
-              {landingStrings.hero.ctaSecondary}
             </Button>
           </div>
         </div>
@@ -318,7 +319,7 @@ export default function LandingPageClient() {
               </ul>
               <div className="flex justify-center lg:justify-start">
                 <Button
-                  onClick={() => router.push('/youtube-shadowing')}
+                  onClick={() => router.push(getLocalePath('/youtube-shadowing'))}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
                 >
                   {landingStrings.features.shadowing.cta}
@@ -353,7 +354,7 @@ export default function LandingPageClient() {
               <p className="text-gray-600 dark:text-gray-300 mb-6 md:mb-8">
                 {landingStrings.features.kanji.description}
               </p>
-              <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left max-w-md mx-auto lg:mx-0">
+              <ul className="space-y-3 md:space-y-4 text-left max-w-md mx-auto lg:mx-0">
                 {Object.values(landingStrings.features.kanji.benefits).map(
                   (benefit, i) => (
                     <li key={i} className="flex items-start gap-3">
@@ -363,14 +364,6 @@ export default function LandingPageClient() {
                   )
                 )}
               </ul>
-              <div className="flex justify-center lg:justify-start">
-                <Button
-                  onClick={() => router.push('/kanji-connection')}
-                  className="bg-purple-600 hover:bg-purple-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
-                >
-                  {landingStrings.features.kanji.cta}
-                </Button>
-              </div>
             </div>
           </div>
         </div>
@@ -402,7 +395,7 @@ export default function LandingPageClient() {
               </ul>
               <div className="flex justify-center lg:justify-start">
                 <Button
-                  onClick={() => router.push('/drill')}
+                  onClick={() => router.push(getLocalePath('/drill'))}
                   className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
                 >
                   {landingStrings.features.conjugation.cta}
@@ -449,7 +442,7 @@ export default function LandingPageClient() {
               </ul>
               <div className="flex justify-center lg:justify-start">
                 <Button
-                  onClick={() => router.push('/news')}
+                  onClick={() => router.push(getLocalePath('/news'))}
                   className="bg-teal-600 hover:bg-teal-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
                 >
                   {landingStrings.features.news.cta}
@@ -486,7 +479,7 @@ export default function LandingPageClient() {
               </ul>
               <div className="flex justify-center lg:justify-start">
                 <Button
-                  onClick={() => router.push('/stories')}
+                  onClick={() => router.push(getLocalePath('/stories'))}
                   className="bg-violet-600 hover:bg-violet-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
                 >
                   {landingStrings.features.stories.cta}
@@ -496,6 +489,48 @@ export default function LandingPageClient() {
             <div className="relative">
               <div className="aspect-video bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl shadow-2xl flex items-center justify-center">
                 <DocumentTextIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Moshi Comics Section */}
+      <section className="py-12 md:py-20 bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              <div className="aspect-square bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl shadow-2xl flex items-center justify-center">
+                <ChatBubbleLeftRightIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+              </div>
+            </div>
+            <div className="order-1 lg:order-2 text-center lg:text-left">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                {landingStrings.features.comics.title}
+              </h2>
+              <p className="text-lg md:text-xl text-pink-600 dark:text-pink-400 mb-6">
+                {landingStrings.features.comics.subtitle}
+              </p>
+              <p className="text-gray-600 dark:text-gray-300 mb-6 md:mb-8">
+                {landingStrings.features.comics.description}
+              </p>
+              <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left max-w-md mx-auto lg:mx-0">
+                {Object.values(landingStrings.features.comics.benefits).map(
+                  (benefit, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <CheckCircleIcon className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
+                    </li>
+                  )
+                )}
+              </ul>
+              <div className="flex justify-center lg:justify-start">
+                <Button
+                  onClick={() => router.push(getLocalePath('/comics'))}
+                  className="bg-pink-600 hover:bg-pink-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
+                >
+                  {landingStrings.features.comics.cta}
+                </Button>
               </div>
             </div>
           </div>
@@ -516,7 +551,7 @@ export default function LandingPageClient() {
               <p className="text-gray-600 dark:text-gray-300 mb-6 md:mb-8">
                 {landingStrings.features.anki.description}
               </p>
-              <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left max-w-md mx-auto lg:mx-0">
+              <ul className="space-y-3 md:space-y-4 text-left max-w-md mx-auto lg:mx-0">
                 {Object.values(landingStrings.features.anki.benefits).map(
                   (benefit, i) => (
                     <li key={i} className="flex items-start gap-3">
@@ -526,14 +561,6 @@ export default function LandingPageClient() {
                   )
                 )}
               </ul>
-              <div className="flex justify-center lg:justify-start">
-                <Button
-                  onClick={() => router.push('/anki-import')}
-                  className="bg-green-600 hover:bg-green-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
-                >
-                  {landingStrings.features.anki.cta}
-                </Button>
-              </div>
             </div>
             <div className="relative">
               <div className="aspect-video bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl shadow-2xl flex items-center justify-center">
@@ -578,7 +605,7 @@ export default function LandingPageClient() {
               </ul>
               <div className="flex justify-center lg:justify-start">
                 <Button
-                  onClick={() => router.push('/textbook-vocabulary')}
+                  onClick={() => router.push(getLocalePath('/textbook-vocabulary'))}
                   className="bg-orange-600 hover:bg-orange-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
                 >
                   {landingStrings.features.textbooks.cta}
@@ -719,7 +746,7 @@ export default function LandingPageClient() {
 
           {/* Testimonials Carousel */}
           <div className="relative max-w-4xl mx-auto mb-16">
-            <div className="relative min-h-[280px] md:min-h-[200px]">
+            <div className="relative min-h-[320px] md:min-h-[260px]">
               {Object.values(landingStrings.socialProof.testimonials).map(
                 (testimonial, i) => (
                   <div
@@ -789,17 +816,6 @@ export default function LandingPageClient() {
             </div>
           </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {Object.values(landingStrings.socialProof.stats).map((stat, i) => (
-              <div key={i} className="text-center">
-                <div className="text-3xl font-bold text-indigo-600 dark:text-indigo-400 mb-2">
-                  {i === 0 ? '1+' : i === 1 ? '2,136' : i === 2 ? '5+' : '6'}
-                </div>
-                <div className="text-gray-600 dark:text-gray-400">{stat}</div>
-              </div>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -845,13 +861,13 @@ export default function LandingPageClient() {
           <p className="text-sm text-white/80 mb-6 md:mb-8 max-w-2xl mx-auto">{landingStrings.finalCta.features}</p>
           <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center max-w-lg mx-auto">
             <Button
-              onClick={() => router.push('/auth/signup')}
+              onClick={() => router.push(getLocalePath('/auth/signup'))}
               className="w-full sm:w-auto bg-white text-indigo-600 hover:bg-gray-100 text-base md:text-xl py-4 md:py-6 px-6 md:px-8 rounded-lg shadow-lg"
             >
               {landingStrings.finalCta.ctaPrimary}
             </Button>
             <Button
-              onClick={() => router.push('/pricing')}
+              onClick={() => router.push(getLocalePath('/pricing'))}
               className="w-full sm:w-auto bg-transparent border-2 border-white text-white hover:bg-white/10 text-base md:text-xl py-4 md:py-6 px-6 md:px-8 rounded-lg"
             >
               {landingStrings.finalCta.ctaSecondary}
@@ -874,22 +890,22 @@ export default function LandingPageClient() {
               </h4>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <a href="/youtube-shadowing" className="hover:text-white">
+                  <Link href={getLocalePath('/youtube-shadowing')} className="hover:text-white">
                     {landingStrings.footer.links.shadowing}
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/kanji-connection" className="hover:text-white">
+                  <Link href={getLocalePath('/kanji-connection')} className="hover:text-white">
                     {landingStrings.footer.links.kanji}
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a href="/anki-import" className="hover:text-white">
+                  <Link href={getLocalePath('/anki-import')} className="hover:text-white">
                     {landingStrings.footer.links.anki}
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <Link href="/textbook-vocabulary" className="hover:text-white">
+                  <Link href={getLocalePath('/textbook-vocabulary')} className="hover:text-white">
                     {landingStrings.footer.links.textbooks}
                   </Link>
                 </li>
@@ -901,17 +917,17 @@ export default function LandingPageClient() {
               </h4>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link href="/pricing" className="hover:text-white">
+                  <Link href={getLocalePath('/pricing')} className="hover:text-white">
                     {landingStrings.footer.links.pricing}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/blog" className="hover:text-white">
+                  <Link href={getLocalePath('/blog')} className="hover:text-white">
                     {landingStrings.footer.links.blog}
                   </Link>
                 </li>
                 <li>
-                  <Link href="/contact" className="hover:text-white">
+                  <Link href={getLocalePath('/contact')} className="hover:text-white">
                     {landingStrings.footer.links.contact}
                   </Link>
                 </li>
@@ -923,14 +939,14 @@ export default function LandingPageClient() {
               </h4>
               <ul className="space-y-2 text-sm">
                 <li>
-                  <Link href="/privacy" className="hover:text-white">
+                  <Link href={getLocalePath('/privacy')} className="hover:text-white">
                     {landingStrings.footer.links.privacy}
                   </Link>
                 </li>
                 <li>
-                  <a href="/terms" className="hover:text-white">
+                  <Link href={getLocalePath('/terms')} className="hover:text-white">
                     {landingStrings.footer.links.terms}
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

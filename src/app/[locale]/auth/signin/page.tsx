@@ -5,7 +5,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { getUserFriendlyErrorMessage } from '@/utils/errorMessages'
-import { useTranslation, buildLocalePath } from '@/i18n/I18nContext'
+import { useTranslation, buildLocalePath, useLocalePath } from '@/i18n/I18nContext'
 import logger from '@/lib/logger'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 import { useReCaptcha } from '@/components/ReCaptchaProvider'
@@ -15,12 +15,13 @@ function SignInContent() {
   const searchParams = useSearchParams()
   const { showToast } = useToast()
   const { strings } = useTranslation()
+  const { getLocalePath } = useLocalePath()
   const { executeRecaptcha } = useReCaptcha()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  
+
   useEffect(() => {
     // Clear any guest mode when on signin page
     if (typeof window !== 'undefined') {
@@ -308,7 +309,7 @@ function SignInContent() {
           </button>
 
           <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
-            <Link href="/auth/signup" className="text-primary-600 dark:text-primary-400 hover:underline font-medium">
+            <Link href={getLocalePath('/auth/signup')} className="text-primary-600 dark:text-primary-400 hover:underline font-medium">
               {strings.auth.signin.links.signupLink}
             </Link>
           </p>

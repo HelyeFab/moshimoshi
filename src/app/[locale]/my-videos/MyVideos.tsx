@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { useI18n } from '@/i18n/I18nContext'
+import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion'
 import {
   Play,
@@ -36,6 +36,7 @@ import Link from 'next/link'
 
 export default function MyVideos() {
   const { t, strings } = useI18n()
+  const { getLocalePath } = useLocalePath()
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
   const { isPremium, isFreeTier } = useSubscription()
@@ -274,7 +275,7 @@ export default function MyVideos() {
                   {strings.myVideos?.loginDescription || 'Sign in to view your practice history'}
                 </p>
                 <Link
-                  href="/auth/signin"
+                  href={getLocalePath("/auth/signin")}
                   className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-primary-600 to-primary-500 text-white rounded-2xl hover:from-primary-700 hover:to-primary-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   <Sparkles className="w-5 h-5" />

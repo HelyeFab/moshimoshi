@@ -4,10 +4,12 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { getUserFriendlyErrorMessage } from '@/utils/errorMessages'
+import { useLocalePath } from '@/i18n/I18nContext'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 
 export default function ResetPasswordPage() {
   const { showToast } = useToast()
+  const { getLocalePath } = useLocalePath()
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -74,7 +76,7 @@ export default function ResetPasswordPage() {
                 Don't see the email? Check your spam folder.
               </p>
               <Link
-                href="/auth/signin"
+                href={getLocalePath('/auth/signin')}
                 className="inline-block px-6 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-lg hover:from-primary-600 hover:to-primary-700 transition-all font-medium"
               >
                 Back to Sign In
@@ -145,7 +147,7 @@ export default function ResetPasswordPage() {
 
             <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
               Remember your password?{' '}
-              <Link href="/auth/signin" className="text-primary-600 dark:text-primary-400 hover:underline font-medium">
+              <Link href={getLocalePath('/auth/signin')} className="text-primary-600 dark:text-primary-400 hover:underline font-medium">
                 Sign In
               </Link>
             </p>

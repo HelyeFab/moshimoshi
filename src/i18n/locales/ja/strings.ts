@@ -43,6 +43,11 @@ export const strings = {
           description: 'げんき、みんなの日本語などのすべての語彙',
           badge: 'アカデミックパワー',
         },
+        comics: {
+          title: 'もしコミック',
+          description: 'オリジナル漫画で日本語を学ぶ',
+          badge: 'Moshimoshi独自',
+        },
       },
     },
     features: {
@@ -139,6 +144,20 @@ export const strings = {
           benefit4: '未知の単語をSRSレビューに直接保存',
         },
         cta: 'AIストーリーを探索',
+      },
+
+      comics: {
+        title: 'もしコミック：漫画で学ぶ',
+        subtitle: '学習者のために作られたオリジナル日本語コミック',
+        description:
+          'オリジナル漫画シリーズで、もしと一緒に日本の冒険を楽しもう。各エピソードには自然な会話、文化的な知識、あなたのレベルに合わせた語彙が含まれ、美しいAI生成アートワークで彩られています。',
+        benefits: {
+          benefit1: '一貫したキャラクターのオリジナル漫画ストーリー',
+          benefit2: 'ふりがな付きの自然な日本語会話',
+          benefit3: '文化ノートと実世界のコンテキスト',
+          benefit4: 'エピソードごとのクイズと語彙リスト',
+        },
+        cta: 'もしコミックを読む',
       },
     },
     comparison: {

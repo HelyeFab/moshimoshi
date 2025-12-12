@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { useI18n } from '@/i18n/I18nContext'
+import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import Navbar from '@/components/layout/Navbar'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
@@ -317,6 +317,7 @@ const pageStructuredData = {
 export default function NewsPage() {
   const router = useRouter()
   const { t } = useI18n()
+  const { getLocalePath } = useLocalePath()
   const { user, loading: authLoading, isGuest, isAuthenticated } = useAuth()
   const [articles, setArticles] = useState<NewsArticle[]>([])
   const [filteredArticles, setFilteredArticles] = useState<NewsArticle[]>([])
@@ -365,11 +366,11 @@ export default function NewsPage() {
   useEffect(() => {
     if (!authLoading && !user && !isGuest) {
       const timer = setTimeout(() => {
-        router.push('/auth/signin')
+        router.push(getLocalePath('/auth/signin'))
       }, 100)
       return () => clearTimeout(timer)
     }
-  }, [authLoading, user, isGuest, router])
+  }, [authLoading, user, isGuest, router, getLocalePath])
 
   const loadArticles = async (pageNum: number = 0) => {
     try {
@@ -434,7 +435,7 @@ export default function NewsPage() {
 
   const handleArticleClick = (article: NewsArticle) => {
     // Navigate to article reader
-    router.push(`/news/${article.id}`)
+    router.push(getLocalePath(`/news/${article.id}`))
   }
 
   // Show loading state while auth is loading
