@@ -232,9 +232,9 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
     return item.matchPaths.some(path => pathname === path || pathname.startsWith(path + '/'))
   }
 
-  // Hide on landing page and auth pages (accounting for locale prefixes)
+  // Hide on landing page, auth pages, and onboarding pages (accounting for locale prefixes)
   const pathWithoutLocale = pathname?.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/'
-  const shouldHide = pathWithoutLocale === '/' || pathWithoutLocale === '/landing' || pathWithoutLocale.startsWith('/auth/')
+  const shouldHide = pathWithoutLocale === '/' || pathWithoutLocale === '/landing' || pathWithoutLocale.startsWith('/auth/') || pathWithoutLocale.startsWith('/onboarding')
 
   // Hide when keyboard is visible or on excluded pages
   if (shouldHide || isKeyboardVisible) {
