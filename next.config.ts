@@ -25,6 +25,17 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  // Rewrites to proxy Firebase auth handler through custom domain
+  // This allows Google OAuth to show "moshimoshi.app" instead of the Firebase project ID
+  async rewrites() {
+    return [
+      {
+        source: '/__/auth/:path*',
+        destination: 'https://moshimoshi-de237.firebaseapp.com/__/auth/:path*',
+      },
+    ];
+  },
   images: {
     domains: [
       'firebasestorage.googleapis.com',

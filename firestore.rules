@@ -214,6 +214,17 @@ service cloud.firestore {
       allow delete: if false; // Session data should not be deleted
     }
 
+    // Anki decks - imported Anki decks for premium users
+    // Premium sync handled via Admin SDK; these rules allow client reads
+    match /users/{userId}/ankiDecks/{deckId} {
+      // Users can read their own Anki decks
+      allow read: if isOwner(userId);
+
+      // Writes are handled server-side via Admin SDK
+      // This ensures premium-only writes are enforced
+      allow write: if false;
+    }
+
     // Universal review history - tracks ALL learning events
     match /users/{userId}/review_history/{entryId} {
       allow read: if isOwner(userId);
@@ -531,6 +542,26 @@ service cloud.firestore {
     match /comic_word_explanations/{episodeId} {
       allow read: if true;
       allow write: if false; // Server-only via Admin SDK
+    }
+
+    // Quiz progress collection - tracks quiz completions for stories/comics
+    // Used to prevent double XP rewards on retakes
+    match /quiz_progress/{progressId} {
+      // Users can read their own quiz progress
+      allow read: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid;
+
+      // Users can create quiz progress for themselves
+      allow create: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid;
+
+      // Users can update their own quiz progress
+      allow update: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid &&
+        request.resource.data.userId == request.auth.uid;
+
+      // Quiz progress should not be deleted
+      allow delete: if false;
     }
 
     // Default deny all

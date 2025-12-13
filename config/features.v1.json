@@ -530,6 +530,21 @@
         "countsForStreak": true,
         "givesXp": true
       }
+    },
+    {
+      "id": "anki_import",
+      "name": "Anki Import",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "Import Anki decks (.apkg files) to study with spaced repetition",
+      "metadata": {
+        "contentType": "flashcards",
+        "difficulty": "all",
+        "estimatedDuration": "variable"
+      }
     }
   ],
   "limits": {
@@ -565,7 +580,8 @@
         "resources": -1,
         "blogs": -1,
         "vocabulary": -1,
-        "comics": 0
+        "comics": 0,
+        "anki_import": 0
       },
       "monthly": {
         "custom_lists": 0,
@@ -606,7 +622,8 @@
         "resources": -1,
         "blogs": -1,
         "vocabulary": -1,
-        "comics": 0
+        "comics": 0,
+        "anki_import": 0
       },
       "monthly": {
         "custom_lists": 3,
@@ -647,7 +664,8 @@
         "resources": -1,
         "blogs": -1,
         "vocabulary": -1,
-        "comics": -1
+        "comics": -1,
+        "anki_import": -1
       },
       "monthly": {
         "custom_lists": -1,
@@ -688,7 +706,8 @@
         "resources": -1,
         "blogs": -1,
         "vocabulary": -1,
-        "comics": -1
+        "comics": -1,
+        "anki_import": -1
       },
       "monthly": {
         "custom_lists": -1,

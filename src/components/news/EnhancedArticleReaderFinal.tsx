@@ -907,6 +907,10 @@ export default function EnhancedArticleReader({
   const [showQuiz, setShowQuiz] = useState(false)
   const [quizAnswers, setQuizAnswers] = useState<number[]>([])
   const [quizScore, setQuizScore] = useState<number | null>(null)
+  const [quizXPResult, setQuizXPResult] = useState<{
+    xpEarned: number
+    alreadyCompleted: boolean
+  } | null>(null)
 
   // Get current content based on mode
   const currentContent = isStoryMode ? pages![currentPageIndex].text : article.content
@@ -992,7 +996,7 @@ export default function EnhancedArticleReader({
     setQuizAnswers(newAnswers)
   }
 
-  const handleQuizSubmit = () => {
+  const handleQuizSubmit = async () => {
     if (!quiz || quizAnswers.length !== quiz.length) return
 
     let correctAnswers = 0
@@ -1004,6 +1008,34 @@ export default function EnhancedArticleReader({
 
     const score = Math.round((correctAnswers / quiz.length) * 100)
     setQuizScore(score)
+
+    // Record quiz completion for XP (only for authenticated users)
+    if (user?.uid && process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true') {
+      try {
+        const response = await fetch('/api/quiz/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contentType: isStoryMode ? 'story' : 'comic',
+            contentId: article.id,
+            score,
+            totalQuestions: quiz.length,
+            correctAnswers,
+          }),
+        })
+
+        const result = await response.json()
+        if (result.success) {
+          setQuizXPResult({
+            xpEarned: result.data.xpEarned,
+            alreadyCompleted: result.data.alreadyCompleted || false,
+          })
+          console.log('[Quiz] XP recorded:', result.data)
+        }
+      } catch (error) {
+        console.error('[Quiz] Failed to record XP:', error)
+      }
+    }
   }
 
   const handleQuizFinish = () => {
@@ -1880,6 +1912,19 @@ export default function EnhancedArticleReader({
                 <p className="text-xl" style={{ color: 'var(--article-text)' }}>
                   {t('story.quiz.yourScore')}: {quizScore}%
                 </p>
+
+                {/* XP Reward Display */}
+                {quizXPResult && !quizXPResult.alreadyCompleted && quizXPResult.xpEarned > 0 && (
+                  <div className="flex items-center justify-center gap-2 text-amber-500 dark:text-amber-400 mt-2">
+                    <span className="text-2xl">✨</span>
+                    <span className="text-xl font-bold">+{quizXPResult.xpEarned} XP</span>
+                  </div>
+                )}
+                {quizXPResult?.alreadyCompleted && (
+                  <p className="text-sm mt-2" style={{ color: 'var(--article-text-secondary)' }}>
+                    {t('story.quiz.alreadyCompleted', 'Quiz already completed')}
+                  </p>
+                )}
 
                 <div className="space-y-3 mt-6 text-left">
                   {quiz.map((question, index) => (

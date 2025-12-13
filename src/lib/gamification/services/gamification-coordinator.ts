@@ -852,3 +852,199 @@ export async function recordBookCompletion(params: {
     }
   })
 }
+
+/**
+ * Calculate XP earned from quiz completion
+ * Tiered formula based on score percentage:
+ * - 80%+ = 30 XP (Excellent)
+ * - 60-79% = 15 XP (Good)
+ * - 40-59% = 5 XP (Passing)
+ * - <40% = 0 XP (No reward)
+ */
+export function calculateQuizXP(params: { score: number }): number {
+  const { score } = params
+
+  if (score >= 80) return 30
+  if (score >= 60) return 15
+  if (score >= 40) return 5
+  return 0
+}
+
+/**
+ * Record quiz completion and award XP
+ * Used for both story and comic quizzes
+ * XP is only awarded on first completion (no retakes)
+ */
+export async function recordQuizCompletion(params: {
+  userId: string
+  contentType: 'story' | 'comic'
+  contentId: string
+  score: number
+  totalQuestions: number
+  correctAnswers: number
+  isPremium: boolean
+}): Promise<GamificationResult> {
+  const { userId, contentType, contentId, score, totalQuestions, correctAnswers, isPremium } =
+    params
+
+  if (!adminDb) {
+    throw new Error('Firebase Admin not initialized')
+  }
+
+  // Calculate XP from score
+  const xpEarned = calculateQuizXP({ score })
+
+  // If no XP earned (score < 40%), return early
+  if (xpEarned === 0) {
+    return {
+      xpEarned: 0,
+      newTotalXP: 0,
+      newLevel: 1,
+      streakIncremented: false,
+      currentStreak: 0,
+      bestStreak: 0,
+      achievementsUnlocked: [],
+    }
+  }
+
+  // Use transaction for atomic updates
+  return await getDb().runTransaction(async transaction => {
+    const userStatsRef = getDb().collection('user_stats').doc(userId)
+    const statsDoc = await transaction.get(userStatsRef)
+
+    // Initialize if doesn't exist
+    if (!statsDoc.exists) {
+      transaction.set(
+        userStatsRef,
+        {
+          xp: { total: 0, level: 1 },
+          sessions: { totalSessions: 0 },
+          quiz: { completed: 0, totalScore: 0 },
+          achievements: {
+            unlockedIds: [],
+            progress: {},
+          },
+          metadata: {
+            lastUpdated: new Date().toISOString(),
+            syncStatus: 'synced',
+            schemaVersion: 2,
+          },
+        },
+        { merge: true }
+      )
+    }
+
+    const currentStats = statsDoc.data() || {}
+    const currentXP = currentStats.xp?.total || 0
+    const newTotalXP = currentXP + xpEarned
+    const newLevel = Math.max(1, Math.floor(newTotalXP / 1000))
+    const nowIso = new Date().toISOString()
+    const today = nowIso.split('T')[0] // yyyy-mm-dd
+
+    // Track daily XP accumulation
+    const lastXPDate = currentStats.xp?.lastXPDate || null
+    const isNewDay = lastXPDate !== today
+    const currentDailyXP = isNewDay ? 0 : currentStats.xp?.xpGainedToday || 0
+    const newDailyXP = currentDailyXP + xpEarned
+
+    console.log('[Gamification Coordinator] Quiz XP:', {
+      contentType,
+      contentId,
+      score,
+      correctAnswers,
+      totalQuestions,
+      xpEarned,
+      newDailyXP,
+      minXpForStreak: getMinXpForStreak(),
+    })
+
+    // Update XP and quiz stats
+    transaction.update(userStatsRef, {
+      'xp.total': newTotalXP,
+      'xp.level': newLevel,
+      'xp.xpGainedToday': newDailyXP,
+      'xp.lastXPDate': today,
+      'quiz.completed': FieldValue.increment(1),
+      'quiz.totalScore': FieldValue.increment(score),
+      'metadata.lastUpdated': nowIso,
+    })
+
+    // Update streak using DAILY XP total
+    let streakResult: StreakUpdateResult | null = null
+    const minXpForStreak = getMinXpForStreak()
+    const lastStreakUpdateDate = currentStats.dates?.lastStreakUpdateDate || null
+    const streakAlreadyUpdatedToday = lastStreakUpdateDate === today
+
+    if (newDailyXP >= minXpForStreak && !streakAlreadyUpdatedToday) {
+      try {
+        const result = await updateStreakWithinTransaction(transaction, userId, newDailyXP, {
+          isPremium,
+          db: adminDb!,
+          prefetchedDoc: statsDoc,
+        })
+
+        if (result.success) {
+          streakResult = result
+          transaction.update(userStatsRef, {
+            'dates.lastStreakUpdateDate': today,
+          })
+          console.log('[Gamification Coordinator] ✅ Streak updated from quiz completion')
+        }
+      } catch (error) {
+        console.error('[Gamification Coordinator] Failed to update streak from quiz:', error)
+      }
+    }
+
+    // Check for quiz-specific achievements
+    const achievements: string[] = []
+
+    // "Quiz Master" achievement: Complete 10 quizzes with 80%+ score
+    if (score >= 80) {
+      const achievementId = 'quiz_master'
+      const currentProgress = currentStats.achievements?.progress || {}
+      const highScoreCount = (currentProgress[achievementId] || 0) + 1
+
+      if (!currentStats.achievements?.unlockedIds?.includes(achievementId)) {
+        if (highScoreCount >= 10) {
+          transaction.update(userStatsRef, {
+            'achievements.unlockedIds': FieldValue.arrayUnion(achievementId),
+            [`achievements.progress.${achievementId}`]: highScoreCount,
+          })
+          achievements.push(achievementId)
+        } else {
+          transaction.update(userStatsRef, {
+            [`achievements.progress.${achievementId}`]: highScoreCount,
+          })
+        }
+      }
+    }
+
+    // "Perfect Score" achievement: Get 100% on any quiz
+    if (score === 100) {
+      const achievementId = 'perfect_quiz'
+      if (!currentStats.achievements?.unlockedIds?.includes(achievementId)) {
+        transaction.update(userStatsRef, {
+          'achievements.unlockedIds': FieldValue.arrayUnion(achievementId),
+        })
+        achievements.push(achievementId)
+      }
+    }
+
+    const fallbackStreak = {
+      current: currentStats.streak?.current || 0,
+      best: currentStats.streak?.best || 0,
+    }
+    const streakData = streakResult?.data ?? fallbackStreak
+    const streakIncremented = streakResult?.success ? streakResult.streakIncremented : false
+
+    return {
+      xpEarned,
+      newTotalXP,
+      newLevel,
+      streakIncremented,
+      currentStreak: streakData.current,
+      bestStreak: streakData.best,
+      achievementsUnlocked: achievements,
+    }
+  })
+}

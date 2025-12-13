@@ -44,6 +44,10 @@ export default function ComicReaderPage() {
   const [showQuiz, setShowQuiz] = useState(false)
   const [quizAnswers, setQuizAnswers] = useState<number[]>([])
   const [quizScore, setQuizScore] = useState<number | null>(null)
+  const [quizXPResult, setQuizXPResult] = useState<{
+    xpEarned: number
+    alreadyCompleted: boolean
+  } | null>(null)
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
@@ -105,7 +109,7 @@ export default function ComicReaderPage() {
     setQuizAnswers(newAnswers)
   }
 
-  const handleQuizSubmit = () => {
+  const handleQuizSubmit = async () => {
     const questions = episode?.quiz?.questions || []
     if (quizAnswers.length !== questions.length) return
 
@@ -118,6 +122,34 @@ export default function ComicReaderPage() {
 
     const score = Math.round((correctAnswers / questions.length) * 100)
     setQuizScore(score)
+
+    // Record quiz completion for XP (only for authenticated users)
+    if (user?.uid && process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true') {
+      try {
+        const response = await fetch('/api/quiz/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contentType: 'comic',
+            contentId: episodeId,
+            score,
+            totalQuestions: questions.length,
+            correctAnswers,
+          }),
+        })
+
+        const result = await response.json()
+        if (result.success) {
+          setQuizXPResult({
+            xpEarned: result.data.xpEarned,
+            alreadyCompleted: result.data.alreadyCompleted || false,
+          })
+          console.log('[Comic Quiz] XP recorded:', result.data)
+        }
+      } catch (error) {
+        console.error('[Comic Quiz] Failed to record XP:', error)
+      }
+    }
   }
 
   const isLastPanel = currentPanelIndex === totalPanels - 1
@@ -680,6 +712,24 @@ export default function ComicReaderPage() {
                       <p className="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-2">
                         {quizScore}%
                       </p>
+
+                      {/* XP Reward Display */}
+                      {quizXPResult && !quizXPResult.alreadyCompleted && quizXPResult.xpEarned > 0 && (
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ type: 'spring', stiffness: 200, delay: 0.4 }}
+                          className="flex items-center justify-center gap-2 text-amber-500 dark:text-amber-400 mt-3"
+                        >
+                          <Sparkles className="w-5 h-5" />
+                          <span className="text-xl font-bold">+{quizXPResult.xpEarned} XP</span>
+                        </motion.div>
+                      )}
+                      {quizXPResult?.alreadyCompleted && (
+                        <p className="text-sm text-muted-foreground dark:text-dark-400 mt-2">
+                          Quiz already completed
+                        </p>
+                      )}
                     </div>
 
                     <div className="space-y-3 text-left">
