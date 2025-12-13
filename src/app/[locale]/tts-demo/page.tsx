@@ -51,7 +51,7 @@ export default function TTSDemoPage() {
 
         {/* Hiragana Section */}
         <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">Hiragana (Google TTS)</h2>
+          <h2 className="text-xl font-semibold mb-4">Hiragana (VOICEVOX)</h2>
           <div className="flex flex-wrap gap-4">
             {hiragana.map(char => (
               <div key={char} className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
@@ -64,7 +64,7 @@ export default function TTSDemoPage() {
 
         {/* Katakana Section */}
         <div className="bg-white dark:bg-gray-800 rounded-lg p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">Katakana (Google TTS)</h2>
+          <h2 className="text-xl font-semibold mb-4">Katakana (VOICEVOX)</h2>
           <div className="flex flex-wrap gap-4">
             {katakana.map(char => (
               <div key={char} className="flex items-center gap-2 p-3 bg-gray-50 dark:bg-gray-700 rounded-lg">
@@ -129,11 +129,11 @@ export default function TTSDemoPage() {
                 Play Custom Text
               </button>
               <button
-                onClick={() => play(customText, { provider: 'google' })}
+                onClick={() => play(customText, { provider: 'voicevox' })}
                 disabled={!customText || loading}
                 className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 disabled:opacity-50"
               >
-                Force Google TTS
+                Force VOICEVOX
               </button>
               <button
                 onClick={() => play(customText, { provider: 'elevenlabs' })}

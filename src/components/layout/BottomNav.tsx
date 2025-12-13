@@ -32,6 +32,7 @@ import {
 } from 'react-icons/ri'
 import { cn } from '@/lib/utils'
 import { useI18n } from '@/i18n/I18nContext'
+import { useKeyboardVisible } from '@/hooks/useMediaQuery'
 
 export interface NavItem {
   id: string
@@ -155,6 +156,7 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
   const pathname = usePathname()
   const [isVisible, setIsVisible] = useState(true)
   const { strings, language } = useI18n()
+  const isKeyboardVisible = useKeyboardVisible()
 
   const handleOpenCommandPalette = () => {
     // Dispatch custom event to open command palette
@@ -234,7 +236,8 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
   const pathWithoutLocale = pathname?.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/'
   const shouldHide = pathWithoutLocale === '/' || pathWithoutLocale === '/landing' || pathWithoutLocale.startsWith('/auth/')
 
-  if (shouldHide) {
+  // Hide when keyboard is visible or on excluded pages
+  if (shouldHide || isKeyboardVisible) {
     return null
   }
 

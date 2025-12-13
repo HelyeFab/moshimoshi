@@ -26,7 +26,7 @@ export interface CachedArticle {
   generatedTitleAudioUrl?: string
   generatedSummaryAudioUrl?: string
   generatedContentAudioUrl?: string
-  audioProvider?: 'edge-tts' | 'voicevox' | 'kokoro'
+  audioProvider?: 'kokoro' | 'elevenlabs' | 'voicevox'
   audioVoice?: string
   audioStatus?: 'pending' | 'generated' | 'failed' | 'partial'
 }

@@ -722,29 +722,26 @@ export default function ListDetailPage() {
                     )}
 
                     {/* Content */}
-                    <div className="flex-1">
-                      <div className="flex items-start gap-3">
-                        <div className="flex-1">
-                          <div className="font-medium text-gray-900 dark:text-gray-100 text-lg">
-                            {item.content}
-                          </div>
-                          {item.metadata?.reading && (
-                            <div className="text-sm text-gray-500 dark:text-gray-400">
-                              {item.metadata.reading}
-                            </div>
-                          )}
-                        </div>
-                        {item.metadata?.meaning && (
-                          <div className="flex-1 px-3 py-1 bg-primary-50 dark:bg-primary-900/20 rounded-lg">
-                            <div className="text-sm font-medium text-primary-700 dark:text-primary-300">
-                              → {item.metadata.meaning}
-                            </div>
-                          </div>
-                        )}
+                    <div className="flex-1 min-w-0">
+                      {/* Japanese content */}
+                      <div className="font-medium text-gray-900 dark:text-gray-100 text-lg break-words">
+                        {item.content}
                       </div>
+                      {item.metadata?.reading && (
+                        <div className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+                          {item.metadata.reading}
+                        </div>
+                      )}
+                      {/* Translation - below on mobile */}
+                      {item.metadata?.meaning && (
+                        <div className="mt-2 text-sm text-primary-600 dark:text-primary-400">
+                          → {item.metadata.meaning}
+                        </div>
+                      )}
                       {item.metadata?.notes && (
-                        <div className="text-sm text-gray-500 dark:text-gray-400 italic mt-1">
-                          📝 {item.metadata.notes}
+                        <div className="text-xs text-gray-500 dark:text-gray-400 italic mt-2 flex items-start gap-1">
+                          <span>📝</span>
+                          <span>{item.metadata.notes}</span>
                         </div>
                       )}
                     </div>

@@ -3,9 +3,11 @@
  */
 
 import React, { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { useFeature } from '@/hooks/useFeature';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
+import { useI18n } from '@/i18n/I18nContext';
 import { LimitDisplay, LimitReachedModal, UpgradePrompt } from '@/components/entitlements/LimitDisplay';
 import { GuestLoginModal } from '@/components/entitlements/GuestLoginModal';
 import { InlineUpgradeModal } from '@/components/entitlements/InlineUpgradeModal';
@@ -33,6 +35,8 @@ export function EntitlementGate({
   showUpgradePrompt = true,
   loadingMessage = 'Checking access...'
 }: EntitlementGateProps) {
+  const router = useRouter();
+  const { language } = useI18n();
   const { user } = useAuth();
   const { isFreeTier } = useSubscription();
   const { checkOnly, remaining, isLoading, lastDecision } = useFeature(featureId);
@@ -41,11 +45,20 @@ export function EntitlementGate({
   const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
 
+  // Redirect to dashboard when upgrade modal is closed
+  const handleUpgradeModalClose = () => {
+    setShowUpgradeModal(false);
+    router.push(`/${language}/dashboard`);
+  };
+
   useEffect(() => {
     // Check access on mount
     const checkAccess = async () => {
+      console.log('[EntitlementGate] Checking access for feature:', featureId);
       const decision = await checkOnly();
+      console.log('[EntitlementGate] Decision received:', decision);
       if (decision) {
+        console.log('[EntitlementGate] Setting hasAccess to:', decision.allow);
         setHasAccess(decision.allow);
         if (decision.allow) {
           onAccessGranted?.(decision);
@@ -56,8 +69,8 @@ export function EntitlementGate({
           if (!user) {
             // Guest users - show login prompt
             setShowGuestModal(true);
-          } else if (isFreeTier && decision.reason === 'limit_reached') {
-            // Free users hitting limits - show upgrade modal
+          } else if (isFreeTier && (decision.reason === 'limit_reached' || decision.reason === 'no_permission')) {
+            // Free users hitting limits OR trying premium-only features - show upgrade modal
             setShowUpgradeModal(true);
           } else if (decision.reason === 'limit_reached') {
             // Premium users hitting limits (rare) - show limit modal
@@ -71,7 +84,9 @@ export function EntitlementGate({
   }, [featureId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Loading state
+  console.log('[EntitlementGate] Render state:', { isLoading, hasAccess, featureId, lastDecision });
   if (isLoading || hasAccess === null) {
+    console.log('[EntitlementGate] Showing loading state because:', { isLoading, hasAccessIsNull: hasAccess === null });
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
         <LoadingSpinner size="large" />
@@ -81,12 +96,13 @@ export function EntitlementGate({
   }
 
   // Access denied - show appropriate UI
+  console.log('[EntitlementGate] Access denied state:', { hasAccess, lastDecision });
   if (!hasAccess) {
     return (
       <>
         <div className="min-h-[400px] flex flex-col items-center justify-center p-6">
           <DoshiMascot size="large" className="mb-4" />
-          
+
           {lastDecision?.reason === 'limit_reached' ? (
             <>
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
@@ -107,7 +123,7 @@ export function EntitlementGate({
                 Feature Unavailable
               </h2>
               <p className="text-gray-600 dark:text-gray-400 text-center mb-6">
-                {lastDecision?.reason === 'no_permission' 
+                {lastDecision?.reason === 'no_permission'
                   ? 'This feature requires a premium subscription.'
                   : 'This feature is currently unavailable.'}
               </p>
@@ -127,7 +143,7 @@ export function EntitlementGate({
 
         <InlineUpgradeModal
           isOpen={showUpgradeModal}
-          onClose={() => setShowUpgradeModal(false)}
+          onClose={handleUpgradeModalClose}
           featureName={featureId.replace('_practice', '').replace('_', ' ')}
           currentLimit={lastDecision?.limit}
           currentUsage={lastDecision?.usageBefore}
@@ -164,8 +180,8 @@ interface ReviewSessionGateProps {
   className?: string;
 }
 
-export function ReviewSessionGate({ 
-  contentType, 
+export function ReviewSessionGate({
+  contentType,
   onStartSession,
   className = ''
 }: ReviewSessionGateProps) {

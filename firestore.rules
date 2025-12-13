@@ -506,6 +506,12 @@ service cloud.firestore {
       allow write: if false; // Server-only via Admin SDK
     }
 
+    // Comic generation queue - admin managed scheduling
+    match /comic_generation_queue/{queueId} {
+      allow read: if isAdmin();
+      allow write: if false; // Server-only via Admin SDK (API routes)
+    }
+
     // Comic progress - users can track their reading progress
     match /comic_progress/{progressId} {
       allow read: if isAuthenticated() &&

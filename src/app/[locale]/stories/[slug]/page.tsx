@@ -99,7 +99,7 @@ export default function StoryDetailPage() {
     },
     // Audio fields from story
     generatedContentAudioUrl: story.fullAudioUrl,
-    audioProvider: story.audioProvider as 'edge-tts' | 'voicevox' | 'kokoro' | undefined,
+    audioProvider: story.audioProvider as 'kokoro' | 'elevenlabs' | 'voicevox' | undefined,
     audioVoice: story.audioVoice,
     audioStatus:
       story.audioStatus === 'complete'

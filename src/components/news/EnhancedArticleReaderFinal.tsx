@@ -198,7 +198,7 @@ interface NewsArticle {
   generatedSummaryAudioUrl?: string
   generatedContentAudioUrl?: string
   audioGeneratedAt?: Date
-  audioProvider?: 'edge-tts' | 'voicevox' | 'kokoro'
+  audioProvider?: 'kokoro' | 'elevenlabs' | 'voicevox'
   audioVoice?: string
   audioStatus?: 'pending' | 'generated' | 'failed' | 'partial'
   audioError?: string
@@ -1315,8 +1315,8 @@ export default function EnhancedArticleReader({
       appTtsFallback: '✅ Always available (Priority 2)',
     })
 
-    // Use pre-generated Kokoro if present; otherwise app TTS fallback
-    handleKokoroOrTTSFallback()
+    // Use pre-generated VOICEVOX if present; otherwise app TTS fallback
+    handleVoicevoxOrTTSFallback()
   }
 
   // Handle NHK HLS audio playback (Priority 1)
@@ -1351,14 +1351,14 @@ export default function EnhancedArticleReader({
       } catch (error) {
         console.error('[Article Reader] NHK audio failed, falling back to TTS:', error)
         // Fall back to VOICEVOX/TTS
-        handleKokoroOrTTSFallback()
+        handleVoicevoxOrTTSFallback()
       }
     }
   }
 
-  // Handle Kokoro TTS playback
-  const handleKokoroOrTTSFallback = async () => {
-    console.log('%c🔄 Attempting Kokoro TTS playback...', 'color: #FF9800; font-weight: bold;')
+  // Handle VOICEVOX TTS playback
+  const handleVoicevoxOrTTSFallback = async () => {
+    console.log('%c🔄 Attempting VOICEVOX TTS playback...', 'color: #FF9800; font-weight: bold;')
 
     // In story mode, prefer per-page audio URL if available
     // This allows audio to naturally stop at page boundaries
@@ -1366,15 +1366,15 @@ export default function EnhancedArticleReader({
     const audioUrlToUse = currentPageAudioUrl || article.generatedContentAudioUrl
 
     if (audioUrlToUse) {
-      // If already playing Kokoro audio, pause it
+      // If already playing VOICEVOX audio, pause it
       if (isPreGeneratedPlaying && preGeneratedAudioRef.current) {
         preGeneratedAudioRef.current.pause()
         setIsPreGeneratedPlaying(false)
-        console.log('[Article Reader] Paused Kokoro TTS audio')
+        console.log('[Article Reader] Paused VOICEVOX TTS audio')
         return
       }
 
-      // If Kokoro audio is paused, resume it - but only if it's the same page's audio
+      // If VOICEVOX audio is paused, resume it - but only if it's the same page's audio
       // Compare by checking if the current audio src contains the expected filename
       const expectedFilename = audioUrlToUse.split('/').pop() || ''
       const currentAudioMatchesPage = preGeneratedAudioRef.current?.src?.includes(
@@ -1388,7 +1388,7 @@ export default function EnhancedArticleReader({
       ) {
         preGeneratedAudioRef.current.play()
         setIsPreGeneratedPlaying(true)
-        console.log('[Article Reader] Resumed Kokoro TTS audio (same page)')
+        console.log('[Article Reader] Resumed VOICEVOX TTS audio (same page)')
         return
       }
 
@@ -1399,14 +1399,14 @@ export default function EnhancedArticleReader({
         preGeneratedAudioRef.current = null
       }
 
-      // Otherwise, start playing Kokoro audio from beginning
+      // Otherwise, start playing VOICEVOX audio from beginning
       try {
         const isPerPageAudio = !!currentPageAudioUrl
         console.log(
-          `%c[Audio] SOURCE: FIREBASE PRE-CACHED (${isPerPageAudio ? 'Per-Page' : 'Full Story'} Kokoro TTS)`,
+          `%c[Audio] SOURCE: FIREBASE PRE-CACHED (${isPerPageAudio ? 'Per-Page' : 'Full Story'} VOICEVOX TTS)`,
           'color: #ff9900; font-weight: bold',
           {
-            provider: article.audioProvider || 'kokoro',
+            provider: article.audioProvider || 'voicevox',
             voice: article.audioVoice,
             ...(isPerPageAudio && { page: currentPageIndex + 1 }),
           }
@@ -1431,17 +1431,17 @@ export default function EnhancedArticleReader({
         // Set up event listeners
         audio.onplay = () => {
           setIsPreGeneratedPlaying(true)
-          console.log('[Article Reader] Kokoro TTS audio started')
+          console.log('[Article Reader] VOICEVOX TTS audio started')
         }
 
         audio.onpause = () => {
           setIsPreGeneratedPlaying(false)
-          console.log('[Article Reader] Kokoro TTS audio paused')
+          console.log('[Article Reader] VOICEVOX TTS audio paused')
         }
 
         audio.onended = () => {
           setIsPreGeneratedPlaying(false)
-          console.log('[Article Reader] Kokoro TTS audio finished')
+          console.log('[Article Reader] VOICEVOX TTS audio finished')
         }
 
         audio.onerror = () => {
@@ -1458,7 +1458,7 @@ export default function EnhancedArticleReader({
                     ? 'Audio format not supported or source unavailable'
                     : mediaError?.message || 'Unknown audio error'
 
-          console.error('[Article Reader] Kokoro TTS audio error:', {
+          console.error('[Article Reader] VOICEVOX TTS audio error:', {
             code: errorCode,
             message: errorMessage,
             src: audio.src,
@@ -1473,13 +1473,13 @@ export default function EnhancedArticleReader({
         preGeneratedAudioRef.current = audio
         await audio.play()
         console.log(
-          '%c▶️ PLAYING: Kokoro Pre-generated TTS (Priority 1)',
+          '%c▶️ PLAYING: VOICEVOX Pre-generated TTS (Priority 1)',
           'background: #9C27B0; color: white; font-size: 12px; padding: 2px 6px; border-radius: 3px;'
         )
-        console.log('Provider: Kokoro (pre-generated via Sheldon, cached in Firebase Storage)')
+        console.log('Provider: VOICEVOX (pre-generated, cached in Firebase Storage)')
         return
       } catch (error) {
-        console.error('[Article Reader] Failed to play Kokoro audio:', error)
+        console.error('[Article Reader] Failed to play VOICEVOX audio:', error)
         // Fall through to app TTS fallback
       }
     }
@@ -1516,7 +1516,7 @@ export default function EnhancedArticleReader({
         'background: #FF5722; color: white; font-size: 12px; padding: 2px 6px; border-radius: 3px;'
       )
       console.log(
-        'Provider chain: Kokoro → ElevenLabs → Edge-TTS (check server logs for actual provider used)'
+        'Provider chain: VOICEVOX → ElevenLabs (check server logs for actual provider used)'
       )
       await playTTS(article.content, {
         speed: settings.playbackSpeed,

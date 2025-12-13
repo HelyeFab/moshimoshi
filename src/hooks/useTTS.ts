@@ -220,8 +220,8 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         // Prepare TTS parameters
         const voice = ttsOptions?.voice || '23'
         const speed = ttsOptions?.speed || ttsOptions?.rate || 0.85
-        const pitch = ttsOptions?.pitch ?? -5
-        const provider = 'google' // Could be dynamic based on settings
+        const pitch = ttsOptions?.pitch // Optional - not used by server providers
+        const provider = 'voicevox' // VOICEVOX via Modal - primary provider
 
         let result: TTSResult
 

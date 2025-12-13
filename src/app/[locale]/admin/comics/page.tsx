@@ -168,11 +168,18 @@ export default function AdminComicsPage() {
           {/* Actions */}
           <div className="flex flex-wrap gap-3">
             <Link
+              href="/admin/comics/schedule"
+              className="px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white rounded-lg transition-all flex items-center gap-2 shadow-sm"
+            >
+              <span>📅</span>
+              Schedule Episodes
+            </Link>
+            <Link
               href="/admin/comics/generate"
               className="px-4 py-2 bg-gradient-to-r from-rose-500 to-orange-500 hover:from-rose-600 hover:to-orange-600 text-white rounded-lg transition-all flex items-center gap-2 shadow-sm"
             >
               <span>🦝</span>
-              Generate New Episode
+              Generate Now
             </Link>
           </div>
         </div>

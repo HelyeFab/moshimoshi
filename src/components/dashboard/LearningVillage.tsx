@@ -392,19 +392,11 @@ function MobileStallCard({
 
         {/* Content */}
         <div className="flex items-center space-x-3 sm:space-x-4 z-10 flex-1 min-w-0">
-          {/* Emoji icon and stall image */}
+          {/* Emoji icon only on mobile, stall image hidden */}
           <div className="flex-shrink-0 relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center">
             <span className="text-2xl sm:text-3xl filter drop-shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-200">
               {stall.icon}
             </span>
-            {/* Image is absolutely positioned to layer behind emoji */}
-            <Image
-              src={stall.stallImage}
-              alt="Stall Image"
-              width={32}
-              height={32}
-              className="absolute opacity-50 transition-opacity duration-300"
-            />
           </div>
 
           <div className="flex-grow min-w-0 overflow-hidden">
@@ -741,7 +733,11 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.comics?.subtitle || 'もしの漫画',
         description: strings.dashboard?.cards?.comics?.description || 'Moshi Goes to Japan',
         href: '/comics',
-        icon: <DoshiMascot size="medium" variant="animated" />,
+        icon: (
+          <span className="inline-block scale-[0.35] sm:scale-100 origin-center">
+            <DoshiMascot size="medium" variant="animated" />
+          </span>
+        ),
         stallType: 'stage',
         color: 'from-rose-400 to-orange-500',
         glow: 'shadow-rose-500/50',

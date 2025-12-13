@@ -308,7 +308,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
         {
           step: 'generate_audio',
           draftId,
-          voice: 'nemo',
+          voice: '23', // Standard VOICEVOX voice (energetic female)
         },
         adminKey
       )

@@ -3,28 +3,17 @@ import { TTSConfig } from './types'
 // Use a function to get the config so environment variables are read at runtime
 export function getTtsConfig(): TTSConfig {
   return {
-    kokoro: {
-      apiKey: process.env.MODAL_API_KEY, // Now using Modal VOICEVOX service
+    voicevox: {
+      apiKey: process.env.MODAL_API_KEY, // Using Modal VOICEVOX service
       baseUrl: 'https://emmanuelfabiani23--voicevox-tts-serve.modal.run/v1/audio',
       defaultVoice: '23', // VOICEVOX speaker ID (23 = energetic female)
+      defaultSpeed: 0.85, // Standard speed for all TTS
       model: 'voicevox',
       timeout: 60000, // Increased for VOICEVOX cold starts
     },
-    google: {
-      apiKey: process.env.GOOGLE_CLOUD_TTS_API_KEY,
-      projectId: process.env.GOOGLE_CLOUD_PROJECT_ID,
-      defaultVoice: 'ja-JP-Neural2-B', // Female Japanese voice
-      languageCode: 'ja-JP',
-      audioConfig: {
-        audioEncoding: 'MP3',
-        speakingRate: 1.0,
-        pitch: 0,
-        volumeGainDb: 0,
-      },
-    },
     elevenlabs: {
       apiKey: process.env.ELEVENLABS_API_KEY,
-      voiceId: process.env.ELEVENLABS_VOICE_ID || '', // Will be provided by user
+      voiceId: process.env.ELEVENLABS_VOICE_ID || '', // Fallback provider
       modelId: 'eleven_multilingual_v2',
       voiceSettings: {
         stability: 0.5,
@@ -32,11 +21,6 @@ export function getTtsConfig(): TTSConfig {
         style: 0,
         useSpeakerBoost: true,
       },
-    },
-    edgeTts: {
-      endpoint: process.env.EDGE_TTS_ENDPOINT || 'https://tts.selfmind.dev',
-      defaultVoice: 'ja-JP-NanamiNeural', // Female Japanese voice (fallback)
-      fallbackVoice: 'en-US-JennyNeural', // English fallback
     },
     cache: {
       enabled: true,
@@ -53,9 +37,8 @@ export const ttsConfig = getTtsConfig()
 
 // Provider selection thresholds
 export const PROVIDER_THRESHOLDS = {
-  characterLimit: 10, // Use Google for text < 10 chars
-  googleMaxLength: 5000, // Max length for Google TTS
-  elevenLabsMaxLength: 5000, // Max length for ElevenLabs
+  voicevoxMaxLength: 5000, // Max length for VOICEVOX
+  elevenLabsMaxLength: 5000, // Max length for ElevenLabs (fallback)
 }
 
 // Audio format settings

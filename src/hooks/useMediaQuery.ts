@@ -59,3 +59,73 @@ export function useIsDesktop(): boolean | undefined {
 export function usePrefersReducedMotion(): boolean | undefined {
   return useMediaQuery('(prefers-reduced-motion: reduce)')
 }
+
+/**
+ * Detect if the mobile virtual keyboard is visible
+ * Uses the Visual Viewport API which is well-supported on modern mobile browsers
+ * Returns false during SSR or on desktop
+ *
+ * @param threshold - Minimum height difference to consider keyboard open (default: 150px)
+ * @returns boolean - true if keyboard is likely visible
+ *
+ * @example
+ * const isKeyboardVisible = useKeyboardVisible()
+ * if (isKeyboardVisible) return null // hide bottom nav
+ */
+export function useKeyboardVisible(threshold: number = 150): boolean {
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false)
+
+  useEffect(() => {
+    // Only run on mobile/tablet and if visualViewport is available
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+    if (!isTouchDevice || typeof window.visualViewport === 'undefined') {
+      return
+    }
+
+    const visualViewport = window.visualViewport
+    if (!visualViewport) return
+
+    const checkKeyboard = () => {
+      // Compare visual viewport height to window inner height
+      // When keyboard opens, visualViewport.height shrinks
+      const heightDiff = window.innerHeight - visualViewport.height
+      const keyboardOpen = heightDiff > threshold
+
+      setIsKeyboardVisible(keyboardOpen)
+    }
+
+    // Check on viewport resize (keyboard open/close)
+    visualViewport.addEventListener('resize', checkKeyboard)
+
+    // Also check on focus/blur for immediate feedback
+    const handleFocus = (e: FocusEvent) => {
+      const target = e.target as HTMLElement
+      const isInput = target.tagName === 'INPUT' ||
+                      target.tagName === 'TEXTAREA' ||
+                      target.isContentEditable
+      if (isInput) {
+        // Small delay to let keyboard fully open
+        setTimeout(checkKeyboard, 100)
+      }
+    }
+
+    const handleBlur = () => {
+      // Small delay to let keyboard fully close
+      setTimeout(checkKeyboard, 100)
+    }
+
+    document.addEventListener('focusin', handleFocus)
+    document.addEventListener('focusout', handleBlur)
+
+    // Initial check
+    checkKeyboard()
+
+    return () => {
+      visualViewport.removeEventListener('resize', checkKeyboard)
+      document.removeEventListener('focusin', handleFocus)
+      document.removeEventListener('focusout', handleBlur)
+    }
+  }, [threshold])
+
+  return isKeyboardVisible
+}

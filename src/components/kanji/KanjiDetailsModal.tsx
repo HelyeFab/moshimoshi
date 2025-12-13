@@ -61,7 +61,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
       if (kanji.onyomi) readingsToPreload.push(...kanji.onyomi)
       if (kanji.kunyomi) readingsToPreload.push(...kanji.kunyomi)
       if (readingsToPreload.length > 0) {
-        preload(readingsToPreload, { voice: 'ja-JP' })
+        preload(readingsToPreload, { voice: '23', speed: 0.85 })
       }
     }
   }, [isOpen, kanji?.kanji])
@@ -343,7 +343,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                             </span>
                             <AudioButton
                               size="sm"
-                              onPlay={() => play(reading, { voice: 'ja-JP' })}
+                              onPlay={() => play(reading, { voice: '23', speed: 0.85 })}
                               loading={loading && currentText === reading}
                               playing={playing && currentText === reading}
                             />
@@ -373,7 +373,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                             </span>
                             <AudioButton
                               size="sm"
-                              onPlay={() => play(reading, { voice: 'ja-JP' })}
+                              onPlay={() => play(reading, { voice: '23', speed: 0.85 })}
                               loading={loading && currentText === reading}
                               playing={playing && currentText === reading}
                             />
@@ -464,7 +464,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                               <AudioButton
                                 size="sm"
                                 onPlay={() =>
-                                  play(sentence.japanese, { voice: 'ja-JP', rate: 0.9 })
+                                  play(sentence.japanese, { voice: '23', speed: 0.85 })
                                 }
                                 loading={loading && currentText === sentence.japanese}
                                 playing={playing && currentText === sentence.japanese}

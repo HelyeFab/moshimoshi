@@ -160,25 +160,16 @@ async function processEpisode(episodeDoc) {
   let updated = false
   const updatedPanels = JSON.parse(JSON.stringify(episode.panels || []))
   const allTextForFullAudio = []
-  const sentenceData = {
-    episodeId,
-    title: episode.title,
-    titleJa: episode.titleJa,
-    panels: [],
-    generatedAt: admin.firestore.FieldValue.serverTimestamp(),
-  }
+
+  // Use flat structure matching ComicSentenceData interface from comicSentencePreGenerator.ts
+  const dialogues = []
+  const narrations = []
 
   // Process each panel
   for (let i = 0; i < updatedPanels.length; i++) {
     const panel = updatedPanels[i]
     const panelNumber = i + 1
     console.log(`  Panel ${panelNumber}/${updatedPanels.length}`)
-
-    const panelSentences = {
-      panelNumber,
-      dialogues: [],
-      narration: null,
-    }
 
     // Process dialogues
     if (panel.dialogues) {
@@ -205,9 +196,10 @@ async function processEpisode(episodeDoc) {
             await new Promise(resolve => setTimeout(resolve, 300))
           }
 
-          // Add to sentence data
-          panelSentences.dialogues.push({
-            index: j,
+          // Add to flat dialogues array (matching ComicSentenceData interface)
+          dialogues.push({
+            panelNumber,
+            dialogueIndex: j,
             characterId: dialogue.characterId,
             characterName: dialogue.characterName,
             text: dialogue.textJa,
@@ -243,14 +235,14 @@ async function processEpisode(episodeDoc) {
         await new Promise(resolve => setTimeout(resolve, 300))
       }
 
-      panelSentences.narration = {
+      // Add to flat narrations array (matching ComicSentenceData interface)
+      narrations.push({
+        panelNumber,
         text: panel.narration.textJa,
         textEn: panel.narration.textEn,
         audioUrl: updatedPanels[i].narration?.audioUrl || '',
-      }
+      })
     }
-
-    sentenceData.panels.push(panelSentences)
   }
 
   // Generate full episode audio
@@ -269,7 +261,16 @@ async function processEpisode(episodeDoc) {
     }
   }
 
-  sentenceData.fullAudioUrl = fullAudioUrl
+  // Build sentence data with flat structure (matching ComicSentenceData interface)
+  const sentenceData = {
+    episodeId,
+    title: episode.title,
+    titleJa: episode.titleJa,
+    dialogues,
+    narrations,
+    fullAudioUrl,
+    generatedAt: admin.firestore.FieldValue.serverTimestamp(),
+  }
 
   // Update Firestore
   if (updated) {
@@ -282,7 +283,7 @@ async function processEpisode(episodeDoc) {
       updatedAt: admin.firestore.FieldValue.serverTimestamp(),
     })
 
-    // Save sentence data (following the pattern from other content types)
+    // Save sentence data (following the pattern from comicSentencePreGenerator.ts)
     await sentenceDataRef.set(sentenceData)
 
     console.log(`  💾 Episode and sentence data saved`)

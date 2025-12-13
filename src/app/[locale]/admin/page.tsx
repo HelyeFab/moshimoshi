@@ -229,6 +229,7 @@ export default function AdminDashboard() {
           {[
             { href: '/admin/resources', icon: '📚', label: 'Resources' },
             { href: '/admin/stories', icon: '📖', label: 'Stories' },
+            { href: '/admin/comics', icon: '🦝', label: 'Comics' },
             { href: '/admin/moodboards', icon: '🎨', label: strings.admin?.quickActionButtons?.moodBoards || 'Moodboards' },
             { href: '/admin/subscriptions', icon: '💳', label: strings.admin?.quickActionButtons?.subscriptions || 'Subscriptions' },
             { href: '/admin/blog', icon: '📝', label: strings.admin?.quickActionButtons?.blog || 'Blog' },

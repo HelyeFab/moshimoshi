@@ -29,15 +29,15 @@ export async function GET(request: NextRequest) {
 
     // Determine provider
     let provider: TTSProvider;
-    if (providerParam && (providerParam === 'google' || providerParam === 'elevenlabs')) {
+    if (providerParam && (providerParam === 'voicevox' || providerParam === 'elevenlabs')) {
       provider = providerParam as TTSProvider;
     } else {
       provider = selectProvider(text);
     }
 
     // Determine voice
-    const voice = voiceParam || 
-      (provider === 'google' ? ttsConfig.google.defaultVoice : ttsConfig.elevenlabs.voiceId);
+    const voice = voiceParam ||
+      (provider === 'voicevox' ? ttsConfig.voicevox.defaultVoice : ttsConfig.elevenlabs.voiceId);
 
     // Check cache (include speed/pitch/volume in key)
     const cacheEntry = await ttsCache.get(text, provider, voice, {

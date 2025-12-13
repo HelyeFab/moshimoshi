@@ -672,7 +672,7 @@ async function repairStory(
                 text: p.text || p.textJa || '',
                 pageNumber: p.pageNumber,
               })),
-              voice: 'nemo',
+              voice: '23', // Standard VOICEVOX voice (energetic female)
               generateFullAudio: true,
               generatePageAudio: true,
             }),

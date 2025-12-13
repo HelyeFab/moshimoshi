@@ -1,4 +1,4 @@
-export type TTSProvider = 'kokoro' | 'google' | 'elevenlabs' | 'edge-tts';
+export type TTSProvider = 'voicevox' | 'elevenlabs';
 
 export interface TTSOptions {
   provider?: TTSProvider | 'auto';
@@ -49,24 +49,13 @@ export interface TTSCacheEntry {
 }
 
 export interface TTSConfig {
-  kokoro: {
+  voicevox: {
     apiKey?: string;
     baseUrl: string;
     defaultVoice: string;
+    defaultSpeed: number;
     model: string;
     timeout: number;
-  };
-  google: {
-    apiKey?: string;
-    projectId?: string;
-    defaultVoice: string;
-    languageCode: string;
-    audioConfig: {
-      audioEncoding: string;
-      speakingRate?: number;
-      pitch?: number;
-      volumeGainDb?: number;
-    };
   };
   elevenlabs: {
     apiKey?: string;
@@ -78,11 +67,6 @@ export interface TTSConfig {
       style?: number;
       useSpeakerBoost?: boolean;
     };
-  };
-  edgeTts: {
-    endpoint: string;
-    defaultVoice: string;
-    fallbackVoice: string;
   };
   cache: {
     enabled: boolean;

@@ -1,6 +1,5 @@
 import crypto from 'crypto'
 import { TTSProvider, TTSTextType } from './types'
-import { PROVIDER_THRESHOLDS } from './config'
 
 /**
  * Normalize text for consistent caching
@@ -45,17 +44,13 @@ export function getTextType(text: string): TTSTextType {
 
 /**
  * Auto-select provider based on text
- * Priority: Kokoro (Sheldon) → ElevenLabs → Edge-TTS
+ * Primary: VOICEVOX
+ * Fallback: ElevenLabs
  */
 export function selectProvider(text: string): TTSProvider {
-  const normalizedText = normalizeText(text)
-
-  // Use Kokoro TTS for all Japanese content - fastest and highest quality
-  // Self-hosted on Sheldon, unlimited usage, optimized for Japanese
-  return 'kokoro'
-
-  // Note: Fallback chain in TTSService handles failures:
-  // Kokoro → ElevenLabs → Edge-TTS → Google (deprecated)
+  // Always use VOICEVOX as primary - highest quality for Japanese
+  // ElevenLabs is only used as fallback when VOICEVOX fails
+  return 'voicevox'
 }
 
 /**
@@ -154,8 +149,9 @@ export function parseTTSOptions(options?: any) {
   const defaults = {
     provider: 'auto' as const,
     speed: 0.85,
-    pitch: -5,
+    pitch: undefined as number | undefined,
     volume: 1.0,
+    voice: undefined as string | undefined,
   }
 
   if (!options) return defaults
@@ -163,9 +159,9 @@ export function parseTTSOptions(options?: any) {
   return {
     provider: options.provider || defaults.provider,
     speed: Math.max(0.5, Math.min(2.0, options.speed || defaults.speed)),
-    pitch: Math.max(-20, Math.min(20, options.pitch || defaults.pitch)),
+    pitch: options.pitch as number | undefined, // Optional - not used by VOICEVOX
     volume: Math.max(0, Math.min(1, options.volume || defaults.volume)),
-    voice: options.voice,
+    voice: options.voice as string | undefined,
   }
 }
 
@@ -187,10 +183,8 @@ export function formatFileSize(bytes: number): string {
  */
 export function batchTextsByProvider(texts: string[]): Record<TTSProvider, string[]> {
   const batches: Record<TTSProvider, string[]> = {
-    google: [],
+    voicevox: [],
     elevenlabs: [],
-    kokoro: [],
-    'edge-tts': [],
   }
 
   texts.forEach(text => {

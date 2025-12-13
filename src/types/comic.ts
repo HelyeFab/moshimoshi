@@ -10,6 +10,11 @@ import { JLPTLevel } from './kanji'
 export type { JLPTLevel }
 
 /**
+ * Character role in the series
+ */
+export type CharacterRole = 'protagonist' | 'mentor' | 'friend' | 'recurring' | 'guest'
+
+/**
  * Saved character sheet for reuse across episodes
  */
 export interface SavedCharacter {
@@ -19,10 +24,14 @@ export interface SavedCharacter {
   description: string
   visualDescription: string
   personality: string
+  role: CharacterRole // Role in the series
   isMascot: boolean // True for Moshi
+  speakingStyle?: string // How the character speaks (formal, casual, etc.)
+  catchphrase?: string // Optional catchphrase
   referenceImageUrl: string // Firebase Storage URL
   referenceImageData: string // Base64 for Gemini consistency
   colorPalette: string[] // Main colors for consistency
+  props?: string[] // Character props (staff, backpack, etc.)
   tags: string[]
   usedInEpisodes: string[] // Episode IDs
   createdAt: Date
@@ -100,6 +109,7 @@ export interface ComicPanel {
   imageUrl: string
   imagePrompt: string // For regeneration
   sceneDescription: string
+  characters: string[] // Character IDs appearing in this panel
   dialogues: PanelDialogue[]
   narration?: {
     textJa: string
@@ -264,6 +274,7 @@ export interface ComicOutline {
   panelBreakdown: {
     panelNumber: number
     description: string
+    characters: string[] // Character IDs appearing in this panel
     keyDialogue: string
     vocabularyFocus: string[]
   }[]
@@ -319,3 +330,73 @@ export interface ComicGenerationLog {
   triggeredByUserId?: string
   createdAt: Date
 }
+
+/**
+ * Queue item for scheduled comic generation
+ */
+export interface ComicQueueItem {
+  id: string
+  theme: string // e.g., 'temple', 'sakura'
+  location: string // e.g., 'Senso-ji Temple'
+  titleEn?: string // Optional override
+  titleJa?: string // Optional override
+  characterIds: string[] // ['moshi-master', 'sensei-panda']
+  jlptLevel: JLPTLevel
+  priority: number // For ordering (lower = first)
+  status: 'pending' | 'processing' | 'completed' | 'failed'
+  createdAt: Date
+  createdBy: string // Admin user ID
+  scheduledFor?: Date // Optional: specific date
+  processedAt?: Date
+  episodeId?: string // Set after generation
+  error?: string // If failed
+}
+
+/**
+ * Available characters for comics
+ */
+export const COMIC_CHARACTERS = [
+  { id: 'moshi-master', name: 'Moshi', nameJa: 'もし', role: 'protagonist' },
+  { id: 'sensei-panda', name: 'Sensei', nameJa: '先生', role: 'mentor' },
+  { id: 'yuki-sloth', name: 'Yuki', nameJa: 'ゆき', role: 'friend' },
+  { id: 'koa-koala', name: 'Koa', nameJa: 'コア', role: 'friend' },
+] as const
+
+/**
+ * Episode themes with locations and default characters
+ */
+export const EPISODE_THEMES = [
+  // Solo Moshi episodes (introductory)
+  { theme: 'arrival', location: 'Narita Airport', titleEn: 'Arriving in Japan', titleJa: '日本に到着', characters: ['moshi-master'] },
+
+  // Episodes with Sensei (learning cultural lessons)
+  { theme: 'temple', location: 'Senso-ji Temple', titleEn: 'Temple Visit', titleJa: 'お寺参り', characters: ['moshi-master', 'sensei-panda'] },
+  { theme: 'geisha', location: 'Kyoto Gion', titleEn: 'Kyoto Magic', titleJa: '京都の魔法', characters: ['moshi-master', 'sensei-panda'] },
+  { theme: 'castle', location: 'Osaka Castle', titleEn: 'Castle Adventure', titleJa: 'お城冒険', characters: ['moshi-master', 'sensei-panda'] },
+  { theme: 'onsen', location: 'Hot Spring Town', titleEn: 'Onsen Experience', titleJa: '温泉体験', characters: ['moshi-master', 'sensei-panda'] },
+
+  // Episodes with Yuki (relaxed, mindful adventures)
+  { theme: 'sakura', location: 'Ueno Park', titleEn: 'Cherry Blossoms', titleJa: '桜を見る', characters: ['moshi-master', 'yuki-sloth'] },
+  { theme: 'rain', location: 'Tokyo Streets', titleEn: 'Rainy Day', titleJa: '雨の日', characters: ['moshi-master', 'yuki-sloth'] },
+  { theme: 'ramen', location: 'Ramen Shop', titleEn: 'Ramen Quest', titleJa: 'ラーメン探し', characters: ['moshi-master', 'yuki-sloth'] },
+  { theme: 'konbini', location: 'Convenience Store', titleEn: 'Konbini Adventure', titleJa: 'コンビニ冒険', characters: ['moshi-master', 'yuki-sloth'] },
+
+  // Episodes with Koa (adventurous exploration)
+  { theme: 'train', location: 'Shinkansen', titleEn: 'First Train Ride', titleJa: '初めての電車', characters: ['moshi-master', 'koa-koala'] },
+  { theme: 'lost', location: 'Shibuya', titleEn: 'Lost in Tokyo', titleJa: '東京で迷子', characters: ['moshi-master', 'koa-koala'] },
+  { theme: 'arcade', location: 'Game Center', titleEn: 'Arcade Challenge', titleJa: 'ゲームセンター', characters: ['moshi-master', 'koa-koala'] },
+  { theme: 'snow', location: 'Hokkaido', titleEn: 'Snow Day', titleJa: '雪の日', characters: ['moshi-master', 'koa-koala'] },
+
+  // Group episodes (multiple friends)
+  { theme: 'matsuri', location: 'Summer Festival', titleEn: 'Festival Fun', titleJa: 'お祭り', characters: ['moshi-master', 'yuki-sloth', 'koa-koala'] },
+  { theme: 'sushi', location: 'Sushi Restaurant', titleEn: 'Sushi Surprise', titleJa: 'お寿司びっくり', characters: ['moshi-master', 'yuki-sloth', 'koa-koala'] },
+  { theme: 'karaoke', location: 'Karaoke Box', titleEn: 'Karaoke Night', titleJa: 'カラオケの夜', characters: ['moshi-master', 'yuki-sloth', 'koa-koala'] },
+  { theme: 'deer', location: 'Nara Park', titleEn: 'Deer Friends', titleJa: '鹿の友達', characters: ['moshi-master', 'yuki-sloth', 'koa-koala'] },
+  { theme: 'fishing', location: 'Tsukiji Market', titleEn: 'Fish Market Morning', titleJa: '魚市場の朝', characters: ['moshi-master', 'sensei-panda', 'koa-koala'] },
+  { theme: 'school', location: 'Japanese School', titleEn: 'Making Friends', titleJa: '友達を作る', characters: ['moshi-master', 'sensei-panda', 'yuki-sloth', 'koa-koala'] },
+
+  // Finale with all characters
+  { theme: 'goodbye', location: 'Tokyo Station', titleEn: 'Until Next Time', titleJa: 'また会う日まで', characters: ['moshi-master', 'sensei-panda', 'yuki-sloth', 'koa-koala'] },
+] as const
+
+export type ComicTheme = (typeof EPISODE_THEMES)[number]

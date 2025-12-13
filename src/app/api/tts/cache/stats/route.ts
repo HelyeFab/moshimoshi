@@ -12,10 +12,10 @@ export async function GET(request: NextRequest) {
       totalSize: stats.totalSize,
       totalSizeFormatted: formatFileSize(stats.totalSize),
       providers: {
-        google: {
-          count: stats.providers.google.count,
-          size: stats.providers.google.size,
-          sizeFormatted: formatFileSize(stats.providers.google.size),
+        voicevox: {
+          count: stats.providers.voicevox.count,
+          size: stats.providers.voicevox.size,
+          sizeFormatted: formatFileSize(stats.providers.voicevox.size),
         },
         elevenlabs: {
           count: stats.providers.elevenlabs.count,

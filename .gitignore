@@ -1,5 +1,5 @@
 # dependencies
-/node_modules
+node_modules/
 /.pnp
 .pnp.js
 .yarn/install-state.gz
@@ -70,3 +70,7 @@ ui-debug.log
 
 # Database files with potential secrets
 data/memories.db
+
+# Claude Code local settings (may contain command history with secrets)
+.claude/settings.local.json
+.claude/.claude/

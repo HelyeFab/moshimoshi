@@ -6,30 +6,10 @@ import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { motion } from 'framer-motion'
+import { UserGroupIcon } from '@heroicons/react/24/outline'
+import { EPISODE_THEMES, COMIC_CHARACTERS, JLPTLevel } from '@/types/comic'
 
-// Episode themes - locations and scenarios in Japan
-const EPISODE_THEMES = [
-  { theme: 'arrival', location: 'Narita Airport', titleEn: 'Arriving in Japan' },
-  { theme: 'train', location: 'Shinkansen', titleEn: 'First Train Ride' },
-  { theme: 'konbini', location: 'Convenience Store', titleEn: 'Konbini Adventure' },
-  { theme: 'lost', location: 'Shibuya', titleEn: 'Lost in Tokyo' },
-  { theme: 'school', location: 'Japanese School', titleEn: 'Making Friends' },
-  { theme: 'temple', location: 'Senso-ji Temple', titleEn: 'Temple Visit' },
-  { theme: 'sushi', location: 'Sushi Restaurant', titleEn: 'Sushi Surprise' },
-  { theme: 'rain', location: 'Tokyo Streets', titleEn: 'Rainy Day' },
-  { theme: 'sakura', location: 'Ueno Park', titleEn: 'Cherry Blossoms' },
-  { theme: 'matsuri', location: 'Summer Festival', titleEn: 'Festival Fun' },
-  { theme: 'onsen', location: 'Hot Spring Town', titleEn: 'Onsen Experience' },
-  { theme: 'karaoke', location: 'Karaoke Box', titleEn: 'Karaoke Night' },
-  { theme: 'ramen', location: 'Ramen Shop', titleEn: 'Ramen Quest' },
-  { theme: 'castle', location: 'Osaka Castle', titleEn: 'Castle Adventure' },
-  { theme: 'deer', location: 'Nara Park', titleEn: 'Deer Friends' },
-  { theme: 'geisha', location: 'Kyoto Gion', titleEn: 'Kyoto Magic' },
-  { theme: 'arcade', location: 'Game Center', titleEn: 'Arcade Challenge' },
-  { theme: 'fishing', location: 'Tsukiji Market', titleEn: 'Fish Market Morning' },
-  { theme: 'snow', location: 'Hokkaido', titleEn: 'Snow Day' },
-  { theme: 'goodbye', location: 'Tokyo Station', titleEn: 'Until Next Time' },
-] as const
+const JLPT_LEVELS: JLPTLevel[] = ['N5', 'N4', 'N3', 'N2', 'N1']
 
 interface GenerationProgress {
   step: string
@@ -48,6 +28,8 @@ export default function GenerateComicPage() {
   const [selectedTheme, setSelectedTheme] = useState<string>('')
   const [customTheme, setCustomTheme] = useState<string>('')
   const [customLocation, setCustomLocation] = useState<string>('')
+  const [selectedCharacters, setSelectedCharacters] = useState<string[]>(['moshi-master'])
+  const [jlptLevel, setJlptLevel] = useState<JLPTLevel>('N5')
   const [panelCount, setPanelCount] = useState<number>(6)
   const [generateImages, setGenerateImages] = useState<boolean>(true)
   const [generateAudio, setGenerateAudio] = useState<boolean>(true)
@@ -64,12 +46,34 @@ export default function GenerateComicPage() {
     }
   }, [user, sessionLoading, router])
 
+  // Get theme details when selected
+  const selectedThemeData = EPISODE_THEMES.find(t => t.theme === selectedTheme)
+
+  // Auto-select default characters when theme changes
+  useEffect(() => {
+    if (selectedThemeData && selectedTheme !== 'custom') {
+      setSelectedCharacters([...selectedThemeData.characters])
+    }
+  }, [selectedTheme, selectedThemeData])
+
+  // Toggle character selection
+  const toggleCharacter = (characterId: string) => {
+    // Moshi must always be selected
+    if (characterId === 'moshi-master') return
+
+    setSelectedCharacters(prev =>
+      prev.includes(characterId)
+        ? prev.filter(id => id !== characterId)
+        : [...prev, characterId]
+    )
+  }
+
   const getSelectedThemeData = () => {
     if (selectedTheme === 'custom') {
-      return { theme: customTheme, location: customLocation }
+      return { theme: customTheme, location: customLocation, characters: selectedCharacters }
     }
     const found = EPISODE_THEMES.find(t => t.theme === selectedTheme)
-    return found ? { theme: found.theme, location: found.location } : null
+    return found ? { theme: found.theme, location: found.location, characters: selectedCharacters } : null
   }
 
   const handleGenerate = async () => {
@@ -99,6 +103,8 @@ export default function GenerateComicPage() {
           seriesId: 'moshi-goes-to-japan',
           theme: themeData.theme,
           location: themeData.location,
+          jlptLevel,
+          characterIds: selectedCharacters,
         }),
       })
 
@@ -328,12 +334,12 @@ export default function GenerateComicPage() {
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-rose-500"
               >
                 <option value="">Select a theme...</option>
+                <option value="custom">Custom Theme...</option>
                 {EPISODE_THEMES.map(t => (
                   <option key={t.theme} value={t.theme}>
                     {t.titleEn} - {t.location}
                   </option>
                 ))}
-                <option value="custom">Custom Theme...</option>
               </select>
 
               {selectedTheme === 'custom' && (
@@ -354,6 +360,68 @@ export default function GenerateComicPage() {
                   />
                 </div>
               )}
+              {selectedThemeData && selectedTheme !== 'custom' && (
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  {selectedThemeData.titleJa}
+                </p>
+              )}
+            </div>
+
+            {/* Character Selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <UserGroupIcon className="w-4 h-4 inline mr-1" />
+                Characters
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                {COMIC_CHARACTERS.map(char => (
+                  <label
+                    key={char.id}
+                    className={`flex items-center gap-2 p-3 rounded-lg border cursor-pointer transition-all ${
+                      selectedCharacters.includes(char.id)
+                        ? 'border-rose-500 bg-rose-50 dark:bg-rose-900/20'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600'
+                    } ${char.id === 'moshi-master' ? 'opacity-75 cursor-not-allowed' : ''}`}
+                  >
+                    <input
+                      type="checkbox"
+                      checked={selectedCharacters.includes(char.id)}
+                      onChange={() => toggleCharacter(char.id)}
+                      disabled={char.id === 'moshi-master'}
+                      className="rounded border-gray-300 dark:border-gray-600 text-rose-600 focus:ring-rose-500"
+                    />
+                    <div>
+                      <p className="font-medium text-gray-900 dark:text-white text-sm">
+                        {char.name}
+                      </p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        {char.nameJa} • {char.role}
+                      </p>
+                    </div>
+                  </label>
+                ))}
+              </div>
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                Moshi is always included. Select additional characters for the episode.
+              </p>
+            </div>
+
+            {/* JLPT Level */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                JLPT Level
+              </label>
+              <select
+                value={jlptLevel}
+                onChange={e => setJlptLevel(e.target.value as JLPTLevel)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-rose-500"
+              >
+                {JLPT_LEVELS.map(level => (
+                  <option key={level} value={level}>
+                    {level} {level === 'N5' ? '(Beginner)' : level === 'N4' ? '(Elementary)' : level === 'N3' ? '(Intermediate)' : level === 'N2' ? '(Pre-Advanced)' : '(Advanced)'}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Panel Count */}

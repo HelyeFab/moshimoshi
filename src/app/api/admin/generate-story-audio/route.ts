@@ -21,15 +21,16 @@ const VOICEVOX_TTS_ENDPOINT =
   'https://emmanuelfabiani23--voicevox-tts-serve.modal.run/v1/audio/speech'
 
 // VOICEVOX voices (high quality Japanese TTS)
-// Speaker IDs: 1=四国めたん, 3=ずんだもん, 11=玄野武宏(Nemo), 13=青山龍星
+// Speaker IDs: 1=四国めたん, 3=ずんだもん, 11=玄野武宏(Nemo), 13=青山龍星, 23=energetic female
 const VOICEVOX_VOICES = {
-  nemo: { id: '11', name: 'Nemo (玄野武宏)', description: 'Natural female voice - recommended' },
+  '23': { id: '23', name: 'Energetic Female', description: 'Energetic female voice - default' },
+  nemo: { id: '11', name: 'Nemo (玄野武宏)', description: 'Natural female voice' },
   zundamon: { id: '3', name: 'Zundamon (ずんだもん)', description: 'Cute mascot voice' },
   metan: { id: '1', name: 'Metan (四国めたん)', description: 'Gentle female voice' },
   ryusei: { id: '13', name: 'Ryusei (青山龍星)', description: 'Male voice' },
 }
 
-const DEFAULT_VOICE = 'nemo'
+const DEFAULT_VOICE = '23'
 const MAX_TEXT_LENGTH = 10000 // 10K chars max for full story
 
 type AudioType = 'full' | 'page'
@@ -82,7 +83,7 @@ async function callVoicevoxTTS(text: string, voiceId: string): Promise<Buffer> {
       model: 'voicevox',
       input: text,
       voice: voiceId,
-      speed: 0.95, // Slightly slower for language learning
+      speed: 0.85, // Standard speed for all TTS
     }),
   })
 

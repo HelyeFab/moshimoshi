@@ -90,6 +90,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
     { href: '/admin/scripts', label: 'Scripts', icon: '🛠️' },
     { href: '/admin/resources', label: 'Resources', icon: '📚' },
     { href: '/admin/stories', label: 'Stories', icon: '📖' },
+    { href: '/admin/comics', label: 'Comics', icon: '🦝' },
     { href: '/admin/books', label: 'Library Books', icon: '📚' },
     { href: '/admin/moodboards', label: 'Moodboards', icon: '🎨' },
     { href: '/admin/learning-village', label: 'Learning Village', icon: '🏘️' },
@@ -128,7 +129,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">Admin</h1>
           )}
         </div>
-        <nav className="flex-1 mt-4 px-2 space-y-1 overflow-y-auto overflow-x-hidden pb-28">
+        <nav className="flex-1 mt-4 px-2 space-y-1 overflow-x-hidden pb-28">
           {navItems.map(item => (
             <Link
               key={item.href}

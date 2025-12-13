@@ -45,12 +45,13 @@ function TextbookVocabularyContent() {
       <div className="container mx-auto px-4 py-6 max-w-6xl">
 
         <AnimatePresence mode="wait">
-          {isLoading && <LoadingOverlay />}
-
-          {!selectedTextbook ? (
-            <TextbookSelector onSelectTextbook={handleTextbookSelect} />
+          {isLoading ? (
+            <LoadingOverlay key="loading" />
+          ) : !selectedTextbook ? (
+            <TextbookSelector key="selector" onSelectTextbook={handleTextbookSelect} />
           ) : (
             <VocabularyDisplay
+              key={`vocabulary-${selectedTextbook}`}
               textbookId={selectedTextbook}
               onBack={handleBack}
             />

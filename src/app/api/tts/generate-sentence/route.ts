@@ -91,9 +91,8 @@ export async function POST(request: NextRequest) {
         body: JSON.stringify({
           model: 'voicevox',
           input: sentence,
-          voice: '23', // Requested default VOICEVOX speaker
+          voice: '23', // Standard VOICEVOX voice (energetic female)
           speed: 0.85,
-          pitch: -5,
         }),
       }
     )
@@ -121,7 +120,7 @@ export async function POST(request: NextRequest) {
           sentenceHash,
           generatedAt: new Date().toISOString(),
           provider: 'voicevox',
-          voice: '11',
+          voice: '23',
         },
       },
     })

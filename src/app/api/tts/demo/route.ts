@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Buffer } from 'buffer'
-import { KokoroProvider } from '@/lib/tts/providers/kokoro'
-import { EdgeTTSProvider } from '@/lib/tts/providers/edge-tts'
+import { VoicevoxProvider } from '@/lib/tts/providers/voicevox'
+import { ElevenLabsProvider } from '@/lib/tts/providers/elevenlabs'
+import { TTSProvider } from '@/lib/tts/types'
 
 // Lightweight TTS endpoint for playground usage.
 // No Firestore/Storage writes; returns data URL.
@@ -11,7 +12,6 @@ export async function POST(request: NextRequest) {
     const text = (body?.text || '').toString()
     const voice = (body?.voice || '23').toString()
     const speed = Math.max(0.5, Math.min(1.5, Number(body?.speed) || 0.85))
-    const pitch = Number.isFinite(body?.pitch) ? Number(body.pitch) : -5
 
     if (!text.trim()) {
       return NextResponse.json({ error: 'Text is required' }, { status: 400 })
@@ -20,18 +20,19 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Text too long (max 5000 chars)' }, { status: 400 })
     }
 
-    let providerUsed: 'kokoro' | 'edge-tts' = 'kokoro'
+    let providerUsed: TTSProvider = 'voicevox'
     let audioBuffer: ArrayBuffer
 
     try {
-      const kokoro = new KokoroProvider()
-      const result = await kokoro.synthesize(text, { voice, speed, pitch })
+      const voicevox = new VoicevoxProvider()
+      const result = await voicevox.synthesize(text, { voice, speed })
       audioBuffer = result.audioContent
     } catch (err) {
-      console.warn('[TTS demo] Kokoro failed, falling back to Edge:', err)
-      providerUsed = 'edge-tts'
-      const edge = new EdgeTTSProvider()
-      const result = await edge.synthesize(text, { voice, speed, pitch })
+      console.warn('[TTS demo] VOICEVOX failed, falling back to ElevenLabs:', err)
+      providerUsed = 'elevenlabs'
+      const elevenlabs = new ElevenLabsProvider()
+      // ElevenLabs doesn't support pitch parameter
+      const result = await elevenlabs.synthesize(text, { voice, speed })
       audioBuffer = result.audioContent
     }
 

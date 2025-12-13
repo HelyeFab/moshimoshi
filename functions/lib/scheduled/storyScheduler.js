@@ -269,7 +269,7 @@ async function generateDailyStory(adminKey) {
             await callStoryAPI('/api/admin/generate-story', {
                 step: 'generate_audio',
                 draftId,
-                voice: 'nemo',
+                voice: '23', // Standard VOICEVOX voice (energetic female)
             }, adminKey);
             logger.info('[StoryScheduler] Audio generated');
         }

@@ -1,25 +1,23 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { BookOpen, Clock, TrendingUp } from 'lucide-react'
+import { BookOpen, Sparkles, MapPin, BookMarked } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import DoshiMascot from '@/components/ui/DoshiMascot'
-import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
+import { useComicCache } from '@/hooks/useComicCache'
 import { ComicEpisode, ComicSeries } from '@/types/comic'
 import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 
+
 function ComicsContent() {
-  const { strings } = useI18n()
   const { user, loading: authLoading } = useAuth()
-  const router = useRouter()
+  const { prefetchEpisodes } = useComicCache()
 
   const [series, setSeries] = useState<ComicSeries | null>(null)
   const [episodes, setEpisodes] = useState<ComicEpisode[]>([])
@@ -35,11 +33,13 @@ function ComicsContent() {
         setLoading(true)
         setError(null)
         const currentOffset = reset ? 0 : offset
+        console.log('[ComicsPage] loadComics called, reset:', reset, 'offset:', currentOffset)
 
         // Load series info
         const seriesResponse = await fetch('/api/comics/series')
         if (seriesResponse.ok) {
           const seriesData = await seriesResponse.json()
+          console.log('[ComicsPage] Series loaded:', seriesData.series?.title)
           setSeries(seriesData.series)
         }
 
@@ -51,12 +51,14 @@ function ComicsContent() {
         })
 
         // Load episodes
+        console.log('[ComicsPage] Fetching episodes...')
         const episodesResponse = await fetch(`/api/comics/episodes?${params}`)
         if (!episodesResponse.ok) {
           throw new Error('Failed to fetch episodes')
         }
 
         const episodesData = await episodesResponse.json()
+        console.log('[ComicsPage] Episodes loaded:', episodesData.episodes?.length, 'hasMore:', episodesData.hasMore)
 
         if (reset) {
           setEpisodes(episodesData.episodes || [])
@@ -67,7 +69,7 @@ function ComicsContent() {
 
         setHasMore(episodesData.hasMore || false)
       } catch (err) {
-        console.error('Error loading comics:', err)
+        console.error('[ComicsPage] Error loading comics:', err)
         setError('Failed to load comics')
         setEpisodes([])
       } finally {
@@ -79,8 +81,19 @@ function ComicsContent() {
 
   // Load on mount
   useEffect(() => {
+    console.log('[ComicsPage] Loading comics on mount...')
     loadComics(true)
-  }, [])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Prefetch top 5 episodes for offline use
+  useEffect(() => {
+    if (episodes.length > 0 && offset === 0) {
+      const episodeIds = episodes.slice(0, 5).map(ep => ep.id)
+      prefetchEpisodes(episodeIds, { skipCached: true }).then(result => {
+        console.log('[ComicsPage] Prefetch complete:', result)
+      })
+    }
+  }, [episodes, offset, prefetchEpisodes])
 
   const handleLoadMore = () => {
     setOffset(prev => prev + limit)
@@ -93,7 +106,7 @@ function ComicsContent() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-rose-50 to-white dark:from-dark-900 dark:to-dark-850">
+    <div className="min-h-screen bg-gradient-to-b from-primary-50 via-white to-primary-50/30 dark:from-dark-950 dark:via-dark-900 dark:to-dark-850">
       {/* Desktop Navbar */}
       <div className="hidden sm:block">
         <Navbar user={user} showUserMenu={true} />
@@ -109,130 +122,157 @@ function ComicsContent() {
       />
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
-        {/* Series Info Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-6 mb-8 border border-rose-200 dark:border-dark-700"
-        >
-          <div className="flex flex-col md:flex-row gap-6 items-center">
-            <div className="flex-shrink-0">
-              <DoshiMascot size="xlarge" variant="animated" mood="excited" />
-            </div>
-            <div className="flex-1 text-center md:text-left">
-              <h2 className="text-2xl font-bold text-foreground dark:text-dark-100 mb-2 font-japanese">
-                {series?.titleJa || 'もしの日本旅行'}
-              </h2>
-              <p className="text-muted-foreground dark:text-dark-400 mb-4">
-                {series?.descriptionJa ||
-                  'レッサーパンダのもしと一緒に日本を冒険しながら日本語を学ぼう！'}
-              </p>
-              <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                <span className="px-3 py-1 bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400 rounded-full text-sm">
-                  {series?.publishedEpisodeCount || episodes.length} Episodes
-                </span>
-                <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-full text-sm">
-                  Weekly Episodes
-                </span>
+        {/* Series Info Card - Premium Glassmorphism Design */}
+        <div className="relative overflow-hidden rounded-3xl mb-10">
+          {/* Gradient background layer */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 via-primary-400/10 to-transparent dark:from-primary-500/10 dark:via-primary-400/5" />
+
+          {/* Glassmorphism card */}
+          <div className="relative bg-white/70 dark:bg-dark-800/60 backdrop-blur-xl border border-white/50 dark:border-dark-600/50 p-6 sm:p-8">
+            <div className="flex flex-col md:flex-row gap-6 items-center">
+              {/* Mascot with glow effect */}
+              <div className="relative flex-shrink-0">
+                <div className="absolute inset-0 bg-primary-400/30 dark:bg-primary-500/20 rounded-full blur-2xl scale-150" />
+                <div className="relative">
+                  <DoshiMascot size="xlarge" variant="animated" mood="excited" />
+                </div>
+              </div>
+
+              <div className="flex-1 text-center md:text-left">
+                <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+                  <Sparkles className="w-5 h-5 text-primary-500" />
+                  <span className="text-xs font-semibold uppercase tracking-wider text-primary-600 dark:text-primary-400">
+                    Weekly Series
+                  </span>
+                </div>
+                <h2 className="text-2xl sm:text-3xl font-bold text-foreground dark:text-dark-100 mb-2 font-japanese">
+                  {series?.titleJa || 'もしの日本旅行'}
+                </h2>
+                <p className="text-muted-foreground dark:text-dark-300 mb-5 max-w-xl">
+                  {series?.descriptionJa ||
+                    'レッサーパンダのもしと一緒に日本を冒険しながら日本語を学ぼう！'}
+                </p>
+                <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+                  <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium">
+                    <BookMarked className="w-4 h-4" />
+                    {series?.publishedEpisodeCount || episodes.length} Episodes
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 px-4 py-1.5 bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 rounded-full text-sm font-medium">
+                    <Sparkles className="w-4 h-4" />
+                    New Every Sunday
+                  </span>
+                </div>
               </div>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Loading State */}
         {loading && offset === 0 && <LoadingOverlay isLoading={true} />}
 
         {/* Episodes Grid */}
         {!loading && episodes.length === 0 ? (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-20">
-            <DoshiMascot size="xlarge" variant="animated" mood="thinking" />
-            <h3 className="text-xl font-semibold mt-6 mb-2 text-foreground dark:text-dark-100">
+          <div className="text-center py-20">
+            <div className="relative inline-block">
+              <div className="absolute inset-0 bg-primary-400/20 rounded-full blur-3xl scale-150" />
+              <div className="relative">
+                <DoshiMascot size="xlarge" variant="animated" mood="thinking" />
+              </div>
+            </div>
+            <h3 className="text-2xl font-bold mt-8 mb-3 text-foreground dark:text-dark-100">
               Coming Soon!
             </h3>
-            <p className="text-muted-foreground dark:text-dark-400 max-w-md mx-auto">
+            <p className="text-muted-foreground dark:text-dark-400 max-w-md mx-auto mb-6">
               Moshi is preparing for the first adventure in Japan.
-              <br />
               Check back soon for new episodes!
             </p>
-            <div className="mt-6 flex justify-center gap-4">
-              <span className="px-4 py-2 bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-400 rounded-lg text-sm">
-                New episodes every Sunday
-              </span>
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-xl text-sm font-medium">
+              <Sparkles className="w-4 h-4" />
+              New episodes every Sunday
             </div>
-          </motion.div>
+          </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 mb-8">
             {episodes.map((episode, index) => (
-              <motion.div
-                key={episode.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.05 }}
-              >
-                <Link href={`/comics/${episode.id}`} className="block group">
-                  <div className="bg-white dark:bg-dark-850 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all border border-gray-200 dark:border-dark-700 h-full flex flex-col">
+              <div key={episode.id}>
+                <Link href={`/comics/${episode.id}`} className="block group h-full">
+                  <div className="relative bg-white dark:bg-dark-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl hover:shadow-primary-500/10 dark:hover:shadow-primary-400/5 transition-all duration-300 border border-gray-100 dark:border-dark-700 h-full flex flex-col group-hover:-translate-y-1">
                     {/* Cover Image */}
-                    <div className="relative aspect-[3/4] bg-gradient-to-br from-rose-100 to-orange-100 dark:from-rose-900/30 dark:to-orange-900/30 overflow-hidden">
+                    <div className="relative aspect-[3/4] overflow-hidden">
+                      {/* Gradient background */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-primary-100 via-primary-50 to-orange-50 dark:from-primary-900/40 dark:via-dark-800 dark:to-orange-900/20" />
+
                       {episode.coverImageUrl ? (
-                        <Image
-                          src={episode.coverImageUrl}
-                          alt={episode.title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-300"
-                        />
+                        <>
+                          <Image
+                            src={episode.coverImageUrl}
+                            alt={episode.title}
+                            fill
+                            className="object-cover group-hover:scale-105 transition-transform duration-500"
+                            priority={index === 0} // First episode is LCP
+                          />
+                          {/* Bottom gradient overlay for text readability */}
+                          <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/60 to-transparent" />
+                        </>
                       ) : (
-                        <div className="absolute inset-0 flex items-center justify-center p-6 group-hover:scale-105 transition-transform duration-300">
+                        <div className="absolute inset-0 flex items-center justify-center p-6 group-hover:scale-105 transition-transform duration-500">
                           <div className="text-center">
                             <DoshiMascot size="large" variant="static" />
-                            <p className="text-rose-600 dark:text-rose-400 font-bold text-lg mt-2 font-japanese">
+                            <p className="text-primary-600 dark:text-primary-400 font-bold text-lg mt-2 font-japanese">
                               {episode.titleJa}
                             </p>
                           </div>
                         </div>
                       )}
-                      {/* Episode Number Badge */}
-                      <div className="absolute top-3 left-3 bg-rose-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg">
+
+                      {/* Episode Number Badge - Premium pill design */}
+                      <div className="absolute top-3 left-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white px-3.5 py-1.5 rounded-full text-sm font-bold shadow-lg shadow-primary-500/30">
                         EP {episode.episodeNumber}
+                      </div>
+
+                      {/* Hover glow effect */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+                        <div className="absolute inset-0 bg-gradient-to-t from-primary-500/20 to-transparent" />
                       </div>
                     </div>
 
                     {/* Episode Info */}
                     <div className="p-4 flex-1 flex flex-col">
-                      <h3 className="font-semibold text-foreground dark:text-dark-100 mb-1 line-clamp-1 group-hover:text-rose-600 dark:group-hover:text-rose-400 transition-colors">
+                      <h3 className="font-semibold text-foreground dark:text-dark-100 mb-1 line-clamp-1 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">
                         {episode.title}
                       </h3>
-                      <p className="text-sm text-rose-600 dark:text-rose-400 font-japanese mb-2">
+                      <p className="text-sm text-primary-600 dark:text-primary-400 font-japanese mb-2 font-medium">
                         {episode.titleJa}
                       </p>
-                      <p className="text-xs text-muted-foreground dark:text-dark-400 line-clamp-2 mb-3 flex-1">
+                      <p className="text-xs text-muted-foreground dark:text-dark-400 line-clamp-2 mb-4 flex-1">
                         {episode.description}
                       </p>
 
-                      {/* Stats */}
-                      <div className="flex items-center justify-between text-xs text-muted-foreground dark:text-dark-400 pt-3 border-t border-gray-200 dark:border-dark-700">
-                        <span className="flex items-center gap-1">
-                          <span>📍</span>
+                      {/* Stats - Modern pill design */}
+                      <div className="flex items-center gap-2 text-xs">
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 dark:bg-dark-700 text-muted-foreground dark:text-dark-300 rounded-full">
+                          <MapPin className="w-3 h-3" />
                           {episode.location}
                         </span>
-                        <span className="flex items-center gap-1">
-                          <span>📖</span>
-                          {episode.panels?.length || 0} panels
+                        <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-gray-100 dark:bg-dark-700 text-muted-foreground dark:text-dark-300 rounded-full">
+                          <BookOpen className="w-3 h-3" />
+                          {episode.panels?.length || 0}
                         </span>
                       </div>
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </div>
             ))}
           </div>
         )}
 
-        {/* Load More Button */}
+        {/* Load More Button - Premium styling */}
         {hasMore && !loading && (
           <div className="text-center">
             <button
               onClick={handleLoadMore}
-              className="px-6 py-3 bg-rose-500 hover:bg-rose-600 text-white rounded-lg font-medium transition-colors shadow-md"
+              className="px-8 py-3.5 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white rounded-xl font-semibold transition-all shadow-lg shadow-primary-500/25 hover:shadow-xl hover:shadow-primary-500/30 hover:scale-[1.02] active:scale-[0.98]"
             >
               Load More Episodes
             </button>
@@ -242,18 +282,19 @@ function ComicsContent() {
         {/* Loading indicator for load more */}
         {loading && offset > 0 && (
           <div className="text-center py-8">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600 mx-auto"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-2 border-primary-200 border-t-primary-600 mx-auto"></div>
           </div>
         )}
 
+        {/* Error state - themed */}
         {error && (
-          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mt-6 text-center">
-            <p className="text-red-700 dark:text-red-400">{error}</p>
+          <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50 rounded-2xl p-6 mt-6 text-center">
+            <p className="text-red-700 dark:text-red-400 mb-4">{error}</p>
             <button
               onClick={() => loadComics(true)}
-              className="mt-2 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+              className="px-5 py-2.5 bg-red-500 hover:bg-red-600 text-white rounded-xl font-medium transition-colors"
             >
-              Retry
+              Try Again
             </button>
           </div>
         )}

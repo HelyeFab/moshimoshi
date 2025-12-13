@@ -7,6 +7,7 @@ const adminLinks = [
   { href: '/admin', icon: '🏠', label: 'Dashboard' },
   { href: '/admin/resources', icon: '📚', label: 'Resources' },
   { href: '/admin/stories', icon: '📖', label: 'Stories' },
+  { href: '/admin/comics', icon: '🦝', label: 'Comics' },
   { href: '/admin/moodboards', icon: '🎨', label: 'Moodboards' },
   { href: '/admin/learning-village', icon: '🏘️', label: 'Learning Village' },
   { href: '/admin/subscriptions', icon: '💳', label: 'Subscriptions' },

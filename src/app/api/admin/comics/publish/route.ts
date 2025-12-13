@@ -19,11 +19,22 @@ export async function POST(request: NextRequest) {
   try {
     // Check for admin key authentication
     const adminKey = request.headers.get('X-Admin-Key')
-    const expectedAdminKey = process.env.COMIC_SCHEDULER_ADMIN_KEY || 'comic-scheduler-2025'
+    const expectedAdminKey = process.env.COMIC_SCHEDULER_ADMIN_KEY
 
     let userId: string
 
-    if (adminKey === expectedAdminKey) {
+    if (adminKey) {
+      // Admin key provided - validate it
+      if (!expectedAdminKey) {
+        console.error('[ComicPublish] COMIC_SCHEDULER_ADMIN_KEY environment variable not configured')
+        return NextResponse.json(
+          { error: 'Server misconfiguration: Admin key not set' },
+          { status: 500 }
+        )
+      }
+      if (adminKey !== expectedAdminKey) {
+        return NextResponse.json({ error: 'Invalid admin key' }, { status: 401 })
+      }
       userId = 'comic-scheduler'
     } else {
       // Verify admin authentication
@@ -138,13 +149,9 @@ export async function POST(request: NextRequest) {
     // Save to comics collection
     await adminFirestore!.collection('comics').doc(episodeId).set(episode)
 
-    // Update draft status
-    await adminFirestore!.collection('comic_drafts').doc(draftId).update({
-      status: 'published',
-      publishedEpisodeId: episodeId,
-      progress: 100,
-      updatedAt: new Date(),
-    })
+    // Delete the draft after successful publish
+    await adminFirestore!.collection('comic_drafts').doc(draftId).delete()
+    console.log(`[ComicPublish] Draft deleted: ${draftId}`)
 
     // Update or create series stats
     const seriesRef = adminFirestore!.collection('comic_series').doc(draft.seriesId)

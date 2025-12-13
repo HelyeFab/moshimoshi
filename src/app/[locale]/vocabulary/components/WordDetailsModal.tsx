@@ -121,7 +121,7 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
       if (word.kana) textsToPreload.push(word.kana)
 
       if (textsToPreload.length > 0) {
-        preload(textsToPreload, { voice: 'ja-JP', rate: 0.9 })
+        preload(textsToPreload, { voice: '23', speed: 0.85 })
       }
     }
   }, [word, isOpen, isAllowed])
@@ -224,8 +224,8 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
   const handleSpeak = async (text: string) => {
     try {
       await play(text, {
-        voice: 'ja-JP',
-        rate: 0.9,
+        voice: '23',
+        speed: 0.85,
       })
     } catch (error) {
       console.error('TTS failed, falling back to browser speech:', error)
@@ -242,8 +242,8 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
   const handleSpeakExample = async (text: string, index: number) => {
     try {
       await play(text, {
-        voice: 'ja-JP',
-        rate: 0.9,
+        voice: '23',
+        speed: 0.85,
       })
     } catch (error) {
       console.error('TTS failed, falling back to browser speech:', error)

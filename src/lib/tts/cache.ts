@@ -174,10 +174,8 @@ class TTSCacheService {
           totalEntries: 0,
           totalSize: 0,
           providers: {
-            google: { count: 0, size: 0 },
+            voicevox: { count: 0, size: 0 },
             elevenlabs: { count: 0, size: 0 },
-            kokoro: { count: 0, size: 0 },
-            'edge-tts': { count: 0, size: 0 },
           } as Record<TTSProvider, { count: number; size: number }>,
           recent: [],
           popular: [],
@@ -187,10 +185,8 @@ class TTSCacheService {
 
       let totalSize = 0
       const providers: Record<TTSProvider, { count: number; size: number }> = {
-        google: { count: 0, size: 0 },
+        voicevox: { count: 0, size: 0 },
         elevenlabs: { count: 0, size: 0 },
-        kokoro: { count: 0, size: 0 },
-        'edge-tts': { count: 0, size: 0 },
       }
 
       const entries: TTSCacheEntry[] = []
@@ -227,10 +223,8 @@ class TTSCacheService {
         totalEntries: 0,
         totalSize: 0,
         providers: {
-          google: { count: 0, size: 0 },
+          voicevox: { count: 0, size: 0 },
           elevenlabs: { count: 0, size: 0 },
-          kokoro: { count: 0, size: 0 },
-          'edge-tts': { count: 0, size: 0 },
         },
         recent: [],
         popular: [],

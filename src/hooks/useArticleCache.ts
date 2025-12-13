@@ -106,9 +106,9 @@ export function useArticleCache(options: UseArticleCacheOptions = {}): UseArticl
           generatedSummaryAudioUrl: data.article.generatedSummaryAudioUrl,
           generatedContentAudioUrl: data.article.generatedContentAudioUrl,
           audioProvider: data.article.audioProvider as
-            | 'edge-tts'
-            | 'voicevox'
             | 'kokoro'
+            | 'elevenlabs'
+            | 'voicevox'
             | undefined,
           audioVoice: data.article.audioVoice,
           audioStatus: data.article.audioStatus as

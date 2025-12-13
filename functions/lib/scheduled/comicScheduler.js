@@ -68,29 +68,42 @@ const db = admin.firestore();
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app';
 // Comic series ID for "Moshi Goes to Japan"
 const MOSHI_SERIES_ID = 'moshi-goes-to-japan';
-const MOSHI_CHARACTER_ID = 'moshi-master';
-// Episode themes - locations and scenarios in Japan
+// Character IDs - main cast for the series
+const CHARACTER_IDS = {
+    MOSHI: 'moshi-master',
+    SENSEI: 'sensei-panda',
+    YUKI: 'yuki-sloth',
+    KOA: 'koa-koala',
+};
+// Episode themes - locations and scenarios in Japan with character combinations
+// Each theme specifies which characters appear (Moshi always included)
 const EPISODE_THEMES = [
-    { theme: 'arrival', location: 'Narita Airport', titleEn: 'Arriving in Japan', titleJa: '日本に到着' },
-    { theme: 'train', location: 'Shinkansen', titleEn: 'First Train Ride', titleJa: '初めての電車' },
-    { theme: 'konbini', location: 'Convenience Store', titleEn: 'Konbini Adventure', titleJa: 'コンビニ冒険' },
-    { theme: 'lost', location: 'Shibuya', titleEn: 'Lost in Tokyo', titleJa: '東京で迷子' },
-    { theme: 'school', location: 'Japanese School', titleEn: 'Making Friends', titleJa: '友達を作る' },
-    { theme: 'temple', location: 'Senso-ji Temple', titleEn: 'Temple Visit', titleJa: 'お寺参り' },
-    { theme: 'sushi', location: 'Sushi Restaurant', titleEn: 'Sushi Surprise', titleJa: 'お寿司びっくり' },
-    { theme: 'rain', location: 'Tokyo Streets', titleEn: 'Rainy Day', titleJa: '雨の日' },
-    { theme: 'sakura', location: 'Ueno Park', titleEn: 'Cherry Blossoms', titleJa: '桜を見る' },
-    { theme: 'matsuri', location: 'Summer Festival', titleEn: 'Festival Fun', titleJa: 'お祭り' },
-    { theme: 'onsen', location: 'Hot Spring Town', titleEn: 'Onsen Experience', titleJa: '温泉体験' },
-    { theme: 'karaoke', location: 'Karaoke Box', titleEn: 'Karaoke Night', titleJa: 'カラオケの夜' },
-    { theme: 'ramen', location: 'Ramen Shop', titleEn: 'Ramen Quest', titleJa: 'ラーメン探し' },
-    { theme: 'castle', location: 'Osaka Castle', titleEn: 'Castle Adventure', titleJa: 'お城冒険' },
-    { theme: 'deer', location: 'Nara Park', titleEn: 'Deer Friends', titleJa: '鹿の友達' },
-    { theme: 'geisha', location: 'Kyoto Gion', titleEn: 'Kyoto Magic', titleJa: '京都の魔法' },
-    { theme: 'arcade', location: 'Game Center', titleEn: 'Arcade Challenge', titleJa: 'ゲームセンター' },
-    { theme: 'fishing', location: 'Tsukiji Market', titleEn: 'Fish Market Morning', titleJa: '魚市場の朝' },
-    { theme: 'snow', location: 'Hokkaido', titleEn: 'Snow Day', titleJa: '雪の日' },
-    { theme: 'goodbye', location: 'Tokyo Station', titleEn: 'Until Next Time', titleJa: 'また会う日まで' },
+    // Solo Moshi episodes (introductory)
+    { theme: 'arrival', location: 'Narita Airport', titleEn: 'Arriving in Japan', titleJa: '日本に到着', characters: ['moshi-master'] },
+    // Episodes with Sensei (learning cultural lessons)
+    { theme: 'temple', location: 'Senso-ji Temple', titleEn: 'Temple Visit', titleJa: 'お寺参り', characters: ['moshi-master', 'sensei-panda'] },
+    { theme: 'geisha', location: 'Kyoto Gion', titleEn: 'Kyoto Magic', titleJa: '京都の魔法', characters: ['moshi-master', 'sensei-panda'] },
+    { theme: 'castle', location: 'Osaka Castle', titleEn: 'Castle Adventure', titleJa: 'お城冒険', characters: ['moshi-master', 'sensei-panda'] },
+    { theme: 'onsen', location: 'Hot Spring Town', titleEn: 'Onsen Experience', titleJa: '温泉体験', characters: ['moshi-master', 'sensei-panda'] },
+    // Episodes with Yuki (relaxed, mindful adventures)
+    { theme: 'sakura', location: 'Ueno Park', titleEn: 'Cherry Blossoms', titleJa: '桜を見る', characters: ['moshi-master', 'yuki-sloth'] },
+    { theme: 'rain', location: 'Tokyo Streets', titleEn: 'Rainy Day', titleJa: '雨の日', characters: ['moshi-master', 'yuki-sloth'] },
+    { theme: 'ramen', location: 'Ramen Shop', titleEn: 'Ramen Quest', titleJa: 'ラーメン探し', characters: ['moshi-master', 'yuki-sloth'] },
+    { theme: 'konbini', location: 'Convenience Store', titleEn: 'Konbini Adventure', titleJa: 'コンビニ冒険', characters: ['moshi-master', 'yuki-sloth'] },
+    // Episodes with Koa (adventurous exploration)
+    { theme: 'train', location: 'Shinkansen', titleEn: 'First Train Ride', titleJa: '初めての電車', characters: ['moshi-master', 'koa-koala'] },
+    { theme: 'lost', location: 'Shibuya', titleEn: 'Lost in Tokyo', titleJa: '東京で迷子', characters: ['moshi-master', 'koa-koala'] },
+    { theme: 'arcade', location: 'Game Center', titleEn: 'Arcade Challenge', titleJa: 'ゲームセンター', characters: ['moshi-master', 'koa-koala'] },
+    { theme: 'snow', location: 'Hokkaido', titleEn: 'Snow Day', titleJa: '雪の日', characters: ['moshi-master', 'koa-koala'] },
+    // Group episodes (multiple friends)
+    { theme: 'matsuri', location: 'Summer Festival', titleEn: 'Festival Fun', titleJa: 'お祭り', characters: ['moshi-master', 'yuki-sloth', 'koa-koala'] },
+    { theme: 'sushi', location: 'Sushi Restaurant', titleEn: 'Sushi Surprise', titleJa: 'お寿司びっくり', characters: ['moshi-master', 'yuki-sloth', 'koa-koala'] },
+    { theme: 'karaoke', location: 'Karaoke Box', titleEn: 'Karaoke Night', titleJa: 'カラオケの夜', characters: ['moshi-master', 'yuki-sloth', 'koa-koala'] },
+    { theme: 'deer', location: 'Nara Park', titleEn: 'Deer Friends', titleJa: '鹿の友達', characters: ['moshi-master', 'yuki-sloth', 'koa-koala'] },
+    { theme: 'fishing', location: 'Tsukiji Market', titleEn: 'Fish Market Morning', titleJa: '魚市場の朝', characters: ['moshi-master', 'sensei-panda', 'koa-koala'] },
+    { theme: 'school', location: 'Japanese School', titleEn: 'Making Friends', titleJa: '友達を作る', characters: ['moshi-master', 'sensei-panda', 'yuki-sloth', 'koa-koala'] },
+    // Finale with all characters
+    { theme: 'goodbye', location: 'Tokyo Station', titleEn: 'Until Next Time', titleJa: 'また会う日まで', characters: ['moshi-master', 'sensei-panda', 'yuki-sloth', 'koa-koala'] },
 ];
 // JLPT levels to rotate through (weighted towards beginner)
 const JLPT_LEVELS = ['N5', 'N5', 'N5', 'N4', 'N4', 'N3'];
@@ -143,60 +156,198 @@ async function callComicAPIWithRetry(endpoint, body, adminKey, maxRetries = 2, d
     return { success: false, error: 'Max retries exceeded' };
 }
 /**
- * Get the next episode number for the series
+ * Get and reserve the next episode number for the series using a transaction.
+ * This ensures idempotency - concurrent calls will get different episode numbers.
  */
 async function getNextEpisodeNumber() {
-    const seriesDoc = await db.collection('comic_series').doc(MOSHI_SERIES_ID).get();
-    if (!seriesDoc.exists) {
-        // Create the series if it doesn't exist
-        await db.collection('comic_series').doc(MOSHI_SERIES_ID).set({
-            id: MOSHI_SERIES_ID,
-            slug: 'moshi-goes-to-japan',
-            title: 'Moshi Goes to Japan',
-            titleJa: 'もしの日本旅行',
-            description: 'Follow Moshi the red panda on adventures across Japan while learning Japanese!',
-            descriptionJa: 'レッサーパンダのもしと一緒に日本を冒険しながら日本語を学ぼう！',
-            mainCharacterId: MOSHI_CHARACTER_ID,
-            defaultJlptLevel: 'N5',
-            visualStyle: 'Kawaii manga style, soft colors, children\'s book illustration',
-            episodeCount: 0,
-            publishedEpisodeCount: 0,
-            totalViews: 0,
-            isActive: true,
-            createdAt: admin.firestore.FieldValue.serverTimestamp(),
+    const seriesRef = db.collection('comic_series').doc(MOSHI_SERIES_ID);
+    return db.runTransaction(async (transaction) => {
+        const seriesDoc = await transaction.get(seriesRef);
+        if (!seriesDoc.exists) {
+            // Create the series if it doesn't exist with episodeCount = 1 (reserving episode 1)
+            transaction.set(seriesRef, {
+                id: MOSHI_SERIES_ID,
+                slug: 'moshi-goes-to-japan',
+                title: 'Moshi Goes to Japan',
+                titleJa: 'もしの日本旅行',
+                description: 'Follow Moshi the red panda on adventures across Japan while learning Japanese!',
+                descriptionJa: 'レッサーパンダのもしと一緒に日本を冒険しながら日本語を学ぼう！',
+                mainCharacterId: CHARACTER_IDS.MOSHI,
+                defaultJlptLevel: 'N5',
+                visualStyle: 'Kawaii manga style, soft colors, children\'s book illustration',
+                episodeCount: 1, // Reserve episode 1
+                publishedEpisodeCount: 0,
+                totalViews: 0,
+                isActive: true,
+                createdAt: admin.firestore.FieldValue.serverTimestamp(),
+                updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+            });
+            return 1;
+        }
+        const data = seriesDoc.data();
+        const nextEpisodeNumber = ((data === null || data === void 0 ? void 0 : data.episodeCount) || 0) + 1;
+        // Atomically reserve this episode number
+        transaction.update(seriesRef, {
+            episodeCount: nextEpisodeNumber,
             updatedAt: admin.firestore.FieldValue.serverTimestamp(),
         });
-        return 1;
-    }
-    const data = seriesDoc.data();
-    return ((data === null || data === void 0 ? void 0 : data.episodeCount) || 0) + 1;
+        logger.info(`[ComicScheduler] Reserved episode number ${nextEpisodeNumber}`);
+        return nextEpisodeNumber;
+    });
 }
 /**
- * Load Moshi character reference for consistency
+ * Load multiple character references for an episode
+ * Falls back to fetching from Storage URL if base64 data is not in Firestore
  */
-async function loadMoshiReference() {
-    const charDoc = await db.collection('saved_characters').doc(MOSHI_CHARACTER_ID).get();
-    if (!charDoc.exists) {
-        logger.warn('[ComicScheduler] Moshi character not found! Run setup script first.');
-        return null;
+async function loadCharacters(characterIds) {
+    const characters = [];
+    for (const characterId of characterIds) {
+        const charDoc = await db.collection('saved_characters').doc(characterId).get();
+        if (!charDoc.exists) {
+            logger.warn(`[ComicScheduler] Character ${characterId} not found, skipping...`);
+            continue;
+        }
+        const data = charDoc.data();
+        // Get reference image data - either from Firestore or fetch from Storage URL
+        let referenceImageData = (data === null || data === void 0 ? void 0 : data.referenceImageData) || '';
+        // Fallback: If no base64 data but we have a URL, fetch and convert
+        if (!referenceImageData && (data === null || data === void 0 ? void 0 : data.referenceImageUrl)) {
+            logger.info(`[ComicScheduler] Fetching ${(data === null || data === void 0 ? void 0 : data.name) || characterId} image from Storage URL...`);
+            try {
+                const response = await fetch(data.referenceImageUrl);
+                if (response.ok) {
+                    const arrayBuffer = await response.arrayBuffer();
+                    referenceImageData = Buffer.from(arrayBuffer).toString('base64');
+                    logger.info(`[ComicScheduler] Fetched ${data === null || data === void 0 ? void 0 : data.name}: ${(referenceImageData.length / 1024).toFixed(1)} KB`);
+                }
+                else {
+                    logger.warn(`[ComicScheduler] Failed to fetch ${data === null || data === void 0 ? void 0 : data.name} image: ${response.status}`);
+                }
+            }
+            catch (err) {
+                logger.error(`[ComicScheduler] Error fetching ${characterId} image:`, err);
+            }
+        }
+        if (!referenceImageData) {
+            logger.warn(`[ComicScheduler] No reference image for ${(data === null || data === void 0 ? void 0 : data.name) || characterId} - character may be inconsistent`);
+        }
+        characters.push({
+            id: characterId,
+            name: (data === null || data === void 0 ? void 0 : data.name) || characterId,
+            nameJa: (data === null || data === void 0 ? void 0 : data.nameJa) || '',
+            role: (data === null || data === void 0 ? void 0 : data.role) || 'friend',
+            visualDescription: (data === null || data === void 0 ? void 0 : data.visualDescription) || '',
+            personality: (data === null || data === void 0 ? void 0 : data.personality) || '',
+            speakingStyle: (data === null || data === void 0 ? void 0 : data.speakingStyle) || '',
+            referenceImageData,
+        });
     }
-    const data = charDoc.data();
+    logger.info(`[ComicScheduler] Loaded ${characters.length} characters: ${characters.map(c => c.name).join(', ')}`);
+    return characters;
+}
+/**
+ * Build character sheet for prompt generation (legacy compatibility)
+ */
+function buildCharacterSheet(characters) {
+    const mainCharacter = characters.find(c => c.role === 'protagonist') || characters[0];
+    const supportingCharacters = characters.filter(c => c.id !== (mainCharacter === null || mainCharacter === void 0 ? void 0 : mainCharacter.id));
     return {
-        referenceImageData: (data === null || data === void 0 ? void 0 : data.referenceImageData) || '',
-        characterSheet: {
-            mainCharacter: {
-                name: (data === null || data === void 0 ? void 0 : data.name) || 'Moshi',
-                nameJa: (data === null || data === void 0 ? void 0 : data.nameJa) || 'もし',
-                description: (data === null || data === void 0 ? void 0 : data.description) || '',
-                visualDescription: (data === null || data === void 0 ? void 0 : data.visualDescription) || '',
-                personality: (data === null || data === void 0 ? void 0 : data.personality) || '',
-            },
-            visualStyle: (data === null || data === void 0 ? void 0 : data.visualStyle) || 'Kawaii manga style',
+        mainCharacter: {
+            id: mainCharacter === null || mainCharacter === void 0 ? void 0 : mainCharacter.id,
+            name: (mainCharacter === null || mainCharacter === void 0 ? void 0 : mainCharacter.name) || 'Moshi',
+            nameJa: (mainCharacter === null || mainCharacter === void 0 ? void 0 : mainCharacter.nameJa) || 'もし',
+            visualDescription: (mainCharacter === null || mainCharacter === void 0 ? void 0 : mainCharacter.visualDescription) || '',
+            personality: (mainCharacter === null || mainCharacter === void 0 ? void 0 : mainCharacter.personality) || '',
+            speakingStyle: (mainCharacter === null || mainCharacter === void 0 ? void 0 : mainCharacter.speakingStyle) || '',
         },
+        supportingCharacters: supportingCharacters.map(c => ({
+            id: c.id,
+            name: c.name,
+            nameJa: c.nameJa,
+            role: c.role,
+            visualDescription: c.visualDescription,
+            personality: c.personality,
+            speakingStyle: c.speakingStyle,
+        })),
+        allCharacters: characters.map(c => ({
+            id: c.id,
+            name: c.name,
+            nameJa: c.nameJa,
+            role: c.role,
+        })),
+        visualStyle: 'Kawaii manga style',
     };
 }
 /**
- * Select episode theme based on episode number
+ * Get the next episode from the generation queue
+ * Returns null if queue is empty
+ */
+async function getNextFromQueue() {
+    try {
+        const queueSnapshot = await db
+            .collection('comic_generation_queue')
+            .where('status', '==', 'pending')
+            .orderBy('priority', 'asc')
+            .orderBy('createdAt', 'asc')
+            .limit(1)
+            .get();
+        if (queueSnapshot.empty) {
+            logger.info('[ComicScheduler] Queue is empty, will use auto-cycle');
+            return null;
+        }
+        const doc = queueSnapshot.docs[0];
+        const data = doc.data();
+        logger.info('[ComicScheduler] Found queue item:', {
+            id: doc.id,
+            theme: data.theme,
+            location: data.location,
+        });
+        return {
+            id: doc.id,
+            theme: data.theme,
+            location: data.location,
+            titleEn: data.titleEn,
+            titleJa: data.titleJa,
+            characterIds: data.characterIds || ['moshi-master'],
+            jlptLevel: data.jlptLevel || 'N5',
+            priority: data.priority,
+            status: data.status,
+        };
+    }
+    catch (error) {
+        logger.error('[ComicScheduler] Error fetching queue:', error);
+        return null;
+    }
+}
+/**
+ * Mark queue item as processing
+ */
+async function markQueueItemProcessing(queueItemId) {
+    await db.collection('comic_generation_queue').doc(queueItemId).update({
+        status: 'processing',
+        processedAt: admin.firestore.FieldValue.serverTimestamp(),
+    });
+}
+/**
+ * Mark queue item as completed with episode ID
+ */
+async function markQueueItemCompleted(queueItemId, episodeId) {
+    await db.collection('comic_generation_queue').doc(queueItemId).update({
+        status: 'completed',
+        episodeId,
+    });
+}
+/**
+ * Mark queue item as failed with error
+ */
+async function markQueueItemFailed(queueItemId, error) {
+    await db.collection('comic_generation_queue').doc(queueItemId).update({
+        status: 'failed',
+        error,
+    });
+}
+/**
+ * Select episode theme based on episode number (fallback when queue is empty)
  */
 function selectEpisodeTheme(episodeNumber) {
     const themeIndex = (episodeNumber - 1) % EPISODE_THEMES.length;
@@ -209,6 +360,7 @@ function selectEpisodeTheme(episodeNumber) {
         titleEn: episodeTheme.titleEn,
         titleJa: episodeTheme.titleJa,
         jlptLevel,
+        characterIds: [...episodeTheme.characters], // Characters for this episode
     };
 }
 /**
@@ -216,26 +368,90 @@ function selectEpisodeTheme(episodeNumber) {
  */
 async function generateComicEpisode(adminKey, options) {
     const startTime = Date.now();
+    let startLogId = null;
+    let queueItem = null;
     try {
         // Get next episode number
         const episodeNumber = (options === null || options === void 0 ? void 0 : options.episodeNumber) || (await getNextEpisodeNumber());
-        // Select or use provided theme
-        const themeData = selectEpisodeTheme(episodeNumber);
-        const theme = (options === null || options === void 0 ? void 0 : options.theme) || themeData.theme;
-        const location = (options === null || options === void 0 ? void 0 : options.location) || themeData.location;
-        const jlptLevel = (options === null || options === void 0 ? void 0 : options.jlptLevel) || themeData.jlptLevel;
+        // First check if there's a queued episode to generate
+        // Queue takes priority over auto-cycle (unless manual options are provided)
+        let theme;
+        let location;
+        let jlptLevel;
+        let characterIds;
+        if (!(options === null || options === void 0 ? void 0 : options.theme) && !(options === null || options === void 0 ? void 0 : options.location)) {
+            // No manual options provided, check queue first
+            queueItem = await getNextFromQueue();
+        }
+        if (queueItem) {
+            // Use queue item settings
+            theme = queueItem.theme;
+            location = queueItem.location;
+            jlptLevel = queueItem.jlptLevel;
+            characterIds = queueItem.characterIds;
+            // Mark queue item as processing
+            await markQueueItemProcessing(queueItem.id);
+            logger.info('[ComicScheduler] Using queue item settings', {
+                queueItemId: queueItem.id,
+                theme,
+                location,
+                jlptLevel,
+                characters: characterIds,
+            });
+        }
+        else {
+            // Fallback to auto-cycle based on episode number
+            const themeData = selectEpisodeTheme(episodeNumber);
+            theme = (options === null || options === void 0 ? void 0 : options.theme) || themeData.theme;
+            location = (options === null || options === void 0 ? void 0 : options.location) || themeData.location;
+            jlptLevel = (options === null || options === void 0 ? void 0 : options.jlptLevel) || themeData.jlptLevel;
+            characterIds = themeData.characterIds;
+            logger.info('[ComicScheduler] Using auto-cycle settings', {
+                episodeNumber,
+                theme,
+                location,
+            });
+        }
         logger.info('[ComicScheduler] Starting comic episode generation', {
             episodeNumber,
             theme,
             location,
             jlptLevel,
+            characters: characterIds,
             timestamp: new Date().toISOString(),
         });
-        // Load Moshi character reference
-        const moshiRef = await loadMoshiReference();
-        if (!moshiRef) {
-            throw new Error('Moshi character reference not found. Run setup script first.');
+        // Log generation start to Firestore for audit trail
+        const startLogRef = await db.collection('comic_generation_logs').add({
+            type: queueItem ? 'queued' : 'scheduled',
+            status: 'started',
+            seriesId: MOSHI_SERIES_ID,
+            episodeNumber,
+            theme,
+            location,
+            jlptLevel,
+            characterIds,
+            queueItemId: (queueItem === null || queueItem === void 0 ? void 0 : queueItem.id) || null,
+            startedAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+        startLogId = startLogRef.id;
+        logger.info(`[ComicScheduler] Generation log created: ${startLogId}`);
+        // Load all characters for this episode (supports multi-character stories)
+        const characters = await loadCharacters(characterIds);
+        if (characters.length === 0) {
+            throw new Error('No characters loaded. Run setup scripts first.');
         }
+        // Build character sheet and refs for API
+        const characterSheet = buildCharacterSheet(characters);
+        const characterRefs = characters.map(c => ({
+            id: c.id,
+            name: c.name,
+            nameJa: c.nameJa,
+            role: c.role,
+            visualDescription: c.visualDescription,
+            personality: c.personality,
+            speakingStyle: c.speakingStyle,
+            referenceImageData: c.referenceImageData,
+        }));
         // Step 1: Create draft and generate outline
         logger.info('[ComicScheduler] Step 1/8: Generating outline...');
         const outlineResult = await callComicAPI('/api/admin/comics/generate', {
@@ -245,7 +461,8 @@ async function generateComicEpisode(adminKey, options) {
             theme,
             location,
             jlptLevel,
-            characterRef: moshiRef,
+            characterSheet, // Full character info for prompts
+            characterRefs, // Character references with image data
         }, adminKey);
         if (!outlineResult.success || !outlineResult.draftId) {
             throw new Error('Failed to generate outline');
@@ -274,7 +491,7 @@ async function generateComicEpisode(adminKey, options) {
                 step: 'panel_image',
                 draftId,
                 panelNumber: panelNum,
-                characterRef: moshiRef,
+                characterRefs, // Pass all character references for multi-character consistency
             }, adminKey, 3, 3000);
             if (imageResult.success) {
                 imagesGenerated++;
@@ -354,29 +571,33 @@ async function generateComicEpisode(adminKey, options) {
         const publishResult = await callComicAPI('/api/admin/comics/publish', { draftId }, adminKey);
         const duration = Date.now() - startTime;
         const episodeId = publishResult.episodeId;
-        // Update series episode count
+        // Update series published count (episodeCount was already incremented when we reserved the number)
         await db.collection('comic_series').doc(MOSHI_SERIES_ID).update({
-            episodeCount: admin.firestore.FieldValue.increment(1),
             publishedEpisodeCount: admin.firestore.FieldValue.increment(1),
             updatedAt: admin.firestore.FieldValue.serverTimestamp(),
         });
-        // Log success
-        await db.collection('comic_generation_logs').add({
-            type: 'scheduled',
-            success: true,
-            seriesId: MOSHI_SERIES_ID,
-            episodeId,
-            draftId,
-            episodeNumber,
-            theme,
-            location,
-            jlptLevel,
-            panelCount,
-            imagesGenerated,
-            imagesFailed,
-            duration,
-            createdAt: admin.firestore.FieldValue.serverTimestamp(),
-        });
+        // Mark queue item as completed if we used one
+        if (queueItem) {
+            await markQueueItemCompleted(queueItem.id, episodeId);
+            logger.info('[ComicScheduler] Queue item marked as completed', {
+                queueItemId: queueItem.id,
+                episodeId,
+            });
+        }
+        // Update start log with completion status
+        if (startLogId) {
+            await db.collection('comic_generation_logs').doc(startLogId).update({
+                status: 'completed',
+                success: true,
+                episodeId,
+                draftId,
+                panelCount,
+                imagesGenerated,
+                imagesFailed,
+                duration,
+                completedAt: admin.firestore.FieldValue.serverTimestamp(),
+            });
+        }
         logger.info('[ComicScheduler] Episode published successfully!', {
             episodeId,
             episodeNumber,
@@ -400,15 +621,36 @@ async function generateComicEpisode(adminKey, options) {
             error: errorMessage,
             durationMs: duration,
         });
-        // Log failure
-        await db.collection('comic_generation_logs').add({
-            type: 'scheduled',
-            success: false,
-            seriesId: MOSHI_SERIES_ID,
-            error: errorMessage,
-            duration,
-            createdAt: admin.firestore.FieldValue.serverTimestamp(),
-        });
+        // Mark queue item as failed if we used one
+        if (queueItem) {
+            await markQueueItemFailed(queueItem.id, errorMessage);
+            logger.info('[ComicScheduler] Queue item marked as failed', {
+                queueItemId: queueItem.id,
+                error: errorMessage,
+            });
+        }
+        // Update start log with failure status (or create new if start log failed)
+        if (startLogId) {
+            await db.collection('comic_generation_logs').doc(startLogId).update({
+                status: 'failed',
+                success: false,
+                error: errorMessage,
+                duration,
+                failedAt: admin.firestore.FieldValue.serverTimestamp(),
+            });
+        }
+        else {
+            // Start log wasn't created, so create a failure log
+            await db.collection('comic_generation_logs').add({
+                type: 'scheduled',
+                status: 'failed',
+                success: false,
+                seriesId: MOSHI_SERIES_ID,
+                error: errorMessage,
+                duration,
+                createdAt: admin.firestore.FieldValue.serverTimestamp(),
+            });
+        }
         return {
             success: false,
             error: errorMessage,
@@ -431,7 +673,11 @@ exports.scheduledComicGeneratorFunction = (0, scheduler_1.onSchedule)({
         scheduleTime: event.scheduleTime,
         jobName: event.jobName,
     });
-    const adminKey = process.env.COMIC_SCHEDULER_ADMIN_KEY || 'comic-scheduler-2025';
+    const adminKey = process.env.COMIC_SCHEDULER_ADMIN_KEY;
+    if (!adminKey) {
+        logger.error('[ComicScheduler] COMIC_SCHEDULER_ADMIN_KEY environment variable not configured');
+        throw new Error('COMIC_SCHEDULER_ADMIN_KEY not configured');
+    }
     const result = await generateComicEpisode(adminKey);
     if (!result.success) {
         throw new Error(`Comic generation failed: ${result.error}`);
@@ -449,10 +695,22 @@ exports.manualComicGeneratorFunction = (0, https_1.onCall)({
 }, async (request) => {
     var _a, _b, _c, _d, _e, _f, _g, _h;
     const adminKey = (_a = request.data) === null || _a === void 0 ? void 0 : _a.adminKey;
-    const expectedAdminKey = process.env.COMIC_SCHEDULER_ADMIN_KEY || 'comic-scheduler-2025';
-    if (!request.auth && adminKey !== expectedAdminKey) {
+    const expectedAdminKey = process.env.COMIC_SCHEDULER_ADMIN_KEY;
+    // Validate admin key if provided
+    if (adminKey) {
+        if (!expectedAdminKey) {
+            logger.error('[ComicScheduler] COMIC_SCHEDULER_ADMIN_KEY environment variable not configured');
+            throw new https_1.HttpsError('internal', 'Server misconfiguration: Admin key not set');
+        }
+        if (adminKey !== expectedAdminKey) {
+            throw new https_1.HttpsError('unauthenticated', 'Invalid admin key');
+        }
+    }
+    else if (!request.auth) {
+        // No admin key and no auth
         throw new https_1.HttpsError('unauthenticated', 'User must be authenticated or provide valid admin key');
     }
+    // If authenticated, verify admin role
     if (request.auth) {
         const userDoc = await db.collection('users').doc(request.auth.uid).get();
         const userData = userDoc.data();
@@ -460,12 +718,17 @@ exports.manualComicGeneratorFunction = (0, https_1.onCall)({
             throw new https_1.HttpsError('permission-denied', 'Admin access required');
         }
     }
+    // Get the admin key to use for API calls
+    const apiAdminKey = adminKey || expectedAdminKey;
+    if (!apiAdminKey) {
+        throw new https_1.HttpsError('internal', 'No admin key available for API calls');
+    }
     logger.info('[ComicScheduler] Manual trigger initiated', {
         userId: ((_b = request.auth) === null || _b === void 0 ? void 0 : _b.uid) || 'admin-key',
         customTheme: (_c = request.data) === null || _c === void 0 ? void 0 : _c.theme,
         customLocation: (_d = request.data) === null || _d === void 0 ? void 0 : _d.location,
     });
-    const result = await generateComicEpisode(adminKey || expectedAdminKey, {
+    const result = await generateComicEpisode(apiAdminKey, {
         theme: (_e = request.data) === null || _e === void 0 ? void 0 : _e.theme,
         location: (_f = request.data) === null || _f === void 0 ? void 0 : _f.location,
         jlptLevel: (_g = request.data) === null || _g === void 0 ? void 0 : _g.jlptLevel,
