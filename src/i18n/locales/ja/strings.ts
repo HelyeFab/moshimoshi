@@ -2843,11 +2843,44 @@ export const strings = {
 
     // Study modes
     studyMode: '学習モード',
+    selectStudyMode: '学習モードを選択',
     classic: 'クラシック',
     match: 'マッチング',
     speed: 'スピードラウンド',
     write: '書き取り練習',
     voice: '音声練習',
+
+    // Study mode details
+    modes: {
+      due: {
+        name: '復習予定のカード',
+        description: '今日予定されているカードを復習',
+      },
+      new: {
+        name: '新しいカード',
+        description: 'まだ学習していない新しいカードを学ぶ',
+      },
+      all: {
+        name: 'すべてのカード',
+        description: 'このデッキのすべてのカードで練習',
+      },
+      cramming: {
+        name: '詰め込み学習',
+        description: '最近のカードと難しいカードの集中復習',
+      },
+      speed: {
+        name: 'スピードラウンド',
+        description: 'ランダムなカードで素早く練習',
+      },
+      weakness: {
+        name: '苦手なカード',
+        description: '間違えやすいカードに集中',
+      },
+      custom: {
+        name: 'カスタムセッション',
+        description: 'カスタム設定で独自の学習セッションを作成',
+      },
+    },
 
     // Study session
     startStudying: '学習を開始',
@@ -2876,6 +2909,18 @@ export const strings = {
     newCards: '新しいカード',
     learningCards: '学習中',
     reviewCards: '復習',
+
+    // Additional study session keys
+    noCardsAvailable: 'このモードで利用可能なカードがありません',
+    customSettings: 'カスタム設定',
+    cardLimit: 'カード数の上限',
+    includeCards: 'カードを含める',
+    dueCards: '復習予定のカード',
+    masteredCards: '習得済みのカード',
+    sortBy: '並び順',
+    priority: '優先度',
+    random: 'ランダム',
+    oldest: '古い順',
 
     // Statistics
     stats: {
@@ -3675,6 +3720,24 @@ export const strings = {
     mediaFiles: 'media files',
     filesCount: '{{count}} files',
     sizeInMB: '{{size}} MB',
+    // Study session
+    study: {
+      title: '学習セッション',
+      newCards: '新規カード',
+      reviewCards: '復習',
+      remaining: '残り{{count}}枚',
+      startStudy: '学習開始',
+      noCardsDue: '今日の学習カードはありません！',
+      sessionComplete: 'セッション完了！',
+      cardsStudied: '学習したカード',
+      timeSpent: '学習時間',
+      accuracy: '正解率',
+      backToDecks: 'デッキ一覧へ',
+      continueStudying: '学習を続ける',
+      dailyLimitReached: '今日の上限に達しました',
+      newCardsToday: '今日の新規: {{count}}枚',
+      reviewsToday: '今日の復習: {{count}}枚',
+    },
   },
 
   myVideos: {

@@ -4193,11 +4193,44 @@ export const strings = {
 
     // Study modes
     studyMode: 'Study Mode',
+    selectStudyMode: 'Select Study Mode',
     classic: 'Classic',
     match: 'Match',
     speed: 'Speed Round',
     write: 'Writing Practice',
     voice: 'Voice Practice',
+
+    // Study mode details
+    modes: {
+      due: {
+        name: 'Due Cards',
+        description: 'Review cards that are scheduled for today',
+      },
+      new: {
+        name: 'New Cards',
+        description: 'Learn new cards you haven\'t seen before',
+      },
+      all: {
+        name: 'All Cards',
+        description: 'Practice with all cards in this deck',
+      },
+      cramming: {
+        name: 'Cramming',
+        description: 'Intensive review of recent and difficult cards',
+      },
+      speed: {
+        name: 'Speed Round',
+        description: 'Quick practice with random cards',
+      },
+      weakness: {
+        name: 'Weak Cards',
+        description: 'Focus on cards you struggle with',
+      },
+      custom: {
+        name: 'Custom Session',
+        description: 'Create your own study session with custom settings',
+      },
+    },
 
     // Study session
     startStudying: 'Start Studying',
@@ -4226,6 +4259,18 @@ export const strings = {
     newCards: 'New cards',
     learningCards: 'Learning',
     reviewCards: 'Review',
+
+    // Additional study session keys
+    noCardsAvailable: 'No cards available for this mode',
+    customSettings: 'Custom Settings',
+    cardLimit: 'Card Limit',
+    includeCards: 'Include Cards',
+    dueCards: 'Due Cards',
+    masteredCards: 'Mastered Cards',
+    sortBy: 'Sort By',
+    priority: 'Priority',
+    random: 'Random',
+    oldest: 'Oldest First',
 
     // Customization
     customize: {
@@ -5145,6 +5190,73 @@ export const strings = {
     mediaFiles: 'media files',
     filesCount: '{{count}} files',
     sizeInMB: '{{size}} MB',
+    // Import modal - preview step
+    deckName: 'Deck Name',
+    studySettings: 'Study Settings',
+    newCardsPerDay: 'New cards per day',
+    reviewsPerDay: 'Reviews per day',
+    newCardsHint: 'Maximum new cards to introduce daily',
+    reviewsHint: 'Maximum reviews per day',
+    confirmImport: 'Import Deck',
+    saving: 'Saving...',
+    dueToday: 'Due today',
+    newCards: 'new cards',
+    dueTodayExplanation: 'Your deck has {{total}} cards. You will study {{daily}} new cards per day.',
+    settingsSummary: '{{newCards}} new cards/day, {{reviews}} reviews/day',
+    // Additional strings for import page
+    syncEnabled: 'Cloud sync enabled',
+    localStorageOnly: 'Stored locally only',
+    hasMedia: 'Contains audio/images',
+    confirmDeleteDeck: 'Are you sure you want to delete this deck?',
+    deleteDeck: 'Delete deck',
+    deckDeleted: 'Deck deleted',
+    deleteFailed: 'Failed to delete deck',
+    loginRequired: 'Please log in to manage decks',
+    mediaCacheCleared: 'Media cache cleared',
+    // Settings menu
+    deckSettings: 'Deck settings',
+    editSettings: 'Edit Settings',
+    editDeckSettings: 'Edit Deck Settings',
+    exportDeck: 'Export Deck',
+    // Study session
+    study: {
+      title: 'Study Session',
+      newCards: 'New Cards',
+      reviewCards: 'Reviews',
+      remaining: '{{count}} remaining',
+      startStudy: 'Start Study',
+      noCardsDue: 'No cards due today!',
+      sessionComplete: 'Session Complete!',
+      cardsStudied: 'Cards Studied',
+      timeSpent: 'Time Spent',
+      accuracy: 'Accuracy',
+      backToDecks: 'Back to Decks',
+      continueStudying: 'Continue Studying',
+      dailyLimitReached: 'Daily limit reached',
+      newCardsToday: '{{count}} new cards today',
+      reviewsToday: '{{count}} reviews today',
+    },
+    // Study page additional strings
+    loadingDeck: 'Loading deck...',
+    errorLoadingDeck: 'Error Loading Deck',
+    deckNotFound: 'Deck not found. Please check the URL and try again.',
+    backToDecks: 'Back to Decks',
+    totalCards: 'Total',
+    reviewCards: 'Reviews',
+    startStudy: 'Start Study',
+    noCardsDue: 'All caught up!',
+    comeBackLater: 'Come back later for more reviews.',
+    dailyLimits: 'Daily Limits',
+    newCardsToday: 'New cards today',
+    reviewsToday: 'Reviews today',
+    sessionComplete: 'Session Complete!',
+    cardsStudied: 'Cards Studied',
+    timeSpent: 'Time Spent',
+    accuracy: 'Accuracy',
+    excellentWork: 'Outstanding work! Keep it up!',
+    greatJob: 'Great job! You\'re making excellent progress!',
+    keepPracticing: 'Keep practicing! Every session makes you stronger.',
+    studyMore: 'Study More',
   },
 
   // Popular Videos Page
@@ -6440,6 +6552,10 @@ export const strings = {
     ankiImport: {
       title: 'Import Anki Decks - Migrate from Anki to Moshimoshi | Best Anki Alternative',
       description: 'Seamlessly import your Anki decks to Moshimoshi. Migrate from Anki with one click and experience modern Japanese SRS with better UI, YouTube shadowing integration, and smart review algorithm. Import APKG files, preserve scheduling data, and upgrade to the best Anki alternative for Japanese learning in 2025.',
+    },
+    ankiStudy: {
+      title: 'Anki Study Session - Review Your Imported Decks',
+      description: 'Study your imported Anki decks with intelligent SRS review. Practice flashcards with optimized spacing and track your progress.',
     },
     reviewDashboard: {
       title: 'Japanese SRS Review Dashboard - Spaced Repetition System',

@@ -7,6 +7,7 @@ import type { BlogPost } from "@/services/blogService";
 import Navbar from "@/components/layout/Navbar";
 import MobileNavSpacer from "@/components/layout/MobileNavSpacer";
 import DOMPurify from "isomorphic-dompurify";
+import { useAuth } from "@/hooks/useAuth";
 import { RelatedPosts } from "@/components/blog/RelatedPosts";
 import { CommentSection } from "@/components/blog/CommentSection";
 import { ShareButtons } from "@/components/blog/ShareButtons";
@@ -16,31 +17,11 @@ import "@/styles/blog-content.css";
 export default function BlogPostPage() {
   const params = useParams();
   const router = useRouter();
+  const { user } = useAuth();
   const [post, setPost] = useState<BlogPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [currentUser, setCurrentUser] = useState<{ uid: string; admin?: boolean } | null>(null);
-
-  // Fetch current user session
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch('/api/auth/session', { credentials: 'include' });
-        if (response.ok) {
-          const data = await response.json();
-          if (data.user) {
-            setCurrentUser({ uid: data.user.uid, admin: data.user.admin });
-          }
-        }
-      } catch (err) {
-        // Not logged in, that's fine
-        console.log('User not authenticated');
-      }
-    };
-
-    fetchUser();
-  }, []);
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -173,7 +154,7 @@ export default function BlogPostPage() {
   return (
     <>
       {/* Navigation is now global - rendered in root layout */}
-      <main className="min-h-screen bg-gradient-to-b from-background-light to-japanese-mizu/20 dark:from-dark-850 dark:to-dark-900 overflow-hidden">
+      <main className="min-h-screen bg-gradient-to-b from-background-light to-japanese-mizu/20 dark:from-dark-850 dark:to-dark-900">
         {/* Reading Progress Bar */}
         <ReadingProgress />
 
@@ -265,7 +246,7 @@ export default function BlogPostPage() {
               {post.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="px-3 py-1 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium"
+                  className="px-3 py-1 bg-primary-100 dark:bg-gray-700 text-primary-700 dark:text-gray-100 rounded-full text-sm font-medium"
                 >
                   {tag}
                 </span>
@@ -344,8 +325,8 @@ export default function BlogPostPage() {
         {post && (
           <CommentSection
             postId={post.id}
-            currentUserId={currentUser?.uid}
-            isAdmin={currentUser?.admin}
+            currentUserId={user?.uid}
+            isAdmin={user?.isAdmin}
           />
         )}
 

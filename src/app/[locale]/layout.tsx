@@ -8,6 +8,7 @@ import { ReCaptchaProvider } from '@/components/ReCaptchaProvider';
 import { ServiceWorkerProvider } from '@/components/pwa/ServiceWorkerProvider';
 import { PWAInstallPrompt } from '@/components/pwa/PWAInstallPrompt';
 import { OfflineBanner } from '@/components/pwa/OfflineBanner';
+import { AppRenderedMarker } from '@/components/pwa/AppRenderedMarker';
 import { TTSLoadingProvider } from '@/components/tts';
 import CelebrationProvider from '@/components/gamification/CelebrationProvider';
 import { ConjugationHelpProvider } from '@/contexts/ConjugationHelpContext';
@@ -75,6 +76,7 @@ export default async function LocaleLayout({
                       <BottomNav />
                       <ConditionalCommandPalette />
                       <PWAInstallPrompt />
+                      <AppRenderedMarker />
                     </TTSLoadingProvider>
                   </CelebrationProvider>
                 </ServiceWorkerProvider>

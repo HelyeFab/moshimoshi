@@ -26,11 +26,8 @@ export async function POST(request: NextRequest, { params }: Params) {
     const body: AddCardRequest = await request.json();
 
     const db = getDb();
-    const deckRef = db
-      .collection('users')
-      .doc(session.uid)
-      .collection('flashcardDecks')
-      .doc(id);
+    // Use top-level collection
+    const deckRef = db.collection('flashcardDecks').doc(id);
 
     const deckDoc = await deckRef.get();
 
@@ -41,6 +38,11 @@ export async function POST(request: NextRequest, { params }: Params) {
     const deck = deckDoc.data();
     if (!deck) {
       return NextResponse.json({ error: 'Invalid deck data' }, { status: 500 });
+    }
+
+    // Verify ownership
+    if (deck.userId !== session.uid) {
+      return NextResponse.json({ error: 'Deck not found' }, { status: 404 });
     }
 
     const newCard: FlashcardContent = {
@@ -92,11 +94,8 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     }
 
     const db = getDb();
-    const deckRef = db
-      .collection('users')
-      .doc(session.uid)
-      .collection('flashcardDecks')
-      .doc(id);
+    // Use top-level collection
+    const deckRef = db.collection('flashcardDecks').doc(id);
 
     const deckDoc = await deckRef.get();
 
@@ -107,6 +106,11 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     const deck = deckDoc.data();
     if (!deck) {
       return NextResponse.json({ error: 'Invalid deck data' }, { status: 500 });
+    }
+
+    // Verify ownership
+    if (deck.userId !== session.uid) {
+      return NextResponse.json({ error: 'Deck not found' }, { status: 404 });
     }
 
     // Remove card from deck

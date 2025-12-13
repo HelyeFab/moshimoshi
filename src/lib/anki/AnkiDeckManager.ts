@@ -9,17 +9,18 @@
  */
 
 import { openDB, IDBPDatabase } from 'idb'
-import { AnkiDeck, AnkiCard } from './importer'
+import { AnkiDeck, AnkiCard, AnkiDeckSettings, DEFAULT_ANKI_DECK_SETTINGS } from './importer'
 
 interface AnkiDeckDB {
   decks: AnkiDeck & { userId: string; createdAt: number; updatedAt: number }
 }
 
-interface StoredAnkiDeck extends AnkiDeck {
+export interface StoredAnkiDeck extends AnkiDeck {
   userId: string
   createdAt: number
   updatedAt: number
   cardCount: number
+  settings: AnkiDeckSettings
   metadata?: {
     originalFilename?: string
     importedAt: string
@@ -145,6 +146,7 @@ export class AnkiDeckManager {
       cardCount: deck.cards.length,
       createdAt: now,
       updatedAt: now,
+      settings: deck.settings || DEFAULT_ANKI_DECK_SETTINGS,
       metadata: {
         originalFilename: filename,
         importedAt: new Date().toISOString(),
@@ -201,7 +203,7 @@ export class AnkiDeckManager {
    */
   async updateDeck(
     deckId: string,
-    updates: Partial<Pick<AnkiDeck, 'name' | 'description'>>,
+    updates: Partial<Pick<AnkiDeck, 'name' | 'description' | 'settings'>>,
     userId: string,
     isPremium: boolean
   ): Promise<StoredAnkiDeck | null> {

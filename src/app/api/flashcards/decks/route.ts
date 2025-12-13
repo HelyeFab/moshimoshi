@@ -35,10 +35,13 @@ export async function GET(request: NextRequest) {
       })
     }
 
-    // Get user's decks from Firebase (premium only)
-    const decksRef = adminDb.collection('users').doc(session.uid).collection('flashcardDecks')
+    // Get user's decks from Firebase (premium only) - top-level collection
+    const decksRef = adminDb.collection('flashcardDecks')
 
-    const snapshot = await decksRef.orderBy('updatedAt', 'desc').get()
+    const snapshot = await decksRef
+      .where('userId', '==', session.uid)
+      .orderBy('updatedAt', 'desc')
+      .get()
 
     const decks: FlashcardDeck[] = snapshot.docs.map(
       doc =>
@@ -55,8 +58,16 @@ export async function GET(request: NextRequest) {
         syncEnabled: decision.shouldWriteToFirebase,
       },
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error fetching flashcard decks:', error)
+    // Check if it's a missing index error
+    if (error?.code === 9 || error?.message?.includes('index')) {
+      console.error('FIRESTORE INDEX MISSING: Please run `firebase deploy --only firestore:indexes`')
+      return NextResponse.json({
+        error: 'Database index not ready. Please wait a few minutes and try again.',
+        details: 'Missing composite index for flashcardDecks collection',
+      }, { status: 503 })
+    }
     return NextResponse.json({ error: 'Failed to fetch decks' }, { status: 500 })
   }
 }
@@ -82,11 +93,10 @@ export async function POST(request: NextRequest) {
     const userData = userDoc.data()
     const plan = userData?.subscription?.plan || 'free'
 
-    // Get current deck count
+    // Get current deck count from top-level collection
     const decksSnapshot = await adminDb
-      .collection('users')
-      .doc(session.uid)
       .collection('flashcardDecks')
+      .where('userId', '==', session.uid)
       .count()
       .get()
 
@@ -201,9 +211,8 @@ export async function POST(request: NextRequest) {
       // Clean the entire deck object to remove ALL undefined values
       const cleanedDeck = cleanFirestoreData(newDeck)
 
+      // Save to top-level collection
       await adminDb
-        .collection('users')
-        .doc(session.uid)
         .collection('flashcardDecks')
         .doc(deckId)
         .set(cleanedDeck)

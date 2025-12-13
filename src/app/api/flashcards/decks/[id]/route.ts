@@ -23,11 +23,8 @@ export async function GET(request: NextRequest, { params }: Params) {
     }
 
     const db = getDb();
-    const deckRef = db
-      .collection('users')
-      .doc(session.uid)
-      .collection('flashcardDecks')
-      .doc(id);
+    // Use top-level collection
+    const deckRef = db.collection('flashcardDecks').doc(id);
 
     const deckDoc = await deckRef.get();
 
@@ -35,9 +32,15 @@ export async function GET(request: NextRequest, { params }: Params) {
       return NextResponse.json({ error: 'Deck not found' }, { status: 404 });
     }
 
+    // Verify ownership
+    const deckData = deckDoc.data();
+    if (deckData?.userId !== session.uid) {
+      return NextResponse.json({ error: 'Deck not found' }, { status: 404 });
+    }
+
     const deck = {
       id: deckDoc.id,
-      ...deckDoc.data()
+      ...deckData
     };
 
     return NextResponse.json({ deck });
@@ -63,15 +66,18 @@ export async function PUT(request: NextRequest, { params }: Params) {
     const body: UpdateDeckRequest = await request.json();
 
     const db = getDb();
-    const deckRef = db
-      .collection('users')
-      .doc(session.uid)
-      .collection('flashcardDecks')
-      .doc(id);
+    // Use top-level collection
+    const deckRef = db.collection('flashcardDecks').doc(id);
 
     const deckDoc = await deckRef.get();
 
     if (!deckDoc.exists) {
+      return NextResponse.json({ error: 'Deck not found' }, { status: 404 });
+    }
+
+    // Verify ownership
+    const deckData = deckDoc.data();
+    if (deckData?.userId !== session.uid) {
       return NextResponse.json({ error: 'Deck not found' }, { status: 404 });
     }
 
@@ -84,7 +90,7 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
     const updatedDeck = {
       id: deckDoc.id,
-      ...deckDoc.data(),
+      ...deckData,
       ...updates
     };
 
@@ -109,15 +115,18 @@ export async function DELETE(request: NextRequest, { params }: Params) {
     }
 
     const db = getDb();
-    const deckRef = db
-      .collection('users')
-      .doc(session.uid)
-      .collection('flashcardDecks')
-      .doc(id);
+    // Use top-level collection
+    const deckRef = db.collection('flashcardDecks').doc(id);
 
     const deckDoc = await deckRef.get();
 
     if (!deckDoc.exists) {
+      return NextResponse.json({ error: 'Deck not found' }, { status: 404 });
+    }
+
+    // Verify ownership
+    const deckData = deckDoc.data();
+    if (deckData?.userId !== session.uid) {
       return NextResponse.json({ error: 'Deck not found' }, { status: 404 });
     }
 

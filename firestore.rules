@@ -214,11 +214,27 @@ service cloud.firestore {
       allow delete: if false; // Session data should not be deleted
     }
 
-    // Anki decks - imported Anki decks for premium users
-    // Premium sync handled via Admin SDK; these rules allow client reads
-    match /users/{userId}/ankiDecks/{deckId} {
+    // ========================================
+    // Top-level Deck Collections
+    // Using flat structure with userId field
+    // ========================================
+
+    // Flashcard decks - top-level collection with userId field
+    match /flashcardDecks/{deckId} {
+      // Users can read their own flashcard decks
+      allow read: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid;
+
+      // Writes are handled server-side via Admin SDK
+      // This ensures premium-only writes are enforced
+      allow write: if false;
+    }
+
+    // Anki decks - top-level collection with userId field
+    match /ankiDecks/{deckId} {
       // Users can read their own Anki decks
-      allow read: if isOwner(userId);
+      allow read: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid;
 
       // Writes are handled server-side via Admin SDK
       // This ensures premium-only writes are enforced

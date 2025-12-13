@@ -2800,11 +2800,44 @@ export const strings = {
 
     // Study modes
     studyMode: 'Lernmodus',
+    selectStudyMode: 'Lernmodus auswählen',
     classic: 'Klassisch',
     match: 'Zuordnung',
     speed: 'Geschwindigkeit',
     write: 'Schreiben',
     voice: 'Sprache',
+
+    // Study mode details
+    modes: {
+      due: {
+        name: 'Fällige Karten',
+        description: 'Karten wiederholen, die heute geplant sind',
+      },
+      new: {
+        name: 'Neue Karten',
+        description: 'Neue Karten lernen, die Sie noch nicht gesehen haben',
+      },
+      all: {
+        name: 'Alle Karten',
+        description: 'Mit allen Karten in diesem Stapel üben',
+      },
+      cramming: {
+        name: 'Pauken',
+        description: 'Intensive Wiederholung aktueller und schwieriger Karten',
+      },
+      speed: {
+        name: 'Schnelldurchgang',
+        description: 'Schnelles Üben mit zufälligen Karten',
+      },
+      weakness: {
+        name: 'Schwache Karten',
+        description: 'Konzentrieren Sie sich auf Karten, mit denen Sie Schwierigkeiten haben',
+      },
+      custom: {
+        name: 'Benutzerdefinierte Sitzung',
+        description: 'Erstellen Sie Ihre eigene Lernsitzung mit benutzerdefinierten Einstellungen',
+      },
+    },
 
     // Study session
     startStudying: 'Lernen beginnen',
@@ -2833,6 +2866,18 @@ export const strings = {
     newCards: 'Neue Karten',
     learningCards: 'Am Lernen',
     reviewCards: 'Überprüfen',
+
+    // Additional study session keys
+    noCardsAvailable: 'Keine Karten für diesen Modus verfügbar',
+    customSettings: 'Benutzerdefinierte Einstellungen',
+    cardLimit: 'Kartenlimit',
+    includeCards: 'Karten einschließen',
+    dueCards: 'Fällige Karten',
+    masteredCards: 'Gemeisterte Karten',
+    sortBy: 'Sortieren nach',
+    priority: 'Priorität',
+    random: 'Zufällig',
+    oldest: 'Älteste zuerst',
 
     // Statistics
     stats: {
@@ -3702,6 +3747,24 @@ export const strings = {
     mediaFiles: 'media files',
     filesCount: '{{count}} files',
     sizeInMB: '{{size}} MB',
+    // Study session
+    study: {
+      title: 'Lernsitzung',
+      newCards: 'Neue Karten',
+      reviewCards: 'Wiederholungen',
+      remaining: '{{count}} verbleibend',
+      startStudy: 'Lernen starten',
+      noCardsDue: 'Heute keine Karten fällig!',
+      sessionComplete: 'Sitzung abgeschlossen!',
+      cardsStudied: 'Gelernte Karten',
+      timeSpent: 'Aufgewendete Zeit',
+      accuracy: 'Genauigkeit',
+      backToDecks: 'Zurück zu Decks',
+      continueStudying: 'Weiter lernen',
+      dailyLimitReached: 'Tageslimit erreicht',
+      newCardsToday: '{{count}} neue Karten heute',
+      reviewsToday: '{{count}} Wiederholungen heute',
+    },
   },
 
   myVideos: {

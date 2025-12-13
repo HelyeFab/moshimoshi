@@ -401,16 +401,39 @@
   }
 }
 
-/* Tables */
+/* Tables - with horizontal scroll for mobile */
 .blog-content table {
   width: 100%;
   border-collapse: collapse;
   margin: 2rem 0;
   background: white;
   border-radius: 0.75rem;
-  overflow: hidden;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
+}
+
+/* Make tables scrollable on mobile */
+@media (max-width: 768px) {
+  .blog-content table {
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    white-space: nowrap;
+    /* Hide scrollbar but keep functionality */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+  }
+
+  .blog-content table::-webkit-scrollbar {
+    display: none; /* Chrome/Safari/Opera */
+  }
+
+  .blog-content table tbody,
+  .blog-content table thead {
+    display: table;
+    width: 100%;
+    min-width: 500px;
+  }
 }
 
 .dark .blog-content table {
@@ -422,11 +445,11 @@
   background: #f8fafc;
   color: #374151;
   font-weight: 600;
-  padding: 0.75rem 1rem;
+  padding: 0.625rem 0.75rem;
   text-align: left;
   border-bottom: 2px solid #e5e7eb;
   border-right: 1px solid #e5e7eb;
-  font-size: 0.9rem;
+  font-size: 0.8rem;
 }
 
 .dark .blog-content th {
@@ -437,7 +460,7 @@
 }
 
 .blog-content td {
-  padding: 0.75rem 1rem;
+  padding: 0.625rem 0.75rem;
   border-bottom: 1px solid #e5e7eb;
   border-right: 1px solid #e5e7eb;
   color: #374151;

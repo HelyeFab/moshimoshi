@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { registerServiceWorker } from '@/lib/pwa/registerServiceWorker'
+import { initSplashRecovery } from '@/lib/pwa/splashRecovery'
 import { UpdateBanner, UpdateIndicator } from './UpdateBanner'
 
 // App version - bump this for critical updates
@@ -69,6 +70,10 @@ export function ServiceWorkerProvider({ children }: { children: React.ReactNode 
   }, [])
 
   useEffect(() => {
+    // Initialize splash screen recovery detection (for PWA stuck states)
+    // This must run early to detect if app fails to render
+    initSplashRecovery()
+
     // Register service worker on mount
     registerServiceWorker()
 

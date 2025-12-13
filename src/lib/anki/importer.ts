@@ -18,12 +18,25 @@ export interface AnkiCard extends ReviewableContent {
   lapses?: number
 }
 
+export interface AnkiDeckSettings {
+  newCardsPerDay: number
+  reviewsPerDay: number
+  autoPlayAudio: boolean
+}
+
+export const DEFAULT_ANKI_DECK_SETTINGS: AnkiDeckSettings = {
+  newCardsPerDay: 20,
+  reviewsPerDay: 100,
+  autoPlayAudio: true,
+}
+
 export interface AnkiDeck {
   id: string
   name: string
   cards: AnkiCard[]
   description?: string
   mediaUrls?: Map<string, string>
+  settings?: AnkiDeckSettings
 }
 
 export interface ImportOptions {

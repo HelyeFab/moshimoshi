@@ -506,35 +506,65 @@ function useAuthProvider(): Auth {
     // Check session and listen to auth state changes
     let unsubscribe: (() => void) | undefined
 
+    // Timeout for auth initialization to prevent PWA getting stuck on splash screen
+    const AUTH_INIT_TIMEOUT = 10000 // 10 seconds max for initial auth
+
     const initAuth = async () => {
-      // Check for redirect result on mount (for Google sign-in)
-      try {
-        const result = await getRedirectResult(auth)
-        if (result?.user) {
-          await createServerSession(result.user)
+      // Create timeout promise to prevent infinite loading on PWA launch
+      const timeoutPromise = new Promise<'timeout'>((resolve) => {
+        setTimeout(() => {
+          logger.warn('[Auth] Initialization timed out after', AUTH_INIT_TIMEOUT, 'ms - PWA recovery mode')
+          resolve('timeout')
+        }, AUTH_INIT_TIMEOUT)
+      })
+
+      // Main auth initialization logic
+      const authInitPromise = (async () => {
+        // Check for redirect result on mount (for Google sign-in)
+        try {
+          // Add individual timeout for redirect result (can hang on Android PWA)
+          const redirectPromise = getRedirectResult(auth)
+          const redirectTimeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), 5000))
+          const result = await Promise.race([redirectPromise, redirectTimeout])
+          if (result?.user) {
+            await createServerSession(result.user)
+          }
+        } catch (err) {
+          logger.error('Error handling redirect result:', err)
         }
-      } catch (err) {
-        logger.error('Error handling redirect result:', err)
+
+        // Check existing session only once
+        // Initial session check on mount
+        const sessionData = await checkSession()
+        // Initial session check complete
+
+        // Log if we detect a race condition on mount
+        if (sessionData?.authenticated && !auth.currentUser) {
+          logger.race('Session exists but Firebase Auth not initialized on mount', {
+            sessionUser: sessionData.user?.uid,
+            firebaseUser: null
+          })
+        }
+
+        return sessionData
+      })()
+
+      // Race auth init against timeout
+      const result = await Promise.race([authInitPromise, timeoutPromise])
+
+      // If we timed out, ensure loading is false so app can render
+      if (result === 'timeout') {
+        logger.warn('[Auth] Forcing loading=false due to timeout - app will render without auth')
+        setLoading(false)
+        // User can still authenticate later when onAuthStateChanged fires
       }
 
-      // Check existing session only once
-      // Initial session check on mount
-      const sessionData = await checkSession()
-      // Initial session check complete
-
-      // Log if we detect a race condition on mount
-      if (sessionData?.authenticated && !auth.currentUser) {
-        logger.race('Session exists but Firebase Auth not initialized on mount', {
-          sessionUser: sessionData.user?.uid,
-          firebaseUser: null
-        })
-      }
-
-      // Mark as initialized
+      // Mark as initialized regardless of timeout
       hasInitializedRef.current = true
       initializingRef.current = false
 
       // Listen to auth state changes but handle race conditions properly
+      // This runs AFTER the timeout check, so the app can render while we wait
       unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
         // Check if guest mode is active - it takes precedence
         const isGuestUser = typeof window !== 'undefined' &&

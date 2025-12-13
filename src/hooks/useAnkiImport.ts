@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect } from 'react';
 import { AnkiImporter, AnkiDeck, ImportResult } from '@/lib/anki/importer';
-import { ankiDeckManager } from '@/lib/anki/AnkiDeckManager';
+import { ankiDeckManager, StoredAnkiDeck } from '@/lib/anki/AnkiDeckManager';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { useI18n } from '@/i18n/I18nContext';
 
@@ -9,18 +9,6 @@ interface UseAnkiImportOptions {
   isPremium?: boolean;
   onSuccess?: (deck: AnkiDeck) => void;
   onError?: (error: string) => void;
-}
-
-interface StoredAnkiDeck extends AnkiDeck {
-  userId: string;
-  createdAt: number;
-  updatedAt: number;
-  cardCount: number;
-  metadata?: {
-    originalFilename?: string;
-    importedAt: string;
-    hasMedia: boolean;
-  };
 }
 
 export function useAnkiImport(options?: UseAnkiImportOptions) {

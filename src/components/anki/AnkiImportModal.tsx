@@ -4,8 +4,8 @@ import { useState, useRef } from 'react'
 import Modal from '@/components/ui/Modal'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import Alert from '@/components/ui/Alert'
-import { Upload, FileText, CheckCircle2, X, AlertCircle } from 'lucide-react'
-import { AnkiImporter, ImportResult } from '@/lib/anki/importer'
+import { Upload, FileText, CheckCircle2, Settings, Package } from 'lucide-react'
+import { AnkiImporter, ImportResult, AnkiDeck, DEFAULT_ANKI_DECK_SETTINGS } from '@/lib/anki/importer'
 import { useI18n } from '@/i18n/I18nContext'
 
 interface AnkiImportModalProps {
@@ -14,49 +14,86 @@ interface AnkiImportModalProps {
   onImportSuccess?: (result: ImportResult) => void
 }
 
+type ImportStep = 'select' | 'preview' | 'complete'
+
 export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImportModalProps) {
   const { t } = useI18n()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [file, setFile] = useState<File | null>(null)
-  const [importing, setImporting] = useState(false)
+  const [step, setStep] = useState<ImportStep>('select')
+  const [parsing, setParsing] = useState(false)
+  const [saving, setSaving] = useState(false)
   const [progress, setProgress] = useState(0)
   const [progressMessage, setProgressMessage] = useState('')
   const [error, setError] = useState('')
   const [importResult, setImportResult] = useState<ImportResult | null>(null)
   const [dragActive, setDragActive] = useState(false)
 
-  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  // Preview state - editable before final import
+  const [previewDeck, setPreviewDeck] = useState<AnkiDeck | null>(null)
+  const [deckName, setDeckName] = useState('')
+  const [newCardsPerDay, setNewCardsPerDay] = useState(DEFAULT_ANKI_DECK_SETTINGS.newCardsPerDay)
+  const [reviewsPerDay, setReviewsPerDay] = useState(DEFAULT_ANKI_DECK_SETTINGS.reviewsPerDay)
+
+  const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0]
     if (selectedFile) {
-      const validation = AnkiImporter.validateFile(selectedFile)
-      if (!validation.valid) {
-        setError(validation.error || t('anki.invalidFile'))
-        return
-      }
-
-      setFile(selectedFile)
-      setError('')
-      setImportResult(null)
+      await processFile(selectedFile)
     }
   }
 
-  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+  const processFile = async (selectedFile: File) => {
+    const validation = AnkiImporter.validateFile(selectedFile)
+    if (!validation.valid) {
+      setError(validation.error || t('anki.invalidFile'))
+      return
+    }
+
+    setFile(selectedFile)
+    setError('')
+    setImportResult(null)
+
+    // Parse the file to get deck preview
+    setParsing(true)
+    setProgress(0)
+
+    try {
+      const result = await AnkiImporter.importDeck(selectedFile, {
+        onProgress: (prog, message) => {
+          setProgress(prog)
+          setProgressMessage(message)
+        },
+      })
+
+      if (result.success && result.deck) {
+        setPreviewDeck(result.deck)
+        setDeckName(result.deck.name)
+        // Use deck's existing settings or defaults
+        setNewCardsPerDay(result.deck.settings?.newCardsPerDay ?? DEFAULT_ANKI_DECK_SETTINGS.newCardsPerDay)
+        setReviewsPerDay(result.deck.settings?.reviewsPerDay ?? DEFAULT_ANKI_DECK_SETTINGS.reviewsPerDay)
+        setStep('preview')
+      } else {
+        setError(result.error || t('anki.importFailed'))
+      }
+    } catch (error) {
+      console.error('Parse error:', error)
+      setError(error instanceof Error ? error.message : t('anki.importFailed'))
+    } finally {
+      setParsing(false)
+      setProgress(0)
+      setProgressMessage('')
+    }
+  }
+
+  const handleDrop = async (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault()
     event.stopPropagation()
     setDragActive(false)
 
     const droppedFile = event.dataTransfer.files[0]
     if (droppedFile) {
-      const validation = AnkiImporter.validateFile(droppedFile)
-      if (!validation.valid) {
-        setError(validation.error || t('anki.invalidFile'))
-        return
-      }
-
-      setFile(droppedFile)
-      setError('')
-      setImportResult(null)
+      await processFile(droppedFile)
     }
   }
 
@@ -72,41 +109,52 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
     setDragActive(false)
   }
 
-  const handleImport = async () => {
-    if (!file) return
+  const handleConfirmImport = async () => {
+    if (!previewDeck) return
 
-    setImporting(true)
-    setProgress(0)
-    setError('')
+    setSaving(true)
 
     try {
-      const result = await AnkiImporter.importDeck(file, {
-        onProgress: (progress, message) => {
-          setProgress(progress)
-          setProgressMessage(message)
+      // Apply user's customizations to the deck
+      const finalDeck: AnkiDeck = {
+        ...previewDeck,
+        name: deckName.trim() || previewDeck.name,
+        settings: {
+          newCardsPerDay,
+          reviewsPerDay,
+          autoPlayAudio: previewDeck.settings?.autoPlayAudio ?? DEFAULT_ANKI_DECK_SETTINGS.autoPlayAudio,
         },
-      })
+      }
 
-      if (result.success) {
-        setImportResult(result)
-        if (onImportSuccess) {
-          onImportSuccess(result)
-        }
-      } else {
-        setError(result.error || t('anki.importFailed'))
+      const result: ImportResult = {
+        success: true,
+        deck: finalDeck,
+        cardsImported: finalDeck.cards.length,
+      }
+
+      setImportResult(result)
+      setStep('complete')
+
+      if (onImportSuccess) {
+        onImportSuccess(result)
       }
     } catch (error) {
       console.error('Import error:', error)
       setError(error instanceof Error ? error.message : t('anki.importFailed'))
     } finally {
-      setImporting(false)
+      setSaving(false)
     }
   }
 
   const resetModal = () => {
     setFile(null)
+    setStep('select')
     setError('')
     setImportResult(null)
+    setPreviewDeck(null)
+    setDeckName('')
+    setNewCardsPerDay(DEFAULT_ANKI_DECK_SETTINGS.newCardsPerDay)
+    setReviewsPerDay(DEFAULT_ANKI_DECK_SETTINGS.reviewsPerDay)
     setProgress(0)
     setProgressMessage('')
     if (fileInputRef.current) {
@@ -119,37 +167,21 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
     onClose()
   }
 
+  const handleBack = () => {
+    setStep('select')
+    setPreviewDeck(null)
+    setFile(null)
+    setError('')
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ''
+    }
+  }
+
   return (
     <Modal isOpen={isOpen} onClose={handleClose} title={t('anki.importTitle')} size="lg">
       <div className="p-6">
-        {/* Success State */}
-        {importResult?.success && (
-          <div className="text-center py-8">
-            <CheckCircle2 className="w-16 h-16 text-green-500 dark:text-green-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold mb-2 text-text-primary dark:text-dark-text-primary">
-              {t('anki.importSuccess')}
-            </h3>
-            <p className="text-text-secondary dark:text-dark-text-secondary mb-4">
-              {t('anki.cardsImported', { count: importResult.cardsImported || 0 })}
-            </p>
-            {importResult.deck && (
-              <div className="bg-gray-50 dark:bg-dark-800 rounded-lg p-4 mb-6">
-                <h4 className="font-semibold text-text-primary dark:text-dark-text-primary">
-                  {importResult.deck.name}
-                </h4>
-                <p className="text-sm text-text-secondary dark:text-dark-text-secondary">
-                  {importResult.deck.description}
-                </p>
-              </div>
-            )}
-            <button onClick={handleClose} className="btn btn-primary">
-              {t('common.close')}
-            </button>
-          </div>
-        )}
-
-        {/* Import Form */}
-        {!importResult?.success && (
+        {/* Step 1: File Selection */}
+        {step === 'select' && (
           <>
             {/* File Drop Zone */}
             <div
@@ -164,9 +196,8 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
                     ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
                     : 'border-gray-300 dark:border-dark-600 hover:border-primary-400'
                 }
-                ${file ? 'bg-green-50 dark:bg-green-900/20' : ''}
               `}
-              onClick={() => !file && fileInputRef.current?.click()}
+              onClick={() => fileInputRef.current?.click()}
             >
               <input
                 ref={fileInputRef}
@@ -176,50 +207,27 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
                 className="hidden"
               />
 
-              {file ? (
-                <div className="space-y-4">
-                  <FileText className="w-16 h-16 text-green-500 dark:text-green-400 mx-auto" />
-                  <div className="text-center px-4">
-                    <p className="font-semibold text-text-primary dark:text-dark-text-primary break-words">
-                      {file.name}
-                    </p>
-                    <p className="text-sm text-text-secondary dark:text-dark-text-secondary">
-                      {(file.size / 1024 / 1024).toFixed(2)} MB
-                    </p>
-                  </div>
-                  <button
-                    onClick={e => {
-                      e.stopPropagation()
-                      resetModal()
-                    }}
-                    className="text-red-500 dark:text-red-400 hover:text-red-600 dark:hover:text-red-300 text-sm"
-                  >
-                    {t('common.remove')}
-                  </button>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <Upload className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto" />
-                  <div>
-                    <p className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">
-                      {t('anki.dropFile')}
-                    </p>
-                    <p className="text-sm text-text-secondary dark:text-dark-text-secondary">
-                      {t('anki.orBrowse')}
-                    </p>
-                  </div>
-                  <p className="text-xs text-text-muted dark:text-dark-text-muted">
-                    {t('anki.maxFileSize')}
+              <div className="space-y-4">
+                <Upload className="w-16 h-16 text-gray-400 dark:text-gray-500 mx-auto" />
+                <div>
+                  <p className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">
+                    {t('anki.dropFile')}
+                  </p>
+                  <p className="text-sm text-text-secondary dark:text-dark-text-secondary">
+                    {t('anki.orBrowse')}
                   </p>
                 </div>
-              )}
+                <p className="text-xs text-text-muted dark:text-dark-text-muted">
+                  {t('anki.maxFileSize')}
+                </p>
+              </div>
             </div>
 
             {/* Error Alert */}
             {error && <Alert type="error" message={error} className="mt-4" />}
 
-            {/* Progress Bar */}
-            {importing && (
+            {/* Progress Bar (during parsing) */}
+            {parsing && (
               <div className="mt-6">
                 <div className="flex justify-between text-sm mb-2">
                   <span className="text-text-secondary dark:text-dark-text-secondary">
@@ -240,23 +248,167 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
 
             {/* Action Buttons */}
             <div className="flex justify-end space-x-3 mt-6">
-              <button onClick={handleClose} disabled={importing} className="btn btn-secondary">
+              <button onClick={handleClose} disabled={parsing} className="btn btn-secondary">
                 {t('common.cancel')}
-              </button>
-              <button
-                onClick={handleImport}
-                disabled={!file || importing}
-                className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {importing ? t('anki.importing') : t('anki.import')}
               </button>
             </div>
           </>
         )}
+
+        {/* Step 2: Preview & Settings */}
+        {step === 'preview' && previewDeck && (
+          <>
+            <div className="space-y-6">
+              {/* Deck Preview Card */}
+              <div className="bg-gray-50 dark:bg-dark-800 rounded-lg p-4">
+                <div className="flex items-center gap-3 mb-4">
+                  <Package className="w-8 h-8 text-primary-500" />
+                  <div>
+                    <p className="text-sm text-text-muted dark:text-dark-text-muted">
+                      {file?.name}
+                    </p>
+                    <p className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">
+                      {previewDeck.cards.length} {t('anki.cards')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Editable Deck Name */}
+              <div>
+                <label className="block text-sm font-medium text-text-primary dark:text-dark-text-primary mb-2">
+                  {t('anki.deckName')}
+                </label>
+                <input
+                  type="text"
+                  value={deckName}
+                  onChange={(e) => setDeckName(e.target.value)}
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-lg
+                           bg-white dark:bg-dark-700 text-text-primary dark:text-dark-text-primary
+                           focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  placeholder={previewDeck.name}
+                />
+              </div>
+
+              {/* Study Settings */}
+              <div className="border-t border-gray-200 dark:border-dark-600 pt-4">
+                <div className="flex items-center gap-2 mb-4">
+                  <Settings className="w-5 h-5 text-text-muted dark:text-dark-text-muted" />
+                  <h3 className="font-semibold text-text-primary dark:text-dark-text-primary">
+                    {t('anki.studySettings')}
+                  </h3>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  {/* New Cards Per Day */}
+                  <div>
+                    <label className="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary mb-1">
+                      {t('anki.newCardsPerDay')}
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="999"
+                      value={newCardsPerDay}
+                      onChange={(e) => setNewCardsPerDay(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg
+                               bg-white dark:bg-dark-700 text-text-primary dark:text-dark-text-primary
+                               focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    />
+                    <p className="text-xs text-text-muted dark:text-dark-text-muted mt-1">
+                      {t('anki.newCardsHint')}
+                    </p>
+                  </div>
+
+                  {/* Reviews Per Day */}
+                  <div>
+                    <label className="block text-sm font-medium text-text-secondary dark:text-dark-text-secondary mb-1">
+                      {t('anki.reviewsPerDay')}
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="9999"
+                      value={reviewsPerDay}
+                      onChange={(e) => setReviewsPerDay(Math.max(1, parseInt(e.target.value) || 1))}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg
+                               bg-white dark:bg-dark-700 text-text-primary dark:text-dark-text-primary
+                               focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    />
+                    <p className="text-xs text-text-muted dark:text-dark-text-muted mt-1">
+                      {t('anki.reviewsHint')}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Due Today Preview */}
+              <div className="bg-primary-50 dark:bg-primary-900/20 rounded-lg p-4">
+                <p className="text-sm text-primary-700 dark:text-primary-300">
+                  <strong>{t('anki.dueToday')}:</strong> {Math.min(newCardsPerDay, previewDeck.cards.length)} {t('anki.newCards')}
+                </p>
+                <p className="text-xs text-primary-600 dark:text-primary-400 mt-1">
+                  {t('anki.dueTodayExplanation', {
+                    total: previewDeck.cards.length,
+                    daily: newCardsPerDay
+                  })}
+                </p>
+              </div>
+            </div>
+
+            {/* Error Alert */}
+            {error && <Alert type="error" message={error} className="mt-4" />}
+
+            {/* Action Buttons */}
+            <div className="flex justify-between mt-6">
+              <button onClick={handleBack} disabled={saving} className="btn btn-secondary">
+                {t('common.back')}
+              </button>
+              <button
+                onClick={handleConfirmImport}
+                disabled={saving || !deckName.trim()}
+                className="btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {saving ? t('anki.saving') : t('anki.confirmImport')}
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* Step 3: Success */}
+        {step === 'complete' && importResult?.success && (
+          <div className="text-center py-8">
+            <CheckCircle2 className="w-16 h-16 text-green-500 dark:text-green-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold mb-2 text-text-primary dark:text-dark-text-primary">
+              {t('anki.importSuccess')}
+            </h3>
+            <p className="text-text-secondary dark:text-dark-text-secondary mb-4">
+              {t('anki.cardsImported', { count: importResult.cardsImported || 0 })}
+            </p>
+            {importResult.deck && (
+              <div className="bg-gray-50 dark:bg-dark-800 rounded-lg p-4 mb-6">
+                <h4 className="font-semibold text-text-primary dark:text-dark-text-primary">
+                  {importResult.deck.name}
+                </h4>
+                {importResult.deck.settings && (
+                  <p className="text-sm text-text-secondary dark:text-dark-text-secondary mt-2">
+                    {t('anki.settingsSummary', {
+                      newCards: importResult.deck.settings.newCardsPerDay,
+                      reviews: importResult.deck.settings.reviewsPerDay,
+                    })}
+                  </p>
+                )}
+              </div>
+            )}
+            <button onClick={handleClose} className="btn btn-primary">
+              {t('common.close')}
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Loading Overlay */}
-      {importing && <LoadingOverlay message={progressMessage} />}
+      {(parsing || saving) && <LoadingOverlay message={progressMessage || (saving ? t('anki.saving') : '')} />}
     </Modal>
   )
 }

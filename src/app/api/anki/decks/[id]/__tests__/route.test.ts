@@ -88,21 +88,19 @@ describe('Anki Deck [id] API Routes', () => {
         id: 'deck-123',
         name: 'Test Deck',
         cards: [],
+        userId: 'premium-user', // Include userId for ownership check
       };
 
+      // Mock top-level collection structure
       (adminDb.collection as any).mockReturnValue({
         doc: jest.fn(() => ({
-          collection: jest.fn(() => ({
-            doc: jest.fn(() => ({
-              get: jest.fn(() =>
-                Promise.resolve({
-                  exists: true,
-                  id: 'deck-123',
-                  data: () => mockDeck,
-                })
-              ),
-            })),
-          })),
+          get: jest.fn(() =>
+            Promise.resolve({
+              exists: true,
+              id: 'deck-123',
+              data: () => mockDeck,
+            })
+          ),
         })),
       });
 
@@ -127,17 +125,14 @@ describe('Anki Deck [id] API Routes', () => {
         plan: 'premium_monthly',
       });
 
+      // Mock top-level collection structure
       (adminDb.collection as any).mockReturnValue({
         doc: jest.fn(() => ({
-          collection: jest.fn(() => ({
-            doc: jest.fn(() => ({
-              get: jest.fn(() =>
-                Promise.resolve({
-                  exists: false,
-                })
-              ),
-            })),
-          })),
+          get: jest.fn(() =>
+            Promise.resolve({
+              exists: false,
+            })
+          ),
         })),
       });
 
@@ -199,7 +194,7 @@ describe('Anki Deck [id] API Routes', () => {
         Promise.resolve({
           exists: true,
           id: 'deck-123',
-          data: () => ({ name: 'Updated Name', cardCount: 10 }),
+          data: () => ({ name: 'Updated Name', cardCount: 10, userId: 'premium-user' }),
         })
       );
 
@@ -211,14 +206,11 @@ describe('Anki Deck [id] API Routes', () => {
         plan: 'premium_monthly',
       });
 
+      // Mock top-level collection structure
       (adminDb.collection as any).mockReturnValue({
         doc: jest.fn(() => ({
-          collection: jest.fn(() => ({
-            doc: jest.fn(() => ({
-              get: mockGet,
-              update: mockUpdate,
-            })),
-          })),
+          get: mockGet,
+          update: mockUpdate,
         })),
       });
 
@@ -246,17 +238,14 @@ describe('Anki Deck [id] API Routes', () => {
         plan: 'premium_monthly',
       });
 
+      // Mock top-level collection structure
       (adminDb.collection as any).mockReturnValue({
         doc: jest.fn(() => ({
-          collection: jest.fn(() => ({
-            doc: jest.fn(() => ({
-              get: jest.fn(() =>
-                Promise.resolve({
-                  exists: false,
-                })
-              ),
-            })),
-          })),
+          get: jest.fn(() =>
+            Promise.resolve({
+              exists: false,
+            })
+          ),
         })),
       });
 
@@ -319,7 +308,7 @@ describe('Anki Deck [id] API Routes', () => {
         Promise.resolve({
           exists: true,
           id: 'deck-123',
-          data: () => ({ name: 'Test Deck' }),
+          data: () => ({ name: 'Test Deck', userId: 'premium-user' }),
         })
       );
 
@@ -331,14 +320,11 @@ describe('Anki Deck [id] API Routes', () => {
         plan: 'premium_monthly',
       });
 
+      // Mock top-level collection structure
       (adminDb.collection as any).mockReturnValue({
         doc: jest.fn(() => ({
-          collection: jest.fn(() => ({
-            doc: jest.fn(() => ({
-              get: mockGet,
-              delete: mockDelete,
-            })),
-          })),
+          get: mockGet,
+          delete: mockDelete,
         })),
       });
 
@@ -367,17 +353,14 @@ describe('Anki Deck [id] API Routes', () => {
         plan: 'premium_monthly',
       });
 
+      // Mock top-level collection structure
       (adminDb.collection as any).mockReturnValue({
         doc: jest.fn(() => ({
-          collection: jest.fn(() => ({
-            doc: jest.fn(() => ({
-              get: jest.fn(() =>
-                Promise.resolve({
-                  exists: false,
-                })
-              ),
-            })),
-          })),
+          get: jest.fn(() =>
+            Promise.resolve({
+              exists: false,
+            })
+          ),
         })),
       });
 

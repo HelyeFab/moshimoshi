@@ -45,9 +45,12 @@ export async function GET(request: NextRequest) {
       })
     }
 
-    // Get user's Anki decks from Firebase (premium only)
-    const decksRef = adminDb.collection('users').doc(session.uid).collection('ankiDecks')
-    const snapshot = await decksRef.orderBy('updatedAt', 'desc').get()
+    // Get user's Anki decks from Firebase (premium only) - top-level collection
+    const decksRef = adminDb.collection('ankiDecks')
+    const snapshot = await decksRef
+      .where('userId', '==', session.uid)
+      .orderBy('updatedAt', 'desc')
+      .get()
 
     const decks = snapshot.docs.map(doc => ({
       id: doc.id,
@@ -61,8 +64,16 @@ export async function GET(request: NextRequest) {
         syncEnabled: decision.shouldWriteToFirebase,
       },
     })
-  } catch (error) {
+  } catch (error: any) {
     console.error('[Anki API] Error fetching decks:', error)
+    // Check if it's a missing index error
+    if (error?.code === 9 || error?.message?.includes('index')) {
+      console.error('FIRESTORE INDEX MISSING: Please run `firebase deploy --only firestore:indexes`')
+      return NextResponse.json({
+        error: 'Database index not ready. Please wait a few minutes and try again.',
+        details: 'Missing composite index for ankiDecks collection',
+      }, { status: 503 })
+    }
     return NextResponse.json({ error: 'Failed to fetch Anki decks' }, { status: 500 })
   }
 }
@@ -120,9 +131,8 @@ export async function POST(request: NextRequest) {
       // Clean the deck object to remove undefined values
       const cleanedDeck = cleanFirestoreData(newDeck)
 
+      // Save to top-level collection
       await adminDb
-        .collection('users')
-        .doc(session.uid)
         .collection('ankiDecks')
         .doc(deckId)
         .set(cleanedDeck)

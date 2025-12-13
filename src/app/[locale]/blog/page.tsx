@@ -8,10 +8,13 @@ import Navbar from "@/components/layout/Navbar";
 import MobileNavSpacer from "@/components/layout/MobileNavSpacer";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/blog/NewsletterForm";
+import { NewsletterStatusBadge } from "@/components/blog/NewsletterStatusBadge";
+import { useAuth } from "@/hooks/useAuth";
 
 function BlogContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
+  const { user } = useAuth();
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -112,7 +115,7 @@ function BlogContent() {
     <>
       {/* Desktop Navbar */}
       <div className="hidden sm:block">
-        <Navbar showUserMenu={true} />
+        <Navbar user={user} showUserMenu={true} />
       </div>
       <main className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
         {/* Enhanced Decorative elements */}
@@ -160,6 +163,11 @@ function BlogContent() {
                   Categories
                 </div>
               </div>
+            </div>
+
+            {/* Newsletter Status Badge */}
+            <div className="flex justify-center mb-4">
+              <NewsletterStatusBadge />
             </div>
           </header>
 

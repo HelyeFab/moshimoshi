@@ -193,8 +193,9 @@ export class FlashcardManager {
         console.log('[FlashcardManager.createDeck] Response status:', response.status)
         if (response.ok) {
           const responseData = await response.json()
-          const serverDeck = responseData.deck
-          console.log('[FlashcardManager.createDeck] Deck saved to Firebase:', serverDeck.id)
+          // Response is wrapped by createStorageResponse: { success, data: { deck }, storage }
+          const serverDeck = responseData.data?.deck || responseData.deck
+          console.log('[FlashcardManager.createDeck] Deck saved to Firebase:', serverDeck?.id)
           await db.put('decks', serverDeck)
           this.notifyListeners('decks-changed')
           return serverDeck
@@ -320,8 +321,10 @@ export class FlashcardManager {
         })
 
         if (response.ok) {
-          const { deck: serverDeck } = await response.json()
-          console.log('[FlashcardManager.updateDeck] Deck updated on Firebase:', serverDeck.id)
+          const responseData = await response.json()
+          // Response is wrapped by createStorageResponse: { success, data: { deck }, storage }
+          const serverDeck = responseData.data?.deck || responseData.deck
+          console.log('[FlashcardManager.updateDeck] Deck updated on Firebase:', serverDeck?.id)
           await db.put('decks', serverDeck)
           this.notifyListeners('decks-changed')
           return serverDeck
@@ -570,7 +573,9 @@ export class FlashcardManager {
         })
 
         if (response.ok) {
-          const { card: serverCard } = await response.json()
+          const responseData = await response.json()
+          // Response is wrapped by createStorageResponse: { success, data: { card }, storage }
+          const serverCard = responseData.data?.card || responseData.card
           await db.put('decks', deck)
           this.notifyListeners(`deck-${deckId}`)
           return serverCard
@@ -613,10 +618,12 @@ export class FlashcardManager {
         })
 
         if (response.ok) {
-          const { deck: updatedDeck } = await response.json()
-          await db.put('decks', updatedDeck)
+          const responseData = await response.json()
+          // Response is wrapped by createStorageResponse: { success, data: { deck }, storage }
+          const serverDeck = responseData.data?.deck || responseData.deck
+          await db.put('decks', serverDeck)
           this.notifyListeners('decks-changed')
-          return updatedDeck
+          return serverDeck
         }
       } catch (error) {
         console.error('Failed to update deck on server:', error)
@@ -1038,6 +1045,40 @@ export class FlashcardManager {
     const currentAccuracy = deck.stats.averageAccuracy
     deck.stats.averageAccuracy =
       (currentAccuracy * (totalReviews - 1) + (wasCorrect ? 1 : 0)) / totalReviews
+  }
+
+  // Clear all local IndexedDB data for a user (for logout or sync reset)
+  async clearLocalData(userId?: string): Promise<void> {
+    const db = await this.initDB()
+
+    if (userId) {
+      // Clear only this user's decks
+      const tx = db.transaction('decks', 'readwrite')
+      const existingDecks = await tx.store.index('userId').getAllKeys(userId)
+      for (const key of existingDecks) {
+        await tx.store.delete(key)
+      }
+      await tx.done
+      console.log(`[FlashcardManager] Cleared ${existingDecks.length} decks for user ${userId}`)
+    } else {
+      // Clear all decks
+      await db.clear('decks')
+      console.log('[FlashcardManager] Cleared all local decks')
+    }
+
+    this.notifyListeners('decks-changed')
+  }
+
+  // Force sync from server (clears local and fetches fresh)
+  async forceSyncFromServer(userId: string): Promise<FlashcardDeck[]> {
+    console.log('[FlashcardManager] Force sync from server for user:', userId)
+
+    // Clear local data first
+    await this.clearLocalData(userId)
+
+    // Fetch from server (this will repopulate IndexedDB)
+    // Pass isPremium=true to force server fetch
+    return this.getDecks(userId, true)
   }
 
   // Save session statistics

@@ -93,6 +93,8 @@ export async function generateLocalizedMetadata(
   for (const loc of locales) {
     languages[loc] = `${baseUrl}/${loc}`;
   }
+  // Add x-default for users with unsupported locales (falls back to English)
+  languages['x-default'] = `${baseUrl}/${defaultLocale}`;
 
   return {
     title: {

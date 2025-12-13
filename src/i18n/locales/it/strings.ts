@@ -2827,11 +2827,44 @@ export const strings = {
 
     // Study modes
     studyMode: 'Modalità Studio',
+    selectStudyMode: 'Seleziona modalità di studio',
     classic: 'Classica',
     match: 'Abbinamento',
     speed: 'Velocità',
     write: 'Scrittura',
     voice: 'Voce',
+
+    // Study mode details
+    modes: {
+      due: {
+        name: 'Carte in scadenza',
+        description: 'Ripassa le carte programmate per oggi',
+      },
+      new: {
+        name: 'Carte nuove',
+        description: 'Impara nuove carte che non hai mai visto',
+      },
+      all: {
+        name: 'Tutte le carte',
+        description: 'Esercitati con tutte le carte in questo mazzo',
+      },
+      cramming: {
+        name: 'Ripasso intensivo',
+        description: 'Ripasso intensivo di carte recenti e difficili',
+      },
+      speed: {
+        name: 'Sessione veloce',
+        description: 'Pratica veloce con carte casuali',
+      },
+      weakness: {
+        name: 'Carte deboli',
+        description: 'Concentrati sulle carte con cui hai difficoltà',
+      },
+      custom: {
+        name: 'Sessione personalizzata',
+        description: 'Crea la tua sessione di studio con impostazioni personalizzate',
+      },
+    },
 
     // Study session
     startStudying: 'Inizia Studio',
@@ -2860,6 +2893,18 @@ export const strings = {
     newCards: 'Nuove carte',
     learningCards: 'In apprendimento',
     reviewCards: 'Da ripassare',
+
+    // Additional study session keys
+    noCardsAvailable: 'Nessuna carta disponibile per questa modalità',
+    customSettings: 'Impostazioni personalizzate',
+    cardLimit: 'Limite di carte',
+    includeCards: 'Includi carte',
+    dueCards: 'Carte in scadenza',
+    masteredCards: 'Carte padronanza',
+    sortBy: 'Ordina per',
+    priority: 'Priorità',
+    random: 'Casuale',
+    oldest: 'Più vecchie prima',
 
     // Statistics
     stats: {
@@ -3726,6 +3771,24 @@ export const strings = {
     mediaFiles: 'media files',
     filesCount: '{{count}} files',
     sizeInMB: '{{size}} MB',
+    // Study session
+    study: {
+      title: 'Sessione di studio',
+      newCards: 'Nuove carte',
+      reviewCards: 'Revisioni',
+      remaining: '{{count}} rimanenti',
+      startStudy: 'Inizia studio',
+      noCardsDue: 'Nessuna carta da studiare oggi!',
+      sessionComplete: 'Sessione completata!',
+      cardsStudied: 'Carte studiate',
+      timeSpent: 'Tempo trascorso',
+      accuracy: 'Precisione',
+      backToDecks: 'Torna ai mazzi',
+      continueStudying: 'Continua a studiare',
+      dailyLimitReached: 'Limite giornaliero raggiunto',
+      newCardsToday: '{{count}} nuove carte oggi',
+      reviewsToday: '{{count}} revisioni oggi',
+    },
   },
 
   myVideos: {

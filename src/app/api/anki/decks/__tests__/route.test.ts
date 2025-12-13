@@ -9,19 +9,18 @@ jest.mock('@/lib/auth/session', () => ({
 jest.mock('@/lib/firebase/admin', () => ({
   adminDb: {
     collection: jest.fn(() => ({
+      // Top-level collection structure
       doc: jest.fn(() => ({
-        collection: jest.fn(() => ({
-          doc: jest.fn(() => ({
-            set: jest.fn(() => Promise.resolve()),
-            get: jest.fn(() => Promise.resolve({ exists: false })),
-          })),
-          orderBy: jest.fn(() => ({
-            get: jest.fn(() =>
-              Promise.resolve({
-                docs: [],
-              })
-            ),
-          })),
+        set: jest.fn(() => Promise.resolve()),
+        get: jest.fn(() => Promise.resolve({ exists: false })),
+      })),
+      where: jest.fn(() => ({
+        orderBy: jest.fn(() => ({
+          get: jest.fn(() =>
+            Promise.resolve({
+              docs: [],
+            })
+          ),
         })),
       })),
     })),
@@ -111,20 +110,19 @@ describe('Anki Decks API Routes', () => {
       const mockDocs = [
         {
           id: 'deck-1',
-          data: () => ({ name: 'Test Deck', cardCount: 10 }),
+          data: () => ({ name: 'Test Deck', cardCount: 10, userId: 'premium-user' }),
         },
       ];
 
+      // Mock top-level collection structure
       (adminDb.collection as any).mockReturnValue({
-        doc: jest.fn(() => ({
-          collection: jest.fn(() => ({
-            orderBy: jest.fn(() => ({
-              get: jest.fn(() =>
-                Promise.resolve({
-                  docs: mockDocs,
-                })
-              ),
-            })),
+        where: jest.fn(() => ({
+          orderBy: jest.fn(() => ({
+            get: jest.fn(() =>
+              Promise.resolve({
+                docs: mockDocs,
+              })
+            ),
           })),
         })),
       });
@@ -212,13 +210,10 @@ describe('Anki Decks API Routes', () => {
         plan: 'premium_monthly',
       });
 
+      // Mock top-level collection structure
       (adminDb.collection as any).mockReturnValue({
         doc: jest.fn(() => ({
-          collection: jest.fn(() => ({
-            doc: jest.fn(() => ({
-              set: mockSet,
-            })),
-          })),
+          set: mockSet,
         })),
       });
 

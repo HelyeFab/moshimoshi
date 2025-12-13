@@ -44,12 +44,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       })
     }
 
-    // Get the deck from Firebase
-    const deckRef = adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('ankiDecks')
-      .doc(deckId)
+    // Get the deck from Firebase - top-level collection
+    const deckRef = adminDb.collection('ankiDecks').doc(deckId)
 
     const deckDoc = await deckRef.get()
 
@@ -57,9 +53,15 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       return NextResponse.json({ error: 'Deck not found' }, { status: 404 })
     }
 
+    // Verify ownership
+    const deckData = deckDoc.data()
+    if (deckData?.userId !== session.uid) {
+      return NextResponse.json({ error: 'Deck not found' }, { status: 404 })
+    }
+
     const deck = {
       id: deckDoc.id,
-      ...deckDoc.data(),
+      ...deckData,
     }
 
     return NextResponse.json({
@@ -105,16 +107,18 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       })
     }
 
-    // Get the existing deck
-    const deckRef = adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('ankiDecks')
-      .doc(deckId)
+    // Get the existing deck - top-level collection
+    const deckRef = adminDb.collection('ankiDecks').doc(deckId)
 
     const deckDoc = await deckRef.get()
 
     if (!deckDoc.exists) {
+      return NextResponse.json({ error: 'Deck not found' }, { status: 404 })
+    }
+
+    // Verify ownership
+    const deckData = deckDoc.data()
+    if (deckData?.userId !== session.uid) {
       return NextResponse.json({ error: 'Deck not found' }, { status: 404 })
     }
 
@@ -125,14 +129,14 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     if (body.name !== undefined) updates.name = body.name
     if (body.description !== undefined) updates.description = body.description
+    if (body.settings !== undefined) updates.settings = body.settings
 
     await deckRef.update(updates)
 
-    // Get the updated deck
-    const updatedDoc = await deckRef.get()
     const updatedDeck = {
-      id: updatedDoc.id,
-      ...updatedDoc.data(),
+      id: deckDoc.id,
+      ...deckData,
+      ...updates,
     }
 
     return createStorageResponse({ deck: updatedDeck }, decision)
@@ -177,16 +181,18 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       })
     }
 
-    // Get the deck to verify ownership
-    const deckRef = adminDb
-      .collection('users')
-      .doc(session.uid)
-      .collection('ankiDecks')
-      .doc(deckId)
+    // Get the deck to verify ownership - top-level collection
+    const deckRef = adminDb.collection('ankiDecks').doc(deckId)
 
     const deckDoc = await deckRef.get()
 
     if (!deckDoc.exists) {
+      return NextResponse.json({ error: 'Deck not found' }, { status: 404 })
+    }
+
+    // Verify ownership
+    const deckData = deckDoc.data()
+    if (deckData?.userId !== session.uid) {
       return NextResponse.json({ error: 'Deck not found' }, { status: 404 })
     }
 
