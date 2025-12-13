@@ -6,7 +6,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAnkiStudy } from '@/hooks/useAnkiStudy'
 import { useAuth } from '@/hooks/useAuth'
-import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 import ReviewEngine from '@/components/review-engine/ReviewEngine'
 import { AnkiAdapter } from '@/lib/review-engine/adapters/AnkiAdapter'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
@@ -397,9 +396,5 @@ export default function AnkiStudyPage({ params }: PageProps) {
   const resolvedParams = use(params)
   const { deckId, locale } = resolvedParams
 
-  return (
-    <EntitlementGate featureId="anki_import">
-      <AnkiStudyContent deckId={deckId} locale={locale} />
-    </EntitlementGate>
-  )
+  return <AnkiStudyContent deckId={deckId} locale={locale} />
 }

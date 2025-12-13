@@ -36,8 +36,9 @@ import type { UserList } from '@/types/userLists'
 import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3 } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 
-export default function FlashcardsPage() {
+function FlashcardsContent() {
   const { t } = useI18n()
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
@@ -845,5 +846,13 @@ export default function FlashcardsPage() {
         <MobileNavSpacer />
       </div>
     </div>
+  )
+}
+
+export default function FlashcardsPage() {
+  return (
+    <EntitlementGate featureId="flashcards">
+      <FlashcardsContent />
+    </EntitlementGate>
   )
 }

@@ -371,16 +371,6 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     notifications: false,
     description: 'Read Japanese manga-style comics with furigana and vocabulary support',
   },
-  anki_import: {
-    id: 'anki_import',
-    name: 'Anki Import',
-    category: 'learning',
-    lifecycle: 'active',
-    permission: Permission.DO_PRACTICE,
-    limitType: 'daily',
-    notifications: false,
-    description: 'Import Anki decks (.apkg files) to study with spaced repetition',
-  },
 }
 
 export function getFeature(id: FeatureId): FeatureDefinition {

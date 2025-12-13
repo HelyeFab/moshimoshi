@@ -5,7 +5,6 @@ import Link from 'next/link'
 import { AnkiImportModal } from '@/components/anki/AnkiImportModal'
 import { useAnkiImport } from '@/hooks/useAnkiImport'
 import { useI18n, getLocaleFromPath } from '@/i18n/I18nContext'
-import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { ankiDeckManager, StoredAnkiDeck } from '@/lib/anki/AnkiDeckManager'
@@ -627,9 +626,5 @@ function AnkiImportContent() {
 }
 
 export default function AnkiImportPage() {
-  return (
-    <EntitlementGate featureId="anki_import">
-      <AnkiImportContent />
-    </EntitlementGate>
-  )
+  return <AnkiImportContent />
 }
