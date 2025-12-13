@@ -1483,6 +1483,9 @@ export const strings = {
       description:
         'Löschen Sie Ihr Konto und alle zugehörigen Daten. Diese Aktion kann nicht rückgängig gemacht werden.',
     },
+    signOut: {
+      description: 'Melden Sie sich auf diesem Gerät von Ihrem Konto ab.',
+    },
     deleteAccountDialog: {
       title: 'Konto löschen?',
       message:
@@ -2941,6 +2944,20 @@ export const strings = {
       includeProgress: 'Fortschrittsdaten einbeziehen',
       exporting: 'Exportiere...',
       success: 'Stapel erfolgreich exportiert',
+    },
+
+    // Image upload
+    image: {
+      uploadFile: 'Bild hochladen',
+      maxSize: 'Max {{size}}MB',
+      useUrl: 'Bild-URL verwenden',
+      pasteHint: 'Fügen Sie unten eine Bild-URL ein',
+      urlPlaceholder: 'https://example.com/image.jpg',
+      invalidType: 'Ungültiger Dateityp. Bitte verwenden Sie JPG, PNG, GIF oder WebP.',
+      tooLarge: 'Datei zu groß. Maximale Größe ist {{size}}MB.',
+      uploadFailed: 'Bild konnte nicht hochgeladen werden',
+      invalidUrl: 'Ungültige Bild-URL',
+      loadFailed: 'Bild konnte nicht von der URL geladen werden',
     },
 
     // Empty states

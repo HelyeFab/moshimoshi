@@ -1248,6 +1248,9 @@ export const strings = {
     dangerZone: {
       description: 'Delete your account and all associated data. This action cannot be undone.',
     },
+    signOut: {
+      description: 'Sign out of your account on this device.',
+    },
     deleteAccountDialog: {
       title: 'Delete Account?',
       message:
@@ -4322,6 +4325,20 @@ export const strings = {
       includeProgress: 'Include progress data',
       exporting: 'Exporting...',
       success: 'Deck exported successfully',
+    },
+
+    // Image upload
+    image: {
+      uploadFile: 'Upload image',
+      maxSize: 'Max {{size}}MB',
+      useUrl: 'Use image URL',
+      pasteHint: 'Paste an image URL below',
+      urlPlaceholder: 'https://example.com/image.jpg',
+      invalidType: 'Invalid file type. Please use JPG, PNG, GIF, or WebP.',
+      tooLarge: 'File too large. Maximum size is {{size}}MB.',
+      uploadFailed: 'Failed to upload image',
+      invalidUrl: 'Invalid image URL',
+      loadFailed: 'Failed to load image from URL',
     },
 
     // Empty states

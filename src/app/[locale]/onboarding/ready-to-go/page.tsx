@@ -52,7 +52,7 @@ function ReadyToGoContent() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col items-center justify-center p-6 pb-24">
       <div className="text-center max-w-lg">
         <CheckCircleIcon className="w-24 h-24 text-green-500 mx-auto mb-6" />
         <h1 className="text-4xl md:text-5xl font-bold mb-4">{t('onboarding.readyToGo.title')}</h1>

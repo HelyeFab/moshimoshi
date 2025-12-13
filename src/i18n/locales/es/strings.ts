@@ -1468,6 +1468,9 @@ export const strings = {
       description:
         'Elimina tu cuenta y todos los datos asociados. Esta acción no se puede deshacer.',
     },
+    signOut: {
+      description: 'Cerrar sesión de tu cuenta en este dispositivo.',
+    },
     deleteAccountDialog: {
       title: '¿Eliminar cuenta?',
       message:
@@ -2967,6 +2970,20 @@ export const strings = {
       includeProgress: 'Incluir datos de progreso',
       exporting: 'Exportando...',
       success: 'Mazo exportado con éxito',
+    },
+
+    // Image upload
+    image: {
+      uploadFile: 'Subir imagen',
+      maxSize: 'Máx {{size}}MB',
+      useUrl: 'Usar URL de imagen',
+      pasteHint: 'Pega la URL de la imagen abajo',
+      urlPlaceholder: 'https://example.com/image.jpg',
+      invalidType: 'Tipo de archivo inválido. Usa JPG, PNG, GIF o WebP.',
+      tooLarge: 'Archivo demasiado grande. El tamaño máximo es {{size}}MB.',
+      uploadFailed: 'Error al subir la imagen',
+      invalidUrl: 'URL de imagen inválida',
+      loadFailed: 'No se pudo cargar la imagen desde la URL',
     },
 
     // Empty states

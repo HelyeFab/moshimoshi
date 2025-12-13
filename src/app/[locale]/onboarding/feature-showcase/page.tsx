@@ -63,7 +63,7 @@ function FeatureShowcaseContent() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col items-center justify-center p-6 pb-24">
       <div className="text-center max-w-2xl w-full">
         {/* Personalized Header */}
         <h1 className="text-3xl md:text-4xl font-bold mb-4">{headline.title}</h1>

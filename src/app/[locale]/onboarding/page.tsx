@@ -16,7 +16,7 @@ const OnboardingWelcomePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col items-center justify-center p-6">
+    <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col items-center justify-center p-6 pb-24">
       <div className="text-center max-w-lg flex flex-col items-center">
         {/* Logo: Hiragana on top, romaji below */}
         <div className="flex flex-col items-center mb-6">

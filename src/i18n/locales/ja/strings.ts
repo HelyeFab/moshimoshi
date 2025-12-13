@@ -1458,6 +1458,9 @@ export const strings = {
     dangerZone: {
       description: 'アカウントと関連するすべてのデータを削除します。この操作は元に戻せません。',
     },
+    signOut: {
+      description: 'このデバイスからアカウントをサインアウトします。',
+    },
     deleteAccountDialog: {
       title: 'アカウントを削除しますか？',
       message:
@@ -2984,6 +2987,20 @@ export const strings = {
       includeProgress: '進捗データを含める',
       exporting: 'エクスポート中...',
       success: 'デッキのエクスポート完了',
+    },
+
+    // Image upload
+    image: {
+      uploadFile: '画像をアップロード',
+      maxSize: '最大{{size}}MB',
+      useUrl: '画像URLを使用',
+      pasteHint: '下に画像URLを貼り付けてください',
+      urlPlaceholder: 'https://example.com/image.jpg',
+      invalidType: '無効なファイル形式です。JPG、PNG、GIF、またはWebPを使用してください。',
+      tooLarge: 'ファイルが大きすぎます。最大サイズは{{size}}MBです。',
+      uploadFailed: '画像のアップロードに失敗しました',
+      invalidUrl: '無効な画像URLです',
+      loadFailed: 'URLから画像を読み込めませんでした',
     },
 
     // Empty states
