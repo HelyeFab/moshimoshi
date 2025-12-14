@@ -24,6 +24,11 @@ export default function AdminComicsPage() {
   const [episodeToPublish, setEpisodeToPublish] = useState<{ id: string; title: string } | null>(null)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [episodeToDelete, setEpisodeToDelete] = useState<{ id: string; title: string } | null>(null)
+  const [editModalOpen, setEditModalOpen] = useState(false)
+  const [episodeToEdit, setEpisodeToEdit] = useState<{ id: string; title: string; titleJa: string } | null>(null)
+  const [editTitle, setEditTitle] = useState('')
+  const [editTitleJa, setEditTitleJa] = useState('')
+  const [isSaving, setIsSaving] = useState(false)
 
   // Check admin access
   useEffect(() => {
@@ -111,6 +116,45 @@ export default function AdminComicsPage() {
       showToast('Failed to delete episode', 'error')
     } finally {
       setIsDeleting(false)
+    }
+  }
+
+  const openEditModal = (id: string, title: string, titleJa: string) => {
+    setEpisodeToEdit({ id, title, titleJa })
+    setEditTitle(title)
+    setEditTitleJa(titleJa)
+    setEditModalOpen(true)
+  }
+
+  const handleSaveEdit = async () => {
+    if (!episodeToEdit) return
+
+    try {
+      setIsSaving(true)
+      const response = await fetch('/api/admin/comics/episodes', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          episodeId: episodeToEdit.id,
+          updates: {
+            title: editTitle,
+            titleJa: editTitleJa,
+          },
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update episode')
+      }
+
+      setEditModalOpen(false)
+      await loadEpisodes()
+      showToast('Episode updated successfully', 'success')
+    } catch (error) {
+      console.error('Error updating episode:', error)
+      showToast('Failed to update episode', 'error')
+    } finally {
+      setIsSaving(false)
     }
   }
 
@@ -292,14 +336,24 @@ export default function AdminComicsPage() {
                               Publish
                             </button>
                           ) : (
-                            <Link
-                              href={`/comics/${item.id}`}
-                              className="p-1.5 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors"
-                              title="View episode"
-                              target="_blank"
-                            >
-                              <EyeIcon className="w-4 h-4" />
-                            </Link>
+                            <>
+                              <Link
+                                href={`/comics/${item.id}`}
+                                className="p-1.5 text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-lg transition-colors"
+                                title="View episode"
+                                target="_blank"
+                              >
+                                <EyeIcon className="w-4 h-4" />
+                              </Link>
+                              <button
+                                onClick={() => openEditModal(item.id, item.title, item.titleJa || '')}
+                                disabled={isSaving}
+                                className="p-1.5 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors disabled:opacity-50"
+                                title="Edit episode"
+                              >
+                                <PencilIcon className="w-4 h-4" />
+                              </button>
+                            </>
                           )}
                           <button
                             onClick={() => openDeleteModal(item.id, item.title)}
@@ -321,7 +375,7 @@ export default function AdminComicsPage() {
       </div>
 
       {/* Loading overlay */}
-      {(isDeleting || isPublishing) && <LoadingOverlay />}
+      {(isDeleting || isPublishing || isSaving) && <LoadingOverlay />}
 
       {/* Publish Confirmation Modal */}
       <Modal
@@ -378,6 +432,56 @@ export default function AdminComicsPage() {
               className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors"
             >
               Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
+
+      {/* Edit Episode Modal */}
+      <Modal
+        isOpen={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        title="Edit Episode"
+        size="md"
+      >
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Title (English)
+            </label>
+            <input
+              type="text"
+              value={editTitle}
+              onChange={(e) => setEditTitle(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              placeholder="Episode title"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+              Title (Japanese)
+            </label>
+            <input
+              type="text"
+              value={editTitleJa}
+              onChange={(e) => setEditTitleJa(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              placeholder="エピソードタイトル"
+            />
+          </div>
+          <div className="flex justify-end gap-3 pt-4">
+            <button
+              onClick={() => setEditModalOpen(false)}
+              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={handleSaveEdit}
+              disabled={isSaving}
+              className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors disabled:opacity-50"
+            >
+              {isSaving ? 'Saving...' : 'Save Changes'}
             </button>
           </div>
         </div>
