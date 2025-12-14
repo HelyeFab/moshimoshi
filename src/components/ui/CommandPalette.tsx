@@ -180,14 +180,14 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
       },
       {
         id: 'youtube',
-        title: 'YouTube Shadowing',
+        title: 'MoshiPlayer',
         subtitle: 'Practice with YouTube videos',
         icon: <Video className="w-5 h-5" />,
         action: () => {
           router.push('/youtube-shadowing')
           setIsOpen(false)
         },
-        keywords: ['youtube', 'video', 'shadowing', 'listening', 'watch'],
+        keywords: ['youtube', 'video', 'shadowing', 'listening', 'watch', 'moshiplayer', 'player'],
         category: 'practice',
         shortcut: 'g y',
       },
