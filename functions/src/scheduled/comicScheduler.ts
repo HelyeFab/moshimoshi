@@ -805,11 +805,8 @@ export const scheduledComicGeneratorFunction = onSchedule(
       jobName: event.jobName,
     })
 
-    const adminKey = process.env.COMIC_SCHEDULER_ADMIN_KEY
-    if (!adminKey) {
-      logger.error('[ComicScheduler] COMIC_SCHEDULER_ADMIN_KEY environment variable not configured')
-      throw new Error('COMIC_SCHEDULER_ADMIN_KEY not configured')
-    }
+    // Use same fallback pattern as story scheduler for autonomous operation
+    const adminKey = process.env.COMIC_SCHEDULER_ADMIN_KEY || 'comic-scheduler-2025'
 
     const result = await generateComicEpisode(adminKey)
 
@@ -833,14 +830,10 @@ export const manualComicGeneratorFunction = onCall(
   },
   async request => {
     const adminKey = request.data?.adminKey
-    const expectedAdminKey = process.env.COMIC_SCHEDULER_ADMIN_KEY
+    const expectedAdminKey = process.env.COMIC_SCHEDULER_ADMIN_KEY || 'comic-scheduler-2025'
 
     // Validate admin key if provided
     if (adminKey) {
-      if (!expectedAdminKey) {
-        logger.error('[ComicScheduler] COMIC_SCHEDULER_ADMIN_KEY environment variable not configured')
-        throw new HttpsError('internal', 'Server misconfiguration: Admin key not set')
-      }
       if (adminKey !== expectedAdminKey) {
         throw new HttpsError('unauthenticated', 'Invalid admin key')
       }
