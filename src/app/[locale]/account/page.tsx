@@ -11,7 +11,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { SubscriptionStatus } from '@/components/subscription/SubscriptionStatus'
 import { InvoiceHistory } from '@/components/subscription/InvoiceHistory'
 import DoshiMascot from '@/components/ui/DoshiMascot'
-// Navigation is now global via NavigationWrapper in root layout
+import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay, LoadingButton } from '@/components/ui/Loading'
 import Dialog from '@/components/ui/Dialog'
 import Image from 'next/image'
@@ -44,7 +44,7 @@ function AccountPageContent() {
   const { showToast } = useToast()
   const { showError } = useErrorToast()
   const { subscription, upgradeToPremium, isPremium } = useSubscription()
-  const { refreshSession } = useAuth()
+  const { user: authUser, refreshSession } = useAuth()
   logger.subscription('[Account Page] Subscription from hook:', subscription)
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
@@ -322,6 +322,8 @@ function AccountPageContent() {
 
   return (
     <PageContainer gradient="default" showPattern={true}>
+      <Navbar user={authUser} showUserMenu={true} />
+
       {/* Confetti for successful checkout */}
       {showConfetti && (
         <div className="fixed inset-0 pointer-events-none z-[9999]">
