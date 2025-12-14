@@ -515,7 +515,7 @@ function CollectionList({ title, items, expanded, onToggle }: {
                 <summary className="cursor-pointer text-sm font-medium text-gray-900 dark:text-white">
                   Item {idx + 1} {item.id ? `(${item.id})` : ''}
                 </summary>
-                <pre className="mt-2 text-xs text-gray-600 dark:text-gray-400 overflow-auto">
+                <pre className="mt-2 text-xs text-gray-600 dark:text-gray-400 overflow-auto scrollbar-hide">
                   {JSON.stringify(item, null, 2)}
                 </pre>
               </details>

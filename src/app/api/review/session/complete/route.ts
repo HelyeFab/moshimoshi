@@ -26,6 +26,8 @@ import { adminDb } from '@/lib/firebase/admin';
  * - itemsReviewed: number
  * - correctCount: number
  * - accuracy: number
+ * - bestStreak?: number (optional - for flashcard sessions)
+ * - fastCards?: number (optional - for flashcard sessions)
  *
  * Response:
  * - success: boolean
@@ -49,7 +51,7 @@ export async function POST(req: NextRequest) {
 
     // Parse request body
     const body = await req.json();
-    const { sessionId, itemsReviewed, correctCount, accuracy } = body;
+    const { sessionId, itemsReviewed, correctCount, accuracy, bestStreak, fastCards } = body;
 
     // Validate required fields
     if (!sessionId || typeof itemsReviewed !== 'number' || typeof correctCount !== 'number' || typeof accuracy !== 'number') {
@@ -69,13 +71,17 @@ export async function POST(req: NextRequest) {
     const isPremium = plan === 'premium_monthly' || plan === 'premium_yearly';
 
     // Record review completion via coordinator (atomic transaction)
+    // Pass flashcard-specific params if provided (for accurate XP calculation)
     const gamificationResult = await recordReviewCompletion({
       userId: session.uid,
       sessionId,
       itemsReviewed,
       correctCount,
       accuracy,
-      isPremium
+      isPremium,
+      // Flashcard-specific params (optional)
+      bestStreak: typeof bestStreak === 'number' ? bestStreak : undefined,
+      fastCards: typeof fastCards === 'number' ? fastCards : undefined,
     });
 
     // Return success with gamification data

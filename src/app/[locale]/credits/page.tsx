@@ -17,7 +17,7 @@ interface CreditItem {
 }
 
 export default function CreditsPage() {
-  const { strings } = useI18n()
+  const { strings, t } = useI18n()
   const { user } = useAuth()
   const [loading, setLoading] = useState(true)
 
@@ -30,30 +30,43 @@ export default function CreditsPage() {
   const dataSourceCredits: CreditItem[] = [
     {
       name: 'JMdict',
-      description: strings.credits?.sources?.jmdict || 'Japanese-Multilingual Dictionary project',
+      description: t('credits.sources.jmdict'),
       url: 'https://www.edrdg.org/jmdict/j_jmdict.html',
       license: 'Creative Commons',
       icon: '📚'
     },
     {
       name: 'WaniKani',
-      description: strings.credits?.sources?.wanikani || 'Kanji learning methodology and mnemonics inspiration',
+      description: t('credits.sources.wanikani'),
       url: 'https://www.wanikani.com',
       icon: '🦀'
     },
     {
       name: 'KanjiCanvas',
-      description: strings.credits?.sources?.kanjicanvas || 'Stroke order diagrams and kanji drawing components',
+      description: t('credits.sources.kanjicanvas'),
       url: 'https://github.com/asdfjkl/kanjicanvas',
       license: 'MIT License',
       icon: '✏️'
     },
     {
       name: 'Flaticon',
-      description: strings.credits?.sources?.flaticon || 'Icons and visual assets',
+      description: t('credits.sources.flaticon'),
       url: 'https://www.flaticon.com',
       license: 'Flaticon License',
       icon: '🎨'
+    },
+    {
+      name: 'VOICEVOX',
+      description: t('credits.sources.voicevox'),
+      url: 'https://voicevox.hiroshiba.jp',
+      license: 'LGPL / Character Terms',
+      icon: '🎙️'
+    },
+    {
+      name: 'NHK NEWS WEB EASY',
+      description: t('credits.sources.nhknewseasy'),
+      url: 'https://www3.nhk.or.jp/news/easy/',
+      icon: '📰'
     }
   ]
 

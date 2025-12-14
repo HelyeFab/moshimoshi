@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { X, MessageSquare, Send } from 'lucide-react';
+import Dropdown from '@/components/ui/Dropdown';
 
 interface FeedbackWidgetProps {
   userId?: string;
@@ -81,21 +82,19 @@ export const FeedbackWidget: React.FC<FeedbackWidgetProps> = ({ userId, userEmai
             {!submitted ? (
               <form onSubmit={handleSubmit} className="p-4">
                 <div className="mb-4">
-                  <label className="block text-sm font-medium mb-2">
-                    Category
-                  </label>
-                  <select
+                  <Dropdown
+                    label="Category"
                     value={category}
-                    onChange={(e) => setCategory(e.target.value)}
-                    className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
-                  >
-                    <option value="general">General Feedback</option>
-                    <option value="bug">Bug Report</option>
-                    <option value="feature">Feature Request</option>
-                    <option value="performance">Performance Issue</option>
-                    <option value="payment">Payment/Billing</option>
-                    <option value="other">Other</option>
-                  </select>
+                    onChange={(value) => setCategory(value)}
+                    options={[
+                      { value: 'general', label: 'General Feedback' },
+                      { value: 'bug', label: 'Bug Report' },
+                      { value: 'feature', label: 'Feature Request' },
+                      { value: 'performance', label: 'Performance Issue' },
+                      { value: 'payment', label: 'Payment/Billing' },
+                      { value: 'other', label: 'Other' },
+                    ]}
+                  />
                 </div>
 
                 <div className="mb-4">

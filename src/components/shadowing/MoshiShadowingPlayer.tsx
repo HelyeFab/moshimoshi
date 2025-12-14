@@ -7,6 +7,7 @@ import { useWordExplanation } from '@/hooks/useWordExplanation';
 import WordExplanationModal from '@/components/word/WordExplanationModal';
 import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText';
 import Modal from '@/components/ui/Modal';
+import Dropdown from '@/components/ui/Dropdown';
 import { Settings, Repeat, Type, Highlighter, X, Trash2 } from 'lucide-react';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import { nextOnSegmentEnd, onRepeatCountChange, clampRepeatCount, type RepeatState } from '@/lib/shadowing/repeat';
@@ -508,16 +509,17 @@ export default function MoshiShadowingPlayer({
                 <Highlighter className="w-4 h-4 text-primary-500" />
                 {t('youtubeShadowing.settings.highlighting')}
               </label>
-              <select
+              <Dropdown
                 value={highlightMode}
-                onChange={(e) => setHighlightMode(e.target.value as HighlightMode)}
-                className="px-3 py-1.5 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 text-sm"
-              >
-                <option value="none">{t('youtubeShadowing.settings.noHighlighting')}</option>
-                <option value="content">{t('youtubeShadowing.settings.contentWords')}</option>
-                <option value="grammar">{t('youtubeShadowing.settings.grammarWords')}</option>
-                <option value="all">{t('youtubeShadowing.settings.allWords')}</option>
-              </select>
+                onChange={(value) => setHighlightMode(value as HighlightMode)}
+                size="small"
+                options={[
+                  { value: 'none', label: t('youtubeShadowing.settings.noHighlighting') },
+                  { value: 'content', label: t('youtubeShadowing.settings.contentWords') },
+                  { value: 'grammar', label: t('youtubeShadowing.settings.grammarWords') },
+                  { value: 'all', label: t('youtubeShadowing.settings.allWords') },
+                ]}
+              />
             </div>
 
             {/* Close Shadowing */}

@@ -309,7 +309,7 @@ export class NotificationErrorBoundary extends Component<ErrorBoundaryProps, Err
                 {process.env.NODE_ENV === 'development' && (
                   <details className="mt-2">
                     <summary className="cursor-pointer font-medium">Error details</summary>
-                    <pre className="mt-1 text-xs overflow-auto">
+                    <pre className="mt-1 text-xs overflow-auto scrollbar-hide">
                       {error.toString()}
                     </pre>
                   </details>

@@ -43,22 +43,47 @@ export class AnkiAdapter extends BaseContentAdapter<AnkiCard> {
   }
 
   transform(item: AnkiCard): ReviewableContent {
+    // Build rich display with reading if available
+    let primaryDisplay = item.expression || item.front;
+
+    // Build secondary display with meaning and reading
+    let secondaryDisplay = item.meaning || item.back;
+    if (item.reading) {
+      secondaryDisplay = `${item.reading}\n${secondaryDisplay}`;
+    }
+
+    // Build tertiary display with example sentence if available
+    let tertiaryDisplay = '';
+    if (item.sentence) {
+      tertiaryDisplay = item.sentence;
+      if (item.sentenceReading) {
+        tertiaryDisplay += `\n${item.sentenceReading}`;
+      }
+      if (item.sentenceMeaning) {
+        tertiaryDisplay += `\n${item.sentenceMeaning}`;
+      }
+    } else if (item.tags?.length) {
+      tertiaryDisplay = item.tags.join(', ');
+    }
+
     return {
       id: item.id,
       contentType: 'custom',  // Anki cards are custom content
-      primaryDisplay: item.front,
-      secondaryDisplay: item.back,
-      tertiaryDisplay: item.tags?.join(', '),
-      primaryAnswer: item.back,
-      alternativeAnswers: [],
+      primaryDisplay,
+      secondaryDisplay,
+      tertiaryDisplay: tertiaryDisplay || undefined,
+      primaryAnswer: item.meaning || item.back,
+      alternativeAnswers: item.reading ? [item.reading] : [],
       difficulty: this.calculateDifficulty(item),
       tags: [...(item.tags || []), 'anki', `deck:${item.deckName}`],
       source: 'anki',
       supportedModes: ['recognition', 'recall'],
       preferredMode: 'recognition',
-      // Media in AnkiCard is string[], extract based on extension
-      imageUrl: item.media?.find(m => /\.(jpg|jpeg|png|gif|webp|svg)$/i.test(m)),
-      audioUrl: item.media?.find(m => /\.(mp3|wav|ogg|m4a)$/i.test(m)),
+      // Use actual blob URLs from our rich import
+      imageUrl: item.imageUrl,
+      audioUrl: item.audioUrl,
+      // Store reading separately for display components
+      reading: item.reading,
       metadata: {
         ...item.metadata,
         source: 'anki',
@@ -68,7 +93,16 @@ export class AnkiAdapter extends BaseContentAdapter<AnkiCard> {
         ease: item.ease,
         reviews: item.reviews,
         lapses: item.lapses,
-        hasMedia: (item.media?.length || 0) > 0
+        hasMedia: !!(item.audioUrl || item.imageUrl),
+        // Rich content metadata
+        expression: item.expression,
+        meaning: item.meaning,
+        reading: item.reading,
+        sentence: item.sentence,
+        sentenceReading: item.sentenceReading,
+        sentenceMeaning: item.sentenceMeaning,
+        audioFilename: item.audioFilename,
+        imageFilename: item.imageFilename,
       }
     };
   }

@@ -13,6 +13,7 @@ import {
   Save,
   Trash2,
   List,
+  AlertTriangle,
 } from 'lucide-react'
 import type { CreateDeckRequest, CardSide, CardStyle } from '@/types/flashcards'
 import type { UserList } from '@/types/userLists'
@@ -20,15 +21,20 @@ import { useI18n } from '@/i18n/I18nContext'
 import { cn } from '@/lib/utils'
 import { DECK_COLORS, SUGGESTED_DECK_EMOJIS } from '@/types/flashcards'
 import { AnkiImportModal } from '@/components/anki/AnkiImportModal'
+import { ankiDeckManager } from '@/lib/anki/AnkiDeckManager'
 import { VirtualCardList } from './VirtualCardList'
 import { ImageUpload } from './ImageUpload'
 import { listManager } from '@/lib/lists/ListManager'
 import { useRouter } from 'next/navigation'
+import { Loader2, ChevronDown, Check } from 'lucide-react'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import Modal from '@/components/ui/Modal'
 
 interface DeckCreatorProps {
   isOpen: boolean
   onClose: () => void
   onSave: (deck: CreateDeckRequest) => void
+  onAnkiImportComplete?: () => void // Called after Anki import to refresh deck list
   userLists?: UserList[]
   userId: string
   isPremium: boolean
@@ -41,6 +47,7 @@ export function DeckCreator({
   isOpen,
   onClose,
   onSave,
+  onAnkiImportComplete,
   userLists = [],
   userId,
   isPremium,
@@ -81,12 +88,81 @@ export function DeckCreator({
   }>({ front: '', back: '', notes: '' })
   const [selectedListId, setSelectedListId] = useState<string>('')
 
+  // State for dynamically loaded lists
+  const [fetchedLists, setFetchedLists] = useState<UserList[]>([])
+  const [loadingLists, setLoadingLists] = useState(false)
+  const [showListPicker, setShowListPicker] = useState(false)
+
+  // State for limit error modal
+  const [limitError, setLimitError] = useState<{ currentCount: number; limit: number } | null>(null)
+  const [checkingLimit, setCheckingLimit] = useState(false)
+
+  // Check deck limit when modal opens (only for new decks, not edits)
+  React.useEffect(() => {
+    const checkDeckLimit = async () => {
+      if (!isOpen || editDeck || !userId) return
+
+      setCheckingLimit(true)
+      try {
+        const response = await fetch('/api/flashcards/decks/limit', {
+          credentials: 'include',
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          if (!data.canCreate) {
+            setLimitError({
+              currentCount: data.currentCount,
+              limit: data.limit,
+            })
+          }
+        }
+      } catch (error) {
+        console.error('[DeckCreator] Failed to check deck limit:', error)
+      } finally {
+        setCheckingLimit(false)
+      }
+    }
+
+    checkDeckLimit()
+  }, [isOpen, editDeck, userId])
+
   // If editing, skip source selection and go straight to details
   React.useEffect(() => {
     if (editDeck && isOpen) {
       setStep('details')
     }
   }, [editDeck, isOpen])
+
+  // Load lists when "From List" is selected
+  React.useEffect(() => {
+    const loadLists = async () => {
+      if (importSource === 'list' && isOpen && userId) {
+        setLoadingLists(true)
+        try {
+          const lists = await listManager.getLists(userId, isPremium)
+          setFetchedLists(lists)
+        } catch (error) {
+          console.error('[DeckCreator] Failed to load lists:', error)
+        } finally {
+          setLoadingLists(false)
+        }
+      }
+    }
+    loadLists()
+  }, [importSource, isOpen, userId, isPremium])
+
+  // Use fetched lists if available, otherwise fall back to prop
+  const availableLists = fetchedLists.length > 0 ? fetchedLists : userLists
+
+  // Get selected list details
+  const selectedList = availableLists.find(l => l.id === selectedListId)
+
+  // Handle list selection from modal
+  const handleListSelect = (listId: string) => {
+    setSelectedListId(listId)
+    setShowListPicker(false)
+  }
 
   const handleImportSource = (source: ImportSource) => {
     // Redirect free users to pricing for premium features
@@ -107,27 +183,52 @@ export function DeckCreator({
     }
   }
 
-  const handleAnkiImportSuccess = (result: any) => {
+  const handleAnkiImportSuccess = async (result: any) => {
     if (result.deck) {
-      setDeckName(result.deck.name)
-      setDescription(result.deck.description || '')
-      // Convert Anki cards to our format
-      const importedCards = result.deck.cards.map((card: any) => ({
-        front: card.front,
-        back: card.back,
-        notes: card.tags?.join(', ') || '',
-      }))
-      setCards(importedCards)
-      setShowAnkiImport(false)
-      setStep('details')
+      // Save directly using AnkiDeckManager to preserve rich content and set source: 'anki'
+      try {
+        await ankiDeckManager.saveDeck(
+          result.deck,
+          userId,
+          isPremium,
+          result.deck.name
+        )
+        console.log('[DeckCreator] Anki deck saved via AnkiDeckManager:', result.deck.id)
+        setShowAnkiImport(false)
+        onAnkiImportComplete?.() // Refresh the deck list in the parent
+        onClose() // Close the modal - deck is already saved
+      } catch (error: any) {
+        console.error('[DeckCreator] Failed to save Anki deck:', error)
+
+        // Check for deck limit error
+        if (error?.code === 'LIMIT_REACHED') {
+          setLimitError({
+            currentCount: error.currentCount || 0,
+            limit: error.limit || 15,
+          })
+          setShowAnkiImport(false)
+          return
+        }
+
+        // Fallback: show in the regular flow (loses rich content but at least works)
+        setDeckName(result.deck.name)
+        setDescription(result.deck.description || '')
+        const importedCards = result.deck.cards.map((card: any) => ({
+          front: card.front,
+          back: card.back,
+          notes: card.tags?.join(', ') || '',
+        }))
+        setCards(importedCards)
+        setShowAnkiImport(false)
+        setStep('details')
+      }
     }
   }
 
   const handleListImport = async () => {
     if (!selectedListId) return
 
-    const lists = await listManager.getLists(userId, isPremium)
-    const list = lists.find(l => l.id === selectedListId)
+    const list = availableLists.find(l => l.id === selectedListId)
 
     if (list) {
       setDeckName(list.name)
@@ -157,9 +258,18 @@ export function DeckCreator({
 
       for (let i = startIndex; i < lines.length; i++) {
         if (!lines[i].trim()) continue
-        const [front, back, notes] = lines[i].split(',').map(s => s.trim().replace(/^"|"$/g, ''))
-        if (front && back) {
-          importedCards.push({ front, back, notes: notes || '' })
+
+        const values = lines[i].match(/(".*?"|[^,]+)/g) || []
+        const cleanValues = values.map(value =>
+          value.replace(/^"|"$/g, '').replace(/""/g, '"').trim()
+        )
+
+        if (cleanValues.length >= 2) {
+          importedCards.push({
+            front: cleanValues[0],
+            back: cleanValues[1],
+            notes: cleanValues[2] || '',
+          })
         }
       }
 
@@ -234,6 +344,10 @@ export function DeckCreator({
     setCards([])
     setCurrentCard({ front: '', back: '', notes: '' })
     setSelectedListId('')
+    setLimitError(null) // Reset limit error when form resets
+    setFetchedLists([])
+    setLoadingLists(false)
+    setShowListPicker(false)
   }
 
   if (!isOpen) return null
@@ -316,7 +430,7 @@ export function DeckCreator({
               </div>
 
               {/* Content */}
-              <div className="flex-1 p-4 sm:p-6 overflow-y-auto">
+              <div className="flex-1 p-4 sm:p-6 overflow-y-auto scrollbar-hide">
                 {step === 'source' && (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <button
@@ -550,31 +664,49 @@ export function DeckCreator({
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                           {t('flashcards.import.selectList')}
                         </label>
-                        <select
-                          value={selectedListId}
-                          onChange={e => setSelectedListId(e.target.value)}
-                          className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                        >
-                          <option value="">{t('flashcards.import.selectList')}</option>
-                          {userLists.length > 0 ? (
-                            userLists.map(list => (
-                              <option key={list.id} value={list.id}>
-                                {list.emoji} {list.name} ({list.items.length} items)
-                              </option>
-                            ))
-                          ) : (
-                            <option value="" disabled>
-                              {t('flashcards.import.noLists')}
-                            </option>
-                          )}
-                        </select>
-                        {userLists.length === 0 && (
-                          <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                            {t('flashcards.import.createListFirst')}
-                          </p>
+                        {loadingLists ? (
+                          <div className="flex items-center gap-2 py-3 text-gray-500 dark:text-gray-400">
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                            <span>{t('common.loading')}</span>
+                          </div>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => setShowListPicker(true)}
+                              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors flex items-center justify-between"
+                            >
+                              {selectedList ? (
+                                <div className="flex items-center gap-3">
+                                  <span className="text-xl">{selectedList.emoji}</span>
+                                  <div className="text-left">
+                                    <div className="font-medium text-gray-900 dark:text-gray-100">
+                                      {selectedList.name}
+                                    </div>
+                                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                                      {selectedList.items.length} {t('lists.items')}
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : (
+                                <span className="text-gray-500 dark:text-gray-400">
+                                  {t('flashcards.import.selectList')}
+                                </span>
+                              )}
+                              <ChevronDown className="w-5 h-5 text-gray-400" />
+                            </button>
+                            {availableLists.length === 0 && (
+                              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                                {t('flashcards.import.createListFirst')}
+                              </p>
+                            )}
+                          </>
                         )}
                       </div>
                     )}
+
+                    {/* Spacer for mobile bottom nav */}
+                    <MobileNavSpacer />
                   </div>
                 )}
 
@@ -746,6 +878,9 @@ export function DeckCreator({
                   )}
                 </div>
               </div>
+
+              {/* Mobile bottom nav spacer */}
+              <MobileNavSpacer />
             </motion.div>
           </div>
         )}
@@ -766,6 +901,88 @@ export function DeckCreator({
         onClose={() => setShowAnkiImport(false)}
         onImportSuccess={handleAnkiImportSuccess}
       />
+
+      {/* List Picker Modal */}
+      <Modal
+        isOpen={showListPicker}
+        onClose={() => setShowListPicker(false)}
+        title={t('flashcards.import.selectList')}
+        size="md"
+      >
+        <div className="space-y-2">
+          {availableLists.length > 0 ? (
+            availableLists.map(list => (
+              <button
+                key={list.id}
+                onClick={() => handleListSelect(list.id)}
+                className={cn(
+                  'w-full p-4 rounded-xl border-2 transition-all flex items-center gap-4',
+                  selectedListId === list.id
+                    ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
+                    : 'border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-700 hover:bg-gray-50 dark:hover:bg-dark-700'
+                )}
+              >
+                <span className="text-3xl">{list.emoji}</span>
+                <div className="flex-1 text-left">
+                  <div className="font-semibold text-gray-900 dark:text-gray-100">
+                    {list.name}
+                  </div>
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
+                    {list.items.length} {t('lists.items')} • {list.type}
+                  </div>
+                </div>
+                {selectedListId === list.id && (
+                  <Check className="w-6 h-6 text-primary-500" />
+                )}
+              </button>
+            ))
+          ) : (
+            <div className="text-center py-8">
+              <p className="text-gray-500 dark:text-gray-400 mb-2">
+                {t('flashcards.import.noLists')}
+              </p>
+              <p className="text-sm text-gray-400 dark:text-gray-500">
+                {t('flashcards.import.createListFirst')}
+              </p>
+            </div>
+          )}
+        </div>
+      </Modal>
+
+      {/* Deck Limit Error Modal */}
+      <Modal
+        isOpen={limitError !== null}
+        onClose={() => {
+          setLimitError(null)
+          onClose() // Also close the main modal
+        }}
+        title={t('anki.limitReached.title')}
+        size="md"
+      >
+        <div className="text-center">
+          <div className="mx-auto w-16 h-16 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center mb-4">
+            <AlertTriangle className="w-8 h-8 text-orange-500" />
+          </div>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+            {t('anki.limitReached.title')}
+          </h3>
+          <p className="text-gray-600 dark:text-gray-400 mb-4">
+            {t('anki.limitReached.message', {
+              current: limitError?.currentCount || 0,
+              limit: limitError?.limit || 15,
+            })}
+          </p>
+          <button
+            onClick={() => {
+              setLimitError(null)
+              onClose()
+            }}
+            className="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+          >
+            {t('anki.limitReached.understood')}
+          </button>
+        </div>
+      </Modal>
     </>
   )
 }

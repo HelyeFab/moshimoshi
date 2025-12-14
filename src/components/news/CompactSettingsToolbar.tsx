@@ -61,7 +61,7 @@ const CompactSettingsToolbar = memo(function CompactSettingsToolbar({
           onClick={e => e.stopPropagation()} // Prevent closing when clicking inside
         >
           <div
-            className="rounded-3xl shadow-2xl p-6 max-h-[85vh] overflow-y-auto"
+            className="rounded-3xl shadow-2xl p-6 max-h-[85vh] overflow-y-auto scrollbar-hide"
             style={{
               backgroundColor: 'var(--article-bg)',
               border: '1px solid var(--article-border)',

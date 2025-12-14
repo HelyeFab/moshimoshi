@@ -38,7 +38,12 @@ export interface ReviewableContent {
    * Additional context (usage examples, notes, hints)
    */
   tertiaryDisplay?: string
-  
+
+  /**
+   * Reading/pronunciation (hiragana for Japanese content)
+   */
+  reading?: string
+
   // Input/Answer fields
   /**
    * Expected answer for validation

@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useI18n } from '@/i18n/I18nContext'
+import Dropdown from '@/components/ui/Dropdown'
 
 type JLPTLevel = 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
 
@@ -97,7 +98,7 @@ export default function GenerateKanjiMoodboardModal({
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white dark:bg-dark-800 rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white dark:bg-dark-800 rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto scrollbar-hide">
         <div className="sticky top-0 bg-white dark:bg-dark-800 border-b border-gray-200 dark:border-dark-700 p-4 flex items-center justify-between">
           <h2 className="text-lg font-semibold text-foreground dark:text-dark-100">
             {t('admin.moodboard.generateWithAI')}
@@ -139,21 +140,19 @@ export default function GenerateKanjiMoodboardModal({
 
           {/* JLPT Level */}
           <div>
-            <label className="block text-sm font-medium mb-2">
-              {t('admin.moodboard.jlptLevel')}
-            </label>
-            <select
+            <Dropdown
+              label={t('admin.moodboard.jlptLevel')}
               value={jlptLevel}
-              onChange={e => setJlptLevel(e.target.value as JLPTLevel)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
+              onChange={(value) => setJlptLevel(value as JLPTLevel)}
               disabled={isGenerating}
-            >
-              <option value="N5">N5 - Beginner</option>
-              <option value="N4">N4 - Elementary</option>
-              <option value="N3">N3 - Intermediate</option>
-              <option value="N2">N2 - Upper Intermediate</option>
-              <option value="N1">N1 - Advanced</option>
-            </select>
+              options={[
+                { value: 'N5', label: 'N5 - Beginner' },
+                { value: 'N4', label: 'N4 - Elementary' },
+                { value: 'N3', label: 'N3 - Intermediate' },
+                { value: 'N2', label: 'N2 - Upper Intermediate' },
+                { value: 'N1', label: 'N1 - Advanced' },
+              ]}
+            />
             <p className="text-xs text-muted-foreground dark:text-dark-400 mt-1">
               {t('admin.moodboard.jlptHint')}
             </p>

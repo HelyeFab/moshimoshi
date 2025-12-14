@@ -2865,6 +2865,9 @@ export const strings = {
       using: 'Stockage utilisé',
     },
 
+    // Streak
+    dayStreak: 'jours consécutifs',
+
     // Migration
     migration: {
       title: 'Synchroniser avec le cloud',
@@ -3456,6 +3459,8 @@ export const strings = {
       wanikani: "Méthodologie d'apprentissage des kanji et inspiration mnémonique",
       kanjicanvas: "Diagrammes d'ordre des traits et composants de dessin de kanji",
       flaticon: 'Icônes et ressources visuelles',
+      voicevox: 'Synthèse vocale japonaise de haute qualité avec des voix de personnages expressifs comme Zundamon et Shikoku Metan',
+      nhknewseasy: "Articles d'actualité japonaise simplifiés pour les apprenants, fournis par NHK (Japan Broadcasting Corporation)",
     },
 
     libraries: {
@@ -3715,12 +3720,14 @@ export const strings = {
       newCardsToday: '{{count}} nouvelles cartes aujourd\'hui',
       reviewsToday: '{{count}} révisions aujourd\'hui',
     },
-    // Import limit reached
+    // Deck limit reached
     limitReached: {
-      title: 'Limite d\'importation atteinte',
+      title: 'Limite de paquets atteinte',
       heading: 'Limite de paquets atteinte',
-      message: 'Vous avez {{current}} sur {{limit}} paquets Anki. Veuillez supprimer un paquet existant avant d\'en importer un nouveau.',
+      message: 'Vous avez {{current}} sur {{limit}} paquets. Veuillez supprimer un paquet existant avant d\'en créer un nouveau.',
       suggestion: 'Pour gérer vos paquets, utilisez le menu sur chaque carte de paquet pour supprimer ceux dont vous n\'avez plus besoin.',
+      upgrade: 'Mettre à niveau',
+      understood: 'J\'ai compris',
     },
   },
 

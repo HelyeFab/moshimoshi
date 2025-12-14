@@ -3009,6 +3009,9 @@ export const strings = {
       using: '使用中のストレージ',
     },
 
+    // Streak
+    dayStreak: '日連続',
+
     // Migration
     migration: {
       title: 'クラウドに同期',
@@ -3512,6 +3515,8 @@ export const strings = {
       wanikani: '漢字学習方法論とニーモニックのインスピレーション',
       kanjicanvas: '筆順図と漢字描画コンポーネント',
       flaticon: 'アイコンとビジュアル素材',
+      voicevox: 'ずんだもんや四国めたんなど、表現力豊かなキャラクターボイスによる高品質な日本語音声合成',
+      nhknewseasy: 'NHK（日本放送協会）が提供する、日本語学習者向けのやさしい日本語ニュース記事',
     },
 
     libraries: {
@@ -3771,12 +3776,14 @@ export const strings = {
       reviewsToday: '今日の復習: {{count}}枚',
     },
     limitReached: {
-      title: 'インポート上限に達しました',
+      title: 'デッキ数が上限に達しました',
       heading: 'デッキ数が上限に達しました',
       message:
-        '現在 {{current}} / {{limit}} デッキです。新しいデッキをインポートするには、既存のデッキを削除してください。',
+        '現在 {{current}} / {{limit}} デッキです。新しいデッキを作成するには、既存のデッキを削除してください。',
       suggestion:
         'デッキを管理するには、各デッキカードのメニューから不要なデッキを削除できます。',
+      upgrade: 'アップグレードする',
+      understood: '了解しました',
     },
   },
 

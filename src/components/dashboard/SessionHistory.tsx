@@ -26,6 +26,7 @@ import {
   Hash
 } from 'lucide-react';
 import { format, parseISO, startOfDay, endOfDay, isWithinInterval } from 'date-fns';
+import Dropdown from '@/components/ui/Dropdown';
 import { useQuery } from '@tanstack/react-query';
 
 interface SessionHistoryItem {
@@ -295,35 +296,31 @@ export default function SessionHistory() {
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Mode
-                </label>
-                <select
+                <Dropdown
+                  label="Mode"
                   value={filters.mode}
-                  onChange={(e) => setFilters(prev => ({ ...prev, mode: e.target.value as any }))}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                >
-                  <option value="all">All Modes</option>
-                  <option value="recognition">Recognition</option>
-                  <option value="recall">Recall</option>
-                  <option value="listening">Listening</option>
-                </select>
+                  onChange={(value) => setFilters(prev => ({ ...prev, mode: value as any }))}
+                  options={[
+                    { value: 'all', label: 'All Modes' },
+                    { value: 'recognition', label: 'Recognition' },
+                    { value: 'recall', label: 'Recall' },
+                    { value: 'listening', label: 'Listening' },
+                  ]}
+                />
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Status
-                </label>
-                <select
+                <Dropdown
+                  label="Status"
                   value={filters.status}
-                  onChange={(e) => setFilters(prev => ({ ...prev, status: e.target.value as any }))}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-white"
-                >
-                  <option value="all">All Status</option>
-                  <option value="completed">Completed</option>
-                  <option value="abandoned">Abandoned</option>
-                  <option value="timeout">Timeout</option>
-                </select>
+                  onChange={(value) => setFilters(prev => ({ ...prev, status: value as any }))}
+                  options={[
+                    { value: 'all', label: 'All Status' },
+                    { value: 'completed', label: 'Completed' },
+                    { value: 'abandoned', label: 'Abandoned' },
+                    { value: 'timeout', label: 'Timeout' },
+                  ]}
+                />
               </div>
               
               <div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { MoodBoard, KanjiItem } from '@/types/moodboard';
 import { useI18n } from '@/i18n/I18nContext';
 import { useToast } from '@/components/ui/Toast/ToastContext';
+import Dropdown from '@/components/ui/Dropdown';
 
 interface MoodBoardEditorProps {
   board: MoodBoard | null;
@@ -187,7 +188,7 @@ export default function MoodBoardEditor({
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4">
+        <div className="flex-1 overflow-y-auto scrollbar-hide p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
             {/* Title */}
             <div>
@@ -205,21 +206,19 @@ export default function MoodBoardEditor({
 
             {/* JLPT Level */}
             <div>
-              <label className="block text-sm font-medium mb-2">
-                {t('admin.moodboards.jlptLevel')}
-              </label>
-              <select
+              <Dropdown
+                label={t('admin.moodboards.jlptLevel')}
                 value={formData.jlpt}
-                onChange={(e) => setFormData(prev => ({ ...prev, jlpt: e.target.value as any }))}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
+                onChange={(value) => setFormData(prev => ({ ...prev, jlpt: value as any }))}
                 disabled={isSaving}
-              >
-                <option value="N5">N5 - Beginner</option>
-                <option value="N4">N4 - Elementary</option>
-                <option value="N3">N3 - Intermediate</option>
-                <option value="N2">N2 - Upper Intermediate</option>
-                <option value="N1">N1 - Advanced</option>
-              </select>
+                options={[
+                  { value: 'N5', label: 'N5 - Beginner' },
+                  { value: 'N4', label: 'N4 - Elementary' },
+                  { value: 'N3', label: 'N3 - Intermediate' },
+                  { value: 'N2', label: 'N2 - Upper Intermediate' },
+                  { value: 'N1', label: 'N1 - Advanced' },
+                ]}
+              />
             </div>
 
             {/* Description */}

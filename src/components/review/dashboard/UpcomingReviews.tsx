@@ -404,7 +404,7 @@ export function UpcomingReviews({ className }: UpcomingReviewsProps) {
       </div>
 
       {/* Items List */}
-      <div className="p-4 max-h-96 overflow-y-auto">
+      <div className="p-4 max-h-96 overflow-y-auto scrollbar-hide">
         {Object.keys(groupedItems).length === 0 ? (
           <div className="text-center py-8 text-gray-500 dark:text-gray-400">
             <Clock className="h-12 w-12 mx-auto mb-4 opacity-50" />

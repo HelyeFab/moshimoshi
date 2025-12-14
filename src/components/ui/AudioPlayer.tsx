@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useTTS } from '@/hooks/useTTS';
 import { TTSOptions } from '@/lib/tts/types';
 import { useI18n } from '@/i18n/I18nContext';
+import Dropdown from '@/components/ui/Dropdown';
 
 interface AudioPlayerProps {
   text: string;
@@ -174,19 +175,26 @@ export default function AudioPlayer({
         {/* Speed Control */}
         {showSpeed && (
           <div className="flex items-center gap-2">
-            <label className="text-xs text-gray-600 dark:text-gray-400">{strings.common?.speed || 'Speed'}</label>
-            <select
-              value={speed}
-              onChange={handleSpeedChange}
-              className="text-sm px-2 py-1 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800"
-            >
-              <option value="0.5">0.5x</option>
-              <option value="0.75">0.75x</option>
-              <option value="1">1x</option>
-              <option value="1.25">1.25x</option>
-              <option value="1.5">1.5x</option>
-              <option value="2">2x</option>
-            </select>
+            <Dropdown
+              label={strings.common?.speed || 'Speed'}
+              value={String(speed)}
+              onChange={(value) => {
+                const rate = parseFloat(value);
+                setSpeed(rate);
+                if (audioRef.current) {
+                  audioRef.current.playbackRate = rate;
+                }
+              }}
+              size="small"
+              options={[
+                { value: '0.5', label: '0.5x' },
+                { value: '0.75', label: '0.75x' },
+                { value: '1', label: '1x' },
+                { value: '1.25', label: '1.25x' },
+                { value: '1.5', label: '1.5x' },
+                { value: '2', label: '2x' },
+              ]}
+            />
           </div>
         )}
 

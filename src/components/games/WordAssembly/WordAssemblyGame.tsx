@@ -235,7 +235,7 @@ export default function WordAssemblyGame({ onBack }: WordAssemblyGameProps) {
               <p>{strings.games?.noLists || 'No word lists found. Create some word lists first!'}</p>
             </div>
           ) : (
-            <div className="space-y-2 max-h-64 overflow-y-auto mb-4">
+            <div className="space-y-2 max-h-64 overflow-y-auto scrollbar-hide mb-4">
               {userLists.map(list => (
                 <label
                   key={list.id}

@@ -21,6 +21,16 @@ export interface ProcessedCard {
   tags: string[];
   fields: string[];
   media?: string[];
+  // Rich content fields extracted from Anki
+  reading?: string;
+  audioFilename?: string;
+  imageFilename?: string;
+  expression?: string;
+  meaning?: string;
+  sentence?: string;
+  sentenceReading?: string;
+  sentenceMeaning?: string;
+  noteType?: 'vocabulary' | 'sentence' | 'unknown';
 }
 
 export interface AnkiDeckInfo {
@@ -73,36 +83,56 @@ export class AnkiParser {
         deckName: deck.meta?.name || 'Imported Deck'
       }));
 
-      // Process cards
-      const processedCards: ProcessedCard[] = mappedNotes.map((note) => {
+      // Process cards with rich field extraction
+      const processedCards: ProcessedCard[] = mappedNotes.map((note, index) => {
         const fields = note.fields || [];
-        let front = '';
-        let back = '';
 
-        // Core 2000 detection - if first field is a number, skip it
-        if (fields.length >= 4 && /^\d+$/.test(fields[0]?.trim())) {
-          // Core 2000: [index, expression, reading, meaning, ...]
-          front = fields[1] || ''; // Expression
-          back = fields[3] || ''; // Meaning
-        } else if (fields.length >= 2) {
-          front = fields[0] || '';
-          back = fields[1] || '';
-        } else if (fields.length === 1) {
-          front = fields[0] || '';
-          back = fields[0] || '';
+        // Extract all media references from ALL fields BEFORE cleaning
+        const allFieldsRaw = fields.join(' ');
+        const media = this.extractMediaReferences(allFieldsRaw);
+
+        // Extract audio and image filenames specifically
+        const audioFilename = this.extractAudioFilename(allFieldsRaw);
+        const imageFilename = this.extractImageFilename(allFieldsRaw);
+
+        // Detect note type and extract fields accordingly
+        const extracted = this.extractFieldsByType(fields);
+
+        // Log first card for debugging
+        if (index === 0) {
+          console.log('[AnkiParser] First card extraction:', {
+            fieldsCount: fields.length,
+            field0: fields[0]?.substring(0, 30),
+            field1: fields[1]?.substring(0, 30),
+            field2: fields[2]?.substring(0, 30),
+            allFieldsRaw: allFieldsRaw.substring(0, 200),
+            audioFilename,
+            imageFilename,
+            extractedReading: extracted.reading,
+            extractedExpression: extracted.expression,
+            noteType: extracted.noteType,
+          });
         }
-
-        const media = this.extractMediaReferences(front + ' ' + back);
 
         return {
           id: note.id,
           noteId: note.id,
           deckId: '1',
-          front: this.cleanHtml(front),
-          back: this.cleanHtml(back),
+          front: this.cleanHtml(extracted.front),
+          back: this.cleanHtml(extracted.back),
           tags: note.tags || [],
           fields: note.fields,
-          media
+          media,
+          // Rich content
+          reading: extracted.reading ? this.cleanHtml(extracted.reading) : undefined,
+          audioFilename,
+          imageFilename,
+          expression: extracted.expression ? this.cleanHtml(extracted.expression) : undefined,
+          meaning: extracted.meaning ? this.cleanHtml(extracted.meaning) : undefined,
+          sentence: extracted.sentence ? this.cleanHtml(extracted.sentence) : undefined,
+          sentenceReading: extracted.sentenceReading ? this.cleanHtml(extracted.sentenceReading) : undefined,
+          sentenceMeaning: extracted.sentenceMeaning ? this.cleanHtml(extracted.sentenceMeaning) : undefined,
+          noteType: extracted.noteType,
         };
       });
 
@@ -301,5 +331,133 @@ export class AnkiParser {
     }
 
     return mediaRefs;
+  }
+
+  /**
+   * Extract audio filename from content
+   */
+  private static extractAudioFilename(content: string): string | undefined {
+    const match = content.match(/\[sound:([^\]]+)\]/);
+    return match ? match[1] : undefined;
+  }
+
+  /**
+   * Extract image filename from content
+   */
+  private static extractImageFilename(content: string): string | undefined {
+    const match = content.match(/<img[^>]+src="([^"]+)"/);
+    if (match && match[1] && !match[1].startsWith('http')) {
+      return match[1];
+    }
+    return undefined;
+  }
+
+  /**
+   * Smart field extraction based on note type detection
+   */
+  private static extractFieldsByType(fields: string[]): {
+    front: string;
+    back: string;
+    reading?: string;
+    expression?: string;
+    meaning?: string;
+    sentence?: string;
+    sentenceReading?: string;
+    sentenceMeaning?: string;
+    noteType: 'vocabulary' | 'sentence' | 'unknown';
+  } {
+    // Default result
+    const result: ReturnType<typeof this.extractFieldsByType> = {
+      front: fields[0] || '',
+      back: fields[1] || '',
+      noteType: 'unknown',
+    };
+
+    if (fields.length === 0) return result;
+
+    // iKnow! format detection (7 fields: Expression, Meaning, Reading, Audio, Image_URI, iKnowID, iKnowType)
+    if (fields.length >= 7) {
+      const lastField = fields[6]?.toLowerCase() || '';
+      if (lastField === 'item' || lastField === 'sentence') {
+        // This is iKnow! format
+        const isVocab = lastField === 'item';
+        result.noteType = isVocab ? 'vocabulary' : 'sentence';
+        result.expression = fields[0];
+        result.meaning = fields[1];
+        result.reading = fields[2];
+        // fields[3] = Audio, fields[4] = Image_URI - handled separately
+        // fields[5] = iKnowID, fields[6] = iKnowType
+
+        if (isVocab) {
+          result.front = fields[0]; // Expression
+          result.back = fields[1];  // Meaning
+        } else {
+          // Sentence type - expression contains the sentence
+          result.sentence = fields[0];
+          result.sentenceReading = fields[2];
+          result.sentenceMeaning = fields[1];
+          result.front = fields[0];
+          result.back = fields[1];
+        }
+        return result;
+      }
+    }
+
+    // Core 2000 format detection (first field is numeric index)
+    if (fields.length >= 4 && /^\d+$/.test(fields[0]?.trim())) {
+      // Core 2000: [index, expression, reading, meaning, ...]
+      result.noteType = 'vocabulary';
+      result.expression = fields[1];
+      result.reading = fields[2];
+      result.meaning = fields[3];
+      result.front = fields[1];
+      result.back = fields[3];
+      return result;
+    }
+
+    // Generic Japanese vocab format (Expression, Reading, Meaning or similar)
+    if (fields.length >= 3) {
+      const field0 = fields[0] || '';
+      const field1 = fields[1] || '';
+      const field2 = fields[2] || '';
+
+      // Check if field1 looks like a reading (all hiragana/katakana)
+      const isReadingField = /^[\u3040-\u309F\u30A0-\u30FF\s]+$/.test(field1.replace(/<[^>]+>/g, ''));
+
+      if (isReadingField) {
+        // Format: Expression, Reading, Meaning
+        result.noteType = 'vocabulary';
+        result.expression = field0;
+        result.reading = field1;
+        result.meaning = field2;
+        result.front = field0;
+        result.back = field2;
+        return result;
+      }
+
+      // Check if it's Expression, Meaning, Reading order
+      const isField2Reading = /^[\u3040-\u309F\u30A0-\u30FF\s]+$/.test(field2.replace(/<[^>]+>/g, ''));
+      if (isField2Reading) {
+        result.noteType = 'vocabulary';
+        result.expression = field0;
+        result.meaning = field1;
+        result.reading = field2;
+        result.front = field0;
+        result.back = field1;
+        return result;
+      }
+    }
+
+    // Standard 2-field format
+    if (fields.length >= 2) {
+      result.front = fields[0];
+      result.back = fields[1];
+      result.noteType = 'vocabulary';
+    } else if (fields.length === 1) {
+      result.front = fields[0];
+      result.back = fields[0];
+    }
+
+    return result;
   }
 }

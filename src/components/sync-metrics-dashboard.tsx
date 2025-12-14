@@ -243,7 +243,7 @@ export const SyncMetricsDashboard: React.FC<DashboardProps> = ({
             <h3 className="font-semibold mb-2 text-gray-700 dark:text-gray-300">
               Recent Activity
             </h3>
-            <div className="max-h-40 overflow-y-auto text-sm space-y-1">
+            <div className="max-h-40 overflow-y-auto scrollbar-hide text-sm space-y-1">
               {metrics.syncHistory.map((event, idx) => (
                 <div
                   key={idx}

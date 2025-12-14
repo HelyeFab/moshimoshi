@@ -110,7 +110,7 @@ export default function KanjiCard({
 
         {/* Back of card */}
         <div className="absolute inset-0 w-full h-full backface-hidden rotate-y-180 rounded-xl bg-gradient-to-br from-primary-50 to-primary-100 dark:from-primary-900/20 dark:to-primary-800/20 border border-primary-200 dark:border-primary-700 shadow-lg">
-          <div className="h-full flex flex-col p-6 overflow-y-auto">
+          <div className="h-full flex flex-col p-6 overflow-y-auto scrollbar-hide">
             {/* Character at top */}
             <div className="text-center mb-4">
               <span className="text-4xl font-bold text-primary-700 dark:text-primary-300 font-japanese">

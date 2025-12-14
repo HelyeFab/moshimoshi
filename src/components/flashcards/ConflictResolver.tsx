@@ -166,7 +166,7 @@ export function ConflictResolver({ isOpen, onClose, onResolve }: ConflictResolve
             </div>
 
             {/* Content */}
-            <div className="p-6 overflow-y-auto max-h-[60vh]">
+            <div className="p-6 overflow-y-auto max-h-[60vh] scrollbar-hide">
               {/* Deck Info */}
               <div className="mb-6 p-4 bg-gray-50 dark:bg-dark-800 rounded-lg">
                 <div className="flex items-center gap-2 mb-2">

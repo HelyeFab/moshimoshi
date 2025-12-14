@@ -9,6 +9,7 @@ import type {
   ExportDeckRequest,
   DeckStats,
   CardSide,
+  CardStatus,
   SessionStats,
 } from '@/types/flashcards'
 import type { UserList, ListItem } from '@/types/userLists'
@@ -185,7 +186,11 @@ export class FlashcardManager {
   }
 
   // Get all decks for a user
-  async getDecks(userId: string, isPremium: boolean): Promise<FlashcardDeck[]> {
+  async getDecks(
+    userId: string,
+    isPremium: boolean,
+    retryOnAuthFailure: boolean = true
+  ): Promise<FlashcardDeck[]> {
     console.log('🔥🔥🔥 [FlashcardManager.getDecks] CALLED with userId:', userId, 'isPremium:', isPremium)
     const db = await this.initDB()
 
@@ -252,7 +257,23 @@ export class FlashcardManager {
 
           return decks || []
         } else {
-          console.error('[FlashcardManager.getDecks] Server returned error:', response.status, await response.text())
+          // Auth race on first load: retry once after a short delay when unauthorized/forbidden
+          if (retryOnAuthFailure && (response.status === 401 || response.status === 403)) {
+            console.warn('[FlashcardManager.getDecks] Auth not ready (status', response.status, ') retrying after refresh...')
+            // Try refreshing session (best-effort)
+            try {
+              await fetch('/api/auth/refresh-session', { method: 'POST', credentials: 'include' })
+            } catch (refreshErr) {
+              console.warn('[FlashcardManager.getDecks] Session refresh failed:', refreshErr)
+            }
+            await new Promise(resolve => setTimeout(resolve, 300))
+            return this.getDecks(userId, isPremium, false)
+          }
+          console.error(
+            '[FlashcardManager.getDecks] Server returned error:',
+            response.status,
+            await response.text()
+          )
         }
       } catch (error) {
         console.error('[FlashcardManager.getDecks] Failed to fetch from server:', error)
@@ -362,9 +383,10 @@ export class FlashcardManager {
           return serverDeck
         } else {
           let errorMessage = 'Failed to create deck on server'
+          let parsedError: any = {}
           try {
             const errorData = await response.text()
-            const parsedError = errorData ? JSON.parse(errorData) : {}
+            parsedError = errorData ? JSON.parse(errorData) : {}
             errorMessage = parsedError.error || errorMessage
             console.error('[FlashcardManager.createDeck] Server error:', {
               status: response.status,
@@ -378,13 +400,22 @@ export class FlashcardManager {
             )
           }
 
-          // If it's a 403 (deck limit), throw the error to surface it to the user
+          // If it's a 403 (deck limit), throw an error with the limit data
           if (response.status === 403) {
-            throw new Error(errorMessage)
+            const limitError = new Error(errorMessage) as any
+            limitError.code = 'LIMIT_REACHED'
+            limitError.currentCount = parsedError.currentCount
+            limitError.limit = parsedError.limit
+            throw limitError
           }
         }
       } catch (error: any) {
         console.error('Failed to create deck on server:', error)
+
+        // Re-throw limit errors - don't queue or save locally
+        if (error?.code === 'LIMIT_REACHED') {
+          throw error
+        }
 
         // Queue for retry
         await syncManager.queueOperation({
@@ -717,7 +748,7 @@ export class FlashcardManager {
       ...card,
     }
 
-    // Update deck
+    // Update deck locally
     deck.cards.push(newCard)
     deck.stats.totalCards++
     deck.stats.newCards++
@@ -730,16 +761,24 @@ export class FlashcardManager {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
-          body: JSON.stringify(card),
+          body: JSON.stringify({ ...card, id: newCard.id }),
         })
 
         if (response.ok) {
           const responseData = await response.json()
           // Response is wrapped by createStorageResponse: { success, data: { card }, storage }
-          const serverCard = responseData.data?.card || responseData.card
+          const serverCard: FlashcardContent = responseData.data?.card || responseData.card
+          const serverStats = responseData.data?.stats || responseData.stats
+          if (serverCard) {
+            deck.cards = deck.cards.map(c => (c.id === newCard.id ? serverCard : c))
+          }
+          if (serverStats) {
+            deck.stats = serverStats
+          }
+          deck.updatedAt = Date.now()
           await db.put('decks', deck)
           this.notifyListeners(`deck-${deckId}`)
-          return serverCard
+          return serverCard ?? newCard
         }
       } catch (error) {
         console.error('Failed to add card on server:', error)
@@ -1110,6 +1149,7 @@ export class FlashcardManager {
     // Find the card
     const cardIndex = deck.cards.findIndex(c => c.id === cardId)
     if (cardIndex === -1) return null
+    const previousStatus = deck.cards[cardIndex].metadata?.status
 
     // Update card with SRS algorithm
     const updatedCard = await FlashcardSRSHelper.updateCardAfterReview(
@@ -1123,7 +1163,7 @@ export class FlashcardManager {
     deck.updatedAt = Date.now()
 
     // Update deck stats based on card progress
-    this.updateDeckStatsFromCard(deck, updatedCard, difficulty !== 'again')
+    this.updateDeckStatsFromCard(deck, updatedCard, difficulty !== 'again', previousStatus)
 
     // Save to server ONLY for premium users
     if (isPremium && userId !== 'guest') {
@@ -1138,6 +1178,11 @@ export class FlashcardManager {
         })
 
         if (response.ok) {
+          const responseData = await response.json()
+          const serverStats = responseData.data?.stats || responseData.stats
+          if (serverStats) {
+            deck.stats = serverStats
+          }
           await db.put('decks', deck)
           this.notifyListeners(`deck-${deckId}`)
           return updatedCard
@@ -1157,13 +1202,15 @@ export class FlashcardManager {
   private updateDeckStatsFromCard(
     deck: FlashcardDeck,
     card: FlashcardContent,
-    wasCorrect: boolean
+    wasCorrect: boolean,
+    previousStatus?: CardStatus
   ): void {
     // Update card type counts
     if (card.metadata?.status) {
-      const oldStatus = deck.cards.find(c => c.id === card.id)?.metadata?.status
+      const oldStatus = previousStatus ?? deck.cards.find(c => c.id === card.id)?.metadata?.status
+      const newStatus = card.metadata.status
 
-      if (oldStatus !== card.metadata.status) {
+      if (oldStatus !== newStatus) {
         // Update counts when status changes
         switch (oldStatus) {
           case 'new':
@@ -1180,7 +1227,7 @@ export class FlashcardManager {
             break
         }
 
-        switch (card.metadata.status) {
+        switch (newStatus) {
           case 'new':
             deck.stats.newCards++
             break
@@ -1262,6 +1309,15 @@ export class FlashcardManager {
 
       // Save updated deck
       await db.put('decks', deck)
+    }
+
+    // Always persist session locally for dashboard/insights
+    try {
+      const { sessionManager } = await import('./SessionManager')
+      await sessionManager.saveSession(session)
+      await sessionManager.saveSessionRemote(session, isPremium)
+    } catch (err) {
+      console.error('[FlashcardManager] Failed to persist session locally:', err)
     }
 
     // For premium users, also save to Firebase

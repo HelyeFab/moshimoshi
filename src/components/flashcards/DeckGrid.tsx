@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, Play, Edit2, Trash2, Download, Upload, TrendingUp, Clock, Target, BookOpen, RefreshCw, Settings, Settings2, ChevronDown, MoreVertical, Sliders } from 'lucide-react';
+import { Plus, Play, Edit2, Trash2, Download, Upload, TrendingUp, Clock, Target, BookOpen, RefreshCw, Settings, Settings2, ChevronDown, MoreVertical } from 'lucide-react';
 import type { FlashcardDeck } from '@/types/flashcards';
 import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
@@ -39,17 +39,23 @@ export function DeckGrid({
 }: DeckGridProps) {
   const { t } = useI18n();
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
 
-  // Close menu when clicking outside
+  // Close menu when clicking outside - use click instead of mousedown
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
+      // Don't close if clicking inside the menu
+      if (menuRef.current && menuRef.current.contains(event.target as Node)) {
+        return;
+      }
       if (openMenuId !== null) {
         setOpenMenuId(null);
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    // Use click event (fires after mousedown) so menu actions can complete
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
   }, [openMenuId]);
 
   const getColorClasses = (color: string) => {
@@ -189,6 +195,7 @@ export function DeckGrid({
                   <AnimatePresence>
                     {openMenuId === deck.id && (
                       <motion.div
+                        ref={menuRef}
                         initial={{ opacity: 0, scale: 0.95, y: -10 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
                         exit={{ opacity: 0, scale: 0.95, y: -10 }}
@@ -210,19 +217,6 @@ export function DeckGrid({
                           </button>
                         )}
 
-                        {onSessionSettings && (
-                          <button
-                            onClick={() => {
-                              onSessionSettings(deck);
-                              setOpenMenuId(null);
-                            }}
-                            className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-3"
-                          >
-                            <Sliders className="w-4 h-4" />
-                            {t('flashcards.settings.quickSettings')}
-                          </button>
-                        )}
-
                         <div className="border-t border-gray-200 dark:border-dark-700 my-1" />
 
                         {/* Management Options */}
@@ -236,6 +230,19 @@ export function DeckGrid({
                           >
                             <Edit2 className="w-4 h-4" />
                             {t('flashcards.editDeck')}
+                          </button>
+                        )}
+
+                        {onDeleteDeck && (
+                          <button
+                            onClick={() => {
+                              onDeleteDeck(deck);
+                              setOpenMenuId(null);
+                            }}
+                            className="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-3"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                            {t('flashcards.deleteDeck')}
                           </button>
                         )}
 
@@ -265,23 +272,6 @@ export function DeckGrid({
                             >
                               <RefreshCw className="w-4 h-4" />
                               {t('flashcards.syncToCloud')}
-                            </button>
-                          </>
-                        )}
-
-                        {/* Delete Option */}
-                        {onDeleteDeck && (
-                          <>
-                            <div className="border-t border-gray-200 dark:border-dark-700 my-1" />
-                            <button
-                              onClick={() => {
-                                onDeleteDeck(deck);
-                                setOpenMenuId(null);
-                              }}
-                              className="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-3"
-                            >
-                              <Trash2 className="w-4 h-4" />
-                              {t('flashcards.deleteDeck')}
                             </button>
                           </>
                         )}

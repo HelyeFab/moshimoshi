@@ -199,7 +199,7 @@ export default function Drawer({
         )}
 
         {/* Content - with proper scrolling */}
-        <div className="flex-1 overflow-y-auto p-4 overscroll-contain">
+        <div className="flex-1 overflow-y-auto scrollbar-hide p-4 overscroll-contain">
           {children}
         </div>
       </div>

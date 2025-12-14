@@ -160,7 +160,7 @@ export default function ScrapingLogsPanel({ refreshTrigger }: ScrapingLogsPanelP
           No scraping logs found
         </div>
       ) : (
-        <div className="space-y-2 max-h-96 overflow-y-auto">
+        <div className="space-y-2 max-h-96 overflow-y-auto scrollbar-hide">
           <AnimatePresence>
             {logs.map((log, index) => (
               <motion.div

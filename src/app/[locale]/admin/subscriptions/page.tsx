@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useAdmin } from '@/hooks/useAdmin'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import Modal from '@/components/ui/Modal'
+import Dropdown from '@/components/ui/Dropdown'
 
 interface User {
   uid: string
@@ -212,16 +213,17 @@ export default function AdminSubscriptionsPage() {
             onChange={(e) => setSearchTerm(e.target.value)}
             className="flex-1 px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
           />
-          <select
+          <Dropdown
             value={filterPlan}
-            onChange={(e) => setFilterPlan(e.target.value)}
-            className="px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-          >
-            <option value="all">All Plans</option>
-            <option value="free">Free</option>
-            <option value="premium_monthly">Monthly</option>
-            <option value="premium_yearly">Yearly</option>
-          </select>
+            onChange={(value) => setFilterPlan(value)}
+            size="small"
+            options={[
+              { value: 'all', label: 'All Plans' },
+              { value: 'free', label: 'Free' },
+              { value: 'premium_monthly', label: 'Monthly' },
+              { value: 'premium_yearly', label: 'Yearly' },
+            ]}
+          />
         </div>
       </div>
 
@@ -372,18 +374,16 @@ export default function AdminSubscriptionsPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  New Plan
-                </label>
-                <select
+                <Dropdown
+                  label="New Plan"
                   value={selectedPlan}
-                  onChange={(e) => setSelectedPlan(e.target.value as any)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary-500"
-                >
-                  <option value="free">Free</option>
-                  <option value="premium_monthly">Premium Monthly</option>
-                  <option value="premium_yearly">Premium Yearly</option>
-                </select>
+                  onChange={(value) => setSelectedPlan(value as any)}
+                  options={[
+                    { value: 'free', label: 'Free' },
+                    { value: 'premium_monthly', label: 'Premium Monthly' },
+                    { value: 'premium_yearly', label: 'Premium Yearly' },
+                  ]}
+                />
               </div>
 
               <div>

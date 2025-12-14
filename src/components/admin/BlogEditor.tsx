@@ -7,6 +7,7 @@ import { useI18n } from '@/i18n/I18nContext'
 import { RichTextEditor } from '@/components/ui/RichTextEditor'
 import { ImageUploader } from '@/components/admin/ImageUploader'
 import { XMarkIcon, DocumentArrowDownIcon } from '@heroicons/react/24/outline'
+import Dropdown from '@/components/ui/Dropdown'
 import matter from 'gray-matter'
 import { marked } from 'marked'
 
@@ -222,7 +223,7 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
       {/* Import Modal */}
       {showImportModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-2 sm:p-4">
-          <div className="bg-white dark:bg-dark-850 rounded-lg p-4 sm:p-6 max-w-4xl w-full max-h-[90vh] sm:max-h-[80vh] overflow-y-auto">
+          <div className="bg-white dark:bg-dark-850 rounded-lg p-4 sm:p-6 max-w-4xl w-full max-h-[90vh] sm:max-h-[80vh] overflow-y-auto scrollbar-hide">
             <div className="flex justify-between items-start mb-4">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
@@ -416,23 +417,16 @@ export function BlogEditor({ post, onSave, saving = false, onCancel }: BlogEdito
 
             {/* Status */}
             <div className="mb-4">
-              <label
-                htmlFor="status"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
-              >
-                Status
-              </label>
-              <select
-                id="status"
-                name="status"
+              <Dropdown
+                label="Status"
                 value={formData.status}
-                onChange={handleChange}
-                className="w-full px-3 py-2.5 bg-gray-50 dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-900 dark:text-gray-100 text-base md:text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
-              >
-                <option value="draft">Draft</option>
-                <option value="published">Published</option>
-                <option value="scheduled">Scheduled</option>
-              </select>
+                onChange={(value) => setFormData(prev => ({ ...prev, status: value as 'draft' | 'published' | 'scheduled' }))}
+                options={[
+                  { value: 'draft', label: 'Draft' },
+                  { value: 'published', label: 'Published' },
+                  { value: 'scheduled', label: 'Scheduled' },
+                ]}
+              />
             </div>
 
             {/* Publish Date */}

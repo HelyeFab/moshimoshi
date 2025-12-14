@@ -73,7 +73,7 @@ export default function GlobalError({
                   <summary className="cursor-pointer text-xs text-gray-500 hover:text-gray-700">
                     Error details
                   </summary>
-                  <pre className="mt-2 text-xs text-red-600 overflow-auto p-2 bg-gray-100 dark:bg-dark-900 rounded">
+                  <pre className="mt-2 text-xs text-red-600 overflow-auto scrollbar-hide p-2 bg-gray-100 dark:bg-dark-900 rounded">
                     {error.message}
                     {error.stack}
                   </pre>

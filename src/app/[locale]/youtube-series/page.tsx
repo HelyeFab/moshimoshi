@@ -188,7 +188,7 @@ export default function YouTubeSeriesPage() {
 
               {/* Dropdown Menu */}
               {showTagsDropdown && (
-                <div className="absolute z-10 mt-2 w-64 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-lg shadow-lg max-h-64 overflow-y-auto">
+                <div className="absolute z-10 mt-2 w-64 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-lg shadow-lg max-h-64 overflow-y-auto scrollbar-hide">
                   <div className="p-2 space-y-1">
                     {allTags.map(tag => (
                       <label

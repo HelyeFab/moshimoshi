@@ -6,6 +6,7 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useTTS } from '@/hooks/useTTS'
 import { ChevronLeftIcon, SpeakerWaveIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import Dropdown from '@/components/ui/Dropdown'
 
 interface VocabularyItem {
   id: string
@@ -144,18 +145,17 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
 
         {/* Lesson Filter */}
         {lessons.length > 0 && (
-          <select
-            value={selectedLesson}
-            onChange={(e) => setSelectedLesson(e.target.value === 'all' ? 'all' : Number(e.target.value))}
-            className="px-4 py-2 rounded-lg border border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
-          >
-            <option value="all">{strings.common?.allLessons || 'All Lessons'}</option>
-            {lessons.map(lesson => (
-              <option key={lesson} value={lesson}>
-                {strings.common?.lesson || 'Lesson'} {lesson}
-              </option>
-            ))}
-          </select>
+          <Dropdown
+            value={String(selectedLesson)}
+            onChange={(value) => setSelectedLesson(value === 'all' ? 'all' : Number(value))}
+            options={[
+              { value: 'all', label: strings.common?.allLessons || 'All Lessons' },
+              ...lessons.map(lesson => ({
+                value: String(lesson),
+                label: `${strings.common?.lesson || 'Lesson'} ${lesson}`
+              }))
+            ]}
+          />
         )}
       </div>
 

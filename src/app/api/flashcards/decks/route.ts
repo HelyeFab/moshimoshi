@@ -51,6 +51,11 @@ export async function GET(request: NextRequest) {
         }) as FlashcardDeck
     )
 
+    console.log('[Flashcards API] Returning', decks.length, 'decks for user:', session.uid)
+    if (decks[0]) {
+      console.log('[Flashcards API] First deck:', { id: decks[0].id, name: decks[0].name, cardsLength: decks[0].cards?.length })
+    }
+
     return NextResponse.json({
       decks,
       storage: {
@@ -107,8 +112,18 @@ export async function POST(request: NextRequest) {
     const planLimits = limits[plan] || limits.free
     const maxDecks = planLimits.monthly?.flashcard_decks ?? 0
 
+    console.log('[Flashcards API] Deck limit check:', { plan, currentCount, maxDecks })
+
     if (maxDecks !== -1 && currentCount >= maxDecks) {
-      return NextResponse.json({ error: 'Deck limit reached for your plan' }, { status: 403 })
+      return NextResponse.json(
+        {
+          error: 'Deck limit reached',
+          message: `You have reached the limit of ${maxDecks} decks for your plan.`,
+          currentCount: currentCount,
+          limit: maxDecks,
+        },
+        { status: 403 }
+      )
     }
 
     // Create the deck

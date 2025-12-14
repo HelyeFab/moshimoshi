@@ -12,6 +12,7 @@ import { STORY_THEMES } from '@/types/story'
 import { ChevronLeftIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import Dropdown from '@/components/ui/Dropdown'
 
 interface PageData {
   text: string
@@ -391,18 +392,16 @@ export default function EditStoryPage() {
         <div className="bg-white dark:bg-dark-850 rounded-lg p-6 shadow-sm border border-gray-200 dark:border-dark-700 space-y-6">
           {/* Status */}
           <div className="p-4 bg-gray-50 dark:bg-dark-800 rounded-lg border border-gray-200 dark:border-dark-700">
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Status
-            </label>
-            <select
+            <Dropdown
+              label="Status"
               value={status}
-              onChange={e => setStatus(e.target.value as any)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
-            >
-              <option value="draft">Draft</option>
-              <option value="published">Published</option>
-              <option value="archived">Archived</option>
-            </select>
+              onChange={(value) => setStatus(value as any)}
+              options={[
+                { value: 'draft', label: 'Draft' },
+                { value: 'published', label: 'Published' },
+                { value: 'archived', label: 'Archived' },
+              ]}
+            />
           </div>
 
           {/* Basic Info */}
@@ -452,37 +451,27 @@ export default function EditStoryPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Theme
-              </label>
-              <select
+              <Dropdown
+                label="Theme"
                 value={theme}
-                onChange={e => setTheme(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
-              >
-                {STORY_THEMES.map(t => (
-                  <option key={t} value={t}>
-                    {t}
-                  </option>
-                ))}
-              </select>
+                onChange={(value) => setTheme(value)}
+                options={STORY_THEMES.map(t => ({ value: t, label: t }))}
+              />
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                JLPT Level
-              </label>
-              <select
+              <Dropdown
+                label="JLPT Level"
                 value={jlptLevel}
-                onChange={e => setJlptLevel(e.target.value as JLPTLevel)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
-              >
-                <option value="N5">N5 (Beginner)</option>
-                <option value="N4">N4 (Elementary)</option>
-                <option value="N3">N3 (Intermediate)</option>
-                <option value="N2">N2 (Upper Intermediate)</option>
-                <option value="N1">N1 (Advanced)</option>
-              </select>
+                onChange={(value) => setJlptLevel(value as JLPTLevel)}
+                options={[
+                  { value: 'N5', label: 'N5 (Beginner)' },
+                  { value: 'N4', label: 'N4 (Elementary)' },
+                  { value: 'N3', label: 'N3 (Intermediate)' },
+                  { value: 'N2', label: 'N2 (Upper Intermediate)' },
+                  { value: 'N1', label: 'N1 (Advanced)' },
+                ]}
+              />
             </div>
           </div>
 

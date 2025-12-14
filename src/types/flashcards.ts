@@ -146,6 +146,7 @@ export interface UpdateDeckRequest {
 }
 
 export interface AddCardRequest {
+  id?: string;
   deckId: string;
   front: Omit<CardSide, 'style'>;
   back: Omit<CardSide, 'style'>;
@@ -193,6 +194,9 @@ export interface SessionSummary {
   streakMaintained: boolean;
   xpEarned?: number;
   achievements?: string[];
+  // For server-side XP calculation (must match client formula)
+  bestStreak?: number;
+  fastCards?: number;
 }
 
 // Session History for persistence and analytics

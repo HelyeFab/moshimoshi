@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "minXPForStreak": 25,
+  "minXPForStreak": 150,
   "gracePeriodHours": 24,
   "resetTime": "00:00",
   "timezone": "UTC",
@@ -16,7 +16,7 @@
     "costMode": "dynamic",
     "baseCost": 25,
     "surgePricing": true,
-    "surgeMultiplier": 1.0,
+    "surgeMultiplier": 1,
     "maxSaveWindow": 3,
     "requiresPremium": false,
     "description": "Trade XP to save a breaking streak (surge pricing: cost = baseCost × daysSince)"

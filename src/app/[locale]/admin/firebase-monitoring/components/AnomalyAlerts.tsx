@@ -49,7 +49,7 @@ export function AnomalyAlerts({ data }: Props) {
           </p>
         </div>
       ) : (
-        <div className="space-y-3 max-h-96 overflow-y-auto">
+        <div className="space-y-3 max-h-96 overflow-y-auto scrollbar-hide">
           {violations.slice(0, 10).map((violation: any, index: number) => (
             <div
               key={`${violation.userId}-${violation.timestamp}-${index}`}

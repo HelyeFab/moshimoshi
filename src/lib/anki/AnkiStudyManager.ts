@@ -210,6 +210,14 @@ export class AnkiStudyManager {
     const progress = await this.getTodayProgress(deck.id, userId)
     const settings = deck.settings || { newCardsPerDay: 20, reviewsPerDay: 100, autoPlayAudio: true }
 
+    console.log('[AnkiStudyManager] getDueCards called:', {
+      deckId: deck.id,
+      deckName: deck.name,
+      totalCards: deck.cards?.length,
+      deckSettings: deck.settings,
+      effectiveSettings: settings,
+    })
+
     const now = nowDate()
     const newCards: AnkiCardWithSRS[] = []
     const reviewCards: AnkiCardWithSRS[] = []
@@ -240,6 +248,17 @@ export class AnkiStudyManager {
     const remainingNew = Math.max(0, settings.newCardsPerDay - progress.newCardsStudied)
     const remainingReviews = Math.max(0, settings.reviewsPerDay - progress.reviewCardsStudied)
 
+    console.log('[AnkiStudyManager] getDueCards limits:', {
+      newCardsPerDay: settings.newCardsPerDay,
+      reviewsPerDay: settings.reviewsPerDay,
+      newCardsStudiedToday: progress.newCardsStudied,
+      reviewCardsStudiedToday: progress.reviewCardsStudied,
+      remainingNew,
+      remainingReviews,
+      totalNewCards: newCards.length,
+      totalReviewCards: reviewCards.length,
+    })
+
     // Sort and limit new cards
     // New cards are presented in order (could be deck order or randomized)
     const limitedNewCards = newCards.slice(0, remainingNew)
@@ -247,6 +266,11 @@ export class AnkiStudyManager {
     // Sort review cards by priority (most overdue first)
     const sortedReviewCards = this.sortReviewCardsByPriority(reviewCards)
     const limitedReviewCards = sortedReviewCards.slice(0, remainingReviews)
+
+    console.log('[AnkiStudyManager] getDueCards result:', {
+      limitedNewCards: limitedNewCards.length,
+      limitedReviewCards: limitedReviewCards.length,
+    })
 
     return {
       newCards: limitedNewCards,

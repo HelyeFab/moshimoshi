@@ -15,6 +15,7 @@ import {
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { uploadBookCoverImage } from '@/lib/utils/imageUpload'
+import Dropdown from '@/components/ui/Dropdown'
 
 export default function EditBookPage() {
   const router = useRouter()
@@ -324,21 +325,18 @@ export default function EditBookPage() {
 
           {/* JLPT Level */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              JLPT Level *
-            </label>
-            <select
+            <Dropdown
+              label="JLPT Level *"
               value={jlptLevel}
-              onChange={e => setJlptLevel(e.target.value as JLPTLevel)}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-dark-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-all"
-              required
-            >
-              <option value="N5">N5 (Beginner)</option>
-              <option value="N4">N4 (Elementary)</option>
-              <option value="N3">N3 (Intermediate)</option>
-              <option value="N2">N2 (Advanced)</option>
-              <option value="N1">N1 (Expert)</option>
-            </select>
+              onChange={(value) => setJlptLevel(value as JLPTLevel)}
+              options={[
+                { value: 'N5', label: 'N5 (Beginner)' },
+                { value: 'N4', label: 'N4 (Elementary)' },
+                { value: 'N3', label: 'N3 (Intermediate)' },
+                { value: 'N2', label: 'N2 (Advanced)' },
+                { value: 'N1', label: 'N1 (Expert)' },
+              ]}
+            />
           </div>
 
           {/* Category */}

@@ -122,14 +122,26 @@ export function useAnkiStudy(deckId: string): UseAnkiStudyReturn {
     setError(null)
 
     try {
-      // Load deck from AnkiDeckManager
-      const loadedDeck = await ankiDeckManager.getDeck(deckId, userId)
+      // Load deck from AnkiDeckManager with hydrated media URLs
+      const loadedDeck = await ankiDeckManager.getDeckWithMedia(deckId, userId)
 
       if (!loadedDeck) {
         setError('Deck not found')
         setIsLoading(false)
         return
       }
+
+      console.log('[useAnkiStudy] Deck loaded:', {
+        name: loadedDeck.name,
+        cardCount: loadedDeck.cards?.length,
+        settings: loadedDeck.settings,
+        sampleCard: loadedDeck.cards?.[0] ? {
+          id: loadedDeck.cards[0].id,
+          hasAudioUrl: !!loadedDeck.cards[0].audioUrl,
+          hasImageUrl: !!loadedDeck.cards[0].imageUrl,
+          hasReading: !!loadedDeck.cards[0].reading,
+        } : null,
+      })
 
       setDeck(loadedDeck)
 
@@ -162,6 +174,12 @@ export function useAnkiStudy(deckId: string): UseAnkiStudyReturn {
     // Combine new cards and review cards for session
     // Interleave: add review cards first, then new cards
     const combined = [...reviewCards, ...newCards]
+
+    console.log('[useAnkiStudy] startSession:', {
+      newCardsCount: newCards.length,
+      reviewCardsCount: reviewCards.length,
+      combinedCount: combined.length,
+    })
 
     if (combined.length === 0) {
       setError('No cards available for study')

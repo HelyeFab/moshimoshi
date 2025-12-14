@@ -16,6 +16,7 @@ import DoshiMascot from '@/components/ui/DoshiMascot'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import Dialog from '@/components/ui/Dialog'
 import Modal from '@/components/ui/Modal'
+import Dropdown from '@/components/ui/Dropdown'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { Pencil, FileJson, FileSpreadsheet, Trash2 } from 'lucide-react'
 
@@ -377,19 +378,16 @@ export default function MyListsPage() {
       >
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              {t('lists.importModal.format')}
-            </label>
-            <select
+            <Dropdown
+              label={t('lists.importModal.format')}
               value={importFormat}
-              onChange={e => setImportFormat(e.target.value as any)}
-              className="w-full px-4 py-2 rounded-lg border border-gray-200 dark:border-dark-600
-                bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100"
-            >
-              <option value="text">{t('lists.importModal.formatText')}</option>
-              <option value="csv">{t('lists.importModal.formatCsv')}</option>
-              <option value="json">{t('lists.importModal.formatJson')}</option>
-            </select>
+              onChange={(value) => setImportFormat(value as any)}
+              options={[
+                { value: 'text', label: t('lists.importModal.formatText') },
+                { value: 'csv', label: t('lists.importModal.formatCsv') },
+                { value: 'json', label: t('lists.importModal.formatJson') },
+              ]}
+            />
           </div>
 
           <div>

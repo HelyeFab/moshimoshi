@@ -1358,31 +1358,34 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             </motion.div>
           </div>
 
-          {/* Level + XP Stats */}
+          {/* Level + XP + Streak Stats */}
           {welcomeData?.gamificationEnabled && (
             <motion.div
-              className="flex items-center justify-center gap-3 mt-6"
+              className="flex flex-col items-center gap-3 mt-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7, duration: 0.5 }}
             >
-              {/* Level */}
-              <div className="flex items-center justify-center gap-2 w-24 py-2 rounded-xl bg-violet-500/80 text-white font-semibold text-sm shadow-lg">
-                <span className="text-base">🏆</span>
-                <span>Lv.{welcomeData.level}</span>
+              {/* Level and XP row */}
+              <div className="flex items-center justify-center gap-3">
+                {/* Level */}
+                <div className="flex items-center justify-center gap-2 w-24 py-2 rounded-xl bg-violet-500/80 text-white font-semibold text-sm shadow-lg">
+                  <span className="text-base">🏆</span>
+                  <span>Lv.{welcomeData.level}</span>
+                </div>
+
+                {/* XP */}
+                <div className="flex items-center justify-center gap-2 w-24 py-2 rounded-xl bg-amber-500/80 text-white font-semibold text-sm shadow-lg">
+                  <span className="text-base">⚡</span>
+                  <span>{welcomeData.totalXP.toLocaleString()}</span>
+                </div>
               </div>
 
-              {/* XP */}
-              <div className="flex items-center justify-center gap-2 w-24 py-2 rounded-xl bg-amber-500/80 text-white font-semibold text-sm shadow-lg">
-                <span className="text-base">⚡</span>
-                <span>{welcomeData.totalXP.toLocaleString()}</span>
-              </div>
-
-              {/* Streak with warning */}
+              {/* Streak - own row on mobile */}
               {welcomeData.streak > 0 && (
-                <div className="flex items-center justify-center gap-2 w-24 py-2 rounded-xl bg-orange-500/80 text-white font-semibold text-sm shadow-lg relative">
+                <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-orange-500/80 text-white font-semibold text-sm shadow-lg relative">
                   <span className="text-base">🔥</span>
-                  <span>{welcomeData.streak}d</span>
+                  <span>{welcomeData.streak} day streak</span>
                   {welcomeData.isActiveToday && (
                     <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white shadow-sm" />
                   )}

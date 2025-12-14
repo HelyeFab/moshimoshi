@@ -15,6 +15,7 @@ import { DailyGoals } from '@/components/flashcards/DailyGoals'
 import { ComebackMessage, checkForComeback } from '@/components/flashcards/ComebackMessage'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import Dialog from '@/components/ui/Dialog'
+import Modal from '@/components/ui/Modal'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
@@ -33,7 +34,7 @@ import type {
 } from '@/types/flashcards'
 import type { StudyRecommendation, LearningInsights } from '@/lib/flashcards/SessionManager'
 import type { UserList } from '@/types/userLists'
-import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3 } from 'lucide-react'
+import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3, AlertTriangle } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
@@ -67,6 +68,7 @@ function FlashcardsContent() {
     daysAway: number
     lastStudyDate: Date
   } | null>(null)
+  const [limitError, setLimitError] = useState<{ currentCount: number; limit: number } | null>(null)
 
   // Prevent race conditions
   const loadingRef = useRef(false)
@@ -150,8 +152,15 @@ function FlashcardsContent() {
 
       // Load flashcard decks
       console.log('[FlashcardsPage] Loading decks for user:', user.uid, 'isPremium:', isPremium)
-      const userDecks = await flashcardManager.getDecks(user.uid, isPremium ?? false)
+      let userDecks = await flashcardManager.getDecks(user.uid, isPremium ?? false)
       console.log('[FlashcardsPage] Loaded decks:', userDecks.length, userDecks.map(d => ({ id: d.id, name: d.name, source: (d as any).source, cardCount: d.cards?.length, firstCard: d.cards?.[0] })))
+
+      // Premium users: if first fetch is empty (likely auth race), force a server sync once
+      if ((isPremium ?? false) && (!userDecks || userDecks.length === 0)) {
+        console.log('[FlashcardsPage] Empty decks for premium user, forcing server sync')
+        userDecks = await flashcardManager.forceSyncFromServer(user.uid)
+        console.log('[FlashcardsPage] Decks after forceSync:', userDecks.length)
+      }
 
       // Check if request was aborted
       if (abortControllerRef.current?.signal.aborted) {
@@ -185,7 +194,7 @@ function FlashcardsContent() {
         setCurrentStreak(streak)
 
         // Load recent sessions
-        const recentSessions = await sessionManager.getUserSessions(user.uid, 10)
+        const recentSessions = await sessionManager.syncSessions(user.uid, isPremium ?? false, 25)
         setSessions(recentSessions)
       }
     } catch (error: any) {
@@ -306,10 +315,21 @@ function FlashcardsContent() {
         setDecks([newDeck, ...decks])
         setShowCreator(false)
         setEditingDeck(null)
+        // Refresh to ensure we see the authoritative deck list (handles server writes/races)
+        await loadData(true)
         showToast(t('flashcards.success.deckCreated'), 'success')
       }
     } catch (error: any) {
       console.error('Failed to create deck:', error)
+
+      // Handle deck limit error
+      if (error?.code === 'LIMIT_REACHED') {
+        setLimitError({
+          currentCount: error.currentCount || 0,
+          limit: error.limit || 15,
+        })
+        return
+      }
 
       // Handle specific error types
       if (error.name === 'QuotaExceededError' || error.message?.includes('QuotaExceededError')) {
@@ -344,6 +364,7 @@ function FlashcardsContent() {
         setDecks(decks.map(d => (d.id === updatedDeck.id ? updatedDeck : d)))
         setShowCreator(false)
         setEditingDeck(null)
+        await loadData(true)
         showToast(t('flashcards.success.deckUpdated'), 'success')
       }
     } catch (error) {
@@ -373,6 +394,7 @@ function FlashcardsContent() {
       )
       if (success) {
         setDecks(decks.filter(d => d.id !== deckToDelete.id))
+        await loadData(true)
         showToast(t('flashcards.success.deckDeleted'), 'success')
       }
     } catch (error) {
@@ -468,6 +490,7 @@ function FlashcardsContent() {
     if (user && summary.xpEarned && summary.xpEarned > 0) {
       try {
         // Update stats via gamification API route
+        // Pass bestStreak and fastCards for accurate server-side XP calculation
         const response = await fetch('/api/review/session/complete', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -477,6 +500,9 @@ function FlashcardsContent() {
             itemsReviewed: summary.cardsStudied,
             correctCount: summary.correctAnswers,
             accuracy: summary.accuracy,
+            // Flashcard-specific params for accurate XP calculation
+            bestStreak: summary.bestStreak,
+            fastCards: summary.fastCards,
           }),
         })
 
@@ -867,6 +893,39 @@ function FlashcardsContent() {
             onClose={() => setComebackInfo(null)}
           />
         )}
+
+        {/* Deck Limit Error Modal */}
+        <Modal
+          isOpen={limitError !== null}
+          onClose={() => setLimitError(null)}
+          title={t('anki.limitReached.title')}
+          size="md"
+        >
+          <div className="text-center">
+            <div className="mx-auto w-16 h-16 rounded-full bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center mb-4">
+              <AlertTriangle className="w-8 h-8 text-orange-500" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
+              {t('anki.limitReached.title')}
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400 mb-4">
+              {t('anki.limitReached.message', {
+                current: limitError?.currentCount || 0,
+                limit: limitError?.limit || 15,
+              })}
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-6">
+              {t('anki.limitReached.upgrade')}
+            </p>
+            <button
+              onClick={() => setLimitError(null)}
+              className="px-6 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+            >
+              {t('anki.limitReached.understood')}
+            </button>
+          </div>
+        </Modal>
+
         <MobileNavSpacer />
       </div>
     </div>

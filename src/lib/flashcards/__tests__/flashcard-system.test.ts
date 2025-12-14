@@ -72,6 +72,52 @@ describe('FlashcardManager', () => {
     });
   });
 
+  describe('Deck stats updates', () => {
+    it('updates status counts when cards progress', () => {
+      const deck: any = {
+        id: 'deck-1',
+        userId: 'user-1',
+        name: 'Stats Deck',
+        emoji: '🎴',
+        color: 'primary',
+        cardStyle: 'minimal',
+        cards: [
+          {
+            id: 'card-1',
+            front: { text: 'front' },
+            back: { text: 'back' },
+            metadata: { status: 'new' }
+          }
+        ],
+        stats: {
+          totalCards: 1,
+          newCards: 1,
+          learningCards: 0,
+          reviewCards: 0,
+          masteredCards: 0,
+          totalStudied: 0,
+          averageAccuracy: 0,
+          currentStreak: 0,
+          longestStreak: 0,
+          totalTimeSpent: 0,
+          heatmapData: {},
+          lastStudied: undefined
+        }
+      };
+
+      const updatedCard = {
+        ...deck.cards[0],
+        metadata: { status: 'learning' }
+      };
+
+      (manager as any).updateDeckStatsFromCard(deck, updatedCard, true, 'new');
+
+      expect(deck.stats.newCards).toBe(0);
+      expect(deck.stats.learningCards).toBe(1);
+      expect(deck.stats.totalStudied).toBe(1);
+    });
+  });
+
   describe('Import/Export', () => {
     it('should export deck to CSV format', async () => {
       const csv = await manager.exportDeck('deck-id', 'csv');
@@ -489,3 +535,30 @@ function createMockDeck(id: string): FlashcardDeck {
     updatedAt: Date.now()
   };
 }
+// Mock Anki media store (used by FlashcardManager)
+vi.mock('@/lib/anki/mediaStore', () => ({
+  AnkiMediaStore: {
+    getInstance: () => ({
+      getStats: vi.fn(() => Promise.resolve({})),
+      getMediaUrl: vi.fn(() => Promise.resolve(undefined))
+    })
+  }
+}));
+
+// Mock SRS helper dependencies
+vi.mock('@/lib/review-engine/srs', () => {
+  const mockAlgo = {
+    initializeCard: (card: any) => card,
+    updateCardAfterReview: (_card: any, difficulty: any) => ({
+      ..._card,
+      metadata: { ..._card.metadata, status: difficulty === 'again' ? 'learning' : 'review' }
+    })
+  };
+  return {
+    SRSAlgorithm: class {
+      initializeCard = mockAlgo.initializeCard;
+      updateCardAfterReview = mockAlgo.updateCardAfterReview;
+    },
+    ReviewResult: {}
+  };
+});

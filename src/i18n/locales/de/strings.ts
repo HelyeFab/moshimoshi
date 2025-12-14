@@ -2966,6 +2966,9 @@ export const strings = {
       using: 'Speicher verwendet',
     },
 
+    // Streak
+    dayStreak: 'Tage in Folge',
+
     // Migration
     migration: {
       title: 'Mit Cloud synchronisieren',
@@ -3538,6 +3541,8 @@ export const strings = {
       wanikani: 'Kanji-Lernmethodik und mnemonische Inspiration',
       kanjicanvas: 'Strichfolge-Diagramme und Kanji-Zeichenkomponenten',
       flaticon: 'Icons und visuelle Ressourcen',
+      voicevox: 'Hochwertige japanische Sprachsynthese mit ausdrucksstarken Charakterstimmen wie Zundamon und Shikoku Metan',
+      nhknewseasy: 'Vereinfachte japanische Nachrichtenartikel für Sprachlernende, bereitgestellt von NHK (Japan Broadcasting Corporation)',
     },
 
     libraries: {
@@ -3797,12 +3802,14 @@ export const strings = {
       newCardsToday: '{{count}} neue Karten heute',
       reviewsToday: '{{count}} Wiederholungen heute',
     },
-    // Import limit reached
+    // Deck limit reached
     limitReached: {
-      title: 'Importlimit erreicht',
+      title: 'Deck-Limit erreicht',
       heading: 'Deck-Limit erreicht',
-      message: 'Sie haben {{current}} von {{limit}} Anki-Decks. Bitte löschen Sie ein bestehendes Deck, bevor Sie ein neues importieren.',
+      message: 'Sie haben {{current}} von {{limit}} Decks. Bitte löschen Sie ein bestehendes Deck, bevor Sie ein neues erstellen.',
       suggestion: 'Um Ihre Decks zu verwalten, verwenden Sie das Menü auf jeder Deck-Karte, um nicht mehr benötigte Decks zu löschen.',
+      upgrade: 'Upgrade für mehr',
+      understood: 'Verstanden',
     },
   },
 

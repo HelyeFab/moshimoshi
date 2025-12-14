@@ -334,7 +334,7 @@ export default function ReviewDashboard() {
                 {filteredItems(studiedItems).length}
               </span>
             </h2>
-            <div className="space-y-2 max-h-[600px] overflow-y-auto">
+            <div className="space-y-2 max-h-[600px] overflow-y-auto scrollbar-hide">
               {filteredItems(studiedItems).length === 0 ? (
                 <p className="text-gray-500 dark:text-gray-400 text-center py-8">
                   {filterType !== 'all'
@@ -392,7 +392,7 @@ export default function ReviewDashboard() {
                   <Zap className="w-4 h-4 text-purple-600" />
                   {t('reviewDashboard.sections.masteredItems', 'Mastered')}
                 </h3>
-                <div className="space-y-2 max-h-[400px] overflow-y-auto">
+                <div className="space-y-2 max-h-[400px] overflow-y-auto scrollbar-hide">
                   {filteredItems(learnedItems.filter(item => item.status === 'mastered')).map(item => (
                     <div key={item.id} className="p-2 rounded bg-purple-50 dark:bg-purple-900/20">
                       <div className="flex items-center justify-between">
@@ -415,7 +415,7 @@ export default function ReviewDashboard() {
                   <Brain className="w-4 h-4 text-green-600" />
                   {t('reviewDashboard.sections.inReview', 'In Review')}
                 </h3>
-                <div className="space-y-2 max-h-[400px] overflow-y-auto">
+                <div className="space-y-2 max-h-[400px] overflow-y-auto scrollbar-hide">
                   {filteredItems(learnedItems.filter(item => item.status === 'review')).map(item => (
                     <div key={item.id} className="p-2 rounded bg-green-50 dark:bg-green-900/20">
                       <div className="flex items-center justify-between">
@@ -454,7 +454,7 @@ export default function ReviewDashboard() {
                 </Link>
               )}
             </div>
-            <div className="space-y-2 max-h-[600px] overflow-y-auto">
+            <div className="space-y-2 max-h-[600px] overflow-y-auto scrollbar-hide">
               {filteredItems(queueItems).length === 0 ? (
                 <p className="text-gray-500 dark:text-gray-400 text-center py-8">
                   {t('reviewDashboard.messages.queueEmpty', 'Your review queue is empty!')}

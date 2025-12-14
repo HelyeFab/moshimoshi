@@ -263,7 +263,7 @@ export default function MatchingGame({ isOpen, onClose, words, onPlayAgain }: Ma
             </div>
 
             {/* Game Content */}
-            <div className="p-4 sm:p-6 lg:p-8 overflow-y-auto max-h-[calc(95vh-80px)]">
+            <div className="p-4 sm:p-6 lg:p-8 overflow-y-auto scrollbar-hide max-h-[calc(95vh-80px)]">
               <GameGrid
                 gameState={gameState}
                 onTileClick={handleTileClick}

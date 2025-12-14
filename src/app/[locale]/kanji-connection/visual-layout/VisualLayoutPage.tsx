@@ -310,7 +310,7 @@ export default function VisualLayoutPage() {
           {/* Subcategory Selector */}
           {selectedPattern && showSubcategories && (
             <div className="lg:col-span-1">
-              <div className="bg-card dark:bg-dark-800 rounded-lg p-4 sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto">
+              <div className="bg-card dark:bg-dark-800 rounded-lg p-4 sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide">
                 <h2 className="font-semibold mb-4 text-foreground dark:text-dark-50">{t('kanjiConnection.visualLayout.subcategories')}</h2>
 
                 <div className="space-y-2">

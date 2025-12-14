@@ -17,6 +17,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import Modal from '@/components/ui/Modal'
+import Dropdown from '@/components/ui/Dropdown'
 import { ComicQueueItem, EPISODE_THEMES, COMIC_CHARACTERS, JLPTLevel } from '@/types/comic'
 
 const JLPT_LEVELS: JLPTLevel[] = ['N5', 'N4', 'N3', 'N2', 'N1']
@@ -257,22 +258,19 @@ export default function AdminComicsSchedulePage() {
           <div className="space-y-6">
             {/* Theme Selection */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Theme & Location
-              </label>
-              <select
+              <Dropdown
+                label="Theme & Location"
                 value={selectedTheme}
-                onChange={e => setSelectedTheme(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
-              >
-                <option value="">Select a theme...</option>
-                <option value="custom">Custom Theme...</option>
-                {EPISODE_THEMES.map(theme => (
-                  <option key={theme.theme} value={theme.theme}>
-                    {theme.titleEn} - {theme.location}
-                  </option>
-                ))}
-              </select>
+                onChange={(value) => setSelectedTheme(value)}
+                placeholder="Select a theme..."
+                options={[
+                  { value: 'custom', label: 'Custom Theme...' },
+                  ...EPISODE_THEMES.map(theme => ({
+                    value: theme.theme,
+                    label: `${theme.titleEn} - ${theme.location}`
+                  }))
+                ]}
+              />
               {selectedTheme === 'custom' && (
                 <div className="mt-3 space-y-3">
                   <input
@@ -339,20 +337,18 @@ export default function AdminComicsSchedulePage() {
 
             {/* JLPT Level */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                JLPT Level
-              </label>
-              <select
+              <Dropdown
+                label="JLPT Level"
                 value={jlptLevel}
-                onChange={e => setJlptLevel(e.target.value as JLPTLevel)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
-              >
-                {JLPT_LEVELS.map(level => (
-                  <option key={level} value={level}>
-                    {level} {level === 'N5' ? '(Beginner)' : level === 'N4' ? '(Elementary)' : level === 'N3' ? '(Intermediate)' : level === 'N2' ? '(Pre-Advanced)' : '(Advanced)'}
-                  </option>
-                ))}
-              </select>
+                onChange={(value) => setJlptLevel(value as JLPTLevel)}
+                options={[
+                  { value: 'N5', label: 'N5 (Beginner)' },
+                  { value: 'N4', label: 'N4 (Elementary)' },
+                  { value: 'N3', label: 'N3 (Intermediate)' },
+                  { value: 'N2', label: 'N2 (Pre-Advanced)' },
+                  { value: 'N1', label: 'N1 (Advanced)' },
+                ]}
+              />
             </div>
 
             {/* Custom Title Override (Optional) */}

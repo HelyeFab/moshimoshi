@@ -2993,6 +2993,9 @@ export const strings = {
       using: 'Spazio utilizzato',
     },
 
+    // Streak
+    dayStreak: 'giorni consecutivi',
+
     // Migration
     migration: {
       title: 'Sincronizza con il cloud',
@@ -3562,6 +3565,8 @@ export const strings = {
       wanikani: 'Metodologia di apprendimento kanji e ispirazione mnemonica',
       kanjicanvas: "Diagrammi dell'ordine dei tratti e componenti di disegno kanji",
       flaticon: 'Icone e risorse visive',
+      voicevox: 'Sintesi vocale giapponese di alta qualità con voci di personaggi espressivi come Zundamon e Shikoku Metan',
+      nhknewseasy: 'Articoli di notizie giapponesi semplificati per studenti di lingue, forniti da NHK (Japan Broadcasting Corporation)',
     },
 
     libraries: {
@@ -3822,12 +3827,14 @@ export const strings = {
       reviewsToday: '{{count}} revisioni oggi',
     },
     limitReached: {
-      title: 'Limite di importazione raggiunto',
+      title: 'Limite mazzi raggiunto',
       heading: 'Limite mazzi raggiunto',
       message:
-        'Hai {{current}} di {{limit}} mazzi Anki. Elimina un mazzo esistente prima di importarne uno nuovo.',
+        'Hai {{current}} di {{limit}} mazzi. Elimina un mazzo esistente prima di crearne uno nuovo.',
       suggestion:
         'Per gestire i tuoi mazzi, usa il menu su ogni scheda mazzo per eliminare i mazzi di cui non hai più bisogno.',
+      upgrade: 'Passa a Premium',
+      understood: 'Ho capito',
     },
   },
 

@@ -671,7 +671,7 @@
         "custom_lists": -1,
         "save_items": -1,
         "todos": -1,
-        "flashcard_decks": -1,
+        "flashcard_decks": 15,
         "anki_imports": 15
       }
     },
@@ -713,7 +713,7 @@
         "custom_lists": -1,
         "save_items": -1,
         "todos": -1,
-        "flashcard_decks": -1,
+        "flashcard_decks": 15,
         "anki_imports": 15
       }
     }

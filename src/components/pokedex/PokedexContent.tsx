@@ -275,7 +275,7 @@ export default function PokedexContent({ userId, onClose, isPremium = false }: P
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto bg-gray-50 dark:bg-dark-900">
+      <div className="flex-1 overflow-y-auto scrollbar-hide bg-gray-50 dark:bg-dark-900">
         {renderPokemonGrid()}
       </div>
 

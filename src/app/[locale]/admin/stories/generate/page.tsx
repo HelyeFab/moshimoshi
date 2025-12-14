@@ -12,6 +12,7 @@ import { storyService } from '@/lib/services/StoryService'
 // Navigation is now global via NavigationWrapper in root layout;
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import RegenerateImageModal from '@/components/admin/RegenerateImageModal'
+import Dropdown from '@/components/ui/Dropdown'
 import { motion, AnimatePresence } from 'framer-motion'
 
 export default function GenerateStoryPage() {
@@ -406,22 +407,19 @@ export default function GenerateStoryPage() {
             >
               {/* Theme Selection */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  {t('admin.stories.generate.theme')}
-                </label>
-                <select
+                <Dropdown
+                  label={t('admin.stories.generate.theme')}
                   value={theme}
-                  onChange={e => setTheme(e.target.value)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
-                >
-                  <option value="">{t('admin.stories.generate.themePlaceholder')}</option>
-                  {STORY_THEMES.map(themeOption => (
-                    <option key={themeOption} value={themeOption}>
-                      {themeOption}
-                    </option>
-                  ))}
-                  <option value="custom">{t('admin.stories.generate.customTheme')}</option>
-                </select>
+                  onChange={(value) => setTheme(value)}
+                  placeholder={t('admin.stories.generate.themePlaceholder')}
+                  options={[
+                    ...STORY_THEMES.map(themeOption => ({
+                      value: themeOption,
+                      label: themeOption
+                    })),
+                    { value: 'custom', label: t('admin.stories.generate.customTheme') }
+                  ]}
+                />
 
                 {theme === 'custom' && (
                   <input
@@ -436,20 +434,18 @@ export default function GenerateStoryPage() {
 
               {/* JLPT Level */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  {t('admin.stories.generate.jlptLevel')}
-                </label>
-                <select
+                <Dropdown
+                  label={t('admin.stories.generate.jlptLevel')}
                   value={jlptLevel}
-                  onChange={e => setJlptLevel(e.target.value as JLPTLevel)}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
-                >
-                  <option value="N5">{t('admin.stories.generate.jlptOptions.N5')}</option>
-                  <option value="N4">{t('admin.stories.generate.jlptOptions.N4')}</option>
-                  <option value="N3">{t('admin.stories.generate.jlptOptions.N3')}</option>
-                  <option value="N2">{t('admin.stories.generate.jlptOptions.N2')}</option>
-                  <option value="N1">{t('admin.stories.generate.jlptOptions.N1')}</option>
-                </select>
+                  onChange={(value) => setJlptLevel(value as JLPTLevel)}
+                  options={[
+                    { value: 'N5', label: t('admin.stories.generate.jlptOptions.N5') },
+                    { value: 'N4', label: t('admin.stories.generate.jlptOptions.N4') },
+                    { value: 'N3', label: t('admin.stories.generate.jlptOptions.N3') },
+                    { value: 'N2', label: t('admin.stories.generate.jlptOptions.N2') },
+                    { value: 'N1', label: t('admin.stories.generate.jlptOptions.N1') },
+                  ]}
+                />
               </div>
 
               {/* Page Count */}
@@ -679,7 +675,7 @@ export default function GenerateStoryPage() {
                 <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
                   {t('admin.stories.generate.review.pagesPreview')}
                 </h3>
-                <div className="space-y-6 max-h-96 overflow-y-auto">
+                <div className="space-y-6 max-h-96 overflow-y-auto scrollbar-hide">
                   {storyDraft.pages.slice(0, 3).map((page, index) => (
                     <div
                       key={index}

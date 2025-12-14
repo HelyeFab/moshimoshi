@@ -170,7 +170,7 @@ export default function Dropdown({
               border border-gray-200 dark:border-dark-600
               rounded-lg shadow-lg
               overflow-hidden
-              max-h-64 overflow-y-auto
+              max-h-64 overflow-y-auto scrollbar-hide
             `}
           >
             {/* Search Input */}

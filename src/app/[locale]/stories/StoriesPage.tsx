@@ -7,6 +7,7 @@ import { useI18n } from '@/i18n/I18nContext';
 import { useStories } from '@/hooks/useStories';
 // Navigation is now global via NavigationWrapper in root layout;
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
+import Dropdown from '@/components/ui/Dropdown';
 import { Story, JLPTLevel } from '@/types/story';
 
 interface FilterState {
@@ -146,41 +147,39 @@ export default function StoriesPage() {
             </div>
 
             {/* JLPT Level */}
-            <select
+            <Dropdown
               value={filters.jlptLevel}
-              onChange={(e) => setFilters(prev => ({ ...prev, jlptLevel: e.target.value as any }))}
-              className="px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
-            >
-              <option value="all">{t('common.allLevels')}</option>
-              <option value="N5">N5 - {t('levels.beginner')}</option>
-              <option value="N4">N4 - {t('levels.elementary')}</option>
-              <option value="N3">N3 - {t('levels.intermediate')}</option>
-              <option value="N2">N2 - {t('levels.upperIntermediate')}</option>
-              <option value="N1">N1 - {t('levels.advanced')}</option>
-            </select>
+              onChange={(value) => setFilters(prev => ({ ...prev, jlptLevel: value as any }))}
+              options={[
+                { value: 'all', label: t('common.allLevels') },
+                { value: 'N5', label: `N5 - ${t('levels.beginner')}` },
+                { value: 'N4', label: `N4 - ${t('levels.elementary')}` },
+                { value: 'N3', label: `N3 - ${t('levels.intermediate')}` },
+                { value: 'N2', label: `N2 - ${t('levels.upperIntermediate')}` },
+                { value: 'N1', label: `N1 - ${t('levels.advanced')}` },
+              ]}
+            />
 
             {/* Theme */}
-            <select
+            <Dropdown
               value={filters.theme}
-              onChange={(e) => setFilters(prev => ({ ...prev, theme: e.target.value }))}
-              className="px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
-            >
-              <option value="all">{t('stories.allThemes')}</option>
-              {themes.map(theme => (
-                <option key={theme} value={theme}>{theme}</option>
-              ))}
-            </select>
+              onChange={(value) => setFilters(prev => ({ ...prev, theme: value }))}
+              options={[
+                { value: 'all', label: t('stories.allThemes') },
+                ...themes.map(theme => ({ value: theme, label: theme }))
+              ]}
+            />
 
             {/* Sort */}
-            <select
+            <Dropdown
               value={filters.sortBy}
-              onChange={(e) => setFilters(prev => ({ ...prev, sortBy: e.target.value as any }))}
-              className="px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
-            >
-              <option value="newest">{t('common.newest')}</option>
-              <option value="popular">{t('common.popular')}</option>
-              <option value="progress">{t('stories.byProgress')}</option>
-            </select>
+              onChange={(value) => setFilters(prev => ({ ...prev, sortBy: value as any }))}
+              options={[
+                { value: 'newest', label: t('common.newest') },
+                { value: 'popular', label: t('common.popular') },
+                { value: 'progress', label: t('stories.byProgress') },
+              ]}
+            />
           </div>
         </div>
 

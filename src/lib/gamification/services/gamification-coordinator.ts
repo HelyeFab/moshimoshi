@@ -31,6 +31,7 @@
 
 import { adminDb } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
+import xpConfig from '../../../../config/xp-config.json'
 
 /** Get Firestore instance, throwing if not initialized */
 function getDb() {
@@ -42,6 +43,9 @@ function getDb() {
 import { getStreakConfig } from '@/config/gamification/streakConfig'
 import { updateStreakWithinTransaction, type StreakUpdateResult } from './streakService'
 import { Accuracy } from '@/lib/statistics/accuracy'
+
+// Extract flashcard config from centralized xp-config.json
+const flashcardConfig = xpConfig.activities.flashcards
 
 function getMinXpForStreak(): number {
   return getStreakConfig().minXPForStreak
@@ -107,6 +111,49 @@ export function calculateReviewXP(params: {
   const volumeBonus = Math.floor(itemsReviewed / 10) * 5
 
   return baseXP + accuracyBonus + volumeBonus
+}
+
+/**
+ * Calculate XP earned from flashcard session
+ * Uses centralized xp-config.json - SAME formula as client-side XPConfigService
+ */
+export function calculateFlashcardXP(params: {
+  correctCount: number
+  bestStreak: number
+  isPerfectSession: boolean
+  fastCards: number
+}): number {
+  const { correctCount, bestStreak, isPerfectSession, fastCards } = params
+  const rewards = flashcardConfig.rewards
+
+  // Base XP: perCorrect * correct answers
+  const baseXP = correctCount * (rewards.perCorrect || 10)
+
+  // Streak bonus: streakBonus * best streak
+  const streakBonus = bestStreak * (rewards.streakBonus || 5)
+
+  // Perfect session bonus (100% accuracy)
+  const perfectBonus = isPerfectSession ? (rewards.perfectBonus || 50) : 0
+
+  // Speed bonus: speedBonusPerCard * cards answered under threshold
+  const speedBonus = fastCards * (rewards.speedBonusPerCard || 2)
+
+  const totalXP = baseXP + streakBonus + perfectBonus + speedBonus
+
+  // Apply session cap
+  const cappedXP = Math.min(totalXP, flashcardConfig.maxPerSession || 500)
+
+  console.log('[Gamification Coordinator] Flashcard XP Calculation:', {
+    correctCount,
+    bestStreak,
+    isPerfectSession,
+    fastCards,
+    breakdown: { baseXP, streakBonus, perfectBonus, speedBonus },
+    totalXP,
+    cappedXP,
+  })
+
+  return cappedXP
 }
 
 /**
@@ -305,6 +352,8 @@ export async function recordDrillCompletion(params: {
 
 /**
  * Record review session completion
+ * Supports both generic review sessions and flashcard-specific sessions
+ * When flashcard params (bestStreak, fastCards) are provided, uses flashcard XP formula
  */
 export async function recordReviewCompletion(params: {
   userId: string
@@ -313,15 +362,26 @@ export async function recordReviewCompletion(params: {
   correctCount: number
   accuracy: number
   isPremium: boolean
+  // Flashcard-specific params (optional - for flashcard sessions)
+  bestStreak?: number
+  fastCards?: number
 }): Promise<GamificationResult> {
-  const { userId, itemsReviewed, correctCount, accuracy, isPremium } = params
+  const { userId, itemsReviewed, correctCount, accuracy, isPremium, bestStreak, fastCards } = params
 
   if (!adminDb) {
     throw new Error('Firebase Admin not initialized')
   }
 
-  // Calculate XP
-  const xpEarned = calculateReviewXP({ itemsReviewed, correctCount, accuracy })
+  // Calculate XP - use flashcard formula if flashcard params provided
+  const isFlashcardSession = bestStreak !== undefined && fastCards !== undefined
+  const xpEarned = isFlashcardSession
+    ? calculateFlashcardXP({
+        correctCount,
+        bestStreak: bestStreak!,
+        isPerfectSession: accuracy === 100 || accuracy === 1, // Support both 0-100 and 0-1 formats
+        fastCards: fastCards!,
+      })
+    : calculateReviewXP({ itemsReviewed, correctCount, accuracy })
 
   // Use transaction for atomic updates
   return await getDb().runTransaction(async transaction => {

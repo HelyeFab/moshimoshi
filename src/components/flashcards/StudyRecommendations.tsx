@@ -39,29 +39,29 @@ export function StudyRecommendations({
   };
 
   return (
-    <div className="grid gap-6 lg:grid-cols-3">
+    <div className="grid gap-6 lg:grid-cols-3 overflow-hidden">
       {/* Quick Stats */}
-      <div className="lg:col-span-1">
-        <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
-            <Brain className="w-5 h-5 text-primary-500" />
-            {t('flashcards.learningInsights')}
+      <div className="lg:col-span-1 min-w-0">
+        <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-4 sm:p-6 overflow-hidden">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
+            <Brain className="w-5 h-5 text-primary-500 flex-shrink-0" />
+            <span className="truncate">{t('flashcards.learningInsights')}</span>
           </h3>
 
           <div className="space-y-4">
             {/* Current Streak */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2 min-w-0">
                 <Flame className={cn(
-                  "w-5 h-5",
+                  "w-5 h-5 flex-shrink-0",
                   currentStreak > 0 ? "text-orange-500" : "text-gray-400"
                 )} />
-                <span className="text-sm text-gray-600 dark:text-gray-400">
+                <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
                   {t('flashcards.currentStreak')}
                 </span>
               </div>
               <span className={cn(
-                "font-bold text-lg",
+                "font-bold text-lg flex-shrink-0",
                 currentStreak > 0 ? "text-orange-600 dark:text-orange-400" : "text-gray-500"
               )}>
                 {currentStreak} {t('common.days')}
@@ -71,40 +71,40 @@ export function StudyRecommendations({
             {/* Retention Rate */}
             {insights && (
               <>
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Target className="w-5 h-5 text-green-500" />
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Target className="w-5 h-5 text-green-500 flex-shrink-0" />
+                    <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
                       {t('flashcards.retentionRate')}
                     </span>
                   </div>
-                  <span className="font-bold text-lg text-green-600 dark:text-green-400">
+                  <span className="font-bold text-lg text-green-600 dark:text-green-400 flex-shrink-0">
                     {Math.round(insights.retentionRate * 100)}%
                   </span>
                 </div>
 
                 {/* Learning Velocity */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <TrendingUp className="w-5 h-5 text-blue-500" />
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <TrendingUp className="w-5 h-5 text-blue-500 flex-shrink-0" />
+                    <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
                       {t('flashcards.cardsPerDay')}
                     </span>
                   </div>
-                  <span className="font-bold text-lg text-blue-600 dark:text-blue-400">
+                  <span className="font-bold text-lg text-blue-600 dark:text-blue-400 flex-shrink-0">
                     {Math.round(insights.learningVelocity)}
                   </span>
                 </div>
 
                 {/* Best Study Time */}
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-5 h-5 text-purple-500" />
-                    <span className="text-sm text-gray-600 dark:text-gray-400">
+                <div className="flex items-center justify-between gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
+                    <Clock className="w-5 h-5 text-purple-500 flex-shrink-0" />
+                    <span className="text-sm text-gray-600 dark:text-gray-400 truncate">
                       {t('flashcards.bestStudyTime')}
                     </span>
                   </div>
-                  <span className="font-bold text-lg text-purple-600 dark:text-purple-400">
+                  <span className="font-bold text-lg text-purple-600 dark:text-purple-400 flex-shrink-0">
                     {insights.bestStudyTime}:00
                   </span>
                 </div>
@@ -130,24 +130,24 @@ export function StudyRecommendations({
 
         {/* Optimal Session Settings */}
         {insights && (
-          <div className="mt-6 bg-gradient-to-br from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20 rounded-2xl p-6">
-            <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3">
+          <div className="mt-6 bg-gradient-to-br from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20 rounded-2xl p-4 sm:p-6 overflow-hidden">
+            <h4 className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-3 truncate">
               {t('flashcards.optimalSettings')}
             </h4>
             <div className="space-y-2 text-sm">
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">
+              <div className="flex justify-between gap-2">
+                <span className="text-gray-600 dark:text-gray-400 truncate min-w-0">
                   {t('flashcards.sessionLength')}:
                 </span>
-                <span className="font-medium text-gray-900 dark:text-gray-100">
+                <span className="font-medium text-gray-900 dark:text-gray-100 flex-shrink-0">
                   {insights.optimalSessionLength} {t('flashcards.cards')}
                 </span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-gray-600 dark:text-gray-400">
+              <div className="flex justify-between gap-2">
+                <span className="text-gray-600 dark:text-gray-400 truncate min-w-0">
                   {t('flashcards.studyTime')}:
                 </span>
-                <span className="font-medium text-gray-900 dark:text-gray-100">
+                <span className="font-medium text-gray-900 dark:text-gray-100 flex-shrink-0">
                   {insights.bestStudyTime}:00
                 </span>
               </div>
@@ -157,11 +157,11 @@ export function StudyRecommendations({
       </div>
 
       {/* Recommendations */}
-      <div className="lg:col-span-2">
-        <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-6">
-          <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
-            <Zap className="w-5 h-5 text-yellow-500" />
-            {t('flashcards.recommendedStudy')}
+      <div className="lg:col-span-2 min-w-0">
+        <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-4 sm:p-6 overflow-hidden">
+          <h3 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
+            <Zap className="w-5 h-5 text-yellow-500 flex-shrink-0" />
+            <span className="truncate">{t('flashcards.recommendedStudy')}</span>
           </h3>
 
           {recommendations.length === 0 ? (
@@ -182,36 +182,36 @@ export function StudyRecommendations({
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                   onClick={() => onSelectDeck(rec.deckId)}
-                  className="p-4 rounded-xl border border-gray-200 dark:border-dark-700 hover:shadow-md transition-all cursor-pointer hover:border-primary-400 dark:hover:border-primary-600"
+                  className="p-3 sm:p-4 rounded-xl border border-gray-200 dark:border-dark-700 hover:shadow-md transition-all cursor-pointer hover:border-primary-400 dark:hover:border-primary-600 overflow-hidden"
                 >
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h4 className="font-medium text-gray-900 dark:text-gray-100">
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <h4 className="font-medium text-gray-900 dark:text-gray-100 truncate">
                           {rec.deckName}
                         </h4>
                         <span className={cn(
-                          "px-2 py-0.5 rounded-full text-xs font-medium",
+                          "px-2 py-0.5 rounded-full text-xs font-medium flex-shrink-0",
                           getUrgencyColor(rec.urgency)
                         )}>
                           {t(`flashcards.urgency.${rec.urgency}`)}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">
+                      <p className="text-sm text-gray-600 dark:text-gray-400 mb-2 line-clamp-2">
                         {rec.reason}
                       </p>
-                      <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-500">
+                      <div className="flex items-center gap-3 sm:gap-4 text-xs text-gray-500 dark:text-gray-500 flex-wrap">
                         <span className="flex items-center gap-1">
-                          <Clock className="w-3 h-3" />
+                          <Clock className="w-3 h-3 flex-shrink-0" />
                           {formatTime(rec.estimatedTime)}
                         </span>
                         <span className="flex items-center gap-1">
-                          <Target className="w-3 h-3" />
+                          <Target className="w-3 h-3 flex-shrink-0" />
                           {rec.dueCards} {t('flashcards.cardsDue')}
                         </span>
                       </div>
                     </div>
-                    <button className="p-2 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors">
+                    <button className="p-2 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors flex-shrink-0">
                       <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
@@ -225,27 +225,27 @@ export function StudyRecommendations({
 
         {/* Performance Insights */}
         {insights && insights.strongestTopics.length > 0 && (
-          <div className="mt-6 grid grid-cols-2 gap-4">
-            <div className="bg-green-50 dark:bg-green-900/10 rounded-xl p-4">
-              <h4 className="text-sm font-semibold text-green-700 dark:text-green-400 mb-2">
+          <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="bg-green-50 dark:bg-green-900/10 rounded-xl p-4 overflow-hidden">
+              <h4 className="text-sm font-semibold text-green-700 dark:text-green-400 mb-2 truncate">
                 {t('flashcards.strongTopics')}
               </h4>
               <ul className="space-y-1">
                 {insights.strongestTopics.map((topic, i) => (
-                  <li key={i} className="text-sm text-green-600 dark:text-green-500">
+                  <li key={i} className="text-sm text-green-600 dark:text-green-500 truncate">
                     • {topic}
                   </li>
                 ))}
               </ul>
             </div>
             {insights.weakestTopics.length > 0 && (
-              <div className="bg-red-50 dark:bg-red-900/10 rounded-xl p-4">
-                <h4 className="text-sm font-semibold text-red-700 dark:text-red-400 mb-2">
+              <div className="bg-red-50 dark:bg-red-900/10 rounded-xl p-4 overflow-hidden">
+                <h4 className="text-sm font-semibold text-red-700 dark:text-red-400 mb-2 truncate">
                   {t('flashcards.needsWork')}
                 </h4>
                 <ul className="space-y-1">
                   {insights.weakestTopics.map((topic, i) => (
-                    <li key={i} className="text-sm text-red-600 dark:text-red-500">
+                    <li key={i} className="text-sm text-red-600 dark:text-red-500 truncate">
                       • {topic}
                     </li>
                   ))}

@@ -4,6 +4,7 @@ import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Plus, FileText, Link, X, Check, ChevronDown } from 'lucide-react'
 import { useI18n } from '@/i18n/I18nContext'
+import Dropdown from '@/components/ui/Dropdown'
 import { useAuth } from '@/hooks/useAuth'
 
 // Component that handles the share parameters
@@ -160,22 +161,16 @@ function ShareHandler() {
         <div className="p-6">
           {!createNewList ? (
             <>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-2">
-                {t('pwa.share.selectList')}
-              </label>
-
-              <select
+              <Dropdown
+                label={t('pwa.share.selectList')}
                 value={selectedList}
-                onChange={(e) => setSelectedList(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-              >
-                <option value="">{t('pwa.share.selectList')}</option>
-                {lists.map((list) => (
-                  <option key={list.id} value={list.id}>
-                    {list.name}
-                  </option>
-                ))}
-              </select>
+                onChange={(value) => setSelectedList(value)}
+                placeholder={t('pwa.share.selectList')}
+                options={lists.map((list) => ({
+                  value: list.id,
+                  label: list.name
+                }))}
+              />
 
               <button
                 onClick={() => setCreateNewList(true)}

@@ -5,6 +5,7 @@ import { useAdmin } from '@/hooks/useAdmin'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { motion, AnimatePresence } from 'framer-motion'
+import Dropdown from '@/components/ui/Dropdown'
 import {
   RefreshCw,
   Shield,
@@ -292,32 +293,22 @@ export default function IntegrityMonitorDashboard() {
           </Button>
 
           {/* Max items selectors for manual run */}
-          <div className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-            <label className="text-xs font-medium text-gray-600 dark:text-gray-400 whitespace-nowrap">Max Stories:</label>
-            <select
-              value={maxStories}
-              onChange={(e) => setMaxStories(parseInt(e.target.value))}
-              className="text-sm font-semibold bg-transparent border-none focus:ring-0 cursor-pointer text-gray-900 dark:text-white pr-6"
-              disabled={triggering}
-            >
-              {[1, 2, 3, 4, 5].map(n => (
-                <option key={n} value={n}>{n}</option>
-              ))}
-            </select>
-          </div>
-          <div className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-gray-800 border border-gray-200 dark:border-gray-700">
-            <label className="text-xs font-medium text-gray-600 dark:text-gray-400 whitespace-nowrap">Max Articles:</label>
-            <select
-              value={maxArticles}
-              onChange={(e) => setMaxArticles(parseInt(e.target.value))}
-              className="text-sm font-semibold bg-transparent border-none focus:ring-0 cursor-pointer text-gray-900 dark:text-white pr-6"
-              disabled={triggering}
-            >
-              {[1, 2, 3, 4, 5].map(n => (
-                <option key={n} value={n}>{n}</option>
-              ))}
-            </select>
-          </div>
+          <Dropdown
+            label="Max Stories"
+            value={String(maxStories)}
+            onChange={(value) => setMaxStories(parseInt(value))}
+            size="small"
+            disabled={triggering}
+            options={[1, 2, 3, 4, 5].map(n => ({ value: String(n), label: String(n) }))}
+          />
+          <Dropdown
+            label="Max Articles"
+            value={String(maxArticles)}
+            onChange={(value) => setMaxArticles(parseInt(value))}
+            size="small"
+            disabled={triggering}
+            options={[1, 2, 3, 4, 5].map(n => ({ value: String(n), label: String(n) }))}
+          />
 
           <Button
             onClick={triggerManualCheck}
@@ -550,7 +541,7 @@ export default function IntegrityMonitorDashboard() {
             No integrity check logs found
           </div>
         ) : (
-          <div className="space-y-2 max-h-[500px] overflow-y-auto">
+          <div className="space-y-2 max-h-[500px] overflow-y-auto scrollbar-hide">
             <AnimatePresence>
               {logs.map((log, index) => (
                 <motion.div

@@ -63,17 +63,8 @@ export function useAnkiImport(options?: UseAnkiImportOptions) {
       });
 
       if (result.success && result.deck) {
-        // Save the deck to persistent storage
-        if (userId !== 'guest') {
-          setProgressMessage('Saving deck...');
-          const savedDeck = await ankiDeckManager.saveDeck(
-            result.deck,
-            userId,
-            isPremium,
-            file.name
-          );
-          console.log('[useAnkiImport] Deck saved:', savedDeck.id);
-        }
+        // NOTE: Don't save here - let the page handle saving with proper error handling
+        // The page's handleImportSuccess has LIMIT_REACHED error handling
 
         showToast(
           t('anki.cardsImported', { count: result.cardsImported || 0 }),

@@ -7,6 +7,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext';
 import { MoodBoard } from '@/types/moodboard';
 import MoodBoardEditor from './MoodBoardEditor';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
+import Dropdown from '@/components/ui/Dropdown';
 
 interface FilterState {
   jlptLevel: 'all' | 'N5' | 'N4' | 'N3' | 'N2' | 'N1';
@@ -167,30 +168,30 @@ export default function MoodBoardManager() {
           </div>
 
           {/* JLPT Level */}
-          <select
+          <Dropdown
             value={filters.jlptLevel}
-            onChange={(e) => setFilters(prev => ({ ...prev, jlptLevel: e.target.value as any }))}
-            className="px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
-          >
-            <option value="all">{t('common.allLevels')}</option>
-            <option value="N5">N5</option>
-            <option value="N4">N4</option>
-            <option value="N3">N3</option>
-            <option value="N2">N2</option>
-            <option value="N1">N1</option>
-          </select>
+            onChange={(value) => setFilters(prev => ({ ...prev, jlptLevel: value as any }))}
+            options={[
+              { value: 'all', label: t('common.allLevels') },
+              { value: 'N5', label: 'N5' },
+              { value: 'N4', label: 'N4' },
+              { value: 'N3', label: 'N3' },
+              { value: 'N2', label: 'N2' },
+              { value: 'N1', label: 'N1' },
+            ]}
+          />
 
           {/* Sort */}
-          <select
+          <Dropdown
             value={filters.sortBy}
-            onChange={(e) => setFilters(prev => ({ ...prev, sortBy: e.target.value as any }))}
-            className="px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
-          >
-            <option value="newest">{t('common.newest')}</option>
-            <option value="oldest">{t('common.oldest')}</option>
-            <option value="title">{t('common.title')}</option>
-            <option value="kanjiCount">{t('admin.moodboards.kanjiCount')}</option>
-          </select>
+            onChange={(value) => setFilters(prev => ({ ...prev, sortBy: value as any }))}
+            options={[
+              { value: 'newest', label: t('common.newest') },
+              { value: 'oldest', label: t('common.oldest') },
+              { value: 'title', label: t('common.title') },
+              { value: 'kanjiCount', label: t('admin.moodboards.kanjiCount') },
+            ]}
+          />
         </div>
       </div>
 

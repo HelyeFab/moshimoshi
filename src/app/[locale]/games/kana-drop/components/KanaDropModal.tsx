@@ -602,7 +602,7 @@ export default function KanaDropModal({ isOpen, onClose, selectedKana }: KanaDro
             </button>
 
             {/* Content */}
-            <div className="flex-1 overflow-y-auto p-6 space-y-6 pt-2">
+            <div className="flex-1 overflow-y-auto scrollbar-hide p-6 space-y-6 pt-2">
               {/* Header with drop icon */}
               <div className="flex flex-col items-center justify-center space-y-4">
                 <img 
@@ -729,7 +729,7 @@ export default function KanaDropModal({ isOpen, onClose, selectedKana }: KanaDro
           {effectiveSelectedKana.length > 0 ? (
             <div className="mb-6">
               <h3 className="text-lg font-semibold mb-3">Your Selected Kana:</h3>
-              <div className="flex justify-center gap-3 flex-wrap max-h-40 overflow-y-auto p-2">
+              <div className="flex justify-center gap-3 flex-wrap max-h-40 overflow-y-auto scrollbar-hide p-2">
                 {effectiveSelectedKana.map((kana) => (
                   <div key={kana.id} className="bg-card rounded-lg p-3 border border-border">
                     <div className="text-2xl japanese-text">{kana.kana}</div>

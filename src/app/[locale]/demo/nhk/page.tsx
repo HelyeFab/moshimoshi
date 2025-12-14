@@ -671,7 +671,7 @@ function ProgramDetailModal({
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
         onClick={e => e.stopPropagation()}
-        className="bg-white dark:bg-dark-800 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-6"
+        className="bg-white dark:bg-dark-800 rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto scrollbar-hide p-6"
       >
         <div className="flex justify-between items-start mb-4">
           <div>

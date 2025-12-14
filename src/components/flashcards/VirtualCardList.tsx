@@ -82,7 +82,7 @@ export function VirtualCardList({
       <div
         ref={scrollContainerRef}
         onScroll={handleScroll}
-        className="overflow-y-auto"
+        className="overflow-y-auto scrollbar-hide"
         style={{ height: containerHeight }}
       >
         {/* Virtual spacer to maintain correct scroll height */}

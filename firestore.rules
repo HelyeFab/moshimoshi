@@ -120,6 +120,18 @@ service cloud.firestore {
 
       allow delete: if false; // Users should be soft-deleted
     }
+
+    // Flashcard sessions (premium sync) - enforce ownership if ever accessed client-side
+    match /flashcardSessions/{sessionId} {
+      allow read: if isOwner(resource.data.userId);
+      allow write: if false; // Only server (Admin SDK) should write
+    }
+
+    // Flashcard session analytics (daily aggregates)
+    match /flashcardSessionAnalytics/{userId}/days/{date} {
+      allow read: if isOwner(userId);
+      allow write: if false; // Only server writes aggregates
+    }
     
     // Usage collection - track feature usage (Entitlements v2)
     match /usage/{userId}/daily/{date} {

@@ -150,6 +150,16 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     notifications: false,
     description: 'Create custom flashcard decks for spaced repetition practice',
   },
+  anki_imports: {
+    id: 'anki_imports',
+    name: 'Anki Deck Imports',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'monthly',
+    notifications: false,
+    description: 'Import decks from Anki (.apkg files)',
+  },
   stall_layout_customization: {
     id: 'stall_layout_customization',
     name: 'Learning Village Layout Customization',

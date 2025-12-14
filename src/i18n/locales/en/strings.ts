@@ -4347,6 +4347,9 @@ export const strings = {
       using: 'Storage used',
     },
 
+    // Streak
+    dayStreak: 'day streak',
+
     // Migration
     migration: {
       title: 'Sync to Cloud',
@@ -4981,6 +4984,8 @@ export const strings = {
       wanikani: 'Kanji learning methodology and mnemonics inspiration',
       kanjicanvas: 'Stroke order diagrams and kanji drawing components',
       flaticon: 'Icons and visual assets',
+      voicevox: 'High-quality Japanese text-to-speech synthesis with expressive character voices including Zundamon and Shikoku Metan',
+      nhknewseasy: 'Simplified Japanese news articles for language learners, provided by NHK (Japan Broadcasting Corporation)',
     },
 
     libraries: {
@@ -5289,12 +5294,14 @@ export const strings = {
     greatJob: 'Great job! You\'re making excellent progress!',
     keepPracticing: 'Keep practicing! Every session makes you stronger.',
     studyMore: 'Study More',
-    // Import limit reached
+    // Deck limit reached
     limitReached: {
-      title: 'Import Limit Reached',
+      title: 'Deck Limit Reached',
       heading: 'Deck Limit Reached',
-      message: 'You have {{current}} of {{limit}} Anki decks. Please delete an existing deck before importing a new one.',
+      message: 'You have {{current}} of {{limit}} decks. Please delete an existing deck before creating a new one.',
       suggestion: 'To manage your decks, use the menu on each deck card to delete decks you no longer need.',
+      upgrade: 'Upgrade for More',
+      understood: 'I Understand',
     },
   },
 

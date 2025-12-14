@@ -292,7 +292,7 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed inset-x-4 top-1/2 transform -translate-y-1/2 max-w-2xl mx-auto bg-white dark:bg-dark-800 rounded-xl shadow-2xl z-50 max-h-[90vh] overflow-y-auto"
+            className="fixed inset-x-4 top-1/2 transform -translate-y-1/2 max-w-2xl mx-auto bg-white dark:bg-dark-800 rounded-xl shadow-2xl z-50 max-h-[90vh] overflow-y-auto scrollbar-hide"
           >
             <div className="sticky top-0 bg-white dark:bg-dark-800 border-b border-gray-200 dark:border-dark-700 p-6">
               <div className="flex items-start justify-between">

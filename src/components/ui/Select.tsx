@@ -174,7 +174,7 @@ export function Select({
         </button>
 
         {isOpen && (
-          <div className="absolute z-[9999] w-full mt-1 bg-white dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-lg shadow-lg max-h-60 overflow-auto">
+          <div className="absolute z-[9999] w-full mt-1 bg-white dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-lg shadow-lg max-h-60 overflow-auto scrollbar-hide">
             {searchable && (
               <div className="p-2 border-b border-gray-200 dark:border-dark-700">
                 <input
@@ -361,7 +361,7 @@ export function MultiSelect({
         </div>
 
         {isOpen && (
-          <div className="absolute z-[9999] w-full mt-1 bg-white dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-lg shadow-lg max-h-60 overflow-auto">
+          <div className="absolute z-[9999] w-full mt-1 bg-white dark:bg-dark-900 border border-gray-200 dark:border-dark-700 rounded-lg shadow-lg max-h-60 overflow-auto scrollbar-hide">
             {searchable && (
               <div className="p-2 border-b border-gray-200 dark:border-dark-700">
                 <input

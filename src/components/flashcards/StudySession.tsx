@@ -239,7 +239,10 @@ export function StudySession({
       newCardsLearned: newCardsStudied,
       cardsReviewed: learningCardsStudied + reviewCardsStudied,
       streakMaintained: bestStreak >= deck.stats.currentStreak,
-      xpEarned: totalXP
+      xpEarned: totalXP,
+      // Include for server-side XP calculation (must match client formula)
+      bestStreak,
+      fastCards,
     };
 
     // Create detailed session stats for persistence

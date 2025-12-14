@@ -9,6 +9,7 @@ import { LoadingOverlay } from '@/components/ui/Loading'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import { motion } from 'framer-motion'
+import Dropdown from '@/components/ui/Dropdown'
 import KanjiProgressSummary from './components/KanjiProgressSummary'
 import ReviewDueAlert from './components/ReviewDueAlert'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
@@ -317,38 +318,37 @@ function KanjiMasteryContent() {
             {/* Level Selection */}
             {settings.studyMode === 'jlpt' && (
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-                  JLPT Level
-                </label>
-                <select
+                <Dropdown
+                  label="JLPT Level"
                   value={settings.jlptLevel}
-                  onChange={(e) => setSettings({ ...settings, jlptLevel: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                >
-                  <option value="N5">N5 - Beginner</option>
-                  <option value="N4">N4 - Elementary</option>
-                  <option value="N3">N3 - Intermediate</option>
-                  <option value="N2">N2 - Advanced</option>
-                  <option value="N1">N1 - Expert</option>
-                </select>
+                  onChange={(value) => setSettings({ ...settings, jlptLevel: value })}
+                  options={[
+                    { value: 'N5', label: 'N5 - Beginner' },
+                    { value: 'N4', label: 'N4 - Elementary' },
+                    { value: 'N3', label: 'N3 - Intermediate' },
+                    { value: 'N2', label: 'N2 - Advanced' },
+                    { value: 'N1', label: 'N1 - Expert' },
+                  ]}
+                />
               </div>
             )}
 
             {settings.studyMode === 'grade' && (
               <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-                  School Grade
-                </label>
-                <select
+                <Dropdown
+                  label="School Grade"
                   value={settings.gradeLevel}
-                  onChange={(e) => setSettings({ ...settings, gradeLevel: e.target.value })}
-                  className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-primary-500"
-                >
-                  {[1, 2, 3, 4, 5, 6].map(grade => (
-                    <option key={grade} value={grade}>Grade {grade}</option>
-                  ))}
-                  <option value="7">Secondary School</option>
-                </select>
+                  onChange={(value) => setSettings({ ...settings, gradeLevel: value })}
+                  options={[
+                    { value: '1', label: 'Grade 1' },
+                    { value: '2', label: 'Grade 2' },
+                    { value: '3', label: 'Grade 3' },
+                    { value: '4', label: 'Grade 4' },
+                    { value: '5', label: 'Grade 5' },
+                    { value: '6', label: 'Grade 6' },
+                    { value: '7', label: 'Secondary School' },
+                  ]}
+                />
               </div>
             )}
 

@@ -539,7 +539,7 @@ export default function SyncStatusIndicator() {
                   Sync Queue
                 </h4>
                 {syncStatus.pendingItems.length > 0 ? (
-                  <div className="space-y-2 max-h-32 overflow-y-auto">
+                  <div className="space-y-2 max-h-32 overflow-y-auto scrollbar-hide">
                     {syncStatus.pendingItems.slice(0, 5).map(item => (
                       <div
                         key={item.id}

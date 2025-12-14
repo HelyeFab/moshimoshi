@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import Dropdown from '@/components/ui/Dropdown'
 
 type VoiceOption = {
   value: string
@@ -125,18 +126,15 @@ export default function TTSPlaygroundPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <div className="text-sm font-medium text-slate-200">VOICEVOX speakers</div>
-              <select
-                className="w-full rounded-md bg-slate-900 border border-slate-700 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              <Dropdown
+                label="VOICEVOX speakers"
                 value={voice}
-                onChange={e => setVoice(e.target.value)}
-              >
-                {voicevoxOptions.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
+                onChange={(value) => setVoice(value)}
+                options={voicevoxOptions.map(option => ({
+                  value: option.value,
+                  label: option.label
+                }))}
+              />
               <div className="text-xs text-slate-400">
                 Enter any VOICEVOX speaker ID (numeric) to test voices beyond this list.
               </div>
@@ -150,20 +148,16 @@ export default function TTSPlaygroundPage() {
             </div>
 
             <div className="space-y-2">
-              <div className="text-sm font-medium text-slate-200">Edge TTS fallbacks</div>
-              <select
-                className="w-full rounded-md bg-slate-900 border border-slate-700 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-                onChange={e => setVoice(e.target.value)}
+              <Dropdown
+                label="Edge TTS fallbacks"
                 value={edgeOptions.find(v => v.value === voice)?.value || ''}
-              >
-                <option value="">Select Edge voice</option>
-                {edgeOptions.map(option => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
-                    {option.hint ? ` (${option.hint})` : ''}
-                  </option>
-                ))}
-              </select>
+                onChange={(value) => setVoice(value)}
+                placeholder="Select Edge voice"
+                options={edgeOptions.map(option => ({
+                  value: option.value,
+                  label: `${option.label}${option.hint ? ` (${option.hint})` : ''}`
+                }))}
+              />
               <div className="text-xs text-slate-400">Use if VOICEVOX is unavailable.</div>
             </div>
           </div>

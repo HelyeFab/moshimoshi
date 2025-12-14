@@ -370,7 +370,7 @@ function VocabularyContent() {
                 <h2 className="text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
                   {`Search Results (${searchResults.length})`}
                 </h2>
-                <div className="space-y-3 max-h-[400px] sm:max-h-[600px] overflow-y-auto">
+                <div className="space-y-3 max-h-[400px] sm:max-h-[600px] overflow-y-auto scrollbar-hide">
                   {searchResults.map((word, index) => (
                     <motion.div
                       key={`${word.id}-${index}`}

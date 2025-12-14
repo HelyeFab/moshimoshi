@@ -56,7 +56,7 @@ export function NotificationCenter() {
       </div>
 
       {/* Notifications List */}
-      <div className="max-h-96 overflow-y-auto">
+      <div className="max-h-96 overflow-y-auto scrollbar-hide">
         {notifications.length === 0 && countdowns.size === 0 ? (
           <div className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
             <Bell className="w-12 h-12 mx-auto mb-2 opacity-50" />

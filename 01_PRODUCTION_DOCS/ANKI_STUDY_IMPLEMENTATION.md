@@ -1,8 +1,8 @@
-# Anki Study Session Implementation
+# Anki & Flashcard Study Implementation
 
-> **Date**: December 2024
-> **Status**: Complete
-> **Features**: Daily limits, SRS integration, cross-device sync
+> **Date**: December 2024 (updated Dec 2025)
+> **Status**: Live
+> **Features**: Daily limits, SRS integration, cross-device sync, premium session sync
 
 ---
 
@@ -11,22 +11,24 @@
 1. [Overview](#overview)
 2. [Architecture Changes](#architecture-changes)
 3. [Firestore Collection Restructure](#firestore-collection-restructure)
-4. [Anki Study Session](#anki-study-session)
-5. [File Reference](#file-reference)
-6. [Daily Limits Logic](#daily-limits-logic)
-7. [SRS Integration](#srs-integration)
-8. [Testing](#testing)
-9. [Deployment Notes](#deployment-notes)
+4. [Flashcard Session Sync (Premium)](#flashcard-session-sync-premium)
+5. [Anki Study Session](#anki-study-session)
+6. [File Reference](#file-reference)
+7. [Daily Limits Logic](#daily-limits-logic)
+8. [SRS Integration](#srs-integration)
+9. [Testing](#testing)
+10. [Deployment Notes](#deployment-notes)
 
 ---
 
 ## Overview
 
-This document covers the implementation of the Anki study session feature with daily limits enforcement. The work included:
+This document covers the implementation of the Anki study session feature with daily limits enforcement, plus premium flashcard session sync. The work included:
 
 1. **Firestore Collection Restructure**: Migrated from nested collections (`users/{userId}/flashcardDecks`) to top-level collections (`flashcardDecks` with `userId` field)
 2. **Sync Fixes**: Resolved IndexedDB caching issues and added composite indexes
 3. **Anki Study Session**: Full study session with `newCardsPerDay` and `reviewsPerDay` enforcement using the existing SM-2+ SRS algorithm
+4. **Flashcard Sessions (Premium)**: Cross-device session sync + daily analytics stored in Firestore; local IndexedDB cache for offline
 
 ---
 
@@ -48,6 +50,10 @@ flashcardDecks/
   {deckId}  // Contains userId field
 ankiDecks/
   {deckId}  // Contains userId field
+flashcardSessions/
+  {sessionId} // Contains userId, deckId, stats, timestamps
+flashcardSessionAnalytics/{userId}/days/{YYYY-MM-DD}
+  // Contains aggregate totals per day for faster dashboard
 ```
 
 **Rationale**:
@@ -76,6 +82,18 @@ match /ankiDecks/{deckId} {
     resource.data.userId == request.auth.uid;
   allow write: if false; // Server-side only
 }
+
+// Flashcard sessions - read-only to owner, server writes via Admin SDK
+match /flashcardSessions/{sessionId} {
+  allow read: if isOwner(resource.data.userId);
+  allow write: if false;
+}
+
+// Flashcard daily analytics
+match /flashcardSessionAnalytics/{userId}/days/{date} {
+  allow read: if isOwner(userId);
+  allow write: if false;
+}
 ```
 
 ### Composite Indexes (`firestore.indexes.json`)
@@ -101,6 +119,18 @@ Required for `where('userId', '==', uid).orderBy('updatedAt', 'desc')` queries:
 }
 ```
 
+Required for sessions if ordering by timestamp:
+```json
+{
+  "collectionGroup": "flashcardSessions",
+  "queryScope": "COLLECTION",
+  "fields": [
+    { "fieldPath": "userId", "order": "ASCENDING" },
+    { "fieldPath": "timestamp", "order": "DESCENDING" }
+  ]
+}
+```
+
 ### API Route Changes
 
 All API routes updated to use top-level collections:
@@ -119,6 +149,33 @@ const snapshot = await decksRef
   .orderBy('updatedAt', 'desc')
   .get()
 ```
+
+---
+
+## Flashcard Session Sync (Premium)
+
+### API
+- `POST /api/flashcards/sessions` (premium only): validates session payload, writes to `flashcardSessions`, updates daily aggregate in `flashcardSessionAnalytics/{userId}/days/{YYYY-MM-DD}`.
+- `GET /api/flashcards/sessions?limit=50` (premium only): returns recent sessions for the user.
+
+### Client flow
+- `StudySession` builds `SessionStats` at completion.
+- `FlashcardManager.saveSessionStats` updates deck stats locally, then:
+  - saves the session to `SessionManager` (IndexedDB) for immediate dashboard updates,
+  - calls `SessionManager.saveSessionRemote` (premium) which posts to the API.
+- On flashcards page load, `sessionManager.syncSessions` (premium) fetches recent server sessions and refreshes local cache; free users rely on local sessions only.
+
+### Storage
+- Local: IndexedDB `FlashcardSessionDB` (`sessions`, `analytics` stores).
+- Cloud: Firestore `flashcardSessions`, `flashcardSessionAnalytics/{userId}/days/{date}`.
+
+### Security
+- Rules deny client writes; only server/Admin SDK writes. Owner read is allowed.
+- Premium gating enforced in API by checking `subscription.plan` in `users/{userId}` (`premium_monthly|premium_yearly`).
+
+### Known behavior
+- Deck stats (mastery/accuracy) still derive from per-card SRS status; session sync populates dashboard stats, not deck-level mastery counts.
+- Daily Goals use today’s sessions (accuracy vs target, decks visited vs goal, minutes studied).
 
 ---
 

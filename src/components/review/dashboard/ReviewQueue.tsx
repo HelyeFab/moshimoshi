@@ -15,6 +15,7 @@ import {
   X
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
+import Dropdown from '@/components/ui/Dropdown';
 
 interface ReviewItem {
   id: string;
@@ -294,28 +295,30 @@ export function ReviewQueue({ items, onStartReview, onItemClick, viewMode: initi
           </div>
           
           {/* Filter */}
-          <select
+          <Dropdown
             value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="px-3 py-1.5 rounded-lg border border-gray-300 dark:border-dark-600 bg-soft-white dark:bg-dark-700 text-sm"
-          >
-            <option value="all">{t('review.dashboard.queue.filters.all')}</option>
-            <option value="hiragana">{t('review.dashboard.queue.filters.hiragana')}</option>
-            <option value="katakana">{t('review.dashboard.queue.filters.katakana')}</option>
-            <option value="kanji">{t('review.dashboard.queue.filters.kanji')}</option>
-            <option value="vocabulary">{t('review.dashboard.queue.filters.vocabulary')}</option>
-          </select>
-          
+            onChange={(value) => setFilter(value)}
+            size="small"
+            options={[
+              { value: 'all', label: t('review.dashboard.queue.filters.all') },
+              { value: 'hiragana', label: t('review.dashboard.queue.filters.hiragana') },
+              { value: 'katakana', label: t('review.dashboard.queue.filters.katakana') },
+              { value: 'kanji', label: t('review.dashboard.queue.filters.kanji') },
+              { value: 'vocabulary', label: t('review.dashboard.queue.filters.vocabulary') },
+            ]}
+          />
+
           {/* Sort */}
-          <select
+          <Dropdown
             value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as any)}
-            className="px-3 py-1.5 rounded-lg border border-gray-300 dark:border-dark-600 bg-soft-white dark:bg-dark-700 text-sm"
-          >
-            <option value="dueDate">{t('review.dashboard.queue.sortBy.dueDate')}</option>
-            <option value="difficulty">{t('review.dashboard.queue.sortBy.difficulty')}</option>
-            <option value="type">{t('review.dashboard.queue.sortBy.type')}</option>
-          </select>
+            onChange={(value) => setSortBy(value as any)}
+            size="small"
+            options={[
+              { value: 'dueDate', label: t('review.dashboard.queue.sortBy.dueDate') },
+              { value: 'difficulty', label: t('review.dashboard.queue.sortBy.difficulty') },
+              { value: 'type', label: t('review.dashboard.queue.sortBy.type') },
+            ]}
+          />
           
           {/* Selection controls */}
           {selectedItems.size > 0 && (
@@ -344,7 +347,7 @@ export function ReviewQueue({ items, onStartReview, onItemClick, viewMode: initi
       <div 
         ref={containerRef}
         className={cn(
-          'p-4 overflow-y-auto max-h-96',
+          'p-4 overflow-y-auto scrollbar-hide max-h-96',
           viewMode === 'cards' ? 'grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4' : 'space-y-2'
         )}
       >

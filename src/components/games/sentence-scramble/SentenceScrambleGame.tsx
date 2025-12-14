@@ -480,7 +480,7 @@ export default function SentenceScrambleGame({
         <p className="text-muted-foreground">{t('games.sentenceScramble.selectDescription')}</p>
       </div>
 
-      <div className="grid gap-3 max-h-[400px] overflow-y-auto p-2">
+      <div className="grid gap-3 max-h-[400px] overflow-y-auto scrollbar-hide p-2">
         {SAMPLE_SENTENCES.map(sentence => (
           <motion.button
             key={sentence.id}

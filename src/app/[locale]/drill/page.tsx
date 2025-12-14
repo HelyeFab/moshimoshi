@@ -915,7 +915,7 @@ export default function DrillPage() {
                           'You have no lists yet. Create one from the vocabulary page!'}
                       </div>
                     ) : (
-                      <div className="space-y-2 max-h-48 overflow-y-auto">
+                      <div className="space-y-2 max-h-48 overflow-y-auto scrollbar-hide">
                         {userLists.map(list => {
                           const isSelected = settings.selectedLists?.includes(list.id)
                           const itemCount = list.items?.length || 0

@@ -4,6 +4,8 @@
  * GET /api/anki/decks/[id] - Get a specific Anki deck
  * PUT /api/anki/decks/[id] - Update an Anki deck
  * DELETE /api/anki/decks/[id] - Delete an Anki deck
+ *
+ * Note: Anki decks are stored in flashcardDecks collection with source='anki'
  */
 
 import { NextRequest, NextResponse } from 'next/server'
@@ -44,8 +46,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       })
     }
 
-    // Get the deck from Firebase - top-level collection
-    const deckRef = adminDb.collection('ankiDecks').doc(deckId)
+    // Get the deck from Firebase - unified flashcardDecks collection
+    const deckRef = adminDb.collection('flashcardDecks').doc(deckId)
 
     const deckDoc = await deckRef.get()
 
@@ -107,8 +109,8 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       })
     }
 
-    // Get the existing deck - top-level collection
-    const deckRef = adminDb.collection('ankiDecks').doc(deckId)
+    // Get the existing deck - unified flashcardDecks collection
+    const deckRef = adminDb.collection('flashcardDecks').doc(deckId)
 
     const deckDoc = await deckRef.get()
 
@@ -181,8 +183,8 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       })
     }
 
-    // Get the deck to verify ownership - top-level collection
-    const deckRef = adminDb.collection('ankiDecks').doc(deckId)
+    // Get the deck to verify ownership - unified flashcardDecks collection
+    const deckRef = adminDb.collection('flashcardDecks').doc(deckId)
 
     const deckDoc = await deckRef.get()
 

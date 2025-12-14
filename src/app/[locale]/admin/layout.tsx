@@ -129,7 +129,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
             <h1 className="text-xl font-bold text-gray-900 dark:text-white">Admin</h1>
           )}
         </div>
-        <nav className="flex-1 mt-4 px-2 space-y-1 overflow-x-hidden pb-28">
+        <nav className="flex-1 mt-4 px-2 space-y-1 overflow-y-auto overflow-x-hidden scrollbar-hide pb-28">
           {navItems.map(item => (
             <Link
               key={item.href}
@@ -261,7 +261,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
               leaveTo="-translate-x-full"
             >
               <Dialog.Panel className="relative flex w-full max-w-xs flex-1">
-                <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-white dark:bg-dark-900 px-6 pb-4">
+                <div className="flex grow flex-col gap-y-5 overflow-y-auto scrollbar-hide bg-white dark:bg-dark-900 px-6 pb-4">
                   <div className="flex h-16 shrink-0 items-center justify-between">
                     <div className="flex items-center gap-4">
                       <span className="text-2xl">🛡️</span>

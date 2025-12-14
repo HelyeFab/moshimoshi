@@ -85,7 +85,8 @@ export function DailyGoals({ userId, isPremium, onGoalComplete }: DailyGoalsProp
 
       if (todaySessions.length > 0) {
         const cardsReviewed = todaySessions.reduce((sum, s) => sum + s.cardsStudied, 0);
-        const minutesStudied = Math.round(todaySessions.reduce((sum, s) => sum + s.duration, 0) / 60);
+        // duration is stored in milliseconds; convert to minutes for display
+        const minutesStudied = Math.round(todaySessions.reduce((sum, s) => sum + s.duration, 0) / 60000);
         const decksVisited = new Set(todaySessions.map(s => s.deckId));
         const totalAccuracy = todaySessions.reduce((sum, s) => sum + s.accuracy, 0);
         const averageAccuracy = Math.round((totalAccuracy / todaySessions.length) * 100);

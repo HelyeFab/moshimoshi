@@ -140,7 +140,7 @@ export default function KanaSelection({ onStartGame, onCancel }: KanaSelectionPr
       </div>
 
       {/* Kana Grid */}
-      <div className="flex-1 overflow-y-auto px-4">
+      <div className="flex-1 overflow-y-auto scrollbar-hide px-4">
         <div className="w-full space-y-4 flex flex-col items-center">
           {Object.entries(kanaByRow).map(([rowName, rowKana]) => (
             <div key={rowName} className="flex flex-wrap justify-center gap-2 max-w-full">

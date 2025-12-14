@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
-import ThemeToggle from '@/components/ui/ThemeToggle'
 
 export default function Error({
   error,
@@ -43,7 +42,6 @@ export default function Error({
             <Link href="/" className="group">
               <MoshimoshiLogo size="small" animated={true} className="group-hover:scale-105 transition-transform" />
             </Link>
-            <ThemeToggle />
           </div>
         </div>
       </header>
@@ -92,7 +90,7 @@ export default function Error({
                     <summary className="cursor-pointer text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200">
                       Technical details
                     </summary>
-                    <pre className="mt-2 text-xs text-red-600 dark:text-red-400 overflow-auto p-2 bg-white dark:bg-dark-900 rounded">
+                    <pre className="mt-2 text-xs text-red-600 dark:text-red-400 overflow-auto scrollbar-hide p-2 bg-white dark:bg-dark-900 rounded">
                       {error.message}
                       {error.digest && `\nDigest: ${error.digest}`}
                     </pre>

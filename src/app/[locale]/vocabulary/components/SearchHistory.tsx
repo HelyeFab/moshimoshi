@@ -76,7 +76,7 @@ export default function SearchHistory({ history, onHistoryClick, onClear, onDele
         </button>
       </div>
 
-      <div className="space-y-2 max-h-96 overflow-y-auto">
+      <div className="space-y-2 max-h-96 overflow-y-auto scrollbar-hide">
         {history.map((item, index) => (
           <motion.div
             key={`${item.term}-${index}`}

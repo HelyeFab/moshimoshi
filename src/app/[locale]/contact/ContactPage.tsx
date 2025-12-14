@@ -6,6 +6,7 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 // Navigation is now global via NavigationWrapper in root layout
 import PageContainer from '@/components/ui/PageContainer'
+import Dropdown from '@/components/ui/Dropdown'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { LoadingOverlay } from '@/components/ui/Loading'
 
@@ -237,24 +238,19 @@ export default function ContactPage() {
 
             {/* Category */}
             <div>
-              <label htmlFor="category" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                {contact.form?.category || 'Category'} *
-              </label>
-              <select
-                id="category"
-                name="category"
+              <Dropdown
+                label={`${contact.form?.category || 'Category'} *`}
                 value={formData.category}
-                onChange={handleInputChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:text-white transition-colors"
-              >
-                <option value="general">{contact.form?.categories?.general || 'General Inquiry'}</option>
-                <option value="support">{contact.form?.categories?.support || 'Technical Support'}</option>
-                <option value="bug">{contact.form?.categories?.bug || 'Bug Report'}</option>
-                <option value="feature">{contact.form?.categories?.feature || 'Feature Request'}</option>
-                <option value="feedback">{contact.form?.categories?.feedback || 'Feedback'}</option>
-                <option value="privacy">{contact.form?.categories?.privacy || 'Privacy Concern'}</option>
-              </select>
+                onChange={(value) => setFormData(prev => ({ ...prev, category: value }))}
+                options={[
+                  { value: 'general', label: contact.form?.categories?.general || 'General Inquiry' },
+                  { value: 'support', label: contact.form?.categories?.support || 'Technical Support' },
+                  { value: 'bug', label: contact.form?.categories?.bug || 'Bug Report' },
+                  { value: 'feature', label: contact.form?.categories?.feature || 'Feature Request' },
+                  { value: 'feedback', label: contact.form?.categories?.feedback || 'Feedback' },
+                  { value: 'privacy', label: contact.form?.categories?.privacy || 'Privacy Concern' },
+                ]}
+              />
             </div>
 
             {/* Subject */}

@@ -95,6 +95,59 @@ export class FlashcardSessionManager {
     await this.updateDailyAnalytics(session);
   }
 
+  // Save session to server for premium users
+  async saveSessionRemote(session: SessionStats, isPremium: boolean): Promise<void> {
+    if (!isPremium) return;
+    try {
+      await fetch('/api/flashcards/sessions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(session)
+      });
+    } catch (error) {
+      console.error('[SessionManager] Failed to save session to server:', error);
+    }
+  }
+
+  // Fetch sessions from server (premium) and cache locally
+  async syncSessions(userId: string, isPremium: boolean, limit: number = 100): Promise<SessionStats[]> {
+    if (!userId) return [];
+    if (!isPremium) {
+      return this.getUserSessions(userId, limit);
+    }
+
+    try {
+      const response = await fetch(`/api/flashcards/sessions?limit=${limit}`, {
+        credentials: 'include'
+      });
+      if (!response.ok) {
+        console.warn('[SessionManager] Failed to fetch remote sessions, falling back to local');
+        return this.getUserSessions(userId, limit);
+      }
+
+      const { sessions } = await response.json();
+      const db = await this.initDB();
+
+      // Replace local cache with server sessions for this user
+      const tx = db.transaction(['sessions', 'analytics'], 'readwrite');
+      const existingSessionKeys = await tx.objectStore('sessions').index('userId').getAllKeys(userId);
+      for (const key of existingSessionKeys) {
+        await tx.objectStore('sessions').delete(key as string);
+      }
+
+      for (const session of sessions || []) {
+        await tx.objectStore('sessions').put(session);
+      }
+
+      await tx.done;
+      return sessions || [];
+    } catch (error) {
+      console.error('[SessionManager] Error syncing sessions:', error);
+      return this.getUserSessions(userId, limit);
+    }
+  }
+
   // Update daily analytics
   private async updateDailyAnalytics(session: SessionStats): Promise<void> {
     const db = await this.initDB();

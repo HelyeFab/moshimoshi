@@ -10,6 +10,7 @@ import { useTodos } from '@/hooks/useTodos'
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/i18n/I18nContext'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import Dropdown from '@/components/ui/Dropdown'
 
 export function TodoList() {
   const { t } = useI18n()
@@ -146,19 +147,14 @@ export function TodoList() {
           })}
         </div>
 
-        <div className="relative">
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value as 'date' | 'priority')}
-            className="pl-10 pr-4 py-2.5 border-2 border-gray-300 dark:border-gray-600 rounded-xl bg-soft-white dark:bg-dark-850 text-gray-900 dark:text-gray-100 focus:ring-4 focus:ring-primary-500/20 focus:border-primary-500 transition-all appearance-none cursor-pointer hover:border-primary-400"
-          >
-            <option value="date">{t('todos.sort.date')}</option>
-            <option value="priority">{t('todos.sort.priority')}</option>
-          </select>
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" fill="currentColor" viewBox="0 0 20 20">
-            <path d="M3 3a1 1 0 000 2h11a1 1 0 100-2H3zM3 7a1 1 0 000 2h5a1 1 0 000-2H3zM3 11a1 1 0 100 2h4a1 1 0 100-2H3zM13 16a1 1 0 102 0v-5.586l1.293 1.293a1 1 0 001.414-1.414l-3-3a1 1 0 00-1.414 0l-3 3a1 1 0 101.414 1.414L13 10.414V16z" />
-          </svg>
-        </div>
+        <Dropdown
+          value={sortBy}
+          onChange={(value) => setSortBy(value as 'date' | 'priority')}
+          options={[
+            { value: 'date', label: t('todos.sort.date') },
+            { value: 'priority', label: t('todos.sort.priority') },
+          ]}
+        />
       </div>
 
       {/* Todo list with staggered animation */}

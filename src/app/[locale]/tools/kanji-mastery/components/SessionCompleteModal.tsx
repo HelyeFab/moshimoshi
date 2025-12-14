@@ -95,7 +95,7 @@ export default function SessionCompleteModal({ sessionState, onClose }: SessionC
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="bg-white dark:bg-dark-800 rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white dark:bg-dark-800 rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto scrollbar-hide"
       >
         {/* Celebration Header */}
         <div className="bg-gradient-to-r from-primary-400 to-primary-600 p-6 text-white text-center rounded-t-2xl">

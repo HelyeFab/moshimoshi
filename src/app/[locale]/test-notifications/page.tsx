@@ -361,7 +361,7 @@ export default function TestNotificationsPage() {
                 Clear
               </button>
             </div>
-            <div className="bg-gray-900 text-green-400 p-4 rounded-lg h-64 overflow-y-auto font-mono text-sm">
+            <div className="bg-gray-900 text-green-400 p-4 rounded-lg h-64 overflow-y-auto scrollbar-hide font-mono text-sm">
               {logs.length === 0 ? (
                 <div className="text-gray-500">No logs yet. Click a button to start testing.</div>
               ) : (

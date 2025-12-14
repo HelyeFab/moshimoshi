@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { auth } from '@/lib/firebase/client';
+import Dropdown from '@/components/ui/Dropdown';
 
 interface DecisionLog {
   id: string;
@@ -160,16 +161,16 @@ export default function DecisionExplorerPage() {
           </div>
           
           <div>
-            <label className="block text-sm font-medium mb-1">Feature</label>
-            <select
+            <Dropdown
+              label="Feature"
               value={filters.featureId}
-              onChange={(e) => setFilters({ ...filters, featureId: e.target.value })}
-              className="w-full px-3 py-2 border rounded-lg dark:bg-gray-700 dark:border-gray-600"
-            >
-              <option value="">All Features</option>
-              <option value="hiragana_practice">Hiragana Practice</option>
-              <option value="katakana_practice">Katakana Practice</option>
-            </select>
+              onChange={(value) => setFilters({ ...filters, featureId: value })}
+              options={[
+                { value: '', label: 'All Features' },
+                { value: 'hiragana_practice', label: 'Hiragana Practice' },
+                { value: 'katakana_practice', label: 'Katakana Practice' },
+              ]}
+            />
           </div>
 
           <div>

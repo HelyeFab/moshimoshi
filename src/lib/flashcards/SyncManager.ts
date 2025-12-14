@@ -1,5 +1,5 @@
 import { openDB, IDBPDatabase } from 'idb';
-import type { FlashcardDeck } from '@/types/flashcards';
+import type { FlashcardDeck, FlashcardContent } from '@/types/flashcards';
 
 interface SyncQueueItem {
   id: string;
@@ -189,9 +189,10 @@ export class SyncManager {
     }
 
     // Update local cache with server response if needed
-    if (item.action === 'create' || item.action === 'update') {
+    if (['create', 'update', 'addCard', 'updateCard', 'removeCard'].includes(item.action)) {
       const responseData = await response.json();
-      await this.updateLocalCache(responseData.deck || responseData.card);
+      const payload = responseData.deck || responseData.card || responseData;
+      await this.updateLocalCache(payload, item);
     }
   }
 
@@ -300,10 +301,55 @@ export class SyncManager {
   }
 
   // Update local cache after successful sync
-  private async updateLocalCache(data: any): Promise<void> {
-    // This would update the IndexedDB cache with the server response
-    // Implementation depends on the FlashcardManager integration
-    console.log('[SyncManager] Updating local cache with server data');
+  private async updateLocalCache(data: any, item?: SyncQueueItem): Promise<void> {
+    // Update the IndexedDB cache used by FlashcardManager without introducing a circular dependency.
+    // This mirrors the schema defined in FlashcardManager.initDB.
+    const db = await openDB<any>('FlashcardDB', 1);
+
+    // Deck payload returned from server
+    if (data && data.id && data.cards) {
+      await db.put('decks', data);
+      return;
+    }
+
+    // Card payloads need the surrounding deck context; fetch deckId from cached request data.
+    if (data && data.id) {
+      const deckId =
+        (data as FlashcardContent & { deckId?: string }).deckId || data.deckId || item?.deckId;
+      if (!deckId) return;
+      const deck = await db.get('decks', deckId);
+      if (!deck) return;
+
+      const cards: FlashcardContent[] = deck.cards || [];
+      const existingIndex = cards.findIndex((card: FlashcardContent) => card.id === data.id);
+
+      if (existingIndex >= 0) {
+        cards[existingIndex] = {
+          ...cards[existingIndex],
+          ...data,
+          metadata: { ...cards[existingIndex].metadata, ...data.metadata },
+        };
+      } else {
+        cards.push(data);
+      }
+
+      const updatedDeck = { ...deck, cards, updatedAt: Date.now() };
+      if (data.stats) {
+        updatedDeck.stats = data.stats;
+      }
+
+      await db.put('decks', updatedDeck);
+      return;
+    }
+
+    if (item?.action === 'removeCard' && item.deckId && item.data?.cardId) {
+      const deck = await db.get('decks', item.deckId);
+      if (!deck) return;
+      const cards: FlashcardContent[] = (deck.cards || []).filter(
+        (card: FlashcardContent) => card.id !== item.data.cardId
+      );
+      await db.put('decks', { ...deck, cards, updatedAt: Date.now() });
+    }
   }
 
   // Notify UI about conflicts

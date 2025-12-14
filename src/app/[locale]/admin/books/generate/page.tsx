@@ -8,6 +8,7 @@ import { JLPTLevel } from '@/types/ai-story'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Upload, Sparkles, X, CheckCircle, Circle, Loader2, AlertTriangle } from 'lucide-react'
+import Dropdown from '@/components/ui/Dropdown'
 import { uploadBookCoverImage } from '@/lib/utils/imageUpload'
 import { doc, onSnapshot } from 'firebase/firestore'
 import { firestore } from '@/lib/firebase/client'
@@ -395,20 +396,18 @@ export default function GenerateBookPage() {
 
             {/* JLPT Level */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                JLPT Level *
-              </label>
-              <select
+              <Dropdown
+                label="JLPT Level *"
                 value={jlptLevel}
-                onChange={e => setJlptLevel(e.target.value as JLPTLevel)}
-                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
-              >
-                <option value="N5">N5 (Beginner)</option>
-                <option value="N4">N4 (Elementary)</option>
-                <option value="N3">N3 (Intermediate)</option>
-                <option value="N2">N2 (Upper Intermediate)</option>
-                <option value="N1">N1 (Advanced)</option>
-              </select>
+                onChange={(value) => setJlptLevel(value as JLPTLevel)}
+                options={[
+                  { value: 'N5', label: 'N5 (Beginner)' },
+                  { value: 'N4', label: 'N4 (Elementary)' },
+                  { value: 'N3', label: 'N3 (Intermediate)' },
+                  { value: 'N2', label: 'N2 (Upper Intermediate)' },
+                  { value: 'N1', label: 'N1 (Advanced)' },
+                ]}
+              />
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                 The AI will condense the book to match this level's vocabulary and grammar
               </p>

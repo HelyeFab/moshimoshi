@@ -258,7 +258,7 @@ export default function AddToListButton({
                     <div className="text-xs text-gray-500 dark:text-gray-400 mt-1">{content}</div>
                   </div>
 
-                  <div className="max-h-64 overflow-y-auto">
+                  <div className="max-h-64 overflow-y-auto scrollbar-hide">
                     {isLoading ? (
                       <div className="p-4 text-center">
                         <div

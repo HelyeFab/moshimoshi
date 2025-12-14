@@ -198,7 +198,7 @@ export default function ClearStoragePage() {
               {result.message}
             </h3>
 
-            <div className="bg-black/5 rounded p-3 mt-3 max-h-96 overflow-y-auto">
+            <div className="bg-black/5 rounded p-3 mt-3 max-h-96 overflow-y-auto scrollbar-hide">
               {result.details.map((detail, idx) => (
                 <div
                   key={idx}

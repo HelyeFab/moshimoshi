@@ -19,7 +19,7 @@ export default function KanjiQuestTutorial({ isOpen, onClose, onStart }: KanjiQu
       <motion.div
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-white dark:bg-dark-850 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white dark:bg-dark-850 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide"
       >
         <div className="p-6">
           {/* Header with Pokemon */}

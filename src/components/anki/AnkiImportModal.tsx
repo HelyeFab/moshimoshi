@@ -262,9 +262,9 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
               {/* Deck Preview Card */}
               <div className="bg-gray-50 dark:bg-dark-800 rounded-lg p-4">
                 <div className="flex items-center gap-3 mb-4">
-                  <Package className="w-8 h-8 text-primary-500" />
-                  <div>
-                    <p className="text-sm text-text-muted dark:text-dark-text-muted">
+                  <Package className="w-8 h-8 text-primary-500 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm text-text-muted dark:text-dark-text-muted truncate" title={file?.name}>
                       {file?.name}
                     </p>
                     <p className="text-lg font-semibold text-text-primary dark:text-dark-text-primary">

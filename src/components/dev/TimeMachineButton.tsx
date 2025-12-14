@@ -80,7 +80,7 @@ function TimeMachineModal({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm" style={{ contain: 'layout style paint' }}>
-      <div className="bg-soft-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-2xl w-full m-4 max-h-[90vh] overflow-y-auto">
+      <div className="bg-soft-white dark:bg-gray-800 rounded-xl shadow-2xl max-w-2xl w-full m-4 max-h-[90vh] overflow-y-auto scrollbar-hide">
         {/* Header */}
         <div className="bg-soft-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex justify-between items-center">
           <div className="flex items-center gap-3">
@@ -279,7 +279,7 @@ function TimeMachineModal({ onClose }: { onClose: () => void }) {
                 </button>
               </div>
 
-              <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3 max-h-40 overflow-y-auto">
+              <div className="bg-gray-50 dark:bg-gray-900 rounded-lg p-3 max-h-40 overflow-y-auto scrollbar-hide">
                 <div className="space-y-1 text-xs font-mono">
                   {state.history.slice(-10).reverse().map((item, i) => (
                     <div key={i} className="flex justify-between">

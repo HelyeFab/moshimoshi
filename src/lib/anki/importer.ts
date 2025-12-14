@@ -11,6 +11,18 @@ export interface AnkiCard extends ReviewableContent {
   deckName: string
   fields?: string[]
   media?: string[]
+  // Rich content fields
+  reading?: string          // Furigana/hiragana reading
+  audioUrl?: string         // Blob URL for audio
+  imageUrl?: string         // Blob URL for image
+  audioFilename?: string    // Original audio filename
+  imageFilename?: string    // Original image filename
+  // Additional metadata
+  expression?: string       // Original Japanese expression
+  meaning?: string          // English meaning
+  sentence?: string         // Example sentence if available
+  sentenceReading?: string  // Sentence reading
+  sentenceMeaning?: string  // Sentence translation
   // SRS data
   interval?: number
   ease?: number
@@ -73,6 +85,17 @@ export class AnkiImporter {
       const parseResult = await AnkiParser.parseApkg(file)
       const mediaStore = AnkiMediaStore.getInstance()
 
+      console.log('[AnkiImporter] Parse result:', {
+        deckCount: parseResult.decks.length,
+        mediaCount: parseResult.media.size,
+        sampleCard: parseResult.decks[0]?.cards[0] ? {
+          id: parseResult.decks[0].cards[0].id,
+          audioFilename: parseResult.decks[0].cards[0].audioFilename,
+          imageFilename: parseResult.decks[0].cards[0].imageFilename,
+          reading: parseResult.decks[0].cards[0].reading,
+        } : null,
+      })
+
       // Store media files locally
       const mediaUrls = new Map<string, string>()
       if (parseResult.media.size > 0) {
@@ -80,14 +103,17 @@ export class AnkiImporter {
           options.onProgress(30, `Processing ${parseResult.media.size} media files...`)
         }
 
+        let storedCount = 0
         for (const [filename, blob] of parseResult.media) {
           try {
             const blobUrl = await mediaStore.storeMedia(filename, blob)
             mediaUrls.set(filename, blobUrl)
+            storedCount++
           } catch (error) {
             console.warn(`Failed to store media file ${filename}:`, error)
           }
         }
+        console.log('[AnkiImporter] Media stored:', { storedCount, totalMedia: parseResult.media.size })
       }
 
       // Convert to our deck format
@@ -100,6 +126,20 @@ export class AnkiImporter {
         ),
         mediaUrls,
       }))
+
+      // Log sample converted card
+      if (decks[0]?.cards[0]) {
+        const sampleCard = decks[0].cards[0]
+        console.log('[AnkiImporter] Sample converted card:', {
+          id: sampleCard.id,
+          front: sampleCard.front?.substring(0, 50),
+          reading: sampleCard.reading,
+          audioUrl: sampleCard.audioUrl ? 'present' : 'missing',
+          imageUrl: sampleCard.imageUrl ? 'present' : 'missing',
+          audioFilename: sampleCard.audioFilename,
+          imageFilename: sampleCard.imageFilename,
+        })
+      }
 
       return { decks, media: parseResult.media }
     } catch (error) {
@@ -116,38 +156,27 @@ export class AnkiImporter {
     deckName: string,
     mediaUrls: Map<string, string>
   ): AnkiCard {
-    // Process media references
+    // Get media URLs using the extracted filenames
+    const audioUrl = card.audioFilename ? mediaUrls.get(card.audioFilename) : undefined
+    const imageUrl = card.imageFilename ? mediaUrls.get(card.imageFilename) : undefined
+
+    // Build display content with embedded media
     let processedFront = card.front
     let processedBack = card.back
 
-    if (card.media) {
-      for (const mediaRef of card.media) {
-        const url = mediaUrls.get(mediaRef)
-        if (url) {
-          // Replace sound references
-          processedFront = processedFront.replace(
-            `[audio]`,
-            `<audio controls src="${url}" class="anki-audio" />`
-          )
-          processedBack = processedBack.replace(
-            `[audio]`,
-            `<audio controls src="${url}" class="anki-audio" />`
-          )
-
-          // Replace image references
-          processedFront = processedFront.replace(
-            `[image]`,
-            `<img src="${url}" class="anki-image" />`
-          )
-          processedBack = processedBack.replace(
-            `[image]`,
-            `<img src="${url}" class="anki-image" />`
-          )
-        }
-      }
+    // Replace [audio] placeholder with actual audio element if we have a URL
+    if (audioUrl) {
+      processedFront = processedFront.replace(/\[audio\]/g, '')
+      processedBack = processedBack.replace(/\[audio\]/g, '')
     }
 
-    // Return AnkiCard with required ReviewableContent fields
+    // Replace [image] placeholder with actual image if we have a URL
+    if (imageUrl) {
+      processedFront = processedFront.replace(/\[image\]/g, `<img src="${imageUrl}" class="anki-image" />`)
+      processedBack = processedBack.replace(/\[image\]/g, `<img src="${imageUrl}" class="anki-image" />`)
+    }
+
+    // Return AnkiCard with all rich content preserved
     return {
       id: card.id,
       contentType: 'custom', // Anki cards use custom content type
@@ -161,10 +190,22 @@ export class AnkiImporter {
       deckName,
       fields: card.fields,
       media: card.media,
+      // Rich content fields
+      reading: card.reading,
+      audioUrl,
+      imageUrl,
+      audioFilename: card.audioFilename,
+      imageFilename: card.imageFilename,
+      expression: card.expression,
+      meaning: card.meaning,
+      sentence: card.sentence,
+      sentenceReading: card.sentenceReading,
+      sentenceMeaning: card.sentenceMeaning,
       metadata: {
         source: 'anki',
         noteId: card.noteId,
         deckId: card.deckId,
+        noteType: card.noteType,
         importedAt: new Date().toISOString(),
       },
     } as AnkiCard
