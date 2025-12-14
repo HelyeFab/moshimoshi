@@ -391,6 +391,7 @@ export const strings = {
     backTo: '戻る：',
     dismiss: '閉じる',
     gotIt: '了解！',
+    understood: '了解',
     enable: '有効にする',
     next: '次へ',
     previous: '前へ',
@@ -3008,6 +3009,15 @@ export const strings = {
       using: '使用中のストレージ',
     },
 
+    // Migration
+    migration: {
+      title: 'クラウドに同期',
+      description: 'ローカルのフラッシュカードをクラウドに同期して、バックアップや他のデバイスからアクセスできます。',
+      syncNow: '今すぐ同期',
+      inProgress: '同期中...',
+      syncingDeck: '{{deck}}を同期中...',
+    },
+
     // Empty states
     empty: {
       noDecks: 'フラッシュカードデッキがありません',
@@ -3759,6 +3769,14 @@ export const strings = {
       dailyLimitReached: '今日の上限に達しました',
       newCardsToday: '今日の新規: {{count}}枚',
       reviewsToday: '今日の復習: {{count}}枚',
+    },
+    limitReached: {
+      title: 'インポート上限に達しました',
+      heading: 'デッキ数が上限に達しました',
+      message:
+        '現在 {{current}} / {{limit}} デッキです。新しいデッキをインポートするには、既存のデッキを削除してください。',
+      suggestion:
+        'デッキを管理するには、各デッキカードのメニューから不要なデッキを削除できます。',
     },
   },
 

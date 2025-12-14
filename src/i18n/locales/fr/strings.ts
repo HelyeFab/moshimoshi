@@ -96,6 +96,7 @@ export const strings = {
     backTo: 'Retour aux',
     dismiss: 'Ignorer',
     gotIt: 'Compris !',
+    understood: 'Compris',
     enable: 'Activer',
     next: 'Suivant',
     previous: 'Précédent',
@@ -2864,6 +2865,15 @@ export const strings = {
       using: 'Stockage utilisé',
     },
 
+    // Migration
+    migration: {
+      title: 'Synchroniser avec le cloud',
+      description: 'Vos cartes locales peuvent être synchronisées avec le cloud pour la sauvegarde et l\'accès multi-appareils.',
+      syncNow: 'Synchroniser maintenant',
+      inProgress: 'Synchronisation...',
+      syncingDeck: 'Synchronisation de {{deck}}...',
+    },
+
     // Empty states
     empty: {
       noDecks: 'Aucun paquet de cartes flash',
@@ -3704,6 +3714,13 @@ export const strings = {
       dailyLimitReached: 'Limite journalière atteinte',
       newCardsToday: '{{count}} nouvelles cartes aujourd\'hui',
       reviewsToday: '{{count}} révisions aujourd\'hui',
+    },
+    // Import limit reached
+    limitReached: {
+      title: 'Limite d\'importation atteinte',
+      heading: 'Limite de paquets atteinte',
+      message: 'Vous avez {{current}} sur {{limit}} paquets Anki. Veuillez supprimer un paquet existant avant d\'en importer un nouveau.',
+      suggestion: 'Pour gérer vos paquets, utilisez le menu sur chaque carte de paquet pour supprimer ceux dont vous n\'avez plus besoin.',
     },
   },
 

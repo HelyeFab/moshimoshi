@@ -255,6 +255,22 @@
       }
     },
     {
+      "id": "anki_imports",
+      "name": "Anki Deck Imports",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "monthly",
+      "notifications": false,
+      "description": "Import decks from Anki (.apkg files)",
+      "metadata": {
+        "contentType": "mixed",
+        "difficulty": "all",
+        "estimatedDuration": "variable",
+        "producesReviewable": true
+      }
+    },
+    {
       "id": "flashcard_daily_reviews",
       "name": "Flashcard Daily Reviews",
       "category": "learning",
@@ -571,7 +587,8 @@
         "custom_lists": 0,
         "save_items": 0,
         "todos": 0,
-        "flashcard_decks": 0
+        "flashcard_decks": 0,
+        "anki_imports": 0
       }
     },
     "free": {
@@ -612,7 +629,8 @@
         "custom_lists": 3,
         "save_items": 50,
         "todos": 100,
-        "flashcard_decks": 0
+        "flashcard_decks": 0,
+        "anki_imports": 0
       }
     },
     "premium_monthly": {
@@ -653,7 +671,8 @@
         "custom_lists": -1,
         "save_items": -1,
         "todos": -1,
-        "flashcard_decks": -1
+        "flashcard_decks": -1,
+        "anki_imports": 15
       }
     },
     "premium_yearly": {
@@ -694,7 +713,8 @@
         "custom_lists": -1,
         "save_items": -1,
         "todos": -1,
-        "flashcard_decks": -1
+        "flashcard_decks": -1,
+        "anki_imports": 15
       }
     }
   },

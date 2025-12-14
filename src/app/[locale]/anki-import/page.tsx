@@ -23,7 +23,8 @@ import {
   Settings,
   Download,
   X,
-  CheckCircle
+  CheckCircle,
+  AlertTriangle
 } from 'lucide-react'
 
 // Helper to calculate remaining cards for a deck
@@ -252,14 +253,19 @@ function EditSettingsModal({
 function AnkiImportContent() {
   const { t } = useI18n()
   const { user } = useAuth()
-  const { isPremium } = useSubscription()
+  const { isPremium, isLoading: isLoadingSubscription } = useSubscription()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
   const [editingDeck, setEditingDeck] = useState<StoredAnkiDeck | null>(null)
 
   const userId = user?.uid || 'guest'
-  const isPremiumUser = isPremium === true
+  // FIXED: Wait for subscription to load before determining premium status
+  // isPremium is undefined while loading, so we treat it as false until loaded
+  const isPremiumUser = !isLoadingSubscription && isPremium === true
+
+  // Debug: Log subscription state
+  console.log('[AnkiImportPage] Subscription:', { isPremium, isLoadingSubscription, isPremiumUser })
 
   const {
     getMediaStats,
@@ -277,9 +283,19 @@ function AnkiImportContent() {
     null
   )
 
+  const [limitError, setLimitError] = useState<{ currentCount: number; limit: number } | null>(null)
+
   const handleImportSuccess = async (result: ImportResult) => {
     if (result.deck && userId !== 'guest') {
       setIsSaving(true)
+
+      // Warn if subscription is still loading
+      if (isLoadingSubscription) {
+        console.warn('[AnkiImportPage] Subscription still loading - saving as local only!')
+      }
+
+      console.log('[AnkiImportPage] Saving deck with premium status:', isPremiumUser)
+
       try {
         await ankiDeckManager.saveDeck(
           result.deck,
@@ -287,17 +303,27 @@ function AnkiImportContent() {
           isPremiumUser,
           result.deck.name
         )
-        console.log('[AnkiImportPage] Deck saved:', result.deck.id)
-      } catch (error) {
+        console.log('[AnkiImportPage] Deck saved:', result.deck.id, { toFirebase: isPremiumUser })
+        setIsModalOpen(false)
+        loadMediaStats()
+        refreshDecks()
+      } catch (error: any) {
         console.error('[AnkiImportPage] Failed to save deck:', error)
+        if (error?.code === 'LIMIT_REACHED') {
+          setLimitError({
+            currentCount: error.currentCount || 0,
+            limit: error.limit || 15,
+          })
+          setIsModalOpen(false)
+        }
       } finally {
         setIsSaving(false)
       }
+    } else {
+      setIsModalOpen(false)
+      loadMediaStats()
+      refreshDecks()
     }
-
-    setIsModalOpen(false)
-    loadMediaStats()
-    refreshDecks()
   }
 
   const loadMediaStats = async () => {
@@ -621,6 +647,38 @@ function AnkiImportContent() {
         onSave={handleSaveSettings}
         t={t}
       />
+
+      {/* Import Limit Error Modal */}
+      <Modal
+        isOpen={limitError !== null}
+        onClose={() => setLimitError(null)}
+        title={t('anki.limitReached.title')}
+        size="md"
+      >
+        <div className="p-6 text-center">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+            <AlertTriangle className="w-8 h-8 text-amber-600 dark:text-amber-400" />
+          </div>
+          <h3 className="text-xl font-semibold text-text-primary dark:text-dark-text-primary mb-2">
+            {t('anki.limitReached.heading')}
+          </h3>
+          <p className="text-text-secondary dark:text-dark-text-secondary mb-4">
+            {t('anki.limitReached.message', {
+              current: limitError?.currentCount || 0,
+              limit: limitError?.limit || 15,
+            })}
+          </p>
+          <p className="text-sm text-text-muted dark:text-dark-text-muted mb-6">
+            {t('anki.limitReached.suggestion')}
+          </p>
+          <button
+            onClick={() => setLimitError(null)}
+            className="btn btn-primary"
+          >
+            {t('common.understood')}
+          </button>
+        </div>
+      </Modal>
     </div>
   )
 }

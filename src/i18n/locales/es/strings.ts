@@ -85,6 +85,7 @@ export const strings = {
     close: 'Cerrar',
     cancel: 'Cancelar',
     confirm: 'Confirmar',
+    understood: 'Entendido',
     save: 'Guardar',
     saving: 'Guardando...',
     saveChanges: 'Guardar cambios',
@@ -2991,6 +2992,15 @@ export const strings = {
       using: 'Almacenamiento usado',
     },
 
+    // Migration
+    migration: {
+      title: 'Sincronizar con la nube',
+      description: 'Tus tarjetas locales pueden sincronizarse con la nube para respaldo y acceso desde otros dispositivos.',
+      syncNow: 'Sincronizar ahora',
+      inProgress: 'Sincronizando...',
+      syncingDeck: 'Sincronizando {{deck}}...',
+    },
+
     // Empty states
     empty: {
       noDecks: 'Sin mazos de tarjetas',
@@ -3833,6 +3843,13 @@ export const strings = {
       dailyLimitReached: 'Límite diario alcanzado',
       newCardsToday: '{{count}} tarjetas nuevas hoy',
       reviewsToday: '{{count}} repasos hoy',
+    },
+    // Import limit reached
+    limitReached: {
+      title: 'Límite de importación alcanzado',
+      heading: 'Límite de mazos alcanzado',
+      message: 'Tienes {{current}} de {{limit}} mazos de Anki. Por favor, elimina un mazo existente antes de importar uno nuevo.',
+      suggestion: 'Para gestionar tus mazos, usa el menú en cada tarjeta de mazo para eliminar los que ya no necesites.',
     },
   },
 

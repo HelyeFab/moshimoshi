@@ -376,6 +376,7 @@ export const strings = {
     close: 'Close',
     cancel: 'Cancel',
     confirm: 'Confirm',
+    understood: 'Understood',
     save: 'Save',
     saving: 'Saving...',
     saveChanges: 'Save Changes',
@@ -4346,6 +4347,15 @@ export const strings = {
       using: 'Storage used',
     },
 
+    // Migration
+    migration: {
+      title: 'Sync to Cloud',
+      description: 'Your local flashcards can be synced to the cloud for backup and access across devices.',
+      syncNow: 'Sync Now',
+      inProgress: 'Syncing...',
+      syncingDeck: 'Syncing {{deck}}...',
+    },
+
     // Empty states
     empty: {
       noDecks: 'No flashcard decks yet',
@@ -5279,6 +5289,13 @@ export const strings = {
     greatJob: 'Great job! You\'re making excellent progress!',
     keepPracticing: 'Keep practicing! Every session makes you stronger.',
     studyMore: 'Study More',
+    // Import limit reached
+    limitReached: {
+      title: 'Import Limit Reached',
+      heading: 'Deck Limit Reached',
+      message: 'You have {{current}} of {{limit}} Anki decks. Please delete an existing deck before importing a new one.',
+      suggestion: 'To manage your decks, use the menu on each deck card to delete decks you no longer need.',
+    },
   },
 
   // Popular Videos Page

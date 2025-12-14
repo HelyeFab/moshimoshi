@@ -97,6 +97,7 @@ export const strings = {
     close: 'Schließen',
     cancel: 'Abbrechen',
     confirm: 'Bestätigen',
+    understood: 'Verstanden',
     save: 'Speichern',
     saving: 'Speichere...',
     saveChanges: 'Änderungen speichern',
@@ -2965,6 +2966,15 @@ export const strings = {
       using: 'Speicher verwendet',
     },
 
+    // Migration
+    migration: {
+      title: 'Mit Cloud synchronisieren',
+      description: 'Ihre lokalen Lernkarten können zur Sicherung und zum Zugriff auf anderen Geräten mit der Cloud synchronisiert werden.',
+      syncNow: 'Jetzt synchronisieren',
+      inProgress: 'Synchronisierung...',
+      syncingDeck: '{{deck}} wird synchronisiert...',
+    },
+
     // Empty states
     empty: {
       noDecks: 'Keine Lernkarten-Stapel',
@@ -3786,6 +3796,13 @@ export const strings = {
       dailyLimitReached: 'Tageslimit erreicht',
       newCardsToday: '{{count}} neue Karten heute',
       reviewsToday: '{{count}} Wiederholungen heute',
+    },
+    // Import limit reached
+    limitReached: {
+      title: 'Importlimit erreicht',
+      heading: 'Deck-Limit erreicht',
+      message: 'Sie haben {{current}} von {{limit}} Anki-Decks. Bitte löschen Sie ein bestehendes Deck, bevor Sie ein neues importieren.',
+      suggestion: 'Um Ihre Decks zu verwalten, verwenden Sie das Menü auf jeder Deck-Karte, um nicht mehr benötigte Decks zu löschen.',
     },
   },
 

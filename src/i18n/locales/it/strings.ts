@@ -139,6 +139,7 @@ export const strings = {
     backTo: 'Torna a',
     dismiss: 'Ignora',
     gotIt: 'Capito!',
+    understood: 'Capito',
     enable: 'Abilita',
     next: 'Avanti',
     previous: 'Precedente',
@@ -2992,6 +2993,15 @@ export const strings = {
       using: 'Spazio utilizzato',
     },
 
+    // Migration
+    migration: {
+      title: 'Sincronizza con il cloud',
+      description: 'Le tue carte locali possono essere sincronizzate con il cloud per il backup e l\'accesso da altri dispositivi.',
+      syncNow: 'Sincronizza ora',
+      inProgress: 'Sincronizzazione...',
+      syncingDeck: 'Sincronizzazione di {{deck}}...',
+    },
+
     // Empty states
     empty: {
       noDecks: 'Nessun mazzo di flashcard',
@@ -3810,6 +3820,14 @@ export const strings = {
       dailyLimitReached: 'Limite giornaliero raggiunto',
       newCardsToday: '{{count}} nuove carte oggi',
       reviewsToday: '{{count}} revisioni oggi',
+    },
+    limitReached: {
+      title: 'Limite di importazione raggiunto',
+      heading: 'Limite mazzi raggiunto',
+      message:
+        'Hai {{current}} di {{limit}} mazzi Anki. Elimina un mazzo esistente prima di importarne uno nuovo.',
+      suggestion:
+        'Per gestire i tuoi mazzi, usa il menu su ogni scheda mazzo per eliminare i mazzi di cui non hai più bisogno.',
     },
   },
 
