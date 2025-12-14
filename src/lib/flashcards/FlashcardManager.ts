@@ -13,6 +13,7 @@ import type {
 } from '@/types/flashcards'
 import type { UserList, ListItem } from '@/types/userLists'
 import type { AnkiDeck } from '@/lib/anki/importer'
+import { AnkiMediaStore } from '@/lib/anki/mediaStore'
 import { openDB, IDBPDatabase } from 'idb'
 import { v4 as uuidv4 } from 'uuid'
 import { syncManager } from './SyncManager'
@@ -29,6 +30,130 @@ export class FlashcardManager {
   private db: IDBPDatabase<FlashcardDB> | null = null
   private syncTimer: NodeJS.Timeout | null = null
   private listeners: Map<string, Set<() => void>> = new Map()
+
+  /**
+   * Hydrate media URLs for Anki deck cards from IndexedDB.
+   * This recreates blob URLs from stored media files.
+   */
+  private async hydrateAnkiMedia(deck: FlashcardDeck): Promise<FlashcardDeck> {
+    const mediaStore = AnkiMediaStore.getInstance()
+
+    // Check media stats first
+    const mediaStats = await mediaStore.getStats()
+    console.log('[FlashcardManager.hydrateAnkiMedia] IndexedDB media stats:', mediaStats)
+
+    let hydratedAudioCount = 0
+    let hydratedImageCount = 0
+
+    const hydratedCards = await Promise.all(
+      deck.cards.map(async (card, index) => {
+        const audioFilename = (card.metadata as any)?.audioFilename
+        const imageFilename = (card.metadata as any)?.imageFilename
+
+        let audioUrl: string | undefined
+        let imageUrl: string | undefined
+
+        if (audioFilename) {
+          audioUrl = (await mediaStore.getMediaUrl(audioFilename)) || undefined
+          if (audioUrl) hydratedAudioCount++
+        }
+        if (imageFilename) {
+          imageUrl = (await mediaStore.getMediaUrl(imageFilename)) || undefined
+          if (imageUrl) hydratedImageCount++
+
+          // Debug first few cards
+          if (index < 3) {
+            console.log(`[FlashcardManager.hydrateAnkiMedia] Card ${index}:`, {
+              imageFilename,
+              imageUrl: imageUrl ? 'hydrated' : 'NOT FOUND',
+              audioFilename,
+              audioUrl: audioUrl ? 'hydrated' : 'NOT FOUND',
+            })
+          }
+        }
+
+        // Update card with hydrated URLs
+        return {
+          ...card,
+          back: {
+            ...card.back,
+            media: audioUrl ? { type: 'audio' as const, url: audioUrl } : card.back.media,
+          },
+          front: {
+            ...card.front,
+            media: imageUrl ? { type: 'image' as const, url: imageUrl } : card.front.media,
+          },
+          metadata: {
+            ...card.metadata,
+            audioUrl,
+            imageUrl,
+          },
+        }
+      })
+    )
+
+    console.log('[FlashcardManager.hydrateAnkiMedia] Hydration complete:', {
+      totalCards: deck.cards.length,
+      hydratedAudioCount,
+      hydratedImageCount,
+    })
+
+    return {
+      ...deck,
+      cards: hydratedCards,
+    }
+  }
+
+  /**
+   * Normalize an Anki card to match FlashcardContent structure.
+   * Anki cards have front/back as strings, but FlashcardContent expects them as CardSide objects.
+   * Note: blob URLs are not preserved as they expire. Use audioFilename/imageFilename to hydrate from IndexedDB.
+   */
+  private normalizeAnkiCard(card: any): FlashcardContent {
+    // If already normalized (front is an object with text), return as-is
+    if (card.front && typeof card.front === 'object' && 'text' in card.front) {
+      return card
+    }
+
+    // Don't use blob URLs as they expire - media must be hydrated from IndexedDB using filenames
+    const hasValidImageUrl = card.imageUrl && !card.imageUrl.startsWith('blob:')
+    const hasValidAudioUrl = card.audioUrl && !card.audioUrl.startsWith('blob:')
+
+    // Get the Japanese expression and meaning
+    const expression = card.front || card.expression || ''
+    const reading = card.reading || ''
+    const meaning = card.back || card.meaning || ''
+
+    // Transform Anki card structure to FlashcardContent
+    // Front: Japanese word with reading
+    // Back: Japanese word (prominent) with meaning as subtext
+    return {
+      id: card.id,
+      front: {
+        text: expression,
+        subtext: reading || undefined,
+        media: hasValidImageUrl ? { type: 'image', url: card.imageUrl } : undefined,
+      },
+      back: {
+        text: expression,  // Japanese word first (prominent)
+        subtext: meaning,  // English meaning below
+        media: hasValidAudioUrl ? { type: 'audio', url: card.audioUrl } : undefined,
+      },
+      metadata: {
+        status: card.metadata?.status || 'new',
+        reading,  // Store reading for TTS/display
+        meaning,  // Store meaning for reference
+        // Store filenames for later hydration from IndexedDB
+        audioFilename: card.audioFilename,
+        imageFilename: card.imageFilename,
+        audioUrl: hasValidAudioUrl ? card.audioUrl : undefined,
+        imageUrl: hasValidImageUrl ? card.imageUrl : undefined,
+        tags: card.tags,
+        // Preserve Anki-specific metadata
+        ...(card.metadata || {}),
+      },
+    }
+  }
 
   // Initialize IndexedDB
   private async initDB(): Promise<IDBPDatabase<FlashcardDB>> {
@@ -61,6 +186,7 @@ export class FlashcardManager {
 
   // Get all decks for a user
   async getDecks(userId: string, isPremium: boolean): Promise<FlashcardDeck[]> {
+    console.log('🔥🔥🔥 [FlashcardManager.getDecks] CALLED with userId:', userId, 'isPremium:', isPremium)
     const db = await this.initDB()
 
     // Premium users: Try server first, sync to IndexedDB
@@ -73,8 +199,41 @@ export class FlashcardManager {
         })
 
         if (response.ok) {
-          const { decks } = await response.json()
+          let { decks } = await response.json()
           console.log('[FlashcardManager.getDecks] Server returned', decks?.length || 0, 'decks')
+
+          // Normalize Anki-imported decks to match FlashcardContent structure
+          decks = decks?.map((deck: any) => {
+            if (deck.source === 'anki' && deck.cards?.length > 0) {
+              console.log('[FlashcardManager.getDecks] Normalizing Anki deck:', deck.name)
+              return {
+                ...deck,
+                cards: deck.cards.map((card: any) => this.normalizeAnkiCard(card))
+              }
+            }
+            return deck
+          }) || []
+
+          // Hydrate media URLs from IndexedDB for Anki decks
+          decks = await Promise.all(
+            decks.map(async (deck: any) => {
+              if (deck.source === 'anki') {
+                console.log('[FlashcardManager.getDecks] Hydrating media for Anki deck:', deck.name)
+                return this.hydrateAnkiMedia(deck)
+              }
+              return deck
+            })
+          )
+
+          if (decks?.[0]) {
+            console.log('[FlashcardManager.getDecks] First deck after normalization:', {
+              id: decks[0].id,
+              name: decks[0].name,
+              source: decks[0].source,
+              cardsLength: decks[0].cards?.length,
+              firstCardFront: decks[0].cards?.[0]?.front
+            })
+          }
 
           // Sync all decks from server to IndexedDB
           const tx = db.transaction('decks', 'readwrite')
@@ -92,9 +251,11 @@ export class FlashcardManager {
           await tx.done
 
           return decks || []
+        } else {
+          console.error('[FlashcardManager.getDecks] Server returned error:', response.status, await response.text())
         }
       } catch (error) {
-        console.error('Failed to fetch decks from server:', error)
+        console.error('[FlashcardManager.getDecks] Failed to fetch from server:', error)
         // Fall through to use IndexedDB for offline premium users
       }
     }

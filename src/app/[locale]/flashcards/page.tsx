@@ -42,7 +42,7 @@ function FlashcardsContent() {
   const { t } = useI18n()
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
-  const { subscription, isPremium } = useSubscription()
+  const { subscription, isPremium, isLoading: subscriptionLoading } = useSubscription()
   const { showToast } = useToast()
 
   const [decks, setDecks] = useState<FlashcardDeck[]>([])
@@ -71,6 +71,7 @@ function FlashcardsContent() {
   // Prevent race conditions
   const loadingRef = useRef(false)
   const abortControllerRef = useRef<AbortController | null>(null)
+  const prevIsPremiumRef = useRef<boolean | undefined>(undefined)
 
   // Calculate user tier using proper subscription hook
   const userTier = subscription?.plan || (user ? 'free' : 'guest')
@@ -82,6 +83,14 @@ function FlashcardsContent() {
   console.log('[FlashcardsPage] User tier:', userTier, 'isPremium from hook:', isPremium)
 
   useEffect(() => {
+    // Wait for subscription to finish loading before fetching data
+    // This prevents the race condition where we fetch from IndexedDB before knowing premium status
+    if (subscriptionLoading) {
+      console.log('[FlashcardsPage] Waiting for subscription to load...')
+      return
+    }
+
+    console.log('[FlashcardsPage] Subscription loaded, isPremium:', isPremium)
     loadData()
 
     // Check for comeback
@@ -112,16 +121,19 @@ function FlashcardsContent() {
         abortControllerRef.current.abort()
       }
     }
-  }, [user, isPremium])
+  }, [user, isPremium, subscriptionLoading])
 
-  const loadData = async () => {
+  const loadData = async (forceRefresh = false) => {
+    console.log('🔥🔥🔥 [FlashcardsPage] loadData CALLED, user:', !!user, 'loadingRef:', loadingRef.current, 'forceRefresh:', forceRefresh)
     if (!user) {
+      console.log('[FlashcardsPage] No user, returning early')
       setLoading(false)
       return
     }
 
-    // Prevent concurrent loads
-    if (loadingRef.current) {
+    // Prevent concurrent loads (unless force refresh)
+    if (loadingRef.current && !forceRefresh) {
+      console.log('[FlashcardsPage] Already loading, skipping')
       return
     }
 
@@ -137,7 +149,9 @@ function FlashcardsContent() {
       setLoading(true)
 
       // Load flashcard decks
+      console.log('[FlashcardsPage] Loading decks for user:', user.uid, 'isPremium:', isPremium)
       const userDecks = await flashcardManager.getDecks(user.uid, isPremium ?? false)
+      console.log('[FlashcardsPage] Loaded decks:', userDecks.length, userDecks.map(d => ({ id: d.id, name: d.name, source: (d as any).source, cardCount: d.cards?.length, firstCard: d.cards?.[0] })))
 
       // Check if request was aborted
       if (abortControllerRef.current?.signal.aborted) {
@@ -259,6 +273,18 @@ function FlashcardsContent() {
     } catch (error) {
       console.error('Export failed:', error)
       showToast(t('flashcards.errors.exportFailed'), 'error')
+    }
+  }
+
+  // Refresh decks after Anki import (since it bypasses normal creation flow)
+  const refreshDecks = async () => {
+    if (!user) return
+    try {
+      const userDecks = await flashcardManager.getDecks(user.uid, isPremium ?? false)
+      setDecks(userDecks)
+      showToast(t('flashcards.success.deckCreated'), 'success')
+    } catch (error) {
+      console.error('[FlashcardsPage] Failed to refresh decks:', error)
     }
   }
 
@@ -441,19 +467,16 @@ function FlashcardsContent() {
     // Update user stats with XP if user is logged in
     if (user && summary.xpEarned && summary.xpEarned > 0) {
       try {
-        // Update stats via API route
-        const response = await fetch('/api/user-stats/update', {
+        // Update stats via gamification API route
+        const response = await fetch('/api/review/session/complete', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           credentials: 'include',
           body: JSON.stringify({
-            xpGained: summary.xpEarned,
-            source: 'flashcard_session',
-            sessionData: {
-              type: 'flashcard',
-              accuracy: summary.accuracy,
-              itemsReviewed: summary.cardsStudied,
-            },
+            sessionId: `flashcard-${Date.now()}`,
+            itemsReviewed: summary.cardsStudied,
+            correctCount: summary.correctAnswers,
+            accuracy: summary.accuracy,
           }),
         })
 
@@ -806,6 +829,7 @@ function FlashcardsContent() {
           userId={user?.uid || 'guest'}
           isPremium={isPremium ?? false}
           editDeck={editingDeck}
+          onAnkiImportComplete={refreshDecks}
         />
 
         {/* Delete Confirmation Dialog */}

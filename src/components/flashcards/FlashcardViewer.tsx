@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, RotateCw, Volume2, Eye, Sparkles } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RotateCw, Volume2, Eye } from 'lucide-react';
 import type { FlashcardContent, CardStyle, AnimationSpeed } from '@/types/flashcards';
 import { useI18n } from '@/i18n/I18nContext';
 import { useTTS } from '@/hooks/useTTS';
@@ -43,14 +43,28 @@ export function FlashcardViewer({
   const [showHint, setShowHint] = useState(false);
   const [currentHintIndex, setCurrentHintIndex] = useState(0);
   const [audioPlaying, setAudioPlaying] = useState(false);
+  const [hasGraded, setHasGraded] = useState(false);
 
   const speed = ANIMATION_SPEEDS[animationSpeed];
 
-  // Reset flip state when card changes
+  // Debug: Log card structure
+  useEffect(() => {
+    console.log('[FlashcardViewer] Card received:', {
+      id: card.id,
+      frontText: card.front?.text,
+      frontMedia: card.front?.media,
+      backText: card.back?.text,
+      backMedia: card.back?.media,
+      metadata: card.metadata,
+    });
+  }, [card]);
+
+  // Reset state when card changes
   useEffect(() => {
     setIsFlipped(false);
     setShowHint(false);
     setCurrentHintIndex(0);
+    setHasGraded(false);
   }, [card.id]);
 
   // Auto-play audio if enabled
@@ -66,6 +80,11 @@ export function FlashcardViewer({
     onFlip?.();
   }, [isFlipped, onFlip]);
 
+  const handleGrade = useCallback((correct: boolean, difficulty: 'again' | 'hard' | 'good' | 'easy') => {
+    setHasGraded(true);
+    onResponse?.(correct, difficulty);
+  }, [onResponse]);
+
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
     switch (e.key) {
       case ' ':
@@ -78,22 +97,25 @@ export function FlashcardViewer({
         break;
       case 'ArrowRight':
         e.preventDefault();
-        onNext?.();
+        // Only allow next if graded (or not flipped yet for browsing)
+        if (hasGraded || !isFlipped) {
+          onNext?.();
+        }
         break;
       case '1':
-        onResponse?.(false, 'again');
+        if (isFlipped) handleGrade(false, 'again');
         break;
       case '2':
-        onResponse?.(false, 'hard');
+        if (isFlipped) handleGrade(false, 'hard');
         break;
       case '3':
-        onResponse?.(true, 'good');
+        if (isFlipped) handleGrade(true, 'good');
         break;
       case '4':
-        onResponse?.(true, 'easy');
+        if (isFlipped) handleGrade(true, 'easy');
         break;
     }
-  }, [handleFlip, onNext, onPrevious, onResponse]);
+  }, [handleFlip, onNext, onPrevious, handleGrade, hasGraded, isFlipped]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -110,23 +132,31 @@ export function FlashcardViewer({
 
     setAudioPlaying(true);
 
+    // Helper to play TTS
+    const playTTS = async () => {
+      const isJapanese = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(textToPlay);
+      const voice = isJapanese ? 'ja-JP' : 'en-US';
+      await play(textToPlay, {
+        voice,
+        rate: 0.9,  // Slightly slower for learning
+        pitch: 1.0
+      });
+    };
+
     try {
-      // If there's a custom audio URL, use it
+      // If there's a custom audio URL, try to use it
       if (card.metadata?.audioUrl) {
-        const audio = new Audio(card.metadata.audioUrl);
-        await audio.play();
+        try {
+          const audio = new Audio(card.metadata.audioUrl);
+          await audio.play();
+        } catch (audioError) {
+          // Audio file failed - fall back to TTS
+          console.warn('Audio file failed, falling back to TTS:', audioError);
+          await playTTS();
+        }
       } else {
-        // Detect if text is Japanese (has hiragana, katakana, or kanji)
-        const isJapanese = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(textToPlay);
-
-        // Use appropriate voice based on content
-        const voice = isJapanese ? 'ja-JP' : 'en-US';
-
-        await play(textToPlay, {
-          voice,
-          rate: 0.9,  // Slightly slower for learning
-          pitch: 1.0
-        });
+        // No custom audio - use TTS
+        await playTTS();
       }
     } catch (error) {
       console.error('Failed to play audio:', error);
@@ -243,7 +273,8 @@ export function FlashcardViewer({
               </p>
             )}
 
-            <div className="absolute bottom-4 right-4 flex gap-2">
+            {/* Top right controls */}
+            <div className="absolute top-4 right-4 flex gap-2">
               {(card.metadata?.audioUrl || card.front.text) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
@@ -265,9 +296,6 @@ export function FlashcardViewer({
               )}
             </div>
 
-            <div className="absolute top-4 left-4">
-              <Sparkles className="w-6 h-6 text-primary-400 animate-pulse" />
-            </div>
 
             {/* Hint Overlay */}
             <AnimatePresence>
@@ -339,12 +367,23 @@ export function FlashcardViewer({
             )}
 
             <h2 className={cn(
-              'text-3xl md:text-4xl font-bold text-center mb-4',
+              'text-3xl md:text-4xl font-bold text-center mb-2',
               cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
             )}>
               {card.back.text}
             </h2>
 
+            {/* Reading (hiragana) */}
+            {card.metadata?.reading && (
+              <p className={cn(
+                'text-xl md:text-2xl text-center mb-3',
+                cardStyle === 'themed' ? 'text-white/80' : 'text-primary-600 dark:text-primary-400'
+              )}>
+                {card.metadata.reading}
+              </p>
+            )}
+
+            {/* Meaning */}
             {card.back.subtext && (
               <p className={cn(
                 'text-lg md:text-xl text-center',
@@ -363,7 +402,8 @@ export function FlashcardViewer({
               </p>
             )}
 
-            <div className="absolute bottom-4 right-4">
+            {/* Top right audio button */}
+            <div className="absolute top-4 right-4">
               {(card.metadata?.audioUrl || card.back.text) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
@@ -399,7 +439,7 @@ export function FlashcardViewer({
 
         <button
           onClick={onNext}
-          disabled={!onNext}
+          disabled={!onNext || (isFlipped && !hasGraded)}
           className="p-3 rounded-full bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           aria-label={t('flashcards.nextCard')}
         >
@@ -417,25 +457,25 @@ export function FlashcardViewer({
             className="flex justify-center gap-3 mt-6"
           >
             <button
-              onClick={() => onResponse(false, 'again')}
+              onClick={() => handleGrade(false, 'again')}
               className="px-4 py-2 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-800/50 transition-colors font-medium"
             >
               {t('flashcards.difficulty.again')}
             </button>
             <button
-              onClick={() => onResponse(false, 'hard')}
+              onClick={() => handleGrade(false, 'hard')}
               className="px-4 py-2 rounded-lg bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-800/50 transition-colors font-medium"
             >
               {t('flashcards.difficulty.hard')}
             </button>
             <button
-              onClick={() => onResponse(true, 'good')}
+              onClick={() => handleGrade(true, 'good')}
               className="px-4 py-2 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 hover:bg-blue-200 dark:hover:bg-blue-800/50 transition-colors font-medium"
             >
               {t('flashcards.difficulty.good')}
             </button>
             <button
-              onClick={() => onResponse(true, 'easy')}
+              onClick={() => handleGrade(true, 'easy')}
               className="px-4 py-2 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 hover:bg-green-200 dark:hover:bg-green-800/50 transition-colors font-medium"
             >
               {t('flashcards.difficulty.easy')}

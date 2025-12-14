@@ -10,6 +10,8 @@ import type { FlashcardDeck, FlashcardContent } from '@/types/flashcards';
 import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
 import { FlashcardSRSHelper } from '@/lib/flashcards/SRSHelper';
+import Dropdown from '@/components/ui/Dropdown';
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 
 export type StudyModeType = 'due' | 'new' | 'all' | 'cramming' | 'speed' | 'weakness' | 'custom';
 
@@ -40,16 +42,24 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
     sortBy: 'priority' as 'priority' | 'random' | 'oldest'
   });
 
+  // Get daily limits from deck settings
+  const newCardsPerDay = deck.settings?.newCardsPerDay || 20;
+  const reviewsPerDay = deck.settings?.reviewsPerDay || 100;
+
   // Calculate card counts for each mode
   const now = Date.now();
-  const dueCards = deck.cards.filter(card => {
+  const allDueCards = deck.cards.filter(card => {
     if (!card.metadata?.status || card.metadata.status === 'new') return false;
     return card.metadata.nextReview && card.metadata.nextReview <= now;
   });
 
-  const newCards = deck.cards.filter(card =>
+  const allNewCards = deck.cards.filter(card =>
     !card.metadata?.status || card.metadata.status === 'new'
   );
+
+  // Apply daily limits
+  const dueCards = allDueCards.slice(0, reviewsPerDay);
+  const newCards = allNewCards.slice(0, newCardsPerDay);
 
   const weakCards = deck.cards.filter(card => {
     if (!card.metadata) return false;
@@ -130,11 +140,14 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
 
     switch (mode) {
       case 'due':
-        cards = [...dueCards, ...newCards.slice(0, 5)]; // Add some new cards
+        // Due reviews + some new cards (respecting daily limit)
+        const newCardsToAdd = Math.min(5, newCardsPerDay);
+        cards = [...dueCards, ...newCards.slice(0, newCardsToAdd)];
         break;
 
       case 'new':
-        cards = newCards;
+        // New cards limited by daily setting
+        cards = newCards; // Already limited by newCardsPerDay
         break;
 
       case 'all':
@@ -142,8 +155,8 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
         break;
 
       case 'cramming':
-        // High frequency review of recent and difficult cards
-        cards = [...dueCards, ...weakCards].slice(0, 50);
+        // High frequency review - uses ALL due + weak cards (ignores daily limits)
+        cards = [...allDueCards, ...weakCards].slice(0, 50);
         if (cards.length < 20) {
           cards.push(...deck.cards.slice(0, 20 - cards.length));
         }
@@ -155,10 +168,11 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
         break;
 
       case 'weakness':
-        cards = weakCards;
+        // Focus on weak cards (ignores daily limits for fallback)
+        cards = [...weakCards];
         if (cards.length < 10) {
           // Add some due cards if not enough weak cards
-          cards.push(...dueCards.slice(0, 10 - cards.length));
+          cards.push(...allDueCards.slice(0, 10 - cards.length));
         }
         break;
 
@@ -212,7 +226,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.95 }}
-        className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto"
+        className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide"
       >
         <div className="p-6 border-b border-gray-200 dark:border-dark-700">
           <div className="flex items-center justify-between">
@@ -221,7 +235,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
                 {t('flashcards.selectStudyMode')}
               </h2>
               <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                {deck.name} • {deck.cards.length} {t('flashcards.totalCards')}
+                {deck.name} • {deck.cards.length} {t('flashcards.cards')}
               </p>
             </div>
             <button
@@ -384,21 +398,19 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
                   </div>
 
                   <div>
-                    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {t('flashcards.sortBy')}
-                    </label>
-                    <select
+                    <Dropdown
+                      label={t('flashcards.sortBy')}
                       value={customSettings.sortBy}
-                      onChange={(e) => setCustomSettings(prev => ({
+                      onChange={(value) => setCustomSettings(prev => ({
                         ...prev,
-                        sortBy: e.target.value as 'priority' | 'random' | 'oldest'
+                        sortBy: value as 'priority' | 'random' | 'oldest'
                       }))}
-                      className="mt-1 w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100"
-                    >
-                      <option value="priority">{t('flashcards.priority')}</option>
-                      <option value="random">{t('flashcards.random')}</option>
-                      <option value="oldest">{t('flashcards.oldest')}</option>
-                    </select>
+                      options={[
+                        { value: 'priority', label: t('flashcards.priority') },
+                        { value: 'random', label: t('flashcards.random') },
+                        { value: 'oldest', label: t('flashcards.oldest') },
+                      ]}
+                    />
                   </div>
                 </div>
               </motion.div>
@@ -425,6 +437,9 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
               {t('flashcards.startStudying')}
             </button>
           </div>
+
+          {/* Mobile bottom nav spacer */}
+          <MobileNavSpacer />
         </div>
       </motion.div>
     </div>

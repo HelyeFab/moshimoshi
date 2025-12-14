@@ -77,6 +77,10 @@ export function EntitlementGate({
             setShowLimitModal(true);
           }
         }
+      } else {
+        // API failed - grant access by default to avoid blocking users
+        console.warn('[EntitlementGate] Entitlement check failed, granting access by default');
+        setHasAccess(true);
       }
     };
 

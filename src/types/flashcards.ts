@@ -59,6 +59,12 @@ export interface FlashcardContent {
     audioUrl?: string;
     imageUrl?: string;
 
+    // Anki-specific fields
+    reading?: string; // Japanese reading (hiragana/katakana)
+    meaning?: string; // English meaning
+    audioFilename?: string; // Original audio filename for IndexedDB lookup
+    imageFilename?: string; // Original image filename for IndexedDB lookup
+
     // Additional tracking
     createdAt?: number; // When card was added to deck
     modifiedAt?: number; // Last content modification
