@@ -25,9 +25,10 @@ export default function AdminComicsPage() {
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [episodeToDelete, setEpisodeToDelete] = useState<{ id: string; title: string } | null>(null)
   const [editModalOpen, setEditModalOpen] = useState(false)
-  const [episodeToEdit, setEpisodeToEdit] = useState<{ id: string; title: string; titleJa: string } | null>(null)
+  const [episodeToEdit, setEpisodeToEdit] = useState<{ id: string; title: string; titleJa: string; panels: any[] } | null>(null)
   const [editTitle, setEditTitle] = useState('')
   const [editTitleJa, setEditTitleJa] = useState('')
+  const [editPanelOrders, setEditPanelOrders] = useState<number[]>([])
   const [isSaving, setIsSaving] = useState(false)
 
   // Check admin access
@@ -119,10 +120,12 @@ export default function AdminComicsPage() {
     }
   }
 
-  const openEditModal = (id: string, title: string, titleJa: string) => {
-    setEpisodeToEdit({ id, title, titleJa })
+  const openEditModal = (id: string, title: string, titleJa: string, panels: any[] = []) => {
+    setEpisodeToEdit({ id, title, titleJa, panels })
     setEditTitle(title)
     setEditTitleJa(titleJa)
+    // Initialize panel orders: [1, 2, 3, 4, 5, 6]
+    setEditPanelOrders(panels.map((_, i) => i + 1))
     setEditModalOpen(true)
   }
 
@@ -131,15 +134,38 @@ export default function AdminComicsPage() {
 
     try {
       setIsSaving(true)
+
+      // Build updates object
+      const updates: Record<string, any> = {
+        title: editTitle,
+        titleJa: editTitleJa,
+      }
+
+      // Check if panel order changed
+      const originalOrder = episodeToEdit.panels.map((_, i) => i + 1)
+      const orderChanged = editPanelOrders.some((order, i) => order !== originalOrder[i])
+
+      if (orderChanged && episodeToEdit.panels.length > 0) {
+        // Reorder panels based on new order numbers
+        // Create array of [newOrder, originalIndex] pairs, sort by newOrder
+        const orderPairs = editPanelOrders.map((order, idx) => ({ order, idx }))
+        orderPairs.sort((a, b) => a.order - b.order)
+
+        // Reorder panels and update panelNumber
+        const reorderedPanels = orderPairs.map((pair, newIdx) => ({
+          ...episodeToEdit.panels[pair.idx],
+          panelNumber: newIdx + 1,
+        }))
+
+        updates.panels = reorderedPanels
+      }
+
       const response = await fetch('/api/admin/comics/episodes', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           episodeId: episodeToEdit.id,
-          updates: {
-            title: editTitle,
-            titleJa: editTitleJa,
-          },
+          updates,
         }),
       })
 
@@ -346,7 +372,7 @@ export default function AdminComicsPage() {
                                 <EyeIcon className="w-4 h-4" />
                               </Link>
                               <button
-                                onClick={() => openEditModal(item.id, item.title, item.titleJa || '')}
+                                onClick={() => openEditModal(item.id, item.title, item.titleJa || '', item.panels || [])}
                                 disabled={isSaving}
                                 className="p-1.5 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors disabled:opacity-50"
                                 title="Edit episode"
@@ -469,6 +495,44 @@ export default function AdminComicsPage() {
               placeholder="エピソードタイトル"
             />
           </div>
+
+          {/* Panel Reordering */}
+          {episodeToEdit?.panels && episodeToEdit.panels.length > 0 && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Panel Order
+              </label>
+              <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
+                Change numbers to reorder panels (e.g., swap 2↔3)
+              </p>
+              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+                {episodeToEdit.panels.map((panel, idx) => (
+                  <div key={idx} className="flex flex-col items-center">
+                    {panel.imageUrl && (
+                      <img
+                        src={panel.imageUrl}
+                        alt={`Panel ${idx + 1}`}
+                        className="w-12 h-16 object-cover rounded mb-1 border border-gray-200 dark:border-gray-700"
+                      />
+                    )}
+                    <input
+                      type="number"
+                      min={1}
+                      max={episodeToEdit.panels.length}
+                      value={editPanelOrders[idx] || idx + 1}
+                      onChange={(e) => {
+                        const newOrders = [...editPanelOrders]
+                        newOrders[idx] = parseInt(e.target.value) || idx + 1
+                        setEditPanelOrders(newOrders)
+                      }}
+                      className="w-12 px-2 py-1 text-center border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-dark-800 text-gray-900 dark:text-white text-sm"
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="flex justify-end gap-3 pt-4">
             <button
               onClick={() => setEditModalOpen(false)}
