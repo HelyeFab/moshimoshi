@@ -2859,6 +2859,11 @@ export const strings = {
       loadFailed: "Impossible de charger l'image depuis l'URL",
     },
 
+    // Storage
+    storage: {
+      using: 'Stockage utilisé',
+    },
+
     // Empty states
     empty: {
       noDecks: 'Aucun paquet de cartes flash',

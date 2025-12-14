@@ -4341,6 +4341,11 @@ export const strings = {
       loadFailed: 'Failed to load image from URL',
     },
 
+    // Storage
+    storage: {
+      using: 'Storage used',
+    },
+
     // Empty states
     empty: {
       noDecks: 'No flashcard decks yet',

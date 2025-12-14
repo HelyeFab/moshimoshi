@@ -4,6 +4,19 @@ import { locales, defaultLocale, type Locale } from './routing';
 import { getTranslation, translations } from './config';
 
 /**
+ * OpenGraph locale mapping.
+ * Maps our locale codes to full OpenGraph locale format (language_TERRITORY).
+ */
+const ogLocaleMap: Record<Locale, string> = {
+  en: 'en_US',
+  ja: 'ja_JP',
+  de: 'de_DE',
+  es: 'es_ES',
+  fr: 'fr_FR',
+  it: 'it_IT',
+};
+
+/**
  * Get translations for a specific locale in server components.
  *
  * This function provides access to the existing translation system
@@ -109,8 +122,10 @@ export async function generateLocalizedMetadata(
     openGraph: {
       title,
       description,
-      locale: currentLocale,
-      alternateLocale: locales.filter((l) => l !== currentLocale),
+      locale: ogLocaleMap[currentLocale] || 'en_US',
+      alternateLocale: locales
+        .filter((l) => l !== currentLocale)
+        .map((l) => ogLocaleMap[l]),
     },
     ...other,
   };

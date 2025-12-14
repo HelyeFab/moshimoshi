@@ -2986,6 +2986,11 @@ export const strings = {
       loadFailed: 'No se pudo cargar la imagen desde la URL',
     },
 
+    // Storage
+    storage: {
+      using: 'Almacenamiento usado',
+    },
+
     // Empty states
     empty: {
       noDecks: 'Sin mazos de tarjetas',

@@ -3003,6 +3003,11 @@ export const strings = {
       loadFailed: 'URLから画像を読み込めませんでした',
     },
 
+    // Storage
+    storage: {
+      using: '使用中のストレージ',
+    },
+
     // Empty states
     empty: {
       noDecks: 'フラッシュカードデッキがありません',

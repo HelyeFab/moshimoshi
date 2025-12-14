@@ -2960,6 +2960,11 @@ export const strings = {
       loadFailed: 'Bild konnte nicht von der URL geladen werden',
     },
 
+    // Storage
+    storage: {
+      using: 'Speicher verwendet',
+    },
+
     // Empty states
     empty: {
       noDecks: 'Keine Lernkarten-Stapel',

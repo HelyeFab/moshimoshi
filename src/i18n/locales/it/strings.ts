@@ -2987,6 +2987,11 @@ export const strings = {
       loadFailed: "Impossibile caricare l'immagine dall'URL",
     },
 
+    // Storage
+    storage: {
+      using: 'Spazio utilizzato',
+    },
+
     // Empty states
     empty: {
       noDecks: 'Nessun mazzo di flashcard',

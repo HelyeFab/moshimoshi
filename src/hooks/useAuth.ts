@@ -665,6 +665,28 @@ function useAuthProvider(): Auth {
     }
   }, [checkSession, createServerSession])
 
+  // Listen for PWA soft refresh events (when app returns from background)
+  useEffect(() => {
+    const handleSoftRefresh = async () => {
+      logger.info('[Auth] PWA soft refresh triggered - re-checking session')
+      try {
+        // Force a fresh session check (bypass cache)
+        sessionCache.data = null
+        sessionCache.promise = null
+        sessionCache.timestamp = 0
+        await checkSession(true)
+      } catch (err) {
+        logger.error('[Auth] Soft refresh session check failed:', err)
+      }
+    }
+
+    window.addEventListener('pwa-soft-refresh', handleSoftRefresh)
+
+    return () => {
+      window.removeEventListener('pwa-soft-refresh', handleSoftRefresh)
+    }
+  }, [checkSession])
+
   // Return auth object - memoize to ensure proper change detection
   const authValue = useMemo(() => ({
     // State

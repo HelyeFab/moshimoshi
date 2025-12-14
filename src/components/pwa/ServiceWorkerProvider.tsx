@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react'
 import { registerServiceWorker } from '@/lib/pwa/registerServiceWorker'
 import { initSplashRecovery } from '@/lib/pwa/splashRecovery'
+import { initBackgroundRecovery, cleanupRecoveryParams, isRecoveryReload } from '@/lib/pwa/backgroundRecovery'
 import { UpdateBanner, UpdateIndicator } from './UpdateBanner'
 
 // App version - bump this for critical updates
@@ -73,6 +74,15 @@ export function ServiceWorkerProvider({ children }: { children: React.ReactNode 
     // Initialize splash screen recovery detection (for PWA stuck states)
     // This must run early to detect if app fails to render
     initSplashRecovery()
+
+    // Initialize background recovery (handles app returning from background)
+    initBackgroundRecovery()
+
+    // Clean up recovery query params if this is a recovery reload
+    if (isRecoveryReload()) {
+      console.log('[PWA] Recovery reload detected, cleaning up URL params')
+      cleanupRecoveryParams()
+    }
 
     // Register service worker on mount
     registerServiceWorker()
