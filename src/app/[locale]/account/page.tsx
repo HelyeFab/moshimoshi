@@ -700,13 +700,13 @@ function AccountPageContent() {
 
           {/* Sign Out Section */}
           <Section variant="glass" title={strings.common.signOut}>
-            <div className="flex items-center justify-between">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <p className="text-sm text-gray-600 dark:text-gray-400">
                 {strings.account.signOut.description}
               </p>
               <button
                 onClick={handleSignOut}
-                className="flex items-center gap-2 px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors"
+                className="flex items-center justify-center gap-2 px-4 py-2 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors w-full sm:w-auto"
               >
                 <svg
                   className="w-5 h-5"
