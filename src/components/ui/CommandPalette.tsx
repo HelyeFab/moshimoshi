@@ -205,6 +205,19 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
         shortcut: 'g s',
       },
       {
+        id: 'comics',
+        title: 'Moshi Comics',
+        subtitle: 'Moshi Goes to Japan',
+        icon: <BookOpen className="w-5 h-5" />,
+        action: () => {
+          router.push('/comics')
+          setIsOpen(false)
+        },
+        keywords: ['comics', 'manga', 'moshi', 'reading', '漫画'],
+        category: 'practice',
+        shortcut: 'g co',
+      },
+      {
         id: 'games',
         title: 'Games',
         subtitle: 'Learn through games',
