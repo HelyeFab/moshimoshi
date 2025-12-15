@@ -138,6 +138,7 @@ async function applyCheckoutCompleted(event) {
  * @param customerId - The Stripe customer ID
  */
 async function handleSubscriptionCheckout(session, customerId) {
+    var _a;
     // Extract subscription ID
     const subscriptionId = session.subscription;
     // Extract price ID from line items or metadata
@@ -164,6 +165,18 @@ async function handleSubscriptionCheckout(session, customerId) {
         console.log(`Updated subscription for customer ${customerId}:`, subscriptionFacts);
         // Invalidate all user caches so user sees premium features immediately
         await invalidateAllUserCaches(customerId);
+        // Mark discount as redeemed if it was applied (pre-launch waitlist discount)
+        const discountApplied = ((_a = session.metadata) === null || _a === void 0 ? void 0 : _a.discount_applied) === 'true';
+        if (discountApplied && subscriptionId) {
+            console.log(`[Checkout] Discount was applied, marking as redeemed for customer ${customerId}`);
+            try {
+                await (0, firestore_1.markDiscountRedeemedByCustomerId)(customerId, subscriptionId);
+            }
+            catch (discountError) {
+                // Non-critical - log but don't fail the checkout
+                console.error('[Checkout] Failed to mark discount as redeemed:', discountError);
+            }
+        }
     }
     catch (error) {
         console.error(`Failed to update subscription for customer ${customerId}:`, error);

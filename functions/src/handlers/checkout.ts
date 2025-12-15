@@ -13,9 +13,9 @@ import {
   mapUidToCustomer,
   upsertUserSubscriptionByCustomerId,
   logStripeEvent,
-  getUidByCustomerId
+  getUidByCustomerId,
+  markDiscountRedeemedByCustomerId
 } from '../firestore';
-import { markDiscountRedeemedByCustomerId } from '../discounts';
 // Node.js 20+ has native fetch support
 
 /**
