@@ -32,7 +32,7 @@ import { CountdownTimer } from '@/components/waitlist/CountdownTimer'
 
 export default function LandingPageClient() {
   const router = useRouter()
-  const { strings } = useTranslation()
+  const { strings, language } = useTranslation()
   const { getLocalePath } = useLocalePath()
   const { isPreLaunch, launchDate } = usePreLaunch()
   const [currentSlide, setCurrentSlide] = useState(0)
@@ -63,6 +63,20 @@ export default function LandingPageClient() {
 
   // Always use valid landing strings with fallback to English
   const landingStrings = mounted && strings?.landing ? strings.landing : enStrings.landing
+
+  // Locale-aware launch date labels (short and long) for badges/UI
+  const launchDateShort = new Intl.DateTimeFormat(language || 'en', {
+    month: 'short',
+    day: 'numeric',
+  }).format(launchDate)
+  const launchDateLong = new Intl.DateTimeFormat(language || 'en', {
+    month: 'long',
+    day: 'numeric',
+  }).format(launchDate)
+
+  const badgeLabel = `${landingStrings.hero.preLaunch?.badgePrefix || 'Launching'} ${launchDateShort}`
+  const badgeMobileLabel = `${landingStrings.hero.preLaunch?.badgeMobilePrefix || landingStrings.hero.preLaunch?.badgePrefix || 'Launching'} ${launchDateShort}`
+  const heroBadgeLabel = `${landingStrings.hero.preLaunch?.heroBadgePrefix || landingStrings.hero.preLaunch?.badgePrefix || 'Launching'} ${launchDateLong} - ${landingStrings.hero.preLaunch?.discountSuffix || 'Get 25% Off!'}`
 
   const carouselSlides = [
     {
@@ -133,7 +147,7 @@ export default function LandingPageClient() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
                 </span>
-                <span className="text-xs font-medium text-primary-700 dark:text-primary-300">{landingStrings.hero.preLaunch?.badge || 'Dec 31st'}</span>
+                <span className="text-xs font-medium text-primary-700 dark:text-primary-300">{badgeLabel}</span>
               </div>
               <Button
                 onClick={() => router.push(getLocalePath('/waitlist'))}
@@ -230,7 +244,7 @@ export default function LandingPageClient() {
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
                 </span>
-                <span className="text-sm font-medium text-primary-700 dark:text-primary-300">{landingStrings.hero.preLaunch?.badgeMobile || 'Launching Dec 31st'}</span>
+                <span className="text-sm font-medium text-primary-700 dark:text-primary-300">{badgeMobileLabel}</span>
               </div>
 
               {/* Join Waitlist Button */}
@@ -285,7 +299,7 @@ export default function LandingPageClient() {
                   <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
                 </span>
                 <span className="text-sm font-medium text-primary-700 dark:text-primary-300">
-                  {landingStrings.hero.preLaunch?.heroBadge || 'Launching December 31st - Get 25% Off!'}
+                  {heroBadgeLabel}
                 </span>
               </div>
             </div>

@@ -14,7 +14,7 @@
 const DEFAULT_LAUNCH_DATE = '2026-01-16T00:00:00Z';
 
 // Check if lock is explicitly disabled via env var
-const isLockExplicitlyDisabled = (): boolean => {
+export const isLockExplicitlyDisabled = (): boolean => {
   const lockEnabled = process.env.PRELAUNCH_LOCK_ENABLED ||
                       process.env.NEXT_PUBLIC_PRELAUNCH_LOCK_ENABLED;
   return lockEnabled === 'false';
@@ -24,9 +24,9 @@ const isLockExplicitlyDisabled = (): boolean => {
 const getLaunchDateString = (): string => {
   // Server-side: check LAUNCH_DATE first, then NEXT_PUBLIC_LAUNCH_DATE
   // Client-side: only NEXT_PUBLIC_LAUNCH_DATE is available
-  return process.env.LAUNCH_DATE ||
-         process.env.NEXT_PUBLIC_LAUNCH_DATE ||
-         DEFAULT_LAUNCH_DATE;
+  // Note: .trim() handles any accidental whitespace/newlines in env vars
+  const envDate = process.env.LAUNCH_DATE || process.env.NEXT_PUBLIC_LAUNCH_DATE;
+  return envDate?.trim() || DEFAULT_LAUNCH_DATE;
 };
 
 export const LAUNCH_DATE = new Date(getLaunchDateString());

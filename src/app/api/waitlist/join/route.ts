@@ -2,7 +2,7 @@
  * Waitlist Join API
  *
  * Allows users to join the pre-launch waitlist to receive a 25% discount
- * when Moshimoshi launches on December 31st, 2025.
+ * when Moshimoshi launches.
  *
  * @module api/waitlist/join
  */
@@ -11,6 +11,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
 import { Timestamp } from 'firebase-admin/firestore';
 import { z } from 'zod';
+import { LAUNCH_DATE_STRING } from '@/lib/prelaunch/config';
 
 // Email validation schema
 const waitlistSchema = z.object({
@@ -127,7 +128,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       success: true,
       count,
-      launchDate: process.env.LAUNCH_DATE || '2025-12-31T00:00:00Z',
+      launchDate: LAUNCH_DATE_STRING,
     });
   } catch (error: any) {
     console.error('[API /waitlist/join] GET Error:', error);

@@ -10,7 +10,7 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 export default function WaitlistPage() {
-  const { strings } = useTranslation();
+  const { strings, language } = useTranslation();
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -19,6 +19,19 @@ export default function WaitlistPage() {
 
   // Use waitlist strings with fallback
   const t = mounted && strings?.waitlist ? strings.waitlist : enStrings.waitlist;
+
+  // Format launch date per locale, fall back to English formatting
+  const launchDateFormatter = new Intl.DateTimeFormat(language || 'en', {
+    month: 'long',
+    day: 'numeric',
+  });
+  const launchDateShortFormatter = new Intl.DateTimeFormat(language || 'en', {
+    month: 'short',
+    day: 'numeric',
+  });
+  const launchDateLong = launchDateFormatter.format(LAUNCH_DATE);
+  const launchDateShort = launchDateShortFormatter.format(LAUNCH_DATE);
+  const badgeText = `${t?.badgePrefix || 'Launching'} ${launchDateLong}`;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-white to-japanese-mizu/10 dark:from-dark-950 dark:via-dark-900 dark:to-dark-850 relative overflow-x-hidden">
@@ -61,7 +74,7 @@ export default function WaitlistPage() {
               <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
             </span>
             <span className="text-sm font-medium text-primary-700 dark:text-primary-300">
-              {t?.badge || 'Launching December 31st'}
+              {badgeText}
             </span>
           </div>
 

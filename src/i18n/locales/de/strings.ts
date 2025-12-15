@@ -223,9 +223,10 @@ export const strings = {
 
       // Pre-launch waitlist strings
       preLaunch: {
-        badge: '31. Dez',
-        badgeMobile: 'Start am 16. Januar',
-        heroBadge: 'Start am 16. Januar - 25% Rabatt!',
+        badgePrefix: 'Start',
+        badgeMobilePrefix: 'Start',
+        heroBadgePrefix: 'Start',
+        discountSuffix: '25% Rabatt!',
         joinWaitlist: 'Warteliste beitreten',
         joinWaitlistDiscount: 'Beitreten - 25% Rabatt',
         launchingIn: 'Start in',
@@ -4839,7 +4840,8 @@ export const strings = {
 
   // Waitlist
   waitlist: {
-    badge: 'Start am 16. Januar',
+    badge: 'Start',
+    badgePrefix: 'Start',
     titleLine1: 'Japanisch lernen',
     titleLine2: 'Mit Spaß',
     subtitle: 'Kostenlos nutzbar mit YouTube-Shadowing, nativen Nachrichten, KI-Geschichten, Moshi Comics, Anki-Import und mehr.',

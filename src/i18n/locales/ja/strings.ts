@@ -1,7 +1,8 @@
 export const strings = {
   // Waitlist Page
   waitlist: {
-    badge: '1月16日リリース',
+    badge: 'リリース',
+    badgePrefix: 'リリース',
     titleLine1: '日本語を学ぼう',
     titleLine2: '楽しく効果的に',
     subtitle: '無料で使える！YouTubeシャドーイング、ネイティブニュース、AIストーリー、もしコミック、Ankiインポートなど。',
@@ -59,9 +60,10 @@ export const strings = {
 
       // Pre-launch waitlist strings
       preLaunch: {
-        badge: '1月16日',
-        badgeMobile: '1月16日リリース',
-        heroBadge: '1月16日リリース - 25%オフ！',
+        badgePrefix: 'リリース',
+        badgeMobilePrefix: 'リリース',
+        heroBadgePrefix: 'リリース',
+        discountSuffix: '25%オフ！',
         joinWaitlist: 'ウェイトリストに登録',
         joinWaitlistDiscount: '登録して25%オフ',
         launchingIn: 'リリースまで',

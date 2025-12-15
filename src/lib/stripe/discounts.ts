@@ -33,8 +33,9 @@ export interface DiscountDocument {
 function getPromoCodeId(): string {
   const promoCodeId = process.env.PRELAUNCH_PROMO_CODE_ID;
   if (!promoCodeId) {
-    console.warn('[Discounts] PRELAUNCH_PROMO_CODE_ID not configured');
-    return '';
+    const message = '[Discounts] PRELAUNCH_PROMO_CODE_ID not configured';
+    console.error(message);
+    throw new Error(message);
   }
   return promoCodeId;
 }
@@ -148,15 +149,10 @@ export async function createDiscountEligibility(
       throw new Error('Firebase Admin not initialized');
     }
 
-    const promoCodeId = getPromoCodeId();
-    if (!promoCodeId) {
-      console.warn('[Discounts] Cannot create eligibility - no promo code configured');
-      return;
-    }
-
-    const discountRef = adminFirestore
-      .collection('stripe')
-      .doc('discounts')
+  const promoCodeId = getPromoCodeId();
+  const discountRef = adminFirestore
+    .collection('stripe')
+    .doc('discounts')
       .collection('users')
       .doc(uid);
 
