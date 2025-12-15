@@ -93,12 +93,12 @@ export async function POST(request: NextRequest) {
         ],
         success_url: successUrl,
         cancel_url: cancelUrl,
-        // Option A: No manual promo code entry allowed
-        allow_promotion_codes: false,
-        // Auto-apply discount if user is eligible
-        discounts: discountEligibility
-          ? [{ promotion_code: discountEligibility.promotionCodeId }]
-          : undefined,
+        // Stripe doesn't allow both allow_promotion_codes AND discounts
+        // When discount exists: use discounts array
+        // When no discount: disable manual promo codes (Option A)
+        ...(discountEligibility
+          ? { discounts: [{ promotion_code: discountEligibility.promotionCodeId }] }
+          : { allow_promotion_codes: false }),
         subscription_data: {
           metadata: {
             uid,
