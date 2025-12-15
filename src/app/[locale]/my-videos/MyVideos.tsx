@@ -441,20 +441,22 @@ export default function MyVideos() {
               <div className="flex flex-col lg:flex-row gap-4">
                 {/* Search Input with Icon Animation */}
                 <div className="flex-1 relative group">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary-500 transition-colors" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground group-focus-within:text-primary-500 transition-colors" aria-hidden="true" />
                   <input
                     type="text"
                     placeholder={strings.myVideos?.search?.placeholder || 'Search videos...'}
                     value={searchQuery}
                     onChange={e => setSearchQuery(e.target.value)}
+                    aria-label="Search practice videos"
                     className="w-full pl-12 pr-4 py-3 bg-white/70 dark:bg-dark-700/70 backdrop-blur rounded-xl border border-gray-200/50 dark:border-dark-600/50 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-400 transition-all duration-300"
                   />
                   {searchQuery && (
                     <button
                       onClick={() => setSearchQuery('')}
+                      aria-label="Clear search"
                       className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-gray-100 dark:hover:bg-dark-600 rounded-lg transition-colors"
                     >
-                      <X className="w-4 h-4" />
+                      <X className="w-4 h-4" aria-hidden="true" />
                     </button>
                   )}
                 </div>
@@ -463,13 +465,15 @@ export default function MyVideos() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => setShowFilters(!showFilters)}
+                    aria-label={showFilters ? 'Hide filters' : 'Show filters'}
+                    aria-expanded={showFilters}
                     className={`px-4 py-3 rounded-xl border transition-all duration-300 flex items-center gap-2 ${
                       showFilters
                         ? 'bg-primary-500 text-white border-primary-500 shadow-lg shadow-primary-500/20'
                         : 'bg-white/70 dark:bg-dark-700/70 border-gray-200/50 dark:border-dark-600/50 hover:border-primary-400'
                     }`}
                   >
-                    <Filter className="w-5 h-5" />
+                    <Filter className="w-5 h-5" aria-hidden="true" />
                     <span className="hidden sm:inline">{'Filters'}</span>
                   </button>
 
@@ -477,12 +481,13 @@ export default function MyVideos() {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     onClick={() => setSortBy(sortBy === 'recent' ? 'mostPracticed' : 'recent')}
+                    aria-label={`Sort by ${sortBy === 'recent' ? 'most practiced' : 'most recent'}`}
                     className="px-4 py-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2"
                   >
                     {sortBy === 'recent' ? (
-                      <Clock className="w-5 h-5" />
+                      <Clock className="w-5 h-5" aria-hidden="true" />
                     ) : (
-                      <BarChart3 className="w-5 h-5" />
+                      <BarChart3 className="w-5 h-5" aria-hidden="true" />
                     )}
                     <span className="hidden sm:inline">
                       {sortBy === 'recent'
@@ -573,7 +578,17 @@ export default function MyVideos() {
                       damping: 25,
                     }}
                     whileHover={{ y: -8, transition: { duration: 0.3 } }}
-                    className="relative group"
+                    onClick={() => handlePracticeAgain(video)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e: React.KeyboardEvent) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault()
+                        handlePracticeAgain(video)
+                      }
+                    }}
+                    aria-label={`Practice ${video.videoTitle} again`}
+                    className="relative group cursor-pointer"
                   >
                     <div className="absolute inset-0 bg-gradient-to-br from-primary-500/20 to-primary-600/20 rounded-2xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
@@ -657,13 +672,14 @@ export default function MyVideos() {
                           <motion.button
                             whileHover={{ scale: 1.1 }}
                             whileTap={{ scale: 0.9 }}
-                            onClick={e => {
+                            onClick={(e: React.MouseEvent) => {
                               e.stopPropagation()
                               handleDelete(video)
                             }}
+                            aria-label={`Delete ${video.videoTitle} from history`}
                             className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-gray-400 hover:text-red-500 transition-all duration-300"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="w-4 h-4" aria-hidden="true" />
                           </motion.button>
                         </div>
                       </div>
@@ -686,6 +702,9 @@ export default function MyVideos() {
                 exit={{ opacity: 0 }}
                 className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50"
                 onClick={cancelDelete}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="delete-modal-title"
               >
                 <motion.div
                   initial={{ scale: 0.8, opacity: 0, y: 50 }}
@@ -693,13 +712,13 @@ export default function MyVideos() {
                   exit={{ scale: 0.8, opacity: 0, y: 50 }}
                   transition={{ type: 'spring', duration: 0.5 }}
                   className="bg-white/95 dark:bg-dark-800/95 backdrop-blur-2xl rounded-3xl p-8 max-w-md w-full shadow-2xl border border-white/20"
-                  onClick={e => e.stopPropagation()}
+                  onClick={(e: React.MouseEvent) => e.stopPropagation()}
                 >
                   <div className="text-center mb-6">
                     <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
-                      <Trash2 className="w-8 h-8 text-red-600 dark:text-red-400" />
+                      <Trash2 className="w-8 h-8 text-red-600 dark:text-red-400" aria-hidden="true" />
                     </div>
-                    <h3 className="text-2xl font-bold mb-2">
+                    <h3 id="delete-modal-title" className="text-2xl font-bold mb-2">
                       {strings.myVideos?.confirmDelete?.title || 'Delete Video'}
                     </h3>
                     <p className="text-muted-foreground">

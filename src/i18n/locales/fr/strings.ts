@@ -2543,6 +2543,8 @@ export const strings = {
     },
 
     form: {
+      cardTitle: 'Charger une vidéo',
+      cardSubtitle: 'Collez une URL YouTube pour commencer le shadowing',
       videoLabel: 'URL ou ID YouTube',
       videoPlaceholder: 'https://youtu.be/VIDEO_ID',
       languageLabel: 'Langue',
@@ -2648,7 +2650,10 @@ export const strings = {
 
     settings: {
       title: 'Paramètres',
+      videoLoop: 'Boucler la vidéo',
+      repeatDisabledByLoop: 'La répétition des segments est désactivée quand la boucle vidéo est active',
       furigana: 'Furigana',
+      translation: 'Traduction anglaise',
       highlighting: 'Surlignage grammatical',
       noHighlighting: 'Pas de surlignage',
       contentWords: 'Mots de contenu',

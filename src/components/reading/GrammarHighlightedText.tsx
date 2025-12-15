@@ -216,7 +216,7 @@ export function GrammarHighlightedText({
                 isHighlighted ? `grammar-${posType}` : ''
               }`}
               style={{
-                ...(isHighlighted ? { backgroundColor: `${token.color}60`, color: '#111827' } : {}),
+                ...(isHighlighted ? { backgroundColor: `${token.color}60`, color: '#e0e0e0' } : {}),
                 paddingTop: showFurigana ? '1.1em' : undefined, // Tighter furigana spacing
                 whiteSpace: 'nowrap',
                 wordBreak: 'keep-all',
@@ -250,7 +250,7 @@ export function GrammarHighlightedText({
               key={index}
               className={`cursor-pointer hover:bg-primary/20 transition-colors rounded px-2 py-0.5 mx-2 my-1 inline-block min-w-[2.5em] text-center ${isHighlighted ? `grammar-${posType}` : ''}`}
               style={{
-                ...(isHighlighted ? { backgroundColor: `${token.color}50`, color: '#111827' } : {}),
+                ...(isHighlighted ? { backgroundColor: `${token.color}50`, color: '#e0e0e0' } : {}),
                 whiteSpace: 'nowrap',
                 wordBreak: 'keep-all',
                 overflowWrap: 'normal',

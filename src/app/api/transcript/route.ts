@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { extractVideoId } from "@/lib/video";
 import { transcriptCache } from "@/lib/transcript/cache";
 import { queueTranscriptTranslations, TranscriptSegment as TranslationSegment } from "@/lib/ai/utils/transcriptTranslationGenerator";
+import { chunkTranscriptSegments } from "@/lib/transcript/chunkSegments";
 
 type TranscriptSegment = {
   start: number;
@@ -123,7 +124,7 @@ async function fetchYouTubeTimedText(
   }
 
   return {
-    segments,
+    segments: chunkTranscriptSegments(segments),
     language,
     source: "youtube-timedtext",
   };
@@ -177,7 +178,7 @@ async function fetchTranscriptService(
   }
 
   return {
-    segments,
+    segments: chunkTranscriptSegments(segments),
     language: payload.language || language,
     source: "transcript-service",
   };

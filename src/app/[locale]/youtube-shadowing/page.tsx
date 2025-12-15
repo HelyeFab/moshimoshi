@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import YouTube, { type YouTubeProps } from "react-youtube";
 import styles from "./page.module.css";
 import { clampRepeatCount, extractVideoId } from "@/lib/video";
@@ -8,9 +9,9 @@ import { nextOnSegmentEnd, onRepeatCountChange } from "@/lib/shadowing/repeat";
 import { useWordExplanation } from "@/hooks/useWordExplanation";
 import WordExplanationModal from "@/components/word/WordExplanationModal";
 import { GrammarHighlightedText } from "@/components/reading/GrammarHighlightedText";
-import { PlayIcon } from "@heroicons/react/24/solid";
+import { PlayIcon, PauseIcon } from "@heroicons/react/24/solid";
 import { useI18n } from "@/i18n/I18nContext";
-import { Settings, Repeat, Type, Highlighter, ChevronDown, ChevronUp, Video, Trash2 } from "lucide-react";
+import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw } from "lucide-react";
 import Modal from "@/components/ui/Modal";
 import Dropdown from "@/components/ui/Dropdown";
 import PageHeader from "@/components/ui/PageHeader";
@@ -35,6 +36,7 @@ interface PlayerSession {
   currentRepeat: number;
   repeatCount: number;
   showFurigana: boolean;
+  showTranslation: boolean;
   highlightMode: HighlightMode;
 }
 
@@ -42,6 +44,7 @@ type TranscriptSegment = {
   start: number;
   end: number;
   text: string;
+  translation?: string;
 };
 
 type TranscriptResponse = {
@@ -62,6 +65,9 @@ const PLAYER_STATES = {
 export default function YouTubeShadowingPage() {
   const { t } = useI18n();
   const { user } = useAuth();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const [videoInput, setVideoInput] = useState("");
   const [videoId, setVideoId] = useState<string | null>(null);
   const [language] = useState("ja");
@@ -70,15 +76,18 @@ export default function YouTubeShadowingPage() {
   const [loadingTranscript, setLoadingTranscript] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [repeatCount, setRepeatCount] = useState(3);
   const [currentSegmentIndex, setCurrentSegmentIndex] = useState(0);
   const [currentRepeat, setCurrentRepeat] = useState(1);
 
   // Settings state
   const [showFurigana, setShowFurigana] = useState(true);
+  const [showTranslation, setShowTranslation] = useState(false);
   const [highlightMode, setHighlightMode] = useState<HighlightMode>("content");
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
   const [showUrlInput, setShowUrlInput] = useState(true);
+  const [videoLoopEnabled, setVideoLoopEnabled] = useState(false);
 
   // Word explanation state
   const [wordModalOpen, setWordModalOpen] = useState(false);
@@ -101,6 +110,8 @@ export default function YouTubeShadowingPage() {
   const segmentIndexRef = useRef(0);
   const currentRepeatRef = useRef(1);
   const hasHydratedRef = useRef(false);
+  const clearedSessionRef = useRef(false);
+  const videoLoopEnabledRef = useRef(false);
 
   const opts: YouTubeProps["opts"] = useMemo(
     () => ({
@@ -151,12 +162,35 @@ export default function YouTubeShadowingPage() {
     const segmentEnd = Math.max(segment.end - 0.08, segment.start + 0.05);
 
     if (currentTime >= segmentEnd) {
+      // When video loop is enabled, bypass segment repeat (treat as repeatCount=1)
+      const effectiveRepeatCount = videoLoopEnabledRef.current ? 1 : repeatCountRef.current;
+
       const next = nextOnSegmentEnd({
-        repeatCount: repeatCountRef.current,
+        repeatCount: effectiveRepeatCount,
         currentRepeat: currentRepeatRef.current,
         segmentIndex: segmentIndexRef.current,
         totalSegments: segmentsRef.current.length,
       });
+
+      // Check if we've completed all segments (last segment + no advancement)
+      const isLastSegment = segmentIndexRef.current >= segmentsRef.current.length - 1;
+      const completedAllSegments = isLastSegment && !next.didAdvanceSegment && next.currentRepeat === 1;
+
+      if (completedAllSegments) {
+        // In video loop mode, don't pause - let video play to natural end
+        // handleStateChange will handle the restart when video ends
+        if (videoLoopEnabledRef.current) {
+          currentRepeatRef.current = 1;
+          setCurrentRepeat(1);
+          return;
+        }
+        // Normal mode: pause at the end
+        currentRepeatRef.current = repeatCountRef.current;
+        setCurrentRepeat(repeatCountRef.current);
+        clearPoll();
+        player.pauseVideo();
+        return;
+      }
 
       currentRepeatRef.current = next.currentRepeat;
       setCurrentRepeat(next.currentRepeat);
@@ -182,13 +216,32 @@ export default function YouTubeShadowingPage() {
   }, [evaluatePlayback]);
 
   const handleStateChange: YouTubeProps["onStateChange"] = (event) => {
-    if (event.data === PLAYER_STATES.playing) {
+    const playerState = event.data;
+    const isNowPlaying = playerState === PLAYER_STATES.playing;
+    setIsPlaying(isNowPlaying);
+
+    if (isNowPlaying) {
       startPoll();
-    } else if (
-      event.data === PLAYER_STATES.paused ||
-      event.data === PLAYER_STATES.ended
-    ) {
+    } else if (playerState === PLAYER_STATES.paused) {
       clearPoll();
+    } else if (playerState === PLAYER_STATES.ended) {
+      clearPoll();
+
+      // Video loop: restart from first segment when video ends naturally
+      if (videoLoopEnabledRef.current && segmentsRef.current.length > 0) {
+        const firstSegment = segmentsRef.current[0];
+        if (firstSegment && playerRef.current) {
+          // Reset segment tracking
+          segmentIndexRef.current = 0;
+          currentRepeatRef.current = 1;
+          setCurrentSegmentIndex(0);
+          setCurrentRepeat(1);
+
+          // Seek to first segment and play
+          playerRef.current.seekTo(firstSegment.start, true);
+          playerRef.current.playVideo();
+        }
+      }
     }
   };
 
@@ -233,6 +286,7 @@ export default function YouTubeShadowingPage() {
         setCurrentRepeat(1);
         setSource(data.source);
         setShowUrlInput(false); // Auto-collapse form after successful load
+        setVideoLoopEnabled(false); // Reset video loop when loading new video
 
         setStatus(
           t('youtubeShadowing.status.transcriptLoaded', {
@@ -331,6 +385,11 @@ export default function YouTubeShadowingPage() {
     };
   }, [clearPoll]);
 
+  // Keep videoLoopEnabled ref in sync with state
+  useEffect(() => {
+    videoLoopEnabledRef.current = videoLoopEnabled;
+  }, [videoLoopEnabled]);
+
   // Restore session from localStorage on mount
   useEffect(() => {
     if (typeof window === "undefined" || hasHydratedRef.current) return;
@@ -371,6 +430,7 @@ export default function YouTubeShadowingPage() {
         repeatCountRef.current = parsed.repeatCount;
       }
       if (typeof parsed.showFurigana === "boolean") setShowFurigana(parsed.showFurigana);
+      if (typeof parsed.showTranslation === "boolean") setShowTranslation(parsed.showTranslation);
       if (parsed.highlightMode) setHighlightMode(parsed.highlightMode);
 
       hasHydratedRef.current = true;
@@ -381,6 +441,30 @@ export default function YouTubeShadowingPage() {
       localStorage.removeItem(SESSION_STORAGE_KEY);
     }
   }, []);
+
+  // Handle URL params (from my-videos or external links)
+  useEffect(() => {
+    if (!hasHydratedRef.current) return;
+
+    const urlParam = searchParams.get("url");
+    const fromHistory = searchParams.get("fromHistory") === "true";
+
+    if (clearedSessionRef.current) {
+      clearedSessionRef.current = false;
+      return;
+    }
+
+    if (urlParam) {
+      const extractedId = extractVideoId(urlParam);
+
+      // Only load if it's a different video or coming from history
+      if (extractedId && (fromHistory || extractedId !== videoId)) {
+        console.log(`[MoshiPlayer] Loading video from URL param: ${extractedId}`);
+        setVideoInput(urlParam);
+        void loadTranscript(urlParam);
+      }
+    }
+  }, [searchParams, loadTranscript, videoId]);
 
   // Save session to localStorage when state changes
   useEffect(() => {
@@ -403,6 +487,7 @@ export default function YouTubeShadowingPage() {
       currentRepeat,
       repeatCount,
       showFurigana,
+      showTranslation,
       highlightMode,
     };
 
@@ -411,7 +496,7 @@ export default function YouTubeShadowingPage() {
     } catch (err) {
       console.warn("[MoshiPlayer] Failed to save session:", err);
     }
-  }, [videoInput, videoId, segments, source, currentSegmentIndex, currentRepeat, repeatCount, showFurigana, highlightMode]);
+  }, [videoInput, videoId, segments, source, currentSegmentIndex, currentRepeat, repeatCount, showFurigana, showTranslation, highlightMode]);
 
   // Clear session function (can be called from UI)
   const clearSession = useCallback(() => {
@@ -428,224 +513,240 @@ export default function YouTubeShadowingPage() {
     setError(null);
     setStatus(null);
     setShowUrlInput(true);
+    clearedSessionRef.current = true;
+
+    // Remove URL params to avoid auto-reloading a cleared session
+    if (typeof window !== "undefined" && pathname) {
+      router.replace(pathname);
+    }
+
     console.log("[MoshiPlayer] Session cleared");
-  }, []);
+  }, [pathname, router]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
       <Navbar user={user} showUserMenu={true} />
 
       <PageHeader
+
         title={t('youtubeShadowing.header.title')}
         description={t('youtubeShadowing.header.subtitle')}
         subtitle={t('youtubeShadowing.header.eyebrow')}
         backHref="/dashboard"
       />
 
-      <main className="container mx-auto px-4 py-6">
-        {/* URL Input Form - Collapsible when video is loaded */}
-        {segments.length > 0 && !showUrlInput ? (
-          <button
-            type="button"
-            onClick={() => setShowUrlInput(true)}
-            className={styles.changeVideoButton}
-          >
-            <Video className="w-4 h-4" />
-            <span>{t('youtubeShadowing.form.changeVideo')}</span>
-            <ChevronDown className="w-4 h-4" />
-          </button>
-        ) : (
-          <form className={styles.controls} onSubmit={handleSubmit}>
-            <div className={styles.urlRow}>
-              <input
-                id="video"
-                name="video"
-                className={styles.urlInput}
-                placeholder={t('youtubeShadowing.form.videoPlaceholder')}
-                value={videoInput}
-                onChange={(e) => setVideoInput(e.target.value)}
+      <main className={styles.mainContainer}>
+        {/* Video Section */}
+        <div className={styles.videoSection}>
+          <div className={styles.playerFrame}>
+            {videoId ? (
+              <YouTube
+                videoId={videoId}
+                opts={opts}
+                onReady={handleReady}
+                onStateChange={handleStateChange}
+                className={styles.youtubeIframe}
+                iframeClassName={styles.youtubeIframe}
               />
-              <button
-                className={styles.loadButton}
-                type="submit"
-                disabled={loadingTranscript}
-              >
-                {loadingTranscript ? t('youtubeShadowing.form.loadingButton') : t('youtubeShadowing.form.loadButton')}
-              </button>
-              {segments.length > 0 && (
-                <button
-                  type="button"
-                  onClick={() => setShowUrlInput(false)}
-                  className={styles.collapseButton}
-                  aria-label="Collapse"
-                >
-                  <ChevronUp className="w-4 h-4" />
-                </button>
-              )}
-            </div>
-            {(error || status) && (
-              <div className={styles.statusBar}>
-                {error && <span className={styles.error}>{error}</span>}
-                {!error && status && <span className={styles.status}>{status}</span>}
-              </div>
-            )}
-          </form>
-        )}
-
-        <div className={styles.shell}>
-
-        <section className={styles.grid}>
-          <div className={styles.playerCard}>
-            <div className={styles.cardHeader}>
-              <div>
-                <p className={styles.pill}>{t('youtubeShadowing.player.title')}</p>
-                <h2 className={`${styles.cardTitle} ${styles.hideOnMobile}`}>
-                  {videoId ? t('youtubeShadowing.player.nowPlaying', { videoId }) : t('youtubeShadowing.player.awaitingVideo')}
-                </h2>
-              </div>
-              <div className={styles.playerMeta}>
-                <span className={styles.meta}>
-                  {t('youtubeShadowing.player.segmentProgress', { current: segments.length ? currentSegmentIndex + 1 : 0, total: segments.length })}
-                </span>
-                <span className={styles.meta}>
-                  {t('youtubeShadowing.player.repeatProgress', { current: currentRepeat, total: repeatCount })}
-                </span>
-              </div>
-            </div>
-            <div className={styles.playerFrame}>
-              {videoId ? (
-                <YouTube
-                  videoId={videoId}
-                  opts={opts}
-                  onReady={handleReady}
-                  onStateChange={handleStateChange}
-                />
-              ) : (
-                <div className={styles.placeholder}>
-                  {t('youtubeShadowing.hints.pasteToStart')}
-                </div>
-              )}
-              {/* Mobile Settings Button - inside player frame */}
-              {segments.length > 0 && (
-                <button
-                  onClick={() => setSettingsModalOpen(true)}
-                  className={styles.mobileSettingsButton}
-                  aria-label={t("youtubeShadowing.settings.title")}
-                >
-                  <Settings className="w-5 h-5" />
-                </button>
-              )}
-            </div>
-
-            {/* Current Segment Display - Mobile only */}
-            {segments.length > 0 && segments[currentSegmentIndex] && (
-              <div className={styles.currentSegmentDisplay}>
-                <div className={styles.currentSegmentLabel}>
-                  <span>{t('youtubeShadowing.currentSegment.nowPlaying')}</span>
-                  <span>{currentRepeat}/{repeatCount}</span>
-                </div>
-                <div className={styles.currentSegmentText}>
-                  <GrammarHighlightedText
-                    text={segments[currentSegmentIndex].text}
-                    highlightMode={highlightMode}
-                    showFurigana={showFurigana}
-                    onWordClick={(word: string, event: React.MouseEvent) => {
-                      event.stopPropagation();
-                      handleWordTap(word, segments[currentSegmentIndex].text);
-                    }}
-                  />
-                </div>
+            ) : (
+              <div className={styles.placeholder}>
+                {t('youtubeShadowing.hints.pasteToStart')}
               </div>
             )}
           </div>
+        </div>
 
-          <div className={styles.transcriptCard}>
-            <div className={styles.cardHeader}>
-              <div>
-                <p className={styles.pill}>{t('youtubeShadowing.player.transcript.title')}</p>
-                <h2 className={styles.cardTitle}>{t('youtubeShadowing.player.tapWordsForExplanation')}</h2>
+        {/* Current Segment Card - Hero Style */}
+        <div className={styles.currentSegmentCard}>
+          {segments.length > 0 && segments[currentSegmentIndex] ? (
+            <div className={styles.cardContent}>
+              <div className={styles.cardHeader}>
+                <span className={styles.segmentCounter}>
+                  {t('youtubeShadowing.player.segmentProgress', { current: currentSegmentIndex + 1, total: segments.length })}
+                </span>
+                <span className={styles.repeatCounter}>
+                  <Repeat className="w-3 h-3" />
+                  {currentRepeat}/{repeatCount}
+                </span>
               </div>
-              {source && <span className={styles.source}>{t('youtubeShadowing.player.sourceLabel', { source })}</span>}
-            </div>
-            <div className={styles.segmentList}>
-              {segments.length === 0 && (
-                <p className={styles.hint}>
-                  {t('youtubeShadowing.hints.transcriptWillAppear')}
+
+              <div className={styles.heroText}>
+                <GrammarHighlightedText
+                  text={segments[currentSegmentIndex].text}
+                  highlightMode={highlightMode}
+                  showFurigana={showFurigana}
+                  onWordClick={(word: string, event: React.MouseEvent) => {
+                    event.stopPropagation();
+                    handleWordTap(word, segments[currentSegmentIndex].text);
+                  }}
+                  className={styles.largeText}
+                />
+              </div>
+
+              {showTranslation && segments[currentSegmentIndex]?.translation && (
+                <p className="text-base text-gray-500 dark:text-gray-400 mt-3 italic text-center">
+                  {segments[currentSegmentIndex].translation}
                 </p>
               )}
-              {segments.map((segment, index) => {
-                const active = index === currentSegmentIndex;
+            </div>
+          ) : (
+            <div className={styles.emptyState}>
+              <p>{t('youtubeShadowing.hints.transcriptWillAppear')}</p>
+            </div>
+          )}
+        </div>
 
-                return (
-                  <div
-                    key={`${segment.start}-${index}`}
-                    className={`${styles.segment} ${active ? styles.segmentActive : ""}`}
-                  >
-                    {/* Repeat badge - top right corner */}
-                    {active && (
-                      <span className={styles.repeatBadge}>
-                        {currentRepeat}/{repeatCount}
+        {/* Transcript List */}
+        <div className={styles.transcriptListSection}>
+          <h3 className={styles.listTitle}>{t('youtubeShadowing.player.transcript.title')}</h3>
+          <div className={styles.segmentList}>
+            {segments.map((segment, index) => {
+              const active = index === currentSegmentIndex;
+              return (
+                <div
+                  key={`${segment.start}-${index}`}
+                  className={`${styles.segment} ${active ? styles.segmentActive : ""}`}
+                >
+                  {/* Repeat badge - top right corner */}
+                  {active && (
+                    <span className={styles.repeatBadge}>
+                      {currentRepeat}/{repeatCount}
+                    </span>
+                  )}
+                  <div className={styles.segmentHeader}>
+                    <button
+                      className={styles.jumpButton}
+                      onClick={() => seekToSegment(index)}
+                      title="Jump to this segment"
+                    >
+                      <PlayIcon className={styles.jumpIcon} />
+                    </button>
+                    <div className={styles.segmentMeta}>
+                      <span>
+                        {index + 1}. {segment.start.toFixed(2)}s – {segment.end.toFixed(2)}s
                       </span>
-                    )}
-                    <div className={styles.segmentHeader}>
-                      <button
-                        className={styles.jumpButton}
-                        onClick={() => seekToSegment(index)}
-                        title="Jump to this segment"
-                      >
-                        <PlayIcon className={styles.jumpIcon} />
-                      </button>
-                      <div className={styles.segmentMeta}>
-                        <span>
-                          {index + 1}. {segment.start.toFixed(2)}s{" "}
-                          {segment.end.toFixed(2)}s
-                        </span>
-                      </div>
-                    </div>
-                    <div className={styles.segmentText}>
-                      <GrammarHighlightedText
-                        text={segment.text}
-                        highlightMode={highlightMode}
-                        showFurigana={showFurigana}
-                        onWordClick={(word: string, event: React.MouseEvent) => {
-                          event.stopPropagation();
-                          handleWordTap(word, segment.text);
-                        }}
-                      />
                     </div>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      </div>
-
-      {/* Floating Navbar */}
-      {segments.length > 0 && (
-        <div className={styles.floatingNav}>
-          <button
-            onClick={() => setSettingsModalOpen(true)}
-            className={styles.navButton}
-            aria-label={t("youtubeShadowing.settings.title")}
-          >
-            <Settings className="w-5 h-5" />
-          </button>
-          <span className={styles.navProgress}>
-            {t("youtubeShadowing.player.segmentProgress", {
-              current: currentSegmentIndex + 1,
-              total: segments.length,
-            })}{" "}
-            •{" "}
-            {t("youtubeShadowing.player.repeatProgress", {
-              current: currentRepeat,
-              total: repeatCount,
+                  <div className={styles.segmentTextSmall}>
+                    <GrammarHighlightedText
+                      text={segment.text}
+                      highlightMode={highlightMode}
+                      showFurigana={showFurigana}
+                      onWordClick={(word, e) => {
+                        e.stopPropagation();
+                        handleWordTap(word, segment.text);
+                      }}
+                    />
+                  </div>
+                </div>
+              );
             })}
-          </span>
+          </div>
+        </div>
+
+
+        {/* URL Input Form - Card Style */}
+        {!segments.length && (
+          <form className={styles.controls} onSubmit={handleSubmit}>
+            <div className={styles.loadVideoCard}>
+              <div className={styles.loadVideoHeader}>
+                <div className={styles.loadVideoIcon}>
+                  <Play className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className={styles.loadVideoTitle}>{t('youtubeShadowing.form.cardTitle')}</h3>
+                  <p className={styles.loadVideoSubtitle}>{t('youtubeShadowing.form.cardSubtitle')}</p>
+                </div>
+              </div>
+              <div className={styles.urlRow}>
+                <div className={styles.inputWrapper}>
+                  <Link className={`w-4 h-4 ${styles.inputIcon}`} />
+                  <input
+                    id="video"
+                    name="video"
+                    className={styles.urlInput}
+                    placeholder={t('youtubeShadowing.form.videoPlaceholder')}
+                    value={videoInput}
+                    onChange={(e) => setVideoInput(e.target.value)}
+                  />
+                </div>
+                <button
+                  className={styles.loadButton}
+                  type="submit"
+                  disabled={loadingTranscript}
+                >
+                  {loadingTranscript ? (
+                    <span className={styles.loadingSpinner} />
+                  ) : (
+                    t('youtubeShadowing.form.loadButton')
+                  )}
+                </button>
+              </div>
+              {(error || status) && (
+                <div className={styles.statusBar}>
+                  {error ? <span className={styles.error}>{error}</span> : <span className={styles.status}>{status}</span>}
+                </div>
+              )}
+            </div>
+          </form>
+        )}
+      </main>
+
+      {/* Sticky Bottom Control Bar */}
+      {segments.length > 0 && (
+        <div className={styles.bottomControlBar}>
+          <div className={styles.controlBarInner}>
+
+            {/* Previous / Replay */}
+            <button
+              className={styles.controlBtn}
+              onClick={() => seekToSegment(Math.max(0, currentSegmentIndex - 1))}
+            >
+              <ChevronDown className="w-6 h-6 rotate-90" /> {/* Left Icon */}
+              <span className="text-[10px] uppercase font-bold mt-1">Prev</span>
+            </button>
+
+            {/* Play/Pause - Prominent */}
+            <button
+              className={styles.playBtnLarge}
+              onClick={() => {
+                const player = playerRef.current;
+                if (!player) return;
+                // If currently playing (state is true), we pause. Otherwise play.
+                isPlaying ? player.pauseVideo() : player.playVideo();
+              }}
+            >
+              {isPlaying ? (
+                <PauseIcon className="w-8 h-8 text-white" />
+              ) : (
+                <PlayIcon className="w-8 h-8 text-white ml-1" />
+              )}
+            </button>
+
+            {/* Next */}
+            <button
+              className={styles.controlBtn}
+              onClick={() => seekToSegment(Math.min(segments.length - 1, currentSegmentIndex + 1))}
+            >
+              <ChevronDown className="w-6 h-6 -rotate-90" /> {/* Right Icon */}
+              <span className="text-[10px] uppercase font-bold mt-1">Next</span>
+            </button>
+
+
+            {/* Settings Toggle */}
+            <button
+              className={styles.controlBtn}
+              onClick={() => setSettingsModalOpen(true)}
+            >
+              <Settings className="w-6 h-6" />
+              <span className="text-[10px] uppercase font-bold mt-1">Settings</span>
+            </button>
+
+          </div>
         </div>
       )}
 
-      {/* Settings Modal */}
+      {/* Settings Modal (Unchanged) */}
       <Modal
         isOpen={settingsModalOpen}
         onClose={() => setSettingsModalOpen(false)}
@@ -653,8 +754,25 @@ export default function YouTubeShadowingPage() {
         size="sm"
       >
         <div className="space-y-4">
-          {/* Repeat Count */}
-          <div className="py-3 border-b border-gray-200 dark:border-dark-700">
+          {/* Video Loop Toggle */}
+          <div className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-dark-700">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <RefreshCw className="w-4 h-4 text-primary-500" />
+              {t("youtubeShadowing.settings.videoLoop")}
+            </label>
+            <button
+              onClick={() => setVideoLoopEnabled(!videoLoopEnabled)}
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${videoLoopEnabled
+                ? "bg-primary-500 text-white"
+                : "bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
+                }`}
+            >
+              {videoLoopEnabled ? "On" : "Off"}
+            </button>
+          </div>
+
+          {/* Repeat Count - disabled when video loop is on */}
+          <div className={`py-3 border-b border-gray-200 dark:border-dark-700 ${videoLoopEnabled ? "opacity-50" : ""}`}>
             <div className="flex items-center justify-between mb-3">
               <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
                 <Repeat className="w-4 h-4 text-primary-500" />
@@ -668,12 +786,14 @@ export default function YouTubeShadowingPage() {
               max={10}
               value={repeatCount}
               onChange={(e) => handleRepeatChange(Number(e.target.value))}
-              className="w-full h-2 bg-gray-200 dark:bg-dark-600 rounded-lg appearance-none cursor-pointer accent-primary-500"
+              disabled={videoLoopEnabled}
+              className="w-full h-2 bg-gray-200 dark:bg-dark-600 rounded-lg appearance-none cursor-pointer accent-primary-500 disabled:cursor-not-allowed"
             />
-            <div className="flex justify-between text-xs text-gray-400 dark:text-gray-500 mt-1">
-              <span>1x</span>
-              <span>10x</span>
-            </div>
+            {videoLoopEnabled && (
+              <p className="text-xs text-gray-400 mt-2 italic">
+                {t("youtubeShadowing.settings.repeatDisabledByLoop")}
+              </p>
+            )}
           </div>
 
           {/* Furigana Toggle */}
@@ -684,18 +804,34 @@ export default function YouTubeShadowingPage() {
             </label>
             <button
               onClick={() => setShowFurigana(!showFurigana)}
-              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${
-                showFurigana
-                  ? "bg-primary-500 text-white"
-                  : "bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
-              }`}
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${showFurigana
+                ? "bg-primary-500 text-white"
+                : "bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
+                }`}
             >
               {showFurigana ? "On" : "Off"}
             </button>
           </div>
 
-          {/* Grammar Highlight */}
+          {/* Translation Toggle */}
           <div className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-dark-700">
+            <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+              <Languages className="w-4 h-4 text-primary-500" />
+              {t("youtubeShadowing.settings.translation")}
+            </label>
+            <button
+              onClick={() => setShowTranslation(!showTranslation)}
+              className={`px-4 py-1.5 rounded-lg text-sm font-medium transition-all ${showTranslation
+                ? "bg-primary-500 text-white"
+                : "bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
+                }`}
+            >
+              {showTranslation ? "On" : "Off"}
+            </button>
+          </div>
+
+          {/* Highlight Mode */}
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 py-3 border-b border-gray-200 dark:border-dark-700">
             <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
               <Highlighter className="w-4 h-4 text-primary-500" />
               {t("youtubeShadowing.settings.highlighting")}
@@ -714,27 +850,22 @@ export default function YouTubeShadowingPage() {
           </div>
 
           {/* Clear Session */}
-          {segments.length > 0 && (
-            <div className="flex items-center justify-between py-3">
-              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
-                <Trash2 className="w-4 h-4 text-red-500" />
-                {t("youtubeShadowing.settings.clearSession")}
-              </label>
-              <button
-                onClick={() => {
-                  clearSession();
-                  setSettingsModalOpen(false);
-                }}
-                className="px-4 py-1.5 rounded-lg text-sm font-medium bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/50 transition-colors"
-              >
-                {t("youtubeShadowing.settings.clearButton")}
-              </button>
-            </div>
-          )}
+          <div className="flex items-center justify-between py-3">
+            <button
+              onClick={() => {
+                clearSession();
+                setSettingsModalOpen(false);
+              }}
+              className="w-full py-2 rounded-lg text-sm font-medium bg-red-50 text-red-600 hover:bg-red-100 transition-colors flex items-center justify-center gap-2"
+            >
+              <Trash2 className="w-4 h-4" />
+              {t("youtubeShadowing.settings.clearSession")}
+            </button>
+          </div>
         </div>
       </Modal>
 
-      {/* Word Explanation Modal */}
+      {/* Word Explanation Modal (Unchanged) */}
       <WordExplanationModal
         isOpen={wordModalOpen}
         onClose={handleCloseWordModal}
@@ -748,7 +879,6 @@ export default function YouTubeShadowingPage() {
         onWordLookup={(word) => handleWordTap(word, wordContext || "")}
       />
       <MobileNavSpacer />
-      </main>
     </div>
   );
 }

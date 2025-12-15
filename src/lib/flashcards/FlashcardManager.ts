@@ -1334,6 +1334,38 @@ export class FlashcardManager {
       }
     }
   }
+
+  /**
+   * Sync server-fetched decks to IndexedDB for offline support.
+   * Called when premium user's decks are loaded via SSR.
+   */
+  async syncDecksToIndexedDB(decks: FlashcardDeck[], userId: string): Promise<void> {
+    if (!decks || decks.length === 0) return
+
+    try {
+      const db = await this.initDB()
+
+      console.log('[FlashcardManager.syncDecksToIndexedDB] Syncing', decks.length, 'decks to IndexedDB')
+
+      // Use a transaction for atomic updates
+      const tx = db.transaction('decks', 'readwrite')
+
+      for (const deck of decks) {
+        // Ensure the deck belongs to this user
+        if (deck.userId === userId) {
+          await tx.store.put(deck)
+        }
+      }
+
+      await tx.done
+
+      console.log('[FlashcardManager.syncDecksToIndexedDB] Sync complete')
+      this.notifyListeners('decks-changed')
+    } catch (error) {
+      console.error('[FlashcardManager.syncDecksToIndexedDB] Failed:', error)
+      // Don't throw - this is a background sync operation
+    }
+  }
 }
 
 // Export singleton instance

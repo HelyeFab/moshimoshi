@@ -6,8 +6,12 @@ export function extractVideoId(input: string): string | null {
     return trimmed;
   }
 
+  // Support music.youtube.com, youtu.be, shorts, embed, mobile, and extra query params
   const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/,
+    /(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:music\.)?youtube\.com\/watch\?.*v=([a-zA-Z0-9_-]{11})/,
+    /(?:https?:\/\/)?(?:www\.)?(?:m\.)?youtu\.be\/([a-zA-Z0-9_-]{11})/,
+    /(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:music\.)?youtube\.com\/embed\/([a-zA-Z0-9_-]{11})/,
+    /(?:https?:\/\/)?(?:www\.)?(?:m\.)?(?:music\.)?youtube\.com\/shorts\/([a-zA-Z0-9_-]{11})/,
   ];
 
   for (const pattern of patterns) {

@@ -2609,6 +2609,8 @@ export const strings = {
     },
 
     form: {
+      cardTitle: '動画を読み込む',
+      cardSubtitle: 'YouTube URLを貼り付けてシャドーイングを開始',
       videoLabel: 'YouTube URLまたはID',
       videoPlaceholder: 'https://youtu.be/VIDEO_ID',
       languageLabel: '言語',
@@ -2630,7 +2632,10 @@ export const strings = {
 
     settings: {
       title: '設定',
+      videoLoop: '動画ループ',
+      repeatDisabledByLoop: '動画ループが有効な時、セグメントリピートは無効です',
       furigana: 'ふりがな',
+      translation: '英語翻訳',
       highlighting: '文法ハイライト',
       noHighlighting: 'ハイライトなし',
       contentWords: '内容語',

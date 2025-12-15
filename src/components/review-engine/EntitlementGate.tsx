@@ -1,3 +1,5 @@
+'use client'
+
 /**
  * Integration component to gate review sessions with entitlements
  */

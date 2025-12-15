@@ -71,11 +71,43 @@ class KuromojiService {
   private readonly CACHE_TTL = 5 * 60 * 1000 // 5 minutes
   private cacheTimestamps: Map<string, number> = new Map()
 
+  // Request queue for concurrency limiting
+  private requestQueue: Array<() => Promise<void>> = []
+  private activeRequests = 0
+  private readonly MAX_CONCURRENT_REQUESTS = 3 // Limit parallel API calls
+
   private constructor() {
     // Clean up expired cache entries every minute
     if (typeof setInterval !== 'undefined') {
       setInterval(() => this.cleanExpiredCache(), 60000)
     }
+  }
+
+  private processQueue(): void {
+    while (this.requestQueue.length > 0 && this.activeRequests < this.MAX_CONCURRENT_REQUESTS) {
+      const nextRequest = this.requestQueue.shift()
+      if (nextRequest) {
+        this.activeRequests++
+        nextRequest().finally(() => {
+          this.activeRequests--
+          this.processQueue()
+        })
+      }
+    }
+  }
+
+  private enqueueRequest<T>(fn: () => Promise<T>): Promise<T> {
+    return new Promise((resolve, reject) => {
+      this.requestQueue.push(async () => {
+        try {
+          const result = await fn()
+          resolve(result)
+        } catch (error) {
+          reject(error)
+        }
+      })
+      this.processQueue()
+    })
   }
 
   static getInstance(): KuromojiService {
@@ -145,67 +177,70 @@ class KuromojiService {
   }
 
   private async performTokenization(text: string, cacheKey: string): Promise<TokenWithHighlight[]> {
-    try {
-      // Call the furigana API which uses kuromoji for tokenization
-      const response = await fetch('/api/furigana/tokenize', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
-        // Add timeout and signal to prevent hanging requests
-        signal: AbortSignal.timeout(5000), // 5 second timeout
-      })
-
-      if (!response.ok) {
-        // If rate limited, use fallback immediately
-        if (response.status === 429) {
-          console.debug('[KuromojiService] Rate limited, using fallback tokenization')
-          return this.fallbackTokenize(text)
-        }
-        // 499 = Client Closed Request - this is expected when toggling rapidly
-        if (response.status === 499) {
-          return this.fallbackTokenize(text)
-        }
-        // For other errors, also use fallback
-        return this.fallbackTokenize(text)
-      }
-
-      const data = await response.json()
-      if (data.tokens) {
-        // Map the API tokens to our format with highlighting
-        return data.tokens.map((token: any) => {
-          const englishPos = POS_MAPPING[token.pos] || 'other'
-          return {
-            ...token,
-            highlightClass: `pos-${englishPos}`,
-            color: POS_COLORS[englishPos],
-          } as TokenWithHighlight
+    // Use request queue to limit concurrent API calls
+    return this.enqueueRequest(async () => {
+      try {
+        // Call the furigana API which uses kuromoji for tokenization
+        const response = await fetch('/api/furigana/tokenize', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+          // Increased timeout to 15 seconds to handle queued requests
+          signal: AbortSignal.timeout(15000),
         })
+
+        if (!response.ok) {
+          // If rate limited, use fallback immediately
+          if (response.status === 429) {
+            console.debug('[KuromojiService] Rate limited, using fallback tokenization')
+            return this.fallbackTokenize(text)
+          }
+          // 499 = Client Closed Request - this is expected when toggling rapidly
+          if (response.status === 499) {
+            return this.fallbackTokenize(text)
+          }
+          // For other errors, also use fallback
+          return this.fallbackTokenize(text)
+        }
+
+        const data = await response.json()
+        if (data.tokens) {
+          // Map the API tokens to our format with highlighting
+          return data.tokens.map((token: any) => {
+            const englishPos = POS_MAPPING[token.pos] || 'other'
+            return {
+              ...token,
+              highlightClass: `pos-${englishPos}`,
+              color: POS_COLORS[englishPos],
+            } as TokenWithHighlight
+          })
+        }
+      } catch (error) {
+        // Silently fall back to client-side tokenization
+        // This handles:
+        // - Network errors (too many parallel requests)
+        // - Timeouts (slow response due to server load)
+        // - Aborted requests (component unmounted)
+        // - ECONNRESET (server closed connection)
+        // No need to log - this is expected behavior under high load
+
+        // Don't log AbortError, TimeoutError, or ECONNRESET - these are expected
+        const isExpectedError =
+          error instanceof Error &&
+          (error.name === 'AbortError' ||
+            error.name === 'TimeoutError' ||
+            error.message === 'aborted' ||
+            (error as any).code === 'ECONNRESET')
+
+        if (!isExpectedError && error instanceof Error) {
+          // Only log truly unexpected errors
+          console.debug('Tokenization API unavailable, using fallback:', error.message)
+        }
       }
-    } catch (error) {
-      // Silently fall back to client-side tokenization
-      // This handles:
-      // - Network errors (too many parallel requests)
-      // - Timeouts (slow response due to server load)
-      // - Aborted requests (component unmounted)
-      // - ECONNRESET (server closed connection)
-      // No need to log - this is expected behavior under high load
 
-      // Don't log AbortError, TimeoutError, or ECONNRESET - these are expected
-      const isExpectedError =
-        error instanceof Error &&
-        (error.name === 'AbortError' ||
-         error.name === 'TimeoutError' ||
-         error.message === 'aborted' ||
-         (error as any).code === 'ECONNRESET')
-
-      if (!isExpectedError && error instanceof Error) {
-        // Only log truly unexpected errors
-        console.debug('Tokenization API unavailable, using fallback:', error.message)
-      }
-    }
-
-    // If all else fails, use fallback
-    return this.fallbackTokenize(text)
+      // If all else fails, use fallback
+      return this.fallbackTokenize(text)
+    })
   }
 
   private fallbackTokenize(text: string): TokenWithHighlight[] {
