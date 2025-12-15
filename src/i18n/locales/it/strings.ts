@@ -564,13 +564,39 @@ export const strings = {
       evening: 'Buonasera',
     },
     stats: {
-      streak: 'Serie',
+      streak: 'Slancio',
       days: 'giorni',
       xpEarned: 'XP Guadagnati',
       points: 'punti',
       progress: 'Progresso',
       achievements: 'Risultati',
       recent: 'recenti',
+      xpTooltip: {
+        title: 'Punti Esperienza (XP)',
+        streakRequirement: 'Guadagna {minXP} XP al giorno per mantenere il tuo slancio!',
+        howToEarn: 'Come guadagnare XP:',
+        activities: [
+          'Completa esercizi e sessioni di carte',
+          'Pratica esercizi di padronanza dei kanji',
+          'Guarda video di shadowing su YouTube',
+          'Leggi storie o fumetti',
+          'Si applicano bonus per precisione e velocità',
+        ],
+      },
+      levelTooltip: {
+        title: 'Il Tuo Livello',
+        description: 'Sali di livello guadagnando XP. Ogni livello richiede 100 XP.',
+      },
+      streakTooltip: {
+        title: 'Slancio Giornaliero',
+        description: 'Continua a imparare ogni giorno per mantenere il tuo slancio! Guadagna {minXP} XP ogni giorno.',
+        activeToday: "Hai raggiunto l'obiettivo di oggi!",
+      },
+      gamification: {
+        streak: {
+          current: '{{count}} giorni di serie',
+        },
+      },
     },
     greetings: {
       morning: {

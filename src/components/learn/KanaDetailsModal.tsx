@@ -8,6 +8,7 @@ import { KanaCharacter, playKanaAudio } from '@/data/kanaData'
 import { kanjiService } from '@/services/kanjiService'
 import { LoadingSpinner } from '@/components/ui/Loading'
 import { motion } from 'framer-motion'
+import { useFeature } from '@/hooks/useFeature'
 
 interface KanaDetailsModalProps {
   character: KanaCharacter | null
@@ -26,6 +27,7 @@ export default function KanaDetailsModal({
   const [showDrawingPractice, setShowDrawingPractice] = useState(false)
   const [strokeCount, setStrokeCount] = useState<number | null>(null)
   const [loadingStrokes, setLoadingStrokes] = useState(false)
+  const { checkAndTrack: checkDrawingEntitlement } = useFeature('drawing_practice')
 
   const currentChar = character ? (displayScript === 'hiragana' ? character.hiragana : character.katakana) : ''
   const alternateChar = character ? (displayScript === 'hiragana' ? character.katakana : character.hiragana) : ''
@@ -114,7 +116,10 @@ export default function KanaDetailsModal({
                 </button>
               ) : null}
               <button
-                onClick={() => setShowDrawingPractice(true)}
+                onClick={async () => {
+                  const allowed = await checkDrawingEntitlement().catch(() => false)
+                  if (allowed) setShowDrawingPractice(true)
+                }}
                 className="px-3 py-1.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base whitespace-nowrap"
                 title="Practice drawing"
               >

@@ -540,6 +540,32 @@ export const strings = {
         label: 'Logros',
         unit: 'recientes',
       },
+      xpTooltip: {
+        title: 'Puntos de Experiencia (XP)',
+        streakRequirement: '¡Gana {minXP} XP diarios para mantener tu racha!',
+        howToEarn: 'Cómo ganar XP:',
+        activities: [
+          'Completa ejercicios y sesiones de tarjetas',
+          'Practica ejercicios de dominio de kanji',
+          'Mira videos de shadowing en YouTube',
+          'Lee historias o comics',
+          'Se aplican bonificaciones por precisión y velocidad',
+        ],
+      },
+      levelTooltip: {
+        title: 'Tu Nivel',
+        description: 'Sube de nivel ganando XP. Cada nivel requiere 100 XP.',
+      },
+      streakTooltip: {
+        title: 'Racha Diaria',
+        description: '¡Sigue aprendiendo diariamente para mantener tu racha! Gana {minXP} XP cada día.',
+        activeToday: '¡Has cumplido la meta de hoy!',
+      },
+      gamification: {
+        streak: {
+          current: '{{count}} días de racha',
+        },
+      },
     },
     greetings: {
       morning: {

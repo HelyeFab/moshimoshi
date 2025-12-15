@@ -218,6 +218,7 @@ function DashboardContent() {
                 : null,
               isActiveToday: deadlineInfo?.isActiveToday || false,
               gamificationEnabled,
+              minXPForStreak: 150, // From streak config: src/config/gamification/streak.json
             }}
           />
         </div>

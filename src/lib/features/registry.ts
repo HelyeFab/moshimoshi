@@ -371,6 +371,16 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     notifications: false,
     description: 'Browse and explore Japanese vocabulary',
   },
+  drawing_practice: {
+    id: 'drawing_practice',
+    name: 'Drawing Practice',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Practice handwriting for kanji and kana with stroke feedback and recognition',
+  },
   comics: {
     id: 'comics',
     name: 'Moshi Comics',

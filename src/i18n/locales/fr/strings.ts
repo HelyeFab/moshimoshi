@@ -1077,6 +1077,32 @@ export const strings = {
       progress: 'Progression',
       achievements: 'Succès',
       recent: 'récent',
+      xpTooltip: {
+        title: "Points d'Expérience (XP)",
+        streakRequirement: 'Gagnez {minXP} XP par jour pour maintenir votre série !',
+        howToEarn: 'Comment gagner des XP :',
+        activities: [
+          'Complétez des exercices et sessions de cartes',
+          'Pratiquez des exercices de maîtrise des kanji',
+          'Regardez des vidéos de shadowing YouTube',
+          'Lisez des histoires ou des bandes dessinées',
+          'Des bonus de précision et de vitesse sont appliqués',
+        ],
+      },
+      levelTooltip: {
+        title: 'Votre Niveau',
+        description: 'Montez de niveau en gagnant des XP. Chaque niveau nécessite 100 XP.',
+      },
+      streakTooltip: {
+        title: 'Série Quotidienne',
+        description: 'Continuez à apprendre quotidiennement pour maintenir votre série ! Gagnez {minXP} XP chaque jour.',
+        activeToday: "Vous avez atteint l'objectif d'aujourd'hui !",
+      },
+      gamification: {
+        streak: {
+          current: '{{count}} jours de série',
+        },
+      },
     },
     villageHeader: {
       welcomeTo: 'BIENVENUE AU',

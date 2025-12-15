@@ -89,6 +89,17 @@ export const STALL_IDS = [
 
 export type StallId = (typeof STALL_IDS)[number]
 
+// High-level district grouping (used for personalization and layout ordering)
+export type DistrictId = 'foundation' | 'study' | 'immersion' | 'play' | 'community'
+
+export const DEFAULT_DISTRICT_ORDER: DistrictId[] = [
+  'foundation',
+  'study',
+  'immersion',
+  'play',
+  'community',
+]
+
 /**
  * Configuration for a single stall
  */

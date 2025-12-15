@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-12-13T16:23:04.508Z
+ * Generated at: 2025-12-15T13:45:31.900Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -25,6 +25,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "kanji_browser": 0,
           "kanji_connection": 0,
           "kanji_mastery": 0,
+          "drawing_practice": 0,
           "conjugation_drill": 0,
           "grammar_explanations": 0,
           "youtube_shadowing": 0,
@@ -56,7 +57,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "custom_lists": 0,
           "save_items": 0,
           "todos": 0,
-          "flashcard_decks": 0
+          "flashcard_decks": 0,
+          "anki_imports": 0
     }
   },
   "free": {
@@ -66,6 +68,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "kanji_browser": 5,
           "kanji_connection": 0,
           "kanji_mastery": 5,
+          "drawing_practice": 0,
           "conjugation_drill": 5,
           "grammar_explanations": 3,
           "youtube_shadowing": 3,
@@ -97,7 +100,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "custom_lists": 3,
           "save_items": 50,
           "todos": 100,
-          "flashcard_decks": 0
+          "flashcard_decks": 0,
+          "anki_imports": 0
     }
   },
   "premium_monthly": {
@@ -107,6 +111,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "kanji_browser": -1,
           "kanji_connection": -1,
           "kanji_mastery": -1,
+          "drawing_practice": -1,
           "conjugation_drill": -1,
           "grammar_explanations": -1,
           "youtube_shadowing": 20,
@@ -138,7 +143,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "custom_lists": -1,
           "save_items": -1,
           "todos": -1,
-          "flashcard_decks": -1
+          "flashcard_decks": 15,
+          "anki_imports": 15
     }
   },
   "premium_yearly": {
@@ -148,6 +154,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "kanji_browser": -1,
           "kanji_connection": -1,
           "kanji_mastery": -1,
+          "drawing_practice": -1,
           "conjugation_drill": -1,
           "grammar_explanations": -1,
           "youtube_shadowing": 20,
@@ -179,7 +186,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "custom_lists": -1,
           "save_items": -1,
           "todos": -1,
-          "flashcard_decks": -1
+          "flashcard_decks": 15,
+          "anki_imports": 15
     }
   }
 };

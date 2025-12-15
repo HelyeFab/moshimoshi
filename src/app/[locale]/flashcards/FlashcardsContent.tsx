@@ -41,6 +41,61 @@ interface FlashcardsContentProps {
   initialData: FlashcardsInitialData
 }
 
+// Helper to normalize Anki cards to FlashcardContent format
+// Anki cards have front/back as strings, FlashcardContent needs them as CardSide objects
+// This mirrors FlashcardManager.normalizeAnkiCard() but is synchronous for initial state
+function normalizeDecksFromServer(decks: FlashcardDeck[]): FlashcardDeck[] {
+  return decks.map((deck: any) => {
+    if (deck.source === 'anki' && deck.cards?.length > 0) {
+      return {
+        ...deck,
+        cards: deck.cards.map((card: any) => {
+          // Skip if already normalized
+          if (card.front && typeof card.front === 'object' && 'text' in card.front) {
+            return card
+          }
+
+          // Don't use blob URLs as they expire - media must be hydrated from IndexedDB using filenames
+          const hasValidImageUrl = card.imageUrl && !card.imageUrl.startsWith('blob:')
+          const hasValidAudioUrl = card.audioUrl && !card.audioUrl.startsWith('blob:')
+
+          // Normalize Anki card to FlashcardContent format
+          const expression = card.front || card.expression || ''
+          const reading = card.reading || ''
+          const meaning = card.back || card.meaning || ''
+
+          return {
+            id: card.id,
+            front: {
+              text: expression,
+              subtext: reading || undefined,
+              media: hasValidImageUrl ? { type: 'image' as const, url: card.imageUrl } : undefined,
+            },
+            back: {
+              text: expression,  // Japanese word first (prominent)
+              subtext: meaning,  // English meaning below
+              media: hasValidAudioUrl ? { type: 'audio' as const, url: card.audioUrl } : undefined,
+            },
+            metadata: {
+              status: card.metadata?.status || 'new',
+              reading,
+              meaning,
+              // Store filenames for later hydration from IndexedDB
+              audioFilename: card.audioFilename,
+              imageFilename: card.imageFilename,
+              audioUrl: hasValidAudioUrl ? card.audioUrl : undefined,
+              imageUrl: hasValidImageUrl ? card.imageUrl : undefined,
+              tags: card.tags,
+              ...(card.metadata || {}),
+            },
+          }
+        })
+      }
+    }
+    return deck
+  })
+}
+
 export default function FlashcardsContent({ initialData }: FlashcardsContentProps) {
   const { t } = useI18n()
   const router = useRouter()
@@ -48,7 +103,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const { showToast } = useToast()
 
   // Initialize state with server data for premium users
-  const [decks, setDecks] = useState<FlashcardDeck[]>(initialData.decks)
+  // Normalize Anki decks to ensure cards have correct FlashcardContent structure
+  const [decks, setDecks] = useState<FlashcardDeck[]>(() => normalizeDecksFromServer(initialData.decks))
   const [sessions, setSessions] = useState<SessionStats[]>(initialData.sessions)
   const [userLists, setUserLists] = useState<UserList[]>([])
 
@@ -96,6 +152,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   })
 
   // Sync server data to IndexedDB for offline support (premium users)
+  // Then reload decks with hydrated media from IndexedDB
   const syncServerDataToIndexedDB = useCallback(async () => {
     if (!initialData.isPremium || !initialData.userId || initialSyncDone.current) return
     if (initialData.decks.length === 0) return
@@ -105,6 +162,17 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
     try {
       await flashcardManager.syncDecksToIndexedDB(initialData.decks, initialData.userId)
+
+      // After sync, reload decks via getDecks which will hydrate media from IndexedDB
+      // This is necessary because server URLs might be expired blob URLs
+      const hasAnkiDecks = initialData.decks.some((d: any) => d.source === 'anki')
+      if (hasAnkiDecks) {
+        console.log('[FlashcardsContent] Reloading decks with hydrated media')
+        const hydratedDecks = await flashcardManager.getDecks(initialData.userId, initialData.isPremium)
+        if (hydratedDecks.length > 0) {
+          setDecks(hydratedDecks)
+        }
+      }
     } catch (error) {
       console.error('[FlashcardsContent] Failed to sync to IndexedDB:', error)
     }

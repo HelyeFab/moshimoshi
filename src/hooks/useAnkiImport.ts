@@ -32,7 +32,31 @@ export function useAnkiImport(options?: UseAnkiImportOptions) {
 
     setIsLoadingDecks(true);
     try {
+      console.log('[useAnkiImport] Loading decks for user:', userId, 'isPremium:', isPremium);
       const decks = await ankiDeckManager.getDecks(userId, isPremium);
+
+      // Debug: Log deck structure to help diagnose blank cards
+      if (decks.length > 0) {
+        const firstDeck = decks[0];
+        console.log('[useAnkiImport] First deck loaded:', {
+          id: firstDeck.id,
+          name: firstDeck.name,
+          cardCount: firstDeck.cardCount,
+          actualCardsLength: firstDeck.cards?.length,
+          hasCards: !!firstDeck.cards && firstDeck.cards.length > 0,
+          firstCard: firstDeck.cards?.[0] ? {
+            id: firstDeck.cards[0].id,
+            hasFront: !!firstDeck.cards[0].front,
+            hasBack: !!firstDeck.cards[0].back,
+            front: firstDeck.cards[0].front?.substring?.(0, 30),
+            back: firstDeck.cards[0].back?.substring?.(0, 30),
+            keys: Object.keys(firstDeck.cards[0]).slice(0, 10),
+          } : 'no cards',
+        });
+      } else {
+        console.log('[useAnkiImport] No decks found');
+      }
+
       setSavedDecks(decks);
     } catch (error) {
       console.error('[useAnkiImport] Failed to load decks:', error);

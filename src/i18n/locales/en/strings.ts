@@ -2359,6 +2359,27 @@ export const strings = {
       progress: 'Progress',
       achievements: 'Achievements',
       recent: 'recent',
+      xpTooltip: {
+        title: 'Experience Points (XP)',
+        streakRequirement: 'Earn {minXP} XP daily to maintain your streak!',
+        howToEarn: 'How to earn XP:',
+        activities: [
+          'Complete drills and flashcard sessions',
+          'Practice kanji mastery exercises',
+          'Watch YouTube shadowing videos',
+          'Read stories or comics',
+          'Accuracy and speed bonuses apply',
+        ],
+      },
+      levelTooltip: {
+        title: 'Your Level',
+        description: 'Level up by earning XP. Each level requires 100 XP.',
+      },
+      streakTooltip: {
+        title: 'Daily Streak',
+        description: 'Keep learning daily to maintain your streak! Earn {minXP} XP each day.',
+        activeToday: 'You\'ve met today\'s goal!',
+      },
     },
     buyMeACoffee: 'Buy me a coffee',
     villageHeader: {

@@ -48,18 +48,25 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
 
   // Calculate card counts for each mode
   const now = Date.now();
-  const allDueCards = deck.cards.filter(card => {
+
+  // Review cards: cards that have been studied before and are due for review
+  const allReviewCards = deck.cards.filter(card => {
     if (!card.metadata?.status || card.metadata.status === 'new') return false;
     return card.metadata.nextReview && card.metadata.nextReview <= now;
   });
 
+  // New cards: cards that haven't been studied yet
   const allNewCards = deck.cards.filter(card =>
     !card.metadata?.status || card.metadata.status === 'new'
   );
 
   // Apply daily limits
-  const dueCards = allDueCards.slice(0, reviewsPerDay);
+  const reviewCards = allReviewCards.slice(0, reviewsPerDay);
   const newCards = allNewCards.slice(0, newCardsPerDay);
+
+  // "Due" for study today = new cards (up to daily limit) + review cards (up to daily limit)
+  // This matches what DeckGrid shows in the "due" badge
+  const dueCards = [...newCards, ...reviewCards];
 
   const weakCards = deck.cards.filter(card => {
     if (!card.metadata) return false;
@@ -140,14 +147,13 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
 
     switch (mode) {
       case 'due':
-        // Due reviews + some new cards (respecting daily limit)
-        const newCardsToAdd = Math.min(5, newCardsPerDay);
-        cards = [...dueCards, ...newCards.slice(0, newCardsToAdd)];
+        // Due cards = new cards + review cards (already combined with daily limits applied)
+        cards = [...dueCards];
         break;
 
       case 'new':
-        // New cards limited by daily setting
-        cards = newCards; // Already limited by newCardsPerDay
+        // New cards only (limited by daily setting)
+        cards = [...newCards];
         break;
 
       case 'all':
@@ -155,8 +161,8 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
         break;
 
       case 'cramming':
-        // High frequency review - uses ALL due + weak cards (ignores daily limits)
-        cards = [...allDueCards, ...weakCards].slice(0, 50);
+        // High frequency review - uses ALL review + weak cards (ignores daily limits)
+        cards = [...allReviewCards, ...weakCards].slice(0, 50);
         if (cards.length < 20) {
           cards.push(...deck.cards.slice(0, 20 - cards.length));
         }
@@ -171,8 +177,8 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
         // Focus on weak cards (ignores daily limits for fallback)
         cards = [...weakCards];
         if (cards.length < 10) {
-          // Add some due cards if not enough weak cards
-          cards.push(...allDueCards.slice(0, 10 - cards.length));
+          // Add some review cards if not enough weak cards
+          cards.push(...allReviewCards.slice(0, 10 - cards.length));
         }
         break;
 

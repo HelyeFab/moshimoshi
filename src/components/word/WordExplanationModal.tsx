@@ -105,6 +105,21 @@ export default function WordExplanationModal({
     [play]
   )
 
+  const handlePlayWord = useCallback(async () => {
+    if (explanation?.audioUrl) {
+      try {
+        const audio = new Audio(explanation.audioUrl)
+        await audio.play()
+        return
+      } catch (err) {
+        console.warn('Audio playback failed, falling back to TTS', err)
+      }
+    }
+    if (explanation?.word) {
+      await handlePlayExample(explanation.word)
+    }
+  }, [explanation?.audioUrl, explanation?.word, handlePlayExample])
+
   const handleRelatedWordClick = useCallback(
     (relatedWord: string) => {
       if (onWordLookup) {
@@ -423,7 +438,7 @@ export default function WordExplanationModal({
             {/* Action Buttons */}
             <div className="flex gap-2 items-center">
               <button
-                onClick={() => handlePlayExample(explanation.word)}
+                onClick={handlePlayWord}
                 className="p-2 rounded-full hover:bg-white/50 dark:hover:bg-black/20 transition-colors"
                 title="Play pronunciation"
               >
@@ -713,7 +728,7 @@ export default function WordExplanationModal({
         )}
 
         {/* Usage Notes */}
-        {explanation.usageNotes && (
+        {(explanation.usageNotes || explanation.contextSentence || explanation.contextTranslation) && (
           <div className="border border-gray-200 dark:border-gray-700 rounded-lg p-5">
             <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-3 flex items-center">
               <svg
@@ -727,11 +742,27 @@ export default function WordExplanationModal({
                   clipRule="evenodd"
                 />
               </svg>
-              Usage Notes
+              Usage Notes & Context
             </h4>
-            <p className="text-gray-700 dark:text-gray-300 leading-relaxed">
-              {explanation.usageNotes}
-            </p>
+            {explanation.usageNotes && (
+              <p className="text-gray-700 dark:text-gray-300 leading-relaxed mb-3">
+                {explanation.usageNotes}
+              </p>
+            )}
+            {(explanation.contextSentence || explanation.contextTranslation) && (
+              <div className="space-y-1">
+                {explanation.contextSentence && (
+                  <p className="text-sm text-gray-900 dark:text-gray-100">
+                    {explanation.contextSentence}
+                  </p>
+                )}
+                {explanation.contextTranslation && (
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {explanation.contextTranslation}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
         )}
 

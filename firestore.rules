@@ -285,6 +285,19 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // Learning Village layout (per-user district/stall order)
+    match /users/{userId}/villageLayout/{document} {
+      // Users can read their own layout
+      allow read: if isOwner(userId);
+
+      // Users can create or update their own layout
+      allow create: if isOwner(userId);
+      allow update: if isOwner(userId);
+
+      // Do not allow deletes (keep history/intact)
+      allow delete: if false;
+    }
+
     // Achievement data - Premium users can sync their achievements
     match /users/{userId}/achievements/{document} {
       // Users can read their own achievements

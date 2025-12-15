@@ -522,6 +522,32 @@ export const strings = {
         label: '学習時間',
         unit: '時間',
       },
+      xpTooltip: {
+        title: '経験値（XP）',
+        streakRequirement: '連続記録を維持するには毎日{minXP} XPを獲得してください！',
+        howToEarn: 'XPの獲得方法：',
+        activities: [
+          'ドリルやフラッシュカードセッションを完了',
+          '漢字マスタリー演習を練習',
+          'YouTubeシャドーイング動画を視聴',
+          'ストーリーや漫画を読む',
+          '正確さとスピードボーナスあり',
+        ],
+      },
+      levelTooltip: {
+        title: 'あなたのレベル',
+        description: 'XPを獲得してレベルアップ。各レベルには100 XPが必要です。',
+      },
+      streakTooltip: {
+        title: '毎日の連続記録',
+        description: '毎日学習を続けて連続記録を維持！毎日{minXP} XPを獲得してください。',
+        activeToday: '今日の目標達成済み！',
+      },
+      gamification: {
+        streak: {
+          current: '{{count}}日連続',
+        },
+      },
     },
     greetings: {
       morning: {

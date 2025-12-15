@@ -11,9 +11,16 @@ import { useAnimationControl } from '@/components/ui/AnimationControl'
 import AnimationControl from '@/components/ui/AnimationControl'
 import Image from 'next/image'
 import { useLearningVillageConfig } from '@/hooks/useLearningVillageConfig'
-import { StallId, STALL_OFFLINE_SUPPORT, OfflineSupport } from '@/config/learning-village-types'
+import {
+  StallId,
+  STALL_OFFLINE_SUPPORT,
+  OfflineSupport,
+  DistrictId,
+  DEFAULT_DISTRICT_ORDER,
+} from '@/config/learning-village-types'
 import { ChevronDown, Wifi, WifiOff } from 'lucide-react'
 import { ReactNode } from 'react'
+import Tooltip from '@/components/ui/Tooltip'
 
 const stallImages = [
   '/ui/flat-icons/stalls/ceramics.png',
@@ -32,6 +39,26 @@ const stallImages = [
 ]
 
 const getRandomStallImage = () => stallImages[Math.floor(Math.random() * stallImages.length)]
+
+type OnboardingGoal = 'jlpt' | 'travel' | 'anime' | 'conversation'
+
+const GOAL_TO_PRIORITY: Partial<Record<OnboardingGoal, DistrictId>> = {
+  conversation: 'immersion',
+  anime: 'immersion',
+  travel: 'immersion',
+  jlpt: 'foundation',
+}
+
+function buildDistrictOrder(goal: OnboardingGoal | null): DistrictId[] {
+  const priority = goal ? GOAL_TO_PRIORITY[goal] : null
+  if (!priority) {
+    return DEFAULT_DISTRICT_ORDER
+  }
+
+  // Move the priority district to the front, keep others in baseline order
+  const rest = DEFAULT_DISTRICT_ORDER.filter(district => district !== priority)
+  return [priority, ...rest]
+}
 
 // Floating lantern component
 function FloatingLantern({ delay = 0, color = '#ef4444' }) {
@@ -443,6 +470,7 @@ interface WelcomeData {
   streakWarning: string | null
   isActiveToday: boolean
   gamificationEnabled: boolean
+  minXPForStreak?: number
 }
 
 interface LearningVillageProps {
@@ -455,24 +483,25 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
   const { strings } = useI18n()
   const animationsEnabled = useAnimationControl()
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'evening' | 'night'>('day')
+  const [districtOrder, setDistrictOrder] = useState<DistrictId[]>(DEFAULT_DISTRICT_ORDER)
 
   // Collapsed sections state for mobile (only applies to mobile view)
   // Default: ALL COLLAPSED (all category keys in the Set)
-  const [collapsedSections, setCollapsedSections] = useState<Set<string>>(() => {
+  const [collapsedSections, setCollapsedSections] = useState<Set<DistrictId>>(() => {
     // Load from localStorage on mount
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('learningVillageCollapsedSections')
       if (saved) {
         try {
-          return new Set(JSON.parse(saved))
+          return new Set(JSON.parse(saved) as DistrictId[])
         } catch {
           // If parsing fails, default to all collapsed
-          return new Set(['foundation', 'study', 'immersion', 'play', 'community'])
+          return new Set(DEFAULT_DISTRICT_ORDER)
         }
       }
     }
     // Default: all sections collapsed
-    return new Set(['foundation', 'study', 'immersion', 'play', 'community'])
+    return new Set(DEFAULT_DISTRICT_ORDER)
   })
 
   // Learning Village configuration from Firestore (real-time updates)
@@ -484,6 +513,83 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
     loading: configLoading,
     isOffline: configIsOffline,
   } = useLearningVillageConfig()
+
+  // Personalize district order based on onboarding goal; persist per-user
+  useEffect(() => {
+    let isCancelled = false
+
+    async function loadDistrictOrder() {
+      try {
+        let userOrder: DistrictId[] | null = null
+
+        // Try to load any saved layout first
+        try {
+          const layoutRes = await fetch('/api/user/village-layout', { cache: 'no-store' })
+          if (layoutRes.ok) {
+            const layoutData = await layoutRes.json()
+            const maybeOrder = layoutData?.data?.districtOrder as DistrictId[] | undefined
+            if (Array.isArray(maybeOrder) && maybeOrder.length > 0) {
+              const sanitized = maybeOrder.filter((district): district is DistrictId =>
+                (DEFAULT_DISTRICT_ORDER as readonly DistrictId[]).includes(district)
+              )
+              if (sanitized.length > 0) {
+                const unique = Array.from(new Set(sanitized)) as DistrictId[]
+                const completedOrder: DistrictId[] = [
+                  ...unique,
+                  ...DEFAULT_DISTRICT_ORDER.filter(d => !unique.includes(d)),
+                ]
+                userOrder = completedOrder
+              }
+            }
+          }
+        } catch (err) {
+          console.error('[LearningVillage] Failed to load saved district order', err)
+        }
+
+        let onboardingGoal: OnboardingGoal | null = null
+
+        // Only fetch onboarding if we need to derive a new order
+        if (!userOrder) {
+          try {
+            const onboardingRes = await fetch('/api/user/onboarding', { cache: 'no-store' })
+            if (onboardingRes.ok) {
+              const onboardingData = await onboardingRes.json()
+              onboardingGoal = (onboardingData?.data?.learningGoal as OnboardingGoal | undefined) ?? null
+            }
+          } catch (err) {
+            console.error('[LearningVillage] Failed to load onboarding data for personalization', err)
+          }
+        }
+
+        const nextOrder =
+          userOrder && userOrder.length > 0 ? userOrder : buildDistrictOrder(onboardingGoal)
+
+        if (!isCancelled) {
+          setDistrictOrder(nextOrder)
+        }
+
+        // Persist derived order when none existed yet
+        if (!userOrder) {
+          try {
+            await fetch('/api/user/village-layout', {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ districtOrder: nextOrder }),
+            })
+          } catch (err) {
+            console.error('[LearningVillage] Failed to persist district order', err)
+          }
+        }
+      } catch (err) {
+        console.error('[LearningVillage] Unexpected error determining district order', err)
+      }
+    }
+
+    loadDistrictOrder()
+    return () => {
+      isCancelled = true
+    }
+  }, [])
 
   // Track online/offline status for showing offline indicators
   const [isOnline, setIsOnline] = useState(true)
@@ -997,7 +1103,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
   }, [collapsedSections])
 
   // Toggle section collapse (mobile only)
-  const toggleSection = (sectionKey: string) => {
+  const toggleSection = (sectionKey: DistrictId) => {
     setCollapsedSections(prev => {
       const next = new Set(prev)
       if (next.has(sectionKey)) {
@@ -1010,7 +1116,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
   }
 
   // Define categories and their info for grouping
-  const stallCategories = useMemo(
+  const stallCategories = useMemo<Record<DistrictId, StallId[]>>(
     () => ({
       foundation: [
         'hiragana',
@@ -1019,8 +1125,8 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         'kanji-mastery',
         'kanji-connections',
         'conjugation',
-      ],
-      study: ['vocabulary', 'my-lists', 'textbook-vocab', 'flashcards', 'mood-boards', 'drill'],
+      ] as StallId[],
+      study: ['vocabulary', 'my-lists', 'textbook-vocab', 'flashcards', 'mood-boards', 'drill'] as StallId[],
       immersion: [
         'stories',
         'news',
@@ -1030,14 +1136,14 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         'popular-videos',
         'youtube-series',
         'my-videos',
-      ],
-      play: ['games', 'review-hub'],
-      community: ['achievements', 'leaderboard', 'resources', 'blog', 'todos'],
+      ] as StallId[],
+      play: ['games', 'review-hub'] as StallId[],
+      community: ['achievements', 'leaderboard', 'resources', 'blog', 'todos'] as StallId[],
     }),
     []
   )
 
-  const categoryInfo = useMemo(
+  const categoryInfo = useMemo<Record<DistrictId, { title: string; icon: string }>>(
     () => ({
       foundation: {
         title: (strings.dashboard as any)?.districts?.foundation || "Beginner's Plaza",
@@ -1061,6 +1167,11 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
       },
     }),
     [strings]
+  )
+
+  const districtEntries = useMemo(
+    () => districtOrder.map(district => [district, stallCategories[district]] as const),
+    [districtOrder, stallCategories]
   )
 
   // Dynamic sky gradient based on time and theme
@@ -1369,27 +1480,85 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
               {/* Level and XP row */}
               <div className="flex items-center justify-center gap-3">
                 {/* Level */}
-                <div className="flex items-center justify-center gap-2 w-24 py-2 rounded-xl bg-violet-500/80 text-white font-semibold text-sm shadow-lg">
-                  <span className="text-base">🏆</span>
-                  <span>Lv.{welcomeData.level}</span>
-                </div>
+                <Tooltip
+                  content={
+                    <div className="max-w-[200px] p-1">
+                      <div className="font-semibold mb-1">
+                        {(strings.dashboard as any)?.stats?.levelTooltip?.title || 'Your Level'}
+                      </div>
+                      <div className="text-xs opacity-90">
+                        {(strings.dashboard as any)?.stats?.levelTooltip?.description || 'Level up by earning XP. Each level requires 100 XP.'}
+                      </div>
+                    </div>
+                  }
+                  position="bottom"
+                >
+                  <div className="flex items-center justify-center gap-2 w-24 py-2 rounded-xl bg-violet-500/80 text-white font-semibold text-sm shadow-lg cursor-help">
+                    <span className="text-base">🏆</span>
+                    <span>Lv.{welcomeData.level}</span>
+                  </div>
+                </Tooltip>
 
                 {/* XP */}
-                <div className="flex items-center justify-center gap-2 w-24 py-2 rounded-xl bg-amber-500/80 text-white font-semibold text-sm shadow-lg">
-                  <span className="text-base">⚡</span>
-                  <span>{welcomeData.totalXP.toLocaleString()}</span>
-                </div>
+                <Tooltip
+                  content={
+                    <div className="max-w-[220px] p-1">
+                      <div className="font-semibold mb-1">
+                        {(strings.dashboard as any)?.stats?.xpTooltip?.title || 'Experience Points (XP)'}
+                      </div>
+                      <div className="text-xs opacity-90 mb-2">
+                        {((strings.dashboard as any)?.stats?.xpTooltip?.streakRequirement || 'Earn {minXP} XP daily to maintain your streak!').replace('{minXP}', String(welcomeData.minXPForStreak || 150))}
+                      </div>
+                      <div className="text-xs font-medium mb-1">
+                        {(strings.dashboard as any)?.stats?.xpTooltip?.howToEarn || 'How to earn XP:'}
+                      </div>
+                      <ul className="text-xs opacity-90 space-y-0.5">
+                        {((strings.dashboard as any)?.stats?.xpTooltip?.activities || [
+                          'Complete drills and flashcard sessions',
+                          'Practice kanji mastery exercises',
+                          'Watch YouTube shadowing videos',
+                          'Read stories or comics',
+                          'Accuracy and speed bonuses apply',
+                        ]).map((activity: string, idx: number) => (
+                          <li key={idx}>• {activity}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  }
+                  position="bottom"
+                >
+                  <div className="flex items-center justify-center gap-2 w-24 py-2 rounded-xl bg-amber-500/80 text-white font-semibold text-sm shadow-lg cursor-help">
+                    <span className="text-base">⚡</span>
+                    <span>{welcomeData.totalXP.toLocaleString()}</span>
+                  </div>
+                </Tooltip>
               </div>
 
               {/* Streak - own row on mobile */}
               {welcomeData.streak > 0 && (
-                <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-orange-500/80 text-white font-semibold text-sm shadow-lg relative">
-                  <span className="text-base">🔥</span>
-                  <span>{welcomeData.streak} day streak</span>
-                  {welcomeData.isActiveToday && (
-                    <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white shadow-sm" />
-                  )}
-                </div>
+                <Tooltip
+                  content={
+                    <div className="max-w-[220px] p-1">
+                      <div className="font-semibold mb-1">
+                        {(strings.dashboard as any)?.stats?.streakTooltip?.title || 'Daily Streak'}
+                      </div>
+                      <div className="text-xs opacity-90">
+                        {welcomeData.isActiveToday
+                          ? ((strings.dashboard as any)?.stats?.streakTooltip?.activeToday || "You've met today's goal!")
+                          : ((strings.dashboard as any)?.stats?.streakTooltip?.description || 'Keep learning daily to maintain your streak! Earn {minXP} XP each day.').replace('{minXP}', String(welcomeData.minXPForStreak || 150))}
+                      </div>
+                    </div>
+                  }
+                  position="bottom"
+                >
+                  <div className="flex items-center justify-center gap-2 px-4 py-2 rounded-xl bg-orange-500/80 text-white font-semibold text-sm shadow-lg relative cursor-help">
+                    <span className="text-base">🔥</span>
+                    <span>{((strings.dashboard as any)?.stats?.gamification?.streak?.current || '{{count}} day streak').replace('{{count}}', String(welcomeData.streak))}</span>
+                    {welcomeData.isActiveToday && (
+                      <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white shadow-sm" />
+                    )}
+                  </div>
+                </Tooltip>
               )}
             </motion.div>
           )}
@@ -1422,9 +1591,9 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
 
         {/* Mobile View: Vertical List with Virtual Areas */}
         <div className="sm:hidden space-y-8 px-2 pb-12">
-          {Object.entries(stallCategories).map(([catKey, stallIds]) => {
+          {districtEntries.map(([catKey, stallIds]) => {
             // Filter stalls that belong to this category AND are currently enabled/visible
-            const categoryStalls = filteredStalls.filter(s => stallIds.includes(s.id))
+            const categoryStalls = filteredStalls.filter(s => stallIds.includes(s.id as StallId))
 
             // Don't render empty sections
             if (categoryStalls.length === 0) return null
@@ -1487,9 +1656,9 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
 
         {/* Desktop View: Masonry with Categories */}
         <div className="hidden sm:block w-full space-y-12">
-          {Object.entries(stallCategories).map(([catKey, stallIds]) => {
+          {districtEntries.map(([catKey, stallIds]) => {
             // Filter stalls that belong to this category AND are currently enabled/visible
-            const categoryStalls = filteredStalls.filter(s => stallIds.includes(s.id))
+            const categoryStalls = filteredStalls.filter(s => stallIds.includes(s.id as StallId))
 
             // Don't render empty sections
             if (categoryStalls.length === 0) return null

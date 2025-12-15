@@ -539,30 +539,60 @@ function AnkiImportContent() {
                       {t('anki.sampleCards')}:
                     </p>
                     <div className="space-y-2">
-                      {deck.cards.slice(0, 3).map((card, idx) => (
-                        <div key={idx} className="text-sm bg-gray-50 dark:bg-dark-700 rounded p-3">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <span className="font-semibold text-text-muted dark:text-dark-text-muted">
-                                {t('anki.front')}:
-                              </span>
-                              <p className="text-text-primary dark:text-dark-text-primary mt-1">
-                                {card.front.substring(0, 100)}
-                                {card.front.length > 100 ? '...' : ''}
-                              </p>
-                            </div>
-                            <div>
-                              <span className="font-semibold text-text-muted dark:text-dark-text-muted">
-                                {t('anki.back')}:
-                              </span>
-                              <p className="text-text-primary dark:text-dark-text-primary mt-1">
-                                {card.back.substring(0, 100)}
-                                {card.back.length > 100 ? '...' : ''}
-                              </p>
+                      {deck.cards.slice(0, 3).map((card, idx) => {
+                        // Debug: Log card structure to help diagnose blank cards issue
+                        if (idx === 0) {
+                          console.log('[AnkiImportPage] Sample card structure:', {
+                            id: card.id,
+                            hasFront: !!card.front,
+                            hasBack: !!card.back,
+                            front: card.front?.substring?.(0, 30),
+                            back: card.back?.substring?.(0, 30),
+                            primaryDisplay: card.primaryDisplay?.substring?.(0, 30),
+                            primaryAnswer: card.primaryAnswer?.substring?.(0, 30),
+                            keys: Object.keys(card).slice(0, 10),
+                          })
+                        }
+                        // Use front/back with fallback to primaryDisplay/primaryAnswer
+                        const frontText = card.front || card.primaryDisplay || card.expression || ''
+                        const backText = card.back || card.primaryAnswer || card.meaning || ''
+                        return (
+                          <div key={idx} className="text-sm bg-gray-50 dark:bg-dark-700 rounded p-3">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div>
+                                <span className="font-semibold text-text-muted dark:text-dark-text-muted">
+                                  {t('anki.front')}:
+                                </span>
+                                <p className="text-text-primary dark:text-dark-text-primary mt-1">
+                                  {frontText ? (
+                                    <>
+                                      {frontText.substring(0, 100)}
+                                      {frontText.length > 100 ? '...' : ''}
+                                    </>
+                                  ) : (
+                                    <span className="text-red-500 italic">(empty - check console)</span>
+                                  )}
+                                </p>
+                              </div>
+                              <div>
+                                <span className="font-semibold text-text-muted dark:text-dark-text-muted">
+                                  {t('anki.back')}:
+                                </span>
+                                <p className="text-text-primary dark:text-dark-text-primary mt-1">
+                                  {backText ? (
+                                    <>
+                                      {backText.substring(0, 100)}
+                                      {backText.length > 100 ? '...' : ''}
+                                    </>
+                                  ) : (
+                                    <span className="text-red-500 italic">(empty - check console)</span>
+                                  )}
+                                </p>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        )
+                      })}
                     </div>
                   </div>
                 )}

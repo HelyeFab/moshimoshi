@@ -3,6 +3,21 @@ import { getSession } from '@/lib/auth/session'
 import { getAdminDb } from '@/lib/firebase/admin'
 import type { FlashcardContent } from '@/types/flashcards'
 
+// Remove undefined values from an object (Firestore doesn't accept undefined)
+function removeUndefined<T extends Record<string, any>>(obj: T): T {
+  const result = {} as T
+  for (const [key, value] of Object.entries(obj)) {
+    if (value !== undefined) {
+      if (value && typeof value === 'object' && !Array.isArray(value)) {
+        result[key as keyof T] = removeUndefined(value)
+      } else {
+        result[key as keyof T] = value
+      }
+    }
+  }
+  return result
+}
+
 interface Params {
   params: Promise<{
     id: string
@@ -79,15 +94,18 @@ export async function PUT(request: NextRequest, { params }: Params) {
       return NextResponse.json({ error: 'Card not found' }, { status: 404 })
     }
 
-    const updatedCard: FlashcardContent = {
+    // Merge metadata, ensuring no undefined values (Firestore rejects them)
+    const mergedMetadata = removeUndefined({
+      ...(cards[cardIndex].metadata || {}),
+      ...(body.metadata || {}),
+    })
+
+    const updatedCard: FlashcardContent = removeUndefined({
       ...cards[cardIndex],
-      metadata: {
-        ...cards[cardIndex].metadata,
-        ...(body.metadata || {}),
-      },
+      metadata: mergedMetadata,
       front: body.front ? { ...cards[cardIndex].front, ...body.front } : cards[cardIndex].front,
       back: body.back ? { ...cards[cardIndex].back, ...body.back } : cards[cardIndex].back,
-    }
+    }) as FlashcardContent
 
     const updatedCards = [...cards]
     updatedCards[cardIndex] = updatedCard
@@ -96,13 +114,17 @@ export async function PUT(request: NextRequest, { params }: Params) {
 
     await deckRef.update({
       cards: updatedCards,
-      stats: updatedStats,
+      stats: removeUndefined(updatedStats),
       updatedAt: Date.now(),
     })
 
     return NextResponse.json({ card: { ...updatedCard, deckId: id }, stats: updatedStats })
-  } catch (error) {
-    console.error('Error updating card:', error)
-    return NextResponse.json({ error: 'Failed to update card' }, { status: 500 })
+  } catch (error: any) {
+    console.error('Error updating card:', error?.message || error)
+    console.error('Error stack:', error?.stack)
+    return NextResponse.json({
+      error: 'Failed to update card',
+      details: error?.message || String(error)
+    }, { status: 500 })
   }
 }

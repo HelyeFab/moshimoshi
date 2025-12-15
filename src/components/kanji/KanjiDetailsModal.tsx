@@ -16,6 +16,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import KuromojiService from '@/utils/kuromojiService'
 import AddToListButton from '@/components/lists/AddToListButton'
+import { useFeature } from '@/hooks/useFeature'
 
 interface KanjiDetailsModalProps {
   kanji: Kanji | null
@@ -36,6 +37,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
   const { strings } = useI18n()
   const { user } = useAuth()
   const { subscription } = useSubscription()
+  const { checkAndTrack: checkDrawingEntitlement } = useFeature('drawing_practice')
   const userPlan = !user ? 'guest' : subscription?.status === 'active' ? 'premium' : 'free'
 
   // TTS hook for audio playback
@@ -520,7 +522,12 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
             </button>
 
             <button
-              onClick={() => setShowDrawingPractice(true)}
+              onClick={async () => {
+                const allowed = await checkDrawingEntitlement().catch(() => false)
+                if (allowed) {
+                  setShowDrawingPractice(true)
+                }
+              }}
               className="p-2.5 bg-green-50 dark:bg-green-900/20 rounded-full hover:bg-green-100 dark:hover:bg-green-900/30 transition-all hover:scale-110 text-green-500 dark:text-green-400"
               title="Practice writing"
             >

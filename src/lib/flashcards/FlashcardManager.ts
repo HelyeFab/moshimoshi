@@ -1349,10 +1349,22 @@ export class FlashcardManager {
 
       console.log('[FlashcardManager.syncDecksToIndexedDB] Syncing', decks.length, 'decks to IndexedDB')
 
+      // Normalize Anki decks before storing (same as getDecks does)
+      const normalizedDecks = decks.map((deck: any) => {
+        if (deck.source === 'anki' && deck.cards?.length > 0) {
+          console.log('[FlashcardManager.syncDecksToIndexedDB] Normalizing Anki deck:', deck.name)
+          return {
+            ...deck,
+            cards: deck.cards.map((card: any) => this.normalizeAnkiCard(card))
+          }
+        }
+        return deck
+      })
+
       // Use a transaction for atomic updates
       const tx = db.transaction('decks', 'readwrite')
 
-      for (const deck of decks) {
+      for (const deck of normalizedDecks) {
         // Ensure the deck belongs to this user
         if (deck.userId === userId) {
           await tx.store.put(deck)

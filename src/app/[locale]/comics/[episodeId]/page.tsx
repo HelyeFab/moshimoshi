@@ -24,6 +24,8 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useCachedEpisode } from '@/hooks/useComicCache'
 import { ComicEpisode } from '@/types/comic'
+import { useWordExplanation } from '@/hooks/useWordExplanation'
+import WordExplanationModal from '@/components/word/WordExplanationModal'
 
 export default function ComicReaderPage() {
   const { strings } = useI18n()
@@ -50,6 +52,18 @@ export default function ComicReaderPage() {
   } | null>(null)
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
+  const [wordModalOpen, setWordModalOpen] = useState(false)
+  const [selectedWord, setSelectedWord] = useState<string | null>(null)
+  const [wordContext, setWordContext] = useState<string | undefined>(undefined)
+
+  const {
+    explainWord,
+    loading: wordLoading,
+    error: wordError,
+    explanation: wordExplanation,
+    reset: resetWordExplanation,
+    prefetch: prefetchWordExplanations,
+  } = useWordExplanation({ comicId: episodeId })
 
   // Log cache status in development
   useEffect(() => {
@@ -57,6 +71,26 @@ export default function ComicReaderPage() {
       console.log(`[ComicReaderPage] Episode loaded ${fromCache ? 'from cache' : 'from network'}:`, episodeId)
     }
   }, [episode, fromCache, episodeId])
+
+  // Prefetch word explanations for this comic episode (all panels + vocabulary examples)
+  useEffect(() => {
+    if (!episode) return
+    const panelText = episode.panels
+      ?.map(panel => [
+        ...(panel.dialogues?.map(d => d.textJa) || []),
+        panel.narration?.textJa || '',
+      ].filter(Boolean).join(' ')) || []
+    const vocabExamples = episode.vocabulary?.map(v => v.exampleFromComic || v.word) || []
+    const fullText = [...panelText, ...vocabExamples].join(' ')
+
+    if (fullText.trim().length > 0) {
+      prefetchWordExplanations({
+        contentId: episodeId,
+        contentType: 'comic',
+        text: fullText,
+      })
+    }
+  }, [episode, episodeId, prefetchWordExplanations])
 
   const currentPanel = episode?.panels?.[currentPanelIndex]
   const totalPanels = episode?.panels?.length || 0
@@ -82,6 +116,22 @@ export default function ComicReaderPage() {
 
     audioRef.current = new Audio(audioUrl)
     audioRef.current.play().catch(err => console.error('Audio playback error:', err))
+  }
+
+  const handleWordLookup = async (word: string, context?: string) => {
+    const clean = word?.trim()
+    if (!clean) return
+    setSelectedWord(clean)
+    setWordContext(context)
+    setWordModalOpen(true)
+    await explainWord(clean, context)
+  }
+
+  const handleCloseWordModal = () => {
+    setWordModalOpen(false)
+    setSelectedWord(null)
+    setWordContext(undefined)
+    resetWordExplanation()
   }
 
   // Keyboard navigation
@@ -518,8 +568,11 @@ export default function ComicReaderPage() {
                         transition={{ delay: idx * 0.05 }}
                         className="p-4 bg-gray-50 dark:bg-dark-700 rounded-xl border border-gray-100 dark:border-dark-600 hover:shadow-md transition-shadow"
                       >
-                        <div className="flex items-baseline gap-2 mb-2">
-                          <span className="text-xl font-japanese font-bold text-foreground dark:text-dark-100">
+                        <button
+                          onClick={() => handleWordLookup(vocab.word, vocab.exampleFromComic || vocab.meaning)}
+                          className="flex items-baseline gap-2 mb-2 text-left w-full"
+                        >
+                          <span className="text-xl font-japanese font-bold text-foreground dark:text-dark-100 hover:text-primary-500">
                             {vocab.word}
                           </span>
                           <span className="text-sm text-primary-600 dark:text-primary-400 font-medium">
@@ -530,7 +583,7 @@ export default function ComicReaderPage() {
                               {vocab.jlptLevel}
                             </span>
                           )}
-                        </div>
+                        </button>
                         <p className="text-foreground dark:text-dark-200 mb-2">{vocab.meaning}</p>
                         {vocab.exampleFromComic && (
                           <div className="pt-2 border-t border-gray-200 dark:border-dark-600">
@@ -804,6 +857,18 @@ export default function ComicReaderPage() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      {/* Word Explanation Modal */}
+      <WordExplanationModal
+        isOpen={wordModalOpen}
+        onClose={handleCloseWordModal}
+        word={selectedWord}
+        explanation={wordExplanation}
+        loading={wordLoading}
+        error={wordError}
+        translationContext={wordContext ? { sentence: wordContext } : undefined}
+        onWordLookup={(w) => handleWordLookup(w, wordContext)}
+      />
     </div>
   )
 }

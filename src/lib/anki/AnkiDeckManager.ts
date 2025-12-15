@@ -88,6 +88,19 @@ export class AnkiDeckManager {
           const { decks } = await response.json()
           console.log('[AnkiDeckManager] Server returned', decks?.length || 0, 'decks')
 
+          // Debug: Log first deck structure from server
+          if (decks && decks.length > 0) {
+            const firstDeck = decks[0]
+            console.log('[AnkiDeckManager] First deck from server:', {
+              id: firstDeck.id,
+              name: firstDeck.name,
+              cardCount: firstDeck.cardCount,
+              actualCardsLength: firstDeck.cards?.length,
+              firstCardHasFront: firstDeck.cards?.[0]?.front ? true : false,
+              firstCardHasBack: firstDeck.cards?.[0]?.back ? true : false,
+            })
+          }
+
           // Sync all decks from server to IndexedDB
           const tx = db.transaction('decks', 'readwrite')
           const existingKeys = await tx.store.index('userId').getAllKeys(userId)
@@ -102,6 +115,15 @@ export class AnkiDeckManager {
           await tx.done
 
           return decks || []
+        } else {
+          // Non-200 response - log it and fall through to IndexedDB
+          console.warn('[AnkiDeckManager] Server returned non-OK status:', response.status)
+          try {
+            const errorBody = await response.json()
+            console.warn('[AnkiDeckManager] Server error:', errorBody)
+          } catch {
+            // Ignore JSON parse errors
+          }
         }
       } catch (error) {
         console.error('[AnkiDeckManager] Failed to fetch from server:', error)
@@ -112,6 +134,22 @@ export class AnkiDeckManager {
     // Free users or offline: Use IndexedDB only
     console.log('[AnkiDeckManager] Using IndexedDB only')
     const decks = await db.getAllFromIndex('decks', 'userId', userId)
+
+    // Debug: Log deck structure from IndexedDB
+    if (decks.length > 0) {
+      const firstDeck = decks[0]
+      console.log('[AnkiDeckManager] First deck from IndexedDB:', {
+        id: firstDeck.id,
+        name: firstDeck.name,
+        cardCount: firstDeck.cardCount,
+        actualCardsLength: firstDeck.cards?.length,
+        firstCardHasFront: firstDeck.cards?.[0]?.front ? true : false,
+        firstCardHasBack: firstDeck.cards?.[0]?.back ? true : false,
+        firstCardFront: firstDeck.cards?.[0]?.front?.substring?.(0, 30),
+        firstCardBack: firstDeck.cards?.[0]?.back?.substring?.(0, 30),
+      })
+    }
+
     return decks.sort((a, b) => b.updatedAt - a.updatedAt) as StoredAnkiDeck[]
   }
 

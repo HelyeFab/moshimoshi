@@ -47,6 +47,7 @@ export default function DrawingPracticeModal({
   const [feedback, setFeedback] = useState<FeedbackData | null>(null)
   const [showHints, setShowHints] = useState(false)
   const [correctStrokes, setCorrectStrokes] = useState<number>(0)
+  const [recognitionReady, setRecognitionReady] = useState<boolean | null>(null)
 
   // Load SVG data for the character
   useEffect(() => {
@@ -77,43 +78,63 @@ export default function DrawingPracticeModal({
 
   // Handle drawing submission with real recognition
   const handleDrawingComplete = useCallback(
-    (drawingData: DrawingData) => {
-      // Use real recognition score if available
-      let score = 50 // Base score for attempting
-      let strokeAccuracy: number[] = []
+    async (drawingData: DrawingData) => {
+      // Combine client recognition with server-side Vision check
+      let candidates = drawingData.recognized || []
 
-      if (drawingData.recognized && drawingData.recognized.length > 0) {
-        // Check if the character was correctly recognized
-        const isCorrect = drawingData.recognized[0] === character
-        const inTop3 = drawingData.recognized.slice(0, 3).includes(character)
-        const inTop5 = drawingData.recognized.slice(0, 5).includes(character)
-
-        if (isCorrect) {
-          score = 95 + Math.floor(Math.random() * 5) // 95-100
-        } else if (inTop3) {
-          score = 80 + Math.floor(Math.random() * 10) // 80-90
-        } else if (inTop5) {
-          score = 65 + Math.floor(Math.random() * 10) // 65-75
-        } else {
-          score = 40 + Math.floor(Math.random() * 20) // 40-60
+      // Call server to verify using Vision if we have an image
+      if (drawingData.imageDataUrl) {
+        try {
+          const resp = await fetch('/api/drawing/recognize', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ imageDataUrl: drawingData.imageDataUrl }),
+          })
+          const result = await resp.json()
+          if (result?.success && Array.isArray(result.candidates)) {
+            // Merge: Vision candidates first, then local, dedup
+            const merged = [...result.candidates, ...candidates].filter(Boolean)
+            const seen = new Set<string>()
+            candidates = merged.filter(c => {
+              const key = c
+              if (seen.has(key)) return false
+              seen.add(key)
+              return true
+            })
+          }
+        } catch (err) {
+          console.warn('[DrawingPractice] Vision verify failed', err)
         }
-
-        // Generate stroke accuracy based on overall score
-        strokeAccuracy = drawingData.strokes.map(() =>
-          Math.max(50, score + (Math.random() * 20 - 10))
-        )
-      } else {
-        // Fallback to mock score if recognition failed
-        score = Math.floor(Math.random() * 30) + 70
-        strokeAccuracy = drawingData.strokes.map(() => Math.random() * 100)
       }
+
+      // Deterministic score: rank-based + stroke count match
+      const rank = candidates.indexOf(character)
+      let score = 50 // base
+      if (rank === 0) score = 98
+      else if (rank === 1) score = 90
+      else if (rank === 2) score = 82
+      else if (rank >= 3 && rank !== -1) score = Math.max(70, 80 - rank * 2)
+      else if (candidates.length > 0) score = 60
+
+      const strokeCountMatch = drawingData.strokes.length === correctStrokes
+      if (strokeCountMatch) score = Math.min(100, score + 5)
+
+      // Per-stroke accuracy: deterministic based on stroke count alignment
+      const perStroke = drawingData.strokes.map((_s, idx) => {
+        if (!correctStrokes) return 60
+        const ratio = Math.min(1, drawingData.strokes.length / correctStrokes)
+        const base = 60 + ratio * 40
+        // Weight earlier strokes slightly higher if counts match
+        const weight = strokeCountMatch ? (1 - idx / Math.max(1, drawingData.strokes.length)) : 0.8
+        return Math.max(40, Math.min(100, base * weight))
+      })
 
       const feedbackData: FeedbackData = {
         score,
-        strokeAccuracy,
-        orderAccuracy: drawingData.strokes.length === correctStrokes,
+        strokeAccuracy: perStroke,
+        orderAccuracy: strokeCountMatch,
         message: getScoreMessage(score),
-        recognized: drawingData.recognized,
+        recognized: candidates,
       }
 
       setFeedback(feedbackData)
@@ -162,6 +183,22 @@ export default function DrawingPracticeModal({
                 <span className="text-gray-500">Strokes:</span>{' '}
                 <span className="font-semibold">{correctStrokes}</span>
               </div>
+              <div className="text-xs text-gray-500 flex items-center gap-2">
+                <span
+                  className={`inline-flex h-2 w-2 rounded-full ${
+                    recognitionReady === false
+                      ? 'bg-red-500'
+                      : recognitionReady === true
+                        ? 'bg-green-500'
+                        : 'bg-yellow-400'
+                  }`}
+                />
+                {recognitionReady === false
+                  ? 'Recognition unavailable'
+                  : recognitionReady === true
+                    ? 'Recognition ready'
+                    : 'Loading recognition...'}
+              </div>
 
               {!showFeedback && (
                 <button
@@ -190,6 +227,7 @@ export default function DrawingPracticeModal({
                     onDrawingComplete={handleDrawingComplete}
                     onStrokeComplete={handleStrokeComplete}
                     autoRecognize={true}
+                    onReadyChange={setRecognitionReady}
                     width={280}
                     height={280}
                   />

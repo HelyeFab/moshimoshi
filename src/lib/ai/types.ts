@@ -223,6 +223,9 @@ export interface WordExplanation {
   meaning: string
   partOfSpeech: string
 
+  // Optional precomputed audio (preferred over client TTS when available)
+  audioUrl?: string
+
   // Kanji breakdown
   kanjiBreakdown?: KanjiBreakdown[]
 
@@ -241,6 +244,10 @@ export interface WordExplanation {
 
   // Related words
   relatedWords?: RelatedWords
+
+  // Context sentence + translation captured during precompute
+  contextSentence?: string
+  contextTranslation?: string
 
   // Usage
   jlptLevel?: JLPTLevel

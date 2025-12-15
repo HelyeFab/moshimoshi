@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json().catch(() => ({}))
-    const { contentId, contentType, text, limit } = body || {}
+    const { contentId, contentType, text, limit, chunkIndex } = body || {}
 
     if (!contentId || !contentType || !text) {
       return NextResponse.json(
@@ -41,6 +41,7 @@ export async function POST(request: NextRequest) {
       contentType,
       text,
       limit: typeof limit === 'number' ? Math.min(Math.max(limit, 10), 400) : undefined,
+      chunkIndex: typeof chunkIndex === 'number' ? chunkIndex : undefined,
     } as any)
 
     return NextResponse.json({ success: true, result })

@@ -40,27 +40,35 @@ export default function Tooltip({
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const tooltipRect = tooltipRef.current.getBoundingClientRect();
     const spacing = 8;
+    const isMobile = window.innerWidth < 640; // sm breakpoint
 
     let top = 0;
     let left = 0;
 
-    switch (position) {
-      case 'top':
-        top = triggerRect.top - tooltipRect.height - spacing;
-        left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
-        break;
-      case 'bottom':
-        top = triggerRect.bottom + spacing;
-        left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
-        break;
-      case 'left':
-        top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
-        left = triggerRect.left - tooltipRect.width - spacing;
-        break;
-      case 'right':
-        top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
-        left = triggerRect.right + spacing;
-        break;
+    // On mobile, center horizontally
+    if (isMobile) {
+      left = (window.innerWidth - tooltipRect.width) / 2;
+      // Position below trigger on mobile for better visibility
+      top = triggerRect.bottom + spacing;
+    } else {
+      switch (position) {
+        case 'top':
+          top = triggerRect.top - tooltipRect.height - spacing;
+          left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
+          break;
+        case 'bottom':
+          top = triggerRect.bottom + spacing;
+          left = triggerRect.left + (triggerRect.width - tooltipRect.width) / 2;
+          break;
+        case 'left':
+          top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
+          left = triggerRect.left - tooltipRect.width - spacing;
+          break;
+        case 'right':
+          top = triggerRect.top + (triggerRect.height - tooltipRect.height) / 2;
+          left = triggerRect.right + spacing;
+          break;
+      }
     }
 
     // Adjust if tooltip goes off-screen
@@ -107,7 +115,7 @@ export default function Tooltip({
   const handleTouchEnd = () => {
     setTimeout(() => {
       setIsVisible(false);
-    }, 1500); // Auto-hide after 1.5s on mobile
+    }, 4000); // Auto-hide after 4s on mobile for better readability
   };
 
   const getArrowClasses = () => {

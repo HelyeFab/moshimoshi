@@ -6,14 +6,16 @@ import { adminFirestore as db, Timestamp } from '@/lib/firebase/admin'
 import { getCachedWordExplanation, setCachedWordExplanation } from '../cache/WordExplanationCache'
 import { ExtendedConjugationEngine } from '@/lib/conjugation/engine'
 import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
+import { ttsService } from '@/lib/tts/service'
 
-type ContentType = 'article' | 'book' | 'story' | 'video'
+type ContentType = 'article' | 'book' | 'story' | 'video' | 'comic'
 
 const COLLECTION_MAP: Record<ContentType, string> = {
   article: 'news_article_word_explanations',
   book: 'book_word_explanations',
   story: 'story_word_explanations',
   video: 'video_word_explanations',
+  comic: 'comic_word_explanations',
 }
 
 // Build kuromoji tokenizer once (server-side only)
@@ -111,6 +113,78 @@ async function generateFullConjugations(
   }
 }
 
+/**
+ * Split text into rough sentences for context extraction
+ */
+function splitSentences(text: string): string[] {
+  return (text || '')
+    .split(/(?<=[。！？!?.\n])/)
+    .map(s => s.trim())
+    .filter(s => s.length > 3)
+}
+
+/**
+ * Find the first sentence containing the word
+ */
+function findContextSentence(word: string, sentences: string[]): string | undefined {
+  if (!word) return undefined
+  return sentences.find(sentence => sentence.includes(word))
+}
+
+const MAX_CONTEXT_TRANSLATIONS = 40
+
+/**
+ * Enrich explanation with context translation and precomputed audio when possible
+ */
+async function ensureExtras(
+  explanation: WordExplanation,
+  word: string,
+  sentences: string[],
+  translationCache: Map<string, string>,
+  jlptLevel: JLPTLevel
+) {
+  // Context sentence + translation
+  if (!explanation.contextSentence) {
+    explanation.contextSentence = findContextSentence(word, sentences)
+  }
+
+  if (explanation.contextSentence && !explanation.contextTranslation) {
+    const cachedTranslation = translationCache.get(explanation.contextSentence)
+    if (cachedTranslation) {
+      explanation.contextTranslation = cachedTranslation
+    } else if (translationCache.size < MAX_CONTEXT_TRANSLATIONS) {
+      try {
+        const aiService = AIService.getInstance()
+        const result = await aiService.translateText(explanation.contextSentence, 'learning', {
+          jlptLevel,
+          cacheResults: true,
+        } as any)
+        if (result.success && result.data?.translatedText) {
+          translationCache.set(explanation.contextSentence, result.data.translatedText)
+          explanation.contextTranslation = result.data.translatedText
+        }
+      } catch (err) {
+        console.warn('[WordPrecompute] Context translation failed', { word, err })
+      }
+    }
+  }
+
+  // Precompute audio for short words (skip if already present)
+  if (!explanation.audioUrl && explanation.word && explanation.word.length <= 12) {
+    try {
+      const audio = await ttsService.synthesize(explanation.word, {
+        provider: 'voicevox',
+        speed: 1.0,
+      })
+      if (audio?.audioUrl) {
+        explanation.audioUrl = audio.audioUrl
+      }
+    } catch (err) {
+      console.warn('[WordPrecompute] Audio synth failed', { word, err })
+    }
+  }
+}
+
 // Basic tokenizer: extracts base forms of content words (nouns/verbs/adjectives)
 export async function extractJapaneseWords(text: string): Promise<string[]> {
   const tokenizer = await getTokenizer()
@@ -140,6 +214,7 @@ interface PrecomputeRequest {
   text: string
   limit?: number
   jlptLevel?: JLPTLevel
+  chunkIndex?: number
 }
 
 interface PrecomputeResult {
@@ -164,6 +239,7 @@ export async function precomputeWordExplanations({
   text,
   limit = 400,
   jlptLevel = 'N5',
+  chunkIndex,
 }: PrecomputeRequest): Promise<PrecomputeResult> {
   if (!db) {
     throw new Error('Firebase Admin not initialized')
@@ -189,6 +265,8 @@ export async function precomputeWordExplanations({
   const aiService = AIService.getInstance()
   const generatedResults: WordExplanation[] = []
   let cachedCount = 0
+  const sentences = splitSentences(text)
+  const translationCache = new Map<string, string>()
 
   // Process in order with small concurrency so earliest tokens finish first
   const concurrency = 3
@@ -202,6 +280,7 @@ export async function precomputeWordExplanations({
         const cached = await getCachedWordExplanation(word)
         if (cached) {
           cachedCount += 1
+          await ensureExtras(cached, word, sentences, translationCache, jlptLevel)
           // If cached but missing fullConjugations, generate them now
           if (!cached.fullConjugations) {
             const fullConjugations = await generateFullConjugations(cached)
@@ -229,6 +308,8 @@ export async function precomputeWordExplanations({
           conjugationsGenerated += 1
         }
 
+        await ensureExtras(explanation, word, sentences, translationCache, jlptLevel)
+
         await setCachedWordExplanation(word, explanation)
         return explanation
       })
@@ -247,6 +328,7 @@ export async function precomputeWordExplanations({
       wordCount: merged.length,
       updatedAt: Timestamp.now(),
       source: 'precompute',
+      ...(typeof chunkIndex === 'number' ? { chunkIndex } : {}),
     },
     { merge: true }
   )

@@ -64,8 +64,9 @@ class KanjiCanvasService {
       }
 
       kanjiCanvasScript.onerror = () => {
-        console.error('Failed to load kanji-canvas.min.js')
-        reject(new Error('Failed to load kanji-canvas.min.js'))
+        console.warn('kanji-canvas.min.js not found; falling back to handwriting-only recognition')
+        // Resolve without setting isLoaded so handwriting fallback can be used
+        resolve()
       }
 
       document.head.appendChild(kanjiCanvasScript)
@@ -92,7 +93,7 @@ class KanjiCanvasService {
         throw error
       }
     } else {
-      throw new Error('KanjiCanvas not loaded')
+      console.warn('KanjiCanvas not loaded; using handwriting fallback only')
     }
   }
 
@@ -117,7 +118,7 @@ class KanjiCanvasService {
   // Recognize the drawn character
   recognize(canvasId: string): RecognitionResult {
     if (!this.isLoaded || !window.KanjiCanvas) {
-      console.warn('KanjiCanvas not loaded')
+      console.warn('KanjiCanvas not loaded; returning empty candidates (fallback will handle)')
       return { candidates: [], confidence: [] }
     }
 
@@ -279,25 +280,25 @@ class KanjiCanvasService {
     canvasWidth: number = 300,
     canvasHeight: number = 300
   ): Promise<RecognitionResult> {
-    // For kana characters, use handwriting.js (Google IME) for better recognition
-    if (characterType === 'kana' && strokes.length > 0) {
+    // For kana (and when KanjiCanvas is unavailable), use handwriting.js first
+    if (strokes.length > 0) {
       try {
-        console.log('Using handwriting.js for kana recognition')
         const googleResult = await handwritingService.recognize(strokes, canvasWidth, canvasHeight)
+        const filtered =
+          characterType === 'kana'
+            ? handwritingService.filterKanaOnly(googleResult)
+            : googleResult
 
-        // Filter to only show kana characters
-        const filteredResult = handwritingService.filterKanaOnly(googleResult)
-
-        if (filteredResult.candidates.length > 0) {
-          console.log('Handwriting.js kana candidates:', filteredResult.candidates)
-          return filteredResult
+        if (filtered.candidates.length > 0) {
+          console.log('Handwriting.js candidates:', filtered.candidates)
+          return filtered
         }
       } catch (error) {
         console.error('Handwriting.js recognition failed, falling back to KanjiCanvas:', error)
       }
     }
 
-    // Fall back to KanjiCanvas for kanji or if handwriting.js fails
+    // Fall back to KanjiCanvas (if loaded) or empty
     return this.recognizeWithFilter(canvasId, characterType)
   }
 }

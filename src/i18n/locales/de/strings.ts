@@ -552,6 +552,32 @@ export const strings = {
         label: 'Erfolge',
         unit: 'kürzlich',
       },
+      xpTooltip: {
+        title: 'Erfahrungspunkte (XP)',
+        streakRequirement: 'Verdiene täglich {minXP} XP, um deine Serie zu halten!',
+        howToEarn: 'So verdienst du XP:',
+        activities: [
+          'Schließe Übungen und Karteikarten-Sitzungen ab',
+          'Übe Kanji-Meisterschaftsübungen',
+          'Schaue YouTube-Shadowing-Videos',
+          'Lies Geschichten oder Comics',
+          'Genauigkeits- und Geschwindigkeitsboni gelten',
+        ],
+      },
+      levelTooltip: {
+        title: 'Dein Level',
+        description: 'Steige durch XP auf. Jedes Level erfordert 100 XP.',
+      },
+      streakTooltip: {
+        title: 'Tägliche Serie',
+        description: 'Lerne täglich weiter, um deine Serie zu halten! Verdiene jeden Tag {minXP} XP.',
+        activeToday: 'Du hast das heutige Ziel erreicht!',
+      },
+      gamification: {
+        streak: {
+          current: '{{count}} Tage Serie',
+        },
+      },
     },
     greetings: {
       morning: {

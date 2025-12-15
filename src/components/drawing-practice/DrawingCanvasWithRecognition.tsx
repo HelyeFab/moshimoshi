@@ -23,6 +23,7 @@ export interface DrawingData {
   endTime: number
   recognized?: string[]
   confidence?: number
+  imageDataUrl?: string
 }
 
 interface DrawingCanvasWithRecognitionProps {
@@ -32,6 +33,7 @@ interface DrawingCanvasWithRecognitionProps {
   onDrawingComplete?: (data: DrawingData) => void
   onStrokeComplete?: (stroke: Stroke) => void
   onRecognition?: (candidates: string[], confidence: number[]) => void
+  onReadyChange?: (ready: boolean) => void
   showGhost?: boolean
   strokeColor?: string
   strokeWidth?: number
@@ -47,6 +49,7 @@ export default function DrawingCanvasWithRecognition({
   onDrawingComplete,
   onStrokeComplete,
   onRecognition,
+  onReadyChange,
   showGhost = true,
   strokeColor = '#000000',
   strokeWidth = 3,
@@ -83,10 +86,12 @@ export default function DrawingCanvasWithRecognition({
         if (document.getElementById(canvasId.current)) {
           await kanjiCanvasService.initCanvas(canvasId.current)
           setIsKanjiCanvasReady(true)
+          onReadyChange?.(true)
           console.log('KanjiCanvas initialized for', canvasId.current)
         }
       } catch (error) {
         console.error('Failed to initialize KanjiCanvas:', error)
+        onReadyChange?.(false)
       }
     }
 
@@ -298,13 +303,18 @@ export default function DrawingCanvasWithRecognition({
       finalCandidates = result.candidates
     }
 
+    // Capture image snapshot for server-side verification
+    const canvasEl = canvasRef.current
+    const imageDataUrl = canvasEl?.toDataURL('image/png')
+
     const drawingData: DrawingData = {
       strokes,
       character,
       startTime: startTimeRef.current,
       endTime: Date.now(),
       recognized: finalCandidates,
-      confidence: finalConfidence
+      confidence: finalConfidence,
+      imageDataUrl,
     }
 
     if (onDrawingComplete) {

@@ -24,6 +24,18 @@ interface UseWordExplanationOptions {
   articleId?: string; // Optional: if provided, will check Firebase pre-cached explanations first
   bookId?: string; // Optional: if provided, will check book_word_explanations collection
   videoId?: string; // Optional: if provided, will check video_word_explanations collection
+  comicId?: string; // Optional: if provided, will check comic_word_explanations collection
+}
+
+const MAX_PREFETCH_CHARS = 48000;
+const PREFETCH_CHUNK_SIZE = 8000;
+
+function chunkText(text: string, size: number): string[] {
+  const chunks: string[] = [];
+  for (let i = 0; i < text.length; i += size) {
+    chunks.push(text.slice(i, i + size));
+  }
+  return chunks;
 }
 
 export function useWordExplanation(options?: UseWordExplanationOptions) {
@@ -36,7 +48,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
   const cacheRef = useRef<Map<string, WordExplanation>>(new Map());
   const lastPrefetchRef = useRef<{
     contentId: string;
-    contentType: 'article' | 'book' | 'story' | 'video';
+    contentType: 'article' | 'book' | 'story' | 'video' | 'comic';
     text: string;
   } | null>(null);
 
@@ -162,6 +174,78 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
         }
       }
 
+      // If comicId is provided, check comic_word_explanations collection
+      if (options?.comicId) {
+        try {
+          console.log('[WordExplanation] Checking Firebase pre-cache for comicId:', options.comicId);
+          const docRef = doc(firestore, 'comic_word_explanations', options.comicId);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            const words = data.words as WordExplanation[];
+
+            const preCached = words?.find(w =>
+              w.word === word ||
+              w.word.toLowerCase() === word.toLowerCase() ||
+              w.reading === word
+            );
+
+            if (preCached) {
+              console.log('%c[WordExplanation] SOURCE: COMIC PRE-CACHE (fast)', 'color: #ff66cc; font-weight: bold', { word, comicId: options.comicId });
+              cacheRef.current.set(cacheKey, preCached);
+              setExplanation(preCached);
+              setLoading(false);
+              options?.onSuccess?.(preCached);
+              return preCached;
+            }
+          } else {
+            console.log('[WordExplanation] No pre-cache document found for comic');
+          }
+        } catch (firebaseError) {
+          console.warn('[WordExplanation] Comic pre-cache check failed, falling back to API:', firebaseError);
+          // Continue to API fallback
+        }
+      }
+
+      // If we recently prefetched this content, re-check the doc once before API
+      if (lastPrefetchRef.current && lastPrefetchRef.current.contentId) {
+        const refetchedCollection =
+          options?.articleId ? 'news_article_word_explanations'
+            : options?.bookId ? 'book_word_explanations'
+            : options?.videoId ? 'video_word_explanations'
+            : options?.comicId ? 'comic_word_explanations'
+            : undefined;
+
+        if (refetchedCollection && lastPrefetchRef.current.contentId) {
+          try {
+            const refDoc = await getDoc(
+              doc(firestore, refetchedCollection, lastPrefetchRef.current.contentId)
+            );
+            if (refDoc.exists()) {
+              const data = refDoc.data();
+              const words = (data.words as WordExplanation[]) || [];
+              const hydrated = words.find(
+                w =>
+                  w.word === word ||
+                  w.word?.toLowerCase() === word.toLowerCase() ||
+                  w.reading === word
+              );
+              if (hydrated) {
+                console.log('%c[WordExplanation] SOURCE: PRECOMPUTE DOC (top-up)', 'color: #00c853; font-weight: bold', { word });
+                cacheRef.current.set(cacheKey, hydrated);
+                setExplanation(hydrated);
+                setLoading(false);
+                options?.onSuccess?.(hydrated);
+                return hydrated;
+              }
+            }
+          } catch (err) {
+            console.warn('[WordExplanation] Top-up precompute check failed', err);
+          }
+        }
+      }
+
       // Fallback: Call API for word explanation
       const response = await fetch('/api/word/explain', {
         method: 'POST',
@@ -226,7 +310,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
    * If the doc doesn't exist and text is provided, trigger server-side precompute.
    */
   const prefetch = useCallback(
-    async (params: { contentId: string; contentType: 'article' | 'book' | 'story' | 'video'; text?: string }) => {
+    async (params: { contentId: string; contentType: 'article' | 'book' | 'story' | 'video' | 'comic'; text?: string }) => {
       const { contentId, contentType, text } = params;
       if (!contentId || !contentType) return;
 
@@ -236,11 +320,12 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
         { contentId, contentType, hasText: !!text, textLength: text?.length }
       );
 
-      const collectionMap: Record<'article' | 'book' | 'story' | 'video', string> = {
+      const collectionMap: Record<'article' | 'book' | 'story' | 'video' | 'comic', string> = {
         article: 'news_article_word_explanations',
         book: 'book_word_explanations',
         story: 'story_word_explanations',
         video: 'video_word_explanations',
+        comic: 'comic_word_explanations',
       };
 
       const collection = collectionMap[contentType];
@@ -282,45 +367,55 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
       // If no precompute exists yet and text provided, kick off precompute and refetch
       if (text) {
         try {
-          // Truncate very long payloads to avoid server rejection and speed precompute
-          const MAX_TEXT = 18000;
-          const truncatedText = text.length > MAX_TEXT ? text.slice(0, MAX_TEXT) : text;
+          // Truncate total payload length and chunk to avoid dropping tail words
+          const safeText =
+            text.length > MAX_PREFETCH_CHARS ? text.slice(0, MAX_PREFETCH_CHARS) : text;
+          const chunks = chunkText(safeText, PREFETCH_CHUNK_SIZE).slice(0, 6); // hard cap chunks
 
-          console.log(
-            '%c[WordExplanation] PRECOMPUTE TRIGGER',
-            'color: #00bfff; font-weight: bold',
-            { contentId, contentType, wordCountEstimate: truncatedText.length / 2, truncated: text.length > MAX_TEXT }
-          );
-          const resp = await fetch('/api/word/precompute', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ contentId, contentType, text: truncatedText }),
-          });
-          if (!resp.ok) {
-            const details = await resp.json().catch(() => ({}));
-            console.warn('[WordExplanation] Precompute failed', { status: resp.status, details });
-            return;
-          }
+          lastPrefetchRef.current = { contentId, contentType, text: safeText };
 
-          lastPrefetchRef.current = { contentId, contentType, text: truncatedText };
-
-          // Wait briefly for precompute doc to appear (to avoid API fallback on first tap)
-          const attempts = 12;
-          for (let i = 0; i < attempts; i++) {
-            const refreshed = await getDoc(docRef);
-            if (refreshed.exists()) {
-              const data = refreshed.data() as { words?: WordExplanation[] };
-              if (data?.words?.length) {
-                hydrateCache(data.words);
-                console.log(
-                  '%c[WordExplanation] PREFETCH DOC READY',
-                  'color: #00c853; font-weight: bold',
-                  { contentId, contentType, words: data.words?.length }
-                );
-                break;
+          for (let idx = 0; idx < chunks.length; idx++) {
+            const chunk = chunks[idx];
+            console.log(
+              '%c[WordExplanation] PRECOMPUTE TRIGGER',
+              'color: #00bfff; font-weight: bold',
+              {
+                contentId,
+                contentType,
+                chunk: idx + 1,
+                chunks: chunks.length,
+                wordCountEstimate: chunk.length / 2,
               }
+            );
+            const resp = await fetch('/api/word/precompute', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ contentId, contentType, text: chunk, chunkIndex: idx }),
+            });
+            if (!resp.ok) {
+              const details = await resp.json().catch(() => ({}));
+              console.warn('[WordExplanation] Precompute failed', { status: resp.status, details });
+              continue;
             }
-            await new Promise(res => setTimeout(res, 200)); // small backoff
+
+            // Poll briefly for this chunk to hydrate cache
+            const attempts = 8;
+            for (let i = 0; i < attempts; i++) {
+              const refreshed = await getDoc(docRef);
+              if (refreshed.exists()) {
+                const data = refreshed.data() as { words?: WordExplanation[] };
+                if (data?.words?.length) {
+                  hydrateCache(data.words);
+                  console.log(
+                    '%c[WordExplanation] PREFETCH DOC READY',
+                    'color: #00c853; font-weight: bold',
+                    { contentId, contentType, words: data.words?.length, chunk: idx + 1 }
+                  );
+                  break;
+                }
+              }
+              await new Promise(res => setTimeout(res, 200));
+            }
           }
         } catch (e) {
           console.warn('[WordExplanation] Prefetch failed', e);
