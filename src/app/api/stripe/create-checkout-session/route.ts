@@ -4,6 +4,7 @@ import { getStripe } from '@/lib/stripe/server';
 import { getCustomerIdByUid, mapUidToCustomer } from '@/lib/firebase/admin';
 import { getSession } from '@/lib/auth/session';
 import type { CheckoutSessionRequest } from '@/lib/stripe/types';
+import { getDiscountEligibility } from '@/lib/stripe/discounts';
 
 export async function POST(request: NextRequest) {
   try {
@@ -70,7 +71,16 @@ export async function POST(request: NextRequest) {
       await mapUidToCustomer(uid, customerId);
     }
 
+    // Check if user is eligible for a discount (pre-launch waitlist)
+    const discountEligibility = await getDiscountEligibility(uid);
+
+    console.log('[Checkout API] Discount eligibility:', {
+      hasDiscount: !!discountEligibility,
+      source: discountEligibility?.source || 'none',
+    });
+
     // Create checkout session
+    // Option A: No manual promo codes - auto-apply discount if eligible
     const checkoutSession = await stripe.checkout.sessions.create(
       {
         mode: 'subscription',
@@ -83,10 +93,17 @@ export async function POST(request: NextRequest) {
         ],
         success_url: successUrl,
         cancel_url: cancelUrl,
-        allow_promotion_codes: true,
+        // Option A: No manual promo code entry allowed
+        allow_promotion_codes: false,
+        // Auto-apply discount if user is eligible
+        discounts: discountEligibility
+          ? [{ promotion_code: discountEligibility.promotionCodeId }]
+          : undefined,
         subscription_data: {
           metadata: {
             uid,
+            discount_applied: discountEligibility ? 'true' : 'false',
+            discount_source: discountEligibility?.source || 'none',
           },
           // Customize invoice data for the subscription
           description: 'Moshimoshi Premium - Japanese Learning Platform',
@@ -94,6 +111,7 @@ export async function POST(request: NextRequest) {
         metadata: {
           uid,
           price_id: priceId,
+          discount_applied: discountEligibility ? 'true' : 'false',
         },
       },
       {

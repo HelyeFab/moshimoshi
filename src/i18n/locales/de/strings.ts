@@ -221,6 +221,23 @@ export const strings = {
       ctaPrimary: 'Kostenlos lernen starten',
       ctaSecondary: 'Demo ansehen',
 
+      // Pre-launch waitlist strings
+      preLaunch: {
+        badge: '31. Dez',
+        badgeMobile: 'Start am 16. Januar',
+        heroBadge: 'Start am 16. Januar - 25% Rabatt!',
+        joinWaitlist: 'Warteliste beitreten',
+        joinWaitlistDiscount: 'Beitreten - 25% Rabatt',
+        launchingIn: 'Start in',
+        countdown: {
+          days: 'Tage',
+          hours: 'Std',
+          mins: 'Min',
+          secs: 'Sek',
+          complete: 'Wir sind Live!',
+        },
+      },
+
       // Carousel Slides
       carousel: {
         shadowing: {
@@ -2091,8 +2108,11 @@ export const strings = {
       features: {
         unlimited: 'Unbegrenzte Übungssitzungen',
         advancedStats: 'Erweiterte Fortschrittsanalysen',
+        moshiComics: 'Moshi Comics',
+        textbookResources: 'Lehrbuch-Ressourcen',
+        moshiPlayer: 'MoshiPlayer',
         prioritySupport: 'Prioritäts-Kundensupport',
-        offlineMode: 'Vollständiger Offline-Modus',
+        offlineMode: 'Offline-Modus',
         earlyAccess: 'Früher Zugang zu neuen Funktionen',
       },
       badges: {
@@ -4814,6 +4834,85 @@ export const strings = {
       speed: 'Geschwindigkeit',
       pitch: 'Tonhöhe',
       volume: 'Lautstärke',
+    },
+  },
+
+  // Waitlist
+  waitlist: {
+    badge: 'Start am 16. Januar',
+    titleLine1: 'Japanisch lernen',
+    titleLine2: 'Mit Spaß',
+    subtitle: 'Kostenlos nutzbar mit YouTube-Shadowing, nativen Nachrichten, KI-Geschichten, Moshi Comics, Anki-Import und mehr.',
+    discountHighlight: '25% Rabatt auf Premium für frühe Unterstützer!',
+    launchingIn: 'Start in',
+    countdown: {
+      days: 'Tage',
+      hours: 'Stunden',
+      mins: 'Min',
+      secs: 'Sek',
+      complete: 'Wir sind live!',
+    },
+    features: {
+      kana: {
+        title: 'Hiragana & Katakana',
+        description: 'Meistere die japanischen Alphabete',
+      },
+      kanji: {
+        title: 'Kanji-Meisterschaft',
+        description: '2.000+ Kanji mit Eselsbrücken',
+      },
+      textbooks: {
+        title: 'Genki & Minna',
+        description: 'Kompletter Lehrbuch-Wortschatz',
+      },
+      shadowing: {
+        title: 'YouTube-Shadowing',
+        description: 'Lerne mit nativen Videos',
+      },
+      news: {
+        title: 'Native Nachrichten',
+        description: 'Echte japanische Artikel',
+      },
+      stories: {
+        title: 'KI-Geschichten',
+        description: 'Geschichten auf deinem Niveau',
+      },
+      comics: {
+        title: 'Moshi Comics',
+        description: 'Original-Manga-Serie',
+      },
+      anki: {
+        title: 'Anki-Import',
+        description: 'Bringe deine Karteikarten mit',
+      },
+      conjugation: {
+        title: 'Konjugationsübungen',
+        description: '100+ Verbformen',
+      },
+    },
+    socialProof: 'Sei unter den Ersten, die Moshimoshi erleben',
+    footer: {
+      terms: 'Nutzungsbedingungen',
+      privacy: 'Datenschutzerklärung',
+    },
+    form: {
+      placeholder: 'E-Mail eingeben',
+      button: {
+        default: 'Zur Warteliste',
+        loading: 'Wird eingetragen...',
+        success: 'Du bist dabei!',
+      },
+      errors: {
+        required: 'Bitte gib deine E-Mail-Adresse ein',
+        invalid: 'Bitte gib eine gültige E-Mail-Adresse ein',
+        generic: 'Etwas ist schiefgegangen. Bitte versuche es erneut.',
+        network: 'Netzwerkfehler. Bitte überprüfe deine Verbindung und versuche es erneut.',
+      },
+      success: {
+        title: 'Du stehst auf der Liste!',
+        message: 'Du stehst auf der Liste! Du erhältst 25% Rabatt auf Premium zum Launch.',
+        description: 'Zum Launch kannst du die App komplett kostenlos nutzen. Wenn du dich für Premium entscheidest, erhältst du automatisch 25% Rabatt!',
+      },
     },
   },
 }

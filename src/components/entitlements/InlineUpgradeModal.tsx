@@ -54,7 +54,8 @@ export function InlineUpgradeModal({
       features: [
         t('entitlements.upgrade.features.unlimited'),
         t('entitlements.upgrade.features.advancedStats'),
-        t('entitlements.upgrade.features.prioritySupport'),
+        t('entitlements.upgrade.features.moshiComics'),
+        t('entitlements.upgrade.features.textbookResources'),
         t('entitlements.upgrade.features.offlineMode')
       ]
     },
@@ -68,6 +69,9 @@ export function InlineUpgradeModal({
       features: [
         t('entitlements.upgrade.features.unlimited'),
         t('entitlements.upgrade.features.advancedStats'),
+        t('entitlements.upgrade.features.moshiComics'),
+        t('entitlements.upgrade.features.textbookResources'),
+        t('entitlements.upgrade.features.moshiPlayer'),
         t('entitlements.upgrade.features.prioritySupport'),
         t('entitlements.upgrade.features.offlineMode'),
         t('entitlements.upgrade.features.earlyAccess')
@@ -112,11 +116,11 @@ export function InlineUpgradeModal({
           <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mt-4">
             {t('entitlements.upgrade.inline.title')}
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
-            {featureName
-              ? t('entitlements.upgrade.inline.featureLimit', { feature: featureName })
-              : t('entitlements.upgrade.inline.subtitle')}
-          </p>
+          {featureName && (
+            <p className="text-gray-600 dark:text-gray-400 mt-2">
+              {t('entitlements.upgrade.inline.subtitle')}
+            </p>
+          )}
         </div>
 
         {/* Pricing options */}

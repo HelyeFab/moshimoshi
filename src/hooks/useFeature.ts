@@ -172,8 +172,8 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       // Clear cache after increment
       decisionCache.delete(featureId);
 
-      // Handle UI feedback based on decision
-      if (showUI && !silent) {
+      // Handle UI feedback based on decision (skip toasts for drawing_practice; EntitlementGate handles UI)
+      if (featureId !== 'drawing_practice' && showUI && !silent) {
         if (!decision.allow) {
           switch (decision.reason) {
             case 'limit_reached':

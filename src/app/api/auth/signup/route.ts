@@ -13,6 +13,7 @@ import { createEmailVerificationToken } from '@/lib/auth/jwt'
 import { sendVerificationEmail } from '@/lib/email/resend'
 import { redis, RedisKeys, CacheTTL } from '@/lib/redis/client'
 import { z } from 'zod'
+import { linkWaitlistToUser } from '@/lib/waitlist/linkWaitlist'
 
 export async function POST(request: NextRequest) {
   console.log('[API /auth/signup] Request received')
@@ -140,6 +141,17 @@ export async function POST(request: NextRequest) {
         authProvider: 'email',
         updatedAt: FieldValue.serverTimestamp(),
       }, { merge: true })
+
+      // Check if user is on waitlist and grant discount eligibility
+      // This is non-blocking - if it fails, signup continues
+      try {
+        const wasOnWaitlist = await linkWaitlistToUser(email, userRecord.uid)
+        if (wasOnWaitlist) {
+          console.log('[API /auth/signup] User was on waitlist, discount eligibility granted')
+        }
+      } catch (waitlistError) {
+        console.error('[API /auth/signup] Waitlist linking failed (non-critical):', waitlistError)
+      }
 
       // Generate and send verification email
       const verificationToken = createEmailVerificationToken(

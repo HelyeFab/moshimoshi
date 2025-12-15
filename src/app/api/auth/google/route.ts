@@ -14,6 +14,7 @@ import {
 import { getSecurityHeaders } from '@/lib/auth/validation'
 import { logAuditEvent, AuditEvent } from '@/lib/auth/audit'
 import { getUserTier } from '@/lib/auth/tier-utils'
+import { linkWaitlistToUser } from '@/lib/waitlist/linkWaitlist'
 
 export async function POST(request: NextRequest) {
   console.log('[API /auth/google] Request received')
@@ -116,6 +117,19 @@ export async function POST(request: NextRequest) {
           },
           { merge: true }
         )
+
+      // Check if user is on waitlist and grant discount eligibility
+      // This is non-blocking - if it fails, signup continues
+      if (email) {
+        try {
+          const wasOnWaitlist = await linkWaitlistToUser(email, uid)
+          if (wasOnWaitlist) {
+            console.log('[API /auth/google] User was on waitlist, discount eligibility granted')
+          }
+        } catch (waitlistError) {
+          console.error('[API /auth/google] Waitlist linking failed (non-critical):', waitlistError)
+        }
+      }
     } else {
       // Update last login
       console.log('[API /auth/google] Updating existing user')

@@ -14,6 +14,43 @@ const API_VERSIONS = {
 // Cookie name for locale preference (used by next-intl)
 const LOCALE_COOKIE = 'NEXT_LOCALE';
 
+// Pre-launch configuration
+// Launch date: January 16th, 2026 at midnight UK time (GMT)
+const LAUNCH_DATE = new Date(process.env.LAUNCH_DATE || '2026-01-16T00:00:00Z');
+
+// Routes accessible during pre-launch period
+const PRE_LAUNCH_ALLOWED_ROUTES = [
+  '/',           // Landing page (shows pre-launch mode)
+  '/waitlist',   // Waitlist signup
+  '/terms',      // Legal pages
+  '/privacy',
+  '/about',
+];
+
+/**
+ * Check if currently in pre-launch (locked) mode
+ * Can be disabled by setting PRELAUNCH_LOCK_ENABLED=false
+ */
+function isPreLaunchMode(): boolean {
+  // Check if lock is explicitly disabled
+  if (process.env.PRELAUNCH_LOCK_ENABLED === 'false') {
+    return false;
+  }
+  return new Date() < LAUNCH_DATE;
+}
+
+/**
+ * Check if a route is allowed during pre-launch
+ */
+function isAllowedDuringPreLaunch(pathname: string): boolean {
+  // Remove locale prefix to get the actual route
+  const routeWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/';
+
+  return PRE_LAUNCH_ALLOWED_ROUTES.some(route =>
+    routeWithoutLocale === route || routeWithoutLocale.startsWith(`${route}/`)
+  );
+}
+
 // Routes that require authentication (not admin, just logged in)
 // These routes will redirect to signin if no session cookie exists
 const PROTECTED_ROUTES = [
@@ -91,6 +128,15 @@ export async function middleware(request: NextRequest) {
     pathname.includes('.')  // static files (but not locale paths like /en/)
   ) {
     return NextResponse.next();
+  }
+
+  // Pre-launch lock: Redirect all non-allowed routes to landing page
+  // EXCEPTION: Logged-in users (have session cookie) can bypass the lock
+  // This allows existing users (e.g., developer testing) to use the full app
+  const hasSession = request.cookies.has('session');
+  if (isPreLaunchMode() && !isAllowedDuringPreLaunch(pathname) && !hasSession) {
+    console.log(`[Middleware] Pre-launch lock: Redirecting ${pathname} to landing page`);
+    return NextResponse.redirect(getLocaleAwareRedirect(request, '/'));
   }
 
   // Check admin routes - Enhanced security validation

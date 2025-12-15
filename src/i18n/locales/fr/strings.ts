@@ -209,6 +209,23 @@ export const strings = {
       ctaPrimary: 'Commencer gratuitement',
       ctaSecondary: 'Voir la démo',
 
+      // Pre-launch waitlist strings
+      preLaunch: {
+        badge: '31 Déc',
+        badgeMobile: 'Lancement le 16 janv.',
+        heroBadge: 'Lancement le 31 Décembre - 25% de réduction!',
+        joinWaitlist: 'Rejoindre la liste d\'attente',
+        joinWaitlistDiscount: 'Inscrivez-vous - 25% de réduction',
+        launchingIn: 'Lancement dans',
+        countdown: {
+          days: 'Jours',
+          hours: 'Heures',
+          mins: 'Min',
+          secs: 'Sec',
+          complete: 'Nous sommes en ligne!',
+        },
+      },
+
       // Carousel Slides
       carousel: {
         shadowing: {
@@ -2061,8 +2078,11 @@ export const strings = {
       features: {
         unlimited: 'Sessions de pratique illimitées',
         advancedStats: 'Analyses de progression avancées',
+        moshiComics: 'Moshi Comics',
+        textbookResources: 'Ressources de manuels',
+        moshiPlayer: 'MoshiPlayer',
         prioritySupport: 'Support client prioritaire',
-        offlineMode: 'Mode hors ligne complet',
+        offlineMode: 'Mode hors ligne',
         earlyAccess: 'Accès anticipé aux nouvelles fonctionnalités',
       },
       badges: {
@@ -4727,6 +4747,85 @@ export const strings = {
       speed: 'Vitesse',
       pitch: 'Hauteur',
       volume: 'Volume',
+    },
+  },
+
+  // Waitlist
+  waitlist: {
+    badge: 'Lancement le 16 janvier',
+    titleLine1: 'Apprendre le japonais',
+    titleLine2: 'En s\'amusant',
+    subtitle: 'Gratuit avec shadowing YouTube, actualités natives, histoires IA, Moshi Comics, import Anki et plus.',
+    discountHighlight: '25% de réduction sur Premium pour les premiers supporters !',
+    launchingIn: 'Lancement dans',
+    countdown: {
+      days: 'Jours',
+      hours: 'Heures',
+      mins: 'Min',
+      secs: 'Sec',
+      complete: 'Nous sommes en ligne !',
+    },
+    features: {
+      kana: {
+        title: 'Hiragana & Katakana',
+        description: 'Maîtrisez les alphabets japonais',
+      },
+      kanji: {
+        title: 'Maîtrise des Kanji',
+        description: '2 000+ kanji avec mnémoniques',
+      },
+      textbooks: {
+        title: 'Genki & Minna',
+        description: 'Vocabulaire complet des manuels',
+      },
+      shadowing: {
+        title: 'Shadowing YouTube',
+        description: 'Apprenez avec des vidéos natives',
+      },
+      news: {
+        title: 'Actualités natives',
+        description: 'De vrais articles japonais',
+      },
+      stories: {
+        title: 'Histoires IA',
+        description: 'Histoires à votre niveau',
+      },
+      comics: {
+        title: 'Moshi Comics',
+        description: 'Série manga originale',
+      },
+      anki: {
+        title: 'Import Anki',
+        description: 'Apportez vos flashcards',
+      },
+      conjugation: {
+        title: 'Exercices de conjugaison',
+        description: '100+ formes verbales',
+      },
+    },
+    socialProof: 'Soyez parmi les premiers à découvrir Moshimoshi',
+    footer: {
+      terms: 'Conditions d\'utilisation',
+      privacy: 'Politique de confidentialité',
+    },
+    form: {
+      placeholder: 'Entrez votre email',
+      button: {
+        default: 'Rejoindre la liste',
+        loading: 'Inscription...',
+        success: 'Vous êtes inscrit !',
+      },
+      errors: {
+        required: 'Veuillez entrer votre adresse email',
+        invalid: 'Veuillez entrer une adresse email valide',
+        generic: 'Une erreur s\'est produite. Veuillez réessayer.',
+        network: 'Erreur réseau. Vérifiez votre connexion et réessayez.',
+      },
+      success: {
+        title: 'Vous êtes sur la liste !',
+        message: 'Vous êtes sur la liste ! Vous aurez 25% de réduction sur Premium au lancement.',
+        description: 'Au lancement, vous pourrez utiliser l\'app gratuitement. Si vous décidez de passer à Premium pour des fonctionnalités supplémentaires, vous obtiendrez automatiquement 25% de réduction !',
+      },
     },
   },
 }

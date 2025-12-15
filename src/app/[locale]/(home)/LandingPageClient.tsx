@@ -27,11 +27,14 @@ import {
   DocumentTextIcon,
   ChatBubbleLeftRightIcon,
 } from '@heroicons/react/24/outline'
+import { usePreLaunch } from '@/hooks/usePreLaunch'
+import { CountdownTimer } from '@/components/waitlist/CountdownTimer'
 
 export default function LandingPageClient() {
   const router = useRouter()
   const { strings } = useTranslation()
   const { getLocalePath } = useLocalePath()
+  const { isPreLaunch, launchDate } = usePreLaunch()
   const [currentSlide, setCurrentSlide] = useState(0)
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
   const [mounted, setMounted] = useState(false)
@@ -122,18 +125,41 @@ export default function LandingPageClient() {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-4">
           <ThemeToggle />
-          <Button
-            onClick={() => router.push(getLocalePath('/auth/signin'))}
-            className="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-white"
-          >
-            {strings?.common?.signIn || 'Sign In'}
-          </Button>
-          <Button
-            onClick={() => router.push(getLocalePath('/auth/signup'))}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white"
-          >
-            {strings?.common?.signUp || 'Sign Up'}
-          </Button>
+          {isPreLaunch ? (
+            <>
+              {/* Pre-launch: Show waitlist button */}
+              <div className="flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-primary-100 to-japanese-sakura/20 dark:from-primary-900/30 dark:to-japanese-sakuraDark/20 rounded-full">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
+                </span>
+                <span className="text-xs font-medium text-primary-700 dark:text-primary-300">{landingStrings.hero.preLaunch?.badge || 'Dec 31st'}</span>
+              </div>
+              <Button
+                onClick={() => router.push(getLocalePath('/waitlist'))}
+                className="bg-gradient-to-r from-primary-500 to-japanese-sakura hover:from-primary-600 hover:to-japanese-sakuraDark text-white shadow-lg"
+              >
+                {landingStrings.hero.preLaunch?.joinWaitlist || 'Join Waitlist'}
+                <ArrowRightIcon className="w-4 h-4 ml-2" />
+              </Button>
+            </>
+          ) : (
+            <>
+              {/* Post-launch: Show normal auth buttons */}
+              <Button
+                onClick={() => router.push(getLocalePath('/auth/signin'))}
+                className="bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-white"
+              >
+                {strings?.common?.signIn || 'Sign In'}
+              </Button>
+              <Button
+                onClick={() => router.push(getLocalePath('/auth/signup'))}
+                className="bg-indigo-600 hover:bg-indigo-700 text-white"
+              >
+                {strings?.common?.signUp || 'Sign Up'}
+              </Button>
+            </>
+          )}
         </nav>
 
         {/* Mobile Menu Button */}
@@ -196,33 +222,75 @@ export default function LandingPageClient() {
           {/* Divider */}
           <div className="border-t border-gray-200 dark:border-gray-700 my-2"></div>
 
-          {/* Sign In Button */}
-          <Button
-            onClick={() => {
-              setMobileMenuOpen(false)
-              router.push(getLocalePath('/auth/signin'))
-            }}
-            className="w-full bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 justify-center"
-          >
-            {strings?.common?.signIn || 'Sign In'}
-          </Button>
+          {isPreLaunch ? (
+            <>
+              {/* Pre-launch Badge */}
+              <div className="flex items-center justify-center gap-2 py-2 px-3 bg-gradient-to-r from-primary-100 to-japanese-sakura/20 dark:from-primary-900/30 dark:to-japanese-sakuraDark/20 rounded-lg">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
+                </span>
+                <span className="text-sm font-medium text-primary-700 dark:text-primary-300">{landingStrings.hero.preLaunch?.badgeMobile || 'Launching Dec 31st'}</span>
+              </div>
 
-          {/* Sign Up Button */}
-          <Button
-            onClick={() => {
-              setMobileMenuOpen(false)
-              router.push(getLocalePath('/auth/signup'))
-            }}
-            className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white justify-center shadow-lg"
-          >
-            {strings?.common?.signUp || 'Sign Up'}
-          </Button>
+              {/* Join Waitlist Button */}
+              <Button
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  router.push(getLocalePath('/waitlist'))
+                }}
+                className="w-full bg-gradient-to-r from-primary-500 to-japanese-sakura hover:from-primary-600 hover:to-japanese-sakuraDark text-white justify-center shadow-lg"
+              >
+                {landingStrings.hero.preLaunch?.joinWaitlistDiscount || 'Join Waitlist - Get 25% Off'}
+                <ArrowRightIcon className="w-4 h-4 ml-2" />
+              </Button>
+            </>
+          ) : (
+            <>
+              {/* Sign In Button */}
+              <Button
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  router.push(getLocalePath('/auth/signin'))
+                }}
+                className="w-full bg-transparent hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-900 dark:text-white border border-gray-300 dark:border-gray-700 justify-center"
+              >
+                {strings?.common?.signIn || 'Sign In'}
+              </Button>
+
+              {/* Sign Up Button */}
+              <Button
+                onClick={() => {
+                  setMobileMenuOpen(false)
+                  router.push(getLocalePath('/auth/signup'))
+                }}
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white justify-center shadow-lg"
+              >
+                {strings?.common?.signUp || 'Sign Up'}
+              </Button>
+            </>
+          )}
         </div>
       </div>
 
       {/* Hero Section with Carousel */}
       <section className="container mx-auto px-4 md:px-6 py-12 md:py-20">
         <div className="text-center mb-12">
+          {/* Pre-launch Badge */}
+          {isPreLaunch && (
+            <div className="flex justify-center mb-4">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-100 to-japanese-sakura/20 dark:from-primary-900/30 dark:to-japanese-sakuraDark/20 rounded-full">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
+                </span>
+                <span className="text-sm font-medium text-primary-700 dark:text-primary-300">
+                  {landingStrings.hero.preLaunch?.heroBadge || 'Launching December 31st - Get 25% Off!'}
+                </span>
+              </div>
+            </div>
+          )}
+
           {/* Doshi Mascot for Hero */}
           <div className="flex justify-center mb-6">
             <DoshiMascot size="large" variant="animated" />
@@ -234,15 +302,40 @@ export default function LandingPageClient() {
           <p className="text-base sm:text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto px-4">
             {landingStrings.hero.subheadline}
           </p>
+
+          {/* CTA Button - changes based on pre-launch status */}
           <div className="flex justify-center px-4">
-            <Button
-              onClick={() => router.push(getLocalePath('/auth/signup'))}
-              className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white text-base sm:text-lg md:text-xl py-4 sm:py-5 md:py-6 px-6 sm:px-8 rounded-lg shadow-lg hover:shadow-xl transition-all"
-            >
-              {landingStrings.hero.ctaPrimary}
-              <ArrowRightIcon className="w-5 h-5 ml-2 inline" />
-            </Button>
+            {isPreLaunch ? (
+              <Button
+                onClick={() => router.push(getLocalePath('/waitlist'))}
+                className="w-full sm:w-auto bg-gradient-to-r from-primary-500 to-japanese-sakura hover:from-primary-600 hover:to-japanese-sakuraDark text-white text-base sm:text-lg md:text-xl py-4 sm:py-5 md:py-6 px-6 sm:px-8 rounded-lg shadow-lg hover:shadow-xl transition-all"
+              >
+                {landingStrings.hero.preLaunch?.joinWaitlistDiscount || 'Join Waitlist - Get 25% Off'}
+                <ArrowRightIcon className="w-5 h-5 ml-2 inline" />
+              </Button>
+            ) : (
+              <Button
+                onClick={() => router.push(getLocalePath('/auth/signup'))}
+                className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white text-base sm:text-lg md:text-xl py-4 sm:py-5 md:py-6 px-6 sm:px-8 rounded-lg shadow-lg hover:shadow-xl transition-all"
+              >
+                {landingStrings.hero.ctaPrimary}
+                <ArrowRightIcon className="w-5 h-5 ml-2 inline" />
+              </Button>
+            )}
           </div>
+
+          {/* Countdown Timer - only shown during pre-launch */}
+          {isPreLaunch && (
+            <div className="mt-12">
+              <p className="text-sm font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-6">
+                {landingStrings.hero.preLaunch?.launchingIn || 'Launching In'}
+              </p>
+              <CountdownTimer
+                targetDate={launchDate}
+                labels={landingStrings.hero.preLaunch?.countdown}
+              />
+            </div>
+          )}
         </div>
 
         {/* Feature Carousel */}

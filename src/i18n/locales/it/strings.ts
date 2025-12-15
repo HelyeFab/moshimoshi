@@ -1,4 +1,83 @@
 export const strings = {
+  // Waitlist Page
+  waitlist: {
+    badge: 'Lancio il 16 gennaio',
+    titleLine1: 'Impara il Giapponese',
+    titleLine2: 'In Modo Divertente',
+    subtitle: 'Gratis da usare con shadowing YouTube, notizie native, storie AI, Moshi Comics, importazione Anki e altro.',
+    discountHighlight: '25% di sconto su Premium per i primi sostenitori!',
+    launchingIn: 'Lancio tra',
+    socialProof: 'Sii tra i primi a provare Moshimoshi',
+    countdown: {
+      days: 'Giorni',
+      hours: 'Ore',
+      mins: 'Min',
+      secs: 'Sec',
+      complete: 'Siamo Online!',
+    },
+    features: {
+      kana: {
+        title: 'Hiragana e Katakana',
+        description: 'Padroneggia gli alfabeti',
+      },
+      kanji: {
+        title: 'Padronanza Kanji',
+        description: '2.000+ kanji con mnemonici',
+      },
+      textbooks: {
+        title: 'Genki e Minna',
+        description: 'Vocabolario completo',
+      },
+      shadowing: {
+        title: 'Shadowing YouTube',
+        description: 'Impara con video nativi',
+      },
+      news: {
+        title: 'Notizie Native',
+        description: 'Articoli giapponesi veri',
+      },
+      stories: {
+        title: 'Storie AI',
+        description: 'Storie al tuo livello',
+      },
+      comics: {
+        title: 'Moshi Comics',
+        description: 'Serie manga originali',
+      },
+      anki: {
+        title: 'Importa Anki',
+        description: 'Porta le tue flashcard',
+      },
+      conjugation: {
+        title: 'Esercizi Coniugazione',
+        description: '100+ forme verbali',
+      },
+    },
+    footer: {
+      terms: 'Termini di Servizio',
+      privacy: 'Privacy Policy',
+    },
+    form: {
+      placeholder: 'Inserisci la tua email',
+      button: {
+        default: 'Iscriviti alla Lista',
+        loading: 'Iscrizione...',
+        success: 'Sei dentro!',
+      },
+      errors: {
+        required: 'Inserisci il tuo indirizzo email',
+        invalid: 'Inserisci un indirizzo email valido',
+        generic: 'Qualcosa è andato storto. Riprova.',
+        network: 'Errore di rete. Controlla la connessione e riprova.',
+      },
+      success: {
+        title: 'Sei nella lista!',
+        message: 'Sei nella lista! Avrai il 25% di sconto su Premium al lancio.',
+        description: "Al lancio, potrai usare l'app completamente gratis. Se deciderai di passare a Premium per funzionalità extra, otterrai automaticamente il 25% di sconto!",
+      },
+    },
+  },
+
   reviewDashboard: {
     title: 'Pannello di Revisione',
     description: 'Traccia i tuoi progressi di apprendimento e il programma di revisione',
@@ -251,6 +330,23 @@ export const strings = {
         "L'unica piattaforma che combina shadowing su YouTube, connessioni kanji intelligenti, importazione Anki con un clic e integrazione completa dei libri di testo",
       ctaPrimary: 'Inizia a imparare gratis',
       ctaSecondary: 'Guarda la demo',
+
+      // Pre-launch waitlist strings
+      preLaunch: {
+        badge: '31 Dic',
+        badgeMobile: 'Lancio il 16 gen',
+        heroBadge: 'Lancio il 31 Dicembre - Ottieni il 25% di sconto!',
+        joinWaitlist: 'Iscriviti alla lista d\'attesa',
+        joinWaitlistDiscount: 'Iscriviti - Ottieni il 25% di sconto',
+        launchingIn: 'Lancio tra',
+        countdown: {
+          days: 'Giorni',
+          hours: 'Ore',
+          mins: 'Min',
+          secs: 'Sec',
+          complete: 'Siamo Online!',
+        },
+      },
 
       // Carousel Slides
       carousel: {
@@ -2116,8 +2212,11 @@ export const strings = {
       features: {
         unlimited: 'Sessioni di pratica illimitate',
         advancedStats: 'Analisi avanzate dei progressi',
+        moshiComics: 'Moshi Comics',
+        textbookResources: 'Risorse di libri di testo',
+        moshiPlayer: 'MoshiPlayer',
         prioritySupport: 'Supporto clienti prioritario',
-        offlineMode: 'Modalità offline completa',
+        offlineMode: 'Modalità offline',
         earlyAccess: 'Accesso anticipato alle nuove funzioni',
       },
       badges: {

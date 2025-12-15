@@ -1,4 +1,83 @@
 export const strings = {
+  // Waitlist Page
+  waitlist: {
+    badge: 'Launching January 16',
+    titleLine1: 'Learn Japanese',
+    titleLine2: 'The Fun Way',
+    subtitle: 'Free to use with YouTube shadowing, native news, AI stories, Moshi Comics, Anki import, and more.',
+    discountHighlight: '25% off Premium for early supporters!',
+    launchingIn: 'Launching In',
+    socialProof: 'Be among the first to experience Moshimoshi',
+    countdown: {
+      days: 'Days',
+      hours: 'Hours',
+      mins: 'Mins',
+      secs: 'Secs',
+      complete: "We're Live!",
+    },
+    features: {
+      kana: {
+        title: 'Hiragana & Katakana',
+        description: 'Master Japanese alphabets',
+      },
+      kanji: {
+        title: 'Kanji Mastery',
+        description: '2,000+ kanji with mnemonics',
+      },
+      textbooks: {
+        title: 'Genki & Minna',
+        description: 'Full textbook vocabulary',
+      },
+      shadowing: {
+        title: 'YouTube Shadowing',
+        description: 'Learn with native videos',
+      },
+      news: {
+        title: 'Native News',
+        description: 'Real Japanese articles',
+      },
+      stories: {
+        title: 'AI Stories',
+        description: 'Stories at your level',
+      },
+      comics: {
+        title: 'Moshi Comics',
+        description: 'Original manga series',
+      },
+      anki: {
+        title: 'Anki Import',
+        description: 'Bring your flashcards',
+      },
+      conjugation: {
+        title: 'Conjugation Drills',
+        description: '100+ verb forms',
+      },
+    },
+    footer: {
+      terms: 'Terms of Service',
+      privacy: 'Privacy Policy',
+    },
+    form: {
+      placeholder: 'Enter your email',
+      button: {
+        default: 'Join Waitlist',
+        loading: 'Joining...',
+        success: "You're In!",
+      },
+      errors: {
+        required: 'Please enter your email address',
+        invalid: 'Please enter a valid email address',
+        generic: 'Something went wrong. Please try again.',
+        network: 'Network error. Please check your connection and try again.',
+      },
+      success: {
+        title: "You're on the list!",
+        message: "You're on the list! You'll get 25% off Premium when we launch.",
+        description: "When we launch, you can use the app completely free. If you decide to upgrade to Premium for extra features, you'll automatically get 25% off!",
+      },
+    },
+  },
+
   // Landing Page
   landing: {
     // Hero Section
@@ -8,6 +87,23 @@ export const strings = {
         'The only platform combining YouTube shadowing, intelligent kanji connections, one-click Anki import, and complete textbook integration',
       ctaPrimary: 'Start Learning Free',
       ctaSecondary: 'Watch Demo',
+
+      // Pre-launch waitlist strings
+      preLaunch: {
+        badge: 'Jan 16',
+        badgeMobile: 'Launching Jan 16',
+        heroBadge: 'Launching January 16 - Get 25% Off!',
+        joinWaitlist: 'Join Waitlist',
+        joinWaitlistDiscount: 'Join Waitlist - Get 25% Off',
+        launchingIn: 'Launching In',
+        countdown: {
+          days: 'Days',
+          hours: 'Hours',
+          mins: 'Mins',
+          secs: 'Secs',
+          complete: "We're Live!",
+        },
+      },
 
       // Carousel Slides
       carousel: {
@@ -2041,8 +2137,11 @@ export const strings = {
       features: {
         unlimited: 'Unlimited practice sessions',
         advancedStats: 'Advanced progress analytics',
+        moshiComics: 'Moshi Comics',
+        textbookResources: 'TextBook resources',
+        moshiPlayer: 'MoshiPlayer',
         prioritySupport: 'Priority customer support',
-        offlineMode: 'Full offline mode',
+        offlineMode: 'Offline mode',
         earlyAccess: 'Early access to new features',
       },
       badges: {

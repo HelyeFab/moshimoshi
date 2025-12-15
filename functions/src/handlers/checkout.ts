@@ -15,6 +15,7 @@ import {
   logStripeEvent,
   getUidByCustomerId
 } from '../firestore';
+import { markDiscountRedeemedByCustomerId } from '../discounts';
 // Node.js 20+ has native fetch support
 
 /**
@@ -183,6 +184,18 @@ async function handleSubscriptionCheckout(
 
     // Invalidate all user caches so user sees premium features immediately
     await invalidateAllUserCaches(customerId);
+
+    // Mark discount as redeemed if it was applied (pre-launch waitlist discount)
+    const discountApplied = session.metadata?.discount_applied === 'true';
+    if (discountApplied && subscriptionId) {
+      console.log(`[Checkout] Discount was applied, marking as redeemed for customer ${customerId}`);
+      try {
+        await markDiscountRedeemedByCustomerId(customerId, subscriptionId);
+      } catch (discountError) {
+        // Non-critical - log but don't fail the checkout
+        console.error('[Checkout] Failed to mark discount as redeemed:', discountError);
+      }
+    }
   } catch (error) {
     console.error(`Failed to update subscription for customer ${customerId}:`, error);
     throw error; // Re-throw to prevent marking as processed

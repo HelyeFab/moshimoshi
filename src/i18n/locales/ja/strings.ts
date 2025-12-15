@@ -1,4 +1,53 @@
 export const strings = {
+  // Waitlist Page
+  waitlist: {
+    badge: '1月16日リリース',
+    titleLine1: '日本語を学ぼう',
+    titleLine2: '楽しく効果的に',
+    subtitle: '無料で使える！YouTubeシャドーイング、ネイティブニュース、AIストーリー、もしコミック、Ankiインポートなど。',
+    discountHighlight: '早期サポーターはプレミアム25%オフ！',
+    launchingIn: 'リリースまで',
+    socialProof: 'Moshimoshiをいち早く体験しよう',
+    countdown: {
+      days: '日',
+      hours: '時間',
+      mins: '分',
+      secs: '秒',
+      complete: 'リリースしました！',
+    },
+    features: {
+      kana: { title: 'ひらがな・カタカナ', description: '日本語の文字をマスター' },
+      kanji: { title: '漢字マスター', description: '2,000以上の漢字' },
+      textbooks: { title: 'げんき・みんな', description: '教科書の語彙完備' },
+      shadowing: { title: 'シャドーイング', description: 'ネイティブ動画で学習' },
+      news: { title: 'ネイティブニュース', description: '本物の日本語記事' },
+      stories: { title: 'AIストーリー', description: 'レベルに合った物語' },
+      comics: { title: 'もしコミック', description: 'オリジナル漫画シリーズ' },
+      anki: { title: 'Ankiインポート', description: 'カードを持ち込み' },
+      conjugation: { title: '活用ドリル', description: '100以上の動詞形' },
+    },
+    footer: { terms: '利用規約', privacy: 'プライバシーポリシー' },
+    form: {
+      placeholder: 'メールアドレスを入力',
+      button: {
+        default: 'ウェイトリストに参加',
+        loading: '登録中...',
+        success: '登録完了！',
+      },
+      errors: {
+        required: 'メールアドレスを入力してください',
+        invalid: '有効なメールアドレスを入力してください',
+        generic: 'エラーが発生しました。もう一度お試しください。',
+        network: 'ネットワークエラーです。接続を確認して再度お試しください。',
+      },
+      success: {
+        title: 'リストに登録されました！',
+        message: 'リストに登録されました！リリース時にプレミアムが25%オフになります。',
+        description: 'リリース後、アプリは完全無料でご利用いただけます。プレミアムにアップグレードする場合は、自動的に25%オフが適用されます！',
+      },
+    },
+  },
+
   // Landing Page
   landing: {
     hero: {
@@ -7,6 +56,24 @@ export const strings = {
         'YouTubeシャドーイング、インテリジェントな漢字コネクション、ワンクリックAnkiインポート、完全な教科書統合を組み合わせた唯一のプラットフォーム',
       ctaPrimary: '無料で学習を始める',
       ctaSecondary: 'デモを見る',
+
+      // Pre-launch waitlist strings
+      preLaunch: {
+        badge: '1月16日',
+        badgeMobile: '1月16日リリース',
+        heroBadge: '1月16日リリース - 25%オフ！',
+        joinWaitlist: 'ウェイトリストに登録',
+        joinWaitlistDiscount: '登録して25%オフ',
+        launchingIn: 'リリースまで',
+        countdown: {
+          days: '日',
+          hours: '時間',
+          mins: '分',
+          secs: '秒',
+          complete: 'リリースしました！',
+        },
+      },
+
       carousel: {
         shadowing: {
           title: 'YouTubeシャドーイング',
@@ -2132,8 +2199,11 @@ export const strings = {
       features: {
         unlimited: '無制限の練習セッション',
         advancedStats: '高度な進歩分析',
+        moshiComics: 'Moshiコミック',
+        textbookResources: '教科書リソース',
+        moshiPlayer: 'MoshiPlayer',
         prioritySupport: '優先カスタマーサポート',
-        offlineMode: '完全オフラインモード',
+        offlineMode: 'オフラインモード',
         earlyAccess: '新機能への早期アクセス',
       },
       badges: {
