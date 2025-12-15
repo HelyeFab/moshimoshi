@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Suspense, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import YouTube, { type YouTubeProps } from "react-youtube";
 import styles from "./page.module.css";
@@ -11,13 +11,15 @@ import WordExplanationModal from "@/components/word/WordExplanationModal";
 import { GrammarHighlightedText } from "@/components/reading/GrammarHighlightedText";
 import { PlayIcon, PauseIcon } from "@heroicons/react/24/solid";
 import { useI18n } from "@/i18n/I18nContext";
-import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw } from "lucide-react";
+import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw, Lock } from "lucide-react";
+import { LockScreen } from "@/components/ui/LockScreen";
 import Modal from "@/components/ui/Modal";
 import Dropdown from "@/components/ui/Dropdown";
 import PageHeader from "@/components/ui/PageHeader";
 import Navbar from "@/components/layout/Navbar";
 import MobileNavSpacer from "@/components/layout/MobileNavSpacer";
 import { useAuth } from "@/hooks/useAuth";
+import { LoadingSpinner } from "@/components/ui/Loading";
 
 // Session persistence key
 const SESSION_STORAGE_KEY = "moshiPlayerSession";
@@ -62,7 +64,7 @@ const PLAYER_STATES = {
   cued: 5,
 } as const;
 
-export default function YouTubeShadowingPage() {
+function YouTubeShadowingContent() {
   const { t } = useI18n();
   const { user } = useAuth();
   const searchParams = useSearchParams();
@@ -88,11 +90,18 @@ export default function YouTubeShadowingPage() {
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
   const [showUrlInput, setShowUrlInput] = useState(true);
   const [videoLoopEnabled, setVideoLoopEnabled] = useState(false);
+  const [isScreenLocked, setIsScreenLocked] = useState(false);
 
   // Word explanation state
   const [wordModalOpen, setWordModalOpen] = useState(false);
   const [selectedWord, setSelectedWord] = useState<string | null>(null);
   const [wordContext, setWordContext] = useState<string | undefined>(undefined);
+
+  // Memoize options to avoid recreating explainWord callback on every render
+  const wordExplanationOptions = useMemo(
+    () => (videoId ? { videoId } : undefined),
+    [videoId]
+  );
 
   const {
     explainWord,
@@ -101,7 +110,7 @@ export default function YouTubeShadowingPage() {
     explanation: wordExplanation,
     reset: resetWordExplanation,
     prefetch: prefetchWordExplanations,
-  } = useWordExplanation();
+  } = useWordExplanation(wordExplanationOptions);
 
   const playerRef = useRef<YT.Player | null>(null);
   const pollRef = useRef<NodeJS.Timeout | null>(null);
@@ -389,6 +398,7 @@ export default function YouTubeShadowingPage() {
   useEffect(() => {
     videoLoopEnabledRef.current = videoLoopEnabled;
   }, [videoLoopEnabled]);
+
 
   // Restore session from localStorage on mount
   useEffect(() => {
@@ -771,6 +781,25 @@ export default function YouTubeShadowingPage() {
             </button>
           </div>
 
+          {/* Lock Screen Button - only shown when loop is on and screen is unlocked */}
+          {videoLoopEnabled && !isScreenLocked && (
+            <div className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-dark-700">
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                <Lock className="w-4 h-4 text-primary-500" />
+                {t("youtubeShadowing.lockScreen.lockButton")}
+              </label>
+              <button
+                onClick={() => {
+                  setIsScreenLocked(true);
+                  setSettingsModalOpen(false);
+                }}
+                className="px-4 py-1.5 rounded-lg text-sm font-medium transition-all bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
+              >
+                <Lock className="w-4 h-4" />
+              </button>
+            </div>
+          )}
+
           {/* Repeat Count - disabled when video loop is on */}
           <div className={`py-3 border-b border-gray-200 dark:border-dark-700 ${videoLoopEnabled ? "opacity-50" : ""}`}>
             <div className="flex items-center justify-between mb-3">
@@ -878,7 +907,32 @@ export default function YouTubeShadowingPage() {
         enableRelatedTranslations={true}
         onWordLookup={(word) => handleWordTap(word, wordContext || "")}
       />
+
+      {/* Lock Screen for pocket mode */}
+      <LockScreen
+        isLocked={isScreenLocked && videoLoopEnabled}
+        onUnlock={() => {
+          setIsScreenLocked(false);
+          setVideoLoopEnabled(false);
+        }}
+        title={t("youtubeShadowing.lockScreen.title")}
+        unlockText={t("youtubeShadowing.lockScreen.tapToUnlock")}
+      />
+
       <MobileNavSpacer />
     </div>
+  );
+}
+
+// Wrap in Suspense for useSearchParams compatibility with Next.js 15
+export default function YouTubeShadowingPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
+        <LoadingSpinner size="large" />
+      </div>
+    }>
+      <YouTubeShadowingContent />
+    </Suspense>
   );
 }

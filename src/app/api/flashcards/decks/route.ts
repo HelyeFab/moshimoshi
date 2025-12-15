@@ -149,6 +149,8 @@ export async function POST(request: NextRequest) {
         hapticFeedback: true,
         sessionLength: 20,
         reviewMode: 'srs',
+        newCardsPerDay: 20,
+        reviewsPerDay: 100,
         ...body.settings,
       },
       stats: {

@@ -2680,6 +2680,12 @@ export const strings = {
       clearButton: 'Cancella',
     },
 
+    lockScreen: {
+      title: 'Schermo bloccato',
+      tapToUnlock: 'Tocca Doshi 3 volte per sbloccare',
+      lockButton: 'Blocca schermo',
+    },
+
     currentSegment: {
       nowPlaying: 'In Riproduzione',
     },
@@ -2915,6 +2921,10 @@ export const strings = {
     random: 'Casuale',
     oldest: 'Più vecchie prima',
 
+    // Performance insights
+    strongTopics: 'Punti di Forza',
+    needsWork: 'Da Migliorare',
+
     // Statistics
     stats: {
       title: 'Statistiche',
@@ -3127,6 +3137,9 @@ export const strings = {
     progressSaved: 'Progresso salvato',
     imported: 'Mazzo importato',
     exported: 'Mazzo esportato',
+    allSynced: 'Tutti i mazzi sincronizzati',
+    allExported: 'Tutti i mazzi esportati',
+    syncComplete: 'Sincronizzazione completata',
   },
 
   // Actions

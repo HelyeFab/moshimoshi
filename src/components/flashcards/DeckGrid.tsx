@@ -71,16 +71,22 @@ export function DeckGrid({
   };
 
   const getDueCount = (deck: FlashcardDeck) => {
-    // Calculate cards due for review
     const now = Date.now();
-    return deck.cards.filter(card => {
-      // New cards are always due
-      if (!card.metadata?.status || card.metadata.status === 'new') {
-        return true;
-      }
-      // Check if card's next review time has passed
-      return card.metadata?.nextReview && card.metadata.nextReview <= now;
-    }).length;
+    const newCardsPerDay = deck.settings?.newCardsPerDay ?? 20;
+    const reviewsPerDay = deck.settings?.reviewsPerDay ?? 100;
+
+    const newCards = deck.cards.filter(card => !card.metadata?.status || card.metadata.status === 'new');
+    const reviewCards = deck.cards.filter(card =>
+      card.metadata?.status &&
+      card.metadata.status !== 'new' &&
+      card.metadata.nextReview &&
+      card.metadata.nextReview <= now
+    );
+
+    const limitedNew = Math.min(newCards.length, newCardsPerDay);
+    const limitedReviews = Math.min(reviewCards.length, reviewsPerDay);
+
+    return limitedNew + limitedReviews;
   };
 
   const containerVariants = {

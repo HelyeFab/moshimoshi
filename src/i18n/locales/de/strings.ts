@@ -2752,6 +2752,12 @@ export const strings = {
       clearButton: 'Löschen',
     },
 
+    lockScreen: {
+      title: 'Bildschirm gesperrt',
+      tapToUnlock: 'Tippe 3x auf Doshi zum Entsperren',
+      lockButton: 'Bildschirm sperren',
+    },
+
     status: {
       transcriptLoaded: 'Transkript von {{source}} ({{language}}) geladen.',
     },
@@ -2887,6 +2893,10 @@ export const strings = {
     priority: 'Priorität',
     random: 'Zufällig',
     oldest: 'Älteste zuerst',
+
+    // Performance insights
+    strongTopics: 'Starke Themen',
+    needsWork: 'Verbesserungsbedarf',
 
     // Statistics
     stats: {
@@ -3101,6 +3111,9 @@ export const strings = {
     progressSaved: 'Fortschritt gespeichert',
     imported: 'Stapel importiert',
     exported: 'Stapel exportiert',
+    allSynced: 'Alle Stapel erfolgreich synchronisiert',
+    allExported: 'Alle Stapel erfolgreich exportiert',
+    syncComplete: 'Synchronisierung abgeschlossen',
   },
 
   // Actions

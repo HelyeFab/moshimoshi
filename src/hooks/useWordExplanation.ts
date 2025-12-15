@@ -23,6 +23,7 @@ interface UseWordExplanationOptions {
   onSuccess?: (explanation: WordExplanation) => void;
   articleId?: string; // Optional: if provided, will check Firebase pre-cached explanations first
   bookId?: string; // Optional: if provided, will check book_word_explanations collection
+  videoId?: string; // Optional: if provided, will check video_word_explanations collection
 }
 
 export function useWordExplanation(options?: UseWordExplanationOptions) {
@@ -122,6 +123,41 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
           }
         } catch (firebaseError) {
           console.warn('[WordExplanation] Book pre-cache check failed, falling back to API:', firebaseError);
+          // Continue to API fallback
+        }
+      }
+
+      // If videoId is provided, check video_word_explanations collection
+      if (options?.videoId) {
+        try {
+          console.log('[WordExplanation] Checking Firebase pre-cache for videoId:', options.videoId);
+          const docRef = doc(firestore, 'video_word_explanations', options.videoId);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            const words = data.words as WordExplanation[];
+
+            // Find the word in pre-cached explanations
+            const preCached = words?.find(w =>
+              w.word === word ||
+              w.word.toLowerCase() === word.toLowerCase() ||
+              w.reading === word
+            );
+
+            if (preCached) {
+              console.log('%c[WordExplanation] SOURCE: VIDEO PRE-CACHE (fast)', 'color: #00ccff; font-weight: bold', { word, videoId: options.videoId });
+              cacheRef.current.set(cacheKey, preCached);
+              setExplanation(preCached);
+              setLoading(false);
+              options?.onSuccess?.(preCached);
+              return preCached;
+            }
+          } else {
+            console.log('[WordExplanation] No pre-cache document found for video');
+          }
+        } catch (firebaseError) {
+          console.warn('[WordExplanation] Video pre-cache check failed, falling back to API:', firebaseError);
           // Continue to API fallback
         }
       }

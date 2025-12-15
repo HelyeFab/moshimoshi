@@ -2692,6 +2692,12 @@ export const strings = {
       clearButton: 'Borrar',
     },
 
+    lockScreen: {
+      title: 'Pantalla bloqueada',
+      tapToUnlock: 'Toca a Doshi 3 veces para desbloquear',
+      lockButton: 'Bloquear pantalla',
+    },
+
     currentSegment: {
       nowPlaying: 'Reproduciendo',
     },
@@ -2926,6 +2932,10 @@ export const strings = {
     random: 'Aleatorio',
     oldest: 'Más antiguas primero',
 
+    // Performance insights
+    strongTopics: 'Temas Fuertes',
+    needsWork: 'Necesita Práctica',
+
     // Customization
     customize: {
       title: 'Personalizar Tarjetas',
@@ -3128,6 +3138,9 @@ export const strings = {
       progressSaved: 'Progreso guardado',
       imported: 'Mazo importado',
       exported: 'Mazo exportado',
+      allSynced: 'Todos los mazos sincronizados',
+      allExported: 'Todos los mazos exportados',
+      syncComplete: 'Sincronización completada',
     },
 
     // Session Settings

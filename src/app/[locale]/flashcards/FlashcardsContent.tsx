@@ -164,13 +164,23 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
       // Load learning insights and recommendations if user has decks
       if (decks.length > 0) {
-        const userInsights = await sessionManager.getLearningInsights(initialData.userId)
+        // Pass SSR sessions to avoid IndexedDB lookup for premium users
+        const sessionsToUse = initialData.isPremium ? sessions : undefined
+
+        const userInsights = await sessionManager.getLearningInsights(
+          initialData.userId,
+          sessionsToUse
+        )
         setInsights(userInsights)
 
-        const studyRecs = await sessionManager.getStudyRecommendations(initialData.userId, decks)
+        const studyRecs = await sessionManager.getStudyRecommendations(
+          initialData.userId,
+          decks,
+          sessionsToUse
+        )
         setRecommendations(studyRecs)
 
-        const streak = await sessionManager.calculateStreak(initialData.userId)
+        const streak = await sessionManager.calculateStreak(initialData.userId, sessionsToUse)
         setCurrentStreak(streak)
       }
 
@@ -553,13 +563,31 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   // Calculate overall stats
   const totalCards = decks.reduce((sum, deck) => sum + deck.stats.totalCards, 0)
   const totalMastered = decks.reduce((sum, deck) => sum + deck.stats.masteredCards, 0)
-  const totalDue = decks.reduce((sum, deck) => {
+  const getDeckDailyLimits = (deck: FlashcardDeck) => ({
+    newCardsPerDay: deck.settings?.newCardsPerDay ?? 20,
+    reviewsPerDay: deck.settings?.reviewsPerDay ?? 100,
+  })
+
+  const getDeckDueCount = (deck: FlashcardDeck) => {
     const now = Date.now()
-    return (
-      sum +
-      deck.cards.filter(card => card.metadata?.nextReview && card.metadata.nextReview <= now).length
+    const limits = getDeckDailyLimits(deck)
+
+    const newCards = deck.cards.filter(card => !card.metadata?.status || card.metadata.status === 'new')
+    const reviewCards = deck.cards.filter(
+      card =>
+        card.metadata?.status &&
+        card.metadata.status !== 'new' &&
+        card.metadata.nextReview &&
+        card.metadata.nextReview <= now
     )
-  }, 0)
+
+    const limitedNew = Math.min(newCards.length, limits.newCardsPerDay)
+    const limitedReviews = Math.min(reviewCards.length, limits.reviewsPerDay)
+
+    return limitedNew + limitedReviews
+  }
+
+  const totalDue = decks.reduce((sum, deck) => sum + getDeckDueCount(deck), 0)
   const averageAccuracy =
     decks.length > 0
       ? decks.reduce((sum, deck) => sum + deck.stats.averageAccuracy, 0) / decks.length
@@ -702,6 +730,45 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           </div>
         </div>
 
+        {/* Deck Limits Warning */}
+        {!initialData.userId && (
+          <div className="mb-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
+            <p className="text-yellow-800 dark:text-yellow-200">{t('flashcards.limits.guest')}</p>
+          </div>
+        )}
+
+        {initialData.userId && !isPremium && decks.length >= limits.maxDecks - 2 && (
+          <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+            <p className="text-blue-800 dark:text-blue-200">
+              {t('flashcards.limits.freeLimit', {
+                current: decks.length,
+                max: limits.maxDecks,
+              })}
+            </p>
+          </div>
+        )}
+
+        {/* Deck Grid - Primary content first */}
+        <div className="mb-8">
+          <DeckGrid
+            decks={decks}
+            onDeckClick={handleStudyDeck}
+            onCreateDeck={() => setShowCreator(true)}
+            onEditDeck={handleEditDeck}
+            onDeleteDeck={handleDeleteDeck}
+            onExportDeck={handleExportDeck}
+            onStudyDeck={handleStudyDeck}
+            onSyncDeck={handleSyncDeck}
+            onSessionSettings={deck => {
+              setDeckToStudy(deck)
+              setShowModeSelector(true)
+            }}
+            showStats={true}
+            gridCols={3}
+            isPremium={isPremium}
+          />
+        </div>
+
         {/* Daily Goals (show for logged in users) */}
         {initialData.userId && (
           <div className="mb-8">
@@ -826,43 +893,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             </motion.div>
           </div>
         )}
-
-        {/* Deck Limits Warning */}
-        {!initialData.userId && (
-          <div className="mb-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
-            <p className="text-yellow-800 dark:text-yellow-200">{t('flashcards.limits.guest')}</p>
-          </div>
-        )}
-
-        {initialData.userId && !isPremium && decks.length >= limits.maxDecks - 2 && (
-          <div className="mb-6 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-            <p className="text-blue-800 dark:text-blue-200">
-              {t('flashcards.limits.freeLimit', {
-                current: decks.length,
-                max: limits.maxDecks,
-              })}
-            </p>
-          </div>
-        )}
-
-        {/* Deck Grid */}
-        <DeckGrid
-          decks={decks}
-          onDeckClick={handleStudyDeck}
-          onCreateDeck={() => setShowCreator(true)}
-          onEditDeck={handleEditDeck}
-          onDeleteDeck={handleDeleteDeck}
-          onExportDeck={handleExportDeck}
-          onStudyDeck={handleStudyDeck}
-          onSyncDeck={handleSyncDeck}
-          onSessionSettings={deck => {
-            setDeckToStudy(deck)
-            setShowModeSelector(true)
-          }}
-          showStats={true}
-          gridCols={3}
-          isPremium={isPremium}
-        />
 
         {/* Deck Creator Modal */}
         <DeckCreator

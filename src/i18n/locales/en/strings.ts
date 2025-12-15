@@ -4050,6 +4050,12 @@ export const strings = {
       clearButton: 'Clear',
     },
 
+    lockScreen: {
+      title: 'Screen Locked',
+      tapToUnlock: 'Tap Doshi 3 times to unlock',
+      lockButton: 'Lock Screen',
+    },
+
     currentSegment: {
       nowPlaying: 'Now Playing',
     },
@@ -4281,6 +4287,10 @@ export const strings = {
     random: 'Random',
     oldest: 'Oldest First',
 
+    // Performance insights
+    strongTopics: 'Strong Topics',
+    needsWork: 'Needs Work',
+
     // Customization
     customize: {
       title: 'Customize Cards',
@@ -4489,6 +4499,9 @@ export const strings = {
       progressSaved: 'Progress saved',
       imported: 'Deck imported successfully',
       exported: 'Deck exported successfully',
+      allSynced: 'All decks synced successfully',
+      allExported: 'All decks exported successfully',
+      syncComplete: 'Sync complete',
     },
 
     // Session Settings

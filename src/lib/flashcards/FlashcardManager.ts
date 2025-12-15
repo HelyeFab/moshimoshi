@@ -340,6 +340,8 @@ export class FlashcardManager {
         hapticFeedback: true,
         sessionLength: 20,
         reviewMode: 'srs',
+        newCardsPerDay: 20,
+        reviewsPerDay: 100,
         ...request.settings,
       },
       stats: this.createInitialStats(),

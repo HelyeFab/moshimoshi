@@ -233,8 +233,9 @@ export class FlashcardSessionManager {
   }
 
   // Calculate learning insights
-  async getLearningInsights(userId: string): Promise<LearningInsights> {
-    const sessions = await this.getUserSessions(userId, 100); // Last 100 sessions
+  // Can accept pre-fetched sessions (e.g., from SSR) to avoid IndexedDB lookup
+  async getLearningInsights(userId: string, providedSessions?: SessionStats[]): Promise<LearningInsights> {
+    const sessions = providedSessions || await this.getUserSessions(userId, 100); // Last 100 sessions
 
     if (sessions.length === 0) {
       return {
@@ -302,17 +303,22 @@ export class FlashcardSessionManager {
       .sort((a, b) => b[1].accuracy - a[1].accuracy);
 
     const strongestTopics = sortedDecks.slice(0, 3).map(([_, perf]) => perf.name);
-    const weakestTopics = sortedDecks.slice(-3).reverse().map(([_, perf]) => perf.name);
+    // Only show weakest if there are more than 3 decks (otherwise same decks would appear in both)
+    const weakestTopics = sortedDecks.length > 3
+      ? sortedDecks.slice(-3).reverse().map(([_, perf]) => perf.name)
+      : [];
 
     // Calculate overall retention rate
     const overallAccuracy = sessions.reduce((sum, s) => sum + s.accuracy, 0) / sessions.length;
 
     // Calculate learning velocity (cards mastered per day)
-    const dateRange = sessions.length > 1
+    // Use minimum 1 day to avoid inflated numbers when sessions are within same day
+    const rawDateRange = sessions.length > 1
       ? (sessions[0].timestamp - sessions[sessions.length - 1].timestamp) / (1000 * 60 * 60 * 24)
       : 1;
+    const dateRange = Math.max(1, rawDateRange);
     const totalNewCards = sessions.reduce((sum, s) => sum + s.newCards, 0);
-    const velocity = dateRange > 0 ? totalNewCards / dateRange : 0;
+    const velocity = totalNewCards / dateRange;
 
     // Check streak risk (no sessions in last 24 hours)
     const lastSessionTime = sessions[0]?.timestamp || 0;
@@ -333,11 +339,13 @@ export class FlashcardSessionManager {
   // Get study recommendations
   async getStudyRecommendations(
     userId: string,
-    decks: FlashcardDeck[]
+    decks: FlashcardDeck[],
+    providedSessions?: SessionStats[]
   ): Promise<StudyRecommendation[]> {
     const recommendations: StudyRecommendation[] = [];
-    const insights = await this.getLearningInsights(userId);
-    const recentSessions = await this.getUserSessions(userId, 10);
+    const allSessions = providedSessions || await this.getUserSessions(userId, 100);
+    const insights = await this.getLearningInsights(userId, allSessions);
+    const recentSessions = allSessions.slice(0, 10);
 
     // Get recently studied deck IDs
     const recentDeckIds = new Set(recentSessions.map(s => s.deckId));
@@ -412,8 +420,8 @@ export class FlashcardSessionManager {
   }
 
   // Calculate streak from sessions
-  async calculateStreak(userId: string): Promise<number> {
-    const sessions = await this.getUserSessions(userId, 100);
+  async calculateStreak(userId: string, providedSessions?: SessionStats[]): Promise<number> {
+    const sessions = providedSessions || await this.getUserSessions(userId, 100);
     if (sessions.length === 0) return 0;
 
     const today = new Date();

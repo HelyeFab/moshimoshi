@@ -2663,6 +2663,12 @@ export const strings = {
       clearButton: 'Effacer',
     },
 
+    lockScreen: {
+      title: 'Écran verrouillé',
+      tapToUnlock: 'Touchez Doshi 3 fois pour déverrouiller',
+      lockButton: 'Verrouiller l\'écran',
+    },
+
     status: {
       transcriptLoaded: 'Transcription chargée depuis {{source}} ({{language}}).',
     },
@@ -2798,6 +2804,10 @@ export const strings = {
     priority: 'Priorité',
     random: 'Aléatoire',
     oldest: "Plus anciennes d'abord",
+
+    // Performance insights
+    strongTopics: 'Points Forts',
+    needsWork: 'À Travailler',
 
     // Customization
     customize: {
@@ -2999,6 +3009,9 @@ export const strings = {
       progressSaved: 'Progrès sauvegardé',
       imported: 'Paquet importé',
       exported: 'Paquet exporté',
+      allSynced: 'Tous les paquets synchronisés',
+      allExported: 'Tous les paquets exportés',
+      syncComplete: 'Synchronisation terminée',
     },
 
     // Session Settings

@@ -2645,6 +2645,12 @@ export const strings = {
       clearButton: 'クリア',
     },
 
+    lockScreen: {
+      title: '画面ロック中',
+      tapToUnlock: 'ドシを3回タップして解除',
+      lockButton: '画面をロック',
+    },
+
     status: {
       transcriptLoaded: '{{source}}（{{language}}）からトランスクリプトを読み込みました。',
     },
@@ -2931,6 +2937,10 @@ export const strings = {
     random: 'ランダム',
     oldest: '古い順',
 
+    // Performance insights
+    strongTopics: '得意なトピック',
+    needsWork: '復習が必要',
+
     // Statistics
     stats: {
       title: '統計',
@@ -3117,6 +3127,22 @@ export const strings = {
     // Additional missing translations
     minutes: '分',
     cards: 'カード',
+
+    // Success messages
+    success: {
+      deckCreated: 'デッキを作成しました',
+      deckUpdated: 'デッキを更新しました',
+      deckDeleted: 'デッキを削除しました',
+      cardAdded: 'カードを追加しました',
+      cardUpdated: 'カードを更新しました',
+      cardDeleted: 'カードを削除しました',
+      progressSaved: '進捗を保存しました',
+      imported: 'デッキをインポートしました',
+      exported: 'デッキをエクスポートしました',
+      allSynced: 'すべてのデッキを同期しました',
+      allExported: 'すべてのデッキをエクスポートしました',
+      syncComplete: '同期完了',
+    },
   },
 
   conjugation: {
