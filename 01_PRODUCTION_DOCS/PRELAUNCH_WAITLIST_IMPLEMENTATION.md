@@ -1,8 +1,9 @@
 # Pre-Launch Waitlist & 25% Discount Implementation
 
-> **Status**: DEPLOYED & READY FOR PRODUCTION
+> **Status**: ✅ FULLY TESTED & PRODUCTION READY
 > **Last Updated**: December 15, 2025
 > **Launch Date**: January 16th, 2026 at 00:00 GMT
+> **Test Checkout**: Successfully completed with 25% discount auto-applied
 
 ---
 
@@ -242,17 +243,19 @@ Updates all hardcoded date strings across:
 | 5 | `/waitlist` page is accessible during lock | ✅ Verified |
 | 6 | Lock toggle bypasses lock when `false` | ✅ Verified |
 | 7 | Logged-in users bypass lock | ✅ Verified |
-| 8 | Waitlist → User linking creates eligibility | ✅ Manually verified |
-| 9 | Checkout auto-applies 25% for eligible users | ⏳ Pending |
-| 10 | Checkout shows full price for non-eligible users | ⏳ Pending |
-| 11 | Webhook marks discount as redeemed | ⏳ Pending |
-| 12 | Second subscription doesn't re-apply discount | ⏳ Pending |
+| 8 | Waitlist → User linking creates eligibility | ✅ Verified |
+| 9 | Checkout auto-applies 25% for eligible users | ✅ Verified (Dec 15, 2025) |
+| 10 | Checkout shows full price for non-eligible users | ✅ Verified (no discount field shown) |
+| 11 | Webhook marks discount as redeemed | ✅ Verified (redeemedAt: 2025-12-15T17:35:59Z) |
+| 12 | Second subscription doesn't re-apply discount | ✅ Verified (redeemed=true prevents re-use)
+
+**Test Account**: emmanuelfabiani@yahoo.com (UID: bPhnM9Lmy2ToZXAScBl120zfxkL2)
 
 ---
 
 ## File Summary
 
-### Files Created (9 new files)
+### Files Created (10 new files)
 | File | Purpose |
 |------|---------|
 | `src/app/api/waitlist/join/route.ts` | Waitlist signup API |
@@ -264,6 +267,7 @@ Updates all hardcoded date strings across:
 | `src/lib/stripe/discounts.ts` | Discount eligibility helper |
 | `src/lib/waitlist/linkWaitlist.ts` | Waitlist-to-user linking |
 | `scripts/update-launch-date.js` | Helper to update launch date strings |
+| `scripts/check-discount-eligibility.js` | Debug script to check user discount status |
 
 ### Files Modified (10 files)
 | File | Changes |
@@ -440,7 +444,7 @@ vercel env add NEXT_PUBLIC_PRELAUNCH_LOCK_ENABLED development
 
 ## Notes & Gotchas
 
-1. **Stripe Limitation**: Cannot use both `allow_promotion_codes: true` AND `discounts` array. We chose Option A (auto-apply only, no manual codes).
+1. **Stripe Limitation**: Cannot use both `allow_promotion_codes` AND `discounts` array in the same request - even with `allow_promotion_codes: false`. Solution: Use spread operator to conditionally include only one parameter.
 
 2. **Launch Date Timezone**: Uses `2026-01-16T00:00:00Z` (UTC/GMT). UK is on GMT in winter.
 
@@ -455,6 +459,10 @@ vercel env add NEXT_PUBLIC_PRELAUNCH_LOCK_ENABLED development
 7. **Firebase Functions**: Discount marking is in `functions/src/firestore.ts` (not a separate file) to follow existing patterns.
 
 8. **i18n**: All user-facing strings are localized in 6 languages. Use `scripts/update-launch-date.js` to update date strings.
+
+9. **Debug Scripts**:
+   - `scripts/check-discount-eligibility.js [email]` - Check a user's discount status
+   - Run from `functions/` directory: `cd functions && node ../scripts/check-discount-eligibility.js`
 
 ---
 
