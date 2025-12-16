@@ -546,114 +546,119 @@ function YouTubeShadowingContent() {
       />
 
       <main className={styles.mainContainer}>
-        {/* Video Section */}
-        <div className={styles.videoSection}>
-          <div className={styles.playerFrame}>
-            {videoId ? (
-              <YouTube
-                videoId={videoId}
-                opts={opts}
-                onReady={handleReady}
-                onStateChange={handleStateChange}
-                className={styles.youtubeIframe}
-                iframeClassName={styles.youtubeIframe}
-              />
-            ) : (
-              <div className={styles.placeholder}>
-                {t('youtubeShadowing.hints.pasteToStart')}
+        <div className={styles.primaryLayout}>
+          <div className={styles.leftColumn}>
+            {/* Video Section */}
+            <div className={styles.videoSection}>
+              <div className={styles.playerFrame}>
+                {videoId ? (
+                  <YouTube
+                    videoId={videoId}
+                    opts={opts}
+                    onReady={handleReady}
+                    onStateChange={handleStateChange}
+                    className={styles.youtubeIframe}
+                    iframeClassName={styles.youtubeIframe}
+                  />
+                ) : (
+                  <div className={styles.placeholder}>
+                    {t('youtubeShadowing.hints.pasteToStart')}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        </div>
-
-        {/* Current Segment Card - Hero Style */}
-        <div className={styles.currentSegmentCard}>
-          {segments.length > 0 && segments[currentSegmentIndex] ? (
-            <div className={styles.cardContent}>
-              <div className={styles.cardHeader}>
-                <span className={styles.segmentCounter}>
-                  {t('youtubeShadowing.player.segmentProgress', { current: currentSegmentIndex + 1, total: segments.length })}
-                </span>
-                <span className={styles.repeatCounter}>
-                  <Repeat className="w-3 h-3" />
-                  {currentRepeat}/{repeatCount}
-                </span>
-              </div>
-
-              <div className={styles.heroText}>
-                <GrammarHighlightedText
-                  text={segments[currentSegmentIndex].text}
-                  highlightMode={highlightMode}
-                  showFurigana={showFurigana}
-                  onWordClick={(word: string, event: React.MouseEvent) => {
-                    event.stopPropagation();
-                    handleWordTap(word, segments[currentSegmentIndex].text);
-                  }}
-                  className={styles.largeText}
-                />
-              </div>
-
-              {showTranslation && segments[currentSegmentIndex]?.translation && (
-                <p className="text-base text-gray-500 dark:text-gray-400 mt-3 italic text-center">
-                  {segments[currentSegmentIndex].translation}
-                </p>
-              )}
             </div>
-          ) : (
-            <div className={styles.emptyState}>
-              <p>{t('youtubeShadowing.hints.transcriptWillAppear')}</p>
-            </div>
-          )}
-        </div>
 
-        {/* Transcript List */}
-        <div className={styles.transcriptListSection}>
-          <h3 className={styles.listTitle}>{t('youtubeShadowing.player.transcript.title')}</h3>
-          <div className={styles.segmentList}>
-            {segments.map((segment, index) => {
-              const active = index === currentSegmentIndex;
-              return (
-                <div
-                  key={`${segment.start}-${index}`}
-                  className={`${styles.segment} ${active ? styles.segmentActive : ""}`}
-                >
-                  {/* Repeat badge - top right corner */}
-                  {active && (
-                    <span className={styles.repeatBadge}>
+            {/* Current Segment Card - Hero Style */}
+            <div className={styles.currentSegmentCard}>
+              {segments.length > 0 && segments[currentSegmentIndex] ? (
+                <div className={styles.cardContent}>
+                  <div className={styles.cardHeader}>
+                    <span className={styles.segmentCounter}>
+                      {t('youtubeShadowing.player.segmentProgress', { current: currentSegmentIndex + 1, total: segments.length })}
+                    </span>
+                    <span className={styles.repeatCounter}>
+                      <Repeat className="w-3 h-3" />
                       {currentRepeat}/{repeatCount}
                     </span>
-                  )}
-                  <div className={styles.segmentHeader}>
-                    <button
-                      className={styles.jumpButton}
-                      onClick={() => seekToSegment(index)}
-                      title="Jump to this segment"
-                    >
-                      <PlayIcon className={styles.jumpIcon} />
-                    </button>
-                    <div className={styles.segmentMeta}>
-                      <span>
-                        {index + 1}. {segment.start.toFixed(2)}s – {segment.end.toFixed(2)}s
-                      </span>
-                    </div>
                   </div>
-                  <div className={styles.segmentTextSmall}>
+
+                  <div className={styles.heroText}>
                     <GrammarHighlightedText
-                      text={segment.text}
+                      text={segments[currentSegmentIndex].text}
                       highlightMode={highlightMode}
                       showFurigana={showFurigana}
-                      onWordClick={(word, e) => {
-                        e.stopPropagation();
-                        handleWordTap(word, segment.text);
+                      onWordClick={(word: string, event: React.MouseEvent) => {
+                        event.stopPropagation();
+                        handleWordTap(word, segments[currentSegmentIndex].text);
                       }}
+                      className={styles.largeText}
                     />
                   </div>
+
+                  {showTranslation && segments[currentSegmentIndex]?.translation && (
+                    <p className="text-base text-gray-500 dark:text-gray-400 mt-1 italic text-center">
+                      {segments[currentSegmentIndex].translation}
+                    </p>
+                  )}
                 </div>
-              );
-            })}
+              ) : (
+                <div className={styles.emptyState}>
+                  <p>{t('youtubeShadowing.hints.transcriptWillAppear')}</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Transcript List */}
+          <div className={styles.transcriptColumn}>
+            <div className={styles.transcriptListSection}>
+              <h3 className={styles.listTitle}>{t('youtubeShadowing.player.transcript.title')}</h3>
+              <div className={`${styles.segmentList} scrollbar-hide`}>
+                {segments.map((segment, index) => {
+                  const active = index === currentSegmentIndex;
+                  return (
+                    <div
+                      key={`${segment.start}-${index}`}
+                      className={`${styles.segment} ${active ? styles.segmentActive : ""}`}
+                    >
+                      {/* Repeat badge - top right corner */}
+                      {active && (
+                        <span className={styles.repeatBadge}>
+                          {currentRepeat}/{repeatCount}
+                        </span>
+                      )}
+                      <div className={styles.segmentHeader}>
+                        <button
+                          className={styles.jumpButton}
+                          onClick={() => seekToSegment(index)}
+                          title="Jump to this segment"
+                        >
+                          <PlayIcon className={styles.jumpIcon} />
+                        </button>
+                        <div className={styles.segmentMeta}>
+                          <span>
+                            {index + 1}. {segment.start.toFixed(2)}s – {segment.end.toFixed(2)}s
+                          </span>
+                        </div>
+                      </div>
+                      <div className={styles.segmentTextSmall}>
+                        <GrammarHighlightedText
+                          text={segment.text}
+                          highlightMode={highlightMode}
+                          showFurigana={showFurigana}
+                          onWordClick={(word, e) => {
+                            e.stopPropagation();
+                            handleWordTap(word, segment.text);
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
           </div>
         </div>
-
 
         {/* URL Input Form - Card Style */}
         {!segments.length && (

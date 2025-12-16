@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -33,6 +33,7 @@ import {
 import { cn } from '@/lib/utils'
 import { useI18n } from '@/i18n/I18nContext'
 import { useKeyboardVisible } from '@/hooks/useMediaQuery'
+import NavHandle from './NavHandle'
 
 export interface NavItem {
   id: string
@@ -155,8 +156,10 @@ interface BottomNavProps {
 export default function BottomNav({ className, hideOnScroll = false }: BottomNavProps) {
   const pathname = usePathname()
   const [isVisible, setIsVisible] = useState(true)
+  const [showHandle, setShowHandle] = useState(false)
   const { strings, language } = useI18n()
   const isKeyboardVisible = useKeyboardVisible()
+  const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleOpenCommandPalette = () => {
     // Dispatch custom event to open command palette
@@ -177,9 +180,23 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
   )
 
   // Content-aware visibility logic (OPTIONAL - disabled by default)
+  const clearHideTimeout = () => {
+    if (hideTimeoutRef.current) {
+      clearTimeout(hideTimeoutRef.current)
+      hideTimeoutRef.current = null
+    }
+  }
+
+  const scheduleAutoHide = () => {
+    clearHideTimeout()
+    hideTimeoutRef.current = setTimeout(() => {
+      setIsVisible(false)
+      setShowHandle(true)
+    }, 10000) // hide after 10 seconds
+  }
+
   useEffect(() => {
     if (!hideOnScroll) {
-      setIsVisible(true) // Always visible when hideOnScroll is false
       return
     }
 
@@ -197,10 +214,14 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
         // Show when scrolling up or at top
         if (currentScrollY < lastY || currentScrollY < 50) {
           setIsVisible(true)
+          setShowHandle(false)
+          scheduleAutoHide()
         }
         // Hide when scrolling down beyond threshold
         else if (currentScrollY > lastY && currentScrollY > 100) {
           setIsVisible(false)
+          setShowHandle(true)
+          clearHideTimeout()
         }
 
         lastY = currentScrollY
@@ -215,6 +236,8 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
       // When scrolling stops for 500ms, show bottom nav again
       scrollTimeout = setTimeout(() => {
         setIsVisible(true)
+        setShowHandle(false)
+        scheduleAutoHide()
       }, 500)
     }
 
@@ -223,6 +246,7 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
     return () => {
       window.removeEventListener('scroll', handleScroll)
       if (scrollTimeout) clearTimeout(scrollTimeout)
+      clearHideTimeout()
     }
   }, [hideOnScroll])
 
@@ -236,6 +260,30 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
   const pathWithoutLocale = pathname?.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/'
   const shouldHide = pathWithoutLocale === '/' || pathWithoutLocale === '/landing' || pathWithoutLocale === '/waitlist' || pathWithoutLocale.startsWith('/auth/') || pathWithoutLocale.startsWith('/onboarding')
 
+  useEffect(() => {
+    if (shouldHide || isKeyboardVisible) {
+      clearHideTimeout()
+      setIsVisible(false)
+      setShowHandle(false)
+      return
+    }
+
+    // Reset visibility and restart timer on route change or keyboard dismissal
+    setIsVisible(true)
+    setShowHandle(false)
+    scheduleAutoHide()
+
+    return () => {
+      clearHideTimeout()
+    }
+  }, [pathname, shouldHide, isKeyboardVisible])
+
+  const handleHandleTap = () => {
+    setShowHandle(false)
+    setIsVisible(true)
+    scheduleAutoHide()
+  }
+
   // Hide when keyboard is visible or on excluded pages
   if (shouldHide || isKeyboardVisible) {
     return null
@@ -248,6 +296,13 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
         className="md:hidden w-full shrink-0 pointer-events-none"
         style={{ height: 'calc(80px + env(safe-area-inset-bottom, 24px))' }}
         aria-hidden="true"
+      />
+
+      {/* Bottom Handle - visible when navbar is hidden */}
+      <NavHandle
+        isVisible={showHandle}
+        position="bottom"
+        onTap={handleHandleTap}
       />
 
       <AnimatePresence>

@@ -266,6 +266,11 @@ export const strings = {
           description: 'Personalisierte Geschichten, die auf dein Niveau abgestimmt sind',
           badge: 'Adaptives Lernen',
         },
+        library: {
+          title: 'Lesebibliothek',
+          description: 'Bücher, Graded Readers und Kurzfassungen',
+          badge: 'Umfangreiche Sammlung',
+        },
         anki: {
           title: 'One-Click Anki-Import',
           description: 'Migriere deine Anki-Decks sofort - ohne Datenverlust',
@@ -347,7 +352,7 @@ export const strings = {
         subtitle: 'Jedes Wort aus den Büchern, die du bereits verwendest',
         description:
           'Vollständiges Vokabular aus Genki I & II, Minna no Nihongo, Tobira und mehr. Organisiert nach Lektion mit Beispielsätzen, Audio und SRS-Wiederholung.',
-        textbookList: 'Genki - Minna no Nihongo - Tobira - Japanese from Zero - Marugoto',
+        textbookList: 'Genki • Minna no Nihongo • und mehr',
         benefits: {
           benefit1: 'Nach Lehrbuch und Lektion organisiert',
           benefit2: 'Muttersprachliches Audio für jedes Wort',
@@ -383,6 +388,20 @@ export const strings = {
           benefit4: 'Speichere unbekannte Wörter direkt zur SRS-Wiederholung',
         },
         cta: 'KI-Geschichten erkunden',
+      },
+
+      library: {
+        title: 'Lesebibliothek: Immersive Inhalte',
+        subtitle: 'Bücher, Stufenleser und Kurzfassungen auf deinem Niveau',
+        description:
+          'Entdecke unsere umfangreiche Sammlung japanischer Bücher und Stufenleser. Jeder Titel enthält integrierte Lernwerkzeuge, die dir helfen, authentische japanische Inhalte mit Zuversicht zu lesen.',
+        benefits: {
+          benefit1: 'Sofortige Wortsuche beim Lesen',
+          benefit2: 'Vollständige Übersetzungsunterstützung',
+          benefit3: 'Audioversionen zum Hörübungen',
+          benefit4: 'Kurzfassungen für schnelleres Lesen',
+        },
+        cta: 'Bibliothek erkunden',
       },
 
       comics: {

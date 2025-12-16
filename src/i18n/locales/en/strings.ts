@@ -134,6 +134,11 @@ export const strings = {
           description: 'Personalized stories tailored to your level',
           badge: 'Adaptive Learning',
         },
+        library: {
+          title: 'Reading Library',
+          description: 'Books, graded readers, and condensed versions',
+          badge: 'Extensive Collection',
+        },
         anki: {
           title: 'One-Click Anki Import',
           description: 'Migrate your Anki decks instantly - no data loss',
@@ -215,7 +220,7 @@ export const strings = {
         subtitle: 'Every word from the books you already use',
         description:
           'Complete vocabulary from Genki I & II, Minna no Nihongo, Tobira, and more. Organized by lesson with example sentences, audio, and SRS review.',
-        textbookList: 'Genki • Minna no Nihongo • Tobira • Japanese from Zero • Marugoto',
+        textbookList: 'Genki • Minna no Nihongo • and more',
         benefits: {
           benefit1: 'Organized by textbook and lesson',
           benefit2: 'Native audio for every word',
@@ -251,6 +256,20 @@ export const strings = {
           benefit4: 'Save unknown words directly to SRS review',
         },
         cta: 'Explore AI Stories',
+      },
+
+      library: {
+        title: 'Reading Library: Immersive Content',
+        subtitle: 'Books, graded readers, and condensed versions at your level',
+        description:
+          'Explore our extensive collection of Japanese books and graded readers. Each title comes with built-in learning tools to help you read authentic Japanese content with confidence.',
+        benefits: {
+          benefit1: 'Instant word lookup while reading',
+          benefit2: 'Full translation support',
+          benefit3: 'Audio versions for listening practice',
+          benefit4: 'Condensed versions for faster reading',
+        },
+        cta: 'Explore Library',
       },
 
       comics: {

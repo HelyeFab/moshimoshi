@@ -5,9 +5,28 @@
   min-height: 100vh;
   padding-bottom: 120px;
   /* Space for sticky bottom bar */
-  max-width: 800px;
+  max-width: 1200px;
   margin: 0 auto;
   position: relative;
+}
+
+.primaryLayout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.leftColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.transcriptColumn {
+  flex: 1;
+  min-width: 0;
 }
 
 /* Video Section */
@@ -113,6 +132,22 @@
 
 :global(.dark) .largeText {
   color: var(--color-gray-100);
+}
+
+@media (max-width: 640px) {
+  .cardContent {
+    padding: 1.1rem;
+    border-radius: 20px;
+  }
+
+  .heroText {
+    padding: 0.25rem 0;
+  }
+
+  .largeText {
+    font-size: 1.45rem;
+    line-height: 1.4;
+  }
 }
 
 /* Transcript List Section */
@@ -289,6 +324,22 @@
 
 :global(.dark) .segmentActive .segmentTextSmall {
   color: var(--color-gray-100);
+}
+
+@media (min-width: 1024px) {
+  .primaryLayout {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .leftColumn {
+    flex: 1.1;
+  }
+
+  .transcriptColumn {
+    flex: 0.9;
+  }
 }
 
 /* Bottom Control Bar */

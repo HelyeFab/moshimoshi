@@ -377,6 +377,11 @@ export const strings = {
           description: 'Storie personalizzate adattate al tuo livello',
           badge: 'Apprendimento adattivo',
         },
+        library: {
+          title: 'Biblioteca di lettura',
+          description: 'Libri, letture graduate e versioni condensate',
+          badge: 'Collezione estesa',
+        },
         anki: {
           title: 'Importazione Anki con un clic',
           description: 'Migra i tuoi mazzi Anki istantaneamente - nessuna perdita di dati',
@@ -458,7 +463,7 @@ export const strings = {
         subtitle: 'Ogni parola dai libri che già usi',
         description:
           'Vocabolario completo da Genki I e II, Minna no Nihongo, Tobira e altro. Organizzato per lezione con frasi di esempio, audio e ripasso SRS.',
-        textbookList: 'Genki - Minna no Nihongo - Tobira - Japanese from Zero - Marugoto',
+        textbookList: 'Genki • Minna no Nihongo • e altro',
         benefits: {
           benefit1: 'Organizzato per libro di testo e lezione',
           benefit2: 'Audio nativo per ogni parola',
@@ -494,6 +499,20 @@ export const strings = {
           benefit4: 'Salva le parole sconosciute direttamente nel ripasso SRS',
         },
         cta: 'Esplora le storie IA',
+      },
+
+      library: {
+        title: 'Biblioteca di lettura: Contenuti immersivi',
+        subtitle: 'Libri, lettori graduati e versioni condensate al tuo livello',
+        description:
+          'Esplora la nostra vasta collezione di libri giapponesi e lettori graduati. Ogni titolo include strumenti di apprendimento integrati per aiutarti a leggere contenuti giapponesi autentici con sicurezza.',
+        benefits: {
+          benefit1: 'Ricerca istantanea delle parole durante la lettura',
+          benefit2: 'Supporto completo per la traduzione',
+          benefit3: 'Versioni audio per la pratica dell\'ascolto',
+          benefit4: 'Versioni condensate per una lettura più veloce',
+        },
+        cta: 'Esplora la biblioteca',
       },
 
       comics: {

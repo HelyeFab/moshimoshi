@@ -254,6 +254,11 @@ export const strings = {
           description: 'Historias personalizadas adaptadas a tu nivel',
           badge: 'Aprendizaje adaptativo',
         },
+        library: {
+          title: 'Biblioteca de lectura',
+          description: 'Libros, lecturas graduadas y versiones condensadas',
+          badge: 'Colección extensa',
+        },
         anki: {
           title: 'Importación de Anki con un clic',
           description: 'Migra tus mazos de Anki al instante - sin pérdida de datos',
@@ -335,7 +340,7 @@ export const strings = {
         subtitle: 'Cada palabra de los libros que ya usas',
         description:
           'Vocabulario completo de Genki I y II, Minna no Nihongo, Tobira y más. Organizado por lección con oraciones de ejemplo, audio y repaso SRS.',
-        textbookList: 'Genki - Minna no Nihongo - Tobira - Japanese from Zero - Marugoto',
+        textbookList: 'Genki • Minna no Nihongo • y más',
         benefits: {
           benefit1: 'Organizado por libro de texto y lección',
           benefit2: 'Audio nativo para cada palabra',
@@ -371,6 +376,20 @@ export const strings = {
           benefit4: 'Guarda palabras desconocidas directamente para repaso SRS',
         },
         cta: 'Explorar historias de IA',
+      },
+
+      library: {
+        title: 'Biblioteca de lectura: Contenido inmersivo',
+        subtitle: 'Libros, lectores graduados y versiones condensadas a tu nivel',
+        description:
+          'Explora nuestra extensa colección de libros japoneses y lectores graduados. Cada título viene con herramientas de aprendizaje integradas para ayudarte a leer contenido japonés auténtico con confianza.',
+        benefits: {
+          benefit1: 'Búsqueda instantánea de palabras mientras lees',
+          benefit2: 'Soporte completo de traducción',
+          benefit3: 'Versiones de audio para práctica auditiva',
+          benefit4: 'Versiones condensadas para lectura más rápida',
+        },
+        cta: 'Explorar biblioteca',
       },
 
       comics: {

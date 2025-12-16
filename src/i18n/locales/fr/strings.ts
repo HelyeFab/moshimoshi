@@ -254,6 +254,11 @@ export const strings = {
           description: 'Histoires personnalisées adaptées à votre niveau',
           badge: 'Apprentissage adaptatif',
         },
+        library: {
+          title: 'Bibliothèque de lecture',
+          description: 'Livres, lectures graduées et versions condensées',
+          badge: 'Collection étendue',
+        },
         anki: {
           title: 'Import Anki en un clic',
           description: 'Migrez vos paquets Anki instantanément - sans perte de données',
@@ -335,7 +340,7 @@ export const strings = {
         subtitle: 'Chaque mot des livres que vous utilisez déjà',
         description:
           'Vocabulaire complet de Genki I & II, Minna no Nihongo, Tobira et plus. Organisé par leçon avec phrases d\'exemple, audio et révision SRS.',
-        textbookList: 'Genki • Minna no Nihongo • Tobira • Japanese from Zero • Marugoto',
+        textbookList: 'Genki • Minna no Nihongo • et plus',
         benefits: {
           benefit1: 'Organisé par manuel et leçon',
           benefit2: 'Audio natif pour chaque mot',
@@ -371,6 +376,20 @@ export const strings = {
           benefit4: 'Sauvegardez les mots inconnus directement dans la révision SRS',
         },
         cta: 'Explorer les histoires IA',
+      },
+
+      library: {
+        title: 'Bibliothèque de lecture : Contenu immersif',
+        subtitle: 'Livres, lecteurs gradués et versions condensées à votre niveau',
+        description:
+          'Explorez notre vaste collection de livres japonais et de lecteurs gradués. Chaque titre est accompagné d\'outils d\'apprentissage intégrés pour vous aider à lire du contenu japonais authentique en toute confiance.',
+        benefits: {
+          benefit1: 'Recherche instantanée de mots pendant la lecture',
+          benefit2: 'Support de traduction complet',
+          benefit3: 'Versions audio pour la pratique de l\'écoute',
+          benefit4: 'Versions condensées pour une lecture plus rapide',
+        },
+        cta: 'Explorer la bibliothèque',
       },
 
       comics: {

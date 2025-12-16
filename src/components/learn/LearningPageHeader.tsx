@@ -102,6 +102,184 @@ export default function LearningPageHeader({
     ? 'text-white/90 [text-shadow:_1px_1px_2px_rgb(0_0_0_/_35%)]'
     : 'text-gray-500 dark:text-gray-500'
 
+  const renderModeSelector = () => {
+    if (!mode || !onModeChange) return null
+
+    return (
+      <div
+        className={`flex rounded-xl p-1 ${isLightTheme ? 'bg-white/30 backdrop-blur-sm' : 'bg-gray-100 dark:bg-dark-800'}`}
+      >
+        {(['browse', 'study', 'review'] as ViewMode[]).map(viewMode => (
+          <button
+            key={viewMode}
+            onClick={() => onModeChange(viewMode)}
+            className={`flex-1 px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all capitalize ${
+              mode === viewMode
+                ? isLightTheme
+                  ? 'bg-white text-primary-600 shadow-sm'
+                  : 'bg-gray-50 dark:bg-dark-700 text-primary-600 dark:text-primary-400 shadow-sm'
+                : isLightTheme
+                  ? 'text-gray-700 hover:text-primary-700 hover:bg-white/60'
+                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+            }`}
+          >
+            {viewMode}
+          </button>
+        ))}
+      </div>
+    )
+  }
+
+  const renderModeActions = () => {
+    if (!mode) return null
+
+    if (mode === 'browse') {
+      return (
+        <div className={`text-center text-xs font-semibold uppercase tracking-wide ${isLightTheme ? 'text-gray-700' : 'text-gray-400'}`}>
+          Browse mode - Explore at your pace
+        </div>
+      )
+    }
+
+    if (mode === 'study') {
+      return (
+        <div className="space-y-2.5">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="flex items-center gap-2">
+              {selectedCount > 0 && (
+                <span
+                  className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+                    isLightTheme
+                      ? 'bg-white text-primary-700'
+                      : 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
+                  }`}
+                >
+                  {selectedCount} selected
+                </span>
+              )}
+            </div>
+
+            <div className="flex gap-2">
+              {onSelectAll && (
+                <button
+                  onClick={onSelectAll}
+                  className={`px-2.5 py-1.5 text-xs rounded-md transition-colors ${
+                    isLightTheme
+                      ? 'bg-white/60 text-gray-800 hover:bg-white'
+                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                  }`}
+                >
+                  Select All
+                </button>
+              )}
+
+              {onClearSelection && selectedCount > 0 && (
+                <button
+                  onClick={onClearSelection}
+                  className={`px-2.5 py-1.5 text-xs rounded-md transition-colors ${
+                    isLightTheme
+                      ? 'bg-white/60 text-gray-800 hover:bg-white'
+                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                  }`}
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+          </div>
+
+          {selectedCount > 0 ? (
+            <button
+              onClick={onStartStudy}
+              className={`w-full px-3.5 py-2 rounded-md text-sm font-semibold shadow-sm transition-all ${
+                isLightTheme
+                  ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:shadow-md hover:-translate-y-[1px]'
+                  : 'bg-primary-500 hover:bg-primary-600 text-white shadow-primary-500/30'
+              }`}
+            >
+              Start Study Session ({selectedCount} items)
+            </button>
+          ) : (
+            <div className={`text-center py-3 text-sm ${isLightTheme ? 'text-gray-600' : 'text-gray-400'}`}>
+              Select items to begin studying
+            </div>
+          )}
+        </div>
+      )
+    }
+
+    if (mode === 'review') {
+      return (
+        <div className="space-y-2.5">
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <div className="flex items-center gap-2">
+              {selectedCount > 0 && (
+                <span
+                  className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+                    isLightTheme
+                      ? 'bg-white text-primary-700'
+                      : 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
+                  }`}
+                >
+                  {selectedCount} selected
+                </span>
+              )}
+            </div>
+
+            <div className="flex gap-2">
+              {onSelectAll && (
+                <button
+                  onClick={onSelectAll}
+                  className={`px-2.5 py-1.5 text-xs rounded-md transition-colors ${
+                    isLightTheme
+                      ? 'bg-white/60 text-gray-800 hover:bg-white'
+                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                  }`}
+                >
+                  Select All
+                </button>
+              )}
+
+              {onClearSelection && selectedCount > 0 && (
+                <button
+                  onClick={onClearSelection}
+                  className={`px-2.5 py-1.5 text-xs rounded-md transition-colors ${
+                    isLightTheme
+                      ? 'bg-white/60 text-gray-800 hover:bg-white'
+                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                  }`}
+                >
+                  Clear
+                </button>
+              )}
+            </div>
+          </div>
+
+          {selectedCount > 0 ? (
+            <button
+              onClick={onStartReview}
+              className={`w-full px-3.5 py-2 rounded-md text-sm font-semibold shadow-sm transition-all ${
+                isLightTheme
+                  ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:shadow-md hover:-translate-y-[1px]'
+                  : 'bg-primary-600 hover:bg-primary-700 text-white shadow-primary-500/30'
+              }`}
+            >
+              Start Review Session ({selectedCount} items)
+            </button>
+          ) : (
+            <div className={`text-center py-3 text-sm ${isLightTheme ? 'text-gray-600' : 'text-gray-400'}`}>
+              Select items to begin reviewing
+            </div>
+          )}
+        </div>
+      )
+    }
+
+    return null
+  }
+
+  const showBottomModeBar = Boolean(mode)
+
   return (
     <>
       {/* Mobile Version - Collapsible */}
@@ -323,180 +501,7 @@ export default function LearningPageHeader({
                       </div>
                     )}
 
-                    {/* Action Bar */}
-                    <div className="space-y-4">
-                      {/* Mode Selector - only show if mode is provided */}
-                      {mode && onModeChange && (
-                        <div
-                          className={`flex rounded-lg p-1 ${isLightTheme ? 'bg-white/20 backdrop-blur-sm' : 'bg-gray-100 dark:bg-dark-800'}`}
-                        >
-                          {(['browse', 'study', 'review'] as ViewMode[]).map(viewMode => (
-                            <button
-                              key={viewMode}
-                              onClick={() => onModeChange(viewMode)}
-                              className={`flex-1 px-4 py-2 rounded-md font-medium transition-all capitalize ${
-                                mode === viewMode
-                                  ? isLightTheme
-                                    ? 'bg-white/90 text-primary-600 shadow-sm'
-                                    : 'bg-gray-50 dark:bg-dark-700 text-primary-600 dark:text-primary-400 shadow-sm'
-                                  : isLightTheme
-                                    ? 'text-white/90 hover:text-white hover:bg-white/10'
-                                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-                              }`}
-                            >
-                              {viewMode}
-                            </button>
-                          ))}
-                        </div>
-                      )}
-
-                      {/* Actions based on mode */}
-                      {mode === 'browse' && (
-                        <div
-                          className={`text-center py-2 ${isLightTheme ? 'text-white/90' : 'text-gray-600 dark:text-gray-400'}`}
-                        >
-                          Browse mode - Explore and learn at your own pace
-                        </div>
-                      )}
-
-                      {mode === 'study' && (
-                        <div className="space-y-3">
-                          {/* Selection controls */}
-                          <div className="flex items-center justify-between gap-2 flex-wrap">
-                            <div className="flex items-center gap-2">
-                              {selectedCount > 0 && (
-                                <span
-                                  className={`px-3 py-1.5 rounded-full text-sm font-medium ${
-                                    isLightTheme
-                                      ? 'bg-white/90 text-primary-700'
-                                      : 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
-                                  }`}
-                                >
-                                  {selectedCount} selected
-                                </span>
-                              )}
-                            </div>
-
-                            <div className="flex gap-2">
-                              {onSelectAll && (
-                                <button
-                                  onClick={onSelectAll}
-                                  className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
-                                    isLightTheme
-                                      ? 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
-                                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                                  }`}
-                                >
-                                  Select All
-                                </button>
-                              )}
-
-                              {onClearSelection && selectedCount > 0 && (
-                                <button
-                                  onClick={onClearSelection}
-                                  className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
-                                    isLightTheme
-                                      ? 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
-                                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                                  }`}
-                                >
-                                  Clear
-                                </button>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Study button */}
-                          {selectedCount > 0 ? (
-                            <button
-                              onClick={onStartStudy}
-                              className={`w-full px-4 py-3 rounded-lg font-medium shadow-sm transition-all ${
-                                isLightTheme
-                                  ? 'bg-white/90 text-primary-600 hover:bg-white'
-                                  : 'bg-primary-500 hover:bg-primary-600 text-white'
-                              }`}
-                            >
-                              Start Study Session ({selectedCount} items)
-                            </button>
-                          ) : (
-                            <div
-                              className={`text-center py-4 ${isLightTheme ? 'text-white/80' : 'text-gray-500 dark:text-gray-400'}`}
-                            >
-                              Select items to begin studying
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      {mode === 'review' && (
-                        <div className="space-y-3">
-                          {/* Selection controls */}
-                          <div className="flex items-center justify-between gap-2 flex-wrap">
-                            <div className="flex items-center gap-2">
-                              {selectedCount > 0 && (
-                                <span
-                                  className={`px-3 py-1.5 rounded-full text-sm font-medium ${
-                                    isLightTheme
-                                      ? 'bg-white/90 text-primary-700'
-                                      : 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
-                                  }`}
-                                >
-                                  {selectedCount} selected
-                                </span>
-                              )}
-                            </div>
-
-                            <div className="flex gap-2">
-                              {onSelectAll && (
-                                <button
-                                  onClick={onSelectAll}
-                                  className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
-                                    isLightTheme
-                                      ? 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
-                                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                                  }`}
-                                >
-                                  Select All
-                                </button>
-                              )}
-
-                              {onClearSelection && selectedCount > 0 && (
-                                <button
-                                  onClick={onClearSelection}
-                                  className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
-                                    isLightTheme
-                                      ? 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
-                                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                                  }`}
-                                >
-                                  Clear
-                                </button>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* Review button */}
-                          {selectedCount > 0 ? (
-                            <button
-                              onClick={onStartReview}
-                              className={`w-full px-4 py-3 rounded-lg font-medium shadow-sm transition-all ${
-                                isLightTheme
-                                  ? 'bg-white/90 text-primary-700 hover:bg-white'
-                                  : 'bg-primary-600 hover:bg-primary-700 text-white'
-                              }`}
-                            >
-                              Start Review Session ({selectedCount} items)
-                            </button>
-                          ) : (
-                            <div
-                              className={`text-center py-4 ${isLightTheme ? 'text-white/80' : 'text-gray-500 dark:text-gray-400'}`}
-                            >
-                              Select items to begin reviewing
-                            </div>
-                          )}
-                        </div>
-                      )}
-                    </div>
+                    {/* Actions moved to bottom control bar */}
                   </div>
                 </motion.div>
               )}
@@ -639,183 +644,31 @@ export default function LearningPageHeader({
               )}
             </div>
 
-            {/* Action Bar */}
-            <div className="space-y-4">
-              {/* Mode Selector - only show if mode is provided */}
-              {mode && onModeChange && (
-                <div
-                  className={`flex rounded-lg p-1 ${isLightTheme ? 'bg-white/20 backdrop-blur-sm' : 'bg-gray-100 dark:bg-dark-800'}`}
-                >
-                  {(['browse', 'study', 'review'] as ViewMode[]).map(viewMode => (
-                    <button
-                      key={viewMode}
-                      onClick={() => onModeChange(viewMode)}
-                      className={`flex-1 px-4 py-2 rounded-md font-medium transition-all capitalize ${
-                        mode === viewMode
-                          ? isLightTheme
-                            ? 'bg-white/90 text-primary-600 shadow-sm'
-                            : 'bg-gray-50 dark:bg-dark-700 text-primary-600 dark:text-primary-400 shadow-sm'
-                          : isLightTheme
-                            ? 'text-white/90 hover:text-white hover:bg-white/10'
-                            : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-                      }`}
-                    >
-                      {viewMode}
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* Actions based on mode */}
-              {mode === 'browse' && (
-                <div
-                  className={`text-center py-2 ${isLightTheme ? 'text-white/90' : 'text-gray-600 dark:text-gray-400'}`}
-                >
-                  Browse mode - Explore and learn at your own pace
-                </div>
-              )}
-
-              {mode === 'study' && (
-                <div className="space-y-3">
-                  {/* Selection controls */}
-                  <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <div className="flex items-center gap-2">
-                      {selectedCount > 0 && (
-                        <span
-                          className={`px-3 py-1.5 rounded-full text-sm font-medium ${
-                            isLightTheme
-                              ? 'bg-white/90 text-primary-700'
-                              : 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
-                          }`}
-                        >
-                          {selectedCount} selected
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="flex gap-2">
-                      {onSelectAll && (
-                        <button
-                          onClick={onSelectAll}
-                          className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
-                            isLightTheme
-                              ? 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
-                              : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                          }`}
-                        >
-                          Select All
-                        </button>
-                      )}
-
-                      {onClearSelection && selectedCount > 0 && (
-                        <button
-                          onClick={onClearSelection}
-                          className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
-                            isLightTheme
-                              ? 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
-                              : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                          }`}
-                        >
-                          Clear
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Study button */}
-                  {selectedCount > 0 ? (
-                    <button
-                      onClick={onStartStudy}
-                      className={`w-full px-4 py-3 rounded-lg font-medium shadow-sm transition-all ${
-                        isLightTheme
-                          ? 'bg-white/90 text-primary-600 hover:bg-white'
-                          : 'bg-primary-500 hover:bg-primary-600 text-white'
-                      }`}
-                    >
-                      Start Study Session ({selectedCount} items)
-                    </button>
-                  ) : (
-                    <div
-                      className={`text-center py-4 ${isLightTheme ? 'text-white/80' : 'text-gray-500 dark:text-gray-400'}`}
-                    >
-                      Select items to begin studying
-                    </div>
-                  )}
-                </div>
-              )}
-
-              {mode === 'review' && (
-                <div className="space-y-3">
-                  {/* Selection controls */}
-                  <div className="flex items-center justify-between gap-2 flex-wrap">
-                    <div className="flex items-center gap-2">
-                      {selectedCount > 0 && (
-                        <span
-                          className={`px-3 py-1.5 rounded-full text-sm font-medium ${
-                            isLightTheme
-                              ? 'bg-white/90 text-primary-700'
-                              : 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
-                          }`}
-                        >
-                          {selectedCount} selected
-                        </span>
-                      )}
-                    </div>
-
-                    <div className="flex gap-2">
-                      {onSelectAll && (
-                        <button
-                          onClick={onSelectAll}
-                          className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
-                            isLightTheme
-                              ? 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
-                              : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                          }`}
-                        >
-                          Select All
-                        </button>
-                      )}
-
-                      {onClearSelection && selectedCount > 0 && (
-                        <button
-                          onClick={onClearSelection}
-                          className={`px-3 py-1.5 text-sm rounded-lg transition-colors ${
-                            isLightTheme
-                              ? 'bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm'
-                              : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                          }`}
-                        >
-                          Clear
-                        </button>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Review button */}
-                  {selectedCount > 0 ? (
-                    <button
-                      onClick={onStartReview}
-                      className={`w-full px-4 py-3 rounded-lg font-medium shadow-sm transition-all ${
-                        isLightTheme
-                          ? 'bg-white/90 text-primary-700 hover:bg-white'
-                          : 'bg-primary-600 hover:bg-primary-700 text-white'
-                      }`}
-                    >
-                      Start Review Session ({selectedCount} items)
-                    </button>
-                  ) : (
-                    <div
-                      className={`text-center py-4 ${isLightTheme ? 'text-white/80' : 'text-gray-500 dark:text-gray-400'}`}
-                    >
-                      Select items to begin reviewing
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
+            {/* Actions moved to bottom control bar */}
           </div>
         </div>
       </div>
+
+      {/* Global bottom control bar (always visible where LearningPageHeader is used) */}
+      {showBottomModeBar && (
+        <>
+          <div className="h-24 sm:h-20" aria-hidden="true" />
+          <div className="fixed left-1/2 -translate-x-1/2 bottom-[6rem] sm:bottom-8 w-[calc(100%-2.5rem)] max-w-[420px] z-50 pointer-events-none">
+            <div
+              className={`pointer-events-auto rounded-[22px] px-3.5 py-2.5 shadow-xl shadow-black/10 dark:shadow-black/40 backdrop-blur-2xl border ${
+                isLightTheme
+                  ? 'bg-white/85 border-white/50'
+                  : 'bg-dark-900/90 border-white/10'
+              }`}
+            >
+              <div className="space-y-2.5">
+                {renderModeSelector()}
+                {renderModeActions()}
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </>
   )
 }

@@ -37,6 +37,15 @@ export default function LandingPageClient() {
   const { isPreLaunch, launchDate } = usePreLaunch()
   const [currentSlide, setCurrentSlide] = useState(0)
   const [currentTestimonial, setCurrentTestimonial] = useState(0)
+  const [currentYoutubeSlide, setCurrentYoutubeSlide] = useState(0)
+  const [currentKanjiSlide, setCurrentKanjiSlide] = useState(0)
+  const [currentConjugationSlide, setCurrentConjugationSlide] = useState(0)
+  const [currentNewsSlide, setCurrentNewsSlide] = useState(0)
+  const [currentAiStoriesSlide, setCurrentAiStoriesSlide] = useState(0)
+  const [currentComicsSlide, setCurrentComicsSlide] = useState(0)
+  const [currentAnkiSlide, setCurrentAnkiSlide] = useState(0)
+  const [currentTextbookSlide, setCurrentTextbookSlide] = useState(0)
+  const [currentLibrarySlide, setCurrentLibrarySlide] = useState(0)
   const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
@@ -58,6 +67,78 @@ export default function LandingPageClient() {
     const timer = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % 4)
     }, 6000)
+    return () => clearInterval(timer)
+  }, [])
+
+  // Auto-rotate YouTube shadowing slideshow every 4 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentYoutubeSlide((prev) => (prev + 1) % 5) // 5 slides: 1 placeholder + 4 screenshots
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [])
+
+  // Auto-rotate Kanji Connection slideshow every 4 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentKanjiSlide((prev) => (prev + 1) % 8) // 8 slides: 1 placeholder + 7 screenshots
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [])
+
+  // Auto-rotate Conjugation slideshow every 4 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentConjugationSlide((prev) => (prev + 1) % 6) // 6 slides: 1 placeholder + 5 screenshots
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [])
+
+  // Auto-rotate News slideshow every 4 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentNewsSlide((prev) => (prev + 1) % 7) // 7 slides: 1 placeholder + 6 screenshots
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [])
+
+  // Auto-rotate AI Stories slideshow every 4 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentAiStoriesSlide((prev) => (prev + 1) % 5) // 5 slides: 1 placeholder + 4 screenshots
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [])
+
+  // Auto-rotate Comics slideshow every 4 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentComicsSlide((prev) => (prev + 1) % 5) // 5 slides: 1 placeholder + 4 screenshots
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [])
+
+  // Auto-rotate Anki slideshow every 4 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentAnkiSlide((prev) => (prev + 1) % 6) // 6 slides: 1 placeholder + 5 screenshots
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [])
+
+  // Auto-rotate Textbook slideshow every 4 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTextbookSlide((prev) => (prev + 1) % 5) // 5 slides: 1 placeholder + 4 screenshots
+    }, 4000)
+    return () => clearInterval(timer)
+  }, [])
+
+  // Auto-rotate Library slideshow every 4 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentLibrarySlide((prev) => (prev + 1) % 5) // 5 slides: 1 placeholder + 4 screenshots
+    }, 4000)
     return () => clearInterval(timer)
   }, [])
 
@@ -105,6 +186,11 @@ export default function LandingPageClient() {
       color: 'from-violet-500 to-fuchsia-500',
     },
     {
+      icon: <BookOpenIcon className="w-12 h-12" />,
+      ...landingStrings.hero.carousel.library,
+      color: 'from-emerald-500 to-teal-500',
+    },
+    {
       icon: <CloudArrowUpIcon className="w-12 h-12" />,
       ...landingStrings.hero.carousel.anki,
       color: 'from-green-500 to-emerald-500',
@@ -119,6 +205,94 @@ export default function LandingPageClient() {
       ...landingStrings.hero.carousel.comics,
       color: 'from-pink-500 to-rose-500',
     },
+  ]
+
+  // YouTube Shadowing slideshow images
+  const youtubeSlides = [
+    { type: 'placeholder' as const },
+    { type: 'image' as const, src: '/images/landing/youtube-shadowing/youtube-shadowing-1.png', alt: 'YouTube Shadowing - Main Interface' },
+    { type: 'image' as const, src: '/images/landing/youtube-shadowing/youtube-shadowing-2.png', alt: 'YouTube Shadowing - Word Details' },
+    { type: 'image' as const, src: '/images/landing/youtube-shadowing/youtube-shadowing-3.png', alt: 'YouTube Shadowing - Context View' },
+    { type: 'image' as const, src: '/images/landing/youtube-shadowing/youtube-shadowing-4.png', alt: 'YouTube Shadowing - Settings' },
+  ]
+
+  // Kanji Connection slideshow images
+  const kanjiSlides = [
+    { type: 'placeholder' as const },
+    { type: 'image' as const, src: '/images/landing/kanji-connections/kanji-connections-1.png', alt: 'Kanji Browser - JLPT Levels' },
+    { type: 'image' as const, src: '/images/landing/kanji-connections/kanji-connections-2.png', alt: 'Kanji Detail - Overview' },
+    { type: 'image' as const, src: '/images/landing/kanji-connections/kanji-connections-3.png', alt: 'Drawing Practice' },
+    { type: 'image' as const, src: '/images/landing/kanji-connections/kanji-connections-4.png', alt: 'Kanji Detail - Examples' },
+    { type: 'image' as const, src: '/images/landing/kanji-connections/kanji-connections-5.png', alt: 'Kanji Families & Radicals' },
+    { type: 'image' as const, src: '/images/landing/kanji-connections/kanji-connections-6.png', alt: 'Radicals & Components' },
+    { type: 'image' as const, src: '/images/landing/kanji-connections/kanji-connections-7.png', alt: 'Radicals - Water Kanji' },
+  ]
+
+  // Conjugation Engine slideshow images
+  const conjugationSlides = [
+    { type: 'placeholder' as const },
+    { type: 'image' as const, src: '/images/landing/conjugation/conjugation-1.png', alt: 'Conjugation - Main View' },
+    { type: 'image' as const, src: '/images/landing/conjugation/conjugation-2.png', alt: 'Conjugation - Form Details' },
+    { type: 'image' as const, src: '/images/landing/conjugation/conjugation-3.png', alt: 'Conjugation - Practice' },
+    { type: 'image' as const, src: '/images/landing/conjugation/conjugation-4.png', alt: 'Conjugation - Examples' },
+    { type: 'image' as const, src: '/images/landing/conjugation/conjugation-5.png', alt: 'Conjugation - Settings' },
+  ]
+
+  // News Articles slideshow images
+  const newsSlides = [
+    { type: 'placeholder' as const },
+    { type: 'image' as const, src: '/images/landing/news/news-1.png', alt: 'News - Article List' },
+    { type: 'image' as const, src: '/images/landing/news/news-2.png', alt: 'News - Reading View' },
+    { type: 'image' as const, src: '/images/landing/news/news-3.png', alt: 'News - Word Lookup' },
+    { type: 'image' as const, src: '/images/landing/news/news-4.png', alt: 'News - Categories' },
+    { type: 'image' as const, src: '/images/landing/news/news-5.png', alt: 'News - Saved Articles' },
+    { type: 'image' as const, src: '/images/landing/news/news-6.png', alt: 'News - Settings' },
+  ]
+
+  // AI Stories slideshow images
+  const aiStoriesSlides = [
+    { type: 'placeholder' as const },
+    { type: 'image' as const, src: '/images/landing/ai-stories/ai-stories-1.png', alt: 'AI Stories - Story List' },
+    { type: 'image' as const, src: '/images/landing/ai-stories/ai-stories-2.png', alt: 'AI Stories - Reading' },
+    { type: 'image' as const, src: '/images/landing/ai-stories/ai-stories-3.png', alt: 'AI Stories - Generation' },
+    { type: 'image' as const, src: '/images/landing/ai-stories/ai-stories-4.png', alt: 'AI Stories - Settings' },
+  ]
+
+  // Comics slideshow images
+  const comicsSlides = [
+    { type: 'placeholder' as const },
+    { type: 'image' as const, src: '/images/landing/comics/comics-1.png', alt: 'Comics - Library' },
+    { type: 'image' as const, src: '/images/landing/comics/comics-2.png', alt: 'Comics - Reading' },
+    { type: 'image' as const, src: '/images/landing/comics/comics-3.png', alt: 'Comics - Word Lookup' },
+    { type: 'image' as const, src: '/images/landing/comics/comics-4.png', alt: 'Comics - Progress' },
+  ]
+
+  // Anki Import slideshow images
+  const ankiSlides = [
+    { type: 'placeholder' as const },
+    { type: 'image' as const, src: '/images/landing/anki/anki-1.png', alt: 'Anki - Import Start' },
+    { type: 'image' as const, src: '/images/landing/anki/anki-2.png', alt: 'Anki - File Selection' },
+    { type: 'image' as const, src: '/images/landing/anki/anki-3.png', alt: 'Anki - Field Mapping' },
+    { type: 'image' as const, src: '/images/landing/anki/anki-4.png', alt: 'Anki - Preview' },
+    { type: 'image' as const, src: '/images/landing/anki/anki-5.png', alt: 'Anki - Import Progress' },
+  ]
+
+  // Textbook Vocabulary slideshow images
+  const textbookSlides = [
+    { type: 'placeholder' as const },
+    { type: 'image' as const, src: '/images/landing/textbook/textbook-1.png', alt: 'Textbook - Course List' },
+    { type: 'image' as const, src: '/images/landing/textbook/textbook-2.png', alt: 'Textbook - Vocabulary' },
+    { type: 'image' as const, src: '/images/landing/textbook/textbook-3.png', alt: 'Textbook - Study Mode' },
+    { type: 'image' as const, src: '/images/landing/textbook/textbook-4.png', alt: 'Textbook - Progress' },
+  ]
+
+  // Library slideshow images
+  const librarySlides = [
+    { type: 'placeholder' as const },
+    { type: 'image' as const, src: '/images/landing/library/library-1.png', alt: 'Library - Book Collection' },
+    { type: 'image' as const, src: '/images/landing/library/library-2.png', alt: 'Library - Reading View' },
+    { type: 'image' as const, src: '/images/landing/library/library-3.png', alt: 'Library - Word Lookup' },
+    { type: 'image' as const, src: '/images/landing/library/library-4.png', alt: 'Library - Audio Player' },
   ]
 
   // Show loading state while mounting (AFTER all hooks)
@@ -434,8 +608,46 @@ export default function LandingPageClient() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-video bg-gradient-to-br from-blue-500 to-cyan-500 rounded-2xl shadow-2xl flex items-center justify-center">
-                <PlayIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+              {/* YouTube Shadowing Slideshow */}
+              <div className="relative aspect-video rounded-2xl shadow-2xl overflow-hidden">
+                {youtubeSlides.map((slide, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                      index === currentYoutubeSlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {slide.type === 'placeholder' ? (
+                      <div className="w-full h-full bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center">
+                        <PlayIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+                      </div>
+                    ) : (
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Slideshow Dots */}
+              <div className="flex justify-center gap-2 mt-4">
+                {youtubeSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentYoutubeSlide(index)}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentYoutubeSlide
+                        ? 'w-6 bg-blue-600 dark:bg-blue-400'
+                        : 'w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -447,8 +659,46 @@ export default function LandingPageClient() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="order-2 lg:order-1">
-              <div className="aspect-square bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl shadow-2xl flex items-center justify-center">
-                <SparklesIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+              {/* Kanji Connection Slideshow */}
+              <div className="relative aspect-video rounded-2xl shadow-2xl overflow-hidden">
+                {kanjiSlides.map((slide, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                      index === currentKanjiSlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {slide.type === 'placeholder' ? (
+                      <div className="w-full h-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
+                        <SparklesIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+                      </div>
+                    ) : (
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Slideshow Dots */}
+              <div className="flex justify-center gap-2 mt-4">
+                {kanjiSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentKanjiSlide(index)}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentKanjiSlide
+                        ? 'w-6 bg-purple-600 dark:bg-purple-400'
+                        : 'w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
             <div className="order-1 lg:order-2 text-center lg:text-left">
@@ -510,8 +760,46 @@ export default function LandingPageClient() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-video bg-gradient-to-br from-indigo-500 to-blue-500 rounded-2xl shadow-2xl flex items-center justify-center">
-                <LanguageIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+              {/* Conjugation Engine Slideshow */}
+              <div className="relative aspect-video rounded-2xl shadow-2xl overflow-hidden">
+                {conjugationSlides.map((slide, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                      index === currentConjugationSlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {slide.type === 'placeholder' ? (
+                      <div className="w-full h-full bg-gradient-to-br from-indigo-500 to-blue-500 flex items-center justify-center">
+                        <LanguageIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+                      </div>
+                    ) : (
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Slideshow Dots */}
+              <div className="flex justify-center gap-2 mt-4">
+                {conjugationSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentConjugationSlide(index)}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentConjugationSlide
+                        ? 'w-6 bg-indigo-600 dark:bg-indigo-400'
+                        : 'w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -523,8 +811,46 @@ export default function LandingPageClient() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="order-2 lg:order-1">
-              <div className="aspect-square bg-gradient-to-br from-teal-500 to-cyan-500 rounded-2xl shadow-2xl flex items-center justify-center">
-                <NewspaperIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+              {/* News Articles Slideshow */}
+              <div className="relative aspect-video rounded-2xl shadow-2xl overflow-hidden">
+                {newsSlides.map((slide, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                      index === currentNewsSlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {slide.type === 'placeholder' ? (
+                      <div className="w-full h-full bg-gradient-to-br from-teal-500 to-cyan-500 flex items-center justify-center">
+                        <NewspaperIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+                      </div>
+                    ) : (
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Slideshow Dots */}
+              <div className="flex justify-center gap-2 mt-4">
+                {newsSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentNewsSlide(index)}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentNewsSlide
+                        ? 'w-6 bg-teal-600 dark:bg-teal-400'
+                        : 'w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
             <div className="order-1 lg:order-2 text-center lg:text-left">
@@ -594,8 +920,128 @@ export default function LandingPageClient() {
               </div>
             </div>
             <div className="relative">
-              <div className="aspect-video bg-gradient-to-br from-violet-500 to-fuchsia-500 rounded-2xl shadow-2xl flex items-center justify-center">
-                <DocumentTextIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+              {/* AI Stories Slideshow */}
+              <div className="relative aspect-video rounded-2xl shadow-2xl overflow-hidden">
+                {aiStoriesSlides.map((slide, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                      index === currentAiStoriesSlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {slide.type === 'placeholder' ? (
+                      <div className="w-full h-full bg-gradient-to-br from-violet-500 to-fuchsia-500 flex items-center justify-center">
+                        <DocumentTextIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+                      </div>
+                    ) : (
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Slideshow Dots */}
+              <div className="flex justify-center gap-2 mt-4">
+                {aiStoriesSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentAiStoriesSlide(index)}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentAiStoriesSlide
+                        ? 'w-6 bg-violet-600 dark:bg-violet-400'
+                        : 'w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Reading Library Section */}
+      <section className="py-12 md:py-20 bg-white dark:bg-gray-900">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="order-2 lg:order-1">
+              {/* Library Slideshow */}
+              <div className="relative aspect-video rounded-2xl shadow-2xl overflow-hidden">
+                {librarySlides.map((slide, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                      index === currentLibrarySlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {slide.type === 'placeholder' ? (
+                      <div className="w-full h-full bg-gradient-to-br from-emerald-500 to-teal-500 flex items-center justify-center">
+                        <BookOpenIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+                      </div>
+                    ) : (
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Slideshow Dots */}
+              <div className="flex justify-center gap-2 mt-4">
+                {librarySlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentLibrarySlide(index)}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentLibrarySlide
+                        ? 'w-6 bg-emerald-600 dark:bg-emerald-400'
+                        : 'w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+            <div className="order-1 lg:order-2 text-center lg:text-left">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                {landingStrings.features.library?.title || 'Reading Library: Immersive Content'}
+              </h2>
+              <p className="text-lg md:text-xl text-emerald-600 dark:text-emerald-400 mb-6">
+                {landingStrings.features.library?.subtitle || 'Books, graded readers, and condensed versions at your level'}
+              </p>
+              <p className="text-gray-600 dark:text-gray-300 mb-6 md:mb-8">
+                {landingStrings.features.library?.description || 'Explore our extensive collection of Japanese books and graded readers.'}
+              </p>
+              <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left max-w-md mx-auto lg:mx-0">
+                {landingStrings.features.library?.benefits ? (
+                  Object.values(landingStrings.features.library.benefits).map(
+                    (benefit, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                        <CheckCircleIcon className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                        <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
+                      </li>
+                    )
+                  )
+                ) : null}
+              </ul>
+              <div className="flex justify-center lg:justify-start">
+                <Button
+                  onClick={() => router.push(getLocalePath('/library'))}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
+                >
+                  {landingStrings.features.library?.cta || 'Explore Library'}
+                </Button>
               </div>
             </div>
           </div>
@@ -603,12 +1049,79 @@ export default function LandingPageClient() {
       </section>
 
       {/* Moshi Comics Section */}
-      <section className="py-12 md:py-20 bg-white dark:bg-gray-900">
+      <section className="bg-gradient-to-br from-pink-50 to-rose-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div className="order-2 lg:order-1">
-              <div className="aspect-square bg-gradient-to-br from-pink-500 to-rose-500 rounded-2xl shadow-2xl flex items-center justify-center">
-                <ChatBubbleLeftRightIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+            <div className="text-center lg:text-left">
+              <h2 className="text-3xl md:text-4xl font-bold mb-4">
+                {landingStrings.features.comics.title}
+              </h2>
+              <p className="text-lg md:text-xl text-pink-600 dark:text-pink-400 mb-6">
+                {landingStrings.features.comics.subtitle}
+              </p>
+              <p className="text-gray-600 dark:text-gray-300 mb-6 md:mb-8">
+                {landingStrings.features.comics.description}
+              </p>
+              <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left max-w-md mx-auto lg:mx-0">
+                {Object.values(landingStrings.features.comics.benefits).map(
+                  (benefit, i) => (
+                    <li key={i} className="flex items-start gap-3">
+                      <CheckCircleIcon className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
+                      <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
+                    </li>
+                  )
+                )}
+              </ul>
+              <div className="flex justify-center lg:justify-start">
+                <Button
+                  onClick={() => router.push(getLocalePath('/comics'))}
+                  className="bg-pink-600 hover:bg-pink-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
+                >
+                  {landingStrings.features.comics.cta}
+                </Button>
+              </div>
+            </div>
+            <div className="relative">
+              {/* Comics Slideshow */}
+              <div className="relative aspect-video rounded-2xl shadow-2xl overflow-hidden">
+                {comicsSlides.map((slide, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                      index === currentComicsSlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {slide.type === 'placeholder' ? (
+                      <div className="w-full h-full bg-gradient-to-br from-pink-500 to-rose-500 flex items-center justify-center">
+                        <ChatBubbleLeftRightIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+                      </div>
+                    ) : (
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Slideshow Dots */}
+              <div className="flex justify-center gap-2 mt-4">
+                {comicsSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentComicsSlide(index)}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentComicsSlide
+                        ? 'w-6 bg-pink-600 dark:bg-pink-400'
+                        : 'w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
             <div className="order-1 lg:order-2 text-center lg:text-left">
@@ -670,8 +1183,46 @@ export default function LandingPageClient() {
               </ul>
             </div>
             <div className="relative">
-              <div className="aspect-video bg-gradient-to-br from-green-500 to-emerald-500 rounded-2xl shadow-2xl flex items-center justify-center">
-                <CloudArrowUpIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+              {/* Anki Import Slideshow */}
+              <div className="relative aspect-video rounded-2xl shadow-2xl overflow-hidden">
+                {ankiSlides.map((slide, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                      index === currentAnkiSlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {slide.type === 'placeholder' ? (
+                      <div className="w-full h-full bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center">
+                        <CloudArrowUpIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+                      </div>
+                    ) : (
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Slideshow Dots */}
+              <div className="flex justify-center gap-2 mt-4">
+                {ankiSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentAnkiSlide(index)}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentAnkiSlide
+                        ? 'w-6 bg-green-600 dark:bg-green-400'
+                        : 'w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -683,8 +1234,46 @@ export default function LandingPageClient() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="order-2 lg:order-1">
-              <div className="aspect-square bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl shadow-2xl flex items-center justify-center">
-                <BookOpenIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+              {/* Textbook Vocabulary Slideshow */}
+              <div className="relative aspect-video rounded-2xl shadow-2xl overflow-hidden">
+                {textbookSlides.map((slide, index) => (
+                  <div
+                    key={index}
+                    className={`absolute inset-0 transition-opacity duration-700 ease-in-out ${
+                      index === currentTextbookSlide ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    {slide.type === 'placeholder' ? (
+                      <div className="w-full h-full bg-gradient-to-br from-orange-500 to-red-500 flex items-center justify-center">
+                        <BookOpenIcon className="w-16 md:w-24 h-16 md:h-24 text-white opacity-80" />
+                      </div>
+                    ) : (
+                      <Image
+                        src={slide.src}
+                        alt={slide.alt}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Slideshow Dots */}
+              <div className="flex justify-center gap-2 mt-4">
+                {textbookSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentTextbookSlide(index)}
+                    className={`h-2 rounded-full transition-all ${
+                      index === currentTextbookSlide
+                        ? 'w-6 bg-orange-600 dark:bg-orange-400'
+                        : 'w-2 bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
               </div>
             </div>
             <div className="order-1 lg:order-2 text-center lg:text-left">
