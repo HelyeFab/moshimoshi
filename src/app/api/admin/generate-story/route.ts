@@ -380,7 +380,8 @@ export async function POST(request: NextRequest) {
         await file.makePublic()
         const publicUrl = `https://storage.googleapis.com/${storage.bucket().name}/${fileName}`
 
-        // Update draft with model sheet (including reference image data for character consistency)
+        // Update draft with model sheet URL only (NOT base64 data - too large for Firestore 1MB limit)
+        // The image can be fetched from Storage URL when needed for character consistency
         await adminFirestore!
           .collection('ai_story_drafts')
           .doc(draftId)
@@ -389,8 +390,8 @@ export async function POST(request: NextRequest) {
               prompt: response.data.prompt,
               imageUrl: publicUrl,
               characterId: response.data.characterId,
-              // Store base64 reference for character consistency in page images
-              referenceImageData: base64Match[1],
+              // NOTE: referenceImageData removed to avoid Firestore document size limit
+              // Will be fetched from imageUrl when needed for page image generation
             },
             updatedAt: new Date(),
           })
@@ -402,13 +403,20 @@ export async function POST(request: NextRequest) {
           provider: 'gemini',
         })
       } catch (imageError) {
-        console.error('Model sheet image generation failed:', imageError)
-        // Still return success with just the prompt
+        const errorMessage = imageError instanceof Error ? imageError.message : 'Unknown error'
+
+        console.error('[GenerateStory] Model sheet image generation failed:', {
+          error: errorMessage,
+          draftId,
+          stack: imageError instanceof Error ? imageError.stack?.split('\n').slice(0, 5).join('\n') : undefined,
+        })
+
+        // Return success: false so the scheduler knows model sheet failed
         return NextResponse.json({
-          success: true,
+          success: false,
           draftId,
           data: { prompt: response.data.prompt, imageUrl: null },
-          warning: 'Image generation failed, prompt saved',
+          error: `Model sheet generation failed: ${errorMessage}`,
         })
       }
     }
@@ -482,13 +490,28 @@ export async function POST(request: NextRequest) {
         const geminiProcessor = new GeminiImageProcessor(createGeminiContext(userId))
 
         // Build character references for consistency (if model sheet exists)
+        // Fetch the model sheet image from Storage URL (not stored as base64 in Firestore to avoid size limits)
         const characterRefs: Array<{ imageData: string; mimeType?: string; name?: string }> = []
-        if (modelSheet?.referenceImageData) {
-          characterRefs.push({
-            imageData: modelSheet.referenceImageData,
-            mimeType: 'image/png',
-            name: characterSheet?.mainCharacter?.name || 'Main Character',
-          })
+        if (modelSheet?.imageUrl) {
+          try {
+            console.log(`[GenerateStory] Fetching model sheet from: ${modelSheet.imageUrl}`)
+            const modelSheetResponse = await fetch(modelSheet.imageUrl)
+            if (modelSheetResponse.ok) {
+              const imageBuffer = await modelSheetResponse.arrayBuffer()
+              const base64Data = Buffer.from(imageBuffer).toString('base64')
+              characterRefs.push({
+                imageData: base64Data,
+                mimeType: 'image/png',
+                name: characterSheet?.mainCharacter?.name || 'Main Character',
+              })
+              console.log(`[GenerateStory] Model sheet fetched successfully, base64 length: ${base64Data.length}`)
+            } else {
+              console.warn(`[GenerateStory] Failed to fetch model sheet: ${modelSheetResponse.status}`)
+            }
+          } catch (fetchError) {
+            console.warn(`[GenerateStory] Error fetching model sheet:`, fetchError)
+            // Continue without character consistency - better than failing completely
+          }
         }
 
         // Generate image with character consistency
@@ -542,24 +565,47 @@ export async function POST(request: NextRequest) {
         // IMPORTANT: Use transaction to prevent race conditions when multiple page images are generated concurrently
         // Firestore field paths like `pages.0.imageUrl` convert arrays to objects, so we must read-modify-write
         const draftRef = adminFirestore!.collection('ai_story_drafts').doc(draftId)
-        await adminFirestore!.runTransaction(async (transaction) => {
-          const draftSnapshot = await transaction.get(draftRef)
-          if (!draftSnapshot.exists) {
-            throw new Error('Draft not found during image update')
-          }
-          const currentPages = draftSnapshot.data()?.pages || []
-          if (currentPages[pageNumber - 1]) {
-            currentPages[pageNumber - 1] = {
-              ...currentPages[pageNumber - 1],
-              imageUrl: publicUrl,
+
+        try {
+          await adminFirestore!.runTransaction(async (transaction) => {
+            const draftSnapshot = await transaction.get(draftRef)
+            if (!draftSnapshot.exists) {
+              throw new Error('Draft not found during image update')
             }
-          }
-          transaction.update(draftRef, {
-            pages: currentPages,
-            [`pageImages.${pageNumber}`]: publicUrl,
-            updatedAt: new Date(),
+            const currentPages = draftSnapshot.data()?.pages || []
+            if (currentPages[pageNumber - 1]) {
+              currentPages[pageNumber - 1] = {
+                ...currentPages[pageNumber - 1],
+                imageUrl: publicUrl,
+              }
+            }
+            transaction.update(draftRef, {
+              pages: currentPages,
+              [`pageImages.${pageNumber}`]: publicUrl,
+              updatedAt: new Date(),
+            })
           })
-        })
+        } catch (transactionError) {
+          const errorMessage = transactionError instanceof Error ? transactionError.message : 'Unknown error'
+          console.error(`[GenerateStory] Transaction failed for page ${pageNumber}:`, {
+            error: errorMessage,
+            draftId,
+            pageNumber,
+            publicUrl,
+            hint: 'Possible causes: document size limit (1MB), concurrent write conflict, or Firestore error',
+          })
+
+          // Still return success: false even though image was uploaded to storage
+          // The scheduler should know the draft wasn't updated
+          return NextResponse.json({
+            success: false,
+            draftId,
+            data: { prompt: response.data.imagePrompt, imageUrl: publicUrl, pageNumber },
+            error: `Firestore transaction failed: ${errorMessage}`,
+            errorType: 'TransactionError',
+            hint: 'Image was uploaded to storage but draft was not updated',
+          })
+        }
 
         return NextResponse.json({
           success: true,
@@ -569,12 +615,25 @@ export async function POST(request: NextRequest) {
           characterConsistency: characterRefs.length > 0,
         })
       } catch (imageError) {
-        console.error(`Page ${pageNumber} image generation failed:`, imageError)
+        const errorMessage = imageError instanceof Error ? imageError.message : 'Unknown error'
+        const errorName = imageError instanceof Error ? imageError.name : 'UnknownError'
+
+        // Log detailed error for debugging
+        console.error(`[GenerateStory] Page ${pageNumber} image generation failed:`, {
+          error: errorMessage,
+          errorName,
+          draftId,
+          pageNumber,
+          stack: imageError instanceof Error ? imageError.stack?.split('\n').slice(0, 5).join('\n') : undefined,
+        })
+
+        // Return success: false so the scheduler knows to retry or report failure
         return NextResponse.json({
-          success: true,
+          success: false,
           draftId,
           data: { prompt: response.data.imagePrompt, imageUrl: null, pageNumber },
-          warning: 'Image generation failed',
+          error: `Image generation failed: ${errorMessage}`,
+          errorType: errorName,
         })
       }
     }
