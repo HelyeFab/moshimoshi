@@ -61,6 +61,14 @@ export async function setCachedWordExplanation(
   }
 
   try {
+    // Remove undefined fields to satisfy Firestore
+    const sanitizedExplanation: any = { ...explanation };
+    Object.keys(sanitizedExplanation).forEach(key => {
+      if (sanitizedExplanation[key] === undefined) {
+        delete sanitizedExplanation[key];
+      }
+    });
+
     const wordHash = hashText(word.trim().toLowerCase());
     const docId = wordHash;
 
@@ -68,7 +76,7 @@ export async function setCachedWordExplanation(
       id: docId,
       wordHash,
       word,
-      explanation,
+      explanation: sanitizedExplanation as WordExplanation,
       createdAt: Timestamp.now(),
       lastAccessedAt: Timestamp.now(),
       accessCount: 1

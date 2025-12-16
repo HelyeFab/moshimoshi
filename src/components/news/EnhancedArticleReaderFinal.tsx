@@ -1166,6 +1166,7 @@ export default function EnhancedArticleReader({
 
   // Detect if this is a book (from Toshokan Library) vs a news article
   const isBook = article.source === 'Toshokan Library'
+  const isStoryContent = contentType === 'story' || isStoryMode
 
   const {
     explainWord,
@@ -1177,8 +1178,9 @@ export default function EnhancedArticleReader({
     prefetch: prefetchWordExplanations,
   } = useWordExplanation({
     // Use bookId for books, articleId for news articles
-    articleId: isBook ? undefined : article.id,
+    articleId: isBook || isStoryContent ? undefined : article.id,
     bookId: isBook ? article.id : undefined,
+    storyId: isStoryContent ? article.id : undefined,
   })
 
   // Cleanup audio when component unmounts or article changes
@@ -1193,27 +1195,50 @@ export default function EnhancedArticleReader({
 
   // Prefetch word explanations for instant modal response
   useEffect(() => {
-    if (article?.id && article.content) {
+    if (!article?.id) return
+
+    // Story: use full story text (all pages) under story collection
+    if (isStoryContent && pages?.length) {
+      const fullText = pages
+        .map(p => p.text || '')
+        .filter(Boolean)
+        .join(' ')
+      if (fullText) {
+        prefetchWordExplanations({
+          contentId: article.id,
+          contentType: 'story',
+          text: fullText,
+        })
+      }
+      return
+    }
+
+    // Book: use article.content under book collection
+    if (isBook && article.content) {
       prefetchWordExplanations({
         contentId: article.id,
-        contentType: isBook ? 'book' : 'article',
+        contentType: 'book',
+        text: typeof article.content === 'string' ? article.content : '',
+      })
+      return
+    }
+
+    // News article default
+    if (article.content) {
+      prefetchWordExplanations({
+        contentId: article.id,
+        contentType: 'article',
         text: typeof article.content === 'string' ? article.content : '',
       })
     }
-  }, [article?.id, article.content, isBook, prefetchWordExplanations])
-
-  // Prefetch per story page text when in story mode and page changes
-  useEffect(() => {
-    if (!isStoryMode || !pages || !pages[currentPageIndex]) return
-    const page = pages[currentPageIndex]
-    if (page?.text) {
-      prefetchWordExplanations({
-        contentId: `${article.id}:page-${currentPageIndex}`,
-        contentType: 'story',
-        text: page.text,
-      })
-    }
-  }, [isStoryMode, pages, currentPageIndex, article.id, prefetchWordExplanations])
+  }, [
+    article?.id,
+    article.content,
+    isBook,
+    isStoryContent,
+    pages,
+    prefetchWordExplanations,
+  ])
 
   // Sync playback speed with NHK audio when settings change
   useEffect(() => {

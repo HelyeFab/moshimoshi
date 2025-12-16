@@ -89,13 +89,8 @@ class TTSCacheService {
       normalizedText,
       provider,
       voice,
-      speed: metadata?.speed,
-      pitch: metadata?.pitch,
-      volume: metadata?.volume,
       audioUrl,
       storagePath,
-      duration: metadata?.duration,
-      size: metadata?.size,
       createdAt: new Date(),
       lastAccessedAt: new Date(),
       accessCount: 1,
@@ -110,6 +105,13 @@ class TTSCacheService {
         language: 'ja',
       },
     }
+
+    // Add optional numeric fields only when defined to avoid Firestore undefined errors
+    if (metadata?.speed !== undefined) entry.speed = metadata.speed
+    if (metadata?.pitch !== undefined) entry.pitch = metadata.pitch
+    if (metadata?.volume !== undefined) entry.volume = metadata.volume
+    if (metadata?.duration !== undefined) entry.duration = metadata.duration
+    if (metadata?.size !== undefined) entry.size = metadata.size
 
     await db.collection(this.collection).doc(cacheKey).set(entry)
 

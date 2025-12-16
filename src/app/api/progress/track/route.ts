@@ -44,28 +44,51 @@ export async function POST(request: NextRequest) {
       console.log(`[API Progress] Premium user - saving to Firebase`)
 
       const db = getDb()
-      // Save each item as an individual document in progress subcollection
-      const batch = db.batch()
 
-      for (const [contentId, progressData] of items) {
+      // Special handling for kanji: store in a single document with an items map
+      if (contentType === 'kanji') {
         const progressRef = db
           .collection('users')
           .doc(session.uid)
           .collection('progress')
-          .doc(contentId) // Use the content ID as the document ID
+          .doc('kanji')
 
-        // Save with proper structure for scheduled API
-        batch.set(progressRef, {
-          contentId,
+        const itemsObj: Record<string, any> = {}
+        for (const [contentId, progressData] of items as Array<[string, any]>) {
+          itemsObj[contentId] = progressData
+        }
+
+        const updateData: Record<string, any> = {
           contentType,
-          ...progressData, // Include all progress data including srsData
           lastUpdated: FieldValue.serverTimestamp(),
-          userId: session.uid
-        }, { merge: true })
-      }
+          items: itemsObj,
+        }
 
-      await batch.commit()
-      console.log(`[API Progress] Saved ${items.length} progress items to Firebase`)
+        await progressRef.set(updateData, { merge: true })
+        console.log(`[API Progress] Saved ${items.length} kanji progress items to Firebase (single doc)`)
+      } else {
+        // Default behavior: each item as its own document
+        const batch = db.batch()
+
+        for (const [contentId, progressData] of items) {
+          const progressRef = db
+            .collection('users')
+            .doc(session.uid)
+            .collection('progress')
+            .doc(contentId) // Use the content ID as the document ID
+
+          batch.set(progressRef, {
+            contentId,
+            contentType,
+            ...progressData, // Include all progress data including srsData
+            lastUpdated: FieldValue.serverTimestamp(),
+            userId: session.uid
+          }, { merge: true })
+        }
+
+        await batch.commit()
+        console.log(`[API Progress] Saved ${items.length} progress items to Firebase`)
+      }
     } else {
       console.log(`[API Progress] Free user - skipping Firebase save, data should be stored locally`)
     }

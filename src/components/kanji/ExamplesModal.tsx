@@ -27,9 +27,11 @@ export default function ExamplesModal({
 }: ExamplesModalProps) {
   const { strings } = useI18n()
   const { play, loading, playing } = useTTS({ cacheFirst: true })
+  const [activeAudioIndex, setActiveAudioIndex] = useState<number | null>(null)
 
-  const handlePlayAudio = async (text: string) => {
+  const handlePlayAudio = async (text: string, index: number) => {
     try {
+      setActiveAudioIndex(index)
       await play(text, {
         voice: 'ja-JP',
         rate: 0.9,
@@ -38,6 +40,8 @@ export default function ExamplesModal({
       })
     } catch (error) {
       console.error('TTS playback failed:', error)
+    } finally {
+      setActiveAudioIndex(null)
     }
   }
 
@@ -69,9 +73,9 @@ export default function ExamplesModal({
                       </span>
                       <AudioButton
                         size="sm"
-                        onPlay={() => handlePlayAudio(example.word)}
-                        loading={loading}
-                        playing={playing}
+                        onPlay={() => handlePlayAudio(example.word, idx)}
+                        loading={activeAudioIndex === idx && loading}
+                        playing={activeAudioIndex === idx && playing}
                       />
                     </div>
 

@@ -10,6 +10,8 @@ import { DoshiMascot } from '@/components/ui/DoshiMascot'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { TextbookSelector } from './components/TextbookSelector'
 import { VocabularyDisplay } from './components/VocabularyDisplay'
+import Navbar from '@/components/layout/Navbar'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 export default function TextbookVocabularyPage() {
   const { user } = useAuth()
@@ -35,10 +37,9 @@ export default function TextbookVocabularyPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
-      {/* Navigation is now global - rendered in root layout */}
+      <Navbar user={user} showUserMenu />
 
       <div className="container mx-auto px-4 py-6 max-w-6xl">
-
         <AnimatePresence mode="wait">
           {isLoading && <LoadingOverlay />}
 
@@ -65,6 +66,8 @@ export default function TextbookVocabularyPage() {
           />
         </motion.div>
       </div>
+
+      <MobileNavSpacer />
     </div>
   )
 }

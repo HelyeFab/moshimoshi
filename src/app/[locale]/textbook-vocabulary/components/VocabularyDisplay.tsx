@@ -6,6 +6,9 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useTTS } from '@/hooks/useTTS'
 import { ChevronLeftIcon, SpeakerWaveIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import { useAuth } from '@/hooks/useAuth'
+import { useSubscription } from '@/hooks/useSubscription'
+import { vocabularyProgressManager } from '@/utils/vocabularyProgressManager'
 
 interface VocabularyItem {
   id: string
@@ -31,6 +34,8 @@ interface VocabularyDisplayProps {
 export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps) {
   const { strings } = useI18n()
   const { play, isPlaying } = useTTS()
+  const { user } = useAuth()
+  const { isPremium } = useSubscription()
   const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([])
   const [filteredVocab, setFilteredVocab] = useState<VocabularyItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -38,6 +43,7 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'cards'>('grid')
   const [selectedWord, setSelectedWord] = useState<VocabularyItem | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
+  const [progress, setProgress] = useState<Map<string, any>>(new Map())
 
   // Load vocabulary data
   useEffect(() => {
@@ -58,6 +64,50 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
     loadVocabulary()
   }, [textbookId])
 
+  // Load progress
+  useEffect(() => {
+    const loadProgress = async () => {
+      if (!user?.uid) {
+        setProgress(new Map())
+        return
+      }
+      const map = await vocabularyProgressManager.getProgressMap(user, isPremium ?? false)
+      setProgress(map)
+    }
+    loadProgress()
+  }, [user, isPremium])
+
+  const handleMarkLearned = async (item: VocabularyItem, e?: React.MouseEvent) => {
+    e?.stopPropagation()
+    if (!user?.uid) return
+    await vocabularyProgressManager.markLearned(item.id, user, isPremium ?? false, {
+      textbookId,
+      lesson: item.lesson,
+      meanings: [item.meaning],
+    })
+    setProgress(prev => {
+      const next = new Map(prev)
+      const existing = next.get(item.id) || {}
+      next.set(item.id, { ...existing, status: 'learned' })
+      return next
+    })
+  }
+
+  const handleTrackView = async (item: VocabularyItem) => {
+    if (!user?.uid) return
+    await vocabularyProgressManager.trackView(item.id, user, isPremium ?? false, {
+      textbookId,
+      lesson: item.lesson,
+    })
+    setProgress(prev => {
+      const next = new Map(prev)
+      const existing = next.get(item.id) || {}
+      const viewCount = (existing.viewCount || 0) + 1
+      const status = existing.status || (viewCount > 0 ? 'learning' : 'not-started')
+      next.set(item.id, { ...existing, viewCount, status })
+      return next
+    })
+  }
   // Filter vocabulary based on lesson and search
   useEffect(() => {
     let filtered = vocabulary
@@ -90,6 +140,7 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
 
   const handleWordClick = (word: VocabularyItem) => {
     setSelectedWord(word)
+    handleTrackView(word)
   }
 
   if (isLoading) {
@@ -192,19 +243,31 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.02 }}
                 onClick={() => handleWordClick(item)}
-                className="bg-white dark:bg-dark-800 rounded-lg p-4 shadow hover:shadow-lg transition-shadow cursor-pointer group border border-gray-200 dark:border-dark-700"
+                className={`rounded-lg p-4 shadow transition-shadow cursor-pointer group border ${
+                  progress.get(item.id)?.status === 'learned'
+                    ? 'bg-green-50 dark:bg-green-900/20 border-green-400 dark:border-green-500'
+                    : 'bg-white dark:bg-dark-800 border-gray-200 dark:border-dark-700 hover:shadow-lg'
+                }`}
               >
                 <div className="flex justify-between items-start mb-2">
                   <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
                     {item.japanese}
                   </h3>
-                  <button
-                    onClick={(e) => handlePlayAudio(item.japanese, e)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-gray-100 dark:hover:bg-dark-700"
-                    disabled={isPlaying}
-                  >
-                    <SpeakerWaveIcon className="h-4 w-4 text-primary-600 dark:text-primary-400" />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={(e) => handlePlayAudio(item.japanese, e)}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-gray-100 dark:hover:bg-dark-700"
+                      disabled={isPlaying}
+                    >
+                      <SpeakerWaveIcon className="h-4 w-4 text-primary-600 dark:text-primary-400" />
+                    </button>
+                    <button
+                      onClick={(e) => handleMarkLearned(item, e)}
+                      className="px-2 py-1 text-xs rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors"
+                    >
+                      Mark learned
+                    </button>
+                  </div>
                 </div>
                 <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
                   {item.reading}

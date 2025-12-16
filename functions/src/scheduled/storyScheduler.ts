@@ -1,6 +1,6 @@
 /**
- * Story Scheduler - Daily AI Story Generation
- * Generates a new educational Japanese story every day at 00:00 UTC
+ * Story Scheduler - Weekly AI Story Generation
+ * Generates a new educational Japanese story every Sunday at 00:00 UTC
  *
  * Flow:
  * 1. Pick a random theme or select from moodboards
@@ -20,11 +20,16 @@ import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { defineSecret } from 'firebase-functions/params'
 import { preGenerateStorySentences } from '../utils/sentencePreGenerator'
+import {
+  sendStoryGenerationFailureAlert,
+  sendStoryGenerationWarningAlert,
+} from '../utils/alertNotifier'
 
 // Define secrets needed for story generation
 const OPENAI_API_KEY = defineSecret('OPENAI_API_KEY')
 const MODAL_API_KEY = defineSecret('MODAL_API_KEY')
 const GEMINI_API_KEY = defineSecret('GEMINI_API_KEY')
+const RESEND_API_KEY = defineSecret('RESEND_API_KEY')
 
 // Initialize Firestore
 const db = admin.firestore()
@@ -150,6 +155,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
 }> {
   const startTime = Date.now()
   const { theme, jlptLevel, pageCount } = selectThemeAndLevel()
+  let draftId: string | undefined // Declare here so it's accessible in catch block
 
   logger.info('[StoryScheduler] Starting daily story generation', {
     theme,
@@ -176,7 +182,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
       throw new Error('Failed to generate character sheet')
     }
 
-    const draftId = characterResult.draftId
+    draftId = characterResult.draftId
     logger.info('[StoryScheduler] Character sheet created', { draftId })
 
     // Step 2: Generate Outline
@@ -392,6 +398,26 @@ export async function generateDailyStory(adminKey: string): Promise<{
       durationMin: (duration / 60000).toFixed(2),
     })
 
+    // Send warning alert if some images failed
+    if (imagesFailed > 0) {
+      const warnings: string[] = []
+      warnings.push(`${imagesFailed} of ${pageCount} page images failed to generate`)
+
+      await sendStoryGenerationWarningAlert(
+        RESEND_API_KEY.value(),
+        storyId,
+        warnings,
+        {
+          theme,
+          jlptLevel,
+          imagesGenerated,
+          imagesFailed,
+          pageCount,
+          durationMs: duration,
+        }
+      )
+    }
+
     return {
       success: true,
       storyId,
@@ -420,6 +446,19 @@ export async function generateDailyStory(adminKey: string): Promise<{
       createdAt: admin.firestore.FieldValue.serverTimestamp(),
     })
 
+    // Send email alert for the failure
+    await sendStoryGenerationFailureAlert(
+      RESEND_API_KEY.value(),
+      draftId || 'unknown',
+      'unknown',
+      errorMessage,
+      {
+        theme,
+        jlptLevel,
+        durationMs: duration,
+      }
+    )
+
     return {
       success: false,
       error: errorMessage,
@@ -429,16 +468,16 @@ export async function generateDailyStory(adminKey: string): Promise<{
 }
 
 /**
- * Scheduled function - runs daily at 00:00 UTC
+ * Scheduled function - runs weekly on Sunday at 00:00 UTC
  */
 export const scheduledStoryGeneratorFunction = onSchedule(
   {
-    schedule: '0 0 * * *', // Daily at 00:00 UTC
+    schedule: '0 0 * * 0', // Weekly on Sunday at 00:00 UTC
     timeZone: 'UTC',
     memory: '1GiB',
     timeoutSeconds: 540, // 9 minutes (max allowed)
     retryCount: 1, // Retry once on failure
-    secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY],
+    secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY, RESEND_API_KEY],
   },
   async event => {
     logger.info('[StoryScheduler] Scheduled trigger activated', {
@@ -468,7 +507,7 @@ export const manualStoryGeneratorFunction = onCall(
     memory: '1GiB',
     timeoutSeconds: 540,
     invoker: 'public', // Auth checked inside
-    secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY],
+    secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY, RESEND_API_KEY],
   },
   async request => {
     // Check authentication

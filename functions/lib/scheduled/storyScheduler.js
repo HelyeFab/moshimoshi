@@ -1,7 +1,7 @@
 "use strict";
 /**
- * Story Scheduler - Daily AI Story Generation
- * Generates a new educational Japanese story every day at 00:00 UTC
+ * Story Scheduler - Weekly AI Story Generation
+ * Generates a new educational Japanese story every Sunday at 00:00 UTC
  *
  * Flow:
  * 1. Pick a random theme or select from moodboards
@@ -56,10 +56,12 @@ const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
 const sentencePreGenerator_1 = require("../utils/sentencePreGenerator");
+const alertNotifier_1 = require("../utils/alertNotifier");
 // Define secrets needed for story generation
 const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY');
 const MODAL_API_KEY = (0, params_1.defineSecret)('MODAL_API_KEY');
 const GEMINI_API_KEY = (0, params_1.defineSecret)('GEMINI_API_KEY');
+const RESEND_API_KEY = (0, params_1.defineSecret)('RESEND_API_KEY');
 // Initialize Firestore
 const db = admin.firestore();
 // App URL for API calls
@@ -156,6 +158,7 @@ function selectThemeAndLevel() {
 async function generateDailyStory(adminKey) {
     const startTime = Date.now();
     const { theme, jlptLevel, pageCount } = selectThemeAndLevel();
+    let draftId; // Declare here so it's accessible in catch block
     logger.info('[StoryScheduler] Starting daily story generation', {
         theme,
         jlptLevel,
@@ -174,7 +177,7 @@ async function generateDailyStory(adminKey) {
         if (!characterResult.success || !characterResult.draftId) {
             throw new Error('Failed to generate character sheet');
         }
-        const draftId = characterResult.draftId;
+        draftId = characterResult.draftId;
         logger.info('[StoryScheduler] Character sheet created', { draftId });
         // Step 2: Generate Outline
         logger.info('[StoryScheduler] Step 2/9: Generating outline...');
@@ -340,6 +343,19 @@ async function generateDailyStory(adminKey) {
             durationMs: duration,
             durationMin: (duration / 60000).toFixed(2),
         });
+        // Send warning alert if some images failed
+        if (imagesFailed > 0) {
+            const warnings = [];
+            warnings.push(`${imagesFailed} of ${pageCount} page images failed to generate`);
+            await (0, alertNotifier_1.sendStoryGenerationWarningAlert)(RESEND_API_KEY.value(), storyId, warnings, {
+                theme,
+                jlptLevel,
+                imagesGenerated,
+                imagesFailed,
+                pageCount,
+                durationMs: duration,
+            });
+        }
         return {
             success: true,
             storyId,
@@ -366,6 +382,12 @@ async function generateDailyStory(adminKey) {
             duration,
             createdAt: admin.firestore.FieldValue.serverTimestamp(),
         });
+        // Send email alert for the failure
+        await (0, alertNotifier_1.sendStoryGenerationFailureAlert)(RESEND_API_KEY.value(), draftId || 'unknown', 'unknown', errorMessage, {
+            theme,
+            jlptLevel,
+            durationMs: duration,
+        });
         return {
             success: false,
             error: errorMessage,
@@ -374,15 +396,15 @@ async function generateDailyStory(adminKey) {
     }
 }
 /**
- * Scheduled function - runs daily at 00:00 UTC
+ * Scheduled function - runs weekly on Sunday at 00:00 UTC
  */
 exports.scheduledStoryGeneratorFunction = (0, scheduler_1.onSchedule)({
-    schedule: '0 0 * * *', // Daily at 00:00 UTC
+    schedule: '0 0 * * 0', // Weekly on Sunday at 00:00 UTC
     timeZone: 'UTC',
     memory: '1GiB',
     timeoutSeconds: 540, // 9 minutes (max allowed)
     retryCount: 1, // Retry once on failure
-    secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY],
+    secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY, RESEND_API_KEY],
 }, async (event) => {
     logger.info('[StoryScheduler] Scheduled trigger activated', {
         scheduleTime: event.scheduleTime,
@@ -404,7 +426,7 @@ exports.manualStoryGeneratorFunction = (0, https_1.onCall)({
     memory: '1GiB',
     timeoutSeconds: 540,
     invoker: 'public', // Auth checked inside
-    secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY],
+    secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY, RESEND_API_KEY],
 }, async (request) => {
     var _a, _b, _c, _d;
     // Check authentication

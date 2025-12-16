@@ -133,6 +133,17 @@ function findContextSentence(word: string, sentences: string[]): string | undefi
 
 const MAX_CONTEXT_TRANSLATIONS = 40
 
+// Remove undefined fields to satisfy Firestore
+function sanitizeExplanation(explanation: WordExplanation): WordExplanation {
+  const copy: any = { ...explanation }
+  Object.keys(copy).forEach(key => {
+    if (copy[key] === undefined) {
+      delete copy[key]
+    }
+  })
+  return copy as WordExplanation
+}
+
 /**
  * Enrich explanation with context translation and precomputed audio when possible
  */
@@ -320,7 +331,7 @@ export async function precomputeWordExplanations({
 
   console.log(`[WordPrecompute] Generated ${conjugationsGenerated} full conjugation tables`)
 
-  const merged = [...existingWords, ...generatedResults]
+  const merged = [...existingWords, ...generatedResults].map(sanitizeExplanation)
 
   await docRef.set(
     {

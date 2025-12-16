@@ -47,6 +47,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: true, result })
   } catch (error) {
     console.error('[WordPrecompute] error', error)
-    return NextResponse.json({ success: false, error: 'INTERNAL_ERROR' }, { status: 500 })
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'INTERNAL_ERROR',
+        details: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 }
+    )
   }
 }

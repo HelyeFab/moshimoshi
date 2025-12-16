@@ -10,10 +10,12 @@ import { extractTopWords } from '../utils/wordExtractor'
 import { generateBatchTranslations } from '../utils/translationPreGenerator'
 import { generateBatchWordExplanations } from '../utils/wordExplanationPreGenerator'
 import { preGenerateArticleSentences } from '../utils/sentencePreGenerator'
+import { sendScraperFailureAlert } from '../utils/alertNotifier'
 
 // Define secrets needed for TTS audio generation, AI processing, and NHK API
 const MODAL_API_KEY = defineSecret('MODAL_API_KEY') // For VOICEVOX TTS and NHK API
 const OPENAI_API_KEY = defineSecret('OPENAI_API_KEY')
+const RESEND_API_KEY = defineSecret('RESEND_API_KEY') // For email alerts
 
 // Initialize Firestore
 const db = admin.firestore()
@@ -191,9 +193,9 @@ export async function scheduledNewsScraper() {
     const endDate = now.toISOString().split('T')[0] // YYYY-MM-DD
     const startDate = sixHoursAgo.toISOString().split('T')[0] // YYYY-MM-DD
 
-    // Run all scrapers in parallel - limit to 10 articles per source
-    // NHK publishes ~4 articles per weekday, so 10 is a safe limit
-    const ARTICLE_LIMIT = 10
+    // Run all scrapers in parallel - limit to 1 article per source per run
+    // NHK publishes ~4 articles per weekday, we only want 1 per day
+    const ARTICLE_LIMIT = 1
     logger.info('[NewsScheduler] Running scrapers in parallel', {
       scraperCount: enabledSources.length,
       dateRange: { startDate, endDate },
@@ -272,7 +274,28 @@ export async function scheduledNewsScraper() {
         totalSources: enabledSources.length,
         timestamp: new Date().toISOString(),
       })
-      // TODO: Send notification (email, Slack, etc.)
+
+      // Send email alert
+      const failedSourceNames = Object.keys(summary.sources)
+      const errors: Record<string, string> = {}
+      for (const [name, data] of Object.entries(summary.sources)) {
+        if (!data.success && data.error) {
+          errors[name] = data.error
+        }
+      }
+
+      try {
+        await sendScraperFailureAlert(
+          RESEND_API_KEY.value(),
+          failedSourceNames,
+          errors,
+          enabledSources.length
+        )
+      } catch (alertError) {
+        logger.error('[NewsScheduler] Failed to send alert email', {
+          error: alertError instanceof Error ? alertError.message : 'Unknown error',
+        })
+      }
     }
 
     // PRE-CACHE ASSETS: Generate audio for newly scraped articles
@@ -682,8 +705,8 @@ export async function manualNewsScraper(data: any, context: any) {
       throw new HttpsError('failed-precondition', `Source ${source.name} is currently disabled`)
     }
 
-    // Limit to 10 articles per manual trigger - handles full daily batch
-    const ARTICLE_LIMIT = 10
+    // Limit to 1 article per manual trigger
+    const ARTICLE_LIMIT = 1
     logger.info('[NewsScheduler] Scraping single source', {
       source: source.name,
       limit: ARTICLE_LIMIT,
@@ -1005,12 +1028,12 @@ async function runPreCachingPipelineWithProgress(
 // Export functions for different triggers
 export const scheduledNewsScraperFunction = onSchedule(
   {
-    schedule: '0 0,6,12,18 * * *', // 4x daily: 00:00, 06:00, 12:00, 18:00 JST
+    schedule: '0 12 * * *', // Once daily at 12:00 JST (noon)
     timeZone: 'Asia/Tokyo', // Japan time
     memory: '2GiB', // Increased from 1GiB for better performance
     timeoutSeconds: 540, // 9 minutes
     retryCount: 2, // Retry up to 2 times on failure
-    secrets: [MODAL_API_KEY, OPENAI_API_KEY], // MODAL_API_KEY used for VOICEVOX TTS + NHK API
+    secrets: [MODAL_API_KEY, OPENAI_API_KEY, RESEND_API_KEY], // MODAL_API_KEY used for VOICEVOX TTS + NHK API, RESEND for alerts
   },
   async event => {
     logger.info('[NewsScheduler] Scheduled trigger activated', {

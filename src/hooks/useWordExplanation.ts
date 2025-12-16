@@ -23,8 +23,10 @@ interface UseWordExplanationOptions {
   onSuccess?: (explanation: WordExplanation) => void;
   articleId?: string; // Optional: if provided, will check Firebase pre-cached explanations first
   bookId?: string; // Optional: if provided, will check book_word_explanations collection
+  storyId?: string; // Optional: if provided, will check story_word_explanations collection
   videoId?: string; // Optional: if provided, will check video_word_explanations collection
   comicId?: string; // Optional: if provided, will check comic_word_explanations collection
+  flashcardId?: string; // Optional: if provided, will check flashcard_word_explanations collection
 }
 
 const MAX_PREFETCH_CHARS = 48000;
@@ -48,7 +50,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
   const cacheRef = useRef<Map<string, WordExplanation>>(new Map());
   const lastPrefetchRef = useRef<{
     contentId: string;
-    contentType: 'article' | 'book' | 'story' | 'video' | 'comic';
+    contentType: 'article' | 'book' | 'story' | 'video' | 'comic' | 'flashcard';
     text: string;
   } | null>(null);
 
@@ -208,6 +210,40 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
         }
       }
 
+      // If flashcardId is provided, check flashcard_word_explanations collection
+      if (options?.flashcardId) {
+        try {
+          console.log('[WordExplanation] Checking Firebase pre-cache for flashcardId:', options.flashcardId);
+          const docRef = doc(firestore, 'flashcard_word_explanations', options.flashcardId);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            const words = data.words as WordExplanation[];
+
+            const preCached = words?.find(w =>
+              w.word === word ||
+              w.word.toLowerCase() === word.toLowerCase() ||
+              w.reading === word
+            );
+
+            if (preCached) {
+              console.log('%c[WordExplanation] SOURCE: FLASHCARD PRE-CACHE (fast)', 'color: #c2185b; font-weight: bold', { word, flashcardId: options.flashcardId });
+              cacheRef.current.set(cacheKey, preCached);
+              setExplanation(preCached);
+              setLoading(false);
+              options?.onSuccess?.(preCached);
+              return preCached;
+            }
+          } else {
+            console.log('[WordExplanation] No pre-cache document found for flashcard');
+          }
+        } catch (firebaseError) {
+          console.warn('[WordExplanation] Flashcard pre-cache check failed, falling back to API:', firebaseError);
+          // Continue to API fallback
+        }
+      }
+
       // If we recently prefetched this content, re-check the doc once before API
       if (lastPrefetchRef.current && lastPrefetchRef.current.contentId) {
         const refetchedCollection =
@@ -310,7 +346,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
    * If the doc doesn't exist and text is provided, trigger server-side precompute.
    */
   const prefetch = useCallback(
-    async (params: { contentId: string; contentType: 'article' | 'book' | 'story' | 'video' | 'comic'; text?: string }) => {
+    async (params: { contentId: string; contentType: 'article' | 'book' | 'story' | 'video' | 'comic' | 'flashcard'; text?: string }) => {
       const { contentId, contentType, text } = params;
       if (!contentId || !contentType) return;
 
@@ -320,12 +356,13 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
         { contentId, contentType, hasText: !!text, textLength: text?.length }
       );
 
-      const collectionMap: Record<'article' | 'book' | 'story' | 'video' | 'comic', string> = {
+      const collectionMap: Record<'article' | 'book' | 'story' | 'video' | 'comic' | 'flashcard', string> = {
         article: 'news_article_word_explanations',
         book: 'book_word_explanations',
         story: 'story_word_explanations',
         video: 'video_word_explanations',
         comic: 'comic_word_explanations',
+        flashcard: 'flashcard_word_explanations',
       };
 
       const collection = collectionMap[contentType];

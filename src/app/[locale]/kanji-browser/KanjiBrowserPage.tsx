@@ -23,6 +23,9 @@ import { SessionStatistics } from '@/lib/review-engine/core/session.types'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
 import { EventEmitter } from 'events'
 import { gamificationListener } from '@/lib/gamification/gamificationListener'
+import { kanjiProgressManager, type KanjiProgressData } from '@/utils/kanjiProgressManager'
+import Navbar from '@/components/layout/Navbar'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 // Global URE event emitter for gamification integration
 const ureEventEmitter = new EventEmitter()
@@ -71,10 +74,7 @@ function KanjiBrowserContent() {
   const [studySessionStartTime, setStudySessionStartTime] = useState<number>(0)
 
   // Progress tracking for visual indicators
-  const [kanjiProgress, setKanjiProgress] = useState<
-    Record<string, { status?: string; browseCount?: number }>
-  >({})
-  const [learnedCount, setLearnedCount] = useState<number>(0)
+  const [kanjiProgress, setKanjiProgress] = useState<Map<string, KanjiProgressData>>(new Map())
 
   // Use the kanji browser hook for review system integration
   const {
@@ -85,7 +85,6 @@ function KanjiBrowserContent() {
     loading: browseLoading,
     hasMore,
     dailyUsage,
-    browseKanji: trackBrowse,
     applyFilters,
     addToReview,
     toggleBookmark,
@@ -185,43 +184,79 @@ function KanjiBrowserContent() {
     }
   }, [user?.uid])
 
-  // Load kanji progress for visual indicators
-  useEffect(() => {
-    const loadKanjiProgress = async () => {
-      if (!user?.uid) {
-        setKanjiProgress({})
-        setLearnedCount(0)
-        return
-      }
+  // Load kanji progress for visual indicators (local IndexedDB + premium sync)
+  const refreshKanjiProgress = useCallback(async () => {
+    if (!user?.uid) {
+      setKanjiProgress(new Map())
+      return
+    }
 
+    const progressMap = await kanjiProgressManager.getKanjiProgressMap(user, isPremium ?? false)
+
+    // Normalize statuses so UI stays consistent even if status is missing
+    const normalized = new Map<string, KanjiProgressData>()
+    for (const [kanjiId, data] of progressMap.entries()) {
+      const viewCount = data.viewCount || 0
+      const status =
+        data.status ||
+        (viewCount >= 6 ? 'learned' : viewCount > 0 ? 'learning' : 'not-started')
+      normalized.set(kanjiId, { ...data, status })
+    }
+
+    // Fallback: if nothing loaded from manager but user is premium, try direct API fetch
+    if (normalized.size === 0 && (isPremium ?? false) && typeof window !== 'undefined') {
       try {
-        const response = await fetch('/api/kanji/progress')
-        if (response.ok) {
-          const data = await response.json()
-          setKanjiProgress(data.progress || {})
-
-          // Count learned kanji (those with browseCount > 5 are considered learned)
-          const learned = Object.values(data.progress || {}).filter(
-            (p: any) => p.browseCount && p.browseCount > 5
-          ).length
-          setLearnedCount(learned)
+        const res = await fetch('/api/progress/track?contentType=kanji')
+        if (res.ok) {
+          const json = await res.json()
+          const items = (json && json.items) || {}
+          Object.entries(items).forEach(([kanjiId, data]) => {
+            const viewCount = (data as any).viewCount || 0
+            const status =
+              (data as any).status ||
+              (viewCount >= 6 ? 'learned' : viewCount > 0 ? 'learning' : 'not-started')
+            normalized.set(kanjiId, { ...(data as any), status } as KanjiProgressData)
+          })
         }
-      } catch (error) {
-        console.error('[Kanji Browser] Failed to load progress:', error)
+      } catch (err) {
+        console.error('[Kanji Progress] Fallback API fetch failed:', err)
       }
     }
 
-    loadKanjiProgress()
-  }, [user?.uid])
+    setKanjiProgress(normalized)
+  }, [user, isPremium])
 
-  // Track browse session when viewing kanji
+  const updateKanjiProgressState = useCallback(
+    (kanjiId: string, updates: Partial<KanjiProgressData>) => {
+      setKanjiProgress(prev => {
+        const next = new Map(prev)
+        const existing = next.get(kanjiId) || ({} as KanjiProgressData)
+        next.set(kanjiId, {
+          ...existing,
+          ...updates,
+          contentId: kanjiId,
+          contentType: 'kanji',
+        })
+        return next
+      })
+    },
+    []
+  )
+
+  const handleProgressUpdate = useCallback(
+    (kanjiId: string, updates?: Partial<KanjiProgressData>) => {
+      if (updates) {
+        updateKanjiProgressState(kanjiId, updates)
+      }
+      // Refresh from manager to stay in sync with IndexedDB/Firebase
+      refreshKanjiProgress()
+    },
+    [refreshKanjiProgress, updateKanjiProgressState]
+  )
+
   useEffect(() => {
-    if (modalKanji && session) {
-      // Only track once when modal opens, not on every render
-      trackBrowse(modalKanji.kanji, modalKanji.kanji)
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [modalKanji?.kanji]) // Only depend on the kanji character, not the whole object or trackBrowse function
+    refreshKanjiProgress()
+  }, [refreshKanjiProgress])
 
   // Load kanji data on component mount
   useEffect(() => {
@@ -283,9 +318,18 @@ function KanjiBrowserContent() {
   const handleKanjiClick = (kanji: Kanji) => {
     // Always open modal for kanji preview
     setModalKanji(kanji)
-    // Track browse event
-    if (session) {
-      trackBrowse(kanji.kanji, kanji.kanji)
+
+    // Track locally and sync for premium
+    if (user) {
+      kanjiProgressManager
+        .trackKanjiView(kanji.kanji, user, isPremium ?? false)
+        .then(() => refreshKanjiProgress())
+        .catch(err => console.error('[Kanji Browser] Failed to track kanji view:', err))
+      // Optimistic local update for UI feedback
+      const existing = kanjiProgress.get(kanji.kanji)
+      const viewCount = (existing?.viewCount || 0) + 1
+      const status = viewCount >= 6 ? 'learned' : viewCount > 0 ? 'learning' : 'not-started'
+      updateKanjiProgressState(kanji.kanji, { viewCount, status })
     }
   }
 
@@ -458,14 +502,16 @@ function KanjiBrowserContent() {
 
   // Progress statistics for navbar
   const progressStats = useMemo(() => {
-    const stats = getBrowseStats()
     const total = Object.values(kanjiData).flat().length
+    const learnedCount = Array.from(kanjiProgress.values()).filter(
+      p => p.status === 'learned'
+    ).length
     return {
       total,
       learned: learnedCount,
       learnedPercentage: total > 0 ? Math.round((learnedCount / total) * 100) : 0,
     }
-  }, [kanjiData, learnedCount, getBrowseStats])
+  }, [kanjiData, kanjiProgress])
 
   const handleToggleBookmark = async (kanjiChar: string) => {
     if (!user) {
@@ -491,8 +537,8 @@ function KanjiBrowserContent() {
     <div className="grid grid-cols-3 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 mt-4">
       {kanji.map((kanjiItem, index) => {
         const isSelected = selectedKanji.has(kanjiItem.kanji)
-        const progress = kanjiProgress[kanjiItem.kanji]
-        const isLearned = progress?.browseCount && progress.browseCount > 5
+        const progress = kanjiProgress.get(kanjiItem.kanji)
+        const isLearned = progress?.status === 'learned'
 
         // Dynamic styling based on progress - green for learned kanji
         const borderStyle = isLearned
@@ -601,6 +647,7 @@ function KanjiBrowserContent() {
                 setSelectedKanjiData([])
                 // Reset study session tracking
                 setStudySessionStartTime(0)
+                refreshKanjiProgress()
               }
             }}
             onPrevious={() => {
@@ -612,9 +659,11 @@ function KanjiBrowserContent() {
               setViewMode('browse')
               setCurrentStudyIndex(0)
               setSelectedKanjiData([])
+              refreshKanjiProgress()
             }}
             currentIndex={currentStudyIndex + 1}
             totalKanji={selectedKanjiData.length}
+            onProgressUpdate={handleProgressUpdate}
           />
         </main>
       </div>
@@ -651,7 +700,8 @@ function KanjiBrowserContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Navigation */}
+      <Navbar user={user} showUserMenu={true} />
 
       {/* Page Header */}
       <LearningPageHeader
@@ -659,7 +709,7 @@ function KanjiBrowserContent() {
         description={strings.kanjiBrowser?.subtitle || 'Browse and learn kanji by JLPT level'}
         stats={{
           total: totalKanjiCount,
-          learned: learnedCount,
+          learned: progressStats.learned,
         }}
         mode={viewMode}
         onModeChange={setViewMode}
@@ -833,6 +883,8 @@ function KanjiBrowserContent() {
           />
         )}
       </main>
+
+      <MobileNavSpacer />
     </div>
   )
 }

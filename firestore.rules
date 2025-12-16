@@ -514,6 +514,26 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // News article sentence translations/audio (pre-cached)
+    match /news_article_translations/{articleId} {
+      // Public read: data is pre-generated for faster client loads
+      allow read: if true;
+      // Writes handled via Admin SDK / backend jobs only
+      allow write: if false;
+    }
+
+    // Story sentence data (pre-cached per page for story reader)
+    match /story_sentence_data/{storyId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Book sentence data (pre-cached for book reader)
+    match /book_sentence_data/{bookId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     // Story word explanations - pre-cached word explanations for multi-page stories
     match /story_word_explanations/{storyId} {
       allow read: if true;
@@ -522,6 +542,12 @@ service cloud.firestore {
 
     // Video word explanations - pre-cached word explanations for transcripts (moshiplayer)
     match /video_word_explanations/{videoId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Flashcard word explanations - pre-cached vocabulary explanations for decks/cards
+    match /flashcard_word_explanations/{cardId} {
       allow read: if true;
       allow write: if false;
     }

@@ -397,8 +397,8 @@ export function KanaLearningComponent({
       const sessionStartTime = Date.now() - (stats.totalTime || 0)
       const sessionEndTime = Date.now()
 
-      // Save individual character progress and session data to Firebase
-      if (user && user.uid && isPremium) {
+      // Save individual character progress; premium users also sync session data
+      if (user && user.uid) {
         // Generate session ID for tracking
         const sessionId = `review_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
@@ -415,36 +415,38 @@ export function KanaLearningComponent({
         }))
 
         // Save complete session data
-        try {
-          const response = await fetch('/api/sessions/save', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            credentials: 'same-origin',
-            body: JSON.stringify({
-              sessionType: 'review',
-              sessionId,
-              characters: sessionCharacters,
-              stats: {
-                totalItems: stats.totalItems,
-                correctItems: stats.correctItems,
-                accuracy: stats.accuracy,
-                avgResponseTime: stats.averageResponseTime,
-                duration: stats.totalTime,
+        if (isPremium) {
+          try {
+            const response = await fetch('/api/sessions/save', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
               },
-              startedAt: new Date(sessionStartTime).toISOString(),
-              completedAt: new Date(sessionEndTime).toISOString(),
-            }),
-          })
+              credentials: 'same-origin',
+              body: JSON.stringify({
+                sessionType: 'review',
+                sessionId,
+                characters: sessionCharacters,
+                stats: {
+                  totalItems: stats.totalItems,
+                  correctItems: stats.correctItems,
+                  accuracy: stats.accuracy,
+                  avgResponseTime: stats.averageResponseTime,
+                  duration: stats.totalTime,
+                },
+                startedAt: new Date(sessionStartTime).toISOString(),
+                completedAt: new Date(sessionEndTime).toISOString(),
+              }),
+            })
 
-          if (!response.ok) {
-            console.error('[Session Save] Failed to save review session:', response.statusText)
-          } else {
-            console.log('[Session Save] Review session saved successfully:', sessionId)
+            if (!response.ok) {
+              console.error('[Session Save] Failed to save review session:', response.statusText)
+            } else {
+              console.log('[Session Save] Review session saved successfully:', sessionId)
+            }
+          } catch (error) {
+            console.error('[Session Save] Error saving review session:', error)
           }
-        } catch (error) {
-          console.error('[Session Save] Error saving review session:', error)
         }
 
         // Update individual character progress
