@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently \"next dev\" \"npm run notebooklm:watch\"",
+    "dev": "bash ./scripts/dev-with-backup.sh",
+    "dev:no-backup": "concurrently \"next dev\" \"npm run notebooklm:watch\"",
     "dev:simple": "next dev",
     "build": "next build",
     "start": "next start",
@@ -48,6 +49,8 @@
     "@headlessui/react": "^2.2.9",
     "@heroicons/react": "^2.2.0",
     "@radix-ui/react-slot": "^1.2.3",
+    "@react-email/components": "^1.0.1",
+    "@react-email/render": "^2.0.0",
     "@sentry/nextjs": "^10.11.0",
     "@tailwindcss/postcss": "^4.1.13",
     "@tanstack/react-query": "^5.87.4",
