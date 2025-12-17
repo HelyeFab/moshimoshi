@@ -114,21 +114,32 @@ export async function POST(request: NextRequest) {
     const docRef = await adminFirestore.collection('waitlist').add(waitlistDoc);
     console.log('[API /waitlist/join] Successfully added to waitlist');
 
-    // Fire-and-forget thank you email; do not block success response
-    sendWaitlistThankYouEmail(email)
-      .then(async () => {
-        await docRef.update({
-          thankYouSent: true,
-          thankYouSentAt: Timestamp.now(),
-        });
-        console.log('[API /waitlist/join] ✅ Thank-you email sent successfully to', email);
+    // Send thank you email and update Firestore atomically
+    // Use Promise.allSettled to ensure update happens even if email fails
+    const emailPromise = sendWaitlistThankYouEmail(email)
+      .then(() => {
+        console.log('[API /waitlist/join] ✅ Email sent successfully to', email);
+        return true;
       })
       .catch((err) => {
-        console.error('[API /waitlist/join] ❌ CRITICAL: Failed to send thank-you email to', email);
-        console.error('[API /waitlist/join] Error details:', err);
-        console.error('[API /waitlist/join] Error stack:', err?.stack);
-        console.error('[API /waitlist/join] RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+        console.error('[API /waitlist/join] ❌ Email failed for', email, err);
+        return false;
       });
+
+    const updatePromise = emailPromise.then(async (emailSuccess) => {
+      try {
+        await docRef.update({
+          thankYouSent: emailSuccess,
+          thankYouSentAt: Timestamp.now(),
+        });
+        console.log('[API /waitlist/join] ✅ Firestore updated for', email);
+      } catch (updateErr) {
+        console.error('[API /waitlist/join] ❌ Firestore update failed for', email, updateErr);
+      }
+    });
+
+    // Wait for both operations to complete before responding
+    await Promise.allSettled([emailPromise, updatePromise]);
 
     return NextResponse.json({
       success: true,
