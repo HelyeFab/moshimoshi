@@ -3,7 +3,8 @@
  * Manages review session lifecycle, state, and coordination
  */
 
-import { EventEmitter } from 'events';
+import { ClientEventEmitter } from '../core/client-event-emitter';
+import { getEventHub } from '../core/event-hub';
 import { reviewLogger } from '@/lib/monitoring/logger';
 import { 
   ReviewSession, 
@@ -45,18 +46,20 @@ interface ValidationResult {
 /**
  * Main session manager class
  */
-export class SessionManager extends EventEmitter {
+export class SessionManager extends ClientEventEmitter {
   private session: ReviewSession | null = null;
   private statistics: SessionStatistics | null = null;
   private timers: Map<string, NodeJS.Timeout> = new Map();
   private readonly ACTIVITY_TIMEOUT = 5 * 60 * 1000; // 5 minutes
   private readonly HINT_PENALTIES = [0.1, 0.2, 0.3]; // Progressive hint penalties
-  
+  private globalEventHub: ClientEventEmitter;
+
   constructor(
     private storage: ISessionStorage,
     private analytics: IAnalyticsService
   ) {
     super();
+    this.globalEventHub = getEventHub();
     this.setupEventHandlers();
   }
   
@@ -783,9 +786,13 @@ export class SessionManager extends EventEmitter {
       userId: this.session?.userId,
       data
     };
-    
+
+    // Emit locally (for component listeners via useSessionManager hook)
     this.emit(type, event);
-    
+
+    // Emit globally (for gamification and other system-wide listeners)
+    this.globalEventHub.emit(type, event);
+
     // Also track to analytics
     this.analytics.trackEvent(event).catch(error => {
       reviewLogger.error('Failed to track analytics event:', error);
