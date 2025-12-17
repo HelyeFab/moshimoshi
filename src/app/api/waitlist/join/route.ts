@@ -12,6 +12,8 @@ import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
 import { Timestamp } from 'firebase-admin/firestore';
 import { z } from 'zod';
 import { LAUNCH_DATE_STRING } from '@/lib/prelaunch/config';
+import { verifyReCaptcha, isReCaptchaConfigured } from '@/lib/auth/recaptcha';
+import { sendWaitlistThankYouEmail } from '@/lib/email/waitlistThankYou';
 
 // Email validation schema
 const waitlistSchema = z.object({
@@ -51,6 +53,29 @@ export async function POST(request: NextRequest) {
     }
 
     const { email } = validatedData;
+    const recaptchaToken = body.recaptchaToken;
+
+    // Verify reCAPTCHA (if configured)
+    if (isReCaptchaConfigured()) {
+      console.log('[API /waitlist/join] Verifying reCAPTCHA');
+      const recaptchaResult = await verifyReCaptcha(recaptchaToken, 'waitlist');
+
+      if (!recaptchaResult.success) {
+        console.warn('[API /waitlist/join] reCAPTCHA failed:', recaptchaResult.error);
+        return NextResponse.json(
+          {
+            success: false,
+            error: {
+              code: 'RECAPTCHA_FAILED',
+              message: recaptchaResult.error || 'reCAPTCHA verification failed. Please try again.',
+            },
+          },
+          { status: 403 }
+        );
+      }
+      console.log('[API /waitlist/join] reCAPTCHA passed with score:', recaptchaResult.score);
+    }
+
     console.log(`[API /waitlist/join] Processing email: ${email.substring(0, 3)}***`);
 
     if (!adminFirestore) {
@@ -82,10 +107,28 @@ export async function POST(request: NextRequest) {
       linkedUid: null,
       linkedAt: null,
       discountGranted: false,
+      thankYouSent: false,
+      thankYouSentAt: null,
     };
 
-    await adminFirestore.collection('waitlist').add(waitlistDoc);
+    const docRef = await adminFirestore.collection('waitlist').add(waitlistDoc);
     console.log('[API /waitlist/join] Successfully added to waitlist');
+
+    // Fire-and-forget thank you email; do not block success response
+    sendWaitlistThankYouEmail(email)
+      .then(async () => {
+        await docRef.update({
+          thankYouSent: true,
+          thankYouSentAt: Timestamp.now(),
+        });
+        console.log('[API /waitlist/join] ✅ Thank-you email sent successfully to', email);
+      })
+      .catch((err) => {
+        console.error('[API /waitlist/join] ❌ CRITICAL: Failed to send thank-you email to', email);
+        console.error('[API /waitlist/join] Error details:', err);
+        console.error('[API /waitlist/join] Error stack:', err?.stack);
+        console.error('[API /waitlist/join] RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY);
+      });
 
     return NextResponse.json({
       success: true,
