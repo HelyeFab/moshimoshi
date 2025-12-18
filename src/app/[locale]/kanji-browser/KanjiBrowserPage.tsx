@@ -21,20 +21,16 @@ import { KanjiBrowserAdapter } from '@/lib/review-engine/adapters/KanjiBrowserAd
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
-import { EventEmitter } from 'events'
-import { gamificationListener } from '@/lib/gamification/gamificationListener'
+import { getEventHub } from '@/lib/review-engine/core/event-hub'
 import { kanjiProgressManager, type KanjiProgressData } from '@/utils/kanjiProgressManager'
 import Navbar from '@/components/layout/Navbar'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
-// Global URE event emitter for gamification integration
-const ureEventEmitter = new EventEmitter()
+// All gamification uses Event Hub (global singleton)
+// ReviewSessionUI handles initialization automatically
 
-// Flag to ensure gamification listener is only initialized once
-let gamificationListenerInitialized = false
-
-// Dynamically import ReviewEngine for review mode
-const ReviewEngine = dynamic(() => import('@/components/review-engine/ReviewEngine'), {
+// Dynamically import ReviewSessionUI for review mode
+const ReviewSessionUI = dynamic(() => import('@/components/review-engine/ReviewSessionUI'), {
   loading: () => <LoadingOverlay isLoading={true} />,
   ssr: false,
 })
@@ -110,13 +106,14 @@ function KanjiBrowserContent() {
             allowHints: true,
           },
           {
-            mode: 'recall' as const,
-            showPrimary: true,
+            mode: 'listening' as const,
+            showPrimary: false,
             showSecondary: false,
             showTertiary: false,
-            showMedia: false,
-            inputType: 'text' as const,
-            allowHints: true,
+            showMedia: true,
+            inputType: 'multiple-choice' as const,
+            optionCount: 4,
+            allowHints: false,
           },
         ],
         defaultMode: 'recognition' as const,
@@ -175,14 +172,7 @@ function KanjiBrowserContent() {
     },
   }
 
-  // Initialize gamification listener (once per user session)
-  useEffect(() => {
-    if (user?.uid && !gamificationListenerInitialized) {
-      console.log('[Kanji Browser] Initializing gamification listener for user:', user.uid)
-      gamificationListener.initialize(user.uid, ureEventEmitter)
-      gamificationListenerInitialized = true
-    }
-  }, [user?.uid])
+  // Event Hub initialization removed - ReviewSessionUI handles this automatically
 
   // Load kanji progress for visual indicators (local IndexedDB + premium sync)
   const refreshKanjiProgress = useCallback(async () => {
@@ -467,29 +457,12 @@ function KanjiBrowserContent() {
   }
 
   const handleReviewComplete = async (stats: SessionStatistics) => {
-    // Emit URE SESSION_COMPLETED event for NEW gamification system
-    const sessionId = `kanji_review_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-
-    ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
-      data: {
-        sessionId,
-        statistics: {
-          correctItems: stats.correctItems,
-          accuracy: stats.accuracy,
-          averageResponseTime: stats.averageResponseTime || 0,
-          bestStreak: stats.bestStreak || 0,
-        },
-        duration: stats.totalTime || 0,
-      },
-    })
-
-    console.log('[Kanji Browser] Emitted SESSION_COMPLETED event for gamification:', {
-      sessionId,
+    // SessionManager emits SESSION_COMPLETED automatically via Event Hub
+    // No manual event emission needed - gamification happens automatically!
+    console.log('[Kanji Browser] Session completed:', {
       correctItems: stats.correctItems,
       accuracy: stats.accuracy,
-      averageResponseTime: stats.averageResponseTime,
-      bestStreak: stats.bestStreak,
-      duration: stats.totalTime,
+      totalTime: stats.totalTime,
     })
 
     setLastSessionStats(stats)
@@ -614,27 +587,28 @@ function KanjiBrowserContent() {
               if (currentStudyIndex < selectedKanjiData.length - 1) {
                 setCurrentStudyIndex(currentStudyIndex + 1)
               } else {
-                // Emit URE SESSION_COMPLETED event for NEW gamification system
+                // Emit SESSION_COMPLETED event via global Event Hub
                 const sessionDuration = Date.now() - studySessionStartTime
                 const totalKanji = selectedKanjiData.length
                 const averageTimePerKanji = totalKanji > 0 ? sessionDuration / totalKanji : 0
 
                 const sessionId = `kanji_study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
-                ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
+                // Use global Event Hub (same as ReviewSessionUI)
+                getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
                   data: {
                     sessionId,
                     statistics: {
-                      correctItems: totalKanji, // Study mode: all viewed kanji count as completed
-                      accuracy: 100, // Study mode is learning, assume 100% completion
+                      correctItems: totalKanji,
+                      accuracy: 100,
                       averageResponseTime: averageTimePerKanji,
-                      bestStreak: totalKanji, // Use total count as streak for study mode
+                      bestStreak: totalKanji,
                     },
                     duration: sessionDuration,
                   },
                 })
 
-                console.log('[Kanji Study] Emitted SESSION_COMPLETED event for gamification:', {
+                console.log('[Kanji Study] Emitted SESSION_COMPLETED via Event Hub:', {
                   sessionId,
                   correctItems: totalKanji,
                   accuracy: 100,
@@ -676,10 +650,10 @@ function KanjiBrowserContent() {
       <div className="min-h-screen bg-gradient-to-br from-background-light via-japanese-mizu/10 to-japanese-sakura/10 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
         {/* Navigation is now global - rendered in root layout */}
         <main className="container mx-auto px-4 py-8">
-          <ReviewEngine
+          <ReviewSessionUI
             content={reviewContent}
             contentPool={reviewContentPool}
-            mode="recall"
+            mode="recognition"
             onComplete={handleReviewComplete}
             onCancel={() => {
               setReviewContent([]) // Clear review content
@@ -688,6 +662,7 @@ function KanjiBrowserContent() {
               setSelectedKanji(new Set())
             }}
             userId={user?.uid || 'guest'}
+            shuffle={false}
           />
         </main>
       </div>
