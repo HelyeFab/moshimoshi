@@ -468,7 +468,7 @@ export default function ListDetailPage() {
             total: list.items.length,
             learned: 0,
           }}
-          mode={viewMode}
+          backHref="/lists"
         />
         <main className="container mx-auto px-4 py-8">
           {/* Simple study card */}
@@ -589,6 +589,7 @@ export default function ListDetailPage() {
           title={list.name}
           description={t(`lists.types.${list.type}.description`)}
           subtitle="Review Mode"
+          backHref="/lists"
         />
         <main className="container mx-auto px-4 py-8">
           <ReviewSessionUI
