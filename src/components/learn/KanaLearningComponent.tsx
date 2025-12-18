@@ -21,17 +21,16 @@ import { KanaAdapter } from '@/lib/review-engine/adapters/kana.adapter'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
+import { EventEmitter } from 'events'
 import {
   kanaProgressManager,
   type CharacterProgress as ManagerProgress,
 } from '@/utils/kanaProgressManager'
 import { kanaProgressManagerV2 } from '@/utils/kanaProgressManagerV2'
-import { EventEmitter } from 'events'
 
-// Global URE event emitter for gamification integration
+// EventEmitter for STUDY MODE only (review mode uses Event Hub via ReviewSessionUI)
+// Study mode doesn't use SessionManager, so it still needs manual gamification
 const ureEventEmitter = new EventEmitter()
-
-// Flag to ensure listener is only initialized once
 let listenerInitialized = false
 
 // Dynamically import components that use animations or client-side features
@@ -45,7 +44,7 @@ const KanaStudyMode = dynamic(() => import('@/components/learn/KanaStudyMode'), 
   ssr: false,
 })
 
-const ReviewEngine = dynamic(() => import('@/components/review-engine/ReviewEngine'), {
+const ReviewSessionUI = dynamic(() => import('@/components/review-engine/ReviewSessionUI'), {
   loading: () => <LoadingOverlay isLoading={true} />,
   ssr: false,
 })
@@ -228,10 +227,11 @@ export function KanaLearningComponent({
     return filtered
   }, [displayScript, selectedCategory, filter, searchQuery])
 
-  // Initialize gamification listener (once per user session)
+  // Initialize gamification listener for STUDY MODE only
+  // Review mode uses Event Hub (initialized in ReviewSessionUI)
   useEffect(() => {
     if (user?.uid && !listenerInitialized) {
-      console.log('[Kana Review] Initializing gamification listener for user:', user.uid)
+      console.log('[Kana] Initializing gamification listener for study mode:', user.uid)
       gamificationListener.initialize(user.uid, ureEventEmitter)
       listenerInitialized = true
     }
@@ -480,40 +480,12 @@ export function KanaLearningComponent({
         }
       }
 
-      // Emit URE SESSION_COMPLETED event for gamification system
-      console.log('[Kana Review] About to emit SESSION_COMPLETED event...')
-      console.log('[Kana Review] ureEventEmitter:', ureEventEmitter)
-      console.log(
-        '[Kana Review] ReviewEventType.SESSION_COMPLETED:',
-        ReviewEventType.SESSION_COMPLETED
-      )
-      console.log(
-        '[Kana Review] Listener count:',
-        ureEventEmitter.listenerCount(ReviewEventType.SESSION_COMPLETED)
-      )
-
-      const sessionId = `kana_review_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-
-      ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
-        data: {
-          sessionId,
-          statistics: {
-            correctItems: stats.correctItems,
-            accuracy: stats.accuracy,
-            averageResponseTime: stats.averageResponseTime || 0,
-            bestStreak: stats.bestStreak || 0,
-          },
-          duration: stats.totalTime || 0,
-        },
-      })
-
-      console.log('[Kana Review] Emitted SESSION_COMPLETED event for gamification:', {
-        sessionId,
+      // SessionManager emits SESSION_COMPLETED automatically via Event Hub
+      // No manual event emission needed - gamification happens automatically!
+      console.log('[Kana Review] Session completed:', {
         correctItems: stats.correctItems,
         accuracy: stats.accuracy,
-        averageResponseTime: stats.averageResponseTime,
-        bestStreak: stats.bestStreak,
-        duration: stats.totalTime,
+        totalTime: stats.totalTime,
       })
 
       setLastSessionStats(stats)
@@ -1107,12 +1079,14 @@ export function KanaLearningComponent({
           )}
 
           {viewMode === 'review' && (
-            <ReviewEngine
+            <ReviewSessionUI
               content={reviewContent}
               contentPool={reviewContentPool.length > 0 ? reviewContentPool : reviewContent}
               userId={user?.uid || 'anonymous'}
               onComplete={handleReviewComplete}
               onCancel={() => setViewMode('browse')}
+              mode="recognition"
+              shuffle={false}
             />
           )}
         </main>
