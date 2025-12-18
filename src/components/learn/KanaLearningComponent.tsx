@@ -9,7 +9,7 @@ import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
-import { getEventHub } from '@/lib/review-engine/core/event-hub'
+import { getEventHub, initializeEventHub } from '@/lib/review-engine/core/event-hub'
 import Navbar from '@/components/layout/Navbar'
 import AllKanaModal from '@/components/learn/AllKanaModal'
 import KanaDetailsModal from '@/components/learn/KanaDetailsModal'
@@ -223,8 +223,14 @@ export function KanaLearningComponent({
     return filtered
   }, [displayScript, selectedCategory, filter, searchQuery])
 
-  // Event Hub initialization removed - ReviewSessionUI handles this automatically
-  // Both review mode and study mode use the global Event Hub
+  // Initialize Event Hub for gamification (required for study mode XP)
+  // Review mode uses ReviewSessionUI which also initializes the hub
+  useEffect(() => {
+    if (user?.uid) {
+      initializeEventHub(user.uid)
+      console.log('[Kana Learning] Event Hub initialized for user:', user.uid)
+    }
+  }, [user?.uid])
 
   // Load progress from KanaProgressManager
   useEffect(() => {
