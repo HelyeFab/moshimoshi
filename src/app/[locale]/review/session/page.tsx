@@ -2,21 +2,22 @@
 
 import { useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
-import ReviewEngine from '@/components/review-engine/ReviewEngine'
+import dynamic from 'next/dynamic'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
+import { SessionStatistics } from '@/lib/review-engine/core/session.types'
 import { useAuth } from '@/hooks/useAuth'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { useI18n } from '@/i18n/I18nContext'
-import { EventEmitter } from 'events'
-import { gamificationListener } from '@/lib/gamification/gamificationListener'
-import { ReviewEventType } from '@/lib/review-engine/core/events'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
-// Global URE event emitter for gamification integration
-const ureEventEmitter = new EventEmitter()
+// All gamification uses Event Hub (global singleton)
+// ReviewSessionUI handles initialization automatically
 
-// Flag to ensure listener is only initialized once
-let listenerInitialized = false
+// Dynamically import ReviewSessionUI for review mode
+const ReviewSessionUI = dynamic(() => import('@/components/review-engine/ReviewSessionUI'), {
+  loading: () => <LoadingOverlay isLoading={true} />,
+  ssr: false,
+})
 
 export default function ReviewSessionPage() {
   const { user } = useAuth()
@@ -25,15 +26,6 @@ export default function ReviewSessionPage() {
   const [reviewContent, setReviewContent] = useState<ReviewableContent[]>([])
   const [loading, setLoading] = useState(true)
   const initializedRef = useRef(false)
-
-  // Initialize gamification listener (same pattern as Kana/Kanji browsers)
-  useEffect(() => {
-    if (user?.uid && !listenerInitialized) {
-      console.log('[Review Session] Initializing gamification listener for user:', user.uid)
-      gamificationListener.initialize(user.uid, ureEventEmitter)
-      listenerInitialized = true
-    }
-  }, [user?.uid])
 
   useEffect(() => {
     // Prevent double execution in StrictMode
@@ -71,40 +63,10 @@ export default function ReviewSessionPage() {
     }
   }, [router])
 
-  const handleReviewComplete = async (statistics: any) => {
+  const handleReviewComplete = (statistics: SessionStatistics) => {
+    // SessionManager emits SESSION_COMPLETED automatically via Event Hub
+    // No manual event emission needed here
     console.log('[Review Session] Completed with stats:', statistics)
-
-    // Emit URE SESSION_COMPLETED event for gamification system
-    const sessionId = `review_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-
-    console.log('[Review Session] About to emit SESSION_COMPLETED event...')
-    console.log(
-      '[Review Session] Listener count:',
-      ureEventEmitter.listenerCount(ReviewEventType.SESSION_COMPLETED)
-    )
-
-    ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
-      data: {
-        sessionId,
-        statistics: {
-          totalItems: statistics.totalItems || 0,
-          correctItems: statistics.correctItems || 0,
-          accuracy: statistics.accuracy || 0,
-          averageResponseTime: statistics.averageResponseTime || 0,
-          bestStreak: statistics.bestStreak || 0,
-        },
-        duration: statistics.duration || 0,
-      },
-    })
-
-    console.log('[Review Session] Emitted SESSION_COMPLETED event for gamification:', {
-      sessionId,
-      correctItems: statistics.correctItems,
-      accuracy: statistics.accuracy,
-      averageResponseTime: statistics.averageResponseTime,
-      bestStreak: statistics.bestStreak,
-      duration: statistics.duration,
-    })
 
     // Set flag to trigger refresh on dashboard
     sessionStorage.setItem('reviewCompleted', 'true')
@@ -149,12 +111,13 @@ export default function ReviewSessionPage() {
   }
 
   return (
-    <ReviewEngine
+    <ReviewSessionUI
       content={reviewContent}
+      userId={user?.uid || 'anonymous'}
       mode="recognition"
       onComplete={handleReviewComplete}
       onCancel={handleCancel}
-      userId={user?.uid || 'anonymous'}
+      shuffle={false}
     />
   )
 }
