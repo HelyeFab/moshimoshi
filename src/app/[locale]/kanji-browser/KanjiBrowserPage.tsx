@@ -18,6 +18,8 @@ import SearchBar from '@/components/ui/SearchBar'
 import { useSubscription } from '@/hooks/useSubscription'
 import dynamic from 'next/dynamic'
 import { KanjiBrowserAdapter } from '@/lib/review-engine/adapters/KanjiBrowserAdapter'
+import { ReviewEventType } from '@/lib/review-engine/core/events'
+import { getEventHub } from '@/lib/review-engine/core/event-hub'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
 import { kanjiProgressManager, type KanjiProgressData } from '@/utils/kanjiProgressManager'
@@ -585,13 +587,31 @@ function KanjiBrowserContent() {
               if (currentStudyIndex < selectedKanjiData.length - 1) {
                 setCurrentStudyIndex(currentStudyIndex + 1)
               } else {
-                // Study mode is passive learning (not a quiz/review), so it does not award XP.
-                // Only review mode uses SRS and awards XP via ReviewSessionUI.
+                // Study mode awards XP - PRODUCT REQUIREMENT
+                // While architecturally study mode is "passive learning",
+                // users expect XP for completing study sessions.
+                // This is intentional user-facing behavior, not a bug.
                 const sessionDuration = Date.now() - studySessionStartTime
                 const totalKanji = selectedKanjiData.length
 
-                console.log('[Kanji Study] Session completed:', {
-                  totalItems: totalKanji,
+                const sessionId = `study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
+                getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
+                  data: {
+                    sessionId,
+                    statistics: {
+                      correctItems: totalKanji,
+                      accuracy: 100, // Study mode assumes completion = success
+                      averageResponseTime: totalKanji > 0 ? sessionDuration / totalKanji : 0,
+                      bestStreak: totalKanji,
+                    },
+                    duration: sessionDuration,
+                  },
+                })
+
+                console.log('[Kanji Study] SESSION_COMPLETED emitted (Product Requirement):', {
+                  sessionId,
+                  items: totalKanji,
                   duration: sessionDuration,
                 })
 
