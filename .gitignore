@@ -73,4 +73,5 @@ data/memories.db
 
 # Claude Code local settings (may contain command history with secrets)
 .claude/settings.local.json
-.claude/.claude/
+.claude/.claude/.env.local.backup
+.env.vercel-check
