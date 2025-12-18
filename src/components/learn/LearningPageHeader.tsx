@@ -109,7 +109,7 @@ export default function LearningPageHeader({
       <div
         className={`flex rounded-xl p-1 ${isLightTheme ? 'bg-white/30 backdrop-blur-sm' : 'bg-gray-100 dark:bg-dark-800'}`}
       >
-        {(['browse', 'study', 'review'] as ViewMode[]).map(viewMode => (
+        {(['study', 'review', 'browse'] as ViewMode[]).map(viewMode => (
           <button
             key={viewMode}
             onClick={() => onModeChange(viewMode)}
