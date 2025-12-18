@@ -19,7 +19,7 @@ import { useSubscription } from '@/hooks/useSubscription'
 import dynamic from 'next/dynamic'
 import { KanjiBrowserAdapter } from '@/lib/review-engine/adapters/KanjiBrowserAdapter'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
-import { getEventHub } from '@/lib/review-engine/core/event-hub'
+import { getEventHub, initializeEventHub } from '@/lib/review-engine/core/event-hub'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
 import { kanjiProgressManager, type KanjiProgressData } from '@/utils/kanjiProgressManager'
@@ -243,6 +243,15 @@ function KanjiBrowserContent() {
     },
     [refreshKanjiProgress, updateKanjiProgressState]
   )
+
+  // Initialize Event Hub for gamification (required for study mode XP)
+  // Review mode uses ReviewSessionUI which also initializes the hub
+  useEffect(() => {
+    if (user?.uid) {
+      initializeEventHub(user.uid)
+      console.log('[Kanji Browser] Event Hub initialized for user:', user.uid)
+    }
+  }, [user?.uid])
 
   useEffect(() => {
     refreshKanjiProgress()
