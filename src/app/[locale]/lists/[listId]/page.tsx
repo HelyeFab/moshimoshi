@@ -23,8 +23,6 @@ import { kanjiService } from '@/services/kanjiService'
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
 import WordDetailsModal from '@/app/[locale]/vocabulary/components/WordDetailsModal'
 import { searchJMdictWords, loadJMdictData } from '@/utils/jmdictLocalSearch'
-import { ReviewEventType } from '@/lib/review-engine/core/events'
-import { getEventHub } from '@/lib/review-engine/core/event-hub'
 import { UserListAdapter } from '@/lib/review-engine/adapters/UserListAdapter'
 import dynamic from 'next/dynamic'
 import { LoadingOverlay } from '@/components/ui/Loading'
@@ -511,35 +509,15 @@ export default function ListDetailPage() {
                     if (currentStudyIndex < selectedItemsData.length - 1) {
                       setCurrentStudyIndex(currentStudyIndex + 1)
                     } else {
-                      // Use global Event Hub (same as ReviewSessionUI)
+                      // Study mode is passive learning (not a quiz/review), so it does not award XP.
+                      // Only review mode uses SRS and awards XP via ReviewSessionUI.
                       const sessionDuration = Date.now() - studySessionStartTime
                       const totalItems = selectedItemsData.length
-                      const averageTimePerItem = totalItems > 0 ? sessionDuration / totalItems : 0
 
-                      const sessionId = `list_study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-
-                      getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
-                        data: {
-                          sessionId,
-                          statistics: {
-                            correctItems: totalItems,
-                            accuracy: 100,
-                            averageResponseTime: averageTimePerItem,
-                            bestStreak: totalItems,
-                          },
-                          duration: sessionDuration,
-                        },
+                      console.log('[User Lists Study] Session completed:', {
+                        totalItems,
+                        duration: sessionDuration,
                       })
-
-                      console.log(
-                        '[User Lists Study] Session completed:',
-                        {
-                          sessionId,
-                          correctItems: totalItems,
-                          accuracy: 100,
-                          duration: sessionDuration,
-                        }
-                      )
 
                       showToast('Study session complete!', 'success')
                       setViewMode('browse')
