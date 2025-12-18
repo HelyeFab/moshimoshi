@@ -27,7 +27,7 @@ import { UserListAdapter } from '@/lib/review-engine/adapters/UserListAdapter'
 import dynamic from 'next/dynamic'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
-import { getEventHub } from '@/lib/review-engine/core/event-hub'
+import { getEventHub, initializeEventHub } from '@/lib/review-engine/core/event-hub'
 
 // All gamification uses Event Hub (global singleton)
 // ReviewSessionUI handles initialization automatically
@@ -82,7 +82,14 @@ export default function ListDetailPage() {
   const [modalWord, setModalWord] = useState<JapaneseWord | null>(null)
   const [loadingWordDetails, setLoadingWordDetails] = useState(false)
 
-  // Event Hub initialization removed - ReviewSessionUI handles this automatically
+  // Initialize Event Hub for gamification (required for study mode XP)
+  // Review mode uses ReviewSessionUI which also initializes the hub
+  useEffect(() => {
+    if (user?.uid) {
+      initializeEventHub(user.uid)
+      console.log('[User Lists] Event Hub initialized for user:', user.uid)
+    }
+  }, [user?.uid])
 
   // Pre-load JMdict data for word lookups
   useEffect(() => {
