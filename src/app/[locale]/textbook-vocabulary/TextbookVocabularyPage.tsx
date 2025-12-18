@@ -14,8 +14,6 @@ import dynamic from 'next/dynamic'
 import { TextbookVocabularyAdapter } from '@/lib/review-engine/adapters/TextbookVocabularyAdapter'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
-import { ReviewEventType } from '@/lib/review-engine/core/events'
-import { getEventHub } from '@/lib/review-engine/core/event-hub'
 import {
   textbookVocabularyProgressManager,
   TextbookVocabProgressData
@@ -244,21 +242,13 @@ export default function TextbookVocabularyPage() {
     if (currentStudyIndex < selectedVocabData.length - 1) {
       setCurrentStudyIndex((prev) => prev + 1)
     } else {
-      // Study session complete
+      // Study mode is passive learning (not a quiz/review), so it does not award XP.
+      // Only review mode uses SRS and awards XP via ReviewSessionUI.
       const duration = Date.now() - studySessionStartTime
 
-      // Use global Event Hub (same as ReviewSessionUI)
-      getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
-        data: {
-          sessionId: `study-${Date.now()}`,
-          statistics: {
-            correctItems: selectedVocabData.length,
-            accuracy: 100,
-            averageResponseTime: duration / selectedVocabData.length,
-            bestStreak: selectedVocabData.length,
-          },
-          duration,
-        },
+      console.log('[Textbook Vocabulary Study] Session completed:', {
+        totalItems: selectedVocabData.length,
+        duration,
       })
       showToast('Study session complete!', 'success')
       setViewMode('browse')
