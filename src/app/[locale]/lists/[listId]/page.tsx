@@ -26,6 +26,8 @@ import { searchJMdictWords, loadJMdictData } from '@/utils/jmdictLocalSearch'
 import { UserListAdapter } from '@/lib/review-engine/adapters/UserListAdapter'
 import dynamic from 'next/dynamic'
 import { LoadingOverlay } from '@/components/ui/Loading'
+import { ReviewEventType } from '@/lib/review-engine/core/events'
+import { getEventHub } from '@/lib/review-engine/core/event-hub'
 
 // All gamification uses Event Hub (global singleton)
 // ReviewSessionUI handles initialization automatically
@@ -509,13 +511,31 @@ export default function ListDetailPage() {
                     if (currentStudyIndex < selectedItemsData.length - 1) {
                       setCurrentStudyIndex(currentStudyIndex + 1)
                     } else {
-                      // Study mode is passive learning (not a quiz/review), so it does not award XP.
-                      // Only review mode uses SRS and awards XP via ReviewSessionUI.
+                      // Study mode awards XP - PRODUCT REQUIREMENT
+                      // While architecturally study mode is "passive learning",
+                      // users expect XP for completing study sessions.
+                      // This is intentional user-facing behavior, not a bug.
                       const sessionDuration = Date.now() - studySessionStartTime
                       const totalItems = selectedItemsData.length
 
-                      console.log('[User Lists Study] Session completed:', {
-                        totalItems,
+                      const sessionId = `study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
+                      getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
+                        data: {
+                          sessionId,
+                          statistics: {
+                            correctItems: totalItems,
+                            accuracy: 100, // Study mode assumes completion = success
+                            averageResponseTime: totalItems > 0 ? sessionDuration / totalItems : 0,
+                            bestStreak: totalItems,
+                          },
+                          duration: sessionDuration,
+                        },
+                      })
+
+                      console.log('[User Lists Study] SESSION_COMPLETED emitted (Product Requirement):', {
+                        sessionId,
+                        items: totalItems,
                         duration: sessionDuration,
                       })
 
