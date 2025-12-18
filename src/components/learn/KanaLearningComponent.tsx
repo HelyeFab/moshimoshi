@@ -8,7 +8,8 @@ import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { motion } from 'framer-motion'
-// Gamification removed
+import { ReviewEventType } from '@/lib/review-engine/core/events'
+import { getEventHub } from '@/lib/review-engine/core/event-hub'
 import Navbar from '@/components/layout/Navbar'
 import AllKanaModal from '@/components/learn/AllKanaModal'
 import KanaDetailsModal from '@/components/learn/KanaDetailsModal'
@@ -978,12 +979,32 @@ export function KanaLearningComponent({
                       // No need for duplicate saving here
                     }
 
-                    // Study mode is not a review mode (no answering questions)
-                    // Therefore no XP/gamification events - only review mode awards XP
-                    console.log('[Kana Study] Session completed:', {
-                      totalCharacters: studyCharacters.length,
-                      charactersLearned: studyCharactersLearned,
-                      duration: Date.now() - studySessionStartTime,
+                    // Study mode awards XP - PRODUCT REQUIREMENT
+                    // While architecturally study mode is "passive learning",
+                    // users expect XP for completing study sessions.
+                    // This is intentional user-facing behavior, not a bug.
+                    const sessionDuration = Date.now() - studySessionStartTime
+                    const totalItems = studyCharacters.length
+
+                    const sessionId = `study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
+                    getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
+                      data: {
+                        sessionId,
+                        statistics: {
+                          correctItems: totalItems,
+                          accuracy: 100, // Study mode assumes completion = success
+                          averageResponseTime: totalItems > 0 ? sessionDuration / totalItems : 0,
+                          bestStreak: totalItems,
+                        },
+                        duration: sessionDuration,
+                      },
+                    })
+
+                    console.log('[Kana Study] SESSION_COMPLETED emitted (Product Requirement):', {
+                      sessionId,
+                      items: totalItems,
+                      duration: sessionDuration,
                     })
 
                     // Reached the end - show completion feedback
