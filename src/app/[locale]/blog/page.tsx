@@ -255,13 +255,13 @@ function BlogContent() {
                   href={`/blog/${featuredPost.slug}`}
                   className="group block bg-gradient-to-r from-white to-japanese-mizu/10 dark:from-surface-dark dark:to-japanese-mizuDark/10 rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-100 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-600"
                 >
-                  <div className="grid md:grid-cols-2 gap-0">
+                  <div className="grid md:grid-cols-[auto_1fr] gap-6 md:gap-8">
                     {featuredPost.cover && (
-                      <div className="aspect-video md:aspect-square overflow-hidden">
+                      <div className="overflow-hidden bg-gray-100 dark:bg-gray-800 rounded-xl flex items-center justify-center">
                         <img
                           src={featuredPost.cover}
                           alt={featuredPost.title}
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                          className="max-h-[280px] md:max-h-[320px] w-auto group-hover:scale-105 transition-transform duration-700"
                         />
                       </div>
                     )}
@@ -271,7 +271,7 @@ function BlogContent() {
                           {featuredPost.tags.slice(0, 3).map((tag) => (
                             <span
                               key={tag}
-                              className="px-3 py-1 bg-gradient-to-r from-primary-100 to-japanese-sakura/20 dark:from-primary-900/30 dark:to-japanese-sakuraDark/20 text-primary-700 dark:text-primary-300 rounded-full text-sm font-medium"
+                              className="px-3 py-1 bg-primary-100 dark:bg-gray-700 text-primary-700 dark:text-gray-100 rounded-full text-sm font-medium"
                             >
                               {tag}
                             </span>
@@ -354,7 +354,7 @@ function BlogContent() {
                                 {post.tags.slice(0, 2).map((tag) => (
                                   <span
                                     key={tag}
-                                    className="px-2 py-0.5 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded text-xs font-medium"
+                                    className="px-2 py-0.5 bg-primary-100 dark:bg-gray-700 text-primary-700 dark:text-gray-100 rounded text-xs font-medium"
                                   >
                                     {tag}
                                   </span>
@@ -448,7 +448,7 @@ function BlogContent() {
                             {post.tags.slice(0, 2).map((tag) => (
                               <span
                                 key={tag}
-                                className="px-3 py-1 bg-gradient-to-r from-primary-100 to-japanese-sakura/20 dark:from-primary-900/30 dark:to-japanese-sakuraDark/20 text-primary-700 dark:text-primary-300 rounded-full text-xs font-medium"
+                                className="px-3 py-1 bg-primary-100 dark:bg-gray-700 text-primary-700 dark:text-gray-100 rounded-full text-xs font-medium"
                               >
                                 {tag}
                               </span>

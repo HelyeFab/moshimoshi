@@ -198,11 +198,11 @@ export default function BlogPostPage() {
 
         {/* Cover Image */}
         {post.cover && (
-          <div className="mb-8 sm:mb-12 rounded-2xl overflow-hidden shadow-2xl">
+          <div className="mb-8 sm:mb-12 rounded-2xl overflow-hidden shadow-2xl bg-gray-100 dark:bg-gray-800 mx-auto max-w-fit">
             <img
               src={post.cover}
               alt={post.title}
-              className="w-full h-64 sm:h-96 object-cover"
+              className="max-h-[500px] w-auto mx-auto"
             />
           </div>
         )}

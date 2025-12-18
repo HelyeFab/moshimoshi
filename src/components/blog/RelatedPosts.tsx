@@ -77,7 +77,7 @@ export function RelatedPosts({ posts }: RelatedPostsProps) {
                   {post.tags.slice(0, 2).map((tag) => (
                     <span
                       key={tag}
-                      className="px-2 py-1 bg-gradient-to-r from-primary-100 to-japanese-sakura/20 dark:from-primary-900/30 dark:to-japanese-sakuraDark/20 text-primary-700 dark:text-primary-300 rounded-full text-xs font-medium"
+                      className="px-2 py-1 bg-primary-100 dark:bg-gray-700 text-primary-700 dark:text-gray-100 rounded-full text-xs font-medium"
                     >
                       {tag}
                     </span>
