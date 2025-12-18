@@ -12,6 +12,8 @@ import { TextbookSelector } from './components/TextbookSelector'
 import { VocabularyDisplay, VocabularyItem } from './components/VocabularyDisplay'
 import dynamic from 'next/dynamic'
 import { TextbookVocabularyAdapter } from '@/lib/review-engine/adapters/TextbookVocabularyAdapter'
+import { ReviewEventType } from '@/lib/review-engine/core/events'
+import { getEventHub } from '@/lib/review-engine/core/event-hub'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
 import {
@@ -242,14 +244,34 @@ export default function TextbookVocabularyPage() {
     if (currentStudyIndex < selectedVocabData.length - 1) {
       setCurrentStudyIndex((prev) => prev + 1)
     } else {
-      // Study mode is passive learning (not a quiz/review), so it does not award XP.
-      // Only review mode uses SRS and awards XP via ReviewSessionUI.
-      const duration = Date.now() - studySessionStartTime
+      // Study mode awards XP - PRODUCT REQUIREMENT
+      // While architecturally study mode is "passive learning",
+      // users expect XP for completing study sessions.
+      // This is intentional user-facing behavior, not a bug.
+      const sessionDuration = Date.now() - studySessionStartTime
+      const totalItems = selectedVocabData.length
 
-      console.log('[Textbook Vocabulary Study] Session completed:', {
-        totalItems: selectedVocabData.length,
-        duration,
+      const sessionId = `study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
+      getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
+        data: {
+          sessionId,
+          statistics: {
+            correctItems: totalItems,
+            accuracy: 100, // Study mode assumes completion = success
+            averageResponseTime: totalItems > 0 ? sessionDuration / totalItems : 0,
+            bestStreak: totalItems,
+          },
+          duration: sessionDuration,
+        },
       })
+
+      console.log('[Textbook Vocabulary Study] SESSION_COMPLETED emitted (Product Requirement):', {
+        sessionId,
+        items: totalItems,
+        duration: sessionDuration,
+      })
+
       showToast('Study session complete!', 'success')
       setViewMode('browse')
       refreshProgress()
