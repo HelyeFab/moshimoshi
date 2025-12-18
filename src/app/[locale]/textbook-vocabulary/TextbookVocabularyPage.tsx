@@ -13,7 +13,7 @@ import { VocabularyDisplay, VocabularyItem } from './components/VocabularyDispla
 import dynamic from 'next/dynamic'
 import { TextbookVocabularyAdapter } from '@/lib/review-engine/adapters/TextbookVocabularyAdapter'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
-import { getEventHub } from '@/lib/review-engine/core/event-hub'
+import { getEventHub, initializeEventHub } from '@/lib/review-engine/core/event-hub'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
 import {
@@ -121,6 +121,15 @@ export default function TextbookVocabularyPage() {
       setVocabProgress(progress)
     }
   }, [user, isPremium, selectedTextbook])
+
+  // Initialize Event Hub for gamification (required for study mode XP)
+  // Review mode uses ReviewSessionUI which also initializes the hub
+  useEffect(() => {
+    if (user?.uid) {
+      initializeEventHub(user.uid)
+      console.log('[Textbook Vocabulary] Event Hub initialized for user:', user.uid)
+    }
+  }, [user?.uid])
 
   useEffect(() => {
     if (selectedTextbook) {
