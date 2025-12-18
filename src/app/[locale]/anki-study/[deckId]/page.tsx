@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAnkiStudy } from '@/hooks/useAnkiStudy'
 import { useAuth } from '@/hooks/useAuth'
-import ReviewEngine from '@/components/review-engine/ReviewEngine'
+import ReviewSessionUI from '@/components/review-engine/ReviewSessionUI'
 import { AnkiAdapter } from '@/lib/review-engine/adapters/AnkiAdapter'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
@@ -289,16 +289,17 @@ function AnkiStudyContent({ deckId, locale }: { deckId: string; locale: string }
     )
   }
 
-  // Studying screen - render ReviewEngine
+  // Studying screen - render ReviewSessionUI
   if (sessionState === 'studying' && reviewableContent.length > 0) {
     return (
-      <ReviewEngine
+      <ReviewSessionUI
         content={reviewableContent}
         contentPool={reviewableContent}
         mode="recognition"
         onComplete={handleReviewComplete}
         onCancel={handleCancelReview}
         userId={userId}
+        shuffle={false}
       />
     )
   }
