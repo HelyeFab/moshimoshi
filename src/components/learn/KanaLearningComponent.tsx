@@ -16,22 +16,19 @@ import KanaFilters from '@/components/learn/KanaFilters'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { getBasicKana, kanaData, type KanaCharacter } from '@/data/kanaData'
-import { gamificationListener } from '@/lib/gamification/gamificationListener'
 import { KanaAdapter } from '@/lib/review-engine/adapters/kana.adapter'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
+import { getEventHub } from '@/lib/review-engine/core/event-hub'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
-import { EventEmitter } from 'events'
 import {
   kanaProgressManager,
   type CharacterProgress as ManagerProgress,
 } from '@/utils/kanaProgressManager'
 import { kanaProgressManagerV2 } from '@/utils/kanaProgressManagerV2'
 
-// EventEmitter for STUDY MODE only (review mode uses Event Hub via ReviewSessionUI)
-// Study mode doesn't use SessionManager, so it still needs manual gamification
-const ureEventEmitter = new EventEmitter()
-let listenerInitialized = false
+// All gamification now uses Event Hub (global singleton)
+// Both review mode (via ReviewSessionUI) and study mode use getEventHub()
 
 // Dynamically import components that use animations or client-side features
 const KanaGrid = dynamic(() => import('@/components/learn/KanaGrid'), {
@@ -227,15 +224,8 @@ export function KanaLearningComponent({
     return filtered
   }, [displayScript, selectedCategory, filter, searchQuery])
 
-  // Initialize gamification listener for STUDY MODE only
-  // Review mode uses Event Hub (initialized in ReviewSessionUI)
-  useEffect(() => {
-    if (user?.uid && !listenerInitialized) {
-      console.log('[Kana] Initializing gamification listener for study mode:', user.uid)
-      gamificationListener.initialize(user.uid, ureEventEmitter)
-      listenerInitialized = true
-    }
-  }, [user?.uid])
+  // Event Hub initialization removed - ReviewSessionUI handles this automatically
+  // Both review mode and study mode use the global Event Hub
 
   // Load progress from KanaProgressManager
   useEffect(() => {
@@ -990,7 +980,7 @@ export function KanaLearningComponent({
                       // No need for duplicate saving here
                     }
 
-                    // Emit URE SESSION_COMPLETED event for NEW gamification system
+                    // Emit SESSION_COMPLETED event via global Event Hub
                     const sessionDuration = Date.now() - studySessionStartTime
                     const totalCharacters = studyCharacters.length
                     const averageTimePerCharacter =
@@ -1000,20 +990,21 @@ export function KanaLearningComponent({
 
                     const sessionId = `kana_study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
-                    ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
+                    // Use global Event Hub (same as ReviewSessionUI)
+                    getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
                       data: {
                         sessionId,
                         statistics: {
                           correctItems: studyCharactersLearned,
                           accuracy: accuracy,
                           averageResponseTime: averageTimePerCharacter,
-                          bestStreak: studyCharactersLearned, // Use learned count as streak for study mode
+                          bestStreak: studyCharactersLearned,
                         },
                         duration: sessionDuration,
                       },
                     })
 
-                    console.log('[Kana Study] Emitted SESSION_COMPLETED event for gamification:', {
+                    console.log('[Kana Study] Emitted SESSION_COMPLETED via Event Hub:', {
                       sessionId,
                       correctItems: studyCharactersLearned,
                       totalCharacters,
