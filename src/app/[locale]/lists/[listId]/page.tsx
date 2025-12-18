@@ -24,18 +24,16 @@ import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
 import WordDetailsModal from '@/app/[locale]/vocabulary/components/WordDetailsModal'
 import { searchJMdictWords, loadJMdictData } from '@/utils/jmdictLocalSearch'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
-import { EventEmitter } from 'events'
-import { gamificationListener } from '@/lib/gamification/gamificationListener'
+import { getEventHub } from '@/lib/review-engine/core/event-hub'
 import { UserListAdapter } from '@/lib/review-engine/adapters/UserListAdapter'
 import dynamic from 'next/dynamic'
 import { LoadingOverlay } from '@/components/ui/Loading'
 
-// Module-level event emitter for gamification
-const ureEventEmitter = new EventEmitter()
-let gamificationListenerInitialized = false
+// All gamification uses Event Hub (global singleton)
+// ReviewSessionUI handles initialization automatically
 
-// Dynamic import for ReviewEngine to avoid SSR issues
-const ReviewEngine = dynamic(() => import('@/components/review-engine/ReviewEngine'), {
+// Dynamic import for ReviewSessionUI to avoid SSR issues
+const ReviewSessionUI = dynamic(() => import('@/components/review-engine/ReviewSessionUI'), {
   loading: () => <LoadingOverlay isLoading={true} />,
   ssr: false,
 })
@@ -84,14 +82,7 @@ export default function ListDetailPage() {
   const [modalWord, setModalWord] = useState<JapaneseWord | null>(null)
   const [loadingWordDetails, setLoadingWordDetails] = useState(false)
 
-  // Initialize gamification listener (once per user session)
-  useEffect(() => {
-    if (user?.uid && !gamificationListenerInitialized) {
-      console.log('[User Lists] Initializing gamification listener for user:', user.uid)
-      gamificationListener.initialize(user.uid, ureEventEmitter)
-      gamificationListenerInitialized = true
-    }
-  }, [user?.uid])
+  // Event Hub initialization removed - ReviewSessionUI handles this automatically
 
   // Pre-load JMdict data for word lookups
   useEffect(() => {
@@ -345,24 +336,9 @@ export default function ListDetailPage() {
 
   // Review session completion handler
   const handleReviewComplete = async (stats: any) => {
-    // Emit URE SESSION_COMPLETED event for gamification
-    const sessionId = `list_review_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-
-    ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
-      data: {
-        sessionId,
-        statistics: {
-          correctItems: stats.correctItems,
-          accuracy: stats.accuracy,
-          averageResponseTime: stats.averageResponseTime || 0,
-          bestStreak: stats.bestStreak || 0,
-        },
-        duration: stats.duration || 0,
-      },
-    })
-
-    console.log('[User Lists] Emitted SESSION_COMPLETED event for gamification:', {
-      sessionId,
+    // SessionManager emits SESSION_COMPLETED automatically via Event Hub
+    // No manual event emission needed - gamification happens automatically!
+    console.log('[User Lists] Session completed:', {
       correctItems: stats.correctItems,
       accuracy: stats.accuracy,
       averageResponseTime: stats.averageResponseTime,
@@ -535,14 +511,14 @@ export default function ListDetailPage() {
                     if (currentStudyIndex < selectedItemsData.length - 1) {
                       setCurrentStudyIndex(currentStudyIndex + 1)
                     } else {
-                      // Emit SESSION_COMPLETED event for gamification
+                      // Use global Event Hub (same as ReviewSessionUI)
                       const sessionDuration = Date.now() - studySessionStartTime
                       const totalItems = selectedItemsData.length
                       const averageTimePerItem = totalItems > 0 ? sessionDuration / totalItems : 0
 
                       const sessionId = `list_study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
 
-                      ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
+                      getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
                         data: {
                           sessionId,
                           statistics: {
@@ -556,7 +532,7 @@ export default function ListDetailPage() {
                       })
 
                       console.log(
-                        '[User Lists Study] Emitted SESSION_COMPLETED event for gamification:',
+                        '[User Lists Study] Session completed:',
                         {
                           sessionId,
                           correctItems: totalItems,
@@ -610,7 +586,7 @@ export default function ListDetailPage() {
           subtitle="Review Mode"
         />
         <main className="container mx-auto px-4 py-8">
-          <ReviewEngine
+          <ReviewSessionUI
             content={reviewContent}
             contentPool={reviewContentPool}
             mode="recall"
@@ -622,6 +598,7 @@ export default function ListDetailPage() {
               setSelectedItems(new Set())
             }}
             userId={user?.uid || 'guest'}
+            shuffle={false}
           />
         </main>
       </div>
