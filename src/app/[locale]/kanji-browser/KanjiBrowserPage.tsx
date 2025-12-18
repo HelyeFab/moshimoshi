@@ -20,8 +20,6 @@ import dynamic from 'next/dynamic'
 import { KanjiBrowserAdapter } from '@/lib/review-engine/adapters/KanjiBrowserAdapter'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
-import { ReviewEventType } from '@/lib/review-engine/core/events'
-import { getEventHub } from '@/lib/review-engine/core/event-hub'
 import { kanjiProgressManager, type KanjiProgressData } from '@/utils/kanjiProgressManager'
 import Navbar from '@/components/layout/Navbar'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
@@ -587,31 +585,13 @@ function KanjiBrowserContent() {
               if (currentStudyIndex < selectedKanjiData.length - 1) {
                 setCurrentStudyIndex(currentStudyIndex + 1)
               } else {
-                // Emit SESSION_COMPLETED event via global Event Hub
+                // Study mode is passive learning (not a quiz/review), so it does not award XP.
+                // Only review mode uses SRS and awards XP via ReviewSessionUI.
                 const sessionDuration = Date.now() - studySessionStartTime
                 const totalKanji = selectedKanjiData.length
-                const averageTimePerKanji = totalKanji > 0 ? sessionDuration / totalKanji : 0
 
-                const sessionId = `kanji_study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-
-                // Use global Event Hub (same as ReviewSessionUI)
-                getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
-                  data: {
-                    sessionId,
-                    statistics: {
-                      correctItems: totalKanji,
-                      accuracy: 100,
-                      averageResponseTime: averageTimePerKanji,
-                      bestStreak: totalKanji,
-                    },
-                    duration: sessionDuration,
-                  },
-                })
-
-                console.log('[Kanji Study] Emitted SESSION_COMPLETED via Event Hub:', {
-                  sessionId,
-                  correctItems: totalKanji,
-                  accuracy: 100,
+                console.log('[Kanji Study] Session completed:', {
+                  totalItems: totalKanji,
                   duration: sessionDuration,
                 })
 
