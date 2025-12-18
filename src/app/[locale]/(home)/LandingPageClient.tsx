@@ -312,17 +312,16 @@ export default function LandingPageClient() {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-4">
+          <Link
+            href={getLocalePath('/blog')}
+            className="text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+          >
+            Blog
+          </Link>
           <ThemeToggle />
           {isPreLaunch ? (
             <>
               {/* Pre-launch: Show waitlist button */}
-              <div className="flex items-center gap-2 px-3 py-1 bg-gradient-to-r from-primary-100 to-japanese-sakura/20 dark:from-primary-900/30 dark:to-japanese-sakuraDark/20 rounded-full">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
-                </span>
-                <span className="text-xs font-medium text-primary-700 dark:text-primary-300">{badgeLabel}</span>
-              </div>
               <Button
                 onClick={() => router.push(getLocalePath('/waitlist'))}
                 className="bg-gradient-to-r from-primary-500 to-japanese-sakura hover:from-primary-600 hover:to-japanese-sakuraDark text-white shadow-lg"
@@ -401,6 +400,15 @@ export default function LandingPageClient() {
         mobileMenuOpen ? 'translate-x-0' : 'translate-x-[calc(100%+1rem)]'
       }`}>
         <div className="flex flex-col p-4 space-y-3">
+          {/* Blog Link */}
+          <Link
+            href={getLocalePath('/blog')}
+            onClick={() => setMobileMenuOpen(false)}
+            className="py-2 px-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+          >
+            Blog
+          </Link>
+
           {/* Theme Toggle */}
           <div className="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800">
             <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Theme</span>
@@ -412,15 +420,6 @@ export default function LandingPageClient() {
 
           {isPreLaunch ? (
             <>
-              {/* Pre-launch Badge */}
-              <div className="flex items-center justify-center gap-2 py-2 px-3 bg-gradient-to-r from-primary-100 to-japanese-sakura/20 dark:from-primary-900/30 dark:to-japanese-sakuraDark/20 rounded-lg">
-                <span className="relative flex h-2 w-2">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-500"></span>
-                </span>
-                <span className="text-sm font-medium text-primary-700 dark:text-primary-300">{badgeMobileLabel}</span>
-              </div>
-
               {/* Join Waitlist Button */}
               <Button
                 onClick={() => {

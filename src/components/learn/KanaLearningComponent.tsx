@@ -17,8 +17,6 @@ import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { getBasicKana, kanaData, type KanaCharacter } from '@/data/kanaData'
 import { KanaAdapter } from '@/lib/review-engine/adapters/kana.adapter'
-import { ReviewEventType } from '@/lib/review-engine/core/events'
-import { getEventHub } from '@/lib/review-engine/core/event-hub'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
 import {
@@ -27,8 +25,8 @@ import {
 } from '@/utils/kanaProgressManager'
 import { kanaProgressManagerV2 } from '@/utils/kanaProgressManagerV2'
 
-// All gamification now uses Event Hub (global singleton)
-// Both review mode (via ReviewSessionUI) and study mode use getEventHub()
+// Review mode uses ReviewSessionUI which handles all gamification automatically via Event Hub
+// Study mode is a learning tool (not a review/quiz) and does not award XP
 
 // Dynamically import components that use animations or client-side features
 const KanaGrid = dynamic(() => import('@/components/learn/KanaGrid'), {
@@ -980,36 +978,12 @@ export function KanaLearningComponent({
                       // No need for duplicate saving here
                     }
 
-                    // Emit SESSION_COMPLETED event via global Event Hub
-                    const sessionDuration = Date.now() - studySessionStartTime
-                    const totalCharacters = studyCharacters.length
-                    const averageTimePerCharacter =
-                      totalCharacters > 0 ? sessionDuration / totalCharacters : 0
-                    const accuracy =
-                      totalCharacters > 0 ? (studyCharactersLearned / totalCharacters) * 100 : 0
-
-                    const sessionId = `kana_study_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
-
-                    // Use global Event Hub (same as ReviewSessionUI)
-                    getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
-                      data: {
-                        sessionId,
-                        statistics: {
-                          correctItems: studyCharactersLearned,
-                          accuracy: accuracy,
-                          averageResponseTime: averageTimePerCharacter,
-                          bestStreak: studyCharactersLearned,
-                        },
-                        duration: sessionDuration,
-                      },
-                    })
-
-                    console.log('[Kana Study] Emitted SESSION_COMPLETED via Event Hub:', {
-                      sessionId,
-                      correctItems: studyCharactersLearned,
-                      totalCharacters,
-                      accuracy,
-                      duration: sessionDuration,
+                    // Study mode is not a review mode (no answering questions)
+                    // Therefore no XP/gamification events - only review mode awards XP
+                    console.log('[Kana Study] Session completed:', {
+                      totalCharacters: studyCharacters.length,
+                      charactersLearned: studyCharactersLearned,
+                      duration: Date.now() - studySessionStartTime,
                     })
 
                     // Reached the end - show completion feedback

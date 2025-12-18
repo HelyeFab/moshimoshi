@@ -87,6 +87,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   const navItems = [
     { href: '/admin', label: 'Dashboard', icon: '📊' },
     { href: '/admin/user-lookup', label: 'User Lookup', icon: '👤' },
+    { href: '/admin/email-campaigns', label: 'Email Campaigns', icon: '📧' },
     { href: '/admin/scripts', label: 'Scripts', icon: '🛠️' },
     { href: '/admin/resources', label: 'Resources', icon: '📚' },
     { href: '/admin/stories', label: 'Stories', icon: '📖' },

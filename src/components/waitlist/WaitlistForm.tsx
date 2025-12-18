@@ -3,6 +3,7 @@
 import { useState, FormEvent } from 'react';
 import { useTranslation } from '@/i18n/I18nContext';
 import { strings as enStrings } from '@/i18n/locales/en/strings';
+import { useReCaptcha } from '@/components/ReCaptchaProvider';
 
 interface WaitlistFormProps {
   className?: string;
@@ -11,6 +12,7 @@ interface WaitlistFormProps {
 
 export function WaitlistForm({ className = '', onSuccess }: WaitlistFormProps) {
   const { strings } = useTranslation();
+  const { executeRecaptcha } = useReCaptcha();
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [message, setMessage] = useState('');
@@ -43,12 +45,15 @@ export function WaitlistForm({ className = '', onSuccess }: WaitlistFormProps) {
     setStatus('loading');
 
     try {
+      // Execute reCAPTCHA
+      const recaptchaToken = await executeRecaptcha('waitlist');
+
       const response = await fetch('/api/waitlist/join', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, recaptchaToken }),
       });
 
       const data = await response.json();

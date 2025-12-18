@@ -13,6 +13,7 @@ import { UserListAdapter } from './UserListAdapter';
 import { KanjiMasteryAdapter } from './KanjiMasteryAdapter';
 import { AnkiAdapter } from './AnkiAdapter';
 import { FlashcardAdapter } from './FlashcardAdapter';
+import { TextbookVocabularyAdapter } from './TextbookVocabularyAdapter';
 import { ContentTypeConfig } from '../core/types';
 import { reviewLogger } from '@/lib/monitoring/logger';
 
@@ -41,6 +42,7 @@ export class AdapterRegistry {
     this.adapters.set('moodboard', new MoodBoardAdapter());
     this.adapters.set('kanji_mastery', new KanjiMasteryAdapter());
     this.adapters.set('anki-card', new AnkiAdapter());
+    this.adapters.set('textbook_vocabulary', new TextbookVocabularyAdapter());
     // Note: UserListAdapter is created dynamically per list
     
     this.initialized = true;

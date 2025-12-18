@@ -33,6 +33,10 @@ export default function MultipleChoiceInput({
   // In listening mode for kana, show the actual kana characters
   const showKanaDisplay = mode === 'listening' && content.contentType === 'kana'
 
+  // For kanji in recognition/listening mode, show kanji characters as large visual options
+  const showKanjiDisplay = content.contentType === 'kanji' &&
+    (mode === 'recognition' || mode === 'listening')
+
   // Generate options using useMemo to prevent reshuffling on every render
   const options = useMemo((): OptionItem[] => {
     // Generate options from the content pool
@@ -384,12 +388,16 @@ export default function MultipleChoiceInput({
             `}
           >
             <span className="flex items-center justify-center">
-              <span className="mr-1.5 sm:mr-2 text-gray-400 text-sm sm:text-base">
+              <span className={`mr-1.5 sm:mr-2 text-gray-400 ${showKanjiDisplay ? 'text-base sm:text-lg' : 'text-sm sm:text-base'}`}>
                 {String.fromCharCode(65 + index)}.
               </span>
               <span
                 className={
-                  showKanaDisplay ? 'font-japanese text-xl sm:text-2xl' : 'text-sm sm:text-base'
+                  showKanjiDisplay
+                    ? 'font-japanese text-3xl sm:text-4xl'
+                    : showKanaDisplay
+                      ? 'font-japanese text-xl sm:text-2xl'
+                      : 'text-sm sm:text-base'
                 }
               >
                 {option.display}
@@ -410,7 +418,9 @@ export default function MultipleChoiceInput({
           ) : (
             <span className="text-red-600 font-semibold text-sm sm:text-base">
               Incorrect. The answer is:{' '}
-              {showKanaDisplay ? content.primaryDisplay : content.primaryAnswer}
+              <span className={showKanjiDisplay ? 'font-japanese text-2xl sm:text-3xl' : showKanaDisplay ? 'font-japanese text-lg sm:text-xl' : ''}>
+                {showKanaDisplay ? content.primaryDisplay : content.primaryAnswer}
+              </span>
             </span>
           )}
         </motion.div>

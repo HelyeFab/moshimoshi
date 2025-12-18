@@ -77,10 +77,10 @@ const KANJI_BROWSER_CONFIG: ContentTypeConfig = {
   availableModes: [
     {
       mode: 'recognition',
-      showPrimary: true,
+      showPrimary: true,      // Show English meaning as prompt
       showSecondary: false,
       showTertiary: false,
-      showMedia: true,
+      showMedia: false,
       inputType: 'multiple-choice',
       optionCount: 4,
       optionSource: 'similar',
@@ -90,17 +90,17 @@ const KANJI_BROWSER_CONFIG: ContentTypeConfig = {
       allowRetry: false
     },
     {
-      mode: 'recall',
-      showPrimary: true,
-      showSecondary: true,
+      mode: 'listening',
+      showPrimary: false,     // Hide text - audio only
+      showSecondary: false,
       showTertiary: false,
-      showMedia: false,
-      inputType: 'text',
-      allowHints: true,
-      hintPenalty: 0.2,
+      showMedia: true,
+      inputType: 'multiple-choice',
+      optionCount: 4,
+      optionSource: 'similar',
+      allowHints: false,
       immediateValidation: true,
-      allowRetry: true,
-      maxRetries: 2
+      allowRetry: false
     }
   ],
   defaultMode: 'recognition',
@@ -172,8 +172,8 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
       tags: this.generateTags(kanji),
       source: kanji.source || 'kanji_browser',
 
-      // Review configuration
-      supportedModes: ['recognition', 'recall', 'writing'] as ReviewMode[],
+      // Review configuration - recognition and listening only (visual kanji selection)
+      supportedModes: ['recognition', 'listening'] as ReviewMode[],
       preferredMode: 'recognition' as ReviewMode,
 
       // Use the metadata we created above
@@ -493,7 +493,44 @@ export class KanjiBrowserAdapter extends BaseContentAdapter<KanjiContent> {
    * Get supported review modes for kanji
    */
   getSupportedModes(): ReviewMode[] {
-    return ['recognition', 'recall', 'writing'] as ReviewMode[];
+    return ['recognition', 'listening'] as ReviewMode[];
+  }
+
+  /**
+   * Get a random reading for TTS playback in listening mode
+   * Randomly selects between on'yomi and kun'yomi readings
+   */
+  getRandomReading(metadata: any): { reading: string; type: 'onyomi' | 'kunyomi' } | null {
+    const readings: Array<{ reading: string; type: 'onyomi' | 'kunyomi' }> = [];
+
+    // Add on'yomi readings
+    if (metadata?.onyomi && Array.isArray(metadata.onyomi)) {
+      for (const reading of metadata.onyomi) {
+        if (reading && reading.trim()) {
+          readings.push({ reading: reading.trim(), type: 'onyomi' });
+        }
+      }
+    }
+
+    // Add kun'yomi readings (clean okurigana after .)
+    if (metadata?.kunyomi && Array.isArray(metadata.kunyomi)) {
+      for (const reading of metadata.kunyomi) {
+        if (reading && reading.trim()) {
+          // Remove okurigana after '.' (e.g., 'やま.す' -> 'やま')
+          const cleanReading = reading.split('.')[0].trim();
+          if (cleanReading) {
+            readings.push({ reading: cleanReading, type: 'kunyomi' });
+          }
+        }
+      }
+    }
+
+    if (readings.length === 0) {
+      return null;
+    }
+
+    // Random selection
+    return readings[Math.floor(Math.random() * readings.length)];
   }
 
   /**

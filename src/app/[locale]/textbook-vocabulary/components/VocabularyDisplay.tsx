@@ -1,16 +1,14 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTTS } from '@/hooks/useTTS'
 import { ChevronLeftIcon, SpeakerWaveIcon, ArrowPathIcon } from '@heroicons/react/24/outline'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
-import { useAuth } from '@/hooks/useAuth'
-import { useSubscription } from '@/hooks/useSubscription'
-import { vocabularyProgressManager } from '@/utils/vocabularyProgressManager'
+import { TextbookVocabProgressData } from '@/utils/textbookVocabularyProgressManager'
 
-interface VocabularyItem {
+export interface VocabularyItem {
   id: string
   japanese: string
   reading: string
@@ -23,19 +21,38 @@ interface VocabularyItem {
     english: string
   }>
   lesson?: number
+  chapter?: number
   textbook?: string
 }
 
 interface VocabularyDisplayProps {
   textbookId: string
   onBack: () => void
+  // Selection mode props
+  selectionMode?: boolean
+  selectedItems?: Set<string>
+  onToggleSelection?: (id: string) => void
+  // Progress tracking
+  progressMap?: Map<string, TextbookVocabProgressData>
+  // Expose vocabulary data to parent
+  onVocabularyLoaded?: (vocabulary: VocabularyItem[]) => void
+  onFilteredVocabularyChange?: (filtered: VocabularyItem[]) => void
+  onLessonChange?: (lesson: number | 'all') => void
 }
 
-export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps) {
+export function VocabularyDisplay({
+  textbookId,
+  onBack,
+  selectionMode = false,
+  selectedItems = new Set(),
+  onToggleSelection,
+  progressMap = new Map(),
+  onVocabularyLoaded,
+  onFilteredVocabularyChange,
+  onLessonChange,
+}: VocabularyDisplayProps) {
   const { strings } = useI18n()
   const { play, isPlaying } = useTTS()
-  const { user } = useAuth()
-  const { isPremium } = useSubscription()
   const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([])
   const [filteredVocab, setFilteredVocab] = useState<VocabularyItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -43,7 +60,6 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
   const [viewMode, setViewMode] = useState<'grid' | 'list' | 'cards'>('grid')
   const [selectedWord, setSelectedWord] = useState<VocabularyItem | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
-  const [progress, setProgress] = useState<Map<string, any>>(new Map())
 
   // Load vocabulary data
   useEffect(() => {
@@ -52,62 +68,21 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
       try {
         // Dynamic import based on textbook ID
         const module = await import(`@/data/textbooks/${textbookId}/all.json`)
-        setVocabulary(module.default || [])
+        const vocabData = module.default || []
+        setVocabulary(vocabData)
+        onVocabularyLoaded?.(vocabData)
       } catch (error) {
         console.error('Failed to load textbook data:', error)
         setVocabulary([])
+        onVocabularyLoaded?.([])
       } finally {
         setIsLoading(false)
       }
     }
 
     loadVocabulary()
-  }, [textbookId])
+  }, [textbookId, onVocabularyLoaded])
 
-  // Load progress
-  useEffect(() => {
-    const loadProgress = async () => {
-      if (!user?.uid) {
-        setProgress(new Map())
-        return
-      }
-      const map = await vocabularyProgressManager.getProgressMap(user, isPremium ?? false)
-      setProgress(map)
-    }
-    loadProgress()
-  }, [user, isPremium])
-
-  const handleMarkLearned = async (item: VocabularyItem, e?: React.MouseEvent) => {
-    e?.stopPropagation()
-    if (!user?.uid) return
-    await vocabularyProgressManager.markLearned(item.id, user, isPremium ?? false, {
-      textbookId,
-      lesson: item.lesson,
-      meanings: [item.meaning],
-    })
-    setProgress(prev => {
-      const next = new Map(prev)
-      const existing = next.get(item.id) || {}
-      next.set(item.id, { ...existing, status: 'learned' })
-      return next
-    })
-  }
-
-  const handleTrackView = async (item: VocabularyItem) => {
-    if (!user?.uid) return
-    await vocabularyProgressManager.trackView(item.id, user, isPremium ?? false, {
-      textbookId,
-      lesson: item.lesson,
-    })
-    setProgress(prev => {
-      const next = new Map(prev)
-      const existing = next.get(item.id) || {}
-      const viewCount = (existing.viewCount || 0) + 1
-      const status = existing.status || (viewCount > 0 ? 'learning' : 'not-started')
-      next.set(item.id, { ...existing, viewCount, status })
-      return next
-    })
-  }
   // Filter vocabulary based on lesson and search
   useEffect(() => {
     let filtered = vocabulary
@@ -128,7 +103,34 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
     }
 
     setFilteredVocab(filtered)
-  }, [vocabulary, selectedLesson, searchQuery])
+    onFilteredVocabularyChange?.(filtered)
+  }, [vocabulary, selectedLesson, searchQuery, onFilteredVocabularyChange])
+
+  // Handle lesson change
+  const handleLessonChange = useCallback((lesson: number | 'all') => {
+    setSelectedLesson(lesson)
+    onLessonChange?.(lesson)
+  }, [onLessonChange])
+
+  // Handle item click - either toggle selection or show details
+  const handleItemClick = useCallback((item: VocabularyItem) => {
+    if (selectionMode && onToggleSelection) {
+      onToggleSelection(item.id)
+    } else {
+      setSelectedWord(item)
+    }
+  }, [selectionMode, onToggleSelection])
+
+  // Check if item is selected
+  const isItemSelected = useCallback((id: string) => {
+    return selectedItems.has(id)
+  }, [selectedItems])
+
+  // Check if item is learned
+  const isItemLearned = useCallback((id: string) => {
+    const progress = progressMap.get(id)
+    return progress?.status === 'learned' || progress?.status === 'mastered'
+  }, [progressMap])
 
   // Get unique lessons
   const lessons = Array.from(new Set(vocabulary.map(item => item.lesson).filter(Boolean))).sort((a, b) => (a || 0) - (b || 0))
@@ -140,7 +142,6 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
 
   const handleWordClick = (word: VocabularyItem) => {
     setSelectedWord(word)
-    handleTrackView(word)
   }
 
   if (isLoading) {
@@ -197,7 +198,7 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
         {lessons.length > 0 && (
           <select
             value={selectedLesson}
-            onChange={(e) => setSelectedLesson(e.target.value === 'all' ? 'all' : Number(e.target.value))}
+            onChange={(e) => handleLessonChange(e.target.value === 'all' ? 'all' : Number(e.target.value))}
             className="px-4 py-2 rounded-lg border border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
             <option value="all">{strings.common?.allLessons || 'All Lessons'}</option>
@@ -236,24 +237,40 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
             exit={{ opacity: 0 }}
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"
           >
-            {filteredVocab.map((item, index) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.02 }}
-                onClick={() => handleWordClick(item)}
-                className={`rounded-lg p-4 shadow transition-shadow cursor-pointer group border ${
-                  progress.get(item.id)?.status === 'learned'
-                    ? 'bg-green-50 dark:bg-green-900/20 border-green-400 dark:border-green-500'
-                    : 'bg-white dark:bg-dark-800 border-gray-200 dark:border-dark-700 hover:shadow-lg'
-                }`}
-              >
-                <div className="flex justify-between items-start mb-2">
-                  <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                    {item.japanese}
-                  </h3>
-                  <div className="flex items-center gap-2">
+            {filteredVocab.map((item, index) => {
+              const selected = isItemSelected(item.id)
+              const learned = isItemLearned(item.id)
+              return (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: index * 0.02 }}
+                  onClick={() => handleItemClick(item)}
+                  className={`relative bg-white dark:bg-dark-800 rounded-lg p-4 shadow hover:shadow-lg transition-all cursor-pointer group border-2 ${
+                    selected
+                      ? 'border-primary-500 ring-2 ring-primary-200 dark:ring-primary-800'
+                      : learned
+                        ? 'border-green-500 dark:border-green-600'
+                        : 'border-gray-200 dark:border-dark-700'
+                  }`}
+                >
+                  {/* Selection indicator */}
+                  {selectionMode && selected && (
+                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-primary-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg">
+                      📌
+                    </div>
+                  )}
+                  {/* Learned indicator */}
+                  {learned && !selectionMode && (
+                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg">
+                      ✓
+                    </div>
+                  )}
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                      {item.japanese}
+                    </h3>
                     <button
                       onClick={(e) => handlePlayAudio(item.japanese, e)}
                       className="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded hover:bg-gray-100 dark:hover:bg-dark-700"
@@ -261,27 +278,21 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
                     >
                       <SpeakerWaveIcon className="h-4 w-4 text-primary-600 dark:text-primary-400" />
                     </button>
-                    <button
-                      onClick={(e) => handleMarkLearned(item, e)}
-                      className="px-2 py-1 text-xs rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors"
-                    >
-                      Mark learned
-                    </button>
                   </div>
-                </div>
-                <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
-                  {item.reading}
-                </p>
-                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  {item.meaning}
-                </p>
-                {item.jlptLevel && (
-                  <span className="inline-block mt-2 px-2 py-1 text-xs bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded">
-                    {item.jlptLevel}
-                  </span>
-                )}
-              </motion.div>
-            ))}
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                    {item.reading}
+                  </p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    {item.meaning}
+                  </p>
+                  {item.jlptLevel && (
+                    <span className="inline-block mt-2 px-2 py-1 text-xs bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded">
+                      {item.jlptLevel}
+                    </span>
+                  )}
+                </motion.div>
+              )
+            })}
           </motion.div>
         )}
 
@@ -296,6 +307,9 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
             <table className="w-full">
               <thead className="bg-gray-50 dark:bg-dark-700">
                 <tr>
+                  {selectionMode && (
+                    <th className="px-4 py-3 w-10"></th>
+                  )}
                   <th className="px-4 py-3 text-left text-sm font-semibold text-gray-900 dark:text-gray-100">
                     {strings.common?.japanese || 'Japanese'}
                   </th>
@@ -312,39 +326,54 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200 dark:divide-dark-700">
-                {filteredVocab.map(item => (
-                  <tr
-                    key={item.id}
-                    onClick={() => handleWordClick(item)}
-                    className="hover:bg-gray-50 dark:hover:bg-dark-700 cursor-pointer"
-                  >
-                    <td className="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">
-                      {item.japanese}
-                    </td>
-                    <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">
-                      {item.reading}
-                    </td>
-                    <td className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
-                      {item.meaning}
-                    </td>
-                    <td className="px-4 py-3 text-sm">
-                      {item.jlptLevel && (
-                        <span className="px-2 py-1 text-xs bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded">
-                          {item.jlptLevel}
-                        </span>
+                {filteredVocab.map(item => {
+                  const selected = isItemSelected(item.id)
+                  const learned = isItemLearned(item.id)
+                  return (
+                    <tr
+                      key={item.id}
+                      onClick={() => handleItemClick(item)}
+                      className={`cursor-pointer transition-colors ${
+                        selected
+                          ? 'bg-primary-50 dark:bg-primary-900/20 hover:bg-primary-100 dark:hover:bg-primary-900/30'
+                          : learned
+                            ? 'bg-green-50 dark:bg-green-900/10 hover:bg-green-100 dark:hover:bg-green-900/20'
+                            : 'hover:bg-gray-50 dark:hover:bg-dark-700'
+                      }`}
+                    >
+                      {selectionMode && (
+                        <td className="px-4 py-3 text-center">
+                          {selected ? '📌' : learned ? '✓' : '○'}
+                        </td>
                       )}
-                    </td>
-                    <td className="px-4 py-3">
-                      <button
-                        onClick={(e) => handlePlayAudio(item.japanese, e)}
-                        className="p-1 rounded hover:bg-gray-100 dark:hover:bg-dark-700"
-                        disabled={isPlaying}
-                      >
-                        <SpeakerWaveIcon className="h-4 w-4 text-primary-600 dark:text-primary-400" />
-                      </button>
-                    </td>
-                  </tr>
-                ))}
+                      <td className="px-4 py-3 text-sm font-medium text-gray-900 dark:text-gray-100">
+                        {item.japanese}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-400">
+                        {item.reading}
+                      </td>
+                      <td className="px-4 py-3 text-sm text-gray-900 dark:text-gray-100">
+                        {item.meaning}
+                      </td>
+                      <td className="px-4 py-3 text-sm">
+                        {item.jlptLevel && (
+                          <span className="px-2 py-1 text-xs bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded">
+                            {item.jlptLevel}
+                          </span>
+                        )}
+                      </td>
+                      <td className="px-4 py-3">
+                        <button
+                          onClick={(e) => handlePlayAudio(item.japanese, e)}
+                          className="p-1 rounded hover:bg-gray-100 dark:hover:bg-dark-700"
+                          disabled={isPlaying}
+                        >
+                          <SpeakerWaveIcon className="h-4 w-4 text-primary-600 dark:text-primary-400" />
+                        </button>
+                      </td>
+                    </tr>
+                  )
+                })}
               </tbody>
             </table>
           </motion.div>
@@ -358,57 +387,75 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
             exit={{ opacity: 0 }}
             className="space-y-4"
           >
-            {filteredVocab.map((item, index) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: index * 0.05 }}
-                onClick={() => handleWordClick(item)}
-                className="bg-white dark:bg-dark-800 rounded-lg p-6 shadow hover:shadow-lg transition-shadow cursor-pointer border border-gray-200 dark:border-dark-700"
-              >
-                <div className="flex justify-between items-start">
-                  <div className="flex-1">
-                    <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                      {item.japanese}
-                    </h3>
-                    <p className="text-lg text-gray-600 dark:text-gray-400 mb-2">
-                      {item.reading}
-                    </p>
-                    <p className="text-base font-medium text-gray-900 dark:text-gray-100 mb-4">
-                      {item.meaning}
-                    </p>
-                    {item.examples && item.examples.length > 0 && (
-                      <div className="border-t border-gray-200 dark:border-dark-700 pt-4">
-                        <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                          {strings.common?.examples || 'Examples'}:
-                        </p>
-                        {item.examples.slice(0, 2).map((ex, i) => (
-                          <div key={i} className="mb-2">
-                            <p className="text-sm text-gray-900 dark:text-gray-100">{ex.japanese}</p>
-                            <p className="text-sm text-gray-600 dark:text-gray-400">{ex.english}</p>
-                          </div>
-                        ))}
-                      </div>
-                    )}
+            {filteredVocab.map((item, index) => {
+              const selected = isItemSelected(item.id)
+              const learned = isItemLearned(item.id)
+              return (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.05 }}
+                  onClick={() => handleItemClick(item)}
+                  className={`relative bg-white dark:bg-dark-800 rounded-lg p-6 shadow hover:shadow-lg transition-all cursor-pointer border-2 ${
+                    selected
+                      ? 'border-primary-500 ring-2 ring-primary-200 dark:ring-primary-800'
+                      : learned
+                        ? 'border-green-500 dark:border-green-600'
+                        : 'border-gray-200 dark:border-dark-700'
+                  }`}
+                >
+                  {/* Selection/Learned indicator */}
+                  {(selectionMode && selected) || learned ? (
+                    <div className={`absolute -top-3 -left-3 w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg ${
+                      selected ? 'bg-primary-500' : 'bg-green-500'
+                    }`}>
+                      {selected ? '📌' : '✓'}
+                    </div>
+                  ) : null}
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1">
+                      <h3 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+                        {item.japanese}
+                      </h3>
+                      <p className="text-lg text-gray-600 dark:text-gray-400 mb-2">
+                        {item.reading}
+                      </p>
+                      <p className="text-base font-medium text-gray-900 dark:text-gray-100 mb-4">
+                        {item.meaning}
+                      </p>
+                      {item.examples && item.examples.length > 0 && (
+                        <div className="border-t border-gray-200 dark:border-dark-700 pt-4">
+                          <p className="text-sm font-semibold text-gray-900 dark:text-gray-100 mb-2">
+                            {strings.common?.examples || 'Examples'}:
+                          </p>
+                          {item.examples.slice(0, 2).map((ex, i) => (
+                            <div key={i} className="mb-2">
+                              <p className="text-sm text-gray-900 dark:text-gray-100">{ex.japanese}</p>
+                              <p className="text-sm text-gray-600 dark:text-gray-400">{ex.english}</p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                    <div className="flex flex-col items-end gap-2">
+                      <button
+                        onClick={(e) => handlePlayAudio(item.japanese, e)}
+                        className="p-2 rounded-lg bg-primary-100 dark:bg-primary-900/30 hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors"
+                        disabled={isPlaying}
+                      >
+                        <SpeakerWaveIcon className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+                      </button>
+                      {item.jlptLevel && (
+                        <span className="px-2 py-1 text-xs bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded">
+                          {item.jlptLevel}
+                        </span>
+                      )}
+                    </div>
                   </div>
-                  <div className="flex flex-col items-end gap-2">
-                    <button
-                      onClick={(e) => handlePlayAudio(item.japanese, e)}
-                      className="p-2 rounded-lg bg-primary-100 dark:bg-primary-900/30 hover:bg-primary-200 dark:hover:bg-primary-900/50 transition-colors"
-                      disabled={isPlaying}
-                    >
-                      <SpeakerWaveIcon className="h-5 w-5 text-primary-600 dark:text-primary-400" />
-                    </button>
-                    {item.jlptLevel && (
-                      <span className="px-2 py-1 text-xs bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded">
-                        {item.jlptLevel}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </motion.div>
-            ))}
+                </motion.div>
+              )
+            })}
           </motion.div>
         )}
       </AnimatePresence>

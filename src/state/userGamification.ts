@@ -444,19 +444,13 @@ export const useGamificationStore = create<GamificationState>()(
       },
 
       /**
-       * Increment session count (for achievement tracking)
+       * Increment session count (for achievement tracking and celebration trigger)
+       * NOTE: No hydration check here - if server processed the session, we MUST
+       * increment the count to trigger CelebrationProvider
        */
       incrementSessionCount: () => {
         // Feature flag check
         if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION !== 'true') {
-          return
-        }
-
-        const state = get()
-
-        // Block if not hydrated - session will still be processed server-side
-        if (!state.hasHydrated) {
-          // Silent return - server still processes the session
           return
         }
 
@@ -466,9 +460,13 @@ export const useGamificationStore = create<GamificationState>()(
           isDirty: true,
         }))
 
-        queueMutation(async () => {
-          await get().saveToIndexedDB()
-        })
+        // Only save to IndexedDB if hydrated (to avoid overwriting real data)
+        const state = get()
+        if (state.hasHydrated) {
+          queueMutation(async () => {
+            await get().saveToIndexedDB()
+          })
+        }
       },
 
       /**

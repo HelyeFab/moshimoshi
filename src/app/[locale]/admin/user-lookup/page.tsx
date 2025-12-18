@@ -1,10 +1,23 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useI18n } from '@/i18n/I18nContext';
 import { useAuth } from '@/hooks/useAuth';
 import { auth } from '@/lib/firebase/client';
+
+interface WaitlistEntry {
+  id: string;
+  email: string;
+  joinedAt: string | null;
+  linkedUid: string | null;
+  discountGranted: boolean;
+}
+
+interface WaitlistData {
+  count: number;
+  entries: WaitlistEntry[];
+}
 
 interface UserData {
   userId: string;
@@ -40,6 +53,45 @@ export default function UserLookupPage() {
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<'profile' | 'stats' | 'sessions' | 'activity' | 'raw'>('profile');
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
+
+  // Waitlist data
+  const [waitlistData, setWaitlistData] = useState<WaitlistData | null>(null);
+  const [waitlistLoading, setWaitlistLoading] = useState(true);
+  const [waitlistError, setWaitlistError] = useState<string | null>(null);
+
+  // Fetch waitlist data on mount
+  useEffect(() => {
+    const fetchWaitlist = async () => {
+      try {
+        const token = await auth.currentUser?.getIdToken();
+        if (!token) {
+          setWaitlistLoading(false);
+          return;
+        }
+
+        const response = await fetch('/api/admin/waitlist', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch waitlist');
+        }
+
+        const result = await response.json();
+        setWaitlistData({ count: result.count, entries: result.entries });
+      } catch (err) {
+        setWaitlistError(err instanceof Error ? err.message : 'Failed to load waitlist');
+      } finally {
+        setWaitlistLoading(false);
+      }
+    };
+
+    if (user) {
+      fetchWaitlist();
+    }
+  }, [user]);
 
   const handleSearch = async () => {
     if (!searchInput.trim()) {
@@ -135,6 +187,83 @@ export default function UserLookupPage() {
           <p className="text-gray-600 dark:text-gray-400 mt-1">
             View comprehensive user data from all Firebase collections
           </p>
+        </div>
+      </div>
+
+      {/* Waitlist Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        {/* Waitlist Count Card */}
+        <div className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-dark-700/50 p-6">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-japanese-sakura to-primary-500 flex items-center justify-center text-white text-2xl">
+              📋
+            </div>
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Waitlist Signups</p>
+              {waitlistLoading ? (
+                <div className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
+              ) : waitlistError ? (
+                <p className="text-red-500 text-sm">Error</p>
+              ) : (
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{waitlistData?.count || 0}</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Waitlist Emails Card */}
+        <div className="lg:col-span-2 bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-dark-700/50 p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+              📧 Waitlist Emails
+            </h3>
+            {waitlistData && (
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                {waitlistData.count} total
+              </span>
+            )}
+          </div>
+
+          {waitlistLoading ? (
+            <div className="space-y-2">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="h-10 bg-gray-100 dark:bg-gray-700 rounded animate-pulse"></div>
+              ))}
+            </div>
+          ) : waitlistError ? (
+            <p className="text-red-500 text-sm">❌ {waitlistError}</p>
+          ) : waitlistData?.entries.length === 0 ? (
+            <p className="text-gray-500 dark:text-gray-400 text-sm">No waitlist entries yet</p>
+          ) : (
+            <div className="max-h-64 overflow-y-auto space-y-2 scrollbar-hide">
+              {waitlistData?.entries.map((entry) => (
+                <div
+                  key={entry.id}
+                  className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                >
+                  <div className="flex items-center gap-3 min-w-0">
+                    <span className="text-sm font-medium text-gray-900 dark:text-white truncate">
+                      {entry.email}
+                    </span>
+                    {entry.linkedUid && (
+                      <span className="text-xs px-2 py-0.5 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full">
+                        linked
+                      </span>
+                    )}
+                  </div>
+                  <span className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap ml-2">
+                    {entry.joinedAt
+                      ? new Date(entry.joinedAt).toLocaleDateString('en-GB', {
+                          day: 'numeric',
+                          month: 'short',
+                          year: 'numeric'
+                        })
+                      : 'N/A'}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

@@ -62,6 +62,7 @@ export function getLaunchDate(): Date {
 export const PRE_LAUNCH_ALLOWED_ROUTES = [
   '/',           // Landing page (modified for pre-launch)
   '/waitlist',   // Waitlist signup
+  '/blog',       // Blog/articles (public content)
   '/terms',      // Legal pages
   '/privacy',
   '/about',
