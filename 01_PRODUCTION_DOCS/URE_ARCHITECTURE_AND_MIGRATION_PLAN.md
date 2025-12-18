@@ -9,7 +9,7 @@
 
 ## 🚨 CURRENT MIGRATION STATUS (Updated 2025-12-18)
 
-**Branch**: `ure-migration` | **Last Commit**: `9212fc59` (Dec 18, 2025)
+**Branch**: `ure-migration` | **Last Commit**: `c5ae5255` (Dec 18, 2025)
 
 ### Quick Status Overview
 
@@ -17,7 +17,7 @@
 |-------|--------|--------|----------|
 | **Phase 1: Infrastructure** | Week 1-2 | ✅ COMPLETE | 100% (Committed Dec 17) |
 | **Phase 1.5: Testing** | Week 2 | ✅ COMPLETE | 100% (74 tests, Dec 18) |
-| **Phase 2: Feature Migration** | Week 3-8 | 🟡 IN PROGRESS | ~35% (Task 1 done, 2-6 pending) |
+| **Phase 2: Feature Migration** | Week 3-8 | 🟡 IN PROGRESS | ~50% (Tasks 1-2 done, 3-6 pending) |
 | **Phase 3: Cleanup** | Week 9 | 🔴 PENDING | 0% |
 
 ### Critical Blockers 🚨
@@ -36,11 +36,13 @@
    - ✅ Initializes Event Hub automatically
    - Ready for feature migration
 
-3. **BLOCKER: Incomplete Feature Migration** 🟡
-   - Kana Learning: 50% migrated (has new hook but still uses legacy component)
-   - Kanji Browser: ~75% migrated (needs verification)
-   - Others: Not started
-   - **Action Required**: Complete migrations (see section 7.3-7.4)
+3. **IN PROGRESS: Feature Migration** 🟡
+   - ✅ Kana Learning: COMPLETE (commit c5ae5255)
+   - 🟡 Kanji Browser: Starting next
+   - 🔴 Textbook Vocabulary: Not started
+   - 🔴 Anki Study: Not started
+   - 🔴 User Lists: Not started
+   - **Status**: 2/6 tasks complete (33%)
 
 ### What's Complete ✅
 
@@ -63,8 +65,8 @@
 - ⚠️ Features still using legacy `<ReviewEngine>` (migration in progress)
 
 **Feature Migrations**:
-- 🟡 Kana Learning - Partially migrated (still uses legacy ReviewEngine)
-- 🟡 Kanji Browser - Status unclear (needs verification)
+- ✅ Kana Learning - COMPLETE (commit c5ae5255, review mode migrated)
+- 🟡 Kanji Browser - Not started (next up)
 - ❌ Textbook Vocabulary - Not started
 - ❌ Anki Study - Not started
 - ❌ User Lists - Not started
