@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "bash ./scripts/dev-with-backup.sh",
+    "dev": "node ./scripts/dev-with-backup.js",
     "dev:no-backup": "concurrently \"next dev\" \"npm run notebooklm:watch\"",
     "dev:simple": "next dev",
     "build": "next build",

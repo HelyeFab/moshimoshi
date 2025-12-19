@@ -24,6 +24,34 @@ interface VocabularyItem {
   textbook?: string
 }
 
+/**
+ * Strip HTML tags from a string
+ * Used to sanitize corrupted textbook data that contains HTML markup
+ */
+function stripHtmlTags(str: string): string {
+  if (!str || typeof str !== 'string') return str
+  return str
+    .replace(/<[^>]*>/g, '')
+    .replace(/<br\s*\/?>/gi, '')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .trim()
+}
+
+/**
+ * Sanitize a vocabulary item by stripping HTML from text fields
+ */
+function sanitizeVocabularyItem(item: VocabularyItem): VocabularyItem {
+  return {
+    ...item,
+    japanese: stripHtmlTags(item.japanese),
+    reading: stripHtmlTags(item.reading),
+    meaning: stripHtmlTags(item.meaning),
+  }
+}
+
 interface VocabularyDisplayProps {
   textbookId: string
   onBack: () => void
@@ -47,7 +75,9 @@ export function VocabularyDisplay({ textbookId, onBack }: VocabularyDisplayProps
       try {
         // Dynamic import based on textbook ID
         const module = await import(`@/data/textbooks/${textbookId}/all.json`)
-        setVocabulary(module.default || [])
+        const rawData = module.default || []
+        // Sanitize data to remove any HTML tags from corrupted entries
+        setVocabulary(rawData.map(sanitizeVocabularyItem))
       } catch (error) {
         console.error('Failed to load textbook data:', error)
         setVocabulary([])

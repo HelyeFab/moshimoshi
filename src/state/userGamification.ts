@@ -84,6 +84,14 @@ interface GamificationState {
   // Session Tracking (needed for achievements)
   sessionCount: number
 
+  // Last session stats (for CelebrationScreen)
+  lastSessionStats: {
+    itemsCompleted: number
+    accuracy: number
+    duration: number
+    xpGained: number
+  } | null
+
   // Metadata
   userId: string | null
   lastSyncedAt: ISODateTimeString | null // FIXED: Now ISO string instead of Date
@@ -101,6 +109,13 @@ interface GamificationState {
   unlockAchievement: (id: string) => void
   updateAchievementProgress: (id: string, progress: number) => void
   incrementSessionCount: () => void
+  setLastSessionStats: (stats: {
+    itemsCompleted: number
+    accuracy: number
+    duration: number
+    xpGained: number
+  }) => void
+  clearLastSessionStats: () => void
   updateFromServer: (data: {
     totalXP: number
     currentLevel: number
@@ -126,6 +141,7 @@ export const useGamificationStore = create<GamificationState>()(
       unlockedAchievements: [],
       achievementProgress: {},
       sessionCount: 0,
+      lastSessionStats: null,
       userId: null,
       lastSyncedAt: null,
       isDirty: false,
@@ -470,6 +486,21 @@ export const useGamificationStore = create<GamificationState>()(
       },
 
       /**
+       * Set last session stats (for CelebrationScreen display)
+       * Called by gamificationListener after session completion
+       */
+      setLastSessionStats: stats => {
+        set({ lastSessionStats: stats })
+      },
+
+      /**
+       * Clear last session stats (after celebration is shown)
+       */
+      clearLastSessionStats: () => {
+        set({ lastSessionStats: null })
+      },
+
+      /**
        * Update store from server response (used by gamificationListener)
        * Updates XP, level, and streak data from API responses
        */
@@ -744,6 +775,7 @@ export const useGamificationStore = create<GamificationState>()(
           unlockedAchievements: [],
           achievementProgress: {},
           sessionCount: 0,
+          lastSessionStats: null,
           lastSyncedAt: null,
           isDirty: false,
           isLoaded: false,

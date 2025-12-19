@@ -1,5 +1,8 @@
 # Moshimoshi XP Activities Guide
 
+> **Last Updated**: 2025-12-19
+> **Last Verified Against Codebase**: 2025-12-19
+
 This document describes all activities in the app that reward XP, their mechanisms, and reward amounts.
 
 ## Overview

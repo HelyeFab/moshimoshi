@@ -79,7 +79,7 @@ function AnkiStudyContent({ deckId, locale }: { deckId: string; locale: string }
     setSessionState('studying')
   }, [startSession])
 
-  // Handle review completion from ReviewEngine
+  // Handle review completion from ReviewSessionUI
   const handleReviewComplete = useCallback(
     async (statistics: SessionStatistics) => {
       // Process each item result to update SRS data

@@ -1,5 +1,7 @@
 # News XP Integration - Complete Implementation Guide
 
+> **Last Verified Against Codebase**: 2025-12-19
+
 > **Purpose**: This document contains everything needed to integrate new features into the URE system and XP flow. Use this as a template for future integrations (Stories, Books, Videos, etc.)
 
 ---
@@ -984,4 +986,5 @@ When adding XP to a new feature, follow these steps:
 ---
 
 _Last Updated: 2025-12-03_
+_Last Verified Against Codebase: 2025-12-19_
 _Author: Claude (with Emmanuel)_

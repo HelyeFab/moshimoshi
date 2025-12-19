@@ -22,15 +22,23 @@ export default function VocabularyCard({
   const renderContent = () => {
     switch (mode) {
       case 'recognition':
+        // For vocabulary recognition: Show meaning as question, user picks Japanese word
+        // DO NOT show the Japanese word here - that would give away the answer!
         return (
           <>
             <div className="text-center">
-              <div className="text-6xl font-japanese mb-4">
+              {/* Prompt */}
+              <div className="text-base sm:text-lg text-gray-500 dark:text-gray-400 mb-3">
+                Select the word for:
+              </div>
+              {/* Meaning - the question (reasonably sized, not huge) */}
+              <div className="text-2xl sm:text-3xl font-medium text-gray-800 dark:text-gray-100 max-w-md mx-auto mb-2">
                 {content.primaryDisplay}
               </div>
-              {metadata?.reading && (
-                <div className="text-2xl text-gray-600 dark:text-gray-400 mb-6">
-                  {metadata.reading}
+              {/* Part of speech hint */}
+              {metadata?.partOfSpeech && metadata.partOfSpeech.length > 0 && (
+                <div className="text-sm text-gray-500 dark:text-gray-400">
+                  ({metadata.partOfSpeech[0]})
                 </div>
               )}
             </div>
@@ -40,12 +48,15 @@ export default function VocabularyCard({
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -20 }}
-                  className="text-center"
+                  className="text-center mt-6"
                 >
-                  <div className="text-3xl mb-2">{content.primaryAnswer}</div>
-                  {metadata?.partOfSpeech && (
-                    <div className="text-sm text-gray-500">
-                      {metadata.partOfSpeech.join(', ')}
+                  {/* Show the correct answer after selection */}
+                  <div className="text-4xl sm:text-5xl font-japanese mb-2 text-gray-800 dark:text-gray-100">
+                    {content.primaryAnswer}
+                  </div>
+                  {metadata?.reading && metadata.reading !== content.primaryAnswer && (
+                    <div className="text-lg text-gray-600 dark:text-gray-400">
+                      {metadata.reading}
                     </div>
                   )}
                 </motion.div>

@@ -149,7 +149,15 @@ export class GamificationListener extends EventEmitter {
         bestStreak: gam.bestStreak
       });
 
-      // Increment session count separately
+      // Set session stats for CelebrationScreen
+      store.setLastSessionStats({
+        itemsCompleted: itemsReviewed,
+        accuracy: accuracy,
+        duration: duration || 0,
+        xpGained: gam.xpEarned
+      });
+
+      // Increment session count (triggers CelebrationProvider)
       store.incrementSessionCount();
 
       // Handle achievement unlocks if any

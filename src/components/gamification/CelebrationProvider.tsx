@@ -18,6 +18,8 @@ export default function CelebrationProvider({ children }: { children: React.Reac
   const { user } = useAuth()
   const totalXP = useGamificationStore((state) => state.totalXP)
   const sessionCount = useGamificationStore((state) => state.sessionCount)
+  const lastSessionStats = useGamificationStore((state) => state.lastSessionStats)
+  const clearLastSessionStats = useGamificationStore((state) => state.clearLastSessionStats)
 
   const [showCelebration, setShowCelebration] = useState(false)
   const [celebrationData, setCelebrationData] = useState<{
@@ -41,23 +43,31 @@ export default function CelebrationProvider({ children }: { children: React.Reac
 
     // Check if XP increased (session completed)
     if (totalXP > previousXP && sessionCount > previousSessionCount) {
-      const xpGained = totalXP - previousXP
-
-      // Show celebration with estimated stats
-      // Note: We don't have exact session stats here, but we show a celebration anyway
-      setCelebrationData({
-        xpGained,
-        accuracy: 100, // Default to 100% for celebration
-        duration: 0,   // We don't track duration at this level
-        itemsCompleted: 0 // We don't track items at this level
-      })
+      // Use actual session stats from store (set by gamificationListener)
+      if (lastSessionStats) {
+        setCelebrationData({
+          xpGained: lastSessionStats.xpGained,
+          accuracy: lastSessionStats.accuracy,
+          duration: lastSessionStats.duration,
+          itemsCompleted: lastSessionStats.itemsCompleted
+        })
+      } else {
+        // Fallback if stats not available
+        const xpGained = totalXP - previousXP
+        setCelebrationData({
+          xpGained,
+          accuracy: 100,
+          duration: 0,
+          itemsCompleted: 0
+        })
+      }
       setShowCelebration(true)
 
       // Update previous values
       setPreviousXP(totalXP)
       setPreviousSessionCount(sessionCount)
     }
-  }, [totalXP, sessionCount, previousXP, previousSessionCount])
+  }, [totalXP, sessionCount, previousXP, previousSessionCount, lastSessionStats])
 
   return (
     <>
@@ -70,6 +80,7 @@ export default function CelebrationProvider({ children }: { children: React.Reac
           onClose={() => {
             setShowCelebration(false)
             setCelebrationData(null)
+            clearLastSessionStats() // Clear stats from store
           }}
           userName={user?.displayName || user?.email?.split('@')[0] || 'Student'}
           xpGained={celebrationData.xpGained}

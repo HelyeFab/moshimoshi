@@ -5,7 +5,7 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useRouter, useParams } from 'next/navigation'
-// Navigation is now global via NavigationWrapper in root layout;
+import Navbar from '@/components/layout/Navbar'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { listManager } from '@/lib/lists/ListManager'
 import type { UserList, ListItem, ListItemSRSData } from '@/types/userLists'
@@ -435,7 +435,10 @@ export default function ListDetailPage() {
         className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
         dark:from-dark-900 dark:via-dark-850 dark:to-dark-800"
       >
-        {/* Navigation is now global - rendered in root layout */}
+        {/* Desktop Navbar */}
+        <div className="hidden sm:block">
+          <Navbar user={user} showUserMenu={true} />
+        </div>
         <div className="container mx-auto px-4 py-16">
           <div className="flex flex-col items-center justify-center">
             <DoshiMascot size="large" mood="thinking" />
@@ -459,7 +462,7 @@ export default function ListDetailPage() {
         className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
         dark:from-dark-900 dark:via-dark-850 dark:to-dark-800"
       >
-        {/* Navigation is now global - rendered in root layout */}
+        {/* Desktop Navbar - hidden during active study session */}
         <LearningPageHeader
           title={list.name}
           description={t(`lists.types.${list.type}.description`)}
@@ -584,7 +587,7 @@ export default function ListDetailPage() {
         className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
         dark:from-dark-900 dark:via-dark-850 dark:to-dark-800"
       >
-        {/* Navigation is now global - rendered in root layout */}
+        {/* Desktop Navbar - hidden during active review session */}
         <LearningPageHeader
           title={list.name}
           description={t(`lists.types.${list.type}.description`)}
@@ -617,7 +620,10 @@ export default function ListDetailPage() {
       className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
       dark:from-dark-900 dark:via-dark-850 dark:to-dark-800"
     >
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       <LearningPageHeader
         title={list.name}

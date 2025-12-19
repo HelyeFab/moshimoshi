@@ -1,5 +1,8 @@
 # Universal Review Engine & XP System Extension Guide
 
+> **Last Updated**: 2025-12-19
+> **Last Verified Against Codebase**: 2025-12-19
+
 > **Complete developer guide for extending the URE and XP systems in Moshimoshi**
 
 This document provides detailed instructions for adding XP rewards to new features, creating custom progress managers, and integrating with the Universal Review Engine (URE). It covers two implementation patterns:

@@ -275,15 +275,6 @@ export default function ReviewSessionUI({
         </div>
       </div>
 
-      {/* Debug Info (only in development) */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="mt-8 p-4 bg-gray-100 dark:bg-gray-800 rounded-lg text-xs font-mono">
-          <div>Session ID: {state.statistics?.sessionId}</div>
-          <div>Progress: {state.progress.current}/{state.progress.total}</div>
-          <div>Accuracy: {((state.progress.correct / state.progress.current) * 100 || 0).toFixed(1)}%</div>
-          <div>Current Item: {currentItem.content.id}</div>
-        </div>
-      )}
     </div>
   )
 }

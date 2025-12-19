@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import Navbar from '@/components/layout/Navbar'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
@@ -335,6 +337,14 @@ export default function TextbookVocabularyPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
+      {/* Desktop Navbar - hidden during active study/review sessions */}
+      {!(viewMode === 'review' && reviewContent.length > 0) &&
+        !(viewMode === 'study' && selectedVocabData.length > 0) && (
+        <div className="hidden sm:block">
+          <Navbar user={user} showUserMenu={true} />
+        </div>
+      )}
+
       {/* Header with mode switching - OUTSIDE container for full width */}
       {selectedTextbook && isSelectionMode && (
         <LearningPageHeader
@@ -433,6 +443,8 @@ export default function TextbookVocabularyPage() {
         </AnimatePresence>
 
       </div>
+
+      <MobileNavSpacer />
     </div>
   )
 }
