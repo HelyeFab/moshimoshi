@@ -1,13 +1,59 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { ReviewMode } from '@/lib/review-engine/core/types'
 import { motion } from 'framer-motion'
+import { useTTS } from '@/hooks/useTTS'
+import { Volume2, Loader2 } from 'lucide-react'
 
 interface OptionItem {
   display: string // What to show to the user
   value: string // What to submit as the answer (primaryAnswer)
+}
+
+/**
+ * Check if a string contains Japanese characters (Hiragana, Katakana, or Kanji)
+ */
+function containsJapanese(text: string): boolean {
+  // Hiragana: \u3040-\u309F
+  // Katakana: \u30A0-\u30FF
+  // Kanji: \u4E00-\u9FAF
+  return /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/.test(text)
+}
+
+/**
+ * Check if text is a single character (used to filter out single kanji from TTS)
+ */
+function isSingleCharacter(text: string): boolean {
+  return text.length === 1
+}
+
+/**
+ * Check if TTS should be enabled for this content type
+ * Enabled for: sentences, verbs/adjectives, and multi-character words from My Lists
+ * NOT enabled for: kanji browser, kana review (single chars filtered at option level)
+ */
+function shouldEnableTTS(content: ReviewableContent): boolean {
+  // Never enable TTS for kanji content (kanji browser)
+  if (content.contentType === 'kanji') {
+    return false
+  }
+
+  // Never enable TTS for kana content
+  if (content.contentType === 'kana') {
+    return false
+  }
+
+  // For custom content (My Lists), check the list type
+  if (content.contentType === 'custom' && content.metadata?.listType) {
+    const listType = content.metadata.listType as string
+    // Enable for sentences, verbAdj, and words (single chars filtered per-option)
+    return listType === 'sentence' || listType === 'verbAdj' || listType === 'word'
+  }
+
+  // Default: no TTS
+  return false
 }
 
 interface MultipleChoiceInputProps {
@@ -28,6 +74,20 @@ export default function MultipleChoiceInput({
   showAnswer,
 }: MultipleChoiceInputProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
+  const [playingOptionIndex, setPlayingOptionIndex] = useState<number | null>(null)
+  const [loadingOptionIndex, setLoadingOptionIndex] = useState<number | null>(null)
+
+  // TTS hook for playing option audio
+  const { play: playTTS, stop: stopTTS, playing: ttsPlaying, loading: ttsLoading, preload } = useTTS({
+    cacheFirst: true,
+    onEnd: () => {
+      setPlayingOptionIndex(null)
+    },
+    onError: () => {
+      setPlayingOptionIndex(null)
+      setLoadingOptionIndex(null)
+    }
+  })
 
   // Determine if we should show kana characters instead of romaji
   // In listening mode for kana, show the actual kana characters
@@ -339,10 +399,64 @@ export default function MultipleChoiceInput({
     showKanaDisplay,
   ])
 
-  // Reset selected option when content changes
+  // Reset selected option and TTS state when content changes
   useEffect(() => {
     setSelectedOption(null)
-  }, [content.id])
+    setPlayingOptionIndex(null)
+    setLoadingOptionIndex(null)
+    stopTTS()
+  }, [content.id, stopTTS])
+
+  // Check if TTS should be enabled for this content
+  const ttsEnabled = shouldEnableTTS(content)
+
+  // Preload TTS audio for all Japanese options when they're generated (only if TTS enabled)
+  // Filter out single characters (single kanji) from preloading
+  useEffect(() => {
+    if (!ttsEnabled) return
+
+    const japaneseTexts = options
+      .filter(opt => containsJapanese(opt.display) && !isSingleCharacter(opt.display))
+      .map(opt => opt.display)
+
+    if (japaneseTexts.length > 0) {
+      // Preload in background (fire and forget)
+      // Don't specify voice - let VOICEVOX use default speaker
+      preload(japaneseTexts, { speed: 0.85 }).catch(() => {
+        // Silently ignore preload errors
+      })
+    }
+  }, [options, preload, ttsEnabled])
+
+  // Handle TTS play for an option
+  const handleTTSPlay = useCallback(async (e: React.MouseEvent, option: OptionItem, index: number) => {
+    e.stopPropagation() // Prevent selecting the option
+
+    // If already playing this option, stop it
+    if (playingOptionIndex === index) {
+      stopTTS()
+      setPlayingOptionIndex(null)
+      return
+    }
+
+    // Stop any currently playing audio
+    if (playingOptionIndex !== null) {
+      stopTTS()
+    }
+
+    setLoadingOptionIndex(index)
+    setPlayingOptionIndex(index)
+
+    try {
+      await playTTS(option.display, {
+        speed: 0.85,
+      })
+    } catch (error) {
+      console.error('TTS playback failed:', error)
+    } finally {
+      setLoadingOptionIndex(null)
+    }
+  }, [playingOptionIndex, playTTS, stopTTS])
 
   const handleSelect = (option: OptionItem) => {
     if (disabled) return
@@ -373,24 +487,61 @@ export default function MultipleChoiceInput({
     <div className="mt-2 sm:mt-4">
       <div className="grid grid-cols-2 gap-2 sm:gap-4 max-w-2xl mx-auto">
         {options.map((option, index) => (
-          <motion.button
+          <motion.div
             key={option.value}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
-            onClick={() => handleSelect(option)}
-            disabled={disabled}
+            onClick={() => !disabled && handleSelect(option)}
+            role="button"
+            tabIndex={disabled ? -1 : 0}
+            onKeyDown={(e) => {
+              if (!disabled && (e.key === 'Enter' || e.key === ' ')) {
+                e.preventDefault()
+                handleSelect(option)
+              }
+            }}
             className={`
-              p-3 sm:p-4 rounded-lg border-2 border-gray-200 dark:border-gray-600
-              transition-all duration-200 font-medium
+              relative p-3 sm:p-4 rounded-lg border-2 border-gray-200 dark:border-gray-600
+              transition-all duration-200 font-medium min-h-[60px] sm:min-h-[80px]
               ${getOptionClass(option)}
               ${disabled ? 'cursor-not-allowed' : 'cursor-pointer'}
             `}
           >
-            <span className="flex items-center justify-center">
-              <span className={`mr-1.5 sm:mr-2 text-gray-400 ${showKanjiDisplay ? 'text-base sm:text-lg' : 'text-sm sm:text-base'}`}>
-                {String.fromCharCode(65 + index)}.
-              </span>
+            {/* Option letter in top-left corner */}
+            <span className={`absolute top-1.5 left-2 sm:top-2 sm:left-3 text-xs sm:text-sm font-semibold opacity-60`}>
+              {String.fromCharCode(65 + index)}
+            </span>
+
+            {/* TTS speaker icon in top-right corner (only for multi-char Japanese text, not single kanji) */}
+            {ttsEnabled && containsJapanese(option.display) && !isSingleCharacter(option.display) && (
+              <button
+                type="button"
+                onClick={(e) => handleTTSPlay(e, option, index)}
+                disabled={disabled}
+                className={`
+                  absolute top-1 right-1 sm:top-1.5 sm:right-1.5 p-1 sm:p-1.5 rounded-full
+                  transition-all duration-200 z-10
+                  ${loadingOptionIndex === index
+                    ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-500'
+                    : playingOptionIndex === index
+                      ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-600 dark:text-primary-400 scale-110'
+                      : 'text-gray-400 hover:text-primary-500 hover:bg-gray-100 dark:hover:bg-gray-700 opacity-70 hover:opacity-100'
+                  }
+                `}
+                aria-label={playingOptionIndex === index ? 'Stop audio' : 'Play audio'}
+                title={playingOptionIndex === index ? 'Stop' : 'Play'}
+              >
+                {loadingOptionIndex === index ? (
+                  <Loader2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 animate-spin" />
+                ) : (
+                  <Volume2 className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${playingOptionIndex === index ? 'animate-pulse' : ''}`} />
+                )}
+              </button>
+            )}
+
+            {/* Option content centered - with padding to avoid letter label and audio icon */}
+            <span className="flex items-center justify-center w-full h-full pt-5 sm:pt-6 px-2 sm:px-3">
               <span
                 className={
                   showKanjiDisplay
@@ -403,7 +554,7 @@ export default function MultipleChoiceInput({
                 {option.display}
               </span>
             </span>
-          </motion.button>
+          </motion.div>
         ))}
       </div>
 
@@ -416,12 +567,12 @@ export default function MultipleChoiceInput({
           {selectedOption === content.primaryAnswer ? (
             <span className="text-green-600 font-semibold text-sm sm:text-base">Correct!</span>
           ) : (
-            <span className="text-red-600 font-semibold text-sm sm:text-base">
-              Incorrect. The answer is:{' '}
-              <span className={showKanjiDisplay ? 'font-japanese text-2xl sm:text-3xl' : showKanaDisplay ? 'font-japanese text-lg sm:text-xl' : ''}>
+            <div className="text-red-600 font-semibold text-sm sm:text-base">
+              <div>Incorrect. The answer is:</div>
+              <div className={`mt-1 ${showKanjiDisplay ? 'font-japanese text-2xl sm:text-3xl' : showKanaDisplay ? 'font-japanese text-lg sm:text-xl' : 'font-japanese text-lg'}`}>
                 {showKanaDisplay ? content.primaryDisplay : content.primaryAnswer}
-              </span>
-            </span>
+              </div>
+            </div>
           )}
         </motion.div>
       )}

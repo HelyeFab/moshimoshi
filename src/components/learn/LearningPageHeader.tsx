@@ -209,25 +209,26 @@ export default function LearningPageHeader({
     }
 
     if (mode === 'review') {
+      const allSelected = stats?.total && selectedCount >= stats.total
       return (
         <div className="space-y-2.5">
-          <div className="flex items-center justify-between gap-2 flex-wrap">
-            <div className="flex items-center gap-2">
-              {selectedCount > 0 && (
-                <span
-                  className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
-                    isLightTheme
-                      ? 'bg-white text-primary-700'
-                      : 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
-                  }`}
-                >
-                  {selectedCount} selected
-                </span>
-              )}
-            </div>
+          {/* Selection controls - centered when no selection, spread when selected */}
+          <div className={`flex items-center gap-2 flex-wrap ${selectedCount > 0 ? 'justify-between' : 'justify-center'}`}>
+            {selectedCount > 0 && (
+              <span
+                className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
+                  isLightTheme
+                    ? 'bg-white text-primary-700'
+                    : 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
+                }`}
+              >
+                {selectedCount} selected
+              </span>
+            )}
 
             <div className="flex gap-2">
-              {onSelectAll && (
+              {/* Only show Select All if not all items are selected */}
+              {onSelectAll && !allSelected && (
                 <button
                   onClick={onSelectAll}
                   className={`px-2.5 py-1.5 text-xs rounded-md transition-colors ${

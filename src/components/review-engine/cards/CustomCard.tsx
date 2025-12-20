@@ -36,13 +36,13 @@ export default function CustomCard({
           <>
             <div className="text-center">
               {/* Primary content (expression/kanji) */}
-              <div className="text-5xl font-bold mb-2">
+              <div className="text-2xl sm:text-3xl font-bold mb-2">
                 {mode === 'recognition' ? content.primaryDisplay : content.secondaryDisplay || 'Question'}
               </div>
 
               {/* Reading (hiragana) - show on front for Anki cards */}
               {isAnkiCard && reading && !showAnswer && (
-                <div className="text-2xl text-gray-500 dark:text-gray-400 mb-4">
+                <div className="text-lg sm:text-xl text-gray-500 dark:text-gray-400 mb-4">
                   {reading}
                 </div>
               )}
@@ -93,8 +93,12 @@ export default function CustomCard({
                   )}
 
                   {/* Meaning/Answer */}
-                  <div className="text-2xl font-semibold text-primary-600 dark:text-primary-400">
-                    {meaning || (mode === 'recognition' ? content.primaryAnswer : content.primaryDisplay)}
+                  <div className="text-2xl font-semibold text-primary-600 dark:text-primary-400 font-japanese">
+                    {/* For sentence lists: show Japanese content as answer, not English meaning */}
+                    {content.metadata?.listType === 'sentence'
+                      ? (content.metadata?.itemContent || content.primaryAnswer)
+                      : (meaning || (mode === 'recognition' ? content.primaryAnswer : content.primaryDisplay))
+                    }
                   </div>
 
                   {/* Secondary display (full answer info) */}
@@ -158,10 +162,10 @@ export default function CustomCard({
                   exit={{ opacity: 0, y: -20 }}
                   className="text-center"
                 >
-                  <div className="text-3xl font-semibold mb-2">
+                  <div className="text-2xl sm:text-3xl font-semibold mb-2">
                     {content.primaryDisplay}
                   </div>
-                  <div className="text-xl">
+                  <div className="text-lg sm:text-xl">
                     {content.primaryAnswer}
                   </div>
                 </motion.div>
@@ -172,11 +176,11 @@ export default function CustomCard({
       default:
         return (
           <div className="text-center">
-            <div className="text-4xl font-bold mb-6">
+            <div className="text-2xl sm:text-3xl font-bold mb-6">
               {content.primaryDisplay}
             </div>
             {showAnswer && (
-              <div className="text-2xl">
+              <div className="text-xl sm:text-2xl">
                 {content.primaryAnswer}
               </div>
             )}
