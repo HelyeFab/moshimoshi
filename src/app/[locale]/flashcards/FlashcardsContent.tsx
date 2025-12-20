@@ -20,6 +20,8 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { flashcardManager, FlashcardManager } from '@/lib/flashcards/FlashcardManager'
+import { ReviewEventType } from '@/lib/review-engine/core/events'
+import { getEventHub, initializeEventHub } from '@/lib/review-engine/core/event-hub'
 import { listManager } from '@/lib/lists/ListManager'
 import { storageManager } from '@/lib/flashcards/StorageManager'
 import { migrationManager } from '@/lib/flashcards/MigrationManager'
@@ -220,6 +222,15 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       }
     }
   }, [initialData.userId, initialData.isPremium, syncServerDataToIndexedDB])
+
+  // Initialize Event Hub for gamification (XP rewards)
+  // This ensures flashcard sessions award XP through the same system as other features
+  useEffect(() => {
+    if (initialData.userId) {
+      initializeEventHub(initialData.userId)
+      console.log('[Flashcards] Event Hub initialized for user:', initialData.userId)
+    }
+  }, [initialData.userId])
 
   // Load supplementary data for premium users (user lists, recommendations, etc.)
   const loadSupplementaryData = async () => {
@@ -593,30 +604,41 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const handleSessionComplete = async (summary: SessionSummary) => {
     setStudyingDeck(null)
 
+    // Emit SESSION_COMPLETED event via Event Hub for gamification
+    // This uses the same pattern as Kana, Kanji, Lists, etc.
     if (initialData.userId && summary.xpEarned && summary.xpEarned > 0) {
       try {
-        const response = await fetch('/api/review/session/complete', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({
-            sessionId: `flashcard-${Date.now()}`,
-            itemsReviewed: summary.cardsStudied,
-            correctCount: summary.correctAnswers,
-            accuracy: summary.accuracy,
-            bestStreak: summary.bestStreak,
-            fastCards: summary.fastCards,
-          }),
+        const sessionId = `flashcard-${Date.now()}`
+        const duration = summary.averageResponseTime * summary.cardsStudied
+
+        // Emit event - gamificationListener will handle the API call
+        getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
+          data: {
+            sessionId,
+            statistics: {
+              correctItems: summary.correctAnswers,
+              accuracy: summary.accuracy,
+              averageResponseTime: summary.averageResponseTime,
+              bestStreak: summary.bestStreak || 0,
+              // Include flashcard-specific data for XP calculation
+              itemsReviewed: summary.cardsStudied,
+              fastCards: summary.fastCards || 0,
+            },
+            duration,
+          },
         })
 
-        if (response.ok) {
-          const message = `${t('flashcards.success.progressSaved')} - ${Math.round(summary.accuracy * 100)}% ${t('flashcards.accuracy')} - +${summary.xpEarned} XP!`
-          showToast(message, 'success')
-        } else {
-          throw new Error('Failed to update stats')
-        }
+        console.log('[Flashcards] Emitted SESSION_COMPLETED event:', {
+          sessionId,
+          correctItems: summary.correctAnswers,
+          accuracy: summary.accuracy,
+          xpEarned: summary.xpEarned,
+        })
+
+        const message = `${t('flashcards.success.progressSaved')} - ${Math.round(summary.accuracy * 100)}% ${t('flashcards.accuracy')} - +${summary.xpEarned} XP!`
+        showToast(message, 'success')
       } catch (error) {
-        console.error('Failed to update user stats:', error)
+        console.error('Failed to emit session event:', error)
         const message = `${t('flashcards.success.progressSaved')} - ${Math.round(summary.accuracy * 100)}% ${t('flashcards.accuracy')}`
         showToast(message, 'success')
       }

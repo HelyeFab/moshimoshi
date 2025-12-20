@@ -6,7 +6,8 @@ import { useMoodBoards } from '@/hooks/useMoodBoards'
 import { MoodBoard as MoodBoardType } from '@/types/moodboard'
 import { getBoardProgress, toggleKanjiLearned, isKanjiLearned } from '@/utils/moodBoardProgress'
 import { useI18n } from '@/i18n/I18nContext'
-// Navigation is now global via NavigationWrapper in root layout;
+import { useAuth } from '@/hooks/useAuth'
+import Navbar from '@/components/layout/Navbar'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
@@ -22,6 +23,7 @@ export default function MoodBoardDetailPage() {
 
   const { t } = useI18n()
   const { showToast } = useToast()
+  const { user } = useAuth()
   const { moodBoards, loading } = useMoodBoards()
 
   const [board, setBoard] = useState<MoodBoardType | null>(null)
@@ -142,7 +144,8 @@ export default function MoodBoardDetailPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Top Navigation */}
+      <Navbar user={user} showUserMenu={true} />
 
       {/* Learning Page Header */}
       <LearningPageHeader

@@ -188,40 +188,6 @@ export default function CustomCard({
   return (
     <div className="flex flex-col items-center justify-center">
       {renderContent()}
-      
-      {/* Tags and metadata */}
-      {content.tags && content.tags.length > 0 && (
-        <div className="mt-8 flex flex-wrap gap-2 justify-center">
-          {content.tags.map((tag, index) => (
-            <span
-              key={index}
-              className="px-3 py-1 bg-gray-100 dark:bg-gray-700 rounded-full text-sm"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      )}
-      
-      {/* Difficulty indicator */}
-      {content.difficulty !== undefined && (
-        <div className="mt-4">
-          <div className="flex items-center gap-1">
-            {[...Array(5)].map((_, i) => (
-              <div
-                key={i}
-                className={`
-                  h-2 w-8 rounded-full
-                  ${i < Math.ceil(content.difficulty * 5)
-                    ? 'bg-primary'
-                    : 'bg-gray-200 dark:bg-gray-700'
-                  }
-                `}
-              />
-            ))}
-          </div>
-        </div>
-      )}
     </div>
   )
 }

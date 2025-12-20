@@ -20,7 +20,7 @@ const LOADING_PHRASES = [
   { ja: 'もうすぐだよ', en: 'Almost ready!' },
   { ja: 'がんばってるよ', en: 'Working hard!' },
   { ja: 'しょうしょうおまちを', en: 'Please wait...' },
-  { ja: 'ドシがよんでるよ', en: 'Doshi is reading...' },
+  { ja: 'モシがよんでるよ', en: 'Moshi is reading...' },
   { ja: 'まほうをかけてるよ', en: 'Casting magic...' },
 ]
 

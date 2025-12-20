@@ -272,6 +272,7 @@ export const strings = {
     description: 'Descrizione',
     popular: 'Popolare',
     learned: 'Imparato',
+    markAsLearned: 'Segna come imparato',
     notLearned: 'Non imparato',
     grid: 'Griglia',
     study: 'Studia',

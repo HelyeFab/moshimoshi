@@ -557,6 +557,7 @@ export const strings = {
     description: 'Description',
     popular: 'Popular',
     learned: 'Learned',
+    markAsLearned: 'Mark as Learned',
     notLearned: 'Not Learned',
     grid: 'Grid',
     study: 'Study',

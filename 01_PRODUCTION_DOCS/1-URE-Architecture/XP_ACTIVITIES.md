@@ -1,7 +1,7 @@
 # Moshimoshi XP Activities Guide
 
-> **Last Updated**: 2025-12-19
-> **Last Verified Against Codebase**: 2025-12-19
+> **Last Updated**: 2025-12-20
+> **Last Verified Against Codebase**: 2025-12-20
 
 This document describes all activities in the app that reward XP, their mechanisms, and reward amounts.
 
@@ -11,6 +11,51 @@ XP (Experience Points) is the core gamification currency in Moshimoshi. Users ea
 - **Leveling up**: Level = floor(totalXP / 1000) - minimum level is 1
 - **Maintaining streaks**: Requires minimum 25 XP per day
 - **Unlocking achievements**: Various milestones tied to XP and activity completion
+
+---
+
+## XP Mechanism Summary: URE vs Direct API
+
+This table clarifies which features award XP through URE (Event Hub) vs direct API calls.
+
+| Feature | Uses URE? | XP Mechanism | How It Works |
+|---------|-----------|--------------|--------------|
+| **Kana Learning** | ✅ Yes | Event Hub | `ReviewSessionUI` → `SESSION_COMPLETED` → `gamificationListener` → `recordReviewCompletion()` |
+| **Kanji Browser** | ✅ Yes | Event Hub | Same as Kana Learning |
+| **Textbook Vocabulary** | ✅ Yes | Event Hub | Same as Kana Learning |
+| **User Lists** | ✅ Yes | Event Hub | Same as Kana Learning |
+| **Flashcards** | ✅ Yes | Event Hub | `getEventHub().emit()` → `gamificationListener` → `recordReviewCompletion()` |
+| **Drill Sessions** | ❌ No | Direct API | `DrillProgressManager` → `PUT /api/drill/session` → `recordDrillCompletion()` |
+| **Anki Study** | ❌ No | None | Excluded from XP system - uses local SRS only |
+| **News Reading** | ❌ No | Direct API | `POST /api/news/progress/complete` → `calculateNewsXP()` |
+| **Book Reading** | ❌ No | Direct API | `POST /api/library/books/complete` → `calculateBookXP()` |
+| **Quiz Completion** | ❌ No | Direct API | `POST /api/quiz/complete` → `calculateQuizXP()` |
+
+### Key Architectural Differences
+
+| Aspect | URE Features | Non-URE Features |
+|--------|--------------|------------------|
+| **Event Flow** | Event Hub singleton → `gamificationListener` | Direct `fetch()` to API |
+| **XP Function** | `recordReviewCompletion()` | Feature-specific (e.g., `recordDrillCompletion()`) |
+| **Session Tracking** | `SessionManager` handles lifecycle | Feature manages own state |
+| **Celebration UI** | `CelebrationProvider` auto-triggers | May require manual trigger |
+
+### Code Flow References
+
+**URE XP Flow** (Kana, Kanji, Textbook, Lists, Flashcards):
+```
+getEventHub().emit(SESSION_COMPLETED)
+  → gamificationListener.handleSessionCompleted()
+  → POST /api/review/session/complete
+  → recordReviewCompletion()
+```
+
+**Drill XP Flow**:
+```
+DrillProgressManager
+  → PUT /api/drill/session
+  → recordDrillCompletion()
+```
 
 ---
 

@@ -24,6 +24,7 @@ import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
 import WordDetailsModal from '@/app/[locale]/vocabulary/components/WordDetailsModal'
 import { searchJMdictWords, loadJMdictData } from '@/utils/jmdictLocalSearch'
 import { UserListAdapter } from '@/lib/review-engine/adapters/UserListAdapter'
+import { buildTatoebaDistractorPool, TatoebaSentence } from '@/utils/tatoeba-client'
 import dynamic from 'next/dynamic'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
@@ -318,8 +319,11 @@ export default function ListDetailPage() {
     setViewMode('study')
   }
 
+  // State for loading Tatoeba distractors
+  const [loadingDistractors, setLoadingDistractors] = useState(false)
+
   // Review mode handler
-  const handleStartReview = () => {
+  const handleStartReview = async () => {
     if (!list || selectedItems.size === 0) {
       showToast('Please select items to review', 'warning')
       return
@@ -334,8 +338,62 @@ export default function ListDetailPage() {
     // Transform to reviewable content
     const content = itemsArray.map(item => adapter.transform(item))
 
-    // Use all list items as pool for distractors
-    const poolContent = list.items.map(item => adapter.transform(item))
+    // Build distractor pool based on list type
+    let poolContent: any[] = []
+
+    if (list.type === 'sentence') {
+      // For sentence lists, fetch Tatoeba sentences for rich distractors
+      setLoadingDistractors(true)
+      try {
+        console.log('[User Lists] Fetching Tatoeba sentences for distractor pool...')
+
+        // Build user sentences for the pool builder
+        const userSentences = list.items.map(item => ({
+          content: item.content,
+          meaning: item.metadata?.meaning,
+        }))
+
+        // Fetch Tatoeba sentences
+        const tatoebaSentences = await buildTatoebaDistractorPool(userSentences, 50)
+
+        // Transform Tatoeba sentences to ReviewableContent format
+        // For sentence lists: English meaning as display, Japanese as answer (for multiple choice)
+        const tatoebaContent = tatoebaSentences.map((s: TatoebaSentence) => ({
+          id: `tatoeba_${s.id || Math.random().toString(36).substr(2, 9)}`,
+          contentType: 'custom',
+          primaryDisplay: s.english, // English meaning shown as question
+          secondaryDisplay: '',
+          tertiaryDisplay: '', // Don't show the Japanese answer in the card
+          primaryAnswer: s.japanese, // Japanese sentence is what they pick
+          alternativeAnswers: [],
+          difficulty: 0.5,
+          tags: ['tatoeba', 'sentence'],
+          source: 'tatoeba',
+          supportedModes: ['recognition', 'recall'],
+          preferredMode: 'recognition',
+          metadata: {
+            listType: 'sentence',
+            itemContent: s.japanese,
+            meaning: s.english,
+          },
+        }))
+
+        // Combine user items + Tatoeba sentences for rich pool
+        const userPoolContent = list.items.map(item => adapter.transform(item))
+        poolContent = [...userPoolContent, ...tatoebaContent]
+
+        console.log(`[User Lists] Distractor pool: ${userPoolContent.length} user items + ${tatoebaContent.length} Tatoeba = ${poolContent.length} total`)
+      } catch (error) {
+        console.error('[User Lists] Failed to fetch Tatoeba distractors:', error)
+        // Fallback to user items only
+        poolContent = list.items.map(item => adapter.transform(item))
+      } finally {
+        setLoadingDistractors(false)
+      }
+    } else {
+      // For non-sentence lists, use all list items as pool
+      poolContent = list.items.map(item => adapter.transform(item))
+    }
 
     setReviewContent(content)
     setReviewContentPool(poolContent)
@@ -580,6 +638,20 @@ export default function ListDetailPage() {
     )
   }
 
+  // Loading Tatoeba distractors for sentence lists
+  if (loadingDistractors) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background-light via-white to-primary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
+        <div className="text-center">
+          <LoadingOverlay isLoading={true} />
+          <p className="mt-4 text-gray-600 dark:text-gray-400">
+            {t('lists.loading.distractors') || 'Building smart distractors...'}
+          </p>
+        </div>
+      </div>
+    )
+  }
+
   // Active review session
   if (reviewContent.length > 0) {
     return (
@@ -598,7 +670,7 @@ export default function ListDetailPage() {
           <ReviewSessionUI
             content={reviewContent}
             contentPool={reviewContentPool}
-            mode="recall"
+            mode="recognition"
             onComplete={handleReviewComplete}
             onCancel={() => {
               setReviewContent([])
@@ -608,6 +680,7 @@ export default function ListDetailPage() {
             }}
             userId={user?.uid || 'guest'}
             shuffle={false}
+            config={{ showHints: false }}
           />
         </main>
       </div>

@@ -24,11 +24,9 @@ export default function ProgressBar({ current, total, correct, streak }: Progres
           <span>{Math.round(progress)}%</span>
         </div>
         <div className="h-1.5 sm:h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-          <motion.div
-            className="h-full bg-gradient-to-r from-primary to-primary-dark rounded-full"
-            initial={{ width: 0 }}
-            animate={{ width: `${progress}%` }}
-            transition={{ duration: 0.3 }}
+          <div
+            className="h-full bg-green-500 rounded-full transition-all duration-300 ease-out"
+            style={{ width: `${progress}%` }}
           />
         </div>
       </div>

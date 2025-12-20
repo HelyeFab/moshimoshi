@@ -146,17 +146,22 @@ export default function ReviewSessionUI({
         ? (confidence as 1 | 2 | 3 | 4 | 5)
         : undefined
       await submitAnswer(answer, validConfidence)
-
-      // Show answer for 1 second, then move to next
-      setTimeout(async () => {
-        await nextItem()
-        setShowAnswer(false)
-        setIsAnswered(false)
-      }, 1000)
+      // User must click Next to proceed (no auto-advance)
     } catch (error) {
       console.error('[ReviewSessionUI] Error submitting answer:', error)
       setIsAnswered(false)
       setShowAnswer(false)
+    }
+  }
+
+  // Handle manual next navigation
+  const handleNext = async () => {
+    try {
+      await nextItem()
+      setShowAnswer(false)
+      setIsAnswered(false)
+    } catch (error) {
+      console.error('[ReviewSessionUI] Error moving to next item:', error)
     }
   }
 
@@ -255,23 +260,32 @@ export default function ReviewSessionUI({
         </button>
 
         <div className="flex gap-2">
-          {config?.showHints !== false && (
+          {!isAnswered && config?.showHints !== false && (
             <button
               onClick={handleHint}
-              disabled={isAnswered}
-              className="px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
             >
-              💡 Hint
+              Hint
             </button>
           )}
 
-          <button
-            onClick={handleSkip}
-            disabled={isAnswered}
-            className="px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            Skip
-          </button>
+          {!isAnswered && (
+            <button
+              onClick={handleSkip}
+              className="px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
+            >
+              Skip
+            </button>
+          )}
+
+          {isAnswered && (
+            <button
+              onClick={handleNext}
+              className="px-6 py-2 text-sm bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors font-medium"
+            >
+              Next &gt;
+            </button>
+          )}
         </div>
       </div>
 

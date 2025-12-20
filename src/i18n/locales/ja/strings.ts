@@ -513,6 +513,7 @@ export const strings = {
     description: '説明',
     popular: '人気',
     learned: '学習済み',
+    markAsLearned: '学習済みにする',
     notLearned: '未学習',
     grid: 'グリッド',
     study: '学習',

@@ -12,6 +12,7 @@ import { useTTS } from '@/hooks/useTTS'
 import ExamplesModal from './ExamplesModal'
 import StrokeOrderModal from './StrokeOrderModal'
 import { kanjiProgressManager } from '@/utils/kanjiProgressManager'
+import { useCachedTatoebaSentences } from '@/hooks/useTatoebaCache'
 
 interface KanjiStudyModeProps {
   kanji: Kanji
@@ -39,6 +40,12 @@ export default function KanjiStudyMode({
   const [isFlipped, setIsFlipped] = useState(false)
   const [hasTrackedView, setHasTrackedView] = useState(false)
   const { play, preload, loading: ttsLoading } = useTTS({ cacheFirst: true })
+
+  // Fetch Tatoeba sentences with caching
+  const {
+    data: tatoebaData,
+    loading: tatoebLoading,
+  } = useCachedTatoebaSentences(kanji.kanji)
 
   // Modal states
   const [showExamplesModal, setShowExamplesModal] = useState(false)
@@ -525,9 +532,11 @@ export default function KanjiStudyMode({
       {/* Modals */}
       <ExamplesModal
         kanji={kanji.kanji}
-        examples={kanji.examples || []}
+        sentences={tatoebaData?.sentences || []}
+        furiganaTexts={tatoebaData?.furiganaTexts || {}}
         isOpen={showExamplesModal}
         onClose={() => setShowExamplesModal(false)}
+        loading={tatoebLoading}
       />
 
       <StrokeOrderModal

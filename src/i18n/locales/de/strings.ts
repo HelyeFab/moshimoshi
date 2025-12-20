@@ -161,6 +161,7 @@ export const strings = {
     description: 'Beschreibung',
     popular: 'Beliebt',
     learned: 'Gelernt',
+    markAsLearned: 'Als gelernt markieren',
     notLearned: 'Nicht gelernt',
     grid: 'Raster',
     study: 'Lernen',

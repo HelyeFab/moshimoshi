@@ -672,6 +672,7 @@ function KanjiBrowserContent() {
             }}
             userId={user?.uid || 'guest'}
             shuffle={false}
+            config={{ showHints: false }}
           />
         </main>
       </div>

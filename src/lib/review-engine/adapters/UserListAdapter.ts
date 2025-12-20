@@ -533,17 +533,38 @@ export class UserListAdapter extends BaseContentAdapter {
     const supportedModes = this.getSupportedModesForList()
     const preferredMode = supportedModes[0] // Default to first supported mode
 
+    // For all list types with meanings: show English meaning as question, Japanese as answer
+    // This enables proper multiple-choice where user picks the correct Japanese content
+    const hasMeaning = !!item.metadata?.meaning
+
+    // Determine display and answer based on whether we have a meaning
+    let primaryDisplay: string
+    let primaryAnswer: string
+    let tertiaryDisplay: string
+
+    if (hasMeaning) {
+      // Show English meaning as question, pick Japanese content
+      primaryDisplay = item.metadata!.meaning! // English meaning as question
+      primaryAnswer = item.content // Japanese content is what they pick
+      tertiaryDisplay = '' // Don't show the answer in the card
+    } else {
+      // No meaning available: Show content as both question and answer
+      primaryDisplay = item.content
+      primaryAnswer = item.content
+      tertiaryDisplay = ''
+    }
+
     return {
       id: item.id,
       contentType: 'custom',
 
       // Display fields
-      primaryDisplay: item.content, // The main content (word, sentence, etc.)
+      primaryDisplay,
       secondaryDisplay: item.metadata?.reading || '', // Reading if available
-      tertiaryDisplay: item.metadata?.meaning || '', // Meaning if available
+      tertiaryDisplay,
 
       // Answer fields
-      primaryAnswer: item.content,
+      primaryAnswer,
       alternativeAnswers: item.metadata?.reading ? [item.metadata.reading] : [],
 
       // Media (could be extended later for audio)
@@ -568,6 +589,7 @@ export class UserListAdapter extends BaseContentAdapter {
         itemNotes: item.metadata?.notes,
         jlptLevel: item.metadata?.jlptLevel,
         addedAt: item.metadata?.addedAt,
+        meaning: item.metadata?.meaning, // Keep meaning accessible
         // Include SRS data for tracking
         srsData: item.srsData || createInitialSRSData(),
       },
