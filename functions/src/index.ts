@@ -340,6 +340,7 @@ export { scheduledNewsScraperFunction, manualNewsScraperFunction } from './sched
 export {
   scheduledStoryGeneratorFunction,
   manualStoryGeneratorFunction,
+  dailyStoryRetryScheduler,
 } from './scheduled/storyScheduler'
 
 /**

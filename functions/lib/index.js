@@ -46,7 +46,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.backfillSentenceData = exports.manualArticleAudioGenerator = exports.scheduledArticleAudioGenerator = exports.manualIntegrityCheckerFunction = exports.contentIntegrityCheckerFunction = exports.autoBreakStreaks = exports.manualComicGeneratorFunction = exports.scheduledComicGeneratorFunction = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
+exports.backfillSentenceData = exports.manualArticleAudioGenerator = exports.scheduledArticleAudioGenerator = exports.manualIntegrityCheckerFunction = exports.contentIntegrityCheckerFunction = exports.autoBreakStreaks = exports.manualComicGeneratorFunction = exports.scheduledComicGeneratorFunction = exports.dailyStoryRetryScheduler = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
 exports.getUserByStripeCustomerId = getUserByStripeCustomerId;
 exports.updateSubscriptionFacts = updateSubscriptionFacts;
 exports.removeSubscriptionFacts = removeSubscriptionFacts;
@@ -303,6 +303,7 @@ Object.defineProperty(exports, "manualNewsScraperFunction", { enumerable: true, 
 var storyScheduler_1 = require("./scheduled/storyScheduler");
 Object.defineProperty(exports, "scheduledStoryGeneratorFunction", { enumerable: true, get: function () { return storyScheduler_1.scheduledStoryGeneratorFunction; } });
 Object.defineProperty(exports, "manualStoryGeneratorFunction", { enumerable: true, get: function () { return storyScheduler_1.manualStoryGeneratorFunction; } });
+Object.defineProperty(exports, "dailyStoryRetryScheduler", { enumerable: true, get: function () { return storyScheduler_1.dailyStoryRetryScheduler; } });
 /**
  * Export scheduled comic generator functions
  * Generates a new "Moshi Goes to Japan" comic episode weekly on Sundays

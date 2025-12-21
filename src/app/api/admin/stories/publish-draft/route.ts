@@ -180,9 +180,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Add optional fields only if they exist (Firestore doesn't accept undefined)
+    // Use first page image as cover (NOT the model sheet - that's for character consistency, not display)
     // NOTE: pageImages uses string keys ("1", "2") not numeric indices
-    const coverImageUrl = mergedData.modelSheet?.imageUrl || mergedData.pageImages?.["1"] || mergedData.pageImages?.[1]
-    if (coverImageUrl) (story as any).coverImageUrl = coverImageUrl
+    const firstPageImage = mergedData.pages?.[0]?.imageUrl || mergedData.pageImages?.["1"] || mergedData.pageImages?.[1]
+    if (firstPageImage) (story as any).coverImageUrl = firstPageImage
 
     const quiz = providedStoryData?.quiz || mergedData.quiz
     if (quiz && quiz.length > 0) (story as any).quiz = quiz

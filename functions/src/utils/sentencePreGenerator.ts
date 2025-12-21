@@ -494,7 +494,7 @@ export async function storeSentenceDataForStory(
     const pageData = {
       pageNumber,
       sentences: sentenceData,
-      generatedAt: admin.firestore.FieldValue.serverTimestamp(),
+      generatedAt: admin.firestore.Timestamp.now(),  // Use Timestamp.now() for nested array elements
     }
 
     if (doc.exists) {

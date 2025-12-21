@@ -49,6 +49,38 @@ export interface AIStoryGenerationRequest {
   customPrompt?: string;
 }
 
+// Draft generation step tracking for checkpoint/resume
+export type DraftGenerationStep =
+  | 'character_sheet'
+  | 'outline'
+  | 'pages'
+  | 'quiz'
+  | 'model_sheet'
+  | 'page_images'
+  | 'audio'
+  | 'sentences'
+  | 'complete';
+
+// Draft status including pending states for incomplete generations
+export type DraftStatus =
+  | 'generating'
+  | 'draft'
+  | 'review'
+  | 'published'
+  | 'failed'
+  | 'pending_images'    // Images failed, needs retry
+  | 'pending_audio'     // Audio failed, needs retry
+  | 'pending_sentences'; // Sentence pre-gen failed, needs retry
+
+// Checkpoint data for resuming incomplete story generation
+export interface DraftCheckpoint {
+  lastCompletedStep: DraftGenerationStep;
+  lastCompletedIndex?: number;  // For loops (e.g., which page image)
+  failedAttempts: number;       // Track retry count
+  lastAttemptAt: Date;
+  lastError?: string;           // Last error message for debugging
+}
+
 export interface AIStoryDraft {
   id: string;
   title: string;
@@ -73,10 +105,12 @@ export interface AIStoryDraft {
     isAIGenerated: boolean;
     generationTime?: number; // in seconds
   };
-  status: 'generating' | 'draft' | 'review' | 'published' | 'failed';
+  status: DraftStatus;
   currentGenerationStep?: number;
   totalGenerationSteps?: number;
   error?: string;
+  // Checkpoint fields for resume capability
+  checkpoint?: DraftCheckpoint;
 }
 
 export interface AIGenerationProgress {

@@ -168,6 +168,9 @@ import {
   CheckCircle,
   Loader2,
   Clock,
+  Repeat,
+  ListMusic,
+  Square,
 } from 'lucide-react'
 import { useNewsProgress } from '@/hooks/useNewsProgress'
 import NewsArticleFallbackImage from './NewsArticleFallbackImage'
@@ -964,6 +967,11 @@ export default function EnhancedArticleReader({
   const handlePageChange = (direction: 'next' | 'prev') => {
     if (!isStoryMode) return
 
+    // Stop full story mode when manually navigating (user takes control)
+    if (isPlayingFullStory) {
+      setIsPlayingFullStory(false)
+    }
+
     // Stop any playing audio when changing pages (for per-page audio experience)
     if (preGeneratedAudioRef.current) {
       cleanupAudio(preGeneratedAudioRef.current)
@@ -1147,6 +1155,12 @@ export default function EnhancedArticleReader({
   const preGeneratedAudioRef = useRef<HTMLAudioElement | null>(null)
   const [isPreGeneratedPlaying, setIsPreGeneratedPlaying] = useState(false)
 
+  // Full story playback mode (play all pages sequentially)
+  const [isPlayingFullStory, setIsPlayingFullStory] = useState(false)
+  const [isStoryLoopEnabled, setIsStoryLoopEnabled] = useState(false)
+  const isPlayingFullStoryRef = useRef(false) // Ref to access in audio callbacks
+  const isStoryLoopEnabledRef = useRef(false) // Ref to access in audio callbacks
+
   // NHK HLS audio player (for original NHK narrator audio)
   const {
     isReady: nhkAudioReady,
@@ -1190,8 +1204,19 @@ export default function EnhancedArticleReader({
       preGeneratedAudioRef.current = null
       // Stop NHK audio if playing
       stopNhkAudio()
+      // Reset full story mode
+      setIsPlayingFullStory(false)
     }
   }, [article.id, stopNhkAudio])
+
+  // Sync full story refs with state (for access in audio callbacks)
+  useEffect(() => {
+    isPlayingFullStoryRef.current = isPlayingFullStory
+  }, [isPlayingFullStory])
+
+  useEffect(() => {
+    isStoryLoopEnabledRef.current = isStoryLoopEnabled
+  }, [isStoryLoopEnabled])
 
   // Prefetch word explanations for instant modal response
   useEffect(() => {
@@ -1360,6 +1385,12 @@ export default function EnhancedArticleReader({
     setPlayingSentenceIndex(null)
     setSentenceAudioLoading(null)
 
+    // Stop full story mode when using the single-page play button
+    // This gives the user control to switch from "play all" to "play current page"
+    if (isPlayingFullStory) {
+      setIsPlayingFullStory(false)
+    }
+
     console.log(
       '%c🔊 AUDIO PROVIDER TRACKING - Full Article Playback',
       'background: #4CAF50; color: white; font-size: 14px; padding: 4px 8px; border-radius: 4px;'
@@ -1374,6 +1405,173 @@ export default function EnhancedArticleReader({
 
     // Use pre-generated VOICEVOX if present; otherwise app TTS fallback
     handleVoicevoxOrTTSFallback()
+  }
+
+  // ============================================
+  // FULL STORY PLAYBACK (Play All Pages)
+  // ============================================
+
+  /**
+   * Play a specific page's audio for full story mode
+   * Handles the audio element creation and event listeners
+   */
+  const playPageAudioForFullStory = async (pageIndex: number) => {
+    if (!pages || pageIndex >= pages.length) {
+      console.log('[Full Story] Invalid page index, stopping')
+      setIsPlayingFullStory(false)
+      return
+    }
+
+    const pageAudioUrl = pages[pageIndex]?.audioUrl
+    if (!pageAudioUrl) {
+      console.log(`[Full Story] No audio for page ${pageIndex + 1}, advancing to next`)
+      // No audio for this page, try next page
+      handleFullStoryPageEnd(pageIndex)
+      return
+    }
+
+    // Clean up existing audio
+    if (preGeneratedAudioRef.current) {
+      cleanupAudio(preGeneratedAudioRef.current)
+      preGeneratedAudioRef.current = null
+    }
+
+    console.log(`[Full Story] Playing page ${pageIndex + 1} of ${pages.length}`)
+
+    const audio = new Audio(pageAudioUrl)
+    audio.playbackRate = Number.isFinite(settings.playbackSpeed) ? settings.playbackSpeed! : 1.0
+
+    audio.onplay = () => {
+      setIsPreGeneratedPlaying(true)
+    }
+
+    audio.onpause = () => {
+      setIsPreGeneratedPlaying(false)
+    }
+
+    audio.onended = () => {
+      setIsPreGeneratedPlaying(false)
+      console.log(`[Full Story] Page ${pageIndex + 1} audio finished`)
+      // Check refs for current state (state may have changed during playback)
+      if (isPlayingFullStoryRef.current) {
+        handleFullStoryPageEnd(pageIndex)
+      }
+    }
+
+    audio.onerror = () => {
+      console.error(`[Full Story] Audio error on page ${pageIndex + 1}`)
+      setIsPreGeneratedPlaying(false)
+      // Skip to next page on error
+      if (isPlayingFullStoryRef.current) {
+        handleFullStoryPageEnd(pageIndex)
+      }
+    }
+
+    preGeneratedAudioRef.current = audio
+
+    try {
+      await audio.play()
+    } catch (error) {
+      console.error('[Full Story] Failed to play audio:', error)
+      setIsPreGeneratedPlaying(false)
+      // Try next page on play failure
+      if (isPlayingFullStoryRef.current) {
+        handleFullStoryPageEnd(pageIndex)
+      }
+    }
+  }
+
+  /**
+   * Handle when a page's audio ends during full story playback
+   * Advances to next page or loops back to start
+   */
+  const handleFullStoryPageEnd = (completedPageIndex: number) => {
+    if (!isPlayingFullStoryRef.current || !pages) {
+      return
+    }
+
+    const nextPageIndex = completedPageIndex + 1
+
+    if (nextPageIndex < pages.length) {
+      // Advance to next page
+      console.log(`[Full Story] Advancing to page ${nextPageIndex + 1}`)
+      setCurrentPageIndex(nextPageIndex)
+      // Small delay to let React update, then play next page
+      setTimeout(() => {
+        if (isPlayingFullStoryRef.current) {
+          playPageAudioForFullStory(nextPageIndex)
+        }
+      }, 150)
+    } else if (isStoryLoopEnabledRef.current) {
+      // Loop back to first page
+      console.log('[Full Story] Looping back to page 1')
+      setCurrentPageIndex(0)
+      setTimeout(() => {
+        if (isPlayingFullStoryRef.current) {
+          playPageAudioForFullStory(0)
+        }
+      }, 150)
+    } else {
+      // End of story, stop full story mode
+      console.log('[Full Story] Story complete, stopping')
+      setIsPlayingFullStory(false)
+    }
+  }
+
+  /**
+   * Start/pause/resume full story playback
+   */
+  const handlePlayFullStory = async () => {
+    if (!isStoryMode || !pages || pages.length === 0) return
+
+    // Stop any sentence-level playback
+    setPlayingSentenceIndex(null)
+    setSentenceAudioLoading(null)
+
+    // If already playing full story, pause it
+    if (isPlayingFullStory && isPreGeneratedPlaying && preGeneratedAudioRef.current) {
+      console.log('[Full Story] Pausing')
+      preGeneratedAudioRef.current.pause()
+      return
+    }
+
+    // If paused during full story mode, resume
+    if (isPlayingFullStory && !isPreGeneratedPlaying && preGeneratedAudioRef.current && !preGeneratedAudioRef.current.ended) {
+      console.log('[Full Story] Resuming')
+      try {
+        await preGeneratedAudioRef.current.play()
+        setIsPreGeneratedPlaying(true)
+      } catch (error) {
+        console.error('[Full Story] Resume failed:', error)
+      }
+      return
+    }
+
+    // Start fresh full story playback from current page
+    console.log(`[Full Story] Starting from page ${currentPageIndex + 1}`)
+    setIsPlayingFullStory(true)
+    playPageAudioForFullStory(currentPageIndex)
+  }
+
+  /**
+   * Stop full story playback completely
+   */
+  const handleStopFullStory = () => {
+    console.log('[Full Story] Stopping')
+    setIsPlayingFullStory(false)
+    if (preGeneratedAudioRef.current) {
+      cleanupAudio(preGeneratedAudioRef.current)
+      preGeneratedAudioRef.current = null
+    }
+    setIsPreGeneratedPlaying(false)
+  }
+
+  /**
+   * Toggle loop mode for full story playback
+   */
+  const handleToggleStoryLoop = () => {
+    setIsStoryLoopEnabled(prev => !prev)
+    console.log(`[Full Story] Loop ${!isStoryLoopEnabled ? 'enabled' : 'disabled'}`)
   }
 
   // Handle NHK HLS audio playback (Priority 1)
@@ -1618,6 +1816,11 @@ export default function EnhancedArticleReader({
   // Handle playing individual sentence with pre-cached audio + fallback
   // Flow: Pre-cached audio → VOICEVOX API → App TTS fallback
   const handlePlaySentence = async (sentence: string, index: number) => {
+    // Stop full story mode when playing individual sentences
+    if (isPlayingFullStory) {
+      setIsPlayingFullStory(false)
+    }
+
     // Stop full article playback if running (pre-generated or TTS)
     if (isPreGeneratedPlaying && preGeneratedAudioRef.current) {
       preGeneratedAudioRef.current.pause()
@@ -2380,6 +2583,10 @@ export default function EnhancedArticleReader({
                     <button
                       key={index}
                       onClick={() => {
+                        // Stop full story mode when manually selecting page
+                        if (isPlayingFullStory) {
+                          handleStopFullStory()
+                        }
                         setCurrentPageIndex(index)
                         setTranslatedContent(null)
                       }}
@@ -2392,6 +2599,75 @@ export default function EnhancedArticleReader({
                     />
                   ))}
                 </div>
+
+                {/* Full Story Playback Controls */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-3">
+                    {/* Play All / Stop Button */}
+                    {isPlayingFullStory ? (
+                      <button
+                        onClick={handleStopFullStory}
+                        className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500 hover:bg-red-600 text-white transition-all duration-200 hover:scale-105 active:scale-95 shadow-md"
+                        title="Stop full story playback"
+                      >
+                        <Square className="w-4 h-4 fill-current" />
+                        <span className="text-sm font-medium">Stop</span>
+                      </button>
+                    ) : (
+                      <button
+                        onClick={handlePlayFullStory}
+                        className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white transition-all duration-200 hover:scale-105 active:scale-95 shadow-md"
+                        title="Play all pages sequentially"
+                      >
+                        <ListMusic className="w-4 h-4" />
+                        <span className="text-sm font-medium">Play All</span>
+                      </button>
+                    )}
+
+                    {/* Play/Pause for current full story playback */}
+                    {isPlayingFullStory && (
+                      <button
+                        onClick={handlePlayFullStory}
+                        className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 shadow-md ${
+                          isPreGeneratedPlaying
+                            ? 'bg-amber-500 hover:bg-amber-600 text-white'
+                            : 'bg-green-500 hover:bg-green-600 text-white'
+                        }`}
+                        title={isPreGeneratedPlaying ? 'Pause' : 'Resume'}
+                      >
+                        {isPreGeneratedPlaying ? (
+                          <Pause className="w-5 h-5 fill-current" />
+                        ) : (
+                          <Play className="w-5 h-5 fill-current" />
+                        )}
+                      </button>
+                    )}
+
+                    {/* Loop Toggle */}
+                    <button
+                      onClick={handleToggleStoryLoop}
+                      className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 ${
+                        isStoryLoopEnabled
+                          ? 'bg-primary-500 text-white shadow-md'
+                          : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                      }`}
+                      title={isStoryLoopEnabled ? 'Loop enabled - click to disable' : 'Enable loop mode'}
+                    >
+                      <Repeat className="w-5 h-5" />
+                    </button>
+                  </div>
+                )}
+
+                {/* Playing status indicator */}
+                {isPlayingFullStory && (
+                  <div className="flex items-center justify-center gap-2 text-sm">
+                    <div className={`w-2 h-2 rounded-full ${isPreGeneratedPlaying ? 'bg-green-500 animate-pulse' : 'bg-amber-500'}`} />
+                    <span style={{ color: 'var(--article-text-secondary)' }}>
+                      {isPreGeneratedPlaying ? 'Playing' : 'Paused'} - Page {currentPageIndex + 1} of {totalPages}
+                      {isStoryLoopEnabled && ' (Loop)'}
+                    </span>
+                  </div>
+                )}
 
                 {/* Navigation buttons */}
                 <div className="flex items-center justify-between">

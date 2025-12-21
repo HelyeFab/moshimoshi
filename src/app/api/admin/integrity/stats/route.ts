@@ -115,7 +115,7 @@ function calculateStats(logs: IntegrityLog[]): IntegrityStats {
     { repairsSucceeded: number; repairsFailed: number; checksRun: number }
   >()
 
-  // Content breakdown totals
+  // Content breakdown - "missing" from LATEST log (current state), "repaired" cumulative
   const contentBreakdown = {
     audio: { missing: 0, repaired: 0 },
     translations: { missing: 0, repaired: 0 },
@@ -124,6 +124,21 @@ function calculateStats(logs: IntegrityLog[]): IntegrityStats {
     storyImages: { missing: 0, repaired: 0 },
     storyTranslations: { missing: 0, repaired: 0 },
     bookTranslations: { missing: 0, repaired: 0 },
+  }
+
+  // Set "missing" counts from latest log only (current state)
+  if (latestLog.newsArticles) {
+    contentBreakdown.audio.missing = latestLog.newsArticles.missingAudio?.length || 0
+    contentBreakdown.translations.missing = latestLog.newsArticles.missingTranslations?.length || 0
+    contentBreakdown.wordExplanations.missing = latestLog.newsArticles.missingWordExplanations?.length || 0
+  }
+  if (latestLog.stories) {
+    contentBreakdown.storyAudio.missing = latestLog.stories.missingAudio?.length || 0
+    contentBreakdown.storyImages.missing = latestLog.stories.missingImages?.length || 0
+    contentBreakdown.storyTranslations.missing = latestLog.stories.missingTranslations?.length || 0
+  }
+  if (latestLog.books) {
+    contentBreakdown.bookTranslations.missing = latestLog.books.missingTranslations?.length || 0
   }
 
   for (const log of logs) {
@@ -160,12 +175,9 @@ function calculateStats(logs: IntegrityLog[]): IntegrityStats {
       dayStats.repairsSucceeded += newsRepaired
       dayStats.repairsFailed += newsFailed
 
-      // Content breakdown
-      contentBreakdown.audio.missing += na.missingAudio?.length || 0
+      // Content breakdown - only accumulate "repaired" (historical total)
       contentBreakdown.audio.repaired += na.repaired?.audio || 0
-      contentBreakdown.translations.missing += na.missingTranslations?.length || 0
       contentBreakdown.translations.repaired += na.repaired?.translations || 0
-      contentBreakdown.wordExplanations.missing += na.missingWordExplanations?.length || 0
       contentBreakdown.wordExplanations.repaired += na.repaired?.wordExplanations || 0
     }
 
@@ -181,19 +193,13 @@ function calculateStats(logs: IntegrityLog[]): IntegrityStats {
       dayStats.repairsSucceeded += storyRepaired
       dayStats.repairsFailed += storyFailed
 
-      // Content breakdown
-      contentBreakdown.storyAudio.missing += st.missingAudio?.length || 0
+      // Content breakdown - only accumulate "repaired" (historical total)
       contentBreakdown.storyAudio.repaired += st.repaired?.audio || 0
-      contentBreakdown.storyImages.missing += st.missingImages?.length || 0
       contentBreakdown.storyImages.repaired += st.repaired?.images || 0
-      contentBreakdown.storyTranslations.missing += st.missingTranslations?.length || 0
       contentBreakdown.storyTranslations.repaired += st.repaired?.translations || 0
     }
 
-    // Books (detection only, no repair)
-    if (log.books) {
-      contentBreakdown.bookTranslations.missing += log.books.missingTranslations?.length || 0
-    }
+    // Books - no repair tracking needed (detection only)
   }
 
   // Calculate current queue depth from latest log
