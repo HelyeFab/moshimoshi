@@ -630,14 +630,35 @@ export async function POST(request: NextRequest) {
       let errorMessage: string | undefined
 
       try {
-        quiz = await generateJSON(quizPrompt)
+        const quizResult = await generateJSON(quizPrompt)
+        console.log('[ComicGen] Quiz result type:', typeof quizResult)
+        console.log('[ComicGen] Quiz result keys:', quizResult ? Object.keys(quizResult) : 'null')
+        console.log('[ComicGen] Quiz has questions:', !!quizResult?.questions)
+        console.log('[ComicGen] Questions length:', quizResult?.questions?.length || 0)
+
+        // Try to extract quiz from different possible structures
+        if (quizResult?.questions && Array.isArray(quizResult.questions)) {
+          quiz = quizResult
+        } else if (quizResult?.quiz?.questions && Array.isArray(quizResult.quiz.questions)) {
+          quiz = quizResult.quiz
+        } else if (Array.isArray(quizResult)) {
+          // OpenAI returned array directly
+          quiz = { questions: quizResult, passingScore: 70 }
+        } else {
+          console.error('[ComicGen] Quiz generation returned unexpected structure:', JSON.stringify(quizResult, null, 2))
+          success = false
+          errorMessage = 'Generated quiz with unexpected structure'
+          quiz = { questions: [], passingScore: 70 }
+        }
 
         // Validate we got actual questions
-        if (!quiz || !quiz.questions || quiz.questions.length === 0) {
-          console.error('[ComicGen] Quiz generation returned no questions')
+        if (!quiz.questions || quiz.questions.length === 0) {
+          console.error('[ComicGen] Quiz has no questions after parsing')
           success = false
           errorMessage = 'Generated quiz with no questions'
           quiz = { questions: [], passingScore: 70 }
+        } else {
+          console.log(`[ComicGen] Quiz validated: ${quiz.questions.length} questions`)
         }
       } catch (error) {
         console.error('[ComicGen] OpenAI quiz generation failed:', error)
