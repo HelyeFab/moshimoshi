@@ -396,10 +396,13 @@ service cloud.firestore {
       allow write: if false;
     }
 
-    // Book drafts collection - Admin only via server
+    // Book drafts collection - Admin read (for real-time progress), server-only writes
     match /book_drafts/{draftId} {
-      // No client-side access
-      allow read, write: if false;
+      // Allow admins to read drafts (for generation progress tracking)
+      allow read: if isAdmin();
+
+      // Only server (Admin SDK) can write
+      allow write: if false;
     }
 
     // Translation cache collections - server-side optimization
