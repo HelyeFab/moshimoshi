@@ -11,12 +11,7 @@ import {
   VolumeX,
   BookOpen,
   X,
-  Trophy,
-  CheckCircle,
-  XCircle,
-  Sparkles,
-  BookMarked,
-  Star
+  BookMarked
 } from 'lucide-react'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -491,8 +486,7 @@ export default function ComicReaderPage() {
                   onClick={() => setShowQuiz(true)}
                   className="flex items-center gap-2 px-4 py-2.5 bg-gradient-to-r from-emerald-500 to-emerald-600 text-white rounded-xl hover:from-emerald-600 hover:to-emerald-700 transition-all font-medium shadow-lg shadow-emerald-500/20"
                 >
-                  <Trophy className="w-5 h-5" />
-                  <span className="hidden sm:inline">Take Quiz</span>
+                  <span>Take Quiz</span>
                 </motion.button>
               ) : (
                 <motion.button
@@ -612,251 +606,147 @@ export default function ComicReaderPage() {
         )}
       </AnimatePresence>
 
-      {/* Quiz Modal - Premium Design */}
-      <AnimatePresence>
-        {showQuiz && episode?.quiz?.questions && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] bg-black/80 backdrop-blur-md flex items-end sm:items-center justify-center"
-            onClick={() => setShowQuiz(false)}
-          >
-            <motion.div
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              exit={{ y: 100, opacity: 0 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-              onClick={e => e.stopPropagation()}
-              className="bg-white dark:bg-dark-800 rounded-t-3xl sm:rounded-3xl w-full max-w-lg max-h-[90vh] overflow-hidden shadow-2xl"
-            >
-              {/* Header with gradient */}
-              <div className="bg-gradient-to-r from-primary-500 to-primary-600 p-5">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-white/20 rounded-xl">
-                      <Trophy className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-lg text-white">
-                        Episode Quiz
-                      </h3>
-                      <p className="text-white/80 text-sm">
-                        {episode.quiz.questions.length} questions
+      {/* Quiz - Full Page View (matches story quiz) */}
+      {showQuiz && episode?.quiz?.questions && (
+        <div className="fixed inset-0 z-[100] bg-gradient-to-b from-dark-950 via-dark-900 to-dark-850 overflow-y-auto">
+          <div className="max-w-4xl mx-auto p-4 sm:p-6">
+            <div className="rounded-2xl p-6 sm:p-8 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700">
+              <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
+                {strings.story?.quiz?.title || 'Episode Quiz'}
+              </h2>
+
+              {quizScore === null ? (
+                <div className="space-y-6">
+                  {episode.quiz.questions.map((question: any, qIndex: number) => (
+                    <div key={qIndex} className="space-y-3">
+                      <p className="font-medium text-gray-900 dark:text-white">
+                        {qIndex + 1}. {question.questionJa || question.questionEn}
                       </p>
-                    </div>
-                  </div>
-                  <motion.button
-                    whileHover={{ scale: 1.1 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={() => setShowQuiz(false)}
-                    className="p-2 bg-white/20 hover:bg-white/30 rounded-xl transition-colors"
-                  >
-                    <X className="w-5 h-5 text-white" />
-                  </motion.button>
-                </div>
-              </div>
-
-              <div className="p-5 overflow-y-auto max-h-[70vh] scrollbar-hide">
-                {quizScore === null ? (
-                  <div className="space-y-6">
-                    {episode.quiz.questions.map((question: any, qIndex: number) => (
-                      <motion.div
-                        key={qIndex}
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: qIndex * 0.1 }}
-                        className="space-y-3"
-                      >
-                        <div className="flex items-start gap-3">
-                          <span className="inline-flex items-center justify-center w-7 h-7 bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 rounded-lg text-sm font-bold flex-shrink-0">
-                            {qIndex + 1}
-                          </span>
-                          <div>
-                            <p className="font-medium text-foreground dark:text-dark-100">
-                              {question.questionJa || question.questionEn}
-                            </p>
-                            {question.questionEn && question.questionJa && (
-                              <p className="text-sm text-muted-foreground dark:text-dark-400 mt-1">
-                                {question.questionEn}
-                              </p>
-                            )}
-                          </div>
-                        </div>
-                        <div className="space-y-2 ml-10">
-                          {question.options?.map((option: string, oIndex: number) => (
-                            <motion.label
-                              key={oIndex}
-                              whileHover={{ scale: 1.01 }}
-                              whileTap={{ scale: 0.99 }}
-                              className={`flex items-center gap-3 p-3.5 rounded-xl cursor-pointer transition-all ${quizAnswers[qIndex] === oIndex
-                                ? 'bg-primary-100 dark:bg-primary-900/30 ring-2 ring-primary-500 shadow-sm'
-                                : 'bg-gray-50 dark:bg-dark-700 hover:bg-gray-100 dark:hover:bg-dark-600'
-                                }`}
-                            >
-                              <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center transition-colors ${quizAnswers[qIndex] === oIndex
-                                ? 'border-primary-500 bg-primary-500'
-                                : 'border-gray-300 dark:border-dark-500'
-                                }`}>
-                                {quizAnswers[qIndex] === oIndex && (
-                                  <div className="w-2 h-2 bg-white rounded-full" />
-                                )}
-                              </div>
-                              <span className="text-foreground dark:text-dark-100">{option}</span>
-                            </motion.label>
-                          ))}
-                        </div>
-                      </motion.div>
-                    ))}
-
-                    <div className="flex gap-3 pt-4">
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => setShowQuiz(false)}
-                        className="flex-1 px-4 py-3 rounded-xl bg-gray-100 dark:bg-dark-700 text-foreground dark:text-dark-100 hover:bg-gray-200 dark:hover:bg-dark-600 transition-all font-medium"
-                      >
-                        Review Episode
-                      </motion.button>
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={handleQuizSubmit}
-                        disabled={quizAnswers.length !== episode.quiz.questions.length}
-                        className="flex-1 px-4 py-3 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all font-semibold shadow-lg shadow-primary-500/20"
-                      >
-                        Submit Answers
-                      </motion.button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center space-y-6">
-                    {/* Score display with animation */}
-                    <motion.div
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
-                      className="relative inline-block"
-                    >
-                      <div className="text-7xl mb-2">
-                        {quizScore >= 80 ? '🎉' : quizScore >= 60 ? '👍' : '💪'}
-                      </div>
-                      <div className="flex items-center justify-center gap-1">
-                        {[1, 2, 3, 4, 5].map((star) => (
-                          <Star
-                            key={star}
-                            className={`w-6 h-6 ${quizScore >= star * 20
-                              ? 'text-amber-400 fill-amber-400'
-                              : 'text-gray-300 dark:text-dark-600'
-                              }`}
-                          />
+                      <div className="space-y-2">
+                        {question.options?.map((option: string, oIndex: number) => (
+                          <label
+                            key={oIndex}
+                            className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors"
+                            style={{
+                              backgroundColor:
+                                quizAnswers[qIndex] === oIndex
+                                  ? 'rgb(var(--palette-primary-500) / 0.1)'
+                                  : 'transparent',
+                              border:
+                                quizAnswers[qIndex] === oIndex
+                                  ? '2px solid rgb(var(--palette-primary-500))'
+                                  : '2px solid transparent',
+                            }}
+                          >
+                            <input
+                              type="radio"
+                              name={`question-${qIndex}`}
+                              checked={quizAnswers[qIndex] === oIndex}
+                              onChange={() => handleQuizAnswer(qIndex, oIndex)}
+                              className="w-4 h-4 accent-primary-500"
+                            />
+                            <span className="text-gray-900 dark:text-white">{option}</span>
+                          </label>
                         ))}
                       </div>
-                    </motion.div>
-
-                    <div>
-                      <h3 className="text-2xl font-bold text-foreground dark:text-dark-100">
-                        {quizScore >= 80
-                          ? 'Excellent!'
-                          : quizScore >= 60
-                            ? 'Good job!'
-                            : 'Keep practicing!'}
-                      </h3>
-                      <p className="text-3xl font-bold text-primary-600 dark:text-primary-400 mt-2">
-                        {quizScore}%
-                      </p>
-
-                      {/* XP Reward Display */}
-                      {quizXPResult && !quizXPResult.alreadyCompleted && quizXPResult.xpEarned > 0 && (
-                        <motion.div
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ type: 'spring', stiffness: 200, delay: 0.4 }}
-                          className="flex items-center justify-center gap-2 text-amber-500 dark:text-amber-400 mt-3"
-                        >
-                          <Sparkles className="w-5 h-5" />
-                          <span className="text-xl font-bold">+{quizXPResult.xpEarned} XP</span>
-                        </motion.div>
-                      )}
-                      {quizXPResult?.alreadyCompleted && (
-                        <p className="text-sm text-muted-foreground dark:text-dark-400 mt-2">
-                          Quiz already completed
-                        </p>
-                      )}
                     </div>
+                  ))}
 
-                    <div className="space-y-3 text-left">
-                      {episode.quiz.questions.map((question: any, index: number) => (
-                        <motion.div
-                          key={index}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.3 + index * 0.1 }}
-                          className={`p-4 rounded-xl ${quizAnswers[index] === question.correctAnswer
-                            ? 'bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/50'
-                            : 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/50'
-                            }`}
-                        >
-                          <p className="font-medium text-foreground dark:text-dark-100 mb-2 text-sm">
-                            {index + 1}. {question.questionJa || question.questionEn}
-                          </p>
-                          <div className="flex items-center gap-2">
-                            {quizAnswers[index] === question.correctAnswer ? (
-                              <CheckCircle className="w-4 h-4 text-emerald-500 flex-shrink-0" />
-                            ) : (
-                              <XCircle className="w-4 h-4 text-red-500 flex-shrink-0" />
-                            )}
-                            <span
-                              className={`text-sm ${quizAnswers[index] === question.correctAnswer
-                                ? 'text-emerald-700 dark:text-emerald-400'
-                                : 'text-red-700 dark:text-red-400'
-                                }`}
-                            >
-                              {question.options[quizAnswers[index]]}
-                            </span>
-                          </div>
-                          {quizAnswers[index] !== question.correctAnswer && (
-                            <p className="text-emerald-600 dark:text-emerald-400 mt-1 ml-6 text-sm">
-                              ✓ {question.options[question.correctAnswer]}
-                            </p>
-                          )}
-                          {question.explanation && (
-                            <p className="text-xs text-muted-foreground dark:text-dark-400 mt-2 ml-6 italic">
-                              {question.explanation}
-                            </p>
-                          )}
-                        </motion.div>
-                      ))}
-                    </div>
-
-                    <div className="flex gap-3 pt-2">
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => {
-                          setQuizAnswers([])
-                          setQuizScore(null)
-                        }}
-                        className="flex-1 px-4 py-3 rounded-xl bg-gray-100 dark:bg-dark-700 text-foreground dark:text-dark-100 hover:bg-gray-200 dark:hover:bg-dark-600 transition-all font-medium"
-                      >
-                        Try Again
-                      </motion.button>
-                      <motion.button
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => router.push('/comics')}
-                        className="flex-1 px-4 py-3 rounded-xl bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 transition-all font-semibold shadow-lg shadow-primary-500/20"
-                      >
-                        Back to Comics
-                      </motion.button>
-                    </div>
+                  <div className="flex justify-between mt-8 pt-6 border-t border-gray-200 dark:border-dark-700">
+                    <button
+                      onClick={() => setShowQuiz(false)}
+                      className="px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105 bg-gray-100 dark:bg-dark-700 text-gray-900 dark:text-white"
+                    >
+                      {strings.common?.back || 'Back'}
+                    </button>
+                    <button
+                      onClick={handleQuizSubmit}
+                      disabled={quizAnswers.length !== episode.quiz.questions.length}
+                      className="px-6 py-2 rounded-xl text-white transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                      style={{
+                        backgroundColor: 'rgb(var(--palette-primary-500))',
+                      }}
+                    >
+                      {strings.common?.submit || 'Submit'}
+                    </button>
                   </div>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                </div>
+              ) : (
+                <div className="text-center space-y-4">
+                  <div className="text-6xl mb-4">
+                    {quizScore >= 80 ? '🎉' : quizScore >= 60 ? '👍' : '💪'}
+                  </div>
+                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {quizScore >= 80
+                      ? strings.story?.quiz?.excellent || 'Excellent!'
+                      : quizScore >= 60
+                        ? strings.story?.quiz?.good || 'Good job!'
+                        : strings.story?.quiz?.keepPracticing || 'Keep practicing!'}
+                  </h3>
+                  <p className="text-xl text-gray-900 dark:text-white">
+                    {strings.story?.quiz?.yourScore || 'Your Score'}: {quizScore}%
+                  </p>
+
+                  {/* XP Reward Display */}
+                  {quizXPResult && !quizXPResult.alreadyCompleted && quizXPResult.xpEarned > 0 && (
+                    <div className="flex items-center justify-center gap-2 text-amber-500 dark:text-amber-400 mt-2">
+                      <span className="text-2xl">✨</span>
+                      <span className="text-xl font-bold">+{quizXPResult.xpEarned} XP</span>
+                    </div>
+                  )}
+                  {quizXPResult?.alreadyCompleted && (
+                    <p className="text-sm mt-2 text-gray-600 dark:text-gray-400">
+                      Quiz already completed
+                    </p>
+                  )}
+
+                  <div className="space-y-3 mt-6 text-left">
+                    {episode.quiz.questions.map((question: any, index: number) => (
+                      <div
+                        key={index}
+                        className="p-4 rounded-xl bg-gray-50 dark:bg-dark-700"
+                      >
+                        <p className="font-medium mb-2 text-gray-900 dark:text-white">
+                          {question.questionJa || question.questionEn}
+                        </p>
+                        <p
+                          className={
+                            quizAnswers[index] === question.correctAnswer
+                              ? 'text-green-600 dark:text-green-400'
+                              : 'text-red-600 dark:text-red-400'
+                          }
+                        >
+                          Your answer: {question.options[quizAnswers[index]]}
+                        </p>
+                        {quizAnswers[index] !== question.correctAnswer && (
+                          <p className="text-green-600 dark:text-green-400">
+                            Correct: {question.options[question.correctAnswer]}
+                          </p>
+                        )}
+                        {question.explanation && (
+                          <p className="text-sm mt-1 text-gray-600 dark:text-gray-400">
+                            {question.explanation}
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+
+                  <button
+                    onClick={() => router.push('/comics')}
+                    className="px-6 py-2 rounded-xl text-white mt-6 transition-all duration-200 hover:scale-105"
+                    style={{
+                      backgroundColor: 'rgb(var(--palette-primary-500))',
+                    }}
+                  >
+                    {strings.common?.finish || 'Finish'}
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Word Explanation Modal */}
       <WordExplanationModal

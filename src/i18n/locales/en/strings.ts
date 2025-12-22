@@ -702,7 +702,7 @@ export const strings = {
     takeQuiz: 'Take Quiz',
     finish: 'Finish',
     quiz: {
-      title: 'Story Quiz',
+      title: 'Quiz',
       yourScore: 'Your Score',
       excellent: 'Excellent!',
       good: 'Good Job!',

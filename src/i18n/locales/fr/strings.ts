@@ -4753,7 +4753,7 @@ export const strings = {
     takeQuiz: 'Faire le quiz',
     finish: 'Terminer',
     quiz: {
-      title: 'Quiz de l\'histoire',
+      title: 'Quiz',
       question: 'Question {{current}} / {{total}}',
       submit: 'Soumettre la réponse',
       next: 'Suivant',

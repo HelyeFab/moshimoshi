@@ -4840,7 +4840,7 @@ export const strings = {
     takeQuiz: 'Quiz machen',
     finish: 'Beenden',
     quiz: {
-      title: 'Story-Quiz',
+      title: 'Quiz',
       question: 'Frage {{current}} / {{total}}',
       submit: 'Antwort senden',
       next: 'Weiter',

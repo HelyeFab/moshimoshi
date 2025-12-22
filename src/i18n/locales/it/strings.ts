@@ -4325,7 +4325,7 @@ export const strings = {
     takeQuiz: 'Fai il Quiz',
     finish: 'Finisci',
     quiz: {
-      title: 'Quiz della Storia',
+      title: 'Quiz',
       yourScore: 'Il Tuo Punteggio',
       excellent: 'Eccellente!',
       good: 'Ottimo Lavoro!',

@@ -4272,7 +4272,7 @@ export const strings = {
     takeQuiz: 'Hacer Quiz',
     finish: 'Finalizar',
     quiz: {
-      title: 'Quiz de Historia',
+      title: 'Quiz',
       yourScore: 'Tu Puntuación',
       excellent: '¡Excelente!',
       good: '¡Buen Trabajo!',

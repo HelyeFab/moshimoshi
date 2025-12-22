@@ -4089,7 +4089,7 @@ export const strings = {
     takeQuiz: 'クイズを受ける',
     finish: '終了',
     quiz: {
-      title: '物語クイズ',
+      title: 'クイズ',
       yourScore: 'あなたのスコア',
       excellent: '素晴らしい！',
       good: 'よくできました！',
