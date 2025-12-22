@@ -340,8 +340,6 @@ export async function POST(request: NextRequest) {
       'metadata.progress': 72,
     })
 
-    let audioGeneratedSuccessfully = false
-
     try {
       // Call the correct TTS synthesize endpoint
       const ttsResponse = await fetch(`${request.nextUrl.origin}/api/tts/synthesize`, {
@@ -379,8 +377,6 @@ export async function POST(request: NextRequest) {
             'metadata.audioProvider': provider,
             'metadata.progress': 78,
           })
-
-          audioGeneratedSuccessfully = true
         } else {
           console.warn('⚠️ [BookAudio] TTS returned OK but no audioUrl in response')
           await draftRef.update({
@@ -409,16 +405,7 @@ export async function POST(request: NextRequest) {
         'metadata.audioError': audioError instanceof Error ? audioError.message : 'Unknown error',
         'metadata.progress': 78,
       })
-    }
-
-    // Check if audio generation succeeded - if not, return error
-    if (!audioGeneratedSuccessfully) {
-      return NextResponse.json({
-        success: false,
-        error: 'Audio generation failed',
-        details: 'Audio could not be generated for this book',
-        draftId,
-      }, { status: 500 })
+      // Continue without audio - can be generated later via backfill
     }
 
     // Step 4: Generate word explanations (pre-cache for instant lookups)
