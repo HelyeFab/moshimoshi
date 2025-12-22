@@ -290,7 +290,7 @@ export default function GenerateBookPage() {
           'Content-Type': 'application/json',
         },
         credentials: 'include',
-        body: JSON.stringify({ draftId }),
+        body: JSON.stringify({ draftId: receivedDraftId }),
       })
 
       if (!publishResponse.ok) {
