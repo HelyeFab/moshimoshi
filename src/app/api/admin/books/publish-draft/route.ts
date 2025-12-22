@@ -57,9 +57,11 @@ export async function POST(request: NextRequest) {
 
     const draftData = draftDoc.data();
 
+    console.log(`[PublishDraft] Draft status: ${draftData?.status}, draftId: ${draftId}`);
+
     if (!draftData || draftData.status === 'generating') {
       return NextResponse.json(
-        { error: 'Book is still being generated' },
+        { error: 'Book is still being generated', currentStatus: draftData?.status },
         { status: 400 }
       );
     }
@@ -74,11 +76,14 @@ export async function POST(request: NextRequest) {
     if (!draftData.jlptLevel) missingFields.push('jlptLevel');
 
     if (missingFields.length > 0) {
+      console.error(`[PublishDraft] Missing fields:`, missingFields);
+      console.error(`[PublishDraft] Draft data keys:`, Object.keys(draftData));
       return NextResponse.json(
         {
           error: 'Draft is missing required fields',
           details: `Missing: ${missingFields.join(', ')}`,
-          draftData: draftData
+          presentFields: Object.keys(draftData),
+          missingFields: missingFields
         },
         { status: 400 }
       );

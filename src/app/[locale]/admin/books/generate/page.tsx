@@ -294,7 +294,9 @@ export default function GenerateBookPage() {
       })
 
       if (!publishResponse.ok) {
-        throw new Error('Failed to publish book')
+        const errorData = await publishResponse.json()
+        console.error('❌ Publish failed:', errorData)
+        throw new Error(errorData.error || errorData.details || 'Failed to publish book')
       }
 
       setGenerationProgress({
