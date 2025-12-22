@@ -826,7 +826,6 @@ export default function EnhancedArticleReader({
     preserveGrammarStructure: true,
     includeGrammarNotes: true,
     autoAddToVocabulary: false,
-    translationUserLevel: 'N5',
     shadowingMode: false,
   })
 
@@ -840,7 +839,6 @@ export default function EnhancedArticleReader({
     updateSettings: updateTranslationSettings,
   } = useContentTranslation({
     mode: settings.translationMode,
-    userLevel: settings.translationUserLevel,
     showConfidence: settings.showTranslationConfidence,
     includeGrammarNotes: settings.includeGrammarNotes,
     autoAddToVocabulary: settings.autoAddToVocabulary,
@@ -1143,14 +1141,12 @@ export default function EnhancedArticleReader({
   useEffect(() => {
     updateTranslationSettings({
       mode: settings.translationMode,
-      userLevel: settings.translationUserLevel,
       showConfidence: settings.showTranslationConfidence,
       includeGrammarNotes: settings.includeGrammarNotes,
       autoAddToVocabulary: settings.autoAddToVocabulary,
     })
   }, [
     settings.translationMode,
-    settings.translationUserLevel,
     settings.showTranslationConfidence,
     settings.includeGrammarNotes,
     settings.autoAddToVocabulary,
@@ -2567,9 +2563,6 @@ export default function EnhancedArticleReader({
                     }}
                   >
                     {settings.translationMode}
-                  </span>
-                  <span style={{ color: 'var(--article-text-secondary)' }}>
-                    {settings.translationUserLevel}
                   </span>
                 </div>
               )}
