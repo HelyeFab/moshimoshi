@@ -140,6 +140,14 @@ async function callStoryAPIWithRetry(
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const result = await callStoryAPI(endpoint, body, adminKey)
+
+      // CRITICAL FIX: Check if the API response itself indicates failure
+      // Some endpoints return HTTP 200 with {success: false, error: "..."}
+      if (result && typeof result.success === 'boolean' && !result.success) {
+        const errorMsg = result.error || 'API returned success: false'
+        throw new Error(errorMsg)
+      }
+
       return { success: true, data: result }
     } catch (error) {
       const errorMsg = error instanceof Error ? error.message : 'Unknown error'
