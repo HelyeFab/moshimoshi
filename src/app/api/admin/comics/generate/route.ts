@@ -34,28 +34,50 @@ const openai = new OpenAI({
 })
 
 /**
- * Generate JSON content using OpenAI
+ * Generate JSON content using OpenAI with retry logic
  */
-async function generateJSON(prompt: string): Promise<any> {
-  const response = await openai.chat.completions.create({
-    model: 'gpt-4o-mini',
-    messages: [
-      {
-        role: 'system',
-        content: 'You are a helpful assistant that generates JSON content for Japanese learning comics. Always return valid JSON.',
-      },
-      { role: 'user', content: prompt },
-    ],
-    response_format: { type: 'json_object' },
-    temperature: 0.7,
-  })
+async function generateJSON(prompt: string, maxRetries = 2): Promise<any> {
+  let lastError: Error | null = null
 
-  const content = response.choices[0]?.message?.content
-  if (!content) {
-    throw new Error('No content returned from OpenAI')
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      console.log(`[generateJSON] Attempt ${attempt}/${maxRetries}`)
+
+      const response = await openai.chat.completions.create({
+        model: 'gpt-4o-mini',
+        messages: [
+          {
+            role: 'system',
+            content: 'You are a helpful assistant that generates JSON content for Japanese learning comics. Always return valid, well-formed JSON that exactly matches the requested structure.',
+          },
+          { role: 'user', content: prompt },
+        ],
+        response_format: { type: 'json_object' },
+        temperature: 0.7,
+      })
+
+      const content = response.choices[0]?.message?.content
+      if (!content) {
+        throw new Error('No content returned from OpenAI')
+      }
+
+      const parsed = JSON.parse(content)
+      console.log(`[generateJSON] Success - keys: ${Object.keys(parsed).join(', ')}`)
+      return parsed
+    } catch (error) {
+      console.error(`[generateJSON] Attempt ${attempt} failed:`, error instanceof Error ? error.message : error)
+      lastError = error instanceof Error ? error : new Error('Unknown error')
+
+      if (attempt < maxRetries) {
+        // Wait before retry (exponential backoff)
+        const waitTime = Math.pow(2, attempt) * 1000
+        console.log(`[generateJSON] Retrying in ${waitTime}ms...`)
+        await new Promise(resolve => setTimeout(resolve, waitTime))
+      }
+    }
   }
 
-  return JSON.parse(content)
+  throw lastError || new Error('generateJSON failed after all retries')
 }
 
 // Helper to create Gemini processor context
@@ -553,25 +575,39 @@ export async function POST(request: NextRequest) {
       const culturePrompt = buildCulturalNotesPrompt(theme, location)
 
       let culturalNotes: any[] = []
+      let success = true
+      let errorMessage: string | undefined
+
       try {
         const cultureData = await generateJSON(culturePrompt)
         culturalNotes = Array.isArray(cultureData) ? cultureData : cultureData.notes || []
+
+        // Validate we got actual data
+        if (!culturalNotes || culturalNotes.length === 0) {
+          console.error('[ComicGen] Cultural notes generation returned empty array')
+          success = false
+          errorMessage = 'Generated empty cultural notes array'
+        }
       } catch (error) {
-        console.error('OpenAI cultural notes generation failed:', error)
+        console.error('[ComicGen] OpenAI cultural notes generation failed:', error)
+        success = false
+        errorMessage = error instanceof Error ? error.message : 'Unknown error'
         culturalNotes = []
       }
 
+      // Save whatever we got (even if empty, for debugging)
       await adminFirestore!.collection('comic_drafts').doc(draftId).update({
         culturalNotes,
-        currentStep: 'cultural_notes',
+        currentStep: success ? 'cultural_notes' : 'cultural_notes_failed',
         progress: 80,
         updatedAt: new Date(),
       })
 
       return NextResponse.json({
-        success: true,
+        success,
         draftId,
         culturalNotes,
+        ...(errorMessage ? { error: errorMessage } : {}),
       })
     }
 
@@ -590,24 +626,39 @@ export async function POST(request: NextRequest) {
       const quizPrompt = buildQuizPrompt(panels, vocabulary, outline)
 
       let quiz = { questions: [] as any[], passingScore: 70 }
+      let success = true
+      let errorMessage: string | undefined
+
       try {
         quiz = await generateJSON(quizPrompt)
+
+        // Validate we got actual questions
+        if (!quiz || !quiz.questions || quiz.questions.length === 0) {
+          console.error('[ComicGen] Quiz generation returned no questions')
+          success = false
+          errorMessage = 'Generated quiz with no questions'
+          quiz = { questions: [], passingScore: 70 }
+        }
       } catch (error) {
-        console.error('OpenAI quiz generation failed:', error)
+        console.error('[ComicGen] OpenAI quiz generation failed:', error)
+        success = false
+        errorMessage = error instanceof Error ? error.message : 'Unknown error'
         quiz = { questions: [], passingScore: 70 }
       }
 
+      // Save whatever we got (even if empty, for debugging)
       await adminFirestore!.collection('comic_drafts').doc(draftId).update({
         quiz,
-        currentStep: 'quiz',
+        currentStep: success ? 'quiz' : 'quiz_failed',
         progress: 90,
         updatedAt: new Date(),
       })
 
       return NextResponse.json({
-        success: true,
+        success,
         draftId,
         quiz,
+        ...(errorMessage ? { error: errorMessage } : {}),
       })
     }
 
@@ -941,19 +992,25 @@ Include 8-12 vocabulary items.`
 function buildCulturalNotesPrompt(theme: string, location: string): string {
   return `Create cultural notes for a Japanese learning comic about ${theme} at ${location}.
 
-Return a JSON array:
-[
-  {
-    "title": "Cultural topic title",
-    "titleJa": "Japanese title",
-    "content": "2-3 sentences explaining this cultural aspect",
-    "contentJa": "Japanese explanation",
-    "iconEmoji": "relevant emoji like 🏯 or 🍱"
-  }
-]
+You MUST return a JSON object with a "notes" array in EXACTLY this format:
+{
+  "notes": [
+    {
+      "title": "Cultural topic title in English",
+      "titleJa": "文化トピックのタイトル",
+      "content": "2-3 sentences explaining this cultural aspect in English",
+      "contentJa": "この文化的側面を説明する日本語の文章",
+      "iconEmoji": "🏯"
+    }
+  ]
+}
 
-Include 2-3 cultural notes that would help language learners understand Japanese culture better.
-Focus on practical, interesting facts that relate to the comic's theme.`
+Requirements:
+- Include EXACTLY 2-3 cultural notes
+- Each note must have all 5 fields: title, titleJa, content, contentJa, iconEmoji
+- Focus on practical, interesting facts about ${location} and Japanese culture
+- Make it educational for language learners
+- Use relevant emojis (🏯 🗾 🍱 ⛩️ 🎌 etc.)`
 }
 
 function buildQuizPrompt(
@@ -961,33 +1018,43 @@ function buildQuizPrompt(
   vocabulary: any[],
   outline: any
 ): string {
+  const vocabList = vocabulary?.slice(0, 8) || []
+  const panelSummary = panels?.slice(0, 3).map((p, i) => ({
+    panel: i + 1,
+    narration: p.narration?.textJa || p.narration?.textEn || '',
+    dialogue: p.dialogues?.map((d: any) => d.textJa || d.textEn).join(' ') || ''
+  })) || []
+
   return `Create a quiz for a Japanese learning comic.
 
-Panels: ${JSON.stringify(panels.slice(0, 3))}
-Vocabulary: ${JSON.stringify(vocabulary?.slice(0, 5) || [])}
-Outline: ${JSON.stringify(outline)}
+Comic Content Summary:
+${JSON.stringify(panelSummary, null, 2)}
 
-Return JSON:
+Vocabulary from Comic:
+${JSON.stringify(vocabList, null, 2)}
+
+You MUST return a JSON object in EXACTLY this format:
 {
   "questions": [
     {
       "type": "multiple-choice",
-      "questionJa": "Question in Japanese",
-      "questionEn": "Question in English",
+      "questionJa": "この言葉の意味は何ですか？",
+      "questionEn": "What does this word mean?",
       "options": ["option1", "option2", "option3", "option4"],
       "correctAnswer": 0,
-      "explanation": "Why this answer is correct",
-      "explanationJa": "Japanese explanation"
+      "explanation": "Explanation of why this answer is correct",
+      "explanationJa": "なぜこの答えが正しいかの説明"
     }
   ],
   "passingScore": 70
 }
 
-Create 4-5 questions testing:
-- Vocabulary from the comic
-- Reading comprehension
-- Cultural understanding
-- Basic grammar points`
+Requirements:
+- Create EXACTLY 4-5 questions
+- Each question must have ALL 7 fields: type, questionJa, questionEn, options (array of 4), correctAnswer (0-3), explanation, explanationJa
+- Test vocabulary, reading comprehension, and cultural understanding
+- Make questions appropriate for the JLPT level
+- Options must be plausible but only one correct`
 }
 
 // ============ Default Generators ============
