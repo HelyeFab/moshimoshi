@@ -52,43 +52,15 @@
 2025-12-18 20:26:47 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-18_20-26-47.md
 2025-12-18 20:26:47 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
 
-2025-12-19 16:45:12 - Backup function called
-2025-12-19 16:45:12 - ENV_FILE exists: C:\Users\esfab\WinDevProjects\moshimoshi\.env.local
-2025-12-19 16:45:12 - Backup dir ready: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi
-2025-12-19 16:45:12 - Copied to: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local-2025-12-19T16-45-12.md
-2025-12-19 16:45:12 - Updated: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local.md
-2025-12-19 23:02:29 - Backup function called
-2025-12-19 23:02:29 - ENV_FILE exists: C:\Users\esfab\WinDevProjects\moshimoshi\.env.local
-2025-12-19 23:02:29 - Backup dir ready: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi
-2025-12-19 23:02:29 - Copied to: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local-2025-12-19T23-02-29.md
-2025-12-19 23:02:29 - Updated: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local.md
-2025-12-19 23:02:57 - Backup function called
-2025-12-19 23:02:57 - ENV_FILE exists: C:\Users\esfab\WinDevProjects\moshimoshi\.env.local
-2025-12-19 23:02:57 - Backup dir ready: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi
-2025-12-19 23:02:57 - Copied to: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local-2025-12-19T23-02-57.md
-2025-12-19 23:02:57 - Updated: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local.md
-2025-12-20 13:02:34 - Backup function called
-2025-12-20 13:02:34 - ENV_FILE exists: C:\Users\esfab\WinDevProjects\moshimoshi\.env.local
-2025-12-20 13:02:34 - Backup dir ready: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi
-2025-12-20 13:02:34 - Copied to: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local-2025-12-20T13-02-34.md
-2025-12-20 13:02:34 - Updated: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local.md
-2025-12-20 20:27:27 - Backup function called
-2025-12-20 20:27:27 - ENV_FILE exists: C:\Users\esfab\WinDevProjects\moshimoshi\.env.local
-2025-12-20 20:27:27 - Backup dir ready: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi
-2025-12-20 20:27:27 - Copied to: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local-2025-12-20T20-27-27.md
-2025-12-20 20:27:27 - Updated: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local.md
-2025-12-20 20:50:40 - Backup function called
-2025-12-20 20:50:40 - ENV_FILE exists: C:\Users\esfab\WinDevProjects\moshimoshi\.env.local
-2025-12-20 20:50:40 - Backup dir ready: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi
-2025-12-20 20:50:40 - Copied to: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local-2025-12-20T20-50-40.md
-2025-12-20 20:50:40 - Updated: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local.md
-2025-12-21 18:03:27 - Backup function called
-2025-12-21 18:03:27 - ENV_FILE exists: C:\Users\esfab\WinDevProjects\moshimoshi\.env.local
-2025-12-21 18:03:27 - Backup dir ready: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi
-2025-12-21 18:03:27 - Copied to: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local-2025-12-21T18-03-27.md
-2025-12-21 18:03:27 - Updated: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local.md
-2025-12-21 18:58:45 - Backup function called
-2025-12-21 18:58:45 - ENV_FILE exists: C:\Users\esfab\WinDevProjects\moshimoshi\.env.local
-2025-12-21 18:58:45 - Backup dir ready: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi
-2025-12-21 18:58:45 - Copied to: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local-2025-12-21T18-58-45.md
-2025-12-21 18:58:45 - Updated: C:\Users\esfab\Obsidian\Life-Org\08_Moshimoshi\env-local.md
+2025-12-18 20:53:31 - Backup function called
+2025-12-18 20:53:31 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
+2025-12-18 20:53:31 - Created backup dir: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
+2025-12-18 20:53:31 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-18_20-53-31.md
+2025-12-18 20:53:31 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
+
+2025-12-18 21:05:34 - Backup function called
+2025-12-18 21:05:34 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
+2025-12-18 21:05:34 - Created backup dir: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
+2025-12-18 21:05:34 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-18_21-05-34.md
+2025-12-18 21:05:34 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
+
