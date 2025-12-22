@@ -51,6 +51,9 @@ export interface WordExplanationModalProps {
   // Enhanced features
   showTranslationContext?: boolean
   enableRelatedTranslations?: boolean
+
+  // TTS voice consistency
+  ttsVoice?: string  // Voice ID for VOICEVOX (default: '23' - energetic female)
 }
 
 // ============================================
@@ -69,6 +72,7 @@ export default function WordExplanationModal({
   onWordLookup,
   showTranslationContext = true,
   enableRelatedTranslations = true,
+  ttsVoice = '23',  // Default to voice 23 (energetic female)
 }: WordExplanationModalProps) {
   // ============================================
   // State and Hooks
@@ -97,12 +101,12 @@ export default function WordExplanationModal({
   const handlePlayExample = useCallback(
     async (text: string) => {
       try {
-        await play(text)
+        await play(text, { voice: ttsVoice })
       } catch (error) {
         console.error('TTS playback failed:', error)
       }
     },
-    [play]
+    [play, ttsVoice]
   )
 
   const handlePlayWord = useCallback(async () => {

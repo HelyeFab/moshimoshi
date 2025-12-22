@@ -9,6 +9,7 @@ import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedT
 import KuromojiService from '@/utils/kuromojiService'
 import MobileSettingsToolbar from './CompactSettingsToolbar'
 import Modal from '@/components/ui/Modal'
+import { useToast } from '@/components/ui/Toast'
 import { useWordExplanation } from '@/hooks/useWordExplanation'
 import WordExplanationModal from '@/components/word/WordExplanationModal'
 import MoshiShadowingPlayer from '@/components/shadowing/MoshiShadowingPlayer'
@@ -171,9 +172,13 @@ import {
   Repeat,
   ListMusic,
   Square,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react'
 import { useNewsProgress } from '@/hooks/useNewsProgress'
 import NewsArticleFallbackImage from './NewsArticleFallbackImage'
+import AudioControlMenu from '@/components/audio/AudioControlMenu'
+import { LockScreen } from '@/components/ui/LockScreen'
 
 interface NewsArticle {
   id: string
@@ -779,6 +784,7 @@ export default function EnhancedArticleReader({
   const isStoryMode = pages && pages.length > 0
   const { t } = useI18n()
   const { user } = useAuth()
+  const { showToast } = useToast()
 
   // Initialize gamification listener (following Kana pattern)
   useEffect(() => {
@@ -979,6 +985,14 @@ export default function EnhancedArticleReader({
       setIsPreGeneratedPlaying(false)
     }
 
+    // Stop TTS audio if playing
+    if (ttsPlaying) {
+      ttsStop()
+    }
+
+    // Stop sentence-level playback
+    setPlayingSentenceIndex(null)
+
     if (direction === 'next') {
       if (currentPageIndex < totalPages - 1) {
         setCurrentPageIndex(currentPageIndex + 1)
@@ -1160,6 +1174,10 @@ export default function EnhancedArticleReader({
   const [isStoryLoopEnabled, setIsStoryLoopEnabled] = useState(false)
   const isPlayingFullStoryRef = useRef(false) // Ref to access in audio callbacks
   const isStoryLoopEnabledRef = useRef(false) // Ref to access in audio callbacks
+  const fullStoryFailureCountRef = useRef(0) // Track consecutive pages without audio
+
+  // Lock screen state (prevents accidental touches during full story playback)
+  const [isScreenLocked, setIsScreenLocked] = useState(false)
 
   // NHK HLS audio player (for original NHK narrator audio)
   const {
@@ -1204,10 +1222,14 @@ export default function EnhancedArticleReader({
       preGeneratedAudioRef.current = null
       // Stop NHK audio if playing
       stopNhkAudio()
+      // Stop TTS audio if playing
+      ttsStop()
       // Reset full story mode
       setIsPlayingFullStory(false)
+      // Reset lock screen
+      setIsScreenLocked(false)
     }
-  }, [article.id, stopNhkAudio])
+  }, [article.id, stopNhkAudio, ttsStop])
 
   // Sync full story refs with state (for access in audio callbacks)
   useEffect(() => {
@@ -1425,10 +1447,14 @@ export default function EnhancedArticleReader({
     const pageAudioUrl = pages[pageIndex]?.audioUrl
     if (!pageAudioUrl) {
       console.log(`[Full Story] No audio for page ${pageIndex + 1}, advancing to next`)
+      fullStoryFailureCountRef.current += 1
       // No audio for this page, try next page
       handleFullStoryPageEnd(pageIndex)
       return
     }
+
+    // Reset failure counter when we successfully find audio
+    fullStoryFailureCountRef.current = 0
 
     // Clean up existing audio
     if (preGeneratedAudioRef.current) {
@@ -1492,6 +1518,14 @@ export default function EnhancedArticleReader({
 
     const nextPageIndex = completedPageIndex + 1
 
+    // Safety check: if we've tried all pages without finding audio, stop
+    if (fullStoryFailureCountRef.current >= pages.length) {
+      console.warn('[Full Story] No audio found on any page - stopping playback')
+      setIsPlayingFullStory(false)
+      fullStoryFailureCountRef.current = 0
+      return
+    }
+
     if (nextPageIndex < pages.length) {
       // Advance to next page
       console.log(`[Full Story] Advancing to page ${nextPageIndex + 1}`)
@@ -1515,6 +1549,7 @@ export default function EnhancedArticleReader({
       // End of story, stop full story mode
       console.log('[Full Story] Story complete, stopping')
       setIsPlayingFullStory(false)
+      fullStoryFailureCountRef.current = 0
     }
   }
 
@@ -1547,8 +1582,17 @@ export default function EnhancedArticleReader({
       return
     }
 
+    // Check if any pages have audio before starting
+    const pagesWithAudio = pages.filter(p => p.audioUrl)
+    if (pagesWithAudio.length === 0) {
+      console.warn('[Full Story] No pages have audio - cannot start full story playback')
+      showToast(t('story.noAudioAvailable'), 'warning', 5000)
+      return
+    }
+
     // Start fresh full story playback from current page
     console.log(`[Full Story] Starting from page ${currentPageIndex + 1}`)
+    fullStoryFailureCountRef.current = 0 // Reset failure counter
     setIsPlayingFullStory(true)
     playPageAudioForFullStory(currentPageIndex)
   }
@@ -1559,6 +1603,7 @@ export default function EnhancedArticleReader({
   const handleStopFullStory = () => {
     console.log('[Full Story] Stopping')
     setIsPlayingFullStory(false)
+    fullStoryFailureCountRef.current = 0 // Reset failure counter
     if (preGeneratedAudioRef.current) {
       cleanupAudio(preGeneratedAudioRef.current)
       preGeneratedAudioRef.current = null
@@ -1573,6 +1618,31 @@ export default function EnhancedArticleReader({
     setIsStoryLoopEnabled(prev => !prev)
     console.log(`[Full Story] Loop ${!isStoryLoopEnabled ? 'enabled' : 'disabled'}`)
   }
+
+  /**
+   * Toggle lock screen (prevents accidental touches)
+   */
+  const handleToggleLock = () => {
+    setIsScreenLocked(prev => !prev)
+    console.log(`[Lock Screen] ${!isScreenLocked ? 'Locked' : 'Unlocked'}`)
+  }
+
+  /**
+   * Unlock screen handler (called by LockScreen component)
+   */
+  const handleUnlockScreen = () => {
+    setIsScreenLocked(false)
+    console.log('[Lock Screen] Unlocked via Doshi tap')
+  }
+
+  // Auto-unlock when conditions change
+  useEffect(() => {
+    // Unlock if full story stops or loop is disabled
+    if (isScreenLocked && (!isPlayingFullStory || !isStoryLoopEnabled)) {
+      console.log('[Lock Screen] Auto-unlocking - playback conditions changed')
+      setIsScreenLocked(false)
+    }
+  }, [isScreenLocked, isPlayingFullStory, isStoryLoopEnabled])
 
   // Handle NHK HLS audio playback (Priority 1)
   const handleNhkAudioPlayback = async () => {
@@ -2233,39 +2303,58 @@ export default function EnhancedArticleReader({
             </button>
           )}
 
-          <button
-            onClick={handlePlayArticle}
-            disabled={ttsLoading}
-            className={`ml-auto px-5 py-2 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 shadow-sm font-medium ${
-              ttsLoading
-                ? 'bg-gray-100 text-gray-400 cursor-wait'
-                : 'bg-primary-500 text-white hover:bg-primary-600 hover:shadow-md hover:shadow-primary-500/20'
-            }`}
-            aria-label={
-              ttsLoading
-                ? t('common.loading')
-                : ttsPlaying || isPreGeneratedPlaying
-                  ? t('common.pause')
-                  : t('common.play')
-            }
-          >
-            {ttsLoading ? (
-              <>
-                <div className="animate-spin w-4 h-4 border-2 border-white/80 border-t-transparent rounded-full" />
-                <span className="text-sm hidden sm:inline">{t('common.loading')}</span>
-              </>
-            ) : ttsPlaying || isPreGeneratedPlaying ? (
-              <>
-                <Pause className="w-4 h-4 fill-current" />
-                <span className="text-sm hidden sm:inline">{t('common.pause')}</span>
-              </>
-            ) : (
-              <>
-                <Play className="w-4 h-4 fill-current" />
-                <span className="text-sm hidden sm:inline">{t('common.play')}</span>
-              </>
-            )}
-          </button>
+          {/* Audio Controls - Story Mode uses organized menu, Article Mode uses simple play button */}
+          {isStoryMode && totalPages > 1 ? (
+            <AudioControlMenu
+              className="ml-auto"
+              isPlayingPage={ttsPlaying || isPreGeneratedPlaying}
+              isPlayingFullStory={isPlayingFullStory}
+              isStoryLoopEnabled={isStoryLoopEnabled}
+              isScreenLocked={isScreenLocked}
+              currentPage={currentPageIndex}
+              totalPages={totalPages}
+              onPlayPage={handlePlayArticle}
+              onPlayFullStory={handlePlayFullStory}
+              onStopFullStory={handleStopFullStory}
+              onToggleLoop={handleToggleStoryLoop}
+              onToggleLock={handleToggleLock}
+              disabled={ttsLoading}
+            />
+          ) : (
+            <button
+              onClick={handlePlayArticle}
+              disabled={ttsLoading}
+              className={`ml-auto px-5 py-2 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 shadow-sm font-medium ${
+                ttsLoading
+                  ? 'bg-gray-100 text-gray-400 cursor-wait'
+                  : 'bg-primary-500 text-white hover:bg-primary-600 hover:shadow-md hover:shadow-primary-500/20'
+              }`}
+              aria-label={
+                ttsLoading
+                  ? t('common.loading')
+                  : ttsPlaying || isPreGeneratedPlaying
+                    ? t('common.pause')
+                    : t('common.play')
+              }
+            >
+              {ttsLoading ? (
+                <>
+                  <div className="animate-spin w-4 h-4 border-2 border-white/80 border-t-transparent rounded-full" />
+                  <span className="text-sm hidden sm:inline">{t('common.loading')}</span>
+                </>
+              ) : ttsPlaying || isPreGeneratedPlaying ? (
+                <>
+                  <Pause className="w-4 h-4 fill-current" />
+                  <span className="text-sm hidden sm:inline">{t('common.pause')}</span>
+                </>
+              ) : (
+                <>
+                  <Play className="w-4 h-4 fill-current" />
+                  <span className="text-sm hidden sm:inline">{t('common.play')}</span>
+                </>
+              )}
+            </button>
+          )}
         </div>
       </header>
 
@@ -2600,75 +2689,6 @@ export default function EnhancedArticleReader({
                   ))}
                 </div>
 
-                {/* Full Story Playback Controls */}
-                {totalPages > 1 && (
-                  <div className="flex items-center justify-center gap-3">
-                    {/* Play All / Stop Button */}
-                    {isPlayingFullStory ? (
-                      <button
-                        onClick={handleStopFullStory}
-                        className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500 hover:bg-red-600 text-white transition-all duration-200 hover:scale-105 active:scale-95 shadow-md"
-                        title="Stop full story playback"
-                      >
-                        <Square className="w-4 h-4 fill-current" />
-                        <span className="text-sm font-medium">Stop</span>
-                      </button>
-                    ) : (
-                      <button
-                        onClick={handlePlayFullStory}
-                        className="flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white transition-all duration-200 hover:scale-105 active:scale-95 shadow-md"
-                        title="Play all pages sequentially"
-                      >
-                        <ListMusic className="w-4 h-4" />
-                        <span className="text-sm font-medium">Play All</span>
-                      </button>
-                    )}
-
-                    {/* Play/Pause for current full story playback */}
-                    {isPlayingFullStory && (
-                      <button
-                        onClick={handlePlayFullStory}
-                        className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 shadow-md ${
-                          isPreGeneratedPlaying
-                            ? 'bg-amber-500 hover:bg-amber-600 text-white'
-                            : 'bg-green-500 hover:bg-green-600 text-white'
-                        }`}
-                        title={isPreGeneratedPlaying ? 'Pause' : 'Resume'}
-                      >
-                        {isPreGeneratedPlaying ? (
-                          <Pause className="w-5 h-5 fill-current" />
-                        ) : (
-                          <Play className="w-5 h-5 fill-current" />
-                        )}
-                      </button>
-                    )}
-
-                    {/* Loop Toggle */}
-                    <button
-                      onClick={handleToggleStoryLoop}
-                      className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 ${
-                        isStoryLoopEnabled
-                          ? 'bg-primary-500 text-white shadow-md'
-                          : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
-                      }`}
-                      title={isStoryLoopEnabled ? 'Loop enabled - click to disable' : 'Enable loop mode'}
-                    >
-                      <Repeat className="w-5 h-5" />
-                    </button>
-                  </div>
-                )}
-
-                {/* Playing status indicator */}
-                {isPlayingFullStory && (
-                  <div className="flex items-center justify-center gap-2 text-sm">
-                    <div className={`w-2 h-2 rounded-full ${isPreGeneratedPlaying ? 'bg-green-500 animate-pulse' : 'bg-amber-500'}`} />
-                    <span style={{ color: 'var(--article-text-secondary)' }}>
-                      {isPreGeneratedPlaying ? 'Playing' : 'Paused'} - Page {currentPageIndex + 1} of {totalPages}
-                      {isStoryLoopEnabled && ' (Loop)'}
-                    </span>
-                  </div>
-                )}
-
                 {/* Navigation buttons */}
                 <div className="flex items-center justify-between">
                   <button
@@ -2680,7 +2700,7 @@ export default function EnhancedArticleReader({
                       color: 'var(--article-text)',
                     }}
                   >
-                    {t('common.previous')}
+                    <ChevronLeft className="w-5 h-5" />
                   </button>
 
                   <span
@@ -2697,11 +2717,7 @@ export default function EnhancedArticleReader({
                       backgroundColor: 'rgb(var(--palette-primary-500))',
                     }}
                   >
-                    {currentPageIndex === totalPages - 1
-                      ? quiz && quiz.length > 0
-                        ? t('story.takeQuiz')
-                        : t('common.finish')
-                      : t('common.next')}
+                    <ChevronRight className="w-5 h-5" />
                   </button>
                 </div>
               </div>
@@ -2796,6 +2812,7 @@ export default function EnhancedArticleReader({
         showTranslationContext={true}
         enableRelatedTranslations={true}
         onWordLookup={(word) => handleWordClick(word, {} as React.MouseEvent)}
+        ttsVoice="23"
       />
 
       {/* Shadowing Mode - MoshiPlayer Style */}
@@ -2813,6 +2830,15 @@ export default function EnhancedArticleReader({
           }}
         />
       )}
+
+      {/* Lock Screen - Prevents accidental touches during full story playback */}
+      <LockScreen
+        isLocked={isScreenLocked && isPlayingFullStory && isStoryLoopEnabled}
+        onUnlock={handleUnlockScreen}
+        title={t('story.lockScreenTitle')}
+        unlockText={t('story.lockScreenUnlockText')}
+        className="z-[60]"
+      />
     </div>
   )
 }
