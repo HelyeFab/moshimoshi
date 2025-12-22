@@ -674,6 +674,10 @@ export async function POST(request: NextRequest) {
             headers: {
               'Content-Type': 'application/json',
               Cookie: request.headers.get('cookie') || '',
+              // Forward admin key for authentication (required for scheduled functions)
+              ...(request.headers.get('X-Admin-Key') && {
+                'X-Admin-Key': request.headers.get('X-Admin-Key')!,
+              }),
             },
             body: JSON.stringify({
               storyId: draftId,
