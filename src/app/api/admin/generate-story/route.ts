@@ -658,10 +658,10 @@ export async function POST(request: NextRequest) {
       // Check if VOICEVOX/Modal is configured
       if (!process.env.MODAL_API_KEY) {
         return NextResponse.json({
-          success: true,
+          success: false,  // Changed from true - missing API key is a failure
           draftId,
           data: { audioGenerated: false },
-          message: 'Audio generation skipped - MODAL_API_KEY not configured',
+          error: 'Audio generation failed - MODAL_API_KEY not configured',
         })
       }
 
@@ -694,6 +694,14 @@ export async function POST(request: NextRequest) {
           throw new Error(audioResult.error || 'Audio generation failed')
         }
 
+        // Check if audio generation actually succeeded
+        if (!audioResult.success) {
+          const errorDetails = audioResult.errors?.length
+            ? audioResult.errors.join('; ')
+            : 'No audio generated'
+          throw new Error(`Audio generation failed: ${errorDetails}`)
+        }
+
         // Update draft with audio info
         await adminFirestore!
           .collection('ai_story_drafts')
@@ -720,11 +728,12 @@ export async function POST(request: NextRequest) {
         })
       } catch (audioError) {
         console.error('Audio generation failed:', audioError)
+        // Return success: false so scheduler knows audio failed and can retry
         return NextResponse.json({
-          success: true,
+          success: false,
           draftId,
           data: { audioGenerated: false },
-          warning: `Audio generation failed: ${audioError instanceof Error ? audioError.message : 'Unknown error'}`,
+          error: `Audio generation failed: ${audioError instanceof Error ? audioError.message : 'Unknown error'}`,
         })
       }
     }

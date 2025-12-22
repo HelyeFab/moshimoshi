@@ -321,8 +321,10 @@ export async function POST(request: NextRequest) {
         updateData.audioError = results.errors.join('; ')
       }
 
-      await adminFirestore!.collection('stories').doc(storyId).update(updateData)
-      console.log(`[StoryAudio] Story ${storyId} updated with audio URLs`)
+      // Update the correct collection based on whether it's a draft or published story
+      const collection = storyId.startsWith('draft_') ? 'ai_story_drafts' : 'stories'
+      await adminFirestore!.collection(collection).doc(storyId).update(updateData)
+      console.log(`[StoryAudio] ${collection} ${storyId} updated with audio URLs`)
     } catch (saveError) {
       console.error('[StoryAudio] Failed to update Firestore:', saveError)
       results.errors.push(
@@ -330,8 +332,15 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Determine if generation was successful
+    // Success = at least full audio OR all page audio generated
+    const hasFullAudio = !!results.fullAudio?.url
+    const hasAllPageAudio = results.pageAudio.length === pages.length
+    const hasAnyAudio = hasFullAudio || results.pageAudio.length > 0
+    const success = hasFullAudio || hasAllPageAudio
+
     return NextResponse.json({
-      success: true,
+      success,  // Only true if we got full audio or all page audio
       storyId,
       fullAudioUrl: results.fullAudio?.url,
       pageAudioCount: results.pageAudio.length,

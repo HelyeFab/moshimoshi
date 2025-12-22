@@ -192,6 +192,18 @@ export async function POST(request: NextRequest) {
       ;(story as any).characterSheet = mergedData.characterSheet
     }
 
+    // Copy model sheet URL if available (used for character consistency during generation)
+    const modelSheetUrl = mergedData.modelSheet?.imageUrl || mergedData.modelSheetUrl
+    if (modelSheetUrl) {
+      ;(story as any).modelSheetUrl = modelSheetUrl
+    }
+
+    // Copy story audio URL if available (full narration)
+    const storyAudioUrl = mergedData.fullAudioUrl || mergedData.audioUrl
+    if (storyAudioUrl) {
+      ;(story as any).audioUrl = storyAudioUrl
+    }
+
     // Remove undefined values for Firestore (shallow clean)
     const cleanStory = Object.fromEntries(Object.entries(story).filter(([_, v]) => v !== undefined))
 
