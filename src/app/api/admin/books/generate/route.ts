@@ -340,73 +340,78 @@ export async function POST(request: NextRequest) {
       'metadata.progress': 72,
     })
 
-    try {
-      // Call the correct TTS synthesize endpoint
-      const ttsResponse = await fetch(`${request.nextUrl.origin}/api/tts/synthesize`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          text: result.data.content,
-          language: 'ja',
-          speed: 1.0,
-        }),
-      })
+    // Call the correct TTS synthesize endpoint
+    const ttsResponse = await fetch(`${request.nextUrl.origin}/api/tts/synthesize`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        text: result.data.content,
+        language: 'ja',
+        speed: 1.0,
+      }),
+    })
 
-      if (ttsResponse.ok) {
-        const ttsResult = await ttsResponse.json()
-
-        // The synthesize endpoint returns { success, data: { audioUrl, cached, provider } }
-        const audioUrl = ttsResult.data?.audioUrl || ttsResult.audioUrl
-        const provider = ttsResult.data?.provider || ttsResult.provider || 'unknown'
-        const cached = ttsResult.data?.cached || ttsResult.cached || false
-
-        if (audioUrl) {
-          console.log(`✅ [BookAudio] Audio generated successfully`)
-          console.log(`   - Provider: ${provider}`)
-          console.log(`   - Cached: ${cached}`)
-          console.log(`   - URL: ${audioUrl.substring(0, 80)}...`)
-
-          // Store audio URL in draft
-          await draftRef.update({
-            audioUrl: audioUrl,
-            'metadata.audioCached': true,
-            'metadata.audioGeneratedAt': new Date(),
-            'metadata.audioStatus': 'success',
-            'metadata.audioProvider': provider,
-            'metadata.progress': 78,
-          })
-        } else {
-          console.warn('⚠️ [BookAudio] TTS returned OK but no audioUrl in response')
-          await draftRef.update({
-            'metadata.audioStatus': 'failed',
-            'metadata.audioError': 'No audioUrl in response',
-            'metadata.progress': 78,
-          })
-        }
-      } else {
-        // TTS call failed
-        const errorText = await ttsResponse.text().catch(() => 'Unknown error')
-        console.error(`❌ [BookAudio] TTS generation failed with status ${ttsResponse.status}`)
-        console.error(`   - Error: ${errorText.substring(0, 200)}`)
-
-        await draftRef.update({
-          'metadata.audioStatus': 'failed',
-          'metadata.audioError': `TTS failed: ${ttsResponse.status} - ${errorText.substring(0, 100)}`,
-          'metadata.progress': 78,
-        })
-      }
-    } catch (audioError) {
-      console.error('❌ [BookAudio] Exception during audio generation:', audioError)
+    if (!ttsResponse.ok) {
+      // TTS call failed - this is a critical error
+      const errorText = await ttsResponse.text().catch(() => 'Unknown error')
+      const errorMsg = `TTS failed: ${ttsResponse.status} - ${errorText.substring(0, 100)}`
+      console.error(`❌ [BookAudio] ${errorMsg}`)
 
       await draftRef.update({
         'metadata.audioStatus': 'failed',
-        'metadata.audioError': audioError instanceof Error ? audioError.message : 'Unknown error',
+        'metadata.audioError': errorMsg,
         'metadata.progress': 78,
       })
-      // Continue without audio - can be generated later via backfill
+
+      return NextResponse.json({
+        success: false,
+        error: 'Audio generation failed',
+        details: errorMsg,
+        draftId,
+      }, { status: 500 })
     }
+
+    const ttsResult = await ttsResponse.json()
+
+    // The synthesize endpoint returns { success, data: { audioUrl, cached, provider } }
+    const audioUrl = ttsResult.data?.audioUrl || ttsResult.audioUrl
+    const provider = ttsResult.data?.provider || ttsResult.provider || 'unknown'
+    const cached = ttsResult.data?.cached || ttsResult.cached || false
+
+    if (!audioUrl) {
+      const errorMsg = 'No audioUrl in TTS response'
+      console.error(`❌ [BookAudio] ${errorMsg}`)
+
+      await draftRef.update({
+        'metadata.audioStatus': 'failed',
+        'metadata.audioError': errorMsg,
+        'metadata.progress': 78,
+      })
+
+      return NextResponse.json({
+        success: false,
+        error: 'Audio generation failed',
+        details: errorMsg,
+        draftId,
+      }, { status: 500 })
+    }
+
+    console.log(`✅ [BookAudio] Audio generated successfully`)
+    console.log(`   - Provider: ${provider}`)
+    console.log(`   - Cached: ${cached}`)
+    console.log(`   - URL: ${audioUrl.substring(0, 80)}...`)
+
+    // Store audio URL in draft
+    await draftRef.update({
+      audioUrl: audioUrl,
+      'metadata.audioCached': true,
+      'metadata.audioGeneratedAt': new Date(),
+      'metadata.audioStatus': 'success',
+      'metadata.audioProvider': provider,
+      'metadata.progress': 78,
+    })
 
     // Step 4: Generate word explanations (pre-cache for instant lookups)
     console.log(`\n🔤 [BookGeneration] Starting word explanation pre-generation...`)

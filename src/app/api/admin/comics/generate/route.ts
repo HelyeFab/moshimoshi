@@ -708,12 +708,17 @@ export async function POST(request: NextRequest) {
         })
       }
 
+      // Only return success:true if we actually generated the full audio
+      // This ensures the comic scheduler can detect failures and retry
+      const success = !!result.fullAudioUrl
+
       return NextResponse.json({
-        success: true,
+        success,
         draftId,
         fullAudioUrl: result.fullAudioUrl,
         dialogueCount: result.dialogueCount,
         narrationCount: result.narrationCount,
+        ...(success ? {} : { error: 'Audio generation failed - no full audio URL generated' }),
       })
     }
 
