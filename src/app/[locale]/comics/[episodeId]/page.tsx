@@ -130,7 +130,7 @@ export default function ComicReaderPage() {
     audioRef.current.play().catch(err => console.error('Audio playback error:', err))
   }
 
-  const handleWordLookup = async (word: string, context?: string) => {
+  const handleWordLookup = async (word: string, event?: React.MouseEvent, context?: string) => {
     const clean = word?.trim()
     if (!clean) return
     setSelectedWord(clean)
@@ -301,7 +301,7 @@ export default function ComicReaderPage() {
                                 text={rawText}
                                 highlightMode={settings.highlightMode}
                                 showFurigana={settings.showFurigana}
-                                onWordClick={handleWordLookup}
+                                onWordClick={(word, event) => handleWordLookup(word, event, rawText)}
                                 className="inline text-gray-800 dark:text-white"
                               />
                               」
@@ -413,7 +413,7 @@ export default function ComicReaderPage() {
                                       text={rawText}
                                       highlightMode={settings.highlightMode}
                                       showFurigana={settings.showFurigana}
-                                      onWordClick={handleWordLookup}
+                                      onWordClick={(word, event) => handleWordLookup(word, event, rawText)}
                                       className="text-gray-900 dark:text-white"
                                     />
                                   )
@@ -594,7 +594,7 @@ export default function ComicReaderPage() {
                         className="p-4 bg-gray-50 dark:bg-dark-700 rounded-xl border border-gray-100 dark:border-dark-600 hover:shadow-md transition-shadow"
                       >
                         <button
-                          onClick={() => handleWordLookup(vocab.word, vocab.exampleFromComic || vocab.meaning)}
+                          onClick={() => handleWordLookup(vocab.word, undefined, vocab.exampleFromComic || vocab.meaning)}
                           className="flex items-baseline gap-2 mb-2 text-left w-full"
                         >
                           <span className="text-xl font-japanese font-bold text-foreground dark:text-dark-100 hover:text-primary-500">
@@ -670,7 +670,7 @@ export default function ComicReaderPage() {
         loading={wordLoading}
         error={wordError}
         translationContext={wordContext ? { sentence: wordContext } : undefined}
-        onWordLookup={(w) => handleWordLookup(w, wordContext)}
+        onWordLookup={(w) => handleWordLookup(w, undefined, wordContext)}
       />
 
       {/* Settings Panel - Comic-specific (only Furigana + Grammar) */}
