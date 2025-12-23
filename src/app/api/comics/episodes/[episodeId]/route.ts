@@ -29,11 +29,29 @@ export async function GET(
       viewCount: (data?.viewCount || 0) + 1,
     })
 
+    // Transform quiz data to match BaseQuizQuestion interface
+    // Comic quizzes use questionEn/questionJa, but BaseQuizQuestion expects question/questionJa
+    let transformedQuiz = data?.quiz
+    if (data?.quiz?.questions) {
+      transformedQuiz = {
+        ...data.quiz,
+        questions: data.quiz.questions.map((q: any) => ({
+          ...q,
+          // Map questionEn to question (required field in BaseQuizQuestion)
+          question: q.questionEn || q.question,
+          // Keep questionJa as-is
+          // Remove questionEn to avoid confusion
+          questionEn: undefined,
+        })),
+      }
+    }
+
     return NextResponse.json({
       success: true,
       episode: {
         id: episodeDoc.id,
         ...data,
+        quiz: transformedQuiz,
         publishedAt: data?.publishedAt?.toDate?.() || data?.publishedAt,
         createdAt: data?.createdAt?.toDate?.() || data?.createdAt,
         updatedAt: data?.updatedAt?.toDate?.() || data?.updatedAt,

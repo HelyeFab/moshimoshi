@@ -6,6 +6,7 @@
  */
 
 import { JLPTLevel } from './kanji'
+import { BaseQuizQuestion } from './quiz'
 
 export type { JLPTLevel }
 
@@ -114,6 +115,7 @@ export interface ComicPanel {
   narration?: {
     textJa: string
     textEn: string
+    furigana?: string // Full text with furigana markup (ruby tags)
     audioUrl?: string
   }
   soundEffects?: SoundEffect[]
@@ -186,18 +188,13 @@ export interface ComicQuiz {
   passingScore: number // Percentage
 }
 
-export interface ComicQuizQuestion {
-  id: string
-  type: 'multiple-choice' | 'fill-blank' | 'listening' | 'reading-comprehension'
-  questionJa: string
-  questionEn: string
-  options?: string[]
-  correctAnswer: string | number
-  explanation: string
-  explanationJa: string
-  relatedPanel?: number
-  audioUrl?: string // For listening questions
-}
+/**
+ * Comic quiz question type - now unified with BaseQuizQuestion
+ *
+ * Comics support additional features like listening questions and panel references,
+ * which are handled through optional fields in BaseQuizQuestion
+ */
+export type ComicQuizQuestion = BaseQuizQuestion
 
 /**
  * Episode metadata

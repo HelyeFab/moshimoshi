@@ -35,6 +35,10 @@
     "notebooklm:sync": "node scripts/notebooklm-sync.js -o ./moshimoshi-docs.md",
     "notebooklm:watch": "node scripts/notebooklm-sync.js --watch -o ./moshimoshi-docs.md",
     "notebooklm:clean": "node scripts/notebooklm-sync.js --clean",
+    "migrate:quiz": "tsx src/scripts/migrate-quiz-data.ts",
+    "migrate:quiz:dry-run": "tsx src/scripts/migrate-quiz-data.ts --dry-run",
+    "add-furigana": "tsx src/scripts/add-comic-furigana.ts --live",
+    "add-furigana:dry-run": "tsx src/scripts/add-comic-furigana.ts",
     "prepare": "husky"
   },
   "keywords": [],

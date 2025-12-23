@@ -6,13 +6,16 @@ import { Story } from '@/types/story'
 import { storyService } from '@/lib/services/StoryService'
 import EnhancedArticleReader from '@/components/news/EnhancedArticleReaderFinal'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { useToast } from '@/components/ui/Toast/ToastContext'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function StoryDetailPage() {
   const params = useParams()
   const router = useRouter()
   const { showToast } = useToast()
+  const { user } = useAuth()
   const slug = params.slug as string
 
   const [story, setStory] = useState<Story | null>(null)
@@ -43,6 +46,9 @@ export default function StoryDetailPage() {
         }
 
         setStory(storyData)
+
+        // Increment view count
+        await storyService.incrementViewCount(storyData.id)
       } catch (error) {
         console.error('Error loading story:', error)
         showToast('Failed to load story', 'error')
@@ -57,7 +63,11 @@ export default function StoryDetailPage() {
     }
   }, [slug, router, showToast])
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
+    if (story) {
+      // Increment completion count
+      await storyService.incrementCompletionCount(story.id)
+    }
     showToast('Congratulations on completing the story!', 'success')
     router.push('/stories')
   }
@@ -109,6 +119,11 @@ export default function StoryDetailPage() {
 
   return (
     <div className="min-h-screen bg-background-light dark:bg-dark-850">
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
+
       <EnhancedArticleReader
         article={articleFromStory}
         onBack={handleBack}

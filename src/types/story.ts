@@ -1,4 +1,5 @@
 import { JLPTLevel } from './kanji'
+import { BaseQuizQuestion } from './quiz'
 
 // Re-export JLPTLevel for convenience
 export type { JLPTLevel } from './kanji'
@@ -15,17 +16,13 @@ export interface StoryPage {
   grammarNotes?: Record<string, string> // key: pattern, value: explanation
 }
 
-export interface StoryQuizQuestion {
-  id: string
-  question: string
-  questionJa?: string // Japanese version of the question
-  options: string[]
-  correctIndex: number
-  explanation?: string
-  explanationJa?: string // Japanese explanation
-  difficulty?: number // 1-5
-  tags?: string[]
-}
+/**
+ * Story quiz question type - now unified with BaseQuizQuestion
+ *
+ * BREAKING CHANGE: correctIndex has been replaced with correctAnswer
+ * Use the migration utilities in @/types/quiz for legacy data
+ */
+export type StoryQuizQuestion = BaseQuizQuestion
 
 export interface Story {
   id: string

@@ -703,10 +703,14 @@ export const strings = {
     finish: 'Finish',
     quiz: {
       title: 'Quiz',
+      submit: 'Submit Quiz',
       yourScore: 'Your Score',
       excellent: 'Excellent!',
       good: 'Good Job!',
       keepPracticing: 'Keep Practicing!',
+      perfect: 'Perfect Score!',
+      passed: 'Well Done!',
+      failed: 'Keep Practicing!',
     },
   },
 
@@ -719,6 +723,7 @@ export const strings = {
     completed: 'Completed',
     inProgress: 'In Progress',
     pages: 'pages',
+    page: 'Page',
     byProgress: 'By Progress',
     noResults: 'No stories found',
     tryDifferentFilters: 'Try adjusting your filters',
@@ -727,6 +732,7 @@ export const strings = {
     storyNotFoundDescription: "The story you're looking for doesn't exist or has been removed",
     backToStories: 'Back to Stories',
     allThemes: 'All Themes',
+    selectTheme: 'Select Theme',
   },
 
   // Levels

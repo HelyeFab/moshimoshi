@@ -4121,6 +4121,17 @@ export const strings = {
   stories: {
     title: 'Histoires',
     description: 'Apprenez avec des histoires interactives en japonais',
+    pages: 'pages',
+    page: 'Page',
+    byProgress: 'Par Progression',
+    noResults: 'Aucune histoire trouvée',
+    tryDifferentFilters: 'Essayez d\'ajuster vos filtres',
+    noStoriesYet: 'Aucune histoire disponible pour le moment',
+    storyNotFound: 'Histoire Non Trouvée',
+    storyNotFoundDescription: 'L\'histoire que vous recherchez n\'existe pas ou a été supprimée',
+    backToStories: 'Retour aux Histoires',
+    allThemes: 'Tous les Thèmes',
+    selectTheme: 'Sélectionner un Thème',
   },
 
   // Shadowing Feature
@@ -4761,6 +4772,9 @@ export const strings = {
       score: 'Score : {{score}} / {{total}}',
       correct: 'Correct !',
       incorrect: 'Incorrect',
+      perfect: 'Parfait !',
+      passed: 'Bien joué !',
+      failed: 'Continue de pratiquer !',
     },
   },
 

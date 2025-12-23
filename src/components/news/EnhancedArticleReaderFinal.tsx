@@ -21,6 +21,8 @@ import { useArticleSentenceData, useStorySentenceData, useBookSentenceData } fro
 import { useNhkAudio } from '@/components/audio/NhkAudioPlayer'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
 import { gamificationListener } from '@/lib/gamification/gamificationListener'
+import { QuizPlayer } from '@/components/quiz/QuizPlayer'
+import Navbar from '@/components/layout/Navbar'
 
 // URE event emitter for gamification integration (following Kana pattern)
 const ureEventEmitter = new EventEmitter()
@@ -912,12 +914,6 @@ export default function EnhancedArticleReader({
   // Story mode state (for multi-page content with optional quiz)
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
   const [showQuiz, setShowQuiz] = useState(false)
-  const [quizAnswers, setQuizAnswers] = useState<number[]>([])
-  const [quizScore, setQuizScore] = useState<number | null>(null)
-  const [quizXPResult, setQuizXPResult] = useState<{
-    xpEarned: number
-    alreadyCompleted: boolean
-  } | null>(null)
 
   // Get current content based on mode
   const currentContent = isStoryMode ? pages![currentPageIndex].text : article.content
@@ -1009,56 +1005,13 @@ export default function EnhancedArticleReader({
     }
   }
 
-  // Story mode: Quiz handlers
-  const handleQuizAnswer = (questionIndex: number, answerIndex: number) => {
-    const newAnswers = [...quizAnswers]
-    newAnswers[questionIndex] = answerIndex
-    setQuizAnswers(newAnswers)
-  }
-
-  const handleQuizSubmit = async () => {
-    if (!quiz || quizAnswers.length !== quiz.length) return
-
-    let correctAnswers = 0
-    quiz.forEach((question, index) => {
-      if (quizAnswers[index] === question.correctIndex) {
-        correctAnswers++
-      }
-    })
-
-    const score = Math.round((correctAnswers / quiz.length) * 100)
-    setQuizScore(score)
-
-    // Record quiz completion for XP (only for authenticated users)
-    if (user?.uid && process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true') {
-      try {
-        const response = await fetch('/api/quiz/complete', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contentType: isStoryMode ? 'story' : 'comic',
-            contentId: article.id,
-            score,
-            totalQuestions: quiz.length,
-            correctAnswers,
-          }),
-        })
-
-        const result = await response.json()
-        if (result.success) {
-          setQuizXPResult({
-            xpEarned: result.data.xpEarned,
-            alreadyCompleted: result.data.alreadyCompleted || false,
-          })
-          console.log('[Quiz] XP recorded:', result.data)
-        }
-      } catch (error) {
-        console.error('[Quiz] Failed to record XP:', error)
-      }
-    }
+  // Quiz completion handler
+  const handleQuizComplete = (score: number, xpEarned: number) => {
+    console.log('[Quiz] Completed:', { score, xpEarned })
   }
 
   const handleQuizFinish = () => {
+    setShowQuiz(false)
     if (onComplete) {
       onComplete()
     } else if (onExit) {
@@ -2112,164 +2065,26 @@ export default function EnhancedArticleReader({
   // Story mode: Quiz UI
   if (showQuiz && quiz && quiz.length > 0) {
     return (
-      <div
-        className="min-h-screen transition-colors duration-300"
-        style={{ backgroundColor: 'var(--article-bg)' }}
-      >
-        <div className="max-w-4xl mx-auto p-4 sm:p-6">
-          <div
-            className="rounded-2xl p-6 sm:p-8"
-            style={{
-              backgroundColor: 'var(--article-content-bg)',
-              border: '1px solid var(--article-border)',
-            }}
-          >
-            <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--article-text)' }}>
-              {t('story.quiz.title')}
-            </h2>
-
-            {quizScore === null ? (
-              <div className="space-y-6">
-                {quiz.map((question, qIndex) => (
-                  <div key={question.id} className="space-y-3">
-                    <p className="font-medium" style={{ color: 'var(--article-text)' }}>
-                      {qIndex + 1}. {question.question}
-                    </p>
-                    <div className="space-y-2">
-                      {question.options.map((option, oIndex) => (
-                        <label
-                          key={oIndex}
-                          className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors"
-                          style={{
-                            backgroundColor:
-                              quizAnswers[qIndex] === oIndex
-                                ? 'rgb(var(--palette-primary-500) / 0.1)'
-                                : 'var(--article-hover-bg)',
-                            border:
-                              quizAnswers[qIndex] === oIndex
-                                ? '2px solid rgb(var(--palette-primary-500))'
-                                : '2px solid transparent',
-                          }}
-                        >
-                          <input
-                            type="radio"
-                            name={`question-${qIndex}`}
-                            checked={quizAnswers[qIndex] === oIndex}
-                            onChange={() => handleQuizAnswer(qIndex, oIndex)}
-                            className="w-4 h-4 accent-primary-500"
-                          />
-                          <span style={{ color: 'var(--article-text)' }}>{option}</span>
-                        </label>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-
-                <div
-                  className="flex justify-between mt-8 pt-6 border-t"
-                  style={{ borderColor: 'var(--article-border)' }}
-                >
-                  <button
-                    onClick={() => setShowQuiz(false)}
-                    className="px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105"
-                    style={{
-                      backgroundColor: 'var(--article-hover-bg)',
-                      color: 'var(--article-text)',
-                    }}
-                  >
-                    {t('common.back')}
-                  </button>
-                  <button
-                    onClick={handleQuizSubmit}
-                    disabled={quizAnswers.length !== quiz.length}
-                    className="px-6 py-2 rounded-xl text-white transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{
-                      backgroundColor: 'rgb(var(--palette-primary-500))',
-                    }}
-                  >
-                    {t('common.submit')}
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="text-center space-y-4">
-                <div className="text-6xl mb-4">
-                  {quizScore >= 80 ? '🎉' : quizScore >= 60 ? '👍' : '💪'}
-                </div>
-                <h3 className="text-2xl font-bold" style={{ color: 'var(--article-text)' }}>
-                  {quizScore >= 80
-                    ? t('story.quiz.excellent')
-                    : quizScore >= 60
-                      ? t('story.quiz.good')
-                      : t('story.quiz.keepPracticing')}
-                </h3>
-                <p className="text-xl" style={{ color: 'var(--article-text)' }}>
-                  {t('story.quiz.yourScore')}: {quizScore}%
-                </p>
-
-                {/* XP Reward Display */}
-                {quizXPResult && !quizXPResult.alreadyCompleted && quizXPResult.xpEarned > 0 && (
-                  <div className="flex items-center justify-center gap-2 text-amber-500 dark:text-amber-400 mt-2">
-                    <span className="text-2xl">✨</span>
-                    <span className="text-xl font-bold">+{quizXPResult.xpEarned} XP</span>
-                  </div>
-                )}
-                {quizXPResult?.alreadyCompleted && (
-                  <p className="text-sm mt-2" style={{ color: 'var(--article-text-secondary)' }}>
-                    {t('story.quiz.alreadyCompleted', 'Quiz already completed')}
-                  </p>
-                )}
-
-                <div className="space-y-3 mt-6 text-left">
-                  {quiz.map((question, index) => (
-                    <div
-                      key={question.id}
-                      className="p-4 rounded-xl"
-                      style={{ backgroundColor: 'var(--article-hover-bg)' }}
-                    >
-                      <p className="font-medium mb-2" style={{ color: 'var(--article-text)' }}>
-                        {question.question}
-                      </p>
-                      <p
-                        className={
-                          quizAnswers[index] === question.correctIndex
-                            ? 'text-green-600 dark:text-green-400'
-                            : 'text-red-600 dark:text-red-400'
-                        }
-                      >
-                        Your answer: {question.options[quizAnswers[index]]}
-                      </p>
-                      {quizAnswers[index] !== question.correctIndex && (
-                        <p className="text-green-600 dark:text-green-400">
-                          Correct: {question.options[question.correctIndex]}
-                        </p>
-                      )}
-                      {question.explanation && (
-                        <p
-                          className="text-sm mt-1"
-                          style={{ color: 'var(--article-text-secondary)' }}
-                        >
-                          {question.explanation}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-
-                <button
-                  onClick={handleQuizFinish}
-                  className="px-6 py-2 rounded-xl text-white mt-6 transition-all duration-200 hover:scale-105"
-                  style={{
-                    backgroundColor: 'rgb(var(--palette-primary-500))',
-                  }}
-                >
-                  {t('common.finish')}
-                </button>
-              </div>
-            )}
-          </div>
+      <>
+        {/* Desktop Navbar */}
+        <div className="hidden sm:block">
+          <Navbar user={user} showUserMenu={true} />
         </div>
-      </div>
+
+        <QuizPlayer
+          questions={quiz}
+          contentType={isStoryMode ? 'story' : 'comic'}
+          contentId={article.id}
+          contentTitle={displayTitle}
+          onComplete={handleQuizComplete}
+          onExit={handleQuizFinish}
+          onBack={() => setShowQuiz(false)}
+          showTranslation={settings.translationMode !== 'off'}
+          enableAutoSave={true}
+          showFurigana={settings.showFurigana}
+          fontSize={settings.fontSize}
+        />
+      </>
     )
   }
 

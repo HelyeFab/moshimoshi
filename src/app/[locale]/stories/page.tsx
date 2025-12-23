@@ -24,30 +24,62 @@ export default function StoriesPage() {
   const { user } = useAuth()
   const { t } = useI18n()
   const router = useRouter()
-  const { stories, userProgress, loading, error } = useStories()
+  const {
+    stories,
+    userProgress,
+    loading,
+    error,
+    page,
+    hasMore,
+    totalCount,
+    filters,
+    updateFilters,
+    nextPage,
+    previousPage
+  } = useStories()
 
   // Offline caching
   const { prefetchStories } = useStoryCache()
   const [prefetchStatus, setPrefetchStatus] = useState<'idle' | 'prefetching' | 'done'>('idle')
 
-  const [filters, setFilters] = useState<FilterState>({
-    jlptLevel: 'all',
-    searchTerm: '',
-    sortBy: 'newest',
-    theme: 'all',
-  })
-
   // Get unique themes from stories
   const themes = Array.from(new Set(stories.map(s => s.theme).filter(Boolean)))
 
-  // Auto-prefetch top 10 stories for offline use
+  // Auto-prefetch current page + next page for offline use (24 stories total)
   useEffect(() => {
     if (stories.length > 0 && prefetchStatus === 'idle' && !loading) {
-      const storiesToPrefetch = stories.slice(0, 10)
       setPrefetchStatus('prefetching')
-      prefetchStories(storiesToPrefetch, { skipCached: true })
+
+      // Prefetch current page stories
+      prefetchStories(stories, { skipCached: true })
         .then(results => {
-          console.log('[StoriesPage] Offline prefetch complete:', results)
+          console.log('[StoriesPage] Current page prefetch complete:', results)
+
+          // If there's a next page, prefetch it too
+          if (hasMore) {
+            const nextPageOffset = (page + 1) * 12
+            const params = new URLSearchParams({
+              limit: '12',
+              offset: nextPageOffset.toString(),
+              jlptLevel: filters.jlptLevel,
+              theme: filters.theme,
+              sortBy: filters.sortBy,
+              search: filters.searchTerm
+            })
+
+            fetch(`/api/stories?${params}`)
+              .then(res => res.json())
+              .then(data => {
+                if (data.stories?.length > 0) {
+                  return prefetchStories(data.stories, { skipCached: true })
+                }
+              })
+              .then(() => {
+                console.log('[StoriesPage] Next page prefetch complete')
+              })
+              .catch(err => console.warn('[StoriesPage] Next page prefetch failed:', err))
+          }
+
           setPrefetchStatus('done')
         })
         .catch(error => {
@@ -55,50 +87,7 @@ export default function StoriesPage() {
           setPrefetchStatus('done')
         })
     }
-  }, [stories, prefetchStatus, loading, prefetchStories])
-
-  // Filter and sort stories
-  const filteredStories = stories
-    .filter(story => {
-      // JLPT filter
-      if (filters.jlptLevel !== 'all' && story.jlptLevel !== filters.jlptLevel) {
-        return false
-      }
-
-      // Theme filter
-      if (filters.theme !== 'all' && story.theme !== filters.theme) {
-        return false
-      }
-
-      // Search filter
-      if (filters.searchTerm) {
-        const searchLower = filters.searchTerm.toLowerCase()
-        return (
-          story.title.toLowerCase().includes(searchLower) ||
-          story.description.toLowerCase().includes(searchLower) ||
-          story.tags?.some(tag => tag.toLowerCase().includes(searchLower))
-        )
-      }
-
-      return true
-    })
-    .sort((a, b) => {
-      switch (filters.sortBy) {
-        case 'newest':
-          return (
-            new Date(b.publishedAt || b.createdAt).getTime() -
-            new Date(a.publishedAt || a.createdAt).getTime()
-          )
-        case 'popular':
-          return (b.viewCount || 0) - (a.viewCount || 0)
-        case 'progress':
-          const progressA = userProgress.get(a.id)
-          const progressB = userProgress.get(b.id)
-          return (progressB?.progress || 0) - (progressA?.progress || 0)
-        default:
-          return 0
-      }
-    })
+  }, [stories, prefetchStatus, loading, hasMore, page, filters, prefetchStories])
 
   const getProgressPercentage = (storyId: string) => {
     const progress = userProgress.get(storyId)
@@ -154,7 +143,7 @@ export default function StoriesPage() {
               <input
                 type="text"
                 value={filters.searchTerm}
-                onChange={e => setFilters(prev => ({ ...prev, searchTerm: e.target.value }))}
+                onChange={e => updateFilters({ searchTerm: e.target.value })}
                 placeholder={t('common.search')}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-foreground dark:text-dark-100"
               />
@@ -163,7 +152,7 @@ export default function StoriesPage() {
             {/* JLPT Level */}
             <Select
               value={filters.jlptLevel}
-              onChange={value => setFilters(prev => ({ ...prev, jlptLevel: value as any }))}
+              onChange={value => updateFilters({ jlptLevel: value as any })}
               options={[
                 { value: 'all', label: t('common.allLevels') },
                 { value: 'N5', label: `N5 - ${t('levels.beginner')}` },
@@ -178,7 +167,7 @@ export default function StoriesPage() {
             {/* Theme */}
             <Select
               value={filters.theme}
-              onChange={value => setFilters(prev => ({ ...prev, theme: value }))}
+              onChange={value => updateFilters({ theme: value })}
               options={[
                 { value: 'all', label: t('stories.allThemes') },
                 ...themes.map(theme => ({ value: theme, label: theme })),
@@ -189,7 +178,7 @@ export default function StoriesPage() {
             {/* Sort */}
             <Select
               value={filters.sortBy}
-              onChange={value => setFilters(prev => ({ ...prev, sortBy: value as any }))}
+              onChange={value => updateFilters({ sortBy: value as any })}
               options={[
                 { value: 'newest', label: t('common.newest') },
                 { value: 'popular', label: t('common.popular') },
@@ -202,7 +191,7 @@ export default function StoriesPage() {
 
         {/* Stories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredStories.map(story => {
+          {stories.map(story => {
             const progress = getProgressPercentage(story.id)
             const completed = isCompleted(story.id)
 
@@ -352,7 +341,7 @@ export default function StoriesPage() {
           })}
         </div>
 
-        {filteredStories.length === 0 && (
+        {stories.length === 0 && !loading && (
           <div className="text-center py-12">
             <div className="text-6xl mb-4">📚</div>
             <h3 className="text-xl font-semibold mb-2">{t('stories.noResults')}</h3>
@@ -363,6 +352,70 @@ export default function StoriesPage() {
             </p>
           </div>
         )}
+
+        {/* Pagination Controls */}
+        {!loading && (page > 0 || hasMore) && (
+          <div className="mt-8 mb-6 flex justify-center items-center gap-4">
+            {/* Previous Button */}
+            {page > 0 && (
+              <button
+                onClick={previousPage}
+                className="group flex items-center gap-2 px-4 py-3 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 text-foreground dark:text-dark-100 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-750 transition-all shadow-sm hover:shadow-md"
+                aria-label={t('common.previous')}
+              >
+                <svg
+                  className="w-5 h-5 transition-transform group-hover:-translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M15 19l-7-7 7-7"
+                  />
+                </svg>
+                <span className="hidden sm:inline">{t('common.previous')}</span>
+              </button>
+            )}
+
+            {/* Page Indicator */}
+            <span className="text-sm text-muted-foreground dark:text-dark-400 px-4">
+              {t('stories.page')} {page + 1}
+              {totalCount > 0 && (
+                <span className="ml-2 text-xs">
+                  ({page * 12 + 1}-{Math.min((page + 1) * 12, totalCount)} / {totalCount})
+                </span>
+              )}
+            </span>
+
+            {/* Next Button */}
+            {hasMore && (
+              <button
+                onClick={nextPage}
+                className="group flex items-center gap-2 px-4 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-all shadow-sm hover:shadow-md"
+                aria-label={t('common.next')}
+              >
+                <span className="hidden sm:inline">{t('common.next')}</span>
+                <svg
+                  className="w-5 h-5 transition-transform group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 5l7 7-7 7"
+                  />
+                </svg>
+              </button>
+            )}
+          </div>
+        )}
+
         <MobileNavSpacer />
       </div>
     </div>

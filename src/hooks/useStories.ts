@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import {
   collection,
   doc,
@@ -11,10 +11,11 @@ import {
   query,
   where,
   orderBy,
-  Timestamp
+  Timestamp,
+  documentId
 } from 'firebase/firestore';
 import { firestore as db } from '@/lib/firebase/client';
-import { Story, StoryProgress } from '@/types/story';
+import { Story, StoryProgress, JLPTLevel } from '@/types/story';
 import { useAuth } from '@/hooks/useAuth';
 
 export function useStories() {
@@ -24,50 +25,85 @@ export function useStories() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Fetch all published stories
+  // Pagination state
+  const [page, setPage] = useState(0);
+  const [hasMore, setHasMore] = useState(false);
+  const [totalCount, setTotalCount] = useState(0);
+  const [filters, setFilters] = useState({
+    jlptLevel: 'all' as 'all' | JLPTLevel,
+    theme: 'all',
+    sortBy: 'newest' as 'newest' | 'popular' | 'progress',
+    searchTerm: ''
+  });
+
+  // Fetch paginated stories
   useEffect(() => {
+    let unsubscribe: (() => void) | undefined;
+
     const fetchStories = async () => {
       try {
         setLoading(true);
         setError(null);
 
-        const storiesQuery = query(
-          collection(db, 'stories'),
-          where('status', '==', 'published'),
-          orderBy('publishedAt', 'desc')
-        );
+        // Cleanup previous listener
+        if (unsubscribe) unsubscribe();
 
-        const unsubscribe = onSnapshot(
-          storiesQuery,
-          (snapshot) => {
-            const storiesData = snapshot.docs.map(doc => ({
-              id: doc.id,
-              ...doc.data(),
-              createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
-              updatedAt: doc.data().updatedAt?.toDate?.()?.toISOString() || new Date().toISOString(),
-              publishedAt: doc.data().publishedAt?.toDate?.()?.toISOString()
-            })) as Story[];
+        const offset = page * 12;
+        const params = new URLSearchParams({
+          limit: '12',
+          offset: offset.toString(),
+          jlptLevel: filters.jlptLevel,
+          theme: filters.theme,
+          sortBy: filters.sortBy,
+          search: filters.searchTerm
+        });
 
-            setStories(storiesData);
-            setLoading(false);
-          },
-          (error) => {
-            console.error('Error fetching stories:', error);
-            setError('Failed to load stories');
-            setLoading(false);
-          }
-        );
+        const response = await fetch(`/api/stories?${params}`);
+        if (!response.ok) throw new Error('Failed to fetch stories');
 
-        return () => unsubscribe();
+        const data = await response.json();
+        setStories(data.stories || []);
+        setHasMore(data.hasMore || false);
+        setTotalCount(data.totalCount || 0);
+        setLoading(false);
+
+        // Setup real-time listener for current page's stories (max 10 due to Firestore 'in' limit)
+        if (data.stories.length > 0) {
+          const storyIds = data.stories.map((s: Story) => s.id).slice(0, 10);
+
+          unsubscribe = onSnapshot(
+            query(
+              collection(db, 'stories'),
+              where(documentId(), 'in', storyIds)
+            ),
+            (snapshot) => {
+              const updatedStories = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+                createdAt: doc.data().createdAt?.toDate?.()?.toISOString() || new Date().toISOString(),
+                updatedAt: doc.data().updatedAt?.toDate?.()?.toISOString() || new Date().toISOString(),
+                publishedAt: doc.data().publishedAt?.toDate?.()?.toISOString()
+              })) as Story[];
+              setStories(updatedStories);
+            },
+            (error) => {
+              console.error('Error in stories real-time listener:', error);
+            }
+          );
+        }
       } catch (error) {
-        console.error('Error setting up stories listener:', error);
+        console.error('Error fetching stories:', error);
         setError('Failed to load stories');
         setLoading(false);
       }
     };
 
     fetchStories();
-  }, []);
+
+    return () => {
+      if (unsubscribe) unsubscribe();
+    };
+  }, [page, filters.jlptLevel, filters.theme, filters.sortBy, filters.searchTerm]);
 
   // Fetch user progress for stories
   useEffect(() => {
@@ -276,11 +312,37 @@ export function useStories() {
     }
   };
 
+  // Pagination helper functions
+  const updateFilters = useCallback((newFilters: Partial<typeof filters>) => {
+    setFilters(prev => ({ ...prev, ...newFilters }));
+    setPage(0); // Reset to first page when filters change
+  }, []);
+
+  const nextPage = useCallback(() => {
+    if (hasMore) setPage(prev => prev + 1);
+  }, [hasMore]);
+
+  const previousPage = useCallback(() => {
+    if (page > 0) setPage(prev => prev - 1);
+  }, [page]);
+
+  const goToPage = useCallback((pageNum: number) => {
+    setPage(pageNum);
+  }, []);
+
   return {
     stories,
     userProgress,
     loading,
     error,
+    page,
+    hasMore,
+    totalCount,
+    filters,
+    updateFilters,
+    nextPage,
+    previousPage,
+    goToPage,
     getStory,
     createStory,
     updateStory,

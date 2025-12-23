@@ -7,6 +7,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import { storyService } from '@/lib/services/StoryService'
 // Navigation is now global via NavigationWrapper in root layout;
 import { Story, StoryQuizQuestion } from '@/types/story'
+import { BaseQuizQuestion } from '@/types/quiz'
 import { JLPTLevel } from '@/types/ai-story'
 import { STORY_THEMES } from '@/types/story'
 import { ChevronLeftIcon, PlusIcon, TrashIcon } from '@heroicons/react/24/outline'
@@ -20,15 +21,8 @@ interface PageData {
   imageUrl?: string
 }
 
-interface QuizQuestionData {
-  id: string
-  question: string
-  questionJa?: string
-  options: string[]
-  correctIndex: number
-  explanation?: string
-  explanationJa?: string
-}
+// Quiz question data type - now uses unified BaseQuizQuestion
+type QuizQuestionData = BaseQuizQuestion
 
 export default function EditStoryPage() {
   const router = useRouter()
@@ -143,7 +137,8 @@ export default function EditStoryPage() {
             question: q.question,
             questionJa: q.questionJa || '',
             options: q.options,
-            correctIndex: q.correctIndex,
+            correctAnswer: q.correctAnswer,
+            type: q.type || 'multiple-choice',
             explanation: q.explanation || '',
             explanationJa: q.explanationJa || '',
           }))
@@ -196,7 +191,8 @@ export default function EditStoryPage() {
       question: '',
       questionJa: '',
       options: ['', '', '', ''],
-      correctIndex: 0,
+      correctAnswer: 0,
+      type: 'multiple-choice',
       explanation: '',
       explanationJa: '',
     }
@@ -674,8 +670,8 @@ export default function EditStoryPage() {
                               <input
                                 type="radio"
                                 name={`correct-${qIndex}`}
-                                checked={question.correctIndex === oIndex}
-                                onChange={() => handleQuizChange(qIndex, 'correctIndex', oIndex)}
+                                checked={question.correctAnswer === oIndex}
+                                onChange={() => handleQuizChange(qIndex, 'correctAnswer', oIndex)}
                                 className="w-4 h-4 text-green-600"
                               />
                               <span className="text-sm text-gray-600 dark:text-gray-400 w-8">

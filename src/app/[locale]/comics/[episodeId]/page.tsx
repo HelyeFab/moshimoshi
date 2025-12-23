@@ -8,19 +8,24 @@ import {
   ChevronLeft,
   ChevronRight,
   Volume2,
-  VolumeX,
-  BookOpen,
   X,
-  BookMarked
+  BookMarked,
+  Settings
 } from 'lucide-react'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import DoshiMascot from '@/components/ui/DoshiMascot'
+import Navbar from '@/components/layout/Navbar'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useCachedEpisode } from '@/hooks/useComicCache'
 import { ComicEpisode } from '@/types/comic'
+import { ReadingSettings } from '@/types/story'
 import { useWordExplanation } from '@/hooks/useWordExplanation'
 import WordExplanationModal from '@/components/word/WordExplanationModal'
+import { QuizPlayer } from '@/components/quiz/QuizPlayer'
+import { RubyText } from '@/components/quiz/RubyText'
+import ComicSettingsModal from '@/components/comics/ComicSettingsModal'
+import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText'
 
 export default function ComicReaderPage() {
   const { strings } = useI18n()
@@ -39,12 +44,24 @@ export default function ComicReaderPage() {
   const [audioEnabled, setAudioEnabled] = useState(true)
   const [showVocabulary, setShowVocabulary] = useState(false)
   const [showQuiz, setShowQuiz] = useState(false)
-  const [quizAnswers, setQuizAnswers] = useState<number[]>([])
-  const [quizScore, setQuizScore] = useState<number | null>(null)
-  const [quizXPResult, setQuizXPResult] = useState<{
-    xpEarned: number
-    alreadyCompleted: boolean
-  } | null>(null)
+  const [showSettings, setShowSettings] = useState(false)
+
+  // Reading settings for furigana, font size, etc.
+  const [settings, setSettings] = useState<ReadingSettings>({
+    fontSize: 'medium',
+    showFurigana: true,
+    highlightVocabulary: false,
+    highlightMode: 'none',
+    darkMode: false,
+    translationMode: 'off',
+    translationProvider: 'ai',
+    showTranslationConfidence: false,
+    preserveGrammarStructure: false,
+    includeGrammarNotes: false,
+    autoAddToVocabulary: false,
+    highlightGrammar: false,
+    shadowingMode: false,
+  })
 
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [wordModalOpen, setWordModalOpen] = useState(false)
@@ -148,53 +165,8 @@ export default function ComicReaderPage() {
   }, [currentPanelIndex, totalPanels, router])
 
   // Quiz handlers
-  const handleQuizAnswer = (questionIndex: number, answerIndex: number) => {
-    const newAnswers = [...quizAnswers]
-    newAnswers[questionIndex] = answerIndex
-    setQuizAnswers(newAnswers)
-  }
-
-  const handleQuizSubmit = async () => {
-    const questions = episode?.quiz?.questions || []
-    if (quizAnswers.length !== questions.length) return
-
-    let correctAnswers = 0
-    questions.forEach((question: any, index: number) => {
-      if (quizAnswers[index] === question.correctAnswer) {
-        correctAnswers++
-      }
-    })
-
-    const score = Math.round((correctAnswers / questions.length) * 100)
-    setQuizScore(score)
-
-    // Record quiz completion for XP (only for authenticated users)
-    if (user?.uid && process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true') {
-      try {
-        const response = await fetch('/api/quiz/complete', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contentType: 'comic',
-            contentId: episodeId,
-            score,
-            totalQuestions: questions.length,
-            correctAnswers,
-          }),
-        })
-
-        const result = await response.json()
-        if (result.success) {
-          setQuizXPResult({
-            xpEarned: result.data.xpEarned,
-            alreadyCompleted: result.data.alreadyCompleted || false,
-          })
-          console.log('[Comic Quiz] XP recorded:', result.data)
-        }
-      } catch (error) {
-        console.error('[Comic Quiz] Failed to record XP:', error)
-      }
-    }
+  const handleQuizComplete = (score: number, xpEarned: number) => {
+    console.log('[Comic Quiz] Completed:', { score, xpEarned })
   }
 
   const isLastPanel = currentPanelIndex === totalPanels - 1
@@ -236,11 +208,16 @@ export default function ComicReaderPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-dark-950 via-dark-900 to-dark-850">
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
+
       {/* Floating Header - Glassmorphism Design */}
       <motion.div
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="fixed top-4 left-4 right-4 z-50"
+        className="fixed top-4 sm:top-24 left-4 right-4 z-50"
       >
         <div className="max-w-3xl mx-auto">
           <div className="bg-dark-900/70 backdrop-blur-xl border border-dark-700/50 rounded-2xl px-4 py-3 shadow-xl">
@@ -264,31 +241,19 @@ export default function ComicReaderPage() {
                 <p className="text-dark-400 text-xs font-japanese truncate">{episode.titleJa}</p>
               </div>
 
-              {/* Control Toggles */}
+              {/* Settings Icon - Opens CompactSettingsToolbar */}
               <div className="flex items-center gap-1">
                 <motion.button
                   whileHover={{ scale: 1.1 }}
                   whileTap={{ scale: 0.9 }}
-                  onClick={() => setShowTranslation(!showTranslation)}
-                  className={`p-2.5 rounded-xl transition-all ${showTranslation
+                  onClick={() => setShowSettings(!showSettings)}
+                  className={`p-2.5 rounded-xl transition-all ${showSettings
                     ? 'bg-primary-500/20 text-primary-400 ring-1 ring-primary-500/50'
                     : 'text-dark-400 hover:text-dark-200 hover:bg-dark-700/50'
                     }`}
-                  title="Toggle translation"
+                  title="Reading settings"
                 >
-                  <BookOpen className="w-4 h-4 sm:w-5 sm:h-5" />
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.1 }}
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setAudioEnabled(!audioEnabled)}
-                  className={`p-2.5 rounded-xl transition-all ${audioEnabled
-                    ? 'bg-primary-500/20 text-primary-400 ring-1 ring-primary-500/50'
-                    : 'text-dark-400 hover:text-dark-200 hover:bg-dark-700/50'
-                    }`}
-                  title="Toggle audio"
-                >
-                  {audioEnabled ? <Volume2 className="w-4 h-4 sm:w-5 sm:h-5" /> : <VolumeX className="w-4 h-4 sm:w-5 sm:h-5" />}
+                  <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
                 </motion.button>
               </div>
             </div>
@@ -309,59 +274,65 @@ export default function ComicReaderPage() {
           >
             {currentPanel && (
               <div className="relative">
-                {/* Dialogue Cards - Above the image */}
-                {currentPanel.dialogues && currentPanel.dialogues.length > 0 && (
-                  <div className="mb-4 space-y-3">
-                    {currentPanel.dialogues.map((dialogue, idx) => (
-                      <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: idx * 0.1 }}
-                        className="bg-white dark:bg-dark-800 rounded-xl p-4 shadow-lg border border-gray-100 dark:border-dark-700"
-                      >
-                        <div className="flex items-start gap-3">
-                          {/* Character info and text */}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-2">
-                              <span className="px-2.5 py-1 bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 rounded-lg text-xs font-bold">
-                                {dialogue.characterName}
-                              </span>
-                              {dialogue.emotion && (
-                                <span className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 text-gray-500 dark:text-dark-400 rounded text-xs">
-                                  {dialogue.emotion}
-                                </span>
-                              )}
-                            </div>
-                            {/* Japanese text */}
-                            <p className="font-japanese text-gray-900 dark:text-white text-base sm:text-lg leading-relaxed">
-                              {dialogue.furigana || dialogue.textJa}
-                            </p>
-                            {/* English translation */}
-                            {showTranslation && dialogue.textEn && (
-                              <p className="text-gray-500 dark:text-dark-400 text-sm mt-2">
-                                {dialogue.textEn}
-                              </p>
-                            )}
-                          </div>
-                          {/* Audio button */}
-                          <motion.button
-                            whileHover={audioEnabled && dialogue.audioUrl ? { scale: 1.1 } : {}}
-                            whileTap={audioEnabled && dialogue.audioUrl ? { scale: 0.9 } : {}}
-                            onClick={() => dialogue.audioUrl && playDialogueAudio(dialogue.audioUrl)}
-                            disabled={!audioEnabled || !dialogue.audioUrl}
-                            className={`flex-shrink-0 p-3 rounded-xl transition-all ${
-                              audioEnabled && dialogue.audioUrl
-                                ? 'bg-primary-100 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 hover:bg-primary-200 dark:hover:bg-primary-900/60'
-                                : 'bg-gray-100 dark:bg-dark-700 text-gray-400 dark:text-dark-500 cursor-not-allowed'
-                            }`}
-                          >
-                            <Volume2 className="w-5 h-5" />
-                          </motion.button>
-                        </div>
-                      </motion.div>
-                    ))}
-                  </div>
+                {/* Narration Box - Above the image */}
+                {currentPanel.narration?.textJa && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="mb-4 p-4 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-dark-800/80 dark:to-dark-800/60 backdrop-blur-lg rounded-xl border border-amber-200/50 dark:border-dark-700/50"
+                  >
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="px-2 py-0.5 bg-amber-200 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 rounded text-xs font-semibold">
+                        Narration
+                      </span>
+                    </div>
+                    <div className="text-gray-800 dark:text-white font-japanese text-base leading-relaxed">
+                      {(() => {
+                        // Get the raw Japanese text for grammar highlighting
+                        const rawText = currentPanel.narration.textJa
+
+                        // If grammar highlighting is enabled, use GrammarHighlightedText
+                        if (settings.highlightGrammar) {
+                          return (
+                            <>
+                              「
+                              <GrammarHighlightedText
+                                text={rawText}
+                                highlightMode={settings.highlightMode}
+                                showFurigana={settings.showFurigana}
+                                onWordClick={handleWordLookup}
+                                className="inline text-gray-800 dark:text-white"
+                              />
+                              」
+                            </>
+                          )
+                        }
+
+                        // Otherwise use RubyText with pre-generated ruby tags
+                        const text = currentPanel.narration.furigana || currentPanel.narration.textJa
+                        const hasRuby = text.includes('<ruby>')
+                        return hasRuby ? (
+                          <>
+                            「
+                            <RubyText
+                              text={text}
+                              showFurigana={settings.showFurigana}
+                              className="inline text-gray-800 dark:text-white"
+                            />
+                            」
+                          </>
+                        ) : (
+                          <span>「{text}」</span>
+                        )
+                      })()}
+                    </div>
+                    {showTranslation && currentPanel.narration.textEn && (
+                      <p className="text-gray-500 dark:text-dark-400 text-sm mt-2 italic">
+                        {currentPanel.narration.textEn}
+                      </p>
+                    )}
+                  </motion.div>
                 )}
 
                 {/* Panel Image - Premium Card Design */}
@@ -405,28 +376,88 @@ export default function ComicReaderPage() {
                   </div>
                 </div>
 
-                {/* Narration Box - Below the image */}
-                {currentPanel.narration?.textJa && (
-                  <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
-                    className="mt-4 p-4 bg-gradient-to-r from-amber-50 to-orange-50 dark:from-dark-800/80 dark:to-dark-800/60 backdrop-blur-lg rounded-xl border border-amber-200/50 dark:border-dark-700/50"
-                  >
-                    <div className="flex items-center gap-2 mb-2">
-                      <span className="px-2 py-0.5 bg-amber-200 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 rounded text-xs font-semibold">
-                        Narration
-                      </span>
-                    </div>
-                    <p className="text-gray-800 dark:text-white font-japanese text-base leading-relaxed">
-                      「{currentPanel.narration.textJa}」
-                    </p>
-                    {showTranslation && currentPanel.narration.textEn && (
-                      <p className="text-gray-500 dark:text-dark-400 text-sm mt-2 italic">
-                        {currentPanel.narration.textEn}
-                      </p>
-                    )}
-                  </motion.div>
+                {/* Dialogue Cards - Below the image */}
+                {currentPanel.dialogues && currentPanel.dialogues.length > 0 && (
+                  <div className="mt-4 space-y-3">
+                    {currentPanel.dialogues.map((dialogue, idx) => (
+                      <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: idx * 0.1 + 0.2 }}
+                        className="bg-white dark:bg-dark-800 rounded-xl p-4 shadow-lg border border-gray-100 dark:border-dark-700"
+                      >
+                        <div className="flex items-start gap-3">
+                          {/* Character info and text */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2 mb-2">
+                              <span className="px-2.5 py-1 bg-primary-100 dark:bg-primary-900/40 text-primary-700 dark:text-primary-300 rounded-lg text-xs font-bold">
+                                {dialogue.characterName}
+                              </span>
+                              {dialogue.emotion && (
+                                <span className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 text-gray-500 dark:text-dark-400 rounded text-xs">
+                                  {dialogue.emotion}
+                                </span>
+                              )}
+                            </div>
+                            {/* Japanese text */}
+                            <div className="font-japanese text-gray-900 dark:text-white text-base sm:text-lg leading-relaxed">
+                              {(() => {
+                                // Get the raw Japanese text for grammar highlighting
+                                const rawText = dialogue.textJa
+
+                                // If grammar highlighting is enabled, use GrammarHighlightedText
+                                if (settings.highlightGrammar) {
+                                  return (
+                                    <GrammarHighlightedText
+                                      text={rawText}
+                                      highlightMode={settings.highlightMode}
+                                      showFurigana={settings.showFurigana}
+                                      onWordClick={handleWordLookup}
+                                      className="text-gray-900 dark:text-white"
+                                    />
+                                  )
+                                }
+
+                                // Otherwise use RubyText with pre-generated ruby tags
+                                const text = dialogue.furigana || dialogue.textJa
+                                const hasRuby = text.includes('<ruby>')
+                                return hasRuby ? (
+                                  <RubyText
+                                    text={text}
+                                    showFurigana={settings.showFurigana}
+                                    className="text-gray-900 dark:text-white"
+                                  />
+                                ) : (
+                                  <span>{text}</span>
+                                )
+                              })()}
+                            </div>
+                            {/* English translation */}
+                            {showTranslation && dialogue.textEn && (
+                              <p className="text-gray-500 dark:text-dark-400 text-sm mt-2">
+                                {dialogue.textEn}
+                              </p>
+                            )}
+                          </div>
+                          {/* Audio button */}
+                          <motion.button
+                            whileHover={audioEnabled && dialogue.audioUrl ? { scale: 1.1 } : {}}
+                            whileTap={audioEnabled && dialogue.audioUrl ? { scale: 0.9 } : {}}
+                            onClick={() => dialogue.audioUrl && playDialogueAudio(dialogue.audioUrl)}
+                            disabled={!audioEnabled || !dialogue.audioUrl}
+                            className={`flex-shrink-0 p-3 rounded-xl transition-all ${
+                              audioEnabled && dialogue.audioUrl
+                                ? 'bg-primary-100 dark:bg-primary-900/40 text-primary-600 dark:text-primary-400 hover:bg-primary-200 dark:hover:bg-primary-900/60'
+                                : 'bg-gray-100 dark:bg-dark-700 text-gray-400 dark:text-dark-500 cursor-not-allowed'
+                            }`}
+                          >
+                            <Volume2 className="w-5 h-5" />
+                          </motion.button>
+                        </div>
+                      </motion.div>
+                    ))}
+                  </div>
                 )}
               </div>
             )}
@@ -608,143 +639,25 @@ export default function ComicReaderPage() {
 
       {/* Quiz - Full Page View (matches story quiz) */}
       {showQuiz && episode?.quiz?.questions && (
-        <div className="fixed inset-0 z-[100] bg-gradient-to-b from-dark-950 via-dark-900 to-dark-850 overflow-y-auto">
-          <div className="max-w-4xl mx-auto p-4 sm:p-6">
-            <div className="rounded-2xl p-6 sm:p-8 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700">
-              <h2 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">
-                {strings.story?.quiz?.title || 'Episode Quiz'}
-              </h2>
-
-              {quizScore === null ? (
-                <div className="space-y-6">
-                  {episode.quiz.questions.map((question: any, qIndex: number) => (
-                    <div key={qIndex} className="space-y-3">
-                      <p className="font-medium text-gray-900 dark:text-white">
-                        {qIndex + 1}. {question.questionJa || question.questionEn}
-                      </p>
-                      <div className="space-y-2">
-                        {question.options?.map((option: string, oIndex: number) => (
-                          <label
-                            key={oIndex}
-                            className="flex items-center gap-3 p-3 rounded-xl cursor-pointer transition-colors"
-                            style={{
-                              backgroundColor:
-                                quizAnswers[qIndex] === oIndex
-                                  ? 'rgb(var(--palette-primary-500) / 0.1)'
-                                  : 'transparent',
-                              border:
-                                quizAnswers[qIndex] === oIndex
-                                  ? '2px solid rgb(var(--palette-primary-500))'
-                                  : '2px solid transparent',
-                            }}
-                          >
-                            <input
-                              type="radio"
-                              name={`question-${qIndex}`}
-                              checked={quizAnswers[qIndex] === oIndex}
-                              onChange={() => handleQuizAnswer(qIndex, oIndex)}
-                              className="w-4 h-4 accent-primary-500"
-                            />
-                            <span className="text-gray-900 dark:text-white">{option}</span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-                  ))}
-
-                  <div className="flex justify-between mt-8 pt-6 border-t border-gray-200 dark:border-dark-700">
-                    <button
-                      onClick={() => setShowQuiz(false)}
-                      className="px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105 bg-gray-100 dark:bg-dark-700 text-gray-900 dark:text-white"
-                    >
-                      {strings.common?.back || 'Back'}
-                    </button>
-                    <button
-                      onClick={handleQuizSubmit}
-                      disabled={quizAnswers.length !== episode.quiz.questions.length}
-                      className="px-6 py-2 rounded-xl text-white transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                      style={{
-                        backgroundColor: 'rgb(var(--palette-primary-500))',
-                      }}
-                    >
-                      {strings.common?.submit || 'Submit'}
-                    </button>
-                  </div>
-                </div>
-              ) : (
-                <div className="text-center space-y-4">
-                  <div className="text-6xl mb-4">
-                    {quizScore >= 80 ? '🎉' : quizScore >= 60 ? '👍' : '💪'}
-                  </div>
-                  <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {quizScore >= 80
-                      ? strings.story?.quiz?.excellent || 'Excellent!'
-                      : quizScore >= 60
-                        ? strings.story?.quiz?.good || 'Good job!'
-                        : strings.story?.quiz?.keepPracticing || 'Keep practicing!'}
-                  </h3>
-                  <p className="text-xl text-gray-900 dark:text-white">
-                    {strings.story?.quiz?.yourScore || 'Your Score'}: {quizScore}%
-                  </p>
-
-                  {/* XP Reward Display */}
-                  {quizXPResult && !quizXPResult.alreadyCompleted && quizXPResult.xpEarned > 0 && (
-                    <div className="flex items-center justify-center gap-2 text-amber-500 dark:text-amber-400 mt-2">
-                      <span className="text-2xl">✨</span>
-                      <span className="text-xl font-bold">+{quizXPResult.xpEarned} XP</span>
-                    </div>
-                  )}
-                  {quizXPResult?.alreadyCompleted && (
-                    <p className="text-sm mt-2 text-gray-600 dark:text-gray-400">
-                      Quiz already completed
-                    </p>
-                  )}
-
-                  <div className="space-y-3 mt-6 text-left">
-                    {episode.quiz.questions.map((question: any, index: number) => (
-                      <div
-                        key={index}
-                        className="p-4 rounded-xl bg-gray-50 dark:bg-dark-700"
-                      >
-                        <p className="font-medium mb-2 text-gray-900 dark:text-white">
-                          {question.questionJa || question.questionEn}
-                        </p>
-                        <p
-                          className={
-                            quizAnswers[index] === question.correctAnswer
-                              ? 'text-green-600 dark:text-green-400'
-                              : 'text-red-600 dark:text-red-400'
-                          }
-                        >
-                          Your answer: {question.options[quizAnswers[index]]}
-                        </p>
-                        {quizAnswers[index] !== question.correctAnswer && (
-                          <p className="text-green-600 dark:text-green-400">
-                            Correct: {question.options[question.correctAnswer]}
-                          </p>
-                        )}
-                        {question.explanation && (
-                          <p className="text-sm mt-1 text-gray-600 dark:text-gray-400">
-                            {question.explanation}
-                          </p>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-
-                  <button
-                    onClick={() => router.push('/comics')}
-                    className="px-6 py-2 rounded-xl text-white mt-6 transition-all duration-200 hover:scale-105"
-                    style={{
-                      backgroundColor: 'rgb(var(--palette-primary-500))',
-                    }}
-                  >
-                    {strings.common?.finish || 'Finish'}
-                  </button>
-                </div>
-              )}
-            </div>
+        <div className="fixed inset-0 z-[100] overflow-y-auto">
+          {/* Desktop Navbar */}
+          <div className="hidden sm:block">
+            <Navbar user={user} showUserMenu={true} />
           </div>
+
+          <QuizPlayer
+            questions={episode.quiz.questions}
+            contentType="comic"
+            contentId={episodeId}
+            contentTitle={`EP ${episode.episodeNumber}: ${episode.title}`}
+            onComplete={handleQuizComplete}
+            onExit={() => router.push('/comics')}
+            onBack={() => setShowQuiz(false)}
+            showTranslation={showTranslation}
+            enableAutoSave={true}
+            showFurigana={settings.showFurigana}
+            fontSize={settings.fontSize}
+          />
         </div>
       )}
 
@@ -758,6 +671,14 @@ export default function ComicReaderPage() {
         error={wordError}
         translationContext={wordContext ? { sentence: wordContext } : undefined}
         onWordLookup={(w) => handleWordLookup(w, wordContext)}
+      />
+
+      {/* Settings Panel - Comic-specific (only Furigana + Grammar) */}
+      <ComicSettingsModal
+        settings={settings}
+        onSettingsChange={setSettings}
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
       />
     </div>
   )

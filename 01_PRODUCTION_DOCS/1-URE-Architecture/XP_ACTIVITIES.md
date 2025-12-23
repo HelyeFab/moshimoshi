@@ -29,7 +29,7 @@ This table clarifies which features award XP through URE (Event Hub) vs direct A
 | **Anki Study** | ❌ No | None | Excluded from XP system - uses local SRS only |
 | **News Reading** | ❌ No | Direct API | `POST /api/news/progress/complete` → `calculateNewsXP()` |
 | **Book Reading** | ❌ No | Direct API | `POST /api/library/books/complete` → `calculateBookXP()` |
-| **Quiz Completion** | ❌ No | Direct API | `POST /api/quiz/complete` → `calculateQuizXP()` |
+| **Quiz Completion** | ❌ No | Direct API + Manual Store Update | `POST /api/quiz/complete` → `calculateQuizXP()` + `useGamificationStore` |
 
 ### Key Architectural Differences
 
@@ -38,7 +38,7 @@ This table clarifies which features award XP through URE (Event Hub) vs direct A
 | **Event Flow** | Event Hub singleton → `gamificationListener` | Direct `fetch()` to API |
 | **XP Function** | `recordReviewCompletion()` | Feature-specific (e.g., `recordDrillCompletion()`) |
 | **Session Tracking** | `SessionManager` handles lifecycle | Feature manages own state |
-| **Celebration UI** | `CelebrationProvider` auto-triggers | May require manual trigger |
+| **Celebration UI** | `CelebrationProvider` auto-triggers | ✅ Manual trigger implemented (Quiz, Drill) |
 
 ### Code Flow References
 
@@ -213,10 +213,45 @@ KanaLearningComponent
 | 40-59% | 5 XP |
 | 0-39% | 0 XP |
 
+**Integration Flow** (Non-URE with manual store update):
+```
+QuizPlayer Component
+  → POST /api/quiz/complete
+  → calculateQuizXP()
+  → Manual useGamificationStore updates:
+      • updateFromServer() - sync XP, level, streak
+      • setLastSessionStats() - provide celebration data
+      • incrementSessionCount() - trigger CelebrationProvider
+```
+
+**Celebration Trigger** (Implemented):
+Quiz follows the same pattern as DrillProgressManager for non-URE celebration:
+```typescript
+// After successful API response
+const store = useGamificationStore.getState()
+store.updateFromServer({
+  totalXP: data.newTotalXP,
+  currentLevel: data.newLevel,
+  currentStreak: data.currentStreak,
+  bestStreak: data.bestStreak
+})
+
+store.setLastSessionStats({
+  itemsCompleted: totalQuestions,
+  accuracy: scorePercentage,
+  duration: 0, // Quizzes don't track time
+  xpGained: xpEarned
+})
+
+store.incrementSessionCount() // Triggers CelebrationProvider watch
+```
+
 **Notes**:
 - First completion only (retakes show "already completed")
 - Same formula for both story and comic quizzes
 - Tracked via `quiz_progress` Firestore collection
+- ✅ Celebration screen connected (as of 2025-01-13)
+- Respects `NEXT_PUBLIC_ENABLE_GAMIFICATION` environment flag
 
 **Achievements**:
 - "Quiz Master": Complete 10 quizzes with 80%+ score

@@ -528,14 +528,20 @@ Response format (JSON only):
     {
       "id": "q1",
       "question": "Question in English",
-      "questionJa": "Question in Japanese (optional for higher levels)",
+      "questionJa": "<ruby>質問<rt>しつもん</rt></ruby>を<ruby>日本語<rt>にほんご</rt></ruby>で（optional for higher levels）",
       "options": ["Option A", "Option B", "Option C", "Option D"],
       "correctIndex": 0,
       "explanation": "Why this answer is correct",
-      "explanationJa": "Explanation in Japanese"
+      "explanationJa": "<ruby>説明<rt>せつめい</rt></ruby>を<ruby>日本語<rt>にほんご</rt></ruby>で"
     }
   ]
-}`
+}
+
+**IMPORTANT: For questionJa and explanationJa fields:**
+- Wrap ALL kanji in <ruby> tags with furigana readings
+- Format: <ruby>漢字<rt>かんじ</rt></ruby>
+- Example: "この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>は?"
+- Do NOT use parentheses format - use <ruby><rt> tags only`
 
     const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt)
 

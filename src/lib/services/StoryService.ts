@@ -224,6 +224,21 @@ class StoryService {
     }
   }
 
+  /**
+   * Increment story completion count
+   */
+  async incrementCompletionCount(storyId: string): Promise<void> {
+    try {
+      const storyRef = doc(getDb(), this.STORIES_COLLECTION, storyId)
+      await updateDoc(storyRef, {
+        completionCount: increment(1),
+      })
+    } catch (error) {
+      console.error('Error incrementing completion count:', error)
+      // Don't throw, just log - this is not critical
+    }
+  }
+
   // ============== Progress Management ==============
 
   /**

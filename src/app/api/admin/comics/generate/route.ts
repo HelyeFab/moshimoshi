@@ -1059,12 +1059,12 @@ You MUST return a JSON object in EXACTLY this format:
   "questions": [
     {
       "type": "multiple-choice",
-      "questionJa": "この言葉の意味は何ですか？",
+      "questionJa": "この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>は<ruby>何<rt>なに</rt></ruby>ですか？",
       "questionEn": "What does this word mean?",
       "options": ["option1", "option2", "option3", "option4"],
       "correctAnswer": 0,
       "explanation": "Explanation of why this answer is correct",
-      "explanationJa": "なぜこの答えが正しいかの説明"
+      "explanationJa": "なぜこの<ruby>答え<rt>こたえ</rt></ruby>が<ruby>正<rt>ただ</rt></ruby>しいかの<ruby>説明<rt>せつめい</rt></ruby>"
     }
   ],
   "passingScore": 70
@@ -1073,6 +1073,9 @@ You MUST return a JSON object in EXACTLY this format:
 Requirements:
 - Create EXACTLY 4-5 questions
 - Each question must have ALL 7 fields: type, questionJa, questionEn, options (array of 4), correctAnswer (0-3), explanation, explanationJa
+- **IMPORTANT: For questionJa and explanationJa, wrap ALL kanji in <ruby> tags with furigana readings**
+  Example: "この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>は?"
+  Do NOT use parentheses format - use <ruby><rt> tags only
 - Test vocabulary, reading comprehension, and cultural understanding
 - Make questions appropriate for the JLPT level
 - Options must be plausible but only one correct`
