@@ -4001,6 +4001,7 @@ export const strings = {
     install: {
       title: 'Moshimoshiをインストール',
       description: 'より良い体験のためにアプリをインストールしてください',
+      settingsDescription: 'ホーム画面にMoshimoshiを追加して素早くアクセス',
       button: 'アプリをインストール',
       later: '後で',
       benefits: {
@@ -4015,6 +4016,7 @@ export const strings = {
         step3: '「追加」をタップしてインストール',
       },
     },
+    installing: 'インストール中...',
     notifications: {
       permission: {
         title: '通知を有効にする',

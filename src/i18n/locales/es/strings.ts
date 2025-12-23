@@ -4182,6 +4182,7 @@ export const strings = {
     install: {
       title: 'Instalar Moshimoshi',
       description: 'Instala la aplicación para una mejor experiencia',
+      settingsDescription: 'Añade Moshimoshi a tu pantalla de inicio para acceso rápido',
       button: 'Instalar App',
       later: 'Más tarde',
       benefits: {
@@ -4196,6 +4197,7 @@ export const strings = {
         step3: 'Toca "Añadir" para instalar',
       },
     },
+    installing: 'Instalando...',
     notifications: {
       permission: {
         title: 'Habilitar notificaciones',

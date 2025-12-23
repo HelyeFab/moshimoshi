@@ -5,118 +5,39 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Download, X, Smartphone, Zap, Bell, WifiOff, Share, Plus } from 'lucide-react'
 import { useI18n } from '@/i18n/I18nContext'
 import Image from 'next/image'
-
-// Type for the beforeinstallprompt event
-interface BeforeInstallPromptEvent extends Event {
-  prompt: () => Promise<void>
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed' }>
-}
-
-// Detect iOS Safari
-const isIOS = (): boolean => {
-  if (typeof window === 'undefined') return false
-  return /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
-}
-
-// Detect if running as standalone PWA
-const isStandalone = (): boolean => {
-  if (typeof window === 'undefined') return false
-  return (
-    window.matchMedia('(display-mode: standalone)').matches ||
-    (window.navigator as any).standalone === true
-  )
-}
-
-// Check if install prompt was recently dismissed (7 days)
-const wasRecentlyDismissed = (): boolean => {
-  if (typeof window === 'undefined') return false
-  const dismissed = localStorage.getItem('pwa_install_dismissed')
-  if (!dismissed) return false
-  const dismissedTime = new Date(dismissed).getTime()
-  const sevenDaysAgo = Date.now() - 7 * 24 * 60 * 60 * 1000
-  return dismissedTime > sevenDaysAgo
-}
-
-// Visit count management for engagement threshold
-const VISIT_COUNT_KEY = 'pwa_visit_count'
-const MIN_VISITS_FOR_PROMPT = 3
-
-const getVisitCount = (): number => {
-  if (typeof window === 'undefined') return 0
-  return parseInt(localStorage.getItem(VISIT_COUNT_KEY) || '0', 10)
-}
-
-const incrementVisitCount = (): void => {
-  if (typeof window === 'undefined') return
-  const count = getVisitCount() + 1
-  localStorage.setItem(VISIT_COUNT_KEY, count.toString())
-}
-
-const hasEnoughVisits = (): boolean => {
-  return getVisitCount() >= MIN_VISITS_FOR_PROMPT
-}
+import { a2hsManager } from '@/lib/pwa/a2hs'
 
 export function PWAInstallPrompt() {
   const { t } = useI18n()
   const [showPrompt, setShowPrompt] = useState(false)
   const [showIOSInstructions, setShowIOSInstructions] = useState(false)
-  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null)
   const [isInstalling, setIsInstalling] = useState(false)
 
   useEffect(() => {
-    // Increment visit count on each mount
-    incrementVisitCount()
+    // Don't show if criteria not met (manager handles all anti-harassment logic)
+    if (!a2hsManager.shouldShowPrompt()) return
 
-    // Don't show if already installed, recently dismissed, or not enough visits
-    if (isStandalone() || wasRecentlyDismissed() || !hasEnoughVisits()) return
+    // Show after platform-appropriate delay
+    const delay = a2hsManager.getRecommendedDelay()
+    const timer = setTimeout(() => {
+      setShowPrompt(true)
+      a2hsManager.markPromptShown()
+    }, delay)
 
-    // Handle iOS Safari
-    if (isIOS()) {
-      // Show after user engagement (30 seconds)
-      const timer = setTimeout(() => {
-        setShowPrompt(true)
-      }, 30000)
-      return () => clearTimeout(timer)
-    }
-
-    // Handle Chrome/Edge/Samsung (beforeinstallprompt)
-    const handleBeforeInstallPrompt = (e: Event) => {
-      e.preventDefault()
-      setDeferredPrompt(e as BeforeInstallPromptEvent)
-      // Show after brief delay for engagement
-      setTimeout(() => setShowPrompt(true), 15000)
-    }
-
-    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-
-    // Track successful installs
-    window.addEventListener('appinstalled', () => {
-      setShowPrompt(false)
-      setDeferredPrompt(null)
-      localStorage.setItem('pwa_installed', 'true')
-      // Track analytics
-      if (typeof window !== 'undefined' && (window as any).gtag) {
-        (window as any).gtag('event', 'pwa_install', { event_category: 'engagement' })
-      }
-    })
-
-    return () => {
-      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
-    }
+    return () => clearTimeout(timer)
   }, [])
 
   const handleInstall = useCallback(async () => {
-    if (isIOS()) {
+    const platform = a2hsManager.getPlatform()
+
+    if (platform === 'ios') {
       setShowIOSInstructions(true)
       return
     }
 
-    if (!deferredPrompt) return
-
     setIsInstalling(true)
     try {
-      await deferredPrompt.prompt()
-      const { outcome } = await deferredPrompt.userChoice
+      const outcome = await a2hsManager.prompt()
 
       if (outcome === 'accepted') {
         setShowPrompt(false)
@@ -125,18 +46,17 @@ export function PWAInstallPrompt() {
       console.error('[PWA Install] Error:', error)
     } finally {
       setIsInstalling(false)
-      setDeferredPrompt(null)
     }
-  }, [deferredPrompt])
+  }, [])
 
   const handleDismiss = useCallback(() => {
     setShowPrompt(false)
     setShowIOSInstructions(false)
-    localStorage.setItem('pwa_install_dismissed', new Date().toISOString())
+    a2hsManager.dismissPrompt()
   }, [])
 
-  // Don't render if already standalone
-  if (typeof window !== 'undefined' && isStandalone()) return null
+  // Don't render if already installed
+  if (typeof window !== 'undefined' && a2hsManager.isAppInstalled()) return null
 
   return (
     <AnimatePresence>
@@ -211,7 +131,7 @@ export function PWAInstallPrompt() {
                 disabled={isInstalling}
                 className="flex-1 flex items-center justify-center gap-2 px-4 py-3 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 disabled:opacity-50 text-white rounded-xl transition-all font-semibold text-sm shadow-lg shadow-primary-500/25"
               >
-                {isIOS() ? (
+                {a2hsManager.getPlatform() === 'ios' ? (
                   <>
                     <Share className="w-4 h-4" />
                     {t('pwa.install.button')}

@@ -5623,6 +5623,7 @@ export const strings = {
     install: {
       title: 'Install Moshimoshi',
       description: 'Install the app for a better experience',
+      settingsDescription: 'Add Moshimoshi to your home screen for quick access',
       button: 'Install App',
       later: 'Not Now',
       benefits: {
@@ -5637,6 +5638,7 @@ export const strings = {
         step3: 'Tap "Add" to install',
       },
     },
+    installing: 'Installing...',
     notifications: {
       permission: {
         title: 'Enable Notifications',
