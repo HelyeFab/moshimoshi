@@ -53,12 +53,21 @@ export default function LandingPageClient() {
   useEffect(() => {
     setMounted(true)
 
+    // Check if this is a unique visitor (first time visiting landing page)
+    const hasVisitedLanding = localStorage.getItem('visited_landing')
+    const isUniqueVisitor = !hasVisitedLanding
+
     // Track landing page visit (anonymous - no auth required)
     fetch('/api/waitlist/track-visit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ page: 'landing' }),
+      body: JSON.stringify({ page: 'landing', isUniqueVisitor }),
     }).catch((err) => console.error('Failed to track visit:', err))
+
+    // Mark as visited for future page loads
+    if (isUniqueVisitor) {
+      localStorage.setItem('visited_landing', 'true')
+    }
   }, [])
 
   // Auto-rotate carousel every 5 seconds - MUST be before any conditional returns

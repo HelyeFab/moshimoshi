@@ -16,12 +16,21 @@ export default function WaitlistPage() {
   useEffect(() => {
     setMounted(true);
 
+    // Check if this is a unique visitor (first time visiting waitlist page)
+    const hasVisitedWaitlist = localStorage.getItem('visited_waitlist');
+    const isUniqueVisitor = !hasVisitedWaitlist;
+
     // Track waitlist page visit (anonymous - no auth required)
     fetch('/api/waitlist/track-visit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ page: 'waitlist' }),
+      body: JSON.stringify({ page: 'waitlist', isUniqueVisitor }),
     }).catch((err) => console.error('Failed to track visit:', err));
+
+    // Mark as visited for future page loads
+    if (isUniqueVisitor) {
+      localStorage.setItem('visited_waitlist', 'true');
+    }
   }, []);
 
   // Use waitlist strings with fallback

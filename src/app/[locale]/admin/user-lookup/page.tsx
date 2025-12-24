@@ -60,9 +60,12 @@ export default function UserLookupPage() {
   const [waitlistError, setWaitlistError] = useState<string | null>(null);
 
   // Analytics data
-  const [landingVisitors, setLandingVisitors] = useState<number>(0);
-  const [waitlistVisitors, setWaitlistVisitors] = useState<number>(0);
-  const [totalVisitors, setTotalVisitors] = useState<number>(0);
+  const [landingPageViews, setLandingPageViews] = useState<number>(0);
+  const [landingUniqueVisitors, setLandingUniqueVisitors] = useState<number>(0);
+  const [waitlistPageViews, setWaitlistPageViews] = useState<number>(0);
+  const [waitlistUniqueVisitors, setWaitlistUniqueVisitors] = useState<number>(0);
+  const [totalPageViews, setTotalPageViews] = useState<number>(0);
+  const [totalUniqueVisitors, setTotalUniqueVisitors] = useState<number>(0);
   const [visitorsLoading, setVisitorsLoading] = useState(true);
   const [visitorsError, setVisitorsError] = useState<string | null>(null);
 
@@ -126,9 +129,12 @@ export default function UserLookupPage() {
         if (result.error) {
           setVisitorsError(result.message || result.error);
         } else {
-          setLandingVisitors(result.landing?.visitors || 0);
-          setWaitlistVisitors(result.waitlist?.visitors || 0);
-          setTotalVisitors(result.total || 0);
+          setLandingPageViews(result.landing?.pageViews || 0);
+          setLandingUniqueVisitors(result.landing?.uniqueVisitors || 0);
+          setWaitlistPageViews(result.waitlist?.pageViews || 0);
+          setWaitlistUniqueVisitors(result.waitlist?.uniqueVisitors || 0);
+          setTotalPageViews(result.totals?.pageViews || 0);
+          setTotalUniqueVisitors(result.totals?.uniqueVisitors || 0);
         }
       } catch (err) {
         setVisitorsError(err instanceof Error ? err.message : 'Failed to load analytics');
@@ -241,61 +247,67 @@ export default function UserLookupPage() {
 
       {/* Analytics Section */}
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Total Visitors Card */}
+        {/* Total Page Views Card */}
         <div className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-dark-700/50 p-6">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white text-2xl">
-              🌐
+              📊
             </div>
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">Total Visitors</p>
+            <div className="flex-1">
+              <p className="text-sm text-gray-600 dark:text-gray-400">Total Metrics</p>
               {visitorsLoading ? (
                 <div className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
               ) : visitorsError ? (
                 <p className="text-red-500 text-xs">{visitorsError}</p>
               ) : (
                 <>
-                  <p className="text-3xl font-bold text-gray-900 dark:text-white">{totalVisitors}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">All pages</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{totalPageViews} <span className="text-sm font-normal text-gray-500">views</span></p>
+                  <p className="text-lg font-semibold text-primary-600 dark:text-primary-400">{totalUniqueVisitors} <span className="text-xs font-normal text-gray-500">unique</span></p>
                 </>
               )}
             </div>
           </div>
         </div>
 
-        {/* Landing Page Visitors Card */}
+        {/* Landing Page Card */}
         <div className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-dark-700/50 p-6">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-2xl">
               🏠
             </div>
-            <div>
+            <div className="flex-1">
               <p className="text-sm text-gray-600 dark:text-gray-400">Landing Page</p>
               {visitorsLoading ? (
                 <div className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
               ) : visitorsError ? (
                 <p className="text-red-500 text-xs">{visitorsError}</p>
               ) : (
-                <p className="text-3xl font-bold text-gray-900 dark:text-white">{landingVisitors}</p>
+                <>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{landingPageViews} <span className="text-sm font-normal text-gray-500">views</span></p>
+                  <p className="text-lg font-semibold text-blue-600 dark:text-blue-400">{landingUniqueVisitors} <span className="text-xs font-normal text-gray-500">unique</span></p>
+                </>
               )}
             </div>
           </div>
         </div>
 
-        {/* Waitlist Page Visitors Card */}
+        {/* Waitlist Page Card */}
         <div className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-dark-700/50 p-6">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-2xl">
               👁️
             </div>
-            <div>
+            <div className="flex-1">
               <p className="text-sm text-gray-600 dark:text-gray-400">Waitlist Page</p>
               {visitorsLoading ? (
                 <div className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
               ) : visitorsError ? (
                 <p className="text-red-500 text-xs">{visitorsError}</p>
               ) : (
-                <p className="text-3xl font-bold text-gray-900 dark:text-white">{waitlistVisitors}</p>
+                <>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">{waitlistPageViews} <span className="text-sm font-normal text-gray-500">views</span></p>
+                  <p className="text-lg font-semibold text-green-600 dark:text-green-400">{waitlistUniqueVisitors} <span className="text-xs font-normal text-gray-500">unique</span></p>
+                </>
               )}
             </div>
           </div>
@@ -317,8 +329,8 @@ export default function UserLookupPage() {
                 <>
                   <p className="text-3xl font-bold text-gray-900 dark:text-white">{waitlistData?.count || 0}</p>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                    {waitlistData?.count && waitlistVisitors ?
-                      `${((waitlistData.count / waitlistVisitors) * 100).toFixed(1)}% conversion` :
+                    {waitlistData?.count && waitlistUniqueVisitors ?
+                      `${((waitlistData.count / waitlistUniqueVisitors) * 100).toFixed(1)}% conversion` :
                       'All time'}
                   </p>
                 </>

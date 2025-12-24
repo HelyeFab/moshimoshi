@@ -6,9 +6,9 @@ import { FieldValue } from 'firebase-admin/firestore';
  * POST /api/waitlist/track-visit
  *
  * Tracks a visitor to landing pages (anonymous - no auth required)
- * Increments a counter in Firestore for admin dashboard analytics
+ * Increments counters in Firestore for admin dashboard analytics
  *
- * Body: { page: 'landing' | 'waitlist' }
+ * Body: { page: 'landing' | 'waitlist', isUniqueVisitor: boolean }
  */
 export async function POST(request: NextRequest) {
   try {
@@ -18,9 +18,10 @@ export async function POST(request: NextRequest) {
       throw new Error('Firebase Admin not initialized');
     }
 
-    // Get page from request body
+    // Get page and visitor type from request body
     const body = await request.json();
     const page = body.page || 'unknown';
+    const isUniqueVisitor = body.isUniqueVisitor === true;
 
     // Validate page
     const validPages = ['landing', 'waitlist'];
@@ -29,17 +30,22 @@ export async function POST(request: NextRequest) {
     // Reference to analytics document for this page
     const analyticsRef = adminFirestore.collection('analytics').doc(`page_${pageKey}`);
 
-    // Increment visitor count
-    await analyticsRef.set(
-      {
-        page: pageKey,
-        totalVisitors: FieldValue.increment(1),
-        lastVisit: FieldValue.serverTimestamp(),
-      },
-      { merge: true }
-    );
+    // Build update object
+    const updateData: any = {
+      page: pageKey,
+      totalPageViews: FieldValue.increment(1), // Always increment page views
+      lastVisit: FieldValue.serverTimestamp(),
+    };
 
-    return NextResponse.json({ success: true, page: pageKey });
+    // Only increment unique visitors if this is a first-time visitor
+    if (isUniqueVisitor) {
+      updateData.uniqueVisitors = FieldValue.increment(1);
+    }
+
+    // Update counters
+    await analyticsRef.set(updateData, { merge: true });
+
+    return NextResponse.json({ success: true, page: pageKey, tracked: { pageView: true, uniqueVisitor: isUniqueVisitor } });
 
   } catch (error: any) {
     console.error('[API /waitlist/track-visit] Error:', error);

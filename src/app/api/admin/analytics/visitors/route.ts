@@ -30,14 +30,19 @@ export const GET = withAdminAuth(async (request: NextRequest, context: AdminCont
     return NextResponse.json({
       success: true,
       landing: {
-        visitors: landingData?.totalVisitors || 0,
+        pageViews: landingData?.totalPageViews || 0,
+        uniqueVisitors: landingData?.uniqueVisitors || 0,
         lastVisit: landingData?.lastVisit?.toDate?.()?.toISOString() || null,
       },
       waitlist: {
-        visitors: waitlistData?.totalVisitors || 0,
+        pageViews: waitlistData?.totalPageViews || 0,
+        uniqueVisitors: waitlistData?.uniqueVisitors || 0,
         lastVisit: waitlistData?.lastVisit?.toDate?.()?.toISOString() || null,
       },
-      total: (landingData?.totalVisitors || 0) + (waitlistData?.totalVisitors || 0),
+      totals: {
+        pageViews: (landingData?.totalPageViews || 0) + (waitlistData?.totalPageViews || 0),
+        uniqueVisitors: (landingData?.uniqueVisitors || 0) + (waitlistData?.uniqueVisitors || 0),
+      },
     });
 
   } catch (error: any) {
@@ -46,9 +51,9 @@ export const GET = withAdminAuth(async (request: NextRequest, context: AdminCont
       {
         error: 'Internal server error',
         message: error.message || 'Unknown error',
-        landing: { visitors: 0, lastVisit: null },
-        waitlist: { visitors: 0, lastVisit: null },
-        total: 0,
+        landing: { pageViews: 0, uniqueVisitors: 0, lastVisit: null },
+        waitlist: { pageViews: 0, uniqueVisitors: 0, lastVisit: null },
+        totals: { pageViews: 0, uniqueVisitors: 0 },
       },
       { status: 200 } // Return 200 to prevent UI errors
     );
