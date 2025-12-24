@@ -33,12 +33,13 @@ export const GET = withAdminAuth(async (request: NextRequest, context: AdminCont
     // Build Vercel Analytics API URL
     // Correct API endpoint: https://api.vercel.com/v1/web/insights/views
     const baseUrl = 'https://api.vercel.com/v1/web/insights/views';
-    const params = new URLSearchParams({
-      projectId: vercelProjectId,
-      path: path,
-      since: since,
-      teamId: vercelTeamId,
-    });
+    const params = new URLSearchParams();
+    params.append('projectId', vercelProjectId);
+    params.append('path', path);
+    params.append('since', since);
+    if (vercelTeamId) {
+      params.append('teamId', vercelTeamId);
+    }
 
     const analyticsUrl = `${baseUrl}?${params.toString()}`;
 

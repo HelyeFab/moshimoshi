@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
+import { FieldValue } from 'firebase-admin/firestore';
 
 /**
  * POST /api/waitlist/track-visit
@@ -32,8 +33,8 @@ export async function POST(request: NextRequest) {
     await analyticsRef.set(
       {
         page: pageKey,
-        totalVisitors: adminFirestore.FieldValue.increment(1),
-        lastVisit: adminFirestore.FieldValue.serverTimestamp(),
+        totalVisitors: FieldValue.increment(1),
+        lastVisit: FieldValue.serverTimestamp(),
       },
       { merge: true }
     );
