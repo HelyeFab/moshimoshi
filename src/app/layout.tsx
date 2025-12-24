@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { themeInitScript } from '@/lib/theme/theme-script';
 import { suppressFirestoreErrors } from '@/lib/firebase/suppress-errors';
+import { Analytics } from '@vercel/analytics/react';
 import '@/styles/globals.css';
 
 export const metadata: Metadata = {
@@ -344,6 +345,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         className="min-h-screen flex flex-col bg-background-light dark:bg-dark-850"
       >
         {children}
+        <Analytics />
       </body>
     </html>
   );

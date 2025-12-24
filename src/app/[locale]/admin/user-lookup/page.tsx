@@ -59,6 +59,13 @@ export default function UserLookupPage() {
   const [waitlistLoading, setWaitlistLoading] = useState(true);
   const [waitlistError, setWaitlistError] = useState<string | null>(null);
 
+  // Analytics data
+  const [landingVisitors, setLandingVisitors] = useState<number>(0);
+  const [waitlistVisitors, setWaitlistVisitors] = useState<number>(0);
+  const [totalVisitors, setTotalVisitors] = useState<number>(0);
+  const [visitorsLoading, setVisitorsLoading] = useState(true);
+  const [visitorsError, setVisitorsError] = useState<string | null>(null);
+
   // Fetch waitlist data on mount
   useEffect(() => {
     const fetchWaitlist = async () => {
@@ -90,6 +97,48 @@ export default function UserLookupPage() {
 
     if (user) {
       fetchWaitlist();
+    }
+  }, [user]);
+
+  // Fetch analytics data on mount
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      try {
+        const token = await auth.currentUser?.getIdToken();
+        if (!token) {
+          setVisitorsLoading(false);
+          return;
+        }
+
+        // Fetch visitor counts from Firestore
+        const response = await fetch('/api/admin/analytics/visitors', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch analytics');
+        }
+
+        const result = await response.json();
+
+        if (result.error) {
+          setVisitorsError(result.message || result.error);
+        } else {
+          setLandingVisitors(result.landing?.visitors || 0);
+          setWaitlistVisitors(result.waitlist?.visitors || 0);
+          setTotalVisitors(result.total || 0);
+        }
+      } catch (err) {
+        setVisitorsError(err instanceof Error ? err.message : 'Failed to load analytics');
+      } finally {
+        setVisitorsLoading(false);
+      }
+    };
+
+    if (user) {
+      fetchAnalytics();
     }
   }, [user]);
 
@@ -190,9 +239,69 @@ export default function UserLookupPage() {
         </div>
       </div>
 
-      {/* Waitlist Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Waitlist Count Card */}
+      {/* Analytics Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        {/* Total Visitors Card */}
+        <div className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-dark-700/50 p-6">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white text-2xl">
+              🌐
+            </div>
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Total Visitors</p>
+              {visitorsLoading ? (
+                <div className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
+              ) : visitorsError ? (
+                <p className="text-red-500 text-xs">{visitorsError}</p>
+              ) : (
+                <>
+                  <p className="text-3xl font-bold text-gray-900 dark:text-white">{totalVisitors}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">All pages</p>
+                </>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Landing Page Visitors Card */}
+        <div className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-dark-700/50 p-6">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-2xl">
+              🏠
+            </div>
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Landing Page</p>
+              {visitorsLoading ? (
+                <div className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
+              ) : visitorsError ? (
+                <p className="text-red-500 text-xs">{visitorsError}</p>
+              ) : (
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{landingVisitors}</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Waitlist Page Visitors Card */}
+        <div className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-dark-700/50 p-6">
+          <div className="flex items-center gap-4">
+            <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-2xl">
+              👁️
+            </div>
+            <div>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Waitlist Page</p>
+              {visitorsLoading ? (
+                <div className="h-8 w-16 bg-gray-200 dark:bg-gray-700 rounded animate-pulse mt-1"></div>
+              ) : visitorsError ? (
+                <p className="text-red-500 text-xs">{visitorsError}</p>
+              ) : (
+                <p className="text-3xl font-bold text-gray-900 dark:text-white">{waitlistVisitors}</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Waitlist Signups Card */}
         <div className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-dark-700/50 p-6">
           <div className="flex items-center gap-4">
             <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-japanese-sakura to-primary-500 flex items-center justify-center text-white text-2xl">
@@ -205,14 +314,21 @@ export default function UserLookupPage() {
               ) : waitlistError ? (
                 <p className="text-red-500 text-sm">Error</p>
               ) : (
-                <p className="text-3xl font-bold text-gray-900 dark:text-white">{waitlistData?.count || 0}</p>
+                <>
+                  <p className="text-3xl font-bold text-gray-900 dark:text-white">{waitlistData?.count || 0}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                    {waitlistData?.count && waitlistVisitors ?
+                      `${((waitlistData.count / waitlistVisitors) * 100).toFixed(1)}% conversion` :
+                      'All time'}
+                  </p>
+                </>
               )}
             </div>
           </div>
         </div>
 
         {/* Waitlist Emails Card */}
-        <div className="lg:col-span-2 bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-dark-700/50 p-6">
+        <div className="lg:col-span-4 bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-dark-700/50 p-6">
           <div className="flex items-center justify-between mb-4">
             <h3 className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
               📧 Waitlist Emails

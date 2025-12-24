@@ -52,6 +52,13 @@ export default function LandingPageClient() {
   // Mount effect - MUST be before any conditional returns
   useEffect(() => {
     setMounted(true)
+
+    // Track landing page visit (anonymous - no auth required)
+    fetch('/api/waitlist/track-visit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ page: 'landing' }),
+    }).catch((err) => console.error('Failed to track visit:', err))
   }, [])
 
   // Auto-rotate carousel every 5 seconds - MUST be before any conditional returns

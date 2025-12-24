@@ -15,6 +15,13 @@ export default function WaitlistPage() {
 
   useEffect(() => {
     setMounted(true);
+
+    // Track waitlist page visit (anonymous - no auth required)
+    fetch('/api/waitlist/track-visit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ page: 'waitlist' }),
+    }).catch((err) => console.error('Failed to track visit:', err));
   }, []);
 
   // Use waitlist strings with fallback
