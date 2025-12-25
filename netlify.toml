@@ -1,0 +1,13 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  # Increase Node.js memory limit to 4GB (fixes memory limit errors)
+  NODE_OPTIONS = "--max-old-space-size=4096"
+  # Disable Next.js telemetry to save memory during build
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Use official Next.js plugin for optimal Netlify integration
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
