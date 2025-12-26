@@ -1070,7 +1070,7 @@ export function KanaLearningComponent({
             </div>
           )}
 
-          {viewMode === 'review' && (
+          {viewMode === 'review' && reviewContent.length > 0 && (
             <ReviewSessionUI
               content={reviewContent}
               contentPool={reviewContentPool.length > 0 ? reviewContentPool : reviewContent}

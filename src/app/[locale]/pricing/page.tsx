@@ -7,7 +7,7 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { useI18n, useLocalePath } from '@/i18n/I18nContext';
 import { PRICING_PLANS, PricingPlan } from '@/lib/stripe/types';
 import { PRICING_CONFIG } from '@/config/pricing';
-import { CheckIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { CheckIcon, XMarkIcon, ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { LoadingButton } from '@/components/ui/Loading';
 import DoshiMascot from '@/components/ui/DoshiMascot';
 import { useToast } from '@/components/ui/Toast';
@@ -22,8 +22,26 @@ function PricingContent() {
   const { subscription, isLoading, upgradeToPremium, manageBilling } = useSubscription();
   const { showToast } = useToast();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
-  const [billingInterval, setBillingInterval] = useState<'month' | 'year'>('month');
   const [showVideoLimitBanner, setShowVideoLimitBanner] = useState(false);
+
+  // Gated feature IDs that free users can't access
+  const gatedFeatures = ['kanji_connection', 'comics', 'textbook_vocabulary'];
+
+  // Smart back navigation - avoid infinite loop
+  const handleBack = () => {
+    // Check URL param to see if user came from a gated feature
+    const fromFeature = searchParams.get('from');
+
+    if (fromFeature && gatedFeatures.includes(fromFeature)) {
+      // Came from a gated feature - redirect to dashboard instead
+      console.log('[Pricing] Redirecting to dashboard (came from gated feature:', fromFeature, ')');
+      router.push(getLocalePath('/dashboard'));
+    } else {
+      // Safe to go back
+      console.log('[Pricing] Going back normally');
+      router.back();
+    }
+  };
 
   // Check if user came from video limit
   useEffect(() => {
@@ -108,6 +126,16 @@ function PricingContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-gray-800">
+      {/* Back button pill - top right */}
+      <button
+        onClick={handleBack}
+        className="fixed top-20 right-4 sm:top-24 sm:right-8 z-50 flex items-center gap-2 px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full shadow-lg hover:shadow-xl transition-all duration-200 hover:scale-105 active:scale-95 border border-gray-200 dark:border-gray-700"
+        aria-label="Go back"
+      >
+        <ArrowLeftIcon className="h-4 w-4" />
+        <span className="text-sm font-medium">Back</span>
+      </button>
+
       {/* Navbar */}
       {/* Navigation is now global - rendered in root layout */}
 
@@ -120,27 +148,6 @@ function PricingContent() {
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
             {t('pricing.subtitle')}
           </p>
-
-          {/* Billing Toggle */}
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <span className={`text-sm ${billingInterval === 'month' ? 'text-gray-900 dark:text-white font-semibold' : 'text-gray-500'}`}>
-              {t('pricing.billing.monthly')}
-            </span>
-            <button
-              onClick={() => setBillingInterval(billingInterval === 'month' ? 'year' : 'month')}
-              className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 bg-gray-200 dark:bg-gray-700"
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  billingInterval === 'year' ? 'translate-x-6' : 'translate-x-1'
-                }`}
-              />
-            </button>
-            <span className={`text-sm ${billingInterval === 'year' ? 'text-gray-900 dark:text-white font-semibold' : 'text-gray-500'}`}>
-              {t('pricing.billing.yearly')}
-              <span className="ml-1 text-primary-500">{t('pricing.billing.savePercent', { percent: 25 })}</span>
-            </span>
-          </div>
         </div>
       </div>
 
@@ -194,7 +201,7 @@ function PricingContent() {
                       <li key={index} className="flex items-start">
                         <CheckIcon className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
                         <span className="ml-3 text-gray-700 dark:text-gray-300">
-                          {feature}
+                          {t(feature)}
                         </span>
                       </li>
                     ))}
@@ -233,30 +240,6 @@ function PricingContent() {
               </button>
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Trust badges */}
-      <div className="border-t border-gray-200 dark:border-gray-700 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl font-bold text-primary-500">10K+</div>
-              <div className="mt-1 text-sm text-gray-600 dark:text-gray-400">{t('pricing.trust.activeLearners')}</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-primary-500">98%</div>
-              <div className="mt-1 text-sm text-gray-600 dark:text-gray-400">{t('pricing.trust.successRate')}</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-primary-500">24/7</div>
-              <div className="mt-1 text-sm text-gray-600 dark:text-gray-400">{t('pricing.trust.support')}</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-primary-500">30-day</div>
-              <div className="mt-1 text-sm text-gray-600 dark:text-gray-400">{t('pricing.trust.moneyBack')}</div>
-            </div>
-          </div>
         </div>
       </div>
 

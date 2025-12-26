@@ -97,8 +97,7 @@ export default function ReviewSessionUI({
     startSession,
     submitAnswer,
     nextItem,
-    skipItem,
-    useHint
+    skipItem
   } = useSessionManager({
     userId,
     mode,
@@ -113,17 +112,12 @@ export default function ReviewSessionUI({
       console.error('[ReviewSessionUI] Error:', error)
       // Could show error toast here
     },
-    shuffle
+    shuffle,
+    autoStart: true // ✅ Let hook handle session start after proper initialization
   })
 
-  // Start session on mount
-  useEffect(() => {
-    if (content.length > 0) {
-      startSession().catch((error) => {
-        console.error('[ReviewSessionUI] Failed to start session:', error)
-      })
-    }
-  }, []) // Empty deps - only run once
+  // autoStart in useSessionManager handles initialization race condition
+  // No manual startSession needed - prevents "SessionManager not initialized" errors
 
   // Report progress updates to parent
   useEffect(() => {
@@ -173,18 +167,6 @@ export default function ReviewSessionUI({
       setIsAnswered(false)
     } catch (error) {
       console.error('[ReviewSessionUI] Error skipping item:', error)
-    }
-  }
-
-  // Handle hint
-  const handleHint = async () => {
-    try {
-      const hint = await useHint()
-      // Could show hint in UI (toast, modal, etc.)
-      console.log('[ReviewSessionUI] Hint:', hint)
-      alert(hint) // Simple implementation
-    } catch (error) {
-      console.error('[ReviewSessionUI] Error getting hint:', error)
     }
   }
 
@@ -260,15 +242,6 @@ export default function ReviewSessionUI({
         </button>
 
         <div className="flex gap-2">
-          {!isAnswered && config?.showHints !== false && (
-            <button
-              onClick={handleHint}
-              className="px-4 py-2 text-sm bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition-colors"
-            >
-              Hint
-            </button>
-          )}
-
           {!isAnswered && (
             <button
               onClick={handleSkip}

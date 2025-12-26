@@ -3,6 +3,8 @@
 import { ReviewableContent, KanaMetadata } from '@/lib/review-engine/core/interfaces'
 import { ReviewMode } from '@/lib/review-engine/core/types'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Volume2 } from 'lucide-react'
+import { playKanaAudio } from '@/data/kanaData'
 
 interface KanaCardProps {
   content: ReviewableContent
@@ -13,6 +15,16 @@ interface KanaCardProps {
 
 export default function KanaCard({ content, mode, showAnswer, onAudioPlay }: KanaCardProps) {
   const metadata = content.metadata as KanaMetadata | undefined
+
+  const handlePlayKanaAudio = async () => {
+    if (content.id && metadata?.script) {
+      try {
+        await playKanaAudio(content.id, metadata.script)
+      } catch (error) {
+        console.error('[KanaCard] Audio playback failed:', error)
+      }
+    }
+  }
 
   const renderContent = () => {
     switch (mode) {
@@ -102,7 +114,17 @@ export default function KanaCard({ content, mode, showAnswer, onAudioPlay }: Kan
   }
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="relative w-full h-full flex flex-col items-center justify-center">
+      {/* Audio button - top right corner of the card */}
+      <button
+        onClick={handlePlayKanaAudio}
+        className="absolute -top-2 -right-2 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors hover:scale-110 active:scale-95"
+        title="Play audio"
+        aria-label="Play kana pronunciation"
+      >
+        <Volume2 className="w-5 h-5 sm:w-6 sm:h-6" />
+      </button>
+
       {renderContent()}
 
       {/* Additional info - hidden on mobile to save space */}

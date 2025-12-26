@@ -8,7 +8,7 @@ import { KanaCharacter, playKanaAudio } from '@/data/kanaData'
 import { kanjiService } from '@/services/kanjiService'
 import { LoadingSpinner } from '@/components/ui/Loading'
 import { motion } from 'framer-motion'
-import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
+import { useFeature } from '@/hooks/useFeature'
 
 interface KanaDetailsModalProps {
   character: KanaCharacter | null
@@ -30,6 +30,7 @@ export default function KanaDetailsModal({
 
   const currentChar = character ? (displayScript === 'hiragana' ? character.hiragana : character.katakana) : ''
   const alternateChar = character ? (displayScript === 'hiragana' ? character.katakana : character.hiragana) : ''
+  const { checkAndTrack } = useFeature('drawing_practice')
 
   // Fetch stroke count when modal opens
   useEffect(() => {
@@ -56,9 +57,15 @@ export default function KanaDetailsModal({
     }
   }
 
-  const handlePlayAudio = () => {
+  const handlePlayAudio = async () => {
     if (character?.id) {
-      playKanaAudio(character.id, displayScript)
+      try {
+        await playKanaAudio(character.id, displayScript)
+      } catch (error) {
+        console.error('[KanaDetailsModal] Audio playback failed:', error)
+        // Audio failed - but don't show error toast as it's not critical
+        // User can try again if needed
+      }
     }
   }
 
@@ -115,7 +122,16 @@ export default function KanaDetailsModal({
                 </button>
               ) : null}
               <button
-                onClick={() => setShowDrawingPractice(true)}
+                onClick={async () => {
+                  console.log('[KanaDetailsModal] Checking drawing_practice entitlement...')
+                  const allowed = await checkAndTrack({ showUI: true })
+                  console.log('[KanaDetailsModal] checkAndTrack result:', allowed)
+                  if (allowed) {
+                    setShowDrawingPractice(true)
+                  } else {
+                    console.log('[KanaDetailsModal] Access denied, modal should NOT open')
+                  }
+                }}
                 className="px-3 py-1.5 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors flex items-center gap-1.5 sm:gap-2 text-sm sm:text-base whitespace-nowrap"
                 title="Practice drawing"
               >
@@ -217,14 +233,12 @@ export default function KanaDetailsModal({
 
       {/* Drawing Practice Modal */}
       {showDrawingPractice && (
-        <EntitlementGate featureId="drawing_practice">
-          <DrawingPracticeModal
-            character={currentChar}
-            isOpen={showDrawingPractice}
-            onClose={() => setShowDrawingPractice(false)}
-            characterType="kana"
-          />
-        </EntitlementGate>
+        <DrawingPracticeModal
+          character={currentChar}
+          isOpen={showDrawingPractice}
+          onClose={() => setShowDrawingPractice(false)}
+          characterType="kana"
+        />
       )}
     </>
   )

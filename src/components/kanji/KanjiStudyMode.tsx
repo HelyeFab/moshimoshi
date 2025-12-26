@@ -11,8 +11,10 @@ import { useSubscription } from '@/hooks/useSubscription'
 import { useTTS } from '@/hooks/useTTS'
 import ExamplesModal from './ExamplesModal'
 import StrokeOrderModal from './StrokeOrderModal'
+import DrawingPracticeModal from '@/components/drawing-practice/DrawingPracticeModal'
 import { kanjiProgressManager } from '@/utils/kanjiProgressManager'
 import { useCachedTatoebaSentences } from '@/hooks/useTatoebaCache'
+import { useFeature } from '@/hooks/useFeature'
 
 interface KanjiStudyModeProps {
   kanji: Kanji
@@ -50,6 +52,10 @@ export default function KanjiStudyMode({
   // Modal states
   const [showExamplesModal, setShowExamplesModal] = useState(false)
   const [showStrokeOrderModal, setShowStrokeOrderModal] = useState(false)
+  const [showDrawingPractice, setShowDrawingPractice] = useState(false)
+
+  // Entitlement check for drawing practice
+  const { checkAndTrack } = useFeature('drawing_practice')
 
   // Interactive pill states
   const [showMeaning, setShowMeaning] = useState(false)
@@ -216,6 +222,32 @@ export default function KanjiStudyMode({
                     onPlay={() => handlePlayAudio(kanji.kanji)}
                   />
                 </div>
+
+                {/* Practice button - Top Right (first button) */}
+                <button
+                  onClick={async (e) => {
+                    e.stopPropagation()
+                    console.log('[KanjiStudyMode] Checking drawing_practice entitlement...')
+                    const allowed = await checkAndTrack({ showUI: true })
+                    console.log('[KanjiStudyMode] checkAndTrack result:', allowed)
+                    if (allowed) {
+                      setShowDrawingPractice(true)
+                    } else {
+                      console.log('[KanjiStudyMode] Access denied, modal should NOT open')
+                    }
+                  }}
+                  className="absolute top-4 right-16 p-2.5 rounded-full
+                           bg-green-50 dark:bg-green-900/20
+                           hover:bg-green-100 dark:hover:bg-green-900/30
+                           transition-all transform hover:scale-110 active:scale-95
+                           text-green-500 dark:text-green-400 z-10"
+                  title="Practice writing"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                  </svg>
+                </button>
 
                 {/* Stroke order animation button - Top Right */}
                 <button
@@ -544,6 +576,16 @@ export default function KanjiStudyMode({
         isOpen={showStrokeOrderModal}
         onClose={() => setShowStrokeOrderModal(false)}
       />
+
+      {/* Drawing Practice Modal */}
+      {showDrawingPractice && (
+        <DrawingPracticeModal
+          character={kanji.kanji}
+          isOpen={showDrawingPractice}
+          onClose={() => setShowDrawingPractice(false)}
+          characterType="kanji"
+        />
+      )}
     </div>
   )
 }

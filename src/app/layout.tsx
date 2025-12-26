@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from 'next';
+import { headers } from 'next/headers';
 import { themeInitScript } from '@/lib/theme/theme-script';
 import { suppressFirestoreErrors } from '@/lib/firebase/suppress-errors';
 import { Analytics } from '@vercel/analytics/react';
@@ -252,8 +253,12 @@ export const viewport: Viewport = {
  * 2. Loads global CSS
  * 3. Includes theme and error suppression scripts
  * 4. Includes structured data for SEO
+ * 5. Sets the HTML lang attribute based on the current locale from middleware
  */
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Get locale from middleware header for server-side lang attribute
+  const headersList = await headers();
+  const locale = headersList.get('x-locale') || 'en';
   // Schema.org JSON-LD structured data for SEO
   const schemaData = {
     '@context': 'https://schema.org',
@@ -326,7 +331,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   };
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
         {/* Explicit viewport meta tag for PWA edge-to-edge */}
         <meta

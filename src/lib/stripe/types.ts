@@ -63,10 +63,10 @@ export const PRICING_PLANS: PricingPlan[] = [
     currency: PRICING_CONFIG.currency,
     interval: 'month',
     features: [
-      '5 Hiragana practice sessions per day',
-      '5 Katakana practice sessions per day',
-      'Basic progress tracking',
-      'Community support'
+      'pricing.features.free.hiragana',
+      'pricing.features.free.katakana',
+      'pricing.features.free.basicTracking',
+      'pricing.features.free.communitySupport'
     ],
     stripePriceId: ''
   },
@@ -78,13 +78,17 @@ export const PRICING_PLANS: PricingPlan[] = [
     currency: PRICING_CONFIG.currency,
     interval: 'month',
     features: [
-      'Unlimited Hiragana practice',
-      'Unlimited Katakana practice',
-      'Advanced SRS algorithm',
-      'Detailed progress analytics',
-      'Priority support',
-      'Offline mode',
-      'Cancel anytime'
+      'pricing.features.monthly.unlimitedHiragana',
+      'pricing.features.monthly.unlimitedKatakana',
+      'pricing.features.monthly.unlimitedKanji',
+      'pricing.features.monthly.kanjiConnection',
+      'pricing.features.monthly.textbookVocab',
+      'pricing.features.monthly.moshiComics',
+      'pricing.features.monthly.advancedSRS',
+      'pricing.features.monthly.ankiImports',
+      'pricing.features.monthly.unlimitedLists',
+      'pricing.features.monthly.prioritySupport',
+      'pricing.features.monthly.cancelAnytime'
     ],
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY || '',
     popular: true
@@ -97,11 +101,9 @@ export const PRICING_PLANS: PricingPlan[] = [
     currency: PRICING_CONFIG.currency,
     interval: 'year',
     features: [
-      'Everything in Premium Monthly',
-      'Save 25% compared to monthly',
-      '2 months free',
-      'Early access to new features',
-      'Personalized learning insights'
+      'pricing.features.yearly.everythingMonthly',
+      'pricing.features.yearly.twoMonthsFree',
+      'pricing.features.yearly.save25'
     ],
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_YEARLY || ''
   }

@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-12-15T13:45:31.900Z
+ * Generated at: 2025-12-26T15:38:35.844Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -68,7 +68,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "kanji_browser": 5,
           "kanji_connection": 0,
           "kanji_mastery": 5,
-          "drawing_practice": 0,
+          "drawing_practice": 5,
           "conjugation_drill": 5,
           "grammar_explanations": 3,
           "youtube_shadowing": 3,

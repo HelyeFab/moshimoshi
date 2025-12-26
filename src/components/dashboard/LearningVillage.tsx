@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Masonry from 'react-masonry-css'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { useTheme } from '@/lib/theme/ThemeContext'
-import { useI18n } from '@/i18n/I18nContext'
+import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import { useAnimationControl } from '@/components/ui/AnimationControl'
 import AnimationControl from '@/components/ui/AnimationControl'
 import Image from 'next/image'
@@ -481,6 +481,7 @@ interface LearningVillageProps {
 export default function LearningVillage({ welcomeCard, welcomeData }: LearningVillageProps = {}) {
   const { resolvedTheme } = useTheme()
   const { strings } = useI18n()
+  const { getLocalePath } = useLocalePath()
   const animationsEnabled = useAnimationControl()
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'evening' | 'night'>('day')
   const [districtOrder, setDistrictOrder] = useState<DistrictId[]>(DEFAULT_DISTRICT_ORDER)
@@ -624,7 +625,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: strings.dashboard?.cards?.hiragana?.title || 'Hiragana',
         subtitle: strings.dashboard?.cards?.hiragana?.subtitle || 'ひらがな',
         description: strings.dashboard?.cards?.hiragana?.description || 'Master the flowing script',
-        href: '/learn/hiragana',
+        href: getLocalePath('/learn/hiragana'),
         icon: '🎋',
         stallType: 'bamboo',
         color: 'from-green-400 to-emerald-600',
@@ -640,7 +641,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.katakana?.subtitle || 'カタカナ',
         description:
           strings.dashboard?.cards?.katakana?.description || 'Sharp and angular characters',
-        href: '/learn/katakana',
+        href: getLocalePath('/learn/katakana'),
         icon: '⚡',
         stallType: 'thunder',
         color: 'from-blue-400 to-indigo-600',
@@ -655,7 +656,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: strings.dashboard?.cards?.drill?.title || 'Drill',
         subtitle: strings.dashboard?.cards?.drill?.subtitle || 'ドリル',
         description: strings.dashboard?.cards?.drill?.description || 'Quick drill exercises',
-        href: '/drill',
+        href: getLocalePath('/drill'),
         icon: '⚡',
         stallType: 'school',
         color: 'from-indigo-400 to-purple-600',
@@ -671,7 +672,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: strings.dashboard?.cards?.vocabulary?.title || 'Vocabulary',
         subtitle: strings.dashboard?.cards?.vocabulary?.subtitle || '単語',
         description: strings.dashboard?.cards?.vocabulary?.description || 'Build your word power',
-        href: '/vocabulary',
+        href: getLocalePath('/vocabulary'),
         icon: '📚',
         stallType: 'library',
         color: 'from-purple-400 to-violet-600',
@@ -686,7 +687,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: strings.lists?.title || 'My Lists',
         subtitle: strings.lists?.pageDescription || 'リスト',
         description: strings.lists?.pageDescription || 'Create and manage custom study lists',
-        href: '/lists',
+        href: getLocalePath('/lists'),
         icon: '📋',
         stallType: 'scroll',
         color: 'from-cyan-400 to-teal-600',
@@ -701,7 +702,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: cards?.kanjiBrowser?.title || 'Kanji Browser',
         subtitle: cards?.kanjiBrowser?.subtitle || '漢字辞典',
         description: cards?.kanjiBrowser?.description || 'Browse all JLPT kanji levels',
-        href: '/kanji-browser',
+        href: getLocalePath('/kanji-browser'),
         icon: '📖',
         stallType: 'library',
         color: 'from-indigo-400 to-blue-600',
@@ -716,7 +717,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: cards?.kanjiMastery?.title || 'Kanji Mastery',
         subtitle: cards?.kanjiMastery?.subtitle || '漢字習得',
         description: cards?.kanjiMastery?.description || 'Master kanji with SRS',
-        href: '/tools/kanji-mastery',
+        href: getLocalePath('/tools/kanji-mastery'),
         icon: '🎯',
         stallType: 'bridge',
         color: 'from-teal-400 to-cyan-600',
@@ -732,7 +733,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: cards?.kanjiConnections?.subtitle || '漢字関連',
         description:
           cards?.kanjiConnections?.description || 'Premium: Families, Radicals & Patterns',
-        href: '/kanji-connection',
+        href: getLocalePath('/kanji-connection'),
         icon: '🔮',
         stallType: 'map',
         color: 'from-sky-400 to-blue-600',
@@ -747,7 +748,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: cards?.moodBoards?.title || 'Mood Boards',
         subtitle: cards?.moodBoards?.subtitle || 'ムード',
         description: cards?.moodBoards?.description || 'Learn kanji by themes',
-        href: '/kanji-moods',
+        href: getLocalePath('/kanji-moods'),
         icon: '🗺️',
         stallType: 'restaurant',
         color: 'from-yellow-400 to-orange-600',
@@ -762,7 +763,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: cards?.conjugation?.title || 'Conjugation',
         subtitle: cards?.conjugation?.subtitle || '活用',
         description: cards?.conjugation?.description || 'Practice verb conjugations',
-        href: '/learn/conjugation',
+        href: getLocalePath('/learn/conjugation'),
         icon: '🔤',
         stallType: 'archery',
         color: 'from-orange-400 to-amber-600',
@@ -777,7 +778,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: cards?.textbookVocab?.title || 'Textbook Vocab',
         subtitle: cards?.textbookVocab?.subtitle || '教科書',
         description: cards?.textbookVocab?.description || 'Study textbook vocabulary',
-        href: '/tools/textbook-vocabulary',
+        href: getLocalePath('/tools/textbook-vocabulary'),
         icon: '📚',
         stallType: 'calligraphy',
         color: 'from-gray-400 to-slate-600',
@@ -793,7 +794,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: cards?.stories?.title || 'Stories',
         subtitle: cards?.stories?.subtitle || '物語',
         description: cards?.stories?.description || 'AI-generated stories',
-        href: '/stories',
+        href: getLocalePath('/stories'),
         icon: '📚',
         stallType: 'stage',
         color: 'from-indigo-400 to-blue-600',
@@ -808,7 +809,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: strings.dashboard?.cards?.news?.title || 'News',
         subtitle: strings.dashboard?.cards?.news?.subtitle || 'ニュース',
         description: strings.dashboard?.cards?.news?.description || 'Read Japanese news',
-        href: '/news',
+        href: getLocalePath('/news'),
         icon: '🗞️',
         stallType: 'scroll',
         color: 'from-emerald-400 to-green-600',
@@ -823,7 +824,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: strings.dashboard?.cards?.library?.title || 'Library',
         subtitle: strings.dashboard?.cards?.library?.subtitle || '図書館',
         description: strings.dashboard?.cards?.library?.description || 'Read condensed books',
-        href: '/library',
+        href: getLocalePath('/library'),
         icon: '📚',
         stallType: 'scroll',
         color: 'from-amber-400 to-orange-600',
@@ -838,7 +839,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: strings.dashboard?.cards?.comics?.title || 'Moshi Comics',
         subtitle: strings.dashboard?.cards?.comics?.subtitle || 'もしの漫画',
         description: strings.dashboard?.cards?.comics?.description || 'Moshi Goes to Japan',
-        href: '/comics',
+        href: getLocalePath('/comics'),
         icon: (
           <span className="inline-block scale-[0.35] sm:scale-100 origin-center">
             <DoshiMascot size="medium" variant="animated" />
@@ -857,7 +858,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: cards?.youtubeShadowing?.title || 'MoshiPlayer',
         subtitle: cards?.youtubeShadowing?.subtitle || 'YouTube',
         description: cards?.youtubeShadowing?.description || 'Practice with YouTube',
-        href: '/youtube-shadowing',
+        href: getLocalePath('/youtube-shadowing'),
         icon: '📺',
         stallType: 'music',
         color: 'from-pink-400 to-rose-600',
@@ -872,7 +873,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: cards?.popularVideos?.title || 'Trending Videos',
         subtitle: cards?.popularVideos?.subtitle || '人気動画',
         description: cards?.popularVideos?.description || 'Most watched by the community',
-        href: '/popular-videos',
+        href: getLocalePath('/popular-videos'),
         icon: '🔥',
         stallType: 'cinema',
         color: 'from-red-500 to-orange-600',
@@ -888,7 +889,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.youtubeSeries?.subtitle || 'シリーズ',
         description:
           strings.dashboard?.cards?.youtubeSeries?.description || 'Track YouTube channels',
-        href: '/youtube-series',
+        href: getLocalePath('/youtube-series'),
         icon: '📺',
         stallType: 'cards',
         color: 'from-amber-400 to-yellow-600',
@@ -903,7 +904,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: strings.dashboard?.cards?.myVideos?.title || 'My Videos',
         subtitle: strings.dashboard?.cards?.myVideos?.subtitle || 'ビデオ',
         description: strings.dashboard?.cards?.myVideos?.description || 'Your saved videos',
-        href: '/my-videos',
+        href: getLocalePath('/my-videos'),
         icon: '🎬',
         stallType: 'theater',
         color: 'from-rose-400 to-pink-600',
@@ -919,7 +920,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.flashcards?.subtitle || 'フラッシュカード',
         description:
           strings.dashboard?.cards?.flashcards?.description || 'Create and study flashcard decks',
-        href: '/flashcards',
+        href: getLocalePath('/flashcards'),
         icon: '🎴',
         stallType: 'cards',
         color: 'from-violet-400 to-purple-600',
@@ -935,7 +936,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: strings.dashboard?.cards?.games?.title || 'Games',
         subtitle: strings.dashboard?.cards?.games?.subtitle || 'ゲーム',
         description: strings.dashboard?.cards?.games?.description || 'Learn through fun games',
-        href: '/games',
+        href: getLocalePath('/games'),
         icon: '🎮',
         stallType: 'festival',
         color: 'from-red-400 to-pink-600',
@@ -950,7 +951,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: cards?.reviewHub?.title || 'Review Hub',
         subtitle: cards?.reviewHub?.subtitle || 'レビュー',
         description: cards?.reviewHub?.description || 'Unified review system',
-        href: '/review-dashboard',
+        href: getLocalePath('/review-dashboard'),
         icon: '📖',
         stallType: 'office',
         color: 'from-slate-400 to-gray-600',
@@ -966,7 +967,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: strings.dashboard?.cards?.achievements?.title || 'Achievements',
         subtitle: strings.dashboard?.cards?.achievements?.subtitle || '成果',
         description: strings.dashboard?.cards?.achievements?.description || 'Track your progress',
-        href: '/achievements',
+        href: getLocalePath('/achievements'),
         icon: '🏆',
         stallType: 'trophy',
         color: 'from-yellow-400 to-amber-600',
@@ -987,7 +988,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         description:
           (strings as Record<string, { title?: string; subtitle?: string; description?: string }>)
             .leaderboard?.description || 'Compete with other learners',
-        href: '/leaderboard',
+        href: getLocalePath('/leaderboard'),
         icon: '🥇',
         stallType: 'podium',
         color: 'from-yellow-500 to-amber-500',
@@ -1002,7 +1003,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: strings.dashboard?.cards?.resources?.title || 'Resources',
         subtitle: strings.dashboard?.cards?.resources?.subtitle || 'リソース',
         description: strings.dashboard?.cards?.resources?.description || 'Learning resources',
-        href: '/resources',
+        href: getLocalePath('/resources'),
         icon: '🎌',
         stallType: 'library',
         color: 'from-purple-400 to-indigo-600',
@@ -1017,7 +1018,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: strings.dashboard?.cards?.blog?.title || 'Blog',
         subtitle: strings.dashboard?.cards?.blog?.subtitle || 'ブログ',
         description: strings.dashboard?.cards?.blog?.description || 'Read articles and updates',
-        href: '/blog',
+        href: getLocalePath('/blog'),
         icon: '✍️',
         stallType: 'scroll',
         color: 'from-teal-400 to-cyan-600',
@@ -1034,7 +1035,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.todos?.subtitle || 'タスク管理',
         description:
           strings.dashboard?.cards?.todos?.description || 'Organize your study tasks and goals',
-        href: '/todos',
+        href: getLocalePath('/todos'),
         icon: '✅',
         stallType: 'utility',
         color: 'from-purple-400 to-indigo-600',

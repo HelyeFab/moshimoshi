@@ -19,6 +19,7 @@ import Modal from '@/components/ui/Modal'
 import Dropdown from '@/components/ui/Dropdown'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { Pencil, FileJson, FileSpreadsheet, Trash2 } from 'lucide-react'
+import { useFeature } from '@/hooks/useFeature'
 
 export default function MyListsPage() {
   const { t, strings } = useI18n()
@@ -27,6 +28,7 @@ export default function MyListsPage() {
   const { isPremium, isLoading: subscriptionLoading } = useSubscription()
   const router = useRouter()
   const { showToast } = useToast()
+  const { checkAndTrack } = useFeature('custom_lists')
 
   const [lists, setLists] = useState<UserList[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -62,6 +64,18 @@ export default function MyListsPage() {
       showToast(t('lists.errors.loadFailed'), 'error')
     } finally {
       setIsLoading(false)
+    }
+  }
+
+  const handleCreateList = async () => {
+    console.log('[MyListsPage] Checking custom_lists quota...')
+    const allowed = await checkAndTrack({ showUI: true })
+    console.log('[MyListsPage] Quota check result:', allowed)
+
+    if (allowed) {
+      setShowCreateModal(true)
+    } else {
+      console.log('[MyListsPage] Quota exceeded, modal will not open')
     }
   }
 
@@ -233,7 +247,7 @@ export default function MyListsPage() {
         {/* Actions bar */}
         <div className="flex flex-wrap gap-3 mb-6 mt-6">
           <button
-            onClick={() => setShowCreateModal(true)}
+            onClick={handleCreateList}
             className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600
               transition-all font-medium flex items-center gap-2"
           >
@@ -262,7 +276,7 @@ export default function MyListsPage() {
               {t('lists.empty.getStarted')}
             </p>
             <button
-              onClick={() => setShowCreateModal(true)}
+              onClick={handleCreateList}
               className="mt-4 px-6 py-3 bg-primary-500 text-white rounded-xl
                 hover:bg-primary-600 transition-all font-medium"
             >

@@ -129,6 +129,10 @@ export async function middleware(request: NextRequest) {
   // Apply next-intl middleware for locale routing
   const response = intlMiddleware(request);
 
+  // Extract and pass locale to root layout via header for lang attribute
+  const locale = extractLocaleFromPath(request.nextUrl.pathname);
+  response.headers.set('x-locale', locale);
+
   // Add security headers to the response
   applySecurityHeaders(response);
 

@@ -7,6 +7,7 @@ import { kanjiService } from '@/services/kanjiService'
 import { kanjiCanvasService } from '@/services/kanjiCanvasService'
 import { LoadingSpinner } from '@/components/ui/Loading'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useFeature } from '@/hooks/useFeature'
 
 interface DrawingPracticeModalProps {
   character: string
@@ -48,6 +49,7 @@ export default function DrawingPracticeModal({
   const [showHints, setShowHints] = useState(false)
   const [correctStrokes, setCorrectStrokes] = useState<number>(0)
   const [recognitionReady, setRecognitionReady] = useState<boolean | null>(null)
+  const { checkAndTrack } = useFeature('drawing_practice')
 
   // Load SVG data for the character
   useEffect(() => {
@@ -162,10 +164,20 @@ export default function DrawingPracticeModal({
     return 'Keep practicing! 練習を続けて！'
   }
 
-  // Reset for retry
-  const handleRetry = () => {
-    setShowFeedback(false)
-    setFeedback(null)
+  // Reset for retry - check quota first
+  const handleRetry = async () => {
+    console.log('[DrawingPracticeModal] Checking quota for retry...')
+    const allowed = await checkAndTrack({ showUI: true })
+    console.log('[DrawingPracticeModal] Retry allowed:', allowed)
+
+    if (allowed) {
+      setShowFeedback(false)
+      setFeedback(null)
+    } else {
+      // Quota exceeded - close modal
+      console.log('[DrawingPracticeModal] Quota exceeded, closing modal')
+      onClose()
+    }
   }
 
   return (

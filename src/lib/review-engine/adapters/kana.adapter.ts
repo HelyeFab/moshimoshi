@@ -52,10 +52,15 @@ export class KanaAdapter extends BaseContentAdapter<KanaContent> {
       
       // Additional metadata
       metadata: {
+        script: displayScript,
+        romaji: kana.romaji,
         row: kana.row,
         column: kana.column,
         type: kana.type,
-        alternateScript: displayScript === 'hiragana' ? kana.katakana : kana.hiragana
+        alternateScript: displayScript === 'hiragana' ? kana.katakana : kana.hiragana,
+        dakuten: kana.type === 'dakuten',
+        handakuten: kana.type === 'handakuten',
+        combination: kana.type === 'digraph'
       }
     };
   }

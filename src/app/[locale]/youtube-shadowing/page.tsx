@@ -22,6 +22,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { LoadingSpinner } from "@/components/ui/Loading";
 import ChannelBanner from "@/components/shadowing/ChannelBanner";
 import YouTubeButton from "@/components/shadowing/YouTubeButton";
+import { useFeature } from "@/hooks/useFeature";
 
 // Session persistence key
 const SESSION_STORAGE_KEY = "moshiPlayerSession";
@@ -80,6 +81,7 @@ function YouTubeShadowingContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();
+  const { checkAndTrack } = useFeature('youtube_shadowing');
   const [videoInput, setVideoInput] = useState("");
   const [videoId, setVideoId] = useState<string | null>(null);
   const [language] = useState("ja");
@@ -296,7 +298,7 @@ function YouTubeShadowingContent() {
   }, []);
 
   const loadTranscript = useCallback(
-    async (input: string) => {
+    async (input: string, checkQuota = true) => {
       const extractedId = extractVideoId(input);
 
       if (!extractedId) {
@@ -321,6 +323,19 @@ function YouTubeShadowingContent() {
         }
 
         const data = (await response.json()) as TranscriptResponse;
+
+        // Check quota AFTER successful transcript fetch (only consume if transcript exists)
+        if (checkQuota) {
+          console.log('[YouTubeShadowing] Transcript found, checking quota...');
+          const allowed = await checkAndTrack({ showUI: true });
+          console.log('[YouTubeShadowing] Quota check result:', allowed);
+
+          if (!allowed) {
+            console.log('[YouTubeShadowing] Quota exceeded, not loading video');
+            setError(t('youtubeShadowing.errors.quotaExceeded') || 'Daily limit reached');
+            return;
+          }
+        }
 
         setVideoId(extractedId);
         setSegments(data.segments);
@@ -363,7 +378,7 @@ function YouTubeShadowingContent() {
         setLoadingTranscript(false);
       }
     },
-    [language, repeatCount, t, prefetchWordExplanations, fetchVideoMetadata],
+    [language, repeatCount, t, prefetchWordExplanations, fetchVideoMetadata, checkAndTrack],
   );
 
   const handleSubmit = useCallback(

@@ -26,7 +26,7 @@ interface StudySettings {
 function KanjiMasteryContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
-  const { strings } = useI18n()
+  const { strings, t } = useI18n()
   const { getLocalePath } = useLocalePath()
   const { showToast } = useToast()
   const { user, loading: authLoading, isGuest } = useAuth()
@@ -94,7 +94,7 @@ function KanjiMasteryContent() {
       router.push(`/tools/kanji-mastery/learn?${params}`)
     } catch (err) {
       console.error('Failed to start session:', err)
-      setError('Failed to start session. Please try again.')
+      setError(t('kanjiMasteryTool.errorStartSession'))
       setIsStarting(false)
     }
   }
@@ -103,7 +103,7 @@ function KanjiMasteryContent() {
   if (authLoading) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850 flex items-center justify-center">
-        <LoadingOverlay isLoading={true} message="Loading..." />
+        <LoadingOverlay isLoading={true} message={t('kanjiMasteryTool.loading')} />
       </div>
     )
   }
@@ -112,7 +112,7 @@ function KanjiMasteryContent() {
   if (!user && !isGuest) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850 flex items-center justify-center">
-        <LoadingOverlay isLoading={true} message="Redirecting..." />
+        <LoadingOverlay isLoading={true} message={t('kanjiMasteryTool.redirecting')} />
       </div>
     )
   }
@@ -124,8 +124,8 @@ function KanjiMasteryContent() {
       </div>
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850">
         <PageHeader
-          title={isReviewMode ? 'Kanji Mastery Review' : 'Kanji Mastery'}
-          description="Master kanji with spaced repetition"
+          title={isReviewMode ? t('kanjiMasteryTool.titleReview') : t('kanjiMasteryTool.title')}
+          description={t('kanjiMasteryTool.description')}
           backHref={isReviewMode ? returnTo : '/dashboard'}
         />
 
@@ -147,8 +147,8 @@ function KanjiMasteryContent() {
                   <span className="text-lg">📚</span>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Session Size</p>
-                  <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{settings.sessionSize} kanji</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">{t('kanjiMasteryTool.sessionSize')}</p>
+                  <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{settings.sessionSize} {t('kanjiMasteryTool.kanji')}</p>
                 </div>
               </div>
             </motion.div>
@@ -164,8 +164,8 @@ function KanjiMasteryContent() {
                   <span className="text-lg">⏱️</span>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Est. Time</p>
-                  <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{settings.sessionSize * 2}-{settings.sessionSize * 3} min</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">{t('kanjiMasteryTool.estTime')}</p>
+                  <p className="text-lg font-semibold text-gray-900 dark:text-gray-100">{settings.sessionSize * 2}-{settings.sessionSize * 3} {t('kanjiMasteryTool.min')}</p>
                 </div>
               </div>
             </motion.div>
@@ -180,7 +180,7 @@ function KanjiMasteryContent() {
               className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-4"
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">Linear Progress</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('kanjiMasteryTool.linearProgress')}</span>
                 <span className="text-xs text-gray-600 dark:text-gray-400">
                   {(() => {
                     const storageKey = `kanjiLinearProgress_${settings.jlptLevel}`
@@ -190,7 +190,7 @@ function KanjiMasteryContent() {
                         : '0'
                     )
                     const total = settings.studyMode === 'jlpt' ? 80 : 100 // N5 has 80 kanji
-                    return `${Math.min(lastIndex, total)}/${total} kanji`
+                    return `${Math.min(lastIndex, total)}/${total} ${t('kanjiMasteryTool.kanji')}`
                   })()}
                 </span>
               </div>
@@ -212,7 +212,7 @@ function KanjiMasteryContent() {
                 />
               </div>
               <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
-                Study kanji in traditional order. Progress saves automatically.
+                {t('kanjiMasteryTool.linearProgressDescription')}
               </p>
             </motion.div>
           )}
@@ -226,13 +226,13 @@ function KanjiMasteryContent() {
           >
             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
               <span>⚙️</span>
-              Configure Your Study Session
+              {t('kanjiMasteryTool.configureSession')}
             </h2>
 
             {/* Learning Approach Selection */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-                Learning Approach
+                {t('kanjiMasteryTool.learningApproach')}
               </label>
               <div className="grid grid-cols-2 gap-2">
                 <button
@@ -245,8 +245,8 @@ function KanjiMasteryContent() {
                 >
                   <div className="flex flex-col items-center gap-1">
                     <span className="text-lg">🧠</span>
-                    <span>Smart Selection</span>
-                    <span className="text-xs opacity-80">Adaptive learning</span>
+                    <span>{t('kanjiMasteryTool.smartSelection')}</span>
+                    <span className="text-xs opacity-80">{t('kanjiMasteryTool.adaptiveLearning')}</span>
                   </div>
                 </button>
                 <button
@@ -259,19 +259,19 @@ function KanjiMasteryContent() {
                 >
                   <div className="flex flex-col items-center gap-1">
                     <span className="text-lg">📚</span>
-                    <span>Linear Order</span>
-                    <span className="text-xs opacity-80">Sequential study</span>
+                    <span>{t('kanjiMasteryTool.linearOrder')}</span>
+                    <span className="text-xs opacity-80">{t('kanjiMasteryTool.sequentialStudy')}</span>
                   </div>
                 </button>
               </div>
               {settings.learningApproach === 'smart' && (
                 <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
-                  Prioritizes new kanji, due reviews, and areas you struggle with
+                  {t('kanjiMasteryTool.smartDescription')}
                 </p>
               )}
               {settings.learningApproach === 'linear' && (
                 <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
-                  Study kanji in traditional order, perfect for textbook learning
+                  {t('kanjiMasteryTool.linearDescription')}
                 </p>
               )}
             </div>
@@ -279,7 +279,7 @@ function KanjiMasteryContent() {
             {/* Study Mode Selection */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-                Study Level
+                {t('kanjiMasteryTool.studyLevel')}
               </label>
               <div className="grid grid-cols-3 gap-2">
                 <button
@@ -290,7 +290,7 @@ function KanjiMasteryContent() {
                       : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
                   }`}
                 >
-                  JLPT Level
+                  {t('kanjiMasteryTool.jlptLevel')}
                 </button>
                 <button
                   onClick={() => setSettings({ ...settings, studyMode: 'grade' })}
@@ -300,7 +300,7 @@ function KanjiMasteryContent() {
                       : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
                   }`}
                 >
-                  School Grade
+                  {t('kanjiMasteryTool.schoolGrade')}
                 </button>
                 <button
                   onClick={() => setSettings({ ...settings, studyMode: 'mixed' })}
@@ -310,7 +310,7 @@ function KanjiMasteryContent() {
                       : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
                   }`}
                 >
-                  Mixed
+                  {t('kanjiMasteryTool.mixed')}
                 </button>
               </div>
             </div>
@@ -319,15 +319,15 @@ function KanjiMasteryContent() {
             {settings.studyMode === 'jlpt' && (
               <div className="mb-6">
                 <Dropdown
-                  label="JLPT Level"
+                  label={t('kanjiMasteryTool.jlptLevel')}
                   value={settings.jlptLevel}
                   onChange={(value) => setSettings({ ...settings, jlptLevel: value })}
                   options={[
-                    { value: 'N5', label: 'N5 - Beginner' },
-                    { value: 'N4', label: 'N4 - Elementary' },
-                    { value: 'N3', label: 'N3 - Intermediate' },
-                    { value: 'N2', label: 'N2 - Advanced' },
-                    { value: 'N1', label: 'N1 - Expert' },
+                    { value: 'N5', label: t('kanjiMasteryTool.jlptLevels.n5') },
+                    { value: 'N4', label: t('kanjiMasteryTool.jlptLevels.n4') },
+                    { value: 'N3', label: t('kanjiMasteryTool.jlptLevels.n3') },
+                    { value: 'N2', label: t('kanjiMasteryTool.jlptLevels.n2') },
+                    { value: 'N1', label: t('kanjiMasteryTool.jlptLevels.n1') },
                   ]}
                 />
               </div>
@@ -336,17 +336,17 @@ function KanjiMasteryContent() {
             {settings.studyMode === 'grade' && (
               <div className="mb-6">
                 <Dropdown
-                  label="School Grade"
+                  label={t('kanjiMasteryTool.schoolGrade')}
                   value={settings.gradeLevel}
                   onChange={(value) => setSettings({ ...settings, gradeLevel: value })}
                   options={[
-                    { value: '1', label: 'Grade 1' },
-                    { value: '2', label: 'Grade 2' },
-                    { value: '3', label: 'Grade 3' },
-                    { value: '4', label: 'Grade 4' },
-                    { value: '5', label: 'Grade 5' },
-                    { value: '6', label: 'Grade 6' },
-                    { value: '7', label: 'Secondary School' },
+                    { value: '1', label: t('kanjiMasteryTool.grades.grade1') },
+                    { value: '2', label: t('kanjiMasteryTool.grades.grade2') },
+                    { value: '3', label: t('kanjiMasteryTool.grades.grade3') },
+                    { value: '4', label: t('kanjiMasteryTool.grades.grade4') },
+                    { value: '5', label: t('kanjiMasteryTool.grades.grade5') },
+                    { value: '6', label: t('kanjiMasteryTool.grades.grade6') },
+                    { value: '7', label: t('kanjiMasteryTool.grades.secondary') },
                   ]}
                 />
               </div>
@@ -355,7 +355,7 @@ function KanjiMasteryContent() {
             {/* Session Size */}
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-                Kanji per Session: {settings.sessionSize}
+                {t('kanjiMasteryTool.kanjiPerSession')} {settings.sessionSize}
               </label>
               <input
                 type="range"
@@ -367,7 +367,7 @@ function KanjiMasteryContent() {
               />
               <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mt-1">
                 <span>1</span>
-                <span className="font-medium">Recommended: 5-10</span>
+                <span className="font-medium">{t('kanjiMasteryTool.recommended')}</span>
                 <span>50</span>
               </div>
 
@@ -375,7 +375,7 @@ function KanjiMasteryContent() {
                 <div className="mt-2 p-3 bg-yellow-100 dark:bg-yellow-900/20 border border-yellow-300 dark:border-yellow-700 rounded-lg">
                   <p className="text-sm text-yellow-800 dark:text-yellow-200 flex items-center gap-2">
                     <span>⚠️</span>
-                    <span>Studying more than 20 kanji per session may reduce retention. Consider smaller, more frequent sessions.</span>
+                    <span>{t('kanjiMasteryTool.warningLargeSession')}</span>
                   </p>
                 </div>
               )}
@@ -400,10 +400,10 @@ function KanjiMasteryContent() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
                   </svg>
-                  <span>Starting Session...</span>
+                  <span>{t('kanjiMasteryTool.startingSession')}</span>
                 </>
               ) : (
-                <span>Start Learning Session</span>
+                <span>{t('kanjiMasteryTool.startLearningSession')}</span>
               )}
             </button>
           </motion.div>
@@ -417,28 +417,28 @@ function KanjiMasteryContent() {
           >
             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
               <span>💡</span>
-              How It Works
+              {t('kanjiMasteryTool.howItWorks')}
             </h2>
             <div className="space-y-3">
               <div className="flex gap-3">
                 <span className="text-primary-500 font-semibold">1.</span>
                 <div>
-                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Configure Your Session</p>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Choose JLPT level and number of kanji to study</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('kanjiMasteryTool.step1Title')}</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">{t('kanjiMasteryTool.step1Description')}</p>
                 </div>
               </div>
               <div className="flex gap-3">
                 <span className="text-primary-500 font-semibold">2.</span>
                 <div>
-                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Learn with Examples</p>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">Each kanji comes with vocabulary and sentences</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('kanjiMasteryTool.step2Title')}</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">{t('kanjiMasteryTool.step2Description')}</p>
                 </div>
               </div>
               <div className="flex gap-3">
                 <span className="text-primary-500 font-semibold">3.</span>
                 <div>
-                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">Spaced Repetition</p>
-                  <p className="text-xs text-gray-600 dark:text-gray-400">AI-powered scheduling optimizes your retention</p>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('kanjiMasteryTool.step3Title')}</p>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">{t('kanjiMasteryTool.step3Description')}</p>
                 </div>
               </div>
             </div>
@@ -457,10 +457,11 @@ function KanjiMasteryContent() {
 
 // Wrapper component with Suspense boundary
 export default function KanjiMasteryDashboard() {
+  const { t } = useI18n()
   return (
     <Suspense fallback={
       <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-850 dark:via-dark-900 dark:to-dark-850 flex items-center justify-center">
-        <LoadingOverlay isLoading={true} message="Loading Kanji Mastery..." />
+        <LoadingOverlay isLoading={true} message={t('kanjiMasteryTool.loading')} />
       </div>
     }>
       <KanjiMasteryContent />

@@ -12,7 +12,6 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { useI18n } from '@/i18n/I18nContext';
 import { LimitDisplay, LimitReachedModal, UpgradePrompt } from '@/components/entitlements/LimitDisplay';
 import { GuestLoginModal } from '@/components/entitlements/GuestLoginModal';
-import { InlineUpgradeModal } from '@/components/entitlements/InlineUpgradeModal';
 import type { FeatureId } from '@/types/FeatureId';
 import type { Decision } from '@/hooks/useFeature';
 import { LoadingSpinner } from '@/components/ui/Loading';
@@ -44,14 +43,8 @@ export function EntitlementGate({
   const { checkOnly, remaining, isLoading, lastDecision } = useFeature(featureId);
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [showGuestModal, setShowGuestModal] = useState(false);
-  const [showUpgradeModal, setShowUpgradeModal] = useState(false);
   const [hasAccess, setHasAccess] = useState<boolean | null>(null);
-
-  // Redirect to dashboard when upgrade modal is closed
-  const handleUpgradeModalClose = () => {
-    setShowUpgradeModal(false);
-    router.push(`/${language}/dashboard`);
-  };
+  const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
     // Check access on mount
@@ -67,13 +60,16 @@ export function EntitlementGate({
         } else {
           onAccessDenied?.();
 
-          // Determine which modal to show based on user state
+          // Determine which action to take based on user state
           if (!user) {
             // Guest users - show login prompt
             setShowGuestModal(true);
           } else if (isFreeTier && (decision.reason === 'limit_reached' || decision.reason === 'no_permission')) {
-            // Free users hitting limits OR trying premium-only features - show upgrade modal
-            setShowUpgradeModal(true);
+            // Free users hitting limits OR trying premium-only features - redirect to pricing page
+            console.log('[EntitlementGate] Redirecting free user to pricing page');
+            setIsRedirecting(true);
+            // Pass the feature ID so pricing page knows where we came from
+            router.push(`/${language}/pricing?from=${featureId}`);
           } else if (decision.reason === 'limit_reached') {
             // Premium users hitting limits (rare) - show limit modal
             setShowLimitModal(true);
@@ -89,19 +85,21 @@ export function EntitlementGate({
     checkAccess();
   }, [featureId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Loading state
-  console.log('[EntitlementGate] Render state:', { isLoading, hasAccess, featureId, lastDecision });
-  if (isLoading || hasAccess === null) {
-    console.log('[EntitlementGate] Showing loading state because:', { isLoading, hasAccessIsNull: hasAccess === null });
+  // Loading state (includes initial load and redirecting state)
+  console.log('[EntitlementGate] Render state:', { isLoading, hasAccess, featureId, lastDecision, isRedirecting });
+  if (isLoading || hasAccess === null || isRedirecting) {
+    console.log('[EntitlementGate] Showing loading state because:', { isLoading, hasAccessIsNull: hasAccess === null, isRedirecting });
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
         <LoadingSpinner size="large" />
-        <p className="text-gray-600 dark:text-gray-400">{loadingMessage}</p>
+        <p className="text-gray-600 dark:text-gray-400">
+          {isRedirecting ? 'Redirecting to pricing...' : loadingMessage}
+        </p>
       </div>
     );
   }
 
-  // Access denied - show appropriate UI
+  // Access denied - show appropriate UI (only for guest users or premium users with limits)
   console.log('[EntitlementGate] Access denied state:', { hasAccess, lastDecision });
   if (!hasAccess) {
     return (
@@ -145,14 +143,6 @@ export function EntitlementGate({
           isOpen={showGuestModal}
           onClose={() => setShowGuestModal(false)}
           featureName={featureId.replace('_practice', '').replace('_', ' ')}
-        />
-
-        <InlineUpgradeModal
-          isOpen={showUpgradeModal}
-          onClose={handleUpgradeModalClose}
-          featureName={featureId.replace('_practice', '').replace('_', ' ')}
-          currentLimit={lastDecision?.limit}
-          currentUsage={lastDecision?.usageBefore}
         />
 
         <LimitReachedModal

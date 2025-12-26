@@ -21,7 +21,6 @@ export default function PricingPage() {
   const { subscription, isLoading, upgradeToPremium, manageBilling } = useSubscription();
   const { showToast } = useToast();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
-  const [billingInterval, setBillingInterval] = useState<'month' | 'year'>('month');
 
   const handleSelectPlan = async (plan: PricingPlan) => {
     // Free plan - just need to sign up
@@ -81,12 +80,8 @@ export default function PricingPage() {
     return subscription?.plan === planId && subscription?.status === 'active';
   };
 
-  // Filter plans based on billing interval
-  const displayedPlans = PRICING_PLANS.filter(plan => {
-    if (plan.id === 'free') return true;
-    if (billingInterval === 'month') return plan.id === 'premium_monthly';
-    return plan.id === 'premium_yearly';
-  });
+  // Show all three plans: Free, Premium Monthly, Premium Yearly
+  const displayedPlans = PRICING_PLANS;
 
   if (isLoading) {
     return (
@@ -113,27 +108,6 @@ export default function PricingPage() {
           <p className="text-xl text-gray-600 dark:text-gray-400 mb-8">
             {t('pricing.subtitle')}
           </p>
-
-          {/* Billing Toggle */}
-          <div className="flex items-center justify-center gap-3 mb-8">
-            <span className={`text-sm ${billingInterval === 'month' ? 'text-gray-900 dark:text-white font-semibold' : 'text-gray-500'}`}>
-              {t('pricing.billing.monthly')}
-            </span>
-            <button
-              onClick={() => setBillingInterval(billingInterval === 'month' ? 'year' : 'month')}
-              className="relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 bg-gray-200 dark:bg-gray-700"
-            >
-              <span
-                className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                  billingInterval === 'year' ? 'translate-x-6' : 'translate-x-1'
-                }`}
-              />
-            </button>
-            <span className={`text-sm ${billingInterval === 'year' ? 'text-gray-900 dark:text-white font-semibold' : 'text-gray-500'}`}>
-              {t('pricing.billing.yearly')}
-              <span className="ml-1 text-primary-500">{t('pricing.billing.savePercent', { percent: 25 })}</span>
-            </span>
-          </div>
         </div>
       </div>
 
@@ -187,7 +161,7 @@ export default function PricingPage() {
                       <li key={index} className="flex items-start">
                         <CheckIcon className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
                         <span className="ml-3 text-gray-700 dark:text-gray-300">
-                          {feature}
+                          {t(feature)}
                         </span>
                       </li>
                     ))}
@@ -226,30 +200,6 @@ export default function PricingPage() {
               </button>
             </div>
           )}
-        </div>
-      </div>
-
-      {/* Trust badges */}
-      <div className="border-t border-gray-200 dark:border-gray-700 py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-3xl font-bold text-primary-500">10K+</div>
-              <div className="mt-1 text-sm text-gray-600 dark:text-gray-400">{t('pricing.trust.activeLearners')}</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-primary-500">98%</div>
-              <div className="mt-1 text-sm text-gray-600 dark:text-gray-400">{t('pricing.trust.successRate')}</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-primary-500">24/7</div>
-              <div className="mt-1 text-sm text-gray-600 dark:text-gray-400">{t('pricing.trust.support')}</div>
-            </div>
-            <div>
-              <div className="text-3xl font-bold text-primary-500">30-day</div>
-              <div className="mt-1 text-sm text-gray-600 dark:text-gray-400">{t('pricing.trust.moneyBack')}</div>
-            </div>
-          </div>
         </div>
       </div>
 

@@ -8,7 +8,7 @@ import { LoadingSpinner } from '@/components/ui/Loading'
 import AudioButton from '@/components/ui/AudioButton'
 import StrokeOrderModal from './StrokeOrderModal'
 import DrawingPracticeModal from '@/components/drawing-practice/DrawingPracticeModal'
-import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
+import { useFeature } from '@/hooks/useFeature'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTTS } from '@/hooks/useTTS'
 import { fetchTatoebaSentences, TatoebaSentence } from '@/utils/tatoeba-client'
@@ -38,6 +38,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
   const { user } = useAuth()
   const { subscription } = useSubscription()
   const userPlan = !user ? 'guest' : subscription?.status === 'active' ? 'premium' : 'free'
+  const { checkAndTrack } = useFeature('drawing_practice')
 
   // TTS hook for audio playback
   const { play, preload, loading, playing, currentText } = useTTS({
@@ -521,7 +522,16 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
             </button>
 
             <button
-              onClick={() => setShowDrawingPractice(true)}
+              onClick={async () => {
+                console.log('[KanjiDetailsModal] Checking drawing_practice entitlement...')
+                const allowed = await checkAndTrack({ showUI: true })
+                console.log('[KanjiDetailsModal] checkAndTrack result:', allowed)
+                if (allowed) {
+                  setShowDrawingPractice(true)
+                } else {
+                  console.log('[KanjiDetailsModal] Access denied, modal should NOT open')
+                }
+              }}
               className="p-2.5 bg-green-50 dark:bg-green-900/20 rounded-full hover:bg-green-100 dark:hover:bg-green-900/30 transition-all hover:scale-110 text-green-500 dark:text-green-400"
               title="Practice writing"
             >
@@ -562,14 +572,12 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
 
       {/* Drawing Practice Modal */}
       {showDrawingPractice && kanji && (
-        <EntitlementGate featureId="drawing_practice">
-          <DrawingPracticeModal
-            character={kanji.kanji}
-            isOpen={showDrawingPractice}
-            onClose={() => setShowDrawingPractice(false)}
-            characterType="kanji"
-          />
-        </EntitlementGate>
+        <DrawingPracticeModal
+          character={kanji.kanji}
+          isOpen={showDrawingPractice}
+          onClose={() => setShowDrawingPractice(false)}
+          characterType="kanji"
+        />
       )}
     </>
   )

@@ -12,6 +12,7 @@ import PageHeader from '@/components/ui/PageHeader'
 import { useI18n } from '@/i18n/I18nContext'
 import { getGradientForBook } from '@/lib/utils/gradients'
 import { useBookCache } from '@/hooks/useBookCache'
+import { useAuth } from '@/hooks/useAuth'
 
 const JLPT_LEVELS: Array<{ value: JLPTLevel | 'all'; label: string }> = [
   { value: 'all', label: 'All Levels' },
@@ -24,6 +25,7 @@ const JLPT_LEVELS: Array<{ value: JLPTLevel | 'all'; label: string }> = [
 
 export default function LibraryPage() {
   const { strings } = useI18n()
+  const { user, loading: authLoading } = useAuth()
   const [books, setBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedLevel, setSelectedLevel] = useState<JLPTLevel | 'all'>('all')
@@ -119,11 +121,21 @@ export default function LibraryPage() {
     setOffset(0)
   }
 
+  // Wait for auth to load before rendering
+  if (authLoading) {
+    return (
+      <LoadingOverlay
+        isLoading={true}
+        message={strings.common?.loading || 'Loading...'}
+      />
+    )
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-dark-900 dark:to-dark-850">
       {/* Desktop Navbar */}
       <div className="hidden sm:block">
-        <Navbar showUserMenu={true} />
+        <Navbar user={user} showUserMenu={true} />
       </div>
 
       {/* Page Header */}

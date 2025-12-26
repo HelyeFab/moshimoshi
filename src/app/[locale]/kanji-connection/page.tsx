@@ -1,22 +1,9 @@
-import type { Metadata } from 'next';
+'use client'
+
 import KanjiConnectionPage from './KanjiConnectionPage';
 import { structuredData } from '@/utils/seo';
 import { StructuredData } from '@/components/StructuredData';
-import { getTranslations, generateLocalizedMetadata, type Locale } from '@/i18n/server';
-
-interface Props {
-  params: Promise<{ locale: string }>
-}
-
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await params
-  const { t } = await getTranslations(locale as Locale)
-
-  return generateLocalizedMetadata({
-    title: t('seo.kanjiConnection.game.title'),
-    description: t('seo.kanjiConnection.game.description'),
-  })
-}
+import { EntitlementGate } from '@/components/review-engine/EntitlementGate';
 
 export default function Page() {
   const breadcrumbData = structuredData.breadcrumb([
@@ -65,10 +52,10 @@ export default function Page() {
   };
 
   return (
-    <>
+    <EntitlementGate featureId="kanji_connection">
       <StructuredData data={breadcrumbData} />
       <StructuredData data={gameData} />
       <KanjiConnectionPage />
-    </>
+    </EntitlementGate>
   );
 }

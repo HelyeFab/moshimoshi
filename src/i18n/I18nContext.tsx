@@ -80,8 +80,8 @@ export function I18nProvider({ children, initialLanguage }: I18nProviderProps) {
         const userKey = `${USER_LANGUAGE_STORAGE_KEY}-${userId}`
         localStorage.setItem(userKey, language)
       }
-      // Update HTML lang attribute
-      document.documentElement.lang = language
+      // Note: HTML lang attribute is now set server-side in root layout
+      // No need to update it client-side
     }
   }, [language])
 
