@@ -34,6 +34,7 @@
   width: 100%;
   padding: 1rem;
   padding-top: 0.5rem;
+  position: relative;
 }
 
 .playerFrame {
@@ -44,6 +45,13 @@
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* YouTube Button Wrapper */
+.youtubeButtonWrapper {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: flex-start;
 }
 
 .youtubeIframe {
@@ -180,6 +188,14 @@
   max-height: 520px;
   overflow-y: auto;
   padding-right: 0.5rem;
+}
+
+/* Ensure at least 4 segments visible on desktop */
+@media (min-width: 1024px) {
+  .segmentList {
+    max-height: 800px;
+    min-height: 650px;
+  }
 }
 
 /* Scrollbar styling for segment list */

@@ -1,0 +1,51 @@
+/* YouTube Button - Just the icon, no background */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  background: transparent;
+  border: none;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.button:hover {
+  transform: scale(1.1);
+}
+
+.button:active {
+  transform: translateY(0) scale(1);
+}
+
+/* YouTube Icon */
+.icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.iconBackground {
+  fill: #ff0000;
+}
+
+:global(.dark) .iconBackground {
+  fill: #ff4444;
+}
+
+.iconPlay {
+  fill: #ffffff;
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .button {
+    padding: 0.45rem 0.65rem;
+  }
+
+  .icon {
+    width: 18px;
+    height: 18px;
+  }
+}

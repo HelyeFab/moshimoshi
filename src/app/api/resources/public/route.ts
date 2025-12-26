@@ -17,18 +17,34 @@ export async function GET(req: NextRequest) {
 
     const resources = snapshot.docs.map(doc => {
       const data = doc.data();
+
+      // Convert Firestore timestamps to ISO strings for JSON serialization
+      const publishedAt = data.publishedAt?.toDate
+        ? data.publishedAt.toDate().toISOString()
+        : data.createdAt?.toDate
+          ? data.createdAt.toDate().toISOString()
+          : new Date().toISOString();
+
+      const updatedAt = data.updatedAt?.toDate
+        ? data.updatedAt.toDate().toISOString()
+        : publishedAt;
+
       return {
         id: doc.id,
         title: data.title,
-        description: data.description,
+        description: data.excerpt || data.description, // Use excerpt as description
+        excerpt: data.excerpt,
         content: data.content,
+        imageUrl: data.imageUrl,
+        imageAlt: data.imageAlt,
         status: data.status,
         category: data.category,
         tags: data.tags || [],
         featured: data.featured || false,
         views: data.views || 0,
-        publishedAt: data.publishedAt?.toDate ? data.publishedAt.toDate() : data.publishedAt,
-        updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : data.updatedAt,
+        readingTimeMinutes: data.readingTimeMinutes || 1,
+        publishedAt,
+        updatedAt,
       };
     }).sort((a, b) => {
       // Sort by publishedAt date, newest first

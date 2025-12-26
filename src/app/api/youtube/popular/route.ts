@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminFirestore as adminDb, Timestamp } from '@/lib/firebase/admin'
 import { getStorageDecision } from '@/lib/api/storage-helper'
+import { getCache, setCache } from './cache'
 
 // Curated starter videos for when we have low data
 const CURATED_STARTER_VIDEOS = [
@@ -39,16 +40,6 @@ const CURATED_STARTER_VIDEOS = [
     badge: '👋 Starter',
   },
 ]
-
-// Cache for popular videos
-let cachedVideos: any = null
-let cacheExpiry: Date | null = null
-
-// Function to clear cache (internal use only - not exported from route)
-function clearPopularVideosCache() {
-  cachedVideos = null
-  cacheExpiry = null
-}
 
 async function aggregatePopularVideos(minViewers: number = 3) {
   try {
@@ -199,10 +190,11 @@ export async function GET(req: NextRequest) {
     }
 
     // Check cache first
-    if (cachedVideos && cacheExpiry && cacheExpiry > new Date()) {
+    const cache = getCache()
+    if (cache.isValid) {
       return NextResponse.json({
         success: true,
-        videos: cachedVideos,
+        videos: cache.videos,
         userQuota: {
           used: quotaUsed,
           limit: quotaLimit,
@@ -236,8 +228,7 @@ export async function GET(req: NextRequest) {
     videos = videos.slice(0, 12)
 
     // Cache the results for 1 hour
-    cachedVideos = videos
-    cacheExpiry = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+    setCache(videos)
 
     return NextResponse.json({
       success: true,

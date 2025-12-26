@@ -22,53 +22,83 @@ export function withAdminAuth(
 ) {
   return async (request: NextRequest, routeContext: RouteContext): Promise<NextResponse> => {
     try {
-      // Get the authorization header
-      const authHeader = request.headers.get('authorization')
-      if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return NextResponse.json(
-          { error: 'Unauthorized - Missing or invalid authorization header' },
-          { status: 401 }
-        )
-      }
+      // Try cookie-based session first (primary method for browser requests)
+      const { getSession } = await import('@/lib/auth/session')
+      const session = await getSession()
 
-      const token = authHeader.substring(7)
+      if (session) {
+        // Verify admin status from Firestore
+        const isAdmin = await isAdminUserCached(session.uid)
 
-      // Verify the token using Firebase Admin SDK
-      let decodedToken
-      try {
-        if (!adminAuth) {
-          throw new Error('Firebase Admin Auth not initialized')
+        if (!isAdmin) {
+          console.warn(
+            `[Admin Auth] Non-admin user attempted admin access: ${session.uid.substring(0, 8)}...`
+          )
+          return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
         }
-        decodedToken = await adminAuth.verifyIdToken(token)
-      } catch (tokenError) {
-        console.error('[Admin Auth] Token verification failed:', tokenError)
-        return NextResponse.json({ error: 'Unauthorized - Invalid token' }, { status: 401 })
+
+        // Resolve params (Next.js 15 makes params a Promise)
+        const resolvedParams = await routeContext.params
+
+        const context: AdminContext = {
+          user: {
+            uid: session.uid,
+            email: session.email,
+            isAdmin: true,
+          },
+          params: resolvedParams,
+        }
+
+        return handler(request, context)
       }
 
-      // Check if user is admin using Firebase isAdmin field
-      // Uses cached version for performance
-      const isAdmin = await isAdminUserCached(decodedToken.uid)
+      // Fallback to Bearer token authentication (for API clients, external tools)
+      const authHeader = request.headers.get('authorization')
+      if (authHeader && authHeader.startsWith('Bearer ')) {
+        const token = authHeader.substring(7)
 
-      if (!isAdmin) {
-        console.warn(
-          `[Admin Auth] Non-admin user attempted admin access: ${decodedToken.uid.substring(0, 8)}...`
-        )
-        return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
+        // Verify the token using Firebase Admin SDK
+        let decodedToken
+        try {
+          if (!adminAuth) {
+            throw new Error('Firebase Admin Auth not initialized')
+          }
+          decodedToken = await adminAuth.verifyIdToken(token)
+        } catch (tokenError) {
+          console.error('[Admin Auth] Token verification failed:', tokenError)
+          return NextResponse.json({ error: 'Unauthorized - Invalid token' }, { status: 401 })
+        }
+
+        // Check if user is admin using Firebase isAdmin field
+        const isAdmin = await isAdminUserCached(decodedToken.uid)
+
+        if (!isAdmin) {
+          console.warn(
+            `[Admin Auth] Non-admin user attempted admin access: ${decodedToken.uid.substring(0, 8)}...`
+          )
+          return NextResponse.json({ error: 'Forbidden - Admin access required' }, { status: 403 })
+        }
+
+        // Resolve params
+        const resolvedParams = await routeContext.params
+
+        const context: AdminContext = {
+          user: {
+            uid: decodedToken.uid,
+            email: decodedToken.email || '',
+            isAdmin: true,
+          },
+          params: resolvedParams,
+        }
+
+        return handler(request, context)
       }
 
-      // Resolve params (Next.js 15 makes params a Promise)
-      const resolvedParams = await routeContext.params
-
-      const context: AdminContext = {
-        user: {
-          uid: decodedToken.uid,
-          email: decodedToken.email || '',
-          isAdmin: true,
-        },
-        params: resolvedParams,
-      }
-
-      return handler(request, context)
+      // No valid authentication found
+      return NextResponse.json(
+        { error: 'Unauthorized - No valid session or token found' },
+        { status: 401 }
+      )
     } catch (error) {
       console.error('[Admin Auth] Unexpected error:', error)
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 })

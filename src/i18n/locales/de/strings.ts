@@ -160,6 +160,8 @@ export const strings = {
     title: 'Titel',
     description: 'Beschreibung',
     popular: 'Beliebt',
+    trending: 'Trend',
+    readMore: 'Mehr lesen',
     learned: 'Gelernt',
     markAsLearned: 'Als gelernt markieren',
     notLearned: 'Nicht gelernt',
@@ -4784,6 +4786,7 @@ export const strings = {
   popularVideos: {
     title: 'Beliebte Videos',
     subtitle: 'Sehen Sie, was die Community schaut',
+    description: 'Meistgesehene Videos der Community',
     quotaStatus: 'Heutige Videos: {{used}}/{{limit}}',
     quotaRemaining: '{{count}} Videos heute übrig',
     noQuota: 'Tageslimit erreicht! Kommen Sie morgen wieder 🌅',

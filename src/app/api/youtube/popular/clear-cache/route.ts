@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
-
-// Note: Cache is cleared server-side per request, so this is a no-op for now
-// In a production setup with Redis or similar, this would clear the shared cache
+import { clearCache } from '../cache'
 
 export async function POST(req: NextRequest) {
   try {
@@ -13,9 +11,8 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 })
     }
 
-    // Cache clearing is now handled per-instance
-    // The module-level cache in the route file will reset on redeployment
-    // For Redis/distributed cache, implement actual clearing here
+    // Clear the cache
+    clearCache()
     console.log('Cache clear requested by admin:', session.uid)
 
     return NextResponse.json({

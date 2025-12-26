@@ -4,7 +4,6 @@ import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
-import ThemeToggle from '@/components/ui/ThemeToggle'
 
 export default function NotFound() {
   const [mounted, setMounted] = useState(false)
@@ -41,7 +40,6 @@ export default function NotFound() {
             <Link href="/" className="group">
               <MoshimoshiLogo size="small" animated={true} className="group-hover:scale-105 transition-transform" />
             </Link>
-            <ThemeToggle />
           </div>
         </div>
       </header>

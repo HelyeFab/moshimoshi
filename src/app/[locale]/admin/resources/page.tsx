@@ -72,7 +72,8 @@ export default function AdminResourcesPage() {
       const resourcesData = await resourcesRes.json();
       const statsData = await statsRes.json();
 
-      setResources(resourcesData);
+      // Handle API response format { success: true, data: [...] }
+      setResources(resourcesData.data || resourcesData);
       setStats(statsData);
     } catch (error) {
       console.error('Error loading resources data:', error);

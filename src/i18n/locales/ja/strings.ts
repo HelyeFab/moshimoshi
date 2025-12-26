@@ -512,6 +512,8 @@ export const strings = {
     title: 'タイトル',
     description: '説明',
     popular: '人気',
+    trending: 'トレンド',
+    readMore: '続きを読む',
     learned: '学習済み',
     markAsLearned: '学習済みにする',
     notLearned: '未学習',
@@ -4808,6 +4810,7 @@ export const strings = {
   popularVideos: {
     title: 'トレンド動画',
     subtitle: 'コミュニティで人気の動画',
+    description: 'コミュニティで最も視聴された動画',
     quotaStatus: '今日の動画: {{used}}/{{limit}}',
     quotaRemaining: '今日は残り{{count}}本',
     noQuota: '本日の上限に達しました！また明日お越しください 🌅',

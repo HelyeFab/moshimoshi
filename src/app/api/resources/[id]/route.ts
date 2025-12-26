@@ -68,18 +68,31 @@ export async function GET(
     const updatedDoc = await db.collection('resources').doc(id).get();
     const updatedData = updatedDoc.data();
 
+    // Convert Firestore timestamps to ISO strings for JSON serialization
+    const publishedAt = data.publishedAt?.toDate
+      ? data.publishedAt.toDate().toISOString()
+      : data.createdAt?.toDate
+        ? data.createdAt.toDate().toISOString()
+        : new Date().toISOString();
+
+    const updatedAt = data.updatedAt?.toDate
+      ? data.updatedAt.toDate().toISOString()
+      : publishedAt;
+
     return NextResponse.json({
       id: doc.id,
       title: data.title,
       description: data.description,
       content: data.content,
+      imageUrl: data.imageUrl,
+      imageAlt: data.imageAlt,
       status: data.status,
       category: data.category,
       tags: data.tags || [],
       featured: data.featured || false,
       views: updatedData?.views || data.views || 0, // Use actual count, not incremented
-      publishedAt: data.publishedAt?.toDate ? data.publishedAt.toDate() : data.publishedAt,
-      updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : data.updatedAt,
+      publishedAt,
+      updatedAt,
     });
   } catch (error) {
     console.error('Error fetching resource:', error);

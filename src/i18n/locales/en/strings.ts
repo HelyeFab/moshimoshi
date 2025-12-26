@@ -556,6 +556,8 @@ export const strings = {
     title: 'Title',
     description: 'Description',
     popular: 'Popular',
+    trending: 'Trending',
+    readMore: 'Read More',
     learned: 'Learned',
     markAsLearned: 'Mark as Learned',
     notLearned: 'Not Learned',
@@ -4174,6 +4176,7 @@ export const strings = {
   youtubeShadowing: {
     title: 'YouTube Shadowing',
     description: 'Practice Japanese with YouTube videos and media files',
+    watchOnYouTube: 'Watch on YouTube',
 
     hero: {
       title: 'Master Japanese with YouTube Videos',
@@ -5502,6 +5505,7 @@ export const strings = {
   popularVideos: {
     title: 'Trending Videos',
     subtitle: 'See what the community is watching',
+    description: 'Most watched videos by the community',
     quotaStatus: "Today's videos: {{used}}/{{limit}}",
     quotaRemaining: '{{count}} videos left today',
     noQuota: 'Daily limit reached! Come back tomorrow 🌅',

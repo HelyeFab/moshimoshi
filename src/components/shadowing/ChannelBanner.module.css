@@ -1,0 +1,129 @@
+/* Channel Banner - Glass-morphism design */
+.banner {
+  width: 100%;
+  padding: 0 1rem;
+  margin-bottom: 1rem;
+}
+
+.bannerInner {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
+  box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+:global(.dark) .bannerInner {
+  background: rgba(30, 30, 35, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 16px -4px rgba(0, 0, 0, 0.3);
+}
+
+.bannerInner:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.12);
+}
+
+:global(.dark) .bannerInner:hover {
+  box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.4);
+}
+
+/* Avatar */
+.avatarContainer {
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(var(--palette-primary-500), 0.3);
+}
+
+.avatarFallback {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgb(var(--palette-primary-500)), rgb(var(--palette-primary-600)));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: white;
+  border: 2px solid rgba(var(--palette-primary-500), 0.3);
+}
+
+/* Info */
+.info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.channelName {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: rgb(var(--palette-primary-600));
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+:global(.dark) .channelName {
+  color: rgb(var(--palette-primary-400));
+}
+
+.videoTitle {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--color-dark-900);
+  margin: 0;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+:global(.dark) .videoTitle {
+  color: var(--color-gray-100);
+}
+
+/* Mobile Responsive */
+@media (max-width: 640px) {
+  .bannerInner {
+    padding: 0.875rem 1rem;
+    gap: 0.75rem;
+  }
+
+  .avatar,
+  .avatarFallback {
+    width: 40px;
+    height: 40px;
+  }
+
+  .avatarFallback {
+    font-size: 18px;
+  }
+
+  .channelName {
+    font-size: 0.8rem;
+  }
+
+  .videoTitle {
+    font-size: 0.875rem;
+    -webkit-line-clamp: 1;
+  }
+}

@@ -148,6 +148,8 @@ export const strings = {
     title: 'Título',
     description: 'Descripción',
     popular: 'Popular',
+    trending: 'Tendencias',
+    readMore: 'Leer más',
     learned: 'Aprendido',
     markAsLearned: 'Marcar como aprendido',
     notLearned: 'No aprendido',
@@ -4830,6 +4832,7 @@ export const strings = {
   popularVideos: {
     title: 'Videos en tendencia',
     subtitle: 'Ve qué está viendo la comunidad',
+    description: 'Videos más vistos por la comunidad',
     quotaStatus: 'Videos de hoy: {{used}}/{{limit}}',
     quotaRemaining: '{{count}} videos restantes hoy',
     noQuota: '¡Límite diario alcanzado! Vuelve mañana 🌅',

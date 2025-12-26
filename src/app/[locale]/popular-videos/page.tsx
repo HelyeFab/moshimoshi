@@ -12,6 +12,7 @@ import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import DoshiMascot from '@/components/ui/DoshiMascot'
+import FeaturedVideo from '@/components/popular-videos/FeaturedVideo'
 import {
   Play,
   Clock,
@@ -431,6 +432,31 @@ export default function PopularVideosPage() {
               </p>
             </div>
           </motion.div>
+        )}
+
+        {/* Featured Video Section */}
+        {!isLoading && videos.length > 0 && (
+          <FeaturedVideo
+            videoId="ofkWnxFRclY"
+            videoTitle="Easy Japanese Listening [JLPT N5–N4] A Christmas Carol"
+            channelName="OYASUMI JAPANESE CHANNEL"
+            thumbnailUrl="https://i.ytimg.com/vi/ofkWnxFRclY/maxresdefault.jpg"
+            description="Created by Tomo, this channel reimagines language learning as a serene experience — where words flow like a gentle stream, stories reveal themselves naturally, and Japanese becomes something to immerse in, not just practice."
+            onWatch={() => handleWatchVideo({
+              videoId: 'ofkWnxFRclY',
+              videoUrl: 'https://www.youtube.com/watch?v=ofkWnxFRclY',
+              videoTitle: 'Easy Japanese Listening [JLPT N5–N4] A Christmas Carol',
+              channelName: 'OYASUMI JAPANESE CHANNEL',
+              thumbnailUrl: 'https://i.ytimg.com/vi/ofkWnxFRclY/maxresdefault.jpg',
+              uniqueViewers: 15,
+              totalWatchCount: 148,
+              averageWatchTime: 5760,
+              lastWatched: new Date().toISOString(),
+              rank: 1,
+              isTrending: true,
+              badge: '🔥 Trending',
+            })}
+          />
         )}
 
         {/* Video Grid */}

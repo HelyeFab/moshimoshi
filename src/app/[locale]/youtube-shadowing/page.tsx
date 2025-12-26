@@ -20,6 +20,8 @@ import Navbar from "@/components/layout/Navbar";
 import MobileNavSpacer from "@/components/layout/MobileNavSpacer";
 import { useAuth } from "@/hooks/useAuth";
 import { LoadingSpinner } from "@/components/ui/Loading";
+import ChannelBanner from "@/components/shadowing/ChannelBanner";
+import YouTubeButton from "@/components/shadowing/YouTubeButton";
 
 // Session persistence key
 const SESSION_STORAGE_KEY = "moshiPlayerSession";
@@ -55,6 +57,14 @@ type TranscriptResponse = {
   source: string;
 };
 
+type VideoMetadata = {
+  title: string;
+  channelTitle: string;
+  thumbnailUrl: string;
+  channelId?: string;
+  channelAvatarUrl?: string;
+};
+
 const PLAYER_STATES = {
   unstarted: -1,
   ended: 0,
@@ -82,6 +92,7 @@ function YouTubeShadowingContent() {
   const [repeatCount, setRepeatCount] = useState(3);
   const [currentSegmentIndex, setCurrentSegmentIndex] = useState(0);
   const [currentRepeat, setCurrentRepeat] = useState(1);
+  const [videoMetadata, setVideoMetadata] = useState<VideoMetadata | null>(null);
 
   // Settings state
   const [showFurigana, setShowFurigana] = useState(true);
@@ -258,6 +269,32 @@ function YouTubeShadowingContent() {
     playerRef.current = event.target;
   };
 
+  const fetchVideoMetadata = useCallback(async (videoId: string) => {
+    try {
+      const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
+      const response = await fetch(
+        `/api/youtube/video-info?url=${encodeURIComponent(videoUrl)}`
+      );
+
+      if (!response.ok) {
+        console.warn('[MoshiPlayer] Failed to fetch video metadata');
+        return;
+      }
+
+      const data = await response.json();
+
+      if (data.success && data.video) {
+        setVideoMetadata({
+          title: data.video.title,
+          channelTitle: data.video.channelTitle,
+          thumbnailUrl: data.video.thumbnailUrl,
+        });
+      }
+    } catch (error) {
+      console.error('[MoshiPlayer] Error fetching video metadata:', error);
+    }
+  }, []);
+
   const loadTranscript = useCallback(
     async (input: string) => {
       const extractedId = extractVideoId(input);
@@ -308,6 +345,9 @@ function YouTubeShadowingContent() {
           playerRef.current.seekTo(data.segments[0].start, true);
         }
 
+        // Fetch video metadata
+        fetchVideoMetadata(extractedId);
+
         // Prefetch word explanations for instant modal response
         const transcriptText = data.segments.map((s) => s.text).join(" ");
         prefetchWordExplanations({
@@ -323,7 +363,7 @@ function YouTubeShadowingContent() {
         setLoadingTranscript(false);
       }
     },
-    [language, repeatCount, t, prefetchWordExplanations],
+    [language, repeatCount, t, prefetchWordExplanations, fetchVideoMetadata],
   );
 
   const handleSubmit = useCallback(
@@ -420,7 +460,11 @@ function YouTubeShadowingContent() {
 
       // Restore state
       if (parsed.videoInput) setVideoInput(parsed.videoInput);
-      if (parsed.videoId) setVideoId(parsed.videoId);
+      if (parsed.videoId) {
+        setVideoId(parsed.videoId);
+        // Fetch metadata for restored video
+        fetchVideoMetadata(parsed.videoId);
+      }
       if (parsed.segments?.length) {
         setSegments(parsed.segments);
         segmentsRef.current = parsed.segments;
@@ -523,6 +567,7 @@ function YouTubeShadowingContent() {
     setError(null);
     setStatus(null);
     setShowUrlInput(true);
+    setVideoMetadata(null);
     clearedSessionRef.current = true;
 
     // Remove URL params to avoid auto-reloading a cleared session
@@ -548,6 +593,15 @@ function YouTubeShadowingContent() {
       <main className={styles.mainContainer}>
         <div className={styles.primaryLayout}>
           <div className={styles.leftColumn}>
+            {/* Channel Banner - conditionally displayed */}
+            {videoMetadata && (
+              <ChannelBanner
+                channelTitle={videoMetadata.channelTitle}
+                videoTitle={videoMetadata.title}
+                channelAvatarUrl={videoMetadata.channelAvatarUrl}
+              />
+            )}
+
             {/* Video Section */}
             <div className={styles.videoSection}>
               <div className={styles.playerFrame}>
@@ -566,6 +620,13 @@ function YouTubeShadowingContent() {
                   </div>
                 )}
               </div>
+
+              {/* YouTube Button - small pill on left side */}
+              {videoId && (
+                <div className={styles.youtubeButtonWrapper}>
+                  <YouTubeButton videoId={videoId} />
+                </div>
+              )}
             </div>
 
             {/* Current Segment Card - Hero Style */}
@@ -612,7 +673,9 @@ function YouTubeShadowingContent() {
           {/* Transcript List */}
           <div className={styles.transcriptColumn}>
             <div className={styles.transcriptListSection}>
-              <h3 className={styles.listTitle}>{t('youtubeShadowing.player.transcript.title')}</h3>
+              {segments.length > 0 && (
+                <h3 className={styles.listTitle}>{t('youtubeShadowing.player.transcript.title')}</h3>
+              )}
               <div className={`${styles.segmentList} scrollbar-hide`}>
                 {segments.map((segment, index) => {
                   const active = index === currentSegmentIndex;

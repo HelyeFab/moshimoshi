@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { adminDb } from '@/lib/firebase/admin';
 import { getSession } from '@/lib/auth/session';
+import { adminDb } from '@/lib/firebase/admin';
 import {
   ResourceFormData,
   ResourceListItem,
-  ResourcePost
 } from '@/types/resources';
 import {
   validateResourceFormData,
@@ -12,11 +11,16 @@ import {
   formatResourceListItem
 } from '@/utils/resources';
 
-export async function GET(req: NextRequest) {
+/**
+ * GET /api/admin/resources
+ * Get all resources (admin only)
+ * Query params: ?status=draft|published|scheduled|all
+ */
+export async function GET(request: NextRequest) {
   try {
     // Check authentication and admin status
     const session = await getSession();
-    if (!session) {
+    if (!session?.uid) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -32,7 +36,7 @@ export async function GET(req: NextRequest) {
     }
 
     // Get query parameters
-    const searchParams = req.nextUrl.searchParams;
+    const searchParams = request.nextUrl.searchParams;
     const status = searchParams.get('status');
 
     // Query resources from Firestore
@@ -50,21 +54,28 @@ export async function GET(req: NextRequest) {
       resources.push(formatResourceListItem({ id: doc.id, ...doc.data() }));
     });
 
-    return NextResponse.json(resources);
-  } catch (error) {
-    console.error('Error fetching resources:', error);
+    return NextResponse.json({
+      success: true,
+      data: resources
+    });
+  } catch (error: any) {
+    console.error('[Admin Resources] Error fetching resources:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch resources' },
+      { error: { code: 'INTERNAL_ERROR', message: 'Failed to fetch resources' } },
       { status: 500 }
     );
   }
 }
 
-export async function POST(req: NextRequest) {
+/**
+ * POST /api/admin/resources
+ * Create a new resource (admin only)
+ */
+export async function POST(request: NextRequest) {
   try {
     // Check authentication and admin status
     const session = await getSession();
-    if (!session) {
+    if (!session?.uid) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
@@ -80,21 +91,22 @@ export async function POST(req: NextRequest) {
     }
 
     // Parse request body
-    const formData: ResourceFormData = await req.json();
+    const formData: ResourceFormData = await request.json();
 
     // Validate form data
     const errors = validateResourceFormData(formData);
     if (errors.length > 0) {
+      console.error('[Admin Resources] Validation errors:', errors);
       return NextResponse.json({ errors }, { status: 400 });
     }
 
     // Prepare resource data
     const resourceData = prepareResourceForSaving(formData, session.uid);
 
-    // Set author email from user data
-    if (resourceData.author && userData.email) {
-      resourceData.author.email = userData.email;
-      resourceData.author.name = userData.displayName || 'Admin';
+    // Set author info from user data
+    if (resourceData.author) {
+      resourceData.author.email = userData.email || session.email;
+      resourceData.author.name = userData.displayName || session.email?.split('@')[0] || 'Admin';
     }
 
     // Check if slug already exists
@@ -103,6 +115,7 @@ export async function POST(req: NextRequest) {
       .get();
 
     if (!slugQuery.empty) {
+      console.warn('[Admin Resources] Slug already exists:', resourceData.slug);
       return NextResponse.json(
         { error: 'A resource with this slug already exists' },
         { status: 400 }
@@ -112,14 +125,16 @@ export async function POST(req: NextRequest) {
     // Create the resource
     const docRef = await adminDb.collection('resources').add(resourceData);
 
+    console.log('[Admin Resources] Resource created:', docRef.id, 'by', session.email);
+
     return NextResponse.json({
       id: docRef.id,
       message: 'Resource created successfully'
     });
   } catch (error) {
-    console.error('Error creating resource:', error);
+    console.error('[Admin Resources] Error creating resource:', error);
     return NextResponse.json(
-      { error: 'Failed to create resource' },
+      { error: 'Failed to create resource', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

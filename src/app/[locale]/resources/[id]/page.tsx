@@ -4,15 +4,19 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import { useI18n } from '@/i18n/I18nContext';
 import { formatDistanceToNow } from 'date-fns';
-// Navigation is now global via NavigationWrapper in root layout;
+import { marked } from 'marked';
 import { useAuth } from '@/hooks/useAuth';
+import Navbar from '@/components/layout/Navbar';
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
+import { getGradientForBook } from '@/lib/utils/gradients';
 
 interface Resource {
   id: string;
   title: string;
   description: string;
   content: string;
+  imageUrl?: string;
+  imageAlt?: string;
   status: string;
   category: string;
   tags: string[];
@@ -24,6 +28,18 @@ interface Resource {
     name: string;
     avatar?: string;
   };
+}
+
+// Helper function to safely format dates
+function formatPublishedDate(dateValue: any): string {
+  try {
+    if (!dateValue) return 'Recently';
+    const date = new Date(dateValue);
+    if (isNaN(date.getTime())) return 'Recently';
+    return formatDistanceToNow(date, { addSuffix: true });
+  } catch (error) {
+    return 'Recently';
+  }
 }
 
 export default function ResourceDetailPage() {
@@ -112,14 +128,45 @@ export default function ResourceDetailPage() {
     );
   }
 
+  const gradient = getGradientForBook(resource.id);
+  const htmlContent = marked(resource.content || '');
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-soft-white to-primary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
-      {/* Navigation is now global - rendered in root layout */}
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
       <div className="container mx-auto px-4 py-8">
         {/* Resource Detail */}
         <div className="max-w-4xl mx-auto">
           <div className="bg-white dark:bg-dark-900 rounded-lg shadow-lg overflow-hidden">
+            {/* Cover Image */}
+            <div className="relative h-80 overflow-hidden">
+              {resource.imageUrl ? (
+                <img
+                  src={resource.imageUrl}
+                  alt={resource.imageAlt || resource.title}
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <div className={`w-full h-full bg-gradient-to-br ${gradient} relative`}>
+                  {/* Decorative pattern */}
+                  <div className="absolute inset-0 opacity-10">
+                    <div className="absolute top-8 right-8 w-48 h-48 border-8 border-white rounded-full" />
+                    <div className="absolute bottom-8 left-8 w-32 h-32 border-8 border-white rounded-full" />
+                  </div>
+                  {/* Centered title overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center p-8">
+                    <h1 className="text-4xl md:text-5xl font-bold text-white text-center drop-shadow-lg">
+                      {resource.title}
+                    </h1>
+                  </div>
+                </div>
+              )}
+            </div>
+
             {/* Header */}
             <div className="p-8 border-b border-gray-200 dark:border-gray-700">
               <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-4">
@@ -133,7 +180,7 @@ export default function ResourceDetailPage() {
                   <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
-                  {formatDistanceToNow(new Date(resource.publishedAt), { addSuffix: true })}
+                  {formatPublishedDate(resource.publishedAt)}
                 </span>
                 <span className="flex items-center">
                   <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -166,8 +213,8 @@ export default function ResourceDetailPage() {
             {/* Content */}
             <div className="p-8">
               <div
-                className="prose prose-lg dark:prose-invert max-w-none"
-                dangerouslySetInnerHTML={{ __html: resource.content }}
+                className="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-h1:text-3xl prose-h2:text-2xl prose-h3:text-xl prose-a:text-primary-600 dark:prose-a:text-primary-400 prose-img:rounded-lg prose-pre:bg-gray-100 dark:prose-pre:bg-gray-800"
+                dangerouslySetInnerHTML={{ __html: htmlContent }}
               />
             </div>
 
@@ -184,7 +231,7 @@ export default function ResourceDetailPage() {
                   {strings.resources?.backToResources || 'Back to Resources'}
                 </button>
                 <div className="text-sm text-gray-500 dark:text-gray-400">
-                  {strings.resources?.lastUpdated || 'Last updated'}: {formatDistanceToNow(new Date(resource.updatedAt), { addSuffix: true })}
+                  {strings.resources?.lastUpdated || 'Last updated'}: {formatPublishedDate(resource.updatedAt)}
                 </div>
               </div>
             </div>

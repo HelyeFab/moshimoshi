@@ -75,3 +75,6 @@ data/memories.db
 .claude/settings.local.json
 .claude/.claude/.env.local.backup
 .env.vercel-check
+
+# Local Netlify folder
+.netlify
