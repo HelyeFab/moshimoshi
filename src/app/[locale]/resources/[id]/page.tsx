@@ -129,7 +129,7 @@ export default function ResourceDetailPage() {
   }
 
   const gradient = getGradientForBook(resource.id);
-  const htmlContent = marked(resource.content || '');
+  const htmlContent = marked.parse(resource.content || '') as string;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background-light via-soft-white to-primary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-800">
