@@ -15,7 +15,7 @@ import { motion } from 'framer-motion'
 import { useKanjiBrowser } from '@/hooks/useKanjiBrowser'
 import { useAuth } from '@/hooks/useAuth'
 import SearchBar from '@/components/ui/SearchBar'
-import { Pencil, X } from 'lucide-react'
+import { Pencil } from 'lucide-react'
 import { useSubscription } from '@/hooks/useSubscription'
 import dynamic from 'next/dynamic'
 import { KanjiBrowserAdapter } from '@/lib/review-engine/adapters/KanjiBrowserAdapter'
@@ -42,9 +42,9 @@ const KanjiStudyMode = dynamic(() => import('@/components/kanji/KanjiStudyMode')
   ssr: false,
 })
 
-// Dynamically import DrawingSearchCanvas for drawing search
-const DrawingSearchCanvas = dynamic(
-  () => import('@/components/drawing-practice/DrawingSearchCanvas'),
+// Dynamically import DrawingSearchModal for drawing search
+const DrawingSearchModal = dynamic(
+  () => import('@/components/drawing-practice/DrawingSearchModal'),
   { ssr: false }
 )
 
@@ -68,8 +68,6 @@ function KanjiBrowserContent() {
   const [hasSearched, setHasSearched] = useState(false)
   const [isSearchFocused, setIsSearchFocused] = useState(false)
   const [showDrawingSearch, setShowDrawingSearch] = useState(false)
-  const [drawingCandidates, setDrawingCandidates] = useState<string[]>([])
-  const [isDrawingSearching, setIsDrawingSearching] = useState(false)
   const [viewMode, setViewMode] = useState<ViewMode>('browse')
   const [selectedKanji, setSelectedKanji] = useState<Set<string>>(new Set())
   const [reviewContent, setReviewContent] = useState<ReviewableContent[]>([])
@@ -296,28 +294,20 @@ function KanjiBrowserContent() {
     }
   }, [])
 
-  // Handle drawing search candidates
-  const handleDrawingCandidates = useCallback((candidates: string[]) => {
-    setDrawingCandidates(candidates)
+  // Handle drawing search - when a character is selected from the modal
+  const handleDrawingCharacterSelect = useCallback((character: string) => {
+    // Find the kanji in our data and show its details
+    const allKanji = Object.values(kanjiData).flat().filter(Boolean) as Kanji[]
+    const foundKanji = allKanji.find(k => k.kanji === character)
 
-    if (candidates.length > 0) {
-      // Filter all loaded kanji to find matches
-      const allKanji = Object.values(kanjiData).flat().filter(Boolean) as Kanji[]
-      const matchingKanji = allKanji.filter(k => candidates.includes(k.kanji))
-
-      // Sort by candidate order (earlier = better match)
-      matchingKanji.sort((a, b) => {
-        const aIndex = candidates.indexOf(a.kanji)
-        const bIndex = candidates.indexOf(b.kanji)
-        return aIndex - bIndex
-      })
-
-      setSearchResults(matchingKanji)
-      setHasSearched(true)
+    if (foundKanji) {
+      setModalKanji(foundKanji)
     } else {
-      setSearchResults([])
-      setHasSearched(false)
+      // If not found in loaded data, set as search query to trigger search
+      setSearchQuery(character)
     }
+
+    setShowDrawingSearch(false)
   }, [kanjiData])
 
   const loadKanjiData = async () => {
@@ -765,7 +755,6 @@ function KanjiBrowserContent() {
                   setSearchQuery('')
                   setSearchResults([])
                   setHasSearched(false)
-                  setDrawingCandidates([])
                 }}
                 onFocus={() => setIsSearchFocused(true)}
                 onBlur={() => setIsSearchFocused(false)}
@@ -778,98 +767,23 @@ function KanjiBrowserContent() {
               />
             </div>
 
-            {/* Drawing Search Toggle */}
+            {/* Drawing Search Button */}
             <button
-              onClick={() => {
-                setShowDrawingSearch(!showDrawingSearch)
-                if (showDrawingSearch) {
-                  // Closing - clear drawing search results
-                  setDrawingCandidates([])
-                  if (!searchQuery.trim()) {
-                    setSearchResults([])
-                    setHasSearched(false)
-                  }
-                }
-              }}
-              className={`p-2.5 rounded-lg transition-colors flex-shrink-0 ${
-                showDrawingSearch
-                  ? 'bg-primary-500 text-white hover:bg-primary-600'
-                  : 'bg-gray-100 dark:bg-dark-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-600'
-              }`}
-              title={showDrawingSearch ? 'Close drawing search' : 'Search by drawing'}
-              aria-label={showDrawingSearch ? 'Close drawing search' : 'Search by drawing'}
+              onClick={() => setShowDrawingSearch(true)}
+              className="p-2.5 rounded-lg transition-colors flex-shrink-0 bg-gray-100 dark:bg-dark-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-600"
+              title="Search by drawing"
+              aria-label="Search by drawing"
             >
-              {showDrawingSearch ? <X className="w-4 h-4" /> : <Pencil className="w-4 h-4" />}
+              <Pencil className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Drawing Search Canvas */}
-          {showDrawingSearch && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: 'auto' }}
-              exit={{ opacity: 0, height: 0 }}
-              className="mt-4 pt-4 border-t border-gray-200 dark:border-dark-700"
-            >
-              <div className="flex flex-col sm:flex-row items-center gap-4">
-                <DrawingSearchCanvas
-                  onCandidatesChange={handleDrawingCandidates}
-                  onSearching={setIsDrawingSearching}
-                  width={180}
-                  height={180}
-                  debounceMs={350}
-                />
-
-                {/* Drawing candidates preview */}
-                {drawingCandidates.length > 0 && (
-                  <div className="flex-1">
-                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                      Recognized characters:
-                    </p>
-                    <div className="flex flex-wrap gap-1.5">
-                      {drawingCandidates.slice(0, 8).map((char, index) => (
-                        <button
-                          key={`${char}-${index}`}
-                          onClick={() => {
-                            // Find and show the kanji details
-                            const allKanji = Object.values(kanjiData).flat().filter(Boolean) as Kanji[]
-                            const foundKanji = allKanji.find(k => k.kanji === char)
-                            if (foundKanji) {
-                              setModalKanji(foundKanji)
-                            }
-                          }}
-                          className={`w-10 h-10 flex items-center justify-center text-xl rounded-lg transition-colors ${
-                            index === 0
-                              ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300 font-bold ring-2 ring-primary-500'
-                              : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                          }`}
-                          title={`Click to view details for ${char}`}
-                        >
-                          {char}
-                        </button>
-                      ))}
-                    </div>
-                    {isDrawingSearching && (
-                      <p className="text-xs text-primary-500 mt-2 animate-pulse">
-                        Recognizing...
-                      </p>
-                    )}
-                  </div>
-                )}
-
-                {drawingCandidates.length === 0 && !isDrawingSearching && (
-                  <div className="flex-1 text-center sm:text-left">
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
-                      Draw a kanji character to search
-                    </p>
-                    <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                      Results will appear as you draw
-                    </p>
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          )}
+          {/* Drawing Search Modal */}
+          <DrawingSearchModal
+            isOpen={showDrawingSearch}
+            onClose={() => setShowDrawingSearch(false)}
+            onSelectCharacter={handleDrawingCharacterSelect}
+          />
         </motion.div>
 
         {/* Search Results - only show after user has searched */}
@@ -880,14 +794,14 @@ function KanjiBrowserContent() {
             className="mb-8 bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-6 shadow-lg"
           >
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-              {drawingCandidates.length > 0 ? 'Drawing Search Results' : 'Search Results'}
-              {!isSearching && !isDrawingSearching && (
+              Search Results
+              {!isSearching && (
                 <span className="ml-2 text-sm text-gray-500 dark:text-gray-400">
-                  ({searchResults.length} found{drawingCandidates.length > 0 ? ' in database' : ''})
+                  ({searchResults.length} found)
                 </span>
               )}
             </h3>
-            {isSearching || isDrawingSearching ? (
+            {isSearching ? (
               <div className="text-center py-8">
                 <LoadingSpinner size="medium" />
               </div>
@@ -895,9 +809,7 @@ function KanjiBrowserContent() {
               renderKanjiGrid(searchResults)
             ) : (
               <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-                {drawingCandidates.length > 0
-                  ? 'No matching kanji found in database. The recognized characters may not be in JLPT N5-N1.'
-                  : `No kanji found matching "${searchQuery}"`}
+                No kanji found matching &quot;{searchQuery}&quot;
               </p>
             )}
           </motion.div>

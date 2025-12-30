@@ -1,8 +1,13 @@
 // Wrapper service for KanjiCanvas library
 // Provides TypeScript interface for the global KanjiCanvas object
-// Uses handwriting.js (Google IME) as fallback for better kana recognition
+//
+// Recognition Priority Chain:
+// 1. Chrome Handwriting Recognition API (native, offline-capable)
+// 2. Google IME via handwriting.js (online, good accuracy)
+// 3. KanjiCanvas library (offline fallback)
 
 import { handwritingService } from './handwritingService'
+import { chromeHandwritingService } from './chromeHandwritingService'
 
 declare global {
   interface Window {
@@ -16,9 +21,13 @@ declare global {
   }
 }
 
+export type RecognitionEngine = 'chrome-native' | 'google-ime' | 'kanji-canvas' | 'unknown'
+
 export interface RecognitionResult {
   candidates: string[]
   confidence: number[]
+  /** Which recognition engine produced this result */
+  engine?: RecognitionEngine
 }
 
 class KanjiCanvasService {
@@ -272,34 +281,170 @@ class KanjiCanvasService {
     }
   }
 
-  // Hybrid recognition using both KanjiCanvas and handwriting.js
+  /**
+   * Hybrid recognition using multiple engines with priority fallback:
+   * 1. Chrome Handwriting Recognition API (native, offline-capable)
+   * 2. Google IME via handwriting.js (online, good accuracy)
+   * 3. KanjiCanvas library (offline fallback)
+   */
   async recognizeHybrid(
     canvasId: string,
-    strokes: Array<{ points: Array<{ x: number; y: number }> }>,
+    strokes: Array<{ points: Array<{ x: number; y: number; timestamp?: number }> }>,
     characterType?: 'kanji' | 'kana',
     canvasWidth: number = 300,
     canvasHeight: number = 300
   ): Promise<RecognitionResult> {
-    // For kana (and when KanjiCanvas is unavailable), use handwriting.js first
-    if (strokes.length > 0) {
-      try {
-        const googleResult = await handwritingService.recognize(strokes, canvasWidth, canvasHeight)
-        const filtered =
-          characterType === 'kana'
-            ? handwritingService.filterKanaOnly(googleResult)
-            : googleResult
+    if (strokes.length === 0) {
+      return { candidates: [], confidence: [], engine: 'unknown' }
+    }
 
-        if (filtered.candidates.length > 0) {
-          console.log('Handwriting.js candidates:', filtered.candidates)
-          return filtered
+    // === PRIORITY 1: Chrome Handwriting Recognition API ===
+    // Native browser API - fast, offline-capable, real confidence scores
+    try {
+      const chromeResult = await chromeHandwritingService.recognize(
+        strokes,
+        characterType || 'kanji'
+      )
+
+      if (chromeResult && chromeResult.candidates.length > 0) {
+        console.log('[Recognition] Using Chrome native API:', chromeResult.candidates.slice(0, 5))
+        return {
+          candidates: chromeResult.candidates,
+          confidence: chromeResult.confidence,
+          engine: 'chrome-native',
         }
-      } catch (error) {
-        console.error('Handwriting.js recognition failed, falling back to KanjiCanvas:', error)
+      }
+    } catch (error) {
+      // Chrome API not available or failed - continue to fallback
+      const status = chromeHandwritingService.getSupportStatus()
+      if (status.apiSupported === 'unknown') {
+        console.log('[Recognition] Chrome API not available, using fallback')
+      } else {
+        console.warn('[Recognition] Chrome API error:', error)
       }
     }
 
-    // Fall back to KanjiCanvas (if loaded) or empty
-    return this.recognizeWithFilter(canvasId, characterType)
+    // === PRIORITY 2: Google IME via handwriting.js ===
+    // Online API - good accuracy for Japanese
+    let googleKanjiResult: RecognitionResult | null = null
+    let googleKanaResult: RecognitionResult | null = null
+
+    try {
+      const googleResult = await handwritingService.recognize(strokes, canvasWidth, canvasHeight)
+      console.log('[Recognition] Google IME raw result:', googleResult.candidates.slice(0, 10))
+
+      // Apply appropriate filter based on character type
+      if (characterType === 'kana') {
+        const filtered = handwritingService.filterKanaOnly(googleResult)
+        if (filtered.candidates.length > 0) {
+          console.log('[Recognition] Using Google IME (kana):', filtered.candidates.slice(0, 5))
+          return {
+            candidates: filtered.candidates,
+            confidence: filtered.confidence,
+            engine: 'google-ime',
+          }
+        }
+      } else if (characterType === 'kanji') {
+        // For kanji mode, check if Google IME found any kanji
+        googleKanjiResult = handwritingService.filterKanjiOnly(googleResult)
+        googleKanaResult = handwritingService.filterKanaOnly(googleResult)
+
+        if (googleKanjiResult.candidates.length > 0) {
+          console.log('[Recognition] Using Google IME (kanji):', googleKanjiResult.candidates.slice(0, 5))
+          return {
+            candidates: googleKanjiResult.candidates,
+            confidence: googleKanjiResult.confidence,
+            engine: 'google-ime',
+          }
+        }
+        // If no kanji from Google IME, continue to try KanjiCanvas before showing kana
+        console.log('[Recognition] Google IME returned no kanji, trying KanjiCanvas...')
+      } else {
+        // No filter specified - filter out garbage
+        const filtered = handwritingService.filterJapaneseOnly(googleResult)
+        if (filtered.candidates.length > 0) {
+          console.log('[Recognition] Using Google IME:', filtered.candidates.slice(0, 5))
+          return {
+            candidates: filtered.candidates,
+            confidence: filtered.confidence,
+            engine: 'google-ime',
+          }
+        }
+      }
+    } catch (error) {
+      console.warn('[Recognition] Google IME failed:', error)
+    }
+
+    // === PRIORITY 3: KanjiCanvas library ===
+    // Local library - specifically designed for kanji recognition
+    const kanjiCanvasResult = this.recognizeWithFilter(canvasId, characterType)
+    if (kanjiCanvasResult.candidates.length > 0) {
+      console.log('[Recognition] Using KanjiCanvas:', kanjiCanvasResult.candidates.slice(0, 5))
+      return {
+        ...kanjiCanvasResult,
+        engine: 'kanji-canvas',
+      }
+    }
+
+    // === FALLBACK: If KanjiCanvas also failed, show Google IME kana results ===
+    // This handles cases where user might be drawing kana in kanji search
+    if (characterType === 'kanji' && googleKanaResult && googleKanaResult.candidates.length > 0) {
+      console.log('[Recognition] Fallback to Google IME kana:', googleKanaResult.candidates.slice(0, 5))
+      return {
+        candidates: googleKanaResult.candidates,
+        confidence: googleKanaResult.confidence,
+        engine: 'google-ime',
+      }
+    }
+
+    console.warn('[Recognition] All engines failed to produce candidates')
+    return { candidates: [], confidence: [], engine: 'unknown' }
+  }
+
+  /**
+   * Get the current status of available recognition engines
+   */
+  getEngineStatus(): {
+    chromeApi: { available: boolean; japaneseSupported: boolean }
+    googleIme: { available: boolean }
+    kanjiCanvas: { available: boolean }
+  } {
+    const chromeStatus = chromeHandwritingService.getSupportStatus()
+
+    return {
+      chromeApi: {
+        available: chromeStatus.apiSupported === 'supported',
+        japaneseSupported: chromeStatus.japaneseSupported === 'supported',
+      },
+      googleIme: {
+        available: true, // Always available (requires network)
+      },
+      kanjiCanvas: {
+        available: this.isLoaded && !!window.KanjiCanvas,
+      },
+    }
+  }
+
+  /**
+   * Pre-initialize all recognition engines for faster first recognition
+   */
+  async preloadEngines(): Promise<void> {
+    const promises: Promise<unknown>[] = []
+
+    // Initialize Chrome API if available
+    if (chromeHandwritingService.isApiAvailable()) {
+      promises.push(chromeHandwritingService.initialize())
+    }
+
+    // Load handwriting.js
+    promises.push(handwritingService.loadScript())
+
+    // Load KanjiCanvas
+    promises.push(this.loadScripts())
+
+    await Promise.allSettled(promises)
+
+    console.log('[Recognition] Engine status:', this.getEngineStatus())
   }
 }
 
