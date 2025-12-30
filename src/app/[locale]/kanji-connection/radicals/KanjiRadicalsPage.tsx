@@ -152,9 +152,9 @@ export default function KanjiRadicalsPage() {
 
       <div className="container mx-auto px-4 pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Radicals List */}
-          <div className="lg:col-span-1">
-            <div className="bg-card dark:bg-dark-800 rounded-lg p-4 sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide">
+          {/* Radicals List - Hidden on mobile when radical is selected */}
+          <div className={`lg:col-span-1 ${selectedRadical ? 'hidden lg:block' : ''}`}>
+            <div className="bg-card dark:bg-dark-800 rounded-lg p-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide">
               <h2 className="font-semibold mb-3 text-foreground dark:text-dark-50">Select a Radical</h2>
               <div className="space-y-2">
                 {getFilteredRadicals().map((radical) => (
@@ -199,6 +199,17 @@ export default function KanjiRadicalsPage() {
             ) : radicalData ? (
               <div className="bg-card dark:bg-dark-800 rounded-lg p-6">
                 <div className="mb-6">
+                  {/* Mobile back button */}
+                  <button
+                    onClick={() => setSelectedRadical(null)}
+                    className="lg:hidden flex items-center gap-2 text-primary-600 dark:text-primary-400 mb-4 hover:underline"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                    </svg>
+                    <span className="text-sm font-medium">Change Radical</span>
+                  </button>
+
                   <div className="flex items-center gap-3 mb-2">
                     <span className="text-4xl font-bold">{radicalData.radical.radical}</span>
                     <div>

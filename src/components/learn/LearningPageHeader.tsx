@@ -50,6 +50,8 @@ interface LearningPageHeaderProps {
   mobileExtra?: React.ReactNode
   // Back navigation
   backHref?: string
+  // Hide bottom control bar (e.g., when search is focused on mobile)
+  hideBottomBar?: boolean
 }
 
 export default function LearningPageHeader({
@@ -72,6 +74,7 @@ export default function LearningPageHeader({
   className = '',
   mobileExtra,
   backHref = '/dashboard',
+  hideBottomBar = false,
 }: LearningPageHeaderProps) {
   const { t } = useI18n()
   const { resolvedTheme } = useTheme()
@@ -651,7 +654,8 @@ export default function LearningPageHeader({
       </div>
 
       {/* Global bottom control bar (always visible where LearningPageHeader is used) */}
-      {showBottomModeBar && (
+      {/* Hidden on mobile when search is focused to avoid keyboard pushing it up */}
+      {showBottomModeBar && !hideBottomBar && (
         <>
           <div className="h-24 sm:h-20" aria-hidden="true" />
           <div className="fixed left-1/2 -translate-x-1/2 bottom-[6rem] sm:bottom-8 w-[calc(100%-2.5rem)] max-w-[420px] z-50 pointer-events-none">
