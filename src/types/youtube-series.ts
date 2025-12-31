@@ -44,6 +44,9 @@ export interface YouTubeChannel {
   autoExtractTranscript: boolean;
   shadowingEnabled: boolean; // Enable direct shadowing links
 
+  // Featured status
+  isFeatured?: boolean; // Featured channels appear first with a ribbon badge
+
   // Metadata
   createdAt: Timestamp;
   updatedAt: Timestamp;

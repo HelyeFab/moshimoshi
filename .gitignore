@@ -78,3 +78,4 @@ data/memories.db
 
 # Local Netlify folder
 .netlify
+moshimoshi-service-account.json

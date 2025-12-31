@@ -1,11 +1,9 @@
 'use client'
 
-import { useState, useEffect, useMemo, useRef } from 'react'
-import { useRouter } from 'next/navigation'
+import { useState, useEffect, useMemo } from 'react'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { YouTubeChannel } from '@/types/youtube-series'
-import { formatDistanceToNow } from 'date-fns'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
@@ -13,45 +11,26 @@ import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import {
   Youtube,
   Users,
-  Calendar,
   ExternalLink,
   Search,
   X,
-  Tag,
   Sparkles,
   Video,
-  ChevronDown,
 } from 'lucide-react'
 
 export default function YouTubeSeriesPage() {
-  const { t, strings } = useI18n()
-  const router = useRouter()
+  const { strings } = useI18n()
   const { user } = useAuth()
   const [channels, setChannels] = useState<YouTubeChannel[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedTags, setSelectedTags] = useState<string[]>([])
-  const [showOnlyShadowing, setShowOnlyShadowing] = useState(false)
-  const [showTagsDropdown, setShowTagsDropdown] = useState(false)
-  const dropdownRef = useRef<HTMLDivElement>(null)
 
   // Load channels
   useEffect(() => {
     loadChannels()
   }, [])
 
-  // Click outside handler for dropdown
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setShowTagsDropdown(false)
-      }
-    }
-
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
 
   const loadChannels = async () => {
     try {
@@ -86,42 +65,24 @@ export default function YouTubeSeriesPage() {
     }
   }
 
-  // Get all unique tags from channels
-  const allTags = useMemo(() => {
-    const tags = new Set<string>()
-    channels.forEach(channel => {
-      channel.resourceTags?.forEach(tag => tags.add(tag))
-    })
-    return Array.from(tags).sort()
-  }, [channels])
-
-  // Filter channels based on search and filters
+  // Filter and sort channels (featured first)
   const filteredChannels = useMemo(() => {
-    return channels.filter(channel => {
-      // Search filter
+    const filtered = channels.filter(channel => {
       if (searchQuery) {
         const query = searchQuery.toLowerCase()
         const matchesTitle = channel.channelTitle.toLowerCase().includes(query)
         const matchesDescription = channel.description?.toLowerCase().includes(query)
         if (!matchesTitle && !matchesDescription) return false
       }
-
-      // Tag filter
-      if (selectedTags.length > 0) {
-        const hasTag = selectedTags.some(tag => channel.resourceTags?.includes(tag))
-        if (!hasTag) return false
-      }
-
-      // Shadowing filter
-      if (showOnlyShadowing && !channel.shadowingEnabled) return false
-
       return true
     })
-  }, [channels, searchQuery, selectedTags, showOnlyShadowing])
-
-  const toggleTag = (tag: string) => {
-    setSelectedTags(prev => (prev.includes(tag) ? prev.filter(t => t !== tag) : [...prev, tag]))
-  }
+    // Sort featured channels first
+    return filtered.sort((a, b) => {
+      const aFeatured = a.isFeatured ? 1 : 0
+      const bFeatured = b.isFeatured ? 1 : 0
+      return bFeatured - aFeatured
+    })
+  }, [channels, searchQuery])
 
   // Format large numbers
   const formatNumber = (num: number): string => {
@@ -167,74 +128,6 @@ export default function YouTubeSeriesPage() {
             )}
           </div>
 
-          {/* Filter Tags Dropdown */}
-          {allTags.length > 0 && (
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setShowTagsDropdown(!showTagsDropdown)}
-                className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-700 transition-colors"
-              >
-                <Tag className="w-4 h-4" />
-                <span>Filter by tags</span>
-                {selectedTags.length > 0 && (
-                  <span className="ml-1 px-2 py-0.5 bg-primary-500 text-white text-xs rounded-full">
-                    {selectedTags.length}
-                  </span>
-                )}
-                <ChevronDown
-                  className={`w-4 h-4 ml-auto transition-transform ${showTagsDropdown ? 'rotate-180' : ''}`}
-                />
-              </button>
-
-              {/* Dropdown Menu */}
-              {showTagsDropdown && (
-                <div className="absolute z-10 mt-2 w-64 bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 rounded-lg shadow-lg max-h-64 overflow-y-auto scrollbar-hide">
-                  <div className="p-2 space-y-1">
-                    {allTags.map(tag => (
-                      <label
-                        key={tag}
-                        className="flex items-center gap-2 px-3 py-2 hover:bg-gray-100 dark:hover:bg-dark-700 rounded cursor-pointer"
-                      >
-                        <input
-                          type="checkbox"
-                          checked={selectedTags.includes(tag)}
-                          onChange={() => toggleTag(tag)}
-                          className="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
-                        />
-                        <span className="text-sm">{tag}</span>
-                      </label>
-                    ))}
-                  </div>
-                  {selectedTags.length > 0 && (
-                    <div className="border-t border-gray-200 dark:border-dark-700 p-2">
-                      <button
-                        onClick={() => setSelectedTags([])}
-                        className="w-full text-sm text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
-                      >
-                        Clear all
-                      </button>
-                    </div>
-                  )}
-                </div>
-              )}
-            </div>
-          )}
-
-          {/* Shadowing Filter */}
-          <div className="flex items-center gap-2">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={showOnlyShadowing}
-                onChange={e => setShowOnlyShadowing(e.target.checked)}
-                className="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
-              />
-              <span className="text-sm text-gray-700 dark:text-gray-300 flex items-center gap-1">
-                <Sparkles className="w-4 h-4" />
-                Shadowing enabled channels only
-              </span>
-            </label>
-          </div>
         </div>
 
         {/* Loading State */}
@@ -252,7 +145,7 @@ export default function YouTubeSeriesPage() {
           <div className="text-center py-12">
             <Youtube className="w-16 h-16 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-600 dark:text-gray-400">
-              {searchQuery || selectedTags.length > 0 || showOnlyShadowing
+              {searchQuery
                 ? 'No channels match your search'
                 : 'No YouTube channels have been added yet'}
             </p>
@@ -265,7 +158,11 @@ export default function YouTubeSeriesPage() {
             {filteredChannels.map(channel => (
               <div
                 key={channel.id}
-                className="group bg-white dark:bg-dark-800 rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-dark-700 hover:shadow-xl transition-all duration-300"
+                className={`group bg-white dark:bg-dark-800 rounded-xl overflow-hidden shadow-sm border-2 hover:shadow-xl transition-all duration-300 ${
+                  channel.isFeatured
+                    ? 'border-primary-500 dark:border-primary-400 ring-2 ring-primary-500/20 dark:ring-primary-400/20 shadow-primary-500/10'
+                    : 'border-gray-200 dark:border-dark-700'
+                }`}
               >
                 {/* Channel Header */}
                 <div className="relative h-48 bg-gradient-to-br from-primary-400 to-primary-600 dark:from-primary-500 dark:to-primary-700">
@@ -290,6 +187,15 @@ export default function YouTubeSeriesPage() {
                       {channel.channelTitle}
                     </h3>
                   </div>
+
+                  {/* Featured Ribbon */}
+                  {channel.isFeatured && (
+                    <div className="absolute top-0 left-0">
+                      <div className="bg-yellow-500 text-white text-xs font-bold px-3 py-1 shadow-lg" style={{ transform: 'rotate(-45deg) translate(-30%, -10%)', transformOrigin: 'center' }}>
+                        ⭐ Featured
+                      </div>
+                    </div>
+                  )}
 
                   {/* Badges */}
                   <div className="absolute top-2 right-2 flex gap-2">

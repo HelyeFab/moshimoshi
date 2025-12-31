@@ -4,11 +4,25 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
-import { collection, query, orderBy, getDocs, deleteDoc, doc, addDoc, updateDoc, Timestamp } from 'firebase/firestore';
-import { firestore as db } from '@/lib/firebase/client';
-import { YouTubeChannel, YouTubeChannelFormData } from '@/types/youtube-series';
+import { YouTubeChannel, YouTubeChannelFormData, YouTubeVideoResource } from '@/types/youtube-series';
 import { formatDistanceToNow } from 'date-fns';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
+
+// Helper to parse Firestore timestamps from API response
+function parseTimestamp(timestamp: any): Date | null {
+  if (!timestamp) return null;
+  // Handle Firestore Timestamp objects with _seconds
+  if (timestamp._seconds) {
+    return new Date(timestamp._seconds * 1000);
+  }
+  // Handle toDate() method (client-side Firestore)
+  if (typeof timestamp.toDate === 'function') {
+    return timestamp.toDate();
+  }
+  // Handle ISO strings or numbers
+  const date = new Date(timestamp);
+  return isNaN(date.getTime()) ? null : date;
+}
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import {
   Youtube,
@@ -25,7 +39,9 @@ import {
   Eye,
   Calendar,
   ExternalLink,
-  Loader2
+  Loader2,
+  Star,
+  Play
 } from 'lucide-react';
 
 export default function AdminYouTubeSeriesPage() {
@@ -38,7 +54,7 @@ export default function AdminYouTubeSeriesPage() {
   const [loading, setLoading] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [editingChannel, setEditingChannel] = useState<YouTubeChannel | null>(null);
-  const [formData, setFormData] = useState<YouTubeChannelFormData>({
+  const [formData, setFormData] = useState<YouTubeChannelFormData & { isFeatured: boolean }>({
     channelUrl: '',
     monitoringEnabled: true,
     checkInterval: 24,
@@ -47,6 +63,7 @@ export default function AdminYouTubeSeriesPage() {
     resourceTags: '',
     autoExtractTranscript: true,
     shadowingEnabled: true,
+    isFeatured: false,
   });
   const [saving, setSaving] = useState(false);
   const [syncing, setSyncing] = useState<string | null>(null);
@@ -77,18 +94,14 @@ export default function AdminYouTubeSeriesPage() {
   const loadChannels = async () => {
     try {
       setLoading(true);
-      const channelsQuery = query(
-        collection(db, 'youtubeChannels'),
-        orderBy('createdAt', 'desc')
-      );
+      const response = await fetch('/api/admin/youtube-series');
 
-      const snapshot = await getDocs(channelsQuery);
-      const channelsList = snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-      } as YouTubeChannel));
+      if (!response.ok) {
+        throw new Error('Failed to fetch channels');
+      }
 
-      setChannels(channelsList);
+      const data = await response.json();
+      setChannels(data.channels as YouTubeChannel[]);
     } catch (error) {
       console.error('Error loading channels:', error);
       showToast('Failed to load channels', 'error');
@@ -135,8 +148,8 @@ export default function AdminYouTubeSeriesPage() {
         videoCount: data.channel.videoCount,
         viewCount: data.channel.viewCount,
         sourceVideoUrl: data.sourceVideo ? formData.channelUrl : null,
-        sourceVideoId: data.sourceVideo?.videoId,
-        sourceVideoTitle: data.sourceVideo?.title,
+        sourceVideoId: data.sourceVideo?.videoId || null,
+        sourceVideoTitle: data.sourceVideo?.title || null,
         monitoringEnabled: formData.monitoringEnabled,
         checkInterval: formData.checkInterval,
         autoCreateResource: formData.autoCreateResource,
@@ -144,25 +157,42 @@ export default function AdminYouTubeSeriesPage() {
         resourceTags: formData.resourceTags.split(',').map(tag => tag.trim()).filter(tag => tag),
         autoExtractTranscript: formData.autoExtractTranscript,
         shadowingEnabled: formData.shadowingEnabled,
+        isFeatured: formData.isFeatured,
         videosImported: 0,
         totalShadowingSessions: 0,
-        createdAt: Timestamp.now(),
-        updatedAt: Timestamp.now(),
       };
 
       let docId;
       if (editingChannel) {
-        // Update existing channel
-        await updateDoc(doc(db, 'youtubeChannels', editingChannel.id), {
-          ...channelData,
-          createdAt: editingChannel.createdAt, // Preserve original creation date
+        // Update existing channel via API
+        const updateResponse = await fetch('/api/admin/youtube-series', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: editingChannel.id, ...channelData })
         });
+
+        if (!updateResponse.ok) {
+          const error = await updateResponse.json();
+          throw new Error(error.error || 'Failed to update channel');
+        }
+
         docId = editingChannel.id;
         showToast('Channel updated successfully', 'success');
       } else {
-        // Add new channel
-        const docRef = await addDoc(collection(db, 'youtubeChannels'), channelData);
-        docId = docRef.id;
+        // Add new channel via API
+        const createResponse = await fetch('/api/admin/youtube-series', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(channelData)
+        });
+
+        if (!createResponse.ok) {
+          const error = await createResponse.json();
+          throw new Error(error.error || 'Failed to create channel');
+        }
+
+        const result = await createResponse.json();
+        docId = result.id;
         showToast('Channel added successfully', 'success');
 
         // Auto-sync the channel after adding
@@ -179,6 +209,7 @@ export default function AdminYouTubeSeriesPage() {
         resourceTags: '',
         autoExtractTranscript: true,
         shadowingEnabled: true,
+        isFeatured: false,
       });
       setShowAddForm(false);
       setEditingChannel(null);
@@ -230,6 +261,7 @@ export default function AdminYouTubeSeriesPage() {
       resourceTags: channel.resourceTags.join(', '),
       autoExtractTranscript: channel.autoExtractTranscript,
       shadowingEnabled: channel.shadowingEnabled,
+      isFeatured: channel.isFeatured || false,
     });
     setShowAddForm(true);
   };
@@ -248,7 +280,15 @@ export default function AdminYouTubeSeriesPage() {
     setDeleteConfirm(prev => ({ ...prev, isDeleting: true }));
 
     try {
-      await deleteDoc(doc(db, 'youtubeChannels', deleteConfirm.channel.id));
+      const response = await fetch(`/api/admin/youtube-series?id=${deleteConfirm.channel.id}`, {
+        method: 'DELETE'
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to delete channel');
+      }
+
       loadChannels();
       showToast('Channel deleted successfully', 'success');
       setDeleteConfirm({ isOpen: false, channel: null, isDeleting: false });
@@ -381,6 +421,16 @@ export default function AdminYouTubeSeriesPage() {
                     />
                     <span className="text-sm">Enable shadowing integration</span>
                   </label>
+
+                  <label className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      checked={formData.isFeatured}
+                      onChange={(e) => setFormData({ ...formData, isFeatured: e.target.checked })}
+                      className="rounded"
+                    />
+                    <span className="text-sm">⭐ Featured channel</span>
+                  </label>
                 </div>
 
                 <div className="flex gap-2">
@@ -406,6 +456,7 @@ export default function AdminYouTubeSeriesPage() {
                         resourceTags: '',
                         autoExtractTranscript: true,
                         shadowingEnabled: true,
+                        isFeatured: false,
                       });
                     }}
                     className="px-4 py-2 bg-gray-200 dark:bg-dark-700 text-foreground rounded-lg hover:bg-gray-300 dark:hover:bg-dark-600 flex items-center justify-center gap-2 w-full sm:w-auto"
@@ -539,6 +590,12 @@ export default function AdminYouTubeSeriesPage() {
                             Shadowing
                           </span>
                         )}
+
+                        {channel.isFeatured && (
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300">
+                            ⭐ Featured
+                          </span>
+                        )}
                       </div>
 
                       <div className="text-xs text-muted-foreground space-y-1">
@@ -546,11 +603,11 @@ export default function AdminYouTubeSeriesPage() {
                         <p>Tags: {channel.resourceTags?.join(', ') || 'None'}</p>
                         <p>Check every: {channel.checkInterval} hours</p>
                         <p>Videos imported: {channel.videosImported || 0}</p>
-                        {channel.lastCheckedAt && (
+                        {channel.lastCheckedAt && parseTimestamp(channel.lastCheckedAt) && (
                           <p className="flex items-center gap-1">
                             <Calendar className="w-3 h-3" />
                             Last checked: {formatDistanceToNow(
-                              (channel.lastCheckedAt.toDate ? channel.lastCheckedAt.toDate() : new Date(channel.lastCheckedAt as unknown as string | number)) as Date,
+                              parseTimestamp(channel.lastCheckedAt)!,
                               { addSuffix: true }
                             )}
                           </p>

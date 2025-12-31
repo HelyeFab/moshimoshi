@@ -27,12 +27,12 @@ function extractVideoId(url: string): string | null {
 }
 
 // Extract channel ID from channel URLs
+// Note: @handles are NOT extracted here - they need to be resolved via YouTube search API
 function extractChannelId(url: string): string | null {
   const patterns = [
-    /youtube\.com\/channel\/([^\/\?]+)/,
-    /youtube\.com\/@([^\/\?]+)/,
-    /youtube\.com\/c\/([^\/\?]+)/,
-    /youtube\.com\/user\/([^\/\?]+)/
+    /youtube\.com\/channel\/([^\/\?]+)/,  // Direct channel ID (UCxxxxxxxx)
+    /youtube\.com\/c\/([^\/\?]+)/,         // Custom URL (legacy)
+    /youtube\.com\/user\/([^\/\?]+)/       // Username (legacy)
   ];
 
   for (const pattern of patterns) {
