@@ -2047,7 +2047,7 @@ export const strings = {
     moshimoshi: {
       name: 'もしもし',
       price: '£8.99/月',
-      yearlyPrice: '£99.9/年',
+      yearlyPrice: '£99.99/年',
       description: '完全な学習ソリューション',
       cta: '最高の価値',
       features: {
@@ -2192,7 +2192,7 @@ export const strings = {
         subtitle: 'すべてを含む',
         monthlyPrice: '£8.99',
         yearlyPrice: '£8.33',
-        yearlyTotal: '£99.9/年',
+        yearlyTotal: '£99.99/年',
         period: '/月',
         badge: '最高の価値',
         features: [
@@ -2359,8 +2359,7 @@ export const strings = {
       },
       yearly: {
         everythingMonthly: 'プレミアムマンスリーの全機能',
-        twoMonthsFree: '2ヶ月無料',
-        save25: '月額より25%お得',
+        twoMonthsFree: '7%お得',
       },
     },
     trust: {

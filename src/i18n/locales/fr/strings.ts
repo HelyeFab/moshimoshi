@@ -2209,8 +2209,7 @@ export const strings = {
       },
       yearly: {
         everythingMonthly: 'Tout ce qui est dans Premium Mensuel',
-        twoMonthsFree: '2 mois gratuits',
-        save25: 'Économisez 25% vs mensuel',
+        twoMonthsFree: 'Économisez 7%',
       },
     },
     trust: {
@@ -2329,7 +2328,7 @@ export const strings = {
           subtitle: 'Tout inclus',
           monthlyPrice: '£8.99',
           yearlyPrice: '£8.33',
-          yearlyTotal: '£99.9/an',
+          yearlyTotal: '£99.99/an',
           period: '/mois',
           badge: 'MEILLEURE VALEUR',
           features: [

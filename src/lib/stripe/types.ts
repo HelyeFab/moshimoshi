@@ -106,7 +106,6 @@ export const PRICING_PLANS: PricingPlan[] = [
     features: [
       'pricing.features.yearly.everythingMonthly',
       'pricing.features.yearly.twoMonthsFree',
-      'pricing.features.yearly.save25'
     ],
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_YEARLY || ''
   }

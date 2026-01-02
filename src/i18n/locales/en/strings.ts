@@ -2108,7 +2108,7 @@ export const strings = {
       prioritySupport: 'Priority support',
       offlineMode: 'Offline mode',
       savePercentage: 'Save 25% compared to monthly',
-      monthsFree: '2 months free',
+      savings: 'Save 7%',
       earlyAccess: 'Early access to new features',
       personalizedInsights: 'Personalized learning insights',
     },
@@ -2308,8 +2308,7 @@ export const strings = {
       },
       yearly: {
         everythingMonthly: 'Everything in Premium Monthly',
-        twoMonthsFree: '2 months free',
-        save25: 'Save 25% vs monthly',
+        twoMonthsFree: 'Save 7%',
       },
     },
     comparison: {
@@ -2452,7 +2451,7 @@ export const strings = {
           subtitle: 'Everything included',
           monthlyPrice: '£8.99',
           yearlyPrice: '£8.33',
-          yearlyTotal: '£99.9/year',
+          yearlyTotal: '£99.99/year',
           period: '/month',
           badge: 'BEST VALUE',
           features: [

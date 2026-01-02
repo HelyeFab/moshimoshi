@@ -1984,7 +1984,7 @@ export const strings = {
     moshimoshi: {
       name: 'Moshimoshi',
       price: '£8.99/mes',
-      yearlyPrice: '£99.9/año',
+      yearlyPrice: '£99.99/año',
       description: 'Solución completa de aprendizaje',
       cta: 'Mejor valor',
       features: {
@@ -2244,8 +2244,7 @@ export const strings = {
       },
       yearly: {
         everythingMonthly: 'Todo lo de Premium Mensual',
-        twoMonthsFree: '2 meses gratis',
-        save25: 'Ahorra 25% vs mensual',
+        twoMonthsFree: 'Ahorra 7%',
       },
     },
     comparison: {
@@ -2388,7 +2387,7 @@ export const strings = {
           subtitle: 'Todo incluido',
           monthlyPrice: '£8.99',
           yearlyPrice: '£8.33',
-          yearlyTotal: '£99.9/año',
+          yearlyTotal: '£99.99/año',
           period: '/mes',
           badge: 'MEJOR VALOR',
           features: [
