@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       'free Japanese learning app',
       'Japanese learning cost',
       'premium Japanese app',
-      'Japanese learning free trial',
+      'Japanese learning free tier',
       'best value Japanese app',
       'Japanese learning subscription',
     ],

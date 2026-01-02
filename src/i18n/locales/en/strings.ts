@@ -2094,7 +2094,7 @@ export const strings = {
       cancelSubscription: 'Cancel Subscription',
       currentPlan: 'Current Plan',
       signUpFree: 'Sign Up Free',
-      startFreeTrial: 'Start Free Trial',
+      startFreeTrial: 'Get Started',
       upgradeNow: 'Upgrade Now',
       viewPlans: 'View Plans',
       choosePlan: 'Choose Plan',
@@ -2271,7 +2271,7 @@ export const strings = {
     },
     buttons: {
       signUpFree: 'Sign Up Free',
-      startFreeTrial: 'Start Free Trial',
+      startFreeTrial: 'Get Started',
       currentPlan: 'Current Plan',
       downgrade: 'Downgrade',
       upgradeNow: 'Upgrade Now',
@@ -2323,8 +2323,8 @@ export const strings = {
           "Yes, you can cancel your subscription at any time. You'll continue to have access until the end of your billing period.",
       },
       trial: {
-        question: 'Is there a free trial?',
-        answer: 'New users get 7 days of Premium features for free. No credit card required.',
+        question: 'Is there a free tier?',
+        answer: 'Yes! Our free tier includes core features to get you started. Upgrade to Premium anytime for unlimited access.',
       },
       switch: {
         question: 'Can I change my plan?',
@@ -2342,8 +2342,8 @@ export const strings = {
           'We accept all major credit cards, debit cards, and PayPal through our secure payment processor Stripe.',
       },
       isThereATrial: {
-        question: 'Is there a free trial?',
-        answer: 'New users get 7 days of Premium features for free. No credit card required.',
+        question: 'Is there a free tier?',
+        answer: 'Yes! Our free tier includes core features to get you started. Upgrade to Premium anytime for unlimited access.',
       },
       canIChangeMyPlan: {
         question: 'Can I change my plan?',
@@ -2456,8 +2456,8 @@ export const strings = {
             'Anki export & cloud sync',
             'Priority support',
           ],
-          cta: 'Start 7-Day Free Trial',
-          disclaimer: 'No credit card required • Cancel anytime',
+          cta: 'Get Started',
+          disclaimer: 'Cancel anytime',
         },
       },
       allFeatures: {
@@ -2501,7 +2501,7 @@ export const strings = {
       bottomCta: {
         title: 'Join thousands learning Japanese the smart way',
         subtitle: 'One app, every feature, fraction of the cost. Start your journey today!',
-        button: 'Start Free Trial',
+        button: 'Get Started',
       },
     },
   },
@@ -6614,8 +6614,8 @@ export const strings = {
       description: 'Revolutionary Japanese learning platform with YouTube shadowing for native pronunciation, one-click Anki deck import, complete Genki & Minna no Nihongo vocabulary, unique kanji connection system with visual patterns and families, 2136 jōyō kanji browser, SRS flashcards, JLPT N5-N1 preparation, interactive games, and progress tracking. Import your Anki decks, practice with real YouTube videos, master kanji through visual relationships, and study with worldwide textbooks. The complete Japanese learning solution.',
     },
     pricing: {
-      title: 'Pricing - Affordable Japanese Learning Plans | Free Trial Available',
-      description: 'Choose the perfect Japanese learning plan. Free tier available with core features. Premium plans unlock advanced SRS, unlimited content, and offline access. Start your free trial today.',
+      title: 'Pricing - Affordable Japanese Learning Plans | Free Tier Available',
+      description: 'Choose the perfect Japanese learning plan. Free tier available with core features. Premium plans unlock advanced SRS, unlimited content, and offline access. Get started today.',
     },
     blog: {
       title: 'Japanese Learning Blog - JLPT Study Tips & Grammar Guides',
