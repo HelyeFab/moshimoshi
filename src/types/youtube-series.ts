@@ -55,6 +55,7 @@ export interface YouTubeChannel {
   videosImported: number;
   totalViews?: number; // Views on imported resources
   totalShadowingSessions: number;
+  visitCount?: number; // Times users clicked "Visit Channel" button
 }
 
 export interface YouTubeSeries {

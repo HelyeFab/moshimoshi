@@ -46,6 +46,8 @@ const CHARACTER_IDS = {
 }
 
 // Character interface for loaded references
+// NOTE: We only pass imageUrl (not base64) to avoid payload size limits
+// The generate API fetches the actual image data from Storage when needed
 interface CharacterRef {
   id: string
   name: string
@@ -54,7 +56,7 @@ interface CharacterRef {
   visualDescription: string
   personality: string
   speakingStyle?: string
-  referenceImageData: string
+  imageUrl: string
 }
 
 // Episode themes - locations and scenarios in Japan with character combinations
@@ -215,7 +217,8 @@ async function getNextEpisodeNumber(): Promise<number> {
 
 /**
  * Load multiple character references for an episode
- * Falls back to fetching from Storage URL if base64 data is not in Firestore
+ * Only loads metadata and imageUrl - the generate API fetches base64 when needed
+ * This keeps the payload small to avoid 413 errors
  */
 async function loadCharacters(characterIds: string[]): Promise<CharacterRef[]> {
   const characters: CharacterRef[] = []
@@ -229,29 +232,10 @@ async function loadCharacters(characterIds: string[]): Promise<CharacterRef[]> {
     }
 
     const data = charDoc.data()
+    const imageUrl = data?.referenceImageUrl || ''
 
-    // Get reference image data - either from Firestore or fetch from Storage URL
-    let referenceImageData = data?.referenceImageData || ''
-
-    // Fallback: If no base64 data but we have a URL, fetch and convert
-    if (!referenceImageData && data?.referenceImageUrl) {
-      logger.info(`[ComicScheduler] Fetching ${data?.name || characterId} image from Storage URL...`)
-      try {
-        const response = await fetch(data.referenceImageUrl)
-        if (response.ok) {
-          const arrayBuffer = await response.arrayBuffer()
-          referenceImageData = Buffer.from(arrayBuffer).toString('base64')
-          logger.info(`[ComicScheduler] Fetched ${data?.name}: ${(referenceImageData.length / 1024).toFixed(1)} KB`)
-        } else {
-          logger.warn(`[ComicScheduler] Failed to fetch ${data?.name} image: ${response.status}`)
-        }
-      } catch (err) {
-        logger.error(`[ComicScheduler] Error fetching ${characterId} image:`, err)
-      }
-    }
-
-    if (!referenceImageData) {
-      logger.warn(`[ComicScheduler] No reference image for ${data?.name || characterId} - character may be inconsistent`)
+    if (!imageUrl) {
+      logger.warn(`[ComicScheduler] No reference image URL for ${data?.name || characterId} - character may be inconsistent`)
     }
 
     characters.push({
@@ -262,7 +246,7 @@ async function loadCharacters(characterIds: string[]): Promise<CharacterRef[]> {
       visualDescription: data?.visualDescription || '',
       personality: data?.personality || '',
       speakingStyle: data?.speakingStyle || '',
-      referenceImageData,
+      imageUrl,
     })
   }
 
@@ -524,6 +508,8 @@ export async function generateComicEpisode(
     }
 
     // Build character sheet and refs for API
+    // NOTE: We pass imageUrl instead of base64 to keep payload small
+    // The generate API fetches base64 from the URL when needed
     const characterSheet = buildCharacterSheet(characters)
     const characterRefs = characters.map(c => ({
       id: c.id,
@@ -533,7 +519,7 @@ export async function generateComicEpisode(
       visualDescription: c.visualDescription,
       personality: c.personality,
       speakingStyle: c.speakingStyle,
-      referenceImageData: c.referenceImageData,
+      imageUrl: c.imageUrl,
     }))
 
     // Step 1: Create draft and generate outline
@@ -548,7 +534,7 @@ export async function generateComicEpisode(
         location,
         jlptLevel,
         characterSheet, // Full character info for prompts
-        characterRefs, // Character references with image data
+        characterRefs, // Character references with image URLs (API fetches base64)
       },
       adminKey
     )

@@ -3285,6 +3285,25 @@ export const strings = {
     // Additional missing translations
     minutes: 'minuti',
     cards: 'carte',
+
+    // Comeback Message
+    comeback: {
+      welcomeBack: 'Bentornato',
+      missedYou: 'Ci sei mancato',
+      lastStudy: 'Ultimo studio',
+      daysAway: 'Giorni di assenza',
+      oneWeek: 'È passata una settimana, ma sei tornato! Riprendiamo da dove ci eravamo fermati.',
+      twoWeeks: 'Due settimane sono tante! Ma ogni ritorno è un nuovo inizio. Ce la puoi fare!',
+      monthPlus: 'Un mese di assenza? Nessun problema! Il momento migliore per ricominciare è adesso. Bentornato!',
+      default: 'Bentornato! Continuiamo il tuo percorso di apprendimento.',
+      encourage1: 'Ogni maestro è stato una volta un principiante che si è rifiutato di arrendersi',
+      encourage2: 'La tua dedizione è ciò che ti distingue',
+      encourage3: 'Progresso, non perfezione. Continuiamo ad andare avanti',
+      encourage4: 'Il viaggio di mille miglia continua con questo singolo passo',
+      achievementEarned: 'Obiettivo sbloccato',
+      achievementDesc: 'Ritorno dopo più di 7 giorni di assenza',
+      readyToStart: 'Pronto a riprendere? Le tue carte ti aspettano.',
+    },
   },
 
   // Tooltips

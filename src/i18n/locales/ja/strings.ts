@@ -3331,6 +3331,25 @@ export const strings = {
       allExported: 'すべてのデッキをエクスポートしました',
       syncComplete: '同期完了',
     },
+
+    // Comeback Message
+    comeback: {
+      welcomeBack: 'おかえりなさい',
+      missedYou: '会いたかったです',
+      lastStudy: '最終学習日',
+      daysAway: '不在日数',
+      oneWeek: '1週間ぶりですね！中断したところから再開しましょう。',
+      twoWeeks: '2週間は長い時間ですが、新たな始まりです。頑張りましょう！',
+      monthPlus: '1ヶ月ぶり？問題ありません！再開するのは今この瞬間です。おかえりなさい！',
+      default: 'おかえりなさい！学習を続けましょう。',
+      encourage1: 'すべての達人は、諦めなかった初心者でした',
+      encourage2: 'あなたの献身があなたを特別にします',
+      encourage3: '完璧ではなく、進歩を。前に進み続けましょう',
+      encourage4: '千里の道も一歩から、その一歩は今この瞬間です',
+      achievementEarned: '実績獲得',
+      achievementDesc: '7日以上不在後の復帰',
+      readyToStart: '再開の準備はできましたか？カードがあなたを待っています。',
+    },
   },
 
   conjugation: {

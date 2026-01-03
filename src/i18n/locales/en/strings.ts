@@ -4768,6 +4768,25 @@ export const strings = {
         all: 'All Time',
       },
     },
+
+    // Comeback Message
+    comeback: {
+      welcomeBack: 'Welcome Back',
+      missedYou: "We've missed you",
+      lastStudy: 'Last Study',
+      daysAway: 'Days Away',
+      oneWeek: "It's been a week, but you're back! Let's pick up where you left off.",
+      twoWeeks: "Two weeks is a long time! But every comeback is a new beginning. You've got this!",
+      monthPlus: "A month away? No problem! The best time to restart is right now. Welcome back!",
+      default: "Welcome back! Let's continue your learning journey.",
+      encourage1: "Every master was once a beginner who refused to give up",
+      encourage2: "Your dedication is what sets you apart",
+      encourage3: "Progress, not perfection. Let's keep moving forward",
+      encourage4: "The journey of a thousand miles continues with this single step",
+      achievementEarned: 'Achievement Earned',
+      achievementDesc: 'Returned after 7+ days away',
+      readyToStart: "Ready to jump back in? Your cards are waiting for you.",
+    },
   },
 
   conjugation: {

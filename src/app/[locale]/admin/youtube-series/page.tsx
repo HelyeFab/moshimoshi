@@ -41,7 +41,8 @@ import {
   ExternalLink,
   Loader2,
   Star,
-  Play
+  Play,
+  MousePointerClick,
 } from 'lucide-react';
 
 export default function AdminYouTubeSeriesPage() {
@@ -603,6 +604,10 @@ export default function AdminYouTubeSeriesPage() {
                         <p>Tags: {channel.resourceTags?.join(', ') || 'None'}</p>
                         <p>Check every: {channel.checkInterval} hours</p>
                         <p>Videos imported: {channel.videosImported || 0}</p>
+                        <p className="flex items-center gap-1">
+                          <MousePointerClick className="w-3 h-3" />
+                          Channel visits: {channel.visitCount || 0}
+                        </p>
                         {channel.lastCheckedAt && parseTimestamp(channel.lastCheckedAt) && (
                           <p className="flex items-center gap-1">
                             <Calendar className="w-3 h-3" />

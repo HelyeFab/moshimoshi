@@ -311,10 +311,9 @@ export default function ConjugationPracticePage() {
             </div>
             <button
               type="submit"
-              className="px-4 py-2 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-colors flex items-center gap-2"
+              className="p-2.5 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-colors"
             >
-              <Search className="w-4 h-4" />
-              {t('conjugation.searchButton')}
+              <Search className="w-5 h-5" />
             </button>
           </form>
 
@@ -336,12 +335,12 @@ export default function ConjugationPracticePage() {
           <div className="relative">
             <button
               onClick={() => setShowSettingsDropdown(!showSettingsDropdown)}
-              className="px-4 py-2 rounded-lg bg-white dark:bg-dark-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-2"
+              className="p-2.5 sm:px-4 sm:py-2 rounded-lg bg-white dark:bg-dark-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-2"
             >
-              <Settings className="w-4 h-4" />
-              {t('conjugation.settings')}
+              <Settings className="w-5 h-5 sm:w-4 sm:h-4" />
+              <span className="hidden sm:inline">{t('conjugation.settings')}</span>
               <ChevronDown
-                className={`w-4 h-4 transition-transform ${showSettingsDropdown ? 'rotate-180' : ''}`}
+                className={`hidden sm:block w-4 h-4 transition-transform ${showSettingsDropdown ? 'rotate-180' : ''}`}
               />
             </button>
 

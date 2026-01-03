@@ -1,7 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import axios from 'axios';
-
-const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
+import { youtubeClient, getYouTubeApiKey, YOUTUBE_FIELDS } from '@/lib/youtube/client';
 
 // Extract video ID from various YouTube URL formats
 function extractVideoId(url: string): string | null {
@@ -54,7 +52,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Use the API key from environment
-    const API_KEY = process.env.YOUTUBE_API_KEY || process.env.GOOGLE_API_KEY;
+    const API_KEY = getYouTubeApiKey();
 
     if (!API_KEY) {
       return NextResponse.json(
@@ -70,12 +68,13 @@ export async function POST(request: NextRequest) {
     const videoId = extractVideoId(url);
 
     if (videoId) {
-      // It's a video URL - get channel info from the video
-      const videoResponse = await axios.get(`${YOUTUBE_API_BASE}/videos`, {
+      // It's a video URL - get channel info from the video (with retry logic)
+      const videoResponse = await youtubeClient.get('/videos', {
         params: {
           part: 'snippet,contentDetails,statistics',
           id: videoId,
-          key: API_KEY
+          key: API_KEY,
+          fields: YOUTUBE_FIELDS.VIDEO_WITH_CHANNEL,
         }
       });
 
@@ -105,14 +104,15 @@ export async function POST(request: NextRequest) {
       if (!channelId && url.includes('@')) {
         const handleMatch = url.match(/@([^\/\?]+)/);
         if (handleMatch) {
-          // Search for channel by handle
-          const searchResponse = await axios.get(`${YOUTUBE_API_BASE}/search`, {
+          // Search for channel by handle (with retry logic)
+          const searchResponse = await youtubeClient.get('/search', {
             params: {
               part: 'snippet',
               q: handleMatch[1],
               type: 'channel',
               maxResults: 1,
-              key: API_KEY
+              key: API_KEY,
+              fields: 'items(snippet(channelId))',
             }
           });
 
@@ -130,12 +130,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Fetch channel information
-    const channelResponse = await axios.get(`${YOUTUBE_API_BASE}/channels`, {
+    // Fetch channel information (with retry logic and optimized fields)
+    const channelResponse = await youtubeClient.get('/channels', {
       params: {
         part: 'snippet,statistics,brandingSettings',
         id: channelId,
-        key: API_KEY
+        key: API_KEY,
+        fields: YOUTUBE_FIELDS.CHANNEL_DETAILS,
       }
     });
 

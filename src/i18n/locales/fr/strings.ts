@@ -3188,6 +3188,25 @@ export const strings = {
         all: 'Tout le temps',
       },
     },
+
+    // Comeback Message
+    comeback: {
+      welcomeBack: 'Bon retour',
+      missedYou: 'Vous nous avez manqué',
+      lastStudy: 'Dernière étude',
+      daysAway: 'Jours d\'absence',
+      oneWeek: 'Une semaine s\'est écoulée, mais vous êtes de retour ! Reprenons où vous vous êtes arrêté.',
+      twoWeeks: 'Deux semaines, c\'est long ! Mais chaque retour est un nouveau départ. Vous pouvez le faire !',
+      monthPlus: 'Un mois d\'absence ? Pas de problème ! Le meilleur moment pour recommencer, c\'est maintenant. Bon retour !',
+      default: 'Bon retour ! Continuons votre parcours d\'apprentissage.',
+      encourage1: 'Chaque maître était autrefois un débutant qui a refusé d\'abandonner',
+      encourage2: 'Votre dévouement est ce qui vous distingue',
+      encourage3: 'Le progrès, pas la perfection. Continuons d\'avancer',
+      encourage4: 'Le voyage de mille lieues continue par ce simple pas',
+      achievementEarned: 'Succès débloqué',
+      achievementDesc: 'Retour après plus de 7 jours d\'absence',
+      readyToStart: 'Prêt à replonger ? Vos cartes vous attendent.',
+    },
   },
   conjugation: {
     title: 'Conjugaison',

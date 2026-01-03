@@ -3178,6 +3178,25 @@ export const strings = {
     minutes: 'Minuten',
     cards: 'Karten',
     unlimited: 'Unbegrenzte Stapel',
+
+    // Comeback Message
+    comeback: {
+      welcomeBack: 'Willkommen zurück',
+      missedYou: 'Wir haben dich vermisst',
+      lastStudy: 'Letztes Lernen',
+      daysAway: 'Tage weg',
+      oneWeek: 'Eine Woche ist vergangen, aber du bist zurück! Lass uns weitermachen, wo wir aufgehört haben.',
+      twoWeeks: 'Zwei Wochen sind eine lange Zeit! Aber jedes Comeback ist ein neuer Anfang. Du schaffst das!',
+      monthPlus: 'Einen Monat weg? Kein Problem! Die beste Zeit zum Neustart ist jetzt. Willkommen zurück!',
+      default: 'Willkommen zurück! Lass uns deine Lernreise fortsetzen.',
+      encourage1: 'Jeder Meister war einmal ein Anfänger, der sich weigerte aufzugeben',
+      encourage2: 'Dein Engagement ist das, was dich auszeichnet',
+      encourage3: 'Fortschritt, nicht Perfektion. Lass uns weitermachen',
+      encourage4: 'Die Reise von tausend Meilen setzt sich mit diesem einen Schritt fort',
+      achievementEarned: 'Erfolg freigeschaltet',
+      achievementDesc: 'Zurückgekehrt nach 7+ Tagen Abwesenheit',
+      readyToStart: 'Bereit wieder einzusteigen? Deine Karten warten auf dich.',
+    },
   },
 
   // Tooltips

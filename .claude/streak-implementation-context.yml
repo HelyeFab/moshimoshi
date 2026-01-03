@@ -5,7 +5,7 @@ metadata:
   id: "moshimoshi-streak-xp-save-v1.0"
   role: "Guide future AI agents working on streak feature development and debugging"
   created: "2025-11-06"
-  updated: "2025-12-05"
+  updated: "2026-01-03"
   owner: "beano"
   project: "Moshimoshi Japanese Learning Platform"
   tags:
@@ -393,6 +393,50 @@ testing_protocol:
     run_command: |
       npm test -- src/app/api/gamification/streak/save/__tests__/unit.test.ts src/hooks/__tests__/useStreakSaveDetection.test.tsx
 
+  # ============================================================================
+  # PHASE 2.5 MANUAL TEST MATRIX - IMPORTANT
+  # ============================================================================
+  manual_test_matrix:
+    document: "01_PRODUCTION_DOCS/5-Quality-Assurance/STREAK_PHASE_2_5_MANUAL_TEST_MATRIX.md"
+    status: "3/13 tests complete"
+
+    important_note: |
+      This document tracks the 13 manual tests for Daily XP Accumulation.
+      EVERY TIME A TEST IS COMPLETED, the matrix document MUST be updated.
+
+      Future Streak Guardians: Before starting any testing session:
+      1. Read the test matrix document
+      2. Check which tests are still pending
+      3. After completing a test, update the document immediately
+      4. Commit changes to the document
+
+    completed_tests:
+      - test_1: "Same-day accumulation"
+      - test_8: "Mixed activities (WHITE-LABEL PROOF)"
+      - test_11: "No double increment protection"
+
+    pending_tests:
+      - test_2: "Cross-day reset"
+      - test_3: "Threshold edge - exactly 25 XP"
+      - test_4: "Threshold edge - just under (24 XP)"
+      - test_5: "Streak break → fresh start"
+      - test_6: "Auto-break → save → continue"
+      - test_7: "Grace period continuation"
+      - test_9: "Multiple sessions same day"
+      - test_10: "New user first streak"
+      - test_12: "Firebase ↔ UI consistency"
+      - test_13: "Review session XP accumulation"
+
+    update_instructions: |
+      After completing a test:
+      1. Open 01_PRODUCTION_DOCS/5-Quality-Assurance/STREAK_PHASE_2_5_MANUAL_TEST_MATRIX.md
+      2. Update the test status from ⏳ PENDING to ✅ PASSED (or ❌ FAILED)
+      3. Fill in the verification checklist
+      4. Add any notes or bugs found
+      5. Update the Test Summary table
+      6. Update the status line in this YAML (manual_test_matrix.status)
+      7. Commit both files
+
 common_pitfalls:
   must_know:
     - issue: "Always use streak alias, not direct node command"
@@ -504,3 +548,102 @@ success_criteria:
     - "Verify streak goes 7 → 0 (auto-break) → 1 (after 25+ XP)"
     - "No navigation required between states"
     - "Console logs show daily XP: 5 → 15 → 25"
+
+# ============================================================================
+# UNCONFIRMED ISSUES - Needs Investigation
+# ============================================================================
+
+unconfirmed_issues:
+  issue_1:
+    name: "Save Modal Reappearing After Successful Save"
+    reported_date: "2026-01-03"
+    status: "NEEDS_INVESTIGATION"
+    reporter: "beano"
+
+    user_report: |
+      "I miss the grace period - therefore I see the Save modal. I pay my XP to
+      keep my streak but don't actually do any activity to gain new XP. I close
+      the app. Reopen the app a few hours later so still in what should be the
+      new grace period I have bought myself but bam! I see the modal again."
+
+    expected_behavior: |
+      After paying XP to save streak, user should NOT see the modal again
+      until the new grace period expires (~20-24 hours from save).
+
+    actual_behavior: |
+      User reports seeing the modal again "a few hours later" despite believing
+      they are within the grace period they purchased.
+
+    investigation_notes:
+      analysis_done:
+        - "Traced full flow through useStreakSaveDetection.ts"
+        - "Verified validateStreakDisplay logic (daysSince <= allowedDays = not stale)"
+        - "Confirmed save endpoint sets lastActivityDate = yesterday"
+        - "Confirmed modal updates Zustand with restored streak + new lastActivityDate"
+
+      possible_causes:
+        - cause_1:
+            name: "User reopening on next calendar day (not same day)"
+            likelihood: "HIGH"
+            explanation: |
+              If user saves at 11pm and reopens at 2am, that's "a few hours later"
+              but a new calendar day. daysSince would be 2, beyond grace period.
+              This would be INTENDED BEHAVIOR, not a bug.
+
+        - cause_2:
+            name: "Free user IndexedDB desync"
+            likelihood: "MEDIUM"
+            explanation: |
+              Free users load from IndexedDB only. Save endpoint updates Firebase
+              but modal only updates Zustand (in-memory). If IndexedDB isn't updated,
+              app reload would have stale data. HOWEVER, the break endpoint checks
+              Firebase which would have correct data and return notEligible.
+
+        - cause_3:
+            name: "Timezone issues with UTC date calculations"
+            likelihood: "LOW"
+            explanation: |
+              All date calculations use UTC. User's local timezone could cause
+              confusion about "same day" vs "next day".
+
+        - cause_4:
+            name: "localStorage being cleared between sessions"
+            likelihood: "LOW"
+            explanation: |
+              localStorage stores 'moshimoshi_streak_save_prompt_date' to prevent
+              re-prompting same day. If cleared, check would pass. But this alone
+              wouldn't cause modal - the stale check would still need to pass.
+
+      key_question: |
+        Is the user reopening on the SAME calendar day (UTC) or the NEXT day?
+        The save only buys ~20 hours - user MUST complete an activity within
+        that window. If they save and don't do any activity, the streak breaks
+        again the next day. This is INTENDED BEHAVIOR per the modal text:
+        "giving you ~20 hours to complete an activity and continue your streak"
+
+    to_reproduce:
+      steps:
+        - "Set up scenario where streak is 2+ days stale (use s6 or manual Firebase edit)"
+        - "Open app, observe modal appears"
+        - "Pay XP to save streak"
+        - "Close app WITHOUT doing any activity"
+        - "Reopen app ON THE SAME CALENDAR DAY (not next day)"
+        - "Observe if modal appears again"
+
+      what_to_check:
+        - "Console logs from useStreakSaveDetection"
+        - "Firebase data after save (lastActivityDate, streak.current, brokenAt)"
+        - "Whether break endpoint returns 'broken', 'alreadyBroken', or 'notEligible'"
+        - "User's premium/free status (affects data loading source)"
+
+    files_involved:
+      - "src/hooks/useStreakSaveDetection.ts - modal trigger logic"
+      - "src/components/gamification/StreakSaveModal.tsx - save action + Zustand update"
+      - "src/app/api/gamification/streak/save/route.ts - save endpoint"
+      - "src/app/api/gamification/streak/break/route.ts - auto-break endpoint"
+      - "src/lib/gamification/utils/streakValidation.ts - isStale calculation"
+
+    do_not_change_code_until: |
+      User confirms whether they are reopening same day vs next day.
+      If same day and modal still appears, then it's a bug to fix.
+      If next day, it's intended behavior and user education needed.

@@ -3301,6 +3301,25 @@ export const strings = {
         all: 'Todo el tiempo',
       },
     },
+
+    // Comeback Message
+    comeback: {
+      welcomeBack: 'Bienvenido de nuevo',
+      missedYou: 'Te hemos echado de menos',
+      lastStudy: 'Último estudio',
+      daysAway: 'Días de ausencia',
+      oneWeek: '¡Ha pasado una semana, pero has vuelto! Retomemos donde lo dejamos.',
+      twoWeeks: '¡Dos semanas es mucho tiempo! Pero cada regreso es un nuevo comienzo. ¡Tú puedes!',
+      monthPlus: '¿Un mes fuera? ¡No hay problema! El mejor momento para recomenzar es ahora. ¡Bienvenido de nuevo!',
+      default: '¡Bienvenido de nuevo! Continuemos tu viaje de aprendizaje.',
+      encourage1: 'Todo maestro fue una vez un principiante que se negó a rendirse',
+      encourage2: 'Tu dedicación es lo que te distingue',
+      encourage3: 'Progreso, no perfección. Sigamos adelante',
+      encourage4: 'El viaje de mil millas continúa con este único paso',
+      achievementEarned: 'Logro desbloqueado',
+      achievementDesc: 'Regreso después de más de 7 días de ausencia',
+      readyToStart: '¿Listo para volver? Tus tarjetas te esperan.',
+    },
   },
   conjugation: {
     title: 'Conjugación',

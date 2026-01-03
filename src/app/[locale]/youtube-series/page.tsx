@@ -259,6 +259,16 @@ export default function YouTubeSeriesPage() {
                     href={channel.channelUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => {
+                      // Track the visit (fire-and-forget, don't block navigation)
+                      fetch('/api/youtube/track-visit', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ channelId: channel.id }),
+                      }).catch(() => {
+                        // Silently ignore tracking errors
+                      });
+                    }}
                     className="block w-full text-center px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
                   >
                     <Youtube className="w-4 h-4" />

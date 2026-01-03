@@ -203,7 +203,8 @@ async function getNextEpisodeNumber() {
 }
 /**
  * Load multiple character references for an episode
- * Falls back to fetching from Storage URL if base64 data is not in Firestore
+ * Only loads metadata and imageUrl - the generate API fetches base64 when needed
+ * This keeps the payload small to avoid 413 errors
  */
 async function loadCharacters(characterIds) {
     const characters = [];
@@ -214,28 +215,9 @@ async function loadCharacters(characterIds) {
             continue;
         }
         const data = charDoc.data();
-        // Get reference image data - either from Firestore or fetch from Storage URL
-        let referenceImageData = (data === null || data === void 0 ? void 0 : data.referenceImageData) || '';
-        // Fallback: If no base64 data but we have a URL, fetch and convert
-        if (!referenceImageData && (data === null || data === void 0 ? void 0 : data.referenceImageUrl)) {
-            logger.info(`[ComicScheduler] Fetching ${(data === null || data === void 0 ? void 0 : data.name) || characterId} image from Storage URL...`);
-            try {
-                const response = await fetch(data.referenceImageUrl);
-                if (response.ok) {
-                    const arrayBuffer = await response.arrayBuffer();
-                    referenceImageData = Buffer.from(arrayBuffer).toString('base64');
-                    logger.info(`[ComicScheduler] Fetched ${data === null || data === void 0 ? void 0 : data.name}: ${(referenceImageData.length / 1024).toFixed(1)} KB`);
-                }
-                else {
-                    logger.warn(`[ComicScheduler] Failed to fetch ${data === null || data === void 0 ? void 0 : data.name} image: ${response.status}`);
-                }
-            }
-            catch (err) {
-                logger.error(`[ComicScheduler] Error fetching ${characterId} image:`, err);
-            }
-        }
-        if (!referenceImageData) {
-            logger.warn(`[ComicScheduler] No reference image for ${(data === null || data === void 0 ? void 0 : data.name) || characterId} - character may be inconsistent`);
+        const imageUrl = (data === null || data === void 0 ? void 0 : data.referenceImageUrl) || '';
+        if (!imageUrl) {
+            logger.warn(`[ComicScheduler] No reference image URL for ${(data === null || data === void 0 ? void 0 : data.name) || characterId} - character may be inconsistent`);
         }
         characters.push({
             id: characterId,
@@ -245,7 +227,7 @@ async function loadCharacters(characterIds) {
             visualDescription: (data === null || data === void 0 ? void 0 : data.visualDescription) || '',
             personality: (data === null || data === void 0 ? void 0 : data.personality) || '',
             speakingStyle: (data === null || data === void 0 ? void 0 : data.speakingStyle) || '',
-            referenceImageData,
+            imageUrl,
         });
     }
     logger.info(`[ComicScheduler] Loaded ${characters.length} characters: ${characters.map(c => c.name).join(', ')}`);
@@ -447,6 +429,8 @@ async function generateComicEpisode(adminKey, options) {
             throw new Error('No characters loaded. Run setup scripts first.');
         }
         // Build character sheet and refs for API
+        // NOTE: We pass imageUrl instead of base64 to keep payload small
+        // The generate API fetches base64 from the URL when needed
         const characterSheet = buildCharacterSheet(characters);
         const characterRefs = characters.map(c => ({
             id: c.id,
@@ -456,7 +440,7 @@ async function generateComicEpisode(adminKey, options) {
             visualDescription: c.visualDescription,
             personality: c.personality,
             speakingStyle: c.speakingStyle,
-            referenceImageData: c.referenceImageData,
+            imageUrl: c.imageUrl,
         }));
         // Step 1: Create draft and generate outline
         logger.info('[ComicScheduler] Step 1/8: Generating outline...');
@@ -468,7 +452,7 @@ async function generateComicEpisode(adminKey, options) {
             location,
             jlptLevel,
             characterSheet, // Full character info for prompts
-            characterRefs, // Character references with image data
+            characterRefs, // Character references with image URLs (API fetches base64)
         }, adminKey);
         if (!outlineResult.success || !outlineResult.draftId) {
             throw new Error('Failed to generate outline');
