@@ -44,35 +44,29 @@ function generateAlternates(path: string) {
 }
 
 /**
- * Generate sitemap index with per-locale sitemaps.
- * This creates separate sitemaps for each locale:
- * - /sitemap.xml (index)
- * - /sitemap/0.xml (en)
- * - /sitemap/1.xml (ja)
- * - /sitemap/2.xml (de)
- * - /sitemap/3.xml (es)
- * - /sitemap/4.xml (fr)
- * - /sitemap/5.xml (it)
+ * Root sitemap containing all pages for all locales.
+ *
+ * This creates a single sitemap at /sitemap.xml with all URLs across all 6 locales.
+ * Each URL includes hreflang alternates for proper international SEO.
+ *
+ * Total URLs: ~174 (29 pages × 6 locales)
+ * Blog posts are handled separately in /[locale]/blog/sitemap.ts
  */
-export async function generateSitemaps() {
-  return locales.map((locale, index) => ({ id: index.toString() }));
-}
+export default function sitemap(): MetadataRoute.Sitemap {
+  const allUrls: MetadataRoute.Sitemap = [];
 
-/**
- * Generate sitemap for a specific locale.
- * Each locale gets its own sitemap with URLs for that locale,
- * plus alternates pointing to all other locale versions.
- */
-export default function sitemap({ id }: { id: string }): MetadataRoute.Sitemap {
-  const localeIndex = parseInt(id, 10);
-  const locale: Locale = locales[localeIndex] || defaultLocale;
+  // Generate URLs for each locale
+  for (const locale of locales) {
+    for (const page of pages) {
+      allUrls.push({
+        url: `${baseUrl}/${locale}${page.path}`,
+        lastModified: new Date(),
+        changeFrequency: page.changeFrequency,
+        priority: page.priority,
+        alternates: generateAlternates(page.path),
+      });
+    }
+  }
 
-  // Generate sitemap entries for this locale with language alternates
-  return pages.map(page => ({
-    url: `${baseUrl}/${locale}${page.path}`,
-    lastModified: new Date(),
-    changeFrequency: page.changeFrequency,
-    priority: page.priority,
-    alternates: generateAlternates(page.path),
-  }));
+  return allUrls;
 }
