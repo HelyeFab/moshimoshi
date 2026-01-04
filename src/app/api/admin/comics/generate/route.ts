@@ -1059,7 +1059,7 @@ You MUST return a JSON object in EXACTLY this format:
   "questions": [
     {
       "type": "multiple-choice",
-      "questionJa": "この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>は<ruby>何<rt>なに</rt></ruby>ですか？",
+      "questionJa": "この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>は<ruby>何<rt>なに</rt></ruby>ですか？祭り",
       "questionEn": "What does this word mean?",
       "options": ["option1", "option2", "option3", "option4"],
       "correctAnswer": 0,
@@ -1070,12 +1070,21 @@ You MUST return a JSON object in EXACTLY this format:
   "passingScore": 70
 }
 
+CRITICAL RULES TO AVOID REVEALING ANSWERS:
+1. **questionEn must NOT contain the answer, meaning, or translation of the word being tested**
+   - WRONG: "What does this word mean? Festival" (reveals the answer!)
+   - CORRECT: "What does this word mean?"
+
+2. **For reading/pronunciation questions, do NOT add furigana to the target word**
+   - WRONG: "<ruby>焼き鳥<rt>やきとり</rt></ruby>" when asking "What is the reading?"
+   - CORRECT: "焼き鳥" (no furigana on the word being tested)
+
+3. **The target word in questionJa should have NO furigana if asking about its reading**
+
 Requirements:
 - Create EXACTLY 4-5 questions
 - Each question must have ALL 7 fields: type, questionJa, questionEn, options (array of 4), correctAnswer (0-3), explanation, explanationJa
-- **IMPORTANT: For questionJa and explanationJa, wrap ALL kanji in <ruby> tags with furigana readings**
-  Example: "この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>は?"
-  Do NOT use parentheses format - use <ruby><rt> tags only
+- For questionJa and explanationJa, wrap kanji in <ruby> tags EXCEPT for the target word in reading questions
 - Test vocabulary, reading comprehension, and cultural understanding
 - Make questions appropriate for the JLPT level
 - Options must be plausible but only one correct`

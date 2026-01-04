@@ -11,7 +11,8 @@ import WordExplanationModal from "@/components/word/WordExplanationModal";
 import { GrammarHighlightedText } from "@/components/reading/GrammarHighlightedText";
 import { PlayIcon, PauseIcon } from "@heroicons/react/24/solid";
 import { useI18n } from "@/i18n/I18nContext";
-import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw, Lock } from "lucide-react";
+import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw, Lock, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import { LockScreen } from "@/components/ui/LockScreen";
 import Modal from "@/components/ui/Modal";
 import Dropdown from "@/components/ui/Dropdown";
@@ -127,6 +128,7 @@ function YouTubeShadowingContent() {
 
   const playerRef = useRef<YT.Player | null>(null);
   const pollRef = useRef<NodeJS.Timeout | null>(null);
+  const urlInputRef = useRef<HTMLInputElement>(null);
   const segmentsRef = useRef<TranscriptSegment[]>([]);
   const repeatCountRef = useRef(repeatCount);
   const segmentIndexRef = useRef(0);
@@ -755,6 +757,7 @@ function YouTubeShadowingContent() {
                 <div className={styles.inputWrapper}>
                   <Link className={`w-4 h-4 ${styles.inputIcon}`} />
                   <input
+                    ref={urlInputRef}
                     id="video"
                     name="video"
                     className={styles.urlInput}
@@ -762,6 +765,24 @@ function YouTubeShadowingContent() {
                     value={videoInput}
                     onChange={(e) => setVideoInput(e.target.value)}
                   />
+                  <AnimatePresence>
+                    {videoInput && (
+                      <motion.button
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        exit={{ opacity: 0, scale: 0.8 }}
+                        type="button"
+                        onClick={() => {
+                          setVideoInput("");
+                          urlInputRef.current?.focus();
+                        }}
+                        className={styles.clearButton}
+                        aria-label={t('common.clear')}
+                      >
+                        <X className="w-4 h-4" />
+                      </motion.button>
+                    )}
+                  </AnimatePresence>
                 </div>
                 <button
                   className={styles.loadButton}

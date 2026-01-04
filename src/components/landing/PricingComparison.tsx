@@ -382,10 +382,10 @@ export default function PricingComparison() {
                 onClick={() => router.push(getLocalePath('/auth/signup?plan=premium'))}
                 className="w-full bg-white text-indigo-600 hover:bg-gray-100 font-bold text-lg py-6"
               >
-                {moshimoshiPricing.premium?.cta || "Start 7-Day Free Trial"}
+                {moshimoshiPricing.premium?.cta || "Get Started"}
               </Button>
               <p className="text-xs text-indigo-100 text-center mt-3">
-                {moshimoshiPricing.premium?.disclaimer || "No credit card required • Cancel anytime"}
+                {moshimoshiPricing.premium?.disclaimer || "Cancel anytime"}
               </p>
             </motion.div>
           </div>
@@ -444,7 +444,7 @@ export default function PricingComparison() {
               onClick={() => router.push(getLocalePath('/auth/signup'))}
               className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-8 py-3 text-lg font-semibold shadow-lg"
             >
-              {bottomCta.button || "Start Free Trial"}
+              {bottomCta.button || "Get Started"}
             </Button>
           </div>
         </motion.div>

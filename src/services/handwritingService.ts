@@ -119,17 +119,60 @@ class HandwritingService {
     })
   }
 
+  // Check if a character is a CJK ideograph (kanji)
+  isKanji(char: string): boolean {
+    const code = char.charCodeAt(0)
+    // CJK Unified Ideographs: U+4E00-U+9FFF
+    // CJK Unified Ideographs Extension A: U+3400-U+4DBF
+    // CJK Compatibility Ideographs: U+F900-U+FAFF
+    return (
+      (code >= 0x4e00 && code <= 0x9fff) ||
+      (code >= 0x3400 && code <= 0x4dbf) ||
+      (code >= 0xf900 && code <= 0xfaff)
+    )
+  }
+
+  // Check if a character is hiragana or katakana
+  isKana(char: string): boolean {
+    const code = char.charCodeAt(0)
+    // Hiragana: U+3040-U+309F, Katakana: U+30A0-U+30FF
+    return (code >= 0x3040 && code <= 0x309f) || (code >= 0x30a0 && code <= 0x30ff)
+  }
+
+  // Check if a character is a valid Japanese character (kanji, hiragana, or katakana)
+  isJapaneseCharacter(char: string): boolean {
+    return this.isKanji(char) || this.isKana(char)
+  }
+
   // Filter results for kana only
   filterKanaOnly(result: HandwritingResult): HandwritingResult {
-    const isKana = (char: string) => {
-      const code = char.charCodeAt(0)
-      // Hiragana: 0x3040-0x309F, Katakana: 0x30A0-0x30FF
-      return (code >= 0x3040 && code <= 0x309F) || (code >= 0x30A0 && code <= 0x30FF)
-    }
-
     const filtered = result.candidates
       .map((char, index) => ({ char, confidence: result.confidence[index] }))
-      .filter(item => isKana(item.char))
+      .filter(item => this.isKana(item.char))
+
+    return {
+      candidates: filtered.map(item => item.char),
+      confidence: filtered.map(item => item.confidence)
+    }
+  }
+
+  // Filter results for kanji only (excludes kana and punctuation)
+  filterKanjiOnly(result: HandwritingResult): HandwritingResult {
+    const filtered = result.candidates
+      .map((char, index) => ({ char, confidence: result.confidence[index] }))
+      .filter(item => this.isKanji(item.char))
+
+    return {
+      candidates: filtered.map(item => item.char),
+      confidence: filtered.map(item => item.confidence)
+    }
+  }
+
+  // Filter to only valid Japanese characters (removes punctuation, ASCII, etc.)
+  filterJapaneseOnly(result: HandwritingResult): HandwritingResult {
+    const filtered = result.candidates
+      .map((char, index) => ({ char, confidence: result.confidence[index] }))
+      .filter(item => this.isJapaneseCharacter(item.char))
 
     return {
       candidates: filtered.map(item => item.char),

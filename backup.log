@@ -92,3 +92,48 @@
 2025-12-26 20:12:19 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
 2025-12-26 20:12:19 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T20-12-19.md
 2025-12-26 20:12:19 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
+2025-12-28 05:56:51 - Backup function called
+2025-12-28 05:56:51 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2025-12-28 05:56:51 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2025-12-30 08:16:38 - Backup function called
+2025-12-30 08:16:38 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2025-12-30 08:16:38 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2025-12-30 08:20:08 - Backup function called
+2025-12-30 08:20:08 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2025-12-30 08:20:08 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2025-12-30 18:30:46 - Backup function called
+2025-12-30 18:30:46 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2025-12-30 18:30:46 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2025-12-30 18:37:04 - Backup function called
+2025-12-30 18:37:04 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2025-12-30 18:37:04 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2025-12-30 18:38:11 - Backup function called
+2025-12-30 18:38:11 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2025-12-30 18:38:11 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2025-12-31 21:04:19 - Backup function called
+2025-12-31 21:04:19 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2025-12-31 21:04:19 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2026-01-03 10:52:24 - Backup function called
+2026-01-03 10:52:24 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-03 10:52:24 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2026-01-03 10:53:17 - Backup function called
+2026-01-03 10:53:17 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-03 10:53:17 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2026-01-03 11:02:01 - Backup function called
+2026-01-03 11:02:01 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-03 11:02:01 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2026-01-03 11:03:05 - Backup function called
+2026-01-03 11:03:05 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-03 11:03:05 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2026-01-03 12:59:03 - Backup function called
+2026-01-03 12:59:03 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-03 12:59:03 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2026-01-03 13:05:38 - Backup function called
+2026-01-03 13:05:38 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-03 13:05:38 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2026-01-03 13:09:12 - Backup function called
+2026-01-03 13:09:12 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-03 13:09:12 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+2026-01-03 13:19:52 - Backup function called
+2026-01-03 13:19:52 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-03 13:19:52 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'

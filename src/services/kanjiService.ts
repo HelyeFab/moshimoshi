@@ -200,6 +200,11 @@ class KanjiService {
   }
 
   async searchKanji(query: string, levels?: JLPTLevel[]): Promise<Kanji[]> {
+    // Safety: empty query should return empty results, not all kanji
+    if (!query || !query.trim()) {
+      return []
+    }
+
     const searchLevels = levels || ['N5', 'N4', 'N3', 'N2', 'N1']
     const results: Kanji[] = []
     const normalizedQuery = query.toLowerCase()

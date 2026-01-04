@@ -10,6 +10,8 @@ interface SearchBarProps {
   onSearch: (term: string) => void
   onClear?: () => void
   onChange?: (value: string) => void
+  onFocus?: () => void
+  onBlur?: () => void
   placeholder?: string
   searching?: boolean
   autoFocus?: boolean
@@ -25,6 +27,8 @@ export default function SearchBar({
   onSearch,
   onClear,
   onChange,
+  onFocus,
+  onBlur,
   placeholder,
   searching = false,
   autoFocus = false,
@@ -89,6 +93,8 @@ export default function SearchBar({
             type="text"
             value={value}
             onChange={handleChange}
+            onFocus={onFocus}
+            onBlur={onBlur}
             placeholder={placeholder || t('common.search')}
             disabled={searching}
             className={`

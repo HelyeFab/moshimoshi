@@ -653,7 +653,7 @@ export default function ComicReaderPage() {
             onComplete={handleQuizComplete}
             onExit={() => router.push('/comics')}
             onBack={() => setShowQuiz(false)}
-            showTranslation={showTranslation}
+            showTranslation={false} // Hide translations in quiz to avoid revealing answers
             enableAutoSave={true}
             showFurigana={settings.showFurigana}
             fontSize={settings.fontSize}

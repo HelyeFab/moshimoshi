@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
 import { adminFirestore as adminDb, Timestamp, FieldValue } from '@/lib/firebase/admin';
-import axios from 'axios';
-
-const YOUTUBE_API_BASE = 'https://www.googleapis.com/youtube/v3';
+import { youtubeClient, getYouTubeApiKey, YOUTUBE_FIELDS } from '@/lib/youtube/client';
 
 // Check if user is admin
 async function isUserAdmin(userId: string): Promise<boolean> {
@@ -71,7 +69,7 @@ export async function POST(request: NextRequest) {
         { status: 404 }
       );
     }
-    const API_KEY = process.env.YOUTUBE_API_KEY || process.env.GOOGLE_API_KEY;
+    const API_KEY = getYouTubeApiKey();
 
     if (!API_KEY) {
       return NextResponse.json(
@@ -95,15 +93,16 @@ export async function POST(request: NextRequest) {
     });
 
     try {
-      // Fetch latest videos from the channel
-      const searchResponse = await axios.get(`${YOUTUBE_API_BASE}/search`, {
+      // Fetch latest videos from the channel (with retry logic)
+      const searchResponse = await youtubeClient.get('/search', {
         params: {
           part: 'snippet',
           channelId: channelData.channelId,
           order: 'date',
           maxResults: 10, // Fetch latest 10 videos
           type: 'video',
-          key: API_KEY
+          key: API_KEY,
+          fields: YOUTUBE_FIELDS.SEARCH_RESULTS,
         }
       });
 
@@ -126,12 +125,13 @@ export async function POST(request: NextRequest) {
         });
       }
 
-      // Fetch detailed video information
-      const videosResponse = await axios.get(`${YOUTUBE_API_BASE}/videos`, {
+      // Fetch detailed video information (with retry logic and optimized fields)
+      const videosResponse = await youtubeClient.get('/videos', {
         params: {
           part: 'snippet,contentDetails,statistics',
           id: videoIds.join(','),
-          key: API_KEY
+          key: API_KEY,
+          fields: YOUTUBE_FIELDS.VIDEO_DETAILS,
         }
       });
 

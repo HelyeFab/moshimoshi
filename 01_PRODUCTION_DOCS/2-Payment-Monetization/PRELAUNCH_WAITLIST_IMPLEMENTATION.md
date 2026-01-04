@@ -1,21 +1,21 @@
 # Pre-Launch Waitlist & 25% Discount Implementation
 
 > **Status**: ✅ FULLY TESTED & PRODUCTION READY
-> **Last Updated**: December 15, 2025
-> **Launch Date**: January 16th, 2026 at 00:00 GMT
+> **Last Updated**: January 2, 2026
+> **Launch Date**: January 23rd, 2026 at 00:00 GMT
 > **Test Checkout**: Successfully completed with 25% discount auto-applied
 
 ---
 
 ## Executive Summary
 
-This document tracks the implementation of a pre-launch marketing campaign for Moshimoshi. The app is "locked" until January 16th, 2026. Users who join the waitlist before launch receive a 25% discount on their first Premium subscription, auto-applied at checkout.
+This document tracks the implementation of a pre-launch marketing campaign for Moshimoshi. The app is "locked" until January 23rd, 2026. Users who join the waitlist before launch receive a 25% discount on their first Premium subscription, auto-applied at checkout.
 
 ---
 
 ## Business Requirements
 
-1. **Lock the app** until January 16th, 2026
+1. **Lock the app** until January 23rd, 2026
 2. **Collect emails** from interested users via a waitlist
 3. **Grant 25% discount** to waitlist users when they sign up after launch
 4. **Auto-apply discount** at Stripe checkout (Option A - no manual promo code entry)
@@ -29,7 +29,7 @@ This document tracks the implementation of a pre-launch marketing campaign for M
 |----------|--------|-----------|
 | Lock Screen Style | Modified landing page | Keep existing design, add waitlist CTA |
 | Public Pages During Lock | Lock everything | All routes redirect to `/` or `/waitlist` |
-| Launch Timezone | Midnight UK (GMT) | `2026-01-16T00:00:00Z` |
+| Launch Timezone | Midnight UK (GMT) | `2026-01-23T00:00:00Z` |
 | Discount Application | Option A (Auto-apply only) | Seamless UX, no code sharing risk |
 | Email Storage | Firestore only | Simple, no external email service needed |
 | Lock Toggle | Environment variable | `PRELAUNCH_LOCK_ENABLED=false` bypasses lock |
@@ -57,8 +57,8 @@ PRELAUNCH_PROMO_CODE_ID=promo_1SedzAHdrJomitOw2FAmRlXc
 PRELAUNCH_PROMO_CODE=MOSHI25
 
 # Launch date (ISO 8601 format)
-LAUNCH_DATE=2026-01-16T00:00:00Z
-NEXT_PUBLIC_LAUNCH_DATE=2026-01-16T00:00:00Z
+LAUNCH_DATE=2026-01-23T00:00:00Z
+NEXT_PUBLIC_LAUNCH_DATE=2026-01-23T00:00:00Z
 
 # Lock toggle (set to 'false' to bypass lock for testing)
 PRELAUNCH_LOCK_ENABLED=true                    # Server-side
@@ -123,7 +123,7 @@ NEXT_PUBLIC_PRELAUNCH_LOCK_ENABLED=true        # Client-side
 
 **Changes**:
 - Added `usePreLaunch` hook import
-- Desktop nav: Shows "Join Waitlist" button + "Jan 16th" badge when locked
+- Desktop nav: Shows "Join Waitlist" button + "Jan 23rd" badge when locked
 - Mobile menu: Shows waitlist CTA when locked
 - Hero section: Shows pre-launch badge + countdown timer when locked
 - Hero CTA: Links to `/waitlist` instead of `/auth/signup` when locked
@@ -446,7 +446,7 @@ vercel env add NEXT_PUBLIC_PRELAUNCH_LOCK_ENABLED development
 
 1. **Stripe Limitation**: Cannot use both `allow_promotion_codes` AND `discounts` array in the same request - even with `allow_promotion_codes: false`. Solution: Use spread operator to conditionally include only one parameter.
 
-2. **Launch Date Timezone**: Uses `2026-01-16T00:00:00Z` (UTC/GMT). UK is on GMT in winter.
+2. **Launch Date Timezone**: Uses `2026-01-23T00:00:00Z` (UTC/GMT). UK is on GMT in winter.
 
 3. **Waitlist Linking is Non-Blocking**: If `linkWaitlistToUser` fails, signup continues. Discount is a bonus, not critical path.
 

@@ -15,6 +15,7 @@ import { motion } from 'framer-motion'
 import { useKanjiBrowser } from '@/hooks/useKanjiBrowser'
 import { useAuth } from '@/hooks/useAuth'
 import SearchBar from '@/components/ui/SearchBar'
+import { Pencil } from 'lucide-react'
 import { useSubscription } from '@/hooks/useSubscription'
 import dynamic from 'next/dynamic'
 import { KanjiBrowserAdapter } from '@/lib/review-engine/adapters/KanjiBrowserAdapter'
@@ -41,6 +42,12 @@ const KanjiStudyMode = dynamic(() => import('@/components/kanji/KanjiStudyMode')
   ssr: false,
 })
 
+// Dynamically import DrawingSearchModal for drawing search
+const DrawingSearchModal = dynamic(
+  () => import('@/components/drawing-practice/DrawingSearchModal'),
+  { ssr: false }
+)
+
 type ViewMode = 'browse' | 'study' | 'review'
 
 function KanjiBrowserContent() {
@@ -58,6 +65,9 @@ function KanjiBrowserContent() {
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<Kanji[]>([])
   const [isSearching, setIsSearching] = useState(false)
+  const [hasSearched, setHasSearched] = useState(false)
+  const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const [showDrawingSearch, setShowDrawingSearch] = useState(false)
   const [viewMode, setViewMode] = useState<ViewMode>('browse')
   const [selectedKanji, setSelectedKanji] = useState<Set<string>>(new Set())
   const [reviewContent, setReviewContent] = useState<ReviewableContent[]>([])
@@ -262,16 +272,43 @@ function KanjiBrowserContent() {
     loadKanjiData()
   }, [])
 
-  // Handle search
-  const handleSearch = useCallback((query: string) => {
+  // Handle search - pass query directly to avoid stale closure
+  const handleSearch = useCallback(async (query: string) => {
     setSearchQuery(query)
     if (query.trim()) {
-      performSearch()
+      try {
+        setIsSearching(true)
+        setHasSearched(true)
+        const results = await kanjiService.searchKanji(query.trim())
+        setSearchResults(results)
+      } catch (error) {
+        console.error('Error searching kanji:', error)
+        setSearchResults([])
+      } finally {
+        setIsSearching(false)
+      }
     } else {
       setSearchResults([])
       setIsSearching(false)
+      setHasSearched(false)
     }
   }, [])
+
+  // Handle drawing search - when a character is selected from the modal
+  const handleDrawingCharacterSelect = useCallback((character: string) => {
+    // Find the kanji in our data and show its details
+    const allKanji = Object.values(kanjiData).flat().filter(Boolean) as Kanji[]
+    const foundKanji = allKanji.find(k => k.kanji === character)
+
+    if (foundKanji) {
+      setModalKanji(foundKanji)
+    } else {
+      // If not found in loaded data, set as search query to trigger search
+      setSearchQuery(character)
+    }
+
+    setShowDrawingSearch(false)
+  }, [kanjiData])
 
   const loadKanjiData = async () => {
     try {
@@ -301,18 +338,6 @@ function KanjiBrowserContent() {
     }
   }
 
-  const performSearch = async () => {
-    try {
-      setIsSearching(true)
-      const results = await kanjiService.searchKanji(searchQuery.trim())
-      setSearchResults(results)
-    } catch (error) {
-      console.error('Error searching kanji:', error)
-      setSearchResults([])
-    } finally {
-      setIsSearching(false)
-    }
-  }
 
   const handleKanjiClick = (kanji: Kanji) => {
     // Always open modal for kanji preview
@@ -709,6 +734,7 @@ function KanjiBrowserContent() {
         onClearSelection={() => setSelectedKanji(new Set())}
         onStartStudy={handleStartStudy}
         onStartReview={handleStartReview}
+        hideBottomBar={isSearchFocused || showDrawingSearch}
       />
 
       {/* Main Content */}
@@ -719,21 +745,49 @@ function KanjiBrowserContent() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-6"
         >
-          <SearchBar
-            value={searchQuery}
-            onChange={setSearchQuery}
-            onSearch={handleSearch}
-            placeholder={
-              strings.kanjiBrowser?.searchPlaceholder ||
-              'Search kanji by character, meaning, or reading...'
-            }
-            searching={isSearching}
-            showQuickSearch={false}
+          <div className="flex gap-2 items-center">
+            <div className="flex-1">
+              <SearchBar
+                value={searchQuery}
+                onChange={setSearchQuery}
+                onSearch={handleSearch}
+                onClear={() => {
+                  setSearchQuery('')
+                  setSearchResults([])
+                  setHasSearched(false)
+                }}
+                onFocus={() => setIsSearchFocused(true)}
+                onBlur={() => setIsSearchFocused(false)}
+                placeholder={
+                  strings.kanjiBrowser?.searchPlaceholder ||
+                  'Search kanji by character, meaning, or reading...'
+                }
+                searching={isSearching}
+                showQuickSearch={false}
+              />
+            </div>
+
+            {/* Drawing Search Button */}
+            <button
+              onClick={() => setShowDrawingSearch(true)}
+              className="p-2.5 rounded-lg transition-colors flex-shrink-0 bg-gray-100 dark:bg-dark-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-600"
+              title="Search by drawing"
+              aria-label="Search by drawing"
+            >
+              <Pencil className="w-4 h-4" />
+            </button>
+          </div>
+
+          {/* Drawing Search Modal */}
+          <DrawingSearchModal
+            isOpen={showDrawingSearch}
+            onClose={() => setShowDrawingSearch(false)}
+            onSelectCharacter={handleDrawingCharacterSelect}
           />
         </motion.div>
 
-        {/* Search Results */}
-        {searchQuery.trim() && (
+        {/* Search Results - only show after user has searched */}
+        {hasSearched && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -755,7 +809,7 @@ function KanjiBrowserContent() {
               renderKanjiGrid(searchResults)
             ) : (
               <p className="text-gray-500 dark:text-gray-400 text-center py-8">
-                No kanji found matching "{searchQuery}"
+                No kanji found matching &quot;{searchQuery}&quot;
               </p>
             )}
           </motion.div>

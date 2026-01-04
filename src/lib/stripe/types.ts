@@ -63,10 +63,15 @@ export const PRICING_PLANS: PricingPlan[] = [
     currency: PRICING_CONFIG.currency,
     interval: 'month',
     features: [
-      'pricing.features.free.hiragana',
-      'pricing.features.free.katakana',
-      'pricing.features.free.basicTracking',
-      'pricing.features.free.communitySupport'
+      'pricing.features.free.hiraganaKatakana',
+      'pricing.features.free.kanjiBrowser',
+      'pricing.features.free.kanjiMastery',
+      'pricing.features.free.drills',
+      'pricing.features.free.vocabulary',
+      'pricing.features.free.moodboards',
+      'pricing.features.free.moshiPlayer',
+      'pricing.features.free.aiStoriesNews',
+      'pricing.features.free.progressTracking'
     ],
     stripePriceId: ''
   },
@@ -78,17 +83,15 @@ export const PRICING_PLANS: PricingPlan[] = [
     currency: PRICING_CONFIG.currency,
     interval: 'month',
     features: [
-      'pricing.features.monthly.unlimitedHiragana',
-      'pricing.features.monthly.unlimitedKatakana',
-      'pricing.features.monthly.unlimitedKanji',
+      'pricing.features.monthly.everythingFree',
+      'pricing.features.monthly.fullMoshiPlayer',
       'pricing.features.monthly.kanjiConnection',
-      'pricing.features.monthly.textbookVocab',
       'pricing.features.monthly.moshiComics',
-      'pricing.features.monthly.advancedSRS',
+      'pricing.features.monthly.textbookVocab',
       'pricing.features.monthly.ankiImports',
       'pricing.features.monthly.unlimitedLists',
-      'pricing.features.monthly.prioritySupport',
-      'pricing.features.monthly.cancelAnytime'
+      'pricing.features.monthly.library',
+      'pricing.features.monthly.prioritySupport'
     ],
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY || '',
     popular: true
@@ -103,7 +106,6 @@ export const PRICING_PLANS: PricingPlan[] = [
     features: [
       'pricing.features.yearly.everythingMonthly',
       'pricing.features.yearly.twoMonthsFree',
-      'pricing.features.yearly.save25'
     ],
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_YEARLY || ''
   }

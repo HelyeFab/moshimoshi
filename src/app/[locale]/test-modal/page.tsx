@@ -4,12 +4,14 @@ import { useState } from 'react'
 import Modal from '@/components/ui/Modal'
 import CelebrationScreen from '@/components/gamification/CelebrationScreen'
 import SessionSummary from '@/components/review-engine/SessionSummary'
+import StreakSaveModal from '@/components/gamification/StreakSaveModal'
 
 export default function TestModalPage() {
   const [showModal, setShowModal] = useState(false)
   const [showCelebration, setShowCelebration] = useState(false)
   const [showCommandPalette, setShowCommandPalette] = useState(false)
   const [showSessionSummary, setShowSessionSummary] = useState(false)
+  const [showStreakSave, setShowStreakSave] = useState(false)
 
   // Mock session statistics for SessionSummary
   const mockStatistics = {
@@ -104,6 +106,18 @@ export default function TestModalPage() {
               The reference component with perfect mobile centering
             </p>
           </button>
+
+          {/* Test Streak Save Modal */}
+          <button
+            onClick={() => setShowStreakSave(true)}
+            className="p-6 bg-white dark:bg-dark-800 rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105"
+          >
+            <div className="text-2xl mb-2">🔥</div>
+            <h3 className="font-bold mb-2">Streak Save Modal</h3>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              Save your streak by trading XP
+            </p>
+          </button>
         </div>
 
         {/* Instructions */}
@@ -194,6 +208,12 @@ export default function TestModalPage() {
           onClose={() => setShowSessionSummary(false)}
         />
       )}
+
+      <StreakSaveModal
+        isOpen={showStreakSave}
+        onClose={() => setShowStreakSave(false)}
+        onSaveSuccess={() => setShowStreakSave(false)}
+      />
 
       {/* Command Palette is now global - rendered in root layout */}
     </div>

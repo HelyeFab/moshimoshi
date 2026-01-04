@@ -10,8 +10,8 @@
  * - LAUNCH_DATE / NEXT_PUBLIC_LAUNCH_DATE: The launch date (ISO string)
  */
 
-// Default launch date: January 16th, 2026 at midnight UK time (GMT)
-const DEFAULT_LAUNCH_DATE = '2026-01-16T00:00:00Z';
+// Default launch date: January 23rd, 2026 at midnight UK time (GMT)
+const DEFAULT_LAUNCH_DATE = '2026-01-23T00:00:00Z';
 
 // Check if lock is explicitly disabled via env var
 export const isLockExplicitlyDisabled = (): boolean => {

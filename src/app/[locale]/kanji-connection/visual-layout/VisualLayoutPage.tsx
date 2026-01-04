@@ -307,10 +307,10 @@ export default function VisualLayoutPage() {
 
         {/* Main Content Area */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Subcategory Selector */}
+          {/* Subcategory Selector - Hidden on mobile when subcategory is selected */}
           {selectedPattern && showSubcategories && (
-            <div className="lg:col-span-1">
-              <div className="bg-card dark:bg-dark-800 rounded-lg p-4 sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide">
+            <div className={`lg:col-span-1 ${selectedSubcategory ? 'hidden lg:block' : ''}`}>
+              <div className="bg-card dark:bg-dark-800 rounded-lg p-4 lg:sticky lg:top-20 lg:max-h-[calc(100vh-6rem)] overflow-y-auto scrollbar-hide">
                 <h2 className="font-semibold mb-4 text-foreground dark:text-dark-50">{t('kanjiConnection.visualLayout.subcategories')}</h2>
 
                 <div className="space-y-2">
@@ -400,6 +400,19 @@ export default function VisualLayoutPage() {
 
                 {/* Kanji Grid */}
                 <div className="bg-card dark:bg-dark-800 rounded-lg p-6">
+                  {/* Mobile back button */}
+                  {selectedSubcategory && showSubcategories && (
+                    <button
+                      onClick={() => setSelectedSubcategory(null)}
+                      className="lg:hidden flex items-center gap-2 text-primary-600 dark:text-primary-400 mb-4 hover:underline"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                      <span className="text-sm font-medium">Change Subcategory</span>
+                    </button>
+                  )}
+
                   <h3 className="font-semibold mb-4 text-foreground dark:text-dark-50">
                     {selectedSubcategory && showSubcategories
                       ? SKIP_PATTERNS[selectedPattern].subCategories?.find(sc => sc.id === selectedSubcategory)?.name

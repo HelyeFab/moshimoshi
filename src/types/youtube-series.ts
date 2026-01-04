@@ -44,6 +44,9 @@ export interface YouTubeChannel {
   autoExtractTranscript: boolean;
   shadowingEnabled: boolean; // Enable direct shadowing links
 
+  // Featured status
+  isFeatured?: boolean; // Featured channels appear first with a ribbon badge
+
   // Metadata
   createdAt: Timestamp;
   updatedAt: Timestamp;
@@ -52,6 +55,7 @@ export interface YouTubeChannel {
   videosImported: number;
   totalViews?: number; // Views on imported resources
   totalShadowingSessions: number;
+  visitCount?: number; // Times users clicked "Visit Channel" button
 }
 
 export interface YouTubeSeries {
