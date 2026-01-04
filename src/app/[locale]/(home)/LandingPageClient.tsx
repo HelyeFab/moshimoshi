@@ -1139,35 +1139,6 @@ export default function LandingPageClient() {
                 ))}
               </div>
             </div>
-            <div className="order-1 lg:order-2 text-center lg:text-left">
-              <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                {landingStrings.features.comics.title}
-              </h2>
-              <p className="text-lg md:text-xl text-pink-600 dark:text-pink-400 mb-6">
-                {landingStrings.features.comics.subtitle}
-              </p>
-              <p className="text-gray-600 dark:text-gray-300 mb-6 md:mb-8">
-                {landingStrings.features.comics.description}
-              </p>
-              <ul className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left max-w-md mx-auto lg:mx-0">
-                {Object.values(landingStrings.features.comics.benefits).map(
-                  (benefit, i) => (
-                    <li key={i} className="flex items-start gap-3">
-                      <CheckCircleIcon className="w-6 h-6 text-green-500 flex-shrink-0 mt-0.5" />
-                      <span className="text-gray-700 dark:text-gray-300">{benefit}</span>
-                    </li>
-                  )
-                )}
-              </ul>
-              <div className="flex justify-center lg:justify-start">
-                <Button
-                  onClick={() => router.push(getLocalePath('/comics'))}
-                  className="bg-pink-600 hover:bg-pink-700 text-white px-6 md:px-8 py-3 md:py-4 rounded-lg"
-                >
-                  {landingStrings.features.comics.cta}
-                </Button>
-              </div>
-            </div>
           </div>
         </div>
       </section>
