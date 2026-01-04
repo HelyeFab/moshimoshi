@@ -20,6 +20,7 @@ interface AudioControlMenuProps {
   onPlayPage: () => void
   onPlayFullStory: () => void
   onStopFullStory: () => void
+  onRestartFullStory: () => void
   onToggleLoop: () => void
   onToggleLock?: () => void
 
@@ -38,6 +39,7 @@ export default function AudioControlMenu({
   onPlayPage,
   onPlayFullStory,
   onStopFullStory,
+  onRestartFullStory,
   onToggleLoop,
   onToggleLock,
   className = '',
@@ -92,13 +94,9 @@ export default function AudioControlMenu({
         </span>
       </div>
 
-      {/* Playback Controls */}
+      {/* Simple Controls - Just Pause and Restart */}
       <div className="space-y-2">
-        <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-1">
-          {t('common.playback')}
-        </div>
-
-        {/* Play Single Page */}
+        {/* Pause */}
         <button
           onClick={() => {
             onPlayPage()
@@ -107,156 +105,29 @@ export default function AudioControlMenu({
           disabled={disabled}
           className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <Play className="w-4 h-4 text-primary-500" />
+          <Pause className="w-4 h-4 text-primary-500" />
           <div className="flex-1 text-left">
             <div className="text-sm font-medium text-gray-900 dark:text-gray-100">
-              {t('story.singlePage')}
-            </div>
-            <div className="text-xs text-gray-500 dark:text-gray-400">
-              {t('story.singlePageDescription', { page: currentPage + 1 })}
+              {t('common.pause')}
             </div>
           </div>
         </button>
 
-        {/* Play Full Story */}
-        {!isPlayingFullStory ? (
-          <button
-            onClick={() => {
-              onPlayFullStory()
-              setIsOpen(false)
-            }}
-            disabled={disabled}
-            className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white transition-all duration-200 hover:scale-[1.02] active:scale-95 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <ListMusic className="w-4 h-4" />
-            <div className="flex-1 text-left">
-              <div className="text-sm font-medium">
-                {t('story.fullStory')}
-              </div>
-              <div className="text-xs opacity-90">
-                {t('story.fullStoryDescription')}
-              </div>
-            </div>
-          </button>
-        ) : (
-          <div className="space-y-2">
-            {/* Pause/Resume */}
-            <button
-              onClick={() => {
-                onPlayFullStory()
-                setIsOpen(false)
-              }}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-white transition-all duration-200 hover:scale-[1.02] active:scale-95 shadow-md ${
-                isPlayingPage
-                  ? 'bg-amber-500 hover:bg-amber-600'
-                  : 'bg-green-500 hover:bg-green-600'
-              }`}
-            >
-              {isPlayingPage ? (
-                <Pause className="w-4 h-4" />
-              ) : (
-                <Play className="w-4 h-4" />
-              )}
-              <div className="flex-1 text-left">
-                <div className="text-sm font-medium">
-                  {isPlayingPage ? t('common.pause') : t('common.resume')}
-                </div>
-                <div className="text-xs opacity-90">
-                  {t('story.fullStoryPlayback')}
-                </div>
-              </div>
-            </button>
-
-            {/* Stop */}
-            <button
-              onClick={() => {
-                onStopFullStory()
-                setIsOpen(false)
-              }}
-              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-red-500 hover:bg-red-600 text-white transition-all duration-200 hover:scale-[1.02] active:scale-95 shadow-md"
-            >
-              <Square className="w-4 h-4 fill-current" />
-              <div className="flex-1 text-left">
-                <div className="text-sm font-medium">
-                  {t('common.stop')}
-                </div>
-                <div className="text-xs opacity-90">
-                  {t('story.exitFullStoryMode')}
-                </div>
-              </div>
-            </button>
-          </div>
-        )}
-      </div>
-
-      {/* Settings */}
-      <div className="space-y-2">
-        <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider px-1">
-          {t('common.settings')}
-        </div>
-
-        {/* Loop Toggle */}
+        {/* Restart */}
         <button
-          onClick={onToggleLoop}
-          className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-all duration-200 ${
-            isStoryLoopEnabled
-              ? 'bg-primary-50 dark:bg-primary-900/20 border-primary-300 dark:border-primary-700 text-primary-700 dark:text-primary-300'
-              : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
-          }`}
+          onClick={() => {
+            onRestartFullStory()
+            setIsOpen(false)
+          }}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-blue-500 hover:bg-blue-600 text-white transition-all duration-200 hover:scale-[1.02] active:scale-95 shadow-md"
         >
-          <Repeat className={`w-4 h-4 ${isStoryLoopEnabled ? 'text-primary-500' : 'text-gray-400'}`} />
+          <Repeat className="w-4 h-4" />
           <div className="flex-1 text-left">
             <div className="text-sm font-medium">
-              {t('common.loopMode')}
-            </div>
-            <div className="text-xs opacity-75">
-              {t('story.loopModeDescription')}
+              {t('common.restart')}
             </div>
           </div>
-          <span
-            className={`text-xs px-2 py-0.5 rounded font-medium ${
-              isStoryLoopEnabled
-                ? 'bg-primary-500 text-white'
-                : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
-            }`}
-          >
-            {isStoryLoopEnabled ? t('common.on') : t('common.off')}
-          </span>
         </button>
-
-        {/* Lock Screen Button - only show when full story + loop are both on, and on mobile */}
-        {isPlayingFullStory && isStoryLoopEnabled && onToggleLock && isMobile && (
-          <button
-            onClick={() => {
-              onToggleLock()
-              setIsOpen(false) // Close menu when locking
-            }}
-            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg border transition-all duration-200 ${
-              isScreenLocked
-                ? 'bg-amber-50 dark:bg-amber-900/20 border-amber-300 dark:border-amber-700 text-amber-700 dark:text-amber-300'
-                : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-600'
-            }`}
-          >
-            <Lock className={`w-4 h-4 ${isScreenLocked ? 'text-amber-500' : 'text-gray-400'}`} />
-            <div className="flex-1 text-left">
-              <div className="text-sm font-medium">
-                {t('story.lockScreen')}
-              </div>
-              <div className="text-xs opacity-75">
-                {t('story.lockScreenDescription')}
-              </div>
-            </div>
-            <span
-              className={`text-xs px-2 py-0.5 rounded font-medium ${
-                isScreenLocked
-                  ? 'bg-amber-500 text-white'
-                  : 'bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
-              }`}
-            >
-              {isScreenLocked ? t('common.on') : t('common.off')}
-            </span>
-          </button>
-        )}
       </div>
     </div>
   )
@@ -266,14 +137,7 @@ export default function AudioControlMenu({
     return (
       <>
         <button
-          onClick={() => {
-            // If audio is playing, pause it directly instead of opening menu
-            if (isPlayingPage) {
-              onPlayPage()
-            } else {
-              setIsOpen(true)
-            }
-          }}
+          onClick={() => setIsOpen(true)}
           disabled={disabled}
           className={`flex items-center gap-2 px-4 py-2 rounded-full bg-primary-500 hover:bg-primary-600 text-white transition-all duration-200 hover:scale-105 active:scale-95 shadow-md disabled:opacity-50 disabled:cursor-not-allowed ${className}`}
         >
@@ -304,14 +168,7 @@ export default function AudioControlMenu({
   return (
     <div className={`relative ${className}`}>
       <button
-        onClick={() => {
-          // If audio is playing, pause it directly instead of opening menu
-          if (isPlayingPage) {
-            onPlayPage()
-          } else {
-            setIsOpen(!isOpen)
-          }
-        }}
+        onClick={() => setIsOpen(!isOpen)}
         disabled={disabled}
         className="flex items-center gap-2 px-4 py-2 rounded-full bg-primary-500 hover:bg-primary-600 text-white transition-all duration-200 hover:scale-105 active:scale-95 shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
       >

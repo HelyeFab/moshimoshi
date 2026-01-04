@@ -28,12 +28,23 @@ export interface FlashcardContent {
   front: CardSide;
   back: CardSide;
   metadata?: {
-    // SRS Core Data
+    // SRS Algorithm Identifier
+    algorithm?: 'sm2' | 'fsrs'; // Which SRS algorithm is being used
+
+    // SRS Core Data (Common to both SM-2 and FSRS)
     status?: CardStatus; // 'new' | 'learning' | 'review' | 'mastered'
     interval?: number; // Days until next review
-    easeFactor?: number; // Difficulty multiplier (default 2.5)
-    repetitions?: number; // Number of successful reviews
     lapses?: number; // Number of times forgotten
+
+    // SM-2 Specific Fields (optional, used only when algorithm='sm2')
+    easeFactor?: number; // Difficulty multiplier (default 2.5) - SM-2 only
+    repetitions?: number; // Number of successful reviews - SM-2 only
+
+    // FSRS Specific Fields (optional, used only when algorithm='fsrs')
+    stability?: number; // Memory stability in days - FSRS only
+    difficulty?: number; // Item difficulty (1-10) - FSRS only
+    retrievability?: number; // Current probability of recall (0-1) - FSRS only
+    state?: number; // FSRS internal state - FSRS only
 
     // Review Tracking
     lastReviewed?: number; // Timestamp of last review
@@ -52,7 +63,6 @@ export interface FlashcardContent {
     graduatedAt?: number; // When card graduated from learning
 
     // Content Metadata
-    difficulty?: number; // User-perceived difficulty (0-1)
     tags?: string[];
     notes?: string;
     hints?: string | string[]; // Custom hints for the card

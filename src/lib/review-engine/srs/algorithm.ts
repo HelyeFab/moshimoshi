@@ -14,22 +14,28 @@ export interface ReviewResult {
    * Whether the answer was correct
    */
   correct: boolean
-  
+
   /**
    * Response time in milliseconds
    */
   responseTime: number
-  
+
   /**
    * User's confidence level (1-5, where 5 is most confident)
    */
   confidence?: 1 | 2 | 3 | 4 | 5
-  
+
+  /**
+   * Difficulty rating (used by FSRS algorithm)
+   * 'again' = failed to recall, 'hard' = difficult but correct, 'good' = normal, 'easy' = very easy
+   */
+  difficulty?: 'again' | 'hard' | 'good' | 'easy'
+
   /**
    * Number of hints used
    */
   hintsUsed?: number
-  
+
   /**
    * Number of attempts before correct answer
    */
@@ -194,7 +200,8 @@ export class SRSAlgorithm {
       reviewCount: 0,
       correctCount: 0,
       streak: 0,
-      bestStreak: 0
+      bestStreak: 0,
+      algorithm: 'sm2'
     }
   }
   
@@ -208,6 +215,7 @@ export class SRSAlgorithm {
       srs.interval = this.config.learningSteps[0]
     } else {
       srs.interval = 0.0035 // 5 minutes
+      srs.repetitions = 0
     }
     return srs
   }
@@ -216,9 +224,11 @@ export class SRSAlgorithm {
    * Handle review of an item in learning phase
    */
   private handleLearningItem(srs: SRSData, result: ReviewResult): SRSData {
+    const repetitions = srs.repetitions || 0
+
     if (result.correct) {
-      srs.repetitions++
-      
+      srs.repetitions = repetitions + 1
+
       if (srs.repetitions - 1 < this.config.learningSteps.length) {
         // Still in learning steps
         srs.interval = this.config.learningSteps[srs.repetitions - 1]
@@ -243,21 +253,24 @@ export class SRSAlgorithm {
     result: ReviewResult,
     quality: number
   ): SRSData {
+    const easeFactor = srs.easeFactor || this.config.initialEaseFactor
+    const repetitions = srs.repetitions || 0
+
     if (result.correct) {
       // Calculate new ease factor
-      srs.easeFactor = this.calculateEaseFactor(srs.easeFactor, quality)
-      
+      srs.easeFactor = this.calculateEaseFactor(easeFactor, quality)
+
       // Calculate new interval
-      if (srs.repetitions === 0) {
+      if (repetitions === 0) {
         srs.interval = 1
-      } else if (srs.repetitions === 1) {
+      } else if (repetitions === 1) {
         srs.interval = 6
       } else {
         srs.interval = Math.round(srs.interval * srs.easeFactor)
       }
-      
-      srs.repetitions++
-      
+
+      srs.repetitions = repetitions + 1
+
       // Check for mastery
       if (srs.interval >= 21 && srs.correctCount / srs.reviewCount >= 0.9) {
         srs.status = 'mastered'
@@ -267,17 +280,17 @@ export class SRSAlgorithm {
       srs.repetitions = 0
       srs.interval = this.config.learningSteps[0]
       srs.status = 'learning'
-      
+
       // Adjust ease factor down for lapses
       srs.easeFactor = Math.max(
         this.config.minEaseFactor,
-        srs.easeFactor - 0.2
+        easeFactor - 0.2
       )
     }
-    
+
     // Cap interval at maximum
     srs.interval = Math.min(srs.interval, this.config.maxInterval)
-    
+
     return srs
   }
   
@@ -289,19 +302,22 @@ export class SRSAlgorithm {
     result: ReviewResult,
     quality: number
   ): SRSData {
+    const easeFactor = srs.easeFactor || this.config.initialEaseFactor
+    const repetitions = srs.repetitions || 0
+
     if (result.correct) {
       // Continue increasing interval
-      srs.easeFactor = this.calculateEaseFactor(srs.easeFactor, quality)
+      srs.easeFactor = this.calculateEaseFactor(easeFactor, quality)
       srs.interval = Math.round(srs.interval * srs.easeFactor)
       srs.interval = Math.min(srs.interval, this.config.maxInterval)
-      srs.repetitions++
+      srs.repetitions = repetitions + 1
     } else {
       // Demote from mastered
       srs.status = 'review'
       srs.interval = Math.max(1, Math.round(srs.interval * 0.5))
       srs.easeFactor = Math.max(
         this.config.minEaseFactor,
-        srs.easeFactor - 0.3
+        easeFactor - 0.3
       )
     }
     

@@ -204,55 +204,106 @@ export interface ContentStatistics {
  * SRS (Spaced Repetition System) data for content items
  */
 export interface SRSData {
+  // ========================================
+  // Common fields (used by both SM-2 and FSRS)
+  // ========================================
+
   /**
    * Days until next review
    */
   interval: number
-  
-  /**
-   * Difficulty factor (1.3 to 2.5)
-   */
-  easeFactor: number
-  
-  /**
-   * Number of consecutive successful reviews
-   */
-  repetitions: number
-  
+
   /**
    * Last review timestamp
    */
   lastReviewedAt: Date | null
-  
+
   /**
    * Next scheduled review
    */
   nextReviewAt: Date
-  
+
   /**
    * Learning status
    */
   status: 'new' | 'learning' | 'review' | 'mastered'
-  
+
   /**
    * Total review count
    */
   reviewCount: number
-  
+
   /**
    * Correct answer count
    */
   correctCount: number
-  
+
   /**
    * Current streak of correct answers
    */
   streak: number
-  
+
   /**
    * Best streak achieved
    */
   bestStreak: number
+
+  // ========================================
+  // Algorithm identifier (NEW)
+  // ========================================
+
+  /**
+   * Which SRS algorithm is being used
+   * - 'sm2': SuperMemo 2 algorithm (legacy, default for existing cards)
+   * - 'fsrs': Free Spaced Repetition Scheduler (modern, default for new cards)
+   */
+  algorithm: 'sm2' | 'fsrs'
+
+  // ========================================
+  // SM-2 specific fields (optional, used only when algorithm='sm2')
+  // ========================================
+
+  /**
+   * Difficulty factor (1.3 to 2.5) - SM-2 only
+   * Indicates how "easy" the card is
+   */
+  easeFactor?: number
+
+  /**
+   * Number of consecutive successful reviews - SM-2 only
+   */
+  repetitions?: number
+
+  // ========================================
+  // FSRS specific fields (optional, used only when algorithm='fsrs')
+  // ========================================
+
+  /**
+   * Memory stability in days - FSRS only
+   * Represents how long the memory will last before forgetting
+   * Higher stability = longer intervals between reviews
+   */
+  stability?: number
+
+  /**
+   * Item difficulty (0-10) - FSRS only
+   * 1 = easiest, 10 = hardest
+   * Unlike SM-2's easeFactor, this represents intrinsic difficulty of the content
+   */
+  difficulty?: number
+
+  /**
+   * Current retrievability (0-1) - FSRS only
+   * Probability that the user can recall this item right now
+   * Calculated using the forgetting curve based on time since last review
+   */
+  retrievability?: number
+
+  /**
+   * FSRS internal state - FSRS only
+   * Used for algorithm-specific state tracking
+   */
+  state?: number
 }
 
 /**

@@ -360,6 +360,7 @@ export class AnkiStudyManager {
         correctCount: currentSRS.correctCount,
         streak: currentSRS.streak,
         bestStreak: currentSRS.bestStreak,
+        algorithm: 'sm2', // AnkiStudyManager uses SM-2 algorithm
       },
     }
 
@@ -377,8 +378,8 @@ export class AnkiStudyManager {
     const updatedSRS: CardSRSData = {
       status: newSRSData.status,
       interval: newSRSData.interval,
-      easeFactor: newSRSData.easeFactor,
-      repetitions: newSRSData.repetitions,
+      easeFactor: newSRSData.easeFactor || 2.5,
+      repetitions: newSRSData.repetitions || 0,
       nextReviewAt: newSRSData.nextReviewAt,
       reviewCount: newSRSData.reviewCount,
       correctCount: newSRSData.correctCount,

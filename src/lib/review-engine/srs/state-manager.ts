@@ -156,9 +156,10 @@ export class SRSStateManager {
    * Check if item should graduate from learning to review
    */
   shouldGraduate(srsData: SRSData): boolean {
+    const repetitions = srsData.repetitions || 0
     return (
       srsData.status === 'learning' &&
-      srsData.repetitions >= this.config.graduationThreshold &&
+      repetitions >= this.config.graduationThreshold &&
       srsData.streak >= this.config.graduationThreshold
     )
   }
@@ -268,7 +269,8 @@ export class SRSStateManager {
       reviewCount: 0,
       correctCount: 0,
       streak: 0,
-      bestStreak: 0
+      bestStreak: 0,
+      algorithm: 'sm2'
     }
   }
   

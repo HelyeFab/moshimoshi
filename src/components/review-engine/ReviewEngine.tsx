@@ -219,6 +219,7 @@ export default function ReviewEngine({
                 correctCount: correct ? 1 : 0,
                 streak: correct ? 1 : 0,
                 bestStreak: correct ? 1 : 0,
+                algorithm: 'sm2',
               }
             : undefined,
         }

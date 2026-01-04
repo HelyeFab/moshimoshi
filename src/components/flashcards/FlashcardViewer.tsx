@@ -7,6 +7,7 @@ import type { FlashcardContent, CardStyle, AnimationSpeed } from '@/types/flashc
 import { useI18n } from '@/i18n/I18nContext';
 import { useTTS } from '@/hooks/useTTS';
 import { cn } from '@/lib/utils';
+import { useMediaHydration } from '@/hooks/useMediaHydration';
 
 interface FlashcardViewerProps {
   card: FlashcardContent;
@@ -39,6 +40,10 @@ export function FlashcardViewer({
 }: FlashcardViewerProps) {
   const { t } = useI18n();
   const { play, loading: ttsLoading, preload } = useTTS({ cacheFirst: true });
+
+  // Lazy hydration: Load media on-demand as card is displayed
+  const hydratedCard = useMediaHydration(card);
+
   const [isFlipped, setIsFlipped] = useState(false);
   const [showHint, setShowHint] = useState(false);
   const [currentHintIndex, setCurrentHintIndex] = useState(0);
@@ -47,17 +52,17 @@ export function FlashcardViewer({
 
   const speed = ANIMATION_SPEEDS[animationSpeed];
 
-  // Debug: Log card structure
+  // Debug: Log card structure (including hydrated media)
   useEffect(() => {
     console.log('[FlashcardViewer] Card received:', {
-      id: card.id,
-      frontText: card.front?.text,
-      frontMedia: card.front?.media,
-      backText: card.back?.text,
-      backMedia: card.back?.media,
-      metadata: card.metadata,
+      id: hydratedCard.id,
+      frontText: hydratedCard.front?.text,
+      frontMedia: hydratedCard.front?.media,
+      backText: hydratedCard.back?.text,
+      backMedia: hydratedCard.back?.media,
+      metadata: hydratedCard.metadata,
     });
-  }, [card]);
+  }, [hydratedCard]);
 
   // Reset state when card changes
   useEffect(() => {
@@ -67,13 +72,13 @@ export function FlashcardViewer({
     setHasGraded(false);
   }, [card.id]);
 
-  // Auto-play audio if enabled
+  // Auto-play audio if enabled (uses hydrated media)
   useEffect(() => {
-    if (autoPlayAudio && card.metadata?.audioUrl) {
-      const audio = new Audio(card.metadata.audioUrl);
+    if (autoPlayAudio && hydratedCard.metadata?.audioUrl) {
+      const audio = new Audio(hydratedCard.metadata.audioUrl);
       audio.play().catch(() => {});
     }
-  }, [card.id, autoPlayAudio, card.metadata?.audioUrl]);
+  }, [card.id, autoPlayAudio, hydratedCard.metadata?.audioUrl]);
 
   const handleFlip = useCallback(() => {
     setIsFlipped(!isFlipped);
@@ -125,8 +130,8 @@ export function FlashcardViewer({
   const playAudio = async () => {
     if (audioPlaying) return;
 
-    // Determine what text to play based on which side is showing
-    const textToPlay = isFlipped ? card.back.text : card.front.text;
+    // Determine what text to play based on which side is showing (uses hydrated media)
+    const textToPlay = isFlipped ? hydratedCard.back.text : hydratedCard.front.text;
 
     if (!textToPlay) return;
 
@@ -144,10 +149,10 @@ export function FlashcardViewer({
     };
 
     try {
-      // If there's a custom audio URL, try to use it
-      if (card.metadata?.audioUrl) {
+      // If there's a custom audio URL (hydrated), try to use it
+      if (hydratedCard.metadata?.audioUrl) {
         try {
-          const audio = new Audio(card.metadata.audioUrl);
+          const audio = new Audio(hydratedCard.metadata.audioUrl);
           await audio.play();
         } catch (audioError) {
           // Audio file failed - fall back to TTS
@@ -167,17 +172,17 @@ export function FlashcardViewer({
     }
   };
 
-  // Preload audio for both sides when card loads
+  // Preload audio for both sides when card loads (uses original card text)
   useEffect(() => {
     const preloadTexts = async () => {
       try {
         const texts = [];
 
-        if (card.front.text) {
-          texts.push(card.front.text);
+        if (hydratedCard.front.text) {
+          texts.push(hydratedCard.front.text);
         }
-        if (card.back.text) {
-          texts.push(card.back.text);
+        if (hydratedCard.back.text) {
+          texts.push(hydratedCard.back.text);
         }
 
         if (texts.length > 0) {
@@ -203,7 +208,7 @@ export function FlashcardViewer({
     };
 
     preloadTexts();
-  }, [card, preload]);
+  }, [card.id, preload, hydratedCard]);
 
   const getCardStyleClasses = () => {
     switch (cardStyle) {
@@ -246,11 +251,11 @@ export function FlashcardViewer({
               getCardStyleClasses()
             )}
           >
-            {card.front.media && card.front.media.type === 'image' && (
+            {hydratedCard.front.media && hydratedCard.front.media.type === 'image' && (
               <div className="mb-4">
                 <img
-                  src={card.front.media.url}
-                  alt={card.front.media.alt || ''}
+                  src={hydratedCard.front.media.url}
+                  alt={hydratedCard.front.media.alt || ''}
                   className="max-w-full max-h-48 rounded-lg shadow-lg object-contain"
                   loading="lazy"
                 />
@@ -261,21 +266,21 @@ export function FlashcardViewer({
               'text-3xl md:text-4xl font-bold text-center mb-4',
               cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
             )}>
-              {card.front.text}
+              {hydratedCard.front.text}
             </h2>
 
-            {card.front.subtext && (
+            {hydratedCard.front.subtext && (
               <p className={cn(
                 'text-lg md:text-xl text-center',
                 cardStyle === 'themed' ? 'text-white/90' : 'text-gray-600 dark:text-gray-400'
               )}>
-                {card.front.subtext}
+                {hydratedCard.front.subtext}
               </p>
             )}
 
             {/* Top right controls */}
             <div className="absolute top-4 right-4 flex gap-2">
-              {(card.metadata?.audioUrl || card.front.text) && (
+              {(hydratedCard.metadata?.audioUrl || hydratedCard.front.text) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
                   className="p-2 rounded-full bg-primary-100 dark:bg-primary-900/30 hover:bg-primary-200 dark:hover:bg-primary-800/50 transition-colors"
@@ -315,13 +320,13 @@ export function FlashcardViewer({
                     <p className="text-gray-700 dark:text-gray-300">
                       {(() => {
                         // Show custom hints if available
-                        if (card.metadata?.hints) {
-                          return Array.isArray(card.metadata.hints)
-                            ? card.metadata.hints[currentHintIndex]
-                            : card.metadata.hints;
+                        if (hydratedCard.metadata?.hints) {
+                          return Array.isArray(hydratedCard.metadata.hints)
+                            ? hydratedCard.metadata.hints[currentHintIndex]
+                            : hydratedCard.metadata.hints;
                         }
                         // Fallback: show first few characters of the answer
-                        const answer = card.back.text;
+                        const answer = hydratedCard.back.text;
                         if (answer.length <= 3) {
                           return `${answer.charAt(0)}...`;
                         } else if (answer.length <= 10) {
@@ -331,9 +336,9 @@ export function FlashcardViewer({
                         }
                       })()}
                     </p>
-                    {Array.isArray(card.metadata?.hints) && card.metadata.hints.length > 1 && (
+                    {Array.isArray(hydratedCard.metadata?.hints) && hydratedCard.metadata.hints.length > 1 && (
                       <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                        {currentHintIndex + 1} / {card.metadata.hints.length}
+                        {currentHintIndex + 1} / {hydratedCard.metadata.hints.length}
                       </p>
                     )}
                   </div>
@@ -355,11 +360,11 @@ export function FlashcardViewer({
               getCardStyleClasses()
             )}
           >
-            {card.back.media && card.back.media.type === 'image' && (
+            {hydratedCard.back.media && hydratedCard.back.media.type === 'image' && (
               <div className="mb-4">
                 <img
-                  src={card.back.media.url}
-                  alt={card.back.media.alt || ''}
+                  src={hydratedCard.back.media.url}
+                  alt={hydratedCard.back.media.alt || ''}
                   className="max-w-full max-h-48 rounded-lg shadow-lg object-contain"
                   loading="lazy"
                 />
@@ -370,41 +375,41 @@ export function FlashcardViewer({
               'text-3xl md:text-4xl font-bold text-center mb-2',
               cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
             )}>
-              {card.back.text}
+              {hydratedCard.back.text}
             </h2>
 
             {/* Reading (hiragana) */}
-            {card.metadata?.reading && (
+            {hydratedCard.metadata?.reading && (
               <p className={cn(
                 'text-xl md:text-2xl text-center mb-3',
                 cardStyle === 'themed' ? 'text-white/80' : 'text-primary-600 dark:text-primary-400'
               )}>
-                {card.metadata.reading}
+                {hydratedCard.metadata.reading}
               </p>
             )}
 
             {/* Meaning */}
-            {card.back.subtext && (
+            {hydratedCard.back.subtext && (
               <p className={cn(
                 'text-lg md:text-xl text-center',
                 cardStyle === 'themed' ? 'text-white/90' : 'text-gray-600 dark:text-gray-400'
               )}>
-                {card.back.subtext}
+                {hydratedCard.back.subtext}
               </p>
             )}
 
-            {card.metadata?.notes && (
+            {hydratedCard.metadata?.notes && (
               <p className={cn(
                 'text-sm mt-4 text-center italic',
                 cardStyle === 'themed' ? 'text-white/80' : 'text-gray-500 dark:text-gray-500'
               )}>
-                {card.metadata.notes}
+                {hydratedCard.metadata.notes}
               </p>
             )}
 
             {/* Top right audio button */}
             <div className="absolute top-4 right-4">
-              {(card.metadata?.audioUrl || card.back.text) && (
+              {(hydratedCard.metadata?.audioUrl || hydratedCard.back.text) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
                   className="p-2 rounded-full bg-primary-100 dark:bg-primary-900/30 hover:bg-primary-200 dark:hover:bg-primary-800/50 transition-colors"

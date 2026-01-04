@@ -143,6 +143,7 @@ export interface PinnedItem {
     repetitions: number        // Consecutive correct reviews
     lastReviewedAt: Date | null
     nextReviewAt: Date
+    algorithm?: 'sm2' | 'fsrs'  // SRS algorithm being used
   }
   
   /**

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminDb, getAdminDb } from '@/lib/firebase/admin'
 import { SRSAlgorithm, ReviewResult } from '@/lib/review-engine/srs/algorithm'
+import { SRSData } from '@/lib/review-engine/core/interfaces'
 import { FieldValue } from 'firebase-admin/firestore'
 
 // Use centralized getAdminDb() for null-safe database access
@@ -157,17 +158,18 @@ export async function POST(request: NextRequest) {
         history.reviews.sort((a, b) => a.date.getTime() - b.date.getTime())
 
         // Simulate the SRS progression based on review history
-        let srsData = {
+        let srsData: SRSData = {
           interval: 0,
           easeFactor: 2.5,
           repetitions: 0,
-          lastReviewedAt: null as Date | null,
+          lastReviewedAt: null,
           nextReviewAt: new Date(),
-          status: 'new' as 'new' | 'learning' | 'review' | 'mastered',
+          status: 'new',
           reviewCount: 0,
           correctCount: 0,
           streak: 0,
           bestStreak: 0,
+          algorithm: 'sm2',
         }
 
         // Process each review to build up SRS state

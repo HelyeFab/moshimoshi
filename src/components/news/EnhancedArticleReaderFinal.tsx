@@ -1561,6 +1561,27 @@ export default function EnhancedArticleReader({
   }
 
   /**
+   * Restart current audio playback from the beginning
+   * Simply restarts whatever is currently playing (article, page, etc.)
+   */
+  const handleRestartFullStory = () => {
+    console.log('[Audio] Restarting current audio')
+
+    // Stop current playback
+    if (preGeneratedAudioRef.current) {
+      cleanupAudio(preGeneratedAudioRef.current)
+      preGeneratedAudioRef.current = null
+    }
+    setIsPreGeneratedPlaying(false)
+    ttsStop()
+
+    // Restart current audio (whether it's an article, single page, or current page in full story)
+    setTimeout(() => {
+      handlePlayArticle()
+    }, 150)
+  }
+
+  /**
    * Toggle loop mode for full story playback
    */
   const handleToggleStoryLoop = () => {
@@ -1872,8 +1893,20 @@ export default function EnhancedArticleReader({
     console.log('Sentence:', sentence.substring(0, 50) + '...')
 
     // PRIORITY 0: Check for pre-cached audio URL (instant playback, no API call)
+    // BUT: Skip pre-cached audio if user changed speed from default (1.0)
+    // because pre-cached audio was generated at default speed and changing playbackRate
+    // just speeds up/slows down the audio instead of regenerating at correct speed
+    const currentSpeed = settings.playbackSpeed || 1.0
     const preCachedAudioUrl = getPreCachedAudioUrl(sentence)
-    if (preCachedAudioUrl) {
+
+    if (preCachedAudioUrl && currentSpeed !== 1.0) {
+      console.log(
+        `%c⚠️ Skipping pre-cached audio due to speed change (${currentSpeed}x) - will regenerate at correct speed`,
+        'color: #FF9800; font-weight: bold;'
+      )
+    }
+
+    if (preCachedAudioUrl && currentSpeed === 1.0) {
       try {
         console.log(
           '%c▶️ PLAYING: Pre-Cached Sentence Audio (Priority 0)',
@@ -1882,9 +1915,7 @@ export default function EnhancedArticleReader({
         console.log('Source: Firebase Storage (pre-generated VOICEVOX)')
 
         const audio = new Audio(preCachedAudioUrl)
-        audio.playbackRate = Number.isFinite(settings.playbackSpeed)
-          ? settings.playbackSpeed!
-          : 1.0
+        audio.playbackRate = 1.0
 
         audio.onended = () => {
           setSentenceAudioLoading(null)
@@ -2114,8 +2145,9 @@ export default function EnhancedArticleReader({
             </button>
           )}
 
-          {/* Audio Controls - Story Mode uses organized menu, Article Mode uses simple play button */}
-          {isStoryMode && totalPages > 1 ? (
+          {/* Audio Controls - Use AudioControlMenu for all content types */}
+          {/* Show full menu when audio is playing OR for multi-page stories */}
+          {(isStoryMode && totalPages > 1) || (ttsPlaying || isPreGeneratedPlaying) ? (
             <AudioControlMenu
               className="ml-auto"
               isPlayingPage={ttsPlaying || isPreGeneratedPlaying}
@@ -2127,6 +2159,7 @@ export default function EnhancedArticleReader({
               onPlayPage={handlePlayArticle}
               onPlayFullStory={handlePlayFullStory}
               onStopFullStory={handleStopFullStory}
+              onRestartFullStory={handleRestartFullStory}
               onToggleLoop={handleToggleStoryLoop}
               onToggleLock={handleToggleLock}
               disabled={ttsLoading}

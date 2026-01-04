@@ -115,6 +115,63 @@ export class AnkiMediaStore {
   }
 
   /**
+   * Batch retrieve media blob URLs (performance optimized)
+   * Opens DB once and fetches all media in a single transaction
+   * @param filenames - Array of filenames to retrieve
+   * @returns Map of filename to blob URL
+   */
+  async getMediaUrls(filenames: string[]): Promise<Map<string, string>> {
+    const results = new Map<string, string>();
+
+    // Separate cached from uncached filenames
+    const uncached: string[] = [];
+    for (const filename of filenames) {
+      if (this.blobUrlCache.has(filename)) {
+        results.set(filename, this.blobUrlCache.get(filename)!);
+      } else {
+        uncached.push(filename);
+      }
+    }
+
+    // If everything was cached, return immediately
+    if (uncached.length === 0) {
+      return results;
+    }
+
+    try {
+      const db = await this.openDB();
+      const transaction = db.transaction([this.storeName], 'readonly');
+      const store = transaction.objectStore(this.storeName);
+
+      // Batch fetch all uncached media in a single transaction
+      const mediaFiles = await Promise.all(
+        uncached.map(filename =>
+          new Promise<{ filename: string; media: StoredMedia | null }>((resolve, reject) => {
+            const request = store.get(filename);
+            request.onsuccess = () => resolve({ filename, media: request.result });
+            request.onerror = () => reject(request.error);
+          })
+        )
+      );
+
+      db.close();
+
+      // Create blob URLs and cache them
+      for (const { filename, media } of mediaFiles) {
+        if (media) {
+          const blobUrl = URL.createObjectURL(media.blob);
+          this.blobUrlCache.set(filename, blobUrl);
+          results.set(filename, blobUrl);
+        }
+      }
+    } catch (error) {
+      console.error('[AnkiMediaStore] Failed to batch retrieve media:', error);
+    }
+
+    return results;
+  }
+
+  /**
    * Store multiple media files
    */
   async storeMediaBatch(mediaMap: Map<string, Blob>): Promise<Map<string, string>> {

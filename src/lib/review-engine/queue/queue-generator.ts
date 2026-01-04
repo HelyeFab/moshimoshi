@@ -120,6 +120,7 @@ export class QueueGenerator {
           correctCount: pinnedItem.correctCount || 0,
           streak: pinnedItem.streak || 0,
           bestStreak: pinnedItem.bestStreak || 0,
+          algorithm: pinnedItem.srsData.algorithm || 'sm2',
         } : {
           status: pinnedItem.status || 'new',
           interval: 0,
@@ -127,6 +128,7 @@ export class QueueGenerator {
           repetitions: 0,
           lastReviewedAt: pinnedItem.lastReviewedAt || null,
           nextReviewAt: pinnedItem.nextReviewAt || new Date(),
+          algorithm: 'sm2' as const,
           reviewCount: pinnedItem.reviewCount || 0,
           correctCount: pinnedItem.correctCount || 0,
           streak: pinnedItem.streak || 0,

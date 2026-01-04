@@ -317,8 +317,14 @@ export class SyncManager {
       const deckId =
         (data as FlashcardContent & { deckId?: string }).deckId || data.deckId || item?.deckId;
       if (!deckId) return;
-      const deck = await db.get('decks', deckId);
-      if (!deck) return;
+
+      // Wrap read-modify-write in transaction to prevent race conditions
+      const tx = db.transaction('decks', 'readwrite');
+      const deck = await tx.store.get(deckId);
+      if (!deck) {
+        await tx.done;
+        return;
+      }
 
       const cards: FlashcardContent[] = deck.cards || [];
       const existingIndex = cards.findIndex((card: FlashcardContent) => card.id === data.id);
@@ -338,17 +344,24 @@ export class SyncManager {
         updatedDeck.stats = data.stats;
       }
 
-      await db.put('decks', updatedDeck);
+      await tx.store.put(updatedDeck);
+      await tx.done;
       return;
     }
 
     if (item?.action === 'removeCard' && item.deckId && item.data?.cardId) {
-      const deck = await db.get('decks', item.deckId);
-      if (!deck) return;
+      // Wrap read-modify-write in transaction to prevent race conditions
+      const tx = db.transaction('decks', 'readwrite');
+      const deck = await tx.store.get(item.deckId);
+      if (!deck) {
+        await tx.done;
+        return;
+      }
       const cards: FlashcardContent[] = (deck.cards || []).filter(
         (card: FlashcardContent) => card.id !== item.data.cardId
       );
-      await db.put('decks', { ...deck, cards, updatedAt: Date.now() });
+      await tx.store.put({ ...deck, cards, updatedAt: Date.now() });
+      await tx.done;
     }
   }
 

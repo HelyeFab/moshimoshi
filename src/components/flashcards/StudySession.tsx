@@ -13,6 +13,7 @@ import { flashcardManager } from '@/lib/flashcards/FlashcardManager';
 import { sessionManager } from '@/lib/flashcards/SessionManager';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
+import { useBatchMediaHydration } from '@/hooks/useMediaHydration';
 
 interface StudySessionProps {
   deck: FlashcardDeck;
@@ -62,7 +63,12 @@ export function StudySession({
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const isUnmounted = useRef(false);
 
-  const currentCard = sessionCards[currentIndex];
+  // Batch preload media for current + next 4 cards for smooth study experience
+  const cardsToPreload = sessionCards.slice(currentIndex, currentIndex + 5);
+  const hydratedCardsMap = useBatchMediaHydration(cardsToPreload, 5);
+
+  // Get hydrated current card (or fallback to original if not yet hydrated)
+  const currentCard = hydratedCardsMap.get(sessionCards[currentIndex]?.id) || sessionCards[currentIndex];
   const progress = ((currentIndex + 1) / sessionCards.length) * 100;
 
   // Celebrate milestones
