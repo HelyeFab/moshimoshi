@@ -3,7 +3,7 @@
 // Force dynamic rendering to avoid SSR issues with i18n context
 export const dynamic = 'force-dynamic'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useI18n, useLocalePath } from '@/i18n/I18nContext'
@@ -30,11 +30,18 @@ const LandingPage = () => {
   const { strings } = useI18n()
   const { getLocalePath } = useLocalePath()
   const [currentSlide, setCurrentSlide] = useState(0)
+  const [isHydrated, setIsHydrated] = useState(false)
 
   // Use landing strings, with proper fallback to English
   const landingStrings = (strings && strings.landing) ? strings.landing : enStrings.landing
 
-  const carouselSlides = [
+  // Mark as hydrated after initial render for performance
+  useEffect(() => {
+    setIsHydrated(true)
+  }, [])
+
+  // Memoize carousel slides to prevent recreation on every render
+  const carouselSlides = useMemo(() => [
     {
       icon: <PlayIcon className="w-12 h-12" />,
       ...(landingStrings?.hero?.carousel?.shadowing || enStrings.landing.hero.carousel.shadowing),
@@ -70,14 +77,19 @@ const LandingPage = () => {
       ...(landingStrings?.hero?.carousel?.textbooks || enStrings.landing.hero.carousel.textbooks),
       color: 'from-orange-500 to-red-500',
     },
-  ]
+  ], [landingStrings]) // Only recreate when strings change
 
-  // Auto-rotate carousel every 5 seconds
+  // Auto-rotate carousel every 5 seconds (deferred for performance)
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % carouselSlides.length)
-    }, 5000)
-    return () => clearInterval(timer)
+    // Wait for page to be interactive before starting carousel
+    const startCarousel = setTimeout(() => {
+      const timer = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % carouselSlides.length)
+      }, 5000)
+      return () => clearInterval(timer)
+    }, 2000) // Start carousel 2 seconds after page load
+
+    return () => clearTimeout(startCarousel)
   }, [carouselSlides.length])
 
   return (
@@ -128,7 +140,7 @@ const LandingPage = () => {
             {carouselSlides.map((slide, index) => (
               <div
                 key={index}
-                className={`absolute inset-0 transition-all duration-700 ${
+                className={`absolute inset-0 ${isHydrated ? 'transition-all duration-700' : ''} ${
                   index === currentSlide
                     ? 'opacity-100 translate-x-0'
                     : index < currentSlide
