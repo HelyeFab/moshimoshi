@@ -169,20 +169,40 @@ export default function LibraryPage() {
           </div>
 
           {/* JLPT Level Filter */}
-          <div className="flex flex-wrap gap-2">
-            {JLPT_LEVELS.map(level => (
-              <button
-                key={level.value}
-                onClick={() => handleLevelChange(level.value)}
-                className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                  selectedLevel === level.value
-                    ? 'bg-primary-500 text-white shadow-lg scale-105'
-                    : 'bg-gray-200 dark:bg-dark-800 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-700'
-                }`}
-              >
-                {level.label}
-              </button>
-            ))}
+          <div className="relative">
+            {/* Mobile: Horizontal scroll */}
+            <div className="flex md:hidden gap-2 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory">
+              {JLPT_LEVELS.map(level => (
+                <button
+                  key={level.value}
+                  onClick={() => handleLevelChange(level.value)}
+                  className={`flex-shrink-0 snap-start px-4 py-2.5 rounded-full font-medium transition-all whitespace-nowrap ${
+                    selectedLevel === level.value
+                      ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg ring-2 ring-primary-300 dark:ring-primary-700'
+                      : 'bg-white dark:bg-dark-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:border-primary-400 dark:hover:border-primary-500'
+                  }`}
+                >
+                  {level.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Desktop: Flex wrap */}
+            <div className="hidden md:flex flex-wrap gap-2">
+              {JLPT_LEVELS.map(level => (
+                <button
+                  key={level.value}
+                  onClick={() => handleLevelChange(level.value)}
+                  className={`px-5 py-2.5 rounded-lg font-medium transition-all ${
+                    selectedLevel === level.value
+                      ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg scale-105'
+                      : 'bg-white dark:bg-dark-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-700'
+                  }`}
+                >
+                  {level.label}
+                </button>
+              ))}
+            </div>
           </div>
         </motion.div>
 

@@ -296,7 +296,11 @@ Create a detailed character sheet in JSON format with:
 3. Setting details (location, time period, atmosphere)
 4. Visual style description for consistency
 
-The characters should be:
+IMPORTANT - CHARACTER DIVERSITY REQUIREMENTS:
+- Vary gender: Create male, female, or gender-neutral protagonists (avoid repeating same gender)
+- Vary age groups: Children (6-12), teens (13-17), adults (18-50), or elderly (50+)
+- Vary names: Use diverse Japanese names - avoid overusing common names like Yuki, Sakura, Hana
+  Examples for variety: Haruto, Takeshi, Kenji, Mei, Ren, Sora, Akira, Kaito, Natsuki, Riku
 - Age-appropriate and relatable for language learners
 - Culturally authentic but not stereotypical
 - Interesting but not overly complex

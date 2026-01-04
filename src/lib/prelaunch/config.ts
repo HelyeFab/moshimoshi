@@ -66,6 +66,9 @@ export const PRE_LAUNCH_ALLOWED_ROUTES = [
   '/terms',      // Legal pages
   '/privacy',
   '/about',
+  '/sitemap.xml',     // SEO: Main sitemap index
+  '/sitemap',         // SEO: Sub-sitemaps (/sitemap/0.xml, /sitemap/1.xml, etc.)
+  '/robots.txt',      // SEO: Robots file
 ];
 
 /**

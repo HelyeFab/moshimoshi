@@ -8,8 +8,7 @@ import '@/styles/globals.css';
 export const metadata: Metadata = {
   metadataBase: new URL('https://moshimoshi.app'),
   title: {
-    default:
-      'Moshimoshi - Best Japanese Learning App 2025 | YouTube Shadowing, Anki Import, Genki & Kanji Connection',
+    default: 'Moshimoshi - Best Japanese Learning App 2025',
     template: '%s | Moshimoshi',
   },
   description:

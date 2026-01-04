@@ -497,10 +497,10 @@ function AccountPageContent() {
                     type="email"
                     value={user?.email || ''}
                     disabled
-                    className="w-full px-4 py-2 pr-20 bg-gray-100 dark:bg-dark-900/50 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-400 cursor-not-allowed"
+                    className="w-full px-4 py-2 md:pr-20 bg-gray-100 dark:bg-dark-900/50 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-600 dark:text-gray-400 cursor-not-allowed"
                   />
                   {user?.emailVerified ? (
-                    <span className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-green-600 dark:text-green-400 text-sm font-medium">
+                    <span className="hidden md:flex absolute right-3 top-1/2 -translate-y-1/2 items-center gap-1 text-green-600 dark:text-green-400 text-sm font-medium">
                       <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                         <path
                           fillRule="evenodd"
@@ -514,12 +514,33 @@ function AccountPageContent() {
                     <button
                       onClick={handleResendVerification}
                       disabled={resendingVerification}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="hidden md:block absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                       {resendingVerification ? 'Sending...' : strings.account.profileFields.verify}
                     </button>
                   )}
                 </div>
+                {/* Mobile: Show verified badge or verify button below input */}
+                {user?.emailVerified ? (
+                  <div className="flex md:hidden items-center gap-1 text-green-600 dark:text-green-400 text-sm font-medium mt-2">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    {strings.account.profileFields.verified}
+                  </div>
+                ) : (
+                  <button
+                    onClick={handleResendVerification}
+                    disabled={resendingVerification}
+                    className="flex md:hidden mt-2 px-3 py-1 bg-yellow-500 text-white text-sm rounded-lg hover:bg-yellow-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    {resendingVerification ? 'Sending...' : strings.account.profileFields.verify}
+                  </button>
+                )}
               </div>
 
               {/* Save Button */}

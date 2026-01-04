@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Clear Comic Cache</title>
+</head>
+<body>
+  <h1>Clear Comic Cache</h1>
+  <button onclick="clearCache()">Clear IndexedDB Cache</button>
+  <pre id="output"></pre>
+
+  <script>
+    async function clearCache() {
+      const output = document.getElementById('output');
+      output.textContent = 'Clearing cache...\n';
+
+      try {
+        // Clear IndexedDB
+        const dbs = await indexedDB.databases();
+        output.textContent += `Found ${dbs.length} databases\n`;
+
+        for (const db of dbs) {
+          if (db.name.includes('comic') || db.name === 'moshimoshi-comics') {
+            output.textContent += `Deleting: ${db.name}\n`;
+            await indexedDB.deleteDatabase(db.name);
+          }
+        }
+
+        // Clear Service Worker cache
+        if ('caches' in window) {
+          const cacheNames = await caches.keys();
+          output.textContent += `\nFound ${cacheNames.length} caches\n`;
+
+          for (const name of cacheNames) {
+            if (name.includes('comic') || name.includes('image')) {
+              output.textContent += `Deleting cache: ${name}\n`;
+              await caches.delete(name);
+            }
+          }
+        }
+
+        output.textContent += '\n✅ Cache cleared! Refresh the page.\n';
+      } catch (err) {
+        output.textContent += `\n❌ Error: ${err.message}\n`;
+      }
+    }
+  </script>
+</body>
+</html>

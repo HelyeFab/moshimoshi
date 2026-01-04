@@ -94,8 +94,10 @@ const STORY_THEMES = [
   'Playing Sports',
 ]
 
-// JLPT levels to rotate through (weighted towards beginner)
-const JLPT_LEVELS = ['N5', 'N5', 'N5', 'N4', 'N4', 'N3'] as const
+// JLPT levels to rotate through (beginner-friendly but complete coverage)
+// Distribution: N5=37.5%, N4=25%, N3=12.5%, N2=12.5%, N1=12.5%
+// Covers all JLPT levels while prioritizing beginner content
+const JLPT_LEVELS = ['N5', 'N5', 'N5', 'N4', 'N4', 'N3', 'N2', 'N1'] as const
 
 /**
  * Helper to make API calls with admin authentication
