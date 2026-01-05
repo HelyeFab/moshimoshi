@@ -16,7 +16,6 @@ import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
 import AddToListButton from '@/components/lists/AddToListButton'
 import AudioButton from '@/components/ui/AudioButton'
 import { useFeature } from '@/hooks/useFeature'
-import { useShowEntitlementModal } from '@/hooks/useEntitlementModal'
 import type { FeatureId } from '@/types/FeatureId'
 
 const FEATURE_ID = 'word_lookup' as FeatureId
@@ -46,10 +45,10 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
 
   // Entitlement check
   const { checkAndTrack, remaining } = useFeature(FEATURE_ID)
-  const showEntitlementModal = useShowEntitlementModal()
   const [isCheckingEntitlement, setIsCheckingEntitlement] = useState(false)
   const [isAllowed, setIsAllowed] = useState(false)
   const checkedWordsRef = useRef<Set<string>>(new Set())
+  const checkInProgressRef = useRef<boolean>(false)
 
   // Check if word is conjugatable
   const isConjugatable = useMemo(() => {
@@ -68,6 +67,7 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
   useEffect(() => {
     if (!isOpen || !word || !wordKey) {
       setIsAllowed(false)
+      checkInProgressRef.current = false
       return
     }
 
@@ -77,25 +77,23 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
       return
     }
 
+    // Prevent duplicate calls (React StrictMode in dev runs effects twice)
+    if (checkInProgressRef.current) {
+      return
+    }
+
     const checkEntitlement = async () => {
+      checkInProgressRef.current = true
       setIsCheckingEntitlement(true)
       try {
-        const allowed = await checkAndTrack({ showUI: false })
+        // showUI: true will display toast with upgrade prompt when limit reached
+        const allowed = await checkAndTrack({ showUI: true })
         if (allowed) {
           setIsAllowed(true)
           checkedWordsRef.current.add(wordKey)
         } else {
           setIsAllowed(false)
-          // Show entitlement modal and close this modal
-          showEntitlementModal(
-            {
-              allow: false,
-              remaining: 0,
-              reason: 'limit_reached',
-              policyVersion: 1,
-            },
-            FEATURE_ID
-          )
+          // Toast already shown by checkAndTrack, just close the modal
           onClose()
         }
       } catch (error) {
@@ -105,11 +103,12 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
         checkedWordsRef.current.add(wordKey)
       } finally {
         setIsCheckingEntitlement(false)
+        checkInProgressRef.current = false
       }
     }
 
     checkEntitlement()
-  }, [isOpen, word, wordKey, checkAndTrack, showEntitlementModal, onClose])
+  }, [isOpen, word, wordKey, checkAndTrack, onClose])
 
   useEffect(() => {
     if (word && isOpen && isAllowed) {

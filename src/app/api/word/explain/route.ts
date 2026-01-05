@@ -7,8 +7,8 @@ import type { FeatureId } from '@/types/FeatureId';
 import { AIService } from '@/lib/ai/AIService';
 import { getCachedWordExplanation, setCachedWordExplanation } from '@/lib/ai/cache/WordExplanationCache';
 
-// Use the same feature ID as grammar explanations for shared quota
-const FEATURE_ID = 'grammar_explanations' as FeatureId;
+// Feature IDs for different lookup types
+const WORD_LOOKUP_FEATURE_ID = 'word_lookup' as FeatureId; // Vocabulary browser (15/day for free)
 const MAX_WORD_LENGTH = 100;
 
 function sanitizeString(value: unknown): string | undefined {
@@ -56,26 +56,44 @@ export async function POST(request: NextRequest) {
     const userData = userDoc.data();
     const plan = userData?.subscription?.plan || 'free';
 
+    // Check if this is a content-based lookup (article, book, story, comic, flashcard)
+    // These should have prefetched explanations and don't need quota checks
+    const contentId = request.headers.get('x-content-id');
+    const contentType = request.headers.get('x-content-type');
+    const isContentLookup = !!(contentId && contentType);
+
+    let decision;
+    let usageRef;
+    let currentUsage = 0;
     const nowUtc = new Date().toISOString();
-    const bucketKey = getBucketKey(FEATURE_ID, session.uid, nowUtc);
-    const usageRef = adminDb.collection('users').doc(session.uid).collection('usage').doc(bucketKey);
-    const usageDoc = await usageRef.get();
-    const currentUsage = usageDoc.data()?.[FEATURE_ID] || 0;
 
-    const evalContext: EvalContext = {
-      userId: session.uid,
-      plan: plan as any,
-      usage: { [FEATURE_ID]: currentUsage },
-      nowUtcISO: nowUtc
-    };
+    // Only check quota for standalone vocabulary lookups (not content-based)
+    if (!isContentLookup) {
+      // This is a vocabulary browser lookup - check word_lookup quota
+      const bucketKey = getBucketKey(WORD_LOOKUP_FEATURE_ID, session.uid, nowUtc);
+      usageRef = adminDb.collection('users').doc(session.uid).collection('usage').doc(bucketKey);
+      const usageDoc = await usageRef.get();
+      currentUsage = usageDoc.data()?.[WORD_LOOKUP_FEATURE_ID] || 0;
 
-    const decision = evaluate(FEATURE_ID, evalContext);
-    if (!decision.allow) {
-      return NextResponse.json({
-        success: false,
-        error: 'LIMIT_REACHED',
-        decision
-      }, { status: 403 });
+      const evalContext: EvalContext = {
+        userId: session.uid,
+        plan: plan as any,
+        usage: { [WORD_LOOKUP_FEATURE_ID]: currentUsage },
+        nowUtcISO: nowUtc
+      };
+
+      decision = evaluate(WORD_LOOKUP_FEATURE_ID, evalContext);
+      if (!decision.allow) {
+        return NextResponse.json({
+          success: false,
+          error: 'LIMIT_REACHED',
+          decision
+        }, { status: 403 });
+      }
+    } else {
+      // Content lookup - no quota check needed (prefetched content)
+      console.log(`[WordExplain] Content lookup (${contentType}:${contentId}) - skipping quota check`);
+      decision = { allow: true, remaining: -1, reason: 'content_prefetched' };
     }
 
     const computeRemaining = (limit: number | undefined) => {
@@ -86,10 +104,13 @@ export async function POST(request: NextRequest) {
 
     const cached = await getCachedWordExplanation(word);
     if (cached) {
-      await usageRef.set({
-        [FEATURE_ID]: currentUsage + 1,
-        lastUpdated: nowUtc
-      }, { merge: true });
+      // Only increment usage for standalone lookups
+      if (!isContentLookup && usageRef) {
+        await usageRef.set({
+          [WORD_LOOKUP_FEATURE_ID]: currentUsage + 1,
+          lastUpdated: nowUtc
+        }, { merge: true });
+      }
 
       return NextResponse.json({
         success: true,
@@ -119,10 +140,13 @@ export async function POST(request: NextRequest) {
 
     await setCachedWordExplanation(word, aiResponse.data);
 
-    await usageRef.set({
-      [FEATURE_ID]: currentUsage + 1,
-      lastUpdated: nowUtc
-    }, { merge: true });
+    // Only increment usage for standalone lookups
+    if (!isContentLookup && usageRef) {
+      await usageRef.set({
+        [WORD_LOOKUP_FEATURE_ID]: currentUsage + 1,
+        lastUpdated: nowUtc
+      }, { merge: true });
+    }
 
     return NextResponse.json({
       success: true,

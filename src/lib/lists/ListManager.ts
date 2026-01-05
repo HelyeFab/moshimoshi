@@ -1,5 +1,6 @@
 import type { UserList, ListItem, CreateListRequest, AddItemRequest, UpdateListRequest, ListType } from '@/types/userLists';
 import { openDB, IDBPDatabase } from 'idb';
+import { TabCoordinator } from './TabCoordinator';
 
 interface ListManagerDB {
   lists: UserList;
@@ -16,6 +17,8 @@ class ListManager {
   private db: IDBPDatabase<ListManagerDB> | null = null;
   private syncTimer: NodeJS.Timeout | null = null;
   private listeners: Map<string, Set<() => void>> = new Map();
+  private tabCoordinator: TabCoordinator | null = null;
+  private pendingSyncLock: Set<string> = new Set();
 
   /**
    * Normalize content for duplicate comparison based on list type
@@ -50,6 +53,13 @@ class ListManager {
   private async initDB(): Promise<IDBPDatabase<ListManagerDB>> {
     if (this.db) return this.db;
 
+    // Initialize TabCoordinator FIRST (before database opens)
+    if (!this.tabCoordinator) {
+      this.tabCoordinator = new TabCoordinator('lists-coordination');
+      await this.tabCoordinator.initialize();
+      console.log('[ListManager] TabCoordinator initialized, isLeader:', this.tabCoordinator.isLeader());
+    }
+
     this.db = await openDB<ListManagerDB>('UserListsDB', 1, {
       upgrade(db) {
         // Lists store
@@ -65,10 +75,64 @@ class ListManager {
           const syncStore = db.createObjectStore('syncQueue', { keyPath: 'id' });
           syncStore.createIndex('timestamp', 'timestamp');
         }
+      },
+      blocking() {
+        console.warn('[ListManager] Database upgrade blocked by another tab');
+      },
+      blocked() {
+        console.warn('[ListManager] Database upgrade blocked - will retry');
       }
     });
 
+    // Setup version change handler
+    this.db.onversionchange = (event) => {
+      console.warn('[ListManager] Database version change detected, closing connection');
+      this.db?.close();
+      this.db = null;
+      this.notifyListeners('version-change');
+    };
+
+    // Setup cross-tab message handlers
+    this.setupTabCoordination();
+
     return this.db;
+  }
+
+  /**
+   * Setup cross-tab coordination message handlers
+   * Handles messages from other tabs to keep UI synchronized
+   */
+  private setupTabCoordination(): void {
+    if (!this.tabCoordinator) return;
+
+    this.tabCoordinator.onMessage((message) => {
+      console.log('[ListManager] Received tab message:', message.type, 'from', message.tabId);
+
+      switch (message.type) {
+        case 'list-created':
+        case 'list-updated':
+        case 'list-deleted':
+          // Invalidate cache and notify listeners to refresh
+          this.notifyListeners('lists-changed');
+          break;
+
+        case 'item-added':
+        case 'item-removed':
+          // Notify listeners for specific list
+          if (message.data?.listId) {
+            this.notifyListeners(`list-${message.data.listId}`);
+          }
+          break;
+
+        case 'sync-request':
+          // Another tab requested sync status
+          if (this.tabCoordinator?.isLeader()) {
+            // Leader should broadcast sync status (future enhancement)
+            console.log('[ListManager] Sync status request received (leader)');
+          }
+          break;
+      }
+    });
   }
 
   // Get all lists for a user
@@ -247,6 +311,15 @@ class ListManager {
 
     // Fallback: Save to IndexedDB only if server fails
     await db.put('lists', list);
+
+    // Broadcast to other tabs
+    this.tabCoordinator?.broadcast({
+      type: 'list-created',
+      tabId: this.tabCoordinator.getTabId(),
+      timestamp: Date.now(),
+      data: { listId: list.id, listName: list.name }
+    });
+
     this.notifyListeners('lists-changed');
     return list;
   }

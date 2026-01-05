@@ -283,10 +283,20 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
       }
 
       // Fallback: Call API for word explanation
+      // Pass content context to skip quota check for prefetched content
+      const contentId = options?.articleId || options?.bookId || options?.storyId || options?.comicId || options?.flashcardId
+
       const response = await fetch('/api/word/explain', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          // Tell API this is a content lookup (no quota needed for prefetched words)
+          ...(contentId && { 'x-content-id': contentId }),
+          ...(options?.articleId && { 'x-content-type': 'article' }),
+          ...(options?.bookId && { 'x-content-type': 'book' }),
+          ...(options?.storyId && { 'x-content-type': 'story' }),
+          ...(options?.comicId && { 'x-content-type': 'comic' }),
+          ...(options?.flashcardId && { 'x-content-type': 'flashcard' }),
         },
         body: JSON.stringify({ word, context }),
       });
