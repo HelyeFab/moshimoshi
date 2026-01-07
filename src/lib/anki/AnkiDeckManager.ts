@@ -2,16 +2,15 @@
  * AnkiDeckManager - Persistence layer for imported Anki decks
  *
  * Storage Strategy:
- * - Free users: IndexedDB only (local persistence)
- * - Premium users: IndexedDB + Firebase (cross-device sync)
+ * - IndexedDB only (local persistence)
  *
- * This follows the same pattern as FlashcardManager for consistency.
+ * This provides unlimited deck sizes without cloud storage costs.
  */
 
 import { openDB, IDBPDatabase } from 'idb'
 import { AnkiDeck, AnkiCard, AnkiDeckSettings, DEFAULT_ANKI_DECK_SETTINGS } from './importer'
 import { AnkiMediaStore } from './mediaStore'
-import featuresConfig from '../../../config/features.v1.json'
+import type { DeckStats } from '@/types/flashcards'
 
 interface AnkiDeckDB {
   decks: AnkiDeck & { userId: string; createdAt: number; updatedAt: number }
@@ -24,6 +23,7 @@ export interface StoredAnkiDeck extends AnkiDeck {
   cardCount: number
   settings: AnkiDeckSettings
   source: 'anki' // Track that this deck was imported from Anki
+  stats: DeckStats // Stats for UI display
   metadata?: {
     originalFilename?: string
     importedAt: string
@@ -67,102 +67,21 @@ export class AnkiDeckManager {
       })
       return this.db
     } catch (error) {
-      console.error('[AnkiDeckManager] Failed to initialize IndexedDB:', error)
       throw new Error('Failed to initialize local storage for Anki decks')
     }
   }
 
   /**
    * Get all Anki decks for a user
-   * Premium users fetch from Firebase first, then sync to IndexedDB
-   * Free users use IndexedDB only
-   *
-   * Note: If Firebase sync is disabled via feature flag, skip server fetch
+   * Uses IndexedDB only for local persistence
    */
   async getDecks(userId: string, isPremium: boolean): Promise<StoredAnkiDeck[]> {
     const db = await this.initDB()
-
-    // Check if Firebase sync is enabled
-    const ankiImportsFeature = featuresConfig.features.find(f => f.id === 'anki_imports')
-    const enableFirebaseSync = ankiImportsFeature?.metadata?.enableFirebaseSync === true
-
-    // Only fetch from Firebase if sync is enabled AND user is premium
-    if (enableFirebaseSync && isPremium) {
-      try {
-        console.log('[AnkiDeckManager] Premium user - fetching from server')
-        const response = await fetch('/api/anki/decks', {
-          method: 'GET',
-          credentials: 'include',
-        })
-
-        if (response.ok) {
-          const { decks } = await response.json()
-          console.log('[AnkiDeckManager] Server returned', decks?.length || 0, 'decks')
-
-          // Debug: Log first deck structure from server
-          if (decks && decks.length > 0) {
-            const firstDeck = decks[0]
-            console.log('[AnkiDeckManager] First deck from server:', {
-              id: firstDeck.id,
-              name: firstDeck.name,
-              cardCount: firstDeck.cardCount,
-              actualCardsLength: firstDeck.cards?.length,
-              firstCardHasFront: firstDeck.cards?.[0]?.front ? true : false,
-              firstCardHasBack: firstDeck.cards?.[0]?.back ? true : false,
-            })
-          }
-
-          // Sync all decks from server to IndexedDB
-          const tx = db.transaction('decks', 'readwrite')
-          const existingKeys = await tx.store.index('userId').getAllKeys(userId)
-          for (const key of existingKeys) {
-            await tx.store.delete(key)
-          }
-          if (decks && decks.length > 0) {
-            for (const deck of decks) {
-              await tx.store.put(deck)
-            }
-          }
-          await tx.done
-
-          return decks || []
-        } else {
-          // Non-200 response - log it and fall through to IndexedDB
-          console.warn('[AnkiDeckManager] Server returned non-OK status:', response.status)
-          try {
-            const errorBody = await response.json()
-            console.warn('[AnkiDeckManager] Server error:', errorBody)
-          } catch {
-            // Ignore JSON parse errors
-          }
-        }
-      } catch (error) {
-        console.error('[AnkiDeckManager] Failed to fetch from server:', error)
-        // Fall through to IndexedDB
-      }
-    }
-
-    // Free users, sync disabled, or offline: Use IndexedDB only
-    if (!enableFirebaseSync && isPremium) {
-      console.log('[AnkiDeckManager] ✅ Firebase sync disabled - using IndexedDB only (local-only storage)')
-    } else {
-      console.log('[AnkiDeckManager] Using IndexedDB only')
-    }
     const decks = await db.getAllFromIndex('decks', 'userId', userId)
 
     // Debug: Log deck structure from IndexedDB
     if (decks.length > 0) {
       const firstDeck = decks[0]
-      console.log('[AnkiDeckManager] First deck from IndexedDB:', {
-        id: firstDeck.id,
-        name: firstDeck.name,
-        cardCount: firstDeck.cardCount,
-        actualCardsLength: firstDeck.cards?.length,
-        firstCardHasFront: firstDeck.cards?.[0]?.front ? true : false,
-        firstCardHasBack: firstDeck.cards?.[0]?.back ? true : false,
-        firstCardFront: firstDeck.cards?.[0]?.front?.substring?.(0, 30),
-        firstCardBack: firstDeck.cards?.[0]?.back?.substring?.(0, 30),
-      })
     }
 
     return decks.sort((a, b) => b.updatedAt - a.updatedAt) as StoredAnkiDeck[]
@@ -184,8 +103,7 @@ export class AnkiDeckManager {
 
   /**
    * Save a newly imported Anki deck
-   * Premium users save to Firebase + IndexedDB
-   * Free users save to IndexedDB only
+   * Saves to IndexedDB only for local persistence
    */
   async saveDeck(
     deck: AnkiDeck,
@@ -195,6 +113,17 @@ export class AnkiDeckManager {
   ): Promise<StoredAnkiDeck> {
     const db = await this.initDB()
     const now = Date.now()
+
+    // Prevent duplicate deck names across all flashcard decks for this user.
+    const existingDecks = await db.getAllFromIndex('decks', 'userId', userId)
+    const hasNameConflict = existingDecks.some(existing =>
+      existing.name === deck.name && existing.id !== deck.id
+    )
+    if (hasNameConflict) {
+      const error = new Error('Deck name already exists')
+      ;(error as any).code = 'DUPLICATE_DECK_NAME'
+      throw error
+    }
 
     const storedDeck: StoredAnkiDeck = {
       ...deck,
@@ -213,83 +142,42 @@ export class AnkiDeckManager {
         totalStudied: 0,
         lastStudied: undefined,
         averageAccuracy: 0,
+        currentStreak: 0,
+        longestStreak: 0,
+        totalTimeSpent: 0,
       },
       metadata: {
         originalFilename: filename,
         importedAt: new Date().toISOString(),
-        hasMedia: (deck.mediaUrls?.size || 0) > 0,
+        hasMedia: (deck.mediaBlobs?.size || 0) > 0,
         ankiImport: true,
       },
     }
 
     // Convert Map to object for storage (Maps don't serialize well)
+    // Remove mediaBlobs Map but keep all other properties including cards
     const deckForStorage = {
       ...storedDeck,
-      mediaUrls: storedDeck.mediaUrls ? Object.fromEntries(storedDeck.mediaUrls) : undefined,
+      mediaBlobs: undefined, // Remove non-serializable Map
     }
 
-    // Check if Firebase sync is enabled for Anki imports (feature flag)
-    const ankiImportsFeature = featuresConfig.features.find(f => f.id === 'anki_imports')
-    const enableFirebaseSync = ankiImportsFeature?.metadata?.enableFirebaseSync === true
-
-    // Save to Firebase for premium users (only if feature flag is enabled)
-    if (enableFirebaseSync && isPremium && userId !== 'guest') {
-      console.log('[AnkiDeckManager] Firebase sync is ENABLED for Anki imports')
-      try {
-        console.log('[AnkiDeckManager] Premium user - saving to Firebase')
-        const response = await fetch('/api/anki/decks', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify(deckForStorage),
-        })
-
-        if (response.ok) {
-          const responseData = await response.json()
-          // API returns { success, data: { deck }, storage }
-          const serverDeck = responseData.data?.deck || responseData.deck
-          console.log('[AnkiDeckManager] Deck saved to Firebase:', serverDeck?.id)
-
-          // Also save to IndexedDB for offline access
-          if (serverDeck) {
-            await db.put('decks', serverDeck)
-            this.notifyListeners('decks-changed')
-            return serverDeck
-          }
-        } else if (response.status === 403) {
-          // Limit reached - throw error to be displayed to user
-          const errorData = await response.json()
-          console.error('[AnkiDeckManager] Import limit reached:', errorData)
-          const error = new Error(errorData.message || 'Anki import limit reached')
-          ;(error as any).code = 'LIMIT_REACHED'
-          ;(error as any).currentCount = errorData.currentCount
-          ;(error as any).limit = errorData.limit
-          throw error
-        } else {
-          const error = await response.json()
-          console.error('[AnkiDeckManager] Server error:', error)
-          // Fall through to local-only save
-        }
-      } catch (error: any) {
-        // Rethrow limit errors - don't fall through to local save
-        if (error?.code === 'LIMIT_REACHED') {
-          throw error
-        }
-        console.error('[AnkiDeckManager] Failed to save to server:', error)
-        // Fall through to local-only save for other errors
+    console.log('💾 [AnkiDeckManager.saveDeck] Saving Anki deck to IndexedDB:', {
+      id: deck.id,
+      name: deck.name,
+      cardsInDeck: deck.cards.length,
+      cardsInStorage: deckForStorage.cards.length,
+      userId,
+      firstCard: deckForStorage.cards[0],
+      deckStructure: {
+        hasCards: !!deckForStorage.cards,
+        cardCount: deckForStorage.cards.length,
+        source: deckForStorage.source
       }
-    }
+    })
 
-    // Save to IndexedDB (for free users, when sync is disabled, or as fallback)
-    if (!enableFirebaseSync) {
-      console.log('[AnkiDeckManager] ✅ Firebase sync is DISABLED - saving to IndexedDB only (local-only storage)')
-      console.log('[AnkiDeckManager] 💡 This enables unlimited deck sizes without cloud storage costs')
-      console.log('[AnkiDeckManager] 💡 To enable Firebase sync, set enableFirebaseSync: true in config/features.v1.json')
-    } else {
-      console.log('[AnkiDeckManager] Saving to IndexedDB (local copy)')
-    }
-
+    // Save to IndexedDB (local-only storage)
     await db.put('decks', deckForStorage as any)
+    console.log('✅ [AnkiDeckManager.saveDeck] Anki deck saved successfully to IndexedDB')
     this.notifyListeners('decks-changed')
 
     return storedDeck
@@ -308,38 +196,25 @@ export class AnkiDeckManager {
     const deck = await this.getDeck(deckId, userId)
 
     if (!deck) {
-      console.error('[AnkiDeckManager] Deck not found:', deckId)
       return null
+    }
+
+    if (updates.name) {
+      const existingDecks = await db.getAllFromIndex('decks', 'userId', userId)
+      const hasNameConflict = existingDecks.some(existing =>
+        existing.name === updates.name && existing.id !== deckId
+      )
+      if (hasNameConflict) {
+        const error = new Error('Deck name already exists')
+        ;(error as any).code = 'DUPLICATE_DECK_NAME'
+        throw error
+      }
     }
 
     const updatedDeck: StoredAnkiDeck = {
       ...deck,
       ...updates,
       updatedAt: Date.now(),
-    }
-
-    // Update on Firebase for premium users
-    if (isPremium && userId !== 'guest') {
-      try {
-        const response = await fetch(`/api/anki/decks/${deckId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify(updates),
-        })
-
-        if (response.ok) {
-          const responseData = await response.json()
-          const serverDeck = responseData.data?.deck || responseData.deck
-          if (serverDeck) {
-            await db.put('decks', serverDeck)
-            this.notifyListeners('decks-changed')
-            return serverDeck
-          }
-        }
-      } catch (error) {
-        console.error('[AnkiDeckManager] Failed to update on server:', error)
-      }
     }
 
     // Update IndexedDB
@@ -356,26 +231,7 @@ export class AnkiDeckManager {
     const deck = await this.getDeck(deckId, userId)
 
     if (!deck) {
-      console.error('[AnkiDeckManager] Deck not found:', deckId)
       return false
-    }
-
-    // Delete from Firebase for premium users
-    if (isPremium && userId !== 'guest') {
-      try {
-        const response = await fetch(`/api/anki/decks/${deckId}`, {
-          method: 'DELETE',
-          credentials: 'include',
-        })
-
-        if (response.ok) {
-          await db.delete('decks', deckId)
-          this.notifyListeners('decks-changed')
-          return true
-        }
-      } catch (error) {
-        console.error('[AnkiDeckManager] Failed to delete from server:', error)
-      }
     }
 
     // Delete from IndexedDB
@@ -405,39 +261,6 @@ export class AnkiDeckManager {
     this.listeners.get(event)?.forEach(callback => callback())
   }
 
-  /**
-   * Sync all local decks to Firebase (for when user upgrades to premium)
-   */
-  async syncAllToFirebase(userId: string): Promise<{ synced: number; failed: number }> {
-    const db = await this.initDB()
-    const localDecks = await db.getAllFromIndex('decks', 'userId', userId)
-
-    let synced = 0
-    let failed = 0
-
-    for (const deck of localDecks) {
-      try {
-        const response = await fetch('/api/anki/decks', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify(deck),
-        })
-
-        if (response.ok) {
-          synced++
-        } else {
-          failed++
-        }
-      } catch (error) {
-        console.error('[AnkiDeckManager] Failed to sync deck:', deck.id, error)
-        failed++
-      }
-    }
-
-    console.log(`[AnkiDeckManager] Sync complete: ${synced} synced, ${failed} failed`)
-    return { synced, failed }
-  }
 
   /**
    * Clear all local data (for logout)
@@ -488,25 +311,12 @@ export class AnkiDeckManager {
 
         // Log first card
         if (index === 0) {
-          console.log('[AnkiDeckManager] First card hydration:', {
-            audioFilename: card.audioFilename,
-            imageFilename: card.imageFilename,
-            audioUrlHydrated: !!hydratedCard.audioUrl,
-            imageUrlHydrated: !!hydratedCard.imageUrl,
-          })
         }
 
         return hydratedCard
       })
     )
 
-    console.log('[AnkiDeckManager] Media hydration complete:', {
-      totalCards: deck.cards.length,
-      hydratedAudio: hydratedAudioCount,
-      hydratedImage: hydratedImageCount,
-      missingAudio,
-      missingImage,
-    })
 
     return {
       ...deck,
@@ -538,14 +348,12 @@ export class AnkiDeckManager {
     const deck = await this.getDeck(deckId, userId)
 
     if (!deck) {
-      console.error('[AnkiDeckManager] Deck not found:', deckId)
       return false
     }
 
     // Find and update the card
     const cardIndex = deck.cards.findIndex(c => c.id === cardId)
     if (cardIndex === -1) {
-      console.error('[AnkiDeckManager] Card not found:', cardId)
       return false
     }
 
@@ -570,7 +378,6 @@ export class AnkiDeckManager {
           return true
         }
       } catch (error) {
-        console.error('[AnkiDeckManager] Failed to update card on server:', error)
       }
     }
 

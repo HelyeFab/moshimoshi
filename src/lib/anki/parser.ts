@@ -74,6 +74,15 @@ interface ParsedDeck {
     fields: string[];
     tags: string[];
   }>;
+  cards?: Array<{
+    id: string;
+    noteId: string;
+    deckId: string;
+    ord: number;
+  }>;
+  deckNameById?: Record<string, string>;
+  deckDescById?: Record<string, string>;
+  models?: Record<string, any>;
   mediaFiles?: MediaFile[];
 }
 
@@ -91,32 +100,82 @@ export class AnkiParser {
       // Parse the deck data
       const deck = await this.parseInMemory(deckBuffer);
 
-      // Map notes to our card structure
-      const mappedNotes: ParsedAnkiNote[] = deck.notes.map((note) => ({
-        id: note.id,
-        fields: note.fields,
-        tags: note.tags,
-        deckName: deck.meta?.name || 'Imported Deck'
-      }));
+      const noteMap = new Map<string, typeof deck.notes[number]>();
+      deck.notes.forEach(note => noteMap.set(note.id, note));
+
+      const cardRows = deck.cards && deck.cards.length > 0 ? deck.cards : null;
+      const deckNameById = deck.deckNameById || {};
+      const deckDescById = deck.deckDescById || {};
+      const models = deck.models || {};
 
       // Process cards with rich field extraction
-      const processedCards: ProcessedCard[] = mappedNotes.map((note, index) => {
+      let processedCards: ProcessedCard[] = (cardRows || deck.notes).map((item: any, index: number) => {
+        const note = cardRows ? noteMap.get(item.noteId) : item;
+        if (!note) {
+          return null;
+        }
+
         const fields = note.fields || [];
-
-        // Extract all media references from ALL fields BEFORE cleaning
         const allFieldsRaw = fields.join(' ');
-        const media = this.extractMediaReferences(allFieldsRaw);
-
-        // Extract audio and image filenames specifically
-        const audioFilename = this.extractAudioFilename(allFieldsRaw);
-        const imageFilename = this.extractImageFilename(allFieldsRaw);
 
         // Detect note type and extract fields accordingly
         const extracted = this.extractFieldsByType(fields);
 
+        // Build template-based front/back when possible
+        const model = note.modelId ? models[note.modelId] : undefined;
+        const template = cardRows ? (model?.tmpls?.[item.ord] || model?.tmpls?.[0]) : undefined;
+        const fieldMap = this.buildFieldMap(fields, model);
+
+        let rawFront = extracted.front;
+        let rawBack = extracted.back;
+
+        const frontTokens = template?.qfmt ? this.getDisplayFieldTokens(template.qfmt) : [];
+        const backTokens = template?.afmt ? this.getDisplayFieldTokens(template.afmt) : [];
+        const useTemplateFront = frontTokens.length > 0;
+        const useTemplateBack = backTokens.length > 0;
+
+        if (template?.qfmt && useTemplateFront) {
+          rawFront = this.renderTemplate(template.qfmt, fieldMap);
+        }
+
+        if (template?.afmt && useTemplateBack) {
+          rawBack = this.renderTemplate(template.afmt, fieldMap, rawFront);
+        }
+
+        const fieldValues = Object.values(fieldMap).filter(Boolean);
+        const hasFieldValue = (text: string): boolean => {
+          return fieldValues.some(value => value && text.includes(value));
+        };
+
+        if (useTemplateFront && fieldValues.length > 0 && !hasFieldValue(rawFront)) {
+          rawFront = extracted.front;
+        }
+
+        if (useTemplateBack && fieldValues.length > 0 && !hasFieldValue(rawBack)) {
+          rawBack = extracted.back;
+        }
+
+        // If the front is just a prompt (e.g., "Listen.") without Japanese, fall back to a Japanese field.
+        if (!this.containsJapanese(rawFront)) {
+          const fallbackFront = this.pickJapaneseField([
+            extracted.expression,
+            extracted.sentence,
+            ...fields,
+          ]);
+          if (fallbackFront) {
+            rawFront = fallbackFront;
+          }
+        }
+
+        // Extract media from rendered template + fields
+        const mediaSource = `${allFieldsRaw} ${rawFront} ${rawBack}`;
+        const media = this.extractMediaReferences(mediaSource);
+        const audioFilename = this.extractAudioFilename(mediaSource);
+        const imageFilename = this.extractImageFilename(mediaSource);
+
         // Extract furigana from raw HTML BEFORE cleaning
-        const furiganaFront = this.extractFurigana(extracted.front);
-        const furiganaBack = this.extractFurigana(extracted.back);
+        const furiganaFront = this.extractFurigana(rawFront);
+        const furiganaBack = this.extractFurigana(rawBack);
         const hasNativeFurigana = !!(furiganaFront || furiganaBack);
 
         // Log first card for debugging
@@ -137,12 +196,14 @@ export class AnkiParser {
           });
         }
 
+        const deckId = cardRows ? String(item.deckId || '1') : '1';
+
         return {
-          id: note.id,
+          id: cardRows ? String(item.id) : note.id,
           noteId: note.id,
-          deckId: '1',
-          front: this.cleanHtml(extracted.front),
-          back: this.cleanHtml(extracted.back),
+          deckId,
+          front: this.cleanHtml(rawFront),
+          back: this.cleanHtml(rawBack),
           tags: note.tags || [],
           fields: note.fields,
           media,
@@ -161,7 +222,32 @@ export class AnkiParser {
           furiganaBack: furiganaBack || undefined,
           hasNativeFurigana,
         };
-      });
+      }).filter(Boolean) as ProcessedCard[];
+
+      if (cardRows) {
+        const byNoteId = new Map<string, ProcessedCard[]>();
+        for (const card of processedCards) {
+          if (!byNoteId.has(card.noteId)) {
+            byNoteId.set(card.noteId, []);
+          }
+          byNoteId.get(card.noteId)!.push(card);
+        }
+
+        processedCards = Array.from(byNoteId.values()).map(cards => {
+          const ranked = [...cards].sort((a, b) => {
+            const score = (card: ProcessedCard) => {
+              let value = 0;
+              if (card.audioFilename) value += 3;
+              if (card.imageFilename) value += 2;
+              if ((card.front || '').length > 0) value += 1;
+              if ((card.back || '').length > 0) value += 1;
+              return value;
+            };
+            return score(b) - score(a);
+          });
+          return ranked[0];
+        });
+      }
 
       // Process media
       const media = new Map<string, Blob>();
@@ -175,13 +261,26 @@ export class AnkiParser {
         });
       }
 
-      // Create deck info
-      const decks = [{
-        id: '1',
-        name: deck.meta?.name || 'Imported Deck',
-        desc: '',
-        cards: processedCards
-      }];
+      // Create deck info (group by deckId when available)
+      const deckMap = new Map<string, AnkiDeckInfo>();
+      for (const card of processedCards) {
+        const deckId = card.deckId || '1';
+        const deckName = deckNameById[deckId] || deck.meta?.name || 'Imported Deck';
+        const deckDesc = deckDescById[deckId] || '';
+
+        if (!deckMap.has(deckId)) {
+          deckMap.set(deckId, {
+            id: deckId,
+            name: deckName,
+            desc: deckDesc,
+            cards: [],
+          });
+        }
+
+        deckMap.get(deckId)!.cards.push(card);
+      }
+
+      const decks = Array.from(deckMap.values());
 
       return {
         cards: processedCards,
@@ -386,6 +485,14 @@ export class AnkiParser {
 
       const decks = JSON.parse(decksJson || '{}');
       const models = JSON.parse(modelsJson || '{}');
+      const deckNameById: Record<string, string> = {};
+      const deckDescById: Record<string, string> = {};
+
+      for (const [deckId, deckData] of Object.entries(decks)) {
+        const data = deckData as Record<string, any>;
+        deckNameById[deckId] = data.name || 'Imported Deck';
+        deckDescById[deckId] = data.desc || '';
+      }
 
       // Get all notes using pagination to avoid issues with large decks
       let offset = 0;
@@ -412,8 +519,6 @@ export class AnkiParser {
           offset += pageData.length;
         }
 
-        // Safety limit
-        if (offset > 10000) break;
       }
 
       // Map notes to our format
@@ -429,6 +534,43 @@ export class AnkiParser {
           tags
         };
       });
+
+      // Get all cards to preserve multi-card note templates
+      let cardRows: ParsedDeck['cards'] = [];
+      if (tables.includes('cards')) {
+        let cardOffset = 0;
+        let cardHasMore = true;
+        const allCards: Record<string, any>[] = [];
+
+        while (cardHasMore) {
+          const cardQuery = db.exec(`SELECT * FROM cards LIMIT 100 OFFSET ${cardOffset}`);
+          const cardData = cardQuery[0]?.values || [];
+
+          if (cardData.length === 0) {
+            cardHasMore = false;
+          } else {
+            const columns: string[] = cardQuery[0]?.columns || [];
+            const mappedPage = cardData.map((row: any[]) => {
+              const obj: Record<string, any> = {};
+              columns.forEach((col: string, idx: number) => {
+                obj[col] = row[idx];
+              });
+              return obj;
+            });
+            allCards.push(...mappedPage);
+            cardOffset += cardData.length;
+          }
+        }
+
+        cardRows = allCards
+          .filter(cardRow => Number(cardRow.ord || 0) === 0)
+          .map(cardRow => ({
+            id: String(cardRow.id),
+            noteId: String(cardRow.nid),
+            deckId: String(cardRow.did || '1'),
+            ord: Number(cardRow.ord || 0),
+          }));
+      }
 
       // Get deck metadata
       const deckEntries = Object.entries(decks);
@@ -459,6 +601,10 @@ export class AnkiParser {
           name: (mainDeck as Record<string, any>).name || 'Imported Deck'
         },
         notes,
+        cards: cardRows,
+        deckNameById,
+        deckDescById,
+        models,
         mediaFiles
       };
     } finally {
@@ -528,9 +674,12 @@ export class AnkiParser {
     // Extract furigana
     cleaned = cleaned.replace(/<ruby>(.*?)<rt>(.*?)<\/rt><\/ruby>/gi, '$1($2)');
 
-    // Clean audio/image references but keep markers
+    // Clean audio references but keep markers
     cleaned = cleaned.replace(/\[sound:[^\]]+\]/g, '[audio]');
-    cleaned = cleaned.replace(/<img[^>]+>/g, '[image]');
+
+    // Remove Anki answer separator markers
+    cleaned = cleaned.replace(/<hr[^>]*id=["']?answer["']?[^>]*>/gi, ' ');
+    cleaned = cleaned.replace(/<hr[^>]*>/gi, ' ');
 
     // Remove HTML tags but preserve content
     cleaned = cleaned.replace(/<\/?(div|p|span|b|i|u|strong|em|font)[^>]*>/gi, '');
@@ -686,6 +835,86 @@ export class AnkiParser {
     }
 
     return result;
+  }
+
+  /**
+   * Build a field name -> value map based on the model field definitions.
+   */
+  private static buildFieldMap(fields: string[], model?: Record<string, any>): Record<string, string> {
+    const fieldMap: Record<string, string> = {};
+    const modelFields = model?.flds;
+
+    if (Array.isArray(modelFields)) {
+      modelFields.forEach((field: { name?: string }, index: number) => {
+        if (field?.name) {
+          fieldMap[field.name] = fields[index] || '';
+        }
+      });
+    } else {
+      fields.forEach((value, index) => {
+        fieldMap[`Field${index + 1}`] = value;
+      });
+    }
+
+    return fieldMap;
+  }
+
+  /**
+   * Render an Anki template using simple field replacement.
+   * Supports {{Field}}, {{type:Field}}, {{cloze:Field}}, and {{FrontSide}}.
+   */
+  private static renderTemplate(
+    template: string,
+    fieldMap: Record<string, string>,
+    frontSide?: string
+  ): string {
+    let rendered = template;
+
+    if (frontSide !== undefined) {
+      rendered = rendered.replace(/{{\s*FrontSide\s*}}/gi, frontSide);
+    }
+
+    // Remove conditional wrappers (best-effort, Anki handles these with its own logic)
+    rendered = rendered.replace(/{{[#^/][^}]+}}/g, '');
+
+    return rendered.replace(/{{\s*([^}]+)\s*}}/g, (match, token) => {
+      const cleaned = token.trim();
+      if (/^FrontSide$/i.test(cleaned)) {
+        return frontSide || '';
+      }
+
+      const fieldName = cleaned.split(':').pop() || '';
+      return fieldMap[fieldName.trim()] ?? '';
+    });
+  }
+
+  /**
+   * Extract non-structural field tokens from a template.
+   * Ignores FrontSide and conditional markers (#, ^, /).
+   */
+  private static getDisplayFieldTokens(template: string): string[] {
+    if (!template.includes('{{')) return [];
+
+    const tokens = Array.from(template.matchAll(/{{\s*([^}]+)\s*}}/g))
+      .map(match => match[1]?.trim() || '')
+      .filter(Boolean)
+      .filter(token => !['#', '^', '/'].includes(token[0] || ''))
+      .filter(token => !/^FrontSide$/i.test(token));
+
+    return tokens.map(token => token.split(':').pop()!.trim()).filter(Boolean);
+  }
+
+  private static containsJapanese(text: string): boolean {
+    return /[\u3040-\u30FF\u4E00-\u9FFF]/.test(text);
+  }
+
+  private static pickJapaneseField(candidates: Array<string | undefined>): string | null {
+    for (const value of candidates) {
+      if (value && this.containsJapanese(value)) {
+        return value;
+      }
+    }
+    return null;
   }
 
   /**

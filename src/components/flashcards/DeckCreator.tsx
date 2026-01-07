@@ -30,6 +30,7 @@ import { Loader2, ChevronDown, Check } from 'lucide-react'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import Modal from '@/components/ui/Modal'
 import { generateFuriganaBatch, needsFurigana } from '@/lib/flashcards/furiganaUtils'
+import { useToast } from '@/components/ui/Toast/ToastContext'
 
 interface DeckCreatorProps {
   isOpen: boolean
@@ -56,6 +57,7 @@ export function DeckCreator({
 }: DeckCreatorProps) {
   const { t } = useI18n()
   const router = useRouter()
+  const { showToast } = useToast()
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const [step, setStep] = useState<'source' | 'details' | 'cards'>('source')
@@ -109,36 +111,6 @@ export function DeckCreator({
   const [limitError, setLimitError] = useState<{ currentCount: number; limit: number } | null>(null)
   const [checkingLimit, setCheckingLimit] = useState(false)
 
-  // Check deck limit when modal opens (only for new decks, not edits)
-  React.useEffect(() => {
-    const checkDeckLimit = async () => {
-      if (!isOpen || editDeck || !userId) return
-
-      setCheckingLimit(true)
-      try {
-        const response = await fetch('/api/flashcards/decks/limit', {
-          credentials: 'include',
-        })
-
-        if (response.ok) {
-          const data = await response.json()
-          if (!data.canCreate) {
-            setLimitError({
-              currentCount: data.currentCount,
-              limit: data.limit,
-            })
-          }
-        }
-      } catch (error) {
-        console.error('[DeckCreator] Failed to check deck limit:', error)
-      } finally {
-        setCheckingLimit(false)
-      }
-    }
-
-    checkDeckLimit()
-  }, [isOpen, editDeck, userId])
-
   // If editing, skip source selection and go straight to details
   React.useEffect(() => {
     if (editDeck && isOpen) {
@@ -155,7 +127,6 @@ export function DeckCreator({
           const lists = await listManager.getLists(userId, isPremium)
           setFetchedLists(lists)
         } catch (error) {
-          console.error('[DeckCreator] Failed to load lists:', error)
         } finally {
           setLoadingLists(false)
         }
@@ -205,12 +176,16 @@ export function DeckCreator({
           isPremium,
           result.deck.name
         )
-        console.log('[DeckCreator] Anki deck saved via AnkiDeckManager:', result.deck.id)
         setShowAnkiImport(false)
         onAnkiImportComplete?.() // Refresh the deck list in the parent
         onClose() // Close the modal - deck is already saved
       } catch (error: any) {
-        console.error('[DeckCreator] Failed to save Anki deck:', error)
+
+        if (error?.code === 'DUPLICATE_DECK_NAME') {
+          showToast(t('errors.resource.alreadyExists') || 'This already exists. Please choose a different name.', 'error')
+          setShowAnkiImport(false)
+          return
+        }
 
         // Check for deck limit error
         if (error?.code === 'LIMIT_REACHED') {
@@ -254,9 +229,6 @@ export function DeckCreator({
 
       const skippedCount = list.items.length - validItems.length
       if (skippedCount > 0) {
-        console.warn(
-          `[DeckCreator] Skipped ${skippedCount} item(s) from list "${list.name}" - missing reading or meaning`
-        )
         // Show warning toast to user
         const warningMessage = t('lists.validation.invalidItemsSkipped', { count: skippedCount })
         // Note: Toast will be shown in parent component after this returns
@@ -344,9 +316,7 @@ export function DeckCreator({
 
     let furiganaMap = new Map<string, string>()
     if (textsToProcess.length > 0) {
-      console.log(`[DeckCreator] Generating furigana for ${textsToProcess.length} texts`)
       furiganaMap = await generateFuriganaBatch(textsToProcess)
-      console.log(`[DeckCreator] Generated furigana for ${furiganaMap.size} unique texts`)
     }
 
     const deckRequest: CreateDeckRequest = {

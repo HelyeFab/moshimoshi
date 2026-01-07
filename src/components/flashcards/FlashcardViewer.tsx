@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, RotateCw, Volume2 } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RotateCw, Trash2, Volume2 } from 'lucide-react';
 import type { FlashcardContent, CardStyle, AnimationSpeed } from '@/types/flashcards';
 import { useI18n } from '@/i18n/I18nContext';
 import { useTTS } from '@/hooks/useTTS';
@@ -15,6 +15,8 @@ interface FlashcardViewerProps {
   animationSpeed?: AnimationSpeed;
   showHints?: boolean;
   autoPlayAudio?: boolean;
+  isGraded?: boolean;
+  onDelete?: () => void;
   onNext?: () => void;
   onPrevious?: () => void;
   onFlip?: () => void;
@@ -33,6 +35,8 @@ export function FlashcardViewer({
   animationSpeed = 'normal',
   showHints = false,
   autoPlayAudio = false,
+  isGraded = false,
+  onDelete,
   onNext,
   onPrevious,
   onFlip,
@@ -43,6 +47,28 @@ export function FlashcardViewer({
 
   // Lazy hydration: Load media on-demand as card is displayed
   const hydratedCard = useMediaHydration(card);
+
+  const resolvedFrontText =
+    hydratedCard.front.text ||
+    (hydratedCard as { expression?: string }).expression ||
+    hydratedCard.metadata?.expression ||
+    (hydratedCard as { sentence?: string }).sentence ||
+    hydratedCard.metadata?.sentence ||
+    '';
+  const resolvedBackText =
+    hydratedCard.back.text ||
+    (hydratedCard as { meaning?: string }).meaning ||
+    hydratedCard.metadata?.meaning ||
+    '';
+  const resolvedFuriganaFront =
+    hydratedCard.metadata?.furiganaFront ||
+    (hydratedCard as { furiganaFront?: string }).furiganaFront;
+  const resolvedFuriganaBack =
+    hydratedCard.metadata?.furiganaBack ||
+    (hydratedCard as { furiganaBack?: string }).furiganaBack;
+  const resolvedAudioUrl =
+    hydratedCard.metadata?.audioUrl ||
+    (hydratedCard as { audioUrl?: string }).audioUrl;
 
   const [isFlipped, setIsFlipped] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(false);
@@ -65,8 +91,11 @@ export function FlashcardViewer({
   // Reset state when card changes
   useEffect(() => {
     setIsFlipped(false);
-    setHasGraded(false);
-  }, [card.id]);
+    setHasGraded(isGraded);
+  }, [card.id, isGraded]);
+  useEffect(() => {
+    setHasGraded(isGraded);
+  }, [isGraded]);
 
   // Helper function to detect if text contains Japanese characters
   const isJapaneseText = useCallback((text: string): boolean => {
@@ -92,11 +121,11 @@ export function FlashcardViewer({
 
   // Auto-play audio if enabled (uses hydrated media)
   useEffect(() => {
-    if (autoPlayAudio && hydratedCard.metadata?.audioUrl) {
-      const audio = new Audio(hydratedCard.metadata.audioUrl);
+    if (autoPlayAudio && resolvedAudioUrl) {
+      const audio = new Audio(resolvedAudioUrl);
       audio.play().catch(() => {});
     }
-  }, [card.id, autoPlayAudio, hydratedCard.metadata?.audioUrl]);
+  }, [card.id, autoPlayAudio, resolvedAudioUrl]);
 
   const handleFlip = useCallback(() => {
     setIsFlipped(!isFlipped);
@@ -149,9 +178,9 @@ export function FlashcardViewer({
     if (audioPlaying) return;
 
     // Determine what text to play based on which side is showing (uses hydrated media)
-    const textToPlay = isFlipped ? hydratedCard.back.text : hydratedCard.front.text;
+    const textToPlay = isFlipped ? resolvedBackText : resolvedFrontText;
 
-    if (!textToPlay) return;
+    if (!textToPlay && !resolvedAudioUrl) return;
 
     setAudioPlaying(true);
 
@@ -168,9 +197,9 @@ export function FlashcardViewer({
 
     try {
       // If there's a custom audio URL (hydrated), try to use it
-      if (hydratedCard.metadata?.audioUrl) {
+      if (resolvedAudioUrl) {
         try {
-          const audio = new Audio(hydratedCard.metadata.audioUrl);
+          const audio = new Audio(resolvedAudioUrl);
           await audio.play();
         } catch (audioError) {
           // Audio file failed - fall back to TTS
@@ -196,11 +225,11 @@ export function FlashcardViewer({
       try {
         const texts = [];
 
-        if (hydratedCard.front.text) {
-          texts.push(hydratedCard.front.text);
+        if (resolvedFrontText) {
+          texts.push(resolvedFrontText);
         }
-        if (hydratedCard.back.text) {
-          texts.push(hydratedCard.back.text);
+        if (resolvedBackText) {
+          texts.push(resolvedBackText);
         }
 
         if (texts.length > 0) {
@@ -226,7 +255,7 @@ export function FlashcardViewer({
     };
 
     preloadTexts();
-  }, [card.id, preload, hydratedCard]);
+  }, [card.id, preload, hydratedCard, resolvedFrontText, resolvedBackText]);
 
   const getCardStyleClasses = () => {
     switch (cardStyle) {
@@ -284,7 +313,7 @@ export function FlashcardViewer({
               'text-3xl md:text-4xl font-bold text-center mb-4',
               cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
             )}>
-              {renderTextWithFurigana(hydratedCard.front.text, hydratedCard.metadata?.furiganaFront)}
+              {renderTextWithFurigana(resolvedFrontText, resolvedFuriganaFront)}
             </h2>
 
             {hydratedCard.front.subtext && (
@@ -296,11 +325,23 @@ export function FlashcardViewer({
               </p>
             )}
 
-            {/* Top right controls */}
+            {/* Top controls */}
+            <div className="absolute top-4 left-4">
+              {onDelete && (
+                <button
+                  onClick={(e) => { e.stopPropagation(); onDelete(); }}
+                  className="p-2 hover:opacity-70 transition-opacity"
+                  aria-label={t('flashcards.deleteCard')}
+                >
+                  <Trash2 className="w-5 h-5 text-red-500" />
+                </button>
+              )}
+            </div>
+
             <div className="absolute top-4 right-4 flex gap-2">
               {/* Only show audio button if text contains Japanese characters */}
-              {(hydratedCard.metadata?.audioUrl || hydratedCard.front.text) &&
-               isJapaneseText(hydratedCard.front.text) && (
+              {(resolvedAudioUrl || resolvedFrontText) &&
+               (resolvedAudioUrl || isJapaneseText(resolvedFrontText)) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
                   className="p-2 hover:opacity-70 transition-opacity"
@@ -330,6 +371,18 @@ export function FlashcardViewer({
               getCardStyleClasses()
             )}
           >
+            <div className="absolute top-4 left-4">
+              {onDelete && (
+                <button
+                  onClick={(e) => { e.stopPropagation(); onDelete(); }}
+                  className="p-2 hover:opacity-70 transition-opacity"
+                  aria-label={t('flashcards.deleteCard')}
+                >
+                  <Trash2 className="w-5 h-5 text-red-500" />
+                </button>
+              )}
+            </div>
+
             {hydratedCard.back.media && hydratedCard.back.media.type === 'image' && (
               <div className="mb-4">
                 <img
@@ -345,7 +398,7 @@ export function FlashcardViewer({
               'text-3xl md:text-4xl font-bold text-center mb-2',
               cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
             )}>
-              {renderTextWithFurigana(hydratedCard.back.text, hydratedCard.metadata?.furiganaBack)}
+              {renderTextWithFurigana(resolvedBackText, resolvedFuriganaBack)}
             </h2>
 
             {/* Reading (hiragana) */}
@@ -379,8 +432,8 @@ export function FlashcardViewer({
 
             {/* Top right audio button */}
             <div className="absolute top-4 right-4">
-              {(hydratedCard.metadata?.audioUrl || hydratedCard.back.text) &&
-               isJapaneseText(hydratedCard.back.text) && (
+              {(resolvedAudioUrl || resolvedBackText) &&
+               (resolvedAudioUrl || isJapaneseText(resolvedBackText)) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
                   className="p-2 hover:opacity-70 transition-opacity"

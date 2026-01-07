@@ -48,8 +48,21 @@ const firestore_1 = require("firebase-functions/v2/firestore");
 const admin = __importStar(require("firebase-admin"));
 /**
  * When a question vote is created, increment the question's vote count
+ *
+ * Concurrency limits:
+ * - maxInstances: 50 - Higher for voting (very frequent operation)
+ * - minInstances: 2 - Keep 2 warm for better UX (handles 160 concurrent votes)
+ * - concurrency: 80 - Max concurrency (voting is lightweight Firestore transaction)
+ * - Max concurrent votes: 4,000/sec (50 instances × 80 requests)
  */
-exports.onQuestionVoteCreated = (0, firestore_1.onDocumentCreated)('qa_question_votes/{voteId}', async (event) => {
+exports.onQuestionVoteCreated = (0, firestore_1.onDocumentCreated)({
+    document: 'qa_question_votes/{voteId}',
+    maxInstances: 50,
+    minInstances: 2,
+    concurrency: 80,
+    timeoutSeconds: 10,
+    memory: '256MiB',
+}, async (event) => {
     var _a;
     const voteData = (_a = event.data) === null || _a === void 0 ? void 0 : _a.data();
     if (!voteData) {
@@ -79,8 +92,17 @@ exports.onQuestionVoteCreated = (0, firestore_1.onDocumentCreated)('qa_question_
 });
 /**
  * When a question vote is deleted, decrement the question's vote count
+ *
+ * Concurrency limits: Same as vote creation
  */
-exports.onQuestionVoteDeleted = (0, firestore_1.onDocumentDeleted)('qa_question_votes/{voteId}', async (event) => {
+exports.onQuestionVoteDeleted = (0, firestore_1.onDocumentDeleted)({
+    document: 'qa_question_votes/{voteId}',
+    maxInstances: 50,
+    minInstances: 2,
+    concurrency: 80,
+    timeoutSeconds: 10,
+    memory: '256MiB',
+}, async (event) => {
     var _a;
     const voteData = (_a = event.data) === null || _a === void 0 ? void 0 : _a.data();
     if (!voteData) {
@@ -111,8 +133,17 @@ exports.onQuestionVoteDeleted = (0, firestore_1.onDocumentDeleted)('qa_question_
 });
 /**
  * When an answer vote is created, increment the answer's vote count
+ *
+ * Concurrency limits: Same as question voting
  */
-exports.onAnswerVoteCreated = (0, firestore_1.onDocumentCreated)('qa_answer_votes/{voteId}', async (event) => {
+exports.onAnswerVoteCreated = (0, firestore_1.onDocumentCreated)({
+    document: 'qa_answer_votes/{voteId}',
+    maxInstances: 50,
+    minInstances: 2,
+    concurrency: 80,
+    timeoutSeconds: 10,
+    memory: '256MiB',
+}, async (event) => {
     var _a;
     const voteData = (_a = event.data) === null || _a === void 0 ? void 0 : _a.data();
     if (!voteData) {
@@ -142,8 +173,17 @@ exports.onAnswerVoteCreated = (0, firestore_1.onDocumentCreated)('qa_answer_vote
 });
 /**
  * When an answer vote is deleted, decrement the answer's vote count
+ *
+ * Concurrency limits: Same as question voting
  */
-exports.onAnswerVoteDeleted = (0, firestore_1.onDocumentDeleted)('qa_answer_votes/{voteId}', async (event) => {
+exports.onAnswerVoteDeleted = (0, firestore_1.onDocumentDeleted)({
+    document: 'qa_answer_votes/{voteId}',
+    maxInstances: 50,
+    minInstances: 2,
+    concurrency: 80,
+    timeoutSeconds: 10,
+    memory: '256MiB',
+}, async (event) => {
     var _a;
     const voteData = (_a = event.data) === null || _a === void 0 ? void 0 : _a.data();
     if (!voteData) {

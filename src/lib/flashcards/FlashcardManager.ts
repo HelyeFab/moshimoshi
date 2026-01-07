@@ -17,7 +17,6 @@ import type { AnkiDeck } from '@/lib/anki/importer'
 import { AnkiMediaStore } from '@/lib/anki/mediaStore'
 import { openDB, IDBPDatabase } from 'idb'
 import { v4 as uuidv4 } from 'uuid'
-import { syncManager } from './SyncManager'
 import { storageManager } from './StorageManager'
 import { FlashcardSRSHelper } from './SRSHelper'
 import featuresConfig from '../../../config/features.v1.json'
@@ -154,10 +153,6 @@ export class FlashcardManager {
         audioUrl: hasValidAudioUrl ? card.audioUrl : undefined,
         imageUrl: hasValidImageUrl ? card.imageUrl : undefined,
         tags: card.tags,
-        // Furigana support
-        furiganaFront: card.furiganaFront,
-        furiganaBack: card.furiganaBack,
-        hasNativeFurigana: card.hasNativeFurigana,
         // Preserve Anki-specific metadata
         ...(card.metadata || {}),
       },
@@ -217,108 +212,52 @@ export class FlashcardManager {
     isPremium: boolean,
     retryOnAuthFailure: boolean = true
   ): Promise<FlashcardDeck[]> {
-    console.log('🔥🔥🔥 [FlashcardManager.getDecks] CALLED with userId:', userId, 'isPremium:', isPremium)
+    console.log('🔍 [FlashcardManager.getDecks] Loading decks for user:', userId, 'isPremium:', isPremium)
     const db = await this.initDB()
 
-    // Check if Firebase sync is enabled for Anki imports (feature flag)
-    const ankiImportsFeature = featuresConfig.features.find(f => f.id === 'anki_imports')
-    const enableFirebaseSync = ankiImportsFeature?.metadata?.enableFirebaseSync === true
+    // Load all decks from IndexedDB (local-only storage)
+    let decks = await db.getAllFromIndex('decks', 'userId', userId)
 
-    // Premium users: Try server first, sync to IndexedDB (only if Firebase sync is enabled)
-    if (enableFirebaseSync && isPremium) {
-      try {
-        console.log('[FlashcardManager.getDecks] Premium user - fetching from server')
-        const response = await fetch('/api/flashcards/decks', {
-          method: 'GET',
-          credentials: 'include',
-        })
+    // DEBUG: Check ALL decks in IndexedDB regardless of userId
+    const allDecksInDB = await db.getAll('decks')
+    console.log('🔍 [FlashcardManager.getDecks] ALL decks in IndexedDB (debug):', {
+      totalDecks: allDecksInDB.length,
+      allDecks: allDecksInDB.map(d => ({
+        id: d.id,
+        name: d.name,
+        userId: d.userId,
+        source: d.source,
+        cardCount: d.cards?.length,
+        hasCards: !!d.cards,
+        cardsArray: Array.isArray(d.cards),
+        firstCard: d.cards?.[0]
+      }))
+    })
 
-        if (response.ok) {
-          let { decks } = await response.json()
-          console.log('[FlashcardManager.getDecks] Server returned', decks?.length || 0, 'decks')
+    console.log('📦 [FlashcardManager.getDecks] Decks for userId', userId, ':', {
+      deckCount: decks.length,
+      decks: decks.map(d => ({
+        id: d.id,
+        name: d.name,
+        source: d.source,
+        cardCount: d.cards?.length,
+        firstCardPreview: d.cards?.[0]
+      }))
+    })
 
-          // Normalize Anki-imported decks to match FlashcardContent structure
-          decks = decks?.map((deck: any) => {
-            if (deck.source === 'anki' && deck.cards?.length > 0) {
-              console.log('[FlashcardManager.getDecks] Normalizing Anki deck:', deck.name)
-              return {
-                ...deck,
-                cards: deck.cards.map((card: any) => this.normalizeAnkiCard(card))
-              }
-            }
-            return deck
-          }) || []
-
-          // Note: Media hydration is now lazy-loaded by components using useMediaHydration hook
-          // This improves deck load performance from 2-3s (100 cards) to <50ms
-          // Components hydrate media on-demand as cards are displayed
-
-          if (decks?.[0]) {
-            console.log('[FlashcardManager.getDecks] First deck after normalization:', {
-              id: decks[0].id,
-              name: decks[0].name,
-              source: decks[0].source,
-              cardsLength: decks[0].cards?.length,
-              firstCardFront: decks[0].cards?.[0]?.front
-            })
-          }
-
-          // Sync all decks from server to IndexedDB
-          try {
-            const tx = db.transaction('decks', 'readwrite')
-            // Clear existing decks for this user
-            const existingDecks = await tx.store.index('userId').getAllKeys(userId)
-
-            // Batch all operations with Promise.all for better performance
-            await Promise.all([
-              ...existingDecks.map(key => tx.store.delete(key)),
-              ...(decks || []).map((deck: FlashcardDeck) => tx.store.put(deck))
-            ])
-
-            await tx.done
-          } catch (error: any) {
-            if (error?.name === 'QuotaExceededError') {
-              const handled = storageManager.handleStorageError(error)
-              throw new Error(handled.message)
-            }
-            throw error
-          }
-
-          return decks || []
-        } else {
-          // Auth race on first load: retry once after a short delay when unauthorized/forbidden
-          if (retryOnAuthFailure && (response.status === 401 || response.status === 403)) {
-            console.warn('[FlashcardManager.getDecks] Auth not ready (status', response.status, ') retrying after refresh...')
-            // Try refreshing session (best-effort)
-            try {
-              await fetch('/api/auth/refresh-session', { method: 'POST', credentials: 'include' })
-            } catch (refreshErr) {
-              console.warn('[FlashcardManager.getDecks] Session refresh failed:', refreshErr)
-            }
-            await new Promise(resolve => setTimeout(resolve, 300))
-            return this.getDecks(userId, isPremium, false)
-          }
-          console.error(
-            '[FlashcardManager.getDecks] Server returned error:',
-            response.status,
-            await response.text()
-          )
+    // Normalize Anki-imported decks to match FlashcardContent structure
+    decks = decks.map((deck: any) => {
+      if (deck.source === 'anki' && deck.cards?.length > 0) {
+        console.log('🔄 [FlashcardManager.getDecks] Normalizing Anki deck:', deck.name, 'with', deck.cards.length, 'cards')
+        return {
+          ...deck,
+          cards: deck.cards.map((card: any) => this.normalizeAnkiCard(card))
         }
-      } catch (error) {
-        console.error('[FlashcardManager.getDecks] Failed to fetch from server:', error)
-        // Fall through to use IndexedDB for offline premium users
       }
-    }
+      return deck
+    })
 
-    // Free users, offline premium users, or Firebase sync disabled: Use IndexedDB only
-    if (!enableFirebaseSync && isPremium) {
-      console.log('[FlashcardManager.getDecks] ✅ Firebase sync is DISABLED - using IndexedDB only')
-      console.log('[FlashcardManager.getDecks] 💡 This enables unlimited deck sizes without cloud storage costs')
-      console.log('[FlashcardManager.getDecks] 💡 To enable Firebase sync, set enableFirebaseSync: true in config/features.v1.json')
-    } else {
-      console.log('[FlashcardManager.getDecks] Using IndexedDB only')
-    }
-    const decks = await db.getAllFromIndex('decks', 'userId', userId)
+    console.log('✅ [FlashcardManager.getDecks] Returning', decks.length, 'decks')
     return decks.sort((a, b) => b.updatedAt - a.updatedAt)
   }
 
@@ -376,7 +315,7 @@ export class FlashcardManager {
         sessionLength: 20,
         reviewMode: 'srs',
         newCardsPerDay: 20,
-        reviewsPerDay: 20,
+        reviewsPerDay: 100,
         ...request.settings,
       },
       stats: this.createInitialStats(),
@@ -397,113 +336,27 @@ export class FlashcardManager {
       deck.stats.newCards = deck.cards.length
     }
 
-    // Save to server ONLY for premium users
-    console.log('[FlashcardManager.createDeck] isPremium:', isPremium, 'userId:', userId)
-    if (isPremium && userId !== 'guest') {
-      try {
-        console.log('[FlashcardManager.createDeck] Saving to Firebase...')
-        const response = await fetch('/api/flashcards/decks', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify(request),
-        })
-
-        console.log('[FlashcardManager.createDeck] Response status:', response.status)
-        if (response.ok) {
-          const responseData = await response.json()
-          // Response is wrapped by createStorageResponse: { success, data: { deck }, storage }
-          const serverDeck = responseData.data?.deck || responseData.deck
-          console.log('[FlashcardManager.createDeck] Deck saved to Firebase:', serverDeck?.id)
-          try {
-            await db.put('decks', serverDeck)
-          } catch (error: any) {
-            if (error?.name === 'QuotaExceededError') {
-              const handled = storageManager.handleStorageError(error)
-              throw new Error(handled.message)
-            }
-            throw error
-          }
-          this.notifyListeners('decks-changed')
-          return serverDeck
-        } else {
-          let errorMessage = 'Failed to create deck on server'
-          let parsedError: any = {}
-          try {
-            const errorData = await response.text()
-            parsedError = errorData ? JSON.parse(errorData) : {}
-            errorMessage = parsedError.error || errorMessage
-            console.error('[FlashcardManager.createDeck] Server error:', {
-              status: response.status,
-              statusText: response.statusText,
-              error: parsedError,
-            })
-          } catch (parseError) {
-            console.error(
-              '[FlashcardManager.createDeck] Failed to parse error response:',
-              parseError
-            )
-          }
-
-          // If it's a 403 (deck limit), throw an error with the limit data
-          if (response.status === 403) {
-            const limitError = new Error(errorMessage) as any
-            limitError.code = 'LIMIT_REACHED'
-            limitError.currentCount = parsedError.currentCount
-            limitError.limit = parsedError.limit
-            throw limitError
-          }
-        }
-      } catch (error: any) {
-        console.error('Failed to create deck on server:', error)
-
-        // Re-throw limit errors - don't queue or save locally
-        if (error?.code === 'LIMIT_REACHED') {
-          throw error
-        }
-
-        // Queue for retry
-        await syncManager.queueOperation({
-          action: 'create',
-          deckId: deck.id,
-          data: request,
-          userId,
-        })
-
-        // Still save locally for offline access
-        try {
-          await db.put('decks', deck)
-        } catch (error: any) {
-          if (error?.name === 'QuotaExceededError') {
-            const handled = storageManager.handleStorageError(error)
-            throw new Error(handled.message)
-          }
-          throw error
-        }
-        this.notifyListeners('decks-changed')
-        return deck
+    console.log('💾 [FlashcardManager.createDeck] Saving deck to IndexedDB:', {
+      id: deck.id,
+      name: deck.name,
+      cardCount: deck.cards.length,
+      userId,
+      deckStructure: {
+        hasCards: !!deck.cards,
+        cards: deck.cards.length,
+        firstCard: deck.cards[0]
       }
-    } else {
-      console.log('[FlashcardManager.createDeck] Guest user - saving to IndexedDB only')
-    }
+    })
 
-    // For free users and guests: Save to IndexedDB only
+    // Save to IndexedDB only (local-only storage)
     try {
       await db.put('decks', deck)
+      console.log('✅ [FlashcardManager.createDeck] Deck saved successfully to IndexedDB')
       this.notifyListeners('decks-changed')
     } catch (error) {
+      console.error('❌ [FlashcardManager.createDeck] Failed to save deck:', error)
       const handled = storageManager.handleStorageError(error)
       throw new Error(handled.message)
-    }
-
-    // Queue for future sync if user upgrades
-    if (userId !== 'guest') {
-      await syncManager.queueOperation({
-        action: 'create',
-        deckId: deck.id,
-        data: deck,
-        userId,
-      })
     }
 
     return deck
@@ -691,23 +544,8 @@ export class FlashcardManager {
         return []
       }
 
-      // Filter out items without required metadata (reading OR meaning)
-      // This prevents broken flashcards (empty backs or same front/back)
-      const validItems = list.items.filter(item => {
-        const hasReading = !!item.metadata?.reading?.trim()
-        const hasMeaning = !!item.metadata?.meaning?.trim()
-        return hasReading || hasMeaning
-      })
-
-      const skippedCount = list.items.length - validItems.length
-      if (skippedCount > 0) {
-        console.warn(
-          `[FlashcardManager] Skipped ${skippedCount} item(s) from list "${list.name}" - missing reading or meaning`
-        )
-      }
-
-      // Convert valid list items to flashcards
-      return validItems.map(item => ({
+      // Convert list items to flashcards
+      return list.items.map(item => ({
         id: uuidv4(),
         front: {
           text: item.content, // The word/sentence/verb
@@ -724,7 +562,6 @@ export class FlashcardManager {
           source: `list:${list.name}`,
           originalListId: listId,
           itemId: item.id,
-          skippedCount, // Track how many items were skipped
         },
       }))
     } catch (error) {
@@ -908,6 +745,39 @@ export class FlashcardManager {
     Object.assign(deck, updates)
     deck.updatedAt = Date.now()
 
+    if (updates.cards) {
+      const statusCounts = {
+        new: 0,
+        learning: 0,
+        review: 0,
+        mastered: 0,
+      }
+
+      for (const card of updates.cards) {
+        const status = card.metadata?.status || 'new'
+        switch (status) {
+          case 'learning':
+            statusCounts.learning += 1
+            break
+          case 'review':
+            statusCounts.review += 1
+            break
+          case 'mastered':
+            statusCounts.mastered += 1
+            break
+          default:
+            statusCounts.new += 1
+            break
+        }
+      }
+
+      deck.stats.totalCards = updates.cards.length
+      deck.stats.newCards = statusCounts.new
+      deck.stats.learningCards = statusCounts.learning
+      deck.stats.reviewCards = statusCounts.review
+      deck.stats.masteredCards = statusCounts.mastered
+    }
+
     // Save to server ONLY for premium users
     if (isPremium && userId !== 'guest') {
       try {
@@ -970,20 +840,6 @@ export class FlashcardManager {
 
         if (response.ok) {
           await db.delete('decks', deckId)
-
-          // Clean up Anki media files from IndexedDB in background (non-blocking)
-          if (deck.source === 'anki') {
-            // Don't await - let it run in background to avoid blocking UI
-            import('@/lib/anki/mediaStore').then(({ AnkiMediaStore }) => {
-              const mediaStore = AnkiMediaStore.getInstance()
-              mediaStore.deleteMediaByDeck(deckId).then(deletedCount => {
-                console.log(`[FlashcardManager] Background cleanup: deleted ${deletedCount} media files for deck ${deckId}`)
-              }).catch(error => {
-                console.error(`[FlashcardManager] Background media cleanup failed for deck ${deckId}:`, error)
-              })
-            })
-          }
-
           this.notifyListeners('decks-changed')
           return true
         }
@@ -994,20 +850,6 @@ export class FlashcardManager {
 
     // Fallback to local deletion
     await db.delete('decks', deckId)
-
-    // Clean up Anki media files from IndexedDB in background (non-blocking)
-    if (deck.source === 'anki') {
-      // Don't await - let it run in background to avoid blocking UI
-      import('@/lib/anki/mediaStore').then(({ AnkiMediaStore }) => {
-        const mediaStore = AnkiMediaStore.getInstance()
-        mediaStore.deleteMediaByDeck(deckId).then(deletedCount => {
-          console.log(`[FlashcardManager] Background cleanup: deleted ${deletedCount} media files for deck ${deckId}`)
-        }).catch(error => {
-          console.error(`[FlashcardManager] Background media cleanup failed for deck ${deckId}:`, error)
-        })
-      })
-    }
-
     this.notifyListeners('decks-changed')
     return true
   }
@@ -1318,42 +1160,7 @@ export class FlashcardManager {
     // Update deck stats based on card progress
     this.updateDeckStatsFromCard(deck, updatedCard, difficulty !== 'again', previousStatus)
 
-    // Save to server ONLY for premium users
-    if (isPremium && userId !== 'guest') {
-      try {
-        const response = await fetch(`/api/flashcards/decks/${deckId}/cards/${cardId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({
-            metadata: updatedCard.metadata,
-          }),
-        })
-
-        if (response.ok) {
-          const responseData = await response.json()
-          const serverStats = responseData.data?.stats || responseData.stats
-          if (serverStats) {
-            deck.stats = serverStats
-          }
-          try {
-            await db.put('decks', deck)
-          } catch (error: any) {
-            if (error?.name === 'QuotaExceededError') {
-              const handled = storageManager.handleStorageError(error)
-              throw new Error(handled.message)
-            }
-            throw error
-          }
-          this.notifyListeners(`deck-${deckId}`)
-          return updatedCard
-        }
-      } catch (error) {
-        console.error('Failed to update card on server:', error)
-      }
-    }
-
-    // Save to IndexedDB
+    // Save to IndexedDB (local-only storage)
     try {
       await db.put('decks', deck)
     } catch (error: any) {
@@ -1461,10 +1268,18 @@ export class FlashcardManager {
 
   // Save session statistics
   async saveSessionStats(session: SessionStats, userId: string, isPremium: boolean): Promise<void> {
+    console.log('💾 [FlashcardManager.saveSessionStats] Received session:', {
+      deckId: session.deckId,
+      cardsStudied: session.cardsStudied,
+      accuracy: session.accuracy,
+      duration: session.duration,
+      userId
+    })
     const db = await this.initDB()
 
     // Update deck stats with session data
     const deck = await this.getDeck(session.deckId, userId)
+    console.log('📊 [FlashcardManager.saveSessionStats] Found deck:', deck ? `${deck.name} (${deck.cards.length} cards)` : 'NOT FOUND')
     if (deck) {
       // Update cumulative stats
       deck.stats.totalTimeSpent += session.duration
@@ -1480,7 +1295,14 @@ export class FlashcardManager {
       // Save updated deck
       try {
         await db.put('decks', deck)
+        console.log('✅ [FlashcardManager.saveSessionStats] Deck stats updated in IndexedDB:', {
+          deckName: deck.name,
+          totalTimeSpent: deck.stats.totalTimeSpent,
+          totalCards: deck.stats.totalCards,
+          masteredCards: deck.stats.masteredCards
+        })
       } catch (error: any) {
+        console.error('❌ [FlashcardManager.saveSessionStats] Failed to update deck:', error)
         if (error?.name === 'QuotaExceededError') {
           const handled = storageManager.handleStorageError(error)
           throw new Error(handled.message)
@@ -1491,25 +1313,12 @@ export class FlashcardManager {
 
     // Always persist session locally for dashboard/insights
     try {
+      console.log('💾 [FlashcardManager.saveSessionStats] Persisting session to SessionManager...')
       const { sessionManager } = await import('./SessionManager')
       await sessionManager.saveSession(session)
-      await sessionManager.saveSessionRemote(session, isPremium)
+      console.log('✅ [FlashcardManager.saveSessionStats] Session persisted to SessionManager')
     } catch (err) {
-      console.error('[FlashcardManager] Failed to persist session locally:', err)
-    }
-
-    // For premium users, also save to Firebase
-    if (isPremium && userId !== 'guest') {
-      try {
-        await fetch('/api/flashcards/sessions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify(session),
-        })
-      } catch (error) {
-        console.error('Failed to save session to server:', error)
-      }
+      console.error('❌ [FlashcardManager] Failed to persist session locally:', err)
     }
   }
 

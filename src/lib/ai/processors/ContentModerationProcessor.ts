@@ -121,7 +121,7 @@ export class ContentModerationProcessor extends BaseProcessor<
   /**
    * Required: Validate the request before processing
    */
-  protected validateRequest(request: ContentModerationRequest): void {
+  public validateRequest(request: ContentModerationRequest): void {
     if (!request.content || request.content.trim().length === 0) {
       throw new Error('Content cannot be empty')
     }
@@ -133,21 +133,21 @@ export class ContentModerationProcessor extends BaseProcessor<
   /**
    * Required: Get system prompt
    */
-  protected getSystemPrompt(request: ContentModerationRequest): string {
+  public getSystemPrompt(request: ContentModerationRequest): string {
     return this.buildModerationPrompt(request.type)
   }
 
   /**
    * Required: Get user prompt
    */
-  protected getUserPrompt(request: ContentModerationRequest): string {
+  public getUserPrompt(request: ContentModerationRequest): string {
     return this.buildUserPrompt(request.content, request.title)
   }
 
   /**
    * Required: Parse LLM response
    */
-  protected parseResponse(rawResponse: string): ContentModerationResult {
+  public parseResponse(rawResponse: string): ContentModerationResult {
     return this.parseModerationResponse(rawResponse)
   }
 
@@ -303,7 +303,8 @@ Provide moderation decision as JSON.`
   async batchModerate(
     requests: ContentModerationRequest[]
   ): Promise<ContentModerationResult[]> {
-    return Promise.all(requests.map(req => this.process(req)))
+    const results = await Promise.all(requests.map(req => this.process(req)))
+    return results.map(r => r.data)
   }
 
   /**

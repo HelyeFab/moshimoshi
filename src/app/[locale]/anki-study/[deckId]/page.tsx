@@ -1,12 +1,15 @@
 'use client'
 
-import { useState, useCallback, use } from 'react'
+import { useState, useMemo, useCallback, use } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAnkiStudy } from '@/hooks/useAnkiStudy'
 import { useAuth } from '@/hooks/useAuth'
-import SpeakerIcon from '@/components/ui/SpeakerIcon'
+import ReviewSessionUI from '@/components/review-engine/ReviewSessionUI'
+import { AnkiAdapter } from '@/lib/review-engine/adapters/AnkiAdapter'
+import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
+import { SessionStatistics } from '@/lib/review-engine/core/session.types'
 import {
   ArrowLeft,
   Clock,
@@ -18,10 +21,6 @@ import {
   CheckCircle,
   Sparkles,
   Target,
-  Eye,
-  ThumbsUp,
-  ThumbsDown,
-  SkipForward,
 } from 'lucide-react'
 
 // Anki Study uses its own review flow, independent of URE
@@ -66,58 +65,40 @@ function AnkiStudyContent({ deckId, locale }: { deckId: string; locale: string }
   const [sessionState, setSessionState] = useState<SessionState>('preview')
   const [sessionResult, setSessionResult] = useState<SessionResult | null>(null)
 
-  // Inline review state (no URE dependency)
-  const [currentCardIndex, setCurrentCardIndex] = useState(0)
-  const [showAnswer, setShowAnswer] = useState(false)
-  const [cardStartTime, setCardStartTime] = useState<number>(Date.now())
-  const [correctCount, setCorrectCount] = useState(0)
+  const userId = user?.uid || 'guest'
+
+  // Create AnkiAdapter instance
+  const ankiAdapter = useMemo(() => new AnkiAdapter(), [])
+
+  // Transform session cards to ReviewableContent format for ReviewSessionUI
+  const reviewableContent = useMemo(() => {
+    if (!sessionCards.length) return []
+    return sessionCards.map(card => ankiAdapter.transform(card))
+  }, [sessionCards, ankiAdapter])
 
   // Handle starting the study session
   const handleStartSession = useCallback(() => {
     startSession()
     setSessionState('studying')
-    setCurrentCardIndex(0)
-    setShowAnswer(false)
-    setCardStartTime(Date.now())
-    setCorrectCount(0)
   }, [startSession])
 
-  // Handle revealing the answer
-  const handleRevealAnswer = useCallback(() => {
-    setShowAnswer(true)
-  }, [])
-
-  // Handle answering a card (correct/incorrect)
-  const handleAnswer = useCallback(
-    async (correct: boolean) => {
-      const currentCard = sessionCards[currentCardIndex]
-      if (!currentCard) return
-
-      const responseTime = Date.now() - cardStartTime
-
-      // Record the answer using the hook's method
-      await recordAnswer(currentCard.id, {
-        correct,
-        responseTime,
-      })
-
-      if (correct) {
-        setCorrectCount(prev => prev + 1)
+  // Handle review completion from ReviewSessionUI
+  const handleReviewComplete = useCallback(
+    async (statistics: SessionStatistics) => {
+      if (statistics.itemResults) {
+        for (const result of statistics.itemResults) {
+          await recordAnswer(result.itemId, {
+            correct: result.correct,
+            responseTime: result.responseTime,
+          })
+        }
       }
 
-      // Move to next card or complete
-      if (currentCardIndex < sessionCards.length - 1) {
-        setCurrentCardIndex(prev => prev + 1)
-        setShowAnswer(false)
-        setCardStartTime(Date.now())
-      } else {
-        // Session complete
-        const result = await endSession()
-        setSessionResult(result)
-        setSessionState('complete')
-      }
+      const result = await endSession()
+      setSessionResult(result)
+      setSessionState('complete')
     },
-    [sessionCards, currentCardIndex, cardStartTime, recordAnswer, endSession]
+    [recordAnswer, endSession]
   )
 
   // Handle canceling the review
@@ -309,141 +290,18 @@ function AnkiStudyContent({ deckId, locale }: { deckId: string; locale: string }
     )
   }
 
-  // Studying screen - inline Anki card review (no URE dependency)
-  if (sessionState === 'studying' && sessionCards.length > 0) {
-    const currentCard = sessionCards[currentCardIndex]
-
-    if (!currentCard) {
-      return null
-    }
-
+  // Studying screen - render ReviewSessionUI
+  if (sessionState === 'studying' && reviewableContent.length > 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-background-light to-primary-50 dark:from-dark-850 dark:to-dark-900">
-        <div className="container mx-auto px-4 py-8 max-w-2xl">
-          {/* Progress bar */}
-          <div className="mb-6">
-            <div className="flex justify-between text-sm text-text-muted dark:text-dark-text-muted mb-2">
-              <span>
-                {currentCardIndex + 1} / {sessionCards.length}
-              </span>
-              <span>
-                {correctCount} {t('anki.correct')}
-              </span>
-            </div>
-            <div className="h-2 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-primary-500"
-                initial={{ width: 0 }}
-                animate={{
-                  width: `${((currentCardIndex + 1) / sessionCards.length) * 100}%`,
-                }}
-                transition={{ duration: 0.3 }}
-              />
-            </div>
-          </div>
-
-          {/* Card */}
-          <motion.div
-            key={currentCard.id}
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="bg-soft-white dark:bg-dark-800 rounded-2xl shadow-lg overflow-hidden"
-          >
-            {/* Front of card */}
-            <div className="p-8 text-center border-b border-gray-100 dark:border-dark-700">
-              <div className="text-4xl font-bold text-text-primary dark:text-dark-text-primary mb-4">
-                {currentCard.front}
-              </div>
-              {currentCard.reading && (
-                <div className="text-lg text-text-secondary dark:text-dark-text-secondary">
-                  {currentCard.reading}
-                </div>
-              )}
-              {/* Audio button if available */}
-              {currentCard.front && (
-                <div className="mt-4">
-                  <SpeakerIcon
-                    text={currentCard.front}
-                    size="md"
-                    variant="ghost"
-                    options={{ voice: 'ja-JP', speed: 0.9 }}
-                  />
-                </div>
-              )}
-            </div>
-
-            {/* Back of card (revealed) */}
-            <AnimatePresence>
-              {showAnswer && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="p-8 text-center bg-gray-50 dark:bg-dark-700"
-                >
-                  <div className="text-2xl font-semibold text-primary-600 dark:text-primary-400 mb-2">
-                    {currentCard.back}
-                  </div>
-                  {currentCard.meaning && (
-                    <div className="text-text-secondary dark:text-dark-text-secondary">
-                      {currentCard.meaning}
-                    </div>
-                  )}
-                  {currentCard.sentence && (
-                    <div className="mt-4 text-sm text-text-muted dark:text-dark-text-muted italic">
-                      {currentCard.sentence}
-                    </div>
-                  )}
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.div>
-
-          {/* Action buttons */}
-          <div className="mt-8">
-            {!showAnswer ? (
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={handleRevealAnswer}
-                className="w-full btn btn-primary btn-lg flex items-center justify-center gap-3 py-4"
-              >
-                <Eye className="w-6 h-6" />
-                {t('anki.showAnswer')}
-              </motion.button>
-            ) : (
-              <div className="flex gap-4">
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => handleAnswer(false)}
-                  className="flex-1 btn btn-lg flex items-center justify-center gap-2 py-4 bg-red-500 hover:bg-red-600 text-white"
-                >
-                  <ThumbsDown className="w-5 h-5" />
-                  {t('anki.again')}
-                </motion.button>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => handleAnswer(true)}
-                  className="flex-1 btn btn-lg flex items-center justify-center gap-2 py-4 bg-green-500 hover:bg-green-600 text-white"
-                >
-                  <ThumbsUp className="w-5 h-5" />
-                  {t('anki.good')}
-                </motion.button>
-              </div>
-            )}
-
-            {/* Cancel button */}
-            <button
-              onClick={handleCancelReview}
-              className="w-full mt-4 text-text-muted dark:text-dark-text-muted hover:text-text-primary dark:hover:text-dark-text-primary transition-colors text-sm"
-            >
-              {t('common.cancel')}
-            </button>
-          </div>
-        </div>
-      </div>
+      <ReviewSessionUI
+        content={reviewableContent}
+        contentPool={reviewableContent}
+        mode="recognition"
+        onComplete={handleReviewComplete}
+        onCancel={handleCancelReview}
+        userId={userId}
+        shuffle={false}
+      />
     )
   }
 

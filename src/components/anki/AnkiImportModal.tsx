@@ -6,13 +6,11 @@ import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import Alert from '@/components/ui/Alert'
 import { Upload, FileText, CheckCircle2, Settings, Package } from 'lucide-react'
 import { AnkiImporter, ImportResult, AnkiDeck, DEFAULT_ANKI_DECK_SETTINGS } from '@/lib/anki/importer'
-import { AnkiMediaManager } from '@/lib/anki/AnkiMediaManager'
-import { AnkiMediaStore } from '@/lib/anki/mediaStore'
+import { AnkiMediaStore, buildAnkiMediaKey } from '@/lib/anki/mediaStore'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useI18n } from '@/i18n/I18nContext'
-import featuresConfig from '../../../config/features.v1.json'
 
 interface AnkiImportModalProps {
   isOpen: boolean
@@ -93,7 +91,6 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
         setError(result.error || t('anki.importFailed'))
       }
     } catch (error) {
-      console.error('Parse error:', error)
       setError(error instanceof Error ? error.message : t('anki.importFailed'))
     } finally {
       setParsing(false)
@@ -128,12 +125,12 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
   const handleConfirmImport = async () => {
     if (!previewDeck) return
 
-    const mediaManager = AnkiMediaManager.getInstance()
     const mediaStore = AnkiMediaStore.getInstance()
 
     setSaving(true)
 
     try {
+
       // Apply user's customizations to the deck
       const finalDeck: AnkiDeck = {
         ...previewDeck,
@@ -145,70 +142,19 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
         },
       }
 
+
       const mediaBlobs = previewDeck.mediaBlobs || new Map()
       const hasMedia = mediaBlobs.size > 0
 
-      // Store media in IndexedDB (all users - needed for useMediaHydration to work)
+      // Store media in IndexedDB (local-only storage)
       if (hasMedia && user?.uid) {
         for (const [filename, blob] of mediaBlobs.entries()) {
-          await mediaStore.storeMedia(filename, blob, {
+          const mediaKey = buildAnkiMediaKey(finalDeck.id, filename)
+          await mediaStore.storeMedia(mediaKey, blob, {
             userId: user.uid,
             deckId: finalDeck.id,
-            syncStatus: 'pending'
+            syncStatus: 'synced' // 'synced' means successfully stored locally
           })
-        }
-      }
-
-      // Check if Firebase sync is enabled for Anki imports
-      const ankiImportsFeature = featuresConfig.features.find(f => f.id === 'anki_imports')
-      const enableFirebaseSync = ankiImportsFeature?.metadata?.enableFirebaseSync === true
-
-      // Enqueue background sync for premium users (only if Firebase sync is enabled)
-      if (enableFirebaseSync && hasMedia && user?.uid && isPremium) {
-        console.log('[AnkiImportModal] Firebase sync ENABLED - enqueuing', mediaBlobs.size, 'media files for upload')
-
-        for (const [filename, blob] of mediaBlobs.entries()) {
-          await mediaManager.enqueueUpload(
-            user.uid,
-            finalDeck.id,
-            filename,
-            blob
-          )
-        }
-
-        console.log('[AnkiImportModal] All files enqueued. Starting auto-sync...')
-
-        // Auto-start background sync with retry logic
-        const startSync = async () => {
-          try {
-            await mediaManager.forceSyncAll()
-            console.log('[AnkiImportModal] Auto-sync started successfully')
-          } catch (error) {
-            console.error('[AnkiImportModal] Auto-sync failed, retrying in 2 seconds...', error)
-            // Retry once after 2 seconds
-            setTimeout(async () => {
-              try {
-                await mediaManager.forceSyncAll()
-                console.log('[AnkiImportModal] Auto-sync retry succeeded')
-              } catch (retryError) {
-                console.error('[AnkiImportModal] Auto-sync retry failed:', retryError)
-              }
-            }, 2000)
-          }
-        }
-
-        // Start sync asynchronously (don't block import completion)
-        startSync()
-
-        showToast(
-          `Deck imported! ${mediaBlobs.size} media files syncing in background...`,
-          'success'
-        )
-      } else if (hasMedia) {
-        // Firebase sync disabled or free user - media stored locally only
-        if (!enableFirebaseSync && isPremium) {
-          console.log('[AnkiImportModal] ✅ Firebase sync DISABLED - media files stored locally only')
-          console.log('[AnkiImportModal] 💡 Zero bandwidth costs, unlimited storage in IndexedDB')
         }
         showToast(
           `Deck imported! ${mediaBlobs.size} media files stored locally.`,
@@ -222,6 +168,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
         cardsImported: finalDeck.cards.length,
       }
 
+
       setImportResult(result)
       setStep('complete')
 
@@ -229,7 +176,6 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
         onImportSuccess(result)
       }
     } catch (error) {
-      console.error('Import error:', error)
       setError(error instanceof Error ? error.message : t('anki.importFailed'))
     } finally {
       setSaving(false)

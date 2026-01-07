@@ -10,6 +10,7 @@ import { useSubscription } from '@/hooks/useSubscription'
 import { ankiDeckManager, StoredAnkiDeck } from '@/lib/anki/AnkiDeckManager'
 import { ImportResult, DEFAULT_ANKI_DECK_SETTINGS } from '@/lib/anki/importer'
 import Modal from '@/components/ui/Modal'
+import { useToast } from '@/components/ui/Toast/ToastContext'
 import {
   Upload,
   Package,
@@ -258,6 +259,7 @@ function AnkiImportContent() {
   const [isSaving, setIsSaving] = useState(false)
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
   const [editingDeck, setEditingDeck] = useState<StoredAnkiDeck | null>(null)
+  const { showToast } = useToast()
 
   const userId = user?.uid || 'guest'
   // FIXED: Wait for subscription to load before determining premium status
@@ -309,6 +311,10 @@ function AnkiImportContent() {
         refreshDecks()
       } catch (error: any) {
         console.error('[AnkiImportPage] Failed to save deck:', error)
+        if (error?.code === 'DUPLICATE_DECK_NAME') {
+          showToast(t('errors.resource.alreadyExists') || 'This already exists. Please choose a different name.', 'error')
+          return
+        }
         if (error?.code === 'LIMIT_REACHED') {
           setLimitError({
             currentCount: error.currentCount || 0,
@@ -371,6 +377,10 @@ function AnkiImportContent() {
       refreshDecks()
     } catch (error) {
       console.error('[AnkiImportPage] Failed to update deck:', error)
+      if ((error as any)?.code === 'DUPLICATE_DECK_NAME') {
+        showToast(t('errors.resource.alreadyExists') || 'This already exists. Please choose a different name.', 'error')
+        return
+      }
     }
   }
 

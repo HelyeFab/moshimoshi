@@ -221,10 +221,6 @@ export async function getQuestions(
       case 'unanswered':
         q = query(q, where('answerCount', '==', 0), orderBy('createdAt', 'desc'))
         break
-      case 'trending':
-        // Trending: high engagement recently
-        q = query(q, orderBy('viewCount', 'desc'), orderBy('upvotes', 'desc'))
-        break
     }
 
     q = query(q, limit(limitCount))

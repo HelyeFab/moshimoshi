@@ -14,9 +14,22 @@ import * as admin from 'firebase-admin';
 
 /**
  * When a question vote is created, increment the question's vote count
+ *
+ * Concurrency limits:
+ * - maxInstances: 50 - Higher for voting (very frequent operation)
+ * - minInstances: 2 - Keep 2 warm for better UX (handles 160 concurrent votes)
+ * - concurrency: 80 - Max concurrency (voting is lightweight Firestore transaction)
+ * - Max concurrent votes: 4,000/sec (50 instances × 80 requests)
  */
 export const onQuestionVoteCreated = onDocumentCreated(
-  'qa_question_votes/{voteId}',
+  {
+    document: 'qa_question_votes/{voteId}',
+    maxInstances: 50,
+    minInstances: 2,
+    concurrency: 80,
+    timeoutSeconds: 10,
+    memory: '256MiB',
+  },
   async (event) => {
     const voteData = event.data?.data();
 
@@ -56,9 +69,18 @@ export const onQuestionVoteCreated = onDocumentCreated(
 
 /**
  * When a question vote is deleted, decrement the question's vote count
+ *
+ * Concurrency limits: Same as vote creation
  */
 export const onQuestionVoteDeleted = onDocumentDeleted(
-  'qa_question_votes/{voteId}',
+  {
+    document: 'qa_question_votes/{voteId}',
+    maxInstances: 50,
+    minInstances: 2,
+    concurrency: 80,
+    timeoutSeconds: 10,
+    memory: '256MiB',
+  },
   async (event) => {
     const voteData = event.data?.data();
 
@@ -99,9 +121,18 @@ export const onQuestionVoteDeleted = onDocumentDeleted(
 
 /**
  * When an answer vote is created, increment the answer's vote count
+ *
+ * Concurrency limits: Same as question voting
  */
 export const onAnswerVoteCreated = onDocumentCreated(
-  'qa_answer_votes/{voteId}',
+  {
+    document: 'qa_answer_votes/{voteId}',
+    maxInstances: 50,
+    minInstances: 2,
+    concurrency: 80,
+    timeoutSeconds: 10,
+    memory: '256MiB',
+  },
   async (event) => {
     const voteData = event.data?.data();
 
@@ -141,9 +172,18 @@ export const onAnswerVoteCreated = onDocumentCreated(
 
 /**
  * When an answer vote is deleted, decrement the answer's vote count
+ *
+ * Concurrency limits: Same as question voting
  */
 export const onAnswerVoteDeleted = onDocumentDeleted(
-  'qa_answer_votes/{voteId}',
+  {
+    document: 'qa_answer_votes/{voteId}',
+    maxInstances: 50,
+    minInstances: 2,
+    concurrency: 80,
+    timeoutSeconds: 10,
+    memory: '256MiB',
+  },
   async (event) => {
     const voteData = event.data?.data();
 

@@ -1,5 +1,5 @@
 import { AnkiParser, ProcessedCard, AnkiDeckInfo } from './parser'
-import { AnkiMediaStore } from './mediaStore'
+import { AnkiMediaStore, buildAnkiMediaKey } from './mediaStore'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { v4 as uuidv4 } from 'uuid'
 
@@ -122,7 +122,7 @@ export class AnkiImporter {
         name: deckInfo.name,
         description: deckInfo.desc || `Imported from Anki on ${new Date().toLocaleDateString()}`,
         cards: deckInfo.cards.map(card =>
-          this.convertCardToReviewable(card, deckInfo.name)
+          this.convertCardToReviewable(card, deckInfo.name, deckInfo.id)
         ),
         mediaBlobs,
       }))
@@ -158,7 +158,8 @@ export class AnkiImporter {
    */
   private static convertCardToReviewable(
     card: ProcessedCard,
-    deckName: string
+    deckName: string,
+    deckId: string
   ): AnkiCard {
     // Don't create blob URLs here - useMediaHydration will handle that at render time
     // This prevents premature garbage collection of blob URLs
@@ -199,9 +200,11 @@ export class AnkiImporter {
         const cleanBefore = before.replace(/\s*data-anki-media="[^"]*"/g, '')
         const cleanAfter = after.replace(/\s*data-anki-media="[^"]*"/g, '')
 
+        const mediaKey = buildAnkiMediaKey(deckId, filename)
+
         console.log(`[AnkiImporter] ${side} - Marking image #${imageCount} for hydration: "${filename}"`)
 
-        return `<img${cleanBefore}src="${filename}" data-anki-media="${filename}"${cleanAfter}>`
+        return `<img${cleanBefore}src="${filename}" data-anki-media="${mediaKey}"${cleanAfter}>`
       })
 
       console.log(`[AnkiImporter] ${side} - Total images marked: ${imageCount}`)
@@ -210,6 +213,10 @@ export class AnkiImporter {
 
     processedFront = markMediaImages(processedFront, 'FRONT')
     processedBack = markMediaImages(processedBack, 'BACK')
+
+    const audioKey = card.audioFilename ? buildAnkiMediaKey(deckId, card.audioFilename) : undefined
+    const imageKey = card.imageFilename ? buildAnkiMediaKey(deckId, card.imageFilename) : undefined
+    const mediaKeys = card.media?.map(filename => buildAnkiMediaKey(deckId, filename))
 
     // Return AnkiCard with all rich content preserved
     return {
@@ -224,13 +231,13 @@ export class AnkiImporter {
       tags: card.tags,
       deckName,
       fields: card.fields,
-      media: card.media,
+      media: mediaKeys,
       // Rich content fields
       reading: card.reading,
       audioUrl,
       imageUrl,
-      audioFilename: card.audioFilename,
-      imageFilename: card.imageFilename,
+      audioFilename: audioKey,
+      imageFilename: imageKey,
       expression: card.expression,
       meaning: card.meaning,
       sentence: card.sentence,

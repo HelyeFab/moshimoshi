@@ -24,13 +24,18 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
     let cancelled = false
 
     const hydrateMedia = async () => {
+      // Always sync to the latest card so text-only cards render correctly.
+      setHydratedCard(card)
+
       console.log('[useMediaHydration] ========== START CARD HYDRATION ==========')
       console.log('[useMediaHydration] Card ID:', card.id)
       console.log('[useMediaHydration] Blob URLs will NOT be revoked on unmount')
       console.log('[useMediaHydration] URLs managed by AnkiMediaStore.blobUrlCache singleton')
 
-      const audioFilename = card.metadata?.audioFilename as string | undefined
-      const imageFilename = card.metadata?.imageFilename as string | undefined
+      const audioFilename =
+        card.metadata?.audioFilename ?? (card as { audioFilename?: string }).audioFilename
+      const imageFilename =
+        card.metadata?.imageFilename ?? (card as { imageFilename?: string }).imageFilename
 
       // Check if HTML content needs hydration (contains data-anki-media)
       const frontHasMedia = card.front.text?.includes('data-anki-media')
@@ -166,8 +171,10 @@ export function useBatchMediaHydration(
       }>()
 
       for (const card of cardsToHydrate) {
-        const audioFilename = card.metadata?.audioFilename as string | undefined
-        const imageFilename = card.metadata?.imageFilename as string | undefined
+        const audioFilename =
+          card.metadata?.audioFilename ?? (card as { audioFilename?: string }).audioFilename
+        const imageFilename =
+          card.metadata?.imageFilename ?? (card as { imageFilename?: string }).imageFilename
         const frontHasMedia = card.front.text?.includes('data-anki-media')
         const backHasMedia = card.back.text?.includes('data-anki-media')
 

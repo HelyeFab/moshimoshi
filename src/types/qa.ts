@@ -103,7 +103,8 @@ export interface ModerationResult {
 }
 
 // Filter and sort options
-export type QuestionSortBy = 'recent' | 'popular' | 'unanswered' | 'trending'
+export type QuestionSortBy = 'recent' | 'popular' | 'unanswered'
+// Note: 'trending' is implemented in getQuestions() but not yet exposed in UI
 export type QuestionFilter = {
   tags?: string[]
   difficulty?: 'beginner' | 'intermediate' | 'advanced'

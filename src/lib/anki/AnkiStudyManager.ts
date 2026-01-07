@@ -405,26 +405,13 @@ export class AnkiStudyManager {
     userId: string,
     isPremium: boolean
   ): Promise<void> {
-    // Get the current deck
-    const deck = await ankiDeckManager.getDeck(deckId, userId)
-    if (!deck) {
-      console.error('[AnkiStudyManager] Deck not found:', deckId)
-      return
-    }
-
-    // Find and update the card
-    const cardIndex = deck.cards.findIndex(c => c.id === card.id)
-    if (cardIndex === -1) {
-      console.error('[AnkiStudyManager] Card not found in deck:', card.id)
-      return
-    }
-
-    // Update the card in the deck
-    deck.cards[cardIndex] = card as AnkiCard
-
-    // Save the updated deck using AnkiDeckManager
-    // We use a partial update approach - just updating the cards array
-    await this.saveUpdatedDeck(deck, userId, isPremium)
+    await ankiDeckManager.updateCard(
+      deckId,
+      card.id,
+      { srsData: card.srsData } as Partial<AnkiCard>,
+      userId,
+      isPremium
+    )
   }
 
   /**
@@ -437,43 +424,22 @@ export class AnkiStudyManager {
     isPremium: boolean
   ): Promise<void> {
     // Access IndexedDB directly for updating
-    const db = await openDB('AnkiDecksDB', 1)
+    const db = await openDB('FlashcardDB', 1)
 
     const updatedDeck: StoredAnkiDeck = {
       ...deck,
       updatedAt: Date.now(),
     }
 
-    // Convert Map to object for storage if needed
+    // Remove non-serializable Map for storage
     const deckForStorage = {
       ...updatedDeck,
-      mediaUrls: updatedDeck.mediaUrls instanceof Map
-        ? Object.fromEntries(updatedDeck.mediaUrls)
-        : updatedDeck.mediaUrls,
+      mediaBlobs: undefined, // Remove mediaBlobs Map (not serializable)
     }
 
-    // Save to IndexedDB
-    // Using 'as unknown' due to IDB type complexity with converted Map types
+    // Save to IndexedDB (local-only storage)
+    // Using 'as unknown' due to IDB type complexity
     await db.put('decks', deckForStorage as unknown as StoredAnkiDeck)
-
-    // For premium users, also sync to Firebase
-    if (isPremium && userId !== 'guest') {
-      try {
-        const response = await fetch(`/api/anki/decks/${deck.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ cards: deck.cards }),
-        })
-
-        if (!response.ok) {
-          console.error('[AnkiStudyManager] Failed to sync deck to server')
-        }
-      } catch (error) {
-        console.error('[AnkiStudyManager] Error syncing deck to server:', error)
-        // Continue anyway - local update succeeded
-      }
-    }
   }
 
   /**

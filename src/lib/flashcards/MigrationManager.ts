@@ -1,6 +1,6 @@
 /**
- * MigrationManager - Handles data migration when users upgrade from free to premium
- * Automatically detects plan changes and syncs local decks to Firebase
+ * MigrationManager - Handles bulk deck operations (export, etc.)
+ * Note: Firebase sync removed - all data stored locally in IndexedDB only
  */
 
 import type { FlashcardDeck } from '@/types/flashcards'
@@ -129,22 +129,14 @@ export class MigrationManager {
         this.emitProgress(progress)
 
         try {
-          console.log(`[MigrationManager] Migrating deck: ${deck.name}`)
+          console.log(`[MigrationManager] Processing deck: ${deck.name}`)
 
-          // Sync deck to Firebase
-          const success = await flashcardManager.syncDeckToFirebase(deck, userId)
-
-          if (success) {
-            progress.completed++
-            console.log(`[MigrationManager] Successfully migrated: ${deck.name}`)
-          } else {
-            progress.failed++
-            progress.errors.push(`Failed to sync deck: ${deck.name}`)
-            console.error(`[MigrationManager] Failed to migrate: ${deck.name}`)
-          }
+          // All decks are already in IndexedDB (local-only storage)
+          progress.completed++
+          console.log(`[MigrationManager] Deck already stored locally: ${deck.name}`)
         } catch (error: any) {
           progress.failed++
-          const errorMessage = `Error migrating ${deck.name}: ${error.message}`
+          const errorMessage = `Error processing ${deck.name}: ${error.message}`
           progress.errors.push(errorMessage)
           console.error(`[MigrationManager] ${errorMessage}`)
         }
@@ -191,14 +183,14 @@ export class MigrationManager {
   }
 
   /**
-   * Sync a single deck to Firebase
+   * Process a single deck (no-op since everything is local-only)
    */
   async migrateSingleDeck(deck: FlashcardDeck, userId: string): Promise<boolean> {
     try {
-      console.log(`[MigrationManager] Migrating single deck: ${deck.name}`)
-      return await flashcardManager.syncDeckToFirebase(deck, userId)
+      console.log(`[MigrationManager] Deck already stored locally: ${deck.name}`)
+      return true // All decks are already in IndexedDB
     } catch (error) {
-      console.error(`[MigrationManager] Failed to migrate deck ${deck.name}:`, error)
+      console.error(`[MigrationManager] Error processing deck ${deck.name}:`, error)
       return false
     }
   }

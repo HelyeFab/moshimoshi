@@ -21,15 +21,13 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { flashcardManager, FlashcardManager } from '@/lib/flashcards/FlashcardManager'
+import { useGamificationStore } from '@/state/userGamification'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
 import { getEventHub, initializeEventHub } from '@/lib/review-engine/core/event-hub'
 import { listManager } from '@/lib/lists/ListManager'
 import { storageManager } from '@/lib/flashcards/StorageManager'
 import { migrationManager } from '@/lib/flashcards/MigrationManager'
 import { sessionManager } from '@/lib/flashcards/SessionManager'
-import { AnkiMediaManager } from '@/lib/anki/AnkiMediaManager'
-import { AnkiMediaQuotaBadge } from '@/components/anki/AnkiMediaQuotaBadge'
-import { AnkiMediaSyncStatus } from '@/components/anki/AnkiMediaSyncStatus'
 import type {
   FlashcardDeck,
   CreateDeckRequest,
@@ -47,70 +45,22 @@ interface FlashcardsContentProps {
   initialData: FlashcardsInitialData
 }
 
-// Helper to normalize Anki cards to FlashcardContent format
-// Anki cards have front/back as strings, FlashcardContent needs them as CardSide objects
-// This mirrors FlashcardManager.normalizeAnkiCard() but is synchronous for initial state
-function normalizeDecksFromServer(decks: FlashcardDeck[]): FlashcardDeck[] {
-  return decks.map((deck: any) => {
-    if (deck.source === 'anki' && deck.cards?.length > 0) {
-      return {
-        ...deck,
-        cards: deck.cards.map((card: any) => {
-          // Skip if already normalized
-          if (card.front && typeof card.front === 'object' && 'text' in card.front) {
-            return card
-          }
-
-          // Don't use blob URLs as they expire - media must be hydrated from IndexedDB using filenames
-          const hasValidImageUrl = card.imageUrl && !card.imageUrl.startsWith('blob:')
-          const hasValidAudioUrl = card.audioUrl && !card.audioUrl.startsWith('blob:')
-
-          // Normalize Anki card to FlashcardContent format
-          const expression = card.front || card.expression || ''
-          const reading = card.reading || ''
-          const meaning = card.back || card.meaning || ''
-
-          return {
-            id: card.id,
-            front: {
-              text: expression,
-              subtext: reading || undefined,
-              media: hasValidImageUrl ? { type: 'image' as const, url: card.imageUrl } : undefined,
-            },
-            back: {
-              text: expression,  // Japanese word first (prominent)
-              subtext: meaning,  // English meaning below
-              media: hasValidAudioUrl ? { type: 'audio' as const, url: card.audioUrl } : undefined,
-            },
-            metadata: {
-              status: card.metadata?.status || 'new',
-              reading,
-              meaning,
-              // Store filenames for later hydration from IndexedDB
-              audioFilename: card.audioFilename,
-              imageFilename: card.imageFilename,
-              audioUrl: hasValidAudioUrl ? card.audioUrl : undefined,
-              imageUrl: hasValidImageUrl ? card.imageUrl : undefined,
-              tags: card.tags,
-              ...(card.metadata || {}),
-            },
-          }
-        })
-      }
-    }
-    return deck
-  })
-}
-
 export default function FlashcardsContent({ initialData }: FlashcardsContentProps) {
   const { t } = useI18n()
   const router = useRouter()
   const { user, loading: authLoading } = useAuth()
   const { showToast } = useToast()
 
-  // Initialize state with server data for premium users
-  // Normalize Anki decks to ensure cards have correct FlashcardContent structure
-  const [decks, setDecks] = useState<FlashcardDeck[]>(() => normalizeDecksFromServer(initialData.decks))
+  // Initialize state with server data (will be empty for local-only mode)
+  const [decks, setDecks] = useState<FlashcardDeck[]>(initialData.decks)
+
+  // Debug: Track decks state changes
+  useEffect(() => {
+    console.log('📊 [FlashcardsContent] Decks state changed:', {
+      count: decks.length,
+      decks: decks.map(d => ({ id: d.id, name: d.name, cardCount: d.cards?.length }))
+    })
+  }, [decks])
   const [sessions, setSessions] = useState<SessionStats[]>(initialData.sessions)
   const [userLists, setUserLists] = useState<UserList[]>([])
 
@@ -158,13 +108,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const limits = FlashcardManager.getDeckLimits(userTier)
 
   // Debug logging
-  console.log('[FlashcardsContent] initialData:', {
-    userId: initialData.userId,
-    tier: initialData.tier,
-    isPremium: initialData.isPremium,
-    deckCount: initialData.decks.length,
-    sessionCount: initialData.sessions.length,
-  })
 
   // Sync server data to IndexedDB for offline support (premium users)
   // Then reload decks with hydrated media from IndexedDB
@@ -173,23 +116,22 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     if (initialData.decks.length === 0) return
 
     initialSyncDone.current = true
-    console.log('[FlashcardsContent] Syncing server data to IndexedDB for offline support')
 
     try {
-      await flashcardManager.syncDecksToIndexedDB(initialData.decks, initialData.userId)
+      // Use consistent userId
+      const effectiveUserId = initialData.userId || 'guest'
+      await flashcardManager.syncDecksToIndexedDB(initialData.decks, effectiveUserId)
 
       // After sync, reload decks via getDecks which will hydrate media from IndexedDB
       // This is necessary because server URLs might be expired blob URLs
       const hasAnkiDecks = initialData.decks.some((d: any) => d.source === 'anki')
       if (hasAnkiDecks) {
-        console.log('[FlashcardsContent] Reloading decks with hydrated media')
-        const hydratedDecks = await flashcardManager.getDecks(initialData.userId, initialData.isPremium)
-        if (hydratedDecks.length > 0) {
-          setDecks(hydratedDecks)
+        const allDecks = await flashcardManager.getDecks(effectiveUserId, initialData.isPremium)
+        if (allDecks.length > 0) {
+          setDecks(allDecks)
         }
       }
     } catch (error) {
-      console.error('[FlashcardsContent] Failed to sync to IndexedDB:', error)
     }
   }, [initialData])
 
@@ -241,32 +183,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   useEffect(() => {
     if (initialData.userId) {
       initializeEventHub(initialData.userId)
-      console.log('[Flashcards] Event Hub initialized for user:', initialData.userId)
     }
   }, [initialData.userId])
-
-  // Poll media sync status to disable Sync All button during sync
-  useEffect(() => {
-    if (!initialData.userId || !isPremium) return
-
-    const checkSyncStatus = async () => {
-      try {
-        const mediaManager = AnkiMediaManager.getInstance()
-        const status = await mediaManager.getSyncStatus()
-        setIsSyncingMedia(status.syncState === 'syncing')
-      } catch (error) {
-        console.error('[FlashcardsContent] Failed to check sync status:', error)
-      }
-    }
-
-    // Initial check
-    checkSyncStatus()
-
-    // Poll every 3 seconds
-    const interval = setInterval(checkSyncStatus, 3000)
-
-    return () => clearInterval(interval)
-  }, [initialData.userId, isPremium])
 
   // Load supplementary data for premium users (user lists, recommendations, etc.)
   const loadSupplementaryData = async () => {
@@ -301,24 +219,18 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
       setLoading(false)
     } catch (error) {
-      console.error('[FlashcardsContent] Failed to load supplementary data:', error)
       setLoading(false)
     }
   }
 
   // Full data load for free users (from IndexedDB)
   const loadData = async (forceRefresh = false) => {
-    console.log('[FlashcardsContent] loadData CALLED, userId:', initialData.userId, 'forceRefresh:', forceRefresh)
 
-    if (!initialData.userId) {
-      console.log('[FlashcardsContent] No user, returning early')
-      setLoading(false)
-      return
-    }
+    // Use consistent userId - same logic as DeckCreator
+    const effectiveUserId = initialData.userId || 'guest'
 
     // Prevent concurrent loads (unless force refresh)
     if (loadingRef.current && !forceRefresh) {
-      console.log('[FlashcardsContent] Already loading, skipping')
       return
     }
 
@@ -333,46 +245,51 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     try {
       setLoading(true)
 
-      // Load flashcard decks - for free users, this loads from IndexedDB
-      console.log('[FlashcardsContent] Loading decks for user:', initialData.userId, 'isPremium:', isPremium)
-      let userDecks = await flashcardManager.getDecks(initialData.userId, isPremium)
-      console.log('[FlashcardsContent] Loaded decks:', userDecks.length)
+      // Load flashcard decks - FlashcardManager handles both regular and Anki decks
+      const userDecks = await flashcardManager.getDecks(effectiveUserId, isPremium)
 
-      // Check if request was aborted
-      if (abortControllerRef.current?.signal.aborted) {
-        return
-      }
-
+      console.log('🎯 [FlashcardsContent.loadData] Setting decks state:', {
+        deckCount: userDecks.length,
+        decks: userDecks.map(d => ({ id: d.id, name: d.name, cardCount: d.cards?.length }))
+      })
       setDecks(userDecks)
+      console.log('✅ [FlashcardsContent.loadData] Decks state updated')
 
       // Load user lists for import option
-      const lists = await listManager.getLists(initialData.userId, isPremium)
-
-      // Check if request was aborted
-      if (abortControllerRef.current?.signal.aborted) {
-        return
-      }
+      const lists = await listManager.getLists(effectiveUserId, isPremium)
 
       setUserLists(lists)
 
       // Load learning insights and recommendations
       if (userDecks.length > 0) {
-        const userInsights = await sessionManager.getLearningInsights(initialData.userId)
+        console.log('📊 [FlashcardsContent.loadData] Loading insights and sessions for user:', effectiveUserId)
+
+        const userInsights = await sessionManager.getLearningInsights(effectiveUserId)
+        console.log('📈 [FlashcardsContent.loadData] Learning insights:', userInsights)
         setInsights(userInsights)
 
-        const studyRecs = await sessionManager.getStudyRecommendations(initialData.userId, userDecks)
+        const studyRecs = await sessionManager.getStudyRecommendations(effectiveUserId, userDecks)
+        console.log('💡 [FlashcardsContent.loadData] Study recommendations:', studyRecs.length, 'recommendations')
         setRecommendations(studyRecs)
 
-        const streak = await sessionManager.calculateStreak(initialData.userId)
+        const streak = await sessionManager.calculateStreak(effectiveUserId)
+        console.log('🔥 [FlashcardsContent.loadData] Current streak:', streak, 'days')
         setCurrentStreak(streak)
 
-        // Load recent sessions
-        const recentSessions = await sessionManager.syncSessions(initialData.userId, isPremium, 25)
+        // Load recent sessions from IndexedDB
+        const recentSessions = await sessionManager.getUserSessions(effectiveUserId, 25)
+        console.log('📚 [FlashcardsContent.loadData] Recent sessions loaded:', {
+          count: recentSessions.length,
+          sessions: recentSessions.slice(0, 3).map(s => ({
+            deckId: s.deckId,
+            cardsStudied: s.cardsStudied,
+            timestamp: new Date(s.timestamp).toISOString()
+          }))
+        })
         setSessions(recentSessions)
       }
     } catch (error: any) {
       if (error.name !== 'AbortError') {
-        console.error('Failed to load flashcard data:', error)
         showToast(t('flashcards.errors.loadFailed'), 'error')
       }
     } finally {
@@ -390,7 +307,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         showToast(warning.message, warning.level === 'critical' ? 'error' : 'info')
       })
     } catch (error) {
-      console.error('Failed to check storage status:', error)
     }
   }
 
@@ -403,7 +319,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         setShowMigration(true)
       }
     } catch (error) {
-      console.error('Failed to check for migration:', error)
     }
   }
 
@@ -429,40 +344,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         return
       }
 
-      // 2. Sync Anki media files (NEW)
-      setMigrationProgress({ status: 'syncing', currentDeck: 'Media files...' })
-
-      const mediaManager = AnkiMediaManager.getInstance()
-      const mediaSyncStatus = await mediaManager.getSyncStatus()
-
-      if (mediaSyncStatus.pendingCount > 0) {
-        console.log(`[FlashcardsContent] Found ${mediaSyncStatus.pendingCount} pending media files`)
-
-        // Force sync all pending media
-        await mediaManager.forceSyncAll()
-
-        // Wait a bit for sync to process
-        await new Promise(resolve => setTimeout(resolve, 2000))
-
-        // Check final status
-        const finalStatus = await mediaManager.getSyncStatus()
-
-        if (finalStatus.failedCount > 0) {
-          showToast(
-            `Decks synced! ${finalStatus.failedCount} media files failed. Check your connection.`,
-            'warning'
-          )
-        } else {
-          showToast('All decks and media synced successfully!', 'success')
-        }
-      } else {
-        showToast(t('flashcards.success.allSynced'), 'success')
-      }
-
+      showToast(t('flashcards.success.allSynced'), 'success')
       await loadData(true)
 
     } catch (error) {
-      console.error('Bulk sync failed:', error)
       showToast(t('flashcards.errors.syncFailed'), 'error')
     } finally {
       setMigrationProgress(null)
@@ -483,19 +368,18 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       URL.revokeObjectURL(url)
       showToast(t('flashcards.success.allExported'), 'success')
     } catch (error) {
-      console.error('Export failed:', error)
       showToast(t('flashcards.errors.exportFailed'), 'error')
     }
   }
 
   const refreshDecks = async () => {
-    if (!initialData.userId) return
+    // Use consistent userId - same logic as DeckCreator
+    const effectiveUserId = initialData.userId || 'guest'
     try {
-      const userDecks = await flashcardManager.getDecks(initialData.userId, isPremium)
+      const userDecks = await flashcardManager.getDecks(effectiveUserId, isPremium)
       setDecks(userDecks)
       showToast(t('flashcards.success.deckCreated'), 'success')
     } catch (error) {
-      console.error('[FlashcardsContent] Failed to refresh decks:', error)
     }
   }
 
@@ -520,7 +404,11 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         showToast(t('flashcards.success.deckCreated'), 'success')
       }
     } catch (error: any) {
-      console.error('Failed to create deck:', error)
+
+      if (error?.code === 'DUPLICATE_DECK_NAME') {
+        showToast(t('errors.resource.alreadyExists') || 'This already exists. Please choose a different name.', 'error')
+        return
+      }
 
       if (error?.code === 'LIMIT_REACHED') {
         setLimitError({
@@ -564,7 +452,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         showToast(t('flashcards.success.deckUpdated'), 'success')
       }
     } catch (error) {
-      console.error('Failed to update deck:', error)
+      if ((error as any)?.code === 'DUPLICATE_DECK_NAME') {
+        showToast(t('errors.resource.alreadyExists') || 'This already exists. Please choose a different name.', 'error')
+        return
+      }
       showToast(t('flashcards.errors.updateFailed'), 'error')
     }
   }
@@ -611,7 +502,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         showToast(t('flashcards.errors.deleteFailed'), 'error')
       }
     }).catch(error => {
-      console.error('Failed to delete deck:', error)
       // Restore deck on error
       setDecks(prevDecks => [...prevDecks, deckToDeleteCopy])
       showToast(t('flashcards.errors.deleteFailed'), 'error')
@@ -630,7 +520,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       URL.revokeObjectURL(url)
       showToast(t('flashcards.success.exported'), 'success')
     } catch (error) {
-      console.error('Failed to export deck:', error)
       showToast(t('flashcards.export.error'), 'error')
     }
   }
@@ -700,31 +589,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       setShowSessionSettings(false)
       setDeckToStudy(null)
     } catch (error) {
-      console.error('Failed to update deck settings:', error)
       showToast(t('flashcards.errors.updateFailed'), 'error')
-    }
-  }
-
-  const handleSyncDeck = async (deck: FlashcardDeck) => {
-    if (!initialData.userId || !isPremium) {
-      showToast(t('flashcards.errors.syncRequiresPremium'), 'error')
-      return
-    }
-
-    try {
-      showToast(t('flashcards.syncing'), 'info')
-
-      const success = await flashcardManager.syncDeckToFirebase(deck, initialData.userId)
-
-      if (success) {
-        showToast(t('flashcards.success.syncComplete'), 'success')
-        await loadData()
-      } else {
-        showToast(t('flashcards.errors.syncFailed'), 'error')
-      }
-    } catch (error) {
-      console.error('Failed to sync deck:', error)
-      showToast(t('flashcards.errors.syncFailed'), 'error')
     }
   }
 
@@ -755,17 +620,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           },
         })
 
-        console.log('[Flashcards] Emitted SESSION_COMPLETED event:', {
-          sessionId,
-          correctItems: summary.correctAnswers,
-          accuracy: summary.accuracy,
-          xpEarned: summary.xpEarned,
-        })
 
         const message = `${t('flashcards.success.progressSaved')} - ${Math.round(summary.accuracy * 100)}% ${t('flashcards.accuracy')} - +${summary.xpEarned} XP!`
         showToast(message, 'success')
       } catch (error) {
-        console.error('Failed to emit session event:', error)
         const message = `${t('flashcards.success.progressSaved')} - ${Math.round(summary.accuracy * 100)}% ${t('flashcards.accuracy')}`
         showToast(message, 'success')
       }
@@ -976,16 +834,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           </div>
         </div>
 
-        {/* Storage Quota Badge (for premium users with Anki decks) */}
-        {isPremium && decks.some(d => d.source === 'anki') && (
-          <AnkiMediaQuotaBadge />
-        )}
-
-        {/* Media Sync Status (for premium users with Anki decks) */}
-        {isPremium && decks.some(d => d.source === 'anki') && (
-          <AnkiMediaSyncStatus className="mb-6" />
-        )}
-
         {/* Deck Limits Warning */}
         {!initialData.userId && (
           <div className="mb-6 p-4 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg">
@@ -1014,7 +862,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             onDeleteDeck={handleDeleteDeck}
             onExportDeck={handleExportDeck}
             onStudyDeck={handleStudyDeck}
-            onSyncDeck={handleSyncDeck}
             onSessionSettings={deck => {
               setDeckToStudy(deck)
               setShowSessionSettings(true)
@@ -1048,7 +895,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                     userId={initialData.userId}
                     isPremium={isPremium}
                     onGoalComplete={goalType => {
-                      console.log('Goal completed:', goalType)
                     }}
                   />
                 </motion.div>

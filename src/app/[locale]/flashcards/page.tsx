@@ -5,16 +5,14 @@ import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 /**
  * Flashcards Page - Server Component
  *
- * Implements server-side data fetching to eliminate the race condition
+ * Implements server-side auth fetching to eliminate the race condition
  * where isPremium is undefined on first client-side load.
  *
  * Flow:
  * 1. Server: getSession() validates user
  * 2. Server: getTierForSession() determines premium status (Redis cached)
- * 3. Server: For premium users, fetches decks from Firebase
- * 4. Server: Passes initialData to client component
- * 5. Client: Renders immediately with server data (no loading flash)
- * 6. Client: Syncs to IndexedDB for offline support
+ * 3. Server: Passes auth data to client component
+ * 4. Client: Loads all decks/sessions from IndexedDB (local-only storage)
  */
 export default async function FlashcardsPage() {
   let initialData

@@ -106,11 +106,23 @@ Respond in JSON format:
 
 /**
  * Trigger: When a new question is created
+ *
+ * Concurrency limits:
+ * - maxInstances: 10 - Prevents Modal API overload and cost explosion
+ * - minInstances: 1 - Keeps one warm for low latency (~100ms vs ~2s cold start)
+ * - concurrency: 5 - Balances throughput with Modal API rate limits
+ * - Max concurrent moderations: 50 (10 instances × 5 requests)
  */
 export const moderateQuestion = onDocumentCreated(
   {
     document: 'qa_questions/{questionId}',
     secrets: [modalApiKey],
+    maxInstances: 10,
+    minInstances: 1,
+    concurrency: 5,
+    timeoutSeconds: 30,
+    memory: '512MiB',
+    cpu: 1,
   },
   async (event) => {
   const questionId = event.params.questionId;
@@ -157,11 +169,21 @@ export const moderateQuestion = onDocumentCreated(
 
 /**
  * Trigger: When a question is updated and needs re-moderation
+ *
+ * Concurrency limits:
+ * - maxInstances: 5 - Lower for edits (less frequent than new questions)
+ * - concurrency: 5 - Same as creation
+ * - Max concurrent re-moderations: 25 (5 instances × 5 requests)
  */
 export const moderateQuestionOnUpdate = onDocumentUpdated(
   {
     document: 'qa_questions/{questionId}',
     secrets: [modalApiKey],
+    maxInstances: 5,
+    concurrency: 5,
+    timeoutSeconds: 30,
+    memory: '512MiB',
+    cpu: 1,
   },
   async (event) => {
   const questionId = event.params.questionId;
@@ -207,11 +229,23 @@ export const moderateQuestionOnUpdate = onDocumentUpdated(
 
 /**
  * Trigger: When a new answer is created
+ *
+ * Concurrency limits:
+ * - maxInstances: 10 - Same as questions (answers can be frequent)
+ * - minInstances: 1 - Keep warm for low latency
+ * - concurrency: 5 - Balances throughput with Modal API
+ * - Max concurrent moderations: 50 (10 instances × 5 requests)
  */
 export const moderateAnswer = onDocumentCreated(
   {
     document: 'qa_answers/{answerId}',
     secrets: [modalApiKey],
+    maxInstances: 10,
+    minInstances: 1,
+    concurrency: 5,
+    timeoutSeconds: 30,
+    memory: '512MiB',
+    cpu: 1,
   },
   async (event) => {
   const answerId = event.params.answerId;
@@ -266,11 +300,21 @@ export const moderateAnswer = onDocumentCreated(
 
 /**
  * Trigger: When an answer is updated and needs re-moderation
+ *
+ * Concurrency limits:
+ * - maxInstances: 5 - Lower for edits (less frequent)
+ * - concurrency: 5 - Same as creation
+ * - Max concurrent re-moderations: 25 (5 instances × 5 requests)
  */
 export const moderateAnswerOnUpdate = onDocumentUpdated(
   {
     document: 'qa_answers/{answerId}',
     secrets: [modalApiKey],
+    maxInstances: 5,
+    concurrency: 5,
+    timeoutSeconds: 30,
+    memory: '512MiB',
+    cpu: 1,
   },
   async (event) => {
   const answerId = event.params.answerId;

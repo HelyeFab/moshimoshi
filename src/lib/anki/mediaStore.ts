@@ -4,6 +4,17 @@
 
 import type { StoredMedia, MediaStorageStats } from '@/types/ankiMedia'
 
+const ANKI_MEDIA_KEY_SEPARATOR = '::'
+
+export function buildAnkiMediaKey(deckId: string, filename: string): string {
+  return `${deckId}${ANKI_MEDIA_KEY_SEPARATOR}${filename}`
+}
+
+function stripAnkiMediaKey(key: string): string {
+  const separatorIndex = key.indexOf(ANKI_MEDIA_KEY_SEPARATOR)
+  return separatorIndex >= 0 ? key.slice(separatorIndex + ANKI_MEDIA_KEY_SEPARATOR.length) : key
+}
+
 export class AnkiMediaStore {
   private static instance: AnkiMediaStore;
   private dbName = 'ankiMediaDB';
@@ -177,11 +188,22 @@ export class AnkiMediaStore {
       const transaction = db.transaction([this.storeName], 'readonly');
       const store = transaction.objectStore(this.storeName);
 
-      const media = await new Promise<StoredMedia | null>((resolve, reject) => {
+      let media = await new Promise<StoredMedia | null>((resolve, reject) => {
         const request = store.get(filename);
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);
       });
+
+      if (!media) {
+        const fallbackKey = stripAnkiMediaKey(filename)
+        if (fallbackKey !== filename) {
+          media = await new Promise<StoredMedia | null>((resolve, reject) => {
+            const request = store.get(fallbackKey);
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+          });
+        }
+      }
 
       db.close();
 
@@ -241,8 +263,28 @@ export class AnkiMediaStore {
 
       // Create blob URLs and cache them
       for (const { filename, media } of mediaFiles) {
-        if (media) {
-          const blobUrl = URL.createObjectURL(media.blob);
+        let resolvedMedia = media
+        if (!resolvedMedia) {
+          const fallbackKey = stripAnkiMediaKey(filename)
+          if (fallbackKey !== filename) {
+            try {
+              const fallbackDb = await this.openDB();
+              const fallbackTx = fallbackDb.transaction([this.storeName], 'readonly');
+              const fallbackStore = fallbackTx.objectStore(this.storeName);
+              resolvedMedia = await new Promise<StoredMedia | null>((resolve, reject) => {
+                const request = fallbackStore.get(fallbackKey);
+                request.onsuccess = () => resolve(request.result);
+                request.onerror = () => reject(request.error);
+              });
+              fallbackDb.close();
+            } catch (fallbackError) {
+              console.error('[AnkiMediaStore] Failed to retrieve fallback media:', fallbackError);
+            }
+          }
+        }
+
+        if (resolvedMedia) {
+          const blobUrl = URL.createObjectURL(resolvedMedia.blob);
           this.blobUrlCache.set(filename, blobUrl);
           results.set(filename, blobUrl);
         }

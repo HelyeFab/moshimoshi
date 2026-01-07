@@ -14,6 +14,7 @@ import { sessionManager } from '@/lib/flashcards/SessionManager';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useBatchMediaHydration } from '@/hooks/useMediaHydration';
+import Dialog from '@/components/ui/Dialog';
 
 interface StudySessionProps {
   deck: FlashcardDeck;
@@ -52,6 +53,7 @@ export function StudySession({
   const [fastestResponseTime, setFastestResponseTime] = useState(Number.MAX_VALUE);
   const [slowestResponseTime, setSlowestResponseTime] = useState(0);
   const [cardStartTime, setCardStartTime] = useState(Date.now());
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 
   // Track card types
   const [newCardsStudied, setNewCardsStudied] = useState(0);
@@ -63,13 +65,13 @@ export function StudySession({
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const isUnmounted = useRef(false);
 
-  // Batch preload media for current + next 4 cards for smooth study experience
+  // Batch preload media for a window around the current card for smooth study experience
   // Use useMemo to prevent creating new array reference on every render (causes infinite loop)
-  const cardsToPreload = useMemo(
-    () => sessionCards.slice(currentIndex, currentIndex + 5),
-    [sessionCards, currentIndex]
-  );
-  const hydratedCardsMap = useBatchMediaHydration(cardsToPreload, 5);
+  const cardsToPreload = useMemo(() => {
+    const startIndex = Math.max(0, currentIndex - 2);
+    return sessionCards.slice(startIndex, currentIndex + 5);
+  }, [sessionCards, currentIndex]);
+  const hydratedCardsMap = useBatchMediaHydration(cardsToPreload, cardsToPreload.length);
 
   // Get hydrated current card (or fallback to original if not yet hydrated)
   const currentCard = hydratedCardsMap.get(sessionCards[currentIndex]?.id) || sessionCards[currentIndex];
@@ -218,6 +220,34 @@ export function StudySession({
     }
   }, [currentIndex]);
 
+  const handleDeleteConfirm = useCallback(async () => {
+    const cardToDelete = sessionCards[currentIndex];
+    if (!cardToDelete) return;
+
+    const updatedCards = sessionCards.filter(card => card.id !== cardToDelete.id);
+    const newIndex = Math.min(currentIndex, Math.max(0, updatedCards.length - 1));
+
+    setSessionCards(updatedCards);
+    setCurrentIndex(newIndex);
+    setShowDeleteDialog(false);
+
+    if (updatedCards.length === 0) {
+      onExit();
+      return;
+    }
+
+    try {
+      await flashcardManager.updateDeck(
+        deck.id,
+        { cards: updatedCards },
+        user?.uid || 'guest',
+        isPremium || false
+      );
+    } catch (error) {
+      console.error('Failed to delete card from deck:', error);
+    }
+  }, [sessionCards, currentIndex, deck.id, user?.uid, isPremium, onExit]);
+
   const completeSession = useCallback(async () => {
     const sessionTime = Date.now() - startTime - pausedTime;
     const cardsActuallyStudied = responses.size;
@@ -297,9 +327,20 @@ export function StudySession({
 
       // Save session stats
       try {
+        console.log('📝 [StudySession] Saving session stats:', {
+          deckId: sessionStats.deckId,
+          deckName: deck.name,
+          cardsStudied: sessionStats.cardsStudied,
+          correctAnswers: sessionStats.cardsCorrect,
+          accuracy: sessionStats.accuracy,
+          duration: sessionStats.duration,
+          userId: user.uid,
+          isPremium
+        })
         await flashcardManager.saveSessionStats(sessionStats, user.uid, isPremium || false);
+        console.log('✅ [StudySession] Session stats saved successfully')
       } catch (error) {
-        console.error('Failed to save session stats:', error);
+        console.error('❌ [StudySession] Failed to save session stats:', error);
       }
 
       // Note: Achievement checking is now handled by the gamification listener system
@@ -492,12 +533,25 @@ export function StudySession({
               animationSpeed={deck.settings.animationSpeed}
               showHints={deck.settings.showHints}
               autoPlayAudio={deck.settings.autoPlay}
+              isGraded={responses.has(currentCard.id)}
+              onDelete={() => setShowDeleteDialog(true)}
               onNext={currentIndex < sessionCards.length - 1 ? handleNext : undefined}
               onPrevious={currentIndex > 0 ? handlePrevious : undefined}
               onResponse={handleResponse}
             />
           </motion.div>
         </AnimatePresence>
+
+        <Dialog
+          isOpen={showDeleteDialog}
+          onClose={() => setShowDeleteDialog(false)}
+          onConfirm={handleDeleteConfirm}
+          title={t('flashcards.deleteCard')}
+          message={t('flashcards.confirmDelete.card')}
+          confirmText={t('common.delete')}
+          cancelText={t('common.cancel')}
+          type="danger"
+        />
 
         {/* Response Feedback */}
         <AnimatePresence>

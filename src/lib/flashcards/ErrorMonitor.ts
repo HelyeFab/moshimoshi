@@ -55,12 +55,7 @@ export class ErrorMonitor {
         pattern: /network.?error|failed.?to.?fetch/i,
         type: 'network',
         severity: 'medium',
-        suggestedFix: 'Check internet connection',
-        autoRecover: async () => {
-          // Trigger sync retry
-          const { syncManager } = await import('./SyncManager')
-          await syncManager.forceSyncNow()
-        },
+        suggestedFix: 'Check internet connection (all data stored locally)',
       },
       {
         pattern: /unauthorized|401/i,
