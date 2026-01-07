@@ -594,6 +594,9 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   }
 
   const handleSessionComplete = async (summary: SessionSummary) => {
+    // Capture deck name before clearing state
+    const deckName = studyingDeck?.name || 'Flashcard Deck'
+
     setStudyingDeck(null)
 
     // Emit SESSION_COMPLETED event via Event Hub for gamification
@@ -620,6 +623,19 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           },
         })
 
+        // Set session stats for celebration screen (CelebrationProvider)
+        // Delay slightly to ensure gamificationListener completes first and increments sessionCount
+        setTimeout(() => {
+          useGamificationStore.getState().setLastSessionStats({
+            itemsCompleted: summary.cardsStudied,
+            accuracy: summary.accuracy,
+            duration: duration,
+            xpGained: summary.xpEarned,
+            contentType: 'article', // Reuse existing type
+            contentTitle: deckName,
+            pageCount: summary.cardsStudied, // Show as "Cards Studied"
+          })
+        }, 250)
 
         const message = `${t('flashcards.success.progressSaved')} - ${Math.round(summary.accuracy * 100)}% ${t('flashcards.accuracy')} - +${summary.xpEarned} XP!`
         showToast(message, 'success')
