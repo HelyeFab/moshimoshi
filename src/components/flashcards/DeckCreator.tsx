@@ -29,6 +29,7 @@ import { useRouter } from 'next/navigation'
 import { Loader2, ChevronDown, Check } from 'lucide-react'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import Modal from '@/components/ui/Modal'
+import { generateFuriganaBatch, needsFurigana } from '@/lib/flashcards/furiganaUtils'
 
 interface DeckCreatorProps {
   isOpen: boolean
@@ -69,6 +70,17 @@ export function DeckCreator({
   const [cardStyle, setCardStyle] = useState<CardStyle>(editDeck?.cardStyle || 'minimal')
   const [sessionLength, setSessionLength] = useState<number>(
     editDeck?.settings?.sessionLength || 20
+  )
+
+  // Furigana settings
+  const [furiganaEnabled, setFuriganaEnabled] = useState<boolean>(
+    editDeck?.settings?.furigana?.enabled ?? true
+  )
+  const [furiganaOnFront, setFuriganaOnFront] = useState<boolean>(
+    editDeck?.settings?.furigana?.showOnFront ?? true
+  )
+  const [furiganaOnBack, setFuriganaOnBack] = useState<boolean>(
+    editDeck?.settings?.furigana?.showOnBack ?? true
   )
 
   // Cards - initialize with editDeck cards if editing
@@ -232,12 +244,31 @@ export function DeckCreator({
 
     if (list) {
       setDeckName(list.name)
-      // Convert list items to cards
-      const importedCards = list.items.map(item => ({
+
+      // Filter out items without required metadata (reading OR meaning)
+      const validItems = list.items.filter(item => {
+        const hasReading = !!item.metadata?.reading?.trim()
+        const hasMeaning = !!item.metadata?.meaning?.trim()
+        return hasReading || hasMeaning
+      })
+
+      const skippedCount = list.items.length - validItems.length
+      if (skippedCount > 0) {
+        console.warn(
+          `[DeckCreator] Skipped ${skippedCount} item(s) from list "${list.name}" - missing reading or meaning`
+        )
+        // Show warning toast to user
+        const warningMessage = t('lists.validation.invalidItemsSkipped', { count: skippedCount })
+        // Note: Toast will be shown in parent component after this returns
+      }
+
+      // Convert valid list items to cards
+      const importedCards = validItems.map(item => ({
         front: item.content,
         back: item.metadata?.meaning || item.metadata?.reading || '',
         notes: item.metadata?.notes || '',
       }))
+
       setCards(importedCards)
       setStep('cards')
     }
@@ -301,8 +332,22 @@ export function DeckCreator({
     setCards(cards.filter((_, i) => i !== index))
   }
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!deckName || (importSource === 'scratch' && cards.length === 0)) return
+
+    // Generate furigana for cards that need it
+    const textsToProcess: string[] = []
+    cards.forEach(card => {
+      if (needsFurigana(card.front)) textsToProcess.push(card.front)
+      if (needsFurigana(card.back)) textsToProcess.push(card.back)
+    })
+
+    let furiganaMap = new Map<string, string>()
+    if (textsToProcess.length > 0) {
+      console.log(`[DeckCreator] Generating furigana for ${textsToProcess.length} texts`)
+      furiganaMap = await generateFuriganaBatch(textsToProcess)
+      console.log(`[DeckCreator] Generated furigana for ${furiganaMap.size} unique texts`)
+    }
 
     const deckRequest: CreateDeckRequest = {
       name: deckName,
@@ -319,12 +364,21 @@ export function DeckCreator({
         hapticFeedback: true,
         sessionLength: sessionLength,
         reviewMode: 'srs',
+        furigana: {
+          enabled: furiganaEnabled,
+          showOnFront: furiganaOnFront,
+          showOnBack: furiganaOnBack,
+        },
       },
       sourceListId: importSource === 'list' ? selectedListId : undefined,
       initialCards: cards.map(card => ({
         front: { text: card.front } as CardSide,
         back: { text: card.back } as CardSide,
-        metadata: card.notes ? { notes: card.notes } : undefined,
+        metadata: {
+          ...(card.notes ? { notes: card.notes } : {}),
+          furiganaFront: furiganaMap.get(card.front),
+          furiganaBack: furiganaMap.get(card.back),
+        },
       })),
     }
 
@@ -535,6 +589,53 @@ export function DeckCreator({
                       />
                     </div>
 
+                    {/* List Selection (if importing from list) */}
+                    {importSource === 'list' && (
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                          {t('flashcards.import.selectList')}
+                        </label>
+                        {loadingLists ? (
+                          <div className="flex items-center gap-2 py-3 text-gray-500 dark:text-gray-400">
+                            <Loader2 className="w-5 h-5 animate-spin" />
+                            <span>{t('common.loading')}</span>
+                          </div>
+                        ) : (
+                          <>
+                            <button
+                              type="button"
+                              onClick={() => setShowListPicker(true)}
+                              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors flex items-center justify-between"
+                            >
+                              {selectedList ? (
+                                <div className="flex items-center gap-3">
+                                  <span className="text-xl">{selectedList.emoji}</span>
+                                  <div className="text-left">
+                                    <div className="font-medium text-gray-900 dark:text-gray-100">
+                                      {selectedList.name}
+                                    </div>
+                                    <div className="text-xs text-gray-500 dark:text-gray-400">
+                                      {selectedList.items.length} {t('lists.items')}
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : (
+                                <span className="text-gray-500 dark:text-gray-400">
+                                  {t('flashcards.import.selectList')}
+                                </span>
+                              )}
+                              <ChevronDown className="w-5 h-5 text-gray-400" />
+                            </button>
+                            {availableLists.length === 0 && (
+                              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                                {t('flashcards.import.createListFirst')}
+                              </p>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    )}
+
                     {/* Description */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -658,52 +759,59 @@ export function DeckCreator({
                       </p>
                     </div>
 
-                    {/* List Selection (if importing from list) */}
-                    {importSource === 'list' && (
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                          {t('flashcards.import.selectList')}
-                        </label>
-                        {loadingLists ? (
-                          <div className="flex items-center gap-2 py-3 text-gray-500 dark:text-gray-400">
-                            <Loader2 className="w-5 h-5 animate-spin" />
-                            <span>{t('common.loading')}</span>
+                    {/* Furigana Settings */}
+                    <div className="space-y-3">
+                      <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        {t('flashcards.settings.furigana')}
+                      </label>
+
+                      {/* Enable Furigana Toggle */}
+                      <label className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-dark-850 cursor-pointer">
+                        <div className="flex-1">
+                          <div className="font-medium text-sm text-gray-900 dark:text-gray-100">
+                            {t('flashcards.settings.furiganaEnabled')}
                           </div>
-                        ) : (
-                          <>
-                            <button
-                              type="button"
-                              onClick={() => setShowListPicker(true)}
-                              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors flex items-center justify-between"
-                            >
-                              {selectedList ? (
-                                <div className="flex items-center gap-3">
-                                  <span className="text-xl">{selectedList.emoji}</span>
-                                  <div className="text-left">
-                                    <div className="font-medium text-gray-900 dark:text-gray-100">
-                                      {selectedList.name}
-                                    </div>
-                                    <div className="text-xs text-gray-500 dark:text-gray-400">
-                                      {selectedList.items.length} {t('lists.items')}
-                                    </div>
-                                  </div>
-                                </div>
-                              ) : (
-                                <span className="text-gray-500 dark:text-gray-400">
-                                  {t('flashcards.import.selectList')}
-                                </span>
-                              )}
-                              <ChevronDown className="w-5 h-5 text-gray-400" />
-                            </button>
-                            {availableLists.length === 0 && (
-                              <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                                {t('flashcards.import.createListFirst')}
-                              </p>
-                            )}
-                          </>
-                        )}
-                      </div>
-                    )}
+                          <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                            {t('flashcards.settings.furiganaEnabledHint')}
+                          </div>
+                        </div>
+                        <input
+                          type="checkbox"
+                          checked={furiganaEnabled}
+                          onChange={e => setFuriganaEnabled(e.target.checked)}
+                          className="w-5 h-5 text-primary-600 rounded focus:ring-primary-500"
+                        />
+                      </label>
+
+                      {/* Show on Front/Back Toggles - only visible when enabled */}
+                      {furiganaEnabled && (
+                        <div className="ml-4 space-y-2">
+                          <label className="flex items-center justify-between p-2.5 rounded-lg bg-gray-50 dark:bg-dark-850 cursor-pointer">
+                            <span className="text-sm text-gray-700 dark:text-gray-300">
+                              {t('flashcards.settings.furiganaOnFront')}
+                            </span>
+                            <input
+                              type="checkbox"
+                              checked={furiganaOnFront}
+                              onChange={e => setFuriganaOnFront(e.target.checked)}
+                              className="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
+                            />
+                          </label>
+
+                          <label className="flex items-center justify-between p-2.5 rounded-lg bg-gray-50 dark:bg-dark-850 cursor-pointer">
+                            <span className="text-sm text-gray-700 dark:text-gray-300">
+                              {t('flashcards.settings.furiganaOnBack')}
+                            </span>
+                            <input
+                              type="checkbox"
+                              checked={furiganaOnBack}
+                              onChange={e => setFuriganaOnBack(e.target.checked)}
+                              className="w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
+                            />
+                          </label>
+                        </div>
+                      )}
+                    </div>
 
                     {/* Spacer for mobile bottom nav */}
                     <MobileNavSpacer />

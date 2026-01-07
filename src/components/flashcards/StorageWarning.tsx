@@ -21,6 +21,30 @@ interface StorageWarningProps {
    * Custom class name
    */
   className?: string
+
+  /**
+   * Custom warning message for 80-95% usage
+   * Default: "Storage running low. {summary}. Consider deleting unused decks."
+   */
+  warningMessage?: string
+
+  /**
+   * Custom critical message for >=95% usage
+   * Default: "Storage critical! {summary}. Please delete old flashcard decks to free up space."
+   */
+  criticalMessage?: string
+
+  /**
+   * Custom warning title
+   * Default: "Storage Warning"
+   */
+  warningTitle?: string
+
+  /**
+   * Custom critical title
+   * Default: "Storage Almost Full"
+   */
+  criticalTitle?: string
 }
 
 /**
@@ -33,7 +57,11 @@ interface StorageWarningProps {
 export default function StorageWarning({
   asBanner = false,
   showDetails = false,
-  className = ''
+  className = '',
+  warningMessage,
+  criticalMessage,
+  warningTitle,
+  criticalTitle
 }: StorageWarningProps) {
   const { estimate, warningLevel, percentageUsed, isLoading, isSupported } = useStorageQuota()
   const [showDetailsState, setShowDetailsState] = useState(showDetails)
@@ -50,17 +78,17 @@ export default function StorageWarning({
     const summary = getQuotaSummary({ estimate, warningLevel, percentageUsed, isLoading, isSupported })
 
     if (warningLevel === 'critical') {
-      return `Storage critical! ${summary}. Please delete old flashcard decks to free up space.`
+      return criticalMessage || `Storage critical! ${summary}. Please delete old flashcard decks to free up space.`
     }
 
-    return `Storage running low. ${summary}. Consider deleting unused decks.`
+    return warningMessage || `Storage running low. ${summary}. Consider deleting unused decks.`
   }
 
   const getTitle = () => {
     if (warningLevel === 'critical') {
-      return 'Storage Almost Full'
+      return criticalTitle || 'Storage Almost Full'
     }
-    return 'Storage Warning'
+    return warningTitle || 'Storage Warning'
   }
 
   const detailsContent = showDetailsState && estimate?.usageDetails && (

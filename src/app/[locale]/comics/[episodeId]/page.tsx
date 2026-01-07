@@ -45,6 +45,7 @@ export default function ComicReaderPage() {
   const [showVocabulary, setShowVocabulary] = useState(false)
   const [showQuiz, setShowQuiz] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
+  const [readingStartTime] = useState(Date.now()) // Track reading time for quiz celebration
 
   // Reading settings for furigana, font size, etc.
   const [settings, setSettings] = useState<ReadingSettings>({
@@ -657,6 +658,11 @@ export default function ComicReaderPage() {
             enableAutoSave={true}
             showFurigana={settings.showFurigana}
             fontSize={settings.fontSize}
+            // Content metadata for celebration
+            difficulty={episode.jlptLevel}
+            panelCount={episode.panels.length}
+            vocabularyCount={episode.vocabulary?.length || 0}
+            readingTimeMs={Date.now() - readingStartTime}
           />
         </div>
       )}

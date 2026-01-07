@@ -116,7 +116,7 @@ export class GrammarSentenceProcessorHybrid extends GrammarSentenceProcessor {
       },
       metadata: {
         provider: 'ollama',
-        model: 'qwen2.5:7b',
+        model: response.model,
         processingTime: duration,
         sentence: request.sentence,
         sourceTitle: request.title

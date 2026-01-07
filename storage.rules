@@ -67,6 +67,23 @@ service firebase.storage {
       allow write: if false; // Server-only via Admin SDK
     }
 
+    // Anki media files - uploaded via server-side API
+    // Premium validation done server-side (matches all other features)
+    // These rules only verify authentication and ownership
+    match /anki-media/{userId}/{deckId}/{filename} {
+      // Allow read for authenticated users accessing their own files
+      allow read: if request.auth != null &&
+                     request.auth.uid == userId;
+
+      // Allow delete for authenticated users deleting their own files
+      allow delete: if request.auth != null &&
+                       request.auth.uid == userId;
+
+      // Uploads are handled via Admin SDK (server-side)
+      // This bypasses Storage rules entirely for writes
+      allow write: if false;
+    }
+
     // Default: deny all other paths
     match /{allPaths=**} {
       allow read, write: if false;

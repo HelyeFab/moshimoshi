@@ -116,10 +116,13 @@ describe('TabCoordinator', () => {
         messages.push(msg)
       })
 
-      await coordinator1.initialize()
-      await delay(50) // Wait for first coordinator to settle
+      // Initialize coordinator2 first so it can receive messages
       await coordinator2.initialize()
-      await delay(500) // Increased delay for message propagation
+      await delay(100) // Wait for coordinator2 to be ready
+
+      // Now initialize coordinator1, which will broadcast tab-join
+      await coordinator1.initialize()
+      await delay(200) // Wait for message propagation (10ms delay + processing)
 
       // coordinator2 should receive tab-join from coordinator1
       const tabJoinMessages = messages.filter(m => m.type === 'tab-join')

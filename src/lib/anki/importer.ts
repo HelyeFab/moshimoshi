@@ -23,6 +23,10 @@ export interface AnkiCard extends ReviewableContent {
   sentence?: string         // Example sentence if available
   sentenceReading?: string  // Sentence reading
   sentenceMeaning?: string  // Sentence translation
+  // Furigana support
+  furiganaFront?: string    // Pre-generated or native furigana HTML for front
+  furiganaBack?: string     // Pre-generated or native furigana HTML for back
+  hasNativeFurigana?: boolean // True if card had furigana in Anki
   // SRS data
   interval?: number
   ease?: number
@@ -38,7 +42,7 @@ export interface AnkiDeckSettings {
 
 export const DEFAULT_ANKI_DECK_SETTINGS: AnkiDeckSettings = {
   newCardsPerDay: 20,
-  reviewsPerDay: 100,
+  reviewsPerDay: 20,
   autoPlayAudio: true,
 }
 
@@ -47,7 +51,7 @@ export interface AnkiDeck {
   name: string
   cards: AnkiCard[]
   description?: string
-  mediaUrls?: Map<string, string>
+  mediaBlobs?: Map<string, Blob>  // Raw blob objects (not URLs) for storage by import modal
   settings?: AnkiDeckSettings
 }
 
@@ -93,38 +97,34 @@ export class AnkiImporter {
           audioFilename: parseResult.decks[0].cards[0].audioFilename,
           imageFilename: parseResult.decks[0].cards[0].imageFilename,
           reading: parseResult.decks[0].cards[0].reading,
+          hasNativeFurigana: parseResult.decks[0].cards[0].hasNativeFurigana,
         } : null,
       })
 
-      // Store media files locally
-      const mediaUrls = new Map<string, string>()
-      if (parseResult.media.size > 0) {
-        if (options?.onProgress) {
-          options.onProgress(30, `Processing ${parseResult.media.size} media files...`)
-        }
+      // Generate furigana for cards without native furigana
+      // STRICT RULE: Never generate furigana for Anki decks
+      // Anki decks should preserve their original formatting and content
+      console.log('[AnkiImporter] Skipping furigana generation - preserving original Anki content')
 
-        let storedCount = 0
-        for (const [filename, blob] of parseResult.media) {
-          try {
-            const blobUrl = await mediaStore.storeMedia(filename, blob)
-            mediaUrls.set(filename, blobUrl)
-            storedCount++
-          } catch (error) {
-            console.warn(`Failed to store media file ${filename}:`, error)
-          }
+      // Return raw media blobs (NOT stored yet - import modal will handle storage with proper metadata)
+      const mediaBlobs = parseResult.media
+      if (mediaBlobs.size > 0) {
+        if (options?.onProgress) {
+          options.onProgress(30, `Extracted ${mediaBlobs.size} media files...`)
         }
-        console.log('[AnkiImporter] Media stored:', { storedCount, totalMedia: parseResult.media.size })
+        console.log('[AnkiImporter] Media extracted:', { totalMedia: mediaBlobs.size })
       }
 
       // Convert to our deck format
+      // Cards will reference media by filename only - useMediaHydration will create blob URLs from IndexedDB
       const decks: AnkiDeck[] = parseResult.decks.map(deckInfo => ({
         id: deckInfo.id,
         name: deckInfo.name,
         description: deckInfo.desc || `Imported from Anki on ${new Date().toLocaleDateString()}`,
         cards: deckInfo.cards.map(card =>
-          this.convertCardToReviewable(card, deckInfo.name, mediaUrls)
+          this.convertCardToReviewable(card, deckInfo.name)
         ),
-        mediaUrls,
+        mediaBlobs,
       }))
 
       // Log sample converted card
@@ -150,31 +150,66 @@ export class AnkiImporter {
 
   /**
    * Convert a processed card to ReviewableContent format
+   *
+   * STRICT RULES FOR ANKI IMPORTS:
+   * 1. Audio: Use Anki deck audio ONLY. Never generate TTS for Anki cards.
+   * 2. Furigana: Never generate furigana. Preserve original Anki content.
+   * 3. Images: Always import and replace img src with blob URLs.
    */
   private static convertCardToReviewable(
     card: ProcessedCard,
-    deckName: string,
-    mediaUrls: Map<string, string>
+    deckName: string
   ): AnkiCard {
-    // Get media URLs using the extracted filenames
-    const audioUrl = card.audioFilename ? mediaUrls.get(card.audioFilename) : undefined
-    const imageUrl = card.imageFilename ? mediaUrls.get(card.imageFilename) : undefined
+    // Don't create blob URLs here - useMediaHydration will handle that at render time
+    // This prevents premature garbage collection of blob URLs
+    const audioUrl = undefined  // Will be hydrated from IndexedDB using audioFilename
+    const imageUrl = undefined  // Will be hydrated from IndexedDB using imageFilename
+
+    // STRICT RULE #1: Audio Priority
+    // Use Anki deck audio if available. TTS should ONLY be used for non-Anki content.
+    // Audio will be hydrated from IndexedDB at render time using audioFilename.
 
     // Build display content with embedded media
     let processedFront = card.front
     let processedBack = card.back
 
-    // Replace [audio] placeholder with actual audio element if we have a URL
-    if (audioUrl) {
-      processedFront = processedFront.replace(/\[audio\]/g, '')
-      processedBack = processedBack.replace(/\[audio\]/g, '')
+    // Remove [audio] and [image] placeholders - media will be hydrated by useMediaHydration hook
+    processedFront = processedFront.replace(/\[audio\]/g, '')
+    processedBack = processedBack.replace(/\[audio\]/g, '')
+    processedFront = processedFront.replace(/\[image\]/g, '')
+    processedBack = processedBack.replace(/\[image\]/g, '')
+
+    // DON'T replace image filenames with blob URLs in stored HTML
+    // Blob URLs are ephemeral and become invalid after page reload
+    // Instead, we'll hydrate them dynamically when rendering cards
+    // Just ensure images have a data-anki-media attribute for hydration
+    const markMediaImages = (html: string, side: string): string => {
+      let imageCount = 0
+      const result = html.replace(/<img([^>]+)src="([^"]+)"([^>]*)>/gi, (match, before, filename, after) => {
+        imageCount++
+
+        // Skip URLs that are already absolute (http/https/blob)
+        if (filename.startsWith('http') || filename.startsWith('blob:')) {
+          console.log(`[AnkiImporter] ${side} - Skipping absolute URL #${imageCount}: ${filename.substring(0, 50)}`)
+          return match
+        }
+
+        // Add data-anki-media attribute to mark this as Anki media
+        // Remove any existing data-anki-media to avoid duplicates
+        const cleanBefore = before.replace(/\s*data-anki-media="[^"]*"/g, '')
+        const cleanAfter = after.replace(/\s*data-anki-media="[^"]*"/g, '')
+
+        console.log(`[AnkiImporter] ${side} - Marking image #${imageCount} for hydration: "${filename}"`)
+
+        return `<img${cleanBefore}src="${filename}" data-anki-media="${filename}"${cleanAfter}>`
+      })
+
+      console.log(`[AnkiImporter] ${side} - Total images marked: ${imageCount}`)
+      return result
     }
 
-    // Replace [image] placeholder with actual image if we have a URL
-    if (imageUrl) {
-      processedFront = processedFront.replace(/\[image\]/g, `<img src="${imageUrl}" class="anki-image" />`)
-      processedBack = processedBack.replace(/\[image\]/g, `<img src="${imageUrl}" class="anki-image" />`)
-    }
+    processedFront = markMediaImages(processedFront, 'FRONT')
+    processedBack = markMediaImages(processedBack, 'BACK')
 
     // Return AnkiCard with all rich content preserved
     return {
@@ -201,12 +236,20 @@ export class AnkiImporter {
       sentence: card.sentence,
       sentenceReading: card.sentenceReading,
       sentenceMeaning: card.sentenceMeaning,
+      // Furigana support
+      furiganaFront: card.furiganaFront,
+      furiganaBack: card.furiganaBack,
+      hasNativeFurigana: card.hasNativeFurigana,
       metadata: {
         source: 'anki',
         noteId: card.noteId,
         deckId: card.deckId,
         noteType: card.noteType,
         importedAt: new Date().toISOString(),
+        // STRICT FLAGS: Prevent system from modifying Anki content
+        noTTSGeneration: true,  // Never generate TTS for Anki cards
+        noFuriganaGeneration: true,  // Never generate furigana for Anki cards
+        preserveOriginalContent: true,  // Keep original formatting
       },
     } as AnkiCard
   }

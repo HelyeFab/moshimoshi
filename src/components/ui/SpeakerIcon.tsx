@@ -34,9 +34,12 @@ export default function SpeakerIcon({
     onEnd,
   });
 
-  const handleClick = async () => {
+  const handleClick = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
     if (disabled) return;
-    
+
     if (playing) {
       stop();
     } else {

@@ -124,7 +124,7 @@ export class WordExplainerProcessorHybrid extends WordExplainerProcessor {
       },
       metadata: {
         provider: 'ollama',
-        model: 'qwen2.5:7b',
+        model: response.model,
         processingTime: Date.now() - startTime,
         actualDuration: response.total_duration ? response.total_duration / 1e9 : undefined
       }

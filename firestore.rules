@@ -634,6 +634,138 @@ service cloud.firestore {
       allow delete: if false;
     }
 
+    // ========================================
+    // Q&A Forum Collections
+    // ========================================
+
+    // Q&A Questions - community forum questions
+    // IMPORTANT: Available to ALL users (free + premium)
+    match /qa_questions/{questionId} {
+      // Anyone can read approved questions (including guests)
+      // Authors can read their own questions regardless of moderation status
+      // Note: Allow list operations, filtering happens in query
+      allow read: if true;
+
+      // Any authenticated user can create questions
+      // Moderation status will be set by server/client
+      allow create: if isAuthenticated() &&
+        request.resource.data.author.uid == request.auth.uid &&
+        request.resource.data.keys().hasAll(['title', 'content', 'tags', 'author', 'moderationStatus']);
+
+      // Authors can update their own questions
+      // Moderation status can be reset to 'pending' by authors (for re-moderation)
+      // Any authenticated user can update vote counts
+      // Anyone (including guests) can update view count
+      allow update: if (
+        // Anyone can increment view count (including guests)
+        request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['viewCount']) ||
+
+        // Authenticated users can update vote counts and timestamps
+        (isAuthenticated() && (
+          // Authors can update their own questions
+          (resource.data.author.uid == request.auth.uid &&
+           request.resource.data.author.uid == request.auth.uid &&
+           // Can keep same status OR reset to 'pending' for re-moderation
+           (request.resource.data.moderationStatus == resource.data.moderationStatus ||
+            request.resource.data.moderationStatus == 'pending')) ||
+
+          // Any authenticated user can update ONLY vote counts
+          (request.resource.data.diff(resource.data).affectedKeys()
+            .hasOnly(['upvotes', 'downvotes', 'updatedAt']))
+        ))
+      );
+
+      // Authors can delete their own questions
+      allow delete: if isAuthenticated() &&
+        resource.data.author.uid == request.auth.uid;
+    }
+
+    // Q&A Answers - community forum answers
+    // IMPORTANT: Available to ALL users (free + premium)
+    match /qa_answers/{answerId} {
+      // Anyone can read approved answers (including guests)
+      // Authors can read their own answers regardless of moderation status
+      // Note: Allow list operations, filtering happens in query
+      allow read: if true;
+
+      // Any authenticated user can create answers
+      allow create: if isAuthenticated() &&
+        request.resource.data.author.uid == request.auth.uid &&
+        request.resource.data.keys().hasAll(['questionId', 'content', 'author', 'moderationStatus']);
+
+      // Authors can update their own answers
+      // Question authors can update accepted status
+      // Moderation status can be reset to 'pending' by authors (for re-moderation)
+      // Any authenticated user can update vote counts
+      allow update: if isAuthenticated() && (
+        // Authors can update their own answers (but not accepted status)
+        (resource.data.author.uid == request.auth.uid &&
+         request.resource.data.author.uid == request.auth.uid &&
+         request.resource.data.accepted == resource.data.accepted &&
+         // Can keep same status OR reset to 'pending' for re-moderation
+         (request.resource.data.moderationStatus == resource.data.moderationStatus ||
+          request.resource.data.moderationStatus == 'pending')) ||
+
+        // Question author can mark answer as accepted
+        (request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['accepted', 'updatedAt']) &&
+         get(/databases/$(database)/documents/qa_questions/$(resource.data.questionId)).data.author.uid == request.auth.uid) ||
+
+        // Any authenticated user can update ONLY vote counts
+        (request.resource.data.diff(resource.data).affectedKeys()
+          .hasOnly(['upvotes', 'downvotes', 'updatedAt']))
+      );
+
+      // Authors can delete their own answers
+      allow delete: if isAuthenticated() &&
+        resource.data.author.uid == request.auth.uid;
+    }
+
+    // Q&A Question Votes - voting on questions
+    // IMPORTANT: Available to ALL authenticated users (free + premium)
+    // RESTRICTION: Users CANNOT vote on their own questions
+    match /qa_question_votes/{voteId} {
+      // Users can read their own votes (even if document doesn't exist yet)
+      // Document ID format: {userId}_{questionId}
+      allow read: if isAuthenticated() &&
+        voteId.matches('^' + request.auth.uid + '_.*');
+
+      // Users can write (create/update) votes for themselves (but NOT on their own questions)
+      // Handles both new votes and vote type changes in transactions
+      allow write: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.keys().hasAll(['userId', 'questionId', 'voteType']) &&
+        // Prevent voting on own questions
+        get(/databases/$(database)/documents/qa_questions/$(request.resource.data.questionId)).data.author.uid != request.auth.uid;
+
+      // Users can delete their own votes (remove vote)
+      allow delete: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid;
+    }
+
+    // Q&A Answer Votes - voting on answers
+    // IMPORTANT: Available to ALL authenticated users (free + premium)
+    // RESTRICTION: Users CANNOT vote on their own answers
+    match /qa_answer_votes/{voteId} {
+      // Users can read their own votes (even if document doesn't exist yet)
+      // Document ID format: {userId}_{answerId}
+      allow read: if isAuthenticated() &&
+        voteId.matches('^' + request.auth.uid + '_.*');
+
+      // Users can write (create/update) votes for themselves (but NOT on their own answers)
+      // Handles both new votes and vote type changes in transactions
+      allow write: if isAuthenticated() &&
+        request.resource.data.userId == request.auth.uid &&
+        request.resource.data.keys().hasAll(['userId', 'answerId', 'voteType']) &&
+        // Prevent voting on own answers
+        get(/databases/$(database)/documents/qa_answers/$(request.resource.data.answerId)).data.author.uid != request.auth.uid;
+
+      // Users can delete their own votes (remove vote)
+      allow delete: if isAuthenticated() &&
+        resource.data.userId == request.auth.uid;
+    }
+
     // Default deny all
     match /{document=**} {
       allow read, write: if false;

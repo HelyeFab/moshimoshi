@@ -9,6 +9,7 @@ import { DeckGrid } from '@/components/flashcards/DeckGrid'
 import { DeckCreator } from '@/components/flashcards/DeckCreator'
 import { StudySession } from '@/components/flashcards/StudySession'
 import { StudyModeSelector } from '@/components/flashcards/StudyModeSelector'
+import { SessionSettingsModal } from '@/components/flashcards/SessionSettingsModal'
 import { StatsDashboard } from '@/components/flashcards/StatsDashboard'
 import { StudyRecommendations } from '@/components/flashcards/StudyRecommendations'
 import { DailyGoals } from '@/components/flashcards/DailyGoals'
@@ -26,6 +27,9 @@ import { listManager } from '@/lib/lists/ListManager'
 import { storageManager } from '@/lib/flashcards/StorageManager'
 import { migrationManager } from '@/lib/flashcards/MigrationManager'
 import { sessionManager } from '@/lib/flashcards/SessionManager'
+import { AnkiMediaManager } from '@/lib/anki/AnkiMediaManager'
+import { AnkiMediaQuotaBadge } from '@/components/anki/AnkiMediaQuotaBadge'
+import { AnkiMediaSyncStatus } from '@/components/anki/AnkiMediaSyncStatus'
 import type {
   FlashcardDeck,
   CreateDeckRequest,
@@ -35,8 +39,8 @@ import type {
 import type { StudyRecommendation, LearningInsights } from '@/lib/flashcards/SessionManager'
 import type { UserList } from '@/types/userLists'
 import type { FlashcardsInitialData } from '@/lib/flashcards/server'
-import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3, AlertTriangle } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3, AlertTriangle, Plus, PieChart, RefreshCw } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 interface FlashcardsContentProps {
@@ -120,11 +124,19 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const [deckToDelete, setDeckToDelete] = useState<FlashcardDeck | null>(null)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
   const [showStats, setShowStats] = useState(false)
+  const [showInsights, setShowInsights] = useState(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('flashcards_show_insights')
+      return saved === 'true'
+    }
+    return false
+  })
   const [storageInfo, setStorageInfo] = useState<any>(null)
   const [showMigration, setShowMigration] = useState(false)
   const [migrationProgress, setMigrationProgress] = useState<any>(null)
   const [deckToStudy, setDeckToStudy] = useState<FlashcardDeck | null>(null)
   const [showModeSelector, setShowModeSelector] = useState(false)
+  const [showSessionSettings, setShowSessionSettings] = useState(false)
   const [recommendations, setRecommendations] = useState<StudyRecommendation[]>([])
   const [insights, setInsights] = useState<LearningInsights | null>(null)
   const [currentStreak, setCurrentStreak] = useState(0)
@@ -133,6 +145,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     lastStudyDate: Date
   } | null>(null)
   const [limitError, setLimitError] = useState<{ currentCount: number; limit: number } | null>(null)
+  const [isSyncingMedia, setIsSyncingMedia] = useState(false)
 
   // Prevent race conditions
   const loadingRef = useRef(false)
@@ -231,6 +244,29 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       console.log('[Flashcards] Event Hub initialized for user:', initialData.userId)
     }
   }, [initialData.userId])
+
+  // Poll media sync status to disable Sync All button during sync
+  useEffect(() => {
+    if (!initialData.userId || !isPremium) return
+
+    const checkSyncStatus = async () => {
+      try {
+        const mediaManager = AnkiMediaManager.getInstance()
+        const status = await mediaManager.getSyncStatus()
+        setIsSyncingMedia(status.syncState === 'syncing')
+      } catch (error) {
+        console.error('[FlashcardsContent] Failed to check sync status:', error)
+      }
+    }
+
+    // Initial check
+    checkSyncStatus()
+
+    // Poll every 3 seconds
+    const interval = setInterval(checkSyncStatus, 3000)
+
+    return () => clearInterval(interval)
+  }, [initialData.userId, isPremium])
 
   // Load supplementary data for premium users (user lists, recommendations, etc.)
   const loadSupplementaryData = async () => {
@@ -381,18 +417,50 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     setMigrationProgress({ status: 'preparing' })
 
     try {
+      // 1. Sync flashcard decks (existing functionality)
       migrationManager.onProgress(progress => {
         setMigrationProgress(progress)
       })
 
-      const result = await migrationManager.migrateAllDecks(initialData.userId)
+      const deckResult = await migrationManager.migrateAllDecks(initialData.userId)
 
-      if (result.success) {
-        showToast(t('flashcards.success.allSynced'), 'success')
-        await loadData(true)
-      } else {
+      if (!deckResult.success) {
         showToast(t('flashcards.errors.syncFailed'), 'error')
+        return
       }
+
+      // 2. Sync Anki media files (NEW)
+      setMigrationProgress({ status: 'syncing', currentDeck: 'Media files...' })
+
+      const mediaManager = AnkiMediaManager.getInstance()
+      const mediaSyncStatus = await mediaManager.getSyncStatus()
+
+      if (mediaSyncStatus.pendingCount > 0) {
+        console.log(`[FlashcardsContent] Found ${mediaSyncStatus.pendingCount} pending media files`)
+
+        // Force sync all pending media
+        await mediaManager.forceSyncAll()
+
+        // Wait a bit for sync to process
+        await new Promise(resolve => setTimeout(resolve, 2000))
+
+        // Check final status
+        const finalStatus = await mediaManager.getSyncStatus()
+
+        if (finalStatus.failedCount > 0) {
+          showToast(
+            `Decks synced! ${finalStatus.failedCount} media files failed. Check your connection.`,
+            'warning'
+          )
+        } else {
+          showToast('All decks and media synced successfully!', 'success')
+        }
+      } else {
+        showToast(t('flashcards.success.allSynced'), 'success')
+      }
+
+      await loadData(true)
+
     } catch (error) {
       console.error('Bulk sync failed:', error)
       showToast(t('flashcards.errors.syncFailed'), 'error')
@@ -514,24 +582,40 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const confirmDeleteDeck = async () => {
     if (!initialData.userId || !deckToDelete) return
 
-    try {
-      const success = await flashcardManager.deleteDeck(
-        deckToDelete.id,
-        initialData.userId,
-        isPremium
-      )
+    const deckToDeleteCopy = deckToDelete
+
+    // Close dialog immediately to avoid blocking UI
+    setShowDeleteDialog(false)
+    setDeckToDelete(null)
+
+    // Show deleting toast
+    showToast(t('flashcards.deleting', { name: deckToDeleteCopy.name }), 'info')
+
+    // Optimistically remove from UI
+    setDecks(decks.filter(d => d.id !== deckToDeleteCopy.id))
+
+    // Delete in background (non-blocking)
+    flashcardManager.deleteDeck(
+      deckToDeleteCopy.id,
+      initialData.userId,
+      isPremium
+    ).then(success => {
       if (success) {
-        setDecks(decks.filter(d => d.id !== deckToDelete.id))
-        await loadData(true)
-        showToast(t('flashcards.success.deckDeleted'), 'success')
+        // Refresh data in background
+        loadData(true).then(() => {
+          showToast(t('flashcards.success.deckDeleted'), 'success')
+        })
+      } else {
+        // Restore deck on failure
+        setDecks(prevDecks => [...prevDecks, deckToDeleteCopy])
+        showToast(t('flashcards.errors.deleteFailed'), 'error')
       }
-    } catch (error) {
+    }).catch(error => {
       console.error('Failed to delete deck:', error)
+      // Restore deck on error
+      setDecks(prevDecks => [...prevDecks, deckToDeleteCopy])
       showToast(t('flashcards.errors.deleteFailed'), 'error')
-    } finally {
-      setDeckToDelete(null)
-      setShowDeleteDialog(false)
-    }
+    })
   }
 
   const handleExportDeck = async (deck: FlashcardDeck) => {
@@ -561,6 +645,14 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     setShowModeSelector(true)
   }
 
+  const handleToggleInsights = () => {
+    const newValue = !showInsights
+    setShowInsights(newValue)
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('flashcards_show_insights', String(newValue))
+    }
+  }
+
   const handleStartSession = (selectedCards: any[], mode: string) => {
     if (!deckToStudy || selectedCards.length === 0) return
 
@@ -576,6 +668,41 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
     setShowModeSelector(false)
     setDeckToStudy(null)
+  }
+
+  const handleStartSessionWithSettings = async (settings: Partial<import('@/types/flashcards').DeckSettings>) => {
+    if (!deckToStudy || !initialData.userId) return
+
+    try {
+      // Update deck with new settings
+      const updatedDeck = await flashcardManager.updateDeck(
+        deckToStudy.id,
+        {
+          settings: {
+            ...deckToStudy.settings,
+            ...settings
+          }
+        },
+        initialData.userId,
+        isPremium
+      )
+
+      if (updatedDeck) {
+        // Update in local state
+        setDecks(prevDecks =>
+          prevDecks.map(d => d.id === updatedDeck.id ? updatedDeck : d)
+        )
+
+        // Start the study session
+        setStudyingDeck(updatedDeck)
+      }
+
+      setShowSessionSettings(false)
+      setDeckToStudy(null)
+    } catch (error) {
+      console.error('Failed to update deck settings:', error)
+      showToast(t('flashcards.errors.updateFailed'), 'error')
+    }
   }
 
   const handleSyncDeck = async (deck: FlashcardDeck) => {
@@ -651,11 +778,11 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   }
 
   // Calculate overall stats
-  const totalCards = decks.reduce((sum, deck) => sum + deck.stats.totalCards, 0)
-  const totalMastered = decks.reduce((sum, deck) => sum + deck.stats.masteredCards, 0)
+  const totalCards = decks.reduce((sum, deck) => sum + (deck.stats?.totalCards ?? deck.cards?.length ?? 0), 0)
+  const totalMastered = decks.reduce((sum, deck) => sum + (deck.stats?.masteredCards ?? 0), 0)
   const getDeckDailyLimits = (deck: FlashcardDeck) => ({
     newCardsPerDay: deck.settings?.newCardsPerDay ?? 20,
-    reviewsPerDay: deck.settings?.reviewsPerDay ?? 100,
+    reviewsPerDay: deck.settings?.reviewsPerDay ?? 20,
   })
 
   const getDeckDueCount = (deck: FlashcardDeck) => {
@@ -774,51 +901,90 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           </motion.div>
         )}
 
-        {/* Storage Info and Actions Bar */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-          {/* Storage Info */}
-          {storageInfo && !isPremium && (
-            <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
-              <span>{t('flashcards.storage.using')}:</span>
-              <span className="font-medium">
-                {storageManager.formatBytes(storageInfo.usage)} /{' '}
-                {storageManager.formatBytes(storageInfo.quota)}
-              </span>
-              <span
+        {/* Storage Info (desktop only) */}
+        {storageInfo && !isPremium && (
+          <div className="hidden sm:flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400 mb-4">
+            <span>{t('flashcards.storage.using')}:</span>
+            <span className="font-medium">
+              {storageManager.formatBytes(storageInfo.usage)} /{' '}
+              {storageManager.formatBytes(storageInfo.quota)}
+            </span>
+            <span
+              className={cn(
+                'px-2 py-1 rounded-full text-xs',
+                storageInfo.percentage > 90
+                  ? 'bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300'
+                  : storageInfo.percentage > 70
+                    ? 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900 dark:text-yellow-300'
+                    : 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300'
+              )}
+            >
+              {Math.round(storageInfo.percentage)}%
+            </span>
+          </div>
+        )}
+
+        {/* Horizontally Scrollable Action Buttons */}
+        <div className="mb-6 -mx-4 sm:mx-0">
+          <div className="flex gap-3 overflow-x-auto px-4 sm:px-0 pb-2 scrollbar-hide snap-x snap-mandatory">
+            {/* Insights Toggle Button */}
+            {initialData.userId && decks.length > 0 && (
+              <button
+                onClick={handleToggleInsights}
                 className={cn(
-                  'px-2 py-1 rounded-full text-xs',
-                  storageInfo.percentage > 90
-                    ? 'bg-red-100 text-red-600 dark:bg-red-900 dark:text-red-300'
-                    : storageInfo.percentage > 70
-                      ? 'bg-yellow-100 text-yellow-600 dark:bg-yellow-900 dark:text-yellow-300'
-                      : 'bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-300'
+                  "flex-shrink-0 px-4 py-2.5 text-sm font-medium rounded-lg transition-all snap-start shadow-sm flex items-center gap-2",
+                  showInsights
+                    ? "bg-gradient-to-r from-blue-500 to-cyan-500 text-white"
+                    : "bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600"
                 )}
               >
-                {Math.round(storageInfo.percentage)}%
-              </span>
-            </div>
-          )}
+                <PieChart className="w-4 h-4" />
+                {t('flashcards.insights')}
+              </button>
+            )}
 
-          {/* Action Buttons */}
-          <div className="flex gap-2">
+            {/* Create New Deck Button */}
+            <button
+              onClick={() => setShowCreator(true)}
+              className="flex-shrink-0 px-4 py-2.5 text-sm font-medium bg-gradient-to-r from-primary-500 to-purple-500 text-white rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2 snap-start shadow-md"
+            >
+              <Plus className="w-4 h-4" />
+              {t('flashcards.createDeck')}
+            </button>
+
             {isPremium && decks.length > 0 && (
               <button
                 onClick={handleBulkSync}
-                className="px-3 py-1.5 text-sm bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg hover:opacity-90"
+                disabled={isSyncingMedia}
+                className="flex-shrink-0 px-4 py-2.5 text-sm font-medium bg-gradient-to-r from-purple-500 to-indigo-500 text-white rounded-lg hover:opacity-90 transition-opacity snap-start shadow-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
+                {isSyncingMedia && (
+                  <RefreshCw className="w-4 h-4 animate-spin" />
+                )}
                 {t('flashcards.actions.syncAll')}
               </button>
             )}
+
             {decks.length > 0 && (
               <button
                 onClick={handleExportAll}
-                className="px-3 py-1.5 text-sm bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-dark-600"
+                className="flex-shrink-0 px-4 py-2.5 text-sm font-medium bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-300 dark:hover:bg-dark-600 transition-colors snap-start shadow-sm"
               >
                 {t('flashcards.actions.exportAll')}
               </button>
             )}
           </div>
         </div>
+
+        {/* Storage Quota Badge (for premium users with Anki decks) */}
+        {isPremium && decks.some(d => d.source === 'anki') && (
+          <AnkiMediaQuotaBadge />
+        )}
+
+        {/* Media Sync Status (for premium users with Anki decks) */}
+        {isPremium && decks.some(d => d.source === 'anki') && (
+          <AnkiMediaSyncStatus className="mb-6" />
+        )}
 
         {/* Deck Limits Warning */}
         {!initialData.userId && (
@@ -851,138 +1017,173 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             onSyncDeck={handleSyncDeck}
             onSessionSettings={deck => {
               setDeckToStudy(deck)
-              setShowModeSelector(true)
+              setShowSessionSettings(true)
             }}
             showStats={true}
             gridCols={3}
             isPremium={isPremium}
+            hideCreateCard={true}
           />
         </div>
 
-        {/* Daily Goals (show for logged in users) */}
-        {initialData.userId && (
-          <div className="mb-8">
-            <DailyGoals
-              userId={initialData.userId}
-              isPremium={isPremium}
-              onGoalComplete={goalType => {
-                console.log('Goal completed:', goalType)
-              }}
-            />
-          </div>
-        )}
-
-        {/* Study Recommendations (show only if user has decks and recommendations) */}
-        {initialData.userId && recommendations.length > 0 && (
-          <div className="mb-8">
-            <StudyRecommendations
-              recommendations={recommendations}
-              insights={insights}
-              currentStreak={currentStreak}
-              onSelectDeck={deckId => {
-                const deck = decks.find(d => d.id === deckId)
-                if (deck) handleStudyDeck(deck)
-              }}
-            />
-          </div>
-        )}
-
-        {/* Action Buttons Row */}
-        <div className="flex justify-end mb-4">
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={() => setShowStats(!showStats)}
-            className="px-4 py-2 bg-gradient-to-r from-primary-500 to-purple-500 text-white rounded-lg shadow-lg font-medium flex items-center gap-2"
-          >
-            <BarChart3 className="w-5 h-5" />
-            {showStats ? t('flashcards.hideStats') : t('flashcards.showStats')}
-          </motion.button>
-        </div>
-
-        {/* Statistics Dashboard or Cards */}
-        {showStats ? (
-          <StatsDashboard
-            decks={decks}
-            sessions={sessions}
-            userId={initialData.userId || undefined}
-            onViewDetails={deckId => {
-              const deck = decks.find(d => d.id === deckId)
-              if (deck) handleStudyDeck(deck)
-            }}
-          />
-        ) : (
-          /* Stats Cards */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {/* Insights Widgets (Daily Goals, Study Recommendations & Statistics) */}
+        <AnimatePresence mode="wait">
+          {showInsights && (
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="bg-soft-white dark:bg-dark-800 rounded-xl p-6 shadow-lg"
+              key="insights"
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
             >
-              <div className="flex items-center justify-between mb-2">
-                <BookOpen className="w-8 h-8 text-blue-500" />
-                <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  {totalCards}
-                </span>
-              </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {t('flashcards.totalCards', { count: totalCards })}
-              </p>
-            </motion.div>
+              {/* Daily Goals (show for logged in users) */}
+              {initialData.userId && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="mb-8"
+                >
+                  <DailyGoals
+                    userId={initialData.userId}
+                    isPremium={isPremium}
+                    onGoalComplete={goalType => {
+                      console.log('Goal completed:', goalType)
+                    }}
+                  />
+                </motion.div>
+              )}
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="bg-soft-white dark:bg-dark-800 rounded-xl p-6 shadow-lg"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <Trophy className="w-8 h-8 text-yellow-500" />
-                <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  {totalMastered}
-                </span>
-              </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {t('flashcards.masteryLevel')}
-              </p>
-            </motion.div>
+              {/* Study Recommendations (show only if user has decks and recommendations) */}
+              {initialData.userId && recommendations.length > 0 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="mb-8"
+                >
+                  <StudyRecommendations
+                    recommendations={recommendations}
+                    insights={insights}
+                    currentStreak={currentStreak}
+                    onSelectDeck={deckId => {
+                      const deck = decks.find(d => d.id === deckId)
+                      if (deck) handleStudyDeck(deck)
+                    }}
+                  />
+                </motion.div>
+              )}
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="bg-soft-white dark:bg-dark-800 rounded-xl p-6 shadow-lg"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <Target className="w-8 h-8 text-green-500" />
-                <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  {Math.round(averageAccuracy * 100)}%
-                </span>
-              </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {t('flashcards.stats.averageAccuracy')}
-              </p>
-            </motion.div>
+              {/* Action Buttons Row for Stats */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="flex justify-end mb-4"
+              >
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setShowStats(!showStats)}
+                  className="px-4 py-2 bg-gradient-to-r from-primary-500 to-purple-500 text-white rounded-lg shadow-lg font-medium flex items-center gap-2"
+                >
+                  <BarChart3 className="w-5 h-5" />
+                  {showStats ? t('flashcards.hideStats') : t('flashcards.showStats')}
+                </motion.button>
+              </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="bg-soft-white dark:bg-dark-800 rounded-xl p-6 shadow-lg"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <Clock className="w-8 h-8 text-purple-500" />
-                <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
-                  {totalDue}
-                </span>
-              </div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
-                {t('flashcards.dueForReview')}
-              </p>
+              {/* Statistics Dashboard or Cards */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.4 }}
+              >
+                {showStats ? (
+                  <StatsDashboard
+                    decks={decks}
+                    sessions={sessions}
+                    userId={initialData.userId || undefined}
+                    onViewDetails={deckId => {
+                      const deck = decks.find(d => d.id === deckId)
+                      if (deck) handleStudyDeck(deck)
+                    }}
+                  />
+                ) : (
+                  /* Stats Cards */
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 }}
+                      className="bg-soft-white dark:bg-dark-800 rounded-xl p-6 shadow-lg"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <BookOpen className="w-8 h-8 text-blue-500" />
+                        <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                          {totalCards}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {t('flashcards.totalCards', { count: totalCards })}
+                      </p>
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.2 }}
+                      className="bg-soft-white dark:bg-dark-800 rounded-xl p-6 shadow-lg"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <Trophy className="w-8 h-8 text-yellow-500" />
+                        <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                          {totalMastered}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {t('flashcards.masteryLevel')}
+                      </p>
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.3 }}
+                      className="bg-soft-white dark:bg-dark-800 rounded-xl p-6 shadow-lg"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <Target className="w-8 h-8 text-green-500" />
+                        <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                          {Math.round(averageAccuracy * 100)}%
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {t('flashcards.stats.averageAccuracy')}
+                      </p>
+                    </motion.div>
+
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 }}
+                      className="bg-soft-white dark:bg-dark-800 rounded-xl p-6 shadow-lg"
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <Clock className="w-8 h-8 text-purple-500" />
+                        <span className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                          {totalDue}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
+                        {t('flashcards.dueForReview')}
+                      </p>
+                    </motion.div>
+                  </div>
+                )}
+              </motion.div>
             </motion.div>
-          </div>
-        )}
+          )}
+        </AnimatePresence>
 
         {/* Deck Creator Modal */}
         <DeckCreator
@@ -1023,6 +1224,19 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
               setDeckToStudy(null)
             }}
             onStartStudy={handleStartSession}
+          />
+        )}
+
+        {/* Session Settings Modal */}
+        {deckToStudy && showSessionSettings && (
+          <SessionSettingsModal
+            isOpen={showSessionSettings}
+            deck={deckToStudy}
+            onClose={() => {
+              setShowSessionSettings(false)
+              setDeckToStudy(null)
+            }}
+            onStartSession={handleStartSessionWithSettings}
           />
         )}
 

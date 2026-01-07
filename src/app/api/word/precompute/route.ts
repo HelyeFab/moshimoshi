@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
       contentId,
       contentType,
       text,
-      limit: typeof limit === 'number' ? Math.min(Math.max(limit, 10), 400) : undefined,
+      limit: typeof limit === 'number' ? Math.min(Math.max(limit, 10), 1000) : undefined, // Increased from 400 to 1000
       chunkIndex: typeof chunkIndex === 'number' ? chunkIndex : undefined,
     } as any)
 

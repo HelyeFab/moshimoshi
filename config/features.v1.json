@@ -284,7 +284,10 @@
         "contentType": "mixed",
         "difficulty": "all",
         "estimatedDuration": "variable",
-        "producesReviewable": true
+        "producesReviewable": true,
+        "enableFirebaseSync": false,
+        "syncMode": "local-only",
+        "syncModeDescription": "Imported Anki decks are stored locally in IndexedDB only. No size limits. Change to 'firebase' to enable cloud sync (not recommended for large decks due to Firestore 1MB limit and bandwidth costs)."
       }
     },
     {

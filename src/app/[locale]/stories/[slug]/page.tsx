@@ -134,6 +134,7 @@ export default function StoryDetailPage() {
         storyTitle={story.titleJa || story.title}
         contentType="story"
       />
+
       <MobileNavSpacer />
     </div>
   )

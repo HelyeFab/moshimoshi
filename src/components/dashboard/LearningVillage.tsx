@@ -1045,6 +1045,23 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         lanternColor: '#a855f7',
         stallImage: getRandomStallImage(),
       },
+      // === COMMUNITY ===
+      {
+        id: 'qa',
+        title: strings.dashboard?.cards?.qa?.title || 'Tea House',
+        subtitle: strings.dashboard?.cards?.qa?.subtitle || '茶屋',
+        description:
+          strings.dashboard?.cards?.qa?.description || 'Share wisdom, ask questions, help others',
+        href: getLocalePath('/village/tea-house'),
+        icon: '🍵',
+        stallType: 'community',
+        color: 'from-green-400 to-teal-600',
+        glow: 'shadow-green-500/50',
+        doshiMood: 'happy' as const,
+        progress: 0,
+        lanternColor: '#10b981',
+        stallImage: getRandomStallImage(),
+      },
     ],
     [strings]
   )
@@ -1058,6 +1075,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
       achievements: process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS === 'true',
       leaderboard: process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD === 'true',
       todos: process.env.NEXT_PUBLIC_FEATURE_TODOS === 'true',
+      qa: process.env.NEXT_PUBLIC_FEATURE_QA === 'true',
     }),
     []
   )
@@ -1139,7 +1157,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         'my-videos',
       ] as StallId[],
       play: ['games', 'review-hub'] as StallId[],
-      community: ['achievements', 'leaderboard', 'resources', 'blog', 'todos'] as StallId[],
+      community: ['achievements', 'leaderboard', 'resources', 'blog', 'todos', 'qa'] as StallId[],
     }),
     []
   )

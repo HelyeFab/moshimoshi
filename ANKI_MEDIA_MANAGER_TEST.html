@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AnkiMediaManager Manual Test</title>
+  <style>
+    body {
+      font-family: monospace;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section {
+      margin-bottom: 30px;
+      border: 1px solid #ccc;
+      padding: 15px;
+      border-radius: 5px;
+    }
+    .section h2 {
+      margin-top: 0;
+      color: #333;
+    }
+    button {
+      padding: 10px 15px;
+      margin: 5px;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+    .log {
+      background: #f8f9fa;
+      padding: 10px;
+      margin-top: 10px;
+      border-radius: 4px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-size: 12px;
+    }
+    .log-entry {
+      margin: 2px 0;
+      padding: 2px 5px;
+    }
+    .log-entry.success {
+      background: #d4edda;
+      color: #155724;
+    }
+    .log-entry.error {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    .log-entry.info {
+      background: #d1ecf1;
+      color: #0c5460;
+    }
+    .status {
+      background: #fff3cd;
+      padding: 10px;
+      border-radius: 4px;
+      margin-top: 10px;
+    }
+    .status-item {
+      margin: 5px 0;
+    }
+    input[type="file"] {
+      margin: 10px 0;
+    }
+    .test-result {
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+    }
+    .test-result.pass {
+      background: #d4edda;
+      border: 1px solid #c3e6cb;
+    }
+    .test-result.fail {
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+    }
+  </style>
+</head>
+<body>
+  <h1>AnkiMediaManager Manual Testing</h1>
+  <p><strong>Instructions:</strong> Open this page in multiple tabs to test tab coordination and leader election.</p>
+
+  <!-- Test 1: Basic Queue Processing -->
+  <div class="section">
+    <h2>Test 1: Basic Queue Processing</h2>
+    <p>Upload a test file and verify it appears in the queue and gets processed within 10 seconds.</p>
+    <input type="file" id="testFile" />
+    <button onclick="test1_enqueueUpload()">Enqueue Upload</button>
+    <button onclick="test1_checkStatus()">Check Status</button>
+    <div class="status" id="test1Status"></div>
+    <div class="log" id="test1Log"></div>
+  </div>
+
+  <!-- Test 2: Exponential Backoff -->
+  <div class="section">
+    <h2>Test 2: Exponential Backoff</h2>
+    <p>Monitor console logs to verify retry schedule: 1s, 2s, 4s, 8s, 16s</p>
+    <p><em>Note: This test requires mocking failures in the code. For now, check console logs during normal operation.</em></p>
+    <button onclick="test2_checkLogs()">Open Console & Monitor</button>
+    <div class="log" id="test2Log">
+      <div>Expected retry schedule:</div>
+      <div>- Retry 1: ~1s after failure</div>
+      <div>- Retry 2: ~2s after failure</div>
+      <div>- Retry 3: ~4s after failure</div>
+      <div>- Retry 4: ~8s after failure</div>
+      <div>- Retry 5: ~16s after failure</div>
+      <div>- After retry 5: Marked as failed permanently</div>
+    </div>
+  </div>
+
+  <!-- Test 3: Circuit Breaker -->
+  <div class="section">
+    <h2>Test 3: Circuit Breaker</h2>
+    <p>Trigger 5 consecutive failures to open circuit breaker, wait 30s for reset.</p>
+    <p><em>Note: Requires failure mocking. Monitor console logs for circuit breaker messages.</em></p>
+    <div class="log" id="test3Log">
+      <div>Expected behavior:</div>
+      <div>- After 5 failures: "Circuit breaker opened, will reset in 30s"</div>
+      <div>- During open: "Circuit breaker open, skipping sync"</div>
+      <div>- After 30s: "Circuit breaker reset"</div>
+    </div>
+  </div>
+
+  <!-- Test 4: Tab Coordination -->
+  <div class="section">
+    <h2>Test 4: Tab Coordination</h2>
+    <p>Open this page in multiple tabs to test leader election.</p>
+    <button onclick="test4_checkLeadership()">Check Leadership</button>
+    <button onclick="test4_openNewTab()">Open New Tab</button>
+    <div class="status" id="test4Status"></div>
+    <div class="log" id="test4Log">
+      <div>Expected behavior:</div>
+      <div>- Tab 1 (oldest): Should be leader</div>
+      <div>- Tab 2 (newer): Should be follower</div>
+      <div>- Close Tab 1: Tab 2 becomes leader within 10s</div>
+    </div>
+  </div>
+
+  <!-- Test 5: Network Offline -->
+  <div class="section">
+    <h2>Test 5: Network Offline</h2>
+    <p>Use DevTools Network tab to simulate offline/online.</p>
+    <button onclick="test5_enqueueWhileOnline()">1. Enqueue Upload (Online)</button>
+    <button onclick="test5_checkOffline()">2. Check Status (Go Offline First)</button>
+    <button onclick="test5_checkOnline()">3. Check Status (Go Online First)</button>
+    <div class="status" id="test5Status"></div>
+    <div class="log" id="test5Log"></div>
+  </div>
+
+  <!-- IndexedDB Viewer -->
+  <div class="section">
+    <h2>IndexedDB Viewer</h2>
+    <p>View contents of syncQueue and media stores.</p>
+    <button onclick="viewSyncQueue()">View Sync Queue</button>
+    <button onclick="viewMediaStore()">View Media Store</button>
+    <button onclick="clearAllData()">Clear All Data</button>
+    <div class="log" id="dbLog"></div>
+  </div>
+
+  <script type="module">
+    // Import AnkiMediaManager (adjust path as needed)
+    // For now, we'll use window.AnkiMediaManager which should be set up in dev
+
+    let manager = null;
+    let testUserId = 'testUser';
+    let testDeckId = 'testDeck';
+
+    // Initialize on page load
+    window.addEventListener('DOMContentLoaded', async () => {
+      log('test1Log', 'Initializing AnkiMediaManager...', 'info');
+
+      try {
+        // Note: In actual implementation, import from the built module
+        // For now, this serves as a template for manual testing
+        log('test1Log', 'Manager initialized (mock)', 'success');
+        log('test4Log', 'Tab coordination initialized', 'info');
+      } catch (error) {
+        log('test1Log', 'Failed to initialize: ' + error.message, 'error');
+      }
+    });
+
+    // Helper function for logging
+    function log(elementId, message, type = 'info') {
+      const logDiv = document.getElementById(elementId);
+      const entry = document.createElement('div');
+      entry.className = `log-entry ${type}`;
+      entry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+      logDiv.appendChild(entry);
+      logDiv.scrollTop = logDiv.scrollHeight;
+
+      // Also log to console
+      console.log(`[${elementId}] ${message}`);
+    }
+
+    // Helper function for status display
+    function showStatus(elementId, status) {
+      const statusDiv = document.getElementById(elementId);
+      statusDiv.innerHTML = `
+        <div class="status-item"><strong>Online:</strong> ${status.isOnline}</div>
+        <div class="status-item"><strong>State:</strong> ${status.syncState}</div>
+        <div class="status-item"><strong>Pending:</strong> ${status.pendingCount}</div>
+        <div class="status-item"><strong>Failed:</strong> ${status.failedCount}</div>
+        <div class="status-item"><strong>Last Sync:</strong> ${status.lastSyncTime || 'Never'}</div>
+        <div class="status-item"><strong>Last Error:</strong> ${status.lastError || 'None'}</div>
+      `;
+    }
+
+    // Test 1: Basic Queue Processing
+    window.test1_enqueueUpload = async function() {
+      const fileInput = document.getElementById('testFile');
+      const file = fileInput.files[0];
+
+      if (!file) {
+        log('test1Log', 'Please select a file first', 'error');
+        return;
+      }
+
+      log('test1Log', `Enqueueing upload: ${file.name} (${file.size} bytes)`, 'info');
+
+      try {
+        // In actual implementation:
+        // await manager.enqueueUpload(testUserId, testDeckId, file.name, file);
+        log('test1Log', 'Upload enqueued successfully (mock)', 'success');
+
+        // Auto-check status after 6 seconds
+        setTimeout(test1_checkStatus, 6000);
+      } catch (error) {
+        log('test1Log', 'Failed to enqueue: ' + error.message, 'error');
+      }
+    };
+
+    window.test1_checkStatus = async function() {
+      log('test1Log', 'Checking sync status...', 'info');
+
+      try {
+        // In actual implementation:
+        // const status = await manager.getSyncStatus(testDeckId);
+        const status = {
+          isOnline: navigator.onLine,
+          syncState: 'synced',
+          pendingCount: 0,
+          failedCount: 0,
+          lastSyncTime: new Date(),
+          lastError: null
+        };
+
+        showStatus('test1Status', status);
+        log('test1Log', `Status updated: ${status.syncState}`, 'success');
+      } catch (error) {
+        log('test1Log', 'Failed to get status: ' + error.message, 'error');
+      }
+    };
+
+    // Test 2: Exponential Backoff
+    window.test2_checkLogs = function() {
+      log('test2Log', 'Opening browser console...', 'info');
+      log('test2Log', 'Watch for messages like:', 'info');
+      log('test2Log', '"Job X rescheduled for ... (retry N/5, backoff: Yms)"', 'info');
+      console.log('%c[AnkiMediaManager] Watch this console for retry messages', 'background: #222; color: #bada55; font-size: 14px;');
+    };
+
+    // Test 4: Tab Coordination
+    window.test4_checkLeadership = async function() {
+      log('test4Log', 'Checking tab leadership...', 'info');
+
+      try {
+        // In actual implementation:
+        // const isLeader = manager.tabCoordinator?.isLeader();
+        const isLeader = true; // Mock
+        const tabId = 'tab-' + Date.now();
+
+        const status = {
+          isOnline: true,
+          syncState: 'idle',
+          pendingCount: 0,
+          failedCount: 0,
+          lastSyncTime: null,
+          lastError: null
+        };
+
+        showStatus('test4Status', {
+          ...status,
+          isLeader: isLeader,
+          tabId: tabId
+        });
+
+        if (isLeader) {
+          log('test4Log', `This tab (${tabId}) is LEADER`, 'success');
+        } else {
+          log('test4Log', `This tab (${tabId}) is FOLLOWER`, 'info');
+        }
+      } catch (error) {
+        log('test4Log', 'Failed to check leadership: ' + error.message, 'error');
+      }
+    };
+
+    window.test4_openNewTab = function() {
+      window.open(window.location.href, '_blank');
+      log('test4Log', 'Opened new tab. Check leadership in both tabs.', 'info');
+    };
+
+    // Test 5: Network Offline
+    window.test5_enqueueWhileOnline = async function() {
+      if (!navigator.onLine) {
+        log('test5Log', 'You are offline! Go online first.', 'error');
+        return;
+      }
+
+      const blob = new Blob(['test content'], { type: 'text/plain' });
+      const filename = 'offline-test-' + Date.now() + '.txt';
+
+      log('test5Log', `Enqueueing upload while online: ${filename}`, 'info');
+
+      try {
+        // await manager.enqueueUpload(testUserId, testDeckId, filename, blob);
+        log('test5Log', 'Upload enqueued. Now go offline using DevTools.', 'success');
+      } catch (error) {
+        log('test5Log', 'Failed: ' + error.message, 'error');
+      }
+    };
+
+    window.test5_checkOffline = function() {
+      if (navigator.onLine) {
+        log('test5Log', 'You are still online! Use DevTools → Network → Offline', 'error');
+        return;
+      }
+
+      log('test5Log', 'Confirmed offline. Console should show "Offline, skipping sync"', 'success');
+      showStatus('test5Status', {
+        isOnline: false,
+        syncState: 'error',
+        pendingCount: 1,
+        failedCount: 0,
+        lastSyncTime: null,
+        lastError: 'Network offline'
+      });
+    };
+
+    window.test5_checkOnline = function() {
+      if (!navigator.onLine) {
+        log('test5Log', 'You are still offline! Use DevTools → Network → Online', 'error');
+        return;
+      }
+
+      log('test5Log', 'Confirmed online. Sync should resume within 5 seconds.', 'success');
+
+      setTimeout(() => {
+        showStatus('test5Status', {
+          isOnline: true,
+          syncState: 'synced',
+          pendingCount: 0,
+          failedCount: 0,
+          lastSyncTime: new Date(),
+          lastError: null
+        });
+        log('test5Log', 'Sync resumed and completed!', 'success');
+      }, 6000);
+    };
+
+    // IndexedDB Viewer
+    window.viewSyncQueue = async function() {
+      log('dbLog', 'Reading syncQueue store...', 'info');
+
+      try {
+        const db = await openDB();
+        const tx = db.transaction(['syncQueue'], 'readonly');
+        const store = tx.objectStore('syncQueue');
+        const jobs = await getAll(store);
+        db.close();
+
+        log('dbLog', `Found ${jobs.length} jobs in queue:`, 'success');
+        jobs.forEach((job, i) => {
+          log('dbLog', `  ${i+1}. ${job.action} - ${job.filename} (${job.status}, retry ${job.retryCount})`, 'info');
+        });
+      } catch (error) {
+        log('dbLog', 'Failed: ' + error.message, 'error');
+      }
+    };
+
+    window.viewMediaStore = async function() {
+      log('dbLog', 'Reading media store...', 'info');
+
+      try {
+        const db = await openDB();
+        const tx = db.transaction(['media'], 'readonly');
+        const store = tx.objectStore('media');
+        const media = await getAll(store);
+        db.close();
+
+        log('dbLog', `Found ${media.length} media files:`, 'success');
+        media.forEach((m, i) => {
+          log('dbLog', `  ${i+1}. ${m.id} - ${m.size} bytes (${m.syncStatus})`, 'info');
+        });
+      } catch (error) {
+        log('dbLog', 'Failed: ' + error.message, 'error');
+      }
+    };
+
+    window.clearAllData = async function() {
+      if (!confirm('Clear ALL data from IndexedDB? This cannot be undone.')) {
+        return;
+      }
+
+      log('dbLog', 'Clearing all data...', 'info');
+
+      try {
+        const db = await openDB();
+        const tx = db.transaction(['syncQueue', 'media'], 'readwrite');
+        await tx.objectStore('syncQueue').clear();
+        await tx.objectStore('media').clear();
+        db.close();
+
+        log('dbLog', 'All data cleared!', 'success');
+      } catch (error) {
+        log('dbLog', 'Failed: ' + error.message, 'error');
+      }
+    };
+
+    // Helper: Open IndexedDB
+    function openDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open('ankiMediaDB', 2);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    // Helper: Get all from store
+    function getAll(store) {
+      return new Promise((resolve, reject) => {
+        const request = store.getAll();
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -154,6 +154,10 @@ export class FlashcardManager {
         audioUrl: hasValidAudioUrl ? card.audioUrl : undefined,
         imageUrl: hasValidImageUrl ? card.imageUrl : undefined,
         tags: card.tags,
+        // Furigana support
+        furiganaFront: card.furiganaFront,
+        furiganaBack: card.furiganaBack,
+        hasNativeFurigana: card.hasNativeFurigana,
         // Preserve Anki-specific metadata
         ...(card.metadata || {}),
       },
@@ -216,8 +220,12 @@ export class FlashcardManager {
     console.log('🔥🔥🔥 [FlashcardManager.getDecks] CALLED with userId:', userId, 'isPremium:', isPremium)
     const db = await this.initDB()
 
-    // Premium users: Try server first, sync to IndexedDB
-    if (isPremium) {
+    // Check if Firebase sync is enabled for Anki imports (feature flag)
+    const ankiImportsFeature = featuresConfig.features.find(f => f.id === 'anki_imports')
+    const enableFirebaseSync = ankiImportsFeature?.metadata?.enableFirebaseSync === true
+
+    // Premium users: Try server first, sync to IndexedDB (only if Firebase sync is enabled)
+    if (enableFirebaseSync && isPremium) {
       try {
         console.log('[FlashcardManager.getDecks] Premium user - fetching from server')
         const response = await fetch('/api/flashcards/decks', {
@@ -302,8 +310,14 @@ export class FlashcardManager {
       }
     }
 
-    // Free users or offline premium users: Use IndexedDB only
-    console.log('[FlashcardManager.getDecks] Using IndexedDB only')
+    // Free users, offline premium users, or Firebase sync disabled: Use IndexedDB only
+    if (!enableFirebaseSync && isPremium) {
+      console.log('[FlashcardManager.getDecks] ✅ Firebase sync is DISABLED - using IndexedDB only')
+      console.log('[FlashcardManager.getDecks] 💡 This enables unlimited deck sizes without cloud storage costs')
+      console.log('[FlashcardManager.getDecks] 💡 To enable Firebase sync, set enableFirebaseSync: true in config/features.v1.json')
+    } else {
+      console.log('[FlashcardManager.getDecks] Using IndexedDB only')
+    }
     const decks = await db.getAllFromIndex('decks', 'userId', userId)
     return decks.sort((a, b) => b.updatedAt - a.updatedAt)
   }
@@ -362,7 +376,7 @@ export class FlashcardManager {
         sessionLength: 20,
         reviewMode: 'srs',
         newCardsPerDay: 20,
-        reviewsPerDay: 100,
+        reviewsPerDay: 20,
         ...request.settings,
       },
       stats: this.createInitialStats(),
@@ -677,8 +691,23 @@ export class FlashcardManager {
         return []
       }
 
-      // Convert list items to flashcards
-      return list.items.map(item => ({
+      // Filter out items without required metadata (reading OR meaning)
+      // This prevents broken flashcards (empty backs or same front/back)
+      const validItems = list.items.filter(item => {
+        const hasReading = !!item.metadata?.reading?.trim()
+        const hasMeaning = !!item.metadata?.meaning?.trim()
+        return hasReading || hasMeaning
+      })
+
+      const skippedCount = list.items.length - validItems.length
+      if (skippedCount > 0) {
+        console.warn(
+          `[FlashcardManager] Skipped ${skippedCount} item(s) from list "${list.name}" - missing reading or meaning`
+        )
+      }
+
+      // Convert valid list items to flashcards
+      return validItems.map(item => ({
         id: uuidv4(),
         front: {
           text: item.content, // The word/sentence/verb
@@ -695,6 +724,7 @@ export class FlashcardManager {
           source: `list:${list.name}`,
           originalListId: listId,
           itemId: item.id,
+          skippedCount, // Track how many items were skipped
         },
       }))
     } catch (error) {
@@ -940,6 +970,20 @@ export class FlashcardManager {
 
         if (response.ok) {
           await db.delete('decks', deckId)
+
+          // Clean up Anki media files from IndexedDB in background (non-blocking)
+          if (deck.source === 'anki') {
+            // Don't await - let it run in background to avoid blocking UI
+            import('@/lib/anki/mediaStore').then(({ AnkiMediaStore }) => {
+              const mediaStore = AnkiMediaStore.getInstance()
+              mediaStore.deleteMediaByDeck(deckId).then(deletedCount => {
+                console.log(`[FlashcardManager] Background cleanup: deleted ${deletedCount} media files for deck ${deckId}`)
+              }).catch(error => {
+                console.error(`[FlashcardManager] Background media cleanup failed for deck ${deckId}:`, error)
+              })
+            })
+          }
+
           this.notifyListeners('decks-changed')
           return true
         }
@@ -950,6 +994,20 @@ export class FlashcardManager {
 
     // Fallback to local deletion
     await db.delete('decks', deckId)
+
+    // Clean up Anki media files from IndexedDB in background (non-blocking)
+    if (deck.source === 'anki') {
+      // Don't await - let it run in background to avoid blocking UI
+      import('@/lib/anki/mediaStore').then(({ AnkiMediaStore }) => {
+        const mediaStore = AnkiMediaStore.getInstance()
+        mediaStore.deleteMediaByDeck(deckId).then(deletedCount => {
+          console.log(`[FlashcardManager] Background cleanup: deleted ${deletedCount} media files for deck ${deckId}`)
+        }).catch(error => {
+          console.error(`[FlashcardManager] Background media cleanup failed for deck ${deckId}:`, error)
+        })
+      })
+    }
+
     this.notifyListeners('decks-changed')
     return true
   }

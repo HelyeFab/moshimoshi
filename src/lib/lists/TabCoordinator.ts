@@ -61,9 +61,11 @@ export class TabCoordinator {
   // Heartbeat and monitoring timers
   private heartbeatInterval: NodeJS.Timeout | null = null
   private leaderTimeoutCheck: NodeJS.Timeout | null = null
+  private electionTimeout: NodeJS.Timeout | null = null
+  private resignationElectionTimeout: NodeJS.Timeout | null = null
 
   // Timestamp of last received heartbeat from leader
-  private lastLeaderHeartbeat: number = Date.now()
+  private lastLeaderHeartbeat: number = 0
 
   // Message handlers registered by consumers
   private messageCallback: ((msg: TabMessage) => void) | null = null
@@ -136,11 +138,14 @@ export class TabCoordinator {
    * The tab with the oldest timestamp (created first) becomes leader
    */
   private async electLeader(): Promise<void> {
+    // Record when we started the election process
+    const electionStartTime = Date.now()
+
     // Wait briefly to collect announcements from existing tabs
     // This prevents race conditions where multiple tabs try to become leader
     await new Promise(resolve => setTimeout(resolve, this.ELECTION_DELAY))
 
-    // Broadcast election message
+    // Broadcast election message to announce our presence
     const electionMessage: TabMessage = {
       type: 'leader-election',
       tabId: this.tabId,
@@ -152,14 +157,27 @@ export class TabCoordinator {
 
     // Wait for any existing leader to respond with heartbeat
     // If we receive a heartbeat, we'll become follower instead
-    setTimeout(() => {
-      // Check if we haven't received a recent heartbeat from another leader
-      const timeSinceLastHeartbeat = Date.now() - this.lastLeaderHeartbeat
+    this.electionTimeout = setTimeout(() => {
+      // Check if we received a heartbeat since starting election
+      const receivedHeartbeatDuringElection = this.lastLeaderHeartbeat > electionStartTime
 
-      // If no heartbeat received within election delay, become leader
-      if (!this.isLeaderFlag && timeSinceLastHeartbeat > this.ELECTION_DELAY) {
+      // If we received a heartbeat from another leader, don't become leader
+      if (receivedHeartbeatDuringElection) {
+        console.log(`[TabCoordinator] Tab ${this.tabId} detected existing leader, becoming follower`)
+        // Become follower explicitly
+        this.becomeFollower()
+        // Clear the election timeout reference
+        this.electionTimeout = null
+        return
+      }
+
+      // No heartbeat received, become leader if not already
+      if (!this.isLeaderFlag) {
         this.becomeLeader()
       }
+
+      // Clear the election timeout reference
+      this.electionTimeout = null
     }, this.ELECTION_DELAY)
   }
 
@@ -169,7 +187,7 @@ export class TabCoordinator {
    */
   private becomeLeader(): void {
     this.isLeaderFlag = true
-    this.lastLeaderHeartbeat = Date.now()
+    // Don't update lastLeaderHeartbeat here - that's only for heartbeats from OTHER tabs
 
     console.log(`[TabCoordinator] Tab ${this.tabId} became leader`)
 
@@ -319,8 +337,18 @@ export class TabCoordinator {
     const ourTimestamp = parseInt(this.tabId.split('-')[1])
     const theirTimestamp = parseInt(message.tabId.split('-')[1])
 
-    // If their tab is older, yield leadership
-    if (theirTimestamp < ourTimestamp) {
+    // If we're leader and we're older, send heartbeat to assert leadership
+    if (this.isLeaderFlag && ourTimestamp < theirTimestamp) {
+      // Send immediate heartbeat to prevent the new tab from becoming leader
+      this.broadcast({
+        type: 'heartbeat',
+        tabId: this.tabId,
+        timestamp: Date.now(),
+        data: null
+      })
+    }
+    // If their tab is older and we're leader, yield leadership
+    else if (theirTimestamp < ourTimestamp) {
       if (this.isLeaderFlag) {
         console.log('[TabCoordinator] Yielding leadership to older tab')
         this.becomeFollower()
@@ -357,11 +385,12 @@ export class TabCoordinator {
 
   /**
    * Handle new tab joining the network
-   * If we're leader, send heartbeat to announce leadership
+   * If we're leader, send heartbeat immediately to announce leadership
    */
   private handleTabJoin(message: TabMessage): void {
     if (this.isLeaderFlag) {
-      // Send heartbeat to new tab to establish leadership
+      // Send heartbeat immediately to prevent new tab from becoming leader
+      // Small delay ensures the new tab has set up its message handlers
       setTimeout(() => {
         this.broadcast({
           type: 'heartbeat',
@@ -369,7 +398,7 @@ export class TabCoordinator {
           timestamp: Date.now(),
           data: null
         })
-      }, 50)
+      }, 10)
     }
   }
 
@@ -398,8 +427,10 @@ export class TabCoordinator {
     if (!this.isLeaderFlag) {
       console.log('[TabCoordinator] Leader resigned, starting election')
       // Small delay to prevent race conditions
-      setTimeout(() => {
+      // Track this timeout so it can be cancelled during cleanup
+      this.resignationElectionTimeout = setTimeout(() => {
         this.electLeader()
+        this.resignationElectionTimeout = null
       }, this.ELECTION_DELAY)
     }
   }
@@ -525,6 +556,16 @@ export class TabCoordinator {
     if (this.leaderTimeoutCheck) {
       clearInterval(this.leaderTimeoutCheck)
       this.leaderTimeoutCheck = null
+    }
+
+    if (this.electionTimeout) {
+      clearTimeout(this.electionTimeout)
+      this.electionTimeout = null
+    }
+
+    if (this.resignationElectionTimeout) {
+      clearTimeout(this.resignationElectionTimeout)
+      this.resignationElectionTimeout = null
     }
 
     // Close BroadcastChannel

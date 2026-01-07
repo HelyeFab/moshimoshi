@@ -517,6 +517,8 @@ export const strings = {
     sentence: 'Sentence',
     submit: 'Submit',
     continue: 'Continue',
+    show: 'Show',
+    hide: 'Hide',
     finish: 'Finish',
     clear: 'Clear',
     signIn: 'Sign In',
@@ -696,7 +698,7 @@ export const strings = {
     lockScreen: 'Lock Screen',
     lockScreenDescription: 'Prevent accidental touches',
     lockScreenTitle: 'Screen Locked',
-    lockScreenUnlockText: 'Tap Doshi 3 times to unlock',
+    lockScreenUnlockText: 'Tap Moshi 3 times to unlock',
     noAudioAvailable: 'No audio available for this story',
     lookupDictionary: 'Click to look up in dictionary',
     showTranslation: 'Show Translation',
@@ -1444,11 +1446,11 @@ export const strings = {
       processing: 'Processing...',
     },
     doshi: {
-      loading: 'Doshi Loading...',
-      altText: 'Doshi - Your Learning Companion',
+      loading: 'Moshi Loading...',
+      altText: 'Moshi - Your Learning Companion',
       failedToLoad: 'Failed to load red panda animation',
       ariaLabel: '{{alt}} - Click to interact',
-      moodAria: 'Doshi is {{mood}}',
+      moodAria: 'Moshi is {{mood}}',
     },
     drawer: {
       closeAriaLabel: 'Close drawer',
@@ -2523,9 +2525,9 @@ export const strings = {
       evening: 'Good evening',
     },
     welcome: {
-      firstVisit: 'Welcome to Moshimoshi! Doshi is excited to learn with you! 🎉',
+      firstVisit: 'Welcome to Moshimoshi! Moshi is excited to learn with you! 🎉',
       returning: 'Ready to continue your journey? Your dedication is inspiring!',
-      clickDoshi: 'Doshi says: がんばって! (Good luck!)',
+      clickDoshi: 'Moshi says: がんばって! (Good luck!)',
     },
     stats: {
       streak: 'Streak',
@@ -2775,6 +2777,16 @@ export const strings = {
         title: 'Task Manager',
         subtitle: 'タスク管理',
         description: 'Organize your study tasks and goals',
+      },
+      leaderboard: {
+        title: 'Leaderboard',
+        subtitle: 'ランキング',
+        description: 'Compete with other learners',
+      },
+      qa: {
+        title: 'Tea House',
+        subtitle: '茶屋',
+        description: 'Share wisdom, ask questions, help others',
       },
     },
     progress: {
@@ -4118,6 +4130,7 @@ export const strings = {
       saveToList: 'Save to List',
       delete: 'Delete',
       edit: 'Edit List',
+      update: 'Update List',
       remove: 'Remove from List',
       addItems: 'Add Items',
       review: 'Review',
@@ -4125,6 +4138,8 @@ export const strings = {
       exportJson: 'Export as JSON',
       exportCsv: 'Export as CSV',
     },
+    edit: 'Edit List',
+    update: 'Update List',
     deleteDialog: {
       title: 'Delete List',
       message: 'Are you sure you want to delete "{{name}}"? This action cannot be undone.',
@@ -4165,6 +4180,14 @@ export const strings = {
       signInRequired: 'Please sign in to use lists',
       noListSelected: 'Please select at least one list',
       incompatibleType: 'This list type cannot accept this item',
+      duplicateItem: 'This item already exists in the list',
+    },
+    validation: {
+      contentRequired: 'Content is required',
+      requireMetadata: 'Please add either Reading or Meaning to use this item for flashcards',
+      readingOrMeaning: 'At least one of Reading or Meaning is required',
+      invalidItemsSkipped: '{{count}} item(s) skipped - missing Reading or Meaning',
+      warningForStudy: 'Some items are missing Reading or Meaning and will be skipped during study',
     },
     importModal: {
       title: 'Import List',
@@ -4189,6 +4212,11 @@ export const strings = {
       mastered: 'Mastered',
       learning: 'Learning',
       total: 'Total',
+    },
+    multiTab: {
+      versionChangeTitle: 'Database Updated',
+      versionChangeMessage: 'The database was updated in another tab. Please refresh to continue.',
+      refreshButton: 'Refresh Page',
     },
   },
 
@@ -4250,7 +4278,7 @@ export const strings = {
 
     lockScreen: {
       title: 'Screen Locked',
-      tapToUnlock: 'Tap Doshi 3 times to unlock',
+      tapToUnlock: 'Tap Moshi 3 times to unlock',
       lockButton: 'Lock Screen',
     },
 
@@ -4686,6 +4714,10 @@ export const strings = {
       progress: 'Reset progress? All statistics will be cleared.',
     },
 
+    // Status messages
+    syncing: 'Syncing deck...',
+    deleting: 'Deleting "{{name}}"...',
+
     // Success messages
     success: {
       deckCreated: 'Deck created successfully',
@@ -4706,6 +4738,11 @@ export const strings = {
     settings: {
       sessionLength: 'Cards per Session',
       sessionLengthHint: 'Choose how many cards to study in this session',
+      furigana: 'Furigana',
+      furiganaEnabled: 'Show furigana',
+      furiganaEnabledHint: 'Display reading aids above kanji characters',
+      furiganaOnFront: 'Show on front side',
+      furiganaOnBack: 'Show on back side',
       quickSettings: 'Quick Settings',
       reviewMode: 'Review Mode',
       sequential: 'Sequential',
@@ -4733,6 +4770,7 @@ export const strings = {
     // Statistics
     showStats: 'Show Statistics',
     hideStats: 'Hide Statistics',
+    insights: 'Insights',
     stats: {
       title: 'Statistics',
       mastered: 'Mastered',
@@ -5562,7 +5600,7 @@ export const strings = {
       speedLearner: {
         title: 'Whoa there, Speed Learner! 🚀',
         message:
-          "You've watched 20 videos today! Even Doshi needs a break. Your brain is probably doing the cha-cha with all that Japanese. Come back tomorrow for more!",
+          "You've watched 20 videos today! Even Moshi needs a break. Your brain is probably doing the cha-cha with all that Japanese. Come back tomorrow for more!",
       },
       achievement: {
         title: 'Achievement Unlocked: Video Marathon! 🏃‍♂️',
@@ -5774,7 +5812,7 @@ export const strings = {
         almostReady: 'Almost ready!',
         workingHard: 'Working hard!',
         pleaseWait: 'Please wait...',
-        doshiReading: 'Doshi is reading...',
+        doshiReading: 'Moshi is reading...',
         castingMagic: 'Casting magic...',
       },
     },
@@ -6962,5 +7000,233 @@ export const strings = {
     step2Description: 'Each kanji comes with vocabulary and sentences',
     step3Title: 'Spaced Repetition',
     step3Description: 'AI-powered scheduling optimizes your retention',
+  },
+
+  // Q&A Forum
+  qa: {
+    title: 'Tea House',
+    subtitle: 'Gather, ask questions, share wisdom with fellow learners',
+    askQuestion: 'Ask a Question',
+    answer: 'Answer',
+    answers: 'Answers',
+    question: 'Question',
+    questions: 'Questions',
+
+    // Tabs/Filters
+    tabs: {
+      recent: 'Recent',
+      popular: 'Popular',
+      unanswered: 'Unanswered',
+      myQuestions: 'My Questions',
+    },
+
+    // Difficulty levels
+    difficulty: {
+      beginner: 'Beginner',
+      intermediate: 'Intermediate',
+      advanced: 'Advanced',
+    },
+
+    // Topic tags
+    tags: {
+      grammar: 'Grammar',
+      vocabulary: 'Vocabulary',
+      kanji: 'Kanji',
+      pronunciation: 'Pronunciation',
+      particles: 'Particles',
+      'verb-conjugation': 'Verb Conjugation',
+      culture: 'Culture',
+      jlpt: 'JLPT',
+      translation: 'Translation',
+      reading: 'Reading',
+      listening: 'Listening',
+      writing: 'Writing',
+      other: 'Other',
+    },
+
+    // Voting
+    voting: {
+      upvote: 'Upvote',
+      downvote: 'Downvote',
+      loginRequired: 'Please log in to vote',
+      cannotVoteOwnContent: 'You cannot vote on your own content',
+      error: 'Failed to vote. Please try again.',
+    },
+
+    // Moderation
+    moderation: {
+      pending: 'Pending Review',
+      approved: 'Approved',
+      rejected: 'Rejected',
+      reason: 'Reason',
+    },
+
+    // Question card
+    questionCard: {
+      hasAnswer: 'Answered',
+      viewQuestion: 'View Question',
+    },
+
+    // Editor
+    editor: {
+      title: 'Question Title',
+      titlePlaceholder: 'What would you like to know about Japanese?',
+      details: 'Question Details',
+      detailsPlaceholder: 'Provide more context about your question...',
+      topics: 'Topic Tags',
+      difficulty: 'Difficulty Level',
+      optional: 'Optional',
+      characters: 'characters',
+      minChars: 'Minimum {{count}} characters',
+      tagsSelected: 'tags selected',
+      postQuestion: 'Post Question',
+      updateQuestion: 'Update Question',
+      posting: 'Posting...',
+      cancel: 'Cancel',
+      yourAnswer: 'Your Answer',
+      answerPlaceholder: 'Share your knowledge to help others learn...',
+      answerTooShort: 'Answer cannot be empty',
+      postAnswer: 'Post Answer',
+      loginRequired: 'Please log in to post',
+      loginToAnswer: 'Sign in to post an answer',
+      titleTooShort: 'Title must be at least 10 characters',
+      contentTooShort: 'Details must be at least 20 characters',
+      selectTags: 'Please select at least one topic tag',
+      error: 'Failed to post. Please try again.',
+      submittedForReview: 'Question submitted for review!',
+      questionPosted: 'Question posted successfully!',
+      answerSubmittedForReview: 'Answer submitted for review!',
+      answerPosted: 'Answer posted successfully!',
+      moderationPending: 'Your question is being reviewed by our AI moderation system. This usually takes a few seconds.',
+      questionLive: 'Your question is now live! Other users can see and answer it.',
+      answerModerationPending: 'Your answer is being reviewed. It will appear once approved.',
+      answerLive: 'Your answer is now visible!',
+      askAnother: 'Ask Another Question',
+      backToForum: 'Back to Forum',
+      askQuestionSubtitle: 'Share your Japanese learning question with the community',
+      writeYourQuestion: 'Write Your Question',
+      tips: 'Tips for Great Questions',
+      tip1: 'Be specific and clear about what you want to know',
+      tip2: 'Include relevant context (e.g., JLPT level, specific grammar point)',
+      tip3: 'Show what you have tried or researched',
+      tip4: 'Use appropriate topic tags to help others find your question',
+    },
+
+    // Answer actions
+    answerActions: {
+      acceptedAnswer: 'Accepted Answer',
+      acceptAnswer: 'Accept Answer',
+      accepted: 'Answer accepted!',
+      acceptError: 'Failed to accept answer',
+      deleted: 'Answer deleted',
+      deleteError: 'Failed to delete answer',
+      confirmDelete: 'Are you sure you want to delete this answer?',
+      deleteDialogTitle: 'Delete Answer?',
+      deleteDialogMessage: 'Are you sure you want to delete this answer? This action cannot be undone.',
+      deleteDialogConfirm: 'Delete Answer',
+      updated: 'Answer updated',
+      updateError: 'Failed to update answer',
+      saveEdit: 'Save Edit',
+      cancel: 'Cancel',
+      edited: 'edited',
+      noAnswersYet: 'No answers yet',
+      beTheFirst: 'Be the first to help!',
+      loadError: 'Failed to load answers',
+    },
+
+    // Question detail page
+    detail: {
+      notFound: 'Question not found',
+      loadError: 'Failed to load question',
+      confirmDelete: 'Are you sure you want to delete this question? This cannot be undone.',
+      deleted: 'Question deleted successfully',
+      deleteError: 'Failed to delete question',
+      deleteDialogTitle: 'Delete Question?',
+      deleteDialogMessage: 'Are you sure you want to delete this question? This action cannot be undone and all answers will also be removed.',
+      deleteConfirm: 'Delete Question',
+      views: 'views',
+      asked: 'asked',
+      edit: 'Edit',
+      delete: 'Delete',
+      yourAnswer: 'Your Answer',
+    },
+
+    // Edit question page
+    edit: {
+      editQuestion: 'Edit Question',
+      editQuestionSubtitle: 'Update your question details',
+      backToQuestion: 'Back to Question',
+      questionUpdated: 'Question updated successfully',
+      unauthorized: 'You can only edit your own questions',
+    },
+
+    // Empty states
+    empty: {
+      noQuestions: 'No questions yet',
+      beFirst: 'Be the first to ask a question!',
+      noResults: 'No questions found',
+      tryDifferent: 'Try different filters or search terms',
+    },
+  },
+
+  // Tea House Guidelines
+  teaHouse: {
+    guidelines: {
+      title: 'Tea House Guidelines',
+      welcome: {
+        title: 'Welcome to the Tea House',
+        subtitle: 'A shared learning space where Japanese learners help each other calmly, kindly, and thoughtfully.',
+        description: 'The Tea House is a shared learning space where Japanese learners help each other calmly, kindly, and thoughtfully. Everyone — free and premium users alike — is welcome to ask questions and share answers, as long as they support learning Japanese in a respectful way.',
+      },
+      whatFor: {
+        title: 'What the Tea House is for',
+        intro: 'The Tea House is the right place for:',
+        point1: 'Asking questions about Japanese language (grammar, kanji, vocabulary, usage)',
+        point2: 'Discussing Japanese culture, traditions, and customs',
+        point3: 'Clarifying things from textbooks, videos, stories, or real content',
+        point4: 'Checking if a sentence sounds natural or correct',
+        point5: 'Sharing and discussing learning resources, methods, and experiences',
+      },
+      whatNotFor: {
+        title: 'What the Tea House is not for',
+        intro: 'To keep the Tea House calm and useful, please don\'t post:',
+        point1: 'Political, religious, or ideological debates',
+        point2: 'Harassment, sarcasm, or dismissive replies',
+        point3: 'Gatekeeping or shaming learners for their level',
+        point4: 'Promotion of other apps, courses, or channels',
+        point5: 'AI-generated answers posted without understanding',
+        point6: 'Medical, legal, or personal advice unrelated to Japanese learning',
+        point7: 'Completely off-topic discussions unrelated to Japan or learning Japanese',
+      },
+      conduct: {
+        title: 'How we treat each other here',
+        point1: 'Be kind first, correct second',
+        point2: 'Assume everyone is learning in good faith',
+        point3: 'Explain simply and clearly',
+        point4: 'If it wouldn\'t help you learn, don\'t post it',
+        noStupidQuestions: 'There is no such thing as a "stupid question" here.',
+      },
+      moderation: {
+        title: 'Moderation & Safety',
+        point1: 'The community can flag posts that don\'t fit the Tea House',
+        point2: 'Moderators may remove posts that break these guidelines',
+        point3: 'Repeated violations may limit Tea House access',
+        purpose: 'Moderation exists to protect the learning space — not to punish.',
+      },
+      corePrinciple: 'Be kind first, correct second. Assume everyone is learning in good faith.',
+      closing: 'The Tea House works because everyone helps keep it calm, focused, and welcoming. Thank you for being part of it.',
+
+      // Actions
+      gotIt: 'Got it, let me explore!',
+      viewFullGuidelines: 'View full guidelines',
+      viewGuidelines: 'View Guidelines',
+      beforeYouPost: 'Before you post...',
+      pleaseReadAndAgree: 'Please take a moment to read and agree to our community guidelines',
+      iAgree: 'I understand and agree to the Tea House guidelines',
+      continueToPost: 'Continue to Post',
+      mustAgree: 'Please agree to the guidelines to continue',
+      acknowledged: 'Thank you! You can now post in the Tea House',
+      acknowledgeFailed: 'Failed to save acknowledgment. Please try again.',
+    },
   },
 }

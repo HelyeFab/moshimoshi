@@ -23,6 +23,7 @@ import { ReviewEventType } from '@/lib/review-engine/core/events'
 import { gamificationListener } from '@/lib/gamification/gamificationListener'
 import { QuizPlayer } from '@/components/quiz/QuizPlayer'
 import Navbar from '@/components/layout/Navbar'
+import ContentCelebration from '@/components/shared/ContentCelebration'
 
 // URE event emitter for gamification integration (following Kana pattern)
 const ureEventEmitter = new EventEmitter()
@@ -905,11 +906,12 @@ export default function EnhancedArticleReader({
     enabled: true,
   })
 
-  // State for showing XP earned notification
-  const [xpNotification, setXpNotification] = useState<{ show: boolean; xp: number }>({
-    show: false,
-    xp: 0,
-  })
+  // State for showing celebration screen
+  const [celebrationData, setCelebrationData] = useState<{
+    show: boolean
+    xp: number
+    readingTimeMs: number
+  } | null>(null)
 
   // Story mode state (for multi-page content with optional quiz)
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
@@ -922,13 +924,16 @@ export default function EnhancedArticleReader({
   const totalPages = isStoryMode ? pages!.length : 1
   const displayTitle = storyTitle || article.title
 
-  // Handle mark complete with XP notification and URE event emission
+  // Handle mark complete with celebration screen and URE event emission
   const handleMarkComplete = async () => {
     const result = await markArticleComplete()
     if (result.success && result.data && !result.data.alreadyCompleted) {
-      setXpNotification({ show: true, xp: result.data.xpEarned })
-      // Auto-hide notification after 3 seconds
-      setTimeout(() => setXpNotification({ show: false, xp: 0 }), 3000)
+      // Show celebration screen with all data
+      setCelebrationData({
+        show: true,
+        xp: result.data.xpEarned,
+        readingTimeMs: activeTimeMs,
+      })
 
       // Emit URE SESSION_COMPLETED event for unified gamification (following Kana pattern)
       const sessionId = `news_${article.id}_${Date.now()}`
@@ -2114,6 +2119,9 @@ export default function EnhancedArticleReader({
           enableAutoSave={true}
           showFurigana={settings.showFurigana}
           fontSize={settings.fontSize}
+          // Content metadata for celebration
+          difficulty={article.difficulty}
+          pageCount={pages?.length}
         />
       </>
     )
@@ -2608,15 +2616,6 @@ export default function EnhancedArticleReader({
                   </button>
                 </div>
 
-                {/* XP Notification */}
-                {xpNotification.show && (
-                  <div className="mt-4 flex justify-center animate-bounce">
-                    <div className="px-6 py-3 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 text-white font-bold shadow-lg flex items-center gap-2">
-                      <span className="text-2xl">🎉</span>
-                      <span>+{xpNotification.xp} XP earned!</span>
-                    </div>
-                  </div>
-                )}
               </>
             )}
           </div>
@@ -2680,6 +2679,18 @@ export default function EnhancedArticleReader({
         unlockText={t('story.lockScreenUnlockText')}
         className="z-[60]"
       />
+
+      {/* Celebration Screen - Shows when article is completed */}
+      {celebrationData?.show && (
+        <ContentCelebration
+          xpEarned={celebrationData.xp}
+          readingTimeMs={celebrationData.readingTimeMs}
+          difficulty={article.difficulty}
+          contentTitle={displayTitle}
+          contentType="article"
+          onClose={() => setCelebrationData(null)}
+        />
+      )}
     </div>
   )
 }

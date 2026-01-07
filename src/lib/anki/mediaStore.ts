@@ -2,13 +2,7 @@
  * Local media storage for Anki cards using IndexedDB
  */
 
-interface StoredMedia {
-  id: string;          // filename
-  blob: Blob;          // actual media data
-  type: string;        // MIME type
-  size: number;        // file size
-  createdAt: Date;
-}
+import type { StoredMedia, MediaStorageStats } from '@/types/ankiMedia'
 
 export class AnkiMediaStore {
   private static instance: AnkiMediaStore;
@@ -27,24 +21,105 @@ export class AnkiMediaStore {
 
   private async openDB(): Promise<IDBDatabase> {
     return new Promise((resolve, reject) => {
-      const request = indexedDB.open(this.dbName, 1);
+      const request = indexedDB.open(this.dbName, 2)  // Version 2!
 
-      request.onerror = () => reject(request.error);
-      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error)
+      request.onsuccess = () => resolve(request.result)
 
       request.onupgradeneeded = (event) => {
-        const db = (event.target as IDBOpenDBRequest).result;
-        if (!db.objectStoreNames.contains(this.storeName)) {
-          db.createObjectStore(this.storeName, { keyPath: 'id' });
+        const db = (event.target as IDBOpenDBRequest).result
+        const oldVersion = event.oldVersion
+        const transaction = (event.target as IDBOpenDBRequest).transaction!
+
+        console.log(`[AnkiMediaStore] Upgrading database from v${oldVersion} to v2`)
+
+        // Create or upgrade 'media' store
+        let mediaStore: IDBObjectStore
+        if (!db.objectStoreNames.contains('media')) {
+          // New installation
+          mediaStore = db.createObjectStore('media', { keyPath: 'id' })
+          console.log('[AnkiMediaStore] Created media store')
+        } else {
+          // Existing installation - get store for adding indexes
+          mediaStore = transaction.objectStore('media')
+          console.log('[AnkiMediaStore] Upgrading existing media store')
         }
-      };
-    });
+
+        // Add indexes if they don't exist
+        if (!mediaStore.indexNames.contains('userId')) {
+          mediaStore.createIndex('userId', 'userId', { unique: false })
+          console.log('[AnkiMediaStore] Added userId index')
+        }
+        if (!mediaStore.indexNames.contains('deckId')) {
+          mediaStore.createIndex('deckId', 'deckId', { unique: false })
+          console.log('[AnkiMediaStore] Added deckId index')
+        }
+        if (!mediaStore.indexNames.contains('syncStatus')) {
+          mediaStore.createIndex('syncStatus', 'syncStatus', { unique: false })
+          console.log('[AnkiMediaStore] Added syncStatus index')
+        }
+        if (!mediaStore.indexNames.contains('updatedAt')) {
+          mediaStore.createIndex('updatedAt', 'updatedAt', { unique: false })
+          console.log('[AnkiMediaStore] Added updatedAt index')
+        }
+
+        // Create syncQueue store (new)
+        if (!db.objectStoreNames.contains('syncQueue')) {
+          const queueStore = db.createObjectStore('syncQueue', { keyPath: 'id' })
+          queueStore.createIndex('deckId', 'deckId', { unique: false })
+          queueStore.createIndex('status', 'status', { unique: false })
+          queueStore.createIndex('scheduledFor', 'scheduledFor', { unique: false })
+          queueStore.createIndex('userId', 'userId', { unique: false })
+          console.log('[AnkiMediaStore] Created syncQueue store with indexes')
+        }
+
+        // Migration: Add default values to existing records
+        if (oldVersion === 1) {
+          console.log('[AnkiMediaStore] Migrating v1 records to v2 schema')
+
+          const mediaStore = transaction.objectStore('media')
+          const getAllRequest = mediaStore.getAll()
+
+          getAllRequest.onsuccess = () => {
+            const records = getAllRequest.result as any[]
+            console.log(`[AnkiMediaStore] Migrating ${records.length} existing records`)
+
+            records.forEach((record) => {
+              // Add missing fields with defaults
+              if (!record.userId) record.userId = 'unknown'
+              if (!record.deckId) record.deckId = 'unknown'
+              if (!record.syncStatus) record.syncStatus = 'pending'
+              if (!record.retryCount) record.retryCount = 0
+              if (!record.updatedAt) record.updatedAt = record.createdAt || new Date()
+
+              // Update record
+              mediaStore.put(record)
+            })
+
+            console.log('[AnkiMediaStore] Migration complete')
+          }
+
+          getAllRequest.onerror = () => {
+            console.error('[AnkiMediaStore] Migration failed:', getAllRequest.error)
+          }
+        }
+      }
+    })
   }
 
   /**
-   * Store media blob in IndexedDB
+   * Store media blob in IndexedDB with sync tracking
    */
-  async storeMedia(filename: string, blob: Blob): Promise<string> {
+  async storeMedia(
+    filename: string,
+    blob: Blob,
+    options?: {
+      userId?: string
+      deckId?: string
+      syncStatus?: 'pending' | 'syncing' | 'synced' | 'failed'
+      firebaseUrl?: string
+    }
+  ): Promise<string> {
     try {
       const db = await this.openDB();
       const transaction = db.transaction([this.storeName], 'readwrite');
@@ -55,7 +130,13 @@ export class AnkiMediaStore {
         blob,
         type: blob.type,
         size: blob.size,
-        createdAt: new Date()
+        userId: options?.userId || 'unknown',
+        deckId: options?.deckId || 'unknown',
+        syncStatus: options?.syncStatus || 'pending',
+        firebaseUrl: options?.firebaseUrl,
+        retryCount: 0,
+        createdAt: new Date(),
+        updatedAt: new Date()
       };
 
       await new Promise((resolve, reject) => {
@@ -69,6 +150,8 @@ export class AnkiMediaStore {
       // Create and cache blob URL
       const blobUrl = URL.createObjectURL(blob);
       this.blobUrlCache.set(filename, blobUrl);
+
+      console.log(`[AnkiMediaStore] Stored media: ${filename} (${blob.size} bytes, deck: ${media.deckId})`);
 
       return blobUrl;
     } catch (error) {
@@ -174,11 +257,18 @@ export class AnkiMediaStore {
   /**
    * Store multiple media files
    */
-  async storeMediaBatch(mediaMap: Map<string, Blob>): Promise<Map<string, string>> {
+  async storeMediaBatch(
+    mediaMap: Map<string, Blob>,
+    options?: {
+      userId?: string
+      deckId?: string
+      syncStatus?: 'pending' | 'syncing' | 'synced' | 'failed'
+    }
+  ): Promise<Map<string, string>> {
     const urls = new Map<string, string>();
 
     for (const [filename, blob] of mediaMap) {
-      const url = await this.storeMedia(filename, blob);
+      const url = await this.storeMedia(filename, blob, options);
       urls.set(filename, url);
     }
 
@@ -198,10 +288,7 @@ export class AnkiMediaStore {
   /**
    * Get storage statistics
    */
-  async getStats(): Promise<{
-    totalFiles: number;
-    totalSize: number;
-  }> {
+  async getStats(): Promise<MediaStorageStats> {
     try {
       const db = await this.openDB();
       const transaction = db.transaction([this.storeName], 'readonly');
@@ -215,15 +302,259 @@ export class AnkiMediaStore {
 
       db.close();
 
-      const totalSize = allMedia.reduce((sum, media) => sum + media.size, 0);
-
-      return {
+      const stats: MediaStorageStats = {
         totalFiles: allMedia.length,
-        totalSize
+        totalSize: allMedia.reduce((sum, m) => sum + m.size, 0),
+        syncedFiles: allMedia.filter(m => m.syncStatus === 'synced').length,
+        pendingFiles: allMedia.filter(m => m.syncStatus === 'pending').length,
+        failedFiles: allMedia.filter(m => m.syncStatus === 'failed').length,
       };
+
+      const pendingMedia = allMedia.filter(m => m.syncStatus === 'pending');
+      if (pendingMedia.length > 0) {
+        stats.oldestPendingDate = new Date(Math.min(...pendingMedia.map(m => m.createdAt.getTime())));
+      }
+
+      return stats;
     } catch (error) {
-      console.error('Failed to get stats:', error);
-      return { totalFiles: 0, totalSize: 0 };
+      console.error('Failed to get storage stats:', error);
+      return {
+        totalFiles: 0,
+        totalSize: 0,
+        syncedFiles: 0,
+        pendingFiles: 0,
+        failedFiles: 0
+      };
+    }
+  }
+
+  /**
+   * Get all media for a specific deck
+   */
+  async getMediaByDeck(deckId: string): Promise<StoredMedia[]> {
+    try {
+      const db = await this.openDB();
+      const transaction = db.transaction([this.storeName], 'readonly');
+      const store = transaction.objectStore(this.storeName);
+      const index = store.index('deckId');
+
+      const media = await new Promise<StoredMedia[]>((resolve, reject) => {
+        const request = index.getAll(deckId);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      db.close();
+      return media;
+    } catch (error) {
+      console.error(`Failed to get media for deck ${deckId}:`, error);
+      return [];
+    }
+  }
+
+  /**
+   * Get all media files (for sync status calculation)
+   */
+  async getAllMedia(): Promise<StoredMedia[]> {
+    try {
+      const db = await this.openDB();
+      const transaction = db.transaction([this.storeName], 'readonly');
+      const store = transaction.objectStore(this.storeName);
+
+      const allMedia = await new Promise<StoredMedia[]>((resolve, reject) => {
+        const request = store.getAll();
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      db.close();
+      return allMedia;
+    } catch (error) {
+      console.error('Failed to get all media:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Get all unsynced media (pending or failed)
+   */
+  async getUnsyncedMedia(deckId?: string): Promise<StoredMedia[]> {
+    try {
+      const db = await this.openDB();
+      const transaction = db.transaction([this.storeName], 'readonly');
+      const store = transaction.objectStore(this.storeName);
+      const index = store.index('syncStatus');
+
+      // Get both pending and failed
+      const pending = await new Promise<StoredMedia[]>((resolve, reject) => {
+        const request = index.getAll('pending');
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      const failed = await new Promise<StoredMedia[]>((resolve, reject) => {
+        const request = index.getAll('failed');
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      db.close();
+
+      const allUnsynced = [...pending, ...failed];
+
+      // Filter by deckId if provided
+      if (deckId) {
+        return allUnsynced.filter(m => m.deckId === deckId);
+      }
+
+      return allUnsynced;
+    } catch (error) {
+      console.error('Failed to get unsynced media:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Mark media as successfully synced
+   */
+  async markAsSynced(filename: string, firebaseUrl: string): Promise<void> {
+    try {
+      const db = await this.openDB();
+      const transaction = db.transaction([this.storeName], 'readwrite');
+      const store = transaction.objectStore(this.storeName);
+
+      const media = await new Promise<StoredMedia | null>((resolve, reject) => {
+        const request = store.get(filename);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      if (media) {
+        media.syncStatus = 'synced';
+        media.firebaseUrl = firebaseUrl;
+        media.updatedAt = new Date();
+        media.lastSyncAttempt = new Date();
+        media.retryCount = 0;
+        media.syncError = undefined;
+
+        await new Promise<void>((resolve, reject) => {
+          const request = store.put(media);
+          request.onsuccess = () => resolve();
+          request.onerror = () => reject(request.error);
+        });
+
+        console.log(`[AnkiMediaStore] Marked as synced: ${filename}`);
+      }
+
+      db.close();
+    } catch (error) {
+      console.error(`Failed to mark ${filename} as synced:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Mark media as failed with error
+   */
+  async markAsFailed(filename: string, error: string): Promise<void> {
+    try {
+      const db = await this.openDB();
+      const transaction = db.transaction([this.storeName], 'readwrite');
+      const store = transaction.objectStore(this.storeName);
+
+      const media = await new Promise<StoredMedia | null>((resolve, reject) => {
+        const request = store.get(filename);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      if (media) {
+        media.syncStatus = 'failed';
+        media.syncError = error;
+        media.updatedAt = new Date();
+        media.lastSyncAttempt = new Date();
+        media.retryCount++;
+
+        await new Promise<void>((resolve, reject) => {
+          const request = store.put(media);
+          request.onsuccess = () => resolve();
+          request.onerror = () => reject(request.error);
+        });
+
+        console.error(`[AnkiMediaStore] Marked as failed: ${filename} - ${error}`);
+      }
+
+      db.close();
+    } catch (error) {
+      console.error(`Failed to mark ${filename} as failed:`, error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete all media for a specific deck
+   * Also cleans up any pending sync jobs in syncQueue store
+   */
+  async deleteMediaByDeck(deckId: string): Promise<number> {
+    try {
+      const db = await this.openDB();
+      const transaction = db.transaction([this.storeName, 'syncQueue'], 'readwrite');
+      const store = transaction.objectStore(this.storeName);
+      const syncQueueStore = transaction.objectStore('syncQueue');
+      const index = store.index('deckId');
+      const queueIndex = syncQueueStore.index('deckId');
+
+      // Get all media files for this deck
+      const media = await new Promise<StoredMedia[]>((resolve, reject) => {
+        const request = index.getAll(deckId);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      // Batch delete all media files in parallel (much faster)
+      const deletePromises = media.map(m => {
+        // Revoke blob URL if cached
+        if (this.blobUrlCache.has(m.id)) {
+          URL.revokeObjectURL(this.blobUrlCache.get(m.id)!);
+          this.blobUrlCache.delete(m.id);
+        }
+
+        // Delete from store
+        return new Promise<void>((resolve, reject) => {
+          const request = store.delete(m.id);
+          request.onsuccess = () => resolve();
+          request.onerror = () => reject(request.error);
+        });
+      });
+
+      await Promise.all(deletePromises);
+      const deletedCount = media.length;
+
+      // Clean up sync queue entries for this deck
+      const queueEntries = await new Promise<any[]>((resolve, reject) => {
+        const request = queueIndex.getAll(deckId);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      // Batch delete queue entries in parallel
+      const queueDeletePromises = queueEntries.map(entry => {
+        return new Promise<void>((resolve, reject) => {
+          const request = syncQueueStore.delete(entry.id);
+          request.onsuccess = () => resolve();
+          request.onerror = () => reject(request.error);
+        });
+      });
+
+      await Promise.all(queueDeletePromises);
+
+      db.close();
+
+      console.log(`[AnkiMediaStore] Deleted ${deletedCount} media files and ${queueEntries.length} sync queue entries for deck ${deckId}`);
+      return deletedCount;
+    } catch (error) {
+      console.error(`Failed to delete media for deck ${deckId}:`, error);
+      return 0;
     }
   }
 

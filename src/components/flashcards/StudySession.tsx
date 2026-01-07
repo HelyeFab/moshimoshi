@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Trophy, Target, Zap, Clock, CheckCircle, XCircle, Pause, Play, Timer } from 'lucide-react';
 import type { FlashcardDeck, FlashcardContent, SessionSummary, SessionStats } from '@/types/flashcards';
@@ -64,7 +64,11 @@ export function StudySession({
   const isUnmounted = useRef(false);
 
   // Batch preload media for current + next 4 cards for smooth study experience
-  const cardsToPreload = sessionCards.slice(currentIndex, currentIndex + 5);
+  // Use useMemo to prevent creating new array reference on every render (causes infinite loop)
+  const cardsToPreload = useMemo(
+    () => sessionCards.slice(currentIndex, currentIndex + 5),
+    [sessionCards, currentIndex]
+  );
   const hydratedCardsMap = useBatchMediaHydration(cardsToPreload, 5);
 
   // Get hydrated current card (or fallback to original if not yet hydrated)
@@ -335,13 +339,70 @@ export function StudySession({
     <div className="min-h-screen bg-gradient-to-br from-background-light to-background-DEFAULT dark:from-dark-850 dark:to-dark-900">
       {/* Header */}
       <div className="sticky top-0 z-10 bg-soft-white/80 dark:bg-dark-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
+        <div className="container mx-auto px-4 py-3 sm:py-4">
+          {/* Mobile: Stacked Layout */}
+          <div className="sm:hidden space-y-2">
+            {/* Row 1: Deck Info */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 min-w-0 flex-1">
+                <span className="text-xl flex-shrink-0">{deck.emoji}</span>
+                <div className="min-w-0 flex-1">
+                  <h1 className="text-sm font-semibold text-gray-900 dark:text-gray-100 truncate">{deck.name}</h1>
+                  <p className="text-xs text-gray-600 dark:text-gray-400">
+                    {currentIndex + 1} / {sessionCards.length}
+                  </p>
+                </div>
+              </div>
+
+              {/* Exit Button (mobile) */}
+              <button
+                onClick={onExit}
+                className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800 transition-colors flex-shrink-0"
+                aria-label={t('common.close')}
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Row 2: Stats */}
+            <div className="flex items-center justify-between">
+              {/* Timer */}
+              <div className="flex items-center gap-2">
+                <Timer className="w-4 h-4 text-blue-500" />
+                <span className="font-mono text-sm font-medium text-gray-700 dark:text-gray-300">
+                  {formatTime(Math.floor(elapsedTime / 1000))}
+                </span>
+                <button
+                  onClick={() => {
+                    if (isPaused) {
+                      setPausedTime(prev => prev + (Date.now() - (startTime + elapsedTime)));
+                    }
+                    setIsPaused(!isPaused);
+                  }}
+                  className="p-1 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800 transition-colors"
+                  aria-label={isPaused ? t('common.resume') : t('common.pause')}
+                >
+                  {isPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
+                </button>
+              </div>
+
+              {/* Accuracy */}
+              <div className="flex items-center gap-2">
+                <Target className="w-4 h-4 text-green-500" />
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                  {sessionCards.length > 0 ? Math.round((correctCount / (currentIndex + 1)) * 100) : 0}%
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop: Single Row Layout */}
+          <div className="hidden sm:flex items-center justify-between">
             {/* Deck Info */}
-            <div className="flex items-center gap-3">
-              <span className="text-2xl">{deck.emoji}</span>
-              <div>
-                <h1 className="font-semibold text-gray-900 dark:text-gray-100">{deck.name}</h1>
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              <span className="text-2xl flex-shrink-0">{deck.emoji}</span>
+              <div className="min-w-0 flex-1">
+                <h1 className="text-base font-semibold text-gray-900 dark:text-gray-100 truncate">{deck.name}</h1>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   {t('flashcards.cardsStudied')}: {currentIndex + 1} / {sessionCards.length}
                 </p>
@@ -349,11 +410,11 @@ export function StudySession({
             </div>
 
             {/* Stats */}
-            <div className="flex items-center gap-4 sm:gap-6">
+            <div className="flex items-center gap-4 flex-shrink-0">
               {/* Timer */}
               <div className="flex items-center gap-2">
                 <Timer className="w-5 h-5 text-blue-500" />
-                <span className="font-mono font-medium text-gray-700 dark:text-gray-300">
+                <span className="font-mono text-sm font-medium text-gray-700 dark:text-gray-300">
                   {formatTime(Math.floor(elapsedTime / 1000))}
                 </span>
                 <button
@@ -387,7 +448,7 @@ export function StudySession({
               {/* Accuracy */}
               <div className="flex items-center gap-2">
                 <Target className="w-5 h-5 text-green-500" />
-                <span className="font-medium text-gray-700 dark:text-gray-300">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
                   {sessionCards.length > 0 ? Math.round((correctCount / (currentIndex + 1)) * 100) : 0}%
                 </span>
               </div>
@@ -404,7 +465,7 @@ export function StudySession({
           </div>
 
           {/* Progress Bar */}
-          <div className="mt-3 w-full bg-gray-200 dark:bg-dark-700 rounded-full h-2 overflow-hidden">
+          <div className="mt-2 sm:mt-3 w-full bg-gray-200 dark:bg-dark-700 rounded-full h-1.5 sm:h-2 overflow-hidden">
             <motion.div
               className="h-full bg-gradient-to-r from-primary-400 to-purple-600"
               initial={{ width: 0 }}

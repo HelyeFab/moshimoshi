@@ -46,12 +46,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.backfillSentenceData = exports.manualArticleAudioGenerator = exports.scheduledArticleAudioGenerator = exports.manualIntegrityCheckerFunction = exports.contentIntegrityCheckerFunction = exports.autoBreakStreaks = exports.manualComicGeneratorFunction = exports.scheduledComicGeneratorFunction = exports.dailyStoryRetryScheduler = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
+exports.onAnswerVoteDeleted = exports.onAnswerVoteCreated = exports.onQuestionVoteDeleted = exports.onQuestionVoteCreated = exports.moderateAnswerOnUpdate = exports.moderateAnswer = exports.moderateQuestionOnUpdate = exports.moderateQuestion = exports.onUserCreated = exports.backfillSentenceData = exports.manualArticleAudioGenerator = exports.scheduledArticleAudioGenerator = exports.manualIntegrityCheckerFunction = exports.contentIntegrityCheckerFunction = exports.autoBreakStreaks = exports.manualComicGeneratorFunction = exports.scheduledComicGeneratorFunction = exports.dailyStoryRetryScheduler = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
 exports.getUserByStripeCustomerId = getUserByStripeCustomerId;
 exports.updateSubscriptionFacts = updateSubscriptionFacts;
 exports.removeSubscriptionFacts = removeSubscriptionFacts;
 const https_1 = require("firebase-functions/v2/https");
 const scheduler_1 = require("firebase-functions/v2/scheduler");
+const firestore_1 = require("firebase-functions/v2/firestore");
 const params_1 = require("firebase-functions/params");
 const admin = __importStar(require("firebase-admin"));
 const stripe_1 = __importDefault(require("stripe"));
@@ -65,6 +66,8 @@ const endpoints_1 = require("./endpoints");
 const leaderboard_1 = require("./scheduled/leaderboard");
 Object.defineProperty(exports, "updateLeaderboardSnapshots", { enumerable: true, get: function () { return leaderboard_1.updateLeaderboardSnapshots; } });
 Object.defineProperty(exports, "updateLeaderboardManually", { enumerable: true, get: function () { return leaderboard_1.updateLeaderboardManually; } });
+// Import onboarding helpers
+const onboarding_1 = require("./onboarding");
 // Initialize Firebase Admin only if not already initialized
 if (!admin.apps.length) {
     admin.initializeApp();
@@ -339,4 +342,36 @@ Object.defineProperty(exports, "manualArticleAudioGenerator", { enumerable: true
  */
 var backfillSentenceData_1 = require("./admin/backfillSentenceData");
 Object.defineProperty(exports, "backfillSentenceData", { enumerable: true, get: function () { return backfillSentenceData_1.backfillSentenceData; } });
+/**
+ * User Onboarding Trigger
+ * Automatically creates starter lists when a new user document is created
+ * Triggers on: users/{userId} onCreate
+ */
+exports.onUserCreated = (0, firestore_1.onDocumentCreated)('users/{userId}', async (event) => {
+    const userId = event.params.userId;
+    console.log(`[onUserCreated] New user created: ${userId}`);
+    // Create starter lists asynchronously
+    // This won't block user creation even if it fails
+    await (0, onboarding_1.createStarterLists)(userId);
+});
+/**
+ * Export Q&A moderation functions
+ * Automatically moderates questions and answers using AI when created or updated
+ * Checks for hate speech, spam, off-topic content, etc.
+ */
+var qa_moderation_1 = require("./qa-moderation");
+Object.defineProperty(exports, "moderateQuestion", { enumerable: true, get: function () { return qa_moderation_1.moderateQuestion; } });
+Object.defineProperty(exports, "moderateQuestionOnUpdate", { enumerable: true, get: function () { return qa_moderation_1.moderateQuestionOnUpdate; } });
+Object.defineProperty(exports, "moderateAnswer", { enumerable: true, get: function () { return qa_moderation_1.moderateAnswer; } });
+Object.defineProperty(exports, "moderateAnswerOnUpdate", { enumerable: true, get: function () { return qa_moderation_1.moderateAnswerOnUpdate; } });
+/**
+ * Export Q&A voting functions
+ * Server-side vote counting for questions and answers
+ * Automatically updates vote counts when votes are created/deleted
+ */
+var qa_voting_1 = require("./qa-voting");
+Object.defineProperty(exports, "onQuestionVoteCreated", { enumerable: true, get: function () { return qa_voting_1.onQuestionVoteCreated; } });
+Object.defineProperty(exports, "onQuestionVoteDeleted", { enumerable: true, get: function () { return qa_voting_1.onQuestionVoteDeleted; } });
+Object.defineProperty(exports, "onAnswerVoteCreated", { enumerable: true, get: function () { return qa_voting_1.onAnswerVoteCreated; } });
+Object.defineProperty(exports, "onAnswerVoteDeleted", { enumerable: true, get: function () { return qa_voting_1.onAnswerVoteDeleted; } });
 //# sourceMappingURL=index.js.map

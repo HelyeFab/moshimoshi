@@ -63,7 +63,8 @@ const STALL_NAMES: Record<StallId, string> = {
   'leaderboard': 'Leaderboard',
   'resources': 'Resources',
   'blog': 'Blog',
-  'todos': 'Task Manager'
+  'todos': 'Task Manager',
+  'qa': 'Q&A'
 }
 
 // Sortable Item Component

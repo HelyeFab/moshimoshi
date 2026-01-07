@@ -3,6 +3,7 @@ import { getSession } from '@/lib/auth/session';
 import { adminDb, getAdminDb } from '@/lib/firebase/admin';
 import type { AddCardRequest, FlashcardContent } from '@/types/flashcards';
 import { v4 as uuidv4 } from 'uuid';
+import { generateFurigana, needsFurigana } from '@/lib/flashcards/furiganaUtils';
 
 // Use centralized getAdminDb() for null-safe database access
 const getDb = getAdminDb;
@@ -82,11 +83,26 @@ export async function POST(request: NextRequest, { params }: Params) {
       return NextResponse.json({ error: 'Deck not found' }, { status: 404 });
     }
 
+    // Generate furigana for the new card if needed
+    let furiganaFront: string | undefined;
+    let furiganaBack: string | undefined;
+
+    if (body.front.text && needsFurigana(body.front.text)) {
+      furiganaFront = await generateFurigana(body.front.text) || undefined;
+    }
+    if (body.back.text && needsFurigana(body.back.text)) {
+      furiganaBack = await generateFurigana(body.back.text) || undefined;
+    }
+
     const newCard: FlashcardContent = {
       id: body.id || uuidv4(),
       front: body.front,
       back: body.back,
-      metadata: body.metadata
+      metadata: {
+        ...body.metadata,
+        furiganaFront,
+        furiganaBack,
+      }
     };
 
     // Add card to deck

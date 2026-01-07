@@ -90,6 +90,14 @@ interface GamificationState {
     accuracy: number
     duration: number
     xpGained: number
+    // Content-specific metadata (for adaptive celebrations)
+    contentType?: 'story' | 'comic' | 'article' | 'book'
+    contentTitle?: string
+    difficulty?: string
+    pageCount?: number // For stories
+    panelCount?: number // For comics
+    vocabularyCount?: number // For comics
+    readingTimeMs?: number
   } | null
 
   // Metadata
@@ -114,6 +122,14 @@ interface GamificationState {
     accuracy: number
     duration: number
     xpGained: number
+    // Content-specific metadata (optional)
+    contentType?: 'story' | 'comic' | 'article' | 'book'
+    contentTitle?: string
+    difficulty?: string
+    pageCount?: number
+    panelCount?: number
+    vocabularyCount?: number
+    readingTimeMs?: number
   }) => void
   clearLastSessionStats: () => void
   updateFromServer: (data: {

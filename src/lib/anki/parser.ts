@@ -5,6 +5,18 @@ if (typeof window !== 'undefined' && typeof window.Buffer === 'undefined') {
   (window as any).Buffer = Buffer;
 }
 
+/**
+ * AnkiParser - Parse Anki .apkg files (both legacy and modern formats)
+ *
+ * Supported formats:
+ * - Legacy 2 (2018+): collection.anki2 - SQLite database (uncompressed)
+ * - Modern (2.1.45+): collection.anki21 - SQLite database compressed with zstd
+ *
+ * Note: Modern Anki versions may include both formats in the .apkg file,
+ * with collection.anki2 containing only a compatibility stub.
+ * We prioritize collection.anki21 when both are present.
+ */
+
 interface ParsedAnkiNote {
   id: string;
   fields: string[];
@@ -31,6 +43,10 @@ export interface ProcessedCard {
   sentenceReading?: string;
   sentenceMeaning?: string;
   noteType?: 'vocabulary' | 'sentence' | 'unknown';
+  // Furigana support
+  furiganaFront?: string;  // Pre-generated or native furigana HTML for front
+  furiganaBack?: string;   // Pre-generated or native furigana HTML for back
+  hasNativeFurigana?: boolean; // True if card had furigana in Anki
 }
 
 export interface AnkiDeckInfo {
@@ -98,6 +114,11 @@ export class AnkiParser {
         // Detect note type and extract fields accordingly
         const extracted = this.extractFieldsByType(fields);
 
+        // Extract furigana from raw HTML BEFORE cleaning
+        const furiganaFront = this.extractFurigana(extracted.front);
+        const furiganaBack = this.extractFurigana(extracted.back);
+        const hasNativeFurigana = !!(furiganaFront || furiganaBack);
+
         // Log first card for debugging
         if (index === 0) {
           console.log('[AnkiParser] First card extraction:', {
@@ -111,6 +132,8 @@ export class AnkiParser {
             extractedReading: extracted.reading,
             extractedExpression: extracted.expression,
             noteType: extracted.noteType,
+            hasNativeFurigana,
+            furiganaFront: furiganaFront?.substring(0, 50),
           });
         }
 
@@ -133,6 +156,10 @@ export class AnkiParser {
           sentenceReading: extracted.sentenceReading ? this.cleanHtml(extracted.sentenceReading) : undefined,
           sentenceMeaning: extracted.sentenceMeaning ? this.cleanHtml(extracted.sentenceMeaning) : undefined,
           noteType: extracted.noteType,
+          // Furigana
+          furiganaFront: furiganaFront || undefined,
+          furiganaBack: furiganaBack || undefined,
+          hasNativeFurigana,
         };
       });
 
@@ -141,7 +168,9 @@ export class AnkiParser {
       if (deck.mediaFiles && Array.isArray(deck.mediaFiles)) {
         deck.mediaFiles.forEach((mediaFile) => {
           if (mediaFile.data) {
-            media.set(mediaFile.filename, new Blob([mediaFile.data as BlobPart]));
+            // Detect MIME type from filename extension
+            const mimeType = this.getMimeType(mediaFile.filename);
+            media.set(mediaFile.filename, new Blob([mediaFile.data as BlobPart], { type: mimeType }));
           }
         });
       }
@@ -173,19 +202,183 @@ export class AnkiParser {
     // Load the zip content
     const zipContent = await zip.loadAsync(buffer);
 
-    // Extract collection.anki2
-    const collectionFile = zipContent.files['collection.anki2'];
-    if (!collectionFile) {
-      throw new Error('No collection.anki2 file found in the Anki package');
+    // Log all files in the zip
+    console.log('[AnkiParser] Files in .apkg:', Object.keys(zipContent.files));
+
+    // Try modern format first (collection.anki21), then fallback to legacy (collection.anki2)
+    let collectionFile = zipContent.files['collection.anki21'];
+    let isModernFormat = false;
+
+    if (collectionFile) {
+      isModernFormat = true;
+      console.log('[AnkiParser] Detected modern Anki format (collection.anki21)');
+    } else {
+      collectionFile = zipContent.files['collection.anki2'];
+      if (!collectionFile) {
+        throw new Error('No collection.anki2 or collection.anki21 file found in the Anki package');
+      }
+      console.log('[AnkiParser] Detected legacy Anki format (collection.anki2)');
     }
 
-    const collectionData = await collectionFile.async('arraybuffer');
+    let collectionData = await collectionFile.async('arraybuffer');
+    console.log('[AnkiParser] Raw collection data size:', collectionData.byteLength);
+
+    // Log first 16 bytes of raw data
+    const rawBytes = new Uint8Array(collectionData);
+    console.log('[AnkiParser] First 16 bytes (hex):',
+      Array.from(rawBytes.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join(' ')
+    );
+    console.log('[AnkiParser] First 16 bytes (text):',
+      new TextDecoder().decode(rawBytes.slice(0, 16))
+    );
+
+    // Decompress if modern format (uses zstd compression)
+    if (isModernFormat) {
+      try {
+        const rawData = new Uint8Array(collectionData);
+
+        // Check if file is already SQLite (uncompressed)
+        // Some collection.anki21 files are already uncompressed SQLite databases
+        const rawHeader = new TextDecoder().decode(rawData.slice(0, 16));
+        const isAlreadySQLite = rawHeader.startsWith('SQLite format 3');
+
+        // Check if file is zstd compressed (magic bytes: 0x28 0xB5 0x2F 0xFD)
+        const isZstdCompressed = rawData[0] === 0x28 && rawData[1] === 0xB5 &&
+                                 rawData[2] === 0x2F && rawData[3] === 0xFD;
+
+        console.log('[AnkiParser] Format detection:');
+        console.log('[AnkiParser]   - Already SQLite:', isAlreadySQLite);
+        console.log('[AnkiParser]   - Zstd compressed:', isZstdCompressed);
+
+        if (isAlreadySQLite) {
+          // File is already uncompressed SQLite - skip decompression
+          console.log('[AnkiParser] collection.anki21 is already uncompressed SQLite');
+          console.log('[AnkiParser] Skipping decompression step');
+          // collectionData is already set correctly, no changes needed
+        } else if (isZstdCompressed) {
+          // File is zstd compressed - decompress it
+          console.log('[AnkiParser] collection.anki21 is zstd compressed - decompressing');
+
+          const { ZSTDDecoder } = await import('zstddec');
+          const decoder = new ZSTDDecoder();
+          await decoder.init();
+
+          console.log('[AnkiParser] Compressed data size:', rawData.length);
+          console.log('[AnkiParser] First 16 bytes (hex):',
+            Array.from(rawData.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join(' ')
+          );
+
+          // ZSTDDecoder requires uncompressed size, but we can pass undefined to let it auto-detect
+          const decompressed = decoder.decode(rawData);
+
+          if (!decompressed) {
+            throw new Error('Failed to decompress collection.anki21 file');
+          }
+
+          console.log('[AnkiParser] Decompressed data size:', decompressed.length);
+          console.log('[AnkiParser] First 16 bytes of decompressed (hex):',
+            Array.from(decompressed.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join(' ')
+          );
+
+          // Check if decompression resulted in valid SQLite
+          const sqliteHeader = new TextDecoder().decode(decompressed.slice(0, 16));
+          console.log('[AnkiParser] Decompressed header:', sqliteHeader);
+
+          if (!sqliteHeader.startsWith('SQLite format 3')) {
+            console.warn('[AnkiParser] Non-standard SQLite header detected (possibly anki21b format)');
+            console.warn('[AnkiParser] Header:', sqliteHeader);
+            console.warn('[AnkiParser] Attempting to parse anyway - anki21b files are still SQLite databases');
+            // Don't throw - many anki21b files are valid SQLite with non-standard headers
+            // We'll attempt to parse and let sql.js handle any actual incompatibilities
+          }
+
+          // Create a new ArrayBuffer from the decompressed data
+          const newBuffer = new ArrayBuffer(decompressed.length);
+          const newView = new Uint8Array(newBuffer);
+          newView.set(decompressed);
+          collectionData = newBuffer;
+
+          console.log('[AnkiParser] Successfully decompressed collection.anki21 (' +
+            `${rawData.length} bytes -> ${decompressed.length} bytes)`);
+        } else {
+          // Unknown format - log warning and attempt to use as-is
+          console.warn('[AnkiParser] Unknown collection.anki21 format (not SQLite, not zstd)');
+          console.warn('[AnkiParser] Header:', rawHeader);
+          console.warn('[AnkiParser] Attempting to parse anyway');
+        }
+      } catch (error) {
+        console.error('[AnkiParser] Failed to decompress collection.anki21:', error);
+
+        // Re-throw our specific error messages
+        if (error instanceof Error && error.message.includes('Protocol Buffers')) {
+          throw error;
+        }
+
+        throw new Error(
+          'Failed to decompress modern Anki file. This may be a corrupted or encrypted deck. ' +
+          'Please try exporting the deck again from Anki.'
+        );
+      }
+    }
 
     // Initialize SQL.js to read the SQLite database
     const SQL = await this.initSQL();
-    const db = new SQL.Database(new Uint8Array(collectionData));
+    let db;
+
+    // Final check before opening database
+    const finalData = new Uint8Array(collectionData);
+    console.log('[AnkiParser] Final data size before SQL.js:', finalData.length);
+    console.log('[AnkiParser] Final data first 16 bytes (hex):',
+      Array.from(finalData.slice(0, 16)).map(b => b.toString(16).padStart(2, '0')).join(' ')
+    );
+    const finalHeader = new TextDecoder().decode(finalData.slice(0, 16));
+    console.log('[AnkiParser] Final data header:', JSON.stringify(finalHeader));
+
+    if (!finalHeader.startsWith('SQLite format 3')) {
+      throw new Error(
+        `Invalid data format. Expected SQLite database but got: "${finalHeader.replace(/\0/g, '\\0')}". ` +
+        `This file may be using an unsupported Anki format (anki21b/protobuf). ` +
+        `Please export from Anki using legacy format: File → Export → Legacy support: "Anki 2.1.50+"`
+      );
+    }
 
     try {
+      db = new SQL.Database(finalData);
+    } catch (error) {
+      console.error('[AnkiParser] Failed to open SQLite database:', error);
+
+      // Provide helpful error messages based on common issues
+      const errorMsg = error instanceof Error ? error.message : String(error);
+
+      if (errorMsg.includes('encrypted')) {
+        throw new Error(
+          'This Anki deck is password-protected. Please remove the password in Anki and export again.'
+        );
+      }
+
+      if (errorMsg.includes('not a database')) {
+        throw new Error(
+          'Invalid Anki file format. The file may be corrupted or not a valid .apkg file.'
+        );
+      }
+
+      throw new Error(`Failed to read Anki database: ${errorMsg}`);
+    }
+
+    try {
+      // First, check what tables exist in the database
+      const tablesResult = db.exec("SELECT name FROM sqlite_master WHERE type='table'");
+      const tables = tablesResult[0]?.values.flat() || [];
+      console.log('[AnkiParser] Available tables:', tables);
+
+      // Check if the 'col' table exists
+      if (!tables.includes('col')) {
+        throw new Error(
+          `Invalid Anki database schema. Expected 'col' table but found: ${tables.join(', ')}. ` +
+          'This may be an unsupported Anki version or corrupted file.'
+        );
+      }
+
       // Get collection info
       const colResult = db.exec('SELECT decks, models FROM col');
       const decksJson = colResult[0]?.values[0]?.[0] as string;
@@ -284,6 +477,40 @@ export class AnkiParser {
         return `/${file}`;
       }
     });
+  }
+
+  /**
+   * Extract furigana HTML from raw field content
+   * Returns null if no furigana exists, otherwise returns the HTML with ruby tags
+   */
+  private static extractFurigana(html: string): string | null {
+    if (!html) return null;
+
+    // Check if the HTML contains ruby tags
+    const hasRubyTags = /<ruby>.*?<rt>.*?<\/rt><\/ruby>/gi.test(html);
+
+    if (!hasRubyTags) {
+      return null;
+    }
+
+    // Return the HTML with ruby tags preserved
+    // Clean up entities and normalize spacing
+    let furiganaHtml = html
+      .replace(/&nbsp;/g, ' ')
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#39;/g, "'");
+
+    // Remove audio/image references
+    furiganaHtml = furiganaHtml.replace(/\[sound:[^\]]+\]/g, '');
+    furiganaHtml = furiganaHtml.replace(/<img[^>]+>/g, '');
+
+    // Remove non-ruby formatting tags but preserve content
+    furiganaHtml = furiganaHtml.replace(/<\/?(?!ruby|rt|rp)(div|p|span|b|i|u|strong|em|font)[^>]*>/gi, '');
+
+    return furiganaHtml.trim();
   }
 
   private static cleanHtml(html: string): string {
@@ -459,5 +686,41 @@ export class AnkiParser {
     }
 
     return result;
+  }
+
+  /**
+   * Detect MIME type from filename extension
+   * @param filename - Original Anki filename
+   * @returns MIME type string
+   */
+  private static getMimeType(filename: string): string {
+    const ext = filename.toLowerCase().split('.').pop() || '';
+
+    // Audio formats
+    if (ext === 'mp3') return 'audio/mpeg';
+    if (ext === 'wav') return 'audio/wav';
+    if (ext === 'ogg') return 'audio/ogg';
+    if (ext === 'm4a') return 'audio/mp4';
+    if (ext === 'aac') return 'audio/aac';
+    if (ext === 'flac') return 'audio/flac';
+
+    // Image formats
+    if (ext === 'jpg' || ext === 'jpeg') return 'image/jpeg';
+    if (ext === 'png') return 'image/png';
+    if (ext === 'gif') return 'image/gif';
+    if (ext === 'webp') return 'image/webp';
+    if (ext === 'svg') return 'image/svg+xml';
+    if (ext === 'bmp') return 'image/bmp';
+
+    // Video formats
+    if (ext === 'mp4') return 'video/mp4';
+    if (ext === 'webm') return 'video/webm';
+    if (ext === 'ogv') return 'video/ogg';
+    if (ext === 'avi') return 'video/x-msvideo';
+    if (ext === 'mov') return 'video/quicktime';
+
+    // Default to application/octet-stream for unknown types
+    console.warn(`[AnkiParser] Unknown file extension: ${ext}, defaulting to application/octet-stream`);
+    return 'application/octet-stream';
   }
 }

@@ -11,6 +11,7 @@
 import { openDB, IDBPDatabase } from 'idb'
 import { AnkiDeck, AnkiCard, AnkiDeckSettings, DEFAULT_ANKI_DECK_SETTINGS } from './importer'
 import { AnkiMediaStore } from './mediaStore'
+import featuresConfig from '../../../config/features.v1.json'
 
 interface AnkiDeckDB {
   decks: AnkiDeck & { userId: string; createdAt: number; updatedAt: number }
@@ -47,17 +48,20 @@ export class AnkiDeckManager {
 
   /**
    * Initialize IndexedDB for Anki deck storage
+   * Uses the same database as FlashcardManager ('FlashcardDB') for unified storage
    */
   private async initDB(): Promise<IDBPDatabase<AnkiDeckDB>> {
     if (this.db) return this.db
 
     try {
-      this.db = await openDB<AnkiDeckDB>('AnkiDecksDB', 1, {
+      // Use the same database as FlashcardManager for unified local storage
+      this.db = await openDB<AnkiDeckDB>('FlashcardDB', 1, {
         upgrade(db) {
           if (!db.objectStoreNames.contains('decks')) {
             const store = db.createObjectStore('decks', { keyPath: 'id' })
             store.createIndex('userId', 'userId')
             store.createIndex('updatedAt', 'updatedAt')
+            store.createIndex('sourceListId', 'sourceListId')
           }
         },
       })
@@ -72,11 +76,18 @@ export class AnkiDeckManager {
    * Get all Anki decks for a user
    * Premium users fetch from Firebase first, then sync to IndexedDB
    * Free users use IndexedDB only
+   *
+   * Note: If Firebase sync is disabled via feature flag, skip server fetch
    */
   async getDecks(userId: string, isPremium: boolean): Promise<StoredAnkiDeck[]> {
     const db = await this.initDB()
 
-    if (isPremium) {
+    // Check if Firebase sync is enabled
+    const ankiImportsFeature = featuresConfig.features.find(f => f.id === 'anki_imports')
+    const enableFirebaseSync = ankiImportsFeature?.metadata?.enableFirebaseSync === true
+
+    // Only fetch from Firebase if sync is enabled AND user is premium
+    if (enableFirebaseSync && isPremium) {
       try {
         console.log('[AnkiDeckManager] Premium user - fetching from server')
         const response = await fetch('/api/anki/decks', {
@@ -131,8 +142,12 @@ export class AnkiDeckManager {
       }
     }
 
-    // Free users or offline: Use IndexedDB only
-    console.log('[AnkiDeckManager] Using IndexedDB only')
+    // Free users, sync disabled, or offline: Use IndexedDB only
+    if (!enableFirebaseSync && isPremium) {
+      console.log('[AnkiDeckManager] ✅ Firebase sync disabled - using IndexedDB only (local-only storage)')
+    } else {
+      console.log('[AnkiDeckManager] Using IndexedDB only')
+    }
     const decks = await db.getAllFromIndex('decks', 'userId', userId)
 
     // Debug: Log deck structure from IndexedDB
@@ -189,6 +204,16 @@ export class AnkiDeckManager {
       updatedAt: now,
       settings: deck.settings || DEFAULT_ANKI_DECK_SETTINGS,
       source: 'anki', // Mark as Anki import for unified collection tracking
+      stats: {
+        totalCards: deck.cards.length,
+        newCards: deck.cards.length, // All cards are new on import
+        learningCards: 0,
+        reviewCards: 0,
+        masteredCards: 0,
+        totalStudied: 0,
+        lastStudied: undefined,
+        averageAccuracy: 0,
+      },
       metadata: {
         originalFilename: filename,
         importedAt: new Date().toISOString(),
@@ -203,8 +228,13 @@ export class AnkiDeckManager {
       mediaUrls: storedDeck.mediaUrls ? Object.fromEntries(storedDeck.mediaUrls) : undefined,
     }
 
-    // Save to Firebase for premium users
-    if (isPremium && userId !== 'guest') {
+    // Check if Firebase sync is enabled for Anki imports (feature flag)
+    const ankiImportsFeature = featuresConfig.features.find(f => f.id === 'anki_imports')
+    const enableFirebaseSync = ankiImportsFeature?.metadata?.enableFirebaseSync === true
+
+    // Save to Firebase for premium users (only if feature flag is enabled)
+    if (enableFirebaseSync && isPremium && userId !== 'guest') {
+      console.log('[AnkiDeckManager] Firebase sync is ENABLED for Anki imports')
       try {
         console.log('[AnkiDeckManager] Premium user - saving to Firebase')
         const response = await fetch('/api/anki/decks', {
@@ -250,8 +280,15 @@ export class AnkiDeckManager {
       }
     }
 
-    // Save to IndexedDB (for free users or as fallback)
-    console.log('[AnkiDeckManager] Saving to IndexedDB only')
+    // Save to IndexedDB (for free users, when sync is disabled, or as fallback)
+    if (!enableFirebaseSync) {
+      console.log('[AnkiDeckManager] ✅ Firebase sync is DISABLED - saving to IndexedDB only (local-only storage)')
+      console.log('[AnkiDeckManager] 💡 This enables unlimited deck sizes without cloud storage costs')
+      console.log('[AnkiDeckManager] 💡 To enable Firebase sync, set enableFirebaseSync: true in config/features.v1.json')
+    } else {
+      console.log('[AnkiDeckManager] Saving to IndexedDB (local copy)')
+    }
+
     await db.put('decks', deckForStorage as any)
     this.notifyListeners('decks-changed')
 

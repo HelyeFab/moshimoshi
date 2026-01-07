@@ -8,6 +8,7 @@
 
 import { onCall, CallableRequest, HttpsError } from 'firebase-functions/v2/https'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
+import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { defineSecret } from 'firebase-functions/params'
 import * as admin from 'firebase-admin'
 import Stripe from 'stripe'
@@ -22,6 +23,8 @@ import {
 } from './endpoints'
 // Import scheduled leaderboard functions
 import { updateLeaderboardSnapshots, updateLeaderboardManually } from './scheduled/leaderboard'
+// Import onboarding helpers
+import { createStarterLists } from './onboarding'
 
 // Initialize Firebase Admin only if not already initialized
 if (!admin.apps.length) {
@@ -383,3 +386,41 @@ export {
  * Usage: Call with contentType: 'articles' | 'stories' | 'books' | 'all'
  */
 export { backfillSentenceData } from './admin/backfillSentenceData'
+
+/**
+ * User Onboarding Trigger
+ * Automatically creates starter lists when a new user document is created
+ * Triggers on: users/{userId} onCreate
+ */
+export const onUserCreated = onDocumentCreated('users/{userId}', async (event) => {
+  const userId = event.params.userId;
+  console.log(`[onUserCreated] New user created: ${userId}`);
+
+  // Create starter lists asynchronously
+  // This won't block user creation even if it fails
+  await createStarterLists(userId);
+});
+
+/**
+ * Export Q&A moderation functions
+ * Automatically moderates questions and answers using AI when created or updated
+ * Checks for hate speech, spam, off-topic content, etc.
+ */
+export {
+  moderateQuestion,
+  moderateQuestionOnUpdate,
+  moderateAnswer,
+  moderateAnswerOnUpdate,
+} from './qa-moderation';
+
+/**
+ * Export Q&A voting functions
+ * Server-side vote counting for questions and answers
+ * Automatically updates vote counts when votes are created/deleted
+ */
+export {
+  onQuestionVoteCreated,
+  onQuestionVoteDeleted,
+  onAnswerVoteCreated,
+  onAnswerVoteDeleted,
+} from './qa-voting';

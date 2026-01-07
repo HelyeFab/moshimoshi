@@ -119,7 +119,7 @@ export class GrammarExplainerProcessorHybrid extends GrammarExplainerProcessor {
       },
       metadata: {
         provider: 'ollama',
-        model: 'qwen2.5:7b',
+        model: response.model,
         processingTime: duration,
         grammarPattern: explanation.pattern,
         jlptLevel: explanation.jlptLevel || config?.jlptLevel,

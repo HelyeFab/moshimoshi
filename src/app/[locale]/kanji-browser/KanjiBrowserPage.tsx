@@ -76,6 +76,17 @@ function KanjiBrowserContent() {
   const [currentStudyIndex, setCurrentStudyIndex] = useState(0)
   const [selectedKanjiData, setSelectedKanjiData] = useState<Kanji[]>([])
 
+  // Handler to safely change view mode and clear session state
+  const handleModeChange = (mode: ViewMode) => {
+    setViewMode(mode)
+    // Clear session data when switching modes to prevent leftover state
+    setSelectedKanji(new Set())
+    setSelectedKanjiData([])
+    setReviewContent([])
+    setReviewContentPool([])
+    setCurrentStudyIndex(0)
+  }
+
   // Study session tracking for gamification
   const [studySessionStartTime, setStudySessionStartTime] = useState<number>(0)
 
@@ -500,11 +511,8 @@ function KanjiBrowserContent() {
     })
 
     setLastSessionStats(stats)
-    setReviewContent([]) // Clear review content
-    setReviewContentPool([]) // Clear pool
-    setViewMode('browse')
-    setSelectedKanji(new Set())
     showToast(`Review complete! Accuracy: ${stats.accuracy.toFixed(1)}%`, 'success')
+    handleModeChange('browse')
   }
 
   // Progress statistics for navbar
@@ -650,12 +658,9 @@ function KanjiBrowserContent() {
                 })
 
                 showToast('Study session complete!', 'success')
-                setViewMode('browse')
-                setCurrentStudyIndex(0)
-                setSelectedKanjiData([])
-                // Reset study session tracking
                 setStudySessionStartTime(0)
                 refreshKanjiProgress()
+                handleModeChange('browse')
               }
             }}
             onPrevious={() => {
@@ -664,10 +669,8 @@ function KanjiBrowserContent() {
               }
             }}
             onBack={() => {
-              setViewMode('browse')
-              setCurrentStudyIndex(0)
-              setSelectedKanjiData([])
               refreshKanjiProgress()
+              handleModeChange('browse')
             }}
             currentIndex={currentStudyIndex + 1}
             totalKanji={selectedKanjiData.length}
@@ -689,12 +692,7 @@ function KanjiBrowserContent() {
             contentPool={reviewContentPool}
             mode="recognition"
             onComplete={handleReviewComplete}
-            onCancel={() => {
-              setReviewContent([]) // Clear review content
-              setReviewContentPool([]) // Clear pool
-              setViewMode('browse')
-              setSelectedKanji(new Set())
-            }}
+            onCancel={() => handleModeChange('browse')}
             userId={user?.uid || 'guest'}
             shuffle={false}
             config={{ showHints: false }}
@@ -722,7 +720,7 @@ function KanjiBrowserContent() {
           learned: progressStats.learned,
         }}
         mode={viewMode}
-        onModeChange={setViewMode}
+        onModeChange={handleModeChange}
         selectedCount={selectedKanji.size}
         onSelectAll={() => {
           // Select all kanji from expanded levels

@@ -208,7 +208,7 @@ export class AnkiStudyManager {
    */
   async getDueCards(deck: StoredAnkiDeck, userId: string): Promise<DueCardsResult> {
     const progress = await this.getTodayProgress(deck.id, userId)
-    const settings = deck.settings || { newCardsPerDay: 20, reviewsPerDay: 100, autoPlayAudio: true }
+    const settings = deck.settings || { newCardsPerDay: 20, reviewsPerDay: 20, autoPlayAudio: true }
 
     console.log('[AnkiStudyManager] getDueCards called:', {
       deckId: deck.id,

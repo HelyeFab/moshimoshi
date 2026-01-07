@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useSessionRefresh } from '@/hooks/useSessionRefresh'
 import { listManager } from '@/lib/lists/ListManager'
+import { hasRequiredMetadata } from '@/lib/lists/validation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import CreateListModal from './CreateListModal'
 import type { UserList, ListType } from '@/types/userLists'
@@ -99,7 +100,14 @@ export default function AddToListButton({
 
       if (item) {
         setAddedToLists(prev => new Set(prev).add(listId))
-        showToast(t('lists.addedToList'), 'success')
+
+        // Show contextual success message based on metadata
+        if (hasRequiredMetadata(metadata)) {
+          showToast(t('lists.addedToList'), 'success')
+        } else {
+          showToast(t('lists.addedToList') + ' - ' + t('lists.validation.requireMetadata'), 'warning')
+        }
+
         onAdded?.(listId)
 
         // Reload lists to get updated item counts

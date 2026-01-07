@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useTranslation, useLocalePath } from '@/i18n/I18nContext'
@@ -49,25 +49,95 @@ export default function LandingPageClient() {
   const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
+  // Visibility tracking for lazy-loading below-fold carousels
+  const [testimonialsVisible, setTestimonialsVisible] = useState(false)
+  const [youtubeVisible, setYoutubeVisible] = useState(false)
+  const [kanjiVisible, setKanjiVisible] = useState(false)
+  const [conjugationVisible, setConjugationVisible] = useState(false)
+  const [newsVisible, setNewsVisible] = useState(false)
+  const [storiesVisible, setStoriesVisible] = useState(false)
+  const [libraryVisible, setLibraryVisible] = useState(false)
+  const [comicsVisible, setComicsVisible] = useState(false)
+  const [ankiVisible, setAnkiVisible] = useState(false)
+  const [textbookVisible, setTextbookVisible] = useState(false)
+
+  // Refs for Intersection Observer
+  const testimonialsRef = useRef<HTMLDivElement>(null)
+  const youtubeRef = useRef<HTMLDivElement>(null)
+  const kanjiRef = useRef<HTMLDivElement>(null)
+  const conjugationRef = useRef<HTMLDivElement>(null)
+  const newsRef = useRef<HTMLDivElement>(null)
+  const storiesRef = useRef<HTMLDivElement>(null)
+  const libraryRef = useRef<HTMLDivElement>(null)
+  const comicsRef = useRef<HTMLDivElement>(null)
+  const ankiRef = useRef<HTMLDivElement>(null)
+  const textbookRef = useRef<HTMLDivElement>(null)
+
   // Mount effect - MUST be before any conditional returns
   useEffect(() => {
     setMounted(true)
 
-    // Check if this is a unique visitor (first time visiting landing page)
-    const hasVisitedLanding = localStorage.getItem('visited_landing')
-    const isUniqueVisitor = !hasVisitedLanding
+    // Defer analytics tracking by 2 seconds to improve initial page load
+    setTimeout(() => {
+      // Check if this is a unique visitor (first time visiting landing page)
+      const hasVisitedLanding = localStorage.getItem('visited_landing')
+      const isUniqueVisitor = !hasVisitedLanding
 
-    // Track landing page visit (anonymous - no auth required)
-    fetch('/api/waitlist/track-visit', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ page: 'landing', isUniqueVisitor }),
-    }).catch((err) => console.error('Failed to track visit:', err))
+      // Track landing page visit (anonymous - no auth required)
+      fetch('/api/waitlist/track-visit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ page: 'landing', isUniqueVisitor }),
+      }).catch((err) => console.error('Failed to track visit:', err))
 
-    // Mark as visited for future page loads
-    if (isUniqueVisitor) {
-      localStorage.setItem('visited_landing', 'true')
+      // Mark as visited for future page loads
+      if (isUniqueVisitor) {
+        localStorage.setItem('visited_landing', 'true')
+      }
+    }, 2000)
+  }, [])
+
+  // Intersection Observer for lazy-loading below-fold carousels
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '50px',
+      threshold: 0.1,
     }
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          // Mark section as visible when it enters viewport
+          if (entry.target === testimonialsRef.current) setTestimonialsVisible(true)
+          else if (entry.target === youtubeRef.current) setYoutubeVisible(true)
+          else if (entry.target === kanjiRef.current) setKanjiVisible(true)
+          else if (entry.target === conjugationRef.current) setConjugationVisible(true)
+          else if (entry.target === newsRef.current) setNewsVisible(true)
+          else if (entry.target === storiesRef.current) setStoriesVisible(true)
+          else if (entry.target === libraryRef.current) setLibraryVisible(true)
+          else if (entry.target === comicsRef.current) setComicsVisible(true)
+          else if (entry.target === ankiRef.current) setAnkiVisible(true)
+          else if (entry.target === textbookRef.current) setTextbookVisible(true)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+
+    // Observe all carousel sections
+    if (testimonialsRef.current) observer.observe(testimonialsRef.current)
+    if (youtubeRef.current) observer.observe(youtubeRef.current)
+    if (kanjiRef.current) observer.observe(kanjiRef.current)
+    if (conjugationRef.current) observer.observe(conjugationRef.current)
+    if (newsRef.current) observer.observe(newsRef.current)
+    if (storiesRef.current) observer.observe(storiesRef.current)
+    if (libraryRef.current) observer.observe(libraryRef.current)
+    if (comicsRef.current) observer.observe(comicsRef.current)
+    if (ankiRef.current) observer.observe(ankiRef.current)
+    if (textbookRef.current) observer.observe(textbookRef.current)
+
+    return () => observer.disconnect()
   }, [])
 
   // Auto-rotate carousel every 5 seconds - MUST be before any conditional returns
@@ -78,85 +148,95 @@ export default function LandingPageClient() {
     return () => clearInterval(timer)
   }, [])
 
-  // Auto-rotate testimonials every 6 seconds
+  // Auto-rotate testimonials every 6 seconds (only when visible)
   useEffect(() => {
+    if (!testimonialsVisible) return
     const timer = setInterval(() => {
       setCurrentTestimonial((prev) => (prev + 1) % 4)
     }, 6000)
     return () => clearInterval(timer)
-  }, [])
+  }, [testimonialsVisible])
 
-  // Auto-rotate YouTube shadowing slideshow every 4 seconds
+  // Auto-rotate YouTube shadowing slideshow every 4 seconds (only when visible)
   useEffect(() => {
+    if (!youtubeVisible) return
     const timer = setInterval(() => {
       setCurrentYoutubeSlide((prev) => (prev + 1) % 5) // 5 slides: 1 placeholder + 4 screenshots
     }, 4000)
     return () => clearInterval(timer)
-  }, [])
+  }, [youtubeVisible])
 
-  // Auto-rotate Kanji Connection slideshow every 4 seconds
+  // Auto-rotate Kanji Connection slideshow every 4 seconds (only when visible)
   useEffect(() => {
+    if (!kanjiVisible) return
     const timer = setInterval(() => {
       setCurrentKanjiSlide((prev) => (prev + 1) % 8) // 8 slides: 1 placeholder + 7 screenshots
     }, 4000)
     return () => clearInterval(timer)
-  }, [])
+  }, [kanjiVisible])
 
-  // Auto-rotate Conjugation slideshow every 4 seconds
+  // Auto-rotate Conjugation slideshow every 4 seconds (only when visible)
   useEffect(() => {
+    if (!conjugationVisible) return
     const timer = setInterval(() => {
       setCurrentConjugationSlide((prev) => (prev + 1) % 6) // 6 slides: 1 placeholder + 5 screenshots
     }, 4000)
     return () => clearInterval(timer)
-  }, [])
+  }, [conjugationVisible])
 
-  // Auto-rotate News slideshow every 4 seconds
+  // Auto-rotate News slideshow every 4 seconds (only when visible)
   useEffect(() => {
+    if (!newsVisible) return
     const timer = setInterval(() => {
       setCurrentNewsSlide((prev) => (prev + 1) % 7) // 7 slides: 1 placeholder + 6 screenshots
     }, 4000)
     return () => clearInterval(timer)
-  }, [])
+  }, [newsVisible])
 
-  // Auto-rotate AI Stories slideshow every 4 seconds
+  // Auto-rotate AI Stories slideshow every 4 seconds (only when visible)
   useEffect(() => {
+    if (!storiesVisible) return
     const timer = setInterval(() => {
       setCurrentAiStoriesSlide((prev) => (prev + 1) % 5) // 5 slides: 1 placeholder + 4 screenshots
     }, 4000)
     return () => clearInterval(timer)
-  }, [])
+  }, [storiesVisible])
 
-  // Auto-rotate Comics slideshow every 4 seconds
+  // Auto-rotate Comics slideshow every 4 seconds (only when visible)
   useEffect(() => {
+    if (!comicsVisible) return
     const timer = setInterval(() => {
       setCurrentComicsSlide((prev) => (prev + 1) % 5) // 5 slides: 1 placeholder + 4 screenshots
     }, 4000)
     return () => clearInterval(timer)
-  }, [])
+  }, [comicsVisible])
 
-  // Auto-rotate Anki slideshow every 4 seconds
+  // Auto-rotate Anki slideshow every 4 seconds (only when visible)
   useEffect(() => {
+    if (!ankiVisible) return
     const timer = setInterval(() => {
       setCurrentAnkiSlide((prev) => (prev + 1) % 6) // 6 slides: 1 placeholder + 5 screenshots
     }, 4000)
     return () => clearInterval(timer)
-  }, [])
+  }, [ankiVisible])
 
-  // Auto-rotate Textbook slideshow every 4 seconds
+  // Auto-rotate Textbook slideshow every 4 seconds (only when visible)
   useEffect(() => {
+    if (!textbookVisible) return
     const timer = setInterval(() => {
       setCurrentTextbookSlide((prev) => (prev + 1) % 5) // 5 slides: 1 placeholder + 4 screenshots
     }, 4000)
     return () => clearInterval(timer)
-  }, [])
+  }, [textbookVisible])
 
-  // Auto-rotate Library slideshow every 4 seconds
+  // Auto-rotate Library slideshow every 4 seconds (only when visible)
   useEffect(() => {
+    if (!libraryVisible) return
     const timer = setInterval(() => {
       setCurrentLibrarySlide((prev) => (prev + 1) % 5) // 5 slides: 1 placeholder + 4 screenshots
     }, 4000)
     return () => clearInterval(timer)
-  }, [])
+  }, [libraryVisible])
 
   // Always use valid landing strings with fallback to English
   const landingStrings = mounted && strings?.landing ? strings.landing : enStrings.landing
@@ -590,7 +670,7 @@ export default function LandingPageClient() {
       </section>
 
       {/* YouTube Shadowing Section */}
-      <section className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
+      <section ref={youtubeRef} className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="text-center lg:text-left">
@@ -641,6 +721,7 @@ export default function LandingPageClient() {
                         src={slide.src}
                         alt={slide.alt}
                         fill
+                        loading="lazy"
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
@@ -670,7 +751,7 @@ export default function LandingPageClient() {
       </section>
 
       {/* Kanji Connection Section */}
-      <section className="py-12 md:py-20 bg-white dark:bg-gray-900">
+      <section ref={kanjiRef} className="py-12 md:py-20 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -692,6 +773,7 @@ export default function LandingPageClient() {
                         src={slide.src}
                         alt={slide.alt}
                         fill
+                        loading="lazy"
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
@@ -742,7 +824,7 @@ export default function LandingPageClient() {
       </section>
 
       {/* Conjugation Engine Section */}
-      <section className="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
+      <section ref={conjugationRef} className="bg-gradient-to-br from-indigo-50 to-blue-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="text-center lg:text-left">
@@ -793,6 +875,7 @@ export default function LandingPageClient() {
                         src={slide.src}
                         alt={slide.alt}
                         fill
+                        loading="lazy"
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
@@ -822,7 +905,7 @@ export default function LandingPageClient() {
       </section>
 
       {/* News Articles Section */}
-      <section className="py-12 md:py-20 bg-white dark:bg-gray-900">
+      <section ref={newsRef} className="py-12 md:py-20 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -844,6 +927,7 @@ export default function LandingPageClient() {
                         src={slide.src}
                         alt={slide.alt}
                         fill
+                        loading="lazy"
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
@@ -902,7 +986,7 @@ export default function LandingPageClient() {
       </section>
 
       {/* AI Stories Section */}
-      <section className="bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
+      <section ref={storiesRef} className="bg-gradient-to-br from-violet-50 to-fuchsia-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="text-center lg:text-left">
@@ -953,6 +1037,7 @@ export default function LandingPageClient() {
                         src={slide.src}
                         alt={slide.alt}
                         fill
+                        loading="lazy"
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
@@ -982,7 +1067,7 @@ export default function LandingPageClient() {
       </section>
 
       {/* Reading Library Section */}
-      <section className="py-12 md:py-20 bg-white dark:bg-gray-900">
+      <section ref={libraryRef} className="py-12 md:py-20 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -1004,6 +1089,7 @@ export default function LandingPageClient() {
                         src={slide.src}
                         alt={slide.alt}
                         fill
+                        loading="lazy"
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
@@ -1064,7 +1150,7 @@ export default function LandingPageClient() {
       </section>
 
       {/* Moshi Comics Section */}
-      <section className="bg-gradient-to-br from-pink-50 to-rose-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
+      <section ref={comicsRef} className="bg-gradient-to-br from-pink-50 to-rose-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="text-center lg:text-left">
@@ -1115,6 +1201,7 @@ export default function LandingPageClient() {
                         src={slide.src}
                         alt={slide.alt}
                         fill
+                        loading="lazy"
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
@@ -1144,7 +1231,7 @@ export default function LandingPageClient() {
       </section>
 
       {/* Anki Import Section */}
-      <section className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
+      <section ref={ankiRef} className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-800 dark:to-gray-900 py-12 md:py-20">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="text-center lg:text-left">
@@ -1187,6 +1274,7 @@ export default function LandingPageClient() {
                         src={slide.src}
                         alt={slide.alt}
                         fill
+                        loading="lazy"
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
@@ -1216,7 +1304,7 @@ export default function LandingPageClient() {
       </section>
 
       {/* Textbook Vocabulary Section */}
-      <section className="py-12 md:py-20 bg-white dark:bg-gray-900">
+      <section ref={textbookRef} className="py-12 md:py-20 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
             <div className="order-2 lg:order-1">
@@ -1238,6 +1326,7 @@ export default function LandingPageClient() {
                         src={slide.src}
                         alt={slide.alt}
                         fill
+                        loading="lazy"
                         className="object-cover"
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
@@ -1417,7 +1506,7 @@ export default function LandingPageClient() {
       </section>
 
       {/* Social Proof */}
-      <section className="py-12 md:py-20 bg-white dark:bg-gray-900">
+      <section ref={testimonialsRef} className="py-12 md:py-20 bg-white dark:bg-gray-900">
         <div className="container mx-auto px-4 md:px-6">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
             {landingStrings.socialProof.title}

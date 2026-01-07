@@ -54,6 +54,7 @@ export const STALL_OFFLINE_SUPPORT: Record<string, OfflineSupport> = {
   resources: 'partial', // Static content, some links need network
   blog: 'none', // Server content
   todos: 'partial', // IndexedDB with sync
+  qa: 'none', // Q&A forum requires network for posting/voting/moderation
 }
 
 // All available stall IDs in the Learning Village
@@ -85,6 +86,7 @@ export const STALL_IDS = [
   'resources',
   'blog',
   'todos',
+  'qa',
 ] as const
 
 export type StallId = (typeof STALL_IDS)[number]
@@ -166,6 +168,7 @@ export const DEFAULT_CONFIG: LearningVillageConfig = {
     { id: 'resources', order: 24, isPopular: false, enabled: true },
     { id: 'blog', order: 25, isPopular: false, enabled: true },
     { id: 'todos', order: 26, isPopular: false, enabled: true },
+    { id: 'qa', order: 27, isPopular: false, enabled: true },
   ],
 }
 

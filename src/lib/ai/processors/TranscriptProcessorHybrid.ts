@@ -150,7 +150,7 @@ export class TranscriptProcessorHybrid extends TranscriptProcessor {
       },
       metadata: {
         provider: 'ollama',
-        model: 'qwen2.5:7b',
+        model: response.model,
         processingTime: duration,
         processingType,
         segmentCount: enhanced.segments.length,

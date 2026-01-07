@@ -26,6 +26,7 @@ const pages = [
   { path: '/privacy', priority: 0.2, changeFrequency: 'yearly' as const },
   { path: '/terms', priority: 0.2, changeFrequency: 'yearly' as const },
   { path: '/showcase', priority: 0.4, changeFrequency: 'weekly' as const },
+  { path: '/village/tea-house', priority: 0.7, changeFrequency: 'daily' as const },
 ];
 
 /**

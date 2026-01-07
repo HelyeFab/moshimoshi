@@ -20,6 +20,7 @@ import Link from 'next/link';
 import { getGradientForBook } from '@/lib/utils/gradients';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
+import ContentCelebration from '@/components/shared/ContentCelebration';
 
 export default function BookReaderPage() {
   const params = useParams();
@@ -40,6 +41,11 @@ export default function BookReaderPage() {
     currentStreak: number;
   } | null>(null);
   const [showCompletionToast, setShowCompletionToast] = useState(false);
+
+  // Celebration state
+  const [showCelebration, setShowCelebration] = useState(false);
+  const [celebrationXp, setCelebrationXp] = useState(0);
+  const [celebrationReadingTime, setCelebrationReadingTime] = useState(0);
 
   // Reading time tracking
   const readingStartTime = useRef<number>(Date.now());
@@ -116,17 +122,18 @@ export default function BookReaderPage() {
 
       const data = await response.json();
 
-      if (data.success) {
+      if (data.success && !data.data.alreadyCompleted) {
         setIsCompleted(true);
         setCompletionResult({
           xpEarned: data.data.xpEarned,
           streakIncremented: data.data.streakIncremented,
           currentStreak: data.data.currentStreak
         });
-        setShowCompletionToast(true);
 
-        // Hide toast after 5 seconds
-        setTimeout(() => setShowCompletionToast(false), 5000);
+        // Show celebration screen instead of toast
+        setCelebrationXp(data.data.xpEarned);
+        setCelebrationReadingTime(readingTimeSec * 1000); // Convert to ms
+        setShowCelebration(true);
       }
     } catch (err) {
       console.error('Error completing book:', err);
@@ -426,33 +433,17 @@ export default function BookReaderPage() {
         )}
       </motion.div>
 
-      {/* Completion Toast */}
-      <AnimatePresence>
-        {showCompletionToast && completionResult && (
-          <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.9 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 50, scale: 0.9 }}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50"
-          >
-            <div className="bg-gradient-to-r from-primary-500 to-primary-600 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4">
-              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
-                <Sparkles className="w-6 h-6" />
-              </div>
-              <div>
-                <p className="font-bold text-lg">
-                  +{completionResult.xpEarned} XP
-                </p>
-                <p className="text-white/90 text-sm">
-                  {completionResult.streakIncremented
-                    ? `Streak: ${completionResult.currentStreak} days!`
-                    : 'Book completed!'}
-                </p>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Celebration Screen - Shows when book is completed */}
+      {showCelebration && book && (
+        <ContentCelebration
+          xpEarned={celebrationXp}
+          readingTimeMs={celebrationReadingTime}
+          difficulty={book.jlptLevel || 'N/A'}
+          contentTitle={book.titleJa}
+          contentType="book"
+          onClose={() => setShowCelebration(false)}
+        />
+      )}
       <MobileNavSpacer />
     </div>
   );

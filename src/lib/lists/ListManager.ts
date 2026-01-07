@@ -1,6 +1,18 @@
 import type { UserList, ListItem, CreateListRequest, AddItemRequest, UpdateListRequest, ListType } from '@/types/userLists';
 import { openDB, IDBPDatabase } from 'idb';
 import { TabCoordinator } from './TabCoordinator';
+import { QuotaGuard, QuotaError } from '../storage/QuotaGuard';
+
+export type SyncState = 'idle' | 'syncing' | 'synced' | 'error';
+
+export interface ListSyncStatus {
+  isOnline: boolean;
+  syncState: SyncState;
+  pendingCount: number;
+  failedCount: number;
+  lastSyncTime: Date | null;
+  lastError: string | null;
+}
 
 interface ListManagerDB {
   lists: UserList;
@@ -19,6 +31,20 @@ class ListManager {
   private listeners: Map<string, Set<() => void>> = new Map();
   private tabCoordinator: TabCoordinator | null = null;
   private pendingSyncLock: Set<string> = new Set();
+
+  private syncStatus: ListSyncStatus = {
+    isOnline: true,
+    syncState: 'idle',
+    pendingCount: 0,
+    failedCount: 0,
+    lastSyncTime: null,
+    lastError: null
+  };
+
+  private circuitBreakerFailures: number = 0;
+  private circuitBreakerResetTime: number = 0;
+  private readonly CIRCUIT_BREAKER_THRESHOLD = 5;
+  private readonly CIRCUIT_BREAKER_RESET_MS = 30000; // 30 seconds
 
   /**
    * Normalize content for duplicate comparison based on list type
@@ -94,6 +120,24 @@ class ListManager {
 
     // Setup cross-tab message handlers
     this.setupTabCoordination();
+
+    // Setup online/offline detection
+    if (typeof window !== 'undefined') {
+      window.addEventListener('online', () => {
+        console.log('[ListManager] Network online, scheduling sync');
+        this.syncStatus.isOnline = true;
+        this.scheduleSync();
+      });
+
+      window.addEventListener('offline', () => {
+        console.log('[ListManager] Network offline');
+        this.syncStatus.isOnline = false;
+        this.syncStatus.syncState = 'error';
+        this.syncStatus.lastError = 'Network offline';
+      });
+
+      this.syncStatus.isOnline = navigator.onLine;
+    }
 
     return this.db;
   }
@@ -195,17 +239,19 @@ class ListManager {
           }
 
           // Save merged lists back to IndexedDB
-          const tx = db.transaction('lists', 'readwrite');
-          // Clear all lists for this user
-          const existingKeys = await tx.store.index('userId').getAllKeys(userId);
-          for (const key of existingKeys) {
-            await tx.store.delete(key);
-          }
-          // Add merged lists
-          for (const list of mergedLists) {
-            await tx.store.put(list);
-          }
-          await tx.done;
+          await QuotaGuard.guardedWrite(async () => {
+            const tx = db.transaction('lists', 'readwrite');
+            // Clear all lists for this user
+            const existingKeys = await tx.store.index('userId').getAllKeys(userId);
+            for (const key of existingKeys) {
+              await tx.store.delete(key);
+            }
+            // Add merged lists
+            for (const list of mergedLists) {
+              await tx.store.put(list);
+            }
+            await tx.done;
+          }, 'getLists');
 
           return mergedLists.sort((a, b) => b.updatedAt - a.updatedAt);
         }
@@ -274,7 +320,10 @@ class ListManager {
         // Premium users: This is synced with Firebase
         // Free users: This is their only storage
         const listToStore = serverList || list;
-        await db.put('lists', listToStore);
+        await QuotaGuard.guardedWrite(
+          () => db.put('lists', listToStore),
+          'createList'
+        );
         this.notifyListeners('lists-changed');
 
         return listToStore;
@@ -310,7 +359,10 @@ class ListManager {
     }
 
     // Fallback: Save to IndexedDB only if server fails
-    await db.put('lists', list);
+    await QuotaGuard.guardedWrite(
+      () => db.put('lists', list),
+      'createList'
+    );
 
     // Broadcast to other tabs
     this.tabCoordinator?.broadcast({
@@ -366,7 +418,19 @@ class ListManager {
           // Update local IndexedDB
           list.items.push(item);
           list.updatedAt = Date.now();
-          await db.put('lists', list);
+          await QuotaGuard.guardedWrite(
+            () => db.put('lists', list),
+            'addItemToList'
+          );
+
+          // Broadcast to other tabs
+          this.tabCoordinator?.broadcast({
+            type: 'item-added',
+            tabId: this.tabCoordinator.getTabId(),
+            timestamp: Date.now(),
+            data: { listId: list.id, itemId: item.id }
+          });
+
           this.notifyListeners(`list-${listId}`);
 
           return item;
@@ -390,7 +454,19 @@ class ListManager {
     // (We've already checked for duplicates above)
     list.items.push(newItem);
     list.updatedAt = Date.now();
-    await db.put('lists', list);
+    await QuotaGuard.guardedWrite(
+      () => db.put('lists', list),
+      'addItemToList'
+    );
+
+    // Broadcast to other tabs
+    this.tabCoordinator?.broadcast({
+      type: 'item-added',
+      tabId: this.tabCoordinator.getTabId(),
+      timestamp: Date.now(),
+      data: { listId: list.id, itemId: newItem.id }
+    });
+
     this.notifyListeners(`list-${listId}`);
     return newItem;
   }
@@ -455,7 +531,10 @@ class ListManager {
           if (list) {
             list.items = list.items.filter((item: ListItem) => item.id !== itemId);
             list.updatedAt = Date.now();
-            await db.put('lists', list);
+            await QuotaGuard.guardedWrite(
+              () => db.put('lists', list),
+              'removeItemFromList'
+            );
             this.notifyListeners(`list-${listId}`);
           }
           return true;
@@ -471,7 +550,10 @@ class ListManager {
     if (list && list.userId === userId) {
       list.items = list.items.filter((item: ListItem) => item.id !== itemId);
       list.updatedAt = Date.now();
-      await db.put('lists', list);
+      await QuotaGuard.guardedWrite(
+        () => db.put('lists', list),
+        'removeItemFromList'
+      );
       this.notifyListeners(`list-${listId}`);
       return true;
     }
@@ -495,7 +577,19 @@ class ListManager {
 
         if (response.ok) {
           const { list } = await response.json();
-          await db.put('lists', list);
+          await QuotaGuard.guardedWrite(
+            () => db.put('lists', list),
+            'updateList'
+          );
+
+          // Broadcast to other tabs
+          this.tabCoordinator?.broadcast({
+            type: 'list-updated',
+            tabId: this.tabCoordinator.getTabId(),
+            timestamp: Date.now(),
+            data: { listId: list.id, updates }
+          });
+
           this.notifyListeners('lists-changed');
           return list;
         }
@@ -510,7 +604,19 @@ class ListManager {
     if (list && list.userId === userId) {
       Object.assign(list, updates);
       list.updatedAt = Date.now();
-      await db.put('lists', list);
+      await QuotaGuard.guardedWrite(
+        () => db.put('lists', list),
+        'updateList'
+      );
+
+      // Broadcast to other tabs
+      this.tabCoordinator?.broadcast({
+        type: 'list-updated',
+        tabId: this.tabCoordinator.getTabId(),
+        timestamp: Date.now(),
+        data: { listId: list.id, updates }
+      });
+
       this.notifyListeners('lists-changed');
       return list;
     }
@@ -532,6 +638,15 @@ class ListManager {
 
         if (response.ok) {
           await db.delete('lists', listId);
+
+          // Broadcast to other tabs
+          this.tabCoordinator?.broadcast({
+            type: 'list-deleted',
+            tabId: this.tabCoordinator.getTabId(),
+            timestamp: Date.now(),
+            data: { listId }
+          });
+
           this.notifyListeners('lists-changed');
           return true;
         } else {
@@ -548,6 +663,15 @@ class ListManager {
 
     if (list && list.userId === userId) {
       await db.delete('lists', listId);
+
+      // Broadcast to other tabs
+      this.tabCoordinator?.broadcast({
+        type: 'list-deleted',
+        tabId: this.tabCoordinator.getTabId(),
+        timestamp: Date.now(),
+        data: { listId }
+      });
+
       this.notifyListeners('lists-changed');
       return true;
     }
@@ -661,7 +785,10 @@ class ListManager {
       const db = await this.initDB();
       list.items = items;
       list.updatedAt = Date.now();
-      await db.put('lists', list);
+      await QuotaGuard.guardedWrite(
+        () => db.put('lists', list),
+        'importList'
+      );
       this.notifyListeners('lists-changed');
     }
 
@@ -696,27 +823,275 @@ class ListManager {
 
   // Process sync queue
   private async processSyncQueue(): Promise<void> {
+    // Only leader processes sync queue (prevents duplicate API calls)
+    if (!this.tabCoordinator?.isLeader()) {
+      console.log('[ListManager] Not leader, skipping sync queue processing');
+      return;
+    }
+
+    // Check circuit breaker
+    const now = Date.now();
+    if (this.circuitBreakerFailures >= this.CIRCUIT_BREAKER_THRESHOLD) {
+      if (now < this.circuitBreakerResetTime) {
+        console.warn('[ListManager] Circuit breaker open, skipping sync');
+        return;
+      } else {
+        // Reset circuit breaker
+        console.log('[ListManager] Circuit breaker reset');
+        this.circuitBreakerFailures = 0;
+      }
+    }
+
+    console.log('[ListManager] Leader processing sync queue');
+
     const db = await this.initDB();
     const items = await db.getAllFromIndex('syncQueue', 'timestamp');
 
+    if (items.length === 0) {
+      console.log('[ListManager] Sync queue is empty, nothing to sync');
+      this.syncStatus.syncState = 'synced';
+      this.syncStatus.pendingCount = 0;
+      this.syncStatus.lastSyncTime = new Date();
+      this.notifyListeners('sync-completed');
+      return;
+    }
+
+    // Update sync status
+    this.syncStatus.syncState = 'syncing';
+    this.syncStatus.pendingCount = items.length;
+    this.notifyListeners('sync-started');
+
+    let successCount = 0;
+    let failureCount = 0;
+
     for (const item of items) {
+      // Skip if already processing
+      if (this.pendingSyncLock.has(item.id)) {
+        continue;
+      }
+
+      this.pendingSyncLock.add(item.id);
+
       try {
-        // Attempt to sync based on action type
-        // Implementation depends on specific sync requirements
+        // Sync to Firebase based on action type
+        await this.syncToFirebase(item);
 
         // If successful, remove from queue
         await db.delete('syncQueue', item.id);
-      } catch (error) {
+        this.pendingSyncLock.delete(item.id);
+        successCount++;
+
+        // Reset circuit breaker on success
+        if (this.circuitBreakerFailures > 0) {
+          this.circuitBreakerFailures = 0;
+        }
+      } catch (error: any) {
+        this.pendingSyncLock.delete(item.id);
+        failureCount++;
+        this.circuitBreakerFailures++;
+
+        console.error('[ListManager] Sync failed for item:', item.id, error);
+
         // Increment retry count
         item.retryCount++;
-        if (item.retryCount < 3) {
+
+        if (item.retryCount < 5) {
+          // Exponential backoff: 1s, 2s, 4s, 8s, 16s (max 30s)
+          const backoffMs = Math.min(30000, Math.pow(2, item.retryCount - 1) * 1000);
+
           await db.put('syncQueue', item);
+
+          // Schedule retry with backoff
+          setTimeout(() => {
+            this.processSyncQueue();
+          }, backoffMs);
         } else {
-          // Give up after 3 retries
+          // Give up after 5 retries
+          console.error('[ListManager] Giving up on sync item after 5 retries:', item.id);
           await db.delete('syncQueue', item.id);
+          this.syncStatus.failedCount++;
+          this.notifyListeners('sync-failed', { item, error });
         }
       }
     }
+
+    // Update circuit breaker reset time if failures occurred
+    if (failureCount > 0 && this.circuitBreakerFailures >= this.CIRCUIT_BREAKER_THRESHOLD) {
+      this.circuitBreakerResetTime = now + this.CIRCUIT_BREAKER_RESET_MS;
+      console.warn('[ListManager] Circuit breaker opened, will reset in 30s');
+    }
+
+    // Update final sync status
+    const remainingItems = await db.getAllFromIndex('syncQueue', 'timestamp');
+    this.syncStatus.pendingCount = remainingItems.length;
+    this.syncStatus.lastSyncTime = new Date();
+
+    if (remainingItems.length === 0) {
+      this.syncStatus.syncState = 'synced';
+      this.notifyListeners('sync-completed');
+    } else {
+      this.syncStatus.syncState = 'error';
+      this.syncStatus.lastError = `${failureCount} items failed to sync`;
+    }
+  }
+
+  private async syncToFirebase(item: ListManagerDB['syncQueue']): Promise<void> {
+    console.log('[ListManager.syncToFirebase] Processing sync item:', item.action, item.id);
+
+    try {
+      switch (item.action) {
+        case 'create': {
+          // Data format: { list: UserList }
+          const { list } = item.data;
+          if (!list) {
+            throw new Error('Missing list data for create action');
+          }
+
+          console.log('[ListManager.syncToFirebase] Creating list on server:', list.id);
+          const response = await fetch('/api/lists', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+              name: list.name,
+              type: list.type,
+              emoji: list.emoji,
+              color: list.color,
+              firstItem: list.items && list.items.length > 0 ? {
+                content: list.items[0].content,
+                metadata: list.items[0].metadata
+              } : undefined
+            })
+          });
+
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(`Server returned ${response.status}: ${error.error || 'Unknown error'}`);
+          }
+
+          console.log('[ListManager.syncToFirebase] ✓ List created successfully:', list.id);
+          break;
+        }
+
+        case 'update': {
+          // Data format: { listId: string, updates: Partial<UserList> }
+          const { listId, updates } = item.data;
+          if (!listId || !updates) {
+            throw new Error('Missing listId or updates for update action');
+          }
+
+          console.log('[ListManager.syncToFirebase] Updating list on server:', listId);
+          const response = await fetch(`/api/lists/${listId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(updates)
+          });
+
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(`Server returned ${response.status}: ${error.error || 'Unknown error'}`);
+          }
+
+          console.log('[ListManager.syncToFirebase] ✓ List updated successfully:', listId);
+          break;
+        }
+
+        case 'delete': {
+          // Data format: { listId: string }
+          const { listId } = item.data;
+          if (!listId) {
+            throw new Error('Missing listId for delete action');
+          }
+
+          console.log('[ListManager.syncToFirebase] Deleting list on server:', listId);
+          const response = await fetch(`/api/lists/${listId}`, {
+            method: 'DELETE',
+            credentials: 'include'
+          });
+
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(`Server returned ${response.status}: ${error.error || 'Unknown error'}`);
+          }
+
+          console.log('[ListManager.syncToFirebase] ✓ List deleted successfully:', listId);
+          break;
+        }
+
+        case 'addItem': {
+          // Data format: { listId: string, content: string, metadata: any }
+          const { listId, content, metadata } = item.data;
+          if (!listId || !content) {
+            throw new Error('Missing listId or content for addItem action');
+          }
+
+          console.log('[ListManager.syncToFirebase] Adding item to list on server:', listId);
+          const response = await fetch(`/api/lists/${listId}/items`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({
+              content,
+              metadata
+            })
+          });
+
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(`Server returned ${response.status}: ${error.error || 'Unknown error'}`);
+          }
+
+          console.log('[ListManager.syncToFirebase] ✓ Item added successfully to list:', listId);
+          break;
+        }
+
+        case 'removeItem': {
+          // Data format: { listId: string, itemId: string }
+          const { listId, itemId } = item.data;
+          if (!listId || !itemId) {
+            throw new Error('Missing listId or itemId for removeItem action');
+          }
+
+          console.log('[ListManager.syncToFirebase] Removing item from list on server:', listId, itemId);
+          const response = await fetch(`/api/lists/${listId}/items?itemId=${itemId}`, {
+            method: 'DELETE',
+            credentials: 'include'
+          });
+
+          if (!response.ok) {
+            const error = await response.json();
+            throw new Error(`Server returned ${response.status}: ${error.error || 'Unknown error'}`);
+          }
+
+          console.log('[ListManager.syncToFirebase] ✓ Item removed successfully from list:', listId);
+          break;
+        }
+
+        default:
+          throw new Error(`Unknown sync action: ${item.action}`);
+      }
+
+      console.log('[ListManager.syncToFirebase] ✓ Sync completed successfully for:', item.action, item.id);
+    } catch (error) {
+      console.error('[ListManager.syncToFirebase] ✗ Sync failed:', item.action, item.id, error);
+      throw error; // Re-throw to be handled by processSyncQueue
+    }
+  }
+
+  /**
+   * Get current sync status
+   */
+  getSyncStatus(): ListSyncStatus {
+    return { ...this.syncStatus };
+  }
+
+  /**
+   * Force sync all pending items immediately
+   */
+  async forceSyncAll(): Promise<void> {
+    console.log('[ListManager] Forcing immediate sync');
+    await this.processSyncQueue();
   }
 
   // Subscribe to changes
@@ -733,7 +1108,7 @@ class ListManager {
   }
 
   // Notify listeners
-  private notifyListeners(event: string): void {
+  private notifyListeners(event: string, data?: any): void {
     this.listeners.get(event)?.forEach(callback => callback());
   }
 }

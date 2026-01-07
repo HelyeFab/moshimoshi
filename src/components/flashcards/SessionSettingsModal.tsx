@@ -27,6 +27,9 @@ export function SessionSettingsModal({
   const [sessionLength, setSessionLength] = useState(deck.settings?.sessionLength || 20);
   const [reviewMode, setReviewMode] = useState(deck.settings?.reviewMode || 'sequential');
   const [studyDirection, setStudyDirection] = useState(deck.settings?.studyDirection || 'front-to-back');
+  const [furiganaEnabled, setFuriganaEnabled] = useState(deck.settings?.furigana?.enabled ?? true);
+  const [furiganaOnFront, setFuriganaOnFront] = useState(deck.settings?.furigana?.showOnFront ?? true);
+  const [furiganaOnBack, setFuriganaOnBack] = useState(deck.settings?.furigana?.showOnBack ?? true);
 
   const maxCards = deck.cards.length;
   const actualSessionLength = Math.min(sessionLength, maxCards);
@@ -35,7 +38,12 @@ export function SessionSettingsModal({
     onStartSession({
       sessionLength: actualSessionLength,
       reviewMode,
-      studyDirection
+      studyDirection,
+      furigana: {
+        enabled: furiganaEnabled,
+        showOnFront: furiganaOnFront,
+        showOnBack: furiganaOnBack
+      }
     });
     onClose();
   };
@@ -204,6 +212,67 @@ export function SessionSettingsModal({
                 size="medium"
                 variant="default"
               />
+            </div>
+
+            {/* Furigana Settings */}
+            <div className="space-y-3">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                {t('flashcards.settings.furigana')}
+              </label>
+
+              {/* Enable Furigana Toggle */}
+              <div className="flex items-center justify-between p-3 bg-gray-50 dark:bg-dark-800 rounded-lg">
+                <div>
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    {t('flashcards.settings.furiganaEnabled')}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
+                    {t('flashcards.settings.furiganaEnabledHint')}
+                  </p>
+                </div>
+                <button
+                  onClick={() => setFuriganaEnabled(!furiganaEnabled)}
+                  className={cn(
+                    'relative inline-flex h-6 w-11 items-center rounded-full transition-colors',
+                    furiganaEnabled ? 'bg-primary-500' : 'bg-gray-300 dark:bg-gray-600'
+                  )}
+                >
+                  <span
+                    className={cn(
+                      'inline-block h-4 w-4 transform rounded-full bg-white transition-transform',
+                      furiganaEnabled ? 'translate-x-6' : 'translate-x-1'
+                    )}
+                  />
+                </button>
+              </div>
+
+              {/* Show on Front/Back - only when furigana is enabled */}
+              {furiganaEnabled && (
+                <div className="space-y-2 pl-3">
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={furiganaOnFront}
+                      onChange={(e) => setFuriganaOnFront(e.target.checked)}
+                      className="w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500"
+                    />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">
+                      {t('flashcards.settings.furiganaOnFront')}
+                    </span>
+                  </label>
+                  <label className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={furiganaOnBack}
+                      onChange={(e) => setFuriganaOnBack(e.target.checked)}
+                      className="w-4 h-4 text-primary-500 border-gray-300 rounded focus:ring-primary-500"
+                    />
+                    <span className="text-sm text-gray-700 dark:text-gray-300">
+                      {t('flashcards.settings.furiganaOnBack')}
+                    </span>
+                  </label>
+                </div>
+              )}
             </div>
           </div>
 

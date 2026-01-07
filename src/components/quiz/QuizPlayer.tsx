@@ -52,6 +52,13 @@ export interface QuizPlayerProps {
 
   /** Font size for text rendering */
   fontSize?: 'small' | 'medium' | 'large' | 'xlarge'
+
+  /** Content-specific metadata for celebration screen */
+  difficulty?: string
+  pageCount?: number // For stories
+  panelCount?: number // For comics
+  vocabularyCount?: number // For comics
+  readingTimeMs?: number
 }
 
 export function QuizPlayer({
@@ -66,6 +73,12 @@ export function QuizPlayer({
   enableAutoSave = true,
   showFurigana = true,
   fontSize = 'medium',
+  // Content-specific metadata
+  difficulty,
+  pageCount,
+  panelCount,
+  vocabularyCount,
+  readingTimeMs,
 }: QuizPlayerProps) {
   const { t, language } = useI18n()
 
@@ -175,7 +188,8 @@ export function QuizPlayer({
         // 🎉 Update gamification store to trigger CelebrationProvider
         // Following the pattern from gamificationListener.ts (URE features)
         // and DrillProgressManager.ts (non-URE features)
-        if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true') {
+        // ONLY trigger celebration if XP was actually earned (first completion)
+        if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true' && xpEarned > 0) {
           try {
             const store = useGamificationStore.getState()
 
@@ -190,13 +204,21 @@ export function QuizPlayer({
               })
             }
 
-            // Set session stats for CelebrationScreen
+            // Set session stats for CelebrationScreen (ContentCelebration)
             // Quiz doesn't track duration, but we provide accuracy and items completed
             store.setLastSessionStats({
               itemsCompleted: scoreResult.total,
               accuracy: scoreResult.percentage,
               duration: 0, // Quizzes don't track time
               xpGained: xpEarned,
+              // Content-specific metadata for adaptive celebration
+              contentType,
+              contentTitle,
+              difficulty,
+              pageCount,
+              panelCount,
+              vocabularyCount,
+              readingTimeMs,
             })
 
             // Increment session count to trigger celebration
@@ -212,6 +234,8 @@ export function QuizPlayer({
             console.error('[QuizPlayer] Failed to update gamification store:', storeError)
             // Don't fail the whole operation if store update fails
           }
+        } else if (xpEarned === 0) {
+          console.log('[QuizPlayer] Quiz already completed - no celebration shown')
         }
       }
     } catch (error) {

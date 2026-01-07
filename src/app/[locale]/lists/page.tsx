@@ -20,6 +20,10 @@ import Dropdown from '@/components/ui/Dropdown'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { Pencil, FileJson, FileSpreadsheet, Trash2 } from 'lucide-react'
 import { useFeature } from '@/hooks/useFeature'
+import MultiTabNotifier from '@/components/lists/MultiTabNotifier'
+import StorageWarning from '@/components/flashcards/StorageWarning'
+import ListSyncStatusIndicator from '@/components/lists/ListSyncStatusIndicator'
+import { createStarterListsIfNeeded } from '@/lib/lists/starterLists'
 
 export default function MyListsPage() {
   const { t, strings } = useI18n()
@@ -57,6 +61,10 @@ export default function MyListsPage() {
     setIsLoading(true)
     try {
       console.log('[MyListsPage] Loading lists with isPremium:', isPremium)
+
+      // Create starter lists if this is user's first visit
+      await createStarterListsIfNeeded(user.uid, isPremium || false)
+
       const userLists = await listManager.getLists(user.uid, isPremium || false)
       setLists(userLists)
     } catch (error) {
@@ -236,12 +244,15 @@ export default function MyListsPage() {
       className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
       dark:from-dark-900 dark:via-dark-850 dark:to-dark-800"
     >
+      {/* Multi-tab coordination notifier */}
+      <MultiTabNotifier />
+
       {/* Desktop Navbar */}
       <div className="hidden sm:block">
         <Navbar user={user} showUserMenu={true} />
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 pb-24">
         <LearningPageHeader title={t('lists.title')} description={t('lists.pageDescription')} mascot="none" />
 
         {/* Actions bar */}
@@ -465,6 +476,12 @@ export default function MyListsPage() {
           type="danger"
         />
       )}
+
+      <StorageWarning
+        warningMessage="Storage running low. Consider deleting unused lists or clearing old data."
+        criticalMessage="Storage critically low! Please delete unused lists to free up space and continue using the app."
+      />
+      <ListSyncStatusIndicator />
       <MobileNavSpacer />
     </div>
   )

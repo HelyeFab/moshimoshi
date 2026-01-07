@@ -26,6 +26,22 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  // SEO-friendly 301 redirects
+  async redirects() {
+    return [
+      {
+        source: '/:locale/village/qa',
+        destination: '/:locale/village/tea-house',
+        permanent: true, // 301 redirect
+      },
+      {
+        source: '/:locale/village/qa/:path*',
+        destination: '/:locale/village/tea-house/:path*',
+        permanent: true, // 301 redirect
+      },
+    ];
+  },
+
   images: {
     domains: [
       'firebasestorage.googleapis.com',

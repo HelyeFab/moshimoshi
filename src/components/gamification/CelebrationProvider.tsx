@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useAuth } from '@/hooks/useAuth'
-import CelebrationScreen from './CelebrationScreen'
+import ContentCelebration from '@/components/shared/ContentCelebration'
 import { useGamificationStore } from '@/state/userGamification'
 
 /**
@@ -27,6 +27,13 @@ export default function CelebrationProvider({ children }: { children: React.Reac
     accuracy: number
     duration: number
     itemsCompleted: number
+    contentType?: 'story' | 'comic' | 'article' | 'book'
+    contentTitle?: string
+    difficulty?: string
+    pageCount?: number
+    panelCount?: number
+    vocabularyCount?: number
+    readingTimeMs?: number
   } | null>(null)
 
   const [previousXP, setPreviousXP] = useState(0)
@@ -49,7 +56,15 @@ export default function CelebrationProvider({ children }: { children: React.Reac
           xpGained: lastSessionStats.xpGained,
           accuracy: lastSessionStats.accuracy,
           duration: lastSessionStats.duration,
-          itemsCompleted: lastSessionStats.itemsCompleted
+          itemsCompleted: lastSessionStats.itemsCompleted,
+          // Content-specific metadata (for adaptive celebrations)
+          contentType: lastSessionStats.contentType,
+          contentTitle: lastSessionStats.contentTitle,
+          difficulty: lastSessionStats.difficulty,
+          pageCount: lastSessionStats.pageCount,
+          panelCount: lastSessionStats.panelCount,
+          vocabularyCount: lastSessionStats.vocabularyCount,
+          readingTimeMs: lastSessionStats.readingTimeMs
         })
       } else {
         // Fallback if stats not available
@@ -73,20 +88,28 @@ export default function CelebrationProvider({ children }: { children: React.Reac
     <>
       {children}
 
-      {/* Global Celebration Screen */}
-      {celebrationData && (
-        <CelebrationScreen
-          isOpen={showCelebration}
+      {/* Global Celebration Screen - Using ContentCelebration for all features */}
+      {celebrationData && showCelebration && (
+        <ContentCelebration
+          contentTitle={celebrationData.contentTitle || 'Quiz Complete!'}
+          contentType={celebrationData.contentType || 'article'}
+          xpEarned={celebrationData.xpGained}
+          readingTimeMs={
+            celebrationData.readingTimeMs && celebrationData.readingTimeMs > 0
+              ? celebrationData.readingTimeMs
+              : celebrationData.duration && celebrationData.duration > 0
+              ? celebrationData.duration
+              : undefined
+          }
+          difficulty={celebrationData.difficulty}
+          pageCount={celebrationData.pageCount}
+          panelCount={celebrationData.panelCount}
+          vocabularyCount={celebrationData.vocabularyCount}
           onClose={() => {
             setShowCelebration(false)
             setCelebrationData(null)
             clearLastSessionStats() // Clear stats from store
           }}
-          userName={user?.displayName || user?.email?.split('@')[0] || 'Student'}
-          xpGained={celebrationData.xpGained}
-          accuracy={celebrationData.accuracy}
-          duration={celebrationData.duration}
-          itemsCompleted={celebrationData.itemsCompleted}
         />
       )}
     </>

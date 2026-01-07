@@ -473,6 +473,8 @@ export const strings = {
     sentence: '文',
     submit: '送信',
     continue: '続ける',
+    show: '表示',
+    hide: '非表示',
     finish: '完了',
     clear: 'クリア',
     signIn: 'サインイン',
@@ -2729,11 +2731,14 @@ export const strings = {
       saveToList: 'リストに保存',
       delete: '削除',
       edit: 'リストを編集',
+      update: 'リストを更新',
       remove: 'リストから削除',
       addItems: 'アイテムを追加',
       review: '復習',
       manage: 'リストを管理',
     },
+    edit: 'リストを編集',
+    update: 'リストを更新',
     deleteDialog: {
       title: 'リストを削除',
       message: '「{{name}}」を削除してもよろしいですか？この操作は元に戻せません。',
@@ -2769,6 +2774,14 @@ export const strings = {
       saveFailed: 'アイテムの保存に失敗しました',
       noListSelected: '少なくとも一つのリストを選択してください',
       incompatibleType: 'このリストタイプはこのアイテムを受け入れることができません',
+      duplicateItem: 'このアイテムは既にリストに存在します',
+    },
+    validation: {
+      contentRequired: 'コンテンツは必須です',
+      requireMetadata: 'フラッシュカードとして使用するには、読みか意味のいずれかを追加してください',
+      readingOrMeaning: '読みまたは意味の少なくとも一方が必要です',
+      invalidItemsSkipped: '{{count}}個のアイテムをスキップ - 読みまたは意味が不足しています',
+      warningForStudy: '一部のアイテムには読みまたは意味がなく、学習中にスキップされます',
     },
     empty: {
       noLists: 'まだリストを作成していません',
@@ -2782,6 +2795,11 @@ export const strings = {
       mastered: '習得済み',
       learning: '学習中',
       total: '合計',
+    },
+    multiTab: {
+      versionChangeTitle: 'データベースが更新されました',
+      versionChangeMessage: '別のタブでデータベースが更新されました。続行するにはページを更新してください。',
+      refreshButton: 'ページを更新',
     },
   },
 
@@ -3130,6 +3148,9 @@ export const strings = {
     needsWork: '復習が必要',
 
     // Statistics
+    showStats: '統計を表示',
+    hideStats: '統計を非表示',
+    insights: 'インサイト',
     stats: {
       title: '統計',
       todayStudied: '今日の学習',
@@ -3316,6 +3337,9 @@ export const strings = {
     minutes: '分',
     cards: 'カード',
 
+    // Status messages
+    syncing: 'デッキを同期中...',
+
     // Success messages
     success: {
       deckCreated: 'デッキを作成しました',
@@ -3330,6 +3354,30 @@ export const strings = {
       allSynced: 'すべてのデッキを同期しました',
       allExported: 'すべてのデッキをエクスポートしました',
       syncComplete: '同期完了',
+    },
+
+    // Session Settings
+    settings: {
+      sessionLength: 'セッションあたりのカード数',
+      sessionLengthHint: 'このセッションで学習するカード数を選択',
+      furigana: 'ふりがな',
+      furiganaEnabled: 'ふりがなを表示',
+      furiganaEnabledHint: '漢字の上に読み仮名を表示',
+      furiganaOnFront: '表面に表示',
+      furiganaOnBack: '裏面に表示',
+      quickSettings: 'クイック設定',
+      reviewMode: '復習モード',
+      sequential: '順番',
+      random: 'ランダム',
+      smart: 'スマート',
+      studyDirection: '学習方向',
+      frontToBack: '表 → 裏',
+      frontToBackDesc: '表面を最初に表示',
+      backToFront: '裏 → 表',
+      backToFrontDesc: '裏面を最初に表示',
+      mixed: 'ミックス',
+      mixedDesc: 'カードごとにランダムな方向',
+      usingAllCards: '利用可能なすべてのカードを使用',
     },
 
     // Comeback Message
@@ -4961,7 +5009,7 @@ export const strings = {
     lockScreen: '画面ロック',
     lockScreenDescription: '誤操作を防ぐ',
     lockScreenTitle: '画面ロック中',
-    lockScreenUnlockText: 'Doshiを3回タップして解除',
+    lockScreenUnlockText: 'Moshiを3回タップして解除',
     lookupDictionary: 'クリックして辞書で調べる',
     showTranslation: '翻訳を表示',
     grammarLegend: '文法凡例',
@@ -5068,5 +5116,171 @@ export const strings = {
     step2Description: '各漢字には語彙と例文が付属',
     step3Title: '間隔反復',
     step3Description: 'AI搭載スケジューリングで記憶保持を最適化',
+  },
+
+  qa: {
+    title: 'ティーハウス',
+    subtitle: '集まって質問し、仲間の学習者と知恵を共有しましょう',
+    askQuestion: '質問する',
+    answer: '回答',
+    answers: '回答',
+    question: '質問',
+    questions: '質問',
+
+    // Tabs/Filters
+    tabs: {
+      recent: '最近',
+      popular: '人気',
+      unanswered: '未回答',
+      myQuestions: '自分の質問',
+    },
+
+    // Difficulty levels
+    difficulty: {
+      beginner: '初級',
+      intermediate: '中級',
+      advanced: '上級',
+    },
+
+    // Topic tags
+    tags: {
+      grammar: '文法',
+      vocabulary: '語彙',
+      kanji: '漢字',
+      pronunciation: '発音',
+      particles: '助詞',
+      'verb-conjugation': '動詞の活用',
+      culture: '文化',
+      jlpt: 'JLPT',
+      translation: '翻訳',
+      reading: '読解',
+      listening: 'リスニング',
+      writing: 'ライティング',
+      other: 'その他',
+    },
+
+    // Voting
+    voting: {
+      upvote: '賛成票',
+      downvote: '反対票',
+      loginRequired: '投票するにはログインしてください',
+      cannotVoteOwnContent: '自分の投稿には投票できません',
+      error: '投票に失敗しました。もう一度お試しください。',
+    },
+
+    // Moderation
+    moderation: {
+      pending: '審査中',
+      approved: '承認済み',
+      rejected: '却下',
+      reason: '理由',
+    },
+
+    // Question card
+    questionCard: {
+      hasAnswer: '回答済み',
+      viewQuestion: '質問を見る',
+    },
+
+    // Editor
+    editor: {
+      title: '質問のタイトル',
+      titlePlaceholder: '日本語について何を知りたいですか？',
+      details: '質問の詳細',
+      detailsPlaceholder: '質問についてもっと詳しく説明してください...',
+      topics: 'トピックタグ',
+      difficulty: '難易度',
+      optional: '任意',
+      characters: '文字',
+      minChars: '最低{{count}}文字',
+      tagsSelected: '個のタグを選択',
+      postQuestion: '質問を投稿',
+      updateQuestion: '質問を更新',
+      posting: '投稿中...',
+      cancel: 'キャンセル',
+      yourAnswer: 'あなたの回答',
+      answerPlaceholder: '他の人の学習を助けるために知識を共有しましょう...',
+      answerTooShort: '回答を空にすることはできません',
+      postAnswer: '回答を投稿',
+      loginRequired: '投稿するにはログインしてください',
+      loginToAnswer: 'サインインして回答を投稿',
+      titleTooShort: 'タイトルは最低10文字必要です',
+      contentTooShort: '詳細は最低20文字必要です',
+      selectTags: '少なくとも1つのトピックタグを選択してください',
+      error: '投稿に失敗しました。もう一度お試しください。',
+      submittedForReview: '質問を審査のため送信しました！',
+      questionPosted: '質問が正常に投稿されました！',
+      answerSubmittedForReview: '回答を審査のため送信しました！',
+      answerPosted: '回答が正常に投稿されました！',
+      moderationPending: 'AI審査システムで質問を審査中です。通常数秒かかります。',
+      questionLive: '質問が公開されました！他のユーザーが閲覧・回答できます。',
+      answerModerationPending: '回答を審査中です。承認されると表示されます。',
+      answerLive: '回答が表示されました！',
+      askAnother: '別の質問をする',
+      backToForum: 'フォーラムに戻る',
+      askQuestionSubtitle: '日本語学習の質問をコミュニティと共有しましょう',
+      writeYourQuestion: '質問を書く',
+      tips: '良い質問のコツ',
+      tip1: '知りたいことを具体的かつ明確に',
+      tip2: '関連するコンテキストを含める（例：JLPTレベル、特定の文法項目）',
+      tip3: '試したことや調べたことを示す',
+      tip4: '適切なトピックタグを使用して質問を見つけやすくする',
+    },
+
+    // Answer actions
+    answerActions: {
+      acceptedAnswer: '承認された回答',
+      acceptAnswer: '回答を承認',
+      accepted: '回答が承認されました！',
+      acceptError: '回答の承認に失敗しました',
+      deleted: '回答が削除されました',
+      deleteError: '回答の削除に失敗しました',
+      confirmDelete: 'この回答を削除してもよろしいですか？',
+      deleteDialogTitle: '回答を削除しますか？',
+      deleteDialogMessage: 'この回答を削除してもよろしいですか？この操作は元に戻せません。',
+      deleteDialogConfirm: '回答を削除',
+      updated: '回答が更新されました',
+      updateError: '回答の更新に失敗しました',
+      saveEdit: '編集を保存',
+      cancel: 'キャンセル',
+      edited: '編集済み',
+      noAnswersYet: 'まだ回答がありません',
+      beTheFirst: '最初に回答してください！',
+      loadError: '回答の読み込みに失敗しました',
+    },
+
+    // Question detail page
+    detail: {
+      notFound: '質問が見つかりません',
+      loadError: '質問の読み込みに失敗しました',
+      confirmDelete: 'この質問を削除してもよろしいですか？この操作は取り消せません。',
+      deleted: '質問が正常に削除されました',
+      deleteError: '質問の削除に失敗しました',
+      deleteDialogTitle: '質問を削除しますか？',
+      deleteDialogMessage: 'この質問を削除してもよろしいですか？この操作は取り消せず、すべての回答も削除されます。',
+      deleteConfirm: '質問を削除',
+      views: '閲覧',
+      asked: '投稿日時',
+      edit: '編集',
+      delete: '削除',
+      yourAnswer: 'あなたの回答',
+    },
+
+    // Edit question page
+    edit: {
+      editQuestion: '質問を編集',
+      editQuestionSubtitle: '質問の詳細を更新',
+      backToQuestion: '質問に戻る',
+      questionUpdated: '質問が正常に更新されました',
+      unauthorized: '自分の質問のみ編集できます',
+    },
+
+    // Empty states
+    empty: {
+      noQuestions: 'まだ質問がありません',
+      beFirst: '最初に質問してください！',
+      noResults: '質問が見つかりません',
+      tryDifferent: '別のフィルターや検索語をお試しください',
+    },
   },
 }

@@ -150,7 +150,7 @@ export async function POST(request: NextRequest) {
         sessionLength: 20,
         reviewMode: 'srs',
         newCardsPerDay: 20,
-        reviewsPerDay: 100,
+        reviewsPerDay: 20,
         ...body.settings,
       },
       stats: {

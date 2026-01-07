@@ -1,189 +1,25 @@
-2025-12-22 23:25:42 - Backup function called
-2025-12-22 23:25:42 - Unsupported platform: darwin
-2025-12-23 00:56:33 - Backup function called
-2025-12-23 00:56:33 - Unsupported platform: darwin
-2025-12-23 01:00:04 - Backup function called
-2025-12-23 01:00:04 - Unsupported platform: darwin
-2025-12-23 07:11:37 - Backup function called
-2025-12-23 07:11:37 - Unsupported platform: darwin
-2025-12-23 07:40:48 - Backup function called
-2025-12-23 07:40:48 - Unsupported platform: darwin
-2025-12-23 07:52:23 - Backup function called
-2025-12-23 07:52:23 - Unsupported platform: darwin
-2025-12-23 07:59:57 - Backup function called
-2025-12-23 07:59:57 - Unsupported platform: darwin
-2025-12-24 10:37:21 - Backup function called
-2025-12-24 10:37:21 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-24 10:37:21 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-24 10:37:21 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-24T10-37-21.md
-2025-12-24 10:37:21 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-25 19:31:01 - Backup function called
-2025-12-25 19:31:01 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-25 19:31:01 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-25 19:31:01 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-25T19-31-01.md
-2025-12-25 19:31:01 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-25 19:52:02 - Backup function called
-2025-12-25 19:52:02 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-25 19:52:02 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-25 19:52:02 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-25T19-52-02.md
-2025-12-25 19:52:02 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 06:49:09 - Backup function called
-2025-12-26 06:49:09 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 06:49:09 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 06:49:10 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T06-49-09.md
-2025-12-26 06:49:10 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 07:16:15 - Backup function called
-2025-12-26 07:16:15 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 07:16:15 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 07:16:15 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T07-16-15.md
-2025-12-26 07:16:15 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 07:21:25 - Backup function called
-2025-12-26 07:21:25 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 07:21:25 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 07:21:25 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T07-21-25.md
-2025-12-26 07:21:25 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 07:33:16 - Backup function called
-2025-12-26 07:33:16 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 07:33:16 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 07:33:16 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T07-33-16.md
-2025-12-26 07:33:16 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 07:33:52 - Backup function called
-2025-12-26 07:33:52 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 07:33:52 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 07:33:52 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T07-33-52.md
-2025-12-26 07:33:52 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 08:50:54 - Backup function called
-2025-12-26 08:50:54 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 08:50:54 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 08:50:54 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T08-50-54.md
-2025-12-26 08:50:54 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 15:26:22 - Backup function called
-2025-12-26 15:26:22 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 15:26:22 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 15:26:22 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T15-26-22.md
-2025-12-26 15:26:22 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 15:59:39 - Backup function called
-2025-12-26 15:59:39 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 15:59:39 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 15:59:39 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T15-59-39.md
-2025-12-26 15:59:39 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 16:56:34 - Backup function called
-2025-12-26 16:56:34 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 16:56:34 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 16:56:34 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T16-56-34.md
-2025-12-26 16:56:34 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 17:39:29 - Backup function called
-2025-12-26 17:39:29 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 17:39:29 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 17:39:29 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T17-39-29.md
-2025-12-26 17:39:29 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 18:02:21 - Backup function called
-2025-12-26 18:02:21 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 18:02:21 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 18:02:21 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T18-02-21.md
-2025-12-26 18:02:21 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 19:47:13 - Backup function called
-2025-12-26 19:47:13 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 19:47:13 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 19:47:13 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T19-47-13.md
-2025-12-26 19:47:13 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-26 20:12:19 - Backup function called
-2025-12-26 20:12:19 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2025-12-26 20:12:19 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2025-12-26 20:12:19 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2025-12-26T20-12-19.md
-2025-12-26 20:12:19 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2025-12-28 05:56:51 - Backup function called
-2025-12-28 05:56:51 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2025-12-28 05:56:51 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2025-12-30 08:16:38 - Backup function called
-2025-12-30 08:16:38 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2025-12-30 08:16:38 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2025-12-30 08:20:08 - Backup function called
-2025-12-30 08:20:08 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2025-12-30 08:20:08 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2025-12-30 18:30:46 - Backup function called
-2025-12-30 18:30:46 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2025-12-30 18:30:46 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2025-12-30 18:37:04 - Backup function called
-2025-12-30 18:37:04 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2025-12-30 18:37:04 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2025-12-30 18:38:11 - Backup function called
-2025-12-30 18:38:11 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2025-12-30 18:38:11 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2025-12-31 21:04:19 - Backup function called
-2025-12-31 21:04:19 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2025-12-31 21:04:19 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2026-01-03 10:52:24 - Backup function called
-2026-01-03 10:52:24 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2026-01-03 10:52:24 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2026-01-03 10:53:17 - Backup function called
-2026-01-03 10:53:17 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2026-01-03 10:53:17 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2026-01-03 11:02:01 - Backup function called
-2026-01-03 11:02:01 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2026-01-03 11:02:01 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2026-01-03 11:03:05 - Backup function called
-2026-01-03 11:03:05 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2026-01-03 11:03:05 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2026-01-03 12:59:03 - Backup function called
-2026-01-03 12:59:03 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2026-01-03 12:59:03 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2026-01-03 13:05:38 - Backup function called
-2026-01-03 13:05:38 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2026-01-03 13:05:38 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2026-01-03 13:09:12 - Backup function called
-2026-01-03 13:09:12 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2026-01-03 13:09:12 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2026-01-03 13:19:52 - Backup function called
-2026-01-03 13:19:52 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
-2026-01-03 13:19:52 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
-2026-01-04 08:13:03 - Backup function called
-2026-01-04 08:13:03 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2026-01-04 08:13:03 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2026-01-04 08:13:03 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-04T08-13-03.md
-2026-01-04 08:13:03 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2026-01-04 11:04:35 - Backup function called
-2026-01-04 11:04:35 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2026-01-04 11:04:35 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2026-01-04 11:04:35 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-04T11-04-35.md
-2026-01-04 11:04:35 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2026-01-04 12:04:08 - Backup function called
-2026-01-04 12:04:08 - Backup function called
-2026-01-04 12:04:08 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2026-01-04 12:04:08 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2026-01-04 12:04:08 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2026-01-04 12:04:08 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2026-01-04 12:04:08 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-04T12-04-08.md
-2026-01-04 12:04:08 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-04T12-04-08.md
-2026-01-04 12:04:08 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2026-01-04 12:04:08 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2026-01-04 12:43:36 - Backup function called
-2026-01-04 12:43:36 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2026-01-04 12:43:36 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2026-01-04 12:43:36 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-04T12-43-36.md
-2026-01-04 12:43:36 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2026-01-04 15:38:43 - Backup function called
-2026-01-04 15:38:43 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2026-01-04 15:38:43 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2026-01-04 15:38:43 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-04T15-38-43.md
-2026-01-04 15:38:43 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2026-01-04 19:12:26 - Backup function called
-2026-01-04 19:12:26 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2026-01-04 19:12:26 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2026-01-04 19:12:26 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-04T19-12-26.md
-2026-01-04 19:12:26 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2026-01-05 09:43:56 - Backup function called
-2026-01-05 09:43:56 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2026-01-05 09:43:56 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2026-01-05 09:43:56 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-05T09-43-56.md
-2026-01-05 09:43:56 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2026-01-05 09:45:53 - Backup function called
-2026-01-05 09:45:53 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2026-01-05 09:45:53 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2026-01-05 09:45:53 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-05T09-45-53.md
-2026-01-05 09:45:53 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
-2026-01-05 09:48:50 - Backup function called
-2026-01-05 09:48:50 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
-2026-01-05 09:48:50 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
-2026-01-05 09:48:50 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-05T09-48-50.md
-2026-01-05 09:48:50 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
+2026-01-06 17:34:57 - Backup function called
+2026-01-06 17:34:57 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
+2026-01-06 17:34:57 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
+2026-01-06 17:34:57 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-06T17-34-57.md
+2026-01-06 17:34:57 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
+2026-01-06 19:17:28 - Backup function called
+2026-01-06 19:17:28 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
+2026-01-06 19:17:28 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
+2026-01-06 19:17:28 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-06T19-17-28.md
+2026-01-06 19:17:28 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
+2026-01-06 19:46:01 - Backup function called
+2026-01-06 19:46:01 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
+2026-01-06 19:46:01 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
+2026-01-06 19:46:01 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-06T19-46-01.md
+2026-01-06 19:46:01 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
+2026-01-06 19:55:31 - Backup function called
+2026-01-06 19:55:31 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
+2026-01-06 19:55:31 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
+2026-01-06 19:55:31 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-06T19-55-31.md
+2026-01-06 19:55:31 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md
+2026-01-07 06:36:02 - Backup function called
+2026-01-07 06:36:02 - ENV_FILE exists: /home/beano/DevProjects/NextJs/moshimoshi/.env.local
+2026-01-07 06:36:02 - Backup dir ready: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git
+2026-01-07 06:36:02 - Copied to: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local-2026-01-07T06-36-02.md
+2026-01-07 06:36:02 - Updated: /home/beano/Life-Org/SecondBrain/Moshimoshi/Git/env-local.md

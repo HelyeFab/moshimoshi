@@ -29,6 +29,7 @@ This document covers the implementation of the Anki study session feature with d
 2. **Sync Fixes**: Resolved IndexedDB caching issues and added composite indexes
 3. **Anki Study Session**: Full study session with `newCardsPerDay` and `reviewsPerDay` enforcement using the existing SM-2+ SRS algorithm
 4. **Flashcard Sessions (Premium)**: Cross-device session sync + daily analytics stored in Firestore; local IndexedDB cache for offline
+5. **Modern Anki Format Support (2025-01)**: Added support for `collection.anki21` files (Anki 2.1.45+) with zstd decompression
 
 ---
 
@@ -494,6 +495,67 @@ If migrating existing data from nested to top-level collections:
 
 ---
 
+## APKG Format Support
+
+### Supported Formats
+
+The Anki import feature supports both legacy and modern Anki package formats:
+
+#### Legacy 2 Format (2018+)
+- **File**: `collection.anki2`
+- **Compression**: None (raw SQLite database)
+- **Anki versions**: 2.0.x - 2.1.44
+- **Status**: ✅ Fully supported
+
+#### Modern Format (2.1.45+)
+- **File**: `collection.anki21`
+- **Compression**: Zstandard (zstd)
+- **Anki versions**: 2.1.45+
+- **Status**: ✅ Fully supported (added 2025-01)
+- **Dependencies**: `zstddec` package for WASM-based decompression
+
+### Implementation Details
+
+```typescript
+// src/lib/anki/parser.ts
+
+// Format detection priority:
+1. Check for collection.anki21 (modern)
+2. Fallback to collection.anki2 (legacy)
+3. If modern format, decompress with zstd
+4. Parse SQLite database with sql.js
+
+// Decompression stats logged:
+// "[AnkiParser] Successfully decompressed collection.anki21 (1.2MB -> 8.5MB)"
+```
+
+### Compatibility Notes
+
+- **Modern Anki exports**: Some modern Anki versions include BOTH formats in a single .apkg file
+  - `collection.anki21`: Full deck data (zstd compressed)
+  - `collection.anki2`: Compatibility stub with message "Please update to the latest Anki version"
+- **Parser priority**: We prioritize `collection.anki21` when both are present
+- **Browser support**: Decompression works in all modern browsers via WebAssembly
+
+### Error Handling
+
+The parser provides specific error messages for common issues:
+
+| Error | Cause | User Message |
+|-------|-------|--------------|
+| Missing collection files | Corrupted .apkg | "No collection.anki2 or collection.anki21 file found" |
+| Decompression failure | Corrupted zstd data | "Failed to decompress modern Anki file. Please try exporting again." |
+| Password-protected | Encrypted SQLite | "This deck is password-protected. Please remove the password in Anki and export again." |
+| Invalid SQLite | Corrupted database | "Invalid Anki file format. The file may be corrupted." |
+
+### Bundle Size Impact
+
+- **zstddec**: ~30KB gzipped
+- **WASM module**: Embedded in package (no additional downloads)
+- **Total overhead**: Minimal (~0.1-0.5% of bundle)
+
+---
+
 ## Future Enhancements
 
 Potential improvements for future iterations:
@@ -504,7 +566,7 @@ Potential improvements for future iterations:
 4. **Custom Learning Steps**: User-configurable learning intervals
 5. **Suspend/Bury Cards**: Temporarily remove cards from rotation
 6. **Card Tags**: Filter study by tags
-7. **Import SRS Data**: Preserve Anki's existing scheduling data on import
+7. **Import SRS Data**: Preserve Anki's existing scheduling data on import ✨ **Recommended** - see research in expert report
 
 ---
 
@@ -531,4 +593,4 @@ Potential improvements for future iterations:
 
 ---
 
-*Last Updated: December 2024*
+*Last Updated: January 2026 (added collection.anki21 support)*

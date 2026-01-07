@@ -603,12 +603,13 @@ export class UserListAdapter extends BaseContentAdapter {
   /**
    * Generate smart distractors using multi-priority strategy
    * Based on list type, uses different strategies for optimal learning
+   * ENHANCED: Now uses JMdict for intelligent fallbacks when pool is small
    */
-  generateOptions(
+  async generateOptions(
     content: ReviewableContent,
     pool: ListItem[],
     count: number = 4
-  ): ReviewableContent[] {
+  ): Promise<ReviewableContent[]> {
     const usedIds = new Set<string>([content.id])
     const candidates: DistractorCandidate[] = []
 
@@ -657,10 +658,24 @@ export class UserListAdapter extends BaseContentAdapter {
       }
     }
 
-    // If still not enough, use fallbacks
+    // If still not enough, use INTELLIGENT JMdict fallbacks
     if (selected.length < count - 1) {
-      const fallbackItems = this.getFallbackItems(sourceItem, count - 1 - selected.length, usedIds)
-      selected.push(...fallbackItems)
+      try {
+        console.log(
+          `[UserListAdapter] Need ${count - 1 - selected.length} more distractors, using intelligent JMdict search`
+        )
+        const intelligentFallbacks = await this.getIntelligentFallbackItems(
+          sourceItem,
+          count - 1 - selected.length,
+          usedIds
+        )
+        selected.push(...intelligentFallbacks)
+      } catch (error) {
+        console.warn('[UserListAdapter] Intelligent fallbacks failed, using static fallbacks:', error)
+        // Fallback to old method
+        const fallbackItems = this.getFallbackItems(sourceItem, count - 1 - selected.length, usedIds)
+        selected.push(...fallbackItems)
+      }
     }
 
     return selected.map(item => this.transform(item))
@@ -932,12 +947,22 @@ export class UserListAdapter extends BaseContentAdapter {
       if (result.length >= count) break
       if (usedIds.has(fallback)) continue
 
+      // Parse fallback format: "水 (water)" -> content: "水", meaning: "water"
+      let content = fallback
+      let meaning = ''
+      const match = fallback.match(/^(.+?)\s*\((.+?)\)$/)
+      if (match) {
+        content = match[1].trim()
+        meaning = match[2].trim()
+      }
+
       // Create a pseudo-item for the fallback
       result.push({
         id: `fallback_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        content: fallback,
+        content: content,
         type: this.list.type,
         metadata: {
+          meaning: meaning,
           addedAt: Date.now(),
         },
       })
@@ -945,6 +970,201 @@ export class UserListAdapter extends BaseContentAdapter {
     }
 
     return result
+  }
+
+  /**
+   * ENHANCED: Get intelligent fallback items using JMdict database
+   * Uses semantic search to find contextually relevant distractors
+   * This is especially useful for single-item lists where pool is empty
+   */
+  private async getIntelligentFallbackItems(
+    sourceItem: ListItem,
+    count: number,
+    usedIds: Set<string>
+  ): Promise<ListItem[]> {
+    const result: ListItem[] = []
+
+    try {
+      // Import JMdict search (dynamically to avoid SSR issues)
+      const { searchJMdictWords, getCommonJMdictWords } = await import('@/utils/jmdictLocalSearch')
+
+      // 1. Extract semantic keywords from source item meaning
+      const sourceMeaning = sourceItem.metadata?.meaning?.toLowerCase() || ''
+      const sourceJlpt = sourceItem.metadata?.jlptLevel
+      const sourceCategories = this.getMeaningCategories(sourceMeaning)
+
+      console.log(`[UserListAdapter] Generating intelligent distractors for "${sourceItem.content}"`)
+      console.log(`[UserListAdapter] Source meaning: "${sourceMeaning}", JLPT: N${sourceJlpt}, Categories:`, sourceCategories)
+
+      // 2. Build search queries based on semantic categories
+      const searchQueries: string[] = []
+
+      // Add semantic category keywords
+      for (const category of sourceCategories) {
+        const categoryWords = UserListAdapter.MEANING_CATEGORIES[category] || []
+        // Take English keywords from category (skip Japanese)
+        const englishKeywords = categoryWords.filter(w => !/[\u3040-\u309f\u30a0-\u30ff\u4e00-\u9faf]/.test(w))
+        searchQueries.push(...englishKeywords.slice(0, 3)) // Top 3 keywords per category
+      }
+
+      // Add words from the source meaning itself
+      const meaningWords = sourceMeaning.split(/[\s,;]+/).filter(w => w.length > 2)
+      searchQueries.push(...meaningWords.slice(0, 2))
+
+      // Remove duplicates
+      const uniqueQueries = Array.from(new Set(searchQueries))
+
+      console.log(`[UserListAdapter] Search queries (${uniqueQueries.length}):`, uniqueQueries.slice(0, 5))
+
+      // 3. Search JMdict for each query
+      const jmdictCandidates: any[] = []
+      const maxPerQuery = Math.ceil((count * 2) / Math.max(1, uniqueQueries.length))
+
+      for (const query of uniqueQueries.slice(0, 5)) {
+        // Limit to 5 queries
+        try {
+          const results = await searchJMdictWords(query, maxPerQuery)
+          jmdictCandidates.push(...results)
+        } catch (error) {
+          console.warn(`[UserListAdapter] JMdict search failed for "${query}":`, error)
+        }
+      }
+
+      // 4. If no search results, get common words
+      if (jmdictCandidates.length === 0) {
+        console.log('[UserListAdapter] No search results, getting common words')
+        try {
+          const commonWords = await getCommonJMdictWords(count * 3)
+          jmdictCandidates.push(...commonWords)
+        } catch (error) {
+          console.warn('[UserListAdapter] Failed to get common words:', error)
+        }
+      }
+
+      console.log(`[UserListAdapter] Found ${jmdictCandidates.length} JMdict candidates`)
+
+      // 5. Filter and score candidates
+      interface ScoredCandidate {
+        word: any
+        score: number
+      }
+
+      const scoredCandidates: ScoredCandidate[] = jmdictCandidates.map(word => {
+        let score = 0
+
+        // Skip if already used
+        const wordId = `jmdict_${word.id}`
+        if (usedIds.has(wordId) || usedIds.has(word.kanji) || usedIds.has(word.kana)) {
+          return { word, score: -1000 }
+        }
+
+        // Skip if same as source item
+        if (word.kanji === sourceItem.content || word.kana === sourceItem.content) {
+          return { word, score: -1000 }
+        }
+
+        // Score by JLPT level match
+        const wordJlpt = this.extractJLPTLevel(word.jlpt)
+        if (sourceJlpt && wordJlpt) {
+          if (wordJlpt === sourceJlpt) {
+            score += 100 // Same level = highest priority
+          } else if (Math.abs(wordJlpt - sourceJlpt) === 1) {
+            score += 50 // Adjacent level
+          } else {
+            score -= 30 // Different level penalty
+          }
+        }
+
+        // Score by semantic category match
+        const wordMeaning = word.meaning?.toLowerCase() || ''
+        const wordCategories = this.getMeaningCategories(wordMeaning)
+        const sharedCategories = sourceCategories.filter(c => wordCategories.includes(c))
+        score += sharedCategories.length * 40
+
+        // Score by word type match (for verbAdj lists)
+        if (this.list.type === 'verbAdj') {
+          const sourceVerbGroup = this.detectVerbGroup(sourceItem.content)
+          const sourceAdjType = this.detectAdjectiveType(sourceItem.content)
+
+          if (word.type === 'verb' && sourceVerbGroup) {
+            score += 30
+          } else if (
+            (word.type === 'i-adjective' || word.type === 'na-adjective') &&
+            sourceAdjType
+          ) {
+            score += 30
+          }
+        }
+
+        // Score by length similarity
+        const sourceLength = sourceItem.content.length
+        const wordLength = (word.kanji || word.kana).length
+        if (Math.abs(sourceLength - wordLength) <= 2) {
+          score += 20
+        }
+
+        // Boost common words
+        if (word.tags && word.tags.some((tag: string) => tag.includes('news') || tag.includes('ichi'))) {
+          score += 15
+        }
+
+        return { word, score }
+      })
+
+      // 6. Sort by score and convert to ListItems
+      scoredCandidates.sort((a, b) => b.score - a.score)
+
+      for (const candidate of scoredCandidates) {
+        if (result.length >= count) break
+        if (candidate.score < 0) continue // Skip negative scores
+
+        const word = candidate.word
+        const wordId = `jmdict_${word.id}_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`
+
+        // Convert JapaneseWord to ListItem format
+        const fallbackItem: ListItem = {
+          id: wordId,
+          content: word.kanji || word.kana,
+          type: this.list.type,
+          metadata: {
+            reading: word.kana || '',
+            meaning: word.meaning || '',
+            jlptLevel: this.extractJLPTLevel(word.jlpt),
+            addedAt: Date.now(),
+            notes: `JMdict distractor (score: ${candidate.score})`,
+          },
+        }
+
+        result.push(fallbackItem)
+        usedIds.add(wordId)
+        usedIds.add(word.kanji)
+        usedIds.add(word.kana)
+      }
+
+      console.log(`[UserListAdapter] Generated ${result.length} intelligent JMdict distractors`)
+    } catch (error) {
+      console.error('[UserListAdapter] Failed to generate intelligent fallbacks:', error)
+    }
+
+    // 7. If still not enough, use old fallback method
+    if (result.length < count) {
+      console.log(
+        `[UserListAdapter] Need ${count - result.length} more distractors, using static fallbacks`
+      )
+      const oldFallbacks = this.getFallbackItems(sourceItem, count - result.length, usedIds)
+      result.push(...oldFallbacks)
+    }
+
+    return result
+  }
+
+  /**
+   * Helper: Extract numeric JLPT level from string (N5 -> 5, "N3" -> 3)
+   */
+  private extractJLPTLevel(jlptString?: string): number | undefined {
+    if (!jlptString) return undefined
+    const match = jlptString.match(/N?(\d)/)
+    return match ? parseInt(match[1]) : undefined
   }
 
   // ============================================================================
@@ -1117,10 +1337,10 @@ export class UserListAdapter extends BaseContentAdapter {
   /**
    * @deprecated Use generateOptions instead. Kept for backward compatibility.
    */
-  private generateStringOptions(item: ListItem, count: number = 4): string[] {
+  private async generateStringOptions(item: ListItem, count: number = 4): Promise<string[]> {
     // Convert to new format and extract strings
     const content = this.transform(item)
-    const options = this.generateOptions(content, this.currentItems, count)
+    const options = await this.generateOptions(content, this.currentItems, count)
 
     return [
       item.metadata?.meaning || item.content,

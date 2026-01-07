@@ -214,13 +214,26 @@ export class SessionManager extends ClientEventEmitter {
       contentType: item.content.contentType,
       srsData
     } as ItemAnsweredPayload);
-    
+
+    // Emit progress update (show completed items, not just current index)
+    this.emitEvent(ReviewEventType.PROGRESS_UPDATED, {
+      sessionId: this.session.id,
+      current: this.session.currentIndex + 1, // +1 because we just completed this item
+      total: this.session.items.length,
+      correct: this.statistics!.correctItems,
+      incorrect: this.statistics!.incorrectItems,
+      skipped: this.statistics!.skippedItems,
+      accuracy: this.statistics!.accuracy,
+      streak: this.statistics!.currentStreak,
+      score: this.statistics!.totalScore
+    } as ProgressUpdatedPayload);
+
     // Track analytics
     await this.analytics.trackAnswer(item);
-    
+
     // Reset activity timer
     this.resetActivityTimer();
-    
+
     return validation;
   }
   
@@ -241,10 +254,10 @@ export class SessionManager extends ClientEventEmitter {
       return null;
     }
     
-    // Update progress
+    // Update progress (currentIndex already incremented, so it represents items viewed)
     this.emitEvent(ReviewEventType.PROGRESS_UPDATED, {
       sessionId: this.session.id,
-      current: this.session.currentIndex,
+      current: this.session.currentIndex, // Already incremented in nextItem
       total: this.session.items.length,
       correct: this.statistics!.correctItems,
       incorrect: this.statistics!.incorrectItems,

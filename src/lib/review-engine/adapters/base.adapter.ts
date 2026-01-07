@@ -48,12 +48,13 @@ export abstract class BaseContentAdapter<T = any> {
   /**
    * Generate multiple choice options for recognition mode
    * Override in subclass for custom option generation
+   * Can be synchronous or asynchronous depending on implementation
    */
   generateOptions(
     content: ReviewableContent,
     pool: T[],
     count: number = 4
-  ): ReviewableContent[] {
+  ): ReviewableContent[] | Promise<ReviewableContent[]> {
     // Default: return random items from pool
     const shuffled = [...pool].sort(() => Math.random() - 0.5);
     return shuffled.slice(0, count).map(item => this.transform(item));

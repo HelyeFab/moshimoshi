@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TabCoordinator Manual Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            color: #333;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            margin-top: 0;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #764ba2;
+            margin-top: 30px;
+        }
+        .status-box {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        .status-box.leader {
+            border-left-color: #28a745;
+            background: #d4edda;
+        }
+        .status-box.follower {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        .tab-id {
+            font-family: 'Courier New', monospace;
+            background: #e9ecef;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+        .message-log {
+            background: #212529;
+            color: #0f0;
+            font-family: 'Courier New', monospace;
+            padding: 15px;
+            border-radius: 4px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-size: 12px;
+            margin: 20px 0;
+        }
+        .message-log .timestamp {
+            color: #6c757d;
+        }
+        .message-log .type {
+            color: #ffc107;
+            font-weight: bold;
+        }
+        .message-log .tab-join { color: #17a2b8; }
+        .message-log .heartbeat { color: #28a745; }
+        .message-log .leader-elected { color: #dc3545; }
+        .message-log .leader-resignation { color: #fd7e14; }
+        .message-log .test-message { color: #0f0; }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+        button.danger {
+            background: #dc3545;
+        }
+        button.danger:hover {
+            background: #c82333;
+        }
+        .instructions {
+            background: #fff3cd;
+            border: 1px solid #ffc107;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+        .instructions ol {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .instructions li {
+            margin: 8px 0;
+        }
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: white;
+            border: 2px solid #e9ecef;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .stat-card .label {
+            font-size: 12px;
+            color: #6c757d;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .stat-card .value {
+            font-size: 28px;
+            color: #667eea;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 TabCoordinator Manual Test</h1>
+
+        <div class="instructions">
+            <strong>📋 Testing Instructions:</strong>
+            <ol>
+                <li><strong>Open this page in 2-3 browser tabs</strong> (Ctrl+T or Cmd+T, then paste URL)</li>
+                <li><strong>Observe the Status</strong> - Only ONE tab should show "Leader"</li>
+                <li><strong>Watch the Message Log</strong> - See cross-tab communication in real-time</li>
+                <li><strong>Test Actions</strong> - Click buttons to send messages or close tabs</li>
+                <li><strong>Verify Re-election</strong> - Close leader tab, follower should become leader</li>
+            </ol>
+        </div>
+
+        <div id="status" class="status-box">
+            <strong>Status:</strong> Initializing...
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="label">Tab ID</div>
+                <div class="value tab-id" id="tabIdDisplay">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Role</div>
+                <div class="value" id="roleDisplay">-</div>
+            </div>
+            <div class="stat-card">
+                <div class="label">Messages Received</div>
+                <div class="value" id="messageCount">0</div>
+            </div>
+        </div>
+
+        <h2>🎛️ Test Actions</h2>
+        <div>
+            <button onclick="sendTestMessage()">Send Test Message</button>
+            <button onclick="forceReElection()">Force Re-election</button>
+            <button onclick="clearLog()">Clear Log</button>
+            <button onclick="closeTab()" class="danger">Close This Tab</button>
+        </div>
+
+        <h2>📡 Message Log</h2>
+        <div id="messageLog" class="message-log">
+            <div>Waiting for TabCoordinator to initialize...</div>
+        </div>
+
+        <h2>✅ Expected Behavior</h2>
+        <div class="instructions">
+            <ul>
+                <li>✅ Only ONE tab should be "Leader" at any time</li>
+                <li>✅ All tabs should receive tab-join messages when new tabs open</li>
+                <li>✅ Followers should receive heartbeat messages every ~5 seconds</li>
+                <li>✅ When leader closes, a follower should become leader within 10 seconds</li>
+                <li>✅ Test messages should appear in ALL open tabs</li>
+                <li>✅ Oldest tab (by timestamp) should win leader election</li>
+            </ul>
+        </div>
+    </div>
+
+    <script type="module">
+        // Simple TabCoordinator implementation (copied from your source)
+        class TabCoordinator {
+            constructor(channelName) {
+                this.channelName = channelName;
+                this.tabId = this.generateTabId();
+                this.channel = null;
+                this.isLeaderFlag = false;
+                this.heartbeatInterval = null;
+                this.leaderTimeoutCheck = null;
+                this.lastLeaderHeartbeat = 0;
+                this.messageCallback = null;
+                this.useFallback = false;
+                this.resignationElectionTimeout = null;
+                this.electionTimeout = null;
+
+                this.HEARTBEAT_INTERVAL = 5000;
+                this.LEADER_TIMEOUT = 10000;
+                this.ELECTION_DELAY = 100;
+            }
+
+            generateTabId() {
+                return `tab-${Date.now()}-${Math.random().toString(36).slice(2, 11)}`;
+            }
+
+            async initialize() {
+                if (typeof BroadcastChannel === 'undefined') {
+                    console.warn('[TabCoordinator] BroadcastChannel not supported');
+                    this.useFallback = true;
+                    this.isLeaderFlag = true;
+                    return;
+                }
+
+                this.channel = new BroadcastChannel(this.channelName);
+                this.channel.onmessage = (event) => this.handleMessage(event.data);
+
+                this.broadcast({
+                    type: 'tab-join',
+                    tabId: this.tabId,
+                    timestamp: Date.now(),
+                    data: { tabId: this.tabId }
+                });
+
+                await this.electLeader();
+
+                if (typeof window !== 'undefined') {
+                    window.addEventListener('beforeunload', () => this.destroy());
+                }
+            }
+
+            async electLeader() {
+                await new Promise(resolve => setTimeout(resolve, this.ELECTION_DELAY));
+
+                const electionMessage = {
+                    type: 'leader-election',
+                    tabId: this.tabId,
+                    timestamp: Date.now(),
+                    data: null
+                };
+
+                this.broadcast(electionMessage);
+
+                this.electionTimeout = setTimeout(() => {
+                    if (!this.isLeaderFlag && this.lastLeaderHeartbeat === 0) {
+                        this.becomeLeader();
+                    }
+                }, this.ELECTION_DELAY);
+            }
+
+            becomeLeader() {
+                this.isLeaderFlag = true;
+                console.log(`[TabCoordinator] Tab ${this.tabId} became leader`);
+                this.startHeartbeat();
+                this.broadcast({
+                    type: 'leader-elected',
+                    tabId: this.tabId,
+                    timestamp: Date.now(),
+                    data: { tabId: this.tabId }
+                });
+                updateUI();
+            }
+
+            becomeFollower() {
+                console.log(`[TabCoordinator] Tab ${this.tabId} became follower`);
+                this.isLeaderFlag = false;
+                if (this.heartbeatInterval) {
+                    clearInterval(this.heartbeatInterval);
+                    this.heartbeatInterval = null;
+                }
+                this.startLeaderTimeoutCheck();
+                updateUI();
+            }
+
+            startHeartbeat() {
+                if (this.heartbeatInterval) {
+                    clearInterval(this.heartbeatInterval);
+                }
+
+                this.broadcast({
+                    type: 'heartbeat',
+                    tabId: this.tabId,
+                    timestamp: Date.now(),
+                    data: null
+                });
+
+                this.heartbeatInterval = setInterval(() => {
+                    if (this.isLeaderFlag) {
+                        this.broadcast({
+                            type: 'heartbeat',
+                            tabId: this.tabId,
+                            timestamp: Date.now(),
+                            data: null
+                        });
+                    }
+                }, this.HEARTBEAT_INTERVAL);
+
+                this.startLeaderTimeoutCheck();
+            }
+
+            startLeaderTimeoutCheck() {
+                if (this.leaderTimeoutCheck) {
+                    clearInterval(this.leaderTimeoutCheck);
+                }
+
+                this.leaderTimeoutCheck = setInterval(() => {
+                    if (!this.isLeaderFlag) {
+                        const timeSinceLastHeartbeat = Date.now() - this.lastLeaderHeartbeat;
+                        if (timeSinceLastHeartbeat > this.LEADER_TIMEOUT) {
+                            console.warn('[TabCoordinator] Leader timeout detected');
+                            this.becomeLeader();
+                        }
+                    }
+                }, 2000);
+            }
+
+            handleMessage(message) {
+                if (message.tabId === this.tabId) return;
+
+                if (this.messageCallback) {
+                    try {
+                        this.messageCallback(message);
+                    } catch (error) {
+                        console.error('[TabCoordinator] Error in callback:', error);
+                    }
+                }
+
+                switch (message.type) {
+                    case 'leader-election':
+                        this.handleLeaderElection(message);
+                        break;
+                    case 'heartbeat':
+                        this.handleHeartbeat(message);
+                        break;
+                    case 'tab-join':
+                        this.handleTabJoin(message);
+                        break;
+                    case 'leader-elected':
+                        this.handleLeaderElected(message);
+                        break;
+                    case 'leader-resignation':
+                        this.handleLeaderResignation(message);
+                        break;
+                }
+            }
+
+            handleLeaderElection(message) {
+                const ourTimestamp = parseInt(this.tabId.split('-')[1]);
+                const theirTimestamp = parseInt(message.tabId.split('-')[1]);
+
+                if (theirTimestamp < ourTimestamp) {
+                    if (this.isLeaderFlag) {
+                        console.log('[TabCoordinator] Yielding to older tab');
+                        this.becomeFollower();
+                    }
+                } else if (this.isLeaderFlag && theirTimestamp > ourTimestamp) {
+                    setTimeout(() => {
+                        this.broadcast({
+                            type: 'heartbeat',
+                            tabId: this.tabId,
+                            timestamp: Date.now(),
+                            data: null
+                        });
+                    }, 50);
+                }
+            }
+
+            handleHeartbeat(message) {
+                this.lastLeaderHeartbeat = message.timestamp;
+
+                if (this.isLeaderFlag) {
+                    const ourTimestamp = parseInt(this.tabId.split('-')[1]);
+                    const theirTimestamp = parseInt(message.tabId.split('-')[1]);
+
+                    if (theirTimestamp < ourTimestamp) {
+                        console.log('[TabCoordinator] Stepping down to older leader');
+                        this.becomeFollower();
+                    }
+                }
+            }
+
+            handleTabJoin(message) {
+                if (this.isLeaderFlag) {
+                    setTimeout(() => {
+                        this.broadcast({
+                            type: 'heartbeat',
+                            tabId: this.tabId,
+                            timestamp: Date.now(),
+                            data: null
+                        });
+                    }, 50);
+                }
+            }
+
+            handleLeaderElected(message) {
+                if (message.tabId !== this.tabId && this.isLeaderFlag) {
+                    const ourTimestamp = parseInt(this.tabId.split('-')[1]);
+                    const theirTimestamp = parseInt(message.tabId.split('-')[1]);
+
+                    if (theirTimestamp < ourTimestamp) {
+                        console.log('[TabCoordinator] Accepting older leader');
+                        this.becomeFollower();
+                    }
+                }
+            }
+
+            handleLeaderResignation(message) {
+                if (!this.isLeaderFlag) {
+                    console.log('[TabCoordinator] Leader resigned, starting election');
+                    this.resignationElectionTimeout = setTimeout(() => {
+                        this.electLeader();
+                    }, this.ELECTION_DELAY);
+                }
+            }
+
+            broadcast(message) {
+                if (this.channel) {
+                    try {
+                        this.channel.postMessage(message);
+                    } catch (error) {
+                        console.error('[TabCoordinator] Failed to broadcast:', error);
+                    }
+                }
+            }
+
+            onMessage(callback) {
+                this.messageCallback = callback;
+                return () => { this.messageCallback = null; };
+            }
+
+            isLeader() {
+                return this.isLeaderFlag;
+            }
+
+            getTabId() {
+                return this.tabId;
+            }
+
+            destroy() {
+                console.log(`[TabCoordinator] Shutting down ${this.tabId}`);
+
+                if (this.isLeaderFlag) {
+                    this.broadcast({
+                        type: 'leader-resignation',
+                        tabId: this.tabId,
+                        timestamp: Date.now(),
+                        data: { tabId: this.tabId }
+                    });
+                }
+
+                if (this.heartbeatInterval) clearInterval(this.heartbeatInterval);
+                if (this.leaderTimeoutCheck) clearInterval(this.leaderTimeoutCheck);
+                if (this.electionTimeout) clearTimeout(this.electionTimeout);
+                if (this.resignationElectionTimeout) clearTimeout(this.resignationElectionTimeout);
+                if (this.channel) this.channel.close();
+
+                this.messageCallback = null;
+            }
+        }
+
+        // Initialize TabCoordinator
+        let coordinator;
+        let messageCount = 0;
+
+        async function init() {
+            coordinator = new TabCoordinator('test-coordination');
+
+            coordinator.onMessage((message) => {
+                messageCount++;
+                logMessage(message);
+                document.getElementById('messageCount').textContent = messageCount;
+            });
+
+            await coordinator.initialize();
+            updateUI();
+            logSystem('TabCoordinator initialized');
+        }
+
+        function updateUI() {
+            const status = document.getElementById('status');
+            const role = coordinator.isLeader() ? 'Leader' : 'Follower';
+            const roleColor = coordinator.isLeader() ? 'leader' : 'follower';
+
+            status.className = `status-box ${roleColor}`;
+            status.innerHTML = `
+                <strong>Status:</strong> ${role}<br>
+                <strong>Tab ID:</strong> <span class="tab-id">${coordinator.getTabId()}</span>
+            `;
+
+            document.getElementById('tabIdDisplay').textContent = coordinator.getTabId();
+            document.getElementById('roleDisplay').textContent = role;
+            document.getElementById('roleDisplay').style.color = coordinator.isLeader() ? '#28a745' : '#ffc107';
+        }
+
+        function logMessage(message) {
+            const log = document.getElementById('messageLog');
+            const timestamp = new Date().toLocaleTimeString();
+            const typeClass = message.type.replace('-', '');
+
+            const entry = document.createElement('div');
+            entry.innerHTML = `<span class="timestamp">[${timestamp}]</span> <span class="type ${typeClass}">${message.type}</span> from ${message.tabId.substring(0, 20)}...`;
+
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        function logSystem(text) {
+            const log = document.getElementById('messageLog');
+            const timestamp = new Date().toLocaleTimeString();
+
+            const entry = document.createElement('div');
+            entry.innerHTML = `<span class="timestamp">[${timestamp}]</span> <span style="color: #17a2b8">[SYSTEM]</span> ${text}`;
+
+            log.appendChild(entry);
+            log.scrollTop = log.scrollHeight;
+        }
+
+        window.sendTestMessage = function() {
+            coordinator.broadcast({
+                type: 'test-message',
+                tabId: coordinator.getTabId(),
+                timestamp: Date.now(),
+                data: { text: 'Hello from ' + coordinator.getTabId().substring(0, 20) }
+            });
+            logSystem('Sent test message to all tabs');
+        };
+
+        window.forceReElection = function() {
+            if (coordinator.isLeader()) {
+                logSystem('Resigning as leader...');
+                coordinator.becomeFollower();
+                coordinator.broadcast({
+                    type: 'leader-resignation',
+                    tabId: coordinator.getTabId(),
+                    timestamp: Date.now(),
+                    data: {}
+                });
+            } else {
+                logSystem('Not leader, cannot resign');
+            }
+        };
+
+        window.clearLog = function() {
+            document.getElementById('messageLog').innerHTML = '<div>Log cleared.</div>';
+            messageCount = 0;
+            document.getElementById('messageCount').textContent = '0';
+        };
+
+        window.closeTab = function() {
+            logSystem('Closing tab...');
+            coordinator.destroy();
+            setTimeout(() => window.close(), 500);
+        };
+
+        // Start on load
+        init();
+    </script>
+</body>
+</html>

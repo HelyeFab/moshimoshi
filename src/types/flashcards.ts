@@ -20,6 +20,7 @@ export interface FlashcardDeck {
   createdAt: number;
   updatedAt: number;
   sourceListId?: string; // Link to UserList if created from list
+  source?: 'anki' | 'user'; // Source of the deck (Anki import or user-created)
   tags?: string[];
 }
 
@@ -75,6 +76,11 @@ export interface FlashcardContent {
     audioFilename?: string; // Original audio filename for IndexedDB lookup
     imageFilename?: string; // Original image filename for IndexedDB lookup
 
+    // Furigana support
+    furiganaFront?: string; // Pre-generated furigana HTML for front text
+    furiganaBack?: string; // Pre-generated furigana HTML for back text
+    hasNativeFurigana?: boolean; // True if card already has furigana (from Anki)
+
     // Additional tracking
     createdAt?: number; // When card was added to deck
     modifiedAt?: number; // Last content modification
@@ -111,6 +117,11 @@ export interface DeckSettings {
   reviewMode: 'srs' | 'random' | 'sequential';
   newCardsPerDay?: number;
   reviewsPerDay?: number;
+  furigana?: {
+    enabled: boolean;
+    showOnFront: boolean;
+    showOnBack: boolean;
+  };
 }
 
 export interface DeckStats {

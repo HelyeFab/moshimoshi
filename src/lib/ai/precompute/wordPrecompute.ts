@@ -196,7 +196,7 @@ async function ensureExtras(
   }
 }
 
-// Basic tokenizer: extracts base forms of content words (nouns/verbs/adjectives)
+// Basic tokenizer: extracts base forms of ALL words (including particles, grammar, etc.)
 export async function extractJapaneseWords(text: string): Promise<string[]> {
   const tokenizer = await getTokenizer()
   const tokens = tokenizer.tokenize(text || '')
@@ -248,7 +248,7 @@ export async function precomputeWordExplanations({
   contentId,
   contentType,
   text,
-  limit = 400,
+  limit = 1000, // Increased from 400 to 1000 for better completeness
   jlptLevel = 'N5',
   chunkIndex,
 }: PrecomputeRequest): Promise<PrecomputeResult> {

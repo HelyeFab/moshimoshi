@@ -130,7 +130,36 @@ export async function DELETE(request: NextRequest, { params }: Params) {
       return NextResponse.json({ error: 'Deck not found' }, { status: 404 });
     }
 
+    // Delete deck document
     await deckRef.delete();
+
+    // Check if deck has Anki media that needs cleanup
+    if (deckData?.source === 'anki') {
+      try {
+        // Delete all media files for this deck from Firebase Storage + Firestore metadata
+        const appUrl = process.env.NEXT_PUBLIC_APP_URL || `${request.nextUrl.protocol}//${request.nextUrl.host}`;
+        const mediaDeleteResponse = await fetch(
+          `${appUrl}/api/anki/media/${id}`,
+          {
+            method: 'DELETE',
+            headers: {
+              'Cookie': request.headers.get('cookie') || ''
+            }
+          }
+        );
+
+        if (!mediaDeleteResponse.ok) {
+          const errorText = await mediaDeleteResponse.text();
+          console.warn(`[Deck API] Failed to delete media for deck ${id}:`, errorText);
+        } else {
+          const result = await mediaDeleteResponse.json();
+          console.log(`[Deck API] Deleted ${result.deletedFiles || 0} media files for deck ${id}`);
+        }
+      } catch (error) {
+        console.error(`[Deck API] Error deleting media for deck ${id}:`, error);
+        // Don't fail the deck deletion if media cleanup fails
+      }
+    }
 
     return NextResponse.json({ success: true });
   } catch (error) {

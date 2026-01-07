@@ -174,11 +174,12 @@ export default function TextbookVocabularyPage() {
 
   const handleModeChange = (mode: ViewMode) => {
     setViewMode(mode)
-    // Clear selections when switching back to browse
-    if (mode === 'browse') {
-      setSelectedVocab(new Set())
-      setSelectedVocabData([])
-    }
+    // Clear session data when switching modes
+    // This prevents leftover data from previous sessions from causing unwanted behavior
+    setSelectedVocab(new Set())
+    setSelectedVocabData([])
+    setReviewContent([])
+    setReviewContentPool([])
   }
 
   const handleVocabularyLoaded = useCallback((loadedVocab: VocabularyItem[]) => {
@@ -311,22 +312,29 @@ export default function TextbookVocabularyPage() {
     (statistics: SessionStatistics) => {
       // SessionManager emits SESSION_COMPLETED automatically via Event Hub
       // No manual event emission needed - gamification happens automatically!
-      console.log('[Textbook Vocabulary] Session completed:', {
+      console.log('[Textbook Vocabulary] ✅ SESSION COMPLETE!', {
         correctItems: statistics.correctItems,
         accuracy: statistics.accuracy,
         totalTime: statistics.totalTime,
       })
 
-      showToast('Review session complete!', 'success')
-      setViewMode('browse')
+      // DO NOT setViewMode here - let the celebration screen show
+      // The user will click "Close" which triggers handleReviewCancel
       refreshProgress()
     },
-    [showToast, refreshProgress]
+    [refreshProgress]
   )
 
   const handleReviewCancel = useCallback(() => {
+    // Called when user closes the celebration screen or cancels
+    // Clear all session-related state
+    setSelectedVocab(new Set())
+    setSelectedVocabData([])
+    setReviewContent([])
+    setReviewContentPool([])
     setViewMode('browse')
-  }, [])
+    showToast('Review session complete!', 'success')
+  }, [showToast])
 
   // Determine if in selection mode (browse, study, or review mode before session starts)
   const isSelectionMode = selectedTextbook !== null && (

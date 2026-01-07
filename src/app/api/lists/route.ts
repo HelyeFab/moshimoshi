@@ -54,7 +54,19 @@ export async function GET(request: NextRequest) {
 
     const lists: UserList[] = [];
     snapshot.forEach(doc => {
-      lists.push({ id: doc.id, ...doc.data() } as UserList);
+      const data = doc.data();
+      // Convert Firestore Timestamps to JavaScript timestamps (milliseconds)
+      const list = {
+        id: doc.id,
+        ...data,
+        createdAt: data.createdAt?.toMillis?.() || data.createdAt,
+        updatedAt: data.updatedAt?.toMillis?.() || data.updatedAt,
+        items: data.items?.map((item: any) => ({
+          ...item,
+          createdAt: item.createdAt?.toMillis?.() || item.createdAt,
+        })) || []
+      } as UserList;
+      lists.push(list);
     });
 
     console.log('[GET /api/lists] Found', lists.length, 'lists in Firebase for user:', session.uid);

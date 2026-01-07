@@ -127,6 +127,16 @@ export function KanaLearningComponent({
   const [reviewContent, setReviewContent] = useState<ReviewableContent[]>([])
   const [reviewContentPool, setReviewContentPool] = useState<ReviewableContent[]>([])
   const [isLoading, setIsLoading] = useState(false)
+
+  // Helper function to safely change view mode and clear session state
+  const handleModeChange = useCallback((mode: ViewMode) => {
+    setViewMode(mode)
+    setSelectedCharacters([])
+    setStudyCharacters([])
+    setReviewContent([])
+    setReviewContentPool([])
+    setCurrentStudyIndex(0)
+  }, [])
   const [lastSessionStats, setLastSessionStats] = useState<SessionStatistics | null>(null)
   const [currentStudyIndex, setCurrentStudyIndex] = useState(0)
   const [modalCharacter, setModalCharacter] = useState<KanaCharacter | null>(null)
@@ -484,7 +494,7 @@ export function KanaLearningComponent({
       })
 
       setLastSessionStats(stats)
-      setViewMode('browse')
+      handleModeChange('browse')
 
       showToast(
         `${t('review.sessionComplete')} - ${t('common.accuracy')}: ${stats.accuracy.toFixed(1)}%`,
@@ -731,14 +741,7 @@ export function KanaLearningComponent({
                   learned: progressStats.learned,
                 }}
                 mode={viewMode}
-                onModeChange={newMode => {
-                  setViewMode(newMode)
-                  // Clear selections when switching modes
-                  if (newMode === 'browse') {
-                    setSelectedCharacters([])
-                    setStudyCharacters([])
-                  }
-                }}
+                onModeChange={handleModeChange}
                 selectedCount={selectedCharacters.length}
                 onSelectAll={viewMode !== 'browse' ? handleSelectAll : undefined}
                 onClearSelection={viewMode !== 'browse' ? handleDeselectAll : undefined}
@@ -1015,11 +1018,8 @@ export function KanaLearningComponent({
 
                     // Reached the end - show completion feedback
                     showToast(t('learn.studySessionComplete'), 'success')
-                    // Return to grid after completion
-                    setViewMode('browse')
-                    setCurrentStudyIndex(0)
-                    setStudyCharacters([]) // Clear study characters
-                    setSelectedCharacters([]) // Clear selection
+                    // Return to grid after completion - handleModeChange clears all state
+                    handleModeChange('browse')
                     // Reset study session tracking
                     setStudySessionStartTime(0)
                     setStudyCharactersLearned(0)
@@ -1035,10 +1035,8 @@ export function KanaLearningComponent({
                   if (user) {
                     await kanaProgressManagerV2.endKanaSession(isPremium ?? false)
                   }
-                  setViewMode('browse')
-                  setCurrentStudyIndex(0) // Reset index when going back
-                  setStudyCharacters([]) // Clear study characters
-                  setSelectedCharacters([]) // Clear selection
+                  // handleModeChange clears all state including session data
+                  handleModeChange('browse')
                   // Reset study session tracking
                   setStudySessionStartTime(0)
                   setStudyCharactersLearned(0)
@@ -1076,7 +1074,7 @@ export function KanaLearningComponent({
               contentPool={reviewContentPool.length > 0 ? reviewContentPool : reviewContent}
               userId={user?.uid || 'anonymous'}
               onComplete={handleReviewComplete}
-              onCancel={() => setViewMode('browse')}
+              onCancel={() => handleModeChange('browse')}
               mode="recognition"
               shuffle={false}
             />

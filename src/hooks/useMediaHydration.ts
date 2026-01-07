@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { AnkiMediaStore } from '@/lib/anki/mediaStore'
+import { hydrateAnkiMedia } from '@/lib/anki/mediaHydrator'
 import type { FlashcardContent } from '@/types/flashcards'
 
 /**
@@ -23,14 +24,32 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
     let cancelled = false
 
     const hydrateMedia = async () => {
+      console.log('[useMediaHydration] ========== START CARD HYDRATION ==========')
+      console.log('[useMediaHydration] Card ID:', card.id)
+      console.log('[useMediaHydration] Blob URLs will NOT be revoked on unmount')
+      console.log('[useMediaHydration] URLs managed by AnkiMediaStore.blobUrlCache singleton')
+
       const audioFilename = card.metadata?.audioFilename as string | undefined
       const imageFilename = card.metadata?.imageFilename as string | undefined
 
-      // If no media, return original card
-      if (!audioFilename && !imageFilename) {
+      // Check if HTML content needs hydration (contains data-anki-media)
+      const frontHasMedia = card.front.text?.includes('data-anki-media')
+      const backHasMedia = card.back.text?.includes('data-anki-media')
+
+      console.log('[useMediaHydration] Metadata:', {
+        audioFilename,
+        imageFilename,
+        frontHasMedia,
+        backHasMedia
+      })
+
+      // If no media at all, return original card
+      if (!audioFilename && !imageFilename && !frontHasMedia && !backHasMedia) {
+        console.log('[useMediaHydration] No media found, skipping hydration')
         return
       }
 
+      // Hydrate metadata media (audioFilename, imageFilename)
       const mediaStore = AnkiMediaStore.getInstance()
       const filenames: string[] = []
 
@@ -38,7 +57,7 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
       if (imageFilename) filenames.push(imageFilename)
 
       // Batch fetch media URLs (single DB transaction)
-      const mediaUrls = await mediaStore.getMediaUrls(filenames)
+      const mediaUrls = filenames.length > 0 ? await mediaStore.getMediaUrls(filenames) : new Map()
 
       if (cancelled) return
 
@@ -49,17 +68,41 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
       if (audioUrl) blobUrlsRef.current.push(audioUrl)
       if (imageUrl) blobUrlsRef.current.push(imageUrl)
 
-      // Update card with hydrated URLs
+      // Hydrate inline HTML images (images embedded in front.text/back.text)
+      let hydratedFrontText = card.front.text
+      let hydratedBackText = card.back.text
+
+      if (frontHasMedia) {
+        console.log('[useMediaHydration] Calling hydrateAnkiMedia for FRONT text')
+        console.log('[useMediaHydration] Front text before:', card.front.text.substring(0, 150))
+        hydratedFrontText = await hydrateAnkiMedia(card.front.text)
+        console.log('[useMediaHydration] Front text after:', hydratedFrontText.substring(0, 150))
+      }
+
+      if (backHasMedia) {
+        console.log('[useMediaHydration] Calling hydrateAnkiMedia for BACK text')
+        console.log('[useMediaHydration] Back text before:', card.back.text.substring(0, 150))
+        hydratedBackText = await hydrateAnkiMedia(card.back.text)
+        console.log('[useMediaHydration] Back text after:', hydratedBackText.substring(0, 150))
+      }
+
+      if (cancelled) return
+
+      console.log('[useMediaHydration] Setting hydrated card state')
+
+      // Update card with hydrated URLs and text
       setHydratedCard({
         ...card,
         front: {
           ...card.front,
+          text: hydratedFrontText,
           media: imageUrl
             ? { type: 'image', url: imageUrl, alt: card.front.text }
             : card.front.media
         },
         back: {
           ...card.back,
+          text: hydratedBackText,
           media: audioUrl
             ? { type: 'audio', url: audioUrl }
             : card.back.media
@@ -70,18 +113,20 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
           imageUrl
         }
       })
+
+      console.log('[useMediaHydration] ========== END CARD HYDRATION ==========')
     }
 
     hydrateMedia()
 
-    // Cleanup: revoke blob URLs when component unmounts
+    // Cleanup: DO NOT revoke blob URLs - they are managed by AnkiMediaStore singleton
     return () => {
       cancelled = true
-      for (const url of blobUrlsRef.current) {
-        if (url.startsWith('blob:')) {
-          URL.revokeObjectURL(url)
-        }
-      }
+      console.log('[useMediaHydration] Cleanup: Keeping blob URLs in cache')
+      // DO NOT revoke blob URLs here - they are managed by AnkiMediaStore singleton
+      // Revoking here breaks images for other cards using the same blob URLs
+      // Blob URLs are revoked when deck is deleted via mediaStore.cleanup()
+      // See: src/lib/anki/mediaStore.ts cleanup() method
       blobUrlsRef.current = []
     }
   }, [card.id]) // Re-hydrate if card changes
@@ -111,23 +156,35 @@ export function useBatchMediaHydration(
       // Limit the number of cards to hydrate
       const cardsToHydrate = cards.slice(0, limit)
 
-      // Collect all media filenames
+      // Collect all media filenames and track which cards have inline HTML media
       const filenames: string[] = []
-      const cardMediaMap = new Map<string, { audioFilename?: string; imageFilename?: string }>()
+      const cardMediaMap = new Map<string, {
+        audioFilename?: string
+        imageFilename?: string
+        frontHasMedia?: boolean
+        backHasMedia?: boolean
+      }>()
 
       for (const card of cardsToHydrate) {
         const audioFilename = card.metadata?.audioFilename as string | undefined
         const imageFilename = card.metadata?.imageFilename as string | undefined
+        const frontHasMedia = card.front.text?.includes('data-anki-media')
+        const backHasMedia = card.back.text?.includes('data-anki-media')
 
-        if (audioFilename || imageFilename) {
-          cardMediaMap.set(card.id, { audioFilename, imageFilename })
+        if (audioFilename || imageFilename || frontHasMedia || backHasMedia) {
+          cardMediaMap.set(card.id, {
+            audioFilename,
+            imageFilename,
+            frontHasMedia,
+            backHasMedia
+          })
 
           if (audioFilename) filenames.push(audioFilename)
           if (imageFilename) filenames.push(imageFilename)
         }
       }
 
-      if (filenames.length === 0) {
+      if (cardMediaMap.size === 0) {
         // No media to hydrate
         const map = new Map<string, FlashcardContent>()
         for (const card of cardsToHydrate) {
@@ -139,7 +196,7 @@ export function useBatchMediaHydration(
 
       // Batch fetch all media URLs in a single transaction
       const mediaStore = AnkiMediaStore.getInstance()
-      const mediaUrls = await mediaStore.getMediaUrls(filenames)
+      const mediaUrls = filenames.length > 0 ? await mediaStore.getMediaUrls(filenames) : new Map()
 
       if (cancelled) return
 
@@ -165,16 +222,32 @@ export function useBatchMediaHydration(
           ? mediaUrls.get(cardMedia.imageFilename)
           : undefined
 
+        // Hydrate inline HTML images
+        let hydratedFrontText = card.front.text
+        let hydratedBackText = card.back.text
+
+        if (cardMedia.frontHasMedia) {
+          hydratedFrontText = await hydrateAnkiMedia(card.front.text)
+        }
+
+        if (cardMedia.backHasMedia) {
+          hydratedBackText = await hydrateAnkiMedia(card.back.text)
+        }
+
+        if (cancelled) return
+
         hydrated.set(card.id, {
           ...card,
           front: {
             ...card.front,
+            text: hydratedFrontText,
             media: imageUrl
               ? { type: 'image', url: imageUrl, alt: card.front.text }
               : card.front.media
           },
           back: {
             ...card.back,
+            text: hydratedBackText,
             media: audioUrl
               ? { type: 'audio', url: audioUrl }
               : card.back.media
@@ -192,14 +265,14 @@ export function useBatchMediaHydration(
 
     hydrateCards()
 
-    // Cleanup: revoke blob URLs when component unmounts or cards change
+    // Cleanup: DO NOT revoke blob URLs - they are managed by AnkiMediaStore singleton
     return () => {
       cancelled = true
-      for (const url of blobUrlsRef.current) {
-        if (url.startsWith('blob:')) {
-          URL.revokeObjectURL(url)
-        }
-      }
+      console.log('[useBatchMediaHydration] Cleanup: Keeping blob URLs in cache')
+      // DO NOT revoke blob URLs here - they are managed by AnkiMediaStore singleton
+      // Revoking here breaks images for other cards using the same blob URLs
+      // Blob URLs are revoked when deck is deleted via mediaStore.cleanup()
+      // See: src/lib/anki/mediaStore.ts cleanup() method
       blobUrlsRef.current = []
     }
   }, [cards, limit])

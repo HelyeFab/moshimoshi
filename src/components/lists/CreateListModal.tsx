@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useSessionRefresh } from '@/hooks/useSessionRefresh'
 import { listManager } from '@/lib/lists/ListManager'
+import { hasRequiredMetadata } from '@/lib/lists/validation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import type { ListType, CreateListRequest } from '@/types/userLists'
 import { LIST_COLORS, DEFAULT_LIST_EMOJIS, SUGGESTED_EMOJIS } from '@/types/userLists'
@@ -117,11 +118,22 @@ export default function CreateListModal({
       if (list) {
         console.log('[CreateListModal] List created successfully:', list.id)
 
-        // Show different messages based on user type
+        // Check if initial item has required metadata
+        const hasValidMetadata = initialMetadata ? hasRequiredMetadata(initialMetadata) : true
+
+        // Show different messages based on user type and metadata validity
         if (isPremium) {
-          showToast('List created! Syncing with cloud...', 'success')
+          if (hasValidMetadata) {
+            showToast('List created! Syncing with cloud...', 'success')
+          } else {
+            showToast('List created! Note: ' + t('lists.validation.requireMetadata'), 'warning')
+          }
         } else {
-          showToast(t('lists.created'), 'success')
+          if (hasValidMetadata) {
+            showToast(t('lists.created'), 'success')
+          } else {
+            showToast(t('lists.created') + ' - ' + t('lists.validation.requireMetadata'), 'warning')
+          }
         }
 
         onCreated?.(list.id)

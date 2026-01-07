@@ -151,7 +151,9 @@ export default function ReviewSessionUI({
   // Handle manual next navigation
   const handleNext = async () => {
     try {
-      await nextItem()
+      console.log('[ReviewSessionUI] Next clicked, current:', state.progress.current, 'total:', state.progress.total)
+      const next = await nextItem()
+      console.log('[ReviewSessionUI] Next item:', next ? 'exists' : 'null (session should complete)')
       setShowAnswer(false)
       setIsAnswered(false)
     } catch (error) {
@@ -256,7 +258,7 @@ export default function ReviewSessionUI({
               onClick={handleNext}
               className="px-6 py-2 text-sm bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors font-medium"
             >
-              Next &gt;
+              {state.progress?.current >= state.progress?.total ? 'Finish' : 'Next >'}
             </button>
           )}
         </div>

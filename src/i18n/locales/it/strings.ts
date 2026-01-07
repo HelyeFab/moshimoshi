@@ -232,6 +232,8 @@ export const strings = {
     sentence: 'Frase',
     submit: 'Invia',
     continue: 'Continua',
+    show: 'Mostra',
+    hide: 'Nascondi',
     finish: 'Fine',
     clear: 'Cancella',
     signIn: 'Accedi',
@@ -767,10 +769,10 @@ export const strings = {
     },
     welcome: {
       firstVisit:
-        'Benvenuto nella tua avventura di apprendimento del giapponese! Doshi è qui per guidarti.',
+        'Benvenuto nella tua avventura di apprendimento del giapponese! Moshi è qui per guidarti.',
       returning: 'Pronto a continuare il tuo viaggio? La tua dedizione è stimolante!',
       signoutToast: 'Sayonara! A presto! 👋',
-      doshiClick: 'Doshi dice: がんばって! (Buona fortuna!)',
+      doshiClick: 'Moshi dice: がんばって! (Buona fortuna!)',
     },
     progress: {
       dailyGoal: {
@@ -1696,11 +1698,11 @@ export const strings = {
       processing: 'Elaborazione...',
     },
     doshi: {
-      loading: 'Caricamento Doshi...',
-      altText: 'Doshi - Il tuo compagno di apprendimento',
+      loading: 'Caricamento Moshi...',
+      altText: 'Moshi - Il tuo compagno di apprendimento',
       failedToLoad: 'Caricamento animazione panda rosso fallito',
       ariaLabel: '{{alt}} - Clicca per interagire',
-      moodAria: 'Doshi è {{mood}}',
+      moodAria: 'Moshi è {{mood}}',
     },
     drawer: {
       closeAriaLabel: 'Chiudi cassetto',
@@ -2759,11 +2761,14 @@ export const strings = {
       saveToList: 'Salva nella lista',
       delete: 'Elimina',
       edit: 'Modifica lista',
+      update: 'Aggiorna lista',
       remove: 'Rimuovi dalla lista',
       addItems: 'Aggiungi elementi',
       review: 'Rivedi',
       manage: 'Gestisci lista',
     },
+    edit: 'Modifica lista',
+    update: 'Aggiorna lista',
     deleteDialog: {
       title: 'Elimina lista',
       message: 'Sei sicuro di voler eliminare "{{name}}"? Questa azione non può essere annullata.',
@@ -2799,6 +2804,14 @@ export const strings = {
       saveFailed: 'Salvataggio elemento fallito',
       noListSelected: 'Seleziona almeno una lista',
       incompatibleType: 'Questo tipo di lista non può accettare questo elemento',
+      duplicateItem: 'Questo elemento esiste già nella lista',
+    },
+    validation: {
+      contentRequired: 'Il contenuto è obbligatorio',
+      requireMetadata: 'Aggiungi la Lettura o il Significato per usare questo elemento per le flashcard',
+      readingOrMeaning: 'È richiesta almeno la Lettura o il Significato',
+      invalidItemsSkipped: '{{count}} elemento/i saltato/i - manca Lettura o Significato',
+      warningForStudy: 'Alcuni elementi mancano di Lettura o Significato e verranno saltati durante lo studio',
     },
     empty: {
       noLists: 'Non hai ancora creato liste',
@@ -2812,6 +2825,11 @@ export const strings = {
       mastered: 'Padroneggiato',
       learning: 'In apprendimento',
       total: 'Totale',
+    },
+    multiTab: {
+      versionChangeTitle: 'Database Aggiornato',
+      versionChangeMessage: 'Il database è stato aggiornato in un\'altra scheda. Aggiorna la pagina per continuare.',
+      refreshButton: 'Aggiorna Pagina',
     },
   },
 
@@ -2861,7 +2879,7 @@ export const strings = {
 
     lockScreen: {
       title: 'Schermo bloccato',
-      tapToUnlock: 'Tocca Doshi 3 volte per sbloccare',
+      tapToUnlock: 'Tocca Moshi 3 volte per sbloccare',
       lockButton: 'Blocca schermo',
     },
 
@@ -3104,18 +3122,6 @@ export const strings = {
     strongTopics: 'Punti di Forza',
     needsWork: 'Da Migliorare',
 
-    // Statistics
-    stats: {
-      title: 'Statistiche',
-      todayStudied: 'Studiato oggi',
-      totalStudied: 'Totale studiato',
-      averageAccuracy: 'Precisione media',
-      studyStreak: 'Serie di studio',
-      timeSpent: 'Tempo trascorso',
-      heatmap: 'Mappa di calore',
-      retention: 'Tasso di ritenzione',
-    },
-
     // Customization
     customize: {
       title: 'Personalizza Carte',
@@ -3304,10 +3310,9 @@ export const strings = {
       achievementDesc: 'Ritorno dopo più di 7 giorni di assenza',
       readyToStart: 'Pronto a riprendere? Le tue carte ti aspettano.',
     },
-  },
 
-  // Tooltips
-  tooltips: {
+    // Tooltips
+    tooltips: {
     srs: 'Usa ripetizione spaziata',
     mastery: 'Studia 21+ giorni con 90% precisione',
     streak: 'Studia ogni giorno',
@@ -3323,6 +3328,9 @@ export const strings = {
     card: 'Eliminare questa carta? Irreversibile.',
     progress: 'Resettare progresso?',
   },
+
+  // Status messages
+  syncing: 'Sincronizzazione mazzo...',
 
   // Success messages
   success: {
@@ -3340,44 +3348,76 @@ export const strings = {
     syncComplete: 'Sincronizzazione completata',
   },
 
-  // Actions
-  actions: {
-    syncAll: 'Sincronizza tutto',
-    exportAll: 'Esporta tutto',
-  },
+    // Session Settings
+    settings: {
+      sessionLength: 'Carte per Sessione',
+      sessionLengthHint: 'Scegli quante carte studiare in questa sessione',
+      furigana: 'Furigana',
+      furiganaEnabled: 'Mostra furigana',
+      furiganaEnabledHint: 'Visualizza aiuti di lettura sopra i caratteri kanji',
+      furiganaOnFront: 'Mostra sul lato anteriore',
+      furiganaOnBack: 'Mostra sul lato posteriore',
+      quickSettings: 'Impostazioni rapide',
+      reviewMode: 'Modalità revisione',
+      sequential: 'Sequenziale',
+      random: 'Casuale',
+      smart: 'Intelligente',
+      studyDirection: 'Direzione di studio',
+      frontToBack: 'Fronte → Retro',
+      frontToBackDesc: 'Mostra prima il lato anteriore',
+      backToFront: 'Retro → Fronte',
+      backToFrontDesc: 'Mostra prima il lato posteriore',
+      mixed: 'Misto',
+      mixedDesc: 'Direzione casuale per ogni carta',
+      usingAllCards: 'Utilizzando tutte le carte disponibili',
+    },
 
-  // Study Session
-  startSession: 'Inizia sessione',
+    // Actions
+    actions: {
+      syncAll: 'Sincronizza tutto',
+      exportAll: 'Esporta tutto',
+    },
 
-  // Statistics
-  showStats: 'Mostra statistiche',
-  hideStats: 'Nascondi statistiche',
-  stats: {
-    mastered: 'Padroneggiato',
-    accuracy: 'Precisione',
-    streak: 'Serie attuale',
-    studyTime: 'Tempo di studio',
-    learningProgress: 'Progresso di apprendimento',
-    deckPerformance: 'Prestazioni dei mazzi',
-    insights: 'Approfondimenti di studio',
-    velocity: 'Velocità di apprendimento',
-    cardsPerHour: 'carte/ora',
-    todayGoal: 'Progressi di oggi',
-    bestStreak: 'Miglior serie',
-    dueNow: 'Da rivedere',
-    days: 'giorni',
-    total: 'Carte totali',
-    learning: 'In apprendimento',
-    complete: 'Completo',
-    progress: 'Progresso',
-    averageAccuracy: 'Precisione media',
-    hoursMinutes: '{{hours}}h {{minutes}}m',
-    minutes: '{{minutes}} minuti',
-    period: {
-      day: 'Oggi',
-      week: 'Questa settimana',
-      month: 'Questo mese',
-      all: 'Sempre',
+    // Study Session
+    startSession: 'Inizia sessione',
+
+    // Statistics
+    showStats: 'Mostra statistiche',
+    hideStats: 'Nascondi statistiche',
+    stats: {
+      title: 'Statistiche',
+      mastered: 'Padroneggiato',
+      accuracy: 'Precisione',
+      streak: 'Serie attuale',
+      studyTime: 'Tempo di studio',
+      learningProgress: 'Progresso di apprendimento',
+      deckPerformance: 'Prestazioni dei mazzi',
+      insights: 'Approfondimenti di studio',
+      velocity: 'Velocità di apprendimento',
+      cardsPerHour: 'carte/ora',
+      todayGoal: 'Progressi di oggi',
+      bestStreak: 'Miglior serie',
+      dueNow: 'Da rivedere',
+      days: 'giorni',
+      total: 'Carte totali',
+      learning: 'In apprendimento',
+      complete: 'Completo',
+      progress: 'Progresso',
+      averageAccuracy: 'Precisione media',
+      hoursMinutes: '{{hours}}h {{minutes}}m',
+      minutes: '{{minutes}} minuti',
+      todayStudied: 'Studiato oggi',
+      totalStudied: 'Totale studiato',
+      studyStreak: 'Serie di studio',
+      timeSpent: 'Tempo trascorso',
+      heatmap: 'Mappa di calore',
+      retention: 'Tasso di ritenzione',
+      period: {
+        day: 'Oggi',
+        week: 'Questa settimana',
+        month: 'Questo mese',
+        all: 'Sempre',
+      },
     },
   },
 
@@ -5035,7 +5075,7 @@ export const strings = {
     lockScreen: 'Blocca schermo',
     lockScreenDescription: 'Prevenire tocchi accidentali',
     lockScreenTitle: 'Schermo bloccato',
-    lockScreenUnlockText: 'Tocca Doshi 3 volte per sbloccare',
+    lockScreenUnlockText: 'Tocca Moshi 3 volte per sbloccare',
     lookupDictionary: 'Clicca per cercare nel dizionario',
     showTranslation: 'Mostra traduzione',
     grammarLegend: 'Legenda grammaticale',
@@ -5142,5 +5182,171 @@ export const strings = {
     step2Description: 'Ogni kanji viene fornito con vocabolario e frasi',
     step3Title: 'Ripetizione Spaziata',
     step3Description: 'La pianificazione basata su AI ottimizza la tua ritenzione',
+  },
+
+  qa: {
+    title: 'Casa da Tè',
+    subtitle: 'Riunisciti, fai domande, condividi saggezza con altri studenti',
+    askQuestion: 'Fai una Domanda',
+    answer: 'Risposta',
+    answers: 'Risposte',
+    question: 'Domanda',
+    questions: 'Domande',
+
+    // Tabs/Filters
+    tabs: {
+      recent: 'Recenti',
+      popular: 'Popolari',
+      unanswered: 'Senza Risposta',
+      myQuestions: 'Le Mie Domande',
+    },
+
+    // Difficulty levels
+    difficulty: {
+      beginner: 'Principiante',
+      intermediate: 'Intermedio',
+      advanced: 'Avanzato',
+    },
+
+    // Topic tags
+    tags: {
+      grammar: 'Grammatica',
+      vocabulary: 'Vocabolario',
+      kanji: 'Kanji',
+      pronunciation: 'Pronuncia',
+      particles: 'Particelle',
+      'verb-conjugation': 'Coniugazione Verbi',
+      culture: 'Cultura',
+      jlpt: 'JLPT',
+      translation: 'Traduzione',
+      reading: 'Lettura',
+      listening: 'Ascolto',
+      writing: 'Scrittura',
+      other: 'Altro',
+    },
+
+    // Voting
+    voting: {
+      upvote: 'Voto Positivo',
+      downvote: 'Voto Negativo',
+      loginRequired: 'Effettua il login per votare',
+      cannotVoteOwnContent: 'Non puoi votare i tuoi contenuti',
+      error: 'Voto fallito. Riprova.',
+    },
+
+    // Moderation
+    moderation: {
+      pending: 'In Revisione',
+      approved: 'Approvato',
+      rejected: 'Rifiutato',
+      reason: 'Motivo',
+    },
+
+    // Question card
+    questionCard: {
+      hasAnswer: 'Risposto',
+      viewQuestion: 'Visualizza Domanda',
+    },
+
+    // Editor
+    editor: {
+      title: 'Titolo Domanda',
+      titlePlaceholder: 'Cosa vorresti sapere sul giapponese?',
+      details: 'Dettagli Domanda',
+      detailsPlaceholder: 'Fornisci più contesto sulla tua domanda...',
+      topics: 'Tag Argomento',
+      difficulty: 'Livello di Difficoltà',
+      optional: 'Opzionale',
+      characters: 'caratteri',
+      minChars: 'Minimo {{count}} caratteri',
+      tagsSelected: 'tag selezionati',
+      postQuestion: 'Pubblica Domanda',
+      updateQuestion: 'Aggiorna Domanda',
+      posting: 'Pubblicazione...',
+      cancel: 'Annulla',
+      yourAnswer: 'La Tua Risposta',
+      answerPlaceholder: 'Condividi la tua conoscenza per aiutare gli altri...',
+      answerTooShort: 'La risposta non può essere vuota',
+      postAnswer: 'Pubblica Risposta',
+      loginRequired: 'Effettua il login per pubblicare',
+      loginToAnswer: 'Accedi per pubblicare una risposta',
+      titleTooShort: 'Il titolo deve contenere almeno 10 caratteri',
+      contentTooShort: 'I dettagli devono contenere almeno 20 caratteri',
+      selectTags: 'Seleziona almeno un tag argomento',
+      error: 'Pubblicazione fallita. Riprova.',
+      submittedForReview: 'Domanda inviata per la revisione!',
+      questionPosted: 'Domanda pubblicata con successo!',
+      answerSubmittedForReview: 'Risposta inviata per la revisione!',
+      answerPosted: 'Risposta pubblicata con successo!',
+      moderationPending: 'La tua domanda è in fase di revisione dal nostro sistema di moderazione AI. Di solito richiede alcuni secondi.',
+      questionLive: 'La tua domanda è ora online! Altri utenti possono vederla e rispondere.',
+      answerModerationPending: 'La tua risposta è in fase di revisione. Apparirà una volta approvata.',
+      answerLive: 'La tua risposta è ora visibile!',
+      askAnother: 'Fai un\'Altra Domanda',
+      backToForum: 'Torna al Forum',
+      askQuestionSubtitle: 'Condividi la tua domanda di apprendimento del giapponese con la community',
+      writeYourQuestion: 'Scrivi la Tua Domanda',
+      tips: 'Suggerimenti per Buone Domande',
+      tip1: 'Sii specifico e chiaro su cosa vuoi sapere',
+      tip2: 'Includi contesto rilevante (es. livello JLPT, punto grammaticale specifico)',
+      tip3: 'Mostra cosa hai provato o ricercato',
+      tip4: 'Usa tag argomento appropriati per aiutare gli altri a trovare la tua domanda',
+    },
+
+    // Answer actions
+    answerActions: {
+      acceptedAnswer: 'Risposta Accettata',
+      acceptAnswer: 'Accetta Risposta',
+      accepted: 'Risposta accettata!',
+      acceptError: 'Impossibile accettare la risposta',
+      deleted: 'Risposta eliminata',
+      deleteError: 'Impossibile eliminare la risposta',
+      confirmDelete: 'Sei sicuro di voler eliminare questa risposta?',
+      deleteDialogTitle: 'Eliminare la Risposta?',
+      deleteDialogMessage: 'Sei sicuro di voler eliminare questa risposta? Questa azione non può essere annullata.',
+      deleteDialogConfirm: 'Elimina Risposta',
+      updated: 'Risposta aggiornata',
+      updateError: 'Impossibile aggiornare la risposta',
+      saveEdit: 'Salva Modifica',
+      cancel: 'Annulla',
+      edited: 'modificato',
+      noAnswersYet: 'Nessuna risposta ancora',
+      beTheFirst: 'Sii il primo ad aiutare!',
+      loadError: 'Impossibile caricare le risposte',
+    },
+
+    // Question detail page
+    detail: {
+      notFound: 'Domanda non trovata',
+      loadError: 'Impossibile caricare la domanda',
+      confirmDelete: 'Sei sicuro di voler eliminare questa domanda? Questa azione non può essere annullata.',
+      deleted: 'Domanda eliminata con successo',
+      deleteError: 'Impossibile eliminare la domanda',
+      deleteDialogTitle: 'Eliminare la Domanda?',
+      deleteDialogMessage: 'Sei sicuro di voler eliminare questa domanda? Questa azione non può essere annullata e tutte le risposte verranno rimosse.',
+      deleteConfirm: 'Elimina Domanda',
+      views: 'visualizzazioni',
+      asked: 'chiesto',
+      edit: 'Modifica',
+      delete: 'Elimina',
+      yourAnswer: 'La Tua Risposta',
+    },
+
+    // Edit question page
+    edit: {
+      editQuestion: 'Modifica Domanda',
+      editQuestionSubtitle: 'Aggiorna i dettagli della tua domanda',
+      backToQuestion: 'Torna alla Domanda',
+      questionUpdated: 'Domanda aggiornata con successo',
+      unauthorized: 'Puoi modificare solo le tue domande',
+    },
+
+    // Empty states
+    empty: {
+      noQuestions: 'Nessuna domanda ancora',
+      beFirst: 'Sii il primo a fare una domanda!',
+      noResults: 'Nessuna domanda trovata',
+      tryDifferent: 'Prova filtri o termini di ricerca diversi',
+    },
   },
 }

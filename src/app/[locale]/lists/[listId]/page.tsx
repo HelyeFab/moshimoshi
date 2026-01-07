@@ -8,6 +8,7 @@ import { useRouter, useParams } from 'next/navigation'
 import Navbar from '@/components/layout/Navbar'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { listManager } from '@/lib/lists/ListManager'
+import { validateItemForCreation, hasRequiredMetadata } from '@/lib/lists/validation'
 import type { UserList, ListItem, ListItemSRSData } from '@/types/userLists'
 import { createInitialSRSData } from '@/types/userLists'
 import type { Kanji } from '@/types/kanji'
@@ -29,6 +30,10 @@ import dynamic from 'next/dynamic'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
 import { getEventHub, initializeEventHub } from '@/lib/review-engine/core/event-hub'
+import type { ReviewableContent } from '@/lib/review-engine/core/interfaces'
+import MultiTabNotifier from '@/components/lists/MultiTabNotifier'
+import StorageWarning from '@/components/flashcards/StorageWarning'
+import ListSyncStatusIndicator from '@/components/lists/ListSyncStatusIndicator'
 
 // All gamification uses Event Hub (global singleton)
 // ReviewSessionUI handles initialization automatically
@@ -67,6 +72,17 @@ export default function ListDetailPage() {
 
   // Selection state for study/review modes
   const [selectedItems, setSelectedItems] = useState<Set<string>>(new Set())
+
+  // Handler to safely change view mode and clear session state
+  const handleModeChange = (mode: ViewMode) => {
+    setViewMode(mode)
+    // Clear session data when switching modes to prevent leftover state
+    setSelectedItems(new Set())
+    setSelectedItemsData([])
+    setReviewContent([])
+    setReviewContentPool([])
+    setCurrentStudyIndex(0)
+  }
 
   // Review session state
   const [reviewContent, setReviewContent] = useState<any[]>([])
@@ -130,6 +146,15 @@ export default function ListDetailPage() {
   const handleAddItem = async () => {
     if (!user || !list || !newItemContent.trim()) return
 
+    // Validate metadata for flashcard compatibility
+    const validation = validateItemForCreation(newItemContent.trim(), newItemMetadata)
+
+    if (!validation.valid && validation.errorKey === 'lists.validation.requireMetadata') {
+      // Show warning but allow addition (soft validation)
+      showToast(t('lists.validation.requireMetadata'), 'warning')
+      // Continue with addition despite warning
+    }
+
     try {
       await listManager.addItemToList(
         list.id,
@@ -143,7 +168,13 @@ export default function ListDetailPage() {
       setShowAddModal(false)
       setNewItemContent('')
       setNewItemMetadata({ reading: '', meaning: '', notes: '' })
-      showToast(t('lists.success.itemAdded'), 'success')
+
+      // Show success message with context based on metadata
+      if (hasRequiredMetadata(newItemMetadata)) {
+        showToast(t('lists.success.itemAdded'), 'success')
+      } else {
+        showToast(t('lists.success.itemAdded') + ' ' + t('lists.validation.warningForStudy'), 'info')
+      }
     } catch (error) {
       console.error('Error adding item:', error)
       showToast(t('lists.errors.addFailed'), 'error')
@@ -393,6 +424,42 @@ export default function ListDetailPage() {
     } else {
       // For non-sentence lists, use all list items as pool
       poolContent = list.items.map(item => adapter.transform(item))
+
+      // ENHANCED: For small lists (< 10 items), enrich pool with JMdict distractors
+      // This ensures users always have 4 multiple choice options even with single-item lists
+      if (list.items.length < 10) {
+        console.log(`[User Lists] Small list detected (${list.items.length} items), enriching pool with JMdict distractors...`)
+        setLoadingDistractors(true)
+
+        try {
+          // For each item in the list, generate intelligent distractors using adapter
+          const enrichedPool: ReviewableContent[] = [...poolContent]
+          const seenIds = new Set(poolContent.map(c => c.id))
+
+          for (const item of list.items) {
+            const transformed = adapter.transform(item)
+
+            // Generate intelligent options (1 correct + 3 distractors)
+            const options = await adapter.generateOptions(transformed, list.items, 4)
+
+            // Add unique distractors to the pool
+            for (const option of options) {
+              if (!seenIds.has(option.id)) {
+                enrichedPool.push(option)
+                seenIds.add(option.id)
+              }
+            }
+          }
+
+          console.log(`[User Lists] Pool enriched: ${poolContent.length} original → ${enrichedPool.length} total (added ${enrichedPool.length - poolContent.length} JMdict distractors)`)
+          poolContent = enrichedPool
+        } catch (error) {
+          console.error('[User Lists] Failed to enrich pool with JMdict distractors:', error)
+          // Continue with original pool if enrichment fails
+        } finally {
+          setLoadingDistractors(false)
+        }
+      }
     }
 
     setReviewContent(content)
@@ -403,7 +470,7 @@ export default function ListDetailPage() {
   const handleReviewComplete = async (stats: any) => {
     // SessionManager emits SESSION_COMPLETED automatically via Event Hub
     // No manual event emission needed - gamification happens automatically!
-    console.log('[User Lists] Session completed:', {
+    console.log('[User Lists] ✅ SESSION COMPLETE HANDLER CALLED!', {
       correctItems: stats.correctItems,
       accuracy: stats.accuracy,
       averageResponseTime: stats.averageResponseTime,
@@ -468,11 +535,8 @@ export default function ListDetailPage() {
       }
     }
 
-    setReviewContent([])
-    setReviewContentPool([])
-    setViewMode('browse')
-    setSelectedItems(new Set())
     showToast(`Review complete! Accuracy: ${stats.accuracy.toFixed(1)}%`, 'success')
+    handleModeChange('browse')
   }
 
   const getColorClasses = (color: string) => {
@@ -608,11 +672,8 @@ export default function ListDetailPage() {
                       })
 
                       showToast('Study session complete!', 'success')
-                      setViewMode('browse')
-                      setCurrentStudyIndex(0)
-                      setSelectedItemsData([])
-                      setSelectedItems(new Set())
                       setStudySessionStartTime(0)
+                      handleModeChange('browse')
                     }
                   }}
                   className="px-6 py-3 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-all"
@@ -622,11 +683,7 @@ export default function ListDetailPage() {
               </div>
 
               <button
-                onClick={() => {
-                  setViewMode('browse')
-                  setCurrentStudyIndex(0)
-                  setSelectedItemsData([])
-                }}
+                onClick={() => handleModeChange('browse')}
                 className="mt-4 w-full px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-all"
               >
                 Back to Browse
@@ -672,12 +729,7 @@ export default function ListDetailPage() {
             contentPool={reviewContentPool}
             mode="recognition"
             onComplete={handleReviewComplete}
-            onCancel={() => {
-              setReviewContent([])
-              setReviewContentPool([])
-              setViewMode('browse')
-              setSelectedItems(new Set())
-            }}
+            onCancel={() => handleModeChange('browse')}
             userId={user?.uid || 'guest'}
             shuffle={false}
             config={{ showHints: false }}
@@ -693,6 +745,9 @@ export default function ListDetailPage() {
       className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
       dark:from-dark-900 dark:via-dark-850 dark:to-dark-800"
     >
+      {/* Multi-tab coordination notifier */}
+      <MultiTabNotifier />
+
       {/* Desktop Navbar */}
       <div className="hidden sm:block">
         <Navbar user={user} showUserMenu={true} />
@@ -711,19 +766,20 @@ export default function ListDetailPage() {
             : undefined
         }
         mode={viewMode}
-        onModeChange={setViewMode}
+        onModeChange={handleModeChange}
         selectionMode={viewMode !== 'browse'}
         selectedCount={selectedItems.size}
         onSelectAll={handleSelectAll}
         onClearSelection={handleClearSelection}
         onStartStudy={viewMode === 'study' ? handleStartStudy : undefined}
         onStartReview={viewMode === 'review' ? handleStartReview : undefined}
+        hideBottomBar={list.items.length === 0}
       />
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 py-8 pb-24">
         {/* Actions bar - only show add button in browse mode */}
         {viewMode === 'browse' && (
-          <div className="flex flex-wrap gap-3 mb-6">
+          <div className="flex flex-wrap items-center gap-3 mb-6">
             <button
               onClick={() => setShowAddModal(true)}
               className="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600
@@ -732,6 +788,10 @@ export default function ListDetailPage() {
               <span>➕</span>
               {t('lists.actions.addItems')}
             </button>
+            {/* Sync button - only on mobile, desktop has floating button */}
+            <div className="md:hidden ml-auto relative">
+              <ListSyncStatusIndicator mobileOnly />
+            </div>
           </div>
         )}
 
@@ -818,7 +878,11 @@ export default function ListDetailPage() {
                           options={{ voice: 'ja-JP', speed: 0.9 }}
                         />
                         <button
-                          onClick={() => setDeletingItem(item.id)}
+                          onClick={(e) => {
+                            e.preventDefault()
+                            e.stopPropagation()
+                            setDeletingItem(item.id)
+                          }}
                           className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20
                             transition-all text-red-500"
                           title={t('common.delete')}
@@ -874,9 +938,14 @@ export default function ListDetailPage() {
                   />
                 </div>
 
+                {/* Helper text for metadata requirement */}
+                <div className="text-xs text-gray-500 dark:text-gray-400 bg-blue-50 dark:bg-blue-900/20 p-2 rounded">
+                  💡 {t('lists.validation.readingOrMeaning')}
+                </div>
+
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Reading {t('common.optional')}
+                    Reading
                   </label>
                   <input
                     type="text"
@@ -892,7 +961,7 @@ export default function ListDetailPage() {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Meaning {t('common.optional')}
+                    Meaning
                   </label>
                   <input
                     type="text"
@@ -979,6 +1048,12 @@ export default function ListDetailPage() {
           user={user}
         />
       )}
+
+      <StorageWarning
+        warningMessage="Storage running low. Consider deleting unused lists or clearing old data."
+        criticalMessage="Storage critically low! Please delete unused lists to free up space and continue using the app."
+      />
+      <ListSyncStatusIndicator />
       <MobileNavSpacer />
     </div>
   )

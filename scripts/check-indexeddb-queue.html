@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Check IndexedDB Sync Queue</title>
+</head>
+<body>
+  <h1>IndexedDB Sync Queue Inspector</h1>
+  <pre id="output">Checking...</pre>
+
+  <script>
+    async function checkQueue() {
+      const output = document.getElementById('output');
+      try {
+        // Open IndexedDB
+        const request = indexedDB.open('ankiMediaDB', 2);
+
+        const db = await new Promise((resolve, reject) => {
+          request.onsuccess = () => resolve(request.result);
+          request.onerror = () => reject(request.error);
+        });
+
+        // Get sync queue
+        const tx = db.transaction(['syncQueue'], 'readonly');
+        const store = tx.objectStore('syncQueue');
+        const allJobs = await new Promise((resolve, reject) => {
+          const req = store.getAll();
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+
+        // Get all media
+        const mediaTx = db.transaction(['media'], 'readonly');
+        const mediaStore = mediaTx.objectStore('media');
+        const allMedia = await new Promise((resolve, reject) => {
+          const req = mediaStore.getAll();
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+
+        db.close();
+
+        // Analyze
+        const byStatus = {};
+        allJobs.forEach(job => {
+          const status = job.status || 'unknown';
+          if (!byStatus[status]) byStatus[status] = [];
+          byStatus[status].push(job);
+        });
+
+        const mediaBySyncStatus = {};
+        allMedia.forEach(m => {
+          const status = m.syncStatus || 'unknown';
+          if (!mediaBySyncStatus[status]) mediaBySyncStatus[status] = 0;
+          mediaBySyncStatus[status]++;
+        });
+
+        let report = `=== SYNC QUEUE ANALYSIS ===\n\n`;
+        report += `Total Jobs in Queue: ${allJobs.length}\n\n`;
+
+        report += `Jobs by Status:\n`;
+        Object.keys(byStatus).forEach(status => {
+          report += `  ${status}: ${byStatus[status].length}\n`;
+          if (byStatus[status].length <= 5) {
+            byStatus[status].forEach(job => {
+              report += `    - ${job.filename} (retry: ${job.retryCount || 0})\n`;
+            });
+          }
+        });
+
+        report += `\n=== MEDIA FILES ANALYSIS ===\n\n`;
+        report += `Total Media Files: ${allMedia.length}\n\n`;
+        report += `Media by Sync Status:\n`;
+        Object.keys(mediaBySyncStatus).forEach(status => {
+          report += `  ${status}: ${mediaBySyncStatus[status]}\n`;
+        });
+
+        output.textContent = report;
+
+      } catch (error) {
+        output.textContent = `Error: ${error.message}\n${error.stack}`;
+      }
+    }
+
+    checkQueue();
+  </script>
+</body>
+</html>

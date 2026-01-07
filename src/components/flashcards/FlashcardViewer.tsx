@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronLeft, ChevronRight, RotateCw, Volume2, Eye } from 'lucide-react';
+import { ChevronLeft, ChevronRight, RotateCw, Volume2 } from 'lucide-react';
 import type { FlashcardContent, CardStyle, AnimationSpeed } from '@/types/flashcards';
 import { useI18n } from '@/i18n/I18nContext';
 import { useTTS } from '@/hooks/useTTS';
@@ -45,8 +45,6 @@ export function FlashcardViewer({
   const hydratedCard = useMediaHydration(card);
 
   const [isFlipped, setIsFlipped] = useState(false);
-  const [showHint, setShowHint] = useState(false);
-  const [currentHintIndex, setCurrentHintIndex] = useState(0);
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [hasGraded, setHasGraded] = useState(false);
 
@@ -67,10 +65,30 @@ export function FlashcardViewer({
   // Reset state when card changes
   useEffect(() => {
     setIsFlipped(false);
-    setShowHint(false);
-    setCurrentHintIndex(0);
     setHasGraded(false);
   }, [card.id]);
+
+  // Helper function to detect if text contains Japanese characters
+  const isJapaneseText = useCallback((text: string): boolean => {
+    // Check for Hiragana, Katakana, or Kanji
+    const japaneseRegex = /[\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/;
+    return japaneseRegex.test(text);
+  }, []);
+
+  // Helper function to render text with or without furigana
+  const renderTextWithFurigana = useCallback((text: string, furiganaHtml?: string) => {
+    if (furiganaHtml) {
+      // Render furigana HTML with ruby tags
+      return (
+        <span
+          dangerouslySetInnerHTML={{ __html: furiganaHtml }}
+          style={{ lineHeight: '2.2' }} // Extra line height for ruby tags
+        />
+      );
+    }
+    // Render plain text
+    return text;
+  }, []);
 
   // Auto-play audio if enabled (uses hydrated media)
   useEffect(() => {
@@ -102,25 +120,25 @@ export function FlashcardViewer({
         break;
       case 'ArrowRight':
         e.preventDefault();
-        // Only allow next if graded (or not flipped yet for browsing)
-        if (hasGraded || !isFlipped) {
+        // Only allow next if graded (when grading is required)
+        if (hasGraded || !onResponse) {
           onNext?.();
         }
         break;
       case '1':
-        if (isFlipped) handleGrade(false, 'again');
+        handleGrade(false, 'again');
         break;
       case '2':
-        if (isFlipped) handleGrade(false, 'hard');
+        handleGrade(false, 'hard');
         break;
       case '3':
-        if (isFlipped) handleGrade(true, 'good');
+        handleGrade(true, 'good');
         break;
       case '4':
-        if (isFlipped) handleGrade(true, 'easy');
+        handleGrade(true, 'easy');
         break;
     }
-  }, [handleFlip, onNext, onPrevious, handleGrade, hasGraded, isFlipped]);
+  }, [handleFlip, onNext, onPrevious, handleGrade, hasGraded, onResponse]);
 
   useEffect(() => {
     window.addEventListener('keydown', handleKeyPress);
@@ -266,7 +284,7 @@ export function FlashcardViewer({
               'text-3xl md:text-4xl font-bold text-center mb-4',
               cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
             )}>
-              {hydratedCard.front.text}
+              {renderTextWithFurigana(hydratedCard.front.text, hydratedCard.metadata?.furiganaFront)}
             </h2>
 
             {hydratedCard.front.subtext && (
@@ -280,77 +298,29 @@ export function FlashcardViewer({
 
             {/* Top right controls */}
             <div className="absolute top-4 right-4 flex gap-2">
-              {(hydratedCard.metadata?.audioUrl || hydratedCard.front.text) && (
+              {/* Only show audio button if text contains Japanese characters */}
+              {(hydratedCard.metadata?.audioUrl || hydratedCard.front.text) &&
+               isJapaneseText(hydratedCard.front.text) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
-                  className="p-2 rounded-full bg-primary-100 dark:bg-primary-900/30 hover:bg-primary-200 dark:hover:bg-primary-800/50 transition-colors"
+                  className="p-2 hover:opacity-70 transition-opacity"
                   aria-label={t('common.playAudio')}
                 >
                   <Volume2 className="w-5 h-5 text-primary-600 dark:text-primary-400" />
                 </button>
               )}
-
-              {showHints && !isFlipped && (
-                <button
-                  onClick={(e) => { e.stopPropagation(); setShowHint(!showHint); }}
-                  className="p-2 rounded-full bg-yellow-100 dark:bg-yellow-900/30 hover:bg-yellow-200 dark:hover:bg-yellow-800/50 transition-colors"
-                  aria-label={t('common.hint')}
-                >
-                  <Eye className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
-                </button>
-              )}
             </div>
 
-
-            {/* Hint Overlay */}
-            <AnimatePresence>
-              {showHint && !isFlipped && (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.9 }}
-                  className="absolute inset-4 bg-yellow-50 dark:bg-yellow-900/20 backdrop-blur-sm rounded-xl p-6 flex flex-col items-center justify-center border-2 border-yellow-200 dark:border-yellow-800"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <div className="text-center">
-                    <Eye className="w-8 h-8 text-yellow-600 dark:text-yellow-400 mx-auto mb-3" />
-                    <p className="text-lg font-medium text-gray-900 dark:text-gray-100 mb-2">
-                      {t('common.hint')}
-                    </p>
-                    <p className="text-gray-700 dark:text-gray-300">
-                      {(() => {
-                        // Show custom hints if available
-                        if (hydratedCard.metadata?.hints) {
-                          return Array.isArray(hydratedCard.metadata.hints)
-                            ? hydratedCard.metadata.hints[currentHintIndex]
-                            : hydratedCard.metadata.hints;
-                        }
-                        // Fallback: show first few characters of the answer
-                        const answer = hydratedCard.back.text;
-                        if (answer.length <= 3) {
-                          return `${answer.charAt(0)}...`;
-                        } else if (answer.length <= 10) {
-                          return `${answer.substring(0, 2)}...`;
-                        } else {
-                          return `${answer.substring(0, 3)}... (${answer.length} characters)`;
-                        }
-                      })()}
-                    </p>
-                    {Array.isArray(hydratedCard.metadata?.hints) && hydratedCard.metadata.hints.length > 1 && (
-                      <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                        {currentHintIndex + 1} / {hydratedCard.metadata.hints.length}
-                      </p>
-                    )}
-                  </div>
-                  <button
-                    onClick={() => setShowHint(false)}
-                    className="mt-4 px-4 py-2 bg-yellow-200 dark:bg-yellow-800 rounded-lg text-yellow-800 dark:text-yellow-200 hover:bg-yellow-300 dark:hover:bg-yellow-700 transition-colors"
-                  >
-                    {t('common.close')}
-                  </button>
-                </motion.div>
-              )}
-            </AnimatePresence>
+            {/* Bottom right flip button */}
+            <div className="absolute bottom-4 right-4">
+              <button
+                onClick={(e) => { e.stopPropagation(); handleFlip(); }}
+                className="p-3 rounded-full bg-primary-500 text-white hover:bg-primary-600 transition-colors shadow-lg"
+                aria-label={t('flashcards.flipCard')}
+              >
+                <RotateCw className="w-5 h-5" />
+              </button>
+            </div>
           </div>
 
           {/* Back Side */}
@@ -375,7 +345,7 @@ export function FlashcardViewer({
               'text-3xl md:text-4xl font-bold text-center mb-2',
               cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
             )}>
-              {hydratedCard.back.text}
+              {renderTextWithFurigana(hydratedCard.back.text, hydratedCard.metadata?.furiganaBack)}
             </h2>
 
             {/* Reading (hiragana) */}
@@ -409,15 +379,27 @@ export function FlashcardViewer({
 
             {/* Top right audio button */}
             <div className="absolute top-4 right-4">
-              {(hydratedCard.metadata?.audioUrl || hydratedCard.back.text) && (
+              {(hydratedCard.metadata?.audioUrl || hydratedCard.back.text) &&
+               isJapaneseText(hydratedCard.back.text) && (
                 <button
                   onClick={(e) => { e.stopPropagation(); playAudio(); }}
-                  className="p-2 rounded-full bg-primary-100 dark:bg-primary-900/30 hover:bg-primary-200 dark:hover:bg-primary-800/50 transition-colors"
+                  className="p-2 hover:opacity-70 transition-opacity"
                   aria-label={t('common.playAudio')}
                 >
                   <Volume2 className="w-5 h-5 text-primary-600 dark:text-primary-400" />
                 </button>
               )}
+            </div>
+
+            {/* Bottom right flip button */}
+            <div className="absolute bottom-4 right-4">
+              <button
+                onClick={(e) => { e.stopPropagation(); handleFlip(); }}
+                className="p-3 rounded-full bg-primary-500 text-white hover:bg-primary-600 transition-colors shadow-lg"
+                aria-label={t('flashcards.flipCard')}
+              >
+                <RotateCw className="w-5 h-5" />
+              </button>
             </div>
           </div>
         </motion.div>
@@ -435,16 +417,8 @@ export function FlashcardViewer({
         </button>
 
         <button
-          onClick={handleFlip}
-          className="px-6 py-3 rounded-full bg-primary-500 text-white hover:bg-primary-600 transition-colors flex items-center gap-2 font-medium"
-        >
-          <RotateCw className="w-5 h-5" />
-          {t('flashcards.flipCard')}
-        </button>
-
-        <button
           onClick={onNext}
-          disabled={!onNext || (isFlipped && !hasGraded)}
+          disabled={!onNext || (onResponse && !hasGraded)}
           className="p-3 rounded-full bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           aria-label={t('flashcards.nextCard')}
         >
@@ -452,9 +426,9 @@ export function FlashcardViewer({
         </button>
       </div>
 
-      {/* Difficulty Buttons (shown after flip) */}
+      {/* Difficulty Buttons */}
       <AnimatePresence>
-        {isFlipped && onResponse && (
+        {onResponse && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

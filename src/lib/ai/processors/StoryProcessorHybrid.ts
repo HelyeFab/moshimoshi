@@ -119,7 +119,7 @@ export class StoryProcessorHybrid extends StoryProcessor {
       },
       metadata: {
         provider: 'ollama',
-        model: 'qwen2.5:7b',
+        model: response.model,
         processingTime: duration,
         theme: request.theme,
         pageCount: enhanced.pages.length,
