@@ -254,6 +254,17 @@ export function StudySession({
         user?.uid || 'guest',
         isPremium || false
       );
+      if (isPremium && user?.uid) {
+        const response = await fetch(`/api/flashcards/decks/${deck.id}/deletions`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ cardId: cardToDelete.id }),
+        });
+
+        if (!response.ok) {
+          console.warn('Failed to persist deleted card:', response.status);
+        }
+      }
     } catch (error) {
       console.error('Failed to delete card from deck:', error);
     }

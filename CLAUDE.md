@@ -157,6 +157,47 @@ await offlineManager.forceSyncAll()
 4. Offline-first with optimistic updates and background sync
 5. Performance-critical paths use memoization and lazy loading
 
+## Coding Best Practices & Lessons Learned
+
+### File Editing Guidelines
+**NEVER use bash scripts for complex TypeScript/code modifications.** Scripts cannot understand code structure and will cause syntax errors.
+
+**Correct approach for editing TypeScript/i18n files:**
+1. **Read** the file first using the Read tool to understand structure
+2. **Edit** using the Edit tool for precise, context-aware changes
+3. **Verify** the result by reading the modified section
+
+**Wrong approach (causes errors):**
+- ❌ Using bash scripts with `cat >>`, `echo >>`, or `sed` for TypeScript edits
+- ❌ Appending content without reading the file structure first
+- ❌ Using heredocs for complex nested object additions
+
+**Why scripts fail:**
+- Cannot parse TypeScript syntax (nested objects, closing braces)
+- Cannot understand context (where one section ends, another begins)
+- Cannot handle proper indentation and comma placement
+- Lead to "Expected ';', '}' or <eof>" errors
+
+**Examples:**
+```bash
+# ❌ WRONG - Will cause syntax errors
+cat >> src/i18n/locales/en/strings.ts << 'EOF'
+  newSection: { key: 'value' },
+}
+EOF
+
+# ✅ CORRECT - Use Edit tool after reading
+# 1. Read the file to see structure
+# 2. Use Edit tool with exact old_string and new_string
+# 3. Verify the changes
+```
+
+**When bash IS appropriate:**
+- Simple file operations (cp, mv, mkdir)
+- Git commands
+- Running tests/builds
+- File listing and searching
+
 ---
-Last Updated: 2025-01-10
+Last Updated: 2025-01-08
 Specialist Knowledge: Universal Review Engine

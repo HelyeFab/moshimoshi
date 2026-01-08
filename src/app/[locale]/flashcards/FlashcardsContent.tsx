@@ -25,6 +25,7 @@ import { flashcardManager, FlashcardManager } from '@/lib/flashcards/FlashcardMa
 import { FlashcardSRSHelper } from '@/lib/flashcards/SRSHelper'
 import { ankiDeckManager } from '@/lib/anki/AnkiDeckManager'
 import { RestoreOrchestrator } from '@/lib/r2/RestoreOrchestrator'
+import { RestoreQueue } from '@/lib/r2/RestoreQueue'
 import type { BackupInfo, RestoreProgress } from '@/types/r2'
 import { getR2UploadQueue } from '@/lib/r2/R2UploadQueue'
 import { useGamificationStore } from '@/state/userGamification'
@@ -194,6 +195,13 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     if (!initialData.userId || !isPremium) return null
     return getR2UploadQueue(initialData.userId)
   }, [initialData.userId, isPremium])
+
+  const restoreQueue = useMemo(() => {
+    if (!initialData.userId || !isPremium) return null
+    return RestoreQueue.getInstance()
+  }, [initialData.userId, isPremium])
+
+  const resumeTriggeredRef = useRef(false)
 
   useEffect(() => {
     if (!r2Queue) return
@@ -557,6 +565,11 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           })
         )
       )
+      if (restoreQueue) {
+        await Promise.all(
+          missingBackups.map(backup => restoreQueue.upsertJobFromBackup(backup, initialData.userId!))
+        )
+      }
       setRestoreProgressByDeckId(prev => {
         const next = { ...prev }
         for (const backup of missingBackups) {
@@ -570,7 +583,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         return next
       })
 
-      const orchestrator = new RestoreOrchestrator(initialData.userId)
+      const orchestrator = new RestoreOrchestrator(initialData.userId, restoreQueue ?? undefined)
       const progress = {
         status: 'migrating',
         total: missingBackups.length,
@@ -667,6 +680,176 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       setIsSyncingMedia(false)
     }
   }
+
+  const resumePendingRestores = useCallback(async () => {
+    if (!initialData.userId || !isPremium || !restoreQueue) return
+    if (resumeTriggeredRef.current || isSyncingMedia) return
+
+    const jobs = await restoreQueue.getActiveJobs(initialData.userId)
+    if (jobs.length === 0) return
+
+    resumeTriggeredRef.current = true
+
+    const backups: BackupInfo[] = jobs.map(job => ({
+      deckId: job.id,
+      name: job.deckName,
+      cardCount: job.cardCount,
+      hasMedia: job.hasMedia,
+      lastBackup: new Date(job.lastBackup),
+      r2Keys: {
+        manifestKey: job.manifestKey,
+        packageKey: job.packageKey,
+      },
+    }))
+
+    const restoreStubs = backups.map(backup => ({
+      id: backup.deckId,
+      userId: initialData.userId!,
+      name: backup.name,
+      description: '',
+      emoji: '📥',
+      color: 'lavender',
+      cardStyle: 'minimal',
+      cards: [],
+      settings: {
+        studyDirection: 'front-to-back',
+        autoPlay: false,
+        showHints: true,
+        animationSpeed: 'normal',
+        soundEffects: true,
+        hapticFeedback: true,
+        sessionLength: 20,
+        reviewMode: 'srs',
+        newCardsPerDay: 20,
+        reviewsPerDay: 100,
+      },
+      stats: {
+        totalCards: backup.cardCount,
+        newCards: backup.cardCount,
+        learningCards: 0,
+        reviewCards: 0,
+        masteredCards: 0,
+        totalStudied: 0,
+        lastStudied: undefined,
+        averageAccuracy: 0,
+        currentStreak: 0,
+        longestStreak: 0,
+        totalTimeSpent: 0,
+        heatmapData: {},
+      },
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      source: 'anki',
+      restoreStatus: 'restoring',
+    }) as FlashcardDeck)
+
+    setDecks(prev => {
+      const existingIds = new Set(prev.map(deck => deck.id))
+      const newStubs = restoreStubs.filter(deck => !existingIds.has(deck.id))
+      return newStubs.length > 0 ? [...newStubs, ...prev] : prev
+    })
+
+    setRestoreProgressByDeckId(prev => {
+      const next = { ...prev }
+      for (const job of jobs) {
+        const downloadedCount = job.downloadedFiles?.length || 0
+        next[job.id] = {
+          phase: job.status === 'error' ? 'error' : 'downloading-media',
+          filesDownloaded: downloadedCount,
+          totalFiles: job.totalFiles || 0,
+          progress: job.totalFiles ? (downloadedCount / job.totalFiles) * 100 : 0,
+          error: job.lastError,
+        }
+      }
+      return next
+    })
+
+    showToast(t('flashcards.restore.resumeInProgress') || 'Resuming restore in progress...', 'info')
+
+    const orchestrator = new RestoreOrchestrator(initialData.userId, restoreQueue)
+    const progress = {
+      status: 'migrating',
+      total: backups.length,
+      completed: 0,
+      failed: 0,
+      currentDeck: null as string | null,
+      currentProgress: 0,
+      errors: [] as string[],
+    }
+
+    setShowMigration(false)
+    setIsSyncingMedia(true)
+    setMigrationProgress(progress)
+
+    for (const backup of backups) {
+      progress.currentDeck = backup.name
+      progress.currentProgress = 0
+      setMigrationProgress({ ...progress })
+
+      try {
+        const handleProgress = (payload: any) => {
+          progress.currentProgress = Math.max(0, Math.min(100, payload?.progress ?? 0))
+          setMigrationProgress({ ...progress })
+          setRestoreProgressByDeckId(prev => ({
+            ...prev,
+            [backup.deckId]: {
+              ...prev[backup.deckId],
+              ...payload,
+              progress: Math.max(0, Math.min(100, payload?.progress ?? 0)),
+            },
+          }))
+        }
+        orchestrator.on('progress', handleProgress)
+        await orchestrator.restoreDeck(backup)
+        orchestrator.off('progress', handleProgress)
+        progress.completed += 1
+        progress.currentProgress = 0
+
+        const restoredDeck = await flashcardManager.getDeck(backup.deckId, initialData.userId)
+        if (restoredDeck) {
+          setDecks(prev => prev.map(deck => (deck.id === backup.deckId ? restoredDeck : deck)))
+        }
+        setRestoreProgressByDeckId(prev => ({
+          ...prev,
+          [backup.deckId]: {
+            ...prev[backup.deckId],
+            phase: 'complete',
+            progress: 100,
+          },
+        }))
+        setTimeout(() => {
+          setRestoreProgressByDeckId(prev => {
+            const next = { ...prev }
+            delete next[backup.deckId]
+            return next
+          })
+        }, 800)
+      } catch (error: any) {
+        orchestrator.removeAllListeners('progress')
+        progress.failed += 1
+        progress.errors.push(error?.message || `Failed to restore ${backup.name}`)
+        setRestoreProgressByDeckId(prev => ({
+          ...prev,
+          [backup.deckId]: {
+            ...prev[backup.deckId],
+            phase: 'error',
+            progress: 0,
+            error: error?.message || 'Restore failed',
+          },
+        }))
+      }
+
+      setMigrationProgress({ ...progress })
+    }
+
+    setMigrationProgress(null)
+    await loadR2Usage()
+    setIsSyncingMedia(false)
+  }, [initialData.userId, isPremium, restoreQueue, isSyncingMedia, showToast, t, loadR2Usage])
+
+  useEffect(() => {
+    resumePendingRestores()
+  }, [resumePendingRestores])
 
   const handleExportAll = async () => {
     if (!initialData.userId) return

@@ -6,6 +6,7 @@ import { AnkiParser } from '@/lib/anki/parser'
 import { AnkiMediaStore, buildAnkiMediaKey } from '@/lib/anki/mediaStore'
 import { flashcardManager } from '@/lib/flashcards/FlashcardManager'
 import { AnkiImporter, AnkiDeck, AnkiCard } from '@/lib/anki/importer'
+import { RestoreQueue } from '@/lib/r2/RestoreQueue'
 
 /**
  * Parse an Anki package blob and convert to AnkiDeck with properly typed cards
@@ -37,11 +38,13 @@ async function parseAnkiPackage(packageBlob: Blob): Promise<{
 export class RestoreOrchestrator extends EventEmitter {
   private userId: string
   private downloadQueue: PQueue
+  private restoreQueue?: RestoreQueue
 
-  constructor(userId: string) {
+  constructor(userId: string, restoreQueue?: RestoreQueue) {
     super()
     this.userId = userId
     this.downloadQueue = new PQueue({ concurrency: 5 }) // 5 concurrent downloads
+    this.restoreQueue = restoreQueue
   }
 
   /**
@@ -58,8 +61,17 @@ export class RestoreOrchestrator extends EventEmitter {
     } as RestoreProgress)
 
     try {
+      if (this.restoreQueue) {
+        await this.restoreQueue.upsertJobFromBackup(backup, this.userId)
+        await this.restoreQueue.markStatus(backup.deckId, 'in_progress')
+      }
+
       // Step 1: Download manifest
       const manifest = await this.downloadManifest(backup.r2Keys.manifestKey)
+      if (this.restoreQueue) {
+        const totalFiles = manifest.files.filter(f => f.type === 'media').length
+        await this.restoreQueue.setTotalFiles(backup.deckId, totalFiles)
+      }
       this.emit('progress', {
         phase: 'downloading-manifest',
         progress: 10,
@@ -111,8 +123,15 @@ export class RestoreOrchestrator extends EventEmitter {
         totalFiles: mediaFiles.size,
       } as RestoreProgress)
 
+      if (this.restoreQueue) {
+        await this.restoreQueue.markStatus(backup.deckId, 'completed')
+        await this.restoreQueue.clearJob(backup.deckId)
+      }
       return backup.deckId
     } catch (error: any) {
+      if (this.restoreQueue) {
+        await this.restoreQueue.markStatus(backup.deckId, 'error', error?.message || 'Restore failed')
+      }
       this.emit('progress', {
         phase: 'error',
         progress: 0,
@@ -155,15 +174,23 @@ export class RestoreOrchestrator extends EventEmitter {
     const mediaStore = AnkiMediaStore.getInstance()
     const existingMedia = await mediaStore.getMediaByDeck(deckId)
     const existingIds = new Set(existingMedia.map(media => media.id))
+    let restoredFiles: Set<string> | null = null
+    if (this.restoreQueue) {
+      const job = await this.restoreQueue.getJob(deckId)
+      if (job?.downloadedFiles?.length) {
+        restoredFiles = new Set(job.downloadedFiles)
+      }
+    }
 
     let downloaded = 0
     const total = mediaEntries.length
 
     await this.downloadQueue.addAll(
       mediaEntries.map(entry => async () => {
+        const alreadyRestored = restoredFiles?.has(entry.name)
         const cached = existingIds.has(entry.name) || existingIds.has(buildAnkiMediaKey(deckId, entry.name))
 
-        if (cached) {
+        if (cached || alreadyRestored) {
           downloaded++
           const progress = total === 0 ? 80 : 20 + (60 * downloaded / total)
           this.emit('progress', {
@@ -217,6 +244,12 @@ export class RestoreOrchestrator extends EventEmitter {
     // Step 1: Parse package file
     const { deck, media } = await parseAnkiPackage(packageBlob)
 
+    const deletedCardIds = await this.fetchDeletedCardIds(backup.deckId)
+    const restoredCards =
+      deletedCardIds.size === 0
+        ? deck.cards
+        : deck.cards.filter(card => !deletedCardIds.has(card.id))
+
     // Step 2: Store deck in FlashcardDB
     // Access private initDB method using bracket notation
     const db = await (flashcardManager as any).initDB()
@@ -230,7 +263,7 @@ export class RestoreOrchestrator extends EventEmitter {
       color: 'primary',
       cardStyle: 'minimal',
       source: 'anki',
-      cards: deck.cards,
+      cards: restoredCards,
       settings: {
         studyDirection: 'front-to-back',
         autoPlay: false,
@@ -244,8 +277,8 @@ export class RestoreOrchestrator extends EventEmitter {
         reviewsPerDay: 100,
       },
       stats: {
-        totalCards: deck.cards.length,
-        newCards: deck.cards.length,
+        totalCards: restoredCards.length,
+        newCards: restoredCards.length,
         learningCards: 0,
         reviewCards: 0,
         masteredCards: 0,
@@ -271,10 +304,13 @@ export class RestoreOrchestrator extends EventEmitter {
         deckId: backup.deckId,
         syncStatus: 'synced', // Already backed up in R2
       })
+      if (this.restoreQueue) {
+        await this.restoreQueue.addDownloadedFile(backup.deckId, filename)
+      }
     }
 
     console.log(`[RestoreOrchestrator] Restored deck ${backup.deckId}:`, {
-      cardCount: deck.cards.length,
+      cardCount: restoredCards.length,
       mediaCount: mediaFiles.size,
     })
   }
@@ -290,6 +326,9 @@ export class RestoreOrchestrator extends EventEmitter {
         deckId: backup.deckId,
         syncStatus: 'synced',
       })
+      if (this.restoreQueue) {
+        await this.restoreQueue.addDownloadedFile(backup.deckId, filename)
+      }
     }
   }
 
@@ -311,5 +350,20 @@ export class RestoreOrchestrator extends EventEmitter {
 
     const data = await response.json()
     return data.url
+  }
+
+  private async fetchDeletedCardIds(deckId: string): Promise<Set<string>> {
+    try {
+      const response = await fetch(`/api/flashcards/decks/${deckId}/deletions`)
+      if (!response.ok) {
+        return new Set()
+      }
+      const data = await response.json()
+      const deletedCardIds = Array.isArray(data?.deletedCardIds) ? data.deletedCardIds : []
+      return new Set(deletedCardIds)
+    } catch (error) {
+      console.warn('[RestoreOrchestrator] Failed to load deleted cards:', error)
+      return new Set()
+    }
   }
 }

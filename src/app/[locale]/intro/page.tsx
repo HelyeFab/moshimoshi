@@ -8,6 +8,8 @@ import { Button } from '@/components/ui/button'
 import { useTranslation } from '@/hooks/useTranslation'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { Suspense } from 'react'
+import { useAnimationControl } from '@/components/ui/AnimationControl'
+import Image from 'next/image'
 
 // Swipe detection configuration
 const swipeConfidenceThreshold = 10000
@@ -46,12 +48,130 @@ const panels: PanelContent[] = [
   { id: 5, doshiMood: 'happy' }, // Closing
 ]
 
+// Floating lantern component
+function FloatingLantern({ delay = 0, color = '#ef4444' }) {
+  const animationsEnabled = useAnimationControl()
+  const [leftPosition, setLeftPosition] = useState(50)
+
+  React.useEffect(() => {
+    setLeftPosition(Math.random() * 100)
+  }, [])
+
+  return (
+    <motion.div
+      className="absolute pointer-events-none floating-element"
+      initial={{ y: '120vh', opacity: 0 }}
+      animate={
+        animationsEnabled
+          ? {
+              y: '-20vh',
+              opacity: [0, 1, 1, 0],
+            }
+          : { y: '120vh', opacity: 0 }
+      }
+      transition={{
+        duration: animationsEnabled ? 20 : 0,
+        delay: animationsEnabled ? delay : 0,
+        repeat: animationsEnabled ? Infinity : 0,
+        ease: 'linear',
+      }}
+      style={{
+        left: `${leftPosition}%`,
+        filter: `drop-shadow(0 0 20px ${color})`,
+      }}
+    >
+      <div
+        className="w-8 h-10 rounded-lg"
+        style={{
+          background: `linear-gradient(135deg, ${color}40, ${color}80)`,
+          boxShadow: `inset 0 0 20px ${color}60`,
+        }}
+      />
+    </motion.div>
+  )
+}
+
+// Chinese lantern emoji component
+function ChineseLantern({
+  delay = 0,
+  size = 'medium',
+}: {
+  delay?: number
+  size?: 'small' | 'medium' | 'large' | 'xlarge'
+}) {
+  const animationsEnabled = useAnimationControl()
+  const [leftPosition, setLeftPosition] = useState(50)
+  const [horizontalDrift, setHorizontalDrift] = useState(0)
+  const [duration, setDuration] = useState(25)
+
+  React.useEffect(() => {
+    setLeftPosition(Math.random() * 100)
+    setHorizontalDrift(Math.random() * 30 - 15)
+    setDuration(25 + Math.random() * 10)
+  }, [])
+
+  const sizes = {
+    small: 'text-2xl',
+    medium: 'text-4xl',
+    large: 'text-6xl',
+    xlarge: 'text-8xl',
+  } as const
+
+  const startY = '120vh'
+  const endY = '-20vh'
+
+  return (
+    <motion.div
+      className={`absolute pointer-events-none lantern-float ${sizes[size]}`}
+      initial={{
+        y: startY,
+        x: 0,
+        opacity: 0,
+        rotate: -10,
+      }}
+      animate={
+        animationsEnabled
+          ? {
+              y: endY,
+              x: horizontalDrift,
+              opacity: [0, 1, 1, 1, 0],
+              rotate: 10,
+            }
+          : {
+              y: startY,
+              x: 0,
+              opacity: 0,
+              rotate: -10,
+            }
+      }
+      transition={{
+        duration: animationsEnabled ? duration : 0,
+        delay: animationsEnabled ? delay : 0,
+        repeat: animationsEnabled ? Infinity : 0,
+        ease: 'easeInOut',
+      }}
+      style={{
+        left: `${leftPosition}%`,
+        filter: 'drop-shadow(0 0 15px rgba(239, 68, 68, 0.5))',
+      }}
+    >
+      🏮
+    </motion.div>
+  )
+}
+
 function IntroTutorialContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { t } = useTranslation()
   const [[page, direction], setPage] = useState([0, 0])
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  // Drag-to-scroll state for desktop
+  const scrollRef = React.useRef<HTMLDivElement>(null)
+  const [isDragging, setIsDragging] = useState(false)
+  const [startY, setStartY] = useState(0)
+  const [scrollTop, setScrollTop] = useState(0)
 
   // Check if this is a review (from settings)
   const isReview = searchParams.get('review') === 'true'
@@ -118,9 +238,69 @@ function IntroTutorialContent() {
     }
   }
 
+  // Drag-to-scroll handlers for desktop
+  const handleMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return
+    setIsDragging(true)
+    setStartY(e.pageY - scrollRef.current.offsetTop)
+    setScrollTop(scrollRef.current.scrollTop)
+    // Add cursor style
+    if (scrollRef.current) {
+      scrollRef.current.style.cursor = 'grabbing'
+      scrollRef.current.style.userSelect = 'none'
+    }
+  }
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || !scrollRef.current) return
+    e.preventDefault()
+    const y = e.pageY - scrollRef.current.offsetTop
+    const walk = (y - startY) * 1.5 // Scroll speed multiplier
+    scrollRef.current.scrollTop = scrollTop - walk
+  }
+
+  const handleMouseUp = () => {
+    setIsDragging(false)
+    if (scrollRef.current) {
+      scrollRef.current.style.cursor = 'grab'
+      scrollRef.current.style.userSelect = 'auto'
+    }
+  }
+
+  const handleMouseLeave = () => {
+    if (isDragging) {
+      setIsDragging(false)
+      if (scrollRef.current) {
+        scrollRef.current.style.cursor = 'grab'
+        scrollRef.current.style.userSelect = 'auto'
+      }
+    }
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900 flex flex-col items-center justify-center p-6 pb-24 overflow-hidden">
-      <div className="w-full max-w-2xl">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-dark-900 dark:via-dark-850 dark:to-dark-900 flex flex-col items-center justify-center p-6 pb-24 overflow-x-hidden relative">
+      {/* Floating lanterns background */}
+      <div className="absolute inset-0 h-full overflow-hidden pointer-events-none z-0">
+        <FloatingLantern delay={0} color="#ef4444" />
+        <FloatingLantern delay={4} color="#f97316" />
+        <FloatingLantern delay={8} color="#8b5cf6" />
+        <FloatingLantern delay={12} color="#06b6d4" />
+        <FloatingLantern delay={16} color="#10b981" />
+
+        {/* Chinese lantern emojis of different sizes */}
+        <ChineseLantern delay={0} size="small" />
+        <ChineseLantern delay={3} size="large" />
+        <ChineseLantern delay={6} size="medium" />
+        <ChineseLantern delay={9} size="xlarge" />
+        <ChineseLantern delay={12} size="small" />
+        <ChineseLantern delay={15} size="medium" />
+        <ChineseLantern delay={18} size="large" />
+        <ChineseLantern delay={21} size="small" />
+        <ChineseLantern delay={24} size="medium" />
+        <ChineseLantern delay={27} size="xlarge" />
+      </div>
+
+      <div className="w-full max-w-2xl relative z-10">
         {/* Main Panel Area */}
         <div className="relative h-[600px] md:h-[650px] mb-8">
           <AnimatePresence initial={false} custom={direction} mode="wait">
@@ -141,8 +321,24 @@ function IntroTutorialContent() {
               onDragEnd={handleDragEnd}
               className="absolute inset-0 flex flex-col items-center justify-start cursor-grab active:cursor-grabbing"
             >
-              {/* Panel Content */}
-              <div className="w-full bg-white/80 dark:bg-dark-800/80 backdrop-blur-lg rounded-3xl shadow-2xl p-8 md:p-12 border border-gray-200 dark:border-gray-700">
+              {/* Panel Content - Scrollable with hidden scrollbar */}
+              <div
+                ref={scrollRef}
+                onMouseDown={handleMouseDown}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseLeave}
+                className="w-full flex-1 min-h-0 bg-white/80 dark:bg-dark-800/80 backdrop-blur-lg rounded-3xl shadow-2xl p-6 md:p-12 border border-gray-200 dark:border-gray-700 overflow-y-auto overflow-x-hidden scrollbar-hide cursor-grab"
+              >
+                <style jsx>{`
+                  .scrollbar-hide {
+                    -ms-overflow-style: none;
+                    scrollbar-width: none;
+                  }
+                  .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                  }
+                `}</style>
                 {/* Doshi Mascot */}
                 <div className="flex justify-center mb-6">
                   <DoshiMascot size="large" mood={currentPanel.doshiMood} variant="animated" />
@@ -162,20 +358,117 @@ function IntroTutorialContent() {
                       {/* Scattered App Icons Visual */}
                       {currentPanel.hasAppIcons && (
                         <div className="relative h-24 my-6">
-                          <div className="flex items-center justify-center gap-2 flex-wrap opacity-40">
-                            <div className="w-10 h-10 bg-blue-500 rounded-lg rotate-12" />
-                            <div className="w-10 h-10 bg-green-500 rounded-lg -rotate-6" />
-                            <div className="w-10 h-10 bg-red-500 rounded-lg rotate-3" />
-                            <div className="w-10 h-10 bg-yellow-500 rounded-lg -rotate-12" />
-                            <div className="w-10 h-10 bg-purple-500 rounded-lg rotate-6" />
-                            <div className="w-10 h-10 bg-pink-500 rounded-lg -rotate-3" />
-                            <div className="w-10 h-10 bg-indigo-500 rounded-lg rotate-12" />
-                            <div className="w-10 h-10 bg-orange-500 rounded-lg -rotate-6" />
-                            <div className="w-10 h-10 bg-teal-500 rounded-lg rotate-3" />
-                            <div className="w-10 h-10 bg-cyan-500 rounded-lg -rotate-12" />
-                          </div>
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className="text-6xl">→</div>
+                          <div className="flex items-center justify-center gap-2 flex-wrap opacity-50">
+                            <motion.div
+                              className="w-10 h-10 relative rounded-lg overflow-hidden bg-white shadow-md"
+                              animate={{
+                                rotate: [0, 4, -4, 0],
+                                scale: [1, 1.02, 1.02, 1],
+                                y: [0, -2, -2, 0]
+                              }}
+                              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut' }}
+                            >
+                              <Image src="/intro-icons/wanikani.png" alt="WaniKani" fill className="object-cover" />
+                            </motion.div>
+                            <motion.div
+                              className="w-10 h-10 relative rounded-lg overflow-hidden bg-white shadow-md"
+                              animate={{
+                                rotate: [0, -4, 4, 0],
+                                scale: [1, 1.02, 1.02, 1],
+                                y: [0, -2, -2, 0]
+                              }}
+                              transition={{ duration: 3.7, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+                            >
+                              <Image src="/intro-icons/anki.png" alt="Anki" fill className="object-contain p-1" />
+                            </motion.div>
+                            <motion.div
+                              className="w-10 h-10 relative rounded-lg overflow-hidden bg-white shadow-md"
+                              animate={{
+                                rotate: [0, 4, -4, 0],
+                                scale: [1, 1.02, 1.02, 1],
+                                y: [0, -2, -2, 0]
+                              }}
+                              transition={{ duration: 3.3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+                            >
+                              <Image src="/intro-icons/duolingo.webp" alt="Duolingo" fill className="object-contain p-1" />
+                            </motion.div>
+                            <motion.div
+                              className="w-10 h-10 relative rounded-lg overflow-hidden bg-white shadow-md"
+                              animate={{
+                                rotate: [0, -4, 4, 0],
+                                scale: [1, 1.02, 1.02, 1],
+                                y: [0, -2, -2, 0]
+                              }}
+                              transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 0.9 }}
+                            >
+                              <Image src="/intro-icons/hiragana.webp" alt="Hiragana Quest" fill className="object-contain p-1" />
+                            </motion.div>
+                            <motion.div
+                              className="w-10 h-10 relative rounded-lg overflow-hidden bg-white shadow-md"
+                              animate={{
+                                rotate: [0, 4, -4, 0],
+                                scale: [1, 1.02, 1.02, 1],
+                                y: [0, -2, -2, 0]
+                              }}
+                              transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut', delay: 1.2 }}
+                            >
+                              <Image src="/intro-icons/lingodeer.jpeg" alt="LingoDeer" fill className="object-contain p-1" />
+                            </motion.div>
+                            <motion.div
+                              className="w-10 h-10 relative rounded-lg overflow-hidden bg-white shadow-md"
+                              animate={{
+                                rotate: [0, -4, 4, 0],
+                                scale: [1, 1.02, 1.02, 1],
+                                y: [0, -2, -2, 0]
+                              }}
+                              transition={{ duration: 3.4, repeat: Infinity, ease: 'easeInOut', delay: 1.5 }}
+                            >
+                              <Image src="/intro-icons/study-happy.webp" alt="Study App" fill className="object-contain p-1" />
+                            </motion.div>
+                            <motion.div
+                              className="w-10 h-10 relative rounded-lg overflow-hidden bg-white shadow-md"
+                              animate={{
+                                rotate: [0, 4, -4, 0],
+                                scale: [1, 1.02, 1.02, 1],
+                                y: [0, -2, -2, 0]
+                              }}
+                              transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut', delay: 1.8 }}
+                            >
+                              <Image src="/intro-icons/bunpro.png" alt="Bunpro" fill className="object-contain p-1" />
+                            </motion.div>
+                            <motion.div
+                              className="w-10 h-10 relative rounded-lg overflow-hidden bg-white shadow-md"
+                              animate={{
+                                rotate: [0, -4, 4, 0],
+                                scale: [1, 1.02, 1.02, 1],
+                                y: [0, -2, -2, 0]
+                              }}
+                              transition={{ duration: 3.2, repeat: Infinity, ease: 'easeInOut', delay: 2.1 }}
+                            >
+                              <Image src="/intro-icons/app2.png" alt="Learning App" fill className="object-contain p-1" />
+                            </motion.div>
+                            <motion.div
+                              className="w-10 h-10 relative rounded-lg overflow-hidden bg-white shadow-md"
+                              animate={{
+                                rotate: [0, 4, -4, 0],
+                                scale: [1, 1.02, 1.02, 1],
+                                y: [0, -2, -2, 0]
+                              }}
+                              transition={{ duration: 4.0, repeat: Infinity, ease: 'easeInOut', delay: 2.4 }}
+                            >
+                              <Image src="/intro-icons/memrise.png" alt="Memrise" fill className="object-cover" />
+                            </motion.div>
+                            <motion.div
+                              className="w-10 h-10 relative rounded-lg overflow-hidden bg-white shadow-md"
+                              animate={{
+                                rotate: [0, -4, 4, 0],
+                                scale: [1, 1.02, 1.02, 1],
+                                y: [0, -2, -2, 0]
+                              }}
+                              transition={{ duration: 3.5, repeat: Infinity, ease: 'easeInOut', delay: 2.7 }}
+                            >
+                              <Image src="/intro-icons/hey.webp" alt="Hey App" fill className="object-contain p-1" />
+                            </motion.div>
                           </div>
                         </div>
                       )}

@@ -1,7 +1,7 @@
 # R2 Backup System - Implementation Complete
 
-**Date:** 2026-01-07
-**Status:** ✅ **IMPLEMENTATION COMPLETE** - Ready for QA
+**Date:** 2026-01-08
+**Status:** ✅ **IMPLEMENTATION COMPLETE** - QA + Production Hardening in progress
 **Version:** MVP 1.0
 
 ---
@@ -192,6 +192,28 @@ Translation keys added:
 - Security architecture
 - Cost analysis
 - Deployment checklist
+
+---
+
+## 🧩 Post-Implementation Updates (2026-01-08)
+
+### Restore Resilience + UX Improvements
+- **Persistent restore queue** stored in IndexedDB (`FlashcardRestoreDB`), allowing resume after refresh/crash.
+- **Restore stubs** created immediately in the UI (greyed out, non-clickable) with per-deck progress bars.
+- **Auto-resume** of pending restores on page load (no manual re-sync needed).
+- **Media download skip** uses existing IndexedDB media + restore job state to avoid re-downloading.
+- **Per-deck restore status** stored locally (`restoreStatus`), auto-cleared on completion.
+
+### Production Behavior Notes
+- **Dev-only Map size error** can terminate `next dev` during large restores; production build (`npm run build && npm run start`) runs cleanly.
+- **Cloud storage quota** UI updated to **300MB per user**.
+
+### Files Added/Updated (Key)
+- `src/lib/r2/RestoreQueue.ts` (restore job persistence)
+- `src/lib/r2/RestoreOrchestrator.ts` (resume logic + progress updates)
+- `src/app/[locale]/flashcards/FlashcardsContent.tsx` (restore stubs + auto-resume)
+- `src/components/flashcards/DeckGrid.tsx` (restore progress UI + disabled deck)
+- `src/types/flashcards.ts` (`restoreStatus` state)
 
 ---
 

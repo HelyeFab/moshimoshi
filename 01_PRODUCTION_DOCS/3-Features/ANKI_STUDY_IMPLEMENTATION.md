@@ -33,6 +33,37 @@ This document covers the implementation of the Anki study session feature with d
 
 ---
 
+## Card Deletion Persistence (2026-01)
+
+**Problem**: Card deletes were local-only, so deleted cards reappeared after restoring the deck on another device.
+
+**Solution**: Persist deletions in Firestore for premium users and apply them during restore.
+
+**API Route**:
+- `GET /api/flashcards/decks/[deckId]/deletions`
+- `POST /api/flashcards/decks/[deckId]/deletions` (payload: `{ cardId }` or `{ cardIds }`)
+
+**Firestore Collection**:
+```
+flashcardDeckDeletions/{userId}/decks/{deckId}
+  - userId
+  - deckId
+  - deletedCardIds: string[]
+  - updatedAt
+```
+
+**Restore Behavior**:
+- `RestoreOrchestrator` fetches deleted IDs and filters `deck.cards` before writing to IndexedDB.
+- Ensures cross-device consistency without modifying `.apkg` files.
+
+**Files Updated**:
+- `src/components/flashcards/StudySession.tsx` (persist deletes)
+- `src/app/api/flashcards/decks/[deckId]/deletions/route.ts` (new)
+- `src/lib/r2/RestoreOrchestrator.ts` (apply deletions)
+- `firestore.rules` (allow owner read/write)
+
+---
+
 ## Architecture Changes
 
 ### Before (Nested Collections)

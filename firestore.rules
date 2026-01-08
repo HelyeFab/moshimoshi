@@ -112,11 +112,11 @@ service cloud.firestore {
       // Allow user creation with minimal requirements (profile can be created by server or client)
       allow create: if isOwner(userId);
 
-      // Allow updates but protect subscription facts and onboarding status
+      // Allow updates but protect subscription facts, onboarding, and intro status
       allow update: if isOwner(userId) &&
-        // Users cannot modify their subscription facts or onboarding status directly
+        // Users cannot modify their subscription facts, onboarding, or intro status directly
         // These fields can only be modified server-side via Admin SDK
-        (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['subscription', 'stripeCustomerId', 'onboarding']));
+        (!request.resource.data.diff(resource.data).affectedKeys().hasAny(['subscription', 'stripeCustomerId', 'onboarding', 'intro']));
 
       allow delete: if false; // Users should be soft-deleted
     }
@@ -141,6 +141,12 @@ service cloud.firestore {
 
     // Flashcard study recommendations (premium sync)
     match /flashcardRecommendations/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(request.resource.data.userId);
+    }
+
+    // Flashcard deleted cards (premium sync)
+    match /flashcardDeckDeletions/{userId}/decks/{deckId} {
       allow read: if isOwner(userId);
       allow write: if isOwner(request.resource.data.userId);
     }

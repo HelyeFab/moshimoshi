@@ -1,6 +1,6 @@
 # Anki Media Cloud Sync Implementation Guide
 
-**Last Updated**: 2026-01-06
+**Last Updated**: 2026-01-08
 **Status**: Phase 2 Complete (Tasks 1-2), Phase 3-7 In Progress
 **Feature**: Premium-only Anki flashcard cloud sync with offline-first architecture
 
@@ -26,7 +26,7 @@ Anki flashcards are a **premium-only feature**. Premium users expect:
 1. **Cross-device sync**: Access decks on phone, tablet, desktop
 2. **Media persistence**: Images and audio that work reliably
 3. **Offline-first**: Import decks offline, sync happens in background
-4. **Storage quotas**: 500MB per user with usage warnings
+4. **Storage quotas**: 300MB per user with usage warnings
 
 ### Technical Challenges
 1. **Blob URL Lifecycle Bug**: Images broke after navigating between cards

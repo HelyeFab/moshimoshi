@@ -162,7 +162,7 @@ export class GamificationListener extends EventEmitter {
 
       // Only set basic stats if not already set by the feature component
       // Feature components (FlashcardsContent, etc.) set detailed stats with contentType
-      const currentStats = store.getState().lastSessionStats;
+      const currentStats = store.lastSessionStats;
       if (!currentStats) {
         console.log('📊 [Gamification] Setting fallback lastSessionStats from listener...')
         store.setLastSessionStats({

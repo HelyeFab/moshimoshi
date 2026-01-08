@@ -26,6 +26,7 @@ const PROTECTED_ROUTES = [
   '/drill',
   '/review-hub',
   '/onboarding',
+  '/intro', // Tutorial can be reviewed by authenticated users
   '/tools/kanji-mastery',
   '/tools/textbook-vocabulary',
   '/textbook-vocabulary',

@@ -233,6 +233,69 @@ export default function SettingsPage() {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="space-y-6">
+          {/* Help & Resources - ALWAYS AT THE TOP */}
+          <CollapsibleSection
+            title="Help & Resources"
+            icon="❓"
+            defaultOpen={true}
+          >
+            <div className="space-y-3">
+              <Link
+                href="/intro?review=true"
+                className="flex items-center justify-between p-4 rounded-lg bg-gradient-to-r from-primary-50 to-secondary-50 dark:from-primary-900/20 dark:to-secondary-900/20 border-2 border-primary-200 dark:border-primary-800 hover:border-primary-400 dark:hover:border-primary-600 transition-all group"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="p-3 bg-white dark:bg-dark-700 rounded-xl shadow-sm">
+                    <span className="text-3xl">📖</span>
+                  </div>
+                  <div>
+                    <p className="font-bold text-lg text-gray-900 dark:text-gray-100">
+                      View Tutorial Again
+                    </p>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      Review why Moshimoshi was built and how to use it
+                    </p>
+                  </div>
+                </div>
+                <span className="text-primary-500 dark:text-primary-400 group-hover:translate-x-1 transition-transform text-2xl">
+                  →
+                </span>
+              </Link>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <a
+                  href="mailto:support@moshimoshi.app"
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border border-gray-200 dark:border-gray-700"
+                >
+                  <span className="text-2xl">📧</span>
+                  <div>
+                    <p className="font-medium text-gray-900 dark:text-gray-100 text-sm">
+                      Email Support
+                    </p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                      support@moshimoshi.app
+                    </p>
+                  </div>
+                </a>
+
+                <Link
+                  href="/contact"
+                  className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border border-gray-200 dark:border-gray-700"
+                >
+                  <span className="text-2xl">💬</span>
+                  <div>
+                    <p className="font-medium text-gray-900 dark:text-gray-100 text-sm">
+                      Send Feedback
+                    </p>
+                    <p className="text-xs text-gray-600 dark:text-gray-400">
+                      Help us improve
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            </div>
+          </CollapsibleSection>
+
           {/* Appearance */}
           <CollapsibleSection
             title={strings.settings?.sections?.appearance?.title || 'Appearance'}

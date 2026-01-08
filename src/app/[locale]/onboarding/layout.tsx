@@ -14,6 +14,8 @@ interface OnboardingLayoutProps {
  * - Unauthenticated users: Redirect to signin (can't onboard without account)
  * - Users who completed onboarding: Redirect to dashboard (prevent re-entry)
  * - New users: Allow access to onboarding flow
+ *
+ * NOTE: The intro tutorial (/intro) is outside this layout so users can review it anytime
  */
 export default async function OnboardingLayout({
   children,

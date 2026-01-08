@@ -27,7 +27,7 @@ export default function CelebrationProvider({ children }: { children: React.Reac
     accuracy: number
     duration: number
     itemsCompleted: number
-    contentType?: 'story' | 'comic' | 'article' | 'book'
+    contentType?: 'story' | 'comic' | 'article' | 'book' | 'flashcard'
     contentTitle?: string
     difficulty?: string
     pageCount?: number

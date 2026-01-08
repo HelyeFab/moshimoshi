@@ -41,9 +41,9 @@ function ReadyToGoContent() {
         throw new Error(data.error?.message || 'Failed to save onboarding')
       }
 
-      // Success! Redirect to dashboard
+      // Success! Redirect to intro tutorial (not dashboard yet)
       console.log('[ReadyToGo] Onboarding completed successfully')
-      router.push('/dashboard')
+      router.push('/intro')
     } catch (err) {
       console.error('[ReadyToGo] Error completing onboarding:', err)
       setError(err instanceof Error ? err.message : t('onboarding.readyToGo.error'))
