@@ -54,6 +54,7 @@ export function StudySession({
   const [slowestResponseTime, setSlowestResponseTime] = useState(0);
   const [cardStartTime, setCardStartTime] = useState(Date.now());
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const cardFlipMapRef = useRef<Map<string, boolean>>(new Map());
 
   // Track card types
   const [newCardsStudied, setNewCardsStudied] = useState(0);
@@ -76,6 +77,16 @@ export function StudySession({
   // Get hydrated current card (or fallback to original if not yet hydrated)
   const currentCard = hydratedCardsMap.get(sessionCards[currentIndex]?.id) || sessionCards[currentIndex];
   const progress = ((currentIndex + 1) / sessionCards.length) * 100;
+  const studyDirection = deck.settings?.studyDirection ?? 'front-to-back';
+  const getInitialFlipForCard = useCallback((cardId: string) => {
+    if (studyDirection === 'front-to-back') return false;
+    if (studyDirection === 'back-to-front') return true;
+    const existing = cardFlipMapRef.current.get(cardId);
+    if (typeof existing === 'boolean') return existing;
+    const randomFlip = Math.random() < 0.5;
+    cardFlipMapRef.current.set(cardId, randomFlip);
+    return randomFlip;
+  }, [studyDirection]);
 
   // Celebrate milestones
   const celebrate = useCallback(() => {
@@ -534,6 +545,8 @@ export function StudySession({
               showHints={deck.settings.showHints}
               autoPlayAudio={deck.settings.autoPlay}
               isGraded={responses.has(currentCard.id)}
+              initialIsFlipped={getInitialFlipForCard(currentCard.id)}
+              furiganaSettings={deck.settings.furigana}
               onDelete={() => setShowDeleteDialog(true)}
               onNext={currentIndex < sessionCards.length - 1 ? handleNext : undefined}
               onPrevious={currentIndex > 0 ? handlePrevious : undefined}

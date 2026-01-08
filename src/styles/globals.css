@@ -128,6 +128,10 @@
   .animate-pulse-slow {
     animation: pulse-slow 3s ease-in-out infinite;
   }
+
+  .animate-gradient-rotate {
+    animation: spin-slow 4s linear infinite;
+  }
 }
 
 /* Custom theme configuration for Tailwind v4 */
@@ -210,6 +214,15 @@
   50% {
     opacity: 0.8;
     transform: scale(1.05);
+  }
+}
+
+@keyframes spin-slow {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 

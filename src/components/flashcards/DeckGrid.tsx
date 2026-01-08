@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Play, Edit2, Trash2, Download, Upload, TrendingUp, Clock, Target, BookOpen, RefreshCw, Settings, Settings2, ChevronDown, MoreVertical, ChevronRight } from 'lucide-react';
 import type { FlashcardDeck } from '@/types/flashcards';
+import type { RestoreProgress } from '@/types/r2';
 import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
@@ -23,6 +24,7 @@ interface DeckGridProps {
   gridCols?: 2 | 3 | 4;
   isPremium?: boolean;
   hideCreateCard?: boolean;
+  restoreProgressByDeckId?: Record<string, RestoreProgress>;
 }
 
 export function DeckGrid({
@@ -38,7 +40,8 @@ export function DeckGrid({
   showStats = true,
   gridCols = 3,
   isPremium = false,
-  hideCreateCard = false
+  hideCreateCard = false,
+  restoreProgressByDeckId
 }: DeckGridProps) {
   const { t } = useI18n();
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
@@ -105,6 +108,37 @@ export function DeckGrid({
   const itemVariants = {
     hidden: { opacity: 0, y: 10 },
     show: { opacity: 1, y: 0 }
+  };
+
+  const getRestorePercent = (progress?: RestoreProgress) => {
+    if (!progress) return 0;
+    if (typeof progress.progress === 'number') return progress.progress;
+    if (!progress.totalFiles) return 0;
+    return (progress.filesDownloaded / progress.totalFiles) * 100;
+  };
+
+  const getRestoreState = (deck: FlashcardDeck) => {
+    const progress = restoreProgressByDeckId?.[deck.id];
+    if (progress) {
+      return {
+        progress,
+        isRestoring: progress.phase !== 'complete',
+        isError: progress.phase === 'error',
+      };
+    }
+    if (deck.restoreStatus) {
+      return {
+        progress: {
+          phase: deck.restoreStatus === 'error' ? 'error' : 'fetching-metadata',
+          filesDownloaded: 0,
+          totalFiles: 0,
+          progress: 0,
+        } as RestoreProgress,
+        isRestoring: true,
+        isError: deck.restoreStatus === 'error',
+      };
+    }
+    return { progress: undefined, isRestoring: false, isError: false };
   };
 
   // Render dropdown menu (shared between mobile and desktop)
@@ -245,6 +279,8 @@ export function DeckGrid({
         {/* Deck List Items */}
         {decks.map((deck) => {
           const dueCount = getDueCount(deck);
+          const { progress: restoreProgress, isRestoring, isError } = getRestoreState(deck);
+          const restorePercent = Math.max(0, Math.min(100, getRestorePercent(restoreProgress)));
 
           return (
             <motion.div
@@ -253,8 +289,13 @@ export function DeckGrid({
               initial="hidden"
               animate="show"
               whileTap={{ scale: 0.98 }}
-              onClick={() => onDeckClick(deck)}
-              className="relative bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 cursor-pointer active:bg-gray-50 dark:active:bg-dark-700 transition-colors"
+              onClick={() => {
+                if (!isRestoring) onDeckClick(deck);
+              }}
+              className={cn(
+                "relative bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 cursor-pointer active:bg-gray-50 dark:active:bg-dark-700 transition-colors",
+                isRestoring && "cursor-not-allowed opacity-60"
+              )}
             >
               {/* Color Accent Border */}
               <div className={cn(
@@ -265,10 +306,12 @@ export function DeckGrid({
               <div className="p-4 pl-5 space-y-3">
                 {/* Row 1: Emoji + Deck Name + Menu */}
                 <div className="flex items-start gap-3">
-                  {/* Emoji Indicator */}
-                  <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 dark:bg-dark-700 flex items-center justify-center">
-                    <span className="text-xl">{deck.emoji}</span>
-                  </div>
+                  {/* Emoji Indicator - Only show if emoji exists */}
+                  {deck.emoji && (
+                    <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 dark:bg-dark-700 flex items-center justify-center">
+                      <span className="text-xl">{deck.emoji}</span>
+                    </div>
+                  )}
 
                   {/* Deck Name - More prominent */}
                   <h3 className="flex-1 text-base font-semibold text-gray-900 dark:text-gray-100 leading-snug pt-0.5 line-clamp-2 min-w-0">
@@ -279,16 +322,21 @@ export function DeckGrid({
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
+                      if (isRestoring) return;
                       setOpenMenuId(openMenuId === deck.id ? null : deck.id);
                     }}
+                    disabled={isRestoring}
                     className="flex-shrink-0 p-2 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
                   >
                     <MoreVertical className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                   </button>
                 </div>
 
-                {/* Row 2: Stats - Card Count, Due Badge, Backup Status */}
-                <div className="flex items-center gap-2 flex-wrap pl-13">
+                {/* Row 2: Stats - Card Count & Due Badge */}
+                <div className={cn(
+                  "flex items-center gap-2 flex-wrap",
+                  deck.emoji && "pl-13" // Only add left padding if emoji exists
+                )}>
                   <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
                     {deck.stats.totalCards} {deck.stats.totalCards === 1 ? 'term' : 'terms'}
                   </span>
@@ -297,11 +345,38 @@ export function DeckGrid({
                       {dueCount} due
                     </span>
                   )}
-                  {/* Backup Status Badge for Anki Decks */}
-                  {deck.source === 'anki' && isPremium && (
-                    <BackupStatusBadge deckId={deck.id} />
-                  )}
                 </div>
+
+                {/* Row 3: Backup Status Badge (separate line to prevent layout jump) */}
+                {deck.source === 'anki' && isPremium && (
+                  <div className={cn(
+                    deck.emoji && "pl-13" // Match alignment with stats above
+                  )}>
+                    <BackupStatusBadge deckId={deck.id} />
+                  </div>
+                )}
+
+                {restoreProgress && (
+                  <div className={cn(deck.emoji && "pl-13")}>
+                    <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+                      <span>{isError ? 'Restore failed' : 'Restoring...'}</span>
+                      {!isError && (
+                        <span>{Math.round(restorePercent)}%</span>
+                      )}
+                    </div>
+                    <div className="w-full bg-gray-200 dark:bg-dark-700 rounded-full h-1.5">
+                      <div
+                        className={cn(
+                          "h-1.5 rounded-full transition-all",
+                          isError
+                            ? "bg-red-500"
+                            : "bg-gradient-to-r from-primary-400 to-purple-500"
+                        )}
+                        style={{ width: `${Math.max(2, restorePercent)}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
             </motion.div>
           );
@@ -395,6 +470,8 @@ export function DeckGrid({
           const accuracy = deck.stats.totalStudied > 0
             ? Math.round(deck.stats.averageAccuracy * 100)
             : 0;
+          const { progress: restoreProgress, isRestoring, isError } = getRestoreState(deck);
+          const restorePercent = Math.max(0, Math.min(100, getRestorePercent(restoreProgress)));
 
           return (
             <motion.div
@@ -404,8 +481,13 @@ export function DeckGrid({
               animate="show"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="relative group cursor-pointer"
-              onClick={() => onDeckClick(deck)}
+              className={cn(
+                "relative group cursor-pointer",
+                isRestoring && "cursor-not-allowed opacity-60"
+              )}
+              onClick={() => {
+                if (!isRestoring) onDeckClick(deck);
+              }}
             >
               <div className="h-48 rounded-xl bg-white dark:bg-dark-800 shadow-lg hover:shadow-xl transition-shadow overflow-hidden">
                 {/* Gradient Header */}
@@ -420,8 +502,10 @@ export function DeckGrid({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
+                        if (isRestoring) return;
                         setOpenMenuId(openMenuId === deck.id ? null : deck.id);
                       }}
+                      disabled={isRestoring}
                       className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur transition-colors"
                       aria-label={t('common.settings')}
                     >
@@ -449,6 +533,28 @@ export function DeckGrid({
                   {deck.source === 'anki' && isPremium && (
                     <div className="mb-1">
                       <BackupStatusBadge deckId={deck.id} />
+                    </div>
+                  )}
+
+                  {restoreProgress && (
+                    <div className="mb-2">
+                      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+                        <span>{isError ? 'Restore failed' : 'Restoring...'}</span>
+                        {!isError && (
+                          <span>{Math.round(restorePercent)}%</span>
+                        )}
+                      </div>
+                      <div className="w-full bg-gray-200 dark:bg-dark-700 rounded-full h-1.5">
+                        <div
+                          className={cn(
+                            "h-1.5 rounded-full transition-all",
+                            isError
+                              ? "bg-red-500"
+                              : "bg-gradient-to-r from-primary-400 to-purple-500"
+                          )}
+                          style={{ width: `${Math.max(2, restorePercent)}%` }}
+                        />
+                      </div>
                     </div>
                   )}
 
@@ -494,7 +600,7 @@ export function DeckGrid({
                     )}
 
                     {/* Progress Bar */}
-                    {deck.stats.totalCards > 0 && (
+                    {deck.stats.totalCards > 0 && !restoreProgress && (
                       <div className="w-full bg-gray-200 dark:bg-dark-700 rounded-full h-1">
                         <div
                           className="bg-gradient-to-r from-primary-400 to-primary-600 h-1 rounded-full transition-all"

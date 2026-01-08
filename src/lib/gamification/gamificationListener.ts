@@ -88,7 +88,13 @@ export class GamificationListener extends EventEmitter {
    * - Firebase is single source of truth
    */
   private async handleSessionCompleted(event: any): Promise<void> {
-    if (!this.isEnabled) return
+    console.log('🎯 [Gamification] handleSessionCompleted called')
+    console.log('🎯 [Gamification] isEnabled:', this.isEnabled)
+
+    if (!this.isEnabled) {
+      console.log('⏭️ [Gamification] Feature disabled, skipping')
+      return
+    }
 
     try {
       // Event emitter passes the data object directly as the event parameter
@@ -96,15 +102,16 @@ export class GamificationListener extends EventEmitter {
       const payload = event.data || event as SessionCompletedPayload
       const { sessionId, statistics, duration } = payload
 
-      console.log('[Gamification] Received event:', event)
-      console.log('[Gamification] Processing session:', sessionId, statistics)
+      console.log('📥 [Gamification] Received event:', event)
+      console.log('📥 [Gamification] Processing session:', sessionId, statistics)
 
       // Calculate metrics from statistics
-      const itemsReviewed = statistics.totalItems || 0;
+      // Flashcards use itemsReviewed, URE uses totalItems
+      const itemsReviewed = statistics.itemsReviewed || statistics.totalItems || 0;
       const correctCount = statistics.correctItems || 0;
       const accuracy = itemsReviewed > 0 ? (correctCount / itemsReviewed) * 100 : 0;
 
-      console.log('[Gamification] Calling server API with:', {
+      console.log('🌐 [Gamification] Calling server API with:', {
         sessionId,
         itemsReviewed,
         correctCount,
@@ -126,11 +133,14 @@ export class GamificationListener extends EventEmitter {
         })
       });
 
+      console.log('📡 [Gamification] API response status:', response.status, response.statusText)
+
       if (!response.ok) {
         throw new Error(`Gamification API failed: ${response.statusText}`);
       }
 
       const result = await response.json();
+      console.log('📦 [Gamification] API result:', result)
 
       if (!result.success || !result.gamification) {
         throw new Error('Invalid gamification response');
@@ -138,10 +148,11 @@ export class GamificationListener extends EventEmitter {
 
       const gam = result.gamification;
 
-      console.log('[Gamification] Server response:', gam);
+      console.log('✨ [Gamification] Server response:', gam);
 
       // Update Zustand store with server response (Firebase is source of truth)
       const store = useGamificationStore.getState();
+      console.log('💾 [Gamification] Updating store from server...')
       store.updateFromServer({
         totalXP: gam.newTotalXP,
         currentLevel: gam.newLevel,
@@ -149,15 +160,28 @@ export class GamificationListener extends EventEmitter {
         bestStreak: gam.bestStreak
       });
 
-      // Set session stats for CelebrationScreen
-      store.setLastSessionStats({
-        itemsCompleted: itemsReviewed,
-        accuracy: accuracy,
-        duration: duration || 0,
-        xpGained: gam.xpEarned
-      });
+      // Only set basic stats if not already set by the feature component
+      // Feature components (FlashcardsContent, etc.) set detailed stats with contentType
+      const currentStats = store.getState().lastSessionStats;
+      if (!currentStats) {
+        console.log('📊 [Gamification] Setting fallback lastSessionStats from listener...')
+        store.setLastSessionStats({
+          itemsCompleted: itemsReviewed,
+          accuracy: accuracy,
+          duration: duration || 0,
+          xpGained: gam.xpEarned
+        });
+      } else {
+        console.log('📊 [Gamification] Stats already set by feature component, updating XP only:', currentStats)
+        // Update XP to match server-calculated value
+        store.setLastSessionStats({
+          ...currentStats,
+          xpGained: gam.xpEarned
+        });
+      }
 
       // Increment session count (triggers CelebrationProvider)
+      console.log('🎉 [Gamification] Incrementing session count (this triggers celebration)...')
       store.incrementSessionCount();
 
       // Handle achievement unlocks if any
@@ -187,14 +211,15 @@ export class GamificationListener extends EventEmitter {
         });
       }
 
-      console.log('[Gamification] Session processed via server:', {
+      console.log('✅ [Gamification] Session processed successfully via server:', {
         sessionId,
         xpEarned: gam.xpEarned,
         streakIncremented: gam.streakIncremented,
         achievements: gam.achievementsUnlocked?.length || 0
       })
+      console.log('🎊 [Gamification] Celebration should trigger now!')
     } catch (error) {
-      console.error('[Gamification] Error handling session completion:', error)
+      console.error('❌ [Gamification] Error handling session completion:', error)
     }
   }
 

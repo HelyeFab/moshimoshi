@@ -50,15 +50,42 @@ export function DailyGoals({ userId, isPremium, onGoalComplete }: DailyGoalsProp
   const [tempGoals, setTempGoals] = useState<DailyGoal>(goals);
   const [todaysStreak, setTodaysStreak] = useState(0);
 
-  // Load goals from localStorage
+  // Load goals and streak from localStorage or Firebase (premium)
   useEffect(() => {
-    const savedGoals = localStorage.getItem(`dailyGoals_${userId}`);
-    if (savedGoals) {
-      const parsed = JSON.parse(savedGoals);
-      setGoals(parsed);
-      setTempGoals(parsed);
+    const loadGoals = async () => {
+      let localGoals: DailyGoal | null = null
+      const savedGoals = localStorage.getItem(`dailyGoals_${userId}`);
+      if (savedGoals) {
+        localGoals = JSON.parse(savedGoals);
+      }
+
+      if (isPremium) {
+        try {
+          const response = await fetch('/api/flashcards/goals', { credentials: 'include' })
+          if (response.ok) {
+            const data = await response.json()
+            if (data?.goals) {
+              setGoals(data.goals)
+              setTempGoals(data.goals)
+            }
+            // Load streak from API (synced across devices)
+            if (typeof data?.streak === 'number') {
+              setTodaysStreak(data.streak)
+            }
+            return
+          }
+        } catch (error) {
+        }
+      }
+
+      if (localGoals) {
+        setGoals(localGoals)
+        setTempGoals(localGoals)
+      }
     }
-  }, [userId]);
+
+    loadGoals()
+  }, [userId, isPremium]);
 
   // Load today's progress
   useEffect(() => {
@@ -75,13 +102,32 @@ export function DailyGoals({ userId, isPremium, onGoalComplete }: DailyGoalsProp
     tomorrow.setDate(tomorrow.getDate() + 1);
 
     try {
-      // Get today's sessions
-      const todaySessions = await sessionManager.getUserSessions(
-        userId,
-        undefined,
-        today,
-        tomorrow
-      );
+      let todaySessions: SessionStats[] = []
+
+      if (isPremium) {
+        try {
+          const response = await fetch('/api/flashcards/sessions?limit=200', {
+            credentials: 'include'
+          })
+          if (response.ok) {
+            const data = await response.json()
+            const sessions = Array.isArray(data.sessions) ? data.sessions : []
+            todaySessions = sessions.filter((session: SessionStats) =>
+              session.timestamp >= today.getTime() && session.timestamp < tomorrow.getTime()
+            )
+          }
+        } catch (error) {
+        }
+      }
+
+      if (todaySessions.length === 0) {
+        todaySessions = await sessionManager.getUserSessions(
+          userId,
+          undefined,
+          today,
+          tomorrow
+        );
+      }
 
       if (todaySessions.length > 0) {
         const cardsReviewed = todaySessions.reduce((sum, s) => sum + s.cardsStudied, 0);
@@ -117,9 +163,26 @@ export function DailyGoals({ userId, isPremium, onGoalComplete }: DailyGoalsProp
         });
       }
 
-      // Get current streak
-      const streak = await sessionManager.calculateStreak(userId);
-      setTodaysStreak(streak);
+      // Reload streak from API after session completes (for premium users)
+      // Premium: streak synced across devices via Firebase
+      // Free: calculate locally from sessions (device-specific)
+      if (isPremium && todaySessions.length > 0) {
+        try {
+          const response = await fetch('/api/flashcards/goals', { credentials: 'include' })
+          if (response.ok) {
+            const data = await response.json()
+            if (typeof data?.streak === 'number') {
+              setTodaysStreak(data.streak)
+            }
+          }
+        } catch (error) {
+          // Ignore - keep existing streak value
+        }
+      } else if (!isPremium) {
+        // For free users, calculate streak locally from sessions
+        const streak = await sessionManager.calculateStreak(userId, todaySessions);
+        setTodaysStreak(streak);
+      }
     } catch (error) {
       console.error('Failed to load today progress:', error);
     }
@@ -147,6 +210,15 @@ export function DailyGoals({ userId, isPremium, onGoalComplete }: DailyGoalsProp
     localStorage.setItem(`dailyGoals_${userId}`, JSON.stringify(tempGoals));
     setGoals(tempGoals);
     setShowSettings(false);
+
+    if (isPremium) {
+      fetch('/api/flashcards/goals', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(tempGoals)
+      }).catch(() => {})
+    }
   };
 
   const getProgressPercentage = (current: number, target: number) => {

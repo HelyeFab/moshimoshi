@@ -132,26 +132,9 @@ export class FlashcardManager {
   private async initDB(): Promise<IDBPDatabase<FlashcardDB>> {
     if (this.db) return this.db
 
-    // Initialize storage manager first
-    await storageManager.initialize()
-
-    // Request persistent storage to protect flashcard data from eviction
-    // This is especially important for users with large decks
-    if ('storage' in navigator && 'persist' in navigator.storage) {
-      try {
-        const persisted = await navigator.storage.persisted()
-        if (!persisted) {
-          const granted = await navigator.storage.persist()
-          if (granted) {
-            console.log('[FlashcardManager] Persistent storage granted')
-          } else {
-            console.warn('[FlashcardManager] Persistent storage denied - data may be evicted under storage pressure')
-          }
-        }
-      } catch (error) {
-        console.warn('[FlashcardManager] Failed to request persistent storage:', error)
-      }
-    }
+    // Initialize storage manager without auto-requesting persistence.
+    // Persistence is requested via an explicit user action in the UI.
+    await storageManager.initialize({ requestPersistence: false })
 
     try {
       this.db = await openDB<FlashcardDB>('FlashcardDB', 1, {
@@ -792,6 +775,21 @@ export class FlashcardManager {
     return deck
   }
 
+  // Upsert a deck locally without touching the server (used for restore stubs)
+  async upsertLocalDeck(deck: FlashcardDeck): Promise<void> {
+    const db = await this.initDB()
+    try {
+      await db.put('decks', deck)
+    } catch (error: any) {
+      if (error?.name === 'QuotaExceededError') {
+        const handled = storageManager.handleStorageError(error)
+        throw new Error(handled.message)
+      }
+      throw error
+    }
+    this.notifyListeners(`deck-${deck.id}`)
+  }
+
   // Delete deck
   async deleteDeck(deckId: string, userId: string, isPremium: boolean): Promise<boolean> {
     const db = await this.initDB()
@@ -1285,6 +1283,7 @@ export class FlashcardManager {
       console.log('💾 [FlashcardManager.saveSessionStats] Persisting session to SessionManager...')
       const { sessionManager } = await import('./SessionManager')
       await sessionManager.saveSession(session)
+      await sessionManager.saveSessionRemote(session, isPremium)
       console.log('✅ [FlashcardManager.saveSessionStats] Session persisted to SessionManager')
     } catch (err) {
       console.error('❌ [FlashcardManager] Failed to persist session locally:', err)

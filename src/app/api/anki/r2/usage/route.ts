@@ -7,7 +7,7 @@ import { getR2Config } from '@/lib/r2/r2-client'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-const LIMIT_BYTES = 250 * 1024 * 1024
+const LIMIT_BYTES = 300 * 1024 * 1024
 
 export async function GET(request: NextRequest) {
   try {

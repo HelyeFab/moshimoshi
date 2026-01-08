@@ -79,6 +79,7 @@ export interface RestoreProgress {
   filesDownloaded: number
   totalFiles: number
   currentFile?: string
+  progress?: number
   bytesDownloaded?: number
   totalBytes?: number
   error?: string

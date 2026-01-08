@@ -19,7 +19,7 @@ import PageContainer from '@/components/ui/PageContainer'
 import PageHeader from '@/components/ui/PageHeader'
 import Section from '@/components/ui/Section'
 import { PRICING_CONFIG } from '@/config/pricing'
-import { PremiumBadge } from '@/components/common/PremiumBadge'
+// Premium gradient border - no import needed
 import { Input } from '@/components/ui/Input'
 import dynamic from 'next/dynamic'
 import logger from '@/lib/logger'
@@ -389,29 +389,40 @@ function AccountPageContent() {
                       <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white"></div>
                     </div>
                   )}
-                  {user?.photoURL ? (
-                    <>
-                      <Image
-                        src={user.photoURL}
-                        alt="Profile"
-                        width={80}
-                        height={80}
-                        className="w-20 h-20 rounded-full ring-4 ring-primary-400 dark:ring-primary-500 object-cover"
-                      />
-                      {isPremium && (
-                        <div className="absolute -top-2 -right-2">
-                          <PremiumBadge size="sm" />
-                        </div>
-                      )}
-                    </>
+                  {isPremium ? (
+                    <div className="relative">
+                      {/* Spinning gradient border */}
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 animate-gradient-rotate"></div>
+                      {/* Static inner content */}
+                      <div className="relative m-[3px] bg-white dark:bg-dark-900 rounded-full p-[3px]">
+                        {user?.photoURL ? (
+                          <Image
+                            src={user.photoURL}
+                            alt="Profile"
+                            width={80}
+                            height={80}
+                            className="w-20 h-20 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-2xl font-bold">
+                            {user?.email?.[0]?.toUpperCase() || 'U'}
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   ) : (
                     <>
-                      <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white text-2xl font-bold">
-                        {user?.email?.[0]?.toUpperCase() || 'U'}
-                      </div>
-                      {isPremium && (
-                        <div className="absolute -top-2 -right-2">
-                          <PremiumBadge size="sm" />
+                      {user?.photoURL ? (
+                        <Image
+                          src={user.photoURL}
+                          alt="Profile"
+                          width={80}
+                          height={80}
+                          className="w-20 h-20 rounded-full ring-4 ring-gray-200 dark:ring-gray-700 object-cover"
+                        />
+                      ) : (
+                        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-white text-2xl font-bold">
+                          {user?.email?.[0]?.toUpperCase() || 'U'}
                         </div>
                       )}
                     </>

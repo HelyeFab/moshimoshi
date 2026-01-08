@@ -3231,6 +3231,24 @@ export const strings = {
     // Storage
     storage: {
       using: '使用中のストレージ',
+      permission: {
+        title: 'Keep Flashcards Offline',
+        description:
+          'Allow Moshimoshi to store flashcards permanently so your decks stay available offline.',
+        allow: 'Enable Offline Storage',
+        granted: 'Already Enabled',
+        later: 'Later',
+      },
+      currentUsage: 'Current storage usage',
+      benefits: {
+        offline: 'Study decks offline without re-downloading',
+        persistent: "Browser won't delete your decks",
+        safer: 'Protects large imports from eviction',
+      },
+      status: {
+        granted: 'Storage is persistent',
+        notGranted: 'Storage may be cleared by browser',
+      },
     },
 
     // Streak
@@ -4864,6 +4882,73 @@ export const strings = {
       settingUp: '設定中...',
       error: '問題が発生しました。もう一度お試しください。',
     },
+  },
+
+  // Intro Tutorial (Post-Onboarding)
+  intro: {
+    // Panel 1: Why Moshimoshi Exists
+    panel1: {
+      eyebrow: 'もしもしを作った理由',
+      line1: '日本語学習は疲れるものでした。',
+      line2: '常に10個のアプリを切り替えていました — 漢字用、文法用、フラッシュカード用、動画用。',
+      line3: 'ツールが増えても学習は良くなりませんでした。むしろ摩擦が増えました。',
+      line4: 'もしもしは、全てが連携して機能する落ち着いた場所として作りました — ゆっくりと、集中して、本物の日本語から学べるように。',
+    },
+
+    // Panel 2: Premium Philosophy
+    panel2: {
+      eyebrow: 'なぜ一部の機能がプレミアムなのか',
+      line1: 'もしもしは独立して丁寧に作られています。',
+      line2: '一部の機能は運営にお金がかかります — 特に：',
+      bullet1: 'AI処理',
+      bullet2: '音声・テキストサービス',
+      bullet3: '外部API',
+      line3: 'プレミアムは単にこれらのコストをカバーするためです。',
+      line4: '無料ユーザーでも意味のある学習ができます。プレミアムはより深く、より柔軟な学習を可能にするだけです。',
+      line5: 'あなたを困らせるために機能をロックしているわけではありません。',
+    },
+
+    // Panel 3: How to Use Moshimoshi
+    panel3: {
+      eyebrow: 'もしもしの使い方',
+      line1: '「正しい」使い方はありません。',
+      line2: 'あなたは：',
+      bullet1: '教科書の単語を勉強する',
+      bullet2: 'フラッシュカードを復習する',
+      bullet3: '物語や要約された本を読む',
+      bullet4: '自然に漢字を探索する',
+      bullet5: '自分のペースで学ぶ',
+      line3: 'もしもしはチェックリストではなく、ツールボックスとして使ってください。',
+      line4: '進歩は強度ではなく、一貫性から生まれます。',
+    },
+
+    // Panel 4: YouTube Shadowing
+    panel4: {
+      eyebrow: 'YouTubeシャドーイング（コアアイデア）',
+      line1: 'あなたはすでに日本語のコンテンツを見ています。',
+      line2: 'もしもしは、それから適切に学ぶお手伝いをします。',
+      line3: 'YouTubeシャドーイングでできること：',
+      bullet1: '自然に一時停止と再生',
+      bullet2: '単語と文を保存',
+      bullet3: 'リスニングとスピーキングの練習',
+      bullet4: '本物の日本語の中で学ぶ',
+      line4: '人工的な対話はありません。',
+      line5: '強制的なレッスンもありません。',
+      line6: 'ただのイマージョン — 使いやすく。',
+    },
+
+    // Panel 5: Closing
+    panel5: {
+      line1: 'ゆっくりでいいんです。',
+      line2: '日本語は競争ではありません。',
+      getStarted: '始める',
+      backToSettings: '設定に戻る',
+      loading: '読み込み中...',
+    },
+
+    // UI Elements
+    progressOf: '/',
+    swipeHint: 'スワイプまたは矢印で続ける',
   },
 
   // Error messages

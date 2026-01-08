@@ -4586,6 +4586,24 @@ export const strings = {
     // Storage
     storage: {
       using: 'Storage used',
+      permission: {
+        title: 'Keep Flashcards Offline',
+        description:
+          'Allow Moshimoshi to store flashcards permanently so your decks stay available offline.',
+        allow: 'Enable Offline Storage',
+        granted: 'Already Enabled',
+        later: 'Later',
+      },
+      currentUsage: 'Current storage usage',
+      benefits: {
+        offline: 'Study decks offline without re-downloading',
+        persistent: "Browser won't delete your decks",
+        safer: 'Protects large imports from eviction',
+      },
+      status: {
+        granted: 'Storage is persistent',
+        notGranted: 'Storage may be cleared by browser',
+      },
     },
 
     // Streak
@@ -6693,6 +6711,73 @@ export const strings = {
       settingUp: 'Setting up...',
       error: 'Something went wrong. Please try again.',
     },
+  },
+
+  // Intro Tutorial (Post-Onboarding)
+  intro: {
+    // Panel 1: Why Moshimoshi Exists
+    panel1: {
+      eyebrow: 'Why Moshimoshi Exists',
+      line1: 'Learning Japanese felt exhausting.',
+      line2: 'I was constantly switching between 10 different apps — one for kanji, one for grammar, one for flashcards, one for videos.',
+      line3: 'More tools didn\'t mean better learning. It meant more friction.',
+      line4: 'I built moshimoshi to be a calm place where everything works together — so you can slow down, focus, and learn from real Japanese.',
+    },
+
+    // Panel 2: Premium Philosophy
+    panel2: {
+      eyebrow: 'Why Some Features Are Premium',
+      line1: 'Moshimoshi is independent and carefully built.',
+      line2: 'Some features cost real money to run — especially:',
+      bullet1: 'AI processing',
+      bullet2: 'Audio & text services',
+      bullet3: 'External APIs',
+      line3: 'Premium simply helps cover those costs.',
+      line4: 'Free users can still learn meaningfully. Premium just unlocks more depth and more flexibility.',
+      line5: 'Nothing is locked to frustrate you.',
+    },
+
+    // Panel 3: How to Use Moshimoshi
+    panel3: {
+      eyebrow: 'How to Use Moshimoshi',
+      line1: 'There is no "correct" way.',
+      line2: 'You can:',
+      bullet1: 'Study textbook vocabulary',
+      bullet2: 'Review flashcards',
+      bullet3: 'Read stories or condensed books',
+      bullet4: 'Explore kanji naturally',
+      bullet5: 'Learn at your own pace',
+      line3: 'Use moshimoshi as a toolbox, not a checklist.',
+      line4: 'Progress comes from consistency, not intensity.',
+    },
+
+    // Panel 4: YouTube Shadowing
+    panel4: {
+      eyebrow: 'YouTube Shadowing (The Core Idea)',
+      line1: 'You already watch Japanese content.',
+      line2: 'Moshimoshi helps you learn from it properly.',
+      line3: 'With YouTube Shadowing you can:',
+      bullet1: 'Pause and replay naturally',
+      bullet2: 'Save words and sentences',
+      bullet3: 'Practice listening and speaking',
+      bullet4: 'Learn inside real Japanese',
+      line4: 'No artificial dialogues.',
+      line5: 'No forced lessons.',
+      line6: 'Just immersion — made usable.',
+    },
+
+    // Panel 5: Closing
+    panel5: {
+      line1: 'Take your time.',
+      line2: 'Japanese isn\'t a race.',
+      getStarted: 'Get Started',
+      backToSettings: 'Back to Settings',
+      loading: 'Loading...',
+    },
+
+    // UI Elements
+    progressOf: 'of',
+    swipeHint: 'Swipe or use arrows to continue',
   },
 
   // SEO Metadata for Pages

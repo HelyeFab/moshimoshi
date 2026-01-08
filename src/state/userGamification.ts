@@ -91,7 +91,7 @@ interface GamificationState {
     duration: number
     xpGained: number
     // Content-specific metadata (for adaptive celebrations)
-    contentType?: 'story' | 'comic' | 'article' | 'book'
+    contentType?: 'story' | 'comic' | 'article' | 'book' | 'flashcard'
     contentTitle?: string
     difficulty?: string
     pageCount?: number // For stories
@@ -123,7 +123,7 @@ interface GamificationState {
     duration: number
     xpGained: number
     // Content-specific metadata (optional)
-    contentType?: 'story' | 'comic' | 'article' | 'book'
+    contentType?: 'story' | 'comic' | 'article' | 'book' | 'flashcard'
     contentTitle?: string
     difficulty?: string
     pageCount?: number

@@ -132,6 +132,24 @@ service cloud.firestore {
       allow read: if isOwner(userId);
       allow write: if false; // Only server writes aggregates
     }
+
+    // Flashcard daily goals (premium sync)
+    match /flashcardGoals/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(request.resource.data.userId);
+    }
+
+    // Flashcard study recommendations (premium sync)
+    match /flashcardRecommendations/{userId} {
+      allow read: if isOwner(userId);
+      allow write: if isOwner(request.resource.data.userId);
+    }
+
+    // R2 backup metadata for Anki decks
+    match /anki_r2_backups/{deckId} {
+      allow read: if isOwner(resource.data.userId);
+      allow write: if isOwner(request.resource.data.userId);
+    }
     
     // Usage collection - track feature usage (Entitlements v2)
     match /usage/{userId}/daily/{date} {

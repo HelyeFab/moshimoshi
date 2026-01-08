@@ -67,14 +67,27 @@ export class RestoreOrchestrator extends EventEmitter {
         totalFiles: 0,
       } as RestoreProgress)
 
-      // Step 2: Download package file
-      const packageBlob = await this.downloadFile(backup.r2Keys.packageKey!)
-      this.emit('progress', {
-        phase: 'downloading-media',
-        progress: 20,
-        filesDownloaded: 0,
-        totalFiles: 0,
-      } as RestoreProgress)
+      const existingDeck = await flashcardManager.getDeck(backup.deckId, this.userId)
+      const needsDeckHydration = !existingDeck || existingDeck.cards?.length === 0
+
+      let packageBlob: Blob | null = null
+      if (needsDeckHydration) {
+        // Step 2: Download package file
+        packageBlob = await this.downloadFile(backup.r2Keys.packageKey!)
+        this.emit('progress', {
+          phase: 'downloading-media',
+          progress: 20,
+          filesDownloaded: 0,
+          totalFiles: 0,
+        } as RestoreProgress)
+      } else {
+        this.emit('progress', {
+          phase: 'downloading-media',
+          progress: 20,
+          filesDownloaded: 0,
+          totalFiles: 0,
+        } as RestoreProgress)
+      }
 
       // Step 3: Download media files
       const mediaFiles = await this.downloadMediaBatch(manifest, backup.deckId)
@@ -85,8 +98,12 @@ export class RestoreOrchestrator extends EventEmitter {
         totalFiles: mediaFiles.size,
       } as RestoreProgress)
 
-      // Step 4: Write to IndexedDB
-      await this.hydrateIndexedDB(packageBlob, mediaFiles, backup)
+      if (needsDeckHydration) {
+        // Step 4: Write to IndexedDB
+        await this.hydrateIndexedDB(packageBlob!, mediaFiles, backup)
+      } else if (mediaFiles.size > 0) {
+        await this.storeMediaFiles(mediaFiles, backup)
+      }
       this.emit('progress', {
         phase: 'complete',
         progress: 100,
@@ -135,12 +152,30 @@ export class RestoreOrchestrator extends EventEmitter {
   ): Promise<Map<string, Blob>> {
     const mediaFiles = new Map<string, Blob>()
     const mediaEntries = manifest.files.filter(f => f.type === 'media')
+    const mediaStore = AnkiMediaStore.getInstance()
+    const existingMedia = await mediaStore.getMediaByDeck(deckId)
+    const existingIds = new Set(existingMedia.map(media => media.id))
 
     let downloaded = 0
     const total = mediaEntries.length
 
     await this.downloadQueue.addAll(
       mediaEntries.map(entry => async () => {
+        const cached = existingIds.has(entry.name) || existingIds.has(buildAnkiMediaKey(deckId, entry.name))
+
+        if (cached) {
+          downloaded++
+          const progress = total === 0 ? 80 : 20 + (60 * downloaded / total)
+          this.emit('progress', {
+            phase: 'downloading-media',
+            progress,
+            currentFile: entry.name,
+            filesDownloaded: downloaded,
+            totalFiles: total,
+          } as RestoreProgress)
+          return
+        }
+
         const key = `users/${this.userId}/decks/${deckId}/media/${entry.name}`
 
         try {
@@ -160,7 +195,7 @@ export class RestoreOrchestrator extends EventEmitter {
         }
 
         downloaded++
-        const progress = 20 + (60 * downloaded / total)
+        const progress = total === 0 ? 80 : 20 + (60 * downloaded / total)
         this.emit('progress', {
           phase: 'downloading-media',
           progress,
@@ -242,6 +277,20 @@ export class RestoreOrchestrator extends EventEmitter {
       cardCount: deck.cards.length,
       mediaCount: mediaFiles.size,
     })
+  }
+
+  private async storeMediaFiles(
+    mediaFiles: Map<string, Blob>,
+    backup: BackupInfo
+  ): Promise<void> {
+    const mediaStore = AnkiMediaStore.getInstance()
+    for (const [filename, blob] of mediaFiles.entries()) {
+      await mediaStore.storeMedia(filename, blob, {
+        userId: this.userId,
+        deckId: backup.deckId,
+        syncStatus: 'synced',
+      })
+    }
   }
 
   private async getSignedDownloadUrl(key: string): Promise<string> {

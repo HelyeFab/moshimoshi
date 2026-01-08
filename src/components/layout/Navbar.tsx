@@ -9,7 +9,7 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 import { useI18n, useLocalePath } from "@/i18n/I18nContext";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useIsMobile } from "@/hooks/useMediaQuery";
-import { SakuraBadge } from "@/components/common/SakuraBadge";
+// Premium gradient border - no import needed
 import SyncStatusMenuItem from "@/components/sync/SyncStatusMenuItem";
 import BuyMeACoffeeButton from "@/components/common/BuyMeACoffeeButton";
 
@@ -237,21 +237,40 @@ export default function Navbar({
                   aria-controls="user-menu-dropdown"
                 >
                   <div className="relative">
-                    {user.photoURL ? (
-                      <img
-                        src={user.photoURL}
-                        alt="Profile"
-                        className="w-8 h-8 rounded-full ring-2 ring-primary-400 dark:ring-primary-500"
-                      />
+                    {/* Premium gradient ring wrapper */}
+                    {isPremium ? (
+                      <div className="relative">
+                        {/* Spinning gradient border */}
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 animate-gradient-rotate"></div>
+                        {/* Static inner content */}
+                        <div className="relative m-[2px] bg-white dark:bg-dark-900 rounded-full p-[2px]">
+                          {user.photoURL ? (
+                            <img
+                              src={user.photoURL}
+                              alt="Profile"
+                              className="w-8 h-8 rounded-full"
+                            />
+                          ) : (
+                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold">
+                              {user.email?.[0]?.toUpperCase() || "U"}
+                            </div>
+                          )}
+                        </div>
+                      </div>
                     ) : (
-                      <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold">
-                        {user.email?.[0]?.toUpperCase() || "U"}
-                      </div>
-                    )}
-                    {isPremium && (
-                      <div className="absolute -top-1 -right-1">
-                        <SakuraBadge size="xs" animated={true} />
-                      </div>
+                      <>
+                        {user.photoURL ? (
+                          <img
+                            src={user.photoURL}
+                            alt="Profile"
+                            className="w-8 h-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700"
+                          />
+                        ) : (
+                          <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-white font-bold">
+                            {user.email?.[0]?.toUpperCase() || "U"}
+                          </div>
+                        )}
+                      </>
                     )}
                   </div>
                   <svg

@@ -205,10 +205,10 @@ export default function Dropdown({
                   onClick={() => handleSelect(option)}
                   className={`
                     w-full px-4 py-2 text-left
-                    hover:bg-primary-50 dark:hover:bg-primary-900/20
+                    hover:bg-primary-50 dark:hover:bg-dark-700/70
                     transition-colors duration-150
                     ${option.value === value
-                      ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-900 dark:text-primary-100'
+                      ? 'bg-primary-100 dark:bg-dark-700 text-primary-900 dark:text-gray-100'
                       : 'text-gray-900 dark:text-gray-100'
                     }
                   `}

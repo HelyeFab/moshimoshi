@@ -114,12 +114,22 @@ export function DeckCreator({
   const [limitError, setLimitError] = useState<{ currentCount: number; limit: number } | null>(null)
   const [checkingLimit, setCheckingLimit] = useState(false)
 
+  // State to prevent duplicate saves
+  const [isSaving, setIsSaving] = useState(false)
+
   // If editing, skip source selection and go straight to details
   React.useEffect(() => {
     if (editDeck && isOpen) {
       setStep('details')
     }
   }, [editDeck, isOpen])
+
+  // Reset saving state when modal closes
+  React.useEffect(() => {
+    if (!isOpen) {
+      setIsSaving(false)
+    }
+  }, [isOpen])
 
   // Load lists when "From List" is selected
   React.useEffect(() => {
@@ -361,54 +371,61 @@ export function DeckCreator({
 
   const handleSave = async () => {
     if (!deckName || (importSource === 'scratch' && cards.length === 0)) return
+    if (isSaving) return // Prevent duplicate saves
 
-    // Generate furigana for cards that need it
-    const textsToProcess: string[] = []
-    cards.forEach(card => {
-      if (needsFurigana(card.front)) textsToProcess.push(card.front)
-      if (needsFurigana(card.back)) textsToProcess.push(card.back)
-    })
+    try {
+      setIsSaving(true)
 
-    let furiganaMap = new Map<string, string>()
-    if (textsToProcess.length > 0) {
-      furiganaMap = await generateFuriganaBatch(textsToProcess)
-    }
+      // Generate furigana for cards that need it
+      const textsToProcess: string[] = []
+      cards.forEach(card => {
+        if (needsFurigana(card.front)) textsToProcess.push(card.front)
+        if (needsFurigana(card.back)) textsToProcess.push(card.back)
+      })
 
-    const deckRequest: CreateDeckRequest = {
-      name: deckName,
-      description,
-      emoji: selectedEmoji,
-      color: selectedColor,
-      cardStyle,
-      settings: {
-        studyDirection: 'front-to-back',
-        autoPlay: false,
-        showHints: true,
-        animationSpeed: 'normal',
-        soundEffects: true,
-        hapticFeedback: true,
-        sessionLength: sessionLength,
-        reviewMode: 'srs',
-        furigana: {
-          enabled: furiganaEnabled,
-          showOnFront: furiganaOnFront,
-          showOnBack: furiganaOnBack,
+      let furiganaMap = new Map<string, string>()
+      if (textsToProcess.length > 0) {
+        furiganaMap = await generateFuriganaBatch(textsToProcess)
+      }
+
+      const deckRequest: CreateDeckRequest = {
+        name: deckName,
+        description,
+        emoji: selectedEmoji,
+        color: selectedColor,
+        cardStyle,
+        settings: {
+          studyDirection: 'front-to-back',
+          autoPlay: false,
+          showHints: true,
+          animationSpeed: 'normal',
+          soundEffects: true,
+          hapticFeedback: true,
+          sessionLength: sessionLength,
+          reviewMode: 'srs',
+          furigana: {
+            enabled: furiganaEnabled,
+            showOnFront: furiganaOnFront,
+            showOnBack: furiganaOnBack,
+          },
         },
-      },
-      sourceListId: importSource === 'list' ? selectedListId : undefined,
-      initialCards: cards.map(card => ({
-        front: { text: card.front } as CardSide,
-        back: { text: card.back } as CardSide,
-        metadata: {
-          ...(card.notes ? { notes: card.notes } : {}),
-          furiganaFront: furiganaMap.get(card.front),
-          furiganaBack: furiganaMap.get(card.back),
-        },
-      })),
-    }
+        sourceListId: importSource === 'list' ? selectedListId : undefined,
+        initialCards: cards.map(card => ({
+          front: { text: card.front } as CardSide,
+          back: { text: card.back } as CardSide,
+          metadata: {
+            ...(card.notes ? { notes: card.notes } : {}),
+            furiganaFront: furiganaMap.get(card.front),
+            furiganaBack: furiganaMap.get(card.back),
+          },
+        })),
+      }
 
-    onSave(deckRequest)
-    resetForm()
+      onSave(deckRequest)
+      resetForm()
+    } finally {
+      setIsSaving(false)
+    }
   }
 
   const resetForm = () => {
@@ -427,6 +444,7 @@ export function DeckCreator({
     setFetchedLists([])
     setLoadingLists(false)
     setShowListPicker(false)
+    setIsSaving(false) // Reset saving state
   }
 
   if (!isOpen) return null
@@ -1002,11 +1020,15 @@ export function DeckCreator({
                   {step === 'cards' && (
                     <button
                       onClick={handleSave}
-                      disabled={!deckName || (importSource === 'scratch' && cards.length === 0)}
+                      disabled={!deckName || (importSource === 'scratch' && cards.length === 0) || isSaving}
                       className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1 sm:gap-2"
                     >
-                      <Save className="w-3 sm:w-4 h-3 sm:h-4" />
-                      {t('common.save')}
+                      {isSaving ? (
+                        <Loader2 className="w-3 sm:w-4 h-3 sm:h-4 animate-spin" />
+                      ) : (
+                        <Save className="w-3 sm:w-4 h-3 sm:h-4" />
+                      )}
+                      {isSaving ? t('common.saving') || 'Saving...' : t('common.save')}
                     </button>
                   )}
                 </div>

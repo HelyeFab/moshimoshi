@@ -235,12 +235,12 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
         className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto scrollbar-hide"
       >
         <div className="p-6 border-b border-gray-200 dark:border-dark-700">
-          <div className="flex items-center justify-between">
-            <div>
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex-1 min-w-0">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100">
                 {t('flashcards.selectStudyMode')}
               </h2>
-              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+              <p className="mt-1 text-sm text-gray-600 dark:text-gray-400 truncate">
                 {deck.name} • {deck.cards.length} {t('flashcards.cards')}
               </p>
             </div>
@@ -272,12 +272,12 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
               >
                 <div className="flex items-start gap-4">
                   <div className={cn(
-                    "w-12 h-12 rounded-lg bg-gradient-to-br flex items-center justify-center text-white",
+                    "w-12 h-12 rounded-lg bg-gradient-to-br flex items-center justify-center text-white flex-shrink-0",
                     mode.color
                   )}>
                     {mode.icon}
                   </div>
-                  <div className="flex-1">
+                  <div className="flex-1 min-w-0">
                     <h3 className="font-semibold text-gray-900 dark:text-gray-100">
                       {mode.name}
                     </h3>

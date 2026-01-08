@@ -89,8 +89,13 @@ export function SessionSettingsModal({
           <div className="mb-6 p-4 bg-gray-50 dark:bg-dark-800 rounded-lg">
             <div className="flex items-center gap-3">
               <span className="text-2xl">{deck.emoji}</span>
-              <div className="flex-1">
-                <h3 className="font-semibold text-gray-900 dark:text-gray-100">{deck.name}</h3>
+              <div className="flex-1 min-w-0">
+                <h3
+                  className="font-semibold text-gray-900 dark:text-gray-100 truncate min-w-0"
+                  title={deck.name}
+                >
+                  {deck.name}
+                </h3>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
                   {t('flashcards.totalCards', { count: maxCards })}
                 </p>
@@ -108,7 +113,7 @@ export function SessionSettingsModal({
               <div className="flex items-center gap-4">
                 <input
                   type="range"
-                  min="5"
+                  min="1"
                   max={maxCards}
                   value={sessionLength}
                   onChange={(e) => setSessionLength(Number(e.target.value))}
@@ -117,11 +122,11 @@ export function SessionSettingsModal({
                 <div className="flex items-center gap-2">
                   <input
                     type="number"
-                    min="5"
+                    min="1"
                     max={maxCards}
                     value={sessionLength}
                     onChange={(e) => {
-                      const value = Math.max(5, Math.min(maxCards, Number(e.target.value)));
+                      const value = Math.max(1, Math.min(maxCards, Number(e.target.value)));
                       setSessionLength(value);
                     }}
                     className="w-20 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 text-center focus:ring-2 focus:ring-primary-500 focus:border-transparent"

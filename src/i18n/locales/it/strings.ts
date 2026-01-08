@@ -3191,6 +3191,24 @@ export const strings = {
     // Storage
     storage: {
       using: 'Spazio utilizzato',
+      permission: {
+        title: 'Keep Flashcards Offline',
+        description:
+          'Allow Moshimoshi to store flashcards permanently so your decks stay available offline.',
+        allow: 'Enable Offline Storage',
+        granted: 'Already Enabled',
+        later: 'Later',
+      },
+      currentUsage: 'Current storage usage',
+      benefits: {
+        offline: 'Study decks offline without re-downloading',
+        persistent: "Browser won't delete your decks",
+        safer: 'Protects large imports from eviction',
+      },
+      status: {
+        granted: 'Storage is persistent',
+        notGranted: 'Storage may be cleared by browser',
+      },
     },
 
     // Streak

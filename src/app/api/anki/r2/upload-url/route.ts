@@ -10,7 +10,7 @@ import { adminDb } from '@/lib/firebase/admin'
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 
-const LIMIT_BYTES = 250 * 1024 * 1024
+const LIMIT_BYTES = 300 * 1024 * 1024
 
 const UploadUrlSchema = z.object({
   deckId: z.string().min(1),

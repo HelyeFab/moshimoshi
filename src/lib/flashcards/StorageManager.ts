@@ -37,10 +37,20 @@ export class StorageManager {
   /**
    * Initialize storage manager and request persistent storage
    */
-  async initialize(): Promise<boolean> {
+  async initialize(options?: { requestPersistence?: boolean }): Promise<boolean> {
     try {
-      // Request persistent storage
-      this.persistentStorage = await this.requestPersistence();
+      const requestPersistence = options?.requestPersistence ?? true
+
+      if (requestPersistence) {
+        this.persistentStorage = await this.requestPersistence()
+      } else if ('storage' in navigator && 'persisted' in navigator.storage) {
+        try {
+          this.persistentStorage = await navigator.storage.persisted()
+        } catch (error) {
+          console.warn('[StorageManager] Failed to check persistence:', error)
+          this.persistentStorage = false
+        }
+      }
 
       // Check initial quota
       const info = await this.getStorageInfo();
@@ -62,6 +72,7 @@ export class StorageManager {
   async requestPersistence(): Promise<boolean> {
     if (!('storage' in navigator) || !('persist' in navigator.storage)) {
       console.warn('[StorageManager] Persistent storage API not available');
+      this.persistentStorage = false;
       return false;
     }
 
@@ -69,6 +80,7 @@ export class StorageManager {
       const isPersisted = await navigator.storage.persisted();
       if (isPersisted) {
         console.log('[StorageManager] Storage is already persistent');
+        this.persistentStorage = true;
         return true;
       }
 
@@ -78,9 +90,11 @@ export class StorageManager {
       } else {
         console.warn('[StorageManager] Persistent storage denied');
       }
+      this.persistentStorage = granted;
       return granted;
     } catch (error) {
       console.error('[StorageManager] Error requesting persistence:', error);
+      this.persistentStorage = false;
       return false;
     }
   }

@@ -42,6 +42,7 @@ export interface StudyRecommendation {
 export class FlashcardSessionManager {
   private db: IDBPDatabase<SessionDB> | null = null;
   private static instance: FlashcardSessionManager | null = null;
+  private readonly dbName = 'FlashcardSessionDB';
 
   private constructor() {}
 
@@ -59,7 +60,7 @@ export class FlashcardSessionManager {
     // Dynamic import to avoid build issues
     const { openDB } = await import('idb');
 
-    this.db = await openDB<SessionDB>('FlashcardSessionDB', 1, {
+    this.db = await openDB<SessionDB>(this.dbName, 2, {
       upgrade(db) {
         // Sessions store
         if (!db.objectStoreNames.contains('sessions')) {
@@ -84,6 +85,25 @@ export class FlashcardSessionManager {
     return this.db;
   }
 
+  private async resetDB(): Promise<void> {
+    try {
+      if (this.db) {
+        this.db.close();
+      }
+    } catch {
+      // Ignore close errors
+    }
+
+    this.db = null;
+
+    try {
+      const { deleteDB } = await import('idb');
+      await deleteDB(this.dbName);
+    } catch {
+      // Ignore delete errors
+    }
+  }
+
   // Save a study session
   async saveSession(session: SessionStats): Promise<void> {
     console.log('📥 [SessionManager.saveSession] Saving session:', {
@@ -94,15 +114,47 @@ export class FlashcardSessionManager {
       accuracy: session.accuracy,
       timestamp: new Date(session.timestamp).toISOString()
     })
-    const db = await this.initDB();
+    let db = await this.initDB();
 
     // Save session
-    await db.put('sessions', session);
+    try {
+      await db.put('sessions', session);
+    } catch (error: any) {
+      if (error?.name === 'NotFoundError') {
+        await this.resetDB();
+        db = await this.initDB();
+        await db.put('sessions', session);
+      } else {
+        throw error;
+      }
+    }
     console.log('✅ [SessionManager.saveSession] Session saved to IndexedDB')
 
     // Update daily analytics
     await this.updateDailyAnalytics(session);
     console.log('✅ [SessionManager.saveSession] Daily analytics updated')
+  }
+
+  // Save multiple sessions (e.g., hydration from cloud)
+  async saveSessions(sessions: SessionStats[]): Promise<void> {
+    if (sessions.length === 0) return
+
+    let db = await this.initDB()
+
+    for (const session of sessions) {
+      try {
+        await db.put('sessions', session)
+      } catch (error: any) {
+        if (error?.name === 'NotFoundError') {
+          await this.resetDB()
+          db = await this.initDB()
+          await db.put('sessions', session)
+        } else {
+          throw error
+        }
+      }
+      await this.updateDailyAnalytics(session)
+    }
   }
 
   // Save session to Firebase (premium users only)
@@ -114,13 +166,26 @@ export class FlashcardSessionManager {
 
     try {
       console.log('☁️ [SessionManager.saveSessionRemote] Syncing session to Firebase:', session.id)
-      await fetch('/api/flashcards/sessions', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(session)
-      });
-      console.log('✅ [SessionManager.saveSessionRemote] Session synced to Firebase')
+      const maxAttempts = 3
+      for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
+        const response = await fetch('/api/flashcards/sessions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify(session)
+        })
+
+        if (response.ok) {
+          console.log('✅ [SessionManager.saveSessionRemote] Session synced to Firebase')
+          return
+        }
+
+        if (attempt < maxAttempts) {
+          const delayMs = Math.min(1000 * Math.pow(2, attempt - 1), 3000)
+          await new Promise(resolve => setTimeout(resolve, delayMs))
+        }
+      }
+      console.warn('⚠️ [SessionManager.saveSessionRemote] Failed to sync session after retries')
     } catch (error) {
       console.error('❌ [SessionManager.saveSessionRemote] Failed to save session to Firebase:', error);
       // Don't throw - failing to sync to Firebase shouldn't break the session
@@ -179,8 +244,9 @@ export class FlashcardSessionManager {
       const db = await this.initDB();
       sessions = await db.getAllFromIndex('sessions', 'userId', userId);
     } catch (error: any) {
-      if (error?.name === 'InvalidStateError') {
-        // Retry once if the connection is closing (e.g., during hot reload)
+      if (error?.name === 'InvalidStateError' || error?.name === 'NotFoundError') {
+        // Retry once if the connection is closing or schema is outdated.
+        await this.resetDB();
         const db = await this.initDB();
         sessions = await db.getAllFromIndex('sessions', 'userId', userId);
       } else {
@@ -213,7 +279,8 @@ export class FlashcardSessionManager {
       const db = await this.initDB();
       sessions = await db.getAllFromIndex('sessions', 'deckId', deckId);
     } catch (error: any) {
-      if (error?.name === 'InvalidStateError') {
+      if (error?.name === 'InvalidStateError' || error?.name === 'NotFoundError') {
+        await this.resetDB();
         const db = await this.initDB();
         sessions = await db.getAllFromIndex('sessions', 'deckId', deckId);
       } else {

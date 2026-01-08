@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 interface ContentCelebrationProps {
   // Core (always required)
   contentTitle: string
-  contentType: 'article' | 'book' | 'story' | 'comic'
+  contentType: 'article' | 'book' | 'story' | 'comic' | 'flashcard'
   onClose: () => void
 
   // Optional - show only if provided
@@ -88,8 +88,10 @@ export default function ContentCelebration({
         return 'Story Complete!'
       case 'comic':
         return 'Comic Complete!'
+      case 'flashcard':
+        return 'Session Complete!'
       default:
-        return 'Complete!'
+        return 'Session Complete!'
     }
   }
 
@@ -159,7 +161,7 @@ export default function ContentCelebration({
         {/* Statistics Grid - Adaptive */}
         {statsToShow > 0 && (
           <div className={`grid ${gridCols} gap-4 mb-8`}>
-            {/* Reading Time - Only show if tracked */}
+            {/* Time - Only show if tracked */}
             {readingTimeMs && readingTimeMs > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 10 }}
@@ -167,7 +169,7 @@ export default function ContentCelebration({
                 transition={{ delay: 0.4 }}
                 className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl p-5 border border-blue-200 dark:border-blue-800"
               >
-                <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-2">Reading Time</div>
+                <div className="text-xs font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wide mb-2">Time</div>
                 <div className="text-3xl font-bold text-blue-900 dark:text-blue-100">
                   ⏱️ {formatDuration(readingTimeMs)}
                 </div>

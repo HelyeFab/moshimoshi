@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, RotateCw, Trash2, Volume2 } from 'lucide-react';
 import type { FlashcardContent, CardStyle, AnimationSpeed } from '@/types/flashcards';
@@ -8,6 +8,7 @@ import { useI18n } from '@/i18n/I18nContext';
 import { useTTS } from '@/hooks/useTTS';
 import { cn } from '@/lib/utils';
 import { useMediaHydration } from '@/hooks/useMediaHydration';
+import { stripFurigana } from '@/lib/flashcards/furiganaUtils';
 
 interface FlashcardViewerProps {
   card: FlashcardContent;
@@ -16,6 +17,12 @@ interface FlashcardViewerProps {
   showHints?: boolean;
   autoPlayAudio?: boolean;
   isGraded?: boolean;
+  initialIsFlipped?: boolean;
+  furiganaSettings?: {
+    enabled: boolean;
+    showOnFront: boolean;
+    showOnBack: boolean;
+  };
   onDelete?: () => void;
   onNext?: () => void;
   onPrevious?: () => void;
@@ -36,6 +43,8 @@ export function FlashcardViewer({
   showHints = false,
   autoPlayAudio = false,
   isGraded = false,
+  initialIsFlipped = false,
+  furiganaSettings,
   onDelete,
   onNext,
   onPrevious,
@@ -91,9 +100,11 @@ export function FlashcardViewer({
     hydratedCard.metadata?.audioUrl ||
     (hydratedCard as { audioUrl?: string }).audioUrl;
 
-  const [isFlipped, setIsFlipped] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(initialIsFlipped);
   const [audioPlaying, setAudioPlaying] = useState(false);
   const [hasGraded, setHasGraded] = useState(false);
+  const hasAutoPlayedListen = useRef(false);
+  const autoPlayTimeoutRef = useRef<number | null>(null);
 
   const speed = ANIMATION_SPEEDS[animationSpeed];
 
@@ -111,9 +122,10 @@ export function FlashcardViewer({
 
   // Reset state when card changes
   useEffect(() => {
-    setIsFlipped(false);
+    setIsFlipped(initialIsFlipped);
     setHasGraded(isGraded);
-  }, [card.id, isGraded]);
+    hasAutoPlayedListen.current = false;
+  }, [card.id, initialIsFlipped, isGraded]);
   useEffect(() => {
     setHasGraded(isGraded);
   }, [isGraded]);
@@ -125,28 +137,66 @@ export function FlashcardViewer({
     return japaneseRegex.test(text);
   }, []);
 
-  // Helper function to render text with or without furigana
-  const renderTextWithFurigana = useCallback((text: string, furiganaHtml?: string) => {
-    if (furiganaHtml) {
-      // Render furigana HTML with ruby tags
-      return (
-        <span
-          dangerouslySetInnerHTML={{ __html: furiganaHtml }}
-          style={{ lineHeight: '2.2' }} // Extra line height for ruby tags
-        />
-      );
-    }
-    // Render plain text
-    return text;
-  }, []);
+  const effectiveFurigana = furiganaSettings ?? {
+    enabled: true,
+    showOnFront: true,
+    showOnBack: true,
+  };
 
-  // Auto-play audio if enabled (uses hydrated media)
+  const resolvedFrontHtml = effectiveFurigana.enabled && effectiveFurigana.showOnFront
+    ? (resolvedFuriganaFront || resolvedFrontText)
+    : stripFurigana(resolvedFrontText);
+
+  const resolvedBackHtml = effectiveFurigana.enabled && effectiveFurigana.showOnBack
+    ? (resolvedFuriganaBack || resolvedBackText)
+    : stripFurigana(resolvedBackText);
+
+  // Auto-play audio only on front cards that say "Listen" (or "Listen.")
   useEffect(() => {
-    if (autoPlayAudio && resolvedAudioUrl) {
-      const audio = new Audio(resolvedAudioUrl);
-      audio.play().catch(() => {});
+    const trimmedFront = resolvedFrontText
+      .replace(/<[^>]*>/g, ' ')
+      .replace(/&nbsp;/g, ' ')
+      .trim();
+    const hasAnkiAudioFilename = Boolean(
+      hydratedCard.metadata?.audioFilename || (hydratedCard as { audioFilename?: string }).audioFilename
+    );
+    const shouldAutoPlay =
+      !isFlipped &&
+      /^listen\.?$/i.test(trimmedFront) &&
+      !hasAutoPlayedListen.current;
+
+    if (shouldAutoPlay) {
+      if (!resolvedAudioUrl && hasAnkiAudioFilename) {
+        return;
+      }
+      hasAutoPlayedListen.current = true;
+      if (autoPlayTimeoutRef.current) {
+        return;
+      }
+      autoPlayTimeoutRef.current = window.setTimeout(() => {
+        if (resolvedAudioUrl) {
+          const audio = new Audio(resolvedAudioUrl);
+          audio.play().catch(() => {});
+        } else {
+          void play('Listen.', {
+            voice: 'en-US',
+            rate: 0.9,
+            pitch: 1.0
+          });
+        }
+        autoPlayTimeoutRef.current = null;
+      }, 150);
     }
-  }, [card.id, autoPlayAudio, resolvedAudioUrl]);
+  }, [card.id, hydratedCard, isFlipped, play, resolvedAudioUrl, resolvedFrontText]);
+
+  useEffect(() => {
+    return () => {
+      if (autoPlayTimeoutRef.current) {
+        window.clearTimeout(autoPlayTimeoutRef.current);
+        autoPlayTimeoutRef.current = null;
+      }
+    };
+  }, [card.id]);
 
   const handleFlip = useCallback(() => {
     setIsFlipped(!isFlipped);
@@ -325,7 +375,7 @@ export function FlashcardViewer({
                 'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-12rem)] scrollbar-hide',
                 cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
               )}
-              dangerouslySetInnerHTML={{ __html: resolvedFrontText }}
+              dangerouslySetInnerHTML={{ __html: resolvedFrontHtml }}
             />
 
             {/* Top controls */}
@@ -392,7 +442,7 @@ export function FlashcardViewer({
                 'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-12rem)] scrollbar-hide',
                 cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
               )}
-              dangerouslySetInnerHTML={{ __html: resolvedBackText }}
+              dangerouslySetInnerHTML={{ __html: resolvedBackHtml }}
             />
 
             {/* Top right audio button */}
@@ -485,13 +535,27 @@ export function FlashcardViewer({
         .anki-card-content {
           text-align: center;
           line-height: 1.6;
-          font-size: 1rem;
+          font-size: 1.1rem !important;
         }
 
         .anki-card-content span {
-          font-size: 1.125rem;
+          font-size: 1.25rem !important;
           line-height: 1.8;
-          font-weight: 500;
+          font-weight: 500 !important;
+        }
+
+        .anki-card-content span[style] {
+          font-size: 1.25rem !important;
+          font-weight: 500 !important;
+        }
+
+        .anki-card-content ruby {
+          font-weight: 600 !important;
+        }
+
+        .anki-card-content ruby rt {
+          font-weight: 400 !important;
+          font-size: 0.7em !important;
         }
 
         .anki-card-content img {
@@ -517,7 +581,7 @@ export function FlashcardViewer({
 
         .anki-card-content p {
           margin: 0.25rem 0;
-          font-size: 1rem;
+          font-size: 1.05rem !important;
         }
       `}</style>
     </div>
@@ -545,13 +609,27 @@ const requiredStyles = `
 .anki-card-content {
   text-align: center;
   line-height: 1.6;
-  font-size: 1rem;
+  font-size: 1.1rem !important;
 }
 
 .anki-card-content span {
-  font-size: 1.125rem;
+  font-size: 1.25rem !important;
   line-height: 1.8;
-  font-weight: 500;
+  font-weight: 500 !important;
+}
+
+.anki-card-content span[style] {
+  font-size: 1.25rem !important;
+  font-weight: 500 !important;
+}
+
+.anki-card-content ruby {
+  font-weight: 600 !important;
+}
+
+.anki-card-content ruby rt {
+  font-weight: 400 !important;
+  font-size: 0.7em !important;
 }
 
 .anki-card-content img {
@@ -576,6 +654,6 @@ const requiredStyles = `
 
 .anki-card-content p {
   margin: 0.25rem 0;
-  font-size: 1rem;
+  font-size: 1.05rem !important;
 }
 `;

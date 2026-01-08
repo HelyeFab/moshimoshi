@@ -69,6 +69,20 @@ const nextConfig: NextConfig = {
         child_process: false,
       };
     }
+    config.watchOptions = {
+      ...(config.watchOptions || {}),
+      ignored: [
+        '**/.next/**',
+        '**/node_modules/**',
+        '**/01_PRODUCTION_DOCS/**',
+        '**/moshi-comics/**',
+        '**/notebooklm-backups/**',
+        '**/docs/**',
+        '**/.git/**',
+        '**/backups/**',
+        '**/tmp/**',
+      ],
+    };
     return config;
   },
   experimental: {

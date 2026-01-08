@@ -22,6 +22,7 @@ export interface FlashcardDeck {
   sourceListId?: string; // Link to UserList if created from list
   source?: 'anki' | 'user'; // Source of the deck (Anki import or user-created)
   tags?: string[];
+  restoreStatus?: 'restoring' | 'error';
 }
 
 export interface FlashcardContent {

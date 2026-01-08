@@ -243,6 +243,7 @@ export class R2UploadQueue {
   async start(): Promise<void> {
     if (this.isRunning) return
     this.isRunning = true
+    await this.ensureMetadataForCompletedDecks()
     await this.processPending()
     if (this.pollTimer === null && typeof window !== 'undefined') {
       this.pollTimer = window.setInterval(() => {
@@ -555,14 +556,26 @@ export class R2UploadQueue {
 
       debugLogger.step(5, 'Writing backup metadata to Firestore...', { deckId })
 
-      await this.writeMetadata(deckId)
-      this.emitter.emit('complete', { deckId, status })
+      const wroteMetadata = await this.writeMetadata(deckId)
+      if (wroteMetadata) {
+        this.emitter.emit('complete', { deckId, status })
+      } else {
+        this.emitter.emit('error', {
+          deckId,
+          error: 'Failed to write backup metadata',
+        })
+      }
     }
   }
 
-  private async writeMetadata(deckId: string): Promise<void> {
-    const metadata = this.deckMetadata.get(deckId)
-    if (!metadata) return
+  private async writeMetadata(deckId: string, metadataOverride?: DeckMetadata): Promise<boolean> {
+    const metadata = metadataOverride ?? this.deckMetadata.get(deckId)
+    if (!metadata) {
+      const reconstructed = await this.buildMetadataFromJobs(deckId)
+      if (!reconstructed) return false
+      this.deckMetadata.set(deckId, reconstructed)
+      return this.writeMetadata(deckId, reconstructed)
+    }
     try {
       const response = await fetch('/api/anki/r2/metadata', {
         method: 'POST',
@@ -588,15 +601,13 @@ export class R2UploadQueue {
         deckName: metadata.name,
         cardCount: metadata.cardCount
       })
+      return true
     } catch (error: any) {
       debugLogger.error('Metadata write failed!', {
         deckId,
         error: error?.message || 'Failed to write backup metadata'
       })
-      this.emitter.emit('error', {
-        deckId,
-        error: error?.message || 'Failed to write backup metadata',
-      })
+      return false
     }
   }
 
@@ -646,6 +657,97 @@ export class R2UploadQueue {
         }
       }
     })
+  }
+
+  private async buildMetadataFromJobs(deckId: string): Promise<DeckMetadata | null> {
+    const deck = await ankiDeckManager.getDeck(deckId, this.userId)
+    if (!deck) return null
+
+    const jobs = await this.getJobsByDeck(deckId)
+    if (jobs.length === 0) return null
+
+    const totalBytes = jobs.reduce((sum, job) => sum + (job.size || 0), 0)
+    const hasMedia = jobs.some(job => job.type === 'media')
+    const prefix = buildDeckPrefix(this.userId, deckId)
+
+    return {
+      name: deck.name,
+      cardCount: deck.cardCount || deck.cards?.length || 0,
+      hasMedia,
+      totalBytes,
+      originalFilename: deck.metadata?.originalFilename,
+      r2: {
+        packageKey: `${prefix}package.apkg`,
+        manifestKey: `${prefix}manifest.json`,
+        mediaPrefix: `${prefix}media/`,
+      },
+    }
+  }
+
+  private async ensureMetadataForCompletedDecks(): Promise<void> {
+    try {
+      const jobs = await this.getJobsByUser()
+      if (jobs.length === 0) return
+
+      const jobsByDeck = new Map<string, R2UploadJobRecord[]>()
+      for (const job of jobs) {
+        const list = jobsByDeck.get(job.deckId) || []
+        list.push(job)
+        jobsByDeck.set(job.deckId, list)
+      }
+
+      for (const [deckId, deckJobs] of jobsByDeck.entries()) {
+        const counts = deckJobs.reduce(
+          (acc, job) => {
+            acc.totalBytes += job.size || 0
+            if (job.status === 'pending') acc.pending += 1
+            if (job.status === 'uploading') acc.uploading += 1
+            if (job.status === 'failed') acc.failed += 1
+            if (job.status === 'completed') acc.completed += 1
+            return acc
+          },
+          { pending: 0, uploading: 0, failed: 0, completed: 0, totalBytes: 0 }
+        )
+
+        if (counts.pending > 0 || counts.uploading > 0 || counts.failed > 0 || counts.completed === 0) {
+          continue
+        }
+
+        const metadata = await this.buildMetadataFromJobs(deckId)
+        if (!metadata) continue
+
+        const wrote = await this.writeMetadata(deckId, metadata)
+        if (wrote) {
+          this.emitter.emit('complete', {
+            deckId,
+            status: {
+              pending: 0,
+              uploading: 0,
+              failed: 0,
+              completed: counts.completed,
+              totalBytes: counts.totalBytes,
+              uploadedBytes: counts.totalBytes,
+            },
+          })
+        }
+      }
+    } catch (error) {
+      debugLogger.error('Metadata repair failed!', error)
+    }
+  }
+
+  private async getJobsByUser(): Promise<R2UploadJobRecord[]> {
+    const db = await this.openDb()
+    const tx = db.transaction(STORE_NAME, 'readonly')
+    const store = tx.objectStore(STORE_NAME)
+    const index = store.index('userId')
+    const jobs = await new Promise<R2UploadJobRecord[]>((resolve, reject) => {
+      const req = index.getAll(this.userId)
+      req.onsuccess = () => resolve(req.result || [])
+      req.onerror = () => reject(req.error)
+    })
+    db.close()
+    return jobs
   }
 
   private async putJob(job: R2UploadJobRecord): Promise<void> {

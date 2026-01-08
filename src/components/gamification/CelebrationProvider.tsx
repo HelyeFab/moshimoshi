@@ -38,20 +38,38 @@ export default function CelebrationProvider({ children }: { children: React.Reac
 
   const [previousXP, setPreviousXP] = useState(0)
   const [previousSessionCount, setPreviousSessionCount] = useState(0)
+  const [isFirstRender, setIsFirstRender] = useState(true)
 
   // Detect XP changes (indicates a session was completed)
   useEffect(() => {
-    // Skip initial load
-    if (previousXP === 0 && previousSessionCount === 0) {
+    console.log('🎊 [CelebrationProvider] Effect triggered:', {
+      totalXP,
+      previousXP,
+      sessionCount,
+      previousSessionCount,
+      isFirstRender,
+      hasLastSessionStats: !!lastSessionStats
+    })
+
+    // Skip ONLY the very first render (page load)
+    if (isFirstRender) {
+      console.log('🎊 [CelebrationProvider] First render, setting baseline values')
       setPreviousXP(totalXP)
       setPreviousSessionCount(sessionCount)
+      setIsFirstRender(false)
       return
     }
 
     // Check if XP increased (session completed)
     if (totalXP > previousXP && sessionCount > previousSessionCount) {
+      console.log('🎊 [CelebrationProvider] Session completed detected!', {
+        xpGained: totalXP - previousXP,
+        sessionCountDiff: sessionCount - previousSessionCount
+      })
+
       // Use actual session stats from store (set by gamificationListener)
       if (lastSessionStats) {
+        console.log('🎊 [CelebrationProvider] Setting celebration data:', lastSessionStats)
         setCelebrationData({
           xpGained: lastSessionStats.xpGained,
           accuracy: lastSessionStats.accuracy,
@@ -67,6 +85,7 @@ export default function CelebrationProvider({ children }: { children: React.Reac
           readingTimeMs: lastSessionStats.readingTimeMs
         })
       } else {
+        console.log('⚠️ [CelebrationProvider] No lastSessionStats available!')
         // Fallback if stats not available
         const xpGained = totalXP - previousXP
         setCelebrationData({
@@ -76,11 +95,21 @@ export default function CelebrationProvider({ children }: { children: React.Reac
           itemsCompleted: 0
         })
       }
+      console.log('🎊 [CelebrationProvider] Setting showCelebration = true!')
       setShowCelebration(true)
+
+      // Clear lastSessionStats immediately to prevent re-showing on navigation
+      console.log('🎊 [CelebrationProvider] Clearing lastSessionStats to prevent duplicate celebration')
+      clearLastSessionStats()
 
       // Update previous values
       setPreviousXP(totalXP)
       setPreviousSessionCount(sessionCount)
+    } else {
+      console.log('🎊 [CelebrationProvider] Conditions not met for celebration:', {
+        xpIncreased: totalXP > previousXP,
+        sessionCountIncreased: sessionCount > previousSessionCount
+      })
     }
   }, [totalXP, sessionCount, previousXP, previousSessionCount, lastSessionStats])
 
