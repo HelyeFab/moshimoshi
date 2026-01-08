@@ -246,10 +246,10 @@ export function DailyGoals({ userId, isPremium, onGoalComplete }: DailyGoalsProp
   return (
     <div className="bg-soft-white dark:bg-dark-800 rounded-2xl shadow-lg p-6">
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <div className="flex items-center gap-3">
           <div className={cn(
-            "p-2 rounded-lg",
+            "p-2 rounded-lg flex-shrink-0",
             allGoalsComplete
               ? "bg-green-100 dark:bg-green-900/20"
               : "bg-primary-100 dark:bg-primary-900/20"
@@ -260,7 +260,7 @@ export function DailyGoals({ userId, isPremium, onGoalComplete }: DailyGoalsProp
               <Target className="w-6 h-6 text-primary-600 dark:text-primary-400" />
             )}
           </div>
-          <div>
+          <div className="flex-1 min-w-0">
             <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
               {t('flashcards.dailyGoals.title')}
             </h3>
@@ -287,7 +287,7 @@ export function DailyGoals({ userId, isPremium, onGoalComplete }: DailyGoalsProp
           {isPremium && (
             <button
               onClick={() => setShowSettings(true)}
-              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
+              className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex-shrink-0"
             >
               <Settings className="w-5 h-5 text-gray-600 dark:text-gray-400" />
             </button>

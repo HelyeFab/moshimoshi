@@ -36,6 +36,7 @@ import {
   Settings,
   Download,
   Share,
+  MessageSquare,
 } from 'lucide-react'
 import { RiTextSpacing, RiCharacterRecognitionLine, RiFontSize2 } from 'react-icons/ri'
 import { useI18n } from '@/i18n/I18nContext'
@@ -280,6 +281,19 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
         keywords: ['settings', 'preferences', 'notifications', 'theme', 'language', '設定'],
         category: 'account',
         shortcut: 'g ,',
+      },
+      {
+        id: 'tea-house',
+        title: 'Tea House',
+        subtitle: 'Community Q&A',
+        icon: <MessageSquare className="w-5 h-5" />,
+        action: () => {
+          router.push('/village/tea-house')
+          setIsOpen(false)
+        },
+        keywords: ['tea', 'house', 'qa', 'questions', 'answers', 'community', 'help', 'ask', 'forum', '茶屋'],
+        category: 'account',
+        shortcut: 'g th',
       },
       // Quick actions
       {

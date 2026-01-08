@@ -20,6 +20,7 @@ export default function CelebrationProvider({ children }: { children: React.Reac
   const sessionCount = useGamificationStore((state) => state.sessionCount)
   const lastSessionStats = useGamificationStore((state) => state.lastSessionStats)
   const clearLastSessionStats = useGamificationStore((state) => state.clearLastSessionStats)
+  const hasHydrated = useGamificationStore((state) => state.hasHydrated)
 
   const [showCelebration, setShowCelebration] = useState(false)
   const [celebrationData, setCelebrationData] = useState<{
@@ -48,7 +49,9 @@ export default function CelebrationProvider({ children }: { children: React.Reac
       sessionCount,
       previousSessionCount,
       isFirstRender,
-      hasLastSessionStats: !!lastSessionStats
+      hasHydrated,
+      hasLastSessionStats: !!lastSessionStats,
+      lastSessionStatsCleared: lastSessionStats?.clearedAt ? true : false
     })
 
     // Skip ONLY the very first render (page load)
@@ -57,6 +60,20 @@ export default function CelebrationProvider({ children }: { children: React.Reac
       setPreviousXP(totalXP)
       setPreviousSessionCount(sessionCount)
       setIsFirstRender(false)
+      return
+    }
+
+    // CRITICAL: Don't trigger celebration before hydration completes
+    // This prevents stale state from triggering celebrations on component remount
+    if (!hasHydrated) {
+      console.log('🎊 [CelebrationProvider] Skipping - not hydrated yet')
+      return
+    }
+
+    // CRITICAL: Don't show celebration if it was already shown and cleared
+    // This prevents duplicate celebrations when navigating back to dashboard
+    if (lastSessionStats?.clearedAt) {
+      console.log('🎊 [CelebrationProvider] Skipping - celebration already shown (clearedAt:', new Date(lastSessionStats.clearedAt).toISOString(), ')')
       return
     }
 
@@ -111,7 +128,7 @@ export default function CelebrationProvider({ children }: { children: React.Reac
         sessionCountIncreased: sessionCount > previousSessionCount
       })
     }
-  }, [totalXP, sessionCount, previousXP, previousSessionCount, lastSessionStats])
+  }, [totalXP, sessionCount, previousXP, previousSessionCount, lastSessionStats, hasHydrated])
 
   return (
     <>

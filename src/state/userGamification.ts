@@ -98,6 +98,9 @@ interface GamificationState {
     panelCount?: number // For comics
     vocabularyCount?: number // For comics
     readingTimeMs?: number
+    // Timestamps for deduplication
+    createdAt: number // When stats were created (Date.now())
+    clearedAt?: number // When celebration was shown and cleared (Date.now())
   } | null
 
   // Metadata
@@ -130,6 +133,9 @@ interface GamificationState {
     panelCount?: number
     vocabularyCount?: number
     readingTimeMs?: number
+    // Timestamps (createdAt will be auto-added if not provided)
+    createdAt?: number
+    clearedAt?: number
   }) => void
   clearLastSessionStats: () => void
   updateFromServer: (data: {
@@ -504,16 +510,32 @@ export const useGamificationStore = create<GamificationState>()(
       /**
        * Set last session stats (for CelebrationScreen display)
        * Called by gamificationListener after session completion
+       * Automatically adds createdAt timestamp if not provided
        */
       setLastSessionStats: stats => {
-        set({ lastSessionStats: stats })
+        set({
+          lastSessionStats: {
+            ...stats,
+            createdAt: stats.createdAt ?? Date.now(), // Auto-add if not provided
+            clearedAt: stats.clearedAt, // Preserve if provided
+          }
+        })
       },
 
       /**
        * Clear last session stats (after celebration is shown)
+       * Sets clearedAt timestamp instead of nulling (for deduplication)
        */
       clearLastSessionStats: () => {
-        set({ lastSessionStats: null })
+        const state = get()
+        if (state.lastSessionStats) {
+          set({
+            lastSessionStats: {
+              ...state.lastSessionStats,
+              clearedAt: Date.now()
+            }
+          })
+        }
       },
 
       /**
