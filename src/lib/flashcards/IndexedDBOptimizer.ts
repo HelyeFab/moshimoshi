@@ -290,8 +290,8 @@ export class IndexedDBOptimizer {
         if (searchIn.includes('cards')) {
           return deck.cards.some(
             card =>
-              card.front.text.toLowerCase().includes(searchLower) ||
-              card.back.text.toLowerCase().includes(searchLower)
+              typeof card.front === "string" ? card.front : card.front.text.toLowerCase().includes(searchLower) ||
+              typeof card.back === "string" ? card.back : card.back.text.toLowerCase().includes(searchLower)
           )
         }
 

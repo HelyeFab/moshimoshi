@@ -38,12 +38,14 @@ export interface AnkiDeckSettings {
   newCardsPerDay: number
   reviewsPerDay: number
   autoPlayAudio: boolean
+  strictTemplateMode: boolean
 }
 
 export const DEFAULT_ANKI_DECK_SETTINGS: AnkiDeckSettings = {
   newCardsPerDay: 20,
   reviewsPerDay: 20,
   autoPlayAudio: true,
+  strictTemplateMode: false,
 }
 
 export interface AnkiDeck {
@@ -58,6 +60,7 @@ export interface AnkiDeck {
 export interface ImportOptions {
   onProgress?: (progress: number, message: string) => void
   maxFileSize?: number
+  strictTemplateMode?: boolean
 }
 
 export interface ImportResult {
@@ -65,6 +68,8 @@ export interface ImportResult {
   deck?: AnkiDeck
   cardsImported?: number
   error?: string
+  packageFile?: File  // Original .apkg file for R2 backup upload
+  media?: Map<string, Blob>  // Media files for R2 backup upload
 }
 
 export class AnkiImporter {
@@ -86,7 +91,9 @@ export class AnkiImporter {
     }
 
     try {
-      const parseResult = await AnkiParser.parseApkg(file)
+      const parseResult = await AnkiParser.parseApkg(file, {
+        strictTemplateMode: options?.strictTemplateMode
+      })
       const mediaStore = AnkiMediaStore.getInstance()
 
       console.log('[AnkiImporter] Parse result:', {
@@ -213,6 +220,19 @@ export class AnkiImporter {
 
     processedFront = markMediaImages(processedFront, 'FRONT')
     processedBack = markMediaImages(processedBack, 'BACK')
+
+    // Debug first card conversion
+    if (card.id.endsWith('1') || card.id === '1') {
+      console.log('[AnkiImporter.convertCardToReviewable] First card:', {
+        cardFrontLength: card.front.length,
+        cardBackLength: card.back.length,
+        processedFrontLength: processedFront.length,
+        processedBackLength: processedBack.length,
+        frontPreview: processedFront.substring(0, 100),
+        backPreview: processedBack.substring(0, 200),
+        frontEqualsBack: processedFront === processedBack,
+      });
+    }
 
     const audioKey = card.audioFilename ? buildAnkiMediaKey(deckId, card.audioFilename) : undefined
     const imageKey = card.imageFilename ? buildAnkiMediaKey(deckId, card.imageFilename) : undefined

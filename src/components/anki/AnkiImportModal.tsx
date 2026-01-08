@@ -7,6 +7,7 @@ import Alert from '@/components/ui/Alert'
 import { Upload, FileText, CheckCircle2, Settings, Package } from 'lucide-react'
 import { AnkiImporter, ImportResult, AnkiDeck, DEFAULT_ANKI_DECK_SETTINGS } from '@/lib/anki/importer'
 import { AnkiMediaStore, buildAnkiMediaKey } from '@/lib/anki/mediaStore'
+import { storageManager } from '@/lib/flashcards/StorageManager'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useToast } from '@/components/ui/Toast/ToastContext'
@@ -42,6 +43,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
   const [deckName, setDeckName] = useState('')
   const [newCardsPerDay, setNewCardsPerDay] = useState(DEFAULT_ANKI_DECK_SETTINGS.newCardsPerDay)
   const [reviewsPerDay, setReviewsPerDay] = useState(DEFAULT_ANKI_DECK_SETTINGS.reviewsPerDay)
+  const [strictTemplateMode, setStrictTemplateMode] = useState(DEFAULT_ANKI_DECK_SETTINGS.strictTemplateMode)
 
   const handleFileSelect = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0]
@@ -71,6 +73,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
           setProgress(prog)
           setProgressMessage(message)
         },
+        strictTemplateMode,
       })
 
       if (result.success && result.deck) {
@@ -86,6 +89,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
         // Use deck's existing settings or defaults
         setNewCardsPerDay(result.deck.settings?.newCardsPerDay ?? DEFAULT_ANKI_DECK_SETTINGS.newCardsPerDay)
         setReviewsPerDay(result.deck.settings?.reviewsPerDay ?? DEFAULT_ANKI_DECK_SETTINGS.reviewsPerDay)
+        setStrictTemplateMode(result.deck.settings?.strictTemplateMode ?? DEFAULT_ANKI_DECK_SETTINGS.strictTemplateMode)
         setStep('preview')
       } else {
         setError(result.error || t('anki.importFailed'))
@@ -139,6 +143,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
           newCardsPerDay,
           reviewsPerDay,
           autoPlayAudio: previewDeck.settings?.autoPlayAudio ?? DEFAULT_ANKI_DECK_SETTINGS.autoPlayAudio,
+          strictTemplateMode,
         },
       }
 
@@ -166,6 +171,8 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
         success: true,
         deck: finalDeck,
         cardsImported: finalDeck.cards.length,
+        packageFile: file || undefined,  // Original .apkg file for R2 backup
+        media: mediaBlobs,  // Media blobs for R2 backup
       }
 
 
@@ -191,6 +198,7 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
     setDeckName('')
     setNewCardsPerDay(DEFAULT_ANKI_DECK_SETTINGS.newCardsPerDay)
     setReviewsPerDay(DEFAULT_ANKI_DECK_SETTINGS.reviewsPerDay)
+    setStrictTemplateMode(DEFAULT_ANKI_DECK_SETTINGS.strictTemplateMode)
     setProgress(0)
     setProgressMessage('')
     if (fileInputRef.current) {
@@ -263,6 +271,13 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
               </div>
             </div>
 
+            {/* Info Alert - Formatting Notice */}
+            <Alert
+              type="info"
+              message={t('anki.formattingNotice')}
+              className="mt-4"
+            />
+
             {/* Error Alert */}
             {error && <Alert type="error" message={error} className="mt-4" />}
 
@@ -312,6 +327,18 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
                     </p>
                   </div>
                 </div>
+                {isPremium && (
+                  <p className="text-xs text-text-muted dark:text-dark-text-muted">
+                    Estimated cloud backup size:{' '}
+                    {storageManager.formatBytes(
+                      (file?.size || 0) +
+                        Array.from(previewDeck.mediaBlobs?.values() || []).reduce(
+                          (sum, blob) => sum + blob.size,
+                          0
+                        )
+                    )}
+                  </p>
+                )}
               </div>
 
               {/* Editable Deck Name */}
@@ -379,6 +406,26 @@ export function AnkiImportModal({ isOpen, onClose, onImportSuccess }: AnkiImport
                       {t('anki.reviewsHint')}
                     </p>
                   </div>
+                </div>
+
+                {/* Strict Template Mode Toggle */}
+                <div className="pt-4 border-t border-gray-200 dark:border-dark-700">
+                  <label className="flex items-start space-x-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={strictTemplateMode}
+                      onChange={(e) => setStrictTemplateMode(e.target.checked)}
+                      className="mt-1 w-4 h-4 text-primary-600 rounded focus:ring-primary-500"
+                    />
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-text-primary dark:text-dark-text-primary">
+                        {t('anki.strictTemplateMode')}
+                      </div>
+                      <p className="text-xs text-text-muted dark:text-dark-text-muted mt-0.5">
+                        {t('anki.strictTemplateModeHint')}
+                      </p>
+                    </div>
+                  </label>
                 </div>
               </div>
 

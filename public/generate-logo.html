@@ -23,7 +23,7 @@
         button {
             padding: 10px 20px;
             font-size: 16px;
-            background: #fd8686;
+            background: #ef4444;
             color: white;
             border: none;
             border-radius: 8px;
@@ -32,7 +32,7 @@
         }
 
         button:hover {
-            background: #ff6b6b;
+            background: #dc2626;
         }
     </style>
 </head>
@@ -54,8 +54,8 @@
             ctx.clearRect(0, 0, 512, 512);
 
             // Draw rounded rectangle background
-            const radius = 64;
-            ctx.fillStyle = '#fd8686';
+            const radius = 76.8;
+            ctx.fillStyle = '#ef4444';
             ctx.beginPath();
             ctx.moveTo(radius, 0);
             ctx.lineTo(512 - radius, 0);
@@ -71,16 +71,16 @@
 
             // Draw the も character
             ctx.fillStyle = 'white';
-            ctx.font = 'bold 320px "Noto Sans JP", "Hiragino Sans", sans-serif';
+            ctx.font = 'bold 205px Arial, sans-serif';
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.fillText('も', 256, 290);
+            ctx.fillText('も', 256, 256);
         }
 
         function downloadPNG() {
             const canvas = document.getElementById('canvas');
             const link = document.createElement('a');
-            link.download = 'logo-mo.png';
+            link.download = 'logo-mo-generated.png';
             link.href = canvas.toDataURL();
             link.click();
         }

@@ -110,13 +110,13 @@ function AnkiStudyContent({ deckId, locale }: { deckId: string; locale: string }
         setSessionState('complete')
       })
     } else {
-      router.push(`/${locale}/anki-import`)
+      router.push(`/${locale}/flashcards`)
     }
   }, [sessionState, endSession, router, locale])
 
   // Handle going back to deck list
   const handleBackToDecks = useCallback(() => {
-    router.push(`/${locale}/anki-import`)
+    router.push(`/${locale}/flashcards`)
   }, [router, locale])
 
   // Handle starting another session

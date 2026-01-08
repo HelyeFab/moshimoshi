@@ -1,0 +1,81 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { requireAuth } from '@/lib/auth/session'
+import { adminDb } from '@/lib/firebase/admin'
+import { GetObjectCommand } from '@aws-sdk/client-s3'
+import { getR2Config } from '@/lib/r2/r2-client'
+
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
+const LIMIT_BYTES = 250 * 1024 * 1024
+
+export async function GET(request: NextRequest) {
+  try {
+    const session = await requireAuth()
+
+    if (!adminDb) {
+      throw new Error('Firebase Admin DB not initialized')
+    }
+
+    const snapshot = await adminDb
+      .collection('anki_r2_backups')
+      .where('userId', '==', session.uid)
+      .get()
+
+    const { client, bucket } = getR2Config()
+
+    const streamToString = async (body: any): Promise<string> => {
+      if (!body) return ''
+      if (typeof body === 'string') return body
+      const chunks: Uint8Array[] = []
+      for await (const chunk of body) {
+        chunks.push(typeof chunk === 'string' ? Buffer.from(chunk) : chunk)
+      }
+      return Buffer.concat(chunks).toString('utf8')
+    }
+
+    let usedBytes = 0
+
+    for (const doc of snapshot.docs) {
+      const data = doc.data() as { totalBytes?: number; r2?: { manifestKey?: string } }
+      if (typeof data.totalBytes === 'number') {
+        usedBytes += data.totalBytes
+        continue
+      }
+
+      const manifestKey = data.r2?.manifestKey
+      if (!manifestKey) continue
+
+      try {
+        const response = await client.send(
+          new GetObjectCommand({
+            Bucket: bucket,
+            Key: manifestKey,
+          })
+        )
+        const body = await streamToString(response.Body)
+        const manifest = JSON.parse(body) as { files?: Array<{ size?: number }> }
+        const manifestFiles = manifest.files || []
+        const manifestBytes = Buffer.byteLength(body, 'utf8')
+        const deckBytes =
+          manifestFiles.reduce((sum, file) => sum + (file.size || 0), 0) + manifestBytes
+
+        usedBytes += deckBytes
+
+        await doc.ref.set({ totalBytes: deckBytes }, { merge: true })
+      } catch (error) {
+        // Skip if manifest fetch fails; usage will be undercounted until next time.
+      }
+    }
+
+    return NextResponse.json({ usedBytes, limitBytes: LIMIT_BYTES })
+  } catch (error: any) {
+    const message = error?.message || 'Failed to fetch usage'
+    const status = message === 'Authentication required' ? 401 : 500
+
+    return NextResponse.json(
+      { error: { code: 'USAGE_FETCH_ERROR', message } },
+      { status }
+    )
+  }
+}

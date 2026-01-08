@@ -4600,6 +4600,25 @@ export const strings = {
       syncingDeck: 'Syncing {{deck}}...',
     },
 
+    // Restore
+    restore: {
+      title: 'Restore Decks',
+      description: 'Restore your Anki decks from cloud backup',
+      noBackups: 'No backups found. Import a deck to create a backup.',
+      cards: 'cards',
+      withMedia: 'with media',
+      lastBackup: 'Last backup',
+      restoreButton: 'Restore',
+      fetchingMetadata: 'Fetching backup info...',
+      downloadingManifest: 'Downloading manifest...',
+      downloadingMedia: 'Downloading media files...',
+      downloadingFile: 'Downloading {{current}}/{{total}}: {{filename}}',
+      hydratingDeck: 'Setting up deck...',
+      complete: 'Restore complete!',
+      success: 'Deck restored successfully. You can now study offline.',
+      error: 'Restore failed. Please try again.',
+    },
+
     // Empty states
     empty: {
       noDecks: 'No flashcard decks yet',
@@ -5484,6 +5503,7 @@ export const strings = {
     importFailed: 'Failed to import deck',
     processing: 'Processing...',
     description: 'Import your Anki decks and review them using the Universal Review Engine',
+    formattingNotice: 'Card display may differ from Anki based on your deck\'s formatting. We optimize for clean, readable cards.',
     importButton: 'Import Anki Deck (.apkg)',
     mediaCache: 'Media Cache',
     clearCache: 'Clear Cache',
@@ -5507,6 +5527,8 @@ export const strings = {
     reviewsPerDay: 'Reviews per day',
     newCardsHint: 'Maximum new cards to introduce daily',
     reviewsHint: 'Maximum reviews per day',
+    strictTemplateMode: 'Strict Template Mode',
+    strictTemplateModeHint: 'Use Anki templates exactly as-is. Enable for listening decks or complex card formats.',
     confirmImport: 'Import Deck',
     saving: 'Saving...',
     dueToday: 'Due today',

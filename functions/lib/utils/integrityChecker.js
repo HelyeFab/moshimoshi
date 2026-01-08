@@ -332,15 +332,15 @@ async function repairNewsArticles(articleIds, result, checkId) {
                 articleCount: articlesForWordRepair.length,
                 checkId,
             });
-            // Extract words first
-            const articlesWithWords = articlesForWordRepair.map(article => {
-                const words = (0, wordExtractor_1.extractTopWords)(article.content, 100);
+            // Extract words first (with Kuromoji)
+            const articlesWithWords = await Promise.all(articlesForWordRepair.map(async (article) => {
+                const words = await (0, wordExtractor_1.extractTopWords)(article.content, 100);
                 return {
                     id: article.id,
                     content: article.content,
                     words: words.words,
                 };
-            });
+            }));
             const wordResults = await (0, wordExplanationPreGenerator_1.generateBatchWordExplanations)(articlesWithWords);
             result.repaired.wordExplanations = wordResults.successCount;
             result.repairFailed.wordExplanations = wordResults.failureCount;

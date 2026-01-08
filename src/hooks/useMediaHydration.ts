@@ -38,8 +38,11 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
         card.metadata?.imageFilename ?? (card as { imageFilename?: string }).imageFilename
 
       // Check if HTML content needs hydration (contains data-anki-media)
-      const frontHasMedia = card.front.text?.includes('data-anki-media')
-      const backHasMedia = card.back.text?.includes('data-anki-media')
+      // Handle both string format (Anki cards) and object format (regular cards)
+      const frontText = typeof card.front === 'string' ? card.front : card.front.text
+      const backText = typeof card.back === 'string' ? card.back : card.back.text
+      const frontHasMedia = frontText?.includes('data-anki-media')
+      const backHasMedia = backText?.includes('data-anki-media')
 
       console.log('[useMediaHydration] Metadata:', {
         audioFilename,
@@ -73,21 +76,21 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
       if (audioUrl) blobUrlsRef.current.push(audioUrl)
       if (imageUrl) blobUrlsRef.current.push(imageUrl)
 
-      // Hydrate inline HTML images (images embedded in front.text/back.text)
-      let hydratedFrontText = card.front.text
-      let hydratedBackText = card.back.text
+      // Hydrate inline HTML images (images embedded in front/back text)
+      let hydratedFrontText = frontText
+      let hydratedBackText = backText
 
       if (frontHasMedia) {
         console.log('[useMediaHydration] Calling hydrateAnkiMedia for FRONT text')
-        console.log('[useMediaHydration] Front text before:', card.front.text.substring(0, 150))
-        hydratedFrontText = await hydrateAnkiMedia(card.front.text)
+        console.log('[useMediaHydration] Front text before:', frontText.substring(0, 150))
+        hydratedFrontText = await hydrateAnkiMedia(frontText)
         console.log('[useMediaHydration] Front text after:', hydratedFrontText.substring(0, 150))
       }
 
       if (backHasMedia) {
         console.log('[useMediaHydration] Calling hydrateAnkiMedia for BACK text')
-        console.log('[useMediaHydration] Back text before:', card.back.text.substring(0, 150))
-        hydratedBackText = await hydrateAnkiMedia(card.back.text)
+        console.log('[useMediaHydration] Back text before:', backText.substring(0, 150))
+        hydratedBackText = await hydrateAnkiMedia(backText)
         console.log('[useMediaHydration] Back text after:', hydratedBackText.substring(0, 150))
       }
 
@@ -96,22 +99,27 @@ export function useMediaHydration(card: FlashcardContent): FlashcardContent {
       console.log('[useMediaHydration] Setting hydrated card state')
 
       // Update card with hydrated URLs and text
+      // Handle both string format (Anki) and object format (regular cards)
       setHydratedCard({
         ...card,
-        front: {
-          ...card.front,
-          text: hydratedFrontText,
-          media: imageUrl
-            ? { type: 'image', url: imageUrl, alt: card.front.text }
-            : card.front.media
-        },
-        back: {
-          ...card.back,
-          text: hydratedBackText,
-          media: audioUrl
-            ? { type: 'audio', url: audioUrl }
-            : card.back.media
-        },
+        front: typeof card.front === 'string'
+          ? hydratedFrontText
+          : {
+              ...card.front,
+              text: hydratedFrontText,
+              media: imageUrl
+                ? { type: 'image', url: imageUrl, alt: frontText }
+                : card.front.media
+            },
+        back: typeof card.back === 'string'
+          ? hydratedBackText
+          : {
+              ...card.back,
+              text: hydratedBackText,
+              media: audioUrl
+                ? { type: 'audio', url: audioUrl }
+                : card.back.media
+            },
         metadata: {
           ...card.metadata,
           audioUrl,
@@ -175,8 +183,10 @@ export function useBatchMediaHydration(
           card.metadata?.audioFilename ?? (card as { audioFilename?: string }).audioFilename
         const imageFilename =
           card.metadata?.imageFilename ?? (card as { imageFilename?: string }).imageFilename
-        const frontHasMedia = card.front.text?.includes('data-anki-media')
-        const backHasMedia = card.back.text?.includes('data-anki-media')
+        const frontText = typeof card.front === 'string' ? card.front : card.front.text
+        const backText = typeof card.back === 'string' ? card.back : card.back.text
+        const frontHasMedia = frontText?.includes('data-anki-media')
+        const backHasMedia = backText?.includes('data-anki-media')
 
         if (audioFilename || imageFilename || frontHasMedia || backHasMedia) {
           cardMediaMap.set(card.id, {
@@ -230,35 +240,41 @@ export function useBatchMediaHydration(
           : undefined
 
         // Hydrate inline HTML images
-        let hydratedFrontText = card.front.text
-        let hydratedBackText = card.back.text
+        const cardFrontText = typeof card.front === 'string' ? card.front : card.front.text
+        const cardBackText = typeof card.back === 'string' ? card.back : card.back.text
+        let hydratedFrontText = cardFrontText
+        let hydratedBackText = cardBackText
 
         if (cardMedia.frontHasMedia) {
-          hydratedFrontText = await hydrateAnkiMedia(card.front.text)
+          hydratedFrontText = await hydrateAnkiMedia(cardFrontText)
         }
 
         if (cardMedia.backHasMedia) {
-          hydratedBackText = await hydrateAnkiMedia(card.back.text)
+          hydratedBackText = await hydrateAnkiMedia(cardBackText)
         }
 
         if (cancelled) return
 
         hydrated.set(card.id, {
           ...card,
-          front: {
-            ...card.front,
-            text: hydratedFrontText,
-            media: imageUrl
-              ? { type: 'image', url: imageUrl, alt: card.front.text }
-              : card.front.media
-          },
-          back: {
-            ...card.back,
-            text: hydratedBackText,
-            media: audioUrl
-              ? { type: 'audio', url: audioUrl }
-              : card.back.media
-          },
+          front: typeof card.front === 'string'
+            ? hydratedFrontText
+            : {
+                ...card.front,
+                text: hydratedFrontText,
+                media: imageUrl
+                  ? { type: 'image', url: imageUrl, alt: cardFrontText }
+                  : card.front.media
+              },
+          back: typeof card.back === 'string'
+            ? hydratedBackText
+            : {
+                ...card.back,
+                text: hydratedBackText,
+                media: audioUrl
+                  ? { type: 'audio', url: audioUrl }
+                  : card.back.media
+              },
           metadata: {
             ...card.metadata,
             audioUrl,

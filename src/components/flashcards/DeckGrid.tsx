@@ -7,6 +7,7 @@ import type { FlashcardDeck } from '@/types/flashcards';
 import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
+import { BackupStatusBadge } from '@/components/anki/BackupStatusBadge';
 
 interface DeckGridProps {
   decks: FlashcardDeck[];
@@ -261,44 +262,45 @@ export function DeckGrid({
                 getColorClasses(deck.color)
               )} />
 
-              <div className="flex items-center justify-between p-4 pl-5">
-                <div className="flex items-center gap-3 flex-1 min-w-0">
+              <div className="p-4 pl-5 space-y-3">
+                {/* Row 1: Emoji + Deck Name + Menu */}
+                <div className="flex items-start gap-3">
                   {/* Emoji Indicator */}
                   <div className="flex-shrink-0 w-10 h-10 rounded-lg bg-gray-100 dark:bg-dark-700 flex items-center justify-center">
                     <span className="text-xl">{deck.emoji}</span>
                   </div>
 
-                  <div className="flex-1 min-w-0">
-                    {/* Card Count & Due Badge */}
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
-                        {deck.stats.totalCards} {deck.stats.totalCards === 1 ? 'term' : 'terms'}
-                      </span>
-                      {dueCount > 0 && (
-                        <span className="px-2 py-0.5 text-xs font-bold bg-red-500 text-white rounded-full">
-                          {dueCount} due
-                        </span>
-                      )}
-                    </div>
+                  {/* Deck Name - More prominent */}
+                  <h3 className="flex-1 text-base font-semibold text-gray-900 dark:text-gray-100 leading-snug pt-0.5 line-clamp-2 min-w-0">
+                    {deck.name}
+                  </h3>
 
-                    {/* Deck Name */}
-                    <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 truncate">
-                      {deck.name}
-                    </h3>
-                  </div>
-                </div>
-
-                {/* Menu Button */}
-                <div className="flex items-center gap-2 flex-shrink-0">
+                  {/* Menu Button */}
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
                       setOpenMenuId(openMenuId === deck.id ? null : deck.id);
                     }}
-                    className="p-2 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
+                    className="flex-shrink-0 p-2 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
                   >
                     <MoreVertical className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                   </button>
+                </div>
+
+                {/* Row 2: Stats - Card Count, Due Badge, Backup Status */}
+                <div className="flex items-center gap-2 flex-wrap pl-13">
+                  <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+                    {deck.stats.totalCards} {deck.stats.totalCards === 1 ? 'term' : 'terms'}
+                  </span>
+                  {dueCount > 0 && (
+                    <span className="px-2 py-0.5 text-xs font-bold bg-red-500 text-white rounded-full">
+                      {dueCount} due
+                    </span>
+                  )}
+                  {/* Backup Status Badge for Anki Decks */}
+                  {deck.source === 'anki' && isPremium && (
+                    <BackupStatusBadge deckId={deck.id} />
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -437,9 +439,18 @@ export function DeckGrid({
 
                 {/* Content */}
                 <div className="p-3 flex flex-col h-32">
-                  <h3 className="font-semibold text-base text-gray-900 dark:text-gray-100 mb-1 break-words line-clamp-1">
-                    {deck.name}
-                  </h3>
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <h3 className="font-semibold text-base text-gray-900 dark:text-gray-100 break-words line-clamp-1 flex-1">
+                      {deck.name}
+                    </h3>
+                  </div>
+
+                  {/* Backup Status Badge for Anki Decks */}
+                  {deck.source === 'anki' && isPremium && (
+                    <div className="mb-1">
+                      <BackupStatusBadge deckId={deck.id} />
+                    </div>
+                  )}
 
                   {deck.description && (
                     <p className="text-xs text-gray-600 dark:text-gray-400 mb-2 line-clamp-1">

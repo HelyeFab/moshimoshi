@@ -223,8 +223,8 @@ export class MigrationManager {
 
       for (const deck of decks) {
         for (const card of deck.cards) {
-          const front = card.front.text.replace(/"/g, '""')
-          const back = card.back.text.replace(/"/g, '""')
+          const front = typeof card.front === "string" ? card.front : card.front.text.replace(/"/g, '""')
+          const back = typeof card.back === "string" ? card.back : card.back.text.replace(/"/g, '""')
           const notes = (card.metadata?.notes || '').replace(/"/g, '""')
           const tags = (card.metadata?.tags || []).join(';')
 

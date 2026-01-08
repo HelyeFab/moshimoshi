@@ -381,15 +381,17 @@ export async function scheduledNewsScraper() {
           const wordExtractionStartTime = Date.now()
 
           try {
-            // Extract top 100 words from each article
-            const articlesWithWords = articles.map(article => {
-              const words = extractTopWords(article.content, 100)
-              return {
-                id: article.id,
-                content: article.content,
-                words: words.words,
-              }
-            })
+            // Extract top 100 words from each article (with Kuromoji)
+            const articlesWithWords = await Promise.all(
+              articles.map(async article => {
+                const words = await extractTopWords(article.content, 100)
+                return {
+                  id: article.id,
+                  content: article.content,
+                  words: words.words,
+                }
+              })
+            )
 
             logger.info('[NewsScheduler] Words extracted', {
               articleCount: articlesWithWords.length,
@@ -586,14 +588,16 @@ async function runPreCachingPipeline(articleIds: string[]): Promise<{
   const wordStartTime = Date.now()
 
   try {
-    const articlesWithWords = articles.map(article => {
-      const words = extractTopWords(article.content, 100)
-      return {
-        id: article.id,
-        content: article.content,
-        words: words.words,
-      }
-    })
+    const articlesWithWords = await Promise.all(
+      articles.map(async article => {
+        const words = await extractTopWords(article.content, 100)
+        return {
+          id: article.id,
+          content: article.content,
+          words: words.words,
+        }
+      })
+    )
 
     const wordResults = await generateBatchWordExplanations(articlesWithWords)
     result.wordExplanationSuccess = wordResults.successCount
@@ -990,14 +994,16 @@ async function runPreCachingPipelineWithProgress(
   }
 
   try {
-    const articlesWithWords = articles.map(article => {
-      const words = extractTopWords(article.content, 100)
-      return {
-        id: article.id,
-        content: article.content,
-        words: words.words,
-      }
-    })
+    const articlesWithWords = await Promise.all(
+      articles.map(async article => {
+        const words = await extractTopWords(article.content, 100)
+        return {
+          id: article.id,
+          content: article.content,
+          words: words.words,
+        }
+      })
+    )
 
     if (progressId) {
       const totalWords = articlesWithWords.reduce((sum, a) => sum + a.words.length, 0)

@@ -105,6 +105,28 @@ export class FlashcardSessionManager {
     console.log('✅ [SessionManager.saveSession] Daily analytics updated')
   }
 
+  // Save session to Firebase (premium users only)
+  async saveSessionRemote(session: SessionStats, isPremium: boolean): Promise<void> {
+    if (!isPremium) {
+      console.log('⏭️ [SessionManager.saveSessionRemote] Skipping - not premium user')
+      return;
+    }
+
+    try {
+      console.log('☁️ [SessionManager.saveSessionRemote] Syncing session to Firebase:', session.id)
+      await fetch('/api/flashcards/sessions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(session)
+      });
+      console.log('✅ [SessionManager.saveSessionRemote] Session synced to Firebase')
+    } catch (error) {
+      console.error('❌ [SessionManager.saveSessionRemote] Failed to save session to Firebase:', error);
+      // Don't throw - failing to sync to Firebase shouldn't break the session
+    }
+  }
+
   // Update daily analytics
   private async updateDailyAnalytics(session: SessionStats): Promise<void> {
     const db = await this.initDB();
@@ -152,8 +174,19 @@ export class FlashcardSessionManager {
     startDate?: Date,
     endDate?: Date
   ): Promise<SessionStats[]> {
-    const db = await this.initDB();
-    let sessions = await db.getAllFromIndex('sessions', 'userId', userId);
+    let sessions: SessionStats[] = []
+    try {
+      const db = await this.initDB();
+      sessions = await db.getAllFromIndex('sessions', 'userId', userId);
+    } catch (error: any) {
+      if (error?.name === 'InvalidStateError') {
+        // Retry once if the connection is closing (e.g., during hot reload)
+        const db = await this.initDB();
+        sessions = await db.getAllFromIndex('sessions', 'userId', userId);
+      } else {
+        throw error;
+      }
+    }
 
     // Filter by date range if provided
     if (startDate || endDate) {
@@ -175,8 +208,18 @@ export class FlashcardSessionManager {
 
   // Get deck-specific sessions
   async getDeckSessions(deckId: string, limit?: number): Promise<SessionStats[]> {
-    const db = await this.initDB();
-    let sessions = await db.getAllFromIndex('sessions', 'deckId', deckId);
+    let sessions: SessionStats[] = []
+    try {
+      const db = await this.initDB();
+      sessions = await db.getAllFromIndex('sessions', 'deckId', deckId);
+    } catch (error: any) {
+      if (error?.name === 'InvalidStateError') {
+        const db = await this.initDB();
+        sessions = await db.getAllFromIndex('sessions', 'deckId', deckId);
+      } else {
+        throw error;
+      }
+    }
 
     // Sort by timestamp (newest first)
     sessions.sort((a, b) => b.timestamp - a.timestamp);

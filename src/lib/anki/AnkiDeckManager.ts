@@ -11,6 +11,7 @@ import { openDB, IDBPDatabase } from 'idb'
 import { AnkiDeck, AnkiCard, AnkiDeckSettings, DEFAULT_ANKI_DECK_SETTINGS } from './importer'
 import { AnkiMediaStore } from './mediaStore'
 import type { DeckStats } from '@/types/flashcards'
+import { debugLogger } from '@/lib/debug-logger'
 
 interface AnkiDeckDB {
   decks: AnkiDeck & { userId: string; createdAt: number; updatedAt: number }
@@ -111,6 +112,14 @@ export class AnkiDeckManager {
     isPremium: boolean,
     filename?: string
   ): Promise<StoredAnkiDeck> {
+    debugLogger.step(1, 'Starting deck save', {
+      deckId: deck.id,
+      deckName: deck.name,
+      cardCount: deck.cards.length,
+      userId,
+      isPremium
+    })
+
     const db = await this.initDB()
     const now = Date.now()
 
@@ -120,10 +129,13 @@ export class AnkiDeckManager {
       existing.name === deck.name && existing.id !== deck.id
     )
     if (hasNameConflict) {
+      debugLogger.error('Duplicate deck name detected!', { deckName: deck.name })
       const error = new Error('Deck name already exists')
       ;(error as any).code = 'DUPLICATE_DECK_NAME'
       throw error
     }
+
+    debugLogger.step(2, 'No name conflicts, proceeding with save')
 
     const storedDeck: StoredAnkiDeck = {
       ...deck,
@@ -161,23 +173,22 @@ export class AnkiDeckManager {
       mediaBlobs: undefined, // Remove non-serializable Map
     }
 
-    console.log('💾 [AnkiDeckManager.saveDeck] Saving Anki deck to IndexedDB:', {
+    debugLogger.deckImport('Saving to IndexedDB...', {
       id: deck.id,
       name: deck.name,
-      cardsInDeck: deck.cards.length,
-      cardsInStorage: deckForStorage.cards.length,
-      userId,
-      firstCard: deckForStorage.cards[0],
-      deckStructure: {
-        hasCards: !!deckForStorage.cards,
-        cardCount: deckForStorage.cards.length,
-        source: deckForStorage.source
-      }
+      cards: deckForStorage.cards.length,
+      hasMedia: storedDeck.metadata?.hasMedia
     })
 
     // Save to IndexedDB (local-only storage)
     await db.put('decks', deckForStorage as any)
-    console.log('✅ [AnkiDeckManager.saveDeck] Anki deck saved successfully to IndexedDB')
+
+    debugLogger.success('Deck saved to IndexedDB!', {
+      deckId: deck.id,
+      deckName: deck.name,
+      location: 'IndexedDB - Local Storage'
+    })
+
     this.notifyListeners('decks-changed')
 
     return storedDeck
@@ -227,16 +238,97 @@ export class AnkiDeckManager {
    * Delete an Anki deck
    */
   async deleteDeck(deckId: string, userId: string, isPremium: boolean): Promise<boolean> {
+    debugLogger.deckDelete('Starting deck deletion', {
+      deckId,
+      userId,
+      isPremium,
+      willDeleteR2: isPremium
+    })
+
     const db = await this.initDB()
     const deck = await this.getDeck(deckId, userId)
 
     if (!deck) {
+      debugLogger.error('Deck not found for deletion!', { deckId })
       return false
     }
 
+    debugLogger.step(1, 'Deleting from IndexedDB...', { deckName: deck.name })
+
     // Delete from IndexedDB
     await db.delete('decks', deckId)
+
+    debugLogger.success('Deck deleted from IndexedDB!', { deckId, deckName: deck.name })
+
+    debugLogger.queueStatus('Deleting local media files...', { deckId })
+    const mediaStore = AnkiMediaStore.getInstance()
+    const deletedMedia = await mediaStore.deleteMediaByDeck(deckId)
+    debugLogger.success('Local media deleted!', { deckId, deletedMedia })
+
+    // If premium user, delete R2 backup files and metadata
+    if (isPremium) {
+      debugLogger.step(2, 'User is premium - starting R2 cleanup...')
+
+      try {
+        // Clear upload queue jobs
+        const { getR2UploadQueue } = await import('@/lib/r2/R2UploadQueue')
+        const queue = getR2UploadQueue(userId)
+        await queue.clearDeck(deckId, { markDeleted: true })
+        debugLogger.success('Upload queue cleared!', { deckId })
+
+        // Delete R2 files via API
+        debugLogger.r2Delete('Calling R2 delete API...', { deckId })
+
+        const deleteResponse = await fetch('/api/anki/r2/delete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ deckId }),
+        })
+
+        if (!deleteResponse.ok) {
+          const errorText = await deleteResponse.text()
+          debugLogger.error('R2 delete API failed!', errorText)
+        } else {
+          const result = await deleteResponse.json()
+          debugLogger.success('R2 files deleted!', {
+            deletedCount: result.deletedCount,
+            deckId
+          })
+        }
+
+        // Delete metadata from Firestore
+        debugLogger.step(3, 'Deleting Firestore metadata...')
+
+        const metadataResponse = await fetch('/api/anki/r2/metadata', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({ deckId }),
+        })
+
+        if (!metadataResponse.ok) {
+          const errorText = await metadataResponse.text()
+          debugLogger.error('Metadata delete failed!', errorText)
+        } else {
+          debugLogger.success('Metadata deleted from Firestore!', { deckId })
+        }
+      } catch (error) {
+        debugLogger.error('R2 cleanup error!', error)
+        // Don't fail the whole operation if R2 delete fails
+      }
+    } else {
+      debugLogger.queueStatus('User is free tier - skipping R2 cleanup')
+    }
+
     this.notifyListeners('decks-changed')
+
+    debugLogger.success('DECK DELETION COMPLETE!', {
+      deckId,
+      deckName: deck.name,
+      r2Cleaned: isPremium
+    })
+
     return true
   }
 

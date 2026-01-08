@@ -31,6 +31,9 @@ import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import Modal from '@/components/ui/Modal'
 import { generateFuriganaBatch, needsFurigana } from '@/lib/flashcards/furiganaUtils'
 import { useToast } from '@/components/ui/Toast/ToastContext'
+import { getR2UploadQueue } from '@/lib/r2/R2UploadQueue'
+import { debugLogger } from '@/lib/debug-logger'
+import { storageManager } from '@/lib/flashcards/StorageManager'
 
 interface DeckCreatorProps {
   isOpen: boolean
@@ -176,6 +179,58 @@ export function DeckCreator({
           isPremium,
           result.deck.name
         )
+
+        // Start R2 backup in background for premium users (non-blocking)
+        if (isPremium && result.packageFile) {
+          debugLogger.r2Upload('Triggering R2 backup in background...', {
+            deckId: result.deck.id,
+            deckName: result.deck.name,
+            hasPackageFile: !!result.packageFile,
+            mediaCount: result.media?.size || 0,
+            packageSize: Math.round(result.packageFile.size / 1024) + ' KB'
+          })
+
+          setTimeout(async () => {
+            try {
+              const queue = getR2UploadQueue(userId)
+              await queue.queueDeckUpload(
+                result.deck.id,
+                result.packageFile,
+                result.media || new Map()
+              )
+              await queue.start()
+              if (!queue.isDeckDeleted(result.deck.id)) {
+                debugLogger.success('R2 backup queue started!', {
+                  deckId: result.deck.id,
+                  deckName: result.deck.name
+                })
+              }
+            } catch (queueError) {
+              if ((queueError as any)?.code === 'R2_STORAGE_LIMIT_EXCEEDED') {
+                const details = (queueError as any)?.details || {}
+                const available = details.availableBytes ?? 0
+                const requested = details.requestedBytes ?? 0
+                showToast(
+                  `Cloud backup limit reached. Available ${storageManager.formatBytes(available)}, needed ${storageManager.formatBytes(requested)}.`,
+                  'error'
+                )
+                return
+              }
+              debugLogger.error('Failed to start R2 backup!', queueError)
+              showToast(
+                'Cloud backup is queued. Check the backup badge on your deck.',
+                'info'
+              )
+            }
+          }, 100)
+        } else if (isPremium && !result.packageFile) {
+          debugLogger.error('Premium user but packageFile is missing!', {
+            deckId: result.deck.id,
+            deckName: result.deck.name,
+            message: 'Cannot backup to R2 without package file'
+          })
+        }
+
         setShowAnkiImport(false)
         onAnkiImportComplete?.() // Refresh the deck list in the parent
         onClose() // Close the modal - deck is already saved

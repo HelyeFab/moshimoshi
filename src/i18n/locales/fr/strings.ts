@@ -3025,6 +3025,25 @@ export const strings = {
       syncingDeck: 'Synchronisation de {{deck}}...',
     },
 
+    // Restore
+    restore: {
+      title: 'Restaurer les Decks',
+      description: 'Restaurez vos decks Anki depuis la sauvegarde cloud',
+      noBackups: 'Aucune sauvegarde trouvée. Importez un deck pour créer une sauvegarde.',
+      cards: 'cartes',
+      withMedia: 'avec médias',
+      lastBackup: 'Dernière sauvegarde',
+      restoreButton: 'Restaurer',
+      fetchingMetadata: 'Récupération des informations de sauvegarde...',
+      downloadingManifest: 'Téléchargement du manifeste...',
+      downloadingMedia: 'Téléchargement des fichiers médias...',
+      downloadingFile: 'Téléchargement {{current}}/{{total}}: {{filename}}',
+      hydratingDeck: 'Configuration du deck...',
+      complete: 'Restauration terminée!',
+      success: 'Deck restauré avec succès. Vous pouvez maintenant étudier hors ligne.',
+      error: 'Échec de la restauration. Veuillez réessayer.',
+    },
+
     // Empty states
     empty: {
       noDecks: 'Aucun paquet de cartes flash',
@@ -3865,6 +3884,7 @@ export const strings = {
     importFailed: 'Failed to import deck',
     processing: 'Processing...',
     description: 'Import your Anki decks and review them using the Universal Review Engine',
+    formattingNotice: 'L\'affichage des cartes peut différer d\'Anki en fonction du formatage de votre paquet. Nous optimisons pour des cartes propres et lisibles.',
     importButton: 'Import Anki Deck (.apkg)',
     mediaCache: 'Media Cache',
     clearCache: 'Clear Cache',

@@ -3205,6 +3205,25 @@ export const strings = {
       syncingDeck: 'Sincronizzazione di {{deck}}...',
     },
 
+    // Restore
+    restore: {
+      title: 'Ripristina Mazzi',
+      description: 'Ripristina i tuoi mazzi Anki dal backup cloud',
+      noBackups: 'Nessun backup trovato. Importa un mazzo per creare un backup.',
+      cards: 'carte',
+      withMedia: 'con media',
+      lastBackup: 'Ultimo backup',
+      restoreButton: 'Ripristina',
+      fetchingMetadata: 'Recupero informazioni backup...',
+      downloadingManifest: 'Download manifest...',
+      downloadingMedia: 'Download file media...',
+      downloadingFile: 'Download {{current}}/{{total}}: {{filename}}',
+      hydratingDeck: 'Configurazione mazzo...',
+      complete: 'Ripristino completato!',
+      success: 'Mazzo ripristinato con successo. Puoi studiare offline ora.',
+      error: 'Ripristino fallito. Riprova.',
+    },
+
     // Empty states
     empty: {
       noDecks: 'Nessun mazzo di flashcard',
@@ -4048,6 +4067,7 @@ export const strings = {
     importFailed: 'Failed to import deck',
     processing: 'Processing...',
     description: 'Import your Anki decks and review them using the Universal Review Engine',
+    formattingNotice: 'La visualizzazione delle carte potrebbe differire da Anki in base alla formattazione del mazzo. Ottimizziamo per carte pulite e leggibili.',
     importButton: 'Import Anki Deck (.apkg)',
     mediaCache: 'Media Cache',
     clearCache: 'Clear Cache',

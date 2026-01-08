@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moshimoshi Logo & Icon Test Page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f5f5f5;
+            padding: 2rem;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section {
+            background: white;
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .section h2 {
+            color: #fd8686;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid #fd8686;
+            padding-bottom: 0.5rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .item {
+            text-align: center;
+        }
+
+        .item-label {
+            font-size: 0.875rem;
+            color: #666;
+            margin-top: 0.5rem;
+            word-break: break-all;
+        }
+
+        .logo-display {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 200px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .checkerboard {
+            background-image:
+                linear-gradient(45deg, #ddd 25%, transparent 25%),
+                linear-gradient(-45deg, #ddd 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #ddd 75%),
+                linear-gradient(-45deg, transparent 75%, #ddd 75%);
+            background-size: 20px 20px;
+            background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+        }
+
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+
+        .icon-item {
+            text-align: center;
+            padding: 1rem;
+            background: #f9f9f9;
+            border-radius: 8px;
+        }
+
+        .icon-item img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .size-label {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🗾 Moshimoshi Logo & Icon Assets</h1>
+
+        <!-- Main Logo -->
+        <div class="section">
+            <h2>Main Logo (Hiragana "も")</h2>
+            <div class="grid">
+                <div class="item">
+                    <div class="logo-display">
+                        <img src="/logo-mo.svg" alt="Logo SVG" style="width: 200px; height: 200px;">
+                    </div>
+                    <div class="item-label">logo-mo.svg</div>
+                </div>
+                <div class="item">
+                    <div class="logo-display checkerboard">
+                        <img src="/logo-mo-generated.png" alt="Logo PNG" style="width: 200px; height: 200px;">
+                    </div>
+                    <div class="item-label">logo-mo-generated.png</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Icon -->
+        <div class="section">
+            <h2>Main Icon (Red Panda Mascot)</h2>
+            <div class="grid">
+                <div class="item">
+                    <div class="logo-display checkerboard">
+                        <img src="/icon.svg" alt="Icon SVG" style="width: 200px; height: 200px;">
+                    </div>
+                    <div class="item-label">icon.svg (original)</div>
+                </div>
+                <div class="item">
+                    <div class="logo-display checkerboard">
+                        <img src="/favicon.svg" alt="Favicon SVG" style="width: 200px; height: 200px;">
+                    </div>
+                    <div class="item-label">favicon.svg</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Circular Icons -->
+        <div class="section">
+            <h2>Circular Red Panda Icons</h2>
+            <div class="grid">
+                <div class="item">
+                    <div class="logo-display checkerboard">
+                        <img src="/icon-circle-white.svg" alt="Icon Circle White" style="width: 200px; height: 200px;">
+                    </div>
+                    <div class="item-label">icon-circle-white.svg</div>
+                </div>
+                <div class="item">
+                    <div class="logo-display checkerboard">
+                        <img src="/icon-circle-black.svg" alt="Icon Circle Black" style="width: 200px; height: 200px;">
+                    </div>
+                    <div class="item-label">icon-circle-black.svg</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- App Icons -->
+        <div class="section">
+            <h2>App Icons (Android)</h2>
+            <div class="icon-grid">
+                <div class="icon-item">
+                    <img src="/android-chrome-192x192.png" alt="Android 192">
+                    <div class="size-label">192x192</div>
+                </div>
+                <div class="icon-item">
+                    <img src="/android-chrome-512x512.png" alt="Android 512">
+                    <div class="size-label">512x512</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Apple Icons -->
+        <div class="section">
+            <h2>App Icons (Apple/iOS)</h2>
+            <div class="icon-grid">
+                <div class="icon-item">
+                    <img src="/apple-icon.png" alt="Apple Icon">
+                    <div class="size-label">apple-icon.png</div>
+                </div>
+                <div class="icon-item">
+                    <img src="/apple-touch-icon.svg" alt="Apple Touch SVG" style="width: 96px;">
+                    <div class="size-label">apple-touch-icon.svg</div>
+                </div>
+                <div class="icon-item">
+                    <img src="/apple-touch-icon-120x120.png" alt="Apple 120">
+                    <div class="size-label">120x120</div>
+                </div>
+                <div class="icon-item">
+                    <img src="/apple-touch-icon-152x152.png" alt="Apple 152">
+                    <div class="size-label">152x152</div>
+                </div>
+                <div class="icon-item">
+                    <img src="/apple-touch-icon-167x167.png" alt="Apple 167">
+                    <div class="size-label">167x167</div>
+                </div>
+                <div class="icon-item">
+                    <img src="/apple-touch-icon-180x180.png" alt="Apple 180">
+                    <div class="size-label">180x180</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Favicons -->
+        <div class="section">
+            <h2>Favicons</h2>
+            <div class="icon-grid">
+                <div class="icon-item">
+                    <img src="/favicon-16x16.png" alt="Favicon 16">
+                    <div class="size-label">16x16</div>
+                </div>
+                <div class="icon-item">
+                    <img src="/favicon-32x32.png" alt="Favicon 32">
+                    <div class="size-label">32x32</div>
+                </div>
+                <div class="icon-item">
+                    <img src="/favicon-48x48.png" alt="Favicon 48">
+                    <div class="size-label">48x48</div>
+                </div>
+                <div class="icon-item">
+                    <img src="/favicon-96x96.png" alt="Favicon 96">
+                    <div class="size-label">96x96</div>
+                </div>
+                <div class="icon-item">
+                    <img src="/favicon-192x192.png" alt="Favicon 192">
+                    <div class="size-label">192x192</div>
+                </div>
+                <div class="icon-item">
+                    <img src="/favicon-512x512.png" alt="Favicon 512">
+                    <div class="size-label">512x512</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1671,7 +1671,7 @@ export default function LandingPageClient() {
                   </Link>
                 </li>
                 <li>
-                  <Link href={getLocalePath('/anki-import')} className="hover:text-white">
+                  <Link href={getLocalePath('/flashcards')} className="hover:text-white">
                     {landingStrings.footer.links.anki}
                   </Link>
                 </li>

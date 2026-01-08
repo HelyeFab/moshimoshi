@@ -97,7 +97,7 @@ export const allFeatures: Record<FeatureId, Omit<FeatureConfig, 'id'>> = {
   anki: {
     icon: React.createElement(CloudArrowUpIcon, { className: 'w-12 h-12' }),
     color: 'from-green-500 to-emerald-500',
-    route: '/anki-import',
+    route: '/flashcards',
     i18nKey: 'anki',
   },
   textbooks: {

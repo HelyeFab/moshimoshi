@@ -12,6 +12,19 @@ export class FlashcardAdapter extends BaseContentAdapter {
     this.currentCards = [...deck.cards]; // Copy to avoid mutations
   }
 
+  // Helper methods to safely access CardSide properties (handles both string and object formats)
+  private getText(side: string | import('@/types/flashcards').CardSide): string {
+    return typeof side === 'string' ? side : side.text;
+  }
+
+  private getSubtext(side: string | import('@/types/flashcards').CardSide): string | undefined {
+    return typeof side === 'string' ? undefined : side.subtext;
+  }
+
+  private getMedia(side: string | import('@/types/flashcards').CardSide) {
+    return typeof side === 'string' ? undefined : side.media;
+  }
+
   transform(card: FlashcardContent): ReviewableContent {
     const supportedModes = this.getSupportedModesForCard(card);
     const preferredMode = this.getPreferredMode(card);
@@ -32,7 +45,7 @@ export class FlashcardAdapter extends BaseContentAdapter {
       // Media
       audioUrl: card.metadata?.audioUrl,
       imageUrl: card.metadata?.imageUrl,
-      videoUrl: card.front.media?.type === 'video' ? card.front.media.url : undefined,
+      videoUrl: this.getMedia(card.front)?.type === 'video' ? this.getMedia(card.front)?.url : undefined,
 
       // Metadata
       difficulty: card.metadata?.difficulty || this.calculateDifficulty(card),
@@ -52,10 +65,10 @@ export class FlashcardAdapter extends BaseContentAdapter {
         deckName: this.deck.name,
         deckEmoji: this.deck.emoji,
         cardStyle: this.deck.cardStyle,
-        frontHint: card.front.subtext,
-        backHint: card.back.subtext,
-        frontMedia: card.front.media,
-        backMedia: card.back.media,
+        frontHint: this.getSubtext(card.front),
+        backHint: this.getSubtext(card.back),
+        frontMedia: this.getMedia(card.front),
+        backMedia: this.getMedia(card.back),
         // Store SRS data in metadata if available
         srsData: card.metadata?.interval ? {
           easeFactor: card.metadata.easeFactor || 2.5,
@@ -71,36 +84,36 @@ export class FlashcardAdapter extends BaseContentAdapter {
     const direction = this.deck.settings.studyDirection;
 
     if (direction === 'back-to-front') {
-      return card.back.text;
+      return this.getText(card.back);
     } else if (direction === 'mixed' && Math.random() > 0.5) {
-      return card.back.text;
+      return this.getText(card.back);
     }
 
-    return card.front.text;
+    return this.getText(card.front);
   }
 
   private getSecondaryDisplay(card: FlashcardContent): string {
     const direction = this.deck.settings.studyDirection;
 
     if (direction === 'back-to-front') {
-      return card.back.subtext || '';
+      return this.getSubtext(card.back) || '';
     } else if (direction === 'mixed' && Math.random() > 0.5) {
-      return card.back.subtext || '';
+      return this.getSubtext(card.back) || '';
     }
 
-    return card.front.subtext || '';
+    return this.getSubtext(card.front) || '';
   }
 
   private getPrimaryAnswer(card: FlashcardContent): string {
     const direction = this.deck.settings.studyDirection;
 
     if (direction === 'back-to-front') {
-      return card.front.text;
-    } else if (direction === 'mixed' && this.getPrimaryDisplay(card) === card.back.text) {
-      return card.front.text;
+      return this.getText(card.front);
+    } else if (direction === 'mixed' && this.getPrimaryDisplay(card) === this.getText(card.back)) {
+      return this.getText(card.front);
     }
 
-    return card.back.text;
+    return this.getText(card.back);
   }
 
   private getAlternativeAnswers(card: FlashcardContent): string[] {
@@ -108,10 +121,13 @@ export class FlashcardAdapter extends BaseContentAdapter {
 
     // Add subtext as alternative if present
     const direction = this.deck.settings.studyDirection;
-    if (direction === 'back-to-front' && card.front.subtext) {
-      alternatives.push(card.front.subtext);
-    } else if (card.back.subtext) {
-      alternatives.push(card.back.subtext);
+    const frontSubtext = this.getSubtext(card.front);
+    const backSubtext = this.getSubtext(card.back);
+
+    if (direction === 'back-to-front' && frontSubtext) {
+      alternatives.push(frontSubtext);
+    } else if (backSubtext) {
+      alternatives.push(backSubtext);
     }
 
     return alternatives;
@@ -134,8 +150,8 @@ export class FlashcardAdapter extends BaseContentAdapter {
 
       // Use the same side as the correct answer for consistency
       const distractor = this.deck.settings.studyDirection === 'back-to-front'
-        ? otherCard.front.text
-        : otherCard.back.text;
+        ? this.getText(otherCard.front)
+        : this.getText(otherCard.back);
 
       // Ensure uniqueness
       if (!options.includes(distractor)) {
@@ -180,13 +196,13 @@ export class FlashcardAdapter extends BaseContentAdapter {
     }
 
     // Calculate based on content complexity
-    const textLength = card.front.text.length + card.back.text.length;
+    const textLength = this.getText(card.front).length + this.getText(card.back).length;
     if (textLength > 100) difficulty += 0.1;
     if (textLength > 200) difficulty += 0.1;
     if (textLength > 300) difficulty += 0.1;
 
     // Adjust based on media presence
-    if (card.front.media || card.back.media) {
+    if (this.getMedia(card.front) || this.getMedia(card.back)) {
       difficulty -= 0.05; // Media makes it easier
     }
 
@@ -208,10 +224,13 @@ export class FlashcardAdapter extends BaseContentAdapter {
 
     // Add subtext as first hint if available
     const direction = this.deck.settings.studyDirection;
-    if (direction === 'back-to-front' && card.front.subtext) {
-      hints.push(card.front.subtext);
-    } else if (card.back.subtext) {
-      hints.push(card.back.subtext);
+    const frontSubtext = this.getSubtext(card.front);
+    const backSubtext = this.getSubtext(card.back);
+
+    if (direction === 'back-to-front' && frontSubtext) {
+      hints.push(frontSubtext);
+    } else if (backSubtext) {
+      hints.push(backSubtext);
     }
 
     // Add notes as hint if available
@@ -290,7 +309,7 @@ export class FlashcardAdapter extends BaseContentAdapter {
     modes.push('recall');
 
     // Support listening if audio is available
-    if (card.metadata?.audioUrl || card.front.media?.type === 'audio') {
+    if (card.metadata?.audioUrl || this.getMedia(card.front)?.type === 'audio') {
       modes.push('listening');
     }
 

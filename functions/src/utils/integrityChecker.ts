@@ -410,15 +410,17 @@ async function repairNewsArticles(
         checkId,
       })
 
-      // Extract words first
-      const articlesWithWords = articlesForWordRepair.map(article => {
-        const words = extractTopWords(article.content, 100)
-        return {
-          id: article.id,
-          content: article.content,
-          words: words.words,
-        }
-      })
+      // Extract words first (with Kuromoji)
+      const articlesWithWords = await Promise.all(
+        articlesForWordRepair.map(async article => {
+          const words = await extractTopWords(article.content, 100)
+          return {
+            id: article.id,
+            content: article.content,
+            words: words.words,
+          }
+        })
+      )
 
       const wordResults = await generateBatchWordExplanations(articlesWithWords)
       result.repaired.wordExplanations = wordResults.successCount

@@ -48,18 +48,39 @@ export function FlashcardViewer({
   // Lazy hydration: Load media on-demand as card is displayed
   const hydratedCard = useMediaHydration(card);
 
+  // Check if this is a JlabNote card
+  const jlabFields = (hydratedCard as any).jlabFields;
+  const isJlabCard = !!jlabFields;
+
+  // Handle both string format (Anki cards) and object format (regular cards)
   const resolvedFrontText =
-    hydratedCard.front.text ||
+    (typeof hydratedCard.front === 'string' ? hydratedCard.front : hydratedCard.front?.text) ||
     (hydratedCard as { expression?: string }).expression ||
     hydratedCard.metadata?.expression ||
     (hydratedCard as { sentence?: string }).sentence ||
     hydratedCard.metadata?.sentence ||
     '';
   const resolvedBackText =
-    hydratedCard.back.text ||
+    (typeof hydratedCard.back === 'string' ? hydratedCard.back : hydratedCard.back?.text) ||
     (hydratedCard as { meaning?: string }).meaning ||
     hydratedCard.metadata?.meaning ||
     '';
+
+  // DEBUG: Check what's actually being rendered
+  console.log('[FlashcardViewer] Card source:', {
+    cardId: hydratedCard.id,
+    source: hydratedCard.metadata?.source,
+    frontType: typeof hydratedCard.front,
+    backType: typeof hydratedCard.back,
+    rawFront: hydratedCard.front,
+    rawBack: hydratedCard.back,
+    frontLength: resolvedFrontText.length,
+    backLength: resolvedBackText.length,
+    frontPreview: resolvedFrontText.substring(0, 100),
+    backPreview: resolvedBackText.substring(0, 100),
+    frontEqualsBack: resolvedFrontText === resolvedBackText,
+  });
+
   const resolvedFuriganaFront =
     hydratedCard.metadata?.furiganaFront ||
     (hydratedCard as { furiganaFront?: string }).furiganaFront;
@@ -80,10 +101,10 @@ export function FlashcardViewer({
   useEffect(() => {
     console.log('[FlashcardViewer] Card received:', {
       id: hydratedCard.id,
-      frontText: hydratedCard.front?.text,
-      frontMedia: hydratedCard.front?.media,
-      backText: hydratedCard.back?.text,
-      backMedia: hydratedCard.back?.media,
+      frontText: typeof hydratedCard.front === 'string' ? hydratedCard.front : hydratedCard.front?.text,
+      frontMedia: typeof hydratedCard.front === 'string' ? undefined : hydratedCard.front?.media,
+      backText: typeof hydratedCard.back === 'string' ? hydratedCard.back : hydratedCard.back?.text,
+      backMedia: typeof hydratedCard.back === 'string' ? undefined : hydratedCard.back?.media,
       metadata: hydratedCard.metadata,
     });
   }, [hydratedCard]);
@@ -298,32 +319,14 @@ export function FlashcardViewer({
               getCardStyleClasses()
             )}
           >
-            {hydratedCard.front.media && hydratedCard.front.media.type === 'image' && (
-              <div className="mb-4">
-                <img
-                  src={hydratedCard.front.media.url}
-                  alt={hydratedCard.front.media.alt || ''}
-                  className="max-w-full max-h-48 rounded-lg shadow-lg object-contain"
-                  loading="lazy"
-                />
-              </div>
-            )}
-
-            <h2 className={cn(
-              'text-3xl md:text-4xl font-bold text-center mb-4',
-              cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
-            )}>
-              {renderTextWithFurigana(resolvedFrontText, resolvedFuriganaFront)}
-            </h2>
-
-            {hydratedCard.front.subtext && (
-              <p className={cn(
-                'text-lg md:text-xl text-center',
-                cardStyle === 'themed' ? 'text-white/90' : 'text-gray-600 dark:text-gray-400'
-              )}>
-                {hydratedCard.front.subtext}
-              </p>
-            )}
+            {/* Render Anki card HTML directly - cleaned HTML preserves structure */}
+            <div
+              className={cn(
+                'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-12rem)] scrollbar-hide',
+                cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
+              )}
+              dangerouslySetInnerHTML={{ __html: resolvedFrontText }}
+            />
 
             {/* Top controls */}
             <div className="absolute top-4 left-4">
@@ -356,10 +359,10 @@ export function FlashcardViewer({
             <div className="absolute bottom-4 right-4">
               <button
                 onClick={(e) => { e.stopPropagation(); handleFlip(); }}
-                className="p-3 rounded-full bg-primary-500 text-white hover:bg-primary-600 transition-colors shadow-lg"
+                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-400"
                 aria-label={t('flashcards.flipCard')}
               >
-                <RotateCw className="w-5 h-5" />
+                <RotateCw className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -383,52 +386,14 @@ export function FlashcardViewer({
               )}
             </div>
 
-            {hydratedCard.back.media && hydratedCard.back.media.type === 'image' && (
-              <div className="mb-4">
-                <img
-                  src={hydratedCard.back.media.url}
-                  alt={hydratedCard.back.media.alt || ''}
-                  className="max-w-full max-h-48 rounded-lg shadow-lg object-contain"
-                  loading="lazy"
-                />
-              </div>
-            )}
-
-            <h2 className={cn(
-              'text-3xl md:text-4xl font-bold text-center mb-2',
-              cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
-            )}>
-              {renderTextWithFurigana(resolvedBackText, resolvedFuriganaBack)}
-            </h2>
-
-            {/* Reading (hiragana) */}
-            {hydratedCard.metadata?.reading && (
-              <p className={cn(
-                'text-xl md:text-2xl text-center mb-3',
-                cardStyle === 'themed' ? 'text-white/80' : 'text-primary-600 dark:text-primary-400'
-              )}>
-                {hydratedCard.metadata.reading}
-              </p>
-            )}
-
-            {/* Meaning */}
-            {hydratedCard.back.subtext && (
-              <p className={cn(
-                'text-lg md:text-xl text-center',
-                cardStyle === 'themed' ? 'text-white/90' : 'text-gray-600 dark:text-gray-400'
-              )}>
-                {hydratedCard.back.subtext}
-              </p>
-            )}
-
-            {hydratedCard.metadata?.notes && (
-              <p className={cn(
-                'text-sm mt-4 text-center italic',
-                cardStyle === 'themed' ? 'text-white/80' : 'text-gray-500 dark:text-gray-500'
-              )}>
-                {hydratedCard.metadata.notes}
-              </p>
-            )}
+            {/* Render Anki card HTML directly - cleaned HTML preserves structure */}
+            <div
+              className={cn(
+                'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-12rem)] scrollbar-hide',
+                cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
+              )}
+              dangerouslySetInnerHTML={{ __html: resolvedBackText }}
+            />
 
             {/* Top right audio button */}
             <div className="absolute top-4 right-4">
@@ -448,10 +413,10 @@ export function FlashcardViewer({
             <div className="absolute bottom-4 right-4">
               <button
                 onClick={(e) => { e.stopPropagation(); handleFlip(); }}
-                className="p-3 rounded-full bg-primary-500 text-white hover:bg-primary-600 transition-colors shadow-lg"
+                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-400"
                 aria-label={t('flashcards.flipCard')}
               >
-                <RotateCw className="w-5 h-5" />
+                <RotateCw className="w-4 h-4" />
               </button>
             </div>
           </div>
@@ -515,6 +480,46 @@ export function FlashcardViewer({
           </motion.div>
         )}
       </AnimatePresence>
+
+      <style jsx global>{`
+        .anki-card-content {
+          text-align: center;
+          line-height: 1.6;
+          font-size: 1rem;
+        }
+
+        .anki-card-content span {
+          font-size: 1.125rem;
+          line-height: 1.8;
+          font-weight: 500;
+        }
+
+        .anki-card-content img {
+          max-width: 100%;
+          max-height: 200px;
+          object-fit: contain;
+          margin: 0 auto 1rem auto;
+          border-radius: 0.5rem;
+          box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+          display: block;
+          float: none !important;
+        }
+
+        .anki-card-content br {
+          display: block;
+          margin: 0.25rem 0;
+          content: "";
+        }
+
+        .anki-card-content div {
+          margin: 0.5rem 0;
+        }
+
+        .anki-card-content p {
+          margin: 0.25rem 0;
+          font-size: 1rem;
+        }
+      `}</style>
     </div>
   );
 }
@@ -535,5 +540,42 @@ const requiredStyles = `
 
 .rotate-y-180 {
   transform: rotateY(180deg);
+}
+
+.anki-card-content {
+  text-align: center;
+  line-height: 1.6;
+  font-size: 1rem;
+}
+
+.anki-card-content span {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  font-weight: 500;
+}
+
+.anki-card-content img {
+  max-width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  margin: 0 auto 1rem auto;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  display: block;
+}
+
+.anki-card-content br {
+  display: block;
+  margin: 0.25rem 0;
+  content: "";
+}
+
+.anki-card-content div {
+  margin: 0.5rem 0;
+}
+
+.anki-card-content p {
+  margin: 0.25rem 0;
+  font-size: 1rem;
 }
 `;

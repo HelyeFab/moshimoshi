@@ -357,15 +357,15 @@ async function scheduledNewsScraper() {
                     logger.info('[NewsScheduler] Starting word extraction and explanation generation');
                     const wordExtractionStartTime = Date.now();
                     try {
-                        // Extract top 100 words from each article
-                        const articlesWithWords = articles.map(article => {
-                            const words = (0, wordExtractor_1.extractTopWords)(article.content, 100);
+                        // Extract top 100 words from each article (with Kuromoji)
+                        const articlesWithWords = await Promise.all(articles.map(async (article) => {
+                            const words = await (0, wordExtractor_1.extractTopWords)(article.content, 100);
                             return {
                                 id: article.id,
                                 content: article.content,
                                 words: words.words,
                             };
-                        });
+                        }));
                         logger.info('[NewsScheduler] Words extracted', {
                             articleCount: articlesWithWords.length,
                             totalWords: articlesWithWords.reduce((sum, a) => sum + a.words.length, 0),
@@ -535,14 +535,14 @@ async function runPreCachingPipeline(articleIds) {
     logger.info('[PreCache] Stage 3: Word explanation generation');
     const wordStartTime = Date.now();
     try {
-        const articlesWithWords = articles.map(article => {
-            const words = (0, wordExtractor_1.extractTopWords)(article.content, 100);
+        const articlesWithWords = await Promise.all(articles.map(async (article) => {
+            const words = await (0, wordExtractor_1.extractTopWords)(article.content, 100);
             return {
                 id: article.id,
                 content: article.content,
                 words: words.words,
             };
-        });
+        }));
         const wordResults = await (0, wordExplanationPreGenerator_1.generateBatchWordExplanations)(articlesWithWords);
         result.wordExplanationSuccess = wordResults.successCount;
         result.wordExplanationFailed = wordResults.failureCount;
@@ -853,14 +853,14 @@ async function runPreCachingPipelineWithProgress(articleIds, progressId) {
         await updateProgress(progressId, 'words', 'Generating word explanations...', 80);
     }
     try {
-        const articlesWithWords = articles.map(article => {
-            const words = (0, wordExtractor_1.extractTopWords)(article.content, 100);
+        const articlesWithWords = await Promise.all(articles.map(async (article) => {
+            const words = await (0, wordExtractor_1.extractTopWords)(article.content, 100);
             return {
                 id: article.id,
                 content: article.content,
                 words: words.words,
             };
-        });
+        }));
         if (progressId) {
             const totalWords = articlesWithWords.reduce((sum, a) => sum + a.words.length, 0);
             await updateProgress(progressId, 'words', `Processing ${totalWords} words...`, 85);

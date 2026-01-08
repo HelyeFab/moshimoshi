@@ -79,11 +79,11 @@ export class FlashcardManager {
         // Update card with hydrated URLs
         return {
           ...card,
-          back: {
+          back: typeof card.back === 'string' ? card.back : {
             ...card.back,
             media: audioUrl ? { type: 'audio' as const, url: audioUrl } : card.back.media,
           },
-          front: {
+          front: typeof card.front === 'string' ? card.front : {
             ...card.front,
             media: imageUrl ? { type: 'image' as const, url: imageUrl } : card.front.media,
           },
@@ -123,40 +123,9 @@ export class FlashcardManager {
     const hasValidImageUrl = card.imageUrl && !card.imageUrl.startsWith('blob:')
     const hasValidAudioUrl = card.audioUrl && !card.audioUrl.startsWith('blob:')
 
-    // Get the Japanese expression and meaning
-    const expression = card.front || card.expression || ''
-    const reading = card.reading || ''
-    const meaning = card.back || card.meaning || ''
-
-    // Transform Anki card structure to FlashcardContent
-    // Front: Japanese word with reading
-    // Back: Japanese word (prominent) with meaning as subtext
-    return {
-      id: card.id,
-      front: {
-        text: expression,
-        subtext: reading || undefined,
-        media: hasValidImageUrl ? { type: 'image', url: card.imageUrl } : undefined,
-      },
-      back: {
-        text: expression,  // Japanese word first (prominent)
-        subtext: meaning,  // English meaning below
-        media: hasValidAudioUrl ? { type: 'audio', url: card.audioUrl } : undefined,
-      },
-      metadata: {
-        status: card.metadata?.status || 'new',
-        reading,  // Store reading for TTS/display
-        meaning,  // Store meaning for reference
-        // Store filenames for later hydration from IndexedDB
-        audioFilename: card.audioFilename,
-        imageFilename: card.imageFilename,
-        audioUrl: hasValidAudioUrl ? card.audioUrl : undefined,
-        imageUrl: hasValidImageUrl ? card.imageUrl : undefined,
-        tags: card.tags,
-        // Preserve Anki-specific metadata
-        ...(card.metadata || {}),
-      },
-    }
+    // DON'T normalize Anki cards - they have complex HTML that shouldn't be split into text/subtext
+    // Just return the card as-is
+    return card as FlashcardContent;
   }
 
   // Initialize IndexedDB
@@ -895,10 +864,10 @@ export class FlashcardManager {
           name: deck.name,
           description: deck.description,
           cards: deck.cards.map((card: FlashcardContent) => ({
-            front: card.front.text,
-            frontHint: card.front.subtext,
-            back: card.back.text,
-            backHint: card.back.subtext,
+            front: typeof card.front === 'string' ? card.front : card.front.text,
+            frontHint: typeof card.front === 'string' ? undefined : card.front.subtext,
+            back: typeof card.back === 'string' ? card.back : card.back.text,
+            backHint: typeof card.back === 'string' ? undefined : card.back.subtext,
             tags: card.metadata?.tags,
             notes: card.metadata?.notes,
           })),
@@ -911,10 +880,10 @@ export class FlashcardManager {
     // CSV format
     const headers = ['Front', 'Back', 'Front Hint', 'Back Hint', 'Tags', 'Notes']
     const rows = deck.cards.map((card: FlashcardContent) => [
-      card.front.text,
-      card.back.text,
-      card.front.subtext || '',
-      card.back.subtext || '',
+      typeof card.front === 'string' ? card.front : card.front.text,
+      typeof card.back === 'string' ? card.back : card.back.text,
+      typeof card.front === 'string' ? '' : (card.front.subtext || ''),
+      typeof card.back === 'string' ? '' : (card.back.subtext || ''),
       (card.metadata?.tags || []).join(';'),
       card.metadata?.notes || '',
     ])

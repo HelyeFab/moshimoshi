@@ -407,7 +407,7 @@ const LandingPage = () => {
                 )}
               </ul>
               <Button
-                onClick={() => router.push('/anki-import')}
+                onClick={() => router.push('/flashcards')}
                 className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-lg"
               >
                 {landingStrings.features.anki.cta}
@@ -649,7 +649,7 @@ const LandingPage = () => {
                   </a>
                 </li>
                 <li>
-                  <Link href="/anki-import" className="hover:text-white">
+                  <Link href="/flashcards" className="hover:text-white">
                     {landingStrings.footer.links.anki}
                   </Link>
                 </li>

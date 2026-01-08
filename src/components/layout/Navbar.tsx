@@ -9,7 +9,7 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 import { useI18n, useLocalePath } from "@/i18n/I18nContext";
 import { useSubscription } from "@/hooks/useSubscription";
 import { useIsMobile } from "@/hooks/useMediaQuery";
-import { PremiumBadge } from "@/components/common/PremiumBadge";
+import { SakuraBadge } from "@/components/common/SakuraBadge";
 import SyncStatusMenuItem from "@/components/sync/SyncStatusMenuItem";
 import BuyMeACoffeeButton from "@/components/common/BuyMeACoffeeButton";
 
@@ -249,8 +249,8 @@ export default function Navbar({
                       </div>
                     )}
                     {isPremium && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                        <PremiumBadge size="xs" />
+                      <div className="absolute -top-1 -right-1">
+                        <SakuraBadge size="xs" animated={true} />
                       </div>
                     )}
                   </div>

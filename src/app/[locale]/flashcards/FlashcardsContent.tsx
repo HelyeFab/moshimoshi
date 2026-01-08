@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
@@ -21,6 +21,10 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { flashcardManager, FlashcardManager } from '@/lib/flashcards/FlashcardManager'
+import { ankiDeckManager } from '@/lib/anki/AnkiDeckManager'
+import { RestoreOrchestrator } from '@/lib/r2/RestoreOrchestrator'
+import type { BackupInfo } from '@/types/r2'
+import { getR2UploadQueue } from '@/lib/r2/R2UploadQueue'
 import { useGamificationStore } from '@/state/userGamification'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
 import { getEventHub, initializeEventHub } from '@/lib/review-engine/core/event-hub'
@@ -96,6 +100,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   } | null>(null)
   const [limitError, setLimitError] = useState<{ currentCount: number; limit: number } | null>(null)
   const [isSyncingMedia, setIsSyncingMedia] = useState(false)
+  const [r2Usage, setR2Usage] = useState<{ usedBytes: number; limitBytes: number } | null>(null)
 
   // Prevent race conditions
   const loadingRef = useRef(false)
@@ -135,6 +140,46 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     }
   }, [initialData])
 
+  const loadR2Usage = useCallback(async () => {
+    if (!initialData.userId || !isPremium) return
+
+    try {
+      const response = await fetch('/api/anki/r2/usage')
+      if (!response.ok) return
+      const data = await response.json()
+      setR2Usage({
+        usedBytes: data.usedBytes || 0,
+        limitBytes: data.limitBytes || 0,
+      })
+    } catch (error) {
+    }
+  }, [initialData.userId, isPremium])
+
+  const r2Queue = useMemo(() => {
+    if (!initialData.userId || !isPremium) return null
+    return getR2UploadQueue(initialData.userId)
+  }, [initialData.userId, isPremium])
+
+  useEffect(() => {
+    if (!r2Queue) return
+
+    const handleComplete = () => {
+      loadR2Usage()
+    }
+
+    const handleError = () => {
+      loadR2Usage()
+    }
+
+    r2Queue.on('complete', handleComplete)
+    r2Queue.on('error', handleError)
+
+    return () => {
+      r2Queue.off('complete', handleComplete)
+      r2Queue.off('error', handleError)
+    }
+  }, [r2Queue, loadR2Usage])
+
   // Load additional data and handle free users (who need IndexedDB)
   useEffect(() => {
     // Sync premium user's server data to IndexedDB
@@ -170,13 +215,17 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     // Monitor storage status
     checkStorageStatus()
 
+    if (initialData.userId && isPremium) {
+      loadR2Usage()
+    }
+
     // Cleanup on unmount
     return () => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort()
       }
     }
-  }, [initialData.userId, initialData.isPremium, syncServerDataToIndexedDB])
+  }, [initialData.userId, initialData.isPremium, syncServerDataToIndexedDB, loadR2Usage])
 
   // Initialize Event Hub for gamification (XP rewards)
   // This ensures flashcard sessions award XP through the same system as other features
@@ -328,29 +377,76 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       return
     }
 
+    if (isSyncingMedia) return
+
     setShowMigration(false)
-    setMigrationProgress({ status: 'preparing' })
+    setIsSyncingMedia(true)
+    setMigrationProgress({ status: 'preparing', total: 0, completed: 0, failed: 0, currentDeck: null })
 
     try {
-      // 1. Sync flashcard decks (existing functionality)
-      migrationManager.onProgress(progress => {
-        setMigrationProgress(progress)
-      })
+      const backupsResponse = await fetch('/api/anki/r2/backups')
+      if (!backupsResponse.ok) {
+        throw new Error('Failed to fetch backups')
+      }
 
-      const deckResult = await migrationManager.migrateAllDecks(initialData.userId)
+      const backupsData = await backupsResponse.json()
+      const backups: BackupInfo[] = backupsData.backups || []
 
-      if (!deckResult.success) {
-        showToast(t('flashcards.errors.syncFailed'), 'error')
+      if (backups.length === 0) {
+        showToast(t('flashcards.restore.noBackups') || 'No backups found.', 'info')
         return
       }
 
-      showToast(t('flashcards.success.allSynced'), 'success')
+      const localDecks = await flashcardManager.getDecks(initialData.userId, isPremium)
+      const localDeckIds = new Set(localDecks.map(deck => deck.id))
+      const missingBackups = backups.filter(backup => !localDeckIds.has(backup.deckId))
+
+      if (missingBackups.length === 0) {
+        showToast(t('flashcards.success.allSynced') || 'All decks are already synced.', 'success')
+        return
+      }
+
+      const orchestrator = new RestoreOrchestrator(initialData.userId)
+      const progress = {
+        status: 'migrating',
+        total: missingBackups.length,
+        completed: 0,
+        failed: 0,
+        currentDeck: null as string | null,
+        errors: [] as string[],
+      }
+
+      setMigrationProgress(progress)
+
+      for (const backup of missingBackups) {
+        progress.currentDeck = backup.name
+        setMigrationProgress({ ...progress })
+
+        try {
+          await orchestrator.restoreDeck(backup)
+          progress.completed += 1
+        } catch (error: any) {
+          progress.failed += 1
+          progress.errors.push(error?.message || `Failed to restore ${backup.name}`)
+        }
+
+        setMigrationProgress({ ...progress })
+      }
+
+      if (progress.failed > 0) {
+        showToast(t('flashcards.errors.syncFailed') || 'Some decks failed to restore.', 'error')
+      } else {
+        showToast(t('flashcards.success.allSynced'), 'success')
+      }
+
       await loadData(true)
 
     } catch (error) {
       showToast(t('flashcards.errors.syncFailed'), 'error')
     } finally {
       setMigrationProgress(null)
+      await loadR2Usage()
+      setIsSyncingMedia(false)
     }
   }
 
@@ -486,16 +582,19 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     setDecks(decks.filter(d => d.id !== deckToDeleteCopy.id))
 
     // Delete in background (non-blocking)
-    flashcardManager.deleteDeck(
-      deckToDeleteCopy.id,
-      initialData.userId,
-      isPremium
-    ).then(success => {
+    const deletePromise = deckToDeleteCopy.source === 'anki'
+      ? ankiDeckManager.deleteDeck(deckToDeleteCopy.id, initialData.userId, isPremium)
+      : flashcardManager.deleteDeck(deckToDeleteCopy.id, initialData.userId, isPremium)
+
+    deletePromise.then(async success => {
       if (success) {
         // Refresh data in background
         loadData(true).then(() => {
           showToast(t('flashcards.success.deckDeleted'), 'success')
         })
+        if (isPremium && deckToDeleteCopy.source === 'anki') {
+          await loadR2Usage()
+        }
       } else {
         // Restore deck on failure
         setDecks(prevDecks => [...prevDecks, deckToDeleteCopy])
@@ -630,7 +729,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             itemsCompleted: summary.cardsStudied,
             accuracy: summary.accuracy,
             duration: duration,
-            xpGained: summary.xpEarned,
+            xpGained: summary.xpEarned || 0,
             contentType: 'article', // Reuse existing type
             contentTitle: deckName,
             pageCount: summary.cardsStudied, // Show as "Cards Studied"
@@ -837,6 +936,13 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                 )}
                 {t('flashcards.actions.syncAll')}
               </button>
+            )}
+
+            {isPremium && r2Usage && (
+              <div className="flex-shrink-0 px-3 py-2.5 text-xs font-medium bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-lg snap-start shadow-sm">
+                Cloud storage: {storageManager.formatBytes(r2Usage.usedBytes)} /{' '}
+                {storageManager.formatBytes(r2Usage.limitBytes)}
+              </div>
             )}
 
             {decks.length > 0 && (

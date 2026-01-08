@@ -26,8 +26,8 @@ export interface FlashcardDeck {
 
 export interface FlashcardContent {
   id: string;
-  front: CardSide;
-  back: CardSide;
+  front: CardSide | string; // String format for Anki cards with HTML
+  back: CardSide | string; // String format for Anki cards with HTML
   metadata?: {
     // SRS Algorithm Identifier
     algorithm?: 'sm2' | 'fsrs'; // Which SRS algorithm is being used
@@ -71,6 +71,9 @@ export interface FlashcardContent {
     imageUrl?: string;
 
     // Anki-specific fields
+    source?: string; // Source of the card (e.g., 'anki')
+    expression?: string; // Japanese expression/word
+    sentence?: string; // Example sentence
     reading?: string; // Japanese reading (hiragana/katakana)
     meaning?: string; // English meaning
     audioFilename?: string; // Original audio filename for IndexedDB lookup
@@ -150,8 +153,8 @@ export interface CreateDeckRequest {
   settings?: Partial<DeckSettings>;
   sourceListId?: string;
   initialCards?: Array<{
-    front: Omit<CardSide, 'style'>;
-    back: Omit<CardSide, 'style'>;
+    front: string | Omit<CardSide, 'style'>;
+    back: string | Omit<CardSide, 'style'>;
     metadata?: FlashcardContent['metadata'];
   }>;
 }

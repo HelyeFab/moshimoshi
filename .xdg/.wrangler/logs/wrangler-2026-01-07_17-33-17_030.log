@@ -1,0 +1,33 @@
+
+--- 2026-01-07T17:33:17.127Z debug
+🪵  Writing logs to "/home/beano/DevProjects/NextJs/moshimoshi/.xdg/.wrangler/logs/wrangler-2026-01-07_17-33-17_030.log"
+---
+
+--- 2026-01-07T17:33:17.127Z debug
+Metrics dispatcher: Posting data {"deviceId":"8e8efb54-08b9-49fd-bae8-bf39a8e0175a","event":"wrangler command started","timestamp":1767807197127,"properties":{"amplitude_session_id":1767807197126,"amplitude_event_id":0,"wranglerVersion":"4.57.0","osPlatform":"Linux","osVersion":"#37~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov 20 10:25:38 UTC 2","nodeVersion":24,"isFirstUsage":false,"configFileType":"none","isCI":false,"isPagesCI":false,"isWorkersCI":false,"isInteractive":false,"hasAssets":false,"argsUsed":["pipe","remote"],"argsCombination":"pipe, remote","command":"wrangler r2 object get","args":{}}}
+---
+
+--- 2026-01-07T17:33:17.131Z debug
+.env file not found at "/home/beano/DevProjects/NextJs/moshimoshi/.env". Continuing... For more details, refer to https://developers.cloudflare.com/workers/wrangler/system-environment-variables/
+---
+
+--- 2026-01-07T17:33:17.859Z log
+
+---
+
+--- 2026-01-07T17:33:17.894Z error
+✘ [ERROR] The specified key does not exist.
+
+
+---
+
+--- 2026-01-07T17:33:17.906Z debug
+Error: The specified key does not exist.
+    at Object.handler (/home/beano/.nvm/versions/node/v24.11.1/lib/node_modules/wrangler/wrangler-dist/cli.js:264898:19)
+    at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+    at async Object.handler (/home/beano/.nvm/versions/node/v24.11.1/lib/node_modules/wrangler/wrangler-dist/cli.js:166155:7)
+---
+
+--- 2026-01-07T17:33:17.907Z debug
+Metrics dispatcher: Posting data {"deviceId":"8e8efb54-08b9-49fd-bae8-bf39a8e0175a","event":"wrangler command errored","timestamp":1767807197907,"properties":{"amplitude_session_id":1767807197126,"amplitude_event_id":1,"wranglerVersion":"4.57.0","osPlatform":"Linux","osVersion":"#37~24.04.1-Ubuntu SMP PREEMPT_DYNAMIC Thu Nov 20 10:25:38 UTC 2","nodeVersion":24,"isFirstUsage":false,"configFileType":"none","isCI":false,"isPagesCI":false,"isWorkersCI":false,"isInteractive":false,"hasAssets":false,"argsUsed":["pipe","remote"],"argsCombination":"pipe, remote","command":"wrangler r2 object get","args":{},"durationMs":792,"durationSeconds":0.792,"durationMinutes":0.0132,"errorType":"UserError"}}
+---

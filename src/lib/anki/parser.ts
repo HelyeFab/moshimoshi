@@ -47,6 +47,34 @@ export interface ProcessedCard {
   furiganaFront?: string;  // Pre-generated or native furigana HTML for front
   furiganaBack?: string;   // Pre-generated or native furigana HTML for back
   hasNativeFurigana?: boolean; // True if card had furigana in Anki
+  // JlabNote fields (all 25 fields preserved)
+  jlabFields?: {
+    version?: string;
+    sequence?: string;
+    source?: string;
+    audio?: string;
+    image?: string;
+    pronunciation?: string;
+    remarksBack?: string;
+    questionLink?: string;
+    references?: string;
+    otherFront?: string;
+    otherBack?: string;
+    kanji?: string;
+    kanjiSpaced?: string;
+    hiragana?: string;
+    kanjiCloze?: string;
+    lemma?: string;
+    hiraganaCloze?: string;
+    translation?: string;
+    dictionaryLookup?: string;
+    metadata?: string;
+    remarks?: string;
+    listeningFront?: string;
+    listeningBack?: string;
+    clozeFront?: string;
+    clozeBack?: string;
+  };
 }
 
 export interface AnkiDeckInfo {
@@ -87,7 +115,10 @@ interface ParsedDeck {
 }
 
 export class AnkiParser {
-  static async parseApkg(file: File): Promise<{
+  static async parseApkg(
+    file: File,
+    options?: { strictTemplateMode?: boolean }
+  ): Promise<{
     cards: ProcessedCard[];
     decks: AnkiDeckInfo[];
     media: Map<string, Blob>;
@@ -134,6 +165,18 @@ export class AnkiParser {
         const useTemplateFront = frontTokens.length > 0;
         const useTemplateBack = backTokens.length > 0;
 
+        if (index === 0) {
+          console.log('[AnkiParser] BEFORE template rendering:', {
+            extractedFront: extracted.front.substring(0, 50),
+            extractedBack: extracted.back.substring(0, 50),
+            hasTemplate: !!template,
+            hasFrontTemplate: !!template?.qfmt,
+            hasBackTemplate: !!template?.afmt,
+            useTemplateFront,
+            useTemplateBack,
+          });
+        }
+
         if (template?.qfmt && useTemplateFront) {
           rawFront = this.renderTemplate(template.qfmt, fieldMap);
         }
@@ -142,29 +185,12 @@ export class AnkiParser {
           rawBack = this.renderTemplate(template.afmt, fieldMap, rawFront);
         }
 
-        const fieldValues = Object.values(fieldMap).filter(Boolean);
-        const hasFieldValue = (text: string): boolean => {
-          return fieldValues.some(value => value && text.includes(value));
-        };
-
-        if (useTemplateFront && fieldValues.length > 0 && !hasFieldValue(rawFront)) {
-          rawFront = extracted.front;
-        }
-
-        if (useTemplateBack && fieldValues.length > 0 && !hasFieldValue(rawBack)) {
-          rawBack = extracted.back;
-        }
-
-        // If the front is just a prompt (e.g., "Listen.") without Japanese, fall back to a Japanese field.
-        if (!this.containsJapanese(rawFront)) {
-          const fallbackFront = this.pickJapaneseField([
-            extracted.expression,
-            extracted.sentence,
-            ...fields,
-          ]);
-          if (fallbackFront) {
-            rawFront = fallbackFront;
-          }
+        if (index === 0) {
+          console.log('[AnkiParser] AFTER template rendering:', {
+            rawFrontLength: rawFront.length,
+            rawBackLength: rawBack.length,
+            frontEqualsBack: rawFront === rawBack,
+          });
         }
 
         // Extract media from rendered template + fields
@@ -173,37 +199,53 @@ export class AnkiParser {
         const audioFilename = this.extractAudioFilename(mediaSource);
         const imageFilename = this.extractImageFilename(mediaSource);
 
+        // Strip {{FrontSide}} from back if present (content before <hr id=answer>)
+        let processedBack = rawBack;
+        const answerSeparator = /<hr\s+id=answer>/i;
+        if (answerSeparator.test(rawBack)) {
+          const parts = rawBack.split(answerSeparator);
+          if (parts.length > 1) {
+            // Keep only the part after the separator
+            processedBack = parts.slice(1).join('<hr id=answer>');
+          }
+        }
+
         // Extract furigana from raw HTML BEFORE cleaning
         const furiganaFront = this.extractFurigana(rawFront);
-        const furiganaBack = this.extractFurigana(rawBack);
+        const furiganaBack = this.extractFurigana(processedBack);
         const hasNativeFurigana = !!(furiganaFront || furiganaBack);
+
+        // Clean the HTML
+        const cleanedFront = this.cleanAnkiHtml(rawFront);
+        const cleanedBack = this.cleanAnkiHtml(processedBack);
 
         // Log first card for debugging
         if (index === 0) {
           console.log('[AnkiParser] First card extraction:', {
             fieldsCount: fields.length,
-            field0: fields[0]?.substring(0, 30),
-            field1: fields[1]?.substring(0, 30),
-            field2: fields[2]?.substring(0, 30),
-            allFieldsRaw: allFieldsRaw.substring(0, 200),
+            modelName: model?.name,
+            templateName: template?.name,
+            rawFrontLength: rawFront.length,
+            rawBackLength: rawBack.length,
+            rawFrontPreview: rawFront.substring(0, 150),
+            rawBackPreview: rawBack.substring(0, 300),
+            cleanedFrontLength: cleanedFront.length,
+            cleanedBackLength: cleanedBack.length,
+            cleanedFrontPreview: cleanedFront.substring(0, 150),
+            cleanedBackPreview: cleanedBack.substring(0, 300),
             audioFilename,
             imageFilename,
-            extractedReading: extracted.reading,
-            extractedExpression: extracted.expression,
-            noteType: extracted.noteType,
-            hasNativeFurigana,
-            furiganaFront: furiganaFront?.substring(0, 50),
           });
         }
 
         const deckId = cardRows ? String(item.deckId || '1') : '1';
 
-        return {
+        const cardObject = {
           id: cardRows ? String(item.id) : note.id,
           noteId: note.id,
           deckId,
-          front: this.cleanHtml(rawFront),
-          back: this.cleanHtml(rawBack),
+          front: cleanedFront,
+          back: cleanedBack,
           tags: note.tags || [],
           fields: note.fields,
           media,
@@ -222,6 +264,18 @@ export class AnkiParser {
           furiganaBack: furiganaBack || undefined,
           hasNativeFurigana,
         };
+
+        if (index === 0) {
+          console.log('[AnkiParser] FINAL CARD OBJECT:', {
+            front_length: cardObject.front.length,
+            back_length: cardObject.back.length,
+            front_preview: cardObject.front.substring(0, 100),
+            back_preview: cardObject.back.substring(0, 200),
+            front_equals_back: cardObject.front === cardObject.back,
+          });
+        }
+
+        return cardObject;
       }).filter(Boolean) as ProcessedCard[];
 
       if (cardRows) {
@@ -659,6 +713,61 @@ export class AnkiParser {
     return furiganaHtml.trim();
   }
 
+  /**
+   * Clean rendered Anki HTML for display - removes instructional content while preserving HTML structure
+   */
+  private static cleanAnkiHtml(html: string): string {
+    if (!html) return '';
+
+    let cleaned = html;
+
+    // Remove instructional paragraphs - must have both small font/gray AND instructional keywords
+    cleaned = cleaned.replace(/<p[^>]*(?:font-size:\s*\d{1,2}%|color\s*[:=]\s*(?:grey|gray|#[Cc][0-9A-Fa-f]{6}))[^>]*>(?:(?!<p).)*?(?:Hover|tap|furigana|Source of this card|Your deck version|Check for updates|support|unclear|Change text).*?<\/p>/gi, '');
+
+    // Remove standalone instructional paragraphs without content - use negation to not cross paragraph boundaries
+    cleaned = cleaned.replace(/<p[^>]*>(?:(?!<\/?p>).)*?(?:Hover\s*\/\s*tap|Source of this card|Your deck version|Check for updates|You can support|Something unclear|Change text with)(?:(?!<p>).)*?<\/p>/gi, '');
+
+    // Remove all links (complete tags with content)
+    cleaned = cleaned.replace(/<a[^>]*>[\s\S]*?<\/a>/gi, '');
+
+    // Remove kanjipopup div wrapper but keep content
+    cleaned = cleaned.replace(/<div[^>]*class\s*=\s*["']?kanjipopup["']?[^>]*>([\s\S]*?)<\/div>/gi, '$1');
+
+    // Remove sound tags (audio filenames)
+    cleaned = cleaned.replace(/\[sound:[^\]]+\]/gi, '');
+
+    // Limit font sizes for better readability
+    cleaned = cleaned.replace(/font-size:\s*(\d+)px/gi, (match, size) => {
+      const fontSize = parseInt(size);
+      if (fontSize > 24) return 'font-size: 16px';  // Large text -> 16px
+      if (fontSize > 18) return 'font-size: 14px';  // Medium text -> 14px
+      return match;
+    });
+
+    // Add max size to images and remove other inline styles
+    cleaned = cleaned.replace(/<img([^>]*?)(?:\s+style="[^"]*")?([^>]*)>/gi,
+      '<img$1 style="max-width: 200px; max-height: 200px; object-fit: contain;"$2>');
+    cleaned = cleaned.replace(/<img([^>]*?)(?:\s+style=\'[^\']*\')?([^>]*)>/gi,
+      '<img$1 style="max-width: 200px; max-height: 200px; object-fit: contain;"$2>');
+
+    // Remove specific instructional phrases
+    cleaned = cleaned.replace(/Hover\s*\/\s*tap\s+on\s+.*?(?=<|$)/gi, '');
+    cleaned = cleaned.replace(/Change\s+text\s+with\s+.*?(?=<|$)/gi, '');
+    cleaned = cleaned.replace(/Source\s+of\s+this\s+card:.*?(?=<|$)/gi, '');
+    cleaned = cleaned.replace(/Your\s+deck\s+version:.*?(?=<|$)/gi, '');
+    cleaned = cleaned.replace(/Check\s+for\s+updates.*?(?=<|$)/gi, '');
+    cleaned = cleaned.replace(/You\s+can\s+support.*?(?=<|$)/gi, '');
+    cleaned = cleaned.replace(/Something\s+unclear\?.*?(?=<|$)/gi, '');
+
+    // Clean up extra whitespace and empty tags
+    cleaned = cleaned.replace(/<br\s*\/?>\s*<br\s*\/?>/gi, '<br>');
+    cleaned = cleaned.replace(/\s+<br\s*\/?>\s+/gi, '<br>');
+    cleaned = cleaned.replace(/<div[^>]*>\s*<\/div>/gi, '');
+    cleaned = cleaned.replace(/<p[^>]*>\s*<\/p>/gi, '');
+
+    return cleaned.trim();
+  }
+
   private static cleanHtml(html: string): string {
     if (!html) return '';
 
@@ -750,6 +859,66 @@ export class AnkiParser {
     };
 
     if (fields.length === 0) return result;
+
+    // JlabNote format detection (25 fields from Japanese Like a Breeze deck)
+    if (fields.length === 25 && /^\d+$/.test(fields[0]?.trim()) && /^\d{10,}$/.test(fields[1]?.trim())) {
+      // Field mapping based on the Tae Kim deck structure - store ALL fields
+      const jlabFields = {
+        version: fields[0],
+        sequence: fields[1],
+        source: fields[2],
+        audio: fields[3],
+        image: fields[4],
+        pronunciation: fields[5],
+        remarksBack: fields[6],
+        questionLink: fields[7],
+        references: fields[8],
+        otherFront: fields[9],
+        otherBack: fields[10],
+        kanji: fields[11],
+        kanjiSpaced: fields[12],
+        hiragana: fields[13],
+        kanjiCloze: fields[14],
+        lemma: fields[15],
+        hiraganaCloze: fields[16],
+        translation: fields[17],
+        dictionaryLookup: fields[18],
+        metadata: fields[19],
+        remarks: fields[20],
+        listeningFront: fields[21],
+        listeningBack: fields[22],
+        clozeFront: fields[23],
+        clozeBack: fields[24],
+      };
+
+      result.noteType = 'vocabulary';
+
+      // Use ListeningFront (romaji) for front
+      result.front = jlabFields.listeningFront || jlabFields.hiragana;
+      result.expression = jlabFields.hiragana;
+      result.reading = jlabFields.hiragana;
+
+      // Back includes remarks or pronunciation explanation
+      result.back = jlabFields.remarksBack || jlabFields.pronunciation;
+      result.meaning = jlabFields.remarksBack;
+
+      // Extract image filename if present
+      const imageMatch = jlabFields.image?.match(/<img[^>]+src="([^"]+)"/);
+      if (imageMatch) {
+        (result as any).imageFilename = imageMatch[1];
+      }
+
+      // Extract audio filename if present
+      const audioMatch = jlabFields.audio?.match(/\[sound:([^\]]+)\]/);
+      if (audioMatch) {
+        (result as any).audioFilename = audioMatch[1];
+      }
+
+      // Store all JlabNote fields for rendering
+      (result as any).jlabFields = jlabFields;
+
+      return result;
+    }
 
     // iKnow! format detection (7 fields: Expression, Meaning, Reading, Audio, Image_URI, iKnowID, iKnowType)
     if (fields.length >= 7) {

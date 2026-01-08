@@ -30,12 +30,25 @@ export class AnkiMediaStore {
     return this.instance;
   }
 
-  private async openDB(): Promise<IDBDatabase> {
+  private async openDB(retries = 1): Promise<IDBDatabase> {
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(this.dbName, 2)  // Version 2!
 
       request.onerror = () => reject(request.error)
-      request.onsuccess = () => resolve(request.result)
+      request.onsuccess = async () => {
+        const db = request.result
+        if (!db.objectStoreNames.contains(this.storeName) && retries > 0) {
+          console.warn('[AnkiMediaStore] Missing media store, recreating database...')
+          db.close()
+          const deleteRequest = indexedDB.deleteDatabase(this.dbName)
+          deleteRequest.onerror = () => reject(deleteRequest.error)
+          deleteRequest.onsuccess = () => {
+            this.openDB(retries - 1).then(resolve).catch(reject)
+          }
+          return
+        }
+        resolve(db)
+      }
 
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result
@@ -540,11 +553,16 @@ export class AnkiMediaStore {
   async deleteMediaByDeck(deckId: string): Promise<number> {
     try {
       const db = await this.openDB();
-      const transaction = db.transaction([this.storeName, 'syncQueue'], 'readwrite');
+      const storeNames = Array.from(db.objectStoreNames);
+      const hasSyncQueue = storeNames.includes('syncQueue');
+      const transaction = db.transaction(
+        hasSyncQueue ? [this.storeName, 'syncQueue'] : [this.storeName],
+        'readwrite'
+      );
       const store = transaction.objectStore(this.storeName);
-      const syncQueueStore = transaction.objectStore('syncQueue');
+      const syncQueueStore = hasSyncQueue ? transaction.objectStore('syncQueue') : null;
       const index = store.index('deckId');
-      const queueIndex = syncQueueStore.index('deckId');
+      const queueIndex = syncQueueStore ? syncQueueStore.index('deckId') : null;
 
       // Get all media files for this deck
       const media = await new Promise<StoredMedia[]>((resolve, reject) => {
@@ -573,20 +591,20 @@ export class AnkiMediaStore {
       const deletedCount = media.length;
 
       // Clean up sync queue entries for this deck
-      const queueEntries = await new Promise<any[]>((resolve, reject) => {
+      const queueEntries = queueIndex ? await new Promise<any[]>((resolve, reject) => {
         const request = queueIndex.getAll(deckId);
         request.onsuccess = () => resolve(request.result);
         request.onerror = () => reject(request.error);
-      });
+      }) : [];
 
       // Batch delete queue entries in parallel
-      const queueDeletePromises = queueEntries.map(entry => {
+      const queueDeletePromises = syncQueueStore ? queueEntries.map(entry => {
         return new Promise<void>((resolve, reject) => {
           const request = syncQueueStore.delete(entry.id);
           request.onsuccess = () => resolve();
           request.onerror = () => reject(request.error);
         });
-      });
+      }) : [];
 
       await Promise.all(queueDeletePromises);
 

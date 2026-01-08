@@ -3245,6 +3245,25 @@ export const strings = {
       syncingDeck: '{{deck}}を同期中...',
     },
 
+    // Restore
+    restore: {
+      title: 'デッキを復元',
+      description: 'クラウドバックアップからAnkiデッキを復元',
+      noBackups: 'バックアップが見つかりません。デッキをインポートしてバックアップを作成してください。',
+      cards: 'カード',
+      withMedia: 'メディア付き',
+      lastBackup: '最終バックアップ',
+      restoreButton: '復元',
+      fetchingMetadata: 'バックアップ情報を取得中...',
+      downloadingManifest: 'マニフェストをダウンロード中...',
+      downloadingMedia: 'メディアファイルをダウンロード中...',
+      downloadingFile: 'ダウンロード中 {{current}}/{{total}}: {{filename}}',
+      hydratingDeck: 'デッキをセットアップ中...',
+      complete: '復元完了！',
+      success: 'デッキが正常に復元されました。オフラインで学習できます。',
+      error: '復元に失敗しました。もう一度お試しください。',
+    },
+
     // Empty states
     empty: {
       noDecks: 'フラッシュカードデッキがありません',
@@ -4027,6 +4046,7 @@ export const strings = {
     importFailed: 'Failed to import deck',
     processing: 'Processing...',
     description: 'Import your Anki decks and review them using the Universal Review Engine',
+    formattingNotice: 'カードの表示はデッキの書式設定によってAnkiと異なる場合があります。クリーンで読みやすいカードを最適化しています。',
     importButton: 'Import Anki Deck (.apkg)',
     mediaCache: 'Media Cache',
     clearCache: 'Clear Cache',

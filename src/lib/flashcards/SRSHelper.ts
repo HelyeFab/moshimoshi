@@ -52,8 +52,8 @@ export class FlashcardSRSHelper {
     const contentItem = {
       id: card.id,
       contentType: 'custom' as const,
-      primaryDisplay: card.front.text,
-      primaryAnswer: card.back.text,
+      primaryDisplay: typeof card.front === "string" ? card.front : card.front.text,
+      primaryAnswer: typeof card.back === "string" ? card.back : card.back.text,
       difficulty: 0.5,
       tags: [],
       supportedModes: ['recognition' as const, 'recall' as const],
@@ -124,8 +124,8 @@ export class FlashcardSRSHelper {
     const reviewableItem = {
       id: card.id,
       contentType: 'custom' as const,
-      primaryDisplay: card.front.text,
-      primaryAnswer: card.back.text,
+      primaryDisplay: typeof card.front === "string" ? card.front : card.front.text,
+      primaryAnswer: typeof card.back === "string" ? card.back : card.back.text,
       difficulty: card.metadata?.difficulty || 0.5,
       tags: card.metadata?.tags || [],
       supportedModes: ['recognition' as const, 'recall' as const],

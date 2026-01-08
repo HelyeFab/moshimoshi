@@ -3136,6 +3136,25 @@ export const strings = {
       syncingDeck: 'Sincronizando {{deck}}...',
     },
 
+    // Restore
+    restore: {
+      title: 'Restaurar Mazos',
+      description: 'Restaura tus mazos Anki desde la copia de seguridad en la nube',
+      noBackups: 'No se encontraron copias de seguridad. Importa un mazo para crear una copia de seguridad.',
+      cards: 'tarjetas',
+      withMedia: 'con multimedia',
+      lastBackup: 'Última copia de seguridad',
+      restoreButton: 'Restaurar',
+      fetchingMetadata: 'Obteniendo información de copia de seguridad...',
+      downloadingManifest: 'Descargando manifiesto...',
+      downloadingMedia: 'Descargando archivos multimedia...',
+      downloadingFile: 'Descargando {{current}}/{{total}}: {{filename}}',
+      hydratingDeck: 'Configurando mazo...',
+      complete: '¡Restauración completa!',
+      success: 'Mazo restaurado exitosamente. Ahora puedes estudiar sin conexión.',
+      error: 'Falló la restauración. Por favor, inténtalo de nuevo.',
+    },
+
     // Empty states
     empty: {
       noDecks: 'Sin mazos de tarjetas',
@@ -3978,6 +3997,7 @@ export const strings = {
     importFailed: 'Failed to import deck',
     processing: 'Processing...',
     description: 'Import your Anki decks and review them using the Universal Review Engine',
+    formattingNotice: 'La visualización de las tarjetas puede diferir de Anki según el formato de su mazo. Optimizamos para tarjetas limpias y legibles.',
     importButton: 'Import Anki Deck (.apkg)',
     mediaCache: 'Media Cache',
     clearCache: 'Clear Cache',
