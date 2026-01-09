@@ -397,7 +397,7 @@ export async function POST(request: NextRequest) {
 
     // Step 3: Generate Panel Image
     if (step === 'panel_image') {
-      const { draftId, panelNumber, characterRefs: requestCharacterRefs } = stepData
+      const { draftId, panelNumber, characterRefs: requestCharacterRefs, customPrompt } = stepData
 
       const draftDoc = await adminFirestore!.collection('comic_drafts').doc(draftId).get()
       if (!draftDoc.exists) {
@@ -472,14 +472,22 @@ export async function POST(request: NextRequest) {
 
         // Generate image with character consistency
         let imageResult
+
+        // Log custom prompt usage for debugging
+        if (customPrompt) {
+          console.log(`[Comics] Panel ${panelNumber}: Custom prompt applied: "${customPrompt}"`)
+        }
+
         if (geminiCharacterRefs.length > 0) {
           console.log(`[Comics] Panel ${panelNumber}: Using ${geminiCharacterRefs.length} character refs: ${geminiCharacterRefs.map(c => c.name).join(', ')}`)
+          console.log(`[Comics] Panel ${panelNumber}: Prompt length: ${imagePrompt.length} chars`)
           imageResult = await geminiProcessor.generateWithCharacterConsistency(
             imagePrompt,
             geminiCharacterRefs,
             '3:4' // Vertical panel aspect ratio
           )
         } else {
+          console.log(`[Comics] Panel ${panelNumber}: No character refs, using standard generation`)
           imageResult = await geminiProcessor.process({
             prompt: imagePrompt,
             size: '1024x1024',
@@ -1057,7 +1065,17 @@ CRITICAL CHARACTER REQUIREMENTS:
 
 Style: Soft pastel colors, clean lines, children's book illustration, Japanese manga influences, safe for children.
 
-IMPORTANT: Do NOT include any text, letters, words, characters, writing, signs, labels, speech bubbles, or sound effects in the image. The image must be purely visual with no text of any kind - text will be added as an overlay separately. Keep the image completely text-free.
+OUTPUT FORMAT:
+- Generate ONLY a single complete comic panel scene
+- DO NOT add "ACCESSORY DETAILS" sections below the main image
+- DO NOT add detail breakdowns, side views, turnarounds, or item catalogs
+- DO NOT add supplementary diagrams, labels, or reference sheets
+- The output must be ONLY the comic panel scene itself
+
+TEXT RESTRICTION:
+- Do NOT include any text, letters, words, characters, writing, signs, labels, speech bubbles, or sound effects in the image
+- The image must be purely visual with no text of any kind - text will be added as an overlay separately
+- Keep the image completely text-free
 
 The scene should clearly show ${location} with authentic Japanese details. Show the characters interacting naturally with each other and the environment.`
 }

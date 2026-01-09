@@ -209,15 +209,46 @@ export class GeminiImageProcessor {
       aspectRatioHint = ' (portrait orientation, 9:16 aspect ratio)'
     }
 
-    const enhancedPrompt = `${prompt}${aspectRatioHint}. High quality, detailed illustration suitable for a children's story book.`
+    // Build enhanced prompt with stronger character consistency instructions when refs provided
+    let enhancedPrompt = `${prompt}${aspectRatioHint}. High quality, detailed illustration suitable for a children's story book.
+
+🎨 OUTPUT FORMAT REQUIREMENTS:
+- Generate ONLY a single complete comic panel scene
+- DO NOT add "ACCESSORY DETAILS" sections
+- DO NOT add detail breakdowns, side views, or item catalogs below the main image
+- DO NOT add character turnarounds or reference sheets
+- DO NOT add supplementary diagrams or labels
+- The output should be ONLY the comic panel scene itself`
+
+    // Add CRITICAL character consistency instructions if reference images are provided
+    if (characterRefs && characterRefs.length > 0) {
+      const charNames = characterRefs.filter(ref => ref.name).map(ref => ref.name).join(', ')
+      enhancedPrompt += `\n\n🚨 CRITICAL CHARACTER CONSISTENCY REQUIREMENTS 🚨
+The images provided above are REFERENCE IMAGES showing the EXACT APPEARANCE of characters: ${charNames}.
+
+YOU MUST:
+1. COPY the exact visual appearance from each reference image
+2. Match EVERY detail: colors, patterns, features, proportions, clothing
+3. DO NOT create "consolidated" or "hybrid" versions of characters
+4. DO NOT invent new characters - ONLY use the characters shown in references
+5. Each character from the references appears EXACTLY ONCE in the scene
+6. The reference images are the ABSOLUTE SOURCE OF TRUTH - prioritize them over any text descriptions
+
+FORBIDDEN:
+- Creating variations or "interpretations" of the reference characters
+- Merging multiple characters into one
+- Adding characters not shown in references
+- Changing any visual features from the references
+
+Follow the reference images EXACTLY.`
+    }
 
     // Build parts array with text prompt and optional reference images
-    const parts: Array<{ text?: string; inline_data?: { mime_type: string; data: string } }> = [
-      { text: enhancedPrompt },
-    ]
+    const parts: Array<{ text?: string; inline_data?: { mime_type: string; data: string } }> = []
 
-    // Add character reference images for consistency
+    // Add character reference images FIRST (before text) for maximum priority
     if (characterRefs && characterRefs.length > 0) {
+      console.log(`[GeminiImageProcessor] Adding ${characterRefs.length} character reference images BEFORE prompt for priority`)
       for (const ref of characterRefs) {
         parts.push({
           inline_data: {
@@ -227,6 +258,9 @@ export class GeminiImageProcessor {
         })
       }
     }
+
+    // Add text prompt AFTER reference images
+    parts.push({ text: enhancedPrompt })
 
     const body: any = {
       contents: [

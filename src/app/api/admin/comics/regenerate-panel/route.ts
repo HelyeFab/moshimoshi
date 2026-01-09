@@ -29,6 +29,8 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const { episodeId, panelNumber, customPrompt } = body
 
+    console.log(`[RegeneratePanel] Request body:`, { episodeId, panelNumber, hasCustomPrompt: !!customPrompt, customPromptLength: customPrompt?.length })
+
     if (!episodeId || !panelNumber) {
       return NextResponse.json(
         { error: 'episodeId and panelNumber are required' },
@@ -36,7 +38,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log(`[RegeneratePanel] Starting regeneration for ${episodeId} panel ${panelNumber}`)
+    console.log(`[RegeneratePanel] Starting regeneration for ${episodeId} panel ${panelNumber}${customPrompt ? ` with custom prompt: "${customPrompt}"` : ''}`)
 
     // 1. Get the published comic
     const comicDoc = await adminFirestore!.collection('comics').doc(episodeId).get()
@@ -52,8 +54,35 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Load character references from Firestore
-    // For now, hardcode the main characters (this could be dynamic based on panel.characters)
-    const characterIds = ['moshi-master', 'yuki-sloth']
+    // Get characters from panel or use defaults
+    const panelCharacterIds = panel.characters || []
+
+    // If panel doesn't specify characters, try to detect from scene description
+    let characterIds: string[] = []
+    if (panelCharacterIds.length > 0) {
+      characterIds = panelCharacterIds
+    } else {
+      // Fallback: Load all available characters and let Gemini use what's needed
+      const sceneDesc = panel.sceneDescription || panel.description || ''
+      const lowerScene = sceneDesc.toLowerCase()
+
+      // Check which characters are mentioned in the scene
+      // Use actual character IDs from saved_characters collection
+      const availableChars = ['moshi-master', 'yuki-sloth', 'sensei-panda', 'koa-koala']
+      characterIds = availableChars.filter(charId => {
+        const charName = charId.split('-')[0]  // e.g., 'moshi' from 'moshi-master'
+        return lowerScene.includes(charName)
+      })
+
+      // If no matches, default to main characters
+      if (characterIds.length === 0) {
+        characterIds = ['moshi-master', 'yuki-sloth']
+      }
+    }
+
+    console.log(`[RegeneratePanel] Scene: "${panel.sceneDescription?.substring(0, 100)}..."`)
+    console.log(`[RegeneratePanel] Loading character IDs: ${characterIds.join(', ')}`)
+
     const characterRefs: any[] = []
 
     for (const charId of characterIds) {
@@ -70,10 +99,13 @@ export async function POST(request: NextRequest) {
           speakingStyle: data.speakingStyle || '',
           imageUrl: data.referenceImageUrl || '',
         })
+        console.log(`[RegeneratePanel]   ✅ Loaded ${data.name || charId}`)
+      } else {
+        console.warn(`[RegeneratePanel]   ⚠️  Character not found: ${charId}`)
       }
     }
 
-    console.log(`[RegeneratePanel] Loaded ${characterRefs.length} character references`)
+    console.log(`[RegeneratePanel] Successfully loaded ${characterRefs.length}/${characterIds.length} character references`)
 
     // 3. Create temporary draft
     const draftId = `comic_draft_regen_${Date.now()}`
@@ -122,6 +154,7 @@ export async function POST(request: NextRequest) {
         step: 'panel_image',
         draftId: draftId,
         panelNumber: panelNumber,
+        customPrompt: customPrompt, // Pass custom instructions from user
         characterRefs: characterRefs.map(c => ({
           id: c.id,
           name: c.name,

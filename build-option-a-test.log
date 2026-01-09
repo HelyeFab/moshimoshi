@@ -1,0 +1,26 @@
+
+> moshimoshi@1.0.0 build
+> next build
+
+   ▲ Next.js 15.5.7
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 38.7s
+   Skipping linting
+   Checking validity of types ...
+Failed to compile.
+
+./src/app/api/admin/comics/generate/route.ts:419:102
+Type error: Expected 4-5 arguments, but got 6.
+
+[0m [90m 417 |[39m
+ [90m 418 |[39m       [90m// Build image prompt with multi-character support and custom modifications[39m
+[31m[1m>[22m[39m[90m 419 |[39m       [36mconst[39m imagePrompt [33m=[39m buildPanelImagePrompt(panel[33m,[39m theme[33m,[39m location[33m,[39m panelNumber[33m,[39m characterSheet[33m,[39m customPrompt)
+ [90m     |[39m                                                                                                      [31m[1m^[22m[39m
+ [90m 420 |[39m
+ [90m 421 |[39m       [90m// Check if Gemini API key is configured[39m
+ [90m 422 |[39m       [36mif[39m ([33m![39mprocess[33m.[39menv[33m.[39m[33mGEMINI_API_KEY[39m) {[0m
+Next.js build worker exited with code: 1 and signal: null
