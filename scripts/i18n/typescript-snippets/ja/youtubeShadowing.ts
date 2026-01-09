@@ -1,0 +1,10 @@
+  youtubeShadowing: {
+    watchOnYouTube: 'YouTubeで見る',
+    // TODO: Nested - player.transcript.noTranscript: 'トランスクリプトが利用できません',
+    // TODO: Nested - player.repeatLine: '行を繰り返す',
+    // TODO: Nested - player.playTTS: 'TTSを再生',
+    // TODO: Nested - player.toggleTranscript: 'トランスクリプトを切り替え',
+    // TODO: Nested - player.autoScroll: '自動スクロール',
+    // TODO: Nested - player.currentLine: '現在の行',
+    audioFile: 'オーディオファイル',
+  },

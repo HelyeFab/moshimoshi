@@ -14,8 +14,7 @@ export const strings = {
     upcomingReviews: 'Próximas Revisiones',
     overdue: 'Atrasado',
     thisWeek: 'Esta Semana',
-    noScheduledReviews:
-      'No hay revisiones programadas. ¡Sigue estudiando para construir tu horario de revisión!',
+    noScheduledReviews: 'No hay revisiones programadas. ¡Sigue estudiando para construir tu horario de revisión!',
     sections: {
       reviewQueue: 'Cola de Revisión',
       upcomingReviews: 'Próximas Revisiones',
@@ -26,12 +25,15 @@ export const strings = {
       inReview: 'En Revisión',
       reviewQueueFull: 'Cola de Revisión - Revisar Ahora',
       reviewSchedule: 'Horario de Revisión',
+      mastered: 'Dominado',
     },
     stats: {
       studied: 'Estudiado',
       learned: 'Aprendido',
       dueNow: 'Pendiente',
       upcoming: 'Próximo',
+      totalItems: 'Total de elementos',
+      mastered: 'dominado',
     },
     filter: {
       all: 'Todo',
@@ -45,6 +47,8 @@ export const strings = {
       reviewOverdue: 'Revisar {{count}} Elementos Atrasados',
       viewAll: 'Ver todo',
       refresh: 'Actualizar',
+      viewSchedule: 'Ver horario completo',
+      startReviewSession: 'Iniciar Sesión de Revisión',
     },
     messages: {
       noReviewsDue: 'No hay revisiones pendientes. ¡Excelente trabajo!',
@@ -54,6 +58,9 @@ export const strings = {
       queueEmpty: '¡Tu cola de revisión está vacía!',
       loading: 'Cargando datos de revisión...',
       loadError: 'Error al cargar los datos de revisión',
+      checkBackLater: 'Vuelve más tarde para más revisiones',
+      futureReviews: 'Revisiones programadas para semanas futuras',
+      noReviewsToday: 'No hay más revisiones programadas para hoy',
     },
     time: {
       today: 'Hoy',
@@ -75,9 +82,10 @@ export const strings = {
       scheduledReviews: 'Revisiones programadas',
     },
     items: 'elementos',
+    interval: 'Intervalo',
+    accuracy: 'precisión',
+    andMore: '...y {count} elementos más',
   },
-
-  // Common/Shared
   common: {
     brand: 'Moshimoshi',
     loading: 'Cargando...',
@@ -193,7 +201,6 @@ export const strings = {
     days: 'días',
     minutes: 'minutos',
     cards: 'tarjetas',
-    // Vocabulary display
     searchPlaceholder: 'Buscar vocabulario...',
     allLessons: 'Todas las lecciones',
     lesson: 'Lección',
@@ -207,24 +214,17 @@ export const strings = {
     meaning: 'Significado',
     examples: 'Ejemplos',
     partOfSpeech: 'Categoría gramatical',
-    // Textbook features
     totalVocabulary: 'Colección total',
     srsReview: 'Revisión SRS',
     audioSupport: 'Soporte de audio',
     interactive: 'Interactivo',
   },
-
-  // Landing Page
   landing: {
-    // Hero Section
     hero: {
       headline: 'Domina el japonés con herramientas de aprendizaje revolucionarias',
-      subheadline:
-        'La única plataforma que combina shadowing de YouTube, conexiones inteligentes de kanji, importación de Anki con un clic e integración completa de libros de texto',
+      subheadline: 'La única plataforma que combina shadowing de YouTube, conexiones inteligentes de kanji, importación de Anki con un clic e integración completa de libros de texto',
       ctaPrimary: 'Comienza a aprender gratis',
       ctaSecondary: 'Ver demo',
-
-      // Pre-launch waitlist strings
       preLaunch: {
         badgePrefix: 'Lanzamiento',
         badgeMobilePrefix: 'Lanzamiento',
@@ -241,8 +241,6 @@ export const strings = {
           complete: '¡Estamos en vivo!',
         },
       },
-
-      // Carousel Slides
       carousel: {
         shadowing: {
           title: 'Shadowing de YouTube',
@@ -291,14 +289,11 @@ export const strings = {
         },
       },
     },
-
-    // Feature Sections
     features: {
       shadowing: {
         title: 'Shadowing de YouTube: Aprende de contenido nativo',
         subtitle: 'El arma secreta que los estudiantes de japonés desconocen',
-        description:
-          'Practica shadowing con videos auténticos de YouTube, dramas y podcasts japoneses. Nuestro sistema impulsado por IA divide el contenido en fragmentos perfectos de aprendizaje con tiempos de pausa ajustables.',
+        description: 'Practica shadowing con videos auténticos de YouTube, dramas y podcasts japoneses. Nuestro sistema impulsado por IA divide el contenido en fragmentos perfectos de aprendizaje con tiempos de pausa ajustables.',
         benefits: {
           benefit1: 'Practica con pronunciación nativa real',
           benefit2: 'Velocidad de reproducción ajustable (0.5x - 2x)',
@@ -307,12 +302,10 @@ export const strings = {
         },
         cta: 'Probar Shadowing ahora',
       },
-
       kanji: {
         title: 'Sistema de conexión de Kanji: Revolución del aprendizaje visual',
         subtitle: 'Ve los patrones que nadie más te muestra',
-        description:
-          'Nuestro sistema único conecta todos los 2,136 kanji joyo a través de familias fonéticas, radicales semánticos y patrones visuales. Aprende kanji en grupos conectados en lugar de caracteres aislados.',
+        description: 'Nuestro sistema único conecta todos los 2,136 kanji joyo a través de familias fonéticas, radicales semánticos y patrones visuales. Aprende kanji en grupos conectados en lugar de caracteres aislados.',
         benefits: {
           benefit1: '214 radicales con desglose de componentes',
           benefit2: 'Agrupaciones por familias fonéticas',
@@ -321,12 +314,10 @@ export const strings = {
         },
         cta: 'Explorar conexiones de Kanji',
       },
-
       conjugation: {
         title: 'Domina la conjugación japonesa',
         subtitle: 'Más de 100 formas de conjugación - el más completo del mercado',
-        description:
-          'Nuestro motor de conjugación avanzado cubre todas las formas de verbos, adjetivos y cópulas con precisión perfecta. Detección inteligente de tipos de palabras, ejercicios de dificultad ponderada y arquitectura limpia hacen que la práctica gramatical sea sin esfuerzo.',
+        description: 'Nuestro motor de conjugación avanzado cubre todas las formas de verbos, adjetivos y cópulas con precisión perfecta. Detección inteligente de tipos de palabras, ejercicios de dificultad ponderada y arquitectura limpia hacen que la práctica gramatical sea sin esfuerzo.',
         benefits: {
           benefit1: 'Más de 100 formas de conjugación (el más completo disponible)',
           benefit2: 'Implementación precisa de reglas gramaticales japonesas',
@@ -335,12 +326,10 @@ export const strings = {
         },
         cta: 'Practicar conjugación',
       },
-
       anki: {
         title: 'Importación de Anki con un clic: Conserva tu progreso',
         subtitle: 'Cambia sin perder miles de horas de trabajo',
-        description:
-          'Importa todos tus mazos de Anki con historial SRS completo, programación de tarjetas y notas personalizadas. Nuestro sistema de migración inteligente preserva todo mientras mejora tu experiencia de aprendizaje.',
+        description: 'Importa todos tus mazos de Anki con historial SRS completo, programación de tarjetas y notas personalizadas. Nuestro sistema de migración inteligente preserva todo mientras mejora tu experiencia de aprendizaje.',
         benefits: {
           benefit1: '100% del historial SRS preservado',
           benefit2: 'Tarjetas personalizadas importadas perfectamente',
@@ -349,12 +338,10 @@ export const strings = {
         },
         cta: 'Importar mis mazos de Anki',
       },
-
       textbooks: {
         title: 'Vocabulario de libros de texto: Excelencia académica',
         subtitle: 'Cada palabra de los libros que ya usas',
-        description:
-          'Vocabulario completo de Genki I y II, Minna no Nihongo, Tobira y más. Organizado por lección con oraciones de ejemplo, audio y repaso SRS.',
+        description: 'Vocabulario completo de Genki I y II, Minna no Nihongo, Tobira y más. Organizado por lección con oraciones de ejemplo, audio y repaso SRS.',
         textbookList: 'Genki • Minna no Nihongo • y más',
         benefits: {
           benefit1: 'Organizado por libro de texto y lección',
@@ -364,12 +351,10 @@ export const strings = {
         },
         cta: 'Explorar vocabulario de libros de texto',
       },
-
       news: {
         title: 'Artículos de noticias japonesas reales',
         subtitle: 'Aprende de eventos actuales auténticos',
-        description:
-          'Lee artículos de noticias japonesas reales con soporte de comprensión incorporado. Nuestra IA desglosa oraciones complejas, proporciona pistas de vocabulario y rastrea tu progreso de lectura.',
+        description: 'Lee artículos de noticias japonesas reales con soporte de comprensión incorporado. Nuestra IA desglosa oraciones complejas, proporciona pistas de vocabulario y rastrea tu progreso de lectura.',
         benefits: {
           benefit1: 'Contenido de noticias auténtico actualizado diariamente',
           benefit2: 'Desglose y análisis de oraciones impulsado por IA',
@@ -378,12 +363,10 @@ export const strings = {
         },
         cta: 'Leer artículos de noticias',
       },
-
       stories: {
         title: 'Historias generadas por IA',
         subtitle: 'Historias personalizadas para tu nivel',
-        description:
-          'Practica lectura con historias generadas por IA adaptadas a tu nivel de vocabulario e intereses. Cada historia incluye furigana, listas de vocabulario y preguntas de comprensión.',
+        description: 'Practica lectura con historias generadas por IA adaptadas a tu nivel de vocabulario e intereses. Cada historia incluye furigana, listas de vocabulario y preguntas de comprensión.',
         benefits: {
           benefit1: 'Historias generadas a tu nivel exacto',
           benefit2: 'Soporte de furigana y vocabulario',
@@ -392,12 +375,10 @@ export const strings = {
         },
         cta: 'Explorar historias de IA',
       },
-
       library: {
         title: 'Biblioteca de lectura: Contenido inmersivo',
         subtitle: 'Libros, lectores graduados y versiones condensadas a tu nivel',
-        description:
-          'Explora nuestra extensa colección de libros japoneses y lectores graduados. Cada título viene con herramientas de aprendizaje integradas para ayudarte a leer contenido japonés auténtico con confianza.',
+        description: 'Explora nuestra extensa colección de libros japoneses y lectores graduados. Cada título viene con herramientas de aprendizaje integradas para ayudarte a leer contenido japonés auténtico con confianza.',
         benefits: {
           benefit1: 'Búsqueda instantánea de palabras mientras lees',
           benefit2: 'Soporte completo de traducción',
@@ -406,12 +387,10 @@ export const strings = {
         },
         cta: 'Explorar biblioteca',
       },
-
       comics: {
         title: 'Moshi Comics: Aprende a través del Manga',
         subtitle: 'Comics japoneses originales creados especialmente para estudiantes',
-        description:
-          'Sigue a Moshi en aventuras por Japón en nuestra serie de manga original. Cada episodio presenta diálogos naturales, perspectivas culturales y vocabulario adaptado a tu nivel, todo con hermosas ilustraciones generadas por IA.',
+        description: 'Sigue a Moshi en aventuras por Japón en nuestra serie de manga original. Cada episodio presenta diálogos naturales, perspectivas culturales y vocabulario adaptado a tu nivel, todo con hermosas ilustraciones generadas por IA.',
         benefits: {
           benefit1: 'Historias de manga originales con personajes consistentes',
           benefit2: 'Diálogos japoneses naturales con soporte de furigana',
@@ -421,8 +400,6 @@ export const strings = {
         cta: 'Leer Moshi Comics',
       },
     },
-
-    // Comparison Table
     comparison: {
       title: 'Por qué Moshimoshi supera a la competencia',
       subtitle: 'La única plataforma construida para estudiantes serios',
@@ -449,36 +426,30 @@ export const strings = {
         limited: 'Limitado',
       },
     },
-
-    // Social Proof
     socialProof: {
       title: 'Amado por estudiantes de japonés en todo el mundo',
       subtitle: 'Desde principiantes hasta candidatos a JLPT N1',
       testimonials: {
         testimonial1: {
-          quote:
-            'Migré de Anki después de 3 años. La importación fue impecable y la función de shadowing ha mejorado mi pronunciación dramáticamente.',
+          quote: 'Migré de Anki después de 3 años. La importación fue impecable y la función de shadowing ha mejorado mi pronunciación dramáticamente.',
           author: 'Sarah Chen',
           role: 'Estudiante de JLPT N2',
           context: 'Migró de Anki',
         },
         testimonial2: {
-          quote:
-            'El sistema de conexión de kanji finalmente hizo que los kanji tuvieran sentido para mí. Ver las familias y patrones lo cambió todo.',
+          quote: 'El sistema de conexión de kanji finalmente hizo que los kanji tuvieran sentido para mí. Ver las familias y patrones lo cambió todo.',
           author: 'Marcus Rodriguez',
           role: 'Estudiante universitario de japonés',
           context: 'Usuario de conexión de Kanji',
         },
         testimonial3: {
-          quote:
-            'Como estudiante de Genki, tener todo el vocabulario organizado por lección con audio es un cambio de juego para mis estudios.',
+          quote: 'Como estudiante de Genki, tener todo el vocabulario organizado por lección con audio es un cambio de juego para mis estudios.',
           author: 'Emma Thompson',
           role: 'Estudiante autodidacta',
           context: 'Usuario de integración de libros de texto',
         },
         testimonial4: {
-          quote:
-            'El shadowing con contenido auténtico de YouTube supera cualquier libro de texto. Mis amigos japoneses no pueden creer que soy autodidacta.',
+          quote: 'El shadowing con contenido auténtico de YouTube supera cualquier libro de texto. Mis amigos japoneses no pueden creer que soy autodidacta.',
           author: 'Kenji Yamamoto',
           role: 'Profesional de negocios',
           context: 'Usuario de Shadowing de YouTube',
@@ -491,46 +462,36 @@ export const strings = {
         languages: 'Idiomas de interfaz',
       },
     },
-
-    // FAQ Section
     faq: {
       title: 'Preguntas frecuentes',
       subtitle: 'Todo lo que necesitas saber',
       questions: {
         q1: {
           question: '¿Realmente puedo importar todos mis mazos de Anki?',
-          answer:
-            '¡Sí! Nuestra herramienta de importación maneja archivos .apkg y preserva tu historial SRS completo, programación, etiquetas y formatos de tarjetas personalizadas. La mayoría de las importaciones se completan en menos de 60 segundos.',
+          answer: '¡Sí! Nuestra herramienta de importación maneja archivos .apkg y preserva tu historial SRS completo, programación, etiquetas y formatos de tarjetas personalizadas. La mayoría de las importaciones se completan en menos de 60 segundos.',
         },
         q2: {
           question: '¿Qué hace único al Sistema de conexión de Kanji?',
-          answer:
-            'A diferencia de otras aplicaciones que enseñan kanji de forma aislada, te mostramos familias fonéticas, patrones semánticos y relaciones visuales. Por ejemplo, todos los kanji con el componente 青 (azul/verde) se agrupan y enseñan juntos con sus patrones de pronunciación.',
+          answer: 'A diferencia de otras aplicaciones que enseñan kanji de forma aislada, te mostramos familias fonéticas, patrones semánticos y relaciones visuales. Por ejemplo, todos los kanji con el componente 青 (azul/verde) se agrupan y enseñan juntos con sus patrones de pronunciación.',
         },
         q3: {
           question: '¿El shadowing de YouTube está disponible para todos los videos?',
-          answer:
-            'Soportamos cualquier video de YouTube con subtítulos en japonés. Nuestra IA divide el contenido en segmentos aprendibles con tiempos de pausa ajustables para practicar shadowing.',
+          answer: 'Soportamos cualquier video de YouTube con subtítulos en japonés. Nuestra IA divide el contenido en segmentos aprendibles con tiempos de pausa ajustables para practicar shadowing.',
         },
         q4: {
           question: '¿Qué libros de texto soportan?',
-          answer:
-            'Tenemos cobertura completa de vocabulario para Genki I y II, Minna no Nihongo I y II, Tobira, Japanese from Zero y Marugoto. Cada entrada incluye audio, oraciones de ejemplo y organización por lección.',
+          answer: 'Tenemos cobertura completa de vocabulario para Genki I y II, Minna no Nihongo I y II, Tobira, Japanese from Zero y Marugoto. Cada entrada incluye audio, oraciones de ejemplo y organización por lección.',
         },
         q5: {
           question: '¿Puedo usar Moshimoshi sin conexión?',
-          answer:
-            '¡Sí! Todas tus tarjetas, datos de kanji y vocabulario de libros de texto funcionan sin conexión. Los repasos se sincronizan automáticamente cuando vuelves a estar en línea.',
+          answer: '¡Sí! Todas tus tarjetas, datos de kanji y vocabulario de libros de texto funcionan sin conexión. Los repasos se sincronizan automáticamente cuando vuelves a estar en línea.',
         },
         q6: {
           question: '¿En qué se diferencia esto de Duolingo o WaniKani?',
-          answer:
-            'Moshimoshi combina la personalización de Anki, la profundidad de kanji de WaniKani y características únicas como shadowing de YouTube e integración de libros de texto, todo en una plataforma. Estamos construidos para estudiantes serios que quieren herramientas completas.',
+          answer: 'Moshimoshi combina la personalización de Anki, la profundidad de kanji de WaniKani y características únicas como shadowing de YouTube e integración de libros de texto, todo en una plataforma. Estamos construidos para estudiantes serios que quieren herramientas completas.',
         },
       },
     },
-
-    // Final CTA
     finalCta: {
       title: '¿Listo para transformar tu aprendizaje de japonés?',
       subtitle: 'Únete a miles de estudiantes logrando fluidez más rápido',
@@ -538,8 +499,6 @@ export const strings = {
       ctaPrimary: 'Comienza a aprender gratis',
       ctaSecondary: 'Ver precios',
     },
-
-    // Footer
     footer: {
       tagline: 'La plataforma integral de aprendizaje de japonés para estudiantes serios',
       sections: {
@@ -563,8 +522,6 @@ export const strings = {
       copyright: '© 2025 Moshimoshi. Todos los derechos reservados.',
     },
   },
-
-  // Dashboard
   dashboard: {
     loading: 'Cargando tu panel...',
     stats: {
@@ -596,13 +553,7 @@ export const strings = {
         title: 'Puntos de Experiencia (XP)',
         streakRequirement: '¡Gana {minXP} XP diarios para mantener tu racha!',
         howToEarn: 'Cómo ganar XP:',
-        activities: [
-          'Completa ejercicios y sesiones de tarjetas',
-          'Practica ejercicios de dominio de kanji',
-          'Mira videos de shadowing en YouTube',
-          'Lee historias o comics',
-          'Se aplican bonificaciones por precisión y velocidad',
-        ],
+        activities: ["Completa ejercicios y sesiones de tarjetas","Practica ejercicios de dominio de kanji","Mira videos de shadowing en YouTube","Lee historias o comics","Se aplican bonificaciones por precisión y velocidad"],
       },
       levelTooltip: {
         title: 'Tu Nivel',
@@ -618,6 +569,9 @@ export const strings = {
           current: '{{count}} días de racha',
         },
       },
+      days: 'días',
+      points: 'puntos',
+      recent: 'reciente',
     },
     greetings: {
       morning: {
@@ -656,13 +610,14 @@ export const strings = {
         kanji: 'Kanji',
         library: 'Biblioteca',
       },
+      dashboard: 'Panel de control',
     },
     welcome: {
-      firstVisit:
-        '¡Bienvenido a tu aventura de aprendizaje de japonés! Moshi está aquí para guiarte.',
+      firstVisit: '¡Bienvenido a tu aventura de aprendizaje de japonés! Moshi está aquí para guiarte.',
       returning: '¿Listo para continuar tu viaje? ¡Tu dedicación es inspiradora!',
       signoutToast: '¡Sayonara! ¡Hasta pronto! 👋',
       doshiClick: 'Moshi dice: ¡がんばって! (¡Buena suerte!)',
+      clickDoshi: 'Moshi dice: がんばって! (¡Buena suerte!)',
     },
     progress: {
       dailyGoal: {
@@ -675,6 +630,8 @@ export const strings = {
         title: 'Último logro',
         earnedTime: 'Obtenido hace {{time}}',
       },
+      label: 'Progreso',
+      percentage: '{{percent}}%',
     },
     account: {
       title: 'Detalles de la cuenta',
@@ -705,31 +662,24 @@ export const strings = {
       proTipLabel: 'Consejo profesional',
       streak: {
         title: 'Racha Diaria',
-        description:
-          'Tu racha muestra cuántos días consecutivos has practicado japonés con compromiso significativo.',
+        description: 'Tu racha muestra cuántos días consecutivos has practicado japonés con compromiso significativo.',
         formula: 'Días consecutivos con ≥10 XP ganados',
-        whatItMeans:
-          'Cada día que ganas al menos 10 XP (completando 1+ respuestas correctas en un ejercicio), tu racha aumenta en 1. Múltiples sesiones el mismo día no aumentan tu racha más.',
-        howToImprove:
-          '¡Practica todos los días! Incluso una sesión corta de 5 minutos cuenta. Establece un recordatorio diario y haz que la práctica del japonés sea parte de tu rutina.',
+        whatItMeans: 'Cada día que ganas al menos 10 XP (completando 1+ respuestas correctas en un ejercicio), tu racha aumenta en 1. Múltiples sesiones el mismo día no aumentan tu racha más.',
+        howToImprove: '¡Practica todos los días! Incluso una sesión corta de 5 minutos cuenta. Establece un recordatorio diario y haz que la práctica del japonés sea parte de tu rutina.',
         breakdown: {
           current: 'Racha actual',
           longest: 'Racha más larga (de todos los tiempos)',
           lastActive: 'Última actividad',
           minXP: 'XP mínimo necesario por día',
         },
-        goalNote:
-          '¡Construye una racha de 7 días para desarrollar un fuerte hábito de aprendizaje!',
+        goalNote: '¡Construye una racha de 7 días para desarrollar un fuerte hábito de aprendizaje!',
       },
       xpEarned: {
         title: 'XP Ganados',
-        description:
-          'Los Puntos de Experiencia (XP) miden tu actividad de aprendizaje y logros. Los XP se ganan a través de sesiones de práctica con bonos de precisión y velocidad.',
+        description: 'Los Puntos de Experiencia (XP) miden tu actividad de aprendizaje y logros. Los XP se ganan a través de sesiones de práctica con bonos de precisión y velocidad.',
         formula: 'XP base + Bono de Precisión + Bono de Velocidad + Bono de Racha',
-        whatItMeans:
-          'Cada respuesta correcta gana XP base (10 puntos). ¡Alta precisión (≥90%) y respuestas rápidas pueden duplicar tus XP a través de bonos!',
-        howToImprove:
-          '¡Concéntrate primero en la precisión, luego en la velocidad! Completa sesiones de ejercicios completas, mantén alta precisión y construye rachas para maximizar XP.',
+        whatItMeans: 'Cada respuesta correcta gana XP base (10 puntos). ¡Alta precisión (≥90%) y respuestas rápidas pueden duplicar tus XP a través de bonos!',
+        howToImprove: '¡Concéntrate primero en la precisión, luego en la velocidad! Completa sesiones de ejercicios completas, mantén alta precisión y construye rachas para maximizar XP.',
         breakdown: {
           total: 'XP totales ganados',
           currentLevel: 'Nivel actual',
@@ -741,16 +691,14 @@ export const strings = {
           speed: 'Bono de velocidad (<2s prom): +10 XP',
           streak: 'Bono de racha (≥5): +3 XP por elemento',
         },
-        goalNote:
-          'Los XP diarios están limitados a 500 para fomentar una práctica equilibrada y sostenible.',
+        goalNote: 'Los XP diarios están limitados a 500 para fomentar una práctica equilibrada y sostenible.',
       },
       achievementProgress: {
         title: 'Progreso de Logros',
         description: 'Rastrea tu viaje desbloqueando logros mientras aprendes y practicas japonés.',
         formula: '(Desbloqueados / Total) × 100',
         whatItMeans: 'Este porcentaje muestra cuántos logros has ganado del total disponible.',
-        howToImprove:
-          'Completa ejercicios, mantén rachas diarias y practica regularmente para desbloquear más logros.',
+        howToImprove: 'Completa ejercicios, mantén rachas diarias y practica regularmente para desbloquear más logros.',
         breakdown: {
           unlocked: 'Logros desbloqueados',
           total: 'Total disponible',
@@ -759,13 +707,10 @@ export const strings = {
       },
       achievements: {
         title: 'Logros Desbloqueados',
-        description:
-          'Los logros son recompensas por alcanzar hitos en tu viaje de aprendizaje. Cada logro representa un logro específico.',
+        description: 'Los logros son recompensas por alcanzar hitos en tu viaje de aprendizaje. Cada logro representa un logro específico.',
         formula: 'Conteo de logros desbloqueados',
-        whatItMeans:
-          'El número total de logros que has ganado a través de tu práctica y dedicación.',
-        howToImprove:
-          '¡Sigue practicando! Completa ejercicios, mantén rachas, alcanza objetivos de precisión y practica en diferentes momentos para desbloquear los 10 logros.',
+        whatItMeans: 'El número total de logros que has ganado a través de tu práctica y dedicación.',
+        howToImprove: '¡Sigue practicando! Completa ejercicios, mantén rachas, alcanza objetivos de precisión y practica en diferentes momentos para desbloquear los 10 logros.',
         breakdown: {
           unlocked: 'Actualmente desbloqueados',
           available: 'Total disponible',
@@ -775,13 +720,10 @@ export const strings = {
       },
       drillsCompleted: {
         title: 'Ejercicios Completados',
-        description:
-          'Cada sesión de ejercicios que completas ayuda a construir tus habilidades de conjugación japonesa. ¡La calidad cuenta más que la cantidad!',
+        description: 'Cada sesión de ejercicios que completas ayuda a construir tus habilidades de conjugación japonesa. ¡La calidad cuenta más que la cantidad!',
         formula: 'Total de sesiones de ejercicios terminadas',
-        whatItMeans:
-          'El número de sesiones de ejercicios completas que has terminado, independientemente de la puntuación.',
-        howToImprove:
-          '¡Practica regularmente! Cada sesión cuenta para tu total y ayuda a construir memoria muscular para las conjugaciones.',
+        whatItMeans: 'El número de sesiones de ejercicios completas que has terminado, independientemente de la puntuación.',
+        howToImprove: '¡Practica regularmente! Cada sesión cuenta para tu total y ayuda a construir memoria muscular para las conjugaciones.',
         breakdown: {
           total: 'Ejercicios totales',
           perfect: 'Ejercicios perfectos (100%)',
@@ -790,14 +732,11 @@ export const strings = {
       },
       drillAccuracy: {
         title: 'Precisión de Ejercicios',
-        description:
-          'Tu precisión refleja qué tan bien comprendes las conjugaciones verbales japonesas en todas tus sesiones de práctica.',
+        description: 'Tu precisión refleja qué tan bien comprendes las conjugaciones verbales japonesas en todas tus sesiones de práctica.',
         formula: '(Respuestas correctas / Respuestas totales) × 100',
-        whatItMeans:
-          'El porcentaje de preguntas que has respondido correctamente en TODOS los ejercicios. Se calcula acumulativamente, por lo que las mejoras recientes aumentarán gradualmente tu puntuación general.',
+        whatItMeans: 'El porcentaje de preguntas que has respondido correctamente en TODOS los ejercicios. Se calcula acumulativamente, por lo que las mejoras recientes aumentarán gradualmente tu puntuación general.',
         example: 'Ejemplo: Si tuviste 12 respuestas correctas de 15 totales, tu precisión es 80%.',
-        howToImprove:
-          '¡Concéntrate en entender los patrones! Revisa las reglas de conjugación, tómate tu tiempo con cada pregunta y practica constantemente.',
+        howToImprove: '¡Concéntrate en entender los patrones! Revisa las reglas de conjugación, tómate tu tiempo con cada pregunta y practica constantemente.',
         breakdown: {
           current: 'Precisión actual',
           total: 'Ejercicios totales completados',
@@ -807,14 +746,11 @@ export const strings = {
       },
       drillMastery: {
         title: 'Puntuación de Dominio de Ejercicios',
-        description:
-          'El dominio es una puntuación de calidad completa (0-100) que mide no solo cuánto practicas, sino qué tan bien practicas.',
+        description: 'El dominio es una puntuación de calidad completa (0-100) que mide no solo cuánto practicas, sino qué tan bien practicas.',
         formula: 'Cálculo ponderado de 4 factores',
-        whatItMeans:
-          'Esta puntuación combina volumen, precisión, consistencia y proporción de ejercicios perfectos para darte una imagen completa de tu nivel de dominio.',
+        whatItMeans: 'Esta puntuación combina volumen, precisión, consistencia y proporción de ejercicios perfectos para darte una imagen completa de tu nivel de dominio.',
         factors: 'Los cuatro factores',
-        howToImprove:
-          '¡El equilibrio es clave! Practica regularmente (volumen), concéntrate en la precisión, apunta a sesiones perfectas y mantén la consistencia.',
+        howToImprove: '¡El equilibrio es clave! Practica regularmente (volumen), concéntrate en la precisión, apunta a sesiones perfectas y mantén la consistencia.',
         breakdown: {
           volume: 'Volumen (máx 30 pts)',
           volumeDetail: 'Basado en ejercicios totales completados',
@@ -835,13 +771,10 @@ export const strings = {
       },
       learningProgress: {
         title: 'Progreso de Aprendizaje',
-        description:
-          'Tu progreso general en todas las categorías de aprendizaje (ejercicios, kana, kanji, vocabulario).',
+        description: 'Tu progreso general en todas las categorías de aprendizaje (ejercicios, kana, kanji, vocabulario).',
         formula: '(Elementos dominados / Elementos iniciados) × 100',
-        whatItMeans:
-          'Esto muestra la calidad de tu aprendizaje, no solo la cantidad. Solo los elementos que has practicado realmente cuentan para tu progreso.',
-        howToImprove:
-          '¡Domina lo que has comenzado! Concéntrate en llevar los elementos incompletos al dominio antes de comenzar nuevos.',
+        whatItMeans: 'Esto muestra la calidad de tu aprendizaje, no solo la cantidad. Solo los elementos que has practicado realmente cuentan para tu progreso.',
+        howToImprove: '¡Domina lo que has comenzado! Concéntrate en llevar los elementos incompletos al dominio antes de comenzar nuevos.',
         breakdown: {
           percentage: 'Progreso general',
           categoriesStarted: 'Categorías activas',
@@ -850,13 +783,10 @@ export const strings = {
       },
       videosPracticed: {
         title: 'Videos Practicados',
-        description:
-          'El número total de videos únicos de YouTube a los que has accedido para practicar shadowing.',
+        description: 'El número total de videos únicos de YouTube a los que has accedido para practicar shadowing.',
         formula: 'Conteo de videos únicos cargados',
-        whatItMeans:
-          'Cada nuevo video que cargas para practicar shadowing cuenta para este total. Volver a visitar el mismo video no aumenta el conteo.',
-        howToImprove:
-          '¡Explora diferentes videos para practicar con varios hablantes, temas y patrones de habla!',
+        whatItMeans: 'Cada nuevo video que cargas para practicar shadowing cuenta para este total. Volver a visitar el mismo video no aumenta el conteo.',
+        howToImprove: '¡Explora diferentes videos para practicar con varios hablantes, temas y patrones de habla!',
         breakdown: {
           total: 'Total de videos accedidos',
           thisWeek: 'Videos esta semana',
@@ -868,28 +798,22 @@ export const strings = {
         title: 'Videos Restantes',
         description: 'El número de nuevos videos que puedes cargar hoy según tu cuota diaria.',
         formula: 'Límite diario − Videos cargados hoy',
-        whatItMeans:
-          'Tu cuota diaria se reinicia a medianoche UTC. Los videos previamente accedidos pueden practicarse ilimitadamente sin usar cuota.',
-        howToImprove:
-          '¡Actualiza a Premium para 20 videos por día, o vuelve a visitar tus videos favoritos para práctica ilimitada gratis!',
+        whatItMeans: 'Tu cuota diaria se reinicia a medianoche UTC. Los videos previamente accedidos pueden practicarse ilimitadamente sin usar cuota.',
+        howToImprove: '¡Actualiza a Premium para 20 videos por día, o vuelve a visitar tus videos favoritos para práctica ilimitada gratis!',
         breakdown: {
           remaining: 'Restantes hoy',
           limit: 'Límite diario',
           used: 'Usados hoy',
           resetTime: 'Se reinicia a las',
         },
-        goalNote:
-          '¡Los usuarios gratuitos obtienen 3 videos nuevos diarios, los usuarios Premium obtienen 20!',
+        goalNote: '¡Los usuarios gratuitos obtienen 3 videos nuevos diarios, los usuarios Premium obtienen 20!',
       },
       watchTime: {
         title: 'Tiempo de Visualización',
-        description:
-          'El tiempo total que has pasado practicando activamente con videos de shadowing de YouTube.',
+        description: 'El tiempo total que has pasado practicando activamente con videos de shadowing de YouTube.',
         formula: 'Suma de todas las duraciones de las sesiones de práctica',
-        whatItMeans:
-          'El tiempo se rastrea durante las sesiones de práctica reales. Esto mide tu compromiso constante con la práctica de shadowing.',
-        howToImprove:
-          '¡Practica regularmente! Incluso 10-15 minutos diarios construyen fuertes habilidades de escucha y pronunciación.',
+        whatItMeans: 'El tiempo se rastrea durante las sesiones de práctica reales. Esto mide tu compromiso constante con la práctica de shadowing.',
+        howToImprove: '¡Practica regularmente! Incluso 10-15 minutos diarios construyen fuertes habilidades de escucha y pronunciación.',
         breakdown: {
           total: 'Tiempo total de visualización',
           thisWeek: 'Esta semana',
@@ -1062,7 +986,6 @@ export const strings = {
         subtitle: 'Listas personales',
         description: 'Gestionar listas personalizadas',
       },
-      // Anki Import
       anki: {
         importTitle: 'Import Anki Deck',
         importSuccess: 'Import Successful!',
@@ -1093,7 +1016,6 @@ export const strings = {
         filesCount: '{{count}} files',
         sizeInMB: '{{size}} MB',
       },
-
       myVideos: {
         title: 'Mis Videos',
         subtitle: 'Videos',
@@ -1103,6 +1025,71 @@ export const strings = {
         title: 'Tarjetas Flash',
         subtitle: 'Tarjetas',
         description: 'Crear y estudiar mazos de tarjetas',
+      },
+      kanjiBrowser: {
+        title: 'Navegador de Kanji',
+        subtitle: '漢字辞典',
+        description: 'Explora todos los niveles de kanji del JLPT',
+      },
+      conjugation: {
+        title: 'Conjugación',
+        subtitle: '活用',
+        description: 'Practica las conjugaciones verbales',
+      },
+      kanjiMastery: {
+        title: 'Dominio de Kanji',
+        subtitle: '漢字習得',
+        description: 'Domina los kanji con SRS',
+      },
+      youtubeShadowing: {
+        title: 'MoshiPlayer',
+        subtitle: 'YouTube',
+        description: 'Practica con YouTube',
+      },
+      popularVideos: {
+        title: 'Videos de tendencia',
+        subtitle: '人気動画',
+        description: 'Más vistos por la comunidad',
+      },
+      stories: {
+        title: 'Historias',
+        subtitle: '物語',
+        description: 'Historias generadas por IA',
+      },
+      comics: {
+        title: 'Moshi Comics',
+        subtitle: 'もしの漫画',
+        description: 'Moshi va a Japón',
+      },
+      textbookVocab: {
+        title: 'Vocabulario del libro de texto',
+        subtitle: '教科書',
+        description: 'Estudia el vocabulario del libro de texto',
+      },
+      reviewHub: {
+        title: 'Centro de revisión',
+        subtitle: 'レビュー',
+        description: 'Sistema de revisión unificado',
+      },
+      kanjiConnections: {
+        title: 'Conexiones de Kanji',
+        subtitle: '漢字関連',
+        description: 'Premium: Familias, Radicales y Patrones',
+      },
+      moodBoards: {
+        title: 'Tableros de inspiración',
+        subtitle: 'ムード',
+        description: 'Aprende kanji por temas',
+      },
+      leaderboard: {
+        title: 'Tabla de clasificación',
+        subtitle: 'ランキング',
+        description: 'Compite con otros estudiantes',
+      },
+      qa: {
+        title: 'Casa de Té',
+        subtitle: '茶屋',
+        description: 'Comparte sabiduría, haz preguntas, ayuda a otros',
       },
     },
     achievements: {
@@ -1129,6 +1116,12 @@ export const strings = {
       readyToStart: '¡Listo para comenzar!',
       firstLesson: 'Completa tu primera lección para obtener logros',
       yourJourney: 'Tu viaje comienza ahora',
+      totalPoints: 'Puntos Totales',
+      legendary: 'Legendario',
+      epic: 'Épico',
+      rare: 'Raro',
+      uncommon: 'Poco común',
+      common: 'Común',
     },
     dailyGoal: {
       title: 'Objetivo Diario',
@@ -1147,9 +1140,11 @@ export const strings = {
     },
     developerMode: 'Modo Desarrollador',
     authTestPage: 'Página de Prueba de Autenticación',
+    buyMeACoffee: 'Cómprame un café',
+    overview: 'Resumen',
+    srsProgress: 'Progreso SRS',
+    queueLeeches: 'Cola y Sanguijuelas',
   },
-
-  // Auth Pages
   auth: {
     signin: {
       branding: {
@@ -1212,8 +1207,7 @@ export const strings = {
           email: 'tu@ejemplo.com',
           password: '••••••••',
         },
-        passwordRequirements:
-          'Al menos 8 caracteres con 1 mayúscula, 1 número y 1 carácter especial',
+        passwordRequirements: 'Al menos 8 caracteres con 1 mayúscula, 1 número y 1 carácter especial',
         termsAgreement: 'Acepto los {{terms}} y la {{privacy}}',
         termsLink: 'Términos de servicio',
         privacyLink: 'Política de privacidad',
@@ -1255,8 +1249,6 @@ export const strings = {
       },
     },
   },
-
-  // Admin Dashboard
   admin: {
     pageTitle: 'Vista general del panel',
     pageDescription: '¡Bienvenido de nuevo! Esto es lo que está pasando con Moshimoshi hoy.',
@@ -1339,6 +1331,10 @@ export const strings = {
       users: 'Usuarios',
       content: 'Contenido',
       analytics: 'Análisis',
+      blog: 'Blog',
+      subscriptions: 'Suscripciones',
+      monitoring: 'Monitoreo',
+      entitlements: 'Derechos',
     },
     systemMetrics: {
       database: 'Base de datos',
@@ -1394,11 +1390,9 @@ export const strings = {
       totalPosts: 'Total de publicaciones',
       totalViews: 'Total de vistas',
       deleteResource: 'Eliminar recurso',
-      deleteResourceConfirm:
-        '¿Estás seguro de que deseas eliminar este recurso? Esta acción no se puede deshacer.',
+      deleteResourceConfirm: '¿Estás seguro de que deseas eliminar este recurso? Esta acción no se puede deshacer.',
       deleteResources: 'Eliminar recursos',
-      deleteResourcesConfirm:
-        '¿Estás seguro de que deseas eliminar {count} recursos? Esta acción no se puede deshacer.',
+      deleteResourcesConfirm: '¿Estás seguro de que deseas eliminar {count} recursos? Esta acción no se puede deshacer.',
       error: 'Error',
       failedToDelete: 'Error al eliminar el recurso',
       failedToDeleteSome: 'Error al eliminar algunos recursos',
@@ -1425,10 +1419,228 @@ export const strings = {
       update: 'Actualizar',
       required: 'Requerido',
       optional: 'Opcional',
+      filterByStatus: 'Filtrar por estado',
+      errors: {
+        loadFailed: 'Error al cargar recursos',
+      },
+    },
+    requiresAdmin: 'Se requiere acceso de administrador',
+    errorCheckingStatus: 'Error al verificar el estado de administrador',
+    moodboards: {
+      title: 'Gestión de Tableros de Humor',
+      description: 'Crea y gestiona tableros de humor de kanji para los estudiantes',
+      generateWithAI: 'Generar con IA',
+      totalBoards: 'Total de Tableros',
+      totalKanji: 'Total de Kanji',
+      filteredResults: 'Resultados Filtrados',
+      createNew: 'Crear nuevo',
+      noResults: 'No se encontraron tableros de inspiración',
+      tryDifferentFilters: 'Intenta ajustar tus filtros',
+      createFirstBoard: 'Crea tu primer tablero de inspiración',
+      updateSuccess: 'Tablero de inspiración actualizado con éxito',
+      createSuccess: 'Tablero de inspiración creado con éxito',
+      deleteSuccess: 'Tablero de inspiración eliminado con éxito',
+      duplicateSuccess: 'Tablero de inspiración duplicado con éxito',
+      saveFailed: 'Error al guardar el tablero de inspiración',
+      deleteFailed: 'Error al eliminar el tablero de inspiración',
+      duplicateFailed: 'Error al duplicar el tablero de inspiración',
+      editBoard: 'Editar tablero de inspiración',
+      createBoard: 'Crear tablero de inspiración',
+      kanjiCount: 'Conteo de Kanji',
+      kanjiList: 'Lista de Kanji',
+      addKanji: 'Agregar Kanji',
+      noKanjiAdded: 'No se han agregado kanji todavía',
+      titleRequired: 'El título es obligatorio',
+      kanjiRequired: 'Se requiere al menos un kanji',
+      themeRequired: 'El tema es obligatorio',
+      emoji: 'Emoji',
+      themeColor: 'Color del tema',
+    },
+    moodboard: {
+      generateWithAI: 'Generar con IA',
+      theme: 'Tema',
+      themeHint: 'Describe el tema para la colección de kanji',
+      themeRequired: 'Por favor, introduce un tema para el tablero de inspiración',
+      jlptLevel: 'Nivel JLPT',
+      jlptHint: 'Selecciona el nivel de dificultad para el kanji',
+      kanjiCount: 'Número de Kanji',
+      tags: 'Etiquetas',
+      tagsHint: 'Etiquetas separadas por comas para la categorización',
+      howItWorks: 'Cómo funciona',
+      howItWorksItem0: 'La IA generará kanji relevantes basados en tu tema',
+      howItWorksItem1: 'Cada kanji incluye lecturas, significados y ejemplos',
+      howItWorksItem2: 'Puedes editar el tablero de inspiración generado después de la creación',
+      generate: 'Generar',
+      generateStoryToo: 'También generar una historia con estos kanji',
+      generateStoryHint: 'Crea una historia interactiva usando los mismos kanji para practicar',
+      success: {
+        generated: 'Generados {{count}} kanji para "{{theme}}"',
+        moodboardCreated: '¡Tablero de inspiración creado con éxito!',
+        storyGenerating: '¡Tablero de inspiración creado! Generando historia...',
+        storyCreated: '¡Historia "{{title}}" creada con éxito!',
+      },
+      errors: {
+        generateFailed: 'Error al generar el tablero de inspiración',
+        invalidResponse: 'Formato de respuesta no válido',
+        storyFailed: 'Tablero de inspiración creado pero la generación de la historia falló',
+        createFailed: 'Error al crear el tablero de inspiración',
+      },
+    },
+    stories: {
+      title: 'Gestión de Historias',
+      description: 'Crear y gestionar historias interactivas de lectura en japonés',
+      generate: {
+        title: 'Generador de Historias AI',
+        theme: 'Tema de la Historia',
+        themePlaceholder: 'Selecciona un tema...',
+        customTheme: 'Tema Personalizado...',
+        customThemePlaceholder: 'Introduce tu tema personalizado...',
+        jlptLevel: 'Nivel JLPT',
+        pageCount: 'Número de Páginas',
+        pageCountHint: 'Recomendado: 3-10 páginas para una generación óptima',
+        options: {
+          generateImages: 'Generar ilustraciones para cada página',
+          includeQuiz: 'Incluir cuestionario de comprensión',
+        },
+        button: 'Generar Historia',
+        progress: {
+          characterSheet: 'Creando diseños de personajes y mundo de la historia...',
+          outline: 'Creando esquema de la historia y estructura del argumento...',
+          writingPage: 'Escribiendo página {{current}} de {{total}}...',
+          quiz: 'Creando preguntas para el cuestionario de comprensión...',
+          modelSheet: 'Creando hoja de modelo de personaje para consistencia...',
+          generatingImage: 'Generando ilustración para la página {{current}} de {{total}}...',
+          publishing: '¡Generación de historia completa! Publicando...',
+          complete: '¡Historia publicada con éxito!',
+        },
+        review: {
+          title: 'Revisar Borrador',
+          characterDesign: 'Diseño de Personajes',
+          modelSheet: 'Hoja de Modelo de Personaje',
+          pagesPreview: 'Vista Previa de Páginas de la Historia',
+          morePages: '... y {{count}} páginas más',
+          regenerate: 'Regenerar',
+        },
+        actions: {
+          publish: 'Publicar Historia',
+          saveDraft: 'Guardar como Borrador',
+          startOver: 'Comenzar de Nuevo',
+        },
+        labels: {
+          theme: 'Tema',
+          level: 'Nivel',
+          pages: 'Páginas',
+          status: 'Estado',
+          mainCharacter: 'Personaje Principal',
+          visualStyle: 'Estilo Visual',
+          page: 'Página',
+        },
+        jlptOptions: {
+          N5: 'N5 (Principiante)',
+          N4: 'N4 (Elemental)',
+          N3: 'N3 (Intermedio)',
+          N2: 'N2 (Intermedio Superior)',
+          N1: 'N1 (Avanzado)',
+        },
+        success: {
+          generated: '¡Historia generada y publicada con éxito!',
+          draftSaved: '¡Borrador guardado con éxito!',
+          published: '¡Historia publicada con éxito!',
+        },
+        errors: {
+          themeRequired: 'Por favor selecciona o introduce un tema',
+          authRequired: 'Autenticación requerida',
+          characterSheetFailed: 'Error al generar hoja de personaje',
+          outlineFailed: 'Error al generar esquema',
+          pageFailed: 'Error al generar la página {{page}}',
+          publishFailed: 'Historia generada pero falló al publicar. Puedes publicarla manualmente.',
+          imageFailed: 'Historia generada, pero falló la generación de imágenes. Puedes añadir imágenes más tarde.',
+          generalFailed: 'Falló al generar la historia',
+          saveDraftFailed: 'Falló al guardar el borrador',
+        },
+      },
+      list: {
+        empty: 'No hay historias aún',
+        createFirst: 'Crea tu primera historia para comenzar',
+      },
+    },
+    blog: {
+      title: 'Gestión del Blog',
+      description: 'Administra tus publicaciones y contenido del blog',
+      createNew: 'Crear Nueva Publicación',
+      viewBlog: 'Ver Blog',
+      noPosts: 'No hay publicaciones en el blog aún',
+      createFirst: 'Crea tu primera publicación en el blog',
+      postsCount: '{{count}} publicaciones',
+      fields: {
+        title: 'Título',
+        slug: 'URL Slug',
+        content: 'Contenido',
+        excerpt: 'Extracto',
+        author: 'Autor',
+        status: 'Estado',
+        publishDate: 'Fecha de Publicación',
+        publishTime: 'Hora de Publicación',
+        tags: 'Etiquetas',
+        seoTitle: 'Título SEO',
+        seoDescription: 'Descripción SEO',
+        coverImage: 'Imagen de Portada',
+        views: 'Vistas',
+        readingTime: 'Tiempo de Lectura',
+      },
+      placeholders: {
+        title: 'Introduce el título de la publicación',
+        slug: 'slug-amigable-para-url',
+        content: 'Escribe tu contenido en Markdown...',
+        excerpt: 'Descripción breve para vistas previas y SEO',
+        addTag: 'Añadir etiqueta',
+        seoTitle: 'Dejar vacío para usar el título de la publicación',
+        seoDescription: 'Dejar vacío para usar el extracto',
+      },
+      status: {
+        draft: 'Borrador',
+        published: 'Publicado',
+        scheduled: 'Programado',
+      },
+      sections: {
+        publishing: 'Publicando',
+        tags: 'Etiquetas',
+        images: 'Imágenes',
+        seo: 'SEO',
+      },
+      buttons: {
+        edit: 'Editar',
+        preview: 'Vista previa',
+        add: 'Añadir',
+        create: 'Crear Publicación',
+        update: 'Actualizar Publicación',
+        delete: 'Eliminar',
+        view: 'Ver',
+        save: 'Guardar',
+      },
+      hints: {
+        markdownSupport: 'Soporta formato Markdown',
+      },
+      errors: {
+        imageUploadFailed: 'Error al subir la imagen',
+        saveFailed: 'Error al guardar la publicación',
+        loadFailed: 'Error al cargar la publicación',
+        deleteFailed: 'Error al eliminar la publicación',
+      },
+      success: {
+        created: 'Publicación creada con éxito',
+        updated: 'Publicación actualizada con éxito',
+        deleted: 'Publicación eliminada con éxito',
+        published: 'Publicación publicada con éxito',
+        scheduled: 'Publicación programada para publicar',
+      },
+      deleteConfirmation: {
+        title: 'Eliminar publicación del blog',
+        message: '¿Estás seguro de que deseas eliminar esta publicación del blog?',
+        itemName: '{{title}}',
+      },
     },
   },
-
-  // Account Page
   account: {
     pageTitle: 'アカウント',
     pageDescription: 'Gestiona la configuración de tu cuenta',
@@ -1465,6 +1677,11 @@ export const strings = {
       wordsLearned: 'Palabras aprendidas',
       achievements: 'Logros',
       dayStreak: 'Racha de días',
+      xpEarned: 'XP Ganado',
+      lessonsCompleted: 'Sesiones Completadas',
+      bestStreak: 'Mejor Racha',
+      learningProgress: 'Progreso de Aprendizaje',
+      achievementCompletion: 'Logro Completado',
     },
     subscription: {
       premium: 'PREMIUM',
@@ -1542,18 +1759,18 @@ export const strings = {
         billingHistory: 'Historial de facturación',
         downloadInvoice: 'Descargar factura',
       },
+      congratulations: '¡Felicidades!',
+      welcomePremium: '¡Bienvenido a Premium! Disfruta de todas las increíbles funciones.',
     },
     dangerZone: {
-      description:
-        'Elimina tu cuenta y todos los datos asociados. Esta acción no se puede deshacer.',
+      description: 'Elimina tu cuenta y todos los datos asociados. Esta acción no se puede deshacer.',
     },
     signOut: {
       description: 'Cerrar sesión de tu cuenta en este dispositivo.',
     },
     deleteAccountDialog: {
       title: '¿Eliminar cuenta?',
-      message:
-        '¿Estás seguro de que quieres eliminar tu cuenta? Esto eliminará permanentemente todos tus datos, incluidos el progreso, los logros y la suscripción. Esta acción no se puede deshacer.',
+      message: '¿Estás seguro de que quieres eliminar tu cuenta? Esto eliminará permanentemente todos tus datos, incluidos el progreso, los logros y la suscripción. Esta acción no se puede deshacer.',
       confirmText: 'Sí, eliminar mi cuenta',
       cancelText: 'Cancelar',
     },
@@ -1562,8 +1779,6 @@ export const strings = {
       accountDeletionRequested: 'Eliminación de cuenta solicitada. Por favor contacta con soporte.',
     },
   },
-
-  // Statistics Page
   statistics: {
     title: 'Your Statistics',
     subtitle: 'Track your Japanese learning journey',
@@ -1577,8 +1792,6 @@ export const strings = {
     learningProgress: 'Learning Progress',
     achievementCompletion: 'Achievement Completion',
   },
-
-  // UI Components
   components: {
     alert: {
       dismissAriaLabel: 'Cerrar alerta',
@@ -1615,8 +1828,6 @@ export const strings = {
       errorMessage: 'useToast debe usarse dentro de ToastProvider',
     },
   },
-
-  // Error Messages (User-Friendly)
   errors: {
     auth: {
       popupClosed: 'Inicio de sesión cancelado. Por favor inténtalo de nuevo cuando estés listo.',
@@ -1669,14 +1880,11 @@ export const strings = {
       somethingWrong: 'Algo salió mal. Por favor inténtalo de nuevo.',
     },
   },
-
-  // Kana Learning System
   kana: {
     title: 'Hiragana y Katakana',
     hiragana: 'Hiragana',
     katakana: 'Katakana',
     combined: 'Práctica combinada',
-
     navigation: {
       backToGrid: 'Volver a caracteres',
       characters: 'Caracteres',
@@ -1686,7 +1894,6 @@ export const strings = {
       startReview: 'Comenzar repaso',
       viewAll: 'Ver todo',
     },
-
     categories: {
       all: 'Todos los caracteres',
       vowels: 'Vocales',
@@ -1696,7 +1903,6 @@ export const strings = {
       digraphs: 'Dígrafos',
       special: 'Especial',
     },
-
     study: {
       studyMode: 'Modo estudio',
       flipCard: 'Toca para voltear',
@@ -1710,8 +1916,9 @@ export const strings = {
       markAsLearned: 'Marcar como aprendido',
       learned: 'Aprendido',
       pronunciation: 'Pronunciación',
+      skip: 'Saltar',
+      examples: 'Ejemplos',
     },
-
     review: {
       reviewMode: 'Modo repaso',
       recognition: 'Reconocimiento',
@@ -1729,8 +1936,144 @@ export const strings = {
       accuracy: 'Precisión',
       timeSpent: 'Tiempo empleado',
       itemsReviewed: 'Elementos repasados',
+      writing: 'Escritura',
+      speaking: 'Hablar',
+      incorrectAnswer: 'Incorrecto. La respuesta es:',
+      sessionComplete: '¡Sesión completada!',
+      hint: 'Obtener pista',
+      hintTooltip: 'Obtener pista (H)',
+      exitTooltip: 'Salir (Esc)',
+      nextTooltip: 'Siguiente (Espacio)',
+      skipTooltip: 'Omitir (S)',
+      summary: {
+        grade: 'Calificación',
+        completed: 'Completado',
+        correctAnswers: 'Correcto',
+        bestStreak: 'Mejor racha',
+        duration: 'Duración',
+        avgTime: 'Tiempo promedio',
+        skipped: 'Omitido',
+        hintsUsed: 'Pistas usadas',
+        averageConfidence: 'Confianza promedio',
+        outstandingWork: '¡Trabajo excepcional! ¡Sigue así! 🌟',
+        greatJob: '¡Gran trabajo! ¡Estás haciendo un progreso excelente! 💪',
+        goodEffort: '¡Buen esfuerzo! ¡Sigue practicando! 📚',
+        dontGiveUp: '¡No te rindas! ¡Cada sesión te hace más fuerte! 🚀',
+      },
+      preparingSession: 'Preparando tu sesión de repaso...',
+      errorOccurred: '¡Ups! Algo salió mal',
+      goBack: 'Regresar',
+      offlineMode: 'Modo sin conexión',
+      modes: {
+        recognition: 'Reconocimiento',
+        recall: 'Recuerdo',
+        listening: 'Escucha',
+        writing: 'Escritura',
+        speaking: 'Hablar',
+      },
+      typeYourAnswer: 'Escribe tu respuesta...',
+      submit: 'Enviar',
+      submitEnter: 'Enviar (Enter)',
+      optionPrefix: {
+        a: 'A',
+        b: 'B',
+        c: 'C',
+        d: 'D',
+      },
+      clear: 'Borrar',
+      showStrokeOrder: 'Mostrar orden de trazos',
+      tapToSpeak: 'Toca para hablar',
+      speechListening: 'Escuchando...',
+      youSaid: 'Dijiste:',
+      expected: 'Esperado:',
+      speakClearly: 'Habla claramente en japonés. El micrófono se detendrá automáticamente cuando pauses.',
+      speechNotSupported: 'El reconocimiento de voz no es compatible con tu navegador. Por favor, usa Chrome, Edge o Safari.',
+      kana: {
+        writeFor: 'Escribe el {{script}} para:',
+        listenAndIdentify: 'Escucha e identifica el kana',
+        dakuten: 'Dakuten',
+        handakuten: 'Handakuten',
+        combination: 'Combinación',
+      },
+      kanji: {
+        writeKanjiFor: 'Escribe el kanji para:',
+        writeThisKanji: 'Escribe este kanji:',
+        meaning: 'Significado:',
+        onReading: 'On:',
+        kunReading: 'Kun:',
+        reading: 'Lectura:',
+        strokeCount: '{{count}} trazos',
+        jlptLevel: 'JLPT N{{level}}',
+        grade: 'Grado {{grade}}',
+        frequency: '#{{rank}} frecuencia',
+        study: {
+          skip: 'Omitir',
+          examples: 'Ejemplos',
+          markAsLearned: 'Marcar como aprendido',
+          noExamples: 'No hay ejemplos disponibles',
+        },
+      },
+      vocabulary: {
+        writeJapaneseFor: 'Escribe el japonés para:',
+        whatWordDoYouHear: '¿Qué palabra escuchas?',
+        example: 'Ejemplo:',
+        common: 'Común',
+        pitchAccent: 'Tono: {{accent}}',
+        searchTitle: 'Búsqueda de vocabulario',
+        searchDescription: 'Busca palabras japonesas con significados y ejemplos',
+        searchPlaceholder: 'Buscar por kanji, kana, romaji o significado en inglés...',
+        searchButton: 'Buscar',
+        searchSource: 'Fuente de búsqueda:',
+        searchSourceJMDict: 'JMDict (Sin conexión)',
+        searchSourceWaniKani: 'WaniKani',
+        searchResults: 'Resultados de búsqueda',
+        searchResultsCount: 'Resultados de búsqueda ({{count}})',
+        searchQuickSearch: 'Búsqueda rápida:',
+        searchHistory: 'Historial de búsqueda',
+        searchHistoryClear: 'Borrar',
+        searchHistoryEmpty: 'Tu historial de búsqueda aparecerá aquí',
+        searchHistoryResults: '{{count}} resultados',
+        searchJustNow: 'Justo ahora',
+        searchMinutesAgo: 'Hace {{minutes}}m',
+        searchHoursAgo: 'Hace {{hours}}h',
+        searchDaysAgo: 'Hace {{days}}d',
+        loadingMessage: 'Cargando búsqueda de vocabulario...',
+        searching: 'Buscando...',
+        tabs: {
+          details: 'Detalles',
+          conjugations: 'Conjugaciones',
+        },
+        wanikaniUnavailable: 'WaniKani no está disponible. Usando el diccionario JMdict en su lugar.',
+        wanikaniSearchFailed: 'La búsqueda en WaniKani falló. Cambiando al diccionario JMdict.',
+        wanikaniMockData: 'La API de WaniKani no está configurada correctamente. Por favor, cambia a JMdict o configura un token de API válido de WaniKani.',
+        wanikaniInvalidKey: 'La clave de la API de WaniKani no es válida. Por favor, revisa tu configuración de API o usa JMdict en su lugar.',
+        wanikaniServiceDown: 'El servicio de WaniKani está temporalmente no disponible. Por favor, inténtalo de nuevo más tarde o usa JMdict.',
+        noResultsFound: 'No se encontraron resultados. Prueba con otro término de búsqueda.',
+        searchFailed: 'Error al buscar. Por favor, inténtalo de nuevo.',
+        searchHistoryCleared: 'Historial de búsqueda borrado',
+        loadingCache: 'Cargando la base de datos de vocabulario de WaniKani por primera vez... Esto puede tardar un momento.',
+        wordMeaning: 'Significado',
+        wordRomaji: 'Romaji',
+        wordTags: 'Etiquetas',
+        wordExampleSentences: 'Oraciones de ejemplo',
+        wordExampleSentencesComingSoon: '¡Oraciones de ejemplo próximamente!',
+        noExamplesFound: 'No se encontraron ejemplos para esta palabra',
+      },
+      sentence: {
+        translateToJapanese: 'Traducir al japonés:',
+        listenAndUnderstand: 'Escucha y comprende la oración',
+        grammarPoints: 'Puntos de gramática:',
+        beginner: 'principiante',
+        intermediate: 'intermedio',
+        advanced: 'avanzado',
+      },
+      custom: {
+        write: 'Escribe:',
+        say: 'Di:',
+        question: 'Pregunta',
+        noAudioAvailable: 'No hay audio disponible para este contenido',
+      },
     },
-
     progress: {
       learned: 'Aprendido',
       learning: 'Aprendiendo',
@@ -1742,7 +2085,6 @@ export const strings = {
       lastReviewed: 'Último repaso',
       nextReview: 'Próximo repaso',
     },
-
     filters: {
       showAll: 'Mostrar todo',
       showLearned: 'Mostrar aprendidos',
@@ -1755,10 +2097,8 @@ export const strings = {
       progress: 'Progreso',
       scriptType: 'Tipo de escritura',
     },
-
     selectAllInRow: 'Seleccionar todos los {{count}} caracteres en esta fila',
     combinedPractice: 'Práctica combinada',
-
     browse: {
       browseAll: 'Explorar todos los {{count}} caracteres organizados por tipo',
       selectToStudy: 'Seleccionar caracteres para estudiar',
@@ -1776,7 +2116,6 @@ export const strings = {
       digraphsLabel: 'Dígrafos',
       digraphsDescription: 'Caracteres combinados',
     },
-
     kanji: {
       study: {
         skip: 'Saltar',
@@ -1785,14 +2124,12 @@ export const strings = {
         noExamples: 'No hay ejemplos disponibles',
       },
     },
-
     tooltips: {
       clickToStudy: 'Clic para estudiar este carácter',
       rightClickToPin: 'Clic derecho para fijar para repaso',
       dragToReorder: 'Arrastra para reordenar',
       progressInfo: 'Has aprendido {{learned}} de {{total}} caracteres',
     },
-
     messages: {
       loadingCharacters: 'Cargando caracteres...',
       noCharactersFound: 'No se encontraron caracteres',
@@ -1804,9 +2141,503 @@ export const strings = {
       progressSaved: 'Progreso guardado',
       audioNotAvailable: 'Audio no disponible para este carácter',
     },
+    profile: {
+      title: 'Perfil',
+      achievements: {
+        title: 'Insignias de Logro',
+        totalPoints: 'Puntos Totales',
+        legendary: 'Legendario',
+        epic: 'Épico',
+        rare: 'Raro',
+        uncommon: 'Poco común',
+        common: 'Común',
+        complete: 'Completo',
+      },
+      level: {
+        title: 'Progreso de Nivel',
+        level: 'Nivel',
+        xp: 'XP',
+        totalXP: 'XP Total',
+        nextLevel: 'Próximo Nivel',
+        perks: 'Beneficios de Nivel',
+        progression: 'Progresión de Nivel',
+        xpMultiplier: 'Multiplicador de XP',
+      },
+    },
+    privacy: {
+      title: 'Política de Privacidad',
+      lastUpdated: 'Última actualización: enero de 2025',
+      footer: 'Gracias por confiar en Moshimoshi para tu viaje de aprendizaje del japonés.',
+      sections: {
+        introduction: {
+          title: '1. Introducción',
+          content: 'Bienvenido a Moshimoshi. Estamos comprometidos a proteger tu información personal y tu derecho a la privacidad. Esta Política de Privacidad explica cómo recopilamos, usamos, divulgamos y protegemos tu información cuando usas nuestra aplicación de aprendizaje del idioma japonés.',
+          agreement: 'Al usar Moshimoshi, aceptas la recopilación y el uso de información de acuerdo con esta política.',
+        },
+        collection: {
+          title: '2. Información que Recopilamos',
+          provided: {
+            title: '2.1 Información que Proporcionas',
+            account: 'Información de la Cuenta',
+            accountDesc: 'Dirección de correo electrónico, nombre de usuario y foto de perfil cuando creas una cuenta',
+            learning: 'Datos de Aprendizaje',
+            learningDesc: 'Tu progreso, vocabulario guardado, resultados de práctica y preferencias de estudio',
+            content: 'Contenido del Usuario',
+            contentDesc: 'Notas, listas de palabras personalizadas y cualquier contenido que crees dentro de la aplicación',
+            communications: 'Comunicaciones',
+            communicationsDesc: 'Comentarios, solicitudes de soporte y correspondencia con nosotros',
+          },
+          automatic: {
+            title: '2.2 Información Recopilada Automáticamente',
+            device: 'Información del Dispositivo',
+            deviceDesc: 'Tipo de navegador, sistema operativo, tipo de dispositivo e identificadores únicos de dispositivo',
+            usage: 'Datos de uso',
+            usageDesc: 'Características utilizadas, tiempo empleado, páginas visitadas y patrones de interacción',
+            performance: 'Datos de rendimiento',
+            performanceDesc: 'Informes de fallos, registros de errores y métricas de rendimiento',
+          },
+          thirdParty: {
+            title: '2.3 Servicios de terceros',
+            intro: 'Utilizamos los siguientes servicios de terceros que pueden recopilar información:',
+            firebase: 'Autenticación, base de datos y análisis',
+            stripe: 'Procesamiento de pagos (no almacenamos detalles de tarjetas de crédito)',
+            openai: 'Funciones impulsadas por IA (contenido anonimizado)',
+          },
+        },
+        usage: {
+          title: '3. Cómo usamos su información',
+          intro: 'Utilizamos la información que recopilamos para:',
+          provide: 'Proporcionar y mantener nuestros servicios de aprendizaje de idiomas',
+          personalize: 'Personalizar su experiencia de aprendizaje y seguir su progreso',
+          process: 'Procesar transacciones y gestionar suscripciones',
+          notify: 'Enviar notificaciones y actualizaciones relacionadas con el servicio',
+          support: 'Responder a solicitudes de soporte y comentarios',
+          improve: 'Mejorar nuestros servicios a través de análisis e investigación',
+          comply: 'Cumplir con obligaciones legales y proteger nuestros derechos',
+        },
+        security: {
+          title: '4. Almacenamiento y seguridad de datos',
+          measures: {
+            title: 'Nuestras medidas de seguridad',
+            encryption: 'Cifrado de extremo a extremo para datos sensibles',
+            https: 'Conexiones HTTPS seguras para todas las transferencias de datos',
+            audits: 'Auditorías de seguridad regulares y evaluaciones de vulnerabilidad',
+            access: 'Controles de acceso y mecanismos de autenticación',
+          },
+          location: {
+            title: 'Ubicación de datos',
+            content: 'Sus datos se almacenan en servidores seguros proporcionados por Google Firebase, ubicados en los Estados Unidos.',
+          },
+          local: {
+            title: 'Almacenamiento local',
+            content: 'Algunos datos se almacenan localmente en su dispositivo para acceso sin conexión y optimización del rendimiento.',
+          },
+        },
+        rights: {
+          title: '5. Sus derechos y opciones',
+          yourRights: {
+            title: 'Usted tiene derecho a:',
+            access: 'Acceder',
+            accessDesc: 'Solicitar una copia de sus datos personales',
+            correct: 'Corregir',
+            correctDesc: 'Actualizar o corregir información inexacta',
+            delete: 'Eliminar',
+            deleteDesc: 'Solicitar la eliminación de su cuenta y datos',
+            export: 'Exportar',
+            exportDesc: 'Descargar sus datos en un formato portátil',
+            optOut: 'Optar por no participar',
+            optOutDesc: 'Darse de baja de las comunicaciones de marketing',
+            restrict: 'Restringir',
+            restrictDesc: 'Limitar el procesamiento de sus datos en ciertas circunstancias',
+          },
+          exercise: 'Para ejercer cualquiera de estos derechos, por favor contáctenos en',
+          exerciseSuffix: 'o a través de la configuración de su cuenta.',
+        },
+        contact: {
+          title: '6. Información de contacto',
+          intro: 'Si tiene preguntas o inquietudes sobre esta política de privacidad o nuestras prácticas de datos, por favor contáctenos:',
+          email: 'Correo electrónico',
+          support: 'Soporte',
+        },
+        recaptcha: {
+          title: '7. Protección reCAPTCHA',
+          content: 'Este sitio está protegido por reCAPTCHA y la',
+          privacyPolicy: 'Política de Privacidad',
+          and: 'de Google',
+          termsOfService: 'y',
+          apply: 'se aplican los',
+        },
+      },
+    },
+    terms: {
+      title: 'Términos de Servicio',
+      effectiveDate: 'Fecha de Vigencia: Enero 2025',
+      footer: 'Gracias por elegir Moshimoshi para tu viaje de aprendizaje del japonés.',
+      sections: {
+        agreement: {
+          title: '1. Aceptación de los Términos',
+          content: 'Estos Términos de Servicio constituyen un acuerdo legalmente vinculante entre tú y Moshimoshi con respecto a tu uso de nuestra aplicación de aprendizaje de japonés y servicios relacionados.',
+          acceptance: 'Al acceder o usar nuestro Servicio, aceptas estar sujeto a estos Términos.',
+          important: 'Importante',
+          importantContent: 'Estos Términos contienen una cláusula de arbitraje vinculante y una renuncia a acciones colectivas, que afectan tus derechos legales.',
+        },
+        eligibility: {
+          title: '2. Elegibilidad y Cuenta',
+          requirements: 'Para usar nuestro Servicio, debes:',
+          age: 'Tener al menos 13 años (o la edad mínima en tu jurisdicción)',
+          accurate: 'Proporcionar información de registro precisa y completa',
+          security: 'Mantener la seguridad de tus credenciales de cuenta',
+          notify: 'Notificarnos inmediatamente cualquier acceso no autorizado',
+          responsibility: 'Eres responsable de todas las actividades que ocurran bajo tu cuenta.',
+        },
+        subscription: {
+          title: '3. Suscripción y Pago',
+          plans: {
+            title: '3.1 Planes de Suscripción',
+            content: 'Ofrecemos varios planes de suscripción con diferentes características y precios.',
+          },
+          billing: {
+            title: '3.2 Facturación',
+            autoRenew: 'Las suscripciones se renuevan automáticamente a menos que se cancelen',
+            stripe: 'El pago se procesa a través de Stripe, nuestro proveedor de pagos',
+            changes: 'Los precios pueden cambiar con aviso previo',
+          },
+          refunds: {
+            title: '3.3 Reembolsos',
+            content: 'Ofrecemos una garantía de devolución de dinero para nuevos suscriptores.',
+          },
+        },
+        acceptable: {
+          title: '4. Política de Uso Aceptable',
+          permitted: {
+            title: '4.1 Usos Permitidos',
+            intro: 'Puedes usar nuestro Servicio para:',
+            personal: 'Propósitos educativos personales',
+            classroom: 'Uso en el aula por educadores (con la licencia adecuada)',
+            sharing: 'Crear y compartir materiales de estudio dentro de la plataforma',
+          },
+          prohibited: {
+            title: '4.2 Usos Prohibidos',
+            intro: 'Aceptas NO:',
+            laws: 'Violar ninguna ley o regulación',
+            ip: 'Infringir derechos de propiedad intelectual',
+            malware: 'Transmitir malware, virus o código dañino',
+            unauthorized: 'Intentar obtener acceso no autorizado a nuestros sistemas',
+            scrape: 'Raspar, extraer datos o usar sistemas automatizados',
+            circumvent: 'Eludir límites de uso o restricciones de acceso',
+            resell: 'Revender o redistribuir comercialmente nuestro contenido',
+            impersonate: 'Hacerse pasar por otros o proporcionar información falsa',
+            harass: 'Acosar, abusar o dañar a otros usuarios',
+          },
+        },
+        ip: {
+          title: '5. Derechos de Propiedad Intelectual',
+          ourContent: {
+            title: '5.1 Nuestro Contenido',
+            content: 'El Servicio y su contenido original son propiedad de Moshimoshi y están protegidos por leyes de propiedad intelectual.',
+          },
+          yourContent: {
+            title: '5.2 Tu Contenido',
+            content: 'Retienes la propiedad del contenido que creas. Al publicar, nos otorgas una licencia para usarlo en la prestación del Servicio.',
+          },
+          feedback: {
+            title: '5.3 Comentarios',
+            content: 'Cualquier comentario que proporciones se convierte en nuestra propiedad y puede ser utilizado sin compensación.',
+          },
+        },
+        disclaimers: {
+          title: '6. Renuncias y Garantías',
+          important: 'IMPORTANTE RENUNCIA LEGAL:',
+          asIs: 'EL SERVICIO SE PROPORCIONA \'TAL CUAL\' SIN GARANTÍAS DE NINGÚN TIPO.',
+          noWarranty: 'NO GARANTIZAMOS QUE:',
+          uninterrupted: 'El Servicio será ininterrumpido o libre de errores',
+          defects: 'Los defectos serán corregidos',
+          viruses: 'El Servicio esté libre de virus o componentes dañinos',
+          results: 'Los resultados cumplirán con tus requisitos',
+        },
+        liability: {
+          title: '7. Limitación de Responsabilidad',
+          limitation: 'LIMITACIÓN DE RESPONSABILIDAD:',
+          maxExtent: 'EN LA MÁXIMA MEDIDA PERMITIDA POR LA LEY, NO SEREMOS RESPONSABLES POR:',
+          indirect: 'Cualquier daño indirecto, incidental, especial o consecuente',
+          loss: 'Pérdida de beneficios, datos, uso, buena voluntad u otras pérdidas intangibles',
+          unauthorized: 'Daños por acceso no autorizado a nuestros servidores',
+          interruption: 'Cualquier interrupción o cese de la transmisión',
+          total: 'Nuestra responsabilidad total no excederá el monto pagado por ti en los seis meses anteriores a la reclamación.',
+        },
+        termination: {
+          title: '8. Terminación',
+          intro: 'Podemos terminar o suspender tu cuenta inmediatamente por cualquier motivo, incluyendo:',
+          breach: 'Incumplimiento de estos Términos',
+          request: 'Solicitud por parte de agencias de cumplimiento de la ley o gubernamentales',
+          inactivity: 'Períodos prolongados de inactividad',
+          nonPayment: 'Falta de pago de tarifas',
+          consequence: 'Al finalizar, tu derecho a usar el Servicio cesará inmediatamente.',
+        },
+        governing: {
+          title: '9. Ley Aplicable',
+          content: 'Estos Términos se regirán por las leyes del Estado de Delaware, Estados Unidos.',
+        },
+        changes: {
+          title: '10. Cambios en Estos Términos',
+          content: 'Nos reservamos el derecho de modificar estos Términos en cualquier momento con 30 días de aviso para cambios materiales.',
+        },
+        contact: {
+          title: '11. Información de Contacto',
+          intro: 'Si tienes alguna pregunta sobre estos Términos, por favor contáctanos:',
+          email: 'Correo electrónico',
+          privacy: 'Privacidad',
+        },
+      },
+    },
+    contact: {
+      title: 'Contáctanos',
+      subtitle: '¡Nos encantaría saber de ti!',
+      validation: {
+        invalidEmail: 'Por favor, introduce una dirección de correo electrónico válida',
+        messageTooShort: 'El mensaje debe tener al menos 10 caracteres',
+        messageTooLong: 'El mensaje excede el límite de caracteres',
+      },
+      error: 'Lo sentimos, hubo un error al enviar tu mensaje. Por favor, inténtalo de nuevo.',
+      success: {
+        title: '¡Mensaje Enviado!',
+        message: 'Gracias por contactarnos. ¡Te responderemos lo antes posible!',
+        sendAnother: 'Enviar Otro Mensaje',
+        goBack: 'Regresar',
+      },
+      form: {
+        name: 'Nombre',
+        namePlaceholder: 'Tu nombre',
+        email: 'Correo electrónico',
+        emailPlaceholder: 'tu@email.com',
+        category: 'Categoría',
+        categories: {
+          general: 'Consulta General',
+          support: 'Soporte Técnico',
+          bug: 'Informe de Errores',
+          feature: 'Solicitud de Función',
+          feedback: 'Comentarios',
+          privacy: 'Preocupación por la Privacidad',
+        },
+        subject: 'Asunto',
+        subjectPlaceholder: 'Descripción breve de su consulta',
+        message: 'Mensaje',
+        messagePlaceholder: 'Cuéntenos más sobre su consulta...',
+        sending: 'Enviando...',
+        submit: 'Enviar Mensaje',
+        info: {
+          title: 'Su mensaje será enviado a',
+          support: 'Soporte',
+          feedback: 'Comentarios',
+          privacy: 'Privacidad',
+        },
+      },
+      alternative: {
+        title: 'Otras Formas de Contactarnos',
+        email: {
+          title: 'Envíenos un Correo Electrónico Directamente',
+        },
+        privacy: {
+          title: 'Preocupaciones de Privacidad',
+        },
+      },
+    },
+    settings: {
+      title: 'Configuraciones',
+      subtitle: 'Personaliza tu experiencia de aprendizaje',
+      backToDashboard: '← Volver al Tablero',
+      saveButton: 'Guardar Todas las Configuraciones',
+      resetButton: 'Restablecer todas las configuraciones a los valores predeterminados',
+      resetConfirm: '¿Está seguro de que desea restablecer todas las configuraciones a los valores predeterminados?',
+      saveSuccess: '¡Configuraciones guardadas con éxito!',
+      resetSuccess: 'Configuraciones restablecidas a los valores predeterminados',
+      reviewNotifications: 'Revisar Notificaciones',
+      sections: {
+        appearance: {
+          title: 'Apariencia',
+          language: {
+            label: 'Idioma / 言語 / Langue / Lingua / Sprache / Idioma',
+          },
+          theme: {
+            label: 'Tema',
+            light: 'Claro',
+            dark: 'Oscuro',
+            system: 'Sistema',
+          },
+          colorPalette: {
+            label: 'Paleta de Colores',
+            preview: 'Vista Previa:',
+            primary: 'Primario',
+            secondary: 'Secundario',
+            palettes: {
+              sakura: 'Sakura',
+              ocean: 'Océano',
+              matcha: 'Matcha',
+              sunset: 'Atardecer',
+              lavender: 'Lavanda',
+              monochrome: 'Mono',
+            },
+          },
+        },
+        learning: {
+          title: 'Preferencias de Aprendizaje',
+          autoplay: {
+            label: 'Reproducción Automática de Audio',
+            description: 'Reproducir automáticamente la pronunciación al ver palabras',
+          },
+          furigana: {
+            label: 'Mostrar Furigana',
+            description: 'Mostrar pistas de lectura sobre los caracteres kanji',
+          },
+          romaji: {
+            label: 'Mostrar Romaji',
+            description: 'Mostrar texto japonés romanizado',
+          },
+          soundEffects: {
+            label: 'Efectos de Sonido',
+            description: 'Reproducir sonidos para respuestas correctas/incorrectas',
+          },
+          hapticFeedback: {
+            label: 'Retroalimentación Háptica',
+            description: 'Retroalimentación por vibración en dispositivos móviles',
+          },
+        },
+        notifications: {
+          title: 'Notificaciones',
+          dailyReminder: {
+            label: 'Recordatorio Diario de Estudio',
+            description: 'Recibe un recordatorio para practicar todos los días',
+          },
+          achievementAlerts: {
+            label: 'Alertas de Logros',
+            description: 'Celebra cuando desbloquees logros',
+          },
+          weeklyProgress: {
+            label: 'Informe Semanal de Progreso',
+            description: 'Recibe un resumen de tu progreso semanal',
+          },
+          marketingEmails: {
+            label: 'Correos de Marketing',
+            description: 'Actualizaciones sobre nuevas funciones y contenido',
+          },
+          channels: {
+            title: 'Canales de Notificación',
+            browser: {
+              label: 'Notificaciones del Navegador',
+              description: 'Notificaciones de escritorio cuando hay revisiones pendientes',
+            },
+            inApp: {
+              label: 'Notificaciones en la App',
+              description: 'Notificaciones emergentes mientras usas la app',
+            },
+            push: {
+              label: 'Notificaciones Push',
+              description: 'Notificaciones móviles (requiere instalación de la app)',
+            },
+          },
+          timing: {
+            title: 'Preferencias de Tiempo',
+            immediate: {
+              label: 'Revisiones Inmediatas',
+              description: 'Notificar para revisiones de 10 minutos y 30 minutos',
+            },
+            daily: {
+              label: 'Resumen Diario',
+              description: 'Recibe un resumen diario de revisiones pendientes',
+            },
+          },
+          quietHours: {
+            title: 'Horas de Silencio',
+            enable: 'Activar Horas de Silencio',
+            description: 'Sin notificaciones durante los tiempos especificados',
+            start: 'Hora de Inicio',
+            end: 'Hora de Fin',
+          },
+          saveSuccess: 'Preferencias de notificación guardadas',
+          saveError: 'Error al guardar preferencias',
+          browserNotSupported: 'Notificaciones del navegador no soportadas',
+          browserEnabled: 'Notificaciones del navegador habilitadas',
+          browserDenied: 'Notificaciones del navegador bloqueadas. Por favor, habilítalas en la configuración del navegador.',
+          enableBrowserFirst: 'Por favor, habilita primero las notificaciones del navegador',
+          blocked: 'Bloqueado',
+          testNotification: 'Notificación de Prueba',
+          test: {
+            title: 'Notificación de Prueba',
+            body: 'Esta es una prueba de tu configuración de notificaciones',
+          },
+        },
+        privacy: {
+          title: 'Privacidad',
+          publicProfile: {
+            label: 'Perfil Público',
+            description: 'Permitir que otros vean tu perfil',
+          },
+          showProgress: {
+            label: 'Mostrar Progreso',
+            description: 'Mostrar tu progreso de aprendizaje en tu perfil',
+          },
+          shareAchievements: {
+            label: 'Compartir Logros',
+            description: 'Compartir logros automáticamente con amigos',
+          },
+        },
+        accessibility: {
+          title: 'Accesibilidad',
+          largeText: {
+            label: 'Texto Grande',
+            description: 'Aumentar el tamaño del texto para mejor legibilidad',
+          },
+          highContrast: {
+            label: 'Alto Contraste',
+            description: 'Aumentar el contraste de color para visibilidad',
+          },
+          reduceMotion: {
+            label: 'Reducir Movimiento',
+            description: 'Minimizar animaciones y transiciones',
+          },
+          screenReader: {
+            label: 'Compatibilidad con Lector de Pantalla',
+            description: 'Optimizar para compatibilidad con lector de pantalla',
+          },
+        },
+        appInfo: {
+          title: 'Información de la App',
+          version: {
+            title: 'Versión de la App',
+            checking: 'Comprobando...',
+            upToDate: 'Actualizado',
+            error: 'Comprobación fallida',
+            checkButton: 'Buscar Actualizaciones',
+            available: 'disponible',
+            criticalMessage: 'Esta es una actualización importante con correcciones críticas. Por favor, actualice lo antes posible.',
+          },
+        },
+        legal: {
+          title: 'Legal y Soporte',
+          privacyPolicy: {
+            label: 'Política de Privacidad',
+            description: 'Cómo manejamos tus datos',
+          },
+          termsOfService: {
+            label: 'Términos de Servicio',
+            description: 'Nuestros términos y condiciones',
+          },
+          credits: {
+            label: 'Créditos y Reconocimientos',
+            description: 'Bibliotecas de código abierto y fuentes de datos',
+          },
+          contactUs: {
+            label: 'Contáctanos',
+            description: 'Obtén ayuda o envía comentarios',
+          },
+          emailSupport: {
+            label: 'Soporte por Correo',
+            description: 'support@moshimoshi.app',
+          },
+        },
+      },
+    },
   },
-
-  // News Feature
   news: {
     title: 'Noticias Japonesas',
     subtitle: 'Lee artículos japoneses por nivel',
@@ -1861,15 +2692,35 @@ export const strings = {
       type: 'Tipo',
       saveToList: 'Guardar en lista',
       savedToList: 'Guardado en la lista de estudio',
+      preparingAudio: 'Preparando audio',
+      generatingAudioMessage: 'Generando audio para este artículo. Esto puede tardar un momento...',
     },
     error: {
       loadFailed: 'Error al cargar el artículo',
       notFound: 'Artículo no encontrado',
       goBack: 'Volver a la lista de noticias',
     },
+    readingTime: 'min',
+    source: 'Fuente',
+    publishedOn: 'Publicado en',
+    viewOriginal: 'Ver artículo original',
+    levels: {
+      all: 'Todos los niveles',
+      n5: 'N5 (Principiante)',
+      n4: 'N4 (Elemental)',
+      n3: 'N3 (Intermedio)',
+      n2: 'N2 (Intermedio alto)',
+      n1: 'N1 (Avanzado)',
+    },
+    sources: {
+      all: 'Todas las fuentes',
+      nhkEasy: 'NHK Fácil',
+      todaii: 'Todaii',
+      watanoc: 'Watanoc',
+      mainichiNews: 'Noticias Mainichi',
+      mainichiShogakusei: 'Mainichi Elemental',
+    },
   },
-
-  // Subscription & Entitlements
   subscription: {
     status: {
       active: 'Activo',
@@ -1896,6 +2747,8 @@ export const strings = {
       perMonth: 'por mes',
       perYear: 'por año',
       save: 'Ahorra {{percent}}%',
+      month: 'mes',
+      year: 'año',
     },
     actions: {
       upgrade: 'Mejorar a Premium',
@@ -1923,6 +2776,7 @@ export const strings = {
       monthsFree: '2 meses gratis',
       earlyAccess: 'Acceso temprano a nuevas características',
       personalizedInsights: 'Perspectivas de aprendizaje personalizadas',
+      savings: 'Ahorra 7%',
     },
     upgrade: {
       selectMonthly: 'Elegir Mensual',
@@ -1940,8 +2794,7 @@ export const strings = {
       paymentFailed: 'Pago fallido',
       paymentSuccess: '¡Pago exitoso!',
       success: '🎉 ¡Bienvenido a Premium! Tu suscripción se está activando...',
-      canceled:
-        'Pago cancelado. Puedes actualizar en cualquier momento desde la configuración de tu cuenta.',
+      canceled: 'Pago cancelado. Puedes actualizar en cualquier momento desde la configuración de tu cuenta.',
     },
     messages: {
       welcomeToPremium: '🎉 ¡Bienvenido a Premium! Tu suscripción está ahora activa.',
@@ -1969,20 +2822,35 @@ export const strings = {
       billingPortalFailed: 'No se pudo abrir el portal de facturación. Inténtalo de nuevo.',
       cancelFailed: 'No se pudo cancelar la suscripción. Inténtalo de nuevo.',
     },
+    invoice: {
+      title: 'Historial de facturación',
+      noInvoices: 'Aún no hay facturas',
+      date: 'Fecha',
+      description: 'Descripción',
+      amount: 'Cantidad',
+      status: 'Estado',
+      actions: 'Acciones',
+      download: 'Descargar',
+      subscription: 'Suscripción',
+      statuses: {
+        paid: 'Pagado',
+        open: 'Abrir',
+        void: 'Vacío',
+        uncollectible: 'Incolectable',
+      },
+    },
+    savings: 'Ahorra 25% con facturación anual',
+    bestValue: 'MEJOR VALOR',
   },
-
-  // Pricing Comparison
   pricingComparison: {
     badge: 'TODAS LAS FUNCIONES COMBINADAS',
     title: 'Una app, cada función',
-    subtitle:
-      '¿Por qué pagar por múltiples aplicaciones? Moshimoshi combina todas las funciones premium que necesitas para tu viaje de aprendizaje del japonés.',
+    subtitle: '¿Por qué pagar por múltiples aplicaciones? Moshimoshi combina todas las funciones premium que necesitas para tu viaje de aprendizaje del japonés.',
     tableTitle: 'Compara el valor',
     priceColumn: 'Precio',
     featuresColumn: 'Características',
     actionButton: 'Comenzar prueba gratuita',
     actionSecondary: 'Ver todas las funciones',
-
     moshimoshi: {
       name: 'Moshimoshi',
       price: '£8.99/mes',
@@ -2004,94 +2872,50 @@ export const strings = {
         analytics: 'Análisis detallados',
       },
     },
-
     competitors: {
       duolingo: {
         name: 'Duolingo',
         price: '£47.99/año',
-        features: ['Gamificación', 'Lecciones básicas', 'Seguimiento de rachas'],
-        missing: [
-          'YouTube shadowing',
-          'Historias IA',
-          'Desglose de Kanji',
-          'Lectura de noticias',
-          'Exportación a Anki',
-        ],
+        features: ["Gamificación","Lecciones básicas","Seguimiento de rachas"],
+        missing: ["YouTube shadowing","Historias IA","Desglose de Kanji","Lectura de noticias","Exportación a Anki"],
       },
       heyjapan: {
         name: 'HeyJapan',
         price: '$33.99-$48.99',
-        features: ['Práctica de conversación', 'Reconocimiento de voz', 'Clases en vivo'],
-        missing: [
-          'YouTube shadowing',
-          'Gamificación',
-          'SRS',
-          'Exportación a Anki',
-          'Lectura de noticias',
-        ],
+        features: ["Práctica de conversación","Reconocimiento de voz","Clases en vivo"],
+        missing: ["YouTube shadowing","Gamificación","SRS","Exportación a Anki","Lectura de noticias"],
       },
       miraa: {
         name: 'Miraa',
         price: '£5.49/mes',
-        features: ['Lectura de manga', 'Búsqueda en diccionario', 'Exportación a Anki'],
-        missing: [
-          'Historias IA',
-          'YouTube shadowing',
-          'Gamificación',
-          'Práctica de conversación',
-          'Lecciones de gramática',
-        ],
+        features: ["Lectura de manga","Búsqueda en diccionario","Exportación a Anki"],
+        missing: ["Historias IA","YouTube shadowing","Gamificación","Práctica de conversación","Lecciones de gramática"],
       },
       satoriReader: {
         name: 'Satori Reader',
         price: '£8.49/mes',
-        features: ['Artículos graduados', 'Explicaciones gramaticales', 'Audio'],
-        missing: [
-          'YouTube shadowing',
-          'Historias IA',
-          'Gamificación',
-          'Exportación a Anki',
-          'Práctica de conversación',
-        ],
+        features: ["Artículos graduados","Explicaciones gramaticales","Audio"],
+        missing: ["YouTube shadowing","Historias IA","Gamificación","Exportación a Anki","Práctica de conversación"],
       },
       takoboto: {
         name: 'Takoboto',
         price: '£25.49',
-        features: ['Diccionario sin conexión', 'Ejemplos', 'Conjugaciones'],
-        missing: [
-          'Contenido de aprendizaje',
-          'SRS',
-          'YouTube shadowing',
-          'Historias IA',
-          'Gamificación',
-        ],
+        features: ["Diccionario sin conexión","Ejemplos","Conjugaciones"],
+        missing: ["Contenido de aprendizaje","SRS","YouTube shadowing","Historias IA","Gamificación"],
       },
       miji: {
         name: 'Miji',
         price: '£27.49/año',
-        features: ['Tarjetas flash', 'Reconocimiento de escritura', 'Práctica de kanji'],
-        missing: [
-          'YouTube shadowing',
-          'Historias IA',
-          'Lectura de noticias',
-          'Práctica de conversación',
-          'Gamificación',
-        ],
+        features: ["Tarjetas flash","Reconocimiento de escritura","Práctica de kanji"],
+        missing: ["YouTube shadowing","Historias IA","Lectura de noticias","Práctica de conversación","Gamificación"],
       },
       lingodeer: {
         name: 'LingoDeer',
         price: '$14.99/mes',
-        features: ['Cursos estructurados', 'Explicaciones gramaticales', 'Ejercicios', 'Historias'],
-        missing: [
-          'YouTube shadowing',
-          'Historias IA personalizadas',
-          'Lectura de noticias reales',
-          'Exportación a Anki',
-          'Diccionario',
-        ],
+        features: ["Cursos estructurados","Explicaciones gramaticales","Ejercicios","Historias"],
+        missing: ["YouTube shadowing","Historias IA personalizadas","Lectura de noticias reales","Exportación a Anki","Diccionario"],
       },
     },
-
     comparison: {
       hasFeature: '✓',
       missingFeature: '—',
@@ -2102,8 +2926,6 @@ export const strings = {
       lifetimeLabel: 'Único pago',
     },
   },
-
-  // Entitlements & Limits
   entitlements: {
     limits: {
       sessionsToday: 'Sesiones de {{feature}} hoy',
@@ -2193,10 +3015,12 @@ export const strings = {
       authenticationRequired: 'Autenticación requerida',
       featureLimitReached: 'Límite de función alcanzado',
       upgradeRequired: 'Mejora a premium para acceso ilimitado',
+      limitReachedWithTime: 'Has alcanzado tu límite diario para {{feature}}. Se restablece {{time}}.',
+      featureUnavailable: 'Esta función no está disponible actualmente',
+      runningLow: 'Te quedan {{count}} sesión(es) de {{feature}} hoy',
+      checkFailed: 'Error al verificar la disponibilidad de la función',
     },
   },
-
-  // Pricing Page
   pricing: {
     title: 'Elige tu viaje de aprendizaje',
     subtitle: 'Desbloquea práctica ilimitada y acelera tu dominio del japonés',
@@ -2213,12 +3037,17 @@ export const strings = {
       currentPlan: 'Plan actual',
       upgrade: 'Mejorar',
       startFreeTrial: 'Iniciar prueba gratuita',
+      signUpFree: 'Regístrate Gratis',
+      downgrade: 'Degradar',
+      upgradeNow: 'Mejorar Ahora',
+      processing: 'Procesando...',
     },
     badges: {
       free: 'Gratis',
       trial: 'Prueba gratuita',
       mostPopular: 'Más popular',
       bestValue: 'Mejor valor',
+      currentPlan: 'Plan Actual',
     },
     features: {
       title: 'Qué está incluido',
@@ -2260,6 +3089,8 @@ export const strings = {
       downgradePending: 'Degradación programada para el final del período de facturación.',
       trialStarted: '¡Prueba gratuita iniciada! Disfruta las funciones Premium.',
       subscriptionExpired: 'Tu suscripción ha expirado. Renuévala para continuar con Premium.',
+      alreadyFree: 'Ya estás en el plan gratuito',
+      alreadySubscribed: 'Ya estás suscrito a este plan',
     },
     manageBilling: {
       title: 'Gestionar facturación',
@@ -2274,83 +3105,70 @@ export const strings = {
       support: 'Soporte 24/7',
       noCommitment: 'Sin compromiso',
       cancelAnytime: 'Cancela en cualquier momento',
+      activeLearners: 'Aprendices Activos',
+      successRate: 'Tasa de Éxito',
+      moneyBack: 'Garantía de Devolución de Dinero',
     },
     faq: {
       title: 'Preguntas frecuentes',
       canICancel: {
         question: '¿Puedo cancelar en cualquier momento?',
-        answer:
-          'Sí, puedes cancelar tu suscripción en cualquier momento. Continuarás teniendo acceso hasta el final de tu período de facturación.',
+        answer: 'Sí, puedes cancelar tu suscripción en cualquier momento. Continuarás teniendo acceso hasta el final de tu período de facturación.',
       },
       whatPaymentMethods: {
         question: '¿Qué métodos de pago aceptan?',
-        answer:
-          'Aceptamos todas las tarjetas de crédito principales, tarjetas de débito y PayPal a través de nuestro procesador de pagos seguro Stripe.',
+        answer: 'Aceptamos todas las tarjetas de crédito principales, tarjetas de débito y PayPal a través de nuestro procesador de pagos seguro Stripe.',
       },
       isThereATrial: {
         question: '¿Hay una prueba gratuita?',
-        answer:
-          'Los nuevos usuarios obtienen 7 días de funciones Premium gratis. No se requiere tarjeta de crédito.',
+        answer: 'Los nuevos usuarios obtienen 7 días de funciones Premium gratis. No se requiere tarjeta de crédito.',
       },
       canIChangeMyPlan: {
         question: '¿Puedo cambiar mi plan?',
-        answer:
-          'Sí, puedes mejorar o degradar tu plan en cualquier momento desde la configuración de tu cuenta.',
+        answer: 'Sí, puedes mejorar o degradar tu plan en cualquier momento desde la configuración de tu cuenta.',
+      },
+      cancel: {
+        question: '¿Puedo cancelar en cualquier momento?',
+        answer: 'Sí, puedes cancelar tu suscripción en cualquier momento. Seguirás teniendo acceso hasta el final de tu período de facturación.',
+      },
+      trial: {
+        question: '¿Hay un nivel gratuito?',
+        answer: '¡Sí! Nuestro nivel gratuito incluye funciones básicas para comenzar. Mejora a Premium en cualquier momento para acceso ilimitado.',
+      },
+      switch: {
+        question: '¿Puedo cambiar mi plan?',
+        answer: 'Sí, puedes mejorar o degradar tu plan en cualquier momento desde la configuración de tu cuenta.',
       },
     },
     pricingComparison: {
       badge: 'TODAS LAS FUNCIONES COMBINADAS',
       title: 'Una App, Todas las Funciones',
-      subtitle:
-        '¿Por qué pagar por múltiples aplicaciones? Moshimoshi combina todas las funciones premium de las principales aplicaciones de aprendizaje de japonés por una fracción del costo.',
+      subtitle: '¿Por qué pagar por múltiples aplicaciones? Moshimoshi combina todas las funciones premium de las principales aplicaciones de aprendizaje de japonés por una fracción del costo.',
       compareTitle: 'Comparar con otras aplicaciones',
       competitors: {
         duolingo: {
           name: 'Duolingo',
           price: '£47.99/año',
-          features: ['Gamificación', 'Lecciones básicas', 'Seguimiento de rachas'],
-          missing: [
-            'Shadowing de YouTube',
-            'Historias IA',
-            'Análisis de kanji',
-            'Lectura de noticias',
-            'Exportación Anki',
-          ],
+          features: ["Gamificación","Lecciones básicas","Seguimiento de rachas"],
+          missing: ["Shadowing de YouTube","Historias IA","Análisis de kanji","Lectura de noticias","Exportación Anki"],
         },
         heyJapan: {
           name: 'HeyJapan',
           price: '£48.99/año',
-          features: ['Lecciones en video', 'Explicaciones gramaticales'],
-          missing: [
-            'Gamificación',
-            'Funciones IA',
-            'Práctica de YouTube',
-            'Lectura de noticias',
-            'Exportación Anki',
-          ],
+          features: ["Lecciones en video","Explicaciones gramaticales"],
+          missing: ["Gamificación","Funciones IA","Práctica de YouTube","Lectura de noticias","Exportación Anki"],
         },
         satoriReader: {
           name: 'Satori Reader',
           price: '£8.49/mes',
-          features: ['Práctica de lectura', 'Soporte furigana'],
-          missing: [
-            'Lecciones en video',
-            'Gamificación',
-            'Práctica de YouTube',
-            'Historias IA',
-            'Exportación Anki',
-          ],
+          features: ["Práctica de lectura","Soporte furigana"],
+          missing: ["Lecciones en video","Gamificación","Práctica de YouTube","Historias IA","Exportación Anki"],
         },
         lingoDeer: {
           name: 'LingoDeer',
           price: '£95.99/año',
-          features: ['Lecciones estructuradas', 'Enfoque en gramática'],
-          missing: [
-            'Práctica de YouTube',
-            'Historias IA',
-            'Lectura de noticias',
-            'Herramientas avanzadas de kanji',
-          ],
+          features: ["Lecciones estructuradas","Enfoque en gramática"],
+          missing: ["Práctica de YouTube","Historias IA","Lectura de noticias","Herramientas avanzadas de kanji"],
         },
       },
       missingLabel: 'Falta:',
@@ -2370,18 +3188,8 @@ export const strings = {
           subtitle: 'Comienza tu viaje',
           price: '£0',
           period: '/para siempre',
-          features: [
-            'Práctica de Hiragana y Katakana',
-            'Navegador de Kanji',
-            'Dominio de Kanji',
-            'Ejercicios',
-            'Vocabulario',
-            'Moodboards',
-            'MoshiPlayer (Shadowing)',
-            'Prueba historias IA y noticias',
-            'Seguimiento de progreso',
-          ],
-          limitations: ['Funciones avanzadas bloqueadas'],
+          features: ["Práctica de Hiragana y Katakana","Navegador de Kanji","Dominio de Kanji","Ejercicios","Vocabulario","Moodboards","MoshiPlayer (Shadowing)","Prueba historias IA y noticias","Seguimiento de progreso"],
+          limitations: ["Funciones avanzadas bloqueadas"],
           cta: 'Comienza Gratis',
         },
         premium: {
@@ -2392,17 +3200,7 @@ export const strings = {
           yearlyTotal: '£99.99/año',
           period: '/mes',
           badge: 'MEJOR VALOR',
-          features: [
-            'Todo en Gratis, más:',
-            'Acceso completo a MoshiPlayer',
-            'Kanji Connection (exclusivo)',
-            'Moshi Comics (exclusivo)',
-            'Vocabulario de libros de texto (exclusivo)',
-            'Importación de mazos Anki',
-            'Listas ilimitadas',
-            'Biblioteca - Libros condensados',
-            'Soporte prioritario',
-          ],
+          features: ["Todo en Gratis, más:","Acceso completo a MoshiPlayer","Kanji Connection (exclusivo)","Moshi Comics (exclusivo)","Vocabulario de libros de texto (exclusivo)","Importación de mazos Anki","Listas ilimitadas","Biblioteca - Libros condensados","Soporte prioritario"],
           cta: 'Comenzar',
           disclaimer: 'Cancela en cualquier momento',
         },
@@ -2412,49 +3210,37 @@ export const strings = {
         categories: {
           learningTools: {
             title: 'Herramientas de Aprendizaje',
-            items: [
-              'Acceso completo a MoshiPlayer',
-              'Kanji Connection',
-              'Historias IA y Noticias',
-              'Moshi Comics',
-              'Biblioteca - Libros condensados',
-              'Vocabulario de libros de texto',
-            ],
+            items: ["Acceso completo a MoshiPlayer","Kanji Connection","Historias IA y Noticias","Moshi Comics","Biblioteca - Libros condensados","Vocabulario de libros de texto"],
           },
           studyFeatures: {
             title: 'Funciones de Estudio',
-            items: [
-              'Práctica de Hiragana y Katakana',
-              'Navegador y Dominio de Kanji',
-              'Ejercicios y Vocabulario',
-              'Moodboards',
-              'Algoritmo SRS Inteligente',
-              'Seguimiento de progreso',
-            ],
+            items: ["Práctica de Hiragana y Katakana","Navegador y Dominio de Kanji","Ejercicios y Vocabulario","Moodboards","Algoritmo SRS Inteligente","Seguimiento de progreso"],
           },
           advancedTools: {
             title: 'Herramientas Avanzadas',
-            items: [
-              'Importación de mazos Anki',
-              'Listas ilimitadas',
-              'Modo Sin Conexión',
-              'Pronunciación de Audio Nativa',
-              'Sistema de Gamificación y XP',
-              'Soporte prioritario',
-            ],
+            items: ["Importación de mazos Anki","Listas ilimitadas","Modo Sin Conexión","Pronunciación de Audio Nativa","Sistema de Gamificación y XP","Soporte prioritario"],
           },
         },
       },
       bottomCta: {
         title: 'Únete a miles aprendiendo japonés de manera inteligente',
-        subtitle:
-          'Una aplicación, todas las funciones, una fracción del costo. ¡Comienza tu viaje hoy!',
+        subtitle: 'Una aplicación, todas las funciones, una fracción del costo. ¡Comienza tu viaje hoy!',
         button: 'Comenzar',
       },
     },
+    videoLimitReached: '¡Has alcanzado tu límite diario de videos! Mejora para ver más videos.',
+    videoLimitBanner: '¿Listo para ver videos ilimitados? ¡Mejora a Premium para 20 videos por día!',
+    billing: {
+      monthly: 'Mensual',
+      yearly: 'Anual',
+      savePercent: 'Ahorra {{percent}}%',
+    },
+    trustBadges: {
+      secure: 'Pago Seguro',
+      guarantee: 'Devolución de Dinero en 30 Días',
+      support: 'Soporte 24/7',
+    },
   },
-
-  // Review System
   review: {
     skip: 'Saltar',
     showAnswer: 'Mostrar respuesta',
@@ -2465,16 +3251,12 @@ export const strings = {
       writing: 'Escribir',
       speaking: 'Hablar',
     },
-
-    // Kanji-specific
     kanji: {
       writeKanjiFor: 'Escribe el kanji para:',
       strokeCount: '{{count}} trazos',
       grade: 'Grado {{grade}}',
       frequency: 'Frecuencia #{{rank}}',
     },
-
-    // Confidence
     confidence: 'Confianza',
     confidenceHelp: '¿Qué es la confianza?',
     confidenceLevel: 'Nivel de confianza',
@@ -2483,15 +3265,187 @@ export const strings = {
     confidenceHigh: 'Seguro',
     confidenceTooltip: {
       title: '¿Qué tan seguro estás?',
-      description:
-        'Ajusta el control deslizante para indicar qué tan seguro estás de tu respuesta:',
+      description: 'Ajusta el control deslizante para indicar qué tan seguro estás de tu respuesta:',
       high: 'Alto (70-100%): Conoces bien la respuesta',
       medium: 'Medio (30-70%): Estás algo seguro',
       low: 'Bajo (0-30%): Estás adivinando',
       tip: 'Esto ayuda al sistema a programar mejor tus repasos según tu conocimiento real.',
     },
+    dashboard: {
+      title: 'Panel de Revisión',
+      subtitle: 'Sigue tu progreso y gestiona tus sesiones de revisión',
+      loading: 'Cargando panel de revisión...',
+      stats: {
+        dueNow: 'Para Ahora',
+        dueNowDescription: 'Elementos listos para revisión',
+        newItems: 'Nuevos Elementos',
+        newItemsDescription: 'Elementos aún no iniciados',
+        learningItems: 'Aprendiendo',
+        learningItemsDescription: 'Elementos en progreso',
+        masteredItems: 'Dominado',
+        masteredItemsDescription: 'Elementos que has dominado',
+        todaysGoal: 'Meta de Hoy',
+        todaysGoalDescription: 'Objetivo diario de revisión',
+        currentStreak: 'Racha Actual',
+        currentStreakDescription: 'Días seguidos',
+      },
+      quickActions: {
+        title: 'Acciones Rápidas',
+        startDaily: 'Iniciar Revisión Diaria',
+        startDailyDescription: '{{count}} elementos listos',
+        quickSession: 'Sesión Rápida de 5 Min',
+        quickSessionDescription: 'Sesión de revisión rápida',
+        customReview: 'Revisión Personalizada',
+        customReviewDescription: 'Elige tu contenido',
+        browseSets: 'Explorar Conjuntos de Revisión',
+        browseSetsDescription: 'Gestionar colecciones',
+        addItems: 'Agregar Nuevos Elementos',
+        addItemsDescription: 'Fijar más contenido',
+        settings: 'Configuración de Revisión',
+        settingsDescription: 'Configurar preferencias',
+      },
+      queue: {
+        title: 'Cola de Revisión',
+        empty: 'No hay elementos en la cola',
+        emptyDescription: 'Fija algunos elementos para comenzar a repasar',
+        viewMode: {
+          compact: 'Compacto',
+          detailed: 'Detallado',
+          cards: 'Tarjetas',
+        },
+        sortBy: {
+          dueDate: 'Fecha de vencimiento',
+          difficulty: 'Dificultad',
+          type: 'Tipo',
+        },
+        filters: {
+          all: 'Todos',
+          hiragana: 'Hiragana',
+          katakana: 'Katakana',
+          kanji: 'Kanji',
+          vocabulary: 'Vocabulario',
+        },
+        itemCount: '{{count}} elementos',
+        startReview: 'Comenzar repaso',
+        selectItems: 'Seleccionar elementos',
+        bulkActions: 'Acciones masivas',
+      },
+      activity: {
+        title: 'Actividad reciente',
+        today: 'Hoy',
+        yesterday: 'Ayer',
+        thisWeek: 'Esta semana',
+        types: {
+          review: 'Revisados {{count}} elementos',
+          pin: 'Fijados {{count}} elementos',
+          achievement: 'Logro obtenido',
+          streak: 'Racha mantenida',
+          levelUp: 'Alcanzado nivel {{level}}',
+        },
+        loadMore: 'Cargar más',
+      },
+      progress: {
+        heatmap: {
+          title: 'Mapa de calor de actividad',
+          tooltip: '{{count}} revisiones el {{date}}',
+          legend: {
+            less: 'Menos',
+            more: 'Más',
+          },
+        },
+        learningCurve: {
+          title: 'Progreso de aprendizaje',
+          new: 'Nuevo',
+          learning: 'Aprendiendo',
+          mastered: 'Dominado',
+        },
+        dailyGoal: {
+          title: 'Progreso del objetivo diario',
+          completed: '¡Objetivo completado!',
+          remaining: '{{count}} elementos restantes',
+        },
+      },
+      gamification: {
+        streak: {
+          current: '{{count}} días de racha',
+          best: 'Mejor: {{count}} días',
+          frozenWarning: '¡Revisa hoy para mantener la racha!',
+          lost: 'Racha perdida. ¡Comienza una nueva!',
+        },
+        level: {
+          current: 'Nivel {{level}}',
+          xp: '{{current}} / {{required}} XP',
+          nextLevel: 'Siguiente: {{title}}',
+          titles: {
+            beginner: 'Principiante (初心者)',
+            student: 'Estudiante (学生)',
+            practitioner: 'Practicante (実践者)',
+            expert: 'Experto (専門家)',
+            master: 'Maestro (達人)',
+            sensei: 'Sensei (先生)',
+          },
+        },
+        achievements: {
+          title: 'Logros',
+          earned: '{{count}} / {{total}} obtenidos',
+          recent: 'Recientemente Obtenidos',
+          locked: 'Bloqueado',
+          progress: '{{percent}}% completado',
+          types: {
+            firstReview: 'Primera Revisión',
+            weekStreak: 'Guerrero Semanal',
+            monthStreak: 'Maestro Mensual',
+            centuryClub: 'Club del Siglo',
+            speedDemon: 'Demonio de la Velocidad',
+            perfectionist: 'Perfeccionista',
+            nightOwl: 'Ave Nocturna',
+            earlyBird: 'Madrugador',
+            completionist: 'Completista',
+          },
+        },
+        leaderboard: {
+          title: 'Tabla de Clasificación',
+          daily: 'Hoy',
+          weekly: 'Esta Semana',
+          monthly: 'Este Mes',
+          allTime: 'Todo el Tiempo',
+          rankLabel: 'Rango',
+          player: 'Jugador',
+          achievements: 'Logros',
+          points: 'Puntos',
+          streak: 'Racha',
+          yourPosition: 'Tu Posición',
+          rank: 'Rango #{{rank}}',
+          you: 'Tú',
+          global: 'Global',
+          friends: 'Amigos',
+          local: 'Local',
+          metrics: {
+            streak: 'Racha',
+            mastered: 'Dominado',
+            xp: 'XP',
+            accuracy: 'Precisión',
+          },
+          periods: {
+            today: 'Hoy',
+            week: 'Esta Semana',
+            month: 'Este Mes',
+            allTime: 'Todo el Tiempo',
+          },
+        },
+      },
+      mobile: {
+        tabLabels: {
+          dashboard: 'Panel de Control',
+          queue: 'Cola',
+          stats: 'Estadísticas',
+          achievements: 'Logros',
+        },
+        pullToRefresh: 'Desliza para actualizar',
+        swipeHint: 'Desliza para navegar',
+      },
+    },
   },
-
   learn: {
     hiragana: 'Hiragana',
     katakana: 'Katakana',
@@ -2508,8 +3462,6 @@ export const strings = {
     selectionCleared: 'Selección borrada',
     studySessionComplete: '¡Sesión de estudio completada!',
   },
-
-  // Review Prompts
   reviewPrompts: {
     vocabulary: {
       writeJapaneseFor: 'Escribe el japonés para:',
@@ -2537,35 +3489,25 @@ export const strings = {
       searchDaysAgo: 'hace {{days}} días',
       loadingMessage: 'Cargando búsqueda de vocabulario...',
       searching: 'Buscando...',
-
-      // Tabs
       tabs: {
         details: 'Detalles',
         conjugations: 'Conjugaciones',
       },
-
-      // Toast messages
       wanikaniUnavailable: 'WaniKani no está disponible. Usando el diccionario JMdict en su lugar.',
       wanikaniSearchFailed: 'La búsqueda de WaniKani falló. Cambiando al diccionario JMdict.',
-      wanikaniMockData:
-        'La API de WaniKani no está configurada correctamente. Por favor cambie a JMdict o configure un token de API de WaniKani válido.',
-      wanikaniInvalidKey:
-        'La clave de API de WaniKani no es válida. Por favor verifique su configuración de API o use JMdict en su lugar.',
-      wanikaniServiceDown:
-        'El servicio de WaniKani no está disponible temporalmente. Inténtelo de nuevo más tarde o use JMdict.',
+      wanikaniMockData: 'La API de WaniKani no está configurada correctamente. Por favor cambie a JMdict o configure un token de API de WaniKani válido.',
+      wanikaniInvalidKey: 'La clave de API de WaniKani no es válida. Por favor verifique su configuración de API o use JMdict en su lugar.',
+      wanikaniServiceDown: 'El servicio de WaniKani no está disponible temporalmente. Inténtelo de nuevo más tarde o use JMdict.',
       noResultsFound: 'No se encontraron resultados. Intenta con otro término de búsqueda.',
       searchFailed: 'La búsqueda falló. Por favor, inténtalo de nuevo.',
       searchHistoryCleared: 'Historial de búsqueda borrado',
-      loadingCache:
-        'Cargando la base de datos de vocabulario de WaniKani por primera vez... Esto puede tardar un momento.',
+      loadingCache: 'Cargando la base de datos de vocabulario de WaniKani por primera vez... Esto puede tardar un momento.',
       wordMeaning: 'Significado',
       wordRomaji: 'Romaji',
       wordTags: 'Etiquetas',
       wordExampleSentences: 'Oraciones de ejemplo',
       wordExampleSentencesComingSoon: '¡Las oraciones de ejemplo llegarán pronto!',
       noExamplesFound: 'No se encontraron ejemplos para esta palabra',
-
-      // Practice page
       practiceTitle: 'Práctica de conjugación',
       practiceDescription: 'Domina las conjugaciones de verbos y adjetivos japoneses',
       filters: {
@@ -2594,10 +3536,16 @@ export const strings = {
         complete: 'Completar revisión',
         noWords: 'No se han seleccionado palabras para revisar',
       },
+      noResults: 'No se encontraron resultados',
+      searchHint: 'Prueba con diferentes palabras clave',
+      addToList: 'Agregar a la lista',
+      saveWord: 'Guardar palabra',
+      studyWord: 'Estudiar palabra',
+      pronunciation: 'Pronunciación',
+      examples: 'Ejemplos',
+      conjugations: 'Conjugaciones',
     },
   },
-
-  // Funcionalidad de listas personalizadas
   favourites: {
     title: 'Mis Favoritos',
     description: 'Tu vocabulario, kanji y oraciones guardados',
@@ -2629,7 +3577,6 @@ export const strings = {
     reviewedTimes: 'Revisado {count} veces',
     manageLists: 'Administrar mis listas',
   },
-
   lists: {
     title: 'Mis listas',
     pageDescription: 'Crea y gestiona tus listas de estudio personalizadas',
@@ -2655,7 +3602,6 @@ export const strings = {
         short: 'Verbo/Adj',
         description: 'Practicar formas verbales y adjetivales',
       },
-
       flashcard: {
         name: 'Lista de tarjetas',
         short: 'Tarjetas',
@@ -2667,6 +3613,21 @@ export const strings = {
         short: 'Práctica',
         description: 'Practicar conjugaciones para verbos y adjetivos',
         accepts: 'Acepta: Solo verbos y adjetivos',
+      },
+      wordList: {
+        name: 'Lista de Palabras',
+        short: 'Palabra',
+        description: 'Palabras de vocabulario y kanji',
+      },
+      sentenceList: {
+        name: 'Lista de Oraciones',
+        short: 'Oración',
+        description: 'Oraciones completas para el aprendizaje contextual',
+      },
+      verbAdjList: {
+        name: 'Verbos y Adjetivos',
+        short: 'Conjugación',
+        description: 'Practicar formas de verbos y adjetivos',
       },
     },
     fields: {
@@ -2697,13 +3658,14 @@ export const strings = {
       addItems: 'Agregar elementos',
       review: 'Revisar',
       manage: 'Gestionar lista',
+      exportJson: 'Exportar como JSON',
+      exportCsv: 'Exportar como CSV',
     },
     edit: 'Editar lista',
     update: 'Actualizar lista',
     deleteDialog: {
       title: 'Eliminar lista',
-      message:
-        '¿Estás seguro de que quieres eliminar "{{name}}"? Esta acción no se puede deshacer.',
+      message: '¿Estás seguro de que quieres eliminar "{{name}}"? Esta acción no se puede deshacer.',
       confirm: 'Eliminar',
       cancel: 'Cancelar',
     },
@@ -2737,6 +3699,8 @@ export const strings = {
       noListSelected: 'Por favor selecciona al menos una lista',
       incompatibleType: 'Este tipo de lista no puede aceptar este elemento',
       duplicateItem: 'Este elemento ya existe en la lista',
+      addFailed: 'Error al agregar a la lista',
+      signInRequired: 'Por favor, inicia sesión para usar listas',
     },
     validation: {
       contentRequired: 'El contenido es obligatorio',
@@ -2763,19 +3727,46 @@ export const strings = {
       versionChangeMessage: 'La base de datos se actualizó en otra pestaña. Por favor, actualiza para continuar.',
       refreshButton: 'Actualizar Página',
     },
+    createNew: 'Crear Nueva Lista',
+    createDescription: 'Organiza tus materiales de aprendizaje',
+    listName: 'Nombre de la Lista',
+    listType: 'Tipo de Lista',
+    emoji: 'Emoji',
+    color: 'Color',
+    changeEmoji: 'Cambiar emoji',
+    preview: 'Vista previa',
+    items: 'elementos',
+    namePlaceholder: 'Mi Lista de Estudio',
+    creating: 'Creando...',
+    create: 'Crear Lista',
+    created: 'Lista creada con éxito',
+    addToList: 'Agregar a la Lista',
+    selectList: 'Seleccionar una lista',
+    addedToList: 'Añadido a la lista',
+    noLists: 'Aún no hay listas',
+    confirmDelete: 'Eliminar Elemento',
+    confirmDeleteMessage: '¿Estás seguro de que deseas eliminar este elemento de la lista?',
+    confirmDeleteMultiple: '¿Estás seguro de que deseas eliminar {{count}} elementos de la lista?',
+    importModal: {
+      title: 'Importar Lista',
+      format: 'Formato',
+      data: 'Datos',
+      formatText: 'Texto Plano (uno por línea)',
+      formatCsv: 'CSV',
+      formatJson: 'JSON',
+      dataPlaceholder: 'Pega tus datos aquí',
+      dataPlaceholderText: 'Un elemento por línea',
+      import: 'Importar',
+    },
   },
-
-  // YouTube Shadowing
   youtubeShadowing: {
     title: 'Shadowing de YouTube',
     description: 'Practica japonés con videos de YouTube y archivos de audio',
-
     header: {
       eyebrow: 'Reproductor de Shadowing',
       title: 'MoshiPlayer',
       subtitle: 'Repite transcripciones, mantén el flujo.',
     },
-
     form: {
       cardTitle: 'Cargar un vídeo',
       cardSubtitle: 'Pega una URL de YouTube para comenzar el shadowing',
@@ -2787,13 +3778,11 @@ export const strings = {
       loadingButton: 'Cargando...',
       changeVideo: 'Cambiar vídeo',
     },
-
     hints: {
       transcriptWillAppear: 'La transcripción aparecerá aquí una vez cargada.',
       pasteToStart: 'Pega un enlace de YouTube para comenzar el shadowing.',
       firstLoadInfo: 'La primera carga usa YouTube timedtext; el servicio de transcripción se usa como respaldo.',
     },
-
     settings: {
       title: 'Configuración',
       videoLoop: 'Repetir video',
@@ -2808,32 +3797,25 @@ export const strings = {
       clearSession: 'Borrar sesión',
       clearButton: 'Borrar',
     },
-
     lockScreen: {
       title: 'Pantalla bloqueada',
       tapToUnlock: 'Toca a Moshi 3 veces para desbloquear',
       lockButton: 'Bloquear pantalla',
     },
-
     currentSegment: {
       nowPlaying: 'Reproduciendo',
     },
-
     status: {
       transcriptLoaded: 'Transcripción cargada desde {{source}} ({{language}}).',
     },
-
     hero: {
       title: 'Domina el japonés con cualquier medio',
-      subtitle:
-        'Convierte videos de YouTube o tus propios archivos multimedia en sesiones de práctica de shadowing interactivas con transcripciones impulsadas por IA',
+      subtitle: 'Convierte videos de YouTube o tus propios archivos multimedia en sesiones de práctica de shadowing interactivas con transcripciones impulsadas por IA',
     },
-
     modes: {
       input: 'Agregar Medio',
       player: 'Practicar',
     },
-
     input: {
       youtube: 'URL de YouTube',
       upload: 'Subir Archivo',
@@ -2846,7 +3828,6 @@ export const strings = {
       maxSize: 'Tamaño máximo de archivo:',
       acceptedFormats: 'Formatos aceptados: MP4, MP3, WAV, M4A',
     },
-
     errors: {
       invalidUrl: 'Por favor ingresa una URL de YouTube válida',
       emptyUrl: 'Por favor ingresa una URL de YouTube',
@@ -2857,7 +3838,6 @@ export const strings = {
       invalidVideoId: 'Ingresa una URL de YouTube válida o un ID de video de 11 caracteres.',
       transcriptUnavailable: 'Transcripción no disponible para este video.',
     },
-
     features: {
       transcripts: {
         title: 'Transcripciones Instantáneas',
@@ -2872,7 +3852,6 @@ export const strings = {
         description: 'Asistencia de lectura para todos los niveles',
       },
     },
-
     player: {
       title: 'Reproductor',
       loading: 'Cargando reproductor...',
@@ -2886,7 +3865,6 @@ export const strings = {
       tapWordsForExplanation: 'Toca las palabras para una explicación',
       segmentProgress: 'Segmento {{current}}/{{total}}',
       repeatProgress: 'Repetición {{current}}/{{total}}',
-
       controls: {
         play: 'Reproducir',
         pause: 'Pausa',
@@ -2899,7 +3877,6 @@ export const strings = {
         furigana: 'Mostrar Furigana',
         grammar: 'Mostrar Gramática',
       },
-
       settings: {
         playbackSpeed: 'Velocidad de Reproducción',
         repeatCount: 'Número de Repeticiones',
@@ -2907,20 +3884,23 @@ export const strings = {
         continuous: 'Reproducción Continua',
         autoScroll: 'Desplazamiento Automático',
       },
-
       transcript: {
         title: 'Transcripción',
         edit: 'Editar',
         regenerate: 'Regenerar',
         save: 'Guardar Cambios',
         cancel: 'Cancelar Edición',
+        noTranscript: 'No hay transcripción disponible',
       },
+      repeatLine: 'Repetir Línea',
+      playTTS: 'Reproducir TTS',
+      toggleTranscript: 'Alternar Transcripción',
+      autoScroll: 'Desplazamiento Automático',
+      currentLine: 'Línea Actual',
     },
-
     freeAccess: 'Acceso Gratuito',
     loadingTitle: 'Cargando título del video...',
     by: 'por',
-
     usage: {
       today: 'Uso de hoy',
       unlimited: 'Ilimitado',
@@ -2929,25 +3909,20 @@ export const strings = {
       newVideos: 'Nuevos videos hoy',
       uploads: 'subidas',
     },
+    watchOnYouTube: 'Ver en YouTube',
+    audioFile: 'Archivo de Audio',
   },
-
-  // Library Page
   library: {
     title: 'Biblioteca',
     pageDescription: 'Lee resúmenes condensados de libros populares en japonés',
   },
-
   flashcards: {
     title: 'Tarjetas de Memoria',
     pageTitle: 'Mazos de Tarjetas',
     pageDescription: 'Crea y estudia mazos de tarjetas personalizados',
-
-    // Empty state
     noDecksYet: 'Aún no hay mazos',
     noDecksDescription: 'Comienza tu viaje de aprendizaje creando tu primer mazo de tarjetas',
     createFirstDeck: 'Crear Tu Primer Mazo',
-
-    // Deck management
     createDeck: 'Crear Nuevo Mazo',
     editDeck: 'Editar Mazo',
     deleteDeck: 'Eliminar Mazo',
@@ -2957,8 +3932,6 @@ export const strings = {
     totalCards: '{{count}} tarjetas',
     lastStudied: 'Último estudio: {{date}}',
     neverStudied: 'Nunca estudiado',
-
-    // Card management
     addCard: 'Añadir Tarjeta',
     editCard: 'Editar Tarjeta',
     deleteCard: 'Eliminar Tarjeta',
@@ -2967,8 +3940,6 @@ export const strings = {
     cardNotes: 'Notas (opcional)',
     cardTags: 'Etiquetas',
     cardDifficulty: 'Dificultad',
-
-    // Study modes
     studyMode: 'Modo de Estudio',
     selectStudyMode: 'Seleccionar modo de estudio',
     classic: 'Clásico',
@@ -2976,8 +3947,6 @@ export const strings = {
     speed: 'Velocidad',
     write: 'Escritura',
     voice: 'Voz',
-
-    // Study mode details
     modes: {
       due: {
         name: 'Tarjetas pendientes',
@@ -3008,8 +3977,6 @@ export const strings = {
         description: 'Crea tu propia sesión de estudio con configuración personalizada',
       },
     },
-
-    // Study session
     startStudying: 'Comenzar Estudio',
     resumeStudying: 'Reanudar Estudio',
     flipCard: 'Voltear Tarjeta',
@@ -3024,8 +3991,6 @@ export const strings = {
       good: 'Bien',
       easy: 'Fácil',
     },
-
-    // Progress
     progress: 'Progreso',
     cardsStudied: 'Tarjetas estudiadas',
     accuracy: 'Precisión',
@@ -3036,8 +4001,6 @@ export const strings = {
     newCards: 'Tarjetas nuevas',
     learningCards: 'Aprendiendo',
     reviewCards: 'Revisar',
-
-    // Additional study session keys
     noCardsAvailable: 'No hay tarjetas disponibles para este modo',
     customSettings: 'Configuración personalizada',
     cardLimit: 'Límite de tarjetas',
@@ -3048,12 +4011,8 @@ export const strings = {
     priority: 'Prioridad',
     random: 'Aleatorio',
     oldest: 'Más antiguas primero',
-
-    // Performance insights
     strongTopics: 'Temas Fuertes',
     needsWork: 'Necesita Práctica',
-
-    // Customization
     customize: {
       title: 'Personalizar Tarjetas',
       cardStyle: 'Estilo de Tarjeta',
@@ -3073,8 +4032,6 @@ export const strings = {
       mixed: 'Mixto',
       sessionLength: 'Tarjetas por sesión',
     },
-
-    // Import/Export
     import: {
       title: 'Importar Mazo',
       selectFile: 'Seleccionar Archivo',
@@ -3093,7 +4050,6 @@ export const strings = {
       csvTitle: 'CSV',
       csvDescription: 'Importar archivo CSV',
     },
-
     export: {
       title: 'Exportar Mazo',
       format: 'Formato de Exportación',
@@ -3104,8 +4060,6 @@ export const strings = {
       exporting: 'Exportando...',
       success: 'Mazo exportado con éxito',
     },
-
-    // Image upload
     image: {
       uploadFile: 'Subir imagen',
       maxSize: 'Máx {{size}}MB',
@@ -3118,14 +4072,11 @@ export const strings = {
       invalidUrl: 'URL de imagen inválida',
       loadFailed: 'No se pudo cargar la imagen desde la URL',
     },
-
-    // Storage
     storage: {
       using: 'Almacenamiento usado',
       permission: {
         title: 'Keep Flashcards Offline',
-        description:
-          'Allow Moshimoshi to store flashcards permanently so your decks stay available offline.',
+        description: 'Allow Moshimoshi to store flashcards permanently so your decks stay available offline.',
         allow: 'Enable Offline Storage',
         granted: 'Already Enabled',
         later: 'Later',
@@ -3133,7 +4084,7 @@ export const strings = {
       currentUsage: 'Current storage usage',
       benefits: {
         offline: 'Study decks offline without re-downloading',
-        persistent: "Browser won't delete your decks",
+        persistent: 'Browser won\'t delete your decks',
         safer: 'Protects large imports from eviction',
       },
       status: {
@@ -3141,11 +4092,7 @@ export const strings = {
         notGranted: 'Storage may be cleared by browser',
       },
     },
-
-    // Streak
     dayStreak: 'días seguidos',
-
-    // Migration
     migration: {
       title: 'Sincronizar con la nube',
       description: 'Tus tarjetas locales pueden sincronizarse con la nube para respaldo y acceso desde otros dispositivos.',
@@ -3153,8 +4100,6 @@ export const strings = {
       inProgress: 'Sincronizando...',
       syncingDeck: 'Sincronizando {{deck}}...',
     },
-
-    // Restore
     restore: {
       title: 'Restaurar Mazos',
       description: 'Restaura tus mazos Anki desde la copia de seguridad en la nube',
@@ -3172,8 +4117,6 @@ export const strings = {
       success: 'Mazo restaurado exitosamente. Ahora puedes estudiar sin conexión.',
       error: 'Falló la restauración. Por favor, inténtalo de nuevo.',
     },
-
-    // Empty states
     empty: {
       noDecks: 'Sin mazos de tarjetas',
       createFirst: 'Crea tu primer mazo para empezar',
@@ -3182,9 +4125,10 @@ export const strings = {
       noDue: 'Sin tarjetas para revisar',
       allCaughtUp: '¡Todo listo! Vuelve más tarde.',
       studyNew: 'Estudiar tarjetas nuevas',
+      noDecksYet: 'Aún no hay mazos',
+      noDecksDescription: 'Comienza creando tu primer mazo de tarjetas para iniciar tu viaje de aprendizaje',
+      createFirstDeck: 'Crea Tu Primer Mazo',
     },
-
-    // Errors and limits
     errors: {
       loadFailed: 'Error al cargar',
       saveFailed: 'Error al guardar',
@@ -3194,15 +4138,12 @@ export const strings = {
       offlineOnly: 'Modo sin conexión',
       syncFailed: 'Error de sincronización',
     },
-
     limits: {
       guest: 'Inicia sesión para crear mazos',
       freeLimit: 'Gratis: {{current}}/{{max}} mazos',
       dailyLimit: 'Límite diario: {{current}}/{{max}}',
       unlimited: 'Mazos ilimitados',
     },
-
-    // Daily Goals
     dailyGoals: {
       title: 'Objetivos Diarios',
       progress: '{{percentage}}% completado',
@@ -3219,8 +4160,6 @@ export const strings = {
       decksPerDay: 'Mazos por día',
       accuracyTarget: 'Objetivo de precisión',
     },
-
-    // Achievements
     achievements: {
       title: 'Logros',
       unlocked: 'Desbloqueado',
@@ -3234,35 +4173,23 @@ export const strings = {
       special: 'Especial',
       viewAll: 'Ver Todos',
     },
-
-    // Learning Insights
     learningInsights: 'Perspectivas de Aprendizaje',
     currentStreak: 'Racha Actual',
     retentionRate: 'Tasa de Retención',
     cardsPerDay: 'Tarjetas por Día',
     bestStudyTime: 'Mejor Hora de Estudio',
-
-    // Optimal Settings
     optimalSettings: 'Configuración Óptima',
     sessionLength: 'Duración de Sesión',
     studyTime: 'Tiempo de Estudio',
-
-    // Recommended Study
     recommendedStudy: 'Estudio Recomendado',
-
-    // Urgency levels
     urgency: {
       low: 'Prioridad Baja',
       medium: 'Prioridad Media',
       high: 'Prioridad Alta',
       critical: 'Crítico',
     },
-
-    // Additional missing translations
     minutes: 'minutos',
     cards: 'tarjetas',
-
-    // Tooltips
     tooltips: {
       srs: 'Usa repetición espaciada',
       mastery: 'Estudia 21+ días con 90% precisión',
@@ -3270,21 +4197,14 @@ export const strings = {
       difficulty: 'Evalúa tu conocimiento',
       leech: 'Esta tarjeta necesita más práctica',
     },
-
-    // Confirmations
     confirmDelete: {
       title: 'Eliminar Mazo',
-      message:
-        '¿Estás seguro de que quieres eliminar "{{name}}"? Esta acción no se puede deshacer.',
+      message: '¿Estás seguro de que quieres eliminar "{{name}}"? Esta acción no se puede deshacer.',
       deck: '¿Eliminar mazo "{{name}}"? Irreversible.',
       card: '¿Eliminar esta tarjeta? Irreversible.',
       progress: '¿Reiniciar progreso?',
     },
-
-    // Status messages
     syncing: 'Sincronizando mazo...',
-
-    // Success messages
     success: {
       deckCreated: 'Mazo creado',
       deckUpdated: 'Mazo actualizado',
@@ -3299,8 +4219,6 @@ export const strings = {
       allExported: 'Todos los mazos exportados',
       syncComplete: 'Sincronización completada',
     },
-
-    // Session Settings
     settings: {
       sessionLength: 'Tarjetas por sesión',
       sessionLengthHint: 'Elige cuántas tarjetas estudiar en esta sesión',
@@ -3323,17 +4241,11 @@ export const strings = {
       mixedDesc: 'Dirección aleatoria para cada tarjeta',
       usingAllCards: 'Usando todas las tarjetas disponibles',
     },
-
-    // Actions
     actions: {
       syncAll: 'Sincronizar todo',
       exportAll: 'Exportar todo',
     },
-
-    // Study Session
     startSession: 'Iniciar sesión',
-
-    // Statistics
     showStats: 'Mostrar estadísticas',
     hideStats: 'Ocultar estadísticas',
     insights: 'Perspectivas',
@@ -3364,9 +4276,14 @@ export const strings = {
         month: 'Este mes',
         all: 'Todo el tiempo',
       },
+      title: 'Estadísticas',
+      todayStudied: 'Estudiado hoy',
+      totalStudied: 'Total estudiado',
+      studyStreak: 'Racha de estudio',
+      timeSpent: 'Tiempo invertido',
+      heatmap: 'Mapa de calor de estudio',
+      retention: 'Tasa de retención',
     },
-
-    // Comeback Message
     comeback: {
       welcomeBack: 'Bienvenido de nuevo',
       missedYou: 'Te hemos echado de menos',
@@ -3384,6 +4301,8 @@ export const strings = {
       achievementDesc: 'Regreso después de más de 7 días de ausencia',
       readyToStart: '¿Listo para volver? Tus tarjetas te esperan.',
     },
+    syncToCloud: 'Sincronizar con la Nube',
+    deleting: 'Eliminando "{{name}}"...',
   },
   conjugation: {
     title: 'Conjugación',
@@ -3428,82 +4347,65 @@ export const strings = {
       colloquialform: 'Forma coloquial',
       formalform: 'Forma formal',
       classicalformnu: 'Forma clásica (nu)',
-      'classicalform(nu)': 'Forma clásica (nu)',
+      classicalform(nu): 'Forma clásica (nu)',
       classicalformzaru: 'Forma clásica (zaru)',
-      'classicalform(zaru)': 'Forma clásica (zaru)',
-      // Grupos específicos de adjetivos
+      classicalform(zaru): 'Forma clásica (zaru)',
       basicforms: 'Formas básicas',
       politeforms: 'Formas corteses',
       conditionalforms: 'Formas condicionales',
       presumptiveforms: 'Formas presuntivas',
     },
     forms: {
-      // Raíces
       masuStem: 'Raíz masu',
       negativeStem: 'Raíz negativa',
       teForm: 'Forma te',
       negativeTeForm: 'Forma te negativa',
       adverbialNegative: 'Negativo adverbial',
-      // Formas básicas
       present: 'Presente/Diccionario',
       past: 'Pasado',
       negative: 'Negativo',
       pastNegative: 'Pasado negativo',
-      // Formas corteses
       polite: 'Cortés',
       politePast: 'Cortés pasado',
       politeNegative: 'Cortés negativo',
       politePastNegative: 'Cortés pasado negativo',
       politeVolitional: 'Cortés volitivo',
-      // Condicionales
       provisional: 'Si/Cuando (ば)',
       provisionalNegative: 'Si no (ば)',
       conditional: 'Si/Cuando (たら)',
       conditionalNegative: 'Si no (たら)',
-      // Volitivas
       volitional: 'Hagamos/Deberíamos',
       volitionalNegative: 'No hagamos',
-      // Imperativas
       imperativePlain: 'Comando',
       imperativePolite: 'Por favor haz',
       imperativeNegative: 'No hagas',
-      // Potenciales
       potential: 'Puede hacer',
       potentialNegative: 'No puede hacer',
       potentialPast: 'Podía hacer',
       potentialPastNegative: 'No podía hacer',
-      // Pasivas
       passive: 'Se hace',
       passiveNegative: 'No se hace',
       passivePast: 'Se hizo',
       passivePastNegative: 'No se hizo',
-      // Causativas
       causative: 'Hacer/Dejar hacer',
       causativeNegative: 'No hacer/dejar hacer',
       causativePast: 'Hizo/Dejó hacer',
       causativePastNegative: 'No hizo/dejó hacer',
-      // Causativo-Pasivas
       causativePassive: 'Ser obligado a hacer',
       causativePassiveNegative: 'No ser obligado a hacer',
-      // Desiderativas
       taiForm: 'Querer',
       taiFormNegative: 'No querer',
       taiFormPast: 'Quería',
       taiFormPastNegative: 'No quería',
-      // Progresivas
       progressive: 'Está haciendo',
       progressiveNegative: 'No está haciendo',
       progressivePast: 'Estaba haciendo',
       progressivePastNegative: 'No estaba haciendo',
-      // Solicitud
       request: 'Por favor haz',
       requestNegative: 'Por favor no hagas',
-      // Coloquiales
       colloquialNegative: 'No (coloquial)',
-      // Formales
       formalNegative: 'No (formal)',
       classicalNegative: 'No (clásico)',
-      // Presuntivas
       presumptive: 'Probablemente',
       presumptiveNegative: 'Probablemente no',
     },
@@ -3519,7 +4421,6 @@ export const strings = {
       lowConfidence: 'Tipo de conjugación detectado con baja confianza',
       specialCase: 'Esta palabra tiene reglas de conjugación especiales',
     },
-    // Página de práctica
     practiceTitle: 'Práctica de Conjugación',
     practiceDescription: 'Domina las conjugaciones de verbos y adjetivos japoneses',
     searchPlaceholder: 'Buscar un verbo o adjetivo...',
@@ -3554,9 +4455,16 @@ export const strings = {
       complete: 'Completar Repaso',
       noWords: 'No hay palabras seleccionadas para repaso',
     },
+    help: {
+      smartModeTitle: 'Ayuda Inteligente',
+      smartModeDesc: 'Esta ayuda fue sugerida en base a tu respuesta.',
+      examples: 'Ejemplos',
+      tip: 'Consejo',
+      previous: 'Anterior',
+      next: 'Siguiente',
+      closeHelp: 'Cerrar Ayuda',
+    },
   },
-
-  // Settings Page
   settings: {
     title: 'Ajustes',
     subtitle: 'Personaliza tu experiencia de aprendizaje',
@@ -3569,12 +4477,10 @@ export const strings = {
     },
     saveButton: 'Guardar Todos los Ajustes',
     resetButton: 'Restablecer todos los ajustes a valores predeterminados',
-    resetConfirm:
-      '¿Estás seguro de que quieres restablecer todos los ajustes a valores predeterminados?',
+    resetConfirm: '¿Estás seguro de que quieres restablecer todos los ajustes a valores predeterminados?',
     saveSuccess: '¡Ajustes guardados con éxito!',
     resetSuccess: 'Ajustes restablecidos a valores predeterminados',
     reviewNotifications: 'Notificaciones de Repaso',
-
     sections: {
       appearance: {
         title: 'Apariencia',
@@ -3602,7 +4508,6 @@ export const strings = {
           },
         },
       },
-
       learning: {
         title: 'Preferencias de Aprendizaje',
         autoplay: {
@@ -3626,7 +4531,6 @@ export const strings = {
           description: 'Retroalimentación de vibración en dispositivos móviles',
         },
       },
-
       notifications: {
         title: 'Notificaciones',
         dailyReminder: {
@@ -3682,8 +4586,7 @@ export const strings = {
         saveError: 'Error al guardar preferencias',
         browserNotSupported: 'Notificaciones del navegador no soportadas',
         browserEnabled: 'Notificaciones del navegador activadas',
-        browserDenied:
-          'Notificaciones del navegador bloqueadas. Por favor, activa en la configuración del navegador.',
+        browserDenied: 'Notificaciones del navegador bloqueadas. Por favor, activa en la configuración del navegador.',
         enableBrowserFirst: 'Por favor, activa primero las notificaciones del navegador',
         blocked: 'Bloqueado',
         testNotification: 'Notificación de Prueba',
@@ -3692,7 +4595,6 @@ export const strings = {
           body: 'Esta es una prueba de tu configuración de notificaciones',
         },
       },
-
       privacy: {
         title: 'Privacidad',
         publicProfile: {
@@ -3707,8 +4609,11 @@ export const strings = {
           label: 'Compartir Logros',
           description: 'Compartir automáticamente logros con amigos',
         },
+        hideFromLeaderboard: {
+          label: 'Ocultar del Ranking',
+          description: 'No aparecer en el ranking público',
+        },
       },
-
       accessibility: {
         title: 'Accesibilidad',
         largeText: {
@@ -3728,7 +4633,6 @@ export const strings = {
           description: 'Optimizar para compatibilidad con lector de pantalla',
         },
       },
-
       appInfo: {
         title: 'Info de la App',
         version: {
@@ -3738,11 +4642,9 @@ export const strings = {
           error: 'Verificación fallida',
           checkButton: 'Buscar Actualizaciones',
           available: 'disponible',
-          criticalMessage:
-            'Hay una actualización importante con correcciones críticas disponible. Por favor, actualiza lo antes posible.',
+          criticalMessage: 'Hay una actualización importante con correcciones críticas disponible. Por favor, actualiza lo antes posible.',
         },
       },
-
       legal: {
         title: 'Legal y Soporte',
         privacyPolicy: {
@@ -3768,21 +4670,16 @@ export const strings = {
       },
     },
   },
-
-  // Credits Page
   credits: {
     title: 'Créditos y Agradecimientos',
-    subtitle:
-      'Moshimoshi está construido sobre los hombros de gigantes. Agradecemos sinceramente a los siguientes proyectos y comunidades.',
+    subtitle: 'Moshimoshi está construido sobre los hombros de gigantes. Agradecemos sinceramente a los siguientes proyectos y comunidades.',
     loading: 'Cargando créditos...',
     backToSettings: '← Volver a Configuración',
-
     sections: {
       dataSources: 'Fuentes de Datos y Contenido',
       libraries: 'Bibliotecas y Tecnologías',
       specialThanks: 'Agradecimientos Especiales',
     },
-
     sources: {
       jmdict: 'Proyecto de diccionario japonés multilingüe',
       wanikani: 'Metodología de aprendizaje de kanji e inspiración mnemotécnica',
@@ -3791,7 +4688,6 @@ export const strings = {
       voicevox: 'Síntesis de voz japonesa de alta calidad con voces de personajes expresivos como Zundamon y Shikoku Metan',
       nhknewseasy: 'Artículos de noticias japonesas simplificados para estudiantes de idiomas, proporcionados por NHK (Japan Broadcasting Corporation)',
     },
-
     libraries: {
       nextjs: 'Framework React para producción',
       react: 'Biblioteca JavaScript para interfaces de usuario',
@@ -3802,7 +4698,6 @@ export const strings = {
       redis: 'Almacén de datos en memoria',
       stripe: 'Procesamiento de pagos y suscripciones',
     },
-
     thanks: {
       community: {
         name: 'La Comunidad de Aprendizaje del Japonés',
@@ -3817,20 +4712,16 @@ export const strings = {
         description: 'Por confiarnos su viaje de aprendizaje',
       },
     },
-
     license: {
       title: 'Licencia y Uso',
-      description:
-        'Moshimoshi respeta las licencias de todos los proyectos de terceros. Utilizamos estos recursos en conformidad con sus licencias respectivas. Para información detallada sobre las licencias, consulte la documentación oficial de cada proyecto.',
+      description: 'Moshimoshi respeta las licencias de todos los proyectos de terceros. Utilizamos estos recursos en conformidad con sus licencias respectivas. Para información detallada sobre las licencias, consulte la documentación oficial de cada proyecto.',
     },
-
     footer: {
       madeWith: 'Hecho con',
       forLearners: 'para estudiantes de japonés en todo el mundo',
       contact: '¿Tienes una sugerencia? ¡Contáctanos!',
     },
   },
-
   kanjiConnection: {
     title: 'Conexiones Kanji',
     subtitle: 'Descubre las relaciones entre los caracteres kanji',
@@ -3865,20 +4756,18 @@ export const strings = {
       subcategories: 'Subcategorías',
     },
   },
-
   vocabulary: {
     tabs: {
       details: 'Detalles',
       conjugations: 'Conjugaciones',
     },
+    title: 'Vocabulario',
+    description: 'Buscar y explorar vocabulario japonés',
   },
-
-  // YouTube Series Public Page
   youtubeSeries: {
     title: 'Series de YouTube',
     subtitle: 'Aprende japonés con contenido seleccionado de YouTube',
-    description:
-      'Practica shadowing y aprende con contenido nativo a través de nuestras series seleccionadas de YouTube',
+    description: 'Practica shadowing y aprende con contenido nativo a través de nuestras series seleccionadas de YouTube',
     search: 'Buscar videos o canales...',
     searchPlaceholder: 'Buscar por título, canal o descripción',
     filters: {
@@ -3925,7 +4814,6 @@ export const strings = {
       tryAgain: 'Por favor, inténtalo de nuevo más tarde',
     },
   },
-
   todos: {
     title: 'Mis Tareas',
     addNew: 'Añadir Nueva Tarea',
@@ -3936,7 +4824,6 @@ export const strings = {
     errorLoading: 'Error al cargar las tareas',
     limitReached: 'Has alcanzado tu límite diario de tareas',
     usage: '{{remaining}} de {{limit}} tareas restantes hoy',
-
     titleLabel: 'Título',
     titlePlaceholder: '¿Qué hay que hacer?',
     descriptionLabel: 'Descripción',
@@ -3948,29 +4835,24 @@ export const strings = {
     tagPlaceholder: 'Añadir una etiqueta...',
     addTag: 'Añadir',
     creating: 'Creando...',
-
     priority: {
       low: 'Baja',
       medium: 'Media',
       high: 'Alta',
       label: 'Prioridad',
     },
-
     filter: {
       all: 'Todas',
       active: 'Activas',
       completed: 'Completadas',
     },
-
     sort: {
       date: 'Ordenar por Fecha',
       priority: 'Ordenar por Prioridad',
     },
-
     demoBanner: {
       title: 'Función de Demostración',
-      description:
-        'Esta lista de tareas demuestra la arquitectura Moshimoshi incluyendo autenticación, derechos e integración con Firebase.',
+      description: 'Esta lista de tareas demuestra la arquitectura Moshimoshi incluyendo autenticación, derechos e integración con Firebase.',
       limits: 'Límites diarios',
       guestLimit: 'Usuarios invitados: Sin acceso',
       freeLimit: 'Usuarios gratuitos: 5 tareas por día',
@@ -3978,7 +4860,6 @@ export const strings = {
       signInPrompt: '¡Inicia sesión para empezar a crear tareas!',
       upgradePrompt: '¡Actualiza a Premium para tareas ilimitadas!',
     },
-
     techDemo: {
       title: 'Demostración Técnica',
       auth: 'Autenticación del lado del servidor con sesiones JWT',
@@ -3989,19 +4870,15 @@ export const strings = {
       darkMode: 'Estilo adaptativo al tema',
       responsive: 'Diseño responsivo móvil',
     },
-
     form: {
       titlePlaceholder: '¿Qué hay que hacer?',
       descriptionPlaceholder: 'Añade más detalles (opcional)',
       addButton: 'Crear Tarea',
     },
-
     item: {
       cancel: 'Cancelar',
     },
   },
-
-  // Anki Import
   anki: {
     importTitle: 'Import Anki Deck',
     importSuccess: 'Import Successful!',
@@ -4032,7 +4909,6 @@ export const strings = {
     mediaFiles: 'media files',
     filesCount: '{{count}} files',
     sizeInMB: '{{size}} MB',
-    // Study session
     study: {
       title: 'Sesión de estudio',
       newCards: 'Tarjetas nuevas',
@@ -4050,7 +4926,6 @@ export const strings = {
       newCardsToday: '{{count}} tarjetas nuevas hoy',
       reviewsToday: '{{count}} repasos hoy',
     },
-    // Deck limit reached
     limitReached: {
       title: 'Límite de mazos alcanzado',
       heading: 'Límite de mazos alcanzado',
@@ -4059,46 +4934,83 @@ export const strings = {
       upgrade: 'Mejorar plan',
       understood: 'Entendido',
     },
+    deckName: 'Nombre del mazo',
+    studySettings: 'Configuración de estudio',
+    newCardsPerDay: 'Nuevas tarjetas por día',
+    reviewsPerDay: 'Revisiones por día',
+    newCardsHint: 'Máximo de nuevas tarjetas diarias',
+    reviewsHint: 'Máximo de revisiones diarias',
+    strictTemplateMode: 'Modo de Plantilla Estricta',
+    strictTemplateModeHint: 'Usar plantillas de Anki tal cual. Activar para mazos de escucha o formatos de tarjetas complejos.',
+    confirmImport: 'Importar Mazo',
+    saving: 'Guardando...',
+    dueToday: 'Para hoy',
+    newCards: 'nuevas tarjetas',
+    dueTodayExplanation: 'Tu mazo tiene {{total}} tarjetas. Estudiarás {{daily}} nuevas tarjetas por día.',
+    settingsSummary: '{{newCards}} nuevas tarjetas/día, {{reviews}} revisiones/día',
+    syncEnabled: 'Sincronización en la nube habilitada',
+    localStorageOnly: 'Almacenado solo localmente',
+    hasMedia: 'Contiene audio/imágenes',
+    confirmDeleteDeck: '¿Estás seguro de que deseas eliminar este mazo?',
+    deleteDeck: 'Eliminar mazo',
+    deckDeleted: 'Mazo eliminado',
+    deleteFailed: 'Error al eliminar el mazo',
+    loginRequired: 'Por favor, inicia sesión para gestionar mazos',
+    mediaCacheCleared: 'Caché de medios borrada',
+    deckSettings: 'Configuración del mazo',
+    editSettings: 'Editar Configuración',
+    editDeckSettings: 'Editar Configuración del Mazo',
+    exportDeck: 'Exportar Mazo',
+    loadingDeck: 'Cargando mazo...',
+    errorLoadingDeck: 'Error al cargar el mazo',
+    deckNotFound: 'Mazo no encontrado. Por favor, verifica la URL e inténtalo de nuevo.',
+    backToDecks: 'Volver a Mazos',
+    totalCards: 'Total',
+    reviewCards: 'Reseñas',
+    startStudy: 'Comenzar estudio',
+    noCardsDue: '¡Todo al día!',
+    comeBackLater: 'Vuelve más tarde para más reseñas.',
+    dailyLimits: 'Límites diarios',
+    newCardsToday: 'Nuevas tarjetas hoy',
+    reviewsToday: 'Reseñas hoy',
+    sessionComplete: '¡Sesión completa!',
+    cardsStudied: 'Tarjetas estudiadas',
+    timeSpent: 'Tiempo dedicado',
+    accuracy: 'Precisión',
+    excellentWork: '¡Trabajo excepcional! ¡Sigue así!',
+    greatJob: '¡Gran trabajo! ¡Estás haciendo un progreso excelente!',
+    keepPracticing: '¡Sigue practicando! Cada sesión te hace más fuerte.',
+    studyMore: 'Estudiar más',
   },
-
   myVideos: {
     title: 'Mis Videos de Práctica',
     subtitle: 'Historial de YouTube',
     backToHome: 'Volver al Inicio',
     loginRequired: 'Inicia sesión para rastrear tu historial',
-    loginDescription:
-      'Inicia sesión para rastrear tu historial de práctica y acceder rápidamente a los videos que has visto.',
-
+    loginDescription: 'Inicia sesión para rastrear tu historial de práctica y acceder rápidamente a los videos que has visto.',
     hero: {
       title: 'Tu Historial de Práctica',
       syncedDescription: 'Sincronizado en todos los dispositivos',
       localDescription: 'Guardado en este dispositivo',
     },
-
     stats: {
       videosPracticed: 'Videos Practicados',
       totalSessions: 'Sesiones Totales',
       practiceTime: 'Tiempo de Práctica',
     },
-
     storage: {
       freeTitle: 'Cuenta Gratuita - Solo Almacenamiento Local',
-      freeDescription:
-        'Tu historial se guarda solo en este dispositivo. Actualiza a Premium para sincronizar en todos tus dispositivos.',
+      freeDescription: 'Tu historial se guarda solo en este dispositivo. Actualiza a Premium para sincronizar en todos tus dispositivos.',
     },
-
     search: {
       placeholder: 'Buscar en el historial...',
       noResults: 'Sin Resultados',
-      noResultsDescription:
-        'Ningún video coincide con "{{query}}". Prueba con otro término de búsqueda.',
+      noResultsDescription: 'Ningún video coincide con "{{query}}". Prueba con otro término de búsqueda.',
     },
-
     sort: {
       mostRecent: 'Más Reciente',
       mostPracticed: 'Más Practicado',
     },
-
     video: {
       practiceAgain: 'Practicar de Nuevo',
       practiceCount: 'Practicado {{count}}x',
@@ -4109,18 +5021,14 @@ export const strings = {
       weeksAgo: 'Hace {{weeks}} semanas',
       delete: 'Eliminar del historial',
     },
-
     empty: {
       title: 'Sin Historial de Práctica',
-      description:
-        'Comienza a practicar con videos de YouTube y aparecerán aquí para un acceso rápido.',
+      description: 'Comienza a practicar con videos de YouTube y aparecerán aquí para un acceso rápido.',
       startPracticing: 'Comenzar a Practicar',
     },
-
     loading: {
       message: 'Cargando historial...',
     },
-
     confirmDelete: {
       title: 'Eliminar Video',
       message: '¿Estás seguro de que quieres eliminar "{{title}}" de tu historial?',
@@ -4128,8 +5036,6 @@ export const strings = {
       cancel: 'Cancelar',
     },
   },
-
-  // Shadowing Feature
   shadowing: {
     title: 'Ejercicio de Shadowing',
     noSentence: 'No hay oración para reproducir',
@@ -4153,17 +5059,20 @@ export const strings = {
     saveFailed: 'Error al guardar la oración',
     instructions1: 'Escucha cada oración y repítela durante la pausa.',
     instructions2: 'Ajusta la configuración según tu ritmo de aprendizaje.',
-
-    // Floating Navbar (Mobile)
     floatingNavbar: {
       message: 'Explicar gramática',
       repeat: 'Repetir',
       play: 'Reproducir',
       pause: 'Pausa',
       settings: 'Configuración',
+      repeatCount: 'Repetir Conteo',
+      quickSettings: 'Configuración Rápida',
+      furigana: 'Furigana',
+      translations: 'Traducciones',
+      continuousPlay: 'Reproducción Continua',
+      displayMode: 'Modo de Visualización',
     },
   },
-
   aiGrammar: {
     title: 'Explicación gramatical',
     trigger: 'Explicar gramática',
@@ -4178,23 +5087,17 @@ export const strings = {
     relatedLabel: 'Patrones relacionados',
     formalityLabel: 'Formalidad',
   },
-
-  // Drill Feature
   drill: {
     title: 'Ejercicio de Conjugación',
     description: 'Practica las conjugaciones de verbos y adjetivos japoneses',
     loading: 'Cargando ejercicio...',
     settings: 'Configuración del Ejercicio',
-
-    // Practice mode section
     practiceMode: 'Modo de Práctica',
     randomWords: 'Palabras Aleatorias',
     randomDescription: 'Practicar con palabras comunes',
     fromLists: 'De Mis Listas',
     listsDescription: 'Usar tus listas de estudio',
     myLists: 'Mis Listas',
-
-    // Word types section
     wordTypes: 'Tipos de Palabras',
     wordTypeFilter: 'Filtro de Tipo de Palabra',
     allTypes: 'Todos los Tipos',
@@ -4202,8 +5105,6 @@ export const strings = {
     adjectives: 'Adjetivos',
     verbsOnly: 'Solo Verbos',
     adjectivesOnly: 'Solo Adjetivos',
-
-    // Buttons and actions
     startDrill: 'Comenzar Ejercicio',
     tryAgain: 'Intentar de Nuevo',
     newDrill: 'Nuevo Ejercicio',
@@ -4213,8 +5114,6 @@ export const strings = {
     showResults: 'Mostrar Resultados',
     nextQuestion: 'Siguiente Pregunta',
     finish: 'Terminar',
-
-    // Questions and game play
     question: 'Pregunta',
     questionNumber: 'Pregunta {{current}} de {{total}}',
     conjugateTo: 'Conjugar en',
@@ -4222,8 +5121,6 @@ export const strings = {
     yourAnswer: 'Tu Respuesta',
     showAnswer: 'Mostrar Respuesta',
     rule: 'Regla',
-
-    // Results
     complete: '¡Ejercicio Completado!',
     correct: '¡Correcto!',
     incorrect: 'Incorrecto',
@@ -4234,26 +5131,18 @@ export const strings = {
     excellentPerformance: '¡Excelente trabajo! ¡Has dominado estas conjugaciones!',
     goodPerformance: '¡Buen trabajo! ¡Estás progresando bien!',
     keepPracticing: '¡Sigue practicando! ¡Mejorarás con más ejercicios!',
-
-    // Progress stats
     yourProgress: 'Tu Progreso',
     totalDrills: 'Ejercicios Totales',
     perfectDrills: 'Perfecto',
     wordsStudied: 'Palabras',
-
-    // Settings
     questionsPerSession: 'Preguntas por sesión',
     autoAdvance: 'Avanzar automáticamente a la siguiente pregunta',
     showRules: 'Mostrar reglas de conjugación',
     hideRules: 'Ocultar reglas',
     remainingToday: '{{count}} ejercicios restantes hoy',
     upgradeForMore: 'Actualiza a Premium para más preguntas por sesión',
-
-    // Messages
     limitReached: 'Límite diario de ejercicios alcanzado',
     startError: 'No se pudo iniciar el ejercicio. Por favor, inténtelo de nuevo.',
-
-    // Conjugation forms
     forms: {
       present: 'Presente',
       past: 'Pasado',
@@ -4273,17 +5162,14 @@ export const strings = {
       taiForm: 'Forma Tai (querer)',
       adverbial: 'Adverbial',
     },
-
-    // Messages
     noQuestions: 'No se encontraron palabras conjugables. Prueba configuraciones diferentes.',
     selectLists: 'Por favor selecciona al menos una lista para practicar.',
     noConjugableWords: 'No se encontraron palabras conjugables en las listas seleccionadas.',
     dailyLimitReached: 'Has alcanzado tu límite diario de ejercicios.',
     loadingQuestions: 'Cargando preguntas...',
     of: 'de',
+    unlimited: 'Ejercicios ilimitados disponibles',
   },
-
-  // PWA (Progressive Web App)
   pwa: {
     install: {
       title: 'Instalar Moshimoshi',
@@ -4310,8 +5196,7 @@ export const strings = {
         description: 'Recibe recordatorios cuando las revisiones estén pendientes',
         allow: 'Permitir notificaciones',
         deny: 'Ahora no',
-        blocked:
-          'Las notificaciones están bloqueadas. Por favor, actívalas en la configuración de tu navegador.',
+        blocked: 'Las notificaciones están bloqueadas. Por favor, actívalas en la configuración de tu navegador.',
         unsupported: 'Las notificaciones no son compatibles con tu navegador',
       },
       quietHours: {
@@ -4326,6 +5211,9 @@ export const strings = {
         title: 'Notificación de prueba',
         body: 'Esta es una prueba de tu configuración de notificaciones',
         button: 'Enviar prueba',
+        pushButton: 'Prueba de Servidor Push (FCM)',
+        success: '¡Notificación push enviada! Revisa tu dispositivo.',
+        error: 'No se pudo enviar la notificación push',
       },
     },
     badge: {
@@ -4354,12 +5242,17 @@ export const strings = {
       backOnline: 'De vuelta en línea',
     },
     updateAvailable: 'Actualización disponible',
-    updateDescription:
-      'Una nueva versión de la aplicación está disponible. Actualiza ahora para obtener las últimas funciones.',
+    updateDescription: 'Una nueva versión de la aplicación está disponible. Actualiza ahora para obtener las últimas funciones.',
     updateNow: 'Actualizar ahora',
+    updating: 'Actualizando...',
+    refresh: 'Actualizar',
+    remindLater: 'Recuérdame más tarde',
+    criticalUpdate: {
+      title: 'Actualización importante requerida',
+      description: 'Por favor, actualiza para continuar usando la app',
+      message: 'Hay una actualización crítica disponible que incluye correcciones importantes. La app necesita actualizarse para aplicar estos cambios.',
+    },
   },
-
-  // Stories
   stories: {
     title: 'Historias',
     description: 'Aprende con historias interactivas en japonés',
@@ -4397,9 +5290,10 @@ export const strings = {
       good: '¡Buen Trabajo!',
       keepPracticing: '¡Sigue Practicando!',
     },
+    totalStories: 'Total de Historias',
+    completed: 'Completado',
+    inProgress: 'En Progreso',
   },
-
-  // Privacy Policy Page
   privacy: {
     title: 'Política de Privacidad',
     lastUpdated: 'Última actualización: Enero 2025',
@@ -4407,35 +5301,28 @@ export const strings = {
     sections: {
       introduction: {
         title: '1. Introducción',
-        content:
-          'Bienvenido a Moshimoshi ("nosotros", "nuestro" o "nos"). Estamos comprometidos a proteger tu información personal y tu derecho a la privacidad. Esta Política de Privacidad explica cómo recopilamos, usamos, divulgamos y protegemos tu información cuando usas nuestra aplicación de aprendizaje de japonés.',
-        agreement:
-          'Al usar Moshimoshi, aceptas la recopilación y uso de información de acuerdo con esta política. Si no estás de acuerdo con nuestras políticas y prácticas, por favor no uses nuestros servicios.',
+        content: 'Bienvenido a Moshimoshi ("nosotros", "nuestro" o "nos"). Estamos comprometidos a proteger tu información personal y tu derecho a la privacidad. Esta Política de Privacidad explica cómo recopilamos, usamos, divulgamos y protegemos tu información cuando usas nuestra aplicación de aprendizaje de japonés.',
+        agreement: 'Al usar Moshimoshi, aceptas la recopilación y uso de información de acuerdo con esta política. Si no estás de acuerdo con nuestras políticas y prácticas, por favor no uses nuestros servicios.',
       },
       collection: {
         title: '2. Información que recopilamos',
         provided: {
           title: '2.1 Información que proporcionas',
           account: 'Información de cuenta',
-          accountDesc:
-            'Dirección de correo electrónico, nombre de usuario y foto de perfil al crear una cuenta',
+          accountDesc: 'Dirección de correo electrónico, nombre de usuario y foto de perfil al crear una cuenta',
           learning: 'Datos de aprendizaje',
-          learningDesc:
-            'Tu progreso, vocabulario guardado, resultados de práctica y preferencias de estudio',
+          learningDesc: 'Tu progreso, vocabulario guardado, resultados de práctica y preferencias de estudio',
           content: 'Contenido de usuario',
-          contentDesc:
-            'Notas, listas de palabras personalizadas y cualquier contenido que crees dentro de la aplicación',
+          contentDesc: 'Notas, listas de palabras personalizadas y cualquier contenido que crees dentro de la aplicación',
           communications: 'Comunicaciones',
           communicationsDesc: 'Comentarios, solicitudes de soporte y correspondencia con nosotros',
         },
         automatic: {
           title: '2.2 Información recopilada automáticamente',
           device: 'Información del dispositivo',
-          deviceDesc:
-            'Tipo de navegador, sistema operativo, tipo de dispositivo e identificadores únicos',
+          deviceDesc: 'Tipo de navegador, sistema operativo, tipo de dispositivo e identificadores únicos',
           usage: 'Datos de uso',
-          usageDesc:
-            'Funciones utilizadas, tiempo dedicado, páginas visitadas y patrones de interacción',
+          usageDesc: 'Funciones utilizadas, tiempo dedicado, páginas visitadas y patrones de interacción',
           performance: 'Datos de rendimiento',
           performanceDesc: 'Informes de fallos, registros de errores y métricas de rendimiento',
           analytics: 'Analíticas',
@@ -4443,8 +5330,7 @@ export const strings = {
         },
         thirdParty: {
           title: '2.3 Servicios de terceros',
-          intro:
-            'Utilizamos los siguientes servicios de terceros que pueden recopilar información:',
+          intro: 'Utilizamos los siguientes servicios de terceros que pueden recopilar información:',
           firebase: 'Autenticación, base de datos y analíticas',
           stripe: 'Procesamiento de pagos (no almacenamos datos de tarjetas de crédito)',
           openai: 'Funciones impulsadas por IA (contenido anonimizado)',
@@ -4463,8 +5349,7 @@ export const strings = {
       },
       security: {
         title: '4. Almacenamiento y seguridad de datos',
-        content:
-          'Implementamos medidas técnicas y organizativas apropiadas para proteger tus datos.',
+        content: 'Implementamos medidas técnicas y organizativas apropiadas para proteger tus datos.',
         measures: {
           title: 'Nuestras medidas de seguridad',
           encryption: 'Cifrado de extremo a extremo para datos sensibles',
@@ -4474,13 +5359,11 @@ export const strings = {
         },
         location: {
           title: 'Ubicación de los datos',
-          content:
-            'Tus datos se almacenan en servidores seguros proporcionados por Google Firebase, ubicados en Estados Unidos. Para usuarios de la Unión Europea, los datos pueden transferirse internacionalmente de acuerdo con las leyes de protección de datos aplicables.',
+          content: 'Tus datos se almacenan en servidores seguros proporcionados por Google Firebase, ubicados en Estados Unidos. Para usuarios de la Unión Europea, los datos pueden transferirse internacionalmente de acuerdo con las leyes de protección de datos aplicables.',
         },
         local: {
           title: 'Almacenamiento local',
-          content:
-            'Algunos datos se almacenan localmente en tu dispositivo para acceso sin conexión y optimización del rendimiento. Esto incluye contenido en caché, preferencias y actividad reciente.',
+          content: 'Algunos datos se almacenan localmente en tu dispositivo para acceso sin conexión y optimización del rendimiento. Esto incluye contenido en caché, preferencias y actividad reciente.',
         },
       },
       rights: {
@@ -4505,8 +5388,7 @@ export const strings = {
       },
       contact: {
         title: '6. Información de contacto',
-        intro:
-          'Si tienes preguntas o inquietudes sobre esta política de privacidad o nuestras prácticas de datos, contáctanos:',
+        intro: 'Si tienes preguntas o inquietudes sobre esta política de privacidad o nuestras prácticas de datos, contáctanos:',
         email: 'Correo electrónico',
         support: 'Soporte',
       },
@@ -4521,8 +5403,6 @@ export const strings = {
     },
     acceptButton: 'Entiendo y acepto',
   },
-
-  // Contact Page
   contact: {
     title: 'Contáctanos',
     subtitle: '¡Nos encantaría saber de ti!',
@@ -4580,8 +5460,6 @@ export const strings = {
       },
     },
   },
-
-  // Leaderboard Page
   leaderboard: {
     title: 'Clasificación',
     yourRank: 'Tu posición',
@@ -4598,8 +5476,6 @@ export const strings = {
     noData: 'No hay datos de clasificación disponibles',
     loading: 'Cargando clasificación...',
   },
-
-  // Resources Page
   resources: {
     notFound: 'Recurso no encontrado',
     backToResources: 'Volver a recursos',
@@ -4626,17 +5502,28 @@ export const strings = {
       kanji: 'Kanji',
     },
   },
-
-  // Moodboards
   moodboards: {
     viewModes: {
       grid: 'Cuadrícula',
       study: 'Estudiar',
       list: 'Lista',
     },
+    title: 'Tableros de Humor de Kanji',
+    description: 'Aprende kanji a través de colecciones temáticas',
+    searchPlaceholder: 'Buscar tableros de humor...',
+    noResults: 'No se encontraron tableros de humor',
+    tryDifferentSearch: 'Intenta con otro término de búsqueda',
+    noMoodboards: 'No hay tableros de humor disponibles aún',
+    boardNotFound: 'Tablero de humor no encontrado',
+    boardCompleted: '¡Felicidades! ¡Has completado este tablero de humor!',
+    progressReset: 'El progreso ha sido reiniciado',
+    confirmReset: '¿Estás seguro de que deseas reiniciar tu progreso para este tablero?',
+    showCompleted: 'Mostrar Completados',
+    allLearned: '¡Todos los kanji aprendidos!',
+    toggleShowCompleted: 'Activa \'Mostrar Completados\' para ver todos los kanji',
+    createNew: 'Crear Nuevo Tablero de Humor',
+    aiGenerate: 'Generar con IA',
   },
-
-  // Kanji Browser Page
   kanjiBrowser: {
     searchPlaceholder: 'Buscar kanji por carácter, significado o lectura...',
     title: 'Explorador de Kanji',
@@ -4655,8 +5542,8 @@ export const strings = {
     details: {
       meanings: 'Significados',
       readings: 'Lecturas',
-      onyomi: "On'yomi",
-      kunyomi: "Kun'yomi",
+      onyomi: 'On\'yomi',
+      kunyomi: 'Kun\'yomi',
       strokes: 'Trazos',
       examples: 'Ejemplos',
       radicals: 'Radicales',
@@ -4664,17 +5551,12 @@ export const strings = {
     noResults: 'No se encontraron kanji que coincidan con tus criterios',
     loading: 'Cargando kanji...',
   },
-
-  // Flujo de incorporación
   onboarding: {
-    // Página de bienvenida
     welcome: {
       title: '¡Bienvenido a Moshimoshi!',
       subtitle: 'La plataforma definitiva para dominar el idioma japonés. Comencemos tu viaje de aprendizaje.',
       getStarted: 'Comenzar',
     },
-
-    // Selección de objetivo de aprendizaje
     learningGoal: {
       title: '¿Cuál es tu objetivo principal?',
       subtitle: 'Esto nos ayudará a personalizar tu experiencia de aprendizaje.',
@@ -4698,8 +5580,6 @@ export const strings = {
         },
       },
     },
-
-    // Selección de nivel de experiencia
     experienceLevel: {
       title: '¿Cuál es tu nivel de japonés?',
       subtitle: 'Esto nos ayuda a recomendar el contenido adecuado para ti.',
@@ -4719,8 +5599,6 @@ export const strings = {
         },
       },
     },
-
-    // Presentación de funciones
     featureShowcase: {
       continue: 'Continuar',
       swipeHint: 'Desliza para explorar más funciones',
@@ -4810,8 +5688,6 @@ export const strings = {
         },
       },
     },
-
-    // Listo para empezar
     readyToGo: {
       title: '¡Todo listo!',
       subtitle: 'Has configurado tu perfil con éxito. ¡Prepárate para tu aventura de aprendizaje japonés!',
@@ -4820,8 +5696,6 @@ export const strings = {
       error: 'Algo salió mal. Por favor, inténtalo de nuevo.',
     },
   },
-
-  // Mensajes de error
   error: {
     notFound: 'No encontrado',
     audioFailed: 'Error al reproducir audio',
@@ -4829,15 +5703,255 @@ export const strings = {
     validation: 'Error de validación',
     unauthorized: 'No autorizado',
   },
-
-  // Juegos
   games: {
     title: 'Juegos',
     description: 'Aprende japonés jugando',
     comingSoon: 'Próximamente',
+    subtitle: 'Aprende japonés a través de juegos divertidos e interactivos',
+    welcomeMessage: '¡Juguemos algunos juegos!',
+    play: 'Jugar',
+    selectLists: 'Seleccionar listas de palabras',
+    selectListsFirst: 'Selecciona al menos una lista',
+    startGame: 'Iniciar juego',
+    noLists: 'No se encontraron listas de palabras. ¡Crea algunas listas de palabras primero!',
+    wordsAvailable: 'palabras disponibles',
+    playAudio: 'Reproducir audio',
+    submit: 'Enviar',
+    shuffle: 'Barajar',
+    score: 'Puntuación',
+    question: 'Pregunta',
+    nextQuestion: 'Siguiente pregunta',
+    endGame: 'Terminar juego',
+    gameOver: '¡Juego terminado!',
+    correct: '¡Correcto!',
+    incorrect: '¡No del todo!',
+    correctAnswer: 'Respuesta correcta',
+    accuracy: 'Precisión',
+    playAgain: 'Jugar de nuevo',
+    stats: {
+      totalGames: 'Total de juegos',
+      correct: 'Correcto',
+      accuracy: 'Precisión',
+    },
+    matching: {
+      title: 'Juego de emparejar',
+      description: 'Empareja palabras japonesas con sus significados',
+      moves: 'Movimientos',
+      pairs: 'Pares',
+      instructions: {
+        title: 'Cómo jugar',
+        description: 'Empareja palabras japonesas con sus lecturas o significados volteando cartas',
+      },
+    },
+    victory: {
+      title: '¡Felicidades!',
+      moves: 'Movimientos',
+      time: 'Tiempo',
+      perfect: '¡Juego perfecto! ¡Sin errores!',
+      back: 'Volver a juegos',
+      playAgain: 'Jugar de nuevo',
+    },
+    wordAssembly: {
+      title: 'Ensamblaje de palabras',
+      description: 'Construye lecturas de kana a partir de audio',
+      needMoreWords: '¡Necesitas al menos 2 palabras con lecturas para jugar!',
+      clickToAdd: 'Haz clic en los segmentos de kana a continuación para formar la palabra',
+      buildKana: 'Construye la Lectura de Kana',
+    },
+    kanjiSimon: {
+      title: 'Kanji Simón',
+      description: 'Pon a prueba tu memoria con lecturas de kanji',
+      subtitle: 'Pon a prueba tu memoria con lecturas de kanji',
+      howToPlay: 'Cómo Jugar',
+      step1Title: 'Observa el Patrón',
+      step1Desc: 'Los segmentos de kanji se iluminan en secuencia',
+      step2Title: 'Memoriza',
+      step2Desc: 'Recuerda el orden de las lecturas',
+      step3Title: 'Repite',
+      step3Desc: 'Haz clic en los segmentos en el mismo orden',
+      step4Title: 'Sube de Nivel',
+      step4Desc: 'Las secuencias se alargan a medida que progresas',
+      startButton: 'Elige Tablero y Comienza',
+      selectBoard: 'Selecciona un Tablero de Ánimo',
+      noBoardsTitle: 'No hay Tableros de Ánimo Disponibles',
+      noBoardsDesc: 'No hay tableros de ánimo activos con kanji para practicar.',
+      startPractice: 'Comenzar Práctica',
+      boardNotFound: 'Tablero no encontrado',
+      noKanjiInBoard: 'Este tablero no tiene kanji',
+      gameComplete: '¡Juego Completo!',
+      score: 'Puntuación',
+      correct: 'Correcto',
+      accuracy: 'Precisión',
+      playAgain: 'Jugar de Nuevo',
+      round: 'Ronda',
+      startGame: 'Comenzar Juego',
+      getReady: '¡Prepárate para observar!',
+      watchCarefully: '¡Observa cuidadosamente!',
+      itemOf: 'Ítem',
+      of: 'de',
+      yourTurn: '¡TU TURNO!',
+      clickMore: 'Haz clic',
+      more: 'más',
+      kanji: 'Kanji',
+    },
+    readingRoutes: {
+      title: 'Rutas de Lectura',
+      description: '¡Navega las lecturas de kanji en contexto!',
+      subtitle: 'Elige la ruta de lectura correcta para cada kanji',
+      howToPlay: 'Cómo Jugar',
+      startGame: 'Comenzar Rutas de Lectura',
+      score: 'Puntuación',
+      accuracy: 'Precisión',
+      correct: 'Correcto',
+      gameOver: '¡Juego Terminado!',
+      playAgain: 'Jugar de Nuevo',
+      exit: 'Salir',
+    },
+    kanjiQuest: {
+      title: 'Misión Kanji',
+      description: '¡Lucha y atrapa Pokémon dominando kanji!',
+      selectOpponents: '¡Selecciona a tus Oponentes Kanji!',
+      selectInstructions: 'Elige 3-8 kanji para la batalla',
+      selectKanjiPrompt: 'Por favor selecciona 3-8 kanji',
+      startBattle: 'Iniciar Batalla',
+      notEnoughKanji: '¡No hay suficientes kanji disponibles para este nivel!',
+      tutorial: {
+        title: '¡Bienvenido a Kanji Quest!',
+        subtitle: '¡Atrápalos a todos... pero con Kanji!',
+        step1: {
+          title: '¡Selecciona tus oponentes kanji!',
+          description: 'Elige 3-8 kanji para luchar contra ellos. ¡Cada kanji se encontrará varias veces hasta que los derrotes dominando todas sus lecturas y significados!',
+        },
+        step2: {
+          title: '¡Encuentros Salvajes!',
+          description: '¡Los kanji aparecen al azar como Pokémon salvajes! Cada kanji debe ser derrotado respondiendo preguntas sobre sus lecturas y significados.',
+          onyomi: 'Lectura On\'yomi (si tiene)',
+          kunyomi: 'Lectura Kun\'yomi (si tiene)',
+          meaning: 'Significado (¡todos los kanji tienen esto!)',
+        },
+        step3: {
+          title: '¡Batalla y Aprende!',
+          description: '¡Responde correctamente para derrotar al kanji! Las respuestas incorrectas significan que el kanji contraataca y daña tu HP. ¡Domina todos los aspectos de cada kanji para ganar!',
+        },
+        step4: {
+          title: '¡Atrapa Pokémon!',
+          description: '¡Derrota a todos los kanji para atrapar un Pokémon! Construye tu colección a medida que dominas más kanji. ¿Puedes atraparlos a todos?',
+        },
+        startButton: '¡Vamos a Jugar!',
+      },
+    },
+    strokeOrder: {
+      title: 'Domina el Orden de los Trazos del Kanji',
+      description: 'Aprende a escribir kanji correctamente practicando el orden de los trazos. Haz clic en los trazos en la secuencia correcta para construir memoria muscular.',
+      howToPlay: 'Cómo Jugar',
+      howToPlayTitle: 'Cómo Jugar Práctica de Orden de Trazos',
+      instructions: 'Domina el kanji aprendiendo el orden correcto de los trazos. Haz clic en cada trazo en la secuencia correcta para construir memoria muscular y mejorar tus habilidades de escritura.',
+      practiceSets: 'Conjuntos de Práctica',
+      gamesPlayed: 'juegos jugados',
+      kanjiPracticed: 'kanji practicados',
+      kanjiProgress: 'Kanji',
+      progress: 'Progreso',
+      strokes: 'trazos',
+      stroke: 'trazo',
+      completed: 'completado',
+      highScore: 'Puntuación Alta',
+      score: 'Puntuación',
+      time: 'Tiempo',
+      combo: 'Combo',
+      accuracy: 'Precisión',
+      maxCombo: 'Combo Máximo',
+      difficulty: 'Dificultad',
+      hint: 'Pista',
+      inputMode: 'Modo de Entrada',
+      clickMode: 'Clic',
+      drawMode: 'Dibujar',
+      tips: 'Consejos',
+      tipTopBottom: 'Comienza de arriba hacia abajo',
+      tipLeftRight: 'De izquierda a derecha para trazos horizontales',
+      tipOutsideInside: 'Afuera antes que adentro',
+      tipCloseLast: 'Cierra los marcos al final',
+      restartSet: 'Reiniciar Conjunto',
+      gameOver: '¡Juego Completo!',
+      finalScore: 'Puntuación Final',
+      timeTaken: 'Tiempo',
+      newAchievements: '¡Nuevos Logros!',
+      backToSets: 'Volver a Conjuntos',
+      playAgain: 'Jugar de Nuevo',
+      step1Title: 'Ver el Kanji',
+      step1Desc: 'Un kanji aparece con guías numeradas de trazos que muestran el orden correcto',
+      step2Title: 'Haz clic en los Trazos en Orden',
+      step2Desc: 'Haz clic en cada trazo en la secuencia correcta. Comienza con el trazo 1, luego el 2, y así sucesivamente.',
+      step3Title: 'Obtén Retroalimentación Instantánea',
+      step3Desc: 'Los trazos correctos se vuelven verdes y se animan. Los trazos incorrectos parpadean en rojo - ¡intenta de nuevo!',
+      step4Title: 'Gana Puntos y Progreso',
+      step4Desc: 'Gana puntos por velocidad y precisión. ¡Sigue tu progreso y supera tus mejores puntajes!',
+      proTips: 'Consejos Profesionales',
+      tip1: 'Tómate tu tiempo para memorizar el orden de los trazos antes de hacer clic',
+      tip2: 'Presta atención a la dirección de los trazos - ¡es importante!',
+      tip3: 'Practica regularmente para desarrollar memoria muscular',
+      tip4: 'Prueba diferentes niveles de dificultad a medida que mejoras',
+      gotIt: '¡Entendido, vamos a practicar!',
+      ranks: {
+        perfect: '¡Perfecto!',
+        excellent: '¡Excelente!',
+        good: '¡Buen Trabajo!',
+        nice: '¡Buen Intento!',
+        keepPracticing: '¡Sigue Practicando!',
+      },
+      achievements: {
+        thousandPoints: '¡Mil Puntos!',
+        thousandPointsDesc: 'Puntuación de más de 1000 puntos',
+        masterScorer: '¡Maestro de la Puntuación!',
+        masterScorerDesc: 'Puntuación de más de 5000 puntos',
+        perfectAccuracy: '¡Precisión Perfecta!',
+        perfectAccuracyDesc: '95% o más de precisión',
+        comboMaster: '¡Maestro de Combos!',
+        comboMasterDesc: 'Racha de 10+ combos',
+      },
+    },
+    sentenceScramble: {
+      title: 'Rompecabezas de Oraciones',
+      description: '¡Reordena las oraciones en japonés para probar tu gramática!',
+      selectSentences: 'Seleccionar Oraciones',
+      selectDescription: 'Elige hasta 10 oraciones para practicar',
+      difficulty: {
+        easy: 'Fácil',
+        medium: 'Medio',
+        hard: 'Difícil',
+      },
+      startGame: 'Iniciar Juego',
+      howToPlay: 'Cómo Jugar',
+      step1Title: 'Observa la Oración',
+      step1Desc: 'Estudia cuidadosamente la oración original',
+      step2Title: 'Reconstruir la Oración',
+      step2Desc: 'Haz clic en los bloques de palabras en el orden correcto',
+      step3Title: 'Vence al Reloj',
+      step3Desc: 'Tienes 20 segundos por oración',
+      start: 'Comenzar a Jugar',
+      sentenceOf: 'Oración {{current}} de {{total}}',
+      skipReading: 'Saltar al Rompecabezas',
+      getReady: '¡Prepárate!',
+      yourSentence: 'Tu oración',
+      availableBlocks: 'Bloques disponibles',
+      clickBlocks: 'Haz clic en los bloques de abajo para reconstruir la oración',
+      submitAnswer: 'Enviar respuesta',
+      attempts: 'Intentos',
+      correct: '¡Correcto!',
+      incorrect: 'No del todo correcto',
+      original: 'Original',
+      gameComplete: '¡Juego completado!',
+      greatJob: '¡Gran trabajo completando el desafío!',
+      score: 'Puntuación',
+      totalSentences: 'Oraciones',
+      accuracy: 'Precisión',
+      time: 'Tiempo',
+      playAgain: 'Jugar de nuevo',
+    },
+    wordBuilder: {
+      title: 'Constructor de palabras',
+      description: 'Construye palabras a partir de componentes',
+    },
   },
-
-  // Términos de kanji
   kanji: {
     strokes: 'trazos',
     difficulty: 'Dificultad',
@@ -4849,8 +5963,6 @@ export const strings = {
     info: 'Info',
     noExamples: 'No hay ejemplos disponibles',
   },
-
-  // Niveles
   levels: {
     beginner: 'Principiante',
     elementary: 'Elemental',
@@ -4858,8 +5970,6 @@ export const strings = {
     upperIntermediate: 'Intermedio Alto',
     advanced: 'Avanzado',
   },
-
-  // Navegación
   navigation: {
     backToDashboard: '← Volver al Panel',
     dashboard: 'Panel',
@@ -4887,8 +5997,6 @@ export const strings = {
       places: 'Lugares',
     },
   },
-
-  // Notificaciones
   notifications: {
     goToReview: 'Ir al repaso →',
     sessionComplete: {
@@ -4931,8 +6039,6 @@ export const strings = {
       daysAgo: 'hace {{days}} días',
     },
   },
-
-  // Videos populares
   popularVideos: {
     title: 'Videos en tendencia',
     subtitle: 'Ve qué está viendo la comunidad',
@@ -4944,23 +6050,412 @@ export const strings = {
     trending: 'En tendencia',
     suggested: 'Sugerido',
     starter: 'Ideal para principiantes',
+    rank: '#{{rank}}',
+    loading: 'Cargando videos geniales...',
+    empty: '¡Sé un pionero! Mira videos para llenar esta lista',
+    error: 'No se pudo cargar videos populares',
+    quotaExceeded: {
+      speedLearner: {
+        title: '¡Vaya, Aprendiz Rápido! 🚀',
+        message: '¡Has visto 20 videos hoy! Incluso Moshi necesita un descanso. Tu cerebro probablemente está haciendo el cha-cha con todo ese japonés. ¡Vuelve mañana por más!',
+      },
+      achievement: {
+        title: 'Logro Desbloqueado: ¡Maratón de Videos! 🏃‍♂️',
+        message: '¿20 videos en un día? ¡Eres como el Usain Bolt del aprendizaje de japonés! Es hora de dejar que esas neuronas se enfríen. ¡Nos vemos mañana, campeón!',
+      },
+      bufferOverflow: {
+        title: '¡Desbordamiento de Búfer! 🤯',
+        message: 'Tu cerebro.exe ha dejado de responder después de 20 videos. Por favor, reinicia mañana para un rendimiento óptimo. (Traducción: ¡Eres increíble, pero incluso las máquinas necesitan descanso!)',
+      },
+      senpaiNoticed: {
+        title: 'Senpai te ha notado... ¡Necesitas un descanso! 👀',
+        message: '¡20 videos conquistados! Oficialmente eres un superhéroe del shadowing. Pero todo héroe necesita descanso. ¡Tus videos te estarán esperando mañana!',
+      },
+      button: '¡Entendido! 😴',
+    },
   },
-
-  // Lectura
   reading: {
     title: 'Lectura',
     startReading: 'Comenzar a leer',
     continueReading: 'Continuar leyendo',
     progress: 'Progreso',
+    settings: {
+      title: 'Configuración de lectura',
+      description: 'Tamaño de fuente, furigana, etc.',
+      fontSize: 'Tamaño de texto',
+      size: {
+        small: 'S',
+        medium: 'M',
+        large: 'L',
+        xlarge: 'XL',
+      },
+      showFurigana: 'Mostrar Furigana',
+      highlightVocabulary: 'Resaltar vocabulario',
+      highlightMode: 'Modo de resaltado',
+      mode: {
+        all: 'Todas las palabras',
+        content: 'Palabras de contenido',
+        grammar: 'Gramática',
+        none: 'Ninguno',
+      },
+    },
+    menu: {
+      options: 'Opciones',
+      shadowingMode: 'Modo de práctica de shadowing',
+      shadowingDescription: 'Practica hablando junto',
+      showTranslation: 'Mostrar traducción al inglés',
+      hideTranslation: 'Ocultar traducción',
+      translationDescription: 'Ver artículo en inglés',
+    },
+    vocabulary: {
+      loading: 'Cargando...',
+      notFound: 'Palabra no encontrada',
+      searching: 'Buscando...',
+      reading: 'Lectura',
+      meaning: 'Significado',
+      saveToList: 'Guardar en la lista',
+      wordSaved: 'Palabra guardada en la lista de estudio',
+      wordSaveFailed: 'No se pudo guardar la palabra',
+      wordLookupError: 'No se pudo buscar la palabra',
+    },
+    grammar: {
+      legend: 'Guía de colores de gramática',
+    },
+    content: {
+      processing: 'Procesando contenido...',
+    },
+    metadata: {
+      minutes: 'min',
+      readingTime: 'Tiempo de lectura',
+      imageAlt: 'Imagen del artículo para',
+      viewOriginal: 'Ver artículo original',
+      estimatedTime: 'Aproximadamente {{minutes}} min',
+    },
+    translation: {
+      title: 'Traducción al español',
+      loading: 'Traduciendo artículo...',
+      disclaimer: 'Nota: Esta es una traducción automática y puede no ser 100% precisa.',
+      translationError: 'Error al cargar la traducción',
+    },
+    article: {
+      playAudio: 'Reproducir audio del artículo',
+      options: 'Opciones',
+      summary: 'Resumen',
+      shadowingMode: 'Modo de práctica de shadowing',
+      shadowingModeDesc: 'Practica hablar junto con el audio',
+      addBookmark: 'Marcar artículo',
+      removeBookmark: 'Eliminar marcador',
+      saveForLater: 'Guardar para más tarde',
+      showTranslation: 'Mostrar traducción al español',
+      hideTranslation: 'Ocultar traducción',
+      viewInEnglish: 'Ver artículo en español',
+      readingSettings: 'Configuración de lectura',
+      readingSettingsDesc: 'Tamaño de fuente, furigana, etc.',
+      textSize: 'Tamaño del texto',
+      showFurigana: 'Mostrar furigana',
+      highlightVocabulary: 'Resaltar vocabulario',
+      highlightMode: 'Modo de resaltado',
+      grammarGuide: 'Guía de colores de gramática',
+      englishTranslation: 'Traducción al español',
+      translatingArticle: 'Traduciendo artículo...',
+      translationNote: 'Nota: Esta es una traducción automática y puede no ser 100% precisa.',
+      viewOriginal: 'Ver artículo original',
+      imageAlt: 'Imagen del artículo para {{title}}',
+      estimatedTime: 'Aproximadamente {{minutes}} min',
+      readingTime: 'Tiempo de lectura: {{minutes}} min',
+      bookmarkAdded: 'Artículo marcado',
+      bookmarkRemoved: 'Marcador eliminado',
+      bookmarkError: 'Error al actualizar el marcador',
+      ttsError: 'Error al reproducir el audio',
+      searching: 'Buscando...',
+      wordSaved: 'Palabra guardada en la lista de estudio',
+      wordSaveFailed: 'Error al guardar la palabra',
+      wordLookupError: 'Error al buscar la palabra',
+      reading: 'Lectura',
+      meaning: 'Significado',
+      saveToList: 'Guardar en la lista',
+    },
+    highlightMode: {
+      all: 'Todas las palabras',
+      content: 'Palabras de contenido',
+      grammar: 'Gramática',
+      none: 'Ninguno',
+    },
   },
-
-  // SEO
   seo: {
     title: 'もしもし - Plataforma de aprendizaje de japonés',
     description: 'Domina el japonés con herramientas revolucionarias de aprendizaje',
+    landing: {
+      title: 'Moshimoshi - Mejor Aplicación para Aprender Japonés 2025 | YouTube Shadowing, Importación de Anki, Conexión Genki & Kanji',
+      description: 'Plataforma revolucionaria para aprender japonés con shadowing en YouTube para pronunciación nativa, importación de mazos de Anki con un clic, vocabulario completo de Genki & Minna no Nihongo, sistema único de conexión de kanji con patrones visuales y familias, navegador de 2136 jōyō kanji, tarjetas SRS, preparación para JLPT N5-N1, juegos interactivos y seguimiento de progreso. Importa tus mazos de Anki, practica con videos reales de YouTube, domina los kanji a través de relaciones visuales y estudia con libros de texto de todo el mundo. La solución completa para aprender japonés.',
+    },
+    pricing: {
+      title: 'Precios - Planes Asequibles para Aprender Japonés | Nivel Gratuito Disponible',
+      description: 'Elige el plan perfecto para aprender japonés. Nivel gratuito disponible con funciones básicas. Los planes premium desbloquean SRS avanzado, contenido ilimitado y acceso sin conexión. Comienza hoy.',
+    },
+    blog: {
+      title: 'Blog de Aprendizaje de Japonés - Consejos de Estudio para JLPT & Guías de Gramática',
+      description: 'Consejos expertos para aprender japonés, estrategias de estudio para JLPT, guías de gramática e ideas culturales. Artículos gratuitos para acelerar tu dominio del idioma japonés de principiante a avanzado.',
+    },
+    dashboard: {
+      title: 'Panel de Control - Tu Progreso en el Aprendizaje de Japonés',
+      description: 'Sigue tu viaje de aprendizaje de japonés con métricas de progreso personalizadas, estadísticas de estudio y próximos pasos recomendados.',
+    },
+    games: {
+      title: 'Juegos de Aprendizaje de Japonés - Práctica Interactiva Divertida',
+      description: 'Domina el japonés a través de juegos atractivos, incluyendo Kana Drop, Kanji Simon, Sentence Scramble y más. Haz que el aprendizaje sea divertido y efectivo.',
+      kanaDrop: {
+        title: 'Kana Drop - Juego de Aprendizaje de Hiragana & Katakana',
+        description: 'Aprende hiragana y katakana a través de un divertido juego de caracteres en caída. Pon a prueba tus habilidades de reconocimiento de kana con este adictivo juego de aprendizaje de japonés. Juega gratis en línea.',
+      },
+      kanjiSimon: {
+        title: 'Kanji Simon - Juego de Memoria para Aprender Kanji',
+        description: 'Domina el reconocimiento de kanji con este juego de aprendizaje basado en la memoria. Sigue el patrón, recuerda secuencias de kanji y mejora tu recuerdo de caracteres japoneses. Juega gratis en línea.',
+      },
+      readingRoutes: {
+        title: 'Rutas de Lectura - Juego de Práctica de Lectura en Japonés',
+        description: 'Mejora tus habilidades de lectura en japonés con este juego de búsqueda de rutas. Practica el reconocimiento de kanji y kana mientras navegas por rutas desafiantes. Haz que la lectura sea divertida.',
+      },
+      sentenceScramble: {
+        title: 'Juego de Desorden de Oraciones en Japonés - Práctica de Gramática & Orden de Palabras',
+        description: 'Practica la gramática japonesa con el juego de desorden de oraciones. Aprende el orden correcto de palabras, partículas y estructura de oraciones a través de ejercicios interactivos. Forma divertida de dominar los patrones gramaticales japoneses.',
+      },
+      strokeOrder: {
+        title: 'Práctica de Orden de Trazos de Kanji - Juego de Escritura',
+        description: 'Aprende el orden correcto de trazos de kanji a través de práctica interactiva. Domina la forma correcta de escribir caracteres japoneses con guías visuales y retroalimentación instantánea. Mejora tu caligrafía.',
+      },
+    },
+    kanji: {
+      browser: {
+        title: 'Navegador de Kanji - Todos los 2,136 Jōyō Kanji',
+        description: 'Navega y busca todos los 2,136 jōyō kanji con desgloses detallados, órdenes de trazos, lecturas y palabras de ejemplo. Referencia completa para estudiantes de japonés.',
+      },
+      connection: {
+        title: 'Sistema de Conexión de Kanji - Revolución de Aprendizaje Visual',
+        description: 'Descubre relaciones de kanji a través de familias fonéticas, radicales semánticos y patrones visuales. Aprende kanji en grupos conectados en lugar de caracteres aislados.',
+      },
+      families: {
+        title: 'Familias de Kanji - Aprende por Grupos Fonéticos',
+        description: 'Domina los kanji a través de agrupaciones de familias fonéticas. Entiende cómo los kanji con sonidos similares comparten componentes comunes.',
+      },
+      radicals: {
+        title: 'Radicales de Kanji - Referencia Completa de 214 Radicales',
+        description: 'Explora todos los 214 radicales de kanji con desgloses de componentes, significados y caracteres de ejemplo. Base esencial para el dominio de kanji.',
+      },
+      visual: {
+        title: 'Diseño Visual de Kanji - Mapa de Red Interactivo',
+        description: 'Explora conexiones de kanji a través de una visualización de red interactiva. Ve relaciones y patrones de un vistazo.',
+      },
+      visualLayout: {
+        title: 'Diseño Visual de Kanji - Mapa de Visualización de Red & Reconocimiento de Patrones',
+        description: 'Mapa de red visual interactivo de conexiones de 2136 jōyō kanji. Ve relaciones de kanji a través de patrones visuales, compartición de componentes y enlaces etimológicos. Interfaz revolucionaria de aprendizaje espacial para estudiantes visuales. Explora grupos de kanji y descubre conexiones ocultas a través de la visualización de red.',
+      },
+      visualLayoutPage: {
+        title: 'Diseño Visual de Kanji - Aprendizaje de Patrones SKIP',
+        description: 'Aprende kanji a través de patrones visuales usando el sistema de clasificación SKIP. Domina patrones de izquierda-derecha, arriba-abajo, encierro y sólidos para un reconocimiento eficiente de kanji.',
+      },
+    },
+    kanjiMoods: {
+      title: 'Tableros de Ánimo de Kanji - Aprendizaje Visual de Kanji & Método de Palacio de la Memoria',
+      description: 'Aprende kanji a través de tableros de ánimo visuales y técnicas de memoria espacial. Crea asociaciones visuales, historias mnemónicas y palacios de memoria para kanji. Enfoque revolucionario de aprendizaje visual.',
+    },
+    learningPath: {
+      title: 'Ruta de Aprendizaje de Japonés - Hoja de Ruta Personalizada de Estudio para JLPT',
+      description: 'Sigue una ruta de aprendizaje de japonés personalizada desde principiante hasta JLPT N1. Hoja de ruta estructurada con hitos de kanji, vocabulario, gramática y shadowing. Currículo adaptativo basado en tu progreso.',
+    },
+    lists: {
+      title: 'Listas de Estudio Personalizadas de Japonés - Vocabulario & Kanji Personalizados',
+      description: 'Crea listas de estudio personalizadas de japonés para vocabulario, kanji y gramática. Organiza tus materiales de aprendizaje, comparte listas con otros y sigue el progreso. Aprendizaje de japonés personalizado.',
+    },
+    myVideos: {
+      title: 'Mis Videos de Shadowing - Historial Guardado de Práctica de Japonés',
+      description: 'Accede a tus videos de shadowing de japonés guardados y al historial de práctica. Sigue los videos de YouTube con los que has practicado, reanuda sesiones de shadowing y monitorea el progreso de comprensión auditiva. Biblioteca personal de videos de aprendizaje de japonés.',
+    },
+    myVideosPage: {
+      title: 'Mis Videos - Moshimoshi',
+      description: 'Accede a tus videos de YouTube guardados y al historial de práctica para ejercicios de shadowing en japonés. Sigue tu progreso y regresa rápidamente a los videos con los que has practicado.',
+    },
+    popularVideos: {
+      title: 'Videos Populares de Aprendizaje de Japonés - Contenido de YouTube en Tendencia para Shadowing',
+      description: 'Descubre videos de aprendizaje de japonés en tendencia perfectos para la práctica de shadowing. Contenido de YouTube más popular de hablantes nativos, dramas japoneses y canales educativos. Encuentra videos virales en japonés para un aprendizaje efectivo del idioma.',
+    },
+    privacy: {
+      title: 'Política de Privacidad - Moshimoshi',
+      description: 'Política de privacidad de Moshimoshi. Aprende cómo protegemos tus datos y respetamos tu privacidad mientras aprendes japonés.',
+    },
+    progressReport: {
+      title: 'Informe de progreso - Panel de aprendizaje de japonés e información',
+      description: 'Consulta informes completos de progreso en el aprendizaje del japonés. Análisis semanales y mensuales, tasas de retención de vocabulario, niveles de dominio de kanji, horas de shadowing y evaluación de preparación para el JLPT.',
+    },
+    resources: {
+      title: 'Recursos gratuitos para aprender japonés - Materiales y guías de estudio para el JLPT',
+      description: 'Accede a recursos gratuitos para aprender japonés, materiales de estudio para el JLPT, guías de gramática, listas de vocabulario, referencias de kanji y consejos de estudio. Colección completa de materiales de aprendizaje de japonés para todos los niveles.',
+    },
+    learn: {
+      hiragana: {
+        title: 'Aprende Hiragana - Domina el silabario japonés',
+        description: 'Domina los 46 caracteres hiragana con práctica de escritura, pronunciación en audio y ejercicios interactivos. Perfecto para principiantes.',
+      },
+      katakana: {
+        title: 'Aprende Katakana - Domina el silabario japonés',
+        description: 'Domina los 46 caracteres katakana con práctica de escritura, pronunciación en audio y ejercicios interactivos. Esencial para palabras extranjeras.',
+      },
+      conjugation: {
+        title: 'Práctica de conjugación japonesa - Más de 100 formas',
+        description: 'Domina la conjugación de verbos, adjetivos y copula en japonés con más de 100 formas. Ponderación inteligente de dificultad y cobertura completa.',
+      },
+      wordLearning: {
+        title: 'Aprendizaje de palabras - Construye tu vocabulario japonés',
+        description: 'Expande tu vocabulario japonés con sesiones de aprendizaje de palabras dirigidas, revisión SRS y ejemplos de contexto.',
+      },
+      numbers: {
+        title: 'Aprende números en japonés - Práctica de conteo y sistema numérico',
+        description: 'Domina los números y sistemas de conteo japoneses. Aprende números nativos y sino-japoneses, contadores, fechas, horas y números de teléfono. Práctica interactiva con pronunciación en audio.',
+      },
+      wordLearningComplete: {
+        title: 'Sesión completada - Aprendizaje de palabras en japonés',
+        description: 'Sesión de aprendizaje de vocabulario completada. Revisa tu progreso y continúa tu viaje de aprendizaje de japonés.',
+      },
+      wordLearningSession: {
+        title: 'Sesión de aprendizaje de palabras en japonés - Práctica activa de vocabulario',
+        description: 'Sesión activa de aprendizaje de vocabulario japonés. Aprende nuevas palabras con contexto, mnemotecnia, oraciones de ejemplo y pronunciación en audio. Práctica estructurada de adquisición de palabras.',
+      },
+    },
+    news: {
+      title: 'Noticias japonesas - Artículos reales con soporte de IA',
+      description: 'Lee artículos auténticos de noticias japonesas con soporte de vocabulario impulsado por IA, descomposición de oraciones y herramientas de comprensión.',
+    },
+    shadowing: {
+      title: 'YouTube Shadowing - Domina la pronunciación nativa',
+      description: 'Practica shadowing con videos auténticos de YouTube, dramas y podcasts. Sistema impulsado por IA con tiempos de pausa ajustables y velocidad de reproducción.',
+    },
+    flashcards: {
+      title: 'Tarjetas inteligentes - Sistema de revisión SRS',
+      description: 'Revisa tu vocabulario y kanji japonés con nuestro sistema inteligente de tarjetas SRS que se adapta a tu ritmo de aprendizaje.',
+    },
+    drill: {
+      title: 'Ejercicio rápido - Práctica rápida de japonés',
+      description: 'Sesiones de revisión rápidas perfectas para descansos cortos de estudio. Pon a prueba tu conocimiento de vocabulario y kanji.',
+    },
+    vocabulary: {
+      title: 'Navegador de vocabulario - Base de datos completa de palabras',
+      description: 'Explora miles de palabras japonesas con lecturas, definiciones, oraciones de ejemplo y pronunciación en audio.',
+    },
+    textbooks: {
+      title: 'Vocabulario de libros de texto - Genki, Minna no Nihongo y más',
+      description: 'Vocabulario completo de Genki I & II, Minna no Nihongo, Tobira y más. Organizado por lección con audio y ejemplos.',
+    },
+    todos: {
+      title: 'Tareas de estudio - Gestiona tus tareas de aprendizaje',
+      description: 'Organiza tus tareas y metas de aprendizaje de japonés. Rastrea qué estudiar a continuación y mantén el control de tu progreso.',
+    },
+    leaderboard: {
+      title: 'Tabla de clasificación - Compite con otros estudiantes',
+      description: 'Ve cómo te clasificas frente a otros estudiantes de japonés en todo el mundo. Rastrea tu progreso y mantente motivado.',
+    },
+    achievements: {
+      title: 'Logros - Rastrea tus hitos',
+      description: 'Desbloquea logros a medida que avanzas en tu viaje de aprendizaje de japonés. Celebra tus hitos y logros.',
+    },
+    statistics: {
+      title: 'Estadísticas - Tus análisis de aprendizaje',
+      description: 'Análisis detallados de tu progreso en el aprendizaje del japonés, incluyendo tiempo de estudio, tasas de precisión y tendencias de mejora.',
+    },
+    settings: {
+      title: 'Configuración - Personaliza tu experiencia de aprendizaje',
+      description: 'Personaliza tus preferencias de aprendizaje, configuraciones de notificaciones y detalles de cuenta.',
+    },
+    account: {
+      title: 'Cuenta - Gestiona tu perfil',
+      description: 'Gestiona tu perfil, suscripción y configuraciones de cuenta.',
+    },
+    about: {
+      title: 'Acerca de Moshimoshi - Mejor aplicación de aprendizaje de japonés 2025',
+      description: 'Descubre Moshimoshi: La plataforma integral de aprendizaje de japonés con tarjetas SRS, shadowing en YouTube, preparación para el JLPT, navegador de kanji y práctica gamificada. Creada por estudiantes de japonés, para estudiantes.',
+    },
+    contact: {
+      title: 'Contáctanos - Soporte de aprendizaje de japonés | Moshimoshi',
+      description: 'Obtén ayuda con la aplicación de aprendizaje de japonés Moshimoshi. Contacta a nuestro equipo de soporte para asistencia técnica, solicitudes de funciones, comentarios y preguntas sobre el aprendizaje de japonés. Tiempo de respuesta rápido.',
+    },
+    credits: {
+      title: 'Créditos y atribuciones - Moshimoshi',
+      description: 'Créditos y atribuciones para bibliotecas de código abierto, fuentes, íconos y recursos utilizados en la plataforma de aprendizaje de japonés Moshimoshi.',
+    },
+    ankiImport: {
+      title: 'Importar mazos de Anki - Migra de Anki a Moshimoshi | Mejor alternativa a Anki',
+      description: 'Importa sin problemas tus mazos de Anki a Moshimoshi. Migra desde Anki con un clic y experimenta un SRS japonés moderno con mejor interfaz, integración de sombreado de YouTube y un algoritmo de revisión inteligente. Importa archivos APKG, preserva los datos de programación y mejora al mejor alternativa a Anki para aprender japonés en 2025.',
+    },
+    ankiStudy: {
+      title: 'Sesión de Estudio Anki - Revisa tus Mazos Importados',
+      description: 'Estudia tus mazos de Anki importados con revisión SRS inteligente. Practica tarjetas de memoria con espaciado optimizado y sigue tu progreso.',
+    },
+    reviewDashboard: {
+      title: 'Panel de Revisión SRS Japonés - Sistema de Repetición Espaciada',
+      description: 'Sistema inteligente de repetición espaciada (SRS) para vocabulario, kanji y gramática japonesa. Sigue tu programación de revisión, gestiona tarjetas de memoria y optimiza tu aprendizaje con el probado algoritmo SM-2.',
+    },
+    review: {
+      title: 'Revisión - Redirigiendo al Panel de Revisión',
+      description: 'Redirigiendo al panel de revisión japonés.',
+    },
+    reviewSession: {
+      title: 'Sesión de Revisión Japonesa - Práctica Activa de SRS',
+      description: 'Practica japonés con una sesión activa de revisión SRS. Revisa vocabulario, kanji y gramática con repetición espaciada inteligente. Optimiza la retención con un algoritmo de programación inteligente.',
+    },
+    share: {
+      title: 'Compartir a Moshimoshi - Añadir Contenido Japonés a tus Listas',
+      description: 'Comparte contenido japonés a Moshimoshi desde otras aplicaciones. Añade vocabulario, kanji y frases directamente a tus listas de aprendizaje personalizadas.',
+    },
+    showcase: {
+      title: 'Demostración de UI - Moshimoshi',
+      description: 'Demostración de componentes y elementos de UI para el desarrollo de Moshimoshi.',
+    },
+    stories: {
+      title: 'Historias de Lectura Japonesa - Lectores Graduados para Todos los Niveles JLPT',
+      description: 'Lee historias japonesas adaptadas a tu nivel. Lectores graduados de N5 a N1 con furigana, traducciones y audio. Mejora la comprensión lectora a través de historias cortas atractivas.',
+    },
+    studyGoals: {
+      title: 'Metas de Estudio - Establece Objetivos y Metas de Aprendizaje de Japonés',
+      description: 'Establece y sigue metas de estudio de japonés. Crea objetivos de preparación para el JLPT, metas diarias de revisión, hitos de vocabulario y metas de práctica de sombreado. Mantente motivado con el seguimiento del progreso.',
+    },
+    studyTimer: {
+      title: 'Temporizador de Estudio Japonés - Temporizador Pomodoro para Aprendizaje Enfocado',
+      description: 'Mantente enfocado con el temporizador de estudio japonés. Técnica Pomodoro para vocabulario, kanji y práctica de sombreado. Sigue las sesiones de estudio, gestiona los descansos y maximiza la eficiencia del aprendizaje.',
+    },
+    terms: {
+      title: 'Términos de Servicio - Moshimoshi',
+      description: 'Términos de servicio de Moshimoshi. Lee nuestros términos y condiciones para usar la plataforma de aprendizaje de japonés.',
+    },
+    textbookVocabulary: {
+      title: 'Vocabulario de Libros de Texto Japoneses - Listas de Palabras de Genki, Minna no Nihongo, Tobira',
+      description: 'Listas de vocabulario completas para libros de texto japoneses populares. Domina Genki I & II, Minna no Nihongo 1 & 2 (50 lecciones), Tobira, Japanese from Zero y Marugoto con tarjetas de memoria SRS y audio. Compañero perfecto para el aprendizaje de japonés en el aula con todas las palabras de los libros de texto organizadas por lección.',
+    },
+    kanjiMastery: {
+      title: 'Herramienta de Dominio de Kanji - Sistema de Aprendizaje Progresivo para 2136 Kanji Jōyō',
+      description: 'Domina los 2136 kanji jōyō con un sistema de aprendizaje progresivo. El algoritmo inteligente se adapta a tu nivel, sigue el progreso de dominio y optimiza la programación de revisiones. Dominio completo de kanji desde JLPT N5 hasta N1 con sesiones de estudio inteligentes.',
+    },
+    kanjiMasteryLearn: {
+      title: 'Sesión de Aprendizaje de Dominio de Kanji - Práctica Activa de Kanji',
+      description: 'Sesión activa de aprendizaje de dominio de kanji. Estudio progresivo de kanji con algoritmo inteligente y dificultad adaptativa. Domina los kanji jōyō sistemáticamente.',
+    },
+    youtubeSeries: {
+      title: 'Serie Japonesa de YouTube - Aprende Japonés con Drama y Sombreado de YouTube',
+      description: 'Domina el japonés con series auténticas de YouTube y sombreado de drama. Practica con canales nativos de YouTube en japonés, mejora la comprensión auditiva y perfecciona tu acento a través de la técnica de sombreado. Las mejores series japonesas para aprender.',
+    },
+    kanjiConnection: {
+      game: {
+        title: 'Juego de Conexión de Kanji - Desafío Interactivo de Memoria',
+        description: 'Pon a prueba tus habilidades de reconocimiento de kanji con nuestro atractivo juego de conexión. Empareja caracteres kanji con sus significados, lecturas o conceptos relacionados en este divertido y educativo desafío de memoria.',
+      },
+      families: {
+        title: 'Familias de Kanji - Aprende Kanji por Grupos de Componentes',
+        description: 'Domina los kanji a través de grupos familiares y componentes compartidos. Descubre cómo los kanji con partes similares comparten significados y hacen que el aprendizaje sea más eficiente y memorable.',
+      },
+      radicals: {
+        title: 'Radicales de Kanji - Domina los Componentes Semánticos',
+        description: 'Aprende kanji a través de radicales semánticos: los bloques de construcción que dan significado. Explora radicales de agua, radicales de fuego, radicales de mano y más para entender los patrones de kanji.',
+      },
+    },
   },
-
-  // Historia
   story: {
     readingSettings: 'Configuración de lectura',
     fontSizeLabel: 'Tamaño de fuente',
@@ -5017,31 +6512,197 @@ export const strings = {
       perfect: '¡Perfecto!',
       passed: '¡Bien hecho!',
       failed: '¡Sigue practicando!',
+      yourScore: 'Tu Puntuación',
+      excellent: '¡Excelente!',
+      good: '¡Buen Trabajo!',
+      keepPracticing: '¡Sigue Practicando!',
     },
+    noAudioAvailable: 'No hay audio disponible para esta historia',
   },
-
-  // Listas de estudio
   studyLists: {
     title: 'Listas de estudio',
     create: 'Crear nueva lista',
     edit: 'Editar lista',
     delete: 'Eliminar lista',
     addItem: 'Agregar elemento',
+    saveToList: 'Guardar en Lista',
+    noLists: 'Aún no hay listas. ¡Crea una para comenzar!',
+    createNewList: 'Crear Nueva Lista',
+    newList: 'Nueva Lista',
+    listName: 'Nombre de la Lista',
+    listType: 'Tipo de Lista',
+    description: 'Descripción',
+    namePlaceholder: 'por ejemplo, Vocabulario JLPT N5',
+    descriptionPlaceholder: 'Breve descripción de esta lista...',
+    incompatible: 'Este tipo de elemento no es compatible con esta lista',
+    premiumNotice: 'Los usuarios gratuitos guardan localmente. Los usuarios premium sincronizan con la nube.',
+    types: {
+      flashcard: 'Tarjeta de Memoria',
+      drillable: 'Ejercitable',
+      sentence: 'Frase',
+    },
+    errors: {
+      nameRequired: 'Por favor, introduce un nombre para la lista',
+      selectAtLeast: 'Por favor, selecciona al menos una lista',
+      createFailed: 'Error al crear la lista',
+      saveFailed: 'Error al guardar el elemento',
+    },
+    success: {
+      listCreated: 'Lista creada con éxito',
+      itemSaved: 'Elemento guardado en la(s) lista(s)',
+    },
   },
-
-  // Términos
   terms: {
     title: 'Términos de uso',
     lastUpdated: 'Última actualización',
     acceptTerms: 'Acepto los términos de uso',
+    effectiveDate: 'Fecha de vigencia: enero de 2025',
+    footer: 'Gracias por elegir Moshimoshi para tu viaje de aprendizaje del japonés.',
+    sections: {
+      agreement: {
+        title: '1. Aceptación de los Términos',
+        content: 'Estos Términos de Servicio constituyen un acuerdo legalmente vinculante entre tú y Moshimoshi con respecto a tu uso de nuestra aplicación de aprendizaje de japonés y servicios relacionados.',
+        acceptance: 'Al acceder o usar nuestro Servicio, aceptas estar sujeto a estos Términos.',
+        important: 'Importante',
+        importantContent: 'Estos Términos contienen una cláusula de arbitraje vinculante y una renuncia a acciones colectivas, que afectan tus derechos legales.',
+      },
+      eligibility: {
+        title: '2. Elegibilidad y Cuenta',
+        requirements: 'Para usar nuestro Servicio, debes:',
+        age: 'Tener al menos 13 años (o la edad mínima en tu jurisdicción)',
+        accurate: 'Proporcionar información de registro precisa y completa',
+        security: 'Mantener la seguridad de las credenciales de tu cuenta',
+        notify: 'Notificarnos inmediatamente cualquier acceso no autorizado',
+        responsibility: 'Eres responsable de todas las actividades que ocurran bajo tu cuenta.',
+      },
+      subscription: {
+        title: '3. Suscripción y Pago',
+        plans: {
+          title: '3.1 Planes de suscripción',
+          content: 'Ofrecemos varios planes de suscripción con diferentes características y precios.',
+        },
+        billing: {
+          title: '3.2 Facturación',
+          autoRenew: 'Las suscripciones se renuevan automáticamente a menos que se cancelen',
+          stripe: 'El pago se procesa a través de Stripe, nuestro proveedor de pagos',
+          changes: 'Los precios pueden cambiar con aviso previo',
+        },
+        refunds: {
+          title: '3.3 Reembolsos',
+          content: 'Ofrecemos una garantía de devolución de dinero para nuevos suscriptores.',
+        },
+      },
+      acceptable: {
+        title: '4. Política de Uso Aceptable',
+        permitted: {
+          title: '4.1 Usos Permitidos',
+          intro: 'Puede usar nuestro Servicio para:',
+          personal: 'Fines educativos personales',
+          classroom: 'Uso en el aula por educadores (con la licencia adecuada)',
+          sharing: 'Crear y compartir materiales de estudio dentro de la plataforma',
+        },
+        prohibited: {
+          title: '4.2 Usos Prohibidos',
+          intro: 'Usted acepta NO:',
+          laws: 'Violar ninguna ley o regulación',
+          ip: 'Infringir derechos de propiedad intelectual',
+          malware: 'Transmitir malware, virus o código dañino',
+          unauthorized: 'Intentar obtener acceso no autorizado a nuestros sistemas',
+          scrape: 'Raspar, extraer datos o usar sistemas automatizados',
+          circumvent: 'Eludir límites de uso o restricciones de acceso',
+          resell: 'Revender o redistribuir comercialmente nuestro contenido',
+          impersonate: 'Hacerse pasar por otros o proporcionar información falsa',
+          harass: 'Acosar, abusar o dañar a otros usuarios',
+        },
+      },
+      ip: {
+        title: '5. Derechos de Propiedad Intelectual',
+        ourContent: {
+          title: '5.1 Nuestro Contenido',
+          content: 'El Servicio y su contenido original son propiedad de Moshimoshi y están protegidos por leyes de propiedad intelectual.',
+        },
+        yourContent: {
+          title: '5.2 Su Contenido',
+          content: 'Usted conserva la propiedad del contenido que crea. Al publicarlo, nos otorga una licencia para usarlo en la prestación del Servicio.',
+        },
+        feedback: {
+          title: '5.3 Comentarios',
+          content: 'Cualquier comentario que proporcione se convierte en nuestra propiedad y puede ser utilizado sin compensación.',
+        },
+      },
+      disclaimers: {
+        title: '6. Renuncias y Garantías',
+        important: 'IMPORTANTE RENUNCIA LEGAL:',
+        asIs: 'EL SERVICIO SE PROPORCIONA \'TAL CUAL\' SIN GARANTÍAS DE NINGÚN TIPO.',
+        noWarranty: 'NO GARANTIZAMOS QUE:',
+        uninterrupted: 'El Servicio será ininterrumpido o libre de errores',
+        defects: 'Los defectos serán corregidos',
+        viruses: 'El Servicio esté libre de virus o componentes dañinos',
+        results: 'Los resultados cumplirán con sus requisitos',
+      },
+      liability: {
+        title: '7. Limitación de Responsabilidad',
+        limitation: 'LIMITACIÓN DE RESPONSABILIDAD:',
+        maxExtent: 'HASTA EL MÁXIMO PERMITIDO POR LA LEY, NO SEREMOS RESPONSABLES DE:',
+        indirect: 'Cualquier daño indirecto, incidental, especial o consecuente',
+        loss: 'Pérdida de beneficios, datos, uso, buena voluntad u otras pérdidas intangibles',
+        unauthorized: 'Daños por acceso no autorizado a nuestros servidores',
+        interruption: 'Cualquier interrupción o cese de transmisión',
+        total: 'Nuestra responsabilidad total no excederá la cantidad pagada por usted en los seis meses anteriores a la reclamación.',
+      },
+      termination: {
+        title: '8. Terminación',
+        intro: 'Podemos terminar o suspender su cuenta inmediatamente por cualquier motivo, incluyendo:',
+        breach: 'Incumplimiento de estos Términos',
+        request: 'Solicitud por parte de agencias de aplicación de la ley o gubernamentales',
+        inactivity: 'Períodos prolongados de inactividad',
+        nonPayment: 'Falta de pago de tarifas',
+        consequence: 'Al finalizar, su derecho a usar el Servicio cesará inmediatamente.',
+      },
+      governing: {
+        title: '9. Ley Aplicable',
+        content: 'Estos Términos se regirán por las leyes del Estado de Delaware, Estados Unidos.',
+      },
+      changes: {
+        title: '10. Cambios a Estos Términos',
+        content: 'Nos reservamos el derecho de modificar estos Términos en cualquier momento con 30 días de aviso para cambios materiales.',
+      },
+      contact: {
+        title: '11. Información de Contacto',
+        intro: 'Si tienes alguna pregunta sobre estos Términos, por favor contáctanos:',
+        email: 'Correo electrónico',
+        privacy: 'Privacidad',
+      },
+    },
   },
-
-  // TTS (Text-to-Speech)
   tts: {
     play: 'Reproducir',
     pause: 'Pausar',
     stop: 'Detener',
-    loading: 'Cargando...',
+    loading: {
+      0: 'C',
+      1: 'a',
+      2: 'r',
+      3: 'g',
+      4: 'a',
+      5: 'n',
+      6: 'd',
+      7: 'o',
+      8: '.',
+      9: '.',
+      10: '.',
+      ariaLabel: 'Cargando audio',
+      phrases: {
+        wait: 'Un momento...',
+        preparing: 'Preparando voz...',
+        creating: 'Creando audio...',
+        almostReady: '¡Casi listo!',
+        workingHard: '¡Trabajando duro!',
+        pleaseWait: 'Por favor espera...',
+        doshiReading: 'Moshi está leyendo...',
+        castingMagic: 'Lanzando magia...',
+      },
+    },
     error: 'Error al cargar audio',
     notAvailable: 'Audio no disponible',
     settings: {
@@ -5051,9 +6712,34 @@ export const strings = {
       pitch: 'Tono',
       volume: 'Volumen',
     },
+    storage: {
+      permission: {
+        title: 'Mantener audio sin conexión',
+        description: 'Permitir que Moshimoshi almacene archivos de audio permanentemente para uso sin conexión. Esto asegura que tu audio en caché no sea eliminado por el navegador.',
+        allow: 'Habilitar almacenamiento sin conexión',
+        granted: 'Ya habilitado',
+      },
+      currentUsage: 'Uso actual de almacenamiento',
+      benefits: {
+        offline: 'El audio funciona sin conexión sin volver a descargar',
+        persistent: 'El navegador no eliminará el audio en caché',
+        faster: 'Reproducción instantánea para audio previamente escuchado',
+      },
+      status: {
+        granted: 'El almacenamiento es persistente',
+        notGranted: 'El almacenamiento puede ser borrado por el navegador',
+      },
+    },
+    fallback: {
+      active: 'Usando voz del navegador (modo sin conexión)',
+      notice: 'La calidad del audio puede ser más baja de lo habitual',
+    },
+    errors: {
+      synthesizeFailed: 'No se pudo generar audio',
+      playbackFailed: 'Error al reproducir audio',
+      networkError: 'Error de red - intentando voz sin conexión',
+    },
   },
-
-  // Waitlist
   waitlist: {
     badge: 'Lanzamiento',
     badgePrefix: 'Lanzamiento',
@@ -5187,7 +6873,6 @@ export const strings = {
     step3Title: 'Repetición Espaciada',
     step3Description: 'La planificación impulsada por IA optimiza tu retención',
   },
-
   qa: {
     title: 'Casa de Té',
     subtitle: 'Reúnete, haz preguntas, comparte sabiduría con otros estudiantes',
@@ -5196,30 +6881,24 @@ export const strings = {
     answers: 'Respuestas',
     question: 'Pregunta',
     questions: 'Preguntas',
-
-    // Tabs/Filters
     tabs: {
       recent: 'Recientes',
       popular: 'Populares',
       unanswered: 'Sin Respuesta',
       myQuestions: 'Mis Preguntas',
     },
-
-    // Difficulty levels
     difficulty: {
       beginner: 'Principiante',
       intermediate: 'Intermedio',
       advanced: 'Avanzado',
     },
-
-    // Topic tags
     tags: {
       grammar: 'Gramática',
       vocabulary: 'Vocabulario',
       kanji: 'Kanji',
       pronunciation: 'Pronunciación',
       particles: 'Partículas',
-      'verb-conjugation': 'Conjugación de Verbos',
+      verb-conjugation: 'Conjugación de Verbos',
       culture: 'Cultura',
       jlpt: 'JLPT',
       translation: 'Traducción',
@@ -5228,8 +6907,6 @@ export const strings = {
       writing: 'Escritura',
       other: 'Otro',
     },
-
-    // Voting
     voting: {
       upvote: 'Voto Positivo',
       downvote: 'Voto Negativo',
@@ -5237,22 +6914,16 @@ export const strings = {
       cannotVoteOwnContent: 'No puedes votar tu propio contenido',
       error: 'Error al votar. Por favor, inténtalo de nuevo.',
     },
-
-    // Moderation
     moderation: {
       pending: 'En Revisión',
       approved: 'Aprobado',
       rejected: 'Rechazado',
       reason: 'Razón',
     },
-
-    // Question card
     questionCard: {
       hasAnswer: 'Respondida',
       viewQuestion: 'Ver Pregunta',
     },
-
-    // Editor
     editor: {
       title: 'Título de la Pregunta',
       titlePlaceholder: '¿Qué te gustaría saber sobre japonés?',
@@ -5296,8 +6967,6 @@ export const strings = {
       tip3: 'Muestra lo que has intentado o investigado',
       tip4: 'Usa etiquetas de tema apropiadas para ayudar a otros a encontrar tu pregunta',
     },
-
-    // Answer actions
     answerActions: {
       acceptedAnswer: 'Respuesta Aceptada',
       acceptAnswer: 'Aceptar Respuesta',
@@ -5318,8 +6987,6 @@ export const strings = {
       beTheFirst: '¡Sé el primero en ayudar!',
       loadError: 'Error al cargar las respuestas',
     },
-
-    // Question detail page
     detail: {
       notFound: 'Pregunta no encontrada',
       loadError: 'Error al cargar la pregunta',
@@ -5335,8 +7002,6 @@ export const strings = {
       delete: 'Eliminar',
       yourAnswer: 'Tu Respuesta',
     },
-
-    // Edit question page
     edit: {
       editQuestion: 'Editar Pregunta',
       editQuestionSubtitle: 'Actualiza los detalles de tu pregunta',
@@ -5344,8 +7009,6 @@ export const strings = {
       questionUpdated: 'Pregunta actualizada con éxito',
       unauthorized: 'Solo puedes editar tus propias preguntas',
     },
-
-    // Empty states
     empty: {
       noQuestions: 'Aún no hay preguntas',
       beFirst: '¡Sé el primero en hacer una pregunta!',
@@ -5353,8 +7016,6 @@ export const strings = {
       tryDifferent: 'Prueba diferentes filtros o términos de búsqueda',
     },
   },
-
-  // Intro Tutorial - Uses English until translated
   intro: {
     panel1: {
       eyebrow: 'Why Moshimoshi Exists',
@@ -5409,4 +7070,63 @@ export const strings = {
     progressOf: 'of',
     swipeHint: 'Swipe or use arrows to continue',
   },
-}
+  congratulations: '¡Felicidades!',
+  success: 'Éxito',
+  teaHouse: {
+    guidelines: {
+      title: 'Guías de la Casa de Té',
+      welcome: {
+        title: 'Bienvenido a la Casa de Té',
+        subtitle: 'Un espacio de aprendizaje compartido donde los estudiantes de japonés se ayudan mutuamente con calma, amabilidad y consideración.',
+        description: 'La Casa de Té es un espacio de aprendizaje compartido donde los estudiantes de japonés se ayudan mutuamente con calma, amabilidad y consideración. Todos, tanto usuarios gratuitos como premium, son bienvenidos a hacer preguntas y compartir respuestas, siempre que apoyen el aprendizaje del japonés de manera respetuosa.',
+      },
+      whatFor: {
+        title: 'Para qué es la Casa de Té',
+        intro: 'La Casa de Té es el lugar adecuado para:',
+        point1: 'Hacer preguntas sobre el idioma japonés (gramática, kanji, vocabulario, uso)',
+        point2: 'Discutir sobre la cultura, tradiciones y costumbres japonesas',
+        point3: 'Aclarar cosas de libros de texto, videos, historias o contenido real',
+        point4: 'Verificar si una oración suena natural o correcta',
+        point5: 'Compartir y discutir recursos, métodos y experiencias de aprendizaje',
+      },
+      whatNotFor: {
+        title: 'Para qué no es la Casa de Té',
+        intro: 'Para mantener la Casa de Té tranquila y útil, por favor no publiques:',
+        point1: 'Debates políticos, religiosos o ideológicos',
+        point2: 'Acoso, sarcasmo o respuestas despectivas',
+        point3: 'Exclusión o avergonzar a los estudiantes por su nivel',
+        point4: 'Promoción de otras aplicaciones, cursos o canales',
+        point5: 'Respuestas generadas por IA publicadas sin comprensión',
+        point6: 'Consejos médicos, legales o personales no relacionados con el aprendizaje del japonés',
+        point7: 'Discusiones completamente fuera de tema no relacionadas con Japón o el aprendizaje del japonés',
+      },
+      conduct: {
+        title: 'Cómo nos tratamos aquí',
+        point1: 'Sé amable primero, corrige después',
+        point2: 'Asume que todos están aprendiendo de buena fe',
+        point3: 'Explica de manera simple y clara',
+        point4: 'Si no te ayudaría a aprender, no lo publiques',
+        noStupidQuestions: 'Aquí no hay tal cosa como una "pregunta tonta".',
+      },
+      moderation: {
+        title: 'Moderación y Seguridad',
+        point1: 'La comunidad puede marcar publicaciones que no encajen en el Tea House',
+        point2: 'Los moderadores pueden eliminar publicaciones que rompan estas pautas',
+        point3: 'Las violaciones repetidas pueden limitar el acceso al Tea House',
+        purpose: 'La moderación existe para proteger el espacio de aprendizaje, no para castigar.',
+      },
+      corePrinciple: 'Sé amable primero, corrige después. Asume que todos están aprendiendo de buena fe.',
+      closing: 'El Tea House funciona porque todos ayudan a mantenerlo tranquilo, enfocado y acogedor. Gracias por ser parte de él.',
+      gotIt: '¡Entendido, déjame explorar!',
+      viewFullGuidelines: 'Ver pautas completas',
+      viewGuidelines: 'Ver Pautas',
+      beforeYouPost: 'Antes de publicar...',
+      pleaseReadAndAgree: 'Por favor, tómate un momento para leer y aceptar nuestras pautas comunitarias',
+      iAgree: 'Entiendo y acepto las pautas del Tea House',
+      continueToPost: 'Continuar para Publicar',
+      mustAgree: 'Por favor, acepta las pautas para continuar',
+      acknowledged: '¡Gracias! Ahora puedes publicar en el Tea House',
+      acknowledgeFailed: 'No se pudo guardar el reconocimiento. Por favor, inténtalo de nuevo.',
+    },
+  },
+};

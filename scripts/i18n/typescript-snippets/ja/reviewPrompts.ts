@@ -1,0 +1,10 @@
+  reviewPrompts: {
+    // TODO: Nested - vocabulary.noResults: '結果が見つかりません',
+    // TODO: Nested - vocabulary.searchHint: '異なるキーワードを試してください',
+    // TODO: Nested - vocabulary.addToList: 'リストに追加',
+    // TODO: Nested - vocabulary.saveWord: '単語を保存',
+    // TODO: Nested - vocabulary.studyWord: '単語を勉強',
+    // TODO: Nested - vocabulary.pronunciation: '発音',
+    // TODO: Nested - vocabulary.examples: '例文',
+    // TODO: Nested - vocabulary.conjugations: '活用形',
+  },

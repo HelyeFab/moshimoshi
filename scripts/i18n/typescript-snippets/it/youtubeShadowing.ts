@@ -1,0 +1,10 @@
+  youtubeShadowing: {
+    watchOnYouTube: 'Guarda su YouTube',
+    // TODO: Nested - player.transcript.noTranscript: 'Nessuna trascrizione disponibile',
+    // TODO: Nested - player.repeatLine: 'Ripeti riga',
+    // TODO: Nested - player.playTTS: 'Riproduci TTS',
+    // TODO: Nested - player.toggleTranscript: 'Attiva/disattiva trascrizione',
+    // TODO: Nested - player.autoScroll: 'Scorrimento automatico',
+    // TODO: Nested - player.currentLine: 'Riga corrente',
+    audioFile: 'File audio',
+  },

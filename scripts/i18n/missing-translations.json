@@ -1,0 +1,22 @@
+{
+  "generated": "2026-01-09T13:25:37.255Z",
+  "referenceLocale": "en",
+  "totalReferenceKeys": 4798,
+  "locales": {
+    "ja": {
+      "error": "Failed to evaluate strings object in /home/beano/DevProjects/NextJs/moshimoshi/src/i18n/locales/ja/strings.ts: Unexpected token ':'"
+    },
+    "de": {
+      "error": "Failed to evaluate strings object in /home/beano/DevProjects/NextJs/moshimoshi/src/i18n/locales/de/strings.ts: Unexpected token ':'"
+    },
+    "es": {
+      "error": "Failed to evaluate strings object in /home/beano/DevProjects/NextJs/moshimoshi/src/i18n/locales/es/strings.ts: Unexpected token ':'"
+    },
+    "fr": {
+      "error": "Failed to evaluate strings object in /home/beano/DevProjects/NextJs/moshimoshi/src/i18n/locales/fr/strings.ts: Unexpected token ':'"
+    },
+    "it": {
+      "error": "Failed to evaluate strings object in /home/beano/DevProjects/NextJs/moshimoshi/src/i18n/locales/it/strings.ts: Unexpected token ':'"
+    }
+  }
+}

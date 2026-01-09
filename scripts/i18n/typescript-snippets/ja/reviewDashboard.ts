@@ -1,0 +1,13 @@
+  reviewDashboard: {
+    // TODO: Nested - sections.mastered: '習得済み',
+    interval: '間隔',
+    accuracy: '正確さ',
+    andMore: '...と{count}個のアイテム',
+    // TODO: Nested - stats.totalItems: '合計アイテム数',
+    // TODO: Nested - stats.mastered: '習得済み',
+    // TODO: Nested - actions.viewSchedule: '完全なスケジュールを見る',
+    // TODO: Nested - actions.startReviewSession: 'レビューセッションを開始',
+    // TODO: Nested - messages.checkBackLater: 'もっとレビューをお待ちください',
+    // TODO: Nested - messages.futureReviews: '将来の週に予定されているレビュー',
+    // TODO: Nested - messages.noReviewsToday: '今日のレビューはこれ以上予定されていません',
+  },

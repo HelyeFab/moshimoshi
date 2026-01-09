@@ -1,0 +1,10 @@
+  conjugation: {
+    // TODO: Nested - help.smartModeTitle: 'Aiuto intelligente',
+    // TODO: Nested - help.smartModeDesc: 'Questo aiuto è stato suggerito in base alla tua risposta.',
+    // TODO: Nested - help.examples: 'Esempi',
+    // TODO: Nested - help.tip: 'Suggerimento',
+    // TODO: Nested - help.previous: 'Precedente',
+    // TODO: Nested - help.next: 'Successivo',
+    // TODO: Nested - help.closeHelp: 'Chiudi Aiuto',
+    settings: 'Impostazioni',
+  },

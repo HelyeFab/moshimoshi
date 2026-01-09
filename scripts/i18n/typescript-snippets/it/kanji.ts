@@ -1,0 +1,11 @@
+  kanji: {
+    strokes: 'tratti',
+    difficulty: 'Difficoltà',
+    onReading: 'Lettura On',
+    kunReading: 'Lettura Kun',
+    examples: 'Esempi',
+    overview: 'Panoramica',
+    readings: 'Letture',
+    info: 'Informazioni',
+    noExamples: 'Nessun esempio disponibile',
+  },

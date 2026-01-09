@@ -1,0 +1,13 @@
+  landing: {
+    // TODO: Nested - hero.carousel.library.title: '読書ライブラリ',
+    // TODO: Nested - hero.carousel.library.description: '本、レベル別リーダー、要約版',
+    // TODO: Nested - hero.carousel.library.badge: '豊富なコレクション',
+    // TODO: Nested - features.library.title: '読書ライブラリ：没入型コンテンツ',
+    // TODO: Nested - features.library.subtitle: 'あなたのレベルに合わせた本、レベル別リーダー、要約版',
+    // TODO: Nested - features.library.description: '日本の本やレベル別リーダーの豊富なコレクションを探索してください。各タイトルには、実際の日本語コンテンツを自信を持って読むための学習ツールが組み込まれています。',
+    // TODO: Nested - features.library.benefits.benefit1: '読書中の瞬時の単語検索',
+    // TODO: Nested - features.library.benefits.benefit2: '完全な翻訳サポート',
+    // TODO: Nested - features.library.benefits.benefit3: 'リスニング練習用の音声版',
+    // TODO: Nested - features.library.benefits.benefit4: '速読のための要約版',
+    // TODO: Nested - features.library.cta: 'ライブラリを探索',
+  },

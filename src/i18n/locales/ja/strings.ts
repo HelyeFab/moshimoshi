@@ -1,5 +1,4 @@
 export const strings = {
-  // Waitlist Page
   waitlist: {
     badge: 'リリース',
     badgePrefix: 'リリース',
@@ -17,17 +16,47 @@ export const strings = {
       complete: 'リリースしました！',
     },
     features: {
-      kana: { title: 'ひらがな・カタカナ', description: '日本語の文字をマスター' },
-      kanji: { title: '漢字マスター', description: '2,000以上の漢字' },
-      textbooks: { title: 'げんき・みんな', description: '教科書の語彙完備' },
-      shadowing: { title: 'シャドーイング', description: 'ネイティブ動画で学習' },
-      news: { title: 'ネイティブニュース', description: '本物の日本語記事' },
-      stories: { title: 'AIストーリー', description: 'レベルに合った物語' },
-      comics: { title: 'もしコミック', description: 'オリジナル漫画シリーズ' },
-      anki: { title: 'Ankiインポート', description: 'カードを持ち込み' },
-      conjugation: { title: '活用ドリル', description: '100以上の動詞形' },
+      kana: {
+        title: 'ひらがな・カタカナ',
+        description: '日本語の文字をマスター',
+      },
+      kanji: {
+        title: '漢字マスター',
+        description: '2,000以上の漢字',
+      },
+      textbooks: {
+        title: 'げんき・みんな',
+        description: '教科書の語彙完備',
+      },
+      shadowing: {
+        title: 'シャドーイング',
+        description: 'ネイティブ動画で学習',
+      },
+      news: {
+        title: 'ネイティブニュース',
+        description: '本物の日本語記事',
+      },
+      stories: {
+        title: 'AIストーリー',
+        description: 'レベルに合った物語',
+      },
+      comics: {
+        title: 'もしコミック',
+        description: 'オリジナル漫画シリーズ',
+      },
+      anki: {
+        title: 'Ankiインポート',
+        description: 'カードを持ち込み',
+      },
+      conjugation: {
+        title: '活用ドリル',
+        description: '100以上の動詞形',
+      },
     },
-    footer: { terms: '利用規約', privacy: 'プライバシーポリシー' },
+    footer: {
+      terms: '利用規約',
+      privacy: 'プライバシーポリシー',
+    },
     form: {
       placeholder: 'メールアドレスを入力',
       button: {
@@ -48,17 +77,12 @@ export const strings = {
       },
     },
   },
-
-  // Landing Page
   landing: {
     hero: {
       headline: '革命的な学習ツールで日本語をマスター',
-      subheadline:
-        'YouTubeシャドーイング、インテリジェントな漢字コネクション、ワンクリックAnkiインポート、完全な教科書統合を組み合わせた唯一のプラットフォーム',
+      subheadline: 'YouTubeシャドーイング、インテリジェントな漢字コネクション、ワンクリックAnkiインポート、完全な教科書統合を組み合わせた唯一のプラットフォーム',
       ctaPrimary: '無料で学習を始める',
       ctaSecondary: 'デモを見る',
-
-      // Pre-launch waitlist strings
       preLaunch: {
         badgePrefix: 'リリース',
         badgeMobilePrefix: 'リリース',
@@ -75,7 +99,6 @@ export const strings = {
           complete: 'リリースしました！',
         },
       },
-
       carousel: {
         shadowing: {
           title: 'YouTubeシャドーイング',
@@ -117,14 +140,18 @@ export const strings = {
           description: 'オリジナル漫画で日本語を学ぶ',
           badge: 'Moshimoshi独自',
         },
+        library: {
+          title: '読書ライブラリ',
+          description: '本、レベル別リーダー、要約版',
+          badge: '豊富なコレクション',
+        },
       },
     },
     features: {
       shadowing: {
         title: 'YouTubeシャドーイング：ネイティブコンテンツから学ぶ',
         subtitle: '日本語学習者が知らない秘密兵器',
-        description:
-          '本物の日本語YouTubeビデオ、ドラマ、ポッドキャストとシャドーイング。AI搭載システムが調整可能なポーズ時間で完璧な学習チャンクにコンテンツを分割します。',
+        description: '本物の日本語YouTubeビデオ、ドラマ、ポッドキャストとシャドーイング。AI搭載システムが調整可能なポーズ時間で完璧な学習チャンクにコンテンツを分割します。',
         benefits: {
           benefit1: '本物のネイティブ発音で練習',
           benefit2: '調整可能な再生速度（0.5倍 - 2倍）',
@@ -136,8 +163,7 @@ export const strings = {
       kanji: {
         title: '漢字コネクションシステム：視覚学習革命',
         subtitle: '他の誰も見せないパターンを見る',
-        description:
-          '私たちの独自のシステムは、音韻ファミリー、意味的な部首、視覚的パターンを通じて2,136のすべての常用漢字を接続します。孤立した文字ではなく、接続されたクラスターで漢字を学びます。',
+        description: '私たちの独自のシステムは、音韻ファミリー、意味的な部首、視覚的パターンを通じて2,136のすべての常用漢字を接続します。孤立した文字ではなく、接続されたクラスターで漢字を学びます。',
         benefits: {
           benefit1: 'コンポーネント分解付き214部首',
           benefit2: '音韻ファミリーグループ化',
@@ -149,8 +175,7 @@ export const strings = {
       conjugation: {
         title: '日本語活用をマスター',
         subtitle: '100以上の活用形 - 市場で最も包括的',
-        description:
-          '高度な活用エンジンは、完璧な精度ですべての動詞、形容詞、コピュラ形式をカバーします。スマートな品詞検出、重み付けされた難易度ドリル、クリーンなアーキテクチャが文法練習を簡単にします。',
+        description: '高度な活用エンジンは、完璧な精度ですべての動詞、形容詞、コピュラ形式をカバーします。スマートな品詞検出、重み付けされた難易度ドリル、クリーンなアーキテクチャが文法練習を簡単にします。',
         benefits: {
           benefit1: '100以上の活用形（利用可能な最も包括的）',
           benefit2: '日本語文法ルールの正確な実装',
@@ -162,8 +187,7 @@ export const strings = {
       anki: {
         title: 'ワンクリックAnkiインポート：進捗を保持',
         subtitle: '何千時間もの作業を失うことなく切り替え',
-        description:
-          '完全なSRS履歴、カードスケジューリング、カスタムノートを含むすべてのAnkiデッキをインポート。インテリジェント移行システムは、学習体験をアップグレードしながらすべてを保存します。',
+        description: '完全なSRS履歴、カードスケジューリング、カスタムノートを含むすべてのAnkiデッキをインポート。インテリジェント移行システムは、学習体験をアップグレードしながらすべてを保存します。',
         benefits: {
           benefit1: '100％のSRS履歴が保持される',
           benefit2: 'カスタムカードが完璧にインポートされる',
@@ -175,8 +199,7 @@ export const strings = {
       textbooks: {
         title: '教科書語彙：アカデミックエクセレンス',
         subtitle: 'すでに使用している本のすべての単語',
-        description:
-          'げんきI＆II、みんなの日本語、とびら、その他からの完全な語彙。例文、音声、SRSレビュー付きでレッスン別に整理。',
+        description: 'げんきI＆II、みんなの日本語、とびら、その他からの完全な語彙。例文、音声、SRSレビュー付きでレッスン別に整理。',
         textbookList: 'げんき • みんなの日本語 • とびら • Japanese from Zero • まるごと',
         benefits: {
           benefit1: '教科書とレッスン別に整理',
@@ -186,12 +209,10 @@ export const strings = {
         },
         cta: '教科書語彙を閲覧',
       },
-
       news: {
         title: '本物の日本語ニュース記事',
         subtitle: '本物の時事問題から学ぶ',
-        description:
-          '組み込みの理解サポート付きで本物の日本語ニュース記事を読む。AIが複雑な文を分解し、語彙のヒントを提供し、読書進捗を追跡します。',
+        description: '組み込みの理解サポート付きで本物の日本語ニュース記事を読む。AIが複雑な文を分解し、語彙のヒントを提供し、読書進捗を追跡します。',
         benefits: {
           benefit1: '毎日更新される本物のニュースコンテンツ',
           benefit2: 'AI搭載の文分解と分析',
@@ -200,12 +221,10 @@ export const strings = {
         },
         cta: 'ニュース記事を読む',
       },
-
       stories: {
         title: 'AI生成ストーリー',
         subtitle: 'あなたのレベルに合わせたパーソナライズされたストーリー',
-        description:
-          '語彙レベルと興味に合わせてAI生成されたストーリーで読書練習。各ストーリーにはふりがな、語彙リスト、理解度チェック問題が含まれます。',
+        description: '語彙レベルと興味に合わせてAI生成されたストーリーで読書練習。各ストーリーにはふりがな、語彙リスト、理解度チェック問題が含まれます。',
         benefits: {
           benefit1: 'あなたの正確なレベルで生成されたストーリー',
           benefit2: 'ふりがなと語彙サポート',
@@ -214,12 +233,10 @@ export const strings = {
         },
         cta: 'AIストーリーを探索',
       },
-
       comics: {
         title: 'もしコミック：漫画で学ぶ',
         subtitle: '学習者のために作られたオリジナル日本語コミック',
-        description:
-          'オリジナル漫画シリーズで、もしと一緒に日本の冒険を楽しもう。各エピソードには自然な会話、文化的な知識、あなたのレベルに合わせた語彙が含まれ、美しいAI生成アートワークで彩られています。',
+        description: 'オリジナル漫画シリーズで、もしと一緒に日本の冒険を楽しもう。各エピソードには自然な会話、文化的な知識、あなたのレベルに合わせた語彙が含まれ、美しいAI生成アートワークで彩られています。',
         benefits: {
           benefit1: '一貫したキャラクターのオリジナル漫画ストーリー',
           benefit2: 'ふりがな付きの自然な日本語会話',
@@ -227,6 +244,18 @@ export const strings = {
           benefit4: 'エピソードごとのクイズと語彙リスト',
         },
         cta: 'もしコミックを読む',
+      },
+      library: {
+        title: '読書ライブラリ：没入型コンテンツ',
+        subtitle: 'あなたのレベルに合わせた本、レベル別リーダー、要約版',
+        description: '日本の本やレベル別リーダーの豊富なコレクションを探索してください。各タイトルには、実際の日本語コンテンツを自信を持って読むための学習ツールが組み込まれています。',
+        benefits: {
+          benefit1: '読書中の瞬時の単語検索',
+          benefit2: '完全な翻訳サポート',
+          benefit3: 'リスニング練習用の音声版',
+          benefit4: '速読のための要約版',
+        },
+        cta: 'ライブラリを探索',
       },
     },
     comparison: {
@@ -260,29 +289,25 @@ export const strings = {
       subtitle: '初心者からJLPT N1受験者まで',
       testimonials: {
         testimonial1: {
-          quote:
-            '3年後にAnkiから移行しました。インポートは完璧で、シャドーイング機能が私の発音を劇的に改善しました。',
+          quote: '3年後にAnkiから移行しました。インポートは完璧で、シャドーイング機能が私の発音を劇的に改善しました。',
           author: 'Sarah Chen',
           role: 'JLPT N2学生',
           context: 'Ankiから移行',
         },
         testimonial2: {
-          quote:
-            '漢字コネクションシステムが漢字を理解させてくれました。ファミリーとパターンを見ることがすべてを変えました。',
+          quote: '漢字コネクションシステムが漢字を理解させてくれました。ファミリーとパターンを見ることがすべてを変えました。',
           author: 'Marcus Rodriguez',
           role: '大学日本語専攻',
           context: '漢字コネクションユーザー',
         },
         testimonial3: {
-          quote:
-            'げんきの学生として、レッスン別に音声付きで整理されたすべての語彙は、私の勉強にとってゲームチェンジャーです。',
+          quote: 'げんきの学生として、レッスン別に音声付きで整理されたすべての語彙は、私の勉強にとってゲームチェンジャーです。',
           author: 'Emma Thompson',
           role: '独学学習者',
           context: '教科書統合ユーザー',
         },
         testimonial4: {
-          quote:
-            '本物のYouTubeコンテンツでシャドーイングすることは、どんな教科書にも勝ります。日本人の友達は私が独学だとは信じられません。',
+          quote: '本物のYouTubeコンテンツでシャドーイングすることは、どんな教科書にも勝ります。日本人の友達は私が独学だとは信じられません。',
           author: 'Kenji Yamamoto',
           role: 'ビジネスプロフェッショナル',
           context: 'YouTubeシャドーイングユーザー',
@@ -301,41 +326,34 @@ export const strings = {
       questions: {
         q1: {
           question: '本当にすべてのAnkiデッキをインポートできますか？',
-          answer:
-            'はい！インポートツールは.apkgファイルを処理し、完全なSRS履歴、スケジューリング、タグ、カスタムカードフォーマットを保持します。ほとんどのインポートは60秒以内に完了します。',
+          answer: 'はい！インポートツールは.apkgファイルを処理し、完全なSRS履歴、スケジューリング、タグ、カスタムカードフォーマットを保持します。ほとんどのインポートは60秒以内に完了します。',
         },
         q2: {
           question: '漢字コネクションシステムがユニークな理由は？',
-          answer:
-            '孤立して漢字を教える他のアプリとは異なり、音韻ファミリー、意味的パターン、視覚的関係を示します。たとえば、青（青/緑）コンポーネントを持つすべての漢字は、その発音パターンと一緒にグループ化され教えられます。',
+          answer: '孤立して漢字を教える他のアプリとは異なり、音韻ファミリー、意味的パターン、視覚的関係を示します。たとえば、青（青/緑）コンポーネントを持つすべての漢字は、その発音パターンと一緒にグループ化され教えられます。',
         },
         q3: {
           question: 'YouTubeシャドーイングはすべてのビデオで利用できますか？',
-          answer:
-            '日本語キャプション付きのYouTubeビデオをサポートします。AIがシャドーイング練習のための調整可能なポーズ時間で学習可能なセグメントにコンテンツを分割します。',
+          answer: '日本語キャプション付きのYouTubeビデオをサポートします。AIがシャドーイング練習のための調整可能なポーズ時間で学習可能なセグメントにコンテンツを分割します。',
         },
         q4: {
           question: 'どの教科書をサポートしていますか？',
-          answer:
-            'げんきI＆II、みんなの日本語I＆II、とびら、Japanese from Zero、まるごとの完全な語彙カバレッジがあります。各エントリには音声、例文、レッスン構成が含まれています。',
+          answer: 'げんきI＆II、みんなの日本語I＆II、とびら、Japanese from Zero、まるごとの完全な語彙カバレッジがあります。各エントリには音声、例文、レッスン構成が含まれています。',
         },
         q5: {
           question: 'Moshimoshiをオフラインで使用できますか？',
-          answer:
-            'はい！すべてのフラッシュカード、漢字データ、教科書語彙はオフラインで動作します。レビューはオンラインに戻ったときに自動的に同期されます。',
+          answer: 'はい！すべてのフラッシュカード、漢字データ、教科書語彙はオフラインで動作します。レビューはオンラインに戻ったときに自動的に同期されます。',
         },
         q6: {
           question: 'DuolingoやWaniKaniとどう違いますか？',
-          answer:
-            'Moshimoshiは、Ankiのカスタマイズ性、WaniKaniの漢字の深さ、YouTubeシャドーイングや教科書統合などのユニークな機能をすべて1つのプラットフォームに組み合わせています。包括的なツールを求める真剣な学習者向けに構築されています。',
+          answer: 'Moshimoshiは、Ankiのカスタマイズ性、WaniKaniの漢字の深さ、YouTubeシャドーイングや教科書統合などのユニークな機能をすべて1つのプラットフォームに組み合わせています。包括的なツールを求める真剣な学習者向けに構築されています。',
         },
       },
     },
     finalCta: {
       title: '日本語学習を変革する準備はできましたか？',
       subtitle: '何千人もの学習者がより速く流暢さを達成しています',
-      features:
-        '無料ティアにはコア機能が含まれます • クレジットカード不要 • いつでもアップグレード',
+      features: '無料ティアにはコア機能が含まれます • クレジットカード不要 • いつでもアップグレード',
       ctaPrimary: '無料で学習を始める',
       ctaSecondary: '価格を見る',
     },
@@ -362,7 +380,6 @@ export const strings = {
       copyright: '© 2025 Moshimoshi. All rights reserved.',
     },
   },
-
   reviewDashboard: {
     title: '復習ダッシュボード',
     description: '学習進捗と復習スケジュールを追跡',
@@ -378,8 +395,7 @@ export const strings = {
     upcomingReviews: '今後の復習',
     overdue: '期限切れ',
     thisWeek: '今週',
-    noScheduledReviews:
-      '予定された復習はまだありません。学習を続けて復習スケジュールを作りましょう！',
+    noScheduledReviews: '予定された復習はまだありません。学習を続けて復習スケジュールを作りましょう！',
     sections: {
       reviewQueue: '復習キュー',
       upcomingReviews: '今後の復習',
@@ -390,12 +406,15 @@ export const strings = {
       inReview: '復習中',
       reviewQueueFull: '復習キュー - 今すぐ復習',
       reviewSchedule: '復習スケジュール',
+      mastered: '習得済み',
     },
     stats: {
       studied: '学習済み',
       learned: '習得済み',
       dueNow: '今すぐ',
       upcoming: '今後',
+      totalItems: '合計アイテム数',
+      mastered: '習得済み',
     },
     filter: {
       all: 'すべて',
@@ -409,6 +428,8 @@ export const strings = {
       reviewOverdue: '{{count}}件の期限切れアイテムを復習',
       viewAll: 'すべて表示',
       refresh: '更新',
+      viewSchedule: '完全なスケジュールを見る',
+      startReviewSession: 'レビューセッションを開始',
     },
     messages: {
       noReviewsDue: '今復習するものはありません。よくできました！',
@@ -418,6 +439,9 @@ export const strings = {
       queueEmpty: '復習キューは空です！',
       loading: '復習データを読み込み中...',
       loadError: '復習データの読み込みに失敗しました',
+      checkBackLater: 'もっとレビューをお待ちください',
+      futureReviews: '将来の週に予定されているレビュー',
+      noReviewsToday: '今日のレビューはこれ以上予定されていません',
     },
     time: {
       today: '今日',
@@ -439,9 +463,10 @@ export const strings = {
       scheduledReviews: '予定された復習',
     },
     items: '項目',
+    interval: '間隔',
+    accuracy: '正確さ',
+    andMore: '...と{count}個のアイテム',
   },
-
-  // Common/Shared
   common: {
     brand: 'もしもし',
     loading: '読み込み中...',
@@ -557,7 +582,6 @@ export const strings = {
     days: '日',
     minutes: '分',
     cards: 'カード',
-    // Vocabulary display
     searchPlaceholder: '語彙を検索...',
     allLessons: 'すべてのレッスン',
     lesson: 'レッスン',
@@ -571,14 +595,11 @@ export const strings = {
     meaning: '意味',
     examples: '例文',
     partOfSpeech: '品詞',
-    // Textbook features
     totalVocabulary: '総コレクション',
     srsReview: 'SRS復習',
     audioSupport: '音声サポート',
     interactive: 'インタラクティブ',
   },
-
-  // Dashboard
   dashboard: {
     loading: 'ダッシュボードを読み込み中...',
     stats: {
@@ -610,13 +631,7 @@ export const strings = {
         title: '経験値（XP）',
         streakRequirement: '連続記録を維持するには毎日{minXP} XPを獲得してください！',
         howToEarn: 'XPの獲得方法：',
-        activities: [
-          'ドリルやフラッシュカードセッションを完了',
-          '漢字マスタリー演習を練習',
-          'YouTubeシャドーイング動画を視聴',
-          'ストーリーや漫画を読む',
-          '正確さとスピードボーナスあり',
-        ],
+        activities: ["ドリルやフラッシュカードセッションを完了","漢字マスタリー演習を練習","YouTubeシャドーイング動画を視聴","ストーリーや漫画を読む","正確さとスピードボーナスあり"],
       },
       levelTooltip: {
         title: 'あなたのレベル',
@@ -632,6 +647,9 @@ export const strings = {
           current: '{{count}}日連続',
         },
       },
+      days: '日',
+      points: 'ポイント',
+      recent: '最近',
     },
     greetings: {
       morning: {
@@ -670,6 +688,7 @@ export const strings = {
         kanji: '漢字',
         library: 'ライブラリ',
       },
+      dashboard: 'ダッシュボード',
     },
     welcome: {
       firstVisit: 'もしもしへようこそ！ドーシが一緒に学習するのを楽しみにしています！ 🎉',
@@ -677,6 +696,8 @@ export const strings = {
       returningMessage: '旅を続ける準備はできましたか？あなたの献身は素晴らしいです！',
       signoutToast: 'さよなら！またね！ 👋',
       doshiClick: 'ドーシ：がんばって！',
+      returning: '旅を続ける準備はできましたか？あなたの献身は素晴らしいです！',
+      clickDoshi: 'Moshiが言います: がんばって！',
     },
     progress: {
       dailyGoal: {
@@ -689,6 +710,8 @@ export const strings = {
         title: '最新の実績',
         earnedTime: '{{time}}前に獲得',
       },
+      label: '進捗',
+      percentage: '{{percent}}%',
     },
     account: {
       title: 'アカウント詳細',
@@ -721,10 +744,8 @@ export const strings = {
         title: '連続記録',
         description: '連続記録は、意義のある学習で日本語を練習した連続日数を示します。',
         formula: '10 XP以上を獲得した連続日数',
-        whatItMeans:
-          '毎日少なくとも10 XPを獲得する（ドリルで1つ以上の正解）と、連続記録が1増えます。同じ日に複数のセッションを行っても、連続記録はそれ以上増えません。',
-        howToImprove:
-          '毎日練習しましょう！短い5分のセッションでもカウントされます。毎日のリマインダーを設定し、日本語の練習を日課にしましょう。',
+        whatItMeans: '毎日少なくとも10 XPを獲得する（ドリルで1つ以上の正解）と、連続記録が1増えます。同じ日に複数のセッションを行っても、連続記録はそれ以上増えません。',
+        howToImprove: '毎日練習しましょう！短い5分のセッションでもカウントされます。毎日のリマインダーを設定し、日本語の練習を日課にしましょう。',
         breakdown: {
           current: '現在の連続記録',
           longest: '最長連続記録（全期間）',
@@ -735,13 +756,10 @@ export const strings = {
       },
       xpEarned: {
         title: '獲得XP',
-        description:
-          '経験値（XP）は学習活動と達成度を測定します。XPは正確さとスピードボーナスで練習セッションを通じて獲得されます。',
+        description: '経験値（XP）は学習活動と達成度を測定します。XPは正確さとスピードボーナスで練習セッションを通じて獲得されます。',
         formula: '基本XP + 正確性ボーナス + スピードボーナス + 連続記録ボーナス',
-        whatItMeans:
-          '正解するごとに基本XPを獲得します（10ポイント）。高精度（≥90%）と速い応答でボーナスによりXPが2倍になります！',
-        howToImprove:
-          'まず正確さに集中し、次にスピード！完全なドリルセッションを完了し、高精度を維持し、連続記録を築いてXPを最大化しましょう。',
+        whatItMeans: '正解するごとに基本XPを獲得します（10ポイント）。高精度（≥90%）と速い応答でボーナスによりXPが2倍になります！',
+        howToImprove: 'まず正確さに集中し、次にスピード！完全なドリルセッションを完了し、高精度を維持し、連続記録を築いてXPを最大化しましょう。',
         breakdown: {
           total: '合計獲得XP',
           currentLevel: '現在のレベル',
@@ -760,8 +778,7 @@ export const strings = {
         description: '日本語を学習し練習しながら実績をアンロックして、あなたの旅を追跡します。',
         formula: '（アンロック済み / 合計）× 100',
         whatItMeans: 'このパーセンテージは、利用可能な実績のうち、どれだけ獲得したかを示します。',
-        howToImprove:
-          'ドリルを完了し、毎日の連続記録を維持し、定期的に練習してより多くの実績をアンロックしましょう。',
+        howToImprove: 'ドリルを完了し、毎日の連続記録を維持し、定期的に練習してより多くの実績をアンロックしましょう。',
         breakdown: {
           unlocked: 'アンロック済み実績',
           total: '利用可能な合計',
@@ -770,12 +787,10 @@ export const strings = {
       },
       achievements: {
         title: 'アンロック済み実績',
-        description:
-          '実績は学習の旅でマイルストーンに到達したことへの報酬です。各実績は特定の達成を表します。',
+        description: '実績は学習の旅でマイルストーンに到達したことへの報酬です。各実績は特定の達成を表します。',
         formula: 'アンロック済み実績の数',
         whatItMeans: '練習と献身を通じて獲得した実績の総数。',
-        howToImprove:
-          '練習を続けましょう！ドリルを完了し、連続記録を維持し、正確性目標に到達し、さまざまな時間に練習して10個すべての実績をアンロックしましょう。',
+        howToImprove: '練習を続けましょう！ドリルを完了し、連続記録を維持し、正確性目標に到達し、さまざまな時間に練習して10個すべての実績をアンロックしましょう。',
         breakdown: {
           unlocked: '現在アンロック済み',
           available: '利用可能な合計',
@@ -785,12 +800,10 @@ export const strings = {
       },
       drillsCompleted: {
         title: '完了したドリル',
-        description:
-          '完了した各ドリルセッションは、日本語の活用スキルを構築するのに役立ちます。量より質が重要です！',
+        description: '完了した各ドリルセッションは、日本語の活用スキルを構築するのに役立ちます。量より質が重要です！',
         formula: '完了したドリルセッションの合計',
         whatItMeans: 'スコアに関係なく、完了したドリルセッションの数。',
-        howToImprove:
-          '定期的に練習しましょう！各セッションは合計にカウントされ、活用の筋肉記憶を構築するのに役立ちます。',
+        howToImprove: '定期的に練習しましょう！各セッションは合計にカウントされ、活用の筋肉記憶を構築するのに役立ちます。',
         breakdown: {
           total: '合計ドリル',
           perfect: '完璧なドリル（100%）',
@@ -799,14 +812,11 @@ export const strings = {
       },
       drillAccuracy: {
         title: 'ドリルの正確性',
-        description:
-          '正確性は、すべての練習セッションで日本語の動詞活用をどれだけ理解しているかを反映します。',
+        description: '正確性は、すべての練習セッションで日本語の動詞活用をどれだけ理解しているかを反映します。',
         formula: '（正解数 / 合計回答数）× 100',
-        whatItMeans:
-          'すべてのドリルで正しく答えた質問のパーセンテージ。累積的に計算されるため、最近の改善により全体的なスコアが徐々に上昇します。',
+        whatItMeans: 'すべてのドリルで正しく答えた質問のパーセンテージ。累積的に計算されるため、最近の改善により全体的なスコアが徐々に上昇します。',
         example: '例：合計15問中12問正解した場合、正確性は80%です。',
-        howToImprove:
-          'パターンの理解に集中しましょう！活用ルールを復習し、各質問に時間をかけ、一貫して練習しましょう。',
+        howToImprove: 'パターンの理解に集中しましょう！活用ルールを復習し、各質問に時間をかけ、一貫して練習しましょう。',
         breakdown: {
           current: '現在の正確性',
           total: '完了したドリルの合計',
@@ -816,14 +826,11 @@ export const strings = {
       },
       drillMastery: {
         title: 'ドリルマスタリースコア',
-        description:
-          'マスタリーは、どれだけ練習したかだけでなく、どれだけよく練習したかを測定する包括的な品質スコア（0-100）です。',
+        description: 'マスタリーは、どれだけ練習したかだけでなく、どれだけよく練習したかを測定する包括的な品質スコア（0-100）です。',
         formula: '4要素加重計算',
-        whatItMeans:
-          'このスコアは、量、正確性、一貫性、完璧なドリル比率を組み合わせて、マスタリーレベルの完全な全体像を提供します。',
+        whatItMeans: 'このスコアは、量、正確性、一貫性、完璧なドリル比率を組み合わせて、マスタリーレベルの完全な全体像を提供します。',
         factors: '4つの要素',
-        howToImprove:
-          'バランスが重要です！定期的に練習し（量）、正確性に集中し、完璧なセッションを目指し、一貫性を維持しましょう。',
+        howToImprove: 'バランスが重要です！定期的に練習し（量）、正確性に集中し、完璧なセッションを目指し、一貫性を維持しましょう。',
         breakdown: {
           volume: '量（最大30ポイント）',
           volumeDetail: '完了したドリルの合計に基づく',
@@ -846,10 +853,8 @@ export const strings = {
         title: '学習進捗',
         description: 'すべての学習カテゴリ（ドリル、仮名、漢字、語彙）にわたる全体的な進捗。',
         formula: '（マスターしたアイテム / 開始したアイテム）× 100',
-        whatItMeans:
-          'これは単に量ではなく、学習の質を示します。実際に練習したアイテムのみが進捗にカウントされます。',
-        howToImprove:
-          '始めたものをマスターしましょう！新しいものを始める前に、未完了のアイテムをマスタリーに持っていくことに集中しましょう。',
+        whatItMeans: 'これは単に量ではなく、学習の質を示します。実際に練習したアイテムのみが進捗にカウントされます。',
+        howToImprove: '始めたものをマスターしましょう！新しいものを始める前に、未完了のアイテムをマスタリーに持っていくことに集中しましょう。',
         breakdown: {
           percentage: '全体的な進捗',
           categoriesStarted: 'アクティブなカテゴリ',
@@ -860,10 +865,8 @@ export const strings = {
         title: '練習した動画',
         description: 'シャドーイング練習のためにアクセスしたユニークなYouTube動画の総数。',
         formula: '読み込んだユニークな動画の数',
-        whatItMeans:
-          'シャドーイング練習のために読み込んだ新しい動画はすべてこの合計にカウントされます。同じ動画を再訪してもカウントは増えません。',
-        howToImprove:
-          'さまざまな話者、トピック、話し方のパターンで練習するために、いろいろな動画を探してみましょう！',
+        whatItMeans: 'シャドーイング練習のために読み込んだ新しい動画はすべてこの合計にカウントされます。同じ動画を再訪してもカウントは増えません。',
+        howToImprove: 'さまざまな話者、トピック、話し方のパターンで練習するために、いろいろな動画を探してみましょう！',
         breakdown: {
           total: 'アクセスした動画の総数',
           thisWeek: '今週の動画',
@@ -875,10 +878,8 @@ export const strings = {
         title: '残りの動画',
         description: '1日の割り当てに基づいて今日読み込める新しい動画の数。',
         formula: '1日の制限 − 今日読み込んだ動画',
-        whatItMeans:
-          '1日の割り当ては午前0時（UTC）にリセットされます。以前にアクセスした動画は割り当てを使用せずに無制限に練習できます。',
-        howToImprove:
-          'プレミアムにアップグレードすると1日20本の動画が利用でき、お気に入りの動画は無料で無制限に練習できます！',
+        whatItMeans: '1日の割り当ては午前0時（UTC）にリセットされます。以前にアクセスした動画は割り当てを使用せずに無制限に練習できます。',
+        howToImprove: 'プレミアムにアップグレードすると1日20本の動画が利用でき、お気に入りの動画は無料で無制限に練習できます！',
         breakdown: {
           remaining: '今日の残り',
           limit: '1日の制限',
@@ -891,10 +892,8 @@ export const strings = {
         title: '視聴時間',
         description: 'YouTubeのシャドーイング動画で実際に練習した合計時間。',
         formula: 'すべての練習セッションの時間の合計',
-        whatItMeans:
-          '時間は実際の練習セッション中に追跡されます。これはシャドーイング練習への一貫した取り組みを測定します。',
-        howToImprove:
-          '定期的に練習しましょう！1日10〜15分でも、強力なリスニングスキルと発音スキルを構築できます。',
+        whatItMeans: '時間は実際の練習セッション中に追跡されます。これはシャドーイング練習への一貫した取り組みを測定します。',
+        howToImprove: '定期的に練習しましょう！1日10〜15分でも、強力なリスニングスキルと発音スキルを構築できます。',
         breakdown: {
           total: '合計視聴時間',
           thisWeek: '今週',
@@ -1067,7 +1066,6 @@ export const strings = {
         subtitle: 'カスタムリスト',
         description: 'カスタムリストを管理',
       },
-      // Anki Import
       anki: {
         importTitle: 'Import Anki Deck',
         importSuccess: 'Import Successful!',
@@ -1098,7 +1096,6 @@ export const strings = {
         filesCount: '{{count}} files',
         sizeInMB: '{{size}} MB',
       },
-
       myVideos: {
         title: 'マイビデオ',
         subtitle: 'ビデオ',
@@ -1108,6 +1105,71 @@ export const strings = {
         title: 'フラッシュカード',
         subtitle: 'カード',
         description: '復習セッション',
+      },
+      kanjiBrowser: {
+        title: '漢字ブラウザ',
+        subtitle: '漢字辞典',
+        description: 'すべてのJLPT漢字レベルを閲覧',
+      },
+      conjugation: {
+        title: '活用',
+        subtitle: '活用',
+        description: '動詞の活用を練習する',
+      },
+      kanjiMastery: {
+        title: '漢字習得',
+        subtitle: '漢字習得',
+        description: 'SRSで漢字を習得する',
+      },
+      youtubeShadowing: {
+        title: 'もしプレイヤー',
+        subtitle: 'YouTube',
+        description: 'YouTubeで練習する',
+      },
+      popularVideos: {
+        title: '人気動画',
+        subtitle: '人気動画',
+        description: 'コミュニティで最も視聴された',
+      },
+      stories: {
+        title: '物語',
+        subtitle: '物語',
+        description: 'AI生成の物語',
+      },
+      comics: {
+        title: 'もしの漫画',
+        subtitle: 'もしの漫画',
+        description: 'もし、日本へ行く',
+      },
+      textbookVocab: {
+        title: '教科書',
+        subtitle: '教科書',
+        description: '教科書の語彙を勉強する',
+      },
+      reviewHub: {
+        title: 'レビュー',
+        subtitle: 'レビュー',
+        description: '統一されたレビューシステム',
+      },
+      kanjiConnections: {
+        title: '漢字関連',
+        subtitle: '漢字関連',
+        description: 'プレミアム: 家族、部首、パターン',
+      },
+      moodBoards: {
+        title: 'ムード',
+        subtitle: 'ムード',
+        description: 'テーマで漢字を学ぶ',
+      },
+      leaderboard: {
+        title: 'ランキング',
+        subtitle: 'ランキング',
+        description: '他の学習者と競う',
+      },
+      qa: {
+        title: '茶屋',
+        subtitle: '茶屋',
+        description: '知恵を共有し、質問し、他の人を助ける',
       },
     },
     achievements: {
@@ -1158,9 +1220,11 @@ export const strings = {
     },
     developerMode: '開発者モード',
     authTestPage: '認証テストページ',
+    buyMeACoffee: 'コーヒーをおごる',
+    overview: '概要',
+    srsProgress: 'SRS進捗',
+    queueLeeches: 'キューとリーチ',
   },
-
-  // Auth Pages
   auth: {
     signin: {
       branding: {
@@ -1265,8 +1329,6 @@ export const strings = {
       },
     },
   },
-
-  // Admin Dashboard
   admin: {
     pageTitle: 'ダッシュボード概要',
     pageDescription: 'おかえりなさい！今日のもしもしの状況です。',
@@ -1350,6 +1412,9 @@ export const strings = {
       content: 'コンテンツ',
       analytics: '分析',
       blog: 'ブログ',
+      subscriptions: 'サブスクリプション',
+      monitoring: 'モニタリング',
+      entitlements: '権利',
     },
     systemMetrics: {
       database: 'データベース',
@@ -1407,8 +1472,7 @@ export const strings = {
       deleteResource: 'リソースを削除',
       deleteResourceConfirm: 'このリソースを削除してもよろしいですか？この操作は取り消せません。',
       deleteResources: 'リソースを削除',
-      deleteResourcesConfirm:
-        '{count}件のリソースを削除してもよろしいですか？この操作は取り消せません。',
+      deleteResourcesConfirm: '{count}件のリソースを削除してもよろしいですか？この操作は取り消せません。',
       error: 'エラー',
       failedToDelete: 'リソースの削除に失敗しました',
       failedToDeleteSome: '一部のリソースの削除に失敗しました',
@@ -1435,8 +1499,11 @@ export const strings = {
       update: '更新',
       required: '必須',
       optional: '任意',
+      filterByStatus: 'ステータスでフィルター',
+      errors: {
+        loadFailed: 'リソースの読み込みに失敗しました',
+      },
     },
-    // Blog Management
     blog: {
       title: 'ブログ管理',
       description: 'ブログ投稿とコンテンツの管理',
@@ -1513,9 +1580,147 @@ export const strings = {
         itemName: '{{title}}',
       },
     },
+    requiresAdmin: '管理者アクセスが必要です',
+    errorCheckingStatus: '管理者ステータスの確認エラー',
+    moodboards: {
+      title: 'ムードボード管理',
+      description: '学習者のための漢字ムードボードを作成・管理',
+      generateWithAI: 'AIで生成',
+      totalBoards: 'ボード総数',
+      totalKanji: '漢字総数',
+      filteredResults: 'フィルタリングされた結果',
+      createNew: '新規作成',
+      noResults: 'ムードボードが見つかりません',
+      tryDifferentFilters: 'フィルターを調整してみてください',
+      createFirstBoard: '最初のムードボードを作成しましょう',
+      updateSuccess: 'ムードボードが正常に更新されました',
+      createSuccess: 'ムードボードが正常に作成されました',
+      deleteSuccess: 'ムードボードが正常に削除されました',
+      duplicateSuccess: 'ムードボードが正常に複製されました',
+      saveFailed: 'ムードボードの保存に失敗しました',
+      deleteFailed: 'ムードボードの削除に失敗しました',
+      duplicateFailed: 'ムードボードの複製に失敗しました',
+      editBoard: 'ムードボードを編集',
+      createBoard: 'ムードボードを作成',
+      kanjiCount: '漢字数',
+      kanjiList: '漢字リスト',
+      addKanji: '漢字を追加',
+      noKanjiAdded: 'まだ漢字が追加されていません',
+      titleRequired: 'タイトルは必須です',
+      kanjiRequired: '少なくとも1つの漢字が必要です',
+      themeRequired: 'テーマは必須です',
+      emoji: '絵文字',
+      themeColor: 'テーマカラー',
+    },
+    moodboard: {
+      generateWithAI: 'AIで生成',
+      theme: 'テーマ',
+      themeHint: '漢字コレクションのテーマを説明してください',
+      themeRequired: 'ムードボードのテーマを入力してください',
+      jlptLevel: 'JLPTレベル',
+      jlptHint: '漢字の難易度を選択してください',
+      kanjiCount: '漢字の数',
+      tags: 'タグ',
+      tagsHint: '分類用のカンマ区切りのタグ',
+      howItWorks: '使い方',
+      howItWorksItem0: 'AIがテーマに基づいて関連する漢字を生成します',
+      howItWorksItem1: '各漢字には読み方、意味、例が含まれます',
+      howItWorksItem2: '作成後に生成されたムードボードを編集できます',
+      generate: '生成',
+      generateStoryToo: 'これらの漢字でストーリーも生成',
+      generateStoryHint: '同じ漢字を使ったインタラクティブなストーリーを作成',
+      success: {
+        generated: '"{{theme}}"のために{{count}}個の漢字を生成しました',
+        moodboardCreated: 'ムードボードが正常に作成されました！',
+        storyGenerating: 'ムードボードが作成されました！ストーリーを生成中...',
+        storyCreated: 'ストーリー"{{title}}"が正常に作成されました！',
+      },
+      errors: {
+        generateFailed: 'ムードボードの生成に失敗しました',
+        invalidResponse: '無効な応答形式',
+        storyFailed: 'ムードボードは作成されましたが、ストーリー生成に失敗しました',
+        createFailed: 'ムードボードの作成に失敗しました',
+      },
+    },
+    stories: {
+      title: 'ストーリー管理',
+      description: 'インタラクティブな日本語読解ストーリーを作成・管理',
+      generate: {
+        title: 'AIストーリー生成',
+        theme: 'ストーリーテーマ',
+        themePlaceholder: 'テーマを選択...',
+        customTheme: 'カスタムテーマ...',
+        customThemePlaceholder: 'カスタムテーマを入力...',
+        jlptLevel: 'JLPTレベル',
+        pageCount: 'ページ数',
+        pageCountHint: '推奨: 最適な生成のために3〜10ページ',
+        options: {
+          generateImages: '各ページのイラストを生成',
+          includeQuiz: '理解度クイズを含める',
+        },
+        button: 'ストーリーを生成',
+        progress: {
+          characterSheet: 'キャラクターデザインとストーリーの世界を作成中...',
+          outline: 'ストーリーの概要とプロット構造を作成中...',
+          writingPage: 'ページ{{current}}/{{total}}を執筆中...',
+          quiz: '理解度クイズの質問を作成中...',
+          modelSheet: '一貫性のためのキャラクターモデルシートを作成中...',
+          generatingImage: 'ページ{{current}}/{{total}}のイラストを生成中...',
+          publishing: 'ストーリー生成完了！公開中...',
+          complete: 'ストーリーが正常に公開されました！',
+        },
+        review: {
+          title: '下書きをレビュー',
+          characterDesign: 'キャラクターデザイン',
+          modelSheet: 'キャラクターモデルシート',
+          pagesPreview: 'ストーリーページのプレビュー',
+          morePages: '... 他{{count}}ページ',
+          regenerate: '再生成',
+        },
+        actions: {
+          publish: 'ストーリーを公開',
+          saveDraft: '下書きとして保存',
+          startOver: 'やり直し',
+        },
+        labels: {
+          theme: 'テーマ',
+          level: 'レベル',
+          pages: 'ページ',
+          status: 'ステータス',
+          mainCharacter: '主人公',
+          visualStyle: 'ビジュアルスタイル',
+          page: 'ページ',
+        },
+        jlptOptions: {
+          N5: 'N5（初級）',
+          N4: 'N4（初中級）',
+          N3: 'N3（中級）',
+          N2: 'N2（中上級）',
+          N1: 'N1（上級）',
+        },
+        success: {
+          generated: 'ストーリーが正常に生成され、公開されました！',
+          draftSaved: '下書きが正常に保存されました！',
+          published: 'ストーリーが正常に公開されました！',
+        },
+        errors: {
+          themeRequired: 'テーマを選択または入力してください',
+          authRequired: '認証が必要です',
+          characterSheetFailed: 'キャラクターシートの生成に失敗しました',
+          outlineFailed: 'アウトラインの生成に失敗しました',
+          pageFailed: 'ページ{{page}}の生成に失敗しました',
+          publishFailed: 'ストーリーは生成されましたが、公開に失敗しました。手動で公開できます。',
+          imageFailed: 'ストーリーは生成されましたが、画像の生成に失敗しました。後で画像を追加できます。',
+          generalFailed: 'ストーリーの生成に失敗しました',
+          saveDraftFailed: '下書きの保存に失敗しました',
+        },
+      },
+      list: {
+        empty: 'まだストーリーがありません',
+        createFirst: '最初のストーリーを作成して始めましょう',
+      },
+    },
   },
-
-  // Account Page
   account: {
     pageTitle: 'アカウント',
     pageDescription: 'アカウント設定を管理',
@@ -1552,6 +1757,11 @@ export const strings = {
       wordsLearned: '学習単語数',
       achievements: '実績',
       dayStreak: '連続日数',
+      xpEarned: '獲得XP',
+      lessonsCompleted: '完了したセッション',
+      bestStreak: '最高連続記録',
+      learningProgress: '学習の進捗',
+      achievementCompletion: '達成度',
     },
     subscription: {
       premium: 'プレミアム',
@@ -1565,6 +1775,8 @@ export const strings = {
       upgradeToPremium: 'プレミアムへアップグレード',
       currentPlan: '現在のプラン',
       upgradeText: '無制限の練習セッションとプレミアム機能をアンロックするためにアップグレード',
+      congratulations: 'おめでとうございます！',
+      welcomePremium: 'プレミアムへようこそ！すべての素晴らしい機能をお楽しみください。',
     },
     dangerZone: {
       description: 'アカウントと関連するすべてのデータを削除します。この操作は元に戻せません。',
@@ -1574,19 +1786,15 @@ export const strings = {
     },
     deleteAccountDialog: {
       title: 'アカウントを削除しますか？',
-      message:
-        '本当にアカウントを削除しますか？進捗、実績、サブスクリプションを含むすべてのデータが完全に削除されます。この操作は元に戻せません。',
+      message: '本当にアカウントを削除しますか？進捗、実績、サブスクリプションを含むすべてのデータが完全に削除されます。この操作は元に戻せません。',
       confirmText: 'はい、アカウントを削除',
       cancelText: 'キャンセル',
     },
     toastMessages: {
       profileUpdated: 'プロフィールが正常に更新されました！',
-      accountDeletionRequested:
-        'アカウント削除がリクエストされました。サポートにお問い合わせください。',
+      accountDeletionRequested: 'アカウント削除がリクエストされました。サポートにお問い合わせください。',
     },
   },
-
-  // Statistics Page
   statistics: {
     title: 'Your Statistics',
     subtitle: 'Track your Japanese learning journey',
@@ -1600,8 +1808,6 @@ export const strings = {
     learningProgress: 'Learning Progress',
     achievementCompletion: 'Achievement Completion',
   },
-
-  // UI Components
   components: {
     alert: {
       dismissAriaLabel: 'アラートを閉じる',
@@ -1638,8 +1844,6 @@ export const strings = {
       errorMessage: 'useToastはToastProvider内で使用する必要があります',
     },
   },
-
-  // Error Messages (User-Friendly)
   errors: {
     auth: {
       popupClosed: 'サインインがキャンセルされました。準備ができたら再試行してください。',
@@ -1670,8 +1874,7 @@ export const strings = {
       expiredCard: 'カードの有効期限が切れています。支払い情報を更新してください。',
       insufficientFunds: '残高不足です。別の支払い方法を試してください。',
       subscriptionRequired: 'この機能にはプレミアムサブスクリプションが必要です。',
-      subscriptionExpired:
-        'サブスクリプションの有効期限が切れています。続けるには更新してください。',
+      subscriptionExpired: 'サブスクリプションの有効期限が切れています。続けるには更新してください。',
     },
     permission: {
       denied: 'このアクションを実行する権限がありません。',
@@ -1693,23 +1896,17 @@ export const strings = {
       somethingWrong: '問題が発生しました。再試行してください。',
     },
   },
-
-  // Drill Feature
   drill: {
     title: '活用練習',
     description: '日本語の動詞と形容詞の活用を練習',
     loading: '練習を読み込み中...',
     settings: '練習設定',
-
-    // Practice mode section
     practiceMode: '練習モード',
     randomWords: 'ランダム単語',
     randomDescription: 'よく使う単語で練習',
     fromLists: 'リストから',
     listsDescription: '学習リストを使用',
     myLists: 'マイリスト',
-
-    // Word types section
     wordTypes: '単語の種類',
     wordTypeFilter: '単語タイプフィルター',
     allTypes: '全種類',
@@ -1717,8 +1914,6 @@ export const strings = {
     adjectives: '形容詞',
     verbsOnly: '動詞のみ',
     adjectivesOnly: '形容詞のみ',
-
-    // Buttons and actions
     startDrill: '練習開始',
     tryAgain: 'もう一度',
     newDrill: '新しい練習',
@@ -1728,8 +1923,6 @@ export const strings = {
     showResults: '結果を表示',
     nextQuestion: '次の問題',
     finish: '終了',
-
-    // Questions and game play
     question: '問題',
     questionNumber: '問題 {{current}} / {{total}}',
     conjugateTo: '次の形に活用',
@@ -1737,8 +1930,6 @@ export const strings = {
     yourAnswer: 'あなたの答え',
     showAnswer: '答えを表示',
     rule: '規則',
-
-    // Results
     complete: '練習完了！',
     correct: '正解！',
     incorrect: '不正解',
@@ -1749,26 +1940,18 @@ export const strings = {
     excellentPerformance: '素晴らしい！これらの活用をマスターしました！',
     goodPerformance: 'よくできました！だんだん上達しています！',
     keepPracticing: '練習を続けましょう！もっと練習すれば上達します！',
-
-    // Progress stats
     yourProgress: 'あなたの進捗',
     totalDrills: '総練習回数',
     perfectDrills: '完璧',
     wordsStudied: '単語',
-
-    // Settings
     questionsPerSession: 'セッションごとの問題数',
     autoAdvance: '自動的に次の問題へ',
     showRules: '活用規則を表示',
     hideRules: '規則を隠す',
     remainingToday: '今日の残り練習回数: {{count}}回',
     upgradeForMore: 'プレミアムにアップグレードしてセッションごとの問題数を増やす',
-
-    // Messages
     limitReached: '今日の練習制限に達しました',
     startError: '練習を開始できませんでした。もう一度お試しください。',
-
-    // Conjugation forms
     forms: {
       present: '現在形',
       past: '過去形',
@@ -1788,17 +1971,14 @@ export const strings = {
       taiForm: 'たい形（願望）',
       adverbial: '副詞形',
     },
-
-    // Messages
     noQuestions: '活用可能な単語が見つかりません。設定を変更してください。',
     selectLists: '練習するリストを少なくとも1つ選択してください。',
     noConjugableWords: '選択したリストに活用可能な単語が見つかりません。',
     dailyLimitReached: '今日の練習制限に達しました。',
     loadingQuestions: '問題を読み込み中...',
     of: 'の',
+    unlimited: '無制限のドリルが利用可能',
   },
-
-  // News Feature
   news: {
     title: '日本語ニュース',
     subtitle: '実際の日本語ニュースを読む',
@@ -1871,15 +2051,16 @@ export const strings = {
       type: '品詞',
       saveToList: 'リストに保存',
       savedToList: '学習リストに保存されました',
+      preparingAudio: 'オーディオを準備中',
+      generatingAudioMessage: 'こ���記事のオーディオを生成中です。少々お待ちください...',
     },
     error: {
       loadFailed: '記事の読み込みに失敗しました',
       notFound: '記事が見つかりません',
       goBack: 'ニュース一覧に戻る',
     },
+    noArticlesHint: 'フィルターを変更するか、後で再確認してください',
   },
-
-  // Reading Feature
   reading: {
     settings: {
       title: '読書設定',
@@ -1917,6 +2098,9 @@ export const strings = {
       reading: '読み方',
       meaning: '意味',
       saveToList: 'リストに保存',
+      wordSaved: '単語が学習リストに保存されました',
+      wordSaveFailed: '単語の保存に失敗しました',
+      wordLookupError: '単語の検索に失敗しました',
     },
     grammar: {
       legend: '文法色分けガイド',
@@ -1929,15 +2113,59 @@ export const strings = {
       readingTime: '読書時間',
       imageAlt: '記事の画像',
       viewOriginal: '元の記事を見る',
+      estimatedTime: '{{minutes}}分程度',
     },
     translation: {
       title: '英語翻訳',
       loading: '記事を翻訳中...',
       disclaimer: '注：これは自動翻訳で、100%正確ではない場合があります。',
+      translationError: '翻訳の読み込みに失敗しました',
+    },
+    article: {
+      playAudio: '記事の音声を再生',
+      options: 'オプション',
+      summary: '概要',
+      shadowingMode: 'シャドーイング練習モード',
+      shadowingModeDesc: '音声に合わせて話す練習',
+      addBookmark: '記事をブックマーク',
+      removeBookmark: 'ブックマークを削除',
+      saveForLater: '後で保存',
+      showTranslation: '英語の翻訳を表示',
+      hideTranslation: '翻訳を非表示',
+      viewInEnglish: '記事を英語で見る',
+      readingSettings: '読書設定',
+      readingSettingsDesc: 'フォントサイズ、ふりがな等',
+      textSize: '文字サイズ',
+      showFurigana: 'ふりがなを表示',
+      highlightVocabulary: '語彙をハイライト',
+      highlightMode: 'ハイライトモード',
+      grammarGuide: '文法カラーガイド',
+      englishTranslation: '英語の翻訳',
+      translatingArticle: '記事を翻訳中...',
+      translationNote: '注意: これは自動翻訳であり、100%正確ではない可能性があります。',
+      viewOriginal: '元の記事を見る',
+      imageAlt: '{{title}}の記事画像',
+      estimatedTime: '{{minutes}}分程度',
+      readingTime: '読書時間: {{minutes}}分',
+      bookmarkAdded: '記事をブックマークしました',
+      bookmarkRemoved: 'ブックマークを削除しました',
+      bookmarkError: 'ブックマークの更新に失敗しました',
+      ttsError: '音声の再生に失敗しました',
+      searching: '検索中...',
+      wordSaved: '単語を学習リストに保存しました',
+      wordSaveFailed: '単語の保存に失敗しました',
+      wordLookupError: '単語の検索に失敗しました',
+      reading: '読み',
+      meaning: '意味',
+      saveToList: 'リストに保存',
+    },
+    highlightMode: {
+      all: 'すべての単語',
+      content: '内容語',
+      grammar: '文法',
+      none: 'なし',
     },
   },
-
-  // Subscription Management
   subscription: {
     status: {
       active: 'アクティブ',
@@ -1980,6 +2208,7 @@ export const strings = {
       ends: '終了日',
       daysRemaining: '残り{{days}}日',
       willEndOn: '{{date}}に終了予定',
+      nextBilling: '次の請求',
     },
     billing: {
       monthly: '月額',
@@ -1996,6 +2225,14 @@ export const strings = {
       manageBilling: '請求管理',
       viewPlans: 'プランを見る',
       cancel: 'キャンセル',
+      upgradeToPlan: '{{plan}}にアップグレード',
+      downgrade: 'ダウングレード',
+      manageSubscription: 'サブスクリプションを管理',
+      cancelSubscription: 'サブスクリプションをキャンセル',
+      currentPlan: '現在のプラン',
+      signUpFree: '無料でサインアップ',
+      startFreeTrial: '始める',
+      choosePlan: 'プランを選択',
     },
     features: {
       unlimited: '無制限の練習セッション',
@@ -2009,6 +2246,7 @@ export const strings = {
       monthsFree: '2ヶ月無料',
       earlyAccess: '新機能への早期アクセス',
       personalizedInsights: 'パーソナライズされた学習インサイト',
+      savings: '7%節約',
     },
     upgrade: {
       selectMonthly: '月額プランを選択',
@@ -2029,23 +2267,27 @@ export const strings = {
     },
     upgradePrompt: {
       title: '無限の学習をアンロック！',
-      description:
-        'プレミアムにアップグレードして、無制限の練習セッション、高度な分析機能などを利用しましょう。',
+      description: 'プレミアムにアップグレードして、無制限の練習セッション、高度な分析機能などを利用しましょう。',
+    },
+    messages: {
+      welcomeToPremium: '🎉 プレミアムへようこそ！あなたのサブスクリプションは現在アクティブです。',
+      subscriptionUpdated: 'サブスクリプションが更新されました。',
+      subscriptionCanceled: 'サブスクリプションが正常にキャンセルされました。{{date}}までアクセス可能です。',
+      alreadyOnPlan: 'このプランにはすでに加入しています！',
+      alreadySubscribed: 'このプランにはすでに加入しています！',
+      processing: '処理中...',
+      loadingPricing: '価格を読み込み中...',
     },
   },
-
-  // Pricing Comparison
   pricingComparison: {
     badge: 'すべての機能を統合',
     title: '一つのアプリで、すべての機能',
-    subtitle:
-      'なぜ複数のアプリにお金を払うのですか？もしもしは、日本語学習に必要なすべてのプレミアム機能を統合しています。',
+    subtitle: 'なぜ複数のアプリにお金を払うのですか？もしもしは、日本語学習に必要なすべてのプレミアム機能を統合しています。',
     tableTitle: '価値を比較',
     priceColumn: '価格',
     featuresColumn: '機能',
     actionButton: '始める',
     actionSecondary: 'すべての機能を表示',
-
     moshimoshi: {
       name: 'もしもし',
       price: '£8.99/月',
@@ -2067,94 +2309,50 @@ export const strings = {
         analytics: '詳細な分析',
       },
     },
-
     competitors: {
       duolingo: {
         name: 'Duolingo',
         price: '£47.99/年',
-        features: ['ゲーミフィケーション', '基本レッスン', '連続記録追跡'],
-        missing: [
-          'YouTubeシャドーイング',
-          'AIストーリー',
-          '漢字分解',
-          'ニュース読解',
-          'Ankiエクスポート',
-        ],
+        features: ["ゲーミフィケーション","基本レッスン","連続記録追跡"],
+        missing: ["YouTubeシャドーイング","AIストーリー","漢字分解","ニュース読解","Ankiエクスポート"],
       },
       heyjapan: {
         name: 'HeyJapan',
         price: '$33.99-$48.99',
-        features: ['会話練習', '音声認識', 'ライブレッスン'],
-        missing: [
-          'YouTubeシャドーイング',
-          'ゲーミフィケーション',
-          'SRS',
-          'Ankiエクスポート',
-          'ニュース読解',
-        ],
+        features: ["会話練習","音声認識","ライブレッスン"],
+        missing: ["YouTubeシャドーイング","ゲーミフィケーション","SRS","Ankiエクスポート","ニュース読解"],
       },
       miraa: {
         name: 'Miraa',
         price: '£5.49/月',
-        features: ['マンガ読解', '辞書検索', 'Ankiエクスポート'],
-        missing: [
-          'AIストーリー',
-          'YouTubeシャドーイング',
-          'ゲーミフィケーション',
-          '会話練習',
-          '文法レッスン',
-        ],
+        features: ["マンガ読解","辞書検索","Ankiエクスポート"],
+        missing: ["AIストーリー","YouTubeシャドーイング","ゲーミフィケーション","会話練習","文法レッスン"],
       },
       satoriReader: {
         name: 'Satori Reader',
         price: '£8.49/月',
-        features: ['段階的記事', '文法説明', '音声'],
-        missing: [
-          'YouTubeシャドーイング',
-          'AIストーリー',
-          'ゲーミフィケーション',
-          'Ankiエクスポート',
-          '会話練習',
-        ],
+        features: ["段階的記事","文法説明","音声"],
+        missing: ["YouTubeシャドーイング","AIストーリー","ゲーミフィケーション","Ankiエクスポート","会話練習"],
       },
       takoboto: {
         name: 'Takoboto',
         price: '£25.49',
-        features: ['オフライン辞書', '例文', '活用'],
-        missing: [
-          '学習コンテンツ',
-          'SRS',
-          'YouTubeシャドーイング',
-          'AIストーリー',
-          'ゲーミフィケーション',
-        ],
+        features: ["オフライン辞書","例文","活用"],
+        missing: ["学習コンテンツ","SRS","YouTubeシャドーイング","AIストーリー","ゲーミフィケーション"],
       },
       miji: {
         name: 'Miji',
         price: '£27.49/年',
-        features: ['フラッシュカード', '手書き認識', '漢字練習'],
-        missing: [
-          'YouTubeシャドーイング',
-          'AIストーリー',
-          'ニュース読解',
-          '会話練習',
-          'ゲーミフィケーション',
-        ],
+        features: ["フラッシュカード","手書き認識","漢字練習"],
+        missing: ["YouTubeシャドーイング","AIストーリー","ニュース読解","会話練習","ゲーミフィケーション"],
       },
       lingodeer: {
         name: 'LingoDeer',
         price: '$14.99/月',
-        features: ['構造化コース', '文法説明', '練習問題', 'ストーリー'],
-        missing: [
-          'YouTubeシャドーイング',
-          'パーソナライズAIストーリー',
-          '実際のニュース読解',
-          'Ankiエクスポート',
-          '辞書',
-        ],
+        features: ["構造化コース","文法説明","練習問題","ストーリー"],
+        missing: ["YouTubeシャドーイング","パーソナライズAIストーリー","実際のニュース読解","Ankiエクスポート","辞書"],
       },
     },
-
     comparison: {
       hasFeature: '✓',
       missingFeature: '—',
@@ -2164,7 +2362,6 @@ export const strings = {
       yearlyLabel: '/年',
       lifetimeLabel: '一回払い',
     },
-
     moshimoshiPricing: {
       title: 'もしもし価格',
       monthly: '月額',
@@ -2175,18 +2372,8 @@ export const strings = {
         subtitle: '学習を始めよう',
         price: '£0',
         period: '/永久',
-        features: [
-          'ひらがな＆カタカナ練習',
-          '漢字ブラウザ',
-          '漢字マスタリー',
-          'ドリル',
-          '語彙',
-          'ムードボード',
-          'もしプレイヤー（シャドーイング）',
-          'AIストーリー＆ニュースを試す',
-          '進捗追跡',
-        ],
-        limitations: ['高度な機能はロック'],
+        features: ["ひらがな＆カタカナ練習","漢字ブラウザ","漢字マスタリー","ドリル","語彙","ムードボード","もしプレイヤー（シャドーイング）","AIストーリー＆ニュースを試す","進捗追跡"],
+        limitations: ["高度な機能はロック"],
         cta: '無料で始める',
       },
       premium: {
@@ -2197,30 +2384,21 @@ export const strings = {
         yearlyTotal: '£99.99/年',
         period: '/月',
         badge: '最高の価値',
-        features: [
-          '無料プランのすべて、さらに:',
-          'もしプレイヤーフルアクセス',
-          '漢字コネクション（独自機能）',
-          'もしコミック（独自機能）',
-          '教科書語彙（独自機能）',
-          'Ankiデッキインポート',
-          '無制限リスト',
-          'ライブラリ - 要約書籍',
-          '優先サポート',
-        ],
+        features: ["無料プランのすべて、さらに:","もしプレイヤーフルアクセス","漢字コネクション（独自機能）","もしコミック（独自機能）","教科書語彙（独自機能）","Ankiデッキインポート","無制限リスト","ライブラリ - 要約書籍","優先サポート"],
         cta: '始める',
         disclaimer: 'いつでもキャンセル',
       },
     },
   },
-
-  // Entitlements & Limits
   entitlements: {
     limits: {
       sessionsToday: '{{feature}}の今日のセッション',
       sessionsLeft: '残り{{count}}セッション',
       resets: '{{time}}にリセット',
       unlimited: '無制限',
+      dailyLimit: '1日の制限',
+      resetsTomorrow: '明日リセット',
+      resetsIn: '{{time}}後にリセット',
     },
     messages: {
       featureLimitReached: '機能制限に達しました',
@@ -2230,6 +2408,10 @@ export const strings = {
       featureUnavailable: 'この機能は現在利用できません。',
       runningLow: '今日は{{feature}}が残り{{count}}セッションです。',
       checkFailed: '機能アクセスの確認に失敗しました。もう一度お試しください。',
+      signUpForMore: '無料でサインアップして1日5回の練習を受けましょう',
+      upgradeForUnlimited: '無制限の練習のためにプレミアムにアップグレード',
+      getUnlimitedAccess: 'プレミアムで無制限アクセスを取得',
+      authenticationRequired: '認証が必要です',
     },
     upgrade: {
       title: 'プレミアムにアップグレード',
@@ -2239,6 +2421,7 @@ export const strings = {
         advancedAnalytics: '高度な分析とインサイト',
         prioritySupport: '優先サポート',
         offlineMode: 'オフラインモード',
+        allFeatures: 'すべての機能がアンロックされました',
       },
       cta: {
         viewPricing: '料金を見る',
@@ -2302,8 +2485,6 @@ export const strings = {
       continueAsGuest: 'ゲストとして続行',
     },
   },
-
-  // Pricing Page
   pricing: {
     title: '学習の旅を選ぼう',
     subtitle: '無制限の練習で日本語マスターを加速',
@@ -2370,8 +2551,6 @@ export const strings = {
       support: 'サポート',
       moneyBack: '返金保証',
     },
-
-    // Leaderboard
     leaderboard: {
       title: 'リーダーボード',
       daily: '今日',
@@ -2385,8 +2564,6 @@ export const strings = {
       streak: '連続',
       yourPosition: 'あなたの順位',
     },
-
-    // Profile
     profile: {
       title: 'プロフィール',
       achievements: {
@@ -2410,39 +2587,154 @@ export const strings = {
         xpMultiplier: 'XP倍率',
       },
     },
-
     faq: {
       title: 'よくある質問',
       cancel: {
         question: 'いつでもキャンセルできますか？',
-        answer:
-          'はい！アカウント設定からいつでもサブスクリプションをキャンセルできます。請求期間の終了までアクセスを継続できます。',
+        answer: 'はい！アカウント設定からいつでもサブスクリプションをキャンセルできます。請求期間の終了までアクセスを継続できます。',
       },
       trial: {
         question: '無料トライアルはありますか？',
-        answer:
-          '1日5回の練習セッションが可能な寛大な無料枠を提供しています。これにより、サブスクリプションを開始する前にプラットフォームを体験できます。',
+        answer: '1日5回の練習セッションが可能な寛大な無料枠を提供しています。これにより、サブスクリプションを開始する前にプラットフォームを体験できます。',
       },
       switch: {
         question: 'プランを切り替えることはできますか？',
-        answer:
-          'もちろんです！いつでもプランをアップグレードまたはダウングレードできます。変更は次の請求サイクルから有効になります。',
+        answer: 'もちろんです！いつでもプランをアップグレードまたはダウングレードできます。変更は次の請求サイクルから有効になります。',
+      },
+      canICancel: {
+        question: 'いつでもキャンセルできますか？',
+        answer: 'はい、いつでもサブスクリプションをキャンセルできます。請求期間の終了までアクセス可能です。',
+      },
+      whatPaymentMethods: {
+        question: 'どの支払い方法を受け付けていますか？',
+        answer: '主要なクレジットカード、デビットカード、PayPalを安全な決済プロセッサーStripeを通じて受け付けています。',
+      },
+      isThereATrial: {
+        question: '無料プランはありますか？',
+        answer: 'はい！無料プランには基本機能が含まれています。無制限アクセスのためにいつでもプレミアムにアップグレードできます。',
+      },
+      canIChangeMyPlan: {
+        question: 'プランを変更できますか？',
+        answer: 'はい、アカウント設定からいつでもプランをアップグレードまたはダウングレードできます。',
+      },
+    },
+    videoLimitReached: '1日の動画制限に達しました！もっと動画を見るにはアップグレードしてください。',
+    videoLimitBanner: '無制限の動画を見たいですか？プレミアムにアップグレードして1日20本の動画を！',
+    mostPopular: '最も人気',
+    comparison: {
+      title: 'プランを比較',
+      feature: '機能',
+      included: '含まれています',
+      notIncluded: '—',
+    },
+    trustBadges: {
+      secure: '安全な支払い',
+      guarantee: '30日間返金保証',
+      support: '24/7サポート',
+    },
+    pricingComparison: {
+      badge: 'すべての機能を結合',
+      title: '1つのアプリ、すべての機能',
+      subtitle: 'なぜ複数のアプリにお金を払うのですか？Moshimoshiは主要な日本語学習アプリのすべてのプレミアム機能を低コストで提供します。',
+      compareTitle: '他のアプリと比較',
+      competitors: {
+        duolingo: {
+          name: 'Duolingo',
+          price: '£47.99/年',
+          features: ["ゲーミフィケーション","基本レッスン","連続記録追跡"],
+          missing: ["YouTubeシャドーイング","AIストーリー","漢字分解","ニュース読み","Ankiエクスポート"],
+        },
+        heyJapan: {
+          name: 'HeyJapan',
+          price: '£48.99/年',
+          features: ["ビデオレッスン","文法説明"],
+          missing: ["ゲーミフィケーション","AI機能","YouTube練習","ニュース読み","Ankiエクスポート"],
+        },
+        satoriReader: {
+          name: 'Satori Reader',
+          price: '£8.49/月',
+          features: ["読解練習","ふりがなサポート"],
+          missing: ["ビデオレッスン","ゲーミフィケーション","YouTube練習","AIストーリー","Ankiエクスポート"],
+        },
+        lingoDeer: {
+          name: 'LingoDeer',
+          price: '£95.99/年',
+          features: ["構造化されたレッスン","文法重視"],
+          missing: ["YouTube練習","AIストーリー","ニュース読解","高度な漢字ツール"],
+        },
+      },
+      missingLabel: '不足:',
+      moreMissing: '+ さらに不足...',
+      costComparison: {
+        title: 'これらの機能を個別に取得するには、支払う必要があります:',
+        amount: '£240+ 年間',
+        subtitle: '(3〜4つの異なるアプリを購読)',
+      },
+      moshimoshiPricing: {
+        title: 'Moshimoshiの価格設定',
+        monthly: '月額',
+        yearly: '年額',
+        save: '保存',
+        free: {
+          title: '無料',
+          subtitle: '旅を始めよう',
+          price: '£0',
+          period: '/永遠に',
+          features: ["ひらがな＆カタカナ練習","漢字ブラウザ","漢字マスター","ドリル","語彙","ムードボード","MoshiPlayer（シャドーイング）","AIストーリー＆ニュースを試す","進捗追跡"],
+          limitations: ["高度な機能がロックされています"],
+          cta: '無料で始め���',
+        },
+        premium: {
+          title: 'プレミアム',
+          subtitle: 'すべて含まれています',
+          monthlyPrice: '£8.99',
+          yearlyPrice: '£8.33',
+          yearlyTotal: '£99.99/年',
+          period: '/月',
+          badge: '最もお得',
+          features: ["無料プランのすべてに加えて:","MoshiPlayerのフルアクセス","Kanji Connection（限定）","Moshi Comics（限定）","教科書語彙（限定）","Ankiデッキのインポート","無制限のリスト","ライブラリ - 簡約本","優先サポート"],
+          cta: '始める',
+          disclaimer: 'いつでもキャンセル可能',
+        },
+      },
+      allFeatures: {
+        title: 'プレミアムで得られるすべて',
+        categories: {
+          learningTools: {
+            title: '学習ツール',
+            items: ["MoshiPlayerのフルアクセス","Kanji Connection","AIストーリー＆ニュース","Moshi Comics","ライブラリ - 簡約本","教科書語彙"],
+          },
+          studyFeatures: {
+            title: '学習機能',
+            items: ["ひらがな＆カタカナ練習","漢字ブラウザ＆マスター","ドリル＆語彙","ムードボード","スマートSRSアルゴリズム","進捗追跡"],
+          },
+          advancedTools: {
+            title: '高度なツール',
+            items: ["Ankiデッキのインポート","無制限のリスト","オフラインモード","ネイティブ音声発音","ゲーミフィケーション＆XPシステム","優先サポート"],
+          },
+        },
+      },
+      bottomCta: {
+        title: '賢く日本語を学ぶ数千人に参加しよう',
+        subtitle: '1つのアプリで、すべての機能を低コストで。今日から旅を始めよう！',
+        button: '始める',
       },
     },
   },
-
-  // Kana Learning System
   kana: {
     combinedPractice: '両方の練習',
-
     filters: {
       filterByType: '種類でフィルター',
       display: '表示',
       showLearned: '学習済みを表示',
       showNotStarted: '未学習を表示',
       scriptType: '文字の種類',
+      showAll: 'すべて表示',
+      sortBy: '並び替え',
+      alphabetical: 'アルファベット順',
+      difficulty: '難易度',
+      progress: '進捗',
     },
-
     navigation: {
       backToGrid: '文字一覧に戻る',
       characters: '文字',
@@ -2452,9 +2744,7 @@ export const strings = {
       startReview: '復習を開始',
       viewAll: 'すべて表示',
     },
-
     selectAllInRow: 'この行の{{count}}文字をすべて選択',
-
     browse: {
       browseAll: '{{count}}文字をタイプ別に閲覧',
       selectToStudy: '学習する文字を選択',
@@ -2472,10 +2762,21 @@ export const strings = {
       digraphsLabel: '拗音',
       digraphsDescription: '組み合わせ文字',
     },
-
     study: {
       skip: 'スキップ',
       examples: '例文',
+      studyMode: '学習モード',
+      flipCard: 'タップして裏返す',
+      showRomaji: 'ローマ字を表示',
+      hideRomaji: 'ローマ字を非表示',
+      playSound: '音声を再生',
+      exampleWords: '例単語',
+      strokeOrder: '筆順',
+      pinToReview: '復習にピン留め',
+      unpinFromReview: '復習からピンを外す',
+      markAsLearned: '学習済みにマーク',
+      learned: '学習済み',
+      pronunciation: '発音',
     },
     kanji: {
       study: {
@@ -2486,9 +2787,699 @@ export const strings = {
         noExamples: '例文がありません',
       },
     },
+    title: 'ひらがなとカタカナ',
+    hiragana: 'ひらがな',
+    katakana: 'カタカナ',
+    combined: '総合練習',
+    categories: {
+      all: '全ての文字',
+      vowels: '母音',
+      basic: '基本',
+      dakuten: '濁点',
+      handakuten: '半濁点',
+      digraphs: '拗音',
+      special: '特別',
+    },
+    review: {
+      reviewMode: '復習モード',
+      recognition: '認識',
+      recall: '再生',
+      listening: 'リスニング',
+      writing: '書く',
+      speaking: '話す',
+      selectAnswer: '正しい答えを選択',
+      typeAnswer: '答えを入力',
+      correct: '正解！',
+      incorrect: 'もう一度試して',
+      incorrectAnswer: '不正解。答えは：',
+      showAnswer: '答えを表示',
+      nextQuestion: '次の質問',
+      skipQuestion: 'スキップ',
+      endReview: '復習終了',
+      reviewComplete: '復習完了！',
+      sessionComplete: 'セッション完了！',
+      accuracy: '正確さ',
+      timeSpent: '費やした時間',
+      itemsReviewed: '復習した項目',
+      hint: 'ヒントを得る',
+      hintTooltip: 'ヒントを得る (H)',
+      exitTooltip: '終了 (Esc)',
+      nextTooltip: '次へ (Space)',
+      skipTooltip: 'スキップ (S)',
+      summary: {
+        grade: '成績',
+        completed: '完了',
+        correctAnswers: '正解',
+        bestStreak: '最高連続記録',
+        duration: '期間',
+        avgTime: '平均時間',
+        skipped: 'スキップされた',
+        hintsUsed: '使用したヒント',
+        averageConfidence: '平均自信度',
+        outstandingWork: '素晴らしい仕事です！その調子で！🌟',
+        greatJob: '素晴らしい！素晴らしい進歩です！💪',
+        goodEffort: '良い努力です！練習を続けましょう！📚',
+        dontGiveUp: '諦めないで！毎回のセッションがあなたを強くします！🚀',
+      },
+      preparingSession: '復習セッションを準備中...',
+      errorOccurred: 'おっと！何かがうまくいかなかったようです',
+      goBack: '戻る',
+      offlineMode: 'オフラインモード',
+      modes: {
+        recognition: '認識',
+        recall: '想起',
+        listening: 'リスニング',
+        writing: 'ライティング',
+        speaking: 'スピーキング',
+      },
+      typeYourAnswer: '答えを入力してください...',
+      submit: '送信',
+      submitEnter: '送信（Enter）',
+      optionPrefix: {
+        a: 'A',
+        b: 'B',
+        c: 'C',
+        d: 'D',
+      },
+      clear: 'クリア',
+      showStrokeOrder: '筆順を表示',
+      tapToSpeak: 'タップして話す',
+      speechListening: 'リスニング中...',
+      youSaid: 'あなたが言ったのは：',
+      expected: '期待される答え：',
+      speakClearly: '日本語で明確に話してください。マイクは一時停止すると自動的に停止します。',
+      speechNotSupported: 'お使いのブラウザでは音声認識がサポートされていません。Chrome、Edge、またはSafariを使用してください。',
+      kana: {
+        writeFor: '{{script}}を書いてください：',
+        listenAndIdentify: '聞いてカナを識別する',
+        dakuten: '濁点',
+        handakuten: '半濁点',
+        combination: '組み合わせ',
+      },
+      kanji: {
+        writeKanjiFor: '漢字を書いてください：',
+        writeThisKanji: 'この漢字を書いてください：',
+        meaning: '意味：',
+        onReading: '音：',
+        kunReading: '訓：',
+        reading: '読み：',
+        strokeCount: '{{count}}画',
+        jlptLevel: 'JLPT N{{level}}',
+        grade: '学年{{grade}}',
+        frequency: '#{{rank}}頻度',
+        study: {
+          skip: 'スキップ',
+          examples: '例',
+          markAsLearned: '学習済みとしてマーク',
+          noExamples: '例がありません',
+        },
+      },
+      vocabulary: {
+        writeJapaneseFor: '日本語で書いてください：',
+        whatWordDoYouHear: '何の単語が聞こえますか？',
+        example: '例：',
+        common: '一般的',
+        pitchAccent: 'ピッチ: {{accent}}',
+        searchTitle: '語彙検索',
+        searchDescription: '意味と例文で日本語の単語を検索',
+        searchPlaceholder: '漢字、かな、ローマ字、または英語の意味で検索...',
+        searchButton: '検索',
+        searchSource: '検索ソース:',
+        searchSourceJMDict: 'JMDict（オフライン）',
+        searchSourceWaniKani: 'WaniKani',
+        searchResults: '検索結果',
+        searchResultsCount: '検索結果 ({{count}})',
+        searchQuickSearch: 'クイック検索:',
+        searchHistory: '検索履歴',
+        searchHistoryClear: 'クリア',
+        searchHistoryEmpty: 'ここに検索履歴が表示されます',
+        searchHistoryResults: '{{count}} 件の結果',
+        searchJustNow: 'たった今',
+        searchMinutesAgo: '{{minutes}}分前',
+        searchHoursAgo: '{{hours}}時間前',
+        searchDaysAgo: '{{days}}日前',
+        loadingMessage: '語彙検索を読み込み中...',
+        searching: '検索中...',
+        tabs: {
+          details: '詳細',
+          conjugations: '活用形',
+        },
+        wanikaniUnavailable: 'WaniKaniは利用できません。JMdict辞書を使用します。',
+        wanikaniSearchFailed: 'WaniKaniの検索に失敗しました。JMdict辞書に切り替えます。',
+        wanikaniMockData: 'WaniKani APIが正しく設定されていません。JMdictに切り替えるか、有効なWaniKani APIトークンを設定してください。',
+        wanikaniInvalidKey: 'WaniKani APIキーが無効です。API設定を確認するか、JMdictを使用してください。',
+        wanikaniServiceDown: 'WaniKaniサービスは一時的に利用できません。後でもう一度試すか、JMdictを使用してください。',
+        noResultsFound: '結果が見つかりませんでした。別の検索語を試してください。',
+        searchFailed: '検索に失敗しました。もう一度お試しください。',
+        searchHistoryCleared: '検索履歴がクリアされました',
+        loadingCache: '初めてWaniKaniの語彙データベースを読み込んでいます... しばらくお待ちください。',
+        wordMeaning: '意味',
+        wordRomaji: 'ローマ字',
+        wordTags: 'タグ',
+        wordExampleSentences: '例文',
+        wordExampleSentencesComingSoon: '例文は近日公開予定！',
+        noExamplesFound: 'この単語の例は見つかりませんでした',
+      },
+      sentence: {
+        translateToJapanese: '日本語に翻訳:',
+        listenAndUnderstand: '文を聞いて理解する',
+        grammarPoints: '文法ポイント:',
+        beginner: '初心者',
+        intermediate: '中級',
+        advanced: '上級',
+      },
+      custom: {
+        write: '書く:',
+        say: '言う:',
+        question: '質問',
+        noAudioAvailable: 'このコンテンツの音声は利用できません',
+      },
+    },
+    progress: {
+      learned: '学習済み',
+      learning: '学習中',
+      notStarted: '未開始',
+      mastered: '習得済み',
+      totalProgress: '総進捗',
+      charactersMastered: '習得した文字',
+      reviewStreak: '復習連続記録',
+      lastReviewed: '最終復習日',
+      nextReview: '次回復習日',
+    },
+    tooltips: {
+      clickToStudy: 'この文字を学習するにはクリックしてください',
+      rightClickToPin: '右クリックで復習にピン留め',
+      dragToReorder: 'ドラッグして順序を変更',
+      progressInfo: '{{total}}文字中{{learned}}文字を学習しました',
+    },
+    messages: {
+      loadingCharacters: '文字を読み込み中...',
+      noCharactersFound: '文字が見つかりません',
+      pinnedSuccess: '文字が復習にピン留めされました',
+      unpinnedSuccess: '文字が復習からピン解除されました',
+      markedAsLearned: '文字が学習済みとしてマークされました',
+      reviewStarting: '復習セッションを開始しています...',
+      studyStarting: '学習セッションを開始しています...',
+      progressSaved: '進捗が保存されました',
+      audioNotAvailable: 'この文字の音声は利用できません',
+    },
+    profile: {
+      title: 'プロフィール',
+      achievements: {
+        title: '達成バッジ',
+        totalPoints: '総ポイント',
+        legendary: '伝説的',
+        epic: 'エピック',
+        rare: 'レア',
+        uncommon: 'アンコモン',
+        common: 'コモン',
+        complete: '完了',
+      },
+      level: {
+        title: 'レベル進捗',
+        level: 'レベル',
+        xp: 'XP',
+        totalXP: '総XP',
+        nextLevel: '次のレベル',
+        perks: 'レベル特典',
+        progression: 'レベル進行',
+        xpMultiplier: 'XP倍率',
+      },
+    },
+    privacy: {
+      title: 'プライバシーポリシー',
+      lastUpdated: '最終更新日: 2025年1月',
+      footer: 'Moshimoshiを信頼して日本語学習の旅をお任せいただきありがとうございます。',
+      sections: {
+        introduction: {
+          title: '1. はじめに',
+          content: 'Moshimoshiへようこそ。私たちはあなたの個人情報とプライバシーの権利を保護することに尽力しています。このプライバシーポリシーは、私たちの日本語学習アプリケーションを使用する際に、どのように情報を収集、使用、開示、保護するかを説明します。',
+          agreement: 'Moshimoshiを使用することにより、このポリシーに従って情報を収集および使用することに同意したものとします。',
+        },
+        collection: {
+          title: '2. 収集する情報',
+          provided: {
+            title: '2.1 提供する情報',
+            account: 'アカウント情報',
+            accountDesc: 'アカウント作成時のメールアドレス、表示名、プロフィール写真',
+            learning: '学習データ',
+            learningDesc: '進捗状況、保存された語彙、練習結果、学習の好み',
+            content: 'ユーザーコンテンツ',
+            contentDesc: 'ノート、カスタム単語リスト、アプリ内で作成したコンテンツ',
+            communications: 'コミュニケーション',
+            communicationsDesc: 'フィードバック、サポートリクエスト、当社とのやり取り',
+          },
+          automatic: {
+            title: '2.2 自動的に収集される情報',
+            device: 'デバイス情報',
+            deviceDesc: 'ブラウザの種類、オペレーティングシステム、デバイスタイプ、ユニークデバイス識別子',
+            usage: '使用データ',
+            usageDesc: '使用した機能、滞在時間、訪問したページ、インタラクションパターン',
+            performance: 'パフォーマンスデータ',
+            performanceDesc: 'クラッシュレポート、エラーログ、パフォーマンス指標',
+          },
+          thirdParty: {
+            title: '2.3 サードパーティサービス',
+            intro: '情報を収集する可能性のある以下のサードパーティサービスを使用しています：',
+            firebase: '認証、データベース、分析',
+            stripe: '支払い処理（クレジットカード情報は当社で保存されません）',
+            openai: 'AI駆動の機能（コンテンツは匿名化されます）',
+          },
+        },
+        usage: {
+          title: '3. 情報の使用方法',
+          intro: '収集した情報を以下の目的で使用します：',
+          provide: '言語学習サービスの提供と維持',
+          personalize: '学習体験のパーソナライズと進捗の追跡',
+          process: '取引の処理とサブスクリプションの管理',
+          notify: 'サービス関連の通知と更新の送信',
+          support: 'サポートリクエストとフィードバックへの対応',
+          improve: '分析と研究を通じたサービスの改善',
+          comply: '法的義務の遵守と権利の保護',
+        },
+        security: {
+          title: '4. データの保存とセキュリティ',
+          measures: {
+            title: '当社のセキュリティ対策',
+            encryption: '機密データのエンドツーエンド暗号化',
+            https: 'すべてのデータ転送における安全なHTTPS接続',
+            audits: '定期的なセキュリティ監査と脆弱性評価',
+            access: 'アクセス制御と認証メカニズム',
+          },
+          location: {
+            title: 'データの保存場所',
+            content: 'お客様のデータは、米国にあるGoogle Firebaseが提供する安全なサーバーに保存されます。',
+          },
+          local: {
+            title: 'ローカルストレージ',
+            content: '一部のデータは、オフラインアクセスとパフォーマンス最適化のためにデバイスにローカルで保存されます。',
+          },
+        },
+        rights: {
+          title: '5. お客様の権利と選択',
+          yourRights: {
+            title: 'お客様には以下の権利があります：',
+            access: 'アクセス',
+            accessDesc: '個人データのコピーを要求する',
+            correct: '修正',
+            correctDesc: '不正確な情報を更新または修正する',
+            delete: '削除',
+            deleteDesc: 'アカウントとデータの削除を要求する',
+            export: 'エクスポート',
+            exportDesc: 'データをポータブル形式でダウンロードする',
+            optOut: 'オプトアウト',
+            optOutDesc: 'マーケティングコミュニケーションの購読を解除する',
+            restrict: '制限',
+            restrictDesc: '特定の状況でデータの処理を制限する',
+          },
+          exercise: 'これらの権利を行使するには、次の連絡先までご連絡ください',
+          exerciseSuffix: 'またはアカウント設定を通じて。',
+        },
+        contact: {
+          title: '6. 連絡先情報',
+          intro: 'このプライバシーポリシーやデータの取り扱いについて質問や懸念がある場合は、次の連絡先までご連絡ください：',
+          email: 'メール',
+          support: 'サポート',
+        },
+        recaptcha: {
+          title: '7. reCAPTCHA保護',
+          content: 'このサイトはreCAPTCHAとGoogleによって保護されています。',
+          privacyPolicy: 'プライバシーポリシー',
+          and: 'および',
+          termsOfService: '利用規約',
+          apply: 'が適用されます。',
+        },
+      },
+    },
+    terms: {
+      title: '利用規約',
+      effectiveDate: '発効日: 2025年1月',
+      footer: '日本語学習の旅にMoshimoshiを選んでいただきありがとうございます。',
+      sections: {
+        agreement: {
+          title: '1. 利用規約への同意',
+          content: 'これらの利用規約は、Moshimoshiとあなたの間での日本語学習アプリケーションおよび関連サービスの利用に関する法的拘束力のある契約を構成します。',
+          acceptance: 'サービスにアクセスまたは使用することにより、これらの利用規約に拘束されることに同意したものとみなされます。',
+          important: '重要',
+          importantContent: 'これらの利用規約には、法的権利に影響を与える拘束力のある仲裁条項と集団訴訟の放棄が含まれています。',
+        },
+        eligibility: {
+          title: '2. 資格とアカウント',
+          requirements: 'サービスを利用するには、次の条件を満たす必要があります：',
+          age: '13歳以上であること（またはお住まいの地域の最低年齢）',
+          accurate: '正確で完全な登録情報を提供すること',
+          security: 'アカウントの資格情報のセキュリティを維持すること',
+          notify: '不正アクセスがあった場合は直ちに通知すること',
+          responsibility: 'アカウントで発生するすべての活動に対して責任を負います。',
+        },
+        subscription: {
+          title: '3. サブスクリプションと支払い',
+          plans: {
+            title: '3.1 サブスクリプションプラン',
+            content: 'さまざまな機能と価格のサブスクリプションプランを提供しています。',
+          },
+          billing: {
+            title: '3.2 請求',
+            autoRenew: 'サブスクリプションはキャンセルされない限り自動更新されます',
+            stripe: '支払いは、当社の支払いプロバイダーであるStripeを通じて処理されます',
+            changes: '価格は事前通知の上、変更される場合があります',
+          },
+          refunds: {
+            title: '3.3 返金',
+            content: '新規加入者には返金保証を提供しています。',
+          },
+        },
+        acceptable: {
+          title: '4. 許容使用ポリシー',
+          permitted: {
+            title: '4.1 許可された使用',
+            intro: 'サービスを以下の目的で使用できます：',
+            personal: '個人的な教育目的',
+            classroom: '教育者による教室での使用（適切なライセンスが必要）',
+            sharing: 'プラットフォーム内での学習資料の作成と共有',
+          },
+          prohibited: {
+            title: '4.2 禁止された使用',
+            intro: '次の行為を行わないことに同意します：',
+            laws: '法律や規制に違反すること',
+            ip: '知的財産権を侵害すること',
+            malware: 'マルウェア、ウイルス、または有害なコードを送信すること',
+            unauthorized: 'システムへの不正アクセスを試みる',
+            scrape: 'スクレイピング、データマイニング、または自動化システムの使用',
+            circumvent: '使用制限やアクセス制限を回避する',
+            resell: 'コンテンツを再販または商業的に再配布する',
+            impersonate: '他人になりすます、または虚偽の情報を提供する',
+            harass: '他のユーザーを嫌がらせ、虐待、または傷つける',
+          },
+        },
+        ip: {
+          title: '5. 知的財産権',
+          ourContent: {
+            title: '5.1 当社のコンテンツ',
+            content: 'サービスとそのオリジナルコンテンツはMoshimoshiが所有し、知的財産法によって保護されています。',
+          },
+          yourContent: {
+            title: '5.2 あなたのコンテンツ',
+            content: 'あなたが作成したコンテンツの所有権は保持されます。投稿することにより、サービス提供のために使用するライセンスを当社に付与します。',
+          },
+          feedback: {
+            title: '5.3 フィードバック',
+            content: '提供されたフィードバックは当社の所有物となり、補償なしで使用される場合があります。',
+          },
+        },
+        disclaimers: {
+          title: '6. 免責事項と保証',
+          important: '重要な法的免責事項：',
+          asIs: 'サービスは「現状のまま」提供され、いかなる種類の保証もありません。',
+          noWarranty: '当社は以下を保証しません：',
+          uninterrupted: 'サービスが中断されないこと、またはエラーがないこと',
+          defects: '欠陥が修正されること',
+          viruses: 'サービスがウイルスや有害なコンポーネントを含まないこと',
+          results: '結果があなたの要件を満たすこと',
+        },
+        liability: {
+          title: '7. 責任の制限',
+          limitation: '責任の制限：',
+          maxExtent: '法律で許可される最大限の範囲で、当社は以下について責任を負いません：',
+          indirect: '間接的、偶発的、特別、または結果的損害',
+          loss: '利益、データ、使用、信用、またはその他の無形損失の損失',
+          unauthorized: 'サーバーへの不正アクセスによる損害',
+          interruption: '送信の中断または停止',
+          total: '当社の総責任は、請求前の6か月間にあなたが支払った金額を超えません。',
+        },
+        termination: {
+          title: '8. 終了',
+          intro: '当社は、以下を含む理由でアカウントを即時終了または一時停止することがあります：',
+          breach: 'これらの条件の違反',
+          request: '法執行機関または政府機関からの要求',
+          inactivity: '長期間の非活動',
+          nonPayment: '料金の未払い',
+          consequence: '終了時には、サービスを使用する権利は直ちに消滅します。',
+        },
+        governing: {
+          title: '9. 準拠法',
+          content: 'これらの条件は、アメリカ合衆国デラウェア州の法律に準拠します。',
+        },
+        changes: {
+          title: '10. これらの条件の変更',
+          content: '当社は、重要な変更について30日前の通知をもって、これらの条件をいつでも変更する権利を有します。',
+        },
+        contact: {
+          title: '11. お問い合わせ情報',
+          intro: 'これらの条件について質問がある場合は、当社までご連絡ください：',
+          email: 'メール',
+          privacy: 'プライバシー',
+        },
+      },
+    },
+    contact: {
+      title: 'お問い合わせ',
+      subtitle: 'ご意見をお待ちしております！',
+      validation: {
+        invalidEmail: '有効なメールアドレスを入力してください',
+        messageTooShort: 'メッセージは10文字以上である必要があります',
+        messageTooLong: 'メッセージが文字数制限を超えています',
+      },
+      error: '申し訳ありませんが、メッセージの送信中にエラーが発生しました。もう一度お試しください。',
+      success: {
+        title: 'メッセージが送信されました！',
+        message: 'お問い合わせありがとうございます。できるだけ早くご連絡いたします！',
+        sendAnother: '別のメッセージを送信',
+        goBack: '戻る',
+      },
+      form: {
+        name: '名前',
+        namePlaceholder: 'あなたの名前',
+        email: 'メール',
+        emailPlaceholder: 'your@email.com',
+        category: 'カテゴリー',
+        categories: {
+          general: '一般的なお問い合わせ',
+          support: '技術サポート',
+          bug: 'バグ報告',
+          feature: '機能リクエスト',
+          feedback: 'フィードバック',
+          privacy: 'プライバシーの懸念',
+        },
+        subject: '件名',
+        subjectPlaceholder: 'お問い合わせの簡単な説明',
+        message: 'メッセージ',
+        messagePlaceholder: 'お問い合わせ内容を詳しく教えてください...',
+        sending: '送信中...',
+        submit: 'メッセージを送信',
+        info: {
+          title: 'あなたのメッセージは次に送信されます',
+          support: 'サポート',
+          feedback: 'フィードバック',
+          privacy: 'プライバシー',
+        },
+      },
+      alternative: {
+        title: '他の連絡方法',
+        email: {
+          title: '直接メールでお問い合わせ',
+        },
+        privacy: {
+          title: 'プライバシーの懸念',
+        },
+      },
+    },
+    settings: {
+      title: '設定',
+      subtitle: '学習体験をカスタマイズ',
+      backToDashboard: '← ダッシュボードに戻る',
+      saveButton: 'すべての設定を保存',
+      resetButton: 'すべての設定をデフォルトにリセット',
+      resetConfirm: '本当にすべての設定をデフォルトにリセットしますか？',
+      saveSuccess: '設定が正常に保存されました！',
+      resetSuccess: '設定がデフォルトにリセットされました',
+      reviewNotifications: '通知を確認',
+      sections: {
+        appearance: {
+          title: '外観',
+          language: {
+            label: 'Language / 言語 / Langue / Lingua / Sprache / Idioma',
+          },
+          theme: {
+            label: 'テーマ',
+            light: 'ライト',
+            dark: 'ダーク',
+            system: 'システム',
+          },
+          colorPalette: {
+            label: 'カラーパレット',
+            preview: 'プレビュー：',
+            primary: 'プライマリ',
+            secondary: 'セカンダリ',
+            palettes: {
+              sakura: '桜',
+              ocean: '海',
+              matcha: '抹茶',
+              sunset: '夕焼け',
+              lavender: 'ラベンダー',
+              monochrome: 'モノ',
+            },
+          },
+        },
+        learning: {
+          title: '学習設定',
+          autoplay: {
+            label: 'オーディオ自動再生',
+            description: '単語を表示するときに発音を自動再生する',
+          },
+          furigana: {
+            label: 'ふりがなを表示',
+            description: '漢字の上に読み方のヒントを表示する',
+          },
+          romaji: {
+            label: 'ローマ字を表示',
+            description: 'ローマ字で日本語のテキストを表示する',
+          },
+          soundEffects: {
+            label: '効果音',
+            description: '正解/不正解の音を再生する',
+          },
+          hapticFeedback: {
+            label: 'ハプティックフィードバック',
+            description: 'モバイルデバイスでの振動フィードバック',
+          },
+        },
+        notifications: {
+          title: '通知',
+          dailyReminder: {
+            label: '毎日の学習リマインダー',
+            description: '毎日練習するようにリマインドを受ける',
+          },
+          achievementAlerts: {
+            label: '達成アラート',
+            description: '実績を解除したときに祝う',
+          },
+          weeklyProgress: {
+            label: '週間進捗レポート',
+            description: '週間の進捗を要約して受け取る',
+          },
+          marketingEmails: {
+            label: 'マーケティングメール',
+            description: '新機能やコンテンツの更新情報',
+          },
+          channels: {
+            title: '通知チャンネル',
+            browser: {
+              label: 'ブラウザ通知',
+              description: 'レビューが必要なときにデスクトップ通知',
+            },
+            inApp: {
+              label: 'アプリ内通知',
+              description: 'アプリ使用中のトースト通知',
+            },
+            push: {
+              label: 'プッシュ通知',
+              description: 'モバイル通知（アプリのインストールが必要）',
+            },
+          },
+          timing: {
+            title: 'タイミング設定',
+            immediate: {
+              label: '即時レビュー',
+              description: '10分と30分のレビューを通知する',
+            },
+            daily: {
+              label: '毎日の要約',
+              description: '毎日のレビュー要約を受け取る',
+            },
+          },
+          quietHours: {
+            title: '静音時間',
+            enable: '静音時間を有効にする',
+            description: '指定した時間帯は通知しない',
+            start: '開始時間',
+            end: '終了時間',
+          },
+          saveSuccess: '通知設定が保存されました',
+          saveError: '設定の保存に失敗しました',
+          browserNotSupported: 'ブラウザ通知はサポートされていません',
+          browserEnabled: 'ブラウザ通知が有効になりました',
+          browserDenied: 'ブラウザ通知がブロックされています。ブラウザ設定で有効にしてください。',
+          enableBrowserFirst: 'まずブラウザ通知を有効にしてください',
+          blocked: 'ブロックされました',
+          testNotification: '通知テスト',
+          test: {
+            title: '通知テスト',
+            body: 'これは通知設定のテストです',
+          },
+        },
+        privacy: {
+          title: 'プライバシー',
+          publicProfile: {
+            label: '公開プロフィール',
+            description: '他のユーザーがあなたのプロフィールを閲覧できるようにする',
+          },
+          showProgress: {
+            label: '進捗を表示',
+            description: 'プロフィールに学習進捗を表示する',
+          },
+          shareAchievements: {
+            label: '実績を共有',
+            description: '友達と自動的に実績を共有する',
+          },
+        },
+        accessibility: {
+          title: 'アクセシビリティ',
+          largeText: {
+            label: '大きなテキスト',
+            description: '読みやすさのためにテキストサイズを大きくする',
+          },
+          highContrast: {
+            label: '高コントラスト',
+            description: '視認性のために色のコントラストを高める',
+          },
+          reduceMotion: {
+            label: '動きを減らす',
+            description: 'アニメーションとトランジションを最小限にする',
+          },
+          screenReader: {
+            label: 'スクリーンリーダーサポート',
+            description: 'スクリーンリーダーの互換性を最適化する',
+          },
+        },
+        appInfo: {
+          title: 'アプリ情報',
+          version: {
+            title: 'アプリバージョン',
+            checking: '確認中...',
+            upToDate: '最新です',
+            error: '確認に失敗しました',
+            checkButton: '更新を確認',
+            available: '利用可能',
+            criticalMessage: 'これは重要な更新で、重大な修正が含まれています。できるだけ早く更新してください。',
+          },
+        },
+        legal: {
+          title: '法的情報とサポート',
+          privacyPolicy: {
+            label: 'プライバシーポリシー',
+            description: 'データの取り扱いについて',
+          },
+          termsOfService: {
+            label: '利用規約',
+            description: '利用条件',
+          },
+          credits: {
+            label: 'クレジットと謝辞',
+            description: 'オープンソースライブラリとデータソース',
+          },
+          contactUs: {
+            label: 'お問い合わせ',
+            description: 'ヘルプを得るかフィードバックを送信する',
+          },
+          emailSupport: {
+            label: 'メールサポート',
+            description: 'support@moshimoshi.app',
+          },
+        },
+      },
+    },
   },
-
-  // Review System
   review: {
     skip: 'スキップ',
     showAnswer: '答えを見る',
@@ -2499,16 +3490,12 @@ export const strings = {
       writing: 'ライティング',
       speaking: 'スピーキング',
     },
-
-    // Kanji-specific
     kanji: {
       writeKanjiFor: '次の意味の漢字を書いてください：',
       strokeCount: '{{count}}画',
       grade: '{{grade}}年生',
       frequency: '頻度 #{{rank}}',
     },
-
-    // Confidence slider (used across all content types)
     confidence: '確信度',
     confidenceHelp: '確信度とは？',
     confidenceLevel: '確信レベル',
@@ -2523,9 +3510,181 @@ export const strings = {
       low: '低 (0-30%): 推測している',
       tip: 'これにより、システムがあなたの実際の知識に基づいて復習をより適切にスケジュールできます。',
     },
+    dashboard: {
+      title: 'レビュー ダッシュボード',
+      subtitle: '進捗を追跡し、���ビューセッションを管理します',
+      loading: 'レビュー ダッシュボードを読み込み中...',
+      stats: {
+        dueNow: '今すぐ復習',
+        dueNowDescription: 'レビューの準備ができたアイテム',
+        newItems: '新しいアイテム',
+        newItemsDescription: 'まだ開始していないアイテム',
+        learningItems: '学習中',
+        learningItemsDescription: '進行中のアイテム',
+        masteredItems: '習得済み',
+        masteredItemsDescription: '習得したアイテム',
+        todaysGoal: '今日の目標',
+        todaysGoalDescription: '日々のレビュー目標',
+        currentStreak: '現在の連続記録',
+        currentStreakDescription: '連続日数',
+      },
+      quickActions: {
+        title: 'クイックアクション',
+        startDaily: '日々のレビューを始める',
+        startDailyDescription: '{{count}}個のアイテムが準備完了',
+        quickSession: 'クイック5分セッション',
+        quickSessionDescription: '高速レビューセッション',
+        customReview: 'カスタムレビュー',
+        customReviewDescription: 'コンテンツを選択',
+        browseSets: 'レビューセットを閲覧',
+        browseSetsDescription: 'コレクションを管理',
+        addItems: '新しいアイテムを追加',
+        addItemsDescription: 'コンテンツをもっとピン留め',
+        settings: 'レビュー設定',
+        settingsDescription: '設定を構成',
+      },
+      queue: {
+        title: 'レビューキュー',
+        empty: 'キューにアイテムがありません',
+        emptyDescription: 'レビューを始めるためにアイテムをピン留め',
+        viewMode: {
+          compact: 'コンパクト',
+          detailed: '詳細',
+          cards: 'カード',
+        },
+        sortBy: {
+          dueDate: '期日',
+          difficulty: '難易度',
+          type: 'タイプ',
+        },
+        filters: {
+          all: 'すべて',
+          hiragana: 'ひらがな',
+          katakana: 'カタカナ',
+          kanji: '漢字',
+          vocabulary: '語彙',
+        },
+        itemCount: '{{count}} 件',
+        startReview: 'レビュー開始',
+        selectItems: 'アイテムを選択',
+        bulkActions: '一括操作',
+      },
+      activity: {
+        title: '最近の活動',
+        today: '今日',
+        yesterday: '昨日',
+        thisWeek: '今週',
+        types: {
+          review: '{{count}} 件のアイテムをレビューしました',
+          pin: '{{count}} 件のアイテムをピン留めしました',
+          achievement: '実績を獲得',
+          streak: '連続記録を維持',
+          levelUp: 'レベル {{level}} に到達',
+        },
+        loadMore: 'さらに読み込む',
+      },
+      progress: {
+        heatmap: {
+          title: '活動ヒートマップ',
+          tooltip: '{{date}} に {{count}} 件のレビュー',
+          legend: {
+            less: '少なく',
+            more: '多く',
+          },
+        },
+        learningCurve: {
+          title: '学習進捗',
+          new: '新しい',
+          learning: '学習中',
+          mastered: '習得済み',
+        },
+        dailyGoal: {
+          title: '日次目標の進捗',
+          completed: '目標達成！',
+          remaining: '残り {{count}} 件',
+        },
+      },
+      gamification: {
+        streak: {
+          current: '{{count}} 日連続',
+          best: '最高記録: {{count}} 日',
+          frozenWarning: '連続記録を維持するために今日レビューしましょう！',
+          lost: '連続記録が途切れました。新しい記録を始め��しょう！',
+        },
+        level: {
+          current: 'レベル {{level}}',
+          xp: '{{current}} / {{required}} XP',
+          nextLevel: '次: {{title}}',
+          titles: {
+            beginner: '初心者 (Beginner)',
+            student: '学生 (Student)',
+            practitioner: '実践者 (Practitioner)',
+            expert: '専門家 (Expert)',
+            master: '達人 (Master)',
+            sensei: '先生 (Sensei)',
+          },
+        },
+        achievements: {
+          title: '実績',
+          earned: '{{count}} / {{total}} 獲得',
+          recent: '最近獲得',
+          locked: 'ロック中',
+          progress: '{{percent}}% 完了',
+          types: {
+            firstReview: '初回レビュー',
+            weekStreak: '週の戦士',
+            monthStreak: '月間マスター',
+            centuryClub: 'センチュリークラブ',
+            speedDemon: 'スピードデーモン',
+            perfectionist: '完璧主義者',
+            nightOwl: '夜更かし',
+            earlyBird: '早起き',
+            completionist: '完了主義者',
+          },
+        },
+        leaderboard: {
+          title: 'リーダーボード',
+          daily: '今日',
+          weekly: '今週',
+          monthly: '今月',
+          allTime: '全期間',
+          rankLabel: 'ランク',
+          player: 'プレイヤー',
+          achievements: '実績',
+          points: 'ポイント',
+          streak: '連続記録',
+          yourPosition: 'あなたの位置',
+          rank: 'ランク #{{rank}}',
+          you: 'あなた',
+          global: 'グローバル',
+          friends: '友達',
+          local: 'ローカル',
+          metrics: {
+            streak: '連続記録',
+            mastered: '習得済み',
+            xp: 'XP',
+            accuracy: '正確さ',
+          },
+          periods: {
+            today: '今日',
+            week: '今週',
+            month: '今月',
+            allTime: '全期間',
+          },
+        },
+      },
+      mobile: {
+        tabLabels: {
+          dashboard: 'ダッシュボード',
+          queue: 'キュー',
+          stats: '統計',
+          achievements: '実績',
+        },
+        pullToRefresh: '引っ張って更新',
+        swipeHint: 'スワイプして移動',
+      },
+    },
   },
-
-  // Learn Section
   learn: {
     hiragana: 'ひらがな',
     katakana: 'カタカナ',
@@ -2542,18 +3701,13 @@ export const strings = {
     selectionCleared: '選択をクリアしました',
     studySessionComplete: '学習セッション完了！',
   },
-
-  // Review Prompts
   reviewPrompts: {
     vocabulary: {
-      // Review engine strings
       writeJapaneseFor: '次の日本語を書いてください：',
       whatWordDoYouHear: '何の単語が聞こえますか？',
       example: '例：',
       common: '一般的',
       pitchAccent: 'アクセント：{{accent}}',
-
-      // Vocabulary search page strings
       searchTitle: '単語検索',
       searchDescription: '日本語の単語を意味と例文で検索',
       searchPlaceholder: '漢字、かな、ローマ字、英語の意味で検索...',
@@ -2574,37 +3728,25 @@ export const strings = {
       searchDaysAgo: '{{days}}日前',
       loadingMessage: '単語検索を読み込み中...',
       searching: '検索中...',
-
-      // Tabs
       tabs: {
         details: '詳細',
         conjugations: '活用',
       },
-
-      // Toast messages
       wanikaniUnavailable: 'WaniKaniが利用できません。JMdict辞書を使用します。',
       wanikaniSearchFailed: 'WaniKani検索が失敗しました。JMdict辞書に切り替えます。',
-      wanikaniMockData:
-        'WaniKani APIが正しく設定されていません。JMdictに切り替えるか、有効なWaniKani APIトークンを設定してください。',
-      wanikaniInvalidKey:
-        'WaniKani APIキーが無効です。API設定を確認するか、JMdictを使用してください。',
-      wanikaniServiceDown:
-        'WaniKaniサービスが一時的に利用できません。後でもう一度試すか、JMdictを使用してください。',
+      wanikaniMockData: 'WaniKani APIが正しく設定されていません。JMdictに切り替えるか、有効なWaniKani APIトークンを設定してください。',
+      wanikaniInvalidKey: 'WaniKani APIキーが無効です。API設定を確認するか、JMdictを使用してください。',
+      wanikaniServiceDown: 'WaniKaniサービスが一時的に利用できません。後でもう一度試すか、JMdictを使用してください。',
       noResultsFound: '結果が見つかりません。別の検索語をお試しください。',
       searchFailed: '検索に失敗しました。もう一度お試しください。',
       searchHistoryCleared: '検索履歴がクリアされました',
-      loadingCache:
-        'WaniKaniの語彙データベースを初めて読み込んでいます... しばらくお待ちください。',
-
-      // Word details modal
+      loadingCache: 'WaniKaniの語彙データベースを初めて読み込んでいます... しばらくお待ちください。',
       wordMeaning: '意味',
       wordRomaji: 'ローマ字',
       wordTags: 'タグ',
       wordExampleSentences: '例文',
       wordExampleSentencesComingSoon: '例文は近日公開予定です！',
       noExamplesFound: 'この単語の例文が見つかりませんでした',
-
-      // Practice page
       practiceTitle: '活用練習',
       practiceDescription: '日本語の動詞と形容詞の活用をマスター',
       filters: {
@@ -2633,10 +3775,16 @@ export const strings = {
         complete: '復習を完了',
         noWords: '復習用の単語が選択されていません',
       },
+      noResults: '結果が見つかりません',
+      searchHint: '異なるキーワードを試してください',
+      addToList: 'リストに追加',
+      saveWord: '単語を保存',
+      studyWord: '単語を勉強',
+      pronunciation: '発音',
+      examples: '例文',
+      conjugations: '活用形',
     },
   },
-
-  // カスタムリスト機能
   favourites: {
     title: 'お気に入り',
     description: '保存した単語、漢字、文章',
@@ -2668,7 +3816,6 @@ export const strings = {
     reviewedTimes: '{count}回復習済み',
     manageLists: 'リストを管理',
   },
-
   lists: {
     title: 'マイリスト',
     pageDescription: 'カスタム学習リストを作成・管理',
@@ -2694,7 +3841,6 @@ export const strings = {
         short: '動詞/形容詞',
         description: '動詞と形容詞の活用を練習',
       },
-
       flashcard: {
         name: 'フラッシュカードリスト',
         short: 'フラッシュカード',
@@ -2706,6 +3852,21 @@ export const strings = {
         short: '練習',
         description: '動詞と形容詞の活用を練習',
         accepts: '対応: 動詞と形容詞のみ',
+      },
+      wordList: {
+        name: '単語リスト',
+        short: '単語',
+        description: '語彙と漢字',
+      },
+      sentenceList: {
+        name: '文リスト',
+        short: '文',
+        description: '文脈学習のための完全な文',
+      },
+      verbAdjList: {
+        name: '動詞と形容詞',
+        short: '活用',
+        description: '動詞と形容詞の形を練習する',
       },
     },
     fields: {
@@ -2736,6 +3897,8 @@ export const strings = {
       addItems: 'アイテムを追加',
       review: '復習',
       manage: 'リストを管理',
+      exportJson: 'JSONとしてエクスポート',
+      exportCsv: 'CSVとしてエクスポート',
     },
     edit: 'リストを編集',
     update: 'リストを更新',
@@ -2775,6 +3938,8 @@ export const strings = {
       noListSelected: '少なくとも一つのリストを選択してください',
       incompatibleType: 'このリストタイプはこのアイテムを受け入れることができません',
       duplicateItem: 'このアイテムは既にリストに存在します',
+      addFailed: 'リストへの追加に失敗しました',
+      signInRequired: 'リストを使用するにはサインインしてください',
     },
     validation: {
       contentRequired: 'コンテンツは必須です',
@@ -2801,19 +3966,46 @@ export const strings = {
       versionChangeMessage: '別のタブでデータベースが更新されました。続行するにはページを更新してください。',
       refreshButton: 'ページを更新',
     },
+    createNew: '新しいリストを作成',
+    createDescription: '学習資料を整理する',
+    listName: 'リスト名',
+    listType: 'リストタイプ',
+    emoji: '絵文字',
+    color: '色',
+    changeEmoji: '絵文字を変更',
+    preview: 'プレビュー',
+    items: 'アイテム',
+    namePlaceholder: '私の学習リスト',
+    creating: '作成中...',
+    create: 'リストを作成',
+    created: 'リストが正常に作成されました',
+    addToList: 'リストに追加',
+    selectList: 'リストを選択',
+    addedToList: 'リストに追加されました',
+    noLists: 'まだリストがありません',
+    confirmDelete: 'アイテムを削除',
+    confirmDeleteMessage: 'このアイテムをリストから削除してもよろしいですか？',
+    confirmDeleteMultiple: '{{count}}個のアイテムをリストから削除してもよろしいですか？',
+    importModal: {
+      title: 'リストをインポート',
+      format: 'フォーマット',
+      data: 'データ',
+      formatText: 'プレーンテキスト（1行につき1つ）',
+      formatCsv: 'CSV',
+      formatJson: 'JSON',
+      dataPlaceholder: 'ここにデータを貼り付けてください',
+      dataPlaceholderText: '1行につき1つのアイテム',
+      import: 'インポート',
+    },
   },
-
-  // YouTube シャドーイング
   youtubeShadowing: {
     title: 'YouTubeシャドーイング',
     description: 'YouTube動画と音声ファイルで日本語を練習',
-
     header: {
       eyebrow: 'シャドーイングプレイヤー',
       title: 'MoshiPlayer',
       subtitle: 'トランスクリプトをループして、フローを維持。',
     },
-
     form: {
       cardTitle: '動画を読み込む',
       cardSubtitle: 'YouTube URLを貼り付けてシャドーイングを開始',
@@ -2825,17 +4017,14 @@ export const strings = {
       loadingButton: '読み込み中...',
       changeVideo: '動画を変更',
     },
-
     currentSegment: {
       nowPlaying: '再生中',
     },
-
     hints: {
       transcriptWillAppear: 'トランスクリプトは読み込み後にここに表示されます。',
       pasteToStart: 'YouTubeリンクを貼り付けてシャドーイングを開始。',
       firstLoadInfo: '最初の読み込みはYouTube timedtextを使用。フォールバックはトランスクリプトサービス。',
     },
-
     settings: {
       title: '設定',
       videoLoop: '動画ループ',
@@ -2850,28 +4039,22 @@ export const strings = {
       clearSession: 'セッションをクリア',
       clearButton: 'クリア',
     },
-
     lockScreen: {
       title: '画面ロック中',
       tapToUnlock: 'ドシを3回タップして解除',
       lockButton: '画面をロック',
     },
-
     status: {
       transcriptLoaded: '{{source}}（{{language}}）からトランスクリプトを読み込みました。',
     },
-
     hero: {
       title: 'あらゆるメディアで日本語をマスター',
-      subtitle:
-        'YouTube動画や自分のメディアファイルを、AI搭載の文字起こし付きインタラクティブなシャドーイング練習セッションに変換',
+      subtitle: 'YouTube動画や自分のメディアファイルを、AI搭載の文字起こし付きインタラクティブなシャドーイング練習セッションに変換',
     },
-
     modes: {
       input: 'メディア追加',
       player: '練習',
     },
-
     input: {
       youtube: 'YouTube URL',
       upload: 'ファイルアップロード',
@@ -2884,7 +4067,6 @@ export const strings = {
       maxSize: '最大ファイルサイズ：',
       acceptedFormats: '対応形式: MP4, MP3, WAV, M4A',
     },
-
     errors: {
       invalidUrl: '有効なYouTube URLを入力してください',
       emptyUrl: 'YouTube URLを入力してください',
@@ -2895,7 +4077,6 @@ export const strings = {
       invalidVideoId: '有効なYouTube URLまたは11文字の動画IDを入力してください。',
       transcriptUnavailable: 'この動画のトランスクリプトは利用できません。',
     },
-
     features: {
       transcripts: {
         title: '即座に文字起こし',
@@ -2910,7 +4091,6 @@ export const strings = {
         description: '全レベル向けの読み方サポート',
       },
     },
-
     player: {
       awaitingVideo: '動画を待機中',
       nowPlaying: '再生中: {{videoId}}',
@@ -2924,7 +4104,6 @@ export const strings = {
       extractingAudio: '音声を抽出中...',
       generatingTranscript: '文字起こしを生成中...',
       ready: '練習準備完了！',
-
       controls: {
         play: '再生',
         pause: '一時停止',
@@ -2937,7 +4116,6 @@ export const strings = {
         furigana: 'ふりがな表示',
         grammar: '文法表示',
       },
-
       settings: {
         playbackSpeed: '再生速度',
         repeatCount: 'リピート回数',
@@ -2945,20 +4123,23 @@ export const strings = {
         continuous: '連続再生',
         autoScroll: '自動スクロール',
       },
-
       transcript: {
         title: 'トランスクリプト',
         edit: '編集',
         regenerate: '再生成',
         save: '変更を保存',
         cancel: '編集をキャンセル',
+        noTranscript: 'トランスクリプトが利用できません',
       },
+      repeatLine: '行を繰り返す',
+      playTTS: 'TTSを再生',
+      toggleTranscript: 'トランスクリプトを切り替え',
+      autoScroll: '自動スクロール',
+      currentLine: '現在の行',
     },
-
     freeAccess: '無料アクセス',
     loadingTitle: '動画タイトルを読み込み中...',
     by: '作成者',
-
     usage: {
       today: '今日の使用状況',
       unlimited: '無制限',
@@ -2967,9 +4148,9 @@ export const strings = {
       newVideos: '今日の新しい動画',
       uploads: 'アップロード',
     },
+    watchOnYouTube: 'YouTubeで見る',
+    audioFile: 'オーディオファイル',
   },
-
-  // Shadowing Feature
   shadowing: {
     title: 'シャドーイング練習',
     noSentence: '再生可能な文がありません',
@@ -2993,8 +4174,6 @@ export const strings = {
     saveFailed: '文の保存に失敗しました',
     instructions1: '各文を聴いて、休止中に繰り返してください。',
     instructions2: '学習ペースに合わせて設定を調整してください。',
-
-    // Floating Navbar (Mobile)
     floatingNavbar: {
       message: '文法を説明',
       repeat: 'リピート',
@@ -3009,7 +4188,6 @@ export const strings = {
       displayMode: '表示モード',
     },
   },
-
   aiGrammar: {
     title: '文法説明',
     trigger: '文法を説明',
@@ -3024,24 +4202,17 @@ export const strings = {
     relatedLabel: '関連パターン',
     formalityLabel: '丁寧さ',
   },
-
-  // Library Page
   library: {
     title: '図書館',
     pageDescription: '人気の本の要約を日本語で読む',
   },
-
   flashcards: {
     title: 'フラッシュカード',
     pageTitle: 'フラッシュカードデッキ',
     pageDescription: 'カスタムフラッシュカードデッキを作成して学習',
-
-    // Empty state
     noDecksYet: 'まだデッキがありません',
     noDecksDescription: '最初のフラッシュカードデッキを作成して学習の旅を始めましょう',
     createFirstDeck: '最初のデッキを作成',
-
-    // Deck management
     createDeck: '新しいデッキを作成',
     editDeck: 'デッキを編集',
     deleteDeck: 'デッキを削除',
@@ -3051,8 +4222,6 @@ export const strings = {
     totalCards: '{{count}}枚のカード',
     lastStudied: '最終学習: {{date}}',
     neverStudied: '未学習',
-
-    // Card management
     addCard: 'カードを追加',
     editCard: 'カードを編集',
     deleteCard: 'カードを削除',
@@ -3061,8 +4230,6 @@ export const strings = {
     cardNotes: 'メモ（任意）',
     cardTags: 'タグ',
     cardDifficulty: '難易度',
-
-    // Study modes
     studyMode: '学習モード',
     selectStudyMode: '学習モードを選択',
     classic: 'クラシック',
@@ -3070,8 +4237,6 @@ export const strings = {
     speed: 'スピードラウンド',
     write: '書き取り練習',
     voice: '音声練習',
-
-    // Study mode details
     modes: {
       due: {
         name: '復習予定のカード',
@@ -3102,8 +4267,6 @@ export const strings = {
         description: 'カスタム設定で独自の学習セッションを作成',
       },
     },
-
-    // Study session
     startStudying: '学習を開始',
     resumeStudying: '学習を再開',
     flipCard: 'カードを裏返す',
@@ -3118,8 +4281,6 @@ export const strings = {
       good: '良い',
       easy: '簡単',
     },
-
-    // Progress
     progress: '進捗',
     cardsStudied: '学習済みカード',
     accuracy: '正答率',
@@ -3130,8 +4291,6 @@ export const strings = {
     newCards: '新しいカード',
     learningCards: '学習中',
     reviewCards: '復習',
-
-    // Additional study session keys
     noCardsAvailable: 'このモードで利用可能なカードがありません',
     customSettings: 'カスタム設定',
     cardLimit: 'カード数の上限',
@@ -3142,12 +4301,8 @@ export const strings = {
     priority: '優先度',
     random: 'ランダム',
     oldest: '古い順',
-
-    // Performance insights
     strongTopics: '得意なトピック',
     needsWork: '復習が必要',
-
-    // Statistics
     showStats: '統計を表示',
     hideStats: '統計を非表示',
     insights: 'インサイト',
@@ -3160,9 +4315,32 @@ export const strings = {
       timeSpent: '学習時間',
       heatmap: '学習ヒートマップ',
       retention: '定着率',
+      mastered: '習得済み',
+      accuracy: '正確さ',
+      streak: '現在の連続記録',
+      studyTime: '学習時間',
+      learningProgress: '学習進捗',
+      deckPerformance: 'デッキのパフォーマンス',
+      insights: '学習インサイト',
+      velocity: '学習速度',
+      cardsPerHour: 'カード/時間',
+      todayGoal: '今日の進捗',
+      bestStreak: '最高記録',
+      dueNow: '今すぐ',
+      days: '日',
+      total: '総カード数',
+      learning: '学習中',
+      complete: '完了',
+      progress: '進捗',
+      hoursMinutes: '{{hours}}時間{{minutes}}分',
+      minutes: '{{minutes}}分',
+      period: {
+        day: '今日',
+        week: '今週',
+        month: '今月',
+        all: '全期間',
+      },
     },
-
-    // Customization
     customize: {
       title: 'カードをカスタマイズ',
       cardStyle: 'カードスタイル',
@@ -3182,8 +4360,6 @@ export const strings = {
       mixed: 'ミックス',
       sessionLength: 'セッションごとのカード数',
     },
-
-    // Import/Export
     import: {
       title: 'デッキをインポート',
       selectFile: 'ファイルを選択',
@@ -3202,7 +4378,6 @@ export const strings = {
       csvTitle: 'CSV',
       csvDescription: 'CSVファイルをインポート',
     },
-
     export: {
       title: 'デッキをエクスポート',
       format: 'エクスポート形式',
@@ -3213,8 +4388,6 @@ export const strings = {
       exporting: 'エクスポート中...',
       success: 'デッキのエクスポート完了',
     },
-
-    // Image upload
     image: {
       uploadFile: '画像をアップロード',
       maxSize: '最大{{size}}MB',
@@ -3227,14 +4400,11 @@ export const strings = {
       invalidUrl: '無効な画像URLです',
       loadFailed: 'URLから画像を読み込めませんでした',
     },
-
-    // Storage
     storage: {
       using: '使用中のストレージ',
       permission: {
         title: 'Keep Flashcards Offline',
-        description:
-          'Allow Moshimoshi to store flashcards permanently so your decks stay available offline.',
+        description: 'Allow Moshimoshi to store flashcards permanently so your decks stay available offline.',
         allow: 'Enable Offline Storage',
         granted: 'Already Enabled',
         later: 'Later',
@@ -3242,7 +4412,7 @@ export const strings = {
       currentUsage: 'Current storage usage',
       benefits: {
         offline: 'Study decks offline without re-downloading',
-        persistent: "Browser won't delete your decks",
+        persistent: 'Browser won\'t delete your decks',
         safer: 'Protects large imports from eviction',
       },
       status: {
@@ -3250,11 +4420,7 @@ export const strings = {
         notGranted: 'Storage may be cleared by browser',
       },
     },
-
-    // Streak
     dayStreak: '日連続',
-
-    // Migration
     migration: {
       title: 'クラウドに同期',
       description: 'ローカルのフラッシュカードをクラウドに同期して、バックアップや他のデバイスからアクセスできます。',
@@ -3262,8 +4428,6 @@ export const strings = {
       inProgress: '同期中...',
       syncingDeck: '{{deck}}を同期中...',
     },
-
-    // Restore
     restore: {
       title: 'デッキを復元',
       description: 'クラウドバックアップからAnkiデッキを復元',
@@ -3281,8 +4445,6 @@ export const strings = {
       success: 'デッキが正常に復元されました。オフラインで学習できます。',
       error: '復元に失敗しました。もう一度お試しください。',
     },
-
-    // Empty states
     empty: {
       noDecks: 'フラッシュカードデッキがありません',
       createFirst: '最初のデッキを作成して学習を始めましょう',
@@ -3295,8 +4457,6 @@ export const strings = {
       noDecksDescription: '最初のフラッシュカードデッキを作成して学習を始めましょう',
       createFirstDeck: '最初のデッキを作成',
     },
-
-    // Errors and limits
     errors: {
       loadFailed: 'デッキの読み込みに失敗',
       saveFailed: 'デッキの保存に失敗',
@@ -3306,15 +4466,12 @@ export const strings = {
       offlineOnly: 'オフラインモード - ローカルに保存',
       syncFailed: 'クラウド同期に失敗',
     },
-
     limits: {
       guest: 'フラッシュカードを作成するにはサインインしてください',
       freeLimit: '無料版: {{current}}/{{max}}デッキ',
       dailyLimit: '1日の上限: {{current}}/{{max}}復習',
       unlimited: '無制限のデッキ',
     },
-
-    // Daily Goals
     dailyGoals: {
       title: 'デイリーゴール',
       progress: '{{percentage}}%完了',
@@ -3331,8 +4488,6 @@ export const strings = {
       decksPerDay: '1日のデッキ数',
       accuracyTarget: '正答率目標',
     },
-
-    // Achievements
     achievements: {
       title: '実績',
       unlocked: '解除済み',
@@ -3346,38 +4501,24 @@ export const strings = {
       special: '特別',
       viewAll: 'すべて表示',
     },
-
-    // Learning Insights
     learningInsights: '学習インサイト',
     currentStreak: '現在の連続記録',
     retentionRate: '定着率',
     cardsPerDay: '1日のカード数',
     bestStudyTime: '最適学習時間',
-
-    // Optimal Settings
     optimalSettings: '最適設定',
     sessionLength: 'セッション長',
     studyTime: '学習時間',
-
-    // Recommended Study
     recommendedStudy: '推奨学習',
-
-    // Urgency levels
     urgency: {
       low: '低優先度',
       medium: '中優先度',
       high: '高優先度',
       critical: '緊急',
     },
-
-    // Additional missing translations
     minutes: '分',
     cards: 'カード',
-
-    // Status messages
     syncing: 'デッキを同期中...',
-
-    // Success messages
     success: {
       deckCreated: 'デッキを作成しました',
       deckUpdated: 'デッキを更新しました',
@@ -3392,8 +4533,6 @@ export const strings = {
       allExported: 'すべてのデッキをエクスポートしました',
       syncComplete: '同期完了',
     },
-
-    // Session Settings
     settings: {
       sessionLength: 'セッションあたりのカード数',
       sessionLengthHint: 'このセッションで学習するカード数を選択',
@@ -3416,8 +4555,6 @@ export const strings = {
       mixedDesc: 'カードごとにランダムな方向',
       usingAllCards: '利用可能なすべてのカードを使用',
     },
-
-    // Comeback Message
     comeback: {
       welcomeBack: 'おかえりなさい',
       missedYou: '会いたかったです',
@@ -3435,8 +4572,28 @@ export const strings = {
       achievementDesc: '7日以上不在後の復帰',
       readyToStart: '再開の準備はできましたか？カードがあなたを待っています。',
     },
+    syncToCloud: 'クラウドに同期',
+    tooltips: {
+      srs: '最適な学習のための間隔反復を使用',
+      mastery: '21日以上、90%の正確さで一貫して学習',
+      streak: '連続記録を維持するために毎日学習',
+      difficulty: 'このカードをどれくらい知っていたか評価してください',
+      leech: 'このカードは追加の練習が必要です',
+    },
+    confirmDelete: {
+      title: 'デッキを削除',
+      message: '"{{name}}"を削除してもよろしいですか？この操作は元に戻せません。',
+      deck: 'デッキ"{{name}}"を削除しますか？これは元に戻せません。',
+      card: 'このカードを削除しますか？これは元に戻せません。',
+      progress: '進捗をリセットしますか？すべての統計がクリアされます。',
+    },
+    deleting: '"{{name}}"を削除中...',
+    actions: {
+      syncAll: 'すべてを同期',
+      exportAll: 'すべてをエクスポート',
+    },
+    startSession: 'セッションを開始',
   },
-
   conjugation: {
     title: '活用',
     description: '100以上の動詞・形容詞活用形を総合的な練習システムでマスター',
@@ -3480,82 +4637,65 @@ export const strings = {
       colloquialform: '口語形',
       formalform: '文語形',
       classicalformnu: '古典形（ぬ）',
-      'classicalform(nu)': '古典形（ぬ）',
+      classicalform(nu): '古典形（ぬ）',
       classicalformzaru: '古典形（ざる）',
-      'classicalform(zaru)': '古典形（ざる）',
-      // 形容詞専用グループ
+      classicalform(zaru): '古典形（ざる）',
       basicforms: '基本形',
       politeforms: '丁寧形',
       conditionalforms: '条件形',
       presumptiveforms: '推量形',
     },
     forms: {
-      // 語幹
       masuStem: 'ます語幹',
       negativeStem: '否定語幹',
       teForm: 'て形',
       negativeTeForm: '否定て形',
       adverbialNegative: '副詞的否定',
-      // 基本形
       present: '現在形・辞書形',
       past: '過去形',
       negative: '否定形',
       pastNegative: '過去否定形',
-      // 丁寧形
       polite: '丁寧形',
       politePast: '丁寧過去形',
       politeNegative: '丁寧否定形',
       politePastNegative: '丁寧過去否定形',
       politeVolitional: '丁寧意志形',
-      // 条件形
       provisional: '仮定形（ば）',
       provisionalNegative: '否定仮定形（ば）',
       conditional: '条件形（たら）',
       conditionalNegative: '否定条件形（たら）',
-      // 意志形
       volitional: '意志形',
       volitionalNegative: '否定意志形',
-      // 命令形
       imperativePlain: '命令形',
       imperativePolite: '丁寧な依頼',
       imperativeNegative: '禁止形',
-      // 可能形
       potential: '可能形',
       potentialNegative: '不可能形',
       potentialPast: '可能過去形',
       potentialPastNegative: '不可能過去形',
-      // 受身形
       passive: '受身形',
       passiveNegative: '受身否定形',
       passivePast: '受身過去形',
       passivePastNegative: '受身過去否定形',
-      // 使役形
       causative: '使役形',
       causativeNegative: '使役否定形',
       causativePast: '使役過去形',
       causativePastNegative: '使役過去否定形',
-      // 使役受身形
       causativePassive: '使役受身形',
       causativePassiveNegative: '使役受身否定形',
-      // 希望形
       taiForm: 'たい形',
       taiFormNegative: 'たくない形',
       taiFormPast: 'たかった形',
       taiFormPastNegative: 'たくなかった形',
-      // 進行形
       progressive: '進行形',
       progressiveNegative: '進行否定形',
       progressivePast: '進行過去形',
       progressivePastNegative: '進行過去否定形',
-      // 依頼形
       request: '依頼形',
       requestNegative: '否定依頼形',
-      // 口語形
       colloquialNegative: '口語否定形',
-      // 改まった形
       formalNegative: '改まった否定形',
       classicalNegative: '古典否定形',
-      // 推量形
       presumptive: '推量形',
       presumptiveNegative: '否定推量形',
     },
@@ -3571,7 +4711,6 @@ export const strings = {
       lowConfidence: '活用タイプの判定確度が低いです',
       specialCase: 'この単語は特別な活用規則があります',
     },
-    // 練習ページ
     practiceTitle: '活用練習',
     practiceDescription: '日本語の動詞と形容詞の活用をマスター',
     searchPlaceholder: '動詞や形容詞を検索...',
@@ -3606,9 +4745,16 @@ export const strings = {
       complete: '復習を完了',
       noWords: '復習用の単語が選択されていません',
     },
+    help: {
+      smartModeTitle: 'スマートヘルプ',
+      smartModeDesc: 'このヘルプはあなたの回答に基づいて提案されました。',
+      examples: '例',
+      tip: 'ヒント',
+      previous: '前',
+      next: '次',
+      closeHelp: 'ヘルプを閉じる',
+    },
   },
-
-  // Settings Page
   settings: {
     title: '設定',
     subtitle: '学習体験をカスタマイズ',
@@ -3625,7 +4771,6 @@ export const strings = {
     saveSuccess: '設定が正常に保存されました！',
     resetSuccess: '設定がデフォルトに戻されました',
     reviewNotifications: '復習通知',
-
     sections: {
       appearance: {
         title: '外観',
@@ -3653,7 +4798,6 @@ export const strings = {
           },
         },
       },
-
       learning: {
         title: '学習設定',
         autoplay: {
@@ -3677,7 +4821,6 @@ export const strings = {
           description: 'モバイルデバイスでの振動フィードバック',
         },
       },
-
       notifications: {
         title: '通知',
         dailyReminder: {
@@ -3742,7 +4885,6 @@ export const strings = {
           body: 'これは通知設定のテストです',
         },
       },
-
       privacy: {
         title: 'プライバシー',
         publicProfile: {
@@ -3757,8 +4899,11 @@ export const strings = {
           label: '達成項目を共有',
           description: '友達と達成項目を自動共有',
         },
+        hideFromLeaderboard: {
+          label: 'ランキングから隠す',
+          description: '公開ランキングから除外する',
+        },
       },
-
       accessibility: {
         title: 'アクセシビリティ',
         largeText: {
@@ -3778,7 +4923,6 @@ export const strings = {
           description: 'スクリーンリーダー互換性に最適化',
         },
       },
-
       appInfo: {
         title: 'アプリ情報',
         version: {
@@ -3788,11 +4932,9 @@ export const strings = {
           error: '確認に失敗しました',
           checkButton: 'アップデートを確認',
           available: '利用可能',
-          criticalMessage:
-            '重要な修正を含む更新があります。できるだけ早くアップデートしてください。',
+          criticalMessage: '重要な修正を含む更新があります。できるだけ早くアップデートしてください。',
         },
       },
-
       legal: {
         title: '法務＆サポート',
         privacyPolicy: {
@@ -3818,21 +4960,16 @@ export const strings = {
       },
     },
   },
-
-  // Credits Page
   credits: {
     title: 'クレジット＆謝辞',
-    subtitle:
-      'Moshimoshiは多くの素晴らしいプロジェクトとコミュニティによって支えられています。以下の方々に深く感謝いたします。',
+    subtitle: 'Moshimoshiは多くの素晴らしいプロジェクトとコミュニティによって支えられています。以下の方々に深く感謝いたします。',
     loading: 'クレジットを読み込み中...',
     backToSettings: '← 設定に戻る',
-
     sections: {
       dataSources: 'データソース＆コンテンツ',
       libraries: 'ライブラリ＆技術',
       specialThanks: '特別な感謝',
     },
-
     sources: {
       jmdict: '日本語多言語辞書プロジェクト',
       wanikani: '漢字学習方法論とニーモニックのインスピレーション',
@@ -3841,7 +4978,6 @@ export const strings = {
       voicevox: 'ずんだもんや四国めたんなど、表現力豊かなキャラクターボイスによる高品質な日本語音声合成',
       nhknewseasy: 'NHK（日本放送協会）が提供する、日本語学習者向けのやさしい日本語ニュース記事',
     },
-
     libraries: {
       nextjs: 'プロダクション用Reactフレームワーク',
       react: 'ユーザーインターフェース用JavaScriptライブラリ',
@@ -3852,7 +4988,6 @@ export const strings = {
       redis: 'インメモリデータストア',
       stripe: '決済処理とサブスクリプション',
     },
-
     thanks: {
       community: {
         name: '日本語学習コミュニティ',
@@ -3867,20 +5002,16 @@ export const strings = {
         description: '学習の旅を私たちに託してくださることに感謝',
       },
     },
-
     license: {
       title: 'ライセンス＆使用',
-      description:
-        'Moshimoshiはすべてのサードパーティプロジェクトのライセンスを尊重します。これらのリソースは、それぞれのライセンスに準拠して使用しています。詳細なライセンス情報については、各プロジェクトの公式ドキュメントをご参照ください。',
+      description: 'Moshimoshiはすべてのサードパーティプロジェクトのライセンスを尊重します。これらのリソースは、それぞれのライセンスに準拠して使用しています。詳細なライセンス情報については、各プロジェクトの公式ドキュメントをご参照ください。',
     },
-
     footer: {
       madeWith: '世界中の日本語学習者のために',
       forLearners: '愛を込めて作りました',
       contact: 'ご提案がありますか？お問い合わせください！',
     },
   },
-
   kanjiConnection: {
     title: '漢字の繋がり',
     subtitle: '漢字同士の関係性を発見しよう',
@@ -3915,20 +5046,18 @@ export const strings = {
       subcategories: 'サブカテゴリ',
     },
   },
-
   vocabulary: {
     tabs: {
       details: '詳細',
       conjugations: '活用',
     },
+    title: '語彙',
+    description: '日本語の語彙を検索して探る',
   },
-
-  // YouTube Series Public Page
   youtubeSeries: {
     title: 'YouTubeシリーズ',
     subtitle: '厳選されたYouTubeコンテンツで日本語を学ぶ',
-    description:
-      '厳選されたYouTubeシリーズでシャドーイングを練習し、ネイティブコンテンツから学びましょう',
+    description: '厳選されたYouTubeシリーズでシャドーイングを練習し、ネイティブコンテンツから学びましょう',
     search: '動画やチャンネルを検索...',
     searchPlaceholder: 'タイトル、チャンネル、説明で検索',
     filters: {
@@ -3975,7 +5104,6 @@ export const strings = {
       tryAgain: '後でもう一度お試しください',
     },
   },
-
   todos: {
     title: 'マイタスク',
     addNew: '新しいToDoを追加',
@@ -3986,7 +5114,6 @@ export const strings = {
     errorLoading: 'ToDoの読み込みエラー',
     limitReached: '本日のToDo作成上限に達しました',
     usage: '本日残り{{remaining}}件（上限{{limit}}件）',
-
     titleLabel: 'タイトル',
     titlePlaceholder: '何をする必要がありますか？',
     descriptionLabel: '説明',
@@ -3998,28 +5125,23 @@ export const strings = {
     tagPlaceholder: 'タグを追加...',
     addTag: '追加',
     creating: '作成中...',
-
     priority: {
       low: '低',
       medium: '中',
       high: '高',
     },
-
     filter: {
       all: 'すべて',
       active: 'アクティブ',
       completed: '完了',
     },
-
     sort: {
       date: '日付順',
       priority: '優先度順',
     },
-
     demoBanner: {
       title: 'デモ機能',
-      description:
-        'このToDoリストは、認証、エンタイトルメント、Firebase統合を含むMoshimoshiアーキテクチャのデモです。',
+      description: 'このToDoリストは、認証、エンタイトルメント、Firebase統合を含むMoshimoshiアーキテクチャのデモです。',
       limits: '1日の制限',
       guestLimit: 'ゲストユーザー：アクセス不可',
       freeLimit: '無料ユーザー：1日5個まで',
@@ -4027,7 +5149,6 @@ export const strings = {
       signInPrompt: 'サインインしてToDoを作成しましょう！',
       upgradePrompt: 'プレミアムにアップグレードして無制限のToDoを利用しましょう！',
     },
-
     techDemo: {
       title: '技術デモンストレーション',
       auth: 'JWTセッションによるサーバーサイド認証',
@@ -4038,19 +5159,15 @@ export const strings = {
       darkMode: 'テーマ対応スタイリング',
       responsive: 'モバイルレスポンシブデザイン',
     },
-
     form: {
       titlePlaceholder: '何をする必要がありますか？',
       descriptionPlaceholder: '詳細を追加（オプション）',
       addButton: 'Todoを作成',
     },
-
     item: {
       cancel: 'キャンセル',
     },
   },
-
-  // Anki Import
   anki: {
     importTitle: 'Import Anki Deck',
     importSuccess: 'Import Successful!',
@@ -4081,7 +5198,6 @@ export const strings = {
     mediaFiles: 'media files',
     filesCount: '{{count}} files',
     sizeInMB: '{{size}} MB',
-    // Study session
     study: {
       title: '学習セッション',
       newCards: '新規カード',
@@ -4102,51 +5218,88 @@ export const strings = {
     limitReached: {
       title: 'デッキ数が上限に達しました',
       heading: 'デッキ数が上限に達しました',
-      message:
-        '現在 {{current}} / {{limit}} デッキです。新しいデッキを作成するには、既存のデッキを削除してください。',
-      suggestion:
-        'デッキを管理するには、各デッキカードのメニューから不要なデッキを削除できます。',
+      message: '現在 {{current}} / {{limit}} デッキです。新しいデッキを作成するには、既存のデッキを削除してください。',
+      suggestion: 'デッキを管理するには、各デッキカードのメニューから不要なデッキを削除できます。',
       upgrade: 'アップグレードする',
       understood: '了解しました',
     },
+    deckName: 'デッキ名',
+    studySettings: '学習設定',
+    newCardsPerDay: '1日あたりの新しいカード',
+    reviewsPerDay: '1日あたりのレビュー',
+    newCardsHint: '1日に導入する新しいカードの最大数',
+    reviewsHint: '1日あたりのレビューの最大数',
+    strictTemplateMode: '厳密なテンプレートモード',
+    strictTemplateModeHint: 'Ankiテンプレートをそのまま使用します。リスニングデッキや複雑なカード形式に有効。',
+    confirmImport: 'デッキをインポート',
+    saving: '保存中...',
+    dueToday: '今日の予定',
+    newCards: '新しいカード',
+    dueTodayExplanation: 'あなたのデッキには{{total}}枚のカードがあります。1日に{{daily}}枚の新しいカードを学習します。',
+    settingsSummary: '{{newCards}}枚の新しいカード/日、{{reviews}}件のレビュー/日',
+    syncEnabled: 'クラウド同期が有効',
+    localStorageOnly: 'ローカルにのみ保存',
+    hasMedia: '音声/画像を含む',
+    confirmDeleteDeck: 'このデッキを本当に削除しますか？',
+    deleteDeck: 'デッキを削除',
+    deckDeleted: 'デッキが削除されました',
+    deleteFailed: 'デッキの削除に失敗しました',
+    loginRequired: 'デッキを管理するにはログインしてください',
+    mediaCacheCleared: 'メディアキャッシュがクリアされました',
+    deckSettings: 'デッキ設定',
+    editSettings: '設定を編集',
+    editDeckSettings: 'デッキ設定を編集',
+    exportDeck: 'デッキをエクスポート',
+    loadingDeck: 'デッキを読み込み中...',
+    errorLoadingDeck: 'デッキの読み込みエラー',
+    deckNotFound: 'デッキが見つかりません。URLを確認して再試行してください。',
+    backToDecks: 'デッキに戻る',
+    totalCards: '合計',
+    reviewCards: 'レビュー',
+    startStudy: '学習を開始',
+    noCardsDue: 'すべて完了！',
+    comeBackLater: 'レビューのために後で戻ってきてください。',
+    dailyLimits: '1日の制限',
+    newCardsToday: '今日の新しいカード',
+    reviewsToday: '今日のレビュー',
+    sessionComplete: 'セッション完了！',
+    cardsStudied: '学習したカード',
+    timeSpent: '費やした時間',
+    accuracy: '正確さ',
+    excellentWork: '素晴らしい仕事です！その調子で続けてください！',
+    greatJob: '素晴らしい！素晴らしい進歩を遂げています！',
+    keepPracticing: '練習を続けてください！毎回のセッションがあなたを強くします。',
+    studyMore: 'もっと勉強する',
   },
-
   myVideos: {
     title: '練習履歴動画',
     subtitle: 'YouTube練習履歴',
     backToHome: 'ホームに戻る',
     loginRequired: '練習履歴を追跡するにはサインインしてください',
     loginDescription: 'サインインして練習履歴を追跡し、視聴した動画にすばやくアクセスしましょう。',
-
     hero: {
       title: 'あなたの練習履歴',
       syncedDescription: 'すべてのデバイスで同期',
       localDescription: 'このデバイスに保存',
     },
-
     stats: {
       videosPracticed: '練習した動画',
       totalSessions: '総セッション数',
       practiceTime: '練習時間',
     },
-
     storage: {
       freeTitle: '無料アカウント - ローカルストレージのみ',
-      freeDescription:
-        '練習履歴はこのデバイスのみに保存されます。すべてのデバイスで同期するにはプレミアムにアップグレードしてください。',
+      freeDescription: '練習履歴はこのデバイスのみに保存されます。すべてのデバイスで同期するにはプレミアムにアップグレードしてください。',
     },
-
     search: {
       placeholder: '練習履歴を検索...',
       noResults: '結果が見つかりません',
       noResultsDescription: '「{{query}}」に一致する動画がありません。別の検索語をお試しください。',
     },
-
     sort: {
       mostRecent: '最新',
       mostPracticed: '最も練習した',
     },
-
     video: {
       practiceAgain: 'もう一度練習',
       practiceCount: '{{count}}回練習',
@@ -4157,17 +5310,14 @@ export const strings = {
       weeksAgo: '{{weeks}}週間前',
       delete: '履歴から削除',
     },
-
     empty: {
       title: 'まだ練習履歴がありません',
       description: 'YouTube動画で練習を始めると、すばやくアクセスできるようにここに表示されます。',
       startPracticing: '練習を開始',
     },
-
     loading: {
       message: '練習履歴を読み込んでいます...',
     },
-
     confirmDelete: {
       title: '動画を削除',
       message: '「{{title}}」を履歴から削除してもよろしいですか？',
@@ -4175,12 +5325,9 @@ export const strings = {
       cancel: 'キャンセル',
     },
   },
-
-  // PWA (Progressive Web App)
   pwa: {
     updateAvailable: 'アップデートが利用可能',
-    updateDescription:
-      'アプリの新しいバージョンが利用可能です。最新の機能を利用するために今すぐアップデートしてください。',
+    updateDescription: 'アプリの新しいバージョンが利用可能です。最新の機能を利用するために今すぐアップデートしてください。',
     updateNow: '今すぐアップデート',
     install: {
       title: 'Moshimoshiをインストール',
@@ -4252,9 +5399,15 @@ export const strings = {
       retry: '接続を再試行',
       backOnline: 'オンラインに戻りました',
     },
+    updating: '更新中...',
+    refresh: '更新',
+    remindLater: '後で通知',
+    criticalUpdate: {
+      title: '重要な更新が必要です',
+      description: 'アプリを使い続けるには更新してください',
+      message: '重要な修正を含む重大な更新があります。これらの変更を適用するためにアプリを更新する必要があります。',
+    },
   },
-
-  // Stories
   stories: {
     title: '物語',
     description: 'インタラクティブな日本語物語で学習',
@@ -4292,9 +5445,10 @@ export const strings = {
       good: 'よくできました！',
       keepPracticing: '練習を続けましょう！',
     },
+    totalStories: '合計ストーリー数',
+    completed: '完了',
+    inProgress: '進行中',
   },
-
-  // Games
   games: {
     title: 'ゲームコーナー',
     subtitle: '楽しく遊びながら日本語を学ぼう',
@@ -4324,8 +5478,6 @@ export const strings = {
       correct: '正解',
       accuracy: '正確率',
     },
-
-    // Word Assembly
     wordAssembly: {
       title: '単語組み立て',
       description: '音声から仮名を組み立てる',
@@ -4333,8 +5485,6 @@ export const strings = {
       clickToAdd: '下の仮名をクリックして単語を組み立ててください',
       buildKana: '仮名の読みを組み立てる',
     },
-
-    // Matching Game
     matching: {
       title: 'マッチングゲーム',
       description: '日本語の単語と意味をマッチさせる',
@@ -4345,8 +5495,6 @@ export const strings = {
         description: 'カードをめくって日本語の単語と読み方または意味をマッチさせてください',
       },
     },
-
-    // Victory Screen
     victory: {
       title: 'おめでとうございます！',
       moves: '手数',
@@ -4355,8 +5503,6 @@ export const strings = {
       back: 'ゲームに戻る',
       playAgain: 'もう一度プレイ',
     },
-
-    // Kanji Simon
     kanjiSimon: {
       title: '漢字サイモン',
       description: '漢字の読みで記憶力をテスト',
@@ -4393,14 +5539,10 @@ export const strings = {
       more: '回',
       kanji: '漢字',
     },
-
-    // Kana Drop
     kanaDrop: {
       title: 'かなドロップ',
       description: '落ちてくるかな文字をキャッチしてポイントを獲得！',
     },
-
-    // Reading Routes
     readingRoutes: {
       title: '読み方ルート',
       description: '文脈で漢字の読み方をナビゲート！',
@@ -4414,14 +5556,39 @@ export const strings = {
       playAgain: 'もう一度プレイ',
       exit: '終了',
     },
-
-    // Kanji Quest
     kanjiQuest: {
       title: '漢字クエスト',
       description: '漢字をマスターしてポケモンをバトル＆キャッチ！',
+      selectOpponents: '漢字の対戦相手を選んでください！',
+      selectInstructions: '戦う漢字を3〜8個選んでください',
+      selectKanjiPrompt: '漢字を3〜8個選んでください',
+      startBattle: 'バトル開始',
+      notEnoughKanji: 'このレベルに利用可能な漢字が足りません！',
+      tutorial: {
+        title: '漢字クエストへようこそ！',
+        subtitle: 'すべての漢字を集めよう！',
+        step1: {
+          title: '対戦する漢字を選んでください！',
+          description: '対戦する漢字を3～8個選びましょう。各漢字は何度も出現し、すべての読み方と意味をマスターするまで対戦します！',
+        },
+        step2: {
+          title: '野生の遭遇！',
+          description: '漢字は野生のポケモンのようにランダムに出現します！各漢字はその読み方と意味についての質問に答えて倒す必要があります。',
+          onyomi: '音読み（ある場合）',
+          kunyomi: '訓読み（ある場合）',
+          meaning: '意味（すべての漢字にあります！）',
+        },
+        step3: {
+          title: '戦って学ぼう！',
+          description: '質問に正しく答えて漢字を倒しましょう！間違えると漢字が反撃し、HPが減ります。すべての漢字の要素をマスターして勝利を目指しましょう！',
+        },
+        step4: {
+          title: 'ポケモンを捕まえよう！',
+          description: 'すべての漢字を倒してポケモンを捕まえよう！漢字をマスターするごとにコレクションを増やしましょう。すべてを捕まえられるかな？',
+        },
+        startButton: '遊びましょう！',
+      },
     },
-
-    // Sentence Scramble
     sentenceScramble: {
       title: '文章スクランブル',
       description: '日本語の文章を並び替えて文法をテスト！',
@@ -4460,15 +5627,80 @@ export const strings = {
       time: '時間',
       playAgain: 'もう一度',
     },
-
-    // Word Builder
     wordBuilder: {
       title: '単語ビルダー',
       description: 'コンポーネントから単語を作る',
     },
+    strokeOrder: {
+      title: '漢字の筆順をマスターしよう',
+      description: '筆順を練習して正しく漢字を書くことを学びましょう。正しい順序でストロークをクリックして、筋肉記憶を作りましょう。',
+      howToPlay: '遊び方',
+      howToPlayTitle: '筆順練習の遊び方',
+      instructions: '正しい筆順を学んで漢字をマスターしましょう。正しい順序で各ストロークをクリックして、筋肉記憶を作り、書くスキルを向上させましょう。',
+      practiceSets: '練習セット',
+      gamesPlayed: 'プレイしたゲーム',
+      kanjiPracticed: '練習した漢字',
+      kanjiProgress: '漢字',
+      progress: '進捗',
+      strokes: 'ストローク',
+      stroke: 'ストローク',
+      completed: '完了',
+      highScore: 'ハイスコア',
+      score: 'スコア',
+      time: '時間',
+      combo: 'コンボ',
+      accuracy: '正確さ',
+      maxCombo: '最大コンボ',
+      difficulty: '難易度',
+      hint: 'ヒント',
+      inputMode: '入力モード',
+      clickMode: 'クリック',
+      drawMode: '描く',
+      tips: 'ヒント',
+      tipTopBottom: '上から下へ',
+      tipLeftRight: '水平ストロークは左から右へ',
+      tipOutsideInside: '外側から内側へ',
+      tipCloseLast: '枠を閉じるのは最後に',
+      restartSet: 'セットを再開',
+      gameOver: 'ゲーム完了！',
+      finalScore: '最終スコア',
+      timeTaken: '時間',
+      newAchievements: '新しい実績！',
+      backToSets: 'セットに戻る',
+      playAgain: 'もう一度プレイ',
+      step1Title: '漢字を見る',
+      step1Desc: '漢字が表示され、正しい順序を示す番号付きの筆順ガイドが表示されます',
+      step2Title: '順番にストロークをクリック',
+      step2Desc: '正しい順序で各ストロークをクリックします。ストローク1から始めて、次に2、そしてその後も続けます。',
+      step3Title: '即時フィードバックを取得',
+      step3Desc: '正しいストロークは緑色になりアニメーションします。間違ったストロークは赤く点滅します - 再試行してください！',
+      step4Title: 'ポイントを獲得して進捗を確認',
+      step4Desc: 'スピードと正確さでポイントを獲得します。進捗を追跡し、自己最高記録を更新しましょう！',
+      proTips: 'プロのヒント',
+      tip1: 'クリックする前に筆順を覚える時間を取ってください',
+      tip2: 'ストロークの方向に注意を払ってください - 重要です！',
+      tip3: '定期的に練習して筋肉の記憶を作りましょう',
+      tip4: '上達するにつれて異なる難易度を試してみてください',
+      gotIt: 'わかりました、練習しましょう！',
+      ranks: {
+        perfect: '完璧！',
+        excellent: '素晴らしい！',
+        good: 'よくできました！',
+        nice: 'いい試み！',
+        keepPracticing: '練習を続けてください！',
+      },
+      achievements: {
+        thousandPoints: '千ポイント！',
+        thousandPointsDesc: '1000ポイント以上獲得',
+        masterScorer: 'マスター得点者！',
+        masterScorerDesc: '5000ポイント以上獲得',
+        perfectAccuracy: '完璧な精度！',
+        perfectAccuracyDesc: '95％以上の正確さ',
+        comboMaster: 'コンボマスター！',
+        comboMasterDesc: '10以上のコンボストリーク',
+      },
+    },
   },
-
-  // Privacy Policy Page
   privacy: {
     title: 'プライバシーポリシー',
     lastUpdated: '最終更新日: 2025年1月',
@@ -4476,10 +5708,8 @@ export const strings = {
     sections: {
       introduction: {
         title: '1. はじめに',
-        content:
-          'Moshimoshi（以下「当社」）へようこそ。当社は、お客様の個人情報とプライバシーの権利を保護することに尽力しています。このプライバシーポリシーは、当社の日本語学習アプリケーションをご利用いただく際に、どのように情報を収集、使用、開示、保護するかについて説明しています。',
-        agreement:
-          'Moshimoshiをご利用いただくことで、このポリシーに従った情報の収集と使用に同意したものとみなされます。当社のポリシーと慣行に同意されない場合は、当社のサービスをご利用にならないでください。',
+        content: 'Moshimoshi（以下「当社」）へようこそ。当社は、お客様の個人情報とプライバシーの権利を保護することに尽力しています。このプライバシーポリシーは、当社の日本語学習アプリケーションをご利用いただく際に、どのように情報を収集、使用、開示、保護するかについて説明しています。',
+        agreement: 'Moshimoshiをご利用いただくことで、このポリシーに従った情報の収集と使用に同意したものとみなされます。当社のポリシーと慣行に同意されない場合は、当社のサービスをご利用にならないでください。',
       },
       collection: {
         title: '2. 収集する情報',
@@ -4497,8 +5727,7 @@ export const strings = {
         automatic: {
           title: '2.2 自動的に収集される情報',
           device: 'デバイス情報',
-          deviceDesc:
-            'ブラウザの種類、オペレーティングシステム、デバイスの種類、一意のデバイス識別子',
+          deviceDesc: 'ブラウザの種類、オペレーティングシステム、デバイスの種類、一意のデバイス識別子',
           usage: '利用データ',
           usageDesc: '使用した機能、滞在時間、訪問したページ、操作パターン',
           performance: 'パフォーマンスデータ',
@@ -4537,13 +5766,11 @@ export const strings = {
         },
         location: {
           title: 'データの保存場所',
-          content:
-            'お客様のデータは、米国にあるGoogle Firebaseが提供する安全なサーバーに保存されます。欧州連合のユーザーについては、適用されるデータ保護法に従って国際的にデータが転送される場合があります。',
+          content: 'お客様のデータは、米国にあるGoogle Firebaseが提供する安全なサーバーに保存されます。欧州連合のユーザーについては、適用されるデータ保護法に従って国際的にデータが転送される場合があります。',
         },
         local: {
           title: 'ローカルストレージ',
-          content:
-            '一部のデータは、オフラインアクセスとパフォーマンスの最適化のためにデバイスにローカルに保存されます。これには、キャッシュされたコンテンツ、設定、最近のアクティビティが含まれます。',
+          content: '一部のデータは、オフラインアクセスとパフォーマンスの最適化のためにデバイスにローカルに保存されます。これには、キャッシュされたコンテンツ、設定、最近のアクティビティが含まれます。',
         },
       },
       rights: {
@@ -4568,8 +5795,7 @@ export const strings = {
       },
       contact: {
         title: '6. お問い合わせ',
-        intro:
-          'このプライバシーポリシーまたは当社のデータ慣行についてご質問やご懸念がある場合は、以下にお問い合わせください：',
+        intro: 'このプライバシーポリシーまたは当社のデータ慣行についてご質問やご懸念がある場合は、以下にお問い合わせください：',
         email: 'メール',
         support: 'サポート',
       },
@@ -4584,8 +5810,6 @@ export const strings = {
     },
     acceptButton: '理解し、同意します',
   },
-
-  // Contact Page
   contact: {
     title: 'お問い合わせ',
     subtitle: 'お気軽にお問い合わせください！',
@@ -4643,8 +5867,6 @@ export const strings = {
       },
     },
   },
-
-  // Leaderboard Page
   leaderboard: {
     title: 'リーダーボード',
     yourRank: 'あなたの順位',
@@ -4661,8 +5883,6 @@ export const strings = {
     noData: 'リーダーボードデータがありません',
     loading: 'リーダーボードを読み込み中...',
   },
-
-  // Resources Page
   resources: {
     notFound: 'リソースが見つかりません',
     backToResources: 'リソースに戻る',
@@ -4689,17 +5909,28 @@ export const strings = {
       kanji: '漢字',
     },
   },
-
-  // Moodboards
   moodboards: {
     viewModes: {
       grid: 'グリッド',
       study: '学習',
       list: 'リスト',
     },
+    title: '漢字ムードボード',
+    description: 'テーマ別コレクションで漢字を学ぶ',
+    searchPlaceholder: 'ムードボードを検索...',
+    noResults: 'ムードボードが見つかりません',
+    tryDifferentSearch: '別の検索語を試してください',
+    noMoodboards: 'まだ利用可能なムードボードはありません',
+    boardNotFound: 'ムードボードが見つかりません',
+    boardCompleted: 'おめでとうございます！このムードボードを完了しました！',
+    progressReset: '進捗がリセットされました',
+    confirmReset: 'このボードの進捗をリセットしてもよろしいですか？',
+    showCompleted: '完了を表示',
+    allLearned: 'すべての漢字を学びました！',
+    toggleShowCompleted: 'すべての漢字を見るには「完了を表示」を切り替えてください',
+    createNew: '新しいムードボードを作成',
+    aiGenerate: 'AIで生成',
   },
-
-  // Kanji Browser Page
   kanjiBrowser: {
     searchPlaceholder: '漢字、意味、読み方で検索...',
     title: '漢字ブラウザ',
@@ -4727,17 +5958,12 @@ export const strings = {
     noResults: '条件に一致する漢字が見つかりません',
     loading: '漢字を読み込み中...',
   },
-
-  // オンボーディングフロー
   onboarding: {
-    // ウェルカムページ
     welcome: {
       title: 'Moshimoshiへようこそ！',
       subtitle: '日本語をマスターするための究極のプラットフォームです。学習の旅を始めましょう。',
       getStarted: '始めましょう',
     },
-
-    // 学習目標の選択
     learningGoal: {
       title: 'あなたの主な目標は？',
       subtitle: 'あなたの学習体験をパーソナライズするのに役立ちます。',
@@ -4761,8 +5987,6 @@ export const strings = {
         },
       },
     },
-
-    // 経験レベルの選択
     experienceLevel: {
       title: 'あなたの日本語レベルは？',
       subtitle: '適切なコンテンツをおすすめするのに役立ちます。',
@@ -4782,8 +6006,6 @@ export const strings = {
         },
       },
     },
-
-    // 機能紹介
     featureShowcase: {
       continue: '続ける',
       swipeHint: 'スワイプして他の機能を見る',
@@ -4873,8 +6095,6 @@ export const strings = {
         },
       },
     },
-
-    // 準備完了
     readyToGo: {
       title: '準備完了！',
       subtitle: 'プロフィールの設定が完了しました。日本語学習の冒険を始めましょう！',
@@ -4883,10 +6103,7 @@ export const strings = {
       error: '問題が発生しました。もう一度お試しください。',
     },
   },
-
-  // Intro Tutorial (Post-Onboarding)
   intro: {
-    // Panel 1: Why Moshimoshi Exists
     panel1: {
       eyebrow: 'もしもしを作った理由',
       line1: '日本語学習は疲れるものでした。',
@@ -4894,8 +6111,6 @@ export const strings = {
       line3: 'ツールが増えても学習は良くなりませんでした。むしろ摩擦が増えました。',
       line4: 'もしもしは、全てが連携して機能する落ち着いた場所として作りました — ゆっくりと、集中して、本物の日本語から学べるように。',
     },
-
-    // Panel 2: Premium Philosophy
     panel2: {
       eyebrow: 'なぜ一部の機能がプレミアムなのか',
       line1: 'もしもしは独立して丁寧に作られています。',
@@ -4907,8 +6122,6 @@ export const strings = {
       line4: '無料ユーザーでも意味のある学習ができます。プレミアムはより深く、より柔軟な学習を可能にするだけです。',
       line5: 'あなたを困らせるために機能をロックしているわけではありません。',
     },
-
-    // Panel 3: How to Use Moshimoshi
     panel3: {
       eyebrow: 'もしもしの使い方',
       line1: '「正しい」使い方はありません。',
@@ -4921,8 +6134,6 @@ export const strings = {
       line3: 'もしもしはチェックリストではなく、ツールボックスとして使ってください。',
       line4: '進歩は強度ではなく、一貫性から生まれます。',
     },
-
-    // Panel 4: YouTube Shadowing
     panel4: {
       eyebrow: 'YouTubeシャドーイング（コアアイデア）',
       line1: 'あなたはすでに日本語のコンテンツを見ています。',
@@ -4936,8 +6147,6 @@ export const strings = {
       line5: '強制的なレッスンもありません。',
       line6: 'ただのイマージョン — 使いやすく。',
     },
-
-    // Panel 5: Closing
     panel5: {
       line1: 'ゆっくりでいいんです。',
       line2: '日本語は競争ではありません。',
@@ -4945,13 +6154,9 @@ export const strings = {
       backToSettings: '設定に戻る',
       loading: '読み込み中...',
     },
-
-    // UI Elements
     progressOf: '/',
     swipeHint: 'スワイプまたは矢印で続ける',
   },
-
-  // Error messages
   error: {
     notFound: '見つかりません',
     audioFailed: 'オーディオの再生に失敗しました',
@@ -4959,8 +6164,6 @@ export const strings = {
     validation: '検証エラー',
     unauthorized: '権限がありません',
   },
-
-  // Kanji terms
   kanji: {
     strokes: '画',
     difficulty: '難易度',
@@ -4972,8 +6175,6 @@ export const strings = {
     info: '情報',
     noExamples: '例はありません',
   },
-
-  // Levels
   levels: {
     beginner: '初級',
     elementary: '初等',
@@ -4981,8 +6182,6 @@ export const strings = {
     upperIntermediate: '中上級',
     advanced: '上級',
   },
-
-  // Navigation
   navigation: {
     backToDashboard: '← ダッシュボードに戻る',
     dashboard: 'ダッシュボード',
@@ -5010,8 +6209,6 @@ export const strings = {
       places: '場所',
     },
   },
-
-  // Notifications
   notifications: {
     goToReview: '復習に進む →',
     sessionComplete: {
@@ -5054,8 +6251,6 @@ export const strings = {
       daysAgo: '{{days}}日前',
     },
   },
-
-  // Popular Videos
   popularVideos: {
     title: 'トレンド動画',
     subtitle: 'コミュニティで人気の動画',
@@ -5067,15 +6262,304 @@ export const strings = {
     trending: 'トレンド',
     suggested: 'おすすめ',
     starter: '初心者に最適',
+    rank: '#{{rank}}',
+    loading: '素晴らしい動画を読み込み中...',
+    empty: '先駆者になろう！このリストを埋めるために動画を見てください',
+    error: '人気の動画を読み込めませんでした',
+    quotaExceeded: {
+      speedLearner: {
+        title: 'おっと、スピード学習者！🚀',
+        message: '今日は20本の動画を見ましたね！モシも休憩が必要です。あなたの脳は日本語でチャチャを踊っているかもしれません。明日また来てください！',
+      },
+      achievement: {
+        title: '実績解除：ビデオマラソン！🏃‍♂️',
+        message: '1日に20本の動画？あなたは日本語学習のウサイン・ボルトのようです！ニューロンを冷やす時間です。また明日会いましょう、チャンプ！',
+      },
+      bufferOverflow: {
+        title: 'バッファオーバーフロー！🤯',
+        message: '20本の動画後にあなたのbrain.exeが応答を停止しました。最適なパフォーマンスのために明日再起動してください。（翻訳：あなたは素晴らしいですが、機械でも休息が必要です！）',
+      },
+      senpaiNoticed: {
+        title: '先輩があなたに気づきました...休憩が必要です！👀',
+        message: '20本の動画を制覇！あなたは公式にシャドーイングのスーパーヒーローです。しかし、すべてのヒーローには休息が必要です。あなたの動画は明日も待っています！',
+      },
+      button: '了解！😴',
+    },
   },
-
-  // SEO
   seo: {
     title: 'もしもし - 日本語学習プラットフォーム',
     description: '革新的な学習ツールで日本語をマスターしましょう',
+    landing: {
+      title: 'Moshimoshi - 2025年最高の日本語学習アプリ | YouTubeシャドーイング、Ankiインポート、げんき＆漢字コネクション',
+      description: 'ネイティブ発音のためのYouTubeシャドーイング、ワンクリックでのAnkiデッキインポート、完全なげんき＆みんなの日本語の語彙、視覚パターンとファミリーを用いた独自の漢字コネクションシステム、2136常用漢字ブラウザ、SRSフラッシュカード、JLPT N5-N1準備、インタラクティブゲーム、進捗追跡を備えた革新的な日本語学習プラットフォーム。Ankiデッキをインポートし、実際のYouTube動画で練習し、視覚的な関係を通じて漢字をマスターし、世界中の教科書で学習しましょう。完全な日本語学習ソリューション。',
+    },
+    pricing: {
+      title: '料金 - 手頃な日本語学習プラン | 無料ティアあり',
+      description: '完璧な日本語学習プランを選びましょう。コア機能を備えた無料ティアが利用可能です。プレミアムプランでは高度なSRS、無制限のコンテンツ、オフラインアクセスが解放されます。今日から始めましょう。',
+    },
+    blog: {
+      title: '日本語学習ブログ - JLPT学習のヒント＆文法ガイド',
+      description: '専門家による日本語学習のヒント、JLPT学習戦略、文法ガイド、文化的洞察。初心者から上級者までの日本語習得を加速する無料記事。',
+    },
+    dashboard: {
+      title: 'ダッシュボード - あなたの日本語学習進捗',
+      description: '個別の進捗メトリクス、学習統計、おすすめの次のステップで日本語学習の旅を追跡します。',
+    },
+    games: {
+      title: '日本語学習ゲーム - 楽しいインタラクティブ練習',
+      description: 'かなドロップ、漢字サイモン、文スクランブルなどの楽しいゲームで日本語をマスターしましょう。学習を楽しく効果的にします。',
+      kanaDrop: {
+        title: 'かなドロップ - ひらがな＆カタカナ学習ゲーム',
+        description: '楽しい落下キャラクターゲームでひらがなとカタカナを学びましょう。この中毒性のある日本語学習ゲームでかな認識スキルをテストしてください。無料でオンラインプレイ。',
+      },
+      kanjiSimon: {
+        title: '漢字サイモン - 漢字学習のための記憶ゲーム',
+        description: 'この記憶ベースの学習ゲームで漢字認識をマスターしましょう。パターンに従い、漢字の順序を覚え、日本語の文字の記憶力を向上させます。無料でオンラインプレイ。',
+      },
+      readingRoutes: {
+        title: 'リーディングルート - 日本語読解練習ゲーム',
+        description: 'この道を見つけるゲームで日本語の読解スキルを向上させましょう。漢字とかなの認識を練習しながら、挑戦的なルートをナビゲートします。読書を楽しくしましょう。',
+      },
+      sentenceScramble: {
+        title: '日本語文スクランブルゲーム - 文法練習＆語順',
+        description: '文スクランブルゲームで日本語の文法を練習しましょう。正しい語順、助詞、文構造をインタラクティブな演習を通じて学びます。日本語文法パター���をマスターする楽しい方法。',
+      },
+      strokeOrder: {
+        title: '漢字筆順練習 - 書きゲーム',
+        description: 'インタラクティブな練習を通じて正しい漢字の筆順を学びましょう。視覚ガイドと即時フィードバックで日本語の文字を書く正しい方法をマスターします。筆跡を改善します。',
+      },
+    },
+    kanji: {
+      browser: {
+        title: '漢字ブラウザ - 全2136常用漢字',
+        description: '2136常用漢字を詳細な分解、筆順、読み方、例語と共に閲覧および検索します。日本語学習者のための完全なリファレンス。',
+      },
+      connection: {
+        title: '漢字コネクションシステム - 視覚学習革命',
+        description: '音韻ファミリー、意味的部首、視覚パターンを通じて漢字の関係を発見します。孤立した文字ではなく、つながりのあるクラスターで漢字を学びます。',
+      },
+      families: {
+        title: '漢字ファミリー - 音韻グループで学ぶ',
+        description: '音韻ファミリーグループを通じて漢字をマスターします。類似の音を持つ漢字が共通の構成要素を共有する方法を理解します。',
+      },
+      radicals: {
+        title: '漢字部首 - 214の完全な部首リファレンス',
+        description: '214の漢字部首を構成要素の分解、意味、例字と共に探ります。漢字習得のための重要な基礎。',
+      },
+      visual: {
+        title: '漢字ビジュアルレイアウト - インタラクティブネットワークマップ',
+        description: 'インタラクティブなネットワークビジュアライゼーションを通じて漢字のつながりを探ります。関係とパターンを一目で確認します。',
+      },
+      visualLayout: {
+        title: '漢字ビジュアルレイアウト - ネットワークビジュアライゼーション＆パターン認識マップ',
+        description: '2136常用漢字のつながりを示すインタラクティブなビジュアルネットワークマップ。視覚パターン、構成要素の共有、語源的リンクを通じて漢字の関係を見ます。視覚学習者のための革命的な空間学習インターフェース。ネットワークビジュアライゼーションを通じて漢字クラスターを探り、隠れたつながりを発見します。',
+      },
+      visualLayoutPage: {
+        title: '視覚漢字レイアウト - SKIPパターン学習',
+        description: 'SKIP分類システムを使用して視覚パターンを通じて漢字を学びます。効率的な漢字認識のために左右、上下、囲み、固体パターンをマスターします。',
+      },
+    },
+    kanjiMoods: {
+      title: '漢字ムードボード - 視覚漢字学習＆記憶宮殿法',
+      description: '視覚ムードボードと空間記憶技術を通じて漢字を学びます。視覚的な関連付け、記憶術の物語、記憶宮殿を作成します。革命的な視覚学習アプローチ。',
+    },
+    learningPath: {
+      title: '日本語学習パス - 個別のJLPT学習ロードマップ',
+      description: '初心者からJLPT N1までの個別の日本語学習パスをたどります。漢字、語彙、文法、シャドーイングのマイルストーンを含む構造化されたロードマップ。進捗に基づいた適応カリキュラム。',
+    },
+    lists: {
+      title: 'カスタム日本語学習リスト - 個別の語彙＆漢字',
+      description: '語彙、漢字、文法のためのカスタム日本語学習リストを作成しましょう。学習資料を整理し、他の人とリストを共有し、進捗を追跡します。個別の日本語学習。',
+    },
+    myVideos: {
+      title: '私のシャドーイング動画 - 保存された日本語練習履歴',
+      description: '保存された日本語シャドーイング動画と練習履歴にアクセスします。練習したYouTube動画を追跡し、シャドーイングセッションを再開し、リスニング理解の進捗を監視します。個人の日本語学習動画ライブラリ。',
+    },
+    myVideosPage: {
+      title: '私の動画 - もしもし',
+      description: '保存されたYouTube動画と日本語シャドーイング練習履歴にアクセスします。進捗を追跡し、練習した動画にすぐに戻ることができます。',
+    },
+    popularVideos: {
+      title: '人気の日本語学習動画 - シャドーイングに最適なトレンドYouTubeコンテンツ',
+      description: 'シャドーイング練習に最適なトレンドの日本語学習動画を発見しましょう。ネイティブスピーカー、日本のドラマ、教育チャンネルからの最も人気のあるYouTubeコンテンツ。効果的な言語学習のためのバイラル日本語動画を見つけましょう。',
+    },
+    privacy: {
+      title: 'プライバシーポリシー - もしもし',
+      description: 'もしもしのプライバシーポリシー。日本語を学ぶ際に、データをどのように保護し、プライバシーを尊重するかを学びましょう。',
+    },
+    progressReport: {
+      title: '進捗レポート - 日本語学習ダッシュボード＆インサイト',
+      description: '包括的な日本語学習進捗レポートを表示します。週次および月次の分析、語彙保持率、漢字習得レベル、シャドーイング時間、JLPT準備度評価。',
+    },
+    resources: {
+      title: '無料の日本語学習リソース - JLPT教材＆学習ガイド',
+      description: '無料の日本語学習リソース、JLPT学習教材、文法ガイド、語彙リスト、漢字リファレンス、学習のヒントにアクセスします。すべてのレベルに対応した包括的な日本語学習資料のコレクション。',
+    },
+    learn: {
+      hiragana: {
+        title: 'ひらがなを学ぶ - 日本語音節文字の習得',
+        description: '書き取り練習、音声発音、インタラクティブなドリルで46のひらがな文字をマスターします。初心者に最適。',
+      },
+      katakana: {
+        title: 'カタカナを学ぶ - 日本語音節文字の習得',
+        description: '書き取り練習、音声発音、インタラクティブなドリルで46のカタカナ文字をマスターします。外来語に必須。',
+      },
+      conjugation: {
+        title: '日本語の活用練習 - 100以上の形',
+        description: '100以上の形で日本語の動詞、形容詞、コピュラの活用をマスターします。スマートな難易度の重み付けと包括的なカバレッジ。',
+      },
+      wordLearning: {
+        title: '単語学習 - 日本語の語彙を増やす',
+        description: 'ターゲットを絞った単語学習セッション、SRSレビュー、文脈例で日本語の語彙を拡張します。',
+      },
+      numbers: {
+        title: '日本語の数字を学ぶ - 数え方＆数字システムの練習',
+        description: '日本語の数字と数え方のシステムをマスターします。和数字と漢数字、助数詞、日付、時間、電話番号を学びます。音声発音付きのインタラクティブな練習。',
+      },
+      wordLearningComplete: {
+        title: 'セッション完了 - 日本語単語学習',
+        description: '語彙学習セッションが完了しました。進捗を確認し、日本語学習の旅を続けましょう。',
+      },
+      wordLearningSession: {
+        title: '日本語単語学習セッション - アクティブな語彙練習',
+        description: 'アクティブな日本語語彙学習セッション。文脈、記憶術、例文、音声発音で新しい単語を学びます。構造化された単語習得練習。',
+      },
+    },
+    news: {
+      title: '日本語ニュース - AI���ポート付きの実際の記事',
+      description: 'AIによる語彙サポート、文の分解、理解ツール付きの本物の日本語ニュース記事を読みます。',
+    },
+    shadowing: {
+      title: 'YouTubeシャドーイング - ネイティブ発音をマスター',
+      description: '本物のYouTube動画、ドラマ、ポッドキャストでシャドーイングを練習します。調整可能なポーズ時間と再生速度を備えたAI駆動システム。',
+    },
+    flashcards: {
+      title: 'スマートフラッシュカード - SRSレビューシステム',
+      description: '学習ペースに合わせて適応するインテリジェントなSRSフラッシュカードシステムで日本語の語彙と漢字を復習します。',
+    },
+    drill: {
+      title: 'クイックドリル - 高速日本語練習',
+      description: '短い学習休憩に最適な高速レビューセッション。語彙と漢字の知識をテストします。',
+    },
+    vocabulary: {
+      title: '語彙ブラウザ - 包括的な単語データベース',
+      description: '読み方、定義、例文、音声発音付きで数千の日本語単語を閲覧します。',
+    },
+    textbooks: {
+      title: '教科書の語彙 - げんき、みんなの日本語＆その他',
+      description: 'げんきI＆II、みんなの日本語、とびらなどの完全な語彙。レッスンごとに整理され、音声と例付き。',
+    },
+    todos: {
+      title: '学習タスク - 学習タスクを管理する',
+      description: '日本語学習タスクと目標を整理します。次に学ぶべきことを追跡し、進捗を維持します。',
+    },
+    leaderboard: {
+      title: 'リーダーボード - 他の学習者と競う',
+      description: '世界中の他の日本語学習者と比較してランクを確認します。進捗を追跡し、モチベーションを維持します。',
+    },
+    achievements: {
+      title: '実績 - マイルストーンを追跡する',
+      description: '日本語学習の旅で進歩するにつれて実績をアンロックします。マイルストーンと達成を祝います。',
+    },
+    statistics: {
+      title: '統計 - 学習分析',
+      description: '学習時間、正確性の割合、改善傾向を含む日本語学習の詳細な分析。',
+    },
+    settings: {
+      title: '設定 - 学習体験をカスタマイズする',
+      description: '学習の好み、通知設定、アカウント詳細をカスタマイズします。',
+    },
+    account: {
+      title: 'アカウント - プロフィールの管理',
+      description: 'プロフィール、サブスクリプション、アカウント設定を管理します。',
+    },
+    about: {
+      title: 'Moshimoshiについて - 2025年ベスト日本語学習アプリ',
+      description: 'Moshimoshiを発見：SRSフラッシュカード、YouTubeシャドーイング、JLPT準備、漢字ブラウザ、ゲーム化された練習を備えた包括的な日本語学習プラットフォーム。学習者によって、学習者のために作られました。',
+    },
+    contact: {
+      title: 'お問い合わせ - 日本語学習サポート | Moshimoshi',
+      description: 'Moshimoshi日本語学習アプリのサポートを受ける。技術サポート、機能リクエスト、フィードバック、日本語学習に関する質問についてサポートチームに連絡してください。迅速な対応。',
+    },
+    credits: {
+      title: 'クレジットと帰属 - Moshimoshi',
+      description: 'Moshimoshi日本語学習プラットフォームで使用されているオープンソースライブラリ、フォント、アイコン、リソースのクレジットと帰属。',
+    },
+    ankiImport: {
+      title: 'Ankiデッキのインポート - AnkiからMoshimoshiへ移行 | ベストAnki代替',
+      description: 'AnkiデッキをMoshimoshiにシームレスにインポート。Ankiからワンクリックで移行し、より良いUI、YouTubeシャドーイング統合、スマートレビューアルゴリズムを備えた現代的な日本語SRSを体験。APKGファイルをインポートし、スケジューリングデータを保持し、2025年の日本語学習に最適なAnki代替にアップグレード。',
+    },
+    ankiStudy: {
+      title: 'Anki学習セッション - インポートしたデッキをレビュー',
+      description: 'インポートしたAnkiデッキをインテリジェントなSRSレビューで学習。最適化された間隔でフラッシュカードを練習し、進捗を追跡。',
+    },
+    reviewDashboard: {
+      title: '日本語SRSレビュー ダッシュボード - 間隔反復システム',
+      description: '日本語の語彙、漢字、文法のためのインテリジェントな間隔反復システム（SRS）。レビューのスケジュールを追跡し、フラッシュカードを管理し、実証済みのSM-2アルゴリズムで学習を最適化。',
+    },
+    review: {
+      title: 'レビュー - レビューダッシュボードにリダイレクト中',
+      description: '日本語レビュー ダッシュボードにリダイレクト中。',
+    },
+    reviewSession: {
+      title: '日本語レビューセッション - アクティブなSRS練習',
+      description: 'アクティブなSRSレビューセッションで日本語を練習。語彙、漢字、文法をインテリジェントな間隔反復でレビュー。スマートスケジューリングアルゴリズムで記憶を最適化。',
+    },
+    share: {
+      title: 'Moshimoshiに共有 - 日本語コンテンツをリストに追加',
+      description: '他のアプリからMoshimoshiに日本語コンテンツを共有。語彙、漢字、フレーズをカスタム学習リストに直接追加。',
+    },
+    showcase: {
+      title: 'UIショーケース - Moshimoshi',
+      description: 'Moshimoshi開発のためのコンポーネントとUI要素のショーケース。',
+    },
+    stories: {
+      title: '日本語読書ストーリー - すべてのJLPTレベルのためのグレードリーダー',
+      description: 'レベルに合わせた日本語の物語を読む。N5からN1までのグレードリーダー、ふりがな、翻訳、音声付き。魅力的な短編ストーリーで読解力を向上。',
+    },
+    studyGoals: {
+      title: '学習目標 - 日本語学習の目標とマイルストーンを設定',
+      description: '日本語学習の目標を設定し、追跡。JLPT準備目標、日々のレビュー目標、語彙マイルストーン、シャドーイング練習目標を作成。進捗追跡でモチベーションを維持。',
+    },
+    studyTimer: {
+      title: '日本語学習タイマー - 集中学習のためのポモドーロタイマー',
+      description: '日本語学習タイマーで集中を維持。語彙、漢字、シャドーイング練習のためのポモドーロテクニック。学習セッションを追跡し、休憩を管理し、学習効率を最大化。',
+    },
+    terms: {
+      title: '利用規約 - Moshimoshi',
+      description: 'Moshimoshiの利用規約。日本語学習プラットフォームの利用に関する規約と条件をお読みください。',
+    },
+    textbookVocabulary: {
+      title: '日本語教科書の語彙 - げんき、みんなの日本語、とびらの単語リスト',
+      description: '人気の日本語教科書の完全な語彙リスト。げんきI＆II、みんなの日本語1＆2（50課）、とびら、日本語ゼロから、まるごとの語彙をSRSフラッシュカードと音声でマスター。教室での日本語学習に最適な伴侶で、すべての教科書の単語をレッスンごとに整理。',
+    },
+    kanjiMastery: {
+      title: '漢字マスターツール - 2136常用漢字の進行的学習システム',
+      description: '進行的学習システムで2136常用漢字をマスター。インテリジェントなアルゴリズムがレベルに合わせて適応し、習得の進捗を追跡し、レビューのスケジュールを最適化。JLPT N5からN1までの完全な漢字習得をスマートな学習セッションで。',
+    },
+    kanjiMasteryLearn: {
+      title: '漢字マスター学習セッション - アクティブな漢字練習',
+      description: 'アクティブな漢字マスター学習セッション。インテリジェントなアルゴリズムと適応的な難易度で進行的な漢字学習。常用漢字を体系的に習得。',
+    },
+    youtubeSeries: {
+      title: '日本語YouTubeシリーズ - ドラマとYouTubeシャドーイングで日本語を学ぶ',
+      description: '本物のYouTubeシリーズとドラマシャドーイングで日本語をマスター。ネイティブ日本語YouTubeチャンネルで練習し、リスニング理解を向上し、シャドーイング技術でアクセントを完璧に。学習に最適な日本語シリーズ。',
+    },
+    kanjiConnection: {
+      game: {
+        title: '漢字コネクションゲーム - インタラクティブな記憶チャレンジ',
+        description: '魅力的なコネクションゲームで漢字認識スキルをテスト。意味、読み、または関連する概念と漢字文字を一致させる楽しく教育的な記憶チャレンジ。',
+      },
+      families: {
+        title: '漢字ファミリー - 部品グループで漢字を学ぶ',
+        description: 'ファミリーグループと共有部品を通じて漢字をマスター。類似の部品を持つ漢字が意味を共有する方法を発見し、学習をより効率的で記憶に残るものに。',
+      },
+      radicals: {
+        title: '漢字の部首 - 意味のある構成要素をマスター',
+        description: '意味のある部首を通じて漢字を学ぶ - 意味を与える構成要素。水の部首、火の部首、手の部首などを探求し、漢字のパターンを理解。',
+      },
+    },
   },
-
-  // Story
   story: {
     readingSettings: '読書設定',
     fontSizeLabel: 'フォントサイズ',
@@ -5132,31 +6616,194 @@ export const strings = {
       perfect: '完璧です！',
       passed: 'よくできました！',
       failed: '練習を続けましょう！',
+      yourScore: 'あなたのスコア',
+      excellent: '素晴らしい！',
+      good: 'よくできました！',
+      keepPracticing: '練習を続けてください！',
     },
+    noAudioAvailable: 'このストーリーの音声は利用できません',
   },
-
-  // Study Lists
   studyLists: {
     title: '学習リスト',
     create: '新しいリストを作成',
     edit: 'リストを編集',
     delete: 'リストを削除',
     addItem: 'アイテムを追加',
+    saveToList: 'リストに保存',
+    noLists: 'まだリストがありません。始めるにはリストを作成してください！',
+    createNewList: '新しいリストを作成',
+    newList: '新しいリスト',
+    listName: 'リスト名',
+    listType: 'リストタイプ',
+    description: '説明',
+    namePlaceholder: '例：JLPT N5 語彙',
+    descriptionPlaceholder: 'このリストの簡単な説明...',
+    incompatible: 'このアイテムタイプはこのリストと互換性がありません',
+    premiumNotice: '無料ユーザーはローカルに保存します。プレミアムユーザーはクラウドに同期します。',
+    types: {
+      flashcard: 'フラッシュカード',
+      drillable: 'ドリル可能',
+      sentence: '文',
+    },
+    errors: {
+      nameRequired: 'リスト名を入力してください',
+      selectAtLeast: '少なくとも1つのリストを選択してください',
+      createFailed: 'リストの作成に失敗しました',
+      saveFailed: 'アイテムの保存に失敗しました',
+    },
+    success: {
+      listCreated: 'リストが正常に作成されました',
+      itemSaved: 'アイテムがリストに保存されました',
+    },
   },
-
-  // Terms
   terms: {
     title: '利用規約',
     lastUpdated: '最終更新日',
     acceptTerms: '利用規約に同意します',
+    effectiveDate: '発効日：2025年1月',
+    footer: '日本語学習の旅にMoshimoshiを選んでいただきありがとうございます。',
+    sections: {
+      agreement: {
+        title: '1. 利用規約への同意',
+        content: 'これらの利用規約は、Moshimoshiとあなたの間での日本語学習アプリケーションおよび関連サービスの利用に関する法的拘束力のある合意を構成します。',
+        acceptance: 'サービスにアクセスまたは使用することにより、これらの利用規約に拘束されることに同意したものとみなされます。',
+        important: '重要',
+        importantContent: 'これらの利用規約には、法的権利に影響を与える拘束力のある仲裁条項および集団訴訟の放棄が含まれています。',
+      },
+      eligibility: {
+        title: '2. 資格とアカウント',
+        requirements: 'サービスを利用するには、次の条件を満たす必要があります：',
+        age: '13歳以上（またはあなたの管轄地域での最低年齢）であること',
+        accurate: '正確で完全な登録情報を提供すること',
+        security: 'アカウントの資格情報のセキュリティを維持すること',
+        notify: '不正アクセスがあった場合は直ちに通知すること',
+        responsibility: 'あなたのアカウントで発生するすべての活動に責任を負います。',
+      },
+      subscription: {
+        title: '3. サブスクリプションと支払い',
+        plans: {
+          title: '3.1 サブスクリプションプラン',
+          content: 'さまざまな機能と価格のサブスクリプションプランを提供しています。',
+        },
+        billing: {
+          title: '3.2 請求',
+          autoRenew: 'サブスクリプションはキャンセルされない限り自動更新されます',
+          stripe: '支払いは、私たちの支払いプロバイダーであるStripeを通じて処理されます',
+          changes: '価格は事前通知の上、変更される場合があります',
+        },
+        refunds: {
+          title: '3.3 返金',
+          content: '新規加入者には返金保証を提供しています。',
+        },
+      },
+      acceptable: {
+        title: '4. 利用許可ポリシー',
+        permitted: {
+          title: '4.1 許可された使用',
+          intro: 'サービスを以下の目的で使用できます：',
+          personal: '個人的な教育目的',
+          classroom: '教育者による教室での使用（適切なライセンスが必要）',
+          sharing: 'プラットフォーム内での学習資料の作成と共有',
+        },
+        prohibited: {
+          title: '4.2 禁止された使用',
+          intro: '次のことをしないことに同意します：',
+          laws: '法律や規制に違反する',
+          ip: '知的財産権を侵害する',
+          malware: 'マルウェア、ウイルス、有害なコードを送信する',
+          unauthorized: 'システムへの不正アクセスを試みる',
+          scrape: 'スクレイピング、データマイニング、自動化システムを使用する',
+          circumvent: '使用制限やアクセス制限を回避する',
+          resell: 'コンテンツを再販または商業的に再配布する',
+          impersonate: '他人になりすます、または虚偽の情報を提供する',
+          harass: '他のユーザーを嫌がらせ、虐待、または害する',
+        },
+      },
+      ip: {
+        title: '5. 知的財産権',
+        ourContent: {
+          title: '5.1 当社のコンテンツ',
+          content: 'サービスとそのオリジナルコンテンツはMoshimoshiが所有し、知的財産法によって保護されています。',
+        },
+        yourContent: {
+          title: '5.2 あなたのコンテンツ',
+          content: '作成したコンテンツの所有権は保持されます。投稿することで、サービス提供のために使用するライセンスを当社に付与します。',
+        },
+        feedback: {
+          title: '5.3 フィードバック',
+          content: '提供されたフィードバックは当社の所有物となり、補償なしで使用される場合があります。',
+        },
+      },
+      disclaimers: {
+        title: '6. 免責事項と保証',
+        important: '重要な法的免責事項：',
+        asIs: 'サービスは「現状のまま」提供され、いかなる種類の保証もありません。',
+        noWarranty: '以下のことを保証しません：',
+        uninterrupted: 'サービスが中断されないこと、またはエラーがないこと',
+        defects: '欠陥が修正されること',
+        viruses: 'サービスがウイルスや有害な要素を含まないこと',
+        results: '結果があなたの要件を満たすこと',
+      },
+      liability: {
+        title: '7. 責任の制限',
+        limitation: '責任の制限：',
+        maxExtent: '法律で許可される最大限の範囲で、以下について責任を負いません：',
+        indirect: '間接的、偶発的、特別または結果的な損害',
+        loss: '利益、データ、使用、信用、またはその他の無形の損失',
+        unauthorized: 'サーバーへの不正アクセスによる損害',
+        interruption: '送信の中断または停止',
+        total: '当社の総責任は、請求の前の6か月間にあなたが支払った金額を超えません。',
+      },
+      termination: {
+        title: '8. 終了',
+        intro: '以下を含む理由で、アカウントを即座に終了または停止することがあります：',
+        breach: 'これらの利用規約の違反',
+        request: '法執行機関または政府機関からの要求',
+        inactivity: '長期間の非活動',
+        nonPayment: '料金の未払い',
+        consequence: '終了時には、サービスを利用する権利は直ちに消滅します。',
+      },
+      governing: {
+        title: '9. 準拠法',
+        content: 'これらの条件は、アメリカ合衆国デラウェア州の法律に準拠します。',
+      },
+      changes: {
+        title: '10. これらの条件の変更',
+        content: '重大な変更については30日前に通知し、これらの条件をいつでも変更する権利を留保します。',
+      },
+      contact: {
+        title: '11. 連絡先情報',
+        intro: 'これらの条件についてご質問がある場合は、お問い合わせください：',
+        email: 'メール',
+        privacy: 'プライバシー',
+      },
+    },
   },
-
-  // TTS (Text-to-Speech)
   tts: {
     play: '再生',
     pause: '一時停止',
     stop: '停止',
-    loading: '読み込み中...',
+    loading: {
+      0: '読',
+      1: 'み',
+      2: '込',
+      3: 'み',
+      4: '中',
+      5: '.',
+      6: '.',
+      7: '.',
+      ariaLabel: 'オーディオを読み込み中',
+      phrases: {
+        wait: '少々お待ちください...',
+        preparing: '音声を準備中...',
+        creating: 'オーディオを作成中...',
+        almostReady: 'もうすぐ準備完了！',
+        workingHard: '頑張っています！',
+        pleaseWait: 'お待ちください...',
+        doshiReading: 'モシが読んでいます...',
+        castingMagic: '魔法をかけています...',
+      },
+    },
     error: 'オーディオの読み込みに失敗しました',
     notAvailable: '音声は利用できません',
     settings: {
@@ -5165,6 +6812,33 @@ export const strings = {
       speed: '速度',
       pitch: 'ピッチ',
       volume: '音量',
+    },
+    storage: {
+      permission: {
+        title: 'オーディオをオフラインで保存',
+        description: 'オーディオファイルをオフラインで永続的に保存することをMoshimoshiに許可してください。これにより、キャッシュされたオーディオがブラウザによって削除されないようにします。',
+        allow: 'オフラインストレージを有効にする',
+        granted: 'すでに有効です',
+      },
+      currentUsage: '現在のストレージ使用量',
+      benefits: {
+        offline: 'オーディオは再ダウンロードなしでオフラインで動作します',
+        persistent: 'ブラウザはキャッシュされたオーディオを削除しません',
+        faster: '以前に聞いたオーディオの即時再生',
+      },
+      status: {
+        granted: 'ストレージは永続的です',
+        notGranted: 'ストレージはブラウザによってクリアされる可能性があります',
+      },
+    },
+    fallback: {
+      active: 'ブラウザの音声を使用中（オフラインモード）',
+      notice: 'オーディオ品質が通常より低い可能性があります',
+    },
+    errors: {
+      synthesizeFailed: 'オーディオの生成に失敗しました',
+      playbackFailed: 'オーディオの再生に失敗しました',
+      networkError: 'ネットワークエラー - オフライン音声を試しています',
     },
   },
   kanjiMasteryTool: {
@@ -5222,7 +6896,6 @@ export const strings = {
     step3Title: '間隔反復',
     step3Description: 'AI搭載スケジューリングで記憶保持を最適化',
   },
-
   qa: {
     title: 'ティーハウス',
     subtitle: '集まって質問し、仲間の学習者と知恵を共有しましょう',
@@ -5231,30 +6904,24 @@ export const strings = {
     answers: '回答',
     question: '質問',
     questions: '質問',
-
-    // Tabs/Filters
     tabs: {
       recent: '最近',
       popular: '人気',
       unanswered: '未回答',
       myQuestions: '自分の質問',
     },
-
-    // Difficulty levels
     difficulty: {
       beginner: '初級',
       intermediate: '中級',
       advanced: '上級',
     },
-
-    // Topic tags
     tags: {
       grammar: '文法',
       vocabulary: '語彙',
       kanji: '漢字',
       pronunciation: '発音',
       particles: '助詞',
-      'verb-conjugation': '動詞の活用',
+      verb-conjugation: '動詞の活用',
       culture: '文化',
       jlpt: 'JLPT',
       translation: '翻訳',
@@ -5263,8 +6930,6 @@ export const strings = {
       writing: 'ライティング',
       other: 'その他',
     },
-
-    // Voting
     voting: {
       upvote: '賛成票',
       downvote: '反対票',
@@ -5272,22 +6937,16 @@ export const strings = {
       cannotVoteOwnContent: '自分の投稿には投票できません',
       error: '投票に失敗しました。もう一度お試しください。',
     },
-
-    // Moderation
     moderation: {
       pending: '審査中',
       approved: '承認済み',
       rejected: '却下',
       reason: '理由',
     },
-
-    // Question card
     questionCard: {
       hasAnswer: '回答済み',
       viewQuestion: '質問を見る',
     },
-
-    // Editor
     editor: {
       title: '質問のタイトル',
       titlePlaceholder: '日本語について何を知りたいですか？',
@@ -5331,8 +6990,6 @@ export const strings = {
       tip3: '試したことや調べたことを示す',
       tip4: '適切なトピックタグを使用して質問を見つけやすくする',
     },
-
-    // Answer actions
     answerActions: {
       acceptedAnswer: '承認された回答',
       acceptAnswer: '回答を承認',
@@ -5353,8 +7010,6 @@ export const strings = {
       beTheFirst: '最初に回答してください！',
       loadError: '回答の読み込みに失敗しました',
     },
-
-    // Question detail page
     detail: {
       notFound: '質問が見つかりません',
       loadError: '質問の読み込みに失敗しました',
@@ -5370,8 +7025,6 @@ export const strings = {
       delete: '削除',
       yourAnswer: 'あなたの回答',
     },
-
-    // Edit question page
     edit: {
       editQuestion: '質問を編集',
       editQuestionSubtitle: '質問の詳細を更新',
@@ -5379,8 +7032,6 @@ export const strings = {
       questionUpdated: '質問が正常に更新されました',
       unauthorized: '自分の質問のみ編集できます',
     },
-
-    // Empty states
     empty: {
       noQuestions: 'まだ質問がありません',
       beFirst: '最初に質問してください！',
@@ -5388,4 +7039,63 @@ export const strings = {
       tryDifferent: '別のフィルターや検索語をお試しください',
     },
   },
-}
+  congratulations: 'おめでとうございます！',
+  success: '成功',
+  teaHouse: {
+    guidelines: {
+      title: '茶室ガイドライン',
+      welcome: {
+        title: '茶室へようこそ',
+        subtitle: '日本語学習者がお互いに穏やかに、親切に、思慮深く助け合う共有学習スペース。',
+        description: '茶室は、日本語学習者がお互いに穏やかに、親切に、思慮深く助け合う共有学習スペースです。無料ユーザーもプレミアムユーザーも、誰でも日本語学習をサポートする限り、質問をしたり回答を共有したりすることができます。',
+      },
+      whatFor: {
+        title: '茶室の目的',
+        intro: '茶室は次のための適切な場所です：',
+        point1: '日本語の質問（文法、漢字、語彙、使い方）をする',
+        point2: '日本の文化、伝統、習慣について話し合う',
+        point3: '教科書、ビデオ、物語、または実際のコンテンツからの疑問を解消する',
+        point4: '文が自然か正しいかを確認する',
+        point5: '学習リソース、方法、経験を共有し、議論する',
+      },
+      whatNotFor: {
+        title: 'ティーハウスが目的としないこと',
+        intro: 'ティーハウスを穏やかで有用に保つために、以下の投稿はご遠慮ください：',
+        point1: '政治的、宗教的、またはイデオロギー的な議論',
+        point2: '嫌がらせ、皮肉、または軽蔑的な返信',
+        point3: '学習者のレベルを理由に排除したり非難したりすること',
+        point4: '他のアプリ、コース、チャンネルの宣伝',
+        point5: '理解せずに投稿されたAI生成の回答',
+        point6: '日本語学習に無関係な医療、法律、または個人的なアドバイス',
+        point7: '日本や日本語学習に無関係な完全にオフトピックな議論',
+      },
+      conduct: {
+        title: 'ここでの私たちの接し方',
+        point1: 'まず親切に、次に正す',
+        point2: 'すべての人が善意で学んでいると仮定する',
+        point3: '簡単で明確に説明する',
+        point4: '自分が学ぶのに役立たないと思うことは投稿しない',
+        noStupidQuestions: 'ここには「愚かな質問」というものはありません。',
+      },
+      moderation: {
+        title: 'モデレーションと安全性',
+        point1: 'コミュニティはティーハウスに合わない投稿をフラグできます',
+        point2: 'モデレーターはこれらのガイドラインに違反する投稿を削除することがあります',
+        point3: '繰り返しの違反はティーハウスへのアクセスを制限する可能性があります',
+        purpose: 'モデレーションは学習スペースを保護するために存在します — 罰するためではありません。',
+      },
+      corePrinciple: 'まず親切に、次に正す。すべての人が善意で学んでいると仮定する。',
+      closing: 'ティーハウスは、皆が穏やかで集中し、歓迎する場を保つために協力することで成り立っています。参加してくれてありがとう。',
+      gotIt: 'わかりました、探検してみます！',
+      viewFullGuidelines: 'ガイドラインを全文表示',
+      viewGuidelines: 'ガイドラインを表示',
+      beforeYouPost: '投稿する前に...',
+      pleaseReadAndAgree: 'コミュニティガイドラインを読んで同意してください',
+      iAgree: 'ティーハウスのガイドラインに同意します',
+      continueToPost: '投稿を続ける',
+      mustAgree: '続行するにはガイドラインに同意してください',
+      acknowledged: 'ありがとうございます！これでティーハウスに投稿できます',
+      acknowledgeFailed: '承認の保存に失敗しました。もう一度お試しください。',
+    },
+  },
+};

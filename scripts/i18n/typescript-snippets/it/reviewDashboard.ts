@@ -1,0 +1,13 @@
+  reviewDashboard: {
+    // TODO: Nested - sections.mastered: 'Padroneggiato',
+    interval: 'Intervallo',
+    accuracy: 'precisione',
+    andMore: '...e altri {count} elementi',
+    // TODO: Nested - stats.totalItems: 'Elementi totali',
+    // TODO: Nested - stats.mastered: 'padroneggiato',
+    // TODO: Nested - actions.viewSchedule: 'Visualizza programma completo',
+    // TODO: Nested - actions.startReviewSession: 'Inizia Sessione di Revisione',
+    // TODO: Nested - messages.checkBackLater: 'Ricontrolla più tardi per ulteriori revisioni',
+    // TODO: Nested - messages.futureReviews: 'Revisioni programmate per le settimane future',
+    // TODO: Nested - messages.noReviewsToday: 'Nessuna altra revisione programmata per oggi',
+  },

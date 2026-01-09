@@ -1,0 +1,10 @@
+  reviewPrompts: {
+    // TODO: Nested - vocabulary.noResults: 'Nessun risultato trovato',
+    // TODO: Nested - vocabulary.searchHint: 'Prova con parole chiave diverse',
+    // TODO: Nested - vocabulary.addToList: 'Aggiungi alla lista',
+    // TODO: Nested - vocabulary.saveWord: 'Salva parola',
+    // TODO: Nested - vocabulary.studyWord: 'Studia parola',
+    // TODO: Nested - vocabulary.pronunciation: 'Pronuncia',
+    // TODO: Nested - vocabulary.examples: 'Esempi',
+    // TODO: Nested - vocabulary.conjugations: 'Coniugazioni',
+  },

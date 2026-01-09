@@ -1,0 +1,10 @@
+  entitlements: {
+    // TODO: Nested - limits.dailyLimit: '1日の制限',
+    // TODO: Nested - limits.resetsTomorrow: '明日リセット',
+    // TODO: Nested - limits.resetsIn: '{{time}}後にリセット',
+    // TODO: Nested - upgrade.benefits.allFeatures: 'すべての機能がアンロックされました',
+    // TODO: Nested - messages.signUpForMore: '無料でサインアップして1日5回の練習を受けましょう',
+    // TODO: Nested - messages.upgradeForUnlimited: '無制限の練習のためにプレミアムにアップグレード',
+    // TODO: Nested - messages.getUnlimitedAccess: 'プレミアムで無制限アクセスを取得',
+    // TODO: Nested - messages.authenticationRequired: '認証が必要です',
+  },

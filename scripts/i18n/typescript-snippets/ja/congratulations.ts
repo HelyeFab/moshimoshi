@@ -1,0 +1,3 @@
+  congratulations: {
+    congratulations: 'おめでとうございます！',
+  },
