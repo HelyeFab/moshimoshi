@@ -6717,7 +6717,7 @@ export const strings = {
       kanji: 'Kanji',
       pronunciation: 'Prononciation',
       particles: 'Particules',
-      verb-conjugation: 'Conjugaison des Verbes',
+      'verb-conjugation': 'Conjugaison des Verbes',
       culture: 'Culture',
       jlpt: 'JLPT',
       translation: 'Traduction',

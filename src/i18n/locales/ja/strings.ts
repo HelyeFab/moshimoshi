@@ -6929,7 +6929,7 @@ export const strings = {
       kanji: '漢字',
       pronunciation: '発音',
       particles: '助詞',
-      verb-conjugation: '動詞の活用',
+      'verb-conjugation': '動詞の活用',
       culture: '文化',
       jlpt: 'JLPT',
       translation: '翻訳',
