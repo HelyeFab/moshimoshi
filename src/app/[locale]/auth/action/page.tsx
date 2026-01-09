@@ -78,6 +78,12 @@ function AuthActionContent() {
             }, 2000)
             break
 
+          case 'signIn':
+            // Magic link sign-in - redirect to custom verify-magic-link page
+            // Pass the full URL so isSignInWithEmailLink can validate it
+            router.push(`/auth/verify-magic-link${window.location.search}`)
+            break
+
           default:
             setError(`Unsupported action: ${actionMode}`)
         }
