@@ -106,6 +106,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const [isSyncingMedia, setIsSyncingMedia] = useState(false)
   const [r2Usage, setR2Usage] = useState<{ usedBytes: number; limitBytes: number } | null>(null)
   const [restoreProgressByDeckId, setRestoreProgressByDeckId] = useState<Record<string, RestoreProgress>>({})
+  const [showSyncInfoModal, setShowSyncInfoModal] = useState(false)
 
   // Prevent race conditions
   const loadingRef = useRef(false)
@@ -477,6 +478,9 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     }
 
     if (isSyncingMedia) return
+
+    // Show info modal to user before starting sync
+    setShowSyncInfoModal(true)
 
     setShowMigration(false)
     setIsSyncingMedia(true)
@@ -1385,9 +1389,45 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           </div>
         )}
 
-        {/* Sync Progress & Cloud Storage - Side by side on desktop, stacked on mobile */}
+        {/* Cloud Storage & Sync Progress - Side by side on desktop, stacked on mobile */}
         {isPremium && (migrationProgress || r2Usage) && (
           <div className="mb-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+            {/* Cloud Storage Widget */}
+            {r2Usage && (
+              <div className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
+                      <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Cloud Storage</h3>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
+                        {storageManager.formatBytes(r2Usage.usedBytes)} / {storageManager.formatBytes(r2Usage.limitBytes)}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                      {Math.round((r2Usage.usedBytes / r2Usage.limitBytes) * 100)}%
+                    </div>
+                    <div className="text-xs text-gray-500 dark:text-gray-400">used</div>
+                  </div>
+                </div>
+                {/* Progress Bar */}
+                <div className="mt-3 w-full bg-gray-200 dark:bg-dark-700 rounded-full h-2">
+                  <div
+                    className="bg-gradient-to-r from-purple-500 to-indigo-500 h-2 rounded-full transition-all"
+                    style={{
+                      width: `${Math.min(100, Math.round((r2Usage.usedBytes / r2Usage.limitBytes) * 100))}%`
+                    }}
+                  />
+                </div>
+              </div>
+            )}
+
             {/* Sync Progress Bar */}
             {migrationProgress && (
               <motion.div
@@ -1439,42 +1479,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                   />
                 </div>
               </motion.div>
-            )}
-
-            {/* Cloud Storage Widget */}
-            {r2Usage && (
-              <div className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-lg bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center">
-                      <svg className="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Cloud Storage</h3>
-                      <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
-                        {storageManager.formatBytes(r2Usage.usedBytes)} / {storageManager.formatBytes(r2Usage.limitBytes)}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                      {Math.round((r2Usage.usedBytes / r2Usage.limitBytes) * 100)}%
-                    </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">used</div>
-                  </div>
-                </div>
-                {/* Progress Bar */}
-                <div className="mt-3 w-full bg-gray-200 dark:bg-dark-700 rounded-full h-2">
-                  <div
-                    className="bg-gradient-to-r from-purple-500 to-indigo-500 h-2 rounded-full transition-all"
-                    style={{
-                      width: `${Math.min(100, Math.round((r2Usage.usedBytes / r2Usage.limitBytes) * 100))}%`
-                    }}
-                  />
-                </div>
-              </div>
             )}
           </div>
         )}
@@ -1722,6 +1726,54 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             onClose={() => setComebackInfo(null)}
           />
         )}
+
+        {/* Sync Info Modal */}
+        <Modal
+          isOpen={showSyncInfoModal}
+          onClose={() => setShowSyncInfoModal(false)}
+          title={t('flashcards.migration.infoModal.title')}
+          size="md"
+        >
+          <div className="space-y-4">
+            <p className="text-gray-700 dark:text-gray-300">
+              {t('flashcards.migration.infoModal.message')}
+            </p>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3">
+                <div className="w-5 h-5 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-red-600 dark:text-red-400 text-xs">✕</span>
+                </div>
+                <span className="text-gray-600 dark:text-gray-400">
+                  {t('flashcards.migration.infoModal.cannotUse')}
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="w-5 h-5 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-green-600 dark:text-green-400 text-xs">✓</span>
+                </div>
+                <span className="text-gray-600 dark:text-gray-400">
+                  {t('flashcards.migration.infoModal.canUseApp')}
+                </span>
+              </li>
+              <li className="flex items-start gap-3">
+                <div className="w-5 h-5 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-blue-600 dark:text-blue-400 text-xs">ℹ</span>
+                </div>
+                <span className="text-gray-600 dark:text-gray-400">
+                  {t('flashcards.migration.infoModal.comeBack')}
+                </span>
+              </li>
+            </ul>
+            <div className="pt-4">
+              <button
+                onClick={() => setShowSyncInfoModal(false)}
+                className="w-full px-6 py-2.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-medium"
+              >
+                {t('flashcards.migration.infoModal.understand')}
+              </button>
+            </div>
+          </div>
+        </Modal>
 
         {/* Deck Limit Error Modal */}
         <Modal

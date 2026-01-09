@@ -7,6 +7,7 @@ import { magicLinkRequestSchema, getSecurityHeaders, formatZodErrors } from '@/l
 import { checkMagicLinkRateLimit, getRateLimitHeaders } from '@/lib/auth/rateLimit'
 import { logAuditEvent, AuditEvent } from '@/lib/auth/audit'
 import { sendMagicLinkEmail } from '@/lib/email/resend'
+import { buildDirectMagicLink } from '@/lib/auth/magicLink'
 import { z } from 'zod'
 
 // Magic link email sending is now handled by the imported sendMagicLinkEmail from @/lib/email/resend
@@ -159,8 +160,12 @@ export async function POST(request: NextRequest) {
       if (userExists && userRecord) {
         // Generate Firebase magic link using Firebase Admin SDK
         // Note: Using /en as default locale for magic links (will work for all users)
+        const baseUrl =
+          process.env.NEXT_PUBLIC_APP_URL ||
+          process.env.NEXTAUTH_URL ||
+          'https://moshimoshi.app'
         const actionCodeSettings = {
-          url: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/en/auth/verify-magic-link`,
+          url: `${baseUrl}/en/auth/verify-magic-link`,
           handleCodeInApp: true,
         }
 
@@ -168,15 +173,17 @@ export async function POST(request: NextRequest) {
           email,
           actionCodeSettings
         )
+        const directMagicLink = buildDirectMagicLink(firebaseMagicLink)
 
         // Log the link in development for easy testing
         if (process.env.NODE_ENV === 'development') {
           console.log('🔗 Firebase Magic Link for', email, ':', firebaseMagicLink)
+          console.log('🔗 Direct Magic Link for', email, ':', directMagicLink)
         }
 
         // Send the magic link email (Firebase handles token storage and validation)
         try {
-          await sendMagicLinkEmail(email, firebaseMagicLink)
+          await sendMagicLinkEmail(email, directMagicLink)
           
           // Log successful magic link request
           await logAuditEvent(

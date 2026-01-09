@@ -7,10 +7,7 @@ import { Book, BookDraft } from '@/types/book'
 import { JLPTLevel } from '@/types/ai-story'
 import { getStorage } from 'firebase-admin/storage'
 import type { DocumentReference } from 'firebase-admin/firestore'
-import {
-  generateBookWordExplanations,
-  storeBookWordExplanations
-} from '@/lib/ai/utils/bookWordExplanationGenerator'
+import { precomputeWordExplanations } from '@/lib/ai/precompute/wordPrecompute'
 import { preGenerateBookSentences } from '@/lib/ai/utils/sentencePreGenerator'
 import OpenAI from 'openai'
 
@@ -415,61 +412,49 @@ export async function POST(request: NextRequest) {
       await draftRef.update({
         'metadata.generationStep': 'words',
         'metadata.progress': 80,
-        'metadata.wordProgress': { current: 0, total: 50 },
+        'metadata.wordProgress': { current: 0, total: 1000 },
       })
 
-      // Generate explanations for top 50 words with real-time progress updates
-      const wordExplanations = await generateBookWordExplanations(
-        draftId,
-        result.data.content,
-        50,
-        // Progress callback - updates Firestore in real-time for UI
-        async (current, total, word, status) => {
+      // Use modern precompute system with increased limit (1000 words)
+      const wordResult = await precomputeWordExplanations({
+        contentId: draftId,
+        contentType: 'book',
+        text: result.data.content,
+        limit: 1000, // Increased from 50 to 1000
+        jlptLevel: jlptLevel as JLPTLevel,
+        // Progress callback - maintains UI compatibility
+        onProgress: async (current, total, word, status) => {
           // Calculate progress: 80% + (current/total * 15%) = up to 95%
           const stepProgress = 80 + Math.round((current / total) * 15)
 
-          // Update Firestore with current word progress
           try {
             await draftRef.update({
               'metadata.progress': stepProgress,
-              'metadata.wordProgress': {
-                current,
-                total,
-                currentWord: word,
-                lastStatus: status,
-              },
+              'metadata.wordProgress': { current, total, currentWord: word, lastStatus: status },
             })
           } catch (updateError) {
-            // Non-critical - log but don't fail
             console.warn(`[BookGeneration] Failed to update word progress: ${current}/${total}`)
           }
         }
-      )
+      })
 
-      // Store in Firestore
-      console.log(`💾 [BookGeneration] Storing ${wordExplanations.wordCount} word explanations to Firestore...`)
-      await storeBookWordExplanations(wordExplanations)
-      console.log(`✅ [BookGeneration] Word explanations stored successfully!`)
-
-      // Update draft with word explanation metadata
       await draftRef.update({
         'metadata.wordExplanationsCached': true,
-        'metadata.wordExplanationsCount': wordExplanations.wordCount,
+        'metadata.wordExplanationsCount': wordResult.total,
         'metadata.wordExplanationsGeneratedAt': new Date().toISOString(),
         'metadata.progress': 95,
-        'metadata.wordProgress': null, // Clear word progress
-      })
-
-      console.log(`✅ [BookGeneration] Word explanations complete: ${wordExplanations.wordCount} words`)
-    } catch (wordError) {
-      console.error('❌ [BookGeneration] Error generating word explanations:', wordError)
-      // Continue without word explanations - can be generated on-demand
-      console.log('⚠️ [BookGeneration] Continuing without pre-cached word explanations')
-
-      // Clear word progress on error
-      await draftRef.update({
         'metadata.wordProgress': null,
       })
+
+      console.log(`✅ [BookGeneration] Word explanations complete:`, {
+        total: wordResult.total,
+        generated: wordResult.generated,
+        cached: wordResult.cached,
+        skipped: wordResult.skipped,
+      })
+    } catch (wordError) {
+      console.error('❌ [BookGeneration] Error generating word explanations:', wordError)
+      await draftRef.update({ 'metadata.wordProgress': null })
     }
 
     // Step 5: Generate sentence-level audio and translations (pre-cache)

@@ -1,0 +1,33 @@
+
+> moshimoshi@1.0.0 build
+> next build
+
+   ▲ Next.js 15.5.7
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+   Creating an optimized production build ...
+Failed to compile.
+
+./src/app/[locale]/auth/verify-magic-link/page.tsx
+Error:   [31mx[0m Expected '</', got '}'
+     ,-[[36;1;4m/home/beano/DevProjects/NextJs/moshimoshi/src/app/[locale]/auth/verify-magic-link/page.tsx[0m:303:1]
+ [2m300[0m |                 Back to Sign Up
+ [2m301[0m |               </button>
+ [2m302[0m |             </>
+ [2m303[0m |           )}
+     : [35;1m           ^[0m
+ [2m304[0m |         </div>
+ [2m305[0m |       </div>
+ [2m306[0m |     </div>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/app/[locale]/auth/verify-magic-link/page.tsx
+
+
+> Build failed because of webpack errors

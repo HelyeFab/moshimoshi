@@ -6,6 +6,7 @@ import { adminAuth, ensureAdminInitialized } from '@/lib/firebase/admin'
 import { getSecurityHeaders } from '@/lib/auth/validation'
 import { logAuditEvent, AuditEvent } from '@/lib/auth/audit'
 import { sendMagicLinkEmail } from '@/lib/email/resend'
+import { buildDirectMagicLink } from '@/lib/auth/magicLink'
 
 export async function POST(request: NextRequest) {
   console.log('[API /auth/magic-link] Request received')
@@ -64,12 +65,13 @@ export async function POST(request: NextRequest) {
     try {
       // Generate the sign-in link
       const link = await adminAuth!.generateSignInWithEmailLink(email, actionCodeSettings)
+      const directMagicLink = buildDirectMagicLink(link)
 
       console.log('[API /auth/magic-link] Magic link generated successfully')
 
       // Send the magic link via email
       try {
-        await sendMagicLinkEmail(email, link)
+        await sendMagicLinkEmail(email, directMagicLink)
         console.log('[API /auth/magic-link] Email sent successfully')
       } catch (emailError) {
         console.error('[API /auth/magic-link] Failed to send email:', emailError)
@@ -100,7 +102,7 @@ export async function POST(request: NextRequest) {
             success: true,
             message: 'Magic link sent to your email',
             // Remove this in production!
-            devLink: link,
+            devLink: directMagicLink,
           },
           {
             status: 200,

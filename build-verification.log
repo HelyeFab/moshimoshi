@@ -1,0 +1,952 @@
+
+> moshimoshi@1.0.0 build
+> next build
+
+   ▲ Next.js 15.5.7
+   - Environments: .env.local
+   - Experiments (use with caution):
+     · optimizePackageImports
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 12.5s
+   Skipping linting
+   Checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/989) ...
+   Generating static pages (247/989) 
+   Generating static pages (494/989) 
+   Generating static pages (741/989) 
+ ✓ Generating static pages (989/989)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                      Size  First Load JS
+┌ ƒ /_not-found                                 895 B         104 kB
+├ ● /[locale]                                 15.6 kB         794 kB
+├   ├ /en
+├   ├ /ja
+├   ├ /de
+├   └ [+3 more paths]
+├ ● /[locale]/account                         10.9 kB         799 kB
+├   ├ /en/account
+├   ├ /ja/account
+├   ├ /de/account
+├   └ [+3 more paths]
+├ ● /[locale]/achievements                    5.12 kB         800 kB
+├   ├ /en/achievements
+├   ├ /ja/achievements
+├   ├ /de/achievements
+├   └ [+3 more paths]
+├ ● /[locale]/admin                           14.7 kB         610 kB
+├   ├ /en/admin
+├   ├ /ja/admin
+├   ├ /de/admin
+├   └ [+3 more paths]
+├ ● /[locale]/admin/blog                      3.16 kB         555 kB
+├   ├ /en/admin/blog
+├   ├ /ja/admin/blog
+├   ├ /de/admin/blog
+├   └ [+3 more paths]
+├ ƒ /[locale]/admin/blog/[id]/edit            1.03 kB         940 kB
+├ ● /[locale]/admin/blog/new                    815 B         940 kB
+├   ├ /en/admin/blog/new
+├   ├ /ja/admin/blog/new
+├   ├ /de/admin/blog/new
+├   └ [+3 more paths]
+├ ● /[locale]/admin/books                     6.01 kB         765 kB
+├   ├ /en/admin/books
+├   ├ /ja/admin/books
+├   ├ /de/admin/books
+├   └ [+3 more paths]
+├ ƒ /[locale]/admin/books/edit/[id]           11.6 kB         766 kB
+├ ● /[locale]/admin/books/generate            13.5 kB         765 kB
+├   ├ /en/admin/books/generate
+├   ├ /ja/admin/books/generate
+├   ├ /de/admin/books/generate
+├   └ [+3 more paths]
+├ ● /[locale]/admin/comics                    8.64 kB         767 kB
+├   ├ /en/admin/comics
+├   ├ /ja/admin/comics
+├   ├ /de/admin/comics
+├   └ [+3 more paths]
+├ ● /[locale]/admin/comics/generate           6.41 kB         764 kB
+├   ├ /en/admin/comics/generate
+├   ├ /ja/admin/comics/generate
+├   ├ /de/admin/comics/generate
+├   └ [+3 more paths]
+├ ● /[locale]/admin/comics/schedule           8.52 kB         769 kB
+├   ├ /en/admin/comics/schedule
+├   ├ /ja/admin/comics/schedule
+├   ├ /de/admin/comics/schedule
+├   └ [+3 more paths]
+├ ● /[locale]/admin/decision-explorer         8.37 kB         306 kB
+├   ├ /en/admin/decision-explorer
+├   ├ /ja/admin/decision-explorer
+├   ├ /de/admin/decision-explorer
+├   └ [+3 more paths]
+├ ● /[locale]/admin/email-campaigns           7.07 kB         305 kB
+├   ├ /en/admin/email-campaigns
+├   ├ /ja/admin/email-campaigns
+├   ├ /de/admin/email-campaigns
+├   └ [+3 more paths]
+├ ● /[locale]/admin/entitlements              11.4 kB         312 kB
+├   ├ /en/admin/entitlements
+├   ├ /ja/admin/entitlements
+├   ├ /de/admin/entitlements
+├   └ [+3 more paths]
+├ ● /[locale]/admin/feature-flags             7.96 kB         249 kB
+├   ├ /en/admin/feature-flags
+├   ├ /ja/admin/feature-flags
+├   ├ /de/admin/feature-flags
+├   └ [+3 more paths]
+├ ● /[locale]/admin/firebase-monitoring       4.58 kB         713 kB
+├   ├ /en/admin/firebase-monitoring
+├   ├ /ja/admin/firebase-monitoring
+├   ├ /de/admin/firebase-monitoring
+├   └ [+3 more paths]
+├ ● /[locale]/admin/gamification-xp-config    7.05 kB         559 kB
+├   ├ /en/admin/gamification-xp-config
+├   ├ /ja/admin/gamification-xp-config
+├   ├ /de/admin/gamification-xp-config
+├   └ [+3 more paths]
+├ ● /[locale]/admin/integrity-monitor         11.3 kB         164 kB
+├   ├ /en/admin/integrity-monitor
+├   ├ /ja/admin/integrity-monitor
+├   ├ /de/admin/integrity-monitor
+├   └ [+3 more paths]
+├ ● /[locale]/admin/leaderboard                8.5 kB         111 kB
+├   ├ /en/admin/leaderboard
+├   ├ /ja/admin/leaderboard
+├   ├ /de/admin/leaderboard
+├   └ [+3 more paths]
+├ ● /[locale]/admin/learning-village          25.5 kB         128 kB
+├   ├ /en/admin/learning-village
+├   ├ /ja/admin/learning-village
+├   ├ /de/admin/learning-village
+├   └ [+3 more paths]
+├ ● /[locale]/admin/monitoring                7.42 kB         122 kB
+├   ├ /en/admin/monitoring
+├   ├ /ja/admin/monitoring
+├   ├ /de/admin/monitoring
+├   └ [+3 more paths]
+├ ● /[locale]/admin/moodboards                14.3 kB         765 kB
+├   ├ /en/admin/moodboards
+├   ├ /ja/admin/moodboards
+├   ├ /de/admin/moodboards
+├   └ [+3 more paths]
+├ ● /[locale]/admin/resources                 8.23 kB         601 kB
+├   ├ /en/admin/resources
+├   ├ /ja/admin/resources
+├   ├ /de/admin/resources
+├   └ [+3 more paths]
+├ ƒ /[locale]/admin/resources/[id]/edit        4.4 kB         564 kB
+├ ● /[locale]/admin/resources/new             4.42 kB         565 kB
+├   ├ /en/admin/resources/new
+├   ├ /ja/admin/resources/new
+├   ├ /de/admin/resources/new
+├   └ [+3 more paths]
+├ ● /[locale]/admin/scripts                   5.91 kB         303 kB
+├   ├ /en/admin/scripts
+├   ├ /ja/admin/scripts
+├   ├ /de/admin/scripts
+├   └ [+3 more paths]
+├ ● /[locale]/admin/stats-consistency         5.23 kB         116 kB
+├   ├ /en/admin/stats-consistency
+├   ├ /ja/admin/stats-consistency
+├   ├ /de/admin/stats-consistency
+├   └ [+3 more paths]
+├ ● /[locale]/admin/stories                   6.09 kB         765 kB
+├   ├ /en/admin/stories
+├   ├ /ja/admin/stories
+├   ├ /de/admin/stories
+├   └ [+3 more paths]
+├ ƒ /[locale]/admin/stories/edit/[id]         9.03 kB         768 kB
+├ ● /[locale]/admin/stories/generate          11.7 kB         763 kB
+├   ├ /en/admin/stories/generate
+├   ├ /ja/admin/stories/generate
+├   ├ /de/admin/stories/generate
+├   └ [+3 more paths]
+├ ● /[locale]/admin/stories/new               7.38 kB         313 kB
+├   ├ /en/admin/stories/new
+├   ├ /ja/admin/stories/new
+├   ├ /de/admin/stories/new
+├   └ [+3 more paths]
+├ ● /[locale]/admin/streak                    6.31 kB         109 kB
+├   ├ /en/admin/streak
+├   ├ /ja/admin/streak
+├   ├ /de/admin/streak
+├   └ [+3 more paths]
+├ ● /[locale]/admin/stripe-testing            10.2 kB         152 kB
+├   ├ /en/admin/stripe-testing
+├   ├ /ja/admin/stripe-testing
+├   ├ /de/admin/stripe-testing
+├   └ [+3 more paths]
+├ ● /[locale]/admin/subscriptions             11.5 kB         153 kB
+├   ├ /en/admin/subscriptions
+├   ├ /ja/admin/subscriptions
+├   ├ /de/admin/subscriptions
+├   └ [+3 more paths]
+├ ● /[locale]/admin/user-lookup               7.88 kB         751 kB
+├   ├ /en/admin/user-lookup
+├   ├ /ja/admin/user-lookup
+├   ├ /de/admin/user-lookup
+├   └ [+3 more paths]
+├ ● /[locale]/admin/xp-config                 12.9 kB         571 kB
+├   ├ /en/admin/xp-config
+├   ├ /ja/admin/xp-config
+├   ├ /de/admin/xp-config
+├   └ [+3 more paths]
+├ ● /[locale]/admin/youtube-series            9.63 kB         766 kB
+├   ├ /en/admin/youtube-series
+├   ├ /ja/admin/youtube-series
+├   ├ /de/admin/youtube-series
+├   └ [+3 more paths]
+├ ƒ /[locale]/anki-study/[deckId]             43.9 kB         863 kB
+├ ● /[locale]/auth-test                       1.81 kB         105 kB
+├   ├ /en/auth-test
+├   ├ /ja/auth-test
+├   ├ /de/auth-test
+├   └ [+3 more paths]
+├ ● /[locale]/auth/action                     6.67 kB         753 kB
+├   ├ /en/auth/action
+├   ├ /ja/auth/action
+├   ├ /de/auth/action
+├   └ [+3 more paths]
+├ ● /[locale]/auth/error                      2.34 kB         554 kB
+├   ├ /en/auth/error
+├   ├ /ja/auth/error
+├   ├ /de/auth/error
+├   └ [+3 more paths]
+├ ● /[locale]/auth/reset-password             5.48 kB         557 kB
+├   ├ /en/auth/reset-password
+├   ├ /ja/auth/reset-password
+├   ├ /de/auth/reset-password
+├   └ [+3 more paths]
+├ ● /[locale]/auth/signin                     11.6 kB         563 kB
+├   ├ /en/auth/signin
+├   ├ /ja/auth/signin
+├   ├ /de/auth/signin
+├   └ [+3 more paths]
+├ ● /[locale]/auth/signup                     12.2 kB         564 kB
+├   ├ /en/auth/signup
+├   ├ /ja/auth/signup
+├   ├ /de/auth/signup
+├   └ [+3 more paths]
+├ ● /[locale]/auth/verify-email-error         2.91 kB         109 kB
+├   ├ /en/auth/verify-email-error
+├   ├ /ja/auth/verify-email-error
+├   ├ /de/auth/verify-email-error
+├   └ [+3 more paths]
+├ ● /[locale]/auth/verify-email-success       5.21 kB         111 kB
+├   ├ /en/auth/verify-email-success
+├   ├ /ja/auth/verify-email-success
+├   ├ /de/auth/verify-email-success
+├   └ [+3 more paths]
+├ ● /[locale]/auth/verify-magic-link          4.78 kB         692 kB
+├   ├ /en/auth/verify-magic-link
+├   ├ /ja/auth/verify-magic-link
+├   ├ /de/auth/verify-magic-link
+├   └ [+3 more paths]
+├ ● /[locale]/blog                            10.2 kB         781 kB
+├   ├ /en/blog
+├   ├ /ja/blog
+├   ├ /de/blog
+├   └ [+3 more paths]
+├ ƒ /[locale]/blog/[slug]                     20.9 kB         729 kB
+├ ● /[locale]/blog/sitemap/[__metadata_id__]    895 B         104 kB
+├ ● /[locale]/clear-storage                   2.19 kB         550 kB
+├   ├ /en/clear-storage
+├   ├ /ja/clear-storage
+├   ├ /de/clear-storage
+├   └ [+3 more paths]
+├ ● /[locale]/comics                          10.7 kB         795 kB
+├   ├ /en/comics
+├   ├ /ja/comics
+├   ├ /de/comics
+├   └ [+3 more paths]
+├ ƒ /[locale]/comics/[episodeId]              16.4 kB         854 kB
+├ ● /[locale]/contact                         7.36 kB         602 kB
+├   ├ /en/contact
+├   ├ /ja/contact
+├   ├ /de/contact
+├   └ [+3 more paths]
+├ ● /[locale]/credits                         8.01 kB         762 kB
+├   ├ /en/credits
+├   ├ /ja/credits
+├   ├ /de/credits
+├   └ [+3 more paths]
+├ ● /[locale]/dashboard                       22.9 kB         819 kB
+├   ├ /en/dashboard
+├   ├ /ja/dashboard
+├   ├ /de/dashboard
+├   └ [+3 more paths]
+├ ● /[locale]/demo/nhk                        8.17 kB         149 kB
+├   ├ /en/demo/nhk
+├   ├ /ja/demo/nhk
+├   ├ /de/demo/nhk
+├   └ [+3 more paths]
+├ ● /[locale]/drill                           22.5 kB         856 kB
+├   ├ /en/drill
+├   ├ /ja/drill
+├   ├ /de/drill
+├   └ [+3 more paths]
+├ ● /[locale]/flashcards                      72.6 kB         911 kB
+├   ├ /en/flashcards
+├   ├ /ja/flashcards
+├   ├ /de/flashcards
+├   └ [+3 more paths]
+├ ● /[locale]/flashcards/restore              7.08 kB         819 kB
+├   ├ /en/flashcards/restore
+├   ├ /ja/flashcards/restore
+├   ├ /de/flashcards/restore
+├   └ [+3 more paths]
+├ ● /[locale]/forbidden                       8.28 kB         732 kB
+├   ├ /en/forbidden
+├   ├ /ja/forbidden
+├   ├ /de/forbidden
+├   └ [+3 more paths]
+├ ● /[locale]/games                           6.02 kB         791 kB
+├   ├ /en/games
+├   ├ /ja/games
+├   ├ /de/games
+├   └ [+3 more paths]
+├ ● /[locale]/games/kana-drop                 11.6 kB         760 kB
+├   ├ /en/games/kana-drop
+├   ├ /ja/games/kana-drop
+├   ├ /de/games/kana-drop
+├   └ [+3 more paths]
+├ ● /[locale]/games/kanji-simon               6.84 kB         750 kB
+├   ├ /en/games/kanji-simon
+├   ├ /ja/games/kanji-simon
+├   ├ /de/games/kanji-simon
+├   └ [+3 more paths]
+├ ƒ /[locale]/games/kanji-simon/[boardId]     11.4 kB         766 kB
+├ ● /[locale]/games/reading-routes            4.03 kB         747 kB
+├   ├ /en/games/reading-routes
+├   ├ /ja/games/reading-routes
+├   ├ /de/games/reading-routes
+├   └ [+3 more paths]
+├ ● /[locale]/games/sentence-scramble         12.4 kB         770 kB
+├   ├ /en/games/sentence-scramble
+├   ├ /ja/games/sentence-scramble
+├   ├ /de/games/sentence-scramble
+├   └ [+3 more paths]
+├ ● /[locale]/games/stroke-order              18.1 kB         769 kB
+├   ├ /en/games/stroke-order
+├   ├ /ja/games/stroke-order
+├   ├ /de/games/stroke-order
+├   └ [+3 more paths]
+├ ● /[locale]/intro                           12.5 kB         616 kB
+├   ├ /en/intro
+├   ├ /ja/intro
+├   ├ /de/intro
+├   └ [+3 more paths]
+├ ● /[locale]/kanji-browser                   26.7 kB         843 kB
+├   ├ /en/kanji-browser
+├   ├ /ja/kanji-browser
+├   ├ /de/kanji-browser
+├   └ [+3 more paths]
+├ ● /[locale]/kanji-connection                10.6 kB         792 kB
+├   ├ /en/kanji-connection
+├   ├ /ja/kanji-connection
+├   ├ /de/kanji-connection
+├   └ [+3 more paths]
+├ ● /[locale]/kanji-connection/families       11.6 kB         841 kB
+├   ├ /en/kanji-connection/families
+├   ├ /ja/kanji-connection/families
+├   ├ /de/kanji-connection/families
+├   └ [+3 more paths]
+├ ● /[locale]/kanji-connection/radicals       9.49 kB         838 kB
+├   ├ /en/kanji-connection/radicals
+├   ├ /ja/kanji-connection/radicals
+├   ├ /de/kanji-connection/radicals
+├   └ [+3 more paths]
+├ ● /[locale]/kanji-connection/visual-layout  8.47 kB         837 kB
+├   ├ /en/kanji-connection/visual-layout
+├   ├ /ja/kanji-connection/visual-layout
+├   ├ /de/kanji-connection/visual-layout
+├   └ [+3 more paths]
+├ ● /[locale]/kanji-moods                      4.2 kB         789 kB
+├   ├ /en/kanji-moods
+├   ├ /ja/kanji-moods
+├   ├ /de/kanji-moods
+├   └ [+3 more paths]
+├ ƒ /[locale]/kanji-moods/[boardId]           3.82 kB         823 kB
+├ ● /[locale]/landing                         4.45 kB         745 kB
+├   ├ /en/landing
+├   ├ /ja/landing
+├   ├ /de/landing
+├   └ [+3 more paths]
+├ ● /[locale]/leaderboard                     10.8 kB         800 kB
+├   ├ /en/leaderboard
+├   ├ /ja/leaderboard
+├   ├ /de/leaderboard
+├   └ [+3 more paths]
+├ ● /[locale]/learn/conjugation               7.87 kB         842 kB
+├   ├ /en/learn/conjugation
+├   ├ /ja/learn/conjugation
+├   ├ /de/learn/conjugation
+├   └ [+3 more paths]
+├ ● /[locale]/learn/hiragana                    397 B         824 kB
+├   ├ /en/learn/hiragana
+├   ├ /ja/learn/hiragana
+├   ├ /de/learn/hiragana
+├   └ [+3 more paths]
+├ ● /[locale]/learn/katakana                    398 B         824 kB
+├   ├ /en/learn/katakana
+├   ├ /ja/learn/katakana
+├   ├ /de/learn/katakana
+├   └ [+3 more paths]
+├ ● /[locale]/learn/word-learning             5.91 kB         604 kB
+├   ├ /en/learn/word-learning
+├   ├ /ja/learn/word-learning
+├   ├ /de/learn/word-learning
+├   └ [+3 more paths]
+├ ● /[locale]/learn/word-learning/complete    5.05 kB         603 kB
+├   ├ /en/learn/word-learning/complete
+├   ├ /ja/learn/word-learning/complete
+├   ├ /de/learn/word-learning/complete
+├   └ [+3 more paths]
+├ ● /[locale]/learn/word-learning/session       14 kB         636 kB
+├   ├ /en/learn/word-learning/session
+├   ├ /ja/learn/word-learning/session
+├   ├ /de/learn/word-learning/session
+├   └ [+3 more paths]
+├ ● /[locale]/library                         6.68 kB         788 kB
+├   ├ /en/library
+├   ├ /ja/library
+├   ├ /de/library
+├   └ [+3 more paths]
+├ ƒ /[locale]/library/[id]                    4.79 kB        1.04 MB
+├ ● /[locale]/lists                           15.5 kB         807 kB
+├   ├ /en/lists
+├   ├ /ja/lists
+├   ├ /de/lists
+├   └ [+3 more paths]
+├ ƒ /[locale]/lists/[listId]                  20.9 kB         899 kB
+├ ● /[locale]/my-videos                       16.1 kB         809 kB
+├   ├ /en/my-videos
+├   ├ /ja/my-videos
+├   ├ /de/my-videos
+├   └ [+3 more paths]
+├ ● /[locale]/news                            8.44 kB         791 kB
+├   ├ /en/news
+├   ├ /ja/news
+├   ├ /de/news
+├   └ [+3 more paths]
+├ ƒ /[locale]/news/[id]                       5.65 kB        1.03 MB
+├ ● /[locale]/newsletter/verify-error          2.9 kB         109 kB
+├   ├ /en/newsletter/verify-error
+├   ├ /ja/newsletter/verify-error
+├   ├ /de/newsletter/verify-error
+├   └ [+3 more paths]
+├ ● /[locale]/newsletter/verify-success       5.38 kB         112 kB
+├   ├ /en/newsletter/verify-success
+├   ├ /ja/newsletter/verify-success
+├   ├ /de/newsletter/verify-success
+├   └ [+3 more paths]
+├ ● /[locale]/notifications-demo              9.34 kB         779 kB
+├   ├ /en/notifications-demo
+├   ├ /ja/notifications-demo
+├   ├ /de/notifications-demo
+├   └ [+3 more paths]
+├ ● /[locale]/onboarding                      5.81 kB         567 kB
+├   ├ /en/onboarding
+├   ├ /ja/onboarding
+├   ├ /de/onboarding
+├   └ [+3 more paths]
+├ ● /[locale]/onboarding/experience-level     3.24 kB         559 kB
+├   ├ /en/onboarding/experience-level
+├   ├ /ja/onboarding/experience-level
+├   ├ /de/onboarding/experience-level
+├   └ [+3 more paths]
+├ ● /[locale]/onboarding/feature-showcase     7.84 kB         603 kB
+├   ├ /en/onboarding/feature-showcase
+├   ├ /ja/onboarding/feature-showcase
+├   ├ /de/onboarding/feature-showcase
+├   └ [+3 more paths]
+├ ● /[locale]/onboarding/learning-goal        3.14 kB         559 kB
+├   ├ /en/onboarding/learning-goal
+├   ├ /ja/onboarding/learning-goal
+├   ├ /de/onboarding/learning-goal
+├   └ [+3 more paths]
+├ ● /[locale]/onboarding/ready-to-go          3.25 kB         559 kB
+├   ├ /en/onboarding/ready-to-go
+├   ├ /ja/onboarding/ready-to-go
+├   ├ /de/onboarding/ready-to-go
+├   └ [+3 more paths]
+├ ● /[locale]/popular-videos                  7.84 kB         789 kB
+├   ├ /en/popular-videos
+├   ├ /ja/popular-videos
+├   ├ /de/popular-videos
+├   └ [+3 more paths]
+├ ● /[locale]/pricing                         5.28 kB         768 kB
+├   ├ /en/pricing
+├   ├ /ja/pricing
+├   ├ /de/pricing
+├   └ [+3 more paths]
+├ ● /[locale]/privacy                          8.1 kB         562 kB
+├   ├ /en/privacy
+├   ├ /ja/privacy
+├   ├ /de/privacy
+├   └ [+3 more paths]
+├ ● /[locale]/reset-password                  5.94 kB         112 kB
+├   ├ /en/reset-password
+├   ├ /ja/reset-password
+├   ├ /de/reset-password
+├   └ [+3 more paths]
+├ ● /[locale]/resources                        9.7 kB         788 kB
+├   ├ /en/resources
+├   ├ /ja/resources
+├   ├ /de/resources
+├   └ [+3 more paths]
+├ ƒ /[locale]/resources/[id]                  5.88 kB         788 kB
+├ ● /[locale]/review                            895 B         104 kB
+├   ├ /en/review
+├   ├ /ja/review
+├   ├ /de/review
+├   └ [+3 more paths]
+├ ● /[locale]/review-dashboard                10.1 kB         806 kB
+├   ├ /en/review-dashboard
+├   ├ /ja/review-dashboard
+├   ├ /de/review-dashboard
+├   └ [+3 more paths]
+├ ● /[locale]/review/session                  6.12 kB         757 kB
+├   ├ /en/review/session
+├   ├ /ja/review/session
+├   ├ /de/review/session
+├   └ [+3 more paths]
+├ ● /[locale]/server-error                    8.25 kB         732 kB
+├   ├ /en/server-error
+├   ├ /ja/server-error
+├   ├ /de/server-error
+├   └ [+3 more paths]
+├ ● /[locale]/settings                        15.9 kB         824 kB
+├   ├ /en/settings
+├   ├ /ja/settings
+├   ├ /de/settings
+├   └ [+3 more paths]
+├ ● /[locale]/share                           8.86 kB         752 kB
+├   ├ /en/share
+├   ├ /ja/share
+├   ├ /de/share
+├   └ [+3 more paths]
+├ ● /[locale]/showcase                        19.1 kB         796 kB
+├   ├ /en/showcase
+├   ├ /ja/showcase
+├   ├ /de/showcase
+├   └ [+3 more paths]
+├ ● /[locale]/statistics                      17.1 kB         810 kB
+├   ├ /en/statistics
+├   ├ /ja/statistics
+├   ├ /de/statistics
+├   └ [+3 more paths]
+├ ● /[locale]/stories                         7.32 kB         793 kB
+├   ├ /en/stories
+├   ├ /ja/stories
+├   ├ /de/stories
+├   └ [+3 more paths]
+├ ƒ /[locale]/stories/[slug]                  3.17 kB        1.03 MB
+├ ● /[locale]/terms                           9.13 kB         563 kB
+├   ├ /en/terms
+├   ├ /ja/terms
+├   ├ /de/terms
+├   └ [+3 more paths]
+├ ● /[locale]/test-email                      1.74 kB         105 kB
+├   ├ /en/test-email
+├   ├ /ja/test-email
+├   ├ /de/test-email
+├   └ [+3 more paths]
+├ ● /[locale]/test-entitlements               11.7 kB         774 kB
+├   ├ /en/test-entitlements
+├   ├ /ja/test-entitlements
+├   ├ /de/test-entitlements
+├   └ [+3 more paths]
+├ ● /[locale]/test-flashcards                 4.35 kB         302 kB
+├   ├ /en/test-flashcards
+├   ├ /ja/test-flashcards
+├   ├ /de/test-flashcards
+├   └ [+3 more paths]
+├ ● /[locale]/test-furigana                   3.09 kB         106 kB
+├   ├ /en/test-furigana
+├   ├ /ja/test-furigana
+├   ├ /de/test-furigana
+├   └ [+3 more paths]
+├ ● /[locale]/test-modal                      8.47 kB         781 kB
+├   ├ /en/test-modal
+├   ├ /ja/test-modal
+├   ├ /de/test-modal
+├   └ [+3 more paths]
+├ ● /[locale]/test-notifications              6.51 kB         719 kB
+├   ├ /en/test-notifications
+├   ├ /ja/test-notifications
+├   ├ /de/test-notifications
+├   └ [+3 more paths]
+├ ● /[locale]/test-pricing                      169 B         106 kB
+├   ├ /en/test-pricing
+├   ├ /ja/test-pricing
+├   ├ /de/test-pricing
+├   └ [+3 more paths]
+├ ● /[locale]/test-pricing/alternative        4.68 kB         767 kB
+├   ├ /en/test-pricing/alternative
+├   ├ /ja/test-pricing/alternative
+├   ├ /de/test-pricing/alternative
+├   └ [+3 more paths]
+├ ● /[locale]/textbook-vocabulary               307 B         814 kB
+├   ├ /en/textbook-vocabulary
+├   ├ /ja/textbook-vocabulary
+├   ├ /de/textbook-vocabulary
+├   └ [+3 more paths]
+├ ● /[locale]/todos                           41.8 kB         820 kB
+├   ├ /en/todos
+├   ├ /ja/todos
+├   ├ /de/todos
+├   └ [+3 more paths]
+├ ● /[locale]/tools/kanji-mastery             8.69 kB         790 kB
+├   ├ /en/tools/kanji-mastery
+├   ├ /ja/tools/kanji-mastery
+├   ├ /de/tools/kanji-mastery
+├   └ [+3 more paths]
+├ ● /[locale]/tools/kanji-mastery/learn       14.7 kB         818 kB
+├   ├ /en/tools/kanji-mastery/learn
+├   ├ /ja/tools/kanji-mastery/learn
+├   ├ /de/tools/kanji-mastery/learn
+├   └ [+3 more paths]
+├ ● /[locale]/tools/textbook-vocabulary       6.76 kB         820 kB
+├   ├ /en/tools/textbook-vocabulary
+├   ├ /ja/tools/textbook-vocabulary
+├   ├ /de/tools/textbook-vocabulary
+├   └ [+3 more paths]
+├ ● /[locale]/tts-demo                        7.09 kB         598 kB
+├   ├ /en/tts-demo
+├   ├ /ja/tts-demo
+├   ├ /de/tts-demo
+├   └ [+3 more paths]
+├ ● /[locale]/tts-playground                  5.76 kB         147 kB
+├   ├ /en/tts-playground
+├   ├ /ja/tts-playground
+├   ├ /de/tts-playground
+├   └ [+3 more paths]
+├ ● /[locale]/village/tea-house                4.8 kB         804 kB
+├   ├ /en/village/tea-house
+├   ├ /ja/village/tea-house
+├   ├ /de/village/tea-house
+├   └ [+3 more paths]
+├ ƒ /[locale]/village/tea-house/[id]          9.08 kB         821 kB
+├ ƒ /[locale]/village/tea-house/[id]/edit     1.96 kB         800 kB
+├ ● /[locale]/village/tea-house/ask           2.93 kB         802 kB
+├   ├ /en/village/tea-house/ask
+├   ├ /ja/village/tea-house/ask
+├   ├ /de/village/tea-house/ask
+├   └ [+3 more paths]
+├ ● /[locale]/vocabulary                      11.9 kB         892 kB
+├   ├ /en/vocabulary
+├   ├ /ja/vocabulary
+├   ├ /de/vocabulary
+├   └ [+3 more paths]
+├ ● /[locale]/waitlist                        6.89 kB         564 kB
+├   ├ /en/waitlist
+├   ├ /ja/waitlist
+├   ├ /de/waitlist
+├   └ [+3 more paths]
+├ ● /[locale]/youtube-series                     5 kB         787 kB
+├   ├ /en/youtube-series
+├   ├ /ja/youtube-series
+├   ├ /de/youtube-series
+├   └ [+3 more paths]
+├ ● /[locale]/youtube-shadowing               18.5 kB         859 kB
+├   ├ /en/youtube-shadowing
+├   ├ /ja/youtube-shadowing
+├   ├ /de/youtube-shadowing
+├   └ [+3 more paths]
+├ ƒ /api/admin/analytics                        895 B         104 kB
+├ ƒ /api/admin/analytics/visitors               895 B         104 kB
+├ ƒ /api/admin/audit                            895 B         104 kB
+├ ƒ /api/admin/backup/check-status              895 B         104 kB
+├ ƒ /api/admin/backup/list                      895 B         104 kB
+├ ƒ /api/admin/backup/status                    895 B         104 kB
+├ ƒ /api/admin/backup/trigger                   895 B         104 kB
+├ ƒ /api/admin/blog                             895 B         104 kB
+├ ƒ /api/admin/books                            895 B         104 kB
+├ ƒ /api/admin/books/batch-generate-audio       895 B         104 kB
+├ ƒ /api/admin/books/drafts                     895 B         104 kB
+├ ƒ /api/admin/books/generate                   895 B         104 kB
+├ ƒ /api/admin/books/generate-audio             895 B         104 kB
+├ ƒ /api/admin/books/generate-cover             895 B         104 kB
+├ ƒ /api/admin/books/init-draft                 895 B         104 kB
+├ ƒ /api/admin/books/publish-draft              895 B         104 kB
+├ ƒ /api/admin/books/update                     895 B         104 kB
+├ ƒ /api/admin/campaigns                        895 B         104 kB
+├ ƒ /api/admin/campaigns/[id]                   895 B         104 kB
+├ ƒ /api/admin/campaigns/[id]/preview           895 B         104 kB
+├ ƒ /api/admin/campaigns/[id]/send              895 B         104 kB
+├ ƒ /api/admin/check                            895 B         104 kB
+├ ƒ /api/admin/comics/drafts                    895 B         104 kB
+├ ƒ /api/admin/comics/episodes                  895 B         104 kB
+├ ƒ /api/admin/comics/generate                  895 B         104 kB
+├ ƒ /api/admin/comics/publish                   895 B         104 kB
+├ ƒ /api/admin/comics/queue                     895 B         104 kB
+├ ƒ /api/admin/comics/regenerate-panel          895 B         104 kB
+├ ƒ /api/admin/comics/word-explanations         895 B         104 kB
+├ ƒ /api/admin/decision-logs                    895 B         104 kB
+├ ƒ /api/admin/entitlements/config              895 B         104 kB
+├ ƒ /api/admin/entitlements/generate            895 B         104 kB
+├ ƒ /api/admin/entitlements/types               895 B         104 kB
+├ ƒ /api/admin/evaluate                         895 B         104 kB
+├ ƒ /api/admin/feature-flags                    895 B         104 kB
+├ ƒ /api/admin/gamification-xp-config           895 B         104 kB
+├ ƒ /api/admin/generate-audio                   895 B         104 kB
+├ ƒ /api/admin/generate-image                   895 B         104 kB
+├ ƒ /api/admin/generate-kanji-moodboard         895 B         104 kB
+├ ƒ /api/admin/generate-moodboard               895 B         104 kB
+├ ƒ /api/admin/generate-story                   895 B         104 kB
+├ ƒ /api/admin/generate-story-audio             895 B         104 kB
+├ ƒ /api/admin/generate-story-from-moodboard    895 B         104 kB
+├ ƒ /api/admin/init                             895 B         104 kB
+├ ƒ /api/admin/integrity/stats                  895 B         104 kB
+├ ƒ /api/admin/integrity/status                 895 B         104 kB
+├ ƒ /api/admin/leaderboard/trigger              895 B         104 kB
+├ ƒ /api/admin/learning-village                 895 B         104 kB
+├ ƒ /api/admin/logs                             895 B         104 kB
+├ ƒ /api/admin/monitoring/firebase-usage        895 B         104 kB
+├ ƒ /api/admin/monitoring/quota                 895 B         104 kB
+├ ƒ /api/admin/moodboards                       895 B         104 kB
+├ ƒ /api/admin/news/trigger-scraping            895 B         104 kB
+├ ƒ /api/admin/override                         895 B         104 kB
+├ ƒ /api/admin/repair-story-images              895 B         104 kB
+├ ƒ /api/admin/resources                        895 B         104 kB
+├ ƒ /api/admin/resources/[id]                   895 B         104 kB
+├ ƒ /api/admin/resources/analytics              895 B         104 kB
+├ ƒ /api/admin/resources/stats                  895 B         104 kB
+├ ƒ /api/admin/scraping-logs                    895 B         104 kB
+├ ƒ /api/admin/scraping-progress                895 B         104 kB
+├ ƒ /api/admin/scripts/run                      895 B         104 kB
+├ ƒ /api/admin/set-admin                        895 B         104 kB
+├ ƒ /api/admin/stats                            895 B         104 kB
+├ ƒ /api/admin/stats-consistency                895 B         104 kB
+├ ƒ /api/admin/stories                          895 B         104 kB
+├ ƒ /api/admin/stories/drafts                   895 B         104 kB
+├ ƒ /api/admin/stories/drafts/[id]              895 B         104 kB
+├ ƒ /api/admin/stories/publish-draft            895 B         104 kB
+├ ƒ /api/admin/streak-analytics                 895 B         104 kB
+├ ƒ /api/admin/streak-config                    895 B         104 kB
+├ ƒ /api/admin/stripe/cleanup                   895 B         104 kB
+├ ƒ /api/admin/stripe/health                    895 B         104 kB
+├ ƒ /api/admin/stripe/test-cancel               895 B         104 kB
+├ ƒ /api/admin/stripe/test-checkout             895 B         104 kB
+├ ƒ /api/admin/stripe/test-renewal              895 B         104 kB
+├ ƒ /api/admin/subscriptions/upgrade            895 B         104 kB
+├ ƒ /api/admin/test-firestore                   895 B         104 kB
+├ ƒ /api/admin/upload                           895 B         104 kB
+├ ƒ /api/admin/users                            895 B         104 kB
+├ ƒ /api/admin/users/[uid]                      895 B         104 kB
+├ ƒ /api/admin/users/[uid]/data                 895 B         104 kB
+├ ƒ /api/admin/videos/delete                    895 B         104 kB
+├ ƒ /api/admin/waitlist                         895 B         104 kB
+├ ƒ /api/admin/xp-config                        895 B         104 kB
+├ ƒ /api/admin/xp-config/test                   895 B         104 kB
+├ ƒ /api/admin/youtube-series                   895 B         104 kB
+├ ƒ /api/admin/youtube-series/sync              895 B         104 kB
+├ ƒ /api/ai/process                             895 B         104 kB
+├ ƒ /api/anki/r2/backups                        895 B         104 kB
+├ ƒ /api/anki/r2/cleanup                        895 B         104 kB
+├ ƒ /api/anki/r2/delete                         895 B         104 kB
+├ ƒ /api/anki/r2/download-url                   895 B         104 kB
+├ ƒ /api/anki/r2/metadata                       895 B         104 kB
+├ ƒ /api/anki/r2/upload-url                     895 B         104 kB
+├ ƒ /api/anki/r2/usage                          895 B         104 kB
+├ ƒ /api/anki/r2/usage-check                    895 B         104 kB
+├ ƒ /api/auth/email/send-verification           895 B         104 kB
+├ ƒ /api/auth/email/verify                      895 B         104 kB
+├ ƒ /api/auth/google                            895 B         104 kB
+├ ƒ /api/auth/guest-session                     895 B         104 kB
+├ ƒ /api/auth/invalidate-all-caches             895 B         104 kB
+├ ƒ /api/auth/invalidate-tier-cache             895 B         104 kB
+├ ƒ /api/auth/login                             895 B         104 kB
+├ ƒ /api/auth/logout                            895 B         104 kB
+├ ƒ /api/auth/magic-link                        895 B         104 kB
+├ ƒ /api/auth/magic-link/request                895 B         104 kB
+├ ƒ /api/auth/magic-link/verify                 895 B         104 kB
+├ ƒ /api/auth/password/change                   895 B         104 kB
+├ ƒ /api/auth/password/reset-confirm            895 B         104 kB
+├ ƒ /api/auth/password/reset-request            895 B         104 kB
+├ ƒ /api/auth/refresh                           895 B         104 kB
+├ ƒ /api/auth/refresh-session                   895 B         104 kB
+├ ƒ /api/auth/session                           895 B         104 kB
+├ ƒ /api/auth/session-check                     895 B         104 kB
+├ ƒ /api/auth/signin                            895 B         104 kB
+├ ƒ /api/auth/signout                           895 B         104 kB
+├ ƒ /api/auth/signup                            895 B         104 kB
+├ ƒ /api/blog                                   895 B         104 kB
+├ ƒ /api/blog/[id]                              895 B         104 kB
+├ ƒ /api/blog/[id]/comments                     895 B         104 kB
+├ ƒ /api/blog/comments/[commentId]              895 B         104 kB
+├ ƒ /api/blog/debug                             895 B         104 kB
+├ ƒ /api/blog/public                            895 B         104 kB
+├ ƒ /api/blog/slug/[slug]                       895 B         104 kB
+├ ƒ /api/clear-session                          895 B         104 kB
+├ ƒ /api/comics/episodes                        895 B         104 kB
+├ ƒ /api/comics/episodes/[episodeId]            895 B         104 kB
+├ ƒ /api/comics/series                          895 B         104 kB
+├ ƒ /api/contact                                895 B         104 kB
+├ ƒ /api/debug-storage                          895 B         104 kB
+├ ƒ /api/debug/env                              895 B         104 kB
+├ ƒ /api/debug/firebase-test                    895 B         104 kB
+├ ƒ /api/debug/user/[uid]                       895 B         104 kB
+├ ƒ /api/drawing/recognize                      895 B         104 kB
+├ ƒ /api/drill/session                          895 B         104 kB
+├ ƒ /api/drill/words                            895 B         104 kB
+├ ƒ /api/email/preview/waitlist                 895 B         104 kB
+├ ƒ /api/email/test/waitlist                    895 B         104 kB
+├ ƒ /api/flashcards/decks/[deckId]/deletions    895 B         104 kB
+├ ƒ /api/flashcards/decks/[deckId]/progress     895 B         104 kB
+├ ƒ /api/flashcards/goals                       895 B         104 kB
+├ ƒ /api/flashcards/recommendations             895 B         104 kB
+├ ƒ /api/flashcards/sessions                    895 B         104 kB
+├ ƒ /api/furigana                               895 B         104 kB
+├ ƒ /api/furigana/tokenize                      895 B         104 kB
+├ ƒ /api/gamification/load                      895 B         104 kB
+├ ƒ /api/gamification/migration/status          895 B         104 kB
+├ ƒ /api/gamification/migration/upload          895 B         104 kB
+├ ƒ /api/gamification/streak/break              895 B         104 kB
+├ ƒ /api/gamification/streak/increment          895 B         104 kB
+├ ƒ /api/gamification/streak/reset              895 B         104 kB
+├ ƒ /api/gamification/streak/save               895 B         104 kB
+├ ƒ /api/gamification/sync                      895 B         104 kB
+├ ƒ /api/grammar/explain                        895 B         104 kB
+├ ƒ /api/health                                 895 B         104 kB
+├ ƒ /api/health/live                            895 B         104 kB
+├ ƒ /api/health/metrics                         895 B         104 kB
+├ ƒ /api/health/ready                           895 B         104 kB
+├ ƒ /api/kanji-mastery/session                  895 B         104 kB
+├ ƒ /api/kanji/add-to-review                    895 B         104 kB
+├ ƒ /api/kanji/bookmarks                        895 B         104 kB
+├ ƒ /api/kanji/browse                           895 B         104 kB
+├ ƒ /api/kanji/by-family                        895 B         104 kB
+├ ƒ /api/kanji/by-radical                       895 B         104 kB
+├ ƒ /api/kanji/by-skip                          895 B         104 kB
+├ ƒ /api/kanji/progress                         895 B         104 kB
+├ ƒ /api/leaderboard                            895 B         104 kB
+├ ƒ /api/leaderboard/opt-out                    895 B         104 kB
+├ ƒ /api/leaderboard/user-rank                  895 B         104 kB
+├ ƒ /api/library/books                          895 B         104 kB
+├ ƒ /api/library/books/complete                 895 B         104 kB
+├ ƒ /api/lists                                  895 B         104 kB
+├ ƒ /api/lists/[listId]                         895 B         104 kB
+├ ƒ /api/lists/[listId]/items                   895 B         104 kB
+├ ƒ /api/lists/sync                             895 B         104 kB
+├ ƒ /api/monitoring/sla                         895 B         104 kB
+├ ƒ /api/moodboards                             895 B         104 kB
+├ ƒ /api/news/article/[id]                      895 B         104 kB
+├ ƒ /api/news/articles                          895 B         104 kB
+├ ƒ /api/news/delete-all                        895 B         104 kB
+├ ƒ /api/news/health                            895 B         104 kB
+├ ƒ /api/news/progress/complete                 895 B         104 kB
+├ ƒ /api/news/scrape                            895 B         104 kB
+├ ƒ /api/news/status                            895 B         104 kB
+├ ƒ /api/newsletter/status                      895 B         104 kB
+├ ƒ /api/newsletter/subscribe                   895 B         104 kB
+├ ƒ /api/newsletter/unsubscribe                 895 B         104 kB
+├ ƒ /api/newsletter/verify                      895 B         104 kB
+├ ƒ /api/nhk/live-schedule                      895 B         104 kB
+├ ƒ /api/nhk/programs                           895 B         104 kB
+├ ƒ /api/notifications/daily-reminder           895 B         104 kB
+├ ƒ /api/notifications/pending                  895 B         104 kB
+├ ƒ /api/notifications/preferences              895 B         104 kB
+├ ƒ /api/notifications/send-email               895 B         104 kB
+├ ƒ /api/notifications/send-push                895 B         104 kB
+├ ƒ /api/notifications/test                     895 B         104 kB
+├ ƒ /api/notifications/unsubscribe              895 B         104 kB
+├ ƒ /api/notifications/weekly-progress          895 B         104 kB
+├ ƒ /api/practice/track                         895 B         104 kB
+├ ƒ /api/progress/track                         895 B         104 kB
+├ ƒ /api/quiz/complete                          895 B         104 kB
+├ ƒ /api/reading-stats                          895 B         104 kB
+├ ƒ /api/refresh-session                        895 B         104 kB
+├ ƒ /api/resources/[id]                         895 B         104 kB
+├ ƒ /api/resources/public                       895 B         104 kB
+├ ƒ /api/resources/related                      895 B         104 kB
+├ ƒ /api/review/activity                        895 B         104 kB
+├ ƒ /api/review/migrate-srs                     895 B         104 kB
+├ ƒ /api/review/pin                             895 B         104 kB
+├ ƒ /api/review/pin/bulk                        895 B         104 kB
+├ ƒ /api/review/pin/check                       895 B         104 kB
+├ ƒ /api/review/progress/studied                895 B         104 kB
+├ ƒ /api/review/queue                           895 B         104 kB
+├ ƒ /api/review/queue/custom                    895 B         104 kB
+├ ƒ /api/review/queue/preview                   895 B         104 kB
+├ ƒ /api/review/scheduled                       895 B         104 kB
+├ ƒ /api/review/session/complete                895 B         104 kB
+├ ƒ /api/review/session/start                   895 B         104 kB
+├ ƒ /api/review/sessions                        895 B         104 kB
+├ ƒ /api/review/sessions/[sessionId]            895 B         104 kB
+├ ƒ /api/review/stats                           895 B         104 kB
+├ ƒ /api/review/user-sessions                   895 B         104 kB
+├ ƒ /api/sessions/save                          895 B         104 kB
+├ ƒ /api/srs/update                             895 B         104 kB
+├ ƒ /api/stories                                895 B         104 kB
+├ ƒ /api/stripe/create-checkout-session         895 B         104 kB
+├ ƒ /api/stripe/create-portal-session           895 B         104 kB
+├ ƒ /api/stripe/donate                          895 B         104 kB
+├ ƒ /api/stripe/invoices                        895 B         104 kB
+├ ƒ /api/stripe/webhook                         895 B         104 kB
+├ ƒ /api/tatoeba/meaning                        895 B         104 kB
+├ ƒ /api/tatoeba/random                         895 B         104 kB
+├ ƒ /api/tatoeba/search                         895 B         104 kB
+├ ƒ /api/test-admin                             895 B         104 kB
+├ ƒ /api/test-scraper                           895 B         104 kB
+├ ƒ /api/todos                                  895 B         104 kB
+├ ƒ /api/todos/[id]                             895 B         104 kB
+├ ƒ /api/transcript                             895 B         104 kB
+├ ƒ /api/transcript/translate                   895 B         104 kB
+├ ƒ /api/translate                              895 B         104 kB
+├ ƒ /api/tts/batch                              895 B         104 kB
+├ ƒ /api/tts/cache/check                        895 B         104 kB
+├ ƒ /api/tts/cache/stats                        895 B         104 kB
+├ ƒ /api/tts/demo                               895 B         104 kB
+├ ƒ /api/tts/generate-sentence                  895 B         104 kB
+├ ƒ /api/tts/preload                            895 B         104 kB
+├ ƒ /api/tts/proxy                              895 B         104 kB
+├ ƒ /api/tts/synthesize                         895 B         104 kB
+├ ƒ /api/usage/[featureId]                      895 B         104 kB
+├ ƒ /api/usage/[featureId]/check                895 B         104 kB
+├ ƒ /api/usage/[featureId]/increment            895 B         104 kB
+├ ƒ /api/user/delete-account                    895 B         104 kB
+├ ƒ /api/user/export-data                       895 B         104 kB
+├ ƒ /api/user/intro-complete                    895 B         104 kB
+├ ƒ /api/user/onboarding                        895 B         104 kB
+├ ƒ /api/user/profile                           895 B         104 kB
+├ ƒ /api/user/subscription                      895 B         104 kB
+├ ƒ /api/user/upload-avatar                     895 B         104 kB
+├ ƒ /api/user/village-layout                    895 B         104 kB
+├ ƒ /api/vocabulary/history                     895 B         104 kB
+├ ƒ /api/waitlist/join                          895 B         104 kB
+├ ƒ /api/waitlist/track-visit                   895 B         104 kB
+├ ƒ /api/wanikani/proxy                         895 B         104 kB
+├ ƒ /api/word/explain                           895 B         104 kB
+├ ƒ /api/word/precompute                        895 B         104 kB
+├ ƒ /api/word/precompute/fetch                  895 B         104 kB
+├ ƒ /api/youtube/captions                       895 B         104 kB
+├ ƒ /api/youtube/channel-info                   895 B         104 kB
+├ ƒ /api/youtube/extract                        895 B         104 kB
+├ ƒ /api/youtube/native-transcript/[videoId]    895 B         104 kB
+├ ƒ /api/youtube/popular                        895 B         104 kB
+├ ƒ /api/youtube/popular/clear-cache            895 B         104 kB
+├ ƒ /api/youtube/series                         895 B         104 kB
+├ ƒ /api/youtube/track-visit                    895 B         104 kB
+├ ƒ /api/youtube/transcript/[videoId]           895 B         104 kB
+├ ƒ /api/youtube/video-info                     895 B         104 kB
+├ ƒ /email-previews/waitlist                    27 kB         130 kB
+└ ○ /sitemap.xml                                895 B         104 kB
++ First Load JS shared by all                  103 kB
+  ├ chunks/31255-2b43ea3d000ae5cf.js          45.3 kB
+  ├ chunks/4bd1b696-2135e4d8b8354323.js       54.2 kB
+  └ other shared chunks (total)               3.27 kB
+
+
+ƒ Middleware                                  67.4 kB
+
+○  (Static)   prerendered as static content
+●  (SSG)      prerendered as static HTML (uses generateStaticParams)
+ƒ  (Dynamic)  server-rendered on demand
+

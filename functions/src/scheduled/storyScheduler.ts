@@ -11,6 +11,7 @@
  * 6. Generate model sheet + page images
  * 7. Generate audio (VOICEVOX)
  * 8. Pre-generate sentence-level audio and translations
+ * 8.5. Pre-generate word explanations (1000 words)
  * 9. Publish story
  */
 
@@ -20,6 +21,7 @@ import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { defineSecret } from 'firebase-functions/params'
 import { preGenerateStorySentences } from '../utils/sentencePreGenerator'
+import { precomputeWordExplanations } from '../../../src/lib/ai/precompute/wordPrecompute'
 import {
   sendStoryGenerationFailureAlert,
   sendStoryGenerationWarningAlert,
@@ -54,6 +56,7 @@ type DraftGenerationStep =
   | 'page_images'
   | 'audio'
   | 'sentences'
+  | 'word_explanations'
   | 'complete'
 
 interface DraftCheckpoint {
@@ -376,6 +379,7 @@ async function resumeFromCheckpoint(
       'page_images',
       'audio',
       'sentences',
+      'word_explanations',
       'complete',
     ]
 
@@ -934,7 +938,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
     }
 
     // Step 8: Pre-generate sentence-level audio and translations (with immediate retries)
-    logger.info('[StoryScheduler] Step 8/9: Generating sentence-level data...')
+    logger.info('[StoryScheduler] Step 8/10: Generating sentence-level data...')
     const draftDoc = await db.collection('ai_story_drafts').doc(draftId).get()
     const draftData = draftDoc.data()
 
@@ -1032,8 +1036,75 @@ export async function generateDailyStory(adminKey: string): Promise<{
       await updateCheckpoint(draftId, 'sentences')
     }
 
+    // Step 8.5: Pre-generate word explanations (server-side prefetch)
+    logger.info('[StoryScheduler] Step 8.5/10: Generating word explanations...')
+
+    try {
+      await db.collection('ai_story_drafts').doc(draftId).update({
+        'metadata.generationStep': 'word_explanations',
+        'metadata.progress': 92,
+      })
+
+      // Extract story text from pages
+      const wordDraftDoc = await db.collection('ai_story_drafts').doc(draftId).get()
+      const wordDraftData = wordDraftDoc.data()
+
+      if (wordDraftData?.pages && Array.isArray(wordDraftData.pages)) {
+        const storyText = wordDraftData.pages
+          .map((page: any) => page.text || '')
+          .join('\n')
+
+        // Check timeout before starting (leave 2min buffer for publish step)
+        const timeElapsed = Date.now() - startTime
+        const timeRemaining = 540000 - timeElapsed  // 540s = 9min Cloud Function limit
+
+        if (timeRemaining < 120000) {
+          logger.warn('[StoryScheduler] Skipping word explanations - insufficient time', {
+            timeRemaining: Math.round(timeRemaining / 1000),
+            timeElapsed: Math.round(timeElapsed / 1000),
+          })
+        } else {
+          // Attempt word explanation generation with timeout protection
+          const wordResult = await Promise.race([
+            precomputeWordExplanations({
+              contentId: draftId,
+              contentType: 'story',
+              text: storyText,
+              limit: 1000,
+              jlptLevel,
+            }),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000)
+            )
+          ])
+
+          await updateCheckpoint(draftId, 'word_explanations')
+          await db.collection('ai_story_drafts').doc(draftId).update({
+            'metadata.progress': 94,
+            'metadata.wordExplanationsCount': (wordResult as any).total,
+          })
+
+          logger.info('[StoryScheduler] Word explanations complete', {
+            total: (wordResult as any).total,
+            generated: (wordResult as any).generated,
+            cached: (wordResult as any).cached,
+          })
+        }
+      } else {
+        logger.warn('[StoryScheduler] No pages found for word explanation generation', { draftId })
+        await updateCheckpoint(draftId, 'word_explanations')
+      }
+    } catch (wordError) {
+      logger.warn('[StoryScheduler] Word explanation generation failed - continuing', {
+        error: wordError instanceof Error ? wordError.message : 'Unknown error',
+      })
+
+      // Non-critical - story will still publish without word explanations
+      await updateCheckpoint(draftId, 'word_explanations')
+    }
+
     // Step 9: Publish the story (only if all critical assets are present)
-    logger.info('[StoryScheduler] Step 9/9: Publishing story...')
+    logger.info('[StoryScheduler] Step 9/10: Publishing story...')
     const publishResult = await callStoryAPI(
       '/api/admin/stories/publish-draft',
       { draftId },

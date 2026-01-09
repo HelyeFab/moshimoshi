@@ -18,9 +18,103 @@ function VerifyMagicLinkContent() {
   const [error, setError] = useState<string | null>(null)
   const [needsEmail, setNeedsEmail] = useState(false)
   const [emailInput, setEmailInput] = useState('')
+  const [emailForSignIn, setEmailForSignIn] = useState<string | null>(null)
+
+  const performVerification = async (email: string) => {
+    const oobCode = searchParams.get('oobCode') || ''
+    const inflightKey = oobCode ? `magiclink:inflight:${oobCode}` : ''
+    const consumedKey = oobCode ? `magiclink:consumed:${oobCode}` : ''
+
+    if (!auth) {
+      setError('Firebase not initialized')
+      setVerifying(false)
+      return
+    }
+
+    if (consumedKey && sessionStorage.getItem(consumedKey)) {
+      router.push(getLocalePath('/dashboard'))
+      return
+    }
+
+    if (inflightKey && sessionStorage.getItem(inflightKey)) {
+      router.push(getLocalePath('/dashboard'))
+      return
+    }
+
+    try {
+      const sessionResponse = await fetch('/api/auth/session')
+      const sessionData = await sessionResponse.json()
+      if (sessionResponse.ok && sessionData?.authenticated) {
+        router.push(getLocalePath('/dashboard'))
+        return
+      }
+    } catch (sessionError) {
+      console.warn('Session check failed, continuing magic link verification:', sessionError)
+    }
+
+    setVerifying(true)
+    setError(null)
+
+    try {
+      if (inflightKey) {
+        sessionStorage.setItem(inflightKey, '1')
+      }
+
+      const result = await signInWithEmailLink(auth, email, window.location.href)
+      console.log('Magic link sign-in successful:', result.user.email)
+
+      const idToken = await result.user.getIdToken()
+
+      const response = await fetch('/api/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        window.localStorage.removeItem('emailForSignIn')
+
+        showToast('Successfully signed in!', 'success')
+        if (inflightKey) {
+          sessionStorage.removeItem(inflightKey)
+        }
+        if (consumedKey) {
+          sessionStorage.setItem(consumedKey, '1')
+        }
+        router.push(getLocalePath('/dashboard'))
+      } else {
+        console.error('Session creation failed:', data.error)
+        setError(data.error?.message || 'Failed to create session')
+        setVerifying(false)
+      }
+    } catch (error: any) {
+      console.error('Magic link verification error:', error)
+      if (inflightKey) {
+        sessionStorage.removeItem(inflightKey)
+      }
+      if (consumedKey && error?.code?.startsWith('auth/')) {
+        sessionStorage.setItem(consumedKey, '1')
+      }
+
+      if (error.code === 'auth/invalid-action-code') {
+        router.push('/auth/error?code=INVALID_LINK')
+      } else if (error.code === 'auth/expired-action-code') {
+        router.push('/auth/error?code=LINK_EXPIRED')
+      } else if (error.code === 'auth/user-not-found') {
+        router.push('/auth/error?code=USER_NOT_FOUND')
+      } else if (error.code?.startsWith('auth/')) {
+        router.push('/auth/error?code=FIREBASE_ERROR')
+      } else {
+        setError(error.message || 'Failed to verify magic link')
+      }
+      setVerifying(false)
+    }
+  }
 
   useEffect(() => {
-    const verifyMagicLink = async () => {
+    const prepareMagicLink = async () => {
       if (!auth) {
         setError('Firebase not initialized')
         setVerifying(false)
@@ -39,60 +133,19 @@ function VerifyMagicLinkContent() {
           return
         }
 
-        try {
-          // Sign in with the email link
-          const result = await signInWithEmailLink(auth, email, window.location.href)
-          console.log('Magic link sign-in successful:', result.user.email)
-
-          // Get the ID token
-          const idToken = await result.user.getIdToken()
-
-          // Create server session - temporarily using google endpoint which handles photoURL correctly
-          const response = await fetch('/api/auth/google', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ idToken }),
-          })
-
-          const data = await response.json()
-
-          if (response.ok) {
-            // Clear the email from localStorage
-            window.localStorage.removeItem('emailForSignIn')
-
-            showToast('Successfully signed in!', 'success')
-            router.push('/dashboard')
-          } else {
-            console.error('Session creation failed:', data.error)
-            setError(data.error?.message || 'Failed to create session')
-          }
-        } catch (error: any) {
-          console.error('Magic link verification error:', error)
-
-          // Handle specific Firebase errors
-          if (error.code === 'auth/invalid-action-code') {
-            router.push('/auth/error?code=INVALID_LINK')
-          } else if (error.code === 'auth/expired-action-code') {
-            router.push('/auth/error?code=LINK_EXPIRED')
-          } else if (error.code === 'auth/user-not-found') {
-            router.push('/auth/error?code=USER_NOT_FOUND')
-          } else if (error.code?.startsWith('auth/')) {
-            router.push('/auth/error?code=FIREBASE_ERROR')
-          } else {
-            setError(error.message || 'Failed to verify magic link')
-          }
-        }
+        setEmailForSignIn(email)
+        setNeedsEmail(false)
+        setVerifying(false)
       } else {
         setError('Invalid magic link')
+        setVerifying(false)
       }
-
-      setVerifying(false)
     }
 
     if (!needsEmail) {
-      verifyMagicLink()
+      prepareMagicLink()
     }
-  }, [router, showToast, needsEmail])
+  }, [router, showToast, needsEmail, searchParams, getLocalePath])
 
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -105,10 +158,8 @@ function VerifyMagicLinkContent() {
     // Store email and reload the verification
     window.localStorage.setItem('emailForSignIn', emailInput)
     setNeedsEmail(false)
-    setVerifying(true)
-
-    // Trigger re-verification with the email
-    window.location.reload()
+    setEmailForSignIn(emailInput)
+    await performVerification(emailInput)
   }
 
   // If we need email input, show a nice form
@@ -230,17 +281,24 @@ function VerifyMagicLinkContent() {
             </>
           ) : (
             <>
-              <div className="w-16 h-16 mx-auto mb-4 text-green-500">
+              <div className="w-16 h-16 mx-auto mb-4 text-primary-500">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
               <h1 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-                Success!
+                Ready to Sign In
               </h1>
-              <p className="text-gray-600 dark:text-gray-400">
-                Redirecting to dashboard...
+              <p className="text-gray-600 dark:text-gray-400 mb-6">
+                Click continue to complete your sign-in.
               </p>
+              <button
+                onClick={() => emailForSignIn && performVerification(emailForSignIn)}
+                className="px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+                disabled={!emailForSignIn}
+              >
+                Continue
+              </button>
             </>
           )}
         </div>

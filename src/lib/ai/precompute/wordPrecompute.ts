@@ -226,6 +226,7 @@ interface PrecomputeRequest {
   limit?: number
   jlptLevel?: JLPTLevel
   chunkIndex?: number
+  onProgress?: (current: number, total: number, word: string, status: 'success' | 'failed') => void | Promise<void>
 }
 
 interface PrecomputeResult {
@@ -251,6 +252,7 @@ export async function precomputeWordExplanations({
   limit = 1000, // Increased from 400 to 1000 for better completeness
   jlptLevel = 'N5',
   chunkIndex,
+  onProgress,
 }: PrecomputeRequest): Promise<PrecomputeResult> {
   if (!db) {
     throw new Error('Firebase Admin not initialized')
@@ -279,59 +281,98 @@ export async function precomputeWordExplanations({
   const sentences = splitSentences(text)
   const translationCache = new Map<string, string>()
 
-  // Process in order with small concurrency so earliest tokens finish first
-  const concurrency = 3
+  // Process in order with configurable concurrency
+  // Default: 10 (optimal balance of speed and API limits)
+  // Range: 3-20 (3=conservative, 10=recommended, 20=aggressive)
+  const rawConcurrency = parseInt(process.env.WORD_PRECOMPUTE_CONCURRENCY || '10', 10)
+  const concurrency = Math.max(3, Math.min(20, rawConcurrency)) // Clamp to safe range
+
+  console.log(`[WordPrecompute] Using concurrency: ${concurrency} (env: ${process.env.WORD_PRECOMPUTE_CONCURRENCY || 'default'})`)
+
   let index = 0
   let conjugationsGenerated = 0
 
   while (index < missingWords.length) {
     const slice = missingWords.slice(index, index + concurrency)
     const results = await Promise.all(
-      slice.map(async word => {
-        const cached = await getCachedWordExplanation(word)
-        if (cached) {
-          cachedCount += 1
-          await ensureExtras(cached, word, sentences, translationCache, jlptLevel)
-          // If cached but missing fullConjugations, generate them now
-          if (!cached.fullConjugations) {
-            const fullConjugations = await generateFullConjugations(cached)
-            if (fullConjugations) {
-              cached.fullConjugations = fullConjugations
-              conjugationsGenerated += 1
-              // Update cache with conjugations
-              await setCachedWordExplanation(word, cached)
+      slice.map(async (word, sliceIndex) => {
+        const globalIndex = index + sliceIndex
+        try {
+          const cached = await getCachedWordExplanation(word)
+          if (cached) {
+            cachedCount += 1
+            await ensureExtras(cached, word, sentences, translationCache, jlptLevel)
+            // If cached but missing fullConjugations, generate them now
+            if (!cached.fullConjugations) {
+              const fullConjugations = await generateFullConjugations(cached)
+              if (fullConjugations) {
+                cached.fullConjugations = fullConjugations
+                conjugationsGenerated += 1
+                // Update cache with conjugations
+                await setCachedWordExplanation(word, cached)
+              }
             }
+
+            // Call progress callback on success
+            if (onProgress) {
+              await onProgress(globalIndex + 1, missingWords.length, word, 'success')
+            }
+
+            return cached
           }
-          return cached
+
+          const aiResponse = await aiService.explainWord({ word }, { jlptLevel })
+          if (!aiResponse.success || !aiResponse.data) {
+            throw new Error(aiResponse.error || `Failed to generate explanation for ${word}`)
+          }
+
+          const explanation = aiResponse.data
+
+          // Generate full conjugations for verbs/adjectives
+          const fullConjugations = await generateFullConjugations(explanation)
+          if (fullConjugations) {
+            explanation.fullConjugations = fullConjugations
+            conjugationsGenerated += 1
+          }
+
+          await ensureExtras(explanation, word, sentences, translationCache, jlptLevel)
+
+          await setCachedWordExplanation(word, explanation)
+
+          // Call progress callback on success
+          if (onProgress) {
+            await onProgress(globalIndex + 1, missingWords.length, word, 'success')
+          }
+
+          return explanation
+        } catch (error) {
+          // Call progress callback on failure
+          if (onProgress) {
+            await onProgress(globalIndex + 1, missingWords.length, word, 'failed')
+          }
+
+          console.error(`[WordPrecompute] Failed to process word: ${word}`, error)
+          return null  // Continue processing other words
         }
-
-        const aiResponse = await aiService.explainWord({ word }, { jlptLevel })
-        if (!aiResponse.success || !aiResponse.data) {
-          throw new Error(aiResponse.error || `Failed to generate explanation for ${word}`)
-        }
-
-        const explanation = aiResponse.data
-
-        // Generate full conjugations for verbs/adjectives
-        const fullConjugations = await generateFullConjugations(explanation)
-        if (fullConjugations) {
-          explanation.fullConjugations = fullConjugations
-          conjugationsGenerated += 1
-        }
-
-        await ensureExtras(explanation, word, sentences, translationCache, jlptLevel)
-
-        await setCachedWordExplanation(word, explanation)
-        return explanation
       })
     )
-    generatedResults.push(...results)
+    generatedResults.push(...results.filter(r => r !== null) as WordExplanation[])
     index += concurrency
   }
 
   console.log(`[WordPrecompute] Generated ${conjugationsGenerated} full conjugation tables`)
 
   const merged = [...existingWords, ...generatedResults].map(sanitizeExplanation)
+
+  // Firestore document size limit is 1MB
+  // Estimated size: ~500 bytes per word explanation
+  // 1000 words ≈ 500KB, well within limit
+  if (merged.length > 1000) {
+    console.warn(
+      `[WordPrecompute] Large word count detected (${merged.length}). ` +
+      `May approach Firestore 1MB document limit. Consider implementing sharding.`
+    )
+  }
 
   await docRef.set(
     {
