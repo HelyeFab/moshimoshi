@@ -55,7 +55,8 @@ export async function POST(request: NextRequest) {
     // Generate the magic link URL
     const actionCodeSettings = {
       // URL to redirect to after the user clicks the link
-      url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/auth/verify-magic-link`,
+      // Note: Using /en as default locale for magic links (will work for all users)
+      url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/en/auth/verify-magic-link`,
       // This must be true for email link sign-in
       handleCodeInApp: true,
     }

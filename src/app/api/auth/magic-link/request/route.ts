@@ -158,8 +158,9 @@ export async function POST(request: NextRequest) {
       // Only send magic link if user exists and is active
       if (userExists && userRecord) {
         // Generate Firebase magic link using Firebase Admin SDK
+        // Note: Using /en as default locale for magic links (will work for all users)
         const actionCodeSettings = {
-          url: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/auth/verify-magic-link`,
+          url: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/en/auth/verify-magic-link`,
           handleCodeInApp: true,
         }
 
