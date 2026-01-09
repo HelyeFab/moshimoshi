@@ -682,12 +682,17 @@ export async function generateDailyStory(adminKey: string): Promise<{
     draftId = characterResult.draftId
     logger.info('[StoryScheduler] Character sheet created', { draftId })
 
-    // Initialize checkpoint (use set with merge in case document isn't visible yet)
+    // Initialize checkpoint and progress tracking (use set with merge in case document isn't visible yet)
     await db.collection('ai_story_drafts').doc(draftId).set({
       checkpoint: {
         lastCompletedStep: 'character_sheet',
         failedAttempts: 0,
         lastAttemptAt: admin.firestore.Timestamp.now(),
+      },
+      metadata: {
+        generationStep: 'character_sheet',
+        progress: 10,
+        lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
       },
     }, { merge: true })
 
@@ -709,6 +714,11 @@ export async function generateDailyStory(adminKey: string): Promise<{
       throw new Error('Failed to generate outline')
     }
     await updateCheckpoint(draftId, 'outline')
+    await db.collection('ai_story_drafts').doc(draftId).update({
+      'metadata.generationStep': 'outline',
+      'metadata.progress': 20,
+      'metadata.lastUpdated': admin.firestore.FieldValue.serverTimestamp(),
+    })
     logger.info('[StoryScheduler] Outline created')
 
     // Step 3: Generate Pages
@@ -732,6 +742,11 @@ export async function generateDailyStory(adminKey: string): Promise<{
       }
     }
     await updateCheckpoint(draftId, 'pages')
+    await db.collection('ai_story_drafts').doc(draftId).update({
+      'metadata.generationStep': 'pages',
+      'metadata.progress': 40,
+      'metadata.lastUpdated': admin.firestore.FieldValue.serverTimestamp(),
+    })
     logger.info('[StoryScheduler] All pages generated')
 
     // Step 4: Generate Quiz
@@ -747,6 +762,11 @@ export async function generateDailyStory(adminKey: string): Promise<{
         adminKey
       )
       await updateCheckpoint(draftId, 'quiz')
+      await db.collection('ai_story_drafts').doc(draftId).update({
+        'metadata.generationStep': 'quiz',
+        'metadata.progress': 50,
+        'metadata.lastUpdated': admin.firestore.FieldValue.serverTimestamp(),
+      })
       logger.info('[StoryScheduler] Quiz created')
     } catch (quizError) {
       logger.warn('[StoryScheduler] Quiz generation failed, continuing...', {
@@ -754,6 +774,11 @@ export async function generateDailyStory(adminKey: string): Promise<{
       })
       // Quiz is non-critical, still update checkpoint
       await updateCheckpoint(draftId, 'quiz')
+      await db.collection('ai_story_drafts').doc(draftId).update({
+        'metadata.generationStep': 'quiz',
+        'metadata.progress': 50,
+        'metadata.lastUpdated': admin.firestore.FieldValue.serverTimestamp(),
+      })
     }
 
     // Step 5: Generate Model Sheet (for character consistency) - with retry
@@ -777,6 +802,11 @@ export async function generateDailyStory(adminKey: string): Promise<{
       })
     }
     await updateCheckpoint(draftId, 'model_sheet')
+    await db.collection('ai_story_drafts').doc(draftId).update({
+      'metadata.generationStep': 'model_sheet',
+      'metadata.progress': 60,
+      'metadata.lastUpdated': admin.firestore.FieldValue.serverTimestamp(),
+    })
 
     // Step 6: Generate Page Images (PARALLEL with concurrency limit)
     logger.info('[StoryScheduler] Step 6/9: Generating page images (parallel)...')
@@ -834,6 +864,11 @@ export async function generateDailyStory(adminKey: string): Promise<{
     }
 
     await updateCheckpoint(draftId, 'page_images')
+    await db.collection('ai_story_drafts').doc(draftId).update({
+      'metadata.generationStep': 'page_images',
+      'metadata.progress': 70,
+      'metadata.lastUpdated': admin.firestore.FieldValue.serverTimestamp(),
+    })
 
     // Step 7: Generate Audio (with immediate retries)
     logger.info('[StoryScheduler] Step 7/9: Generating audio...')
@@ -851,6 +886,11 @@ export async function generateDailyStory(adminKey: string): Promise<{
 
     if (audioResult.success) {
       await updateCheckpoint(draftId, 'audio')
+      await db.collection('ai_story_drafts').doc(draftId).update({
+        'metadata.generationStep': 'audio',
+        'metadata.progress': 80,
+        'metadata.lastUpdated': admin.firestore.FieldValue.serverTimestamp(),
+      })
       logger.info('[StoryScheduler] Audio generated')
     } else {
       const errorMsg = audioResult.error || 'Audio generation failed after retries'
@@ -920,6 +960,11 @@ export async function generateDailyStory(adminKey: string): Promise<{
           await preGenerateStorySentences(draftId, pages)
           sentenceSuccess = true
           await updateCheckpoint(draftId, 'sentences')
+          await db.collection('ai_story_drafts').doc(draftId).update({
+            'metadata.generationStep': 'sentences',
+            'metadata.progress': 90,
+            'metadata.lastUpdated': admin.firestore.FieldValue.serverTimestamp(),
+          })
           logger.info('[StoryScheduler] Sentence pre-generation completed', {
             draftId,
             pageCount: pages.length,
@@ -1003,6 +1048,11 @@ export async function generateDailyStory(adminKey: string): Promise<{
       status: 'published',
       checkpoint: {
         lastCompletedStep: 'complete',
+      },
+      metadata: {
+        generationStep: 'completed',
+        progress: 100,
+        lastUpdated: admin.firestore.FieldValue.serverTimestamp(),
       },
       publishedAt: admin.firestore.FieldValue.serverTimestamp(),
     }, { merge: true })
