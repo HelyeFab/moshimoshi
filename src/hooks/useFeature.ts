@@ -29,7 +29,7 @@ export interface CheckOptions {
 
 interface UseFeatureReturn {
   checkAndTrack: (options?: CheckOptions) => Promise<boolean>;
-  checkOnly: () => Promise<Decision | null>;
+  checkOnly: () => Promise<Decision>;
   remaining: number | null;
   isLoading: boolean;
   lastDecision: Decision | null;
@@ -100,7 +100,7 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
   }, []);
 
   // Check only (no tracking)
-  const checkOnly = useCallback(async (): Promise<Decision | null> => {
+  const checkOnly = useCallback(async (): Promise<Decision> => {
     // Check cache first
     const cached = getCachedDecision();
     if (cached) {
@@ -119,7 +119,18 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to check entitlement');
+        // API failed - return fallback decision with fail-open policy
+        console.warn('[useFeature] API check failed, falling back to allow access');
+        const fallbackDecision: Decision = {
+          allow: true,
+          remaining: -1,
+          reason: 'ok',
+          policyVersion: 1
+        };
+        setLastDecision(fallbackDecision);
+        setRemaining(-1);
+        cacheDecision(fallbackDecision);
+        return fallbackDecision;
       }
 
       const decision: Decision = await response.json();
@@ -129,7 +140,17 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       return decision;
     } catch (error) {
       console.error('Failed to check feature entitlement:', error);
-      return null;
+      // Network error - return fallback decision with fail-open policy
+      const fallbackDecision: Decision = {
+        allow: true,
+        remaining: -1,
+        reason: 'ok',
+        policyVersion: 1
+      };
+      setLastDecision(fallbackDecision);
+      setRemaining(-1);
+      cacheDecision(fallbackDecision);
+      return fallbackDecision;
     } finally {
       setIsLoading(false);
     }

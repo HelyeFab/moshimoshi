@@ -43,7 +43,6 @@ export function EntitlementGate({
   const { checkOnly, remaining, isLoading, lastDecision } = useFeature(featureId);
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [showGuestModal, setShowGuestModal] = useState(false);
-  const [hasAccess, setHasAccess] = useState<boolean | null>(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
 
   useEffect(() => {
@@ -52,43 +51,36 @@ export function EntitlementGate({
       console.log('[EntitlementGate] Checking access for feature:', featureId);
       const decision = await checkOnly();
       console.log('[EntitlementGate] Decision received:', decision);
-      if (decision) {
-        console.log('[EntitlementGate] Setting hasAccess to:', decision.allow);
-        setHasAccess(decision.allow);
-        if (decision.allow) {
-          onAccessGranted?.(decision);
-        } else {
-          onAccessDenied?.();
 
-          // Determine which action to take based on user state
-          if (!user) {
-            // Guest users - show login prompt
-            setShowGuestModal(true);
-          } else if (isFreeTier && (decision.reason === 'limit_reached' || decision.reason === 'no_permission')) {
-            // Free users hitting limits OR trying premium-only features - redirect to pricing page
-            console.log('[EntitlementGate] Redirecting free user to pricing page');
-            setIsRedirecting(true);
-            // Pass the feature ID so pricing page knows where we came from
-            router.push(`/${language}/pricing?from=${featureId}`);
-          } else if (decision.reason === 'limit_reached') {
-            // Premium users hitting limits (rare) - show limit modal
-            setShowLimitModal(true);
-          }
-        }
+      if (decision.allow) {
+        onAccessGranted?.(decision);
       } else {
-        // API failed - grant access by default to avoid blocking users
-        console.warn('[EntitlementGate] Entitlement check failed, granting access by default');
-        setHasAccess(true);
+        onAccessDenied?.();
+
+        // Determine which action to take based on user state
+        if (!user) {
+          // Guest users - show login prompt
+          setShowGuestModal(true);
+        } else if (isFreeTier && (decision.reason === 'limit_reached' || decision.reason === 'no_permission')) {
+          // Free users hitting limits OR trying premium-only features - redirect to pricing page
+          console.log('[EntitlementGate] Redirecting free user to pricing page');
+          setIsRedirecting(true);
+          // Pass the feature ID so pricing page knows where we came from
+          router.push(`/${language}/pricing?from=${featureId}`);
+        } else if (decision.reason === 'limit_reached') {
+          // Premium users hitting limits (rare) - show limit modal
+          setShowLimitModal(true);
+        }
       }
     };
 
     checkAccess();
-  }, [featureId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [featureId, checkOnly, user, isFreeTier, router, language, onAccessGranted, onAccessDenied]);
 
   // Loading state (includes initial load and redirecting state)
-  console.log('[EntitlementGate] Render state:', { isLoading, hasAccess, featureId, lastDecision, isRedirecting });
-  if (isLoading || hasAccess === null || isRedirecting) {
-    console.log('[EntitlementGate] Showing loading state because:', { isLoading, hasAccessIsNull: hasAccess === null, isRedirecting });
+  console.log('[EntitlementGate] Render state:', { isLoading, lastDecision, featureId, isRedirecting });
+  if (isLoading || lastDecision === null || isRedirecting) {
+    console.log('[EntitlementGate] Showing loading state because:', { isLoading, lastDecisionIsNull: lastDecision === null, isRedirecting });
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
         <LoadingSpinner size="large" />
@@ -100,8 +92,8 @@ export function EntitlementGate({
   }
 
   // Access denied - show appropriate UI (only for guest users or premium users with limits)
-  console.log('[EntitlementGate] Access denied state:', { hasAccess, lastDecision });
-  if (!hasAccess) {
+  console.log('[EntitlementGate] Access check:', { allow: lastDecision.allow, reason: lastDecision.reason });
+  if (!lastDecision.allow) {
     return (
       <>
         <div className="min-h-[400px] flex flex-col items-center justify-center p-6">
