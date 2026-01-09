@@ -23,6 +23,7 @@ import { PRICING_CONFIG } from '@/config/pricing'
 import { Input } from '@/components/ui/Input'
 import dynamic from 'next/dynamic'
 import logger from '@/lib/logger'
+import PresetAvatarPicker from '@/components/account/PresetAvatarPicker'
 
 // Dynamically import Confetti to avoid SSR issues
 const Confetti = dynamic(() => import('react-confetti'), { ssr: false })
@@ -57,6 +58,7 @@ function AccountPageContent() {
   const [showCongrats, setShowCongrats] = useState(false)
   const [uploadingAvatar, setUploadingAvatar] = useState(false)
   const [resendingVerification, setResendingVerification] = useState(false)
+  const [showPresetPicker, setShowPresetPicker] = useState(false)
 
   // Get pricing from configuration
   const monthlyPrice = PRICING_CONFIG.monthly.displayAmount
@@ -159,6 +161,16 @@ function AccountPageContent() {
         setDisplayName(sessionData.user.displayName || '')
       }
 
+      // Emit a custom event to notify other components (like dashboard) to refresh
+      // This ensures the displayName updates everywhere immediately
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('profile-updated', {
+          detail: {
+            displayName: sessionData.user?.displayName
+          }
+        }))
+      }
+
       showToast(strings.account.toastMessages.profileUpdated, 'success')
       setProfileUpdated(true)
     } catch (error) {
@@ -209,9 +221,63 @@ function AccountPageContent() {
       // Refresh the auth session to update navbar and other components
       await refreshSession()
 
+      // Small delay to ensure auth context propagates
+      await new Promise(resolve => setTimeout(resolve, 150))
+
+      // Emit event to notify other components (like Navbar) to refresh
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('profile-photo-updated', {
+          detail: { photoURL: data.photoURL }
+        }))
+      }
+
       showToast('Profile photo updated successfully', 'success')
     } catch (error) {
       logger.error('Avatar upload error:', error)
+      showError(error)
+    } finally {
+      setUploadingAvatar(false)
+    }
+  }
+
+  const handlePresetAvatarSelect = async (avatarUrl: string) => {
+    setUploadingAvatar(true)
+    try {
+      const formData = new FormData()
+      formData.append('presetAvatar', avatarUrl)
+
+      const response = await fetch('/api/user/upload-avatar', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || 'Failed to set preset avatar')
+      }
+
+      // Update local state with new preset photo URL
+      if (user) {
+        setUser({ ...user, photoURL: data.photoURL })
+      }
+
+      // Refresh the auth session to update navbar and other components
+      await refreshSession()
+
+      // Small delay to ensure auth context propagates
+      await new Promise(resolve => setTimeout(resolve, 150))
+
+      // Emit event to notify other components (like Navbar) to refresh
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('profile-photo-updated', {
+          detail: { photoURL: data.photoURL }
+        }))
+      }
+
+      showToast('Profile photo updated successfully', 'success')
+    } catch (error) {
+      logger.error('Preset avatar selection error:', error)
       showError(error)
     } finally {
       setUploadingAvatar(false)
@@ -237,6 +303,16 @@ function AccountPageContent() {
 
       // Refresh the auth session to update navbar and other components
       await refreshSession()
+
+      // Small delay to ensure auth context propagates
+      await new Promise(resolve => setTimeout(resolve, 150))
+
+      // Emit event to notify other components (like Navbar) to refresh
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('profile-photo-updated', {
+          detail: { photoURL: '' }
+        }))
+      }
 
       showToast('Profile photo removed', 'success')
     } catch (error) {
@@ -462,24 +538,30 @@ function AccountPageContent() {
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     {strings.account.profileFields.photoDescription}
                   </p>
-                  {user?.photoURL && (
-                    <div className="mt-2 flex gap-2">
-                      <label
-                        htmlFor="avatar-upload"
-                        className="text-xs text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 cursor-pointer font-medium"
-                      >
-                        Change photo
-                      </label>
-                      <span className="text-xs text-gray-400">•</span>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <button
+                      onClick={() => setShowPresetPicker(true)}
+                      disabled={uploadingAvatar}
+                      className="px-3 py-1.5 text-xs font-medium text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 bg-primary-50 dark:bg-primary-900/20 rounded-lg transition-colors disabled:opacity-50"
+                    >
+                      {strings.account.profileFields.choosePreset}
+                    </button>
+                    <label
+                      htmlFor="avatar-upload"
+                      className="px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white bg-gray-100 dark:bg-gray-700 rounded-lg cursor-pointer transition-colors"
+                    >
+                      {strings.account.profileFields.uploadImage}
+                    </label>
+                    {user?.photoURL && (
                       <button
                         onClick={handleRemoveAvatar}
                         disabled={uploadingAvatar}
-                        className="text-xs text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 font-medium"
+                        className="px-3 py-1.5 text-xs font-medium text-red-600 dark:text-red-400 hover:text-red-700 dark:hover:text-red-300 bg-red-50 dark:bg-red-900/20 rounded-lg transition-colors disabled:opacity-50"
                       >
-                        Remove photo
+                        {strings.account.profileFields.removePhoto}
                       </button>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               </div>
 
@@ -818,6 +900,14 @@ function AccountPageContent() {
         type="danger"
         confirmText={strings.account.deleteAccountDialog.confirmText}
         cancelText={strings.account.deleteAccountDialog.cancelText}
+      />
+
+      {/* Preset Avatar Picker Modal */}
+      <PresetAvatarPicker
+        isOpen={showPresetPicker}
+        onClose={() => setShowPresetPicker(false)}
+        onSelect={handlePresetAvatarSelect}
+        currentAvatar={user?.photoURL}
       />
     </PageContainer>
   )

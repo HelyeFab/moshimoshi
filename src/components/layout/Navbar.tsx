@@ -4,6 +4,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import MoshimoshiLogo from "@/components/ui/MoshimoshiLogo";
 import ThemeToggle from "@/components/ui/ThemeToggle";
 import { useI18n, useLocalePath } from "@/i18n/I18nContext";
@@ -42,9 +43,17 @@ export default function Navbar({
   const { isPremium } = useSubscription();
   const [showDropdown, setShowDropdown] = useState(false);
   const [showHamburgerMenu, setShowHamburgerMenu] = useState(false);
+  const [photoURL, setPhotoURL] = useState(user?.photoURL);
+  const [imageKey, setImageKey] = useState(Date.now()); // For cache busting
   const isMobile = useIsMobile(); // SSR-safe: returns undefined during SSR, boolean after hydration
   const menuRef = useRef<HTMLDivElement>(null);
   const hamburgerRef = useRef<HTMLDivElement>(null);
+
+  // Update photoURL when user prop changes
+  useEffect(() => {
+    setPhotoURL(user?.photoURL);
+    setImageKey(Date.now()); // Force image refresh
+  }, [user?.photoURL]);
 
   // Helper to add locale prefix to paths
   const localePath = useCallback((path: string) => `/${language}${path}`, [language]);
@@ -59,6 +68,18 @@ export default function Navbar({
     pathWithoutLocale !== "/" &&
     pathWithoutLocale !== "/dashboard" &&
     !pathWithoutLocale.startsWith("/auth/");
+
+  // Listen for profile photo updates from account page
+  useEffect(() => {
+    const handlePhotoUpdate = (event: Event) => {
+      const customEvent = event as CustomEvent<{ photoURL: string }>;
+      setPhotoURL(customEvent.detail.photoURL);
+      setImageKey(Date.now()); // Force image cache refresh
+    };
+
+    window.addEventListener('profile-photo-updated', handlePhotoUpdate);
+    return () => window.removeEventListener('profile-photo-updated', handlePhotoUpdate);
+  }, []);
 
   // Close dropdown when clicking outside or pressing Escape
   useEffect(() => {
@@ -244,11 +265,15 @@ export default function Navbar({
                         <div className="absolute inset-0 rounded-full bg-gradient-to-r from-primary-400 via-primary-500 to-primary-600 animate-gradient-rotate"></div>
                         {/* Static inner content */}
                         <div className="relative m-[2px] bg-white dark:bg-dark-900 rounded-full p-[2px]">
-                          {user.photoURL ? (
-                            <img
-                              src={user.photoURL}
+                          {photoURL ? (
+                            <Image
+                              key={imageKey}
+                              src={photoURL}
                               alt="Profile"
-                              className="w-8 h-8 rounded-full"
+                              width={32}
+                              height={32}
+                              className="w-8 h-8 rounded-full object-cover"
+                              unoptimized={photoURL.includes('firebasestorage') || photoURL.startsWith('/usr_profile/')}
                             />
                           ) : (
                             <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center text-white font-bold">
@@ -259,11 +284,15 @@ export default function Navbar({
                       </div>
                     ) : (
                       <>
-                        {user.photoURL ? (
-                          <img
-                            src={user.photoURL}
+                        {photoURL ? (
+                          <Image
+                            key={imageKey}
+                            src={photoURL}
                             alt="Profile"
-                            className="w-8 h-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700"
+                            width={32}
+                            height={32}
+                            className="w-8 h-8 rounded-full ring-2 ring-gray-200 dark:ring-gray-700 object-cover"
+                            unoptimized={photoURL.includes('firebasestorage') || photoURL.startsWith('/usr_profile/')}
                           />
                         ) : (
                           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 flex items-center justify-center text-white font-bold">

@@ -36,13 +36,81 @@ export async function POST(request: NextRequest) {
     // Parse form data
     const formData = await request.formData()
     const file = formData.get('avatar') as File
+    const presetAvatar = formData.get('presetAvatar') as string
+
+    // Handle preset avatar selection
+    if (presetAvatar) {
+      console.log('[API /user/upload-avatar] Preset avatar selected:', presetAvatar)
+
+      // Validate preset avatar path (security check)
+      if (!presetAvatar.startsWith('/usr_profile/') || !presetAvatar.endsWith('.svg')) {
+        return NextResponse.json(
+          {
+            error: {
+              code: 'INVALID_PRESET',
+              message: 'Invalid preset avatar path',
+            },
+          },
+          {
+            status: 400,
+            headers: getSecurityHeaders(),
+          }
+        )
+      }
+
+      // Delete old custom avatar if exists (but not Google avatars)
+      try {
+        const userDoc = await adminFirestore!.collection('users').doc(session.uid).get()
+        const userData = userDoc.data()
+        const oldPhotoURL = userData?.photoURL
+
+        const bucketName = process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET?.trim() ||
+                           `${process.env.FIREBASE_ADMIN_PROJECT_ID}.appspot.com`
+        const bucket = adminStorage!.bucket(bucketName)
+
+        // Only delete if it's a custom upload (contains our bucket URL)
+        if (oldPhotoURL && oldPhotoURL.includes('storage.googleapis.com') && oldPhotoURL.includes(bucketName)) {
+          const oldFilename = oldPhotoURL.split('/').pop()
+          if (oldFilename) {
+            const oldFile = bucket.file(`avatars/${oldFilename}`)
+            await oldFile.delete().catch(err => {
+              console.error('Error deleting old avatar:', err)
+            })
+          }
+        }
+      } catch (error) {
+        console.error('Error handling old avatar:', error)
+      }
+
+      // Update user profile with preset avatar URL
+      await adminFirestore!
+        .collection('users')
+        .doc(session.uid)
+        .update({
+          photoURL: presetAvatar,
+          updatedAt: new Date(),
+        })
+
+      console.log('[API /user/upload-avatar] Preset avatar set successfully')
+
+      return NextResponse.json(
+        {
+          success: true,
+          photoURL: presetAvatar,
+        },
+        {
+          status: 200,
+          headers: getSecurityHeaders(),
+        }
+      )
+    }
 
     if (!file) {
       return NextResponse.json(
         {
           error: {
             code: 'NO_FILE',
-            message: 'No file provided',
+            message: 'No file or preset avatar provided',
           },
         },
         {

@@ -26,7 +26,7 @@ function DashboardContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { showToast } = useToast()
-  const { user, loading: authLoading, isGuest } = useAuth()
+  const { user, loading: authLoading, isGuest, refreshSession } = useAuth()
   const { getLocalePath } = useLocalePath()
   const [isFirstVisit, setIsFirstVisit] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -118,6 +118,18 @@ function DashboardContent() {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000)
     return () => clearInterval(timer)
   }, [])
+
+  // Listen for profile updates from account page
+  useEffect(() => {
+    const handleProfileUpdate = async () => {
+      // Force refresh the auth session to get the updated displayName immediately
+      logger.info('[Dashboard] Profile updated event received, refreshing auth session')
+      await refreshSession()
+    }
+
+    window.addEventListener('profile-updated', handleProfileUpdate)
+    return () => window.removeEventListener('profile-updated', handleProfileUpdate)
+  }, [refreshSession])
 
   useEffect(() => {
     if (!authLoading && !user && !isGuest) {

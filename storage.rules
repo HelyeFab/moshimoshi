@@ -34,13 +34,19 @@ service firebase.storage {
       allow write: if isAdmin() && isValidImage() && isUnderSizeLimit(10);
     }
 
-    // User profile images
+    // User profile images (legacy path - keep for backwards compatibility)
     match /users/{userId}/profile/{fileName} {
       allow read: if true;
       allow write: if isAuthenticated() &&
                      request.auth.uid == userId &&
                      isValidImage() &&
                      isUnderSizeLimit(5);
+    }
+
+    // User avatars (new path - server uploads via Admin SDK)
+    match /avatars/{fileName} {
+      allow read: if true;
+      allow write: if false; // Server-only via Admin SDK
     }
 
     // TTS audio cache (server-generated)

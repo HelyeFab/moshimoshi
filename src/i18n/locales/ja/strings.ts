@@ -1734,11 +1734,27 @@ export const strings = {
     profileFields: {
       profilePhoto: 'プロフィール写真',
       photoDescription: 'JPG、PNGまたはGIF。最大2MB。',
+      choosePreset: 'プリセットを選択',
+      uploadImage: '画像をアップロード',
+      removePhoto: '写真を削除',
       displayName: '表示名',
       namePlaceholder: '名前を入力',
       emailAddress: 'メールアドレス',
       verified: '認証済み',
       verify: '認証',
+    },
+    presetAvatarPicker: {
+      title: 'プロフィール写真を選択',
+      subtitle: 'かわいいアバターのコレクションから選んでください',
+      selected: '選択済み: {name}',
+      selectAvatar: 'アバターを選択',
+      confirm: '確認',
+      cancel: 'キャンセル',
+      collections: {
+        animals: '動物',
+        cats: '猫',
+        hamsters: 'ハムスター',
+      },
     },
     validation: {
       displayNameRequired: '表示名を入力してください',

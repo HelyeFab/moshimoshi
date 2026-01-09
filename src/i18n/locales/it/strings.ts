@@ -1926,11 +1926,27 @@ export const strings = {
     profileFields: {
       profilePhoto: 'Foto profilo',
       photoDescription: 'JPG, PNG o GIF. Max 2MB.',
+      choosePreset: 'Scegli predefinito',
+      uploadImage: 'Carica immagine',
+      removePhoto: 'Rimuovi foto',
       displayName: 'Nome visualizzato',
       namePlaceholder: 'Inserisci il tuo nome',
       emailAddress: 'Indirizzo email',
       verified: 'Verificato',
       verify: 'Verifica',
+    },
+    presetAvatarPicker: {
+      title: 'Scegli una foto profilo',
+      subtitle: 'Seleziona dalla nostra collezione di avatar carini',
+      selected: 'Selezionato: {name}',
+      selectAvatar: 'Seleziona un avatar',
+      confirm: 'Conferma',
+      cancel: 'Annulla',
+      collections: {
+        animals: 'Animali',
+        cats: 'Gatti',
+        hamsters: 'Criceti',
+      },
     },
     validation: {
       displayNameRequired: 'Il nome visualizzato non può essere vuoto',

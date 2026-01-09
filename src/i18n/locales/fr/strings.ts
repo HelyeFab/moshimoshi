@@ -1074,11 +1074,27 @@ export const strings = {
     profileFields: {
       profilePhoto: 'Photo de profil',
       photoDescription: 'JPG, PNG ou GIF. Max 2Mo.',
+      choosePreset: 'Choisir un modèle',
+      uploadImage: 'Télécharger une image',
+      removePhoto: 'Supprimer la photo',
       displayName: 'Nom d\'affichage',
       namePlaceholder: 'Entrez votre nom',
       emailAddress: 'Adresse email',
       verified: 'Vérifié',
       verify: 'Vérifier',
+    },
+    presetAvatarPicker: {
+      title: 'Choisissez une photo de profil',
+      subtitle: 'Sélectionnez parmi notre collection d\'avatars mignons',
+      selected: 'Sélectionné : {name}',
+      selectAvatar: 'Sélectionner un avatar',
+      confirm: 'Confirmer',
+      cancel: 'Annuler',
+      collections: {
+        animals: 'Animaux',
+        cats: 'Chats',
+        hamsters: 'Hamsters',
+      },
     },
     validation: {
       displayNameRequired: 'Le nom d\'affichage ne peut pas être vide',
