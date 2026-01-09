@@ -180,6 +180,9 @@ function SignInContent() {
       const data = await response.json()
 
       if (response.ok) {
+        // Store email in localStorage for Firebase email link verification
+        window.localStorage.setItem('emailForSignIn', email)
+
         setError('') // Clear any errors
         showToast(strings.auth.signin.messages.magicLinkSuccess || 'Check your email for the magic link!', 'success', 5000)
       } else {

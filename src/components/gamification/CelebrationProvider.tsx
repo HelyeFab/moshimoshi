@@ -54,19 +54,23 @@ export default function CelebrationProvider({ children }: { children: React.Reac
       lastSessionStatsCleared: lastSessionStats?.clearedAt ? true : false
     })
 
-    // Skip ONLY the very first render (page load)
-    if (isFirstRender) {
-      console.log('🎊 [CelebrationProvider] First render, setting baseline values')
-      setPreviousXP(totalXP)
-      setPreviousSessionCount(sessionCount)
-      setIsFirstRender(false)
-      return
-    }
-
     // CRITICAL: Don't trigger celebration before hydration completes
     // This prevents stale state from triggering celebrations on component remount
     if (!hasHydrated) {
       console.log('🎊 [CelebrationProvider] Skipping - not hydrated yet')
+      return
+    }
+
+    // Set baseline values AFTER hydration completes (on first hydrated render)
+    // This ensures we capture the real persisted values, not pre-hydration zeros
+    if (isFirstRender) {
+      console.log('🎊 [CelebrationProvider] First hydrated render, setting baseline values:', {
+        totalXP,
+        sessionCount
+      })
+      setPreviousXP(totalXP)
+      setPreviousSessionCount(sessionCount)
+      setIsFirstRender(false)
       return
     }
 

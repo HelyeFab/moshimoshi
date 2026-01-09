@@ -99,6 +99,8 @@ export default function LandingPageClient() {
 
   // Intersection Observer for lazy-loading below-fold carousels
   useEffect(() => {
+    if (!mounted) return // Wait until refs are attached to DOM
+
     const observerOptions = {
       root: null,
       rootMargin: '50px',
@@ -138,7 +140,7 @@ export default function LandingPageClient() {
     if (textbookRef.current) observer.observe(textbookRef.current)
 
     return () => observer.disconnect()
-  }, [])
+  }, [mounted])
 
   // Auto-rotate carousel every 5 seconds - MUST be before any conditional returns
   useEffect(() => {

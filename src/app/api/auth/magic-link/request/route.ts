@@ -6,47 +6,10 @@ import { adminAuth, adminFirestore, ensureAdminInitialized } from '@/lib/firebas
 import { magicLinkRequestSchema, getSecurityHeaders, formatZodErrors } from '@/lib/auth/validation'
 import { checkMagicLinkRateLimit, getRateLimitHeaders } from '@/lib/auth/rateLimit'
 import { logAuditEvent, AuditEvent } from '@/lib/auth/audit'
-import { createEmailVerificationToken } from '@/lib/auth/jwt'
-import { redis, RedisKeys, CacheTTL } from '@/lib/redis/client'
+import { sendMagicLinkEmail } from '@/lib/email/resend'
 import { z } from 'zod'
 
-// In a real implementation, you would integrate with an email service like:
-// - SendGrid
-// - AWS SES
-// - Mailgun
-// - Resend
-// For now, we'll simulate the email sending
-async function sendMagicLinkEmail(
-  email: string, 
-  magicToken: string
-): Promise<void> {
-  const magicLink = `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/api/auth/magic-link/verify?token=${magicToken}`
-  
-  // In development, log the magic link
-  if (process.env.NODE_ENV === 'development') {
-    console.log('🔗 Magic Link for', email, ':', magicLink)
-  }
-
-  // TODO: Integrate with actual email service
-  // Example with SendGrid:
-  /*
-  const msg = {
-    to: email,
-    from: process.env.EMAIL_FROM,
-    subject: 'Sign in to Moshimoshi',
-    html: `
-      <h1>Sign in to Moshimoshi</h1>
-      <p>Hello ${displayName || 'there'},</p>
-      <p>Click the link below to sign in to your account:</p>
-      <a href="${magicLink}" style="background-color: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Sign In</a>
-      <p>This link will expire in 15 minutes.</p>
-      <p>If you didn't request this, you can safely ignore this email.</p>
-    `,
-  }
-  
-  await sgMail.send(msg)
-  */
-}
+// Magic link email sending is now handled by the imported sendMagicLinkEmail from @/lib/email/resend
 
 export async function POST(request: NextRequest) {
   try {
@@ -194,26 +157,25 @@ export async function POST(request: NextRequest) {
 
       // Only send magic link if user exists and is active
       if (userExists && userRecord) {
-        // Generate magic link token
-        const magicToken = createEmailVerificationToken(
+        // Generate Firebase magic link using Firebase Admin SDK
+        const actionCodeSettings = {
+          url: `${process.env.NEXTAUTH_URL || 'http://localhost:3000'}/auth/verify-magic-link`,
+          handleCodeInApp: true,
+        }
+
+        const firebaseMagicLink = await adminAuth!.generateSignInWithEmailLink(
           email,
-          userRecord.uid,
-          15 * 60 * 1000 // 15 minutes
+          actionCodeSettings
         )
 
-        // Store token in Redis for verification
-        const magicLinkKey = RedisKeys.magicLink(magicToken)
-        await redis.setex(magicLinkKey, CacheTTL.MAGIC_LINK, JSON.stringify({
-          userId: userRecord.uid,
-          email,
-          createdAt: new Date().toISOString(),
-          ipAddress,
-          userAgent,
-        }))
+        // Log the link in development for easy testing
+        if (process.env.NODE_ENV === 'development') {
+          console.log('🔗 Firebase Magic Link for', email, ':', firebaseMagicLink)
+        }
 
-        // Send the magic link email
+        // Send the magic link email (Firebase handles token storage and validation)
         try {
-          await sendMagicLinkEmail(email, magicToken)
+          await sendMagicLinkEmail(email, firebaseMagicLink)
           
           // Log successful magic link request
           await logAuditEvent(
@@ -233,10 +195,9 @@ export async function POST(request: NextRequest) {
 
         } catch (emailError) {
           console.error('Failed to send magic link email:', emailError)
-          
-          // Clean up the token since email failed
-          await redis.del(magicLinkKey)
-          
+
+          // Note: Firebase handles token lifecycle, no cleanup needed
+
           await logAuditEvent(
             AuditEvent.MAGIC_LINK_REQUEST,
             {
