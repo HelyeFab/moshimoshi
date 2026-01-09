@@ -4616,6 +4616,14 @@ export const strings = {
       syncNow: 'Sync Now',
       inProgress: 'Syncing...',
       syncingDeck: 'Syncing {{deck}}...',
+      infoModal: {
+        title: 'Syncing Your Decks',
+        message: 'Sync time depends on the size of your decks and media files. While syncing is in progress:',
+        cannotUse: 'You cannot use the deck currently being synced',
+        canUseApp: 'You can continue using other parts of the app',
+        comeBack: 'Feel free to come back later - sync runs in the background',
+        understand: 'Got it',
+      },
     },
 
     // Restore
