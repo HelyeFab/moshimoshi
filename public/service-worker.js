@@ -8,6 +8,15 @@
  * - Minimal, auditable, and safe
  */
 
+// Debug mode - set to true to enable verbose logging
+// In production, this should be false to reduce console noise
+const DEBUG = false;
+
+// Logging wrappers - only log when DEBUG is enabled
+const log = DEBUG ? console.log.bind(console) : () => {};
+const warn = DEBUG ? console.warn.bind(console) : () => {};
+// Always keep console.error for critical issues
+
 const CACHE_VERSION = 'moshimoshi-v1429-dev-bypass';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
@@ -90,7 +99,7 @@ const PRECACHE_URLS = [
 
 // Install event - cache essential files only
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing...');
+  log('[SW] Installing...');
   event.waitUntil((async () => {
     const cache = await caches.open(STATIC_CACHE);
 
@@ -107,14 +116,14 @@ self.addEventListener('install', (event) => {
         }
       } catch (error) {
         clearTimeout(timeoutId);
-        console.log('[SW] Could not cache:', url);
+        log('[SW] Could not cache:', url);
       }
     };
 
     // Try to cache each URL individually with timeout
     await Promise.all(PRECACHE_URLS.map(url => cacheWithTimeout(url)));
 
-    console.log('[SW] Installation complete');
+    log('[SW] Installation complete');
     // Note: We do NOT call self.skipWaiting() here automatically.
     // The app controls when to activate via SKIP_WAITING message.
     // This allows the update banner to be shown first.
@@ -123,7 +132,7 @@ self.addEventListener('install', (event) => {
 
 // Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating...');
+  log('[SW] Activating...');
   event.waitUntil((async () => {
     // Get all cache names
     const cacheNames = await caches.keys();
@@ -135,7 +144,7 @@ self.addEventListener('activate', (event) => {
     await Promise.all(
       cacheNames.map((cacheName) => {
         if (cacheName.startsWith('moshimoshi-') && !validCaches.includes(cacheName)) {
-          console.log('[SW] Deleting old cache:', cacheName);
+          log('[SW] Deleting old cache:', cacheName);
           return caches.delete(cacheName);
         }
       })
@@ -143,7 +152,7 @@ self.addEventListener('activate', (event) => {
 
     // Take control of all clients
     await self.clients.claim();
-    console.log('[SW] Activated and controlling all clients');
+    log('[SW] Activated and controlling all clients');
   })());
 });
 
@@ -187,7 +196,7 @@ self.addEventListener('fetch', (event) => {
 
     // In development when online, let Next.js handle everything - don't intercept
     if (isDevelopment && isOnline) {
-      console.log('[SW] Development mode + online - bypassing service worker for:', url.pathname);
+      log('[SW] Development mode + online - bypassing service worker for:', url.pathname);
       return; // Let the request go through naturally without SW intervention
     }
 
@@ -215,23 +224,23 @@ self.addEventListener('fetch', (event) => {
 
             // Cache successful responses for offline use
             if (response.ok) {
-              console.log('[SW] Caching page for offline:', url.pathname);
+              log('[SW] Caching page for offline:', url.pathname);
               pagesCache.put(request, response.clone());
             }
 
             return response;
           } catch (error) {
             // Network failed - try to serve from cache
-            console.log('[SW] Network failed, checking cache for:', url.pathname);
+            log('[SW] Network failed, checking cache for:', url.pathname);
             const cachedPage = await pagesCache.match(request);
 
             if (cachedPage) {
-              console.log('[SW] Serving cached page:', url.pathname);
+              log('[SW] Serving cached page:', url.pathname);
               return cachedPage;
             }
 
             // Page not cached, fall through to offline page
-            console.log('[SW] Page not cached, serving offline page');
+            log('[SW] Page not cached, serving offline page');
           }
         } else {
           // Non-offline-enabled pages - just try network with timeout
@@ -243,14 +252,14 @@ self.addEventListener('fetch', (event) => {
             clearTimeout(timeoutId);
             return response;
           } catch (error) {
-            console.log('[SW] Navigation failed for:', url.pathname);
+            log('[SW] Navigation failed for:', url.pathname);
           }
         }
 
         // CRITICAL: Only serve offline page if we're actually offline
         // This prevents showing offline page when dev server is just slow
         if (self.navigator.onLine) {
-          console.log('[SW] Still online but request failed - letting browser handle error');
+          log('[SW] Still online but request failed - letting browser handle error');
           // Return a network error so browser shows its own error page
           // This is better than showing "offline" when we're actually online
           throw new Error('Network request failed but device is online');
@@ -293,7 +302,7 @@ self.addEventListener('fetch', (event) => {
           const response = await fetch(request);
           // Cache RSC responses for offline-enabled pages
           if (response.ok && isOfflinePageRSC) {
-            console.log('[SW] Caching RSC payload:', url.pathname);
+            log('[SW] Caching RSC payload:', url.pathname);
             pagesCache.put(request, response.clone());
           }
           return response;
@@ -301,7 +310,7 @@ self.addEventListener('fetch', (event) => {
           // Try cache for RSC requests
           const cachedRSC = await pagesCache.match(request);
           if (cachedRSC) {
-            console.log('[SW] Serving cached RSC:', url.pathname);
+            log('[SW] Serving cached RSC:', url.pathname);
             return cachedRSC;
           }
           throw error;
@@ -352,12 +361,12 @@ self.addEventListener('fetch', (event) => {
         const cachedResponse = await cache.match(cacheKey);
 
         if (cachedResponse) {
-          console.log('[SW] Audio cache hit:', url.pathname);
+          log('[SW] Audio cache hit:', url.pathname);
           return cachedResponse;
         }
 
         // Not in cache - fetch from network
-        console.log('[SW] Audio cache miss, fetching:', url.pathname);
+        log('[SW] Audio cache miss, fetching:', url.pathname);
 
         try {
           // Fetch WITHOUT Range headers to get full response (200, not 206)
@@ -379,14 +388,14 @@ self.addEventListener('fetch', (event) => {
 
             // Cache the audio file
             await cache.put(cacheKey, responseToCache);
-            console.log('[SW] Audio cached:', url.pathname);
+            log('[SW] Audio cached:', url.pathname);
 
             // Async cleanup - don't block the response
             cleanupAudioCache(cache).catch(err =>
-              console.warn('[SW] Audio cache cleanup error:', err)
+              warn('[SW] Audio cache cleanup error:', err)
             );
           } else {
-            console.log('[SW] Skipping cache for status:', networkResponse.status);
+            log('[SW] Skipping cache for status:', networkResponse.status);
           }
 
           return networkResponse;
@@ -417,7 +426,7 @@ async function cleanupAudioCache(cache) {
   if (keys.length > AUDIO_CACHE_CONFIG.maxEntries) {
     // Remove oldest entries (first in cache)
     const entriesToRemove = keys.length - AUDIO_CACHE_CONFIG.maxEntries;
-    console.log(`[SW] Audio cache cleanup: removing ${entriesToRemove} old entries`);
+    log(`[SW] Audio cache cleanup: removing ${entriesToRemove} old entries`);
 
     for (let i = 0; i < entriesToRemove; i++) {
       await cache.delete(keys[i]);
@@ -441,7 +450,7 @@ self.addEventListener('message', (event) => {
   // Clear audio cache (for testing/debugging)
   if (event.data && event.data.type === 'CLEAR_AUDIO_CACHE') {
     caches.delete(AUDIO_CACHE).then(() => {
-      console.log('[SW] Audio cache cleared');
+      log('[SW] Audio cache cleared');
       event.ports[0].postMessage({ type: 'AUDIO_CACHE_CLEARED' });
     });
   }

@@ -332,26 +332,66 @@ export async function POST(request: NextRequest) {
       )
 
       let panels
+      let dialogueGenerationSuccess = false
+      let errorMessage: string | undefined
+
       try {
+        console.log('[ComicGen] Starting dialogue generation...')
         const dialogueData = await generateJSON(dialoguePrompt)
-        panels = Array.isArray(dialogueData) ? dialogueData : dialogueData.panels || generateDefaultPanelDialogues(outline, 6)
+        console.log('[ComicGen] Dialogue data received, type:', typeof dialogueData)
+        console.log('[ComicGen] Dialogue data keys:', dialogueData ? Object.keys(dialogueData) : 'null')
+
+        // Extract panels from response
+        if (Array.isArray(dialogueData)) {
+          panels = dialogueData
+        } else if (dialogueData.panels && Array.isArray(dialogueData.panels)) {
+          panels = dialogueData.panels
+        } else {
+          console.error('[ComicGen] Invalid dialogue data structure:', JSON.stringify(dialogueData, null, 2))
+          throw new Error('Dialogue data is not in expected format')
+        }
+
+        // Validate panels have proper content (not just defaults)
+        if (panels && panels.length > 0) {
+          const firstDialogue = panels[0]?.dialogues?.[0]?.textJa
+          if (firstDialogue && firstDialogue !== 'すごい！') {
+            dialogueGenerationSuccess = true
+            console.log('[ComicGen] Dialogue generation successful with', panels.length, 'panels')
+          } else {
+            console.warn('[ComicGen] Generated dialogues appear to be defaults')
+            throw new Error('Generated dialogues are too generic')
+          }
+        } else {
+          throw new Error('No panels generated')
+        }
       } catch (error) {
-        console.error('OpenAI dialogue generation failed:', error)
+        errorMessage = error instanceof Error ? error.message : 'Unknown error'
+        console.error('[ComicGen] Dialogue generation failed:', errorMessage)
+        console.error('[ComicGen] Full error:', error)
+
+        // Use fallback only as last resort
         panels = generateDefaultPanelDialogues(outline, 6)
+        console.warn('[ComicGen] Using fallback default dialogues - MANUAL REVIEW REQUIRED')
       }
 
-      // Update draft with dialogues
+      // Update draft with dialogues and error status
       await adminFirestore!.collection('comic_drafts').doc(draftId).update({
         panels,
-        currentStep: 'dialogues',
+        currentStep: dialogueGenerationSuccess ? 'dialogues' : 'dialogues_failed',
         progress: 25,
+        dialogueGenerationSuccess,
+        ...(errorMessage ? { dialogueError: errorMessage } : {}),
         updatedAt: new Date(),
       })
 
       return NextResponse.json({
-        success: true,
+        success: dialogueGenerationSuccess,
         draftId,
         panels,
+        ...(errorMessage ? {
+          warning: 'Dialogue generation failed, used defaults',
+          error: errorMessage
+        } : {}),
       })
     }
 
@@ -929,12 +969,32 @@ Generate a JSON array of panels:
   }
 ]
 
+CRITICAL REQUIREMENTS FOR STORY STRUCTURE:
+1. **NO REPETITION**: Each panel must have DIFFERENT, UNIQUE dialogue. NEVER repeat the same phrase (like すごい) across multiple panels.
+2. **Story Progression**: Follow a clear narrative arc:
+   - Panels 1-2: Setup/Introduction (characters arrive, observe, react to new situation)
+   - Panels 3-4: Development/Action (characters interact, try something, encounter challenge)
+   - Panels 5-6: Resolution/Conclusion (problem solved, lesson learned, positive ending)
+3. **Dialogue Variety**: Use diverse expressions appropriate for N5 level:
+   - Greetings: こんにちは、はじめまして、よろしく
+   - Questions: これは何ですか？、どこですか？、いくらですか？
+   - Reactions: わあ、へえ、そうですか、いいですね、おいしい
+   - Actions: 見て、行きましょう、食べます、買います
+   - Emotions: 楽しい、嬉しい、面白い、美味しい、きれい
+4. **Natural Conversation**: Characters should:
+   - Ask questions and respond to each other
+   - React to events in the scene
+   - Express different emotions throughout the story
+   - Use phrases that advance the plot
+
 IMPORTANT:
 - Use the correct characterId for each character (e.g., "moshi-master", "sensei-panda", "yuki-sloth", "koa-koala")
 - Make each character speak according to their personality and speaking style
-- Have natural interactions between characters
+- Have natural interactions between characters with turn-taking dialogue
 - Include the "characters" array listing which characters appear in each panel
-- Make dialogues educational and fun! Include common phrases learners would use in real situations.`
+- Make dialogues educational and fun! Include common phrases learners would use in real situations
+- Each panel should teach 1-2 new vocabulary words or grammar patterns
+- VARY the sentence patterns and vocabulary across all 6 panels`
 }
 
 function buildPanelImagePrompt(
@@ -975,6 +1035,10 @@ function buildPanelImagePrompt(
     characterDescs = `\nMain character: Moshi - a cute red panda with warm reddish-orange fur, cream-colored face markings, big expressive eyes, fluffy striped tail, wearing a small blue backpack. Expression: ${emotion}`
   }
 
+  // Count unique characters in this panel
+  const panelChars = panel.characters || []
+  const uniqueCharCount = panelChars.length || 1
+
   return `Kawaii manga-style comic panel illustration.
 
 Scene: ${sceneDesc}
@@ -982,6 +1046,14 @@ Location: ${location}, Japan
 Theme: ${theme}
 
 Characters in this panel:${characterDescs}
+
+CRITICAL CHARACTER REQUIREMENTS:
+- This panel contains EXACTLY ${uniqueCharCount} character(s)
+- Each character listed above should appear ONLY ONCE in the image
+- DO NOT duplicate or mirror any character
+- If multiple characters are listed, they should be clearly distinguishable as DIFFERENT individuals
+- Position characters at different locations in the scene (e.g., left/right, foreground/background)
+- Each character has UNIQUE visual features as described above - maintain those differences
 
 Style: Soft pastel colors, clean lines, children's book illustration, Japanese manga influences, safe for children.
 

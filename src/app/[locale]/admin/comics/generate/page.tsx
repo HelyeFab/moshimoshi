@@ -132,11 +132,20 @@ export default function GenerateComicPage() {
         body: JSON.stringify({
           step: 'dialogues',
           draftId,
+          jlptLevel,  // CRITICAL: Pass JLPT level for appropriate vocabulary
         }),
       })
 
-      if (!dialogueResponse.ok) {
-        console.error('Dialogue generation failed')
+      const dialogueData = await dialogueResponse.json()
+      if (!dialogueResponse.ok || !dialogueData.success) {
+        console.error('Dialogue generation failed:', dialogueData.error)
+        setCurrentStep('setup')
+        setIsGenerating(false)
+        showToast(
+          dialogueData.error || 'Dialogue generation failed. Please check the dialogues and try again.',
+          'error'
+        )
+        return  // Stop execution on dialogue failure
       }
 
       // Step 3: Generate Panel Images (if enabled)
