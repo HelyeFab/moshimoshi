@@ -15,6 +15,7 @@
  * 8. Generate quiz
  * 9. Generate audio
  * 10. Publish episode
+ * 11. Generate word explanations (comprehensive, instant-lookup)
  */
 
 import * as admin from 'firebase-admin'
@@ -677,15 +678,34 @@ export async function generateComicEpisode(
     }
 
     // Step 8: Publish the episode
-    logger.info('[ComicScheduler] Step 8/8: Publishing episode...')
+    logger.info('[ComicScheduler] Step 8/9: Publishing episode...')
     const publishResult = await callComicAPI(
       '/api/admin/comics/publish',
       { draftId },
       adminKey
     )
 
-    const duration = Date.now() - startTime
     const episodeId = publishResult.episodeId
+
+    // Step 9: Generate word explanations
+    logger.info('[ComicScheduler] Step 9/9: Generating word explanations...')
+    try {
+      await callComicAPI(
+        '/api/admin/comics/word-explanations',
+        {
+          episodeId,
+          jlptLevel,
+        },
+        adminKey
+      )
+      logger.info('[ComicScheduler] Word explanations generated')
+    } catch (wordExplError) {
+      logger.warn('[ComicScheduler] Word explanation generation failed, continuing...', {
+        error: wordExplError instanceof Error ? wordExplError.message : 'Unknown',
+      })
+    }
+
+    const duration = Date.now() - startTime
 
     // Update series published count (episodeCount was already incremented when we reserved the number)
     await db.collection('comic_series').doc(MOSHI_SERIES_ID).update({
