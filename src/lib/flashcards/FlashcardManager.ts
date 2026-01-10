@@ -341,7 +341,9 @@ export class FlashcardManager {
     // Update cards if provided
     if (request.initialCards && request.initialCards.length > 0) {
       // Create map of existing cards for SRS data preservation
-      const existingCardsMap = new Map(existingDeck.cards.map(c => [c.id, c]))
+      const existingCardsMap = new Map<string, FlashcardContent>(
+        existingDeck.cards.map((c: FlashcardContent) => [c.id, c])
+      )
 
       // Preserve SRS data for existing cards, generate new IDs for new cards
       updatedDeck.cards = request.initialCards.map(card => {

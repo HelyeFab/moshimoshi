@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { adminDb } from '@/lib/firebase/admin'
+import { getAdminDb } from '@/lib/firebase/admin'
 import { getSession } from '@/lib/auth/session'
 
 type VoteType = 'upvote' | 'downvote'
@@ -11,7 +11,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    if (!adminDb) {
+    let db
+    try {
+      db = getAdminDb()
+    } catch {
       return NextResponse.json({ error: 'Database not available' }, { status: 500 })
     }
 
@@ -24,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     const questionPromises = questionIds.map(async (questionId: string) => {
       const voteDocId = `${session.uid}_${questionId}`
-      const voteRef = adminDb.collection('qa_question_votes').doc(voteDocId)
+      const voteRef = db.collection('qa_question_votes').doc(voteDocId)
       const snapshot = await voteRef.get()
       if (snapshot.exists) {
         questionVotes[questionId] = snapshot.data()?.voteType as VoteType
@@ -33,7 +36,7 @@ export async function POST(request: NextRequest) {
 
     const answerPromises = answerIds.map(async (answerId: string) => {
       const voteDocId = `${session.uid}_${answerId}`
-      const voteRef = adminDb.collection('qa_answer_votes').doc(voteDocId)
+      const voteRef = db.collection('qa_answer_votes').doc(voteDocId)
       const snapshot = await voteRef.get()
       if (snapshot.exists) {
         answerVotes[answerId] = snapshot.data()?.voteType as VoteType
