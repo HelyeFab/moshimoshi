@@ -80,9 +80,15 @@ const intlMiddleware = createIntlMiddleware(routing);
 
 async function fetchSessionInfo(request: NextRequest) {
   try {
+    const userAgent = request.headers.get('user-agent') || ''
+    const forwardedFor = request.headers.get('x-forwarded-for') || ''
+    const realIp = request.headers.get('x-real-ip') || ''
     const response = await fetch(new URL('/api/auth/session', request.url), {
       headers: {
         cookie: request.headers.get('cookie') || '',
+        ...(userAgent ? { 'user-agent': userAgent } : {}),
+        ...(forwardedFor ? { 'x-forwarded-for': forwardedFor } : {}),
+        ...(realIp ? { 'x-real-ip': realIp } : {}),
       },
       cache: 'no-store',
     });
