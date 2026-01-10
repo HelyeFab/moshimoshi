@@ -132,7 +132,7 @@ export async function GET(request: NextRequest) {
           displayName: userProfile?.displayName || null,
           photoURL: userProfile?.photoURL || null,
           emailVerified: userProfile?.emailVerified || false,
-          isAdmin: userProfile?.isAdmin === true, // Use isAdmin field from Firebase
+          isAdmin: userProfile?.isAdmin === true || session.admin === true, // Combine Firebase flag + session claim
           admin: session.admin || false, // Keep for backward compatibility
         },
         expiresIn,

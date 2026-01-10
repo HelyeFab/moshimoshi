@@ -63,10 +63,12 @@ export default function VoteButton({
   }, [upvotes, downvotes])
 
   // Fetch existing vote if not provided (e.g., list/detail views)
+  // Uses API route with server session - works for all users (free + premium)
   useEffect(() => {
     let cancelled = false
 
     const fetchExistingVote = async () => {
+      // If user is not authenticated or is a guest, don't fetch votes
       if (!user || isGuest || currentVote !== undefined) return
 
       try {

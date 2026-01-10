@@ -340,54 +340,68 @@ export class FlashcardManager {
 
     // Update cards if provided
     if (request.initialCards && request.initialCards.length > 0) {
-      updatedDeck.cards = request.initialCards.map(card => ({
-        id: uuidv4(),
-        front: card.front,
-        back: card.back,
-        metadata: card.metadata,
-      }))
-      updatedDeck.stats.totalCards = updatedDeck.cards.length
-      updatedDeck.stats.newCards = updatedDeck.cards.length
-    }
+      // Create map of existing cards for SRS data preservation
+      const existingCardsMap = new Map(existingDeck.cards.map(c => [c.id, c]))
 
-    // For premium users, also update on server
-    if (isPremium && userId !== 'guest') {
-      try {
-        console.log('[FlashcardManager.updateDeck] Premium user - syncing with Firebase')
-        const response = await fetch(`/api/flashcards/decks/${deckId}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(request),
-        })
-
-        if (response.ok) {
-          const responseData = await response.json()
-          // Response is wrapped by createStorageResponse: { success, data: { deck }, storage }
-          const serverDeck = responseData.data?.deck || responseData.deck
-          console.log('[FlashcardManager.updateDeck] Deck updated on Firebase:', serverDeck?.id)
-          try {
-            await db.put('decks', serverDeck)
-          } catch (error: any) {
-            if (error?.name === 'QuotaExceededError') {
-              const handled = storageManager.handleStorageError(error)
-              throw new Error(handled.message)
-            }
-            throw error
+      // Preserve SRS data for existing cards, generate new IDs for new cards
+      updatedDeck.cards = request.initialCards.map(card => {
+        if (card.id && existingCardsMap.has(card.id)) {
+          // Existing card - preserve ID and merge metadata (keep SRS data)
+          const existingCard = existingCardsMap.get(card.id)!
+          return {
+            id: card.id,
+            front: card.front,
+            back: card.back,
+            metadata: {
+              ...existingCard.metadata, // Preserve SRS data
+              ...card.metadata, // Allow updates to notes, furigana, etc.
+            },
           }
-          this.notifyListeners('decks-changed')
-          return serverDeck
         } else {
-          const error = await response.json()
-          console.error('[FlashcardManager.updateDeck] Server error:', error)
+          // New card - generate new ID
+          return {
+            id: uuidv4(),
+            front: card.front,
+            back: card.back,
+            metadata: card.metadata,
+          }
         }
-      } catch (error) {
-        console.error('Failed to update deck on server:', error)
+      })
+
+      // Recalculate stats based on actual card statuses
+      const statusCounts = {
+        new: 0,
+        learning: 0,
+        review: 0,
+        mastered: 0,
       }
+
+      for (const card of updatedDeck.cards) {
+        const status = card.metadata?.status || 'new'
+        switch (status) {
+          case 'learning':
+            statusCounts.learning += 1
+            break
+          case 'review':
+            statusCounts.review += 1
+            break
+          case 'mastered':
+            statusCounts.mastered += 1
+            break
+          default:
+            statusCounts.new += 1
+            break
+        }
+      }
+
+      updatedDeck.stats.totalCards = updatedDeck.cards.length
+      updatedDeck.stats.newCards = statusCounts.new
+      updatedDeck.stats.learningCards = statusCounts.learning
+      updatedDeck.stats.reviewCards = statusCounts.review
+      updatedDeck.stats.masteredCards = statusCounts.mastered
     }
 
-    // Save to IndexedDB
+    // Save to IndexedDB first
     try {
       await db.put('decks', updatedDeck)
     } catch (error: any) {
@@ -398,6 +412,15 @@ export class FlashcardManager {
       throw error
     }
     this.notifyListeners('decks-changed')
+
+    // Sync to Firebase for premium users (non-blocking)
+    if (isPremium && userId !== 'guest' && updatedDeck.source !== 'anki') {
+      this.syncDeckToFirebase(updatedDeck, userId).catch(err => {
+        console.error('[FlashcardManager.updateFullDeck] Firebase sync failed:', err)
+        // Don't throw - local deck is already updated
+      })
+    }
+
     return updatedDeck
   }
 

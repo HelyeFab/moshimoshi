@@ -89,8 +89,9 @@ export function DeckCreator({
   )
 
   // Cards - initialize with editDeck cards if editing
-  const [cards, setCards] = useState<Array<{ front: string; back: string; notes?: string }>>(
+  const [cards, setCards] = useState<Array<{ id?: string; front: string; back: string; notes?: string }>>(
     editDeck?.cards?.map((card: any) => ({
+      id: card.id, // Preserve existing card ID for SRS data
       front: card.front.text,
       back: card.back.text,
       notes: card.metadata?.notes || '',
@@ -132,6 +133,7 @@ export function DeckCreator({
       setFuriganaOnBack(editDeck.settings?.furigana?.showOnBack ?? true)
       setCards(
         editDeck.cards?.map((card: any) => ({
+          id: card.id, // Preserve existing card ID for SRS data
           front: card.front.text,
           back: card.back.text,
           notes: card.metadata?.notes || '',
@@ -430,6 +432,7 @@ export function DeckCreator({
         },
         sourceListId: importSource === 'list' ? selectedListId : undefined,
         initialCards: cards.map(card => ({
+          ...(card.id ? { id: card.id } : {}), // Preserve existing card ID for SRS data
           front: { text: card.front } as CardSide,
           back: { text: card.back } as CardSide,
           metadata: {

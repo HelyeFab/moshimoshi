@@ -1127,7 +1127,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     }
 
     try {
-      const updatedDeck = await flashcardManager.updateDeck(
+      const updatedDeck = await flashcardManager.updateFullDeck(
         editingDeck.id,
         deckRequest,
         initialData.userId,

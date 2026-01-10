@@ -154,6 +154,7 @@ export interface CreateDeckRequest {
   settings?: Partial<DeckSettings>;
   sourceListId?: string;
   initialCards?: Array<{
+    id?: string; // Preserve existing card ID for SRS data when updating
     front: string | Omit<CardSide, 'style'>;
     back: string | Omit<CardSide, 'style'>;
     metadata?: FlashcardContent['metadata'];
