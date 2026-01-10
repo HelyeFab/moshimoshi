@@ -315,36 +315,58 @@ export async function updateQuestion(
  */
 export async function deleteQuestion(questionId: string, userId: string): Promise<void> {
   try {
+    console.log('[deleteQuestion] Starting deletion', { questionId, userId })
+
     if (!db) throw new QAError('Firestore is not initialized')
 
     const docRef = doc(db, QUESTIONS_COLLECTION, questionId)
     const snapshot = await getDoc(docRef)
 
     if (!snapshot.exists()) {
+      console.log('[deleteQuestion] Question not found')
       throw new QAError('Question not found', 'NOT_FOUND')
     }
 
     const question = snapshot.data()
+    console.log('[deleteQuestion] Question data', { authorUid: question.author?.uid, currentUserId: userId })
+
     if (question.author?.uid !== userId) {
+      console.log('[deleteQuestion] Not authorized - not the author')
       throw new QAError('You can only delete your own questions', 'UNAUTHORIZED')
     }
 
     // Check for approved answers from OTHER users
+    console.log('[deleteQuestion] Checking for answers...')
     const answersQuery = query(collection(db, 'qa_answers'), where('questionId', '==', questionId))
     const answersSnapshot = await getDocs(answersQuery)
+    console.log('[deleteQuestion] Found answers', { count: answersSnapshot.size })
 
     // Filter for approved answers from other users
     const approvedAnswersFromOthers = answersSnapshot.docs.filter(doc => {
       const answer = doc.data()
-      return answer.moderationStatus === 'approved' && answer.author?.uid !== userId
+      const isApproved = answer.moderationStatus === 'approved'
+      const isFromOther = answer.author?.uid !== userId
+      console.log('[deleteQuestion] Answer check', {
+        answerId: doc.id,
+        status: answer.moderationStatus,
+        authorUid: answer.author?.uid,
+        isApproved,
+        isFromOther
+      })
+      return isApproved && isFromOther
     })
 
+    console.log('[deleteQuestion] Approved answers from others', { count: approvedAnswersFromOthers.length })
+
     if (approvedAnswersFromOthers.length > 0) {
+      console.log('[deleteQuestion] BLOCKING: Has approved answers from others')
       throw new QAError(
         'Cannot delete question with approved answers from other users',
         'HAS_APPROVED_ANSWERS'
       )
     }
+
+    console.log('[deleteQuestion] Starting deletion process...')
 
     // Helper to delete a collection query in batches (max 500 writes)
     const deleteByQuery = async (q: any) => {
@@ -390,10 +412,16 @@ export async function deleteQuestion(questionId: string, userId: string): Promis
     await deleteByQuery(questionVotesQuery)
 
     // Finally delete the question
+    console.log('[deleteQuestion] Deleting question document...')
     await deleteDoc(docRef)
+    console.log('[deleteQuestion] ✅ SUCCESS - Question deleted!')
   } catch (error) {
-    if (error instanceof QAError) throw error
-    console.error('Failed to delete question:', error)
+    console.error('[deleteQuestion] ❌ ERROR:', error)
+    if (error instanceof QAError) {
+      console.error('[deleteQuestion] QAError code:', error.code, 'message:', error.message)
+      throw error
+    }
+    console.error('[deleteQuestion] Unexpected error:', error)
     throw new QAError('Failed to delete question')
   }
 }

@@ -161,16 +161,30 @@ export default function QuestionDetailClient({ questionId }: { questionId: strin
   const handleDeleteConfirm = async () => {
     if (!user) return
 
+    console.log('[QuestionDetail] Delete button clicked', { questionId, userId: user.uid })
+
     try {
       setIsDeleting(true)
+      console.log('[QuestionDetail] Calling deleteQuestion...')
       await deleteQuestion(questionId, user.uid)
+      console.log('[QuestionDetail] Delete successful, redirecting...')
       showToast(t('qa.detail.deleted'), 'success')
       router.push(getLocalePath('/village/tea-house'))
     } catch (error: any) {
+      console.error('[QuestionDetail] Delete failed:', error)
+      console.error('[QuestionDetail] Error details:', {
+        name: error.name,
+        code: error.code,
+        message: error.message,
+        stack: error.stack
+      })
+
       // Show specific error message for questions with approved answers
       const errorMessage = error.code === 'HAS_APPROVED_ANSWERS'
         ? t('qa.detail.deleteErrorHasAnswers')
         : error.message || t('qa.detail.deleteError')
+
+      console.log('[QuestionDetail] Showing error message:', errorMessage)
       showToast(errorMessage, 'error')
       setIsDeleting(false)
       setShowDeleteDialog(false)
