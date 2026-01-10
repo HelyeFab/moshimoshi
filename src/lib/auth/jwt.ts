@@ -84,7 +84,7 @@ export function generateSessionId(): string {
  * Generate browser fingerprint hash
  */
 export function generateFingerprint(userAgent?: string, ip?: string): string {
-  const data = `${userAgent || 'unknown'}-${ip || 'unknown'}`
+  const data = `${userAgent || 'unknown'}-${ip || 'unknown'}-${Date.now()}`
   return crypto.createHash('sha256').update(data).digest('hex')
 }
 

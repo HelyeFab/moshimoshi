@@ -1,7 +1,7 @@
 // Session management utilities
 // Handles secure JWT-based sessions with Redis caching for authentication
 
-import { cookies, headers } from 'next/headers'
+import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import {
   createSessionToken,
@@ -21,21 +21,6 @@ const SESSION_COOKIE_OPTIONS = {
   secure: process.env.NODE_ENV === 'production',
   sameSite: 'lax' as const, // Changed from 'strict' to allow Stripe redirects
   path: '/',
-}
-
-async function getRequestFingerprint(): Promise<string | null> {
-  try {
-    const headerStore = await headers()
-    const userAgent = headerStore.get('user-agent') || 'unknown'
-    const ipAddress =
-      headerStore.get('x-forwarded-for')?.split(',')[0] ||
-      headerStore.get('x-real-ip') ||
-      'unknown'
-    return generateFingerprint(userAgent, ipAddress)
-  } catch (error) {
-    console.error('Error generating request fingerprint:', error)
-    return null
-  }
 }
 
 export interface SessionUser {
@@ -178,16 +163,6 @@ export async function getSession(): Promise<SessionUser | null> {
       return null
     }
 
-    const requestFingerprint = await getRequestFingerprint()
-    if (
-      requestFingerprint &&
-      validation.payload.fingerprint &&
-      validation.payload.fingerprint !== requestFingerprint
-    ) {
-      await redis.del(sessionCacheKey)
-      return null
-    }
-
     return {
       uid: validation.payload.uid,
       email: validation.payload.email,
@@ -290,18 +265,6 @@ export async function validateSession(request: NextRequest): Promise<SessionVali
 
     // Verify JWT token
     const validation = verifySessionToken(sessionCookie.value)
-    if (validation.valid && validation.payload?.fingerprint) {
-      const userAgent = request.headers.get('user-agent') || 'unknown'
-      const ipAddress =
-        request.headers.get('x-forwarded-for')?.split(',')[0] ||
-        request.headers.get('x-real-ip') ||
-        'unknown'
-      const requestFingerprint = generateFingerprint(userAgent, ipAddress)
-      if (validation.payload.fingerprint !== requestFingerprint) {
-        return { valid: false, reason: 'fingerprint_mismatch' }
-      }
-    }
-
     return validation
   } catch (error) {
     console.error('Session validation error:', error)

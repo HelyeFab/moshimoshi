@@ -9,7 +9,6 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuth } from 'firebase-admin/auth';
-import { getSession, getTierForSession } from '@/lib/auth/session';
 import { updateStreakTransaction } from '@/lib/gamification/services/streakService';
 
 /**
@@ -31,50 +30,30 @@ import { updateStreakTransaction } from '@/lib/gamification/services/streakServi
  */
 export async function POST(req: NextRequest) {
   try {
-    let userId: string | null = null;
-    let isPremium = false;
+    // Get auth token from request
     const authHeader = req.headers.get('authorization');
-
-    if (authHeader?.startsWith('Bearer ')) {
-      const token = authHeader.substring(7);
-      try {
-        const decodedToken = await getAuth().verifyIdToken(token);
-        userId = decodedToken.uid;
-        isPremium = decodedToken.stripeRole === 'premium' || false;
-      } catch (error: any) {
-        if (error.code === 'auth/id-token-expired') {
-          return NextResponse.json(
-            { success: false, error: 'Token expired' },
-            { status: 401 }
-          );
-        }
-        if (error.code === 'auth/argument-error') {
-          return NextResponse.json(
-            { success: false, error: 'Invalid token' },
-            { status: 401 }
-          );
-        }
-        return NextResponse.json(
-          { success: false, error: 'Invalid token' },
-          { status: 401 }
-        );
-      }
-    } else {
-      const session = await getSession();
-      if (!session) {
-        return NextResponse.json(
-          { success: false, error: 'Unauthorized' },
-          { status: 401 }
-        );
-      }
-      const tier = await getTierForSession(session);
-      isPremium = tier === 'premium_monthly' || tier === 'premium_yearly';
-      userId = session.uid;
+    if (!authHeader?.startsWith('Bearer ')) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Missing or invalid authorization header'
+        },
+        { status: 401 }
+      );
     }
+
+    const token = authHeader.substring(7);
+
+    // Verify token with Firebase Admin
+    const decodedToken = await getAuth().verifyIdToken(token);
+    const userId = decodedToken.uid;
 
     if (!userId) {
       return NextResponse.json(
-        { success: false, error: 'Invalid user ID' },
+        {
+          success: false,
+          error: 'Invalid user ID'
+        },
         { status: 401 }
       );
     }
@@ -82,6 +61,9 @@ export async function POST(req: NextRequest) {
     // Parse request body
     const body = await req.json();
     const { version, xpEarned = 25 } = body; // Default to minimum XP
+
+    // Check if user is premium (for freeze eligibility)
+    const isPremium = decodedToken.stripeRole === 'premium' || false;
 
     // Call streak service
     const result = await updateStreakTransaction(userId, xpEarned, {
@@ -120,6 +102,27 @@ export async function POST(req: NextRequest) {
 
   } catch (error: any) {
     console.error('[API] Streak increment error:', error);
+
+    // Handle specific Firebase errors
+    if (error.code === 'auth/id-token-expired') {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Token expired'
+        },
+        { status: 401 }
+      );
+    }
+
+    if (error.code === 'auth/argument-error') {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'Invalid token'
+        },
+        { status: 401 }
+      );
+    }
 
     return NextResponse.json(
       {

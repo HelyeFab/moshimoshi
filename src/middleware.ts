@@ -78,26 +78,6 @@ function isProtectedRoute(pathname: string): boolean {
  */
 const intlMiddleware = createIntlMiddleware(routing);
 
-async function fetchSessionInfo(request: NextRequest) {
-  try {
-    const response = await fetch(new URL('/api/auth/session', request.url), {
-      headers: {
-        cookie: request.headers.get('cookie') || '',
-      },
-      cache: 'no-store',
-    });
-
-    if (!response.ok) {
-      return null;
-    }
-
-    return await response.json();
-  } catch (error) {
-    console.error('[Middleware] Failed to fetch session info:', error);
-    return null;
-  }
-}
-
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
@@ -140,7 +120,7 @@ export async function middleware(request: NextRequest) {
 
   // Check protected routes - requires authentication (but not admin)
   if (isProtectedRoute(pathname)) {
-    const protectedResponse = await handleProtectedRoute(request);
+    const protectedResponse = handleProtectedRoute(request);
     if (protectedResponse) {
       return protectedResponse; // Redirect to signin
     }
@@ -162,20 +142,18 @@ export async function middleware(request: NextRequest) {
 
 /**
  * Handle protected route authentication.
- * Returns a redirect response if no valid session, or null if authenticated.
+ * Returns a redirect response if no session, or null if authenticated.
+ * This is a lightweight check - just verifies session cookie exists.
  */
-async function handleProtectedRoute(request: NextRequest): Promise<NextResponse | null> {
+function handleProtectedRoute(request: NextRequest): NextResponse | null {
   const sessionCookie = request.cookies.get('session');
 
   if (!sessionCookie?.value) {
+    // No session cookie - redirect to signin
     return NextResponse.redirect(getLocaleAwareRedirect(request, '/auth/signin'));
   }
 
-  const sessionInfo = await fetchSessionInfo(request);
-  if (!sessionInfo?.authenticated) {
-    return NextResponse.redirect(getLocaleAwareRedirect(request, '/auth/signin'));
-  }
-
+  // Session exists - allow access (full validation happens in the page/API)
   return null;
 }
 
@@ -192,17 +170,47 @@ async function handleAdminRoute(request: NextRequest): Promise<NextResponse | nu
     return NextResponse.redirect(getLocaleAwareRedirect(request, '/auth/signin'));
   }
 
-  const sessionInfo = await fetchSessionInfo(request);
-  if (!sessionInfo?.authenticated) {
+  // Use Edge-compatible JWT decoder (no signature verification in middleware)
+  try {
+    // Import Edge-compatible JWT validation
+    const { validateTokenBasic } = await import('@/lib/auth/jwt-edge');
+    const validation = validateTokenBasic(sessionCookie.value);
+
+    console.log('[Middleware] Token validation result:', {
+      valid: validation.valid,
+      hasPayload: !!validation.payload,
+      admin: validation.payload?.admin,
+      uid: validation.payload?.uid,
+      reason: validation.reason,
+    });
+
+    if (!validation.valid) {
+      console.warn(
+        '[Middleware] Invalid session token for admin route:',
+        validation.reason
+      );
+      return NextResponse.redirect(getLocaleAwareRedirect(request, '/auth/signin'));
+    }
+
+    // Check if user has admin flag in JWT
+    // Note: This is a preliminary check without signature verification
+    // API routes will do full Firebase validation with proper JWT verification
+    if (!validation.payload?.admin) {
+      console.warn(
+        `[Middleware] Non-admin user attempted admin route: ${validation.payload?.uid?.substring(0, 8)}...`
+      );
+      console.warn('[Middleware] Full payload:', validation.payload);
+      return NextResponse.redirect(getLocaleAwareRedirect(request, '/dashboard'));
+    }
+
+    // Token appears valid and user appears to be admin
+    // Full verification happens in API routes with Node.js runtime
+    return null; // Access granted
+  } catch (error) {
+    console.error('[Middleware] Error validating admin session:', error);
+    // On error, redirect to signin for security
     return NextResponse.redirect(getLocaleAwareRedirect(request, '/auth/signin'));
   }
-
-  if (!sessionInfo.user?.isAdmin) {
-    console.warn('[Middleware] Non-admin user attempted admin route');
-    return NextResponse.redirect(getLocaleAwareRedirect(request, '/dashboard'));
-  }
-
-  return null;
 }
 
 /**

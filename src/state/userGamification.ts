@@ -259,16 +259,20 @@ export const useGamificationStore = create<GamificationState>()(
           const { getAuth } = await import('firebase/auth')
           const auth = getAuth()
           const user = auth.currentUser
-          const idToken = user ? await user.getIdToken() : null
+
+          if (!user) {
+            throw new Error('User not authenticated')
+          }
+
+          const idToken = await user.getIdToken()
 
           // Call transactional API endpoint
           const response = await fetch('/api/gamification/streak/increment', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              ...(idToken ? { Authorization: `Bearer ${idToken}` } : {})
+              Authorization: `Bearer ${idToken}`,
             },
-            credentials: 'include',
             body: JSON.stringify({
               version: state.version,
             }),
@@ -350,16 +354,20 @@ export const useGamificationStore = create<GamificationState>()(
           const { getAuth } = await import('firebase/auth')
           const auth = getAuth()
           const user = auth.currentUser
-          const idToken = user ? await user.getIdToken() : null
+
+          if (!user) {
+            throw new Error('User not authenticated')
+          }
+
+          const idToken = await user.getIdToken()
 
           // Call transactional API endpoint
           const response = await fetch('/api/gamification/streak/reset', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              ...(idToken ? { Authorization: `Bearer ${idToken}` } : {})
+              Authorization: `Bearer ${idToken}`,
             },
-            credentials: 'include',
             body: JSON.stringify({
               version: state.version,
             }),
