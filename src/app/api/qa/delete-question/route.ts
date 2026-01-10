@@ -8,15 +8,21 @@ import { adminDb, verifySessionCookie } from '@/lib/firebase/admin'
 export async function DELETE(request: NextRequest) {
   try {
     console.log('[API /qa/delete-question] Request received')
+    console.log('[API /qa/delete-question] Cookies:', request.cookies.getAll())
 
     // Verify authentication
     const sessionCookie = request.cookies.get('__session')?.value
+    console.log('[API /qa/delete-question] Session cookie exists:', !!sessionCookie)
+
     if (!sessionCookie) {
-      console.log('[API /qa/delete-question] No session cookie')
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+      console.log('[API /qa/delete-question] No session cookie found')
+      return NextResponse.json({ error: 'Unauthorized - No session cookie' }, { status: 401 })
     }
 
+    console.log('[API /qa/delete-question] Verifying session cookie...')
     const decodedClaims = await verifySessionCookie(sessionCookie)
+    console.log('[API /qa/delete-question] Decoded claims:', decodedClaims ? 'valid' : 'invalid')
+
     if (!decodedClaims) {
       console.log('[API /qa/delete-question] Invalid session')
       return NextResponse.json({ error: 'Invalid session' }, { status: 401 })
@@ -24,6 +30,8 @@ export async function DELETE(request: NextRequest) {
 
     const userId = decodedClaims.uid
     const { questionId } = await request.json()
+
+    console.log('[API /qa/delete-question] Authenticated user:', userId)
 
     console.log('[API /qa/delete-question] Deleting question', { questionId, userId })
 
