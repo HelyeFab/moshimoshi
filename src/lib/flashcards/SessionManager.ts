@@ -376,7 +376,11 @@ export class FlashcardSessionManager {
       : [];
 
     // Calculate overall retention rate
-    const overallAccuracy = sessions.reduce((sum, s) => sum + s.accuracy, 0) / sessions.length;
+    // Clamp each session accuracy to [0, 1] range to handle legacy data issues
+    const overallAccuracy = sessions.reduce((sum, s) => {
+      const clampedAccuracy = Math.min(1, Math.max(0, s.accuracy));
+      return sum + clampedAccuracy;
+    }, 0) / sessions.length;
 
     // Calculate learning velocity (cards mastered per day)
     // Use minimum 1 day to avoid inflated numbers when sessions are within same day

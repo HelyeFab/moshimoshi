@@ -81,7 +81,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
       id: 'due',
       name: t('flashcards.modes.due.name'),
       description: t('flashcards.modes.due.description'),
-      icon: <Clock className="w-6 h-6" />,
+      icon: <Clock className="w-4 h-4" />,
       color: 'from-blue-500 to-indigo-600',
       cardCount: dueCards.length,
       estimatedTime: Math.ceil((dueCards.length * 3) / 60)
@@ -90,7 +90,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
       id: 'new',
       name: t('flashcards.modes.new.name'),
       description: t('flashcards.modes.new.description'),
-      icon: <Sparkles className="w-6 h-6" />,
+      icon: <Sparkles className="w-4 h-4" />,
       color: 'from-green-500 to-emerald-600',
       cardCount: newCards.length,
       estimatedTime: Math.ceil((newCards.length * 4) / 60)
@@ -99,7 +99,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
       id: 'all',
       name: t('flashcards.modes.all.name'),
       description: t('flashcards.modes.all.description'),
-      icon: <BookOpen className="w-6 h-6" />,
+      icon: <BookOpen className="w-4 h-4" />,
       color: 'from-purple-500 to-pink-600',
       cardCount: deck.cards.length,
       estimatedTime: Math.ceil((deck.cards.length * 3) / 60)
@@ -108,7 +108,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
       id: 'cramming',
       name: t('flashcards.modes.cramming.name'),
       description: t('flashcards.modes.cramming.description'),
-      icon: <Zap className="w-6 h-6" />,
+      icon: <Zap className="w-4 h-4" />,
       color: 'from-yellow-500 to-orange-600',
       cardCount: Math.min(50, deck.cards.length),
       estimatedTime: 15
@@ -117,7 +117,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
       id: 'speed',
       name: t('flashcards.modes.speed.name'),
       description: t('flashcards.modes.speed.description'),
-      icon: <Timer className="w-6 h-6" />,
+      icon: <Timer className="w-4 h-4" />,
       color: 'from-red-500 to-rose-600',
       cardCount: Math.min(20, deck.cards.length),
       estimatedTime: 5
@@ -126,7 +126,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
       id: 'weakness',
       name: t('flashcards.modes.weakness.name'),
       description: t('flashcards.modes.weakness.description'),
-      icon: <TrendingDown className="w-6 h-6" />,
+      icon: <TrendingDown className="w-4 h-4" />,
       color: 'from-amber-500 to-orange-600',
       cardCount: weakCards.length,
       estimatedTime: Math.ceil((weakCards.length * 4) / 60)
@@ -135,7 +135,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
       id: 'custom',
       name: t('flashcards.modes.custom.name'),
       description: t('flashcards.modes.custom.description'),
-      icon: <Brain className="w-6 h-6" />,
+      icon: <Brain className="w-4 h-4" />,
       color: 'from-gray-500 to-gray-700',
       cardCount: 0,
       estimatedTime: 0
@@ -270,41 +270,46 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
                     : "bg-gray-50 dark:bg-dark-700 hover:shadow-md"
                 )}
               >
-                <div className="flex items-start gap-4">
-                  <div className={cn(
-                    "w-12 h-12 rounded-lg bg-gradient-to-br flex items-center justify-center text-white flex-shrink-0",
-                    mode.color
-                  )}>
-                    {mode.icon}
-                  </div>
-                  <div className="flex-1 min-w-0">
+                <div className="space-y-2">
+                  {/* Row 1: Icon + Title */}
+                  <div className="flex items-center gap-3">
+                    <div className={cn(
+                      "w-8 h-8 rounded-lg bg-gradient-to-br flex items-center justify-center text-white flex-shrink-0",
+                      mode.color
+                    )}>
+                      {mode.icon}
+                    </div>
                     <h3 className="font-semibold text-gray-900 dark:text-gray-100">
                       {mode.name}
                     </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                      {mode.description}
-                    </p>
-                    {mode.cardCount !== undefined && mode.cardCount > 0 && (
-                      <div className="flex items-center gap-3 mt-2 text-xs text-gray-500 dark:text-gray-500">
-                        <span className="flex items-center gap-1">
-                          <Target className="w-3 h-3" />
-                          {mode.cardCount} {t('flashcards.cards')}
-                        </span>
-                        {mode.estimatedTime !== undefined && mode.estimatedTime > 0 && (
-                          <span className="flex items-center gap-1">
-                            <Clock className="w-3 h-3" />
-                            {mode.estimatedTime} {t('common.minutes')}
-                          </span>
-                        )}
-                      </div>
-                    )}
-                    {mode.cardCount === 0 && mode.id !== 'custom' && (
-                      <div className="mt-2 text-xs text-amber-600 dark:text-amber-400 flex items-center gap-1">
-                        <AlertCircle className="w-3 h-3" />
-                        {t('flashcards.noCardsAvailable')}
-                      </div>
-                    )}
                   </div>
+
+                  {/* Row 2: Description */}
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    {mode.description}
+                  </p>
+
+                  {/* Row 3: Stats */}
+                  {mode.cardCount !== undefined && mode.cardCount > 0 && (
+                    <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-500">
+                      <span className="flex items-center gap-1">
+                        <Target className="w-3 h-3" />
+                        {mode.cardCount} {t('flashcards.cards')}
+                      </span>
+                      {mode.estimatedTime !== undefined && mode.estimatedTime > 0 && (
+                        <span className="flex items-center gap-1">
+                          <Clock className="w-3 h-3" />
+                          {mode.estimatedTime} {t('common.minutes')}
+                        </span>
+                      )}
+                    </div>
+                  )}
+                  {mode.cardCount === 0 && mode.id !== 'custom' && (
+                    <div className="text-xs text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                      <AlertCircle className="w-3 h-3" />
+                      {t('flashcards.noCardsAvailable')}
+                    </div>
+                  )}
                 </div>
 
                 {selectedMode === mode.id && (
@@ -423,24 +428,24 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
             )}
           </AnimatePresence>
 
-          <div className="mt-6 flex justify-end gap-3">
-            <button
-              onClick={onClose}
-              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
-            >
-              {t('common.cancel')}
-            </button>
+          <div className="mt-6 flex flex-col gap-3">
             <button
               onClick={handleStartStudy}
               disabled={!selectedMode || (selectedMode !== 'custom' && modes.find(m => m.id === selectedMode)?.cardCount === 0)}
               className={cn(
-                "px-6 py-2 rounded-lg font-medium transition-all",
+                "w-full px-6 py-3 rounded-lg font-medium transition-all",
                 selectedMode && (selectedMode === 'custom' || modes.find(m => m.id === selectedMode)?.cardCount !== 0)
                   ? "bg-gradient-to-r from-primary-500 to-purple-600 text-white hover:shadow-lg"
                   : "bg-gray-200 dark:bg-dark-700 text-gray-400 cursor-not-allowed"
               )}
             >
               {t('flashcards.startStudying')}
+            </button>
+            <button
+              onClick={onClose}
+              className="w-full px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors border border-gray-300 dark:border-dark-600"
+            >
+              {t('common.cancel')}
             </button>
           </div>
 

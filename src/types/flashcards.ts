@@ -199,6 +199,34 @@ export interface StudySessionResponse {
   startedAt: number;
 }
 
+export interface PersistedStudySession {
+  version: 1;
+  userId: string;
+  deckId: string;
+  mode: StudyMode;
+  cardIds: string[];
+  currentIndex: number;
+  responses: Array<[
+    string,
+    { correct: boolean; difficulty?: string; responseTime: number }
+  ]>;
+  correctCount: number;
+  incorrectCount: number;
+  skippedCount: number;
+  newCardsStudied: number;
+  learningCardsStudied: number;
+  reviewCardsStudied: number;
+  streakCount: number;
+  bestStreak: number;
+  totalResponseTime: number;
+  fastestResponseTime: number;
+  slowestResponseTime: number;
+  elapsedTime: number;
+  pausedTime: number;
+  isPaused: boolean;
+  savedAt: number;
+}
+
 export interface ReviewResult {
   cardId: string;
   correct: boolean;

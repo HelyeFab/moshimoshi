@@ -31,6 +31,47 @@ export async function GET() {
     const doc = await getDocRef(session.uid).get()
 
     if (!doc.exists) {
+      // No saved layout - check onboarding goal and build personalized order
+      try {
+        const userDoc = await adminFirestore!.collection('users').doc(session.uid).get()
+        const onboardingGoal = userDoc.data()?.onboarding?.learningGoal as string | null
+
+        if (onboardingGoal) {
+          // Build personalized order from goal
+          const GOAL_TO_PRIORITY: Record<string, DistrictId> = {
+            jlpt: 'study',
+            anime: 'immersion',
+            travel: 'immersion',
+            conversation: 'immersion',
+          }
+
+          const priority = GOAL_TO_PRIORITY[onboardingGoal]
+          if (priority) {
+            const personalizedOrder = [
+              priority,
+              ...DEFAULT_DISTRICT_ORDER.filter(d => d !== priority),
+            ]
+
+            // Save it for next time
+            await getDocRef(session.uid).set({
+              districtOrder: personalizedOrder,
+              source: 'personalized',
+              generatedAt: FieldValue.serverTimestamp(),
+            })
+
+            return NextResponse.json({
+              success: true,
+              data: { districtOrder: personalizedOrder },
+              source: 'personalized',
+            })
+          }
+        }
+      } catch (err) {
+        console.error('[API] Error building personalized layout:', err)
+        // Fall through to default
+      }
+
+      // No goal or error - return default
       return NextResponse.json({
         success: true,
         data: DEFAULT_LAYOUT,

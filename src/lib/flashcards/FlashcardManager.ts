@@ -164,43 +164,14 @@ export class FlashcardManager {
     isPremium: boolean,
     retryOnAuthFailure: boolean = true
   ): Promise<FlashcardDeck[]> {
-    console.log('🔍 [FlashcardManager.getDecks] Loading decks for user:', userId, 'isPremium:', isPremium)
     const db = await this.initDB()
 
     // Load all decks from IndexedDB (local-only storage)
     let decks = await db.getAllFromIndex('decks', 'userId', userId)
 
-    // DEBUG: Check ALL decks in IndexedDB regardless of userId
-    const allDecksInDB = await db.getAll('decks')
-    console.log('🔍 [FlashcardManager.getDecks] ALL decks in IndexedDB (debug):', {
-      totalDecks: allDecksInDB.length,
-      allDecks: allDecksInDB.map(d => ({
-        id: d.id,
-        name: d.name,
-        userId: d.userId,
-        source: d.source,
-        cardCount: d.cards?.length,
-        hasCards: !!d.cards,
-        cardsArray: Array.isArray(d.cards),
-        firstCard: d.cards?.[0]
-      }))
-    })
-
-    console.log('📦 [FlashcardManager.getDecks] Decks for userId', userId, ':', {
-      deckCount: decks.length,
-      decks: decks.map(d => ({
-        id: d.id,
-        name: d.name,
-        source: d.source,
-        cardCount: d.cards?.length,
-        firstCardPreview: d.cards?.[0]
-      }))
-    })
-
     // Normalize Anki-imported decks to match FlashcardContent structure
     decks = decks.map((deck: any) => {
       if (deck.source === 'anki' && deck.cards?.length > 0) {
-        console.log('🔄 [FlashcardManager.getDecks] Normalizing Anki deck:', deck.name, 'with', deck.cards.length, 'cards')
         return {
           ...deck,
           cards: deck.cards.map((card: any) => this.normalizeAnkiCard(card))
@@ -209,7 +180,6 @@ export class FlashcardManager {
       return deck
     })
 
-    console.log('✅ [FlashcardManager.getDecks] Returning', decks.length, 'decks')
     return decks.sort((a, b) => b.updatedAt - a.updatedAt)
   }
 
@@ -245,6 +215,20 @@ export class FlashcardManager {
     if (!hasSpace) {
       const error = new Error('QuotaExceededError: Insufficient storage space')
       error.name = 'QuotaExceededError'
+      throw error
+    }
+
+    // Check deck limit before creating deck
+    const userTier = isPremium ? 'premium_yearly' : 'free'
+    const limits = FlashcardManager.getDeckLimits(userTier)
+
+    // Get existing user decks (exclude Anki decks from count)
+    const existingDecks = await this.getDecks(userId, isPremium)
+    const userDecks = existingDecks.filter(d => d.source !== 'anki')
+
+    if (limits.maxDecks !== -1 && userDecks.length >= limits.maxDecks) {
+      const error = new Error(`DECK_LIMIT_REACHED: You've reached the maximum of ${limits.maxDecks} decks for your plan`)
+      error.name = 'DECK_LIMIT_REACHED'
       throw error
     }
 
@@ -309,6 +293,14 @@ export class FlashcardManager {
       console.error('❌ [FlashcardManager.createDeck] Failed to save deck:', error)
       const handled = storageManager.handleStorageError(error)
       throw new Error(handled.message)
+    }
+
+    // Sync to Firebase for premium users (non-blocking)
+    if (isPremium && userId !== 'guest' && deck.source !== 'anki') {
+      this.syncDeckToFirebase(deck, userId).catch(err => {
+        console.error('[FlashcardManager.createDeck] Firebase sync failed:', err)
+        // Don't throw - local deck is already created
+      })
     }
 
     return deck
@@ -730,38 +722,7 @@ export class FlashcardManager {
       deck.stats.masteredCards = statusCounts.mastered
     }
 
-    // Save to server ONLY for premium users
-    if (isPremium && userId !== 'guest') {
-      try {
-        const response = await fetch(`/api/flashcards/decks/${deckId}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify(updates),
-        })
-
-        if (response.ok) {
-          const responseData = await response.json()
-          // Response is wrapped by createStorageResponse: { success, data: { deck }, storage }
-          const serverDeck = responseData.data?.deck || responseData.deck
-          try {
-            await db.put('decks', serverDeck)
-          } catch (error: any) {
-            if (error?.name === 'QuotaExceededError') {
-              const handled = storageManager.handleStorageError(error)
-              throw new Error(handled.message)
-            }
-            throw error
-          }
-          this.notifyListeners('decks-changed')
-          return serverDeck
-        }
-      } catch (error) {
-        console.error('Failed to update deck on server:', error)
-      }
-    }
-
-    // Fallback to local storage
+    // Save to local storage
     try {
       await db.put('decks', deck)
     } catch (error: any) {
@@ -772,6 +733,15 @@ export class FlashcardManager {
       throw error
     }
     this.notifyListeners('decks-changed')
+
+    // Sync to Firebase for premium users (non-blocking)
+    if (isPremium && userId !== 'guest' && deck.source !== 'anki') {
+      this.syncDeckToFirebase(deck, userId).catch(err => {
+        console.error('[FlashcardManager.updateDeck] Firebase sync failed:', err)
+        // Don't throw - local deck is already updated
+      })
+    }
+
     return deck
   }
 
@@ -797,8 +767,14 @@ export class FlashcardManager {
 
     if (!deck) return false
 
-    // Delete from server ONLY for premium users
-    if (isPremium && userId !== 'guest') {
+    // Delete from local storage first
+    await db.delete('decks', deckId)
+    this.notifyListeners('decks-changed')
+
+    // Sync deletion to Firebase for premium users with non-Anki decks
+    if (isPremium && userId !== 'guest' && deck.source !== 'anki') {
+      console.log('[FlashcardManager.deleteDeck] Syncing deletion to Firebase:', deck.name)
+
       try {
         const response = await fetch(`/api/flashcards/decks/${deckId}`, {
           method: 'DELETE',
@@ -806,18 +782,18 @@ export class FlashcardManager {
         })
 
         if (response.ok) {
-          await db.delete('decks', deckId)
-          this.notifyListeners('decks-changed')
-          return true
+          console.log('[FlashcardManager.deleteDeck] Deck deleted from Firebase successfully')
+        } else {
+          const error = await response.text()
+          console.error('[FlashcardManager.deleteDeck] Failed to delete from Firebase:', error)
+          // Don't throw - local deletion already succeeded
         }
       } catch (error) {
-        console.error('Failed to delete deck on server:', error)
+        console.error('[FlashcardManager.deleteDeck] Error syncing deletion to Firebase:', error)
+        // Don't throw - local deletion already succeeded
       }
     }
 
-    // Fallback to local deletion
-    await db.delete('decks', deckId)
-    this.notifyListeners('decks-changed')
     return true
   }
 
@@ -932,89 +908,174 @@ export class FlashcardManager {
     this.listeners.get(event)?.forEach(callback => callback())
   }
 
-  // Sync a deck to Firebase (for premium users)
-  async syncDeckToFirebase(deck: FlashcardDeck, userId: string): Promise<boolean> {
+  /**
+   * Sync a single deck to Firebase (for premium users)
+   * Used for incremental sync after create/update operations
+   * Private method - called internally after CRUD operations
+   */
+  private async syncDeckToFirebase(deck: FlashcardDeck, userId: string): Promise<void> {
     try {
-      console.log('[FlashcardManager.syncDeckToFirebase] Syncing deck to Firebase:', deck.id)
-
-      // First, check if the deck exists in Firebase
-      const checkResponse = await fetch(`/api/flashcards/decks/${deck.id}`, {
-        method: 'GET',
-        credentials: 'include',
-      })
-
-      let response
-
-      if (checkResponse.ok) {
-        // Deck exists, update it
-        console.log('[FlashcardManager.syncDeckToFirebase] Deck exists, updating...')
-
-        const updateRequest: UpdateDeckRequest = {
-          name: deck.name,
-          description: deck.description,
-          emoji: deck.emoji,
-          color: deck.color,
-          cardStyle: deck.cardStyle,
-          settings: deck.settings,
-          cards: deck.cards,
-        }
-
-        response = await fetch(`/api/flashcards/decks/${deck.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify(updateRequest),
-        })
-      } else if (checkResponse.status === 404) {
-        // Deck doesn't exist, create it
-        console.log('[FlashcardManager.syncDeckToFirebase] Deck not found, creating new...')
-
-        const createRequest: CreateDeckRequest = {
-          id: deck.id, // IMPORTANT: Pass the existing deck ID to prevent duplication
-          name: deck.name,
-          description: deck.description,
-          emoji: deck.emoji,
-          color: deck.color,
-          cardStyle: deck.cardStyle,
-          settings: deck.settings,
-          initialCards: deck.cards,
-          sourceListId: deck.sourceListId,
-        }
-
-        response = await fetch('/api/flashcards/decks', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify(createRequest),
-        })
-      } else {
-        console.error('[FlashcardManager.syncDeckToFirebase] Failed to check deck existence')
-        return false
+      // CRITICAL: Skip Anki decks
+      if (deck.source === 'anki') {
+        console.log('[FlashcardManager.syncDeckToFirebase] Skipping Anki deck:', deck.name)
+        return
       }
 
-      if (response.ok) {
-        console.log('[FlashcardManager.syncDeckToFirebase] Deck synced successfully')
-        // Update local IndexedDB as well
-        const db = await this.initDB()
-        try {
-          await db.put('decks', deck)
-        } catch (error: any) {
-          if (error?.name === 'QuotaExceededError') {
-            const handled = storageManager.handleStorageError(error)
-            throw new Error(handled.message)
-          }
-          throw error
-        }
-        this.notifyListeners('decks-changed')
-        return true
+      console.log('[FlashcardManager.syncDeckToFirebase] Syncing single deck to Firebase:', deck.name)
+
+      // Use batch endpoint for simplicity (handles both create and update)
+      const response = await fetch('/api/flashcards/decks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ decks: [deck] })
+      })
+
+      if (!response.ok) {
+        console.error('[FlashcardManager.syncDeckToFirebase] Sync failed:', await response.text())
       } else {
-        const error = await response.json()
-        console.error('[FlashcardManager.syncDeckToFirebase] Sync failed:', error)
-        return false
+        console.log('[FlashcardManager.syncDeckToFirebase] Deck synced successfully')
       }
     } catch (error) {
       console.error('[FlashcardManager.syncDeckToFirebase] Error syncing deck:', error)
-      return false
+      // Don't throw - local deck is already created/updated
+    }
+  }
+
+  /**
+   * Upload all user-created decks to Firebase
+   * Filters out Anki decks (source !== 'anki')
+   * Used for bulk sync operation
+   */
+  async syncAllDecksToFirebase(
+    userId: string,
+    isPremium: boolean
+  ): Promise<{ synced: number; failed: number; conflicts: number }> {
+    if (!isPremium) {
+      throw new Error('Premium required for sync')
+    }
+
+    console.log('[FlashcardManager.syncAllDecksToFirebase] Starting bulk sync to Firebase...')
+
+    // Get all local decks
+    const localDecks = await this.getDecks(userId, isPremium)
+
+    // CRITICAL: Filter out Anki decks
+    const userDecks = localDecks.filter(d => d.source !== 'anki')
+
+    console.log('[FlashcardManager.syncAllDecksToFirebase] Decks to sync:', {
+      total: localDecks.length,
+      userDecks: userDecks.length,
+      ankiDecks: localDecks.length - userDecks.length
+    })
+
+    if (userDecks.length === 0) {
+      return { synced: 0, failed: 0, conflicts: 0 }
+    }
+
+    try {
+      // Batch sync to Firebase
+      const response = await fetch('/api/flashcards/decks', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ decks: userDecks })
+      })
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        throw new Error(`Sync failed: ${errorText}`)
+      }
+
+      const result = await response.json()
+      console.log('[FlashcardManager.syncAllDecksToFirebase] Bulk sync complete:', result)
+      return result
+    } catch (error) {
+      console.error('[FlashcardManager.syncAllDecksToFirebase] Error:', error)
+      throw error
+    }
+  }
+
+  /**
+   * Download decks from Firebase and merge into IndexedDB
+   * Uses Last-Write-Wins (LWW) conflict resolution
+   */
+  async syncDecksFromFirebase(
+    userId: string,
+    isPremium: boolean
+  ): Promise<{ downloaded: number; merged: number; localWins: number }> {
+    if (!isPremium) {
+      throw new Error('Premium required for sync')
+    }
+
+    console.log('[FlashcardManager.syncDecksFromFirebase] Starting download from Firebase...')
+
+    try {
+      // Fetch remote decks
+      const response = await fetch('/api/flashcards/decks', {
+        method: 'GET',
+        credentials: 'include'
+      })
+
+      if (!response.ok) {
+        const errorText = await response.text()
+        throw new Error(`Failed to fetch remote decks: ${errorText}`)
+      }
+
+      const { decks: remoteDecks } = await response.json()
+
+      console.log('[FlashcardManager.syncDecksFromFirebase] Fetched from Firebase:', {
+        count: remoteDecks.length
+      })
+
+      // Get local decks for comparison
+      const localDecks = await this.getDecks(userId, isPremium)
+      const localDeckMap = new Map(localDecks.map(d => [d.id, d]))
+
+      const db = await this.initDB()
+      let downloaded = 0,
+        merged = 0,
+        localWins = 0
+
+      // LWW conflict resolution
+      for (const remoteDeck of remoteDecks) {
+        const localDeck = localDeckMap.get(remoteDeck.id)
+
+        if (!localDeck) {
+          // New deck from remote - insert
+          console.log('[FlashcardManager.syncDecksFromFirebase] New deck from remote:', remoteDeck.name)
+          await db.put('decks', remoteDeck)
+          downloaded++
+        } else {
+          // Conflict - compare updatedAt timestamps (LWW)
+          if (remoteDeck.updatedAt > localDeck.updatedAt) {
+            // Remote is newer - overwrite local
+            console.log('[FlashcardManager.syncDecksFromFirebase] Remote newer, merging:', remoteDeck.name)
+            await db.put('decks', remoteDeck)
+            merged++
+          } else {
+            // Local is newer - will be pushed in upload phase
+            console.log('[FlashcardManager.syncDecksFromFirebase] Local newer, keeping:', localDeck.name)
+            localWins++
+          }
+        }
+      }
+
+      // Note: Automatic deletion sync removed to prevent data loss
+      // Issue: Can't distinguish between "deleted in Firebase" vs "new offline deck not yet uploaded"
+      // Trade-off: Only support Local delete → Firebase (via DELETE API), not Firebase delete → Local auto-delete
+      // This prevents accidentally deleting offline-created decks that haven't been uploaded yet
+
+      if (downloaded > 0 || merged > 0) {
+        this.notifyListeners('decks-changed')
+      }
+
+      const result = { downloaded, merged, localWins }
+      console.log('[FlashcardManager.syncDecksFromFirebase] Download complete:', result)
+      return result
+    } catch (error) {
+      console.error('[FlashcardManager.syncDecksFromFirebase] Error:', error)
+      throw error
     }
   }
 

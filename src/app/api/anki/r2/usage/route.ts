@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth/session'
+import { requireR2Entitlement } from '@/lib/api/r2-entitlement'
 import { adminDb } from '@/lib/firebase/admin'
 import { GetObjectCommand } from '@aws-sdk/client-s3'
 import { getR2Config } from '@/lib/r2/r2-client'
@@ -12,6 +13,13 @@ const LIMIT_BYTES = 300 * 1024 * 1024
 export async function GET(request: NextRequest) {
   try {
     const session = await requireAuth()
+    const entitlement = await requireR2Entitlement(session)
+    if (!entitlement.allowed && entitlement.reason === 'not_premium') {
+      return NextResponse.json(
+        { error: { code: 'PREMIUM_REQUIRED', message: 'Premium required' } },
+        { status: 403 }
+      )
+    }
 
     if (!adminDb) {
       throw new Error('Firebase Admin DB not initialized')

@@ -4193,6 +4193,9 @@ export const strings = {
       syncNow: 'Sincronizza ora',
       inProgress: 'Sincronizzazione...',
       syncingDeck: 'Sincronizzazione di {{deck}}...',
+      cancelSyncTitle: 'Stop syncing?',
+      cancelSyncMessage: 'This will stop the current sync and clear any in-progress restores.',
+      cancelSyncConfirm: 'Stop sync',
       infoModal: {
         title: 'Sincronizzazione dei tuoi mazzi',
         message: 'Il tempo di sincronizzazione dipende dalla dimensione dei tuoi mazzi e file multimediali. Durante la sincronizzazione:',
@@ -4232,6 +4235,13 @@ export const strings = {
       noDecksDescription: 'Inizia creando il tuo primo mazzo di flashcard per iniziare il tuo percorso di apprendimento',
       createFirstDeck: 'Crea il tuo primo mazzo',
     },
+    sync: {
+      deckSync: 'Sincronizzazione mazzi...',
+      downloading: 'Download dal cloud',
+      uploading: 'Caricamento sul cloud',
+      decksSynced: '{count} mazzi sincronizzati',
+      deckSyncComplete: 'Sincronizzazione mazzi completata',
+    },
     errors: {
       loadFailed: 'Caricamento fallito',
       saveFailed: 'Salvataggio fallito',
@@ -4240,6 +4250,9 @@ export const strings = {
       upgradeRequired: 'Aggiornamento richiesto',
       offlineOnly: 'Modalità offline',
       syncFailed: 'Sincronizzazione fallita',
+      deckSyncFailed: 'Sincronizzazione mazzi fallita. Riprova.',
+      syncRequiresPremium: 'Abbonamento premium richiesto per la sincronizzazione',
+      deckLimitReached: 'Hai raggiunto il numero massimo di mazzi (15) per il tuo piano',
     },
     limits: {
       guest: 'Accedi per creare mazzi',

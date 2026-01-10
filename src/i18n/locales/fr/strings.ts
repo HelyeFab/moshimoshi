@@ -4073,6 +4073,9 @@ export const strings = {
       syncNow: 'Synchroniser maintenant',
       inProgress: 'Synchronisation...',
       syncingDeck: 'Synchronisation de {{deck}}...',
+      cancelSyncTitle: 'Stop syncing?',
+      cancelSyncMessage: 'This will stop the current sync and clear any in-progress restores.',
+      cancelSyncConfirm: 'Stop sync',
       infoModal: {
         title: 'Synchronisation de vos decks',
         message: 'Le temps de synchronisation dépend de la taille de vos decks et fichiers multimédias. Pendant la synchronisation :',
@@ -4112,6 +4115,13 @@ export const strings = {
       noDecksDescription: 'Commencez par créer votre premier paquet de cartes flash pour commencer votre apprentissage',
       createFirstDeck: 'Créer votre premier paquet',
     },
+    sync: {
+      deckSync: 'Synchronisation des paquets...',
+      downloading: 'Téléchargement depuis le cloud',
+      uploading: 'Chargement vers le cloud',
+      decksSynced: '{count} paquets synchronisés',
+      deckSyncComplete: 'Synchronisation des paquets terminée',
+    },
     errors: {
       loadFailed: 'Échec du chargement',
       saveFailed: 'Échec de la sauvegarde',
@@ -4120,6 +4130,9 @@ export const strings = {
       upgradeRequired: 'Mise à niveau requise',
       offlineOnly: 'Mode hors ligne',
       syncFailed: 'Échec de la synchronisation',
+      deckSyncFailed: 'Échec de la synchronisation des paquets. Veuillez réessayer.',
+      syncRequiresPremium: 'Abonnement premium requis pour la synchronisation',
+      deckLimitReached: 'Vous avez atteint le nombre maximum de paquets (15) pour votre plan',
     },
     limits: {
       guest: 'Connectez-vous pour créer des paquets',

@@ -1,11 +1,13 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Card, CardHeader, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Avatar } from '@/components/ui/Avatar'
 import { MessageCircle, CheckCircle } from 'lucide-react'
 import { useI18n, useLocalePath } from '@/i18n/I18nContext'
+import { useAuth } from '@/hooks/useAuth'
 import { cn } from '@/lib/utils'
 import type { Question } from '@/types/qa'
 import VoteButton from './VoteButton'
@@ -24,6 +26,26 @@ interface QuestionCardProps {
 export default function QuestionCard({ question, userVote, compact = false }: QuestionCardProps) {
   const { t } = useI18n()
   const { getLocalePath } = useLocalePath()
+  const { user } = useAuth()
+
+  // Track author avatar with event-driven updates
+  const [authorAvatar, setAuthorAvatar] = useState(question.author.avatar)
+  const [avatarKey, setAvatarKey] = useState(Date.now())
+
+  // Listen for profile photo updates
+  useEffect(() => {
+    const handlePhotoUpdate = (event: Event) => {
+      const customEvent = event as CustomEvent<{ photoURL: string }>
+      // Only update if this question was authored by the current user
+      if (user?.uid === question.author.uid) {
+        setAuthorAvatar(customEvent.detail.photoURL)
+        setAvatarKey(Date.now())
+      }
+    }
+
+    window.addEventListener('profile-photo-updated', handlePhotoUpdate)
+    return () => window.removeEventListener('profile-photo-updated', handlePhotoUpdate)
+  }, [user?.uid, question.author.uid])
 
   const questionUrl = getLocalePath(`/village/tea-house/${question.id}`)
 
@@ -113,7 +135,8 @@ export default function QuestionCard({ question, userVote, compact = false }: Qu
               {/* Author info */}
               <div className="flex items-center gap-2">
                 <Avatar
-                  src={question.author.avatar}
+                  key={avatarKey}
+                  src={authorAvatar}
                   name={question.author.name}
                   size="xs"
                   className="flex-shrink-0"

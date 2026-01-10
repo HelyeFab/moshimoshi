@@ -4117,6 +4117,9 @@ export const strings = {
       syncNow: 'Sincronizar ahora',
       inProgress: 'Sincronizando...',
       syncingDeck: 'Sincronizando {{deck}}...',
+      cancelSyncTitle: 'Stop syncing?',
+      cancelSyncMessage: 'This will stop the current sync and clear any in-progress restores.',
+      cancelSyncConfirm: 'Stop sync',
       infoModal: {
         title: 'Sincronizando tus mazos',
         message: 'El tiempo de sincronización depende del tamaño de tus mazos y archivos multimedia. Durante la sincronización:',
@@ -4156,6 +4159,13 @@ export const strings = {
       noDecksDescription: 'Comienza creando tu primer mazo de tarjetas para iniciar tu viaje de aprendizaje',
       createFirstDeck: 'Crea Tu Primer Mazo',
     },
+    sync: {
+      deckSync: 'Sincronizando mazos...',
+      downloading: 'Descargando desde la nube',
+      uploading: 'Subiendo a la nube',
+      decksSynced: '{count} mazos sincronizados',
+      deckSyncComplete: 'Sincronización de mazos completada',
+    },
     errors: {
       loadFailed: 'Error al cargar',
       saveFailed: 'Error al guardar',
@@ -4164,6 +4174,9 @@ export const strings = {
       upgradeRequired: 'Actualización requerida',
       offlineOnly: 'Modo sin conexión',
       syncFailed: 'Error de sincronización',
+      deckSyncFailed: 'Error al sincronizar mazos. Inténtalo de nuevo.',
+      syncRequiresPremium: 'Se requiere suscripción premium para sincronizar',
+      deckLimitReached: 'Has alcanzado el número máximo de mazos (15) para tu plan',
     },
     limits: {
       guest: 'Inicia sesión para crear mazos',

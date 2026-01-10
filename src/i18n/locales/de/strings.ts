@@ -4118,6 +4118,9 @@ export const strings = {
       syncNow: 'Jetzt synchronisieren',
       inProgress: 'Synchronisierung...',
       syncingDeck: '{{deck}} wird synchronisiert...',
+      cancelSyncTitle: 'Stop syncing?',
+      cancelSyncMessage: 'This will stop the current sync and clear any in-progress restores.',
+      cancelSyncConfirm: 'Stop sync',
       infoModal: {
         title: 'Synchronisierung Ihrer Decks',
         message: 'Die Synchronisierungszeit hängt von der Größe Ihrer Decks und Mediendateien ab. Während der Synchronisierung:',
@@ -4157,6 +4160,13 @@ export const strings = {
       noDecksDescription: 'Beginnen Sie mit der Erstellung Ihres ersten Lernkartenstapels, um Ihre Lernreise zu beginnen',
       createFirstDeck: 'Erstellen Sie Ihren ersten Stapel',
     },
+    sync: {
+      deckSync: 'Stapel werden synchronisiert...',
+      downloading: 'Herunterladen aus der Cloud',
+      uploading: 'Hochladen in die Cloud',
+      decksSynced: '{count} Stapel synchronisiert',
+      deckSyncComplete: 'Stapelsynchronisation abgeschlossen',
+    },
     errors: {
       loadFailed: 'Laden fehlgeschlagen',
       saveFailed: 'Speichern fehlgeschlagen',
@@ -4165,6 +4175,9 @@ export const strings = {
       upgradeRequired: 'Upgrade erforderlich',
       offlineOnly: 'Offline-Modus',
       syncFailed: 'Synchronisation fehlgeschlagen',
+      deckSyncFailed: 'Stapelsynchronisation fehlgeschlagen. Bitte erneut versuchen.',
+      syncRequiresPremium: 'Premium-Abonnement für Synchronisation erforderlich',
+      deckLimitReached: 'Sie haben die maximale Anzahl von Stapeln (15) für Ihren Plan erreicht',
     },
     limits: {
       guest: 'Anmelden zum Erstellen von Stapeln',

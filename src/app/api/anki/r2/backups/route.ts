@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth/session'
+import { requireR2Entitlement } from '@/lib/api/r2-entitlement'
 import { adminDb } from '@/lib/firebase/admin'
 import type { R2Metadata, BackupInfo } from '@/types/r2'
 
@@ -16,6 +17,13 @@ export async function GET(request: NextRequest) {
   try {
     // Require authentication
     const session = await requireAuth()
+    const entitlement = await requireR2Entitlement(session)
+    if (!entitlement.allowed && entitlement.reason === 'not_premium') {
+      return NextResponse.json(
+        { error: { code: 'PREMIUM_REQUIRED', message: 'Premium required' } },
+        { status: 403 }
+      )
+    }
 
     if (!adminDb) {
       throw new Error('Firebase Admin DB not initialized')

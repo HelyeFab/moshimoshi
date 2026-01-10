@@ -85,8 +85,12 @@ export function StatsDashboard({
     // Session stats
     const totalSessions = filteredSessions.length;
     const totalStudyTime = filteredSessions.reduce((sum, s) => sum + (s.duration || 0), 0);
+    // Clamp accuracy values to [0, 1] range to handle legacy data issues
     const avgAccuracy = filteredSessions.length > 0
-      ? filteredSessions.reduce((sum, s) => sum + s.accuracy, 0) / filteredSessions.length
+      ? filteredSessions.reduce((sum, s) => {
+          const clampedAccuracy = Math.min(1, Math.max(0, s.accuracy));
+          return sum + clampedAccuracy;
+        }, 0) / filteredSessions.length
       : 0;
 
     // Streak calculation

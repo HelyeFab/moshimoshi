@@ -79,7 +79,7 @@ export function StudyRecommendations({
                     </span>
                   </div>
                   <span className="font-bold text-lg text-green-600 dark:text-green-400 flex-shrink-0">
-                    {Math.round(insights.retentionRate * 100)}%
+                    {Math.min(100, Math.max(0, Math.round(insights.retentionRate * 100)))}%
                   </span>
                 </div>
 

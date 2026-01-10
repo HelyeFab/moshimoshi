@@ -46,7 +46,7 @@ const GOAL_TO_PRIORITY: Partial<Record<OnboardingGoal, DistrictId>> = {
   conversation: 'immersion',
   anime: 'immersion',
   travel: 'immersion',
-  jlpt: 'foundation',
+  jlpt: 'study', // Changed from 'foundation' to make JLPT personalization visually distinct
 }
 
 function buildDistrictOrder(goal: OnboardingGoal | null): DistrictId[] {

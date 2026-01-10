@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Trophy, Target, Zap, Clock, CheckCircle, XCircle, Pause, Play, Timer } from 'lucide-react';
-import type { FlashcardDeck, FlashcardContent, SessionSummary, SessionStats } from '@/types/flashcards';
+import type { FlashcardDeck, FlashcardContent, SessionSummary, SessionStats, PersistedStudySession } from '@/types/flashcards';
 import { FlashcardViewer } from './FlashcardViewer';
 import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
@@ -23,6 +23,7 @@ interface StudySessionProps {
   onComplete: (summary: SessionSummary) => void;
   onExit: () => void;
   onCardUpdated?: (card: FlashcardContent) => void;
+  initialState?: PersistedStudySession | null;
 }
 
 export function StudySession({
@@ -31,40 +32,65 @@ export function StudySession({
   mode = 'classic',
   onComplete,
   onExit,
-  onCardUpdated
+  onCardUpdated,
+  initialState
 }: StudySessionProps) {
   const { t } = useI18n();
   const { user } = useAuth();
   const { isPremium } = useSubscription();
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const initialElapsedTime = initialState?.elapsedTime ?? 0;
+  const initialPausedTime = initialState?.pausedTime ?? 0;
+  const [currentIndex, setCurrentIndex] = useState(() => {
+    const maxIndex = Math.max(0, cards.length - 1);
+    const storedIndex = initialState?.currentIndex ?? 0;
+    return Math.min(storedIndex, maxIndex);
+  });
   const [sessionCards, setSessionCards] = useState(cards);
-  const [correctCount, setCorrectCount] = useState(0);
-  const [incorrectCount, setIncorrectCount] = useState(0);
-  const [skippedCount, setSkippedCount] = useState(0);
-  const [responses, setResponses] = useState<Map<string, { correct: boolean; difficulty?: string; responseTime: number }>>(new Map());
-  const [startTime] = useState(Date.now());
-  const [elapsedTime, setElapsedTime] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const [pausedTime, setPausedTime] = useState(0);
-  const [streakCount, setStreakCount] = useState(0);
-  const [bestStreak, setBestStreak] = useState(0);
-  const [totalResponseTime, setTotalResponseTime] = useState(0);
-  const [fastestResponseTime, setFastestResponseTime] = useState(Number.MAX_VALUE);
-  const [slowestResponseTime, setSlowestResponseTime] = useState(0);
+  const [correctCount, setCorrectCount] = useState(initialState?.correctCount ?? 0);
+  const [incorrectCount, setIncorrectCount] = useState(initialState?.incorrectCount ?? 0);
+  const [skippedCount, setSkippedCount] = useState(initialState?.skippedCount ?? 0);
+  const [responses, setResponses] = useState<Map<string, { correct: boolean; difficulty?: string; responseTime: number }>>(
+    () => new Map(initialState?.responses ?? [])
+  );
+  const [startTime] = useState(() => Date.now() - initialElapsedTime - initialPausedTime);
+  const [elapsedTime, setElapsedTime] = useState(initialElapsedTime);
+  const [isPaused, setIsPaused] = useState(initialState?.isPaused ?? false);
+  const [pausedTime, setPausedTime] = useState(initialPausedTime);
+  const [streakCount, setStreakCount] = useState(initialState?.streakCount ?? 0);
+  const [bestStreak, setBestStreak] = useState(initialState?.bestStreak ?? 0);
+  const [totalResponseTime, setTotalResponseTime] = useState(initialState?.totalResponseTime ?? 0);
+  const [fastestResponseTime, setFastestResponseTime] = useState(initialState?.fastestResponseTime ?? Number.MAX_VALUE);
+  const [slowestResponseTime, setSlowestResponseTime] = useState(initialState?.slowestResponseTime ?? 0);
   const [cardStartTime, setCardStartTime] = useState(Date.now());
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const cardFlipMapRef = useRef<Map<string, boolean>>(new Map());
+  const persistTimerRef = useRef<number | null>(null);
 
   // Track card types
-  const [newCardsStudied, setNewCardsStudied] = useState(0);
-  const [learningCardsStudied, setLearningCardsStudied] = useState(0);
-  const [reviewCardsStudied, setReviewCardsStudied] = useState(0);
+  const [newCardsStudied, setNewCardsStudied] = useState(initialState?.newCardsStudied ?? 0);
+  const [learningCardsStudied, setLearningCardsStudied] = useState(initialState?.learningCardsStudied ?? 0);
+  const [reviewCardsStudied, setReviewCardsStudied] = useState(initialState?.reviewCardsStudied ?? 0);
 
   // Cleanup refs for timers
   const timeoutRefs = useRef<Set<NodeJS.Timeout>>(new Set());
   const timerIntervalRef = useRef<NodeJS.Timeout | null>(null);
   const isUnmounted = useRef(false);
+  const sessionKey = useMemo(() => {
+    if (typeof window === 'undefined') return null;
+    const ownerId = deck.userId || user?.uid || 'guest';
+    return `flashcards_active_session_${ownerId}`;
+  }, [deck.userId, user?.uid]);
+
+  const clearPersistedSession = useCallback(() => {
+    if (!sessionKey || typeof window === 'undefined') return;
+    localStorage.removeItem(sessionKey);
+  }, [sessionKey]);
+
+  const handleExit = useCallback(() => {
+    clearPersistedSession();
+    onExit();
+  }, [clearPersistedSession, onExit]);
 
   // Batch preload media for a window around the current card for smooth study experience
   // Use useMemo to prevent creating new array reference on every render (causes infinite loop)
@@ -243,7 +269,7 @@ export function StudySession({
     setShowDeleteDialog(false);
 
     if (updatedCards.length === 0) {
-      onExit();
+      handleExit();
       return;
     }
 
@@ -268,12 +294,19 @@ export function StudySession({
     } catch (error) {
       console.error('Failed to delete card from deck:', error);
     }
-  }, [sessionCards, currentIndex, deck.id, user?.uid, isPremium, onExit]);
+  }, [sessionCards, currentIndex, deck.id, user?.uid, isPremium, handleExit]);
 
   const completeSession = useCallback(async () => {
     const sessionTime = Date.now() - startTime - pausedTime;
     const cardsActuallyStudied = responses.size;
-    const accuracy = cardsActuallyStudied > 0 ? correctCount / cardsActuallyStudied : 0;
+
+    // Calculate accurate counts from responses Map to prevent sync issues
+    const actualCorrectCount = Array.from(responses.values()).filter(r => r.correct).length;
+    const actualIncorrectCount = Array.from(responses.values()).filter(r => !r.correct).length;
+    // Clamp accuracy to [0, 1] range to prevent display bugs
+    const accuracy = cardsActuallyStudied > 0
+      ? Math.min(1, Math.max(0, actualCorrectCount / cardsActuallyStudied))
+      : 0;
 
     // Big celebration for good performance
     if (accuracy >= 0.8) {
@@ -284,7 +317,7 @@ export function StudySession({
     const { xpConfigService } = await import('@/lib/services/XPConfigService');
     const fastCards = Array.from(responses.values()).filter(r => r.responseTime < 3000).length;
     const xpCalculation = xpConfigService.calculateFlashcardsXP(
-      correctCount,
+      actualCorrectCount,
       bestStreak,
       accuracy === 1,
       fastCards
@@ -295,7 +328,7 @@ export function StudySession({
       sessionId: `session-${Date.now()}`,
       deckId: deck.id,
       cardsStudied: cardsActuallyStudied,
-      correctAnswers: correctCount,
+      correctAnswers: actualCorrectCount,
       accuracy,
       averageResponseTime: cardsActuallyStudied > 0 ? totalResponseTime / cardsActuallyStudied : 0,
       newCardsLearned: newCardsStudied,
@@ -319,8 +352,8 @@ export function StudySession({
 
         // Performance Metrics
         cardsStudied: cardsActuallyStudied,
-        cardsCorrect: correctCount,
-        cardsIncorrect: incorrectCount,
+        cardsCorrect: actualCorrectCount,
+        cardsIncorrect: actualIncorrectCount,
         cardsSkipped: skippedCount,
         accuracy,
 
@@ -349,18 +382,7 @@ export function StudySession({
 
       // Save session stats
       try {
-        console.log('📝 [StudySession] Saving session stats:', {
-          deckId: sessionStats.deckId,
-          deckName: deck.name,
-          cardsStudied: sessionStats.cardsStudied,
-          correctAnswers: sessionStats.cardsCorrect,
-          accuracy: sessionStats.accuracy,
-          duration: sessionStats.duration,
-          userId: user.uid,
-          isPremium
-        })
         await flashcardManager.saveSessionStats(sessionStats, user.uid, isPremium || false);
-        console.log('✅ [StudySession] Session stats saved successfully')
       } catch (error) {
         console.error('❌ [StudySession] Failed to save session stats:', error);
       }
@@ -369,23 +391,90 @@ export function StudySession({
       // which responds to URE events and processes achievements server-side
     }
 
+    clearPersistedSession();
     onComplete(summary);
   }, [deck, sessionCards, responses, correctCount, incorrectCount, skippedCount,
       newCardsStudied, learningCardsStudied, reviewCardsStudied,
       streakCount, bestStreak, totalResponseTime, fastestResponseTime, slowestResponseTime,
-      startTime, pausedTime, mode, user, isPremium, celebrate, onComplete]);
+      startTime, pausedTime, mode, user, isPremium, celebrate, onComplete, clearPersistedSession]);
 
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        onExit();
+        handleExit();
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [onExit]);
+  }, [handleExit]);
+
+  useEffect(() => {
+    if (!sessionKey || typeof window === 'undefined') return;
+
+    if (persistTimerRef.current) {
+      window.clearTimeout(persistTimerRef.current);
+    }
+
+    persistTimerRef.current = window.setTimeout(() => {
+      const payload: PersistedStudySession = {
+        version: 1,
+        userId: deck.userId || user?.uid || 'guest',
+        deckId: deck.id,
+        mode,
+        cardIds: sessionCards.map(card => card.id),
+        currentIndex,
+        responses: Array.from(responses.entries()),
+        correctCount,
+        incorrectCount,
+        skippedCount,
+        newCardsStudied,
+        learningCardsStudied,
+        reviewCardsStudied,
+        streakCount,
+        bestStreak,
+        totalResponseTime,
+        fastestResponseTime,
+        slowestResponseTime,
+        elapsedTime,
+        pausedTime,
+        isPaused,
+        savedAt: Date.now(),
+      };
+
+      localStorage.setItem(sessionKey, JSON.stringify(payload));
+    }, 200);
+
+    return () => {
+      if (persistTimerRef.current) {
+        window.clearTimeout(persistTimerRef.current);
+      }
+    };
+  }, [
+    sessionKey,
+    deck.id,
+    deck.userId,
+    user?.uid,
+    mode,
+    sessionCards,
+    currentIndex,
+    responses,
+    correctCount,
+    incorrectCount,
+    skippedCount,
+    newCardsStudied,
+    learningCardsStudied,
+    reviewCardsStudied,
+    streakCount,
+    bestStreak,
+    totalResponseTime,
+    fastestResponseTime,
+    slowestResponseTime,
+    elapsedTime,
+    pausedTime,
+    isPaused,
+  ]);
 
   if (!currentCard) {
     return null;
@@ -419,7 +508,7 @@ export function StudySession({
 
               {/* Exit Button (mobile) */}
               <button
-                onClick={onExit}
+                onClick={handleExit}
                 className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800 transition-colors flex-shrink-0"
                 aria-label={t('common.close')}
               >
@@ -518,7 +607,7 @@ export function StudySession({
 
               {/* Exit Button */}
               <button
-                onClick={onExit}
+                onClick={handleExit}
                 className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-800 transition-colors"
                 aria-label={t('common.close')}
               >

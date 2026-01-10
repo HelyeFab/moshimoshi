@@ -46,7 +46,11 @@ export default function QuestionDetailClient({ questionId }: { questionId: strin
   const [answerCount, setAnswerCount] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
-  const [isAnswerFormCollapsed, setIsAnswerFormCollapsed] = useState(false)
+  const [isAnswerFormCollapsed, setIsAnswerFormCollapsed] = useState(true)
+
+  // Track question author avatar with event-driven updates
+  const [questionAuthorAvatar, setQuestionAuthorAvatar] = useState<string | undefined>(undefined)
+  const [avatarKey, setAvatarKey] = useState(Date.now())
 
   const isLightTheme = resolvedTheme === 'light'
 
@@ -79,6 +83,7 @@ export default function QuestionDetailClient({ questionId }: { questionId: strin
         return
       }
       setQuestion(fetchedQuestion)
+      setQuestionAuthorAvatar(fetchedQuestion.author.avatar)
       setAnswerCount(fetchedQuestion.answerCount)
     } catch (error) {
       console.error('Failed to load question:', error)
@@ -149,6 +154,21 @@ export default function QuestionDetailClient({ questionId }: { questionId: strin
 
     return unsubscribe
   }
+
+  // Listen for profile photo updates
+  useEffect(() => {
+    const handlePhotoUpdate = (event: Event) => {
+      const customEvent = event as CustomEvent<{ photoURL: string }>
+      // Only update if this question was authored by the current user
+      if (user?.uid === question?.author.uid) {
+        setQuestionAuthorAvatar(customEvent.detail.photoURL)
+        setAvatarKey(Date.now())
+      }
+    }
+
+    window.addEventListener('profile-photo-updated', handlePhotoUpdate)
+    return () => window.removeEventListener('profile-photo-updated', handlePhotoUpdate)
+  }, [user?.uid, question?.author.uid])
 
   const handleEdit = () => {
     router.push(getLocalePath(`/village/tea-house/${questionId}/edit`))
@@ -388,7 +408,8 @@ export default function QuestionDetailClient({ questionId }: { questionId: strin
                   <div className="flex flex-wrap items-center gap-3 sm:justify-between">
                     <div className="flex items-center gap-3 text-sm">
                       <Avatar
-                        src={question.author.avatar}
+                        key={avatarKey}
+                        src={questionAuthorAvatar}
                         name={question.author.name}
                         size="sm"
                       />
@@ -519,7 +540,7 @@ export default function QuestionDetailClient({ questionId }: { questionId: strin
                     <AnswerEditor
                       questionId={questionId}
                       onSuccess={handleAnswerSuccess}
-                      compact={false}
+                      compact={true}
                     />
                   )}
                 </motion.div>

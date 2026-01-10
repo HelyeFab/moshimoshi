@@ -40,16 +40,29 @@ import type {
   CreateDeckRequest,
   SessionSummary,
   SessionStats,
+  PersistedStudySession,
+  FlashcardContent,
 } from '@/types/flashcards'
 import type { StudyRecommendation, LearningInsights } from '@/lib/flashcards/SessionManager'
 import type { UserList } from '@/types/userLists'
 import type { FlashcardsInitialData } from '@/lib/flashcards/server'
-import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3, AlertTriangle, Plus, PieChart, RefreshCw, ChevronDown } from 'lucide-react'
+import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3, AlertTriangle, Plus, PieChart, RefreshCw, ChevronDown, Trash2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
 
 interface FlashcardsContentProps {
   initialData: FlashcardsInitialData
+}
+
+interface MigrationProgress {
+  status: 'syncing-decks' | 'preparing' | 'migrating' | 'complete'
+  phase?: 'download' | 'upload' | 'r2'
+  total: number
+  completed: number
+  failed: number
+  currentDeck: string | null
+  currentProgress?: number
+  errors?: string[]
 }
 
 export default function FlashcardsContent({ initialData }: FlashcardsContentProps) {
@@ -61,13 +74,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   // Initialize state with server data (will be empty for local-only mode)
   const [decks, setDecks] = useState<FlashcardDeck[]>(initialData.decks)
 
-  // Debug: Track decks state changes
-  useEffect(() => {
-    console.log('📊 [FlashcardsContent] Decks state changed:', {
-      count: decks.length,
-      decks: decks.map(d => ({ id: d.id, name: d.name, cardCount: d.cards?.length }))
-    })
-  }, [decks])
   const [sessions, setSessions] = useState<SessionStats[]>(initialData.sessions)
   const [userLists, setUserLists] = useState<UserList[]>([])
 
@@ -78,8 +84,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const [showCreator, setShowCreator] = useState(false)
   const [editingDeck, setEditingDeck] = useState<FlashcardDeck | null>(null)
   const [studyingDeck, setStudyingDeck] = useState<FlashcardDeck | null>(null)
+  const [resumeSessionState, setResumeSessionState] = useState<PersistedStudySession | null>(null)
   const [deckToDelete, setDeckToDelete] = useState<FlashcardDeck | null>(null)
   const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+  const [showCancelSyncDialog, setShowCancelSyncDialog] = useState(false)
   const [showStats, setShowStats] = useState(false)
   const [showInsights, setShowInsights] = useState(() => {
     if (typeof window !== 'undefined') {
@@ -91,7 +99,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   })
   const [storageInfo, setStorageInfo] = useState<any>(null)
   const [showMigration, setShowMigration] = useState(false)
-  const [migrationProgress, setMigrationProgress] = useState<any>(null)
+  const [migrationProgress, setMigrationProgress] = useState<MigrationProgress | null>(null)
   const [deckToStudy, setDeckToStudy] = useState<FlashcardDeck | null>(null)
   const [showModeSelector, setShowModeSelector] = useState(false)
   const [showSessionSettings, setShowSessionSettings] = useState(false)
@@ -112,6 +120,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const loadingRef = useRef(false)
   const abortControllerRef = useRef<AbortController | null>(null)
   const initialSyncDone = useRef(false)
+  const syncModalResolverRef = useRef<((value: boolean) => void) | null>(null)
 
   // Use tier from server - no more race condition!
   const isPremium = initialData.isPremium
@@ -203,6 +212,72 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   }, [initialData.userId, isPremium])
 
   const resumeTriggeredRef = useRef(false)
+  const cancelSyncRef = useRef(false)
+  const restoreAbortControllerRef = useRef<AbortController | null>(null)
+
+  useEffect(() => {
+    if (studyingDeck || loading || authLoading) return
+    if (typeof window === 'undefined') return
+
+    const ownerId =
+      initialData.userId ||
+      user?.uid ||
+      (userTier === 'guest' ? 'guest' : null)
+    if (!ownerId) return
+
+    const storageKey = `flashcards_active_session_${ownerId}`
+    const raw = localStorage.getItem(storageKey)
+    if (!raw) return
+
+    let stored: PersistedStudySession | null = null
+    try {
+      stored = JSON.parse(raw) as PersistedStudySession
+    } catch (error) {
+      localStorage.removeItem(storageKey)
+      return
+    }
+
+    if (!stored || stored.version !== 1 || stored.userId !== ownerId) {
+      return
+    }
+
+    const restoreSession = async () => {
+      const deck = await flashcardManager.getDeck(stored!.deckId, ownerId)
+      if (!deck || !deck.cards?.length) {
+        localStorage.removeItem(storageKey)
+        return
+      }
+
+      const cardMap = new Map(deck.cards.map(card => [card.id, card]))
+      const sessionCards = stored!.cardIds
+        .map(cardId => cardMap.get(cardId))
+        .filter(Boolean) as FlashcardContent[]
+
+      if (sessionCards.length === 0) {
+        localStorage.removeItem(storageKey)
+        return
+      }
+
+      setResumeSessionState(stored)
+      setStudyingDeck({
+        ...deck,
+        cards: sessionCards,
+        settings: {
+          ...deck.settings,
+          sessionLength: sessionCards.length,
+        },
+      })
+    }
+
+    restoreSession().catch(() => {})
+  }, [
+    studyingDeck,
+    loading,
+    authLoading,
+    initialData.userId,
+    user?.uid,
+    userTier,
+  ])
 
   useEffect(() => {
     if (!r2Queue) return
@@ -274,14 +349,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   // Initialize Event Hub for gamification (XP rewards)
   // This ensures flashcard sessions award XP through the same system as other features
   useEffect(() => {
-    console.log('🔧 [FlashcardsContent] EventHub initialization check:', {
-      hasUserId: !!initialData.userId,
-      userId: initialData.userId
-    })
     if (initialData.userId) {
-      console.log('🔧 [FlashcardsContent] Calling initializeEventHub...')
       initializeEventHub(initialData.userId)
-      console.log('🔧 [FlashcardsContent] initializeEventHub returned')
     }
   }, [initialData.userId])
 
@@ -353,12 +422,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       // Load flashcard decks - FlashcardManager handles both regular and Anki decks
       const userDecks = await flashcardManager.getDecks(effectiveUserId, isPremium)
 
-      console.log('🎯 [FlashcardsContent.loadData] Setting decks state:', {
-        deckCount: userDecks.length,
-        decks: userDecks.map(d => ({ id: d.id, name: d.name, cardCount: d.cards?.length }))
-      })
       setDecks(userDecks)
-      console.log('✅ [FlashcardsContent.loadData] Decks state updated')
 
       // Load user lists for import option
       const lists = await listManager.getLists(effectiveUserId, isPremium)
@@ -397,10 +461,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           }
         }
 
-        console.log('📊 [FlashcardsContent.loadData] Loading insights and sessions for user:', effectiveUserId)
-
         const userInsights = await sessionManager.getLearningInsights(effectiveUserId, sessionsToUse)
-        console.log('📈 [FlashcardsContent.loadData] Learning insights:', userInsights)
         setInsights(userInsights)
 
         const cachedRecs = await fetchCachedRecommendations()
@@ -413,12 +474,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           userDecks,
           sessionsToUse
         )
-        console.log('💡 [FlashcardsContent.loadData] Study recommendations:', studyRecs.length, 'recommendations')
         setRecommendations(studyRecs)
         await saveCachedRecommendations(studyRecs)
 
         const streak = await sessionManager.calculateStreak(effectiveUserId, sessionsToUse)
-        console.log('🔥 [FlashcardsContent.loadData] Current streak:', streak, 'days')
         setCurrentStreak(streak)
 
         // Load recent sessions from IndexedDB
@@ -426,14 +485,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           sessionsToUse && sessionsToUse.length > 0
             ? sessionsToUse.slice(0, 25)
             : await sessionManager.getUserSessions(effectiveUserId, 25)
-        console.log('📚 [FlashcardsContent.loadData] Recent sessions loaded:', {
-          count: recentSessions.length,
-          sessions: recentSessions.slice(0, 3).map(s => ({
-            deckId: s.deckId,
-            cardsStudied: s.cardsStudied,
-            timestamp: new Date(s.timestamp).toISOString()
-          }))
-        })
         setSessions(recentSessions)
       }
     } catch (error: any) {
@@ -479,14 +530,88 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
     if (isSyncingMedia) return
 
-    // Show info modal to user before starting sync
+    // Show info modal to user and wait for acknowledgment
     setShowSyncInfoModal(true)
+
+    // Wait for user to close the modal before starting sync
+    const userAcknowledged = await new Promise<boolean>((resolve) => {
+      syncModalResolverRef.current = resolve
+    })
+
+    if (!userAcknowledged) {
+      // User cancelled
+      return
+    }
 
     setShowMigration(false)
     setIsSyncingMedia(true)
     setMigrationProgress({ status: 'preparing', total: 0, completed: 0, failed: 0, currentDeck: null })
+    cancelSyncRef.current = false
 
+    // ========== PHASE 1: DECK SYNC (NEW) ==========
     try {
+      console.log('📦 [FlashcardsContent] Starting deck sync phase...')
+
+      setMigrationProgress({
+        status: 'syncing-decks' as any,
+        phase: 'download' as any,
+        total: 0,
+        completed: 0,
+        failed: 0,
+        currentDeck: null
+      })
+
+      // Step 1: Download from Firebase (LWW merge)
+      console.log('📥 [FlashcardsContent] Downloading decks from Firebase...')
+      const downloadResult = await flashcardManager.syncDecksFromFirebase(
+        initialData.userId,
+        isPremium
+      )
+
+      console.log('✅ [FlashcardsContent] Download complete:', downloadResult)
+
+      // Step 2: Upload to Firebase
+      setMigrationProgress(prev => ({
+        ...prev,
+        phase: 'upload' as any,
+        completed: downloadResult.downloaded + downloadResult.merged
+      }))
+
+      console.log('📤 [FlashcardsContent] Uploading decks to Firebase...')
+      const uploadResult = await flashcardManager.syncAllDecksToFirebase(
+        initialData.userId,
+        isPremium
+      )
+
+      console.log('✅ [FlashcardsContent] Upload complete:', uploadResult)
+
+      showToast(
+        `Synced ${uploadResult.synced} deck${uploadResult.synced !== 1 ? 's' : ''} to cloud`,
+        'success'
+      )
+
+      // Refresh local deck list
+      await loadData(true)
+    } catch (error) {
+      console.error('[FlashcardsContent] Deck sync failed:', error)
+      showToast(t('flashcards.errors.deckSyncFailed') || 'Failed to sync decks. Please try again.', 'error')
+      setIsSyncingMedia(false)
+      return // Don't continue to R2 sync if deck sync fails
+    }
+
+    // ========== PHASE 2: R2 ANKI SYNC (EXISTING) ==========
+    try {
+      console.log('📦 [FlashcardsContent] Starting R2 Anki sync phase...')
+
+      setMigrationProgress({
+        status: 'preparing',
+        phase: 'r2' as any,
+        total: 0,
+        completed: 0,
+        failed: 0,
+        currentDeck: null
+      })
+
       const backupsResponse = await fetch('/api/anki/r2/backups')
       if (!backupsResponse.ok) {
         throw new Error('Failed to fetch backups')
@@ -587,7 +712,13 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         return next
       })
 
-      const orchestrator = new RestoreOrchestrator(initialData.userId, restoreQueue ?? undefined)
+      const abortController = new AbortController()
+      restoreAbortControllerRef.current = abortController
+      const orchestrator = new RestoreOrchestrator(
+        initialData.userId,
+        restoreQueue ?? undefined,
+        abortController.signal
+      )
       const progress = {
         status: 'migrating',
         total: missingBackups.length,
@@ -601,22 +732,24 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       setMigrationProgress(progress)
 
       for (const backup of missingBackups) {
+        if (cancelSyncRef.current) break
         progress.currentDeck = backup.name
         progress.currentProgress = 0
         setMigrationProgress({ ...progress })
 
         try {
           const handleProgress = (payload: any) => {
-          progress.currentProgress = Math.max(0, Math.min(100, payload?.progress ?? 0))
-          setMigrationProgress({ ...progress })
-          setRestoreProgressByDeckId(prev => ({
-            ...prev,
-            [backup.deckId]: {
-              ...prev[backup.deckId],
-              ...payload,
-              progress: Math.max(0, Math.min(100, payload?.progress ?? 0)),
-            },
-          }))
+            if (cancelSyncRef.current) return
+            progress.currentProgress = Math.max(0, Math.min(100, payload?.progress ?? 0))
+            setMigrationProgress({ ...progress })
+            setRestoreProgressByDeckId(prev => ({
+              ...prev,
+              [backup.deckId]: {
+                ...prev[backup.deckId],
+                ...payload,
+                progress: Math.max(0, Math.min(100, payload?.progress ?? 0)),
+              },
+            }))
         }
           orchestrator.on('progress', handleProgress)
           await orchestrator.restoreDeck(backup)
@@ -645,6 +778,9 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           }, 800)
         } catch (error: any) {
           orchestrator.removeAllListeners('progress')
+          if (cancelSyncRef.current || error?.name === 'AbortError' || error?.message === 'Restore cancelled') {
+            break
+          }
           progress.failed += 1
           progress.errors.push(error?.message || `Failed to restore ${backup.name}`)
           setRestoreProgressByDeckId(prev => ({
@@ -668,6 +804,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         setMigrationProgress({ ...progress })
       }
 
+      if (cancelSyncRef.current) {
+        return
+      }
+
       if (progress.failed > 0) {
         showToast(t('flashcards.errors.syncFailed') || 'Some decks failed to restore.', 'error')
       } else {
@@ -677,13 +817,43 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       await loadData(true)
 
     } catch (error) {
-      showToast(t('flashcards.errors.syncFailed'), 'error')
+      if (!cancelSyncRef.current) {
+        showToast(t('flashcards.errors.syncFailed'), 'error')
+      }
     } finally {
+      restoreAbortControllerRef.current = null
       setMigrationProgress(null)
       await loadR2Usage()
       setIsSyncingMedia(false)
     }
   }
+
+  const handleCancelSync = useCallback(async () => {
+    cancelSyncRef.current = true
+    restoreAbortControllerRef.current?.abort()
+    restoreAbortControllerRef.current = null
+
+    if (restoreQueue && initialData.userId) {
+      const jobs = await restoreQueue.getActiveJobs(initialData.userId)
+      await Promise.all(jobs.map(job => restoreQueue.clearJob(job.id)))
+    }
+
+    if (initialData.userId) {
+      const stubDecks = decks.filter(deck =>
+        deck.restoreStatus && (!deck.cards || deck.cards.length === 0)
+      )
+      if (stubDecks.length > 0) {
+        setDecks(prev => prev.filter(deck => !stubDecks.some(stub => stub.id === deck.id)))
+        await Promise.all(
+          stubDecks.map(deck => flashcardManager.deleteDeck(deck.id, initialData.userId!, false))
+        )
+      }
+    }
+
+    setRestoreProgressByDeckId({})
+    setMigrationProgress(null)
+    setIsSyncingMedia(false)
+  }, [decks, initialData.userId, restoreQueue])
 
   const resumePendingRestores = useCallback(async () => {
     if (!initialData.userId || !isPremium || !restoreQueue) return
@@ -770,7 +940,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
     showToast(t('flashcards.restore.resumeInProgress') || 'Resuming restore in progress...', 'info')
 
-    const orchestrator = new RestoreOrchestrator(initialData.userId, restoreQueue)
+    const abortController = new AbortController()
+    restoreAbortControllerRef.current = abortController
+    cancelSyncRef.current = false
+    const orchestrator = new RestoreOrchestrator(initialData.userId, restoreQueue, abortController.signal)
     const progress = {
       status: 'migrating',
       total: backups.length,
@@ -786,12 +959,14 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     setMigrationProgress(progress)
 
     for (const backup of backups) {
+      if (cancelSyncRef.current) break
       progress.currentDeck = backup.name
       progress.currentProgress = 0
       setMigrationProgress({ ...progress })
 
       try {
         const handleProgress = (payload: any) => {
+          if (cancelSyncRef.current) return
           progress.currentProgress = Math.max(0, Math.min(100, payload?.progress ?? 0))
           setMigrationProgress({ ...progress })
           setRestoreProgressByDeckId(prev => ({
@@ -830,6 +1005,9 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         }, 800)
       } catch (error: any) {
         orchestrator.removeAllListeners('progress')
+        if (cancelSyncRef.current || error?.name === 'AbortError' || error?.message === 'Restore cancelled') {
+          break
+        }
         progress.failed += 1
         progress.errors.push(error?.message || `Failed to restore ${backup.name}`)
         setRestoreProgressByDeckId(prev => ({
@@ -846,6 +1024,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       setMigrationProgress({ ...progress })
     }
 
+    restoreAbortControllerRef.current = null
     setMigrationProgress(null)
     await loadR2Usage()
     setIsSyncingMedia(false)
@@ -890,10 +1069,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       return
     }
 
-    if (limits.maxDecks !== -1 && decks.length >= limits.maxDecks) {
-      showToast(t('flashcards.errors.limitReached'), 'error')
-      return
-    }
+    // Note: Deck limit is now checked in handleOpenDeckCreator() before modal opens (better UX)
+    // FlashcardManager.createDeck() also validates as a backend failsafe
 
     try {
       const newDeck = await flashcardManager.createDeck(deckRequest, initialData.userId, isPremium)
@@ -908,6 +1085,14 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
       if (error?.code === 'DUPLICATE_DECK_NAME') {
         showToast(t('errors.resource.alreadyExists') || 'This already exists. Please choose a different name.', 'error')
+        return
+      }
+
+      if (error?.name === 'DECK_LIMIT_REACHED' || error.message?.includes('DECK_LIMIT_REACHED')) {
+        showToast(
+          t('flashcards.errors.deckLimitReached') || `You've reached the maximum number of decks for your plan. Upgrade to premium for more decks.`,
+          'error'
+        )
         return
       }
 
@@ -963,6 +1148,25 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
   const handleEditDeck = (deck: FlashcardDeck) => {
     setEditingDeck(deck)
+    setShowCreator(true)
+  }
+
+  const handleOpenDeckCreator = () => {
+    if (!initialData.userId) {
+      showToast(t('flashcards.limits.guest'), 'error')
+      return
+    }
+
+    // Check deck limit BEFORE opening creator modal (better UX)
+    const userDecks = decks.filter(d => d.source !== 'anki')
+    if (limits.maxDecks !== -1 && userDecks.length >= limits.maxDecks) {
+      showToast(
+        t('flashcards.errors.deckLimitReached') || `You've reached the maximum number of decks (${limits.maxDecks}) for your plan`,
+        'error'
+      )
+      return
+    }
+
     setShowCreator(true)
   }
 
@@ -1055,6 +1259,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   const handleStartSession = (selectedCards: any[], mode: string) => {
     if (!deckToStudy || selectedCards.length === 0) return
 
+    setResumeSessionState(null)
     setStudyingDeck({
       ...deckToStudy,
       cards: selectedCards,
@@ -1073,6 +1278,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     if (!deckToStudy || !initialData.userId) return
 
     try {
+      setResumeSessionState(null)
       // Update deck with new settings
       const updatedDeck = await flashcardManager.updateDeck(
         deckToStudy.id,
@@ -1130,22 +1336,15 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
   }
 
   const handleSessionComplete = async (summary: SessionSummary) => {
-    console.log('🎴 [FlashcardsContent] Session completed:', {
-      cardsStudied: summary.cardsStudied,
-      accuracy: summary.accuracy,
-      xpEarned: summary.xpEarned,
-      userId: initialData.userId
-    })
-
     // Capture deck name before clearing state
     const deckName = studyingDeck?.name || 'Flashcard Deck'
 
+    setResumeSessionState(null)
     setStudyingDeck(null)
 
     // Emit SESSION_COMPLETED event via Event Hub for gamification
     // This uses the same pattern as Kana, Kanji, Lists, etc.
     if (initialData.userId && summary.xpEarned && summary.xpEarned > 0) {
-      console.log('✅ [FlashcardsContent] Gamification conditions met, emitting event...')
       try {
         const sessionId = `flashcard-${Date.now()}`
         const duration = summary.averageResponseTime * summary.cardsStudied
@@ -1176,10 +1375,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           contentTitle: deckName,
           pageCount: summary.cardsStudied, // Show as "Cards Studied"
         }
-        console.log('📊 [FlashcardsContent] Setting lastSessionStats BEFORE event:', statsToSet)
         useGamificationStore.getState().setLastSessionStats(statsToSet)
-
-        console.log('📤 [FlashcardsContent] Emitting SESSION_COMPLETED event:', eventPayload)
 
         // Emit event - gamificationListener will handle the API call
         // It will preserve the contentType and contentTitle we just set
@@ -1189,12 +1385,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       } catch (error) {
         console.error('[FlashcardsContent] ❌ Error emitting gamification event:', error)
       }
-    } else {
-      console.log('⏭️ [FlashcardsContent] Skipping gamification:', {
-        hasUserId: !!initialData.userId,
-        hasXP: !!summary.xpEarned,
-        xpAmount: summary.xpEarned
-      })
     }
 
     loadData()
@@ -1243,7 +1433,11 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         deck={studyingDeck}
         cards={studyingDeck.cards}
         onComplete={handleSessionComplete}
-        onExit={() => setStudyingDeck(null)}
+        onExit={() => {
+          setResumeSessionState(null)
+          setStudyingDeck(null)
+        }}
+        initialState={resumeSessionState}
       />
     )
   }
@@ -1340,7 +1534,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
 
             {/* Create New Deck Button */}
             <button
-              onClick={() => setShowCreator(true)}
+              onClick={handleOpenDeckCreator}
               className="flex-shrink-0 px-4 py-2.5 text-sm font-medium bg-gradient-to-r from-primary-500 to-purple-500 text-white rounded-lg hover:opacity-90 transition-opacity flex items-center gap-2 snap-start shadow-md"
             >
               <Plus className="w-4 h-4" />
@@ -1441,7 +1635,10 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                   </div>
                   <div className="flex-1">
                     <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
-                      {t('flashcards.migration.inProgress')}
+                      {migrationProgress.phase === 'download' && (t('flashcards.sync.downloading') || 'Downloading from cloud')}
+                      {migrationProgress.phase === 'upload' && (t('flashcards.sync.uploading') || 'Uploading to cloud')}
+                      {migrationProgress.phase === 'r2' && t('flashcards.migration.inProgress')}
+                      {!migrationProgress.phase && t('flashcards.migration.inProgress')}
                     </h3>
                     {migrationProgress.total > 0 && (
                       <p className="text-xs text-gray-600 dark:text-gray-400 mt-0.5">
@@ -1449,11 +1646,22 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
                       </p>
                     )}
                   </div>
-                  <div className="text-right">
-                    <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
-                      {migrationPercent}%
+                  <div className="flex items-center gap-3">
+                    <div className="text-right">
+                      <div className="text-lg font-bold text-gray-900 dark:text-gray-100">
+                        {migrationPercent}%
+                      </div>
+                      <div className="text-xs text-gray-500 dark:text-gray-400">synced</div>
                     </div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400">synced</div>
+                    <button
+                      type="button"
+                      onClick={() => setShowCancelSyncDialog(true)}
+                      className="p-2 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800 rounded-md hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors"
+                      title={t('common.stop')}
+                      aria-label={t('common.stop')}
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
                   </div>
                 </div>
                 {migrationProgress.currentDeck && (
@@ -1488,7 +1696,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           <DeckGrid
             decks={decks}
             onDeckClick={handleStudyDeck}
-            onCreateDeck={() => setShowCreator(true)}
+            onCreateDeck={handleOpenDeckCreator}
             onEditDeck={handleEditDeck}
             onDeleteDeck={handleDeleteDeck}
             onExportDeck={handleExportDeck}
@@ -1693,6 +1901,21 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           type="danger"
         />
 
+        {/* Cancel Sync Confirmation Dialog */}
+        <Dialog
+          isOpen={showCancelSyncDialog}
+          onClose={() => setShowCancelSyncDialog(false)}
+          onConfirm={handleCancelSync}
+          title={t('flashcards.migration.cancelSyncTitle') || 'Stop syncing?'}
+          message={
+            t('flashcards.migration.cancelSyncMessage') ||
+            'This will stop the current sync and clear any in-progress restores.'
+          }
+          confirmText={t('flashcards.migration.cancelSyncConfirm') || 'Stop sync'}
+          cancelText={t('common.cancel')}
+          type="danger"
+        />
+
         {/* Study Mode Selector Modal */}
         {deckToStudy && showModeSelector && (
           <StudyModeSelector
@@ -1730,7 +1953,13 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         {/* Sync Info Modal */}
         <Modal
           isOpen={showSyncInfoModal}
-          onClose={() => setShowSyncInfoModal(false)}
+          onClose={() => {
+            setShowSyncInfoModal(false)
+            if (syncModalResolverRef.current) {
+              syncModalResolverRef.current(true)
+              syncModalResolverRef.current = null
+            }
+          }}
           title={t('flashcards.migration.infoModal.title')}
           size="md"
         >
@@ -1766,7 +1995,13 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             </ul>
             <div className="pt-4">
               <button
-                onClick={() => setShowSyncInfoModal(false)}
+                onClick={() => {
+                  setShowSyncInfoModal(false)
+                  if (syncModalResolverRef.current) {
+                    syncModalResolverRef.current(true)
+                    syncModalResolverRef.current = null
+                  }
+                }}
                 className="w-full px-6 py-2.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-medium"
               >
                 {t('flashcards.migration.infoModal.understand')}

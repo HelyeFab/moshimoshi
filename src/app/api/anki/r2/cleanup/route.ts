@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { DeleteObjectsCommand, ListObjectsV2Command } from '@aws-sdk/client-s3'
 import { requireAuth } from '@/lib/auth/session'
+import { requireR2Entitlement } from '@/lib/api/r2-entitlement'
 import { getR2Config } from '@/lib/r2/r2-client'
 import { buildDeckPrefix } from '@/lib/r2/r2-keys'
 
@@ -15,6 +16,13 @@ export const runtime = 'nodejs'
 export async function DELETE(request: NextRequest) {
   try {
     const session = await requireAuth()
+    const entitlement = await requireR2Entitlement(session)
+    if (!entitlement.allowed && entitlement.reason === 'not_premium') {
+      return NextResponse.json(
+        { error: { code: 'PREMIUM_REQUIRED', message: 'Premium required' } },
+        { status: 403 }
+      )
+    }
     const { client, bucket } = getR2Config()
 
     // Build user prefix - this will match all decks for this user

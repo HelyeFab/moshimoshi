@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { requireAuth } from '@/lib/auth/session'
+import { requireR2Entitlement } from '@/lib/api/r2-entitlement'
 import { adminDb } from '@/lib/firebase/admin'
 
 export const dynamic = 'force-dynamic'
@@ -16,6 +17,13 @@ const UsageCheckSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const session = await requireAuth()
+    const entitlement = await requireR2Entitlement(session)
+    if (!entitlement.allowed && entitlement.reason === 'not_premium') {
+      return NextResponse.json(
+        { error: { code: 'PREMIUM_REQUIRED', message: 'Premium required' } },
+        { status: 403 }
+      )
+    }
     const body = await request.json().catch(() => null)
 
     if (!body) {

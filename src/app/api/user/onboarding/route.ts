@@ -212,6 +212,20 @@ export async function PATCH(request: NextRequest) {
     // Invalidate cache to force refresh
     await onboardingCache.invalidate(session.uid)
 
+    // Cascade invalidation: Delete village layout to force regeneration based on new goal
+    try {
+      await adminFirestore!
+        .collection('users')
+        .doc(session.uid)
+        .collection('villageLayout')
+        .doc('data')
+        .delete()
+      console.log(`[API] Invalidated village layout for user ${session.uid} due to onboarding change`)
+    } catch (err) {
+      // Ignore if document doesn't exist
+      console.log(`[API] No village layout to invalidate for user ${session.uid}`)
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Onboarding preferences updated',

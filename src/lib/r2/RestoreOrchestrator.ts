@@ -39,12 +39,14 @@ export class RestoreOrchestrator extends EventEmitter {
   private userId: string
   private downloadQueue: PQueue
   private restoreQueue?: RestoreQueue
+  private abortSignal?: AbortSignal
 
-  constructor(userId: string, restoreQueue?: RestoreQueue) {
+  constructor(userId: string, restoreQueue?: RestoreQueue, abortSignal?: AbortSignal) {
     super()
     this.userId = userId
     this.downloadQueue = new PQueue({ concurrency: 5 }) // 5 concurrent downloads
     this.restoreQueue = restoreQueue
+    this.abortSignal = abortSignal
   }
 
   /**
@@ -53,6 +55,9 @@ export class RestoreOrchestrator extends EventEmitter {
    * @returns Restored deck ID
    */
   async restoreDeck(backup: BackupInfo): Promise<string> {
+    if (this.abortSignal?.aborted) {
+      throw new Error('Restore cancelled')
+    }
     this.emit('progress', {
       phase: 'fetching-metadata',
       progress: 0,
@@ -68,6 +73,9 @@ export class RestoreOrchestrator extends EventEmitter {
 
       // Step 1: Download manifest
       const manifest = await this.downloadManifest(backup.r2Keys.manifestKey)
+      if (this.abortSignal?.aborted) {
+        throw new Error('Restore cancelled')
+      }
       if (this.restoreQueue) {
         const totalFiles = manifest.files.filter(f => f.type === 'media').length
         await this.restoreQueue.setTotalFiles(backup.deckId, totalFiles)
@@ -86,6 +94,9 @@ export class RestoreOrchestrator extends EventEmitter {
       if (needsDeckHydration) {
         // Step 2: Download package file
         packageBlob = await this.downloadFile(backup.r2Keys.packageKey!)
+        if (this.abortSignal?.aborted) {
+          throw new Error('Restore cancelled')
+        }
         this.emit('progress', {
           phase: 'downloading-media',
           progress: 20,
@@ -103,6 +114,9 @@ export class RestoreOrchestrator extends EventEmitter {
 
       // Step 3: Download media files
       const mediaFiles = await this.downloadMediaBatch(manifest, backup.deckId)
+      if (this.abortSignal?.aborted) {
+        throw new Error('Restore cancelled')
+      }
       this.emit('progress', {
         phase: 'hydrating-deck',
         progress: 80,
@@ -145,7 +159,7 @@ export class RestoreOrchestrator extends EventEmitter {
 
   private async downloadManifest(key: string): Promise<R2Manifest> {
     const url = await this.getSignedDownloadUrl(key)
-    const response = await fetch(url)
+    const response = await fetch(url, { signal: this.abortSignal })
 
     if (!response.ok) {
       throw new Error('Failed to download manifest')
@@ -156,7 +170,7 @@ export class RestoreOrchestrator extends EventEmitter {
 
   private async downloadFile(key: string): Promise<Blob> {
     const url = await this.getSignedDownloadUrl(key)
-    const response = await fetch(url)
+    const response = await fetch(url, { signal: this.abortSignal })
 
     if (!response.ok) {
       throw new Error(`Failed to download ${key}`)
@@ -169,6 +183,9 @@ export class RestoreOrchestrator extends EventEmitter {
     manifest: R2Manifest,
     deckId: string
   ): Promise<Map<string, Blob>> {
+    if (this.abortSignal?.aborted) {
+      throw new Error('Restore cancelled')
+    }
     const mediaFiles = new Map<string, Blob>()
     const mediaEntries = manifest.files.filter(f => f.type === 'media')
     const mediaStore = AnkiMediaStore.getInstance()
@@ -187,6 +204,9 @@ export class RestoreOrchestrator extends EventEmitter {
 
     await this.downloadQueue.addAll(
       mediaEntries.map(entry => async () => {
+        if (this.abortSignal?.aborted) {
+          return
+        }
         const alreadyRestored = restoredFiles?.has(entry.name)
         const cached = existingIds.has(entry.name) || existingIds.has(buildAnkiMediaKey(deckId, entry.name))
 

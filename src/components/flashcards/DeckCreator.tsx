@@ -120,6 +120,23 @@ export function DeckCreator({
   // If editing, skip source selection and go straight to details
   React.useEffect(() => {
     if (editDeck && isOpen) {
+      // Load editDeck data into form
+      setDeckName(editDeck.name || '')
+      setDescription(editDeck.description || '')
+      setSelectedEmoji(editDeck.emoji || '🎴')
+      setSelectedColor(editDeck.color || 'primary')
+      setCardStyle(editDeck.cardStyle || 'minimal')
+      setSessionLength(editDeck.settings?.sessionLength || 20)
+      setFuriganaEnabled(editDeck.settings?.furigana?.enabled ?? true)
+      setFuriganaOnFront(editDeck.settings?.furigana?.showOnFront ?? true)
+      setFuriganaOnBack(editDeck.settings?.furigana?.showOnBack ?? true)
+      setCards(
+        editDeck.cards?.map((card: any) => ({
+          front: card.front.text,
+          back: card.back.text,
+          notes: card.metadata?.notes || '',
+        })) || []
+      )
       setStep('details')
     }
   }, [editDeck, isOpen])
@@ -140,6 +157,8 @@ export function DeckCreator({
           const lists = await listManager.getLists(userId, isPremium)
           setFetchedLists(lists)
         } catch (error) {
+          // Failed to load lists (likely offline) - silently fail
+          console.log('[DeckCreator] Could not load lists (offline or network error)')
         } finally {
           setLoadingLists(false)
         }
@@ -370,7 +389,7 @@ export function DeckCreator({
   }
 
   const handleSave = async () => {
-    if (!deckName || (importSource === 'scratch' && cards.length === 0)) return
+    if (!deckName || (!editDeck && importSource === 'scratch' && cards.length === 0)) return
     if (isSaving) return // Prevent duplicate saves
 
     try {
@@ -1020,7 +1039,7 @@ export function DeckCreator({
                   {step === 'cards' && (
                     <button
                       onClick={handleSave}
-                      disabled={!deckName || (importSource === 'scratch' && cards.length === 0) || isSaving}
+                      disabled={!deckName || (!editDeck && importSource === 'scratch' && cards.length === 0) || isSaving}
                       className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1 sm:gap-2"
                     >
                       {isSaving ? (

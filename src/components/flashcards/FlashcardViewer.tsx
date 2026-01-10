@@ -75,20 +75,6 @@ export function FlashcardViewer({
     hydratedCard.metadata?.meaning ||
     '';
 
-  // DEBUG: Check what's actually being rendered
-  console.log('[FlashcardViewer] Card source:', {
-    cardId: hydratedCard.id,
-    source: hydratedCard.metadata?.source,
-    frontType: typeof hydratedCard.front,
-    backType: typeof hydratedCard.back,
-    rawFront: hydratedCard.front,
-    rawBack: hydratedCard.back,
-    frontLength: resolvedFrontText.length,
-    backLength: resolvedBackText.length,
-    frontPreview: resolvedFrontText.substring(0, 100),
-    backPreview: resolvedBackText.substring(0, 100),
-    frontEqualsBack: resolvedFrontText === resolvedBackText,
-  });
 
   const resolvedFuriganaFront =
     hydratedCard.metadata?.furiganaFront ||
@@ -108,17 +94,6 @@ export function FlashcardViewer({
 
   const speed = ANIMATION_SPEEDS[animationSpeed];
 
-  // Debug: Log card structure (including hydrated media)
-  useEffect(() => {
-    console.log('[FlashcardViewer] Card received:', {
-      id: hydratedCard.id,
-      frontText: typeof hydratedCard.front === 'string' ? hydratedCard.front : hydratedCard.front?.text,
-      frontMedia: typeof hydratedCard.front === 'string' ? undefined : hydratedCard.front?.media,
-      backText: typeof hydratedCard.back === 'string' ? hydratedCard.back : hydratedCard.back?.text,
-      backMedia: typeof hydratedCard.back === 'string' ? undefined : hydratedCard.back?.media,
-      metadata: hydratedCard.metadata,
-    });
-  }, [hydratedCard]);
 
   // Reset state when card changes
   useEffect(() => {
@@ -372,7 +347,7 @@ export function FlashcardViewer({
             {/* Render Anki card HTML directly - cleaned HTML preserves structure */}
             <div
               className={cn(
-                'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-12rem)] scrollbar-hide',
+                'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-12rem)] scrollbar-hide pt-12 pb-16',
                 cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
               )}
               dangerouslySetInnerHTML={{ __html: resolvedFrontHtml }}
@@ -439,7 +414,7 @@ export function FlashcardViewer({
             {/* Render Anki card HTML directly - cleaned HTML preserves structure */}
             <div
               className={cn(
-                'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-12rem)] scrollbar-hide',
+                'anki-card-content w-full max-w-2xl mx-auto overflow-y-auto max-h-[calc(100vh-12rem)] scrollbar-hide pt-12 pb-16',
                 cardStyle === 'themed' ? 'text-white' : 'text-gray-900 dark:text-gray-100'
               )}
               dangerouslySetInnerHTML={{ __html: resolvedBackHtml }}
@@ -550,11 +525,11 @@ export function FlashcardViewer({
         }
 
         .anki-card-content ruby {
-          font-weight: 600 !important;
+          font-weight: 400 !important;
         }
 
         .anki-card-content ruby rt {
-          font-weight: 400 !important;
+          font-weight: 600 !important;
           font-size: 0.7em !important;
         }
 
@@ -624,11 +599,11 @@ const requiredStyles = `
 }
 
 .anki-card-content ruby {
-  font-weight: 600 !important;
+  font-weight: 400 !important;
 }
 
 .anki-card-content ruby rt {
-  font-weight: 400 !important;
+  font-weight: 600 !important;
   font-size: 0.7em !important;
 }
 

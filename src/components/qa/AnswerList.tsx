@@ -41,6 +41,10 @@ export default function AnswerList({ question, initialAnswers = [], onAnswerCoun
   const [answerToDelete, setAnswerToDelete] = useState<string | null>(null)
   const [isDeleting, setIsDeleting] = useState(false)
 
+  // Track avatar updates for current user's answers
+  const [avatarKey, setAvatarKey] = useState(Date.now())
+  const [currentUserAvatar, setCurrentUserAvatar] = useState(user?.photoURL)
+
   // Check if current user is question author
   const isQuestionAuthor = user?.uid === question.author.uid
 
@@ -48,6 +52,19 @@ export default function AnswerList({ question, initialAnswers = [], onAnswerCoun
   useEffect(() => {
     loadAnswers()
   }, [question.id])
+
+  // Listen for profile photo updates
+  useEffect(() => {
+    const handlePhotoUpdate = (event: Event) => {
+      const customEvent = event as CustomEvent<{ photoURL: string }>
+      // Update avatar for current user's answers
+      setCurrentUserAvatar(customEvent.detail.photoURL)
+      setAvatarKey(Date.now())
+    }
+
+    window.addEventListener('profile-photo-updated', handlePhotoUpdate)
+    return () => window.removeEventListener('profile-photo-updated', handlePhotoUpdate)
+  }, [])
 
   const loadAnswers = async () => {
     try {
@@ -234,7 +251,8 @@ export default function AnswerList({ question, initialAnswers = [], onAnswerCoun
                     <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-dark-700">
                       <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                         <Avatar
-                          src={answer.author.avatar}
+                          key={isAuthor ? avatarKey : `static-${answer.id}`}
+                          src={isAuthor ? currentUserAvatar : answer.author.avatar}
                           name={answer.author.name}
                           size="xs"
                         />

@@ -4634,6 +4634,9 @@ export const strings = {
       syncNow: 'Sync Now',
       inProgress: 'Syncing...',
       syncingDeck: 'Syncing {{deck}}...',
+      cancelSyncTitle: 'Stop syncing?',
+      cancelSyncMessage: 'This will stop the current sync and clear any in-progress restores.',
+      cancelSyncConfirm: 'Stop sync',
       infoModal: {
         title: 'Syncing Your Decks',
         message: 'Sync time depends on the size of your decks and media files. While syncing is in progress:',
@@ -4679,6 +4682,15 @@ export const strings = {
       createFirstDeck: 'Create Your First Deck',
     },
 
+    // Deck sync (premium feature)
+    sync: {
+      deckSync: 'Syncing decks...',
+      downloading: 'Downloading from cloud',
+      uploading: 'Uploading to cloud',
+      decksSynced: '{count} decks synced',
+      deckSyncComplete: 'Deck sync complete',
+    },
+
     // Errors and limits
     errors: {
       loadFailed: 'Failed to load decks',
@@ -4688,6 +4700,9 @@ export const strings = {
       upgradeRequired: 'Upgrade to create more decks',
       offlineOnly: 'Offline mode - changes saved locally',
       syncFailed: 'Failed to sync with cloud',
+      deckSyncFailed: 'Failed to sync decks. Please try again.',
+      syncRequiresPremium: 'Premium subscription required for sync',
+      deckLimitReached: "You've reached the maximum number of decks (15) for your plan",
     },
 
     limits: {

@@ -33,6 +33,9 @@ function DashboardContent() {
   const [hasCheckedFirstVisit, setHasCheckedFirstVisit] = useState(false)
   const [showConfetti, setShowConfetti] = useState(false)
 
+  // Force LearningVillage remount when refresh param is present
+  const refreshKey = searchParams.get('refresh') || 'default'
+
   const { isPremium } = useSubscription()
   useAutoSync()
 
@@ -214,6 +217,7 @@ function DashboardContent() {
 
         <div className="my-8">
           <LearningVillage
+            key={refreshKey}
             welcomeData={{
               userName: (() => {
                 const name = user?.displayName || user?.email?.split('@')[0] || 'Learner'

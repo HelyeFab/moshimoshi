@@ -4445,6 +4445,9 @@ export const strings = {
       syncNow: '今すぐ同期',
       inProgress: '同期中...',
       syncingDeck: '{{deck}}を同期中...',
+      cancelSyncTitle: 'Stop syncing?',
+      cancelSyncMessage: 'This will stop the current sync and clear any in-progress restores.',
+      cancelSyncConfirm: 'Stop sync',
       infoModal: {
         title: 'デッキを同期中',
         message: '同期時間はデッキとメディアファイルのサイズによって異なります。同期中は：',
@@ -4484,6 +4487,13 @@ export const strings = {
       noDecksDescription: '最初のフラッシュカードデッキを作成して学習を始めましょう',
       createFirstDeck: '最初のデッキを作成',
     },
+    sync: {
+      deckSync: 'デッキを同期中...',
+      downloading: 'クラウドからダウンロード中',
+      uploading: 'クラウドにアップロード中',
+      decksSynced: '{count}デッキが同期されました',
+      deckSyncComplete: 'デッキの同期完了',
+    },
     errors: {
       loadFailed: 'デッキの読み込みに失敗',
       saveFailed: 'デッキの保存に失敗',
@@ -4492,6 +4502,9 @@ export const strings = {
       upgradeRequired: 'さらにデッキを作成するにはアップグレードが必要',
       offlineOnly: 'オフラインモード - ローカルに保存',
       syncFailed: 'クラウド同期に失敗',
+      deckSyncFailed: 'デッキの同期に失敗しました。もう一度お試しください。',
+      syncRequiresPremium: '同期にはプレミアムサブスクリプションが必要です',
+      deckLimitReached: 'デッキの最大数（15）に達しました',
     },
     limits: {
       guest: 'フラッシュカードを作成するにはサインインしてください',

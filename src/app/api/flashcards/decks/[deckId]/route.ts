@@ -1,0 +1,122 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { getSession } from '@/lib/auth/session'
+import { getAdminDb } from '@/lib/firebase/admin'
+
+interface Params {
+  params: Promise<{
+    deckId: string
+  }>
+}
+
+const PREMIUM_PLANS = new Set(['premium_monthly', 'premium_yearly'])
+
+async function ensurePremium(uid: string): Promise<boolean> {
+  const db = getAdminDb()
+  const userDoc = await db.collection('users').doc(uid).get()
+  const plan = userDoc.data()?.subscription?.plan
+  return !!plan && PREMIUM_PLANS.has(plan)
+}
+
+/**
+ * GET /api/flashcards/decks/[deckId]
+ * Fetch a single deck by ID (premium only)
+ */
+export async function GET(request: NextRequest, { params }: Params) {
+  try {
+    const { deckId } = await params
+    const session = await getSession()
+
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    if (!(await ensurePremium(session.uid))) {
+      return NextResponse.json({ error: 'Premium required' }, { status: 403 })
+    }
+
+    const db = getAdminDb()
+    const deckDoc = await db.collection('flashcardDecks').doc(deckId).get()
+
+    if (!deckDoc.exists) {
+      return NextResponse.json({ error: 'Deck not found' }, { status: 404 })
+    }
+
+    const deck = deckDoc.data()
+
+    // Verify ownership
+    if (deck?.userId !== session.uid) {
+      return NextResponse.json({ error: 'Deck not found' }, { status: 404 })
+    }
+
+    // CRITICAL: Filter out Anki decks
+    if (deck.source === 'anki') {
+      return NextResponse.json({ error: 'Deck not found' }, { status: 404 })
+    }
+
+    console.log('[API Flashcards Deck] GET - Fetched deck:', {
+      deckId,
+      name: deck.name,
+      userId: session.uid,
+    })
+
+    return NextResponse.json({ deck: { id: deckDoc.id, ...deck } })
+  } catch (error) {
+    console.error('[API Flashcards Deck] GET error:', error)
+    return NextResponse.json({ error: 'Failed to fetch deck' }, { status: 500 })
+  }
+}
+
+/**
+ * DELETE /api/flashcards/decks/[deckId]
+ * Delete a deck from Firebase (premium only)
+ */
+export async function DELETE(request: NextRequest, { params }: Params) {
+  try {
+    const { deckId } = await params
+    const session = await getSession()
+
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
+    if (!(await ensurePremium(session.uid))) {
+      return NextResponse.json({ error: 'Premium required' }, { status: 403 })
+    }
+
+    const db = getAdminDb()
+    const deckDoc = await db.collection('flashcardDecks').doc(deckId).get()
+
+    if (!deckDoc.exists) {
+      // Deck already deleted or never existed - this is fine (idempotent)
+      console.log('[API Flashcards Deck] DELETE - Deck not found (already deleted):', deckId)
+      return NextResponse.json({ success: true, message: 'Deck already deleted' })
+    }
+
+    const deck = deckDoc.data()
+
+    // Verify ownership
+    if (deck?.userId !== session.uid) {
+      return NextResponse.json({ error: 'Deck not found' }, { status: 404 })
+    }
+
+    // CRITICAL: Don't allow deleting Anki decks via this endpoint
+    // Anki decks should only be managed via R2 flow
+    if (deck.source === 'anki') {
+      return NextResponse.json({ error: 'Cannot delete Anki decks via this endpoint' }, { status: 400 })
+    }
+
+    // Delete the deck
+    await db.collection('flashcardDecks').doc(deckId).delete()
+
+    console.log('[API Flashcards Deck] DELETE - Deck deleted:', {
+      deckId,
+      name: deck.name,
+      userId: session.uid,
+    })
+
+    return NextResponse.json({ success: true })
+  } catch (error) {
+    console.error('[API Flashcards Deck] DELETE error:', error)
+    return NextResponse.json({ error: 'Failed to delete deck' }, { status: 500 })
+  }
+}

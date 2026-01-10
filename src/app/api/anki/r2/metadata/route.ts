@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { z } from 'zod'
 import { FieldValue } from 'firebase-admin/firestore'
 import { requireAuth } from '@/lib/auth/session'
+import { requireR2Entitlement } from '@/lib/api/r2-entitlement'
 import { adminDb } from '@/lib/firebase/admin'
 import { buildDeckPrefix, isValidDeckKey } from '@/lib/r2/r2-keys'
 
@@ -40,6 +41,13 @@ function validateKeys(userId: string, deckId: string, r2: { packageKey: string; 
 export async function POST(request: NextRequest) {
   try {
     const session = await requireAuth()
+    const entitlement = await requireR2Entitlement(session)
+    if (!entitlement.allowed && entitlement.reason === 'not_premium') {
+      return NextResponse.json(
+        { error: { code: 'PREMIUM_REQUIRED', message: 'Premium required' } },
+        { status: 403 }
+      )
+    }
     const body = await request.json().catch(() => null)
 
     if (!body) {
@@ -106,6 +114,13 @@ const DeleteMetadataSchema = z.object({
 export async function DELETE(request: NextRequest) {
   try {
     const session = await requireAuth()
+    const entitlement = await requireR2Entitlement(session)
+    if (!entitlement.allowed && entitlement.reason === 'not_premium') {
+      return NextResponse.json(
+        { error: { code: 'PREMIUM_REQUIRED', message: 'Premium required' } },
+        { status: 403 }
+      )
+    }
     const body = await request.json().catch(() => null)
 
     if (!body) {

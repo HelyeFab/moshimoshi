@@ -3,6 +3,7 @@ import { z } from 'zod'
 import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 import { requireAuth } from '@/lib/auth/session'
+import { requireR2Entitlement } from '@/lib/api/r2-entitlement'
 import { getR2Config } from '@/lib/r2/r2-client'
 import { buildDeckPrefix, isValidDeckKey } from '@/lib/r2/r2-keys'
 import { adminDb } from '@/lib/firebase/admin'
@@ -22,6 +23,13 @@ const UploadUrlSchema = z.object({
 export async function POST(request: NextRequest) {
   try {
     const session = await requireAuth()
+    const entitlement = await requireR2Entitlement(session)
+    if (!entitlement.allowed && entitlement.reason === 'not_premium') {
+      return NextResponse.json(
+        { error: { code: 'PREMIUM_REQUIRED', message: 'Premium required' } },
+        { status: 403 }
+      )
+    }
     const body = await request.json().catch(() => null)
 
     if (!body) {
