@@ -9,6 +9,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuth } from 'firebase-admin/auth';
+import { getSession } from '@/lib/auth/session';
 import { applyMergedStatsTransaction } from '@/lib/gamification/services/streakService';
 
 interface MigrationData {
@@ -34,30 +35,46 @@ interface MigrationData {
  */
 export async function POST(req: NextRequest) {
   try {
-    // Get auth token from request
+    let userId: string | null = null;
     const authHeader = req.headers.get('authorization');
-    if (!authHeader?.startsWith('Bearer ')) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Missing or invalid authorization header'
-        },
-        { status: 401 }
-      );
+
+    if (authHeader?.startsWith('Bearer ')) {
+      const token = authHeader.substring(7);
+      try {
+        const decodedToken = await getAuth().verifyIdToken(token);
+        userId = decodedToken.uid;
+      } catch (error: any) {
+        if (error.code === 'auth/id-token-expired') {
+          return NextResponse.json(
+            { success: false, error: 'Token expired' },
+            { status: 401 }
+          );
+        }
+        if (error.code === 'auth/argument-error') {
+          return NextResponse.json(
+            { success: false, error: 'Invalid token' },
+            { status: 401 }
+          );
+        }
+        return NextResponse.json(
+          { success: false, error: 'Invalid token' },
+          { status: 401 }
+        );
+      }
+    } else {
+      const session = await getSession();
+      if (!session) {
+        return NextResponse.json(
+          { success: false, error: 'Unauthorized' },
+          { status: 401 }
+        );
+      }
+      userId = session.uid;
     }
-
-    const token = authHeader.substring(7);
-
-    // Verify token with Firebase Admin
-    const decodedToken = await getAuth().verifyIdToken(token);
-    const userId = decodedToken.uid;
 
     if (!userId) {
       return NextResponse.json(
-        {
-          success: false,
-          error: 'Invalid user ID'
-        },
+        { success: false, error: 'Invalid user ID' },
         { status: 401 }
       );
     }
@@ -123,27 +140,6 @@ export async function POST(req: NextRequest) {
 
   } catch (error: any) {
     console.error('[Migration API] Error:', error);
-
-    // Handle specific Firebase errors
-    if (error.code === 'auth/id-token-expired') {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Token expired'
-        },
-        { status: 401 }
-      );
-    }
-
-    if (error.code === 'auth/argument-error') {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'Invalid token'
-        },
-        { status: 401 }
-      );
-    }
 
     return NextResponse.json(
       {
