@@ -323,6 +323,7 @@ export async function deleteQuestion(questionId: string, userId: string): Promis
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'include', // IMPORTANT: Send cookies with request
       body: JSON.stringify({ questionId }),
     })
 
