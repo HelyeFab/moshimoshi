@@ -341,21 +341,24 @@ export default function QuestionDetailClient({ questionId }: { questionId: strin
                     </p>
                   </div>
 
-                  {/* Stats */}
-                  <div className="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400 mb-6 pb-6 border-b border-gray-200 dark:border-dark-700">
-                    <span className="flex items-center gap-2">
-                      <Eye className="w-4 h-4" />
-                      <span className="font-medium">{question.viewCount}</span>
-                      {t('qa.detail.views')}
-                    </span>
-                    <span className="flex items-center gap-2">
-                      <MessageSquare className="w-4 h-4" />
-                      <span className="font-medium">{answerCount}</span>
-                      {answerCount === 1 ? t('qa.answer') : t('qa.answers')}
-                    </span>
+                  {/* Stats - Desktop: single row, Mobile: two rows */}
+                  <div className="mb-6 pb-6 border-b border-gray-200 dark:border-dark-700">
+                    {/* Row 1: Views and Answers (always visible) */}
+                    <div className="flex items-center gap-6 text-sm text-gray-500 dark:text-gray-400 mb-3 sm:mb-0">
+                      <span className="flex items-center gap-2">
+                        <Eye className="w-4 h-4" />
+                        <span className="font-medium">{question.viewCount}</span>
+                        {t('qa.detail.views')}
+                      </span>
+                      <span className="flex items-center gap-2">
+                        <MessageSquare className="w-4 h-4" />
+                        <span className="font-medium">{answerCount}</span>
+                        {answerCount === 1 ? t('qa.answer') : t('qa.answers')}
+                      </span>
+                    </div>
 
-                    {/* Mobile vote buttons - horizontal layout */}
-                    <div className="sm:hidden ml-auto">
+                    {/* Row 2: Vote buttons - Mobile only */}
+                    <div className="sm:hidden">
                       <VoteButton
                         itemId={question.id}
                         itemType="question"
