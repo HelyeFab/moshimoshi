@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { adminDb, verifySessionCookie } from '@/lib/firebase/admin'
+import { adminDb } from '@/lib/firebase/admin'
+import { getSession } from '@/lib/auth/session'
 
 /**
  * DELETE /api/qa/delete-question
@@ -8,27 +9,17 @@ import { adminDb, verifySessionCookie } from '@/lib/firebase/admin'
 export async function DELETE(request: NextRequest) {
   try {
     console.log('[API /qa/delete-question] Request received')
-    console.log('[API /qa/delete-question] Cookies:', request.cookies.getAll())
 
-    // Verify authentication
-    const sessionCookie = request.cookies.get('__session')?.value
-    console.log('[API /qa/delete-question] Session cookie exists:', !!sessionCookie)
+    // Verify authentication using session helper
+    const session = await getSession()
+    console.log('[API /qa/delete-question] Session:', session ? 'valid' : 'invalid')
 
-    if (!sessionCookie) {
-      console.log('[API /qa/delete-question] No session cookie found')
-      return NextResponse.json({ error: 'Unauthorized - No session cookie' }, { status: 401 })
+    if (!session || !session.uid) {
+      console.log('[API /qa/delete-question] No valid session')
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    console.log('[API /qa/delete-question] Verifying session cookie...')
-    const decodedClaims = await verifySessionCookie(sessionCookie)
-    console.log('[API /qa/delete-question] Decoded claims:', decodedClaims ? 'valid' : 'invalid')
-
-    if (!decodedClaims) {
-      console.log('[API /qa/delete-question] Invalid session')
-      return NextResponse.json({ error: 'Invalid session' }, { status: 401 })
-    }
-
-    const userId = decodedClaims.uid
+    const userId = session.uid
     const { questionId } = await request.json()
 
     console.log('[API /qa/delete-question] Authenticated user:', userId)
