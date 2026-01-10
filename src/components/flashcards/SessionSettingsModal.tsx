@@ -23,16 +23,26 @@ export function SessionSettingsModal({
 }: SessionSettingsModalProps) {
   const { t } = useI18n();
 
-  // Initialize with deck's current settings
-  const [sessionLength, setSessionLength] = useState(deck.settings?.sessionLength || 20);
+  const maxCards = deck.cards.length;
+
+  // Initialize with deck's current settings, clamped to max cards
+  const [sessionLength, setSessionLength] = useState(
+    Math.min(deck.settings?.sessionLength || 20, maxCards)
+  );
   const [reviewMode, setReviewMode] = useState(deck.settings?.reviewMode || 'sequential');
   const [studyDirection, setStudyDirection] = useState(deck.settings?.studyDirection || 'front-to-back');
   const [furiganaEnabled, setFuriganaEnabled] = useState(deck.settings?.furigana?.enabled ?? true);
   const [furiganaOnFront, setFuriganaOnFront] = useState(deck.settings?.furigana?.showOnFront ?? true);
   const [furiganaOnBack, setFuriganaOnBack] = useState(deck.settings?.furigana?.showOnBack ?? true);
 
-  const maxCards = deck.cards.length;
   const actualSessionLength = Math.min(sessionLength, maxCards);
+
+  // Generate smart preset buttons based on deck size
+  const getPresets = () => {
+    const presets = [5, 10, 20, maxCards];
+    // Remove duplicates and values greater than maxCards, then sort
+    return [...new Set(presets.filter(p => p <= maxCards))].sort((a, b) => a - b);
+  };
 
   const handleStartSession = () => {
     onStartSession({
@@ -110,16 +120,42 @@ export function SessionSettingsModal({
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                 {t('flashcards.settings.sessionLength')}
               </label>
-              <div className="flex items-center gap-4">
-                <input
-                  type="range"
-                  min="1"
-                  max={maxCards}
-                  value={sessionLength}
-                  onChange={(e) => setSessionLength(Number(e.target.value))}
-                  className="flex-1"
-                />
-                <div className="flex items-center gap-2">
+
+              {/* Quick select buttons */}
+              <div className={cn(
+                "grid gap-2 mb-3",
+                getPresets().length === 4 ? "grid-cols-4" :
+                getPresets().length === 3 ? "grid-cols-3" :
+                getPresets().length === 2 ? "grid-cols-2" :
+                "grid-cols-1"
+              )}>
+                {getPresets().map((preset) => (
+                  <button
+                    key={preset}
+                    onClick={() => setSessionLength(preset)}
+                    className={cn(
+                      'px-3 py-2 rounded-lg text-sm font-medium transition-all',
+                      sessionLength === preset
+                        ? 'bg-primary-500 text-white'
+                        : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                    )}
+                  >
+                    {preset === maxCards ? t('common.all') || 'All' : preset}
+                  </button>
+                ))}
+              </div>
+
+              {/* Stepper controls */}
+              <div className="flex items-center justify-center gap-4 p-3 bg-gray-50 dark:bg-dark-800 rounded-lg">
+                <button
+                  onClick={() => setSessionLength(Math.max(1, sessionLength - 1))}
+                  className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors active:scale-95"
+                  disabled={sessionLength <= 1}
+                >
+                  <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">−</span>
+                </button>
+
+                <div className="flex flex-col items-center gap-1">
                   <input
                     type="number"
                     min="1"
@@ -129,18 +165,22 @@ export function SessionSettingsModal({
                       const value = Math.max(1, Math.min(maxCards, Number(e.target.value)));
                       setSessionLength(value);
                     }}
-                    className="w-20 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 text-center focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    className="w-16 px-2 py-2 text-center text-lg font-semibold border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                   />
-                  <span className="text-sm text-gray-600 dark:text-gray-400">
-                    / {maxCards}
+                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                    of {maxCards} cards
                   </span>
                 </div>
+
+                <button
+                  onClick={() => setSessionLength(Math.min(maxCards, sessionLength + 1))}
+                  className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors active:scale-95"
+                  disabled={sessionLength >= maxCards}
+                >
+                  <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">+</span>
+                </button>
               </div>
-              {sessionLength > maxCards && (
-                <p className="text-xs text-yellow-600 dark:text-yellow-400 mt-1">
-                  {t('flashcards.settings.usingAllCards')}
-                </p>
-              )}
+
             </div>
 
             {/* Review Mode */}

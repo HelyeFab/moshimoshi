@@ -696,6 +696,67 @@ export class FlashcardManager {
     return newCard
   }
 
+  // Delete a specific card from a deck (preserves all other cards)
+  async deleteCardFromDeck(
+    deckId: string,
+    cardId: string,
+    userId: string,
+    isPremium: boolean
+  ): Promise<boolean> {
+    console.log(`[FlashcardManager.deleteCardFromDeck] Starting deletion`, {
+      deckId,
+      cardId,
+      userId,
+      isPremium
+    })
+
+    const deck = await this.getDeck(deckId, userId)
+
+    if (!deck) {
+      console.warn(`[FlashcardManager.deleteCardFromDeck] Deck not found: ${deckId}`)
+      return false
+    }
+
+    console.log(`[FlashcardManager.deleteCardFromDeck] Deck loaded`, {
+      deckName: deck.name,
+      totalCards: deck.cards.length,
+      cardIds: deck.cards.map(c => c.id).slice(0, 5) // Show first 5 IDs
+    })
+
+    // Filter out the card to delete
+    const updatedCards = deck.cards.filter(card => card.id !== cardId)
+
+    if (updatedCards.length === deck.cards.length) {
+      console.warn(`[FlashcardManager.deleteCardFromDeck] Card not found in deck: ${cardId}`)
+      console.warn(`[FlashcardManager.deleteCardFromDeck] Available card IDs:`, deck.cards.map(c => c.id))
+      return false
+    }
+
+    console.log(`[FlashcardManager.deleteCardFromDeck] Card found, deleting`, {
+      before: deck.cards.length,
+      after: updatedCards.length
+    })
+
+    // Update the deck with the filtered cards (this will recalculate stats)
+    const updatedDeck = await this.updateDeck(
+      deckId,
+      { cards: updatedCards },
+      userId,
+      isPremium
+    )
+
+    if (!updatedDeck) {
+      console.error(`[FlashcardManager.deleteCardFromDeck] updateDeck returned null!`)
+      return false
+    }
+
+    console.log(`[FlashcardManager.deleteCardFromDeck] Deletion complete`, {
+      finalCardCount: updatedDeck.cards.length
+    })
+
+    return true
+  }
+
   // Update deck
   async updateDeck(
     deckId: string,
@@ -1377,6 +1438,7 @@ export class FlashcardManager {
   /**
    * Sync server-fetched decks to IndexedDB for offline support.
    * Called when premium user's decks are loaded via SSR.
+   * Uses Last-Write-Wins (LWW) based on updatedAt timestamp.
    */
   async syncDecksToIndexedDB(decks: FlashcardDeck[], userId: string): Promise<void> {
     if (!decks || decks.length === 0) return
@@ -1398,18 +1460,58 @@ export class FlashcardManager {
         return deck
       })
 
-      // Use a transaction for atomic updates
+      // Use a transaction for atomic updates with LWW conflict resolution
       try {
         const tx = db.transaction('decks', 'readwrite')
+        let synced = 0
+        let skipped = 0
 
-        for (const deck of normalizedDecks) {
+        for (const serverDeck of normalizedDecks) {
           // Ensure the deck belongs to this user
-          if (deck.userId === userId) {
-            await tx.store.put(deck)
+          if (serverDeck.userId !== userId) continue
+
+          // Check if deck exists locally
+          const localDeck = await tx.store.get(serverDeck.id)
+
+          if (!localDeck) {
+            // New deck from server - add it
+            await tx.store.put(serverDeck)
+            synced++
+          } else {
+            // Deck exists - use Last-Write-Wins based on updatedAt
+            const serverUpdatedAt = serverDeck.updatedAt || 0
+            const localUpdatedAt = localDeck.updatedAt || 0
+
+            if (serverUpdatedAt > localUpdatedAt) {
+              // Server version is newer - overwrite local
+              console.log(`[FlashcardManager.syncDecksToIndexedDB] Server newer for "${serverDeck.name}"`, {
+                serverUpdatedAt,
+                localUpdatedAt,
+                serverCards: serverDeck.cards?.length,
+                localCards: localDeck.cards?.length
+              })
+              await tx.store.put(serverDeck)
+              synced++
+            } else {
+              // Local version is same age or newer - keep local
+              console.log(`[FlashcardManager.syncDecksToIndexedDB] Local newer for "${serverDeck.name}"`, {
+                serverUpdatedAt,
+                localUpdatedAt,
+                serverCards: serverDeck.cards?.length,
+                localCards: localDeck.cards?.length
+              })
+              skipped++
+            }
           }
         }
 
         await tx.done
+
+        console.log('[FlashcardManager.syncDecksToIndexedDB] Sync complete', {
+          total: normalizedDecks.length,
+          synced,
+          skipped
+        })
       } catch (error: any) {
         if (error?.name === 'QuotaExceededError') {
           const handled = storageManager.handleStorageError(error)
@@ -1418,7 +1520,6 @@ export class FlashcardManager {
         throw error
       }
 
-      console.log('[FlashcardManager.syncDecksToIndexedDB] Sync complete')
       this.notifyListeners('decks-changed')
     } catch (error) {
       console.error('[FlashcardManager.syncDecksToIndexedDB] Failed:', error)

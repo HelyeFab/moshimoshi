@@ -23,6 +23,7 @@ interface StudySessionProps {
   onComplete: (summary: SessionSummary) => void;
   onExit: () => void;
   onCardUpdated?: (card: FlashcardContent) => void;
+  onDeckUpdated?: (deckId: string) => void;
   initialState?: PersistedStudySession | null;
 }
 
@@ -33,6 +34,7 @@ export function StudySession({
   onComplete,
   onExit,
   onCardUpdated,
+  onDeckUpdated,
   initialState
 }: StudySessionProps) {
   const { t } = useI18n();
@@ -261,26 +263,57 @@ export function StudySession({
     const cardToDelete = sessionCards[currentIndex];
     if (!cardToDelete) return;
 
-    const updatedCards = sessionCards.filter(card => card.id !== cardToDelete.id);
-    const newIndex = Math.min(currentIndex, Math.max(0, updatedCards.length - 1));
+    console.log('[StudySession.handleDeleteConfirm] Starting card deletion', {
+      cardId: cardToDelete.id,
+      deckId: deck.id,
+      currentSessionCards: sessionCards.length
+    });
 
-    setSessionCards(updatedCards);
+    // Update session cards (remove from current session)
+    const updatedSessionCards = sessionCards.filter(card => card.id !== cardToDelete.id);
+    const newIndex = Math.min(currentIndex, Math.max(0, updatedSessionCards.length - 1));
+
+    setSessionCards(updatedSessionCards);
     setCurrentIndex(newIndex);
     setShowDeleteDialog(false);
 
-    if (updatedCards.length === 0) {
+    console.log('[StudySession.handleDeleteConfirm] Session state updated', {
+      newSessionCards: updatedSessionCards.length
+    });
+
+    if (updatedSessionCards.length === 0) {
+      console.log('[StudySession.handleDeleteConfirm] No cards left, exiting session');
       handleExit();
       return;
     }
 
     try {
-      await flashcardManager.updateDeck(
+      console.log('[StudySession.handleDeleteConfirm] Calling deleteCardFromDeck...');
+
+      // Delete card from the FULL deck using deleteCardFromDeck instead of updateDeck
+      // This ensures we only remove the specific card, not replace with session cards
+      const success = await flashcardManager.deleteCardFromDeck(
         deck.id,
-        { cards: updatedCards },
+        cardToDelete.id,
         user?.uid || 'guest',
         isPremium || false
       );
+
+      console.log('[StudySession.handleDeleteConfirm] deleteCardFromDeck result:', success);
+
+      if (!success) {
+        console.error('[StudySession.handleDeleteConfirm] Card deletion failed!');
+        return;
+      }
+
+      // Notify parent component to refresh deck data
+      if (onDeckUpdated) {
+        console.log('[StudySession.handleDeleteConfirm] Notifying parent of deck update');
+        onDeckUpdated(deck.id);
+      }
+
       if (isPremium && user?.uid) {
+        console.log('[StudySession.handleDeleteConfirm] Persisting deletion to Firebase...');
         const response = await fetch(`/api/flashcards/decks/${deck.id}/deletions`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -288,13 +321,15 @@ export function StudySession({
         });
 
         if (!response.ok) {
-          console.warn('Failed to persist deleted card:', response.status);
+          console.warn('[StudySession.handleDeleteConfirm] Failed to persist deleted card:', response.status);
+        } else {
+          console.log('[StudySession.handleDeleteConfirm] Deletion persisted to Firebase');
         }
       }
     } catch (error) {
-      console.error('Failed to delete card from deck:', error);
+      console.error('[StudySession.handleDeleteConfirm] Failed to delete card from deck:', error);
     }
-  }, [sessionCards, currentIndex, deck.id, user?.uid, isPremium, handleExit]);
+  }, [sessionCards, currentIndex, deck.id, user?.uid, isPremium, handleExit, onDeckUpdated]);
 
   const completeSession = useCallback(async () => {
     const sessionTime = Date.now() - startTime - pausedTime;

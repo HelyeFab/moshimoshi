@@ -1440,6 +1440,16 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           setResumeSessionState(null)
           setStudyingDeck(null)
         }}
+        onDeckUpdated={async (deckId) => {
+          // Reload deck from IndexedDB and update state
+          const updatedDeck = await flashcardManager.getDeck(deckId, initialData.userId || 'guest')
+          if (updatedDeck) {
+            // Update decks array
+            setDecks(prevDecks => prevDecks.map(d => d.id === deckId ? updatedDeck : d))
+            // Update studying deck so session has fresh data
+            setStudyingDeck(updatedDeck)
+          }
+        }}
         initialState={resumeSessionState}
       />
     )

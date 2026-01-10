@@ -92,20 +92,6 @@ export default function VoteButton({
     }
   }, [user, isGuest, currentVote, itemType, itemId])
 
-  // Calculate net score using local counts
-  const score = localUpvotes - localDownvotes
-
-  console.log('[VoteButton] Render:', {
-    itemId,
-    itemType,
-    upvotes,
-    downvotes,
-    localUpvotes,
-    localDownvotes,
-    score,
-    currentVote
-  })
-
   // Check if current user is the author
   const isAuthor = user?.uid === authorId
 
@@ -124,11 +110,9 @@ export default function VoteButton({
 
     // Prevent race conditions - check ref synchronously
     if (isVotingRef.current) {
-      console.log('[VoteButton] Already voting, ignoring rapid click')
       return
     }
 
-    console.log('[VoteButton] Voting:', { voteType, itemId, itemType })
     isVotingRef.current = true
     setIsVoting(true)
 
@@ -136,50 +120,29 @@ export default function VoteButton({
       const voteFunction = itemType === 'question' ? voteQuestion : voteAnswer
       const result = await voteFunction(itemId, user.uid, voteType)
 
-      console.log('[VoteButton] Vote result:', result)
-
       if (result.success) {
         const previousVote = currentVote
         const newVote = result.currentVote
 
-        console.log('[VoteButton] Vote update:', {
-          previousVote,
-          newVote,
-          action: newVote === undefined ? 'REMOVED' : previousVote ? 'SWITCHED' : 'NEW'
-        })
-
         // Optimistically update local vote counts
         if (newVote === 'upvote' && previousVote === undefined) {
-          // New upvote
-          console.log('[VoteButton] Action: New upvote')
           setLocalUpvotes(prev => prev + 1)
         } else if (newVote === 'downvote' && previousVote === undefined) {
-          // New downvote
-          console.log('[VoteButton] Action: New downvote')
           setLocalDownvotes(prev => prev + 1)
         } else if (newVote === undefined && previousVote === 'upvote') {
-          // Removed upvote
-          console.log('[VoteButton] Action: Removed upvote (toggle off)')
           setLocalUpvotes(prev => prev - 1)
         } else if (newVote === undefined && previousVote === 'downvote') {
-          // Removed downvote
-          console.log('[VoteButton] Action: Removed downvote (toggle off)')
           setLocalDownvotes(prev => prev - 1)
         } else if (newVote === 'upvote' && previousVote === 'downvote') {
-          // Switched from downvote to upvote
-          console.log('[VoteButton] Action: Switched from downvote to upvote')
           setLocalUpvotes(prev => prev + 1)
           setLocalDownvotes(prev => prev - 1)
         } else if (newVote === 'downvote' && previousVote === 'upvote') {
-          // Switched from upvote to downvote
-          console.log('[VoteButton] Action: Switched from upvote to downvote')
           setLocalUpvotes(prev => prev - 1)
           setLocalDownvotes(prev => prev + 1)
         }
 
         setCurrentVote(result.currentVote)
         onVoteChange?.(result.currentVote)
-        console.log('[VoteButton] Final state - currentVote:', result.currentVote, 'Icon should be:', result.currentVote === 'upvote' ? 'GREEN' : result.currentVote === 'downvote' ? 'RED' : 'GRAY')
       } else {
         showToast(t('qa.voting.error'), 'error')
       }
@@ -223,17 +186,9 @@ export default function VoteButton({
           />
         </button>
 
-        {/* Score display */}
-        <span
-          className={cn(
-            'text-sm font-semibold tabular-nums min-w-[2rem] text-center',
-            score > 0 && 'text-green-600 dark:text-green-400',
-            score < 0 && 'text-red-600 dark:text-red-400',
-            score === 0 && 'text-muted-foreground'
-          )}
-        >
-          {score > 0 && '+'}
-          {score}
+        {/* Separate vote counts */}
+        <span className="text-sm font-semibold tabular-nums min-w-[1.5rem] text-center text-green-600 dark:text-green-400">
+          {localUpvotes}
         </span>
 
         {/* Downvote button */}
@@ -262,6 +217,9 @@ export default function VoteButton({
             )}
           />
         </button>
+        <span className="text-sm font-semibold tabular-nums min-w-[1.5rem] text-center text-red-600 dark:text-red-400">
+          {localDownvotes}
+        </span>
       </div>
     )
   }
@@ -296,17 +254,9 @@ export default function VoteButton({
         />
       </button>
 
-      {/* Score display */}
-      <span
-        className={cn(
-          'text-sm font-semibold tabular-nums min-w-[2.5rem] text-center',
-          score > 0 && 'text-green-600 dark:text-green-400',
-          score < 0 && 'text-red-600 dark:text-red-400',
-          score === 0 && 'text-muted-foreground'
-        )}
-      >
-        {score > 0 && '+'}
-        {score}
+      {/* Separate vote counts */}
+      <span className="text-sm font-semibold tabular-nums min-w-[2.5rem] text-center text-green-600 dark:text-green-400">
+        {localUpvotes}
       </span>
 
       {/* Downvote button */}
@@ -335,6 +285,9 @@ export default function VoteButton({
           )}
         />
       </button>
+      <span className="text-sm font-semibold tabular-nums min-w-[2.5rem] text-center text-red-600 dark:text-red-400">
+        {localDownvotes}
+      </span>
     </div>
   )
 }

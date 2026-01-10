@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react'
-import { doc, getDoc, updateDoc, serverTimestamp } from 'firebase/firestore'
-import { firestore as db } from '@/lib/firebase/client'
+import { TEA_HOUSE_GUIDELINES_VERSION } from '@/lib/qa/guidelines'
 import { useAuth } from './useAuth'
 
-const GUIDELINES_VERSION = 'v1.0'
 const WELCOME_SHOWN_KEY = 'teaHouseWelcomeShown'
 
 export interface TeaHouseUserData {
@@ -39,7 +37,7 @@ export function useTeaHouseGuidelines() {
 
   // Check if user has acknowledged guidelines (Firebase)
   useEffect(() => {
-    if (!user || isGuest || !db) {
+    if (!user || isGuest) {
       setHasAcknowledged(null)
       setLoading(false)
       return
@@ -47,22 +45,17 @@ export function useTeaHouseGuidelines() {
 
     async function checkAcknowledgment() {
       try {
-        const userRef = doc(db, 'users', user!.uid)
-        const userSnap = await getDoc(userRef)
+        const response = await fetch('/api/qa/guidelines', {
+          credentials: 'include'
+        })
 
-        if (userSnap.exists()) {
-          const data = userSnap.data()
-          const teaHouseData = data.teaHouse as TeaHouseUserData | undefined
-
-          // Check if acknowledged and if it's the current version
-          const acknowledged =
-            teaHouseData?.acknowledgedGuidelines === true &&
-            teaHouseData?.guidelinesVersion === GUIDELINES_VERSION
-
-          setHasAcknowledged(acknowledged)
-        } else {
+        if (!response.ok) {
           setHasAcknowledged(false)
+          return
         }
+
+        const data = await response.json()
+        setHasAcknowledged(data.acknowledged === true)
       } catch (error) {
         console.error('Error checking Tea House acknowledgment:', error)
         setHasAcknowledged(false)
@@ -86,18 +79,21 @@ export function useTeaHouseGuidelines() {
    * Acknowledge guidelines (Firebase)
    */
   const acknowledgeGuidelines = async () => {
-    if (!user || isGuest || !db) {
+    if (!user || isGuest) {
       throw new Error('Must be logged in to acknowledge guidelines')
     }
 
     try {
-      const userRef = doc(db, 'users', user.uid)
-
-      await updateDoc(userRef, {
-        'teaHouse.acknowledgedGuidelines': true,
-        'teaHouse.acknowledgedAt': serverTimestamp(),
-        'teaHouse.guidelinesVersion': GUIDELINES_VERSION,
+      const response = await fetch('/api/qa/guidelines', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ acknowledged: true })
       })
+
+      if (!response.ok) {
+        throw new Error('Failed to acknowledge guidelines')
+      }
 
       setHasAcknowledged(true)
       return true
@@ -130,6 +126,6 @@ export function useTeaHouseGuidelines() {
     acknowledgeGuidelines,
 
     // Metadata
-    guidelinesVersion: GUIDELINES_VERSION,
+    guidelinesVersion: TEA_HOUSE_GUIDELINES_VERSION,
   }
 }

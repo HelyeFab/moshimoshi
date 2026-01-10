@@ -197,7 +197,7 @@ async function handleAdminRoute(request: NextRequest): Promise<NextResponse | nu
     return NextResponse.redirect(getLocaleAwareRedirect(request, '/auth/signin'));
   }
 
-  if (!sessionInfo.user?.isAdmin) {
+  if (!sessionInfo.user?.isAdmin && !sessionInfo.user?.admin) {
     console.warn('[Middleware] Non-admin user attempted admin route');
     return NextResponse.redirect(getLocaleAwareRedirect(request, '/dashboard'));
   }

@@ -6,38 +6,29 @@
  * Users can only vote once per item (question or answer)
  *
  * NOTE: Vote counting is handled server-side by Cloud Functions
- * This service uses API routes with Admin SDK (works for all authenticated users)
- * The server automatically increments/decrements counts on questions/answers via Cloud Functions
+ * This service only manages vote documents (create/delete)
+ * The server automatically increments/decrements counts on questions/answers
  */
 
-// Note: Firestore client SDK imports removed - now using API routes with Admin SDK
-// This allows voting to work for all users (free + premium) regardless of Firebase Auth state
-
-const QUESTION_VOTES_COLLECTION = 'qa_question_votes'
-const ANSWER_VOTES_COLLECTION = 'qa_answer_votes'
+type VoteApiResponse = { success: boolean; currentVote?: VoteType }
 
 export type VoteType = 'upvote' | 'downvote'
 
 /**
  * Vote on a question
  * Logged-in users only (free + premium equal access)
- * Uses server-side API route with Admin SDK (works for all users)
+ * Uses Firestore transactions to prevent race conditions and double counting
  */
 export async function voteQuestion(
   questionId: string,
-  userId: string,
+  _userId: string,
   voteType: VoteType
 ): Promise<{ success: boolean; currentVote?: VoteType }> {
   try {
-    console.log('[voteQuestion] Calling API:', { questionId, userId, voteType })
-
-    // Call server-side API route
     const response = await fetch('/api/qa/vote', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include', // Include session cookie
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({
         itemId: questionId,
         itemType: 'question',
@@ -46,18 +37,12 @@ export async function voteQuestion(
     })
 
     if (!response.ok) {
-      const errorData = await response.json()
-      console.error('[voteQuestion] API error:', errorData)
+      console.error('Vote request failed:', await response.text())
       return { success: false }
     }
 
-    const result = await response.json()
-    console.log('[voteQuestion] API success:', result)
-
-    return {
-      success: true,
-      currentVote: result.currentVote,
-    }
+    const data = (await response.json()) as VoteApiResponse
+    return { success: !!data.success, currentVote: data.currentVote }
   } catch (error) {
     console.error('Failed to vote on question:', error)
     return { success: false }
@@ -67,23 +52,18 @@ export async function voteQuestion(
 /**
  * Vote on an answer
  * Logged-in users only (free + premium equal access)
- * Uses server-side API route with Admin SDK (works for all users)
+ * Uses Firestore transactions to prevent race conditions and double counting
  */
 export async function voteAnswer(
   answerId: string,
-  userId: string,
+  _userId: string,
   voteType: VoteType
 ): Promise<{ success: boolean; currentVote?: VoteType }> {
   try {
-    console.log('[voteAnswer] Calling API:', { answerId, userId, voteType })
-
-    // Call server-side API route
     const response = await fetch('/api/qa/vote', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      credentials: 'include', // Include session cookie
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({
         itemId: answerId,
         itemType: 'answer',
@@ -92,18 +72,12 @@ export async function voteAnswer(
     })
 
     if (!response.ok) {
-      const errorData = await response.json()
-      console.error('[voteAnswer] API error:', errorData)
+      console.error('Vote request failed:', await response.text())
       return { success: false }
     }
 
-    const result = await response.json()
-    console.log('[voteAnswer] API success:', result)
-
-    return {
-      success: true,
-      currentVote: result.currentVote,
-    }
+    const data = (await response.json()) as VoteApiResponse
+    return { success: !!data.success, currentVote: data.currentVote }
   } catch (error) {
     console.error('Failed to vote on answer:', error)
     return { success: false }
@@ -112,25 +86,14 @@ export async function voteAnswer(
 
 /**
  * Get user's existing vote on a question
- * Uses API route with Admin SDK to work for all users (free + premium)
  */
 async function getUserQuestionVote(
   questionId: string,
   userId: string
 ): Promise<VoteType | null> {
   try {
-    const response = await fetch(`/api/qa/get-user-votes?questionIds=${questionId}`, {
-      method: 'GET',
-      credentials: 'include', // Include session cookie
-    })
-
-    if (!response.ok) {
-      console.error('Failed to fetch user question vote:', response.statusText)
-      return null
-    }
-
-    const data = await response.json()
-    return data.questionVotes[questionId] || null
+    const votes = await getUserQuestionVotes([questionId], userId)
+    return votes.get(questionId) || null
   } catch (error) {
     console.error('Failed to get user question vote:', error)
     return null
@@ -139,22 +102,11 @@ async function getUserQuestionVote(
 
 /**
  * Get user's existing vote on an answer
- * Uses API route with Admin SDK to work for all users (free + premium)
  */
 async function getUserAnswerVote(answerId: string, userId: string): Promise<VoteType | null> {
   try {
-    const response = await fetch(`/api/qa/get-user-votes?answerIds=${answerId}`, {
-      method: 'GET',
-      credentials: 'include', // Include session cookie
-    })
-
-    if (!response.ok) {
-      console.error('Failed to fetch user answer vote:', response.statusText)
-      return null
-    }
-
-    const data = await response.json()
-    return data.answerVotes[answerId] || null
+    const votes = await getUserAnswerVotes([answerId], userId)
+    return votes.get(answerId) || null
   } catch (error) {
     console.error('Failed to get user answer vote:', error)
     return null
@@ -163,7 +115,6 @@ async function getUserAnswerVote(answerId: string, userId: string): Promise<Vote
 
 /**
  * Get all user votes for questions (for batch loading)
- * Uses API route with Admin SDK to work for all users (free + premium)
  */
 export async function getUserQuestionVotes(
   questionIds: string[],
@@ -172,21 +123,22 @@ export async function getUserQuestionVotes(
   try {
     if (questionIds.length === 0) return new Map()
 
-    const response = await fetch(`/api/qa/get-user-votes?questionIds=${questionIds.join(',')}`, {
-      method: 'GET',
-      credentials: 'include', // Include session cookie
+    const response = await fetch('/api/qa/get-user-votes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ questionIds }),
     })
 
     if (!response.ok) {
-      console.error('Failed to fetch user question votes:', response.statusText)
       return new Map()
     }
 
     const data = await response.json()
     const votes = new Map<string, VoteType>()
 
-    Object.entries(data.questionVotes).forEach(([questionId, voteType]) => {
-      votes.set(questionId, voteType as VoteType)
+    Object.entries(data.questionVotes || {}).forEach(([questionId, vote]) => {
+      votes.set(questionId, vote as VoteType)
     })
 
     return votes
@@ -198,7 +150,6 @@ export async function getUserQuestionVotes(
 
 /**
  * Get all user votes for answers (for batch loading)
- * Uses API route with Admin SDK to work for all users (free + premium)
  */
 export async function getUserAnswerVotes(
   answerIds: string[],
@@ -207,21 +158,22 @@ export async function getUserAnswerVotes(
   try {
     if (answerIds.length === 0) return new Map()
 
-    const response = await fetch(`/api/qa/get-user-votes?answerIds=${answerIds.join(',')}`, {
-      method: 'GET',
-      credentials: 'include', // Include session cookie
+    const response = await fetch('/api/qa/get-user-votes', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ answerIds }),
     })
 
     if (!response.ok) {
-      console.error('Failed to fetch user answer votes:', response.statusText)
       return new Map()
     }
 
     const data = await response.json()
     const votes = new Map<string, VoteType>()
 
-    Object.entries(data.answerVotes).forEach(([answerId, voteType]) => {
-      votes.set(answerId, voteType as VoteType)
+    Object.entries(data.answerVotes || {}).forEach(([answerId, vote]) => {
+      votes.set(answerId, vote as VoteType)
     })
 
     return votes

@@ -46,25 +46,35 @@ export function DeckGrid({
   const { t } = useI18n();
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const menuActionInProgressRef = useRef(false);
+
+  // Track openMenuId changes
+  useEffect(() => {
+    console.log('[DeckGrid] openMenuId changed:', openMenuId);
+  }, [openMenuId]);
 
   // Close menu when clicking outside - handle both mouse and touch events
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent | TouchEvent) {
+    function handleClickOutside(event: MouseEvent) {
+      console.log('[DeckGrid] Click outside detected', {
+        type: event.type,
+        insideMenu: menuRef.current && menuRef.current.contains(event.target as Node)
+      });
+
       // Don't close if clicking inside the menu
       if (menuRef.current && menuRef.current.contains(event.target as Node)) {
         return;
       }
       if (openMenuId !== null) {
+        console.log('[DeckGrid] Closing menu via outside click');
         setOpenMenuId(null);
       }
     }
 
-    // Use both click and touchend events for proper mobile support
+    // Only use click events - they fire after touch events complete on mobile
     document.addEventListener('click', handleClickOutside);
-    document.addEventListener('touchend', handleClickOutside);
     return () => {
       document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('touchend', handleClickOutside);
     };
   }, [openMenuId]);
 
@@ -164,9 +174,17 @@ export function DeckGrid({
           {/* Study Options */}
           {onStudyDeck && (
             <button
-              onClick={() => {
-                onStudyDeck(deck);
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                menuActionInProgressRef.current = true;
                 setOpenMenuId(null);
+                setTimeout(() => {
+                  onStudyDeck(deck);
+                  setTimeout(() => {
+                    menuActionInProgressRef.current = false;
+                  }, 300);
+                }, 50);
               }}
               className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-3"
             >
@@ -178,9 +196,17 @@ export function DeckGrid({
           {/* Session Settings */}
           {onSessionSettings && (
             <button
-              onClick={() => {
-                onSessionSettings(deck);
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                menuActionInProgressRef.current = true;
                 setOpenMenuId(null);
+                setTimeout(() => {
+                  onSessionSettings(deck);
+                  setTimeout(() => {
+                    menuActionInProgressRef.current = false;
+                  }, 300);
+                }, 50);
               }}
               className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-3"
             >
@@ -194,9 +220,17 @@ export function DeckGrid({
           {/* Management Options */}
           {onEditDeck && (
             <button
-              onClick={() => {
-                onEditDeck(deck);
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                menuActionInProgressRef.current = true;
                 setOpenMenuId(null);
+                setTimeout(() => {
+                  onEditDeck(deck);
+                  setTimeout(() => {
+                    menuActionInProgressRef.current = false;
+                  }, 300);
+                }, 50);
               }}
               className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-3"
             >
@@ -207,9 +241,31 @@ export function DeckGrid({
 
           {onDeleteDeck && (
             <button
-              onClick={() => {
-                onDeleteDeck(deck);
+              onClick={(e) => {
+                console.log('[DeckGrid Menu] Delete clicked', {
+                  deckId: deck.id,
+                  deckName: deck.name,
+                  event: e.type,
+                  timestamp: Date.now()
+                });
+                e.stopPropagation();
+                e.preventDefault();
+
+                console.log('[DeckGrid Menu] Setting menuActionInProgress = true');
+                menuActionInProgressRef.current = true;
+
+                console.log('[DeckGrid Menu] Closing menu');
                 setOpenMenuId(null);
+
+                // Small delay to ensure menu closes before action
+                setTimeout(() => {
+                  console.log('[DeckGrid Menu] Calling onDeleteDeck after 50ms delay');
+                  onDeleteDeck(deck);
+                  setTimeout(() => {
+                    console.log('[DeckGrid Menu] Setting menuActionInProgress = false after 300ms');
+                    menuActionInProgressRef.current = false;
+                  }, 300);
+                }, 50);
               }}
               className="w-full px-4 py-2 text-left text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors flex items-center gap-3"
             >
@@ -220,9 +276,17 @@ export function DeckGrid({
 
           {onExportDeck && (
             <button
-              onClick={() => {
-                onExportDeck(deck);
+              onClick={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                menuActionInProgressRef.current = true;
                 setOpenMenuId(null);
+                setTimeout(() => {
+                  onExportDeck(deck);
+                  setTimeout(() => {
+                    menuActionInProgressRef.current = false;
+                  }, 300);
+                }, 50);
               }}
               className="w-full px-4 py-2 text-left text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-3"
             >
@@ -236,9 +300,17 @@ export function DeckGrid({
             <>
               <div className="border-t border-gray-200 dark:border-dark-700 my-1" />
               <button
-                onClick={() => {
-                  onSyncDeck(deck);
+                onClick={(e) => {
+                  e.stopPropagation();
+                  e.preventDefault();
+                  menuActionInProgressRef.current = true;
                   setOpenMenuId(null);
+                  setTimeout(() => {
+                    onSyncDeck(deck);
+                    setTimeout(() => {
+                      menuActionInProgressRef.current = false;
+                    }, 300);
+                  }, 50);
                 }}
                 className="w-full px-4 py-2 text-left text-sm text-purple-600 dark:text-purple-400 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors flex items-center gap-3"
               >
@@ -293,7 +365,25 @@ export function DeckGrid({
               initial="hidden"
               animate="show"
               whileTap={{ scale: 0.98 }}
-              onClick={() => {
+              onClick={(e) => {
+                console.log('[DeckGrid Mobile] Deck card clicked', {
+                  deckId: deck.id,
+                  deckName: deck.name,
+                  openMenuId,
+                  menuActionInProgress: menuActionInProgressRef.current,
+                  isRestoring,
+                  willBlock: openMenuId !== null || menuActionInProgressRef.current
+                });
+
+                // Don't trigger deck click if menu is open or menu action in progress
+                if (openMenuId !== null || menuActionInProgressRef.current) {
+                  console.log('[DeckGrid Mobile] Deck click BLOCKED');
+                  e.stopPropagation();
+                  e.preventDefault();
+                  return;
+                }
+
+                console.log('[DeckGrid Mobile] Deck click ALLOWED - calling onDeckClick');
                 if (!isRestoring) onDeckClick(deck);
               }}
               className={cn(
@@ -326,6 +416,12 @@ export function DeckGrid({
                   <button
                     onClick={(e) => {
                       e.stopPropagation();
+                      console.log('[DeckGrid Mobile] Menu button clicked', {
+                        deckId: deck.id,
+                        deckName: deck.name,
+                        currentOpenMenuId: openMenuId,
+                        willOpen: openMenuId !== deck.id
+                      });
                       if (isRestoring) return;
                       setOpenMenuId(openMenuId === deck.id ? null : deck.id);
                     }}
@@ -394,6 +490,7 @@ export function DeckGrid({
           <div
             className="fixed inset-0 z-50 flex items-center justify-center p-4"
             onClick={(e) => {
+              console.log('[DeckGrid Mobile] Menu overlay clicked');
               e.stopPropagation();
             }}
           >
@@ -401,6 +498,7 @@ export function DeckGrid({
             <div
               className="absolute inset-0 bg-black/30"
               onClick={(e) => {
+                console.log('[DeckGrid Mobile] Backdrop clicked - closing menu');
                 e.stopPropagation();
                 setOpenMenuId(null);
               }}
@@ -507,6 +605,12 @@ export function DeckGrid({
                     <button
                       onClick={(e) => {
                         e.stopPropagation();
+                        console.log('[DeckGrid Desktop] Menu button clicked', {
+                          deckId: deck.id,
+                          deckName: deck.name,
+                          currentOpenMenuId: openMenuId,
+                          willOpen: openMenuId !== deck.id
+                        });
                         if (isRestoring) return;
                         setOpenMenuId(openMenuId === deck.id ? null : deck.id);
                       }}

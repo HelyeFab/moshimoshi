@@ -89,12 +89,21 @@ export function DeckCreator({
   )
 
   // Cards - initialize with editDeck cards if editing
-  const [cards, setCards] = useState<Array<{ id?: string; front: string; back: string; notes?: string }>>(
+  const [cards, setCards] = useState<Array<{
+    id?: string;
+    front: string;
+    back: string;
+    notes?: string;
+    frontImage?: { type: 'image'; url: string; alt?: string };
+    backImage?: { type: 'image'; url: string; alt?: string };
+  }>>(
     editDeck?.cards?.map((card: any) => ({
       id: card.id, // Preserve existing card ID for SRS data
-      front: card.front.text,
-      back: card.back.text,
+      front: card.front.text || card.front,
+      back: card.back.text || card.back,
       notes: card.metadata?.notes || '',
+      frontImage: card.front?.image,
+      backImage: card.back?.image,
     })) || []
   )
   const [currentCard, setCurrentCard] = useState<{
@@ -134,9 +143,11 @@ export function DeckCreator({
       setCards(
         editDeck.cards?.map((card: any) => ({
           id: card.id, // Preserve existing card ID for SRS data
-          front: card.front.text,
-          back: card.back.text,
+          front: card.front.text || card.front,
+          back: card.back.text || card.back,
           notes: card.metadata?.notes || '',
+          frontImage: card.front?.image,
+          backImage: card.back?.image,
         })) || []
       )
       setStep('details')
@@ -371,15 +382,15 @@ export function DeckCreator({
 
   const addCard = () => {
     if (currentCard.front && currentCard.back) {
-      // Add to simple format array for state management
-      // Images from currentCard are captured but not stored in simple format
-      // Full FlashcardContent is created in handleSave
+      // Add card with all data including images
       setCards([
         ...cards,
         {
           front: currentCard.front,
           back: currentCard.back,
           notes: currentCard.notes || undefined,
+          frontImage: currentCard.frontImage,
+          backImage: currentCard.backImage,
         },
       ])
       setCurrentCard({ front: '', back: '', notes: '' })
@@ -433,8 +444,14 @@ export function DeckCreator({
         sourceListId: importSource === 'list' ? selectedListId : undefined,
         initialCards: cards.map(card => ({
           ...(card.id ? { id: card.id } : {}), // Preserve existing card ID for SRS data
-          front: { text: card.front } as CardSide,
-          back: { text: card.back } as CardSide,
+          front: {
+            text: card.front,
+            ...(card.frontImage ? { image: card.frontImage } : {}),
+          } as CardSide,
+          back: {
+            text: card.back,
+            ...(card.backImage ? { image: card.backImage } : {}),
+          } as CardSide,
           metadata: {
             ...(card.notes ? { notes: card.notes } : {}),
             furiganaFront: furiganaMap.get(card.front),

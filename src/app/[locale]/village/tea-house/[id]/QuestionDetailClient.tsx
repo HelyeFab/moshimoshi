@@ -59,16 +59,12 @@ export default function QuestionDetailClient({ questionId }: { questionId: strin
 
   // Load question with real-time updates
   useEffect(() => {
-    console.log('[QuestionDetail] useEffect triggered for questionId:', questionId)
     loadQuestion()
 
     // Set up real-time listener for vote count updates
-    console.log('[QuestionDetail] About to setup real-time listener')
     const unsubscribe = setupRealtimeListener()
-    console.log('[QuestionDetail] Listener setup complete, unsubscribe function:', typeof unsubscribe)
 
     return () => {
-      console.log('[QuestionDetail] Cleaning up listener')
       unsubscribe()
     }
   }, [questionId])
@@ -95,43 +91,23 @@ export default function QuestionDetailClient({ questionId }: { questionId: strin
 
   // Real-time listener for vote count updates
   const setupRealtimeListener = () => {
-    console.log('[QuestionDetail] setupRealtimeListener called, db exists:', !!db)
-
     // Check if Firestore is initialized
     if (!db) {
-      console.warn('[QuestionDetail] Firestore not initialized, skipping real-time listener')
       return () => {} // Return empty cleanup function
     }
 
     const questionRef = doc(db, 'qa_questions', questionId)
-    console.log('[QuestionDetail] Setting up real-time listener for:', questionId)
 
     const unsubscribe = onSnapshot(
       questionRef,
       (snapshot) => {
-        console.log('[QuestionDetail] Snapshot received:', {
-          exists: snapshot.exists(),
-          data: snapshot.exists() ? snapshot.data() : null
-        })
-
         if (snapshot.exists()) {
           const data = snapshot.data()
-          console.log('[QuestionDetail] Updating question state with:', {
-            upvotes: data.upvotes,
-            downvotes: data.downvotes,
-            answerCount: data.answerCount
-          })
 
           setQuestion((prev) => {
-            console.log('[QuestionDetail] Previous state:', prev ? {
-              upvotes: prev.upvotes,
-              downvotes: prev.downvotes
-            } : 'null')
-
             // If prev is null, we're still loading - let loadQuestion() handle it
             // But if prev exists, update it with real-time data
             if (!prev) {
-              console.log('[QuestionDetail] Skipping update - question not loaded yet')
               return prev
             }
 

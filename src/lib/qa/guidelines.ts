@@ -1,0 +1,1 @@
+export const TEA_HOUSE_GUIDELINES_VERSION = 'v1.0'
