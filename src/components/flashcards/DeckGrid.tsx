@@ -47,9 +47,9 @@ export function DeckGrid({
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
 
-  // Close menu when clicking outside - use click instead of mousedown
+  // Close menu when clicking outside - handle both mouse and touch events
   useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
+    function handleClickOutside(event: MouseEvent | TouchEvent) {
       // Don't close if clicking inside the menu
       if (menuRef.current && menuRef.current.contains(event.target as Node)) {
         return;
@@ -59,9 +59,13 @@ export function DeckGrid({
       }
     }
 
-    // Use click event (fires after mousedown) so menu actions can complete
+    // Use both click and touchend events for proper mobile support
     document.addEventListener('click', handleClickOutside);
-    return () => document.removeEventListener('click', handleClickOutside);
+    document.addEventListener('touchend', handleClickOutside);
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('touchend', handleClickOutside);
+    };
   }, [openMenuId]);
 
   const getColorClasses = (color: string) => {
@@ -326,7 +330,8 @@ export function DeckGrid({
                       setOpenMenuId(openMenuId === deck.id ? null : deck.id);
                     }}
                     disabled={isRestoring}
-                    className="flex-shrink-0 p-2 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
+                    className="flex-shrink-0 p-2 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors touch-manipulation"
+                    style={{ touchAction: 'manipulation' }}
                   >
                     <MoreVertical className="w-4 h-4 text-gray-500 dark:text-gray-400" />
                   </button>
@@ -506,7 +511,8 @@ export function DeckGrid({
                         setOpenMenuId(openMenuId === deck.id ? null : deck.id);
                       }}
                       disabled={isRestoring}
-                      className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur transition-colors"
+                      className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur transition-colors touch-manipulation"
+                      style={{ touchAction: 'manipulation' }}
                       aria-label={t('common.settings')}
                     >
                       <MoreVertical className="w-3.5 h-3.5 text-white" />
