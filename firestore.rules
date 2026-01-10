@@ -742,8 +742,11 @@ service cloud.firestore {
       );
 
       // Authors can delete their own answers
-      allow delete: if isAuthenticated() &&
-        resource.data.author.uid == request.auth.uid;
+      // Question authors can also delete answers on their questions (for cascade delete on question deletion)
+      allow delete: if isAuthenticated() && (
+        resource.data.author.uid == request.auth.uid ||
+        get(/databases/$(database)/documents/qa_questions/$(resource.data.questionId)).data.author.uid == request.auth.uid
+      );
     }
 
     // Q&A Question Votes - voting on questions

@@ -310,6 +310,8 @@ export async function updateQuestion(
 
 /**
  * Delete question (author only)
+ * Option C: Only prevent deletion if there are APPROVED answers from OTHER users
+ * Auto-cleanup rejected/pending answers
  */
 export async function deleteQuestion(questionId: string, userId: string): Promise<void> {
   try {
@@ -325,6 +327,23 @@ export async function deleteQuestion(questionId: string, userId: string): Promis
     const question = snapshot.data()
     if (question.author?.uid !== userId) {
       throw new QAError('You can only delete your own questions', 'UNAUTHORIZED')
+    }
+
+    // Check for approved answers from OTHER users
+    const answersQuery = query(collection(db, 'qa_answers'), where('questionId', '==', questionId))
+    const answersSnapshot = await getDocs(answersQuery)
+
+    // Filter for approved answers from other users
+    const approvedAnswersFromOthers = answersSnapshot.docs.filter(doc => {
+      const answer = doc.data()
+      return answer.moderationStatus === 'approved' && answer.author?.uid !== userId
+    })
+
+    if (approvedAnswersFromOthers.length > 0) {
+      throw new QAError(
+        'Cannot delete question with approved answers from other users',
+        'HAS_APPROVED_ANSWERS'
+      )
     }
 
     // Helper to delete a collection query in batches (max 500 writes)
@@ -351,10 +370,7 @@ export async function deleteQuestion(questionId: string, userId: string): Promis
       }
     }
 
-    // Delete answer votes, answers, and question votes before removing the question
-    const answersQuery = query(collection(db, 'qa_answers'), where('questionId', '==', questionId))
-    const answersSnapshot = await getDocs(answersQuery)
-
+    // Auto-cleanup: Delete ALL answers (including rejected/pending)
     // Delete votes for each answer, then the answers themselves
     for (const answerDoc of answersSnapshot.docs) {
       const answerId = answerDoc.id

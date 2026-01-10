@@ -7272,6 +7272,7 @@ export const strings = {
       confirmDelete: 'Are you sure you want to delete this question? This cannot be undone.',
       deleted: 'Question deleted successfully',
       deleteError: 'Failed to delete question',
+      deleteErrorHasAnswers: 'Cannot delete question with approved answers from other users. Please contact support if you need to remove this question.',
       deleteDialogTitle: 'Delete Question?',
       deleteDialogMessage: 'Are you sure you want to delete this question? This action cannot be undone and all answers will also be removed.',
       deleteConfirm: 'Delete Question',

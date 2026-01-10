@@ -167,7 +167,11 @@ export default function QuestionDetailClient({ questionId }: { questionId: strin
       showToast(t('qa.detail.deleted'), 'success')
       router.push(getLocalePath('/village/tea-house'))
     } catch (error: any) {
-      showToast(error.message || t('qa.detail.deleteError'), 'error')
+      // Show specific error message for questions with approved answers
+      const errorMessage = error.code === 'HAS_APPROVED_ANSWERS'
+        ? t('qa.detail.deleteErrorHasAnswers')
+        : error.message || t('qa.detail.deleteError')
+      showToast(errorMessage, 'error')
       setIsDeleting(false)
       setShowDeleteDialog(false)
     }

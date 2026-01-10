@@ -7052,6 +7052,7 @@ export const strings = {
       confirmDelete: 'Sei sicuro di voler eliminare questa domanda? Questa azione non può essere annullata.',
       deleted: 'Domanda eliminata con successo',
       deleteError: 'Impossibile eliminare la domanda',
+      deleteErrorHasAnswers: 'Impossibile eliminare una domanda con risposte approvate da altri utenti. Contatta il supporto se devi rimuovere questa domanda.',
       deleteDialogTitle: 'Eliminare la Domanda?',
       deleteDialogMessage: 'Sei sicuro di voler eliminare questa domanda? Questa azione non può essere annullata e tutte le risposte verranno rimosse.',
       deleteConfirm: 'Elimina Domanda',

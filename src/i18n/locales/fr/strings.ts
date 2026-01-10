@@ -6828,6 +6828,7 @@ export const strings = {
       confirmDelete: 'Êtes-vous sûr de vouloir supprimer cette question ? Cette action ne peut pas être annulée.',
       deleted: 'Question supprimée avec succès',
       deleteError: 'Échec de la suppression de la question',
+      deleteErrorHasAnswers: 'Impossible de supprimer une question avec des réponses approuvées d\'autres utilisateurs. Veuillez contacter le support si vous devez supprimer cette question.',
       deleteDialogTitle: 'Supprimer la Question ?',
       deleteDialogMessage: 'Êtes-vous sûr de vouloir supprimer cette question ? Cette action ne peut pas être annulée et toutes les réponses seront également supprimées.',
       deleteConfirm: 'Supprimer la Question',

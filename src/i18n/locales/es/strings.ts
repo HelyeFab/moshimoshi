@@ -7017,6 +7017,7 @@ export const strings = {
       confirmDelete: '¿Estás seguro de que quieres eliminar esta pregunta? Esta acción no se puede deshacer.',
       deleted: 'Pregunta eliminada con éxito',
       deleteError: 'Error al eliminar la pregunta',
+      deleteErrorHasAnswers: 'No se puede eliminar una pregunta con respuestas aprobadas de otros usuarios. Por favor, contacta con el soporte si necesitas eliminar esta pregunta.',
       deleteDialogTitle: '¿Eliminar Pregunta?',
       deleteDialogMessage: '¿Estás seguro de que quieres eliminar esta pregunta? Esta acción no se puede deshacer y todas las respuestas también se eliminarán.',
       deleteConfirm: 'Eliminar Pregunta',

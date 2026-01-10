@@ -7023,6 +7023,7 @@ export const strings = {
       confirmDelete: 'Bist du sicher, dass du diese Frage löschen möchtest? Dies kann nicht rückgängig gemacht werden.',
       deleted: 'Frage erfolgreich gelöscht',
       deleteError: 'Frage konnte nicht gelöscht werden',
+      deleteErrorHasAnswers: 'Fragen mit genehmigten Antworten von anderen Benutzern können nicht gelöscht werden. Bitte kontaktiere den Support, wenn du diese Frage entfernen musst.',
       deleteDialogTitle: 'Frage löschen?',
       deleteDialogMessage: 'Bist du sicher, dass du diese Frage löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden und alle Antworten werden ebenfalls entfernt.',
       deleteConfirm: 'Frage löschen',

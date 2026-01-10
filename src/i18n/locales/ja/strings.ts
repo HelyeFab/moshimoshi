@@ -7040,6 +7040,7 @@ export const strings = {
       confirmDelete: 'この質問を削除してもよろしいですか？この操作は取り消せません。',
       deleted: '質問が正常に削除されました',
       deleteError: '質問の削除に失敗しました',
+      deleteErrorHasAnswers: '他のユーザーからの承認済み回答がある質問は削除できません。この質問を削除する必要がある場合は、サポートにお問い合わせください。',
       deleteDialogTitle: '質問を削除しますか？',
       deleteDialogMessage: 'この質問を削除してもよろしいですか？この操作は取り消せず、すべての回答も削除されます。',
       deleteConfirm: '質問を削除',
