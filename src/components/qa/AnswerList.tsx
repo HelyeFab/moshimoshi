@@ -252,7 +252,7 @@ export default function AnswerList({ question, initialAnswers = [], onAnswerCoun
                       <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400">
                         <Avatar
                           key={isAuthor ? avatarKey : `static-${answer.id}`}
-                          src={isAuthor ? currentUserAvatar : answer.author.avatar}
+                          src={isAuthor ? (currentUserAvatar ?? undefined) : (answer.author.avatar ?? undefined)}
                           name={answer.author.name}
                           size="xs"
                         />

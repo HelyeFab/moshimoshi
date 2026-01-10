@@ -103,7 +103,7 @@ export default function TestVillagePersonalization() {
 
   // Fetch current user's goal
   useEffect(() => {
-    if (user && !user.isGuest) {
+    if (user && user.uid !== 'guest') {
       fetch('/api/user/onboarding')
         .then(res => res.json())
         .then(data => {
@@ -129,7 +129,7 @@ export default function TestVillagePersonalization() {
   }
 
   const handleUpdateGoal = async () => {
-    if (!selectedGoal || !user || user.isGuest) return
+    if (!selectedGoal || !user || user.uid === 'guest') return
 
     setIsUpdating(true)
     setUpdateSuccess(false)
@@ -324,7 +324,7 @@ export default function TestVillagePersonalization() {
         </div>
 
         {/* Update Button (for logged-in users) */}
-        {user && !user.isGuest && selectedGoal && selectedGoal !== currentUserGoal && (
+        {user && user.uid !== 'guest' && selectedGoal && selectedGoal !== currentUserGoal && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}

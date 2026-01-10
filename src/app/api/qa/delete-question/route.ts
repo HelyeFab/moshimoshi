@@ -26,6 +26,11 @@ export async function DELETE(request: NextRequest) {
 
     console.log('[API /qa/delete-question] Deleting question', { questionId, userId })
 
+    if (!adminDb) {
+      console.error('[API /qa/delete-question] Admin DB not initialized')
+      return NextResponse.json({ error: 'Server error' }, { status: 500 })
+    }
+
     // Get question
     const questionRef = adminDb.collection('qa_questions').doc(questionId)
     const questionDoc = await questionRef.get()

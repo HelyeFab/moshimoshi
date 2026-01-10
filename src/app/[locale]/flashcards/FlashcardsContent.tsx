@@ -571,11 +571,14 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       console.log('✅ [FlashcardsContent] Download complete:', downloadResult)
 
       // Step 2: Upload to Firebase
-      setMigrationProgress(prev => ({
-        ...prev,
-        phase: 'upload' as any,
-        completed: downloadResult.downloaded + downloadResult.merged
-      }))
+      setMigrationProgress({
+        status: 'syncing-decks',
+        phase: 'upload',
+        total: 0,
+        completed: downloadResult.downloaded + downloadResult.merged,
+        failed: 0,
+        currentDeck: null
+      })
 
       console.log('📤 [FlashcardsContent] Uploading decks to Firebase...')
       const uploadResult = await flashcardManager.syncAllDecksToFirebase(
@@ -719,14 +722,14 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         restoreQueue ?? undefined,
         abortController.signal
       )
-      const progress = {
+      const progress: MigrationProgress = {
         status: 'migrating',
         total: missingBackups.length,
         completed: 0,
         failed: 0,
-        currentDeck: null as string | null,
+        currentDeck: null,
         currentProgress: 0,
-        errors: [] as string[],
+        errors: [],
       }
 
       setMigrationProgress(progress)
@@ -782,7 +785,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
             break
           }
           progress.failed += 1
-          progress.errors.push(error?.message || `Failed to restore ${backup.name}`)
+          progress.errors?.push(error?.message || `Failed to restore ${backup.name}`)
           setRestoreProgressByDeckId(prev => ({
             ...prev,
             [backup.deckId]: {
@@ -944,14 +947,14 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
     restoreAbortControllerRef.current = abortController
     cancelSyncRef.current = false
     const orchestrator = new RestoreOrchestrator(initialData.userId, restoreQueue, abortController.signal)
-    const progress = {
+    const progress: MigrationProgress = {
       status: 'migrating',
       total: backups.length,
       completed: 0,
       failed: 0,
-      currentDeck: null as string | null,
+      currentDeck: null,
       currentProgress: 0,
-      errors: [] as string[],
+      errors: [],
     }
 
     setShowMigration(false)
@@ -1009,7 +1012,7 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           break
         }
         progress.failed += 1
-        progress.errors.push(error?.message || `Failed to restore ${backup.name}`)
+        progress.errors?.push(error?.message || `Failed to restore ${backup.name}`)
         setRestoreProgressByDeckId(prev => ({
           ...prev,
           [backup.deckId]: {
