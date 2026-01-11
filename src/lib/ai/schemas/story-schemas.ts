@@ -97,8 +97,8 @@ export const CharacterSheetSchema = z.object({
     nameJa: z.string(),
     description: z.string(),
     visualDescription: z.string(),
-    personality: z.string().optional(),
-    referenceImage: z.string().optional(),
+    personality: z.string().default(''),
+    referenceImage: z.string().default(''),
   }),
   supportingCharacters: z.array(
     z.object({
@@ -106,15 +106,15 @@ export const CharacterSheetSchema = z.object({
       nameJa: z.string(),
       description: z.string(),
       visualDescription: z.string(),
-      role: z.string().optional(),
-      referenceImage: z.string().optional(),
+      role: z.string().default(''),
+      referenceImage: z.string().default(''),
     })
   ),
   setting: SettingSchema,
   visualStyle: z.string(),
-  saveForReuse: z.boolean().optional(),
-  colorPalette: z.array(z.string()).optional(),
-  moodKeywords: z.array(z.string()).optional(),
+  saveForReuse: z.boolean().default(false),
+  colorPalette: z.array(z.string()).default([]),
+  moodKeywords: z.array(z.string()).default([]),
 }).passthrough(); // Allow additional fields
 
 // ============================================
