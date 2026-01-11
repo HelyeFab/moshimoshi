@@ -809,7 +809,7 @@ export const scheduledComicGeneratorFunction = onSchedule(
     schedule: '0 0 * * 0', // Weekly on Sunday at 00:00 UTC
     timeZone: 'UTC',
     memory: '1GiB',
-    timeoutSeconds: 900, // 15 minutes (max for scheduled: 1800s/30min)
+    timeoutSeconds: 540, // 9 minutes
     retryCount: 1,
     secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY],
   },
@@ -838,7 +838,7 @@ export const scheduledComicGeneratorFunction = onSchedule(
 export const manualComicGeneratorFunction = onCall(
   {
     memory: '1GiB',
-    timeoutSeconds: 900, // 15 minutes (max for callable: 3600s/60min)
+    timeoutSeconds: 540,
     invoker: 'public',
     secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY],
   },

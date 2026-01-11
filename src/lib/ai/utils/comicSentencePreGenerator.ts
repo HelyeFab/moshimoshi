@@ -169,142 +169,85 @@ export async function preGenerateComicSentences(
   const narrationSentences: ComicNarrationSentence[] = []
   const allTextForFullAudio: string[] = []
 
-  // Batching configuration (proven pattern from transcriptTranslationGenerator)
-  const BATCH_SIZE = 3 // Conservative batch size for parallel processing
-  const BATCH_DELAY_MS = 300 // Delay between batches to respect rate limits
-
-  // Step 1: Collect all audio generation tasks
-  interface AudioTask {
-    type: 'dialogue' | 'narration'
-    panelNumber: number
-    dialogueIndex?: number
-    text: string
-    textEn: string
-    characterId?: string
-    characterName?: string
-    emotion?: string
-    sentenceIndex: number
-  }
-
-  const audioTasks: AudioTask[] = []
-
   for (const panel of panels) {
-    // Collect dialogue tasks
+    // Process dialogues
     if (panel.dialogues) {
       for (let dIndex = 0; dIndex < panel.dialogues.length; dIndex++) {
         const dialogue = panel.dialogues[dIndex]
         if (dialogue.textJa) {
           allTextForFullAudio.push(dialogue.textJa)
-          audioTasks.push({
-            type: 'dialogue',
-            panelNumber: panel.panelNumber,
-            dialogueIndex: dIndex,
-            text: dialogue.textJa,
-            textEn: dialogue.textEn,
-            characterId: dialogue.characterId,
-            characterName: dialogue.characterName,
-            emotion: dialogue.emotion,
-            sentenceIndex: panel.panelNumber * 100 + dIndex,
-          })
+
+          try {
+            const audioUrl = await generateSentenceAudio(
+              dialogue.textJa,
+              episodeId,
+              panel.panelNumber * 100 + dIndex,
+              modalApiKey
+            )
+
+            dialogueSentences.push({
+              panelNumber: panel.panelNumber,
+              dialogueIndex: dIndex,
+              characterId: dialogue.characterId,
+              characterName: dialogue.characterName,
+              text: dialogue.textJa,
+              textEn: dialogue.textEn,
+              audioUrl,
+              emotion: dialogue.emotion,
+            })
+
+            console.log(`[ComicSentencePreGen] Dialogue ${panel.panelNumber}-${dIndex} audio generated`)
+          } catch (error) {
+            console.error(`[ComicSentencePreGen] Error generating dialogue audio:`, error)
+            dialogueSentences.push({
+              panelNumber: panel.panelNumber,
+              dialogueIndex: dIndex,
+              characterId: dialogue.characterId,
+              characterName: dialogue.characterName,
+              text: dialogue.textJa,
+              textEn: dialogue.textEn,
+              audioUrl: '',
+              emotion: dialogue.emotion,
+            })
+          }
+
+          // Rate limiting delay
+          await new Promise(resolve => setTimeout(resolve, 300))
         }
       }
     }
 
-    // Collect narration tasks
+    // Process narration
     if (panel.narration?.textJa) {
       allTextForFullAudio.push(panel.narration.textJa)
-      audioTasks.push({
-        type: 'narration',
-        panelNumber: panel.panelNumber,
-        text: panel.narration.textJa,
-        textEn: panel.narration.textEn,
-        sentenceIndex: panel.panelNumber * 100 + 99,
-      })
-    }
-  }
 
-  console.log(`[ComicSentencePreGen] Processing ${audioTasks.length} audio tasks in batches of ${BATCH_SIZE}`)
-
-  // Step 2: Process tasks in parallel batches
-  for (let i = 0; i < audioTasks.length; i += BATCH_SIZE) {
-    const batch = audioTasks.slice(i, i + BATCH_SIZE)
-    const batchNumber = Math.floor(i / BATCH_SIZE) + 1
-    const totalBatches = Math.ceil(audioTasks.length / BATCH_SIZE)
-
-    console.log(`[ComicSentencePreGen] Processing batch ${batchNumber}/${totalBatches} (${batch.length} items)`)
-
-    // Process batch in parallel using Promise.allSettled for graceful error handling
-    const batchPromises = batch.map(async (task) => {
       try {
         const audioUrl = await generateSentenceAudio(
-          task.text,
+          panel.narration.textJa,
           episodeId,
-          task.sentenceIndex,
+          panel.panelNumber * 100 + 99,
           modalApiKey
         )
 
-        if (task.type === 'dialogue') {
-          dialogueSentences.push({
-            panelNumber: task.panelNumber,
-            dialogueIndex: task.dialogueIndex!,
-            characterId: task.characterId!,
-            characterName: task.characterName!,
-            text: task.text,
-            textEn: task.textEn,
-            audioUrl,
-            emotion: task.emotion,
-          })
-          console.log(`✅ [ComicSentencePreGen] Dialogue ${task.panelNumber}-${task.dialogueIndex} audio generated`)
-        } else {
-          narrationSentences.push({
-            panelNumber: task.panelNumber,
-            text: task.text,
-            textEn: task.textEn,
-            audioUrl,
-          })
-          console.log(`✅ [ComicSentencePreGen] Narration ${task.panelNumber} audio generated`)
-        }
+        narrationSentences.push({
+          panelNumber: panel.panelNumber,
+          text: panel.narration.textJa,
+          textEn: panel.narration.textEn,
+          audioUrl,
+        })
 
-        return { success: true, task }
+        console.log(`[ComicSentencePreGen] Narration ${panel.panelNumber} audio generated`)
       } catch (error) {
-        console.error(`❌ [ComicSentencePreGen] Error generating ${task.type} audio for panel ${task.panelNumber}:`, error)
-
-        // Add empty audio entry on failure
-        if (task.type === 'dialogue') {
-          dialogueSentences.push({
-            panelNumber: task.panelNumber,
-            dialogueIndex: task.dialogueIndex!,
-            characterId: task.characterId!,
-            characterName: task.characterName!,
-            text: task.text,
-            textEn: task.textEn,
-            audioUrl: '',
-            emotion: task.emotion,
-          })
-        } else {
-          narrationSentences.push({
-            panelNumber: task.panelNumber,
-            text: task.text,
-            textEn: task.textEn,
-            audioUrl: '',
-          })
-        }
-
-        return { success: false, task, error }
+        console.error(`[ComicSentencePreGen] Error generating narration audio:`, error)
+        narrationSentences.push({
+          panelNumber: panel.panelNumber,
+          text: panel.narration.textJa,
+          textEn: panel.narration.textEn,
+          audioUrl: '',
+        })
       }
-    })
 
-    // Wait for batch to complete
-    const results = await Promise.allSettled(batchPromises)
-
-    // Log batch results
-    const succeeded = results.filter(r => r.status === 'fulfilled' && r.value.success).length
-    const failed = results.filter(r => r.status === 'fulfilled' && !r.value.success).length
-    console.log(`[ComicSentencePreGen] Batch ${batchNumber} complete: ${succeeded} succeeded, ${failed} failed`)
-
-    // Delay between batches to respect rate limits (not needed for last batch)
-    if (i + BATCH_SIZE < audioTasks.length) {
-      await new Promise(resolve => setTimeout(resolve, BATCH_DELAY_MS))
+      await new Promise(resolve => setTimeout(resolve, 300))
     }
   }
 
