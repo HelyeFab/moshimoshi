@@ -867,7 +867,7 @@ async function generateDailyStory(adminKey) {
                             contentType: 'story',
                             text: storyText,
                             limit: 1000,
-                            jlptLevel,
+                            jlptLevel: jlptLevel,
                         }),
                         new Promise((_, reject) => setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000))
                     ]);
