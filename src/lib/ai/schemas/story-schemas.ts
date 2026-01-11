@@ -44,7 +44,7 @@ export const StoryPageSchema = z.object({
   imagePrompt: z.string(),
   vocabularyNotes: z.record(z.string(), z.string()),
   grammarNotes: z.record(z.string(), z.string()),
-}).passthrough();
+});
 
 // ============================================
 // Vocabulary Item Schema
@@ -55,7 +55,7 @@ export const VocabularyItemSchema = z.object({
   meaning: z.string(),
   reading: z.string(),
   pageNumber: z.number().int().positive(),
-}).passthrough();
+});
 
 // ============================================
 // Generated Story Schema (for StoryProcessor)
@@ -69,7 +69,7 @@ export const GeneratedStorySchema = z.object({
   vocabulary: z.array(VocabularyItemSchema),
   quiz: z.array(ReviewQuestionSchema),
   metadata: z.record(z.string(), z.any()),
-}).passthrough();
+});
 
 // ============================================
 // Character Sheet Schema (for MultiStepStoryProcessor)
@@ -89,7 +89,7 @@ export const SettingSchema = z.object({
   time: z.string(),
   atmosphere: z.string(),
   visualDetails: z.string(),
-}).passthrough(); // Allow additional fields from AI
+}); // Allow additional fields from AI
 
 export const CharacterSheetSchema = z.object({
   mainCharacter: z.object({
@@ -115,7 +115,7 @@ export const CharacterSheetSchema = z.object({
   saveForReuse: z.boolean(),
   colorPalette: z.array(z.string()),
   moodKeywords: z.array(z.string()),
-}).passthrough(); // Allow additional fields
+}); // Allow additional fields
 
 // ============================================
 // Story Outline Schema (for MultiStepStoryProcessor)
@@ -128,7 +128,7 @@ export const OutlinePageSchema = z.object({
   imagePrompt: z.string(),
   keyVocabulary: z.array(z.string()),
   grammarPoints: z.array(z.string()),
-}).passthrough();
+});
 
 export const StoryOutlineSchema = z.object({
   title: z.string(),
@@ -138,7 +138,7 @@ export const StoryOutlineSchema = z.object({
   pages: z.array(OutlinePageSchema).min(1),
   targetVocabulary: z.array(z.string()),
   targetGrammar: z.array(z.string()),
-}).passthrough(); // Allow additional fields from AI
+}); // Allow additional fields from AI
 
 // ============================================
 // Quiz Generation Schema
@@ -156,7 +156,7 @@ export const QuizQuestionsResponseSchema = z.object({
       explanationJa: z.string(),
     })
   ),
-}).passthrough();
+});
 
 // ============================================
 // Model Sheet Generation Schema
@@ -165,7 +165,7 @@ export const QuizQuestionsResponseSchema = z.object({
 export const ModelSheetPromptSchema = z.object({
   prompt: z.string(),
   characterId: z.string(),
-}).passthrough();
+});
 
 // ============================================
 // Page Image Prompt Schema
@@ -175,7 +175,7 @@ export const PageImagePromptSchema = z.object({
   imagePrompt: z.string(),
   enhancedPrompt: z.string(),
   pageNumber: z.number().int().positive(),
-}).passthrough();
+});
 
 // ============================================
 // Helper Functions
