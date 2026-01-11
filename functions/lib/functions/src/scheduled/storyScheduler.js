@@ -1056,7 +1056,7 @@ exports.manualStoryGeneratorFunction = (0, https_1.onCall)({
     invoker: 'public', // Auth checked inside
     secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY, RESEND_API_KEY],
 }, async (request) => {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d;
     // Check authentication
     const adminKey = (_a = request.data) === null || _a === void 0 ? void 0 : _a.adminKey;
     const expectedAdminKey = process.env.STORY_SCHEDULER_ADMIN_KEY || 'story-scheduler-2025';
@@ -1075,43 +1075,7 @@ exports.manualStoryGeneratorFunction = (0, https_1.onCall)({
         userId: ((_b = request.auth) === null || _b === void 0 ? void 0 : _b.uid) || 'admin-key',
         customTheme: (_c = request.data) === null || _c === void 0 ? void 0 : _c.theme,
         customLevel: (_d = request.data) === null || _d === void 0 ? void 0 : _d.jlptLevel,
-        resumeDraftId: (_e = request.data) === null || _e === void 0 ? void 0 : _e.resumeDraftId,
     });
-    // If resumeDraftId provided, resume from that draft (steps 2-9)
-    if ((_f = request.data) === null || _f === void 0 ? void 0 : _f.resumeDraftId) {
-        const draftId = request.data.resumeDraftId;
-        logger.info('[StoryScheduler] Resuming generation from draft', { draftId });
-        // Get draft data to continue
-        const draftDoc = await db.collection('ai_story_drafts').doc(draftId).get();
-        if (!draftDoc.exists) {
-            throw new https_1.HttpsError('not-found', 'Draft not found');
-        }
-        const draftData = draftDoc.data();
-        const theme = (draftData === null || draftData === void 0 ? void 0 : draftData.theme) || 'Unknown';
-        const jlptLevel = (draftData === null || draftData === void 0 ? void 0 : draftData.jlptLevel) || 'N5';
-        const pageCount = (draftData === null || draftData === void 0 ? void 0 : draftData.pageCount) || 4;
-        // Resume from step 2 onwards (character sheet already done)
-        const incompleteDraft = {
-            id: draftId,
-            draftId,
-            status: 'character_created',
-            theme,
-            jlptLevel,
-            pageCount,
-            checkpoint: {
-                lastCompletedStep: 'character_sheet',
-                failedAttempts: 0,
-                lastAttemptAt: admin.firestore.Timestamp.now(),
-            },
-            createdAt: admin.firestore.Timestamp.now(),
-        };
-        const resumeResult = await resumeFromCheckpoint(incompleteDraft, expectedAdminKey);
-        return {
-            success: resumeResult.success,
-            draftId,
-            message: 'Generation resumed'
-        };
-    }
     // Manual trigger always generates NEW story (use dailyStoryRetryScheduler for retries)
     const result = await generateDailyStory(expectedAdminKey);
     return result;

@@ -11,6 +11,16 @@ import {
   AIServiceError,
   ReviewQuestion,
 } from '../types'
+import {
+  CharacterSheetSchema,
+  StoryOutlineSchema,
+  StoryPageSchema,
+  QuizQuestionsResponseSchema,
+  ModelSheetPromptSchema,
+  PageImagePromptSchema,
+} from '../schemas'
+import type { AICharacterSheet, AIStoryOutline } from '@/types/ai-story'
+import type { StoryPage } from '@/types/story'
 
 // Multi-step story generation types
 export interface MultiStepStoryRequest {
@@ -91,15 +101,7 @@ export interface StoryOutline {
   targetGrammar: string[]
 }
 
-export interface StoryPage {
-  pageNumber: number
-  text: string
-  textWithFurigana: string
-  translation: string
-  vocabularyNotes: Record<string, string>
-  grammarNotes: Record<string, string>
-  imagePrompt: string
-}
+// StoryPage is imported from @/types/story - no local definition needed
 
 export class MultiStepStoryProcessor extends BaseProcessor<MultiStepStoryRequest, any> {
   private contentGuidelines = `
@@ -321,11 +323,16 @@ Response format (JSON only):
   "moodKeywords": ["keyword1", "keyword2", "keyword3"]
 }`
 
-    const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt)
-    const characterSheet = this.parseJSON<CharacterSheet>(content)
+    // Use structured outputs for 100% reliability
+    const { data, usage } = await this.callOpenAIWithSchema(
+      systemPrompt,
+      userPrompt,
+      CharacterSheetSchema,
+      'character_sheet'
+    )
 
     return {
-      data: characterSheet,
+      data: data as unknown as CharacterSheet, // Safe cast after Zod validation
       usage,
       metadata: {
         step: 'character_sheet',
@@ -381,11 +388,16 @@ Response format (JSON only):
   "targetGrammar": [...]
 }`
 
-    const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt)
-    const outline = this.parseJSON<StoryOutline>(content)
+    // Use structured outputs for 100% reliability
+    const { data, usage } = await this.callOpenAIWithSchema(
+      systemPrompt,
+      userPrompt,
+      StoryOutlineSchema,
+      'story_outline'
+    )
 
     return {
-      data: outline,
+      data: data as unknown as StoryOutline, // Safe cast after Zod validation
       usage,
       metadata: {
         step: 'outline',
@@ -454,32 +466,19 @@ Response format (JSON only):
   "imagePrompt": "Detailed prompt for DALL-E including character descriptions and visual style"
 }`
 
-    const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt)
-    const page = this.parseJSON<StoryPage>(content)
+    // Use structured outputs for 100% reliability - guarantees all fields are present
+    const { data, usage } = await this.callOpenAIWithSchema(
+      systemPrompt,
+      userPrompt,
+      StoryPageSchema,
+      'story_page'
+    )
 
-    // Validate required fields - especially translation which is often missing
-    if (!page.text) {
-      throw new AIServiceError('Page generation failed: missing text field', 'INVALID_RESPONSE_FORMAT', 500)
-    }
-
-    // Ensure translation exists - if AI didn't provide it, generate it
-    if (!page.translation && page.text) {
-      console.warn(`[MultiStepStoryProcessor] Page ${pageNumber} missing translation, generating separately...`)
-      try {
-        const translationResult = await this.callOpenAI(
-          'You are a Japanese-English translator. Translate the following Japanese text to natural, fluent English. Return ONLY the English translation, nothing else.',
-          page.text
-        )
-        page.translation = translationResult.content.trim()
-        console.log(`[MultiStepStoryProcessor] Generated missing translation for page ${pageNumber}`)
-      } catch (translationError) {
-        console.error(`[MultiStepStoryProcessor] Failed to generate translation for page ${pageNumber}:`, translationError)
-        // Continue without translation - will be handled at read time with fallback
-      }
-    }
+    // With structured outputs, all required fields (text, textWithFurigana, translation) are guaranteed
+    // No need for fallback translation generation - Zod schema enforces presence
 
     return {
-      data: page,
+      data: data as unknown as StoryPage, // Safe cast after Zod validation
       usage,
       metadata: {
         step: 'generate_page',
@@ -547,22 +546,15 @@ Response format (JSON only):
 - Example: "この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>は?"
 - Do NOT use parentheses format - use <ruby><rt> tags only`
 
-    const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt)
+    // Use structured outputs for 100% reliability
+    const { data: response, usage } = await this.callOpenAIWithSchema(
+      systemPrompt,
+      userPrompt,
+      QuizQuestionsResponseSchema,
+      'quiz_questions'
+    )
 
-    // Raw response type from AI (has correctIndex instead of correctAnswer)
-    interface RawQuestion {
-      id: string
-      question: string
-      questionJa?: string
-      options?: string[]
-      correctIndex: number
-      explanation?: string
-      explanationJa?: string
-    }
-
-    const response = this.parseJSON<{ questions: RawQuestion[] }>(content)
-
-    // Map to ReviewQuestion type
+    // Map to ReviewQuestion type (converting correctIndex to correctAnswer)
     const questions = response.questions.map(q => ({
       ...q,
       type: 'multiple_choice' as const,

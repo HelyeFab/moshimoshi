@@ -12,7 +12,7 @@
  * - Ollama: Use Schema.safeParse(response) for post-response validation
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ProcessedTranscriptSchema = exports.TranscriptSegmentSchema = exports.GeneratedMoodboardSchema = exports.MoodboardKanjiSchema = exports.GeneratedStorySchema = exports.StoryPageSchema = exports.ReviewQuestionsResultSchema = exports.ReviewQuestionSchema = exports.GrammarSentenceExplanationSchema = exports.GrammarExplanationSchema = exports.WordExplanationSchema = exports.ConjugationTableSchema = exports.KanjiBreakdownSchema = exports.TranslationResultSchema = exports.PartialTranslationSchema = exports.TranslationHintSchema = exports.GrammarNoteSchema = exports.VocabularyItemSchema = exports.DifficultySchema = exports.JLPTLevelSchema = void 0;
+exports.validateStoryPage = exports.validateStoryOutline = exports.validateCharacterSheet = exports.validateStory = exports.PageImagePromptSchema = exports.ModelSheetPromptSchema = exports.QuizQuestionsResponseSchema = exports.OutlinePageSchema = exports.StoryOutlineSchema = exports.CharacterSheetSchema = exports.ProcessedTranscriptSchema = exports.TranscriptSegmentSchema = exports.GeneratedMoodboardSchema = exports.MoodboardKanjiSchema = exports.GeneratedStorySchema = exports.StoryPageSchema = exports.ReviewQuestionsResultSchema = exports.ReviewQuestionSchema = exports.GrammarSentenceExplanationSchema = exports.GrammarExplanationSchema = exports.WordExplanationSchema = exports.ConjugationTableSchema = exports.KanjiBreakdownSchema = exports.TranslationResultSchema = exports.PartialTranslationSchema = exports.TranslationHintSchema = exports.GrammarNoteSchema = exports.VocabularyItemSchema = exports.DifficultySchema = exports.JLPTLevelSchema = void 0;
 exports.validateAIResponse = validateAIResponse;
 exports.safeValidateAIResponse = safeValidateAIResponse;
 exports.applyDefaults = applyDefaults;
@@ -290,4 +290,21 @@ function safeValidateAIResponse(schema, response, context) {
 function applyDefaults(data, defaults) {
     return Object.assign(Object.assign({}, defaults), data);
 }
+// ============================================
+// Multi-Step Story Generation Schemas
+// ============================================
+var story_schemas_1 = require("./story-schemas");
+Object.defineProperty(exports, "CharacterSheetSchema", { enumerable: true, get: function () { return story_schemas_1.CharacterSheetSchema; } });
+Object.defineProperty(exports, "StoryOutlineSchema", { enumerable: true, get: function () { return story_schemas_1.StoryOutlineSchema; } });
+Object.defineProperty(exports, "OutlinePageSchema", { enumerable: true, get: function () { return story_schemas_1.OutlinePageSchema; } });
+Object.defineProperty(exports, "QuizQuestionsResponseSchema", { enumerable: true, get: function () { return story_schemas_1.QuizQuestionsResponseSchema; } });
+Object.defineProperty(exports, "ModelSheetPromptSchema", { enumerable: true, get: function () { return story_schemas_1.ModelSheetPromptSchema; } });
+Object.defineProperty(exports, "PageImagePromptSchema", { enumerable: true, get: function () { return story_schemas_1.PageImagePromptSchema; } });
+Object.defineProperty(exports, "validateStory", { enumerable: true, get: function () { return story_schemas_1.validateStory; } });
+Object.defineProperty(exports, "validateCharacterSheet", { enumerable: true, get: function () { return story_schemas_1.validateCharacterSheet; } });
+Object.defineProperty(exports, "validateStoryOutline", { enumerable: true, get: function () { return story_schemas_1.validateStoryOutline; } });
+Object.defineProperty(exports, "validateStoryPage", { enumerable: true, get: function () { return story_schemas_1.validateStoryPage; } });
+// Note: StoryPageSchema and GeneratedStorySchema are defined earlier in this file
+// Note: We don't export types here to avoid conflicts with existing types
+// in src/lib/ai/types.ts. The schemas are for validation only.
 //# sourceMappingURL=index.js.map

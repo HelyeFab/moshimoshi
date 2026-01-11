@@ -8,6 +8,7 @@ exports.StoryProcessor = void 0;
 const BaseProcessor_1 = require("./BaseProcessor");
 const types_1 = require("../types");
 const PromptManager_1 = require("../config/PromptManager");
+const schemas_1 = require("../schemas");
 class StoryProcessor extends BaseProcessor_1.BaseProcessor {
     constructor(context) {
         super(context);
@@ -15,6 +16,7 @@ class StoryProcessor extends BaseProcessor_1.BaseProcessor {
     }
     /**
      * Process story generation request
+     * Now uses OpenAI Structured Outputs for 100% reliability
      */
     async process(request, config) {
         // Validate request
@@ -25,8 +27,10 @@ class StoryProcessor extends BaseProcessor_1.BaseProcessor {
             // Fallback to hardcoded prompts
             const systemPrompt = this.getSystemPrompt(config);
             const userPrompt = this.getUserPrompt(request, config);
-            const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt);
-            const story = this.parseResponse(content);
+            // Use structured outputs with Zod schema for guaranteed validation
+            const { data, usage } = await this.callOpenAIWithSchema(systemPrompt, userPrompt, schemas_1.GeneratedStorySchema, 'generated_story');
+            // Safe cast to existing GeneratedStory type after Zod validation
+            const story = data;
             return {
                 data: this.enhanceStory(story, request, config),
                 usage,
@@ -37,9 +41,10 @@ class StoryProcessor extends BaseProcessor_1.BaseProcessor {
                 }
             };
         }
-        // Use config-based prompts
-        const { content, usage } = await this.callOpenAI(prompts.system, prompts.user);
-        const story = this.parseResponse(content);
+        // Use config-based prompts with structured outputs
+        const { data, usage } = await this.callOpenAIWithSchema(prompts.system, prompts.user, schemas_1.GeneratedStorySchema, 'generated_story');
+        // Safe cast to existing GeneratedStory type after Zod validation
+        const story = data;
         return {
             data: this.enhanceStory(story, request, config),
             usage,

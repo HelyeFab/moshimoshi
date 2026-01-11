@@ -16,6 +16,7 @@ import {
 import { PromptManager } from '../config/PromptManager';
 import { AICharacterSheet, AIStoryOutline } from '@/types/ai-story';
 import { JLPTLevel } from '@/types/kanji';
+import { GeneratedStorySchema } from '../schemas';
 
 export class StoryProcessor extends BaseProcessor<StoryGenerationRequest, GeneratedStory> {
   private promptManager: PromptManager;
@@ -27,6 +28,7 @@ export class StoryProcessor extends BaseProcessor<StoryGenerationRequest, Genera
 
   /**
    * Process story generation request
+   * Now uses OpenAI Structured Outputs for 100% reliability
    */
   async process(
     request: StoryGenerationRequest,
@@ -42,8 +44,16 @@ export class StoryProcessor extends BaseProcessor<StoryGenerationRequest, Genera
       const systemPrompt = this.getSystemPrompt(config);
       const userPrompt = this.getUserPrompt(request, config);
 
-      const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt);
-      const story = this.parseResponse(content);
+      // Use structured outputs with Zod schema for guaranteed validation
+      const { data, usage } = await this.callOpenAIWithSchema(
+        systemPrompt,
+        userPrompt,
+        GeneratedStorySchema,
+        'generated_story'
+      );
+
+      // Safe cast to existing GeneratedStory type after Zod validation
+      const story = data as any as GeneratedStory;
 
       return {
         data: this.enhanceStory(story, request, config),
@@ -56,9 +66,16 @@ export class StoryProcessor extends BaseProcessor<StoryGenerationRequest, Genera
       };
     }
 
-    // Use config-based prompts
-    const { content, usage } = await this.callOpenAI(prompts.system, prompts.user);
-    const story = this.parseResponse(content);
+    // Use config-based prompts with structured outputs
+    const { data, usage } = await this.callOpenAIWithSchema(
+      prompts.system,
+      prompts.user,
+      GeneratedStorySchema,
+      'generated_story'
+    );
+
+    // Safe cast to existing GeneratedStory type after Zod validation
+    const story = data as any as GeneratedStory;
 
     return {
       data: this.enhanceStory(story, request, config),

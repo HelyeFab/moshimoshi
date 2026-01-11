@@ -1055,13 +1055,34 @@ Theme: ${theme}
 
 Characters in this panel:${characterDescs}
 
-CRITICAL CHARACTER REQUIREMENTS:
+CRITICAL CHARACTER CONSISTENCY REQUIREMENTS (2025 STANDARD):
+- Using the EXACT facial features, proportions, and visual characteristics from the attached reference images
+- Maintain IDENTICAL facial structure, bone structure, body proportions, and distinctive features for each character
+- Each character must be instantly recognizable as the SAME individual as shown in the reference images
+- Same age, same hairline, same eye shape, same face markings, same body build as reference
+- Colors and patterns MUST match the reference images precisely (e.g., fur color, markings, accessories)
+- Character appearance consistency is MORE important than artistic variation
+
+CHARACTER COUNT & POSITIONING:
 - This panel contains EXACTLY ${uniqueCharCount} character(s)
 - Each character listed above should appear ONLY ONCE in the image
 - DO NOT duplicate or mirror any character
 - If multiple characters are listed, they should be clearly distinguishable as DIFFERENT individuals
 - Position characters at different locations in the scene (e.g., left/right, foreground/background)
 - Each character has UNIQUE visual features as described above - maintain those differences
+
+CRITICAL TEXT RESTRICTION - ABSOLUTELY NO TEXT ALLOWED:
+⚠️ ZERO TEXT POLICY - The generated image MUST be 100% text-free
+- NO Japanese text (hiragana, katakana, kanji) of any kind
+- NO English text, letters, words, or characters
+- NO speech bubbles, thought bubbles, or dialogue balloons
+- NO sound effects (onomatopoeia like ドキドキ, バン, etc.)
+- NO signs, labels, banners, or store names
+- NO written text on objects (books, screens, posters, packaging, etc.)
+- NO subtitles, captions, or narration text
+- Text and dialogue will be added separately as overlays - DO NOT include them in the image
+- Even if the scene would naturally have text (signs, menus, etc.), generate the image WITHOUT any text
+- VIOLATION: If any text appears in the image, it will be rejected and regenerated
 
 Style: Soft pastel colors, clean lines, children's book illustration, Japanese manga influences, safe for children.
 
@@ -1071,11 +1092,6 @@ OUTPUT FORMAT:
 - DO NOT add detail breakdowns, side views, turnarounds, or item catalogs
 - DO NOT add supplementary diagrams, labels, or reference sheets
 - The output must be ONLY the comic panel scene itself
-
-TEXT RESTRICTION:
-- Do NOT include any text, letters, words, characters, writing, signs, labels, speech bubbles, or sound effects in the image
-- The image must be purely visual with no text of any kind - text will be added as an overlay separately
-- Keep the image completely text-free
 
 The scene should clearly show ${location} with authentic Japanese details. Show the characters interacting naturally with each other and the environment.`
 }

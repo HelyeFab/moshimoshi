@@ -7,6 +7,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MultiStepStoryProcessor = void 0;
 const BaseProcessor_1 = require("./BaseProcessor");
 const types_1 = require("../types");
+const schemas_1 = require("../schemas");
+// StoryPage is imported from @/types/story - no local definition needed
 class MultiStepStoryProcessor extends BaseProcessor_1.BaseProcessor {
     constructor(context) {
         super(context);
@@ -181,10 +183,10 @@ Response format (JSON only):
   "colorPalette": ["#hex1", "#hex2", "#hex3"],
   "moodKeywords": ["keyword1", "keyword2", "keyword3"]
 }`;
-        const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt);
-        const characterSheet = this.parseJSON(content);
+        // Use structured outputs for 100% reliability
+        const { data, usage } = await this.callOpenAIWithSchema(systemPrompt, userPrompt, schemas_1.CharacterSheetSchema, 'character_sheet');
         return {
-            data: characterSheet,
+            data: data, // Safe cast after Zod validation
             usage,
             metadata: {
                 step: 'character_sheet',
@@ -231,10 +233,10 @@ Response format (JSON only):
   "targetVocabulary": [...],
   "targetGrammar": [...]
 }`;
-        const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt);
-        const outline = this.parseJSON(content);
+        // Use structured outputs for 100% reliability
+        const { data, usage } = await this.callOpenAIWithSchema(systemPrompt, userPrompt, schemas_1.StoryOutlineSchema, 'story_outline');
         return {
-            data: outline,
+            data: data, // Safe cast after Zod validation
             usage,
             metadata: {
                 step: 'outline',
@@ -291,27 +293,12 @@ Response format (JSON only):
   },
   "imagePrompt": "Detailed prompt for DALL-E including character descriptions and visual style"
 }`;
-        const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt);
-        const page = this.parseJSON(content);
-        // Validate required fields - especially translation which is often missing
-        if (!page.text) {
-            throw new types_1.AIServiceError('Page generation failed: missing text field', 'INVALID_RESPONSE_FORMAT', 500);
-        }
-        // Ensure translation exists - if AI didn't provide it, generate it
-        if (!page.translation && page.text) {
-            console.warn(`[MultiStepStoryProcessor] Page ${pageNumber} missing translation, generating separately...`);
-            try {
-                const translationResult = await this.callOpenAI('You are a Japanese-English translator. Translate the following Japanese text to natural, fluent English. Return ONLY the English translation, nothing else.', page.text);
-                page.translation = translationResult.content.trim();
-                console.log(`[MultiStepStoryProcessor] Generated missing translation for page ${pageNumber}`);
-            }
-            catch (translationError) {
-                console.error(`[MultiStepStoryProcessor] Failed to generate translation for page ${pageNumber}:`, translationError);
-                // Continue without translation - will be handled at read time with fallback
-            }
-        }
+        // Use structured outputs for 100% reliability - guarantees all fields are present
+        const { data, usage } = await this.callOpenAIWithSchema(systemPrompt, userPrompt, schemas_1.StoryPageSchema, 'story_page');
+        // With structured outputs, all required fields (text, textWithFurigana, translation) are guaranteed
+        // No need for fallback translation generation - Zod schema enforces presence
         return {
-            data: page,
+            data: data, // Safe cast after Zod validation
             usage,
             metadata: {
                 step: 'generate_page',
@@ -367,9 +354,9 @@ Response format (JSON only):
 - Format: <ruby>漢字<rt>かんじ</rt></ruby>
 - Example: "この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>は?"
 - Do NOT use parentheses format - use <ruby><rt> tags only`;
-        const { content, usage } = await this.callOpenAI(systemPrompt, userPrompt);
-        const response = this.parseJSON(content);
-        // Map to ReviewQuestion type
+        // Use structured outputs for 100% reliability
+        const { data: response, usage } = await this.callOpenAIWithSchema(systemPrompt, userPrompt, schemas_1.QuizQuestionsResponseSchema, 'quiz_questions');
+        // Map to ReviewQuestion type (converting correctIndex to correctAnswer)
         const questions = response.questions.map(q => (Object.assign(Object.assign({}, q), { type: 'multiple_choice', correctAnswer: q.correctIndex, difficulty: this.calculateQuestionDifficulty(jlptLevel), tags: ['story-comprehension', jlptLevel.toLowerCase()] })));
         return {
             data: questions,

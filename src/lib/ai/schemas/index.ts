@@ -355,3 +355,24 @@ export function applyDefaults<T extends object>(
 ): T {
   return { ...defaults, ...data } as T;
 }
+
+// ============================================
+// Multi-Step Story Generation Schemas
+// ============================================
+
+export {
+  CharacterSheetSchema,
+  StoryOutlineSchema,
+  OutlinePageSchema,
+  QuizQuestionsResponseSchema,
+  ModelSheetPromptSchema,
+  PageImagePromptSchema,
+  validateStory,
+  validateCharacterSheet,
+  validateStoryOutline,
+  validateStoryPage,
+} from './story-schemas';
+
+// Note: StoryPageSchema and GeneratedStorySchema are defined earlier in this file
+// Note: We don't export types here to avoid conflicts with existing types
+// in src/lib/ai/types.ts. The schemas are for validation only.
