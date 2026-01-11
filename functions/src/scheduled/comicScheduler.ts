@@ -14,8 +14,8 @@
  * 7. Generate cultural notes
  * 8. Generate quiz
  * 9. Generate audio
- * 10. Publish episode
- * 11. Generate word explanations (comprehensive, instant-lookup)
+ * 10. Generate word explanations (comprehensive, instant-lookup) - BEFORE publishing
+ * 11. Publish episode
  */
 
 import * as admin from 'firebase-admin'
@@ -23,6 +23,7 @@ import * as logger from 'firebase-functions/logger'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { defineSecret } from 'firebase-functions/params'
+import { precomputeWordExplanations } from '../../../src/lib/ai/precompute/wordPrecompute'
 
 // Define secrets needed for comic generation
 const OPENAI_API_KEY = defineSecret('OPENAI_API_KEY')
@@ -660,7 +661,7 @@ export async function generateComicEpisode(
     }
 
     // Step 7: Generate audio for dialogues
-    logger.info('[ComicScheduler] Step 7/8: Generating audio...')
+    logger.info('[ComicScheduler] Step 7/9: Generating audio...')
     try {
       await callComicAPI(
         '/api/admin/comics/generate',
@@ -677,6 +678,65 @@ export async function generateComicEpisode(
       })
     }
 
+    // Step 7.5: Generate word explanations (before publishing, same as story scheduler)
+    logger.info('[ComicScheduler] Step 7.5/9: Generating word explanations...')
+
+    try {
+      // Extract comic text from panels (dialogues + narrations)
+      const wordDraftDoc = await db.collection('comic_drafts').doc(draftId).get()
+      const wordDraftData = wordDraftDoc.data()
+
+      if (wordDraftData?.panels && Array.isArray(wordDraftData.panels)) {
+        const comicText = wordDraftData.panels
+          .map((panel: any) => {
+            const dialogueText = panel.dialogues?.map((d: any) => d.textJa || '').join(' ') || ''
+            const narrationText = panel.narration?.textJa || ''
+            return `${dialogueText} ${narrationText}`.trim()
+          })
+          .filter((text: string) => text.length > 0)
+          .join('\n')
+
+        // Check timeout before starting (leave 2min buffer for publish step)
+        const timeElapsed = Date.now() - startTime
+        const timeRemaining = 540000 - timeElapsed // 540s = 9min Cloud Function limit
+
+        if (timeRemaining < 120000) {
+          logger.warn('[ComicScheduler] Skipping word explanations - insufficient time', {
+            timeRemaining: Math.round(timeRemaining / 1000),
+            timeElapsed: Math.round(timeElapsed / 1000),
+          })
+        } else {
+          // Attempt word explanation generation with timeout protection
+          const wordResult = await Promise.race([
+            precomputeWordExplanations({
+              contentId: draftId,
+              contentType: 'comic',
+              text: comicText,
+              limit: 1000,
+              jlptLevel: jlptLevel as any,
+            }),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000)
+            )
+          ])
+
+          logger.info('[ComicScheduler] Word explanations complete', {
+            total: (wordResult as any).total,
+            generated: (wordResult as any).generated,
+            cached: (wordResult as any).cached,
+          })
+        }
+      } else {
+        logger.warn('[ComicScheduler] No panels found for word explanation generation', { draftId })
+      }
+    } catch (wordError) {
+      logger.warn('[ComicScheduler] Word explanation generation failed - continuing', {
+        error: wordError instanceof Error ? wordError.message : 'Unknown error',
+      })
+
+      // Non-critical - comic will still publish without word explanations
+    }
+
     // Step 8: Publish the episode
     logger.info('[ComicScheduler] Step 8/9: Publishing episode...')
     const publishResult = await callComicAPI(
@@ -686,24 +746,6 @@ export async function generateComicEpisode(
     )
 
     const episodeId = publishResult.episodeId
-
-    // Step 9: Generate word explanations
-    logger.info('[ComicScheduler] Step 9/9: Generating word explanations...')
-    try {
-      await callComicAPI(
-        '/api/admin/comics/word-explanations',
-        {
-          episodeId,
-          jlptLevel,
-        },
-        adminKey
-      )
-      logger.info('[ComicScheduler] Word explanations generated')
-    } catch (wordExplError) {
-      logger.warn('[ComicScheduler] Word explanation generation failed, continuing...', {
-        error: wordExplError instanceof Error ? wordExplError.message : 'Unknown',
-      })
-    }
 
     const duration = Date.now() - startTime
 
