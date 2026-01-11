@@ -198,30 +198,8 @@ export const ReviewQuestionsResultSchema = z.object({
 // ============================================
 // Story Generation Schemas
 // ============================================
-
-export const StoryPageSchema = z.object({
-  pageNumber: z.number().describe('Page number'),
-  text: z.string().describe('Japanese text'),
-  textWithFurigana: z.string().describe('Text with furigana annotations'),
-  translation: z.string().describe('English translation'),
-  imagePrompt: z.string().optional().describe('Image generation prompt'),
-  vocabularyNotes: z.record(z.string(), z.string()).optional(),
-  grammarNotes: z.record(z.string(), z.string()).optional(),
-});
-
-export const GeneratedStorySchema = z.object({
-  title: z.string().describe('Story title in English'),
-  titleJa: z.string().describe('Story title in Japanese'),
-  description: z.string().describe('Story description'),
-  pages: z.array(StoryPageSchema).describe('Story pages'),
-  vocabulary: z.array(VocabularyItemSchema).optional(),
-  quiz: z.array(ReviewQuestionSchema).optional(),
-  metadata: z.object({
-    theme: z.string(),
-    jlptLevel: JLPTLevelSchema,
-    estimatedReadingTime: z.number().optional(),
-  }).optional(),
-});
+// Note: StoryPageSchema and GeneratedStorySchema are now imported from story-schemas.ts
+// to avoid conflicts and ensure OpenAI Structured Outputs compatibility (no .optional())
 
 // ============================================
 // Moodboard Schemas
@@ -282,7 +260,7 @@ export type GrammarExplanation = z.infer<typeof GrammarExplanationSchema>;
 export type GrammarSentenceExplanation = z.infer<typeof GrammarSentenceExplanationSchema>;
 export type ReviewQuestion = z.infer<typeof ReviewQuestionSchema>;
 export type ReviewQuestionsResult = z.infer<typeof ReviewQuestionsResultSchema>;
-export type GeneratedStory = z.infer<typeof GeneratedStorySchema>;
+// Note: GeneratedStory type removed - now defined in src/lib/ai/types.ts to avoid conflicts
 export type GeneratedMoodboard = z.infer<typeof GeneratedMoodboardSchema>;
 export type ProcessedTranscript = z.infer<typeof ProcessedTranscriptSchema>;
 export type VocabularyItem = z.infer<typeof VocabularyItemSchema>;
@@ -367,13 +345,14 @@ export {
   QuizQuestionsResponseSchema,
   ModelSheetPromptSchema,
   PageImagePromptSchema,
+  StoryPageSchema,
+  GeneratedStorySchema,
   validateStory,
   validateCharacterSheet,
   validateStoryOutline,
   validateStoryPage,
 } from './story-schemas';
 
-// Note: StoryPageSchema and GeneratedStorySchema are defined earlier in this file
 // Note: We don't export types here to avoid conflicts with existing types
 // in src/lib/ai/types.ts. The schemas are for validation only.
 // Trigger Vercel rebuild - 1768144161
