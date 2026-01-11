@@ -21,7 +21,8 @@ import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { defineSecret } from 'firebase-functions/params'
 import { preGenerateStorySentences } from '../utils/sentencePreGenerator'
-import { precomputeWordExplanations } from '../../../src/lib/ai/precompute/wordPrecompute'
+// Removed direct import - now using API endpoint
+// import { precomputeWordExplanations } from '../../../src/lib/ai/precompute/wordPrecompute'
 import {
   sendStoryGenerationFailureAlert,
   sendStoryGenerationWarningAlert,
@@ -1064,31 +1065,39 @@ export async function generateDailyStory(adminKey: string): Promise<{
             timeElapsed: Math.round(timeElapsed / 1000),
           })
         } else {
-          // Attempt word explanation generation with timeout protection
-          const wordResult = await Promise.race([
-            precomputeWordExplanations({
-              contentId: draftId,
-              contentType: 'story',
+          // Call word precompute via API endpoint (instead of direct import)
+          logger.info('[StoryScheduler] Calling word precompute API...')
+          const wordResult = await callStoryAPIWithRetry(
+            '/api/admin/generate-story',
+            {
+              step: 'precompute_words',
+              draftId,
               text: storyText,
               limit: 1000,
               jlptLevel,
-            }),
-            new Promise((_, reject) =>
-              setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000)
-            )
-          ])
+            },
+            adminKey,
+            2,  // 2 retries
+            5000  // 5s backoff
+          )
 
-          await updateCheckpoint(draftId, 'word_explanations')
-          await db.collection('ai_story_drafts').doc(draftId).update({
-            'metadata.progress': 94,
-            'metadata.wordExplanationsCount': (wordResult as any).total,
-          })
+          if (wordResult.success) {
+            await updateCheckpoint(draftId, 'word_explanations')
+            await db.collection('ai_story_drafts').doc(draftId).update({
+              'metadata.progress': 94,
+              'metadata.wordExplanationsCount': wordResult.data?.total || 0,
+            })
 
-          logger.info('[StoryScheduler] Word explanations complete', {
-            total: (wordResult as any).total,
-            generated: (wordResult as any).generated,
-            cached: (wordResult as any).cached,
-          })
+            logger.info('[StoryScheduler] Word explanations complete', {
+              total: wordResult.data?.total,
+              generated: wordResult.data?.generated,
+              cached: wordResult.data?.cached,
+            })
+          } else {
+            logger.warn('[StoryScheduler] Word precompute failed, continuing anyway', {
+              error: wordResult.error
+            })
+          }
         }
       } else {
         logger.warn('[StoryScheduler] No pages found for word explanation generation', { draftId })
