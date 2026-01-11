@@ -21,9 +21,7 @@ import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { defineSecret } from 'firebase-functions/params'
 import { preGenerateStorySentences } from '../utils/sentencePreGenerator'
-// DISABLED: Word precomputation requires Next.js dependencies that aren't available in Cloud Functions
-// Words will be precomputed on-demand when users access the story
-// import { precomputeWordExplanations } from '../../../src/lib/ai/precompute/wordPrecompute'
+import { precomputeWordExplanations } from '../../../src/lib/ai/precompute/wordPrecompute'
 import {
   sendStoryGenerationFailureAlert,
   sendStoryGenerationWarningAlert,
@@ -1060,19 +1058,38 @@ export async function generateDailyStory(adminKey: string): Promise<{
         const timeElapsed = Date.now() - startTime
         const timeRemaining = 540000 - timeElapsed  // 540s = 9min Cloud Function limit
 
-        // DISABLED: Word precomputation requires Next.js dependencies (kuromoji, etc.)
-        // that aren't available in Cloud Functions runtime. Words will be precomputed
-        // on-demand when users access the story.
-        logger.info('[StoryScheduler] Skipping word explanations - will be generated on-demand', {
-          reason: 'Next.js dependencies not available in Cloud Functions',
-          timeRemaining: Math.round(timeRemaining / 1000),
-        })
+        if (timeRemaining < 120000) {
+          logger.warn('[StoryScheduler] Skipping word explanations - insufficient time', {
+            timeRemaining: Math.round(timeRemaining / 1000),
+            timeElapsed: Math.round(timeElapsed / 1000),
+          })
+        } else {
+          // Attempt word explanation generation with timeout protection
+          const wordResult = await Promise.race([
+            precomputeWordExplanations({
+              contentId: draftId,
+              contentType: 'story',
+              text: storyText,
+              limit: 1000,
+              jlptLevel: jlptLevel as any,
+            }),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000)
+            )
+          ])
 
-        await updateCheckpoint(draftId, 'word_explanations')
-        await db.collection('ai_story_drafts').doc(draftId).update({
-          'metadata.progress': 94,
-          'metadata.wordExplanationsSkipped': true,
-        })
+          await updateCheckpoint(draftId, 'word_explanations')
+          await db.collection('ai_story_drafts').doc(draftId).update({
+            'metadata.progress': 94,
+            'metadata.wordExplanationsCount': (wordResult as any).total,
+          })
+
+          logger.info('[StoryScheduler] Word explanations complete', {
+            total: (wordResult as any).total,
+            generated: (wordResult as any).generated,
+            cached: (wordResult as any).cached,
+          })
+        }
       } else {
         logger.warn('[StoryScheduler] No pages found for word explanation generation', { draftId })
         await updateCheckpoint(draftId, 'word_explanations')
