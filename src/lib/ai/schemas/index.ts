@@ -376,3 +376,4 @@ export {
 // Note: StoryPageSchema and GeneratedStorySchema are defined earlier in this file
 // Note: We don't export types here to avoid conflicts with existing types
 // in src/lib/ai/types.ts. The schemas are for validation only.
+// Trigger Vercel rebuild - 1768144161
