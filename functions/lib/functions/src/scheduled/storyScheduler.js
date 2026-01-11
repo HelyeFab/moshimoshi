@@ -860,21 +860,21 @@ async function generateDailyStory(adminKey) {
                     });
                 }
                 else {
-                    // Attempt word explanation generation with timeout protection
+                    // Pre-generate word explanations with timeout protection
                     const wordResult = await Promise.race([
                         (0, wordPrecompute_1.precomputeWordExplanations)({
                             contentId: draftId,
                             contentType: 'story',
                             text: storyText,
                             limit: 1000,
-                            jlptLevel,
+                            jlptLevel: jlptLevel,
                         }),
-                        new Promise((_, reject) => setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000))
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000)),
                     ]);
                     await updateCheckpoint(draftId, 'word_explanations');
                     await db.collection('ai_story_drafts').doc(draftId).update({
                         'metadata.progress': 94,
-                        'metadata.wordExplanationsCount': wordResult.total,
+                        'metadata.wordExplanationsCount': wordResult.total || 0,
                     });
                     logger.info('[StoryScheduler] Word explanations complete', {
                         total: wordResult.total,

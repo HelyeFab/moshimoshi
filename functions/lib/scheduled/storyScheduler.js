@@ -12,6 +12,7 @@
  * 6. Generate model sheet + page images
  * 7. Generate audio (VOICEVOX)
  * 8. Pre-generate sentence-level audio and translations
+ * 8.5. Pre-generate word explanations (1000 words)
  * 9. Publish story
  */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
@@ -56,6 +57,8 @@ const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
 const sentencePreGenerator_1 = require("../utils/sentencePreGenerator");
+// Removed direct import - now using API endpoint
+// import { precomputeWordExplanations } from '../../../src/lib/ai/precompute/wordPrecompute'
 const alertNotifier_1 = require("../utils/alertNotifier");
 // Define secrets needed for story generation
 const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY');
@@ -321,6 +324,7 @@ async function resumeFromCheckpoint(draft, adminKey) {
             'page_images',
             'audio',
             'sentences',
+            'word_explanations',
             'complete',
         ];
         const lastStepIndex = stepOrder.indexOf(checkpoint.lastCompletedStep);
@@ -525,6 +529,7 @@ async function publishDraft(draftId, theme, jlptLevel, pageCount, startTime, adm
  * Now with checkpoint support and parallel image generation
  */
 async function generateDailyStory(adminKey) {
+    var _a, _b, _c, _d;
     const startTime = Date.now();
     const { theme, jlptLevel, pageCount } = selectThemeAndLevel();
     let draftId;
@@ -748,7 +753,7 @@ async function generateDailyStory(adminKey) {
             };
         }
         // Step 8: Pre-generate sentence-level audio and translations (with immediate retries)
-        logger.info('[StoryScheduler] Step 8/9: Generating sentence-level data...');
+        logger.info('[StoryScheduler] Step 8/10: Generating sentence-level data...');
         const draftDoc = await db.collection('ai_story_drafts').doc(draftId).get();
         const draftData = draftDoc.data();
         if ((draftData === null || draftData === void 0 ? void 0 : draftData.pages) && Array.isArray(draftData.pages)) {
@@ -833,8 +838,74 @@ async function generateDailyStory(adminKey) {
             });
             await updateCheckpoint(draftId, 'sentences');
         }
+        // Step 8.5: Pre-generate word explanations (server-side prefetch)
+        logger.info('[StoryScheduler] Step 8.5/10: Generating word explanations...');
+        try {
+            await db.collection('ai_story_drafts').doc(draftId).update({
+                'metadata.generationStep': 'word_explanations',
+                'metadata.progress': 92,
+            });
+            // Extract story text from pages
+            const wordDraftDoc = await db.collection('ai_story_drafts').doc(draftId).get();
+            const wordDraftData = wordDraftDoc.data();
+            if ((wordDraftData === null || wordDraftData === void 0 ? void 0 : wordDraftData.pages) && Array.isArray(wordDraftData.pages)) {
+                const storyText = wordDraftData.pages
+                    .map((page) => page.text || '')
+                    .join('\n');
+                // Check timeout before starting (leave 2min buffer for publish step)
+                const timeElapsed = Date.now() - startTime;
+                const timeRemaining = 540000 - timeElapsed; // 540s = 9min Cloud Function limit
+                if (timeRemaining < 120000) {
+                    logger.warn('[StoryScheduler] Skipping word explanations - insufficient time', {
+                        timeRemaining: Math.round(timeRemaining / 1000),
+                        timeElapsed: Math.round(timeElapsed / 1000),
+                    });
+                }
+                else {
+                    // Call word precompute via API endpoint (instead of direct import)
+                    logger.info('[StoryScheduler] Calling word precompute API...');
+                    const wordResult = await callStoryAPIWithRetry('/api/admin/generate-story', {
+                        step: 'precompute_words',
+                        draftId,
+                        text: storyText,
+                        limit: 1000,
+                        jlptLevel,
+                    }, adminKey, 2, // 2 retries
+                    5000 // 5s backoff
+                    );
+                    if (wordResult.success) {
+                        await updateCheckpoint(draftId, 'word_explanations');
+                        await db.collection('ai_story_drafts').doc(draftId).update({
+                            'metadata.progress': 94,
+                            'metadata.wordExplanationsCount': ((_a = wordResult.data) === null || _a === void 0 ? void 0 : _a.total) || 0,
+                        });
+                        logger.info('[StoryScheduler] Word explanations complete', {
+                            total: (_b = wordResult.data) === null || _b === void 0 ? void 0 : _b.total,
+                            generated: (_c = wordResult.data) === null || _c === void 0 ? void 0 : _c.generated,
+                            cached: (_d = wordResult.data) === null || _d === void 0 ? void 0 : _d.cached,
+                        });
+                    }
+                    else {
+                        logger.warn('[StoryScheduler] Word precompute failed, continuing anyway', {
+                            error: wordResult.error
+                        });
+                    }
+                }
+            }
+            else {
+                logger.warn('[StoryScheduler] No pages found for word explanation generation', { draftId });
+                await updateCheckpoint(draftId, 'word_explanations');
+            }
+        }
+        catch (wordError) {
+            logger.warn('[StoryScheduler] Word explanation generation failed - continuing', {
+                error: wordError instanceof Error ? wordError.message : 'Unknown error',
+            });
+            // Non-critical - story will still publish without word explanations
+            await updateCheckpoint(draftId, 'word_explanations');
+        }
         // Step 9: Publish the story (only if all critical assets are present)
-        logger.info('[StoryScheduler] Step 9/9: Publishing story...');
+        logger.info('[StoryScheduler] Step 9/10: Publishing story...');
         const publishResult = await callStoryAPI('/api/admin/stories/publish-draft', { draftId }, adminKey);
         const duration = Date.now() - startTime;
         const storyId = publishResult.storyId;
