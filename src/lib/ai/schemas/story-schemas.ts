@@ -21,13 +21,13 @@ export const ReviewQuestionSchema = z.object({
   id: z.string(),
   type: z.enum(['multiple_choice', 'fill_blank', 'true_false', 'matching', 'ordering']),
   question: z.string(),
-  questionJa: z.string().optional(),
-  options: z.array(z.string()).optional(),
+  questionJa: z.string().default(''),
+  options: z.array(z.string()).default([]),
   correctAnswer: z.union([z.string(), z.number(), z.boolean()]),
-  explanation: z.string().optional(),
-  explanationJa: z.string().optional(),
+  explanation: z.string().default(''),
+  explanationJa: z.string().default(''),
   difficulty: z.number().int().min(1).max(5),
-  tags: z.array(z.string()).optional(),
+  tags: z.array(z.string()).default([]),
 });
 
 // Don't export conflicting types - use existing types from src/lib/ai/types.ts
@@ -41,9 +41,9 @@ export const StoryPageSchema = z.object({
   text: z.string().min(1),
   textWithFurigana: z.string().min(1),
   translation: z.string().min(1),
-  imagePrompt: z.string().optional(),
-  vocabularyNotes: z.record(z.string(), z.string()).optional(),
-  grammarNotes: z.record(z.string(), z.string()).optional(),
+  imagePrompt: z.string().default(''),
+  vocabularyNotes: z.record(z.string(), z.string()).default({}),
+  grammarNotes: z.record(z.string(), z.string()).default({}),
 }).passthrough();
 
 // ============================================
@@ -53,8 +53,8 @@ export const StoryPageSchema = z.object({
 export const VocabularyItemSchema = z.object({
   word: z.string(),
   meaning: z.string(),
-  reading: z.string().optional(),
-  pageNumber: z.number().int().positive().optional(),
+  reading: z.string().default(''),
+  pageNumber: z.number().int().positive().default(0),
 }).passthrough();
 
 // ============================================
@@ -66,9 +66,9 @@ export const GeneratedStorySchema = z.object({
   titleJa: z.string().min(1),
   description: z.string(),
   pages: z.array(StoryPageSchema).min(1),
-  vocabulary: z.array(VocabularyItemSchema).optional(),
-  quiz: z.array(ReviewQuestionSchema).optional(),
-  metadata: z.record(z.string(), z.any()).optional(),
+  vocabulary: z.array(VocabularyItemSchema).default([]),
+  quiz: z.array(ReviewQuestionSchema).default([]),
+  metadata: z.record(z.string(), z.any()).default({}),
 }).passthrough();
 
 // ============================================
@@ -80,15 +80,15 @@ export const CharacterSchema = z.object({
   nameJa: z.string(),
   description: z.string(),
   visualDescription: z.string(),
-  personality: z.string().optional(),
-  role: z.string().optional(),
+  personality: z.string().default(''),
+  role: z.string().default(''),
 });
 
 export const SettingSchema = z.object({
   location: z.string(),
   time: z.string(),
   atmosphere: z.string(),
-  visualDetails: z.string().optional(),
+  visualDetails: z.string().default(''),
 }).passthrough(); // Allow additional fields from AI
 
 export const CharacterSheetSchema = z.object({
@@ -124,20 +124,20 @@ export const CharacterSheetSchema = z.object({
 export const OutlinePageSchema = z.object({
   pageNumber: z.number().int().positive(),
   summary: z.string(),
-  summaryJa: z.string().optional(),
+  summaryJa: z.string().default(''),
   imagePrompt: z.string(),
-  keyVocabulary: z.array(z.string()).optional(),
-  grammarPoints: z.array(z.string()).optional(),
+  keyVocabulary: z.array(z.string()).default([]),
+  grammarPoints: z.array(z.string()).default([]),
 }).passthrough();
 
 export const StoryOutlineSchema = z.object({
   title: z.string(),
   titleJa: z.string(),
   description: z.string(),
-  descriptionJa: z.string().optional(),
+  descriptionJa: z.string().default(''),
   pages: z.array(OutlinePageSchema).min(1),
-  targetVocabulary: z.array(z.string()).optional(),
-  targetGrammar: z.array(z.string()).optional(),
+  targetVocabulary: z.array(z.string()).default([]),
+  targetGrammar: z.array(z.string()).default([]),
 }).passthrough(); // Allow additional fields from AI
 
 // ============================================
@@ -149,11 +149,11 @@ export const QuizQuestionsResponseSchema = z.object({
     z.object({
       id: z.string(),
       question: z.string(),
-      questionJa: z.string().optional(),
-      options: z.array(z.string()).optional(),
+      questionJa: z.string().default(''),
+      options: z.array(z.string()).default([]),
       correctIndex: z.number().int().min(0), // AI returns correctIndex, we'll map to correctAnswer
-      explanation: z.string().optional(),
-      explanationJa: z.string().optional(),
+      explanation: z.string().default(''),
+      explanationJa: z.string().default(''),
     })
   ),
 }).passthrough();
@@ -173,7 +173,7 @@ export const ModelSheetPromptSchema = z.object({
 
 export const PageImagePromptSchema = z.object({
   imagePrompt: z.string(),
-  enhancedPrompt: z.string().optional(),
+  enhancedPrompt: z.string().default(''),
   pageNumber: z.number().int().positive(),
 }).passthrough();
 
