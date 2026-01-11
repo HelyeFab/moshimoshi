@@ -140,6 +140,20 @@ export function useSubscription(): UseSubscriptionReturn {
     }
   );
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const tier = user
+      ? subscription?.plan?.startsWith('premium')
+        ? 'premium'
+        : 'free'
+      : 'guest';
+    try {
+      localStorage.setItem('userTier', tier);
+    } catch (err) {
+      logger.warn('Failed to persist user tier for PWA entitlements:', err);
+    }
+  }, [user, subscription?.plan]);
+
   // Refresh subscription data (called after successful checkout)
   // Uses SWR's mutate to force revalidation
   const refreshSubscription = useCallback(async (): Promise<boolean> => {

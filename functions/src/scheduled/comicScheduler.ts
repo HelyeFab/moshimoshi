@@ -23,7 +23,7 @@ import * as logger from 'firebase-functions/logger'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { defineSecret } from 'firebase-functions/params'
-import { precomputeWordExplanations } from '../../../src/lib/ai/precompute/wordPrecompute'
+import { generateComicWordExplanations } from '../utils/comicWordExplanationPreGenerator'
 
 // Define secrets needed for comic generation
 const OPENAI_API_KEY = defineSecret('OPENAI_API_KEY')
@@ -706,24 +706,25 @@ export async function generateComicEpisode(
             timeElapsed: Math.round(timeElapsed / 1000),
           })
         } else {
+          // Generate episode ID for word explanations storage
+          const episodeId = `moshi-goes-to-japan-ep${String(episodeNumber).padStart(3, '0')}`
+
           // Attempt word explanation generation with timeout protection
           const wordResult = await Promise.race([
-            precomputeWordExplanations({
-              contentId: draftId,
-              contentType: 'comic',
-              text: comicText,
-              limit: 1000,
-              jlptLevel: jlptLevel as any,
-            }),
+            generateComicWordExplanations(
+              episodeId,
+              comicText,
+              100 // Extract top 100 words
+            ),
             new Promise((_, reject) =>
               setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000)
             )
           ])
 
           logger.info('[ComicScheduler] Word explanations complete', {
-            total: (wordResult as any).total,
-            generated: (wordResult as any).generated,
-            cached: (wordResult as any).cached,
+            episodeId,
+            wordCount: (wordResult as any).wordCount,
+            totalTokens: (wordResult as any).costInfo?.totalTokens || 0,
           })
         }
       } else {

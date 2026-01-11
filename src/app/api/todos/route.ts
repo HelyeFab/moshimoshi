@@ -4,8 +4,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth/session'
 import { adminDb, FieldValue, Timestamp } from '@/lib/firebase/admin'
-import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator'
-import { EvalContext, FeatureId } from '@/types/entitlements'
+import { evaluateFeatureAccess } from '@/lib/entitlements/server'
 import { z } from 'zod'
 import { CreateTodoInput, UpdateTodoInput, Todo } from '@/types/todos'
 import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper'
@@ -128,34 +127,25 @@ export async function POST(request: NextRequest) {
 
     // 4. Get current usage for today
     const nowUtcISO = new Date().toISOString()
-    const bucket = getTodayBucket(nowUtcISO)
+    const { decision, currentUsage, bucketKey } = await evaluateFeatureAccess({
+      featureId: 'todos',
+      userId: session.uid,
+      plan: plan as any,
+      nowUtcISO,
+    })
+
     const usageRef = db
       .collection('users')
       .doc(session.uid)
       .collection('usage')
-      .doc(bucket)
-
-    const usageDoc = await usageRef.get()
-    const currentUsage = usageDoc.data()?.todos || 0
-
-    // 5. Build evaluation context
-    // Note: 'todos' feature uses 'save_items' entitlement category
-    const evalContext: EvalContext = {
-      userId: session.uid,
-      plan: plan as any,
-      usage: { save_items: currentUsage } as Record<FeatureId, number>,
-      nowUtcISO: nowUtcISO
-    }
-
-    // 6. Check entitlements (using save_items as todos category)
-    const decision = evaluate('save_items' as FeatureId, evalContext)
+      .doc(bucketKey)
 
     if (!decision.allow) {
       return NextResponse.json({
         error: {
           code: 'LIMIT_REACHED',
           message: decision.reason === 'limit_reached'
-            ? `Daily todo limit reached (${decision.limit} todos per day)`
+            ? `Monthly todo limit reached (${decision.limit} todos per month)`
             : 'Access denied',
         },
         limit: decision.limit,
@@ -209,8 +199,11 @@ export async function POST(request: NextRequest) {
       await batch.commit()
     } else {
       console.log(`[Storage] Free user ${session.uid} - todo will be stored locally only`)
-      // Free users: usage is still tracked locally for entitlements
-      // But the todo itself is NOT written to Firebase
+      // Free users: usage is still tracked in Firebase for entitlements
+      await usageRef.set({
+        todos: currentUsage + 1,
+        lastUpdated: Timestamp.now()
+      }, { merge: true })
     }
 
     // 8. Return the created todo with storage location

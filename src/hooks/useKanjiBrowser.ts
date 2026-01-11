@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useAuth } from '@/hooks/useAuth';
 import { useSubscription } from '@/hooks/useSubscription';
 import { useToast } from '@/components/ui/Toast/ToastContext';
+import { useFeature } from '@/hooks/useFeature';
 // Gamification removed;
 
 interface KanjiItem {
@@ -39,6 +40,7 @@ export function useKanjiBrowser() {
   const { user } = useAuth();
   const { isPremium } = useSubscription();
   const { showToast } = useToast();
+  const { checkAndTrack } = useFeature('kanji_browser');
   // Gamification removed
   // const achievementStore = useAchievementStore();
 
@@ -192,6 +194,11 @@ export function useKanjiBrowser() {
     }
 
     try {
+      const allowed = await checkAndTrack({ showUI: true });
+      if (!allowed) {
+        return false;
+      }
+
       const response = await fetch('/api/kanji/add-to-review', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -237,7 +244,7 @@ export function useKanjiBrowser() {
       showToast('Failed to add kanji to review queue', 'error');
       return false;
     }
-  }, [user, session, showToast]);
+  }, [user, session, showToast, checkAndTrack]);
 
   // Toggle bookmark
   const toggleBookmark = useCallback(async (kanjiId: string, character: string) => {

@@ -41,8 +41,14 @@ exports.StoryPageSchema = zod_1.z.object({
     textWithFurigana: zod_1.z.string().min(1),
     translation: zod_1.z.string().min(1),
     imagePrompt: zod_1.z.string(),
-    vocabularyNotes: zod_1.z.record(zod_1.z.string(), zod_1.z.string()),
-    grammarNotes: zod_1.z.record(zod_1.z.string(), zod_1.z.string()),
+    vocabularyNotes: zod_1.z.array(zod_1.z.object({
+        word: zod_1.z.string(),
+        note: zod_1.z.string(),
+    })),
+    grammarNotes: zod_1.z.array(zod_1.z.object({
+        pattern: zod_1.z.string(),
+        explanation: zod_1.z.string(),
+    })),
 });
 // ============================================
 // Vocabulary Item Schema

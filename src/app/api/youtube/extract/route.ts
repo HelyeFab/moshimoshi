@@ -9,8 +9,8 @@ import { AIService } from '@/lib/ai/AIService'
 import { TranscriptProcessRequest } from '@/lib/ai/types'
 import { transcriptCache } from '@/lib/transcript/cache'
 import { getSession } from '@/lib/auth/session'
-import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator'
-import type { EvalContext } from '@/types/entitlements'
+import { evaluateFeatureAccess } from '@/lib/entitlements/server'
+import type { PlanType } from '@/types/entitlements'
 import { cleanYouTubeMetadata, prepareFirestoreData } from '@/lib/firebase/cleanFirestoreData'
 import featuresConfig from '../../../../../config/features.v1.json'
 
@@ -288,7 +288,7 @@ async function createPracticeHistoryOnFirstAccess(userId: string, videoId: strin
 async function checkAndIncrementQuota(
   userId: string,
   videoId: string,
-  userPlan: string
+  userPlan: PlanType
 ): Promise<{ allowed: boolean; message?: string; quotaInfo?: any }> {
   try {
     // Check if this is a repeat video (should not count toward quota)
@@ -300,56 +300,30 @@ async function checkAndIncrementQuota(
       return { allowed: true }
     }
 
-    // New video - count how many videos user has accessed today
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    const todayTimestamp = Timestamp.fromDate(today)
+    const nowUtcISO = new Date().toISOString()
+    const { decision, currentUsage } = await evaluateFeatureAccess({
+      featureId: 'youtube_shadowing',
+      userId,
+      plan: userPlan,
+      nowUtcISO,
+      increment: true,
+    })
 
-    // Query userPracticeHistory for videos accessed today
-    const firestore = assertDb()
-    const practiceSnapshot = await firestore
-      .collection('userPracticeHistory')
-      .where('userId', '==', userId)
-      .get()
-
-    // Count docs with firstAccessed >= today (filtering in memory)
-    const todayCount = practiceSnapshot.docs.filter(doc => {
-      const data = doc.data()
-      return (
-        data.contentType === 'youtube' &&
-        data.firstAccessed &&
-        data.firstAccessed.seconds >= todayTimestamp.seconds
-      )
-    }).length
-
-    // Get quota limit for user's plan
-    const limits: Record<string, number> = {
-      guest: 0,
-      free: 3,
-      premium_monthly: 20,
-      premium_yearly: 20,
-    }
-
-    const limit = limits[userPlan] || 0
-
-    console.log(`[Quota] Current usage: ${todayCount}/${limit} for plan ${userPlan}`)
-
-    if (todayCount >= limit) {
-      // Quota exhausted
+    if (!decision.allow) {
       console.log(`[Quota] ❌ Quota exhausted for user ${userId}`)
       return {
         allowed: false,
         message: 'Daily video limit reached',
         quotaInfo: {
-          used: todayCount,
-          limit,
-          remaining: 0,
-          resetAt: new Date(today.getTime() + 24 * 60 * 60 * 1000).toISOString(),
+          used: currentUsage,
+          limit: decision.limit ?? 0,
+          remaining: decision.remaining,
+          resetAt: decision.resetAtUtc,
         },
       }
     }
 
-    // Quota available - create practice history to increment quota
+    // Quota available - create practice history to track first access
     console.log(`[Quota] ✅ Quota available, creating userPracticeHistory`)
     await createPracticeHistoryOnFirstAccess(userId, videoId)
 
@@ -1107,7 +1081,7 @@ export async function POST(request: NextRequest) {
     // Only reached if: 1) Not cached, 2) Has Japanese captions OR caption check failed
     if (isAuthenticated && userId && userId !== 'anonymous') {
       // Get user's plan from Firestore
-      let userPlan = 'free'
+      let userPlan: PlanType = 'free'
       try {
         const firestore = assertDb()
         const userDoc = await firestore.collection('users').doc(userId).get()

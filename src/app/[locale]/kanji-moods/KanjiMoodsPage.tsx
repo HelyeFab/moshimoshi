@@ -8,6 +8,7 @@ import MoodBoardCard from '@/components/kanji-moods/MoodBoardCard'
 import { MoodBoard, MoodBoardsProgress } from '@/types/moodboard'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
+import { useFeature } from '@/hooks/useFeature'
 // Navigation is now global via NavigationWrapper in root layout;
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
@@ -19,6 +20,7 @@ export default function KanjiMoodsPage() {
   const router = useRouter()
   const { t, strings } = useI18n()
   const { user } = useAuth()
+  const { checkAndTrack } = useFeature('kanji_mood_board')
   const { moodBoards, loading } = useMoodBoards()
   const [progress, setProgress] = useState<MoodBoardsProgress>({})
 
@@ -103,7 +105,11 @@ export default function KanjiMoodsPage() {
     }
   }, [filteredBoards, progress])
 
-  const handleBoardClick = (boardId: string) => {
+  const handleBoardClick = async (boardId: string) => {
+    const allowed = await checkAndTrack({ showUI: true })
+    if (!allowed) {
+      return
+    }
     router.push(`/kanji-moods/${boardId}`)
   }
 

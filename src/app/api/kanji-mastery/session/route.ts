@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession, requireAuth } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
-import { tierCache } from '@/lib/auth/tier-cache'
+import { getUserPlan, evaluateFeatureAccess } from '@/lib/entitlements/server'
 import { KanjiMasterySession } from '@/lib/review-engine/progress/KanjiMasteryProgressManager'
 
 export async function POST(request: NextRequest) {
@@ -27,9 +27,28 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Get user tier
-    const tier = await tierCache.getUserTier(session.uid)
-    const isPremium = tier === 'premium_monthly' || tier === 'premium_yearly'
+    const nowUtcISO = new Date().toISOString()
+    const plan = await getUserPlan(session.uid)
+    const { decision } = await evaluateFeatureAccess({
+      featureId: 'kanji_mastery',
+      userId: session.uid,
+      plan,
+      nowUtcISO,
+      increment: true,
+    })
+
+    if (!decision.allow) {
+      return NextResponse.json(
+        {
+          success: false,
+          error: 'LIMIT_REACHED',
+          decision,
+        },
+        { status: 429 }
+      )
+    }
+
+    const isPremium = plan === 'premium_monthly' || plan === 'premium_yearly'
 
     // Only save to Firebase for premium users
     if (isPremium && adminDb) {
@@ -135,9 +154,8 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Get user tier
-    const tier = await tierCache.getUserTier(session.uid)
-    const isPremium = tier === 'premium_monthly' || tier === 'premium_yearly'
+    const plan = await getUserPlan(session.uid)
+    const isPremium = plan === 'premium_monthly' || plan === 'premium_yearly'
 
     // Only fetch from Firebase for premium users
     if (!isPremium || !adminDb) {

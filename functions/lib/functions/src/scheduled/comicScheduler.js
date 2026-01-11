@@ -59,7 +59,7 @@ const logger = __importStar(require("firebase-functions/logger"));
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
-const wordPrecompute_1 = require("../../../src/lib/ai/precompute/wordPrecompute");
+const comicWordExplanationPreGenerator_1 = require("../utils/comicWordExplanationPreGenerator");
 // Define secrets needed for comic generation
 const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY');
 const MODAL_API_KEY = (0, params_1.defineSecret)('MODAL_API_KEY');
@@ -357,6 +357,7 @@ function selectEpisodeTheme(episodeNumber) {
  * Main comic episode generation function
  */
 async function generateComicEpisode(adminKey, options) {
+    var _a;
     const startTime = Date.now();
     let startLogId = null;
     let queueItem = null;
@@ -584,21 +585,18 @@ async function generateComicEpisode(adminKey, options) {
                     });
                 }
                 else {
+                    // Generate episode ID for word explanations storage
+                    const episodeId = `moshi-goes-to-japan-ep${String(episodeNumber).padStart(3, '0')}`;
                     // Attempt word explanation generation with timeout protection
                     const wordResult = await Promise.race([
-                        (0, wordPrecompute_1.precomputeWordExplanations)({
-                            contentId: draftId,
-                            contentType: 'comic',
-                            text: comicText,
-                            limit: 1000,
-                            jlptLevel: jlptLevel,
-                        }),
+                        (0, comicWordExplanationPreGenerator_1.generateComicWordExplanations)(episodeId, comicText, 100 // Extract top 100 words
+                        ),
                         new Promise((_, reject) => setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000))
                     ]);
                     logger.info('[ComicScheduler] Word explanations complete', {
-                        total: wordResult.total,
-                        generated: wordResult.generated,
-                        cached: wordResult.cached,
+                        episodeId,
+                        wordCount: wordResult.wordCount,
+                        totalTokens: ((_a = wordResult.costInfo) === null || _a === void 0 ? void 0 : _a.totalTokens) || 0,
                     });
                 }
             }

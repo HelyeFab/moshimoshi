@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useAuth } from '@/hooks/useAuth'
+import { useFeature } from '@/hooks/useFeature'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
@@ -30,6 +31,7 @@ function KanjiMasteryContent() {
   const { getLocalePath } = useLocalePath()
   const { showToast } = useToast()
   const { user, loading: authLoading, isGuest } = useAuth()
+  const { checkOnly } = useFeature('kanji_mastery')
 
   // Check if we're in review mode from Review Hub
   const isReviewMode = searchParams.get('mode') === 'review'
@@ -77,6 +79,13 @@ function KanjiMasteryContent() {
     setError(null)
 
     try {
+      const decision = await checkOnly({ failOpen: false })
+      if (!decision.allow) {
+        showToast(t('entitlements.messages.limitReached'), 'warning')
+        setIsStarting(false)
+        return
+      }
+
       // Navigate to learning flow with settings
       const params = new URLSearchParams({
         size: settings.sessionSize.toString(),

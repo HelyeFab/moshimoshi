@@ -1,0 +1,59 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e4]:
+    - link "もしもし moshimoshi" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e6]:
+        - generic [ref=e7]: もしもし
+        - generic [ref=e8]: moshimoshi
+    - generic [ref=e9]:
+      - heading "Welcome back!" [level=1] [ref=e10]
+      - paragraph [ref=e11]: Sign in to continue learning Japanese
+      - generic [ref=e12]:
+        - img [ref=e13]
+        - generic [ref=e15]: Something went wrong. Please try again.
+      - generic [ref=e16]:
+        - generic [ref=e17]:
+          - generic [ref=e18]: Email
+          - textbox "Email" [ref=e19]:
+            - /placeholder: you@example.com
+            - text: charles@beano.com
+        - generic [ref=e20]:
+          - generic [ref=e21]: Password
+          - textbox "Password" [ref=e22]:
+            - /placeholder: ••••••••
+            - text: beano200419!
+        - generic [ref=e23]:
+          - generic [ref=e24]:
+            - checkbox "Remember me" [ref=e25]
+            - generic [ref=e26]: Remember me
+          - link "Forgot password?" [ref=e27] [cursor=pointer]:
+            - /url: /auth/reset-password
+        - button "Sign In" [ref=e28]
+      - generic [ref=e33]: Or continue with
+      - button "Send Magic Link" [ref=e34]
+      - button "Continue with Google" [ref=e35]:
+        - img [ref=e36]
+        - text: Continue with Google
+      - paragraph [ref=e41]:
+        - link "Don't have an account? Sign up for free" [ref=e42] [cursor=pointer]:
+          - /url: /en/auth/signup
+  - button "Open command palette" [ref=e43]:
+    - img [ref=e44]
+    - generic [ref=e46]: Command
+    - generic [ref=e47]: ⌘K
+  - generic [ref=e52] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e53]:
+      - img [ref=e54]
+    - generic [ref=e57]:
+      - button "Open issues overlay" [ref=e58]:
+        - generic [ref=e59]:
+          - generic [ref=e60]: "0"
+          - generic [ref=e61]: "1"
+        - generic [ref=e62]: Issue
+      - button "Collapse issues badge" [ref=e63]:
+        - img [ref=e64]
+  - alert [ref=e66]
+```

@@ -4,6 +4,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useI18n } from '@/i18n/I18nContext'
+import { useFeature } from '@/hooks/useFeature'
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useMemo, useState } from 'react'
@@ -160,6 +161,8 @@ export function KanaLearningComponent({
   const [progress, setProgress] = useState<CharacterProgress>({})
   const [showBothKana, setShowBothKana] = useState(defaultScript === 'hiragana') // Show both for hiragana, single for katakana
   const [displayScript, setDisplayScript] = useState<'hiragana' | 'katakana'>(defaultScript)
+  const featureId = displayScript === 'hiragana' ? 'hiragana_practice' : 'katakana_practice'
+  const { checkAndTrack } = useFeature(featureId)
 
   // Helper to get consistent character ID format
   const getCharacterId = useCallback(
@@ -607,6 +610,11 @@ export function KanaLearningComponent({
       return
     }
 
+    const allowed = await checkAndTrack({ showUI: true })
+    if (!allowed) {
+      return
+    }
+
     // Start a new session
     if (user) {
       const script = displayScript as 'hiragana' | 'katakana'
@@ -621,10 +629,10 @@ export function KanaLearningComponent({
     setStudyCharacters(selectedCharacters)
     setCurrentStudyIndex(0) // Reset index when starting study
     setViewMode('study')
-  }, [selectedCharacters, showToast, t, user, displayScript])
+  }, [selectedCharacters, showToast, t, user, displayScript, checkAndTrack])
 
   // Start review mode
-  const handleStartReview = useCallback(() => {
+  const handleStartReview = useCallback(async () => {
     // Combine selected and pinned characters (removing duplicates)
     const allCharacters = [...selectedCharacters]
     pinnedCharacters.forEach(pc => {
@@ -635,6 +643,11 @@ export function KanaLearningComponent({
 
     if (allCharacters.length === 0) {
       showToast(t('learn.selectCharacters'), 'warning')
+      return
+    }
+
+    const allowed = await checkAndTrack({ showUI: true })
+    if (!allowed) {
       return
     }
 
@@ -662,7 +675,7 @@ export function KanaLearningComponent({
     setReviewContent(content)
     setReviewContentPool(pool)
     setViewMode('review')
-  }, [selectedCharacters, pinnedCharacters, filteredKana, showToast, t, convertToReviewableContent])
+  }, [selectedCharacters, pinnedCharacters, filteredKana, showToast, t, convertToReviewableContent, checkAndTrack])
 
   // Quick review - review only struggling characters
   const handleQuickReview = useCallback(() => {
