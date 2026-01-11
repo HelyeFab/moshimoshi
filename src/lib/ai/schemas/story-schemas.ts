@@ -42,8 +42,14 @@ export const StoryPageSchema = z.object({
   textWithFurigana: z.string().min(1),
   translation: z.string().min(1),
   imagePrompt: z.string(),
-  vocabularyNotes: z.record(z.string(), z.string()),
-  grammarNotes: z.record(z.string(), z.string()),
+  vocabularyNotes: z.array(z.object({
+    word: z.string(),
+    note: z.string(),
+  })),
+  grammarNotes: z.array(z.object({
+    pattern: z.string(),
+    explanation: z.string(),
+  })),
 });
 
 // ============================================
