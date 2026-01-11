@@ -1053,6 +1053,12 @@ Scene: ${sceneDesc}
 Location: ${location}, Japan
 Theme: ${theme}
 
+⚠️ CRITICAL: GENERATE A COMPLETELY TEXT-FREE IMAGE ⚠️
+The image must contain ZERO text elements. This is a pure visual illustration only.
+Text overlays will be added separately in post-processing.
+Generate only visual elements: characters, scenery, objects, colors, expressions.
+No Japanese characters (hiragana, katakana, kanji), no English letters, no numbers, no symbols, no signs, no labels.
+
 Characters in this panel:${characterDescs}
 
 CRITICAL CHARACTER REQUIREMENTS:
@@ -1072,12 +1078,9 @@ OUTPUT FORMAT:
 - DO NOT add supplementary diagrams, labels, or reference sheets
 - The output must be ONLY the comic panel scene itself
 
-TEXT RESTRICTION:
-- Do NOT include any text, letters, words, characters, writing, signs, labels, speech bubbles, or sound effects in the image
-- The image must be purely visual with no text of any kind - text will be added as an overlay separately
-- Keep the image completely text-free
+The scene should clearly show ${location} with authentic Japanese details. Show the characters interacting naturally with each other and the environment.
 
-The scene should clearly show ${location} with authentic Japanese details. Show the characters interacting naturally with each other and the environment.`
+⚠️ FINAL REMINDER: Generate a completely text-free image with no text, speech bubbles, or sound effects of any kind. ⚠️`
 }
 
 function buildVocabularyPrompt(text: string): string {
