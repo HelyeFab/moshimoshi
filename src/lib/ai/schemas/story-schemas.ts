@@ -210,3 +210,5 @@ export function validateStoryPage(data: unknown) {
   return StoryPageSchema.safeParse(data);
 }
 
+// Force rebuild
+/* Force Vercel rebuild - Sun 11 Jan 15:51:43 CET 2026 */
