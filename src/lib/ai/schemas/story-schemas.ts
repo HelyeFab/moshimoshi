@@ -209,3 +209,4 @@ export function validateStoryOutline(data: unknown) {
 export function validateStoryPage(data: unknown) {
   return StoryPageSchema.safeParse(data);
 }
+
