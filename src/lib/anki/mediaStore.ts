@@ -310,6 +310,43 @@ export class AnkiMediaStore {
   }
 
   /**
+   * Retrieve media blob (for R2 upload)
+   * @param filename - Filename to retrieve
+   * @returns Blob or null if not found
+   */
+  async getMediaBlob(filename: string): Promise<Blob | null> {
+    try {
+      const db = await this.openDB();
+      const transaction = db.transaction([this.storeName], 'readonly');
+      const store = transaction.objectStore(this.storeName);
+
+      let media = await new Promise<StoredMedia | null>((resolve, reject) => {
+        const request = store.get(filename);
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+
+      // Fallback to stripped key if not found
+      if (!media) {
+        const fallbackKey = stripAnkiMediaKey(filename);
+        if (fallbackKey !== filename) {
+          media = await new Promise<StoredMedia | null>((resolve, reject) => {
+            const request = store.get(fallbackKey);
+            request.onsuccess = () => resolve(request.result);
+            request.onerror = () => reject(request.error);
+          });
+        }
+      }
+
+      db.close();
+      return media?.blob || null;
+    } catch (error) {
+      console.error('[AnkiMediaStore] Failed to retrieve media blob:', error);
+      return null;
+    }
+  }
+
+  /**
    * Store multiple media files
    */
   async storeMediaBatch(

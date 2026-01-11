@@ -7,7 +7,7 @@
     "dev": "WATCHPACK_IGNORED=\"**/01_PRODUCTION_DOCS/**,**/moshi-comics/**,**/notebooklm-backups/**,**/docs/**,**/.git/**\" node ./scripts/dev-with-backup.js",
     "dev:no-backup": "WATCHPACK_IGNORED=\"**/01_PRODUCTION_DOCS/**,**/moshi-comics/**,**/notebooklm-backups/**,**/docs/**,**/.git/**\" concurrently \"next dev\" \"npm run notebooklm:watch\"",
     "dev:simple": "WATCHPACK_IGNORED=\"**/01_PRODUCTION_DOCS/**,**/moshi-comics/**,**/notebooklm-backups/**,**/docs/**,**/.git/**\" next dev",
-    "build": "next build",
+    "build": "next build && node scripts/pwa/inject-precache.mjs",
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",

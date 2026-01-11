@@ -4689,6 +4689,8 @@ export const strings = {
       uploading: 'Uploading to cloud',
       decksSynced: '{count} decks synced',
       deckSyncComplete: 'Deck sync complete',
+      restoringUserDecks: 'Restoring your decks... ({{current}}/{{total}})',
+      userDecksComplete: '{{count}} user decks restored',
     },
 
     // Errors and limits

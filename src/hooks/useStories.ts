@@ -84,7 +84,17 @@ export function useStories() {
                 updatedAt: doc.data().updatedAt?.toDate?.()?.toISOString() || new Date().toISOString(),
                 publishedAt: doc.data().publishedAt?.toDate?.()?.toISOString()
               })) as Story[];
-              setStories(updatedStories);
+
+              // Preserve the original sort order from the API
+              // Firestore 'in' queries don't guarantee order, so we need to re-sort
+              const sortedStories = [...updatedStories].sort((a, b) => {
+                // Sort by publishedAt descending (newest first)
+                const dateA = new Date(a.publishedAt || a.createdAt).getTime();
+                const dateB = new Date(b.publishedAt || b.createdAt).getTime();
+                return dateB - dateA;
+              });
+
+              setStories(sortedStories);
             },
             (error) => {
               console.error('Error in stories real-time listener:', error);

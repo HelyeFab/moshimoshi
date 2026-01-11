@@ -303,6 +303,15 @@ export class FlashcardManager {
       })
     }
 
+    // Upload to R2 for premium users with user decks (non-blocking)
+    // CRITICAL: Source check ensures only user decks are uploaded
+    if (isPremium && userId !== 'guest' && deck.source !== 'anki') {
+      this.uploadDeckToR2(deck, userId).catch(err => {
+        console.error('[FlashcardManager.createDeck] R2 upload failed:', err)
+        // Don't throw - local deck is already created
+      })
+    }
+
     return deck
   }
 
@@ -419,6 +428,15 @@ export class FlashcardManager {
     if (isPremium && userId !== 'guest' && updatedDeck.source !== 'anki') {
       this.syncDeckToFirebase(updatedDeck, userId).catch(err => {
         console.error('[FlashcardManager.updateFullDeck] Firebase sync failed:', err)
+        // Don't throw - local deck is already updated
+      })
+    }
+
+    // Re-upload to R2 for premium users with user decks (non-blocking)
+    // CRITICAL: Source check ensures only user decks are uploaded
+    if (isPremium && userId !== 'guest' && updatedDeck.source !== 'anki') {
+      this.uploadDeckToR2(updatedDeck, userId).catch(err => {
+        console.error('[FlashcardManager.updateFullDeck] R2 upload failed:', err)
         // Don't throw - local deck is already updated
       })
     }
@@ -878,6 +896,15 @@ export class FlashcardManager {
         console.error('[FlashcardManager.deleteDeck] Error syncing deletion to Firebase:', error)
         // Don't throw - local deletion already succeeded
       }
+    }
+
+    // Delete from R2 for premium users with user decks (non-blocking)
+    // CRITICAL: Source check ensures only user decks are deleted from R2
+    if (isPremium && userId !== 'guest' && deck.source !== 'anki') {
+      this.deleteDeckFromR2(deckId, userId, deck.source).catch(err => {
+        console.error('[FlashcardManager.deleteDeck] R2 deletion failed:', err)
+        // Don't throw - local deletion already succeeded
+      })
     }
 
     return true
@@ -1526,6 +1553,87 @@ export class FlashcardManager {
     } catch (error) {
       console.error('[FlashcardManager.syncDecksToIndexedDB] Failed:', error)
       // Don't throw - this is a background sync operation
+    }
+  }
+
+  /**
+   * Upload user deck to R2 (non-blocking, premium only)
+   * CRITICAL: Only uploads decks with source='user', NOT anki decks
+   */
+  private async uploadDeckToR2(deck: FlashcardDeck, userId: string): Promise<void> {
+    // CRITICAL: Source filtering - only upload user decks
+    if (deck.source === 'anki') {
+      console.log('[FlashcardManager.uploadDeckToR2] Skipping Anki deck - not uploading to user deck R2 path')
+      return
+    }
+
+    try {
+      const { getUserDeckUploadQueue } = await import('@/lib/r2/UserDeckUploadQueue')
+      const uploadQueue = getUserDeckUploadQueue(userId)
+
+      // Collect media files from cards
+      const mediaStore = AnkiMediaStore.getInstance()
+      const mediaFiles = new Map<string, Blob>()
+
+      for (const card of deck.cards) {
+        // Check front media
+        if (typeof card.front !== 'string' && card.front.media?.filename) {
+          const blob = await mediaStore.getMediaBlob(card.front.media.filename)
+          if (blob) {
+            mediaFiles.set(card.front.media.filename, blob)
+          }
+        }
+
+        // Check back media
+        if (typeof card.back !== 'string' && card.back.media?.filename) {
+          const blob = await mediaStore.getMediaBlob(card.back.media.filename)
+          if (blob) {
+            mediaFiles.set(card.back.media.filename, blob)
+          }
+        }
+      }
+
+      console.log('[FlashcardManager.uploadDeckToR2] Queueing deck upload', {
+        deckId: deck.id,
+        deckName: deck.name,
+        mediaFiles: mediaFiles.size,
+      })
+
+      await uploadQueue.queueDeckUpload(deck, mediaFiles)
+      uploadQueue.start()
+    } catch (error) {
+      console.error('[FlashcardManager.uploadDeckToR2] Failed:', error)
+      // Don't throw - deck already saved locally
+    }
+  }
+
+  /**
+   * Delete user deck from R2 (non-blocking, premium only)
+   * CRITICAL: Only deletes decks with source='user', NOT anki decks
+   */
+  private async deleteDeckFromR2(deckId: string, userId: string, source?: string): Promise<void> {
+    // CRITICAL: Source filtering - only delete user decks from R2
+    if (source === 'anki') {
+      console.log('[FlashcardManager.deleteDeckFromR2] Skipping Anki deck - not deleting from user deck R2 path')
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/flashcards/r2/${deckId}`, {
+        method: 'DELETE',
+        credentials: 'include',
+      })
+
+      if (response.ok) {
+        console.log('[FlashcardManager.deleteDeckFromR2] Deck deleted from R2 successfully')
+      } else {
+        const error = await response.text()
+        console.error('[FlashcardManager.deleteDeckFromR2] Failed:', error)
+        // Don't throw - local deletion already succeeded
+      }
+    } catch (error) {
+      console.error('[FlashcardManager.deleteDeckFromR2] Error:', error)
+      // Don't throw - local deletion already succeeded
     }
   }
 }

@@ -17,7 +17,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-v1429-dev-bypass';
+const CACHE_VERSION = "__CACHE_VERSION__";
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -48,31 +48,49 @@ const OFFLINE_ENABLED_PAGES = [
   '/textbook-vocabulary', // Textbook vocabulary (static bundled JSON data)
 ];
 
-// Precache URLs - will be injected by build script
-// Build script will replace this with actual hashed assets
-const PRECACHE_URLS = [
-  '/static/chunks/webpack-6883c85f8afc74d0.js',
-  '/static/chunks/framework-0907bc41f77e1d3c.js',
-  '/static/chunks/main-911004091fe3e3d1.js',
-  '/static/chunks/7682-caa357324673ab6a.js',
-  '/static/chunks/6366-8a91e47862a0e5a6.js',
-  '/static/chunks/pages/403-b2c8f393c7ed8fdb.js',
-  '/static/chunks/pages/500-bd96021f83d925e7.js',
-  '/static/chunks/pages/_app-4b3fb5e477a0267f.js',
-  '/static/chunks/pages/_error-c970d8b55ace1b48.js',
-  '/_next/static/css/7a590166771372f1.css',
-  '/_next/static/css/7e7d96b1e6991756.css',
+const LOCALE_PREFIX_REGEX = /^[a-z]{2,3}(?:-[a-z]{2})?$/i;
+
+function normalizePathname(pathname) {
+  if (!pathname || pathname === '/') return pathname;
+  const parts = pathname.split('/');
+  const maybeLocale = parts[1];
+
+  if (maybeLocale && LOCALE_PREFIX_REGEX.test(maybeLocale)) {
+    const rest = parts.slice(2).join('/');
+    return rest ? `/${rest}` : '/';
+  }
+
+  return pathname;
+}
+
+function isOfflineEnabledPath(pathname) {
+  const normalized = normalizePathname(pathname);
+  return OFFLINE_ENABLED_PAGES.some(page =>
+    pathname === page ||
+    pathname.startsWith(page + '/') ||
+    normalized === page ||
+    normalized.startsWith(page + '/')
+  );
+}
+
+function extractRscPath(rscParam) {
+  if (!rscParam) return null;
+  if (rscParam.startsWith('/')) return rscParam;
+  if (rscParam.includes('/')) {
+    const match = rscParam.match(/(\/[a-z0-9\-/_]+)$/i);
+    return match ? match[1] : null;
+  }
+  return null;
+}
+
+// Precache URLs - injected by build script
+const MANUAL_PRECACHE_URLS = [
   '/offline.html',
   '/manifest.json',
   '/favicon.ico',
   '/favicon-192x192.png',
   '/favicon-512x512.png',
   '/doshi.png',
-  '/_next/static/chunks/framework-0907bc41f77e1d3c.js',
-  '/_next/static/chunks/main-911004091fe3e3d1.js',
-  '/_next/static/chunks/main-app-897129e07df0fca6.js',
-  '/_next/static/chunks/polyfills-42372ed130431b0a.js',
-  '/_next/static/chunks/webpack-6883c85f8afc74d0.js',
 
   // Learning Village stall images (Phase 1 - Offline Support)
   '/ui/flat-icons/stalls/ceramics.png',
@@ -96,6 +114,7 @@ const PRECACHE_URLS = [
   '/data/kanji/jlpt_4.json',
   '/data/kanji/jlpt_5.json'
 ];
+const PRECACHE_URLS = __PRECACHE_URLS__.concat(MANUAL_PRECACHE_URLS);
 
 // Install event - cache essential files only
 self.addEventListener('install', (event) => {
@@ -201,9 +220,7 @@ self.addEventListener('fetch', (event) => {
     }
 
     // Check if this page should be cached for offline use
-    const isOfflineEnabledPage = OFFLINE_ENABLED_PAGES.some(page =>
-      url.pathname === page || url.pathname.startsWith(page + '/')
-    );
+    const isOfflineEnabledPage = isOfflineEnabledPath(url.pathname);
 
     event.respondWith(
       (async () => {
@@ -256,13 +273,10 @@ self.addEventListener('fetch', (event) => {
           }
         }
 
-        // CRITICAL: Only serve offline page if we're actually offline
-        // This prevents showing offline page when dev server is just slow
-        if (self.navigator.onLine) {
-          log('[SW] Still online but request failed - letting browser handle error');
-          // Return a network error so browser shows its own error page
-          // This is better than showing "offline" when we're actually online
-          throw new Error('Network request failed but device is online');
+        // In development, let the browser show its own error page to avoid false offline screens.
+        if (isDevelopment) {
+          log('[SW] Development mode navigation failed - letting browser handle error');
+          throw new Error('Navigation failed in development mode');
         }
 
         // Fallback to offline page (only when truly offline)
@@ -289,9 +303,9 @@ self.addEventListener('fetch', (event) => {
   // Check if this is a Next.js RSC (React Server Components) request for offline-enabled pages
   // These are needed for client-side navigation to work offline
   const isRSCRequest = url.searchParams.has('_rsc') || url.pathname.includes('/_next/data/');
-  const isOfflinePageRSC = isRSCRequest && OFFLINE_ENABLED_PAGES.some(page =>
-    url.pathname.includes(page) || url.searchParams.get('_rsc')?.includes(page)
-  );
+  const rscPath = extractRscPath(url.searchParams.get('_rsc'));
+  const rscCandidate = rscPath || url.pathname;
+  const isOfflinePageRSC = isRSCRequest && isOfflineEnabledPath(rscCandidate);
 
   if (isRSCRequest) {
     event.respondWith(
@@ -361,8 +375,13 @@ self.addEventListener('fetch', (event) => {
         const cachedResponse = await cache.match(cacheKey);
 
         if (cachedResponse) {
-          log('[SW] Audio cache hit:', url.pathname);
-          return cachedResponse;
+          if (isResponseExpired(cachedResponse, AUDIO_CACHE_CONFIG.maxAge)) {
+            log('[SW] Audio cache expired, deleting:', url.pathname);
+            await cache.delete(cacheKey);
+          } else {
+            log('[SW] Audio cache hit:', url.pathname);
+            return cachedResponse;
+          }
         }
 
         // Not in cache - fetch from network
@@ -385,9 +404,10 @@ self.addEventListener('fetch', (event) => {
           if (networkResponse.ok && networkResponse.status === 200) {
             // Clone response before caching (response can only be consumed once)
             const responseToCache = networkResponse.clone();
+            const stampedResponse = await stampResponse(responseToCache);
 
-            // Cache the audio file
-            await cache.put(cacheKey, responseToCache);
+            // Cache the audio file with timestamp header
+            await cache.put(cacheKey, stampedResponse);
             log('[SW] Audio cached:', url.pathname);
 
             // Async cleanup - don't block the response
@@ -423,15 +443,57 @@ self.addEventListener('fetch', (event) => {
 async function cleanupAudioCache(cache) {
   const keys = await cache.keys();
 
-  if (keys.length > AUDIO_CACHE_CONFIG.maxEntries) {
-    // Remove oldest entries (first in cache)
-    const entriesToRemove = keys.length - AUDIO_CACHE_CONFIG.maxEntries;
+  // Remove expired entries first
+  for (const request of keys) {
+    const response = await cache.match(request);
+    if (!response) continue;
+    if (isResponseExpired(response, AUDIO_CACHE_CONFIG.maxAge)) {
+      await cache.delete(request);
+    }
+  }
+
+  const remainingKeys = await cache.keys();
+  if (remainingKeys.length > AUDIO_CACHE_CONFIG.maxEntries) {
+    const entries = [];
+    for (const request of remainingKeys) {
+      const response = await cache.match(request);
+      if (!response) continue;
+      const timestamp = getCacheTimestamp(response) || 0;
+      entries.push({ request, timestamp });
+    }
+
+    entries.sort((a, b) => a.timestamp - b.timestamp);
+    const entriesToRemove = entries.length - AUDIO_CACHE_CONFIG.maxEntries;
     log(`[SW] Audio cache cleanup: removing ${entriesToRemove} old entries`);
 
     for (let i = 0; i < entriesToRemove; i++) {
-      await cache.delete(keys[i]);
+      await cache.delete(entries[i].request);
     }
   }
+}
+
+function getCacheTimestamp(response) {
+  const header = response.headers.get('sw-cache-time');
+  if (!header) return null;
+  const ts = Number(header);
+  return Number.isFinite(ts) ? ts : null;
+}
+
+function isResponseExpired(response, maxAgeMs) {
+  const ts = getCacheTimestamp(response);
+  if (!ts) return true;
+  return Date.now() - ts > maxAgeMs;
+}
+
+async function stampResponse(response) {
+  const headers = new Headers(response.headers);
+  headers.set('sw-cache-time', Date.now().toString());
+  const body = await response.arrayBuffer();
+  return new Response(body, {
+    status: response.status,
+    statusText: response.statusText,
+    headers
+  });
 }
 
 // Message event for skip waiting and cache management

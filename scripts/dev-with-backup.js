@@ -7,8 +7,8 @@ const os = require('os');
 
 // Platform-specific backup directories
 const BACKUP_DIRS = {
-  win32: 'C:\\Users\\esfab\\Obsidian\\Life-Org\\08_Moshimoshi',
-  linux: '/home/beano/Life-Org/SecondBrain/Moshimoshi/Git'
+  win32: 'C:\\Users\\esfab\\Obsidian\\Life-Org\\08_Moshimoshi\\Git',
+  linux: '/home/beano/Life-Org/08_Moshimoshi/Git'
 };
 
 const PROJECT_ROOT = path.resolve(__dirname, '..');
@@ -20,6 +20,32 @@ function log(message) {
   const timestamp = new Date().toISOString().replace('T', ' ').substring(0, 19);
   const logLine = `${timestamp} - ${message}\n`;
   fs.appendFileSync(LOG_FILE, logLine);
+}
+
+function cleanupOldBackups() {
+  try {
+    // Get all timestamped backup files
+    const files = fs.readdirSync(BACKUP_DIR)
+      .filter(f => f.startsWith('env-local-') && f.endsWith('.md') && f !== 'env-local.md')
+      .map(f => ({
+        name: f,
+        path: path.join(BACKUP_DIR, f),
+        mtime: fs.statSync(path.join(BACKUP_DIR, f)).mtime
+      }))
+      .sort((a, b) => b.mtime - a.mtime); // Sort by newest first
+
+    // Keep only the most recent one, delete the rest
+    if (files.length > 1) {
+      const toDelete = files.slice(1); // Skip the first (newest) one
+      toDelete.forEach(file => {
+        fs.unlinkSync(file.path);
+        log(`Deleted old backup: ${file.name}`);
+      });
+      log(`Cleaned up ${toDelete.length} old backup(s)`);
+    }
+  } catch (err) {
+    log(`Cleanup error: ${err.message}`);
+  }
 }
 
 function backupEnv() {
@@ -58,6 +84,9 @@ function backupEnv() {
     const mainBackup = path.join(BACKUP_DIR, 'env-local.md');
     fs.copyFileSync(ENV_FILE, mainBackup);
     log(`Updated: ${mainBackup}`);
+
+    // Clean up old timestamped backups
+    cleanupOldBackups();
 
     console.log('Backed up .env.local');
   } catch (err) {

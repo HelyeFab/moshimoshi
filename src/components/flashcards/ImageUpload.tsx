@@ -5,9 +5,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Upload, Image, X, Link, Camera } from 'lucide-react';
 import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
+import { AnkiMediaStore } from '@/lib/anki/mediaStore';
 
 interface ImageUploadProps {
-  onImageAdded: (imageData: { type: 'image'; url: string; alt?: string }) => void;
+  onImageAdded: (imageData: { type: 'image'; url: string; filename?: string; alt?: string }) => void;
   currentImage?: { url: string; alt?: string };
   onImageRemoved?: () => void;
   maxSizeMB?: number;
@@ -50,26 +51,26 @@ export function ImageUpload({
     setError(null);
 
     try {
-      // Convert to base64 for storage
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const base64 = event.target?.result as string;
-        setPreview(base64);
-        onImageAdded({
-          type: 'image',
-          url: base64,
-          alt: file.name
-        });
-        setUploading(false);
-      };
+      // Store blob in AnkiMediaStore for user decks
+      const filename = `image-${crypto.randomUUID()}.${file.name.split('.').pop() || 'jpg'}`;
+      const mediaStore = AnkiMediaStore.getInstance();
 
-      reader.onerror = () => {
-        setError(t('flashcards.image.uploadFailed'));
-        setUploading(false);
-      };
+      await mediaStore.storeMedia(filename, file);
 
-      reader.readAsDataURL(file);
+      // Create blob URL for preview
+      const blobUrl = URL.createObjectURL(file);
+      setPreview(blobUrl);
+
+      onImageAdded({
+        type: 'image',
+        url: blobUrl,
+        filename, // Store filename reference for R2 upload
+        alt: file.name
+      });
+
+      setUploading(false);
     } catch (err) {
+      console.error('[ImageUpload] Failed to store image:', err);
       setError(t('flashcards.image.uploadFailed'));
       setUploading(false);
     }

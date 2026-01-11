@@ -602,7 +602,75 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
       return // Don't continue to R2 sync if deck sync fails
     }
 
-    // ========== PHASE 2: R2 ANKI SYNC (EXISTING) ==========
+    // ========== PHASE 2: R2 USER DECK RESTORE (NEW) ==========
+    try {
+      console.log('[FlashcardsContent] Starting user deck restore phase...')
+
+      // Fetch list of user decks from R2
+      const userDecksResponse = await fetch('/api/flashcards/r2/list', {
+        method: 'GET',
+        credentials: 'include',
+      })
+
+      if (userDecksResponse.ok) {
+        const { decks: userDeckList } = await userDecksResponse.json()
+
+        if (userDeckList && userDeckList.length > 0) {
+          console.log(`[FlashcardsContent] Found ${userDeckList.length} user deck(s) in R2`)
+
+          setMigrationProgress({
+            status: 'migrating',
+            phase: 'r2',
+            total: userDeckList.length,
+            completed: 0,
+            failed: 0,
+            currentDeck: null,
+          })
+
+          const { getUserDeckRestoreOrchestrator } = await import('@/lib/r2/UserDeckRestoreOrchestrator')
+          const abortController = new AbortController()
+          const orchestrator = getUserDeckRestoreOrchestrator(initialData.userId, abortController.signal)
+
+          let restoredCount = 0
+          let failedCount = 0
+
+          for (const metadata of userDeckList) {
+            if (cancelSyncRef.current) break
+
+            setMigrationProgress(prev => prev ? {
+              ...prev,
+              completed: restoredCount,
+              currentDeck: metadata.name,
+            } : null)
+
+            try {
+              await orchestrator.restoreDeck(metadata)
+              restoredCount++
+              console.log(`[FlashcardsContent] Restored user deck: ${metadata.name}`)
+            } catch (error: any) {
+              failedCount++
+              console.error(`[FlashcardsContent] Failed to restore ${metadata.name}:`, error)
+              // Continue to next deck
+            }
+          }
+
+          console.log(`[FlashcardsContent] User deck restore complete: ${restoredCount} succeeded, ${failedCount} failed`)
+
+          if (restoredCount > 0) {
+            showToast(`Restored ${restoredCount} user deck${restoredCount !== 1 ? 's' : ''}`, 'success')
+          }
+        } else {
+          console.log('[FlashcardsContent] No user decks found in R2')
+        }
+      } else {
+        console.log('[FlashcardsContent] User deck list fetch failed (may not be premium or no decks)')
+      }
+    } catch (error) {
+      console.error('[FlashcardsContent] User deck restore failed:', error)
+      // Don't stop - continue to Anki sync
+    }
+
+    // ========== PHASE 3: R2 ANKI SYNC (EXISTING) ==========
     try {
       console.log('📦 [FlashcardsContent] Starting R2 Anki sync phase...')
 

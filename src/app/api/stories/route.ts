@@ -41,13 +41,13 @@ export async function GET(request: NextRequest) {
 
     // Apply sort order
     if (sortBy === 'newest') {
-      // Sort by createdAt for reliable newest-first ordering (publishedAt may be missing)
-      query = query.orderBy('createdAt', 'desc')
+      // Sort by publishedAt for most recently published stories first
+      query = query.orderBy('publishedAt', 'desc')
     } else if (sortBy === 'popular') {
       query = query.orderBy('viewCount', 'desc')
     } else {
       // Default to newest
-      query = query.orderBy('createdAt', 'desc')
+      query = query.orderBy('publishedAt', 'desc')
     }
 
     // Get total count for pagination metadata
@@ -70,11 +70,11 @@ export async function GET(request: NextRequest) {
       }
 
       if (sortBy === 'newest') {
-        offsetQuery = offsetQuery.orderBy('createdAt', 'desc')
+        offsetQuery = offsetQuery.orderBy('publishedAt', 'desc')
       } else if (sortBy === 'popular') {
         offsetQuery = offsetQuery.orderBy('viewCount', 'desc')
       } else {
-        offsetQuery = offsetQuery.orderBy('createdAt', 'desc')
+        offsetQuery = offsetQuery.orderBy('publishedAt', 'desc')
       }
 
       const offsetSnapshot = await offsetQuery.limit(offset).get()

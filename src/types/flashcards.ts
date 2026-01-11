@@ -23,6 +23,12 @@ export interface FlashcardDeck {
   source?: 'anki' | 'user'; // Source of the deck (Anki import or user-created)
   tags?: string[];
   restoreStatus?: 'restoring' | 'error';
+  r2?: {  // R2 metadata (populated after upload to cloud storage)
+    cardsKey: string;
+    manifestKey: string;
+    mediaPrefix: string;
+    uploadedAt: number;
+  };
 }
 
 export interface FlashcardContent {
@@ -96,7 +102,8 @@ export interface CardSide {
   subtext?: string; // Reading, pronunciation, etc.
   media?: {
     type: 'image' | 'audio' | 'video';
-    url: string;
+    filename?: string;  // Filename reference for R2 storage (user decks)
+    url: string;        // blob URL for preview (ephemeral)
     alt?: string;
   };
   style?: CardStyleOverride;
