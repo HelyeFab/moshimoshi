@@ -670,7 +670,7 @@ exports.scheduledComicGeneratorFunction = (0, scheduler_1.onSchedule)({
     schedule: '0 0 * * 0', // Weekly on Sunday at 00:00 UTC
     timeZone: 'UTC',
     memory: '1GiB',
-    timeoutSeconds: 540, // 9 minutes
+    timeoutSeconds: 900, // 15 minutes (max for scheduled: 1800s/30min)
     retryCount: 1,
     secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY],
 }, async (event) => {
@@ -691,7 +691,7 @@ exports.scheduledComicGeneratorFunction = (0, scheduler_1.onSchedule)({
  */
 exports.manualComicGeneratorFunction = (0, https_1.onCall)({
     memory: '1GiB',
-    timeoutSeconds: 540,
+    timeoutSeconds: 900, // 15 minutes (max for callable: 3600s/60min)
     invoker: 'public',
     secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY],
 }, async (request) => {

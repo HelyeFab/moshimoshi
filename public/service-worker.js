@@ -17,7 +17,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-14505a1d0bc0';
+const CACHE_VERSION = 'moshimoshi-bae6b94a2047';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -115,6 +115,8 @@ const MANUAL_PRECACHE_URLS = [
   '/data/kanji/jlpt_5.json'
 ];
 const PRECACHE_URLS = [
+  "/_next/static/aIw9uYZYDb978zxxK74Fy/_buildManifest.js",
+  "/_next/static/aIw9uYZYDb978zxxK74Fy/_ssgManifest.js",
   "/_next/static/chunks/10152-ce5cb8b0f37c62a2.js",
   "/_next/static/chunks/10409-6d4e4d0c8b82e5c5.js",
   "/_next/static/chunks/11073-c49d53d097d00f25.js",
@@ -161,7 +163,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/31255-2b43ea3d000ae5cf.js",
   "/_next/static/chunks/31480-e229f0f284911956.js",
   "/_next/static/chunks/32790-6d4e4d0c8b82e5c5.js",
-  "/_next/static/chunks/33316-8ffd9b5b1cec67bf.js",
+  "/_next/static/chunks/33316-78e80123d69c15f1.js",
   "/_next/static/chunks/34196-adb9d1eba27d744d.js",
   "/_next/static/chunks/35925-9ef41eca727c630e.js",
   "/_next/static/chunks/36421-98a120b884745631.js",
@@ -360,7 +362,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/kanji-moods/[boardId]/page-3ed951453d5d570b.js",
   "/_next/static/chunks/app/[locale]/kanji-moods/layout-090f54affe21aeeb.js",
   "/_next/static/chunks/app/[locale]/kanji-moods/page-1c5487334db5914c.js",
-  "/_next/static/chunks/app/[locale]/layout-769befcd95f5241c.js",
+  "/_next/static/chunks/app/[locale]/layout-a14df2e6c133b49b.js",
   "/_next/static/chunks/app/[locale]/leaderboard/layout-090f54affe21aeeb.js",
   "/_next/static/chunks/app/[locale]/leaderboard/page-08884f1657b0d548.js",
   "/_next/static/chunks/app/[locale]/learn/conjugation/layout-090f54affe21aeeb.js",
@@ -475,9 +477,7 @@ const PRECACHE_URLS = [
   "/_next/static/css/58ca86956afb7910.css",
   "/_next/static/css/6e09cdf58928be98.css",
   "/_next/static/css/aa5f83a85d426b75.css",
-  "/_next/static/css/af47b6060c4fddcc.css",
-  "/_next/static/p3vhXOYLTrZGJr0pSE6Z6/_buildManifest.js",
-  "/_next/static/p3vhXOYLTrZGJr0pSE6Z6/_ssgManifest.js"
+  "/_next/static/css/af47b6060c4fddcc.css"
 ].concat(MANUAL_PRECACHE_URLS);
 
 // Install event - cache essential files only

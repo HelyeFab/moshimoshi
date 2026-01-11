@@ -12,6 +12,7 @@
  * 6. Generate model sheet + page images
  * 7. Generate audio (VOICEVOX)
  * 8. Pre-generate sentence-level audio and translations
+ * 8.5. Pre-generate word explanations (1000 words)
  * 9. Publish story
  */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
@@ -56,6 +57,9 @@ const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
 const sentencePreGenerator_1 = require("../utils/sentencePreGenerator");
+// DISABLED: Word precomputation requires Next.js dependencies that aren't available in Cloud Functions
+// Words will be precomputed on-demand when users access the story
+// import { precomputeWordExplanations } from '../../../src/lib/ai/precompute/wordPrecompute'
 const alertNotifier_1 = require("../utils/alertNotifier");
 // Define secrets needed for story generation
 const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY');
@@ -321,6 +325,7 @@ async function resumeFromCheckpoint(draft, adminKey) {
             'page_images',
             'audio',
             'sentences',
+            'word_explanations',
             'complete',
         ];
         const lastStepIndex = stepOrder.indexOf(checkpoint.lastCompletedStep);
@@ -748,7 +753,7 @@ async function generateDailyStory(adminKey) {
             };
         }
         // Step 8: Pre-generate sentence-level audio and translations (with immediate retries)
-        logger.info('[StoryScheduler] Step 8/9: Generating sentence-level data...');
+        logger.info('[StoryScheduler] Step 8/10: Generating sentence-level data...');
         const draftDoc = await db.collection('ai_story_drafts').doc(draftId).get();
         const draftData = draftDoc.data();
         if ((draftData === null || draftData === void 0 ? void 0 : draftData.pages) && Array.isArray(draftData.pages)) {
@@ -833,8 +838,50 @@ async function generateDailyStory(adminKey) {
             });
             await updateCheckpoint(draftId, 'sentences');
         }
+        // Step 8.5: Pre-generate word explanations (server-side prefetch)
+        logger.info('[StoryScheduler] Step 8.5/10: Generating word explanations...');
+        try {
+            await db.collection('ai_story_drafts').doc(draftId).update({
+                'metadata.generationStep': 'word_explanations',
+                'metadata.progress': 92,
+            });
+            // Extract story text from pages
+            const wordDraftDoc = await db.collection('ai_story_drafts').doc(draftId).get();
+            const wordDraftData = wordDraftDoc.data();
+            if ((wordDraftData === null || wordDraftData === void 0 ? void 0 : wordDraftData.pages) && Array.isArray(wordDraftData.pages)) {
+                const storyText = wordDraftData.pages
+                    .map((page) => page.text || '')
+                    .join('\n');
+                // Check timeout before starting (leave 2min buffer for publish step)
+                const timeElapsed = Date.now() - startTime;
+                const timeRemaining = 540000 - timeElapsed; // 540s = 9min Cloud Function limit
+                // DISABLED: Word precomputation requires Next.js dependencies (kuromoji, etc.)
+                // that aren't available in Cloud Functions runtime. Words will be precomputed
+                // on-demand when users access the story.
+                logger.info('[StoryScheduler] Skipping word explanations - will be generated on-demand', {
+                    reason: 'Next.js dependencies not available in Cloud Functions',
+                    timeRemaining: Math.round(timeRemaining / 1000),
+                });
+                await updateCheckpoint(draftId, 'word_explanations');
+                await db.collection('ai_story_drafts').doc(draftId).update({
+                    'metadata.progress': 94,
+                    'metadata.wordExplanationsSkipped': true,
+                });
+            }
+            else {
+                logger.warn('[StoryScheduler] No pages found for word explanation generation', { draftId });
+                await updateCheckpoint(draftId, 'word_explanations');
+            }
+        }
+        catch (wordError) {
+            logger.warn('[StoryScheduler] Word explanation generation failed - continuing', {
+                error: wordError instanceof Error ? wordError.message : 'Unknown error',
+            });
+            // Non-critical - story will still publish without word explanations
+            await updateCheckpoint(draftId, 'word_explanations');
+        }
         // Step 9: Publish the story (only if all critical assets are present)
-        logger.info('[StoryScheduler] Step 9/9: Publishing story...');
+        logger.info('[StoryScheduler] Step 9/10: Publishing story...');
         const publishResult = await callStoryAPI('/api/admin/stories/publish-draft', { draftId }, adminKey);
         const duration = Date.now() - startTime;
         const storyId = publishResult.storyId;
