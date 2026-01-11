@@ -1064,24 +1064,24 @@ export async function generateDailyStory(adminKey: string): Promise<{
             timeElapsed: Math.round(timeElapsed / 1000),
           })
         } else {
-          // Pre-generate word explanations with timeout protection
+          // Attempt word explanation generation with timeout protection
           const wordResult = await Promise.race([
             precomputeWordExplanations({
               contentId: draftId,
               contentType: 'story',
               text: storyText,
               limit: 1000,
-              jlptLevel: jlptLevel as any,
+              jlptLevel,
             }),
             new Promise((_, reject) =>
               setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000)
-            ),
+            )
           ])
 
           await updateCheckpoint(draftId, 'word_explanations')
           await db.collection('ai_story_drafts').doc(draftId).update({
             'metadata.progress': 94,
-            'metadata.wordExplanationsCount': (wordResult as any).total || 0,
+            'metadata.wordExplanationsCount': (wordResult as any).total,
           })
 
           logger.info('[StoryScheduler] Word explanations complete', {

@@ -7,12 +7,7 @@
     "sourceMap": true,
     "strict": false,
     "target": "es2017",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": ["../src/*"]
-    }
+    "esModuleInterop": true
   },
   "compileOnSave": true,
   "include": [
@@ -21,9 +16,6 @@
   "exclude": [
     "src/**/*.test.ts",
     "src/__tests__/**",
-    "src/scrapers/archived/**",
-    "../node_modules",
-    "../src/**/__tests__/**",
-    "../src/**/*.test.ts"
+    "src/scrapers/archived/**"
   ]
 }
