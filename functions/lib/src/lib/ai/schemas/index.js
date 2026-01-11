@@ -12,7 +12,7 @@
  * - Ollama: Use Schema.safeParse(response) for post-response validation
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateStoryPage = exports.validateStoryOutline = exports.validateCharacterSheet = exports.validateStory = exports.PageImagePromptSchema = exports.ModelSheetPromptSchema = exports.QuizQuestionsResponseSchema = exports.OutlinePageSchema = exports.StoryOutlineSchema = exports.CharacterSheetSchema = exports.ProcessedTranscriptSchema = exports.TranscriptSegmentSchema = exports.GeneratedMoodboardSchema = exports.MoodboardKanjiSchema = exports.GeneratedStorySchema = exports.StoryPageSchema = exports.ReviewQuestionsResultSchema = exports.ReviewQuestionSchema = exports.GrammarSentenceExplanationSchema = exports.GrammarExplanationSchema = exports.WordExplanationSchema = exports.ConjugationTableSchema = exports.KanjiBreakdownSchema = exports.TranslationResultSchema = exports.PartialTranslationSchema = exports.TranslationHintSchema = exports.GrammarNoteSchema = exports.VocabularyItemSchema = exports.DifficultySchema = exports.JLPTLevelSchema = void 0;
+exports.validateStoryPage = exports.validateStoryOutline = exports.validateCharacterSheet = exports.validateStory = exports.GeneratedStorySchema = exports.StoryPageSchema = exports.PageImagePromptSchema = exports.ModelSheetPromptSchema = exports.QuizQuestionsResponseSchema = exports.OutlinePageSchema = exports.StoryOutlineSchema = exports.CharacterSheetSchema = exports.ProcessedTranscriptSchema = exports.TranscriptSegmentSchema = exports.GeneratedMoodboardSchema = exports.MoodboardKanjiSchema = exports.ReviewQuestionsResultSchema = exports.ReviewQuestionSchema = exports.GrammarSentenceExplanationSchema = exports.GrammarExplanationSchema = exports.WordExplanationSchema = exports.ConjugationTableSchema = exports.KanjiBreakdownSchema = exports.TranslationResultSchema = exports.PartialTranslationSchema = exports.TranslationHintSchema = exports.GrammarNoteSchema = exports.VocabularyItemSchema = exports.DifficultySchema = exports.JLPTLevelSchema = void 0;
 exports.validateAIResponse = validateAIResponse;
 exports.safeValidateAIResponse = safeValidateAIResponse;
 exports.applyDefaults = applyDefaults;
@@ -175,28 +175,8 @@ exports.ReviewQuestionsResultSchema = zod_1.z.object({
 // ============================================
 // Story Generation Schemas
 // ============================================
-exports.StoryPageSchema = zod_1.z.object({
-    pageNumber: zod_1.z.number().describe('Page number'),
-    text: zod_1.z.string().describe('Japanese text'),
-    textWithFurigana: zod_1.z.string().describe('Text with furigana annotations'),
-    translation: zod_1.z.string().describe('English translation'),
-    imagePrompt: zod_1.z.string().optional().describe('Image generation prompt'),
-    vocabularyNotes: zod_1.z.record(zod_1.z.string(), zod_1.z.string()).optional(),
-    grammarNotes: zod_1.z.record(zod_1.z.string(), zod_1.z.string()).optional(),
-});
-exports.GeneratedStorySchema = zod_1.z.object({
-    title: zod_1.z.string().describe('Story title in English'),
-    titleJa: zod_1.z.string().describe('Story title in Japanese'),
-    description: zod_1.z.string().describe('Story description'),
-    pages: zod_1.z.array(exports.StoryPageSchema).describe('Story pages'),
-    vocabulary: zod_1.z.array(exports.VocabularyItemSchema).optional(),
-    quiz: zod_1.z.array(exports.ReviewQuestionSchema).optional(),
-    metadata: zod_1.z.object({
-        theme: zod_1.z.string(),
-        jlptLevel: exports.JLPTLevelSchema,
-        estimatedReadingTime: zod_1.z.number().optional(),
-    }).optional(),
-});
+// Note: StoryPageSchema and GeneratedStorySchema are now imported from story-schemas.ts
+// to avoid conflicts and ensure OpenAI Structured Outputs compatibility (no .optional())
 // ============================================
 // Moodboard Schemas
 // ============================================
@@ -300,11 +280,13 @@ Object.defineProperty(exports, "OutlinePageSchema", { enumerable: true, get: fun
 Object.defineProperty(exports, "QuizQuestionsResponseSchema", { enumerable: true, get: function () { return story_schemas_1.QuizQuestionsResponseSchema; } });
 Object.defineProperty(exports, "ModelSheetPromptSchema", { enumerable: true, get: function () { return story_schemas_1.ModelSheetPromptSchema; } });
 Object.defineProperty(exports, "PageImagePromptSchema", { enumerable: true, get: function () { return story_schemas_1.PageImagePromptSchema; } });
+Object.defineProperty(exports, "StoryPageSchema", { enumerable: true, get: function () { return story_schemas_1.StoryPageSchema; } });
+Object.defineProperty(exports, "GeneratedStorySchema", { enumerable: true, get: function () { return story_schemas_1.GeneratedStorySchema; } });
 Object.defineProperty(exports, "validateStory", { enumerable: true, get: function () { return story_schemas_1.validateStory; } });
 Object.defineProperty(exports, "validateCharacterSheet", { enumerable: true, get: function () { return story_schemas_1.validateCharacterSheet; } });
 Object.defineProperty(exports, "validateStoryOutline", { enumerable: true, get: function () { return story_schemas_1.validateStoryOutline; } });
 Object.defineProperty(exports, "validateStoryPage", { enumerable: true, get: function () { return story_schemas_1.validateStoryPage; } });
-// Note: StoryPageSchema and GeneratedStorySchema are defined earlier in this file
 // Note: We don't export types here to avoid conflicts with existing types
 // in src/lib/ai/types.ts. The schemas are for validation only.
+// Trigger Vercel rebuild - 1768144161
 //# sourceMappingURL=index.js.map

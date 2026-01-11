@@ -10,7 +10,9 @@
     "logs": "firebase functions:log",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "backfill:comics:dry": "npm run build && node lib/functions/src/scripts/backfillComicWordExplanations.js --dry-run",
+    "backfill:comics": "npm run build && node lib/functions/src/scripts/backfillComicWordExplanations.js"
   },
   "engines": {
     "node": "20"

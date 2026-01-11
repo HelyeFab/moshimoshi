@@ -431,7 +431,7 @@ export async function POST(request: NextRequest) {
     // Increment usage
     await usageRef.set(
       {
-        [bucketKey]: currentUsage + 1,
+        conjugation_drill: currentUsage + 1,
         lastUpdated: nowUtc,
       },
       { merge: true }

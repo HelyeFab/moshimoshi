@@ -8,10 +8,10 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import AudioButton from '@/components/ui/AudioButton'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
+import { useFeature } from '@/hooks/useFeature'
 import { kanaProgressManagerV2 } from '@/utils/kanaProgressManagerV2'
 import StrokeOrderModal from '@/components/kanji/StrokeOrderModal'
 import DrawingPracticeModal from '@/components/drawing-practice/DrawingPracticeModal'
-import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 import StudyNavigation from '@/components/ui/StudyNavigation'
 
 interface KanaStudyModeProps {
@@ -45,6 +45,7 @@ export default function KanaStudyMode({
   const { showToast } = useToast()
   const { user } = useAuth()
   const { isPremium } = useSubscription()
+  const { checkAndTrack } = useFeature('drawing_practice')
   const [showRomaji, setShowRomaji] = useState(false)
   const [showExamples, setShowExamples] = useState(false)
   const [isFlipped, setIsFlipped] = useState(false)
@@ -1293,9 +1294,12 @@ export default function KanaStudyMode({
 
                 {/* Practice Button - Top Right */}
                 <button
-                  onClick={e => {
+                  onClick={async e => {
                     e.stopPropagation()
-                    setShowDrawingPractice(true)
+                    const allowed = await checkAndTrack({ showUI: true })
+                    if (allowed) {
+                      setShowDrawingPractice(true)
+                    }
                   }}
                   className="absolute top-4 right-4 p-2 rounded-full bg-green-100 dark:bg-green-900/20 hover:bg-green-200 dark:hover:bg-green-900/30 text-green-600 dark:text-green-400 transition-all"
                   title="Practice drawing"
@@ -1550,14 +1554,12 @@ export default function KanaStudyMode({
       )}
 
       {showDrawingPractice && (
-        <EntitlementGate featureId="drawing_practice">
-          <DrawingPracticeModal
-            character={displayScript === 'hiragana' ? character.hiragana : character.katakana}
-            isOpen={showDrawingPractice}
-            onClose={() => setShowDrawingPractice(false)}
-            characterType="kana"
-          />
-        </EntitlementGate>
+        <DrawingPracticeModal
+          character={displayScript === 'hiragana' ? character.hiragana : character.katakana}
+          isOpen={showDrawingPractice}
+          onClose={() => setShowDrawingPractice(false)}
+          characterType="kana"
+        />
       )}
     </div>
   )

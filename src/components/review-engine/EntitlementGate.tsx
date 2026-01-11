@@ -49,7 +49,7 @@ export function EntitlementGate({
     // Check access on mount
     const checkAccess = async () => {
       console.log('[EntitlementGate] Checking access for feature:', featureId);
-      const decision = await checkOnly();
+      const decision = await checkOnly({ failOpen: false });
       console.log('[EntitlementGate] Decision received:', decision);
 
       if (decision.allow) {

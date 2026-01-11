@@ -94,24 +94,28 @@ export function DeckCreator({
     front: string;
     back: string;
     notes?: string;
-    frontImage?: { type: 'image'; url: string; alt?: string };
-    backImage?: { type: 'image'; url: string; alt?: string };
+    frontImage?: { type: 'image'; url: string; filename?: string; alt?: string };
+    backImage?: { type: 'image'; url: string; filename?: string; alt?: string };
   }>>(
-    editDeck?.cards?.map((card: any) => ({
-      id: card.id, // Preserve existing card ID for SRS data
-      front: card.front.text || card.front,
-      back: card.back.text || card.back,
-      notes: card.metadata?.notes || '',
-      frontImage: card.front?.image,
-      backImage: card.back?.image,
-    })) || []
+    editDeck?.cards?.map((card: any) => {
+      const frontMedia = typeof card.front === 'string' ? undefined : card.front?.media
+      const backMedia = typeof card.back === 'string' ? undefined : card.back?.media
+      return {
+        id: card.id, // Preserve existing card ID for SRS data
+        front: card.front.text || card.front,
+        back: card.back.text || card.back,
+        notes: card.metadata?.notes || '',
+        frontImage: frontMedia?.type === 'image' ? frontMedia : undefined,
+        backImage: backMedia?.type === 'image' ? backMedia : undefined,
+      }
+    }) || []
   )
   const [currentCard, setCurrentCard] = useState<{
     front: string
     back: string
     notes: string
-    frontImage?: { type: 'image'; url: string; alt?: string }
-    backImage?: { type: 'image'; url: string; alt?: string }
+    frontImage?: { type: 'image'; url: string; filename?: string; alt?: string }
+    backImage?: { type: 'image'; url: string; filename?: string; alt?: string }
   }>({ front: '', back: '', notes: '' })
   const [selectedListId, setSelectedListId] = useState<string>('')
 
@@ -141,14 +145,18 @@ export function DeckCreator({
       setFuriganaOnFront(editDeck.settings?.furigana?.showOnFront ?? true)
       setFuriganaOnBack(editDeck.settings?.furigana?.showOnBack ?? true)
       setCards(
-        editDeck.cards?.map((card: any) => ({
-          id: card.id, // Preserve existing card ID for SRS data
-          front: card.front.text || card.front,
-          back: card.back.text || card.back,
-          notes: card.metadata?.notes || '',
-          frontImage: card.front?.image,
-          backImage: card.back?.image,
-        })) || []
+        editDeck.cards?.map((card: any) => {
+          const frontMedia = typeof card.front === 'string' ? undefined : card.front?.media
+          const backMedia = typeof card.back === 'string' ? undefined : card.back?.media
+          return {
+            id: card.id, // Preserve existing card ID for SRS data
+            front: card.front.text || card.front,
+            back: card.back.text || card.back,
+            notes: card.metadata?.notes || '',
+            frontImage: frontMedia?.type === 'image' ? frontMedia : undefined,
+            backImage: backMedia?.type === 'image' ? backMedia : undefined,
+          }
+        }) || []
       )
       setStep('details')
     }
@@ -446,11 +454,11 @@ export function DeckCreator({
           ...(card.id ? { id: card.id } : {}), // Preserve existing card ID for SRS data
           front: {
             text: card.front,
-            ...(card.frontImage ? { image: card.frontImage } : {}),
+            ...(card.frontImage ? { media: card.frontImage } : {}),
           } as CardSide,
           back: {
             text: card.back,
-            ...(card.backImage ? { image: card.backImage } : {}),
+            ...(card.backImage ? { media: card.backImage } : {}),
           } as CardSide,
           metadata: {
             ...(card.notes ? { notes: card.notes } : {}),
@@ -571,6 +579,7 @@ export function DeckCreator({
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                     <button
                       onClick={() => handleImportSource('scratch')}
+                      data-testid="flashcards-source-scratch"
                       className="p-4 sm:p-6 rounded-xl border-2 border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-600 transition-all group flex flex-col items-center text-center"
                     >
                       <Plus className="w-6 sm:w-8 h-6 sm:h-8 text-primary-500 mb-2 sm:mb-3 group-hover:scale-110 transition-transform" />
@@ -666,6 +675,7 @@ export function DeckCreator({
                         type="text"
                         value={deckName}
                         onChange={e => setDeckName(e.target.value)}
+                        data-testid="flashcards-deck-name"
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
                         placeholder={t('flashcards.deckName')}
                       />
@@ -917,6 +927,7 @@ export function DeckCreator({
                             onChange={e =>
                               setCurrentCard({ ...currentCard, front: e.target.value })
                             }
+                            data-testid="flashcards-card-front"
                             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700"
                             placeholder={t('flashcards.frontSide')}
                           />
@@ -949,6 +960,7 @@ export function DeckCreator({
                             type="text"
                             value={currentCard.back}
                             onChange={e => setCurrentCard({ ...currentCard, back: e.target.value })}
+                            data-testid="flashcards-card-back"
                             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700"
                             placeholder={t('flashcards.backSide')}
                           />
@@ -980,6 +992,7 @@ export function DeckCreator({
                         <button
                           onClick={addCard}
                           disabled={!currentCard.front || !currentCard.back}
+                          data-testid="flashcards-add-card"
                           className="w-full px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                         >
                           <Plus className="w-4 h-4 inline mr-2" />
@@ -1049,6 +1062,7 @@ export function DeckCreator({
                         }
                       }}
                       disabled={!deckName}
+                      data-testid="flashcards-next"
                       className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1 sm:gap-2"
                     >
                       {t('common.next')}
@@ -1060,6 +1074,7 @@ export function DeckCreator({
                     <button
                       onClick={handleSave}
                       disabled={!deckName || (!editDeck && importSource === 'scratch' && cards.length === 0) || isSaving}
+                      data-testid="flashcards-save"
                       className="px-3 sm:px-4 py-2 text-sm sm:text-base bg-primary-500 text-white rounded-lg hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center gap-1 sm:gap-2"
                     >
                       {isSaving ? (

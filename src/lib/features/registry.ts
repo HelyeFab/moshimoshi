@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-10-07T13:27:25.395Z
+ * Generated at: 2026-01-11T14:49:16.109Z
  */
 
 import type { FeatureId } from '@/types/FeatureId'
@@ -69,6 +69,16 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     notifications: false,
     description: 'Master kanji through progressive learning sessions with stroke order and recognition practice',
   },
+  drawing_practice: {
+    id: 'drawing_practice',
+    name: 'Drawing Practice',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Practice handwriting for kanji and kana with stroke feedback and recognition',
+  },
   custom_lists: {
     id: 'custom_lists',
     name: 'Custom Lists',
@@ -107,8 +117,7 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     permission: Permission.DO_PRACTICE,
     limitType: 'daily',
     notifications: true,
-    description:
-      'Practice Japanese pronunciation and listening with YouTube videos and transcript shadowing',
+    description: 'Practice Japanese pronunciation and listening with YouTube videos and transcript shadowing',
   },
   media_upload: {
     id: 'media_upload',
@@ -160,17 +169,6 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     notifications: false,
     description: 'Import decks from Anki (.apkg files)',
   },
-  stall_layout_customization: {
-    id: 'stall_layout_customization',
-    name: 'Learning Village Layout Customization',
-    category: 'personalization',
-    lifecycle: 'active',
-    permission: Permission.DO_PRACTICE,
-    limitType: 'daily',
-    notifications: false,
-    description:
-      'Customize the layout of Learning Village stalls by dragging and dropping them to your preferred order',
-  },
   flashcard_daily_reviews: {
     id: 'flashcard_daily_reviews',
     name: 'Flashcard Daily Reviews',
@@ -180,6 +178,16 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     limitType: 'daily',
     notifications: false,
     description: 'Daily limit for flashcard review sessions',
+  },
+  stall_layout_customization: {
+    id: 'stall_layout_customization',
+    name: 'Learning Village Layout Customization',
+    category: 'personalization',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'Customize the layout of Learning Village stalls by dragging and dropping them to your preferred order',
   },
   pwa_push: {
     id: 'pwa_push',
@@ -371,16 +379,6 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     notifications: false,
     description: 'Browse and explore Japanese vocabulary',
   },
-  drawing_practice: {
-    id: 'drawing_practice',
-    name: 'Drawing Practice',
-    category: 'learning',
-    lifecycle: 'active',
-    permission: Permission.DO_PRACTICE,
-    limitType: 'daily',
-    notifications: false,
-    description: 'Practice handwriting for kanji and kana with stroke feedback and recognition',
-  },
   comics: {
     id: 'comics',
     name: 'Moshi Comics',
@@ -390,7 +388,7 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     limitType: 'daily',
     notifications: false,
     description: 'Read Japanese manga-style comics with furigana and vocabulary support',
-  },
+  }
 }
 
 export function getFeature(id: FeatureId): FeatureDefinition {

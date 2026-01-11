@@ -233,13 +233,14 @@ export class FlashcardManager {
     }
 
     const deck: FlashcardDeck = {
-      id: uuidv4(),
+      id: request.id || uuidv4(),
       userId,
       name: request.name,
       description: request.description,
       emoji: request.emoji || '🎴',
       color: request.color || 'primary',
       cardStyle: request.cardStyle || 'minimal',
+      source: request.source || 'user',
       cards: [],
       settings: {
         studyDirection: 'front-to-back',
@@ -263,7 +264,7 @@ export class FlashcardManager {
     // Add initial cards if provided
     if (request.initialCards) {
       deck.cards = request.initialCards.map(card => ({
-        id: uuidv4(),
+        id: card.id || uuidv4(),
         front: card.front as CardSide,
         back: card.back as CardSide,
         metadata: card.metadata,

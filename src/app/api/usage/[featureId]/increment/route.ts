@@ -29,7 +29,14 @@ export async function POST(
       );
     }
 
-    // 2. Get session and user data
+    // 2. Parse request body (optional idempotency)
+    const body = await request.json().catch(() => ({}));
+    const idempotencyKey =
+      typeof body?.idempotencyKey === 'string' && body.idempotencyKey.trim().length > 0
+        ? body.idempotencyKey.trim()
+        : null;
+
+    // 3. Get session and user data
     const session = await getSession();
     let userId: string | null = null;
     let plan: string = 'guest';
@@ -52,7 +59,22 @@ export async function POST(
       }
     }
 
-    // 4. Get current usage
+    // 4. Idempotency check (prevent duplicate increments)
+    let idempotencyRef: FirebaseFirestore.DocumentReference | null = null;
+    if (userId && adminDb && idempotencyKey) {
+      const ref = adminDb.collection('idempotency').doc(`${userId}_${featureId}_${idempotencyKey}`);
+      idempotencyRef = ref;
+      const idempotencyDoc = await ref.get();
+      if (idempotencyDoc.exists) {
+        const cached = idempotencyDoc.data() as { decision?: unknown };
+        if (cached?.decision) {
+          return NextResponse.json(cached.decision);
+        }
+        return NextResponse.json(idempotencyDoc.data());
+      }
+    }
+
+    // 5. Get current usage
     const nowUtc = new Date().toISOString();
     const bucketKey = getBucketKey(featureId, userId || 'guest', nowUtc);
     let currentUsage = 0;
@@ -68,7 +90,7 @@ export async function POST(
       }
     }
 
-    // 5. Evaluate entitlement
+    // 6. Evaluate entitlement
     const evalContext: EvalContext = {
       userId: userId || 'guest',
       plan: plan as any,
@@ -78,7 +100,7 @@ export async function POST(
 
     const decision = evaluate(featureId, evalContext);
 
-    // 6. If allowed, increment usage
+    // 7. If allowed, increment usage
     if (decision.allow && userId && adminDb) {
       try {
         const usageRef = adminDb.collection('users').doc(userId).collection('usage').doc(bucketKey);
@@ -95,7 +117,19 @@ export async function POST(
       }
     }
 
-    // 7. Return decision
+    // 8. Store idempotency decision
+    if (userId && adminDb && idempotencyKey && idempotencyRef) {
+      try {
+        await idempotencyRef.set({
+          decision,
+          createdAt: nowUtc
+        });
+      } catch (error) {
+        console.error('Error storing idempotency record:', error);
+      }
+    }
+
+    // 9. Return decision
     return NextResponse.json(decision);
 
   } catch (error) {

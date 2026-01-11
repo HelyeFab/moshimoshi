@@ -182,4 +182,6 @@ function validateStoryOutline(data) {
 function validateStoryPage(data) {
     return exports.StoryPageSchema.safeParse(data);
 }
+// Force rebuild
+/* Force Vercel rebuild - Sun 11 Jan 15:51:43 CET 2026 */
 //# sourceMappingURL=story-schemas.js.map

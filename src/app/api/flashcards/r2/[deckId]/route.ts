@@ -5,6 +5,14 @@ import { getR2Config } from '@/lib/r2/r2-client'
 import { GetObjectCommand, DeleteObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
+function isValidR2Key(key: string, prefix: string): boolean {
+  if (!key.startsWith(prefix)) return false
+  if (key.startsWith('/')) return false
+  if (key.includes('..')) return false
+  if (key.includes('\\')) return false
+  return true
+}
+
 // GET - Download URLs
 export async function GET(
   request: NextRequest,
@@ -53,6 +61,17 @@ export async function GET(
     }
 
     const metadata = metadataDoc.data()!
+    const prefix = `users/${session.uid}/flashcards/${deckId}/`
+    if (
+      !metadata.r2?.cardsKey ||
+      !metadata.r2?.manifestKey ||
+      !metadata.r2?.mediaPrefix ||
+      !isValidR2Key(metadata.r2.cardsKey, prefix) ||
+      !isValidR2Key(metadata.r2.manifestKey, prefix) ||
+      !isValidR2Key(metadata.r2.mediaPrefix, prefix)
+    ) {
+      return NextResponse.json({ error: 'Invalid R2 key prefix' }, { status: 400 })
+    }
 
     // 4. Generate R2 download URLs
     let client, bucket

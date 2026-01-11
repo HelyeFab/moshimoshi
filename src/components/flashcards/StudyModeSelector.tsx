@@ -271,6 +271,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => setSelectedMode(mode.id)}
+                data-testid={`flashcards-study-mode-${mode.id}`}
                 className={cn(
                   "relative p-4 rounded-xl cursor-pointer transition-all",
                   selectedMode === mode.id
@@ -501,6 +502,7 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
             <button
               onClick={handleStartStudy}
               disabled={!selectedMode || (selectedMode !== 'custom' && modes.find(m => m.id === selectedMode)?.cardCount === 0)}
+              data-testid="flashcards-start-study"
               className={cn(
                 "w-full px-6 py-3 rounded-lg font-medium transition-all",
                 selectedMode && (selectedMode === 'custom' || modes.find(m => m.id === selectedMode)?.cardCount !== 0)

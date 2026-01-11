@@ -114,12 +114,23 @@ export function ImageUpload({
   }, [imageUrl, onImageAdded, t]);
 
   const handleRemove = useCallback(() => {
+    if (preview?.startsWith('blob:')) {
+      URL.revokeObjectURL(preview);
+    }
     setPreview(null);
     setError(null);
     setImageUrl('');
     setShowUrlInput(false);
     onImageRemoved?.();
-  }, [onImageRemoved]);
+  }, [onImageRemoved, preview]);
+
+  React.useEffect(() => {
+    return () => {
+      if (preview?.startsWith('blob:')) {
+        URL.revokeObjectURL(preview);
+      }
+    };
+  }, [preview]);
 
   const handlePaste = useCallback((e: React.ClipboardEvent) => {
     const items = e.clipboardData.items;

@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2025-10-07T13:27:25.395Z
+ * Generated at: 2026-01-11T14:49:16.109Z
  */
 
 export enum Permission {
@@ -18,40 +18,40 @@ export const PLAN_PERMISSIONS: Record<PlanType, Permission[]> = {
 };
 
 export const PLAN_DEFINITIONS = {
-  "guest": {
-    "displayName": "Guest",
-    "description": "Limited access for unauthenticated users",
-    "stripePriceId": null,
-    "isDefault": false,
-    "order": 0
-  },
-  "free": {
-    "displayName": "Free",
-    "description": "Basic access for registered users",
-    "stripePriceId": null,
-    "isDefault": true,
-    "order": 1
-  },
-  "premium_monthly": {
-    "displayName": "Premium Monthly",
-    "description": "Full access with monthly billing",
-    "stripePriceId": "price_monthly_xxx",
-    "isDefault": false,
-    "order": 2
-  },
-  "premium_yearly": {
-    "displayName": "Premium Yearly",
-    "description": "Full access with annual billing (best value)",
-    "stripePriceId": "price_yearly_yyy",
-    "isDefault": false,
-    "order": 3
-  }
-} as const;
+    "guest": {
+      "displayName": "Guest",
+      "description": "Limited access for unauthenticated users",
+      "stripePriceId": null,
+      "isDefault": false,
+      "order": 0
+    },
+    "free": {
+      "displayName": "Free",
+      "description": "Basic access for registered users",
+      "stripePriceId": null,
+      "isDefault": true,
+      "order": 1
+    },
+    "premium_monthly": {
+      "displayName": "Premium Monthly",
+      "description": "Full access with monthly billing",
+      "stripePriceId": "price_monthly_xxx",
+      "isDefault": false,
+      "order": 2
+    },
+    "premium_yearly": {
+      "displayName": "Premium Yearly",
+      "description": "Full access with annual billing (best value)",
+      "stripePriceId": "price_yearly_yyy",
+      "isDefault": false,
+      "order": 3
+    }
+  } as const;
 
 export const STRIPE_PRICE_TO_PLAN: Record<string, PlanType> = {
-  'price_monthly_xxx': 'premium_monthly',
-  'price_yearly_yyy': 'premium_yearly'
-};
+    "price_monthly_xxx": "premium_monthly",
+    "price_yearly_yyy": "premium_yearly"
+  };
 
 export function hasPermission(plan: PlanType, permission: Permission): boolean {
   return PLAN_PERMISSIONS[plan].includes(permission);

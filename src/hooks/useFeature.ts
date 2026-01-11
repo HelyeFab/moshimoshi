@@ -29,7 +29,7 @@ export interface CheckOptions {
 
 interface UseFeatureReturn {
   checkAndTrack: (options?: CheckOptions) => Promise<boolean>;
-  checkOnly: () => Promise<Decision>;
+  checkOnly: (options?: CheckOnlyOptions) => Promise<Decision>;
   remaining: number | null;
   isLoading: boolean;
   lastDecision: Decision | null;
@@ -39,6 +39,10 @@ interface UseFeatureReturn {
 // Cache for decisions to reduce API calls
 const decisionCache = new Map<string, { decision: Decision; timestamp: number }>();
 const CACHE_TTL = 60000; // 1 minute cache
+
+interface CheckOnlyOptions {
+  failOpen?: boolean;
+}
 
 export function useFeature(featureId: FeatureId): UseFeatureReturn {
   const [remaining, setRemaining] = useState<number | null>(null);
@@ -100,7 +104,8 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
   }, []);
 
   // Check only (no tracking)
-  const checkOnly = useCallback(async (): Promise<Decision> => {
+  const checkOnly = useCallback(async (options: CheckOnlyOptions = {}): Promise<Decision> => {
+    const { failOpen = true } = options;
     // Check cache first
     const cached = getCachedDecision();
     if (cached) {
@@ -119,6 +124,19 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       });
 
       if (!response.ok) {
+        if (!failOpen) {
+          console.warn('[useFeature] API check failed, denying access (fail-closed).');
+          const fallbackDecision: Decision = {
+            allow: false,
+            remaining: 0,
+            reason: 'lifecycle_blocked',
+            policyVersion: 1
+          };
+          setLastDecision(fallbackDecision);
+          setRemaining(0);
+          return fallbackDecision;
+        }
+
         // API failed - return fallback decision with fail-open policy
         console.warn('[useFeature] API check failed, falling back to allow access');
         const fallbackDecision: Decision = {
@@ -140,6 +158,18 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       return decision;
     } catch (error) {
       console.error('Failed to check feature entitlement:', error);
+      if (!failOpen) {
+        const fallbackDecision: Decision = {
+          allow: false,
+          remaining: 0,
+          reason: 'lifecycle_blocked',
+          policyVersion: 1
+        };
+        setLastDecision(fallbackDecision);
+        setRemaining(0);
+        return fallbackDecision;
+      }
+
       // Network error - return fallback decision with fail-open policy
       const fallbackDecision: Decision = {
         allow: true,

@@ -1,5 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/firebase/admin'
+import { getSession } from '@/lib/auth/session'
+import { evaluate } from '@/lib/entitlements/evaluator'
+import type { EvalContext, FeatureId } from '@/types/entitlements'
 
 /**
  * GET /api/comics/episodes
@@ -7,6 +10,11 @@ import { db } from '@/lib/firebase/admin'
  */
 export async function GET(request: NextRequest) {
   try {
+    const session = await getSession()
+    if (!session) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
+
     const searchParams = request.nextUrl.searchParams
     const seriesId = searchParams.get('seriesId') || 'moshi-goes-to-japan'
     const jlptLevel = searchParams.get('jlptLevel')
@@ -15,6 +23,19 @@ export async function GET(request: NextRequest) {
 
     if (!db) {
       return NextResponse.json({ error: 'Database not initialized' }, { status: 500 })
+    }
+
+    const userDoc = await db.collection('users').doc(session.uid).get()
+    const plan = userDoc.data()?.subscription?.plan || 'free'
+    const evalContext: EvalContext = {
+      userId: session.uid,
+      plan: plan as any,
+      usage: { comics: 0 } as Record<FeatureId, number>,
+      nowUtcISO: new Date().toISOString(),
+    }
+    const decision = evaluate('comics' as FeatureId, evalContext)
+    if (!decision.allow) {
+      return NextResponse.json({ error: 'Premium required', decision }, { status: 403 })
     }
 
     // Build query

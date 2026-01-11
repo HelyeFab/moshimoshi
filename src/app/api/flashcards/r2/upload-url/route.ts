@@ -13,6 +13,13 @@ const UploadUrlSchema = z.object({
   deckTotalBytes: z.number().int().nonnegative().optional(),
 })
 
+function isValidUploadKey(key: string): boolean {
+  if (key.startsWith('/')) return false
+  if (key.includes('..')) return false
+  if (key.includes('\\')) return false
+  return true
+}
+
 export async function POST(request: NextRequest) {
   try {
     // 1. Authentication
@@ -53,6 +60,9 @@ export async function POST(request: NextRequest) {
     }
 
     const { deckId, key, contentType, deckTotalBytes } = validation.data
+    if (!isValidUploadKey(key)) {
+      return NextResponse.json({ error: 'Invalid key' }, { status: 400 })
+    }
 
     // 4. Storage quota check (300MB per user)
     let usageDoc

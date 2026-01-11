@@ -386,6 +386,8 @@ export function DeckGrid({
                 console.log('[DeckGrid Mobile] Deck click ALLOWED - calling onDeckClick');
                 if (!isRestoring) onDeckClick(deck);
               }}
+              data-testid="flashcards-deck-card"
+              data-deck-name={deck.name}
               className={cn(
                 "relative bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 cursor-pointer active:bg-gray-50 dark:active:bg-dark-700 transition-colors",
                 isRestoring && "cursor-not-allowed opacity-60"
@@ -426,6 +428,8 @@ export function DeckGrid({
                       setOpenMenuId(openMenuId === deck.id ? null : deck.id);
                     }}
                     disabled={isRestoring}
+                    data-testid="flashcards-deck-menu"
+                    data-deck-name={deck.name}
                     className="flex-shrink-0 p-2 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors touch-manipulation"
                     style={{ touchAction: 'manipulation' }}
                   >
@@ -528,6 +532,7 @@ export function DeckGrid({
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={onCreateDeck}
+            data-testid="flashcards-create-deck"
             className="relative group cursor-pointer"
           >
             <div className="h-48 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-dark-800 flex flex-col items-center justify-center gap-3 hover:border-primary-400 dark:hover:border-primary-600 hover:bg-primary-50 dark:hover:bg-primary-900/10 transition-all">
@@ -588,6 +593,8 @@ export function DeckGrid({
                 "relative group cursor-pointer",
                 isRestoring && "cursor-not-allowed opacity-60"
               )}
+              data-testid="flashcards-deck-card"
+              data-deck-name={deck.name}
               onClick={() => {
                 if (!isRestoring) onDeckClick(deck);
               }}
@@ -615,6 +622,8 @@ export function DeckGrid({
                         setOpenMenuId(openMenuId === deck.id ? null : deck.id);
                       }}
                       disabled={isRestoring}
+                      data-testid="flashcards-deck-menu"
+                      data-deck-name={deck.name}
                       className="p-1.5 rounded-lg bg-white/20 hover:bg-white/30 backdrop-blur transition-colors touch-manipulation"
                       style={{ touchAction: 'manipulation' }}
                       aria-label={t('common.settings')}

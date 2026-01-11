@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
 import { adminDb, getAdminDb } from '@/lib/firebase/admin';
-import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator';
+import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator';
 import type { FeatureId } from '@/types/FeatureId';
 import { FEATURE_IDS } from '@/types/FeatureId';
 import type { EvalContext } from '@/types/entitlements';
@@ -51,7 +51,7 @@ export async function GET(
 
     // Get current usage for the feature
     const nowUtcISO = new Date().toISOString();
-    const bucket = getTodayBucket(nowUtcISO);
+    const bucket = getBucketKey(featureId, session.uid, nowUtcISO);
     const usageRef = db
       .collection('users')
       .doc(session.uid)

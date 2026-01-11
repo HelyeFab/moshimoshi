@@ -16,6 +16,14 @@ const MetadataSchema = z.object({
   })
 })
 
+function isValidR2Key(key: string, prefix: string): boolean {
+  if (!key.startsWith(prefix)) return false
+  if (key.startsWith('/')) return false
+  if (key.includes('..')) return false
+  if (key.includes('\\')) return false
+  return true
+}
+
 export async function POST(request: NextRequest) {
   try {
     // 1. Authentication
@@ -56,6 +64,15 @@ export async function POST(request: NextRequest) {
     }
 
     const { deckId, name, cardCount, hasMedia, totalBytes, r2Keys } = validation.data
+
+    const prefix = `users/${session.uid}/flashcards/${deckId}/`
+    if (
+      !isValidR2Key(r2Keys.cardsKey, prefix) ||
+      !isValidR2Key(r2Keys.manifestKey, prefix) ||
+      !isValidR2Key(r2Keys.mediaPrefix, prefix)
+    ) {
+      return NextResponse.json({ error: 'Invalid R2 key prefix' }, { status: 400 })
+    }
 
     // 4. Write deck metadata to Firestore
     const metadataDoc = {

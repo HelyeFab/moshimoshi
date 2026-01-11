@@ -158,6 +158,7 @@ export interface CreateDeckRequest {
   emoji?: string;
   color?: string;
   cardStyle?: CardStyle;
+  source?: 'anki' | 'user';
   settings?: Partial<DeckSettings>;
   sourceListId?: string;
   initialCards?: Array<{

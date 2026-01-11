@@ -88,11 +88,6 @@ export class UserDeckRestoreOrchestrator extends EventEmitter {
 
       // Check if deck already exists locally
       const existingDeck = await flashcardManager.getDeck(metadata.deckId, this.userId)
-      const needsDeckHydration = !existingDeck || existingDeck.cards?.length === 0
-
-      if (!needsDeckHydration) {
-        console.log('[UserDeckRestoreOrchestrator] Deck already exists locally - skipping cards.json download')
-      }
 
       // Step 1: Download manifest (10%)
       const manifest = await this.downloadManifest(metadata.r2.manifestKey)
@@ -107,36 +102,40 @@ export class UserDeckRestoreOrchestrator extends EventEmitter {
         totalFiles: manifest.files.length,
       } as RestoreProgress)
 
-      // Step 2: Download cards.json (if needed) (10-30%)
-      let deck: FlashcardDeck | null = null
-      if (needsDeckHydration) {
-        const cardsBlob = await this.downloadFile(metadata.r2.cardsKey)
-        if (this.abortSignal?.aborted) {
-          throw new Error('Restore cancelled')
-        }
-
-        const cardsJson = await cardsBlob.text()
-        deck = JSON.parse(cardsJson) as FlashcardDeck
-
-        console.log('[UserDeckRestoreOrchestrator] Downloaded cards.json', {
-          deckId: deck.id,
-          cardCount: deck.cards.length,
-        })
-
-        this.emit('progress', {
-          phase: 'downloading-media',
-          progress: 30,
-          filesDownloaded: 0,
-          totalFiles: manifest.files.filter(f => f.type === 'media').length,
-        } as RestoreProgress)
-      } else {
-        this.emit('progress', {
-          phase: 'downloading-media',
-          progress: 30,
-          filesDownloaded: 0,
-          totalFiles: manifest.files.filter(f => f.type === 'media').length,
-        } as RestoreProgress)
+      // Step 2: Download cards.json to compare versions (10-30%)
+      const cardsBlob = await this.downloadFile(metadata.r2.cardsKey)
+      if (this.abortSignal?.aborted) {
+        throw new Error('Restore cancelled')
       }
+
+      const cardsJson = await cardsBlob.text()
+      const remoteDeck = JSON.parse(cardsJson) as FlashcardDeck
+
+      console.log('[UserDeckRestoreOrchestrator] Downloaded cards.json', {
+        deckId: remoteDeck.id,
+        cardCount: remoteDeck.cards.length,
+      })
+
+      const localUpdatedAt = existingDeck?.updatedAt ?? 0
+      const remoteUpdatedAt = remoteDeck.updatedAt ?? 0
+      const needsDeckHydration =
+        !existingDeck ||
+        !existingDeck.cards?.length ||
+        remoteUpdatedAt > localUpdatedAt
+
+      if (!needsDeckHydration) {
+        console.log('[UserDeckRestoreOrchestrator] Local deck is newer - skipping cards.json hydration', {
+          localUpdatedAt,
+          remoteUpdatedAt,
+        })
+      }
+
+      this.emit('progress', {
+        phase: 'downloading-media',
+        progress: 30,
+        filesDownloaded: 0,
+        totalFiles: manifest.files.filter(f => f.type === 'media').length,
+      } as RestoreProgress)
 
       // Step 3: Download media files (30-80%)
       const mediaFiles = await this.downloadMediaBatch(manifest, metadata)
@@ -152,8 +151,8 @@ export class UserDeckRestoreOrchestrator extends EventEmitter {
       } as RestoreProgress)
 
       // Step 4: Hydrate IndexedDB (80-100%)
-      if (needsDeckHydration && deck) {
-        await this.hydrateIndexedDB(deck, mediaFiles, metadata)
+      if (needsDeckHydration) {
+        await this.hydrateIndexedDB(remoteDeck, mediaFiles, metadata)
       } else if (mediaFiles.size > 0) {
         await this.storeMediaFiles(mediaFiles, metadata.deckId)
       }
@@ -378,12 +377,14 @@ export class UserDeckRestoreOrchestrator extends EventEmitter {
     if (!existingDeck) {
       // Create new deck (will NOT trigger R2 upload since isPremium=false)
       await flashcardManager.createDeck({
+        id: hydratedDeck.id,
         name: hydratedDeck.name,
         description: hydratedDeck.description,
         emoji: hydratedDeck.emoji,
         color: hydratedDeck.color,
         cardStyle: hydratedDeck.cardStyle,
         settings: hydratedDeck.settings,
+        source: 'user',
         initialCards: hydratedDeck.cards,
       }, this.userId, false) // isPremium=false to prevent upload loop
     } else {

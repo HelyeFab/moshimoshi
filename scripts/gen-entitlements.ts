@@ -17,6 +17,8 @@ import * as path from 'path'
 const CONFIG_PATH = path.join(process.cwd(), 'config', 'features.v1.json')
 const FEATURE_ID_PATH = path.join(process.cwd(), 'src', 'types', 'FeatureId.ts')
 const POLICY_PATH = path.join(process.cwd(), 'src', 'lib', 'entitlements', 'policy.ts')
+const FEATURE_REGISTRY_PATH = path.join(process.cwd(), 'src', 'lib', 'features', 'registry.ts')
+const PERMISSION_MAP_PATH = path.join(process.cwd(), 'src', 'lib', 'access', 'permissionMap.ts')
 
 interface Feature {
   id: string
@@ -33,6 +35,16 @@ interface Feature {
 interface FeaturesConfig {
   version: number
   features: Feature[]
+  plans: Record<
+    string,
+    {
+      displayName: string
+      description: string
+      stripePriceId: string | null
+      isDefault: boolean
+      order: number
+    }
+  >
   limits: Record<
     string,
     {
@@ -41,6 +53,11 @@ interface FeaturesConfig {
       monthly?: Record<string, number>
     }
   >
+  permissions: Record<string, string[]>
+  stripeMapping: {
+    priceToProduct: Record<string, string>
+    productToPlan: Record<string, string>
+  }
 }
 
 function generateFeatureIdFile(config: FeaturesConfig): string {
@@ -189,6 +206,126 @@ export function getBucketKey(limitType: LimitType, date: Date = new Date()): str
 `
 }
 
+function toPermissionEnumName(permission: string): string {
+  return permission.replace(/[^a-zA-Z0-9]+/g, '_').toUpperCase()
+}
+
+function generatePermissionMapFile(config: FeaturesConfig): string {
+  const timestamp = new Date().toISOString()
+  const permissionValues = Array.from(new Set(config.features.map(f => f.permission)))
+  const planTypes = Object.keys(config.plans)
+
+  const permissionEnumEntries = permissionValues
+    .map(value => `  ${toPermissionEnumName(value)} = '${value}'`)
+    .join('\n')
+
+  const planPermissions = planTypes
+    .map(plan => {
+      const perms = config.permissions?.[plan] || []
+      const mapped = perms.map(p => `Permission.${toPermissionEnumName(p)}`).join(', ')
+      return `  '${plan}': [${mapped}]`
+    })
+    .join(',\n')
+
+  const planDefinitions = JSON.stringify(config.plans, null, 2).replace(/\n/g, '\n  ')
+
+  const stripePriceToPlan: Record<string, string> = {}
+  for (const [priceId, productId] of Object.entries(config.stripeMapping?.priceToProduct || {})) {
+    const plan = config.stripeMapping?.productToPlan?.[productId]
+    if (plan) stripePriceToPlan[priceId] = plan
+  }
+  const stripeMap = JSON.stringify(stripePriceToPlan, null, 2).replace(/\n/g, '\n  ')
+
+  return `/**
+ * GENERATED FILE - DO NOT EDIT
+ * Generated from: config/features.v1.json
+ * Generated at: ${timestamp}
+ */
+
+export enum Permission {
+${permissionEnumEntries}
+}
+
+export type PlanType = ${planTypes.map(plan => `'${plan}'`).join(' | ')};
+
+export const PLAN_PERMISSIONS: Record<PlanType, Permission[]> = {
+${planPermissions}
+};
+
+export const PLAN_DEFINITIONS = ${planDefinitions} as const;
+
+export const STRIPE_PRICE_TO_PLAN: Record<string, PlanType> = ${stripeMap};
+
+export function hasPermission(plan: PlanType, permission: Permission): boolean {
+  return PLAN_PERMISSIONS[plan].includes(permission);
+}
+
+export function getPlanByPriceId(priceId: string): PlanType | null {
+  return STRIPE_PRICE_TO_PLAN[priceId] || null;
+}
+`
+}
+
+function generateFeatureRegistryFile(config: FeaturesConfig): string {
+  const timestamp = new Date().toISOString()
+
+  const featureEntries = config.features
+    .map(feature => {
+      return `  ${feature.id}: {
+    id: '${feature.id}',
+    name: '${feature.name}',
+    category: '${feature.category}',
+    lifecycle: '${feature.lifecycle}',
+    permission: Permission.${toPermissionEnumName(feature.permission)},
+    limitType: '${feature.limitType}',
+    notifications: ${feature.notifications},
+    description: ${feature.description ? `'${feature.description.replace(/'/g, "\\'")}'` : 'undefined'},
+  }`
+    })
+    .join(',\n')
+
+  return `/**
+ * GENERATED FILE - DO NOT EDIT
+ * Generated from: config/features.v1.json
+ * Generated at: ${timestamp}
+ */
+
+import type { FeatureId } from '@/types/FeatureId'
+import { Permission } from '@/lib/access/permissionMap'
+
+export interface FeatureDefinition {
+  id: FeatureId
+  name: string
+  category: string
+  lifecycle: 'active' | 'deprecated' | 'hidden'
+  permission: Permission
+  limitType: 'daily' | 'weekly' | 'monthly'
+  notifications: boolean
+  description?: string
+}
+
+export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
+${featureEntries}
+}
+
+export function getFeature(id: FeatureId): FeatureDefinition {
+  return FEATURE_REGISTRY[id]
+}
+
+export function getActiveFeatures(): FeatureDefinition[] {
+  return Object.values(FEATURE_REGISTRY).filter(f => f.lifecycle === 'active')
+}
+
+export function getFeaturesByCategory(category: string): FeatureDefinition[] {
+  return Object.values(FEATURE_REGISTRY).filter(f => f.category === category)
+}
+
+export function getFeaturesByPermission(permission: Permission): FeatureDefinition[] {
+  return Object.values(FEATURE_REGISTRY).filter(f => f.permission === permission)
+}
+`
+}
+
 async function main() {
   console.log('🔄 Generating entitlements types...')
 
@@ -212,6 +349,16 @@ async function main() {
   const policyContent = generatePolicyFile(config)
   fs.writeFileSync(POLICY_PATH, policyContent, 'utf-8')
   console.log(`✅ Generated: ${POLICY_PATH}`)
+
+  // Generate permissionMap.ts
+  const permissionMapContent = generatePermissionMapFile(config)
+  fs.writeFileSync(PERMISSION_MAP_PATH, permissionMapContent, 'utf-8')
+  console.log(`✅ Generated: ${PERMISSION_MAP_PATH}`)
+
+  // Generate registry.ts
+  const registryContent = generateFeatureRegistryFile(config)
+  fs.writeFileSync(FEATURE_REGISTRY_PATH, registryContent, 'utf-8')
+  console.log(`✅ Generated: ${FEATURE_REGISTRY_PATH}`)
 
   console.log('')
   console.log('🎉 Entitlements types generated successfully!')
