@@ -75,8 +75,21 @@ function extractComicText(comicData: ComicData): string {
 }
 
 async function checkWordExplanationsExist(episodeId: string): Promise<boolean> {
-  const wordDoc = await db.collection('word_explanations').doc(episodeId).get()
+  const wordDoc = await db.collection('comic_word_explanations').doc(episodeId).get()
   return wordDoc.exists
+}
+
+async function markEpisodeWordExplanationsComplete(
+  episodeId: string,
+  wordCount: number
+): Promise<void> {
+  await db.collection('comics').doc(episodeId).update({
+    wordExplanationsStatus: 'complete',
+    wordExplanationsCount: wordCount,
+    wordExplanationsCompletedAt: admin.firestore.FieldValue.serverTimestamp(),
+    wordExplanationsFailedAt: admin.firestore.FieldValue.delete(),
+    wordExplanationsError: admin.firestore.FieldValue.delete(),
+  })
 }
 
 async function generateWordExplanationsForEpisode(
@@ -126,6 +139,8 @@ async function generateWordExplanationsForEpisode(
     console.log(`  ✅ SUCCESS! Generated ${result.total} word explanations`)
     console.log(`     - New: ${result.generated}`)
     console.log(`     - Cached: ${result.cached}`)
+
+    await markEpisodeWordExplanationsComplete(episodeId, result.total)
 
     return {
       success: true,

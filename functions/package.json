@@ -16,7 +16,9 @@
     "backfill:stories:dry": "npm run build && node lib/functions/src/scripts/backfillStoryWordExplanations.js --dry-run",
     "backfill:stories": "npm run build && node lib/functions/src/scripts/backfillStoryWordExplanations.js",
     "backfill:books:dry": "npm run build && node lib/functions/src/scripts/backfillBookWordExplanations.js --dry-run",
-    "backfill:books": "npm run build && node lib/functions/src/scripts/backfillBookWordExplanations.js"
+    "backfill:books": "npm run build && node lib/functions/src/scripts/backfillBookWordExplanations.js",
+    "sync:word-status:dry": "npm run build && node lib/functions/src/scripts/syncWordExplanationStatus.js --dry-run",
+    "sync:word-status": "npm run build && node lib/functions/src/scripts/syncWordExplanationStatus.js"
   },
   "engines": {
     "node": "20"

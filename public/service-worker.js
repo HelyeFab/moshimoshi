@@ -17,7 +17,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-828cf235eacf';
+const CACHE_VERSION = 'moshimoshi-26057fd6ebae';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -124,6 +124,8 @@ const MANUAL_PRECACHE_URLS = [
   '/data/kanji/jlpt_5.json'
 ];
 const PRECACHE_URLS = [
+  "/_next/static/2h-eTgzafxmK7nIY0apDU/_buildManifest.js",
+  "/_next/static/2h-eTgzafxmK7nIY0apDU/_ssgManifest.js",
   "/_next/static/chunks/10152-ce5cb8b0f37c62a2.js",
   "/_next/static/chunks/10409-6d4e4d0c8b82e5c5.js",
   "/_next/static/chunks/11073-c49d53d097d00f25.js",
@@ -231,12 +233,13 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/71683-6e9af323532551d2.js",
   "/_next/static/chunks/72253-682ae60907f87ebe.js",
   "/_next/static/chunks/73372-f8e01f3785e2cbdd.js",
-  "/_next/static/chunks/7405-8d12de7d197d918e.js",
+  "/_next/static/chunks/7405-180c307329b4d3a5.js",
   "/_next/static/chunks/74572-36d7fcf5b8ea6e4a.js",
   "/_next/static/chunks/74586-d6615e945aa18ea6.js",
   "/_next/static/chunks/7508b87c-b1919550f138b567.js",
   "/_next/static/chunks/75359-504d79a2531d0d88.js",
   "/_next/static/chunks/7580-b4f13c0bc8b31ffe.js",
+  "/_next/static/chunks/75961-c7445895221b04f0.js",
   "/_next/static/chunks/76078-d72d5c335f7c40bc.js",
   "/_next/static/chunks/76462-f34c7f2ebb954e08.js",
   "/_next/static/chunks/77804-3cd51be2c62fb45c.js",
@@ -285,8 +288,9 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/admin/books/edit/[id]/page-1fffe7a7954dbd85.js",
   "/_next/static/chunks/app/[locale]/admin/books/generate/page-885b39f4e7995aaa.js",
   "/_next/static/chunks/app/[locale]/admin/books/page-29be26bcbac436bc.js",
+  "/_next/static/chunks/app/[locale]/admin/comics/[episodeId]/edit/page-0347cda70ab6908b.js",
   "/_next/static/chunks/app/[locale]/admin/comics/generate/page-e59a03dc871e39e0.js",
-  "/_next/static/chunks/app/[locale]/admin/comics/page-17e1d608330d3602.js",
+  "/_next/static/chunks/app/[locale]/admin/comics/page-5b944a51a145bd6d.js",
   "/_next/static/chunks/app/[locale]/admin/comics/schedule/page-9c5395ffa12a4372.js",
   "/_next/static/chunks/app/[locale]/admin/decision-explorer/page-2385b9be3e8534e3.js",
   "/_next/static/chunks/app/[locale]/admin/email-campaigns/page-60001b9f480663b7.js",
@@ -322,8 +326,8 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/auth/action/page-7c61d9aeb5b12ac0.js",
   "/_next/static/chunks/app/[locale]/auth/error/page-7aa7eacfd15f4fa8.js",
   "/_next/static/chunks/app/[locale]/auth/reset-password/page-a53a0d45ff4aa763.js",
-  "/_next/static/chunks/app/[locale]/auth/signin/page-edd84de995b9538f.js",
-  "/_next/static/chunks/app/[locale]/auth/signup/page-6ae38ea30aca5bef.js",
+  "/_next/static/chunks/app/[locale]/auth/signin/page-08db2df2dc6fe8ee.js",
+  "/_next/static/chunks/app/[locale]/auth/signup/page-52a37a740eb002bf.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-error/page-8c711f00dba17e5e.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-success/page-7dc859e64983db58.js",
   "/_next/static/chunks/app/[locale]/auth/verify-magic-link/page-c19e8e5ea60bc5b7.js",
@@ -397,7 +401,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/my-videos/page-cca990cc178c0b6e.js",
   "/_next/static/chunks/app/[locale]/news/[id]/page-ad919811ac83bf4b.js",
   "/_next/static/chunks/app/[locale]/news/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/news/page-fe8a4f832fe597e0.js",
+  "/_next/static/chunks/app/[locale]/news/page-0426cc432c11922b.js",
   "/_next/static/chunks/app/[locale]/newsletter/verify-error/page-90af254991881db6.js",
   "/_next/static/chunks/app/[locale]/newsletter/verify-success/page-c469d362479eed05.js",
   "/_next/static/chunks/app/[locale]/not-found-9bc5dcc35fb2be8f.js",
@@ -432,7 +436,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/showcase/layout-090f54affe21aeeb.js",
   "/_next/static/chunks/app/[locale]/showcase/page-8804a2e8dba5e044.js",
   "/_next/static/chunks/app/[locale]/statistics/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/statistics/page-beaaad740eff4c5e.js",
+  "/_next/static/chunks/app/[locale]/statistics/page-b23c77e755f946ca.js",
   "/_next/static/chunks/app/[locale]/stories/[slug]/page-6842be0d2140ae7e.js",
   "/_next/static/chunks/app/[locale]/stories/layout-090f54affe21aeeb.js",
   "/_next/static/chunks/app/[locale]/stories/page-a14822f172394451.js",
@@ -487,10 +491,8 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/webpack-f6b24c806f1815fb.js",
   "/_next/static/css/58ca86956afb7910.css",
   "/_next/static/css/6e09cdf58928be98.css",
-  "/_next/static/css/af47b6060c4fddcc.css",
-  "/_next/static/css/d56f4dde05b0306b.css",
-  "/_next/static/yrWZ6uo580gcseW2nAjJz/_buildManifest.js",
-  "/_next/static/yrWZ6uo580gcseW2nAjJz/_ssgManifest.js"
+  "/_next/static/css/796235532708fb86.css",
+  "/_next/static/css/af47b6060c4fddcc.css"
 ].concat(MANUAL_PRECACHE_URLS);
 
 // Install event - cache essential files only

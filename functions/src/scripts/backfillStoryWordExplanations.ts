@@ -136,6 +136,14 @@ async function generateWordExplanationsForStory(
 
     console.log(`  ✅ SUCCESS! Generated ${result.wordCount} word explanations`)
 
+    await db.collection('stories').doc(storyId).update({
+      wordExplanationsStatus: 'complete',
+      wordExplanationsCount: result.wordCount,
+      wordExplanationsCompletedAt: admin.firestore.FieldValue.serverTimestamp(),
+      wordExplanationsFailedAt: admin.firestore.FieldValue.delete(),
+      wordExplanationsError: admin.firestore.FieldValue.delete(),
+    })
+
     return {
       success: true,
       storyId,
