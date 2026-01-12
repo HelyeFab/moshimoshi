@@ -1,0 +1,834 @@
+[
+  {
+    "id": "dekiru-nihongo-1-2-1768249361200",
+    "japanese": "私",
+    "reading": "わたし",
+    "meaning": "I",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-3-1768249361200",
+    "japanese": "学生",
+    "reading": "がくせい",
+    "meaning": "student",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-4-1768249361200",
+    "japanese": "先生",
+    "reading": "せんせい",
+    "meaning": "teacher (job title and used when addressing a teacher: \"Konnichiha, Tanaka Sensei.\")",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-5-1768249361200",
+    "japanese": "（お） 名前",
+    "reading": "なまえ",
+    "meaning": "name (\"O\" prefix not used when referring to oneself)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-6-1768249361200",
+    "japanese": "（お） 国",
+    "reading": "くに",
+    "meaning": "country (\"O\" prefix not used when referring to oneself)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-7-1768249361200",
+    "japanese": "アメリカ",
+    "reading": "アメリカ",
+    "meaning": "America",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-8-1768249361200",
+    "japanese": "イタリア",
+    "reading": "イタリア",
+    "meaning": "Italy",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-9-1768249361200",
+    "japanese": "オーストラリア",
+    "reading": "オーストラリア",
+    "meaning": "Australia",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-10-1768249361200",
+    "japanese": "タイ",
+    "reading": "タイ",
+    "meaning": "Thailand",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-11-1768249361200",
+    "japanese": "ロシア",
+    "reading": "ロシア",
+    "meaning": "Russia",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-12-1768249361200",
+    "japanese": "韓国",
+    "reading": "かんこく",
+    "meaning": "Korea",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-13-1768249361200",
+    "japanese": "～ 人（ 例： 日本人）",
+    "reading": "じんれいにほんじん",
+    "meaning": "nationality/race (e.g. Japanese)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-14-1768249361200",
+    "japanese": "どちら",
+    "reading": "どちら",
+    "meaning": "which",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-15-1768249361200",
+    "japanese": "～さん",
+    "reading": "～さん",
+    "meaning": "Mr./ Mrs./Miss/ Ms.",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-16-1768249361200",
+    "japanese": "はじめまして",
+    "reading": "はじめまして",
+    "meaning": "It's a pleasure to meet you.",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-17-1768249361200",
+    "japanese": "（どうぞ）よろしくお 願いします",
+    "reading": "ねが",
+    "meaning": "I'm looking forward to knowing you.",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-18-1768249361200",
+    "japanese": "（お） 仕事",
+    "reading": "しごと",
+    "meaning": "work/ job (\"O\" prefix not used when referring to one's own work)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-19-1768249361200",
+    "japanese": "こちらこそ",
+    "reading": "こちらこそ",
+    "meaning": "Me, too.",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-20-1768249361200",
+    "japanese": "あのう",
+    "reading": "あのう",
+    "meaning": "Ah/\"Um\"",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-21-1768249361200",
+    "japanese": "すみません",
+    "reading": "すみません",
+    "meaning": "Sorry.",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-22-1768249361200",
+    "japanese": "あのう、すみません。",
+    "reading": "あのう、すみません。",
+    "meaning": "Ah, excuse me.",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-23-1768249361200",
+    "japanese": "大学",
+    "reading": "だいがく",
+    "meaning": "university",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-24-1768249361200",
+    "japanese": "日本語学校",
+    "reading": "にほんごがっこう",
+    "meaning": "Japanese language school",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-25-1768249361200",
+    "japanese": "お 国はどちらですか",
+    "reading": "くに",
+    "meaning": "Which country are you from? / Where are you from?",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-26-1768249361200",
+    "japanese": "高校",
+    "reading": "こうこう",
+    "meaning": "high school",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-27-1768249361200",
+    "japanese": "中国",
+    "reading": "ちゅうごく",
+    "meaning": "China",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-28-1768249361200",
+    "japanese": "日本",
+    "reading": "にほん",
+    "meaning": "Japan",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-29-1768249361200",
+    "japanese": "教師",
+    "reading": "きょうし",
+    "meaning": "teacher (job title)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-30-1768249361200",
+    "japanese": "会社員",
+    "reading": "かいしゃいん",
+    "meaning": "business person",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-31-1768249361200",
+    "japanese": "社員",
+    "reading": "しゃいん",
+    "meaning": "company employee",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-32-1768249361200",
+    "japanese": "そうですか",
+    "reading": "そうですか",
+    "meaning": "Oh, really? / \"Oh, is that so?\"",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-33-1768249361200",
+    "japanese": "はい",
+    "reading": "はい",
+    "meaning": "Yes.",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-34-1768249361200",
+    "japanese": "いいえ",
+    "reading": "いいえ",
+    "meaning": "No.",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-35-1768249361200",
+    "japanese": "誕生日",
+    "reading": "たんじょうび",
+    "meaning": "birthday",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-36-1768249361200",
+    "japanese": "ブラジル",
+    "reading": "ブラジル",
+    "meaning": "Brazil",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-37-1768249361200",
+    "japanese": "～ 月",
+    "reading": "がつ",
+    "meaning": "～ month (1st month = January, 2nd month = February, and so on.)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-38-1768249361200",
+    "japanese": "～ 日",
+    "reading": "にち",
+    "meaning": "～day(s)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-39-1768249361200",
+    "japanese": "～ 歳",
+    "reading": "さい",
+    "meaning": "～years old",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-40-1768249361200",
+    "japanese": "いつ",
+    "reading": "いつ",
+    "meaning": "when (for questions only)",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-41-1768249361200",
+    "japanese": "趣味",
+    "reading": "しゅうみ",
+    "meaning": "hobby/ interest",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-42-1768249361200",
+    "japanese": "スポーツ",
+    "reading": "スポーツ",
+    "meaning": "sports",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-43-1768249361200",
+    "japanese": "サッカー",
+    "reading": "サッカー",
+    "meaning": "soccer",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-44-1768249361200",
+    "japanese": "テニス",
+    "reading": "テニス",
+    "meaning": "tennis",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-45-1768249361200",
+    "japanese": "水泳",
+    "reading": "すいえい",
+    "meaning": "swimming",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-46-1768249361200",
+    "japanese": "映画",
+    "reading": "えいが",
+    "meaning": "movies",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-47-1768249361200",
+    "japanese": "音楽",
+    "reading": "おんがく",
+    "meaning": "music",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-48-1768249361200",
+    "japanese": "読書",
+    "reading": "どくしょ",
+    "meaning": "reading",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-49-1768249361200",
+    "japanese": "旅行",
+    "reading": "りょこう",
+    "meaning": "travel",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-50-1768249361200",
+    "japanese": "料理",
+    "reading": "りょうり",
+    "meaning": "cooking",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-51-1768249361200",
+    "japanese": "私の 趣味は 料理です。",
+    "reading": "わたししゅうみりょうり",
+    "meaning": "My hobby is cooking.",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-52-1768249361200",
+    "japanese": "何",
+    "reading": "なん",
+    "meaning": "what",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-53-1768249361200",
+    "japanese": "あ（っ）",
+    "reading": "あ（っ）",
+    "meaning": "Ah",
+    "jlptLevel": "N1",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson1",
+      "n1",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 1,
+    "textbook": "dekiru-nihongo-1"
+  }
+]

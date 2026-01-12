@@ -1,5 +1,5 @@
 {
-  "totalCards": 16442,
+  "totalCards": 17761,
   "textbooks": {
     "genki-1": {
       "title": "Genki 1",
@@ -20,6 +20,18 @@
     "minna-2": {
       "title": "Minna 2",
       "cardCount": 1058
+    },
+    "dekiru-nihongo-1": {
+      "title": "Dekiru Nihongo 1",
+      "cardCount": 645
+    },
+    "dekiru-nihongo-2": {
+      "title": "Dekiru Nihongo 2",
+      "cardCount": 390
+    },
+    "dekiru-nihongo-beginner": {
+      "title": "Dekiru Nihongo Beginner",
+      "cardCount": 284
     }
   },
   "vocabularySources": {

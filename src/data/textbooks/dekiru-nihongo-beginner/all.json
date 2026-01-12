@@ -1,0 +1,3978 @@
+[
+  {
+    "id": "dekiru-nihongo-beginner-1-1768249511913",
+    "japanese": "方",
+    "reading": "かた",
+    "meaning": "person (respectful reference)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-2-1768249511913",
+    "japanese": "者",
+    "reading": "もの",
+    "meaning": "person (humble reference to oneself)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-3-1768249511913",
+    "japanese": "チラシ",
+    "reading": "チラシ",
+    "meaning": "leaflet, flyer",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-4-1768249511913",
+    "japanese": "ホームページ",
+    "reading": "ホームページ",
+    "meaning": "website",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-5-1768249511913",
+    "japanese": "学生証",
+    "reading": "がくせいしょう",
+    "meaning": "student ID",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-6-1768249511913",
+    "japanese": "資格外活動許可書",
+    "reading": "しかくがいかつどうきょかしょ",
+    "meaning": "permission for engaging in activity outside visa status",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-7-1768249511913",
+    "japanese": "面接",
+    "reading": "めんせつ",
+    "meaning": "interview",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-8-1768249511913",
+    "japanese": "履歴書",
+    "reading": "りれきしょ",
+    "meaning": "resume, CV",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-9-1768249511913",
+    "japanese": "半年",
+    "reading": "はんとし",
+    "meaning": "half-year",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-10-1768249511913",
+    "japanese": "刺身",
+    "reading": "さみ",
+    "meaning": "sashimi",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-11-1768249511913",
+    "japanese": "日常会話",
+    "reading": "にちじょうかいわ",
+    "meaning": "daily conversation",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-12-1768249511913",
+    "japanese": "問い合わせ",
+    "reading": "とあ",
+    "meaning": "inquiry",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-13-1768249511913",
+    "japanese": "希望します, 希望する",
+    "reading": "きぼうきぼう",
+    "meaning": "to desire",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-14-1768249511913",
+    "japanese": "募集します, 募集する",
+    "reading": "ぼしゅうぼしゅう",
+    "meaning": "to recruit / call for",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-15-1768249511913",
+    "japanese": "思い出します, 思い出す",
+    "reading": "おもだおもだ",
+    "meaning": "to remember, recall",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-16-1768249511913",
+    "japanese": "入力します, 入力する",
+    "reading": "にゅうりょくにゅうりょく",
+    "meaning": "to input",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-17-1768249511913",
+    "japanese": "それでは",
+    "reading": "それでは",
+    "meaning": "well then",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-18-1768249511913",
+    "japanese": "では",
+    "reading": "では",
+    "meaning": "in that case",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-19-1768249511913",
+    "japanese": "いらっしゃいます",
+    "reading": "いらっしゃいます",
+    "meaning": "go / come (respectful)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-20-1768249511913",
+    "japanese": "申します, 申す",
+    "reading": "もうもう",
+    "meaning": "to say / call oneself (humble)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-21-1768249511913",
+    "japanese": "参ります, 参る",
+    "reading": "まいまい",
+    "meaning": "go / come (humble)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-22-1768249511913",
+    "japanese": "少々お待ちください",
+    "reading": "しょうしょうま",
+    "meaning": "please wait a moment",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-23-1768249511913",
+    "japanese": "お先に失礼します",
+    "reading": "さきしつれい",
+    "meaning": "excuse me for going ahead",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-24-1768249511913",
+    "japanese": "こちらへどうぞ",
+    "reading": "こちらへどうぞ",
+    "meaning": "please come this way",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-25-1768249511913",
+    "japanese": "失礼します",
+    "reading": "しつれい",
+    "meaning": "excuse me",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-26-1768249511913",
+    "japanese": "よろしくお願いいたします",
+    "reading": "ねが",
+    "meaning": "pleased to meet you",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-27-1768249511913",
+    "japanese": "新しい友達",
+    "reading": "あたらともだち",
+    "meaning": "new friends",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-28-1768249511913",
+    "japanese": "楽器",
+    "reading": "がっき",
+    "meaning": "musical instrument",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-29-1768249511913",
+    "japanese": "建て物",
+    "reading": "たもの",
+    "meaning": "building",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-30-1768249511913",
+    "japanese": "歴史",
+    "reading": "れきし",
+    "meaning": "history",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-31-1768249511913",
+    "japanese": "意見",
+    "reading": "いけん",
+    "meaning": "opinion",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-32-1768249511913",
+    "japanese": "お年寄り",
+    "reading": "としよ",
+    "meaning": "elderly person",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-33-1768249511913",
+    "japanese": "言葉",
+    "reading": "ことば",
+    "meaning": "words, language",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-34-1768249511913",
+    "japanese": "自分",
+    "reading": "じぶん",
+    "meaning": "oneself",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-35-1768249511913",
+    "japanese": "話",
+    "reading": "はなし",
+    "meaning": "conversation",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-36-1768249511913",
+    "japanese": "野外ライブ",
+    "reading": "やがい",
+    "meaning": "outdoor live concert",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-37-1768249511913",
+    "japanese": "～個",
+    "reading": "こ",
+    "meaning": "counter (things)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-38-1768249511913",
+    "japanese": "聞き取ります, 聞き取る",
+    "reading": "きときと",
+    "meaning": "to hear and understand",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-39-1768249511913",
+    "japanese": "覚えます, 覚える",
+    "reading": "おぼおぼ",
+    "meaning": "to memorize",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-40-1768249511913",
+    "japanese": "応援します, 応援する",
+    "reading": "おうえんおうえん",
+    "meaning": "to support / cheer",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-41-1768249511913",
+    "japanese": "サイクリングします, サイクリングする",
+    "reading": "サイクリングします, サイクリングする",
+    "meaning": "to go cycling",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-42-1768249511913",
+    "japanese": "遅い",
+    "reading": "おそ",
+    "meaning": "slow",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-43-1768249511913",
+    "japanese": "速い",
+    "reading": "はや",
+    "meaning": "fast",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-44-1768249511913",
+    "japanese": "つまらない",
+    "reading": "つまらない",
+    "meaning": "boring",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-45-1768249511913",
+    "japanese": "得意な",
+    "reading": "とくい",
+    "meaning": "good at",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-46-1768249511913",
+    "japanese": "苦手な",
+    "reading": "にがて",
+    "meaning": "bad at",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-47-1768249511913",
+    "japanese": "無理な",
+    "reading": "むり",
+    "meaning": "unable to do / impossible",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-48-1768249511913",
+    "japanese": "朝早く",
+    "reading": "あさはや",
+    "meaning": "early morning",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-49-1768249511913",
+    "japanese": "字幕",
+    "reading": "じまく",
+    "meaning": "subtitles",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-50-1768249511913",
+    "japanese": "大好きな",
+    "reading": "だいす",
+    "meaning": "favorite",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-51-1768249511913",
+    "japanese": "まず",
+    "reading": "まず",
+    "meaning": "at first",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-52-1768249511913",
+    "japanese": "恥ずかしい",
+    "reading": "は",
+    "meaning": "embarrassing",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-53-1768249511913",
+    "japanese": "次",
+    "reading": "つぎ",
+    "meaning": "next",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-54-1768249511913",
+    "japanese": "うれしい",
+    "reading": "うれしい",
+    "meaning": "happy, glad",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-55-1768249511913",
+    "japanese": "画面",
+    "reading": "がめん",
+    "meaning": "screen",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-56-1768249511913",
+    "japanese": "腕時計",
+    "reading": "うでどけい",
+    "meaning": "wristwatch",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-57-1768249511913",
+    "japanese": "セーター",
+    "reading": "セーター",
+    "meaning": "sweater",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-58-1768249511913",
+    "japanese": "スーツケース",
+    "reading": "スーツケース",
+    "meaning": "suitcase",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-59-1768249511913",
+    "japanese": "コート",
+    "reading": "コート",
+    "meaning": "coat",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-60-1768249511913",
+    "japanese": "棚",
+    "reading": "たな",
+    "meaning": "shelf",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-61-1768249511913",
+    "japanese": "指輪",
+    "reading": "ゆびわ",
+    "meaning": "ring",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-62-1768249511913",
+    "japanese": "サイズ",
+    "reading": "サイズ",
+    "meaning": "size",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-63-1768249511913",
+    "japanese": "数字",
+    "reading": "すうじ",
+    "meaning": "number",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-64-1768249511913",
+    "japanese": "ヒール",
+    "reading": "ヒール",
+    "meaning": "(high) heels",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-65-1768249511913",
+    "japanese": "ボタン",
+    "reading": "ボタン",
+    "meaning": "button",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-66-1768249511913",
+    "japanese": "ジーンズ",
+    "reading": "ジーンズ",
+    "meaning": "jeans",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-67-1768249511913",
+    "japanese": "売り場",
+    "reading": "うば",
+    "meaning": "sales section",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-68-1768249511913",
+    "japanese": "動きます, 動く",
+    "reading": "うごうご",
+    "meaning": "to move",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-69-1768249511913",
+    "japanese": "説明します, 説明する",
+    "reading": "せつめいせつめい",
+    "meaning": "to explain",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-70-1768249511913",
+    "japanese": "配達します, 配達する",
+    "reading": "はいたつはいたつ",
+    "meaning": "to deliver",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-71-1768249511913",
+    "japanese": "重い",
+    "reading": "おも",
+    "meaning": "heavy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-72-1768249511913",
+    "japanese": "軽い",
+    "reading": "かる",
+    "meaning": "light",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-73-1768249511913",
+    "japanese": "ちょうどいい",
+    "reading": "ちょうどいい",
+    "meaning": "perfect",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-74-1768249511913",
+    "japanese": "丈夫な",
+    "reading": "じょうぶ",
+    "meaning": "sturdy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-75-1768249511913",
+    "japanese": "もっと",
+    "reading": "もっと",
+    "meaning": "more",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-76-1768249511913",
+    "japanese": "もっと大きいかばんがほしいです",
+    "reading": "おお",
+    "meaning": "I want a bigger bag",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-77-1768249511913",
+    "japanese": "ちょっと",
+    "reading": "ちょっと",
+    "meaning": "a little",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-78-1768249511913",
+    "japanese": "いかがですか",
+    "reading": "いかがですか",
+    "meaning": "How is it?",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-79-1768249511913",
+    "japanese": "かしこまりました",
+    "reading": "かしこまりました",
+    "meaning": "I understand (humble)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-80-1768249511913",
+    "japanese": "壁",
+    "reading": "かべ",
+    "meaning": "wall",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-81-1768249511913",
+    "japanese": "カレンダー",
+    "reading": "カレンダー",
+    "meaning": "calendar",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-82-1768249511913",
+    "japanese": "世界地図",
+    "reading": "せかいちず",
+    "meaning": "world map",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-83-1768249511913",
+    "japanese": "最新",
+    "reading": "さいしん",
+    "meaning": "latest",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-84-1768249511913",
+    "japanese": "飲み放題",
+    "reading": "のほうだい",
+    "meaning": "unlimited drinks",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-85-1768249511913",
+    "japanese": "期間限定",
+    "reading": "きかんげんてい",
+    "meaning": "limited period",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-86-1768249511913",
+    "japanese": "セット",
+    "reading": "セット",
+    "meaning": "set",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-87-1768249511913",
+    "japanese": "フロアガイド",
+    "reading": "フロアガイド",
+    "meaning": "floor guide",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-88-1768249511913",
+    "japanese": "意味",
+    "reading": "いみ",
+    "meaning": "meaning",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-89-1768249511913",
+    "japanese": "営業中",
+    "reading": "えいぎょうちゅう",
+    "meaning": "open (for business)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-90-1768249511913",
+    "japanese": "大盛り",
+    "reading": "おおも",
+    "meaning": "extra large serving",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-91-1768249511913",
+    "japanese": "おかわり",
+    "reading": "おかわり",
+    "meaning": "refill",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-92-1768249511913",
+    "japanese": "送料",
+    "reading": "そうりょう",
+    "meaning": "shipping fee",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-93-1768249511913",
+    "japanese": "タイムサービス",
+    "reading": "タイムサービス",
+    "meaning": "limited time offer",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-94-1768249511913",
+    "japanese": "定休日",
+    "reading": "ていきゅうび",
+    "meaning": "regular holiday",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-95-1768249511913",
+    "japanese": "本日",
+    "reading": "ほんじつ",
+    "meaning": "today",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-96-1768249511913",
+    "japanese": "半額",
+    "reading": "はんがく",
+    "meaning": "half price",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-97-1768249511913",
+    "japanese": "レディースデー",
+    "reading": "レディースデー",
+    "meaning": "Ladies' Day",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-98-1768249511913",
+    "japanese": "量",
+    "reading": "りょう",
+    "meaning": "amount",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-99-1768249511913",
+    "japanese": "親子丼",
+    "reading": "おやこどん",
+    "meaning": "oyako-don",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-100-1768249511913",
+    "japanese": "牛丼",
+    "reading": "ぎゅうどん",
+    "meaning": "gyu-don",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-101-1768249511913",
+    "japanese": "サンドイッチ",
+    "reading": "サンドイッチ",
+    "meaning": "sandwich",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-102-1768249511913",
+    "japanese": "ソース",
+    "reading": "ソース",
+    "meaning": "sauce",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-103-1768249511913",
+    "japanese": "とんかつにソースをかけます, かける",
+    "reading": "とんかつにソースをかけます, かける",
+    "meaning": "put sauce on cutlet",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-104-1768249511913",
+    "japanese": "～券",
+    "reading": "けん",
+    "meaning": "ticket / coupon",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-105-1768249511913",
+    "japanese": "かけます, かける",
+    "reading": "かけます, かける",
+    "meaning": "to hang / attach",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-106-1768249511913",
+    "japanese": "貼ります, 貼る",
+    "reading": "はは",
+    "meaning": "to affix / stick",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-107-1768249511913",
+    "japanese": "注文します, 注文する",
+    "reading": "ちゅうもんちゅうもん",
+    "meaning": "to order",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-108-1768249511913",
+    "japanese": "割引します, 割引する",
+    "reading": "わりびきわりびき",
+    "meaning": "to discount",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-109-1768249511913",
+    "japanese": "両替えします, 両替えする",
+    "reading": "りょうがりょうが",
+    "meaning": "to exchange money",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-110-1768249511913",
+    "japanese": "得な",
+    "reading": "とく",
+    "meaning": "good deal",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-111-1768249511913",
+    "japanese": "特別な",
+    "reading": "とくべつ",
+    "meaning": "special",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-112-1768249511913",
+    "japanese": "どういう",
+    "reading": "どういう",
+    "meaning": "what kind of",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-113-1768249511913",
+    "japanese": "もう",
+    "reading": "もう",
+    "meaning": "another",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-114-1768249511913",
+    "japanese": "もう一杯",
+    "reading": "いっぱい",
+    "meaning": "another drink",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-115-1768249511913",
+    "japanese": "大変",
+    "reading": "たいへん",
+    "meaning": "very",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-116-1768249511913",
+    "japanese": "デザート",
+    "reading": "デザート",
+    "meaning": "dessert",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-117-1768249511913",
+    "japanese": "笑顔",
+    "reading": "えがお",
+    "meaning": "smile",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-118-1768249511913",
+    "japanese": "悲しい",
+    "reading": "かな",
+    "meaning": "sad",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-119-1768249511913",
+    "japanese": "給料",
+    "reading": "きゅうりょう",
+    "meaning": "salary",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-120-1768249511913",
+    "japanese": "サークル",
+    "reading": "サークル",
+    "meaning": "club, group",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-121-1768249511913",
+    "japanese": "説明会",
+    "reading": "せつめいかい",
+    "meaning": "explanatory meeting",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-122-1768249511913",
+    "japanese": "専門学校",
+    "reading": "せんもんがっこう",
+    "meaning": "vocational school",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-123-1768249511913",
+    "japanese": "見学会",
+    "reading": "けんがくかい",
+    "meaning": "observation tour",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-124-1768249511913",
+    "japanese": "学部",
+    "reading": "がくぶ",
+    "meaning": "academic department",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-125-1768249511913",
+    "japanese": "経済",
+    "reading": "けいざい",
+    "meaning": "economics, economy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-126-1768249511913",
+    "japanese": "法律",
+    "reading": "ほうりつ",
+    "meaning": "law",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-127-1768249511913",
+    "japanese": "カナダ",
+    "reading": "カナダ",
+    "meaning": "Canada",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-128-1768249511913",
+    "japanese": "聴解",
+    "reading": "ちょうかい",
+    "meaning": "listening comprehension",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-129-1768249511913",
+    "japanese": "アクセサリー",
+    "reading": "アクセサリー",
+    "meaning": "jewelry",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-130-1768249511913",
+    "japanese": "一生懸命",
+    "reading": "いっしょうけんめい",
+    "meaning": "do one’s very best",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-131-1768249511913",
+    "japanese": "答え",
+    "reading": "こた",
+    "meaning": "answer, response",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-132-1768249511913",
+    "japanese": "試験",
+    "reading": "しけん",
+    "meaning": "examination",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-133-1768249511913",
+    "japanese": "将来",
+    "reading": "しょうらい",
+    "meaning": "future",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-134-1768249511913",
+    "japanese": "ビジネス",
+    "reading": "ビジネス",
+    "meaning": "business",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-135-1768249511913",
+    "japanese": "日本語能力試験",
+    "reading": "にほんごのうりょくしけん",
+    "meaning": "Japanese Language Proficiency Test",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-136-1768249511913",
+    "japanese": "間違い",
+    "reading": "まちが",
+    "meaning": "mistake",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-137-1768249511913",
+    "japanese": "寮",
+    "reading": "りょう",
+    "meaning": "dormitory",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-138-1768249511913",
+    "japanese": "目標",
+    "reading": "もくひょう",
+    "meaning": "goal, target",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-139-1768249511913",
+    "japanese": "～料",
+    "reading": "りょう",
+    "meaning": "charges, fees",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-140-1768249511913",
+    "japanese": "翻訳します, 翻訳する",
+    "reading": "ほんやくほんやく",
+    "meaning": "translate",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-141-1768249511913",
+    "japanese": "調べます, 調べる",
+    "reading": "しらしら",
+    "meaning": "examine",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-142-1768249511913",
+    "japanese": "見学します, 見学する",
+    "reading": "けんがくけんがく",
+    "meaning": "tour, observe",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-143-1768249511913",
+    "japanese": "相談します, 相談する",
+    "reading": "そうだんそうだん",
+    "meaning": "consult, ask advice",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-144-1768249511913",
+    "japanese": "貯金します, 貯金する",
+    "reading": "ちょきんちょきん",
+    "meaning": "save money",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-145-1768249511913",
+    "japanese": "留学します, 留学する",
+    "reading": "りゅうがくりゅうがく",
+    "meaning": "study abroad",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-146-1768249511913",
+    "japanese": "開きます, 開く",
+    "reading": "ひらひら",
+    "meaning": "open",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-147-1768249511913",
+    "japanese": "続けます, 続ける",
+    "reading": "つづつづ",
+    "meaning": "continue",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-148-1768249511913",
+    "japanese": "やめます, やめる",
+    "reading": "やめます, やめる",
+    "meaning": "stop",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-149-1768249511913",
+    "japanese": "受けます, 受ける",
+    "reading": "うう",
+    "meaning": "receive",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-150-1768249511913",
+    "japanese": "案内します, 案内する",
+    "reading": "あんないあんない",
+    "meaning": "guide",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-151-1768249511913",
+    "japanese": "進学します, 進学する",
+    "reading": "しんがくしんがく",
+    "meaning": "proceed to higher education",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-152-1768249511913",
+    "japanese": "通学します, 通学する",
+    "reading": "つうがくつうがく",
+    "meaning": "commute to school",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-153-1768249511913",
+    "japanese": "選びます, 選ぶ",
+    "reading": "えらえら",
+    "meaning": "select, choose",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-154-1768249511913",
+    "japanese": "迷います, 迷う",
+    "reading": "まよまよ",
+    "meaning": "waver, hesitate",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-155-1768249511913",
+    "japanese": "考えます, 考える",
+    "reading": "かんがかんが",
+    "meaning": "think about",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-156-1768249511913",
+    "japanese": "決めます, 決める",
+    "reading": "きき",
+    "meaning": "decide",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-157-1768249511913",
+    "japanese": "合格します, 合格する",
+    "reading": "ごうかくごうかく",
+    "meaning": "pass (an exam)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-158-1768249511913",
+    "japanese": "専攻します, 専攻する",
+    "reading": "せんこうせんこう",
+    "meaning": "major in, specialize in",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-159-1768249511913",
+    "japanese": "悩みます, 悩む",
+    "reading": "なやなや",
+    "meaning": "be worried",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-160-1768249511913",
+    "japanese": "就職します, 就職する",
+    "reading": "しゅうしょくしゅうしょく",
+    "meaning": "find a job",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-161-1768249511913",
+    "japanese": "確認します, 確認する",
+    "reading": "かくにんかくにん",
+    "meaning": "confirm",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-162-1768249511913",
+    "japanese": "正しい",
+    "reading": "ただ",
+    "meaning": "correct",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-163-1768249511913",
+    "japanese": "建築家",
+    "reading": "けんちくか",
+    "meaning": "architect",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-164-1768249511913",
+    "japanese": "デザイナー",
+    "reading": "デザイナー",
+    "meaning": "designer",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-165-1768249511913",
+    "japanese": "夢",
+    "reading": "ゆめ",
+    "meaning": "dream",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-166-1768249511913",
+    "japanese": "スーツ",
+    "reading": "スーツ",
+    "meaning": "business suit",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-167-1768249511913",
+    "japanese": "願書",
+    "reading": "がんしょ",
+    "meaning": "application",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-168-1768249511913",
+    "japanese": "事務室",
+    "reading": "じむしつ",
+    "meaning": "office",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-169-1768249511913",
+    "japanese": "書類",
+    "reading": "しょるい",
+    "meaning": "documents",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-170-1768249511913",
+    "japanese": "経営します, 経営する",
+    "reading": "けいえいけいえい",
+    "meaning": "manage a business",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-171-1768249511913",
+    "japanese": "体験します, 体験する",
+    "reading": "たいけんたいけん",
+    "meaning": "experience",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-172-1768249511913",
+    "japanese": "頑張ります, 頑張る",
+    "reading": "がんばがんば",
+    "meaning": "do one’s best",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-173-1768249511913",
+    "japanese": "スピーチします, スピーチする",
+    "reading": "スピーチします, スピーチする",
+    "meaning": "give a speech",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-174-1768249511913",
+    "japanese": "受験します, 受験する",
+    "reading": "じゅけんじゅけん",
+    "meaning": "take an exam",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-175-1768249511913",
+    "japanese": "復習します, 復習する",
+    "reading": "ふくしゅうふくしゅう",
+    "meaning": "review",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-176-1768249511913",
+    "japanese": "予習します, 予習する",
+    "reading": "よしゅうよしゅう",
+    "meaning": "prepare for a lesson",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-177-1768249511913",
+    "japanese": "デッサンします, デッサンする",
+    "reading": "デッサンします, デッサンする",
+    "meaning": "produce a drawing",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-178-1768249511913",
+    "japanese": "通訳",
+    "reading": "つうやく",
+    "meaning": "interpreting",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-179-1768249511913",
+    "japanese": "パティシエ",
+    "reading": "パティシエ",
+    "meaning": "pastry baker",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-180-1768249511913",
+    "japanese": "味",
+    "reading": "あじ",
+    "meaning": "taste, flavor",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-181-1768249511913",
+    "japanese": "タコ",
+    "reading": "タコ",
+    "meaning": "octopus",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-182-1768249511913",
+    "japanese": "たこ焼き",
+    "reading": "や",
+    "meaning": "takoyaki (fried octopus dumpling balls)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-183-1768249511913",
+    "japanese": "におい",
+    "reading": "におい",
+    "meaning": "smell",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-184-1768249511913",
+    "japanese": "～がする",
+    "reading": "～がする",
+    "meaning": "make (a noise, smell)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-185-1768249511913",
+    "japanese": "通ります, 通る",
+    "reading": "とおとお",
+    "meaning": "pass through",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-186-1768249511913",
+    "japanese": "似ます, 似る",
+    "reading": "にに",
+    "meaning": "be similar to",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-187-1768249511913",
+    "japanese": "丸い",
+    "reading": "まる",
+    "meaning": "round",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-188-1768249511913",
+    "japanese": "小さな",
+    "reading": "ちい",
+    "meaning": "small",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-189-1768249511913",
+    "japanese": "美容院",
+    "reading": "びよういん",
+    "meaning": "beauty salon",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-190-1768249511913",
+    "japanese": "空港",
+    "reading": "くうこう",
+    "meaning": "airport",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-191-1768249511913",
+    "japanese": "歯科",
+    "reading": "しか",
+    "meaning": "dentist",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-192-1768249511913",
+    "japanese": "市民",
+    "reading": "しみん",
+    "meaning": "citizen",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-193-1768249511913",
+    "japanese": "三味線",
+    "reading": "しゃみせん",
+    "meaning": "shamisen (three-stringed Japanese musical instrument)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-194-1768249511913",
+    "japanese": "種類",
+    "reading": "しゅるい",
+    "meaning": "type",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-195-1768249511913",
+    "japanese": "水道",
+    "reading": "すいどう",
+    "meaning": "water service",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-196-1768249511913",
+    "japanese": "てんぷら",
+    "reading": "てんぷら",
+    "meaning": "tempura",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-197-1768249511913",
+    "japanese": "不動産",
+    "reading": "ふどうさん",
+    "meaning": "real estate",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-198-1768249511913",
+    "japanese": "交流会",
+    "reading": "こうりゅうかい",
+    "meaning": "(cultural) exchange meeting",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-199-1768249511913",
+    "japanese": "小学校",
+    "reading": "しょうがっこう",
+    "meaning": "elementary school",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-200-1768249511913",
+    "japanese": "市役所",
+    "reading": "しやくしょ",
+    "meaning": "city hall",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-201-1768249511913",
+    "japanese": "情報",
+    "reading": "じょうほう",
+    "meaning": "information",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-202-1768249511913",
+    "japanese": "タオル",
+    "reading": "タオル",
+    "meaning": "towel",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-203-1768249511914",
+    "japanese": "茶道",
+    "reading": "さどう",
+    "meaning": "sado (Japanese tea ceremony)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-204-1768249511914",
+    "japanese": "センター",
+    "reading": "センター",
+    "meaning": "center",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-205-1768249511914",
+    "japanese": "～場",
+    "reading": "じょう",
+    "meaning": "place, location",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-206-1768249511914",
+    "japanese": "～口",
+    "reading": "くち",
+    "meaning": "entrance, exit",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-207-1768249511914",
+    "japanese": "かかります, かかる",
+    "reading": "かかります, かかる",
+    "meaning": "take (time, money)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-208-1768249511914",
+    "japanese": "質問します, 質問する",
+    "reading": "しつもんしつもん",
+    "meaning": "ask a question",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-209-1768249511914",
+    "japanese": "カットします, カットする",
+    "reading": "カットします, カットする",
+    "meaning": "cut",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-210-1768249511914",
+    "japanese": "紹介します, 紹介する",
+    "reading": "しょうかいしょうかい",
+    "meaning": "introduce",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-211-1768249511914",
+    "japanese": "修理します, 修理する",
+    "reading": "しゅうりしゅうり",
+    "meaning": "repair",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-212-1768249511914",
+    "japanese": "知らせます, 知らせる",
+    "reading": "しし",
+    "meaning": "notify, inform",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-213-1768249511914",
+    "japanese": "止まります, 止まる",
+    "reading": "とと",
+    "meaning": "stop",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-214-1768249511914",
+    "japanese": "出ます, 出る",
+    "reading": "でで",
+    "meaning": "operate, run",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-215-1768249511914",
+    "japanese": "着きます, 着く",
+    "reading": "つつ",
+    "meaning": "arrive",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-216-1768249511914",
+    "japanese": "利用します, 利用する",
+    "reading": "りようりよう",
+    "meaning": "use",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-217-1768249511914",
+    "japanese": "必要（な）",
+    "reading": "ひつよう",
+    "meaning": "necessary",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-218-1768249511914",
+    "japanese": "大使館",
+    "reading": "たいしかん",
+    "meaning": "embassy",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-219-1768249511914",
+    "japanese": "メートル",
+    "reading": "メートル",
+    "meaning": "meter",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-220-1768249511914",
+    "japanese": "次",
+    "reading": "つぎ",
+    "meaning": "next",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-221-1768249511914",
+    "japanese": "坂",
+    "reading": "さか",
+    "meaning": "hill, slope",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-222-1768249511914",
+    "japanese": "～階建て",
+    "reading": "かいだ",
+    "meaning": "building with ~ floors",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-223-1768249511914",
+    "japanese": "～番線",
+    "reading": "ばんせん",
+    "meaning": "numbered train/subway line",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-224-1768249511914",
+    "japanese": "～行き",
+    "reading": "ゆ",
+    "meaning": "destination",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-225-1768249511914",
+    "japanese": "上ります, 上る",
+    "reading": "のぼのぼ",
+    "meaning": "move upward",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-226-1768249511914",
+    "japanese": "下ります, 下りる",
+    "reading": "おお",
+    "meaning": "move downward",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-227-1768249511914",
+    "japanese": "駐車します, 駐車する",
+    "reading": "ちゅうしゃちゅうしゃ",
+    "meaning": "park (a vehicle)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-228-1768249511914",
+    "japanese": "中学校",
+    "reading": "ちゅうがっこう",
+    "meaning": "middle school",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-229-1768249511914",
+    "japanese": "池",
+    "reading": "いけ",
+    "meaning": "pond",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-230-1768249511914",
+    "japanese": "階段",
+    "reading": "かいだん",
+    "meaning": "stairs",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-231-1768249511914",
+    "japanese": "切符",
+    "reading": "きっぷ",
+    "meaning": "ticket",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-232-1768249511914",
+    "japanese": "線路",
+    "reading": "せんろ",
+    "meaning": "(train, subway) line",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-233-1768249511914",
+    "japanese": "定期券",
+    "reading": "ていきけん",
+    "meaning": "commuter pass",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-234-1768249511914",
+    "japanese": "ケース",
+    "reading": "ケース",
+    "meaning": "case",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-235-1768249511914",
+    "japanese": "忘れ物",
+    "reading": "わすもの",
+    "meaning": "lost items, lost-and-found",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-236-1768249511914",
+    "japanese": "鍵",
+    "reading": "かぎ",
+    "meaning": "key",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-237-1768249511914",
+    "japanese": "辺",
+    "reading": "へん",
+    "meaning": "area",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-238-1768249511914",
+    "japanese": "途中",
+    "reading": "とちゅう",
+    "meaning": "in the middle of",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-239-1768249511914",
+    "japanese": "カード",
+    "reading": "カード",
+    "meaning": "card",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-240-1768249511914",
+    "japanese": "銀行のカード",
+    "reading": "ぎんこう",
+    "meaning": "bank card",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-241-1768249511914",
+    "japanese": "革",
+    "reading": "かわ",
+    "meaning": "leather",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-242-1768249511914",
+    "japanese": "教科書",
+    "reading": "きょうかしょ",
+    "meaning": "textbook",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-243-1768249511914",
+    "japanese": "警官",
+    "reading": "けいかん",
+    "meaning": "policeman",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-244-1768249511914",
+    "japanese": "ハート",
+    "reading": "ハート",
+    "meaning": "heart",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-245-1768249511914",
+    "japanese": "ピンク",
+    "reading": "ピンク",
+    "meaning": "pink",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-246-1768249511914",
+    "japanese": "星",
+    "reading": "ほし",
+    "meaning": "star",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-247-1768249511914",
+    "japanese": "緑",
+    "reading": "みどり",
+    "meaning": "green",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-248-1768249511914",
+    "japanese": "横長",
+    "reading": "よこなが",
+    "meaning": "long (sideways)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-249-1768249511914",
+    "japanese": "色",
+    "reading": "いろ",
+    "meaning": "color",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-250-1768249511914",
+    "japanese": "大きさ",
+    "reading": "おお",
+    "meaning": "size",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-251-1768249511914",
+    "japanese": "形",
+    "reading": "かたち",
+    "meaning": "shape",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-252-1768249511914",
+    "japanese": "預かります, 預かる",
+    "reading": "あずあず",
+    "meaning": "leave in someone’s care, check in",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-253-1768249511914",
+    "japanese": "落とします, 落とす",
+    "reading": "おお",
+    "meaning": "drop",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-254-1768249511914",
+    "japanese": "なくなります, なくなる",
+    "reading": "なくなります, なくなる",
+    "meaning": "lose (something)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-255-1768249511914",
+    "japanese": "自転車",
+    "reading": "じてんしゃ",
+    "meaning": "bicycle",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-256-1768249511914",
+    "japanese": "乗り過ごします, 乗り過ごす",
+    "reading": "のすのす",
+    "meaning": "miss one’s stop",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-257-1768249511914",
+    "japanese": "間違えます, 間違える",
+    "reading": "まちがまちが",
+    "meaning": "make a mistake",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-258-1768249511914",
+    "japanese": "迷います, 迷う",
+    "reading": "まよまよ",
+    "meaning": "lose one’s way",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-259-1768249511914",
+    "japanese": "転びます, 転ぶ",
+    "reading": "ころころ",
+    "meaning": "fall down",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-260-1768249511914",
+    "japanese": "心配します, 心配する",
+    "reading": "しんぱいしんぱい",
+    "meaning": "worry",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-261-1768249511914",
+    "japanese": "気がつきます, 気がつく",
+    "reading": "きき",
+    "meaning": "notice, realize",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-262-1768249511914",
+    "japanese": "付きます, 付く",
+    "reading": "つつ",
+    "meaning": "attach",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-263-1768249511914",
+    "japanese": "見つかります, 見つかる",
+    "reading": "みみ",
+    "meaning": "be found",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-264-1768249511914",
+    "japanese": "出ます, 出る",
+    "reading": "でで",
+    "meaning": "go out, leave",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-265-1768249511914",
+    "japanese": "乗り換えます, 乗り換える",
+    "reading": "のかのか",
+    "meaning": "change (trains)",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-266-1768249511914",
+    "japanese": "連絡します, 連絡する",
+    "reading": "れんらくれんらく",
+    "meaning": "contact",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-267-1768249511914",
+    "japanese": "困ります, 困る",
+    "reading": "こまこま",
+    "meaning": "be in trouble",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-268-1768249511914",
+    "japanese": "急に",
+    "reading": "きゅう",
+    "meaning": "suddenly",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-269-1768249511914",
+    "japanese": "特急",
+    "reading": "とっきゅう",
+    "meaning": "limited express",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-270-1768249511914",
+    "japanese": "終点",
+    "reading": "しゅうてん",
+    "meaning": "final stop",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-271-1768249511914",
+    "japanese": "終電",
+    "reading": "しゅうでん",
+    "meaning": "final train",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-272-1768249511914",
+    "japanese": "タクシー",
+    "reading": "タクシー",
+    "meaning": "taxi",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-273-1768249511914",
+    "japanese": "急行",
+    "reading": "きゅうこう",
+    "meaning": "express train",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-274-1768249511914",
+    "japanese": "アナウンスします, アナウンスする",
+    "reading": "アナウンスします, アナウンスする",
+    "meaning": "announce",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-275-1768249511914",
+    "japanese": "変えます, 変える",
+    "reading": "かか",
+    "meaning": "change",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-276-1768249511914",
+    "japanese": "安心します, 安心する",
+    "reading": "あんしんあんしん",
+    "meaning": "relieve, give peace of mind",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-277-1768249511914",
+    "japanese": "遅刻します, 遅刻する",
+    "reading": "ちこくちこく",
+    "meaning": "be late",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-278-1768249511914",
+    "japanese": "寝坊します, 寝坊する",
+    "reading": "ねぼうねぼう",
+    "meaning": "sleep late",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-279-1768249511914",
+    "japanese": "戻ります, 戻る",
+    "reading": "もどもど",
+    "meaning": "return",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-280-1768249511914",
+    "japanese": "すぐ",
+    "reading": "すぐ",
+    "meaning": "immediately",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-281-1768249511914",
+    "japanese": "白",
+    "reading": "しろ",
+    "meaning": "white",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-282-1768249511914",
+    "japanese": "窓口",
+    "reading": "まどぐち",
+    "meaning": "ticket counter",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-283-1768249511914",
+    "japanese": "～号車",
+    "reading": "ごうしゃ",
+    "meaning": "number ~ train",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  },
+  {
+    "id": "dekiru-nihongo-beginner-284-1768249511914",
+    "japanese": "～ずつ",
+    "reading": "～ずつ",
+    "meaning": "every ~",
+    "jlptLevel": "N5",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "n5",
+      "dekiru-nihongo-beginner"
+    ],
+    "textbook": "dekiru-nihongo-beginner"
+  }
+]

@@ -1,0 +1,1362 @@
+[
+  {
+    "id": "dekiru-nihongo-1-55-1768249361200",
+    "japanese": "パン",
+    "reading": "パン",
+    "meaning": "bread",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-56-1768249361200",
+    "japanese": "水",
+    "reading": "みず",
+    "meaning": "water",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-57-1768249361200",
+    "japanese": "店員",
+    "reading": "てんいん",
+    "meaning": "clerk/ employee",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-58-1768249361200",
+    "japanese": "～ 階",
+    "reading": "かい",
+    "meaning": "～floor",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-59-1768249361200",
+    "japanese": "ここ／こちら",
+    "reading": "ここ／こちら",
+    "meaning": "here/ over here",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-60-1768249361200",
+    "japanese": "そこ／そちら",
+    "reading": "そこ／そちら",
+    "meaning": "there/ over there (relatively close)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-61-1768249361200",
+    "japanese": "あそこ／あちら",
+    "reading": "あそこ／あちら",
+    "meaning": "there/ over there (relatively far)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-62-1768249361200",
+    "japanese": "インフォメーション",
+    "reading": "インフォメーション",
+    "meaning": "information",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-63-1768249361200",
+    "japanese": "ＡＴＭ",
+    "reading": "ＡＴＭ",
+    "meaning": "Automated Teller Machine",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-64-1768249361200",
+    "japanese": "（どうも）ありがとうございます",
+    "reading": "（どうも）ありがとうございます",
+    "meaning": "Thank you very much.",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-65-1768249361200",
+    "japanese": "いらっしゃいませ",
+    "reading": "いらっしゃいませ",
+    "meaning": "Welcome",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-66-1768249361200",
+    "japanese": "～ 屋（ 例： 本屋）",
+    "reading": "やれいほんや",
+    "meaning": "～store/shop (e.g. bookstore)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-67-1768249361200",
+    "japanese": "どこ",
+    "reading": "どこ",
+    "meaning": "where",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-68-1768249361200",
+    "japanese": "スーパー",
+    "reading": "スーパー",
+    "meaning": "supermarket",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-69-1768249361200",
+    "japanese": "かばん",
+    "reading": "かばん",
+    "meaning": "bag",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-70-1768249361200",
+    "japanese": "100 円ショップ",
+    "reading": "えん",
+    "meaning": "100 yen shop",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-71-1768249361200",
+    "japanese": "ズボン",
+    "reading": "ズボン",
+    "meaning": "pants/ slacks",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-72-1768249361200",
+    "japanese": "レストラン",
+    "reading": "レストラン",
+    "meaning": "restaurant",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-73-1768249361200",
+    "japanese": "Ｔシャツ",
+    "reading": "Ｔシャツ",
+    "meaning": "T-shirt",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-74-1768249361200",
+    "japanese": "エスカレーター",
+    "reading": "エスカレーター",
+    "meaning": "escalator",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-75-1768249361200",
+    "japanese": "これ",
+    "reading": "これ",
+    "meaning": "this",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-76-1768249361200",
+    "japanese": "エレベーター",
+    "reading": "エレベーター",
+    "meaning": "elevator",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-77-1768249361200",
+    "japanese": "それ",
+    "reading": "それ",
+    "meaning": "that (relatively close)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-78-1768249361200",
+    "japanese": "喫煙所",
+    "reading": "きつえんじょ",
+    "meaning": "smoking area",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-79-1768249361200",
+    "japanese": "あれ",
+    "reading": "あれ",
+    "meaning": "that (relatively far)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-80-1768249361200",
+    "japanese": "トイレ",
+    "reading": "トイレ",
+    "meaning": "restrooms",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-81-1768249361200",
+    "japanese": "この",
+    "reading": "この",
+    "meaning": "this",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-82-1768249361200",
+    "japanese": "レジ",
+    "reading": "レジ",
+    "meaning": "(cash) register",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-83-1768249361200",
+    "japanese": "その",
+    "reading": "その",
+    "meaning": "that (relatively close)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-84-1768249361200",
+    "japanese": "喫茶店",
+    "reading": "きっさてん",
+    "meaning": "coffee shop",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-85-1768249361200",
+    "japanese": "あの",
+    "reading": "あの",
+    "meaning": "that (relatively far)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-86-1768249361200",
+    "japanese": "地下",
+    "reading": "ちか",
+    "meaning": "basement",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-87-1768249361200",
+    "japanese": "時計",
+    "reading": "とけい",
+    "meaning": "watch",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-88-1768249361200",
+    "japanese": "カメラ",
+    "reading": "カメラ",
+    "meaning": "cameras",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-89-1768249361200",
+    "japanese": "～ 円",
+    "reading": "えん",
+    "meaning": "～yen",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-90-1768249361200",
+    "japanese": "いくら",
+    "reading": "いくら",
+    "meaning": "How much?",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-91-1768249361200",
+    "japanese": "電子辞書",
+    "reading": "でんいじしょ",
+    "meaning": "electronic dictionaries",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-92-1768249361200",
+    "japanese": "じゃ",
+    "reading": "じゃ",
+    "meaning": "Well,/ \"OK,\"",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-93-1768249361200",
+    "japanese": "パソコン",
+    "reading": "パソコン",
+    "meaning": "personal computers",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-94-1768249361200",
+    "japanese": "携帯電話",
+    "reading": "けいたいでんわ",
+    "meaning": "cell/ mobile phones",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-95-1768249361200",
+    "japanese": "靴",
+    "reading": "くつ",
+    "meaning": "shoes",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-96-1768249361200",
+    "japanese": "消しゴム",
+    "reading": "け",
+    "meaning": "erasers",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-97-1768249361200",
+    "japanese": "魚",
+    "reading": "さかな",
+    "meaning": "fish",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-98-1768249361200",
+    "japanese": "トイレットペーパー",
+    "reading": "トイレットペーパー",
+    "meaning": "bathroom tissue",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-99-1768249361200",
+    "japanese": "ペン",
+    "reading": "ペン",
+    "meaning": "pens",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-100-1768249361200",
+    "japanese": "肉",
+    "reading": "にく",
+    "meaning": "meat",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-101-1768249361200",
+    "japanese": "牛肉",
+    "reading": "ぎゅうにく",
+    "meaning": "beef",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-102-1768249361200",
+    "japanese": "鶏肉",
+    "reading": "とりにく",
+    "meaning": "chicken",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-103-1768249361200",
+    "japanese": "豚肉",
+    "reading": "ぶたにく",
+    "meaning": "pork",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-104-1768249361200",
+    "japanese": "本",
+    "reading": "ほん",
+    "meaning": "books",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-105-1768249361200",
+    "japanese": "油",
+    "reading": "あぶら",
+    "meaning": "oil",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-106-1768249361200",
+    "japanese": "野菜",
+    "reading": "やさい",
+    "meaning": "vegetables",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-107-1768249361200",
+    "japanese": "ケーキ",
+    "reading": "ケーキ",
+    "meaning": "cake",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-108-1768249361200",
+    "japanese": "イチゴ",
+    "reading": "イチゴ",
+    "meaning": "strawberry",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-109-1768249361200",
+    "japanese": "リンゴ",
+    "reading": "リンゴ",
+    "meaning": "apple",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-110-1768249361200",
+    "japanese": "米",
+    "reading": "こめ",
+    "meaning": "rice",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-111-1768249361200",
+    "japanese": "卵",
+    "reading": "たまご",
+    "meaning": "eggs",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-112-1768249361200",
+    "japanese": "料理",
+    "reading": "料理",
+    "meaning": "dish (as in type of food)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-113-1768249361200",
+    "japanese": "これは 魚の 料理です。",
+    "reading": "さかなりょうり",
+    "meaning": "This is a fish dish.",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-114-1768249361200",
+    "japanese": "カレー",
+    "reading": "カレー",
+    "meaning": "curry",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-115-1768249361200",
+    "japanese": "スープ",
+    "reading": "スープ",
+    "meaning": "soup",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-116-1768249361200",
+    "japanese": "とんかつ",
+    "reading": "とんかつ",
+    "meaning": "deep-fried pork cutlet",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-117-1768249361200",
+    "japanese": "ハンバーグ",
+    "reading": "ハンバーグ",
+    "meaning": "hamburger meat",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-118-1768249361200",
+    "japanese": "ご飯",
+    "reading": "はん",
+    "meaning": "cooked rice",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-119-1768249361200",
+    "japanese": "ご 飯を２つください。",
+    "reading": "はん",
+    "meaning": "Two bowls of rice, please.",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-120-1768249361200",
+    "japanese": "ライス",
+    "reading": "ライス",
+    "meaning": "rice",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-121-1768249361200",
+    "japanese": "ジュース",
+    "reading": "ジュース",
+    "meaning": "juice",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-122-1768249361200",
+    "japanese": "コーヒー",
+    "reading": "コーヒー",
+    "meaning": "coffee",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-123-1768249361200",
+    "japanese": "紅茶",
+    "reading": "こうちゃ",
+    "meaning": "tea",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-124-1768249361200",
+    "japanese": "（お） 茶",
+    "reading": "ちゃ",
+    "meaning": "green tea",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-125-1768249361200",
+    "japanese": "ビール",
+    "reading": "ビール",
+    "meaning": "beer",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-126-1768249361200",
+    "japanese": "ワイン",
+    "reading": "ワイン",
+    "meaning": "wine",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-127-1768249361200",
+    "japanese": "インド",
+    "reading": "インド",
+    "meaning": "India (here: Indian)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-128-1768249361200",
+    "japanese": "ドイツ",
+    "reading": "ドイツ",
+    "meaning": "Germany (here: German)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-129-1768249361200",
+    "japanese": "フランス",
+    "reading": "フランス",
+    "meaning": "France (here: French)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-130-1768249361200",
+    "japanese": "財布",
+    "reading": "さいふ",
+    "meaning": "wallet/ billfold",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-131-1768249361200",
+    "japanese": "英語",
+    "reading": "えいご",
+    "meaning": "English",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-132-1768249361200",
+    "japanese": "～ 語（ 例： 日本語）",
+    "reading": "ごれいにほんご",
+    "meaning": "language identifier (e.g. Japanese)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-133-1768249361200",
+    "japanese": "～つ",
+    "reading": "～つ",
+    "meaning": "counter (here: 1 serving)",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-134-1768249361200",
+    "japanese": "誰",
+    "reading": "だれ",
+    "meaning": "someone",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-135-1768249361200",
+    "japanese": "注文をお 願いします",
+    "reading": "ちゅうもんねが",
+    "meaning": "I'd like to order now.",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-136-1768249361200",
+    "japanese": "どうぞ",
+    "reading": "どうぞ",
+    "meaning": "Certainly. Go ahead.",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-137-1768249361200",
+    "japanese": "こちらへどうぞ",
+    "reading": "こちらへどうぞ",
+    "meaning": "This way, please.",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-138-1768249361200",
+    "japanese": "メニュー",
+    "reading": "メニュー",
+    "meaning": "menu",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  },
+  {
+    "id": "dekiru-nihongo-1-139-1768249361200",
+    "japanese": "少々お 待ちください",
+    "reading": "しょうしょうま",
+    "meaning": "One moment, please.",
+    "jlptLevel": "N2",
+    "partOfSpeech": [],
+    "examples": [],
+    "tags": [
+      "Lesson2",
+      "n2",
+      "dekiru-nihongo-1"
+    ],
+    "lesson": 2,
+    "textbook": "dekiru-nihongo-1"
+  }
+]

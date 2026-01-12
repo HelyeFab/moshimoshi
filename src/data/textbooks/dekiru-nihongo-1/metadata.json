@@ -1,0 +1,18 @@
+{
+  "title": "Dekiru Nihongo 1",
+  "totalCards": 645,
+  "lessons": [
+    1,
+    2,
+    4
+  ],
+  "jlptDistribution": {
+    "N4": 78,
+    "N1": 52,
+    "N2": 85,
+    "N5": 430
+  },
+  "partOfSpeechDistribution": {},
+  "source": "Anki deck converter (MJS)",
+  "importDate": "2026-01-12T20:22:41.202Z"
+}

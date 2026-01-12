@@ -54,6 +54,33 @@ const textbookInfo = {
     description: 'Japanese for Everyone II',
     lessons: 25
   },
+  'dekiru-nihongo-1': {
+    icon: '🎌',
+    color: 'from-emerald-400 to-teal-500',
+    shadowColor: 'shadow-emerald-200 dark:shadow-emerald-500/50',
+    hoverShadow: 'hover:shadow-emerald-300 dark:hover:shadow-emerald-400/60',
+    level: 'N4-N5',
+    description: 'Beginner Japanese',
+    lessons: 3
+  },
+  'dekiru-nihongo-2': {
+    icon: '🎋',
+    color: 'from-lime-400 to-green-500',
+    shadowColor: 'shadow-lime-200 dark:shadow-lime-500/50',
+    hoverShadow: 'hover:shadow-lime-300 dark:hover:shadow-lime-400/60',
+    level: 'N5',
+    description: 'Intermediate Japanese',
+    lessons: 0
+  },
+  'dekiru-nihongo-beginner': {
+    icon: '🌟',
+    color: 'from-yellow-400 to-amber-500',
+    shadowColor: 'shadow-yellow-200 dark:shadow-yellow-500/50',
+    hoverShadow: 'hover:shadow-yellow-300 dark:hover:shadow-yellow-400/60',
+    level: 'N5',
+    description: 'Beginner/Intermediate',
+    lessons: 0
+  },
   'kaishi-15k': {
     icon: '🔥',
     color: 'from-orange-400 to-red-500',
