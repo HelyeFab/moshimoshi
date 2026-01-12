@@ -283,11 +283,8 @@ function StallCard({
 
         {/* Offline warning indicator - shown when offline and stall requires network */}
         {showOfflineWarning && (
-          <div className="absolute top-3 right-3 px-2 py-1 bg-amber-500/80 dark:bg-amber-600/80 backdrop-blur-md rounded-full border border-amber-400/50 z-10 flex items-center gap-1">
+          <div className="absolute top-3 right-3 p-1.5 bg-amber-500/80 dark:bg-amber-600/80 backdrop-blur-md rounded-full border border-amber-400/50 z-10">
             <WifiOff className="w-3 h-3 text-white" />
-            <span className="text-[10px] font-bold text-white uppercase tracking-wider">
-              Offline
-            </span>
           </div>
         )}
 

@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server'
 import { POST } from '../route'
 import { requireAuth } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
-import { evaluate } from '@/lib/entitlements/evaluator'
+import { evaluateFeatureAccess } from '@/lib/entitlements/server'
 
 jest.mock('@/lib/auth/session', () => ({
   requireAuth: jest.fn(),
@@ -13,14 +13,13 @@ jest.mock('@/lib/firebase/admin', () => ({
   adminDb: { collection: jest.fn() },
 }))
 
-jest.mock('@/lib/entitlements/evaluator', () => ({
-  evaluate: jest.fn(),
-  getBucketKey: jest.requireActual('@/lib/entitlements/evaluator').getBucketKey,
+jest.mock('@/lib/entitlements/server', () => ({
+  evaluateFeatureAccess: jest.fn(),
 }))
 
 const mockedRequireAuth = requireAuth as jest.Mock
 const mockedAdminDb = adminDb as unknown as { collection: jest.Mock }
-const mockedEvaluate = evaluate as jest.Mock
+const mockedEvaluateFeatureAccess = evaluateFeatureAccess as jest.Mock
 
 describe('/api/drill/session POST', () => {
   beforeEach(() => {
@@ -29,17 +28,20 @@ describe('/api/drill/session POST', () => {
 
   it('returns 403 when entitlement denies', async () => {
     mockedRequireAuth.mockResolvedValue({ uid: 'user-1' })
-    mockedEvaluate.mockReturnValue({
-      allow: false,
-      remaining: 0,
-      reason: 'limit_reached',
-      limit: 5,
-    })
+    mockedEvaluateFeatureAccess
+      .mockResolvedValueOnce({
+        decision: { allow: false, remaining: 0, reason: 'limit_reached', limit: 5 },
+        currentUsage: 5,
+        bucketKey: 'conjugation_drill_2025-12-26',
+      })
+      .mockResolvedValueOnce({
+        decision: { allow: true, remaining: 5, reason: 'ok', limit: 5 },
+        currentUsage: 0,
+        bucketKey: 'drill_2025-12-26',
+      })
 
-    const usageRef = { get: jest.fn().mockResolvedValue({ data: () => ({ conjugation_drill: 5 }) }) }
     const userRef = {
       get: jest.fn().mockResolvedValue({ data: () => ({ subscription: { plan: 'free' } }) }),
-      collection: jest.fn().mockReturnValue({ doc: jest.fn(() => usageRef) }),
     }
 
     mockedAdminDb.collection.mockReturnValue({ doc: jest.fn(() => userRef) })

@@ -29,6 +29,12 @@ export async function verifyReCaptcha(
   token: string | null | undefined,
   expectedAction?: string
 ): Promise<ReCaptchaVerifyResult> {
+  // Bypass reCAPTCHA for E2E tests
+  if (process.env.E2E_BYPASS_RECAPTCHA === 'true') {
+    console.warn('[ReCAPTCHA] E2E mode - bypassing verification')
+    return { success: true, score: 1.0 }
+  }
+
   // If reCAPTCHA is not configured, allow bypass in development
   if (!RECAPTCHA_SECRET_KEY || RECAPTCHA_SECRET_KEY.includes('YOUR_RECAPTCHA')) {
     console.warn('[ReCAPTCHA] Not configured - bypassing verification')

@@ -21,12 +21,16 @@ import { getGradientForBook } from '@/lib/utils/gradients';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/hooks/useAuth';
 import ContentCelebration from '@/components/shared/ContentCelebration';
+import { EntitlementGate } from '@/components/review-engine/EntitlementGate';
+import { useBookCache } from '@/hooks/useBookCache';
+import type { CachedBook } from '@/lib/library/book-cache.types';
 
 export default function BookReaderPage() {
   const params = useParams();
   const router = useRouter();
   const bookId = params?.id as string;
   const { user, isGuest } = useAuth();
+  const { getBook } = useBookCache();
 
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
@@ -84,14 +88,11 @@ export default function BookReaderPage() {
     const loadBook = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/library/books?id=${bookId}`);
-
-        if (!response.ok) {
-          throw new Error('Book not found');
+        const result = await getBook(bookId);
+        if (!result.book) {
+          throw new Error(result.error || 'Book not found');
         }
-
-        const data = await response.json();
-        setBook(data.data);
+        setBook(normalizeCachedBook(result.book));
       } catch (err) {
         console.error('Error loading book:', err);
         setError(err instanceof Error ? err.message : 'Failed to load book');
@@ -142,65 +143,62 @@ export default function BookReaderPage() {
     }
   };
 
-  if (loading) {
-    return <LoadingOverlay />;
-  }
+  const articleForReader = book
+    ? {
+        id: book.id,
+        title: book.titleJa,
+        content: book.content,
+        summary: book.summary,
+        url: `/library/${book.id}`,
+        imageUrl: book.coverImageUrl,
+        publishDate: book.createdAt,
+        source: 'Toshokan Library',
+        category: book.category || 'books',
+        difficulty: book.jlptLevel,
+        tags: book.tags,
+        metadata: {
+          wordCount: book.metadata?.wordCount,
+          readingTime: book.metadata?.readingTime,
+          hasFurigana: true
+        }
+      }
+    : null
 
-  if (error || !book) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-900">
-        <div className="text-center px-4">
-          <BookOpen className="w-20 h-20 mx-auto text-gray-400 mb-4" />
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-            Book Not Found
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
-            {error || "The book you're looking for doesn't exist."}
-          </p>
-          <Link
-            href="/library"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Back to Library
-          </Link>
-        </div>
-      </div>
-    );
-  }
-
-  // Convert Book to NewsArticle format for the reader component
-  const articleForReader = {
-    id: book.id,
-    title: book.titleJa,
-    content: book.content,
-    summary: book.summary,
-    url: `/library/${book.id}`,
-    imageUrl: book.coverImageUrl,
-    publishDate: book.createdAt,
-    source: 'Toshokan Library',
-    category: book.category || 'books',
-    difficulty: book.jlptLevel,
-    tags: book.tags,
-    metadata: {
-      wordCount: book.metadata?.wordCount,
-      readingTime: book.metadata?.readingTime,
-      hasFurigana: true
-    }
-  };
-
-  // Convert book to single-page story format to leverage existing translation support
-  // This enables instant pre-stored translation without reader component changes
-  const bookAsPages = book.translation ? [{
-    pageNumber: 1,
-    text: book.content,
-    translation: book.translation,
-    imageUrl: book.coverImageUrl,
-  }] : undefined;
+  const bookAsPages = book?.translation
+    ? [{
+        pageNumber: 1,
+        text: book.content,
+        translation: book.translation,
+        imageUrl: book.coverImageUrl,
+      }]
+    : undefined
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
-      {/* Fixed Navigation Bar */}
+    <EntitlementGate featureId="books">
+      {loading ? (
+        <LoadingOverlay />
+      ) : error || !book ? (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-dark-900">
+          <div className="text-center px-4">
+            <BookOpen className="w-20 h-20 mx-auto text-gray-400 mb-4" />
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+              Book Not Found
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              {error || "The book you're looking for doesn't exist."}
+            </p>
+            <Link
+              href="/library"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Library
+            </Link>
+          </div>
+        </div>
+      ) : (
+        <div className="min-h-screen bg-gray-50 dark:bg-dark-900">
+          {/* Fixed Navigation Bar */}
       <motion.div
         initial={{ y: -100 }}
         animate={{ y: 0 }}
@@ -371,7 +369,7 @@ export default function BookReaderPage() {
         className="container mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 max-w-4xl"
       >
         <EnhancedArticleReaderFinal
-          article={articleForReader}
+          article={articleForReader!}
           pages={bookAsPages}
           storyTitle={book.titleJa}
           contentType="book"
@@ -445,6 +443,12 @@ export default function BookReaderPage() {
         />
       )}
       <MobileNavSpacer />
-    </div>
+        </div>
+      )}
+    </EntitlementGate>
   );
 }
+  const normalizeCachedBook = (cached: CachedBook): Book => ({
+    ...cached,
+    createdBy: 'offline-cache',
+  });

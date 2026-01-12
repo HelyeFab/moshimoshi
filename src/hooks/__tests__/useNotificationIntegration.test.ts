@@ -31,7 +31,12 @@ jest.mock('firebase/firestore', () => ({
 // Mock Auth hook
 jest.mock('@/hooks/useAuth', () => ({
   useAuth: jest.fn(() => ({
-    user: { uid: 'test-user-123', email: 'test@example.com', id: 'test-user-123' }
+    user: { uid: 'test-user-123', email: 'test@example.com', id: 'test-user-123' },
+    loading: false,
+    error: null,
+    isAuthenticated: true,
+    isGuest: false,
+    isOffline: false
   }))
 }))
 

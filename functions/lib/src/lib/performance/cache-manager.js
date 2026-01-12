@@ -323,6 +323,13 @@ class CacheManager {
         };
     }
     /**
+     * Get in-memory cache size for a category
+     */
+    getMemorySize(category) {
+        const memCache = this.memoryCache.get(category);
+        return memCache ? memCache.size : 0;
+    }
+    /**
      * Build cache key
      */
     buildKey(category, key) {

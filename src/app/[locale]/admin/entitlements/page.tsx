@@ -288,6 +288,13 @@ export default function EntitlementsDashboardPage() {
             <span className="sm:hidden">Logs</span>
           </Link>
           <button
+            onClick={handleGenerateTypes}
+            disabled={generating}
+            className="flex-1 sm:flex-initial px-3 sm:px-4 py-2 bg-purple-500 text-white text-sm sm:text-base rounded-lg hover:bg-purple-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
+          >
+            {generating ? 'Regenerating…' : 'Regenerate Types'}
+          </button>
+          <button
             onClick={() => {
               fetchDashboardData()
               fetchConfigData()

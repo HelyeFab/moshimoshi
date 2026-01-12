@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, type ReactNode } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import Image from 'next/image'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -26,6 +26,7 @@ import { QuizPlayer } from '@/components/quiz/QuizPlayer'
 import { RubyText } from '@/components/quiz/RubyText'
 import ComicSettingsModal from '@/components/comics/ComicSettingsModal'
 import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText'
+import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 
 export default function ComicReaderPage() {
   const { strings } = useI18n()
@@ -173,13 +174,11 @@ export default function ComicReaderPage() {
   const isLastPanel = currentPanelIndex === totalPanels - 1
   const hasQuiz = episode?.quiz?.questions && episode.quiz.questions.length > 0
 
-  // Show loading state while auth is loading or content is loading
+  let content: ReactNode
   if (authLoading || loading) {
-    return <LoadingOverlay isLoading={true} message="Loading episode..." />
-  }
-
-  if (error || !episode) {
-    return (
+    content = <LoadingOverlay isLoading={true} message="Loading episode..." />
+  } else if (error || !episode) {
+    content = (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-950 dark:via-dark-900 dark:to-dark-850">
         <div className="text-center px-4">
           <div className="relative inline-block mb-6">
@@ -205,10 +204,9 @@ export default function ComicReaderPage() {
         </div>
       </div>
     )
-  }
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-dark-950 via-dark-900 to-dark-850">
+  } else {
+    content = (
+      <div className="min-h-screen bg-gradient-to-b from-dark-950 via-dark-900 to-dark-850">
       {/* Desktop Navbar */}
       <div className="hidden sm:block">
         <Navbar user={user} showUserMenu={true} />
@@ -686,6 +684,13 @@ export default function ComicReaderPage() {
         isOpen={showSettings}
         onClose={() => setShowSettings(false)}
       />
-    </div>
+      </div>
+    )
+  }
+
+  return (
+    <EntitlementGate featureId="comics">
+      {content}
+    </EntitlementGate>
   )
 }

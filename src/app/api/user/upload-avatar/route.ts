@@ -5,6 +5,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminFirestore, adminStorage, ensureAdminInitialized } from '@/lib/firebase/admin'
 import { getSecurityHeaders } from '@/lib/auth/validation'
+import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server'
 
 const MAX_FILE_SIZE = 2 * 1024 * 1024 // 2MB
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
@@ -152,6 +153,31 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const nowUtcISO = new Date().toISOString()
+    const plan = await getUserPlan(session.uid)
+    const { decision } = await evaluateFeatureAccess({
+      featureId: 'media_upload',
+      userId: session.uid,
+      plan,
+      nowUtcISO
+    })
+
+    if (!decision.allow) {
+      return NextResponse.json(
+        {
+          error: {
+            code: decision.reason === 'limit_reached' ? 'LIMIT_REACHED' : 'NO_PERMISSION',
+            message: 'Daily upload limit reached',
+            decision
+          },
+        },
+        {
+          status: decision.reason === 'limit_reached' ? 429 : 403,
+          headers: getSecurityHeaders(),
+        }
+      )
+    }
+
     // Convert file to buffer
     const buffer = Buffer.from(await file.arrayBuffer())
 
@@ -213,6 +239,14 @@ export async function POST(request: NextRequest) {
         photoURL: publicUrl,
         updatedAt: new Date(),
       })
+
+    await evaluateFeatureAccess({
+      featureId: 'media_upload',
+      userId: session.uid,
+      plan,
+      nowUtcISO,
+      increment: true
+    })
 
     console.log('[API /user/upload-avatar] Avatar uploaded successfully:', publicUrl)
 

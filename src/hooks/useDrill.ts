@@ -57,7 +57,7 @@ interface UseDrillReturn {
 
 export function useDrill(options: UseDrillOptions = {}): UseDrillReturn {
   // Entitlement check
-  const { checkAndTrack, remaining, lastDecision } = useFeature('conjugation_drill')
+  const { checkOnly, remaining, lastDecision } = useFeature('conjugation_drill')
   const canUse = lastDecision?.allow ?? (remaining === null || remaining > 0)
 
   // Session state
@@ -95,8 +95,8 @@ export function useDrill(options: UseDrillOptions = {}): UseDrillReturn {
       setError(null)
 
       // Check entitlement
-      const canProceed = await checkAndTrack()
-      if (!canProceed) {
+      const decision = await checkOnly({ failOpen: false })
+      if (!decision.allow) {
         setError('Daily drill limit reached')
         return false
       }
@@ -134,7 +134,7 @@ export function useDrill(options: UseDrillOptions = {}): UseDrillReturn {
     } finally {
       setIsLoading(false)
     }
-  }, [checkAndTrack, settings])
+  }, [checkOnly, settings])
 
   /**
    * Submit an answer
@@ -234,12 +234,12 @@ export function useDrill(options: UseDrillOptions = {}): UseDrillReturn {
    * Check entitlement and start
    */
   const checkAndStart = useCallback(async (): Promise<boolean> => {
-    const canProceed = await checkAndTrack()
-    if (canProceed) {
+    const decision = await checkOnly({ failOpen: false })
+    if (decision.allow) {
       return startSession()
     }
     return false
-  }, [checkAndTrack, startSession])
+  }, [checkOnly, startSession])
 
   // Clean up on unmount
   useEffect(() => {

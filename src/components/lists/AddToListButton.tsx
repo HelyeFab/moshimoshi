@@ -9,6 +9,7 @@ import { useSessionRefresh } from '@/hooks/useSessionRefresh'
 import { listManager } from '@/lib/lists/ListManager'
 import { hasRequiredMetadata } from '@/lib/lists/validation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
+import { useFeature } from '@/hooks/useFeature'
 import CreateListModal from './CreateListModal'
 import type { UserList, ListType } from '@/types/userLists'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -43,6 +44,7 @@ export default function AddToListButton({
   const { isPremium, isLoading: subscriptionLoading, subscription } = useSubscription()
   const { refreshSession } = useSessionRefresh()
   const { showToast } = useToast()
+  const { checkAndTrack, checkOnly } = useFeature('save_items')
 
   const [showMenu, setShowMenu] = useState(false)
   const [showCreateModal, setShowCreateModal] = useState(false)
@@ -89,13 +91,27 @@ export default function AddToListButton({
         return handleAddToList(listId)
       }
 
+      const isPremiumUser = isPremium === true
+      if (isPremiumUser) {
+        const decision = await checkOnly({ failOpen: false })
+        if (!decision.allow) {
+          showToast(t('entitlements.messages.limitReached'), 'warning')
+          return
+        }
+      } else {
+        const allowed = await checkAndTrack({ showUI: true })
+        if (!allowed) {
+          return
+        }
+      }
+
       // Ensure isPremium is boolean before passing
       const item = await listManager.addItemToList(
         listId,
         content,
         metadata,
         user.uid,
-        isPremium ?? false
+        isPremiumUser
       )
 
       if (item) {

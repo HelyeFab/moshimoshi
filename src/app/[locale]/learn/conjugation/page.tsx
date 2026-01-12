@@ -30,6 +30,7 @@ import {
   X,
 } from 'lucide-react'
 import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
+import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 
 type ViewMode = 'browse' | 'study' | 'review'
 type WordFilter = 'all' | 'verbs' | 'adjectives'
@@ -269,53 +270,54 @@ export default function ConjugationPracticePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
-      {/* Desktop Navbar */}
-      <div className="hidden sm:block">
-        <Navbar user={user} showUserMenu={true} />
-      </div>
+    <EntitlementGate featureId="conjugation_drill">
+      <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
+        {/* Desktop Navbar */}
+        <div className="hidden sm:block">
+          <Navbar user={user} showUserMenu={true} />
+        </div>
 
-      <PageHeader
-        title={t('conjugation.title')}
-        description={t('conjugation.description')}
-        backHref="/dashboard"
-      />
+        <PageHeader
+          title={t('conjugation.title')}
+          description={t('conjugation.description')}
+          backHref="/dashboard"
+        />
 
-      <div className="container mx-auto px-4 py-6">
-        {/* Search Bar */}
-        <div className="mb-6">
-          <form
-            onSubmit={e => {
-              e.preventDefault()
-              handleSearch()
-            }}
-            className="flex gap-2"
-          >
-            <div className="flex-1 relative">
-              <input
-                type="text"
-                value={searchTerm}
-                onChange={e => setSearchTerm(e.target.value)}
-                placeholder={t('conjugation.searchPlaceholder')}
-                className="w-full px-4 py-2 pr-10 rounded-lg bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
-              />
-              {searchTerm && (
-                <button
-                  type="button"
-                  onClick={handleClearSearch}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
-                >
-                  <X className="w-4 h-4 text-gray-500 dark:text-gray-400" />
-                </button>
-              )}
-            </div>
-            <button
-              type="submit"
-              className="p-2.5 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-colors"
+        <div className="container mx-auto px-4 py-6">
+          {/* Search Bar */}
+          <div className="mb-6">
+            <form
+              onSubmit={e => {
+                e.preventDefault()
+                handleSearch()
+              }}
+              className="flex gap-2"
             >
-              <Search className="w-5 h-5" />
-            </button>
-          </form>
+              <div className="flex-1 relative">
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={e => setSearchTerm(e.target.value)}
+                  placeholder={t('conjugation.searchPlaceholder')}
+                  className="w-full px-4 py-2 pr-10 rounded-lg bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                />
+                {searchTerm && (
+                  <button
+                    type="button"
+                    onClick={handleClearSearch}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
+                  >
+                    <X className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                  </button>
+                )}
+              </div>
+              <button
+                type="submit"
+                className="p-2.5 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-colors"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+            </form>
 
           {isSearching && searchResults.length === 0 && !loading && (
             <div className="mt-4 text-center text-gray-500 dark:text-gray-400">
@@ -720,5 +722,6 @@ export default function ConjugationPracticePage() {
         <MobileNavSpacer />
       </div>
     </div>
+    </EntitlementGate>
   )
 }

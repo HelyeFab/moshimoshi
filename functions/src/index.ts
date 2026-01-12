@@ -344,15 +344,30 @@ export {
   scheduledStoryGeneratorFunction,
   manualStoryGeneratorFunction,
   dailyStoryRetryScheduler,
+  onStoryPublished,
 } from './scheduled/storyScheduler'
+
+/**
+ * Export story word batch processor
+ * Pub/Sub-triggered function for batch processing story word explanations
+ */
+export { processStoryWordBatch } from './scheduled/storyWordBatchProcessor'
+
+/**
+ * Export book word batch processor + publish trigger
+ */
+export { processBookWordBatch } from './scheduled/bookWordBatchProcessor'
+export { onBookPublished } from './scheduled/bookWordScheduler'
 
 /**
  * Export scheduled comic generator functions
  * Generates a new "Moshi Goes to Japan" comic episode weekly on Sundays
+ * Also includes Firestore trigger for async word explanation generation
  */
 export {
   scheduledComicGeneratorFunction,
   manualComicGeneratorFunction,
+  onComicPublished,
 } from './scheduled/comicScheduler'
 
 /**

@@ -10,11 +10,14 @@ import Link from "next/link";
 import { NewsletterForm } from "@/components/blog/NewsletterForm";
 import { NewsletterStatusBadge } from "@/components/blog/NewsletterStatusBadge";
 import { useAuth } from "@/hooks/useAuth";
+import { readOfflineListCache, writeOfflineListCache } from "@/lib/pwa/offline-list-cache";
 
 function BlogContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { user } = useAuth();
+  const offlineCacheKey = "offline-blog-posts";
+  const offlineLimit = 10;
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategory, setSelectedCategory] = useState<string>("all");
@@ -36,14 +39,49 @@ function BlogContent() {
     const fetchPosts = async () => {
       try {
         setLoading(true);
+        const isOffline = typeof navigator !== "undefined" && !navigator.onLine;
+        if (isOffline) {
+          const cached = readOfflineListCache<BlogPost>(offlineCacheKey);
+          if (cached?.items?.length) {
+            setPosts(cached.items);
+            setPagination({
+              page: 1,
+              limit: offlineLimit,
+              totalPosts: cached.items.length,
+              totalPages: 1,
+              hasNextPage: false,
+              hasPreviousPage: false,
+            });
+            return;
+          }
+          throw new Error("Offline with no cached posts");
+        }
+
         console.log("Fetching published blog posts...");
         const response = await getPaginatedBlogPosts(currentPage, 18);
         console.log("Fetched posts:", response.posts);
         console.log("Pagination:", response.pagination);
         setPosts(response.posts);
         setPagination(response.pagination);
+
+        if (currentPage === 1 && response.posts?.length) {
+          writeOfflineListCache(offlineCacheKey, response.posts, offlineLimit);
+        }
       } catch (error) {
         console.error("Error fetching blog posts:", error);
+        const cached = readOfflineListCache<BlogPost>(offlineCacheKey);
+        if (cached?.items?.length) {
+          setPosts(cached.items);
+          setPagination({
+            page: 1,
+            limit: offlineLimit,
+            totalPosts: cached.items.length,
+            totalPages: 1,
+            hasNextPage: false,
+            hasPreviousPage: false,
+          });
+          return;
+        }
       } finally {
         setLoading(false);
       }

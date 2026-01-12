@@ -16,10 +16,14 @@ import {
 } from 'firebase/firestore';
 import { firestore as db } from '@/lib/firebase/client';
 import { Story, StoryProgress, JLPTLevel } from '@/types/story';
+import type { CachedStory } from '@/lib/stories/story-cache.types';
 import { useAuth } from '@/hooks/useAuth';
+import { getStoryCacheManager } from '@/lib/stories/StoryCacheManager';
 
 export function useStories() {
   const { user } = useAuth();
+  const cacheManager = getStoryCacheManager();
+  const offlineLimit = 2;
   const [stories, setStories] = useState<Story[]>([]);
   const [userProgress, setUserProgress] = useState<Map<string, StoryProgress>>(new Map());
   const [loading, setLoading] = useState(true);
@@ -36,6 +40,14 @@ export function useStories() {
     searchTerm: ''
   });
 
+  const normalizeCachedStory = (cached: CachedStory): Story => ({
+    ...cached,
+    createdAt: new Date(cached.createdAt),
+    updatedAt: new Date(cached.updatedAt),
+    publishedAt: cached.publishedAt ? new Date(cached.publishedAt) : undefined,
+    audioGeneratedAt: cached.audioGeneratedAt ? new Date(cached.audioGeneratedAt) : undefined,
+  });
+
   // Fetch paginated stories
   useEffect(() => {
     let unsubscribe: (() => void) | undefined;
@@ -44,6 +56,31 @@ export function useStories() {
       try {
         setLoading(true);
         setError(null);
+
+        const isOffline = typeof navigator !== 'undefined' && !navigator.onLine;
+        if (isOffline) {
+          const cachedIds = await cacheManager.getCachedIds();
+          if (cachedIds.length > 0) {
+            const cachedStories = await Promise.all(
+              cachedIds.map((id) => cacheManager.get(id))
+            );
+            const normalizedStories = cachedStories
+              .filter(Boolean)
+              .map(story => normalizeCachedStory(story as CachedStory));
+            normalizedStories.sort((a, b) => {
+              const dateA = new Date(a.publishedAt || a.createdAt).getTime();
+              const dateB = new Date(b.publishedAt || b.createdAt).getTime();
+              return dateB - dateA;
+            });
+
+            const limitedStories = normalizedStories.slice(0, offlineLimit);
+            setStories(limitedStories);
+            setHasMore(false);
+            setTotalCount(limitedStories.length);
+            setLoading(false);
+            return;
+          }
+        }
 
         // Cleanup previous listener
         if (unsubscribe) unsubscribe();
@@ -62,14 +99,23 @@ export function useStories() {
         if (!response.ok) throw new Error('Failed to fetch stories');
 
         const data = await response.json();
-        setStories(data.stories || []);
+        const nextStories = data.stories || [];
+        setStories(nextStories);
         setHasMore(data.hasMore || false);
         setTotalCount(data.totalCount || 0);
         setLoading(false);
 
+        if (!isOffline && nextStories.length > 0 && page === 0) {
+          cacheManager
+            .prefetchStories(nextStories.slice(0, offlineLimit), { skipCached: true })
+            .catch((prefetchError) => {
+              console.warn('[useStories] Offline prefetch failed:', prefetchError);
+            });
+        }
+
         // Setup real-time listener for current page's stories (max 10 due to Firestore 'in' limit)
-        if (data.stories.length > 0) {
-          const storyIds = data.stories.map((s: Story) => s.id).slice(0, 10);
+        if (nextStories.length > 0) {
+          const storyIds = nextStories.map((s: Story) => s.id).slice(0, 10);
 
           unsubscribe = onSnapshot(
             query(
@@ -103,6 +149,29 @@ export function useStories() {
         }
       } catch (error) {
         console.error('Error fetching stories:', error);
+        const cachedIds = await cacheManager.getCachedIds();
+        if (cachedIds.length > 0) {
+          const cachedStories = await Promise.all(
+            cachedIds.map((id) => cacheManager.get(id))
+          );
+          const normalizedStories = cachedStories
+            .filter(Boolean)
+            .map(story => normalizeCachedStory(story as CachedStory));
+          normalizedStories.sort((a, b) => {
+            const dateA = new Date(a.publishedAt || a.createdAt).getTime();
+            const dateB = new Date(b.publishedAt || b.createdAt).getTime();
+            return dateB - dateA;
+          });
+
+          const limitedStories = normalizedStories.slice(0, offlineLimit);
+          setStories(limitedStories);
+          setHasMore(false);
+          setTotalCount(limitedStories.length);
+          setLoading(false);
+          setError(null);
+          return;
+        }
+
         setError('Failed to load stories');
         setLoading(false);
       }

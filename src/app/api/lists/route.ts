@@ -4,9 +4,8 @@ import { adminDb } from '@/lib/firebase/admin';
 import { v4 as uuidv4 } from 'uuid';
 import type { UserList, CreateListRequest, ListItem } from '@/types/userLists';
 import { DEFAULT_LIST_EMOJIS } from '@/types/userLists';
-import { evaluate } from '@/lib/entitlements/evaluator';
-import { getBucketKey } from '@/lib/entitlements/policy';
-import { EvalContext, FeatureId } from '@/types/entitlements';
+import { FieldValue } from 'firebase-admin/firestore';
+import { evaluateFeatureAccess } from '@/lib/entitlements/server';
 import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper';
 
 // Helper for database availability check
@@ -137,37 +136,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Count existing lists for usage tracking
-    const listsSnapshot = await db
-      .collection('users')
-      .doc(session.uid)
-      .collection('lists')
-      .count()
-      .get();
-    const currentListCount = listsSnapshot.data().count;
-
-    // Get monthly usage for custom_lists feature
-    const monthBucket = getBucketKey('monthly', new Date());
-    const usageRef = db
-      .collection('users')
-      .doc(session.uid)
-      .collection('usage')
-      .doc(monthBucket);
-    const usageDoc = await usageRef.get();
-    const monthlyUsage = usageDoc.data()?.custom_lists || 0;
-
-    // Build evaluation context
-    const evalContext: EvalContext = {
+    const nowUtcISO = new Date().toISOString();
+    const { decision: evalDecision, currentUsage, bucketKey } = await evaluateFeatureAccess({
+      featureId: 'custom_lists',
       userId: session.uid,
       plan: plan as any,
-      usage: { custom_lists: monthlyUsage } as Record<FeatureId, number>,
-      nowUtcISO: new Date().toISOString()
-    };
-
-    console.log('[POST /api/lists] Evaluating entitlements with context:', evalContext);
-
-    // Check entitlements
-    const evalDecision = evaluate('custom_lists', evalContext);
+      nowUtcISO
+    });
 
     console.log('[POST /api/lists] Entitlement decision:', {
       allow: evalDecision.allow,
@@ -184,7 +159,7 @@ export async function POST(request: NextRequest) {
             ? `Monthly list creation limit reached (${evalDecision.limit} lists)`
             : 'Cannot create more lists',
           limit: evalDecision.limit,
-          current: monthlyUsage,
+          current: currentUsage,
           remaining: evalDecision.remaining
         },
         { status: 429 }
@@ -257,6 +232,12 @@ export async function POST(request: NextRequest) {
       plan: decision.plan
     });
 
+    const usageRef = db
+      .collection('users')
+      .doc(session.uid)
+      .collection('usage')
+      .doc(bucketKey);
+
     // Only save to Firebase for premium users
     if (decision.shouldWriteToFirebase) {
       console.log('[POST /api/lists] Premium user - saving to Firebase:', session.uid);
@@ -269,10 +250,14 @@ export async function POST(request: NextRequest) {
         batch.set(listsRef.doc(listId), newList);
 
         // Update usage tracking
-        batch.set(usageRef, {
-          custom_lists: (monthlyUsage || 0) + 1,
-          lastUpdated: new Date()
-        }, { merge: true });
+        batch.set(
+          usageRef,
+          {
+            custom_lists: FieldValue.increment(1),
+            lastUpdated: new Date()
+          },
+          { merge: true }
+        );
 
         await batch.commit();
         console.log('[POST /api/lists] ✓ Successfully saved to Firebase and updated usage');
@@ -284,10 +269,13 @@ export async function POST(request: NextRequest) {
       console.log('[POST /api/lists] Free user - returning list for local storage:', session.uid);
       // Still update usage tracking for free users
       try {
-        await usageRef.set({
-          custom_lists: (monthlyUsage || 0) + 1,
-          lastUpdated: new Date()
-        }, { merge: true });
+        await usageRef.set(
+          {
+            custom_lists: FieldValue.increment(1),
+            lastUpdated: new Date()
+          },
+          { merge: true }
+        );
         console.log('[POST /api/lists] ✓ Updated usage tracking for free user');
       } catch (usageError) {
         console.error('[POST /api/lists] ✗ Usage tracking failed:', usageError);
@@ -302,9 +290,12 @@ export async function POST(request: NextRequest) {
       decision,
       {
         usage: {
-          current: monthlyUsage + 1,
+          current: currentUsage + 1,
           limit: evalDecision.limit === -1 ? 'unlimited' : evalDecision.limit,
-          remaining: evalDecision.remaining === -1 ? 'unlimited' : Math.max(0, evalDecision.remaining - 1)
+          remaining:
+            evalDecision.remaining === -1
+              ? 'unlimited'
+              : Math.max(0, evalDecision.remaining - 1)
         }
       }
     );

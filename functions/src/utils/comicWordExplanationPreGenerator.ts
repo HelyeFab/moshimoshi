@@ -11,12 +11,29 @@ import * as admin from 'firebase-admin'
 import * as logger from 'firebase-functions/logger'
 import { defineSecret } from 'firebase-functions/params'
 import { extractTopWords, ExtractedWord } from './wordExtractor'
+import crypto from 'crypto'
 
 // Initialize Firestore
 const db = admin.firestore()
 
 // Define Modal API key for Qwen 2.5 access
 const MODAL_API_KEY = defineSecret('MODAL_API_KEY')
+
+/**
+ * Get API key - supports both Cloud Functions and local environments
+ */
+function getModalApiKey(): string {
+  try {
+    // In Cloud Functions runtime, use defineSecret
+    const secretValue = MODAL_API_KEY.value()
+    if (secretValue) return secretValue
+  } catch (error) {
+    // defineSecret not available or not configured
+  }
+
+  // Fall back to environment variable for local execution
+  return process.env.MODAL_API_KEY || ''
+}
 
 // Qwen 2.5 configuration via Modal Ollama
 const QWEN_CONFIG = {
@@ -36,6 +53,32 @@ interface QwenChatResponse {
     completion_tokens: number
     total_tokens: number
   }
+}
+
+function hashWord(word: string): string {
+  return crypto.createHash('sha256').update(word.trim().toLowerCase()).digest('hex')
+}
+
+async function getGlobalCache(
+  words: ExtractedWord[]
+): Promise<Map<string, WordExplanation>> {
+  const cache = new Map<string, WordExplanation>()
+  if (words.length === 0) return cache
+
+  const docRefs = words.map(word =>
+    db.collection('wordExplanationCache').doc(hashWord(word.word))
+  )
+  const docs = await db.getAll(...docRefs)
+
+  docs.forEach((doc, idx) => {
+    if (!doc.exists) return
+    const data = doc.data() as { explanation?: WordExplanation }
+    if (data?.explanation) {
+      cache.set(words[idx].word.trim().toLowerCase(), data.explanation)
+    }
+  })
+
+  return cache
 }
 
 export interface WordExplanation {
@@ -104,7 +147,7 @@ async function callQwen(
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-API-Key': MODAL_API_KEY.value(),
+        'X-API-Key': getModalApiKey(),
       },
       body: JSON.stringify({
         model: QWEN_CONFIG.model,
@@ -257,12 +300,22 @@ async function generateWordExplanations(
   })
 
   const explanations: WordExplanation[] = []
+  const cacheMap = await getGlobalCache(words)
   let totalPromptTokens = 0
   let totalCompletionTokens = 0
   let totalTokens = 0
 
   for (const word of words) {
     try {
+      const cached = cacheMap.get(word.word.trim().toLowerCase())
+      if (cached) {
+        explanations.push(cached)
+        logger.debug('[ComicWordPreGen] Cache hit', {
+          word: word.word,
+        })
+        continue
+      }
+
       const { explanation, usage } = await generateWordExplanation(word, comicContext)
 
       explanations.push(explanation)

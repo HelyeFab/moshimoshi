@@ -382,6 +382,14 @@ export class CacheManager {
       errors: 0,
     }
   }
+
+  /**
+   * Get in-memory cache size for a category
+   */
+  getMemorySize(category: keyof typeof CACHE_CONFIG): number {
+    const memCache = this.memoryCache.get(category)
+    return memCache ? memCache.size : 0
+  }
   
   /**
    * Build cache key

@@ -40,22 +40,61 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateComicWordExplanations = generateComicWordExplanations;
 const admin = __importStar(require("firebase-admin"));
 const logger = __importStar(require("firebase-functions/logger"));
 const params_1 = require("firebase-functions/params");
 const wordExtractor_1 = require("./wordExtractor");
+const crypto_1 = __importDefault(require("crypto"));
 // Initialize Firestore
 const db = admin.firestore();
 // Define Modal API key for Qwen 2.5 access
 const MODAL_API_KEY = (0, params_1.defineSecret)('MODAL_API_KEY');
+/**
+ * Get API key - supports both Cloud Functions and local environments
+ */
+function getModalApiKey() {
+    try {
+        // In Cloud Functions runtime, use defineSecret
+        const secretValue = MODAL_API_KEY.value();
+        if (secretValue)
+            return secretValue;
+    }
+    catch (error) {
+        // defineSecret not available or not configured
+    }
+    // Fall back to environment variable for local execution
+    return process.env.MODAL_API_KEY || '';
+}
 // Qwen 2.5 configuration via Modal Ollama
 const QWEN_CONFIG = {
     baseUrl: 'https://emmanuelfabiani23--ollama-llm-ollamallm-serve.modal.run',
     model: 'qwen2.5:32b',
     timeout: 300000, // 5 minutes for 32B model
 };
+function hashWord(word) {
+    return crypto_1.default.createHash('sha256').update(word.trim().toLowerCase()).digest('hex');
+}
+async function getGlobalCache(words) {
+    const cache = new Map();
+    if (words.length === 0)
+        return cache;
+    const docRefs = words.map(word => db.collection('wordExplanationCache').doc(hashWord(word.word)));
+    const docs = await db.getAll(...docRefs);
+    docs.forEach((doc, idx) => {
+        if (!doc.exists)
+            return;
+        const data = doc.data();
+        if (data === null || data === void 0 ? void 0 : data.explanation) {
+            cache.set(words[idx].word.trim().toLowerCase(), data.explanation);
+        }
+    });
+    return cache;
+}
 /**
  * Call Qwen 2.5 via Modal Ollama endpoint
  */
@@ -68,7 +107,7 @@ async function callQwen(systemPrompt, userPrompt) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'X-API-Key': MODAL_API_KEY.value(),
+                'X-API-Key': getModalApiKey(),
             },
             body: JSON.stringify({
                 model: QWEN_CONFIG.model,
@@ -204,11 +243,20 @@ async function generateWordExplanations(words, comicContext) {
         wordCount: words.length,
     });
     const explanations = [];
+    const cacheMap = await getGlobalCache(words);
     let totalPromptTokens = 0;
     let totalCompletionTokens = 0;
     let totalTokens = 0;
     for (const word of words) {
         try {
+            const cached = cacheMap.get(word.word.trim().toLowerCase());
+            if (cached) {
+                explanations.push(cached);
+                logger.debug('[ComicWordPreGen] Cache hit', {
+                    word: word.word,
+                });
+                continue;
+            }
             const { explanation, usage } = await generateWordExplanation(word, comicContext);
             explanations.push(explanation);
             totalPromptTokens += usage.promptTokens;

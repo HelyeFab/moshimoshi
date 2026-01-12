@@ -86,6 +86,12 @@ class ExtendedConjugationEngine {
         return await cache_manager_1.cacheManager.getStats();
     }
     /**
+     * Get in-memory conjugation cache size (L1 only)
+     */
+    static getCacheSize() {
+        return cache_manager_1.cacheManager.getMemorySize('CONJUGATION');
+    }
+    /**
      * Pre-cache common words for instant startup
      * Called on app initialization
      */

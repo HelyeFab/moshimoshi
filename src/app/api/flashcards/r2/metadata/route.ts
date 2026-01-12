@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { getAdminDb, FieldValue } from '@/lib/firebase/admin'
 import { z } from 'zod'
+import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server'
 
 const MetadataSchema = z.object({
   deckId: z.string().min(1),
@@ -32,24 +33,24 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // 2. Premium check
-    const PREMIUM_PLANS = new Set(['premium_monthly', 'premium_yearly'])
     const db = getAdminDb()
+    const plan = await getUserPlan(session.uid)
+    const nowUtcISO = new Date().toISOString()
+    const { decision } = await evaluateFeatureAccess({
+      featureId: 'flashcards',
+      userId: session.uid,
+      plan,
+      nowUtcISO
+    })
 
-    let userDoc
-    try {
-      userDoc = await db.collection('users').doc(session.uid).get()
-    } catch (error) {
-      console.error('[metadata] Error fetching user document:', error)
-      return NextResponse.json({ error: 'Failed to verify user status' }, { status: 500 })
-    }
-
-    const plan = userDoc.data()?.subscription?.plan
-
-    if (!plan || !PREMIUM_PLANS.has(plan)) {
-      return NextResponse.json({
-        error: 'Premium subscription required for R2 storage'
-      }, { status: 403 })
+    if (!decision.allow) {
+      return NextResponse.json(
+        {
+          error: decision.reason === 'limit_reached' ? 'Daily limit reached' : 'Access denied',
+          decision
+        },
+        { status: decision.reason === 'limit_reached' ? 429 : 403 }
+      )
     }
 
     // 3. Validate request

@@ -49,7 +49,7 @@ export interface ReviewAPIClient {
 export class ImprovedSyncQueue {
   private queue: SyncQueueItem[] = [];
   private isProcessing = false;
-  private syncInterval: number | null = null;
+  private syncInterval: ReturnType<typeof setInterval> | null = null;
   private conflictResolver = new SimplifiedConflictResolver();
   
   // Exponential backoff configuration
@@ -112,6 +112,10 @@ export class ImprovedSyncQueue {
   }
   
   private setupNetworkListeners(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
     window.addEventListener('online', () => {
       reviewLogger.info('[SyncQueue] Network restored, processing queue...');
       this.resetCircuitBreaker();
@@ -431,7 +435,8 @@ export class ImprovedSyncQueue {
     
     reviewLogger.info(`[SyncQueue] Starting auto-sync (interval: ${baseInterval}ms)`);
     
-    this.syncInterval = window.setInterval(() => {
+    const setIntervalFn = typeof window !== 'undefined' ? window.setInterval : setInterval;
+    this.syncInterval = setIntervalFn(() => {
       if (this.canSync() && !this.isProcessing) {
         // Adjust interval based on queue size
         const queueSize = this.queue.length;
@@ -508,8 +513,10 @@ export class ImprovedSyncQueue {
    */
   cleanup(): void {
     this.stopAutoSync();
-    window.removeEventListener('online', () => {});
-    window.removeEventListener('offline', () => {});
+    if (typeof window !== 'undefined') {
+      window.removeEventListener('online', () => {});
+      window.removeEventListener('offline', () => {});
+    }
   }
   
   private delay(ms: number): Promise<void> {

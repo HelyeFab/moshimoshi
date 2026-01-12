@@ -14,14 +14,15 @@
  * 7. Generate cultural notes
  * 8. Generate quiz
  * 9. Generate audio
- * 10. Generate word explanations (comprehensive, instant-lookup) - BEFORE publishing
- * 11. Publish episode
+ * 10. Publish episode
+ * 11. Generate word explanations (async via Firestore trigger)
  */
 
 import * as admin from 'firebase-admin'
 import * as logger from 'firebase-functions/logger'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
+import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { defineSecret } from 'firebase-functions/params'
 import { generateComicWordExplanations } from '../utils/comicWordExplanationPreGenerator'
 
@@ -678,65 +679,7 @@ export async function generateComicEpisode(
       })
     }
 
-    // Step 7.5: Generate word explanations (before publishing, same as story scheduler)
-    logger.info('[ComicScheduler] Step 7.5/9: Generating word explanations...')
-
-    try {
-      // Extract comic text from panels (dialogues + narrations)
-      const wordDraftDoc = await db.collection('comic_drafts').doc(draftId).get()
-      const wordDraftData = wordDraftDoc.data()
-
-      if (wordDraftData?.panels && Array.isArray(wordDraftData.panels)) {
-        const comicText = wordDraftData.panels
-          .map((panel: any) => {
-            const dialogueText = panel.dialogues?.map((d: any) => d.textJa || '').join(' ') || ''
-            const narrationText = panel.narration?.textJa || ''
-            return `${dialogueText} ${narrationText}`.trim()
-          })
-          .filter((text: string) => text.length > 0)
-          .join('\n')
-
-        // Check timeout before starting (leave 2min buffer for publish step)
-        const timeElapsed = Date.now() - startTime
-        const timeRemaining = 540000 - timeElapsed // 540s = 9min Cloud Function limit
-
-        if (timeRemaining < 120000) {
-          logger.warn('[ComicScheduler] Skipping word explanations - insufficient time', {
-            timeRemaining: Math.round(timeRemaining / 1000),
-            timeElapsed: Math.round(timeElapsed / 1000),
-          })
-        } else {
-          // Generate episode ID for word explanations storage
-          const episodeId = `moshi-goes-to-japan-ep${String(episodeNumber).padStart(3, '0')}`
-
-          // Attempt word explanation generation with timeout protection
-          const wordResult = await Promise.race([
-            generateComicWordExplanations(
-              episodeId,
-              comicText,
-              100 // Extract top 100 words
-            ),
-            new Promise((_, reject) =>
-              setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000)
-            )
-          ])
-
-          logger.info('[ComicScheduler] Word explanations complete', {
-            episodeId,
-            wordCount: (wordResult as any).wordCount,
-            totalTokens: (wordResult as any).costInfo?.totalTokens || 0,
-          })
-        }
-      } else {
-        logger.warn('[ComicScheduler] No panels found for word explanation generation', { draftId })
-      }
-    } catch (wordError) {
-      logger.warn('[ComicScheduler] Word explanation generation failed - continuing', {
-        error: wordError instanceof Error ? wordError.message : 'Unknown error',
-      })
-
-      // Non-critical - comic will still publish without word explanations
-    }
+    // Step 7.5: Word explanations now generated async via Firestore trigger (see onComicPublished below)
 
     // Step 8: Publish the episode
     logger.info('[ComicScheduler] Step 8/9: Publishing episode...')
@@ -931,5 +874,96 @@ export const manualComicGeneratorFunction = onCall(
     })
 
     return result
+  }
+)
+
+/**
+ * Firestore Trigger: Automatically generate word explanations when comic is published
+ *
+ * This runs asynchronously after the main comic generation completes,
+ * avoiding timeout issues and ensuring episodes always publish successfully.
+ */
+export const onComicPublished = onDocumentCreated(
+  {
+    document: 'comics/{episodeId}',
+    secrets: [MODAL_API_KEY],
+    memory: '1GiB',
+    timeoutSeconds: 540, // 9 minutes for word generation (100 words can take 4-5 min)
+  },
+  async event => {
+    const episodeId = event.params.episodeId
+    const episode = event.data?.data()
+
+    if (!episode) {
+      logger.error('[ComicWordGen] No episode data in trigger', { episodeId })
+      return
+    }
+
+    // Only process "moshi-goes-to-japan" episodes
+    if (!episodeId.startsWith('moshi-goes-to-japan-ep')) {
+      logger.info('[ComicWordGen] Skipping non-Moshi episode', { episodeId })
+      return
+    }
+
+    logger.info('[ComicWordGen] Triggered for new episode', {
+      episodeId,
+      title: episode.title,
+      episodeNumber: episode.episodeNumber,
+    })
+
+    try {
+      // Mark word generation as in progress
+      await db.collection('comics').doc(episodeId).update({
+        wordExplanationsStatus: 'generating',
+        wordExplanationsStartedAt: admin.firestore.FieldValue.serverTimestamp(),
+      })
+
+      // Extract text from panels
+      const comicText = episode.panels
+        .map((panel: any) => {
+          const dialogueText = panel.dialogues?.map((d: any) => d.textJa || '').join(' ') || ''
+          const narrationText = panel.narration?.textJa || ''
+          return `${dialogueText} ${narrationText}`.trim()
+        })
+        .filter((text: string) => text.length > 0)
+        .join('\n')
+
+      if (!comicText || comicText.length === 0) {
+        throw new Error('No text content found in episode panels')
+      }
+
+      logger.info('[ComicWordGen] Generating word explanations', {
+        episodeId,
+        textLength: comicText.length,
+      })
+
+      // Generate word explanations (100 words)
+      const result = await generateComicWordExplanations(episodeId, comicText, 100)
+
+      // Mark as complete
+      await db.collection('comics').doc(episodeId).update({
+        wordExplanationsStatus: 'complete',
+        wordExplanationsCompletedAt: admin.firestore.FieldValue.serverTimestamp(),
+        wordExplanationsCount: result.wordCount,
+      })
+
+      logger.info('[ComicWordGen] Word explanations completed successfully', {
+        episodeId,
+        wordCount: result.wordCount,
+        totalTokens: result.costInfo.totalTokens,
+      })
+    } catch (error) {
+      logger.error('[ComicWordGen] Word explanation generation failed', {
+        episodeId,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      })
+
+      // Mark as failed
+      await db.collection('comics').doc(episodeId).update({
+        wordExplanationsStatus: 'failed',
+        wordExplanationsError: error instanceof Error ? error.message : 'Unknown error',
+        wordExplanationsFailedAt: admin.firestore.FieldValue.serverTimestamp(),
+      })
+    }
   }
 )

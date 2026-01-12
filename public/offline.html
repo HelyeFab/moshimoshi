@@ -3,30 +3,237 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#1a1a2e" media="(prefers-color-scheme: dark)" />
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#1a202c" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#eef6fd" media="(prefers-color-scheme: light)" />
   <title>Offline - Moshimoshi</title>
   <link rel="icon" href="/favicon.ico" />
+
+  <!-- Google Fonts - Noto Sans JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Theme detection script - runs before render to prevent flash -->
+  <script>
+    (function() {
+      try {
+        const savedTheme = localStorage.getItem('theme');
+        const savedPalette = localStorage.getItem('palette') || 'sakura';
+        const theme = savedTheme === 'system'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : (savedTheme || 'dark');
+
+        document.documentElement.classList.add(theme);
+        document.documentElement.setAttribute('data-palette', savedPalette);
+        document.documentElement.style.colorScheme = theme;
+      } catch (e) {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-palette', 'sakura');
+      }
+    })();
+  </script>
+
   <style>
-    :root {
-      --primary-50: #fef2f2;
-      --primary-100: #fee2e2;
-      --primary-400: #f87171;
-      --primary-500: #ef4444;
-      --primary-600: #dc2626;
-      --gray-50: #f9fafb;
-      --gray-100: #f3f4f6;
-      --gray-200: #e5e7eb;
-      --gray-400: #9ca3af;
-      --gray-500: #6b7280;
-      --gray-600: #4b5563;
-      --gray-700: #374151;
-      --gray-800: #1f2937;
-      --gray-900: #111827;
-      --dark-bg: #0f0f1a;
-      --dark-card: #1a1a2e;
-      --dark-border: #2d2d44;
+    /* ============================================
+       COLOR PALETTE DEFINITIONS (10 palettes)
+       ============================================ */
+
+    /* Sakura (Red/Pink) - Default */
+    :root[data-palette="sakura"] {
+      --palette-50: 254 242 242;
+      --palette-100: 254 226 226;
+      --palette-200: 254 202 202;
+      --palette-300: 252 165 165;
+      --palette-400: 248 113 113;
+      --palette-500: 239 68 68;
+      --palette-600: 220 38 38;
+      --palette-700: 185 28 28;
+      --palette-800: 153 27 27;
+      --palette-900: 127 29 29;
+      --palette-950: 69 10 10;
     }
+
+    /* Ocean (Blue/Teal) */
+    :root[data-palette="ocean"] {
+      --palette-50: 240 249 255;
+      --palette-100: 224 242 254;
+      --palette-200: 186 230 253;
+      --palette-300: 125 211 252;
+      --palette-400: 56 189 248;
+      --palette-500: 14 165 233;
+      --palette-600: 2 132 199;
+      --palette-700: 3 105 161;
+      --palette-800: 7 89 133;
+      --palette-900: 12 74 110;
+      --palette-950: 8 47 73;
+    }
+
+    /* Matcha (Green) */
+    :root[data-palette="matcha"] {
+      --palette-50: 240 253 244;
+      --palette-100: 220 252 231;
+      --palette-200: 187 247 208;
+      --palette-300: 134 239 172;
+      --palette-400: 74 222 128;
+      --palette-500: 34 197 94;
+      --palette-600: 22 163 74;
+      --palette-700: 21 128 61;
+      --palette-800: 22 101 52;
+      --palette-900: 20 83 45;
+      --palette-950: 5 46 22;
+    }
+
+    /* Sunset (Orange) */
+    :root[data-palette="sunset"] {
+      --palette-50: 255 247 237;
+      --palette-100: 255 237 213;
+      --palette-200: 254 215 170;
+      --palette-300: 253 186 116;
+      --palette-400: 251 146 60;
+      --palette-500: 249 115 22;
+      --palette-600: 234 88 12;
+      --palette-700: 194 65 12;
+      --palette-800: 154 52 18;
+      --palette-900: 124 45 18;
+      --palette-950: 67 20 7;
+    }
+
+    /* Lavender (Purple) */
+    :root[data-palette="lavender"] {
+      --palette-50: 250 245 255;
+      --palette-100: 243 232 255;
+      --palette-200: 233 213 255;
+      --palette-300: 216 180 254;
+      --palette-400: 192 132 252;
+      --palette-500: 168 85 247;
+      --palette-600: 147 51 234;
+      --palette-700: 126 34 206;
+      --palette-800: 107 33 168;
+      --palette-900: 88 28 135;
+      --palette-950: 59 7 100;
+    }
+
+    /* Monochrome (Gray) */
+    :root[data-palette="monochrome"] {
+      --palette-50: 249 250 251;
+      --palette-100: 243 244 246;
+      --palette-200: 229 231 235;
+      --palette-300: 209 213 219;
+      --palette-400: 156 163 175;
+      --palette-500: 107 114 128;
+      --palette-600: 75 85 99;
+      --palette-700: 55 65 81;
+      --palette-800: 31 41 55;
+      --palette-900: 17 24 39;
+      --palette-950: 3 7 18;
+    }
+
+    /* Midnight (Deep Indigo) */
+    :root[data-palette="midnight"] {
+      --palette-50: 238 242 255;
+      --palette-100: 224 231 255;
+      --palette-200: 199 210 254;
+      --palette-300: 165 180 252;
+      --palette-400: 129 140 248;
+      --palette-500: 99 102 241;
+      --palette-600: 79 70 229;
+      --palette-700: 67 56 202;
+      --palette-800: 55 48 163;
+      --palette-900: 49 46 129;
+      --palette-950: 30 27 75;
+    }
+
+    /* Cherry (Pink/Rose) */
+    :root[data-palette="cherry"] {
+      --palette-50: 255 241 242;
+      --palette-100: 255 228 230;
+      --palette-200: 254 205 211;
+      --palette-300: 253 164 175;
+      --palette-400: 251 113 133;
+      --palette-500: 244 63 94;
+      --palette-600: 225 29 72;
+      --palette-700: 190 18 60;
+      --palette-800: 159 18 57;
+      --palette-900: 136 19 55;
+      --palette-950: 76 5 25;
+    }
+
+    /* Jade (Emerald) */
+    :root[data-palette="jade"] {
+      --palette-50: 236 253 245;
+      --palette-100: 209 250 229;
+      --palette-200: 167 243 208;
+      --palette-300: 110 231 183;
+      --palette-400: 52 211 153;
+      --palette-500: 16 185 129;
+      --palette-600: 5 150 105;
+      --palette-700: 4 120 87;
+      --palette-800: 6 95 70;
+      --palette-900: 6 78 59;
+      --palette-950: 2 44 34;
+    }
+
+    /* Amber (Warm Yellow) */
+    :root[data-palette="amber"] {
+      --palette-50: 255 251 235;
+      --palette-100: 254 243 199;
+      --palette-200: 253 230 138;
+      --palette-300: 252 211 77;
+      --palette-400: 251 191 36;
+      --palette-500: 245 158 11;
+      --palette-600: 217 119 6;
+      --palette-700: 180 83 9;
+      --palette-800: 146 64 14;
+      --palette-900: 120 53 15;
+      --palette-950: 69 26 3;
+    }
+
+    /* ============================================
+       CORE DESIGN TOKENS
+       ============================================ */
+
+    :root {
+      /* Japanese Aesthetic Colors */
+      --japanese-sakura: 255 183 197;
+      --japanese-sakura-dark: 255 209 220;
+      --japanese-sumi: 26 26 26;
+      --japanese-sumi-dark: 15 15 15;
+      --japanese-mizu: 168 218 220;
+      --japanese-mizu-dark: 134 194 196;
+      --japanese-matcha: 149 213 178;
+      --japanese-matcha-dark: 120 190 158;
+      --japanese-zen: 233 196 106;
+      --japanese-zen-dark: 255 218 128;
+
+      /* Core colors - Light mode */
+      --color-background: 238 246 253;
+      --color-surface: 247 251 255;
+      --color-text: 17 24 39;
+      --color-text-secondary: 107 114 128;
+      --color-border: 229 231 235;
+
+      /* Grays */
+      --gray-50: 249 250 251;
+      --gray-100: 243 244 246;
+      --gray-200: 229 231 235;
+      --gray-300: 209 213 219;
+      --gray-400: 156 163 175;
+      --gray-500: 107 114 128;
+      --gray-600: 75 85 99;
+      --gray-700: 55 65 81;
+      --gray-800: 31 41 55;
+      --gray-900: 17 24 39;
+
+      /* Dark mode colors */
+      --dark-850: 26 32 44;
+      --dark-800: 31 41 55;
+      --dark-700: 45 55 72;
+      --dark-600: 66 74 91;
+    }
+
+    /* ============================================
+       BASE STYLES
+       ============================================ */
 
     * {
       margin: 0;
@@ -43,23 +250,54 @@
       align-items: center;
       justify-content: center;
       padding: 1.5rem;
-      background: linear-gradient(180deg, var(--gray-50) 0%, var(--gray-100) 100%);
-      color: var(--gray-800);
-      transition: background 0.3s, color 0.3s;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    @media (prefers-color-scheme: dark) {
-      body {
-        background: linear-gradient(180deg, var(--dark-bg) 0%, #0a0a14 100%);
-        color: var(--gray-100);
+    /* Light mode background */
+    :root.light body {
+      background: linear-gradient(135deg,
+        rgb(var(--color-background)) 0%,
+        rgb(var(--color-surface)) 50%,
+        rgb(var(--japanese-mizu) / 0.1) 100%
+      );
+      color: rgb(var(--color-text));
+    }
+
+    /* Dark mode background with Japanese zen aesthetic */
+    :root.dark body {
+      background: linear-gradient(135deg,
+        rgb(var(--dark-850)) 0%,
+        rgb(var(--dark-800)) 50%,
+        rgb(var(--palette-950) / 0.3) 100%
+      );
+      color: rgb(var(--gray-100));
+    }
+
+    /* ============================================
+       LAYOUT COMPONENTS
+       ============================================ */
+
+    .container {
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      animation: fadeIn 0.6s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
     }
 
-    .container {
-      max-width: 400px;
-      width: 100%;
-      text-align: center;
-    }
+    /* ============================================
+       MASCOT & ICON COMPONENTS
+       ============================================ */
 
     .mascot-wrapper {
       position: relative;
@@ -72,83 +310,146 @@
       width: 100%;
       height: 100%;
       object-fit: contain;
-      filter: grayscale(30%);
+      filter: grayscale(20%) brightness(1.05);
       animation: float 3s ease-in-out infinite;
+    }
+
+    :root.dark .mascot {
+      filter: grayscale(10%) brightness(1.1);
     }
 
     .wifi-badge {
       position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 48px;
-      height: 48px;
-      background: var(--gray-100);
+      bottom: -4px;
+      right: -4px;
+      width: 52px;
+      height: 52px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      backdrop-filter: blur(12px);
+      border: 2px solid transparent;
+      transition: all 0.3s ease;
     }
 
-    @media (prefers-color-scheme: dark) {
-      .wifi-badge {
-        background: var(--dark-card);
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-      }
+    :root.light .wifi-badge {
+      background: rgba(255, 255, 255, 0.9);
+      border-color: rgb(var(--gray-200));
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    :root.dark .wifi-badge {
+      background: rgba(var(--dark-800), 0.8);
+      border-color: rgb(var(--palette-500) / 0.3);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4),
+                  0 0 0 1px rgb(var(--palette-500) / 0.1);
     }
 
     .wifi-icon {
       width: 28px;
       height: 28px;
-      color: var(--gray-400);
+      color: rgb(var(--palette-500));
+      animation: pulse 2s ease-in-out infinite;
     }
 
     @keyframes float {
-      0%, 100% { transform: translateY(0px); }
-      50% { transform: translateY(-8px); }
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-10px) rotate(2deg);
+      }
     }
+
+    /* ============================================
+       TYPOGRAPHY
+       ============================================ */
 
     h1 {
-      font-size: 1.75rem;
+      font-size: 2rem;
       font-weight: 700;
       margin-bottom: 0.5rem;
-      color: var(--gray-900);
+      background: linear-gradient(135deg,
+        rgb(var(--palette-500)),
+        rgb(var(--palette-600))
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    @media (prefers-color-scheme: dark) {
-      h1 {
-        color: #fff;
-      }
+    :root.dark h1 {
+      background: linear-gradient(135deg,
+        rgb(var(--palette-400)),
+        rgb(var(--palette-500))
+      );
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     .subtitle {
-      font-size: 1rem;
-      color: var(--gray-500);
-      margin-bottom: 1.5rem;
+      font-size: 1.0625rem;
+      font-weight: 500;
+      margin-bottom: 1.75rem;
     }
 
-    @media (prefers-color-scheme: dark) {
-      .subtitle {
-        color: var(--gray-400);
-      }
+    :root.light .subtitle {
+      color: rgb(var(--color-text-secondary));
     }
+
+    :root.dark .subtitle {
+      color: rgb(var(--gray-400));
+    }
+
+    /* ============================================
+       CARD COMPONENT (Glass morphism)
+       ============================================ */
 
     .card {
-      background: #fff;
-      border-radius: 16px;
-      padding: 1.5rem;
+      border-radius: 20px;
+      padding: 1.75rem;
       margin-bottom: 1.5rem;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-      border: 1px solid var(--gray-200);
+      backdrop-filter: blur(16px);
+      border: 1px solid transparent;
+      transition: all 0.3s ease;
     }
 
-    @media (prefers-color-scheme: dark) {
-      .card {
-        background: var(--dark-card);
-        border-color: var(--dark-border);
-        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
-      }
+    :root.light .card {
+      background: rgba(255, 255, 255, 0.8);
+      border-color: rgb(var(--color-border) / 0.5);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06),
+                  0 2px 8px rgba(0, 0, 0, 0.04);
     }
+
+    :root.dark .card {
+      background: rgba(var(--dark-800), 0.6);
+      border-color: rgb(var(--palette-500) / 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
+                  0 2px 8px rgba(0, 0, 0, 0.2),
+                  inset 0 1px 0 rgb(255 255 255 / 0.05);
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    :root.light .card:hover {
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08),
+                  0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    :root.dark .card:hover {
+      border-color: rgb(var(--palette-500) / 0.25);
+      box-shadow: 0 12px 48px rgba(0, 0, 0, 0.4),
+                  0 4px 16px rgba(0, 0, 0, 0.3),
+                  inset 0 1px 0 rgb(255 255 255 / 0.08);
+    }
+
+    /* ============================================
+       TIPS LIST
+       ============================================ */
 
     .tips {
       text-align: left;
@@ -157,15 +458,18 @@
     .tip {
       display: flex;
       align-items: flex-start;
-      gap: 0.75rem;
-      padding: 0.75rem 0;
-      border-bottom: 1px solid var(--gray-100);
+      gap: 0.875rem;
+      padding: 0.875rem 0;
+      border-bottom: 1px solid transparent;
+      transition: all 0.2s ease;
     }
 
-    @media (prefers-color-scheme: dark) {
-      .tip {
-        border-color: var(--dark-border);
-      }
+    :root.light .tip {
+      border-color: rgb(var(--gray-200) / 0.5);
+    }
+
+    :root.dark .tip {
+      border-color: rgb(var(--palette-500) / 0.08);
     }
 
     .tip:last-child {
@@ -178,106 +482,267 @@
     }
 
     .tip-icon {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
       flex-shrink: 0;
-      color: var(--primary-500);
+      color: rgb(var(--palette-500));
+      transition: transform 0.2s ease;
+    }
+
+    .tip:hover .tip-icon {
+      transform: scale(1.1);
     }
 
     .tip-text {
-      font-size: 0.9rem;
-      color: var(--gray-600);
-      line-height: 1.5;
+      font-size: 0.9375rem;
+      line-height: 1.6;
+      font-weight: 400;
     }
 
-    @media (prefers-color-scheme: dark) {
-      .tip-text {
-        color: var(--gray-300);
-      }
+    :root.light .tip-text {
+      color: rgb(var(--gray-700));
     }
+
+    :root.dark .tip-text {
+      color: rgb(var(--gray-300));
+    }
+
+    /* ============================================
+       RETRY BUTTON
+       ============================================ */
 
     .btn-retry {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
+      gap: 0.625rem;
       width: 100%;
-      padding: 0.875rem 1.5rem;
-      font-size: 1rem;
+      padding: 1rem 1.75rem;
+      font-size: 1.0625rem;
       font-weight: 600;
-      color: #fff;
-      background: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-600) 100%);
+      color: #ffffff;
+      background: linear-gradient(135deg,
+        rgb(var(--palette-500)),
+        rgb(var(--palette-600))
+      );
       border: none;
-      border-radius: 12px;
+      border-radius: 16px;
       cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 4px 14px rgba(239, 68, 68, 0.3);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-retry::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg,
+        rgb(var(--palette-400)),
+        rgb(var(--palette-500))
+      );
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .btn-retry:hover::before {
+      opacity: 1;
     }
 
     .btn-retry:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgb(var(--palette-500) / 0.4),
+                  0 4px 12px rgb(var(--palette-600) / 0.3);
     }
 
     .btn-retry:active {
-      transform: translateY(0);
+      transform: translateY(-1px);
+    }
+
+    :root.light .btn-retry {
+      box-shadow: 0 6px 20px rgb(var(--palette-500) / 0.3),
+                  0 2px 8px rgb(var(--palette-600) / 0.2);
+    }
+
+    :root.dark .btn-retry {
+      box-shadow: 0 8px 24px rgb(var(--palette-500) / 0.35),
+                  0 2px 10px rgb(var(--palette-600) / 0.25),
+                  inset 0 1px 0 rgb(255 255 255 / 0.15);
     }
 
     .btn-retry svg {
-      width: 20px;
-      height: 20px;
+      width: 22px;
+      height: 22px;
+      position: relative;
+      z-index: 1;
     }
 
+    /* ============================================
+       FOOTER
+       ============================================ */
+
     .footer-text {
-      margin-top: 1.5rem;
-      font-size: 0.8rem;
-      color: var(--gray-400);
+      margin-top: 1.75rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25rem;
+    }
+
+    :root.light .footer-text {
+      color: rgb(var(--gray-500));
+    }
+
+    :root.dark .footer-text {
+      color: rgb(var(--gray-400));
     }
 
     .jp-text {
-      font-size: 0.85rem;
-      color: var(--gray-400);
-      margin-top: 0.25rem;
+      font-size: 1rem;
+      font-weight: 400;
+      color: rgb(var(--palette-500));
+      letter-spacing: 0.05em;
     }
 
-    /* Safe area for notched devices */
-    @supports (padding: max(0px)) {
-      body {
-        padding-left: max(1.5rem, env(safe-area-inset-left));
-        padding-right: max(1.5rem, env(safe-area-inset-right));
-        padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
-      }
-    }
-
-    /* Pulse animation for retry icon */
-    .pulse {
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    /* Status indicator */
-    .status-dot {
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      background: var(--gray-400);
-      border-radius: 50%;
-      margin-right: 6px;
-      animation: pulse 2s infinite;
-    }
+    /* ============================================
+       STATUS INDICATOR
+       ============================================ */
 
     .status-text {
       display: inline-flex;
       align-items: center;
-      font-size: 0.75rem;
-      color: var(--gray-400);
+      gap: 0.5rem;
+      font-size: 0.6875rem;
+      font-weight: 600;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 1rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 1.25rem;
+      padding: 0.5rem 1rem;
+      border-radius: 12px;
+      backdrop-filter: blur(8px);
+    }
+
+    :root.light .status-text {
+      color: rgb(var(--gray-600));
+      background: rgba(var(--gray-200), 0.5);
+    }
+
+    :root.dark .status-text {
+      color: rgb(var(--gray-400));
+      background: rgba(var(--dark-800), 0.5);
+      border: 1px solid rgb(var(--palette-500) / 0.2);
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    :root.light .status-dot {
+      background: rgb(var(--palette-500));
+      box-shadow: 0 0 8px rgb(var(--palette-500) / 0.5);
+    }
+
+    :root.dark .status-dot {
+      background: rgb(var(--palette-400));
+      box-shadow: 0 0 12px rgb(var(--palette-400) / 0.6);
+    }
+
+    /* ============================================
+       ANIMATIONS
+       ============================================ */
+
+    @keyframes pulse {
+      0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.6;
+        transform: scale(0.95);
+      }
+    }
+
+    /* ============================================
+       PWA SAFE AREA SUPPORT
+       ============================================ */
+
+    @supports (padding: max(0px)) {
+      body {
+        padding-left: max(1.5rem, env(safe-area-inset-left));
+        padding-right: max(1.5rem, env(safe-area-inset-right));
+        padding-top: max(1.5rem, env(safe-area-inset-top));
+        padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+      }
+    }
+
+    /* ============================================
+       RESPONSIVE ADJUSTMENTS
+       ============================================ */
+
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .subtitle {
+        font-size: 0.9375rem;
+      }
+
+      .card {
+        padding: 1.5rem;
+      }
+
+      .btn-retry {
+        padding: 0.875rem 1.5rem;
+        font-size: 1rem;
+      }
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        max-width: 480px;
+      }
+
+      .mascot-wrapper {
+        width: 180px;
+        height: 180px;
+      }
+
+      h1 {
+        font-size: 2.25rem;
+      }
+    }
+
+    /* ============================================
+       ACCESSIBILITY - REDUCE MOTION
+       ============================================ */
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+
+      .mascot {
+        animation: none;
+      }
+
+      .status-dot,
+      .wifi-icon {
+        animation: none;
+      }
     }
   </style>
 </head>
@@ -354,10 +819,69 @@
   </div>
 
   <script>
+    // ============================================
+    // OFFLINE PAGE ENHANCEMENTS
+    // ============================================
+
     // Auto-retry when connection is restored
     window.addEventListener('online', function() {
+      console.log('Connection restored - reloading page...');
       window.location.reload();
     });
+
+    // Listen for theme/palette changes from other tabs
+    window.addEventListener('storage', function(e) {
+      if (e.key === 'theme' || e.key === 'palette') {
+        console.log('Theme settings changed - updating...');
+        const savedTheme = localStorage.getItem('theme');
+        const savedPalette = localStorage.getItem('palette') || 'sakura';
+        const theme = savedTheme === 'system'
+          ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+          : (savedTheme || 'dark');
+
+        // Update theme class
+        document.documentElement.classList.remove('light', 'dark');
+        document.documentElement.classList.add(theme);
+        document.documentElement.style.colorScheme = theme;
+
+        // Update palette attribute
+        document.documentElement.setAttribute('data-palette', savedPalette);
+      }
+    });
+
+    // Listen for system theme changes when theme is set to 'system'
+    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    darkModeQuery.addEventListener('change', function(e) {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'system') {
+        console.log('System theme changed - updating...');
+        const theme = e.matches ? 'dark' : 'light';
+        document.documentElement.classList.remove('light', 'dark');
+        document.documentElement.classList.add(theme);
+        document.documentElement.style.colorScheme = theme;
+      }
+    });
+
+    // Periodically check connection status (every 5 seconds)
+    let retryCount = 0;
+    const maxRetries = 12; // Try for 1 minute (12 * 5 seconds)
+
+    setInterval(function() {
+      if (retryCount < maxRetries) {
+        fetch('/favicon.ico', { method: 'HEAD', cache: 'no-cache' })
+          .then(function() {
+            console.log('Connection check succeeded - reloading...');
+            window.location.reload();
+          })
+          .catch(function() {
+            retryCount++;
+            console.log('Connection check failed (attempt ' + retryCount + '/' + maxRetries + ')');
+          });
+      }
+    }, 5000);
+
+    // Log offline page load
+    console.log('Offline page loaded - waiting for connection...');
   </script>
 </body>
 </html>

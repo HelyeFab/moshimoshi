@@ -3,6 +3,7 @@
 // Now uses centralized config from features.v1.json
 
 import featuresConfig from '../../../config/features.v1.json'
+import { getCachedEntitlementsTier } from '@/lib/pwa/offline-entitlements'
 
 export type UserTier = 'guest' | 'free' | 'premium'
 export type PlanType = 'guest' | 'free' | 'premium_monthly' | 'premium_yearly'
@@ -58,16 +59,9 @@ export function can(feature: FeatureId, userTier: UserTier = 'guest'): boolean {
 }
 
 export function getCurrentUserTier(): UserTier {
-  // This should be integrated with the actual auth/subscription system
-  // For now, returning 'free' as default
-  if (typeof window === 'undefined') {
-    return 'free'
-  }
-
-  // Check localStorage or session for user tier
-  // This will need to be connected to the actual auth system
-  const tier = localStorage.getItem('userTier') as UserTier
-  return tier || 'guest'
+  const tier = getCachedEntitlementsTier()
+  if (!tier) return 'guest'
+  return tier === 'premium' ? 'premium' : tier
 }
 
 export function canCurrentUser(feature: FeatureId): boolean {

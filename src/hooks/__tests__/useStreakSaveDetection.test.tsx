@@ -18,6 +18,8 @@ jest.mock('@/hooks/useAuth', () => ({
   useAuth: jest.fn(() => ({
     user: { uid: 'test-user' },
     loading: false,
+    isGuest: false,
+    isOffline: false,
   })),
 }))
 

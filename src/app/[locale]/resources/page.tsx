@@ -12,6 +12,7 @@ import PageHeader from '@/components/ui/PageHeader';
 import { useAuth } from '@/hooks/useAuth';
 import Dropdown from '@/components/ui/Dropdown';
 import { getGradientForBook } from '@/lib/utils/gradients';
+import { readOfflineListCache, writeOfflineListCache } from '@/lib/pwa/offline-list-cache';
 
 interface Resource {
   id: string;
@@ -47,6 +48,8 @@ export default function ResourcesPage() {
   const { t, strings } = useI18n();
   const router = useRouter();
   const { user } = useAuth();
+  const offlineCacheKey = 'offline-resources';
+  const offlineLimit = 10;
   const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
@@ -60,6 +63,20 @@ export default function ResourcesPage() {
   const loadResources = async () => {
     try {
       setLoading(true);
+      const isOffline = typeof navigator !== 'undefined' && !navigator.onLine;
+      if (isOffline) {
+        const cached = readOfflineListCache<Resource>(offlineCacheKey);
+        if (cached?.items?.length) {
+          setResources(cached.items);
+          const uniqueCategories = Array.from(
+            new Set(cached.items.map((r: Resource) => r.category).filter(Boolean))
+          ) as string[];
+          setCategories(uniqueCategories);
+          return;
+        }
+        throw new Error('Offline with no cached resources');
+      }
+
       // For public view, only fetch published resources
       const response = await fetch('/api/resources/public');
 
@@ -71,6 +88,9 @@ export default function ResourcesPage() {
 
       const data = await response.json();
       setResources(data.resources || []);
+      if (data.resources?.length) {
+        writeOfflineListCache(offlineCacheKey, data.resources, offlineLimit);
+      }
 
       // Extract unique categories
       const uniqueCategories = Array.from(
@@ -79,6 +99,15 @@ export default function ResourcesPage() {
       setCategories(uniqueCategories);
     } catch (error) {
       console.error('Error loading resources:', error);
+      const cached = readOfflineListCache<Resource>(offlineCacheKey);
+      if (cached?.items?.length) {
+        setResources(cached.items);
+        const uniqueCategories = Array.from(
+          new Set(cached.items.map((r: Resource) => r.category).filter(Boolean))
+        ) as string[];
+        setCategories(uniqueCategories);
+        return;
+      }
       setResources([]);
     } finally {
       setLoading(false);

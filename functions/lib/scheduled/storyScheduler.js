@@ -57,9 +57,7 @@ const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
 const sentencePreGenerator_1 = require("../utils/sentencePreGenerator");
-// DISABLED: Word precomputation requires Next.js dependencies that aren't available in Cloud Functions
-// Words will be precomputed on-demand when users access the story
-// import { precomputeWordExplanations } from '../../../src/lib/ai/precompute/wordPrecompute'
+const wordPrecompute_1 = require("../../../src/lib/ai/precompute/wordPrecompute");
 const alertNotifier_1 = require("../utils/alertNotifier");
 // Define secrets needed for story generation
 const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY');
@@ -855,18 +853,35 @@ async function generateDailyStory(adminKey) {
                 // Check timeout before starting (leave 2min buffer for publish step)
                 const timeElapsed = Date.now() - startTime;
                 const timeRemaining = 540000 - timeElapsed; // 540s = 9min Cloud Function limit
-                // DISABLED: Word precomputation requires Next.js dependencies (kuromoji, etc.)
-                // that aren't available in Cloud Functions runtime. Words will be precomputed
-                // on-demand when users access the story.
-                logger.info('[StoryScheduler] Skipping word explanations - will be generated on-demand', {
-                    reason: 'Next.js dependencies not available in Cloud Functions',
-                    timeRemaining: Math.round(timeRemaining / 1000),
-                });
-                await updateCheckpoint(draftId, 'word_explanations');
-                await db.collection('ai_story_drafts').doc(draftId).update({
-                    'metadata.progress': 94,
-                    'metadata.wordExplanationsSkipped': true,
-                });
+                if (timeRemaining < 120000) {
+                    logger.warn('[StoryScheduler] Skipping word explanations - insufficient time', {
+                        timeRemaining: Math.round(timeRemaining / 1000),
+                        timeElapsed: Math.round(timeElapsed / 1000),
+                    });
+                }
+                else {
+                    // Attempt word explanation generation with timeout protection
+                    const wordResult = await Promise.race([
+                        (0, wordPrecompute_1.precomputeWordExplanations)({
+                            contentId: draftId,
+                            contentType: 'story',
+                            text: storyText,
+                            limit: 1000,
+                            jlptLevel: jlptLevel,
+                        }),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000))
+                    ]);
+                    await updateCheckpoint(draftId, 'word_explanations');
+                    await db.collection('ai_story_drafts').doc(draftId).update({
+                        'metadata.progress': 94,
+                        'metadata.wordExplanationsCount': wordResult.total,
+                    });
+                    logger.info('[StoryScheduler] Word explanations complete', {
+                        total: wordResult.total,
+                        generated: wordResult.generated,
+                        cached: wordResult.cached,
+                    });
+                }
             }
             else {
                 logger.warn('[StoryScheduler] No pages found for word explanation generation', { draftId });

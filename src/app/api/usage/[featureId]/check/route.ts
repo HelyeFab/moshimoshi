@@ -59,7 +59,9 @@ export async function GET(
       .doc(bucket);
 
     const usageDoc = await usageRef.get();
-    const currentUsage = usageDoc.data()?.[featureId] || 0;
+    const usageData = (usageDoc.data() as Record<string, unknown> | undefined) || {};
+    const counts = (usageData.counts as Record<string, number> | undefined) || {};
+    const currentUsage = (usageData[featureId] as number | undefined) ?? counts[featureId] ?? 0;
 
     // Build evaluation context
     const context: EvalContext = {

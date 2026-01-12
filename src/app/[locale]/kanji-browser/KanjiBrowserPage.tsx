@@ -110,6 +110,8 @@ function KanjiBrowserContent() {
     canAddMore,
   } = useKanjiBrowser()
 
+  // No page-level entitlement gate: allow page load, gate actions only.
+
   // Initialize kanji adapter for converting to ReviewableContent
   const kanjiAdapter = useMemo(
     () =>

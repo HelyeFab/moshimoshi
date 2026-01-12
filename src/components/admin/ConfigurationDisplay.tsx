@@ -1,7 +1,8 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ChevronDown, ChevronUp, Check, X, AlertCircle, Code, FileJson } from 'lucide-react'
+import { useToast } from '@/components/ui/Toast/ToastContext'
 
 interface Feature {
   id: string
@@ -40,11 +41,20 @@ export default function ConfigurationDisplay({
   onRegenerateTypes,
   generating
 }: ConfigurationDisplayProps) {
+  const { showToast } = useToast()
   const [expandedFeature, setExpandedFeature] = useState<string | null>(null)
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('table')
   const [showComparison, setShowComparison] = useState(false)
+  const [localConfig, setLocalConfig] = useState<ConfigData | null>(configData)
+  const [editingCell, setEditingCell] = useState<{ featureId: string; plan: string } | null>(null)
+  const [editValue, setEditValue] = useState<string>('')
+  const [savingCell, setSavingCell] = useState(false)
 
-  if (!configData) {
+  useEffect(() => {
+    setLocalConfig(configData)
+  }, [configData])
+
+  if (!localConfig) {
     return (
       <div className="text-center py-8">
         <div className="w-8 h-8 border-2 border-primary-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
@@ -53,11 +63,85 @@ export default function ConfigurationDisplay({
     )
   }
 
+  const getLimit = (plan: string, feature: Feature) => {
+    const planLimits = localConfig.limits?.[plan]
+    if (!planLimits) return undefined
+    const bucket = feature.limitType === 'monthly' ? planLimits.monthly : planLimits.daily
+    return bucket?.[feature.id]
+  }
+
   const formatLimit = (limit: number | undefined) => {
     if (limit === undefined) return <span className="text-gray-400">-</span>
     if (limit === 0) return <span className="text-gray-500">Not available</span>
     if (limit === -1) return <span className="text-green-600 dark:text-green-400 font-semibold">Unlimited</span>
     return <span className="font-medium">{limit}</span>
+  }
+
+  const handleEditStart = (featureId: string, plan: string, currentLimit: number | undefined) => {
+    setEditingCell({ featureId, plan })
+    setEditValue(currentLimit === undefined ? '' : String(currentLimit))
+  }
+
+  const handleEditCancel = () => {
+    setEditingCell(null)
+    setEditValue('')
+  }
+
+  const handleEditSave = async (feature: Feature, plan: string) => {
+    if (!editingCell) return
+    const parsed = Number(editValue)
+    if (!Number.isFinite(parsed)) {
+      showToast('Please enter a valid number.', 'error')
+      return
+    }
+
+    const limitType = feature.limitType === 'monthly' ? 'monthly' : 'daily'
+    setSavingCell(true)
+    try {
+      const response = await fetch('/api/admin/entitlements/config', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({
+          featureId: feature.id,
+          plan,
+          limitType,
+          value: parsed
+        })
+      })
+
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        showToast(data.error || 'Failed to update config.', 'error')
+        return
+      }
+
+      setLocalConfig(prev => {
+        if (!prev) return prev
+        const nextLimits = { ...prev.limits }
+        const planLimits = { ...nextLimits[plan] }
+        const bucket = limitType === 'monthly'
+          ? { ...planLimits.monthly }
+          : { ...planLimits.daily }
+        bucket[feature.id] = parsed
+        nextLimits[plan] = {
+          ...planLimits,
+          [limitType]: bucket
+        }
+        return {
+          ...prev,
+          limits: nextLimits,
+          lastUpdated: data.lastUpdated ?? prev.lastUpdated
+        }
+      })
+      showToast('Limit updated. Regenerate types to apply in code.', 'success', 4000)
+      setEditingCell(null)
+    } catch (error) {
+      console.error('Failed to update config:', error)
+      showToast('Failed to update config.', 'error')
+    } finally {
+      setSavingCell(false)
+    }
   }
 
   const plans = ['guest', 'free', 'premium_monthly', 'premium_yearly']
@@ -121,9 +205,9 @@ export default function ConfigurationDisplay({
                 From features.v1.json
               </h4>
               <div className="bg-white dark:bg-gray-800 rounded p-2 sm:p-3 text-xs space-y-1 overflow-x-auto">
-                <div>Features: {configData.features.map(f => f.id).join(', ')}</div>
-                <div>Plans: {Object.keys(configData.plans).join(', ')}</div>
-                <div>Version: {configData.version}</div>
+                <div>Features: {localConfig.features.map(f => f.id).join(', ')}</div>
+                <div>Plans: {Object.keys(localConfig.plans).join(', ')}</div>
+                <div>Version: {localConfig.version}</div>
               </div>
             </div>
             <div>
@@ -134,8 +218,8 @@ export default function ConfigurationDisplay({
               <div className="bg-white dark:bg-gray-800 rounded p-2 sm:p-3 text-xs space-y-1 overflow-x-auto">
                 <div>FeatureIds: {codeData.featureIds?.join(', ') || 'Loading...'}</div>
                 <div>PlanTypes: {codeData.planTypes?.join(', ') || 'Loading...'}</div>
-                <div className={configData.features.length !== codeData.featureIds?.length ? 'text-red-500' : 'text-green-500'}>
-                  {configData.features.length === codeData.featureIds?.length ? '✓ Synced' : '⚠ Mismatch!'}
+                <div className={localConfig.features.length !== codeData.featureIds?.length ? 'text-red-500' : 'text-green-500'}>
+                  {localConfig.features.length === codeData.featureIds?.length ? '✓ Synced' : '⚠ Mismatch!'}
                 </div>
               </div>
             </div>
@@ -163,7 +247,7 @@ export default function ConfigurationDisplay({
               </tr>
             </thead>
             <tbody>
-              {configData.features.map((feature, idx) => (
+              {localConfig.features.map((feature, idx) => (
                 <React.Fragment key={feature.id}>
                   <tr
                     className={`border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer ${
@@ -185,10 +269,59 @@ export default function ConfigurationDisplay({
                       </div>
                     </td>
                     {plans.map(plan => {
-                      const limit = configData.limits[plan]?.daily?.[feature.id]
+                      const limit = getLimit(plan, feature)
+                      const isEditing =
+                        editingCell?.featureId === feature.id && editingCell?.plan === plan
                       return (
-                        <td key={plan} className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm">
-                          {formatLimit(limit)}
+                        <td
+                          key={plan}
+                          className="text-center py-2 sm:py-3 px-2 sm:px-4 text-xs sm:text-sm"
+                          onClick={event => {
+                            event.stopPropagation()
+                            handleEditStart(feature.id, plan, limit)
+                          }}
+                        >
+                          {isEditing ? (
+                            <div className="flex items-center justify-center gap-2">
+                              <input
+                                type="number"
+                                inputMode="numeric"
+                                value={editValue}
+                                onChange={event => setEditValue(event.target.value)}
+                                onKeyDown={event => {
+                                  if (event.key === 'Enter') {
+                                    void handleEditSave(feature, plan)
+                                  } else if (event.key === 'Escape') {
+                                    handleEditCancel()
+                                  }
+                                }}
+                                className="w-20 rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 px-2 py-1 text-xs sm:text-sm text-gray-900 dark:text-gray-100"
+                              />
+                              <button
+                                onClick={event => {
+                                  event.stopPropagation()
+                                  void handleEditSave(feature, plan)
+                                }}
+                                disabled={savingCell}
+                                className="text-green-600 hover:text-green-700 disabled:opacity-60"
+                                aria-label="Save limit"
+                              >
+                                <Check className="w-4 h-4" />
+                              </button>
+                              <button
+                                onClick={event => {
+                                  event.stopPropagation()
+                                  handleEditCancel()
+                                }}
+                                className="text-gray-500 hover:text-gray-600"
+                                aria-label="Cancel edit"
+                              >
+                                <X className="w-4 h-4" />
+                              </button>
+                            </div>
+                          ) : (
+                            formatLimit(limit)
+                          )}
                         </td>
                       )
                     })}
@@ -253,8 +386,8 @@ export default function ConfigurationDisplay({
                 )}
               </h3>
               <div className="space-y-2">
-                {configData.features.map(feature => {
-                  const limit = configData.limits[plan]?.daily?.[feature.id]
+                {localConfig.features.map(feature => {
+                  const limit = getLimit(plan, feature)
                   return (
                     <div key={feature.id} className="flex justify-between items-center py-1 border-b border-gray-100 dark:border-gray-700/50 last:border-0">
                       <span className="text-sm text-gray-700 dark:text-gray-300">{feature.name}</span>
@@ -271,9 +404,9 @@ export default function ConfigurationDisplay({
       {/* Footer */}
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 pt-4 border-t border-gray-200 dark:border-gray-700">
         <p className="text-xs text-gray-500 dark:text-gray-400 order-2 sm:order-1">
-          <span className="block sm:inline">Version: {configData.version}</span>
+          <span className="block sm:inline">Version: {localConfig.version}</span>
           <span className="hidden sm:inline"> | </span>
-          <span className="block sm:inline">Last Updated: {configData.lastUpdated}</span>
+          <span className="block sm:inline">Last Updated: {localConfig.lastUpdated}</span>
           <span className="hidden lg:inline"> | Schema: /config/features.v1.json</span>
         </p>
         <button

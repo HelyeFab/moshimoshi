@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server'
 import { POST } from '../route'
 import { requireAuth } from '@/lib/auth/session'
 import { adminDb, FieldValue, Timestamp } from '@/lib/firebase/admin'
-import { evaluate } from '@/lib/entitlements/evaluator'
+import { evaluateFeatureAccess } from '@/lib/entitlements/server'
 import { getStorageDecision } from '@/lib/api/storage-helper'
 
 jest.mock('@/lib/auth/session', () => ({
@@ -22,9 +22,8 @@ jest.mock('@/lib/firebase/admin', () => ({
   },
 }))
 
-jest.mock('@/lib/entitlements/evaluator', () => ({
-  evaluate: jest.fn(),
-  getTodayBucket: jest.requireActual('@/lib/entitlements/evaluator').getTodayBucket,
+jest.mock('@/lib/entitlements/server', () => ({
+  evaluateFeatureAccess: jest.fn(),
 }))
 
 jest.mock('@/lib/api/storage-helper', () => {
@@ -38,7 +37,7 @@ jest.mock('@/lib/api/storage-helper', () => {
 
 const mockedRequireAuth = requireAuth as jest.Mock
 const mockedAdminDb = adminDb as unknown as { collection: jest.Mock; batch: jest.Mock }
-const mockedEvaluate = evaluate as jest.Mock
+const mockedEvaluateFeatureAccess = evaluateFeatureAccess as jest.Mock
 const mockedStorageDecision = getStorageDecision as jest.Mock
 
 describe('/api/todos POST', () => {
@@ -48,17 +47,21 @@ describe('/api/todos POST', () => {
 
   it('returns 429 when entitlement denies', async () => {
     mockedRequireAuth.mockResolvedValue({ uid: 'user-1' })
-    mockedEvaluate.mockReturnValue({
-      allow: false,
-      remaining: 0,
-      reason: 'limit_reached',
-      limit: 50,
+    mockedEvaluateFeatureAccess.mockResolvedValue({
+      decision: {
+        allow: false,
+        remaining: 0,
+        reason: 'limit_reached',
+        limit: 50,
+      },
+      currentUsage: 50,
+      bucketKey: 'todos_2025-12',
     })
-
-    const usageRef = { get: jest.fn().mockResolvedValue({ data: () => ({ todos: 50 }) }) }
     const userRef = {
       get: jest.fn().mockResolvedValue({ data: () => ({ subscription: { plan: 'free' } }) }),
-      collection: jest.fn().mockReturnValue({ doc: jest.fn(() => usageRef) }),
+      collection: jest.fn().mockReturnValue({
+        doc: jest.fn(() => ({ set: jest.fn() })),
+      }),
     }
     mockedAdminDb.collection.mockReturnValue({ doc: jest.fn(() => userRef) })
 
@@ -73,11 +76,15 @@ describe('/api/todos POST', () => {
 
   it('creates todo and updates usage when allowed', async () => {
     mockedRequireAuth.mockResolvedValue({ uid: 'user-1' })
-    mockedEvaluate.mockReturnValue({
-      allow: true,
-      remaining: 10,
-      reason: 'ok',
-      limit: 50,
+    mockedEvaluateFeatureAccess.mockResolvedValue({
+      decision: {
+        allow: true,
+        remaining: 10,
+        reason: 'ok',
+        limit: 50,
+      },
+      currentUsage: 0,
+      bucketKey: 'todos_2025-12',
     })
     mockedStorageDecision.mockResolvedValue({
       shouldWriteToFirebase: true,
@@ -90,11 +97,11 @@ describe('/api/todos POST', () => {
     const batchCommit = jest.fn().mockResolvedValue(true)
     mockedAdminDb.batch.mockReturnValue({ set: batchSet, commit: batchCommit })
 
-    const usageRef = { get: jest.fn().mockResolvedValue({ data: () => ({ todos: 0 }) }) }
+    const usageRef = {}
     const userRef = {
       get: jest.fn().mockResolvedValue({ data: () => ({ subscription: { plan: 'premium_monthly' } }) }),
       collection: jest.fn().mockReturnValue({
-        doc: jest.fn(() => usageRef),
+        doc: jest.fn(() => ({ ...usageRef, set: jest.fn() })),
       }),
     }
     mockedAdminDb.collection.mockReturnValue({ doc: jest.fn(() => userRef) })

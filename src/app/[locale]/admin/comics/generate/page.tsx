@@ -288,29 +288,10 @@ export default function GenerateComicPage() {
       const publishData = await publishResponse.json()
       const episodeId = publishData.episodeId
 
-      // Step 9: Generate Word Explanations
-      setGenerationProgress({
-        step: 'word_explanations',
-        message: 'Generating word explanations...',
-        progress: 97,
-      })
-
-      try {
-        await fetch('/api/admin/comics/word-explanations', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          credentials: 'include',
-          body: JSON.stringify({ episodeId, jlptLevel }),
-        })
-        console.log('[AdminComicGen] Word explanations generated')
-      } catch (wordExplError) {
-        console.warn('[AdminComicGen] Word explanation generation failed:', wordExplError)
-        // Non-blocking - continue to completion
-      }
-
+      // Step 9: Word explanations (generated automatically via Firestore trigger)
       setGenerationProgress({
         step: 'complete',
-        message: 'Episode created successfully!',
+        message: 'Episode created successfully! Word explanations will be generated in the background.',
         progress: 100,
       })
 

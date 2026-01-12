@@ -3,6 +3,7 @@ import { getSession } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
 import { v4 as uuidv4 } from 'uuid';
 import type { ListItem, ListType } from '@/types/userLists';
+import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server';
 
 // Helper for database availability check
 function getDb() {
@@ -88,6 +89,25 @@ export async function POST(
     const currentItems = list?.items || [];
     const listType = list?.type || 'word';
 
+    const nowUtcISO = new Date().toISOString();
+    const plan = await getUserPlan(session.uid);
+    const { decision } = await evaluateFeatureAccess({
+      featureId: 'save_items',
+      userId: session.uid,
+      plan,
+      nowUtcISO
+    });
+
+    if (!decision.allow) {
+      return NextResponse.json(
+        {
+          error: decision.reason === 'limit_reached' ? 'Monthly limit reached' : 'Access denied',
+          decision
+        },
+        { status: decision.reason === 'limit_reached' ? 429 : 403 }
+      );
+    }
+
     // Check for duplicate content
     if (isDuplicate(content, currentItems, listType)) {
       return NextResponse.json(
@@ -117,6 +137,14 @@ export async function POST(
     await listRef.update({
       items: currentItems,
       updatedAt: Date.now()
+    });
+
+    await evaluateFeatureAccess({
+      featureId: 'save_items',
+      userId: session.uid,
+      plan,
+      nowUtcISO,
+      increment: true
     });
 
     return NextResponse.json({

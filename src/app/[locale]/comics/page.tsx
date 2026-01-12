@@ -12,12 +12,14 @@ import DoshiMascot from '@/components/ui/DoshiMascot'
 import { useAuth } from '@/hooks/useAuth'
 import { useComicCache } from '@/hooks/useComicCache'
 import { ComicEpisode, ComicSeries } from '@/types/comic'
+import type { CachedComicEpisode } from '@/lib/comics/comic-cache.types'
 import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
+import { getValidatedEntitlementsSnapshot, isOffline } from '@/lib/pwa/offline-entitlements'
 
 
 function ComicsContent() {
   const { user, loading: authLoading } = useAuth()
-  const { prefetchEpisodes } = useComicCache()
+  const { prefetchEpisodes, getCachedIds, getEpisode } = useComicCache()
 
   const [series, setSeries] = useState<ComicSeries | null>(null)
   const [episodes, setEpisodes] = useState<ComicEpisode[]>([])
@@ -26,14 +28,61 @@ function ComicsContent() {
   const [hasMore, setHasMore] = useState(false)
   const [offset, setOffset] = useState(0)
   const limit = 12
+  const offlineLimit = 10
+
+  const normalizeCachedEpisode = (episode: CachedComicEpisode): ComicEpisode => ({
+    ...episode,
+    publishedAt: episode.publishedAt ? new Date(episode.publishedAt) : undefined,
+    createdAt: new Date(episode.createdAt),
+    updatedAt: episode.updatedAt ? new Date(episode.updatedAt) : new Date(episode.createdAt),
+  })
+
+  const loadCachedEpisodes = async () => {
+    const cachedIds = await getCachedIds()
+    if (cachedIds.length === 0) return []
+
+    const cached = await Promise.all(
+      cachedIds.map(async (id) => {
+        const result = await getEpisode(id)
+        return result.episode
+      })
+    )
+
+    const normalized = cached.filter(Boolean).map(entry => normalizeCachedEpisode(entry as CachedComicEpisode))
+    return normalized
+      .sort((a, b) => new Date(b.publishedAt || b.createdAt).getTime() - new Date(a.publishedAt || a.createdAt).getTime())
+      .slice(0, offlineLimit)
+  }
 
   const loadComics = useCallback(
-    async (reset: boolean = false) => {
+    async (reset: boolean = false, newOffset?: number) => {
       try {
         setLoading(true)
         setError(null)
-        const currentOffset = reset ? 0 : offset
+        const currentOffset = reset ? 0 : (newOffset !== undefined ? newOffset : offset)
         console.log('[ComicsPage] loadComics called, reset:', reset, 'offset:', currentOffset)
+
+        const snapshot = await getValidatedEntitlementsSnapshot()
+        const offlineTier = snapshot?.tier || null
+
+        if (isOffline()) {
+          if (offlineTier !== 'premium') {
+            setEpisodes([])
+            setHasMore(false)
+            setLoading(false)
+            return
+          }
+
+          const cachedEpisodes = await loadCachedEpisodes()
+          if (cachedEpisodes.length > 0) {
+            setEpisodes(cachedEpisodes)
+            setHasMore(false)
+            setOffset(0)
+            setLoading(false)
+            return
+          }
+          throw new Error('Offline with no cached episodes')
+        }
 
         // Load series info
         const seriesResponse = await fetch('/api/comics/series')
@@ -65,18 +114,30 @@ function ComicsContent() {
           setOffset(0)
         } else {
           setEpisodes(prev => [...prev, ...(episodesData.episodes || [])])
+          setOffset(currentOffset + limit)
         }
 
         setHasMore(episodesData.hasMore || false)
       } catch (err) {
         console.error('[ComicsPage] Error loading comics:', err)
         setError('Failed to load comics')
+        const snapshot = await getValidatedEntitlementsSnapshot()
+        if (snapshot?.tier === 'premium') {
+          const cachedEpisodes = await loadCachedEpisodes()
+          if (cachedEpisodes.length > 0) {
+            setEpisodes(cachedEpisodes)
+            setHasMore(false)
+            setOffset(0)
+            setError(null)
+            return
+          }
+        }
         setEpisodes([])
       } finally {
         setLoading(false)
       }
     },
-    [offset, limit]
+    [offset, limit, getCachedIds, getEpisode]
   )
 
   // Load on mount
@@ -85,19 +146,19 @@ function ComicsContent() {
     loadComics(true)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Prefetch top 5 episodes for offline use
+  // Prefetch top 10 episodes for offline use
   useEffect(() => {
     if (episodes.length > 0 && offset === 0) {
-      const episodeIds = episodes.slice(0, 5).map(ep => ep.id)
+      const episodeIds = episodes.slice(0, offlineLimit).map(ep => ep.id)
       prefetchEpisodes(episodeIds, { skipCached: true }).then(result => {
         console.log('[ComicsPage] Prefetch complete:', result)
       })
     }
-  }, [episodes, offset, prefetchEpisodes])
+  }, [episodes, offset, prefetchEpisodes, offlineLimit])
 
   const handleLoadMore = () => {
-    setOffset(prev => prev + limit)
-    loadComics(false)
+    const newOffset = offset + limit
+    loadComics(false, newOffset)
   }
 
   // Show loading state while auth is loading

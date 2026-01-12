@@ -15,6 +15,7 @@ import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
 import { Kanji } from '@/types/kanji'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { kanjiService } from '@/services/kanjiService'
+import { useFeature } from '@/hooks/useFeature'
 
 export default function MoodBoardDetailPage() {
   const router = useRouter()
@@ -25,6 +26,7 @@ export default function MoodBoardDetailPage() {
   const { showToast } = useToast()
   const { user } = useAuth()
   const { moodBoards, loading } = useMoodBoards()
+  const { checkAndTrack } = useFeature('kanji_mood_board')
 
   const [board, setBoard] = useState<MoodBoardType | null>(null)
   const [progress, setProgress] = useState(getBoardProgress(boardId))
@@ -33,6 +35,7 @@ export default function MoodBoardDetailPage() {
   const [showCompleted, setShowCompleted] = useState(true)
   const [selectedKanji, setSelectedKanji] = useState<Kanji | null>(null)
   const [enrichedKanjiMap, setEnrichedKanjiMap] = useState<Map<string, Kanji>>(new Map())
+  const [entitlementChecked, setEntitlementChecked] = useState(false)
 
   // Find the board
   useEffect(() => {
@@ -46,6 +49,19 @@ export default function MoodBoardDetailPage() {
       }
     }
   }, [boardId, moodBoards, loading, router, showToast, t])
+
+  useEffect(() => {
+    const checkAccess = async () => {
+      if (!boardId) return
+      const allowed = await checkAndTrack({ showUI: true })
+      setEntitlementChecked(true)
+      if (!allowed) {
+        router.push('/kanji-moods')
+      }
+    }
+
+    checkAccess()
+  }, [boardId, checkAndTrack, router])
 
   // Update progress when board changes
   useEffect(() => {
@@ -133,7 +149,7 @@ export default function MoodBoardDetailPage() {
       : transformedKanji.filter(k => !isKanjiLearned(boardId, k.kanji))
   }, [board, showCompleted, transformedKanji, boardId])
 
-  if (loading || !board) {
+  if (loading || !board || !entitlementChecked) {
     return <LoadingOverlay />
   }
 

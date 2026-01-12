@@ -1,0 +1,52 @@
+{
+  "cookies": [
+    {
+      "name": "__next_hmr_refresh_hash__",
+      "value": "bc06f4bef116f489cc38bbe7d2a92d46cfc228470ced0d71",
+      "domain": "localhost",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": false,
+      "secure": false,
+      "sameSite": "Lax"
+    },
+    {
+      "name": "session",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJjOUJxZVJrcEFBT3I1aFI2WDMwbTRQV3NnSXExIiwiZW1haWwiOiJkYW5AYmVhbm8uY29tIiwiZmluZ2VycHJpbnQiOiI4NzQ2MjRhZTQ3MDQ5ODEyYWJlZDIxNDAwMjE3OTM5YzI2OWI4NDdkNDExNWQ5YjczZjJiMDE3ODU1MDMwOWVhIiwiYWRtaW4iOmZhbHNlLCJzaWQiOiI1MzUyNTM4NjdhYmNjYmQ2ZjhkMzY2OTc0YTU4MWYzMjFiN2NkMDI5MTAyYWYzOTNjOWVkOTM0NDE3NTQzYTFiIiwiaWF0IjoxNzY4MjI1NjM0LCJleHAiOjE3NjgyMjkyMzQsImF1ZCI6Im1vc2hpbW9zaGktYXBwIiwiaXNzIjoibW9zaGltb3NoaSJ9.5tcDAuDqXI4BmW3bNL082VaQ7Lckn-iVNxH3yhdVabU",
+      "domain": "localhost",
+      "path": "/",
+      "expires": 1768229234.649871,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "http://localhost:3001",
+      "localStorage": [
+        {
+          "name": "userTier",
+          "value": "guest"
+        },
+        {
+          "name": "moshimoshi-language",
+          "value": "en"
+        },
+        {
+          "name": "pwa_visit_count",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.google.com",
+      "localStorage": [
+        {
+          "name": "rc::a",
+          "value": "bzEzMHNzeDlndGVt"
+        }
+      ]
+    }
+  ]
+}

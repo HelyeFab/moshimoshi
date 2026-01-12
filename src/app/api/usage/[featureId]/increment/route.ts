@@ -8,7 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminDb } from '@/lib/firebase/admin';
 import { getSession } from '@/lib/auth/session';
-import { evaluate, getTodayBucket, getBucketKey } from '@/lib/entitlements/evaluator';
+import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator';
 import type { EvalContext } from '@/lib/entitlements/evaluator';
 import { FeatureId } from '@/types/FeatureId';
 import { FEATURE_IDS } from '@/types/FeatureId';
@@ -78,13 +78,16 @@ export async function POST(
     const nowUtc = new Date().toISOString();
     const bucketKey = getBucketKey(featureId, userId || 'guest', nowUtc);
     let currentUsage = 0;
+    let existingCounts: Record<string, number> = {};
 
     if (userId && adminDb) {
       try {
         const usageRef = adminDb.collection('users').doc(userId).collection('usage').doc(bucketKey);
         const usageDoc = await usageRef.get();
-        const usageData = usageDoc.data() || {};
-        currentUsage = usageData[featureId] || 0;
+        const usageData = (usageDoc.data() as Record<string, unknown> | undefined) || {};
+        const counts = (usageData.counts as Record<string, number> | undefined) || {};
+        existingCounts = counts;
+        currentUsage = (usageData[featureId] as number | undefined) ?? counts[featureId] ?? 0;
       } catch (error) {
         console.error('Error fetching usage:', error);
       }
@@ -106,6 +109,11 @@ export async function POST(
         const usageRef = adminDb.collection('users').doc(userId).collection('usage').doc(bucketKey);
         await usageRef.set({
           [featureId]: currentUsage + 1,
+          counts: {
+            ...existingCounts,
+            [featureId]: currentUsage + 1
+          },
+          updatedAt: nowUtc,
           lastUpdated: nowUtc
         }, { merge: true });
 

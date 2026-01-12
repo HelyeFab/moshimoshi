@@ -31,11 +31,19 @@ declare global {
 export function ReCaptchaProvider({ children }: ReCaptchaProviderProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+  const isE2EBypass =
+    process.env.NEXT_PUBLIC_E2E_BYPASS_RECAPTCHA === 'true' ||
+    process.env.E2E_BYPASS_RECAPTCHA === 'true'
 
   // Skip reCAPTCHA if not configured
-  const isConfigured = siteKey && !siteKey.includes('YOUR_RECAPTCHA')
+  const isConfigured = siteKey && !siteKey.includes('YOUR_RECAPTCHA') && !isE2EBypass
 
   useEffect(() => {
+    if (isE2EBypass) {
+      console.warn('[ReCAPTCHA] E2E bypass enabled')
+      setIsLoaded(true)
+      return
+    }
     if (!isConfigured) {
       console.warn('[ReCAPTCHA] Not configured - skipping. Get keys from: https://www.google.com/recaptcha/admin')
       setIsLoaded(true) // Allow forms to work without reCAPTCHA

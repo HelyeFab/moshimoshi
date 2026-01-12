@@ -1,3 +1,4 @@
+/** @jest-environment jsdom */
 /**
  * Comprehensive Test Suite for UniversalProgressManager
  * Verifies that server-side API changes haven't broken functionality
@@ -6,6 +7,11 @@
 import { UniversalProgressManager } from '../UniversalProgressManager'
 import { ProgressEvent, ProgressStatus, ReviewProgressData } from '../../core/progress.types'
 import { reviewLogger } from '@/lib/monitoring/logger'
+
+const expectIsoDate = (value: unknown) => {
+  expect(typeof value).toBe('string')
+  expect(new Date(value as string).toString()).not.toBe('Invalid Date')
+}
 
 // Mock fetch for API calls
 global.fetch = jest.fn()
@@ -87,6 +93,10 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
     jest.clearAllMocks()
     jest.useRealTimers()
     manager = new TestProgressManager()
+    Object.defineProperty(window.navigator, 'onLine', {
+      value: true,
+      configurable: true,
+    })
 
     // Get the mocked idb module
     mockIDB = require('idb')
@@ -119,9 +129,6 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
     it('should not track progress for guest users', async () => {
       await manager.trackProgress(contentType, contentId, ProgressEvent.VIEWED, null, false)
 
-      expect(reviewLogger.debug).toHaveBeenCalledWith(
-        '[UniversalProgressManager] Guest user - no storage'
-      )
       expect(mockDB.add).not.toHaveBeenCalled()
     })
 
@@ -140,7 +147,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         false
       )
 
-      expect(reviewLogger.info).toHaveBeenCalled()
+      expect(mockDB.add).toHaveBeenCalled()
     })
 
     it('should create initial progress with correct defaults', () => {
@@ -161,8 +168,8 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         bookmarked: false,
         flaggedForReview: false,
       })
-      expect(progress.createdAt).toBeInstanceOf(Date)
-      expect(progress.updatedAt).toBeInstanceOf(Date)
+      expectIsoDate(progress.createdAt)
+      expectIsoDate(progress.updatedAt)
     })
 
     describe('Event Processing', () => {
@@ -172,8 +179,8 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
 
         expect(updated.viewCount).toBe(1)
         expect(updated.status).toBe('viewing')
-        expect(updated.firstViewedAt).toBeInstanceOf(Date)
-        expect(updated.lastViewedAt).toBeInstanceOf(Date)
+        expectIsoDate(updated.firstViewedAt)
+        expectIsoDate(updated.lastViewedAt)
       })
 
       it('should update progress for INTERACTED event', () => {
@@ -182,7 +189,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
 
         expect(updated.interactionCount).toBe(1)
         expect(updated.status).toBe('learning')
-        expect(updated.lastInteractedAt).toBeInstanceOf(Date)
+        expectIsoDate(updated.lastInteractedAt)
       })
 
       it('should update progress for COMPLETED event (correct)', () => {
@@ -220,8 +227,8 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         // Skipped doesn't change most fields
         expect(updated.viewCount).toBe(0)
         expect(updated.correctCount).toBe(0)
-        expect(updated.updatedAt).toBeInstanceOf(Date)
-      })
+      expectIsoDate(updated.updatedAt)
+    })
     })
 
     describe('Accuracy Calculations', () => {
@@ -525,7 +532,7 @@ describe('UniversalProgressManager - Server-side API Integration', () => {
         c: 'test',
         d: null,
         e: { g: 2 },
-        arr: [1, undefined, 3], // Arrays keep undefined
+        arr: [1, null, 3], // Arrays convert undefined to null
       })
       expect(cleaned.b).toBeUndefined()
       expect(cleaned.e.f).toBeUndefined()

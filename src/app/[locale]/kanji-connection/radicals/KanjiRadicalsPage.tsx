@@ -11,6 +11,7 @@ import PageHeader from '@/components/ui/PageHeader';
 import Navbar from '@/components/layout/Navbar';
 import Tooltip from '@/components/ui/Tooltip';
 import { HelpCircle } from 'lucide-react';
+import { useKanjiConnectionCache } from '@/hooks/useKanjiConnectionCache';
 
 interface RadicalData {
   radical: any;
@@ -23,6 +24,7 @@ interface RadicalData {
 export default function KanjiRadicalsPage() {
   const { user } = useAuth();
   const { t } = useI18n();
+  const { getConnection, cacheConnection } = useKanjiConnectionCache();
 
   const [selectedRadical, setSelectedRadical] = useState<string | null>(null);
   const [radicalData, setRadicalData] = useState<RadicalData | null>(null);
@@ -41,6 +43,16 @@ export default function KanjiRadicalsPage() {
     setError(null);
 
     try {
+      const cached = await getConnection('radical', radicalId, { subThemes });
+      if (cached) {
+        setRadicalData(cached);
+        if (cached.subThemeGroups && Object.keys(cached.subThemeGroups).length > 0) {
+          setExpandedThemes(new Set([Object.keys(cached.subThemeGroups)[0]]));
+        }
+        setLoading(false);
+        return;
+      }
+
       const response = await fetch(
         `/api/kanji/by-radical?radical=${radicalId}&subThemes=${subThemes}`
       );
@@ -51,6 +63,7 @@ export default function KanjiRadicalsPage() {
 
       const data = await response.json();
       setRadicalData(data);
+      await cacheConnection('radical', radicalId, data, { subThemes });
 
       // Auto-expand first theme
       if (data.subThemeGroups && Object.keys(data.subThemeGroups).length > 0) {

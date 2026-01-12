@@ -71,6 +71,23 @@ export interface Story {
   audioVoice?: string
   audioStatus?: 'pending' | 'generating' | 'complete' | 'partial' | 'failed'
   audioError?: string
+
+  // Word Explanations (Async Batch Processing)
+  wordExplanationsStatus?: 'pending' | 'generating' | 'complete' | 'failed'
+  wordExplanationsStartedAt?: Date
+  wordExplanationsCompletedAt?: Date
+  wordExplanationsFailedAt?: Date
+  wordExplanationsLastUpdatedAt?: Date
+  wordExplanationsCount?: number
+  wordExplanationsError?: string
+  wordExplanationsProgress?: {
+    totalBatches: number
+    completedBatches: number
+    totalWords: number
+    completedWords: number
+    currentBatch: number
+    percentComplete: number
+  }
 }
 
 // Enhanced Story Progress

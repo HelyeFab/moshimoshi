@@ -1,14 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { getAdminDb } from '@/lib/firebase/admin'
+import { FieldValue } from 'firebase-admin/firestore'
+import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server'
 
-const PREMIUM_PLANS = new Set(['premium_monthly', 'premium_yearly'])
+async function requireFlashcardsEntitlement(uid: string) {
+  const plan = await getUserPlan(uid)
+  const nowUtcISO = new Date().toISOString()
+  const { decision } = await evaluateFeatureAccess({
+    featureId: 'flashcards',
+    userId: uid,
+    plan,
+    nowUtcISO
+  })
 
-async function ensurePremium(uid: string): Promise<boolean> {
-  const db = getAdminDb()
-  const userDoc = await db.collection('users').doc(uid).get()
-  const plan = userDoc.data()?.subscription?.plan
-  return !!plan && PREMIUM_PLANS.has(plan)
+  return { plan, nowUtcISO, decision }
 }
 
 // Helper to remove undefined values (Firestore doesn't accept them)
@@ -38,8 +44,18 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    if (!(await ensurePremium(session.uid))) {
-      return NextResponse.json({ error: 'Premium required' }, { status: 403 })
+    const entitlement = await requireFlashcardsEntitlement(session.uid)
+    if (!entitlement.decision.allow) {
+      return NextResponse.json(
+        {
+          error:
+            entitlement.decision.reason === 'limit_reached'
+              ? 'Daily limit reached'
+              : 'Access denied',
+          decision: entitlement.decision
+        },
+        { status: entitlement.decision.reason === 'limit_reached' ? 429 : 403 }
+      )
     }
 
     const db = getAdminDb()
@@ -79,8 +95,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    if (!(await ensurePremium(session.uid))) {
-      return NextResponse.json({ error: 'Premium required' }, { status: 403 })
+    const entitlement = await requireFlashcardsEntitlement(session.uid)
+    if (!entitlement.decision.allow) {
+      return NextResponse.json(
+        {
+          error:
+            entitlement.decision.reason === 'limit_reached'
+              ? 'Daily limit reached'
+              : 'Access denied',
+          decision: entitlement.decision
+        },
+        { status: entitlement.decision.reason === 'limit_reached' ? 429 : 403 }
+      )
     }
 
     const { decks } = await request.json()
@@ -90,9 +116,37 @@ export async function POST(request: NextRequest) {
     }
 
     const db = getAdminDb()
+    const deckAccess = await evaluateFeatureAccess({
+      featureId: 'flashcard_decks',
+      userId: session.uid,
+      plan: entitlement.plan,
+      nowUtcISO: entitlement.nowUtcISO
+    })
     let synced = 0,
       conflicts = 0,
       skipped = 0
+    let newDecks = 0
+
+    const userDecks = decks.filter((deck: any) => deck.source !== 'anki')
+    const deckRefs = userDecks.map((deck: any) => db.collection('flashcardDecks').doc(deck.id))
+    const existingSnapshots = deckRefs.length > 0 ? await db.getAll(...deckRefs) : []
+    const existingMap = new Map(existingSnapshots.map(doc => [doc.id, doc]))
+    for (const deck of userDecks) {
+      const existing = existingMap.get(deck.id)
+      if (!existing || !existing.exists) {
+        newDecks += 1
+      }
+    }
+
+    if (deckAccess.decision.remaining !== -1 && newDecks > deckAccess.decision.remaining) {
+      return NextResponse.json(
+        {
+          error: 'Monthly deck limit reached',
+          decision: deckAccess.decision
+        },
+        { status: 429 }
+      )
+    }
 
     // Process in batches of 50 (Firestore batch limit is 500, using 50 for safety)
     const BATCH_SIZE = 50
@@ -115,9 +169,9 @@ export async function POST(request: NextRequest) {
         }
 
         const ref = db.collection('flashcardDecks').doc(deck.id)
-        const existing = await ref.get()
+        const existing = existingMap.get(deck.id)
 
-        if (existing.exists) {
+        if (existing?.exists) {
           const existingData = existing.data()
 
           // LWW conflict resolution using updatedAt timestamp
@@ -135,6 +189,21 @@ export async function POST(request: NextRequest) {
       }
 
       await batch.commit()
+    }
+
+    if (newDecks > 0) {
+      const usageRef = db
+        .collection('users')
+        .doc(session.uid)
+        .collection('usage')
+        .doc(deckAccess.bucketKey)
+      await usageRef.set(
+        {
+          flashcard_decks: FieldValue.increment(newDecks),
+          lastUpdated: entitlement.nowUtcISO
+        },
+        { merge: true }
+      )
     }
 
     console.log('[API Flashcards Decks] POST - Batch sync complete:', {

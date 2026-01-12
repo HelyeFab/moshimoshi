@@ -124,12 +124,8 @@ export default function AdminStoriesPage() {
     try {
       setDeleteModalOpen(false)
       setIsDeleting(true)
-      const response = await fetch('/api/admin/stories', {
+      const response = await fetch(`/api/admin/stories?id=${storyToDelete.id}`, {
         method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ storyId: storyToDelete.id }),
       })
 
       if (!response.ok) {
@@ -159,12 +155,8 @@ export default function AdminStoriesPage() {
       setDeleteSelectedModalOpen(false)
       setIsDeleting(true)
       for (const id of selectedIds) {
-        const response = await fetch('/api/admin/stories', {
+        const response = await fetch(`/api/admin/stories?id=${id}`, {
           method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ storyId: id }),
         })
 
         if (!response.ok) {
@@ -326,11 +318,40 @@ export default function AdminStoriesPage() {
                         />
                       </td>
                       <td className="p-4">
-                        <div>
-                          <p className="font-medium text-gray-900 dark:text-white">{story.title}</p>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">
-                            {story.titleJa}
-                          </p>
+                        <div className="flex items-center gap-2">
+                          {/* Word Explanation Status Indicator */}
+                          {story.status !== 'draft' && (
+                            <div
+                              className="flex-shrink-0"
+                              title={
+                                story.wordExplanationsStatus === 'complete'
+                                  ? `Word explanations: ${story.wordExplanationsCount || 0} words`
+                                  : story.wordExplanationsStatus === 'generating'
+                                    ? story.wordExplanationsProgress
+                                      ? `Generating batch ${story.wordExplanationsProgress.currentBatch}/${story.wordExplanationsProgress.totalBatches} (${story.wordExplanationsProgress.completedWords}/${story.wordExplanationsProgress.totalWords} words - ${story.wordExplanationsProgress.percentComplete}%)`
+                                      : 'Generating word explanations...'
+                                    : story.wordExplanationsStatus === 'failed'
+                                      ? `Failed: ${story.wordExplanationsError}`
+                                      : 'Word explanations pending'
+                              }
+                            >
+                              <div
+                                className={`w-2 h-2 rounded-full ${
+                                  story.wordExplanationsStatus === 'complete'
+                                    ? 'bg-green-500'
+                                    : story.wordExplanationsStatus === 'generating'
+                                      ? 'bg-yellow-500 animate-pulse'
+                                      : 'bg-red-500'
+                                }`}
+                              />
+                            </div>
+                          )}
+                          <div>
+                            <p className="font-medium text-gray-900 dark:text-white">{story.title}</p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              {story.titleJa}
+                            </p>
+                          </div>
                         </div>
                       </td>
                       <td className="p-4">

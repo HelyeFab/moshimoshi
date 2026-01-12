@@ -9,6 +9,7 @@ import { LoadingOverlay } from '@/components/ui/Loading';
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal';
 import PageHeader from '@/components/ui/PageHeader';
 import Navbar from '@/components/layout/Navbar';
+import { useKanjiConnectionCache } from '@/hooks/useKanjiConnectionCache';
 
 interface KanjiDetails {
   kanji: string;
@@ -40,6 +41,7 @@ interface FamilyData {
 export default function KanjiFamiliesPage() {
   const { user } = useAuth();
   const { t } = useI18n();
+  const { getConnection, cacheConnection } = useKanjiConnectionCache();
 
   const [selectedFamily, setSelectedFamily] = useState<string | null>(null);
   const [familyData, setFamilyData] = useState<FamilyData | null>(null);
@@ -58,6 +60,13 @@ export default function KanjiFamiliesPage() {
     setError(null);
 
     try {
+      const cached = await getConnection('family', familyId, { details: true, crossFamilies });
+      if (cached) {
+        setFamilyData(cached);
+        setLoading(false);
+        return;
+      }
+
       const response = await fetch(
         `/api/kanji/by-family?family=${familyId}&details=true&crossFamilies=${crossFamilies}`
       );
@@ -68,6 +77,7 @@ export default function KanjiFamiliesPage() {
 
       const data = await response.json();
       setFamilyData(data);
+      await cacheConnection('family', familyId, data, { details: true, crossFamilies });
     } catch (err) {
       console.error('Error loading family:', err);
       setError('Failed to load kanji family data');

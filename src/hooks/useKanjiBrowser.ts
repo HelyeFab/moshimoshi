@@ -40,7 +40,7 @@ export function useKanjiBrowser() {
   const { user } = useAuth();
   const { isPremium } = useSubscription();
   const { showToast } = useToast();
-  const { checkAndTrack } = useFeature('kanji_browser');
+  const { checkOnly } = useFeature('kanji_browser');
   // Gamification removed
   // const achievementStore = useAchievementStore();
 
@@ -194,8 +194,9 @@ export function useKanjiBrowser() {
     }
 
     try {
-      const allowed = await checkAndTrack({ showUI: true });
-      if (!allowed) {
+      const decision = await checkOnly({ failOpen: false });
+      if (!decision.allow) {
+        showToast('Daily limit reached for kanji browser.', 'warning');
         return false;
       }
 
@@ -209,10 +210,7 @@ export function useKanjiBrowser() {
 
       if (!response.ok) {
         if (response.status === 429) {
-          showToast(
-            `Daily limit reached! You can add ${data.remaining} more kanji today.`,
-            'warning'
-          );
+          showToast('Daily limit reached for kanji browser.', 'warning');
         } else {
           throw new Error(data.error);
         }
@@ -244,7 +242,7 @@ export function useKanjiBrowser() {
       showToast('Failed to add kanji to review queue', 'error');
       return false;
     }
-  }, [user, session, showToast, checkAndTrack]);
+  }, [user, session, showToast, checkOnly]);
 
   // Toggle bookmark
   const toggleBookmark = useCallback(async (kanjiId: string, character: string) => {

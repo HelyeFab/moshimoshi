@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server'
 import { POST } from '../route'
 import { getSession } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
-import { evaluate } from '@/lib/entitlements/evaluator'
+import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server'
 
 jest.mock('@/lib/auth/session', () => ({
   getSession: jest.fn(),
@@ -15,9 +15,9 @@ jest.mock('@/lib/firebase/admin', () => ({
   },
 }))
 
-jest.mock('@/lib/entitlements/evaluator', () => ({
-  evaluate: jest.fn(),
-  getTodayBucket: jest.requireActual('@/lib/entitlements/evaluator').getTodayBucket,
+jest.mock('@/lib/entitlements/server', () => ({
+  evaluateFeatureAccess: jest.fn(),
+  getUserPlan: jest.fn(),
 }))
 
 jest.mock('firebase-admin/firestore', () => ({
@@ -29,7 +29,8 @@ jest.mock('firebase-admin/firestore', () => ({
 
 const mockedGetSession = getSession as jest.Mock
 const mockedAdminDb = adminDb as unknown as { collection: jest.Mock; batch: jest.Mock }
-const mockedEvaluate = evaluate as jest.Mock
+const mockedEvaluateFeatureAccess = evaluateFeatureAccess as jest.Mock
+const mockedGetUserPlan = getUserPlan as jest.Mock
 
 describe('/api/kanji/add-to-review POST', () => {
   beforeEach(() => {
@@ -50,24 +51,17 @@ describe('/api/kanji/add-to-review POST', () => {
 
   it('returns 429 when entitlement denies', async () => {
     mockedGetSession.mockResolvedValue({ uid: 'user-1' })
-    mockedEvaluate.mockReturnValue({
-      allow: false,
-      remaining: 0,
-      reason: 'limit_reached',
-      limit: 5,
+    mockedGetUserPlan.mockResolvedValue('free')
+    mockedEvaluateFeatureAccess.mockResolvedValue({
+      decision: {
+        allow: false,
+        remaining: 0,
+        reason: 'limit_reached',
+        limit: 5,
+      },
+      currentUsage: 5,
+      bucketKey: 'kanji_browser_2025-12-26',
     })
-
-    const usageRef = { get: jest.fn().mockResolvedValue({ data: () => ({ kanji_browser: 5 }) }) }
-    const userRef = {
-      get: jest.fn().mockResolvedValue({ data: () => ({ subscription: { plan: 'free' } }) }),
-      collection: jest.fn((name: string) => {
-        if (name === 'usage') {
-          return { doc: jest.fn(() => usageRef) }
-        }
-        return { doc: jest.fn(() => ({ set: jest.fn() })) }
-      }),
-    }
-    mockedAdminDb.collection.mockReturnValue({ doc: jest.fn(() => userRef) })
 
     const request = new NextRequest('http://localhost/api/kanji/add-to-review', {
       method: 'POST',
@@ -78,31 +72,37 @@ describe('/api/kanji/add-to-review POST', () => {
     expect(response.status).toBe(429)
   })
 
-  it('adds kanji and updates usage when allowed', async () => {
+  it('adds kanji when allowed', async () => {
     mockedGetSession.mockResolvedValue({ uid: 'user-1' })
-    mockedEvaluate.mockReturnValue({
-      allow: true,
-      remaining: 5,
-      reason: 'ok',
-      limit: 5,
+    mockedGetUserPlan.mockResolvedValue('free')
+    mockedEvaluateFeatureAccess.mockResolvedValue({
+      decision: {
+        allow: true,
+        remaining: 5,
+        reason: 'ok',
+        limit: 5,
+      },
+      currentUsage: 0,
+      bucketKey: 'kanji_browser_2025-12-26',
     })
-
-    const usageRef = { get: jest.fn().mockResolvedValue({ data: () => ({ kanji_browser: 0 }) }) }
-    const userRef = {
-      get: jest.fn().mockResolvedValue({ data: () => ({ subscription: { plan: 'free' } }) }),
-      collection: jest.fn((name: string) => {
-        if (name === 'usage') {
-          return { doc: jest.fn(() => usageRef) }
-        }
-        return { doc: jest.fn(() => ({ set: jest.fn() })) }
-      }),
-    }
 
     const batchSet = jest.fn()
     const batchCommit = jest.fn().mockResolvedValue(true)
     mockedAdminDb.batch.mockReturnValue({ set: batchSet, commit: batchCommit })
 
-    mockedAdminDb.collection.mockReturnValue({ doc: jest.fn(() => userRef) })
+    const achievementSet = jest.fn().mockResolvedValue(true)
+    const nestedDoc = { set: achievementSet }
+    const userDoc = {
+      collection: jest.fn(() => ({
+        doc: jest.fn(() => nestedDoc),
+      })),
+    }
+    mockedAdminDb.collection.mockImplementation((name: string) => {
+      if (name === 'users') {
+        return { doc: jest.fn(() => userDoc) }
+      }
+      return { doc: jest.fn(() => ({})) }
+    })
 
     const request = new NextRequest('http://localhost/api/kanji/add-to-review', {
       method: 'POST',

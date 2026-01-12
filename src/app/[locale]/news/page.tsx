@@ -329,33 +329,14 @@ export default function NewsPage() {
   const [hasMore, setHasMore] = useState(false)
 
   // Article cache for offline prefetching
-  const { prefetchArticles } = useArticleCache()
+  const { prefetchArticles, getCachedIds, getArticle } = useArticleCache()
   const [prefetchStatus, setPrefetchStatus] = useState<'idle' | 'prefetching' | 'done'>('idle')
+  const offlineLimit = 2
 
   // Load articles
   useEffect(() => {
     loadArticles()
   }, [])
-
-  // Prefetch top articles for offline use after articles load
-  useEffect(() => {
-    if (articles.length > 0 && prefetchStatus === 'idle') {
-      // Get IDs of first 10 articles to prefetch for offline
-      const articleIds = articles.slice(0, 10).map(a => a.id)
-
-      // Prefetch in background (don't await - fire and forget)
-      setPrefetchStatus('prefetching')
-      prefetchArticles(articleIds, { skipCached: true })
-        .then(results => {
-          console.log('[NewsPage] Offline prefetch complete:', results)
-          setPrefetchStatus('done')
-        })
-        .catch(err => {
-          console.warn('[NewsPage] Offline prefetch failed:', err)
-          setPrefetchStatus('done')
-        })
-    }
-  }, [articles, prefetchStatus, prefetchArticles])
 
   // Filter articles when filters change
   useEffect(() => {
@@ -372,22 +353,76 @@ export default function NewsPage() {
     }
   }, [authLoading, user, isGuest, router, getLocalePath])
 
+  const loadCachedArticles = async () => {
+    const cachedIds = await getCachedIds()
+    if (cachedIds.length === 0) return []
+
+    const cached = await Promise.all(
+      cachedIds.map(async (id) => {
+        const result = await getArticle(id)
+        return result.article
+      })
+    )
+
+    const normalized = cached.filter(Boolean) as NewsArticle[]
+    return normalized
+      .sort((a, b) => new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime())
+      .slice(0, offlineLimit)
+  }
+
   const loadArticles = async (pageNum: number = 0) => {
     try {
       setLoading(true)
       setError(null)
 
       const offset = pageNum * 20
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        const cachedArticles = await loadCachedArticles()
+        if (cachedArticles.length > 0) {
+          setArticles(cachedArticles)
+          setHasMore(false)
+          setPage(0)
+          return
+        }
+        throw new Error('Offline with no cached articles')
+      }
+
       const response = await fetch(`/api/news/articles?limit=20&offset=${offset}`)
       if (!response.ok) throw new Error('Failed to fetch articles')
 
       const data = await response.json()
       console.log('[NewsPage] API response:', data)
-      setArticles(data.articles || data.data || [])
+      const nextArticles = data.articles || data.data || []
+
+      if (prefetchStatus === 'idle' && typeof navigator !== 'undefined' && navigator.onLine) {
+        const articleIds = nextArticles.slice(0, offlineLimit).map((article: NewsArticle) => article.id)
+
+        if (articleIds.length > 0) {
+          setPrefetchStatus('prefetching')
+          try {
+            const results = await prefetchArticles(articleIds, { skipCached: true })
+            console.log('[NewsPage] Offline prefetch complete:', results)
+            setPrefetchStatus('done')
+          } catch (prefetchError) {
+            console.warn('[NewsPage] Offline prefetch failed:', prefetchError)
+            setPrefetchStatus('done')
+          }
+        }
+      }
+
+      setArticles(nextArticles)
       setHasMore(data.hasMore || false)
       setPage(pageNum)
     } catch (err) {
       console.error('Failed to load articles:', err)
+      const cachedArticles = await loadCachedArticles()
+      if (cachedArticles.length > 0) {
+        setArticles(cachedArticles)
+        setHasMore(false)
+        setPage(0)
+        setError(null)
+        return
+      }
       setError('ニュース記事の読み込みに失敗しました')
     } finally {
       setLoading(false)

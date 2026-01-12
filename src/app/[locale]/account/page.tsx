@@ -8,6 +8,7 @@ import { useErrorToast } from '@/hooks/useErrorToast'
 import { useTranslation, useLocalePath } from '@/i18n/I18nContext'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useAuth } from '@/hooks/useAuth'
+import { useFeature } from '@/hooks/useFeature'
 import { SubscriptionStatus } from '@/components/subscription/SubscriptionStatus'
 import { InvoiceHistory } from '@/components/subscription/InvoiceHistory'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -46,6 +47,7 @@ function AccountPageContent() {
   const { showError } = useErrorToast()
   const { subscription, upgradeToPremium, isPremium } = useSubscription()
   const { user: authUser, refreshSession } = useAuth()
+  const { checkOnly: checkMediaUpload } = useFeature('media_upload')
   logger.subscription('[Account Page] Subscription from hook:', subscription)
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
@@ -194,6 +196,12 @@ function AccountPageContent() {
     // Validate file size (2MB)
     if (file.size > 2 * 1024 * 1024) {
       showToast('Image must be less than 2MB', 'error')
+      return
+    }
+
+    const decision = await checkMediaUpload({ failOpen: false })
+    if (!decision.allow) {
+      showToast(strings.entitlements?.messages?.limitReached || 'Upload limit reached', 'warning')
       return
     }
 

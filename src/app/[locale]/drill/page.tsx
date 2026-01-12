@@ -29,7 +29,7 @@ export default function DrillPage() {
   const router = useRouter()
   const { user } = useAuth()
   const { subscription } = useSubscription()
-  const { checkAndTrack, remaining } = useFeature('conjugation_drill')
+  const { checkOnly, remaining } = useFeature('conjugation_drill')
   const { showToast } = useToast()
   const { alert, showAlert, closeAlert } = useCenteredAlert()
   const { showMultipleHelps } = useConjugationHelp()
@@ -264,9 +264,9 @@ export default function DrillPage() {
     }
 
     // Check entitlement
-    const allowed = await checkAndTrack({ showUI: true })
-    if (!allowed) {
-      // Don't show another toast - checkAndTrack already showed one with showUI: true
+    const decision = await checkOnly({ failOpen: false })
+    if (!decision.allow) {
+      showAlert(t('entitlements.messages.limitReached'), 'error', 'Limit reached')
       return
     }
 

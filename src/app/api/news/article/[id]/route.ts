@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/firebase/admin';
+import { getSession } from '@/lib/auth/session';
+import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server';
 
 // Cache for individual articles
 const articleCache = new Map<string, { data: any; timestamp: number }>();
@@ -12,6 +14,10 @@ export async function GET(
   const { id: articleId } = await params;
 
   try {
+    const session = await getSession();
+    if (!session?.uid) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     if (!articleId) {
       return NextResponse.json(
@@ -20,9 +26,35 @@ export async function GET(
       );
     }
 
+    const nowUtcISO = new Date().toISOString();
+    const plan = await getUserPlan(session.uid);
+    const { decision } = await evaluateFeatureAccess({
+      featureId: 'news',
+      userId: session.uid,
+      plan,
+      nowUtcISO
+    });
+
+    if (!decision.allow) {
+      return NextResponse.json(
+        {
+          error: decision.reason === 'limit_reached' ? 'Daily limit reached' : 'Access denied',
+          decision
+        },
+        { status: decision.reason === 'limit_reached' ? 429 : 403 }
+      );
+    }
+
     // Check cache first
     const cached = articleCache.get(articleId);
     if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
+      await evaluateFeatureAccess({
+        featureId: 'news',
+        userId: session.uid,
+        plan,
+        nowUtcISO,
+        increment: true
+      });
       return NextResponse.json({
         success: true,
         article: cached.data,
@@ -67,6 +99,14 @@ export async function GET(
         timestamp: Date.now()
       });
 
+      await evaluateFeatureAccess({
+        featureId: 'news',
+        userId: session.uid,
+        plan,
+        nowUtcISO,
+        increment: true
+      });
+
       return NextResponse.json({
         success: true,
         article
@@ -86,6 +126,14 @@ export async function GET(
     articleCache.set(articleId, {
       data: article,
       timestamp: Date.now()
+    });
+
+    await evaluateFeatureAccess({
+      featureId: 'news',
+      userId: session.uid,
+      plan,
+      nowUtcISO,
+      increment: true
     });
 
     return NextResponse.json({

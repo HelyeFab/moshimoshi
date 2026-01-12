@@ -7,9 +7,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession, requireAuth } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
-import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator'
-import type { EvalContext } from '@/lib/entitlements/evaluator'
-import type { FeatureId } from '@/types/FeatureId'
+import { evaluateFeatureAccess } from '@/lib/entitlements/server'
 import type { DrillSession, DrillQuestion, JapaneseWord } from '@/types/drill'
 import { WordUtils } from '@/lib/drill/word-utils'
 import { QuestionGenerator } from '@/lib/drill/question-generator'
@@ -116,43 +114,23 @@ export async function POST(request: NextRequest) {
 
     // Check entitlement
     const nowUtc = new Date().toISOString()
-    const bucketKey = getBucketKey('conjugation_drill' as FeatureId, session.uid, nowUtc)
-
-    // Get current usage
-    const usageRef = adminDb!
-      .collection('users')
-      .doc(session.uid)
-      .collection('usage')
-      .doc(bucketKey)
-    const usageDoc = await usageRef.get()
-    const usageData = usageDoc.data() || {}
-    const currentUsage = usageData['conjugation_drill'] || 0
-
-    // Build full usage object (evaluator expects all features)
-    const usage: Record<string, number> = {
-      hiragana_practice: 0,
-      katakana_practice: 0,
-      kanji_browser: 0,
-      custom_lists: 0,
-      save_items: 0,
-      youtube_shadowing: 0,
-      media_upload: 0,
-      stall_layout_customization: 0,
-      todos: 0,
-      conjugation_drill: currentUsage,
-    }
-
-    // Evaluate entitlement
-    const evalContext: EvalContext = {
+    const conjugationAccess = await evaluateFeatureAccess({
+      featureId: 'conjugation_drill',
       userId: session.uid,
       plan: plan as any,
-      usage: usage as any,
-      nowUtcISO: nowUtc,
-    }
+      nowUtcISO: nowUtc
+    })
+    const drillAccess = await evaluateFeatureAccess({
+      featureId: 'drill',
+      userId: session.uid,
+      plan: plan as any,
+      nowUtcISO: nowUtc
+    })
 
-    const decision = evaluate('conjugation_drill' as FeatureId, evalContext)
-
-    if (!decision.allow) {
+    if (!conjugationAccess.decision.allow || !drillAccess.decision.allow) {
+      const decision = conjugationAccess.decision.allow
+        ? drillAccess.decision
+        : conjugationAccess.decision
       return NextResponse.json(
         {
           success: false,
@@ -161,7 +139,7 @@ export async function POST(request: NextRequest) {
             message: decision.reason || 'Daily drill limit reached',
           },
           usage: {
-            current: currentUsage,
+            current: conjugationAccess.currentUsage,
             limit: decision.limit,
             remaining: 0,
           },
@@ -428,23 +406,46 @@ export async function POST(request: NextRequest) {
       console.log('[Drill API] Free user - session will be stored locally:', session.uid)
     }
 
-    // Increment usage
-    await usageRef.set(
-      {
-        conjugation_drill: currentUsage + 1,
-        lastUpdated: nowUtc,
-      },
-      { merge: true }
-    )
+    const usageRef = adminDb!
+      .collection('users')
+      .doc(session.uid)
+      .collection('usage')
+      .doc(conjugationAccess.bucketKey)
+    const drillUsageRef = adminDb!
+      .collection('users')
+      .doc(session.uid)
+      .collection('usage')
+      .doc(drillAccess.bucketKey)
+
+    const limit = conjugationAccess.decision.limit ?? 0
+    const newUsage = conjugationAccess.currentUsage + 1
+    const remaining = limit === -1 ? -1 : Math.max(0, limit - newUsage)
+
+    await Promise.all([
+      usageRef.set(
+        {
+          conjugation_drill: FieldValue.increment(1),
+          lastUpdated: nowUtc,
+        },
+        { merge: true }
+      ),
+      drillUsageRef.set(
+        {
+          drill: FieldValue.increment(1),
+          lastUpdated: nowUtc,
+        },
+        { merge: true }
+      )
+    ])
 
     return NextResponse.json({
       success: true,
       data: {
         session: drillSession,
         usage: {
-          current: currentUsage + 1,
-          limit: decision.limit || 0,
-          remaining: (decision.limit || 0) - (currentUsage + 1),
+          current: newUsage,
+          limit,
+          remaining,
         },
       },
     })

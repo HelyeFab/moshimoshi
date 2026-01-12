@@ -46,7 +46,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.onAnswerVoteDeleted = exports.onAnswerVoteCreated = exports.onQuestionVoteDeleted = exports.onQuestionVoteCreated = exports.moderateAnswerOnUpdate = exports.moderateAnswer = exports.moderateQuestionOnUpdate = exports.moderateQuestion = exports.onUserCreated = exports.backfillSentenceData = exports.manualArticleAudioGenerator = exports.scheduledArticleAudioGenerator = exports.manualIntegrityCheckerFunction = exports.contentIntegrityCheckerFunction = exports.autoBreakStreaks = exports.manualComicGeneratorFunction = exports.scheduledComicGeneratorFunction = exports.dailyStoryRetryScheduler = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
+exports.onAnswerVoteDeleted = exports.onAnswerVoteCreated = exports.onQuestionVoteDeleted = exports.onQuestionVoteCreated = exports.moderateAnswerOnUpdate = exports.moderateAnswer = exports.moderateQuestionOnUpdate = exports.moderateQuestion = exports.onUserCreated = exports.backfillSentenceData = exports.manualArticleAudioGenerator = exports.scheduledArticleAudioGenerator = exports.manualIntegrityCheckerFunction = exports.contentIntegrityCheckerFunction = exports.autoBreakStreaks = exports.onComicPublished = exports.manualComicGeneratorFunction = exports.scheduledComicGeneratorFunction = exports.onBookPublished = exports.processBookWordBatch = exports.processStoryWordBatch = exports.onStoryPublished = exports.dailyStoryRetryScheduler = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = exports.manualNewsScraperFunction = exports.scheduledNewsScraperFunction = exports.updateLeaderboardManually = exports.updateLeaderboardSnapshots = exports.createBillingPortalSession = exports.createCheckoutSession = exports.syncSubscriptionStatus = exports.linkStripeCustomer = exports.stripeWebhook = void 0;
 exports.getUserByStripeCustomerId = getUserByStripeCustomerId;
 exports.updateSubscriptionFacts = updateSubscriptionFacts;
 exports.removeSubscriptionFacts = removeSubscriptionFacts;
@@ -307,13 +307,29 @@ var storyScheduler_1 = require("./scheduled/storyScheduler");
 Object.defineProperty(exports, "scheduledStoryGeneratorFunction", { enumerable: true, get: function () { return storyScheduler_1.scheduledStoryGeneratorFunction; } });
 Object.defineProperty(exports, "manualStoryGeneratorFunction", { enumerable: true, get: function () { return storyScheduler_1.manualStoryGeneratorFunction; } });
 Object.defineProperty(exports, "dailyStoryRetryScheduler", { enumerable: true, get: function () { return storyScheduler_1.dailyStoryRetryScheduler; } });
+Object.defineProperty(exports, "onStoryPublished", { enumerable: true, get: function () { return storyScheduler_1.onStoryPublished; } });
+/**
+ * Export story word batch processor
+ * Pub/Sub-triggered function for batch processing story word explanations
+ */
+var storyWordBatchProcessor_1 = require("./scheduled/storyWordBatchProcessor");
+Object.defineProperty(exports, "processStoryWordBatch", { enumerable: true, get: function () { return storyWordBatchProcessor_1.processStoryWordBatch; } });
+/**
+ * Export book word batch processor + publish trigger
+ */
+var bookWordBatchProcessor_1 = require("./scheduled/bookWordBatchProcessor");
+Object.defineProperty(exports, "processBookWordBatch", { enumerable: true, get: function () { return bookWordBatchProcessor_1.processBookWordBatch; } });
+var bookWordScheduler_1 = require("./scheduled/bookWordScheduler");
+Object.defineProperty(exports, "onBookPublished", { enumerable: true, get: function () { return bookWordScheduler_1.onBookPublished; } });
 /**
  * Export scheduled comic generator functions
  * Generates a new "Moshi Goes to Japan" comic episode weekly on Sundays
+ * Also includes Firestore trigger for async word explanation generation
  */
 var comicScheduler_1 = require("./scheduled/comicScheduler");
 Object.defineProperty(exports, "scheduledComicGeneratorFunction", { enumerable: true, get: function () { return comicScheduler_1.scheduledComicGeneratorFunction; } });
 Object.defineProperty(exports, "manualComicGeneratorFunction", { enumerable: true, get: function () { return comicScheduler_1.manualComicGeneratorFunction; } });
+Object.defineProperty(exports, "onComicPublished", { enumerable: true, get: function () { return comicScheduler_1.onComicPublished; } });
 /**
  * Export scheduled streak auto-break function
  * Phase 2.5: Automatically breaks streaks beyond grace period every hour

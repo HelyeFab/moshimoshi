@@ -14,7 +14,7 @@ import { precomputeWordExplanations } from '@/lib/ai/precompute/wordPrecompute'
 initAdmin()
 
 export const runtime = 'nodejs'
-export const maxDuration = 30
+export const maxDuration = 30 // Quick endpoint - triggers async generation
 
 export async function POST(request: NextRequest) {
   try {

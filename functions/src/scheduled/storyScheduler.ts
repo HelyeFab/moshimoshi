@@ -11,7 +11,7 @@
  * 6. Generate model sheet + page images
  * 7. Generate audio (VOICEVOX)
  * 8. Pre-generate sentence-level audio and translations
- * 8.5. Pre-generate word explanations (1000 words)
+ * 8.5. Pre-generate word explanations (100 words)
  * 9. Publish story
  */
 
@@ -19,9 +19,10 @@ import * as admin from 'firebase-admin'
 import * as logger from 'firebase-functions/logger'
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import { onCall, HttpsError } from 'firebase-functions/v2/https'
+import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { defineSecret } from 'firebase-functions/params'
 import { preGenerateStorySentences } from '../utils/sentencePreGenerator'
-import { precomputeWordExplanations } from '../../../src/lib/ai/precompute/wordPrecompute'
+import { generateStoryWordExplanations } from '../utils/storyWordExplanationPreGenerator'
 import {
   sendStoryGenerationFailureAlert,
   sendStoryGenerationWarningAlert,
@@ -1037,71 +1038,9 @@ export async function generateDailyStory(adminKey: string): Promise<{
     }
 
     // Step 8.5: Pre-generate word explanations (server-side prefetch)
-    logger.info('[StoryScheduler] Step 8.5/10: Generating word explanations...')
-
-    try {
-      await db.collection('ai_story_drafts').doc(draftId).update({
-        'metadata.generationStep': 'word_explanations',
-        'metadata.progress': 92,
-      })
-
-      // Extract story text from pages
-      const wordDraftDoc = await db.collection('ai_story_drafts').doc(draftId).get()
-      const wordDraftData = wordDraftDoc.data()
-
-      if (wordDraftData?.pages && Array.isArray(wordDraftData.pages)) {
-        const storyText = wordDraftData.pages
-          .map((page: any) => page.text || '')
-          .join('\n')
-
-        // Check timeout before starting (leave 2min buffer for publish step)
-        const timeElapsed = Date.now() - startTime
-        const timeRemaining = 540000 - timeElapsed  // 540s = 9min Cloud Function limit
-
-        if (timeRemaining < 120000) {
-          logger.warn('[StoryScheduler] Skipping word explanations - insufficient time', {
-            timeRemaining: Math.round(timeRemaining / 1000),
-            timeElapsed: Math.round(timeElapsed / 1000),
-          })
-        } else {
-          // Attempt word explanation generation with timeout protection
-          const wordResult = await Promise.race([
-            precomputeWordExplanations({
-              contentId: draftId,
-              contentType: 'story',
-              text: storyText,
-              limit: 1000,
-              jlptLevel: jlptLevel as any,
-            }),
-            new Promise((_, reject) =>
-              setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000)
-            )
-          ])
-
-          await updateCheckpoint(draftId, 'word_explanations')
-          await db.collection('ai_story_drafts').doc(draftId).update({
-            'metadata.progress': 94,
-            'metadata.wordExplanationsCount': (wordResult as any).total,
-          })
-
-          logger.info('[StoryScheduler] Word explanations complete', {
-            total: (wordResult as any).total,
-            generated: (wordResult as any).generated,
-            cached: (wordResult as any).cached,
-          })
-        }
-      } else {
-        logger.warn('[StoryScheduler] No pages found for word explanation generation', { draftId })
-        await updateCheckpoint(draftId, 'word_explanations')
-      }
-    } catch (wordError) {
-      logger.warn('[StoryScheduler] Word explanation generation failed - continuing', {
-        error: wordError instanceof Error ? wordError.message : 'Unknown error',
-      })
-
-      // Non-critical - story will still publish without word explanations
-      await updateCheckpoint(draftId, 'word_explanations')
-    }
+    // Step 8.5: Word explanations now generated async via Firestore trigger (see onStoryPublished below)
+    logger.info('[StoryScheduler] Step 8.5/10: Word explanations will be generated async after publish')
+    await updateCheckpoint(draftId, 'word_explanations')
 
     // Step 9: Publish the story (only if all critical assets are present)
     logger.info('[StoryScheduler] Step 9/10: Publishing story...')
@@ -1416,5 +1355,119 @@ export const dailyStoryRetryScheduler = onSchedule(
     }
 
     logger.info('[DailyRetry] Successfully resumed and published story', result)
+  }
+)
+
+/**
+ * Firestore Trigger: Async Word Explanation Generation
+ * Triggers when a new story is published to the 'stories' collection
+ * Generates word explanations in the background to avoid timeout issues
+ */
+export const onStoryPublished = onDocumentCreated(
+  {
+    document: 'stories/{storyId}',
+    secrets: [MODAL_API_KEY],
+    memory: '512MiB', // Reduced - only extracting words and creating queue
+    timeoutSeconds: 120, // 2 minutes - enough to extract words and publish message
+  },
+  async event => {
+    const storyId = event.params.storyId
+    const story = event.data?.data()
+
+    if (!story) {
+      logger.error('[StoryWordGen] No story data in trigger', { storyId })
+      return
+    }
+
+    // Only process non-draft stories
+    if (story.status === 'draft') {
+      logger.info('[StoryWordGen] Skipping draft story', { storyId })
+      return
+    }
+
+    logger.info('[StoryWordGen] Triggered for new story', {
+      storyId,
+      title: story.title,
+      jlptLevel: story.jlptLevel,
+    })
+
+    try {
+      // Mark as generating
+      await db.collection('stories').doc(storyId).update({
+        wordExplanationsStatus: 'generating',
+        wordExplanationsStartedAt: admin.firestore.FieldValue.serverTimestamp(),
+      })
+
+      // Extract story text from all pages
+      const storyText = story.pages
+        .map((page: any) => page.text)
+        .filter((text: string) => text && text.length > 0)
+        .join('\n')
+
+      if (!storyText || storyText.length === 0) {
+        throw new Error('No text content found in story pages')
+      }
+
+      logger.info('[StoryWordGen] Extracting words for batch processing', {
+        storyId,
+        textLength: storyText.length,
+        pageCount: story.pages.length,
+      })
+
+      // Extract top words from story text (100 words)
+      const { extractTopWords } = await import('../utils/wordExtractor')
+      const { words } = await extractTopWords(storyText, 100)
+
+      logger.info('[StoryWordGen] Words extracted, creating batch queue', {
+        storyId,
+        wordCount: words.length,
+      })
+
+      // Create batch queue
+      const { createBatchQueue } = await import('../utils/storyWordBatchManager')
+      const queue = await createBatchQueue(storyId, words)
+
+      logger.info('[StoryWordGen] Batch queue created, publishing first batch', {
+        storyId,
+        totalBatches: queue.totalBatches,
+        totalWords: queue.totalWords,
+      })
+
+      // Update story with batch info
+      await db.collection('stories').doc(storyId).update({
+        wordExplanationsProgress: {
+          totalBatches: queue.totalBatches,
+          completedBatches: 0,
+          totalWords: queue.totalWords,
+          completedWords: 0,
+          currentBatch: 1,
+          percentComplete: 0,
+        },
+      })
+
+      // Publish first batch message to Pub/Sub
+      const { publishFirstBatch } = await import('./storyWordBatchProcessor')
+      await publishFirstBatch(storyId)
+
+      logger.info('[StoryWordGen] First batch published, batch processing started', {
+        storyId,
+        totalBatches: queue.totalBatches,
+        totalWords: queue.totalWords,
+      })
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error'
+
+      logger.error('[StoryWordGen] Failed to start batch processing', {
+        storyId,
+        error: errorMessage,
+      })
+
+      // Mark as failed
+      await db.collection('stories').doc(storyId).update({
+        wordExplanationsStatus: 'failed',
+        wordExplanationsError: errorMessage,
+        wordExplanationsFailedAt: admin.firestore.FieldValue.serverTimestamp(),
+      })
+    }
   }
 )

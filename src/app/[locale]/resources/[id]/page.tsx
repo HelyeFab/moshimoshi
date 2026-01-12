@@ -9,6 +9,7 @@ import { useAuth } from '@/hooks/useAuth';
 import Navbar from '@/components/layout/Navbar';
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 import { getGradientForBook } from '@/lib/utils/gradients';
+import { readOfflineListCache } from '@/lib/pwa/offline-list-cache';
 
 interface Resource {
   id: string;
@@ -47,6 +48,7 @@ export default function ResourceDetailPage() {
   const params = useParams();
   const router = useRouter();
   const { user } = useAuth();
+  const offlineCacheKey = 'offline-resources';
   const [resource, setResource] = useState<Resource | null>(null);
   const [loading, setLoading] = useState(true);
   const [relatedResources, setRelatedResources] = useState<Resource[]>([]);
@@ -62,6 +64,17 @@ export default function ResourceDetailPage() {
   const loadResource = async (id: string) => {
     try {
       setLoading(true);
+      const isOffline = typeof navigator !== 'undefined' && !navigator.onLine;
+      if (isOffline) {
+        const cached = readOfflineListCache<Resource>(offlineCacheKey);
+        const cachedResource = cached?.items?.find(item => item.id === id);
+        if (cachedResource) {
+          setResource(cachedResource);
+          setRelatedResources([]);
+          return;
+        }
+        throw new Error('Offline with no cached resource');
+      }
       const response = await fetch(`/api/resources/${id}`);
 
       if (!response.ok) {
@@ -78,6 +91,13 @@ export default function ResourceDetailPage() {
       }
     } catch (error) {
       console.error('Error loading resource:', error);
+      const cached = readOfflineListCache<Resource>(offlineCacheKey);
+      const cachedResource = cached?.items?.find(item => item.id === id);
+      if (cachedResource) {
+        setResource(cachedResource);
+        setRelatedResources([]);
+        return;
+      }
       router.push('/resources');
     } finally {
       setLoading(false);

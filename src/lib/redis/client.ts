@@ -62,6 +62,10 @@ export const redis = (!UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes
       console.log('[Mock Redis] DEL:', keys)
       return keys.length
     },
+    keys: async (pattern: string) => {
+      console.log('[Mock Redis] KEYS:', pattern)
+      return []
+    },
     exists: async (...keys: string[]) => {
       console.log('[Mock Redis] EXISTS:', keys)
       return 0

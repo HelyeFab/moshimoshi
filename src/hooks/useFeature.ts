@@ -10,6 +10,8 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { useI18n } from '@/i18n/I18nContext';
 import type { FeatureId } from '@/types/FeatureId';
 import { isUnlimited } from '@/lib/entitlements/policy';
+import { getSnapshotPolicyVersion, getValidatedEntitlementsSnapshot, isFeatureUnlimitedForPlan, isOffline, mapSnapshotTierToPlan } from '@/lib/pwa/offline-entitlements';
+import { getOfflineUsageDelta, getUsageSnapshotEntry, incrementOfflineUsageDelta, syncOfflineUsageDelta, updateUsageSnapshotEntry, updateUsageSnapshotFromDecision } from '@/lib/pwa/offline-usage';
 
 export interface Decision {
   allow: boolean;
@@ -39,6 +41,7 @@ interface UseFeatureReturn {
 // Cache for decisions to reduce API calls
 const decisionCache = new Map<string, { decision: Decision; timestamp: number }>();
 const CACHE_TTL = 60000; // 1 minute cache
+let networkListenersAttached = false;
 
 interface CheckOnlyOptions {
   failOpen?: boolean;
@@ -57,7 +60,7 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
   // Clear cache when subscription changes
   useEffect(() => {
     if (subscription) {
-      decisionCache.delete(featureId);
+      decisionCache.clear();
     }
   }, [subscription?.plan, subscription?.status, featureId]);
 
@@ -67,22 +70,45 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
   }, [featureId]);
 
   // Check cache first
+  const getCacheKey = useCallback(() => {
+    return `${featureId}:${isOffline() ? 'offline' : 'online'}`;
+  }, [featureId]);
+
   const getCachedDecision = useCallback((): Decision | null => {
-    const cached = decisionCache.get(featureId);
+    const cached = decisionCache.get(getCacheKey());
     if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
       return cached.decision;
     }
-    decisionCache.delete(featureId);
+    decisionCache.delete(getCacheKey());
     return null;
-  }, [featureId]);
+  }, [featureId, getCacheKey]);
 
   // Cache decision
   const cacheDecision = useCallback((decision: Decision) => {
-    decisionCache.set(featureId, {
+    decisionCache.set(getCacheKey(), {
       decision,
       timestamp: Date.now()
     });
-  }, [featureId]);
+  }, [featureId, getCacheKey]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (networkListenersAttached) return;
+    networkListenersAttached = true;
+
+    const handleConnectivityChange = () => {
+      decisionCache.clear();
+      if (navigator.onLine) {
+        syncOfflineUsageDelta().catch(error =>
+          console.warn('[useFeature] Failed to sync offline usage:', error)
+        );
+      }
+    };
+
+    window.addEventListener('online', handleConnectivityChange);
+    window.addEventListener('offline', handleConnectivityChange);
+    handleConnectivityChange();
+  }, []);
 
   // Format reset time for display
   const formatResetTime = useCallback((resetAtUtc?: string): string => {
@@ -112,6 +138,85 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       setRemaining(cached.remaining);
       setLastDecision(cached);
       return cached;
+    }
+
+    if (isOffline()) {
+      const snapshot = await getValidatedEntitlementsSnapshot();
+      if (!snapshot) {
+        const denied: Decision = {
+          allow: false,
+          remaining: 0,
+          reason: 'lifecycle_blocked',
+          policyVersion: getSnapshotPolicyVersion(null)
+        };
+        setLastDecision(denied);
+        setRemaining(0);
+        cacheDecision(denied);
+        return denied;
+      }
+
+      const plan = mapSnapshotTierToPlan(snapshot.tier);
+      const policyVersion = getSnapshotPolicyVersion(snapshot);
+
+      if (isFeatureUnlimitedForPlan(featureId, plan)) {
+        const unlimitedDecision: Decision = {
+          allow: true,
+          remaining: -1,
+          reason: 'ok',
+          policyVersion
+        };
+        setLastDecision(unlimitedDecision);
+        setRemaining(-1);
+        cacheDecision(unlimitedDecision);
+        return unlimitedDecision;
+      }
+
+      const entry = getUsageSnapshotEntry(featureId);
+      if (!entry || !entry.resetAtUtc) {
+        const denied: Decision = {
+          allow: false,
+          remaining: 0,
+          reason: 'lifecycle_blocked',
+          policyVersion
+        };
+        setLastDecision(denied);
+        setRemaining(0);
+        cacheDecision(denied);
+        return denied;
+      }
+
+      const resetAtMs = Date.parse(entry.resetAtUtc);
+      if (Number.isNaN(resetAtMs) || resetAtMs <= Date.now()) {
+        const denied: Decision = {
+          allow: false,
+          remaining: 0,
+          reason: 'lifecycle_blocked',
+          policyVersion,
+          resetAtUtc: entry.resetAtUtc,
+          limit: entry.limit,
+          usageBefore: entry.used
+        };
+        setLastDecision(denied);
+        setRemaining(0);
+        cacheDecision(denied);
+        return denied;
+      }
+
+      const usedEffective = entry.used + getOfflineUsageDelta(featureId);
+      const remaining = Math.max(0, entry.limit - usedEffective);
+      const offlineDecision: Decision = {
+        allow: remaining > 0,
+        remaining,
+        reason: remaining > 0 ? 'ok' : 'limit_reached',
+        policyVersion,
+        resetAtUtc: entry.resetAtUtc,
+        limit: entry.limit,
+        usageBefore: entry.used
+      };
+      setLastDecision(offlineDecision);
+      setRemaining(offlineDecision.remaining);
+      cacheDecision(offlineDecision);
+      return offlineDecision;
     }
 
     try {
@@ -152,6 +257,7 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       }
 
       const decision: Decision = await response.json();
+      updateUsageSnapshotFromDecision(featureId, decision, false);
       setRemaining(decision.remaining);
       setLastDecision(decision);
       cacheDecision(decision);
@@ -193,6 +299,26 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
     try {
       setIsLoading(true);
 
+      if (isOffline()) {
+        const decision = await checkOnly({ failOpen: false });
+        if (decision.allow && !skipTracking) {
+          const entry = getUsageSnapshotEntry(featureId);
+          if (entry) {
+            updateUsageSnapshotEntry(featureId, {
+              ...entry,
+              used: entry.used + 1
+            });
+          }
+          incrementOfflineUsageDelta(featureId, 1);
+          const remainingAfter = decision.remaining === -1 ? -1 : Math.max(0, decision.remaining - 1);
+          const updatedDecision = { ...decision, remaining: remainingAfter };
+          setRemaining(updatedDecision.remaining);
+          setLastDecision(updatedDecision);
+          cacheDecision(updatedDecision);
+        }
+        return decision.allow;
+      }
+
       // If skip tracking, just check
       if (skipTracking) {
         const decision = await checkOnly();
@@ -217,11 +343,12 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       }
 
       const decision: Decision = await response.json();
+      updateUsageSnapshotFromDecision(featureId, decision, true);
       setRemaining(decision.remaining);
       setLastDecision(decision);
       
       // Clear cache after increment
-      decisionCache.delete(featureId);
+      decisionCache.delete(getCacheKey());
 
       // Handle UI feedback based on decision
       if (showUI && !silent) {
@@ -290,9 +417,9 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
 
   // Refresh decision (clear cache and re-check)
   const refresh = useCallback(async () => {
-    decisionCache.delete(featureId);
+    decisionCache.delete(getCacheKey());
     await checkOnly();
-  }, [featureId, checkOnly]);
+  }, [featureId, checkOnly, getCacheKey]);
 
   return {
     checkAndTrack,

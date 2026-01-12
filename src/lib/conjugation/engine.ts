@@ -101,6 +101,13 @@ export class ExtendedConjugationEngine {
   }
 
   /**
+   * Get in-memory conjugation cache size (L1 only)
+   */
+  static getCacheSize(): number {
+    return cacheManager.getMemorySize('CONJUGATION');
+  }
+
+  /**
    * Pre-cache common words for instant startup
    * Called on app initialization
    */

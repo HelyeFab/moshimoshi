@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { MoodBoard } from '@/types/moodboard'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useAuth } from '@/hooks/useAuth'
+import { getMoodBoardCacheManager } from '@/lib/moodboards/MoodBoardCacheManager'
 
 interface UseMoodBoardsReturn {
   moodBoards: MoodBoard[]
@@ -45,6 +46,8 @@ export function useMoodBoards(): UseMoodBoardsReturn {
   const [error, setError] = useState<string | null>(null)
   const { showToast } = useToast()
   const { user } = useAuth()
+  const cacheManager = getMoodBoardCacheManager()
+  const offlineLimit = 5
 
   const fetchMoodBoards = useCallback(async () => {
     try {
@@ -52,6 +55,24 @@ export function useMoodBoards(): UseMoodBoardsReturn {
 
       // Use admin endpoint if user is admin, otherwise use public endpoint
       const endpoint = user?.isAdmin ? '/api/admin/moodboards' : '/api/moodboards'
+
+      if (typeof navigator !== 'undefined' && !navigator.onLine) {
+        const cachedBoards = await cacheManager.getAll()
+        if (cachedBoards.length > 0) {
+          const converted = cachedBoards.map(convertApiMoodBoard)
+          converted.sort((a: MoodBoard, b: MoodBoard) => {
+            const aSortOrder = a.sortOrder || 0
+            const bSortOrder = b.sortOrder || 0
+            if (aSortOrder !== bSortOrder) {
+              return aSortOrder - bSortOrder
+            }
+            return b.createdAt.getTime() - a.createdAt.getTime()
+          })
+          setMoodBoards(converted.slice(0, offlineLimit))
+          setLoading(false)
+          return
+        }
+      }
 
       const response = await fetch(endpoint, {
         credentials: 'include',
@@ -76,13 +97,37 @@ export function useMoodBoards(): UseMoodBoardsReturn {
 
       setMoodBoards(fetchedMoodBoards)
       setLoading(false)
+
+      if (fetchedMoodBoards.length > 0) {
+        cacheManager
+          .prefetchMoodBoards(fetchedMoodBoards.slice(0, offlineLimit), { skipCached: true })
+          .catch((prefetchError) => {
+            console.warn('[useMoodBoards] Offline prefetch failed:', prefetchError)
+          })
+      }
     } catch (err) {
       console.error('Error fetching mood boards:', err)
+      const cachedBoards = await cacheManager.getAll()
+      if (cachedBoards.length > 0) {
+        const converted = cachedBoards.map(convertApiMoodBoard)
+        converted.sort((a: MoodBoard, b: MoodBoard) => {
+          const aSortOrder = a.sortOrder || 0
+          const bSortOrder = b.sortOrder || 0
+          if (aSortOrder !== bSortOrder) {
+            return aSortOrder - bSortOrder
+          }
+          return b.createdAt.getTime() - a.createdAt.getTime()
+        })
+        setMoodBoards(converted.slice(0, offlineLimit))
+        setError(null)
+        setLoading(false)
+        return
+      }
       setError(err instanceof Error ? err.message : 'Failed to fetch mood boards')
       setMoodBoards([])
       setLoading(false)
     }
-  }, [user?.isAdmin])
+  }, [user?.isAdmin, cacheManager, offlineLimit])
 
   const refreshMoodBoards = useCallback(async () => {
     setLoading(true)

@@ -13,6 +13,9 @@ import { useI18n } from '@/i18n/I18nContext'
 import { getGradientForBook } from '@/lib/utils/gradients'
 import { useBookCache } from '@/hooks/useBookCache'
 import { useAuth } from '@/hooks/useAuth'
+import { useSubscription } from '@/hooks/useSubscription'
+import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
+import { getValidatedEntitlementsSnapshot, isOffline } from '@/lib/pwa/offline-entitlements'
 
 const JLPT_LEVELS: Array<{ value: JLPTLevel | 'all'; label: string }> = [
   { value: 'all', label: 'All Levels' },
@@ -26,6 +29,7 @@ const JLPT_LEVELS: Array<{ value: JLPTLevel | 'all'; label: string }> = [
 export default function LibraryPage() {
   const { strings } = useI18n()
   const { user, loading: authLoading } = useAuth()
+  const { isPremium } = useSubscription()
   const [books, setBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedLevel, setSelectedLevel] = useState<JLPTLevel | 'all'>('all')
@@ -35,14 +39,57 @@ export default function LibraryPage() {
   const limit = 12
 
   // Offline caching
-  const { prefetchBooks } = useBookCache()
+  const { prefetchBooks, getCachedIds, getBook } = useBookCache()
   const [prefetchStatus, setPrefetchStatus] = useState<'idle' | 'prefetching' | 'done'>('idle')
+  const offlineLimit = 10
+
+  const loadCachedBooks = async () => {
+    const cachedIds = await getCachedIds()
+    if (cachedIds.length === 0) return []
+
+    const cached = await Promise.all(
+      cachedIds.map(async (id) => {
+        const result = await getBook(id)
+        return result.book
+      })
+    )
+
+    const normalized = cached.filter(Boolean) as Book[]
+    return normalized
+      .sort((a, b) => {
+        const bTime = new Date(b.updatedAt ?? b.createdAt).getTime()
+        const aTime = new Date(a.updatedAt ?? a.createdAt).getTime()
+        return bTime - aTime
+      })
+      .slice(0, offlineLimit)
+  }
 
   const loadBooks = useCallback(
     async (reset: boolean = false) => {
       try {
         setLoading(true)
         const currentOffset = reset ? 0 : offset
+        const snapshot = await getValidatedEntitlementsSnapshot()
+        const offlineTier = snapshot?.tier || null
+
+        if (isOffline()) {
+          if (offlineTier !== 'premium') {
+            setBooks([])
+            setHasMore(false)
+            setLoading(false)
+            return
+          }
+
+          const cachedBooks = await loadCachedBooks()
+          if (cachedBooks.length > 0) {
+            setBooks(cachedBooks)
+            setHasMore(false)
+            setOffset(0)
+            setLoading(false)
+            return
+          }
+          throw new Error('Offline with no cached books')
+        }
 
         const params = new URLSearchParams({
           limit: limit.toString(),
@@ -75,6 +122,16 @@ export default function LibraryPage() {
         setHasMore(data.hasMore || false)
       } catch (error) {
         console.error('Error loading books:', error)
+        const snapshot = await getValidatedEntitlementsSnapshot()
+        if (snapshot?.tier === 'premium') {
+          const cachedBooks = await loadCachedBooks()
+          if (cachedBooks.length > 0) {
+            setBooks(cachedBooks)
+            setHasMore(false)
+            setOffset(0)
+            return
+          }
+        }
         setBooks([])
       } finally {
         setLoading(false)
@@ -90,6 +147,7 @@ export default function LibraryPage() {
 
   // Auto-prefetch top 10 books for offline use
   useEffect(() => {
+    if (!isPremium) return
     if (books.length > 0 && prefetchStatus === 'idle' && offset === 0) {
       // Only prefetch on initial load (not when loading more)
       const bookIds = books.slice(0, 10).map(b => b.id)
@@ -104,7 +162,7 @@ export default function LibraryPage() {
           setPrefetchStatus('done')
         })
     }
-  }, [books, prefetchStatus, offset, prefetchBooks])
+  }, [books, prefetchStatus, offset, prefetchBooks, isPremium])
 
   const handleLoadMore = () => {
     setOffset(prev => prev + limit)
@@ -132,90 +190,91 @@ export default function LibraryPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-dark-900 dark:to-dark-850">
-      {/* Desktop Navbar */}
-      <div className="hidden sm:block">
-        <Navbar user={user} showUserMenu={true} />
-      </div>
+    <EntitlementGate featureId="books">
+      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-dark-900 dark:to-dark-850">
+        {/* Desktop Navbar */}
+        <div className="hidden sm:block">
+          <Navbar user={user} showUserMenu={true} />
+        </div>
 
-      {/* Page Header */}
-      <PageHeader
-        title={strings.library?.title || 'Library'}
-        description={
-          strings.library?.pageDescription ||
-          'Read condensed summaries of popular books in Japanese'
-        }
-        backHref="/dashboard"
-      />
+        {/* Page Header */}
+        <PageHeader
+          title={strings.library?.title || 'Library'}
+          description={
+            strings.library?.pageDescription ||
+            'Read condensed summaries of popular books in Japanese'
+          }
+          backHref="/dashboard"
+        />
 
-      <div className="container mx-auto px-4 py-8 max-w-7xl">
-        {/* Filters */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="mb-8 space-y-4"
-        >
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-            <input
-              type="text"
-              placeholder="Search books by title, author, or keywords..."
-              value={searchQuery}
-              onChange={e => handleSearch(e.target.value)}
-              className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
-            />
-          </div>
-
-          {/* JLPT Level Filter */}
-          <div className="relative">
-            {/* Mobile: Horizontal scroll */}
-            <div className="flex md:hidden gap-2 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory">
-              {JLPT_LEVELS.map(level => (
-                <button
-                  key={level.value}
-                  onClick={() => handleLevelChange(level.value)}
-                  className={`flex-shrink-0 snap-start px-4 py-2.5 rounded-full font-medium transition-all whitespace-nowrap ${
-                    selectedLevel === level.value
-                      ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg ring-2 ring-primary-300 dark:ring-primary-700'
-                      : 'bg-white dark:bg-dark-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:border-primary-400 dark:hover:border-primary-500'
-                  }`}
-                >
-                  {level.label}
-                </button>
-              ))}
-            </div>
-
-            {/* Desktop: Flex wrap */}
-            <div className="hidden md:flex flex-wrap gap-2">
-              {JLPT_LEVELS.map(level => (
-                <button
-                  key={level.value}
-                  onClick={() => handleLevelChange(level.value)}
-                  className={`px-5 py-2.5 rounded-lg font-medium transition-all ${
-                    selectedLevel === level.value
-                      ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg scale-105'
-                      : 'bg-white dark:bg-dark-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-700'
-                  }`}
-                >
-                  {level.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Loading State */}
-        {loading && offset === 0 && <LoadingOverlay />}
-
-        {/* Books Grid */}
-        {!loading && books.length === 0 ? (
+        <div className="container mx-auto px-4 py-8 max-w-7xl">
+          {/* Filters */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-center py-20"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            className="mb-8 space-y-4"
           >
+            {/* Search */}
+            <div className="relative">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <input
+                type="text"
+                placeholder="Search books by title, author, or keywords..."
+                value={searchQuery}
+                onChange={e => handleSearch(e.target.value)}
+                className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
+              />
+            </div>
+
+            {/* JLPT Level Filter */}
+            <div className="relative">
+              {/* Mobile: Horizontal scroll */}
+              <div className="flex md:hidden gap-2 overflow-x-auto pb-2 scrollbar-hide snap-x snap-mandatory">
+                {JLPT_LEVELS.map(level => (
+                  <button
+                    key={level.value}
+                    onClick={() => handleLevelChange(level.value)}
+                    className={`flex-shrink-0 snap-start px-4 py-2.5 rounded-full font-medium transition-all whitespace-nowrap ${
+                      selectedLevel === level.value
+                        ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg ring-2 ring-primary-300 dark:ring-primary-700'
+                        : 'bg-white dark:bg-dark-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:border-primary-400 dark:hover:border-primary-500'
+                    }`}
+                  >
+                    {level.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Desktop: Flex wrap */}
+              <div className="hidden md:flex flex-wrap gap-2">
+                {JLPT_LEVELS.map(level => (
+                  <button
+                    key={level.value}
+                    onClick={() => handleLevelChange(level.value)}
+                    className={`px-5 py-2.5 rounded-lg font-medium transition-all ${
+                      selectedLevel === level.value
+                        ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white shadow-lg scale-105'
+                        : 'bg-white dark:bg-dark-800 text-gray-700 dark:text-gray-300 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-700'
+                    }`}
+                  >
+                    {level.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Loading State */}
+          {loading && offset === 0 && <LoadingOverlay />}
+
+          {/* Books Grid */}
+          {!loading && books.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className="text-center py-20"
+            >
             <BookOpen className="w-20 h-20 mx-auto text-gray-400 mb-4" />
             <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
               No books found
@@ -328,5 +387,6 @@ export default function LibraryPage() {
         <MobileNavSpacer />
       </div>
     </div>
+    </EntitlementGate>
   )
 }

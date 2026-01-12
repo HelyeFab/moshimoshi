@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { getAdminDb, FieldValue } from '@/lib/firebase/admin'
 import { getR2Config } from '@/lib/r2/r2-client'
+import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server'
 import { GetObjectCommand, DeleteObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3'
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner'
 
@@ -25,24 +26,24 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // 2. Premium check
-    const PREMIUM_PLANS = new Set(['premium_monthly', 'premium_yearly'])
     const db = getAdminDb()
+    const plan = await getUserPlan(session.uid)
+    const nowUtcISO = new Date().toISOString()
+    const { decision } = await evaluateFeatureAccess({
+      featureId: 'flashcards',
+      userId: session.uid,
+      plan,
+      nowUtcISO
+    })
 
-    let userDoc
-    try {
-      userDoc = await db.collection('users').doc(session.uid).get()
-    } catch (error) {
-      console.error('[download] Error fetching user document:', error)
-      return NextResponse.json({ error: 'Failed to verify user status' }, { status: 500 })
-    }
-
-    const plan = userDoc.data()?.subscription?.plan
-
-    if (!plan || !PREMIUM_PLANS.has(plan)) {
-      return NextResponse.json({
-        error: 'Premium subscription required for R2 downloads'
-      }, { status: 403 })
+    if (!decision.allow) {
+      return NextResponse.json(
+        {
+          error: decision.reason === 'limit_reached' ? 'Daily limit reached' : 'Access denied',
+          decision
+        },
+        { status: decision.reason === 'limit_reached' ? 429 : 403 }
+      )
     }
 
     // 3. Get deck metadata
@@ -161,24 +162,24 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    // 2. Premium check (deletion requires premium since it's an R2 operation)
-    const PREMIUM_PLANS = new Set(['premium_monthly', 'premium_yearly'])
     const db = getAdminDb()
+    const plan = await getUserPlan(session.uid)
+    const nowUtcISO = new Date().toISOString()
+    const { decision } = await evaluateFeatureAccess({
+      featureId: 'flashcards',
+      userId: session.uid,
+      plan,
+      nowUtcISO
+    })
 
-    let userDoc
-    try {
-      userDoc = await db.collection('users').doc(session.uid).get()
-    } catch (error) {
-      console.error('[delete] Error fetching user document:', error)
-      return NextResponse.json({ error: 'Failed to verify user status' }, { status: 500 })
-    }
-
-    const plan = userDoc.data()?.subscription?.plan
-
-    if (!plan || !PREMIUM_PLANS.has(plan)) {
-      return NextResponse.json({
-        error: 'Premium subscription required for R2 operations'
-      }, { status: 403 })
+    if (!decision.allow) {
+      return NextResponse.json(
+        {
+          error: decision.reason === 'limit_reached' ? 'Daily limit reached' : 'Access denied',
+          decision
+        },
+        { status: decision.reason === 'limit_reached' ? 429 : 403 }
+      )
     }
 
     // 3. Get deck metadata

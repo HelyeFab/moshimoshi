@@ -34,6 +34,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import { getR2UploadQueue } from '@/lib/r2/R2UploadQueue'
 import { debugLogger } from '@/lib/debug-logger'
 import { storageManager } from '@/lib/flashcards/StorageManager'
+import { useFeature } from '@/hooks/useFeature'
 
 interface DeckCreatorProps {
   isOpen: boolean
@@ -62,6 +63,8 @@ export function DeckCreator({
   const router = useRouter()
   const { showToast } = useToast()
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const { checkOnly: checkDeckLimit } = useFeature('flashcard_decks')
+  const { checkOnly: checkImportOnly, checkAndTrack: trackImport } = useFeature('anki_imports')
 
   const [step, setStep] = useState<'source' | 'details' | 'cards'>('source')
   const [importSource, setImportSource] = useState<ImportSource>('scratch')
@@ -200,11 +203,19 @@ export function DeckCreator({
     setShowListPicker(false)
   }
 
-  const handleImportSource = (source: ImportSource) => {
+  const handleImportSource = async (source: ImportSource) => {
     // Redirect free users to pricing for premium features
     if ((source === 'anki' || source === 'csv') && !isPremium) {
       router.push('/pricing')
       return
+    }
+
+    if (source === 'anki' || source === 'csv') {
+      const decision = await checkImportOnly({ failOpen: false })
+      if (!decision.allow) {
+        showToast(t('entitlements.messages.limitReached'), 'warning')
+        return
+      }
     }
 
     setImportSource(source)
@@ -223,6 +234,11 @@ export function DeckCreator({
     if (result.deck) {
       // Save directly using AnkiDeckManager to preserve rich content and set source: 'anki'
       try {
+        const allowed = await trackImport({ showUI: true })
+        if (!allowed) {
+          return
+        }
+
         await ankiDeckManager.saveDeck(
           result.deck,
           userId,
@@ -415,6 +431,20 @@ export function DeckCreator({
 
     try {
       setIsSaving(true)
+      const isNewDeck = !editDeck
+      if (isNewDeck) {
+        const decision = await checkDeckLimit({ failOpen: false })
+        if (!decision.allow) {
+          showToast(t('entitlements.messages.limitReached'), 'warning')
+          return
+        }
+        if (importSource === 'csv') {
+          const importAllowed = await trackImport({ showUI: true })
+          if (!importAllowed) {
+            return
+          }
+        }
+      }
 
       // Generate furigana for cards that need it
       const textsToProcess: string[] = []

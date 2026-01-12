@@ -38,6 +38,8 @@
     "node_modules",
     "functions",
     "next.config.optimized.ts",
+    "playwright.config.ts",
+    "e2e/**",
     "__tests__/**",
     "**/__tests__/**",
     "**/*.test.ts",

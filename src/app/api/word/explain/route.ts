@@ -1,10 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
-import { adminDb } from '@/lib/firebase/admin';
+import { adminDb, FieldValue } from '@/lib/firebase/admin';
 import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator';
 import type { EvalContext } from '@/lib/entitlements/evaluator';
 import type { FeatureId } from '@/types/FeatureId';
 import { AIService } from '@/lib/ai/AIService';
+import type { WordExplanation } from '@/lib/ai/types';
 import { getCachedWordExplanation, setCachedWordExplanation } from '@/lib/ai/cache/WordExplanationCache';
 
 // Feature IDs for different lookup types
@@ -15,6 +16,48 @@ function sanitizeString(value: unknown): string | undefined {
   if (typeof value !== 'string') return undefined;
   const trimmed = value.trim();
   return trimmed.length > 0 ? trimmed : undefined;
+}
+
+const CONTENT_COLLECTIONS: Record<string, string> = {
+  article: 'news_article_word_explanations',
+  book: 'book_word_explanations',
+  story: 'story_word_explanations',
+  comic: 'comic_word_explanations',
+  flashcard: 'flashcard_word_explanations',
+};
+
+async function upsertContentWordExplanation(
+  contentType: string,
+  contentId: string,
+  explanation: WordExplanation
+) {
+  if (!adminDb) return;
+
+  const collection = CONTENT_COLLECTIONS[contentType];
+  if (!collection) return;
+
+  const docRef = adminDb.collection(collection).doc(contentId);
+  const docSnap = await docRef.get();
+  const existingWords = (docSnap.data()?.words as WordExplanation[]) || [];
+  const exists = existingWords.some(w =>
+    w.word === explanation.word ||
+    w.word?.toLowerCase?.() === explanation.word?.toLowerCase?.() ||
+    w.reading === explanation.word
+  );
+
+  if (exists) return;
+
+  const nextWords = [...existingWords, explanation];
+  await docRef.set(
+    {
+      words: nextWords,
+      wordCount: nextWords.length,
+      total: nextWords.length,
+      lastUpdated: FieldValue.serverTimestamp(),
+      ...(docSnap.exists ? {} : { generatedAt: FieldValue.serverTimestamp() }),
+    },
+    { merge: true }
+  );
 }
 
 export async function POST(request: NextRequest) {
@@ -112,6 +155,14 @@ export async function POST(request: NextRequest) {
         }, { merge: true });
       }
 
+      if (isContentLookup && contentId && contentType) {
+        try {
+          await upsertContentWordExplanation(contentType, contentId, cached);
+        } catch (error) {
+          console.warn('[WordExplainAPI] Content cache write-back failed (cached)', error);
+        }
+      }
+
       return NextResponse.json({
         success: true,
         cached: true,
@@ -146,6 +197,14 @@ export async function POST(request: NextRequest) {
         [WORD_LOOKUP_FEATURE_ID]: currentUsage + 1,
         lastUpdated: nowUtc
       }, { merge: true });
+    }
+
+    if (isContentLookup && contentId && contentType) {
+      try {
+        await upsertContentWordExplanation(contentType, contentId, aiResponse.data);
+      } catch (error) {
+        console.warn('[WordExplainAPI] Content cache write-back failed', error);
+      }
     }
 
     return NextResponse.json({

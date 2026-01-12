@@ -3,7 +3,9 @@
 import { useState, useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Story } from '@/types/story'
+import type { CachedStory } from '@/lib/stories/story-cache.types'
 import { storyService } from '@/lib/services/StoryService'
+import { useStoryCache } from '@/hooks/useStoryCache'
 import EnhancedArticleReader from '@/components/news/EnhancedArticleReaderFinal'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import Navbar from '@/components/layout/Navbar'
@@ -17,40 +19,54 @@ export default function StoryDetailPage() {
   const { showToast } = useToast()
   const { user } = useAuth()
   const slug = params.slug as string
+  const { getStoryBySlug, cacheStory } = useStoryCache()
 
   const [story, setStory] = useState<Story | null>(null)
   const [loading, setLoading] = useState(true)
 
+  const normalizeCachedStory = (cached: CachedStory): Story => ({
+    ...cached,
+    createdAt: new Date(cached.createdAt),
+    updatedAt: new Date(cached.updatedAt),
+    publishedAt: cached.publishedAt ? new Date(cached.publishedAt) : undefined,
+    audioGeneratedAt: cached.audioGeneratedAt ? new Date(cached.audioGeneratedAt) : undefined
+  })
+
   useEffect(() => {
     const loadStory = async () => {
       try {
-        // Try to load by slug first
-        let storyData = await storyService.getStoryBySlug(slug)
+        const isOffline = typeof navigator !== 'undefined' && !navigator.onLine
 
-        // If not found by slug, try as ID (for backward compatibility)
-        if (!storyData) {
-          storyData = await storyService.getStory(slug)
+        if (isOffline) {
+          const cachedStory = await getStoryBySlug(slug)
+          if (cachedStory) {
+            setStory(normalizeCachedStory(cachedStory))
+            return
+          }
+          throw new Error('Offline with no cached story')
         }
 
-        if (!storyData) {
-          showToast('Story not found', 'error')
-          router.push('/stories')
-          return
+        const response = await fetch(`/api/stories/${slug}`)
+
+        if (!response.ok) {
+          throw new Error('Story not found')
         }
 
-        // Only show published stories to non-admin users
-        if (storyData.status !== 'published') {
-          showToast('This story is not available', 'error')
-          router.push('/stories')
-          return
+        const data = await response.json()
+
+        if (!data.success || !data.story) {
+          throw new Error('Story not found')
         }
 
-        setStory(storyData)
-
-        // Increment view count
-        await storyService.incrementViewCount(storyData.id)
+        setStory(data.story)
+        await cacheStory(data.story)
       } catch (error) {
         console.error('Error loading story:', error)
+        const cachedStory = await getStoryBySlug(slug)
+        if (cachedStory) {
+          setStory(normalizeCachedStory(cachedStory))
+          return
+        }
         showToast('Failed to load story', 'error')
         router.push('/stories')
       } finally {

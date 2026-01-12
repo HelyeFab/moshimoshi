@@ -24,6 +24,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { searchTatoebaExamples, type ExampleSentence } from '@/utils/tatoebaSearch'
 import AddToListButton from '@/components/lists/AddToListButton'
 import CompactConjugationTable from '@/components/conjugation/CompactConjugationTable'
+import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
+import { kanjiService } from '@/services/kanjiService'
+import type { Kanji } from '@/types/kanji'
 
 // ============================================
 // Modal Props
@@ -82,6 +85,8 @@ export default function WordExplanationModal({
   const [relatedTranslations, setRelatedTranslations] = useState<TranslationResult | null>(null)
   const [tatoebaExamples, setTatoebaExamples] = useState<ExampleSentence[]>([])
   const [loadingTatoeba, setLoadingTatoeba] = useState(false)
+  const [selectedKanji, setSelectedKanji] = useState<Kanji | null>(null)
+  const [kanjiModalOpen, setKanjiModalOpen] = useState(false)
 
   const { play, playing, currentText } = useTTS()
   const {
@@ -142,6 +147,28 @@ export default function WordExplanationModal({
       }
     }
   }, [translationContext?.sentence, translateText])
+
+  const handleKanjiClick = useCallback(async (kanjiChar: string) => {
+    try {
+      const details = await kanjiService.getKanjiDetails(kanjiChar)
+      if (details) {
+        setSelectedKanji(details)
+        setKanjiModalOpen(true)
+      } else {
+        console.warn(`[WordExplanationModal] No kanji details found for: ${kanjiChar}`)
+      }
+    } catch (error) {
+      console.error('[WordExplanationModal] Error fetching kanji details:', error)
+    }
+  }, [])
+
+  // Helper to check if a character is actually kanji (not hiragana/katakana)
+  const isKanji = useCallback((char: string): boolean => {
+    if (!char || char.length === 0) return false
+    const code = char.charCodeAt(0)
+    // CJK Unified Ideographs: U+4E00 to U+9FFF
+    return code >= 0x4e00 && code <= 0x9fff
+  }, [])
 
   // ============================================
   // Effects
@@ -497,43 +524,81 @@ export default function WordExplanationModal({
               </svg>
               Kanji Breakdown
             </h4>
+            <div className="text-xs text-gray-500 dark:text-gray-400 mb-3 italic">
+              💡 Tap any kanji to see full details, stroke order, and practice writing
+            </div>
             <div className="space-y-3">
-              {explanation.kanjiBreakdown.map((kanji, idx) => (
-                <div key={idx} className="bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4">
-                  <div className="flex items-start gap-4">
-                    <div className="text-4xl font-bold text-gray-900 dark:text-white">
-                      {kanji.kanji}
+              {explanation.kanjiBreakdown.map((kanji, idx) => {
+                const isActualKanji = isKanji(kanji.kanji)
+
+                // Render as button if it's kanji, otherwise as static div
+                return isActualKanji ? (
+                  <button
+                    key={idx}
+                    onClick={() => handleKanjiClick(kanji.kanji)}
+                    className="w-full bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:border-blue-300 dark:hover:border-blue-700 border-2 border-transparent transition-all duration-200 cursor-pointer group"
+                    title={`Click to see full details for ${kanji.kanji}`}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="text-4xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                        {kanji.kanji}
+                      </div>
+                      <div className="flex-1 text-left">
+                        <p className="text-base font-medium text-gray-900 dark:text-white mb-2">
+                          {kanji.meaning}
+                        </p>
+                        <div className="grid grid-cols-2 gap-2 text-sm">
+                          {kanji.kunYomi && kanji.kunYomi.length > 0 && (
+                            <div>
+                              <span className="font-medium text-gray-700 dark:text-gray-300">
+                                Kun:
+                              </span>
+                              <span className="ml-2 text-gray-600 dark:text-gray-400">
+                                {kanji.kunYomi.join(', ')}
+                              </span>
+                            </div>
+                          )}
+                          {kanji.onYomi && kanji.onYomi.length > 0 && (
+                            <div>
+                              <span className="font-medium text-gray-700 dark:text-gray-300">
+                                On:
+                              </span>
+                              <span className="ml-2 text-gray-600 dark:text-gray-400">
+                                {kanji.onYomi.join(', ')}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                      {/* Click indicator */}
+                      <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <svg className="w-5 h-5 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
                     </div>
-                    <div className="flex-1">
-                      <p className="text-base font-medium text-gray-900 dark:text-white mb-2">
-                        {kanji.meaning}
-                      </p>
-                      <div className="grid grid-cols-2 gap-2 text-sm">
-                        {kanji.kunYomi && kanji.kunYomi.length > 0 && (
-                          <div>
-                            <span className="font-medium text-gray-700 dark:text-gray-300">
-                              Kun:
-                            </span>
-                            <span className="ml-2 text-gray-600 dark:text-gray-400">
-                              {kanji.kunYomi.join(', ')}
-                            </span>
-                          </div>
-                        )}
-                        {kanji.onYomi && kanji.onYomi.length > 0 && (
-                          <div>
-                            <span className="font-medium text-gray-700 dark:text-gray-300">
-                              On:
-                            </span>
-                            <span className="ml-2 text-gray-600 dark:text-gray-400">
-                              {kanji.onYomi.join(', ')}
-                            </span>
-                          </div>
-                        )}
+                  </button>
+                ) : (
+                  <div
+                    key={idx}
+                    className="w-full bg-gray-50 dark:bg-gray-800/50 rounded-lg p-4 border-2 border-transparent opacity-75"
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="text-4xl font-bold text-gray-900 dark:text-white">
+                        {kanji.kanji}
+                      </div>
+                      <div className="flex-1 text-left">
+                        <p className="text-base font-medium text-gray-900 dark:text-white mb-2">
+                          {kanji.meaning}
+                        </p>
+                        <div className="text-xs text-gray-500 dark:text-gray-400 italic">
+                          (okurigana - grammatical ending)
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         )}
@@ -979,6 +1044,13 @@ export default function WordExplanationModal({
           </>
         )}
       </div>
+
+      {/* Nested Kanji Details Modal */}
+      <KanjiDetailsModal
+        kanji={selectedKanji}
+        isOpen={kanjiModalOpen}
+        onClose={() => setKanjiModalOpen(false)}
+      />
     </Modal>
   )
 }

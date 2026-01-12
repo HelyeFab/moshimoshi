@@ -26,7 +26,7 @@ function DashboardContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { showToast } = useToast()
-  const { user, loading: authLoading, isGuest, refreshSession } = useAuth()
+  const { user, loading: authLoading, isGuest, isOffline, refreshSession } = useAuth()
   const { getLocalePath } = useLocalePath()
   const [isFirstVisit, setIsFirstVisit] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
@@ -135,12 +135,12 @@ function DashboardContent() {
   }, [refreshSession])
 
   useEffect(() => {
-    if (!authLoading && !user && !isGuest) {
+    if (!authLoading && !user && !isGuest && !isOffline) {
       logger.auth('[Dashboard] No user found, redirecting to signin')
       const timer = setTimeout(() => router.push(getLocalePath('/auth/signin')), 100)
       return () => clearTimeout(timer)
     }
-  }, [authLoading, user, isGuest, router, getLocalePath])
+  }, [authLoading, user, isGuest, isOffline, router, getLocalePath])
 
   const { strings } = useI18n()
 

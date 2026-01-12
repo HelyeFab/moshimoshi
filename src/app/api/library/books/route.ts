@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { db } from '@/lib/firebase/admin';
+import { getSession } from '@/lib/auth/session';
+import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server';
 import { Book, BookListResponse } from '@/types/book';
 
 /**
@@ -25,6 +27,30 @@ export async function GET(request: NextRequest) {
 
     // Get single book by ID
     if (bookId) {
+      const session = await getSession();
+      if (!session?.uid) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
+
+      const nowUtcISO = new Date().toISOString();
+      const plan = await getUserPlan(session.uid);
+      const { decision } = await evaluateFeatureAccess({
+        featureId: 'books',
+        userId: session.uid,
+        plan,
+        nowUtcISO
+      });
+
+      if (!decision.allow) {
+        return NextResponse.json(
+          {
+            error: decision.reason === 'limit_reached' ? 'Daily limit reached' : 'Access denied',
+            decision
+          },
+          { status: decision.reason === 'limit_reached' ? 429 : 403 }
+        );
+      }
+
       const bookDoc = await db.collection('books').doc(bookId).get();
 
       if (!bookDoc.exists) {
@@ -39,6 +65,14 @@ export async function GET(request: NextRequest) {
       // Increment view count
       await bookDoc.ref.update({
         viewCount: (data?.viewCount || 0) + 1
+      });
+
+      await evaluateFeatureAccess({
+        featureId: 'books',
+        userId: session.uid,
+        plan,
+        nowUtcISO,
+        increment: true
       });
 
       return NextResponse.json({

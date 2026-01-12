@@ -98,6 +98,15 @@ export interface ComicEpisode {
   metadata: ComicEpisodeMetadata
   status: 'draft' | 'review' | 'published' | 'archived'
   publishedAt?: Date
+
+  // Word explanation async generation status
+  wordExplanationsStatus?: 'generating' | 'complete' | 'failed'
+  wordExplanationsStartedAt?: Date
+  wordExplanationsCompletedAt?: Date
+  wordExplanationsFailedAt?: Date
+  wordExplanationsError?: string
+  wordExplanationsCount?: number
+
   createdAt: Date
   updatedAt: Date
 }

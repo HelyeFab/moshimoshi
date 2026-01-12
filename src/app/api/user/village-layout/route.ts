@@ -4,6 +4,7 @@ import { ensureAdminInitialized, adminFirestore } from '@/lib/firebase/admin'
 import { FieldValue } from 'firebase-admin/firestore'
 import { z } from 'zod'
 import { DEFAULT_DISTRICT_ORDER, DistrictId } from '@/config/learning-village-types'
+import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server'
 
 const DISTRICT_VALUES = ['foundation', 'study', 'immersion', 'play', 'community'] as const
 
@@ -107,6 +108,27 @@ export async function PATCH(request: NextRequest) {
   try {
     ensureAdminInitialized()
     const session = await requireAuth()
+    const nowUtcISO = new Date().toISOString()
+    const plan = await getUserPlan(session.uid)
+    const { decision } = await evaluateFeatureAccess({
+      featureId: 'stall_layout_customization',
+      userId: session.uid,
+      plan,
+      nowUtcISO
+    })
+
+    if (!decision.allow) {
+      return NextResponse.json(
+        {
+          error: {
+            code: decision.reason === 'limit_reached' ? 'LIMIT_REACHED' : 'NO_PERMISSION',
+            message: 'Daily customization limit reached',
+            decision
+          }
+        },
+        { status: decision.reason === 'limit_reached' ? 429 : 403 }
+      )
+    }
 
     const body = await request.json()
     const validation = DistrictOrderSchema.safeParse(body)
@@ -134,6 +156,14 @@ export async function PATCH(request: NextRequest) {
       },
       { merge: true }
     )
+
+    await evaluateFeatureAccess({
+      featureId: 'stall_layout_customization',
+      userId: session.uid,
+      plan,
+      nowUtcISO,
+      increment: true
+    })
 
     return NextResponse.json({
       success: true,

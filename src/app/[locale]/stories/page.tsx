@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
+import { useSubscription } from '@/hooks/useSubscription'
 import { useI18n } from '@/i18n/I18nContext'
 import { useStories } from '@/hooks/useStories'
 import { useStoryCache } from '@/hooks/useStoryCache'
@@ -24,6 +25,7 @@ export default function StoriesPage() {
   const { user } = useAuth()
   const { t } = useI18n()
   const router = useRouter()
+  const { isPremium } = useSubscription()
   const {
     stories,
     userProgress,
@@ -47,6 +49,7 @@ export default function StoriesPage() {
 
   // Auto-prefetch current page + next page for offline use (24 stories total)
   useEffect(() => {
+    if (!isPremium) return
     if (stories.length > 0 && prefetchStatus === 'idle' && !loading) {
       setPrefetchStatus('prefetching')
 
@@ -87,7 +90,7 @@ export default function StoriesPage() {
           setPrefetchStatus('done')
         })
     }
-  }, [stories, prefetchStatus, loading, hasMore, page, filters, prefetchStories])
+  }, [stories, prefetchStatus, loading, hasMore, page, filters, prefetchStories, isPremium])
 
   const getProgressPercentage = (storyId: string) => {
     const progress = userProgress.get(storyId)

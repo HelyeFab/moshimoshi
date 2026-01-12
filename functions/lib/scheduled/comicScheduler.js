@@ -15,8 +15,8 @@
  * 7. Generate cultural notes
  * 8. Generate quiz
  * 9. Generate audio
- * 10. Publish episode
- * 11. Generate word explanations (comprehensive, instant-lookup)
+ * 10. Generate word explanations (comprehensive, instant-lookup) - BEFORE publishing
+ * 11. Publish episode
  */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -59,6 +59,7 @@ const logger = __importStar(require("firebase-functions/logger"));
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
 const params_1 = require("firebase-functions/params");
+const comicWordExplanationPreGenerator_1 = require("../utils/comicWordExplanationPreGenerator");
 // Define secrets needed for comic generation
 const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY');
 const MODAL_API_KEY = (0, params_1.defineSecret)('MODAL_API_KEY');
@@ -356,6 +357,7 @@ function selectEpisodeTheme(episodeNumber) {
  * Main comic episode generation function
  */
 async function generateComicEpisode(adminKey, options) {
+    var _a;
     const startTime = Date.now();
     let startLogId = null;
     let queueItem = null;
@@ -544,7 +546,7 @@ async function generateComicEpisode(adminKey, options) {
             });
         }
         // Step 7: Generate audio for dialogues
-        logger.info('[ComicScheduler] Step 7/8: Generating audio...');
+        logger.info('[ComicScheduler] Step 7/9: Generating audio...');
         try {
             await callComicAPI('/api/admin/comics/generate', {
                 step: 'audio',
@@ -557,24 +559,61 @@ async function generateComicEpisode(adminKey, options) {
                 error: audioError instanceof Error ? audioError.message : 'Unknown',
             });
         }
+        // Step 7.5: Generate word explanations (before publishing, same as story scheduler)
+        logger.info('[ComicScheduler] Step 7.5/9: Generating word explanations...');
+        try {
+            // Extract comic text from panels (dialogues + narrations)
+            const wordDraftDoc = await db.collection('comic_drafts').doc(draftId).get();
+            const wordDraftData = wordDraftDoc.data();
+            if ((wordDraftData === null || wordDraftData === void 0 ? void 0 : wordDraftData.panels) && Array.isArray(wordDraftData.panels)) {
+                const comicText = wordDraftData.panels
+                    .map((panel) => {
+                    var _a, _b;
+                    const dialogueText = ((_a = panel.dialogues) === null || _a === void 0 ? void 0 : _a.map((d) => d.textJa || '').join(' ')) || '';
+                    const narrationText = ((_b = panel.narration) === null || _b === void 0 ? void 0 : _b.textJa) || '';
+                    return `${dialogueText} ${narrationText}`.trim();
+                })
+                    .filter((text) => text.length > 0)
+                    .join('\n');
+                // Check timeout before starting (leave 2min buffer for publish step)
+                const timeElapsed = Date.now() - startTime;
+                const timeRemaining = 540000 - timeElapsed; // 540s = 9min Cloud Function limit
+                if (timeRemaining < 120000) {
+                    logger.warn('[ComicScheduler] Skipping word explanations - insufficient time', {
+                        timeRemaining: Math.round(timeRemaining / 1000),
+                        timeElapsed: Math.round(timeElapsed / 1000),
+                    });
+                }
+                else {
+                    // Generate episode ID for word explanations storage
+                    const episodeId = `moshi-goes-to-japan-ep${String(episodeNumber).padStart(3, '0')}`;
+                    // Attempt word explanation generation with timeout protection
+                    const wordResult = await Promise.race([
+                        (0, comicWordExplanationPreGenerator_1.generateComicWordExplanations)(episodeId, comicText, 100 // Extract top 100 words
+                        ),
+                        new Promise((_, reject) => setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000))
+                    ]);
+                    logger.info('[ComicScheduler] Word explanations complete', {
+                        episodeId,
+                        wordCount: wordResult.wordCount,
+                        totalTokens: ((_a = wordResult.costInfo) === null || _a === void 0 ? void 0 : _a.totalTokens) || 0,
+                    });
+                }
+            }
+            else {
+                logger.warn('[ComicScheduler] No panels found for word explanation generation', { draftId });
+            }
+        }
+        catch (wordError) {
+            logger.warn('[ComicScheduler] Word explanation generation failed - continuing', {
+                error: wordError instanceof Error ? wordError.message : 'Unknown error',
+            });
+            // Non-critical - comic will still publish without word explanations
+        }
         // Step 8: Publish the episode
         logger.info('[ComicScheduler] Step 8/9: Publishing episode...');
         const publishResult = await callComicAPI('/api/admin/comics/publish', { draftId }, adminKey);
         const episodeId = publishResult.episodeId;
-        // Step 9: Generate word explanations
-        logger.info('[ComicScheduler] Step 9/9: Generating word explanations...');
-        try {
-            await callComicAPI('/api/admin/comics/word-explanations', {
-                episodeId,
-                jlptLevel,
-            }, adminKey);
-            logger.info('[ComicScheduler] Word explanations generated');
-        }
-        catch (wordExplError) {
-            logger.warn('[ComicScheduler] Word explanation generation failed, continuing...', {
-                error: wordExplError instanceof Error ? wordExplError.message : 'Unknown',
-            });
-        }
         const duration = Date.now() - startTime;
         // Update series published count (episodeCount was already incremented when we reserved the number)
         await db.collection('comic_series').doc(MOSHI_SERIES_ID).update({
@@ -670,7 +709,7 @@ exports.scheduledComicGeneratorFunction = (0, scheduler_1.onSchedule)({
     schedule: '0 0 * * 0', // Weekly on Sunday at 00:00 UTC
     timeZone: 'UTC',
     memory: '1GiB',
-    timeoutSeconds: 900, // 15 minutes (max for scheduled: 1800s/30min)
+    timeoutSeconds: 540, // 9 minutes
     retryCount: 1,
     secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY],
 }, async (event) => {
@@ -691,7 +730,7 @@ exports.scheduledComicGeneratorFunction = (0, scheduler_1.onSchedule)({
  */
 exports.manualComicGeneratorFunction = (0, https_1.onCall)({
     memory: '1GiB',
-    timeoutSeconds: 900, // 15 minutes (max for callable: 3600s/60min)
+    timeoutSeconds: 540,
     invoker: 'public',
     secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY],
 }, async (request) => {

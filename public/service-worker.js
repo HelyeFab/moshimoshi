@@ -10,22 +10,27 @@
 
 // Debug mode - set to true to enable verbose logging
 // In production, this should be false to reduce console noise
-const DEBUG = false;
+const DEBUG = true;
 
 // Logging wrappers - only log when DEBUG is enabled
 const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-8b6e89410a4a';
+const CACHE_VERSION = 'moshimoshi-828cf235eacf';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
+const IMAGE_CACHE = `${CACHE_VERSION}-images`;
 
 // Audio cache configuration
 const AUDIO_CACHE_CONFIG = {
   maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
   maxEntries: 250, // ~200 kana + buffer for other audio
+};
+
+const IMAGE_CACHE_CONFIG = {
+  maxEntries: 200,
 };
 
 // Pages to cache for offline use (Learning Village and foundation features)
@@ -43,9 +48,13 @@ const OFFLINE_ENABLED_PAGES = [
   '/stories',             // Stories page (stories cached in IndexedDB)
   '/kanji-moods',         // Kanji moodboards (moodboards cached in IndexedDB)
   '/kanji-connection',    // Kanji connections (families/radicals/SKIP cached in IndexedDB)
+  '/comics',              // Comics page (episodes cached in IndexedDB)
   '/flashcards',          // Flashcards page (has dedicated SyncManager for offline)
   '/lists',               // User lists (uses IndexedDB as primary storage)
   '/textbook-vocabulary', // Textbook vocabulary (static bundled JSON data)
+  '/tools/kanji-mastery', // Kanji mastery (static kanji data cached per level)
+  '/blog',                // Blog list + detail (cached in localStorage)
+  '/resources',           // Resources list + detail (cached in localStorage)
 ];
 
 const LOCALE_PREFIX_REGEX = /^[a-z]{2,3}(?:-[a-z]{2})?$/i;
@@ -117,37 +126,35 @@ const MANUAL_PRECACHE_URLS = [
 const PRECACHE_URLS = [
   "/_next/static/chunks/10152-ce5cb8b0f37c62a2.js",
   "/_next/static/chunks/10409-6d4e4d0c8b82e5c5.js",
-  "/_next/static/chunks/10652-33011feab5b2bf4f.js",
   "/_next/static/chunks/11073-c49d53d097d00f25.js",
   "/_next/static/chunks/11599-e986443a5e668d37.js",
   "/_next/static/chunks/12435-bf58e778fff44c0c.js",
   "/_next/static/chunks/12497-b5e9ac73f8b8bd2c.js",
   "/_next/static/chunks/12553-ac7b7a27e23bd50b.js",
   "/_next/static/chunks/12755-608e01a075b16dac.js",
-  "/_next/static/chunks/12899-486f9bac95e76c53.js",
+  "/_next/static/chunks/12899-d86baf79ef36c2af.js",
   "/_next/static/chunks/13523-fd15821c144a9307.js",
   "/_next/static/chunks/1452-6475f485ffaa79be.js",
   "/_next/static/chunks/14777-519d0e9b10e6b729.js",
-  "/_next/static/chunks/14810-a3ad31cce7114e44.js",
   "/_next/static/chunks/15239-fe082bf828cd2872.js",
-  "/_next/static/chunks/15361-9056bd6d4f47f1e4.js",
   "/_next/static/chunks/16474-b665afb3f9c3f3b0.js",
-  "/_next/static/chunks/1673-8f625db55ae992b4.js",
   "/_next/static/chunks/19075-fdcb55410bfcfd6d.js",
   "/_next/static/chunks/19406-f7bb48e86926b2fb.js",
   "/_next/static/chunks/20461-cbea971ba25d4726.js",
   "/_next/static/chunks/20554-c6b7d5a59f66ff79.js",
+  "/_next/static/chunks/20746-acae7224aaf6b433.js",
   "/_next/static/chunks/20840-d72d5c335f7c40bc.js",
   "/_next/static/chunks/21544-a8f0b60cb83afb43.js",
-  "/_next/static/chunks/22100-e7000aaed83a8439.js",
   "/_next/static/chunks/22470-092c41530991f39d.js",
   "/_next/static/chunks/22489-86dd1d27913abe8d.js",
+  "/_next/static/chunks/22678-b71fd125fc153f87.js",
   "/_next/static/chunks/23180-b7f2926028221d98.js",
   "/_next/static/chunks/2353-f7480e9567d150b8.js",
-  "/_next/static/chunks/23810-f04b95fcdf9047a1.js",
+  "/_next/static/chunks/23568-1dcd3e8efcf2ea55.js",
+  "/_next/static/chunks/23810-22544a2797a9bf0a.js",
   "/_next/static/chunks/23868-265ec8dce87653b4.js",
   "/_next/static/chunks/23930-b7fde159df4d447e.js",
-  "/_next/static/chunks/24069-94409b83c3cd1ef0.js",
+  "/_next/static/chunks/24069-f22fe1f3962ded76.js",
   "/_next/static/chunks/24366-79a6a6e781a39914.js",
   "/_next/static/chunks/24909-e6034bdbe90d1a47.js",
   "/_next/static/chunks/25153-191f031af1d5ff9a.js",
@@ -157,67 +164,72 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/27890-9b02887178ed0d45.js",
   "/_next/static/chunks/28278-9bcc0397dc13c059.js",
   "/_next/static/chunks/28833-11f0cf77e6078f57.js",
-  "/_next/static/chunks/30438-ed393af3af95fa88.js",
   "/_next/static/chunks/31255-2b43ea3d000ae5cf.js",
-  "/_next/static/chunks/31480-e229f0f284911956.js",
   "/_next/static/chunks/32790-6d4e4d0c8b82e5c5.js",
-  "/_next/static/chunks/33316-78e80123d69c15f1.js",
-  "/_next/static/chunks/34196-adb9d1eba27d744d.js",
+  "/_next/static/chunks/33316-7fd105d5cbb9d22d.js",
+  "/_next/static/chunks/34196-450a333f28b09ff3.js",
   "/_next/static/chunks/35925-9ef41eca727c630e.js",
-  "/_next/static/chunks/36421-98a120b884745631.js",
+  "/_next/static/chunks/36421-18472b6142d1053f.js",
   "/_next/static/chunks/36665-6eac61abcf7eda5e.js",
-  "/_next/static/chunks/37005-ca9566debb9b5409.js",
-  "/_next/static/chunks/38017-7bb98788aab0d79d.js",
-  "/_next/static/chunks/38151-af4896ae22032fa6.js",
+  "/_next/static/chunks/37005-8b4610f027540d23.js",
+  "/_next/static/chunks/37803-d267cb1f876e6c84.js",
+  "/_next/static/chunks/3783-6fab11f794e20472.js",
+  "/_next/static/chunks/38017-52276ea8b3664e84.js",
+  "/_next/static/chunks/38151-c5ba4ea22a434063.js",
   "/_next/static/chunks/38179-7dc34f5c4af751d3.js",
-  "/_next/static/chunks/4148-ca9566debb9b5409.js",
+  "/_next/static/chunks/38477-54e41718040f84cf.js",
+  "/_next/static/chunks/39318-ca587d3ee9ae6ae3.js",
+  "/_next/static/chunks/40031-192c9a70c40b89b9.js",
   "/_next/static/chunks/42755-203fe329c26e4347.js",
   "/_next/static/chunks/43903-0daa92d56d76e6df.js",
-  "/_next/static/chunks/43952-3faf401c41b49b02.js",
-  "/_next/static/chunks/45161-6373c2a3e4bda930.js",
+  "/_next/static/chunks/43952-2e30e09861226db6.js",
   "/_next/static/chunks/45405-19b235bed20d58b6.js",
   "/_next/static/chunks/4586-609151be89639177.js",
   "/_next/static/chunks/46693-15da08f7b11e606f.js",
   "/_next/static/chunks/46875-2128efea6bb8f84d.js",
+  "/_next/static/chunks/47179-51605145bed6e3a7.js",
+  "/_next/static/chunks/49483-247923524eb943b9.js",
   "/_next/static/chunks/49882-29d64c0219d6394a.js",
   "/_next/static/chunks/4bd1b696-2135e4d8b8354323.js",
-  "/_next/static/chunks/50106-17047ac420cdff38.js",
+  "/_next/static/chunks/50106-5c4170b3b72e1a85.js",
   "/_next/static/chunks/50443-56e61b140c52d8dc.js",
-  "/_next/static/chunks/50972-0a3a516a1cfd9479.js",
   "/_next/static/chunks/51189-bc9fc88af4f87e6f.js",
   "/_next/static/chunks/52413-483d77342fc9ed10.js",
   "/_next/static/chunks/52445-d37beccb2afe4450.js",
   "/_next/static/chunks/52619-f2cabc0d7be67480.js",
+  "/_next/static/chunks/53367-c7346b39dca4dc91.js",
   "/_next/static/chunks/53697-d72d5c335f7c40bc.js",
   "/_next/static/chunks/53799-478beaa6da9e62c7.js",
   "/_next/static/chunks/53807-09b9aff627ecea9e.js",
+  "/_next/static/chunks/5441-4d40129e2fc41099.js",
   "/_next/static/chunks/54469-80a2f9dda48676d7.js",
   "/_next/static/chunks/54a60aa6-fde3c27555179f9b.js",
   "/_next/static/chunks/56526-a696280abe78b205.js",
-  "/_next/static/chunks/56852-f1b1001673c232c3.js",
-  "/_next/static/chunks/57292-fff2a9b7db8bc006.js",
+  "/_next/static/chunks/56767-93d4918a0bf8098e.js",
+  "/_next/static/chunks/56852-f815eb994fc2064a.js",
+  "/_next/static/chunks/57292-685a774542f28f3b.js",
   "/_next/static/chunks/57961-ae82ea1600874d80.js",
-  "/_next/static/chunks/58126-ddb4f9779a7dcf02.js",
-  "/_next/static/chunks/59386-ca9566debb9b5409.js",
+  "/_next/static/chunks/58126-2fbfb092029e48ea.js",
+  "/_next/static/chunks/59386-8b4610f027540d23.js",
   "/_next/static/chunks/59717-b00e443af50515df.js",
   "/_next/static/chunks/5b86099a-2b99c0ca635cfe24.js",
   "/_next/static/chunks/60134-3ec78c02dbde7455.js",
-  "/_next/static/chunks/61324-4e990da90c694db1.js",
+  "/_next/static/chunks/61324-ee1311648d71fe5a.js",
   "/_next/static/chunks/62748-f0cf92795cdf76af.js",
-  "/_next/static/chunks/62776-ce26f87bdf6d926e.js",
+  "/_next/static/chunks/63134-17444764ecd4cb92.js",
   "/_next/static/chunks/63388-0fb9a1fb6922e3b6.js",
   "/_next/static/chunks/6350-c29a9620a1d06367.js",
-  "/_next/static/chunks/63790-5d51db9e7c6b5dc7.js",
-  "/_next/static/chunks/64997-3ac33c311ee272cf.js",
-  "/_next/static/chunks/65053-b7c296b5490bca93.js",
+  "/_next/static/chunks/67686-c2b8125c38a9620c.js",
   "/_next/static/chunks/68727-9c10895e89df7dac.js",
   "/_next/static/chunks/69000-b063f7123f3e8d25.js",
+  "/_next/static/chunks/69086-b6357b94f49cc053.js",
   "/_next/static/chunks/69229-c088aa2edbb77496.js",
   "/_next/static/chunks/69256-2128efea6bb8f84d.js",
   "/_next/static/chunks/69294-64e444c95bf3abb8.js",
+  "/_next/static/chunks/70217-c59df39ce94b08af.js",
   "/_next/static/chunks/70e0d97a-589a37b07df0bca7.js",
-  "/_next/static/chunks/72253-724e410c8e93e9a4.js",
-  "/_next/static/chunks/73145-66d43dc0a49f9bd2.js",
+  "/_next/static/chunks/71683-6e9af323532551d2.js",
+  "/_next/static/chunks/72253-682ae60907f87ebe.js",
   "/_next/static/chunks/73372-f8e01f3785e2cbdd.js",
   "/_next/static/chunks/7405-8d12de7d197d918e.js",
   "/_next/static/chunks/74572-36d7fcf5b8ea6e4a.js",
@@ -230,12 +242,11 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/77804-3cd51be2c62fb45c.js",
   "/_next/static/chunks/78037-19c9e8a6ef802816.js",
   "/_next/static/chunks/79297-ee21f7f685a61cdf.js",
-  "/_next/static/chunks/805-6ad6524c2be9082f.js",
-  "/_next/static/chunks/8079-300b45b0987c63cf.js",
+  "/_next/static/chunks/805-4580f78b4cc2a235.js",
+  "/_next/static/chunks/8079-992fd6673bc1d0e7.js",
   "/_next/static/chunks/81029-b57e3d08425b1a3a.js",
   "/_next/static/chunks/81075-518adf0097c246f2.js",
-  "/_next/static/chunks/81200-7b6eea3a2dc0429f.js",
-  "/_next/static/chunks/82125-f989592c1a68546e.js",
+  "/_next/static/chunks/83057-f1744d8c1bb4d748.js",
   "/_next/static/chunks/8382-f7480e9567d150b8.js",
   "/_next/static/chunks/84584-362b7b6c9580d167.js",
   "/_next/static/chunks/85089-c43d947108ece686.js",
@@ -247,37 +258,39 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/88739-e66bdfba72b3be0c.js",
   "/_next/static/chunks/88751-62fd1c248429180c.js",
   "/_next/static/chunks/89223-9348dee26f44d2eb.js",
-  "/_next/static/chunks/89742-d6dc576b76cdd797.js",
+  "/_next/static/chunks/89742-d1c34ad5126a237e.js",
   "/_next/static/chunks/90878-8883a03b10c0ed3f.js",
+  "/_next/static/chunks/90909-5417a68ce2e859cc.js",
   "/_next/static/chunks/92758-d10552e41edd32e9.js",
   "/_next/static/chunks/93463-310649cfb1ae0895.js",
   "/_next/static/chunks/94730671-b875e21d32c5b1a4.js",
-  "/_next/static/chunks/94997-5e35498fce2e1018.js",
+  "/_next/static/chunks/94997-b16034afd6dcfee0.js",
+  "/_next/static/chunks/98089-e116be379bcbca4a.js",
   "/_next/static/chunks/98459-d72d5c335f7c40bc.js",
   "/_next/static/chunks/98698-fe89575a2f06e830.js",
   "/_next/static/chunks/99341-5bb921ca23fd36e3.js",
   "/_next/static/chunks/99707-7a384458d5cd5012.js",
   "/_next/static/chunks/a4634e51-fadde5bb5e34f614.js",
-  "/_next/static/chunks/app/[locale]/(home)/layout-3268183244dcf4f5.js",
-  "/_next/static/chunks/app/[locale]/(home)/page-0fae8b0c26d0a751.js",
+  "/_next/static/chunks/app/[locale]/(home)/layout-82fbe3801c389471.js",
+  "/_next/static/chunks/app/[locale]/(home)/page-7a37053879e1789e.js",
   "/_next/static/chunks/app/[locale]/(public)/landing/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/(public)/landing/page-9af8c0400ebbeb37.js",
+  "/_next/static/chunks/app/[locale]/(public)/landing/page-df48702b499be111.js",
   "/_next/static/chunks/app/[locale]/account/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/account/page-8304bb089f9d2dc5.js",
+  "/_next/static/chunks/app/[locale]/account/page-e0e344bfda3c0147.js",
   "/_next/static/chunks/app/[locale]/achievements/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/achievements/page-f5f4436bd60dc932.js",
+  "/_next/static/chunks/app/[locale]/achievements/page-46d8a0aa43e6074f.js",
   "/_next/static/chunks/app/[locale]/admin/blog/[id]/edit/page-dee783c2b8b70380.js",
   "/_next/static/chunks/app/[locale]/admin/blog/new/page-ca769a53eed16474.js",
   "/_next/static/chunks/app/[locale]/admin/blog/page-b7d64e3dbd4180cc.js",
   "/_next/static/chunks/app/[locale]/admin/books/edit/[id]/page-1fffe7a7954dbd85.js",
   "/_next/static/chunks/app/[locale]/admin/books/generate/page-885b39f4e7995aaa.js",
   "/_next/static/chunks/app/[locale]/admin/books/page-29be26bcbac436bc.js",
-  "/_next/static/chunks/app/[locale]/admin/comics/generate/page-b7406fed46b676d8.js",
-  "/_next/static/chunks/app/[locale]/admin/comics/page-348370d4f417780a.js",
+  "/_next/static/chunks/app/[locale]/admin/comics/generate/page-e59a03dc871e39e0.js",
+  "/_next/static/chunks/app/[locale]/admin/comics/page-17e1d608330d3602.js",
   "/_next/static/chunks/app/[locale]/admin/comics/schedule/page-9c5395ffa12a4372.js",
   "/_next/static/chunks/app/[locale]/admin/decision-explorer/page-2385b9be3e8534e3.js",
   "/_next/static/chunks/app/[locale]/admin/email-campaigns/page-60001b9f480663b7.js",
-  "/_next/static/chunks/app/[locale]/admin/entitlements/page-678aa1880f821a3f.js",
+  "/_next/static/chunks/app/[locale]/admin/entitlements/page-38a8840a35e26a84.js",
   "/_next/static/chunks/app/[locale]/admin/feature-flags/page-6f6594106622eac3.js",
   "/_next/static/chunks/app/[locale]/admin/firebase-monitoring/page-c309f110f2f37d33.js",
   "/_next/static/chunks/app/[locale]/admin/gamification-xp-config/page-f12211f52d33c7c3.js",
@@ -286,7 +299,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/admin/leaderboard/page-d754faf137bf4590.js",
   "/_next/static/chunks/app/[locale]/admin/learning-village/page-d0bc93429ce1d0aa.js",
   "/_next/static/chunks/app/[locale]/admin/monitoring/page-fcdd5b7eb278442f.js",
-  "/_next/static/chunks/app/[locale]/admin/moodboards/page-a36fadf3df166e6b.js",
+  "/_next/static/chunks/app/[locale]/admin/moodboards/page-38f3775a1f78e8a2.js",
   "/_next/static/chunks/app/[locale]/admin/page-e1c7c4b5745fdcca.js",
   "/_next/static/chunks/app/[locale]/admin/resources/[id]/edit/page-1929f26b0cfe9385.js",
   "/_next/static/chunks/app/[locale]/admin/resources/new/page-f6ad4d8cccc299cc.js",
@@ -296,50 +309,50 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/admin/stories/edit/[id]/page-dd630e7573e031f3.js",
   "/_next/static/chunks/app/[locale]/admin/stories/generate/page-576ef3fc294e5177.js",
   "/_next/static/chunks/app/[locale]/admin/stories/new/page-1b08fc8973854e33.js",
-  "/_next/static/chunks/app/[locale]/admin/stories/page-c2cbdef7c044fbdf.js",
+  "/_next/static/chunks/app/[locale]/admin/stories/page-231268b706f78144.js",
   "/_next/static/chunks/app/[locale]/admin/streak/page-1629c36f3b363211.js",
   "/_next/static/chunks/app/[locale]/admin/stripe-testing/page-d0ef12aae4702b42.js",
   "/_next/static/chunks/app/[locale]/admin/subscriptions/page-58411bccbb5e239a.js",
   "/_next/static/chunks/app/[locale]/admin/user-lookup/page-dc03d068540d30e8.js",
   "/_next/static/chunks/app/[locale]/admin/xp-config/page-da655e3f95cf9ae3.js",
-  "/_next/static/chunks/app/[locale]/admin/youtube-series/page-07327e9b778b184b.js",
+  "/_next/static/chunks/app/[locale]/admin/youtube-series/page-55112c98d4927006.js",
   "/_next/static/chunks/app/[locale]/anki-study/[deckId]/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/anki-study/[deckId]/page-9296b99f23debe04.js",
+  "/_next/static/chunks/app/[locale]/anki-study/[deckId]/page-1c9b27cba7620faa.js",
   "/_next/static/chunks/app/[locale]/auth-test/page-838053b53c6dcfc1.js",
-  "/_next/static/chunks/app/[locale]/auth/action/page-d95e334a4aa3ff35.js",
+  "/_next/static/chunks/app/[locale]/auth/action/page-7c61d9aeb5b12ac0.js",
   "/_next/static/chunks/app/[locale]/auth/error/page-7aa7eacfd15f4fa8.js",
   "/_next/static/chunks/app/[locale]/auth/reset-password/page-a53a0d45ff4aa763.js",
-  "/_next/static/chunks/app/[locale]/auth/signin/page-9d671de0e2b27f28.js",
-  "/_next/static/chunks/app/[locale]/auth/signup/page-c804a21479a92769.js",
+  "/_next/static/chunks/app/[locale]/auth/signin/page-edd84de995b9538f.js",
+  "/_next/static/chunks/app/[locale]/auth/signup/page-6ae38ea30aca5bef.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-error/page-8c711f00dba17e5e.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-success/page-7dc859e64983db58.js",
   "/_next/static/chunks/app/[locale]/auth/verify-magic-link/page-c19e8e5ea60bc5b7.js",
-  "/_next/static/chunks/app/[locale]/blog/[slug]/page-d8b7cbd909282d00.js",
+  "/_next/static/chunks/app/[locale]/blog/[slug]/page-0833a1790ff97f8c.js",
   "/_next/static/chunks/app/[locale]/blog/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/blog/page-da54ed475d132b04.js",
+  "/_next/static/chunks/app/[locale]/blog/page-00781e0e275134b6.js",
   "/_next/static/chunks/app/[locale]/clear-storage/page-9d180204b0be37bf.js",
-  "/_next/static/chunks/app/[locale]/comics/[episodeId]/page-825ba0a1c55cf68d.js",
-  "/_next/static/chunks/app/[locale]/comics/page-04cab8bfcad78e4f.js",
+  "/_next/static/chunks/app/[locale]/comics/[episodeId]/page-7627f9df27dcf1c5.js",
+  "/_next/static/chunks/app/[locale]/comics/page-14dd92f9d716d900.js",
   "/_next/static/chunks/app/[locale]/contact/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/contact/page-1aaa54fb5d179bfd.js",
+  "/_next/static/chunks/app/[locale]/contact/page-0b247e4002be02bf.js",
   "/_next/static/chunks/app/[locale]/credits/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/credits/page-4ea33a67ca853961.js",
+  "/_next/static/chunks/app/[locale]/credits/page-f945a8d90344f5d9.js",
   "/_next/static/chunks/app/[locale]/dashboard/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/dashboard/page-0d3da57e6e481f18.js",
+  "/_next/static/chunks/app/[locale]/dashboard/page-c2d2189775f5226c.js",
   "/_next/static/chunks/app/[locale]/demo/nhk/page-561804948b54ad16.js",
   "/_next/static/chunks/app/[locale]/drill/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/drill/page-88fa773d7d139afe.js",
+  "/_next/static/chunks/app/[locale]/drill/page-e3adc98dfd729bf2.js",
   "/_next/static/chunks/app/[locale]/flashcards/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/flashcards/page-e505c7e14253f37b.js",
-  "/_next/static/chunks/app/[locale]/flashcards/restore/page-b018e38f6d490f37.js",
+  "/_next/static/chunks/app/[locale]/flashcards/page-4590ba7dc0201538.js",
+  "/_next/static/chunks/app/[locale]/flashcards/restore/page-3f03c2f110456db5.js",
   "/_next/static/chunks/app/[locale]/forbidden/page-2edfeac1aef946d4.js",
   "/_next/static/chunks/app/[locale]/games/kana-drop/layout-090f54affe21aeeb.js",
   "/_next/static/chunks/app/[locale]/games/kana-drop/page-7f13d2c23c0f6943.js",
-  "/_next/static/chunks/app/[locale]/games/kanji-simon/[boardId]/page-ae5baf90f0ea897b.js",
+  "/_next/static/chunks/app/[locale]/games/kanji-simon/[boardId]/page-736bad7dcba0c4a4.js",
   "/_next/static/chunks/app/[locale]/games/kanji-simon/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/games/kanji-simon/page-02f58a36b0690866.js",
+  "/_next/static/chunks/app/[locale]/games/kanji-simon/page-a340c979df701a58.js",
   "/_next/static/chunks/app/[locale]/games/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/games/page-7d97721f02a4131f.js",
+  "/_next/static/chunks/app/[locale]/games/page-cb3f25999f06ba94.js",
   "/_next/static/chunks/app/[locale]/games/reading-routes/layout-090f54affe21aeeb.js",
   "/_next/static/chunks/app/[locale]/games/reading-routes/page-0cfc502c6b8efffb.js",
   "/_next/static/chunks/app/[locale]/games/sentence-scramble/layout-090f54affe21aeeb.js",
@@ -348,117 +361,117 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/games/stroke-order/page-4828ea594b4e9b3e.js",
   "/_next/static/chunks/app/[locale]/intro/page-6aab49e66ca5b3dc.js",
   "/_next/static/chunks/app/[locale]/kanji-browser/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/kanji-browser/page-0ed7953355529bbe.js",
+  "/_next/static/chunks/app/[locale]/kanji-browser/page-ebd2056a7f8ff0e9.js",
   "/_next/static/chunks/app/[locale]/kanji-connection/families/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/kanji-connection/families/page-3e693a209fd278c9.js",
+  "/_next/static/chunks/app/[locale]/kanji-connection/families/page-e5d9b3f01a3227eb.js",
   "/_next/static/chunks/app/[locale]/kanji-connection/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/kanji-connection/page-c2b6624522737aa5.js",
+  "/_next/static/chunks/app/[locale]/kanji-connection/page-aa7b6bf8077ca1f7.js",
   "/_next/static/chunks/app/[locale]/kanji-connection/radicals/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/kanji-connection/radicals/page-6bc2f8f33af626a8.js",
+  "/_next/static/chunks/app/[locale]/kanji-connection/radicals/page-dc190289ff5c217a.js",
   "/_next/static/chunks/app/[locale]/kanji-connection/visual-layout/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/kanji-connection/visual-layout/page-4c2a8f609cf01b91.js",
-  "/_next/static/chunks/app/[locale]/kanji-moods/[boardId]/page-d13b63cfcd6cdf25.js",
+  "/_next/static/chunks/app/[locale]/kanji-connection/visual-layout/page-a26502e3463a6ce1.js",
+  "/_next/static/chunks/app/[locale]/kanji-moods/[boardId]/page-a83cdbbe3d563b58.js",
   "/_next/static/chunks/app/[locale]/kanji-moods/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/kanji-moods/page-763ed1a763bc962d.js",
-  "/_next/static/chunks/app/[locale]/layout-23d14e76898c558f.js",
+  "/_next/static/chunks/app/[locale]/kanji-moods/page-636a207450c8a679.js",
+  "/_next/static/chunks/app/[locale]/layout-3d3238767b98584c.js",
   "/_next/static/chunks/app/[locale]/leaderboard/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/leaderboard/page-8074ebd802537594.js",
+  "/_next/static/chunks/app/[locale]/leaderboard/page-2099fb685575130b.js",
   "/_next/static/chunks/app/[locale]/learn/conjugation/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/learn/conjugation/page-9b65c5a0dcb6fce1.js",
+  "/_next/static/chunks/app/[locale]/learn/conjugation/page-3c0153b371c6095c.js",
   "/_next/static/chunks/app/[locale]/learn/hiragana/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/learn/hiragana/page-910195305ff3987f.js",
+  "/_next/static/chunks/app/[locale]/learn/hiragana/page-07c9dd3b5e3479ed.js",
   "/_next/static/chunks/app/[locale]/learn/katakana/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/learn/katakana/page-3df0c4a29415dc6e.js",
+  "/_next/static/chunks/app/[locale]/learn/katakana/page-2c50f20d13bc322f.js",
   "/_next/static/chunks/app/[locale]/learn/word-learning/complete/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/learn/word-learning/complete/page-c3e7e161858f825c.js",
+  "/_next/static/chunks/app/[locale]/learn/word-learning/complete/page-4971242ef1d566db.js",
   "/_next/static/chunks/app/[locale]/learn/word-learning/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/learn/word-learning/page-a307589e3d21c20c.js",
+  "/_next/static/chunks/app/[locale]/learn/word-learning/page-956931a9cb1b9faa.js",
   "/_next/static/chunks/app/[locale]/learn/word-learning/session/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/learn/word-learning/session/page-3c4d766720753a51.js",
-  "/_next/static/chunks/app/[locale]/library/[id]/page-e70c1a82e4420ffd.js",
-  "/_next/static/chunks/app/[locale]/library/page-9b4281056fbfb79b.js",
-  "/_next/static/chunks/app/[locale]/lists/[listId]/page-31a1b204da1fd7f8.js",
+  "/_next/static/chunks/app/[locale]/learn/word-learning/session/page-39e6356fe01e927c.js",
+  "/_next/static/chunks/app/[locale]/library/[id]/page-a67fb42fd66b56b1.js",
+  "/_next/static/chunks/app/[locale]/library/page-04a2a11a5e5abeb8.js",
+  "/_next/static/chunks/app/[locale]/lists/[listId]/page-b97bcac3cb7ba921.js",
   "/_next/static/chunks/app/[locale]/lists/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/lists/page-75d4a4fcae6514df.js",
+  "/_next/static/chunks/app/[locale]/lists/page-95c1271e8f0a9805.js",
   "/_next/static/chunks/app/[locale]/my-videos/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/my-videos/page-2cbc8fe49a5edf67.js",
-  "/_next/static/chunks/app/[locale]/news/[id]/page-6727e15396f3830a.js",
+  "/_next/static/chunks/app/[locale]/my-videos/page-cca990cc178c0b6e.js",
+  "/_next/static/chunks/app/[locale]/news/[id]/page-ad919811ac83bf4b.js",
   "/_next/static/chunks/app/[locale]/news/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/news/page-f9661b0312e1d362.js",
+  "/_next/static/chunks/app/[locale]/news/page-fe8a4f832fe597e0.js",
   "/_next/static/chunks/app/[locale]/newsletter/verify-error/page-90af254991881db6.js",
   "/_next/static/chunks/app/[locale]/newsletter/verify-success/page-c469d362479eed05.js",
   "/_next/static/chunks/app/[locale]/not-found-9bc5dcc35fb2be8f.js",
   "/_next/static/chunks/app/[locale]/notifications-demo/page-606bc1b456e48796.js",
   "/_next/static/chunks/app/[locale]/onboarding/experience-level/page-cb2b25f641aa1914.js",
   "/_next/static/chunks/app/[locale]/onboarding/feature-showcase/page-9cef68208e3a88cb.js",
-  "/_next/static/chunks/app/[locale]/onboarding/layout-3268183244dcf4f5.js",
+  "/_next/static/chunks/app/[locale]/onboarding/layout-82fbe3801c389471.js",
   "/_next/static/chunks/app/[locale]/onboarding/learning-goal/page-b7867bc9dc09d301.js",
   "/_next/static/chunks/app/[locale]/onboarding/page-4447006b256fb6ad.js",
   "/_next/static/chunks/app/[locale]/onboarding/ready-to-go/page-894ab849768899ee.js",
   "/_next/static/chunks/app/[locale]/popular-videos/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/popular-videos/page-ae1ac5c358df4dfc.js",
+  "/_next/static/chunks/app/[locale]/popular-videos/page-dd15a2a34b3eafe4.js",
   "/_next/static/chunks/app/[locale]/pricing/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/pricing/page-4da2c96dba4b4961.js",
+  "/_next/static/chunks/app/[locale]/pricing/page-db03819da4814096.js",
   "/_next/static/chunks/app/[locale]/privacy/layout-090f54affe21aeeb.js",
   "/_next/static/chunks/app/[locale]/privacy/page-83eabcf3057bd0c1.js",
   "/_next/static/chunks/app/[locale]/reset-password/page-a1a6666c9e0abe18.js",
-  "/_next/static/chunks/app/[locale]/resources/[id]/page-f129db817fa6ae44.js",
+  "/_next/static/chunks/app/[locale]/resources/[id]/page-95654e1dd5e27f1d.js",
   "/_next/static/chunks/app/[locale]/resources/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/resources/page-44095b0cb2616952.js",
+  "/_next/static/chunks/app/[locale]/resources/page-9315f85a8ec356da.js",
   "/_next/static/chunks/app/[locale]/review-dashboard/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/review-dashboard/page-0a53fa15cdf4794d.js",
+  "/_next/static/chunks/app/[locale]/review-dashboard/page-584d34a1d71dbe5b.js",
   "/_next/static/chunks/app/[locale]/review/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/review/page-3268183244dcf4f5.js",
+  "/_next/static/chunks/app/[locale]/review/page-82fbe3801c389471.js",
   "/_next/static/chunks/app/[locale]/review/session/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/review/session/page-d92db74b9f29e274.js",
+  "/_next/static/chunks/app/[locale]/review/session/page-3ba6572dae8a7066.js",
   "/_next/static/chunks/app/[locale]/server-error/page-7d633dc4852ca9e3.js",
   "/_next/static/chunks/app/[locale]/settings/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/settings/page-ae84689219650e23.js",
+  "/_next/static/chunks/app/[locale]/settings/page-7ab490901348731a.js",
   "/_next/static/chunks/app/[locale]/share/layout-090f54affe21aeeb.js",
   "/_next/static/chunks/app/[locale]/share/page-abfffa7ad5b45f07.js",
   "/_next/static/chunks/app/[locale]/showcase/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/showcase/page-e7c024d304b35d7e.js",
+  "/_next/static/chunks/app/[locale]/showcase/page-8804a2e8dba5e044.js",
   "/_next/static/chunks/app/[locale]/statistics/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/statistics/page-45af9ff63d0f56c7.js",
-  "/_next/static/chunks/app/[locale]/stories/[slug]/page-5c7656a6a636948c.js",
+  "/_next/static/chunks/app/[locale]/statistics/page-beaaad740eff4c5e.js",
+  "/_next/static/chunks/app/[locale]/stories/[slug]/page-6842be0d2140ae7e.js",
   "/_next/static/chunks/app/[locale]/stories/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/stories/page-2c11e769ca46886d.js",
+  "/_next/static/chunks/app/[locale]/stories/page-a14822f172394451.js",
   "/_next/static/chunks/app/[locale]/terms/layout-090f54affe21aeeb.js",
   "/_next/static/chunks/app/[locale]/terms/page-a70ae4ca0a789c61.js",
   "/_next/static/chunks/app/[locale]/test-email/page-ede50d39463ec693.js",
-  "/_next/static/chunks/app/[locale]/test-entitlements/page-d80e6bc151f15d13.js",
+  "/_next/static/chunks/app/[locale]/test-entitlements/page-a4938c59f033765f.js",
   "/_next/static/chunks/app/[locale]/test-flashcards/page-151fb5ec083249a2.js",
   "/_next/static/chunks/app/[locale]/test-furigana/page-02f73c1d8c80c0dc.js",
-  "/_next/static/chunks/app/[locale]/test-modal/page-a92dc9300d48bd7b.js",
+  "/_next/static/chunks/app/[locale]/test-modal/page-b347bd951ed50eef.js",
   "/_next/static/chunks/app/[locale]/test-notifications/page-13dcc15b9f9712ab.js",
-  "/_next/static/chunks/app/[locale]/test-pricing/alternative/page-50ed0dc7296f115b.js",
+  "/_next/static/chunks/app/[locale]/test-pricing/alternative/page-52114993327c1f2b.js",
   "/_next/static/chunks/app/[locale]/test-pricing/page-d49a730f04f015e5.js",
   "/_next/static/chunks/app/[locale]/test-village-personalization/page-befd1416a351025b.js",
   "/_next/static/chunks/app/[locale]/textbook-vocabulary/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/textbook-vocabulary/page-2859d9e24b8bd4d4.js",
+  "/_next/static/chunks/app/[locale]/textbook-vocabulary/page-e98e753a8f1a941c.js",
   "/_next/static/chunks/app/[locale]/todos/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/todos/page-bc5f071949e17fac.js",
+  "/_next/static/chunks/app/[locale]/todos/page-91e487276f5c6f7f.js",
   "/_next/static/chunks/app/[locale]/tools/kanji-mastery/layout-090f54affe21aeeb.js",
   "/_next/static/chunks/app/[locale]/tools/kanji-mastery/learn/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/tools/kanji-mastery/learn/page-e0235b7fc6582ad1.js",
-  "/_next/static/chunks/app/[locale]/tools/kanji-mastery/page-9b20a090a7e778a8.js",
+  "/_next/static/chunks/app/[locale]/tools/kanji-mastery/learn/page-cf173bdbb9462d45.js",
+  "/_next/static/chunks/app/[locale]/tools/kanji-mastery/page-744813af2fe99720.js",
   "/_next/static/chunks/app/[locale]/tools/textbook-vocabulary/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/tools/textbook-vocabulary/page-137af5da622c9cd2.js",
+  "/_next/static/chunks/app/[locale]/tools/textbook-vocabulary/page-0fc24f1d153652ee.js",
   "/_next/static/chunks/app/[locale]/tts-demo/page-83600854189ce813.js",
   "/_next/static/chunks/app/[locale]/tts-playground/page-6967cebfa01b1f9e.js",
-  "/_next/static/chunks/app/[locale]/village/tea-house/[id]/edit/page-95597919ab85d04c.js",
-  "/_next/static/chunks/app/[locale]/village/tea-house/[id]/page-ee12bc9e7edd3979.js",
-  "/_next/static/chunks/app/[locale]/village/tea-house/ask/page-3a3a714fbb859b7a.js",
+  "/_next/static/chunks/app/[locale]/village/tea-house/[id]/edit/page-4f144a8d4b948b2b.js",
+  "/_next/static/chunks/app/[locale]/village/tea-house/[id]/page-c4e73c3aad770ae1.js",
+  "/_next/static/chunks/app/[locale]/village/tea-house/ask/page-2afa767ef44462d1.js",
   "/_next/static/chunks/app/[locale]/village/tea-house/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/village/tea-house/page-25eae95333eaa998.js",
+  "/_next/static/chunks/app/[locale]/village/tea-house/page-7a09762bcccf00fc.js",
   "/_next/static/chunks/app/[locale]/vocabulary/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/vocabulary/page-a4f539ea9ec70ba8.js",
-  "/_next/static/chunks/app/[locale]/waitlist/page-b86f6f03b772e60d.js",
+  "/_next/static/chunks/app/[locale]/vocabulary/page-7f22bdd08f9a92fd.js",
+  "/_next/static/chunks/app/[locale]/waitlist/page-09edd450913771f3.js",
   "/_next/static/chunks/app/[locale]/youtube-series/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/youtube-series/page-0edbe1ce89141d84.js",
+  "/_next/static/chunks/app/[locale]/youtube-series/page-a8f6738d3ba3589b.js",
   "/_next/static/chunks/app/[locale]/youtube-shadowing/layout-090f54affe21aeeb.js",
-  "/_next/static/chunks/app/[locale]/youtube-shadowing/page-aa1320d267ed4242.js",
-  "/_next/static/chunks/app/_not-found/page-3268183244dcf4f5.js",
+  "/_next/static/chunks/app/[locale]/youtube-shadowing/page-c55b1776891f935e.js",
+  "/_next/static/chunks/app/_not-found/page-82fbe3801c389471.js",
   "/_next/static/chunks/app/email-previews/waitlist/page-73672720ef2b7d6d.js",
   "/_next/static/chunks/app/error-8bd1866cc14e710a.js",
   "/_next/static/chunks/app/global-error-9751cfca641ee1a9.js",
@@ -471,13 +484,13 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/pages/_app-f365312a4d2529fb.js",
   "/_next/static/chunks/pages/_error-ff431fa75c297bd3.js",
   "/_next/static/chunks/polyfills-42372ed130431b0a.js",
-  "/_next/static/chunks/webpack-49db02362920944e.js",
+  "/_next/static/chunks/webpack-f6b24c806f1815fb.js",
   "/_next/static/css/58ca86956afb7910.css",
   "/_next/static/css/6e09cdf58928be98.css",
-  "/_next/static/css/aa5f83a85d426b75.css",
   "/_next/static/css/af47b6060c4fddcc.css",
-  "/_next/static/jeIQLmI1MnL777Wb19p0j/_buildManifest.js",
-  "/_next/static/jeIQLmI1MnL777Wb19p0j/_ssgManifest.js"
+  "/_next/static/css/d56f4dde05b0306b.css",
+  "/_next/static/yrWZ6uo580gcseW2nAjJz/_buildManifest.js",
+  "/_next/static/yrWZ6uo580gcseW2nAjJz/_ssgManifest.js"
 ].concat(MANUAL_PRECACHE_URLS);
 
 // Install event - cache essential files only
@@ -521,7 +534,7 @@ self.addEventListener('activate', (event) => {
     const cacheNames = await caches.keys();
 
     // Current valid caches
-    const validCaches = [STATIC_CACHE, AUDIO_CACHE, PAGES_CACHE];
+    const validCaches = [STATIC_CACHE, AUDIO_CACHE, PAGES_CACHE, IMAGE_CACHE];
 
     // Delete all caches that don't match current version
     await Promise.all(
@@ -544,10 +557,20 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
+  log('[SW] Fetch:', request.method, url.pathname, {
+    mode: request.mode,
+    accept: request.headers.get('accept'),
+    search: url.search
+  });
+
   // Only handle GET requests
   if (request.method !== 'GET') {
     return;
   }
+
+  const isImageRequest = request.destination === 'image' ||
+    url.pathname === '/_next/image' ||
+    url.pathname.match(/\.(png|jpe?g|gif|webp|svg|avif)$/i);
 
   // Skip cross-origin requests except for allowed CDNs
   if (url.origin !== self.location.origin) {
@@ -557,7 +580,7 @@ self.addEventListener('fetch', (event) => {
       'https://fonts.gstatic.com',
     ];
 
-    if (!allowedOrigins.some(origin => url.origin === origin)) {
+    if (!isImageRequest && !allowedOrigins.some(origin => url.origin === origin)) {
       return;
     }
   }
@@ -566,16 +589,19 @@ self.addEventListener('fetch', (event) => {
   const isNavigationRequest = request.mode === 'navigate' ||
     (request.method === 'GET' && request.headers.get('accept')?.includes('text/html'));
 
+  log('[SW] Navigation check:', {
+    path: url.pathname,
+    isNavigationRequest,
+    isOfflineEnabledPage: isOfflineEnabledPath(url.pathname)
+  });
+
   if (isNavigationRequest) {
     // IMPORTANT: In development or when online, don't aggressively serve offline pages
     // Check if we're truly offline before serving fallback
     const isOnline = self.navigator.onLine;
 
-    // Detect development mode by checking for localhost or common dev ports
-    const isDevelopment = url.hostname === 'localhost' ||
-                          url.hostname === '127.0.0.1' ||
-                          url.port === '3000' ||
-                          url.port === '3001';
+    // Detect development SW by script path (avoid disabling caching on localhost prod builds)
+    const isDevelopment = self.location.pathname.includes('service-worker.dev.js');
 
     // In development when online, let Next.js handle everything - don't intercept
     if (isDevelopment && isOnline) {
@@ -594,7 +620,7 @@ self.addEventListener('fetch', (event) => {
         // For offline-enabled pages, try cache first when offline
         if (isOfflineEnabledPage) {
           const pagesCache = await caches.open(PAGES_CACHE);
-          const cacheKey = new Request(url.origin + url.pathname);
+          const cacheKeyUrl = url.origin + url.pathname;
 
           try {
             // Try network with timeout
@@ -607,14 +633,15 @@ self.addEventListener('fetch', (event) => {
             // Cache successful responses for offline use
             if (response.ok) {
               log('[SW] Caching page for offline:', url.pathname);
-              pagesCache.put(cacheKey, response.clone());
+              pagesCache.put(cacheKeyUrl, response.clone());
+              log('[SW] Cached HTML key:', cacheKeyUrl);
             }
 
             return response;
           } catch (error) {
             // Network failed - try to serve from cache
             log('[SW] Network failed, checking cache for:', url.pathname);
-            let cachedPage = await pagesCache.match(cacheKey);
+            let cachedPage = await pagesCache.match(cacheKeyUrl);
 
             if (cachedPage) {
               log('[SW] Serving cached page:', url.pathname);
@@ -627,6 +654,11 @@ self.addEventListener('fetch', (event) => {
               log('[SW] Serving cached page (ignore search):', url.pathname);
               return cachedPage;
             }
+
+            const keys = await pagesCache.keys();
+            log('[SW] Cache miss for HTML:', cacheKeyUrl);
+            log('[SW] Pages cache keys:', keys.map(key => key.url));
+
 
             // Page not cached, fall through to offline page
             log('[SW] Page not cached, serving offline page');
@@ -685,25 +717,58 @@ self.addEventListener('fetch', (event) => {
         const pagesCache = await caches.open(PAGES_CACHE);
 
         try {
+          // If offline, try cache first for RSC payloads
+          if (!self.navigator.onLine) {
+            const cachedRSC = await pagesCache.match(request, { ignoreSearch: true });
+            if (cachedRSC) {
+              log('[SW] Serving cached RSC (offline):', url.pathname);
+              return cachedRSC;
+            }
+          }
+
           const response = await fetch(request);
           // Cache RSC responses for offline-enabled pages
           if (response.ok && isOfflinePageRSC) {
             log('[SW] Caching RSC payload:', url.pathname);
             pagesCache.put(request, response.clone());
+            cacheHtmlForPath(rscCandidate).catch((error) => {
+              warn('[SW] Failed to cache HTML for RSC:', error);
+            });
           }
           return response;
         } catch (error) {
           // Try cache for RSC requests
-          const cachedRSC = await pagesCache.match(request);
+          const cachedRSC = await pagesCache.match(request, { ignoreSearch: true });
           if (cachedRSC) {
             log('[SW] Serving cached RSC:', url.pathname);
             return cachedRSC;
           }
-          throw error;
+          return new Response(null, { status: 204 });
         }
       })()
     );
     return;
+  }
+
+  async function cacheHtmlForPath(pathname) {
+    if (!pathname || pathname === '/') return;
+    const htmlUrl = new URL(pathname, self.location.origin);
+    const cacheKeyUrl = htmlUrl.origin + htmlUrl.pathname;
+    const pagesCache = await caches.open(PAGES_CACHE);
+    const existing = await pagesCache.match(cacheKeyUrl);
+    if (existing) return;
+
+    log('[SW] Fetching HTML for cache:', cacheKeyUrl);
+    const response = await fetch(htmlUrl.toString(), {
+      headers: { Accept: 'text/html' },
+      cache: 'no-store'
+    });
+    if (response.ok) {
+      await pagesCache.put(cacheKeyUrl, response.clone());
+      log('[SW] Cached HTML from RSC:', cacheKeyUrl);
+    } else {
+      log('[SW] HTML fetch failed for cache:', response.status, cacheKeyUrl);
+    }
   }
 
   // Static assets - check if it's a hashed asset or precached resource
@@ -730,6 +795,38 @@ self.addEventListener('fetch', (event) => {
           }
           return fetchResponse;
         });
+      })
+    );
+    return;
+  }
+
+  if (isImageRequest) {
+    event.respondWith(
+      caches.open(IMAGE_CACHE).then(async (cache) => {
+        const cachedResponse = await cache.match(request);
+        if (cachedResponse) {
+          log('[SW] Image cache hit:', url.pathname);
+          return cachedResponse;
+        }
+
+        try {
+          const response = await fetch(request);
+          if (response.ok || response.type === 'opaque') {
+            await cache.put(request, response.clone());
+            cleanupImageCache(cache).catch(err =>
+              warn('[SW] Image cache cleanup error:', err)
+            );
+            log('[SW] Image cached:', url.pathname);
+          }
+          return response;
+        } catch (error) {
+          const fallback = await cache.match(request, { ignoreSearch: true });
+          if (fallback) {
+            log('[SW] Image cache fallback:', url.pathname);
+            return fallback;
+          }
+          return new Response('', { status: 504 });
+        }
       })
     );
     return;
@@ -836,12 +933,24 @@ async function cleanupAudioCache(cache) {
 
     entries.sort((a, b) => a.timestamp - b.timestamp);
     const entriesToRemove = entries.length - AUDIO_CACHE_CONFIG.maxEntries;
-    log(`[SW] Audio cache cleanup: removing ${entriesToRemove} old entries`);
+  log(`[SW] Audio cache cleanup: removing ${entriesToRemove} old entries`);
 
-    for (let i = 0; i < entriesToRemove; i++) {
-      await cache.delete(entries[i].request);
-    }
+  for (let i = 0; i < entriesToRemove; i++) {
+    await cache.delete(entries[i].request);
   }
+}
+
+async function cleanupImageCache(cache) {
+  const keys = await cache.keys();
+  if (keys.length <= IMAGE_CACHE_CONFIG.maxEntries) return;
+
+  const entriesToRemove = keys.length - IMAGE_CACHE_CONFIG.maxEntries;
+  log(`[SW] Image cache cleanup: removing ${entriesToRemove} old entries`);
+
+  for (let i = 0; i < entriesToRemove; i++) {
+    await cache.delete(keys[i]);
+  }
+}
 }
 
 function getCacheTimestamp(response) {

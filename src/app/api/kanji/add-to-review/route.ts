@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
 import { FieldValue } from 'firebase-admin/firestore';
-import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator';
-import { EvalContext, FeatureId } from '@/types/entitlements';
+import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server';
 
 // Helper for database availability check
 function getDb() {
@@ -36,42 +35,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Get user data and current usage for entitlement check
-    const userDoc = await db.collection('users').doc(session.uid).get();
-    const userData = userDoc.data();
-    const subscription = userData?.subscription;
-
-    const today = getTodayBucket(new Date().toISOString());
-    const usageRef = db
-      .collection('users')
-      .doc(session.uid)
-      .collection('usage')
-      .doc(today);
-
-    const usageDoc = await usageRef.get();
-    const currentUsage = usageDoc.data()?.kanji_browser || 0;
-
-    // Build evaluation context and check entitlements
-    const evalContext: EvalContext = {
+    const nowUtcISO = new Date().toISOString();
+    const plan = await getUserPlan(session.uid);
+    const { decision } = await evaluateFeatureAccess({
+      featureId: 'kanji_browser',
       userId: session.uid,
-      plan: subscription?.plan || 'free',
-      usage: { kanji_browser: currentUsage } as Record<FeatureId, number>,
-      nowUtcISO: new Date().toISOString()
-    };
+      plan,
+      nowUtcISO
+    });
 
-    const decision = evaluate('kanji_browser', evalContext);
-
-    // Check if adding these kanji would exceed the limit
-    if (!decision.allow || (decision.remaining !== -1 && kanjiIds.length > decision.remaining)) {
+    if (!decision.allow) {
       return NextResponse.json(
         {
-          error: decision.reason === 'limit_reached' ? 'Daily limit exceeded' : 'Access denied',
+          error: decision.reason === 'limit_reached' ? 'Daily limit reached' : 'Access denied',
           limit: decision.limit,
-          current: currentUsage,
-          requested: kanjiIds.length,
-          remaining: decision.remaining === -1 ? 'unlimited' : decision.remaining
+          remaining: decision.remaining === -1 ? 'unlimited' : decision.remaining,
+          decision
         },
-        { status: 429 }
+        { status: decision.reason === 'limit_reached' ? 429 : 403 }
       );
     }
 
@@ -114,12 +95,6 @@ export async function POST(request: NextRequest) {
       }, { merge: true });
     }
 
-    // Update usage counter
-    batch.set(usageRef, {
-      kanji_browser: FieldValue.increment(kanjiIds.length),
-      lastUpdated: timestamp
-    }, { merge: true });
-
     // Log the action
     const logRef = db.collection('logs').doc();
     batch.set(logRef, {
@@ -143,21 +118,12 @@ export async function POST(request: NextRequest) {
         lastUpdated: timestamp
       }, { merge: true });
 
-    // Re-evaluate after update to get new remaining count
-    const newUsage = currentUsage + kanjiIds.length;
-    const newContext: EvalContext = {
-      ...evalContext,
-      usage: { kanji_browser: newUsage } as Record<FeatureId, number>
-    };
-    const newDecision = evaluate('kanji_browser', newContext);
-
     return NextResponse.json({
       success: true,
       message: `Added ${kanjiIds.length} kanji to review queue`,
       added: kanjiIds.length,
-      dailyUsage: newUsage,
       dailyLimit: decision.limit === -1 ? 'unlimited' : decision.limit,
-      remaining: newDecision.remaining === -1 ? 'unlimited' : newDecision.remaining
+      remaining: decision.remaining === -1 ? 'unlimited' : decision.remaining
     });
 
   } catch (error) {

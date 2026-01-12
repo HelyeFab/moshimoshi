@@ -16,17 +16,19 @@ export async function evaluateFeatureAccess(options: {
   plan: PlanType
   nowUtcISO: string
   increment?: boolean
+  incrementBy?: number
 }): Promise<{
   decision: Decision
   currentUsage: number
   bucketKey: string
 }> {
-  const { featureId, userId, plan, nowUtcISO, increment = false } = options
+  const { featureId, userId, plan, nowUtcISO, increment = false, incrementBy } = options
   const db = getAdminDb()
   const bucketKey = getBucketKey(featureId, userId, nowUtcISO)
   const usageRef = db.collection('users').doc(userId).collection('usage').doc(bucketKey)
   const usageDoc = await usageRef.get()
   const currentUsage = usageDoc.data()?.[featureId] || 0
+  const incrementCount = typeof incrementBy === 'number' ? incrementBy : increment ? 1 : 0
 
   const context: EvalContext = {
     userId,
@@ -37,17 +39,18 @@ export async function evaluateFeatureAccess(options: {
 
   const decision = evaluate(featureId, context)
 
-  if (decision.allow && increment) {
+  if (decision.allow && incrementCount > 0) {
     await usageRef.set(
       {
-        [featureId]: currentUsage + 1,
+        [featureId]: currentUsage + incrementCount,
         lastUpdated: nowUtcISO,
       },
       { merge: true }
     )
 
     const limit = decision.limit ?? 0
-    decision.remaining = limit === -1 ? -1 : Math.max(0, limit - (currentUsage + 1))
+    decision.remaining =
+      limit === -1 ? -1 : Math.max(0, limit - (currentUsage + incrementCount))
   }
 
   return {

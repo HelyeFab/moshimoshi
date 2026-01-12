@@ -25,7 +25,7 @@ function PricingContent() {
   const [showVideoLimitBanner, setShowVideoLimitBanner] = useState(false);
 
   // Gated feature IDs that free users can't access
-  const gatedFeatures = ['kanji_connection', 'comics', 'textbook_vocabulary'];
+  const gatedFeatures = ['kanji_connection', 'comics', 'textbook_vocabulary', 'books'];
 
   // Smart back navigation - avoid infinite loop
   const handleBack = () => {

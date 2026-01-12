@@ -13,11 +13,13 @@ import { CommentSection } from "@/components/blog/CommentSection";
 import { ShareButtons } from "@/components/blog/ShareButtons";
 import { ReadingProgress } from "@/components/blog/ReadingProgress";
 import "@/styles/blog-content.css";
+import { readOfflineListCache } from "@/lib/pwa/offline-list-cache";
 
 export default function BlogPostPage() {
   const params = useParams();
   const router = useRouter();
   const { user } = useAuth();
+  const offlineCacheKey = "offline-blog-posts";
   const [post, setPost] = useState<BlogPost | null>(null);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
@@ -29,6 +31,17 @@ export default function BlogPostPage() {
         setLoading(true);
         setError(null);
         const slug = params.slug as string;
+        const isOffline = typeof navigator !== "undefined" && !navigator.onLine;
+
+        if (isOffline) {
+          const cached = readOfflineListCache<BlogPost>(offlineCacheKey);
+          const cachedPost = cached?.items?.find((item) => item.slug === slug);
+          if (cachedPost) {
+            setPost(cachedPost);
+            return;
+          }
+          throw new Error("Offline with no cached post");
+        }
         const fetchedPost = await getBlogPostBySlug(slug);
 
         if (!fetchedPost) {
@@ -45,6 +58,14 @@ export default function BlogPostPage() {
         }
       } catch (err) {
         console.error("Error fetching blog post:", err);
+        const slug = params.slug as string;
+        const cached = readOfflineListCache<BlogPost>(offlineCacheKey);
+        const cachedPost = cached?.items?.find((item) => item.slug === slug);
+        if (cachedPost) {
+          setPost(cachedPost);
+          setRelatedPosts([]);
+          return;
+        }
         setError("Failed to load blog post");
       } finally {
         setLoading(false);

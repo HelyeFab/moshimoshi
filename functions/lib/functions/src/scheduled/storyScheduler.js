@@ -12,7 +12,7 @@
  * 6. Generate model sheet + page images
  * 7. Generate audio (VOICEVOX)
  * 8. Pre-generate sentence-level audio and translations
- * 8.5. Pre-generate word explanations (1000 words)
+ * 8.5. Pre-generate word explanations (100 words)
  * 9. Publish story
  */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
@@ -49,15 +49,15 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dailyStoryRetryScheduler = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = void 0;
+exports.onStoryPublished = exports.dailyStoryRetryScheduler = exports.manualStoryGeneratorFunction = exports.scheduledStoryGeneratorFunction = void 0;
 exports.generateDailyStory = generateDailyStory;
 const admin = __importStar(require("firebase-admin"));
 const logger = __importStar(require("firebase-functions/logger"));
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const https_1 = require("firebase-functions/v2/https");
+const firestore_1 = require("firebase-functions/v2/firestore");
 const params_1 = require("firebase-functions/params");
 const sentencePreGenerator_1 = require("../utils/sentencePreGenerator");
-const wordPrecompute_1 = require("../../../src/lib/ai/precompute/wordPrecompute");
 const alertNotifier_1 = require("../utils/alertNotifier");
 // Define secrets needed for story generation
 const OPENAI_API_KEY = (0, params_1.defineSecret)('OPENAI_API_KEY');
@@ -837,64 +837,9 @@ async function generateDailyStory(adminKey) {
             await updateCheckpoint(draftId, 'sentences');
         }
         // Step 8.5: Pre-generate word explanations (server-side prefetch)
-        logger.info('[StoryScheduler] Step 8.5/10: Generating word explanations...');
-        try {
-            await db.collection('ai_story_drafts').doc(draftId).update({
-                'metadata.generationStep': 'word_explanations',
-                'metadata.progress': 92,
-            });
-            // Extract story text from pages
-            const wordDraftDoc = await db.collection('ai_story_drafts').doc(draftId).get();
-            const wordDraftData = wordDraftDoc.data();
-            if ((wordDraftData === null || wordDraftData === void 0 ? void 0 : wordDraftData.pages) && Array.isArray(wordDraftData.pages)) {
-                const storyText = wordDraftData.pages
-                    .map((page) => page.text || '')
-                    .join('\n');
-                // Check timeout before starting (leave 2min buffer for publish step)
-                const timeElapsed = Date.now() - startTime;
-                const timeRemaining = 540000 - timeElapsed; // 540s = 9min Cloud Function limit
-                if (timeRemaining < 120000) {
-                    logger.warn('[StoryScheduler] Skipping word explanations - insufficient time', {
-                        timeRemaining: Math.round(timeRemaining / 1000),
-                        timeElapsed: Math.round(timeElapsed / 1000),
-                    });
-                }
-                else {
-                    // Attempt word explanation generation with timeout protection
-                    const wordResult = await Promise.race([
-                        (0, wordPrecompute_1.precomputeWordExplanations)({
-                            contentId: draftId,
-                            contentType: 'story',
-                            text: storyText,
-                            limit: 1000,
-                            jlptLevel: jlptLevel,
-                        }),
-                        new Promise((_, reject) => setTimeout(() => reject(new Error('Word explanation timeout')), timeRemaining - 30000))
-                    ]);
-                    await updateCheckpoint(draftId, 'word_explanations');
-                    await db.collection('ai_story_drafts').doc(draftId).update({
-                        'metadata.progress': 94,
-                        'metadata.wordExplanationsCount': wordResult.total,
-                    });
-                    logger.info('[StoryScheduler] Word explanations complete', {
-                        total: wordResult.total,
-                        generated: wordResult.generated,
-                        cached: wordResult.cached,
-                    });
-                }
-            }
-            else {
-                logger.warn('[StoryScheduler] No pages found for word explanation generation', { draftId });
-                await updateCheckpoint(draftId, 'word_explanations');
-            }
-        }
-        catch (wordError) {
-            logger.warn('[StoryScheduler] Word explanation generation failed - continuing', {
-                error: wordError instanceof Error ? wordError.message : 'Unknown error',
-            });
-            // Non-critical - story will still publish without word explanations
-            await updateCheckpoint(draftId, 'word_explanations');
-        }
+        // Step 8.5: Word explanations now generated async via Firestore trigger (see onStoryPublished below)
+        logger.info('[StoryScheduler] Step 8.5/10: Word explanations will be generated async after publish');
+        await updateCheckpoint(draftId, 'word_explanations');
         // Step 9: Publish the story (only if all critical assets are present)
         logger.info('[StoryScheduler] Step 9/10: Publishing story...');
         const publishResult = await callStoryAPI('/api/admin/stories/publish-draft', { draftId }, adminKey);
@@ -1137,5 +1082,101 @@ exports.dailyStoryRetryScheduler = (0, scheduler_1.onSchedule)({
         return;
     }
     logger.info('[DailyRetry] Successfully resumed and published story', result);
+});
+/**
+ * Firestore Trigger: Async Word Explanation Generation
+ * Triggers when a new story is published to the 'stories' collection
+ * Generates word explanations in the background to avoid timeout issues
+ */
+exports.onStoryPublished = (0, firestore_1.onDocumentCreated)({
+    document: 'stories/{storyId}',
+    secrets: [MODAL_API_KEY],
+    memory: '512MiB', // Reduced - only extracting words and creating queue
+    timeoutSeconds: 120, // 2 minutes - enough to extract words and publish message
+}, async (event) => {
+    var _a;
+    const storyId = event.params.storyId;
+    const story = (_a = event.data) === null || _a === void 0 ? void 0 : _a.data();
+    if (!story) {
+        logger.error('[StoryWordGen] No story data in trigger', { storyId });
+        return;
+    }
+    // Only process non-draft stories
+    if (story.status === 'draft') {
+        logger.info('[StoryWordGen] Skipping draft story', { storyId });
+        return;
+    }
+    logger.info('[StoryWordGen] Triggered for new story', {
+        storyId,
+        title: story.title,
+        jlptLevel: story.jlptLevel,
+    });
+    try {
+        // Mark as generating
+        await db.collection('stories').doc(storyId).update({
+            wordExplanationsStatus: 'generating',
+            wordExplanationsStartedAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+        // Extract story text from all pages
+        const storyText = story.pages
+            .map((page) => page.text)
+            .filter((text) => text && text.length > 0)
+            .join('\n');
+        if (!storyText || storyText.length === 0) {
+            throw new Error('No text content found in story pages');
+        }
+        logger.info('[StoryWordGen] Extracting words for batch processing', {
+            storyId,
+            textLength: storyText.length,
+            pageCount: story.pages.length,
+        });
+        // Extract top words from story text (100 words)
+        const { extractTopWords } = await Promise.resolve().then(() => __importStar(require('../utils/wordExtractor')));
+        const { words } = await extractTopWords(storyText, 100);
+        logger.info('[StoryWordGen] Words extracted, creating batch queue', {
+            storyId,
+            wordCount: words.length,
+        });
+        // Create batch queue
+        const { createBatchQueue } = await Promise.resolve().then(() => __importStar(require('../utils/storyWordBatchManager')));
+        const queue = await createBatchQueue(storyId, words);
+        logger.info('[StoryWordGen] Batch queue created, publishing first batch', {
+            storyId,
+            totalBatches: queue.totalBatches,
+            totalWords: queue.totalWords,
+        });
+        // Update story with batch info
+        await db.collection('stories').doc(storyId).update({
+            wordExplanationsProgress: {
+                totalBatches: queue.totalBatches,
+                completedBatches: 0,
+                totalWords: queue.totalWords,
+                completedWords: 0,
+                currentBatch: 1,
+                percentComplete: 0,
+            },
+        });
+        // Publish first batch message to Pub/Sub
+        const { publishFirstBatch } = await Promise.resolve().then(() => __importStar(require('./storyWordBatchProcessor')));
+        await publishFirstBatch(storyId);
+        logger.info('[StoryWordGen] First batch published, batch processing started', {
+            storyId,
+            totalBatches: queue.totalBatches,
+            totalWords: queue.totalWords,
+        });
+    }
+    catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+        logger.error('[StoryWordGen] Failed to start batch processing', {
+            storyId,
+            error: errorMessage,
+        });
+        // Mark as failed
+        await db.collection('stories').doc(storyId).update({
+            wordExplanationsStatus: 'failed',
+            wordExplanationsError: errorMessage,
+            wordExplanationsFailedAt: admin.firestore.FieldValue.serverTimestamp(),
+        });
+    }
 });
 //# sourceMappingURL=storyScheduler.js.map

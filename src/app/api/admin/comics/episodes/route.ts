@@ -28,9 +28,33 @@ export async function GET(request: NextRequest) {
     }
 
     const searchParams = request.nextUrl.searchParams
+    const episodeId = searchParams.get('episodeId')
     const limit = parseInt(searchParams.get('limit') || '50')
     const seriesId = searchParams.get('seriesId') || 'moshi-goes-to-japan'
 
+    // If episodeId is provided, fetch single episode
+    if (episodeId) {
+      const episodeDoc = await adminFirestore!.collection('comics').doc(episodeId).get()
+      if (!episodeDoc.exists) {
+        return NextResponse.json({ error: 'Episode not found' }, { status: 404 })
+      }
+
+      const episode = {
+        id: episodeDoc.id,
+        ...episodeDoc.data(),
+        createdAt: episodeDoc.data()?.createdAt?.toDate?.() || episodeDoc.data()?.createdAt,
+        updatedAt: episodeDoc.data()?.updatedAt?.toDate?.() || episodeDoc.data()?.updatedAt,
+        publishedAt: episodeDoc.data()?.publishedAt?.toDate?.() || episodeDoc.data()?.publishedAt,
+      }
+
+      return NextResponse.json({
+        success: true,
+        episodes: [episode],
+        count: 1,
+      })
+    }
+
+    // Otherwise, fetch list of episodes
     const episodesSnapshot = await adminFirestore!
       .collection('comics')
       .where('seriesId', '==', seriesId)

@@ -24,12 +24,6 @@ export default function AdminComicsPage() {
   const [episodeToPublish, setEpisodeToPublish] = useState<{ id: string; title: string } | null>(null)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
   const [episodeToDelete, setEpisodeToDelete] = useState<{ id: string; title: string } | null>(null)
-  const [editModalOpen, setEditModalOpen] = useState(false)
-  const [episodeToEdit, setEpisodeToEdit] = useState<{ id: string; title: string; titleJa: string; panels: any[] } | null>(null)
-  const [editTitle, setEditTitle] = useState('')
-  const [editTitleJa, setEditTitleJa] = useState('')
-  const [editPanelOrders, setEditPanelOrders] = useState<number[]>([])
-  const [isSaving, setIsSaving] = useState(false)
 
   // Panel regeneration state
   const [regenerateModalOpen, setRegenerateModalOpen] = useState(false)
@@ -102,6 +96,9 @@ export default function AdminComicsPage() {
       status: 'draft' as const,
       isDraft: true,
       createdAt: d.createdAt,
+      // Drafts don't have word explanations yet
+      wordExplanationsStatus: undefined,
+      wordExplanationsCount: undefined,
     })),
   ]
 
@@ -136,69 +133,6 @@ export default function AdminComicsPage() {
     }
   }
 
-  const openEditModal = (id: string, title: string, titleJa: string, panels: any[] = []) => {
-    setEpisodeToEdit({ id, title, titleJa, panels })
-    setEditTitle(title)
-    setEditTitleJa(titleJa)
-    // Initialize panel orders: [1, 2, 3, 4, 5, 6]
-    setEditPanelOrders(panels.map((_, i) => i + 1))
-    setEditModalOpen(true)
-  }
-
-  const handleSaveEdit = async () => {
-    if (!episodeToEdit) return
-
-    try {
-      setIsSaving(true)
-
-      // Build updates object
-      const updates: Record<string, any> = {
-        title: editTitle,
-        titleJa: editTitleJa,
-      }
-
-      // Check if panel order changed
-      const originalOrder = episodeToEdit.panels.map((_, i) => i + 1)
-      const orderChanged = editPanelOrders.some((order, i) => order !== originalOrder[i])
-
-      if (orderChanged && episodeToEdit.panels.length > 0) {
-        // Reorder panels based on new order numbers
-        // Create array of [newOrder, originalIndex] pairs, sort by newOrder
-        const orderPairs = editPanelOrders.map((order, idx) => ({ order, idx }))
-        orderPairs.sort((a, b) => a.order - b.order)
-
-        // Reorder panels and update panelNumber
-        const reorderedPanels = orderPairs.map((pair, newIdx) => ({
-          ...episodeToEdit.panels[pair.idx],
-          panelNumber: newIdx + 1,
-        }))
-
-        updates.panels = reorderedPanels
-      }
-
-      const response = await fetch('/api/admin/comics/episodes', {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          episodeId: episodeToEdit.id,
-          updates,
-        }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to update episode')
-      }
-
-      setEditModalOpen(false)
-      await loadEpisodes()
-      showToast('Episode updated successfully', 'success')
-    } catch (error) {
-      console.error('Error updating episode:', error)
-      showToast('Failed to update episode', 'error')
-    } finally {
-      setIsSaving(false)
-    }
-  }
 
   const openPublishModal = (id: string, title: string) => {
     setEpisodeToPublish({ id, title })
@@ -403,13 +337,35 @@ export default function AdminComicsPage() {
                         />
                       </td>
                       <td className="p-4">
-                        <div>
-                          <p className="font-medium text-gray-900 dark:text-white">
-                            EP {item.episodeNumber}: {item.title}
-                          </p>
-                          <p className="text-sm text-gray-500 dark:text-gray-400">
-                            {item.titleJa}
-                          </p>
+                        <div className="flex items-center gap-2">
+                          {/* Word Explanation Status Indicator */}
+                          {!item.isDraft && (
+                            <div className="flex-shrink-0" title={
+                              item.wordExplanationsStatus === 'complete'
+                                ? `Word explanations: ${item.wordExplanationsCount || 0} words`
+                                : item.wordExplanationsStatus === 'generating'
+                                ? 'Generating word explanations...'
+                                : item.wordExplanationsStatus === 'failed'
+                                ? `Failed: ${item.wordExplanationsError || 'Unknown error'}`
+                                : 'Word explanations not generated'
+                            }>
+                              <div className={`w-2 h-2 rounded-full ${
+                                item.wordExplanationsStatus === 'complete'
+                                  ? 'bg-green-500'
+                                  : item.wordExplanationsStatus === 'generating'
+                                  ? 'bg-yellow-500 animate-pulse'
+                                  : 'bg-red-500'
+                              }`} />
+                            </div>
+                          )}
+                          <div>
+                            <p className="font-medium text-gray-900 dark:text-white">
+                              EP {item.episodeNumber}: {item.title}
+                            </p>
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
+                              {item.titleJa}
+                            </p>
+                          </div>
                         </div>
                       </td>
                       <td className="p-4 text-gray-900 dark:text-gray-100">
@@ -465,14 +421,13 @@ export default function AdminComicsPage() {
                               >
                                 <SparklesIcon className="w-4 h-4" />
                               </button>
-                              <button
-                                onClick={() => openEditModal(item.id, item.title, item.titleJa || '', item.panels || [])}
-                                disabled={isSaving}
-                                className="p-1.5 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors disabled:opacity-50"
+                              <Link
+                                href={`/admin/comics/${item.id}/edit`}
+                                className="p-1.5 text-blue-600 dark:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-lg transition-colors inline-flex items-center"
                                 title="Edit episode"
                               >
                                 <PencilIcon className="w-4 h-4" />
-                              </button>
+                              </Link>
                             </>
                           )}
                           <button
@@ -495,7 +450,7 @@ export default function AdminComicsPage() {
       </div>
 
       {/* Loading overlay */}
-      {(isDeleting || isPublishing || isSaving) && <LoadingOverlay />}
+      {(isDeleting || isPublishing) && <LoadingOverlay />}
 
       {/* Publish Confirmation Modal */}
       <Modal
@@ -557,93 +512,6 @@ export default function AdminComicsPage() {
         </div>
       </Modal>
 
-      {/* Edit Episode Modal */}
-      <Modal
-        isOpen={editModalOpen}
-        onClose={() => setEditModalOpen(false)}
-        title="Edit Episode"
-        size="md"
-      >
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Title (English)
-            </label>
-            <input
-              type="text"
-              value={editTitle}
-              onChange={(e) => setEditTitle(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="Episode title"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-              Title (Japanese)
-            </label>
-            <input
-              type="text"
-              value={editTitleJa}
-              onChange={(e) => setEditTitleJa(e.target.value)}
-              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-              placeholder="エピソードタイトル"
-            />
-          </div>
-
-          {/* Panel Reordering */}
-          {episodeToEdit?.panels && episodeToEdit.panels.length > 0 && (
-            <div>
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Panel Order
-              </label>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">
-                Change numbers to reorder panels (e.g., swap 2↔3)
-              </p>
-              <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-                {episodeToEdit.panels.map((panel, idx) => (
-                  <div key={idx} className="flex flex-col items-center">
-                    {panel.imageUrl && (
-                      <img
-                        src={panel.imageUrl}
-                        alt={`Panel ${idx + 1}`}
-                        className="w-12 h-16 object-cover rounded mb-1 border border-gray-200 dark:border-gray-700"
-                      />
-                    )}
-                    <input
-                      type="number"
-                      min={1}
-                      max={episodeToEdit.panels.length}
-                      value={editPanelOrders[idx] || idx + 1}
-                      onChange={(e) => {
-                        const newOrders = [...editPanelOrders]
-                        newOrders[idx] = parseInt(e.target.value) || idx + 1
-                        setEditPanelOrders(newOrders)
-                      }}
-                      className="w-12 px-2 py-1 text-center border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-dark-800 text-gray-900 dark:text-white text-sm"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          <div className="flex justify-end gap-3 pt-4">
-            <button
-              onClick={() => setEditModalOpen(false)}
-              className="px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 rounded-lg transition-colors"
-            >
-              Cancel
-            </button>
-            <button
-              onClick={handleSaveEdit}
-              disabled={isSaving}
-              className="px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors disabled:opacity-50"
-            >
-              {isSaving ? 'Saving...' : 'Save Changes'}
-            </button>
-          </div>
-        </div>
-      </Modal>
 
       {/* Regenerate Panel Modal */}
       <Modal

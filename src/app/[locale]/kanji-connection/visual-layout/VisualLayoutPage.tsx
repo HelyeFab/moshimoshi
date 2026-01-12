@@ -11,6 +11,7 @@ import PageHeader from '@/components/ui/PageHeader';
 import Navbar from '@/components/layout/Navbar';
 import Tooltip from '@/components/ui/Tooltip';
 import { HelpCircle } from 'lucide-react';
+import { useKanjiConnectionCache } from '@/hooks/useKanjiConnectionCache';
 
 interface SkipData {
   patterns: typeof SKIP_PATTERNS;
@@ -29,6 +30,7 @@ interface SkipData {
 export default function VisualLayoutPage() {
   const { user } = useAuth();
   const { t } = useI18n();
+  const { getConnection, cacheConnection } = useKanjiConnectionCache();
 
   const [selectedPattern, setSelectedPattern] = useState<SkipPattern | null>(null);
   const [skipData, setSkipData] = useState<SkipData | null>(null);
@@ -50,6 +52,20 @@ export default function VisualLayoutPage() {
       if (pattern) params.append('pattern', pattern);
       params.append('subcategories', subcategories.toString());
 
+      const cacheId = pattern || 'all';
+      const cached = await getConnection('skip', cacheId, { subcategories });
+      if (cached) {
+        setSkipData(cached);
+        if (pattern && cached.subcategorized && cached.subcategorized[pattern]) {
+          const subKeys = Object.keys(cached.subcategorized[pattern]);
+          if (subKeys.length > 0) {
+            setSelectedSubcategory(subKeys[0]);
+          }
+        }
+        setLoading(false);
+        return;
+      }
+
       const response = await fetch(`/api/kanji/by-skip?${params}`);
 
       if (!response.ok) {
@@ -58,6 +74,7 @@ export default function VisualLayoutPage() {
 
       const data = await response.json();
       setSkipData(data);
+      await cacheConnection('skip', cacheId, data, { subcategories });
 
       // Auto-select first subcategory if pattern is selected
       if (pattern && data.subcategorized && data.subcategorized[pattern]) {

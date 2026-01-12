@@ -1,0 +1,42 @@
+{
+  "cookies": [
+    {
+      "name": "session",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJIZTN4dlM3bW9wYmNuVUxtYWVvbVMxSVdQczEyIiwiZW1haWwiOiJjaGFybGVzQGJlYW5vLmNvbSIsImZpbmdlcnByaW50IjoiNjVjOGMzNjUxNjJjZmRhMzVjZjA5Zjk3NmNiY2I5ODZlYThmNWVkYmY1YmQxN2ZiMGNiODU3MDJjOTM1ZjExMCIsImFkbWluIjpmYWxzZSwic2lkIjoiYTM1ZWE0YjQ3ZjEwOWUzODZiNTVmMmY1NjQyOTA2ZDhlNTQ1ZWE1ZDBkZTAyODFiNjAwNWM5MTYwMzgwODhiZiIsImlhdCI6MTc2ODIyNTYzNywiZXhwIjoxNzY4MjI5MjM3LCJhdWQiOiJtb3NoaW1vc2hpLWFwcCIsImlzcyI6Im1vc2hpbW9zaGkifQ.A7r0IprpgVy33Oo4LJsFjAphrIJmiWAHxdG_4x-JfWM",
+      "domain": "localhost",
+      "path": "/",
+      "expires": 1768229237.517331,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "Lax"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "http://localhost:3001",
+      "localStorage": [
+        {
+          "name": "userTier",
+          "value": "guest"
+        },
+        {
+          "name": "moshimoshi-language",
+          "value": "en"
+        },
+        {
+          "name": "pwa_visit_count",
+          "value": "1"
+        }
+      ]
+    },
+    {
+      "origin": "https://www.google.com",
+      "localStorage": [
+        {
+          "name": "rc::a",
+          "value": "MTl0YmQ2NzFpb2lxZDk="
+        }
+      ]
+    }
+  ]
+}

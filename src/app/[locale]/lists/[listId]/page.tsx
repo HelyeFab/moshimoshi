@@ -34,6 +34,7 @@ import type { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import MultiTabNotifier from '@/components/lists/MultiTabNotifier'
 import StorageWarning from '@/components/flashcards/StorageWarning'
 import ListSyncStatusIndicator from '@/components/lists/ListSyncStatusIndicator'
+import { useFeature } from '@/hooks/useFeature'
 
 // All gamification uses Event Hub (global singleton)
 // ReviewSessionUI handles initialization automatically
@@ -51,6 +52,8 @@ export default function ListDetailPage() {
   const router = useRouter()
   const params = useParams()
   const { showToast } = useToast()
+  const { checkAndTrack: checkListAccess } = useFeature('my_list')
+  const { checkAndTrack: checkSaveItem, checkOnly: checkSaveItemOnly } = useFeature('save_items')
   // TTS is handled by SpeakerIcon component
 
   const listId = params.listId as string
@@ -126,6 +129,12 @@ export default function ListDetailPage() {
 
     setIsLoading(true)
     try {
+      const allowed = await checkListAccess({ showUI: true })
+      if (!allowed) {
+        router.push('/lists')
+        return
+      }
+
       const lists = await listManager.getLists(user.uid, isPremium ?? false)
       const foundList = lists.find(l => l.id === listId)
 
@@ -146,6 +155,20 @@ export default function ListDetailPage() {
   const handleAddItem = async () => {
     if (!user || !list || !newItemContent.trim()) return
 
+    const isPremiumUser = isPremium === true
+    if (isPremiumUser) {
+      const decision = await checkSaveItemOnly({ failOpen: false })
+      if (!decision.allow) {
+        showToast(t('entitlements.messages.limitReached'), 'warning')
+        return
+      }
+    } else {
+      const allowed = await checkSaveItem({ showUI: true })
+      if (!allowed) {
+        return
+      }
+    }
+
     // Validate metadata for flashcard compatibility
     const validation = validateItemForCreation(newItemContent.trim(), newItemMetadata)
 
@@ -161,7 +184,7 @@ export default function ListDetailPage() {
         newItemContent.trim(),
         newItemMetadata,
         user.uid,
-        isPremium ?? false
+        isPremiumUser
       )
 
       await loadList()

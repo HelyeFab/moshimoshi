@@ -321,14 +321,15 @@ export async function POST(request: NextRequest) {
       }
 
       const draft = draftDoc.data()
-      const { outline, theme, location, characterSheet } = draft as any
+      const { outline, theme, location, characterSheet, jlptLevel } = draft as any
 
       // Generate dialogues for each panel with character info
       const dialoguePrompt = buildDialoguePrompt(
         outline,
         theme,
         location,
-        characterSheet
+        characterSheet,
+        jlptLevel
       )
 
       let panels
@@ -913,7 +914,8 @@ function buildDialoguePrompt(
   outline: any,
   theme: string,
   location: string,
-  characterSheet?: any
+  characterSheet?: any,
+  jlptLevel: string = 'N5'
 ): string {
   // Build character info for dialogue generation
   let characterDesc = 'The main character is Moshi (もし), a friendly red panda. Moshi speaks in a cute, enthusiastic way.'
@@ -939,6 +941,32 @@ function buildDialoguePrompt(
     }
   }
 
+  const jlptExamples: Record<string, string[]> = {
+    N5: [
+      'こんにちは、はじめまして、よろしく',
+      'これは何ですか？、どこですか？、いくらですか？',
+      'わあ、へえ、そうですか、いいですね、おいしい',
+      '見て、行きましょう、食べます、買います',
+      '楽しい、嬉しい、面白い、美味しい、きれい',
+    ],
+    N4: [
+      'どうして〜ですか？、〜しなければなりません',
+      '〜てくれてありがとう、〜てもいいですか？',
+      '〜ながら、〜そうです、〜ようと思います',
+      'おすすめは何ですか？、〜ほうがいいです',
+      'すごく、かなり、ちょっと、もう一度',
+    ],
+    N3: [
+      '〜ことになっています、〜ことにしました',
+      '〜ばかり、〜ほど、〜みたいです',
+      '〜のに、〜わけではない、〜によると',
+      'いろいろ、だいたい、たぶん、やっぱり',
+      'もしよければ、ちょうど、わざわざ',
+    ],
+  }
+
+  const levelExamples = jlptExamples[jlptLevel] || jlptExamples.N5
+
   return `Generate dialogues for a Japanese learning comic with multiple characters.
 
 Outline: ${JSON.stringify(outline)}
@@ -947,35 +975,37 @@ Location: ${location}
 
 ${characterDesc}
 
-Generate a JSON array of panels:
-[
-  {
-    "panelNumber": 1,
-    "sceneDescription": "Visual description of the scene",
-    "characters": ["character-id-1", "character-id-2"],
-    "dialogues": [
-      {
-        "characterId": "moshi-master",
-        "characterName": "Moshi",
-        "textJa": "Japanese text (use beginner-friendly grammar/vocab)",
-        "textEn": "English translation",
-        "furigana": "Japanese with furigana markup like 日本(にほん)",
-        "bubbleStyle": "speech|thought|shout|whisper",
-        "emotion": "happy|surprised|confused|excited|neutral"
-      }
-    ],
-    "narration": {
-      "textJa": "Optional narration in Japanese",
-      "textEn": "Optional narration in English"
-    },
-    "soundEffects": [
-      {
-        "textJa": "ドキドキ",
-        "meaning": "heart pounding"
-      }
-    ]
-  }
-]
+Return a JSON object with a "panels" array:
+{
+  "panels": [
+    {
+      "panelNumber": 1,
+      "sceneDescription": "Visual description of the scene",
+      "characters": ["character-id-1", "character-id-2"],
+      "dialogues": [
+        {
+          "characterId": "moshi-master",
+          "characterName": "Moshi",
+          "textJa": "Japanese text (use beginner-friendly grammar/vocab)",
+          "textEn": "English translation",
+          "furigana": "Japanese with furigana markup like 日本(にほん)",
+          "bubbleStyle": "speech|thought|shout|whisper",
+          "emotion": "happy|surprised|confused|excited|neutral"
+        }
+      ],
+      "narration": {
+        "textJa": "Optional narration in Japanese",
+        "textEn": "Optional narration in English"
+      },
+      "soundEffects": [
+        {
+          "textJa": "ドキドキ",
+          "meaning": "heart pounding"
+        }
+      ]
+    }
+  ]
+}
 
 CRITICAL REQUIREMENTS FOR STORY STRUCTURE:
 1. **NO REPETITION**: Each panel must have DIFFERENT, UNIQUE dialogue. NEVER repeat the same phrase (like すごい) across multiple panels.
@@ -983,12 +1013,8 @@ CRITICAL REQUIREMENTS FOR STORY STRUCTURE:
    - Panels 1-2: Setup/Introduction (characters arrive, observe, react to new situation)
    - Panels 3-4: Development/Action (characters interact, try something, encounter challenge)
    - Panels 5-6: Resolution/Conclusion (problem solved, lesson learned, positive ending)
-3. **Dialogue Variety**: Use diverse expressions appropriate for N5 level:
-   - Greetings: こんにちは、はじめまして、よろしく
-   - Questions: これは何ですか？、どこですか？、いくらですか？
-   - Reactions: わあ、へえ、そうですか、いいですね、おいしい
-   - Actions: 見て、行きましょう、食べます、買います
-   - Emotions: 楽しい、嬉しい、面白い、美味しい、きれい
+3. **Dialogue Variety**: Use diverse expressions appropriate for ${jlptLevel} level:
+   - Examples: ${levelExamples.join('、')}
 4. **Natural Conversation**: Characters should:
    - Ask questions and respond to each other
    - React to events in the scene

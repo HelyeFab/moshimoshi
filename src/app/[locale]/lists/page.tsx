@@ -32,7 +32,7 @@ export default function MyListsPage() {
   const { isPremium, isLoading: subscriptionLoading } = useSubscription()
   const router = useRouter()
   const { showToast } = useToast()
-  const { checkAndTrack } = useFeature('custom_lists')
+  const { checkOnly } = useFeature('custom_lists')
 
   const [lists, setLists] = useState<UserList[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -77,12 +77,13 @@ export default function MyListsPage() {
 
   const handleCreateList = async () => {
     console.log('[MyListsPage] Checking custom_lists quota...')
-    const allowed = await checkAndTrack({ showUI: true })
-    console.log('[MyListsPage] Quota check result:', allowed)
+    const decision = await checkOnly({ failOpen: false })
+    console.log('[MyListsPage] Quota check result:', decision.allow)
 
-    if (allowed) {
+    if (decision.allow) {
       setShowCreateModal(true)
     } else {
+      showToast(t('entitlements.messages.limitReached'), 'warning')
       console.log('[MyListsPage] Quota exceeded, modal will not open')
     }
   }

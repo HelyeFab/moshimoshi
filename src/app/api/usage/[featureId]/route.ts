@@ -8,7 +8,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { adminAuth, adminDb } from '@/lib/firebase/admin'
-import { evaluate, getTodayBucket } from '@/lib/entitlements/evaluator'
+import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator'
 import {
   FeatureId,
   PlanType,
@@ -17,20 +17,10 @@ import {
   UsageBucket,
   EntitlementLog,
 } from '@/types/entitlements'
+import { FEATURE_IDS } from '@/types/FeatureId'
 
 // Valid feature IDs - all features from config/features.v1.json
-const VALID_FEATURES: Set<FeatureId> = new Set([
-  'hiragana_practice',
-  'katakana_practice',
-  'kanji_browser',
-  'custom_lists',
-  'save_items',
-  'youtube_shadowing',
-  'media_upload',
-  'stall_layout_customization',
-  'todos',
-  'conjugation_drill',
-])
+const VALID_FEATURES: Set<FeatureId> = new Set(FEATURE_IDS)
 
 export async function POST(
   request: NextRequest,
@@ -102,19 +92,21 @@ export async function POST(
       // Get today's usage bucket
       const now = new Date()
       const nowUtcISO = now.toISOString()
-      const bucketKey = getTodayBucket(nowUtcISO)
+      const bucketKey = getBucketKey(featureId, userId, nowUtcISO)
 
       const usageRef = adminDb!.collection('users').doc(userId).collection('usage').doc(bucketKey)
 
       const usageDoc = await transaction.get(usageRef)
       const usageData = usageDoc.exists
-        ? (usageDoc.data() as UsageBucket)
+        ? (usageDoc.data() as UsageBucket & Record<string, unknown>)
         : { userId, date: bucketKey, counts: {}, updatedAt: nowUtcISO }
 
       // Build evaluation context
+      const counts = usageData.counts || {}
+      const usageBefore =
+        (usageData[featureId] as number | undefined) ?? counts[featureId] ?? 0
       const usage: Partial<Record<FeatureId, number>> = {
-        hiragana_practice: usageData.counts.hiragana_practice || 0,
-        katakana_practice: usageData.counts.katakana_practice || 0,
+        [featureId]: usageBefore,
       }
 
       const context: EvalContext = {
@@ -143,8 +135,12 @@ export async function POST(
           },
           updatedAt: nowUtcISO,
         }
+        const dualWriteUsage = {
+          ...updatedUsage,
+          [featureId]: newCount
+        }
 
-        transaction.set(usageRef, updatedUsage)
+        transaction.set(usageRef, dualWriteUsage)
 
         // Update decision with new usage
         decision.usageBefore = usage[featureId]
@@ -234,7 +230,7 @@ export async function GET(
     // 4. Get today's usage
     const now = new Date()
     const nowUtcISO = now.toISOString()
-    const bucketKey = getTodayBucket(nowUtcISO)
+    const bucketKey = getBucketKey(featureId, userId, nowUtcISO)
 
     const usageDoc = await adminDb!
       .collection('users')
@@ -244,13 +240,15 @@ export async function GET(
       .get()
 
     const usageData = usageDoc.exists
-      ? (usageDoc.data() as UsageBucket)
+      ? (usageDoc.data() as UsageBucket & Record<string, unknown>)
       : { userId, date: bucketKey, counts: {}, updatedAt: nowUtcISO }
 
     // 5. Build evaluation context
+    const counts = usageData.counts || {}
+    const usageBefore =
+      (usageData[featureId] as number | undefined) ?? counts[featureId] ?? 0
     const usage: Partial<Record<FeatureId, number>> = {
-      hiragana_practice: usageData.counts.hiragana_practice || 0,
-      katakana_practice: usageData.counts.katakana_practice || 0,
+      [featureId]: usageBefore,
     }
 
     const context: EvalContext = {

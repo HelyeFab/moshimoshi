@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { getAdminDb } from '@/lib/firebase/admin'
 import type { FlashcardContent } from '@/types/flashcards'
+import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server'
 
 // Use centralized getAdminDb() for null-safe database access
 const getDb = getAdminDb
@@ -12,16 +13,17 @@ interface Params {
   }>
 }
 
-const PREMIUM_PLANS = new Set(['premium_monthly', 'premium_yearly'])
+async function requireFlashcardsEntitlement(uid: string) {
+  const plan = await getUserPlan(uid)
+  const nowUtcISO = new Date().toISOString()
+  const { decision } = await evaluateFeatureAccess({
+    featureId: 'flashcards',
+    userId: uid,
+    plan,
+    nowUtcISO
+  })
 
-async function ensurePremium(uid: string) {
-  const db = getDb()
-  const userDoc = await db.collection('users').doc(uid).get()
-  const plan = userDoc.data()?.subscription?.plan
-  if (!plan || !PREMIUM_PLANS.has(plan)) {
-    return false
-  }
-  return true
+  return { decision }
 }
 
 // Remove undefined values from an object (Firestore doesn't accept undefined)
@@ -53,8 +55,18 @@ export async function POST(request: NextRequest, { params }: Params) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    if (!(await ensurePremium(session.uid))) {
-      return NextResponse.json({ error: 'Premium required for sync' }, { status: 403 })
+    const entitlement = await requireFlashcardsEntitlement(session.uid)
+    if (!entitlement.decision.allow) {
+      return NextResponse.json(
+        {
+          error:
+            entitlement.decision.reason === 'limit_reached'
+              ? 'Daily limit reached'
+              : 'Access denied',
+          decision: entitlement.decision
+        },
+        { status: entitlement.decision.reason === 'limit_reached' ? 429 : 403 }
+      )
     }
 
     const body = await request.json()

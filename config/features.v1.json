@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "version": 1,
   "description": "DoshiSensei feature entitlements configuration - Single source of truth for Stripe integration",
-  "lastUpdated": "2025-12-06",
+  "lastUpdated": "2026-01-12",
   "plans": {
     "guest": {
       "displayName": "Guest",
@@ -573,11 +573,11 @@
       "daily": {
         "hiragana_practice": 0,
         "katakana_practice": 0,
-      "kanji_browser": 0,
-      "kanji_connection": 0,
-      "kanji_mastery": 0,
-      "drawing_practice": 0,
-      "conjugation_drill": 0,
+        "kanji_browser": 0,
+        "kanji_connection": 0,
+        "kanji_mastery": 0,
+        "drawing_practice": 0,
+        "conjugation_drill": 0,
         "grammar_explanations": 0,
         "youtube_shadowing": 0,
         "media_upload": 0,
@@ -614,12 +614,12 @@
     },
     "free": {
       "daily": {
-        "hiragana_practice": 5,
-        "katakana_practice": 5,
-      "kanji_browser": 5,
-      "kanji_connection": 0,
-      "kanji_mastery": 5,
-      "drawing_practice": 5,
+        "hiragana_practice": 10,
+        "katakana_practice": 10,
+        "kanji_browser": 10,
+        "kanji_connection": 0,
+        "kanji_mastery": 5,
+        "drawing_practice": 10,
         "conjugation_drill": 5,
         "grammar_explanations": 3,
         "youtube_shadowing": 3,
@@ -636,7 +636,7 @@
         "word_lookup": 15,
         "news": 2,
         "story": 2,
-        "books": 2,
+        "books": 0,
         "kanji_mood_board": 5,
         "drill": 5,
         "my_list": 5,
@@ -659,10 +659,10 @@
       "daily": {
         "hiragana_practice": -1,
         "katakana_practice": -1,
-      "kanji_browser": -1,
-      "kanji_connection": -1,
-      "kanji_mastery": -1,
-      "drawing_practice": -1,
+        "kanji_browser": -1,
+        "kanji_connection": -1,
+        "kanji_mastery": -1,
+        "drawing_practice": -1,
         "conjugation_drill": -1,
         "grammar_explanations": -1,
         "youtube_shadowing": 20,
@@ -694,18 +694,18 @@
         "custom_lists": -1,
         "save_items": -1,
         "todos": -1,
-        "flashcard_decks": 15,
-        "anki_imports": 15
+        "flashcard_decks": 10,
+        "anki_imports": 10
       }
     },
     "premium_yearly": {
       "daily": {
         "hiragana_practice": -1,
         "katakana_practice": -1,
-      "kanji_browser": -1,
-      "kanji_connection": -1,
-      "kanji_mastery": -1,
-      "drawing_practice": -1,
+        "kanji_browser": -1,
+        "kanji_connection": -1,
+        "kanji_mastery": -1,
+        "drawing_practice": -1,
         "conjugation_drill": -1,
         "grammar_explanations": -1,
         "youtube_shadowing": 20,
@@ -737,16 +737,24 @@
         "custom_lists": -1,
         "save_items": -1,
         "todos": -1,
-        "flashcard_decks": 15,
-        "anki_imports": 15
+        "flashcard_decks": 10,
+        "anki_imports": 10
       }
     }
   },
   "permissions": {
-    "guest": ["do_practice"],
-    "free": ["do_practice"],
-    "premium_monthly": ["do_practice"],
-    "premium_yearly": ["do_practice"]
+    "guest": [
+      "do_practice"
+    ],
+    "free": [
+      "do_practice"
+    ],
+    "premium_monthly": [
+      "do_practice"
+    ],
+    "premium_yearly": [
+      "do_practice"
+    ]
   },
   "stripeMapping": {
     "priceToProduct": {
@@ -762,9 +770,19 @@
     "unlimitedValue": -1,
     "defaultPlan": "free",
     "guestPlan": "guest",
-    "premiumPlans": ["premium_monthly", "premium_yearly"],
-    "freePlans": ["free"],
-    "allPlans": ["guest", "free", "premium_monthly", "premium_yearly"],
+    "premiumPlans": [
+      "premium_monthly",
+      "premium_yearly"
+    ],
+    "freePlans": [
+      "free"
+    ],
+    "allPlans": [
+      "guest",
+      "free",
+      "premium_monthly",
+      "premium_yearly"
+    ],
     "resetTime": "00:00",
     "resetTimezone": "UTC"
   }

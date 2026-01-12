@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { getAdminDb } from '@/lib/firebase/admin'
+import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server'
 
 interface Params {
   params: Promise<{
@@ -8,13 +9,17 @@ interface Params {
   }>
 }
 
-const PREMIUM_PLANS = new Set(['premium_monthly', 'premium_yearly'])
+async function requireFlashcardsEntitlement(uid: string) {
+  const plan = await getUserPlan(uid)
+  const nowUtcISO = new Date().toISOString()
+  const { decision } = await evaluateFeatureAccess({
+    featureId: 'flashcards',
+    userId: uid,
+    plan,
+    nowUtcISO
+  })
 
-async function ensurePremium(uid: string): Promise<boolean> {
-  const db = getAdminDb()
-  const userDoc = await db.collection('users').doc(uid).get()
-  const plan = userDoc.data()?.subscription?.plan
-  return !!plan && PREMIUM_PLANS.has(plan)
+  return { decision }
 }
 
 /**
@@ -30,8 +35,18 @@ export async function GET(request: NextRequest, { params }: Params) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    if (!(await ensurePremium(session.uid))) {
-      return NextResponse.json({ error: 'Premium required' }, { status: 403 })
+    const entitlement = await requireFlashcardsEntitlement(session.uid)
+    if (!entitlement.decision.allow) {
+      return NextResponse.json(
+        {
+          error:
+            entitlement.decision.reason === 'limit_reached'
+              ? 'Daily limit reached'
+              : 'Access denied',
+          decision: entitlement.decision
+        },
+        { status: entitlement.decision.reason === 'limit_reached' ? 429 : 403 }
+      )
     }
 
     const db = getAdminDb()
@@ -79,8 +94,18 @@ export async function DELETE(request: NextRequest, { params }: Params) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
 
-    if (!(await ensurePremium(session.uid))) {
-      return NextResponse.json({ error: 'Premium required' }, { status: 403 })
+    const entitlement = await requireFlashcardsEntitlement(session.uid)
+    if (!entitlement.decision.allow) {
+      return NextResponse.json(
+        {
+          error:
+            entitlement.decision.reason === 'limit_reached'
+              ? 'Daily limit reached'
+              : 'Access denied',
+          decision: entitlement.decision
+        },
+        { status: entitlement.decision.reason === 'limit_reached' ? 429 : 403 }
+      )
     }
 
     const db = getAdminDb()

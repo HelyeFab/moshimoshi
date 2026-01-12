@@ -10,6 +10,7 @@ import * as admin from 'firebase-admin'
 import * as logger from 'firebase-functions/logger'
 import { defineSecret } from 'firebase-functions/params'
 import { ExtractedWord } from './wordExtractor'
+import crypto from 'crypto'
 
 // Initialize Firestore
 const db = admin.firestore()
@@ -35,6 +36,32 @@ interface QwenChatResponse {
     completion_tokens: number
     total_tokens: number
   }
+}
+
+function hashWord(word: string): string {
+  return crypto.createHash('sha256').update(word.trim().toLowerCase()).digest('hex')
+}
+
+async function getGlobalCache(
+  words: ExtractedWord[]
+): Promise<Map<string, WordExplanation>> {
+  const cache = new Map<string, WordExplanation>()
+  if (words.length === 0) return cache
+
+  const docRefs = words.map(word =>
+    db.collection('wordExplanationCache').doc(hashWord(word.word))
+  )
+  const docs = await db.getAll(...docRefs)
+
+  docs.forEach((doc, idx) => {
+    if (!doc.exists) return
+    const data = doc.data() as { explanation?: WordExplanation }
+    if (data?.explanation) {
+      cache.set(words[idx].word.trim().toLowerCase(), data.explanation)
+    }
+  })
+
+  return cache
 }
 
 /**
@@ -296,12 +323,22 @@ export async function generateWordExplanations(
   })
 
   const explanations: WordExplanation[] = []
+  const cacheMap = await getGlobalCache(words)
   let totalPromptTokens = 0
   let totalCompletionTokens = 0
   let totalTokens = 0
 
   for (const word of words) {
     try {
+      const cached = cacheMap.get(word.word.trim().toLowerCase())
+      if (cached) {
+        explanations.push(cached)
+        logger.debug('[WordExplanationPreGen] Cache hit', {
+          word: word.word,
+        })
+        continue
+      }
+
       const { explanation, usage } = await generateWordExplanation(word, articleContext)
 
       explanations.push(explanation)
