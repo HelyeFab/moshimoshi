@@ -4871,7 +4871,19 @@ export const strings = {
       selectPatternHint: 'Scegli dalle schede dei modelli sopra per esplorare i kanji per struttura',
       subcategories: 'Sottocategorie',
     },
+    pageHeader: {
+      title: 'Connessione Kanji',
+      description: 'Esplorare le relazioni e i modelli di kanji',
+    },
   },
+
+  textbookVocabulary: {
+    pageHeader: {
+      title: 'Vocabolario dei Libri di Testo',
+      description: 'Vocabolario organizzato per libro di testo e lezione',
+    },
+  },
+
   vocabulary: {
     tabs: {
       details: 'Dettagli',

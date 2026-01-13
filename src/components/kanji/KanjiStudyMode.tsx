@@ -15,6 +15,7 @@ import DrawingPracticeModal from '@/components/drawing-practice/DrawingPracticeM
 import { kanjiProgressManager } from '@/utils/kanjiProgressManager'
 import { useCachedTatoebaSentences } from '@/hooks/useTatoebaCache'
 import { useFeature } from '@/hooks/useFeature'
+import { IoCheckmarkCircle, IoPlayForward, IoBookOutline, IoClose } from 'react-icons/io5'
 
 interface KanjiStudyModeProps {
   kanji: Kanji
@@ -172,7 +173,19 @@ export default function KanjiStudyMode({
   }
 
   return (
-    <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center p-4">
+    <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center p-4 relative">
+      {/* Exit Button - Top Right */}
+      <button
+        onClick={onBack}
+        className="absolute top-4 right-4 p-3 rounded-xl bg-gray-100 dark:bg-dark-700
+                 hover:bg-gray-200 dark:hover:bg-dark-600
+                 text-gray-600 dark:text-gray-400
+                 transition-all transform hover:scale-105 active:scale-95 z-10"
+        title="Exit Study"
+      >
+        <IoClose className="w-6 h-6" />
+      </button>
+
       {/* Progress Indicator */}
       <div className="w-full max-w-2xl mb-8">
         <div className="flex items-center justify-between mb-2">
@@ -332,17 +345,17 @@ export default function KanjiStudyMode({
                           }, 5000) // Increased to 5 seconds
                         }
                       }}
-                      className="w-full px-4 py-3 rounded-xl bg-red-100 dark:bg-red-950
-                               hover:bg-red-200 dark:hover:bg-red-900
+                      className="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800
+                               hover:bg-slate-200 dark:hover:bg-slate-700
                                transition-all transform active:scale-95
-                               border border-red-200 dark:border-red-700 text-left"
+                               border border-slate-200 dark:border-slate-600 text-left"
                     >
                       {showMeaning ? (
-                        <span className="text-lg font-semibold text-red-700 dark:text-red-300">
+                        <span className="text-lg font-semibold text-slate-800 dark:text-slate-100">
                           {kanji.meaning}
                         </span>
                       ) : (
-                        <span className="text-sm text-red-600/70 dark:text-dark-200">
+                        <span className="text-sm text-slate-500 dark:text-slate-400">
                           Tap to reveal
                         </span>
                       )}
@@ -373,10 +386,10 @@ export default function KanjiStudyMode({
                             }, 5000) // Increased to 5 seconds
                           }
                         }}
-                        className="w-full px-4 py-3 rounded-xl bg-blue-100 dark:bg-blue-950
-                                 hover:bg-blue-200 dark:hover:bg-blue-900
+                        className="w-full px-4 py-3 rounded-xl bg-sky-50 dark:bg-sky-900/30
+                                 hover:bg-sky-100 dark:hover:bg-sky-900/50
                                  transition-all transform active:scale-95
-                                 border border-blue-200 dark:border-blue-700 cursor-pointer"
+                                 border border-sky-200 dark:border-sky-800 cursor-pointer"
                       >
                         {showOnyomi ? (
                           <div className="flex flex-wrap gap-2 justify-center items-center">
@@ -396,14 +409,14 @@ export default function KanjiStudyMode({
                                     handlePlayAudio(reading)
                                   }}
                                 />
-                                <span className="text-lg font-semibold text-blue-700 dark:text-blue-300">
+                                <span className="text-lg font-semibold text-sky-800 dark:text-sky-200">
                                   {reading}
                                 </span>
                               </div>
                             ))}
                           </div>
                         ) : (
-                          <span className="text-sm text-blue-600/70 dark:text-dark-200">
+                          <span className="text-sm text-sky-600 dark:text-sky-400">
                             Tap to reveal
                           </span>
                         )}
@@ -435,10 +448,10 @@ export default function KanjiStudyMode({
                             }, 5000) // Increased to 5 seconds
                           }
                         }}
-                        className="w-full px-4 py-3 rounded-xl bg-green-100 dark:bg-green-950
-                                 hover:bg-green-200 dark:hover:bg-green-900
+                        className="w-full px-4 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-900/30
+                                 hover:bg-emerald-100 dark:hover:bg-emerald-900/50
                                  transition-all transform active:scale-95
-                                 border border-green-200 dark:border-green-700 cursor-pointer"
+                                 border border-emerald-200 dark:border-emerald-800 cursor-pointer"
                       >
                         {showKunyomi ? (
                           <div className="flex flex-wrap gap-2 justify-center items-center">
@@ -458,14 +471,14 @@ export default function KanjiStudyMode({
                                     handlePlayAudio(reading)
                                   }}
                                 />
-                                <span className="text-lg font-semibold text-green-700 dark:text-green-300">
+                                <span className="text-lg font-semibold text-emerald-800 dark:text-emerald-200">
                                   {reading}
                                 </span>
                               </div>
                             ))}
                           </div>
                         ) : (
-                          <span className="text-sm text-green-600/70 dark:text-dark-200">
+                          <span className="text-sm text-emerald-600 dark:text-emerald-400">
                             Tap to reveal
                           </span>
                         )}
@@ -480,86 +493,70 @@ export default function KanjiStudyMode({
       </motion.div>
 
 
-      {/* Action Buttons - Examples button is now independent */}
+      {/* Action Buttons - Icon only */}
       <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
         <button
           onClick={handleSkip}
-          className="px-6 py-3 min-w-[120px] rounded-xl bg-gray-100 dark:bg-dark-700
-                   hover:bg-gray-200 dark:hover:bg-dark-600 transition-all
-                   transform hover:scale-105 active:scale-95"
+          className="p-4 rounded-xl bg-gray-100 dark:bg-dark-700
+                   hover:bg-gray-200 dark:hover:bg-dark-600
+                   text-gray-600 dark:text-gray-400
+                   transition-all transform hover:scale-105 active:scale-95"
+          title="Skip"
         >
-          <span className="flex items-center justify-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M13 5l7 7-7 7M5 5l7 7-7 7" />
-            </svg>
-            {strings?.review?.skip || 'Skip'}
-          </span>
+          <IoPlayForward className="w-6 h-6" />
         </button>
 
         <button
           onClick={() => setShowExamplesModal(true)}
-          className="px-6 py-3 min-w-[120px] rounded-xl bg-purple-100 dark:bg-purple-900/30
+          className="p-4 rounded-xl bg-purple-100 dark:bg-purple-900/30
                    hover:bg-purple-200 dark:hover:bg-purple-900/40
                    border border-purple-200 dark:border-purple-800
+                   text-purple-700 dark:text-purple-400
                    transition-all transform hover:scale-105 active:scale-95"
+          title="Examples"
         >
-          <span className="flex items-center justify-center gap-2">
-            <svg className="w-5 h-5 text-purple-700 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-            </svg>
-            {'Examples'}
-          </span>
+          <IoBookOutline className="w-6 h-6" />
         </button>
 
         <button
           onClick={handleMarkAsLearned}
-          className="px-6 py-3 min-w-[120px] rounded-xl bg-green-500 text-white
-                   hover:bg-green-600 transition-all shadow-lg
+          className="p-4 rounded-xl bg-green-500 text-white
+                   hover:bg-green-600 transition-all shadow-lg shadow-green-500/30
                    transform hover:scale-105 active:scale-95"
+          title="Mark as Learned"
         >
-          <span className="flex items-center justify-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            {'Mark as Learned'}
-          </span>
+          <IoCheckmarkCircle className="w-6 h-6" />
         </button>
       </div>
 
       {/* Navigation */}
-      <div className="flex items-center justify-between w-full max-w-2xl mt-8">
-        <button
-          onClick={onBack}
-          className="px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"
-        >
-          ← Back to Characters
-        </button>
+      {totalKanji > 1 && (
+        <div className="flex items-center justify-center gap-4 w-full max-w-2xl mt-8">
+          <button
+            onClick={onPrevious}
+            className="p-3 rounded-xl bg-gray-100 dark:bg-dark-700
+                     hover:bg-gray-200 dark:hover:bg-dark-600
+                     transition-all transform hover:scale-105 active:scale-95"
+            title="Previous"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
 
-        {totalKanji > 1 && (
-          <div className="flex items-center gap-4">
-            <button
-              onClick={onPrevious}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-
-            <button
-              onClick={onNext}
-              className="p-2 rounded-lg bg-gray-100 dark:bg-dark-700 hover:bg-gray-200 dark:hover:bg-dark-600"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
-        )}
-      </div>
+          <button
+            onClick={onNext}
+            className="p-3 rounded-xl bg-gray-100 dark:bg-dark-700
+                     hover:bg-gray-200 dark:hover:bg-dark-600
+                     transition-all transform hover:scale-105 active:scale-95"
+            title="Next"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      )}
 
       {/* Modals */}
       <ExamplesModal

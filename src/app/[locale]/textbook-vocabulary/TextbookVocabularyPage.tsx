@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import PageHeader from '@/components/ui/PageHeader'
 import Navbar from '@/components/layout/Navbar'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useAuth } from '@/hooks/useAuth'
@@ -353,7 +354,18 @@ export default function TextbookVocabularyPage() {
         </div>
       )}
 
-      {/* Header with mode switching - OUTSIDE container for full width */}
+      {/* Page Header - shown when no textbook selected */}
+      {!selectedTextbook && (
+        <PageHeader
+          title={strings.textbookVocabulary?.pageHeader?.title || 'Textbook Vocabulary'}
+          description={strings.textbookVocabulary?.pageHeader?.description || 'Study vocabulary organized by textbook and lesson'}
+          showDoshi={false}
+          doshiMood="happy"
+          backHref="/dashboard"
+        />
+      )}
+
+      {/* Learning Header with mode switching - shown when textbook selected */}
       {selectedTextbook && isSelectionMode && (
         <LearningPageHeader
           title={'Textbook Vocabulary'}

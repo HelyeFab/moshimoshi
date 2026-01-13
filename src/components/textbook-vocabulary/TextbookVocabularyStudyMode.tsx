@@ -2,13 +2,13 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import AudioButton from '@/components/ui/AudioButton'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useTTS } from '@/hooks/useTTS'
 import { textbookVocabularyProgressManager } from '@/utils/textbookVocabularyProgressManager'
+import { IoCheckmarkCircle, IoPlayForward, IoClose } from 'react-icons/io5'
 
 export interface VocabularyItem {
   id: string
@@ -46,7 +46,6 @@ export default function TextbookVocabularyStudyMode({
   totalItems,
   onProgressUpdate,
 }: TextbookVocabularyStudyModeProps) {
-  const { t } = useI18n()
   const { showToast } = useToast()
   const { user } = useAuth()
   const { isPremium } = useSubscription()
@@ -209,7 +208,19 @@ export default function TextbookVocabularyStudyMode({
   const hasKanji = /[\u4e00-\u9faf]/.test(vocabulary.japanese)
 
   return (
-    <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center p-4">
+    <div className="min-h-[calc(100vh-200px)] flex flex-col items-center justify-center p-4 relative">
+      {/* Exit Button - Top Right */}
+      <button
+        onClick={onBack}
+        className="absolute top-4 right-4 p-3 rounded-xl bg-gray-100 dark:bg-dark-700
+                 hover:bg-gray-200 dark:hover:bg-dark-600
+                 text-gray-600 dark:text-gray-400
+                 transition-all transform hover:scale-105 active:scale-95 z-10"
+        title="Exit Study"
+      >
+        <IoClose className="w-6 h-6" />
+      </button>
+
       {/* Progress Indicator */}
       <div className="w-full max-w-2xl mb-8">
         <div className="flex items-center justify-between mb-2">
@@ -356,10 +367,10 @@ export default function TextbookVocabularyStudyMode({
                           }, 5000)
                         }
                       }}
-                      className="w-full px-4 py-3 rounded-xl bg-red-100 dark:bg-red-950
-                               hover:bg-red-200 dark:hover:bg-red-900
+                      className="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800
+                               hover:bg-slate-200 dark:hover:bg-slate-700
                                transition-all transform active:scale-95
-                               border border-red-200 dark:border-red-700 text-left"
+                               border border-slate-200 dark:border-slate-600 text-left"
                     >
                       <AnimatePresence mode="wait">
                         {showMeaning ? (
@@ -368,7 +379,7 @@ export default function TextbookVocabularyStudyMode({
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="text-red-700 dark:text-red-300 font-medium"
+                            className="text-slate-800 dark:text-slate-100 font-medium"
                           >
                             {vocabulary.meaning}
                           </motion.span>
@@ -378,7 +389,7 @@ export default function TextbookVocabularyStudyMode({
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
-                            className="text-sm text-red-600/70 dark:text-dark-200"
+                            className="text-sm text-slate-500 dark:text-slate-400"
                           >
                             Tap to reveal
                           </motion.span>
@@ -412,10 +423,10 @@ export default function TextbookVocabularyStudyMode({
                             }, 5000)
                           }
                         }}
-                        className="w-full px-4 py-3 rounded-xl bg-blue-100 dark:bg-blue-950
-                                 hover:bg-blue-200 dark:hover:bg-blue-900
+                        className="w-full px-4 py-3 rounded-xl bg-sky-50 dark:bg-sky-900/30
+                                 hover:bg-sky-100 dark:hover:bg-sky-900/50
                                  transition-all transform active:scale-95
-                                 border border-blue-200 dark:border-blue-700 text-left"
+                                 border border-sky-200 dark:border-sky-800 text-left"
                       >
                         <AnimatePresence mode="wait">
                           {showReading ? (
@@ -424,7 +435,7 @@ export default function TextbookVocabularyStudyMode({
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               exit={{ opacity: 0 }}
-                              className="text-blue-700 dark:text-blue-300 font-medium"
+                              className="text-sky-800 dark:text-sky-200 font-medium"
                               style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
                             >
                               {vocabulary.reading}
@@ -435,7 +446,7 @@ export default function TextbookVocabularyStudyMode({
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               exit={{ opacity: 0 }}
-                              className="text-sm text-blue-600/70 dark:text-dark-200"
+                              className="text-sm text-sky-600 dark:text-sky-400"
                             >
                               Tap to reveal
                             </motion.span>
@@ -464,10 +475,10 @@ export default function TextbookVocabularyStudyMode({
                             }, 8000)
                           }
                         }}
-                        className="w-full px-4 py-3 rounded-xl bg-green-100 dark:bg-green-950
-                                 hover:bg-green-200 dark:hover:bg-green-900
+                        className="w-full px-4 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-900/30
+                                 hover:bg-emerald-100 dark:hover:bg-emerald-900/50
                                  transition-all transform active:scale-95
-                                 border border-green-200 dark:border-green-700 text-left"
+                                 border border-emerald-200 dark:border-emerald-800 text-left"
                       >
                         <AnimatePresence mode="wait">
                           {showExamples ? (
@@ -476,7 +487,7 @@ export default function TextbookVocabularyStudyMode({
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               exit={{ opacity: 0 }}
-                              className="text-green-700 dark:text-green-300"
+                              className="text-emerald-800 dark:text-emerald-200"
                             >
                               <div
                                 className="font-medium mb-1"
@@ -484,7 +495,7 @@ export default function TextbookVocabularyStudyMode({
                               >
                                 {vocabulary.examples[0].japanese}
                               </div>
-                              <div className="text-sm text-green-600 dark:text-green-400">
+                              <div className="text-sm text-emerald-700 dark:text-emerald-300">
                                 {vocabulary.examples[0].english}
                               </div>
                             </motion.div>
@@ -494,7 +505,7 @@ export default function TextbookVocabularyStudyMode({
                               initial={{ opacity: 0 }}
                               animate={{ opacity: 1 }}
                               exit={{ opacity: 0 }}
-                              className="text-sm text-green-600/70 dark:text-dark-200"
+                              className="text-sm text-emerald-600 dark:text-emerald-400"
                             >
                               Tap to reveal
                             </motion.span>
@@ -515,18 +526,18 @@ export default function TextbookVocabularyStudyMode({
                         {tatoebaSentences.map((sentence, idx) => (
                           <div
                             key={idx}
-                            className="px-4 py-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/50
-                                     border border-indigo-200 dark:border-indigo-800"
+                            className="px-4 py-3 rounded-xl bg-violet-50 dark:bg-violet-900/20
+                                     border border-violet-200 dark:border-violet-800/50"
                           >
                             <div className="flex items-start gap-2">
                               <div className="flex-1">
                                 <div
-                                  className="text-indigo-800 dark:text-indigo-200 font-medium mb-1"
+                                  className="text-violet-900 dark:text-violet-100 font-medium mb-1"
                                   style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
                                 >
                                   {sentence.japanese}
                                 </div>
-                                <div className="text-sm text-indigo-600 dark:text-indigo-400">
+                                <div className="text-sm text-violet-700 dark:text-violet-300">
                                   {sentence.english}
                                 </div>
                               </div>
@@ -561,19 +572,23 @@ export default function TextbookVocabularyStudyMode({
         <div className="flex gap-4 justify-center">
           <button
             onClick={handleMarkAsLearned}
-            className="px-6 py-3 rounded-xl bg-green-500 hover:bg-green-600
+            className="p-4 rounded-xl bg-green-500 hover:bg-green-600
                      text-white font-medium transition-all
-                     shadow-lg shadow-green-500/30"
+                     shadow-lg shadow-green-500/30
+                     hover:scale-105 active:scale-95"
+            title="Mark as Learned"
           >
-            Mark as Learned
+            <IoCheckmarkCircle className="w-6 h-6" />
           </button>
           <button
             onClick={handleSkip}
-            className="px-6 py-3 rounded-xl bg-gray-100 dark:bg-dark-700
+            className="p-4 rounded-xl bg-gray-100 dark:bg-dark-700
                      hover:bg-gray-200 dark:hover:bg-dark-600
-                     text-gray-600 dark:text-gray-400 font-medium transition-all"
+                     text-gray-600 dark:text-gray-400 font-medium transition-all
+                     hover:scale-105 active:scale-95"
+            title="Skip"
           >
-            Skip
+            <IoPlayForward className="w-6 h-6" />
           </button>
         </div>
 
@@ -584,7 +599,9 @@ export default function TextbookVocabularyStudyMode({
             disabled={currentIndex <= 1}
             className="p-3 rounded-xl bg-gray-100 dark:bg-dark-700
                      hover:bg-gray-200 dark:hover:bg-dark-600 transition-all
-                     disabled:opacity-50 disabled:cursor-not-allowed"
+                     disabled:opacity-50 disabled:cursor-not-allowed
+                     hover:scale-105 active:scale-95"
+            title="Previous"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -592,20 +609,13 @@ export default function TextbookVocabularyStudyMode({
           </button>
 
           <button
-            onClick={onBack}
-            className="px-6 py-3 rounded-xl bg-gray-100 dark:bg-dark-700
-                     hover:bg-gray-200 dark:hover:bg-dark-600
-                     text-gray-600 dark:text-gray-400 font-medium transition-all"
-          >
-            Exit Study
-          </button>
-
-          <button
             onClick={onNext}
             disabled={currentIndex >= totalItems}
             className="p-3 rounded-xl bg-gray-100 dark:bg-dark-700
                      hover:bg-gray-200 dark:hover:bg-dark-600 transition-all
-                     disabled:opacity-50 disabled:cursor-not-allowed"
+                     disabled:opacity-50 disabled:cursor-not-allowed
+                     hover:scale-105 active:scale-95"
+            title="Next"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

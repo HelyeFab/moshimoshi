@@ -5414,6 +5414,17 @@ export const strings = {
       selectPatternHint: 'Choose from the pattern cards above to explore kanji by structure',
       subcategories: 'Subcategories',
     },
+    pageHeader: {
+      title: 'Kanji Connection',
+      description: 'Explore kanji relationships and patterns',
+    },
+  },
+
+  textbookVocabulary: {
+    pageHeader: {
+      title: 'Textbook Vocabulary',
+      description: 'Study vocabulary organized by textbook and lesson',
+    },
   },
 
   vocabulary: {

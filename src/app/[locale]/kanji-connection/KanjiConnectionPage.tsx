@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Navbar from '@/components/layout/Navbar'
-import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import PageHeader from '@/components/ui/PageHeader'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/i18n/I18nContext'
@@ -80,6 +80,15 @@ export default function KanjiConnectionPage() {
       <div className="hidden sm:block">
         <Navbar user={user} showUserMenu={true} />
       </div>
+
+      {/* Page Header */}
+      <PageHeader
+        title={t('kanjiConnection.pageHeader.title') || 'Kanji Connection'}
+        description={t('kanjiConnection.pageHeader.description') || 'Explore kanji relationships and patterns'}
+        showDoshi={false}
+        doshiMood="curious"
+        backHref="/dashboard"
+      />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 pt-8 pb-8">

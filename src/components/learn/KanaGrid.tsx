@@ -204,16 +204,6 @@ const KanaGrid = memo(function KanaGrid({
     setSelectedRows(newSelectedRows)
   }
 
-  const getCharacterStyles = (characterId: string) => {
-    // Simple styling - no special selection state since we use pin emoji
-    // Match KanjiBrowser approach for consistency
-    const borderStyle = 'border-2 border-gray-200 dark:border-gray-600'
-    const bgStyle = 'bg-white dark:bg-dark-800'
-    return `${borderStyle} ${bgStyle}`
-  }
-
-  // Remove progress icons - we only use pin emoji for selection like KanjiBrowser
-  // This keeps the UI consistent across the app
 
   // Track which sections we've seen to add headers
   const seenSections = new Set<string>()
@@ -353,19 +343,6 @@ const KanaGrid = memo(function KanaGrid({
                       const isLearned = charProgress?.status === 'learned'
                       const isLearning = charProgress?.status === 'learning'
 
-                      // Conditional styling based on learning progress
-                      const borderStyle = isLearned
-                        ? 'border-2 border-green-500 dark:border-green-400'
-                        : isLearning
-                          ? 'border-2 border-yellow-500 dark:border-yellow-400'
-                          : 'border-2 border-gray-200 dark:border-dark-700'
-
-                      const bgStyle = isLearned
-                        ? 'bg-green-50 dark:bg-green-900/20'
-                        : isLearning
-                          ? 'bg-yellow-50 dark:bg-yellow-900/20'
-                          : 'bg-white dark:bg-dark-800'
-
                       return (
                         <motion.div
                           key={char.id}
@@ -377,34 +354,62 @@ const KanaGrid = memo(function KanaGrid({
                           className="relative"
                         >
                           <div
-                            onClick={() => onCharacterSelect(char)}
+                            onClick={() => {
+                              if (onToggleSelection) {
+                                onToggleSelection(char)
+                              }
+                            }}
                             onMouseEnter={() => setHoveredId(char.id)}
                             onMouseLeave={() => setHoveredId(null)}
                             className={`
                               relative w-full aspect-square flex items-center justify-center text-2xl font-medium
-                              rounded-lg transition-all cursor-pointer
-                              ${borderStyle} ${bgStyle}
+                              rounded-lg transition-all overflow-hidden cursor-pointer
+                              bg-white dark:bg-dark-800 border-2
                               hover:shadow-lg
+                              ${
+                                isSelected
+                                  ? 'border-primary-500 ring-2 ring-primary-200 dark:ring-primary-800'
+                                  : isLearned
+                                    ? 'border-green-500 dark:border-green-600'
+                                    : 'border-gray-200 dark:border-dark-700'
+                              }
                             `}
                             style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
                           >
-                            {/* Pin emoji for selection in study/review modes */}
-                            {(viewMode === 'study' || viewMode === 'review') && (
-                              <button
-                                className="absolute -top-2 right-0.5 z-50 text-sm sm:text-base md:text-xl transition-all hover:scale-110"
-                                onClick={e => {
-                                  e.stopPropagation()
-                                  if (onToggleSelection) {
-                                    onToggleSelection(char)
-                                  }
-                                }}
-                                aria-label={isSelected ? 'Unpin' : 'Pin'}
-                              >
-                                <span className={isSelected ? '' : 'opacity-30 grayscale'}>📌</span>
-                              </button>
+                            {/* Pin button - always visible for selection */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                if (onToggleSelection) {
+                                  onToggleSelection(char)
+                                }
+                              }}
+                              className="absolute -top-2 -right-2 w-6 h-6 rounded-full shadow-lg z-20 transition-all hover:scale-110"
+                              style={{
+                                backgroundColor: isSelected ? '#6366f1' : '#9ca3af',
+                                opacity: isSelected ? 1 : 0.5,
+                              }}
+                              title={isSelected ? 'Unpin' : 'Pin for study/review'}
+                            />
+
+                            {/* Clickable center area for modal */}
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                onCharacterSelect(char)
+                              }}
+                              className="absolute inset-[25%] rounded-lg hover:bg-white/10 dark:hover:bg-white/5 transition-colors z-10"
+                              title="View details"
+                            />
+
+                            {/* Learned indicator - bottom right corner */}
+                            {isLearned && (
+                              <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg z-20">
+                                ✓
+                              </div>
                             )}
 
-                            <span className="text-gray-900 dark:text-gray-100">
+                            <span className="text-gray-900 dark:text-gray-100 pointer-events-none">
                               {displayScript === 'hiragana' ? char.hiragana : char.katakana}
                             </span>
                           </div>

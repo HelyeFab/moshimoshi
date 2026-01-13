@@ -28,7 +28,6 @@ const PROTECTED_ROUTES = [
   '/onboarding',
   '/intro', // Tutorial can be reviewed by authenticated users
   '/tools/kanji-mastery',
-  '/tools/textbook-vocabulary',
   '/textbook-vocabulary',
   '/youtube-shadowing',
   '/my-videos',

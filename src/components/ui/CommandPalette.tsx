@@ -406,7 +406,7 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
         subtitle: 'Study textbook vocabulary',
         icon: <BookMarked className="w-5 h-5" />,
         action: () => {
-          router.push('/tools/textbook-vocabulary')
+          router.push('/textbook-vocabulary')
           setIsOpen(false)
         },
         keywords: ['textbook', 'vocabulary', 'vocab', 'study', '教科書'],

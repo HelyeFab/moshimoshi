@@ -15,7 +15,7 @@ import { motion } from 'framer-motion'
 import { useKanjiBrowser } from '@/hooks/useKanjiBrowser'
 import { useAuth } from '@/hooks/useAuth'
 import SearchBar from '@/components/ui/SearchBar'
-import { Pencil } from 'lucide-react'
+import { Pencil, Pin } from 'lucide-react'
 import { useSubscription } from '@/hooks/useSubscription'
 import dynamic from 'next/dynamic'
 import { KanjiBrowserAdapter } from '@/lib/review-engine/adapters/KanjiBrowserAdapter'
@@ -557,12 +557,6 @@ function KanjiBrowserContent() {
         const progress = kanjiProgress.get(kanjiItem.kanji)
         const isLearned = progress?.status === 'learned'
 
-        // Dynamic styling based on progress - green for learned kanji
-        const borderStyle = isLearned
-          ? 'border-2 border-green-500 dark:border-green-400'
-          : 'border-2 border-gray-200 dark:border-dark-700'
-        const bgStyle = isLearned ? 'bg-green-50 dark:bg-green-900/20' : 'bg-white dark:bg-dark-800'
-
         return (
           <motion.div
             key={`${kanjiItem.kanji}-${index}`}
@@ -574,33 +568,54 @@ function KanjiBrowserContent() {
             className="relative"
           >
             <div
-              onClick={() => handleKanjiClick(kanjiItem)}
+              onClick={() => toggleSelection(kanjiItem.kanji)}
               className={`
                 relative w-full aspect-square flex items-center justify-center text-2xl font-medium
                 rounded-lg transition-all overflow-hidden cursor-pointer
-                ${borderStyle} ${bgStyle}
+                bg-white dark:bg-dark-800 border-2
                 hover:shadow-lg
+                ${
+                  isSelected
+                    ? 'border-primary-500 ring-2 ring-primary-200 dark:ring-primary-800'
+                    : isLearned
+                      ? 'border-green-500 dark:border-green-600'
+                      : 'border-gray-200 dark:border-dark-700'
+                }
               `}
               style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
             >
-              {/* Pin emoji for selection in study/review modes */}
-              {(viewMode === 'study' || viewMode === 'review') && (
-                <button
-                  className="absolute top-1 left-1 z-20 text-base sm:text-xl transition-all hover:scale-110"
-                  onClick={e => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    toggleSelection(kanjiItem.kanji)
-                  }}
-                  onMouseDown={e => e.stopPropagation()}
-                  onTouchStart={e => e.stopPropagation()}
-                  aria-label={isSelected ? 'Unpin' : 'Pin'}
-                >
-                  <span className={isSelected ? '' : 'opacity-30 grayscale'}>📌</span>
-                </button>
+              {/* Pin button - always visible for selection */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  toggleSelection(kanjiItem.kanji)
+                }}
+                className="absolute -top-2 -right-2 w-6 h-6 rounded-full shadow-lg z-20 transition-all hover:scale-110"
+                style={{
+                  backgroundColor: isSelected ? '#6366f1' : '#9ca3af',
+                  opacity: isSelected ? 1 : 0.5,
+                }}
+                title={isSelected ? 'Unpin' : 'Pin for study/review'}
+              />
+
+              {/* Clickable center area for modal */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation()
+                  handleKanjiClick(kanjiItem)
+                }}
+                className="absolute inset-[25%] rounded-lg hover:bg-white/10 dark:hover:bg-white/5 transition-colors z-10"
+                title="View details"
+              />
+
+              {/* Learned indicator - bottom right corner */}
+              {isLearned && (
+                <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg z-20">
+                  ✓
+                </div>
               )}
 
-              <span className="text-gray-900 dark:text-gray-100">{kanjiItem.kanji}</span>
+              <span className="text-gray-900 dark:text-gray-100 pointer-events-none">{kanjiItem.kanji}</span>
             </div>
           </motion.div>
         )

@@ -53,7 +53,7 @@ test.describe('Entitlement gating (free vs premium)', () => {
       test.skip(!freeEmail || !freePassword, 'E2E_FREE_EMAIL/E2E_FREE_PASSWORD not set')
 
       await ensureAuthenticated(page)
-      await page.goto('/en/tools/textbook-vocabulary')
+      await page.goto('/en/textbook-vocabulary')
       await page.waitForURL(/\/en\/pricing\?from=textbook_vocabulary/)
       await expect(page).toHaveURL(/\/en\/pricing\?from=textbook_vocabulary/)
     })
@@ -157,11 +157,11 @@ test.describe('Entitlement gating (free vs premium)', () => {
       test.skip(!premiumEmail || !premiumPassword, 'E2E_PREMIUM_EMAIL/E2E_PREMIUM_PASSWORD not set')
 
       await ensureAuthenticated(page)
-      await page.goto('/en/tools/textbook-vocabulary')
+      await page.goto('/en/textbook-vocabulary')
       if (page.url().includes('/pricing')) {
         throw new Error('Premium account appears to be on Free plan (redirected to pricing).')
       }
-      await expect(page).toHaveURL(/\/en\/tools\/textbook-vocabulary/)
+      await expect(page).toHaveURL(/\/en\/textbook-vocabulary/)
       await expect(
         page.getByRole('heading', { name: /total collection|total vocabulary/i })
       ).toBeVisible()

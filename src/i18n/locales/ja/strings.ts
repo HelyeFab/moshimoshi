@@ -5085,7 +5085,19 @@ export const strings = {
       selectPatternHint: '上のパターンカードから構造別に漢字を探索',
       subcategories: 'サブカテゴリ',
     },
+    pageHeader: {
+      title: '漢字コネクション',
+      description: '漢字の関係とパターンを探る',
+    },
   },
+
+  textbookVocabulary: {
+    pageHeader: {
+      title: '教科書の語彙',
+      description: '教科書とレッスンごとに整理された語彙',
+    },
+  },
+
   vocabulary: {
     tabs: {
       details: '詳細',

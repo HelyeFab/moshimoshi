@@ -16,7 +16,7 @@ const pages = [
   { path: '/kanji-connection', priority: 0.6, changeFrequency: 'monthly' as const },
   { path: '/learn', priority: 0.8, changeFrequency: 'weekly' as const },
   { path: '/tools/kanji-mastery', priority: 0.7, changeFrequency: 'weekly' as const },
-  { path: '/tools/textbook-vocabulary', priority: 0.6, changeFrequency: 'monthly' as const },
+  { path: '/textbook-vocabulary', priority: 0.6, changeFrequency: 'monthly' as const },
   { path: '/pricing', priority: 0.5, changeFrequency: 'weekly' as const },
   { path: '/settings', priority: 0.3, changeFrequency: 'monthly' as const },
   { path: '/account', priority: 0.3, changeFrequency: 'monthly' as const },

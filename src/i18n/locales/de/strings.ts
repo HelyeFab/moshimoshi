@@ -4797,7 +4797,19 @@ export const strings = {
       selectPatternHint: 'Wähle aus den Musterkarten oben, um Kanji nach Struktur zu erkunden',
       subcategories: 'Unterkategorien',
     },
+    pageHeader: {
+      title: 'Kanji-Verbindung',
+      description: 'Kanji-Beziehungen und Muster erkunden',
+    },
   },
+
+  textbookVocabulary: {
+    pageHeader: {
+      title: 'Lehrbuch-Vokabular',
+      description: 'Vokabular organisiert nach Lehrbuch und Lektion',
+    },
+  },
+
   vocabulary: {
     tabs: {
       details: 'Details',

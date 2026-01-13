@@ -775,7 +775,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         title: cards?.textbookVocab?.title || 'Textbook Vocab',
         subtitle: cards?.textbookVocab?.subtitle || '教科書',
         description: cards?.textbookVocab?.description || 'Study textbook vocabulary',
-        href: getLocalePath('/tools/textbook-vocabulary'),
+        href: getLocalePath('/textbook-vocabulary'),
         icon: '📚',
         stallType: 'calligraphy',
         color: 'from-gray-400 to-slate-600',

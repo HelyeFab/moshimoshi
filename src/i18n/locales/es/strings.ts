@@ -4795,7 +4795,19 @@ export const strings = {
       selectPatternHint: 'Elige de las tarjetas de patrones arriba para explorar kanji por estructura',
       subcategories: 'Subcategorías',
     },
+    pageHeader: {
+      title: 'Conexión Kanji',
+      description: 'Explorar relaciones y patrones de kanji',
+    },
   },
+
+  textbookVocabulary: {
+    pageHeader: {
+      title: 'Vocabulario de Libros de Texto',
+      description: 'Vocabulario organizado por libro de texto y lección',
+    },
+  },
+
   vocabulary: {
     tabs: {
       details: 'Detalles',
