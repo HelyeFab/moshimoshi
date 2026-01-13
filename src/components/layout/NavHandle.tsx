@@ -60,7 +60,7 @@ export default function NavHandle({
             transition={{ type: 'spring', damping: 20, stiffness: 300 }}
             className={cn(
               'fixed z-[60] md:hidden',
-              'bottom-2 right-4',
+              'bottom-1 right-4',
               'w-14 h-14 rounded-full',
               // Glassmorphism styling to match bottom navbar
               'bg-soft-white/20 dark:bg-dark-900/30',
@@ -74,7 +74,7 @@ export default function NavHandle({
             )}
             style={{
               // Add safe area padding for iPhone home indicator
-              bottom: 'calc(0.5rem + env(safe-area-inset-bottom, 0px))',
+              bottom: 'calc(0.25rem + env(safe-area-inset-bottom, 0px))',
             }}
             onClick={onTap}
             aria-label="Show navigation"
