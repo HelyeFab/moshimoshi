@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
@@ -9,7 +9,6 @@ import { useTranslation, buildLocalePath, useLocalePath } from '@/i18n/I18nConte
 import logger from '@/lib/logger'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 import { useReCaptcha } from '@/components/ReCaptchaProvider'
-import { useAuth } from '@/hooks/useAuth'
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -17,7 +16,6 @@ export default function SignUpPage() {
   const { strings, t } = useTranslation()
   const { getLocalePath } = useLocalePath()
   const { executeRecaptcha } = useReCaptcha()
-  const auth = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [displayName, setDisplayName] = useState('')
@@ -26,26 +24,6 @@ export default function SignUpPage() {
   const [termsAccepted, setTermsAccepted] = useState(false)
   const [showMagicLink, setShowMagicLink] = useState(false)
   const [magicLinkSent, setMagicLinkSent] = useState(false)
-  const previousAuthState = useRef<boolean>(false)
-
-  // Redirect to dashboard if user JUST became authenticated (from OAuth redirect)
-  // Don't redirect if user was already authenticated and navigated here intentionally
-  useEffect(() => {
-    const wasAuthenticated = previousAuthState.current
-    const isNowAuthenticated = auth.isAuthenticated && !auth.loading
-
-    // Only redirect if auth state changed from false to true
-    if (!wasAuthenticated && isNowAuthenticated) {
-      logger.auth('User just authenticated on signup page, redirecting to dashboard')
-      showToast(strings.auth.signup.messages.googleNewUser, 'success')
-      setTimeout(() => {
-        window.location.href = buildLocalePath('/dashboard')
-      }, 500)
-    }
-
-    // Update previous auth state
-    previousAuthState.current = isNowAuthenticated
-  }, [auth.isAuthenticated, auth.loading, showToast, strings.auth.signup.messages.googleNewUser, buildLocalePath])
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
