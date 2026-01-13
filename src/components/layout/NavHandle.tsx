@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Home } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavHandleProps {
@@ -16,6 +17,13 @@ interface NavHandleProps {
   position?: 'top' | 'bottom';
 
   /**
+   * Style variant of the handle
+   * - 'bar': Centered horizontal bar (legacy)
+   * - 'fab': Floating action button in bottom-right corner (default, recommended)
+   */
+  variant?: 'bar' | 'fab';
+
+  /**
    * Custom className
    */
   className?: string;
@@ -27,15 +35,77 @@ interface NavHandleProps {
 }
 
 /**
- * Bouncing handle indicator - shows when navbar is hidden
- * Inspired by iOS pull-to-refresh and YouTube page implementation
+ * Navigation restore handle - shows when navbar is hidden
+ * Two variants:
+ * - 'bar': Centered horizontal bar (legacy, inspired by iOS pull-to-refresh)
+ * - 'fab': Bottom-right floating action button with glassmorphism (default)
+ *          Avoids conflicts with system UI and provides clear tap target
  */
 export default function NavHandle({
   isVisible,
   position = 'top',
+  variant = 'fab',
   className,
   onTap
 }: NavHandleProps) {
+  // FAB variant - glassmorphism floating button (universal design)
+  if (variant === 'fab') {
+    return (
+      <AnimatePresence>
+        {isVisible && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 20 }}
+            transition={{ type: 'spring', damping: 20, stiffness: 300 }}
+            className={cn(
+              'fixed z-[60] md:hidden',
+              'bottom-8 right-4',
+              'w-14 h-14 rounded-full',
+              // Glassmorphism styling to match bottom navbar
+              'bg-soft-white/20 dark:bg-dark-900/30',
+              'backdrop-blur-2xl backdrop-saturate-150',
+              'border border-gray-200/40 dark:border-gray-700/30',
+              'shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60',
+              'flex items-center justify-center',
+              'cursor-pointer',
+              'active:scale-95 transition-transform',
+              className
+            )}
+            style={{
+              // Add safe area padding for iPhone home indicator
+              bottom: 'calc(2rem + env(safe-area-inset-bottom, 0px))',
+            }}
+            onClick={onTap}
+            aria-label="Show navigation"
+          >
+            {/* Subtle pulsing glow */}
+            <motion.div
+              className="absolute inset-0 rounded-full bg-primary-500/10 dark:bg-primary-400/10"
+              animate={{
+                scale: [1, 1.15, 1],
+                opacity: [0.3, 0.1, 0.3],
+              }}
+              transition={{
+                repeat: Infinity,
+                duration: 2.5,
+                ease: 'easeInOut',
+              }}
+            />
+
+            {/* Home Icon */}
+            <Home
+              className="relative z-10 w-6 h-6 text-gray-700 dark:text-gray-200"
+              strokeWidth={2}
+              aria-hidden="true"
+            />
+          </motion.button>
+        )}
+      </AnimatePresence>
+    );
+  }
+
+  // Default bar variant
   return (
     <AnimatePresence>
       {isVisible && (
@@ -58,7 +128,7 @@ export default function NavHandle({
             'flex justify-center',
             position === 'top' ? 'pt-2' : 'pb-2'
           )}>
-            {/* Bouncing handle */}
+            {/* Bouncing handle bar */}
             <motion.div
               animate={{
                 y: position === 'top' ? [0, 5, 0] : [0, -5, 0]
