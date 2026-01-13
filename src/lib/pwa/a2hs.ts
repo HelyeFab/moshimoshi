@@ -70,6 +70,9 @@ class A2HSManager {
   }
 
   private checkIfInstalled() {
+    // Guard against SSR
+    if (typeof window === 'undefined') return
+
     // Check if app is running in standalone mode (installed)
     if (this.isInStandaloneMode()) {
       this.isInstalled = true
@@ -96,6 +99,9 @@ class A2HSManager {
   }
 
   private isInStandaloneMode(): boolean {
+    // Guard against SSR
+    if (typeof window === 'undefined') return false
+
     // Check various methods for standalone detection
     return (
       window.matchMedia('(display-mode: standalone)').matches ||
@@ -105,21 +111,31 @@ class A2HSManager {
   }
 
   private isIOS(): boolean {
+    // Guard against SSR
+    if (typeof window === 'undefined') return false
+
     const userAgent = window.navigator.userAgent.toLowerCase()
     return /iphone|ipad|ipod/.test(userAgent)
   }
 
   private isAndroid(): boolean {
+    // Guard against SSR
+    if (typeof window === 'undefined') return false
+
     const userAgent = window.navigator.userAgent.toLowerCase()
     return /android/.test(userAgent)
   }
 
   private incrementVisitCount(): void {
+    if (typeof window === 'undefined') return
+
     const count = this.getVisitCount() + 1
     localStorage.setItem(STORAGE_KEYS.VISIT_COUNT, count.toString())
   }
 
   private getVisitCount(): number {
+    if (typeof window === 'undefined') return 0
+
     return parseInt(localStorage.getItem(STORAGE_KEYS.VISIT_COUNT) || '0', 10)
   }
 
@@ -128,6 +144,8 @@ class A2HSManager {
   }
 
   private wasRecentlyDismissed(): boolean {
+    if (typeof window === 'undefined') return false
+
     const dismissed = localStorage.getItem(STORAGE_KEYS.DISMISSED_AT)
     if (!dismissed) return false
 
@@ -137,6 +155,8 @@ class A2HSManager {
   }
 
   private wasRecentlyPrompted(): boolean {
+    if (typeof window === 'undefined') return false
+
     const lastPromptTime = localStorage.getItem(STORAGE_KEYS.LAST_PROMPT)
     if (!lastPromptTime) return false
 
@@ -244,6 +264,9 @@ class A2HSManager {
    * Mark the prompt as dismissed
    */
   public dismissPrompt() {
+    // Guard against SSR
+    if (typeof window === 'undefined') return
+
     // Save dismissal timestamp
     localStorage.setItem(STORAGE_KEYS.DISMISSED_AT, new Date().toISOString())
     this.deferredPrompt = null
@@ -259,6 +282,9 @@ class A2HSManager {
    * Mark that the prompt was shown (for re-prompt cooldown)
    */
   public markPromptShown() {
+    // Guard against SSR
+    if (typeof window === 'undefined') return
+
     localStorage.setItem(STORAGE_KEYS.LAST_PROMPT, new Date().toISOString())
   }
 
