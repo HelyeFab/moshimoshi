@@ -9,6 +9,7 @@ import { useTranslation, buildLocalePath, useLocalePath } from '@/i18n/I18nConte
 import logger from '@/lib/logger'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 import { useReCaptcha } from '@/components/ReCaptchaProvider'
+import { useAuth } from '@/hooks/useAuth'
 
 function SignInContent() {
   const router = useRouter()
@@ -17,6 +18,7 @@ function SignInContent() {
   const { strings } = useTranslation()
   const { getLocalePath } = useLocalePath()
   const { executeRecaptcha } = useReCaptcha()
+  const auth = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
@@ -33,6 +35,18 @@ function SignInContent() {
       showToast(strings.auth.signin.messages.signupSuccess, 'success')
     }
   }, [searchParams, showToast, strings.auth.signin.messages.signupSuccess])
+
+  // Redirect to dashboard if user is authenticated
+  // This handles the case where user returns from Google redirect
+  useEffect(() => {
+    if (auth.isAuthenticated && !auth.loading) {
+      logger.auth('User authenticated on signin page, redirecting to dashboard')
+      showToast(strings.auth.signin.messages.signinSuccess, 'success')
+      setTimeout(() => {
+        window.location.href = buildLocalePath('/dashboard')
+      }, 500)
+    }
+  }, [auth.isAuthenticated, auth.loading, showToast, strings.auth.signin.messages.signinSuccess, buildLocalePath])
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -110,53 +124,64 @@ function SignInContent() {
     logger.auth('Google sign in clicked')
     setLoading(true)
     setError('')
-    
+
     try {
       // Use Firebase client SDK for Google auth
-      const { signInWithPopup, GoogleAuthProvider } = await import('firebase/auth')
+      const { signInWithPopup, signInWithRedirect, GoogleAuthProvider } = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
-      
+
       if (!auth) {
         throw new Error('Firebase not initialized')
       }
-      
+
       const provider = new GoogleAuthProvider()
       // Force account selection every time
       provider.setCustomParameters({
         prompt: 'select_account'
       })
-      
-      const result = await signInWithPopup(auth, provider)
-      logger.auth('Google sign in successful', { email: result.user.email })
-      
-      // Get the ID token
-      const idToken = await result.user.getIdToken()
-      
-      // Send token to backend to create session
-      const response = await fetch('/api/auth/google', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idToken })
-      })
-      
-      const data = await response.json()
-      
-      if (response.ok) {
-        logger.auth('Session created, redirecting to dashboard')
-        showToast(strings.auth.signin.messages.signinSuccess, 'success')
-        // Use window.location for a hard redirect to ensure navigation
-        setTimeout(() => {
-          window.location.href = buildLocalePath('/dashboard')
-        }, 100)
-      } else {
-        console.error('Session creation failed:', data)
-        const errorMessage = data.error?.message || data.error || strings.auth.signin.errors.sessionCreationFailed
-        setError(getUserFriendlyErrorMessage(errorMessage))
+
+      try {
+        const result = await signInWithPopup(auth, provider)
+        logger.auth('Google sign in successful', { email: result.user.email })
+
+        // Get the ID token
+        const idToken = await result.user.getIdToken()
+
+        // Send token to backend to create session
+        const response = await fetch('/api/auth/google', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken })
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+          logger.auth('Session created, redirecting to dashboard')
+          showToast(strings.auth.signin.messages.signinSuccess, 'success')
+          // Use window.location for a hard redirect to ensure navigation
+          setTimeout(() => {
+            window.location.href = buildLocalePath('/dashboard')
+          }, 100)
+        } else {
+          console.error('Session creation failed:', data)
+          const errorMessage = data.error?.message || data.error || strings.auth.signin.errors.sessionCreationFailed
+          setError(getUserFriendlyErrorMessage(errorMessage))
+        }
+      } catch (popupError: any) {
+        // If popup is blocked, use redirect
+        if (popupError.code === 'auth/popup-blocked' ||
+            popupError.code === 'auth/cancelled-popup-request') {
+          logger.auth('Popup blocked, falling back to redirect')
+          await signInWithRedirect(auth, provider)
+          // The redirect will happen, session will be created when user returns
+        } else {
+          throw popupError
+        }
       }
     } catch (err: any) {
       console.error('Google sign in error:', err)
       setError(getUserFriendlyErrorMessage(err))
-    } finally {
       setLoading(false)
     }
   }

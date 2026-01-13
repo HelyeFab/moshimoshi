@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
@@ -9,6 +9,7 @@ import { useTranslation, buildLocalePath, useLocalePath } from '@/i18n/I18nConte
 import logger from '@/lib/logger'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 import { useReCaptcha } from '@/components/ReCaptchaProvider'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -16,6 +17,7 @@ export default function SignUpPage() {
   const { strings, t } = useTranslation()
   const { getLocalePath } = useLocalePath()
   const { executeRecaptcha } = useReCaptcha()
+  const auth = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [displayName, setDisplayName] = useState('')
@@ -24,6 +26,18 @@ export default function SignUpPage() {
   const [termsAccepted, setTermsAccepted] = useState(false)
   const [showMagicLink, setShowMagicLink] = useState(false)
   const [magicLinkSent, setMagicLinkSent] = useState(false)
+
+  // Redirect to dashboard if user is authenticated
+  // This handles the case where user returns from Google redirect
+  useEffect(() => {
+    if (auth.isAuthenticated && !auth.loading) {
+      logger.auth('User authenticated on signup page, redirecting to dashboard')
+      showToast(strings.auth.signup.messages.googleNewUser, 'success')
+      setTimeout(() => {
+        window.location.href = buildLocalePath('/dashboard')
+      }, 500)
+    }
+  }, [auth.isAuthenticated, auth.loading, showToast, strings.auth.signup.messages.googleNewUser, buildLocalePath])
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -128,54 +142,65 @@ export default function SignUpPage() {
     logger.auth('Google sign up clicked')
     setLoading(true)
     setError('')
-    
+
     try {
       // Use Firebase client SDK for Google auth
-      const { signInWithPopup, GoogleAuthProvider } = await import('firebase/auth')
+      const { signInWithPopup, signInWithRedirect, GoogleAuthProvider } = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
-      
+
       if (!auth) {
         throw new Error('Firebase not initialized')
       }
-      
+
       const provider = new GoogleAuthProvider()
       // Force account selection every time
       provider.setCustomParameters({
         prompt: 'select_account'
       })
-      
-      const result = await signInWithPopup(auth, provider)
-      logger.auth('Google sign up successful', { email: result.user.email })
-      
-      // Get the ID token
-      const idToken = await result.user.getIdToken()
-      
-      // Send token to backend to create session
-      const response = await fetch('/api/auth/google', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ idToken })
-      })
-      
-      const data = await response.json()
-      
-      if (response.ok) {
-        logger.auth('Account created via Google, redirecting to dashboard')
-        const isNewUser = data.isNewUser
-        showToast(isNewUser ? strings.auth.signup.messages.googleNewUser : strings.auth.signup.messages.googleExistingUser, 'success')
-        // Use window.location for a hard redirect to ensure navigation
-        setTimeout(() => {
-          window.location.href = buildLocalePath('/dashboard')
-        }, 100)
-      } else {
-        console.error('Session creation failed:', data.error)
-        const errorMessage = data.error?.message || data.error || strings.auth.signup.errors.sessionCreationFailed
-        setError(getUserFriendlyErrorMessage(errorMessage))
+
+      try {
+        const result = await signInWithPopup(auth, provider)
+        logger.auth('Google sign up successful', { email: result.user.email })
+
+        // Get the ID token
+        const idToken = await result.user.getIdToken()
+
+        // Send token to backend to create session
+        const response = await fetch('/api/auth/google', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken })
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+          logger.auth('Account created via Google, redirecting to dashboard')
+          const isNewUser = data.isNewUser
+          showToast(isNewUser ? strings.auth.signup.messages.googleNewUser : strings.auth.signup.messages.googleExistingUser, 'success')
+          // Use window.location for a hard redirect to ensure navigation
+          setTimeout(() => {
+            window.location.href = buildLocalePath('/dashboard')
+          }, 100)
+        } else {
+          console.error('Session creation failed:', data.error)
+          const errorMessage = data.error?.message || data.error || strings.auth.signup.errors.sessionCreationFailed
+          setError(getUserFriendlyErrorMessage(errorMessage))
+        }
+      } catch (popupError: any) {
+        // If popup is blocked, use redirect
+        if (popupError.code === 'auth/popup-blocked' ||
+            popupError.code === 'auth/cancelled-popup-request') {
+          logger.auth('Popup blocked, falling back to redirect')
+          await signInWithRedirect(auth, provider)
+          // The redirect will happen, session will be created when user returns
+        } else {
+          throw popupError
+        }
       }
     } catch (err: any) {
       console.error('Google sign up error:', err)
       setError(getUserFriendlyErrorMessage(err))
-    } finally {
       setLoading(false)
     }
   }
