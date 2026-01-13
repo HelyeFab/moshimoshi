@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
@@ -23,6 +23,7 @@ function SignInContent() {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const previousAuthState = useRef<boolean>(false)
 
   useEffect(() => {
     // Clear any guest mode when on signin page
@@ -36,16 +37,23 @@ function SignInContent() {
     }
   }, [searchParams, showToast, strings.auth.signin.messages.signupSuccess])
 
-  // Redirect to dashboard if user is authenticated
-  // This handles the case where user returns from Google redirect
+  // Redirect to dashboard if user JUST became authenticated (from OAuth redirect)
+  // Don't redirect if user was already authenticated and navigated here intentionally
   useEffect(() => {
-    if (auth.isAuthenticated && !auth.loading) {
-      logger.auth('User authenticated on signin page, redirecting to dashboard')
+    const wasAuthenticated = previousAuthState.current
+    const isNowAuthenticated = auth.isAuthenticated && !auth.loading
+
+    // Only redirect if auth state changed from false to true
+    if (!wasAuthenticated && isNowAuthenticated) {
+      logger.auth('User just authenticated on signin page, redirecting to dashboard')
       showToast(strings.auth.signin.messages.signinSuccess, 'success')
       setTimeout(() => {
         window.location.href = buildLocalePath('/dashboard')
       }, 500)
     }
+
+    // Update previous auth state
+    previousAuthState.current = isNowAuthenticated
   }, [auth.isAuthenticated, auth.loading, showToast, strings.auth.signin.messages.signinSuccess, buildLocalePath])
 
   const handleSignIn = async (e: React.FormEvent) => {
