@@ -11,6 +11,7 @@ export type OfflineUsageDelta = Partial<Record<FeatureId, number>>
 
 const USAGE_SNAPSHOT_KEY = 'usageSnapshot'
 const OFFLINE_USAGE_DELTA_KEY = 'offlineUsageDelta'
+const OFFLINE_UNIQUE_USAGE_KEY = 'offlineUniqueUsage'
 
 function readJson<T>(key: string): T | null {
   if (typeof window === 'undefined') return null
@@ -69,6 +70,62 @@ export function clearOfflineUsageDelta(): void {
   localStorage.removeItem(OFFLINE_USAGE_DELTA_KEY)
 }
 
+type OfflineUniqueUsageEntry = {
+  resetAtUtc: string
+  itemIds: string[]
+}
+
+type OfflineUniqueUsage = Partial<Record<FeatureId, OfflineUniqueUsageEntry>>
+
+function writeOfflineUniqueUsage(data: OfflineUniqueUsage): void {
+  writeJson(OFFLINE_UNIQUE_USAGE_KEY, data)
+}
+
+export function readOfflineUniqueUsage(): OfflineUniqueUsage {
+  return readJson<OfflineUniqueUsage>(OFFLINE_UNIQUE_USAGE_KEY) || {}
+}
+
+export function clearOfflineUniqueUsage(): void {
+  if (typeof window === 'undefined') return
+  localStorage.removeItem(OFFLINE_UNIQUE_USAGE_KEY)
+}
+
+export function hasOfflineItemSeen(
+  featureId: FeatureId,
+  itemId: string,
+  resetAtUtc: string
+): boolean {
+  const data = readOfflineUniqueUsage()
+  const entry = data[featureId]
+  if (!entry || entry.resetAtUtc !== resetAtUtc) {
+    return false
+  }
+  return entry.itemIds.includes(itemId)
+}
+
+export function markOfflineItemSeen(
+  featureId: FeatureId,
+  itemId: string,
+  resetAtUtc: string
+): boolean {
+  const data = readOfflineUniqueUsage()
+  const entry = data[featureId]
+  if (!entry || entry.resetAtUtc !== resetAtUtc) {
+    data[featureId] = { resetAtUtc, itemIds: [itemId] }
+    writeOfflineUniqueUsage(data)
+    return true
+  }
+
+  if (entry.itemIds.includes(itemId)) {
+    return false
+  }
+
+  entry.itemIds = [...entry.itemIds, itemId]
+  data[featureId] = entry
+  writeOfflineUniqueUsage(data)
+  return true
+}
+
 export function updateUsageSnapshotFromDecision(
   featureId: FeatureId,
   decision: { limit?: number; resetAtUtc?: string; usageBefore?: number; allow?: boolean },
@@ -94,6 +151,14 @@ export async function syncOfflineUsageDelta(): Promise<void> {
   const entries = Object.entries(deltas).filter(([, value]) => typeof value === 'number' && value > 0)
   if (entries.length === 0) return
 
+  const uniqueUsage = readOfflineUniqueUsage()
+  const uniqueItems = Object.fromEntries(
+    Object.entries(uniqueUsage).map(([featureId, entry]) => [
+      featureId,
+      entry?.itemIds || []
+    ])
+  )
+
   const idempotencyKey = typeof crypto !== 'undefined' && 'randomUUID' in crypto
     ? crypto.randomUUID()
     : `${Date.now()}-${Math.random().toString(36).slice(2)}`
@@ -104,6 +169,7 @@ export async function syncOfflineUsageDelta(): Promise<void> {
     credentials: 'include',
     body: JSON.stringify({
       deltas,
+      uniqueItems: Object.keys(uniqueItems).length > 0 ? uniqueItems : undefined,
       clientTimestamp: new Date().toISOString(),
       idempotencyKey
     })
@@ -120,6 +186,7 @@ export async function syncOfflineUsageDelta(): Promise<void> {
       writeUsageSnapshot(snapshot)
     }
     clearOfflineUsageDelta()
+    clearOfflineUniqueUsage()
   }).finally(() => {
     syncPromise = null
   })

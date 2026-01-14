@@ -5802,6 +5802,20 @@ export const strings = {
       settingsDescription: 'Add Moshimoshi to your home screen for quick access',
       button: 'Install App',
       later: 'Not Now',
+      toast: {
+        message: 'Install Moshimoshi for a better experience.',
+        iosMessage: 'Install Moshimoshi for a better experience. Tap Share, then "Add to Home Screen".',
+        iosInstructions: 'To install on iOS: tap Share, then "Add to Home Screen".',
+        action: 'Install',
+      },
+      toastTest: {
+        title: 'Install Toast Preview',
+        description: 'Preview the install toast prompt on this device.',
+        note: 'Use the buttons below to trigger the install toast or reset the session guard.',
+        showButton: 'Show install toast',
+        resetButton: 'Reset install guard',
+        resetSuccess: 'Install toast guard reset.',
+      },
       benefits: {
         offline: 'Access your lessons offline',
         faster: 'Faster loading times',

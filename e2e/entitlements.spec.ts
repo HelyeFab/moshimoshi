@@ -5,6 +5,38 @@ const freePassword = process.env.E2E_FREE_PASSWORD
 const premiumEmail = process.env.E2E_PREMIUM_EMAIL
 const premiumPassword = process.env.E2E_PREMIUM_PASSWORD
 
+async function seedEntitlementsSnapshot(page: Page) {
+  const response = await page.request.get('/api/entitlements/snapshot')
+  expect(response.ok(), 'Expected entitlements snapshot to succeed').toBe(true)
+  const data = await response.json()
+  const token = data?.token as string | undefined
+  if (!token) {
+    throw new Error('Missing entitlements snapshot token')
+  }
+  await page.evaluate((snapshotToken) => {
+    localStorage.setItem('entitlementsSnapshot', snapshotToken)
+  }, token)
+}
+
+async function goOffline(page: Page) {
+  await page.context().setOffline(true)
+}
+
+async function goOnline(page: Page) {
+  await page.context().setOffline(false)
+}
+
+async function expectBlockedOffline(page: Page) {
+  await page.waitForTimeout(500)
+  const url = page.url()
+  if (url.includes('/pricing')) return
+  const bodyText = await page.locator('body').innerText()
+  expect(
+    bodyText,
+    'Expected access to be blocked when offline'
+  ).toMatch(/Feature Unavailable|Daily Limit Reached/i)
+}
+
 async function resolveFirstBookId(page: Page) {
   const response = await page.request.get('/api/library/books?limit=1&offset=0')
   if (!response.ok()) {
@@ -263,6 +295,77 @@ test.describe('Entitlement gating (free vs premium)', () => {
         throw new Error('Premium account appears to be on Free plan (redirected to pricing).')
       }
       await expect(page).toHaveURL(/\/en\/kanji-connection\/visual-layout/)
+    })
+  })
+})
+
+test.describe('Offline entitlement gating', () => {
+  test.describe('premium account', () => {
+    test.use({ storageState: 'e2e/.auth/premium.json' })
+
+    test('premium user can open key pages offline', async ({ page }) => {
+      test.skip(!premiumEmail || !premiumPassword, 'E2E_PREMIUM_EMAIL/E2E_PREMIUM_PASSWORD not set')
+
+      await ensureAuthenticated(page)
+      await page.goto('/en/dashboard')
+      await seedEntitlementsSnapshot(page)
+
+      await page.goto('/en/comics')
+      await page.waitForLoadState('domcontentloaded')
+      await page.goto('/en/library')
+      await page.waitForLoadState('domcontentloaded')
+      await page.goto('/en/stories')
+      await page.waitForLoadState('domcontentloaded')
+      await page.goto('/en/news')
+      await page.waitForLoadState('domcontentloaded')
+      await page.goto('/en/kanji-connection')
+      await page.waitForLoadState('domcontentloaded')
+      await page.goto('/en/learn/hiragana')
+      await page.waitForLoadState('domcontentloaded')
+      await page.goto('/en/learn/katakana')
+      await page.waitForLoadState('domcontentloaded')
+
+      await goOffline(page)
+
+      await page.goto('/en/comics')
+      await expect(page).toHaveURL(/\/en\/comics/)
+      await page.goto('/en/library')
+      await expect(page).toHaveURL(/\/en\/library/)
+      await page.goto('/en/stories')
+      await expect(page).toHaveURL(/\/en\/stories/)
+      await page.goto('/en/news')
+      await expect(page).toHaveURL(/\/en\/news/)
+      await page.goto('/en/kanji-connection')
+      await expect(page).toHaveURL(/\/en\/kanji-connection/)
+      await page.goto('/en/learn/hiragana')
+      await expect(page).toHaveURL(/\/en\/learn\/hiragana/)
+      await page.goto('/en/learn/katakana')
+      await expect(page).toHaveURL(/\/en\/learn\/katakana/)
+
+      await goOnline(page)
+    })
+  })
+
+  test.describe('free account', () => {
+    test.use({ storageState: 'e2e/.auth/free.json' })
+
+    test('free user is blocked from premium pages offline', async ({ page }) => {
+      test.skip(!freeEmail || !freePassword, 'E2E_FREE_EMAIL/E2E_FREE_PASSWORD not set')
+
+      await ensureAuthenticated(page)
+      await page.goto('/en/dashboard')
+      await seedEntitlementsSnapshot(page)
+
+      await goOffline(page)
+
+      await page.goto('/en/comics')
+      await expectBlockedOffline(page)
+      await page.goto('/en/library')
+      await expectBlockedOffline(page)
+      await page.goto('/en/kanji-connection')
+      await expectBlockedOffline(page)
+
+      await goOnline(page)
     })
   })
 })

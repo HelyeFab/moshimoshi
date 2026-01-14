@@ -11,7 +11,7 @@ import { useI18n } from '@/i18n/I18nContext';
 import type { FeatureId } from '@/types/FeatureId';
 import { isUnlimited } from '@/lib/entitlements/policy';
 import { getSnapshotPolicyVersion, getValidatedEntitlementsSnapshot, isFeatureUnlimitedForPlan, isOffline, mapSnapshotTierToPlan } from '@/lib/pwa/offline-entitlements';
-import { getOfflineUsageDelta, getUsageSnapshotEntry, incrementOfflineUsageDelta, syncOfflineUsageDelta, updateUsageSnapshotEntry, updateUsageSnapshotFromDecision } from '@/lib/pwa/offline-usage';
+import { getOfflineUsageDelta, getUsageSnapshotEntry, incrementOfflineUsageDelta, markOfflineItemSeen, hasOfflineItemSeen, syncOfflineUsageDelta, updateUsageSnapshotEntry, updateUsageSnapshotFromDecision } from '@/lib/pwa/offline-usage';
 
 export interface Decision {
   allow: boolean;
@@ -27,6 +27,7 @@ export interface CheckOptions {
   showUI?: boolean;
   skipTracking?: boolean;
   silent?: boolean;
+  metadata?: UsageMetadata;
 }
 
 interface UseFeatureReturn {
@@ -45,6 +46,12 @@ let networkListenersAttached = false;
 
 interface CheckOnlyOptions {
   failOpen?: boolean;
+  metadata?: UsageMetadata;
+}
+
+interface UsageMetadata {
+  boardId?: string;
+  itemId?: string;
 }
 
 export function useFeature(featureId: FeatureId): UseFeatureReturn {
@@ -131,13 +138,17 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
 
   // Check only (no tracking)
   const checkOnly = useCallback(async (options: CheckOnlyOptions = {}): Promise<Decision> => {
-    const { failOpen = true } = options;
-    // Check cache first
-    const cached = getCachedDecision();
-    if (cached) {
-      setRemaining(cached.remaining);
-      setLastDecision(cached);
-      return cached;
+    const { failOpen = true, metadata } = options;
+    const uniqueItemId = metadata?.boardId ?? metadata?.itemId;
+    const shouldDedupe = featureId === 'kanji_mood_board' || featureId === 'news';
+    const shouldUseCache = !(shouldDedupe && uniqueItemId);
+    if (shouldUseCache) {
+      const cached = getCachedDecision();
+      if (cached) {
+        setRemaining(cached.remaining);
+        setLastDecision(cached);
+        return cached;
+      }
     }
 
     if (isOffline()) {
@@ -151,7 +162,9 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
         };
         setLastDecision(denied);
         setRemaining(0);
-        cacheDecision(denied);
+        if (shouldUseCache) {
+          cacheDecision(denied);
+        }
         return denied;
       }
 
@@ -167,7 +180,9 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
         };
         setLastDecision(unlimitedDecision);
         setRemaining(-1);
-        cacheDecision(unlimitedDecision);
+        if (shouldUseCache) {
+          cacheDecision(unlimitedDecision);
+        }
         return unlimitedDecision;
       }
 
@@ -181,7 +196,9 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
         };
         setLastDecision(denied);
         setRemaining(0);
-        cacheDecision(denied);
+        if (shouldUseCache) {
+          cacheDecision(denied);
+        }
         return denied;
       }
 
@@ -198,8 +215,30 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
         };
         setLastDecision(denied);
         setRemaining(0);
-        cacheDecision(denied);
+        if (shouldUseCache) {
+          cacheDecision(denied);
+        }
         return denied;
+      }
+
+      if (shouldDedupe && uniqueItemId) {
+        if (hasOfflineItemSeen(featureId, uniqueItemId, entry.resetAtUtc)) {
+          const allowedRepeat: Decision = {
+            allow: true,
+            remaining: Math.max(0, entry.limit - (entry.used + getOfflineUsageDelta(featureId))),
+            reason: 'ok',
+            policyVersion,
+            resetAtUtc: entry.resetAtUtc,
+            limit: entry.limit,
+            usageBefore: entry.used
+          };
+          setLastDecision(allowedRepeat);
+          setRemaining(allowedRepeat.remaining);
+          if (shouldUseCache) {
+            cacheDecision(allowedRepeat);
+          }
+          return allowedRepeat;
+        }
       }
 
       const usedEffective = entry.used + getOfflineUsageDelta(featureId);
@@ -215,13 +254,16 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       };
       setLastDecision(offlineDecision);
       setRemaining(offlineDecision.remaining);
-      cacheDecision(offlineDecision);
+      if (shouldUseCache) {
+        cacheDecision(offlineDecision);
+      }
       return offlineDecision;
     }
 
     try {
       setIsLoading(true);
-      const response = await fetch(`/api/usage/${featureId}/check`, {
+      const query = uniqueItemId ? `?itemId=${encodeURIComponent(uniqueItemId)}` : '';
+      const response = await fetch(`/api/usage/${featureId}/check${query}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -252,7 +294,9 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
         };
         setLastDecision(fallbackDecision);
         setRemaining(-1);
-        cacheDecision(fallbackDecision);
+        if (shouldUseCache) {
+          cacheDecision(fallbackDecision);
+        }
         return fallbackDecision;
       }
 
@@ -260,7 +304,9 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       updateUsageSnapshotFromDecision(featureId, decision, false);
       setRemaining(decision.remaining);
       setLastDecision(decision);
-      cacheDecision(decision);
+      if (shouldUseCache) {
+        cacheDecision(decision);
+      }
       return decision;
     } catch (error) {
       console.error('Failed to check feature entitlement:', error);
@@ -285,7 +331,9 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       };
       setLastDecision(fallbackDecision);
       setRemaining(-1);
-      cacheDecision(fallbackDecision);
+      if (shouldUseCache) {
+        cacheDecision(fallbackDecision);
+      }
       return fallbackDecision;
     } finally {
       setIsLoading(false);
@@ -294,27 +342,40 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
 
   // Check and track (with increment)
   const checkAndTrack = useCallback(async (options: CheckOptions = {}): Promise<boolean> => {
-    const { showUI = true, skipTracking = false, silent = false } = options;
+    const { showUI = true, skipTracking = false, silent = false, metadata } = options;
+    const uniqueItemId = metadata?.boardId ?? metadata?.itemId;
+    const shouldDedupe = featureId === 'kanji_mood_board' || featureId === 'news';
 
     try {
       setIsLoading(true);
 
       if (isOffline()) {
-        const decision = await checkOnly({ failOpen: false });
+        const decision = await checkOnly({ failOpen: false, metadata });
         if (decision.allow && !skipTracking) {
           const entry = getUsageSnapshotEntry(featureId);
           if (entry) {
-            updateUsageSnapshotEntry(featureId, {
-              ...entry,
-              used: entry.used + 1
-            });
+            let incremented = true;
+            if (shouldDedupe && uniqueItemId) {
+              incremented = markOfflineItemSeen(featureId, uniqueItemId, entry.resetAtUtc);
+            }
+
+            if (incremented) {
+              updateUsageSnapshotEntry(featureId, {
+                ...entry,
+                used: entry.used + 1
+              });
+              incrementOfflineUsageDelta(featureId, 1);
+              const remainingAfter = decision.remaining === -1 ? -1 : Math.max(0, decision.remaining - 1);
+              const updatedDecision = { ...decision, remaining: remainingAfter };
+              setRemaining(updatedDecision.remaining);
+              setLastDecision(updatedDecision);
+              cacheDecision(updatedDecision);
+            } else {
+              setRemaining(decision.remaining);
+              setLastDecision(decision);
+              cacheDecision(decision);
+            }
           }
-          incrementOfflineUsageDelta(featureId, 1);
-          const remainingAfter = decision.remaining === -1 ? -1 : Math.max(0, decision.remaining - 1);
-          const updatedDecision = { ...decision, remaining: remainingAfter };
-          setRemaining(updatedDecision.remaining);
-          setLastDecision(updatedDecision);
-          cacheDecision(updatedDecision);
         }
         return decision.allow;
       }
@@ -335,7 +396,7 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ idempotencyKey }),
+        body: JSON.stringify({ idempotencyKey, itemId: uniqueItemId }),
       });
 
       if (!response.ok) {
@@ -390,16 +451,6 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
               );
               break;
           }
-        } else if (decision.remaining > 0 && decision.remaining <= 2 && !isUnlimited(decision.remaining)) {
-          // Warn when running low
-          showToast(
-            t('entitlements.messages.runningLow', {
-              count: decision.remaining,
-              feature: featureId.replace('_', ' ')
-            }),
-            'info',
-            3000
-          );
         }
       }
 

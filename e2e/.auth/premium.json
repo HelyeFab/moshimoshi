@@ -2,10 +2,10 @@
   "cookies": [
     {
       "name": "session",
-      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJIZTN4dlM3bW9wYmNuVUxtYWVvbVMxSVdQczEyIiwiZW1haWwiOiJjaGFybGVzQGJlYW5vLmNvbSIsImZpbmdlcnByaW50IjoiNjVjOGMzNjUxNjJjZmRhMzVjZjA5Zjk3NmNiY2I5ODZlYThmNWVkYmY1YmQxN2ZiMGNiODU3MDJjOTM1ZjExMCIsImFkbWluIjpmYWxzZSwic2lkIjoiYTM1ZWE0YjQ3ZjEwOWUzODZiNTVmMmY1NjQyOTA2ZDhlNTQ1ZWE1ZDBkZTAyODFiNjAwNWM5MTYwMzgwODhiZiIsImlhdCI6MTc2ODIyNTYzNywiZXhwIjoxNzY4MjI5MjM3LCJhdWQiOiJtb3NoaW1vc2hpLWFwcCIsImlzcyI6Im1vc2hpbW9zaGkifQ.A7r0IprpgVy33Oo4LJsFjAphrIJmiWAHxdG_4x-JfWM",
+      "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiJIZTN4dlM3bW9wYmNuVUxtYWVvbVMxSVdQczEyIiwiZW1haWwiOiJjaGFybGVzQGJlYW5vLmNvbSIsImZpbmdlcnByaW50IjoiMWRjNjJkZDA0NDU4YzU1ZjJlZWNlYjI1ZmNkMWI4NWJmMDUzMjk0YWEwM2U3N2E4MjZlMWFlMjVhMzBhYjIyMiIsImFkbWluIjpmYWxzZSwic2lkIjoiMGRlNTI5YWQ1OTM0YzE3MzAxZDI1MjQ1YjlkN2I3MzE4ZjRmMzM0YTFlYWNmM2NmMzg2Y2I3ZWM5NDIxMGNiYSIsImlhdCI6MTc2ODMxMjgyNiwiZXhwIjoxNzY4MzE2NDI2LCJhdWQiOiJtb3NoaW1vc2hpLWFwcCIsImlzcyI6Im1vc2hpbW9zaGkifQ.aXi04Rmb6lj44AujNu60bY0Yz85WM3m0dNdk0u20Lng",
       "domain": "localhost",
       "path": "/",
-      "expires": 1768229237.517331,
+      "expires": 1768316426.688506,
       "httpOnly": true,
       "secure": false,
       "sameSite": "Lax"
@@ -13,12 +13,8 @@
   ],
   "origins": [
     {
-      "origin": "http://localhost:3001",
+      "origin": "http://localhost:3000",
       "localStorage": [
-        {
-          "name": "userTier",
-          "value": "guest"
-        },
         {
           "name": "moshimoshi-language",
           "value": "en"
@@ -34,7 +30,7 @@
       "localStorage": [
         {
           "name": "rc::a",
-          "value": "MTl0YmQ2NzFpb2lxZDk="
+          "value": "MXZ5bjNuNTM2cXdl"
         }
       ]
     }

@@ -64,6 +64,27 @@ export default function LibraryPage() {
       .slice(0, offlineLimit)
   }
 
+  const getPrefetchBudget = async (desiredCount: number): Promise<number> => {
+    if (desiredCount <= 0) return 0
+
+    try {
+      const response = await fetch('/api/usage/books/check')
+      if (!response.ok) {
+        return 0
+      }
+
+      const data = await response.json()
+      if (!data?.allow) return 0
+      if (data?.remaining === -1) return desiredCount
+
+      const remaining = typeof data?.remaining === 'number' ? data.remaining : 0
+      return Math.max(0, Math.min(desiredCount, remaining))
+    } catch (prefetchError) {
+      console.warn('[LibraryPage] Prefetch budget check failed:', prefetchError)
+      return 0
+    }
+  }
+
   const loadBooks = useCallback(
     async (reset: boolean = false) => {
       try {
@@ -150,19 +171,27 @@ export default function LibraryPage() {
     if (!isPremium) return
     if (books.length > 0 && prefetchStatus === 'idle' && offset === 0) {
       // Only prefetch on initial load (not when loading more)
-      const bookIds = books.slice(0, 10).map(b => b.id)
       setPrefetchStatus('prefetching')
-      prefetchBooks(bookIds, { skipCached: true })
-        .then(results => {
-          console.log('[LibraryPage] Offline prefetch complete:', results)
-          setPrefetchStatus('done')
+      const desiredIds = books.slice(0, offlineLimit).map(b => b.id)
+      getPrefetchBudget(desiredIds.length)
+        .then((budget) => {
+          const bookIds = budget > 0 ? desiredIds.slice(0, budget) : []
+          if (bookIds.length === 0) {
+            setPrefetchStatus('done')
+            return
+          }
+          return prefetchBooks(bookIds, { skipCached: true })
+            .then(results => {
+              console.log('[LibraryPage] Offline prefetch complete:', results)
+              setPrefetchStatus('done')
+            })
         })
         .catch(error => {
           console.warn('[LibraryPage] Prefetch failed:', error)
           setPrefetchStatus('done')
         })
     }
-  }, [books, prefetchStatus, offset, prefetchBooks, isPremium])
+  }, [books, prefetchStatus, offset, prefetchBooks, isPremium, offlineLimit])
 
   const handleLoadMore = () => {
     setOffset(prev => prev + limit)

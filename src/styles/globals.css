@@ -855,3 +855,41 @@ html.high-contrast.dark .text-gray-400 {
 .animate-shimmer {
   animation: shimmer 2s infinite;
 }
+
+/* Progress bar striped effect */
+@keyframes progress-stripes {
+  0% { background-position: 1rem 0; }
+  100% { background-position: 0 0; }
+}
+
+.bg-stripes {
+  background-image: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.15) 25%,
+    transparent 25%,
+    transparent 50%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.15) 75%,
+    transparent 75%,
+    transparent
+  );
+  background-size: 1rem 1rem;
+}
+
+.animate-progress {
+  animation: progress-stripes 1s linear infinite;
+}
+
+/* Toast positioning that respects iOS Dynamic Island and safe areas */
+.toast-top {
+  top: env(safe-area-inset-top, 0);
+  padding-top: max(env(safe-area-inset-top, 1rem), 1rem);
+}
+
+/* Additional spacing on iOS devices with Dynamic Island */
+@supports (-webkit-touch-callout: none) {
+  .toast-top {
+    /* Add extra padding on iOS: safe-area + 8px breathing room */
+    padding-top: calc(env(safe-area-inset-top, 1rem) + 0.5rem);
+  }
+}

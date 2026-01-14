@@ -5387,6 +5387,20 @@ export const strings = {
       settingsDescription: 'ホーム画面にMoshimoshiを追加して素早くアクセス',
       button: 'アプリをインストール',
       later: '後で',
+      toast: {
+        message: 'より快適に使うため、Moshimoshiをインストールしましょう。',
+        iosMessage: 'より快適に使うため、Moshimoshiをインストールしましょう。共有から「ホーム画面に追加」を選んでください。',
+        iosInstructions: 'iOSでのインストール: 共有 →「ホーム画面に追加」。',
+        action: 'インストール',
+      },
+      toastTest: {
+        title: 'インストール通知の確認',
+        description: 'この端末でインストール通知を確認します。',
+        note: '下のボタンで通知の表示やセッション制御のリセットができます。',
+        showButton: 'インストール通知を表示',
+        resetButton: 'インストール制御をリセット',
+        resetSuccess: 'インストール通知の制御をリセットしました。',
+      },
       benefits: {
         offline: 'オフラインでレッスンにアクセス',
         faster: '読み込み時間の短縮',

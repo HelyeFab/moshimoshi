@@ -120,6 +120,13 @@ async function generateWordExplanationsForStory(storyId, story) {
         const { generateStoryWordExplanations } = await Promise.resolve().then(() => __importStar(require('../utils/storyWordExplanationPreGenerator')));
         const result = await generateStoryWordExplanations(storyId, storyText, 100);
         console.log(`  ✅ SUCCESS! Generated ${result.wordCount} word explanations`);
+        await db.collection('stories').doc(storyId).update({
+            wordExplanationsStatus: 'complete',
+            wordExplanationsCount: result.wordCount,
+            wordExplanationsCompletedAt: admin.firestore.FieldValue.serverTimestamp(),
+            wordExplanationsFailedAt: admin.firestore.FieldValue.delete(),
+            wordExplanationsError: admin.firestore.FieldValue.delete(),
+        });
         return {
             success: true,
             storyId,

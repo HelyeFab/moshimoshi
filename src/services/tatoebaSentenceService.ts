@@ -27,9 +27,26 @@ class TatoebaSentenceService {
     try {
       const dataDir = path.join(process.cwd(), 'src/data/sentences/tatoeba')
 
+      // Check if directory exists
+      try {
+        await fs.access(dataDir)
+      } catch {
+        console.warn(`Tatoeba data directory not found: ${dataDir}`)
+        this.loaded = true
+        return
+      }
+
       // Read all example files
       const files = await fs.readdir(dataDir)
       const jsonFiles = files.filter(f => f.startsWith('examples-') && f.endsWith('.json'))
+
+      if (jsonFiles.length === 0) {
+        console.warn('No Tatoeba example files found')
+        this.loaded = true
+        return
+      }
+
+      console.log(`Loading Tatoeba sentences from ${jsonFiles.length} files...`)
 
       for (const file of jsonFiles.slice(0, 50)) { // Limit to first 50 files for performance
         try {
@@ -54,9 +71,9 @@ class TatoebaSentenceService {
       }
 
       this.loaded = true
-      console.log(`Loaded ${this.allSentences.length} Tatoeba sentences`)
+      console.log(`✅ Loaded ${this.allSentences.length} Tatoeba sentences`)
     } catch (error) {
-      console.error('Failed to load Tatoeba sentences:', error)
+      console.error('❌ Failed to load Tatoeba sentences:', error)
       this.loaded = true // Prevent repeated attempts
     }
   }

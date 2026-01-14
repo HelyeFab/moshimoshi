@@ -15,6 +15,7 @@ import KanjiProgressSummary from './components/KanjiProgressSummary'
 import ReviewDueAlert from './components/ReviewDueAlert'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useUserStorage } from '@/hooks/useUserStorage'
+import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 interface StudySettings {
   sessionSize: number
@@ -32,6 +33,7 @@ function KanjiMasteryContent() {
   const { showToast } = useToast()
   const { user, loading: authLoading, isGuest } = useAuth()
   const { checkOnly } = useFeature('kanji_mastery')
+  const usageData = useFeatureUsage('kanji_mastery')
 
   // Check if we're in review mode from Review Hub
   const isReviewMode = searchParams.get('mode') === 'review'
@@ -136,7 +138,19 @@ function KanjiMasteryContent() {
           title={isReviewMode ? t('kanjiMasteryTool.titleReview') : t('kanjiMasteryTool.title')}
           description={t('kanjiMasteryTool.description')}
           backHref={isReviewMode ? returnTo : '/dashboard'}
+          actions={
+            usageData.hasData ? (
+              <DesktopCircularIndicator
+                remaining={usageData.remaining}
+                limitCount={usageData.limitCount}
+                usedCount={usageData.usedCount}
+                color={usageData.color}
+              />
+            ) : null
+          }
         />
+
+        <FeatureUsageIndicator featureId="kanji_mastery" />
 
         <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Main Content */}

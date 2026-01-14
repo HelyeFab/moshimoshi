@@ -26,6 +26,7 @@ import {
   type CharacterProgress as ManagerProgress,
 } from '@/utils/kanaProgressManager'
 import { kanaProgressManagerV2 } from '@/utils/kanaProgressManagerV2'
+import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 // Review mode uses ReviewSessionUI which handles all gamification automatically via Event Hub
 // Study mode is a learning tool (not a review/quiz) and does not award XP
@@ -780,6 +781,10 @@ export function KanaLearningComponent({
                       }
                     : undefined
                 }
+              />
+
+              <FeatureUsageIndicator
+                featureId={defaultScript === 'hiragana' ? 'hiragana_practice' : 'katakana_practice'}
               />
             </>
           )}

@@ -208,19 +208,37 @@ export async function GET(request: NextRequest) {
 
     const progressDoc = await progressRef.get()
 
-    if (!progressDoc.exists) {
+    if (progressDoc.exists) {
+      const data = progressDoc.data()
       return NextResponse.json({
-        items: {},
-        contentType
+        items: data?.items || {},
+        contentType,
+        lastUpdated: data?.lastUpdated?.toDate?.() || null,
+        storage: {
+          location: decision.storageLocation,
+          syncEnabled: decision.shouldWriteToFirebase
+        }
       })
     }
 
-    const data = progressDoc.data()
+    // Fallback: items stored as individual documents (non-kanji content types)
+    const progressCollectionRef = db
+      .collection('users')
+      .doc(session.uid)
+      .collection('progress')
+      .where('contentType', '==', contentType)
+
+    const progressSnapshot = await progressCollectionRef.get()
+    const items: Record<string, any> = {}
+
+    progressSnapshot.forEach(doc => {
+      items[doc.id] = doc.data()
+    })
 
     return NextResponse.json({
-      items: data?.items || {},
+      items,
       contentType,
-      lastUpdated: data?.lastUpdated?.toDate?.() || null,
+      lastUpdated: null,
       storage: {
         location: decision.storageLocation,
         syncEnabled: decision.shouldWriteToFirebase

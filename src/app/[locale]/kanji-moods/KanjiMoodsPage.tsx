@@ -3,16 +3,18 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useMoodBoards, searchMoodBoards, filterMoodBoardsByJLPT } from '@/hooks/useMoodBoards'
-import { getAllProgress } from '@/utils/moodBoardProgress'
+import { moodBoardProgressManager } from '@/utils/moodBoardProgressManager'
 import MoodBoardCard from '@/components/kanji-moods/MoodBoardCard'
 import { MoodBoard, MoodBoardsProgress } from '@/types/moodboard'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
+import { useSubscription } from '@/hooks/useSubscription'
 import { useFeature } from '@/hooks/useFeature'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 // Navigation is now global via NavigationWrapper in root layout;
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 type ViewMode = 'grid' | 'list'
 type JLPTFilter = 'all' | 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
@@ -21,10 +23,14 @@ export default function KanjiMoodsPage() {
   const router = useRouter()
   const { t, strings } = useI18n()
   const { user } = useAuth()
+  const { isPremium } = useSubscription()
   const { checkOnly } = useFeature('kanji_mood_board')
   const { showToast } = useToast()
   const { moodBoards, loading } = useMoodBoards()
   const [progress, setProgress] = useState<MoodBoardsProgress>({})
+
+  // Feature usage indicator data
+  const usageData = useFeatureUsage('kanji_mood_board')
 
   // View and filter state
   const [viewMode, setViewMode] = useState<ViewMode>('grid')
@@ -35,17 +41,33 @@ export default function KanjiMoodsPage() {
 
   // Load progress data
   useEffect(() => {
-    const loadProgress = () => {
+    let isActive = true
+
+    const loadProgress = async () => {
+      if (!user?.uid || moodBoards.length === 0) {
+        if (isActive) setProgress({})
+        return
+      }
+
       try {
-        const allProgress = getAllProgress()
-        setProgress(allProgress)
+        await moodBoardProgressManager.migrateFromLocalStorage(user, isPremium ?? false)
+        const allProgress = await moodBoardProgressManager.getAllBoardsProgress(
+          user,
+          isPremium ?? false,
+          moodBoards
+        )
+        if (isActive) setProgress(allProgress)
       } catch (error) {
         console.error('Error loading progress:', error)
       }
     }
 
     loadProgress()
-  }, [])
+
+    return () => {
+      isActive = false
+    }
+  }, [user?.uid, isPremium, moodBoards])
 
   // Filter and sort mood boards
   const filteredBoards = useMemo(() => {
@@ -108,7 +130,7 @@ export default function KanjiMoodsPage() {
   }, [filteredBoards, progress])
 
   const handleBoardClick = async (boardId: string) => {
-    const decision = await checkOnly({ failOpen: false })
+    const decision = await checkOnly({ failOpen: false, metadata: { boardId } })
     if (!decision.allow) {
       showToast(t('entitlements.messages.limitReached'), 'warning')
       return
@@ -130,7 +152,22 @@ export default function KanjiMoodsPage() {
     <div className="min-h-screen bg-gradient-to-br from-background-light via-background to-background-dark dark:from-dark-900 dark:via-dark-850 dark:to-dark-900">
       {/* Navigation is now global - rendered in root layout */}
 
-      <PageHeader title={t('moodboards.title')} description={t('moodboards.description')} />
+      <PageHeader
+        title={t('moodboards.title')}
+        description={t('moodboards.description')}
+        actions={
+          usageData.hasData ? (
+            <DesktopCircularIndicator
+              remaining={usageData.remaining}
+              limitCount={usageData.limitCount}
+              usedCount={usageData.usedCount}
+              color={usageData.color}
+            />
+          ) : null
+        }
+      />
+
+      <FeatureUsageIndicator featureId="kanji_mood_board" />
 
       {loading ? (
         <LoadingOverlay />

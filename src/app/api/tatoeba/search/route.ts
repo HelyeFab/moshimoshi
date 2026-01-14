@@ -12,11 +12,15 @@ export async function GET(request: NextRequest) {
     }
 
     // Search for sentences containing the kanji
+    console.log(`[Tatoeba API] Searching for sentences with kanji: ${kanji}`)
     const sentences = await tatoebaSentenceService.searchByKanji(kanji, limit)
+    console.log(`[Tatoeba API] Found ${sentences.length} sentences`)
 
+    // Return empty array instead of error if no sentences found
     return NextResponse.json({ sentences })
-  } catch (error) {
-    console.error('Error searching Tatoeba sentences:', error)
-    return NextResponse.json({ error: 'Failed to search sentences' }, { status: 500 })
+  } catch (error: any) {
+    console.error('[Tatoeba API] Error searching Tatoeba sentences:', error?.message || error)
+    // Return empty array on error for graceful degradation
+    return NextResponse.json({ sentences: [] }, { status: 200 })
   }
 }

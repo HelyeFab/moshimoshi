@@ -57,18 +57,16 @@ These are required for full approval and correct integration with existing entit
 
 ## Migration decision (counts vs top-level)
 
-Current safe state
-- Dual-read + dual-write is the safest when any legacy usage docs might exist.
-- Read: `usageData[featureId] ?? usageData.counts?.[featureId] ?? 0`.
-- Write: update both `usageData[featureId]` and `usageData.counts[featureId]`.
+Current state (post-change)
+- Usage is stored at the top level only: `{ featureId: count }`.
+- `counts` is no longer read or written.
 
 When to remove `counts`
-- If you are confident there are no usage docs in production, you can switch to top-level only.
-- If any usage data might exist, keep dual-read/dual-write or run a one-time migration first.
+- This has been done under the assumption that there are no production usage docs yet.
+- If legacy docs appear later, a migration will be required to backfill top-level fields.
 
 Estimated effort (no production users)
-- 30–60 minutes to remove `counts` handling across check/increment/sync.
-- Risk is low only if there are truly no existing usage docs.
+- Completed: counts removed across check/increment/sync/helpers.
 
 One-time migration option (when data exists)
 - Backfill `counts.*` into top-level fields, then remove `counts` handling.

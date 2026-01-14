@@ -20,13 +20,13 @@ export default function ToastItem({ toast }: ToastItemProps) {
   };
 
   const getToastStyles = () => {
-    const base = 'pointer-events-auto w-full max-w-sm sm:max-w-md px-4 py-3 rounded-lg shadow-lg flex items-start gap-3 transition-all duration-300';
-    
+    const base = 'pointer-events-auto w-full max-w-sm sm:max-w-md px-4 py-3 rounded-lg flex items-start gap-3 transition-all duration-300 backdrop-blur-md';
+
     const variants = {
-      success: 'bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-900 dark:text-green-100',
-      error: 'bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-900 dark:text-red-100',
-      warning: 'bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 text-yellow-900 dark:text-yellow-100',
-      info: 'bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-900 dark:text-blue-100',
+      success: 'bg-green-50/95 dark:bg-green-900/50 border border-green-200 dark:border-green-700/80 text-green-900 dark:text-green-100 shadow-lg shadow-green-500/20 dark:shadow-green-500/30',
+      error: 'bg-red-50/95 dark:bg-red-900/50 border border-red-200 dark:border-red-700/80 text-red-900 dark:text-red-100 shadow-lg shadow-red-500/20 dark:shadow-red-500/30',
+      warning: 'bg-yellow-50/95 dark:bg-yellow-900/50 border border-yellow-200 dark:border-yellow-700/80 text-yellow-900 dark:text-yellow-100 shadow-lg shadow-yellow-500/20 dark:shadow-yellow-500/30',
+      info: 'bg-blue-50/95 dark:bg-blue-900/50 border border-blue-200 dark:border-blue-700/80 text-blue-900 dark:text-blue-100 shadow-lg shadow-blue-500/20 dark:shadow-blue-500/30',
     };
 
     const animation = isExiting 

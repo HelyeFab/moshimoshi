@@ -13,6 +13,7 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useSubscription } from '@/hooks/useSubscription'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 // Features are DISABLED by default unless explicitly set to 'true'
 const isTodosEnabled = process.env.NEXT_PUBLIC_FEATURE_TODOS === 'true'
@@ -46,6 +47,10 @@ export default function TodosPage() {
       <div className="hidden sm:block">
         <Navbar user={user} showUserMenu={true} />
       </div>
+
+      <LearningPageHeader title={t('todos.title')} description={t('todos.description')} mascot="none" />
+
+      <FeatureUsageIndicator featureId="todos" />
 
       <div className="container mx-auto px-4 py-6">
         {/* Todo list component */}

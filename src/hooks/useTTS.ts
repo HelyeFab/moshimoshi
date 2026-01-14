@@ -281,8 +281,10 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
             const data = await response.json()
             result = data.data
-            setIsFetchingFromAPI(false)
-            ttsLoadingState.setFetching(false)
+
+            // DON'T dismiss modal yet - wait until audio is ready to play
+            // setIsFetchingFromAPI(false)
+            // ttsLoadingState.setFetching(false)
 
             // Cache the result for offline use (fire and forget)
             offlineCache
@@ -332,8 +334,10 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
           const data = await response.json()
           result = data.data
-          setIsFetchingFromAPI(false)
-          ttsLoadingState.setFetching(false)
+
+          // DON'T dismiss modal yet - wait until audio is ready to play
+          // setIsFetchingFromAPI(false)
+          // ttsLoadingState.setFetching(false)
 
           console.log(
             `TTS Provider: ${result.provider}, Cached: ${result.cached}, Text: "${text.substring(0, 30)}..."`
@@ -474,7 +478,15 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         try {
           await audio.play()
           console.log('Audio playing successfully')
+
+          // NOW dismiss the loading modal - audio is actually playing
+          setIsFetchingFromAPI(false)
+          ttsLoadingState.setFetching(false)
         } catch (playError: any) {
+          // Dismiss modal on error too
+          setIsFetchingFromAPI(false)
+          ttsLoadingState.setFetching(false)
+
           // Ignore AbortError if it's because we're switching to a new audio
           if (playError.name !== 'AbortError') {
             console.error('Failed to play audio:', playError)

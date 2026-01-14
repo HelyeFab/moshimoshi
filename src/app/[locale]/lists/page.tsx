@@ -24,6 +24,7 @@ import MultiTabNotifier from '@/components/lists/MultiTabNotifier'
 import StorageWarning from '@/components/flashcards/StorageWarning'
 import ListSyncStatusIndicator from '@/components/lists/ListSyncStatusIndicator'
 import { createStarterListsIfNeeded } from '@/lib/lists/starterLists'
+import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 export default function MyListsPage() {
   const { t, strings } = useI18n()
@@ -255,6 +256,8 @@ export default function MyListsPage() {
 
       <div className="container mx-auto px-4 py-8 pb-24">
         <LearningPageHeader title={t('lists.title')} description={t('lists.pageDescription')} mascot="none" />
+
+        <FeatureUsageIndicator featureId="custom_lists" />
 
         {/* Actions bar */}
         <div className="flex flex-wrap gap-3 mb-6 mt-6">

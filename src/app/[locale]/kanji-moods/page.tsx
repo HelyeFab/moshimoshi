@@ -4,15 +4,19 @@ import { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useMoodBoards, searchMoodBoards, filterMoodBoardsByJLPT } from '@/hooks/useMoodBoards'
 import { useMoodBoardCache } from '@/hooks/useMoodBoardCache'
-import { getAllProgress } from '@/utils/moodBoardProgress'
+import { moodBoardProgressManager } from '@/utils/moodBoardProgressManager'
 import MoodBoardCard from '@/components/kanji-moods/MoodBoardCard'
 import { MoodBoard, MoodBoardsProgress } from '@/types/moodboard'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
+import { useSubscription } from '@/hooks/useSubscription'
+import { useFeature } from '@/hooks/useFeature'
+import { useToast } from '@/components/ui/Toast/ToastContext'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
+import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 type ViewMode = 'grid' | 'list'
 type JLPTFilter = 'all' | 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
@@ -21,8 +25,14 @@ export default function KanjiMoodsPage() {
   const router = useRouter()
   const { t, strings } = useI18n()
   const { user } = useAuth()
+  const { isPremium } = useSubscription()
+  const { checkOnly } = useFeature('kanji_mood_board')
+  const { showToast } = useToast()
   const { moodBoards, loading } = useMoodBoards()
   const [progress, setProgress] = useState<MoodBoardsProgress>({})
+
+  // Feature usage indicator data
+  const usageData = useFeatureUsage('kanji_mood_board')
 
   // Offline caching - prefetch ALL moodboards since total size is small
   const { prefetchMoodBoards } = useMoodBoardCache()
@@ -37,17 +47,33 @@ export default function KanjiMoodsPage() {
 
   // Load progress data
   useEffect(() => {
-    const loadProgress = () => {
+    let isActive = true
+
+    const loadProgress = async () => {
+      if (!user?.uid || moodBoards.length === 0) {
+        if (isActive) setProgress({})
+        return
+      }
+
       try {
-        const allProgress = getAllProgress()
-        setProgress(allProgress)
+        await moodBoardProgressManager.migrateFromLocalStorage(user, isPremium ?? false)
+        const allProgress = await moodBoardProgressManager.getAllBoardsProgress(
+          user,
+          isPremium ?? false,
+          moodBoards
+        )
+        if (isActive) setProgress(allProgress)
       } catch (error) {
         console.error('Error loading progress:', error)
       }
     }
 
     loadProgress()
-  }, [])
+
+    return () => {
+      isActive = false
+    }
+  }, [user?.uid, isPremium, moodBoards])
 
   // Auto-prefetch ALL moodboards for offline use (total size is small ~6-10MB)
   useEffect(() => {
@@ -125,7 +151,12 @@ export default function KanjiMoodsPage() {
     }
   }, [filteredBoards, progress])
 
-  const handleBoardClick = (boardId: string) => {
+  const handleBoardClick = async (boardId: string) => {
+    const decision = await checkOnly({ failOpen: false, metadata: { boardId } })
+    if (!decision.allow) {
+      showToast(t('entitlements.messages.limitReached'), 'warning')
+      return
+    }
     router.push(`/kanji-moods/${boardId}`)
   }
 
@@ -146,7 +177,22 @@ export default function KanjiMoodsPage() {
         <Navbar user={user} showUserMenu={true} />
       </div>
 
-      <PageHeader title={t('moodboards.title')} description={t('moodboards.description')} />
+      <PageHeader
+        title={t('moodboards.title')}
+        description={t('moodboards.description')}
+        actions={
+          usageData.hasData ? (
+            <DesktopCircularIndicator
+              remaining={usageData.remaining}
+              limitCount={usageData.limitCount}
+              usedCount={usageData.usedCount}
+              color={usageData.color}
+            />
+          ) : null
+        }
+      />
+
+      <FeatureUsageIndicator featureId="kanji_mood_board" />
 
       {loading ? (
         <LoadingOverlay />

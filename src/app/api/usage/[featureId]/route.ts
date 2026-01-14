@@ -98,13 +98,11 @@ export async function POST(
 
       const usageDoc = await transaction.get(usageRef)
       const usageData = usageDoc.exists
-        ? (usageDoc.data() as UsageBucket & Record<string, unknown>)
-        : { userId, date: bucketKey, counts: {}, updatedAt: nowUtcISO }
+        ? (usageDoc.data() as UsageBucket)
+        : { userId, date: bucketKey, updatedAt: nowUtcISO }
 
       // Build evaluation context
-      const counts = usageData.counts || {}
-      const usageBefore =
-        (usageData[featureId] as number | undefined) ?? counts[featureId] ?? 0
+      const usageBefore = usageData[featureId] || 0
       const usage: Partial<Record<FeatureId, number>> = {
         [featureId]: usageBefore,
       }
@@ -127,20 +125,14 @@ export async function POST(
 
         // Update usage bucket
         const updatedUsage: UsageBucket = {
+          ...usageData,
           userId,
           date: bucketKey,
-          counts: {
-            ...usageData.counts,
-            [featureId]: newCount,
-          },
           updatedAt: nowUtcISO,
-        }
-        const dualWriteUsage = {
-          ...updatedUsage,
           [featureId]: newCount
         }
 
-        transaction.set(usageRef, dualWriteUsage)
+        transaction.set(usageRef, updatedUsage)
 
         // Update decision with new usage
         decision.usageBefore = usage[featureId]
@@ -240,13 +232,11 @@ export async function GET(
       .get()
 
     const usageData = usageDoc.exists
-      ? (usageDoc.data() as UsageBucket & Record<string, unknown>)
-      : { userId, date: bucketKey, counts: {}, updatedAt: nowUtcISO }
+      ? (usageDoc.data() as UsageBucket)
+      : { userId, date: bucketKey, updatedAt: nowUtcISO }
 
     // 5. Build evaluation context
-    const counts = usageData.counts || {}
-    const usageBefore =
-      (usageData[featureId] as number | undefined) ?? counts[featureId] ?? 0
+    const usageBefore = usageData[featureId] || 0
     const usage: Partial<Record<FeatureId, number>> = {
       [featureId]: usageBefore,
     }

@@ -129,3 +129,69 @@ export function useKeyboardVisible(threshold: number = 150): boolean {
 
   return isKeyboardVisible
 }
+
+/**
+ * Detect if the app is running in iOS standalone mode (installed PWA via "Add to Home Screen")
+ * Returns false during SSR, boolean after hydration
+ *
+ * Detection methods:
+ * 1. navigator.standalone (iOS Safari specific)
+ * 2. display-mode: standalone media query
+ * 3. User agent contains iPhone/iPad
+ *
+ * @returns boolean - true if running as installed PWA on iOS
+ *
+ * @example
+ * const isIOSStandalone = useIsIOSStandalone()
+ * if (isIOSStandalone) {
+ *   // Apply iOS-specific optimizations
+ * }
+ */
+export function useIsIOSStandalone(): boolean {
+  const [isStandalone, setIsStandalone] = useState(false)
+
+  useEffect(() => {
+    // Check if running on iOS
+    const isIOS = /iPhone|iPad|iPod/.test(navigator.userAgent)
+
+    if (!isIOS) {
+      setIsStandalone(false)
+      return
+    }
+
+    // Method 1: iOS Safari specific property
+    const iosStandalone = 'standalone' in navigator && (navigator as any).standalone === true
+
+    // Method 2: Standard display-mode media query
+    const standaloneMediaQuery = window.matchMedia('(display-mode: standalone)').matches
+
+    // App is in standalone mode if either check passes
+    const standalone = iosStandalone || standaloneMediaQuery
+
+    setIsStandalone(standalone)
+  }, [])
+
+  return isStandalone
+}
+
+/**
+ * Detect if the app is running in PWA standalone mode (any platform)
+ * Returns false during SSR, boolean after hydration
+ *
+ * @returns boolean - true if running as installed PWA
+ */
+export function useIsStandalone(): boolean {
+  const [isStandalone, setIsStandalone] = useState(false)
+
+  useEffect(() => {
+    // Check display-mode media query (works on all platforms)
+    const standaloneMediaQuery = window.matchMedia('(display-mode: standalone)').matches
+
+    // iOS Safari specific check
+    const iosStandalone = 'standalone' in navigator && (navigator as any).standalone === true
+
+    setIsStandalone(standaloneMediaQuery || iosStandalone)
+  }, [])
+
+  return isStandalone
+}

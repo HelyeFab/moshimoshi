@@ -77,8 +77,17 @@ function extractComicText(comicData) {
     return text;
 }
 async function checkWordExplanationsExist(episodeId) {
-    const wordDoc = await db.collection('word_explanations').doc(episodeId).get();
+    const wordDoc = await db.collection('comic_word_explanations').doc(episodeId).get();
     return wordDoc.exists;
+}
+async function markEpisodeWordExplanationsComplete(episodeId, wordCount) {
+    await db.collection('comics').doc(episodeId).update({
+        wordExplanationsStatus: 'complete',
+        wordExplanationsCount: wordCount,
+        wordExplanationsCompletedAt: admin.firestore.FieldValue.serverTimestamp(),
+        wordExplanationsFailedAt: admin.firestore.FieldValue.delete(),
+        wordExplanationsError: admin.firestore.FieldValue.delete(),
+    });
 }
 async function generateWordExplanationsForEpisode(comic, episodeNumber) {
     const episodeId = `moshi-goes-to-japan-ep${String(episodeNumber).padStart(3, '0')}`;
@@ -116,6 +125,7 @@ async function generateWordExplanationsForEpisode(comic, episodeNumber) {
         console.log(`  ✅ SUCCESS! Generated ${result.total} word explanations`);
         console.log(`     - New: ${result.generated}`);
         console.log(`     - Cached: ${result.cached}`);
+        await markEpisodeWordExplanationsComplete(episodeId, result.total);
         return {
             success: true,
             episodeNumber,

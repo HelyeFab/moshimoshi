@@ -11,6 +11,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import NewsArticleFallbackImage from '@/components/news/NewsArticleFallbackImage'
 import { useArticleCache } from '@/hooks/useArticleCache'
+import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 interface NewsArticle {
   id: string
@@ -370,6 +371,27 @@ export default function NewsPage() {
       .slice(0, offlineLimit)
   }
 
+  const getPrefetchBudget = async (desiredCount: number): Promise<number> => {
+    if (desiredCount <= 0) return 0
+
+    try {
+      const response = await fetch('/api/usage/news/check')
+      if (!response.ok) {
+        return 0
+      }
+
+      const data = await response.json()
+      if (!data?.allow) return 0
+      if (data?.remaining === -1) return desiredCount
+
+      const remaining = typeof data?.remaining === 'number' ? data.remaining : 0
+      return Math.max(0, Math.min(desiredCount, remaining))
+    } catch (prefetchError) {
+      console.warn('[NewsPage] Prefetch budget check failed:', prefetchError)
+      return 0
+    }
+  }
+
   const loadArticles = async (pageNum: number = 0) => {
     try {
       setLoading(true)
@@ -395,7 +417,11 @@ export default function NewsPage() {
       const nextArticles = data.articles || data.data || []
 
       if (prefetchStatus === 'idle' && typeof navigator !== 'undefined' && navigator.onLine) {
-        const articleIds = nextArticles.slice(0, offlineLimit).map((article: NewsArticle) => article.id)
+        const desiredIds = nextArticles
+          .slice(0, offlineLimit)
+          .map((article: NewsArticle) => article.id)
+        const budget = await getPrefetchBudget(desiredIds.length)
+        const articleIds = budget > 0 ? desiredIds.slice(0, budget) : []
 
         if (articleIds.length > 0) {
           setPrefetchStatus('prefetching')
@@ -407,6 +433,8 @@ export default function NewsPage() {
             console.warn('[NewsPage] Offline prefetch failed:', prefetchError)
             setPrefetchStatus('done')
           }
+        } else {
+          setPrefetchStatus('done')
         }
       }
 
@@ -564,6 +592,8 @@ export default function NewsPage() {
           </div>
         }
       />
+
+      <FeatureUsageIndicator featureId="news" />
 
       <div className="px-4 max-w-7xl mx-auto">
         {/* Filter Bar - hidden on mobile (filters shown in header instead) */}

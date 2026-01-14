@@ -167,20 +167,35 @@ export class TTSService {
       failed: 0,
     }
 
+    // Gracefully handle empty array
+    if (!texts || texts.length === 0) {
+      console.warn('[TTS Preload] No texts provided')
+      return stats
+    }
+
+    console.log(`[TTS Preload] Starting preload for ${texts.length} texts`)
+
     for (const text of texts) {
       try {
+        // Skip empty or invalid texts
+        if (!text || text.trim().length === 0) {
+          stats.failed++
+          continue
+        }
+
         const result = await this.synthesize(text, options)
         if (result.cached) {
           stats.cached++
         } else {
           stats.synthesized++
         }
-      } catch (error) {
+      } catch (error: any) {
         stats.failed++
-        console.error(`Failed to preload: ${text}`, error)
+        console.warn(`[TTS Preload] Failed to preload "${text.substring(0, 20)}...":`, error?.message || error)
       }
     }
 
+    console.log(`[TTS Preload] Complete: ${stats.cached} cached, ${stats.synthesized} synthesized, ${stats.failed} failed`)
     return stats
   }
 

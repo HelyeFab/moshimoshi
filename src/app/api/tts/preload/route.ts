@@ -36,36 +36,57 @@ export async function POST(request: NextRequest) {
     // Process preload based on priority
     if (priority === 'high') {
       // Process immediately
-      const stats = await ttsService.preload(texts, options);
-      
-      return NextResponse.json({
-        success: true,
-        data: {
-          queued: stats.synthesized,
-          cached: stats.cached,
-          total: texts.length,
-          failed: stats.failed,
-        },
-      });
+      try {
+        console.log(`[TTS Preload API] Processing ${texts.length} texts with high priority`)
+        const stats = await ttsService.preload(texts, options);
+
+        return NextResponse.json({
+          success: true,
+          data: {
+            queued: stats.synthesized,
+            cached: stats.cached,
+            total: texts.length,
+            failed: stats.failed,
+          },
+        });
+      } catch (error: any) {
+        console.error('[TTS Preload API] High priority preload failed:', error?.message || error);
+        // Return success=true with all failed for graceful degradation
+        return NextResponse.json({
+          success: true,
+          data: {
+            queued: 0,
+            cached: 0,
+            total: texts.length,
+            failed: texts.length,
+          },
+        });
+      }
     } else {
       // Queue for background processing (simplified version)
       // In production, you might want to use a proper job queue
+      console.log(`[TTS Preload API] Queuing ${texts.length} texts with ${priority} priority`)
+
       setTimeout(async () => {
         try {
           await ttsService.preload(texts, options);
-        } catch (error) {
-          console.error('Background preload error:', error);
+        } catch (error: any) {
+          console.error('[TTS Preload API] Background preload error:', error?.message || error);
         }
       }, priority === 'low' ? 5000 : 1000);
-      
+
       // Check how many are already cached
       let cached = 0;
-      for (const text of texts) {
-        if (await ttsService.isCached(text, options)) {
-          cached++;
+      try {
+        for (const text of texts) {
+          if (await ttsService.isCached(text, options)) {
+            cached++;
+          }
         }
+      } catch (error: any) {
+        console.warn('[TTS Preload API] Cache check failed:', error?.message || error);
       }
-      
+
       return NextResponse.json({
         success: true,
         data: {
@@ -76,17 +97,20 @@ export async function POST(request: NextRequest) {
       });
     }
   } catch (error: any) {
-    console.error('Preload error:', error);
-    
+    console.error('[TTS Preload API] Unexpected error:', error?.message || error);
+
+    // Return success=true for graceful degradation
     return NextResponse.json(
       {
-        success: false,
-        error: {
-          code: 'INTERNAL_ERROR',
-          message: 'Preload failed',
+        success: true,
+        data: {
+          queued: 0,
+          cached: 0,
+          total: 0,
+          failed: 0,
         },
       },
-      { status: 500 }
+      { status: 200 }
     );
   }
 }

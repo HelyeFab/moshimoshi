@@ -76,7 +76,18 @@ export function useArticleCache(options: UseArticleCacheOptions = {}): UseArticl
         const response = await fetch(`/api/news/article/${articleId}`)
 
         if (!response.ok) {
-          throw new Error(`Failed to fetch article: ${response.statusText}`)
+          let errorDetail = response.statusText
+          try {
+            const payload = await response.clone().json()
+            if (payload?.error) {
+              errorDetail = payload.error
+            } else if (payload?.message) {
+              errorDetail = payload.message
+            }
+          } catch {
+            // Ignore JSON parsing failures for non-JSON responses
+          }
+          throw new Error(`Failed to fetch article: ${errorDetail}`)
         }
 
         const data = await response.json()

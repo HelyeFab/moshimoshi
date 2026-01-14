@@ -31,6 +31,7 @@ import {
 } from 'lucide-react'
 import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
 import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
+import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 type ViewMode = 'browse' | 'study' | 'review'
 type WordFilter = 'all' | 'verbs' | 'adjectives'
@@ -40,6 +41,7 @@ export default function ConjugationPracticePage() {
   const router = useRouter()
   const { user } = useAuth()
   const { t, strings } = useI18n()
+  const usageData = useFeatureUsage('conjugation_drill')
 
   const [viewMode, setViewMode] = useState<ViewMode>('browse')
   const [loading, setLoading] = useState(true)
@@ -281,7 +283,19 @@ export default function ConjugationPracticePage() {
           title={t('conjugation.title')}
           description={t('conjugation.description')}
           backHref="/dashboard"
+          actions={
+            usageData.hasData ? (
+              <DesktopCircularIndicator
+                remaining={usageData.remaining}
+                limitCount={usageData.limitCount}
+                usedCount={usageData.usedCount}
+                color={usageData.color}
+              />
+            ) : null
+          }
         />
+
+        <FeatureUsageIndicator featureId="conjugation_drill" />
 
         <div className="container mx-auto px-4 py-6">
           {/* Search Bar */}

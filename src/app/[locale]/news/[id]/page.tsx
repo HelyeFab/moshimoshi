@@ -1,21 +1,33 @@
 'use client'
 
+import { useEffect } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import EnhancedArticleReader from '@/components/news/EnhancedArticleReaderFinal'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useCachedArticle } from '@/hooks/useArticleCache'
+import { useFeature } from '@/hooks/useFeature'
 
 export default function NewsArticlePage() {
   const params = useParams()
   const router = useRouter()
   const { t } = useI18n()
   const { user } = useAuth()
+  const { checkAndTrack } = useFeature('news')
 
   // Use cache-first article fetching
   const articleId = typeof params.id === 'string' ? params.id : null
   const { article, loading, error, fromCache } = useCachedArticle(articleId)
+
+  useEffect(() => {
+    if (!articleId) return
+    checkAndTrack({ showUI: true, metadata: { itemId: articleId } }).then(allowed => {
+      if (!allowed) {
+        router.push('/news')
+      }
+    })
+  }, [articleId, checkAndTrack, router])
 
   const handleBack = () => {
     router.push('/news')

@@ -8,7 +8,7 @@
   "display_override": ["standalone", "minimal-ui"],
   "orientation": "portrait",
   "scope": "/",
-  "start_url": "/?source=pwa",
+  "start_url": "/en?source=pwa",
   "id": "moshimoshi-pwa",
   "icons": [
     {

@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
     const db = adminDb
 
     const body = await request.json()
-    const { deltas, idempotencyKey } = body || {}
+    const { deltas, idempotencyKey, uniqueItems } = body || {}
 
     if (!idempotencyKey || typeof deltas !== 'object' || deltas === null) {
       return NextResponse.json(
@@ -68,11 +68,20 @@ export async function POST(request: NextRequest) {
 
         const usageDoc = await transaction.get(usageRef)
         const usageData = usageDoc.exists
-          ? (usageDoc.data() as Record<string, unknown>)
-          : { userId, date: bucketKey, counts: {}, updatedAt: nowUtcISO }
+          ? (usageDoc.data() as Record<string, number>)
+          : { userId, date: bucketKey, updatedAt: nowUtcISO }
 
-        const counts = (usageData.counts as Record<string, number> | undefined) || {}
-        const usageBefore = (usageData[featureId] as number | undefined) ?? counts[featureId] ?? 0
+        const boards = Array.isArray((usageData as any).kanji_mood_board_boards)
+          ? (usageData as any).kanji_mood_board_boards
+          : []
+        const newsItems = Array.isArray((usageData as any).news_items)
+          ? (usageData as any).news_items
+          : []
+        const usageBefore = featureId === 'kanji_mood_board'
+          ? boards.length
+          : featureId === 'news'
+            ? newsItems.length
+            : (usageData[featureId] ?? 0)
         const context = {
           userId,
           plan,
@@ -82,15 +91,36 @@ export async function POST(request: NextRequest) {
 
         const decision = evaluate(featureId, context)
         const limit = decision.limit ?? 0
-        const remaining = limit === -1 ? delta : Math.max(0, limit - usageBefore)
-        const appliedDelta = limit === -1 ? delta : Math.min(delta, remaining)
-        const nextUsed = usageBefore + appliedDelta
+        let appliedDelta = limit === -1 ? delta : Math.min(delta, Math.max(0, limit - usageBefore))
+        let nextUsed = usageBefore + appliedDelta
+
+        if (featureId === 'kanji_mood_board' && uniqueItems?.kanji_mood_board) {
+          const incoming = Array.isArray(uniqueItems.kanji_mood_board)
+            ? uniqueItems.kanji_mood_board
+            : []
+          const newBoards = incoming.filter((id: unknown) => typeof id === 'string' && !boards.includes(id))
+          const remainingForBoards = limit === -1 ? newBoards.length : Math.max(0, limit - usageBefore)
+          const appliedBoards = limit === -1 ? newBoards : newBoards.slice(0, remainingForBoards)
+          appliedDelta = appliedBoards.length
+          nextUsed = usageBefore + appliedDelta
+          if (appliedBoards.length > 0) {
+            usageData.kanji_mood_board_boards = [...boards, ...appliedBoards]
+          }
+        } else if (featureId === 'news' && uniqueItems?.news) {
+          const incoming = Array.isArray(uniqueItems.news)
+            ? uniqueItems.news
+            : []
+          const newItems = incoming.filter((id: unknown) => typeof id === 'string' && !newsItems.includes(id))
+          const remainingForItems = limit === -1 ? newItems.length : Math.max(0, limit - usageBefore)
+          const appliedItems = limit === -1 ? newItems : newItems.slice(0, remainingForItems)
+          appliedDelta = appliedItems.length
+          nextUsed = usageBefore + appliedDelta
+          if (appliedItems.length > 0) {
+            usageData.news_items = [...newsItems, ...appliedItems]
+          }
+        }
 
         usageData[featureId] = nextUsed
-        usageData.counts = {
-          ...counts,
-          [featureId]: nextUsed
-        }
         usageData.updatedAt = nowUtcISO
         transaction.set(usageRef, usageData)
 

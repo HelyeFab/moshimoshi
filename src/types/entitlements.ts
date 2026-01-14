@@ -78,12 +78,11 @@ export interface PolicyLimits {
   }
 }
 
-export interface UsageBucket {
+export type UsageBucket = {
   userId: string
   date: string // YYYY-MM-DD
-  counts: Partial<Record<FeatureId, number>>
   updatedAt: string
-}
+} & Partial<Record<FeatureId, number>>
 
 export interface EntitlementLog {
   ts: string

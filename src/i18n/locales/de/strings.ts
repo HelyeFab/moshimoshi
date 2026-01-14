@@ -5183,6 +5183,20 @@ export const strings = {
       settingsDescription: 'Fügen Sie Moshimoshi zu Ihrem Startbildschirm für schnellen Zugriff hinzu',
       button: 'App installieren',
       later: 'Später',
+      toast: {
+        message: 'Installieren Sie Moshimoshi für ein besseres Erlebnis.',
+        iosMessage: 'Installieren Sie Moshimoshi für ein besseres Erlebnis. Tippen Sie auf Teilen und dann auf "Zum Home-Bildschirm".',
+        iosInstructions: 'iOS-Installation: Teilen → "Zum Home-Bildschirm".',
+        action: 'Installieren',
+      },
+      toastTest: {
+        title: 'Installations-Toast Vorschau',
+        description: 'Vorschau des Installations-Toasts auf diesem Gerät.',
+        note: 'Unten können Sie den Toast anzeigen oder die Sitzungssperre zurücksetzen.',
+        showButton: 'Installations-Toast anzeigen',
+        resetButton: 'Installationsschutz zurücksetzen',
+        resetSuccess: 'Installationsschutz zurückgesetzt.',
+      },
       benefits: {
         offline: 'Greifen Sie offline auf Ihre Lektionen zu',
         faster: 'Schnellere Ladezeiten',

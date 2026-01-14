@@ -24,6 +24,7 @@ import { LoadingSpinner } from "@/components/ui/Loading";
 import ChannelBanner from "@/components/shadowing/ChannelBanner";
 import YouTubeButton from "@/components/shadowing/YouTubeButton";
 import { useFeature } from "@/hooks/useFeature";
+import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from "@/components/entitlements/FeatureUsageIndicator";
 
 // Session persistence key
 const SESSION_STORAGE_KEY = "moshiPlayerSession";
@@ -83,6 +84,7 @@ function YouTubeShadowingContent() {
   const router = useRouter();
   const pathname = usePathname();
   const { checkAndTrack } = useFeature('youtube_shadowing');
+  const usageData = useFeatureUsage('youtube_shadowing');
   const [videoInput, setVideoInput] = useState("");
   const [videoId, setVideoId] = useState<string | null>(null);
   const [language] = useState("ja");
@@ -605,7 +607,19 @@ function YouTubeShadowingContent() {
         description={t('youtubeShadowing.header.subtitle')}
         subtitle={t('youtubeShadowing.header.eyebrow')}
         backHref="/dashboard"
+        actions={
+          usageData.hasData ? (
+            <DesktopCircularIndicator
+              remaining={usageData.remaining}
+              limitCount={usageData.limitCount}
+              usedCount={usageData.usedCount}
+              color={usageData.color}
+            />
+          ) : null
+        }
       />
+
+      <FeatureUsageIndicator featureId="youtube_shadowing" />
 
       <main className={styles.mainContainer}>
         <div className={styles.primaryLayout}>

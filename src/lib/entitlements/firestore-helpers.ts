@@ -30,7 +30,6 @@ export async function getUsageBucket(userId: string, date: string): Promise<Usag
   const newBucket: UsageBucket = {
     userId,
     date,
-    counts: {},
     updatedAt: new Date().toISOString(),
   }
 
@@ -52,7 +51,7 @@ export function incrementUsage(
   const bucketRef = db.collection('users').doc(userId).collection('usage').doc(date)
 
   transaction.update(bucketRef, {
-    [`counts.${featureId}`]: FieldValue.increment(1),
+    [featureId]: FieldValue.increment(1),
     updatedAt: new Date().toISOString(),
   })
 }
@@ -65,8 +64,8 @@ export async function getTodayUsage(userId: string): Promise<Partial<Record<Feat
   const bucket = await getUsageBucket(userId, today)
 
   return {
-    hiragana_practice: bucket.counts.hiragana_practice || 0,
-    katakana_practice: bucket.counts.katakana_practice || 0,
+    hiragana_practice: bucket.hiragana_practice || 0,
+    katakana_practice: bucket.katakana_practice || 0,
   }
 }
 
@@ -226,7 +225,7 @@ export async function resetFeatureUsage(userId: string, featureId: FeatureId): P
   const bucketRef = db.collection('users').doc(userId).collection('usage').doc(today)
 
   await bucketRef.update({
-    [`counts.${featureId}`]: 0,
+    [featureId]: 0,
     updatedAt: new Date().toISOString(),
   })
 }

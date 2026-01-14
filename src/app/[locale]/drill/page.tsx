@@ -23,6 +23,7 @@ import { useConjugationHelp } from '@/contexts/ConjugationHelpContext'
 import { HelpModal, HelpBanner } from '@/components/conjugation-help'
 import { SRSWordSelector } from '@/lib/drill/srs-word-selector'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 export default function DrillPage() {
   const { t, strings } = useI18n()
@@ -30,6 +31,7 @@ export default function DrillPage() {
   const { user } = useAuth()
   const { subscription } = useSubscription()
   const { checkOnly, remaining } = useFeature('conjugation_drill')
+  const usageData = useFeatureUsage('conjugation_drill')
   const { showToast } = useToast()
   const { alert, showAlert, closeAlert } = useCenteredAlert()
   const { showMultipleHelps } = useConjugationHelp()
@@ -512,7 +514,19 @@ export default function DrillPage() {
         description={strings.drill?.description || 'Practice verb and adjective conjugations'}
         showDoshi
         doshiMood="studying"
+        actions={
+          usageData.hasData ? (
+            <DesktopCircularIndicator
+              remaining={usageData.remaining}
+              limitCount={usageData.limitCount}
+              usedCount={usageData.usedCount}
+              color={usageData.color}
+            />
+          ) : null
+        }
       />
+
+      <FeatureUsageIndicator featureId="conjugation_drill" />
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">

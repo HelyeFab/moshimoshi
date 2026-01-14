@@ -13,6 +13,7 @@ import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { Select } from '@/components/ui/Select'
 import { Story, JLPTLevel } from '@/types/story'
+import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 interface FilterState {
   jlptLevel: 'all' | JLPTLevel
@@ -136,6 +137,8 @@ export default function StoriesPage() {
 
       {/* LearningPageHeader with only required props */}
       <LearningPageHeader title={t('stories.title')} description={t('stories.description')} mascot="none" />
+
+      <FeatureUsageIndicator featureId="story" />
 
       {/* Filters */}
       <div className="container mx-auto px-4 py-6">

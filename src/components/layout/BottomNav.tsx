@@ -32,7 +32,8 @@ import {
 } from 'react-icons/ri'
 import { cn } from '@/lib/utils'
 import { useI18n } from '@/i18n/I18nContext'
-import { useKeyboardVisible } from '@/hooks/useMediaQuery'
+import { useKeyboardVisible, useIsIOSStandalone } from '@/hooks/useMediaQuery'
+import { BOTTOM_NAV_HEIGHT, BOTTOM_NAV_HEIGHT_IOS_STANDALONE, SAFE_AREA_FALLBACK } from '@/lib/constants/layout'
 import NavHandle from './NavHandle'
 
 export interface NavItem {
@@ -159,6 +160,7 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
   const [showHandle, setShowHandle] = useState(false)
   const { strings, language } = useI18n()
   const isKeyboardVisible = useKeyboardVisible()
+  const isIOSStandalone = useIsIOSStandalone()
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const handleOpenCommandPalette = () => {
@@ -289,12 +291,15 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
     return null
   }
 
+  // Select appropriate navbar height based on platform
+  const navbarHeight = isIOSStandalone ? BOTTOM_NAV_HEIGHT_IOS_STANDALONE : BOTTOM_NAV_HEIGHT
+
   return (
     <>
       {/* Spacer to prevent content from being hidden behind fixed navbar */}
       <div
         className="md:hidden w-full shrink-0 pointer-events-none"
-        style={{ height: 'calc(80px + env(safe-area-inset-bottom, 24px))' }}
+        style={{ height: `calc(${navbarHeight}px + env(safe-area-inset-bottom, ${SAFE_AREA_FALLBACK}px))` }}
         aria-hidden="true"
       />
 
@@ -302,6 +307,7 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
       <NavHandle
         isVisible={showHandle}
         position="bottom"
+        variant="fab"
         onTap={handleHandleTap}
       />
 
@@ -353,14 +359,16 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
 
                 // Layout: Scrollable horizontal list
                 'flex items-center justify-start gap-2',
-                'px-4 py-3',
+                'px-4 py-2',
                 'overflow-x-auto scrollbar-hide'
               )}
               style={{
                 // Ensure proper safe area support for all devices (iPhone X+)
-                // Uses calc to ensure minimum padding + safe area
-                // Increased base padding to 16px to cover potential unreported safe areas (Android gesture bar)
-                paddingBottom: 'calc(16px + env(safe-area-inset-bottom, 0px))',
+                // iOS standalone mode: ultra-tight padding (2px) - safe area is reliable
+                // Other modes: conservative padding (6px) for safety
+                paddingBottom: isIOSStandalone
+                  ? 'calc(2px + env(safe-area-inset-bottom, 0px))'
+                  : 'calc(6px + env(safe-area-inset-bottom, 0px))',
               }}
             >
               {NAV_ITEMS.map(item => {

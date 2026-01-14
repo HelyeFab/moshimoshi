@@ -26,6 +26,7 @@ import { SessionStatistics } from '@/lib/review-engine/core/session.types'
 import { kanjiProgressManager, type KanjiProgressData } from '@/utils/kanjiProgressManager'
 import Navbar from '@/components/layout/Navbar'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 // All gamification uses Event Hub (global singleton)
 // ReviewSessionUI handles initialization automatically
@@ -751,6 +752,8 @@ function KanjiBrowserContent() {
         onStartReview={handleStartReview}
         hideBottomBar={isSearchFocused || showDrawingSearch}
       />
+
+      <FeatureUsageIndicator featureId="kanji_browser" />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-7xl">

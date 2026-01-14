@@ -17,6 +17,8 @@
     "backfill:stories": "npm run build && node lib/functions/src/scripts/backfillStoryWordExplanations.js",
     "backfill:books:dry": "npm run build && node lib/functions/src/scripts/backfillBookWordExplanations.js --dry-run",
     "backfill:books": "npm run build && node lib/functions/src/scripts/backfillBookWordExplanations.js",
+    "backfill:vocab:dry": "npm run build && node lib/functions/src/scripts/backfillTextbookVocabularyAudio.js --dry-run",
+    "backfill:vocab": "npm run build && node lib/functions/src/scripts/backfillTextbookVocabularyAudio.js",
     "sync:word-status:dry": "npm run build && node lib/functions/src/scripts/syncWordExplanationStatus.js --dry-run",
     "sync:word-status": "npm run build && node lib/functions/src/scripts/syncWordExplanationStatus.js"
   },

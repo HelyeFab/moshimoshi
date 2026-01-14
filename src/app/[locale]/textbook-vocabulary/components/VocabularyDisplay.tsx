@@ -81,7 +81,7 @@ export function VocabularyDisplay({
   onLessonChange,
 }: VocabularyDisplayProps) {
   const { strings } = useI18n()
-  const { play, isPlaying } = useTTS()
+  const { play, isPlaying, preload } = useTTS({ cacheFirst: true })
   const [vocabulary, setVocabulary] = useState<VocabularyItem[]>([])
   const [filteredVocab, setFilteredVocab] = useState<VocabularyItem[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -137,6 +137,37 @@ export function VocabularyDisplay({
     onFilteredVocabularyChange?.(filtered)
   }, [vocabulary, selectedLesson, searchQuery, onFilteredVocabularyChange])
 
+  // Preload audio for visible vocabulary items
+  useEffect(() => {
+    if (filteredVocab.length === 0) return
+
+    // Preload first 20 visible items based on view mode
+    const visibleCount = viewMode === 'grid' ? 20 : viewMode === 'list' ? 15 : 10
+    const visibleItems = filteredVocab.slice(0, visibleCount)
+
+    const textsToPreload: string[] = []
+    visibleItems.forEach(item => {
+      textsToPreload.push(item.japanese)
+      if (item.reading && item.reading !== item.japanese) {
+        textsToPreload.push(item.reading)
+      }
+    })
+
+    // Preload in chunks of 10 to avoid overwhelming API
+    const chunkSize = 10
+    for (let i = 0; i < textsToPreload.length; i += chunkSize) {
+      const chunk = textsToPreload.slice(i, i + chunkSize)
+      const chunkIndex = i / chunkSize
+
+      // Stagger requests by 1s to be gentle on the API
+      setTimeout(() => {
+        preload(chunk).catch(err => {
+          console.warn('[VocabularyDisplay] Preload failed:', err)
+        })
+      }, chunkIndex * 1000)
+    }
+  }, [filteredVocab, viewMode, preload])
+
   // Handle lesson change
   const handleLessonChange = useCallback((lesson: number | 'all') => {
     setSelectedLesson(lesson)
@@ -168,7 +199,7 @@ export function VocabularyDisplay({
 
   const handlePlayAudio = async (text: string, e?: React.MouseEvent) => {
     e?.stopPropagation()
-    await play(text, { voice: 'ja-JP' })
+    await play(text)
   }
 
   const handleWordClick = (word: VocabularyItem) => {

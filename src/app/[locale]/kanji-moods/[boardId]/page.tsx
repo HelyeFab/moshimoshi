@@ -1,12 +1,12 @@
 'use client'
 
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useRouter, useParams } from 'next/navigation'
 import { useMoodBoards } from '@/hooks/useMoodBoards'
-import { MoodBoard as MoodBoardType } from '@/types/moodboard'
-import { getBoardProgress, toggleKanjiLearned, isKanjiLearned } from '@/utils/moodBoardProgress'
+import { MoodBoard as MoodBoardType, BoardProgress } from '@/types/moodboard'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
+import { useSubscription } from '@/hooks/useSubscription'
 import Navbar from '@/components/layout/Navbar'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
@@ -16,6 +16,9 @@ import { Kanji } from '@/types/kanji'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { kanjiService } from '@/services/kanjiService'
 import { useFeature } from '@/hooks/useFeature'
+import { moodBoardProgressManager } from '@/utils/moodBoardProgressManager'
+import { motion, AnimatePresence } from 'framer-motion'
+import { IoCheckmarkCircle, IoInformationCircle, IoClose } from 'react-icons/io5'
 
 export default function MoodBoardDetailPage() {
   const router = useRouter()
@@ -25,17 +28,19 @@ export default function MoodBoardDetailPage() {
   const { t } = useI18n()
   const { showToast } = useToast()
   const { user } = useAuth()
+  const { isPremium } = useSubscription()
   const { moodBoards, loading } = useMoodBoards()
   const { checkAndTrack } = useFeature('kanji_mood_board')
 
   const [board, setBoard] = useState<MoodBoardType | null>(null)
-  const [progress, setProgress] = useState(getBoardProgress(boardId))
+  const [progress, setProgress] = useState<BoardProgress | null>(null)
   const [viewMode, setViewMode] = useState<'grid' | 'study' | 'list'>('grid')
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [showCompleted, setShowCompleted] = useState(true)
   const [selectedKanji, setSelectedKanji] = useState<Kanji | null>(null)
   const [enrichedKanjiMap, setEnrichedKanjiMap] = useState<Map<string, Kanji>>(new Map())
   const [entitlementChecked, setEntitlementChecked] = useState(false)
+  const [isFlipped, setIsFlipped] = useState(false)
 
   // Find the board
   useEffect(() => {
@@ -53,7 +58,7 @@ export default function MoodBoardDetailPage() {
   useEffect(() => {
     const checkAccess = async () => {
       if (!boardId) return
-      const allowed = await checkAndTrack({ showUI: true })
+      const allowed = await checkAndTrack({ showUI: true, metadata: { boardId } })
       setEntitlementChecked(true)
       if (!allowed) {
         router.push('/kanji-moods')
@@ -63,10 +68,35 @@ export default function MoodBoardDetailPage() {
     checkAccess()
   }, [boardId, checkAndTrack, router])
 
-  // Update progress when board changes
   useEffect(() => {
-    setProgress(getBoardProgress(boardId))
-  }, [boardId])
+    let isActive = true
+
+    const loadProgress = async () => {
+      if (!user?.uid || !board) {
+        if (isActive) setProgress(null)
+        return
+      }
+
+      try {
+        await moodBoardProgressManager.migrateFromLocalStorage(user, isPremium ?? false)
+        const boardProgress = await moodBoardProgressManager.getBoardProgress(
+          user,
+          isPremium ?? false,
+          boardId,
+          board.kanji.length
+        )
+        if (isActive) setProgress(boardProgress)
+      } catch (error) {
+        console.error('Error loading progress:', error)
+      }
+    }
+
+    loadProgress()
+
+    return () => {
+      isActive = false
+    }
+  }, [user?.uid, isPremium, board, boardId])
 
   // Enrich moodboard kanji with local kanji data (readings, examples, etc.)
   useEffect(() => {
@@ -81,21 +111,48 @@ export default function MoodBoardDetailPage() {
     enrichKanji()
   }, [board])
 
-  const handleToggleKanji = (kanjiChar: string) => {
-    if (!board) return
-    const newProgress = toggleKanjiLearned(boardId, kanjiChar, board.kanji.length)
+  // Reset flip state when card changes
+  useEffect(() => {
+    setIsFlipped(false)
+  }, [currentCardIndex])
+
+  const handleToggleKanji = async (kanjiChar: string) => {
+    if (!board || !user?.uid) return
+
+    await moodBoardProgressManager.toggleKanjiLearned(
+      boardId,
+      kanjiChar,
+      user,
+      isPremium ?? false
+    )
+
+    const newProgress = await moodBoardProgressManager.getBoardProgress(
+      user,
+      isPremium ?? false,
+      boardId,
+      board.kanji.length
+    )
     setProgress(newProgress)
 
-    // Show toast on completion
     if (newProgress.progressPercentage === 100 && newProgress.completedAt) {
       showToast(`${t('congratulations')}: ${t('moodboards.boardCompleted')}`, 'success')
     }
   }
 
+  const learnedSet = useMemo(
+    () => new Set(progress?.learnedKanji || []),
+    [progress]
+  )
+
+  const isKanjiLearned = useCallback(
+    (kanjiChar: string) => learnedSet.has(kanjiChar),
+    [learnedSet]
+  )
+
   const handleStudyMode = () => {
     setViewMode('study')
     // Start with first unlearned kanji
-    const firstUnlearnedIndex = board?.kanji.findIndex(k => !isKanjiLearned(boardId, k.char)) ?? 0
+    const firstUnlearnedIndex = board?.kanji.findIndex(k => !isKanjiLearned(k.char)) ?? 0
     setCurrentCardIndex(firstUnlearnedIndex === -1 ? 0 : firstUnlearnedIndex)
   }
 
@@ -146,7 +203,7 @@ export default function MoodBoardDetailPage() {
     if (!board) return []
     return showCompleted
       ? transformedKanji
-      : transformedKanji.filter(k => !isKanjiLearned(boardId, k.kanji))
+      : transformedKanji.filter(k => !isKanjiLearned(k.kanji))
   }, [board, showCompleted, transformedKanji, boardId])
 
   if (loading || !board || !entitlementChecked) {
@@ -171,6 +228,7 @@ export default function MoodBoardDetailPage() {
           total: totalCount,
           learned: learnedCount,
         }}
+        backHref="/kanji-moods"
       />
 
       {/* Action Controls */}
@@ -226,7 +284,7 @@ export default function MoodBoardDetailPage() {
         {viewMode === 'grid' && (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
             {displayKanji.map(kanji => {
-              const isLearned = isKanjiLearned(boardId, kanji.kanji)
+              const isLearned = isKanjiLearned(kanji.kanji)
               return (
                 <div
                   key={kanji.kanji}
@@ -275,87 +333,211 @@ export default function MoodBoardDetailPage() {
         )}
 
         {viewMode === 'study' && displayKanji.length > 0 && (
-          <div className="max-w-lg mx-auto">
-            <div className="mb-4 text-center">
-              <span className="text-sm text-muted-foreground dark:text-dark-400">
-                {t('common.card')} {currentCardIndex + 1} / {displayKanji.length}
-              </span>
-            </div>
-
-            {/* Study Card */}
-            <div
-              className="bg-white dark:bg-dark-800 rounded-lg shadow-xl p-8 cursor-pointer"
-              onClick={() => setSelectedKanji(displayKanji[currentCardIndex])}
+          <div className="min-h-[calc(100vh-400px)] flex flex-col items-center justify-center p-4 relative">
+            {/* Exit Button - Top Right */}
+            <button
+              onClick={() => setViewMode('grid')}
+              className="absolute top-4 right-4 p-3 rounded-xl bg-gray-100 dark:bg-dark-700
+                       hover:bg-gray-200 dark:hover:bg-dark-600
+                       text-gray-600 dark:text-gray-400
+                       transition-all transform hover:scale-105 active:scale-95 z-10"
+              title="Exit Study"
             >
-              <div className="text-6xl font-bold text-center mb-4 font-japanese">
-                {displayKanji[currentCardIndex].kanji}
+              <IoClose className="w-6 h-6" />
+            </button>
+
+            {/* Progress Indicator */}
+            <div className="w-full max-w-2xl mb-8">
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  {currentCardIndex + 1} / {displayKanji.length}
+                </span>
+                <span className="text-sm text-gray-600 dark:text-gray-400">
+                  {isKanjiLearned(displayKanji[currentCardIndex].kanji) ? 'Learned' : 'Not Started'}
+                </span>
               </div>
-              <div className="text-xl text-center text-gray-700 dark:text-gray-300 mb-4">
-                {displayKanji[currentCardIndex].meaning}
+              <div className="h-2 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-primary-400 to-primary-600 transition-all duration-300"
+                  style={{ width: `${((currentCardIndex + 1) / displayKanji.length) * 100}%` }}
+                />
               </div>
-              <div className="space-y-2">
-                {displayKanji[currentCardIndex].onyomi.length > 0 && (
-                  <div className="text-center">
-                    <span className="text-sm text-gray-500">On: </span>
-                    <span className="font-japanese">
-                      {displayKanji[currentCardIndex].onyomi.join('、')}
-                    </span>
-                  </div>
-                )}
-                {displayKanji[currentCardIndex].kunyomi.length > 0 && (
-                  <div className="text-center">
-                    <span className="text-sm text-gray-500">Kun: </span>
-                    <span className="font-japanese">
-                      {displayKanji[currentCardIndex].kunyomi.join('、')}
-                    </span>
-                  </div>
-                )}
+            </div>
+
+            {/* Main Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="relative"
+            >
+              <div
+                className="relative w-80 h-80 md:w-96 md:h-96 cursor-pointer"
+                onClick={() => setIsFlipped(!isFlipped)}
+              >
+                <AnimatePresence mode="wait">
+                  {!isFlipped ? (
+                    <motion.div
+                      key="front"
+                      initial={{ rotateY: 0 }}
+                      animate={{ rotateY: 0 }}
+                      exit={{ rotateY: 90 }}
+                      transition={{ duration: 0.3 }}
+                      className="absolute inset-0 bg-white dark:bg-dark-800 rounded-2xl shadow-2xl
+                               border-2 border-gray-200 dark:border-dark-600
+                               flex flex-col items-center justify-center p-8
+                               hover:scale-[1.02] transition-transform duration-200"
+                    >
+                      {/* Kanji Display */}
+                      <div className="text-8xl font-bold text-gray-800 dark:text-gray-200 mb-4"
+                           style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+                        {displayKanji[currentCardIndex].kanji}
+                      </div>
+
+                      <p className="absolute bottom-4 text-xs text-gray-400 dark:text-gray-600">
+                        Tap to flip
+                      </p>
+                    </motion.div>
+                  ) : (
+                    <motion.div
+                      key="back"
+                      initial={{ rotateY: -90 }}
+                      animate={{ rotateY: 0 }}
+                      exit={{ rotateY: 90 }}
+                      transition={{ duration: 0.3 }}
+                      className="absolute inset-0 bg-gradient-to-br from-primary-50 to-primary-100
+                               dark:bg-gradient-to-br dark:from-surface-dark dark:to-background-darkElevated
+                               rounded-2xl shadow-2xl border-2 border-primary-200 dark:border-primary-400
+                               p-8 overflow-y-auto scrollbar-hide"
+                      style={{
+                        scrollbarWidth: 'none',
+                        msOverflowStyle: 'none'
+                      }}
+                    >
+                      {/* Kanji in top-right corner */}
+                      <div className="absolute top-6 right-6 text-5xl font-bold text-gray-800 dark:text-gray-200"
+                           style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+                        {displayKanji[currentCardIndex].kanji}
+                      </div>
+
+                      {/* Content */}
+                      <div className="space-y-6">
+                        <h3 className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                          Information:
+                        </h3>
+
+                        {/* Meaning pill */}
+                        <div className="space-y-2">
+                          <div className="text-sm text-gray-600 dark:text-gray-300">Meaning</div>
+                          <div className="w-full px-4 py-3 rounded-xl bg-slate-100 dark:bg-slate-800
+                                       border border-slate-200 dark:border-slate-600">
+                            <span className="text-lg font-semibold text-slate-800 dark:text-slate-100">
+                              {displayKanji[currentCardIndex].meaning}
+                            </span>
+                          </div>
+                        </div>
+
+                        {/* Onyomi pill */}
+                        {displayKanji[currentCardIndex].onyomi && displayKanji[currentCardIndex].onyomi.length > 0 && displayKanji[currentCardIndex].onyomi[0] !== '' && (
+                          <div className="space-y-2">
+                            <div className="text-sm text-gray-600 dark:text-gray-300">On'yomi</div>
+                            <div className="w-full px-4 py-3 rounded-xl bg-sky-50 dark:bg-sky-900/30
+                                         border border-sky-200 dark:border-sky-800">
+                              <div className="flex flex-wrap gap-2 justify-center items-center">
+                                {displayKanji[currentCardIndex].onyomi.filter(r => r).map((reading, idx) => (
+                                  <span key={idx} className="text-lg font-semibold text-sky-800 dark:text-sky-200">
+                                    {reading}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Kunyomi pill */}
+                        {displayKanji[currentCardIndex].kunyomi && displayKanji[currentCardIndex].kunyomi.length > 0 && displayKanji[currentCardIndex].kunyomi[0] !== '' && (
+                          <div className="space-y-2">
+                            <div className="text-sm text-gray-600 dark:text-gray-300">Kun'yomi</div>
+                            <div className="w-full px-4 py-3 rounded-xl bg-emerald-50 dark:bg-emerald-900/30
+                                         border border-emerald-200 dark:border-emerald-800">
+                              <div className="flex flex-wrap gap-2 justify-center items-center">
+                                {displayKanji[currentCardIndex].kunyomi.filter(r => r).map((reading, idx) => (
+                                  <span key={idx} className="text-lg font-semibold text-emerald-800 dark:text-emerald-200">
+                                    {reading}
+                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
+            </motion.div>
+
+            {/* Action Buttons - Icon only */}
+            <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
               <button
-                onClick={e => {
+                onClick={(e) => {
                   e.stopPropagation()
-                  handleToggleKanji(displayKanji[currentCardIndex].kanji)
+                  setSelectedKanji(displayKanji[currentCardIndex])
                 }}
-                className={`mt-4 w-full py-2 px-4 rounded-lg transition-colors ${
-                  isKanjiLearned(boardId, displayKanji[currentCardIndex].kanji)
-                    ? 'bg-green-500 hover:bg-green-600 text-white'
-                    : 'bg-gray-200 dark:bg-dark-700 hover:bg-gray-300 dark:hover:bg-dark-600'
+                className="p-4 rounded-xl bg-purple-100 dark:bg-purple-900/30
+                         hover:bg-purple-200 dark:hover:bg-purple-900/40
+                         border border-purple-200 dark:border-purple-800
+                         text-purple-700 dark:text-purple-400
+                         transition-all transform hover:scale-105 active:scale-95"
+                title="Details"
+              >
+                <IoInformationCircle className="w-6 h-6" />
+              </button>
+
+              <button
+                onClick={() => {
+                  handleToggleKanji(displayKanji[currentCardIndex].kanji)
+                  setTimeout(handleNextCard, 500)
+                }}
+                className={`p-4 rounded-xl transition-all shadow-lg transform hover:scale-105 active:scale-95 ${
+                  isKanjiLearned(displayKanji[currentCardIndex].kanji)
+                    ? 'bg-gray-400 text-white shadow-gray-400/30'
+                    : 'bg-green-500 text-white shadow-green-500/30 hover:bg-green-600'
                 }`}
+                title={isKanjiLearned(displayKanji[currentCardIndex].kanji) ? 'Learned' : 'Mark as Learned'}
               >
-                {isKanjiLearned(boardId, displayKanji[currentCardIndex].kanji)
-                  ? t('common.learned')
-                  : t('common.markAsLearned')}
+                <IoCheckmarkCircle className="w-6 h-6" />
               </button>
             </div>
 
-            <div className="flex justify-between items-center mt-6">
-              <button
-                onClick={handlePreviousCard}
-                className="px-4 py-2 bg-gray-100 dark:bg-dark-700 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-600"
-              >
-                {t('common.previous')}
-              </button>
+            {/* Navigation */}
+            {displayKanji.length > 1 && (
+              <div className="flex items-center justify-center gap-4 w-full max-w-2xl mt-8">
+                <button
+                  onClick={handlePreviousCard}
+                  className="p-3 rounded-xl bg-gray-100 dark:bg-dark-700
+                           hover:bg-gray-200 dark:hover:bg-dark-600
+                           transition-all transform hover:scale-105 active:scale-95"
+                  title="Previous"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
 
-              <div className="flex gap-1">
-                {board.kanji.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentCardIndex(index)}
-                    className={`w-2 h-2 rounded-full transition-colors ${
-                      index === currentCardIndex ? 'bg-primary-600' : 'bg-gray-300 dark:bg-dark-600'
-                    }`}
-                    aria-label={`Go to card ${index + 1}`}
-                  />
-                ))}
+                <button
+                  onClick={handleNextCard}
+                  className="p-3 rounded-xl bg-gray-100 dark:bg-dark-700
+                           hover:bg-gray-200 dark:hover:bg-dark-600
+                           transition-all transform hover:scale-105 active:scale-95"
+                  title="Next"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
               </div>
-
-              <button
-                onClick={handleNextCard}
-                className="px-4 py-2 bg-gray-100 dark:bg-dark-700 rounded-lg hover:bg-gray-200 dark:hover:bg-dark-600"
-              >
-                {t('common.next')}
-              </button>
-            </div>
+            )}
           </div>
         )}
 
@@ -373,7 +555,7 @@ export default function MoodBoardDetailPage() {
                     handleToggleKanji(kanji.kanji)
                   }}
                   className={`p-2 rounded-full transition-colors ${
-                    isKanjiLearned(boardId, kanji.kanji)
+                    isKanjiLearned(kanji.kanji)
                       ? 'bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400'
                       : 'bg-gray-100 dark:bg-dark-700 text-gray-400 dark:text-dark-400'
                   }`}

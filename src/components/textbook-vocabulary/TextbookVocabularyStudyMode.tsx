@@ -140,22 +140,13 @@ export default function TextbookVocabularyStudyMode({
     }
 
     if (textsToPreload.length > 0) {
-      preload(textsToPreload, {
-        voice: 'ja-JP',
-        rate: 0.9,
-        pitch: 1.0
-      })
+      preload(textsToPreload)
     }
   }, [vocabulary.id])
 
   const handlePlayAudio = async (text: string) => {
     try {
-      await play(text, {
-        voice: 'ja-JP',
-        rate: 0.9,
-        pitch: 1.0,
-        volume: 1.0
-      })
+      await play(text)
     } catch (error) {
       console.error('TTS playback failed:', error)
 

@@ -6,7 +6,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { adminDb } from '@/lib/firebase/admin';
+import { adminDb, FieldValue } from '@/lib/firebase/admin';
 import { getSession } from '@/lib/auth/session';
 import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator';
 import type { EvalContext } from '@/lib/entitlements/evaluator';
@@ -35,6 +35,12 @@ export async function POST(
       typeof body?.idempotencyKey === 'string' && body.idempotencyKey.trim().length > 0
         ? body.idempotencyKey.trim()
         : null;
+    const itemId =
+      typeof body?.itemId === 'string' && body.itemId.trim().length > 0
+        ? body.itemId.trim()
+        : typeof body?.boardId === 'string' && body.boardId.trim().length > 0
+          ? body.boardId.trim()
+          : null;
 
     // 3. Get session and user data
     const session = await getSession();
@@ -78,16 +84,28 @@ export async function POST(
     const nowUtc = new Date().toISOString();
     const bucketKey = getBucketKey(featureId, userId || 'guest', nowUtc);
     let currentUsage = 0;
-    let existingCounts: Record<string, number> = {};
+    let moodboardBoards = null;
+    let newsItems = null;
 
     if (userId && adminDb) {
       try {
         const usageRef = adminDb.collection('users').doc(userId).collection('usage').doc(bucketKey);
         const usageDoc = await usageRef.get();
-        const usageData = (usageDoc.data() as Record<string, unknown> | undefined) || {};
-        const counts = (usageData.counts as Record<string, number> | undefined) || {};
-        existingCounts = counts;
-        currentUsage = (usageData[featureId] as number | undefined) ?? counts[featureId] ?? 0;
+        const usageData = (usageDoc.data() as Partial<Record<FeatureId, number>> | undefined) || {};
+        currentUsage = usageData[featureId] ?? 0;
+        const boards = Array.isArray((usageData as any).kanji_mood_board_boards)
+          ? (usageData as any).kanji_mood_board_boards
+          : null;
+        const items = Array.isArray((usageData as any).news_items)
+          ? (usageData as any).news_items
+          : null;
+        moodboardBoards = boards;
+        newsItems = items;
+        if (featureId === 'kanji_mood_board' && Array.isArray(boards)) {
+          currentUsage = boards.length;
+        } else if (featureId === 'news' && Array.isArray(items)) {
+          currentUsage = items.length;
+        }
       } catch (error) {
         console.error('Error fetching usage:', error);
       }
@@ -102,20 +120,40 @@ export async function POST(
     };
 
     const decision = evaluate(featureId, evalContext);
+    const isRepeat =
+      !!itemId &&
+      ((featureId === 'kanji_mood_board' &&
+        Array.isArray(moodboardBoards) &&
+        moodboardBoards.includes(itemId)) ||
+        (featureId === 'news' &&
+          Array.isArray(newsItems) &&
+          newsItems.includes(itemId)));
 
     // 7. If allowed, increment usage
-    if (decision.allow && userId && adminDb) {
+    if (decision.allow && userId && adminDb && !isRepeat) {
       try {
         const usageRef = adminDb.collection('users').doc(userId).collection('usage').doc(bucketKey);
-        await usageRef.set({
-          [featureId]: currentUsage + 1,
-          counts: {
-            ...existingCounts,
-            [featureId]: currentUsage + 1
-          },
-          updatedAt: nowUtc,
-          lastUpdated: nowUtc
-        }, { merge: true });
+        if (featureId === 'kanji_mood_board' && itemId) {
+          await usageRef.set({
+            [featureId]: currentUsage + 1,
+            kanji_mood_board_boards: FieldValue.arrayUnion(itemId),
+            updatedAt: nowUtc,
+            lastUpdated: nowUtc
+          }, { merge: true });
+        } else if (featureId === 'news' && itemId) {
+          await usageRef.set({
+            [featureId]: currentUsage + 1,
+            news_items: FieldValue.arrayUnion(itemId),
+            updatedAt: nowUtc,
+            lastUpdated: nowUtc
+          }, { merge: true });
+        } else {
+          await usageRef.set({
+            [featureId]: currentUsage + 1,
+            updatedAt: nowUtc,
+            lastUpdated: nowUtc
+          }, { merge: true });
+        }
 
         // Update decision with new usage
         const limit = decision.limit ?? 0;
@@ -123,6 +161,10 @@ export async function POST(
       } catch (error) {
         console.error('Error updating usage:', error);
       }
+    }
+    if (isRepeat) {
+      decision.allow = true;
+      decision.reason = 'ok';
     }
 
     // 8. Store idempotency decision

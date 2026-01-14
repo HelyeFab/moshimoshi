@@ -19,6 +19,7 @@ export async function GET(
   try {
     const { featureId: featureIdParam } = await params;
     const featureId = featureIdParam as FeatureId;
+    const itemId = request.nextUrl.searchParams.get('itemId') || request.nextUrl.searchParams.get('boardId');
 
     // Validate feature ID
     if (!VALID_FEATURES.has(featureId)) {
@@ -59,29 +60,66 @@ export async function GET(
       .doc(bucket);
 
     const usageDoc = await usageRef.get();
-    const usageData = (usageDoc.data() as Record<string, unknown> | undefined) || {};
-    const counts = (usageData.counts as Record<string, number> | undefined) || {};
-    const currentUsage = (usageData[featureId] as number | undefined) ?? counts[featureId] ?? 0;
+    const usageData = (usageDoc.data() as Partial<Record<FeatureId, number>> | undefined) || {};
+    const currentUsage = usageData[featureId] ?? 0;
+    const moodboardBoards = Array.isArray((usageData as any).kanji_mood_board_boards)
+      ? (usageData as any).kanji_mood_board_boards
+      : null;
+    const newsItems = Array.isArray((usageData as any).news_items)
+      ? (usageData as any).news_items
+      : null;
+    const moodboardUsage = moodboardBoards ? moodboardBoards.length : currentUsage;
+    const newsUsage = newsItems ? newsItems.length : currentUsage;
 
     // Build evaluation context
     const context: EvalContext = {
       userId: session.uid,
       plan: plan as any,
-      usage: { [featureId]: currentUsage },
+      usage: {
+        [featureId]:
+          featureId === 'kanji_mood_board'
+            ? moodboardUsage
+            : featureId === 'news'
+              ? newsUsage
+              : currentUsage
+      },
       nowUtcISO: nowUtcISO
     };
 
     // Evaluate without incrementing
     const decision = evaluate(featureId, context);
+    const isRepeat =
+      typeof itemId === 'string' &&
+      itemId.length > 0 &&
+      ((featureId === 'kanji_mood_board' &&
+        Array.isArray(moodboardBoards) &&
+        moodboardBoards.includes(itemId)) ||
+        (featureId === 'news' &&
+          Array.isArray(newsItems) &&
+          newsItems.includes(itemId)));
+
+    const resolvedDecision = isRepeat
+      ? {
+          ...decision,
+          allow: true,
+          reason: 'ok',
+          remaining: decision.remaining,
+        }
+      : decision;
 
     // Add additional metadata for the client
     const response = {
-      ...decision,
+      ...resolvedDecision,
       featureId,
-      currentUsage,
+      currentUsage:
+        featureId === 'kanji_mood_board'
+          ? moodboardUsage
+          : featureId === 'news'
+            ? newsUsage
+            : currentUsage,
       bucketKey: bucket,
       plan,
-      resetAtLocal: decision.resetAtUtc ? new Date(decision.resetAtUtc).toLocaleString() : undefined
+      resetAtLocal: resolvedDecision.resetAtUtc ? new Date(resolvedDecision.resetAtUtc).toLocaleString() : undefined
     };
 
     return NextResponse.json(response);

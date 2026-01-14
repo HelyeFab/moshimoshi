@@ -12,10 +12,14 @@ export function PWAInstallPrompt() {
   const [showPrompt, setShowPrompt] = useState(false)
   const [showIOSInstructions, setShowIOSInstructions] = useState(false)
   const [isInstalling, setIsInstalling] = useState(false)
+  const toastGuardKey = 'pwa_install_toast_shown'
 
   useEffect(() => {
     // Don't show if criteria not met (manager handles all anti-harassment logic)
     if (!a2hsManager.shouldShowPrompt()) return
+    if (typeof window !== 'undefined' && sessionStorage.getItem(toastGuardKey) === 'true') {
+      return
+    }
 
     // Show after platform-appropriate delay
     const delay = a2hsManager.getRecommendedDelay()
@@ -25,6 +29,21 @@ export function PWAInstallPrompt() {
     }, delay)
 
     return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+
+    const handleInstallRequest = () => {
+      setShowPrompt(true)
+      setShowIOSInstructions(false)
+      a2hsManager.markPromptShown()
+    }
+
+    window.addEventListener('pwa:install-request', handleInstallRequest as EventListener)
+    return () => {
+      window.removeEventListener('pwa:install-request', handleInstallRequest as EventListener)
+    }
   }, [])
 
   const handleInstall = useCallback(async () => {

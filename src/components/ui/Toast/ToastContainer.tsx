@@ -12,13 +12,13 @@ export default function ToastContainer() {
 
     switch (position) {
       case 'top':
-        return `${base} top-0 left-1/2 -translate-x-1/2 items-center`;
+        return `${base} left-1/2 -translate-x-1/2 items-center toast-top`;
       case 'bottom':
         return `${base} bottom-0 left-1/2 -translate-x-1/2 items-center`;
       case 'top-left':
-        return `${base} top-0 left-0 items-start`;
+        return `${base} left-0 items-start toast-top`;
       case 'top-right':
-        return `${base} top-0 right-0 items-end`;
+        return `${base} right-0 items-end toast-top`;
       case 'bottom-left':
         return `${base} bottom-0 left-0 items-start`;
       case 'bottom-right':
