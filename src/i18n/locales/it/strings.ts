@@ -428,6 +428,7 @@ export const strings = {
     and: 'e',
     with: 'con',
     retry: 'Riprova',
+    restart: 'Riavvia',
     free: 'GRATIS',
     premium: 'PREMIUM',
     premiumOnly: 'Solo Premium',
@@ -4241,6 +4242,8 @@ export const strings = {
       uploading: 'Caricamento sul cloud',
       decksSynced: '{count} mazzi sincronizzati',
       deckSyncComplete: 'Sincronizzazione mazzi completata',
+      restoringUserDecks: 'Ripristino dei tuoi mazzi... ({{current}}/{{total}})',
+      userDecksComplete: '{{count}} mazzi utente ripristinati',
     },
     errors: {
       loadFailed: 'Caricamento fallito',

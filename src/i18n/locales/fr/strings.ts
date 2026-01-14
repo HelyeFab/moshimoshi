@@ -136,6 +136,7 @@ export const strings = {
     and: 'et',
     with: 'avec',
     retry: 'Réessayer',
+    restart: 'Redémarrer',
     free: 'GRATUIT',
     premium: 'PREMIUM',
     premiumOnly: 'Premium Uniquement',
@@ -4121,6 +4122,8 @@ export const strings = {
       uploading: 'Chargement vers le cloud',
       decksSynced: '{count} paquets synchronisés',
       deckSyncComplete: 'Synchronisation des paquets terminée',
+      restoringUserDecks: 'Restauration de vos paquets... ({{current}}/{{total}})',
+      userDecksComplete: '{{count}} paquets utilisateur restaurés',
     },
     errors: {
       loadFailed: 'Échec du chargement',

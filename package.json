@@ -7,7 +7,7 @@
     "dev": "WATCHPACK_IGNORED=\"**/01_PRODUCTION_DOCS/**,**/moshi-comics/**,**/notebooklm-backups/**,**/docs/**,**/.git/**\" node ./scripts/dev-with-backup.js",
     "dev:no-backup": "WATCHPACK_IGNORED=\"**/01_PRODUCTION_DOCS/**,**/moshi-comics/**,**/notebooklm-backups/**,**/docs/**,**/.git/**\" concurrently \"next dev\" \"npm run notebooklm:watch\"",
     "dev:simple": "WATCHPACK_IGNORED=\"**/01_PRODUCTION_DOCS/**,**/moshi-comics/**,**/notebooklm-backups/**,**/docs/**,**/.git/**\" next dev",
-    "iphone": "WATCHPACK_IGNORED=\"**/01_PRODUCTION_DOCS/**,**/moshi-comics/**,**/notebooklm-backups/**,**/docs/**,**/.git/**\" next dev -p 3026 -H 0.0.0.0",
+    "iphone": "WATCHPACK_IGNORED=\"**/01_PRODUCTION_DOCS/**,**/moshi-comics/**,**/notebooklm-backups/**,**/docs/**,**/.git/**\" next dev -p 3026 -H $(hostname -I | awk '{print $1}')",
     "iphone:stop": "kill -9 $(lsof -ti:3026 2>/dev/null || ss -tlnp 2>/dev/null | grep ':3026' | grep -oP 'pid=\\K[0-9]+') 2>/dev/null || echo 'No process running on port 3026'",
     "build": "rm -rf .next/cache && next build && node scripts/pwa/inject-precache.mjs",
     "build:full": "rm -rf .next && next build && node scripts/pwa/inject-precache.mjs",

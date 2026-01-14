@@ -517,6 +517,7 @@ export const strings = {
     and: 'と',
     with: 'で',
     retry: '再試行',
+    restart: '最初から',
     free: '無料',
     premium: 'プレミアム',
     premiumOnly: 'プレミアム限定',
@@ -4493,6 +4494,8 @@ export const strings = {
       uploading: 'クラウドにアップロード中',
       decksSynced: '{count}デッキが同期されました',
       deckSyncComplete: 'デッキの同期完了',
+      restoringUserDecks: 'デッキを復元中... ({{current}}/{{total}})',
+      userDecksComplete: '{{count}}件のユーザーデッキを復元しました',
     },
     errors: {
       loadFailed: 'デッキの読み込みに失敗',

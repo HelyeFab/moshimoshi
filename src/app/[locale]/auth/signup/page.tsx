@@ -128,76 +128,54 @@ export default function SignUpPage() {
     logger.auth('Google sign up clicked')
     setLoading(true)
     setError('')
-
+    
     try {
       // Use Firebase client SDK for Google auth
-      const { signInWithPopup, signInWithRedirect, GoogleAuthProvider } = await import('firebase/auth')
+      const { signInWithPopup, GoogleAuthProvider } = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
-
+      
       if (!auth) {
         throw new Error('Firebase not initialized')
       }
-
+      
       const provider = new GoogleAuthProvider()
       // Force account selection every time
       provider.setCustomParameters({
         prompt: 'select_account'
       })
-
-      // Detect iOS Safari - popup flow hangs due to cross-origin postMessage issues
-      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-
-      if (isIOS && isSafari) {
-        // Use redirect flow directly for iOS Safari
-        logger.auth('iOS Safari detected, using redirect flow')
-        await signInWithRedirect(auth, provider)
-        return // Redirect will navigate away, session created on return
-      }
-
-      try {
-        const result = await signInWithPopup(auth, provider)
-        logger.auth('Google sign up successful', { email: result.user.email })
-
-        // Get the ID token
-        const idToken = await result.user.getIdToken()
-
-        // Send token to backend to create session
-        const response = await fetch('/api/auth/google', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ idToken })
-        })
-
-        const data = await response.json()
-
-        if (response.ok) {
-          logger.auth('Account created via Google, redirecting to dashboard')
-          const isNewUser = data.isNewUser
-          showToast(isNewUser ? strings.auth.signup.messages.googleNewUser : strings.auth.signup.messages.googleExistingUser, 'success')
-          // Use window.location for a hard redirect to ensure navigation
-          setTimeout(() => {
-            window.location.href = buildLocalePath('/dashboard')
-          }, 100)
-        } else {
-          console.error('Session creation failed:', data.error)
-          const errorMessage = data.error?.message || data.error || strings.auth.signup.errors.sessionCreationFailed
-          setError(getUserFriendlyErrorMessage(errorMessage))
-        }
-      } catch (popupError: any) {
-        // If popup is blocked, use redirect
-        if (popupError.code === 'auth/popup-blocked' ||
-            popupError.code === 'auth/cancelled-popup-request') {
-          logger.auth('Popup blocked, falling back to redirect')
-          await signInWithRedirect(auth, provider)
-          // The redirect will happen, session will be created when user returns
-        } else {
-          throw popupError
-        }
+      
+      const result = await signInWithPopup(auth, provider)
+      logger.auth('Google sign up successful', { email: result.user.email })
+      
+      // Get the ID token
+      const idToken = await result.user.getIdToken()
+      
+      // Send token to backend to create session
+      const response = await fetch('/api/auth/google', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken })
+      })
+      
+      const data = await response.json()
+      
+      if (response.ok) {
+        logger.auth('Account created via Google, redirecting to dashboard')
+        const isNewUser = data.isNewUser
+        showToast(isNewUser ? strings.auth.signup.messages.googleNewUser : strings.auth.signup.messages.googleExistingUser, 'success')
+        // Use window.location for a hard redirect to ensure navigation
+        setTimeout(() => {
+          window.location.href = buildLocalePath('/dashboard')
+        }, 100)
+      } else {
+        console.error('Session creation failed:', data.error)
+        const errorMessage = data.error?.message || data.error || strings.auth.signup.errors.sessionCreationFailed
+        setError(getUserFriendlyErrorMessage(errorMessage))
       }
     } catch (err: any) {
       console.error('Google sign up error:', err)
       setError(getUserFriendlyErrorMessage(err))
+    } finally {
       setLoading(false)
     }
   }

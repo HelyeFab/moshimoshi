@@ -136,6 +136,7 @@ export const strings = {
     and: 'y',
     with: 'con',
     retry: 'Reintentar',
+    restart: 'Reiniciar',
     free: 'GRATIS',
     premium: 'PREMIUM',
     premiumOnly: 'Solo Premium',
@@ -4165,6 +4166,8 @@ export const strings = {
       uploading: 'Subiendo a la nube',
       decksSynced: '{count} mazos sincronizados',
       deckSyncComplete: 'Sincronización de mazos completada',
+      restoringUserDecks: 'Restaurando tus mazos... ({{current}}/{{total}})',
+      userDecksComplete: '{{count}} mazos de usuario restaurados',
     },
     errors: {
       loadFailed: 'Error al cargar',

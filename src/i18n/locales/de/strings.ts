@@ -350,6 +350,7 @@ export const strings = {
     and: 'und',
     with: 'mit',
     retry: 'Wiederholen',
+    restart: 'Neu starten',
     free: 'KOSTENLOS',
     premium: 'PREMIUM',
     premiumOnly: 'Nur Premium',
@@ -4166,6 +4167,8 @@ export const strings = {
       uploading: 'Hochladen in die Cloud',
       decksSynced: '{count} Stapel synchronisiert',
       deckSyncComplete: 'Stapelsynchronisation abgeschlossen',
+      restoringUserDecks: 'Ihre Stapel werden wiederhergestellt... ({{current}}/{{total}})',
+      userDecksComplete: '{{count}} Benutzerstapel wiederhergestellt',
     },
     errors: {
       loadFailed: 'Laden fehlgeschlagen',

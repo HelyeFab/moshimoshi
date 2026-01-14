@@ -536,6 +536,7 @@ export const strings = {
     and: 'and',
     with: 'with',
     retry: 'Retry',
+    restart: 'Restart',
     free: 'FREE',
     premium: 'PREMIUM',
     premiumOnly: 'Premium Only',
