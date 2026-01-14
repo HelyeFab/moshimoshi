@@ -36,18 +36,41 @@ This updates:
 
 - `config/features.v1.json`
   - Plans, features, limits, Stripe mapping.
+- `scripts/gen-entitlements.ts`
+  - Generates `FeatureId` unions, plan limits, registry, and permission map. Run this after every config change.
 - `src/types/FeatureId.ts`
   - Type-safe feature IDs.
 - `src/lib/entitlements/policy.ts`
   - Runtime plan limits and metadata.
+- `src/lib/entitlements/evaluator.ts`
+  - Pure evaluator + bucket helpers consumed by every API route and server utility.
 - `src/lib/features/registry.ts`
   - Feature metadata for UI and logic.
+- `src/lib/pwa/offline-entitlements.ts`
+  - Validates/saves signed entitlement snapshots client-side.
+- `src/lib/pwa/offline-usage.ts`
+  - Owns `usageSnapshot`, `offlineUsageDelta`, dedupe state, and the `/api/usage/sync` payload.
 - `src/components/review-engine/EntitlementGate.tsx`
   - Page-level gating (premium-only pages).
 - `src/hooks/useFeature.ts`
   - Action-level checks (quota gating and tracking).
+- `src/hooks/useAuth.ts`
+  - Refreshes signed snapshots after `/api/auth/session`; seeds offline caches.
+- `src/app/api/entitlements/snapshot/route.ts`
+  - Issues RS256 snapshots (tier proof).
+- `src/app/api/usage/[featureId]/check|increment/route.ts`
+  - Canonical usage APIs for UI + tests.
+- `src/app/api/usage/sync/route.ts`
+  - Reconciles offline deltas when the client reconnects.
 - `src/app/[locale]/pricing/page.tsx`
   - Pricing page, uses `from=<featureId>` in redirects.
+
+### How the pieces fit
+1. Update `config/features.v1.json` → run `npm run gen:entitlements` to regenerate types, registry, and limits.
+2. Server APIs (`/api/usage/*`, `/api/entitlements/snapshot`) call the evaluator + Firestore helpers; treat them as the single source of truth.
+3. Client hooks (`useFeature`, `EntitlementGate`) never guess limits. They call the APIs online and fall back to snapshot + usage caches offline.
+4. Offline deltas are persisted locally (`usageSnapshot`, `offlineUsageDelta`, `offlineUniqueUsage`) and POSTed to `/api/usage/sync` with an idempotency key.
+5. Pricing / upgrade UIs derive data from `useSubscription` (SWR endpoint `/api/user/subscription`) but must not mutate offline gating state.
 
 ## Access Control Patterns
 
@@ -128,6 +151,11 @@ Response includes:
 - `plan`, `limit`, `allow`, `remaining`, `currentUsage`, `bucketKey`, `reason`
 
 This endpoint is used by UI gating, the entitlement hooks, and E2E tests.
+
+Additional endpoints:
+- `POST /api/usage/:featureId/increment` — increments usage atomically with an idempotency key, returns the same decision payload as `/check`.
+- `POST /api/usage/sync` — merges offline deltas (`offlineUsageDelta`, optional `uniqueItems`) and responds with updated snapshots.
+- `GET /api/entitlements/snapshot` — returns the signed snapshot token stored by `storeEntitlementsSnapshotToken()` for offline access.
 
 ## Testing (Required Before Release)
 
@@ -220,3 +248,21 @@ flowchart TD
   H -- Yes --> E
   H -- No --> F
 ```
+
+## Offline entitlements (current implementation)
+
+> The legacy `localStorage.userTier` grace still exists for certain features, but the compliant path (signed snapshot + usage snapshot) should be the default for any new work. See `OFFLINE_ENTITLEMENTS_COMPLIANT_DESIGN.md` for the policy contract.
+
+- Snapshot issuance: `src/app/api/entitlements/snapshot/route.ts` (RS256). Client stores tokens via `storeEntitlementsSnapshotToken()` (`src/lib/pwa/offline-entitlements.ts`).
+- Usage caching & deltas: `src/lib/pwa/offline-usage.ts` handles `usageSnapshot`, `offlineUsageDelta`, and `offlineUniqueUsage`.
+- Hook orchestration: `src/hooks/useFeature.ts` decides whether to call `/api/usage/...` or use the cached snapshot, updates local usage entries, and triggers `/api/usage/sync` once the browser returns online.
+- Unique-item dedupe: `news` and `kanji_mood_board` store item IDs alongside `resetAtUtc` so rereading the same content offline does not consume extra quota.
+- Example: the PWA news cache keeps up to 50 articles for UX reliability (`ARTICLE_CACHE_CONFIG.MAX_CACHED_ARTICLES`), yet the `PLAN_LIMITS` for free users still allow only 2 news reads per day because `useFeature` enforces the snapshot+delta contract.
+
+## Troubleshooting & verification checklist
+
+1. **Config drift** – After editing `config/features.v1.json`, run `npm run gen:entitlements` and review the generated diffs (`FeatureId.ts`, `policy.ts`, `registry.ts`, `permissionMap.ts`).
+2. **Tier cache stale** – If `/api/usage` logs show `plan: guest` for authenticated users, call `invalidateTierCache(userId)` (Redis) or re-run Stripe webhooks to refresh `tierCache`.
+3. **Snapshot failures** – Offline always denies access if `NEXT_PUBLIC_ENTITLEMENTS_PUBLIC_KEY` doesn’t match `ENTITLEMENTS_PRIVATE_KEY` or if `useAuth` skips the `/api/entitlements/snapshot` call.
+4. **Sync mismatches** – Inspect Firestore docs under `users/{uid}/usage/{bucket}` and verify counts live at the top level, bucket IDs come from `getBucketKey()`, and `kanji_mood_board`/`news` arrays persist IDs.
+5. **Testing** – Always run the Playwright suites plus `src/app/api/usage/[featureId]/__tests__/usage.test.ts`. For offline QA, toggle DevTools → Offline, perform some gated actions, then reconnect and watch `/api/usage/sync` + localStorage keys (`usageSnapshot`, `offlineUsageDelta`) clear out.

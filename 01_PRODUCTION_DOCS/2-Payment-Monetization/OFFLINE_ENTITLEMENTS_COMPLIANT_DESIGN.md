@@ -146,6 +146,8 @@ Client storage keys
 - `entitlementsSnapshot` (string, signed JSON)
 - `usageSnapshot` (JSON object)
 - `offlineUsageDelta` (JSON object)
+- `offlineUniqueUsage` (JSON object; dedupe for `news` + `kanji_mood_board`)
+- `auth-user-cache` (JSON; fallback user info used by `useAuth` when offline)
 
 Suggested shapes
 - Entitlement snapshot payload (signed)
@@ -170,6 +172,11 @@ Suggested shapes
   {
     "featureId": 2
   }
+
+Local storage contract
+- All writes must go through helpers in `src/lib/pwa/offline-entitlements.ts` and `src/lib/pwa/offline-usage.ts`.
+- Do not read/write `localStorage.userTier`; `mapSnapshotTierToPlan()` is the only tier mapping that `useFeature` should call.
+- When adding new gated features that track unique items (e.g., replay prevention), extend `offline-usage.ts` to store the `resetAtUtc` + dedupe keys so that offline increments stay idempotent.
 
 ## Offline decision rules
 
@@ -227,6 +234,46 @@ Given a featureId and current time:
 ## Operational notes
 - Invalidate offline decision cache on online/offline transitions.
 - Do not overwrite cached tier with SWR fallback data.
+
+## Implementation map (current code pointers)
+
+Server
+- `src/app/api/entitlements/snapshot/route.ts`: issues RS256 signed payload using `ENTITLEMENTS_PRIVATE_KEY`.
+- `src/app/api/usage/sync/route.ts`: merges `offlineUsageDelta` and returns `{ used, limit, resetAtUtc }`.
+- `src/app/api/usage/[featureId]/check|increment/route.ts`: authoritative evaluation logic used when online; these are the only sources allowed to refresh snapshots.
+- `src/lib/entitlements/evaluator.ts`: shared evaluator, bucket helpers, and policy wiring. Never fork logic elsewhere.
+
+Client
+- `src/hooks/useAuth.ts`: refreshes snapshot token after every successful `/api/auth/session` response and keeps `auth-user-cache` in sync for offline logins.
+- `src/hooks/useFeature.ts`: orchestrates online vs offline checks, dedupes content (`news`, `kanji_mood_board`), updates local snapshots, and triggers sync when going back online.
+- `src/lib/pwa/offline-entitlements.ts`: validates/decodes snapshots, memoizes the payload, and maps tiers to plan IDs.
+- `src/lib/pwa/offline-usage.ts`: owns `usageSnapshot`, `offlineUsageDelta`, `offlineUniqueUsage`, plus the sync POST body.
+- `src/lib/pwa/entitlements.ts`: exposes the cached tier to the PWA shell (push, bg sync, etc.)—relies on the same snapshot for consistency.
+
+Supporting utilities
+- `scripts/gen-entitlements.ts`: generates `FeatureId` + `PLAN_LIMITS`; rerun when `config/features.v1.json` changes.
+- `src/lib/auth/tier-cache.ts`: Redis cache that backs `getTierForSession()`—clearing this forces new snapshot issuance.
+- `src/lib/firebase/admin.ts`: centralizes Firestore access; always use `getAdminDb()` in API routes for null-safety.
+
+## Test & validation checklist
+
+Unit
+- `src/app/api/usage/[featureId]/__tests__/usage.test.ts`: ensures bucket keys, idempotency, and plan checks match expectations. Extend when adding new special-case features.
+- Add Jest coverage for new helpers under `src/lib/pwa/*` whenever snapshot or delta formats change.
+
+Playwright / manual
+1. Run the three entitlement suites (`entitlements`, `entitlements-usage`, `entitlements-exhaustion`) to confirm online gating is untouched.
+2. Simulate offline mode in the browser (DevTools → Offline):
+   - Prime snapshot via `/api/entitlements/snapshot`.
+   - Exhaust quota online, then confirm offline rejects.
+   - Increment offline deltas for limited features, reconnect, and observe `/api/usage/sync` clearing local storage.
+3. For unique-item features (`news`, `kanji_mood_board`), visit the same item twice offline to verify dedupe via `offlineUniqueUsage`.
+4. Inspect IndexedDB > `usageSnapshot` localStorage keys to confirm `resetAtUtc` stays in UTC ISO format; stale or future values should match evaluator output.
+
+Troubleshooting
+- If offline always denies: ensure `NEXT_PUBLIC_ENTITLEMENTS_PUBLIC_KEY` matches the server’s private key and that `storeEntitlementsSnapshotToken()` runs after login.
+- If sync writes wrong counts: check for mismatched bucket keys (daily vs monthly) and verify `FEATURE_IDS` includes any newly added feature.
+- If SWR revalidation downgrades tier while offline: confirm `useSubscription` does not write `userTier` to localStorage; the hook should only influence UI, not offline decisions.
 
 ---
 
