@@ -2,11 +2,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import { adminDb } from '@/lib/firebase/admin'
 import { getSession, getTierForSession } from '@/lib/auth/session'
 import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator'
-import type { FeatureId, PlanType } from '@/types/entitlements'
+import type { FeatureId, PlanType, UsageBucket } from '@/types/entitlements'
 import { FEATURE_IDS } from '@/types/FeatureId'
 import { getSecurityHeaders } from '@/lib/auth/validation'
 
 const VALID_FEATURES: Set<FeatureId> = new Set(FEATURE_IDS)
+
+type UsageBucketWithUniqueItems = UsageBucket & {
+  kanji_mood_board_boards?: string[]
+  news_items?: string[]
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -68,7 +73,7 @@ export async function POST(request: NextRequest) {
 
         const usageDoc = await transaction.get(usageRef)
         const usageData = usageDoc.exists
-          ? (usageDoc.data() as Record<string, number>)
+          ? (usageDoc.data() as UsageBucketWithUniqueItems)
           : { userId, date: bucketKey, updatedAt: nowUtcISO }
 
         const boards = Array.isArray((usageData as any).kanji_mood_board_boards)

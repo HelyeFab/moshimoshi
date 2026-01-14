@@ -16,6 +16,7 @@ import { auth } from '@/lib/firebase/client'
 import logger from '@/lib/logger'
 import { migrateUserStores, cleanupNonUserSpecificStores } from '@/lib/storage/migrate-stores'
 import { requestManager } from '@/lib/api/requestManager'
+import { storeEntitlementsSnapshotToken } from '@/lib/pwa/offline-entitlements'
 
 // Types
 interface AuthUser {
@@ -39,6 +40,7 @@ interface AuthState {
   error: string | null
   isAuthenticated: boolean
   isGuest: boolean
+  isOffline: boolean
 }
 
 interface AuthMethods {
@@ -86,6 +88,7 @@ if (typeof window !== 'undefined') {
 }
 
 const SESSION_CACHE_TTL = 5000 // 5 seconds cache TTL
+const OFFLINE_AUTH_CACHE_KEY = 'auth-user-cache'
 
 // Hook to consume auth context
 export function useAuth(): Auth {
@@ -96,13 +99,29 @@ export function useAuth(): Auth {
   return context
 }
 
+function getCachedAuthUser(): AuthUser | null {
+  if (typeof window === 'undefined') return null
+  const raw = localStorage.getItem(OFFLINE_AUTH_CACHE_KEY)
+  if (!raw) return null
+  try {
+    return JSON.parse(raw) as AuthUser
+  } catch (error) {
+    logger.error('Failed to parse offline auth cache:', error)
+    return null
+  }
+}
+
 // Internal hook for AuthProvider to manage auth state
 function useAuthProvider(): Auth {
   // State - this will be shared via Context
-  const [user, setUserState] = useState<AuthUser | null>(null)
+  const [user, setUserState] = useState<AuthUser | null>(() => getCachedAuthUser())
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [isGuest, setIsGuest] = useState(false)
+  const [isOffline, setIsOffline] = useState(() => {
+    if (typeof navigator === 'undefined') return false
+    return !navigator.onLine && !!getCachedAuthUser()
+  })
 
   // Wrap setUser for consistency
   const setUser = useCallback((newUser: AuthUser | null) => {
@@ -191,6 +210,22 @@ function useAuthProvider(): Auth {
     }
   }, [])
 
+  const refreshEntitlementsSnapshot = useCallback(async () => {
+    try {
+      const response = await fetch('/api/entitlements/snapshot', {
+        method: 'GET',
+        credentials: 'include'
+      })
+      if (!response.ok) return
+      const data = await response.json()
+      if (data?.token) {
+        await storeEntitlementsSnapshotToken(data.token)
+      }
+    } catch (error) {
+      logger.warn('Failed to refresh entitlements snapshot:', error)
+    }
+  }, [])
+
   // Check session from API with caching and deduplication
   const checkSession = useCallback(async (forceRefresh = false) => {
     try {
@@ -202,6 +237,7 @@ function useAuthProvider(): Auth {
         // Guest mode is active - ignore any existing authenticated session
         setIsGuest(true)
         setUser(null) // Clear any existing user to ensure guest mode
+        setIsOffline(false)
         setLoading(false)
         // Clear session cache to prevent authenticated user from leaking through
         sessionCache.data = null
@@ -230,8 +266,10 @@ function useAuthProvider(): Auth {
             providerData: cachedData.user.providerData || []
           }
           setUser(cachedAuthUser)
+          setIsOffline(false)
         } else {
           setUser(null)
+          setIsOffline(false)
         }
         setLoading(false)
         return cachedData
@@ -256,8 +294,10 @@ function useAuthProvider(): Auth {
             providerData: data.user.providerData || []
           }
           setUser(dataAuthUser)
+          setIsOffline(false)
         } else {
           setUser(null)
+          setIsOffline(false)
         }
         setLoading(false)
         return data
@@ -294,6 +334,7 @@ function useAuthProvider(): Auth {
           providerData: data.user.providerData || []
         }
         setUser(authUser)
+        setIsOffline(false)
 
         // Store user info for theme/language contexts to access
         if (typeof window !== 'undefined' && authUser) {
@@ -301,30 +342,52 @@ function useAuthProvider(): Auth {
             uid: authUser.uid,
             email: authUser.email
           }))
+          localStorage.setItem(OFFLINE_AUTH_CACHE_KEY, JSON.stringify(authUser))
 
           // SECURITY FIX: Migrate any old non-user-specific store data
           // This ensures old data is moved to user-specific keys
           await migrateUserStores(authUser.uid)
         }
 
+        refreshEntitlementsSnapshot()
         setLoading(false)
       } else {
         logger.auth('[useAuthProvider] No authenticated user in session response')
         setUser(null)
+        setIsOffline(false)
         setLoading(false)
       }
 
       return data
     } catch (err: any) {
       logger.error('Session check error:', err)
+      const isNavigatorOffline = typeof navigator !== 'undefined' && !navigator.onLine
+      if (isNavigatorOffline && typeof window !== 'undefined') {
+        const cachedAuth = localStorage.getItem(OFFLINE_AUTH_CACHE_KEY)
+        if (cachedAuth) {
+          try {
+            const cachedUser = JSON.parse(cachedAuth) as AuthUser
+            setUser(cachedUser)
+            setIsOffline(true)
+            setError(null)
+            sessionCache.data = { authenticated: true, user: cachedUser }
+            sessionCache.promise = Promise.resolve(sessionCache.data)
+            sessionCache.timestamp = Date.now()
+            return sessionCache.data
+          } catch (parseError) {
+            logger.error('Failed to parse offline auth cache:', parseError)
+          }
+        }
+      }
       setError('Failed to check authentication status')
+      setIsOffline(false)
       sessionCache.promise = null
       sessionCache.data = null
       return null
     } finally {
       setLoading(false)
     }
-  }, [])
+  }, [refreshEntitlementsSnapshot])
 
   // Refresh session
   const refreshSession = useCallback(async () => {
@@ -695,6 +758,7 @@ function useAuthProvider(): Auth {
     error,
     isAuthenticated: !!user,
     isGuest,
+    isOffline,
 
     // Methods
     signIn,
@@ -703,7 +767,7 @@ function useAuthProvider(): Auth {
     signOut: signOutUser,
     refreshSession,
     clearError
-  }), [user, loading, error, isGuest, signIn, signUp, signInWithGoogle, signOutUser, refreshSession, clearError])
+  }), [user, loading, error, isGuest, isOffline, signIn, signUp, signInWithGoogle, signOutUser, refreshSession, clearError])
 
   return authValue
 }
