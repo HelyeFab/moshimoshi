@@ -126,6 +126,17 @@ function SignInContent() {
         prompt: 'select_account'
       })
 
+      // Detect iOS Safari - popup flow hangs due to cross-origin postMessage issues
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+
+      if (isIOS && isSafari) {
+        // Use redirect flow directly for iOS Safari
+        logger.auth('iOS Safari detected, using redirect flow')
+        await signInWithRedirect(auth, provider)
+        return // Redirect will navigate away, session created on return
+      }
+
       try {
         const result = await signInWithPopup(auth, provider)
         logger.auth('Google sign in successful', { email: result.user.email })
