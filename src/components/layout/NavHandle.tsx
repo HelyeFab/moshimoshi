@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Home } from 'lucide-react';
+import { Dock } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavHandleProps {
@@ -61,15 +61,15 @@ export default function NavHandle({
             className={cn(
               'fixed z-[60] md:hidden',
               'bottom-1 right-4',
-              'w-14 h-14 rounded-full',
+              'w-12 h-12 rounded-full',
               // Glassmorphism styling to match bottom navbar
               'bg-soft-white/20 dark:bg-dark-900/30',
               'backdrop-blur-2xl backdrop-saturate-150',
-              'border border-gray-200/40 dark:border-gray-700/30',
               'shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60',
               'flex items-center justify-center',
               'cursor-pointer',
               'active:scale-95 transition-transform',
+              'overflow-hidden',
               className
             )}
             style={{
@@ -93,9 +93,18 @@ export default function NavHandle({
               }}
             />
 
-            {/* Home Icon */}
-            <Home
-              className="relative z-10 w-6 h-6 text-gray-700 dark:text-gray-200"
+            {/* Top-left curved white border accent */}
+            <div
+              className="absolute inset-0 rounded-full border-2 border-white/30 pointer-events-none"
+              style={{
+                maskImage: 'linear-gradient(135deg, black 0%, black 10%, transparent 25%)',
+                WebkitMaskImage: 'linear-gradient(135deg, black 0%, black 10%, transparent 25%)',
+              }}
+            />
+
+            {/* Dock Icon */}
+            <Dock
+              className="relative z-10 w-5 h-5 text-gray-700 dark:text-gray-200"
               strokeWidth={2}
               aria-hidden="true"
             />

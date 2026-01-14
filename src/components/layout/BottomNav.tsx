@@ -162,6 +162,9 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
   const isKeyboardVisible = useKeyboardVisible()
   const isIOSStandalone = useIsIOSStandalone()
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const [activePageIndex, setActivePageIndex] = useState(0)
+  const [totalPages, setTotalPages] = useState(1)
 
   const handleOpenCommandPalette = () => {
     // Dispatch custom event to open command palette
@@ -286,6 +289,40 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
     scheduleAutoHide()
   }
 
+  // Pagination dots - track scroll position
+  useEffect(() => {
+    const container = scrollContainerRef.current
+    if (!container) return
+
+    const updatePagination = () => {
+      const { scrollLeft, scrollWidth, clientWidth } = container
+      const maxScroll = scrollWidth - clientWidth
+
+      if (maxScroll <= 0) {
+        setTotalPages(1)
+        setActivePageIndex(0)
+        return
+      }
+
+      // Calculate pages based on visible width
+      const pages = Math.ceil(scrollWidth / clientWidth)
+      setTotalPages(pages)
+
+      // Calculate current page based on scroll position
+      const currentPage = Math.round((scrollLeft / maxScroll) * (pages - 1))
+      setActivePageIndex(currentPage)
+    }
+
+    updatePagination()
+    container.addEventListener('scroll', updatePagination, { passive: true })
+    window.addEventListener('resize', updatePagination)
+
+    return () => {
+      container.removeEventListener('scroll', updatePagination)
+      window.removeEventListener('resize', updatePagination)
+    }
+  }, [isVisible])
+
   // Hide when keyboard is visible or on excluded pages
   if (shouldHide || isKeyboardVisible) {
     return null
@@ -296,10 +333,10 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
 
   return (
     <>
-      {/* Spacer to prevent content from being hidden behind fixed navbar */}
+      {/* Spacer to prevent content from being hidden behind floating navbar */}
       <div
         className="md:hidden w-full shrink-0 pointer-events-none"
-        style={{ height: `calc(${navbarHeight}px + env(safe-area-inset-bottom, ${SAFE_AREA_FALLBACK}px))` }}
+        style={{ height: `calc(48px + env(safe-area-inset-bottom, ${SAFE_AREA_FALLBACK}px))` }}
         aria-hidden="true"
       />
 
@@ -323,13 +360,18 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
               // PWA safe area classes
               'pwa-bottom-nav',
               'safe-bottom',
-              // Edge-to-edge positioning
-              'fixed inset-x-0 bottom-0 z-50',
+              // Floating centered positioning with fixed width for ~5 icons
+              'fixed z-50',
+              'left-1/2 -translate-x-1/2',
+              'w-[280px]', // Fixed width to show ~5 icons, rest scroll
               'md:hidden', // Only show on mobile
               // Background
               'bg-transparent', // Transparent background
               className
             )}
+            style={{
+              bottom: `calc(4px + env(safe-area-inset-bottom, ${SAFE_AREA_FALLBACK}px))`,
+            }}
             data-pwa-nav
             role="navigation"
             aria-label="Bottom navigation"
@@ -338,99 +380,90 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
             <div
               className={cn(
                 'absolute inset-0',
-                'rounded-t-3xl',
-                'shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60',
+                'rounded-full',
                 'bg-soft-white/20 dark:bg-dark-900/30',
                 'backdrop-blur-2xl backdrop-saturate-150',
-                'border-t border-gray-200/40 dark:border-gray-700/30',
+                'shadow-2xl shadow-japanese-sakura/20 dark:shadow-black/60',
                 'z-0'
               )}
             />
 
-            {/* Inner container */}
+            {/* Top-left curved white border accent - follows pill shape */}
             <div
+              className={cn(
+                'absolute inset-0',
+                'rounded-full',
+                'border-2 border-white/30',
+                'z-[1] pointer-events-none'
+              )}
+              style={{
+                maskImage: 'linear-gradient(135deg, black 0%, black 10%, transparent 25%)',
+                WebkitMaskImage: 'linear-gradient(135deg, black 0%, black 10%, transparent 25%)',
+              }}
+            />
+
+            {/* Bottom-right curved white border accent - follows pill shape */}
+            <div
+              className={cn(
+                'absolute inset-0',
+                'rounded-full',
+                'border-2 border-white/30',
+                'z-[1] pointer-events-none'
+              )}
+              style={{
+                maskImage: 'linear-gradient(-45deg, black 0%, black 10%, transparent 25%)',
+                WebkitMaskImage: 'linear-gradient(-45deg, black 0%, black 10%, transparent 25%)',
+              }}
+            />
+
+            {/* Inner container - scrollable */}
+            <div
+              ref={scrollContainerRef}
               className={cn(
                 // Positioning
                 'relative',
                 'z-10',
+                'w-full',
 
-                // Shape
-                'rounded-t-3xl overflow-hidden',
-
-                // Layout: Scrollable horizontal list
-                'flex items-center justify-start gap-2',
-                'px-4 py-2',
-                'overflow-x-auto scrollbar-hide'
+                // Layout: Scrollable horizontal list - items-center for vertical centering
+                'flex items-center gap-1',
+                'px-2 py-0.5',
+                'overflow-x-auto scrollbar-hide',
+                // Prevent flex shrink and enable scroll
+                'flex-nowrap'
               )}
-              style={{
-                // Ensure proper safe area support for all devices (iPhone X+)
-                // iOS standalone mode: ultra-tight padding (2px) - safe area is reliable
-                // Other modes: conservative padding (6px) for safety
-                paddingBottom: isIOSStandalone
-                  ? 'calc(2px + env(safe-area-inset-bottom, 0px))'
-                  : 'calc(6px + env(safe-area-inset-bottom, 0px))',
-              }}
             >
               {NAV_ITEMS.map(item => {
                 const active = isActive(item)
                 const Icon = active ? item.activeIcon : item.icon
 
                 const commonClassName = cn(
-                  'relative flex flex-col items-center justify-center flex-shrink-0',
-                  // Comfortable touch target: 60px width, 64px height for better ergonomics
-                  'w-[60px] h-[64px]',
-                  'rounded-2xl',
+                  'relative flex items-center justify-center flex-shrink-0',
+                  // Compact touch target for floating navbar
+                  'w-9 h-9',
+                  'mt-4',
+                  'rounded-full',
                   'transition-all duration-200',
                   // Accessibility: focus states
                   'focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2',
                   'focus-visible:ring-offset-soft-white dark:focus-visible:ring-offset-dark-900',
                   // Theme-aware text colors
                   active
-                    ? 'text-primary-600 dark:text-primary-400'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100'
+                    ? 'text-white bg-primary-600/80 dark:bg-primary-500/80'
+                    : 'text-gray-300 hover:text-white hover:bg-white/10'
                 )
 
                 const content = (
                   <>
-                    {/* Icon and Label Container */}
-                    <div className="relative z-10 flex flex-col items-center gap-1">
-                      <Icon
-                        className={cn(
-                          'transition-all duration-200',
-                          active ? 'w-6 h-6' : 'w-5 h-5'
-                        )}
-                        aria-hidden="true"
-                      />
-
-                      {/* Label */}
-                      <span
-                        className={cn(
-                          'text-[10px] font-medium transition-all duration-200',
-                          'leading-tight',
-                          active ? 'opacity-100 font-semibold' : 'opacity-70'
-                        )}
-                      >
-                        {item.label}
-                      </span>
-                    </div>
-
-                    {/* Active indicator - positioned at bottom of button, above safe area */}
-                    {active && (
-                      <motion.div
-                        layoutId="activeIndicator"
-                        className={cn(
-                          'absolute bottom-1 left-1/2 -translate-x-1/2',
-                          'h-0.5 w-10 rounded-full',
-                          'bg-primary-600 dark:bg-primary-400',
-                          'shadow-sm shadow-primary-600/50 dark:shadow-primary-400/50'
-                        )}
-                        transition={{ type: 'spring', damping: 20, stiffness: 300 }}
-                      />
-                    )}
+                    {/* Icon only */}
+                    <Icon
+                      className="w-5 h-5 transition-all duration-200"
+                      aria-hidden="true"
+                    />
 
                     {/* Ripple effect on tap (mobile) - disable default tap highlight */}
                     <span
-                      className="absolute inset-0 rounded-2xl"
+                      className="absolute inset-0 rounded-full"
                       style={{
                         WebkitTapHighlightColor: 'transparent',
                       }}
@@ -465,6 +498,23 @@ export default function BottomNav({ className, hideOnScroll = false }: BottomNav
                 )
               })}
             </div>
+
+            {/* Pagination dots */}
+            {totalPages > 1 && (
+              <div className="flex justify-center gap-1 pb-1 relative z-10">
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <div
+                    key={index}
+                    className={cn(
+                      'w-1.5 h-1.5 rounded-full transition-all duration-200',
+                      index === activePageIndex
+                        ? 'bg-white/80 w-3'
+                        : 'bg-white/30'
+                    )}
+                  />
+                ))}
+              </div>
+            )}
           </motion.nav>
         )}
       </AnimatePresence>

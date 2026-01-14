@@ -398,6 +398,24 @@ function MobileStallCard({
                    shadow-none group-hover:${stall.glow} transition-all duration-300 cursor-pointer h-20 sm:h-24 overflow-hidden
                    group-hover:scale-[1.01] gap-x-2`} // Added subtle lift on hover and glow effect, and gap-x-2
       >
+        {/* Top-left curved white border accent */}
+        <div
+          className="absolute inset-0 rounded-xl border-2 border-white/30 pointer-events-none z-20"
+          style={{
+            maskImage: 'linear-gradient(135deg, black 0%, black 5%, transparent 15%)',
+            WebkitMaskImage: 'linear-gradient(135deg, black 0%, black 5%, transparent 15%)',
+          }}
+        />
+
+        {/* Bottom-right curved white border accent */}
+        <div
+          className="absolute inset-0 rounded-xl border-2 border-white/30 pointer-events-none z-20"
+          style={{
+            maskImage: 'linear-gradient(-45deg, black 0%, black 5%, transparent 15%)',
+            WebkitMaskImage: 'linear-gradient(-45deg, black 0%, black 5%, transparent 15%)',
+          }}
+        />
+
         {/* Animated gradient background */}
         <div
           className={`
