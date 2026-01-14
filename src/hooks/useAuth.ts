@@ -336,13 +336,17 @@ function useAuthProvider(): Auth {
     sessionCache.promise = null
     sessionCache.timestamp = 0
 
-    // Always fetch from session API to get fresh data from Firestore
-    // This ensures we get the latest profile data (photoURL, subscription, admin status, etc.)
-    // Don't use createServerSession() here as it relies on Firebase Auth's stale user object
-    await checkSession(true)
+    // Check current Firebase auth state
+    const currentUser = auth.currentUser
+    if (currentUser) {
+      await createServerSession(currentUser)
+    } else {
+      // Use API pattern with force refresh
+      await checkSession(true)
+    }
 
     setLoading(false)
-  }, [checkSession])
+  }, [checkSession, createServerSession])
 
   // Sign in with email and password
   const signIn = useCallback(async (email: string, password: string) => {
