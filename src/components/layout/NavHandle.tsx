@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Dock } from 'lucide-react';
+import { Command } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavHandleProps {
@@ -60,8 +60,8 @@ export default function NavHandle({
             transition={{ type: 'spring', damping: 20, stiffness: 300 }}
             className={cn(
               'fixed z-[60] md:hidden',
-              'bottom-1 right-4',
-              'w-12 h-12 rounded-full',
+              'right-4',
+              'w-10 h-10 rounded-full',
               // Glassmorphism styling to match bottom navbar
               'bg-soft-white/20 dark:bg-dark-900/30',
               'backdrop-blur-2xl backdrop-saturate-150',
@@ -73,8 +73,8 @@ export default function NavHandle({
               className
             )}
             style={{
-              // Add safe area padding for iPhone home indicator
-              bottom: 'calc(0.25rem + env(safe-area-inset-bottom, 0px))',
+              // Position higher up, with safe area padding for iPhone home indicator
+              bottom: 'calc(2rem + env(safe-area-inset-bottom, 0px))',
             }}
             onClick={onTap}
             aria-label="Show navigation"
@@ -102,8 +102,8 @@ export default function NavHandle({
               }}
             />
 
-            {/* Dock Icon */}
-            <Dock
+            {/* Command Icon */}
+            <Command
               className="relative z-10 w-5 h-5 text-gray-700 dark:text-gray-200"
               strokeWidth={2}
               aria-hidden="true"

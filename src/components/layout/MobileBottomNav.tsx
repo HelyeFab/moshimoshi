@@ -16,7 +16,6 @@ import {
   CreditCard,
   User,
   Settings,
-  Command,
 } from "lucide-react";
 import { useI18n } from "@/i18n/I18nContext";
 import { useKeyboardVisible } from "@/hooks/useMediaQuery";
@@ -158,11 +157,13 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
     };
   }, [pathname, shouldHide, isKeyboardVisible]);
 
-  // Handle NavHandle tap
+  // Handle NavHandle tap - shows navbar and opens command palette
   const handleHandleTap = () => {
     setShowHandle(false);
     setIsVisible(true);
     scheduleAutoHide();
+    // Also open command palette
+    openCommandPalette();
   };
 
   // Don't render on excluded pages or when keyboard is visible
@@ -218,16 +219,6 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
 
                 <div className="flex overflow-x-auto whitespace-nowrap scrollbar-hide scroll-smooth snap-x snap-mandatory">
                   <div className="flex items-center justify-start px-2">
-                    {/* Command Palette Button */}
-                    <button
-                      onClick={openCommandPalette}
-                      className="flex flex-col items-center justify-center font-medium transition-colors px-2 py-1.5 flex-shrink-0 snap-center text-primary-500 dark:text-primary-400"
-                      style={{ fontSize: "8px" }}
-                    >
-                      <Command className="w-4 h-4" />
-                      <span>{bottomNavStrings?.places || "Places"}</span>
-                    </button>
-
                     {navItems.map(({ href, label, icon: Icon }) => {
                       const isActive = pathname.startsWith(href);
                       return (
@@ -241,7 +232,7 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
                           }`}
                           style={{ fontSize: "8px" }}
                         >
-                          <Icon className="w-4 h-4" />
+                          <Icon className="w-5 h-5" />
                           <span>{label}</span>
                         </Link>
                       );
