@@ -32,6 +32,38 @@ function SignInContent() {
     if (searchParams?.get('signup') === 'success') {
       showToast(strings.auth.signin.messages.signupSuccess, 'success')
     }
+
+    // DEBUG: Check for redirect result when component mounts
+    const checkRedirectResult = async () => {
+      try {
+        logger.auth('🔍 [SIGNIN PAGE] Checking for redirect result...')
+        const { getRedirectResult } = await import('firebase/auth')
+        const { auth } = await import('@/lib/firebase/config')
+
+        if (!auth) {
+          logger.auth('❌ [SIGNIN PAGE] Firebase auth not initialized')
+          return
+        }
+
+        logger.auth('🔍 [SIGNIN PAGE] Calling getRedirectResult...')
+        const result = await getRedirectResult(auth)
+
+        if (result) {
+          logger.auth('✅ [SIGNIN PAGE] Redirect result found:', {
+            email: result.user?.email,
+            uid: result.user?.uid
+          })
+        } else {
+          logger.auth('ℹ️ [SIGNIN PAGE] No redirect result (user may have just navigated here)')
+        }
+      } catch (err: any) {
+        logger.error('❌ [SIGNIN PAGE] Error checking redirect result:', err)
+        logger.error('Error code:', err?.code)
+        logger.error('Error message:', err?.message)
+      }
+    }
+
+    checkRedirectResult()
   }, [searchParams, showToast, strings.auth.signin.messages.signupSuccess])
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -107,11 +139,12 @@ function SignInContent() {
   }
 
   const handleGoogleSignIn = async () => {
-    logger.auth('Google sign in clicked')
+    logger.auth('🔵 [HANDLER] Google sign-in button clicked')
     setLoading(true)
     setError('')
-    
+
     try {
+      logger.auth('🔵 [HANDLER] Importing Firebase auth...')
       // Use Firebase client SDK for Google auth
       const { signInWithPopup, signInWithRedirect, GoogleAuthProvider } = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
@@ -130,10 +163,14 @@ function SignInContent() {
       const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent)
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
 
+      logger.auth('🔍 [GOOGLE AUTH] Browser detection:', { isIOS, isSafari, userAgent: navigator.userAgent })
+
       if (isIOS && isSafari) {
         // Use redirect flow directly for iOS Safari
-        logger.auth('iOS Safari detected, using redirect flow')
+        logger.auth('📱 [GOOGLE AUTH] iOS Safari detected, using signInWithRedirect')
+        logger.auth('🔑 [GOOGLE AUTH] Auth domain:', auth.config.authDomain)
         await signInWithRedirect(auth, provider)
+        logger.auth('🔄 [GOOGLE AUTH] signInWithRedirect called, user will be redirected...')
         return // Redirect will navigate away, session created on return
       }
 
