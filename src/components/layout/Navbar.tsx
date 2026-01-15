@@ -132,14 +132,14 @@ export default function Navbar({
 
   // During SSR, isMobile is undefined - render nothing to avoid hydration mismatch
   // On desktop (isMobile === false), show navbar
-  // On mobile (isMobile === true), hide navbar (BottomNav handles mobile)
+  // On mobile (isMobile === true), hide navbar
   if (isMobile !== false) {
     return null;
   }
 
   return (
     <>
-      {/* Navbar - visible on desktop only (BottomNav handles mobile navigation) */}
+      {/* Navbar - visible on desktop only */}
       <AnimatePresence>
         <motion.header
             initial={{ y: -100, opacity: 0 }}

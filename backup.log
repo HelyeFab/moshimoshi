@@ -75,3 +75,9 @@
 2026-01-14 06:44:59 - Updated: /home/beano/Life-Org/08_Moshimoshi/Git/env-local.md
 2026-01-14 06:44:59 - Deleted old backup: env-local-2026-01-14T06-44-37.md
 2026-01-14 06:44:59 - Cleaned up 1 old backup(s)
+2026-01-15 11:34:01 - Backup function called
+2026-01-15 11:34:01 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-15 11:34:01 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/08_Moshimoshi/Git'
+2026-01-15 11:36:11 - Backup function called
+2026-01-15 11:36:11 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-15 11:36:11 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/08_Moshimoshi/Git'

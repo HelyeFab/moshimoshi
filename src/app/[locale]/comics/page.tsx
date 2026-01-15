@@ -5,7 +5,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { BookOpen, Sparkles, MapPin, BookMarked } from 'lucide-react'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -360,7 +359,6 @@ function ComicsContent() {
           </div>
         )}
 
-        <MobileNavSpacer />
       </div>
     </div>
   )

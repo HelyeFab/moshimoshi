@@ -7,7 +7,6 @@ import { motion } from 'framer-motion'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { Trophy, RefreshCw, Home, Target } from 'lucide-react'
 import Link from 'next/link'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 function CompletionContent() {
   const router = useRouter()
@@ -147,7 +146,6 @@ function CompletionContent() {
             Back to Dashboard
           </Link>
         </motion.div>
-        <MobileNavSpacer />
       </motion.div>
     </div>
   )

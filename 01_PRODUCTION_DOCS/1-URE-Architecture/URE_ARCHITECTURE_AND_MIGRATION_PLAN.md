@@ -18,7 +18,7 @@
 |-------|--------|--------|----------|
 | **Phase 1: Infrastructure** | Week 1-2 | ✅ COMPLETE | 100% (Committed Dec 17) |
 | **Phase 1.5: Testing** | Week 2 | ✅ COMPLETE | 100% (74 tests, Dec 18) |
-| **Phase 2: Feature Migration** | Week 3-8 | ✅ COMPLETE | 95% (4/4 features migrated, Anki excluded) |
+| **Phase 2: Feature Migration** | Week 3-8 | ✅ COMPLETE | 95% (5/5 UI migrations; Anki uses ReviewSessionUI with its own SRS) |
 | **Phase 3: Cleanup** | Week 9 | 🟡 PENDING | 0% |
 
 ### Critical Blockers 🚨
@@ -42,8 +42,8 @@
    - ✅ Kanji Browser: COMPLETE (95% - uses ReviewSessionUI + Event Hub)
    - ✅ Textbook Vocabulary: COMPLETE (95% - uses ReviewSessionUI + Event Hub)
    - ✅ User Lists: COMPLETE (95% - uses ReviewSessionUI + Event Hub)
-   - ❌ Anki Study: EXCLUDED from URE scope (uses separate review flow)
-   - **Status**: 4/4 features complete (100% of URE scope)
+   - ✅ Anki Study: Uses ReviewSessionUI; SRS remains in useAnkiStudy
+   - **Status**: 5/5 UI migrations complete (URE events routed via Event Hub)
 
 ### What's Complete ✅
 
@@ -56,41 +56,33 @@
 
 ### What's Missing ❌
 
-**Testing Infrastructure** ✅ COMPLETE (Dec 18):
+**Testing Infrastructure** ✅ COMPLETE:
 - ✅ `src/lib/review-engine/__tests__/client-event-emitter.test.ts` (29 tests)
 - ✅ `src/hooks/__tests__/useSessionManager.test.tsx` (25 tests)
 - ✅ `src/lib/review-engine/__tests__/session-manager-integration.test.ts` (20 tests)
 
 **UI Components** ✅ COMPLETE:
 - ✅ `ReviewSessionUI` component (265 lines, commit 9212fc59)
-- ⚠️ Features still using legacy `<ReviewEngine>` (migration in progress)
+- ⚠️ Legacy `<ReviewEngine>` component still exists but is not referenced by features
 
 **Feature Migrations**:
 - ✅ Kana Learning - COMPLETE (95% - ReviewSessionUI + Event Hub integration)
 - ✅ Kanji Browser - COMPLETE (95% - ReviewSessionUI + Event Hub integration)
 - ✅ Textbook Vocabulary - COMPLETE (95% - ReviewSessionUI + Event Hub integration)
 - ✅ User Lists - COMPLETE (95% - ReviewSessionUI + Event Hub integration)
-- ❌ Anki Study - EXCLUDED (intentionally removed from URE scope, uses separate flow)
+- ✅ Anki Study - Uses ReviewSessionUI; SRS remains in useAnkiStudy
 
 ### Immediate Next Steps (This Week)
 
-**Priority 1**: Create Tests (2-3 days)
-```bash
-# Create test files - these are critical blockers
-touch src/lib/review-engine/__tests__/client-event-emitter.test.ts
-touch src/hooks/__tests__/useSessionManager.test.tsx
-touch src/lib/review-engine/__tests__/session-manager-integration.test.ts
-```
+**Priority 1**: Phase 3 cleanup (deprecate legacy ReviewEngine)
+- Move `src/components/review-engine/ReviewEngine.tsx` to legacy location
+- Remove any remaining references (none found in current codebase)
 
-**Priority 2**: Build ReviewSessionUI (2-3 days)
-- Component that wraps existing pieces (AnswerInput, ProgressBar, ReviewCard)
-- Uses useSessionManager hook internally
-- Provides clean interface for features
+**Priority 2**: Add E2E migration tests
+- Add Cypress coverage for Kana, Kanji, Textbook review flows
 
-**Priority 3**: Complete Kana Learning (1-2 days)
-- Remove legacy `<ReviewEngine>` usage
-- Replace with `<ReviewSessionUI>`
-- Test gamification flow
+**Priority 3**: Verify Anki Study XP behavior with gamification flag
+- Ensure Event Hub + ReviewSessionUI flow matches desired XP policy
 
 **See sections 9.2 for detailed milestone checklist and section 10 for file references**
 
@@ -104,13 +96,14 @@ This document provides a comprehensive guide to the Universal Review Engine (URE
 
 **Migration Progress**: Phase 1 infrastructure is complete and committed (Dec 17, 2025). Testing and feature migration are the next critical steps.
 
-**Scope**: 4 features in URE scope (Anki Study excluded):
+**Scope**: 5 features in URE UI scope:
 1. Kana Learning (✅ 95% complete)
 2. Kanji Browser (✅ 95% complete)
 3. Textbook Vocabulary (✅ 95% complete)
 4. User Lists (✅ 95% complete)
+5. Anki Study (✅ Uses ReviewSessionUI; Anki SRS remains separate)
 
-**Excluded**: Anki Study - intentionally removed from URE scope (uses separate review flow)
+**Note**: Anki Study uses ReviewSessionUI for session UI and URE events, but maintains its own SRS via useAnkiStudy.
 
 ---
 
@@ -171,7 +164,7 @@ The **Universal Review Engine (URE)** is a sophisticated, event-driven spaced re
 ├─────────────────────────────────────────────────────────────────┤
 │  Page Component (Kanji Browser, Anki Study, etc.)               │
 │         ↓                                                        │
-│  useSessionManager hook (PLANNED - doesn't exist yet)           │
+│  useSessionManager hook                                         │
 │         ↓                                                        │
 │  SessionManager (Event-Driven Core)                             │
 │    Lines 48-857 of src/lib/review-engine/session/manager.ts    │
@@ -233,7 +226,7 @@ getCurrentItem(): ReviewSessionItem | null
 // Submit user answer
 async submitAnswer(answer: string, confidence?: 1|2|3|4|5): Promise<ValidationResult>
   // Lines 143-222
-  // Validates answer via validator
+  // Validates answer via SessionManager helper (exact/alt/fuzzy)
   // Calculates score with modifiers (hints, attempts, confidence)
   // Updates statistics (accuracy, streaks)
   // Calculates SRS intervals
@@ -349,6 +342,7 @@ abstract class BaseContentAdapter<T> {
 
 **File**: `src/lib/review-engine/srs/algorithm.ts` (Line 156: `calculateNext()`)
 **Implementation**: SM-2+ with enhancements
+**Note**: SessionManager currently uses its own inline SM-2 update and does not call `SRSAlgorithm` directly.
 
 **Configuration** (`DEFAULT_SRS_CONFIG`):
 ```typescript
@@ -398,6 +392,7 @@ Returns updated SRS data:
 **Factory**: `validation/factory.ts` (Line 45)
 
 **Multi-Strategy Validation** with Japanese language support:
+Note: Validator classes exist, but SessionManager currently uses its own validation helper and does not call ValidatorFactory.
 
 **Strategies**:
 - **Exact**: Character-perfect matching
@@ -794,7 +789,7 @@ const ReviewEngine: FC<Props> = ({ content, mode, onComplete, userId }) => {
 
   const handleAnswer = async (answer: string) => {
     // SessionManager handles:
-    // - Validation via validators
+    // - Validation via SessionManager (exact/alt/fuzzy)
     // - SRS calculation
     // - Storage persistence
     // - Event emission
@@ -811,11 +806,11 @@ const ReviewEngine: FC<Props> = ({ content, mode, onComplete, userId }) => {
 }
 ```
 
-### 4.2 Missing Infrastructure
+### 4.2 Infrastructure
 
-**Missing File**: `src/hooks/useSessionManager.ts` (doesn't exist)
+**File**: `src/hooks/useSessionManager.ts` (exists)
 
-**Required Functionality**:
+**Implemented Functionality**:
 ```typescript
 interface UseSessionManagerReturn {
   // State
@@ -877,14 +872,14 @@ interface UseSessionManagerReturn {
    - Study mode emits SESSION_COMPLETED via getEventHub()
    - **Status**: 95% complete
 
-**Excluded from URE**: Anki Study - uses separate review flow, not integrated with URE
+**Anki Study**: Uses ReviewSessionUI for session UI/events; SRS remains in useAnkiStudy.
 
-**Total**: 4 features fully migrated to URE architecture
+**Total**: 5 features using ReviewSessionUI + Event Hub
 
 ### 4.4 Migration Results ✅
 
 **Code Quality Improvements** (achieved):
-- All 4 URE features now use consistent ReviewSessionUI pattern
+- All 5 URE UI features now use consistent ReviewSessionUI pattern
 - Event Hub singleton eliminates multiple EventEmitter instances
 - Proper event listener cleanup via React hooks
 - Unified gamification integration across features
@@ -902,7 +897,7 @@ interface UseSessionManagerReturn {
 
 **Remaining Work**:
 - Phase 3 cleanup: Deprecate legacy ReviewEngine component
-- Anki Study: Operates independently (not integrated with URE)
+- Anki Study: Maintain separate Anki SRS while using ReviewSessionUI for UI/events
 
 ---
 
@@ -938,12 +933,12 @@ interface UseSessionManagerReturn {
 │    │  └─ Emit ITEM_PRESENTED event                             │
 │    │                                                             │
 │    ├─ submitAnswer(answer, confidence)                         │
-│    │  ├─ Get validator for content type                        │
-│    │  ├─ Validate answer → ValidationResult                    │
+│    │  ├─ Validate answer via SessionManager helper             │
+│    │  ├─ ValidationResult (exact/alt/fuzzy)                    │
 │    │  ├─ Calculate base score                                  │
 │    │  ├─ Apply modifiers (hints, attempts, confidence)         │
 │    │  ├─ Update statistics (accuracy, streaks)                 │
-│    │  ├─ Calculate SRS intervals via srsAlgorithm             │
+│    │  ├─ Calculate SRS intervals via SessionManager SM-2 helper│
 │    │  ├─ Update session item with results                      │
 │    │  ├─ Save to storage                                       │
 │    │  └─ Emit ITEM_ANSWERED event (includes SRS data!)         │
@@ -1346,11 +1341,11 @@ export function useSessionManager({
 }
 ```
 
-#### Step 4: Create Tests 🚨 CRITICAL BLOCKER
+#### Step 4: Create Tests ✅ COMPLETE
 
-**Status**: ❌ No tests exist - this is blocking production deployment
+**Status**: ✅ Tests exist in codebase
 
-**Required Test Files**:
+**Test Files**:
 ```bash
 src/lib/review-engine/__tests__/client-event-emitter.test.ts
 src/hooks/__tests__/useSessionManager.test.tsx
@@ -1917,11 +1912,10 @@ Implementation:
   - Study mode emits SESSION_COMPLETED via getEventHub()
 ```
 
-**Anki Study**: ❌ EXCLUDED FROM URE SCOPE
+**Anki Study**: ✅ Uses ReviewSessionUI for session UI/events
 ```
-Reason: Anki Study uses a separate review flow and was intentionally
-removed from URE integration scope. It operates independently using
-its own useAnkiStudy hook and AnkiAdapter without Event Hub integration.
+Reason: Anki Study retains its own SRS via useAnkiStudy while rendering
+ReviewSessionUI, which initializes the Event Hub and emits SESSION_COMPLETED.
 ```
 
 **Testing**: All URE features tested and verified
@@ -2240,8 +2234,8 @@ Week 9:    Cleanup & Documentation
 - [x] Event Hub created (160 lines, src/lib/review-engine/core/event-hub.ts)
 - [x] SessionManager modified for client-side (dual event emission added)
 - [x] useSessionManager hook implemented (374 lines, src/hooks/useSessionManager.ts)
-- [ ] Unit tests written (85%+ coverage) - 🚨 CRITICAL BLOCKER
-- [ ] Integration tests written - 🚨 CRITICAL BLOCKER
+- [x] Unit tests written (target 85%+ coverage)
+- [x] Integration tests written
 - [ ] Code review completed
 - [ ] PR merged to main
 
@@ -2334,11 +2328,11 @@ src/lib/review-engine/srs/algorithm.ts            (156+ lines)
 ✅ src/hooks/useSessionManager.ts                       (374 lines, c2029b6c)
 ```
 
-**Tests** ❌ CRITICAL - NEED TO CREATE:
+**Tests** ✅ PRESENT:
 ```
-❌ src/lib/review-engine/__tests__/client-event-emitter.test.ts
-❌ src/hooks/__tests__/useSessionManager.test.tsx
-❌ src/lib/review-engine/__tests__/session-manager-integration.test.ts
+✅ src/lib/review-engine/__tests__/client-event-emitter.test.ts
+✅ src/hooks/__tests__/useSessionManager.test.tsx
+✅ src/lib/review-engine/__tests__/session-manager-integration.test.ts
 ❌ cypress/e2e/kana-learning-migration.cy.ts
 ❌ cypress/e2e/kanji-browser-migration.cy.ts
 ```
@@ -2373,7 +2367,7 @@ src/lib/review-engine/srs/algorithm.ts            (156+ lines)
 ✅ src/app/[locale]/kanji-browser/KanjiBrowserPage.tsx   (95% - ReviewSessionUI + Event Hub)
 ✅ src/app/[locale]/textbook-vocabulary/TextbookVocabularyPage.tsx (95% - ReviewSessionUI + Event Hub)
 ✅ src/app/[locale]/lists/[listId]/page.tsx              (95% - ReviewSessionUI + Event Hub)
-❌ src/app/[locale]/anki-study/[deckId]/page.tsx         (EXCLUDED from URE scope)
+✅ src/app/[locale]/anki-study/[deckId]/page.tsx         (ReviewSessionUI + Event Hub; Anki SRS remains separate)
 ```
 
 ### 10.4 Reference Implementations
@@ -2576,7 +2570,8 @@ const reviewableContent = kanjiData.map(k => adapter.transform(k))
 | Version | Date | Changes | Author |
 |---------|------|---------|--------|
 | 1.0 | 2025-01-XX | Initial comprehensive plan created | Claude |
-| 2.1 | 2025-12-20 | Updated Phase 2 status to COMPLETE (95%). Marked Kana, Kanji, Textbook, Lists as complete. Excluded Anki Study from URE scope. | Claude |
+| 2.1 | 2025-12-20 | Updated Phase 2 status to COMPLETE (95%). Marked Kana, Kanji, Textbook, Lists as complete. | Claude |
+| 2.2 | 2025-12-20 | Reconciled doc with codebase: Anki uses ReviewSessionUI; tests present; corrected missing hook references. | Codex |
 
 ---
 

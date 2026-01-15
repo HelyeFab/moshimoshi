@@ -18,7 +18,6 @@ import Modal from "@/components/ui/Modal";
 import Dropdown from "@/components/ui/Dropdown";
 import PageHeader from "@/components/ui/PageHeader";
 import Navbar from "@/components/layout/Navbar";
-import MobileNavSpacer from "@/components/layout/MobileNavSpacer";
 import { useAuth } from "@/hooks/useAuth";
 import { LoadingSpinner } from "@/components/ui/Loading";
 import ChannelBanner from "@/components/shadowing/ChannelBanner";
@@ -1037,7 +1036,6 @@ function YouTubeShadowingContent() {
         unlockText={t("youtubeShadowing.lockScreen.tapToUnlock")}
       />
 
-      <MobileNavSpacer />
     </div>
   );
 }

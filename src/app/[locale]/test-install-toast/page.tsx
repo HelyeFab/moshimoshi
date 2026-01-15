@@ -6,7 +6,6 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import { a2hsManager } from '@/lib/pwa/a2hs'
 import PageHeader from '@/components/ui/PageHeader'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useAuth } from '@/hooks/useAuth'
 
 const SESSION_TOAST_KEY = 'pwa_install_toast_shown'
@@ -80,7 +79,6 @@ export default function TestInstallToastPage() {
         </div>
       </div>
 
-      <MobileNavSpacer />
     </div>
   )
 }

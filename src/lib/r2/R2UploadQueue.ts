@@ -5,6 +5,7 @@ import { buildDeckPrefix, isValidDeckKey } from '@/lib/r2/r2-keys'
 import { generateManifest } from '@/lib/r2/manifestGenerator'
 import type { R2QueueStatus, R2UploadJob } from '@/types/r2'
 import { debugLogger } from '@/lib/debug-logger'
+import { createUuid } from '@/lib/utils/uuid'
 
 type R2UploadJobRecord = R2UploadJob & {
   contentType?: string
@@ -150,7 +151,7 @@ export class R2UploadQueue {
     }
 
     await this.putJob({
-      id: crypto.randomUUID(),
+      id: createUuid(),
       deckId,
       userId: this.userId,
       key: packageKey,
@@ -182,7 +183,7 @@ export class R2UploadQueue {
         continue
       }
       await this.putJob({
-        id: crypto.randomUUID(),
+        id: createUuid(),
         deckId,
         userId: this.userId,
         key,
@@ -208,7 +209,7 @@ export class R2UploadQueue {
     }
 
     await this.putJob({
-      id: crypto.randomUUID(),
+      id: createUuid(),
       deckId,
       userId: this.userId,
       key: manifestKey,

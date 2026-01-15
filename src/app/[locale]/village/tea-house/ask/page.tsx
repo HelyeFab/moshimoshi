@@ -11,7 +11,6 @@ import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import QuestionEditor from '@/components/qa/QuestionEditor'
 import { cn } from '@/lib/utils'
 import TeaHouseAcknowledgmentModal from '@/components/qa/TeaHouseAcknowledgmentModal'
@@ -241,7 +240,6 @@ export default function AskQuestionPage() {
       </div>
 
       {/* Mobile Bottom Nav Spacer */}
-      <MobileNavSpacer />
 
       {/* Guidelines Acknowledgment Modal - Required before first post */}
       <TeaHouseAcknowledgmentModal

@@ -6,7 +6,6 @@ import { motion } from 'framer-motion'
 import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { Card } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { useI18n } from '@/i18n/I18nContext'
@@ -358,7 +357,6 @@ export default function LeaderboardPage() {
           )}
         </div>
       </div>
-      <MobileNavSpacer />
     </div>
   )
 }

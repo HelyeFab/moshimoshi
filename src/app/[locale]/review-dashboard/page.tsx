@@ -13,7 +13,6 @@ import { UpcomingReviews } from '@/components/review/dashboard/UpcomingReviews';
 import { LoadingOverlay } from '@/components/ui/Loading';
 import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import Navbar from '@/components/layout/Navbar';
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 
 // Features are DISABLED by default unless explicitly set to 'true'
 const isReviewHubEnabled = process.env.NEXT_PUBLIC_FEATURE_REVIEW_HUB === 'true'
@@ -244,7 +243,6 @@ export default function ReviewDashboard() {
           </div>
         </div>
       </main>
-      <MobileNavSpacer />
     </div>
   );
 }

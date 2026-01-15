@@ -160,25 +160,15 @@ export class GamificationListener extends EventEmitter {
         bestStreak: gam.bestStreak
       });
 
-      // Only set basic stats if not already set by the feature component
-      // Feature components (FlashcardsContent, etc.) set detailed stats with contentType
-      const currentStats = store.lastSessionStats;
-      if (!currentStats) {
-        console.log('📊 [Gamification] Setting fallback lastSessionStats from listener...')
-        store.setLastSessionStats({
-          itemsCompleted: itemsReviewed,
-          accuracy: accuracy,
-          duration: duration || 0,
-          xpGained: gam.xpEarned
-        });
-      } else {
-        console.log('📊 [Gamification] Stats already set by feature component, updating XP only:', currentStats)
-        // Update XP to match server-calculated value
-        store.setLastSessionStats({
-          ...currentStats,
-          xpGained: gam.xpEarned
-        });
-      }
+      // Always set lastSessionStats so celebrations can trigger every session.
+      // Feature components can still overwrite with richer stats if needed.
+      console.log('📊 [Gamification] Setting lastSessionStats from listener...')
+      store.setLastSessionStats({
+        itemsCompleted: itemsReviewed,
+        accuracy: accuracy,
+        duration: duration || 0,
+        xpGained: gam.xpEarned
+      });
 
       // Increment session count (triggers CelebrationProvider)
       console.log('🎉 [Gamification] Incrementing session count (this triggers celebration)...')

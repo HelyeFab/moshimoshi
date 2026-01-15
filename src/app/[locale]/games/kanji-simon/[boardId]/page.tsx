@@ -10,7 +10,6 @@ import { MoodBoard } from '@/types/moodboard';
 import KanjiSimonGameWrapper from '../components/KanjiSimonGameWrapper';
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay';
 import { useToast } from '@/components/ui/Toast/ToastContext';
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 
 export default function KanjiSimonGamePage() {
   const router = useRouter();
@@ -68,7 +67,6 @@ export default function KanjiSimonGamePage() {
             onComplete={handleComplete}
           />
         </div>
-        <MobileNavSpacer />
       </div>
     </>
   );

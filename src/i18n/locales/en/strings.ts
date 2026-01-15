@@ -1767,6 +1767,17 @@ export const strings = {
     },
   },
 
+  bottomNav: {
+    home: "Home",
+    learn: "Learn",
+    review: "Review",
+    lists: "Lists",
+    stats: "Stats",
+    community: "Community",
+    account: "Account",
+    settings: "Settings",
+  },
+
   // Drill Feature
   drill: {
     title: 'Conjugation Drill',

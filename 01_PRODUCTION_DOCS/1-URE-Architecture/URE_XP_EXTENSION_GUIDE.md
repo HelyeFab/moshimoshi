@@ -82,7 +82,7 @@ This document provides detailed instructions for adding XP rewards to new featur
 | Gamification Coordinator | `src/lib/gamification/services/gamification-coordinator.ts` | Server-side XP calculation & atomic updates |
 | Streak Service | `src/lib/gamification/services/streakService.ts` | Streak logic within transactions |
 | Gamification Store | `src/state/userGamification.ts` | Client-side UI state (Zustand) |
-| XP Config | `src/config/gamification/xp.json` | XP values and caps |
+| XP Config | `config/xp-config.json` | Server-side XP values and caps |
 | Streak Config | `src/config/gamification/streakConfig.ts` | Streak thresholds |
 | Base Progress Manager | `src/lib/review-engine/progress/UniversalProgressManager.ts` | Abstract base class |
 
@@ -135,15 +135,15 @@ calculateBookXP({ readingTimeSec }): number
 ### Streak System
 
 Streaks increment when:
-1. Daily XP accumulation reaches threshold (default: 50 XP)
+1. Daily XP accumulation reaches threshold (default: 150 XP)
 2. Streak hasn't already been updated today
 3. User was active yesterday OR it's their first day
 
 ```typescript
 // Configuration in src/config/gamification/streakConfig.ts
 const streakConfig = {
-  minXPForStreak: 50,        // Daily XP threshold
-  gracePeriodHours: 36,      // Hours before streak breaks
+  minXPForStreak: 150,       // Daily XP threshold
+  gracePeriodHours: 24,      // Hours before streak breaks
   freezeCount: 3,            // Premium: freeze days available
 };
 ```
@@ -1471,8 +1471,8 @@ FIRESTORE_EMULATOR_HOST=localhost:8080 npm run dev
 
 | Setting | Default | Location |
 |---------|---------|----------|
-| Min XP for streak | 50 | `streakConfig.ts` |
-| Grace period | 36 hours | `streakConfig.ts` |
+| Min XP for streak | 150 | `streakConfig.ts` |
+| Grace period | 24 hours | `streakConfig.ts` |
 | Premium freeze days | 3 | `streakConfig.ts` |
 
 ### Key Imports

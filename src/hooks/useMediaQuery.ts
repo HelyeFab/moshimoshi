@@ -134,18 +134,7 @@ export function useKeyboardVisible(threshold: number = 150): boolean {
  * Detect if the app is running in iOS standalone mode (installed PWA via "Add to Home Screen")
  * Returns false during SSR, boolean after hydration
  *
- * Detection methods:
- * 1. navigator.standalone (iOS Safari specific)
- * 2. display-mode: standalone media query
- * 3. User agent contains iPhone/iPad
- *
  * @returns boolean - true if running as installed PWA on iOS
- *
- * @example
- * const isIOSStandalone = useIsIOSStandalone()
- * if (isIOSStandalone) {
- *   // Apply iOS-specific optimizations
- * }
  */
 export function useIsIOSStandalone(): boolean {
   const [isStandalone, setIsStandalone] = useState(false)
@@ -165,10 +154,7 @@ export function useIsIOSStandalone(): boolean {
     // Method 2: Standard display-mode media query
     const standaloneMediaQuery = window.matchMedia('(display-mode: standalone)').matches
 
-    // App is in standalone mode if either check passes
-    const standalone = iosStandalone || standaloneMediaQuery
-
-    setIsStandalone(standalone)
+    setIsStandalone(iosStandalone || standaloneMediaQuery)
   }, [])
 
   return isStandalone

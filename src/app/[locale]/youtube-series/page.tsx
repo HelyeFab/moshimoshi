@@ -6,7 +6,6 @@ import { useAuth } from '@/hooks/useAuth'
 import { YouTubeChannel } from '@/types/youtube-series'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import {
   Youtube,
@@ -280,7 +279,6 @@ export default function YouTubeSeriesPage() {
             ))}
           </div>
         )}
-        <MobileNavSpacer />
       </div>
     </div>
   )

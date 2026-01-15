@@ -3,6 +3,7 @@
  */
 
 import { getLocaleFromPath } from '@/i18n/I18nContext';
+import { createUuid } from '@/lib/utils/uuid';
 
 /**
  * Generic POST helper using session cookies for authentication
@@ -58,7 +59,7 @@ export async function startCheckout(
       priceId,
       successUrl,
       cancelUrl,
-      idempotencyKey: crypto.randomUUID(),
+      idempotencyKey: createUuid(),
     });
     
     if (url) {
@@ -79,7 +80,7 @@ export async function openBillingPortal(returnUrl: string): Promise<void> {
   try {
     const { url } = await postJSON('/api/stripe/create-portal-session', {
       returnUrl,
-      idempotencyKey: crypto.randomUUID(),
+      idempotencyKey: createUuid(),
     });
     
     if (url) {

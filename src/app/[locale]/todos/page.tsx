@@ -7,7 +7,6 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { TodoList } from '@/components/todos/TodoList'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/i18n/I18nContext'
 import { useSubscription } from '@/hooks/useSubscription'
@@ -56,7 +55,6 @@ export default function TodosPage() {
         {/* Todo list component */}
         <TodoList />
       </div>
-      <MobileNavSpacer />
     </div>
   )
 }

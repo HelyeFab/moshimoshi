@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { ConjugationDisplay } from '@/components/conjugation/ConjugationDisplay'
@@ -733,7 +732,6 @@ export default function ConjugationPracticePage() {
             )}
           </div>
         )}
-        <MobileNavSpacer />
       </div>
     </div>
     </EntitlementGate>

@@ -287,8 +287,14 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
             // ttsLoadingState.setFetching(false)
 
             // Cache the result for offline use (fire and forget)
+            // Route Firebase Storage URLs through proxy to avoid CORS issues
+            const cacheUrl =
+              result.audioUrl.includes('firebasestorage') ||
+              result.audioUrl.includes('storage.googleapis.com')
+                ? `/api/tts/proxy?url=${encodeURIComponent(result.audioUrl)}`
+                : result.audioUrl
             offlineCache
-              .set(text, provider, voice, speed, result.audioUrl, result.duration || 0, pitch)
+              .set(text, provider, voice, speed, cacheUrl, result.duration || 0, pitch)
               .catch(error => {
                 console.warn('[useTTS] Failed to cache audio offline:', error)
               })

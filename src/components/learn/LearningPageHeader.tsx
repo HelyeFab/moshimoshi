@@ -1,10 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ChevronDown } from 'lucide-react'
 import DoshiMascot from '@/components/ui/DoshiMascot'
+import PillBackButton from '@/components/common/PillBackButton'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTheme } from '@/lib/theme/ThemeContext'
 
@@ -78,7 +78,6 @@ export default function LearningPageHeader({
 }: LearningPageHeaderProps) {
   const { t } = useI18n()
   const { resolvedTheme } = useTheme()
-  const router = useRouter()
   const [isExpanded, setIsExpanded] = useState(false)
 
   // Calculate progress percentage
@@ -374,17 +373,7 @@ export default function LearningPageHeader({
                 </button>
 
                 {/* Back Button */}
-                <button
-                  onClick={() => router.push(backHref)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium transition-all shadow-lg hover:scale-105 active:scale-95 ${
-                    isLightTheme
-                      ? 'bg-white/30 backdrop-blur text-white [text-shadow:_1px_1px_2px_rgb(0_0_0_/_30%)] hover:bg-white/40'
-                      : 'bg-primary-500 hover:bg-primary-600 text-white shadow-primary-500/30 hover:shadow-primary-500/50'
-                  }`}
-                  aria-label="Go back"
-                >
-                  Back
-                </button>
+                <PillBackButton fallbackHref={backHref} />
               </div>
 
               {/* Progress Bar - Always visible on mobile */}
@@ -553,6 +542,11 @@ export default function LearningPageHeader({
             </>
           )}
           <div className="container mx-auto px-4 py-6 relative z-10">
+            {/* Back button - top left */}
+            <div className="mb-4">
+              <PillBackButton fallbackHref={backHref} />
+            </div>
+
             <div className="mb-6">
               <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">
                 {mascot === 'doshi' && (

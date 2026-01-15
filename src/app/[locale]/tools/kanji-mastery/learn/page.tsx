@@ -2,7 +2,6 @@
 
 import { Suspense } from 'react'
 import { LoadingOverlay } from '@/components/ui/Loading'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import LearnContent from './LearnContent'
 
 export default function LearnPage() {
@@ -13,7 +12,6 @@ export default function LearnPage() {
       </div>
     }>
       <LearnContent />
-      <MobileNavSpacer />
     </Suspense>
   )
 }

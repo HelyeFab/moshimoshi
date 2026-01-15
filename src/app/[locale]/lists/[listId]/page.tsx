@@ -6,7 +6,6 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useRouter, useParams } from 'next/navigation'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { listManager } from '@/lib/lists/ListManager'
 import { validateItemForCreation, hasRequiredMetadata } from '@/lib/lists/validation'
 import type { UserList, ListItem, ListItemSRSData } from '@/types/userLists'
@@ -18,7 +17,7 @@ import DoshiMascot from '@/components/ui/DoshiMascot'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import Dialog from '@/components/ui/Dialog'
 import SpeakerIcon from '@/components/ui/SpeakerIcon'
-import { Trash2 } from 'lucide-react'
+import { Trash2, ChevronLeft, ChevronRight, Check, X, SkipForward } from 'lucide-react'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { kanjiService } from '@/services/kanjiService'
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
@@ -607,7 +606,10 @@ export default function ListDetailPage() {
         className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
         dark:from-dark-900 dark:via-dark-850 dark:to-dark-800"
       >
-        {/* Desktop Navbar - hidden during active study session */}
+        {/* Desktop Navbar */}
+        <div className="hidden sm:block">
+          <Navbar user={user} showUserMenu={true} />
+        </div>
         <LearningPageHeader
           title={list.name}
           description={t(`lists.types.${list.type}.description`)}
@@ -629,8 +631,16 @@ export default function ListDetailPage() {
               </div>
 
               <div className="text-center mb-8">
-                <div className="text-4xl font-bold text-gray-900 dark:text-gray-100 mb-4">
-                  {currentItem.content}
+                <div className="flex items-center justify-center gap-3 mb-4">
+                  <div className="text-4xl font-bold text-gray-900 dark:text-gray-100">
+                    {currentItem.content}
+                  </div>
+                  <SpeakerIcon
+                    text={currentItem.content}
+                    size="lg"
+                    variant="ghost"
+                    className="text-gray-600 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400"
+                  />
                 </div>
                 {currentItem.metadata?.reading && (
                   <div className="text-lg text-gray-600 dark:text-gray-400 mb-2">
@@ -657,9 +667,10 @@ export default function ListDetailPage() {
                     }
                   }}
                   disabled={currentStudyIndex === 0}
-                  className="px-6 py-3 rounded-lg bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  className="p-3 rounded-full bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+                  aria-label="Previous"
                 >
-                  Previous
+                  <ChevronLeft className="w-6 h-6" />
                 </button>
                 <button
                   onClick={() => {
@@ -699,18 +710,23 @@ export default function ListDetailPage() {
                       handleModeChange('browse')
                     }
                   }}
-                  className="px-6 py-3 rounded-lg bg-primary-500 text-white hover:bg-primary-600 transition-all"
+                  className="p-3 rounded-full bg-primary-500 text-white hover:bg-primary-600 transition-all"
+                  aria-label={currentStudyIndex < selectedItemsData.length - 1 ? 'Next' : 'Complete'}
                 >
-                  {currentStudyIndex < selectedItemsData.length - 1 ? 'Next' : 'Complete'}
+                  {currentStudyIndex < selectedItemsData.length - 1 ? (
+                    <ChevronRight className="w-6 h-6" />
+                  ) : (
+                    <Check className="w-6 h-6" />
+                  )}
+                </button>
+                <button
+                  onClick={() => handleModeChange('browse')}
+                  className="p-3 rounded-full bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-dark-600 transition-all"
+                  aria-label="Back to Browse"
+                >
+                  <X className="w-6 h-6" />
                 </button>
               </div>
-
-              <button
-                onClick={() => handleModeChange('browse')}
-                className="mt-4 w-full px-4 py-2 text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200 transition-all"
-              >
-                Back to Browse
-              </button>
             </div>
           </div>
         </main>
@@ -739,7 +755,10 @@ export default function ListDetailPage() {
         className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
         dark:from-dark-900 dark:via-dark-850 dark:to-dark-800"
       >
-        {/* Desktop Navbar - hidden during active review session */}
+        {/* Desktop Navbar */}
+        <div className="hidden sm:block">
+          <Navbar user={user} showUserMenu={true} />
+        </div>
         <LearningPageHeader
           title={list.name}
           description={t(`lists.types.${list.type}.description`)}
@@ -1077,7 +1096,6 @@ export default function ListDetailPage() {
         criticalMessage="Storage critically low! Please delete unused lists to free up space and continue using the app."
       />
       <ListSyncStatusIndicator />
-      <MobileNavSpacer />
     </div>
   )
 }

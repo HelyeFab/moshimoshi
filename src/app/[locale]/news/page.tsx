@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { useAuth } from '@/hooks/useAuth'
 import { LoadingOverlay } from '@/components/ui/Loading'
@@ -703,7 +702,6 @@ export default function NewsPage() {
             )}
           </div>
         )}
-        <MobileNavSpacer />
       </div>
     </div>
   )

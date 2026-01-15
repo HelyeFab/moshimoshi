@@ -2,6 +2,7 @@ import PQueue from 'p-queue'
 import { ClientEventEmitter } from '@/lib/review-engine/core/client-event-emitter'
 import type { FlashcardDeck } from '@/types/flashcards'
 import { debugLogger } from '@/lib/debug-logger'
+import { createUuid } from '@/lib/utils/uuid'
 
 type UserDeckUploadJob = {
   id: string
@@ -129,7 +130,7 @@ export class UserDeckUploadQueue {
     })
 
     await this.putJob({
-      id: crypto.randomUUID(),
+      id: createUuid(),
       deckId: deck.id,
       userId: this.userId,
       key: 'cards.json',
@@ -157,7 +158,7 @@ export class UserDeckUploadQueue {
         }
 
         await this.putJob({
-          id: crypto.randomUUID(),
+          id: createUuid(),
           deckId: deck.id,
           userId: this.userId,
           key: `media/${filename}`,
@@ -178,7 +179,7 @@ export class UserDeckUploadQueue {
     debugLogger.step(3, 'Queueing manifest...', { deckId: deck.id })
 
     await this.putJob({
-      id: crypto.randomUUID(),
+      id: createUuid(),
       deckId: deck.id,
       userId: this.userId,
       key: 'manifest.json',

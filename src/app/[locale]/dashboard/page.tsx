@@ -111,7 +111,7 @@ function DashboardContent() {
       if (!hasVisited) {
         setIsFirstVisit(true)
         localStorage.setItem('dashboard_visited', 'true')
-        showToast('Welcome to Moshimoshi! Doshi is excited to learn with you! 🎉', 'success', 5000)
+        showToast('Welcome to Moshimoshi! Moshi is excited to learn with you! 🎉', 'success', 5000)
       }
       setHasCheckedFirstVisit(true)
     }

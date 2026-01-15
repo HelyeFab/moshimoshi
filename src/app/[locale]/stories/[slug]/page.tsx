@@ -7,7 +7,6 @@ import type { CachedStory } from '@/lib/stories/story-cache.types'
 import { storyService } from '@/lib/services/StoryService'
 import { useStoryCache } from '@/hooks/useStoryCache'
 import EnhancedArticleReader from '@/components/news/EnhancedArticleReaderFinal'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { useToast } from '@/components/ui/Toast/ToastContext'
@@ -151,7 +150,6 @@ export default function StoryDetailPage() {
         contentType="story"
       />
 
-      <MobileNavSpacer />
     </div>
   )
 }

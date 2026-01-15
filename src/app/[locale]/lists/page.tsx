@@ -6,7 +6,6 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useRouter } from 'next/navigation'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { listManager } from '@/lib/lists/ListManager'
 import CreateListModal from '@/components/lists/CreateListModal'
 import EditListModal from '@/components/lists/EditListModal'
@@ -17,14 +16,14 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import Dialog from '@/components/ui/Dialog'
 import Modal from '@/components/ui/Modal'
 import Dropdown from '@/components/ui/Dropdown'
-import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { Pencil, FileJson, FileSpreadsheet, Trash2 } from 'lucide-react'
 import { useFeature } from '@/hooks/useFeature'
 import MultiTabNotifier from '@/components/lists/MultiTabNotifier'
 import StorageWarning from '@/components/flashcards/StorageWarning'
 import ListSyncStatusIndicator from '@/components/lists/ListSyncStatusIndicator'
 import { createStarterListsIfNeeded } from '@/lib/lists/starterLists'
-import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import { FeatureUsageIndicator, useFeatureUsage, DesktopCircularIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import PageHeader from '@/components/ui/PageHeader'
 
 export default function MyListsPage() {
   const { t, strings } = useI18n()
@@ -34,6 +33,9 @@ export default function MyListsPage() {
   const router = useRouter()
   const { showToast } = useToast()
   const { checkOnly } = useFeature('custom_lists')
+
+  // Feature usage indicator data
+  const usageData = useFeatureUsage('custom_lists')
 
   const [lists, setLists] = useState<UserList[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -84,7 +86,26 @@ export default function MyListsPage() {
     if (decision.allow) {
       setShowCreateModal(true)
     } else {
-      showToast(t('entitlements.messages.limitReached'), 'warning')
+      const isPremiumUser = isPremium === true
+      if (decision.reason === 'no_permission') {
+        showToast(
+          t('entitlements.messages.upgradeRequired'),
+          'error',
+          5000,
+          {
+            label: t('subscription.actions.viewPlans'),
+            onClick: () => router.push('/pricing')
+          }
+        )
+      } else if (decision.reason === 'limit_reached') {
+        const toastAction = !isPremiumUser ? {
+          label: t('subscription.actions.upgrade'),
+          onClick: () => router.push('/pricing')
+        } : undefined
+        showToast(t('entitlements.messages.limitReached'), 'warning', 5000, toastAction)
+      } else {
+        showToast(t('entitlements.messages.featureUnavailable'), 'info')
+      }
       console.log('[MyListsPage] Quota exceeded, modal will not open')
     }
   }
@@ -255,7 +276,20 @@ export default function MyListsPage() {
       </div>
 
       <div className="container mx-auto px-4 py-8 pb-24">
-        <LearningPageHeader title={t('lists.title')} description={t('lists.pageDescription')} mascot="none" />
+        <PageHeader
+          title={t('lists.title')}
+          description={t('lists.pageDescription')}
+          actions={
+            usageData.hasData ? (
+              <DesktopCircularIndicator
+                remaining={usageData.remaining}
+                limitCount={usageData.limitCount}
+                usedCount={usageData.usedCount}
+                color={usageData.color}
+              />
+            ) : null
+          }
+        />
 
         <FeatureUsageIndicator featureId="custom_lists" />
 
@@ -486,7 +520,6 @@ export default function MyListsPage() {
         criticalMessage="Storage critically low! Please delete unused lists to free up space and continue using the app."
       />
       <ListSyncStatusIndicator />
-      <MobileNavSpacer />
     </div>
   )
 }

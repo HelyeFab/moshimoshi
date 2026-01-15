@@ -7,7 +7,6 @@ import { formatDistanceToNow } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BookOpen, Clock, Eye, Sparkles, ArrowRight } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 import PageHeader from '@/components/ui/PageHeader';
 import { useAuth } from '@/hooks/useAuth';
 import Dropdown from '@/components/ui/Dropdown';
@@ -253,7 +252,6 @@ export default function ResourcesPage() {
           </motion.div>
         )}
       </div>
-      <MobileNavSpacer />
     </div>
   );
 }

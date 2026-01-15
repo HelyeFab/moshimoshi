@@ -12,7 +12,6 @@ import Modal from '@/components/ui/Modal'
 import VocabularySearch from './components/VocabularySearch'
 import WordDetailsModal from './components/WordDetailsModal'
 import SearchHistory from './components/SearchHistory'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { searchWords, initWanikaniApi } from '@/utils/api'
 import { searchJMdictWords, loadJMdictData } from '@/utils/jmdictLocalSearch'
 import type { JapaneseWord } from '@/types/vocabulary'
@@ -487,7 +486,6 @@ function VocabularyContent() {
         </div>
       </Modal>
 
-      <MobileNavSpacer />
     </div>
   )
 }

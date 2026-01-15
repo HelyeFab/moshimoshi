@@ -40,6 +40,7 @@ export class OfflineTTSCache {
   private dbPromise: Promise<IDBDatabase> | null = null
   private _isPersisted: boolean | null = null
   private _persistenceChecked = false
+  private _isAvailable: boolean | null = null
 
   private constructor(options: Partial<OfflineTTSCacheOptions> = {}) {
     this.options = { ...DEFAULT_OPTIONS, ...options }
@@ -50,6 +51,43 @@ export class OfflineTTSCache {
       OfflineTTSCache.instance = new OfflineTTSCache(options)
     }
     return OfflineTTSCache.instance
+  }
+
+  /**
+   * Check if IndexedDB is available and functional
+   * Returns false on iOS private browsing, some PWA contexts, etc.
+   */
+  private isIndexedDBAvailable(): boolean {
+    if (this._isAvailable !== null) {
+      return this._isAvailable
+    }
+
+    try {
+      // Check if we're in a browser environment
+      if (typeof window === 'undefined' || typeof indexedDB === 'undefined') {
+        this._isAvailable = false
+        return false
+      }
+
+      // Try to access indexedDB - this can throw in some contexts
+      const testRequest = indexedDB.open('__idb_test__')
+      testRequest.onerror = () => {
+        this._isAvailable = false
+      }
+      testRequest.onsuccess = () => {
+        testRequest.result.close()
+        indexedDB.deleteDatabase('__idb_test__')
+        this._isAvailable = true
+      }
+
+      // Assume available until proven otherwise
+      this._isAvailable = true
+      return true
+    } catch (e) {
+      console.warn('[OfflineTTSCache] IndexedDB not available:', e)
+      this._isAvailable = false
+      return false
+    }
   }
 
   /**
@@ -147,13 +185,46 @@ export class OfflineTTSCache {
 
   /**
    * Hash function for cache keys
+   * Uses Web Crypto API when available (secure contexts), falls back to simple hash for HTTP
    */
   private async hashString(str: string): Promise<string> {
-    const encoder = new TextEncoder()
-    const data = encoder.encode(str)
-    const hashBuffer = await crypto.subtle.digest('SHA-256', data)
-    const hashArray = Array.from(new Uint8Array(hashBuffer))
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+    // Check if crypto.subtle is available (only in secure contexts: HTTPS, localhost)
+    if (typeof crypto !== 'undefined' && crypto.subtle) {
+      try {
+        const encoder = new TextEncoder()
+        const data = encoder.encode(str)
+        const hashBuffer = await crypto.subtle.digest('SHA-256', data)
+        const hashArray = Array.from(new Uint8Array(hashBuffer))
+        return hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
+      } catch (e) {
+        // Fall through to fallback
+      }
+    }
+
+    // Fallback: cyrb53 hash for non-secure contexts (HTTP on IP addresses)
+    // This is a fast, good-quality hash that doesn't require crypto.subtle
+    return this.cyrb53Hash(str)
+  }
+
+  /**
+   * Fallback hash function (cyrb53) for non-secure contexts
+   * Produces a 53-bit hash as hex string - good enough for cache keys
+   */
+  private cyrb53Hash(str: string, seed = 0): string {
+    let h1 = 0xdeadbeef ^ seed
+    let h2 = 0x41c6ce57 ^ seed
+    for (let i = 0; i < str.length; i++) {
+      const ch = str.charCodeAt(i)
+      h1 = Math.imul(h1 ^ ch, 2654435761)
+      h2 = Math.imul(h2 ^ ch, 1597334677)
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507)
+    h1 ^= Math.imul(h2 ^ (h2 >>> 13), 3266489909)
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507)
+    h2 ^= Math.imul(h1 ^ (h1 >>> 13), 3266489909)
+    // Return as 16-character hex string
+    const hash = 4294967296 * (2097151 & h2) + (h1 >>> 0)
+    return hash.toString(16).padStart(16, '0')
   }
 
   /**
@@ -167,6 +238,11 @@ export class OfflineTTSCache {
     pitch: number = 0,
     volume: number = 1
   ): Promise<boolean> {
+    // Skip if IndexedDB not available (iOS private browsing, some PWA contexts)
+    if (!this.isIndexedDBAvailable()) {
+      return false
+    }
+
     try {
       const textHash = await this.generateCacheKey(text, provider, voice, speed, pitch, volume)
       const db = await this.getDatabase()
@@ -192,6 +268,11 @@ export class OfflineTTSCache {
     pitch: number = 0,
     volume: number = 1
   ): Promise<{ audioUrl: string; cached: true } | null> {
+    // Skip if IndexedDB not available (iOS private browsing, some PWA contexts)
+    if (!this.isIndexedDBAvailable()) {
+      return null
+    }
+
     try {
       const textHash = await this.generateCacheKey(text, provider, voice, speed, pitch, volume)
       const db = await this.getDatabase()
@@ -236,6 +317,11 @@ export class OfflineTTSCache {
     pitch: number = 0,
     volume: number = 1
   ): Promise<void> {
+    // Skip if IndexedDB not available (iOS private browsing, some PWA contexts)
+    if (!this.isIndexedDBAvailable()) {
+      return
+    }
+
     try {
       // Download the audio data
       const response = await fetch(audioUrl)
@@ -423,21 +509,29 @@ export class OfflineTTSCache {
     }
 
     this.dbPromise = new Promise((resolve, reject) => {
-      const request = indexedDB.open(this.dbName, this.dbVersion)
+      try {
+        const request = indexedDB.open(this.dbName, this.dbVersion)
 
-      request.onerror = () => reject(request.error)
-      request.onsuccess = () => resolve(request.result)
-
-      request.onupgradeneeded = event => {
-        const db = (event.target as IDBOpenDBRequest).result
-
-        if (!db.objectStoreNames.contains(this.storeName)) {
-          const store = db.createObjectStore(this.storeName, { keyPath: 'id' })
-          store.createIndex('textHash', 'textHash', { unique: false })
-          store.createIndex('lastAccessed', 'lastAccessed', { unique: false })
-          store.createIndex('createdAt', 'createdAt', { unique: false })
-          console.log('[OfflineTTSCache] Created offline TTS cache store')
+        request.onerror = () => {
+          this._isAvailable = false
+          reject(request.error)
         }
+        request.onsuccess = () => resolve(request.result)
+
+        request.onupgradeneeded = event => {
+          const db = (event.target as IDBOpenDBRequest).result
+
+          if (!db.objectStoreNames.contains(this.storeName)) {
+            const store = db.createObjectStore(this.storeName, { keyPath: 'id' })
+            store.createIndex('textHash', 'textHash', { unique: false })
+            store.createIndex('lastAccessed', 'lastAccessed', { unique: false })
+            store.createIndex('createdAt', 'createdAt', { unique: false })
+            console.log('[OfflineTTSCache] Created offline TTS cache store')
+          }
+        }
+      } catch (e) {
+        this._isAvailable = false
+        reject(e)
       }
     })
 

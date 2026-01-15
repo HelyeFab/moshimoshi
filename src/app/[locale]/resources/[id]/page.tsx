@@ -7,7 +7,6 @@ import { formatDistanceToNow } from 'date-fns';
 import { marked } from 'marked';
 import { useAuth } from '@/hooks/useAuth';
 import Navbar from '@/components/layout/Navbar';
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 import { getGradientForBook } from '@/lib/utils/gradients';
 import { readOfflineListCache } from '@/lib/pwa/offline-list-cache';
 
@@ -287,7 +286,6 @@ export default function ResourceDetailPage() {
           )}
         </div>
       </div>
-      <MobileNavSpacer />
     </div>
   );
 }

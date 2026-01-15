@@ -9,7 +9,7 @@ This document describes all activities in the app that reward XP, their mechanis
 
 XP (Experience Points) is the core gamification currency in Moshimoshi. Users earn XP by completing various learning activities, which contributes to:
 - **Leveling up**: Level = floor(totalXP / 1000) - minimum level is 1
-- **Maintaining streaks**: Requires minimum 25 XP per day
+- **Maintaining streaks**: Requires minimum 150 XP per day
 - **Unlocking achievements**: Various milestones tied to XP and activity completion
 
 ---
@@ -26,7 +26,7 @@ This table clarifies which features award XP through URE (Event Hub) vs direct A
 | **User Lists** | ✅ Yes | Event Hub | Same as Kana Learning |
 | **Flashcards** | ✅ Yes | Event Hub | `getEventHub().emit()` → `gamificationListener` → `recordReviewCompletion()` |
 | **Drill Sessions** | ❌ No | Direct API | `DrillProgressManager` → `PUT /api/drill/session` → `recordDrillCompletion()` |
-| **Anki Study** | ❌ No | None | Excluded from XP system - uses local SRS only |
+| **Anki Study** | ✅ Yes (UI/events) | Event Hub | ReviewSessionUI emits SESSION_COMPLETED; Anki SRS remains in useAnkiStudy |
 | **News Reading** | ❌ No | Direct API | `POST /api/news/progress/complete` → `calculateNewsXP()` |
 | **Book Reading** | ❌ No | Direct API | `POST /api/library/books/complete` → `calculateBookXP()` |
 | **Quiz Completion** | ❌ No | Direct API + Manual Store Update | `POST /api/quiz/complete` → `calculateQuizXP()` + `useGamificationStore` |
@@ -321,15 +321,15 @@ The following activities are defined in `config/xp-config.json` but not yet full
 
 | Setting | Value |
 |---------|-------|
-| Minimum XP for streak | 25 XP |
+| Minimum XP for streak | 150 XP |
 | Grace period | 24 hours |
 | Reset time | 00:00 UTC |
 
 ### Streak Mechanics
 
 1. **Daily XP Accumulation**: XP from all activities accumulates throughout the day
-2. **Streak Increment**: When daily XP reaches 25+, streak increments (once per day)
-3. **Streak Break**: If daily XP < 25 and grace period expires, streak resets to 0
+2. **Streak Increment**: When daily XP reaches 150+, streak increments (once per day)
+3. **Streak Break**: If daily XP < 150 and grace period expires, streak resets to 0
 4. **Streak Save**: Users can trade XP to save a breaking streak (dynamic pricing)
 
 ---

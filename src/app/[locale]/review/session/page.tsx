@@ -8,7 +8,6 @@ import { SessionStatistics } from '@/lib/review-engine/core/session.types'
 import { useAuth } from '@/hooks/useAuth'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { useI18n } from '@/i18n/I18nContext'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 // All gamification uses Event Hub (global singleton)
 // ReviewSessionUI handles initialization automatically
@@ -105,7 +104,6 @@ export default function ReviewSessionPage() {
             {t('common.back')}
           </button>
         </div>
-        <MobileNavSpacer />
       </div>
     )
   }

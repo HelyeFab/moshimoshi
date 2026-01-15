@@ -7,7 +7,6 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import PageHeader from '@/components/ui/PageHeader'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
@@ -464,7 +463,6 @@ export default function TextbookVocabularyPage() {
 
       </div>
 
-      <MobileNavSpacer />
     </div>
   )
 }

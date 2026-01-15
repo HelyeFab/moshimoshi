@@ -13,7 +13,6 @@ import { motion } from 'framer-motion'
 import Dropdown from '@/components/ui/Dropdown'
 import KanjiProgressSummary from './components/KanjiProgressSummary'
 import ReviewDueAlert from './components/ReviewDueAlert'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useUserStorage } from '@/hooks/useUserStorage'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
@@ -471,7 +470,6 @@ function KanjiMasteryContent() {
           <KanjiProgressSummary />
         </div>
 
-          <MobileNavSpacer />
         </div>
       </div>
     </>

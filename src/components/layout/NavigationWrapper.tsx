@@ -24,9 +24,7 @@ export default function NavigationWrapper() {
     <EnhancedNav
       user={user}
       showUserMenu={true}
-      showBottomNav={true}
-      autoHideTopNav={true} // Top nav auto-hides on mobile
-      // Bottom nav now always visible by default (hideOnScroll={false} in BottomNav)
+      autoHideTopNav={true}
     />
   );
 }

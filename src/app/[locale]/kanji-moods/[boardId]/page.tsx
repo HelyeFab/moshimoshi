@@ -8,7 +8,6 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
@@ -602,7 +601,6 @@ export default function MoodBoardDetailPage() {
           onClose={() => setSelectedKanji(null)}
         />
       )}
-      <MobileNavSpacer />
     </div>
   )
 }

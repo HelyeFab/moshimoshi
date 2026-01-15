@@ -12,7 +12,6 @@ import { useAuth } from '@/hooks/useAuth'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import QuestionCard from '@/components/qa/QuestionCard'
 import { getQuestions } from '@/lib/qa/questions'
 import type { Question, QuestionSortBy } from '@/types/qa'
@@ -379,7 +378,6 @@ export default function QAForumPage() {
       </div>
 
       {/* Mobile Bottom Nav Spacer */}
-      <MobileNavSpacer />
 
       {/* Welcome Modal - First visit */}
       <TeaHouseWelcomeModal isOpen={showWelcomeModal} onClose={handleWelcomeClose} />

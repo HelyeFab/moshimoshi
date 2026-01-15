@@ -2,6 +2,7 @@ import type { UserList, ListItem, CreateListRequest, AddItemRequest, UpdateListR
 import { openDB, IDBPDatabase } from 'idb';
 import { TabCoordinator } from './TabCoordinator';
 import { QuotaGuard, QuotaError } from '../storage/QuotaGuard';
+import { createUuid } from '@/lib/utils/uuid';
 
 export type SyncState = 'idle' | 'syncing' | 'synced' | 'error';
 
@@ -274,7 +275,7 @@ class ListManager {
     const items: ListItem[] = [];
     if (request.firstItem) {
       items.push({
-        id: crypto.randomUUID(),
+        id: createUuid(),
         content: request.firstItem.content,
         type: request.type,
         metadata: {
@@ -285,7 +286,7 @@ class ListManager {
     }
 
     const list: UserList = {
-      id: crypto.randomUUID(),
+      id: createUuid(),
       userId,
       name: request.name,
       type: request.type,
@@ -393,7 +394,7 @@ class ListManager {
 
     // Create the item
     const newItem: ListItem = {
-      id: crypto.randomUUID(),
+      id: createUuid(),
       content,
       type: list.type,
       metadata: {
@@ -720,7 +721,7 @@ class ListManager {
       if (Array.isArray(parsed)) {
         parsed.forEach(item => {
           items.push({
-            id: crypto.randomUUID(),
+            id: createUuid(),
             content: item.content || item,
             type,
             metadata: {
@@ -744,7 +745,7 @@ class ListManager {
         const cleanValues = values.map(v => v.replace(/^"|"$/g, '').replace(/""/g, '"'));
 
         items.push({
-          id: crypto.randomUUID(),
+          id: createUuid(),
           content: cleanValues[0] || '',
           type,
           metadata: {
@@ -761,7 +762,7 @@ class ListManager {
       const lines = data.split('\n').filter(line => line.trim());
       lines.forEach(line => {
         items.push({
-          id: crypto.randomUUID(),
+          id: createUuid(),
           content: line.trim(),
           type,
           metadata: {
@@ -799,7 +800,7 @@ class ListManager {
   private async addToSyncQueue(action: string, data: any): Promise<void> {
     const db = await this.initDB();
     await db.add('syncQueue', {
-      id: crypto.randomUUID(),
+      id: createUuid(),
       action: action as any,
       data,
       timestamp: Date.now(),

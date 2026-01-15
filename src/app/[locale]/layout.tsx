@@ -14,9 +14,9 @@ import { TTSLoadingProvider } from '@/components/tts';
 import CelebrationProvider from '@/components/gamification/CelebrationProvider';
 import { ConjugationHelpProvider } from '@/contexts/ConjugationHelpContext';
 import { EmailVerificationBanner } from '@/components/EmailVerificationBanner';
-import BottomNav from '@/components/layout/BottomNav';
 import ConditionalCommandPalette from '@/components/ui/ConditionalCommandPalette';
 import TimeMachineButton from '@/components/dev/TimeMachineButton';
+import MobileBottomNav from '@/components/layout/MobileBottomNav';
 import { locales, type Locale } from '@/i18n/routing';
 import type { Language } from '@/i18n/config';
 
@@ -74,11 +74,11 @@ export default async function LocaleLayout({
                         process.env.NEXT_PUBLIC_ENABLE_TIME_MACHINE !== 'false' && (
                           <TimeMachineButton />
                         )}
-                      <BottomNav />
                       <ConditionalCommandPalette />
                       <PWAInstallPrompt />
                       <PWAInstallToast />
                       <AppRenderedMarker />
+                      <MobileBottomNav />
                     </TTSLoadingProvider>
                   </CelebrationProvider>
                 </ServiceWorkerProvider>

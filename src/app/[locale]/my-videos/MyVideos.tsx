@@ -27,7 +27,6 @@ import { useAuth } from '@/hooks/useAuth'
 import { useFeature } from '@/hooks/useFeature'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useYouTubeStats } from '@/hooks/useYouTubeStats'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { PracticeHistoryItem } from '@/services/practiceHistory/types'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
@@ -765,7 +764,6 @@ export default function MyVideos() {
             )}
           </AnimatePresence>
         </div>
-        <MobileNavSpacer />
       </div>
     </div>
   )

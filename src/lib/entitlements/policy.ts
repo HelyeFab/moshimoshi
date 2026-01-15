@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-12T13:35:45.762Z
+ * Generated at: 2026-01-14T16:56:06.971Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -45,7 +45,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "books": 0,
           "kanji_mood_board": 0,
           "drill": 0,
-          "my_list": 0,
+          "my_list": -1,
           "textbook_vocabulary": 0,
           "flashcards": 0,
           "resources": -1,
@@ -55,7 +55,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
     },
     "monthly": {
           "custom_lists": 0,
-          "save_items": 0,
+          "save_items": -1,
           "todos": 0,
           "flashcard_decks": 0,
           "anki_imports": 0
@@ -88,7 +88,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "books": 0,
           "kanji_mood_board": 5,
           "drill": 5,
-          "my_list": 5,
+          "my_list": -1,
           "textbook_vocabulary": 0,
           "flashcards": 0,
           "resources": -1,
@@ -97,8 +97,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "comics": 0
     },
     "monthly": {
-          "custom_lists": 3,
-          "save_items": 50,
+          "custom_lists": 10,
+          "save_items": -1,
           "todos": 100,
           "flashcard_decks": 0,
           "anki_imports": 0

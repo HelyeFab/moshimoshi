@@ -10,7 +10,6 @@ import { useI18n } from '@/i18n/I18nContext'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { useAuth } from '@/hooks/useAuth'
 import { SAMPLE_SENTENCES } from '@/components/games/sentence-scramble/types'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 export default function SentenceScramblePage() {
   const { t, strings } = useI18n()
@@ -49,7 +48,6 @@ export default function SentenceScramblePage() {
             />
           )}
         </motion.div>
-        <MobileNavSpacer />
       </div>
     </div>
   )

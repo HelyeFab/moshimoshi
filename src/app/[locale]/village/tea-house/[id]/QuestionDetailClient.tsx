@@ -15,7 +15,6 @@ import { useTheme } from '@/lib/theme/ThemeContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { cn } from '@/lib/utils'
 import VoteButton from '@/components/qa/VoteButton'
 import ModerationBadge from '@/components/qa/ModerationBadge'
@@ -527,7 +526,6 @@ export default function QuestionDetailClient({ questionId }: { questionId: strin
       </div>
 
       {/* Mobile Bottom Nav Spacer */}
-      <MobileNavSpacer />
 
       {/* Delete Confirmation Dialog */}
       <Dialog

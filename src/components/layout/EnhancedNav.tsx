@@ -3,8 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Navbar from './Navbar';
-import BottomNav from './BottomNav';
-import NavHandle from './NavHandle';
 import { useIsTablet } from '@/hooks/useMediaQuery';
 
 interface EnhancedNavProps {
@@ -21,10 +19,6 @@ interface EnhancedNavProps {
     label: string;
   } | string;
   /**
-   * Whether to show the bottom navigation bar
-   */
-  showBottomNav?: boolean;
-  /**
    * Whether to auto-hide top navbar on mobile on scroll
    */
   autoHideTopNav?: boolean;
@@ -33,15 +27,12 @@ interface EnhancedNavProps {
 /**
  * Enhanced navigation system with:
  * - Top navbar with auto-hide on mobile
- * - Bouncing handle indicator when hidden
- * - Bottom floating navigation bar
  * - Content-aware visibility
  */
 export default function EnhancedNav({
   user,
   showUserMenu = true,
   backLink,
-  showBottomNav = true,
   autoHideTopNav = true
 }: EnhancedNavProps) {
   const [showTopNav, setShowTopNav] = useState(false); // START HIDDEN on mobile
@@ -101,10 +92,6 @@ export default function EnhancedNav({
     };
   }, [isMobile, autoHideTopNav]);
 
-  const handleNavHandleTap = () => {
-    setShowTopNav(prev => !prev); // Toggle navbar on tap
-  };
-
   // During SSR (isMobile undefined), show desktop navbar (Navbar handles its own SSR check)
   const isDesktop = isMobile === false;
   const isMobileDevice = isMobile === true;
@@ -135,15 +122,6 @@ export default function EnhancedNav({
         </AnimatePresence>
       )}
 
-      {/* Bouncing Handle - shows when top navbar is hidden on mobile */}
-      <NavHandle
-        isVisible={!showTopNav && isMobileDevice && autoHideTopNav}
-        position="top"
-        onTap={handleNavHandleTap}
-      />
-
-      {/* Bottom Navigation Bar - Edge-to-edge, always visible design */}
-      {showBottomNav && <BottomNav hideOnScroll={false} />}
     </>
   );
 }

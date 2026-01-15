@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/i18n/I18nContext'
 import { useKanjiConnectionCache } from '@/hooks/useKanjiConnectionCache'
@@ -152,7 +151,6 @@ export default function KanjiConnectionPage() {
           ))}
         </div>
 
-        <MobileNavSpacer />
       </div>
     </div>
   )

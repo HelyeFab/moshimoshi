@@ -27,7 +27,6 @@ import { ImageUpload } from './ImageUpload'
 import { listManager } from '@/lib/lists/ListManager'
 import { useRouter } from 'next/navigation'
 import { Loader2, ChevronDown, Check } from 'lucide-react'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import Modal from '@/components/ui/Modal'
 import { generateFuriganaBatch, needsFurigana } from '@/lib/flashcards/furiganaUtils'
 import { useToast } from '@/components/ui/Toast/ToastContext'
@@ -936,7 +935,6 @@ export function DeckCreator({
                     </div>
 
                     {/* Spacer for mobile bottom nav */}
-                    <MobileNavSpacer />
                   </div>
                 )}
 
@@ -1119,7 +1117,6 @@ export function DeckCreator({
               </div>
 
               {/* Mobile bottom nav spacer */}
-              <MobileNavSpacer />
             </motion.div>
           </div>
         )}

@@ -8,7 +8,6 @@ import LearningPageHeader from '@/components/learn/LearningPageHeader';
 import { useAuth } from '@/hooks/useAuth';
 import { useI18n } from '@/i18n/I18nContext';
 import KanjiSimonBoardSelection from './components/KanjiSimonBoardSelection';
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 
 export default function KanjiSimonPage() {
   const router = useRouter();
@@ -129,7 +128,6 @@ export default function KanjiSimonPage() {
           )}
         </main>
       </div>
-      <MobileNavSpacer />
     </div>
   );
 }

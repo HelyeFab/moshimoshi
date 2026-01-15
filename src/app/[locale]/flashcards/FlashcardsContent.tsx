@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { DeckGrid } from '@/components/flashcards/DeckGrid'
 import { DeckCreator } from '@/components/flashcards/DeckCreator'
 import { StudySession } from '@/components/flashcards/StudySession'
@@ -2123,7 +2122,6 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
           </div>
         </Modal>
 
-        <MobileNavSpacer />
       </div>
     </div>
   )

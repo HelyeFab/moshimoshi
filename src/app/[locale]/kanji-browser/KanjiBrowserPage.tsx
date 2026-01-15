@@ -25,7 +25,6 @@ import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { SessionStatistics } from '@/lib/review-engine/core/session.types'
 import { kanjiProgressManager, type KanjiProgressData } from '@/utils/kanjiProgressManager'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 // All gamification uses Event Hub (global singleton)
@@ -941,7 +940,6 @@ function KanjiBrowserContent() {
         )}
       </main>
 
-      <MobileNavSpacer />
     </div>
   )
 }

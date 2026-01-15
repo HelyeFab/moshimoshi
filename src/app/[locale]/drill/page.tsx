@@ -22,7 +22,6 @@ import { ConjugationErrorAnalyzer } from '@/lib/conjugation-help'
 import { useConjugationHelp } from '@/contexts/ConjugationHelpContext'
 import { HelpModal, HelpBanner } from '@/components/conjugation-help'
 import { SRSWordSelector } from '@/lib/drill/srs-word-selector'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 export default function DrillPage() {
@@ -1239,7 +1238,6 @@ export default function DrillPage() {
         action={alert.action}
       />
 
-      <MobileNavSpacer />
     </div>
   )
 }

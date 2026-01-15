@@ -11,7 +11,6 @@ import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
 import { FlashcardSRSHelper } from '@/lib/flashcards/SRSHelper';
 import Dropdown from '@/components/ui/Dropdown';
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 
 export type StudyModeType = 'due' | 'new' | 'all' | 'cramming' | 'speed' | 'weakness' | 'custom';
 
@@ -521,7 +520,6 @@ export function StudyModeSelector({ deck, onStartStudy, onClose }: StudyModeSele
           </div>
 
           {/* Mobile bottom nav spacer */}
-          <MobileNavSpacer />
         </div>
       </motion.div>
     </div>

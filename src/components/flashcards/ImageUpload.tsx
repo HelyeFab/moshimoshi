@@ -6,6 +6,7 @@ import { Upload, Image, X, Link, Camera } from 'lucide-react';
 import { useI18n } from '@/i18n/I18nContext';
 import { cn } from '@/lib/utils';
 import { AnkiMediaStore } from '@/lib/anki/mediaStore';
+import { createUuid } from '@/lib/utils/uuid';
 
 interface ImageUploadProps {
   onImageAdded: (imageData: { type: 'image'; url: string; filename?: string; alt?: string }) => void;
@@ -52,7 +53,7 @@ export function ImageUpload({
 
     try {
       // Store blob in AnkiMediaStore for user decks
-      const filename = `image-${crypto.randomUUID()}.${file.name.split('.').pop() || 'jpg'}`;
+      const filename = `image-${createUuid()}.${file.name.split('.').pop() || 'jpg'}`;
       const mediaStore = AnkiMediaStore.getInstance();
 
       await mediaStore.storeMedia(filename, file);

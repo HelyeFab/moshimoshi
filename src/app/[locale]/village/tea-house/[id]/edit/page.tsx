@@ -12,7 +12,6 @@ import { useTheme } from '@/lib/theme/ThemeContext'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import QuestionEditor from '@/components/qa/QuestionEditor'
 import { getQuestion } from '@/lib/qa/questions'
 import type { Question } from '@/types/qa'
@@ -209,7 +208,6 @@ export default function EditQuestionPage() {
       </div>
 
       {/* Mobile Bottom Nav Spacer */}
-      <MobileNavSpacer />
     </div>
   )
 }

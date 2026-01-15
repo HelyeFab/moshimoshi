@@ -1,4 +1,5 @@
 import type { FeatureId } from '@/types/FeatureId'
+import { createUuid } from '@/lib/utils/uuid'
 
 export interface UsageSnapshotEntry {
   used: number
@@ -159,9 +160,7 @@ export async function syncOfflineUsageDelta(): Promise<void> {
     ])
   )
 
-  const idempotencyKey = typeof crypto !== 'undefined' && 'randomUUID' in crypto
-    ? crypto.randomUUID()
-    : `${Date.now()}-${Math.random().toString(36).slice(2)}`
+  const idempotencyKey = createUuid()
 
   syncPromise = fetch('/api/usage/sync', {
     method: 'POST',

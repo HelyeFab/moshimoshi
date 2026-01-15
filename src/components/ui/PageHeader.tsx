@@ -1,10 +1,10 @@
 'use client'
 
 import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ChevronDown, Home } from 'lucide-react'
+import { ChevronDown } from 'lucide-react'
 import DoshiMascot from './DoshiMascot'
+import PillBackButton from '@/components/common/PillBackButton'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { useI18n } from '@/i18n/I18nContext'
 
@@ -60,7 +60,6 @@ export default function PageHeader({
   backHref = '/dashboard',
 }: PageHeaderProps) {
   const { resolvedTheme } = useTheme()
-  const router = useRouter()
   const { language } = useI18n()
   const [isExpanded, setIsExpanded] = useState(false)
 
@@ -160,18 +159,8 @@ export default function PageHeader({
                 </button>
               )}
 
-              {/* Back Button - Mobile (Home icon) */}
-              <button
-                onClick={() => router.push(localizedBackHref)}
-                className={`p-2 rounded-full transition-all flex-shrink-0 shadow-md hover:scale-105 active:scale-95 ${
-                  isLightTheme
-                    ? 'bg-white/30 backdrop-blur hover:bg-white/40'
-                    : 'bg-primary-500 hover:bg-primary-600'
-                }`}
-                aria-label="Go to dashboard"
-              >
-                <Home className={`w-4 h-4 ${isLightTheme ? 'text-white' : 'text-white'}`} />
-              </button>
+              {/* Back Button - Mobile */}
+              <PillBackButton fallbackHref={localizedBackHref} />
             </div>
 
             {/* Expandable Content */}
@@ -243,12 +232,11 @@ export default function PageHeader({
           )}
 
           <div className="container mx-auto px-4 py-6 relative z-10">
-            {/* Top row: actions */}
-            {actions && (
-              <div className="flex items-center justify-end gap-3 mb-4">
-                {actions}
-              </div>
-            )}
+            {/* Top row: back button and actions */}
+            <div className="flex items-center justify-between gap-3 mb-4">
+              <PillBackButton fallbackHref={localizedBackHref} />
+              {actions && <div className="flex items-center gap-3">{actions}</div>}
+            </div>
 
             {/* Main content */}
             <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6">

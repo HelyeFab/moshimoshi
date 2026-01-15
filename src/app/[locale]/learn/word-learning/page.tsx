@@ -7,7 +7,6 @@ import { motion } from 'framer-motion'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { ChevronLeft, BookOpen, Brain, Zap, Trophy } from 'lucide-react'
 import Link from 'next/link'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 function WordLearningContent() {
   const router = useRouter()
@@ -278,7 +277,6 @@ function WordLearningContent() {
             </div>
           </div>
         </motion.div>
-        <MobileNavSpacer />
       </div>
     </div>
   )

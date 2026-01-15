@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { getPaginatedBlogPosts } from "@/services/blogService";
 import type { BlogPost, PaginatedBlogResponse } from "@/services/blogService";
 import Navbar from "@/components/layout/Navbar";
-import MobileNavSpacer from "@/components/layout/MobileNavSpacer";
 import Link from "next/link";
 import { NewsletterForm } from "@/components/blog/NewsletterForm";
 import { NewsletterStatusBadge } from "@/components/blog/NewsletterStatusBadge";
@@ -638,7 +637,6 @@ function BlogContent() {
           </>
         )}
         </div>
-        <MobileNavSpacer />
       </main>
     </>
   );

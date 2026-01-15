@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import Navbar from '@/components/layout/Navbar'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { useI18n } from '@/i18n/I18nContext'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { useAuth } from '@/hooks/useAuth'
@@ -249,7 +248,6 @@ export default function GamesPage() {
           onBack={handleCloseGame}
         />
       )}
-      <MobileNavSpacer />
     </div>
   )
 }

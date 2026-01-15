@@ -6,7 +6,6 @@ import { useAuth } from '@/hooks/useAuth'
 import { useGamification } from '@/hooks/useGamification'
 import { useI18n } from '@/i18n/I18nContext'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { cn } from '@/utils/cn'
@@ -249,7 +248,6 @@ export default function AchievementsPage() {
           </div>
         )}
       </div>
-      <MobileNavSpacer />
     </div>
   )
 }

@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "version": 1,
   "description": "DoshiSensei feature entitlements configuration - Single source of truth for Stripe integration",
-  "lastUpdated": "2026-01-12",
+  "lastUpdated": "2026-01-14",
   "plans": {
     "guest": {
       "displayName": "Guest",
@@ -596,7 +596,7 @@
         "books": 0,
         "kanji_mood_board": 0,
         "drill": 0,
-        "my_list": 0,
+        "my_list": -1,
         "textbook_vocabulary": 0,
         "flashcards": 0,
         "resources": -1,
@@ -606,7 +606,7 @@
       },
       "monthly": {
         "custom_lists": 0,
-        "save_items": 0,
+        "save_items": -1,
         "todos": 0,
         "flashcard_decks": 0,
         "anki_imports": 0
@@ -639,7 +639,7 @@
         "books": 0,
         "kanji_mood_board": 5,
         "drill": 5,
-        "my_list": 5,
+        "my_list": -1,
         "textbook_vocabulary": 0,
         "flashcards": 0,
         "resources": -1,
@@ -648,8 +648,8 @@
         "comics": 0
       },
       "monthly": {
-        "custom_lists": 3,
-        "save_items": 50,
+        "custom_lists": 10,
+        "save_items": -1,
         "todos": 100,
         "flashcard_decks": 0,
         "anki_imports": 0

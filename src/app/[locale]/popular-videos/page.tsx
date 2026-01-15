@@ -8,7 +8,6 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import Navbar from '@/components/layout/Navbar'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -590,7 +589,6 @@ export default function PopularVideosPage() {
           </motion.div>
         )}
       </AnimatePresence>
-      <MobileNavSpacer />
     </div>
   )
 }

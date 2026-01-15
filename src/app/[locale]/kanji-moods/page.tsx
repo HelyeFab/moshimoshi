@@ -14,7 +14,6 @@ import { useFeature } from '@/hooks/useFeature'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
-import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
@@ -256,7 +255,6 @@ export default function KanjiMoodsPage() {
             </>
           )}
 
-          <MobileNavSpacer />
         </div>
       )}
     </div>
