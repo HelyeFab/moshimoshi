@@ -15,6 +15,7 @@ import {
 import { auth } from '@/lib/firebase/client'
 import logger from '@/lib/logger'
 import { migrateUserStores, cleanupNonUserSpecificStores } from '@/lib/storage/migrate-stores'
+import { isIOSPWAStandalone, getDeviceInfo, getAuthRedirectTimeout } from '@/lib/utils/device-detection'
 import { requestManager } from '@/lib/api/requestManager'
 import { storeEntitlementsSnapshotToken } from '@/lib/pwa/offline-entitlements'
 
@@ -472,6 +473,24 @@ function useAuthProvider(): Auth {
       // Use direct Firebase auth
       const provider = new GoogleAuthProvider()
 
+      // IMPROVEMENT #1: iOS PWA Preemptive Redirect
+      // iOS PWA standalone mode blocks popups - skip popup attempt
+      const isIOSPWA = isIOSPWAStandalone()
+
+      if (isIOSPWA) {
+        logger.auth('[iOS PWA] Detected standalone mode - using redirect flow directly')
+        const deviceInfo = getDeviceInfo()
+        logger.auth('[Device Info]', {
+          platform: deviceInfo.platform,
+          isPWA: deviceInfo.isPWA,
+          isIOSPWA: deviceInfo.isIOSPWA
+        })
+
+        await signInWithRedirect(auth, provider)
+        return
+      }
+
+      // Standard flow: Try popup first, fallback to redirect
       try {
         const credential = await signInWithPopup(auth, provider)
         await createServerSession(credential.user)
@@ -479,6 +498,7 @@ function useAuthProvider(): Auth {
         // If popup is blocked, use redirect
         if (popupError.code === 'auth/popup-blocked' ||
             popupError.code === 'auth/cancelled-popup-request') {
+          logger.auth('[Popup Blocked] Falling back to redirect flow')
           await signInWithRedirect(auth, provider)
           // The redirect will happen, session will be created when user returns
         } else {
@@ -585,12 +605,27 @@ function useAuthProvider(): Auth {
       const authInitPromise = (async () => {
         // Check for redirect result on mount (for Google sign-in)
         try {
-          // Add individual timeout for redirect result (can hang on Android PWA)
+          // IMPROVEMENT #2: Platform-specific timeout
+          // iOS PWA needs 15s timeout due to slower auth flow
+          const redirectTimeout = getAuthRedirectTimeout()
+
+          logger.auth('[Auth Init] Checking redirect result with', redirectTimeout, 'ms timeout')
+
           const redirectPromise = getRedirectResult(auth)
-          const redirectTimeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), 5000))
-          const result = await Promise.race([redirectPromise, redirectTimeout])
+          const timeoutPromise = new Promise<null>((resolve) => {
+            setTimeout(() => {
+              logger.auth('[Auth Init] Redirect result timed out after', redirectTimeout, 'ms')
+              resolve(null)
+            }, redirectTimeout)
+          })
+
+          const result = await Promise.race([redirectPromise, timeoutPromise])
+
           if (result?.user) {
+            logger.auth('[Auth Init] Redirect result found - creating session')
             await createServerSession(result.user)
+          } else if (result === null) {
+            logger.auth('[Auth Init] No redirect result or timeout occurred')
           }
         } catch (err) {
           logger.error('Error handling redirect result:', err)
