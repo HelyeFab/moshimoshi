@@ -2895,6 +2895,7 @@ export const strings = {
         drill: 'Drill',
         youtubeShadowing: 'Shadow',
         news: 'News',
+        library: 'Library',
         stories: 'Stories',
         games: 'Games',
         cards: 'Cards',
