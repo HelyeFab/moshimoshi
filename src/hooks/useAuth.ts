@@ -585,27 +585,15 @@ function useAuthProvider(): Auth {
       const authInitPromise = (async () => {
         // Check for redirect result on mount (for Google sign-in)
         try {
-          logger.auth('🔍 [USEAUTH] Checking for redirect result...')
           // Add individual timeout for redirect result (can hang on Android PWA)
           const redirectPromise = getRedirectResult(auth)
           const redirectTimeout = new Promise<null>((resolve) => setTimeout(() => resolve(null), 5000))
           const result = await Promise.race([redirectPromise, redirectTimeout])
-
-          logger.auth('📊 [USEAUTH] Redirect result:', result ? {
-            hasUser: !!result.user,
-            email: result.user?.email,
-            uid: result.user?.uid
-          } : 'null (timeout or no redirect)')
-
           if (result?.user) {
-            logger.auth('✅ [USEAUTH] Redirect result has user, creating server session...')
             await createServerSession(result.user)
-            logger.auth('✅ [USEAUTH] Server session created successfully')
-          } else {
-            logger.auth('ℹ️ [USEAUTH] No redirect result found')
           }
         } catch (err) {
-          logger.error('❌ [USEAUTH] Error handling redirect result:', err)
+          logger.error('Error handling redirect result:', err)
         }
 
         // Check existing session only once
