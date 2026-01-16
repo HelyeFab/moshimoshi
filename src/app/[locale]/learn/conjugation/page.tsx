@@ -31,6 +31,7 @@ import {
 import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
 import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import Modal from '@/components/ui/Modal'
 
 type ViewMode = 'browse' | 'study' | 'review'
 type WordFilter = 'all' | 'verbs' | 'adjectives'
@@ -51,7 +52,7 @@ export default function ConjugationPracticePage() {
   const [showConjugations, setShowConjugations] = useState(true)
   const [selectionMode, setSelectionMode] = useState(false)
   const [selectedWords, setSelectedWords] = useState<Set<string>>(new Set())
-  const [showSettingsDropdown, setShowSettingsDropdown] = useState(false)
+  const [showSettingsModal, setShowSettingsModal] = useState(false)
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set())
   const [searchTerm, setSearchTerm] = useState('')
   const [isSearching, setIsSearching] = useState(false)
@@ -345,32 +346,35 @@ export default function ConjugationPracticePage() {
           )}
         </div>
 
-        {/* Settings Dropdown */}
+        {/* Settings Button */}
         <div className="mb-6 flex justify-end">
-          <div className="relative">
             <button
-              onClick={() => setShowSettingsDropdown(!showSettingsDropdown)}
+              onClick={() => setShowSettingsModal(true)}
               className="p-2.5 sm:px-4 sm:py-2 rounded-lg bg-white dark:bg-dark-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors flex items-center gap-2"
             >
               <Settings className="w-5 h-5 sm:w-4 sm:h-4" />
               <span className="hidden sm:inline">{t('conjugation.settings')}</span>
-              <ChevronDown
-                className={`hidden sm:block w-4 h-4 transition-transform ${showSettingsDropdown ? 'rotate-180' : ''}`}
-              />
             </button>
+        </div>
 
-            {showSettingsDropdown && (
-              <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-dark-800 rounded-lg shadow-lg border border-gray-200 dark:border-dark-700 z-50">
+        {/* Settings Modal */}
+        <Modal
+          isOpen={showSettingsModal}
+          onClose={() => setShowSettingsModal(false)}
+          title={t('conjugation.settings')}
+          size="sm"
+        >
+              <div className="space-y-6">
                 {/* Filter Section */}
-                <div className="border-b border-gray-200 dark:border-dark-700 p-2">
-                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1 mb-2">
+                <div>
+                  <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                     Word Type
                   </div>
-                  <div className="px-2 py-1 space-y-2">
+                  <div className="space-y-2">
                     <button
                       onClick={() => {
                         setWordFilter('all')
-                        setShowSettingsDropdown(false)
+                        setShowSettingsModal(false)
                       }}
                       className={`w-full px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                         wordFilter === 'all'
@@ -383,7 +387,7 @@ export default function ConjugationPracticePage() {
                     <button
                       onClick={() => {
                         setWordFilter('verbs')
-                        setShowSettingsDropdown(false)
+                        setShowSettingsModal(false)
                       }}
                       className={`w-full px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                         wordFilter === 'verbs'
@@ -396,7 +400,7 @@ export default function ConjugationPracticePage() {
                     <button
                       onClick={() => {
                         setWordFilter('adjectives')
-                        setShowSettingsDropdown(false)
+                        setShowSettingsModal(false)
                       }}
                       className={`w-full px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                         wordFilter === 'adjectives'
@@ -409,12 +413,12 @@ export default function ConjugationPracticePage() {
                   </div>
                 </div>
 
-                {/* JLPT Level Section - NEW! */}
-                <div className="border-b border-gray-200 dark:border-dark-700 p-2">
-                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1 mb-2">
+                {/* JLPT Level Section */}
+                <div>
+                  <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                     JLPT Levels
                   </div>
-                  <div className="px-2 py-1 flex gap-2">
+                  <div className="flex gap-2">
                     {(['N5', 'N4', 'N3+'] as JLPTLevel[]).map(level => (
                       <button
                         key={level}
@@ -435,7 +439,7 @@ export default function ConjugationPracticePage() {
                       </button>
                     ))}
                   </div>
-                  <div className="mt-2 px-2 text-xs text-gray-500 dark:text-gray-400">
+                  <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
                     {jlptLevels.length === 0
                       ? '⚠️ Select at least one level'
                       : `✓ ${jlptLevels.join(', ')} selected`}
@@ -443,70 +447,72 @@ export default function ConjugationPracticePage() {
                 </div>
 
                 {/* Actions Section */}
-                <div className="border-b border-gray-200 dark:border-dark-700 p-2">
-                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1">
+                <div>
+                  <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                     {t('common.actions')}
                   </div>
-                  <button
-                    onClick={() => {
-                      handleShuffle()
-                      setShowSettingsDropdown(false)
-                    }}
-                    className="w-full text-left px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors text-gray-700 dark:text-gray-300"
-                  >
-                    <Shuffle className="w-4 h-4 inline mr-2" />
-                    {t('conjugation.actions.shuffle')}
-                  </button>
-                  <button
-                    onClick={() => {
-                      loadPracticeWords()
-                      setShowSettingsDropdown(false)
-                    }}
-                    className="w-full text-left px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors text-gray-700 dark:text-gray-300"
-                  >
-                    <RefreshCw className="w-4 h-4 inline mr-2" />
-                    {t('conjugation.actions.loadNew')}
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleClearHistory()
-                      setShowSettingsDropdown(false)
-                    }}
-                    className="w-full text-left px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors text-orange-600 dark:text-orange-400"
-                  >
-                    <X className="w-4 h-4 inline mr-2" />
-                    Clear History (Get Fresh Words)
-                  </button>
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => {
+                        handleShuffle()
+                        setShowSettingsModal(false)
+                      }}
+                      className="w-full px-4 py-2.5 rounded-lg bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors flex items-center gap-2"
+                    >
+                      <Shuffle className="w-4 h-4" />
+                      {t('conjugation.actions.shuffle')}
+                    </button>
+                    <button
+                      onClick={() => {
+                        loadPracticeWords()
+                        setShowSettingsModal(false)
+                      }}
+                      className="w-full px-4 py-2.5 rounded-lg bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors flex items-center gap-2"
+                    >
+                      <RefreshCw className="w-4 h-4" />
+                      {t('conjugation.actions.loadNew')}
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleClearHistory()
+                        setShowSettingsModal(false)
+                      }}
+                      className="w-full px-4 py-2.5 rounded-lg bg-orange-100 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 hover:bg-orange-200 dark:hover:bg-orange-900/30 transition-colors flex items-center gap-2"
+                    >
+                      <X className="w-4 h-4" />
+                      Clear History (Get Fresh Words)
+                    </button>
+                  </div>
                 </div>
 
                 {/* Display Controls Section */}
-                <div className="p-2">
-                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1">
+                <div>
+                  <div className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
                     {t('common.display')}
                   </div>
-                  <button
-                    onClick={() => {
-                      handleExpandAll()
-                      setShowSettingsDropdown(false)
-                    }}
-                    className="w-full text-left px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors text-gray-700 dark:text-gray-300"
-                  >
-                    {t('conjugation.expandAll')}
-                  </button>
-                  <button
-                    onClick={() => {
-                      handleCollapseAll()
-                      setShowSettingsDropdown(false)
-                    }}
-                    className="w-full text-left px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors text-gray-700 dark:text-gray-300"
-                  >
-                    {t('conjugation.collapseAll')}
-                  </button>
+                  <div className="space-y-2">
+                    <button
+                      onClick={() => {
+                        handleExpandAll()
+                        setShowSettingsModal(false)
+                      }}
+                      className="w-full px-4 py-2.5 rounded-lg bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
+                    >
+                      {t('conjugation.expandAll')}
+                    </button>
+                    <button
+                      onClick={() => {
+                        handleCollapseAll()
+                        setShowSettingsModal(false)
+                      }}
+                      className="w-full px-4 py-2.5 rounded-lg bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
+                    >
+                      {t('conjugation.collapseAll')}
+                    </button>
+                  </div>
                 </div>
               </div>
-            )}
-          </div>
-        </div>
+        </Modal>
 
         {/* Main Content Area */}
         {viewMode === 'browse' && (
