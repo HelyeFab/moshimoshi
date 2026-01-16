@@ -13,10 +13,12 @@ import {
   Newspaper,
   BookOpen,
   BookText,
-  CreditCard,
   User,
   Settings,
   Command,
+  ReceiptJapaneseYen,
+  WalletCards,
+  BookA,
 } from "lucide-react";
 import { useI18n } from "@/i18n/I18nContext";
 import { useKeyboardVisible } from "@/hooks/useMediaQuery";
@@ -53,14 +55,15 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
   // Nav items with locale prefix
   const navItems = useMemo(() => [
     { href: `/${language}/dashboard`, label: bottomNavStrings?.home || "Home", icon: Home },
-    { href: `/${language}/kanji-browser`, label: bottomNavStrings?.kanjiConnections || "Kanji", icon: Layers },
+    { href: `/${language}/kanji-browser`, label: bottomNavStrings?.kanjiConnections || "Kanji", icon: ReceiptJapaneseYen },
     { href: `/${language}/kanji-moods`, label: bottomNavStrings?.moodBoards || "Boards", icon: LayoutGrid },
     { href: `/${language}/drill`, label: bottomNavStrings?.drill || "Drill", icon: Zap },
     { href: `/${language}/youtube-shadowing`, label: bottomNavStrings?.youtubeShadowing || "Shadow", icon: Youtube },
     { href: `/${language}/news`, label: bottomNavStrings?.news || "News", icon: Newspaper },
     { href: `/${language}/library`, label: bottomNavStrings?.library || "Library", icon: BookOpen },
     { href: `/${language}/stories`, label: bottomNavStrings?.stories || "Stories", icon: BookText },
-    { href: `/${language}/flashcards`, label: bottomNavStrings?.cards || "Cards", icon: CreditCard },
+    { href: `/${language}/vocabulary`, label: bottomNavStrings?.vocabulary || "Vocabulary", icon: BookA },
+    { href: `/${language}/flashcards`, label: bottomNavStrings?.cards || "Cards", icon: WalletCards },
     { href: `/${language}/account`, label: bottomNavStrings?.account || "Account", icon: User },
     { href: `/${language}/settings`, label: bottomNavStrings?.settings || "Settings", icon: Settings },
   ], [language, bottomNavStrings]);
