@@ -5,12 +5,12 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import Navbar from '@/components/layout/Navbar'
-import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import PageHeader from '@/components/ui/PageHeader'
 import { useAuth } from '@/hooks/useAuth'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import NewsArticleFallbackImage from '@/components/news/NewsArticleFallbackImage'
 import { useArticleCache } from '@/hooks/useArticleCache'
-import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 
 interface NewsArticle {
   id: string
@@ -319,6 +319,10 @@ export default function NewsPage() {
   const { t } = useI18n()
   const { getLocalePath } = useLocalePath()
   const { user, loading: authLoading, isGuest, isAuthenticated } = useAuth()
+
+  // Feature usage indicator data
+  const usageData = useFeatureUsage('news')
+
   const [articles, setArticles] = useState<NewsArticle[]>([])
   const [filteredArticles, setFilteredArticles] = useState<NewsArticle[]>([])
   const [loading, setLoading] = useState(true)
@@ -519,94 +523,36 @@ export default function NewsPage() {
         <Navbar user={user} showUserMenu={true} />
       </div>
 
-      {/* LearningPageHeader */}
-      <LearningPageHeader
+      {/* PageHeader with Desktop Circular Indicator */}
+      <PageHeader
         title={t('news.title')}
         description={t('news.description')}
-        mascot="none"
-        mobileExtra={
-          <div className="space-y-3">
-            {/* Month filter pills */}
-            <div>
-              <label className="text-xs font-medium text-white/80 mb-2 block">
-                {t('news.filters.month')}
-              </label>
-              <div className="flex flex-wrap gap-2">
-                {getAvailableMonthsFromArticles(articles).map(month => (
-                  <button
-                    key={month.value}
-                    onClick={() => {
-                      setSelectedMonth(month.value)
-                      if (month.value === 'All') setSelectedDay('All')
-                    }}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
-                      selectedMonth === month.value
-                        ? 'bg-white text-primary-600 shadow-sm'
-                        : 'bg-white/20 text-white hover:bg-white/30'
-                    }`}
-                  >
-                    {month.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Day filter - only show when month selected */}
-            {selectedMonth !== 'All' && (
-              <div>
-                <label className="text-xs font-medium text-white/80 mb-2 block">
-                  {t('news.filters.day')}
-                </label>
-                <div className="flex flex-wrap gap-1.5">
-                  {[
-                    'All',
-                    ...Array.from({ length: getDaysInMonth(selectedMonth) }, (_, i) =>
-                      (i + 1).toString()
-                    ),
-                  ].map(day => (
-                    <button
-                      key={day}
-                      onClick={() => setSelectedDay(day)}
-                      className={`w-8 h-8 rounded-full text-xs font-medium transition-colors ${
-                        selectedDay === day
-                          ? 'bg-white text-primary-600 shadow-sm'
-                          : 'bg-white/20 text-white hover:bg-white/30'
-                      }`}
-                    >
-                      {day === 'All' ? '全' : day}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Refresh button */}
-            <button
-              onClick={() => loadArticles(0)}
-              disabled={loading}
-              className="w-full px-4 py-2 bg-white/90 text-primary-600 rounded-lg text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed hover:bg-white transition-colors"
-            >
-              {loading ? t('news.loading') : t('news.refresh')}
-            </button>
-          </div>
+        actions={
+          usageData.hasData ? (
+            <DesktopCircularIndicator
+              remaining={usageData.remaining}
+              limitCount={usageData.limitCount}
+              usedCount={usageData.usedCount}
+              color={usageData.color}
+            />
+          ) : null
         }
       />
 
+      {/* Mobile Progress Bar - Shows under header on mobile only */}
       <FeatureUsageIndicator featureId="news" />
 
       <div className="px-4 max-w-7xl mx-auto">
-        {/* Filter Bar - hidden on mobile (filters shown in header instead) */}
-        <div className="hidden sm:block">
-          <FilterBar
-            selectedMonth={selectedMonth}
-            selectedDay={selectedDay}
-            onMonthChange={setSelectedMonth}
-            onDayChange={setSelectedDay}
-            onRefresh={() => loadArticles(0)}
-            isLoading={loading}
-            articles={articles}
-          />
-        </div>
+        {/* Filter Bar */}
+        <FilterBar
+          selectedMonth={selectedMonth}
+          selectedDay={selectedDay}
+          onMonthChange={setSelectedMonth}
+          onDayChange={setSelectedDay}
+          onRefresh={() => loadArticles(0)}
+          isLoading={loading}
+          articles={articles}
+        />
 
         {/* Articles List */}
         <div className="space-y-3">

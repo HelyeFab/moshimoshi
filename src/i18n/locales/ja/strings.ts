@@ -1257,6 +1257,7 @@ export const strings = {
       alternativeAuth: {
         divider: 'または以下で続ける',
         magicLinkButton: 'マジックリンクを送信',
+        appleButton: 'Appleで続ける',
         googleButton: 'Googleで続ける',
       },
       messages: {
@@ -1302,6 +1303,7 @@ export const strings = {
       },
       alternativeAuth: {
         divider: 'または以下で登録',
+        appleButton: 'Appleで続ける',
         googleButton: 'Googleで続ける',
         magicLinkButton: 'マジックリンクでサインアップ',
       },

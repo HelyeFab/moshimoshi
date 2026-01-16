@@ -1,7 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { db } from '@/lib/firebase/admin';
+import { db, getAdminDb } from '@/lib/firebase/admin';
 import { getSession } from '@/lib/auth/session';
-import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server';
+import { getUserPlan } from '@/lib/entitlements/server';
+import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator';
+import type { EvalContext } from '@/types/entitlements';
+import type { FeatureId } from '@/types/FeatureId';
 
 // Cache for individual articles
 const articleCache = new Map<string, { data: any; timestamp: number }>();
@@ -28,33 +31,41 @@ export async function GET(
 
     const nowUtcISO = new Date().toISOString();
     const plan = await getUserPlan(session.uid);
-    const { decision } = await evaluateFeatureAccess({
-      featureId: 'news',
+    const dbRef = getAdminDb();
+    const bucketKey = getBucketKey('news', session.uid, nowUtcISO);
+    const usageRef = dbRef.collection('users').doc(session.uid).collection('usage').doc(bucketKey);
+    const usageDoc = await usageRef.get();
+    const usageData = (usageDoc.data() as Partial<Record<FeatureId, number>> | undefined) || {};
+    const newsItems = Array.isArray((usageData as any).news_items)
+      ? (usageData as any).news_items
+      : [];
+    const currentUsage = newsItems.length > 0 ? newsItems.length : (usageData.news ?? 0);
+
+    const context: EvalContext = {
       userId: session.uid,
       plan,
+      usage: { news: currentUsage },
       nowUtcISO
-    });
+    };
+    const decision = evaluate('news', context);
+    const isRepeat = newsItems.includes(articleId);
+    const resolvedDecision = isRepeat
+      ? { ...decision, allow: true, reason: 'ok', remaining: decision.remaining }
+      : decision;
 
-    if (!decision.allow) {
+    if (!resolvedDecision.allow) {
       return NextResponse.json(
         {
-          error: decision.reason === 'limit_reached' ? 'Daily limit reached' : 'Access denied',
-          decision
+          error: resolvedDecision.reason === 'limit_reached' ? 'Daily limit reached' : 'Access denied',
+          decision: resolvedDecision
         },
-        { status: decision.reason === 'limit_reached' ? 429 : 403 }
+        { status: resolvedDecision.reason === 'limit_reached' ? 429 : 403 }
       );
     }
 
     // Check cache first
     const cached = articleCache.get(articleId);
     if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-      await evaluateFeatureAccess({
-        featureId: 'news',
-        userId: session.uid,
-        plan,
-        nowUtcISO,
-        increment: true
-      });
       return NextResponse.json({
         success: true,
         article: cached.data,
@@ -99,14 +110,6 @@ export async function GET(
         timestamp: Date.now()
       });
 
-      await evaluateFeatureAccess({
-        featureId: 'news',
-        userId: session.uid,
-        plan,
-        nowUtcISO,
-        increment: true
-      });
-
       return NextResponse.json({
         success: true,
         article
@@ -126,14 +129,6 @@ export async function GET(
     articleCache.set(articleId, {
       data: article,
       timestamp: Date.now()
-    });
-
-    await evaluateFeatureAccess({
-      featureId: 'news',
-      userId: session.uid,
-      plan,
-      nowUtcISO,
-      increment: true
     });
 
     return NextResponse.json({

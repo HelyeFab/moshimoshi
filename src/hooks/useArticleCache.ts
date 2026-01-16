@@ -77,8 +77,9 @@ export function useArticleCache(options: UseArticleCacheOptions = {}): UseArticl
 
         if (!response.ok) {
           let errorDetail = response.statusText
+          let payload: any = null
           try {
-            const payload = await response.clone().json()
+            payload = await response.clone().json()
             if (payload?.error) {
               errorDetail = payload.error
             } else if (payload?.message) {
@@ -87,6 +88,12 @@ export function useArticleCache(options: UseArticleCacheOptions = {}): UseArticl
           } catch {
             // Ignore JSON parsing failures for non-JSON responses
           }
+
+          // 429 (limit reached) is expected behavior, not an error - just log as info
+          if (response.status === 429) {
+            console.log('[useArticleCache] Daily limit reached for:', articleId)
+          }
+
           throw new Error(`Failed to fetch article: ${errorDetail}`)
         }
 
@@ -144,7 +151,11 @@ export function useArticleCache(options: UseArticleCacheOptions = {}): UseArticl
       } catch (networkError) {
         const errorMessage =
           networkError instanceof Error ? networkError.message : 'Failed to fetch article'
-        console.error('[useArticleCache] Network fetch failed:', errorMessage)
+
+        // Only log as error if it's NOT a limit reached situation (expected)
+        if (!errorMessage.includes('Daily limit reached')) {
+          console.error('[useArticleCache] Network fetch failed:', errorMessage)
+        }
 
         // Last resort: try cache again even if disabled (for offline scenarios)
         if (!enabled) {

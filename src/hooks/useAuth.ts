@@ -9,6 +9,7 @@ import {
   signInWithRedirect,
   getRedirectResult,
   GoogleAuthProvider,
+  OAuthProvider,
   signOut,
   onAuthStateChanged
 } from 'firebase/auth'
@@ -48,6 +49,7 @@ interface AuthMethods {
   signIn: (email: string, password: string) => Promise<void>
   signUp: (email: string, password: string) => Promise<void>
   signInWithGoogle: () => Promise<void>
+  signInWithApple: () => Promise<void>
   signOut: () => Promise<void>
   refreshSession: () => Promise<void>
   clearError: () => void
@@ -165,9 +167,14 @@ function useAuthProvider(): Auth {
       const idToken = await firebaseUser.getIdToken()
 
       // Determine which endpoint to use based on the sign-in provider
-      const providerData = firebaseUser.providerData[0]
-      const isGoogleSignIn = providerData?.providerId === 'google.com'
-      const endpoint = isGoogleSignIn ? '/api/auth/google' : '/api/auth/login'
+      const providerIds = firebaseUser.providerData.map((provider) => provider.providerId)
+      const isGoogleSignIn = providerIds.includes('google.com')
+      const isAppleSignIn = providerIds.includes('apple.com')
+      const endpoint = isGoogleSignIn
+        ? '/api/auth/google'
+        : isAppleSignIn
+          ? '/api/auth/apple'
+          : '/api/auth/login'
 
       const response = await fetch(endpoint, {
         method: 'POST',
@@ -427,6 +434,59 @@ function useAuthProvider(): Auth {
       // Use direct Firebase auth
       const credential = await signInWithEmailAndPassword(auth, email, password)
       await createServerSession(credential.user)
+    } catch (err: any) {
+      setError(err.message)
+      throw err
+    } finally {
+      setLoading(false)
+    }
+  }, [createServerSession])
+
+  // Sign in with Apple
+  const signInWithApple = useCallback(async () => {
+    setError(null)
+    setLoading(true)
+
+    try {
+      // Clear guest mode before signing in with Apple
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem('isGuestUser')
+      }
+      setIsGuest(false)
+
+      const provider = new OAuthProvider('apple.com')
+      provider.addScope('email')
+      provider.addScope('name')
+
+      // iOS PWA standalone mode blocks popups - skip popup attempt
+      const isIOSPWA = isIOSPWAStandalone()
+
+      if (isIOSPWA) {
+        logger.auth('[iOS PWA] Detected standalone mode - using redirect flow directly')
+        const deviceInfo = getDeviceInfo()
+        logger.auth('[Device Info]', {
+          platform: deviceInfo.platform,
+          isPWA: deviceInfo.isPWA,
+          isIOSPWA: deviceInfo.isIOSPWA
+        })
+
+        await signInWithRedirect(auth, provider)
+        return
+      }
+
+      // Standard flow: Try popup first, fallback to redirect
+      try {
+        const credential = await signInWithPopup(auth, provider)
+        await createServerSession(credential.user)
+      } catch (popupError: any) {
+        if (popupError.code === 'auth/popup-blocked' ||
+            popupError.code === 'auth/cancelled-popup-request') {
+          logger.auth('[Popup Blocked] Falling back to redirect flow')
+          await signInWithRedirect(auth, provider)
+        } else {
+          throw popupError
+        }
+      }
     } catch (err: any) {
       setError(err.message)
       throw err
@@ -799,10 +859,11 @@ function useAuthProvider(): Auth {
     signIn,
     signUp,
     signInWithGoogle,
+    signInWithApple,
     signOut: signOutUser,
     refreshSession,
     clearError
-  }), [user, loading, error, isGuest, isOffline, signIn, signUp, signInWithGoogle, signOutUser, refreshSession, clearError])
+  }), [user, loading, error, isGuest, isOffline, signIn, signUp, signInWithGoogle, signInWithApple, signOutUser, refreshSession, clearError])
 
   return authValue
 }

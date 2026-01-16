@@ -597,6 +597,7 @@ export const strings = {
       alternativeAuth: {
         divider: 'Ou continuer avec',
         magicLinkButton: 'Envoyer un lien magique',
+        appleButton: 'Continuer avec Apple',
         googleButton: 'Continuer avec Google',
       },
       messages: {
@@ -643,6 +644,7 @@ export const strings = {
       alternativeAuth: {
         divider: 'Ou s\'inscrire avec',
         magicLinkButton: 'S\'inscrire avec lien magique',
+        appleButton: 'Continuer avec Apple',
         googleButton: 'Continuer avec Google',
       },
       magicLink: {

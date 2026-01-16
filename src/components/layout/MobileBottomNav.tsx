@@ -35,7 +35,13 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
   const isKeyboardVisible = useKeyboardVisible();
   const [isVisible, setIsVisible] = useState(true);
   const [showHandle, setShowHandle] = useState(false);
+  const [isAndroid, setIsAndroid] = useState(false);
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Detect Android
+  useEffect(() => {
+    setIsAndroid(/android/i.test(navigator.userAgent));
+  }, []);
 
   const openCommandPalette = () => {
     window.dispatchEvent(new CustomEvent("openCommandPalette"));
@@ -188,13 +194,13 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="fixed bottom-4 w-full flex justify-center z-50 md:hidden px-4"
+            className="fixed bottom-4 w-full flex justify-center z-50 md:hidden px-6"
             style={{
               bottom: `calc(16px + env(safe-area-inset-bottom, ${SAFE_AREA_FALLBACK}px))`,
             }}
           >
-            <div className="max-w-[220px] mx-auto">
-              <div className="relative bg-white/70 dark:bg-dark-800/70 backdrop-blur-xl rounded-full shadow-lg border border-gray-200 dark:border-dark-700 overflow-hidden">
+            <div className="w-full">
+              <div className="relative bg-white/20 dark:bg-dark-800/20 backdrop-blur-xl rounded-full shadow-lg border border-gray-200 dark:border-dark-700 overflow-hidden">
                 {/* Top-left curved white border accent */}
                 <div
                   className="absolute inset-0 rounded-full border-2 border-white/50 pointer-events-none z-20"
@@ -213,12 +219,12 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
                 />
 
                 {/* Left gradient fade */}
-                <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-white/70 dark:from-dark-800/70 to-transparent z-10 pointer-events-none rounded-l-full" />
+                <div className="absolute left-0 top-0 bottom-0 w-4 bg-gradient-to-r from-white/20 dark:from-dark-800/20 to-transparent z-10 pointer-events-none rounded-l-full" />
                 {/* Right gradient fade */}
-                <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-white/70 dark:from-dark-800/70 to-transparent z-10 pointer-events-none rounded-r-full" />
+                <div className="absolute right-0 top-0 bottom-0 w-4 bg-gradient-to-l from-white/20 dark:from-dark-800/20 to-transparent z-10 pointer-events-none rounded-r-full" />
 
                 <div className="flex overflow-x-auto whitespace-nowrap scrollbar-hide scroll-smooth snap-x snap-mandatory">
-                  <div className="flex items-center justify-start px-2">
+                  <div className={`flex items-center justify-start ${isAndroid ? 'px-3 py-1.5' : 'px-4 py-2'}`}>
                     {navItems.map(({ href, label, icon: Icon }) => {
                       const isActive = pathname.startsWith(href);
                       return (
@@ -230,9 +236,9 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
                               ? "text-primary-500 dark:text-primary-400"
                               : "text-gray-500 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400"
                           }`}
-                          style={{ fontSize: "8px" }}
+                          style={{ fontSize: "10px" }}
                         >
-                          <Icon className="w-5 h-5" />
+                          <Icon className="w-6 h-6" />
                           <span>{label}</span>
                         </Link>
                       );

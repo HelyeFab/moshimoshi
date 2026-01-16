@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
@@ -9,6 +9,8 @@ import { useTranslation, buildLocalePath, useLocalePath } from '@/i18n/I18nConte
 import logger from '@/lib/logger'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 import { useReCaptcha } from '@/components/ReCaptchaProvider'
+import { getDeviceInfo, isIOSPWAStandalone } from '@/lib/utils/device-detection'
+import { useAuth } from '@/hooks/useAuth'
 
 export default function SignUpPage() {
   const router = useRouter()
@@ -16,6 +18,7 @@ export default function SignUpPage() {
   const { strings, t } = useTranslation()
   const { getLocalePath } = useLocalePath()
   const { executeRecaptcha } = useReCaptcha()
+  const { isAuthenticated, loading: authLoading, signOut: signOutUser } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [displayName, setDisplayName] = useState('')
@@ -24,6 +27,25 @@ export default function SignUpPage() {
   const [termsAccepted, setTermsAccepted] = useState(false)
   const [showMagicLink, setShowMagicLink] = useState(false)
   const [magicLinkSent, setMagicLinkSent] = useState(false)
+  const hasSignedOutRef = useRef(false)
+
+  useEffect(() => {
+    if (authLoading || !isAuthenticated || hasSignedOutRef.current) {
+      return
+    }
+    hasSignedOutRef.current = true
+
+    const signOutExistingSession = async () => {
+      try {
+        await signOutUser()
+        await fetch('/api/auth/signout', { method: 'POST' })
+      } catch (err) {
+        logger.auth('Failed to sign out on signup page', err)
+      }
+    }
+
+    signOutExistingSession()
+  }, [authLoading, isAuthenticated, signOutUser])
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -180,9 +202,84 @@ export default function SignUpPage() {
     }
   }
 
+  const handleAppleSignIn = async () => {
+    logger.auth('Apple sign up clicked')
+    setLoading(true)
+    setError('')
+
+    try {
+      const { signInWithPopup, signInWithRedirect, OAuthProvider } = await import('firebase/auth')
+      const { auth } = await import('@/lib/firebase/config')
+
+      if (!auth) {
+        throw new Error('Firebase not initialized')
+      }
+
+      const provider = new OAuthProvider('apple.com')
+      provider.addScope('email')
+      provider.addScope('name')
+
+      const isIOSPWA = isIOSPWAStandalone()
+
+      if (isIOSPWA) {
+        logger.auth('[iOS PWA] Detected standalone mode - using redirect flow directly')
+        const deviceInfo = getDeviceInfo()
+        logger.auth('[Device Info]', {
+          platform: deviceInfo.platform,
+          isPWA: deviceInfo.isPWA,
+          isIOSPWA: deviceInfo.isIOSPWA
+        })
+
+        await signInWithRedirect(auth, provider)
+        return
+      }
+
+      try {
+        const result = await signInWithPopup(auth, provider)
+        logger.auth('Apple sign up successful', { email: result.user.email })
+
+        const idToken = await result.user.getIdToken()
+
+        const response = await fetch('/api/auth/apple', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken })
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+          logger.auth('Account created via Apple, redirecting to dashboard')
+          const isNewUser = data.isNewUser
+          showToast(isNewUser ? strings.auth.signup.messages.googleNewUser : strings.auth.signup.messages.googleExistingUser, 'success')
+          setTimeout(() => {
+            window.location.href = buildLocalePath('/dashboard')
+          }, 100)
+        } else {
+          console.error('Session creation failed:', data.error)
+          const errorMessage = data.error?.message || data.error || strings.auth.signup.errors.sessionCreationFailed
+          setError(getUserFriendlyErrorMessage(errorMessage))
+        }
+      } catch (popupError: any) {
+        if (popupError.code === 'auth/popup-blocked' ||
+            popupError.code === 'auth/cancelled-popup-request') {
+          logger.auth('[Popup Blocked] Falling back to redirect flow')
+          await signInWithRedirect(auth, provider)
+        } else {
+          throw popupError
+        }
+      }
+    } catch (err: any) {
+      console.error('Apple sign up error:', err)
+      setError(getUserFriendlyErrorMessage(err))
+    } finally {
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background-light to-japanese-mizu/20 dark:from-dark-850 dark:to-dark-900 flex flex-col overflow-y-auto">
-      <div className="flex-1 flex items-center justify-center px-4 py-8">
+      <div className="flex-1 flex sm:items-center justify-center px-4 py-8 sm:py-12">
         <div className="max-w-md w-full">
         {/* Logo */}
         <Link href="/" className="flex items-center justify-center mb-8">
@@ -210,6 +307,47 @@ export default function SignUpPage() {
               </svg>
               <span className="text-sm">{error}</span>
             </div>
+          )}
+
+          {/* Social Sign Up */}
+          {!magicLinkSent && (
+            <>
+              <button
+                type="button"
+                onClick={handleAppleSignIn}
+                disabled={loading}
+                className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-900 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mb-3 dark:bg-white dark:text-black dark:hover:bg-gray-100"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                  <path d="M16.365 1.43c0 1.14-.45 2.22-1.25 3.03-.74.77-1.96 1.36-3.12 1.26-.15-1.08.43-2.2 1.16-2.93.8-.84 2.14-1.43 3.21-1.36z"/>
+                  <path d="M20.9 17.16c-.3.69-.66 1.33-1.1 1.93-.6.82-1.09 1.39-1.48 1.7-.6.5-1.24.76-1.94.78-.5.01-1.1-.15-1.8-.45-.7-.3-1.35-.46-1.94-.46-.61 0-1.27.15-1.98.46-.71.3-1.28.46-1.7.47-.67.03-1.34-.27-2.01-.8-.42-.35-.93-.95-1.55-1.8-.67-.91-1.21-1.97-1.64-3.18-.45-1.3-.68-2.56-.68-3.78 0-1.4.3-2.6.9-3.6.47-.8 1.1-1.43 1.88-1.9.78-.46 1.62-.7 2.52-.72.5-.01 1.16.17 1.98.5.82.34 1.35.5 1.59.5.17 0 .74-.19 1.72-.57.92-.35 1.7-.5 2.34-.45 1.73.14 3.04.82 3.93 2.03-1.55.94-2.32 2.25-2.3 3.93.01 1.3.49 2.38 1.44 3.25.43.4.92.7 1.47.92-.12.35-.25.69-.4 1.02z"/>
+                </svg>
+                {strings.auth.signup.alternativeAuth.appleButton}
+              </button>
+              <button
+                type="button"
+                onClick={handleGoogleSignIn}
+                disabled={loading}
+                className="w-full py-3 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 border-2 border-gray-300 dark:border-dark-600 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-600 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+              >
+                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+                </svg>
+                {strings.auth.signup.alternativeAuth.googleButton}
+              </button>
+
+              <div className="relative my-6">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t border-gray-300 dark:border-dark-600"></div>
+                </div>
+                <div className="relative flex justify-center text-sm">
+                  <span className="px-2 bg-white dark:bg-surface-dark text-gray-500">{strings.auth.signup.alternativeAuth.divider}</span>
+                </div>
+              </div>
+            </>
           )}
 
           {magicLinkSent ? (
@@ -366,30 +504,6 @@ export default function SignUpPage() {
             </button>
           </form>
           )}
-
-          <div className="relative my-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300 dark:border-dark-600"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white dark:bg-surface-dark text-gray-500">{strings.auth.signup.alternativeAuth.divider}</span>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleGoogleSignIn}
-            disabled={loading}
-            className="w-full py-3 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 border-2 border-gray-300 dark:border-dark-600 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-600 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            <svg className="w-5 h-5" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            {strings.auth.signup.alternativeAuth.googleButton}
-          </button>
 
           {!showMagicLink && !magicLinkSent && (
           <button

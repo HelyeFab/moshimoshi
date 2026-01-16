@@ -21,6 +21,7 @@ import {
 import { ChevronDown, Wifi, WifiOff } from 'lucide-react'
 import { ReactNode } from 'react'
 import Tooltip from '@/components/ui/Tooltip'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 const stallImages = [
   '/ui/flat-icons/stalls/ceramics.png',
@@ -1225,7 +1226,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
   }
 
   return (
-    <div className="relative overflow-hidden rounded-2xl mb-20 sm:mb-0">
+    <div className="relative overflow-hidden rounded-2xl">
       {/* Animation Control - Top Left Corner */}
       <div className="absolute top-4 left-4 z-50">
         <AnimationControl position="top-left" variant="glassmorphism" />
@@ -1747,6 +1748,9 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             )
           })}
         </div>
+
+        {/* Mobile bottom nav spacer */}
+        <MobileNavSpacer />
       </div>
     </div>
   )

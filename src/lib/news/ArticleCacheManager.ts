@@ -338,8 +338,8 @@ export class ArticleCacheManager {
       }
 
       try {
-        // Fetch from API
-        const response = await fetch(`/api/news/article/${articleId}`)
+        // Fetch from API with prefetch flag to avoid incrementing usage
+        const response = await fetch(`/api/news/article/${articleId}?prefetch=true`)
 
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`)

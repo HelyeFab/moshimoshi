@@ -67,6 +67,7 @@ ui-debug.log
 *.key
 *.p12
 *.pfx
+*.p8
 
 
 # Database files with potential secrets

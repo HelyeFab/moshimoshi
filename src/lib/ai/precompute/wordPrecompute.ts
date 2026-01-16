@@ -2,7 +2,7 @@ import path from 'path'
 import kuromoji from 'kuromoji'
 import { AIService } from '../AIService'
 import type { WordExplanation, JLPTLevel } from '../types'
-import { adminFirestore as db, Timestamp } from '@/lib/firebase/admin'
+import { getAdminDb, Timestamp } from '@/lib/firebase/admin'
 import { getCachedWordExplanation, setCachedWordExplanation } from '../cache/WordExplanationCache'
 import { ExtendedConjugationEngine } from '@/lib/conjugation/engine'
 import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
@@ -254,9 +254,8 @@ export async function precomputeWordExplanations({
   chunkIndex,
   onProgress,
 }: PrecomputeRequest): Promise<PrecomputeResult> {
-  if (!db) {
-    throw new Error('Firebase Admin not initialized')
-  }
+  // Get db instance - will throw if not initialized
+  const db = getAdminDb()
 
   const collection = COLLECTION_MAP[contentType]
   if (!collection) {
