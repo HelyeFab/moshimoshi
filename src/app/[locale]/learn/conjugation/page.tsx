@@ -41,7 +41,7 @@ export default function ConjugationPracticePage() {
   const router = useRouter()
   const { user } = useAuth()
   const { t, strings } = useI18n()
-  const usageData = useFeatureUsage('conjugation_drill')
+  const usageData = useFeatureUsage('conjugation_learn')
 
   const [viewMode, setViewMode] = useState<ViewMode>('browse')
   const [loading, setLoading] = useState(true)
@@ -272,7 +272,7 @@ export default function ConjugationPracticePage() {
   }
 
   return (
-    <EntitlementGate featureId="conjugation_drill">
+    <EntitlementGate featureId="conjugation_learn">
       <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
         {/* Desktop Navbar */}
         <div className="hidden sm:block">
@@ -295,7 +295,7 @@ export default function ConjugationPracticePage() {
           }
         />
 
-        <FeatureUsageIndicator featureId="conjugation_drill" />
+        <FeatureUsageIndicator featureId="conjugation_learn" />
 
         <div className="container mx-auto px-4 py-6">
           {/* Search Bar */}

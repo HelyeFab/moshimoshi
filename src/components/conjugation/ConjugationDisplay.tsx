@@ -224,7 +224,7 @@ export function ConjugationDisplay({
                             className={`flex items-center justify-between p-3 rounded-lg ${
                               form.highlight
                                 ? 'bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800'
-                                : 'bg-white dark:bg-dark-850'
+                                : 'bg-gray-50 dark:bg-dark-850'
                             }`}
                           >
                             <div className="flex-1">
