@@ -85,9 +85,9 @@ const STARTER_LISTS: StarterListTemplate[] = [
 /**
  * Check if user has ever created or imported any lists
  */
-export async function hasExistingLists(userId: string): Promise<boolean> {
+export async function hasExistingLists(userId: string, isPremium: boolean = false): Promise<boolean> {
   try {
-    const lists = await listManager.getLists(userId, false); // false = free user
+    const lists = await listManager.getLists(userId, isPremium);
     return lists.length > 0;
   } catch (error) {
     console.error('[StarterLists] Error checking existing lists:', error);
@@ -97,13 +97,19 @@ export async function hasExistingLists(userId: string): Promise<boolean> {
 
 /**
  * Create starter lists for a new user in IndexedDB
- * This runs client-side for both free and premium users
+ * This runs client-side for premium users only (lists are a premium feature)
  */
 export async function createStarterListsIfNeeded(userId: string, isPremium: boolean = false): Promise<void> {
   console.log('[StarterLists] Checking if starter lists needed for user:', userId);
 
+  // Skip for free users - lists are premium-only
+  if (!isPremium) {
+    console.log('[StarterLists] Skipping starter lists - free user (lists are premium-only)');
+    return;
+  }
+
   // Check if user already has lists
-  const hasLists = await hasExistingLists(userId);
+  const hasLists = await hasExistingLists(userId, isPremium);
   if (hasLists) {
     console.log('[StarterLists] User already has lists, skipping starter lists');
     return;
