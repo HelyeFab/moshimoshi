@@ -62,7 +62,21 @@ export function getFirstDefinition(definition: string): string {
   const separators = [';', ',', '/']
 
   for (const separator of separators) {
-    const index = definition.indexOf(separator)
+    let index = -1
+    let parenDepth = 0
+
+    // Find separator that's not inside parentheses
+    for (let i = 0; i < definition.length; i++) {
+      if (definition[i] === '(') {
+        parenDepth++
+      } else if (definition[i] === ')') {
+        parenDepth--
+      } else if (definition[i] === separator && parenDepth === 0) {
+        index = i
+        break
+      }
+    }
+
     if (index !== -1 && index > 0) {
       return definition.substring(0, index).trim()
     }

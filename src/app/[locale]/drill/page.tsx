@@ -30,7 +30,7 @@ export default function DrillPage() {
   const router = useRouter()
   const { user } = useAuth()
   const { subscription } = useSubscription()
-  const { checkOnly, remaining } = useFeature('conjugation_drill')
+  const { checkOnly } = useFeature('conjugation_drill')
   const usageData = useFeatureUsage('conjugation_drill')
   const { showToast } = useToast()
   const { alert, showAlert, closeAlert } = useCenteredAlert()
@@ -40,8 +40,7 @@ export default function DrillPage() {
   // Debug logging
   useEffect(() => {
     console.log('[Drill Page] Subscription:', subscription)
-    console.log('[Drill Page] Remaining drills:', remaining)
-  }, [subscription, remaining])
+  }, [subscription])
 
   // Initialize DrillProgressManager
   useEffect(() => {
@@ -319,6 +318,7 @@ export default function DrillPage() {
       // Reset SRS tracking for new session
       setQuestionResults([])
       setQuestionStartTime(Date.now())
+      await checkOnly({ failOpen: false })
     } catch (error) {
       console.error('Error starting drill:', error)
       showAlert(
@@ -530,14 +530,6 @@ export default function DrillPage() {
 
       <div className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
-          {remaining !== undefined && remaining !== null && (
-            <div className="text-center mb-4 text-sm text-primary-600 dark:text-primary-400">
-              {remaining === -1
-                ? t('drill.unlimited') || 'Unlimited drills available'
-                : t('drill.remainingToday', { count: remaining || 0 })}
-            </div>
-          )}
-
           {!session ? (
             // Setup screen
             <div className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl shadow-lg p-4 sm:p-6 md:p-8">
