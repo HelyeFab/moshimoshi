@@ -1678,6 +1678,7 @@ export const strings = {
         kanjiConnections: 'Kanji',
         moodBoards: 'Tableaux',
         drill: 'Exercice',
+        vocabulary: 'Vocabulaire',
         youtubeShadowing: 'Shadowing',
         news: 'Actualités',
         stories: 'Histoires',

@@ -2901,6 +2901,7 @@ export const strings = {
         kanjiConnections: 'Kanji',
         moodBoards: 'Boards',
         drill: 'Drill',
+        vocabulary: 'Vocabulary',
         youtubeShadowing: 'Shadow',
         news: 'News',
         library: 'Library',

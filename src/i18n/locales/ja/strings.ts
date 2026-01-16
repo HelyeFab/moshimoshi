@@ -678,6 +678,7 @@ export const strings = {
         kanjiConnections: '漢字',
         moodBoards: 'ボード',
         drill: 'ドリル',
+        vocabulary: '語彙',
         youtubeShadowing: 'シャドー',
         news: 'ニュース',
         stories: '物語',

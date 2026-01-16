@@ -814,6 +814,7 @@ export const strings = {
         kanjiConnections: 'Kanji',
         moodBoards: 'Tafeln',
         drill: 'Übung',
+        vocabulary: 'Wortschatz',
         youtubeShadowing: 'Shadowing',
         news: 'Nachrichten',
         stories: 'Geschichten',
