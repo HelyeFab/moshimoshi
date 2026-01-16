@@ -4,9 +4,8 @@ import { adminDb } from '@/lib/firebase/admin';
 import { v4 as uuidv4 } from 'uuid';
 import type { UserList, CreateListRequest, ListItem } from '@/types/userLists';
 import { DEFAULT_LIST_EMOJIS } from '@/types/userLists';
-import { FieldValue } from 'firebase-admin/firestore';
-import { evaluateFeatureAccess } from '@/lib/entitlements/server';
-import { getStorageDecision, createStorageResponse } from '@/lib/api/storage-helper';
+import { evaluate } from '@/lib/entitlements/evaluator';
+import type { EvalContext } from '@/types/entitlements';
 
 // Helper for database availability check
 function getDb() {
@@ -14,6 +13,10 @@ function getDb() {
     throw new Error('Database not available');
   }
   return adminDb;
+}
+
+function normalizeListName(name: string): string {
+  return name.trim().replace(/\s+/g, ' ').toLowerCase();
 }
 
 // GET /api/lists - Fetch all lists for current user
@@ -24,28 +27,12 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    // Check storage decision
-    const decision = await getStorageDecision(session);
-
     // Guest users don't have lists
-    if (decision.plan === 'guest') {
+    if (!session.uid) {
       return NextResponse.json({ lists: [], storage: { location: 'none' } });
     }
 
-    // Only fetch from Firebase for premium users
-    // Free users should fetch from their local IndexedDB (handled client-side)
-    if (!decision.shouldWriteToFirebase) {
-      console.log('[GET /api/lists] Free user - should use local storage:', session.uid);
-      return NextResponse.json({
-        lists: [],
-        storage: {
-          location: 'local',
-          message: 'Free users should fetch from IndexedDB'
-        }
-      });
-    }
-
-    console.log('[GET /api/lists] Premium user - fetching from Firebase:', session.uid);
+    console.log('[GET /api/lists] Fetching from Firebase:', session.uid);
 
     const db = getDb();
     const listsRef = db.collection('users').doc(session.uid).collection('lists');
@@ -73,8 +60,8 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       lists,
       storage: {
-        location: decision.storageLocation,
-        syncEnabled: decision.shouldWriteToFirebase
+        location: 'both',
+        syncEnabled: true
       }
     });
   } catch (error) {
@@ -136,38 +123,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const nowUtcISO = new Date().toISOString();
-    const { decision: evalDecision, currentUsage, bucketKey } = await evaluateFeatureAccess({
-      featureId: 'custom_lists',
-      userId: session.uid,
-      plan: plan as any,
-      nowUtcISO
-    });
-
-    console.log('[POST /api/lists] Entitlement decision:', {
-      allow: evalDecision.allow,
-      reason: evalDecision.reason,
-      limit: evalDecision.limit,
-      remaining: evalDecision.remaining
-    });
-
-    if (!evalDecision.allow) {
-      console.log('[POST /api/lists] ✗ Entitlement check failed - returning 429');
-      return NextResponse.json(
-        {
-          error: evalDecision.reason === 'limit_reached'
-            ? `Monthly list creation limit reached (${evalDecision.limit} lists)`
-            : 'Cannot create more lists',
-          limit: evalDecision.limit,
-          current: currentUsage,
-          remaining: evalDecision.remaining
-        },
-        { status: 429 }
-      );
-    }
-
-    console.log('[POST /api/lists] ✓ Entitlement check passed');
-
     const body: CreateListRequest = await request.json();
     const { name, type, emoji, color, firstItem } = body;
 
@@ -187,6 +142,55 @@ export async function POST(request: NextRequest) {
         { status: 400 }
       );
     }
+
+    const nowUtcISO = new Date().toISOString();
+    const listsRef = db.collection('users').doc(session.uid).collection('lists');
+    const existingListsSnapshot = await listsRef.get();
+    const currentCount = existingListsSnapshot.size;
+    const normalizedName = normalizeListName(name);
+    const duplicateList = existingListsSnapshot.docs.some(doc => {
+      const data = doc.data() as UserList;
+      if (!data?.name || !data?.type) return false;
+      return data.type === type && normalizeListName(data.name) === normalizedName;
+    });
+    const context: EvalContext = {
+      userId: session.uid,
+      plan: plan as any,
+      usage: { custom_lists: currentCount },
+      nowUtcISO
+    };
+    const evalDecision = evaluate('custom_lists', context);
+
+    console.log('[POST /api/lists] Entitlement decision:', {
+      allow: evalDecision.allow,
+      reason: evalDecision.reason,
+      limit: evalDecision.limit,
+      remaining: evalDecision.remaining
+    });
+
+    if (duplicateList) {
+      return NextResponse.json(
+        { error: 'List name already exists for this type', code: 'DUPLICATE_LIST' },
+        { status: 409 }
+      );
+    }
+
+    if (!evalDecision.allow) {
+      console.log('[POST /api/lists] ✗ Entitlement check failed - returning 429');
+      return NextResponse.json(
+        {
+          error: evalDecision.reason === 'limit_reached'
+            ? `List limit reached (${evalDecision.limit} lists)`
+            : 'Cannot create more lists',
+          limit: evalDecision.limit,
+          current: currentCount,
+          remaining: evalDecision.remaining
+        },
+        { status: 429 }
+      );
+    }
+
+    console.log('[POST /api/lists] ✓ Entitlement check passed');
 
     // Create the new list
     const listId = uuidv4();
@@ -222,83 +226,36 @@ export async function POST(request: NextRequest) {
       }
     };
 
-    // Check storage decision
-    console.log('[POST /api/lists] Getting storage decision...');
-    const decision = await getStorageDecision(session);
-    console.log('[POST /api/lists] Storage decision:', {
-      shouldWriteToFirebase: decision.shouldWriteToFirebase,
-      storageLocation: decision.storageLocation,
-      isPremium: decision.isPremium,
-      plan: decision.plan
-    });
+    console.log('[POST /api/lists] Saving to Firebase:', session.uid);
 
-    const usageRef = db
-      .collection('users')
-      .doc(session.uid)
-      .collection('usage')
-      .doc(bucketKey);
-
-    // Only save to Firebase for premium users
-    if (decision.shouldWriteToFirebase) {
-      console.log('[POST /api/lists] Premium user - saving to Firebase:', session.uid);
-
-      try {
-        const batch = db.batch();
-
-        // Save the list
-        const listsRef = db.collection('users').doc(session.uid).collection('lists');
-        batch.set(listsRef.doc(listId), newList);
-
-        // Update usage tracking
-        batch.set(
-          usageRef,
-          {
-            custom_lists: FieldValue.increment(1),
-            lastUpdated: new Date()
-          },
-          { merge: true }
-        );
-
-        await batch.commit();
-        console.log('[POST /api/lists] ✓ Successfully saved to Firebase and updated usage');
-      } catch (firebaseError) {
-        console.error('[POST /api/lists] ✗ Firebase write failed:', firebaseError);
-        throw firebaseError;
-      }
-    } else {
-      console.log('[POST /api/lists] Free user - returning list for local storage:', session.uid);
-      // Still update usage tracking for free users
-      try {
-        await usageRef.set(
-          {
-            custom_lists: FieldValue.increment(1),
-            lastUpdated: new Date()
-          },
-          { merge: true }
-        );
-        console.log('[POST /api/lists] ✓ Updated usage tracking for free user');
-      } catch (usageError) {
-        console.error('[POST /api/lists] ✗ Usage tracking failed:', usageError);
-        // Don't throw - this is not critical
-      }
+    try {
+      const listsRef = db.collection('users').doc(session.uid).collection('lists');
+      await listsRef.doc(listId).set(newList);
+      console.log('[POST /api/lists] ✓ Successfully saved to Firebase');
+    } catch (firebaseError) {
+      console.error('[POST /api/lists] ✗ Firebase write failed:', firebaseError);
+      throw firebaseError;
     }
 
     // Return the created list with storage and usage info
     console.log('[POST /api/lists] ✓ Returning success response');
-    return createStorageResponse(
-      newList,
-      decision,
-      {
-        usage: {
-          current: currentUsage + 1,
-          limit: evalDecision.limit === -1 ? 'unlimited' : evalDecision.limit,
-          remaining:
-            evalDecision.remaining === -1
-              ? 'unlimited'
-              : Math.max(0, evalDecision.remaining - 1)
-        }
+    return NextResponse.json({
+      success: true,
+      data: newList,
+      storage: {
+        location: 'both',
+        syncEnabled: true,
+        plan
+      },
+      usage: {
+        current: currentCount + 1,
+        limit: evalDecision.limit === -1 ? 'unlimited' : evalDecision.limit,
+        remaining:
+          evalDecision.remaining === -1
+            ? 'unlimited'
+            : Math.max(0, (evalDecision.limit ?? 0) - (currentCount + 1))
       }
-    );
+    });
   } catch (error) {
     console.error('[POST /api/lists] ✗✗✗ FATAL ERROR creating list ✗✗✗');
     console.error('[POST /api/lists] Error:', error);

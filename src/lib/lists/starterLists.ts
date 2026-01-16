@@ -97,14 +97,14 @@ export async function hasExistingLists(userId: string, isPremium: boolean = fals
 
 /**
  * Create starter lists for a new user in IndexedDB
- * This runs client-side for premium users only (lists are a premium feature)
+ * This runs client-side for premium users only to avoid consuming free tier limits.
  */
 export async function createStarterListsIfNeeded(userId: string, isPremium: boolean = false): Promise<void> {
   console.log('[StarterLists] Checking if starter lists needed for user:', userId);
 
-  // Skip for free users - lists are premium-only
+  // Skip for free users to avoid consuming free tier limits
   if (!isPremium) {
-    console.log('[StarterLists] Skipping starter lists - free user (lists are premium-only)');
+    console.log('[StarterLists] Skipping starter lists - free user');
     return;
   }
 

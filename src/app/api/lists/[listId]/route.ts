@@ -11,6 +11,10 @@ function getDb() {
   return adminDb
 }
 
+function normalizeListName(name: string): string {
+  return name.trim().replace(/\s+/g, ' ').toLowerCase()
+}
+
 /**
  * GET /api/lists/[listId]
  * Get a single list by ID
@@ -84,6 +88,30 @@ export async function PUT(
 
     if (!listDoc.exists) {
       return NextResponse.json({ error: 'List not found' }, { status: 404 })
+    }
+
+    if (name) {
+      const existingListsSnapshot = await db
+        .collection('users')
+        .doc(session.uid)
+        .collection('lists')
+        .get()
+
+      const normalizedName = normalizeListName(name)
+      const duplicateList = existingListsSnapshot.docs.some(doc => {
+        if (doc.id === listId) return false
+        const data = doc.data() as UserList
+        if (!data?.name || !data?.type) return false
+        return data.type === (listDoc.data() as UserList).type &&
+          normalizeListName(data.name) === normalizedName
+      })
+
+      if (duplicateList) {
+        return NextResponse.json(
+          { error: 'List name already exists for this type', code: 'DUPLICATE_LIST' },
+          { status: 409 }
+        )
+      }
     }
 
     // Prepare update data

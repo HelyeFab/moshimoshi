@@ -64,6 +64,10 @@ class ListManager {
     return normalized;
   }
 
+  private normalizeListName(name: string): string {
+    return name.trim().replace(/\s+/g, ' ').toLowerCase();
+  }
+
   /**
    * Check if content already exists in the list
    */
@@ -181,7 +185,7 @@ class ListManager {
   }
 
   // Get all lists for a user
-  async getLists(userId: string, isPremium: boolean): Promise<UserList[]> {
+  async getLists(userId: string, _isPremium: boolean): Promise<UserList[]> {
     const db = await this.initDB();
 
     // Try to fetch from server to check storage location
@@ -254,6 +258,13 @@ class ListManager {
             await tx.done;
           }, 'getLists');
 
+          const localOnlyLists = localLists.filter(list => !processedIds.has(list.id));
+          const shouldSyncLocal = localOnlyLists.length > 0 &&
+            (typeof navigator === 'undefined' || navigator.onLine);
+          if (shouldSyncLocal) {
+            void this.syncLocalListsToServer(userId);
+          }
+
           return mergedLists.sort((a, b) => b.updatedAt - a.updatedAt);
         }
       }
@@ -267,9 +278,18 @@ class ListManager {
   }
 
   // Create a new list
-  async createList(request: CreateListRequest, userId: string, isPremium: boolean): Promise<UserList | null> {
+  async createList(request: CreateListRequest, userId: string, _isPremium: boolean): Promise<UserList | null> {
     const db = await this.initDB();
     const now = Date.now();
+
+    const localLists = await db.getAllFromIndex('lists', 'userId', userId);
+    const normalizedName = this.normalizeListName(request.name);
+    const duplicateLocal = localLists.some(list =>
+      list.type === request.type && this.normalizeListName(list.name) === normalizedName
+    );
+    if (duplicateLocal) {
+      throw new Error('DUPLICATE_LIST');
+    }
 
     // If there's a first item, prepare it
     const items: ListItem[] = [];
@@ -351,6 +371,10 @@ class ListManager {
           url: response.url
         });
 
+        if (errorDetails?.code === 'DUPLICATE_LIST') {
+          throw new Error('DUPLICATE_LIST');
+        }
+
         // Throw error with details for better error handling
         throw new Error(`Server rejected list creation: ${response.status} - ${JSON.stringify(errorDetails)}`);
       }
@@ -378,7 +402,7 @@ class ListManager {
   }
 
   // Add item to list
-  async addItemToList(listId: string, content: string, metadata: any, userId: string, isPremium: boolean): Promise<ListItem | null> {
+  async addItemToList(listId: string, content: string, metadata: any, userId: string, _isPremium: boolean): Promise<ListItem | null> {
     const db = await this.initDB();
 
     // Get the list first to check for duplicates
@@ -403,8 +427,10 @@ class ListManager {
       }
     };
 
-    // Premium users: Try server first
-    if (isPremium) {
+    const shouldUseServer = typeof navigator === 'undefined' || navigator.onLine;
+
+    // Try server first when online
+    if (shouldUseServer) {
       try {
         const response = await fetch(`/api/lists/${listId}/items`, {
           method: 'POST',
@@ -447,11 +473,11 @@ class ListManager {
         }
         // Only log non-duplicate errors
         console.error('Failed to add item on server:', error);
-        // Fall through for offline premium users
+        // Fall through for offline users
       }
     }
 
-    // Free users or offline: Update IndexedDB only
+    // Offline: Update IndexedDB only
     // (We've already checked for duplicates above)
     list.items.push(newItem);
     list.updatedAt = Date.now();
@@ -515,11 +541,13 @@ class ListManager {
   }
 
   // Remove item from list
-  async removeItemFromList(listId: string, itemId: string, userId: string, isPremium: boolean): Promise<boolean> {
+  async removeItemFromList(listId: string, itemId: string, userId: string, _isPremium: boolean): Promise<boolean> {
     const db = await this.initDB();
 
-    // Premium users: Try server first
-    if (isPremium) {
+    const shouldUseServer = typeof navigator === 'undefined' || navigator.onLine;
+
+    // Try server first when online
+    if (shouldUseServer) {
       try {
         const response = await fetch(`/api/lists/${listId}/items?itemId=${itemId}`, {
           method: 'DELETE',
@@ -542,11 +570,11 @@ class ListManager {
         }
       } catch (error) {
         console.error('Failed to remove item on server:', error);
-        // Fall through for offline premium users
+        // Fall through for offline users
       }
     }
 
-    // Free users or offline: Update IndexedDB only
+    // Offline: Update IndexedDB only
     const list = await db.get('lists', listId);
     if (list && list.userId === userId) {
       list.items = list.items.filter((item: ListItem) => item.id !== itemId);
@@ -563,11 +591,13 @@ class ListManager {
   }
 
   // Update list metadata
-  async updateList(listId: string, updates: UpdateListRequest, userId: string, isPremium: boolean): Promise<UserList | null> {
+  async updateList(listId: string, updates: UpdateListRequest, userId: string, _isPremium: boolean): Promise<UserList | null> {
     const db = await this.initDB();
 
-    // Premium users: Try server first
-    if (isPremium) {
+    const shouldUseServer = typeof navigator === 'undefined' || navigator.onLine;
+
+    // Try server first when online
+    if (shouldUseServer) {
       try {
         const response = await fetch(`/api/lists/${listId}`, {
           method: 'PUT',
@@ -596,11 +626,11 @@ class ListManager {
         }
       } catch (error) {
         console.error('Failed to update list on server:', error);
-        // Fall through for offline premium users
+        // Fall through for offline users
       }
     }
 
-    // Free users or offline: Update IndexedDB only
+    // Offline: Update IndexedDB only
     const list = await db.get('lists', listId);
     if (list && list.userId === userId) {
       Object.assign(list, updates);
@@ -626,11 +656,13 @@ class ListManager {
   }
 
   // Delete a list
-  async deleteList(listId: string, userId: string, isPremium: boolean): Promise<boolean> {
+  async deleteList(listId: string, userId: string, _isPremium: boolean): Promise<boolean> {
     const db = await this.initDB();
 
-    // Premium users: Delete from server AND IndexedDB
-    if (isPremium) {
+    const shouldUseServer = typeof navigator === 'undefined' || navigator.onLine;
+
+    // Delete from server AND IndexedDB when online
+    if (shouldUseServer) {
       try {
         const response = await fetch(`/api/lists/${listId}`, {
           method: 'DELETE',
@@ -655,11 +687,11 @@ class ListManager {
         }
       } catch (error) {
         console.error('[ListManager.deleteList] Failed to delete list on server:', error);
-        // For offline premium users, still delete locally
+        // For offline users, still delete locally
       }
     }
 
-    // Free users or offline premium users: Delete from IndexedDB only
+    // Offline: Delete from IndexedDB only
     const list = await db.get('lists', listId);
 
     if (list && list.userId === userId) {
@@ -713,7 +745,7 @@ class ListManager {
   }
 
   // Import list from CSV or JSON
-  async importList(name: string, type: 'sentence' | 'word' | 'verbAdj', data: string, format: 'csv' | 'json' | 'text', userId: string, isPremium: boolean): Promise<UserList | null> {
+  async importList(name: string, type: 'sentence' | 'word' | 'verbAdj', data: string, format: 'csv' | 'json' | 'text', userId: string, _isPremium: boolean): Promise<UserList | null> {
     const items: ListItem[] = [];
 
     if (format === 'json') {
@@ -780,7 +812,7 @@ class ListManager {
       color: 'primary'
     };
 
-    const list = await this.createList(request, userId, isPremium);
+    const list = await this.createList(request, userId, _isPremium);
     if (list) {
       // Add all items at once
       const db = await this.initDB();

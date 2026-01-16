@@ -148,7 +148,8 @@
       "metadata": {
         "contentType": "mixed",
         "difficulty": "all",
-        "estimatedDuration": "variable"
+        "estimatedDuration": "variable",
+        "notes": "Limit uses current list count; limitType kept as monthly for policy compatibility."
       }
     },
     {

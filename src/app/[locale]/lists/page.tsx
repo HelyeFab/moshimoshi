@@ -22,7 +22,7 @@ import MultiTabNotifier from '@/components/lists/MultiTabNotifier'
 import StorageWarning from '@/components/flashcards/StorageWarning'
 import ListSyncStatusIndicator from '@/components/lists/ListSyncStatusIndicator'
 import { createStarterListsIfNeeded } from '@/lib/lists/starterLists'
-import { FeatureUsageIndicator, useFeatureUsage, DesktopCircularIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import { DesktopCircularIndicator, MobileBarIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 import PageHeader from '@/components/ui/PageHeader'
 
 export default function MyListsPage() {
@@ -32,10 +32,7 @@ export default function MyListsPage() {
   const { isPremium, isLoading: subscriptionLoading } = useSubscription()
   const router = useRouter()
   const { showToast } = useToast()
-  const { checkOnly } = useFeature('custom_lists')
-
-  // Feature usage indicator data
-  const usageData = useFeatureUsage('custom_lists')
+  const { checkOnly, lastDecision, remaining, refresh } = useFeature('custom_lists')
 
   const [lists, setLists] = useState<UserList[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -54,6 +51,10 @@ export default function MyListsPage() {
       loadLists()
     }
   }, [user, authLoading, isPremium, subscriptionLoading])
+
+  useEffect(() => {
+    checkOnly({ failOpen: true })
+  }, [checkOnly])
 
   const loadLists = async () => {
     if (!user) {
@@ -102,7 +103,7 @@ export default function MyListsPage() {
           label: t('subscription.actions.upgrade'),
           onClick: () => router.push('/pricing')
         } : undefined
-        showToast(t('entitlements.messages.limitReached'), 'warning', 5000, toastAction)
+        showToast(t('lists.errors.limitReached'), 'warning', 5000, toastAction)
       } else {
         showToast(t('entitlements.messages.featureUnavailable'), 'info')
       }
@@ -135,6 +136,7 @@ export default function MyListsPage() {
 
       if (success) {
         await loadLists()
+        await refresh()
         showToast(t('lists.deleted'), 'success')
       } else {
         showToast(t('lists.errors.deleteFailed'), 'error')
@@ -198,6 +200,7 @@ export default function MyListsPage() {
 
       if (list) {
         await loadLists()
+        await refresh()
         setShowImportModal(false)
         setImportData('')
         showToast(t('lists.success.created'), 'success')
@@ -262,6 +265,13 @@ export default function MyListsPage() {
     )
   }
 
+  const limitCount = lastDecision?.limit ?? 0
+  const isUnlimited = limitCount === -1
+  const usedCount = typeof lastDecision?.usageBefore === 'number'
+    ? lastDecision.usageBefore
+    : Math.max(0, limitCount - (remaining ?? 0))
+  const hasUsageData = !!lastDecision && !isUnlimited
+
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
@@ -280,18 +290,23 @@ export default function MyListsPage() {
           title={t('lists.title')}
           description={t('lists.pageDescription')}
           actions={
-            usageData.hasData ? (
+            hasUsageData ? (
               <DesktopCircularIndicator
-                remaining={usageData.remaining}
-                limitCount={usageData.limitCount}
-                usedCount={usageData.usedCount}
-                color={usageData.color}
+                remaining={remaining ?? 0}
+                limitCount={limitCount}
+                usedCount={usedCount}
+                color={usedCount >= limitCount ? 'red' : usedCount >= limitCount * 0.8 ? 'yellow' : 'green'}
               />
             ) : null
           }
         />
 
-        <FeatureUsageIndicator featureId="custom_lists" />
+        {hasUsageData && (
+          <MobileBarIndicator
+            remaining={remaining ?? 0}
+            limitCount={limitCount}
+          />
+        )}
 
         {/* Actions bar */}
         <div className="flex flex-wrap gap-3 mb-6 mt-6">
@@ -429,6 +444,7 @@ export default function MyListsPage() {
           console.log('[MyListsPage] List created, waiting 500ms before reload...')
           await new Promise(resolve => setTimeout(resolve, 500))
           await loadLists()
+          await refresh()
         }}
       />
 

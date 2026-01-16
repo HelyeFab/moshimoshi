@@ -16,7 +16,7 @@ import {
   CreditCard,
   User,
   Settings,
-  Dock,
+  Command,
 } from "lucide-react";
 import { useI18n } from "@/i18n/I18nContext";
 import { useKeyboardVisible } from "@/hooks/useMediaQuery";
@@ -224,13 +224,13 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
 
                 <div className="flex overflow-x-auto whitespace-nowrap scrollbar-hide scroll-smooth snap-x snap-mandatory">
                   <div className={`flex items-center justify-start ${isAndroid ? 'px-3 py-1.5' : 'px-4 py-2'}`}>
-                    {/* Dock icon - opens command palette */}
+                    {/* Command icon - opens command palette */}
                     <button
                       onClick={openCommandPalette}
                       className="flex flex-col items-center justify-center font-medium transition-colors px-2 py-1.5 flex-shrink-0 snap-center text-gray-500 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400"
                       style={{ fontSize: "10px" }}
                     >
-                      <Dock className="w-6 h-6" />
+                      <Command className="w-6 h-6" />
                       <span className="opacity-0 pointer-events-none">nav</span>
                     </button>
 

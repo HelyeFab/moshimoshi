@@ -11,6 +11,10 @@ function getDb() {
   return adminDb;
 }
 
+function normalizeListName(name: string): string {
+  return name.trim().replace(/\s+/g, ' ').toLowerCase();
+}
+
 /**
  * POST /api/lists/sync
  * Sync a local list to Firebase (for correcting lists created with wrong session tier)
@@ -50,6 +54,21 @@ export async function POST(request: NextRequest) {
 
     // Save the list to Firebase
     const listsRef = db.collection('users').doc(session.uid).collection('lists');
+    const existingListsSnapshot = await listsRef.get();
+    const normalizedName = normalizeListName(list.name || '');
+    const duplicateList = existingListsSnapshot.docs.some(doc => {
+      if (doc.id === list.id) return false;
+      const data = doc.data() as UserList;
+      if (!data?.name || !data?.type) return false;
+      return data.type === list.type && normalizeListName(data.name) === normalizedName;
+    });
+
+    if (duplicateList) {
+      return NextResponse.json(
+        { error: 'List name already exists for this type', code: 'DUPLICATE_LIST' },
+        { status: 409 }
+      );
+    }
     await listsRef.doc(list.id).set(list);
 
     console.log('[POST /api/lists/sync] Successfully synced list:', list.id);

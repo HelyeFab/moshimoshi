@@ -50,9 +50,38 @@ export async function GET(
     const userData = userDoc.data()!;
     const plan = userData?.subscription?.plan || 'free';
 
-    // Get current usage for the feature
     const nowUtcISO = new Date().toISOString();
     const bucket = getBucketKey(featureId, session.uid, nowUtcISO);
+
+    if (featureId === 'custom_lists') {
+      const listsSnapshot = await db
+        .collection('users')
+        .doc(session.uid)
+        .collection('lists')
+        .get();
+      const currentUsage = listsSnapshot.size;
+
+      const context: EvalContext = {
+        userId: session.uid,
+        plan: plan as any,
+        usage: { [featureId]: currentUsage },
+        nowUtcISO
+      };
+
+      const decision = evaluate(featureId, context);
+      const response = {
+        ...decision,
+        featureId,
+        currentUsage,
+        bucketKey: bucket,
+        plan,
+        resetAtLocal: decision.resetAtUtc ? new Date(decision.resetAtUtc).toLocaleString() : undefined
+      };
+
+      return NextResponse.json(response);
+    }
+
+    // Get current usage for other features
     const usageRef = db
       .collection('users')
       .doc(session.uid)

@@ -71,7 +71,7 @@ export const PRICING_PLANS: PricingPlan[] = [
       'pricing.features.free.moodboards',
       'pricing.features.free.moshiPlayer',
       'pricing.features.free.aiStoriesNews',
-      'pricing.features.free.progressTracking'
+      'pricing.features.free.basicProgressTracking'
     ],
     stripePriceId: ''
   },
@@ -84,13 +84,19 @@ export const PRICING_PLANS: PricingPlan[] = [
     interval: 'month',
     features: [
       'pricing.features.monthly.everythingFree',
+      'pricing.features.monthly.unlimitedMoodboards',
+      'pricing.features.monthly.unlimitedStories',
+      'pricing.features.monthly.unlimitedNews',
+      'pricing.features.monthly.unlimitedDrawPractice',
       'pricing.features.monthly.fullMoshiPlayer',
       'pricing.features.monthly.kanjiConnection',
       'pricing.features.monthly.moshiComics',
       'pricing.features.monthly.textbookVocab',
+      'pricing.features.monthly.drillCustomLists',
       'pricing.features.monthly.ankiImports',
       'pricing.features.monthly.unlimitedLists',
       'pricing.features.monthly.library',
+      'pricing.features.monthly.crossDeviceSync',
       'pricing.features.monthly.prioritySupport'
     ],
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY || '',

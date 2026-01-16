@@ -21,6 +21,9 @@ Key rules:
 - `0` = blocked (premium-only)
 - `1+` = quota (daily or monthly)
 
+Note
+- `custom_lists` uses current list count (max 10 for free). `limitType` remains `monthly` for policy compatibility.
+
 When you change `config/features.v1.json`, you MUST regenerate types and policy:
 
 ```bash

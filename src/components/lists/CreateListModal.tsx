@@ -145,7 +145,10 @@ export default function CreateListModal({
       }
     } catch (error) {
       console.error('[CreateListModal] Error creating list:', error)
-      showToast(t('lists.errors.createFailed'), 'error')
+      const message = error instanceof Error && error.message === 'DUPLICATE_LIST'
+        ? t('lists.errors.duplicateListName')
+        : t('lists.errors.createFailed')
+      showToast(message, 'error')
     } finally {
       setIsCreating(false)
     }

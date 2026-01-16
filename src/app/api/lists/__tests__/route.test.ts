@@ -2,8 +2,7 @@ import { NextRequest } from 'next/server'
 import { POST } from '../route'
 import { getSession } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
-import { evaluateFeatureAccess } from '@/lib/entitlements/server'
-import { getStorageDecision } from '@/lib/api/storage-helper'
+import { evaluate } from '@/lib/entitlements/evaluator'
 
 jest.mock('@/lib/auth/session', () => ({
   getSession: jest.fn(),
@@ -13,23 +12,9 @@ jest.mock('@/lib/firebase/admin', () => ({
   adminDb: { collection: jest.fn() },
 }))
 
-jest.mock('@/lib/entitlements/server', () => ({
-  evaluateFeatureAccess: jest.fn(),
+jest.mock('@/lib/entitlements/evaluator', () => ({
+  evaluate: jest.fn(),
 }))
-
-jest.mock('@/lib/api/storage-helper', () => {
-  const { NextResponse } = require('next/server')
-  return {
-    getStorageDecision: jest.fn(),
-    createStorageResponse: (data: unknown, decision: unknown, extras?: unknown) =>
-      NextResponse.json({
-        success: true,
-        data,
-        storage: decision,
-        ...extras,
-      }),
-  }
-})
 
 jest.mock('uuid', () => ({
   v4: () => 'list-1',
@@ -37,8 +22,7 @@ jest.mock('uuid', () => ({
 
 const mockedGetSession = getSession as jest.Mock
 const mockedAdminDb = adminDb as unknown as { collection: jest.Mock }
-const mockedEvaluateFeatureAccess = evaluateFeatureAccess as jest.Mock
-const mockedStorageDecision = getStorageDecision as jest.Mock
+const mockedEvaluate = evaluate as jest.Mock
 
 describe('/api/lists POST', () => {
   beforeEach(() => {
@@ -59,19 +43,18 @@ describe('/api/lists POST', () => {
 
   it('returns 429 when entitlement denies', async () => {
     mockedGetSession.mockResolvedValue({ uid: 'user-1' })
-    mockedEvaluateFeatureAccess.mockResolvedValue({
-      decision: {
-        allow: false,
-        remaining: 0,
-        reason: 'limit_reached',
-        limit: 3,
-      },
-      currentUsage: 3,
-      bucketKey: 'custom_lists_2025-12',
+    mockedEvaluate.mockReturnValue({
+      allow: false,
+      remaining: 0,
+      reason: 'limit_reached',
+      limit: 10,
     })
 
     const userRef = {
       get: jest.fn().mockResolvedValue({ exists: true, data: () => ({ subscription: { plan: 'free', status: 'active' } }) }),
+      collection: jest.fn().mockReturnValue({
+        get: jest.fn().mockResolvedValue({ size: 10, docs: [] }),
+      }),
     }
 
     mockedAdminDb.collection.mockReturnValue({ doc: jest.fn(() => userRef) })
@@ -87,30 +70,20 @@ describe('/api/lists POST', () => {
 
   it('creates list and updates usage when allowed', async () => {
     mockedGetSession.mockResolvedValue({ uid: 'user-1' })
-    mockedEvaluateFeatureAccess.mockResolvedValue({
-      decision: {
-        allow: true,
-        remaining: 3,
-        reason: 'ok',
-        limit: 3,
-      },
-      currentUsage: 0,
-      bucketKey: 'custom_lists_2025-12',
-    })
-    mockedStorageDecision.mockResolvedValue({
-      shouldWriteToFirebase: false,
-      storageLocation: 'local',
-      isPremium: false,
-      plan: 'free',
+    mockedEvaluate.mockReturnValue({
+      allow: true,
+      remaining: 3,
+      reason: 'ok',
+      limit: 10,
     })
 
-    const usageSet = jest.fn().mockResolvedValue(true)
     const userRef = {
       get: jest.fn().mockResolvedValue({ exists: true, data: () => ({ subscription: { plan: 'free', status: 'active' } }) }),
       collection: jest.fn().mockReturnValue({
         doc: jest.fn(() => ({
-          set: usageSet,
+          set: jest.fn().mockResolvedValue(true),
         })),
+        get: jest.fn().mockResolvedValue({ size: 0, docs: [] }),
       }),
     }
 
@@ -125,6 +98,5 @@ describe('/api/lists POST', () => {
     const data = await response.json()
     expect(response.status).toBe(200)
     expect(data.success).toBe(true)
-    expect(usageSet).toHaveBeenCalled()
   })
 })

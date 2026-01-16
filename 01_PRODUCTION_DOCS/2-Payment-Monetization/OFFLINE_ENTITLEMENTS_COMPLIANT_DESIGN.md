@@ -36,6 +36,9 @@ Key components
 - Stop using `localStorage.userTier` for offline decisions.
 - Only use the signed snapshot as the tier source.
 
+Note
+- `custom_lists` uses current list count (max 10 for free). `limitType` remains `monthly` for policy compatibility.
+
 ## Integration gaps found in current implementation (must fix)
 
 These are required for full approval and correct integration with existing entitlements storage.
