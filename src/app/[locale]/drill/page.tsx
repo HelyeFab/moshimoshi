@@ -23,6 +23,7 @@ import { useConjugationHelp } from '@/contexts/ConjugationHelpContext'
 import { HelpModal, HelpBanner } from '@/components/conjugation-help'
 import { SRSWordSelector } from '@/lib/drill/srs-word-selector'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import { listManager } from '@/lib/lists/ListManager'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 export default function DrillPage() {
@@ -164,11 +165,9 @@ export default function DrillPage() {
 
       setLoadingLists(true)
       try {
-        const response = await fetch('/api/lists')
-        if (response.ok) {
-          const data = await response.json()
-          setUserLists(data.lists || [])
-        }
+        const isPremium = subscription?.plan?.includes('premium') || false
+        const userLists = await listManager.getLists(user.uid, isPremium)
+        setUserLists(userLists)
       } catch (error) {
         console.error('Failed to fetch user lists:', error)
       } finally {
@@ -177,7 +176,7 @@ export default function DrillPage() {
     }
 
     fetchLists()
-  }, [user?.uid])
+  }, [user?.uid, subscription])
 
   // Fetch SRS word counts when authenticated
   useEffect(() => {
