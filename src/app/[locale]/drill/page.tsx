@@ -597,17 +597,7 @@ export default function DrillPage() {
                 </label>
 
                 {/* Quick select buttons */}
-                <div className={`grid grid-cols-3 gap-2 mb-3 ${
-                  (() => {
-                    const presets = [5, 10, 15, 20, questionLimits.max];
-                    const uniquePresets = [...new Set(presets.filter(p => p >= questionLimits.min && p <= questionLimits.max))].sort((a, b) => a - b);
-                    return uniquePresets.length === 5 ? 'sm:grid-cols-5' :
-                           uniquePresets.length === 4 ? 'sm:grid-cols-4' :
-                           uniquePresets.length === 3 ? 'sm:grid-cols-3' :
-                           uniquePresets.length === 2 ? 'sm:grid-cols-2' :
-                           'sm:grid-cols-1';
-                  })()
-                }`}>
+                <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-3">
                   {(() => {
                     const presets = [5, 10, 15, 20, questionLimits.max];
                     const uniquePresets = [...new Set(presets.filter(p => p >= questionLimits.min && p <= questionLimits.max))].sort((a, b) => a - b);
