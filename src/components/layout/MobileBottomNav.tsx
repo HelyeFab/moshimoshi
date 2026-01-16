@@ -16,6 +16,7 @@ import {
   CreditCard,
   User,
   Settings,
+  Dock,
 } from "lucide-react";
 import { useI18n } from "@/i18n/I18nContext";
 import { useKeyboardVisible } from "@/hooks/useMediaQuery";
@@ -163,13 +164,11 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
     };
   }, [pathname, shouldHide, isKeyboardVisible]);
 
-  // Handle NavHandle tap - shows navbar and opens command palette
+  // Handle NavHandle tap - shows navbar only
   const handleHandleTap = () => {
     setShowHandle(false);
     setIsVisible(true);
     scheduleAutoHide();
-    // Also open command palette
-    openCommandPalette();
   };
 
   // Don't render on excluded pages or when keyboard is visible
@@ -225,6 +224,16 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
 
                 <div className="flex overflow-x-auto whitespace-nowrap scrollbar-hide scroll-smooth snap-x snap-mandatory">
                   <div className={`flex items-center justify-start ${isAndroid ? 'px-3 py-1.5' : 'px-4 py-2'}`}>
+                    {/* Dock icon - opens command palette */}
+                    <button
+                      onClick={openCommandPalette}
+                      className="flex flex-col items-center justify-center font-medium transition-colors px-2 py-1.5 flex-shrink-0 snap-center text-gray-500 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400"
+                      style={{ fontSize: "10px" }}
+                    >
+                      <Dock className="w-6 h-6" />
+                      <span className="opacity-0 pointer-events-none">nav</span>
+                    </button>
+
                     {navItems.map(({ href, label, icon: Icon }) => {
                       const isActive = pathname.startsWith(href);
                       return (
