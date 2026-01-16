@@ -23,6 +23,7 @@ import { useConjugationHelp } from '@/contexts/ConjugationHelpContext'
 import { HelpModal, HelpBanner } from '@/components/conjugation-help'
 import { SRSWordSelector } from '@/lib/drill/srs-word-selector'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 export default function DrillPage() {
   const { t, strings } = useI18n()
@@ -1238,6 +1239,7 @@ export default function DrillPage() {
         action={alert.action}
       />
 
+      <MobileNavSpacer />
     </div>
   )
 }

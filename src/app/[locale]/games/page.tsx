@@ -12,6 +12,7 @@ import MatchingGame from '@/components/games/MatchingGame'
 import WordAssemblyGame from '@/components/games/WordAssembly/WordAssemblyGame'
 import KanjiQuest from '@/components/games/kanji-quest/KanjiQuest'
 import { JapaneseWord } from '@/types/vocabulary'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 // Features are DISABLED by default unless explicitly set to 'true'
 const isGamesEnabled = process.env.NEXT_PUBLIC_FEATURE_GAMES === 'true'
@@ -248,6 +249,8 @@ export default function GamesPage() {
           onBack={handleCloseGame}
         />
       )}
+
+      <MobileNavSpacer />
     </div>
   )
 }

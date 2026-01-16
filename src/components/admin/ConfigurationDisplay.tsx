@@ -1,7 +1,7 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
-import { ChevronDown, ChevronUp, Check, X, AlertCircle, Code, FileJson } from 'lucide-react'
+import React, { useEffect, useState, useMemo } from 'react'
+import { ChevronDown, ChevronUp, Check, X, AlertCircle, Code, FileJson, Search } from 'lucide-react'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 
 interface Feature {
@@ -49,6 +49,7 @@ export default function ConfigurationDisplay({
   const [editingCell, setEditingCell] = useState<{ featureId: string; plan: string } | null>(null)
   const [editValue, setEditValue] = useState<string>('')
   const [savingCell, setSavingCell] = useState(false)
+  const [searchTerm, setSearchTerm] = useState<string>('')
 
   useEffect(() => {
     setLocalConfig(configData)
@@ -152,6 +153,18 @@ export default function ConfigurationDisplay({
     premium_yearly: 'Premium Yearly'
   }
 
+  // Filter features based on search term
+  const filteredFeatures = useMemo(() => {
+    if (!localConfig || !searchTerm.trim()) return localConfig?.features || []
+
+    const searchLower = searchTerm.toLowerCase()
+    return localConfig.features.filter(feature =>
+      feature.id.toLowerCase().includes(searchLower) ||
+      feature.name.toLowerCase().includes(searchLower) ||
+      feature.description.toLowerCase().includes(searchLower)
+    )
+  }, [localConfig, searchTerm])
+
   return (
     <div className="space-y-6">
       {/* Header Controls */}
@@ -189,6 +202,34 @@ export default function ConfigurationDisplay({
           <span className="sm:hidden">Code Comparison</span>
           <span className="hidden sm:inline">{showComparison ? 'Hide' : 'Show'} Code Comparison</span>
         </button>
+      </div>
+
+      {/* Search Box */}
+      <div className="flex items-center gap-2">
+        <div className="relative flex-1">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search features (e.g., moodboard)..."
+            className="w-full pl-10 pr-10 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded-lg text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+          />
+          {searchTerm && (
+            <button
+              onClick={() => setSearchTerm('')}
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+              aria-label="Clear search"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+        {searchTerm && (
+          <div className="text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
+            {filteredFeatures.length} of {localConfig?.features.length || 0}
+          </div>
+        )}
       </div>
 
       {/* Comparison View */}
@@ -247,7 +288,14 @@ export default function ConfigurationDisplay({
               </tr>
             </thead>
             <tbody>
-              {localConfig.features.map((feature, idx) => (
+              {filteredFeatures.length === 0 ? (
+                <tr>
+                  <td colSpan={plans.length + 2} className="py-8 text-center text-sm text-gray-500 dark:text-gray-400">
+                    No features found matching "{searchTerm}"
+                  </td>
+                </tr>
+              ) : (
+                filteredFeatures.map((feature, idx) => (
                 <React.Fragment key={feature.id}>
                   <tr
                     className={`border-b border-gray-100 dark:border-gray-800 hover:bg-gray-50 dark:hover:bg-gray-800/50 cursor-pointer ${
@@ -366,7 +414,7 @@ export default function ConfigurationDisplay({
                     </tr>
                   )}
                 </React.Fragment>
-              ))}
+              )))}
             </tbody>
           </table>
         </div>
@@ -386,7 +434,7 @@ export default function ConfigurationDisplay({
                 )}
               </h3>
               <div className="space-y-2">
-                {localConfig.features.map(feature => {
+                {filteredFeatures.map(feature => {
                   const limit = getLimit(plan, feature)
                   return (
                     <div key={feature.id} className="flex justify-between items-center py-1 border-b border-gray-100 dark:border-gray-700/50 last:border-0">

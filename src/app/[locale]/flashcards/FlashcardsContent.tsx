@@ -48,6 +48,7 @@ import type { FlashcardsInitialData } from '@/lib/flashcards/server'
 import { Trophy, TrendingUp, Target, Clock, BookOpen, BarChart3, AlertTriangle, Plus, PieChart, RefreshCw, ChevronDown, Trash2 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { cn } from '@/lib/utils'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 interface FlashcardsContentProps {
   initialData: FlashcardsInitialData
@@ -2123,6 +2124,8 @@ export default function FlashcardsContent({ initialData }: FlashcardsContentProp
         </Modal>
 
       </div>
+
+      <MobileNavSpacer />
     </div>
   )
 }

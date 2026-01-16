@@ -24,6 +24,7 @@ import ChannelBanner from "@/components/shadowing/ChannelBanner";
 import YouTubeButton from "@/components/shadowing/YouTubeButton";
 import { useFeature } from "@/hooks/useFeature";
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from "@/components/entitlements/FeatureUsageIndicator";
+import MobileNavSpacer from "@/components/layout/MobileNavSpacer";
 
 // Session persistence key
 const SESSION_STORAGE_KEY = "moshiPlayerSession";
@@ -1036,6 +1037,7 @@ function YouTubeShadowingContent() {
         unlockText={t("youtubeShadowing.lockScreen.tapToUnlock")}
       />
 
+      <MobileNavSpacer />
     </div>
   );
 }

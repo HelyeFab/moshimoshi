@@ -16,6 +16,7 @@ import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 type ViewMode = 'grid' | 'list'
 type JLPTFilter = 'all' | 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
@@ -255,6 +256,7 @@ export default function KanjiMoodsPage() {
             </>
           )}
 
+          <MobileNavSpacer />
         </div>
       )}
     </div>

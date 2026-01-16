@@ -27,6 +27,7 @@ import {
 } from '@/utils/kanaProgressManager'
 import { kanaProgressManagerV2 } from '@/utils/kanaProgressManagerV2'
 import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 // Review mode uses ReviewSessionUI which handles all gamification automatically via Event Hub
 // Study mode is a learning tool (not a review/quiz) and does not award XP
@@ -1098,6 +1099,8 @@ export function KanaLearningComponent({
             />
           )}
         </main>
+
+        <MobileNavSpacer />
       </div>
 
       {/* Kana Details Modal */}

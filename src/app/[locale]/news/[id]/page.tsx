@@ -8,6 +8,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useCachedArticle } from '@/hooks/useArticleCache'
 import { useFeature } from '@/hooks/useFeature'
 import { getUsageSnapshotEntry, hasOfflineItemSeen, markOfflineItemSeen } from '@/lib/pwa/offline-usage'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 export default function NewsArticlePage() {
   const params = useParams()
@@ -101,6 +102,7 @@ export default function NewsArticlePage() {
         </div>
       )}
       <EnhancedArticleReader article={article} onBack={handleBack} />
+      <MobileNavSpacer />
     </div>
   )
 }

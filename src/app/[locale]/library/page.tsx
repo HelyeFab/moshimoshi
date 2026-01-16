@@ -15,6 +15,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 import { getValidatedEntitlementsSnapshot, isOffline } from '@/lib/pwa/offline-entitlements'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 const JLPT_LEVELS: Array<{ value: JLPTLevel | 'all'; label: string }> = [
   { value: 'all', label: 'All Levels' },
@@ -412,6 +413,8 @@ export default function LibraryPage() {
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary-600 mx-auto"></div>
           </div>
         )}
+
+        <MobileNavSpacer />
       </div>
     </div>
     </EntitlementGate>

@@ -17,6 +17,7 @@ import { searchJMdictWords, loadJMdictData } from '@/utils/jmdictLocalSearch'
 import type { JapaneseWord } from '@/types/vocabulary'
 import { useSubscription } from '@/hooks/useSubscription'
 import { vocabularyHistoryManager } from '@/utils/vocabularyHistoryManager'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 function VocabularyContent() {
   const router = useRouter()
@@ -486,6 +487,7 @@ function VocabularyContent() {
         </div>
       </Modal>
 
+      <MobileNavSpacer />
     </div>
   )
 }

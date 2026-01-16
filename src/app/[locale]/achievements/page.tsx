@@ -10,6 +10,7 @@ import PageHeader from '@/components/ui/PageHeader'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { cn } from '@/utils/cn'
 import achievementsConfig from '@/config/gamification/achievements.json'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 // Features are DISABLED by default unless explicitly set to 'true'
 const isAchievementsEnabled = process.env.NEXT_PUBLIC_FEATURE_ACHIEVEMENTS === 'true'
@@ -248,6 +249,8 @@ export default function AchievementsPage() {
           </div>
         )}
       </div>
+
+      <MobileNavSpacer />
     </div>
   )
 }

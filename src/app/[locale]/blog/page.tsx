@@ -10,6 +10,7 @@ import { NewsletterForm } from "@/components/blog/NewsletterForm";
 import { NewsletterStatusBadge } from "@/components/blog/NewsletterStatusBadge";
 import { useAuth } from "@/hooks/useAuth";
 import { readOfflineListCache, writeOfflineListCache } from "@/lib/pwa/offline-list-cache";
+import MobileNavSpacer from "@/components/layout/MobileNavSpacer";
 
 function BlogContent() {
   const router = useRouter();
@@ -637,6 +638,8 @@ function BlogContent() {
           </>
         )}
         </div>
+
+        <MobileNavSpacer />
       </main>
     </>
   );

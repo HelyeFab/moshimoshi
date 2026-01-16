@@ -11,6 +11,7 @@ import { LoadingOverlay } from '@/components/ui/Loading'
 import NewsArticleFallbackImage from '@/components/news/NewsArticleFallbackImage'
 import { useArticleCache } from '@/hooks/useArticleCache'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 interface NewsArticle {
   id: string
@@ -648,6 +649,8 @@ export default function NewsPage() {
             )}
           </div>
         )}
+
+        <MobileNavSpacer />
       </div>
     </div>
   )

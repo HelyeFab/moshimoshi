@@ -12,6 +12,7 @@ import { useAuth } from '@/hooks/useAuth';
 import Dropdown from '@/components/ui/Dropdown';
 import { getGradientForBook } from '@/lib/utils/gradients';
 import { readOfflineListCache, writeOfflineListCache } from '@/lib/pwa/offline-list-cache';
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 
 interface Resource {
   id: string;
@@ -252,6 +253,8 @@ export default function ResourcesPage() {
           </motion.div>
         )}
       </div>
+
+      <MobileNavSpacer />
     </div>
   );
 }

@@ -13,6 +13,7 @@ import { useSubscription } from '@/hooks/useSubscription'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 // Features are DISABLED by default unless explicitly set to 'true'
 const isTodosEnabled = process.env.NEXT_PUBLIC_FEATURE_TODOS === 'true'
@@ -55,6 +56,8 @@ export default function TodosPage() {
         {/* Todo list component */}
         <TodoList />
       </div>
+
+      <MobileNavSpacer />
     </div>
   )
 }

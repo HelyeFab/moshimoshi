@@ -13,6 +13,7 @@ import LearningPageHeader from '@/components/learn/LearningPageHeader'
 import { Select } from '@/components/ui/Select'
 import { Story, JLPTLevel } from '@/types/story'
 import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 interface FilterState {
   jlptLevel: 'all' | JLPTLevel
@@ -421,6 +422,7 @@ export default function StoriesPage() {
           </div>
         )}
 
+        <MobileNavSpacer />
       </div>
     </div>
   )

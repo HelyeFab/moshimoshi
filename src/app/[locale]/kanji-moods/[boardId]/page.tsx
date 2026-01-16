@@ -18,6 +18,7 @@ import { useFeature } from '@/hooks/useFeature'
 import { moodBoardProgressManager } from '@/utils/moodBoardProgressManager'
 import { motion, AnimatePresence } from 'framer-motion'
 import { IoCheckmarkCircle, IoInformationCircle, IoClose } from 'react-icons/io5'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 export default function MoodBoardDetailPage() {
   const router = useRouter()
@@ -591,6 +592,8 @@ export default function MoodBoardDetailPage() {
             </p>
           </div>
         )}
+
+        <MobileNavSpacer />
       </div>
 
       {/* Kanji Details Modal */}

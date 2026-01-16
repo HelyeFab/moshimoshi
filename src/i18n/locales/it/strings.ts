@@ -155,7 +155,7 @@ export const strings = {
     },
     items: 'elementi',
     interval: 'Intervallo',
-    accuracy: 'precisione',
+    accuracy: 'Precisione',
     andMore: '...e altri {count} elementi',
   },
   review: {

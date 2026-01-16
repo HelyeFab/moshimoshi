@@ -13,6 +13,7 @@ import { Trophy, Medal, Zap, Star, Users, ChevronLeft, ChevronRight } from 'luci
 import { LoadingOverlay } from '@/components/ui/Loading'
 import type { LeaderboardEntry, LeaderboardResponse, UserRankResponse } from '@/lib/leaderboard/types'
 import { validateStreakDisplay } from '@/lib/gamification/utils/streakValidation'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 // Features are DISABLED by default unless explicitly set to 'true'
 const isLeaderboardEnabled = process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD === 'true'
@@ -357,6 +358,8 @@ export default function LeaderboardPage() {
           )}
         </div>
       </div>
+
+      <MobileNavSpacer />
     </div>
   )
 }

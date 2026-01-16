@@ -18,6 +18,7 @@ import {
 import Link from 'next/link';
 import { getGradientForBook } from '@/lib/utils/gradients';
 import { motion, AnimatePresence } from 'framer-motion';
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 import { useAuth } from '@/hooks/useAuth';
 import ContentCelebration from '@/components/shared/ContentCelebration';
 import { EntitlementGate } from '@/components/review-engine/EntitlementGate';
@@ -441,6 +442,7 @@ export default function BookReaderPage() {
           onClose={() => setShowCelebration(false)}
         />
       )}
+        <MobileNavSpacer />
         </div>
       )}
     </EntitlementGate>

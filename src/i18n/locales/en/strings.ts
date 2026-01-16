@@ -792,7 +792,7 @@ export const strings = {
     thisWeek: 'This Week',
     noScheduledReviews: 'No scheduled reviews yet. Keep studying to build your review schedule!',
     interval: 'Interval',
-    accuracy: 'accuracy',
+    accuracy: 'Accuracy',
     andMore: '...and {count} more items',
     stats: {
       studied: 'Studied',

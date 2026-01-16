@@ -83,7 +83,7 @@ export const strings = {
     },
     items: 'éléments',
     interval: 'Intervalle',
-    accuracy: 'précision',
+    accuracy: 'Précision',
     andMore: '...et {count} éléments de plus',
   },
   common: {

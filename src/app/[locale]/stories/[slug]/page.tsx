@@ -11,6 +11,7 @@ import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useAuth } from '@/hooks/useAuth'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 export default function StoryDetailPage() {
   const params = useParams()
@@ -150,6 +151,7 @@ export default function StoryDetailPage() {
         contentType="story"
       />
 
+      <MobileNavSpacer />
     </div>
   )
 }

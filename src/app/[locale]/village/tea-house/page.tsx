@@ -19,6 +19,7 @@ import { cn } from '@/lib/utils'
 import TeaHouseWelcomeModal from '@/components/qa/TeaHouseWelcomeModal'
 import FloatingGuidelinesButton from '@/components/qa/FloatingGuidelinesButton'
 import { useTeaHouseGuidelines } from '@/hooks/useTeaHouseGuidelines'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 /**
  * Q&A Forum Main Page - Tea House (茶屋)
@@ -378,6 +379,7 @@ export default function QAForumPage() {
       </div>
 
       {/* Mobile Bottom Nav Spacer */}
+      <MobileNavSpacer />
 
       {/* Welcome Modal - First visit */}
       <TeaHouseWelcomeModal isOpen={showWelcomeModal} onClose={handleWelcomeClose} />
