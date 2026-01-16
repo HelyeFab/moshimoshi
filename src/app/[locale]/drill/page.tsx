@@ -964,7 +964,6 @@ export default function DrillPage() {
                           ? 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                           : 'border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-dark-900 text-gray-400 dark:text-gray-600 cursor-not-allowed'
                     }`}
-                    disabled={!isPremium}
                   >
                     {t('drill.myLists')}
                   </button>
@@ -991,7 +990,6 @@ export default function DrillPage() {
                           ? 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                           : 'border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-dark-900 text-gray-400 dark:text-gray-600 cursor-not-allowed'
                     }`}
-                    disabled={!isPremium}
                   >
                     <span className="flex items-center justify-center gap-1">
                       🧠 SRS
