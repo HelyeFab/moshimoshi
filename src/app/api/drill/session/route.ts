@@ -120,17 +120,9 @@ export async function POST(request: NextRequest) {
       plan: plan as any,
       nowUtcISO: nowUtc
     })
-    const drillAccess = await evaluateFeatureAccess({
-      featureId: 'drill',
-      userId: session.uid,
-      plan: plan as any,
-      nowUtcISO: nowUtc
-    })
 
-    if (!conjugationAccess.decision.allow || !drillAccess.decision.allow) {
-      const decision = conjugationAccess.decision.allow
-        ? drillAccess.decision
-        : conjugationAccess.decision
+    if (!conjugationAccess.decision.allow) {
+      const decision = conjugationAccess.decision
       return NextResponse.json(
         {
           success: false,
@@ -395,48 +387,27 @@ export async function POST(request: NextRequest) {
       updatedAt: nowUtc,
     }
 
-    // Check storage decision
-    const storageDecision = await getStorageDecision(session)
-
-    // Only save to Firebase for premium users
-    if (storageDecision.shouldWriteToFirebase) {
-      console.log('[Drill API] Premium user - saving to Firebase:', session.uid)
-      await adminDb!.collection('drill_sessions').doc(sessionId).set(drillSession)
-    } else {
-      console.log('[Drill API] Free user - session will be stored locally:', session.uid)
-    }
+    // Store drill session for all users (minimal cloud footprint for XP + completion)
+    console.log('[Drill API] Saving drill session to Firebase:', session.uid)
+    await adminDb!.collection('drill_sessions').doc(sessionId).set(drillSession)
 
     const usageRef = adminDb!
       .collection('users')
       .doc(session.uid)
       .collection('usage')
       .doc(conjugationAccess.bucketKey)
-    const drillUsageRef = adminDb!
-      .collection('users')
-      .doc(session.uid)
-      .collection('usage')
-      .doc(drillAccess.bucketKey)
 
     const limit = conjugationAccess.decision.limit ?? 0
     const newUsage = conjugationAccess.currentUsage + 1
     const remaining = limit === -1 ? -1 : Math.max(0, limit - newUsage)
 
-    await Promise.all([
-      usageRef.set(
-        {
-          conjugation_drill: FieldValue.increment(1),
-          lastUpdated: nowUtc,
-        },
-        { merge: true }
-      ),
-      drillUsageRef.set(
-        {
-          drill: FieldValue.increment(1),
-          lastUpdated: nowUtc,
-        },
-        { merge: true }
-      )
-    ])
+    await usageRef.set(
+      {
+        conjugation_drill: FieldValue.increment(1),
+        lastUpdated: nowUtc,
+      },
+      { merge: true }
+    )
 
     return NextResponse.json({
       success: true,
@@ -534,18 +505,17 @@ export async function PUT(request: NextRequest) {
       const plan = userData?.subscription?.plan || 'free'
       const isPremium = plan === 'premium_monthly' || plan === 'premium_yearly'
 
-      // Only update Firebase for premium users
-      if (isPremium) {
-        // Update session with completion data and version
-        await sessionRef.update({
-          completedAt,
-          score: finalScore,
-          accuracy,
-          version: FieldValue.increment(1), // FIXED: Version tracking
-          updatedAt: completedAt,
-        })
+      // Always update the base session document for consistency
+      await sessionRef.update({
+        completedAt,
+        score: finalScore,
+        accuracy,
+        version: FieldValue.increment(1), // FIXED: Version tracking
+        updatedAt: completedAt,
+      })
 
-        // Add to drill history subcollection for detailed tracking
+      // Premium-only detailed history
+      if (isPremium) {
         const historyRef = adminDb!
           .collection('users')
           .doc(session.uid)
@@ -564,7 +534,6 @@ export async function PUT(request: NextRequest) {
           perfectSession: accuracy === 100,
         })
       }
-      // Free users: stats are handled client-side in IndexedDB
 
       // FIXED: Issue #6 - Record gamification (XP + streak) using coordinator
       let gamificationResult = null

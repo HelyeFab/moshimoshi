@@ -28,17 +28,11 @@ describe('/api/drill/session POST', () => {
 
   it('returns 403 when entitlement denies', async () => {
     mockedRequireAuth.mockResolvedValue({ uid: 'user-1' })
-    mockedEvaluateFeatureAccess
-      .mockResolvedValueOnce({
-        decision: { allow: false, remaining: 0, reason: 'limit_reached', limit: 5 },
-        currentUsage: 5,
-        bucketKey: 'conjugation_drill_2025-12-26',
-      })
-      .mockResolvedValueOnce({
-        decision: { allow: true, remaining: 5, reason: 'ok', limit: 5 },
-        currentUsage: 0,
-        bucketKey: 'drill_2025-12-26',
-      })
+    mockedEvaluateFeatureAccess.mockResolvedValueOnce({
+      decision: { allow: false, remaining: 0, reason: 'limit_reached', limit: 5 },
+      currentUsage: 5,
+      bucketKey: 'conjugation_drill_2025-12-26',
+    })
 
     const userRef = {
       get: jest.fn().mockResolvedValue({ data: () => ({ subscription: { plan: 'free' } }) }),

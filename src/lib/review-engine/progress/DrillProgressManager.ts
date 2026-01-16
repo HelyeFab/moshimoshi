@@ -149,9 +149,9 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
     const userId = user.uid
     await this.initDB()
 
-    // 🔥 FIX: Call the API to properly complete the drill session
+    // 🔥 FIX: Call the API to properly complete the drill session for all users
     // This updates Firebase drill_sessions collection and triggers gamification (XP + streak)
-    // NEW: Also sends questionResults for SRS tracking
+    // Also sends questionResults for SRS tracking (server will ignore for non-premium)
     try {
       const response = await fetch('/api/drill/session', {
         method: 'PUT',
@@ -161,7 +161,7 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
           action: 'complete',
           finalScore: session.correctAnswers,
           accuracy: session.accuracy,
-          questionResults: session.questionResults, // NEW: For SRS tracking
+          questionResults: session.questionResults,
         }),
       })
 
@@ -171,12 +171,6 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
         // Log gamification results if present (streak/XP only)
         if (result.data?.gamification) {
           const gam = result.data.gamification
-          console.log('[DrillProgressManager] 🎉 Gamification results:', {
-            xpEarned: gam.xpEarned,
-            streakIncremented: gam.streakIncremented,
-            currentStreak: gam.currentStreak,
-          })
-
           // 🔥 FIX: Update Zustand store to trigger CelebrationProvider
           // This was missing - drills weren't updating the store, so celebration never showed
           try {
@@ -196,17 +190,13 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
             // Increment session count to trigger celebration
             store.incrementSessionCount()
 
-            console.log('[DrillProgressManager] ✅ Zustand store updated for celebration')
           } catch (storeError) {
             console.error('[DrillProgressManager] Failed to update Zustand store:', storeError)
             // Don't fail the whole operation if store update fails
           }
         }
       } else {
-        console.error(
-          '[DrillProgressManager] Failed to complete drill via API:',
-          await response.text()
-        )
+        console.error('[DrillProgressManager] Failed to complete drill via API:', await response.text())
       }
     } catch (error) {
       console.error('[DrillProgressManager] Error calling drill completion API:', error)

@@ -51,6 +51,14 @@ function getMinXpForStreak(): number {
   return getStreakConfig().minXPForStreak
 }
 
+function buildCompletionKey(activityType: string, activityId: string): string {
+  return `${activityType}_${activityId}`
+}
+
+function getCompletionLedgerRef(userId: string, key: string) {
+  return getDb().collection('users').doc(userId).collection('completion_ledger').doc(key)
+}
+
 /**
  * Calculate XP earned from drill performance
  */
@@ -169,6 +177,19 @@ export interface GamificationResult {
   achievementsUnlocked: string[]
 }
 
+function buildIdempotentResult(currentStats: any): GamificationResult {
+  const currentXP = currentStats.xp?.total || 0
+  return {
+    xpEarned: 0,
+    newTotalXP: currentXP,
+    newLevel: currentStats.xp?.level || Math.max(1, Math.floor(currentXP / 1000)),
+    streakIncremented: false,
+    currentStreak: currentStats.streak?.current || 0,
+    bestStreak: currentStats.streak?.best || 0,
+    achievementsUnlocked: [],
+  }
+}
+
 /**
  * Record drill completion and update all gamification data
  * FIXES: Issue #6 - Now connects drill completion to streak system
@@ -181,7 +202,7 @@ export async function recordDrillCompletion(params: {
   accuracy: number
   isPremium: boolean
 }): Promise<GamificationResult> {
-  const { userId, score, totalQuestions, accuracy, isPremium } = params
+  const { userId, sessionId, score, totalQuestions, accuracy, isPremium } = params
 
   if (!adminDb) {
     throw new Error('Firebase Admin not initialized')
@@ -217,6 +238,13 @@ export async function recordDrillCompletion(params: {
     }
 
     const currentStats = statsDoc.data() || {}
+    const completionKey = buildCompletionKey('drill', sessionId)
+    const completionRef = getCompletionLedgerRef(userId, completionKey)
+    const completionDoc = await transaction.get(completionRef)
+
+    if (completionDoc.exists) {
+      return buildIdempotentResult(currentStats)
+    }
     const currentXP = currentStats.xp?.total || 0
     const newTotalXP = currentXP + xpEarned
     const newLevel = Math.max(1, Math.floor(newTotalXP / 1000))
@@ -338,6 +366,14 @@ export async function recordDrillCompletion(params: {
     const streakData = streakResult?.data ?? fallbackStreak
     const streakIncremented = streakResult?.success ? streakResult.streakIncremented : false
 
+    transaction.set(completionRef, {
+      activityType: 'drill',
+      activityId: sessionId,
+      sessionId,
+      xpEarned,
+      createdAt: nowIso,
+    })
+
     return {
       xpEarned,
       newTotalXP,
@@ -366,7 +402,7 @@ export async function recordReviewCompletion(params: {
   bestStreak?: number
   fastCards?: number
 }): Promise<GamificationResult> {
-  const { userId, itemsReviewed, correctCount, accuracy, isPremium, bestStreak, fastCards } = params
+  const { userId, sessionId, itemsReviewed, correctCount, accuracy, isPremium, bestStreak, fastCards } = params
 
   if (!adminDb) {
     throw new Error('Firebase Admin not initialized')
@@ -410,6 +446,13 @@ export async function recordReviewCompletion(params: {
     }
 
     const currentStats = statsDoc.data() || {}
+    const completionKey = buildCompletionKey('review', sessionId)
+    const completionRef = getCompletionLedgerRef(userId, completionKey)
+    const completionDoc = await transaction.get(completionRef)
+
+    if (completionDoc.exists) {
+      return buildIdempotentResult(currentStats)
+    }
     const currentXP = currentStats.xp?.total || 0
     const newTotalXP = currentXP + xpEarned
     const newLevel = Math.max(1, Math.floor(newTotalXP / 1000))
@@ -505,6 +548,14 @@ export async function recordReviewCompletion(params: {
     }
     const streakData = streakResult?.data ?? fallbackStreak
     const streakIncremented = streakResult?.success ? streakResult.streakIncremented : false
+
+    transaction.set(completionRef, {
+      activityType: 'review',
+      activityId: sessionId,
+      sessionId,
+      xpEarned,
+      createdAt: nowIso,
+    })
 
     return {
       xpEarned,
@@ -635,6 +686,13 @@ export async function recordNewsCompletion(params: {
     }
 
     const currentStats = statsDoc.data() || {}
+    const completionKey = buildCompletionKey('news', articleId)
+    const completionRef = getCompletionLedgerRef(userId, completionKey)
+    const completionDoc = await transaction.get(completionRef)
+
+    if (completionDoc.exists) {
+      return buildIdempotentResult(currentStats)
+    }
     const currentXP = currentStats.xp?.total || 0
     const newTotalXP = currentXP + xpEarned
     const newLevel = Math.max(1, Math.floor(newTotalXP / 1000))
@@ -725,6 +783,13 @@ export async function recordNewsCompletion(params: {
     const streakData = streakResult?.data ?? fallbackStreak
     const streakIncremented = streakResult?.success ? streakResult.streakIncremented : false
 
+    transaction.set(completionRef, {
+      activityType: 'news',
+      activityId: articleId,
+      xpEarned,
+      createdAt: nowIso,
+    })
+
     return {
       xpEarned,
       newTotalXP,
@@ -811,6 +876,13 @@ export async function recordBookCompletion(params: {
     }
 
     const currentStats = statsDoc.data() || {}
+    const completionKey = buildCompletionKey('book', bookId)
+    const completionRef = getCompletionLedgerRef(userId, completionKey)
+    const completionDoc = await transaction.get(completionRef)
+
+    if (completionDoc.exists) {
+      return buildIdempotentResult(currentStats)
+    }
     const currentXP = currentStats.xp?.total || 0
     const newTotalXP = currentXP + xpEarned
     const newLevel = Math.max(1, Math.floor(newTotalXP / 1000))
@@ -900,6 +972,13 @@ export async function recordBookCompletion(params: {
     }
     const streakData = streakResult?.data ?? fallbackStreak
     const streakIncremented = streakResult?.success ? streakResult.streakIncremented : false
+
+    transaction.set(completionRef, {
+      activityType: 'book',
+      activityId: bookId,
+      xpEarned,
+      createdAt: nowIso,
+    })
 
     return {
       xpEarned,
@@ -995,6 +1074,13 @@ export async function recordQuizCompletion(params: {
     }
 
     const currentStats = statsDoc.data() || {}
+    const completionKey = buildCompletionKey('quiz', `${contentType}_${contentId}`)
+    const completionRef = getCompletionLedgerRef(userId, completionKey)
+    const completionDoc = await transaction.get(completionRef)
+
+    if (completionDoc.exists) {
+      return buildIdempotentResult(currentStats)
+    }
     const currentXP = currentStats.xp?.total || 0
     const newTotalXP = currentXP + xpEarned
     const newLevel = Math.max(1, Math.floor(newTotalXP / 1000))
@@ -1096,6 +1182,15 @@ export async function recordQuizCompletion(params: {
     }
     const streakData = streakResult?.data ?? fallbackStreak
     const streakIncremented = streakResult?.success ? streakResult.streakIncremented : false
+
+    transaction.set(completionRef, {
+      activityType: 'quiz',
+      activityId: `${contentType}_${contentId}`,
+      contentType,
+      contentId,
+      xpEarned,
+      createdAt: nowIso,
+    })
 
     return {
       xpEarned,

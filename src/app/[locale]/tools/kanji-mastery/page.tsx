@@ -6,6 +6,7 @@ import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useFeature } from '@/hooks/useFeature'
+import { useSubscription } from '@/hooks/useSubscription'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
@@ -31,6 +32,7 @@ function KanjiMasteryContent() {
   const { getLocalePath } = useLocalePath()
   const { showToast } = useToast()
   const { user, loading: authLoading, isGuest } = useAuth()
+  const { isPremium } = useSubscription()
   const { checkOnly } = useFeature('kanji_mastery')
   const usageData = useFeatureUsage('kanji_mastery')
 
@@ -82,7 +84,11 @@ function KanjiMasteryContent() {
     try {
       const decision = await checkOnly({ failOpen: false })
       if (!decision.allow) {
-        showToast(t('entitlements.messages.limitReached'), 'warning')
+        const action = !isPremium ? {
+          label: t('subscription.actions.upgrade'),
+          onClick: () => router.push('/pricing')
+        } : undefined
+        showToast(t('entitlements.messages.limitReached'), 'warning', 5000, action)
         setIsStarting(false)
         return
       }

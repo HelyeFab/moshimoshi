@@ -25,6 +25,7 @@ function SignInContent() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const hasSignedOutRef = useRef(false)
+  const authFlowFlag = 'auth-flow-in-progress'
 
   useEffect(() => {
     // Clear any guest mode when on signin page
@@ -42,6 +43,13 @@ function SignInContent() {
     if (authLoading || !isAuthenticated || hasSignedOutRef.current) {
       return
     }
+
+    if (typeof window !== 'undefined' && sessionStorage.getItem(authFlowFlag) === 'true') {
+      sessionStorage.removeItem(authFlowFlag)
+      window.location.href = buildLocalePath('/dashboard')
+      return
+    }
+
     hasSignedOutRef.current = true
 
     const signOutExistingSession = async () => {
@@ -134,6 +142,10 @@ function SignInContent() {
     setError('')
 
     try {
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem(authFlowFlag, 'true')
+      }
+
       // Use Firebase client SDK for Google auth
       const { signInWithPopup, GoogleAuthProvider } = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
@@ -164,6 +176,9 @@ function SignInContent() {
       const data = await response.json()
       
       if (response.ok) {
+        if (typeof window !== 'undefined') {
+          sessionStorage.removeItem(authFlowFlag)
+        }
         logger.auth('Session created, redirecting to dashboard')
         showToast(strings.auth.signin.messages.signinSuccess, 'success')
         // Use window.location for a hard redirect to ensure navigation
@@ -176,6 +191,9 @@ function SignInContent() {
         setError(getUserFriendlyErrorMessage(errorMessage))
       }
     } catch (err: any) {
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem(authFlowFlag)
+      }
       console.error('Google sign in error:', err)
       setError(getUserFriendlyErrorMessage(err))
     } finally {
@@ -189,6 +207,10 @@ function SignInContent() {
     setError('')
 
     try {
+      if (typeof window !== 'undefined') {
+        sessionStorage.setItem(authFlowFlag, 'true')
+      }
+
       const { signInWithPopup, signInWithRedirect, OAuthProvider } = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
 
@@ -230,6 +252,9 @@ function SignInContent() {
         const data = await response.json()
 
         if (response.ok) {
+          if (typeof window !== 'undefined') {
+            sessionStorage.removeItem(authFlowFlag)
+          }
           logger.auth('Session created, redirecting to dashboard')
           showToast(strings.auth.signin.messages.signinSuccess, 'success')
           setTimeout(() => {
@@ -250,6 +275,9 @@ function SignInContent() {
         }
       }
     } catch (err: any) {
+      if (typeof window !== 'undefined') {
+        sessionStorage.removeItem(authFlowFlag)
+      }
       console.error('Apple sign in error:', err)
       setError(getUserFriendlyErrorMessage(err))
     } finally {

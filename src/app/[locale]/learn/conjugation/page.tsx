@@ -363,75 +363,76 @@ export default function ConjugationPracticePage() {
               <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-dark-800 rounded-lg shadow-lg border border-gray-200 dark:border-dark-700 z-50">
                 {/* Filter Section */}
                 <div className="border-b border-gray-200 dark:border-dark-700 p-2">
-                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1">
+                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1 mb-2">
                     Word Type
                   </div>
-                  <button
-                    onClick={() => {
-                      setWordFilter('all')
-                      setShowSettingsDropdown(false)
-                    }}
-                    className={`w-full text-left px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors ${
-                      wordFilter === 'all'
-                        ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
-                        : 'text-gray-700 dark:text-gray-300'
-                    }`}
-                  >
-                    {t('conjugation.filters.all')}
-                  </button>
-                  <button
-                    onClick={() => {
-                      setWordFilter('verbs')
-                      setShowSettingsDropdown(false)
-                    }}
-                    className={`w-full text-left px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors ${
-                      wordFilter === 'verbs'
-                        ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
-                        : 'text-gray-700 dark:text-gray-300'
-                    }`}
-                  >
-                    {t('conjugation.filters.verbs')}
-                  </button>
-                  <button
-                    onClick={() => {
-                      setWordFilter('adjectives')
-                      setShowSettingsDropdown(false)
-                    }}
-                    className={`w-full text-left px-2 py-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors ${
-                      wordFilter === 'adjectives'
-                        ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400'
-                        : 'text-gray-700 dark:text-gray-300'
-                    }`}
-                  >
-                    {t('conjugation.filters.adjectives')}
-                  </button>
+                  <div className="px-2 py-1 space-y-2">
+                    <button
+                      onClick={() => {
+                        setWordFilter('all')
+                        setShowSettingsDropdown(false)
+                      }}
+                      className={`w-full px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                        wordFilter === 'all'
+                          ? 'bg-primary-500 text-white'
+                          : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                      }`}
+                    >
+                      {t('conjugation.filters.all')}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setWordFilter('verbs')
+                        setShowSettingsDropdown(false)
+                      }}
+                      className={`w-full px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                        wordFilter === 'verbs'
+                          ? 'bg-primary-500 text-white'
+                          : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                      }`}
+                    >
+                      {t('conjugation.filters.verbs')}
+                    </button>
+                    <button
+                      onClick={() => {
+                        setWordFilter('adjectives')
+                        setShowSettingsDropdown(false)
+                      }}
+                      className={`w-full px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                        wordFilter === 'adjectives'
+                          ? 'bg-primary-500 text-white'
+                          : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                      }`}
+                    >
+                      {t('conjugation.filters.adjectives')}
+                    </button>
+                  </div>
                 </div>
 
                 {/* JLPT Level Section - NEW! */}
                 <div className="border-b border-gray-200 dark:border-dark-700 p-2">
-                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1">
+                  <div className="text-xs font-semibold text-gray-500 dark:text-gray-400 px-2 py-1 mb-2">
                     JLPT Levels
                   </div>
-                  <div className="px-2 py-1 space-y-1">
+                  <div className="px-2 py-1 flex gap-2">
                     {(['N5', 'N4', 'N3+'] as JLPTLevel[]).map(level => (
-                      <label
+                      <button
                         key={level}
-                        className="flex items-center gap-2 cursor-pointer py-1 px-2 rounded hover:bg-gray-100 dark:hover:bg-dark-700"
+                        onClick={() => {
+                          if (jlptLevels.includes(level)) {
+                            setJlptLevels(jlptLevels.filter(l => l !== level))
+                          } else {
+                            setJlptLevels([...jlptLevels, level])
+                          }
+                        }}
+                        className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                          jlptLevels.includes(level)
+                            ? 'bg-primary-500 text-white'
+                            : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                        }`}
                       >
-                        <input
-                          type="checkbox"
-                          checked={jlptLevels.includes(level)}
-                          onChange={e => {
-                            if (e.target.checked) {
-                              setJlptLevels([...jlptLevels, level])
-                            } else {
-                              setJlptLevels(jlptLevels.filter(l => l !== level))
-                            }
-                          }}
-                          className="w-4 h-4 rounded border-gray-300 text-primary-600 focus:ring-primary-500"
-                        />
-                        <span className="text-sm text-gray-700 dark:text-gray-300">{level}</span>
-                      </label>
+                        {level}
+                      </button>
                     ))}
                   </div>
                   <div className="mt-2 px-2 text-xs text-gray-500 dark:text-gray-400">

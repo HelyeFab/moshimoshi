@@ -28,17 +28,31 @@ export default function SignUpPage() {
   const [showMagicLink, setShowMagicLink] = useState(false)
   const [magicLinkSent, setMagicLinkSent] = useState(false)
   const hasSignedOutRef = useRef(false)
+  const authFlowFlag = 'auth-flow-in-progress'
 
   useEffect(() => {
     if (authLoading || !isAuthenticated || hasSignedOutRef.current) {
+      logger.auth('[signup] auth guard skip', { authLoading, isAuthenticated, hasSignedOut: hasSignedOutRef.current })
       return
     }
+
+    if (typeof window !== 'undefined' && sessionStorage.getItem(authFlowFlag) === 'true') {
+      logger.auth('[signup] auth flow detected, redirecting to dashboard')
+      sessionStorage.removeItem(authFlowFlag)
+      window.location.href = buildLocalePath('/dashboard')
+      return
+    }
+
+    logger.auth('[signup] authenticated without auth flow, forcing sign out')
     hasSignedOutRef.current = true
 
     const signOutExistingSession = async () => {
       try {
+        logger.auth('[signup] signOutUser start')
         await signOutUser()
+        logger.auth('[signup] signOutUser done, calling /api/auth/signout')
         await fetch('/api/auth/signout', { method: 'POST' })
+        logger.auth('[signup] /api/auth/signout done')
       } catch (err) {
         logger.auth('Failed to sign out on signup page', err)
       }
@@ -152,6 +166,11 @@ export default function SignUpPage() {
     setError('')
 
     try {
+      if (typeof window !== 'undefined') {
+        logger.auth('[signup] set auth flow flag')
+        sessionStorage.setItem(authFlowFlag, 'true')
+      }
+
       // Use Firebase client SDK for Google auth
       const { signInWithPopup, GoogleAuthProvider } = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
@@ -182,6 +201,10 @@ export default function SignUpPage() {
       const data = await response.json()
       
       if (response.ok) {
+        if (typeof window !== 'undefined') {
+          logger.auth('[signup] clear auth flow flag (success)')
+          sessionStorage.removeItem(authFlowFlag)
+        }
         logger.auth('Account created via Google, redirecting to dashboard')
         const isNewUser = data.isNewUser
         showToast(isNewUser ? strings.auth.signup.messages.googleNewUser : strings.auth.signup.messages.googleExistingUser, 'success')
@@ -195,6 +218,10 @@ export default function SignUpPage() {
         setError(getUserFriendlyErrorMessage(errorMessage))
       }
     } catch (err: any) {
+      if (typeof window !== 'undefined') {
+        logger.auth('[signup] clear auth flow flag (error)')
+        sessionStorage.removeItem(authFlowFlag)
+      }
       console.error('Google sign up error:', err)
       setError(getUserFriendlyErrorMessage(err))
     } finally {
@@ -208,6 +235,11 @@ export default function SignUpPage() {
     setError('')
 
     try {
+      if (typeof window !== 'undefined') {
+        logger.auth('[signup] set auth flow flag')
+        sessionStorage.setItem(authFlowFlag, 'true')
+      }
+
       const { signInWithPopup, signInWithRedirect, OAuthProvider } = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
 
@@ -249,6 +281,10 @@ export default function SignUpPage() {
         const data = await response.json()
 
         if (response.ok) {
+          if (typeof window !== 'undefined') {
+            logger.auth('[signup] clear auth flow flag (success)')
+            sessionStorage.removeItem(authFlowFlag)
+          }
           logger.auth('Account created via Apple, redirecting to dashboard')
           const isNewUser = data.isNewUser
           showToast(isNewUser ? strings.auth.signup.messages.googleNewUser : strings.auth.signup.messages.googleExistingUser, 'success')
@@ -270,6 +306,10 @@ export default function SignUpPage() {
         }
       }
     } catch (err: any) {
+      if (typeof window !== 'undefined') {
+        logger.auth('[signup] clear auth flow flag (error)')
+        sessionStorage.removeItem(authFlowFlag)
+      }
       console.error('Apple sign up error:', err)
       setError(getUserFriendlyErrorMessage(err))
     } finally {

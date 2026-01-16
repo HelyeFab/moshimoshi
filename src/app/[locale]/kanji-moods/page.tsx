@@ -154,7 +154,11 @@ export default function KanjiMoodsPage() {
   const handleBoardClick = async (boardId: string) => {
     const decision = await checkOnly({ failOpen: false, metadata: { boardId } })
     if (!decision.allow) {
-      showToast(t('entitlements.messages.limitReached'), 'warning')
+      const action = !isPremium ? {
+        label: t('subscription.actions.upgrade'),
+        onClick: () => router.push('/pricing')
+      } : undefined
+      showToast(t('entitlements.messages.limitReached'), 'warning', 5000, action)
       return
     }
     router.push(`/kanji-moods/${boardId}`)

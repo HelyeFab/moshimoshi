@@ -212,7 +212,11 @@ export function DeckCreator({
     if (source === 'anki' || source === 'csv') {
       const decision = await checkImportOnly({ failOpen: false })
       if (!decision.allow) {
-        showToast(t('entitlements.messages.limitReached'), 'warning')
+        const action = !isPremium ? {
+          label: t('subscription.actions.upgrade'),
+          onClick: () => router.push('/pricing')
+        } : undefined
+        showToast(t('entitlements.messages.limitReached'), 'warning', 5000, action)
         return
       }
     }
@@ -434,7 +438,11 @@ export function DeckCreator({
       if (isNewDeck) {
         const decision = await checkDeckLimit({ failOpen: false })
         if (!decision.allow) {
-          showToast(t('entitlements.messages.limitReached'), 'warning')
+          const action = !isPremium ? {
+            label: t('subscription.actions.upgrade'),
+            onClick: () => router.push('/pricing')
+          } : undefined
+          showToast(t('entitlements.messages.limitReached'), 'warning', 5000, action)
           return
         }
         if (importSource === 'csv') {

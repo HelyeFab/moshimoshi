@@ -49,6 +49,10 @@ export default function DrillPage() {
     }
   }, [user?.uid])
 
+  useEffect(() => {
+    setIsHydrated(true)
+  }, [])
+
   // Drill state
   const [loading, setLoading] = useState(false)
   const [session, setSession] = useState<DrillSession | null>(null)
@@ -59,6 +63,7 @@ export default function DrillPage() {
   const [isComplete, setIsComplete] = useState(false)
   const [drillStats, setDrillStats] = useState<any>(null)
   const [currentErrorReport, setCurrentErrorReport] = useState<any>(null)
+  const [isHydrated, setIsHydrated] = useState(false)
 
   // Settings state with question count slider
   const [settings, setSettings] = useState<DrillSettings>({
@@ -275,7 +280,11 @@ export default function DrillPage() {
     // Check entitlement
     const decision = await checkOnly({ failOpen: false })
     if (!decision.allow) {
-      showAlert(t('entitlements.messages.limitReached'), 'error', 'Limit reached')
+      const action = !isPremium ? {
+        label: t('subscription.actions.upgrade'),
+        onClick: () => router.push('/pricing')
+      } : undefined
+      showAlert(t('entitlements.messages.limitReached'), 'error', 'Limit reached', action)
       return
     }
 
@@ -443,13 +452,6 @@ export default function DrillPage() {
         questionResults: questionResults, // NEW: For SRS tracking
       }
 
-      // DEBUG: Log question results to verify SRS tracking data
-      console.log('[Drill Complete] Question results for SRS:', {
-        count: questionResults.length,
-        sample: questionResults[0],
-        allResults: questionResults,
-      })
-
       // 3. Track drill session using DrillProgressManager
       // This automatically handles:
       // - Calling /api/drill/session with action='complete'
@@ -462,7 +464,7 @@ export default function DrillPage() {
       // 4. Show success message with stats
       const stats = await drillManager.getDrillStats(user.uid, isPremium)
       showToast(
-        `${t('drill.complete')} - ${t('common.accuracy')}: ${accuracy.toFixed(1)}% | Total Drills: ${stats?.totalDrills || 1}`,
+        `${t('drill.complete')} - ${t('drill.accuracy')}: ${accuracy.toFixed(1)}% | Total Drills: ${stats?.totalDrills || 1}`,
         'success'
       )
     } catch (error) {
@@ -596,77 +598,81 @@ export default function DrillPage() {
                   {t('drill.questionsPerSession')}
                 </label>
 
-                {/* Quick select buttons */}
-                <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-3">
-                  {(() => {
-                    const presets = [5, 10, 15, 20, questionLimits.max];
-                    const uniquePresets = [...new Set(presets.filter(p => p >= questionLimits.min && p <= questionLimits.max))].sort((a, b) => a - b);
-                    return uniquePresets.map((preset) => (
+                {isHydrated && (
+                  <>
+                    {/* Quick select buttons */}
+                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-2 mb-3">
+                      {(() => {
+                        const presets = [5, 10, 15, 20, questionLimits.max];
+                        const uniquePresets = [...new Set(presets.filter(p => p >= questionLimits.min && p <= questionLimits.max))].sort((a, b) => a - b);
+                        return uniquePresets.map((preset) => (
+                          <button
+                            key={preset}
+                            onClick={() => setSettings(prev => ({
+                              ...prev,
+                              questionsPerSession: preset
+                            }))}
+                            className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                              settings.questionsPerSession === preset
+                                ? 'bg-primary-500 text-white'
+                                : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                            }`}
+                          >
+                            {preset}
+                          </button>
+                        ));
+                      })()}
+                    </div>
+
+                    {/* Stepper controls */}
+                    <div className="flex items-center justify-center gap-4 p-3 bg-gray-100 dark:bg-dark-800 rounded-lg">
                       <button
-                        key={preset}
                         onClick={() => setSettings(prev => ({
                           ...prev,
-                          questionsPerSession: preset
+                          questionsPerSession: Math.max(questionLimits.min, prev.questionsPerSession - 1)
                         }))}
-                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
-                          settings.questionsPerSession === preset
-                            ? 'bg-primary-500 text-white'
-                            : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                        }`}
+                        className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={settings.questionsPerSession <= questionLimits.min}
                       >
-                        {preset}
+                        <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">−</span>
                       </button>
-                    ));
-                  })()}
-                </div>
 
-                {/* Stepper controls */}
-                <div className="flex items-center justify-center gap-4 p-3 bg-gray-100 dark:bg-dark-800 rounded-lg">
-                  <button
-                    onClick={() => setSettings(prev => ({
-                      ...prev,
-                      questionsPerSession: Math.max(questionLimits.min, prev.questionsPerSession - 1)
-                    }))}
-                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={settings.questionsPerSession <= questionLimits.min}
-                  >
-                    <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">−</span>
-                  </button>
+                      <div className="flex flex-col items-center gap-1">
+                        <input
+                          type="number"
+                          min={questionLimits.min}
+                          max={questionLimits.max}
+                          value={settings.questionsPerSession}
+                          onChange={(e) => {
+                            const value = Math.max(questionLimits.min, Math.min(questionLimits.max, Number(e.target.value)));
+                            setSettings(prev => ({
+                              ...prev,
+                              questionsPerSession: value
+                            }));
+                          }}
+                          className="w-16 px-2 py-2 text-center text-lg font-semibold border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                        />
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          of {questionLimits.max}
+                        </span>
+                      </div>
 
-                  <div className="flex flex-col items-center gap-1">
-                    <input
-                      type="number"
-                      min={questionLimits.min}
-                      max={questionLimits.max}
-                      value={settings.questionsPerSession}
-                      onChange={(e) => {
-                        const value = Math.max(questionLimits.min, Math.min(questionLimits.max, Number(e.target.value)));
-                        setSettings(prev => ({
+                      <button
+                        onClick={() => setSettings(prev => ({
                           ...prev,
-                          questionsPerSession: value
-                        }));
-                      }}
-                      className="w-16 px-2 py-2 text-center text-lg font-semibold border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                    />
-                    <span className="text-xs text-gray-500 dark:text-gray-400">
-                      of {questionLimits.max}
-                    </span>
-                  </div>
+                          questionsPerSession: Math.min(questionLimits.max, prev.questionsPerSession + 1)
+                        }))}
+                        className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={settings.questionsPerSession >= questionLimits.max}
+                      >
+                        <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">+</span>
+                      </button>
+                    </div>
 
-                  <button
-                    onClick={() => setSettings(prev => ({
-                      ...prev,
-                      questionsPerSession: Math.min(questionLimits.max, prev.questionsPerSession + 1)
-                    }))}
-                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={settings.questionsPerSession >= questionLimits.max}
-                  >
-                    <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">+</span>
-                  </button>
-                </div>
-
-                {subscription?.plan === 'free' && (
-                  <p className="text-xs text-muted-foreground mt-2">{t('drill.upgradeForMore')}</p>
+                    {subscription?.plan === 'free' && (
+                      <p className="text-xs text-muted-foreground mt-2">{t('drill.upgradeForMore')}</p>
+                    )}
+                  </>
                 )}
               </div>
 
