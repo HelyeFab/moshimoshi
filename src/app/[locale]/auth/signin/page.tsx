@@ -326,7 +326,7 @@ function SignInContent() {
             type="button"
             onClick={handleAppleSignIn}
             disabled={loading}
-            className="w-full py-3 bg-black text-white rounded-lg hover:bg-gray-900 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mb-3 dark:bg-white dark:text-black dark:hover:bg-gray-100"
+            className="w-full py-3 bg-white text-black rounded-lg hover:bg-gray-50 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mb-3 border border-gray-200 dark:border-gray-700"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
               <path d="M16.365 1.43c0 1.14-.45 2.22-1.25 3.03-.74.77-1.96 1.36-3.12 1.26-.15-1.08.43-2.2 1.16-2.93.8-.84 2.14-1.43 3.21-1.36z"/>
@@ -338,7 +338,7 @@ function SignInContent() {
             type="button"
             onClick={handleGoogleSignIn}
             disabled={loading}
-            className="w-full py-3 bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 border-2 border-gray-300 dark:border-dark-600 rounded-lg hover:bg-gray-50 dark:hover:bg-dark-600 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mb-4"
+            className="w-full py-3 bg-white text-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 transition-all font-medium flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed mb-4"
           >
             <svg className="w-5 h-5" viewBox="0 0 24 24">
               <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
