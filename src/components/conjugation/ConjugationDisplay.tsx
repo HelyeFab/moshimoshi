@@ -211,7 +211,7 @@ export function ConjugationDisplay({
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.2 }}
-                    className="border-t border-gray-100 dark:border-dark-700"
+                    className="border-t border-gray-100 dark:border-dark-700 bg-gray-50/50 dark:bg-dark-850"
                   >
                     <div className="p-4 space-y-3">
                       {group.forms.map((form) => {
@@ -224,7 +224,7 @@ export function ConjugationDisplay({
                             className={`flex items-center justify-between p-3 rounded-lg ${
                               form.highlight
                                 ? 'bg-primary-50 dark:bg-primary-900/20 border border-primary-200 dark:border-primary-800'
-                                : 'bg-gray-50 dark:bg-dark-850'
+                                : 'bg-white dark:bg-dark-800 border border-gray-100 dark:border-dark-700'
                             }`}
                           >
                             <div className="flex-1">
