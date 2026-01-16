@@ -23,14 +23,13 @@ import { useConjugationHelp } from '@/contexts/ConjugationHelpContext'
 import { HelpModal, HelpBanner } from '@/components/conjugation-help'
 import { SRSWordSelector } from '@/lib/drill/srs-word-selector'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
-import { listManager } from '@/lib/lists/ListManager'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 export default function DrillPage() {
   const { t, strings } = useI18n()
   const router = useRouter()
   const { user } = useAuth()
-  const { subscription } = useSubscription()
+  const { subscription, isPremium } = useSubscription()
   const { checkOnly } = useFeature('conjugation_drill')
   const usageData = useFeatureUsage('conjugation_drill')
   const { showToast } = useToast()
@@ -155,7 +154,7 @@ export default function DrillPage() {
     loadStats()
   }, [user?.uid, subscription, isComplete])
 
-  // Fetch user lists when authenticated
+  // Fetch user lists when authenticated (premium users only)
   useEffect(() => {
     const fetchLists = async () => {
       if (!user?.uid) {
@@ -163,11 +162,21 @@ export default function DrillPage() {
         return
       }
 
+      // Only fetch lists for premium users
+      const isPremiumUser = subscription?.plan?.includes('premium') || false
+      if (!isPremiumUser) {
+        setUserLists([])
+        setLoadingLists(false)
+        return
+      }
+
       setLoadingLists(true)
       try {
-        const isPremium = subscription?.plan?.includes('premium') || false
-        const userLists = await listManager.getLists(user.uid, isPremium)
-        setUserLists(userLists)
+        const response = await fetch('/api/lists')
+        if (response.ok) {
+          const data = await response.json()
+          setUserLists(data.lists || [])
+        }
       } catch (error) {
         console.error('Failed to fetch user lists:', error)
       } finally {
@@ -933,25 +942,56 @@ export default function DrillPage() {
                     {t('drill.randomWords')}
                   </button>
                   <button
-                    onClick={() => setSettings(prev => ({ ...prev, drillMode: 'lists' }))}
+                    onClick={() => {
+                      if (!isPremium) {
+                        showToast(
+                          t('entitlements.messages.upgradeRequired') || 'Upgrade to Premium to use custom lists',
+                          'info',
+                          5000,
+                          {
+                            label: t('subscription.actions.viewPlans') || 'View Plans',
+                            onClick: () => router.push('/pricing')
+                          }
+                        )
+                        return
+                      }
+                      setSettings(prev => ({ ...prev, drillMode: 'lists' }))
+                    }}
                     className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors font-medium ${
                       settings.drillMode === 'lists'
                         ? 'border-primary-500 bg-primary-500 text-white'
-                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
+                        : isPremium
+                          ? 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
+                          : 'border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-dark-900 text-gray-400 dark:text-gray-600 cursor-not-allowed'
                     }`}
-                    disabled={!user}
+                    disabled={!isPremium}
                   >
                     {t('drill.myLists')}
                   </button>
                   <button
-                    onClick={() => setSettings(prev => ({ ...prev, drillMode: 'srs' }))}
+                    onClick={() => {
+                      if (!isPremium) {
+                        showToast(
+                          t('entitlements.messages.upgradeRequired') || 'Upgrade to Premium to use SRS mode',
+                          'info',
+                          5000,
+                          {
+                            label: t('subscription.actions.viewPlans') || 'View Plans',
+                            onClick: () => router.push('/pricing')
+                          }
+                        )
+                        return
+                      }
+                      setSettings(prev => ({ ...prev, drillMode: 'srs' }))
+                    }}
                     className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors font-medium relative ${
                       settings.drillMode === 'srs'
                         ? 'border-purple-500 bg-purple-500 text-white'
-                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
+                        : isPremium
+                          ? 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
+                          : 'border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-dark-900 text-gray-400 dark:text-gray-600 cursor-not-allowed'
                     }`}
-                    disabled={!user}
-                    title={!user ? 'Sign in to use SRS mode' : undefined}
+                    disabled={!isPremium}
                   >
                     <span className="flex items-center justify-center gap-1">
                       🧠 SRS
