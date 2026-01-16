@@ -379,8 +379,12 @@ export default function ConfigurationDisplay({
                           ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
                           : 'bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300'
                       }`}>
-                        <span className="hidden sm:inline">{feature.limitType}</span>
-                        <span className="sm:hidden">{feature.limitType === 'daily' ? 'D' : 'M'}</span>
+                        <span className="hidden sm:inline">
+                          {feature.id === 'custom_lists' ? 'total' : feature.limitType}
+                        </span>
+                        <span className="sm:hidden">
+                          {feature.id === 'custom_lists' ? 'T' : feature.limitType === 'daily' ? 'D' : 'M'}
+                        </span>
                       </span>
                     </td>
                   </tr>
