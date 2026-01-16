@@ -590,29 +590,90 @@ export default function DrillPage() {
                 </div>
               )}
 
-              {/* Question Count Slider */}
+              {/* Question Count Selector */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
-                  {t('drill.questionsPerSession')}:{' '}
-                  <span className="text-primary-600 font-bold">{settings.questionsPerSession}</span>
+                  {t('drill.questionsPerSession')}
                 </label>
-                <div className="flex items-center gap-4">
-                  <span className="text-sm text-muted-foreground">{questionLimits.min}</span>
-                  <input
-                    type="range"
-                    min={questionLimits.min}
-                    max={questionLimits.max}
-                    value={settings.questionsPerSession}
-                    onChange={e =>
-                      setSettings(prev => ({
-                        ...prev,
-                        questionsPerSession: Number(e.target.value),
-                      }))
-                    }
-                    className="flex-1 h-2 bg-primary-100 rounded-lg appearance-none cursor-pointer dark:bg-dark-700 accent-primary-500"
-                  />
-                  <span className="text-sm text-muted-foreground">{questionLimits.max}</span>
+
+                {/* Quick select buttons */}
+                <div className={`grid grid-cols-3 gap-2 mb-3 ${
+                  (() => {
+                    const presets = [5, 10, 15, 20, questionLimits.max];
+                    const uniquePresets = [...new Set(presets.filter(p => p >= questionLimits.min && p <= questionLimits.max))].sort((a, b) => a - b);
+                    return uniquePresets.length === 4 ? 'sm:grid-cols-4' :
+                           uniquePresets.length === 3 ? 'sm:grid-cols-3' :
+                           uniquePresets.length === 2 ? 'sm:grid-cols-2' :
+                           'sm:grid-cols-1';
+                  })()
+                }`}>
+                  {(() => {
+                    const presets = [5, 10, 15, 20, questionLimits.max];
+                    const uniquePresets = [...new Set(presets.filter(p => p >= questionLimits.min && p <= questionLimits.max))].sort((a, b) => a - b);
+                    return uniquePresets.map((preset) => (
+                      <button
+                        key={preset}
+                        onClick={() => setSettings(prev => ({
+                          ...prev,
+                          questionsPerSession: preset
+                        }))}
+                        className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                          settings.questionsPerSession === preset
+                            ? 'bg-primary-500 text-white'
+                            : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                        }`}
+                      >
+                        {preset}
+                      </button>
+                    ));
+                  })()}
                 </div>
+
+                {/* Stepper controls */}
+                <div className="flex items-center justify-center gap-4 p-3 bg-gray-100 dark:bg-dark-800 rounded-lg">
+                  <button
+                    onClick={() => setSettings(prev => ({
+                      ...prev,
+                      questionsPerSession: Math.max(questionLimits.min, prev.questionsPerSession - 1)
+                    }))}
+                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={settings.questionsPerSession <= questionLimits.min}
+                  >
+                    <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">−</span>
+                  </button>
+
+                  <div className="flex flex-col items-center gap-1">
+                    <input
+                      type="number"
+                      min={questionLimits.min}
+                      max={questionLimits.max}
+                      value={settings.questionsPerSession}
+                      onChange={(e) => {
+                        const value = Math.max(questionLimits.min, Math.min(questionLimits.max, Number(e.target.value)));
+                        setSettings(prev => ({
+                          ...prev,
+                          questionsPerSession: value
+                        }));
+                      }}
+                      className="w-16 px-2 py-2 text-center text-lg font-semibold border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                    />
+                    <span className="text-xs text-gray-500 dark:text-gray-400">
+                      of {questionLimits.max}
+                    </span>
+                  </div>
+
+                  <button
+                    onClick={() => setSettings(prev => ({
+                      ...prev,
+                      questionsPerSession: Math.min(questionLimits.max, prev.questionsPerSession + 1)
+                    }))}
+                    className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={settings.questionsPerSession >= questionLimits.max}
+                  >
+                    <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">+</span>
+                  </button>
+                </div>
+
                 {subscription?.plan === 'free' && (
                   <p className="text-xs text-muted-foreground mt-2">{t('drill.upgradeForMore')}</p>
                 )}
@@ -626,30 +687,30 @@ export default function DrillPage() {
                 <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, wordTypeFilter: 'all' }))}
-                    className={`px-1.5 sm:px-4 py-2 rounded-lg border transition-colors text-xs sm:text-base ${
+                    className={`px-1.5 sm:px-4 py-2 rounded-lg border transition-colors text-xs sm:text-base font-medium ${
                       settings.wordTypeFilter === 'all'
-                        ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                        ? 'border-primary-500 bg-primary-500 text-white'
+                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                     }`}
                   >
                     {t('drill.allTypes')}
                   </button>
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, wordTypeFilter: 'verbs' }))}
-                    className={`px-1.5 sm:px-4 py-2 rounded-lg border transition-colors text-xs sm:text-base ${
+                    className={`px-1.5 sm:px-4 py-2 rounded-lg border transition-colors text-xs sm:text-base font-medium ${
                       settings.wordTypeFilter === 'verbs'
-                        ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                        ? 'border-primary-500 bg-primary-500 text-white'
+                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                     }`}
                   >
                     {t('drill.verbs')}
                   </button>
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, wordTypeFilter: 'adjectives' }))}
-                    className={`px-1.5 sm:px-4 py-2 rounded-lg border transition-colors text-xs sm:text-base ${
+                    className={`px-1.5 sm:px-4 py-2 rounded-lg border transition-colors text-xs sm:text-base font-medium ${
                       settings.wordTypeFilter === 'adjectives'
-                        ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                        ? 'border-primary-500 bg-primary-500 text-white'
+                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                     }`}
                   >
                     {t('drill.adjectives')}
@@ -686,8 +747,8 @@ export default function DrillPage() {
                       }}
                       className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors font-medium ${
                         settings.jlptLevels?.includes(level)
-                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
-                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                          ? 'border-primary-500 bg-primary-500 text-white'
+                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
                     >
                       {level}
@@ -707,10 +768,10 @@ export default function DrillPage() {
                   <div className="flex gap-1.5 sm:gap-2 flex-wrap">
                     <button
                       onClick={() => setSettings(prev => ({ ...prev, conjugationForms: [] }))}
-                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
+                      className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors font-medium ${
                         settings.conjugationForms?.length === 0
-                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
-                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                          ? 'border-primary-500 bg-primary-500 text-white'
+                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
                     >
                       All Forms
@@ -729,8 +790,8 @@ export default function DrillPage() {
                           'negative',
                           'pastNegative',
                         ])
-                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
-                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                          ? 'border-primary-500 bg-primary-500 text-white'
+                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
                     >
                       Basic Only
@@ -754,8 +815,8 @@ export default function DrillPage() {
                           'politeNegative',
                           'politePastNegative',
                         ])
-                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
-                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                          ? 'border-primary-500 bg-primary-500 text-white'
+                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
                     >
                       Polite Only
@@ -773,8 +834,8 @@ export default function DrillPage() {
                           'negativeTeForm',
                           'naiDeForm',
                         ])
-                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
-                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                          ? 'border-primary-500 bg-primary-500 text-white'
+                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
                     >
                       Te-Forms
@@ -798,8 +859,8 @@ export default function DrillPage() {
                           'potentialPast',
                           'potentialPastNegative',
                         ])
-                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
-                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                          ? 'border-primary-500 bg-primary-500 text-white'
+                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
                     >
                       Potential
@@ -823,8 +884,8 @@ export default function DrillPage() {
                           'passivePast',
                           'passivePastNegative',
                         ])
-                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
-                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                          ? 'border-primary-500 bg-primary-500 text-white'
+                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
                     >
                       Passive
@@ -848,8 +909,8 @@ export default function DrillPage() {
                           'causativePast',
                           'causativePastNegative',
                         ])
-                          ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
-                          : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
+                          ? 'border-primary-500 bg-primary-500 text-white'
+                          : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
                     >
                       Causative
@@ -869,23 +930,23 @@ export default function DrillPage() {
                 <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
                   {t('drill.practiceMode')}
                 </label>
-                <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 sm:gap-2">
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, drillMode: 'random' }))}
-                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors ${
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors font-medium ${
                       settings.drillMode === 'random'
-                        ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                        ? 'border-primary-500 bg-primary-500 text-white'
+                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                     }`}
                   >
                     {t('drill.randomWords')}
                   </button>
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, drillMode: 'lists' }))}
-                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors ${
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors font-medium ${
                       settings.drillMode === 'lists'
-                        ? 'border-primary-500 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                        ? 'border-primary-500 bg-primary-500 text-white'
+                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                     }`}
                     disabled={!user}
                   >
@@ -893,10 +954,10 @@ export default function DrillPage() {
                   </button>
                   <button
                     onClick={() => setSettings(prev => ({ ...prev, drillMode: 'srs' }))}
-                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors relative ${
+                    className={`px-3 py-1.5 sm:px-4 sm:py-2 text-sm sm:text-base rounded-lg border transition-colors font-medium relative ${
                       settings.drillMode === 'srs'
-                        ? 'border-purple-500 bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300'
-                        : 'border-gray-300 dark:border-gray-600 hover:border-gray-400 dark:hover:border-gray-500'
+                        ? 'border-purple-500 bg-purple-500 text-white'
+                        : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                     }`}
                     disabled={!user}
                     title={!user ? 'Sign in to use SRS mode' : undefined}
@@ -904,7 +965,11 @@ export default function DrillPage() {
                     <span className="flex items-center justify-center gap-1">
                       🧠 SRS
                       {srsWordCounts && srsWordCounts.due > 0 && (
-                        <span className="ml-1 px-1.5 py-0.5 text-xs bg-purple-500 text-white rounded-full">
+                        <span className={`ml-1 px-1.5 py-0.5 text-xs rounded-full ${
+                          settings.drillMode === 'srs'
+                            ? 'bg-white text-purple-500'
+                            : 'bg-purple-500 text-white'
+                        }`}>
                           {srsWordCounts.due}
                         </span>
                       )}
