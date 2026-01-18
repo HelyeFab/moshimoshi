@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
 import { EventEmitter } from 'events'
+import { useRouter } from 'next/navigation'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useTTS } from '@/hooks/useTTS'
@@ -784,6 +785,7 @@ export default function EnhancedArticleReader({
 }) {
   // Determine if we're in story mode (multi-page)
   const isStoryMode = pages && pages.length > 0
+  const router = useRouter()
   const { t } = useI18n()
   const { user } = useAuth()
   const { showToast } = useToast()
@@ -2294,15 +2296,13 @@ export default function EnhancedArticleReader({
       {/* Header - Sticky & Glassmorphic */}
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-b border-gray-200/50 dark:border-gray-800/50 transition-all duration-300 supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          {onBack && (
-            <button
-              onClick={onBack}
-              className="group flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300"
-            >
-              <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-              <span className="text-sm font-medium hidden sm:inline">{t('common.back')}</span>
-            </button>
-          )}
+          <button
+            onClick={() => router.push('/stories')}
+            className="group flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300"
+          >
+            <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+            <span className="text-sm font-medium hidden sm:inline">{t('common.back')}</span>
+          </button>
 
           {/* Simple Play/Pause Button - Shows playback state only */}
           <button

@@ -25,16 +25,22 @@ function PricingContent() {
   const [showVideoLimitBanner, setShowVideoLimitBanner] = useState(false);
 
   // Gated feature IDs that free users can't access
-  const gatedFeatures = ['kanji_connection', 'comics', 'textbook_vocabulary', 'books', 'flashcards'];
+  const gatedFeatures = ['kanji_connection', 'comics', 'textbook_vocabulary', 'books', 'flashcards', 'my_videos'];
 
   // Smart back navigation - avoid infinite loop
   const handleBack = () => {
-    // Check URL param to see if user came from a gated feature
+    // Check URL params to see if user came from a gated feature
     const fromFeature = searchParams.get('from');
+    const reason = searchParams.get('reason');
 
-    if (fromFeature && gatedFeatures.includes(fromFeature)) {
+    // Check if came from a gated feature (either via 'from' or 'reason' param)
+    const isFromGatedFeature =
+      (fromFeature && gatedFeatures.includes(fromFeature)) ||
+      (reason && (reason.includes('premium_only') || reason === 'video_limit'));
+
+    if (isFromGatedFeature) {
       // Came from a gated feature - redirect to dashboard instead
-      console.log('[Pricing] Redirecting to dashboard (came from gated feature:', fromFeature, ')');
+      console.log('[Pricing] Redirecting to dashboard (came from gated feature or premium gate)');
       router.push(getLocalePath('/dashboard'));
     } else {
       // Safe to go back

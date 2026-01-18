@@ -10,6 +10,8 @@ interface PillBackButtonProps {
   fallbackHref?: string
   /** Additional classes */
   className?: string
+  /** Always use fallback URL instead of browser history */
+  alwaysUseFallback?: boolean
 }
 
 /**
@@ -19,12 +21,19 @@ interface PillBackButtonProps {
 export default function PillBackButton({
   fallbackHref = '/dashboard',
   className,
+  alwaysUseFallback = false,
 }: PillBackButtonProps) {
   const router = useRouter()
   const { resolvedTheme } = useTheme()
   const isLightTheme = resolvedTheme === 'light'
 
   const handleClick = () => {
+    // If alwaysUseFallback is true, always go to the fallback URL
+    if (alwaysUseFallback) {
+      router.push(fallbackHref)
+      return
+    }
+
     // Check if we have history to go back to
     // window.history.length > 1 means there's somewhere to go back
     if (typeof window !== 'undefined' && window.history.length > 1) {

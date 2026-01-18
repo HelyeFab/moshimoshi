@@ -155,6 +155,7 @@ export default function StoriesPage() {
         <PageHeader
           title={t('stories.title')}
           description={t('stories.description')}
+          alwaysUseBackHref={true}
           actions={
             hasUsageData ? (
               <DesktopCircularIndicator

@@ -4,6 +4,7 @@ import {
   GrammarIndexFile,
   GrammarPoint,
   GrammarPointsIndexMap,
+  GrammarSearchIndexFile,
 } from './types';
 
 const isServer = typeof window === 'undefined';
@@ -53,6 +54,13 @@ export async function getGrammarChapters(level: string): Promise<GrammarChapters
  */
 export async function getGrammarCategoryLabels(): Promise<GrammarCategoryLabelsFile> {
   return readJson<GrammarCategoryLabelsFile>('data/grammar/category-labels.json');
+}
+
+/**
+ * Load the grammar search index.
+ */
+export async function getGrammarSearchIndex(): Promise<GrammarSearchIndexFile> {
+  return readJson<GrammarSearchIndexFile>('data/grammar/search-index.json');
 }
 
 /**

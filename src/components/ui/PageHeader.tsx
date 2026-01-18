@@ -39,6 +39,7 @@ interface PageHeaderProps {
 
   // Navigation
   backHref?: string
+  alwaysUseBackHref?: boolean
 }
 
 /**
@@ -58,6 +59,7 @@ export default function PageHeader({
   className = '',
   minimal = false,
   backHref = '/dashboard',
+  alwaysUseBackHref = false,
 }: PageHeaderProps) {
   const { resolvedTheme } = useTheme()
   const { language } = useI18n()
@@ -160,7 +162,7 @@ export default function PageHeader({
               )}
 
               {/* Back Button - Mobile */}
-              <PillBackButton fallbackHref={localizedBackHref} />
+              <PillBackButton fallbackHref={localizedBackHref} alwaysUseFallback={alwaysUseBackHref} />
             </div>
 
             {/* Expandable Content */}
@@ -234,7 +236,7 @@ export default function PageHeader({
           <div className="container mx-auto px-4 py-6 relative z-10">
             {/* Top row: back button and actions */}
             <div className="flex items-center justify-between gap-3 mb-4">
-              <PillBackButton fallbackHref={localizedBackHref} />
+              <PillBackButton fallbackHref={localizedBackHref} alwaysUseFallback={alwaysUseBackHref} />
               {actions && <div className="flex items-center gap-3">{actions}</div>}
             </div>
 

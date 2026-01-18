@@ -32,6 +32,7 @@ import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import Link from 'next/link'
+import { LoadingSpinner } from '@/components/ui/Loading'
 
 export default function MyVideos() {
   const { t, strings } = useI18n()
@@ -45,6 +46,8 @@ export default function MyVideos() {
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollY } = useScroll()
   const parallaxY = useTransform(scrollY, [0, 300], [0, -50])
+
+  const shouldRedirect = !authLoading && isPremium === false
 
   const [videos, setVideos] = useState<PracticeHistoryItem[]>([])
   const [filteredVideos, setFilteredVideos] = useState<PracticeHistoryItem[]>([])
@@ -69,6 +72,17 @@ export default function MyVideos() {
       router.push('/pricing?reason=my_videos_premium_only')
     }
   }, [authLoading, isPremium, router])
+
+  if (shouldRedirect) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[400px] gap-4">
+        <LoadingSpinner size="large" />
+        <p className="text-gray-600 dark:text-gray-400">
+          Redirecting to pricing...
+        </p>
+      </div>
+    )
+  }
 
   // Load videos from API
   useEffect(() => {

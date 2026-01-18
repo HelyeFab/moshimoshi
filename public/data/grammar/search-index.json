@@ -1,0 +1,3973 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-18",
+  "totalPoints": 204,
+  "entries": [
+    {
+      "id": "001-x-wa-y-desu",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "XはYです",
+        "romaji": "X wa Y desu",
+        "en": "X is Y"
+      },
+      "shortDescription": "Polite identity pattern for stating who or what X is in simple sentences.",
+      "tags": [
+        "basic",
+        "identity",
+        "polite",
+        "beginner-essential",
+        "self-introduction"
+      ],
+      "searchText": "xはyです x wa y desu x is y polite identity pattern for stating who or what x is in simple sentences. basic-sentences basic identity polite beginner-essential self-introduction"
+    },
+    {
+      "id": "002-x-wa-y-de-wa-arimasen",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "XはYではありません",
+        "romaji": "X wa Y de wa arimasen",
+        "en": "X is not Y"
+      },
+      "shortDescription": "Polite negative of XはYです for denying identity or description politely.",
+      "tags": [
+        "basic",
+        "negative",
+        "polite",
+        "identity"
+      ],
+      "searchText": "xはyではありません x wa y de wa arimasen x is not y polite negative of xはyです for denying identity or description politely. basic-sentences basic negative polite identity"
+    },
+    {
+      "id": "003-kore-sore-are",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "これ・それ・あれ",
+        "romaji": "kore/sore/are",
+        "en": "this/that/that over there"
+      },
+      "shortDescription": "Demonstratives for things: this (near me), that (near you), that over there.",
+      "tags": [
+        "demonstratives",
+        "basic",
+        "nouns",
+        "pointing"
+      ],
+      "searchText": "これ・それ・あれ kore/sore/are this/that/that over there demonstratives for things: this (near me), that (near you), that over there. basic-sentences demonstratives basic nouns pointing"
+    },
+    {
+      "id": "004-basic-word-order",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "基本の語順",
+        "romaji": "kihon no gojun",
+        "en": "Basic word order"
+      },
+      "shortDescription": "Basic Japanese SOV order with the verb at the end and particles showing roles.",
+      "tags": [
+        "word-order",
+        "sov",
+        "basic",
+        "sentence-structure"
+      ],
+      "searchText": "基本の語順 kihon no gojun basic word order basic japanese sov order with the verb at the end and particles showing roles. basic-sentences word-order sov basic sentence-structure"
+    },
+    {
+      "id": "005-sentence-ending-particles",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "文末助詞（ね・よ・か）",
+        "romaji": "bunmatsu joshi (ne/yo/ka)",
+        "en": "Sentence-ending particles"
+      },
+      "shortDescription": "Sentence-ending particles ね/よ/か to soften, emphasize, or ask questions.",
+      "tags": [
+        "sentence-ending",
+        "particles",
+        "tone",
+        "questions"
+      ],
+      "searchText": "文末助詞（ね・よ・か） bunmatsu joshi (ne/yo/ka) sentence-ending particles sentence-ending particles ね/よ/か to soften, emphasize, or ask questions. basic-sentences sentence-ending particles tone questions"
+    },
+    {
+      "id": "006-particle-wa",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "は",
+        "romaji": "wa",
+        "en": "Topic marker"
+      },
+      "shortDescription": "Topic marker は for setting the topic and showing contrast in sentences.",
+      "tags": [
+        "particle",
+        "topic",
+        "contrast",
+        "beginner"
+      ],
+      "searchText": "は wa topic marker topic marker は for setting the topic and showing contrast in sentences. particles particle topic contrast beginner"
+    },
+    {
+      "id": "007-particle-ga",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "が",
+        "romaji": "ga",
+        "en": "Subject marker"
+      },
+      "shortDescription": "Subject marker が to highlight new information or answer who/what questions.",
+      "tags": [
+        "particle",
+        "subject",
+        "focus",
+        "beginner"
+      ],
+      "searchText": "が ga subject marker subject marker が to highlight new information or answer who/what questions. particles particle subject focus beginner"
+    },
+    {
+      "id": "008-particle-wo",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "を",
+        "romaji": "o",
+        "en": "Object marker"
+      },
+      "shortDescription": "Object marker を for direct objects in action-verb sentences and patterns.",
+      "tags": [
+        "particle",
+        "object",
+        "verbs",
+        "beginner"
+      ],
+      "searchText": "を o object marker object marker を for direct objects in action-verb sentences and patterns. particles particle object verbs beginner"
+    },
+    {
+      "id": "009-particle-ni-location",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "に（場所・時間）",
+        "romaji": "ni (location/time)",
+        "en": "に (location/time)"
+      },
+      "shortDescription": "Particle に for specific time points, destinations, and existence locations.",
+      "tags": [
+        "particle",
+        "time",
+        "location",
+        "destination"
+      ],
+      "searchText": "に（場所・時間） ni (location/time) に (location/time) particle に for specific time points, destinations, and existence locations. particles particle time location destination"
+    },
+    {
+      "id": "010-particle-ni-indirect-object",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "に（間接目的語）",
+        "romaji": "ni (indirect object)",
+        "en": "に (indirect object)"
+      },
+      "shortDescription": "Particle に for indirect objects: the person receiving or targeted.",
+      "tags": [
+        "particle",
+        "indirect-object",
+        "giving",
+        "meeting"
+      ],
+      "searchText": "に（間接目的語） ni (indirect object) に (indirect object) particle に for indirect objects: the person receiving or targeted. particles particle indirect-object giving meeting"
+    },
+    {
+      "id": "011-particle-de-location",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "で（場所）",
+        "romaji": "de (location of action)",
+        "en": "で (location of action)"
+      },
+      "shortDescription": "Particle で to mark the place where an action happens in a sentence.",
+      "tags": [
+        "particle",
+        "location",
+        "action",
+        "de"
+      ],
+      "searchText": "で（場所） de (location of action) で (location of action) particle で to mark the place where an action happens in a sentence. particles particle location action de"
+    },
+    {
+      "id": "012-particle-de-means",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "で（手段）",
+        "romaji": "de (means/method)",
+        "en": "で (means/method)"
+      },
+      "shortDescription": "Particle で to show means or method, like tools, transport, or language.",
+      "tags": [
+        "particle",
+        "means",
+        "method",
+        "tools"
+      ],
+      "searchText": "で（手段） de (means/method) で (means/method) particle で to show means or method, like tools, transport, or language. particles particle means method tools"
+    },
+    {
+      "id": "013-particle-e",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "へ",
+        "romaji": "e",
+        "en": "Direction marker"
+      },
+      "shortDescription": "Particle へ to mark direction or destination with movement verbs.",
+      "tags": [
+        "particle",
+        "direction",
+        "movement",
+        "destination"
+      ],
+      "searchText": "へ e direction marker particle へ to mark direction or destination with movement verbs. particles particle direction movement destination"
+    },
+    {
+      "id": "014-particle-to-and",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "と（並列）",
+        "romaji": "to (and)",
+        "en": "and (nouns)"
+      },
+      "shortDescription": "Particle と to connect nouns in a complete list (A and B).",
+      "tags": [
+        "particle",
+        "and",
+        "lists",
+        "nouns"
+      ],
+      "searchText": "と（並列） to (and) and (nouns) particle と to connect nouns in a complete list (a and b). particles particle and lists nouns"
+    },
+    {
+      "id": "015-particle-to-with",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "と（いっしょに）",
+        "romaji": "to (with)",
+        "en": "with (together)"
+      },
+      "shortDescription": "Particle と meaning with someone, showing you do an action together.",
+      "tags": [
+        "particle",
+        "with",
+        "together",
+        "people"
+      ],
+      "searchText": "と（いっしょに） to (with) with (together) particle と meaning with someone, showing you do an action together. particles particle with together people"
+    },
+    {
+      "id": "016-particle-no-possessive",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "の（所有）",
+        "romaji": "no (possessive)",
+        "en": "of/possessive"
+      },
+      "shortDescription": "Possessive の linking nouns to show ownership or other relationships.",
+      "tags": [
+        "particle",
+        "possessive",
+        "nouns",
+        "beginner"
+      ],
+      "searchText": "の（所有） no (possessive) of/possessive possessive の linking nouns to show ownership or other relationships. particles particle possessive nouns beginner"
+    },
+    {
+      "id": "017-particle-no-explanation",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "の（名詞化）",
+        "romaji": "no (nominalizer)",
+        "en": "nominalizer の"
+      },
+      "shortDescription": "Nominalizer の turning verb phrases into noun-like expressions.",
+      "tags": [
+        "particle",
+        "nominalizer",
+        "grammar",
+        "beginner"
+      ],
+      "searchText": "の（名詞化） no (nominalizer) nominalizer の nominalizer の turning verb phrases into noun-like expressions. particles particle nominalizer grammar beginner"
+    },
+    {
+      "id": "018-particle-ka-question",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "か（疑問）",
+        "romaji": "ka (question)",
+        "en": "question marker"
+      },
+      "shortDescription": "Question marker か to make polite questions at the end of a sentence.",
+      "tags": [
+        "particle",
+        "questions",
+        "polite",
+        "beginner"
+      ],
+      "searchText": "か（疑問） ka (question) question marker question marker か to make polite questions at the end of a sentence. particles particle questions polite beginner"
+    },
+    {
+      "id": "019-particle-mo",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "も",
+        "romaji": "mo",
+        "en": "also/too"
+      },
+      "shortDescription": "Particle も meaning also/too and replacing は/が/を in context.",
+      "tags": [
+        "particle",
+        "also",
+        "too",
+        "beginner"
+      ],
+      "searchText": "も mo also/too particle も meaning also/too and replacing は/が/を in context. particles particle also too beginner"
+    },
+    {
+      "id": "020-particle-ya",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "particles",
+      "title": {
+        "ja": "や",
+        "romaji": "ya",
+        "en": "and (non-exhaustive)"
+      },
+      "shortDescription": "Particle や for non-exhaustive lists: A, B, and so on.",
+      "tags": [
+        "particle",
+        "lists",
+        "examples",
+        "beginner"
+      ],
+      "searchText": "や ya and (non-exhaustive) particle や for non-exhaustive lists: a, b, and so on. particles particle lists examples beginner"
+    },
+    {
+      "id": "021-verb-groups",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞グループ",
+        "romaji": "doushi group",
+        "en": "Verb groups"
+      },
+      "shortDescription": "Verb groups overview: う-verbs, る-verbs, and irregular verbs.",
+      "tags": [
+        "verbs",
+        "groups",
+        "conjugation",
+        "beginner"
+      ],
+      "searchText": "動詞グループ doushi group verb groups verb groups overview: う-verbs, る-verbs, and irregular verbs. verbs verbs groups conjugation beginner"
+    },
+    {
+      "id": "022-masu-form-present",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜ます",
+        "romaji": "-masu",
+        "en": "Polite present/future"
+      },
+      "shortDescription": "Polite ます form for present or future actions in standard speech.",
+      "tags": [
+        "verbs",
+        "polite",
+        "present",
+        "future",
+        "beginner"
+      ],
+      "searchText": "〜ます -masu polite present/future polite ます form for present or future actions in standard speech. verbs verbs polite present future beginner"
+    },
+    {
+      "id": "023-masu-form-negative",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜ません",
+        "romaji": "-masen",
+        "en": "Polite negative"
+      },
+      "shortDescription": "Polite negative ません for present or future actions you do not do.",
+      "tags": [
+        "verbs",
+        "negative",
+        "polite",
+        "beginner"
+      ],
+      "searchText": "〜ません -masen polite negative polite negative ません for present or future actions you do not do. verbs verbs negative polite beginner"
+    },
+    {
+      "id": "024-masu-form-past",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜ました",
+        "romaji": "-mashita",
+        "en": "Polite past"
+      },
+      "shortDescription": "Polite past ました for actions completed in the past.",
+      "tags": [
+        "verbs",
+        "past",
+        "polite",
+        "beginner"
+      ],
+      "searchText": "〜ました -mashita polite past polite past ました for actions completed in the past. verbs verbs past polite beginner"
+    },
+    {
+      "id": "025-masu-form-past-negative",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜ませんでした",
+        "romaji": "-masen deshita",
+        "en": "Polite past negative"
+      },
+      "shortDescription": "Polite past negative ませんでした for actions not done in the past.",
+      "tags": [
+        "verbs",
+        "past",
+        "negative",
+        "polite"
+      ],
+      "searchText": "〜ませんでした -masen deshita polite past negative polite past negative ませんでした for actions not done in the past. verbs verbs past negative polite"
+    },
+    {
+      "id": "026-te-form-basics",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "て形（基本）",
+        "romaji": "te-kei (basic)",
+        "en": "te-form basics"
+      },
+      "shortDescription": "Te-form basics for connecting actions and building many core patterns.",
+      "tags": [
+        "verbs",
+        "te-form",
+        "basics",
+        "beginner"
+      ],
+      "searchText": "て形（基本） te-kei (basic) te-form basics te-form basics for connecting actions and building many core patterns. verbs verbs te-form basics beginner"
+    },
+    {
+      "id": "027-te-iru-progressive",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜ている",
+        "romaji": "-te iru",
+        "en": "Progressive"
+      },
+      "shortDescription": "Progressive 〜ている for ongoing actions and continuing states in polite speech.",
+      "tags": [
+        "verbs",
+        "progressive",
+        "te-form",
+        "beginner"
+      ],
+      "searchText": "〜ている -te iru progressive progressive 〜ている for ongoing actions and continuing states in polite speech. verbs verbs progressive te-form beginner"
+    },
+    {
+      "id": "028-te-kudasai",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜てください",
+        "romaji": "-te kudasai",
+        "en": "Please do"
+      },
+      "shortDescription": "Polite request form using the て-form plus ください for asking help.",
+      "tags": [
+        "verbs",
+        "requests",
+        "te-form",
+        "beginner"
+      ],
+      "searchText": "〜てください -te kudasai please do polite request form using the て-form plus ください for asking help. verbs verbs requests te-form beginner"
+    },
+    {
+      "id": "029-tai-want-to",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜たい",
+        "romaji": "-tai",
+        "en": "Want to"
+      },
+      "shortDescription": "Expresses desire with verb stem + たい for what you want to do.",
+      "tags": [
+        "verbs",
+        "desire",
+        "tai",
+        "beginner"
+      ],
+      "searchText": "〜たい -tai want to expresses desire with verb stem + たい for what you want to do. verbs verbs desire tai beginner"
+    },
+    {
+      "id": "030-mashou-lets",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜ましょう",
+        "romaji": "-mashou",
+        "en": "Let’s"
+      },
+      "shortDescription": "Polite suggestion form 〜ましょう meaning “let’s do it together.”",
+      "tags": [
+        "verbs",
+        "suggestions",
+        "mashou",
+        "beginner"
+      ],
+      "searchText": "〜ましょう -mashou let’s polite suggestion form 〜ましょう meaning “let’s do it together.” verbs verbs suggestions mashou beginner"
+    },
+    {
+      "id": "031-masen-ka-invitation",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜ませんか",
+        "romaji": "-masen ka",
+        "en": "Invitation"
+      },
+      "shortDescription": "Polite invitation using ませんか to suggest doing something together.",
+      "tags": [
+        "verbs",
+        "invitations",
+        "polite",
+        "beginner"
+      ],
+      "searchText": "〜ませんか -masen ka invitation polite invitation using ませんか to suggest doing something together. verbs verbs invitations polite beginner"
+    },
+    {
+      "id": "032-te-mo-ii",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜てもいい",
+        "romaji": "-te mo ii",
+        "en": "May / OK to"
+      },
+      "shortDescription": "Permission pattern 〜てもいい for saying it is okay to do something.",
+      "tags": [
+        "verbs",
+        "permission",
+        "te-form",
+        "beginner"
+      ],
+      "searchText": "〜てもいい -te mo ii may / ok to permission pattern 〜てもいい for saying it is okay to do something. verbs verbs permission te-form beginner"
+    },
+    {
+      "id": "033-te-wa-ikenai",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜てはいけない",
+        "romaji": "-te wa ikenai",
+        "en": "Must not"
+      },
+      "shortDescription": "Prohibition pattern 〜てはいけない for rules and things not allowed.",
+      "tags": [
+        "verbs",
+        "prohibition",
+        "te-form",
+        "beginner"
+      ],
+      "searchText": "〜てはいけない -te wa ikenai must not prohibition pattern 〜てはいけない for rules and things not allowed. verbs verbs prohibition te-form beginner"
+    },
+    {
+      "id": "034-nakute-wa-ikenai",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜なくてはいけない",
+        "romaji": "-nakute wa ikenai",
+        "en": "Must"
+      },
+      "shortDescription": "Obligation pattern 〜なくてはいけない for things you must do.",
+      "tags": [
+        "verbs",
+        "obligation",
+        "negative",
+        "beginner"
+      ],
+      "searchText": "〜なくてはいけない -nakute wa ikenai must obligation pattern 〜なくてはいけない for things you must do. verbs verbs obligation negative beginner"
+    },
+    {
+      "id": "035-koto-ga-dekiru",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "〜ことができる",
+        "romaji": "-koto ga dekiru",
+        "en": "Can do"
+      },
+      "shortDescription": "Ability pattern 〜ことができる using dictionary form + こと to say can do.",
+      "tags": [
+        "verbs",
+        "ability",
+        "koto",
+        "beginner"
+      ],
+      "searchText": "〜ことができる -koto ga dekiru can do ability pattern 〜ことができる using dictionary form + こと to say can do. verbs verbs ability koto beginner"
+    },
+    {
+      "id": "036-plain-form-present",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "普通形（現在）",
+        "romaji": "futsuu-kei (present)",
+        "en": "Plain form (present)"
+      },
+      "shortDescription": "Plain present (dictionary) form for casual present/future statements.",
+      "tags": [
+        "verbs",
+        "plain-form",
+        "present",
+        "casual"
+      ],
+      "searchText": "普通形（現在） futsuu-kei (present) plain form (present) plain present (dictionary) form for casual present/future statements. verbs verbs plain-form present casual"
+    },
+    {
+      "id": "037-plain-form-past",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "普通形（過去）",
+        "romaji": "futsuu-kei (past)",
+        "en": "Plain form (past)"
+      },
+      "shortDescription": "Plain past form for casual speech, ending with た/だ.",
+      "tags": [
+        "verbs",
+        "plain-form",
+        "past",
+        "casual"
+      ],
+      "searchText": "普通形（過去） futsuu-kei (past) plain form (past) plain past form for casual speech, ending with た/だ. verbs verbs plain-form past casual"
+    },
+    {
+      "id": "038-plain-form-negative",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "普通形（否定）",
+        "romaji": "futsuu-kei (negative)",
+        "en": "Plain form (negative)"
+      },
+      "shortDescription": "Plain negative ない-form used in casual speech and many patterns.",
+      "tags": [
+        "verbs",
+        "plain-form",
+        "negative",
+        "casual"
+      ],
+      "searchText": "普通形（否定） futsuu-kei (negative) plain form (negative) plain negative ない-form used in casual speech and many patterns. verbs verbs plain-form negative casual"
+    },
+    {
+      "id": "039-nai-form",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "ない形",
+        "romaji": "nai-kei",
+        "en": "ない form"
+      },
+      "shortDescription": "The ない-form base negative used to build many grammar patterns.",
+      "tags": [
+        "verbs",
+        "nai-form",
+        "negative",
+        "beginner"
+      ],
+      "searchText": "ない形 nai-kei ない form the ない-form base negative used to build many grammar patterns. verbs verbs nai-form negative beginner"
+    },
+    {
+      "id": "040-dictionary-form",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "verbs",
+      "title": {
+        "ja": "辞書形",
+        "romaji": "jisho-kei",
+        "en": "Dictionary form"
+      },
+      "shortDescription": "Dictionary form is the base verb form used for study and grammar.",
+      "tags": [
+        "verbs",
+        "dictionary-form",
+        "basics",
+        "beginner"
+      ],
+      "searchText": "辞書形 jisho-kei dictionary form dictionary form is the base verb form used for study and grammar. verbs verbs dictionary-form basics beginner"
+    },
+    {
+      "id": "041-i-adjectives-present",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "adjectives",
+      "title": {
+        "ja": "い形容詞（現在）",
+        "romaji": "i-keiyoushi (present)",
+        "en": "i-adjectives (present)"
+      },
+      "shortDescription": "Present form of い-adjectives for describing nouns or sentences.",
+      "tags": [
+        "adjectives",
+        "i-adjectives",
+        "present",
+        "descriptions"
+      ],
+      "searchText": "い形容詞（現在） i-keiyoushi (present) i-adjectives (present) present form of い-adjectives for describing nouns or sentences. adjectives adjectives i-adjectives present descriptions"
+    },
+    {
+      "id": "042-i-adjectives-past",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "adjectives",
+      "title": {
+        "ja": "い形容詞（過去）",
+        "romaji": "i-keiyoushi (past)",
+        "en": "i-adjectives (past)"
+      },
+      "shortDescription": "Past form of い-adjectives using かった for polite descriptions.",
+      "tags": [
+        "adjectives",
+        "i-adjectives",
+        "past",
+        "beginner"
+      ],
+      "searchText": "い形容詞（過去） i-keiyoushi (past) i-adjectives (past) past form of い-adjectives using かった for polite descriptions. adjectives adjectives i-adjectives past beginner"
+    },
+    {
+      "id": "043-i-adjectives-negative",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "adjectives",
+      "title": {
+        "ja": "い形容詞（否定）",
+        "romaji": "i-keiyoushi (negative)",
+        "en": "i-adjectives (negative)"
+      },
+      "shortDescription": "Negative い-adjectives with くない to say something is not true.",
+      "tags": [
+        "adjectives",
+        "i-adjectives",
+        "negative",
+        "beginner"
+      ],
+      "searchText": "い形容詞（否定） i-keiyoushi (negative) i-adjectives (negative) negative い-adjectives with くない to say something is not true. adjectives adjectives i-adjectives negative beginner"
+    },
+    {
+      "id": "044-i-adjectives-past-negative",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "adjectives",
+      "title": {
+        "ja": "い形容詞（過去否定）",
+        "romaji": "i-keiyoushi (past negative)",
+        "en": "i-adjectives (past negative)"
+      },
+      "shortDescription": "Past negative い-adjectives with くなかった for “was not”.",
+      "tags": [
+        "adjectives",
+        "i-adjectives",
+        "past-negative",
+        "beginner"
+      ],
+      "searchText": "い形容詞（過去否定） i-keiyoushi (past negative) i-adjectives (past negative) past negative い-adjectives with くなかった for “was not”. adjectives adjectives i-adjectives past-negative beginner"
+    },
+    {
+      "id": "045-na-adjectives-present",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "adjectives",
+      "title": {
+        "ja": "な形容詞（現在）",
+        "romaji": "na-keiyoushi (present)",
+        "en": "na-adjectives (present)"
+      },
+      "shortDescription": "Present form of な-adjectives with な before nouns and です.",
+      "tags": [
+        "adjectives",
+        "na-adjectives",
+        "present",
+        "descriptions"
+      ],
+      "searchText": "な形容詞（現在） na-keiyoushi (present) na-adjectives (present) present form of な-adjectives with な before nouns and です. adjectives adjectives na-adjectives present descriptions"
+    },
+    {
+      "id": "046-na-adjectives-past",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "adjectives",
+      "title": {
+        "ja": "な形容詞（過去）",
+        "romaji": "na-keiyoushi (past)",
+        "en": "na-adjectives (past)"
+      },
+      "shortDescription": "Past な-adjectives with でした for polite past descriptions.",
+      "tags": [
+        "adjectives",
+        "na-adjectives",
+        "past",
+        "beginner"
+      ],
+      "searchText": "な形容詞（過去） na-keiyoushi (past) na-adjectives (past) past な-adjectives with でした for polite past descriptions. adjectives adjectives na-adjectives past beginner"
+    },
+    {
+      "id": "047-na-adjectives-negative",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "adjectives",
+      "title": {
+        "ja": "な形容詞（否定）",
+        "romaji": "na-keiyoushi (negative)",
+        "en": "na-adjectives (negative)"
+      },
+      "shortDescription": "Negative な-adjectives using ではありません to say something is not true.",
+      "tags": [
+        "adjectives",
+        "na-adjectives",
+        "negative",
+        "beginner"
+      ],
+      "searchText": "な形容詞（否定） na-keiyoushi (negative) na-adjectives (negative) negative な-adjectives using ではありません to say something is not true. adjectives adjectives na-adjectives negative beginner"
+    },
+    {
+      "id": "048-na-adjectives-past-negative",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "adjectives",
+      "title": {
+        "ja": "な形容詞（過去否定）",
+        "romaji": "na-keiyoushi (past negative)",
+        "en": "na-adjectives (past negative)"
+      },
+      "shortDescription": "Past negative な-adjectives using ではありませんでした for “was not”.",
+      "tags": [
+        "adjectives",
+        "na-adjectives",
+        "past-negative",
+        "beginner"
+      ],
+      "searchText": "な形容詞（過去否定） na-keiyoushi (past negative) na-adjectives (past negative) past negative な-adjectives using ではありませんでした for “was not”. adjectives adjectives na-adjectives past-negative beginner"
+    },
+    {
+      "id": "049-adjective-modification",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "adjectives",
+      "title": {
+        "ja": "形容詞＋名詞",
+        "romaji": "keiyoushi + meishi",
+        "en": "Adjective + noun"
+      },
+      "shortDescription": "Adjective + noun order: い-adjectives and な-adjectives with な.",
+      "tags": [
+        "adjectives",
+        "modification",
+        "nouns",
+        "beginner"
+      ],
+      "searchText": "形容詞＋名詞 keiyoushi + meishi adjective + noun adjective + noun order: い-adjectives and な-adjectives with な. adjectives adjectives modification nouns beginner"
+    },
+    {
+      "id": "050-i-adjective-adverb",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "adjectives",
+      "title": {
+        "ja": "い形容詞→副詞",
+        "romaji": "i-keiyoushi to fukushi",
+        "en": "i-adjective → adverb"
+      },
+      "shortDescription": "Change い-adjectives to adverbs with く to modify verbs.",
+      "tags": [
+        "adjectives",
+        "adverb",
+        "i-adjectives",
+        "beginner"
+      ],
+      "searchText": "い形容詞→副詞 i-keiyoushi to fukushi i-adjective → adverb change い-adjectives to adverbs with く to modify verbs. adjectives adjectives adverb i-adjectives beginner"
+    },
+    {
+      "id": "051-time-particle-ni",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "time-expressions",
+      "title": {
+        "ja": "時間に",
+        "romaji": "jikan ni",
+        "en": "Time particle に"
+      },
+      "shortDescription": "Use に with exact times and dates to say when something happens.",
+      "tags": [
+        "time",
+        "particle",
+        "schedule",
+        "beginner"
+      ],
+      "searchText": "時間に jikan ni time particle に use に with exact times and dates to say when something happens. time-expressions time particle schedule beginner"
+    },
+    {
+      "id": "052-duration-particle-kan",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "time-expressions",
+      "title": {
+        "ja": "期間の間",
+        "romaji": "kikan no aida (kan)",
+        "en": "Duration particle 間 (kan)"
+      },
+      "shortDescription": "Use 間 to express how long an action lasts, like two hours.",
+      "tags": [
+        "time",
+        "duration",
+        "beginner"
+      ],
+      "searchText": "期間の間 kikan no aida (kan) duration particle 間 (kan) use 間 to express how long an action lasts, like two hours. time-expressions time duration beginner"
+    },
+    {
+      "id": "053-made-until",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "time-expressions",
+      "title": {
+        "ja": "まで",
+        "romaji": "made",
+        "en": "まで (until)"
+      },
+      "shortDescription": "Use まで to mark an end time or limit, often with から.",
+      "tags": [
+        "time",
+        "until",
+        "range",
+        "beginner"
+      ],
+      "searchText": "まで made まで (until) use まで to mark an end time or limit, often with から. time-expressions time until range beginner"
+    },
+    {
+      "id": "054-kara-from",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "time-expressions",
+      "title": {
+        "ja": "から",
+        "romaji": "kara",
+        "en": "から (from)"
+      },
+      "shortDescription": "Use から to mark a starting time, often paired with まで.",
+      "tags": [
+        "time",
+        "from",
+        "range",
+        "beginner"
+      ],
+      "searchText": "から kara から (from) use から to mark a starting time, often paired with まで. time-expressions time from range beginner"
+    },
+    {
+      "id": "055-mae-ni-before",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "time-expressions",
+      "title": {
+        "ja": "前に",
+        "romaji": "mae ni",
+        "en": "前に (before)"
+      },
+      "shortDescription": "前に for “before” with noun+の or verb dictionary form.",
+      "tags": [
+        "time",
+        "before",
+        "sequence",
+        "beginner"
+      ],
+      "searchText": "前に mae ni 前に (before) 前に for “before” with noun+の or verb dictionary form. time-expressions time before sequence beginner"
+    },
+    {
+      "id": "056-ato-de-after",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "time-expressions",
+      "title": {
+        "ja": "後で",
+        "romaji": "ato de",
+        "en": "後で (after / later)"
+      },
+      "shortDescription": "後で for “after/later” with noun+の or verb past form.",
+      "tags": [
+        "time",
+        "after",
+        "sequence",
+        "beginner"
+      ],
+      "searchText": "後で ato de 後で (after / later) 後で for “after/later” with noun+の or verb past form. time-expressions time after sequence beginner"
+    },
+    {
+      "id": "057-frequency-adverbs",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "time-expressions",
+      "title": {
+        "ja": "頻度の副詞",
+        "romaji": "hindo no fukushi",
+        "en": "Frequency adverbs"
+      },
+      "shortDescription": "Frequency adverbs like いつも, よく, ときどき, あまり〜ない for habits.",
+      "tags": [
+        "time",
+        "frequency",
+        "adverbs",
+        "beginner"
+      ],
+      "searchText": "頻度の副詞 hindo no fukushi frequency adverbs frequency adverbs like いつも, よく, ときどき, あまり〜ない for habits. time-expressions time frequency adverbs beginner"
+    },
+    {
+      "id": "058-toki-when",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "time-expressions",
+      "title": {
+        "ja": "時",
+        "romaji": "toki",
+        "en": "時 (when)"
+      },
+      "shortDescription": "時 (とき) to say “when” using verbs, adjectives, or nouns.",
+      "tags": [
+        "time",
+        "when",
+        "sequence",
+        "beginner"
+      ],
+      "searchText": "時 toki 時 (when) 時 (とき) to say “when” using verbs, adjectives, or nouns. time-expressions time when sequence beginner"
+    },
+    {
+      "id": "059-iru-animate",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "existence",
+      "title": {
+        "ja": "いる",
+        "romaji": "iru",
+        "en": "Existence (animate)"
+      },
+      "shortDescription": "Existence verb いる/います for people and animals in polite speech.",
+      "tags": [
+        "existence",
+        "iru",
+        "animate",
+        "beginner"
+      ],
+      "searchText": "いる iru existence (animate) existence verb いる/います for people and animals in polite speech. existence existence iru animate beginner"
+    },
+    {
+      "id": "060-aru-inanimate",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "existence",
+      "title": {
+        "ja": "ある",
+        "romaji": "aru",
+        "en": "Existence (inanimate)"
+      },
+      "shortDescription": "Existence verb ある/あります for objects and inanimate things.",
+      "tags": [
+        "existence",
+        "aru",
+        "inanimate",
+        "beginner"
+      ],
+      "searchText": "ある aru existence (inanimate) existence verb ある/あります for objects and inanimate things. existence existence aru inanimate beginner"
+    },
+    {
+      "id": "061-imasu-arimasu",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "existence",
+      "title": {
+        "ja": "います／あります",
+        "romaji": "imasu / arimasu",
+        "en": "います／あります (polite existence)"
+      },
+      "shortDescription": "Polite います/あります to say something exists or you have it.",
+      "tags": [
+        "existence",
+        "imasu",
+        "arimasu",
+        "beginner"
+      ],
+      "searchText": "います／あります imasu / arimasu います／あります (polite existence) polite います/あります to say something exists or you have it. existence existence imasu arimasu beginner"
+    },
+    {
+      "id": "062-location-ni-iru-aru",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "existence",
+      "title": {
+        "ja": "場所にいる／ある",
+        "romaji": "basho ni iru / aru",
+        "en": "Location に いる／ある"
+      },
+      "shortDescription": "Use に with いる/ある to show where people or things are.",
+      "tags": [
+        "existence",
+        "location",
+        "ni",
+        "beginner"
+      ],
+      "searchText": "場所にいる／ある basho ni iru / aru location に いる／ある use に with いる/ある to show where people or things are. existence existence location ni beginner"
+    },
+    {
+      "id": "063-possession-ga-aru",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "existence",
+      "title": {
+        "ja": "〜がある（所有）",
+        "romaji": "-ga aru (possession)",
+        "en": "〜がある (possession)"
+      },
+      "shortDescription": "Use がある for non-living possession; います for people.",
+      "tags": [
+        "existence",
+        "possession",
+        "aru",
+        "beginner"
+      ],
+      "searchText": "〜がある（所有） -ga aru (possession) 〜がある (possession) use がある for non-living possession; います for people. existence existence possession aru beginner"
+    },
+    {
+      "id": "064-yori-than",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "comparisons",
+      "title": {
+        "ja": "より",
+        "romaji": "yori",
+        "en": "より (than)"
+      },
+      "shortDescription": "Use より to compare two things and say “A is more than B”.",
+      "tags": [
+        "comparison",
+        "yori",
+        "beginner"
+      ],
+      "searchText": "より yori より (than) use より to compare two things and say “a is more than b”. comparisons comparison yori beginner"
+    },
+    {
+      "id": "065-hou-ga-more-than",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "comparisons",
+      "title": {
+        "ja": "〜の方が〜",
+        "romaji": "-no hou ga -",
+        "en": "〜の方が〜 (more than)"
+      },
+      "shortDescription": "Use のほうが with より to emphasize which option is more.",
+      "tags": [
+        "comparison",
+        "houga",
+        "beginner"
+      ],
+      "searchText": "〜の方が〜 -no hou ga - 〜の方が〜 (more than) use のほうが with より to emphasize which option is more. comparisons comparison houga beginner"
+    },
+    {
+      "id": "066-ichiban-most",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "comparisons",
+      "title": {
+        "ja": "一番",
+        "romaji": "ichiban",
+        "en": "一番 (the most)"
+      },
+      "shortDescription": "Use 一番 to say the most or favorite within a group.",
+      "tags": [
+        "comparison",
+        "superlative",
+        "ichiban",
+        "beginner"
+      ],
+      "searchText": "一番 ichiban 一番 (the most) use 一番 to say the most or favorite within a group. comparisons comparison superlative ichiban beginner"
+    },
+    {
+      "id": "067-onaji-same",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "comparisons",
+      "title": {
+        "ja": "同じ",
+        "romaji": "onaji",
+        "en": "同じ (same)"
+      },
+      "shortDescription": "Use 同じ with と to say two things are the same thing.",
+      "tags": [
+        "comparison",
+        "onaji",
+        "beginner"
+      ],
+      "searchText": "同じ onaji 同じ (same) use 同じ with と to say two things are the same thing. comparisons comparison onaji beginner"
+    },
+    {
+      "id": "068-question-nani-what",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "questions",
+      "title": {
+        "ja": "何",
+        "romaji": "nani",
+        "en": "何 (what)"
+      },
+      "shortDescription": "Use 何 to ask “what” with particles like を, が, で in questions.",
+      "tags": [
+        "questions",
+        "nani",
+        "beginner"
+      ],
+      "searchText": "何 nani 何 (what) use 何 to ask “what” with particles like を, が, で in questions. questions questions nani beginner"
+    },
+    {
+      "id": "069-question-dare-who",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "questions",
+      "title": {
+        "ja": "誰",
+        "romaji": "dare",
+        "en": "誰 (who)"
+      },
+      "shortDescription": "Use 誰 to ask “who” with particles like が, と, に in questions.",
+      "tags": [
+        "questions",
+        "dare",
+        "beginner"
+      ],
+      "searchText": "誰 dare 誰 (who) use 誰 to ask “who” with particles like が, と, に in questions. questions questions dare beginner"
+    },
+    {
+      "id": "070-question-doko-where",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "questions",
+      "title": {
+        "ja": "どこ",
+        "romaji": "doko",
+        "en": "どこ (where)"
+      },
+      "shortDescription": "Use どこ to ask “where” with に, で, or へ for location.",
+      "tags": [
+        "questions",
+        "doko",
+        "beginner"
+      ],
+      "searchText": "どこ doko どこ (where) use どこ to ask “where” with に, で, or へ for location. questions questions doko beginner"
+    },
+    {
+      "id": "071-question-itsu-when",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "questions",
+      "title": {
+        "ja": "いつ",
+        "romaji": "itsu",
+        "en": "いつ (when)"
+      },
+      "shortDescription": "Use いつ to ask “when” without に for general time questions.",
+      "tags": [
+        "questions",
+        "itsu",
+        "beginner"
+      ],
+      "searchText": "いつ itsu いつ (when) use いつ to ask “when” without に for general time questions. questions questions itsu beginner"
+    },
+    {
+      "id": "072-question-naze-doushite-why",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "questions",
+      "title": {
+        "ja": "なぜ／どうして",
+        "romaji": "naze / doushite",
+        "en": "なぜ／どうして (why)"
+      },
+      "shortDescription": "Use なぜ/どうして to ask “why”, often answered with から/だから.",
+      "tags": [
+        "questions",
+        "why",
+        "beginner"
+      ],
+      "searchText": "なぜ／どうして naze / doushite なぜ／どうして (why) use なぜ/どうして to ask “why”, often answered with から/だから. questions questions why beginner"
+    },
+    {
+      "id": "073-question-dou-how",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "questions",
+      "title": {
+        "ja": "どう",
+        "romaji": "dou",
+        "en": "どう (how)"
+      },
+      "shortDescription": "Use どう to ask “how” or ask for opinions and methods.",
+      "tags": [
+        "questions",
+        "dou",
+        "beginner"
+      ],
+      "searchText": "どう dou どう (how) use どう to ask “how” or ask for opinions and methods. questions questions dou beginner"
+    },
+    {
+      "id": "074-counter-tsu",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "numbers-counters",
+      "title": {
+        "ja": "〜つ",
+        "romaji": "-tsu",
+        "en": "〜つ (general counter)"
+      },
+      "shortDescription": "General counter 〜つ for counting items 1–10 with special readings.",
+      "tags": [
+        "counters",
+        "numbers",
+        "tsu",
+        "beginner"
+      ],
+      "searchText": "〜つ -tsu 〜つ (general counter) general counter 〜つ for counting items 1–10 with special readings. numbers-counters counters numbers tsu beginner"
+    },
+    {
+      "id": "075-counter-nin",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "numbers-counters",
+      "title": {
+        "ja": "〜人",
+        "romaji": "-nin",
+        "en": "〜人 (people counter)"
+      },
+      "shortDescription": "Counter 〜人 for people; irregular ひとり and ふたり forms.",
+      "tags": [
+        "counters",
+        "people",
+        "nin",
+        "beginner"
+      ],
+      "searchText": "〜人 -nin 〜人 (people counter) counter 〜人 for people; irregular ひとり and ふたり forms. numbers-counters counters people nin beginner"
+    },
+    {
+      "id": "076-counter-hon",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "numbers-counters",
+      "title": {
+        "ja": "〜本",
+        "romaji": "-hon",
+        "en": "〜本 (long objects counter)"
+      },
+      "shortDescription": "Counter 〜本 for long objects like pens and bottles with sound changes.",
+      "tags": [
+        "counters",
+        "hon",
+        "beginner"
+      ],
+      "searchText": "〜本 -hon 〜本 (long objects counter) counter 〜本 for long objects like pens and bottles with sound changes. numbers-counters counters hon beginner"
+    },
+    {
+      "id": "077-counter-mai",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "numbers-counters",
+      "title": {
+        "ja": "〜枚",
+        "romaji": "-mai",
+        "en": "〜枚 (flat objects counter)"
+      },
+      "shortDescription": "Counter 〜枚 for flat objects like paper, tickets, and shirts.",
+      "tags": [
+        "counters",
+        "mai",
+        "beginner"
+      ],
+      "searchText": "〜枚 -mai 〜枚 (flat objects counter) counter 〜枚 for flat objects like paper, tickets, and shirts. numbers-counters counters mai beginner"
+    },
+    {
+      "id": "078-age-sai",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "numbers-counters",
+      "title": {
+        "ja": "〜歳",
+        "romaji": "-sai",
+        "en": "〜歳 (age)"
+      },
+      "shortDescription": "Counter 〜歳 for age, with special reading はたち for 20.",
+      "tags": [
+        "counters",
+        "age",
+        "sai",
+        "beginner"
+      ],
+      "searchText": "〜歳 -sai 〜歳 (age) counter 〜歳 for age, with special reading はたち for 20. numbers-counters counters age sai beginner"
+    },
+    {
+      "id": "079-kara-because",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "〜から",
+        "romaji": "-kara",
+        "en": "〜から (because)"
+      },
+      "shortDescription": "Use から to give a reason: reason + から + result in sentences.",
+      "tags": [
+        "because",
+        "kara",
+        "beginner"
+      ],
+      "searchText": "〜から -kara 〜から (because) use から to give a reason: reason + から + result in sentences. miscellaneous because kara beginner"
+    },
+    {
+      "id": "080-node-so",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "〜ので",
+        "romaji": "-node",
+        "en": "〜ので (so / because)"
+      },
+      "shortDescription": "Use ので for a softer reason; often more polite than から.",
+      "tags": [
+        "because",
+        "node",
+        "beginner"
+      ],
+      "searchText": "〜ので -node 〜ので (so / because) use ので for a softer reason; often more polite than から. miscellaneous because node beginner"
+    },
+    {
+      "id": "201-n4-point-1",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "A とか B とか",
+        "romaji": "A toka B toka",
+        "en": "Such as A and B"
+      },
+      "shortDescription": "Lists examples or possibilities, similar to \"such as A and B.\"",
+      "tags": [
+        "n4",
+        "list",
+        "examples",
+        "possibilities"
+      ],
+      "searchText": "a とか b とか a toka b toka such as a and b lists examples or possibilities, similar to \"such as a and b.\" basic-sentences n4 list examples possibilities"
+    },
+    {
+      "id": "202-n4-point-2",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "comparisons",
+      "title": {
+        "ja": "A は B ほど～ありません",
+        "romaji": "A wa B hodo ~ arimasen",
+        "en": "Not as much/less than"
+      },
+      "shortDescription": "Used to say A is not as ~ as B; A is less ~ than B.",
+      "tags": [
+        "n4",
+        "comparison",
+        "negative",
+        "adjectives",
+        "verbs"
+      ],
+      "searchText": "a は b ほど～ありません a wa b hodo ~ arimasen not as much/less than used to say a is not as ~ as b; a is less ~ than b. comparisons n4 comparison negative adjectives verbs"
+    },
+    {
+      "id": "203-n4-point-3",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "comparisons",
+      "title": {
+        "ja": "A は B ほど～ない",
+        "romaji": "A wa B hodo ~ nai",
+        "en": "Not as...as"
+      },
+      "shortDescription": "A is not as ~ as B; shows a lesser degree or extent than B.",
+      "tags": [
+        "n4",
+        "comparison",
+        "adjectives",
+        "verbs"
+      ],
+      "searchText": "a は b ほど～ない a wa b hodo ~ nai not as...as a is not as ~ as b; shows a lesser degree or extent than b. comparisons n4 comparison adjectives verbs"
+    },
+    {
+      "id": "204-n4-point-4",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "comparisons",
+      "title": {
+        "ja": "A より B のほうが〜",
+        "romaji": "A yori B no hou ga 〜",
+        "en": "B is more ~ than A"
+      },
+      "shortDescription": "Used to show that B has more of a quality than A in comparisons.",
+      "tags": [
+        "n4",
+        "comparison",
+        "adjectives",
+        "verbs"
+      ],
+      "searchText": "a より b のほうが〜 a yori b no hou ga 〜 b is more ~ than a used to show that b has more of a quality than a in comparisons. comparisons n4 comparison adjectives verbs"
+    },
+    {
+      "id": "205-n4-point-5",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "adjectives",
+      "title": {
+        "ja": "い-Adjective く する/なる",
+        "romaji": "i-adjective ku suru/naru",
+        "en": "i-Adjective ku suru/naru"
+      },
+      "shortDescription": "Expresses becoming or making something more of an i-adjective quality.",
+      "tags": [
+        "n4",
+        "adjectives",
+        "change",
+        "transformation"
+      ],
+      "searchText": "い-adjective く する/なる i-adjective ku suru/naru i-adjective ku suru/naru expresses becoming or making something more of an i-adjective quality. adjectives n4 adjectives change transformation"
+    },
+    {
+      "id": "206-n4-point-6",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "な-adjective に する/なる",
+        "romaji": "Na-adjective ni suru/naru",
+        "en": "Change or Decision with Na-adjectives"
+      },
+      "shortDescription": "Expresses change or decision using na-adjectives with ni suru/naru.",
+      "tags": [
+        "n4",
+        "na-adjective",
+        "change",
+        "decision"
+      ],
+      "searchText": "な-adjective に する/なる na-adjective ni suru/naru change or decision with na-adjectives expresses change or decision using na-adjectives with ni suru/naru. miscellaneous n4 na-adjective change decision"
+    },
+    {
+      "id": "207-n4-point-7",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Noun しか～ない",
+        "romaji": "Noun shika~nai",
+        "en": "Only ~"
+      },
+      "shortDescription": "Expresses that there is nothing except the specified noun; only that exists.",
+      "tags": [
+        "n4",
+        "emphasis",
+        "negation",
+        "exclusiveness"
+      ],
+      "searchText": "noun しか～ない noun shika~nai only ~ expresses that there is nothing except the specified noun; only that exists. miscellaneous n4 emphasis negation exclusiveness"
+    },
+    {
+      "id": "208-n4-point-8",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "名詞にする",
+        "romaji": "Noun ni suru",
+        "en": "Deciding on something"
+      },
+      "shortDescription": "Expresses choosing or deciding on something from available options.",
+      "tags": [
+        "n4",
+        "choice",
+        "decision",
+        "basic-sentence"
+      ],
+      "searchText": "名詞にする noun ni suru deciding on something expresses choosing or deciding on something from available options. basic-sentences n4 choice decision basic-sentence"
+    },
+    {
+      "id": "209-n4-point-9",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "Noun に なる",
+        "romaji": "Noun ni naru",
+        "en": "To become a noun"
+      },
+      "shortDescription": "Expresses changing into a new state, status, or condition using a noun.",
+      "tags": [
+        "n4",
+        "transformation",
+        "become",
+        "status-change"
+      ],
+      "searchText": "noun に なる noun ni naru to become a noun expresses changing into a new state, status, or condition using a noun. basic-sentences n4 transformation become status-change"
+    },
+    {
+      "id": "210-n4-point-10",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "のために (no tame ni)",
+        "romaji": "no tame ni",
+        "en": "for, in order to"
+      },
+      "shortDescription": "Expresses purpose, reason, or benefit for an action or someone.",
+      "tags": [
+        "n4",
+        "purpose",
+        "reason",
+        "benefit"
+      ],
+      "searchText": "のために (no tame ni) no tame ni for, in order to expresses purpose, reason, or benefit for an action or someone. basic-sentences n4 purpose reason benefit"
+    },
+    {
+      "id": "211-n4-point-11",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "time-expressions",
+      "title": {
+        "ja": "Noun の 間に (〜no aida ni)",
+        "romaji": "noun no aida ni",
+        "en": "During the period of"
+      },
+      "shortDescription": "Expresses an action happening during a specific period marked by a noun.",
+      "tags": [
+        "n4",
+        "time-expressions",
+        "grammar-patterns",
+        "intermediate-grammar"
+      ],
+      "searchText": "noun の 間に (〜no aida ni) noun no aida ni during the period of expresses an action happening during a specific period marked by a noun. time-expressions n4 time-expressions grammar-patterns intermediate-grammar"
+    },
+    {
+      "id": "212-n4-point-12",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Noun ばかり (〜bakari)",
+        "romaji": "noun bakari",
+        "en": "Only/Just [noun]"
+      },
+      "shortDescription": "Expresses that there is nothing but or only a certain noun.",
+      "tags": [
+        "n4",
+        "miscellaneous",
+        "context-dependency",
+        "expression-of-restriction"
+      ],
+      "searchText": "noun ばかり (〜bakari) noun bakari only/just [noun] expresses that there is nothing but or only a certain noun. miscellaneous n4 miscellaneous context-dependency expression-of-restriction"
+    },
+    {
+      "id": "213-n4-point-13",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "Noun を あげる",
+        "romaji": "Noun wo ageru",
+        "en": "Giving something"
+      },
+      "shortDescription": "Used to say you give something or do a favor for someone else.",
+      "tags": [
+        "n4",
+        "basic-sentences",
+        "verbs",
+        "giving-receiving"
+      ],
+      "searchText": "noun を あげる noun wo ageru giving something used to say you give something or do a favor for someone else. basic-sentences n4 basic-sentences verbs giving-receiving"
+    },
+    {
+      "id": "214-n4-point-14",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Nounをいただく",
+        "romaji": "Noun wo itadaku",
+        "en": "Receiving something in a humble manner"
+      },
+      "shortDescription": "Expresses humbly receiving something from someone; polite form of \"もらう\".",
+      "tags": [
+        "n4",
+        "politeness-levels",
+        "humble-expressions",
+        "receiving-something"
+      ],
+      "searchText": "nounをいただく noun wo itadaku receiving something in a humble manner expresses humbly receiving something from someone; polite form of \"もらう\". miscellaneous n4 politeness-levels humble-expressions receiving-something"
+    },
+    {
+      "id": "215-n4-point-15",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "名詞をくださる",
+        "romaji": "Noun wo kudasaru",
+        "en": "Noun wo kudasaru"
+      },
+      "shortDescription": "Polite form to say someone of higher status gives you something.",
+      "tags": [
+        "n4",
+        "giving",
+        "respect",
+        "politeness",
+        "verbs",
+        "honorific"
+      ],
+      "searchText": "名詞をくださる noun wo kudasaru noun wo kudasaru polite form to say someone of higher status gives you something. verbs n4 giving respect politeness verbs honorific"
+    },
+    {
+      "id": "216-n4-point-16",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "名詞 を くれる",
+        "romaji": "Noun wo kureru",
+        "en": "Noun wo kureru (to give to me/someone close)"
+      },
+      "shortDescription": "Used when someone gives something to the speaker or someone close.",
+      "tags": [
+        "n4",
+        "giving",
+        "verbs",
+        "recipient",
+        "favor",
+        "particles"
+      ],
+      "searchText": "名詞 を くれる noun wo kureru noun wo kureru (to give to me/someone close) used when someone gives something to the speaker or someone close. verbs n4 giving verbs recipient favor particles"
+    },
+    {
+      "id": "217-n4-point-17",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "名詞 を さしあげる",
+        "romaji": "Noun wo sashiageru",
+        "en": "Giving (to someone of higher status): Noun を さしあげる"
+      },
+      "shortDescription": "Polite way to give something to a superior; humble form of あげる.",
+      "tags": [
+        "n4",
+        "giving",
+        "polite",
+        "humble",
+        "keigo",
+        "verbs"
+      ],
+      "searchText": "名詞 を さしあげる noun wo sashiageru giving (to someone of higher status): noun を さしあげる polite way to give something to a superior; humble form of あげる. verbs n4 giving polite humble keigo verbs"
+    },
+    {
+      "id": "218-n4-point-18",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "名詞＋をもらう",
+        "romaji": "Noun + wo morau",
+        "en": "Receiving (Noun wo morau)"
+      },
+      "shortDescription": "Expresses receiving something; the receiver uses noun + をもらう.",
+      "tags": [
+        "n4",
+        "verbs",
+        "receiving",
+        "object-marker",
+        "beneficiary",
+        "particles"
+      ],
+      "searchText": "名詞＋をもらう noun + wo morau receiving (noun wo morau) expresses receiving something; the receiver uses noun + をもらう. verbs n4 verbs receiving object-marker beneficiary particles"
+    },
+    {
+      "id": "219-n4-point-19",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "名詞＋中（ちゅう）",
+        "romaji": "Meishi + chuu",
+        "en": "Noun + chuu (in the middle of ~)"
+      },
+      "shortDescription": "Used after nouns to show something is currently happening or ongoing.",
+      "tags": [
+        "n4",
+        "time",
+        "progressive",
+        "state",
+        "noun",
+        "activity"
+      ],
+      "searchText": "名詞＋中（ちゅう） meishi + chuu noun + chuu (in the middle of ~) used after nouns to show something is currently happening or ongoing. miscellaneous n4 time progressive state noun activity"
+    },
+    {
+      "id": "220-n4-point-20",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞させられる",
+        "romaji": "Doushi saserareru",
+        "en": "Verb -saserareru (passive causative)"
+      },
+      "shortDescription": "Expresses being made or forced by someone to do an action.",
+      "tags": [
+        "n4",
+        "passive",
+        "causative",
+        "verbs",
+        "conjugation",
+        "grammar"
+      ],
+      "searchText": "動詞させられる doushi saserareru verb -saserareru (passive causative) expresses being made or forced by someone to do an action. verbs n4 passive causative verbs conjugation grammar"
+    },
+    {
+      "id": "221-n4-point-21",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "Verb させる (Verb-saseru)",
+        "romaji": "Birabu Saseru",
+        "en": "Verb + saseru"
+      },
+      "shortDescription": "Expresses making or letting someone do an action; causative verb form.",
+      "tags": [
+        "n4",
+        "verbs",
+        "causative",
+        "allowing"
+      ],
+      "searchText": "verb させる (verb-saseru) birabu saseru verb + saseru expresses making or letting someone do an action; causative verb form. verbs n4 verbs causative allowing"
+    },
+    {
+      "id": "222-n4-point-22",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞たことがある",
+        "romaji": "Doushi ta koto ga aru",
+        "en": "Verb ta koto ga aru"
+      },
+      "shortDescription": "Expresses having ever experienced an action using the verb's た-form.",
+      "tags": [
+        "n4",
+        "past",
+        "experience",
+        "verbs",
+        "grammar",
+        "ta-form"
+      ],
+      "searchText": "動詞たことがある doushi ta koto ga aru verb ta koto ga aru expresses having ever experienced an action using the verb's た-form. verbs n4 past experience verbs grammar ta-form"
+    },
+    {
+      "id": "223-n4-point-23",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "time-expressions",
+      "title": {
+        "ja": "動詞たときに",
+        "romaji": "Doushi ta toki ni",
+        "en": "When (Verb-たときに)"
+      },
+      "shortDescription": "Used after past verbs to specify when something happened.",
+      "tags": [
+        "n4",
+        "time",
+        "past",
+        "when",
+        "verbs",
+        "event"
+      ],
+      "searchText": "動詞たときに doushi ta toki ni when (verb-たときに) used after past verbs to specify when something happened. time-expressions n4 time past when verbs event"
+    },
+    {
+      "id": "224-n4-point-24",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞たところ",
+        "romaji": "Doushi ta tokoro",
+        "en": "Verb た ところ"
+      },
+      "shortDescription": "Expresses what happened immediately after completing an action.",
+      "tags": [
+        "n4",
+        "verbs",
+        "sequence",
+        "timing",
+        "past",
+        "just-after"
+      ],
+      "searchText": "動詞たところ doushi ta tokoro verb た ところ expresses what happened immediately after completing an action. verbs n4 verbs sequence timing past just-after"
+    },
+    {
+      "id": "225-n4-point-25",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞たほうがいい",
+        "romaji": "Doushi ta hou ga ii",
+        "en": "Verb ta hou ga ii"
+      },
+      "shortDescription": "Gives advice or suggestions using the verb's past (ta) form plus ほうがいい.",
+      "tags": [
+        "n4",
+        "advice",
+        "suggestion",
+        "verbs",
+        "ta-form",
+        "should"
+      ],
+      "searchText": "動詞たほうがいい doushi ta hou ga ii verb ta hou ga ii gives advice or suggestions using the verb's past (ta) form plus ほうがいい. verbs n4 advice suggestion verbs ta-form should"
+    },
+    {
+      "id": "226-n4-point-26",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb ために",
+        "romaji": "tame ni",
+        "en": "For the sake of/In order to"
+      },
+      "shortDescription": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "tags": [
+        "n4",
+        "miscellaneous",
+        "grammar_point"
+      ],
+      "searchText": "verb ために tame ni for the sake of/in order to expresses purpose or reason: \"in order to\" or \"for the sake of.\" miscellaneous n4 miscellaneous grammar_point"
+    },
+    {
+      "id": "227-n4-point-27",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞＋つもり",
+        "romaji": "Doushi + tsumori",
+        "en": "Verb + tsumori (to intend/plan to)"
+      },
+      "shortDescription": "Expresses intention or plan to do something using the plain verb form.",
+      "tags": [
+        "n4",
+        "intention",
+        "plan",
+        "verbs",
+        "plain-form",
+        "expression"
+      ],
+      "searchText": "動詞＋つもり doushi + tsumori verb + tsumori (to intend/plan to) expresses intention or plan to do something using the plain verb form. verbs n4 intention plan verbs plain-form expression"
+    },
+    {
+      "id": "228-n4-point-28",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞てあげる",
+        "romaji": "doushi te ageru",
+        "en": "Verb te ageru"
+      },
+      "shortDescription": "Expresses doing a kind action for someone else using the verb te-form.",
+      "tags": [
+        "n4",
+        "favor",
+        "giving",
+        "verbs",
+        "te-form",
+        "politeness"
+      ],
+      "searchText": "動詞てあげる doushi te ageru verb te ageru expresses doing a kind action for someone else using the verb te-form. verbs n4 favor giving verbs te-form politeness"
+    },
+    {
+      "id": "229-n4-point-29",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞てある",
+        "romaji": "Doushi te aru",
+        "en": "Verb-te aru"
+      },
+      "shortDescription": "Describes a state resulting from an intentional completed action.",
+      "tags": [
+        "n4",
+        "result",
+        "state",
+        "te-form",
+        "intention",
+        "verbs"
+      ],
+      "searchText": "動詞てある doushi te aru verb-te aru describes a state resulting from an intentional completed action. verbs n4 result state te-form intention verbs"
+    },
+    {
+      "id": "230-n4-point-30",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞ていく",
+        "romaji": "Doushi te iku",
+        "en": "Verb-te iku"
+      },
+      "shortDescription": "Expresses an action continuing or progressing from now into the future.",
+      "tags": [
+        "n4",
+        "verb",
+        "progression",
+        "continuation",
+        "future",
+        "auxiliary"
+      ],
+      "searchText": "動詞ていく doushi te iku verb-te iku expresses an action continuing or progressing from now into the future. verbs n4 verb progression continuation future auxiliary"
+    },
+    {
+      "id": "231-n4-point-31",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞ていただきたい",
+        "romaji": "doushi te itadakitai",
+        "en": "Verb-te itadakitai (would like you to do...)"
+      },
+      "shortDescription": "Polite way to express wanting someone to do something for you.",
+      "tags": [
+        "n4",
+        "polite",
+        "request",
+        "verbs",
+        "business",
+        "desire"
+      ],
+      "searchText": "動詞ていただきたい doushi te itadakitai verb-te itadakitai (would like you to do...) polite way to express wanting someone to do something for you. verbs n4 polite request verbs business desire"
+    },
+    {
+      "id": "232-n4-point-32",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞ていただく",
+        "romaji": "doushi te itadaku",
+        "en": "Verb ていただく (te itadaku)"
+      },
+      "shortDescription": "Expresses humbly receiving a favor or action from someone else.",
+      "tags": [
+        "n4",
+        "humble",
+        "politeness",
+        "request",
+        "favor",
+        "verbs"
+      ],
+      "searchText": "動詞ていただく doushi te itadaku verb ていただく (te itadaku) expresses humbly receiving a favor or action from someone else. verbs n4 humble politeness request favor verbs"
+    },
+    {
+      "id": "233-n4-point-33",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞ていただけませんか",
+        "romaji": "doushi te itadakemasen ka",
+        "en": "Verb te itadakemasen ka"
+      },
+      "shortDescription": "Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "tags": [
+        "n4",
+        "polite",
+        "request",
+        "te-form",
+        "keigo",
+        "verbs"
+      ],
+      "searchText": "動詞ていただけませんか doushi te itadakemasen ka verb te itadakemasen ka make a very polite request using the verb te-form plus itadakemasen ka. verbs n4 polite request te-form keigo verbs"
+    },
+    {
+      "id": "234-n4-point-34",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞ている（Verb て いる）",
+        "romaji": "Doushi te iru",
+        "en": "Verb-te iru"
+      },
+      "shortDescription": "Describes ongoing actions or current states using the verb's て-form plus いる.",
+      "tags": [
+        "n4",
+        "te-form",
+        "progressive",
+        "state",
+        "verbs",
+        "result"
+      ],
+      "searchText": "動詞ている（verb て いる） doushi te iru verb-te iru describes ongoing actions or current states using the verb's て-form plus いる. verbs n4 te-form progressive state verbs result"
+    },
+    {
+      "id": "235-n4-point-35",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞ているところ",
+        "romaji": "Doushi te iru tokoro",
+        "en": "Verb te iru tokoro"
+      },
+      "shortDescription": "Emphasizes an action happening right now; \"in the middle of doing.\"",
+      "tags": [
+        "n4",
+        "progressive",
+        "aspect",
+        "verbs",
+        "ongoing",
+        "action"
+      ],
+      "searchText": "動詞ているところ doushi te iru tokoro verb te iru tokoro emphasizes an action happening right now; \"in the middle of doing.\" verbs n4 progressive aspect verbs ongoing action"
+    },
+    {
+      "id": "236-n4-point-36",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "time-expressions",
+      "title": {
+        "ja": "Verb ている間に",
+        "romaji": "Verb te iru aida ni",
+        "en": "During the time (verb in progress)"
+      },
+      "shortDescription": "While one action is ongoing, another action happens during that time.",
+      "tags": [
+        "n4",
+        "time-expressions",
+        "progressive-forms",
+        "during-time"
+      ],
+      "searchText": "verb ている間に verb te iru aida ni during the time (verb in progress) while one action is ongoing, another action happens during that time. time-expressions n4 time-expressions progressive-forms during-time"
+    },
+    {
+      "id": "237-n4-point-37",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞ておく",
+        "romaji": "doushi te oku",
+        "en": "Verb ておく (do something in advance)"
+      },
+      "shortDescription": "Expresses doing something in advance or as preparation for a future need.",
+      "tags": [
+        "n4",
+        "verbs",
+        "preparation",
+        "te-form",
+        "advance",
+        "grammar"
+      ],
+      "searchText": "動詞ておく doushi te oku verb ておく (do something in advance) expresses doing something in advance or as preparation for a future need. verbs n4 verbs preparation te-form advance grammar"
+    },
+    {
+      "id": "238-n4-point-38",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞てくださいませんか",
+        "romaji": "Doushi te kudasaimasen ka",
+        "en": "Verb-te kudasaimasen ka"
+      },
+      "shortDescription": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "tags": [
+        "n4",
+        "polite",
+        "requests",
+        "te-form",
+        "formal",
+        "verbs"
+      ],
+      "searchText": "動詞てくださいませんか doushi te kudasaimasen ka verb-te kudasaimasen ka very polite request form: \"would you please...?\" using verb-te kudasaimasen ka. verbs n4 polite requests te-form formal verbs"
+    },
+    {
+      "id": "239-n4-point-39",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞てくださる",
+        "romaji": "Doushi te kudasaru",
+        "en": "Verb-te kudasaru"
+      },
+      "shortDescription": "Expresses respect when someone does a favor for you; honorific verb form.",
+      "tags": [
+        "n4",
+        "honorific",
+        "verbs",
+        "politeness",
+        "favor",
+        "te-form"
+      ],
+      "searchText": "動詞てくださる doushi te kudasaru verb-te kudasaru expresses respect when someone does a favor for you; honorific verb form. verbs n4 honorific verbs politeness favor te-form"
+    },
+    {
+      "id": "240-n4-point-40",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞てくる",
+        "romaji": "Doushi te kuru",
+        "en": "Verb te kuru"
+      },
+      "shortDescription": "Expresses actions or changes that started in the past and reach the present.",
+      "tags": [
+        "n4",
+        "verb",
+        "te-form",
+        "change",
+        "state",
+        "progression"
+      ],
+      "searchText": "動詞てくる doushi te kuru verb te kuru expresses actions or changes that started in the past and reach the present. verbs n4 verb te-form change state progression"
+    },
+    {
+      "id": "241-n4-point-41",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞てくれませんか",
+        "romaji": "doushi te kuremasen ka",
+        "en": "Verb てくれませんか"
+      },
+      "shortDescription": "Polite way to request someone to do something for you.",
+      "tags": [
+        "n4",
+        "request",
+        "polite",
+        "te-form",
+        "speaking",
+        "conversation"
+      ],
+      "searchText": "動詞てくれませんか doushi te kuremasen ka verb てくれませんか polite way to request someone to do something for you. verbs n4 request polite te-form speaking conversation"
+    },
+    {
+      "id": "242-n4-point-42",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞てくれる",
+        "romaji": "Doushi te kureru",
+        "en": "Verb-te kureru"
+      },
+      "shortDescription": "Used when someone kindly does an action for you or your in-group.",
+      "tags": [
+        "n4",
+        "favor",
+        "verbs",
+        "te-form",
+        "giving-receiving",
+        "politeness"
+      ],
+      "searchText": "動詞てくれる doushi te kureru verb-te kureru used when someone kindly does an action for you or your in-group. verbs n4 favor verbs te-form giving-receiving politeness"
+    },
+    {
+      "id": "243-n4-point-43",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞て形 + さしあげる",
+        "romaji": "Doushi te-kei + sashiageru",
+        "en": "Verb TE + sashiageru"
+      },
+      "shortDescription": "Do something for someone of higher status in a humble, respectful way.",
+      "tags": [
+        "n4",
+        "giving",
+        "politeness",
+        "humble",
+        "verbs",
+        "respect"
+      ],
+      "searchText": "動詞て形 + さしあげる doushi te-kei + sashiageru verb te + sashiageru do something for someone of higher status in a humble, respectful way. verbs n4 giving politeness humble verbs respect"
+    },
+    {
+      "id": "244-n4-point-44",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "動詞てしまう",
+        "romaji": "doushi te shimau",
+        "en": "Verb てしまう"
+      },
+      "shortDescription": "Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "tags": [
+        "n4",
+        "verbs",
+        "regret",
+        "completion",
+        "te-form",
+        "auxiliary"
+      ],
+      "searchText": "動詞てしまう doushi te shimau verb てしまう expresses completion or regret; attach しまう to the verb’s て-form. verbs n4 verbs regret completion te-form auxiliary"
+    },
+    {
+      "id": "245-n4-point-45",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb て ほしい",
+        "romaji": "Verb-te hoshii",
+        "en": "Want someone to do something"
+      },
+      "shortDescription": "Expresses wanting someone else to do an action for you.",
+      "tags": [
+        "n4",
+        "verbs",
+        "desires",
+        "requests"
+      ],
+      "searchText": "verb て ほしい verb-te hoshii want someone to do something expresses wanting someone else to do an action for you. miscellaneous n4 verbs desires requests"
+    },
+    {
+      "id": "246-n4-point-46",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb てみる (〜te miru)",
+        "romaji": "Verb te miru",
+        "en": "Trying out something"
+      },
+      "shortDescription": "Used to say you try doing something to see what happens.",
+      "tags": [
+        "n4",
+        "verbs",
+        "miscellaneous",
+        "expressions-of-intention"
+      ],
+      "searchText": "verb てみる (〜te miru) verb te miru trying out something used to say you try doing something to see what happens. miscellaneous n4 verbs miscellaneous expressions-of-intention"
+    },
+    {
+      "id": "247-n4-point-47",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb てもらいたい (～te moraitai)",
+        "romaji": "Verb te moraitai",
+        "en": "Want someone to do something for you"
+      },
+      "shortDescription": "Expresses wanting someone else to do something for you.",
+      "tags": [
+        "n4",
+        "requests",
+        "verbs",
+        "te-form",
+        "favor"
+      ],
+      "searchText": "verb てもらいたい (～te moraitai) verb te moraitai want someone to do something for you expresses wanting someone else to do something for you. miscellaneous n4 requests verbs te-form favor"
+    },
+    {
+      "id": "248-n4-point-48",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb て もらう",
+        "romaji": "Verb te morau",
+        "en": "Receiving a Favor"
+      },
+      "shortDescription": "Expresses receiving a favor or action done by someone for you.",
+      "tags": [
+        "n4",
+        "verbs",
+        "miscellaneous",
+        "receiving-favor"
+      ],
+      "searchText": "verb て もらう verb te morau receiving a favor expresses receiving a favor or action done by someone for you. miscellaneous n4 verbs miscellaneous receiving-favor"
+    },
+    {
+      "id": "249-n4-point-49",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "questions",
+      "title": {
+        "ja": "Verb てもらえませんか",
+        "romaji": "verb te moraemasen ka",
+        "en": "Could you do something for me?"
+      },
+      "shortDescription": "Polite way to request someone to do something for you.",
+      "tags": [
+        "n4",
+        "politeness",
+        "requests",
+        "te-form"
+      ],
+      "searchText": "verb てもらえませんか verb te moraemasen ka could you do something for me? polite way to request someone to do something for you. questions n4 politeness requests te-form"
+    },
+    {
+      "id": "250-n4-point-50",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "Verb ない ことがある",
+        "romaji": "Verb nai koto ga aru",
+        "en": "Indicating Instances of Non-action"
+      },
+      "shortDescription": "Used to express that something sometimes does not happen or is not done.",
+      "tags": [
+        "n4",
+        "verbs",
+        "negative-forms",
+        "basic-sentences"
+      ],
+      "searchText": "verb ない ことがある verb nai koto ga aru indicating instances of non-action used to express that something sometimes does not happen or is not done. basic-sentences n4 verbs negative-forms basic-sentences"
+    },
+    {
+      "id": "251-n4-point-51",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb ない + ことにする",
+        "romaji": "Verb nai koto ni suru",
+        "en": "Decide not to do something"
+      },
+      "shortDescription": "Express a personal decision to not do something or refrain from an action.",
+      "tags": [
+        "n4",
+        "decision",
+        "negative-form",
+        "conscious-choice"
+      ],
+      "searchText": "verb ない + ことにする verb nai koto ni suru decide not to do something express a personal decision to not do something or refrain from an action. miscellaneous n4 decision negative-form conscious-choice"
+    },
+    {
+      "id": "252-n4-point-52",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "Verb ない ことになる",
+        "romaji": "Verb nai koto ni naru",
+        "en": "Verb not to become"
+      },
+      "shortDescription": "Expresses that something will end up not happening or being done.",
+      "tags": [
+        "n4",
+        "result-consequence",
+        "negative-forms",
+        "verbs"
+      ],
+      "searchText": "verb ない ことになる verb nai koto ni naru verb not to become expresses that something will end up not happening or being done. basic-sentences n4 result-consequence negative-forms verbs"
+    },
+    {
+      "id": "253-n4-point-53",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb ないほうがいい",
+        "romaji": "Verb nai hou ga ii",
+        "en": "Better not to [Verb]"
+      },
+      "shortDescription": "Used to advise that not doing something is the better choice.",
+      "tags": [
+        "n4",
+        "suggestions",
+        "negative-form",
+        "advice"
+      ],
+      "searchText": "verb ないほうがいい verb nai hou ga ii better not to [verb] used to advise that not doing something is the better choice. miscellaneous n4 suggestions negative-form advice"
+    },
+    {
+      "id": "254-n4-point-54",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "Verb ながら (〜nagara)",
+        "romaji": "Verb nagara (〜nagara)",
+        "en": "While Doing (Two Actions at the Same Time)"
+      },
+      "shortDescription": "While doing; expresses two actions happening at the same time.",
+      "tags": [
+        "n4",
+        "simultaneous-action",
+        "verb-patterns",
+        "while",
+        "as"
+      ],
+      "searchText": "verb ながら (〜nagara) verb nagara (〜nagara) while doing (two actions at the same time) while doing; expresses two actions happening at the same time. basic-sentences n4 simultaneous-action verb-patterns while as"
+    },
+    {
+      "id": "255-n4-point-55",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "Verb なさい (〜nasai)",
+        "romaji": "Verb nasai",
+        "en": "Verb + nasai"
+      },
+      "shortDescription": "Used to give direct orders or instructions, often by superiors.",
+      "tags": [
+        "n4",
+        "command",
+        "polite",
+        "instruction",
+        "authority"
+      ],
+      "searchText": "verb なさい (〜nasai) verb nasai verb + nasai used to give direct orders or instructions, often by superiors. basic-sentences n4 command polite instruction authority"
+    },
+    {
+      "id": "256-n4-point-56",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb にくい (〜nikui)",
+        "romaji": "Verb nikui",
+        "en": "Difficulty in Action with ～にくい"
+      },
+      "shortDescription": "Expresses that something is hard or difficult to do.",
+      "tags": [
+        "n4",
+        "difficulty-expression",
+        "adjective-suffixes",
+        "miscellaneous"
+      ],
+      "searchText": "verb にくい (〜nikui) verb nikui difficulty in action with ～にくい expresses that something is hard or difficult to do. miscellaneous n4 difficulty-expression adjective-suffixes miscellaneous"
+    },
+    {
+      "id": "257-n4-point-57",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb やすい (〜yasui)",
+        "romaji": "Verb yasui",
+        "en": "Easy to do"
+      },
+      "shortDescription": "Expresses that an action is easy to do; attaches to verb stems.",
+      "tags": [
+        "n4",
+        "verbs",
+        "adjectives",
+        "ease-of-action"
+      ],
+      "searchText": "verb やすい (〜yasui) verb yasui easy to do expresses that an action is easy to do; attaches to verb stems. miscellaneous n4 verbs adjectives ease-of-action"
+    },
+    {
+      "id": "258-n4-point-58",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb ようと思う",
+        "romaji": "Verb-you to omou",
+        "en": "I think I will/plan to/intend to"
+      },
+      "shortDescription": "Expresses intention or plan to do something in the near future.",
+      "tags": [
+        "n4",
+        "intention",
+        "future-plans",
+        "volitional-form"
+      ],
+      "searchText": "verb ようと思う verb-you to omou i think i will/plan to/intend to expresses intention or plan to do something in the near future. miscellaneous n4 intention future-plans volitional-form"
+    },
+    {
+      "id": "259-n4-point-59",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb ように (〜you ni)",
+        "romaji": "Verb you ni",
+        "en": "Verb-like construction"
+      },
+      "shortDescription": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "tags": [
+        "n4",
+        "expression-of-purpose",
+        "comparison",
+        "advice"
+      ],
+      "searchText": "verb ように (〜you ni) verb you ni verb-like construction expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\" miscellaneous n4 expression-of-purpose comparison advice"
+    },
+    {
+      "id": "260-n4-point-60",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb ようにする",
+        "romaji": "Verb you ni suru",
+        "en": "Make sure to/try to do"
+      },
+      "shortDescription": "Expresses effort or intention to make sure or try to do something.",
+      "tags": [
+        "n4",
+        "effort",
+        "trying",
+        "ensure",
+        "miscellaneous"
+      ],
+      "searchText": "verb ようにする verb you ni suru make sure to/try to do expresses effort or intention to make sure or try to do something. miscellaneous n4 effort trying ensure miscellaneous"
+    },
+    {
+      "id": "261-n4-point-61",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "Verb ようになる (〜you ni naru)",
+        "romaji": "Verb you ni naru",
+        "en": "Becoming Able to Do Something"
+      },
+      "shortDescription": "Expresses a change where someone comes to be able to do something.",
+      "tags": [
+        "n4",
+        "verbs",
+        "change",
+        "development",
+        "ability"
+      ],
+      "searchText": "verb ようになる (〜you ni naru) verb you ni naru becoming able to do something expresses a change where someone comes to be able to do something. verbs n4 verbs change development ability"
+    },
+    {
+      "id": "262-n4-point-62",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb ように言う",
+        "romaji": "Verb you ni iu",
+        "en": "Tell/Instruct to Do Something"
+      },
+      "shortDescription": "Used to report telling or instructing someone to do something.",
+      "tags": [
+        "n4",
+        "verbs",
+        "instructions",
+        "telling"
+      ],
+      "searchText": "verb ように言う verb you ni iu tell/instruct to do something used to report telling or instructing someone to do something. miscellaneous n4 verbs instructions telling"
+    },
+    {
+      "id": "263-n4-point-63",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "Verb られる (〜rareru)",
+        "romaji": "Verb rareru",
+        "en": "Passive and Potential Forms"
+      },
+      "shortDescription": "Expresses passive voice or ability (can do) with verbs using られる.",
+      "tags": [
+        "n4",
+        "verbs",
+        "passive",
+        "potential"
+      ],
+      "searchText": "verb られる (〜rareru) verb rareru passive and potential forms expresses passive voice or ability (can do) with verbs using られる. verbs n4 verbs passive potential"
+    },
+    {
+      "id": "264-n4-point-64",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb る ことがある",
+        "romaji": "Verb ru koto ga aru",
+        "en": "Sometimes do something"
+      },
+      "shortDescription": "Used to say you sometimes do or have ever done an action.",
+      "tags": [
+        "n4",
+        "expressions-of-frequency",
+        "past-experience",
+        "verbs"
+      ],
+      "searchText": "verb る ことがある verb ru koto ga aru sometimes do something used to say you sometimes do or have ever done an action. miscellaneous n4 expressions-of-frequency past-experience verbs"
+    },
+    {
+      "id": "265-n4-point-65",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "Verb ることができる",
+        "romaji": "Verb ru koto ga dekiru",
+        "en": "Can do (Verb + ことができる)"
+      },
+      "shortDescription": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "tags": [
+        "n4",
+        "ability",
+        "possibility",
+        "verbs",
+        "can-do"
+      ],
+      "searchText": "verb ることができる verb ru koto ga dekiru can do (verb + ことができる) expresses ability or possibility to do something; means \"can\" or \"be able to.\" verbs n4 ability possibility verbs can-do"
+    },
+    {
+      "id": "266-n4-point-66",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb ることにする",
+        "romaji": "Verb ru koto ni suru",
+        "en": "Decide to do something"
+      },
+      "shortDescription": "Expresses making a personal decision to do something from now on.",
+      "tags": [
+        "n4",
+        "verbs",
+        "decisions",
+        "action-planning"
+      ],
+      "searchText": "verb ることにする verb ru koto ni suru decide to do something expresses making a personal decision to do something from now on. miscellaneous n4 verbs decisions action-planning"
+    },
+    {
+      "id": "267-n4-point-67",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb る ことになる",
+        "romaji": "Verb-ru koto ni naru",
+        "en": "Deciding or Arranging Something"
+      },
+      "shortDescription": "Used to show that something has been decided or arranged by others or circumstances.",
+      "tags": [
+        "n4",
+        "decision-making",
+        "arrangement",
+        "verbs",
+        "miscellaneous"
+      ],
+      "searchText": "verb る ことになる verb-ru koto ni naru deciding or arranging something used to show that something has been decided or arranged by others or circumstances. miscellaneous n4 decision-making arrangement verbs miscellaneous"
+    },
+    {
+      "id": "268-n4-point-68",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "time-expressions",
+      "title": {
+        "ja": "Verb るときに",
+        "romaji": "Verb ~ru toki ni",
+        "en": "When doing something"
+      },
+      "shortDescription": "Used to express the time when an action or event occurs.",
+      "tags": [
+        "n4",
+        "time-expressions",
+        "verbs",
+        "intermediate"
+      ],
+      "searchText": "verb るときに verb ~ru toki ni when doing something used to express the time when an action or event occurs. time-expressions n4 time-expressions verbs intermediate"
+    },
+    {
+      "id": "269-n4-point-69",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "Verb る ところ",
+        "romaji": "Verb-ru tokoro",
+        "en": "Verb + ところ"
+      },
+      "shortDescription": "Expresses being just about to do an action; \"about to [verb]\".",
+      "tags": [
+        "n4",
+        "verbs",
+        "politeness-levels",
+        "action-state"
+      ],
+      "searchText": "verb る ところ verb-ru tokoro verb + ところ expresses being just about to do an action; \"about to [verb]\". basic-sentences n4 verbs politeness-levels action-state"
+    },
+    {
+      "id": "270-n4-point-70",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "Verb 出す (~dasu)",
+        "romaji": "Verb dasu",
+        "en": "Using the Verb 出す"
+      },
+      "shortDescription": "Shows taking out, starting suddenly, or emphasizing an action.",
+      "tags": [
+        "n4",
+        "verbs",
+        "expressions",
+        "actions",
+        "emphasis"
+      ],
+      "searchText": "verb 出す (~dasu) verb dasu using the verb 出す shows taking out, starting suddenly, or emphasizing an action. verbs n4 verbs expressions actions emphasis"
+    },
+    {
+      "id": "271-n4-point-71",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "Verb 方 (〜hou)",
+        "romaji": "Verb kata (〜hou)",
+        "en": "Verb + Kata for Method"
+      },
+      "shortDescription": "Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "tags": [
+        "n4",
+        "method-expression",
+        "verb-patterns",
+        "daily-conversation"
+      ],
+      "searchText": "verb 方 (〜hou) verb kata (〜hou) verb + kata for method expresses how to do something; forms nouns meaning \"way of doing.\" miscellaneous n4 method-expression verb-patterns daily-conversation"
+    },
+    {
+      "id": "272-n4-point-72",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "Verb 終わる (〜owaru)",
+        "romaji": "Verb Owaru",
+        "en": "Verb 'to finish'"
+      },
+      "shortDescription": "Expresses that something finishes or an action is completed; a godan verb.",
+      "tags": [
+        "n4",
+        "verbs",
+        "completion",
+        "endings"
+      ],
+      "searchText": "verb 終わる (〜owaru) verb owaru verb 'to finish' expresses that something finishes or an action is completed; a godan verb. verbs n4 verbs completion endings"
+    },
+    {
+      "id": "273-n4-point-73",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "Verb + 続ける",
+        "romaji": "tsuzukeru",
+        "en": "To continue doing"
+      },
+      "shortDescription": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "tags": [
+        "n4",
+        "verbs",
+        "continuation",
+        "basic-sentences"
+      ],
+      "searchText": "verb + 続ける tsuzukeru to continue doing expresses the ongoing continuation of an action using \"verb + tsuzukeru.\" basic-sentences n4 verbs continuation basic-sentences"
+    },
+    {
+      "id": "274-n4-point-74",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～かしら",
+        "romaji": "~kashira",
+        "en": "Expressing uncertainty"
+      },
+      "shortDescription": "Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "tags": [
+        "n4",
+        "uncertainty",
+        "casual-conversations",
+        "female-speech"
+      ],
+      "searchText": "～かしら ~kashira expressing uncertainty used to express uncertainty or wonder, often translated as \"i wonder.\" miscellaneous n4 uncertainty casual-conversations female-speech"
+    },
+    {
+      "id": "275-n4-point-75",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "questions",
+      "title": {
+        "ja": "～かどうか",
+        "romaji": "~ka dou ka",
+        "en": "whether or if"
+      },
+      "shortDescription": "Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "tags": [
+        "n4",
+        "questions",
+        "indirect-questions",
+        "uncertainty"
+      ],
+      "searchText": "～かどうか ~ka dou ka whether or if used to express uncertainty or indirect questions with \"whether\" or \"if\". questions n4 questions indirect-questions uncertainty"
+    },
+    {
+      "id": "276-n4-point-76",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～かなあ",
+        "romaji": "~kanaa",
+        "en": "Expressing Uncertainty or Wonder"
+      },
+      "shortDescription": "Used to express uncertainty, doubt, or wonder, like \"I wonder...\"",
+      "tags": [
+        "n4",
+        "expressions-of-uncertainty",
+        "casual-speech",
+        "intermediate"
+      ],
+      "searchText": "～かなあ ~kanaa expressing uncertainty or wonder used to express uncertainty, doubt, or wonder, like \"i wonder...\" miscellaneous n4 expressions-of-uncertainty casual-speech intermediate"
+    },
+    {
+      "id": "277-n4-point-77",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～かもしれない",
+        "romaji": "~kamoshirenai",
+        "en": "might / possibly"
+      },
+      "shortDescription": "Expresses uncertainty or possibility; means \"might\" or \"maybe.\"",
+      "tags": [
+        "n4",
+        "expression",
+        "possibility",
+        "uncertainty",
+        "daily-conversation"
+      ],
+      "searchText": "～かもしれない ~kamoshirenai might / possibly expresses uncertainty or possibility; means \"might\" or \"maybe.\" miscellaneous n4 expression possibility uncertainty daily-conversation"
+    },
+    {
+      "id": "278-n4-point-78",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "~から",
+        "romaji": "~kara",
+        "en": "Because/Since"
+      },
+      "shortDescription": "Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "tags": [
+        "n4",
+        "causal-reasoning",
+        "reason-expression",
+        "intermediate-grammar"
+      ],
+      "searchText": "~から ~kara because/since expresses a reason or cause; translates as \"because\" or \"since.\" miscellaneous n4 causal-reasoning reason-expression intermediate-grammar"
+    },
+    {
+      "id": "279-n4-point-79",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～けれど",
+        "romaji": "~keredo",
+        "en": "But, however"
+      },
+      "shortDescription": "Expresses a soft contrast or contradiction between two statements.",
+      "tags": [
+        "n4",
+        "contrast",
+        "informal",
+        "soft-contradiction"
+      ],
+      "searchText": "～けれど ~keredo but, however expresses a soft contrast or contradiction between two statements. miscellaneous n4 contrast informal soft-contradiction"
+    },
+    {
+      "id": "280-n4-point-80",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "~させてください",
+        "romaji": "~sasete kudasai",
+        "en": "Please let me do..."
+      },
+      "shortDescription": "Used to politely ask for permission to do something yourself.",
+      "tags": [
+        "n4",
+        "politeness",
+        "request",
+        "causative-form"
+      ],
+      "searchText": "~させてください ~sasete kudasai please let me do... used to politely ask for permission to do something yourself. miscellaneous n4 politeness request causative-form"
+    },
+    {
+      "id": "281-n4-point-81",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～し、～し、～",
+        "romaji": "~shi, ~shi, ~",
+        "en": "Connecting Reasons"
+      },
+      "shortDescription": "Used to list multiple reasons or qualities supporting a statement.",
+      "tags": [
+        "n4",
+        "connectors",
+        "reasons",
+        "conclusion",
+        "miscellaneous"
+      ],
+      "searchText": "～し、～し、～ ~shi, ~shi, ~ connecting reasons used to list multiple reasons or qualities supporting a statement. miscellaneous n4 connectors reasons conclusion miscellaneous"
+    },
+    {
+      "id": "282-n4-point-82",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～すぎる",
+        "romaji": "~sugiru",
+        "en": "Too much"
+      },
+      "shortDescription": "Expresses that something is excessive or more than necessary.",
+      "tags": [
+        "n4",
+        "expressions-of-degree",
+        "adjectives",
+        "verbs"
+      ],
+      "searchText": "～すぎる ~sugiru too much expresses that something is excessive or more than necessary. miscellaneous n4 expressions-of-degree adjectives verbs"
+    },
+    {
+      "id": "283-n4-point-83",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～ずつ",
+        "romaji": "~zutsu",
+        "en": "each, per"
+      },
+      "shortDescription": "Expresses giving or doing something equally to each person or thing.",
+      "tags": [
+        "n4",
+        "distribution",
+        "equal-sharing",
+        "numbers"
+      ],
+      "searchText": "～ずつ ~zutsu each, per expresses giving or doing something equally to each person or thing. miscellaneous n4 distribution equal-sharing numbers"
+    },
+    {
+      "id": "284-n4-point-84",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～そうだ",
+        "romaji": "~sou da",
+        "en": "Looks like / Seems"
+      },
+      "shortDescription": "Used to express that something appears or seems a certain way based on observation.",
+      "tags": [
+        "n4",
+        "appearance",
+        "inference",
+        "looks-like"
+      ],
+      "searchText": "～そうだ ~sou da looks like / seems used to express that something appears or seems a certain way based on observation. miscellaneous n4 appearance inference looks-like"
+    },
+    {
+      "id": "285-n4-point-85",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "そんな (sonna) + Noun",
+        "romaji": "Sonna + Noun",
+        "en": "That Kind of [Noun]"
+      },
+      "shortDescription": "Used before nouns to mean \"that kind of\" or \"such a\" thing near the listener.",
+      "tags": [
+        "n4",
+        "miscellaneous",
+        "context-dependent",
+        "modifiers"
+      ],
+      "searchText": "そんな (sonna) + noun sonna + noun that kind of [noun] used before nouns to mean \"that kind of\" or \"such a\" thing near the listener. miscellaneous n4 miscellaneous context-dependent modifiers"
+    },
+    {
+      "id": "286-n4-point-86",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "そんなに～",
+        "romaji": "sonna ni〜",
+        "en": "Not so much / Not that"
+      },
+      "shortDescription": "Used to say something is not as much or not to that extent.",
+      "tags": [
+        "n4",
+        "adverb",
+        "negation",
+        "expression"
+      ],
+      "searchText": "そんなに～ sonna ni〜 not so much / not that used to say something is not as much or not to that extent. miscellaneous n4 adverb negation expression"
+    },
+    {
+      "id": "287-n4-point-87",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "～たらいい",
+        "romaji": "~tara ii",
+        "en": "It would be good if / should / I hope"
+      },
+      "shortDescription": "Expresses hope, suggestion, or advice: \"It would be good if...\"",
+      "tags": [
+        "n4",
+        "suggestion",
+        "wish",
+        "hope",
+        "verbs",
+        "advice"
+      ],
+      "searchText": "～たらいい ~tara ii it would be good if / should / i hope expresses hope, suggestion, or advice: \"it would be good if...\" verbs n4 suggestion wish hope verbs advice"
+    },
+    {
+      "id": "288-n4-point-88",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "~たら いかがですか",
+        "romaji": "~tara ikaga desu ka",
+        "en": "How about...?"
+      },
+      "shortDescription": "Polite way to suggest or recommend an action if a condition is met.",
+      "tags": [
+        "n4",
+        "polite-suggestions",
+        "conditional",
+        "opinions",
+        "verbs"
+      ],
+      "searchText": "~たら いかがですか ~tara ikaga desu ka how about...? polite way to suggest or recommend an action if a condition is met. miscellaneous n4 polite-suggestions conditional opinions verbs"
+    },
+    {
+      "id": "289-n4-point-89",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "～たら どうですか",
+        "romaji": "~tara doudesuka",
+        "en": "How about if you ~? / Why don't you ~?"
+      },
+      "shortDescription": "Used after verb た-form to gently suggest or recommend an action.",
+      "tags": [
+        "n4",
+        "suggestion",
+        "advice",
+        "conditional",
+        "verbs",
+        "polite"
+      ],
+      "searchText": "～たら どうですか ~tara doudesuka how about if you ~? / why don't you ~? used after verb た-form to gently suggest or recommend an action. verbs n4 suggestion advice conditional verbs polite"
+    },
+    {
+      "id": "290-n4-point-90",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "～たり～たり",
+        "romaji": "~tari ~tari",
+        "en": "Listing Actions or States"
+      },
+      "shortDescription": "Used to list multiple example actions or states, not in a fixed order.",
+      "tags": [
+        "n4",
+        "listings",
+        "verbs",
+        "adjectives"
+      ],
+      "searchText": "～たり～たり ~tari ~tari listing actions or states used to list multiple example actions or states, not in a fixed order. basic-sentences n4 listings verbs adjectives"
+    },
+    {
+      "id": "291-n4-point-91",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "～だろう",
+        "romaji": "~darou",
+        "en": "~darou (probably, I think)"
+      },
+      "shortDescription": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "tags": [
+        "n4",
+        "modality",
+        "probability",
+        "casual",
+        "guessing",
+        "sentence-ending"
+      ],
+      "searchText": "～だろう ~darou ~darou (probably, i think) expresses probability or conjecture; used to say \"probably\" or \"i think.\" basic-sentences n4 modality probability casual guessing sentence-ending"
+    },
+    {
+      "id": "292-n4-point-92",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～っていう",
+        "romaji": "~tte iu",
+        "en": "That is to say"
+      },
+      "shortDescription": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "tags": [
+        "n4",
+        "casual",
+        "speaking",
+        "quotations"
+      ],
+      "searchText": "～っていう ~tte iu that is to say used to quote, define, or specify nouns; means \"called\" or \"that is to say.\" miscellaneous n4 casual speaking quotations"
+    },
+    {
+      "id": "293-n4-point-93",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "particles",
+      "title": {
+        "ja": "～で",
+        "romaji": "~de",
+        "en": "by/with/at (means, method, place marker)"
+      },
+      "shortDescription": "Indicates means, method, tool, language, or place of an action.",
+      "tags": [
+        "n4",
+        "particle",
+        "means",
+        "place",
+        "tool",
+        "method"
+      ],
+      "searchText": "～で ~de by/with/at (means, method, place marker) indicates means, method, tool, language, or place of an action. particles n4 particle means place tool method"
+    },
+    {
+      "id": "294-n4-point-94",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "~でしょう",
+        "romaji": "~deshou",
+        "en": "probably"
+      },
+      "shortDescription": "Expresses probability or conjecture; used to say something is likely true.",
+      "tags": [
+        "n4",
+        "conjecture",
+        "probability",
+        "doubt-expressions"
+      ],
+      "searchText": "~でしょう ~deshou probably expresses probability or conjecture; used to say something is likely true. miscellaneous n4 conjecture probability doubt-expressions"
+    },
+    {
+      "id": "295-n4-point-95",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～てはいけない",
+        "romaji": "~te wa ikenai",
+        "en": "Must not do something"
+      },
+      "shortDescription": "Expresses prohibition; indicates that an action is not allowed.",
+      "tags": [
+        "n4",
+        "prohibition",
+        "verb-te-form",
+        "miscellaneous"
+      ],
+      "searchText": "～てはいけない ~te wa ikenai must not do something expresses prohibition; indicates that an action is not allowed. miscellaneous n4 prohibition verb-te-form miscellaneous"
+    },
+    {
+      "id": "296-n4-point-96",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "～てもいい",
+        "romaji": "temo ii",
+        "en": "It's okay to / May / Can (permission)"
+      },
+      "shortDescription": "Expresses permission to do something; \"may\" or \"can\" in English.",
+      "tags": [
+        "n4",
+        "permission",
+        "verbs",
+        "te-form",
+        "requests",
+        "politeness"
+      ],
+      "searchText": "～てもいい temo ii it's okay to / may / can (permission) expresses permission to do something; \"may\" or \"can\" in english. verbs n4 permission verbs te-form requests politeness"
+    },
+    {
+      "id": "297-n4-point-97",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "～ても/でも",
+        "romaji": "~te mo/demo",
+        "en": "Even if"
+      },
+      "shortDescription": "Expresses contrast: something happens or is true even if a condition occurs.",
+      "tags": [
+        "n4",
+        "basic-sentences",
+        "contradiction",
+        "even-if"
+      ],
+      "searchText": "～ても/でも ~te mo/demo even if expresses contrast: something happens or is true even if a condition occurs. basic-sentences n4 basic-sentences contradiction even-if"
+    },
+    {
+      "id": "298-n4-point-98",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～といい",
+        "romaji": "~to ii",
+        "en": "~to ii (I hope / It would be nice if)"
+      },
+      "shortDescription": "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\"",
+      "tags": [
+        "n4",
+        "wish",
+        "hope",
+        "conditional",
+        "miscellaneous",
+        "expressions"
+      ],
+      "searchText": "～といい ~to ii ~to ii (i hope / it would be nice if) expresses hope or wish for a situation; \"i hope...\" or \"it'd be nice if...\" miscellaneous n4 wish hope conditional miscellaneous expressions"
+    },
+    {
+      "id": "299-n4-point-99",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～という (〜to iu) Noun",
+        "romaji": "~to iu Noun",
+        "en": "Called/Named"
+      },
+      "shortDescription": "Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "tags": [
+        "n4",
+        "defining",
+        "explaining",
+        "miscellaneous"
+      ],
+      "searchText": "～という (〜to iu) noun ~to iu noun called/named used to specify or clarify a noun as \"called\" or \"named\" something. miscellaneous n4 defining explaining miscellaneous"
+    },
+    {
+      "id": "300-n4-point-100",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "questions",
+      "title": {
+        "ja": "どういう Noun",
+        "romaji": "dou iu Noun",
+        "en": "What kind of Noun"
+      },
+      "shortDescription": "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification.",
+      "tags": [
+        "n4",
+        "question",
+        "clarification",
+        "noun",
+        "interrogative",
+        "usage"
+      ],
+      "searchText": "どういう noun dou iu noun what kind of noun used to ask \"what kind of\" or \"what sort of\" before a noun for clarification. questions n4 question clarification noun interrogative usage"
+    },
+    {
+      "id": "301-n4-point-101",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～と思う",
+        "romaji": "~to omou",
+        "en": "I think/believe"
+      },
+      "shortDescription": "Used to state your opinion or what you think about something.",
+      "tags": [
+        "n4",
+        "opinion",
+        "thinking",
+        "expression"
+      ],
+      "searchText": "～と思う ~to omou i think/believe used to state your opinion or what you think about something. miscellaneous n4 opinion thinking expression"
+    },
+    {
+      "id": "302-n4-point-102",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～という",
+        "romaji": "~to iu",
+        "en": "To Quote or Define"
+      },
+      "shortDescription": "Used to quote, report, or define information or names in sentences.",
+      "tags": [
+        "n4",
+        "quoting",
+        "reporting",
+        "defining",
+        "casual-form"
+      ],
+      "searchText": "～という ~to iu to quote or define used to quote, report, or define information or names in sentences. miscellaneous n4 quoting reporting defining casual-form"
+    },
+    {
+      "id": "303-n4-point-103",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "～ないといけない",
+        "romaji": "~nai to ikenai",
+        "en": "have to / must (nai to ikenai)"
+      },
+      "shortDescription": "Expresses obligation; used to say you must or have to do something.",
+      "tags": [
+        "n4",
+        "obligation",
+        "necessity",
+        "verbs",
+        "must",
+        "grammar"
+      ],
+      "searchText": "～ないといけない ~nai to ikenai have to / must (nai to ikenai) expresses obligation; used to say you must or have to do something. verbs n4 obligation necessity verbs must grammar"
+    },
+    {
+      "id": "304-n4-point-104",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～なきゃいけない",
+        "romaji": "~nakya ikenai",
+        "en": "Must/Have to"
+      },
+      "shortDescription": "Used to express that something must or has to be done; obligation.",
+      "tags": [
+        "n4",
+        "casual",
+        "obligation",
+        "negative-form",
+        "expression"
+      ],
+      "searchText": "～なきゃいけない ~nakya ikenai must/have to used to express that something must or has to be done; obligation. miscellaneous n4 casual obligation negative-form expression"
+    },
+    {
+      "id": "305-n4-point-105",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～なくちゃいけない",
+        "romaji": "~naku cha ikenai",
+        "en": "Have to/Must"
+      },
+      "shortDescription": "Expresses obligation or necessity; means \"have to\" or \"must\" do something.",
+      "tags": [
+        "n4",
+        "obligation",
+        "grammar point",
+        "expression of necessity"
+      ],
+      "searchText": "～なくちゃいけない ~naku cha ikenai have to/must expresses obligation or necessity; means \"have to\" or \"must\" do something. miscellaneous n4 obligation grammar point expression of necessity"
+    },
+    {
+      "id": "306-n4-point-106",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～なくてはいけない",
+        "romaji": "~nakute wa ikenai",
+        "en": "Must/Have to"
+      },
+      "shortDescription": "Used to show something is necessary or must be done.",
+      "tags": [
+        "n4",
+        "obligation",
+        "necessity",
+        "negative-form"
+      ],
+      "searchText": "～なくてはいけない ~nakute wa ikenai must/have to used to show something is necessary or must be done. miscellaneous n4 obligation necessity negative-form"
+    },
+    {
+      "id": "307-n4-point-107",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "～なくてもいい",
+        "romaji": "~nakutemo ii",
+        "en": "don't have to / it's okay if not"
+      },
+      "shortDescription": "Expresses that doing something is not necessary; it's okay if you don't.",
+      "tags": [
+        "n4",
+        "negative",
+        "verbs",
+        "necessity",
+        "permission",
+        "politeness"
+      ],
+      "searchText": "～なくてもいい ~nakutemo ii don't have to / it's okay if not expresses that doing something is not necessary; it's okay if you don't. verbs n4 negative verbs necessity permission politeness"
+    },
+    {
+      "id": "308-n4-point-108",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "～なければ ならない",
+        "romaji": "~nakereba naranai",
+        "en": "Must / Have to"
+      },
+      "shortDescription": "Expresses obligation; used to say someone must or has to do something.",
+      "tags": [
+        "n4",
+        "obligation",
+        "verbs",
+        "negatives"
+      ],
+      "searchText": "～なければ ならない ~nakereba naranai must / have to expresses obligation; used to say someone must or has to do something. basic-sentences n4 obligation verbs negatives"
+    },
+    {
+      "id": "309-n4-point-109",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "particles",
+      "title": {
+        "ja": "～に",
+        "romaji": "~ni",
+        "en": "Particle ～に (ni)"
+      },
+      "shortDescription": "Indicates direction, purpose, time, or location depending on context.",
+      "tags": [
+        "n4",
+        "particle",
+        "direction",
+        "time",
+        "purpose",
+        "location"
+      ],
+      "searchText": "～に ~ni particle ～に (ni) indicates direction, purpose, time, or location depending on context. particles n4 particle direction time purpose location"
+    },
+    {
+      "id": "310-n4-point-110",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "～ので",
+        "romaji": "~node",
+        "en": "Because"
+      },
+      "shortDescription": "Expresses reason or cause; more polite than から; means \"because\" or \"since\".",
+      "tags": [
+        "n4",
+        "reasons",
+        "causes",
+        "polite-expressions"
+      ],
+      "searchText": "～ので ~node because expresses reason or cause; more polite than から; means \"because\" or \"since\". basic-sentences n4 reasons causes polite-expressions"
+    },
+    {
+      "id": "311-n4-point-111",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "～のです",
+        "romaji": "~no desu",
+        "en": "~no desu (explaining/clarifying reason)"
+      },
+      "shortDescription": "Used to explain, justify, or clarify the reason for a situation.",
+      "tags": [
+        "n4",
+        "explanation",
+        "clarification",
+        "background",
+        "sentence-ending",
+        "speaking"
+      ],
+      "searchText": "～のです ~no desu ~no desu (explaining/clarifying reason) used to explain, justify, or clarify the reason for a situation. basic-sentences n4 explanation clarification background sentence-ending speaking"
+    },
+    {
+      "id": "312-n4-point-112",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～のに",
+        "romaji": "~no ni",
+        "en": "Even though, despite"
+      },
+      "shortDescription": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "tags": [
+        "n4",
+        "contrast",
+        "purpose",
+        "conditional",
+        "miscellaneous"
+      ],
+      "searchText": "～のに ~no ni even though, despite expresses contrast between expectation and reality; \"even though,\" \"despite.\" miscellaneous n4 contrast purpose conditional miscellaneous"
+    },
+    {
+      "id": "313-n4-point-113",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "verbs",
+      "title": {
+        "ja": "～ばいい",
+        "romaji": "~ba ii",
+        "en": "~ba ii (should / it would be good if)"
+      },
+      "shortDescription": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "tags": [
+        "n4",
+        "conditional",
+        "suggestion",
+        "advice",
+        "verbs",
+        "grammar"
+      ],
+      "searchText": "～ばいい ~ba ii ~ba ii (should / it would be good if) expresses advice or suggestion; means \"should\" or \"it would be good if.\" verbs n4 conditional suggestion advice verbs grammar"
+    },
+    {
+      "id": "314-n4-point-114",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "time-expressions",
+      "title": {
+        "ja": "~まで",
+        "romaji": "~made",
+        "en": "until/up to"
+      },
+      "shortDescription": "Expresses the limit or endpoint of time, place, or action.",
+      "tags": [
+        "n4",
+        "time-expressions",
+        "until",
+        "up-to"
+      ],
+      "searchText": "~まで ~made until/up to expresses the limit or endpoint of time, place, or action. time-expressions n4 time-expressions until up-to"
+    },
+    {
+      "id": "315-n4-point-115",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "time-expressions",
+      "title": {
+        "ja": "～までに",
+        "romaji": "~made ni",
+        "en": "by (a certain time)"
+      },
+      "shortDescription": "Indicates a deadline by which an action must be finished.",
+      "tags": [
+        "n4",
+        "time-expressions",
+        "deadline",
+        "completion-by-time"
+      ],
+      "searchText": "～までに ~made ni by (a certain time) indicates a deadline by which an action must be finished. time-expressions n4 time-expressions deadline completion-by-time"
+    },
+    {
+      "id": "316-n4-point-116",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "~まま",
+        "romaji": "~mama",
+        "en": "As it is"
+      },
+      "shortDescription": "Describes something left unchanged or kept in its current state.",
+      "tags": [
+        "n4",
+        "condition",
+        "state",
+        "unchanged",
+        "miscellaneous"
+      ],
+      "searchText": "~まま ~mama as it is describes something left unchanged or kept in its current state. miscellaneous n4 condition state unchanged miscellaneous"
+    },
+    {
+      "id": "317-n4-point-117",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～みたいだ",
+        "romaji": "〜mitai da",
+        "en": "seems like; appears; looks like"
+      },
+      "shortDescription": "Used to say something looks, seems, or appears a certain way based on impression.",
+      "tags": [
+        "n4",
+        "appearance",
+        "impression",
+        "similarity",
+        "sentence-ending",
+        "expressions"
+      ],
+      "searchText": "～みたいだ 〜mitai da seems like; appears; looks like used to say something looks, seems, or appears a certain way based on impression. miscellaneous n4 appearance impression similarity sentence-ending expressions"
+    },
+    {
+      "id": "318-n4-point-118",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～も (〜mo)",
+        "romaji": "~mo",
+        "en": "also, too"
+      },
+      "shortDescription": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "tags": [
+        "n4",
+        "miscellaneous",
+        "also-too-as-well",
+        "conjunctions"
+      ],
+      "searchText": "～も (〜mo) ~mo also, too used to indicate \"also,\" \"too,\" or \"as well\" in a sentence. miscellaneous n4 miscellaneous also-too-as-well conjunctions"
+    },
+    {
+      "id": "319-n4-point-119",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～ようだ",
+        "romaji": "~you da",
+        "en": "It seems/appears (～you da)"
+      },
+      "shortDescription": "Used to express appearance, similarity, or inference; means “it seems/appears.”",
+      "tags": [
+        "n4",
+        "appearance",
+        "inference",
+        "similarity",
+        "seems",
+        "grammar"
+      ],
+      "searchText": "～ようだ ~you da it seems/appears (～you da) used to express appearance, similarity, or inference; means “it seems/appears.” miscellaneous n4 appearance inference similarity seems grammar"
+    },
+    {
+      "id": "320-n4-point-120",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "～んです",
+        "romaji": "~n desu",
+        "en": "Providing an Explanation"
+      },
+      "shortDescription": "Used to explain reasons or provide background for a situation.",
+      "tags": [
+        "n4",
+        "explanation",
+        "reasons",
+        "casual-expressions",
+        "polite-form"
+      ],
+      "searchText": "～んです ~n desu providing an explanation used to explain reasons or provide background for a situation. miscellaneous n4 explanation reasons casual-expressions polite-form"
+    },
+    {
+      "id": "321-n4-point-121",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "文A。そのうえ 文B。",
+        "romaji": "Mon A. Sono ue Mon B.",
+        "en": "Sentence A; furthermore, Sentence B"
+      },
+      "shortDescription": "Adds more information to Sentence A; Sentence B builds on it.",
+      "tags": [
+        "n4",
+        "conjunctions",
+        "additional-information"
+      ],
+      "searchText": "文a。そのうえ 文b。 mon a. sono ue mon b. sentence a; furthermore, sentence b adds more information to sentence a; sentence b builds on it. basic-sentences n4 conjunctions additional-information"
+    },
+    {
+      "id": "322-n4-point-122",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "文A。それで 文B",
+        "romaji": "Bun A. Sorede Bun B",
+        "en": "Sentence A. Sorede Sentence B"
+      },
+      "shortDescription": "Connects sentences; B is the result or consequence of A.",
+      "tags": [
+        "n4",
+        "connector",
+        "result",
+        "consequence",
+        "sentence-linking"
+      ],
+      "searchText": "文a。それで 文b bun a. sorede bun b sentence a. sorede sentence b connects sentences; b is the result or consequence of a. basic-sentences n4 connector result consequence sentence-linking"
+    },
+    {
+      "id": "323-n4-point-123",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "文A。それに 文B",
+        "romaji": "Bun A. Soreni Bun B",
+        "en": "Sentence A. In addition, Sentence B"
+      },
+      "shortDescription": "Adds extra information to the previous sentence using \"それに\" (in addition).",
+      "tags": [
+        "n4",
+        "conjunctions",
+        "addition",
+        "sentence-connector",
+        "writing",
+        "speaking"
+      ],
+      "searchText": "文a。それに 文b bun a. soreni bun b sentence a. in addition, sentence b adds extra information to the previous sentence using \"それに\" (in addition). basic-sentences n4 conjunctions addition sentence-connector writing speaking"
+    },
+    {
+      "id": "324-n4-point-124",
+      "level": "n4",
+      "jlptLevel": "N4",
+      "category": "basic-sentences",
+      "title": {
+        "ja": "文A。だから 文B",
+        "romaji": "Bun A. Dakara Bun B",
+        "en": "Sentence A. Therefore, Sentence B"
+      },
+      "shortDescription": "Shows that Sentence B is the result or consequence of Sentence A.",
+      "tags": [
+        "n4",
+        "conjunction",
+        "cause-effect",
+        "sentence-connector",
+        "reason",
+        "result"
+      ],
+      "searchText": "文a。だから 文b bun a. dakara bun b sentence a. therefore, sentence b shows that sentence b is the result or consequence of sentence a. basic-sentences n4 conjunction cause-effect sentence-connector reason result"
+    }
+  ]
+}

@@ -1,7 +1,12 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import GrammarPageClient from '@/components/grammar/GrammarPageClient'
-import { getGrammarCategoryLabels, getGrammarChapters, getGrammarIndex } from '@/lib/grammar/grammarService'
+import {
+  getGrammarCategoryLabels,
+  getGrammarChapters,
+  getGrammarIndex,
+  getGrammarSearchIndex,
+} from '@/lib/grammar/grammarService'
 
 const baseUrl = 'https://moshimoshi.app'
 const HUB_LEVELS = ['n5', 'n4'] as const
@@ -123,11 +128,12 @@ export async function buildGrammarHubMetadata(
 }
 
 export async function renderGrammarHubPage(locale: string, level: GrammarHubLevel) {
-  const [indexData, levelSummaries, chapters, categoryLabels] = await Promise.all([
+  const [indexData, levelSummaries, chapters, categoryLabels, searchIndex] = await Promise.all([
     getGrammarIndex(level),
     getLevelSummaries(),
     getGrammarChapters(level).catch(() => null),
     getGrammarCategoryLabels().catch(() => null),
+    getGrammarSearchIndex().catch(() => null),
   ])
   const levelLabel = indexData.jlptLevel
   const totalPoints = indexData.totalPoints
@@ -193,6 +199,7 @@ export async function renderGrammarHubPage(locale: string, level: GrammarHubLeve
           levels={levelSummaries}
           chapters={chapters}
           categoryLabels={categoryLabels}
+          searchIndex={searchIndex}
         />
       </Suspense>
     </>

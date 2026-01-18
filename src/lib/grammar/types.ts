@@ -151,3 +151,25 @@ export interface GrammarCategoryLabelsFile {
   lastUpdated: string
   labels: Record<string, Record<string, string>>
 }
+
+export interface GrammarSearchEntry {
+  id: string
+  level: string
+  jlptLevel: string
+  category: string
+  title: {
+    ja: string
+    romaji: string
+    en: string
+  }
+  shortDescription: string
+  tags: string[]
+  searchText: string
+}
+
+export interface GrammarSearchIndexFile {
+  version: string
+  lastUpdated: string
+  totalPoints: number
+  entries: GrammarSearchEntry[]
+}
