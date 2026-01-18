@@ -8,9 +8,11 @@
  * - Minimal, auditable, and safe
  */
 
-// Debug mode - set to true to enable verbose logging
-// In production, this should be false to reduce console noise
-const DEBUG = true;
+// Debug mode - enable verbose logging only on local dev hosts
+const DEBUG =
+  self.location.hostname === 'localhost' ||
+  self.location.hostname === '127.0.0.1' ||
+  self.location.hostname.endsWith('.local');
 
 // Logging wrappers - only log when DEBUG is enabled
 const log = DEBUG ? console.log.bind(console) : () => {};
@@ -943,12 +945,12 @@ async function cleanupAudioCache(cache) {
 
     entries.sort((a, b) => a.timestamp - b.timestamp);
     const entriesToRemove = entries.length - AUDIO_CACHE_CONFIG.maxEntries;
-  log(`[SW] Audio cache cleanup: removing ${entriesToRemove} old entries`);
+    log(`[SW] Audio cache cleanup: removing ${entriesToRemove} old entries`);
 
-  for (let i = 0; i < entriesToRemove; i++) {
-    await cache.delete(entries[i].request);
+    for (let i = 0; i < entriesToRemove; i++) {
+      await cache.delete(entries[i].request);
+    }
   }
-}
 
 async function cleanupImageCache(cache) {
   const keys = await cache.keys();
@@ -960,7 +962,6 @@ async function cleanupImageCache(cache) {
   for (let i = 0; i < entriesToRemove; i++) {
     await cache.delete(keys[i]);
   }
-}
 }
 
 function getCacheTimestamp(response) {
