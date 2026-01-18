@@ -553,9 +553,19 @@ export const useGamificationStore = create<GamificationState>()(
           currentLevel: data.currentLevel,
           currentStreak: data.currentStreak,
           bestStreak: data.bestStreak,
+          isLoaded: true,
+          hasHydrated: true,
           isDirty: false,
           lastSyncedAt: DateSerializer.getCurrentDateTimeUTC(),
         })
+
+        // Persist server state locally when possible
+        const state = get()
+        if (state.userId) {
+          queueMutation(async () => {
+            await get().saveToIndexedDB()
+          })
+        }
       },
 
       /**
@@ -641,7 +651,7 @@ export const useGamificationStore = create<GamificationState>()(
       },
 
       /**
-       * Load state from Firebase (premium users only)
+       * Load state from Firebase (all authenticated users)
        * Downloads cloud data and caches it to IndexedDB
        * FIXED: Uses ISO strings
        */

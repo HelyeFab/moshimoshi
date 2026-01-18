@@ -24,7 +24,6 @@
 import { useEffect, useState } from 'react'
 import { useGamificationStore } from '@/state/userGamification'
 import { useAuth } from '@/hooks/useAuth'
-import { useSubscription } from '@/hooks/useSubscription'
 
 export interface GamificationData {
   totalXP: number
@@ -49,7 +48,6 @@ export interface GamificationData {
  */
 export function useGamification(): GamificationData {
   const { user } = useAuth()
-  const { isPremium, isLoading: subscriptionLoading } = useSubscription()
   const store = useGamificationStore()
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<Error | null>(null)
@@ -70,28 +68,18 @@ export function useGamification(): GamificationData {
       return
     }
 
-    // Wait for subscription status to load
-    if (subscriptionLoading) {
-      return
-    }
-
-    // Load data with priority: Firebase (premium) > IndexedDB > defaults
+    // Load data with priority: Firebase (all users) > IndexedDB > defaults
     const userId = user!.uid; // We know user is not null from the check above
     async function loadData() {
       try {
         // Set userId first for all operations
         store.setUserId(userId)
 
-        // Premium users: Try Firebase first, fallback to IndexedDB
-        if (isPremium) {
-          try {
-            await store.loadFromFirebase()
-          } catch (firebaseError) {
-            console.warn('[useGamification] Firebase load failed, trying IndexedDB fallback:', firebaseError)
-            await store.loadFromIndexedDB(userId)
-          }
-        } else {
-          // Free users: IndexedDB only
+        // All users: Try Firebase first, fallback to IndexedDB
+        try {
+          await store.loadFromFirebase()
+        } catch (firebaseError) {
+          console.warn('[useGamification] Firebase load failed, trying IndexedDB fallback:', firebaseError)
           await store.loadFromIndexedDB(userId)
         }
 
@@ -105,7 +93,7 @@ export function useGamification(): GamificationData {
 
     loadData()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isEnabled, user?.uid, isPremium, subscriptionLoading]) // store is stable, don't include in deps
+  }, [isEnabled, user?.uid]) // store is stable, don't include in deps
 
   // If feature flag is OFF, return safe defaults
   if (!isEnabled) {

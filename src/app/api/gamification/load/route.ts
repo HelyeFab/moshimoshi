@@ -6,7 +6,7 @@ import { getStreakData } from '@/lib/gamification/services/streakService'
 /**
  * GET /api/gamification/load
  *
- * Loads gamification data from Firebase Firestore (premium users only)
+ * Loads gamification data from Firebase Firestore (all authenticated users)
  * Returns user_stats document data in normalized format
  *
  * Used for cross-device sync: Downloads Firebase data to IndexedDB cache
