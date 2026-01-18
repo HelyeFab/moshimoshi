@@ -1,0 +1,99 @@
+{
+  "id": "026-te-form-basics",
+  "version": "1.0.0",
+  "title": {
+    "ja": "て形（基本）",
+    "romaji": "te-kei (basic)",
+    "en": "te-form basics"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "The て-form is a special verb form used to connect actions, make requests, and build many grammar patterns. It is one of the most important forms in beginner Japanese.\n\nKey points:\n• The て-form connects actions: 行って、食べます\n• It is used in requests: 〜てください\n• It appears in many patterns like 〜ている, 〜てもいい\n• The verb ending changes based on the verb group\n\nFor う-verbs, the ending changes (e.g., 書く → 書いて, 読む → 読んで, 話す → 話して). For る-verbs, drop る and add て (食べる → 食べて). The irregular verbs are する → して and 来る → 来て.\n\nAt N5, you do not need to memorize every rule at once. Start with common verbs and practice their て-forms. This form will show up repeatedly, so recognizing it is more important than producing it perfectly at first.\n\nA simple use is connecting two actions: “朝ご飯を食べて学校に行きます” means “I eat breakfast and go to school.” The て-form makes the first action feel like a step before the next.\n\nOnce you know the て-form, you can use many other patterns, so it is worth practicing carefully.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + Verb",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "First action in て-form",
+        "examples": ["食べて", "行って", "見て"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Second action",
+        "examples": ["行きます", "寝ます", "勉強します"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "朝ご飯を食べて学校に行きます。",
+      "romaji": "Asagohan o tabete gakkou ni ikimasu.",
+      "english": "I eat breakfast and go to school.",
+      "breakdown": {
+        "朝ご飯": "breakfast",
+        "を": "object marker",
+        "食べて": "eat (te-form)",
+        "学校": "school",
+        "に": "destination marker",
+        "行きます": "go (polite)"
+      },
+      "notes": "Connecting two actions"
+    },
+    {
+      "japanese": "本を読んで寝ます。",
+      "romaji": "Hon o yonde nemasu.",
+      "english": "I read a book and sleep.",
+      "breakdown": {
+        "本": "book",
+        "を": "object marker",
+        "読んで": "read (te-form)",
+        "寝ます": "sleep (polite)"
+      },
+      "notes": "Te-form with う-verb"
+    },
+    {
+      "japanese": "テレビを見て休みます。",
+      "romaji": "Terebi o mite yasumimasu.",
+      "english": "I watch TV and rest.",
+      "breakdown": {
+        "テレビ": "TV",
+        "を": "object marker",
+        "見て": "watch (te-form)",
+        "休みます": "rest (polite)"
+      },
+      "notes": "Te-form with る-verb"
+    },
+    {
+      "japanese": "友だちに会って話します。",
+      "romaji": "Tomodachi ni atte hanashimasu.",
+      "english": "I meet a friend and talk.",
+      "breakdown": {
+        "友だち": "friend",
+        "に": "target marker",
+        "会って": "meet (te-form)",
+        "話します": "talk (polite)"
+      },
+      "notes": "Te-form for meeting"
+    }
+  ],
+  "relatedPoints": [
+    "022-masu-form-present",
+    "028-te-kudasai"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using dictionary form to connect actions",
+      "correction": "Use the て-form for the first action",
+      "example": "❌ 食べる行きます → ✅ 食べて行きます"
+    },
+    {
+      "mistake": "Forgetting irregular forms",
+      "correction": "する→して, 来る→来て",
+      "example": "❌ するて → ✅ して"
+    }
+  ],
+  "tags": ["verbs", "te-form", "basics", "beginner"]
+}

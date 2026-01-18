@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession, requireAuth } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
-import { getUserPlan, evaluateFeatureAccess } from '@/lib/entitlements/server'
+import { getUserPlan } from '@/lib/entitlements/server'
 import { KanjiMasterySession } from '@/lib/review-engine/progress/KanjiMasteryProgressManager'
 
 export async function POST(request: NextRequest) {
@@ -27,27 +27,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const nowUtcISO = new Date().toISOString()
     const plan = await getUserPlan(session.uid)
-    const { decision } = await evaluateFeatureAccess({
-      featureId: 'kanji_mastery',
-      userId: session.uid,
-      plan,
-      nowUtcISO,
-      increment: true,
-    })
-
-    if (!decision.allow) {
-      return NextResponse.json(
-        {
-          success: false,
-          error: 'LIMIT_REACHED',
-          decision,
-        },
-        { status: 429 }
-      )
-    }
-
     const isPremium = plan === 'premium_monthly' || plan === 'premium_yearly'
 
     // Only save to Firebase for premium users
@@ -59,6 +39,16 @@ export async function POST(request: NextRequest) {
           .doc(session.uid)
           .collection('kanji_mastery_sessions')
           .doc(body.sessionId)
+
+        const existingSession = await sessionRef.get()
+        if (existingSession.exists) {
+          return NextResponse.json({
+            success: true,
+            sessionId: body.sessionId,
+            isPremium,
+            message: 'Session already saved'
+          })
+        }
 
         await sessionRef.set({
           ...body,
@@ -80,7 +70,6 @@ export async function POST(request: NextRequest) {
         const newStats = {
           totalSessions: (currentStats?.totalSessions || 0) + 1,
           totalKanjiLearned: (currentStats?.totalKanjiLearned || 0) + body.kanji.length,
-          totalXP: (currentStats?.totalXP || 0) + body.totalXP,
           lastSessionDate: new Date().toISOString(),
           averageAccuracy: currentStats?.averageAccuracy
             ? (currentStats.averageAccuracy + body.sessionStats.averageAccuracy) / 2
@@ -113,6 +102,8 @@ export async function POST(request: NextRequest) {
               : kanji.finalScore,
             lastScore: kanji.finalScore,
             rounds: kanji.rounds,
+            srsData: kanji.srsData || null,
+            level: body.level || null,
             updatedAt: new Date().toISOString()
           }, { merge: true })
         }
@@ -126,7 +117,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       sessionId: body.sessionId,
-      totalXP: body.totalXP,
       isPremium,
       message: isPremium
         ? 'Session saved to cloud storage'

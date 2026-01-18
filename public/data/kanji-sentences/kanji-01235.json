@@ -1,0 +1,33 @@
+{
+  "kanji": "茂",
+  "sentences": [
+    {
+      "id": "182763",
+      "japanese": "丘には低い木がたくさん茂っている。",
+      "english": "Lots of low trees grow on the hill."
+    },
+    {
+      "id": "185659",
+      "japanese": "我々は盗まれたバッグをこの茂みで見つけた。",
+      "english": "We found the stolen bag in this bush."
+    },
+    {
+      "id": "206529",
+      "japanese": "その木々は葉が生い茂っている。",
+      "english": "The trees have exuberant foliage."
+    },
+    {
+      "id": "206535",
+      "japanese": "その木は大枝小枝が茂りすぎている。",
+      "english": "The tree has too many twigs and branches."
+    },
+    {
+      "id": "212778",
+      "japanese": "そのネコは茂みの影に隠れていた。",
+      "english": "The cat lay hidden behind the bushes."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.898Z",
+  "count": 5,
+  "fileId": "kanji-01235"
+}

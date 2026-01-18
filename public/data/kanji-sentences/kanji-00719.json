@@ -1,0 +1,33 @@
+{
+  "kanji": "倍",
+  "sentences": [
+    {
+      "id": "178054",
+      "japanese": "君の本は私の本の２倍の大きさだ。",
+      "english": "Your book is double the size of mine."
+    },
+    {
+      "id": "178063",
+      "japanese": "君の部屋は私の部屋の２倍の広さがある。",
+      "english": "Your room is twice the size of mine."
+    },
+    {
+      "id": "178215",
+      "japanese": "君の収入は僕の収入の約２倍だ。",
+      "english": "Your income is about twice as large as mine."
+    },
+    {
+      "id": "178217",
+      "japanese": "君の収入は私の収入の２倍だ。",
+      "english": "Your income is about twice as large as mine is."
+    },
+    {
+      "id": "178216",
+      "japanese": "君の収入は私の３倍だ。",
+      "english": "Your income is three times larger than mine."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.649Z",
+  "count": 5,
+  "fileId": "kanji-00719"
+}

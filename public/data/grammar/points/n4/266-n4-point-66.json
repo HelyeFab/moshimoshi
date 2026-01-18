@@ -1,0 +1,93 @@
+{
+  "id": "266-n4-point-66",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ることにする",
+    "romaji": "Verb ru koto ni suru",
+    "en": "Decide to do something"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～ることにする grammar point is used to express that someone has made a decision to do something or has decided on a specific course of action.",
+    "ja": "～ことにするという文法は、誰かが何かをする決意を表すために使われます。"
+  },
+  "structure": {
+    "pattern": "Verb-る + ことにする",
+    "components": [
+      {
+        "part": "Verb-る",
+        "explanation": "The verb in its ru form.",
+        "examples": [
+          "行く (iku) → 行く (iku)",
+          "買う (kau) → 買う (kau)"
+        ]
+      },
+      {
+        "part": "ことにする",
+        "explanation": "A phrase meaning 'to decide to do something'.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "来週、ジムに行くことにしました。",
+      "romaji": "Raishuu, jimu ni iku koto ni shimashita.",
+      "english": "I decided to go to the gym next week.",
+      "breakdown": {
+        "token": "",
+        "gloss": ""
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この靴を買うことにしました。",
+      "romaji": "Kono kutsu wo kau koto ni shimashita.",
+      "english": "I decided to buy these shoes.",
+      "breakdown": {
+        "token": "",
+        "gloss": ""
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "毎日、散歩をすることにしました。",
+      "romaji": "Mainichi, sanpo wo suru koto ni shimashita.",
+      "english": "I decided to take a walk every day.",
+      "breakdown": {
+        "token": "",
+        "gloss": ""
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼に電話をかけることにします。",
+      "romaji": "Kare ni denwa wo kakeru koto ni shimasu.",
+      "english": "I’ve decided to call him.",
+      "breakdown": {
+        "token": "",
+        "gloss": ""
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb て ほしい",
+    "Verb てみる (〜te miru)",
+    "Verb てもらいたい (～te moraitai)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "来週、ジムに行くことにします。",
+      "correction": "来週、ジムに行くことにしました。",
+      "example": "The use of ます (polite) in the past tense is required here."
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "decisions",
+    "action-planning"
+  ]
+}

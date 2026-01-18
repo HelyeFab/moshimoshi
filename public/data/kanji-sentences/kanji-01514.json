@@ -1,0 +1,33 @@
+{
+  "kanji": "膨",
+  "sentences": [
+    {
+      "id": "183389",
+      "japanese": "期待に胸を膨らませていた。",
+      "english": "We were filled with joyful expectation."
+    },
+    {
+      "id": "203747",
+      "japanese": "たくさん食べたので腹が膨れた。",
+      "english": "I've had enough, so my stomach is full."
+    },
+    {
+      "id": "203879",
+      "japanese": "タイヤに空気を入れれば膨らむ。",
+      "english": "If you pump air into a tire, it expands."
+    },
+    {
+      "id": "229400",
+      "japanese": "イースト菌がパン生地を膨らます。",
+      "english": "Yeast makes dough rise."
+    },
+    {
+      "id": "229399",
+      "japanese": "イースト菌はパンを膨らませる際の作用剤だ。",
+      "english": "Yeast acts as an agent in making bread rise."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:28.002Z",
+  "count": 5,
+  "fileId": "kanji-01514"
+}

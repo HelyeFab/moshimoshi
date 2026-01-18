@@ -68,6 +68,17 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
     }
   }, [isOpen, kanji?.kanji])
 
+  useEffect(() => {
+    if (!isOpen || exampleSentences.length === 0) return
+    const texts = exampleSentences
+      .map(sentence => sentence.japanese)
+      .filter(Boolean)
+      .slice(0, 5)
+    if (texts.length > 0) {
+      preload(texts, { voice: '23', speed: 0.85 })
+    }
+  }, [isOpen, exampleSentences, preload])
+
   const fetchStrokeCount = async (character: string) => {
     setLoadingStrokes(true)
     try {

@@ -1,0 +1,33 @@
+{
+  "kanji": "肺",
+  "sentences": [
+    {
+      "id": "182804",
+      "japanese": "喫煙者は非喫煙者よりはるかに多く肺がんになりそうである。",
+      "english": "Smokers are far more likely to develop lung cancer than non-smokers are."
+    },
+    {
+      "id": "182831",
+      "japanese": "喫煙はあなたの肺をボロボロにする。",
+      "english": "Smoking does damage your lungs."
+    },
+    {
+      "id": "182841",
+      "japanese": "喫煙と肺ガンには関連があるのでしょうか？",
+      "english": "Is there a link between smoking and lung cancer?"
+    },
+    {
+      "id": "182843",
+      "japanese": "喫煙が彼の肺を冒した。",
+      "english": "Smoking has affected his lungs."
+    },
+    {
+      "id": "182844",
+      "japanese": "喫煙が肺がんの原因になっている場合が多い。",
+      "english": "Smoking is responsible for many cases of lung cancer."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:35.532Z",
+  "count": 5,
+  "fileId": "kanji-01750"
+}

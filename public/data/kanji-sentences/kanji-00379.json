@@ -1,0 +1,33 @@
+{
+  "kanji": "昔",
+  "sentences": [
+    {
+      "id": "1167732",
+      "japanese": "銀行の近くで、昔の友達にばったり会った。",
+      "english": "I ran across an old friend near the bank."
+    },
+    {
+      "id": "1167734",
+      "japanese": "銀行の近くで昔の友達に偶然会った。",
+      "english": "I ran across an old friend near the bank."
+    },
+    {
+      "id": "197961",
+      "japanese": "ばったり昔の友達に会った。",
+      "english": "I ran into an old friend."
+    },
+    {
+      "id": "182614",
+      "japanese": "宮崎は昔の姿とは違う。",
+      "english": "Miyazaki is not what it used to be."
+    },
+    {
+      "id": "182718",
+      "japanese": "久しぶりに昔の友人がひょっこり訪ねてきてくれた。",
+      "english": "An old friend of mine dropped in on me for the first time in ages."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.234Z",
+  "count": 5,
+  "fileId": "kanji-00379"
+}

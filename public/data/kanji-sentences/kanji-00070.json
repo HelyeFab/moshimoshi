@@ -1,0 +1,33 @@
+{
+  "kanji": "校",
+  "sentences": [
+    {
+      "id": "178070",
+      "japanese": "君の不正行為は我が校の不名誉だ。",
+      "english": "Your wrongdoing is a disgrace to our school."
+    },
+    {
+      "id": "994797",
+      "japanese": "君たちの不道徳な行いは我が校の名を汚すものだ。",
+      "english": "Your wrongdoing is a disgrace to our school."
+    },
+    {
+      "id": "186425",
+      "japanese": "我が校は彼の授業方式を採用した。",
+      "english": "Our school adopted his teaching methods."
+    },
+    {
+      "id": "186426",
+      "japanese": "我が校は新しい教授法を採用した。",
+      "english": "Our school has adopted a new teaching method."
+    },
+    {
+      "id": "192027",
+      "japanese": "わが校はあす南高校と対戦する。",
+      "english": "We will play Minami High School tomorrow."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.057Z",
+  "count": 5,
+  "fileId": "kanji-00070"
+}

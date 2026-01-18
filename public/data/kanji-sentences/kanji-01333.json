@@ -1,0 +1,33 @@
+{
+  "kanji": "銭",
+  "sentences": [
+    {
+      "id": "202515",
+      "japanese": "つり銭のいらないようにお願いします。",
+      "english": "Exact change, please."
+    },
+    {
+      "id": "230397",
+      "japanese": "あぶく銭を稼ごうとする開発業者たちよ。",
+      "english": "They're some developers who aim to make a fast buck!"
+    },
+    {
+      "id": "235723",
+      "japanese": "１銭たりともむだにしないのが彼の信条だ。",
+      "english": "He makes a religion of never wasting a penny."
+    },
+    {
+      "id": "125554",
+      "japanese": "釣り銭は取っておいてください。",
+      "english": "Keep the change, please."
+    },
+    {
+      "id": "1753644",
+      "japanese": "彼はたくさんのあぶく銭を得た。",
+      "english": "He made a lot of easy money."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:22.510Z",
+  "count": 5,
+  "fileId": "kanji-01333"
+}

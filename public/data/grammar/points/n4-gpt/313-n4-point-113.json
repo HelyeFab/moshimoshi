@@ -1,0 +1,137 @@
+{
+  "id": "313-n4-point-113",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～ばいい",
+    "romaji": "~ba ii",
+    "en": "~ba ii (should / it would be good if)"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ～ばいい grammar point is used to give suggestions, recommendations, or advice. It often translates as 'should' or 'it would be good if' in English. The formation changes depending on whether it is attached to a verb, い-adjective, な-adjective, or noun.",
+    "ja": "「～ばいい」は、提案や助言を表す文法です。「～すればいい」のように使い、「～したほうがいい」や「～すると良い」という意味になります。動詞、い形容詞、な形容詞、名詞によって形が異なります。"
+  },
+  "structure": {
+    "pattern": "Verb-ば-form + いい / い-adjective + ければいい / な-adjective + であればいい / Noun + であればいい",
+    "components": [
+      {
+        "part": "Verb-ば-form",
+        "explanation": "Conditional form of the verb, used to express 'if (do), then...'.",
+        "examples": [
+          "食べれば",
+          "行けば"
+        ]
+      },
+      {
+        "part": "い-adjective + ければ",
+        "explanation": "Conditional form of い-adjective.",
+        "examples": [
+          "安ければ",
+          "高ければ"
+        ]
+      },
+      {
+        "part": "な-adjective + であれば",
+        "explanation": "Conditional form for な-adjective.",
+        "examples": [
+          "静かであれば",
+          "元気であれば"
+        ]
+      },
+      {
+        "part": "Noun + であれば",
+        "explanation": "Conditional form for nouns.",
+        "examples": [
+          "学生であれば",
+          "先生であれば"
+        ]
+      },
+      {
+        "part": "いい",
+        "explanation": "Means 'good' or 'okay', used to give advice or suggestions.",
+        "examples": [
+          "いい"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "もっと勉強すればいい。",
+      "romaji": "Motto benkyou sureba ii.",
+      "english": "You should study more.",
+      "breakdown": {
+        "もっと": "more",
+        "勉強": "study",
+        "すれば": "if (do)",
+        "いい": "good/should"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "お腹が空いたら、何か食べればいい。",
+      "romaji": "Onaka ga suita ra, nanika tabereba ii.",
+      "english": "If you're hungry, you should eat something.",
+      "breakdown": {
+        "お腹": "stomach",
+        "が": "subject marker",
+        "空いたら": "if (become) hungry",
+        "何か": "something",
+        "食べれば": "if (eat)",
+        "いい": "good/should"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "もっと速く走ればいい。",
+      "romaji": "Motto hayaku hashireba ii.",
+      "english": "You should run faster.",
+      "breakdown": {
+        "もっと": "more",
+        "速く": "quickly/faster",
+        "走れば": "if (run)",
+        "いい": "good/should"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "わからなければ、先生に聞けばいい。",
+      "romaji": "Wakaranakereba, sensei ni kikeba ii.",
+      "english": "If you don't understand, you should ask the teacher.",
+      "breakdown": {
+        "わからなければ": "if (don't understand)",
+        "先生": "teacher",
+        "に": "to",
+        "聞けば": "if (ask)",
+        "いい": "good/should"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～たら どうですか",
+    "～たらいい",
+    "動詞たほうがいい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using the plain form instead of the ば-form.",
+      "correction": "Use the ば-form for the verb or adjective.",
+      "example": "✗ もっと勉強するいい。→ もっと勉強すればいい。"
+    },
+    {
+      "mistake": "Omitting いい at the end.",
+      "correction": "Always include いい to complete the suggestion.",
+      "example": "✗ もっと勉強すれば。→ もっと勉強すればいい。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "conditional",
+    "suggestion",
+    "advice",
+    "verbs",
+    "grammar"
+  ]
+}

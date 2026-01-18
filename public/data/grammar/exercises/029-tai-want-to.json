@@ -1,0 +1,182 @@
+{
+  "grammarPointId": "029-tai-want-to",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "029-tai-want-to-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct form: 行く → 行き＿",
+      "questionRomaji": "Iku → iki __",
+      "options": [
+        { "id": "a", "text": "たい" },
+        { "id": "b", "text": "て" },
+        { "id": "c", "text": "ます" },
+        { "id": "d", "text": "ない" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行きたい means 'want to go.'",
+      "incorrectFeedback": "Not quite. Use the verb stem + たい.",
+      "explanation": "行く → 行きたい.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "029-tai-want-to-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'I want to eat sushi'?",
+      "options": [
+        { "id": "a", "text": "寿司を食べたいです。" },
+        { "id": "b", "text": "寿司を食べます。" },
+        { "id": "c", "text": "寿司を食べました。" },
+        { "id": "d", "text": "寿司を食べません。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 食べたいです means 'want to eat.'",
+      "incorrectFeedback": "Try again. たい expresses desire.",
+      "explanation": "Verb stem + たい = want to.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "029-tai-want-to-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I want to go to Japan.'",
+      "correctAnswer": "日本へ行きたいです",
+      "acceptedVariations": [
+        "日本へ行きたいです。",
+        "にほんへいきたいです",
+        "nihon e ikitai desu",
+        "nihon e ikitai desu."
+      ],
+      "correctFeedback": "Great! 日本へ行きたいです is correct.",
+      "incorrectFeedback": "The correct answer is: 日本へ行きたいです (nihon e ikitai desu).",
+      "explanation": "Use 行きたい for 'want to go'.",
+      "hints": ["行く → 行きたい", "日本 = Japan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "029-tai-want-to-ex-04",
+      "type": "multiple-choice",
+      "question": "Which is the correct たい form of 見る?",
+      "options": [
+        { "id": "a", "text": "見たい" },
+        { "id": "b", "text": "見るたい" },
+        { "id": "c", "text": "見てたい" },
+        { "id": "d", "text": "見ますたい" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 見る → 見たい.",
+      "incorrectFeedback": "Not quite. Use the verb stem + たい.",
+      "explanation": "Verb stem + たい.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "029-tai-want-to-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I want to watch a movie.'",
+      "correctAnswer": "映画を見たいです",
+      "acceptedVariations": [
+        "映画を見たいです。",
+        "えいがをみたいです",
+        "eiga o mitai desu",
+        "eiga o mitai desu."
+      ],
+      "correctFeedback": "Nice! 映画を見たいです is correct.",
+      "incorrectFeedback": "The correct answer is: 映画を見たいです (eiga o mitai desu).",
+      "explanation": "Use 見たい to express desire.",
+      "hints": ["見たい = want to watch", "映画 = movie"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "029-tai-want-to-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "水を飲みたいです。" },
+        { "id": "b", "text": "日本語を話したいです。" },
+        { "id": "c", "text": "行くたいです。" },
+        { "id": "d", "text": "本を読みたいです。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use the verb stem + たい.",
+      "incorrectFeedback": "Try again. The verb stem is required.",
+      "explanation": "行くたい is wrong; use 行きたい.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "029-tai-want-to-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I want to study Japanese.'",
+      "correctAnswer": "日本語を勉強したいです",
+      "acceptedVariations": [
+        "日本語を勉強したいです。",
+        "にほんごをべんきょうしたいです",
+        "nihongo o benkyou shitai desu",
+        "nihongo o benkyou shitai desu."
+      ],
+      "correctFeedback": "Great! 日本語を勉強したいです is correct.",
+      "incorrectFeedback": "The correct answer is: 日本語を勉強したいです (nihongo o benkyou shitai desu).",
+      "explanation": "Use したい for する verbs.",
+      "hints": ["勉強する → 勉強したい", "Use を"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "029-tai-want-to-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "寿司を食べたいです。",
+          "romaji": "Sushi o tabetai desu.",
+          "english": "I want to eat sushi."
+        },
+        {
+          "japanese": "日本へ行きたいです。",
+          "romaji": "Nihon e ikitai desu.",
+          "english": "I want to go to Japan."
+        },
+        {
+          "japanese": "映画を見たいです。",
+          "romaji": "Eiga o mitai desu.",
+          "english": "I want to watch a movie."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review the たい form.",
+      "explanation": "Each sentence uses verb stem + たい.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "029-tai-want-to-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence uses たい correctly?",
+      "options": [
+        { "id": "a", "text": "食べるたいです。" },
+        { "id": "b", "text": "食べたいです。" },
+        { "id": "c", "text": "食べてたいです。" },
+        { "id": "d", "text": "食べますたいです。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 食べたいです is correct.",
+      "incorrectFeedback": "Try again. Use the verb stem + たい.",
+      "explanation": "食べる → 食べたい.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "029-tai-want-to-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I want to talk with my friend.'",
+      "correctAnswer": "友だちと話したいです",
+      "acceptedVariations": [
+        "友だちと話したいです。",
+        "ともだちとはなしたいです",
+        "tomodachi to hanashitai desu",
+        "tomodachi to hanashitai desu."
+      ],
+      "correctFeedback": "Nice! 友だちと話したいです is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちと話したいです (tomodachi to hanashitai desu).",
+      "explanation": "Use たい with the verb stem.",
+      "hints": ["話す → 話したい", "と = with"],
+      "difficulty": "hard"
+    }
+  ]
+}

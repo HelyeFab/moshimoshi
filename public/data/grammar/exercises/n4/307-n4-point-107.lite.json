@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "307-n4-point-107",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "307-n4-point-107-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"don't have to / it's okay if not\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～なくてもいい",
+          "romaji": "~nakutemo ii"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～なくてもいい matches \"don't have to / it's okay if not\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～なくてもいい.",
+      "explanation": "Expresses that doing something is not necessary; it's okay if you don't.",
+      "difficulty": "easy"
+    }
+  ]
+}

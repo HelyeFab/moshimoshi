@@ -1,0 +1,33 @@
+{
+  "kanji": "励",
+  "sentences": [
+    {
+      "id": "180152",
+      "japanese": "教授は私の研究を励ましてくれた。",
+      "english": "The professor encouraged me in my studies."
+    },
+    {
+      "id": "182622",
+      "japanese": "彼は休養するどころか、かえっていつもより仕事に励んだ。",
+      "english": "Instead of taking a rest, he worked much harder than usual."
+    },
+    {
+      "id": "189862",
+      "japanese": "宇宙飛行士達は熱狂した人々の励ましと喝采に迎えられた。",
+      "english": "The astronauts were greeted with cheers and applause of an enthusiastic crowd."
+    },
+    {
+      "id": "194310",
+      "japanese": "もう一度やってみるようにと彼を励ましなさい。",
+      "english": "You must encourage him to try again."
+    },
+    {
+      "id": "194979",
+      "japanese": "みんなそれぞれ自分の仕事に励んでいた。",
+      "english": "Everybody was going about his business."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:31.815Z",
+  "count": 5,
+  "fileId": "kanji-01644"
+}

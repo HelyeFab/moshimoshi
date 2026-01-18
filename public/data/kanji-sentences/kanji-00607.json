@@ -1,0 +1,33 @@
+{
+  "kanji": "商",
+  "sentences": [
+    {
+      "id": "185884",
+      "japanese": "我々は絹織物を商っている。",
+      "english": "We deal in silk goods."
+    },
+    {
+      "id": "207660",
+      "japanese": "その店では魚と肉を商っている。",
+      "english": "At that store, they deal in fish and meat."
+    },
+    {
+      "id": "230548",
+      "japanese": "あの店では台所用品を商っている。",
+      "english": "At this shop, they deal in kitchen utensils."
+    },
+    {
+      "id": "222661",
+      "japanese": "この会社は様々な商品を商っています。",
+      "english": "The company deals in various goods."
+    },
+    {
+      "id": "230865",
+      "japanese": "あの商人は絹織物を商う。",
+      "english": "The merchant deals in silk goods."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.357Z",
+  "count": 5,
+  "fileId": "kanji-00607"
+}

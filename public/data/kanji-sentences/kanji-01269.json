@@ -1,0 +1,33 @@
+{
+  "kanji": "鏡",
+  "sentences": [
+    {
+      "id": "180062",
+      "japanese": "鏡を見たことがないのだろうか。",
+      "english": "Hasn't he looked at himself in a mirror?"
+    },
+    {
+      "id": "180063",
+      "japanese": "鏡を割らないでください。",
+      "english": "Don't break a mirror."
+    },
+    {
+      "id": "180064",
+      "japanese": "鏡は光を反射する。",
+      "english": "A mirror reflects light."
+    },
+    {
+      "id": "180065",
+      "japanese": "鏡の破片が床に散乱していた。",
+      "english": "Fragments of the mirror were scattered on the floor."
+    },
+    {
+      "id": "184134",
+      "japanese": "楽観主義者は鏡をのぞきこんでますます楽天的に、悲観論者はますます悲観的になる。",
+      "english": "The optimist looks into a mirror and becomes more optimistic, the pessimist more pessimistic."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.747Z",
+  "count": 5,
+  "fileId": "kanji-01269"
+}

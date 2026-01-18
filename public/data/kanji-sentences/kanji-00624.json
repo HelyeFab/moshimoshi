@@ -1,0 +1,33 @@
+{
+  "kanji": "角",
+  "sentences": [
+    {
+      "id": "184544",
+      "japanese": "角のテーブルがいいのですが。",
+      "english": "Could we have a table in the corner?"
+    },
+    {
+      "id": "180004",
+      "japanese": "曲り角のないのは長い道である。",
+      "english": "It's a long road with no curves."
+    },
+    {
+      "id": "180005",
+      "japanese": "曲がり角のない道はない。",
+      "english": "It's a long road with no curves."
+    },
+    {
+      "id": "182321",
+      "japanese": "牛は角により、人は言葉により捕まえられる。",
+      "english": "An ox is captured by the horns, a person is bound by his word."
+    },
+    {
+      "id": "184536",
+      "japanese": "角を曲がると、湖が見えてきた。",
+      "english": "As we went around the corner, the lake came in sight."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.571Z",
+  "count": 5,
+  "fileId": "kanji-00624"
+}

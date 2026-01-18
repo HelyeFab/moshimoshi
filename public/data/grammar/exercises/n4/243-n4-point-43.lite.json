@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "243-n4-point-43",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "243-n4-point-43-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb TE + sashiageru\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "動詞て形 + さしあげる",
+          "romaji": "Doushi te-kei + sashiageru"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! 動詞て形 + さしあげる matches \"Verb TE + sashiageru\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞て形 + さしあげる.",
+      "explanation": "Do something for someone of higher status in a humble, respectful way.",
+      "difficulty": "easy"
+    }
+  ]
+}

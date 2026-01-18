@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "047-na-adjectives-negative",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "047-na-adjectives-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the negative form of 静か:",
+      "options": [
+        { "id": "a", "text": "静かではありません" },
+        { "id": "b", "text": "静かくない" },
+        { "id": "c", "text": "静かでした" },
+        { "id": "d", "text": "静かいです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 静かではありません.",
+      "incorrectFeedback": "Not quite. Use ではありません for na-adjectives.",
+      "explanation": "Na-adjective negative uses ではありません.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "047-na-adjectives-negative-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "この店は便利ではありません。" },
+        { "id": "b", "text": "この店は便利くないです。" },
+        { "id": "c", "text": "この店は便利でした。" },
+        { "id": "d", "text": "この店は便利いです。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 便利ではありません is negative.",
+      "incorrectFeedback": "Try again. Use ではありません.",
+      "explanation": "Na-adjectives use ではありません for negative.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "047-na-adjectives-negative-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'That room is not clean.'",
+      "correctAnswer": "あの部屋はきれいではありません",
+      "acceptedVariations": [
+        "あの部屋はきれいではありません。",
+        "あのへやはきれいではありません",
+        "ano heya wa kirei dewa arimasen",
+        "ano heya wa kirei dewa arimasen."
+      ],
+      "correctFeedback": "Great! あの部屋はきれいではありません is correct.",
+      "incorrectFeedback": "The correct answer is: あの部屋はきれいではありません (ano heya wa kirei dewa arimasen).",
+      "explanation": "きれい is a na-adjective; use ではありません.",
+      "hints": ["部屋 = room", "Use ではありません"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "047-na-adjectives-negative-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the negative form of 簡単:",
+      "options": [
+        { "id": "a", "text": "簡単ではありません" },
+        { "id": "b", "text": "簡単くない" },
+        { "id": "c", "text": "簡単でした" },
+        { "id": "d", "text": "簡単いです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 簡単ではありません.",
+      "incorrectFeedback": "Not quite. Use ではありません.",
+      "explanation": "Na-adjective negative uses ではありません.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "047-na-adjectives-negative-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'The test is not easy.'",
+      "correctAnswer": "テストは簡単ではありません",
+      "acceptedVariations": [
+        "テストは簡単ではありません。",
+        "てすとはかんたんではありません",
+        "tesuto wa kantan dewa arimasen",
+        "tesuto wa kantan dewa arimasen."
+      ],
+      "correctFeedback": "Nice! テストは簡単ではありません is correct.",
+      "incorrectFeedback": "The correct answer is: テストは簡単ではありません (tesuto wa kantan dewa arimasen).",
+      "explanation": "簡単 is a na-adjective; use ではありません.",
+      "hints": ["簡単 = easy", "Use ではありません"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "047-na-adjectives-negative-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "その町は静かではありません。" },
+        { "id": "b", "text": "この店は便利ではありません。" },
+        { "id": "c", "text": "あの部屋はきれいくないです。" },
+        { "id": "d", "text": "テストは簡単ではありません。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use ではありません, not くない.",
+      "incorrectFeedback": "Try again. Na-adjectives use ではありません.",
+      "explanation": "きれい is a na-adjective; use ではありません.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "047-na-adjectives-negative-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This shop is not convenient.'",
+      "correctAnswer": "この店は便利ではありません",
+      "acceptedVariations": [
+        "この店は便利ではありません。",
+        "このみせはべんりではありません",
+        "kono mise wa benri dewa arimasen",
+        "kono mise wa benri dewa arimasen."
+      ],
+      "correctFeedback": "Great! この店は便利ではありません is correct.",
+      "incorrectFeedback": "The correct answer is: この店は便利ではありません (kono mise wa benri dewa arimasen).",
+      "explanation": "便利 is a na-adjective; use ではありません.",
+      "hints": ["店 = shop", "Use ではありません"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "047-na-adjectives-negative-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "その町は静かではありません。",
+          "romaji": "Sono machi wa shizuka dewa arimasen.",
+          "english": "That town is not quiet."
+        },
+        {
+          "japanese": "あの部屋はきれいではありません。",
+          "romaji": "Ano heya wa kirei dewa arimasen.",
+          "english": "That room is not clean."
+        },
+        {
+          "japanese": "テストは簡単ではありません。",
+          "romaji": "Tesuto wa kantan dewa arimasen.",
+          "english": "The test is not easy."
+        }
+      ],
+      "correctFeedback": "Perfect! All use ではありません.",
+      "incorrectFeedback": "Not quite. Review na-adjective negative form.",
+      "explanation": "Na-adjectives use ではありません for negative.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "047-na-adjectives-negative-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct negative form of きれい?",
+      "options": [
+        { "id": "a", "text": "きれいではありません" },
+        { "id": "b", "text": "きれいくない" },
+        { "id": "c", "text": "きれいでした" },
+        { "id": "d", "text": "きれいいです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! きれいではありません.",
+      "incorrectFeedback": "Try again. Use ではありません.",
+      "explanation": "Na-adjectives use ではありません for negative.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "047-na-adjectives-negative-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'The town is not quiet.'",
+      "correctAnswer": "町は静かではありません",
+      "acceptedVariations": [
+        "町は静かではありません。",
+        "まちはしずかではありません",
+        "machi wa shizuka dewa arimasen",
+        "machi wa shizuka dewa arimasen."
+      ],
+      "correctFeedback": "Nice! 町は静かではありません is correct.",
+      "incorrectFeedback": "The correct answer is: 町は静かではありません (machi wa shizuka dewa arimasen).",
+      "explanation": "静か is a na-adjective; use ではありません.",
+      "hints": ["町 = town", "Use ではありません"],
+      "difficulty": "hard"
+    }
+  ]
+}

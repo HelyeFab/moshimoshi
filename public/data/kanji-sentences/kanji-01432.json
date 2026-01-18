@@ -1,0 +1,33 @@
+{
+  "kanji": "削",
+  "sentences": [
+    {
+      "id": "178447",
+      "japanese": "君の鉛筆は削る必要がある。",
+      "english": "Your pencils need sharpening."
+    },
+    {
+      "id": "185693",
+      "japanese": "我々は大学時代にはしのぎを削ったものだ。",
+      "english": "We used to compete furiously in college."
+    },
+    {
+      "id": "198531",
+      "japanese": "ハーツ社とエイビィス社はカーレンタルの業界でしのぎを削っている。",
+      "english": "Hertz and Avis are head to head competitors in the car rental business."
+    },
+    {
+      "id": "201912",
+      "japanese": "ドアがきちんと閉まらない時はドアを少し削らなければならない。",
+      "english": "If the door doesn't fit, you might have to shave off a bit of the wood until it closes properly."
+    },
+    {
+      "id": "216172",
+      "japanese": "したがって生産費を削る必要がある。",
+      "english": "Therefore, it is necessary to reduce the cost."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:25.488Z",
+  "count": 5,
+  "fileId": "kanji-01432"
+}

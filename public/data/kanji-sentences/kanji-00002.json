@@ -1,0 +1,33 @@
+{
+  "kanji": "日",
+  "sentences": [
+    {
+      "id": "4705",
+      "japanese": "今日は６月１８日で、ムーリエルの誕生日です！",
+      "english": "Today is June 18th and it is Muiriel's birthday!"
+    },
+    {
+      "id": "8791760",
+      "japanese": "ほとんどの人が日々の生活について書いている。",
+      "english": "Most people write about their daily life."
+    },
+    {
+      "id": "192253",
+      "japanese": "ローマは１日で建設されたものではない。",
+      "english": "Rome wasn't built in a day."
+    },
+    {
+      "id": "192254",
+      "japanese": "ローマは１日でできたのではなかった。",
+      "english": "Rome wasn't built in a day."
+    },
+    {
+      "id": "5173",
+      "japanese": "あの日が私の人生で最高の日だった。",
+      "english": "That was the best day of my life."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.248Z",
+  "count": 5,
+  "fileId": "kanji-00002"
+}

@@ -1,0 +1,106 @@
+{
+  "id": "059-iru-animate",
+  "version": "1.0.0",
+  "title": {
+    "ja": "いる",
+    "romaji": "iru",
+    "en": "Existence (animate)"
+  },
+  "jlptLevel": "N5",
+  "category": "existence",
+  "explanation": {
+    "en": "いる is the verb used to say that people or animals exist. It is used for animate things. The polite form is います, which you will hear most often.\n\nKey points:\n• Use いる/います for people and animals\n• The pattern is Location に Person/Animal が います\n• が marks the subject (the thing that exists)\n• に marks the location\n\nFor example, “部屋に猫がいます” means “There is a cat in the room.” The cat is the thing that exists (marked by が), and the room is the location (marked by に).\n\nIf you are saying someone is at a place, you can also use the same pattern: “田中さんは学校にいます.” This means “Tanaka-san is at school.” Here は marks the topic, but the verb is still います.\n\nRemember: いる is for living things. For objects or places, use ある instead. This is one of the first big choices you make with existence verbs, so practice saying “cat is here” with いる and “book is here” with ある.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Location に Animate が いる/います",
+    "components": [
+      {
+        "part": "Location に",
+        "explanation": "Where something exists",
+        "examples": ["部屋に", "公園に", "学校に"]
+      },
+      {
+        "part": "Animate が",
+        "explanation": "Person or animal that exists",
+        "examples": ["猫が", "学生が", "先生が"]
+      },
+      {
+        "part": "いる/います",
+        "explanation": "Existence verb for animate things",
+        "examples": ["いる", "います"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "部屋に猫がいます。",
+      "romaji": "Heya ni neko ga imasu.",
+      "english": "There is a cat in the room.",
+      "breakdown": {
+        "部屋": "room",
+        "に": "location marker",
+        "猫": "cat",
+        "が": "subject marker",
+        "います": "exists (polite)"
+      },
+      "notes": "Basic existence sentence"
+    },
+    {
+      "japanese": "公園に子どもがいます。",
+      "romaji": "Kouen ni kodomo ga imasu.",
+      "english": "There are children in the park.",
+      "breakdown": {
+        "公園": "park",
+        "に": "location marker",
+        "子ども": "child",
+        "が": "subject marker",
+        "います": "exists (polite)"
+      },
+      "notes": "Animate plural idea"
+    },
+    {
+      "japanese": "田中さんは学校にいます。",
+      "romaji": "Tanaka-san wa gakkou ni imasu.",
+      "english": "Tanaka-san is at school.",
+      "breakdown": {
+        "田中さん": "Mr./Ms. Tanaka",
+        "は": "topic marker",
+        "学校": "school",
+        "に": "location marker",
+        "います": "is (polite)"
+      },
+      "notes": "Topic + location"
+    },
+    {
+      "japanese": "うちに犬がいます。",
+      "romaji": "Uchi ni inu ga imasu.",
+      "english": "There is a dog at my house.",
+      "breakdown": {
+        "うち": "home",
+        "に": "location marker",
+        "犬": "dog",
+        "が": "subject marker",
+        "います": "exists (polite)"
+      },
+      "notes": "Common home example"
+    }
+  ],
+  "relatedPoints": [
+    "060-aru-inanimate",
+    "007-particle-ga"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using いる for objects",
+      "correction": "Use ある for inanimate things",
+      "example": "❌ 机がいます → ✅ 机があります"
+    },
+    {
+      "mistake": "Using を for the subject",
+      "correction": "Use が to mark the thing that exists",
+      "example": "❌ 猫をいます → ✅ 猫がいます"
+    }
+  ],
+  "tags": ["existence", "iru", "animate", "beginner"]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "236-n4-point-36",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ている間に (te iru aida ni)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～ている間に grammar point is used to express that an action or event occurs during the time another action or event is happening. It is often translated to 'while' or 'during the time' in English. It is formed by combining the て-form of a verb with いる and adding 間に.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + いる + 間に",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "映画を見ている間に、彼は寝てしまった。",
+      "romaji": "Eiga o mite iru aida ni, kare wa nete shimatta.",
+      "english": "While watching the movie, he fell asleep.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "子供が遊んでいる間に、私は料理を作ります。",
+      "romaji": "Kodomo ga asonde iru aida ni, watashi wa ryouri o tsukurimasu.",
+      "english": "While the children are playing, I'll cook.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "会議が行われている間に、雨が降り始めた。",
+      "romaji": "Kaigi ga okonawarete iru aida ni, ame ga furihajimeta.",
+      "english": "While the meeting was being held, it started raining.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼が仕事をしている間に、私たちは買い物に行く。",
+      "romaji": "Kare ga shigoto o shite iru aida ni, watashitachi wa kaimono ni iku.",
+      "english": "While he is working, we'll go shopping.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

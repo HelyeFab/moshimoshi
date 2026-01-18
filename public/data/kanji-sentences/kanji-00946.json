@@ -1,0 +1,33 @@
+{
+  "kanji": "境",
+  "sentences": [
+    {
+      "id": "186275",
+      "japanese": "我々の国はいくつかの国々と境を接している。",
+      "english": "Our country borders on several countries."
+    },
+    {
+      "id": "201751",
+      "japanese": "ドイツはフランスと境を接している。",
+      "english": "Germany borders on France."
+    },
+    {
+      "id": "210613",
+      "japanese": "その国は２国と境を接している。",
+      "english": "The country borders on two other countries."
+    },
+    {
+      "id": "77777",
+      "japanese": "隣の家との境を示す柵がある。",
+      "english": "There is a fence marking the boundary between our yard and the neighbor's."
+    },
+    {
+      "id": "100007",
+      "japanese": "彼は忘我の境をさまよっている。",
+      "english": "He is wandering around in a trance."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.798Z",
+  "count": 5,
+  "fileId": "kanji-00946"
+}

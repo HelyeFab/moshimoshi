@@ -1,0 +1,55 @@
+{
+  "id": "277-n4-point-77",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～かもしれない (〜kamoshirenai)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～かもしれない grammar point is used to express uncertainty or the possibility of something occurring. It can be translated as 'maybe', 'might', or 'possibly' in English. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun. In everyday speech, speakers often omit だ before かもしれない for nouns and な-adjectives.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + かもしれない, い-Adjective + かもしれない, な-Adjective + だかもしれない, Noun + だかもしれない",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "明日雨が降るかもしれない。",
+      "romaji": "Ashita ame ga furu kamoshirenai.",
+      "english": "It might rain tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このケーキは美味しいかもしれない。",
+      "romaji": "Kono keeki wa oishii kamoshirenai.",
+      "english": "This cake might be delicious.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼が病気かもしれない。",
+      "romaji": "Kare ga byouki kamoshirenai.",
+      "english": "He might be sick.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は学生かもしれない。",
+      "romaji": "Kanojo wa gakusei kamoshirenai.",
+      "english": "She might be a student.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

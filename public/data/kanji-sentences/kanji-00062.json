@@ -1,0 +1,33 @@
+{
+  "kanji": "車",
+  "sentences": [
+    {
+      "id": "5090",
+      "japanese": "とても暑くて、車のボンネットで卵が焼けるよ。",
+      "english": "It's so hot that you could cook an egg on the hood of a car."
+    },
+    {
+      "id": "136182",
+      "japanese": "その車は壁にぶつかった。",
+      "english": "The car crashed into the wall."
+    },
+    {
+      "id": "177128",
+      "japanese": "君は新しい車を買う時期ですよ。",
+      "english": "It's time for you to buy a new car."
+    },
+    {
+      "id": "9276100",
+      "japanese": "車の買い替え時だよ。",
+      "english": "It's time for you to buy a new car."
+    },
+    {
+      "id": "177168",
+      "japanese": "君は車を直してもらうべきだ。",
+      "english": "You should get your car fixed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.969Z",
+  "count": 5,
+  "fileId": "kanji-00062"
+}

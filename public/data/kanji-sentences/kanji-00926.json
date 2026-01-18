@@ -1,0 +1,33 @@
+{
+  "kanji": "県",
+  "sentences": [
+    {
+      "id": "202943",
+      "japanese": "チューリップは、私たちの県の県花です。",
+      "english": "Tulips are our prefecture's official flower."
+    },
+    {
+      "id": "224349",
+      "japanese": "ここの地理的特徴は私達の県のそれと似ている。",
+      "english": "The geographical features here are similar to those of our prefecture."
+    },
+    {
+      "id": "235080",
+      "japanese": "６つの先端技術の会社がその県に支社を設立した。",
+      "english": "Six high-tech companies set up branch offices in that prefecture."
+    },
+    {
+      "id": "74900",
+      "japanese": "まだ解決していないのか？県と国のどちらが責任？",
+      "english": "Hasn't it been solved yet? Whose responsibility is it, the prefecture's or the country's?"
+    },
+    {
+      "id": "161141",
+      "japanese": "私はきっと彼と気が合うと思います。私たちは同じ県の出身だから。",
+      "english": "I am sure I'll get along with him because we are from the same prefecture."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.525Z",
+  "count": 5,
+  "fileId": "kanji-00926"
+}

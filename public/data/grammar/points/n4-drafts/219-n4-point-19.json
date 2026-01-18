@@ -1,0 +1,55 @@
+{
+  "id": "219-n4-point-19",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun + 中 (Noun + ちゅう)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The 中 (ちゅう) grammar point is used to express that something is in the middle of, during, or in the process of happening. It is attached to a noun to convey this meaning (e.g., 勉強中, 仕事中, 会議中). It is also sometimes read as じゅう depending on the word (e.g., 授業中).",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + 中 (ちゅう)",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼は仕事中です。",
+      "romaji": "Kare wa shigotochuu desu.",
+      "english": "He is in the middle of work.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "試験中、携帯電話を使ってはいけません。",
+      "romaji": "Shiken chuu, keitai denwa wo tsukatte wa ikemasen.",
+      "english": "During the exam, you must not use your mobile phone.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "映画を観ている最中に、彼は泣き始めました。",
+      "romaji": "Eiga o mite iru saichuu ni, kare wa naki hajimemashita.",
+      "english": "In the middle of watching the movie, he started to cry.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は今勉強中です。",
+      "romaji": "Kanojo wa ima benkyouchuu desu.",
+      "english": "She is currently studying.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

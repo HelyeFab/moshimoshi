@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "073-question-dou-how",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "073-question-dou-how-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: __行きますか。",
+      "options": [
+        { "id": "a", "text": "どう" },
+        { "id": "b", "text": "いつ" },
+        { "id": "c", "text": "どこ" },
+        { "id": "d", "text": "だれ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! どう means 'how.'",
+      "incorrectFeedback": "Not quite. どう is for manner.",
+      "explanation": "どう asks about how something is done.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "073-question-dou-how-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "この映画はどうですか。" },
+        { "id": "b", "text": "この映画はどうにですか。" },
+        { "id": "c", "text": "この映画はどうでですか。" },
+        { "id": "d", "text": "この映画はどうをですか。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! どうですか = how is it?",
+      "incorrectFeedback": "Try again. どう is used directly.",
+      "explanation": "どうですか asks for an opinion.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "073-question-dou-how-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'How will you go?'",
+      "correctAnswer": "どう行きますか",
+      "acceptedVariations": [
+        "どう行きますか。",
+        "どういきますか",
+        "dou ikimasu ka",
+        "dou ikimasu ka."
+      ],
+      "correctFeedback": "Great! どう行きますか is correct.",
+      "incorrectFeedback": "The correct answer is: どう行きますか (dou ikimasu ka).",
+      "explanation": "どう asks about method or manner.",
+      "hints": ["行きます = go", "Use どう"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "073-question-dou-how-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase for 'how to do':",
+      "options": [
+        { "id": "a", "text": "どうやって" },
+        { "id": "b", "text": "どうして" },
+        { "id": "c", "text": "どこで" },
+        { "id": "d", "text": "いつ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! どうやって means 'how (method).'",
+      "incorrectFeedback": "Not quite. どうやって asks about method.",
+      "explanation": "どうやって = how to do something.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "073-question-dou-how-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'How is this movie?'",
+      "correctAnswer": "この映画はどうですか",
+      "acceptedVariations": [
+        "この映画はどうですか。",
+        "このえいがはどうですか",
+        "kono eiga wa dou desu ka",
+        "kono eiga wa dou desu ka."
+      ],
+      "correctFeedback": "Nice! この映画はどうですか is correct.",
+      "incorrectFeedback": "The correct answer is: この映画はどうですか (kono eiga wa dou desu ka).",
+      "explanation": "どうですか asks for an opinion.",
+      "hints": ["映画 = movie", "どうですか = how is it"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "073-question-dou-how-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "どう行きますか。" },
+        { "id": "b", "text": "この映画はどうですか。" },
+        { "id": "c", "text": "どうに行きますか。" },
+        { "id": "d", "text": "どうやって来ましたか。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! どう does not take に.",
+      "incorrectFeedback": "Try again. Use どう directly.",
+      "explanation": "どう is used without particles.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "073-question-dou-how-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'How did you come?'",
+      "correctAnswer": "どうやって来ましたか",
+      "acceptedVariations": [
+        "どうやって来ましたか。",
+        "どうやってきましたか",
+        "dou yatte kimashita ka",
+        "dou yatte kimashita ka."
+      ],
+      "correctFeedback": "Great! どうやって来ましたか is correct.",
+      "incorrectFeedback": "The correct answer is: どうやって来ましたか (dou yatte kimashita ka).",
+      "explanation": "どうやって asks about method.",
+      "hints": ["来ました = came", "どうやって = how"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "073-question-dou-how-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "どう行きますか。",
+          "romaji": "Dou ikimasu ka.",
+          "english": "How will you go?"
+        },
+        {
+          "japanese": "この映画はどうですか。",
+          "romaji": "Kono eiga wa dou desu ka.",
+          "english": "How is this movie?"
+        },
+        {
+          "japanese": "どうやって来ましたか。",
+          "romaji": "Dou yatte kimashita ka.",
+          "english": "How did you come?"
+        }
+      ],
+      "correctFeedback": "Perfect! All use どう to ask 'how.'",
+      "incorrectFeedback": "Not quite. Review どう questions.",
+      "explanation": "どう asks about manner or opinion.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "073-question-dou-how-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'How do you do it?'",
+      "options": [
+        { "id": "a", "text": "どうやってしますか" },
+        { "id": "b", "text": "どうにしますか" },
+        { "id": "c", "text": "どこでしますか" },
+        { "id": "d", "text": "いつしますか" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! どうやって asks about method.",
+      "incorrectFeedback": "Try again. Use どうやって.",
+      "explanation": "どうやって = how to do.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "073-question-dou-how-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'How is Japanese?'",
+      "correctAnswer": "日本語はどうですか",
+      "acceptedVariations": [
+        "日本語はどうですか。",
+        "にほんごはどうですか",
+        "nihongo wa dou desu ka",
+        "nihongo wa dou desu ka."
+      ],
+      "correctFeedback": "Nice! 日本語はどうですか is correct.",
+      "incorrectFeedback": "The correct answer is: 日本語はどうですか (nihongo wa dou desu ka).",
+      "explanation": "どうですか asks for an evaluation.",
+      "hints": ["日本語 = Japanese", "どうですか = how is it"],
+      "difficulty": "hard"
+    }
+  ]
+}

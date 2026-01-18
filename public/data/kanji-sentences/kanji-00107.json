@@ -1,0 +1,33 @@
+{
+  "kanji": "答",
+  "sentences": [
+    {
+      "id": "4840",
+      "japanese": "答えが分かったんだ、でもあまりにすぐに分かったものだから正解であるはずがないんだ。",
+      "english": "I found a solution, but I found it so fast that it can't be the right solution."
+    },
+    {
+      "id": "4844",
+      "japanese": "何て答えたの？",
+      "english": "What did you answer?"
+    },
+    {
+      "id": "9732861",
+      "japanese": "どう答えたの？",
+      "english": "What did you answer?"
+    },
+    {
+      "id": "4903",
+      "japanese": "その答えを知るのにあなたは本当にその質問をする必要があるのかしら。",
+      "english": "Do you really need to ask the question to know the answer?"
+    },
+    {
+      "id": "177032",
+      "japanese": "君は答えがわかるって？",
+      "english": "You know the answer?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.676Z",
+  "count": 5,
+  "fileId": "kanji-00107"
+}

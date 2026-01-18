@@ -1,0 +1,33 @@
+{
+  "kanji": "籠",
+  "sentences": [
+    {
+      "id": "77084",
+      "japanese": "籠の鳥に水とえさをまいにちやるようにしてください。",
+      "english": "Please see that the birds in the cage get water and food every day."
+    },
+    {
+      "id": "77085",
+      "japanese": "籠の中のリンゴの数を数えなさい。",
+      "english": "Count the apples in the basket."
+    },
+    {
+      "id": "77086",
+      "japanese": "籠の中で鳥が鳴いていますね。",
+      "english": "There's a bird singing in the cage, isn't there?"
+    },
+    {
+      "id": "88166",
+      "japanese": "彼女は草を編んで籠を作った。",
+      "english": "She wove the grass into a basket."
+    },
+    {
+      "id": "91290",
+      "japanese": "彼女はりんごのいっぱい入った籠を持っていた。",
+      "english": "She had a basket full of apples."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:17.314Z",
+  "count": 5,
+  "fileId": "kanji-01133"
+}

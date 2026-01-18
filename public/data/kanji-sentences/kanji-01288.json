@@ -1,0 +1,33 @@
+{
+  "kanji": "虎",
+  "sentences": [
+    {
+      "id": "188698",
+      "japanese": "遠くで虎がほえているのを耳にした。",
+      "english": "We heard tigers roaring in the distance."
+    },
+    {
+      "id": "192688",
+      "japanese": "ライオンと虎は猫科の２つの違った種である。",
+      "english": "The lion and the tiger are two different species of cat."
+    },
+    {
+      "id": "174464",
+      "japanese": "虎にぴったりねらいをつけなさい。",
+      "english": "Take steady aim at the tiger."
+    },
+    {
+      "id": "205220",
+      "japanese": "それは虎を野に放つようなものだ。",
+      "english": "It is like letting a tiger run loose."
+    },
+    {
+      "id": "218072",
+      "japanese": "これは野球の虎の巻だ。",
+      "english": "This is the bible of baseball."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:21.266Z",
+  "count": 5,
+  "fileId": "kanji-01288"
+}

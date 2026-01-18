@@ -1,0 +1,55 @@
+{
+  "id": "243-n4-point-43",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て + さしあげる (Verb TE sashiageru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The grammar point 'Verb て + さしあげる' is used to express the action of giving or doing something for someone in a polite manner. It is mainly used when the speaker is offering or doing something for someone of higher social status or showing respect towards the person. To form this expression, you need to conjugate the verb into its て-form and attach さしあげる.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-てform + さしあげる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "お茶を入れてさしあげます。",
+      "romaji": "Ocha wo irete sashiagemasu.",
+      "english": "I will prepare and serve tea (for you).",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "メッセージを送ってさしあげました。",
+      "romaji": "Messeiji wo okutte sashiagemashita.",
+      "english": "I have sent the message (for you).",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "荷物を持ってさしあげましょうか。",
+      "romaji": "Nimotsu wo motte sashiagemashou ka.",
+      "english": "Shall I carry the luggage (for you)?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "お電話をかけてさしあげます。",
+      "romaji": "Odenwa wo kakete sashiagemasu.",
+      "english": "I will make a phone call (for you).",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

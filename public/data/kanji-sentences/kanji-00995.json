@@ -1,0 +1,33 @@
+{
+  "kanji": "温",
+  "sentences": [
+    {
+      "id": "183018",
+      "japanese": "貴殿はテニス肘と診断されました。温かいお湯に腕をつけてください。",
+      "english": "You have tennis elbow. Soak your arm in warm water."
+    },
+    {
+      "id": "184041",
+      "japanese": "寒い時には体を温かくするようにしなければならない。",
+      "english": "In cold weather we must be sure to keep our bodies warm."
+    },
+    {
+      "id": "184952",
+      "japanese": "皆様の温かい歓迎に感謝することで、始めたいと思います。",
+      "english": "May I begin by thanking every one for your warm welcome?"
+    },
+    {
+      "id": "187920",
+      "japanese": "何か温かい飲み物をください。",
+      "english": "Can I please have something hot to drink?"
+    },
+    {
+      "id": "187921",
+      "japanese": "何か温かい飲み物がほしい。",
+      "english": "I want something hot to drink."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.730Z",
+  "count": 5,
+  "fileId": "kanji-00995"
+}

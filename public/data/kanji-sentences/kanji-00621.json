@@ -1,0 +1,33 @@
+{
+  "kanji": "章",
+  "sentences": [
+    {
+      "id": "179616",
+      "japanese": "金曜日の予習に第４章を読んでおくこと。",
+      "english": "Read chapter 4 for Friday."
+    },
+    {
+      "id": "200471",
+      "japanese": "とにかく、次を始められるには、この章を終えなければならない。",
+      "english": "At any rate, we have to finish this chapter before we can start on the next."
+    },
+    {
+      "id": "219366",
+      "japanese": "この問題は第3章で扱います。",
+      "english": "We will deal with this problem in Chapter Three."
+    },
+    {
+      "id": "219736",
+      "japanese": "この本は３つの章から成り立っています。",
+      "english": "This book is composed of three chapters."
+    },
+    {
+      "id": "221122",
+      "japanese": "この章では幾何学の概念に焦点をあてます。",
+      "english": "This chapter will focus on the concepts of geometry."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.497Z",
+  "count": 5,
+  "fileId": "kanji-00621"
+}

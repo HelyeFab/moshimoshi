@@ -1,0 +1,33 @@
+{
+  "kanji": "湾",
+  "sentences": [
+    {
+      "id": "182747",
+      "japanese": "丘の上に立っているので、そのホテルは湾の見晴らしがすばらしい。",
+      "english": "Standing as it does on a hill, the hotel commands a fine view of the bay."
+    },
+    {
+      "id": "195110",
+      "japanese": "ミシシッピ川はメキシコ湾に注いでいる。",
+      "english": "The Mississippi River flows into the Gulf of Mexico."
+    },
+    {
+      "id": "219119",
+      "japanese": "この湾はニューヨーク港と呼ばれる。",
+      "english": "This bay is called New York Harbor."
+    },
+    {
+      "id": "77124",
+      "japanese": "湾にはたくさんのボートと人がいる。",
+      "english": "The bay is full of boats and people."
+    },
+    {
+      "id": "77125",
+      "japanese": "湾にはセーリングボートよりヨットがたくさんある。",
+      "english": "The bay has more yachts than sailboats."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:05.306Z",
+  "count": 5,
+  "fileId": "kanji-00748"
+}

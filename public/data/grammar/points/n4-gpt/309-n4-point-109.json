@@ -1,0 +1,121 @@
+{
+  "id": "309-n4-point-109",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～に",
+    "romaji": "~ni",
+    "en": "Particle ～に (ni)"
+  },
+  "jlptLevel": "N4",
+  "category": "particles",
+  "explanation": {
+    "en": "The particle ～に (ni) is highly versatile and is used to indicate direction or destination ('to'), purpose ('for'), a specific point in time ('at', 'on', 'in'), or a location for certain verbs. Its meaning depends on context.",
+    "ja": "助詞「～に」は、動作の方向・目的地、目的、時点、特定の場所などを表す多用途な助詞です。文脈によって「〜へ」「〜で」「〜で」「〜のために」などと訳されます。"
+  },
+  "structure": {
+    "pattern": "Noun + に",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "The noun indicating destination, purpose, time, or location.",
+        "examples": [
+          "私に (to me)",
+          "東京に (to Tokyo)",
+          "銀行に (in the bank)",
+          "７時に (at 7 o'clock)"
+        ]
+      },
+      {
+        "part": "に",
+        "explanation": "Particle marking direction, purpose, time, or location.",
+        "examples": [
+          "母は私にケーキを作りました。",
+          "彼女は東京に引っ越しました。",
+          "銀行にお金を預けます。",
+          "私は７時に起きます。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "母は私にケーキを作りました。",
+      "romaji": "Haha wa watashi ni keiki wo tsukurimashita.",
+      "english": "My mother made a cake for me.",
+      "breakdown": {
+        "母": "mother",
+        "は": "topic marker",
+        "私": "me",
+        "に": "for/to",
+        "ケーキ": "cake",
+        "を": "object marker",
+        "作りました": "made"
+      },
+      "notes": "Here, に shows the recipient of the action."
+    },
+    {
+      "japanese": "彼女は東京に引っ越しました。",
+      "romaji": "Kanojo wa Toukyou ni hikkoshimashita.",
+      "english": "She moved to Tokyo.",
+      "breakdown": {
+        "彼女": "she",
+        "は": "topic marker",
+        "東京": "Tokyo",
+        "に": "to",
+        "引っ越しました": "moved"
+      },
+      "notes": "に indicates the destination."
+    },
+    {
+      "japanese": "銀行にお金を預けます。",
+      "romaji": "Ginkou ni okane wo azukemasu.",
+      "english": "I deposit money in the bank.",
+      "breakdown": {
+        "銀行": "bank",
+        "に": "in/at",
+        "お金": "money",
+        "を": "object marker",
+        "預けます": "deposit"
+      },
+      "notes": "に marks the location where the action occurs."
+    },
+    {
+      "japanese": "私は７時に起きます。",
+      "romaji": "Watashi wa shichi ji ni okimasu.",
+      "english": "I wake up at 7 o'clock.",
+      "breakdown": {
+        "私": "I",
+        "は": "topic marker",
+        "７時": "7 o'clock",
+        "に": "at",
+        "起きます": "wake up"
+      },
+      "notes": "に specifies the point in time."
+    }
+  ],
+  "relatedPoints": [
+    "～で",
+    "～のに",
+    "のために (no tame ni)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using で instead of に for destination.",
+      "correction": "Use に to indicate the destination of movement.",
+      "example": "× 東京で行きます。→ 〇 東京に行きます。"
+    },
+    {
+      "mistake": "Omitting に when specifying time.",
+      "correction": "Use に after specific time expressions.",
+      "example": "× ７時起きます。→ 〇 ７時に起きます。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "particle",
+    "direction",
+    "time",
+    "purpose",
+    "location"
+  ]
+}

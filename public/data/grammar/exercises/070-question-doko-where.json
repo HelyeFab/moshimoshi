@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "070-question-doko-where",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "070-question-doko-where-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: トイレは__ですか。",
+      "options": [
+        { "id": "a", "text": "どこ" },
+        { "id": "b", "text": "だれ" },
+        { "id": "c", "text": "なに" },
+        { "id": "d", "text": "いつ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! どこ means 'where.'",
+      "incorrectFeedback": "Not quite. どこ is for locations.",
+      "explanation": "どこ asks about place.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "070-question-doko-where-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "どこで勉強しますか。" },
+        { "id": "b", "text": "どこに勉強しますか。" },
+        { "id": "c", "text": "どこを勉強しますか。" },
+        { "id": "d", "text": "どこが勉強しますか。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use で for action location.",
+      "incorrectFeedback": "Try again. Actions use で.",
+      "explanation": "で marks the place of an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "070-question-doko-where-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Where is the station?'",
+      "correctAnswer": "駅はどこにありますか",
+      "acceptedVariations": [
+        "駅はどこにありますか。",
+        "えきはどこにありますか",
+        "eki wa doko ni arimasu ka",
+        "eki wa doko ni arimasu ka."
+      ],
+      "correctFeedback": "Great! 駅はどこにありますか is correct.",
+      "incorrectFeedback": "The correct answer is: 駅はどこにありますか (eki wa doko ni arimasu ka).",
+      "explanation": "Use に with あります for location.",
+      "hints": ["駅 = station", "あります = exist"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "070-question-doko-where-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: どこ__行きますか。",
+      "options": [
+        { "id": "a", "text": "へ" },
+        { "id": "b", "text": "で" },
+        { "id": "c", "text": "を" },
+        { "id": "d", "text": "が" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use へ for destinations.",
+      "incorrectFeedback": "Not quite. へ marks direction.",
+      "explanation": "どこへ = where to.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "070-question-doko-where-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Where do you study?'",
+      "correctAnswer": "どこで勉強しますか",
+      "acceptedVariations": [
+        "どこで勉強しますか。",
+        "どこでべんきょうしますか",
+        "doko de benkyou shimasu ka",
+        "doko de benkyou shimasu ka."
+      ],
+      "correctFeedback": "Nice! どこで勉強しますか is correct.",
+      "incorrectFeedback": "The correct answer is: どこで勉強しますか (doko de benkyou shimasu ka).",
+      "explanation": "Use で for the place of action.",
+      "hints": ["勉強します = study", "Use で"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "070-question-doko-where-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "トイレはどこですか。" },
+        { "id": "b", "text": "どこで勉強しますか。" },
+        { "id": "c", "text": "どこに行きますか。" },
+        { "id": "d", "text": "どこで行きますか。" }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! 行く uses に/へ, not で.",
+      "incorrectFeedback": "Try again. で is for action place, not destination.",
+      "explanation": "行きます uses に or へ for destination.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "070-question-doko-where-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Where are you going?'",
+      "correctAnswer": "どこへ行きますか",
+      "acceptedVariations": [
+        "どこへ行きますか。",
+        "どこへいきますか",
+        "doko e ikimasu ka",
+        "doko e ikimasu ka."
+      ],
+      "correctFeedback": "Great! どこへ行きますか is correct.",
+      "incorrectFeedback": "The correct answer is: どこへ行きますか (doko e ikimasu ka).",
+      "explanation": "Use へ for destination.",
+      "hints": ["行きます = go", "Use へ"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "070-question-doko-where-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "トイレはどこですか。",
+          "romaji": "Toire wa doko desu ka.",
+          "english": "Where is the toilet?"
+        },
+        {
+          "japanese": "どこで勉強しますか。",
+          "romaji": "Doko de benkyou shimasu ka.",
+          "english": "Where do you study?"
+        },
+        {
+          "japanese": "どこへ行きますか。",
+          "romaji": "Doko e ikimasu ka.",
+          "english": "Where are you going?"
+        }
+      ],
+      "correctFeedback": "Perfect! All use どこ with correct particles.",
+      "incorrectFeedback": "Not quite. Review どこ with に/で/へ.",
+      "explanation": "Use に for location, で for action, へ for destination.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "070-question-doko-where-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'where is the station'?",
+      "options": [
+        { "id": "a", "text": "駅はどこにありますか" },
+        { "id": "b", "text": "駅はどこでありますか" },
+        { "id": "c", "text": "駅はどこをありますか" },
+        { "id": "d", "text": "駅はどこがありますか" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use に with あります.",
+      "incorrectFeedback": "Try again. あります uses に for location.",
+      "explanation": "Location + に + あります.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "070-question-doko-where-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Where do you work?'",
+      "correctAnswer": "どこで働きますか",
+      "acceptedVariations": [
+        "どこで働きますか。",
+        "どこではたらきますか",
+        "doko de hatarakimasu ka",
+        "doko de hatarakimasu ka."
+      ],
+      "correctFeedback": "Nice! どこで働きますか is correct.",
+      "incorrectFeedback": "The correct answer is: どこで働きますか (doko de hatarakimasu ka).",
+      "explanation": "Use で for the place of action.",
+      "hints": ["働きます = work", "Use で"],
+      "difficulty": "hard"
+    }
+  ]
+}

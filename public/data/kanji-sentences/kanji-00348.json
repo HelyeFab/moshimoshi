@@ -1,0 +1,33 @@
+{
+  "kanji": "散",
+  "sentences": [
+    {
+      "id": "5068118",
+      "japanese": "校長先生は、生徒が廊下を散らかしたときは、きびしく叱りました。",
+      "english": "The principal severely reproved the students whenever they made a mess in the hallway."
+    },
+    {
+      "id": "179478",
+      "japanese": "空き缶がその場所のあちこちに散らばっていた。",
+      "english": "Empty cans were scattered about the place."
+    },
+    {
+      "id": "179554",
+      "japanese": "銀行強盗たちは四方八方に散らばった。",
+      "english": "The bank robbers dispersed in all directions."
+    },
+    {
+      "id": "183284",
+      "japanese": "気が散るからテレビを消してくれ。",
+      "english": "Turn off the television. I can't concentrate."
+    },
+    {
+      "id": "190343",
+      "japanese": "一体誰がこのように散らかった状態をすべて片づけるのだろうか。",
+      "english": "Who's going to clear up all this mess?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.811Z",
+  "count": 5,
+  "fileId": "kanji-00348"
+}

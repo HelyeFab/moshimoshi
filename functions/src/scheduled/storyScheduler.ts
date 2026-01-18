@@ -1217,7 +1217,52 @@ export const scheduledStoryGeneratorFunction = onSchedule(
       return
     }
 
-    // No incomplete drafts - generate a new story
+    // SECOND: Check if a story was already successfully generated today (idempotency)
+    const nowUtc = new Date()
+    const todayDateString = nowUtc.toISOString().split('T')[0] // YYYY-MM-DD
+
+    logger.info('[StoryScheduler] Checking for duplicate generation today', {
+      todayDate: todayDateString,
+    })
+
+    try {
+      const recentLogsSnapshot = await db
+        .collection('story_generation_logs')
+        .where('type', '==', 'scheduled')
+        .where('success', '==', true)
+        .orderBy('createdAt', 'desc')
+        .limit(1)
+        .get()
+
+      if (!recentLogsSnapshot.empty) {
+        const lastSuccessfulLog = recentLogsSnapshot.docs[0].data()
+        const lastLogDate = lastSuccessfulLog.createdAt?.toDate?.()
+          ? lastSuccessfulLog.createdAt.toDate().toISOString().split('T')[0]
+          : new Date(lastSuccessfulLog.createdAt).toISOString().split('T')[0]
+
+        if (lastLogDate === todayDateString) {
+          logger.info('[StoryScheduler] Story already generated today - skipping to prevent duplicate', {
+            todayDate: todayDateString,
+            lastGeneratedDate: lastLogDate,
+            lastStoryId: lastSuccessfulLog.storyId,
+            lastDraftId: lastSuccessfulLog.draftId,
+          })
+          return
+        }
+
+        logger.info('[StoryScheduler] Last successful generation was on different day - proceeding', {
+          todayDate: todayDateString,
+          lastGeneratedDate: lastLogDate,
+        })
+      }
+    } catch (error) {
+      // Don't block generation if idempotency check fails - just log warning
+      logger.warn('[StoryScheduler] Idempotency check failed - proceeding with generation', {
+        error: error instanceof Error ? error.message : 'Unknown error',
+      })
+    }
+
+    // No incomplete drafts and no story today - generate a new story
     logger.info('[StoryScheduler] No incomplete drafts - generating new story')
     const result = await generateDailyStory(adminKey)
 

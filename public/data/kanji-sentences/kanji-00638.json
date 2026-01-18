@@ -1,0 +1,33 @@
+{
+  "kanji": "印",
+  "sentences": [
+    {
+      "id": "125726",
+      "japanese": "沈黙は承諾の印。",
+      "english": "Silence gives consent."
+    },
+    {
+      "id": "204759",
+      "japanese": "それらの牛には焼き印がついている。",
+      "english": "The cattle are marked with brands."
+    },
+    {
+      "id": "218329",
+      "japanese": "これは私たちから感謝の印のプレゼントです。",
+      "english": "Here is a present for you in token of our appreciation."
+    },
+    {
+      "id": "218525",
+      "japanese": "これはほんの些細な感謝の印です。",
+      "english": "This is a small token of my gratitude."
+    },
+    {
+      "id": "218669",
+      "japanese": "これはあなたの親切に対するささやかなお礼の印です。",
+      "english": "This is a small acknowledgement of your kindness."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.927Z",
+  "count": 5,
+  "fileId": "kanji-00638"
+}

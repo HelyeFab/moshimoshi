@@ -1,0 +1,106 @@
+{
+  "id": "226-n4-point-26",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ために",
+    "romaji": "tame ni",
+    "en": "For the sake of/In order to"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ために grammar point is used to express either the purpose of doing something or the cause/reason for a situation.",
+    "ja": "ためには何かをする目的や理由を表現するために使われます。"
+  },
+  "structure": {
+    "pattern": "{verb/noun/adjective} + ために",
+    "components": [
+      {
+        "part": "Verb (dictionary form) + ために",
+        "explanation": "Used to express the purpose of an action.",
+        "examples": [
+          "合格するためには、努力が必要です。"
+        ]
+      },
+      {
+        "part": "い-Adjective + ために",
+        "explanation": "Used with い-adjectives for cause/reason.",
+        "examples": [
+          "忙しいために、休めません。"
+        ]
+      },
+      {
+        "part": "な-Adjective + な + ために",
+        "explanation": "Used with な-adjectives for cause/reason.",
+        "examples": [
+          "静かなためには、落ち着くことができます。"
+        ]
+      },
+      {
+        "part": "Noun の + ために",
+        "explanation": "Used with nouns to express purpose or reason.",
+        "examples": [
+          "家族のためには、常に最善を尽くします。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "試験に合格するために、毎日勉強しています。",
+      "romaji": "Shiken ni goukaku suru tame ni, mainichi benkyou shiteimasu.",
+      "english": "I study every day in order to pass the exam.",
+      "breakdown": {
+        "ために": "for the sake of",
+        "勉強する": "to study"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "健康のために、毎日運動しなければなりません。",
+      "romaji": "Kenkou no tame ni, mainichi undou shinakereba narimasen.",
+      "english": "For the sake of health, I must exercise daily.",
+      "breakdown": {
+        "ために": "because of",
+        "運動する": "to exercise"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "仕事が忙しいために、友達と会う時間がありません。",
+      "romaji": "Shigoto ga isogashii tame ni, tomodachi to au jikan ga arimasen.",
+      "english": "Because my work is busy, I don't have time to meet friends.",
+      "breakdown": {
+        "ために": "for the sake of",
+        "忙しい": "busy"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "雨が降ったために、試合が中止されました。",
+      "romaji": "Ame ga futta tame ni, shiai ga chuushi saremashita.",
+      "english": "The game was canceled because of the rain.",
+      "breakdown": {
+        "ために": "because of",
+        "雨": "rain"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "verb_dictionary_form",
+    "adjectives"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "合格するために、毎日勉強します。",
+      "correction": "試験に合格するために、毎日勉強しています。",
+      "example": "The correction uses the correct form of ために and includes the context that it is for passing an exam."
+    }
+  ],
+  "tags": [
+    "n4",
+    "miscellaneous",
+    "grammar_point"
+  ]
+}

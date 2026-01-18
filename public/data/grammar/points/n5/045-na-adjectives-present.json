@@ -1,0 +1,105 @@
+{
+  "id": "045-na-adjectives-present",
+  "version": "1.0.0",
+  "title": {
+    "ja": "な形容詞（現在）",
+    "romaji": "na-keiyoushi (present)",
+    "en": "na-adjectives (present)"
+  },
+  "jlptLevel": "N5",
+  "category": "adjectives",
+  "explanation": {
+    "en": "な-adjectives are adjectives that do not end in い in their dictionary form, such as きれい (clean/pretty), しずか (quiet), and べんり (convenient). When a な-adjective comes before a noun, you add な. When it ends a sentence, you use です for politeness.\n\nKey points:\n• Add な before a noun: きれいな部屋\n• Add です at the end for a polite sentence: きれいです\n• Many な-adjectives end in い, but they are not い-adjectives (きれい, きらい)\n• Use the same form for present descriptions\n\nFor example, “この部屋は静かです” means “This room is quiet.” If you place the adjective before a noun, you say “静かな部屋” (a quiet room).\n\nA common beginner mistake is forgetting な before the noun. Remember: if the adjective is a な-adjective, insert な when it modifies a noun.\n\nUse な-adjectives just like い-adjectives for descriptions, but pay attention to the な link before nouns. This makes your sentences clear and natural.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "(Noun は) な-adjective (です) / な-adjective + な + Noun",
+    "components": [
+      {
+        "part": "な-adjective",
+        "explanation": "Adjective that takes な before nouns",
+        "examples": ["きれい", "しずか", "べんり"]
+      },
+      {
+        "part": "な",
+        "explanation": "Linking な before a noun",
+        "examples": ["な"]
+      },
+      {
+        "part": "Noun / です",
+        "explanation": "Noun being modified or polite ending",
+        "examples": ["部屋", "町", "です"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この部屋は静かです。",
+      "romaji": "Kono heya wa shizuka desu.",
+      "english": "This room is quiet.",
+      "breakdown": {
+        "この": "this",
+        "部屋": "room",
+        "は": "topic marker",
+        "静か": "quiet",
+        "です": "polite ending"
+      },
+      "notes": "Sentence-ending use"
+    },
+    {
+      "japanese": "きれいな町です。",
+      "romaji": "Kirei na machi desu.",
+      "english": "It is a beautiful town.",
+      "breakdown": {
+        "きれい": "beautiful/clean",
+        "な": "adjective linker",
+        "町": "town",
+        "です": "is (polite)"
+      },
+      "notes": "Adjective before a noun"
+    },
+    {
+      "japanese": "この店は便利です。",
+      "romaji": "Kono mise wa benri desu.",
+      "english": "This shop is convenient.",
+      "breakdown": {
+        "この": "this",
+        "店": "shop",
+        "は": "topic marker",
+        "便利": "convenient",
+        "です": "polite ending"
+      },
+      "notes": "Common な-adjective"
+    },
+    {
+      "japanese": "元気な学生がいます。",
+      "romaji": "Genki na gakusei ga imasu.",
+      "english": "There is a healthy/energetic student.",
+      "breakdown": {
+        "元気": "healthy/energetic",
+        "な": "adjective linker",
+        "学生": "student",
+        "が": "subject marker",
+        "います": "exists (polite)"
+      },
+      "notes": "Modifying a noun"
+    }
+  ],
+  "relatedPoints": [
+    "041-i-adjectives-present",
+    "002-x-wa-y-de-wa-arimasen"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Forgetting な before a noun",
+      "correction": "な is required when modifying a noun",
+      "example": "❌ きれい部屋 → ✅ きれいな部屋"
+    },
+    {
+      "mistake": "Using な with い-adjectives",
+      "correction": "い-adjectives do not take な",
+      "example": "❌ おもしろいな本 → ✅ おもしろい本"
+    }
+  ],
+  "tags": ["adjectives", "na-adjectives", "present", "descriptions"]
+}

@@ -1,0 +1,132 @@
+{
+  "id": "298-n4-point-98",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～といい",
+    "romaji": "~to ii",
+    "en": "~to ii (I hope / It would be nice if)"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The grammar point ～といい is used to express a wish or hope for a certain situation or outcome. It translates as 'I hope', 'it would be good if', or 'it would be nice if'. The structure changes slightly depending on whether it follows a verb, い-adjective, な-adjective, or noun.",
+    "ja": "～といいは、ある状況や結果を願ったり、望んだりする時に使います。「～だといい」「～だといいな」などの形で、「～だといいですね」「～だといいな」などと訳されます。動詞、い形容詞、な形容詞、名詞によって形が少し変わります。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + といい / い-Adjective + といい / な-Adjective + だといい / Noun + だといい",
+    "components": [
+      {
+        "part": "Verb-casual",
+        "explanation": "Plain (dictionary) form of the verb.",
+        "examples": [
+          "晴れるといい",
+          "合格するといい"
+        ]
+      },
+      {
+        "part": "い-Adjective",
+        "explanation": "Plain form of い-adjective.",
+        "examples": [
+          "美味しいといい"
+        ]
+      },
+      {
+        "part": "な-Adjective + だ",
+        "explanation": "な-adjective in plain form + だ.",
+        "examples": [
+          "元気だといい"
+        ]
+      },
+      {
+        "part": "Noun + だ",
+        "explanation": "Noun + だ.",
+        "examples": [
+          "天気だといい"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日晴れるといいね。",
+      "romaji": "Ashita hareru to ii ne.",
+      "english": "I hope it will be sunny tomorrow.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "晴れる": "be sunny",
+        "と": "if",
+        "いい": "good",
+        "ね": "isn't it"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この試験に合格するといい。",
+      "romaji": "Kono shiken ni goukaku suru to ii.",
+      "english": "I hope to pass this exam.",
+      "breakdown": {
+        "この": "this",
+        "試験": "exam",
+        "に": "in/at",
+        "合格する": "pass",
+        "と": "if",
+        "いい": "good"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼が元気だといいな。",
+      "romaji": "Kare ga genki da to ii na.",
+      "english": "I hope he is doing well.",
+      "breakdown": {
+        "彼": "he",
+        "が": "subject",
+        "元気だ": "is well",
+        "と": "if",
+        "いい": "good",
+        "な": "softener"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "そのレストランが美味しいといいですね。",
+      "romaji": "Sono resutoran ga oishii to ii desu ne.",
+      "english": "It would be nice if that restaurant is delicious.",
+      "breakdown": {
+        "その": "that",
+        "レストラン": "restaurant",
+        "が": "subject",
+        "美味しい": "delicious",
+        "と": "if",
+        "いい": "good",
+        "ですね": "isn't it"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～のに",
+    "～たらいい",
+    "～し、～し、～"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using です after といい (e.g., 晴れるといいです)",
+      "correction": "Omit です after といい (晴れるといい)",
+      "example": "晴れるといい。"
+    },
+    {
+      "mistake": "Using な instead of だ with な-adjectives or nouns (e.g., 元気なといい)",
+      "correction": "Use だ with な-adjectives or nouns (元気だといい)",
+      "example": "彼が元気だといいな。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "wish",
+    "hope",
+    "conditional",
+    "miscellaneous",
+    "expressions"
+  ]
+}

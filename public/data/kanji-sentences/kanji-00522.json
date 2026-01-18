@@ -1,0 +1,33 @@
+{
+  "kanji": "勝",
+  "sentences": [
+    {
+      "id": "5218",
+      "japanese": "私たちは戦いに勝った。",
+      "english": "We won the battle."
+    },
+    {
+      "id": "5310",
+      "japanese": "やった！2回続けて勝っちゃった！",
+      "english": "Yes! I won twice in a row!"
+    },
+    {
+      "id": "176940",
+      "japanese": "君は彼女に、勝るとも劣らずかわいい。",
+      "english": "You are not less pretty than her."
+    },
+    {
+      "id": "178514",
+      "japanese": "君のチームには決勝戦で勝つチャンスはないよ。",
+      "english": "Your team doesn't have a prayer to win the championship game."
+    },
+    {
+      "id": "178515",
+      "japanese": "君のチームが試合に勝ってうれしい。",
+      "english": "I'm glad that your team won the game."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.099Z",
+  "count": 5,
+  "fileId": "kanji-00522"
+}

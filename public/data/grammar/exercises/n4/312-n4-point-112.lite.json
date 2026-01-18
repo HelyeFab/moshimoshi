@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "312-n4-point-112",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "312-n4-point-112-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Even though, despite\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～のに",
+          "romaji": "~no ni"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ～のに matches \"Even though, despite\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～のに.",
+      "explanation": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

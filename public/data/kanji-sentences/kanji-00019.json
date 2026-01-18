@@ -1,0 +1,33 @@
+{
+  "kanji": "十",
+  "sentences": [
+    {
+      "id": "177026",
+      "japanese": "君は二歳の時に十まで数えることができた。",
+      "english": "You could count to ten when you were two."
+    },
+    {
+      "id": "190687",
+      "japanese": "一を聞いて十を知る。",
+      "english": "A word is enough to a wise man."
+    },
+    {
+      "id": "89801",
+      "japanese": "彼女は姉とは一から十まで性格が違う。",
+      "english": "She is different from her sister in every way."
+    },
+    {
+      "id": "94811",
+      "japanese": "彼女に十ドル借りている。",
+      "english": "I owe ten dollars to her."
+    },
+    {
+      "id": "122841",
+      "japanese": "日没までにもう十マイル歩かなければならない。",
+      "english": "We have another ten miles to walk before sunset."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.391Z",
+  "count": 5,
+  "fileId": "kanji-00019"
+}

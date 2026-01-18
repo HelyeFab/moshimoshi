@@ -1,0 +1,33 @@
+{
+  "kanji": "擦",
+  "sentences": [
+    {
+      "id": "10050289",
+      "japanese": "靴が擦り減っちゃった。",
+      "english": "My shoes are worn out."
+    },
+    {
+      "id": "179261",
+      "japanese": "靴がすっかり擦り減った。",
+      "english": "The shoes are worn out."
+    },
+    {
+      "id": "192774",
+      "japanese": "よく使ったのでこのバッグは擦り切れた。",
+      "english": "Hard use has worn this bag."
+    },
+    {
+      "id": "207128",
+      "japanese": "その皮製の上着の両肘部分が擦り減って穴が空いた。",
+      "english": "The leather jacket has worn out at the elbows."
+    },
+    {
+      "id": "211682",
+      "japanese": "その革製の上着の両肘の部分が擦り減って穴があいた。",
+      "english": "The leather jacket has worn out at the elbow."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:35.169Z",
+  "count": 5,
+  "fileId": "kanji-01739"
+}

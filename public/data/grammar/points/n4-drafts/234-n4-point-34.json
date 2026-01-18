@@ -1,0 +1,55 @@
+{
+  "id": "234-n4-point-34",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て いる (Verb-te iru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ている form is used to express either an ongoing action or a state resulting from a past action. It is formed by conjugating the verb into its て-form and then adding いる. In English, this can be translated as verb-ing or 'have verb-ed'. Its usage depends on the type of verb: action verbs or state verbs.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + いる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "今、本を読んでいます。",
+      "romaji": "Ima, hon wo yonde imasu.",
+      "english": "I am reading a book now.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は英語を勉強しています。",
+      "romaji": "Kare wa eigo wo benkyou shite imasu.",
+      "english": "He is studying English.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "ケーキが冷蔵庫に入っています。",
+      "romaji": "Keeki ga reizouko ni haitte imasu.",
+      "english": "The cake is in the refrigerator.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "部屋がきれいになっています。",
+      "romaji": "Heya ga kirei ni natte imasu.",
+      "english": "The room has become clean.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

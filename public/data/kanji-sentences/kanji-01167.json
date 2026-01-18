@@ -1,0 +1,33 @@
+{
+  "kanji": "節",
+  "sentences": [
+    {
+      "id": "224075",
+      "japanese": "この１節を読み、日本語に翻訳せよ。",
+      "english": "Read this passage and translate it into Japanese."
+    },
+    {
+      "id": "224145",
+      "japanese": "こちらへお出かけの節は是非お立ち寄りください。",
+      "english": "If you happen to be out this way, be sure to call in at my house."
+    },
+    {
+      "id": "224183",
+      "japanese": "こちらにお出での節は、どうぞお立ち寄りください。",
+      "english": "Please drop in when you come this way."
+    },
+    {
+      "id": "76616",
+      "japanese": "その節はよろしくご指導のほどお願いいたします。",
+      "english": "I hope you will favor me with your guidance at that time."
+    },
+    {
+      "id": "76617",
+      "japanese": "その節はいろいろありがとうございました。",
+      "english": "Thank you for all you did for me that time."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.119Z",
+  "count": 5,
+  "fileId": "kanji-01167"
+}

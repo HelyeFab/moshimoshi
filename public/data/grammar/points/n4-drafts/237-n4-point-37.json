@@ -1,0 +1,55 @@
+{
+  "id": "237-n4-point-37",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ておく (〜te oku)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～ておく grammar point is used when you want to express performing an action in preparation for a future situation or to do something in advance. It is attached to the te-form of a verb and expresses the idea of doing something beforehand, as a preparatory action.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + おく",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "駅で切符を買っておこう。",
+      "romaji": "Eki de kippu wo katte okou.",
+      "english": "Let's buy the tickets in advance at the station.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "明日早く起きるために、今晩早く寝ておきます。",
+      "romaji": "Ashita hayaku okiru tame ni, konban hayaku nete okimasu.",
+      "english": "I will go to bed early tonight to wake up early tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "試験前に勉強しておかないと、失敗するかもしれない。",
+      "romaji": "Shiken mae ni benkyou shite okanai to, shippai suru kamo shirenai.",
+      "english": "If I don't study in advance before the exam, I might fail.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼が到着する前に、部屋をきれいに掃除しておきましょう。",
+      "romaji": "Kare ga touchaku suru mae ni, heya wo kirei ni souji shite okimashou.",
+      "english": "Let's clean the room before he arrives.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

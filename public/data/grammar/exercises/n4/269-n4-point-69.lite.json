@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "269-n4-point-69",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "269-n4-point-69-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb + ところ\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb る ところ",
+          "romaji": "Verb-ru tokoro"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb る ところ matches \"Verb + ところ\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb る ところ.",
+      "explanation": "Expresses being just about to do an action; \"about to [verb]\".",
+      "difficulty": "easy"
+    }
+  ]
+}

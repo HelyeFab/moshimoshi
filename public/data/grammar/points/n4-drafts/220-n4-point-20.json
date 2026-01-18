@@ -1,0 +1,55 @@
+{
+  "id": "220-n4-point-20",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb させられる (Verb-saserareru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The Verb させられる grammar point is the passive causative form of the verb. It is used to describe a situation where someone or something causes or forces another person to do something. This construction of passive causative is useful to show that the action was not done voluntarily by the person.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Group 1 Verb: Replace ～う with ～わせられる, Group 2 Verb: Replace ～る with ～させられる, Group 3 Verb: する → させられる, くる → こさせられる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "子供たちは先生に宿題をやらせられました。",
+      "romaji": "Kodomo-tachi wa sensei ni shukudai wo yaraseraremashita.",
+      "english": "The children were made to do their homework by the teacher.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は会社にもっと働かせられた。",
+      "romaji": "Kare wa kaisha ni motto hatarakaserareta.",
+      "english": "He was forced to work more by the company.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "私は友達にその機密を話させられました。",
+      "romaji": "Watashi wa tomodachi ni sono kimitsu o hanasaseraremashita.",
+      "english": "I was made to reveal that secret by my friend.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "怪我をした選手は、コーチに休ませられました。",
+      "romaji": "Kega wo shita senshu wa, kouchi ni yasumaseraremashita.",
+      "english": "The injured player was forced to rest by the coach.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

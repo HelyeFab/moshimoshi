@@ -1,0 +1,33 @@
+{
+  "kanji": "件",
+  "sentences": [
+    {
+      "id": "177746",
+      "japanese": "君はその件で僕に謝らなければならない。",
+      "english": "You owe me an apology for that."
+    },
+    {
+      "id": "10774623",
+      "japanese": "この件には関わってないんだから、気をもむ必要はないよ。",
+      "english": "Since you have nothing to do with this matter, you don't have to worry."
+    },
+    {
+      "id": "177843",
+      "japanese": "君はこの件については選択の自由はない。",
+      "english": "You have no choice in this matter."
+    },
+    {
+      "id": "10895584",
+      "japanese": "この件に関しては、お前に選択の余地はないからな。",
+      "english": "You have no choice in this matter."
+    },
+    {
+      "id": "191947",
+      "japanese": "わたしはこの件に関しては君に同意できない。",
+      "english": "I cannot agree with you on this point."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.953Z",
+  "count": 5,
+  "fileId": "kanji-00504"
+}

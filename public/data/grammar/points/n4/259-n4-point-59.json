@@ -1,0 +1,97 @@
+{
+  "id": "259-n4-point-59",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ように (〜you ni)",
+    "romaji": "Verb you ni",
+    "en": "Verb-like construction"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～ように grammar point is used to express different meanings depending on the context: 'like', 'as if', 'in order to', or 'so that'. Patterns include: Noun + のように, Verb dictionary/negative form + ように, い-adjective + ように.",
+    "ja": "〜ようにという表現は文脈により「のように」「〜するために」などの意味を表す。パターンとしては名詞＋のよう、動詞辞書形/否定形＋ように、イ形容詞＋ようになどがある。"
+  },
+  "structure": {
+    "pattern": "Noun + のように / Verb-casual + ように / い-adjective + ように",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "Followed by のように to mean 'like' or 'as if'",
+        "examples": [
+          "猫のよう - like a cat"
+        ]
+      },
+      {
+        "part": "Verb-casual form",
+        "explanation": "Followed directly by ように to indicate purpose or intention",
+        "examples": [
+          "食べる → 食べるように - in order to eat"
+        ]
+      },
+      {
+        "part": "い-adjective",
+        "explanation": "Followed directly by ように for the same purpose as verbs",
+        "examples": [
+          "静かだ → 静かなように - so that it is quiet"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼女は鳥のように軽やかに踊る。",
+      "romaji": "Kanojo wa tori no you ni karoyaka ni odoru.",
+      "english": "She dances lightly like a bird.",
+      "breakdown": {
+        "token": "彼女: she; 鳥のよう: like birds; 軽やかに: lightly"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "覚えたことを忘れないように、毎日復習しましょう。",
+      "romaji": "Oboeta koto wo wasurenai you ni, mainichi fukushuu shimashou.",
+      "english": "In order not to forget what you've learned, let's review every day.",
+      "breakdown": {
+        "token": "覚えた: learned; 忘れないように: so as not to forget"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "歌手になるように、毎日歌の練習をしています。",
+      "romaji": "Kashu ni naru you ni, mainichi uta no renshuu wo shiteimasu.",
+      "english": "In order to become a singer, I practice singing every day.",
+      "breakdown": {
+        "token": "歌手になるように: in order to become a singer"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "道を渡る時、車が来ないように確認してください。",
+      "romaji": "Michi wo wataru toki, kuruma ga konai you ni kakunin shite kudasai.",
+      "english": "When crossing the road, please make sure no cars are coming.",
+      "breakdown": {
+        "token": "道を渡る時: when crossing the road; 車が来ないように: so that no car comes"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb ようにする",
+    "Verb ように言う",
+    "Verb ないほうがいい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼女は鳥のように軽やかに歌う。",
+      "correction": "彼女は鳥のように軽やかに踊る。",
+      "example": "Kanojo wa tori no you ni karoyaka ni odoru."
+    }
+  ],
+  "tags": [
+    "n4",
+    "expression-of-purpose",
+    "comparison",
+    "advice"
+  ]
+}

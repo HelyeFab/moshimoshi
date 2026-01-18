@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "261-n4-point-61",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "261-n4-point-61-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Becoming Able to Do Something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb ようになる (〜you ni naru)",
+          "romaji": "Verb you ni naru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb ようになる (〜you ni naru) matches \"Becoming Able to Do Something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ようになる (〜you ni naru).",
+      "explanation": "Expresses a change where someone comes to be able to do something.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "261-n4-point-61-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb ようになる (〜you ni naru).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Becoming Able to Do Something"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb ようになる (〜you ni naru) means \"Becoming Able to Do Something\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Becoming Able to Do Something\".",
+      "explanation": "Expresses a change where someone comes to be able to do something.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "261-n4-point-61-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb ようになる (〜you ni naru).",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb you ni naru"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb you ni naru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb you ni naru.",
+      "explanation": "Expresses a change where someone comes to be able to do something.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "261-n4-point-61-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb ようになる (〜you ni naru)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Expresses a change where someone comes to be able to do something."
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses a change where someone comes to be able to do something.",
+      "explanation": "Expresses a change where someone comes to be able to do something.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "261-n4-point-61-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Becoming Able to Do Something\".",
+      "correctAnswer": "Verb ようになる (〜you ni naru)",
+      "acceptedVariations": [
+        "Verb ようになる (〜you ni naru)",
+        "Verbようになる(〜youninaru)"
+      ],
+      "correctFeedback": "Nice! Verb ようになる (〜you ni naru) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb ようになる (〜you ni naru) (Verb you ni naru).",
+      "explanation": "Expresses a change where someone comes to be able to do something.",
+      "hints": [
+        "Verb you ni naru",
+        "Expresses a change where someone comes to be able to do something."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "261-n4-point-61-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb ようになる (〜you ni naru).",
+      "correctAnswer": "Verb you ni naru",
+      "acceptedVariations": [
+        "Verb you ni naru",
+        "verb you ni naru"
+      ],
+      "correctFeedback": "Nice! Verb you ni naru is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb you ni naru.",
+      "explanation": "Expresses a change where someone comes to be able to do something.",
+      "hints": [
+        "Expresses a change where someone comes to be able to do something."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "261-n4-point-61-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb ようになる (〜you ni naru).",
+      "correctAnswer": "Becoming Able to Do Something",
+      "acceptedVariations": [
+        "Becoming Able to Do Something",
+        "becoming able to do something"
+      ],
+      "correctFeedback": "Correct! \"Becoming Able to Do Something\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Becoming Able to Do Something\".",
+      "explanation": "Expresses a change where someone comes to be able to do something.",
+      "hints": [
+        "Expresses a change where someone comes to be able to do something."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "261-n4-point-61-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb ようになる (〜you ni naru)",
+          "romaji": "Verb you ni naru",
+          "english": "Becoming Able to Do Something"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses a change where someone comes to be able to do something.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "261-n4-point-61-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses a change where someone comes to be able to do something..",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb ようになる (〜you ni naru)",
+          "romaji": "Verb you ni naru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb ようになる (〜you ni naru) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ようになる (〜you ni naru).",
+      "explanation": "Expresses a change where someone comes to be able to do something.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "261-n4-point-61-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbようになる(〜youninaru)",
+      "acceptedVariations": [
+        "Verbようになる(〜youninaru)",
+        "Verb ようになる (〜you ni naru)"
+      ],
+      "correctFeedback": "Great! Verbようになる(〜youninaru) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbようになる(〜youninaru).",
+      "explanation": "Expresses a change where someone comes to be able to do something.",
+      "hints": [
+        "Verb you ni naru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

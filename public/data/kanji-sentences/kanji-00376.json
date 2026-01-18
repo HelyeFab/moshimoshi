@@ -1,0 +1,33 @@
+{
+  "kanji": "窓",
+  "sentences": [
+    {
+      "id": "5262",
+      "japanese": "窓から日が沈むのを見ることができるだろう。",
+      "english": "We could see the sunset from the window."
+    },
+    {
+      "id": "177480",
+      "japanese": "君はわざと窓をこわしたのか、それとも偶然にか。",
+      "english": "Did you break the window on purpose or by accident?"
+    },
+    {
+      "id": "11138675",
+      "japanese": "窓を割ったのはわざとなの？それとも、うっかり割っちゃったの？",
+      "english": "Did you break the window on purpose or by accident?"
+    },
+    {
+      "id": "177979",
+      "japanese": "窓を開けたままにしておきましたか？",
+      "english": "Did you leave the window open?"
+    },
+    {
+      "id": "231771",
+      "japanese": "窓を開けっぱなしにしておいたの？",
+      "english": "Did you leave the window open?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.166Z",
+  "count": 5,
+  "fileId": "kanji-00376"
+}

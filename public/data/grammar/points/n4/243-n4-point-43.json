@@ -1,0 +1,114 @@
+{
+  "id": "243-n4-point-43",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞て形 + さしあげる",
+    "romaji": "Doushi te-kei + sashiageru",
+    "en": "Verb TE + sashiageru"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "'Verb TE + さしあげる' is a polite expression used when the speaker does something for someone of higher status or to show respect. It conveys the idea of giving a favor or service in a humble way. The verb is put into its て-form, followed by さしあげる.",
+    "ja": "「動詞て形 + さしあげる」は、目上の人や敬意を表したい相手に対して、何かをしてあげることを丁寧に表現する文法です。動詞をて形にして「さしあげる」をつけます。"
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + さしあげる",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "The verb conjugated into its て-form.",
+        "examples": [
+          "入れて",
+          "送って",
+          "持って",
+          "かけて"
+        ]
+      },
+      {
+        "part": "さしあげる",
+        "explanation": "A humble verb meaning 'to give' or 'to do (for someone of higher status)'.",
+        "examples": [
+          "さしあげます",
+          "さしあげました",
+          "さしあげましょう"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "お茶を入れてさしあげます。",
+      "romaji": "Ocha wo irete sashiagemasu.",
+      "english": "I will prepare and serve tea (for you).",
+      "breakdown": {
+        "お茶": "tea",
+        "を": "object marker",
+        "入れて": "prepare (te-form)",
+        "さしあげます": "do (for you, polite)"
+      },
+      "notes": "Shows respect to the person receiving the favor."
+    },
+    {
+      "japanese": "メッセージを送ってさしあげました。",
+      "romaji": "Messeiji wo okutte sashiagemashita.",
+      "english": "I have sent the message (for you).",
+      "breakdown": {
+        "メッセージ": "message",
+        "を": "object marker",
+        "送って": "send (te-form)",
+        "さしあげました": "did (for you, polite, past)"
+      },
+      "notes": "Polite past tense; implies respect."
+    },
+    {
+      "japanese": "荷物を持ってさしあげましょうか。",
+      "romaji": "Nimotsu wo motte sashiagemashou ka.",
+      "english": "Shall I carry the luggage (for you)?",
+      "breakdown": {
+        "荷物": "luggage",
+        "を": "object marker",
+        "持って": "carry (te-form)",
+        "さしあげましょうか": "shall I do (for you, polite)"
+      },
+      "notes": "Offering a favor to someone of higher status."
+    },
+    {
+      "japanese": "お電話をかけてさしあげます。",
+      "romaji": "Odenwa wo kakete sashiagemasu.",
+      "english": "I will make a phone call (for you).",
+      "breakdown": {
+        "お電話": "phone call",
+        "を": "object marker",
+        "かけて": "make (te-form)",
+        "さしあげます": "do (for you, polite)"
+      },
+      "notes": "Polite; used for someone you want to show respect to."
+    }
+  ],
+  "relatedPoints": [
+    "verb-te-ageru",
+    "verb-te-yaru",
+    "verb-te-kureru"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using さしあげる for actions toward people of equal or lower status.",
+      "correction": "Use あげる or やる for equals or subordinates.",
+      "example": "友達に本を貸してさしあげました。→ 友達に本を貸してあげました。"
+    },
+    {
+      "mistake": "Forgetting to use the て-form of the verb.",
+      "correction": "Always use the て-form before さしあげる.",
+      "example": "お茶を入れさしあげます。→ お茶を入れてさしあげます。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "giving",
+    "politeness",
+    "humble",
+    "verbs",
+    "respect"
+  ]
+}

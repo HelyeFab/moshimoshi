@@ -1,0 +1,23 @@
+{
+  "kanji": "塁",
+  "sentences": [
+    {
+      "id": "208346",
+      "japanese": "その走者は３塁に盗塁した。",
+      "english": "The runner stole third base."
+    },
+    {
+      "id": "235642",
+      "japanese": "１塁があいていたので打者を歩かせた。",
+      "english": "With first base open, he walked the batter."
+    },
+    {
+      "id": "644329",
+      "japanese": "石田盗塁で３塁に進む。",
+      "english": "Ishida advances to third on a stolen base."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:38.244Z",
+  "count": 3,
+  "fileId": "kanji-01819"
+}

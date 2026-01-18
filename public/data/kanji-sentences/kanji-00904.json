@@ -1,0 +1,33 @@
+{
+  "kanji": "門",
+  "sentences": [
+    {
+      "id": "180097",
+      "japanese": "狭き門より入れ。",
+      "english": "Enter by the narrow gate."
+    },
+    {
+      "id": "202990",
+      "japanese": "チケットを見せずに門を通り抜ける女性を見た。",
+      "english": "I saw a lady go through the gate without showing her ticket."
+    },
+    {
+      "id": "206094",
+      "japanese": "その老人は門のところにじっと立っていた。",
+      "english": "The old man stood still at the gate."
+    },
+    {
+      "id": "206354",
+      "japanese": "その門は狭すぎて車は入れません。",
+      "english": "The gate is too narrow for a car."
+    },
+    {
+      "id": "79784",
+      "japanese": "門はトラックには狭過ぎた。",
+      "english": "The gate was too narrow for the truck."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.923Z",
+  "count": 5,
+  "fileId": "kanji-00904"
+}

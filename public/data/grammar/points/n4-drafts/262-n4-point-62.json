@@ -1,0 +1,55 @@
+{
+  "id": "262-n4-point-62",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ように言う (Verb-you ni iu)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The grammar point Verb ように言う is used when someone tells or instructs another person to do something. It can be translated as 'tell to do' or 'instruct to do' in English. The formation is created by adding ように言う to the casual form of a verb.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + ように言う",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "先生は私たちに宿題をやるように言いました。",
+      "romaji": "Sensei wa watashitachi ni shukudai o yaru you ni iimashita.",
+      "english": "The teacher told us to do our homework.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "母は弟に部屋を片付けるように言いました。",
+      "romaji": "Haha wa otouto ni heya wo katazukeru you ni iimashita.",
+      "english": "My mother told my younger brother to clean his room.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "上司は私に報告書を提出するように言いました。",
+      "romaji": "Joushi wa watashi ni houkokusho wo teishutsu suru you ni iimashita.",
+      "english": "My boss told me to submit the report.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "友達が私に早く来るように言いました。",
+      "romaji": "Tomodachi ga watashi ni hayaku kuru you ni iimashita.",
+      "english": "My friend told me to come early.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

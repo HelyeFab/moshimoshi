@@ -1,0 +1,33 @@
+{
+  "kanji": "欠",
+  "sentences": [
+    {
+      "id": "5041",
+      "japanese": "完璧であるには、欠点だけが欠けていた。",
+      "english": "To be perfect she lacked just one defect."
+    },
+    {
+      "id": "177303",
+      "japanese": "君は行動に慎重さを欠いていた。",
+      "english": "You were careless in your action."
+    },
+    {
+      "id": "179387",
+      "japanese": "空気と水は両方とも生命にとって欠くことができない。",
+      "english": "Both air and water are indispensable for life."
+    },
+    {
+      "id": "184621",
+      "japanese": "各色間の調和に欠けているのでこの絵は目立つ。",
+      "english": "The lack of harmony between colors makes this painting stand out."
+    },
+    {
+      "id": "185661",
+      "japanese": "我々は東部市場を開拓しようと言う気持ちが欠けている。",
+      "english": "We lack an incentive for pursuing the eastern market."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.436Z",
+  "count": 5,
+  "fileId": "kanji-00390"
+}

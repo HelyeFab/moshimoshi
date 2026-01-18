@@ -1,0 +1,99 @@
+{
+  "id": "206-n4-point-6",
+  "version": "1.0.0",
+  "title": {
+    "ja": "な-adjective に する/なる",
+    "romaji": "Na-adjective ni suru/naru",
+    "en": "Change or Decision with Na-adjectives"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The na-adjective ni suru/naru grammar point is used to express a change or a decision related to a na-adjective. The naru form indicates a change that occurs by itself, while the suru form indicates a conscious decision made by someone.",
+    "ja": "ナ形容詞にする/なるの文法は、ナ形容詞に関連した変化や決定を表現するために使われます。ナル形は自然と起こる変化を示し、スル形は誰かが意図的に決めたことを示します。"
+  },
+  "structure": {
+    "pattern": "Na-adjective + に + suru/naru",
+    "components": [
+      {
+        "part": "na-adjective",
+        "explanation": "形容詞 that end with 'な'",
+        "examples": [
+          "きれい",
+          "元気"
+        ]
+      },
+      {
+        "part": "に",
+        "explanation": "indicates the state towards which something changes or is decided.",
+        "examples": []
+      },
+      {
+        "part": "する/なる",
+        "explanation": "change into (する: conscious decision, なる: natural change).",
+        "examples": [
+          "部屋をきれいにする。",
+          "彼は元気になりました。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "部屋をきれいにする。",
+      "romaji": "Heya o kirei ni suru.",
+      "english": "To make the room clean.",
+      "breakdown": {
+        "token": "部屋",
+        "gloss": "room"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は元気になりました。",
+      "romaji": "Kare wa genki ni narimashita.",
+      "english": "He became energetic.",
+      "breakdown": {
+        "token": "元気",
+        "gloss": "energetic"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "毎日静かにすることが大切です。",
+      "romaji": "Mainichi shizuka ni suru koto ga taisetsu desu.",
+      "english": "It is important to make it quiet every day.",
+      "breakdown": {
+        "token": "静か",
+        "gloss": "quiet"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "日本語の勉強が楽しくなるように努力します。",
+      "romaji": "Nihongo no benkyou ga tanoshiku naru you ni doryoku shimasu.",
+      "english": "I will try to make studying Japanese become enjoyable.",
+      "breakdown": {
+        "token": "楽しく",
+        "gloss": "enjoyable"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "n4-grammar-point-015"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "部屋を静かになりました。",
+      "correction": "部屋が静かになりました。",
+      "example": "The room became quiet."
+    }
+  ],
+  "tags": [
+    "n4",
+    "na-adjective",
+    "change",
+    "decision"
+  ]
+}

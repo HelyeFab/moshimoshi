@@ -1,0 +1,33 @@
+{
+  "kanji": "詰",
+  "sentences": [
+    {
+      "id": "157243",
+      "japanese": "私は言葉に詰まった。",
+      "english": "I'm at a loss for words."
+    },
+    {
+      "id": "5172",
+      "japanese": "ワインとは、ボトルに詰められた詩である。",
+      "english": "Wine is poetry in bottles."
+    },
+    {
+      "id": "179499",
+      "japanese": "愚者はすぐ奥の手を出し行き詰まる。",
+      "english": "A fool's bolt is soon shot."
+    },
+    {
+      "id": "180100",
+      "japanese": "狭い戸口を通り抜けようとする二人の肥った男が行き詰まっている。",
+      "english": "Two fat men trying to pass through a narrow doorway are in checkmate."
+    },
+    {
+      "id": "180412",
+      "japanese": "恐れ入りますが席をちょっとお詰めください。",
+      "english": "Move over a little if you please."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.678Z",
+  "count": 5,
+  "fileId": "kanji-00722"
+}

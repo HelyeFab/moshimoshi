@@ -1,0 +1,155 @@
+{
+  "id": "265-n4-point-65",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ることができる",
+    "romaji": "Verb ru koto ga dekiru",
+    "en": "Can do (Verb + ことができる)"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "This grammar point expresses the ability or possibility of doing an action. It translates to 'can', 'be able to', or 'is possible' in English.",
+    "ja": "この文法点は、ある行為を行う能力または可能性を表現します。英語では「できる」「可能である」などの意味になります。"
+  },
+  "structure": {
+    "pattern": "Verb-る + ことができる",
+    "components": [
+      {
+        "part": "Verb in る-form",
+        "explanation": "The verb is used in its る-form before adding 'ことができる'.",
+        "examples": [
+          "話す (to speak)",
+          "弾く (to play)"
+        ]
+      },
+      {
+        "part": "ことができる",
+        "explanation": "This phrase follows the verb to indicate ability or possibility.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私は日本語を話すことができます。",
+      "romaji": "Watashi wa nihongo wo hanasu koto ga dekimasu.",
+      "english": "I can speak Japanese.",
+      "breakdown": {
+        "token": [
+          "私",
+          "は",
+          "日本語",
+          "を",
+          "話す",
+          "ことができる"
+        ],
+        "gloss": [
+          "I",
+          "TOPIC MARKER",
+          "Japanese language",
+          "OBJECT MARKER",
+          "speak (る-form)",
+          "can do"
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼はギターを弾くことができます。",
+      "romaji": "Kare wa gitaa wo hiku koto ga dekimasu.",
+      "english": "He can play the guitar.",
+      "breakdown": {
+        "token": [
+          "彼",
+          "は",
+          "ギター",
+          "を",
+          "弾く",
+          "ことができる"
+        ],
+        "gloss": [
+          "he",
+          "TOPIC MARKER",
+          "guitar",
+          "OBJECT MARKER",
+          "play (る-form)",
+          "can do"
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この問題を解決することができますか？",
+      "romaji": "Kono mondai wo kaiketsu suru koto ga dekimasu ka?",
+      "english": "Can you solve this problem?",
+      "breakdown": {
+        "token": [
+          "この",
+          "問題",
+          "を",
+          "解決する",
+          "ことができます",
+          "か"
+        ],
+        "gloss": [
+          "this",
+          "problem",
+          "OBJECT MARKER",
+          "solve (る-form)",
+          "can do",
+          "QUESTION MARKER"
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は犬を泳がせることができます。",
+      "romaji": "Kanojo wa inu wo oyogaseru koto ga dekimasu.",
+      "english": "She can make the dog swim.",
+      "breakdown": {
+        "token": [
+          "彼女",
+          "は",
+          "犬",
+          "を",
+          "泳がせる",
+          "ことができます"
+        ],
+        "gloss": [
+          "she",
+          "TOPIC MARKER",
+          "dog",
+          "OBJECT MARKER",
+          "make to swim (る-form)",
+          "can do"
+        ]
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb ようになる (〜you ni naru)",
+    "名詞をくださる",
+    "名詞 を くれる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "話すことができます。",
+      "correction": "話すことができます。",
+      "example": "私は日本語を話すことができます。"
+    },
+    {
+      "mistake": "弾くことができます。",
+      "correction": "弾くことができます。",
+      "example": "彼はギターを弾くことができます。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "ability",
+    "possibility",
+    "verbs",
+    "can-do"
+  ]
+}

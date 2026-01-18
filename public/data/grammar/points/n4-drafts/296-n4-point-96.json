@@ -1,0 +1,55 @@
+{
+  "id": "296-n4-point-96",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～てもいい (〜temo ii)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～てもいい grammar point is used to give or ask for permission to do something. It can be translated as 'it's okay to', 'may', or 'can' in English. The formation is derived by adding てもいい after the て-form of a verb.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + もいい",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "ここで写真を撮ってもいいですか。",
+      "romaji": "Koko de shashin wo tottemo ii desu ka?",
+      "english": "Is it okay to take a photo here?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このリンゴを食べてもいいですか。",
+      "romaji": "Kono ringo wo tabetemo ii desu ka.",
+      "english": "May I eat this apple?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "試験が終わったら、帰ってもいいです。",
+      "romaji": "Shiken ga owattara, kaettemo ii desu.",
+      "english": "You can go home after the exam is over.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "今夜友達と遊んでもいい。",
+      "romaji": "Kon'ya tomodachi to asondemo ii.",
+      "english": "It's okay to play with friends tonight.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

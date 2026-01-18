@@ -1,0 +1,33 @@
+{
+  "kanji": "壁",
+  "sentences": [
+    {
+      "id": "136182",
+      "japanese": "その車は壁にぶつかった。",
+      "english": "The car crashed into the wall."
+    },
+    {
+      "id": "1148685",
+      "japanese": "壁に耳あり。",
+      "english": "The walls have ears."
+    },
+    {
+      "id": "177089",
+      "japanese": "君は全然ぼくの話を聞いてくれない。壁に向って話すようなものだ。",
+      "english": "You never listen. I might as well talk to the wall."
+    },
+    {
+      "id": "196685",
+      "japanese": "ベルリンの壁が崩壊したのは１９８９年のことだった。",
+      "english": "It was in 1989 that the Berlin Wall was taken down."
+    },
+    {
+      "id": "197480",
+      "japanese": "ひとりで壁により掛かってないで！",
+      "english": "Don't be a wallflower."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.418Z",
+  "count": 5,
+  "fileId": "kanji-01178"
+}

@@ -1,0 +1,23 @@
+{
+  "kanji": "賊",
+  "sentences": [
+    {
+      "id": "139684",
+      "japanese": "賊は裏口の開いた窓から入った。",
+      "english": "The thief entered the house at the back door by the open window."
+    },
+    {
+      "id": "139687",
+      "japanese": "賊が彼の家に押し入った。",
+      "english": "Burglars broke into his house."
+    },
+    {
+      "id": "169726",
+      "japanese": "昨晩私の家に賊が押し入った。",
+      "english": "Some burglars broke into my house last night."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:27.209Z",
+  "count": 3,
+  "fileId": "kanji-01490"
+}

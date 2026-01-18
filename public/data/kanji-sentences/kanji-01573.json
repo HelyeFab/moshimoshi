@@ -1,0 +1,33 @@
+{
+  "kanji": "寂",
+  "sentences": [
+    {
+      "id": "179195",
+      "japanese": "君がいなくて寂しいよ。",
+      "english": "I miss you."
+    },
+    {
+      "id": "179192",
+      "japanese": "君がいなくなると友達が寂しがるだろう。",
+      "english": "You'll be missed by your friends."
+    },
+    {
+      "id": "234254",
+      "japanese": "あなたがいなくなると友人が寂しがるでしょう。",
+      "english": "You'll be missed by your friends."
+    },
+    {
+      "id": "9831585",
+      "japanese": "友達が寂しがるね。",
+      "english": "You'll be missed by your friends."
+    },
+    {
+      "id": "179194",
+      "japanese": "君がいなくなったら、本当に寂しくなるな。",
+      "english": "We shall all miss you when you go away."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:29.774Z",
+  "count": 5,
+  "fileId": "kanji-01573"
+}

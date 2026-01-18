@@ -1,0 +1,33 @@
+{
+  "kanji": "端",
+  "sentences": [
+    {
+      "id": "183411",
+      "japanese": "机の端にヒジ先をぶつけちゃった。",
+      "english": "I hit my funny bone on the edge of the table."
+    },
+    {
+      "id": "236831",
+      "japanese": "鉛筆が私の机の端から転がり落ちた。",
+      "english": "My pencil fell off the edge of my desk."
+    },
+    {
+      "id": "196522",
+      "japanese": "ボーラは、手に握らないほうの端に２つの石の球と長いひもから成り立っている。",
+      "english": "Bolas are made up of a long cord with two stone balls at the free ends."
+    },
+    {
+      "id": "198074",
+      "japanese": "バスルームはホールの端にあります。",
+      "english": "The bathroom is at the end of the hall."
+    },
+    {
+      "id": "202409",
+      "japanese": "テーブルの向こうの端に座っているのは誰ですか。",
+      "english": "Who is the man sitting at the other end of the table?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:49.634Z",
+  "count": 5,
+  "fileId": "kanji-02104"
+}

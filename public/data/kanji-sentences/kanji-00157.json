@@ -1,0 +1,33 @@
+{
+  "kanji": "家",
+  "sentences": [
+    {
+      "id": "4856",
+      "japanese": "家に来ませんか。",
+      "english": "Why don't you come visit us?"
+    },
+    {
+      "id": "4950",
+      "japanese": "家に帰りましょうか。",
+      "english": "Why don't we go home?"
+    },
+    {
+      "id": "4981",
+      "japanese": "こわれやすいガラス張りの家に住む者は石を投げてはいけない。",
+      "english": "Those who live in glass houses should not throw stones."
+    },
+    {
+      "id": "226193",
+      "japanese": "ガラスの家に住む人は石を投げるべきではない。",
+      "english": "Those who live in glass houses should not throw stones."
+    },
+    {
+      "id": "398073",
+      "japanese": "ああ！　もし私がお金持ちだったら、スペインに自分の家を買ったのに。",
+      "english": "Ah! If I were rich, I'd buy myself a house in Spain."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.361Z",
+  "count": 5,
+  "fileId": "kanji-00157"
+}

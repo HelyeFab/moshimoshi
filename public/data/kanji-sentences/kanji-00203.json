@@ -1,0 +1,33 @@
+{
+  "kanji": "真",
+  "sentences": [
+    {
+      "id": "5042",
+      "japanese": "しかし、逆もまた真である。",
+      "english": "And yet, the contrary is always true as well."
+    },
+    {
+      "id": "5264",
+      "japanese": "外は真っ暗だ。",
+      "english": "It's all dark outside."
+    },
+    {
+      "id": "179426",
+      "japanese": "空は真っ暗だった。",
+      "english": "The sky was completely dark."
+    },
+    {
+      "id": "180118",
+      "japanese": "橋は真ん中で開くような具合に作られている。",
+      "english": "The bridge is designed to open in the middle."
+    },
+    {
+      "id": "182122",
+      "japanese": "魚が真っ黒に焦げた。",
+      "english": "The fish is burnt black."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.893Z",
+  "count": 5,
+  "fileId": "kanji-00203"
+}

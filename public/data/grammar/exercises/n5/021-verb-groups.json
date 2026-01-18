@@ -1,0 +1,176 @@
+{
+  "grammarPointId": "021-verb-groups",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "021-verb-groups-ex-01",
+      "type": "multiple-choice",
+      "question": "Which verb is an irregular verb?",
+      "options": [
+        { "id": "a", "text": "食べる" },
+        { "id": "b", "text": "書く" },
+        { "id": "c", "text": "する" },
+        { "id": "d", "text": "読む" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! する is irregular.",
+      "incorrectFeedback": "Not quite. する and 来る are irregular.",
+      "explanation": "Only する and 来る are irregular at N5.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "021-verb-groups-ex-02",
+      "type": "multiple-choice",
+      "question": "Which verb is a る-verb?",
+      "options": [
+        { "id": "a", "text": "食べる" },
+        { "id": "b", "text": "書く" },
+        { "id": "c", "text": "話す" },
+        { "id": "d", "text": "待つ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Yes! 食べる is a る-verb.",
+      "incorrectFeedback": "Try again. 食べる is a る-verb.",
+      "explanation": "る-verbs often end in る with an i/e sound before it.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "021-verb-groups-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'do' (dictionary form)",
+      "correctAnswer": "する",
+      "acceptedVariations": [
+        "する",
+        "suru"
+      ],
+      "correctFeedback": "Great! する is correct.",
+      "incorrectFeedback": "The correct answer is: する (suru).",
+      "explanation": "する is one of the two irregular verbs.",
+      "hints": ["Irregular verb", "Meaning: do"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "021-verb-groups-ex-04",
+      "type": "multiple-choice",
+      "question": "Which verb is a う-verb?",
+      "options": [
+        { "id": "a", "text": "見る" },
+        { "id": "b", "text": "起きる" },
+        { "id": "c", "text": "書く" },
+        { "id": "d", "text": "食べる" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 書く is a う-verb.",
+      "incorrectFeedback": "Not quite. 書く is a う-verb.",
+      "explanation": "う-verbs end in a u-sound like く, す, つ.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "021-verb-groups-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'come' (dictionary form)",
+      "correctAnswer": "来る",
+      "acceptedVariations": [
+        "来る",
+        "くる",
+        "kuru"
+      ],
+      "correctFeedback": "Nice! 来る is correct.",
+      "incorrectFeedback": "The correct answer is: 来る (kuru).",
+      "explanation": "来る is the irregular verb 'to come'.",
+      "hints": ["Irregular verb", "Meaning: come"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "021-verb-groups-ex-06",
+      "type": "multiple-choice",
+      "question": "Which verb is a tricky う-verb (ends in る but not a る-verb)?",
+      "options": [
+        { "id": "a", "text": "食べる" },
+        { "id": "b", "text": "見る" },
+        { "id": "c", "text": "帰る" },
+        { "id": "d", "text": "起きる" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 帰る is a う-verb.",
+      "incorrectFeedback": "Try again. 帰る is a う-verb even though it ends in る.",
+      "explanation": "Some る-ending verbs are actually う-verbs.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "021-verb-groups-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'write' (dictionary form)",
+      "correctAnswer": "書く",
+      "acceptedVariations": [
+        "書く",
+        "かく",
+        "kaku"
+      ],
+      "correctFeedback": "Great! 書く is correct.",
+      "incorrectFeedback": "The correct answer is: 書く (kaku).",
+      "explanation": "書く is a う-verb.",
+      "hints": ["Meaning: write", "U-verb"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "021-verb-groups-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the verb with its group:",
+      "pairs": [
+        {
+          "japanese": "食べる",
+          "romaji": "taberu",
+          "english": "ru-verb"
+        },
+        {
+          "japanese": "書く",
+          "romaji": "kaku",
+          "english": "u-verb"
+        },
+        {
+          "japanese": "する",
+          "romaji": "suru",
+          "english": "irregular"
+        }
+      ],
+      "correctFeedback": "Perfect! You matched the verb groups correctly.",
+      "incorrectFeedback": "Not quite. Review the three verb groups.",
+      "explanation": "There are る-verbs, う-verbs, and irregular verbs.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "021-verb-groups-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "見るはう-verbです。" },
+        { "id": "b", "text": "食べるはる-verbです。" },
+        { "id": "c", "text": "するはる-verbです。" },
+        { "id": "d", "text": "書くはirregularです。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 食べる is a る-verb.",
+      "incorrectFeedback": "Try again. 食べる is a る-verb.",
+      "explanation": "する is irregular; 書く is a う-verb.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "021-verb-groups-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'eat' (dictionary form)",
+      "correctAnswer": "食べる",
+      "acceptedVariations": [
+        "食べる",
+        "たべる",
+        "taberu"
+      ],
+      "correctFeedback": "Nice! 食べる is correct.",
+      "incorrectFeedback": "The correct answer is: 食べる (taberu).",
+      "explanation": "食べる is a る-verb in dictionary form.",
+      "hints": ["Meaning: eat", "Ru-verb"],
+      "difficulty": "hard"
+    }
+  ]
+}

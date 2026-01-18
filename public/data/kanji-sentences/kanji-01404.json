@@ -1,0 +1,33 @@
+{
+  "kanji": "裸",
+  "sentences": [
+    {
+      "id": "177994",
+      "japanese": "君は、このホテル内で裸になってはいけないよ。",
+      "english": "You can't go naked in this hotel."
+    },
+    {
+      "id": "196173",
+      "japanese": "ホテル内で裸になるな。",
+      "english": "You can't go naked in this hotel."
+    },
+    {
+      "id": "188462",
+      "japanese": "王様は裸であることがわかった。",
+      "english": "The king turned out to be naked."
+    },
+    {
+      "id": "195240",
+      "japanese": "まもなく木々は裸になるだろう。",
+      "english": "It won't be long before the trees are bare."
+    },
+    {
+      "id": "77378",
+      "japanese": "労働者たちは腰まで裸だった。",
+      "english": "The workers were naked to the waist."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:24.750Z",
+  "count": 5,
+  "fileId": "kanji-01404"
+}

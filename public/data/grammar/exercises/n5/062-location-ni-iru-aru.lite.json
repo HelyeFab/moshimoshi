@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "062-location-ni-iru-aru",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "062-location-ni-iru-aru-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 部屋__猫がいます。",
+      "options": [
+        {
+          "id": "a",
+          "text": "に"
+        },
+        {
+          "id": "b",
+          "text": "で"
+        },
+        {
+          "id": "c",
+          "text": "を"
+        },
+        {
+          "id": "d",
+          "text": "が"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use に for location with います/あります.",
+      "incorrectFeedback": "Not quite. に marks the location of existence.",
+      "explanation": "に is used for location in existence sentences.",
+      "difficulty": "easy"
+    }
+  ]
+}

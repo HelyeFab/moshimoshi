@@ -1,0 +1,33 @@
+{
+  "kanji": "恨",
+  "sentences": [
+    {
+      "id": "178678",
+      "japanese": "君にはなんの恨みもない。",
+      "english": "I bear no grudge against you."
+    },
+    {
+      "id": "192538",
+      "japanese": "リサはスタンに恨みがある。",
+      "english": "Lisa bears a grudge against Stan."
+    },
+    {
+      "id": "74346",
+      "japanese": "セーラは恨むような女の子ではないだろうが。",
+      "english": "Well, I don't think Sara is the sort of girl to bear grudges."
+    },
+    {
+      "id": "100397",
+      "japanese": "彼は父の死の恨みを晴らした。",
+      "english": "He avenged his father's death."
+    },
+    {
+      "id": "100804",
+      "japanese": "彼は彼女を恨んでいる。",
+      "english": "He hates her."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.914Z",
+  "count": 5,
+  "fileId": "kanji-01618"
+}

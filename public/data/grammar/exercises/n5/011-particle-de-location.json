@@ -1,0 +1,182 @@
+{
+  "grammarPointId": "011-particle-de-location",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "011-particle-de-location-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 学校＿＿勉強します。",
+      "questionRomaji": "Gakkou __ benkyou shimasu.",
+      "options": [
+        { "id": "a", "text": "に", "romaji": "ni" },
+        { "id": "b", "text": "で", "romaji": "de" },
+        { "id": "c", "text": "を", "romaji": "o" },
+        { "id": "d", "text": "が", "romaji": "ga" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! で marks the place of the action.",
+      "incorrectFeedback": "Not quite. Use で for action location.",
+      "explanation": "勉強します happens at school, so use で.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "011-particle-de-location-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "図書館に本を読みます。" },
+        { "id": "b", "text": "図書館で本を読みます。" },
+        { "id": "c", "text": "図書館を本を読みます。" },
+        { "id": "d", "text": "図書館が本を読みます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! で marks where the action happens.",
+      "incorrectFeedback": "Try again. Reading happens at the library, so use で.",
+      "explanation": "Action location uses で.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "011-particle-de-location-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I eat lunch at home.'",
+      "correctAnswer": "家で昼ご飯を食べます",
+      "acceptedVariations": [
+        "家で昼ご飯を食べます。",
+        "いえでひるごはんをたべます",
+        "ie de hirugohan o tabemasu",
+        "ie de hirugohan o tabemasu."
+      ],
+      "correctFeedback": "Great! 家で昼ご飯を食べます is correct.",
+      "incorrectFeedback": "The correct answer is: 家で昼ご飯を食べます (ie de hirugohan o tabemasu).",
+      "explanation": "Use で to mark the action location.",
+      "hints": ["家で = at home", "昼ご飯 = lunch"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "011-particle-de-location-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence for 'I play soccer in the park.'",
+      "options": [
+        { "id": "a", "text": "公園にサッカーをします。" },
+        { "id": "b", "text": "公園でサッカーをします。" },
+        { "id": "c", "text": "公園をサッカーをします。" },
+        { "id": "d", "text": "公園がサッカーをします。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! で marks where you play.",
+      "incorrectFeedback": "Not quite. Use で for the place of action.",
+      "explanation": "Actions happen at a place marked by で.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "011-particle-de-location-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I study Japanese at the library.'",
+      "correctAnswer": "図書館で日本語を勉強します",
+      "acceptedVariations": [
+        "図書館で日本語を勉強します。",
+        "としょかんでにほんごをべんきょうします",
+        "toshokan de nihongo o benkyou shimasu",
+        "toshokan de nihongo o benkyou shimasu."
+      ],
+      "correctFeedback": "Nice! 図書館で日本語を勉強します is correct.",
+      "incorrectFeedback": "The correct answer is: 図書館で日本語を勉強します (toshokan de nihongo o benkyou shimasu).",
+      "explanation": "Use で to mark the location of the action.",
+      "hints": ["図書館 = library", "Use で"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "011-particle-de-location-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence uses に correctly (not で)?",
+      "options": [
+        { "id": "a", "text": "学校で行きます。" },
+        { "id": "b", "text": "学校に行きます。" },
+        { "id": "c", "text": "学校を行きます。" },
+        { "id": "d", "text": "学校が行きます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! に is used for destinations.",
+      "incorrectFeedback": "Try again. 行きます uses に for destination.",
+      "explanation": "で is for action location, に is for destination.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "011-particle-de-location-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I watch TV at home.'",
+      "correctAnswer": "家でテレビを見ます",
+      "acceptedVariations": [
+        "家でテレビを見ます。",
+        "いえでてれびをみます",
+        "ie de terebi o mimasu",
+        "ie de terebi o mimasu."
+      ],
+      "correctFeedback": "Great! 家でテレビを見ます is correct.",
+      "incorrectFeedback": "The correct answer is: 家でテレビを見ます (ie de terebi o mimasu).",
+      "explanation": "Use で to mark where the action happens.",
+      "hints": ["家で = at home", "見ます = watch"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "011-particle-de-location-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "学校で勉強します。",
+          "romaji": "Gakkou de benkyou shimasu.",
+          "english": "I study at school."
+        },
+        {
+          "japanese": "家でご飯を食べます。",
+          "romaji": "Ie de gohan o tabemasu.",
+          "english": "I eat at home."
+        },
+        {
+          "japanese": "公園で遊びます。",
+          "romaji": "Kouen de asobimasu.",
+          "english": "I play in the park."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review で as the action location.",
+      "explanation": "Each sentence uses で to mark where the action happens.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "011-particle-de-location-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "レストランで食べます。" },
+        { "id": "b", "text": "学校で勉強します。" },
+        { "id": "c", "text": "公園に遊びます。" },
+        { "id": "d", "text": "家でテレビを見ます。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 公園で遊びます is correct; に is wrong here.",
+      "incorrectFeedback": "Try again. Use で for action locations.",
+      "explanation": "遊びます is an action, so use で.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "011-particle-de-location-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I work at the hospital.'",
+      "correctAnswer": "病院で働きます",
+      "acceptedVariations": [
+        "病院で働きます。",
+        "びょういんではたらきます",
+        "byouin de hatarakimasu",
+        "byouin de hatarakimasu."
+      ],
+      "correctFeedback": "Nice! 病院で働きます is correct.",
+      "incorrectFeedback": "The correct answer is: 病院で働きます (byouin de hatarakimasu).",
+      "explanation": "Use で for the place of action.",
+      "hints": ["病院 = hospital", "働きます = work"],
+      "difficulty": "hard"
+    }
+  ]
+}

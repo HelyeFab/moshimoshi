@@ -1,0 +1,33 @@
+{
+  "kanji": "線",
+  "sentences": [
+    {
+      "id": "190862",
+      "japanese": "医者は、私の胃を調べるためにＸ線を用いた。",
+      "english": "The doctor used X-rays to examine my stomach."
+    },
+    {
+      "id": "191581",
+      "japanese": "ん～、イマイチなんだよねえ。この脚のあたりの線とかさぁ。なんとかなんないの？",
+      "english": "This drawing is less than great. He needs to do something with the line here at the back of the leg."
+    },
+    {
+      "id": "205986",
+      "japanese": "そもそも何故私の物だけ液晶に線が入っていたのか。",
+      "english": "In any case why was it only mine that had a line in the LCD?"
+    },
+    {
+      "id": "213450",
+      "japanese": "その２つの線は直角に交わっている。",
+      "english": "The two lines cross each other at right angles."
+    },
+    {
+      "id": "126847",
+      "japanese": "地図上の太い線は道路に相当する。",
+      "english": "The broad lines on the map correspond to roads."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.114Z",
+  "count": 5,
+  "fileId": "kanji-00910"
+}

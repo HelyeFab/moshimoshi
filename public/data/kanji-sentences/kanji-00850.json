@@ -1,0 +1,33 @@
+{
+  "kanji": "賢",
+  "sentences": [
+    {
+      "id": "4947",
+      "japanese": "ドイツ人はとてもずる賢い。",
+      "english": "The Germans are very crafty."
+    },
+    {
+      "id": "5214",
+      "japanese": "彼女は本当に賢いよね？",
+      "english": "She's really smart, isn't she?"
+    },
+    {
+      "id": "177321",
+      "japanese": "君は賢い選択をした。",
+      "english": "You made a wise choice."
+    },
+    {
+      "id": "182320",
+      "japanese": "牛は決して賢くはない。",
+      "english": "The cow is anything but bright."
+    },
+    {
+      "id": "182319",
+      "japanese": "牛は決して賢くない。",
+      "english": "Cows are anything but bright."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.649Z",
+  "count": 5,
+  "fileId": "kanji-00850"
+}

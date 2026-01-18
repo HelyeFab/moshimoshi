@@ -1,0 +1,33 @@
+{
+  "kanji": "察",
+  "sentences": [
+    {
+      "id": "183193",
+      "japanese": "お気持ちお察しします。",
+      "english": "I understand how you feel."
+    },
+    {
+      "id": "9495977",
+      "japanese": "何が起きてるのか、察しはついてたさ。",
+      "english": "I sensed what was happening."
+    },
+    {
+      "id": "221350",
+      "japanese": "この手紙から察すると彼は立腹しているようだ。",
+      "english": "I gathered from this letter that he was angry."
+    },
+    {
+      "id": "222271",
+      "japanese": "この空模様から察すると、日暮れ前にひょっとしたら一雨降るかも知れません。",
+      "english": "Judging from the look of the sky, we might have a shower before nightfall."
+    },
+    {
+      "id": "224170",
+      "japanese": "こちらの事情をお察しいただけると助かります。",
+      "english": "We hope you will understand the difficult circumstances we're working under."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.601Z",
+  "count": 5,
+  "fileId": "kanji-00263"
+}

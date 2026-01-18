@@ -1,0 +1,33 @@
+{
+  "kanji": "灰",
+  "sentences": [
+    {
+      "id": "184387",
+      "japanese": "学校は焼けて灰になった。",
+      "english": "Our school was reduced to ashes."
+    },
+    {
+      "id": "202066",
+      "japanese": "デリカテッセンから火災が発生し、灰の山を残して全焼した。",
+      "english": "A delicatessen caught fire and burned down, leaving a heap of ashes."
+    },
+    {
+      "id": "210892",
+      "japanese": "その古い家は焼けて灰になった。",
+      "english": "The old house was burned to ashes."
+    },
+    {
+      "id": "211951",
+      "japanese": "その火事で家は灰になった。",
+      "english": "The fire reduced the house to ashes."
+    },
+    {
+      "id": "212078",
+      "japanese": "その家は焼けて灰になった。",
+      "english": "The house was burned to ashes."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.805Z",
+  "count": 5,
+  "fileId": "kanji-00858"
+}

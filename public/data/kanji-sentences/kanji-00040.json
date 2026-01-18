@@ -1,0 +1,33 @@
+{
+  "kanji": "男",
+  "sentences": [
+    {
+      "id": "4963",
+      "japanese": "私が駅を出た時、男の人を見た。",
+      "english": "When I left the train station, I saw a man."
+    },
+    {
+      "id": "177589",
+      "japanese": "君はなんという男だ。",
+      "english": "What a man you are!"
+    },
+    {
+      "id": "177676",
+      "japanese": "君はそんな男を信頼してはならない。",
+      "english": "You must not rely upon such a man."
+    },
+    {
+      "id": "1278772",
+      "japanese": "君はなかなかの男だな。",
+      "english": "You are quite a man."
+    },
+    {
+      "id": "177964",
+      "japanese": "君はああいった男たちと交際しないほうがいい。",
+      "english": "You had better not associate with those men."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.662Z",
+  "count": 5,
+  "fileId": "kanji-00040"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "公",
+  "sentences": [
+    {
+      "id": "206161",
+      "japanese": "その老人は１０年前に公の生活から引退した。",
+      "english": "The old man retired from public life ten years ago."
+    },
+    {
+      "id": "206430",
+      "japanese": "その問題は公にしてさばかれるべきだ。",
+      "english": "The matter should be tried in public."
+    },
+    {
+      "id": "208682",
+      "japanese": "その政治家は前言を取り消して公に謝罪するはめになった。",
+      "english": "The politician had to take back his words and eat crow."
+    },
+    {
+      "id": "223413",
+      "japanese": "このニュースはまだ公にしてほしくない。",
+      "english": "I don't want this news to be made public yet."
+    },
+    {
+      "id": "234249",
+      "japanese": "あなたがおいでになることを公にするのは賢明ではないかもしれない。",
+      "english": "It may be unwise of you to advertise your presence."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.047Z",
+  "count": 5,
+  "fileId": "kanji-00213"
+}

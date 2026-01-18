@@ -1,0 +1,33 @@
+{
+  "kanji": "授",
+  "sentences": [
+    {
+      "id": "183868",
+      "japanese": "監督は彼にトロフィーを授けた。",
+      "english": "The manager bestowed a trophy on him."
+    },
+    {
+      "id": "191083",
+      "japanese": "委員会は彼にメダルを授けた。",
+      "english": "The committee bestowed a medal on him."
+    },
+    {
+      "id": "197916",
+      "japanese": "バプテスマを授けておられます。みなあの方の方に行きます。",
+      "english": "Well, he is baptizing, and everyone is going to him."
+    },
+    {
+      "id": "208242",
+      "japanese": "その大学は彼に最高の学位を授けた。",
+      "english": "The university conferred its highest degree on him."
+    },
+    {
+      "id": "212706",
+      "japanese": "そのピアニストは非凡な才能を授かっている。",
+      "english": "The pianist is endowed with extraordinary talent."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:17.512Z",
+  "count": 5,
+  "fileId": "kanji-01140"
+}

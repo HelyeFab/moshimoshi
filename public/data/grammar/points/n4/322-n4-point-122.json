@@ -1,0 +1,129 @@
+{
+  "id": "322-n4-point-122",
+  "version": "1.0.0",
+  "title": {
+    "ja": "文A。それで 文B",
+    "romaji": "Bun A. Sorede Bun B",
+    "en": "Sentence A. Sorede Sentence B"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "This grammar point connects two sentences, with the second sentence being the result or consequence of the first. 'Sorede' can be translated as 'so', 'that's why', or 'therefore'.",
+    "ja": "この文法は2つの文をつなげ、2つ目の文が1つ目の文の結果や理由であることを表します。「それで」は「だから」「そのため」などの意味になります。"
+  },
+  "structure": {
+    "pattern": "Sentence A。それで Sentence B。",
+    "components": [
+      {
+        "part": "Sentence A",
+        "explanation": "The cause or reason.",
+        "examples": [
+          "今日は暑いです。",
+          "電車が遅れました。"
+        ]
+      },
+      {
+        "part": "それで",
+        "explanation": "Connects the two sentences, showing consequence.",
+        "examples": [
+          "それで、エアコンをつけました。"
+        ]
+      },
+      {
+        "part": "Sentence B",
+        "explanation": "The result or consequence.",
+        "examples": [
+          "エアコンをつけました。",
+          "仕事に遅れてしまいました。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "今日は暑いです。それで、エアコンをつけました。",
+      "romaji": "Kyou wa atsui desu. Sorede, eakon wo tsukemashita.",
+      "english": "It is hot today. So, I turned on the air conditioner.",
+      "breakdown": {
+        "今日": "today",
+        "暑い": "hot",
+        "それで": "so",
+        "エアコン": "air conditioner",
+        "を": "object marker",
+        "つけました": "turned on"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "電車が遅れました。それで、仕事に遅れてしまいました。",
+      "romaji": "Densha ga okuremashita. Sorede, shigoto ni okurete shimaimashita.",
+      "english": "The train was delayed. That's why I was late for work.",
+      "breakdown": {
+        "電車": "train",
+        "が": "subject marker",
+        "遅れました": "was delayed",
+        "それで": "that's why",
+        "仕事": "work",
+        "に": "direction/target",
+        "遅れてしまいました": "ended up being late"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は疲れている。それで、早く寝ることにした。",
+      "romaji": "Kare wa tsukarete iru. Sorede, hayaku neru koto ni shita.",
+      "english": "He is tired. Therefore, he decided to go to bed early.",
+      "breakdown": {
+        "彼": "he",
+        "は": "topic marker",
+        "疲れている": "is tired",
+        "それで": "therefore",
+        "早く": "early",
+        "寝ることにした": "decided to go to bed"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "試験に合格しました。それで、友達とお祝いパーティーを開きました。",
+      "romaji": "Shiken ni goukaku shimashita. Sorede, tomodachi to oiwai paatii wo hirakimashita.",
+      "english": "I passed the exam. So, I held a celebration party with friends.",
+      "breakdown": {
+        "試験": "exam",
+        "に": "in/at",
+        "合格しました": "passed",
+        "それで": "so",
+        "友達": "friends",
+        "と": "with",
+        "お祝いパーティー": "celebration party",
+        "を": "object marker",
+        "開きました": "held"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "文A。だから 文B",
+    "～から",
+    "～ので"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "今日は暑いです、それでエアコンをつけました。",
+      "correction": "今日は暑いです。それで、エアコンをつけました。",
+      "example": "Do not use a comma instead of a period before 'それで'."
+    },
+    {
+      "mistake": "それで、今日は暑いです。エアコンをつけました。",
+      "correction": "今日は暑いです。それで、エアコンをつけました。",
+      "example": "Do not start with 'それで' when showing a result; it should come after the cause."
+    }
+  ],
+  "tags": [
+    "n4",
+    "connector",
+    "result",
+    "consequence",
+    "sentence-linking"
+  ]
+}

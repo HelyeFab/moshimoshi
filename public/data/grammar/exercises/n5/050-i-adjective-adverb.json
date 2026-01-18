@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "050-i-adjective-adverb",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "050-i-adjective-adverb-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the adverb form of 早い (early/fast):",
+      "options": [
+        { "id": "a", "text": "早く" },
+        { "id": "b", "text": "早かった" },
+        { "id": "c", "text": "早いく" },
+        { "id": "d", "text": "早くない" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 早い → 早く.",
+      "incorrectFeedback": "Not quite. Change い to く.",
+      "explanation": "I-adjectives become adverbs by changing い to く.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "050-i-adjective-adverb-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "早く起きます。" },
+        { "id": "b", "text": "早い起きます。" },
+        { "id": "c", "text": "早かった起きます。" },
+        { "id": "d", "text": "早くな起きます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 早く modifies 起きます.",
+      "incorrectFeedback": "Try again. Use く to make an adverb.",
+      "explanation": "Use く-form to modify verbs.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "050-i-adjective-adverb-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Please speak slowly.'",
+      "correctAnswer": "ゆっくり話してください",
+      "acceptedVariations": [
+        "ゆっくり話してください。",
+        "ゆっくりはなしてください",
+        "yukkuri hanashite kudasai",
+        "yukkuri hanashite kudasai."
+      ],
+      "correctFeedback": "Great! ゆっくり話してください is correct.",
+      "incorrectFeedback": "The correct answer is: ゆっくり話してください (yukkuri hanashite kudasai).",
+      "explanation": "ゆっくり already works as an adverb meaning 'slowly.'",
+      "hints": ["話す = to speak", "Use てください"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "050-i-adjective-adverb-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the adverb form of 大きい:",
+      "options": [
+        { "id": "a", "text": "大きく" },
+        { "id": "b", "text": "大きかった" },
+        { "id": "c", "text": "大きいく" },
+        { "id": "d", "text": "大きくない" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 大きい → 大きく.",
+      "incorrectFeedback": "Not quite. Change い to く.",
+      "explanation": "I-adjectives become adverbs with く.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "050-i-adjective-adverb-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Write clearly.'",
+      "correctAnswer": "はっきり書いてください",
+      "acceptedVariations": [
+        "はっきり書いてください。",
+        "はっきりかいてください",
+        "hakkiri kaite kudasai",
+        "hakkiri kaite kudasai."
+      ],
+      "correctFeedback": "Nice! はっきり書いてください is correct.",
+      "incorrectFeedback": "The correct answer is: はっきり書いてください (hakkiri kaite kudasai).",
+      "explanation": "はっきり is an adverb meaning 'clearly.'",
+      "hints": ["書く = to write", "Use てください"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "050-i-adjective-adverb-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "早く歩きます。" },
+        { "id": "b", "text": "安く買いました。" },
+        { "id": "c", "text": "静かく話します。" },
+        { "id": "d", "text": "大きく書きます。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 静か is a な-adjective; use 静かに.",
+      "incorrectFeedback": "Try again. 静か is not an い-adjective.",
+      "explanation": "Na-adjectives use に for adverbs (静かに).",
+      "difficulty": "medium"
+    },
+    {
+      "id": "050-i-adjective-adverb-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I eat cheaply.'",
+      "correctAnswer": "安く食べます",
+      "acceptedVariations": [
+        "安く食べます。",
+        "やすくたべます",
+        "yasuku tabemasu",
+        "yasuku tabemasu."
+      ],
+      "correctFeedback": "Great! 安く食べます is correct.",
+      "incorrectFeedback": "The correct answer is: 安く食べます (yasuku tabemasu).",
+      "explanation": "安い → 安く to modify the verb 食べます.",
+      "hints": ["食べます = eat", "い → く"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "050-i-adjective-adverb-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "早く起きます。",
+          "romaji": "Hayaku okimasu.",
+          "english": "I wake up early."
+        },
+        {
+          "japanese": "安く買いました。",
+          "romaji": "Yasuku kaimashita.",
+          "english": "I bought it cheaply."
+        },
+        {
+          "japanese": "大きく書きます。",
+          "romaji": "Ookiku kakimasu.",
+          "english": "I write big."
+        }
+      ],
+      "correctFeedback": "Perfect! All use く-adverbs.",
+      "incorrectFeedback": "Not quite. Review い-adjective adverbs.",
+      "explanation": "い-adjectives change い to く to modify verbs.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "050-i-adjective-adverb-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct adverb form of 新しい?",
+      "options": [
+        { "id": "a", "text": "新しく" },
+        { "id": "b", "text": "新しかった" },
+        { "id": "c", "text": "新しいく" },
+        { "id": "d", "text": "新しくない" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 新しい → 新しく.",
+      "incorrectFeedback": "Try again. Change い to く.",
+      "explanation": "い-adjective adverbs use く.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "050-i-adjective-adverb-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Please write it big.'",
+      "correctAnswer": "大きく書いてください",
+      "acceptedVariations": [
+        "大きく書いてください。",
+        "おおきくかいてください",
+        "ookiku kaite kudasai",
+        "ookiku kaite kudasai."
+      ],
+      "correctFeedback": "Nice! 大きく書いてください is correct.",
+      "incorrectFeedback": "The correct answer is: 大きく書いてください (ookiku kaite kudasai).",
+      "explanation": "大きい → 大きく to modify 書いてください.",
+      "hints": ["書く = to write", "Use く-adverb"],
+      "difficulty": "hard"
+    }
+  ]
+}

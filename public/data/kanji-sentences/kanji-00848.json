@@ -1,0 +1,33 @@
+{
+  "kanji": "掃",
+  "sentences": [
+    {
+      "id": "190448",
+      "japanese": "一人一人が戸口を掃けば、町はきれいになる。",
+      "english": "If each would sweep before the door, we should have a clean city."
+    },
+    {
+      "id": "226930",
+      "japanese": "お前は床を掃きさえすればよい。",
+      "english": "You have only to sweep the floor."
+    },
+    {
+      "id": "93257",
+      "japanese": "彼女はいつも床を綺麗に掃いています。",
+      "english": "She always sweeps the floor clean."
+    },
+    {
+      "id": "137822",
+      "japanese": "台所をきれいに掃くのを忘れないように。",
+      "english": "Don't forget to sweep the kitchen clean."
+    },
+    {
+      "id": "157218",
+      "japanese": "私は枯葉を掃き集めた。",
+      "english": "I swept up dead leaves."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.634Z",
+  "count": 5,
+  "fileId": "kanji-00848"
+}

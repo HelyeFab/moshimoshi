@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "309-n4-point-109",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "309-n4-point-109-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Particle ～に (ni)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～に",
+          "romaji": "~ni"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! ～に matches \"Particle ～に (ni)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～に.",
+      "explanation": "Indicates direction, purpose, time, or location depending on context.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "309-n4-point-109-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～に.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Particle ～に (ni)"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～に means \"Particle ～に (ni)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Particle ～に (ni)\".",
+      "explanation": "Indicates direction, purpose, time, or location depending on context.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "309-n4-point-109-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～に.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "~ni"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ~ni is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~ni.",
+      "explanation": "Indicates direction, purpose, time, or location depending on context.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "309-n4-point-109-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～に?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Indicates direction, purpose, time, or location depending on context."
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Indicates direction, purpose, time, or location depending on context.",
+      "explanation": "Indicates direction, purpose, time, or location depending on context.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "309-n4-point-109-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Particle ～に (ni)\".",
+      "correctAnswer": "～に",
+      "acceptedVariations": [
+        "～に",
+        "～に"
+      ],
+      "correctFeedback": "Nice! ～に is correct.",
+      "incorrectFeedback": "The correct pattern is: ～に (~ni).",
+      "explanation": "Indicates direction, purpose, time, or location depending on context.",
+      "hints": [
+        "~ni",
+        "Indicates direction, purpose, time, or location depending on context."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "309-n4-point-109-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～に.",
+      "correctAnswer": "~ni",
+      "acceptedVariations": [
+        "~ni",
+        "~ni"
+      ],
+      "correctFeedback": "Nice! ~ni is correct.",
+      "incorrectFeedback": "The correct romaji is: ~ni.",
+      "explanation": "Indicates direction, purpose, time, or location depending on context.",
+      "hints": [
+        "Indicates direction, purpose, time, or location depending on context."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "309-n4-point-109-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～に.",
+      "correctAnswer": "Particle ～に (ni)",
+      "acceptedVariations": [
+        "Particle ～に (ni)",
+        "particle ～に (ni)"
+      ],
+      "correctFeedback": "Correct! \"Particle ～に (ni)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Particle ～に (ni)\".",
+      "explanation": "Indicates direction, purpose, time, or location depending on context.",
+      "hints": [
+        "Indicates direction, purpose, time, or location depending on context."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "309-n4-point-109-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～に",
+          "romaji": "~ni",
+          "english": "Particle ～に (ni)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Indicates direction, purpose, time, or location depending on context.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "309-n4-point-109-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Indicates direction, purpose, time, or location depending on context..",
+      "options": [
+        {
+          "id": "a",
+          "text": "～に",
+          "romaji": "~ni"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ～に matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～に.",
+      "explanation": "Indicates direction, purpose, time, or location depending on context.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "309-n4-point-109-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～に",
+      "acceptedVariations": [
+        "～に",
+        "～に"
+      ],
+      "correctFeedback": "Great! ～に is correct.",
+      "incorrectFeedback": "The correct pattern is: ～に.",
+      "explanation": "Indicates direction, purpose, time, or location depending on context.",
+      "hints": [
+        "~ni"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

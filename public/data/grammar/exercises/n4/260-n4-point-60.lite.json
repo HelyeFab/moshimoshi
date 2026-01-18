@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "260-n4-point-60",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "260-n4-point-60-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Make sure to/try to do\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb ようにする",
+          "romaji": "Verb you ni suru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb ようにする matches \"Make sure to/try to do\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ようにする.",
+      "explanation": "Expresses effort or intention to make sure or try to do something.",
+      "difficulty": "easy"
+    }
+  ]
+}

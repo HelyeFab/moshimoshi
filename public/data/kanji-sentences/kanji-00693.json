@@ -1,0 +1,33 @@
+{
+  "kanji": "照",
+  "sentences": [
+    {
+      "id": "178091",
+      "japanese": "君の答えを彼のと照らし合わせなさい。",
+      "english": "Check your answer with his."
+    },
+    {
+      "id": "184888",
+      "japanese": "外に出ると強い日差しにカッと照らされた。",
+      "english": "I stepped outside and was bathed in the harsh, direct sunlight."
+    },
+    {
+      "id": "185147",
+      "japanese": "懐中電灯をつけて、足元を照らしてくれた。",
+      "english": "She shone her torch onto the floor before us."
+    },
+    {
+      "id": "187221",
+      "japanese": "夏の太陽がギラギラと我々に照りつけた。",
+      "english": "The summer sun glared down on us."
+    },
+    {
+      "id": "191304",
+      "japanese": "暗い部屋の中を懐中電灯で照らした。",
+      "english": "I shone a flashlight into the dark room."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.172Z",
+  "count": 5,
+  "fileId": "kanji-00693"
+}

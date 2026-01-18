@@ -1,0 +1,33 @@
+{
+  "kanji": "吹",
+  "sentences": [
+    {
+      "id": "178979",
+      "japanese": "君が私に電話をくれるなんてどうした風の吹き回しかね。",
+      "english": "What's the reason that made you call me?"
+    },
+    {
+      "id": "179427",
+      "japanese": "空はますます暗くなり、風はますます激しく吹いた。",
+      "english": "The sky grew darker and darker, and the wind blew harder and harder."
+    },
+    {
+      "id": "180455",
+      "japanese": "強風で屋根を吹き飛ばされた。",
+      "english": "We got our roof blown off in the gale."
+    },
+    {
+      "id": "180456",
+      "japanese": "強風が陸の方へ吹き始めた。",
+      "english": "A strong wind began to set in."
+    },
+    {
+      "id": "180457",
+      "japanese": "強風が断続的に吹いた。",
+      "english": "The wind blew in gusts."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.259Z",
+  "count": 5,
+  "fileId": "kanji-00382"
+}

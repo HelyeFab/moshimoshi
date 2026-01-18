@@ -1,0 +1,33 @@
+{
+  "kanji": "観",
+  "sentences": [
+    {
+      "id": "189303",
+      "japanese": "映画を観に行かない？",
+      "english": "Would you like to take in a movie?"
+    },
+    {
+      "id": "191783",
+      "japanese": "わたしは彼が逃げていくのを観た。",
+      "english": "I saw him run away."
+    },
+    {
+      "id": "195957",
+      "japanese": "ホラー映画を観ると私は鳥肌がたってしまう。",
+      "english": "I get goose bumps when I see a horror movie."
+    },
+    {
+      "id": "199886",
+      "japanese": "トムは新しい劇場で劇を観た。",
+      "english": "Tom saw a play in the new theater."
+    },
+    {
+      "id": "212664",
+      "japanese": "プログラムは今頃もう始まっているはずです。だから、前半はたぶん観られないでしょう。",
+      "english": "The program should have started by now, so we'll probably miss the first half."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.060Z",
+  "count": 5,
+  "fileId": "kanji-00588"
+}

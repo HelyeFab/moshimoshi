@@ -1,0 +1,88 @@
+{
+  "id": "040-dictionary-form",
+  "version": "1.0.0",
+  "title": {
+    "ja": "辞書形",
+    "romaji": "jisho-kei",
+    "en": "Dictionary form"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "The dictionary form is the basic verb form you find in dictionaries. It is the same as the plain present form and is used in casual speech and in many grammar patterns.\n\nKey points:\n• Dictionary form = base verb form (行く, 食べる, 見る)\n• Used in casual speech and grammar patterns\n• Appears in dictionaries, apps, and textbooks\n• Needed before こと, 前, とき, 〜たい (stem), etc.\n\nFor example, 食べる is the dictionary form of “to eat.” 行く is “to go.” These are the forms you should memorize for vocabulary study.\n\nKnowing the dictionary form helps you identify verb groups and conjugate correctly. If you know 食べる, you can make 食べます, 食べて, 食べない.\n\nIn sentences, the dictionary form can act as the plain present: “毎日日本語を勉強する” (I study Japanese every day).\n\nAt N5, focus on learning verbs in dictionary form, then learn their ます forms. This makes it much easier to expand your grammar later.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (dictionary form)",
+    "components": [
+      {
+        "part": "Dictionary form",
+        "explanation": "Base verb form",
+        "examples": ["行く", "食べる", "見る", "する"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "食べる。",
+      "romaji": "Taberu.",
+      "english": "(I) eat.",
+      "breakdown": {
+        "食べる": "eat (dictionary form)"
+      },
+      "notes": "Base form"
+    },
+    {
+      "japanese": "明日学校へ行く。",
+      "romaji": "Ashita gakkou e iku.",
+      "english": "I will go to school tomorrow.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "学校": "school",
+        "へ": "direction marker",
+        "行く": "go (dictionary form)"
+      },
+      "notes": "Plain present/future"
+    },
+    {
+      "japanese": "毎日日本語を勉強する。",
+      "romaji": "Mainichi nihongo o benkyou suru.",
+      "english": "I study Japanese every day.",
+      "breakdown": {
+        "毎日": "every day",
+        "日本語": "Japanese",
+        "を": "object marker",
+        "勉強する": "study (dictionary form)"
+      },
+      "notes": "Dictionary form in a sentence"
+    },
+    {
+      "japanese": "本を読む。",
+      "romaji": "Hon o yomu.",
+      "english": "I read a book.",
+      "breakdown": {
+        "本": "book",
+        "を": "object marker",
+        "読む": "read (dictionary form)"
+      },
+      "notes": "Base verb usage"
+    }
+  ],
+  "relatedPoints": [
+    "036-plain-form-present",
+    "021-verb-groups"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Confusing dictionary form with ます form",
+      "correction": "Dictionary form is the plain base form",
+      "example": "食べる (dictionary) vs 食べます (polite)"
+    },
+    {
+      "mistake": "Only memorizing ます forms",
+      "correction": "Learn dictionary forms for vocabulary study",
+      "example": "覚えるべき: 食べる, 行く, 見る"
+    }
+  ],
+  "tags": ["verbs", "dictionary-form", "basics", "beginner"]
+}

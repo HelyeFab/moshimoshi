@@ -9,6 +9,7 @@ import { KanaAdapter } from '../kana.adapter';
 import { KanjiAdapter } from '../kanji.adapter';
 import { VocabularyAdapter } from '../vocabulary.adapter';
 import { SentenceAdapter } from '../sentence.adapter';
+import { GrammarAdapter } from '../grammar.adapter';
 import { CustomContentAdapter } from '../custom.adapter';
 import { ContentTypeConfig, ReviewMode } from '../../core/types';
 import { ReviewableContent } from '../../core/interfaces';
@@ -78,6 +79,7 @@ describe('AdapterRegistry', () => {
       expect(AdapterRegistry.hasAdapter('kanji')).toBe(true);
       expect(AdapterRegistry.hasAdapter('vocabulary')).toBe(true);
       expect(AdapterRegistry.hasAdapter('sentence')).toBe(true);
+      expect(AdapterRegistry.hasAdapter('grammar')).toBe(true);
       expect(AdapterRegistry.hasAdapter('custom')).toBe(true);
     });
 
@@ -88,6 +90,8 @@ describe('AdapterRegistry', () => {
       expect(AdapterRegistry.getAdapter('kanji')).toBeInstanceOf(KanjiAdapter);
       expect(AdapterRegistry.getAdapter('vocabulary')).toBeInstanceOf(VocabularyAdapter);
       expect(AdapterRegistry.getAdapter('sentence')).toBeInstanceOf(SentenceAdapter);
+      expect(AdapterRegistry.getAdapter('grammar')).toBeInstanceOf(GrammarAdapter);
+      expect(AdapterRegistry.getAdapter('grammar')).toBeInstanceOf(GrammarAdapter);
       expect(AdapterRegistry.getAdapter('custom')).toBeInstanceOf(CustomContentAdapter);
     });
 
@@ -270,14 +274,14 @@ describe('AdapterRegistry', () => {
 
     it('should prevent unregistering all core adapters', () => {
       const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
-      const coreAdapters = ['kana', 'kanji', 'vocabulary', 'sentence', 'custom'];
+      const coreAdapters = ['kana', 'kanji', 'vocabulary', 'sentence', 'grammar', 'custom'];
 
       coreAdapters.forEach(type => {
         expect(AdapterRegistry.unregisterAdapter(type)).toBe(false);
         expect(AdapterRegistry.hasAdapter(type)).toBe(true);
       });
 
-      expect(consoleErrorSpy).toHaveBeenCalledTimes(5);
+      expect(consoleErrorSpy).toHaveBeenCalledTimes(6);
       consoleErrorSpy.mockRestore();
     });
   });
@@ -297,8 +301,9 @@ describe('AdapterRegistry', () => {
       expect(types).toContain('kanji');
       expect(types).toContain('vocabulary');
       expect(types).toContain('sentence');
+      expect(types).toContain('grammar');
       expect(types).toContain('custom');
-      expect(types.length).toBe(5);
+      expect(types.length).toBe(6);
     });
 
     it('should include custom registered types', () => {
@@ -309,7 +314,7 @@ describe('AdapterRegistry', () => {
       const types = AdapterRegistry.getRegisteredTypes();
 
       expect(types).toContain('test');
-      expect(types.length).toBe(6);
+      expect(types.length).toBe(7);
     });
 
     it('should reflect changes when adapters are unregistered', () => {
@@ -336,6 +341,7 @@ describe('AdapterRegistry', () => {
       expect(AdapterRegistry.hasAdapter('kanji')).toBe(true);
       expect(AdapterRegistry.hasAdapter('vocabulary')).toBe(true);
       expect(AdapterRegistry.hasAdapter('sentence')).toBe(true);
+      expect(AdapterRegistry.hasAdapter('grammar')).toBe(true);
       expect(AdapterRegistry.hasAdapter('custom')).toBe(true);
     });
 
@@ -365,7 +371,7 @@ describe('AdapterRegistry', () => {
   describe('reset()', () => {
     it('should clear all adapters and reset initialization state', () => {
       AdapterRegistry.initialize(defaultConfigs);
-      expect(AdapterRegistry.getRegisteredTypes().length).toBe(5);
+      expect(AdapterRegistry.getRegisteredTypes().length).toBe(6);
 
       AdapterRegistry.reset();
 
@@ -392,6 +398,7 @@ describe('AdapterRegistry', () => {
       expect(configs).toHaveProperty('kanji');
       expect(configs).toHaveProperty('vocabulary');
       expect(configs).toHaveProperty('sentence');
+      expect(configs).toHaveProperty('grammar');
       expect(configs).toHaveProperty('custom');
     });
 
@@ -402,6 +409,7 @@ describe('AdapterRegistry', () => {
       expect(configs.kanji.contentType).toBe('kanji');
       expect(configs.vocabulary.contentType).toBe('vocabulary');
       expect(configs.sentence.contentType).toBe('sentence');
+      expect(configs.grammar.contentType).toBe('grammar');
       expect(configs.custom.contentType).toBe('custom');
     });
 
@@ -421,6 +429,7 @@ describe('AdapterRegistry', () => {
       expect(configs.kanji.defaultMode).toBe('recognition');
       expect(configs.vocabulary.defaultMode).toBe('recognition');
       expect(configs.sentence.defaultMode).toBe('recognition');
+      expect(configs.grammar.defaultMode).toBe('recall');
       expect(configs.custom.defaultMode).toBe('recognition');
     });
 
@@ -431,6 +440,7 @@ describe('AdapterRegistry', () => {
       expect(configs.kanji.validationStrategy).toBe('fuzzy');
       expect(configs.vocabulary.validationStrategy).toBe('fuzzy');
       expect(configs.sentence.validationStrategy).toBe('fuzzy');
+      expect(configs.grammar.validationStrategy).toBe('fuzzy');
       expect(configs.custom.validationStrategy).toBe('fuzzy');
     });
 
@@ -441,6 +451,7 @@ describe('AdapterRegistry', () => {
       expect(configs.kanji.features).toHaveProperty('strokeOrder');
       expect(configs.vocabulary.features).toHaveProperty('furigana');
       expect(configs.sentence.features).toHaveProperty('furigana');
+      expect(configs.grammar.features).toHaveProperty('furigana');
     });
 
     it('should include font size configurations', () => {
@@ -450,6 +461,7 @@ describe('AdapterRegistry', () => {
       expect(configs.kanji.fontSize).toBe('extra-large');
       expect(configs.vocabulary.fontSize).toBe('medium');
       expect(configs.sentence.fontSize).toBe('medium');
+      expect(configs.grammar.fontSize).toBe('medium');
       expect(configs.custom.fontSize).toBe('medium');
     });
   });
@@ -462,6 +474,7 @@ describe('AdapterRegistry', () => {
       expect(AdapterRegistry.hasAdapter('kanji')).toBe(true);
       expect(AdapterRegistry.hasAdapter('vocabulary')).toBe(true);
       expect(AdapterRegistry.hasAdapter('sentence')).toBe(true);
+      expect(AdapterRegistry.hasAdapter('grammar')).toBe(true);
       expect(AdapterRegistry.hasAdapter('custom')).toBe(true);
     });
 
@@ -495,6 +508,7 @@ describe('AdapterRegistry', () => {
       expect(AdapterRegistry.getRegisteredTypes()).toContain('kanji');
       expect(AdapterRegistry.getRegisteredTypes()).toContain('vocabulary');
       expect(AdapterRegistry.getRegisteredTypes()).toContain('sentence');
+      expect(AdapterRegistry.getRegisteredTypes()).toContain('grammar');
       expect(AdapterRegistry.getRegisteredTypes()).toContain('custom');
     });
   });
@@ -583,6 +597,7 @@ describe('AdapterRegistry', () => {
           AdapterRegistry.getAdapter('kanji');
           AdapterRegistry.getAdapter('vocabulary');
           AdapterRegistry.getAdapter('sentence');
+          AdapterRegistry.getAdapter('grammar');
           AdapterRegistry.getAdapter('custom');
         },
         1000
@@ -604,7 +619,7 @@ describe('AdapterRegistry', () => {
       );
 
       expect(duration).toBeLessThan(50);
-      expect(AdapterRegistry.getRegisteredTypes().length).toBe(105); // 5 core + 100 custom
+      expect(AdapterRegistry.getRegisteredTypes().length).toBe(106); // 6 core + 100 custom
     });
   });
 
@@ -668,7 +683,7 @@ describe('AdapterRegistry', () => {
       for (let i = 0; i < 5; i++) {
         AdapterRegistry.reset();
         AdapterRegistry.initialize(defaultConfigs);
-        expect(AdapterRegistry.getRegisteredTypes().length).toBe(5);
+        expect(AdapterRegistry.getRegisteredTypes().length).toBe(6);
       }
     });
   });
@@ -720,7 +735,7 @@ describe('AdapterRegistry', () => {
       }
       
       return Promise.all(promises).then(() => {
-        expect(AdapterRegistry.getRegisteredTypes().length).toBe(5);
+        expect(AdapterRegistry.getRegisteredTypes().length).toBe(6);
       });
     });
   });

@@ -1,0 +1,33 @@
+{
+  "kanji": "益",
+  "sentences": [
+    {
+      "id": "77389",
+      "japanese": "労なくして益なし。",
+      "english": "No pain, no gain."
+    },
+    {
+      "id": "219487",
+      "japanese": "この本を読んで益するところがあった。",
+      "english": "I profited from reading this book."
+    },
+    {
+      "id": "167913",
+      "japanese": "私から見れば、車は益よりも害を与えるほうが多い。",
+      "english": "From my point of view, cars do more harm than good."
+    },
+    {
+      "id": "171196",
+      "japanese": "今彼を説得して何か益があるだろうか。",
+      "english": "Will it do me any good to try to persuade him now?"
+    },
+    {
+      "id": "774837",
+      "japanese": "人口が益々増える一方です。",
+      "english": "The population just keeps growing and growing."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.096Z",
+  "count": 5,
+  "fileId": "kanji-01200"
+}

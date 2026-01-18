@@ -1,0 +1,33 @@
+{
+  "kanji": "村",
+  "sentences": [
+    {
+      "id": "934612",
+      "japanese": "都会では気付かれず通り過ぎることもあるだろうが、村の中ではそうはいかない。",
+      "english": "In a town you may pass unnoticed, whereas in a village it's impossible."
+    },
+    {
+      "id": "177954",
+      "japanese": "君はあの村へ行ったことがありますか。",
+      "english": "Have you ever been to that village?"
+    },
+    {
+      "id": "9682319",
+      "japanese": "あの村に行ったことってある？",
+      "english": "Have you ever been to that village?"
+    },
+    {
+      "id": "180030",
+      "japanese": "驚いた事には、村には誰も人がいなかった。",
+      "english": "To my surprise, there were no people in the village."
+    },
+    {
+      "id": "180377",
+      "japanese": "恐縮ですが隣の村への道を教えてくれませんか。",
+      "english": "Sorry, but can you show me the way to the next village?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.915Z",
+  "count": 5,
+  "fileId": "kanji-00903"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "最",
+  "sentences": [
+    {
+      "id": "4996",
+      "japanese": "「ハムレット」はこれまでで最もおもしろい戯曲だと言われている。",
+      "english": "It is said that \"Hamlet\" is the most interesting play ever written."
+    },
+    {
+      "id": "5032",
+      "japanese": "パリは世界で最も美しい街である。",
+      "english": "Paris is the most beautiful city in the world."
+    },
+    {
+      "id": "5185",
+      "japanese": "高校時代について最も後悔することを人々に尋ねると大抵の人は決まってこう言う。時間を無駄にしすぎていた、と。",
+      "english": "When I ask people what they regret most about high school, they nearly all say the same thing: that they wasted so much time."
+    },
+    {
+      "id": "538095",
+      "japanese": "今日、象は現存する最も大きい陸生動物である。",
+      "english": "Elephants are the largest land animals alive today."
+    },
+    {
+      "id": "952103",
+      "japanese": "最も力の強い種や、最も知能の高い種が生き残るのではなく、変化に最も良く適応できる種が生き残るのです。",
+      "english": "It is not the strongest of the species that survives, not the most intelligent, but the one most responsive to change."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.025Z",
+  "count": 5,
+  "fileId": "kanji-00436"
+}

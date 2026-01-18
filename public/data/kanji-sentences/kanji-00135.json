@@ -1,0 +1,33 @@
+{
+  "kanji": "犬",
+  "sentences": [
+    {
+      "id": "177323",
+      "japanese": "君は犬が庭を通り抜けて行くのを見なかったかい。",
+      "english": "Didn't you see a dog pass through the yard?"
+    },
+    {
+      "id": "178391",
+      "japanese": "君の犬は本当に意気消沈しているのだろう。",
+      "english": "Your dog may be really depressed."
+    },
+    {
+      "id": "178392",
+      "japanese": "君の犬はどうなりましたか。",
+      "english": "What's become of your dog?"
+    },
+    {
+      "id": "178393",
+      "japanese": "君の犬はどうなったのだろう。",
+      "english": "What's become of your dog?"
+    },
+    {
+      "id": "233355",
+      "japanese": "あなたの犬はどうしましたか。",
+      "english": "What's become of your dog?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.056Z",
+  "count": 5,
+  "fileId": "kanji-00135"
+}

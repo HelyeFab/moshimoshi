@@ -1,0 +1,33 @@
+{
+  "kanji": "料",
+  "sentences": [
+    {
+      "id": "180382",
+      "japanese": "恐喝のその犠牲者は、ここ何年間というもの口止め料を払ってきた。だが、今では、それは愚かなことだと悟り、もうびた一文払わないことに決めた。",
+      "english": "The victim of blackmail has been paying hush money for years, but now he realizes it is foolish, and has decided not to pay a red cent more."
+    },
+    {
+      "id": "225812",
+      "japanese": "キャンセル料３割もとられるんだって。",
+      "english": "Apparently there's a cancellation charge of 30 percent."
+    },
+    {
+      "id": "83438",
+      "japanese": "別にサービス料を申し受けます。",
+      "english": "The service charge is extra."
+    },
+    {
+      "id": "84095",
+      "japanese": "部屋代にサービス料は含まれていますか。",
+      "english": "Does the price of the room include the service charges?"
+    },
+    {
+      "id": "115395",
+      "japanese": "彼は、彼女の口止め料に、多くの金を払った。",
+      "english": "He paid much money to stop her mouth."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.319Z",
+  "count": 5,
+  "fileId": "kanji-00237"
+}

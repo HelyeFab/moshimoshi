@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "212-n4-point-12",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "212-n4-point-12-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Only/Just [noun]\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Noun ばかり (〜bakari)",
+          "romaji": "noun bakari"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Noun ばかり (〜bakari) matches \"Only/Just [noun]\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Noun ばかり (〜bakari).",
+      "explanation": "Expresses that there is nothing but or only a certain noun.",
+      "difficulty": "easy"
+    }
+  ]
+}

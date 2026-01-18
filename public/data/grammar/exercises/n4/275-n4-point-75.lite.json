@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "275-n4-point-75",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "275-n4-point-75-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"whether or if\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～かどうか",
+          "romaji": "~ka dou ka"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～かどうか matches \"whether or if\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～かどうか.",
+      "explanation": "Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "用",
+  "sentences": [
+    {
+      "id": "187711",
+      "japanese": "何の用だ。",
+      "english": "What do you want?"
+    },
+    {
+      "id": "187725",
+      "japanese": "何のご用ですか。",
+      "english": "What do you want?"
+    },
+    {
+      "id": "187699",
+      "japanese": "何の用でここまできたのですか。",
+      "english": "What has brought you here?"
+    },
+    {
+      "id": "187700",
+      "japanese": "何の用でここに来たのですか。",
+      "english": "What has brought you here?"
+    },
+    {
+      "id": "179323",
+      "japanese": "空手は武器を用いない護身術である。",
+      "english": "Karate is an art of unarmed defense."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.582Z",
+  "count": 5,
+  "fileId": "kanji-00183"
+}

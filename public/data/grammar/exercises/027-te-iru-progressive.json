@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "027-te-iru-progressive",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "027-te-iru-progressive-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct progressive form: 勉強する → ?",
+      "options": [
+        { "id": "a", "text": "勉強しています" },
+        { "id": "b", "text": "勉強します" },
+        { "id": "c", "text": "勉強してます" },
+        { "id": "d", "text": "勉強するています" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! て-form + います.",
+      "incorrectFeedback": "Not quite. Use して + います.",
+      "explanation": "勉強する → 勉強している (polite: しています).",
+      "difficulty": "easy"
+    },
+    {
+      "id": "027-te-iru-progressive-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'I am watching TV now'?",
+      "options": [
+        { "id": "a", "text": "今テレビを見ます。" },
+        { "id": "b", "text": "今テレビを見ています。" },
+        { "id": "c", "text": "今テレビを見ました。" },
+        { "id": "d", "text": "今テレビを見ません。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 見ています shows ongoing action.",
+      "incorrectFeedback": "Try again. Use て-form + います.",
+      "explanation": "Progressive uses 見ています.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "027-te-iru-progressive-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I am studying now.'",
+      "correctAnswer": "今勉強しています",
+      "acceptedVariations": [
+        "今勉強しています。",
+        "いまべんきょうしています",
+        "ima benkyou shite imasu",
+        "ima benkyou shite imasu."
+      ],
+      "correctFeedback": "Great! 今勉強しています is correct.",
+      "incorrectFeedback": "The correct answer is: 今勉強しています (ima benkyou shite imasu).",
+      "explanation": "Use て-form + います for ongoing action.",
+      "hints": ["今 = now", "勉強している"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "027-te-iru-progressive-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence uses the progressive form correctly?",
+      "options": [
+        { "id": "a", "text": "友だちはテレビを見ます。" },
+        { "id": "b", "text": "友だちはテレビを見ています。" },
+        { "id": "c", "text": "友だちはテレビを見る。" },
+        { "id": "d", "text": "友だちはテレビを見ました。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 見ています is progressive.",
+      "incorrectFeedback": "Not quite. Use て-form + います.",
+      "explanation": "Progressive ends with ています.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "027-te-iru-progressive-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'My friend is eating lunch.'",
+      "correctAnswer": "友だちは昼ご飯を食べています",
+      "acceptedVariations": [
+        "友だちは昼ご飯を食べています。",
+        "ともだちはひるごはんをたべています",
+        "tomodachi wa hirugohan o tabete imasu",
+        "tomodachi wa hirugohan o tabete imasu."
+      ],
+      "correctFeedback": "Nice! 友だちは昼ご飯を食べています is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちは昼ご飯を食べています (tomodachi wa hirugohan o tabete imasu).",
+      "explanation": "Use 食べて + います for ongoing action.",
+      "hints": ["昼ご飯 = lunch", "食べています"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "027-te-iru-progressive-ex-06",
+      "type": "multiple-choice",
+      "question": "Which is the correct progressive form of 読む?",
+      "options": [
+        { "id": "a", "text": "読んでいます" },
+        { "id": "b", "text": "読みいます" },
+        { "id": "c", "text": "読んでます" },
+        { "id": "d", "text": "読むています" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 読んでいます is standard polite.",
+      "incorrectFeedback": "Try again. Use て-form + います.",
+      "explanation": "読む → 読んでいます.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "027-te-iru-progressive-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I am talking with my friend.'",
+      "correctAnswer": "友だちと話しています",
+      "acceptedVariations": [
+        "友だちと話しています。",
+        "ともだちとはなしています",
+        "tomodachi to hanashite imasu",
+        "tomodachi to hanashite imasu."
+      ],
+      "correctFeedback": "Great! 友だちと話しています is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちと話しています (tomodachi to hanashite imasu).",
+      "explanation": "Use て-form + います for ongoing action.",
+      "hints": ["話す → 話して", "と = with"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "027-te-iru-progressive-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "今勉強しています。",
+          "romaji": "Ima benkyou shite imasu.",
+          "english": "I am studying now."
+        },
+        {
+          "japanese": "友だちはテレビを見ています。",
+          "romaji": "Tomodachi wa terebi o mite imasu.",
+          "english": "My friend is watching TV."
+        },
+        {
+          "japanese": "日本に住んでいます。",
+          "romaji": "Nihon ni sunde imasu.",
+          "english": "I live in Japan."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review 〜ています.",
+      "explanation": "Each sentence uses て-form + います.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "027-te-iru-progressive-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "今日本語を勉強しています。" },
+        { "id": "b", "text": "今日本語を勉強します。" },
+        { "id": "c", "text": "友だちはテレビを見ています。" },
+        { "id": "d", "text": "私は東京に住んでいます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! For 'now' use 〜ています.",
+      "incorrectFeedback": "Try again. います is needed for progressive.",
+      "explanation": "今 + ます is not progressive.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "027-te-iru-progressive-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I am reading a book.'",
+      "correctAnswer": "本を読んでいます",
+      "acceptedVariations": [
+        "本を読んでいます。",
+        "ほんをよんでいます",
+        "hon o yonde imasu",
+        "hon o yonde imasu."
+      ],
+      "correctFeedback": "Nice! 本を読んでいます is correct.",
+      "incorrectFeedback": "The correct answer is: 本を読んでいます (hon o yonde imasu).",
+      "explanation": "Use 読んで + います for ongoing action.",
+      "hints": ["読む → 読んで", "Use います"],
+      "difficulty": "hard"
+    }
+  ]
+}

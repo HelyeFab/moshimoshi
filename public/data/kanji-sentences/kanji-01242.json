@@ -1,0 +1,33 @@
+{
+  "kanji": "締",
+  "sentences": [
+    {
+      "id": "5234",
+      "japanese": "飛行機が乱気流に近付いていたため操縦士は乗客にシートベルトを締めるよう呼びかけた。",
+      "english": "As the plane was approaching turbulence, the pilot asked the passengers aboard the plane to fasten their seat belts."
+    },
+    {
+      "id": "179627",
+      "japanese": "金融引き締め政策が実施されている。",
+      "english": "A fiscal tightening policy is being enacted."
+    },
+    {
+      "id": "179628",
+      "japanese": "金融引き締めで金利が上昇するだろう。",
+      "english": "Interest rates will rise due to monetary tightening."
+    },
+    {
+      "id": "183528",
+      "japanese": "基地の中でも外でも、シートベルトを締めなさい。",
+      "english": "On base and off, buckle your seat-belts."
+    },
+    {
+      "id": "185881",
+      "japanese": "我々は玄関が締まっているのが分かった。",
+      "english": "We found the front door locked."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.098Z",
+  "count": 5,
+  "fileId": "kanji-01242"
+}

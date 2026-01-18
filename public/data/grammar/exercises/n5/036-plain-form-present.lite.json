@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "036-plain-form-present",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "036-plain-form-present-ex-01",
+      "type": "multiple-choice",
+      "question": "Which is the plain present form of 'to go'?",
+      "options": [
+        {
+          "id": "a",
+          "text": "行きます"
+        },
+        {
+          "id": "b",
+          "text": "行く"
+        },
+        {
+          "id": "c",
+          "text": "行った"
+        },
+        {
+          "id": "d",
+          "text": "行きません"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 行く is the plain present form.",
+      "incorrectFeedback": "Not quite. The dictionary form is 行く.",
+      "explanation": "Plain present = dictionary form.",
+      "difficulty": "easy"
+    }
+  ]
+}

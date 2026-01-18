@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "078-age-sai",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "078-age-sai-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: 何__ですか。 (How old are you?)",
+      "options": [
+        { "id": "a", "text": "歳" },
+        { "id": "b", "text": "本" },
+        { "id": "c", "text": "人" },
+        { "id": "d", "text": "枚" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 何歳ですか.",
+      "incorrectFeedback": "Not quite. Use 歳 for age.",
+      "explanation": "歳 is the age counter.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "078-age-sai-ex-02",
+      "type": "multiple-choice",
+      "question": "Which is the correct reading for 20 years old?",
+      "options": [
+        { "id": "a", "text": "はたち" },
+        { "id": "b", "text": "にじゅっさい" },
+        { "id": "c", "text": "にじゅうさい" },
+        { "id": "d", "text": "はつたち" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 20 years old is はたち.",
+      "incorrectFeedback": "Try again. 20 is はたち.",
+      "explanation": "20 years old has a special reading: はたち.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "078-age-sai-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'How old are you?'",
+      "correctAnswer": "何歳ですか",
+      "acceptedVariations": [
+        "何歳ですか。",
+        "なんさいですか",
+        "nan-sai desu ka",
+        "nan-sai desu ka."
+      ],
+      "correctFeedback": "Great! 何歳ですか is correct.",
+      "incorrectFeedback": "The correct answer is: 何歳ですか (nan-sai desu ka).",
+      "explanation": "Use 何歳 for age questions.",
+      "hints": ["何歳 = how old", "ですか = is it?"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "078-age-sai-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence:",
+      "options": [
+        { "id": "a", "text": "私は二十歳です。" },
+        { "id": "b", "text": "私は二十です。" },
+        { "id": "c", "text": "私は二十本です。" },
+        { "id": "d", "text": "私は二十人です。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use 歳 for age.",
+      "incorrectFeedback": "Not quite. Add 歳 to say age.",
+      "explanation": "Ages use 歳, and 20 is はたち.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "078-age-sai-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I am 18 years old.'",
+      "correctAnswer": "私は十八歳です",
+      "acceptedVariations": [
+        "私は十八歳です。",
+        "わたしはじゅうはっさいです",
+        "watashi wa juuhassai desu",
+        "watashi wa juuhassai desu."
+      ],
+      "correctFeedback": "Nice! 私は十八歳です is correct.",
+      "incorrectFeedback": "The correct answer is: 私は十八歳です (watashi wa juuhassai desu).",
+      "explanation": "Use 歳 with the age number.",
+      "hints": ["十八歳 = 18 years old", "私は = I"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "078-age-sai-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "兄は十八歳です。" },
+        { "id": "b", "text": "田中さんは三十歳です。" },
+        { "id": "c", "text": "私は二十歳です。" },
+        { "id": "d", "text": "私は二十です。" }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Add 歳 to state age.",
+      "incorrectFeedback": "Try again. Ages need 歳.",
+      "explanation": "Use 歳 with the number.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "078-age-sai-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Tanaka is 30 years old.'",
+      "correctAnswer": "田中さんは三十歳です",
+      "acceptedVariations": [
+        "田中さんは三十歳です。",
+        "たなかさんはさんじゅっさいです",
+        "Tanaka-san wa sanjuu-sai desu",
+        "Tanaka-san wa sanjuu-sai desu."
+      ],
+      "correctFeedback": "Great! 田中さんは三十歳です is correct.",
+      "incorrectFeedback": "The correct answer is: 田中さんは三十歳です (Tanaka-san wa sanjuu-sai desu).",
+      "explanation": "Use 歳 for age.",
+      "hints": ["三十歳 = 30 years old", "田中さん = Tanaka"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "078-age-sai-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "何歳ですか。",
+          "romaji": "Nan-sai desu ka.",
+          "english": "How old are you?"
+        },
+        {
+          "japanese": "私は二十歳です。",
+          "romaji": "Watashi wa hatachi desu.",
+          "english": "I am 20 years old."
+        },
+        {
+          "japanese": "兄は十八歳です。",
+          "romaji": "Ani wa juuhassai desu.",
+          "english": "My older brother is 18 years old."
+        }
+      ],
+      "correctFeedback": "Perfect! All use 歳 for age.",
+      "incorrectFeedback": "Not quite. Review age expressions.",
+      "explanation": "歳 is the age counter.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "078-age-sai-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'How old is he?'",
+      "options": [
+        { "id": "a", "text": "彼は何歳ですか" },
+        { "id": "b", "text": "彼は何本ですか" },
+        { "id": "c", "text": "彼は何人ですか" },
+        { "id": "d", "text": "彼は何枚ですか" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use 何歳 for age.",
+      "incorrectFeedback": "Try again. Ages use 歳.",
+      "explanation": "何歳 = how old.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "078-age-sai-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I am 20 years old.'",
+      "correctAnswer": "私は二十歳です",
+      "acceptedVariations": [
+        "私は二十歳です。",
+        "わたしははたちです",
+        "watashi wa hatachi desu",
+        "watashi wa hatachi desu."
+      ],
+      "correctFeedback": "Nice! 私は二十歳です is correct.",
+      "incorrectFeedback": "The correct answer is: 私は二十歳です (watashi wa hatachi desu).",
+      "explanation": "20 years old is はたち.",
+      "hints": ["二十歳 = 20 years old", "私は = I"],
+      "difficulty": "hard"
+    }
+  ]
+}

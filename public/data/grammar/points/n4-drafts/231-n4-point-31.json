@@ -1,0 +1,55 @@
+{
+  "id": "231-n4-point-31",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ていただきたい (te itadakitai)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ていただきたい grammar point is used to express a polite request or a desire for someone to do something for you. It is formed by attaching いただきたい to the て-form of the verb. It is more polite than the て-form + ほしい construction.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + いただきたい",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "資料をコピーしていただきたいです。",
+      "romaji": "Shiryou wo kopii shite itadakitai desu.",
+      "english": "I would like you to make copies of the documents.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この仕事を手伝っていただきたいのですが。",
+      "romaji": "Kono shigoto wo tetsudatte itadakitai no desu ga.",
+      "english": "I would like to ask for your assistance with this work.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "もしよろしければ、指導していただきたいです。",
+      "romaji": "Moshi yoroshikereba, shidou shite itadakitai desu.",
+      "english": "If it is not too much trouble, I would like you to guide me.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "駅まで送っていただきたいんですが。",
+      "romaji": "Eki made okutte itadakitain desu ga.",
+      "english": "I was wondering if you could give me a ride to the station.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

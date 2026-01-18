@@ -1,0 +1,33 @@
+{
+  "kanji": "詩",
+  "sentences": [
+    {
+      "id": "5172",
+      "japanese": "ワインとは、ボトルに詰められた詩である。",
+      "english": "Wine is poetry in bottles."
+    },
+    {
+      "id": "177839",
+      "japanese": "君はこの詩が理解できるかい。",
+      "english": "Can you make sense of this poem?"
+    },
+    {
+      "id": "232716",
+      "japanese": "あなたはこの詩がわかりますか。",
+      "english": "Can you make sense of this poem?"
+    },
+    {
+      "id": "9034255",
+      "japanese": "この詩の意味って理解できる？",
+      "english": "Can you make sense of this poem?"
+    },
+    {
+      "id": "183473",
+      "japanese": "幾度も読んでみて初めてその詩のよさが分かる。",
+      "english": "You cannot appreciate the poem until you have read it many times."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.632Z",
+  "count": 5,
+  "fileId": "kanji-01266"
+}

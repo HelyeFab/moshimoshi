@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "291-n4-point-91",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "291-n4-point-91-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"~darou (probably, I think)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～だろう",
+          "romaji": "~darou"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～だろう matches \"~darou (probably, I think)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～だろう.",
+      "explanation": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "291-n4-point-91-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～だろう.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "~darou (probably, I think)"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～だろう means \"~darou (probably, I think)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"~darou (probably, I think)\".",
+      "explanation": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "291-n4-point-91-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～だろう.",
+      "options": [
+        {
+          "id": "a",
+          "text": "~darou"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ~darou is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~darou.",
+      "explanation": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "291-n4-point-91-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～だろう?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "explanation": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "291-n4-point-91-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"~darou (probably, I think)\".",
+      "correctAnswer": "～だろう",
+      "acceptedVariations": [
+        "～だろう",
+        "～だろう"
+      ],
+      "correctFeedback": "Nice! ～だろう is correct.",
+      "incorrectFeedback": "The correct pattern is: ～だろう (~darou).",
+      "explanation": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "hints": [
+        "~darou",
+        "Expresses probability or conjecture; used to say \"probably\" or \"I think.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "291-n4-point-91-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～だろう.",
+      "correctAnswer": "~darou",
+      "acceptedVariations": [
+        "~darou",
+        "~darou"
+      ],
+      "correctFeedback": "Nice! ~darou is correct.",
+      "incorrectFeedback": "The correct romaji is: ~darou.",
+      "explanation": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "hints": [
+        "Expresses probability or conjecture; used to say \"probably\" or \"I think.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "291-n4-point-91-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～だろう.",
+      "correctAnswer": "~darou (probably, I think)",
+      "acceptedVariations": [
+        "~darou (probably, I think)",
+        "~darou (probably, i think)"
+      ],
+      "correctFeedback": "Correct! \"~darou (probably, I think)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"~darou (probably, I think)\".",
+      "explanation": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "hints": [
+        "Expresses probability or conjecture; used to say \"probably\" or \"I think.\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "291-n4-point-91-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～だろう",
+          "romaji": "~darou",
+          "english": "~darou (probably, I think)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "291-n4-point-91-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses probability or conjecture; used to say \"probably\" or \"I think.\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～だろう",
+          "romaji": "~darou"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～だろう matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～だろう.",
+      "explanation": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "291-n4-point-91-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～だろう",
+      "acceptedVariations": [
+        "～だろう",
+        "～だろう"
+      ],
+      "correctFeedback": "Great! ～だろう is correct.",
+      "incorrectFeedback": "The correct pattern is: ～だろう.",
+      "explanation": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "hints": [
+        "~darou"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "封",
+  "sentences": [
+    {
+      "id": "228868",
+      "japanese": "いったん封を切るとそのテープは返品できません。",
+      "english": "Once you break the seal, you can't return the tape."
+    },
+    {
+      "id": "96006",
+      "japanese": "彼らは賄賂を使って証人の口を封じた。",
+      "english": "They bribed the witness into silence."
+    },
+    {
+      "id": "112687",
+      "japanese": "彼はその手紙を読むどころか、封も切らなかった。",
+      "english": "Far from reading the letter, he did not even open it."
+    },
+    {
+      "id": "144349",
+      "japanese": "人間の心は昔から数々の宝を隠し持っており、それは秘かに保持され、沈黙のうちに封じ込まれている。",
+      "english": "The human heart has hidden treasures, in secret kept, in silence sealed."
+    },
+    {
+      "id": "175005",
+      "japanese": "原子核には大量のエネルギーが封じ込められている。",
+      "english": "A great deal of energy is locked up in the nucleus."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.207Z",
+  "count": 5,
+  "fileId": "kanji-00825"
+}

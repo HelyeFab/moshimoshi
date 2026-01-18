@@ -1,0 +1,119 @@
+{
+  "id": "293-n4-point-93",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～で",
+    "romaji": "~de",
+    "en": "by/with/at (means, method, place marker)"
+  },
+  "jlptLevel": "N4",
+  "category": "particles",
+  "explanation": {
+    "en": "The particle ～で is used after a noun to indicate the means, method, tool, language, or place where an action occurs. It answers questions like 'how?', 'with what?', or 'where?'.",
+    "ja": "助詞「～で」は名詞の後に使い、手段、方法、道具、言語、または動作が行われる場所を示します。"
+  },
+  "structure": {
+    "pattern": "Noun + で",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "The thing, place, or method involved in the action.",
+        "examples": [
+          "自転車 (bicycle)",
+          "日本語 (Japanese)",
+          "レストラン (restaurant)"
+        ]
+      },
+      {
+        "part": "で",
+        "explanation": "Particle indicating means, method, or location.",
+        "examples": [
+          "で"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私は自転車で学校に行きます。",
+      "romaji": "Watashi wa jitensha de gakkou ni ikimasu.",
+      "english": "I go to school by bicycle.",
+      "breakdown": {
+        "私": "I",
+        "は": "topic marker",
+        "自転車": "bicycle",
+        "で": "by (means)",
+        "学校": "school",
+        "に": "to (direction)",
+        "行きます": "go"
+      },
+      "notes": "Indicates the means of transportation."
+    },
+    {
+      "japanese": "彼は日本語で手紙を書いた。",
+      "romaji": "Kare wa nihongo de tegami wo kaita.",
+      "english": "He wrote a letter in Japanese.",
+      "breakdown": {
+        "彼": "he",
+        "は": "topic marker",
+        "日本語": "Japanese (language)",
+        "で": "in (means)",
+        "手紙": "letter",
+        "を": "object marker",
+        "書いた": "wrote"
+      },
+      "notes": "Indicates the language used."
+    },
+    {
+      "japanese": "鉛筆で絵を描きました。",
+      "romaji": "Enpitsu de e wo kakimashita.",
+      "english": "I drew a picture with a pencil.",
+      "breakdown": {
+        "鉛筆": "pencil",
+        "で": "with (tool)",
+        "絵": "picture",
+        "を": "object marker",
+        "描きました": "drew"
+      },
+      "notes": "Shows the tool used."
+    },
+    {
+      "japanese": "レストランで昼食を食べました。",
+      "romaji": "Resutoran de chuushoku wo tabemashita.",
+      "english": "I had lunch at a restaurant.",
+      "breakdown": {
+        "レストラン": "restaurant",
+        "で": "at (place)",
+        "昼食": "lunch",
+        "を": "object marker",
+        "食べました": "ate"
+      },
+      "notes": "Indicates the place of the action."
+    }
+  ],
+  "relatedPoints": [
+    "n4-ni",
+    "n5-to",
+    "n4-made"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "私は自転車に学校に行きます。",
+      "correction": "私は自転車で学校に行きます。",
+      "example": "Use で, not に, to indicate means/method."
+    },
+    {
+      "mistake": "レストランに昼食を食べました。",
+      "correction": "レストランで昼食を食べました。",
+      "example": "Use で, not に, to indicate place of action."
+    }
+  ],
+  "tags": [
+    "n4",
+    "particle",
+    "means",
+    "place",
+    "tool",
+    "method"
+  ]
+}

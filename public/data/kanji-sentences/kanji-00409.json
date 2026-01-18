@@ -1,0 +1,33 @@
+{
+  "kanji": "貧",
+  "sentences": [
+    {
+      "id": "4987",
+      "japanese": "貧しい人とはほんのわずかしか持っていない人ではなく欲のありすぎる人である。",
+      "english": "Poor is not the one who has too little, but the one who wants too much."
+    },
+    {
+      "id": "179653",
+      "japanese": "金持ちも貧しい人と同様に苦労がある。",
+      "english": "The rich have trouble as well as the poor."
+    },
+    {
+      "id": "179655",
+      "japanese": "金持ちは貧しい人々を軽蔑しがちだ。",
+      "english": "The rich are apt to look down upon the poor."
+    },
+    {
+      "id": "179670",
+      "japanese": "金持ちなら貧しい人を救ってやるのだが。",
+      "english": "Were I rich, I would help the poor."
+    },
+    {
+      "id": "179675",
+      "japanese": "金持ちだが貧しい暮らしをしている。",
+      "english": "He is rich yet he lives like a beggar."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.654Z",
+  "count": 5,
+  "fileId": "kanji-00409"
+}

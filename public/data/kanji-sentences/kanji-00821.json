@@ -1,0 +1,33 @@
+{
+  "kanji": "畳",
+  "sentences": [
+    {
+      "id": "194063",
+      "japanese": "もう畳の上に座るのには慣れました。",
+      "english": "I am already accustomed to sitting on tatami."
+    },
+    {
+      "id": "222975",
+      "japanese": "このわらのマット（日本語で畳）は、もはや手で作られない。",
+      "english": "These straw mats, called \"tatami\" in Japanese, are no longer made by hand."
+    },
+    {
+      "id": "225098",
+      "japanese": "ケンは毛布を二つに畳んだ。",
+      "english": "Ken folded the blanket in half."
+    },
+    {
+      "id": "237458",
+      "japanese": "１０人用の畳の部屋はありますか。",
+      "english": "Do you have a tatami room for ten people?"
+    },
+    {
+      "id": "91708",
+      "japanese": "彼女はハンカチをきちんと畳んだ。",
+      "english": "She folded her handkerchief neatly."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.118Z",
+  "count": 5,
+  "fileId": "kanji-00821"
+}

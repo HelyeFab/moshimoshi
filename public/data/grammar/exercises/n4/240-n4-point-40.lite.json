@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "240-n4-point-40",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "240-n4-point-40-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb te kuru\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞てくる",
+          "romaji": "Doushi te kuru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 動詞てくる matches \"Verb te kuru\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞てくる.",
+      "explanation": "Expresses actions or changes that started in the past and reach the present.",
+      "difficulty": "easy"
+    }
+  ]
+}

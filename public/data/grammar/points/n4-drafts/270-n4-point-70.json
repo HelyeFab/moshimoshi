@@ -1,0 +1,55 @@
+{
+  "id": "270-n4-point-70",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb 出す (~dasu)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The verb 出す (~dasu) is used to express the action of taking something out, starting an action, or emphasizing the verb it is attached to. To form this grammar point, simply attach 出す (~dasu) to the stem of the verb.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb stem + 出す (~dasu)",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "本を棚から出してください。",
+      "romaji": "Hon o tana kara dashite kudasai.",
+      "english": "Please take the book out from the shelf.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は部屋から急いで出ました。",
+      "romaji": "Kare wa heya kara isoide demashita.",
+      "english": "He rushed out of the room.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "授業が始まる前に宿題を出してください。",
+      "romaji": "Jugyou ga hajimaru mae ni shukudai wo dashite kudasai.",
+      "english": "Submit your homework before class starts.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は歌い出しました。",
+      "romaji": "Kanojo wa utaidashimashita.",
+      "english": "She began to sing.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

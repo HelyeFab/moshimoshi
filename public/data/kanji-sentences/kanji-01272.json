@@ -1,0 +1,33 @@
+{
+  "kanji": "請",
+  "sentences": [
+    {
+      "id": "11205063",
+      "japanese": "その仕事、請けるの？",
+      "english": "Will you take on the job?"
+    },
+    {
+      "id": "188337",
+      "japanese": "恩恵を請うのは私の威厳に関わる。",
+      "english": "It is beneath my dignity to ask a favor."
+    },
+    {
+      "id": "201446",
+      "japanese": "どうして謝って彼の許しを請わないんだ。",
+      "english": "Why not apologize and ask for his pardon?"
+    },
+    {
+      "id": "221593",
+      "japanese": "この時計は絶対に狂わないこと請け合いだ。",
+      "english": "I guarantee this watch to keep perfect time."
+    },
+    {
+      "id": "75741",
+      "japanese": "姫君は皇帝に寛恕を請いました。",
+      "english": "The princess begged forgiveness from the emperor."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.778Z",
+  "count": 5,
+  "fileId": "kanji-01272"
+}

@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "040-dictionary-form",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "040-dictionary-form-ex-01",
+      "type": "multiple-choice",
+      "question": "Which is the dictionary form of 'to eat'?",
+      "options": [
+        {
+          "id": "a",
+          "text": "食べる"
+        },
+        {
+          "id": "b",
+          "text": "食べます"
+        },
+        {
+          "id": "c",
+          "text": "食べた"
+        },
+        {
+          "id": "d",
+          "text": "食べない"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 食べる is the dictionary form.",
+      "incorrectFeedback": "Not quite. Dictionary form ends with る for ru-verbs.",
+      "explanation": "Dictionary form is the base verb form.",
+      "difficulty": "easy"
+    }
+  ]
+}

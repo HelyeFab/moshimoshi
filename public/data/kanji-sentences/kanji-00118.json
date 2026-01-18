@@ -1,0 +1,33 @@
+{
+  "kanji": "研",
+  "sentences": [
+    {
+      "id": "224498",
+      "japanese": "ここにいるといやでも感覚は研ぎ澄まされる。",
+      "english": "I can't help but feel that when I come here, all my senses are sharper than usual."
+    },
+    {
+      "id": "111443",
+      "japanese": "彼はナイフを研いでいました。",
+      "english": "He was sharpening a knife."
+    },
+    {
+      "id": "121991",
+      "japanese": "猫が柱でつめを研いでいた。",
+      "english": "A cat was sharpening its claws against a post."
+    },
+    {
+      "id": "10735913",
+      "japanese": "包丁を研いでたわよ。",
+      "english": "He was sharpening the knife."
+    },
+    {
+      "id": "11054320",
+      "japanese": "無洗米でもつい研いでしまう。",
+      "english": "Even if it's pre-washed rice, I still end up washing it out of habit."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.859Z",
+  "count": 5,
+  "fileId": "kanji-00118"
+}

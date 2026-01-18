@@ -9,10 +9,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params
   const { t } = await getTranslations(locale as Locale)
 
-  return generateLocalizedMetadata({
-    title: t('seo.settings.title'),
-    description: t('seo.settings.description'),
-  })
+  return {
+    ...await generateLocalizedMetadata({
+      title: t('seo.settings.title'),
+      description: t('seo.settings.description'),
+    }),
+    robots: {
+      index: false,
+      follow: false,
+    },
+  }
 }
 
 export default function SettingsLayout({

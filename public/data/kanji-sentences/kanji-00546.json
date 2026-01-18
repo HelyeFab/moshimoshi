@@ -1,0 +1,33 @@
+{
+  "kanji": "判",
+  "sentences": [
+    {
+      "id": "185448",
+      "japanese": "会ってみるまで本当に人柄は判らない。",
+      "english": "You do not really understand a man till you have met him."
+    },
+    {
+      "id": "215453",
+      "japanese": "ジョンの事業はまったくの失敗であると判った。",
+      "english": "John's business has turned out to be a complete failure."
+    },
+    {
+      "id": "220553",
+      "japanese": "この駐車券に判を押して下さい。",
+      "english": "Can you validate this parking ticket?"
+    },
+    {
+      "id": "220554",
+      "japanese": "この駐車券に判を押していただけますか。",
+      "english": "Can you validate this parking ticket?"
+    },
+    {
+      "id": "76388",
+      "japanese": "もー、弥生のナビが判りにくいから、同じトコぐるぐる回ったじゃない。",
+      "english": "Hmph, Yayoi's navigation was difficult to follow so we ended up going round and round the same places."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.449Z",
+  "count": 5,
+  "fileId": "kanji-00546"
+}

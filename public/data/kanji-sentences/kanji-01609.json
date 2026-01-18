@@ -1,0 +1,33 @@
+{
+  "kanji": "鍋",
+  "sentences": [
+    {
+      "id": "179717",
+      "japanese": "金は鍋を煮え立たせる。",
+      "english": "Money will make the pot boil."
+    },
+    {
+      "id": "123212",
+      "japanese": "鍋がふきこぼれているよ。",
+      "english": "The pot is boiling over."
+    },
+    {
+      "id": "123209",
+      "japanese": "鍋を焦げつかせるな。",
+      "english": "Don't let the pan boil dry."
+    },
+    {
+      "id": "207396",
+      "japanese": "その鍋に触らないで。すごく熱いから。",
+      "english": "Don't touch that pan! It's very hot."
+    },
+    {
+      "id": "220247",
+      "japanese": "この鍋は色々な使い道がある。",
+      "english": "This pan has several uses."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.715Z",
+  "count": 5,
+  "fileId": "kanji-01609"
+}

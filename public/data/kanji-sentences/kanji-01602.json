@@ -1,0 +1,23 @@
+{
+  "kanji": "琴",
+  "sentences": [
+    {
+      "id": "89198",
+      "japanese": "彼女は琴を弾くことがとても好きだ。",
+      "english": "She likes to play the koto very much."
+    },
+    {
+      "id": "12015223",
+      "japanese": "お琴の魅力を分かってもらえて嬉しいです。ありがとう。",
+      "english": "Thank you for understanding the beauty of the koto. I'm very delighted."
+    },
+    {
+      "id": "12483391",
+      "japanese": "僕の祖父は琴を弾いていたよ。",
+      "english": "My grandfather played the koto."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.486Z",
+  "count": 3,
+  "fileId": "kanji-01602"
+}

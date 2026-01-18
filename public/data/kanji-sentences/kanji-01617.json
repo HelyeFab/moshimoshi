@@ -1,0 +1,33 @@
+{
+  "kanji": "雷",
+  "sentences": [
+    {
+      "id": "5202",
+      "japanese": "病院にいるよ。雷に打たれたんだ。",
+      "english": "I'm at the hospital. I got struck by lightning."
+    },
+    {
+      "id": "188694",
+      "japanese": "遠くで雷が鳴ったのが聞こえた。",
+      "english": "I heard it thunder in the distance."
+    },
+    {
+      "id": "1267818",
+      "japanese": "稲光はたいてい雷の音がした後で光る。",
+      "english": "Lightning is usually followed by thunder."
+    },
+    {
+      "id": "190011",
+      "japanese": "稲妻が光ったかと思うと雷がなった。",
+      "english": "After the lightning, came the thunder."
+    },
+    {
+      "id": "190013",
+      "japanese": "稲光は雷の音に先行する。",
+      "english": "The flash of lightning precedes the sound of thunder."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.907Z",
+  "count": 5,
+  "fileId": "kanji-01617"
+}

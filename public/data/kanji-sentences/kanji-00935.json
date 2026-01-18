@@ -1,0 +1,33 @@
+{
+  "kanji": "象",
+  "sentences": [
+    {
+      "id": "538095",
+      "japanese": "今日、象は現存する最も大きい陸生動物である。",
+      "english": "Elephants are the largest land animals alive today."
+    },
+    {
+      "id": "182998",
+      "japanese": "貴方は、象が好き。",
+      "english": "You like elephants."
+    },
+    {
+      "id": "188702",
+      "japanese": "遠くから見れば、その丘は象のようだ。",
+      "english": "Seen from a distance, the hill looks like an elephant."
+    },
+    {
+      "id": "197550",
+      "japanese": "ひどい傷を負った象は、興奮し、通る道で出会った生き物という生き物を襲った。",
+      "english": "A critically wounded elephant went berserk and attacked every living thing in his path."
+    },
+    {
+      "id": "208992",
+      "japanese": "その象は動物園に連れてこられた。",
+      "english": "The elephant was brought to the zoo."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.632Z",
+  "count": 5,
+  "fileId": "kanji-00935"
+}

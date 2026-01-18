@@ -1,0 +1,33 @@
+{
+  "kanji": "便",
+  "sentences": [
+    {
+      "id": "80927",
+      "japanese": "無事に便りなし。",
+      "english": "No news is good news."
+    },
+    {
+      "id": "83335",
+      "japanese": "便りがないのは良い知らせ。",
+      "english": "No news is good news."
+    },
+    {
+      "id": "226654",
+      "japanese": "お便りを心待ちにしています。",
+      "english": "I'm looking forward to hearing from you."
+    },
+    {
+      "id": "2869723",
+      "japanese": "お便りお待ちしております。",
+      "english": "I'm looking forward to hearing from you."
+    },
+    {
+      "id": "179090",
+      "japanese": "君からの便りがあった。",
+      "english": "I heard it from you."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.242Z",
+  "count": 5,
+  "fileId": "kanji-00380"
+}

@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "210-n4-point-10",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "210-n4-point-10-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"for, in order to\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "のために (no tame ni)",
+          "romaji": "no tame ni"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! のために (no tame ni) matches \"for, in order to\".",
+      "incorrectFeedback": "Not quite. The correct pattern is のために (no tame ni).",
+      "explanation": "Expresses purpose, reason, or benefit for an action or someone.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "210-n4-point-10-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: のために (no tame ni).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "for, in order to"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! のために (no tame ni) means \"for, in order to\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"for, in order to\".",
+      "explanation": "Expresses purpose, reason, or benefit for an action or someone.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "210-n4-point-10-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: のために (no tame ni).",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "no tame ni"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! no tame ni is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is no tame ni.",
+      "explanation": "Expresses purpose, reason, or benefit for an action or someone.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "210-n4-point-10-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: のために (no tame ni)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expresses purpose, reason, or benefit for an action or someone."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses purpose, reason, or benefit for an action or someone.",
+      "explanation": "Expresses purpose, reason, or benefit for an action or someone.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "210-n4-point-10-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"for, in order to\".",
+      "correctAnswer": "のために (no tame ni)",
+      "acceptedVariations": [
+        "のために (no tame ni)",
+        "のために(notameni)"
+      ],
+      "correctFeedback": "Nice! のために (no tame ni) is correct.",
+      "incorrectFeedback": "The correct pattern is: のために (no tame ni) (no tame ni).",
+      "explanation": "Expresses purpose, reason, or benefit for an action or someone.",
+      "hints": [
+        "no tame ni",
+        "Expresses purpose, reason, or benefit for an action or someone."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "210-n4-point-10-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: のために (no tame ni).",
+      "correctAnswer": "no tame ni",
+      "acceptedVariations": [
+        "no tame ni",
+        "no tame ni"
+      ],
+      "correctFeedback": "Nice! no tame ni is correct.",
+      "incorrectFeedback": "The correct romaji is: no tame ni.",
+      "explanation": "Expresses purpose, reason, or benefit for an action or someone.",
+      "hints": [
+        "Expresses purpose, reason, or benefit for an action or someone."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "210-n4-point-10-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: のために (no tame ni).",
+      "correctAnswer": "for, in order to",
+      "acceptedVariations": [
+        "for, in order to",
+        "for, in order to"
+      ],
+      "correctFeedback": "Correct! \"for, in order to\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"for, in order to\".",
+      "explanation": "Expresses purpose, reason, or benefit for an action or someone.",
+      "hints": [
+        "Expresses purpose, reason, or benefit for an action or someone."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "210-n4-point-10-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "のために (no tame ni)",
+          "romaji": "no tame ni",
+          "english": "for, in order to"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses purpose, reason, or benefit for an action or someone.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "210-n4-point-10-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses purpose, reason, or benefit for an action or someone..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "のために (no tame ni)",
+          "romaji": "no tame ni"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! のために (no tame ni) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is のために (no tame ni).",
+      "explanation": "Expresses purpose, reason, or benefit for an action or someone.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "210-n4-point-10-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "のために(notameni)",
+      "acceptedVariations": [
+        "のために(notameni)",
+        "のために (no tame ni)"
+      ],
+      "correctFeedback": "Great! のために(notameni) is correct.",
+      "incorrectFeedback": "The correct pattern is: のために(notameni).",
+      "explanation": "Expresses purpose, reason, or benefit for an action or someone.",
+      "hints": [
+        "no tame ni"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

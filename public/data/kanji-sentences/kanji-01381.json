@@ -1,0 +1,33 @@
+{
+  "kanji": "剤",
+  "sentences": [
+    {
+      "id": "223280",
+      "japanese": "このビタミン剤は栄養分を豊富に含んでいる。",
+      "english": "The vitamin pill contains abundant nutrition."
+    },
+    {
+      "id": "234448",
+      "japanese": "アスピリン、ペニシリン、サルファ剤にアレルギーです。",
+      "english": "I am allergic to aspirin, penicillin, and sulfa drugs."
+    },
+    {
+      "id": "174327",
+      "japanese": "後に、高校生になると、僕はビタミン剤を常用するように化学を「摂取した」",
+      "english": "Later, in high school, I would take chemistry the way I took vitamin pills."
+    },
+    {
+      "id": "1709787",
+      "japanese": "トムはビタミン剤を飲む必要はないと判断した。",
+      "english": "Tom decided that it wasn't necessary to take vitamins."
+    },
+    {
+      "id": "1771922",
+      "japanese": "僕はタバコも酒もやりません。覚せい剤だけです。",
+      "english": "I don't smoke or drink. I just do pills."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:23.961Z",
+  "count": 5,
+  "fileId": "kanji-01381"
+}

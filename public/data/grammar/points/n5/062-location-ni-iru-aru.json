@@ -1,0 +1,108 @@
+{
+  "id": "062-location-ni-iru-aru",
+  "version": "1.0.0",
+  "title": {
+    "ja": "場所にいる／ある",
+    "romaji": "basho ni iru / aru",
+    "en": "Location に いる／ある"
+  },
+  "jlptLevel": "N5",
+  "category": "existence",
+  "explanation": {
+    "en": "To say where something or someone is, use the pattern “Place に Noun が います/あります.” The particle に marks the location, and います/あります shows existence.\n\nKey points:\n• Place に marks where something is\n• います for living things, あります for non-living things\n• Basic pattern: Place に + Noun が + います/あります\n• Very common for describing locations\n\nExample: “部屋に猫がいます” means “There is a cat in the room.” “机の上にペンがあります” means “There is a pen on the desk.”\n\nThis is a core structure in Japanese. Use it to describe your surroundings: 家に人がいます, 冷蔵庫にジュースがあります.\n\nRemember that に is used for location in existence sentences, while で is used for location of action. So “公園で遊びます” (I play in the park) uses で, but “公園に犬がいます” uses に.\n\nPractice by looking around and making simple sentences using に with います/あります.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Place に + Noun が + います／あります",
+    "components": [
+      {
+        "part": "Place に",
+        "explanation": "Location of existence",
+        "examples": ["部屋に", "公園に", "机の上に"]
+      },
+      {
+        "part": "Noun が",
+        "explanation": "Thing/person that exists",
+        "examples": ["猫が", "人が", "ペンが"]
+      },
+      {
+        "part": "います／あります",
+        "explanation": "Living vs non-living existence",
+        "examples": ["います", "あります"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "部屋に猫がいます。",
+      "romaji": "Heya ni neko ga imasu.",
+      "english": "There is a cat in the room.",
+      "breakdown": {
+        "部屋": "room",
+        "に": "location marker",
+        "猫": "cat",
+        "が": "subject marker",
+        "います": "exists (living)"
+      },
+      "notes": "Living thing"
+    },
+    {
+      "japanese": "机の上にペンがあります。",
+      "romaji": "Tsukue no ue ni pen ga arimasu.",
+      "english": "There is a pen on the desk.",
+      "breakdown": {
+        "机": "desk",
+        "の": "of",
+        "上": "on",
+        "に": "location marker",
+        "ペン": "pen",
+        "が": "subject marker",
+        "あります": "exists (non-living)"
+      },
+      "notes": "Non-living thing"
+    },
+    {
+      "japanese": "公園に子どもがいます。",
+      "romaji": "Kouen ni kodomo ga imasu.",
+      "english": "There are children in the park.",
+      "breakdown": {
+        "公園": "park",
+        "に": "location marker",
+        "子ども": "children",
+        "が": "subject marker",
+        "います": "exists (living)"
+      },
+      "notes": "People"
+    },
+    {
+      "japanese": "冷蔵庫にジュースがあります。",
+      "romaji": "Reizouko ni juusu ga arimasu.",
+      "english": "There is juice in the fridge.",
+      "breakdown": {
+        "冷蔵庫": "fridge",
+        "に": "location marker",
+        "ジュース": "juice",
+        "が": "subject marker",
+        "あります": "exists (non-living)"
+      },
+      "notes": "Things in a place"
+    }
+  ],
+  "relatedPoints": [
+    "009-particle-ni-location",
+    "011-particle-de-location"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using で for existence",
+      "correction": "Use に with います/あります",
+      "example": "❌ 公園で犬がいます → ✅ 公園に犬がいます"
+    },
+    {
+      "mistake": "Swapping います/あります",
+      "correction": "Use います for living things",
+      "example": "❌ ペンがいます → ✅ ペンがあります"
+    }
+  ],
+  "tags": ["existence", "location", "ni", "beginner"]
+}

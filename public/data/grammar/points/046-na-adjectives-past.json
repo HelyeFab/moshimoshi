@@ -1,0 +1,100 @@
+{
+  "id": "046-na-adjectives-past",
+  "version": "1.0.0",
+  "title": {
+    "ja": "な形容詞（過去）",
+    "romaji": "na-keiyoushi (past)",
+    "en": "na-adjectives (past)"
+  },
+  "jlptLevel": "N5",
+  "category": "adjectives",
+  "explanation": {
+    "en": "The past form of な-adjectives uses でした. You attach でした to the adjective to say it “was” something.\n\nKey points:\n• な-adjective past: adjective + でした\n• Use after nouns with な (きれいな町)\n• Polite and common for past descriptions\n• Same pattern for all な-adjectives\n\nFor example, “静か” becomes “静かでした” (was quiet). “便利” becomes “便利でした” (was convenient).\n\nYou can say “昨日のテストは簡単でした” (Yesterday's test was easy).\n\nRemember that な-adjectives use です/でした like nouns. They do not change the adjective itself in the past; only です changes to でした.\n\nPractice with common な-adjectives: きれいでした, しずかでした, べんりでした.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "na-adjective + でした",
+    "components": [
+      {
+        "part": "na-adjective",
+        "explanation": "Adjective base",
+        "examples": ["静か", "便利", "きれい"]
+      },
+      {
+        "part": "でした",
+        "explanation": "Polite past copula",
+        "examples": ["でした"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "昨日の町は静かでした。",
+      "romaji": "Kinou no machi wa shizuka deshita.",
+      "english": "The town was quiet yesterday.",
+      "breakdown": {
+        "昨日の": "yesterday's",
+        "町": "town",
+        "は": "topic marker",
+        "静か": "quiet",
+        "でした": "was (polite)"
+      },
+      "notes": "Past description"
+    },
+    {
+      "japanese": "この店は便利でした。",
+      "romaji": "Kono mise wa benri deshita.",
+      "english": "This shop was convenient.",
+      "breakdown": {
+        "この": "this",
+        "店": "shop",
+        "は": "topic marker",
+        "便利": "convenient",
+        "でした": "was (polite)"
+      },
+      "notes": "Past evaluation"
+    },
+    {
+      "japanese": "あの部屋はきれいでした。",
+      "romaji": "Ano heya wa kirei deshita.",
+      "english": "That room was clean/pretty.",
+      "breakdown": {
+        "あの": "that",
+        "部屋": "room",
+        "は": "topic marker",
+        "きれい": "clean/pretty",
+        "でした": "was (polite)"
+      },
+      "notes": "Past state"
+    },
+    {
+      "japanese": "テストは簡単でした。",
+      "romaji": "Tesuto wa kantan deshita.",
+      "english": "The test was easy.",
+      "breakdown": {
+        "テスト": "test",
+        "は": "topic marker",
+        "簡単": "easy",
+        "でした": "was (polite)"
+      },
+      "notes": "Past comment"
+    }
+  ],
+  "relatedPoints": [
+    "045-na-adjectives-present",
+    "047-na-adjectives-negative"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Changing the adjective form instead of です",
+      "correction": "Use でした after the adjective",
+      "example": "❌ きれいかった → ✅ きれいでした"
+    },
+    {
+      "mistake": "Using だった in polite speech",
+      "correction": "Use でした for polite past",
+      "example": "❌ 静かだったです → ✅ 静かでした"
+    }
+  ],
+  "tags": ["adjectives", "na-adjectives", "past", "beginner"]
+}

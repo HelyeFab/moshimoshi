@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "210-n4-point-10",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "210-n4-point-10-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"for, in order to\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "のために (no tame ni)",
+          "romaji": "no tame ni"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! のために (no tame ni) matches \"for, in order to\".",
+      "incorrectFeedback": "Not quite. The correct pattern is のために (no tame ni).",
+      "explanation": "Expresses purpose, reason, or benefit for an action or someone.",
+      "difficulty": "easy"
+    }
+  ]
+}

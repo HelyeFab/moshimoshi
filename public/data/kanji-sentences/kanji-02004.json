@@ -1,0 +1,33 @@
+{
+  "kanji": "酢",
+  "sentences": [
+    {
+      "id": "143895",
+      "japanese": "酢はすっぱい味がする。",
+      "english": "Vinegar has a sharp taste."
+    },
+    {
+      "id": "10582928",
+      "japanese": "お酢と油を持ってきてください。",
+      "english": "Please bring me vinegar and oil."
+    },
+    {
+      "id": "10582931",
+      "japanese": "トムはモデナでバルサミコ酢を購入しました。",
+      "english": "Tom bought a bottle of balsamic vinegar in Modena."
+    },
+    {
+      "id": "10582934",
+      "japanese": "デーツからお酢ができるって、知ってた？",
+      "english": "Did you know that vinegar can be made from dates?"
+    },
+    {
+      "id": "10582936",
+      "japanese": "デーツから酢が作れるって、ご存じですか？",
+      "english": "Did you know that vinegar can be made from dates?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:46.205Z",
+  "count": 5,
+  "fileId": "kanji-02004"
+}

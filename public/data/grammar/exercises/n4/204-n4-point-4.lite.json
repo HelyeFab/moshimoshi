@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "204-n4-point-4",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "204-n4-point-4-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"B is more ~ than A\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "A より B のほうが〜",
+          "romaji": "A yori B no hou ga 〜"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! A より B のほうが〜 matches \"B is more ~ than A\".",
+      "incorrectFeedback": "Not quite. The correct pattern is A より B のほうが〜.",
+      "explanation": "Used to show that B has more of a quality than A in comparisons.",
+      "difficulty": "easy"
+    }
+  ]
+}

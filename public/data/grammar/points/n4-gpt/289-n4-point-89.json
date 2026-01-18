@@ -1,0 +1,114 @@
+{
+  "id": "289-n4-point-89",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～たら どうですか",
+    "romaji": "~tara doudesuka",
+    "en": "How about if you ~? / Why don't you ~?"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ～たら どうですか grammar point is used to gently make suggestions or give advice. It attaches to the た-form of verbs and can be translated as 'what if', 'how about', or 'why don't you'. It is a polite way to recommend an action.",
+    "ja": "「～たら どうですか」は、相手にやさしく提案や助言をする時に使います。動詞のた形に続けて使い、「～してはどうですか」「～したらどうですか」という意味になります。"
+  },
+  "structure": {
+    "pattern": "Verb-た form + ら どうですか",
+    "components": [
+      {
+        "part": "Verb-た form",
+        "explanation": "The past tense (た-form) of the verb.",
+        "examples": [
+          "行った (went)",
+          "読んだ (read)",
+          "休んだ (rested)",
+          "帰った (returned)"
+        ]
+      },
+      {
+        "part": "ら",
+        "explanation": "Conditional particle meaning 'if'.",
+        "examples": []
+      },
+      {
+        "part": "どうですか",
+        "explanation": "Phrase meaning 'how about' or 'what do you think'.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "スキーに行ったらどうですか？",
+      "romaji": "Sukii ni ittara doudesuka?",
+      "english": "How about going skiing?",
+      "breakdown": {
+        "スキー": "skiing",
+        "に": "to",
+        "行ったら": "if (you) go",
+        "どうですか": "how about"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "少し休んだらどうですか？",
+      "romaji": "Sukoshi yasundara doudesuka?",
+      "english": "What if you take a little break?",
+      "breakdown": {
+        "少し": "a little",
+        "休んだら": "if (you) rest",
+        "どうですか": "how about"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この本を読んだらどうですか？",
+      "romaji": "Kono hon wo yondara doudesuka?",
+      "english": "Why don't you read this book?",
+      "breakdown": {
+        "この": "this",
+        "本": "book",
+        "を": "object marker",
+        "読んだら": "if (you) read",
+        "どうですか": "how about"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "タクシーで帰ったらどうですか？",
+      "romaji": "Takushii de kaettara doudesuka?",
+      "english": "How about going home by taxi?",
+      "breakdown": {
+        "タクシーで": "by taxi",
+        "帰ったら": "if (you) go home",
+        "どうですか": "how about"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～たらいい",
+    "～ばいい",
+    "動詞たほうがいい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using the plain form of the verb instead of the た-form.",
+      "correction": "Always use the た-form before ら どうですか.",
+      "example": "× 行くらどうですか → ○ 行ったらどうですか"
+    },
+    {
+      "mistake": "Using ます-form before ら どうですか.",
+      "correction": "Use the た-form, not the ます-form.",
+      "example": "× 行きましたらどうですか → ○ 行ったらどうですか"
+    }
+  ],
+  "tags": [
+    "n4",
+    "suggestion",
+    "advice",
+    "conditional",
+    "verbs",
+    "polite"
+  ]
+}

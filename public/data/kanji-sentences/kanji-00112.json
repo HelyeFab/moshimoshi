@@ -1,0 +1,33 @@
+{
+  "kanji": "春",
+  "sentences": [
+    {
+      "id": "147608",
+      "japanese": "春はまもなくやってくる。",
+      "english": "Spring will be here before long."
+    },
+    {
+      "id": "179910",
+      "japanese": "近いうちに春が当地に訪れるだろう。",
+      "english": "Spring will be here before long."
+    },
+    {
+      "id": "183761",
+      "japanese": "間もなく春がやってくる。",
+      "english": "Spring will be here before long."
+    },
+    {
+      "id": "195275",
+      "japanese": "まもなく春が訪れるだろう。",
+      "english": "Spring will be here before long."
+    },
+    {
+      "id": "182221",
+      "japanese": "去年の春、料理教室に通って、パンの焼き方を覚えました。",
+      "english": "I took a cooking class last spring and learned to bake bread."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.713Z",
+  "count": 5,
+  "fileId": "kanji-00112"
+}

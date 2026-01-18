@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "248-n4-point-48",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "248-n4-point-48-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Receiving a Favor\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb て もらう",
+          "romaji": "Verb te morau"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb て もらう matches \"Receiving a Favor\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb て もらう.",
+      "explanation": "Expresses receiving a favor or action done by someone for you.",
+      "difficulty": "easy"
+    }
+  ]
+}

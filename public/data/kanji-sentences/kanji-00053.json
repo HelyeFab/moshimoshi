@@ -1,0 +1,33 @@
+{
+  "kanji": "木",
+  "sentences": [
+    {
+      "id": "179223",
+      "japanese": "熊は木に登る事ができる。",
+      "english": "A bear can climb a tree."
+    },
+    {
+      "id": "8933556",
+      "japanese": "熊は木に登れる。",
+      "english": "A bear can climb a tree."
+    },
+    {
+      "id": "179714",
+      "japanese": "金は木に生えない。",
+      "english": "Money does not grow on trees."
+    },
+    {
+      "id": "9142903",
+      "japanese": "金のなる木なんてないんだよ。",
+      "english": "Money does not grow on trees."
+    },
+    {
+      "id": "10136200",
+      "japanese": "金のなる木なんてないよ。",
+      "english": "Money does not grow on trees."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.788Z",
+  "count": 5,
+  "fileId": "kanji-00053"
+}

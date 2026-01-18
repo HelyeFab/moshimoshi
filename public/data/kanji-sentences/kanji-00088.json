@@ -1,0 +1,33 @@
+{
+  "kanji": "病",
+  "sentences": [
+    {
+      "id": "11264760",
+      "japanese": "皆さんが気に病む必要はありません。",
+      "english": "You don't have to trouble yourselves."
+    },
+    {
+      "id": "196113",
+      "japanese": "ほとんど全ての人は治療で死に、病のゆえではない。",
+      "english": "Nearly all men die of their remedies, and not of their illness."
+    },
+    {
+      "id": "74859",
+      "japanese": "病は気からとはうまく言ったものですね。",
+      "english": "It is aptly said that illness starts from the mind."
+    },
+    {
+      "id": "74935",
+      "japanese": "王を得た麒麟もまた寿命を持たない生き物だが、この病ばかりは治癒の方法がない。",
+      "english": "A qilin with a king too has no limit on its lifespan, but this illness alone admits of no remedy."
+    },
+    {
+      "id": "77444",
+      "japanese": "恋は悲しみに満ちた病であり、あらゆる治療をも薬をも受け付けない。",
+      "english": "Love is a sickness full of woes, All remedies refusing."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.369Z",
+  "count": 5,
+  "fileId": "kanji-00088"
+}

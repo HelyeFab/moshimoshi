@@ -1,0 +1,33 @@
+{
+  "kanji": "転",
+  "sentences": [
+    {
+      "id": "4912",
+      "japanese": "「転がる石は苔をもつけず」はことわざである。",
+      "english": "\"A rolling stone gathers no moss\" is a proverb."
+    },
+    {
+      "id": "182377",
+      "japanese": "球は小川の中に転がり込んだ。",
+      "english": "The ball rolled into the stream."
+    },
+    {
+      "id": "183240",
+      "japanese": "気を付けないと凍った階段で滑って転ぶよ。",
+      "english": "If you're not careful, you might slip and fall on the icy steps."
+    },
+    {
+      "id": "183662",
+      "japanese": "岩は丘の斜面を転がり落ちた。",
+      "english": "The rock rolled down the hillside."
+    },
+    {
+      "id": "184635",
+      "japanese": "鎧をつけている人は、転ぶと大きな音がする。",
+      "english": "He who wears armor falls with a big crash!"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.451Z",
+  "count": 5,
+  "fileId": "kanji-00095"
+}

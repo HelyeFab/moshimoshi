@@ -1,0 +1,33 @@
+{
+  "kanji": "飯",
+  "sentences": [
+    {
+      "id": "5220",
+      "japanese": "毎日お昼ご飯を作っているよ。",
+      "english": "I make lunch every day."
+    },
+    {
+      "id": "10944586",
+      "japanese": "ご飯の前に手は洗ってる？",
+      "english": "Do you wash your hands before meals?"
+    },
+    {
+      "id": "1276119",
+      "japanese": "もうお昼ご飯は食べました。",
+      "english": "I have already eaten lunch."
+    },
+    {
+      "id": "1166641",
+      "japanese": "メアリーは一日おきに、そのレストランへお昼ご飯を食べに行くんだ。",
+      "english": "Mary goes to that restaurant for lunch every other day."
+    },
+    {
+      "id": "1134421",
+      "japanese": "まだ昼ご飯を食べてないんだ。",
+      "english": "I haven't eaten lunch yet."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.094Z",
+  "count": 5,
+  "fileId": "kanji-00139"
+}

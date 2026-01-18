@@ -1,0 +1,33 @@
+{
+  "kanji": "評",
+  "sentences": [
+    {
+      "id": "95879",
+      "japanese": "公平に評すれば、彼はいい奴だ。",
+      "english": "To do him justice, he is a nice guy."
+    },
+    {
+      "id": "112545",
+      "japanese": "彼はその男を典型的な紳士と評した。",
+      "english": "He described the man as a model gentleman."
+    },
+    {
+      "id": "173971",
+      "japanese": "公平に評すれば、彼は善意からやったのだと認めなければならない。",
+      "english": "To do him justice, we must admit that his intentions were good."
+    },
+    {
+      "id": "173972",
+      "japanese": "公平に評すれば、彼は信頼できる男だ。",
+      "english": "To do him justice, he is a reliable man."
+    },
+    {
+      "id": "173973",
+      "japanese": "公平に評すれば、彼は最善を尽くした。",
+      "english": "In all fairness, he did do his best."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:49.397Z",
+  "count": 5,
+  "fileId": "kanji-02092"
+}

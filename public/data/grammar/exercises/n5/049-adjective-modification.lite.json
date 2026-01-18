@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "049-adjective-modification",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "049-adjective-modification-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase: 'a big dog'",
+      "options": [
+        {
+          "id": "a",
+          "text": "大きい犬"
+        },
+        {
+          "id": "b",
+          "text": "犬大きい"
+        },
+        {
+          "id": "c",
+          "text": "大きいな犬"
+        },
+        {
+          "id": "d",
+          "text": "大きいです犬"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! い-adjectives come before nouns.",
+      "incorrectFeedback": "Not quite. Use adjective + noun.",
+      "explanation": "Use い-adjective directly before the noun.",
+      "difficulty": "easy"
+    }
+  ]
+}

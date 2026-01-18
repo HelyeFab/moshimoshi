@@ -1,0 +1,23 @@
+{
+  "kanji": "以",
+  "sentences": [
+    {
+      "id": "123437",
+      "japanese": "毒を以て毒を制す。",
+      "english": "Diamond cuts diamond."
+    },
+    {
+      "id": "876647",
+      "japanese": "その状況は戦争を以てしか決着できない。",
+      "english": "The situation could only be settled by war."
+    },
+    {
+      "id": "2438995",
+      "japanese": "自分の作ったものを熱愛の眼を以て見てくれる一人の人があるという意識ほど、美術家にとって力となるものはない。",
+      "english": "Nothing gives an artist as much strength as the knowledge that there is at least one person who loves deeply what he has created."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.866Z",
+  "count": 3,
+  "fileId": "kanji-00200"
+}

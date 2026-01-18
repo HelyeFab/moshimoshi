@@ -1,0 +1,33 @@
+{
+  "kanji": "石",
+  "sentences": [
+    {
+      "id": "4912",
+      "japanese": "「転がる石は苔をもつけず」はことわざである。",
+      "english": "\"A rolling stone gathers no moss\" is a proverb."
+    },
+    {
+      "id": "4981",
+      "japanese": "こわれやすいガラス張りの家に住む者は石を投げてはいけない。",
+      "english": "Those who live in glass houses should not throw stones."
+    },
+    {
+      "id": "226193",
+      "japanese": "ガラスの家に住む人は石を投げるべきではない。",
+      "english": "Those who live in glass houses should not throw stones."
+    },
+    {
+      "id": "179224",
+      "japanese": "熊は岩の下にいる、肥った虫をさがして、石という石をひっくりかえした。",
+      "english": "The bear left no stone unturned in his search for fat bugs under the rocks."
+    },
+    {
+      "id": "188707",
+      "japanese": "遠くから見ると、その石は人間の顔のように見える。",
+      "english": "Seen from a distance, the stone looks like a human face."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.870Z",
+  "count": 5,
+  "fileId": "kanji-00496"
+}

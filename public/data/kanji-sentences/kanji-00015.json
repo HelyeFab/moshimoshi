@@ -1,0 +1,33 @@
+{
+  "kanji": "二",
+  "sentences": [
+    {
+      "id": "9859012",
+      "japanese": "二つ目のボタンが取れそうだよ。",
+      "english": "Your second button is coming off."
+    },
+    {
+      "id": "179785",
+      "japanese": "近年の旅行では私達は二、三日で世界一周が出来る。",
+      "english": "Modern travel enables us to go around the world in a few days."
+    },
+    {
+      "id": "185653",
+      "japanese": "我々は二つの意見を比較検討した。",
+      "english": "We weighed one opinion against the other."
+    },
+    {
+      "id": "187262",
+      "japanese": "可能性は中立か戦争かの二つに一つだ。",
+      "english": "The alternative possibilities are neutrality or war."
+    },
+    {
+      "id": "188895",
+      "japanese": "駅はその二つの町の中間にある。",
+      "english": "The station is situated in between the two towns."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.359Z",
+  "count": 5,
+  "fileId": "kanji-00015"
+}

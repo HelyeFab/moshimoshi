@@ -1,0 +1,117 @@
+{
+  "id": "232-n4-point-32",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞ていただく",
+    "romaji": "doushi te itadaku",
+    "en": "Verb ていただく (te itadaku)"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The grammar point ～ていただく is used to politely and humbly express that someone has kindly done a favor or provided help for you. It is the humble form of receiving an action, showing respect to the person who performed the action. Formed by attaching the て-form of a verb to いただく.",
+    "ja": "「～ていただく」は、他の人が自分のために親切に何かをしてくれたことを、丁寧かつ謙譲して表す表現です。動詞のて形に「いただく」をつけて使います。"
+  },
+  "structure": {
+    "pattern": "Verb-て form + いただく",
+    "components": [
+      {
+        "part": "Verb-て form",
+        "explanation": "The て-form of the verb indicating the action received.",
+        "examples": [
+          "送って",
+          "運んで",
+          "チェックして",
+          "して"
+        ]
+      },
+      {
+        "part": "いただく",
+        "explanation": "A humble verb meaning 'to receive', used to show respect to the person performing the action.",
+        "examples": [
+          "いただく",
+          "いただいて",
+          "いただきたい",
+          "いただきました"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "メールを送っていただいて、ありがとうございます。",
+      "romaji": "Meeru o okutte itadaite, arigatou gozaimasu.",
+      "english": "Thank you for kindly sending the email.",
+      "breakdown": {
+        "メール": "email",
+        "を": "object marker",
+        "送って": "send (te-form)",
+        "いただいて": "receive (humbly, te-form)",
+        "ありがとうございます": "thank you"
+      },
+      "notes": "Used to show gratitude for a favor received."
+    },
+    {
+      "japanese": "荷物を運んでいただいて、助かりました。",
+      "romaji": "Nimotsu o hakonde itadaite, tasukarimashita.",
+      "english": "You really helped me by carrying the luggage.",
+      "breakdown": {
+        "荷物": "luggage",
+        "を": "object marker",
+        "運んで": "carry (te-form)",
+        "いただいて": "receive (humbly, te-form)",
+        "助かりました": "was helped"
+      },
+      "notes": "Expresses gratitude for a helpful action."
+    },
+    {
+      "japanese": "資料をチェックしていただきたいです。",
+      "romaji": "Shiryou o chekku shite itadakitai desu.",
+      "english": "I would like you to kindly check the documents.",
+      "breakdown": {
+        "資料": "documents",
+        "を": "object marker",
+        "チェックして": "check (te-form)",
+        "いただきたい": "want to receive (humbly)",
+        "です": "polite copula"
+      },
+      "notes": "Used to make a polite request."
+    },
+    {
+      "japanese": "先生にアドバイスをしていただきました。",
+      "romaji": "Sensei ni adobaisu o shite itadakimashita.",
+      "english": "The teacher kindly gave me advice.",
+      "breakdown": {
+        "先生に": "from teacher",
+        "アドバイスを": "advice (object)",
+        "して": "do (te-form)",
+        "いただきました": "received (humbly, past)"
+      },
+      "notes": "Shows respect and gratitude for advice received from a teacher."
+    }
+  ],
+  "relatedPoints": [
+    "〜てもらう",
+    "〜てくださる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "メールを送ってもらって、ありがとうございます。",
+      "correction": "メールを送っていただいて、ありがとうございます。",
+      "example": "Use いただく instead of もらう for more polite, humble expression."
+    },
+    {
+      "mistake": "先生にアドバイスをしてもらいました。",
+      "correction": "先生にアドバイスをしていただきました。",
+      "example": "Use いただく when showing respect to someone of higher status."
+    }
+  ],
+  "tags": [
+    "n4",
+    "humble",
+    "politeness",
+    "request",
+    "favor",
+    "verbs"
+  ]
+}

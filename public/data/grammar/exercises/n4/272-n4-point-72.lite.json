@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "272-n4-point-72",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "272-n4-point-72-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb 'to finish'\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb 終わる (〜owaru)",
+          "romaji": "Verb Owaru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb 終わる (〜owaru) matches \"Verb 'to finish'\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb 終わる (〜owaru).",
+      "explanation": "Expresses that something finishes or an action is completed; a godan verb.",
+      "difficulty": "easy"
+    }
+  ]
+}

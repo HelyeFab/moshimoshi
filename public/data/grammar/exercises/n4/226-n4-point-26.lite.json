@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "226-n4-point-26",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "226-n4-point-26-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"For the sake of/In order to\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ために",
+          "romaji": "tame ni"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! Verb ために matches \"For the sake of/In order to\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ために.",
+      "explanation": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

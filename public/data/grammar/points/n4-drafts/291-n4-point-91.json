@@ -1,0 +1,55 @@
+{
+  "id": "291-n4-point-91",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～だろう (〜darou)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～だろう grammar point is used to express probability, likelihood, or certainty about a situation or event. It can be translated as 'probably', 'maybe', or 'I think' in English. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + だろう, い-Adjective (drop い) + だろう, な-Adjective + だろう, Noun + だろう",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "明日は晴れるだろう。",
+      "romaji": "Ashita wa hareru darou.",
+      "english": "It will probably be sunny tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は忙しいだろう。",
+      "romaji": "Kare wa isogashii darou.",
+      "english": "He is probably busy.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この本は面白いだろう。",
+      "romaji": "Kono hon wa omoshiroi darou.",
+      "english": "This book is probably interesting.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は先生だろう。",
+      "romaji": "Kanojo wa sensei darou.",
+      "english": "She is probably a teacher.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

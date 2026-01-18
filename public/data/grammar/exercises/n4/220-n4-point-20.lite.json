@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "220-n4-point-20",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "220-n4-point-20-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb -saserareru (passive causative)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞させられる",
+          "romaji": "Doushi saserareru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 動詞させられる matches \"Verb -saserareru (passive causative)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞させられる.",
+      "explanation": "Expresses being made or forced by someone to do an action.",
+      "difficulty": "easy"
+    }
+  ]
+}

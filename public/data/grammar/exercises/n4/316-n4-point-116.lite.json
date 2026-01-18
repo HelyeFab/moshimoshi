@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "316-n4-point-116",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "316-n4-point-116-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"As it is\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~まま",
+          "romaji": "~mama"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ~まま matches \"As it is\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ~まま.",
+      "explanation": "Describes something left unchanged or kept in its current state.",
+      "difficulty": "easy"
+    }
+  ]
+}

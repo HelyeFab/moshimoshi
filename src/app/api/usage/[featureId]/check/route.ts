@@ -97,8 +97,12 @@ export async function GET(
     const newsItems = Array.isArray((usageData as any).news_items)
       ? (usageData as any).news_items
       : null;
+    const storyItems = Array.isArray((usageData as any).story_items)
+      ? (usageData as any).story_items
+      : null;
     const moodboardUsage = moodboardBoards ? moodboardBoards.length : currentUsage;
     const newsUsage = newsItems ? newsItems.length : currentUsage;
+    const storyUsage = storyItems ? storyItems.length : currentUsage;
 
     // Build evaluation context
     const context: EvalContext = {
@@ -110,6 +114,8 @@ export async function GET(
             ? moodboardUsage
             : featureId === 'news'
               ? newsUsage
+              : featureId === 'story'
+                ? storyUsage
               : currentUsage
       },
       nowUtcISO: nowUtcISO
@@ -125,7 +131,10 @@ export async function GET(
         moodboardBoards.includes(itemId)) ||
         (featureId === 'news' &&
           Array.isArray(newsItems) &&
-          newsItems.includes(itemId)));
+          newsItems.includes(itemId)) ||
+        (featureId === 'story' &&
+          Array.isArray(storyItems) &&
+          storyItems.includes(itemId)));
 
     const resolvedDecision = isRepeat
       ? {
@@ -145,6 +154,8 @@ export async function GET(
           ? moodboardUsage
           : featureId === 'news'
             ? newsUsage
+            : featureId === 'story'
+              ? storyUsage
             : currentUsage,
       bucketKey: bucket,
       plan,

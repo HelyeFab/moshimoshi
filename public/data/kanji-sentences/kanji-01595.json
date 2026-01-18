@@ -1,0 +1,33 @@
+{
+  "kanji": "謎",
+  "sentences": [
+    {
+      "id": "5148",
+      "japanese": "睡眠は重要であるにもかかわらず、その役割は謎である。",
+      "english": "Despite the importance of sleep, its purpose is a mystery."
+    },
+    {
+      "id": "199157",
+      "japanese": "なぜ彼が自殺をしたかはいまだに謎である。",
+      "english": "Why he killed himself is still a mystery."
+    },
+    {
+      "id": "207397",
+      "japanese": "その謎を解こうとしてもむだですよ。",
+      "english": "It is no use trying to solve the riddle."
+    },
+    {
+      "id": "207399",
+      "japanese": "その謎を解きましたか。",
+      "english": "Have you worked the puzzle out?"
+    },
+    {
+      "id": "207400",
+      "japanese": "その謎を解いてみましょう。",
+      "english": "Let's try to solve the riddle."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.272Z",
+  "count": 5,
+  "fileId": "kanji-01595"
+}

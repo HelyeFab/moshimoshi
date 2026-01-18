@@ -1,0 +1,55 @@
+{
+  "id": "260-n4-point-60",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ようにする (Verb ~you ni suru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ようにする grammar point is used to express that someone is making an effort, trying, or seeing to it that something happens. It can be translated as 'make sure to', 'try to', or 'ensure that' in English. The formation is simple, involving a verb in the dictionary form followed by ようにする.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-dictionary form + ようにする",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "毎日運動するようにしています。",
+      "romaji": "Mainichi undou suru you ni shiteimasu.",
+      "english": "I try to exercise every day.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "早く寝るようにしてください。",
+      "romaji": "Hayaku neru you ni shite kudasai.",
+      "english": "Please try to go to bed early.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "約束を守るようにします。",
+      "romaji": "Yakusoku o mamoru you ni shimasu.",
+      "english": "I will make sure to keep my promise.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼に会わないようにする。",
+      "romaji": "Kare ni awanai you ni suru.",
+      "english": "I will try not to see him.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

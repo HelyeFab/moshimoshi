@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "263-n4-point-63",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "263-n4-point-63-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Passive and Potential Forms\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb られる (〜rareru)",
+          "romaji": "Verb rareru"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Verb られる (〜rareru) matches \"Passive and Potential Forms\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb られる (〜rareru).",
+      "explanation": "Expresses passive voice or ability (can do) with verbs using られる.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "263-n4-point-63-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb られる (〜rareru).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "Passive and Potential Forms"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb られる (〜rareru) means \"Passive and Potential Forms\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Passive and Potential Forms\".",
+      "explanation": "Expresses passive voice or ability (can do) with verbs using られる.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "263-n4-point-63-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb られる (〜rareru).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb rareru"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb rareru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb rareru.",
+      "explanation": "Expresses passive voice or ability (can do) with verbs using られる.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "263-n4-point-63-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb られる (〜rareru)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Expresses passive voice or ability (can do) with verbs using られる."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses passive voice or ability (can do) with verbs using られる.",
+      "explanation": "Expresses passive voice or ability (can do) with verbs using られる.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "263-n4-point-63-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Passive and Potential Forms\".",
+      "correctAnswer": "Verb られる (〜rareru)",
+      "acceptedVariations": [
+        "Verb られる (〜rareru)",
+        "Verbられる(〜rareru)"
+      ],
+      "correctFeedback": "Nice! Verb られる (〜rareru) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb られる (〜rareru) (Verb rareru).",
+      "explanation": "Expresses passive voice or ability (can do) with verbs using られる.",
+      "hints": [
+        "Verb rareru",
+        "Expresses passive voice or ability (can do) with verbs using られる."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "263-n4-point-63-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb られる (〜rareru).",
+      "correctAnswer": "Verb rareru",
+      "acceptedVariations": [
+        "Verb rareru",
+        "verb rareru"
+      ],
+      "correctFeedback": "Nice! Verb rareru is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb rareru.",
+      "explanation": "Expresses passive voice or ability (can do) with verbs using られる.",
+      "hints": [
+        "Expresses passive voice or ability (can do) with verbs using られる."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "263-n4-point-63-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb られる (〜rareru).",
+      "correctAnswer": "Passive and Potential Forms",
+      "acceptedVariations": [
+        "Passive and Potential Forms",
+        "passive and potential forms"
+      ],
+      "correctFeedback": "Correct! \"Passive and Potential Forms\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Passive and Potential Forms\".",
+      "explanation": "Expresses passive voice or ability (can do) with verbs using られる.",
+      "hints": [
+        "Expresses passive voice or ability (can do) with verbs using られる."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "263-n4-point-63-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb られる (〜rareru)",
+          "romaji": "Verb rareru",
+          "english": "Passive and Potential Forms"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses passive voice or ability (can do) with verbs using られる.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "263-n4-point-63-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses passive voice or ability (can do) with verbs using られる..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb られる (〜rareru)",
+          "romaji": "Verb rareru"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb られる (〜rareru) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb られる (〜rareru).",
+      "explanation": "Expresses passive voice or ability (can do) with verbs using られる.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "263-n4-point-63-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbられる(〜rareru)",
+      "acceptedVariations": [
+        "Verbられる(〜rareru)",
+        "Verb られる (〜rareru)"
+      ],
+      "correctFeedback": "Great! Verbられる(〜rareru) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbられる(〜rareru).",
+      "explanation": "Expresses passive voice or ability (can do) with verbs using られる.",
+      "hints": [
+        "Verb rareru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "赤",
+  "sentences": [
+    {
+      "id": "5201",
+      "japanese": "この赤ちゃんペンギンとっても可愛い！",
+      "english": "This baby penguin is too cute!"
+    },
+    {
+      "id": "138769",
+      "japanese": "彼は赤ん坊のように眠っています。",
+      "english": "He's sleeping like a baby."
+    },
+    {
+      "id": "5094",
+      "japanese": "赤い冷蔵庫を見たことがない。",
+      "english": "I have never seen a red refrigerator."
+    },
+    {
+      "id": "178028",
+      "japanese": "君の目は泣いて赤いよ。",
+      "english": "Your eyes are red with crying."
+    },
+    {
+      "id": "182116",
+      "japanese": "魚と赤ワインは合わない。",
+      "english": "Fish and red wine don't go together."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.706Z",
+  "count": 5,
+  "fileId": "kanji-00111"
+}

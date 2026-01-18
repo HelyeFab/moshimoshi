@@ -1,0 +1,33 @@
+{
+  "kanji": "河",
+  "sentences": [
+    {
+      "id": "186773",
+      "japanese": "河を泳いで渡ると考えただけでも私はふるえた。",
+      "english": "The mere idea of swimming across the river made me tremble."
+    },
+    {
+      "id": "196858",
+      "japanese": "ベーカーさん一家は河の上流に農場を持っている。",
+      "english": "The Bakers have a farm up the river."
+    },
+    {
+      "id": "218943",
+      "japanese": "これが河？",
+      "english": "Is this a river?"
+    },
+    {
+      "id": "222754",
+      "japanese": "この河で泳ぐのは危ない。",
+      "english": "It's dangerous to swim in this river."
+    },
+    {
+      "id": "222752",
+      "japanese": "この河はニューオリンズまで続いている。",
+      "english": "This river flows all the way to New Orleans."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.302Z",
+  "count": 5,
+  "fileId": "kanji-00972"
+}

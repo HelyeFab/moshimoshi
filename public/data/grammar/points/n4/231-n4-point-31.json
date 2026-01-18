@@ -1,0 +1,116 @@
+{
+  "id": "231-n4-point-31",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞ていただきたい",
+    "romaji": "doushi te itadakitai",
+    "en": "Verb-te itadakitai (would like you to do...)"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ていただきたい (te itadakitai) form expresses a polite desire or request for someone to do something for you. It is made by attaching いただきたい to the て-form of a verb. This is more respectful than using てほしい.",
+    "ja": "「〜ていただきたい」は、相手に何かをしてもらいたいという丁寧な希望や依頼を表します。動詞のて形に「いただきたい」をつけて作ります。「〜てほしい」よりも丁寧な表現です。"
+  },
+  "structure": {
+    "pattern": "Verb-て form + いただきたい",
+    "components": [
+      {
+        "part": "Verb-て form",
+        "explanation": "The て-form of the verb expressing the action you want done.",
+        "examples": [
+          "手伝って",
+          "教えて",
+          "送って"
+        ]
+      },
+      {
+        "part": "いただきたい",
+        "explanation": "Polite form expressing desire for someone to do the action for you.",
+        "examples": [
+          "いただきたい",
+          "いただきたいです"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "資料をコピーしていただきたいです。",
+      "romaji": "Shiryou wo kopii shite itadakitai desu.",
+      "english": "I would like you to make copies of the documents.",
+      "breakdown": {
+        "資料": "documents",
+        "を": "object marker",
+        "コピーして": "make copies (te-form)",
+        "いただきたい": "would like to receive (polite request)",
+        "です": "polite ending"
+      },
+      "notes": "Polite request, often used in business."
+    },
+    {
+      "japanese": "この仕事を手伝っていただきたいのですが。",
+      "romaji": "Kono shigoto wo tetsudatte itadakitai no desu ga.",
+      "english": "I would like to ask for your assistance with this work.",
+      "breakdown": {
+        "この": "this",
+        "仕事": "work",
+        "を": "object marker",
+        "手伝って": "help (te-form)",
+        "いただきたい": "would like you to do (polite)",
+        "のですが": "softens request"
+      },
+      "notes": "The ending のですが adds extra politeness."
+    },
+    {
+      "japanese": "もしよろしければ、指導していただきたいです。",
+      "romaji": "Moshi yoroshikereba, shidou shite itadakitai desu.",
+      "english": "If it is not too much trouble, I would like you to guide me.",
+      "breakdown": {
+        "もし": "if",
+        "よろしければ": "if it is alright",
+        "指導して": "guide (te-form)",
+        "いただきたい": "would like you to do (polite)",
+        "です": "polite ending"
+      },
+      "notes": "Prefacing with もしよろしければ softens the request."
+    },
+    {
+      "japanese": "駅まで送っていただきたいんですが。",
+      "romaji": "Eki made okutte itadakitain desu ga.",
+      "english": "I was wondering if you could give me a ride to the station.",
+      "breakdown": {
+        "駅": "station",
+        "まで": "to (destination)",
+        "送って": "take/send (te-form)",
+        "いただきたい": "would like you to do (polite)",
+        "んですが": "softens request"
+      },
+      "notes": "The phrase んですが makes the request indirect and polite."
+    }
+  ],
+  "relatedPoints": [
+    "てほしい",
+    "てもらいたい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "資料をコピーしてほしいです。",
+      "correction": "資料をコピーしていただきたいです。",
+      "example": "Using てほしいです is less polite than ていただきたいです."
+    },
+    {
+      "mistake": "資料をコピーいただきたいです。",
+      "correction": "資料をコピーしていただきたいです。",
+      "example": "Forgetting the て-form (して) before いただきたい is incorrect."
+    }
+  ],
+  "tags": [
+    "n4",
+    "polite",
+    "request",
+    "verbs",
+    "business",
+    "desire"
+  ]
+}

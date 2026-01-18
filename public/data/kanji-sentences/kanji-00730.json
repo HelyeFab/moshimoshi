@@ -1,0 +1,33 @@
+{
+  "kanji": "皮",
+  "sentences": [
+    {
+      "id": "192447",
+      "japanese": "リンゴを食べる前に皮をむきなさい。",
+      "english": "Take the skin off before you eat the apple."
+    },
+    {
+      "id": "193165",
+      "japanese": "モモの皮は傷みやすい。",
+      "english": "The skin of peaches bruises easily."
+    },
+    {
+      "id": "207042",
+      "japanese": "その貧しい老人は骨と皮だけになってしまった。",
+      "english": "The poor old man was reduced to just a skeleton."
+    },
+    {
+      "id": "226115",
+      "japanese": "かわいそうに、その老人はやせて骨と皮だけになっていた。",
+      "english": "The poor old man was reduced to just a skeleton."
+    },
+    {
+      "id": "215887",
+      "japanese": "ジャガイモの皮をこそげ取ってください。",
+      "english": "Please scrape the skin off the potatoes."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.813Z",
+  "count": 5,
+  "fileId": "kanji-00730"
+}

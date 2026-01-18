@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "056-ato-de-after",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "056-ato-de-after-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct form: 食べた__勉強します。",
+      "options": [
+        {
+          "id": "a",
+          "text": "後で"
+        },
+        {
+          "id": "b",
+          "text": "前に"
+        },
+        {
+          "id": "c",
+          "text": "まで"
+        },
+        {
+          "id": "d",
+          "text": "から"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 食べた後で means 'after eating.'",
+      "incorrectFeedback": "Not quite. Use 後で for 'after.'",
+      "explanation": "後で means 'after/later.'",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "kanji": "僧",
+  "sentences": [
+    {
+      "id": "236877",
+      "japanese": "その僧は子供達の遊びに仲間入りした。",
+      "english": "The priest participated in the children's games."
+    },
+    {
+      "id": "208376",
+      "japanese": "その僧は子供たちの遊びに参加した。",
+      "english": "The priest participated in the children's game."
+    },
+    {
+      "id": "138887",
+      "japanese": "村人はみなかわるがわる僧にあいさつした。",
+      "english": "All the villagers in turn saluted the priest."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:21.575Z",
+  "count": 3,
+  "fileId": "kanji-01303"
+}

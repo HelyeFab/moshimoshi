@@ -1,0 +1,33 @@
+{
+  "kanji": "島",
+  "sentences": [
+    {
+      "id": "179490",
+      "japanese": "空から見ると、その島はとても美しかった。",
+      "english": "Seen from the sky, the island was very beautiful."
+    },
+    {
+      "id": "180136",
+      "japanese": "橋でその島へ渡れるようになっている。",
+      "english": "A bridge gives access to the island."
+    },
+    {
+      "id": "185663",
+      "japanese": "我々は島から本土へフェリーで渡った。",
+      "english": "We took a ferry from the island to the mainland."
+    },
+    {
+      "id": "186096",
+      "japanese": "我々はさびしい島におろされた。",
+      "english": "We were landed on a lonely island."
+    },
+    {
+      "id": "186173",
+      "japanese": "我々は、二日後に、その島に着いた。",
+      "english": "We arrived on the island two days later."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.908Z",
+  "count": 5,
+  "fileId": "kanji-00902"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "豆",
+  "sentences": [
+    {
+      "id": "178598",
+      "japanese": "君に豆を煮てあげよう。",
+      "english": "I'll boil you the beans."
+    },
+    {
+      "id": "189917",
+      "japanese": "右の鼻に豆が入ってしまいました。",
+      "english": "There's a pea in my right nostril."
+    },
+    {
+      "id": "195310",
+      "japanese": "豆のかき揚げが好きです。",
+      "english": "I like pea pods in my stir fry."
+    },
+    {
+      "id": "197039",
+      "japanese": "ブラジルは世界に良質のコーヒー豆を供給しています。",
+      "english": "Brazil supplies the world with coffee beans of quality."
+    },
+    {
+      "id": "202874",
+      "japanese": "チョコレートはココアの豆から作られる。",
+      "english": "Chocolate is made from cocoa beans."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:22.465Z",
+  "count": 5,
+  "fileId": "kanji-01331"
+}

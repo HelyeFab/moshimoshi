@@ -1,0 +1,33 @@
+{
+  "kanji": "促",
+  "sentences": [
+    {
+      "id": "74138",
+      "japanese": "社長が社員の主体的な取り組みを促した。",
+      "english": "The president urged employees to act on their initiative."
+    },
+    {
+      "id": "100977",
+      "japanese": "彼は彼女に注意して運転するようにと促した。",
+      "english": "He urged her to drive carefully."
+    },
+    {
+      "id": "141554",
+      "japanese": "先生は生徒たちにもっとはっきり答えるように促した。",
+      "english": "The teacher urged the students to answer more clearly."
+    },
+    {
+      "id": "176275",
+      "japanese": "警察たちはすりへの注意を促した。",
+      "english": "The policeman called our attention to the danger of pickpockets."
+    },
+    {
+      "id": "875897",
+      "japanese": "医者はその患者に禁煙するよう促した。",
+      "english": "The doctor urged the patient to stop smoking."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:25.871Z",
+  "count": 5,
+  "fileId": "kanji-01445"
+}

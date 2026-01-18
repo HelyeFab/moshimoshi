@@ -1,0 +1,55 @@
+{
+  "id": "275-n4-point-75",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～かどうか (〜ka dou ka)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～かどうか grammar point is used to express 'whether' or 'if' in indirect questions or statements. It is often used to express uncertainty or to inquire about information in a more polite form. ～かどうか can be used with verbs, い-adjectives, な-adjectives, and nouns.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + かどうか, い-Adjective + かどうか, な-Adjective + (だ)かどうか, Noun + (だ)かどうか",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼が来るかどうか知りません。",
+      "romaji": "Kare ga kuru ka dou ka shirimasen.",
+      "english": "I don't know if he will come or not.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この本が面白いかどうか教えてください。",
+      "romaji": "Kono hon ga omoshiroi ka dou ka oshiete kudasai.",
+      "english": "Please tell me if this book is interesting or not.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女が綺麗だかどうかは分かりません。",
+      "romaji": "Kanojo ga kirei da ka dou ka wa wakarimasen.",
+      "english": "I don't know whether she is beautiful or not.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼が先生だかどうか覚えていません。",
+      "romaji": "Kare ga sensei da ka dou ka oboete imasen.",
+      "english": "I don't remember if he is a teacher or not.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

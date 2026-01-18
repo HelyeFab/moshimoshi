@@ -1,0 +1,33 @@
+{
+  "kanji": "弟",
+  "sentences": [
+    {
+      "id": "5231",
+      "japanese": "私の弟はテレビを見ている。",
+      "english": "My little brother is watching TV."
+    },
+    {
+      "id": "1084145",
+      "japanese": "弟は超重要人物だ。すくなくとも奴はそう思っている。",
+      "english": "My brother is very important. At least he thinks he is."
+    },
+    {
+      "id": "178130",
+      "japanese": "君の弟を一緒に連れてきなさい。",
+      "english": "Bring your brother with you."
+    },
+    {
+      "id": "178131",
+      "japanese": "君の弟は君がパリへ行ったと言った。",
+      "english": "Your brother said you'd gone to Paris."
+    },
+    {
+      "id": "178719",
+      "japanese": "君にあうと必ず弟のことを思い出します。",
+      "english": "I never see you but I think of my brother."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.039Z",
+  "count": 5,
+  "fileId": "kanji-00133"
+}

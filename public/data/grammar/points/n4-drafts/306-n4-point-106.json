@@ -1,0 +1,55 @@
+{
+  "id": "306-n4-point-106",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～なくてはいけない (〜nakute wa ikenai)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～なくてはいけない grammar point is used to express the necessity or obligation to do something. It can be translated as 'must' or 'have to' in English. The formation requires the negative form of a verb and is followed by いけない (cannot go/progress). It indicates that if something is not done, it will be a problem or inappropriate.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-negative form + なくてはいけない",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "宿題をしなくてはいけない。",
+      "romaji": "Shukudai o shinakute wa ikenai.",
+      "english": "I have to do my homework.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この手紙を明日までに出さなくてはいけない。",
+      "romaji": "Kono tegami o ashita made ni dasanakute wa ikenai.",
+      "english": "I must send this letter by tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "食べ物を無駄にしなくてはいけない。",
+      "romaji": "Tabemono o muda ni shinakute wa ikenai.",
+      "english": "We must not waste food.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "早退したいが、授業が終わるまで待たなくてはいけない。",
+      "romaji": "Soutai shitai ga, jugyou ga owaru made matanakute wa ikenai.",
+      "english": "I want to leave early, but I have to wait until the class finishes.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

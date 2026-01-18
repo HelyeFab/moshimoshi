@@ -1,0 +1,33 @@
+{
+  "kanji": "錠",
+  "sentences": [
+    {
+      "id": "96822",
+      "japanese": "彼らは錠を下ろすのを忘れた。",
+      "english": "They forgot to lock the door."
+    },
+    {
+      "id": "180046",
+      "japanese": "驚いたことにドアの錠がはずされていた。",
+      "english": "To my surprise, the door was unlocked."
+    },
+    {
+      "id": "192564",
+      "japanese": "ラベルには１回２錠と書いてある。",
+      "english": "It says on the label to take two tablets."
+    },
+    {
+      "id": "201887",
+      "japanese": "ドアにかんぬきをし、錠をかけた。",
+      "english": "We barred the door and locked it."
+    },
+    {
+      "id": "223908",
+      "japanese": "このかぎは錠の中に入らない。",
+      "english": "This key won't go in the lock."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:41.520Z",
+  "count": 5,
+  "fileId": "kanji-01901"
+}

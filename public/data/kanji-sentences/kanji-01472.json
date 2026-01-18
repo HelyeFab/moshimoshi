@@ -1,0 +1,33 @@
+{
+  "kanji": "丘",
+  "sentences": [
+    {
+      "id": "177364",
+      "japanese": "君は丘を上がって行かなければならない。",
+      "english": "You must go up the hill."
+    },
+    {
+      "id": "180099",
+      "japanese": "狭い道が橋を横切り、野原を通り、丘を越えて通っていました。",
+      "english": "A small road ran across the bridge, through the fields, and over a hill."
+    },
+    {
+      "id": "180217",
+      "japanese": "教会は町を見下ろす丘の上にある。",
+      "english": "The church is on the hill overlooking the city."
+    },
+    {
+      "id": "180290",
+      "japanese": "教会は丘のふもとにある。",
+      "english": "The church is at the foot of the hill."
+    },
+    {
+      "id": "180289",
+      "japanese": "教会は丘にぽつんと立っていた。",
+      "english": "The church stood alone on the hill."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:26.619Z",
+  "count": 5,
+  "fileId": "kanji-01472"
+}

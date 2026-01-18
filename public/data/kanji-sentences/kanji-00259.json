@@ -1,0 +1,28 @@
+{
+  "kanji": "福",
+  "sentences": [
+    {
+      "id": "109049",
+      "japanese": "彼は会社をくびになったんだけど、わざわい転じて福となすで、見事独立したから偉いよ。",
+      "english": "His old company gave him the shaft. But I admire the way he turned bad luck into good and did even better with his own business."
+    },
+    {
+      "id": "170295",
+      "japanese": "災い転じて福となる。",
+      "english": "Good comes out of evil."
+    },
+    {
+      "id": "170296",
+      "japanese": "災い転じて福となせ。",
+      "english": "Make the best of a bad bargain."
+    },
+    {
+      "id": "170297",
+      "japanese": "災いを転じて福としなさい。",
+      "english": "Turn your misfortune to account."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.569Z",
+  "count": 4,
+  "fileId": "kanji-00259"
+}

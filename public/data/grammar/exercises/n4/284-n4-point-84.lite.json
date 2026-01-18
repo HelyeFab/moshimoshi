@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "284-n4-point-84",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "284-n4-point-84-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Looks like / Seems\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～そうだ",
+          "romaji": "~sou da"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ～そうだ matches \"Looks like / Seems\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～そうだ.",
+      "explanation": "Used to express that something appears or seems a certain way based on observation.",
+      "difficulty": "easy"
+    }
+  ]
+}

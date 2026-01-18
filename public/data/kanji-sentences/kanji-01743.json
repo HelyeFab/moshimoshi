@@ -1,0 +1,33 @@
+{
+  "kanji": "嵐",
+  "sentences": [
+    {
+      "id": "180450",
+      "japanese": "強風は嵐が近づいていることを示している。",
+      "english": "The strong wind indicates that a storm is coming."
+    },
+    {
+      "id": "184115",
+      "japanese": "樫の老木が嵐にうめいている。",
+      "english": "An old oak is groaning in the storm."
+    },
+    {
+      "id": "78427",
+      "japanese": "嵐の後には凪が来る。",
+      "english": "After a storm comes a calm."
+    },
+    {
+      "id": "185038",
+      "japanese": "海上では激しい嵐だった。",
+      "english": "There was a violent storm at sea."
+    },
+    {
+      "id": "185102",
+      "japanese": "海の氷はきわめて変わりやすい——寒く風のない天候のときは固く凍っているが、嵐のときは外洋の広い水域で割れてしまう。",
+      "english": "The sea ice is highly variable - frozen solid during cold, calm weather and broken up in large areas of open water during storms."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:35.290Z",
+  "count": 5,
+  "fileId": "kanji-01743"
+}

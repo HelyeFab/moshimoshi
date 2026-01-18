@@ -1,0 +1,186 @@
+{
+  "grammarPointId": "006-particle-wa",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "006-particle-wa-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 私＿＿日本人です。",
+      "questionRomaji": "Watashi __ nihonjin desu.",
+      "options": [
+        { "id": "a", "text": "は", "romaji": "wa" },
+        { "id": "b", "text": "が", "romaji": "ga" },
+        { "id": "c", "text": "を", "romaji": "o" },
+        { "id": "d", "text": "に", "romaji": "ni" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! は marks the topic.",
+      "incorrectFeedback": "Not quite. Use は to mark the topic.",
+      "explanation": "The topic in a basic statement uses は.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "006-particle-wa-ex-02",
+      "type": "multiple-choice",
+      "question": "How is the particle は pronounced?",
+      "options": [
+        { "id": "a", "text": "ha" },
+        { "id": "b", "text": "wa" },
+        { "id": "c", "text": "ba" },
+        { "id": "d", "text": "pa" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Yes! The particle は is pronounced 'wa'.",
+      "incorrectFeedback": "Try again. As a particle, は is pronounced 'wa'.",
+      "explanation": "This is a special pronunciation for the topic particle.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "006-particle-wa-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This book is interesting.'",
+      "correctAnswer": "この本はおもしろいです",
+      "acceptedVariations": [
+        "この本はおもしろいです。",
+        "このほんはおもしろいです",
+        "このほんはおもしろいです。",
+        "kono hon wa omoshiroi desu",
+        "kono hon wa omoshiroi desu."
+      ],
+      "correctFeedback": "Great! この本はおもしろいです is correct.",
+      "incorrectFeedback": "The correct answer is: この本はおもしろいです (kono hon wa omoshiroi desu).",
+      "explanation": "Use は to mark the topic (this book).",
+      "hints": ["Use は as the topic marker", "おもしろい means interesting"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "006-particle-wa-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence shows contrast with は?",
+      "options": [
+        { "id": "a", "text": "私は学生です。" },
+        { "id": "b", "text": "私は魚は食べません。" },
+        { "id": "c", "text": "田中さんが来ます。" },
+        { "id": "d", "text": "猫がいます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! The second は shows contrast.",
+      "incorrectFeedback": "Not quite. Contrast often appears with a second は.",
+      "explanation": "Using は twice can highlight contrast: as for fish, I don't eat them.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "006-particle-wa-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Tanaka-san is a teacher.'",
+      "correctAnswer": "田中さんは先生です",
+      "acceptedVariations": [
+        "田中さんは先生です。",
+        "たなかさんはせんせいです",
+        "たなかさんはせんせいです。",
+        "tanaka-san wa sensei desu",
+        "tanaka-san wa sensei desu."
+      ],
+      "correctFeedback": "Nice! 田中さんは先生です is correct.",
+      "incorrectFeedback": "The correct answer is: 田中さんは先生です (tanaka-san wa sensei desu).",
+      "explanation": "Use は to mark Tanaka-san as the topic.",
+      "hints": ["先生 means teacher", "Use は after the topic"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "006-particle-wa-ex-06",
+      "type": "multiple-choice",
+      "question": "Choose the best question using は for the topic:",
+      "options": [
+        { "id": "a", "text": "これは何ですか。" },
+        { "id": "b", "text": "これが何ですか。" },
+        { "id": "c", "text": "これを何ですか。" },
+        { "id": "d", "text": "これに何ですか。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! これは何ですか uses は for the topic.",
+      "incorrectFeedback": "Try again. Use は to make 'as for this, what is it?'",
+      "explanation": "は sets the topic for the question.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "006-particle-wa-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'As for me, I drink coffee.'",
+      "correctAnswer": "私はコーヒーを飲みます",
+      "acceptedVariations": [
+        "私はコーヒーを飲みます。",
+        "わたしはこーひーをのみます",
+        "わたしはこーひーをのみます。",
+        "watashi wa koohii o nomimasu",
+        "watashi wa koohii o nomimasu."
+      ],
+      "correctFeedback": "Great! 私はコーヒーを飲みます is correct.",
+      "incorrectFeedback": "The correct answer is: 私はコーヒーを飲みます (watashi wa koohii o nomimasu).",
+      "explanation": "Use は to mark the topic and を for the object.",
+      "hints": ["コーヒー means coffee", "飲みます means drink"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "006-particle-wa-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "私は学生です。",
+          "romaji": "Watashi wa gakusei desu.",
+          "english": "I am a student."
+        },
+        {
+          "japanese": "この本は高いです。",
+          "romaji": "Kono hon wa takai desu.",
+          "english": "This book is expensive."
+        },
+        {
+          "japanese": "その店は便利です。",
+          "romaji": "Sono mise wa benri desu.",
+          "english": "That shop is convenient."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review how は marks the topic.",
+      "explanation": "Each sentence uses は to mark the topic.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "006-particle-wa-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence uses は correctly?",
+      "options": [
+        { "id": "a", "text": "だれは来ますか。" },
+        { "id": "b", "text": "だれが来ますか。" },
+        { "id": "c", "text": "だれを来ますか。" },
+        { "id": "d", "text": "だれに来ますか。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Here, が is needed, not は.",
+      "incorrectFeedback": "Not quite. For who-questions, が is used.",
+      "explanation": "は is not used in focus questions; が marks the subject.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "006-particle-wa-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This town is quiet.'",
+      "correctAnswer": "この町は静かです",
+      "acceptedVariations": [
+        "この町は静かです。",
+        "このまちはしずかです",
+        "このまちはしずかです。",
+        "kono machi wa shizuka desu",
+        "kono machi wa shizuka desu."
+      ],
+      "correctFeedback": "Nice! この町は静かです is correct.",
+      "incorrectFeedback": "The correct answer is: この町は静かです (kono machi wa shizuka desu).",
+      "explanation": "Use は to mark the town as the topic.",
+      "hints": ["静か means quiet", "Use は after the topic"],
+      "difficulty": "hard"
+    }
+  ]
+}

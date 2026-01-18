@@ -1,0 +1,55 @@
+{
+  "id": "293-n4-point-93",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～で (〜de)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～で grammar point is used to indicate the means or method used to perform an action, or to specify the place where an action took place. It is typically used with verbs and comes after a noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + ～で",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "私は自転車で学校に行きます。",
+      "romaji": "Watashi wa jitensha de gakkou ni ikimasu.",
+      "english": "I go to school by bicycle.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は日本語で手紙を書いた。",
+      "romaji": "Kare wa nihongo de tegami wo kaita.",
+      "english": "He wrote a letter in Japanese.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "鉛筆で絵を描きました。",
+      "romaji": "Enpitsu de e wo kakimashita.",
+      "english": "I drew a picture with a pencil.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "レストランで昼食を食べました。",
+      "romaji": "Resutoran de chuushoku wo tabemashita.",
+      "english": "I had lunch at a restaurant.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

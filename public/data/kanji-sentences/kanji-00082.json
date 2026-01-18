@@ -1,0 +1,33 @@
+{
+  "kanji": "計",
+  "sentences": [
+    {
+      "id": "159163",
+      "japanese": "パーティーで彼女に会えるように取り計らいます。",
+      "english": "I will see to it that you meet her at the party."
+    },
+    {
+      "id": "179529",
+      "japanese": "苦情は出来るだけ迅速に処理されるよう取り計らいなさい。",
+      "english": "Make sure that the complaints are dealt with as quickly as possible."
+    },
+    {
+      "id": "179645",
+      "japanese": "金銭は成功を計る基準にはならない。",
+      "english": "Money is not a criterion of success."
+    },
+    {
+      "id": "183847",
+      "japanese": "看護婦は体温計で彼の体温を計った。",
+      "english": "The nurse took his temperature with a thermometer."
+    },
+    {
+      "id": "183862",
+      "japanese": "看護婦が彼の体温を計った。",
+      "english": "The nurse took his temperature."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.258Z",
+  "count": 5,
+  "fileId": "kanji-00082"
+}

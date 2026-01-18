@@ -1,0 +1,33 @@
+{
+  "kanji": "浜",
+  "sentences": [
+    {
+      "id": "121665",
+      "japanese": "波が浜に打ち寄せている。",
+      "english": "Waves are beating the shore."
+    },
+    {
+      "id": "159895",
+      "japanese": "私たちはその浜で遊んだ。",
+      "english": "We played on the beach."
+    },
+    {
+      "id": "165182",
+      "japanese": "私たちは浜へ泳ぎに行った。",
+      "english": "We went swimming at the beach."
+    },
+    {
+      "id": "168713",
+      "japanese": "子供たちは浜で遊ぶのが大好きです。",
+      "english": "Children love playing on the beach."
+    },
+    {
+      "id": "1714981",
+      "japanese": "浜へはどう行けばいいですか？",
+      "english": "Please tell me how to get to the beach."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.871Z",
+  "count": 5,
+  "fileId": "kanji-01193"
+}

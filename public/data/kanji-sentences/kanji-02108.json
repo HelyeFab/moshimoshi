@@ -1,0 +1,33 @@
+{
+  "kanji": "尾",
+  "sentences": [
+    {
+      "id": "5302",
+      "japanese": "ウサギには長い耳と短い尾がある。",
+      "english": "A rabbit has long ears and a short tail."
+    },
+    {
+      "id": "182094",
+      "japanese": "魚は尾を動かして泳ぐ。",
+      "english": "A fish swims by moving its tail."
+    },
+    {
+      "id": "192687",
+      "japanese": "ライオンの尾となる犬より犬の頭となるほうがいい。",
+      "english": "Better to be the head of a dog than the tail of a lion."
+    },
+    {
+      "id": "205079",
+      "japanese": "それは女性の頭、ライオンの胴体、鳥の翼とヘビの尾を持っていた。",
+      "english": "It had the head of a woman, the body of a lion, the wings of a bird, and the tail of a serpent."
+    },
+    {
+      "id": "209131",
+      "japanese": "その少年はその犬の尾をつかんだ。",
+      "english": "The boy caught the dog by the tail."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:49.749Z",
+  "count": 5,
+  "fileId": "kanji-02108"
+}

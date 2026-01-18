@@ -1,0 +1,33 @@
+{
+  "kanji": "沈",
+  "sentences": [
+    {
+      "id": "5262",
+      "japanese": "窓から日が沈むのを見ることができるだろう。",
+      "english": "We could see the sunset from the window."
+    },
+    {
+      "id": "185682",
+      "japanese": "我々は地面が沈んでいくのを感じた。",
+      "english": "We felt the ground sinking."
+    },
+    {
+      "id": "185699",
+      "japanese": "我々は太陽が山の後ろに沈むのを眺めた。",
+      "english": "We watched the sun setting behind the mountains."
+    },
+    {
+      "id": "195144",
+      "japanese": "まるで太陽が沈んでしまったかのように空は暗くなった。",
+      "english": "The sky became as dark as if the sun had sunk."
+    },
+    {
+      "id": "196550",
+      "japanese": "ボートは湖の底に沈んだ。",
+      "english": "The boat sank to the bottom of the lake."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:05.314Z",
+  "count": 5,
+  "fileId": "kanji-00749"
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "233-n4-point-33",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "233-n4-point-33-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb te itadakemasen ka\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "動詞ていただけませんか",
+          "romaji": "doushi te itadakemasen ka"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! 動詞ていただけませんか matches \"Verb te itadakemasen ka\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ていただけませんか.",
+      "explanation": "Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "difficulty": "easy"
+    }
+  ]
+}

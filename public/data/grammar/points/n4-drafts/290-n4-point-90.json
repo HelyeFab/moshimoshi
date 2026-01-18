@@ -1,0 +1,55 @@
+{
+  "id": "290-n4-point-90",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～たり～たり (〜tari 〜tari)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～たり～たり grammar point is used to list two or more actions or states, without specifying their order or importance. It implies that these actions or states are representative examples, and there may be others. This construction is useful for describing general or habitual actions.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-ta + り + next verb-ta + り, い-Adjective + かったり + next verb-ta + り, な-Adjective + だったり + next verb-ta + り, Noun + だったり + next verb-ta + り",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "週末は映画を観たり、本を読んだりする。",
+      "romaji": "Shuumatsu wa eiga wo mitari, hon wo yondari suru.",
+      "english": "On weekends, I do things like watching movies and reading books.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は料理が上手だったり、歌がうまかったりする。",
+      "romaji": "Kanojo wa ryouri ga jouzu dattari, uta ga umakattari suru.",
+      "english": "She is good at things like cooking and singing.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このリゾートではスキーをしたり、温泉に入ったりできる。",
+      "romaji": "Kono rizooto de wa sukii wo shitari, onsen ni haittari dekiru.",
+      "english": "At this resort, you can do things like skiing and going to hot springs.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この地域の天気は暑かったり、寒かったりする。",
+      "romaji": "Kono chiiki no tenki wa atsukattari, samukattari suru.",
+      "english": "The weather in this area can be hot or cold.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

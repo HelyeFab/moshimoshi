@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "256-n4-point-56",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "256-n4-point-56-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Difficulty in Action with ～にくい\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb にくい (〜nikui)",
+          "romaji": "Verb nikui"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb にくい (〜nikui) matches \"Difficulty in Action with ～にくい\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb にくい (〜nikui).",
+      "explanation": "Expresses that something is hard or difficult to do.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "256-n4-point-56-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb にくい (〜nikui).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Difficulty in Action with ～にくい"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb にくい (〜nikui) means \"Difficulty in Action with ～にくい\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Difficulty in Action with ～にくい\".",
+      "explanation": "Expresses that something is hard or difficult to do.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "256-n4-point-56-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb にくい (〜nikui).",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb nikui"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb nikui is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb nikui.",
+      "explanation": "Expresses that something is hard or difficult to do.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "256-n4-point-56-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb にくい (〜nikui)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Expresses that something is hard or difficult to do."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses that something is hard or difficult to do.",
+      "explanation": "Expresses that something is hard or difficult to do.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "256-n4-point-56-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Difficulty in Action with ～にくい\".",
+      "correctAnswer": "Verb にくい (〜nikui)",
+      "acceptedVariations": [
+        "Verb にくい (〜nikui)",
+        "Verbにくい(〜nikui)"
+      ],
+      "correctFeedback": "Nice! Verb にくい (〜nikui) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb にくい (〜nikui) (Verb nikui).",
+      "explanation": "Expresses that something is hard or difficult to do.",
+      "hints": [
+        "Verb nikui",
+        "Expresses that something is hard or difficult to do."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "256-n4-point-56-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb にくい (〜nikui).",
+      "correctAnswer": "Verb nikui",
+      "acceptedVariations": [
+        "Verb nikui",
+        "verb nikui"
+      ],
+      "correctFeedback": "Nice! Verb nikui is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb nikui.",
+      "explanation": "Expresses that something is hard or difficult to do.",
+      "hints": [
+        "Expresses that something is hard or difficult to do."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "256-n4-point-56-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb にくい (〜nikui).",
+      "correctAnswer": "Difficulty in Action with ～にくい",
+      "acceptedVariations": [
+        "Difficulty in Action with ～にくい",
+        "difficulty in action with ～にくい"
+      ],
+      "correctFeedback": "Correct! \"Difficulty in Action with ～にくい\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Difficulty in Action with ～にくい\".",
+      "explanation": "Expresses that something is hard or difficult to do.",
+      "hints": [
+        "Expresses that something is hard or difficult to do."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "256-n4-point-56-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb にくい (〜nikui)",
+          "romaji": "Verb nikui",
+          "english": "Difficulty in Action with ～にくい"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses that something is hard or difficult to do.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "256-n4-point-56-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses that something is hard or difficult to do..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb にくい (〜nikui)",
+          "romaji": "Verb nikui"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb にくい (〜nikui) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb にくい (〜nikui).",
+      "explanation": "Expresses that something is hard or difficult to do.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "256-n4-point-56-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbにくい(〜nikui)",
+      "acceptedVariations": [
+        "Verbにくい(〜nikui)",
+        "Verb にくい (〜nikui)"
+      ],
+      "correctFeedback": "Great! Verbにくい(〜nikui) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbにくい(〜nikui).",
+      "explanation": "Expresses that something is hard or difficult to do.",
+      "hints": [
+        "Verb nikui"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

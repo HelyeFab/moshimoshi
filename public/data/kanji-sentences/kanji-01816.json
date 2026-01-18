@@ -1,0 +1,33 @@
+{
+  "kanji": "塀",
+  "sentences": [
+    {
+      "id": "182378",
+      "japanese": "球はバウンドして塀を越えた。",
+      "english": "The ball bounced over the wall."
+    },
+    {
+      "id": "196483",
+      "japanese": "ボールははずんで塀を飛び越えた。",
+      "english": "The ball bounced over the wall."
+    },
+    {
+      "id": "187036",
+      "japanese": "家の周りに塀が立っている。",
+      "english": "A fence runs around the house."
+    },
+    {
+      "id": "196864",
+      "japanese": "塀にペンキを塗る必要はなかったのだが。",
+      "english": "I needn't have painted the fence."
+    },
+    {
+      "id": "196865",
+      "japanese": "塀にペンキを塗る必要はなかった。",
+      "english": "I didn't need to paint the fence."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:38.101Z",
+  "count": 5,
+  "fileId": "kanji-01816"
+}

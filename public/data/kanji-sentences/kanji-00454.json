@@ -1,0 +1,33 @@
+{
+  "kanji": "数",
+  "sentences": [
+    {
+      "id": "177026",
+      "japanese": "君は二歳の時に十まで数えることができた。",
+      "english": "You could count to ten when you were two."
+    },
+    {
+      "id": "10924201",
+      "japanese": "あんた、２歳の時には１０まで数えることができてたんだよ。",
+      "english": "You could count to ten when you were two."
+    },
+    {
+      "id": "177027",
+      "japanese": "君は二歳のときに１０まで数えることができた。",
+      "english": "You could count to ten when you were two years old."
+    },
+    {
+      "id": "9628189",
+      "japanese": "お前はな、２歳の時には１０まで数えることができたんだぞ。",
+      "english": "You could count to ten when you were two years old."
+    },
+    {
+      "id": "177117",
+      "japanese": "君は数ページ先でそれが述べられているのを見つけるでしょう。",
+      "english": "You will find it stated a few pages further on."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.294Z",
+  "count": 5,
+  "fileId": "kanji-00454"
+}

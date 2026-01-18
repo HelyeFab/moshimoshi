@@ -1,0 +1,33 @@
+{
+  "kanji": "大",
+  "sentences": [
+    {
+      "id": "4762",
+      "japanese": "大きくなったら王様になりたい。",
+      "english": "When I grow up, I want to be a king."
+    },
+    {
+      "id": "866813",
+      "japanese": "子供の頃は、周りのものが何でも大きく見えるものだ。",
+      "english": "When we are small, everything seems so big."
+    },
+    {
+      "id": "538095",
+      "japanese": "今日、象は現存する最も大きい陸生動物である。",
+      "english": "Elephants are the largest land animals alive today."
+    },
+    {
+      "id": "137693",
+      "japanese": "大したことじゃないんだから。",
+      "english": "It's not important."
+    },
+    {
+      "id": "3474762",
+      "japanese": "大したことじゃないさ。",
+      "english": "It's not important."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.257Z",
+  "count": 5,
+  "fileId": "kanji-00003"
+}

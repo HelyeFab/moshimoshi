@@ -1,0 +1,99 @@
+{
+  "id": "057-frequency-adverbs",
+  "version": "1.0.0",
+  "title": {
+    "ja": "頻度の副詞",
+    "romaji": "hindo no fukushi",
+    "en": "Frequency adverbs"
+  },
+  "jlptLevel": "N5",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "Frequency adverbs tell how often something happens. Common N5 words are いつも (always), よく (often), ときどき (sometimes), and あまり〜ない (not often). They are placed before the verb.\n\nKey points:\n• いつも = always\n• よく = often\n• ときどき = sometimes\n• あまり〜ない = not often (used with negative)\n• Put them before the verb in a sentence\n\nExample: “私はいつもコーヒーを飲みます” means “I always drink coffee.” “ときどき映画を見ます” means “I sometimes watch movies.”\n\nFor あまり, you must use a negative verb: “あまりテレビを見ません” (I don’t watch TV very often).\n\nThese words are simple but very useful for daily conversation. They help you describe routines, habits, and schedules without adding extra grammar.\n\nPractice by talking about your day: いつも朝ご飯を食べます, ときどき図書館へ行きます, あまりお酒を飲みません.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Frequency adverb + Verb",
+    "components": [
+      {
+        "part": "Frequency adverb",
+        "explanation": "How often",
+        "examples": ["いつも", "よく", "ときどき", "あまり"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action",
+        "examples": ["食べます", "行きます", "見ません"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私はいつも朝ご飯を食べます。",
+      "romaji": "Watashi wa itsumo asagohan o tabemasu.",
+      "english": "I always eat breakfast.",
+      "breakdown": {
+        "私": "I",
+        "は": "topic marker",
+        "いつも": "always",
+        "朝ご飯": "breakfast",
+        "を": "object marker",
+        "食べます": "eat"
+      },
+      "notes": "Always"
+    },
+    {
+      "japanese": "よく図書館へ行きます。",
+      "romaji": "Yoku toshokan e ikimasu.",
+      "english": "I often go to the library.",
+      "breakdown": {
+        "よく": "often",
+        "図書館": "library",
+        "へ": "direction particle",
+        "行きます": "go"
+      },
+      "notes": "Often"
+    },
+    {
+      "japanese": "ときどき映画を見ます。",
+      "romaji": "Tokidoki eiga o mimasu.",
+      "english": "I sometimes watch movies.",
+      "breakdown": {
+        "ときどき": "sometimes",
+        "映画": "movie",
+        "を": "object marker",
+        "見ます": "watch"
+      },
+      "notes": "Sometimes"
+    },
+    {
+      "japanese": "あまりテレビを見ません。",
+      "romaji": "Amari terebi o mimasen.",
+      "english": "I don't watch TV very often.",
+      "breakdown": {
+        "あまり": "not often",
+        "テレビ": "TV",
+        "を": "object marker",
+        "見ません": "do not watch"
+      },
+      "notes": "Amari + negative"
+    }
+  ],
+  "relatedPoints": [
+    "051-time-particle-ni",
+    "023-masu-form-negative"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using あまり with positive verbs",
+      "correction": "Use あまり with a negative verb",
+      "example": "❌ あまり行きます → ✅ あまり行きません"
+    },
+    {
+      "mistake": "Placing the adverb after the verb",
+      "correction": "Put frequency adverbs before the verb",
+      "example": "❌ 行きますよく → ✅ よく行きます"
+    }
+  ],
+  "tags": ["time", "frequency", "adverbs", "beginner"]
+}

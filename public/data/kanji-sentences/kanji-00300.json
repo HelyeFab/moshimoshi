@@ -1,0 +1,33 @@
+{
+  "kanji": "薬",
+  "sentences": [
+    {
+      "id": "6001",
+      "japanese": "薬を飲まなければなりません。",
+      "english": "I have to take medicine."
+    },
+    {
+      "id": "177528",
+      "japanese": "もう薬を飲みましたか？",
+      "english": "Have you taken your medicine yet?"
+    },
+    {
+      "id": "10092044",
+      "japanese": "薬はもう飲んだの？",
+      "english": "Have you taken your medicine yet?"
+    },
+    {
+      "id": "179507",
+      "japanese": "具合が悪くなったらこの薬を飲みなさい。",
+      "english": "Take this medicine in case you get sick."
+    },
+    {
+      "id": "183175",
+      "japanese": "気分が悪いので薬をください。",
+      "english": "I don't feel well. Could you give me some medicine?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.174Z",
+  "count": 5,
+  "fileId": "kanji-00300"
+}

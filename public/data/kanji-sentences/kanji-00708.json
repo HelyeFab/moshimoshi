@@ -1,0 +1,33 @@
+{
+  "kanji": "叫",
+  "sentences": [
+    {
+      "id": "4924",
+      "japanese": "「これが探していたものだ」と彼は叫んだ。",
+      "english": "\"This is what I was looking for!\" he exclaimed."
+    },
+    {
+      "id": "180571",
+      "japanese": "叫び声はかすかになった。",
+      "english": "The sound of shouting grew faint."
+    },
+    {
+      "id": "184701",
+      "japanese": "崖の上から叫べば、自分の声のこだまが聞けるよ。",
+      "english": "If you shout from the top of a cliff, you can hear the echo of your voice."
+    },
+    {
+      "id": "185159",
+      "japanese": "怪我をしないうちから泣き叫ぶな。",
+      "english": "Don't cry trouble half-way."
+    },
+    {
+      "id": "185770",
+      "japanese": "我々は上のほうから叫び声がするのを耳にした。",
+      "english": "We heard a cry from above."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.467Z",
+  "count": 5,
+  "fileId": "kanji-00708"
+}

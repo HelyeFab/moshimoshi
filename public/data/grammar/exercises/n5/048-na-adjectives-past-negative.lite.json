@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "048-na-adjectives-past-negative",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "048-na-adjectives-past-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the past negative form of 静か:",
+      "options": [
+        {
+          "id": "a",
+          "text": "静かではありませんでした"
+        },
+        {
+          "id": "b",
+          "text": "静かではありません"
+        },
+        {
+          "id": "c",
+          "text": "静かでした"
+        },
+        {
+          "id": "d",
+          "text": "静かくなかった"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 静かではありませんでした.",
+      "incorrectFeedback": "Not quite. Use ではありませんでした.",
+      "explanation": "Na-adjective past negative uses ではありませんでした.",
+      "difficulty": "easy"
+    }
+  ]
+}

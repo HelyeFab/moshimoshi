@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "035-koto-ga-dekiru",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "035-koto-ga-dekiru-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct ability form: 話す → ?",
+      "options": [
+        { "id": "a", "text": "話すことができます" },
+        { "id": "b", "text": "話しますことができます" },
+        { "id": "c", "text": "話してことができます" },
+        { "id": "d", "text": "話すができます" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Dictionary form + ことができます.",
+      "incorrectFeedback": "Not quite. Use dictionary form before ことができます.",
+      "explanation": "話すことができます = can speak.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "035-koto-ga-dekiru-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'I can swim'?",
+      "options": [
+        { "id": "a", "text": "泳ぐことができます。" },
+        { "id": "b", "text": "泳ぎますことができます。" },
+        { "id": "c", "text": "泳いでことができます。" },
+        { "id": "d", "text": "泳ぐができます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 泳ぐことができます is correct.",
+      "incorrectFeedback": "Try again. Use dictionary form + ことができます.",
+      "explanation": "Ability uses verb dictionary form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "035-koto-ga-dekiru-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I can speak Japanese.'",
+      "correctAnswer": "日本語を話すことができます",
+      "acceptedVariations": [
+        "日本語を話すことができます。",
+        "にほんごをはなすことができます",
+        "nihongo o hanasu koto ga dekimasu",
+        "nihongo o hanasu koto ga dekimasu."
+      ],
+      "correctFeedback": "Great! 日本語を話すことができます is correct.",
+      "incorrectFeedback": "The correct answer is: 日本語を話すことができます (nihongo o hanasu koto ga dekimasu).",
+      "explanation": "Use dictionary form + ことができます.",
+      "hints": ["話す = speak", "ことができます = can"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "035-koto-ga-dekiru-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "日本語を話すことができます。" },
+        { "id": "b", "text": "日本語を話しますことができます。" },
+        { "id": "c", "text": "日本語を話してことができます。" },
+        { "id": "d", "text": "日本語を話すができます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Dictionary form + ことができます.",
+      "incorrectFeedback": "Not quite. Use the dictionary form before こと.",
+      "explanation": "話すことができます = can speak.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "035-koto-ga-dekiru-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I can read kanji.'",
+      "correctAnswer": "漢字を読むことができます",
+      "acceptedVariations": [
+        "漢字を読むことができます。",
+        "かんじをよむことができます",
+        "kanji o yomu koto ga dekimasu",
+        "kanji o yomu koto ga dekimasu."
+      ],
+      "correctFeedback": "Nice! 漢字を読むことができます is correct.",
+      "incorrectFeedback": "The correct answer is: 漢字を読むことができます (kanji o yomu koto ga dekimasu).",
+      "explanation": "Use dictionary form + ことができます.",
+      "hints": ["読む = read", "漢字 = kanji"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "035-koto-ga-dekiru-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "泳ぐことができます。" },
+        { "id": "b", "text": "食べることができます。" },
+        { "id": "c", "text": "食べますことができます。" },
+        { "id": "d", "text": "話すことができます。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use dictionary form, not ます-form.",
+      "incorrectFeedback": "Try again. The verb should be in dictionary form.",
+      "explanation": "食べますことができます is incorrect.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "035-koto-ga-dekiru-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'You can take photos here.'",
+      "correctAnswer": "ここで写真を撮ることができます",
+      "acceptedVariations": [
+        "ここで写真を撮ることができます。",
+        "ここでしゃしんをとることができます",
+        "koko de shashin o toru koto ga dekimasu",
+        "koko de shashin o toru koto ga dekimasu."
+      ],
+      "correctFeedback": "Great! ここで写真を撮ることができます is correct.",
+      "incorrectFeedback": "The correct answer is: ここで写真を撮ることができます (koko de shashin o toru koto ga dekimasu).",
+      "explanation": "Use dictionary form + ことができます.",
+      "hints": ["撮る = take", "写真 = photo"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "035-koto-ga-dekiru-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "泳ぐことができます。",
+          "romaji": "Oyogu koto ga dekimasu.",
+          "english": "I can swim."
+        },
+        {
+          "japanese": "日本語を話すことができます。",
+          "romaji": "Nihongo o hanasu koto ga dekimasu.",
+          "english": "I can speak Japanese."
+        },
+        {
+          "japanese": "ここで写真を撮ることができます。",
+          "romaji": "Koko de shashin o toru koto ga dekimasu.",
+          "english": "You can take photos here."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review ことができます.",
+      "explanation": "Each sentence uses dictionary form + ことができます.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "035-koto-ga-dekiru-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence uses ことができます correctly?",
+      "options": [
+        { "id": "a", "text": "読むことができます。" },
+        { "id": "b", "text": "読みますことができます。" },
+        { "id": "c", "text": "読んでことができます。" },
+        { "id": "d", "text": "読むができます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Dictionary form + ことができます.",
+      "incorrectFeedback": "Try again. The verb must be in dictionary form.",
+      "explanation": "読むことができます is correct.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "035-koto-ga-dekiru-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I can read books.'",
+      "correctAnswer": "本を読むことができます",
+      "acceptedVariations": [
+        "本を読むことができます。",
+        "ほんをよむことができます",
+        "hon o yomu koto ga dekimasu",
+        "hon o yomu koto ga dekimasu."
+      ],
+      "correctFeedback": "Nice! 本を読むことができます is correct.",
+      "incorrectFeedback": "The correct answer is: 本を読むことができます (hon o yomu koto ga dekimasu).",
+      "explanation": "Use dictionary form + ことができます.",
+      "hints": ["読む = read", "Use ことができます"],
+      "difficulty": "hard"
+    }
+  ]
+}

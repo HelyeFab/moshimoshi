@@ -1,0 +1,33 @@
+{
+  "kanji": "仲",
+  "sentences": [
+    {
+      "id": "178735",
+      "japanese": "君と僕は仲よしだ。",
+      "english": "You and I are good friends."
+    },
+    {
+      "id": "178750",
+      "japanese": "君と私はとても仲がいい。",
+      "english": "You and I are very good friends."
+    },
+    {
+      "id": "178765",
+      "japanese": "君とぼくは仲がよいが、共通するものはほとんどない。",
+      "english": "You and I are good friends, but we have little in common."
+    },
+    {
+      "id": "187151",
+      "japanese": "嫁と姑の仲は大嵐。",
+      "english": "Mother-in-law and daughter-in-law are a tempest and hailstorm."
+    },
+    {
+      "id": "196401",
+      "japanese": "僕たちの仲はもう終わりだ。",
+      "english": "It's all over between us."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.569Z",
+  "count": 5,
+  "fileId": "kanji-00985"
+}

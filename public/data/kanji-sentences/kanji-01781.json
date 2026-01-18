@@ -1,0 +1,33 @@
+{
+  "kanji": "墨",
+  "sentences": [
+    {
+      "id": "81683",
+      "japanese": "墨を染料として使うと面白い模様ができます。",
+      "english": "India ink produces an interesting pattern when used as a dye."
+    },
+    {
+      "id": "827243",
+      "japanese": "彼女はももにトカゲの入れ墨がついています。",
+      "english": "She has a tattoo of a lizard on her thigh."
+    },
+    {
+      "id": "8948731",
+      "japanese": "トムは腕にハートの入れ墨を入れた。",
+      "english": "Tom had a heart tattooed on his arm."
+    },
+    {
+      "id": "3096771",
+      "japanese": "イカ墨を初めて料理に使った人は何を思ってそんなことしたんだろう。",
+      "english": "I wonder what the person who cooked with squid ink for the first time was thinking."
+    },
+    {
+      "id": "11052441",
+      "japanese": "体中、入れ墨だらけだった。",
+      "english": "His body was covered with tattoos."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:36.738Z",
+  "count": 5,
+  "fileId": "kanji-01781"
+}

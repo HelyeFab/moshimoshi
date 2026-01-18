@@ -20,7 +20,7 @@ async function signInAndSave(
   await page.getByLabel('Password').fill(password)
   const signInResponse = page
     .waitForResponse((response: Response) =>
-      /\/api\/auth\/(signin|callback\/credentials)/.test(response.url())
+      /\/api\/auth\/(signin|login|callback\/credentials)/.test(response.url())
     )
     .catch(() => null)
   await page.getByRole('button', { name: /sign in/i }).click()

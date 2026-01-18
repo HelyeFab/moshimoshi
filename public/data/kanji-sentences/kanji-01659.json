@@ -1,0 +1,33 @@
+{
+  "kanji": "癖",
+  "sentences": [
+    {
+      "id": "177765",
+      "japanese": "君はその悪い癖をなくさなければならない。",
+      "english": "You must get rid of that bad habit."
+    },
+    {
+      "id": "178657",
+      "japanese": "君には早口でしゃべる癖がある。",
+      "english": "You have a tendency to talk too fast."
+    },
+    {
+      "id": "186098",
+      "japanese": "我々はこれがやめられぬ癖になってしまった。",
+      "english": "We've gotten into this fixed pattern."
+    },
+    {
+      "id": "191454",
+      "japanese": "悪い癖はなかなかとれない。",
+      "english": "Bad habits die hard."
+    },
+    {
+      "id": "10768302",
+      "japanese": "悪い癖ってのは、なかなか治らないんだよ。",
+      "english": "Bad habits die hard."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:32.198Z",
+  "count": 5,
+  "fileId": "kanji-01659"
+}

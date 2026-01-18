@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "068-question-nani-what",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "068-question-nani-what-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: これは__ですか。",
+      "options": [
+        {
+          "id": "a",
+          "text": "何"
+        },
+        {
+          "id": "b",
+          "text": "誰"
+        },
+        {
+          "id": "c",
+          "text": "どこ"
+        },
+        {
+          "id": "d",
+          "text": "いつ"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 何 is 'what.'",
+      "incorrectFeedback": "Not quite. 何 means 'what.'",
+      "explanation": "何 is used for things.",
+      "difficulty": "easy"
+    }
+  ]
+}

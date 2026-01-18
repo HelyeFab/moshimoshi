@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "218-n4-point-18",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "218-n4-point-18-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Receiving (Noun wo morau)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "名詞＋をもらう",
+          "romaji": "Noun + wo morau"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! 名詞＋をもらう matches \"Receiving (Noun wo morau)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 名詞＋をもらう.",
+      "explanation": "Expresses receiving something; the receiver uses noun + をもらう.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "218-n4-point-18-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 名詞＋をもらう.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Receiving (Noun wo morau)"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 名詞＋をもらう means \"Receiving (Noun wo morau)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Receiving (Noun wo morau)\".",
+      "explanation": "Expresses receiving something; the receiver uses noun + をもらう.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "218-n4-point-18-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 名詞＋をもらう.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Noun + wo morau"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Noun + wo morau is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Noun + wo morau.",
+      "explanation": "Expresses receiving something; the receiver uses noun + をもらう.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "218-n4-point-18-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 名詞＋をもらう?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expresses receiving something; the receiver uses noun + をもらう."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses receiving something; the receiver uses noun + をもらう.",
+      "explanation": "Expresses receiving something; the receiver uses noun + をもらう.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "218-n4-point-18-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Receiving (Noun wo morau)\".",
+      "correctAnswer": "名詞＋をもらう",
+      "acceptedVariations": [
+        "名詞＋をもらう",
+        "名詞＋をもらう"
+      ],
+      "correctFeedback": "Nice! 名詞＋をもらう is correct.",
+      "incorrectFeedback": "The correct pattern is: 名詞＋をもらう (Noun + wo morau).",
+      "explanation": "Expresses receiving something; the receiver uses noun + をもらう.",
+      "hints": [
+        "Noun + wo morau",
+        "Expresses receiving something; the receiver uses noun + をもらう."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "218-n4-point-18-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 名詞＋をもらう.",
+      "correctAnswer": "Noun + wo morau",
+      "acceptedVariations": [
+        "Noun + wo morau",
+        "noun + wo morau"
+      ],
+      "correctFeedback": "Nice! Noun + wo morau is correct.",
+      "incorrectFeedback": "The correct romaji is: Noun + wo morau.",
+      "explanation": "Expresses receiving something; the receiver uses noun + をもらう.",
+      "hints": [
+        "Expresses receiving something; the receiver uses noun + をもらう."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "218-n4-point-18-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 名詞＋をもらう.",
+      "correctAnswer": "Receiving (Noun wo morau)",
+      "acceptedVariations": [
+        "Receiving (Noun wo morau)",
+        "receiving (noun wo morau)"
+      ],
+      "correctFeedback": "Correct! \"Receiving (Noun wo morau)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Receiving (Noun wo morau)\".",
+      "explanation": "Expresses receiving something; the receiver uses noun + をもらう.",
+      "hints": [
+        "Expresses receiving something; the receiver uses noun + をもらう."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "218-n4-point-18-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "名詞＋をもらう",
+          "romaji": "Noun + wo morau",
+          "english": "Receiving (Noun wo morau)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses receiving something; the receiver uses noun + をもらう.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "218-n4-point-18-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses receiving something; the receiver uses noun + をもらう..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "名詞＋をもらう",
+          "romaji": "Noun + wo morau"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 名詞＋をもらう matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 名詞＋をもらう.",
+      "explanation": "Expresses receiving something; the receiver uses noun + をもらう.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "218-n4-point-18-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "名詞＋をもらう",
+      "acceptedVariations": [
+        "名詞＋をもらう",
+        "名詞＋をもらう"
+      ],
+      "correctFeedback": "Great! 名詞＋をもらう is correct.",
+      "incorrectFeedback": "The correct pattern is: 名詞＋をもらう.",
+      "explanation": "Expresses receiving something; the receiver uses noun + をもらう.",
+      "hints": [
+        "Noun + wo morau"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

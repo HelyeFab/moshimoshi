@@ -1,0 +1,83 @@
+{
+  "id": "273-n4-point-73",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb + 続ける",
+    "romaji": "tsuzukeru",
+    "en": "To continue doing"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "The grammar point 続ける (tsuzukeru) is attached to the masu-stem form of verbs, indicating the ongoing continuity of an action.",
+    "ja": "続ける（つづける、tsuzukeru）は動詞ます形の語幹に付いて、ある行動が継続していることを示します。"
+  },
+  "structure": {
+    "pattern": "Verb-masu-stem + 続ける",
+    "components": [
+      {
+        "part": "Verb-masu-stem",
+        "explanation": "The stem of the verb before adding '-masu'.",
+        "examples": [
+          "運動（うんどう, undou) -> 運動し"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼は毎日ジムで運動を続けています。",
+      "romaji": "Kare wa mainichi jimu de undou o tsuzuketeimasu.",
+      "english": "He continues to exercise at the gym every day.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は勉強を続けるために図書館に行きました。",
+      "romaji": "Kanojo wa benkyou o tsuzukeru tame ni toshokan ni ikimashita.",
+      "english": "She went to the library to continue studying.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "私たちは雨にも関わらず散歩を続けました。",
+      "romaji": "Watashitachi wa ame ni mo kakawarazu sanpo o tsuzukemashita.",
+      "english": "We continued walking despite the rain.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は仕事を続けることに決めた。",
+      "romaji": "Kare wa shigoto o tsuzukeru koto ni kimeta.",
+      "english": "He decided to continue working.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Noun を あげる",
+    "Verb ない ことがある",
+    "Verb ない ことになる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "運動続ける",
+      "correction": "運動し続ける",
+      "example": "Correctly add the stem of the verb before 続ける."
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "continuation",
+    "basic-sentences"
+  ]
+}

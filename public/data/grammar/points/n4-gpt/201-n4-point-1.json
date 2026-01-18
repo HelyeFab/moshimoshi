@@ -1,0 +1,91 @@
+{
+  "id": "201-n4-point-1",
+  "version": "1.0.0",
+  "title": {
+    "ja": "A とか B とか",
+    "romaji": "A toka B toka",
+    "en": "Such as A and B"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "The とか grammar point is used to list multiple examples or possibilities. It can be translated as 'such as', 'like', or 'for example' in English.",
+    "ja": "とかは複数の例や可能性を挙げるために使われます。英語では「～のような」や「例えば」に対応します。"
+  },
+  "structure": {
+    "pattern": "Noun + とか + Noun + とか",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "The noun is the example or possibility being listed.",
+        "examples": [
+          "映画 (eiga - movie)",
+          "寿司 (sushi)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "週末は映画とか買い物とか楽しいことをしたいです。",
+      "romaji": "Shuumatsu wa eiga toka kaimono toka tanoshii koto o shitai desu.",
+      "english": "I want to do fun things like watching movies and shopping on the weekend.",
+      "breakdown": {
+        "token": "週末 (shuumatsu - weekend)",
+        "映画 (eiga - movie)": "",
+        "買い物 (kaimono - shopping)": ""
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は英語とかフランス語とかいろいろな言葉を話せます。",
+      "romaji": "Kanojo wa eigo toka furansugo toka iroirona kotoba o hanasemasu.",
+      "english": "She can speak various languages, like English and French.",
+      "breakdown": {
+        "token": "彼女 (kanojo - she)",
+        "英語 (eigo - English)": "",
+        "フランス語 (furansugo - French)": ""
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この店は寿司とか刺身とか日本料理を提供しています。",
+      "romaji": "Kono mise wa sushi toka sashimi toka nihon ryouri o teikyou shiteimasu.",
+      "english": "This restaurant offers Japanese dishes such as sushi and sashimi.",
+      "breakdown": {
+        "token": "この店 (kono mise - this restaurant)",
+        "寿司 (sushi - sushi)": "",
+        "刺身 (sashimi - sashimi)": ""
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "$1BOXとか$5BOXとか、異なる価格のランチBOXがあります。",
+      "romaji": "Ichi-doru BOX toka go-doru BOX toka, kotonaru kakaku no ranchi BOX ga arimasu.",
+      "english": "There are lunch boxes with different prices, like $1 boxes and $5 boxes.",
+      "breakdown": {
+        "token": "$1BOX (one dollar box)",
+        "$5BOX (five dollar box)": ""
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "名詞にする",
+    "Noun に なる",
+    "のために (no tame ni)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "AとかB",
+      "correction": "A とか B",
+      "example": "映画とかもっと楽しいことをしたいです。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "list",
+    "examples",
+    "possibilities"
+  ]
+}

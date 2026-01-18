@@ -1,0 +1,33 @@
+{
+  "kanji": "伺",
+  "sentences": [
+    {
+      "id": "178816",
+      "japanese": "君たちのうち誰かこの方の御用を伺っているか。",
+      "english": "Did any of you gentlemen wait on this man?"
+    },
+    {
+      "id": "183053",
+      "japanese": "貴社に伺うのに便利な場所の部屋を予約できればありがたいのですが。",
+      "english": "I would appreciate it if you could book a room at a convenient location for visiting your office."
+    },
+    {
+      "id": "183055",
+      "japanese": "貴社にお伺いしたいと思います。",
+      "english": "I would like to come and see you."
+    },
+    {
+      "id": "8586629",
+      "japanese": "喜んでお伺いします。",
+      "english": "I'll be glad to come."
+    },
+    {
+      "id": "187457",
+      "japanese": "何時にお伺いいたしましょうか。",
+      "english": "What time shall I come?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.690Z",
+  "count": 5,
+  "fileId": "kanji-00894"
+}

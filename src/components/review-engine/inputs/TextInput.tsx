@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { motion } from 'framer-motion'
 import ConfidenceSlider from '../ConfidenceSlider'
+import { useI18n } from '@/i18n/I18nContext'
 
 interface TextInputProps {
   content: ReviewableContent
@@ -18,6 +19,7 @@ export default function TextInput({
   disabled,
   showAnswer
 }: TextInputProps) {
+  const { t } = useI18n()
   const [value, setValue] = useState('')
   const [confidence, setConfidence] = useState(0.7)
   const [submitted, setSubmitted] = useState(false)
@@ -96,23 +98,25 @@ export default function TextInput({
           )}
           
           {/* Submit button */}
-          {!showAnswer && (
-            <button
-              type="submit"
-              disabled={disabled || !value.trim()}
-              data-submit
-              className={`
-                w-full px-6 py-3 rounded-lg font-medium
-                transition-all duration-200
-                ${disabled || !value.trim()
+          <button
+            type="submit"
+            disabled={disabled || !value.trim() || (submitted && showAnswer)}
+            data-submit
+            className={`
+              w-full px-6 py-3 rounded-lg font-semibold
+              border border-transparent shadow-sm
+              transition-all duration-200
+              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-dark-900
+              ${submitted && showAnswer
+                ? 'bg-green-500 text-white cursor-default'
+                : disabled || !value.trim()
                   ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
-                  : 'bg-primary text-white hover:bg-primary-dark'
-                }
-              `}
-            >
-              Submit (Enter)
-            </button>
-          )}
+                  : 'bg-primary-500 text-white hover:bg-primary-600'
+              }
+            `}
+          >
+            {submitted && showAnswer ? t('review.correct') : t('review.submitEnter')}
+          </button>
         </div>
       </form>
       

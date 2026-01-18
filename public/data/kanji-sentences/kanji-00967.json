@@ -1,0 +1,33 @@
+{
+  "kanji": "省",
+  "sentences": [
+    {
+      "id": "183357",
+      "japanese": "機械は多くの人手を省く。",
+      "english": "Machinery dispenses with much labor."
+    },
+    {
+      "id": "183367",
+      "japanese": "この機会のおかげで私たちは大いに手間暇が省けた。",
+      "english": "Thanks to the opportunity, we were able to avoid substantial effort."
+    },
+    {
+      "id": "236740",
+      "japanese": "それでだいぶ手間が省ける。",
+      "english": "That will save me a lot of trouble."
+    },
+    {
+      "id": "209005",
+      "japanese": "その省は内政問題の行政をつかさどる。",
+      "english": "The ministry administers the internal affairs."
+    },
+    {
+      "id": "211396",
+      "japanese": "その橋のおかげで彼らは時間と労力が大いに省けた。",
+      "english": "The bridge saved them a lot of time and trouble."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.252Z",
+  "count": 5,
+  "fileId": "kanji-00967"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "腹",
+  "sentences": [
+    {
+      "id": "4818",
+      "japanese": "謝罪はあったにせよ、私はまだ彼に腹を立てている。",
+      "english": "Even though he apologized, I'm still furious."
+    },
+    {
+      "id": "10075622",
+      "japanese": "混乱のあまり、腹が立っている。",
+      "english": "It's a complete mess, and it's getting on my nerves."
+    },
+    {
+      "id": "200656",
+      "japanese": "とてもお腹がすいたよ。",
+      "english": "I'm starving!"
+    },
+    {
+      "id": "1229075",
+      "japanese": "ものすごくお腹がすいている。",
+      "english": "I'm starving!"
+    },
+    {
+      "id": "3528967",
+      "japanese": "お腹すいて死にそう。",
+      "english": "I'm starving!"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.449Z",
+  "count": 5,
+  "fileId": "kanji-00322"
+}

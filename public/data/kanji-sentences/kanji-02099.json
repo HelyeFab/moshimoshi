@@ -1,0 +1,33 @@
+{
+  "kanji": "志",
+  "sentences": [
+    {
+      "id": "187468",
+      "japanese": "何事をするにも志が大切。",
+      "english": "The will is as good as the deed."
+    },
+    {
+      "id": "223797",
+      "japanese": "このコーヒー店には芸術家を志すものが足しげく通う。",
+      "english": "This coffee shop is frequented by aspiring artists."
+    },
+    {
+      "id": "75418",
+      "japanese": "でも、仲間たちは志はあっても、資金調達やマネジメントには無知でした。",
+      "english": "However, although our companions were willing, they knew nothing about management or getting money."
+    },
+    {
+      "id": "76729",
+      "japanese": "この点に関しては、私が英語学習を志した２０数年前とは隔世の感があります。",
+      "english": "On this point it is poles apart from when I set myself on learning English 20 years ago."
+    },
+    {
+      "id": "88715",
+      "japanese": "彼女は女優になることを志した。",
+      "english": "She aimed to become an actress."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:49.546Z",
+  "count": 5,
+  "fileId": "kanji-02099"
+}

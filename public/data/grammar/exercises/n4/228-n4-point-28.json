@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "228-n4-point-28",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "228-n4-point-28-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb te ageru\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞てあげる",
+          "romaji": "doushi te ageru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 動詞てあげる matches \"Verb te ageru\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞てあげる.",
+      "explanation": "Expresses doing a kind action for someone else using the verb te-form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "228-n4-point-28-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞てあげる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb te ageru"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 動詞てあげる means \"Verb te ageru\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb te ageru\".",
+      "explanation": "Expresses doing a kind action for someone else using the verb te-form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "228-n4-point-28-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞てあげる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "doushi te ageru"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! doushi te ageru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is doushi te ageru.",
+      "explanation": "Expresses doing a kind action for someone else using the verb te-form.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "228-n4-point-28-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞てあげる?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Expresses doing a kind action for someone else using the verb te-form."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses doing a kind action for someone else using the verb te-form.",
+      "explanation": "Expresses doing a kind action for someone else using the verb te-form.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "228-n4-point-28-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb te ageru\".",
+      "correctAnswer": "動詞てあげる",
+      "acceptedVariations": [
+        "動詞てあげる",
+        "動詞てあげる"
+      ],
+      "correctFeedback": "Nice! 動詞てあげる is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞てあげる (doushi te ageru).",
+      "explanation": "Expresses doing a kind action for someone else using the verb te-form.",
+      "hints": [
+        "doushi te ageru",
+        "Expresses doing a kind action for someone else using the verb te-form."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "228-n4-point-28-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞てあげる.",
+      "correctAnswer": "doushi te ageru",
+      "acceptedVariations": [
+        "doushi te ageru",
+        "doushi te ageru"
+      ],
+      "correctFeedback": "Nice! doushi te ageru is correct.",
+      "incorrectFeedback": "The correct romaji is: doushi te ageru.",
+      "explanation": "Expresses doing a kind action for someone else using the verb te-form.",
+      "hints": [
+        "Expresses doing a kind action for someone else using the verb te-form."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "228-n4-point-28-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞てあげる.",
+      "correctAnswer": "Verb te ageru",
+      "acceptedVariations": [
+        "Verb te ageru",
+        "verb te ageru"
+      ],
+      "correctFeedback": "Correct! \"Verb te ageru\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb te ageru\".",
+      "explanation": "Expresses doing a kind action for someone else using the verb te-form.",
+      "hints": [
+        "Expresses doing a kind action for someone else using the verb te-form."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "228-n4-point-28-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞てあげる",
+          "romaji": "doushi te ageru",
+          "english": "Verb te ageru"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses doing a kind action for someone else using the verb te-form.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "228-n4-point-28-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses doing a kind action for someone else using the verb te-form..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞てあげる",
+          "romaji": "doushi te ageru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! 動詞てあげる matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞てあげる.",
+      "explanation": "Expresses doing a kind action for someone else using the verb te-form.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "228-n4-point-28-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞てあげる",
+      "acceptedVariations": [
+        "動詞てあげる",
+        "動詞てあげる"
+      ],
+      "correctFeedback": "Great! 動詞てあげる is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞てあげる.",
+      "explanation": "Expresses doing a kind action for someone else using the verb te-form.",
+      "hints": [
+        "doushi te ageru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "266-n4-point-66",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "266-n4-point-66-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Decide to do something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ることにする",
+          "romaji": "Verb ru koto ni suru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! Verb ることにする matches \"Decide to do something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ることにする.",
+      "explanation": "Expresses making a personal decision to do something from now on.",
+      "difficulty": "easy"
+    }
+  ]
+}

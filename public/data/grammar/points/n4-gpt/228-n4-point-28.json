@@ -1,0 +1,112 @@
+{
+  "id": "228-n4-point-28",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞てあげる",
+    "romaji": "doushi te ageru",
+    "en": "Verb te ageru"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The てあげる (te ageru) grammar point is used when the speaker or someone other than the listener does something for someone else as a favor or out of kindness. It follows the verb in its て-form and expresses doing a helpful action for another person or animal.",
+    "ja": "「てあげる」は、話し手や話し手以外の人が他の人のために親切で何かをしてあげることを表します。動詞のて形に「あげる」をつけて使います。"
+  },
+  "structure": {
+    "pattern": "Verb-て form + あげる",
+    "components": [
+      {
+        "part": "Verb-て form",
+        "explanation": "The て-form of the verb, indicating the action being done as a favor.",
+        "examples": [
+          "持って",
+          "手伝って",
+          "迎えに行って",
+          "飲ませて"
+        ]
+      },
+      {
+        "part": "あげる",
+        "explanation": "Means 'to give' and shows the action is done for someone else's benefit.",
+        "examples": [
+          "持ってあげる",
+          "手伝ってあげる"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "友達が疲れていたから、荷物を持ってあげた。",
+      "romaji": "Tomodachi ga tsukareteita kara, nimotsu o motte ageta.",
+      "english": "Since my friend was tired, I carried their luggage for them.",
+      "breakdown": {
+        "友達": "friend",
+        "疲れていた": "was tired",
+        "荷物": "luggage",
+        "持ってあげた": "carried (for them)",
+        "から": "because"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "弟は宿題がわからなかったので、手伝ってあげた。",
+      "romaji": "Otouto wa shukudai ga wakaranakatta node, tetsudatte ageta.",
+      "english": "My younger brother couldn't understand the homework, so I helped him.",
+      "breakdown": {
+        "弟": "younger brother",
+        "宿題": "homework",
+        "わからなかった": "couldn't understand",
+        "手伝ってあげた": "helped (for him)",
+        "ので": "so"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女が遅れそうだったから、駅まで迎えに行ってあげた。",
+      "romaji": "Kanojo ga okuresou datta kara, eki made mukae ni itte ageta.",
+      "english": "She was running late, so I went to pick her up at the station.",
+      "breakdown": {
+        "彼女": "she",
+        "遅れそうだった": "seemed to be late",
+        "駅まで": "to the station",
+        "迎えに行ってあげた": "went to pick up (for her)",
+        "から": "because"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "犬はのどが渇いたそうだったので、水を飲ませてあげた。",
+      "romaji": "Inu wa nodo ga kawaita sou datta node, mizu o nomasete ageta.",
+      "english": "The dog seemed thirsty, so I gave it water to drink.",
+      "breakdown": {
+        "犬": "dog",
+        "のどが渇いたそうだった": "seemed thirsty",
+        "水": "water",
+        "飲ませてあげた": "let (it) drink (for it)",
+        "ので": "so"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "動詞てくださる",
+    "動詞てくれる",
+    "名詞をくださる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using てあげる when the receiver is the speaker or someone above the speaker in status.",
+      "correction": "Use てもらう or てくれる for actions received by the speaker, and avoid てあげる for superiors.",
+      "example": "先生に手伝ってあげました。→ 先生に手伝ってもらいました。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "favor",
+    "giving",
+    "verbs",
+    "te-form",
+    "politeness"
+  ]
+}

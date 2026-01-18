@@ -1,0 +1,94 @@
+{
+  "id": "268-n4-point-68",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb るときに",
+    "romaji": "Verb ~ru toki ni",
+    "en": "When doing something"
+  },
+  "jlptLevel": "N4",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "The ～るときに grammar point is used to indicate the time when a certain action or event happens. It can be translated as 'when' or 'at the time' in English.",
+    "ja": "～るときには、ある行動や出来事が起こる時を示します。英語で言うと「when」または「at the time」と訳されます。"
+  },
+  "structure": {
+    "pattern": "Verb-る + ときに",
+    "components": [
+      {
+        "part": "Verb",
+        "explanation": "The verb in its dictionary form.",
+        "examples": [
+          "見る (miru)",
+          "寝る (neru)"
+        ]
+      },
+      {
+        "part": "とき",
+        "explanation": "Indicates a specific time or occasion.",
+        "examples": []
+      },
+      {
+        "part": "に",
+        "explanation": "A particle that indicates timing in this context.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "映画を見るときに、ポップコーンを食べます。",
+      "romaji": "Eiga wo miru toki ni, poppukoon wo tabemasu.",
+      "english": "When I watch a movie, I eat popcorn.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "寝るときに、部屋の電気を消します。",
+      "romaji": "Neru toki ni, heya no denki wo keshimasu.",
+      "english": "When I go to bed, I turn off the room lights.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "運動するときに、水分補給が大切です。",
+      "romaji": "Undou suru toki ni, suibun hokyuu ga taisetsu desu.",
+      "english": "When exercising, it's important to stay hydrated.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "旅行するときに、カメラを持っていくことが好きです。",
+      "romaji": "Ryokou suru toki ni, kamera wo motteiku koto ga suki desu.",
+      "english": "When I travel, I like to bring a camera.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Noun の 間に (〜no aida ni)",
+    "動詞たときに",
+    "Verb ている間に"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "映画を見るとき、ポップコーンを食べます。",
+      "correction": "映画を見るときに、ポップコーンを食べます。",
+      "example": "Incorrect: Eiga wo miru toki, poppukoon wo tabemasu. (without に)"
+    }
+  ],
+  "tags": [
+    "n4",
+    "time-expressions",
+    "verbs",
+    "intermediate"
+  ]
+}

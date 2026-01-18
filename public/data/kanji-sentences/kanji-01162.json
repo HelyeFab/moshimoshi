@@ -1,0 +1,33 @@
+{
+  "kanji": "射",
+  "sentences": [
+    {
+      "id": "4942",
+      "japanese": "射手は鹿を射た。",
+      "english": "The archer killed the deer."
+    },
+    {
+      "id": "189358",
+      "japanese": "雲間が開け光が射した。",
+      "english": "The clouds opened and the sun shone through."
+    },
+    {
+      "id": "206511",
+      "japanese": "その問題についての彼の意見はずばり的を射ている。",
+      "english": "His remarks on the subject are much to the point."
+    },
+    {
+      "id": "228337",
+      "japanese": "ウイリアム・テルは息子の頭の上のリンゴをねらって矢を射た。",
+      "english": "William Tell shot an arrow at the apple on his son's head."
+    },
+    {
+      "id": "231968",
+      "japanese": "あなたは私にとってヨーダのような存在でした、あなたの的を射たアドバイスを恋しく思うでしょう。",
+      "english": "You were my Yoda and I'll miss your right-on-target advice."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.020Z",
+  "count": 5,
+  "fileId": "kanji-01162"
+}

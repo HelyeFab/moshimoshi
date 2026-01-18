@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "038-plain-form-negative",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "038-plain-form-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Which is the plain negative of 行く?",
+      "options": [
+        { "id": "a", "text": "行かない" },
+        { "id": "b", "text": "行きません" },
+        { "id": "c", "text": "行かないです" },
+        { "id": "d", "text": "行くない" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行く → 行かない.",
+      "incorrectFeedback": "Not quite. Plain negative is 行かない.",
+      "explanation": "Plain negative uses the ない-form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "038-plain-form-negative-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is in plain negative form?",
+      "options": [
+        { "id": "a", "text": "今日は行かない。" },
+        { "id": "b", "text": "今日は行きません。" },
+        { "id": "c", "text": "今日は行く。" },
+        { "id": "d", "text": "今日は行った。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行かない is plain negative.",
+      "incorrectFeedback": "Try again. Look for the ない-form.",
+      "explanation": "Plain negative = ない-form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "038-plain-form-negative-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese (casual): 'I do not eat meat.'",
+      "correctAnswer": "肉を食べない",
+      "acceptedVariations": [
+        "肉を食べない。",
+        "にくをたべない",
+        "niku o tabenai",
+        "niku o tabenai."
+      ],
+      "correctFeedback": "Great! 肉を食べない is correct.",
+      "incorrectFeedback": "The correct answer is: 肉を食べない (niku o tabenai).",
+      "explanation": "Use the ない-form for plain negative.",
+      "hints": ["食べる → 食べない", "Plain negative"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "038-plain-form-negative-ex-04",
+      "type": "multiple-choice",
+      "question": "Which is the plain negative of 見る?",
+      "options": [
+        { "id": "a", "text": "見ない" },
+        { "id": "b", "text": "見ません" },
+        { "id": "c", "text": "見なかった" },
+        { "id": "d", "text": "見ぬ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 見る → 見ない.",
+      "incorrectFeedback": "Not quite. Use the ない-form.",
+      "explanation": "Ru-verb negative: drop る + ない.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "038-plain-form-negative-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese (casual): 'I do not study today.'",
+      "correctAnswer": "今日は勉強しない",
+      "acceptedVariations": [
+        "今日は勉強しない。",
+        "きょうはべんきょうしない",
+        "kyou wa benkyou shinai",
+        "kyou wa benkyou shinai."
+      ],
+      "correctFeedback": "Nice! 今日は勉強しない is correct.",
+      "incorrectFeedback": "The correct answer is: 今日は勉強しない (kyou wa benkyou shinai).",
+      "explanation": "Use しない for する verbs.",
+      "hints": ["勉強する → 勉強しない", "今日 = today"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "038-plain-form-negative-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "今日は行かない。" },
+        { "id": "b", "text": "今日は食べない。" },
+        { "id": "c", "text": "今日は行くない。" },
+        { "id": "d", "text": "今日は見ない。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 行くない is incorrect.",
+      "incorrectFeedback": "Try again. Use 行かない.",
+      "explanation": "U-verbs change to a-sound before ない.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "038-plain-form-negative-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese (casual): 'I do not meet my friend.'",
+      "correctAnswer": "友だちに会わない",
+      "acceptedVariations": [
+        "友だちに会わない。",
+        "ともだちにあわない",
+        "tomodachi ni awanai",
+        "tomodachi ni awanai."
+      ],
+      "correctFeedback": "Great! 友だちに会わない is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちに会わない (tomodachi ni awanai).",
+      "explanation": "会う → 会わない.",
+      "hints": ["会う is an u-verb", "Use わない"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "038-plain-form-negative-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "今日は行かない。",
+          "romaji": "Kyou wa ikanai.",
+          "english": "I am not going today."
+        },
+        {
+          "japanese": "肉を食べない。",
+          "romaji": "Niku o tabenai.",
+          "english": "I do not eat meat."
+        },
+        {
+          "japanese": "友だちに会わない。",
+          "romaji": "Tomodachi ni awanai.",
+          "english": "I do not meet my friend."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review the ない-form.",
+      "explanation": "All sentences use the plain negative.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "038-plain-form-negative-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct plain negative of 来る?",
+      "options": [
+        { "id": "a", "text": "こない" },
+        { "id": "b", "text": "来ない" },
+        { "id": "c", "text": "来るない" },
+        { "id": "d", "text": "きない" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 来る → 来ない (こない).",
+      "incorrectFeedback": "Try again. The negative is こない.",
+      "explanation": "Irregular negative: 来る → 来ない.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "038-plain-form-negative-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese (casual): 'I do not read books.'",
+      "correctAnswer": "本を読まない",
+      "acceptedVariations": [
+        "本を読まない。",
+        "ほんをよまない",
+        "hon o yomanai",
+        "hon o yomanai."
+      ],
+      "correctFeedback": "Nice! 本を読まない is correct.",
+      "incorrectFeedback": "The correct answer is: 本を読まない (hon o yomanai).",
+      "explanation": "読む → 読まない.",
+      "hints": ["読む is a u-verb", "Use まない"],
+      "difficulty": "hard"
+    }
+  ]
+}

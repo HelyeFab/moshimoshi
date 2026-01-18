@@ -1,0 +1,33 @@
+{
+  "kanji": "池",
+  "sentences": [
+    {
+      "id": "191203",
+      "japanese": "以前このあたりに池があった。",
+      "english": "There used to be a pond around here."
+    },
+    {
+      "id": "191204",
+      "japanese": "以前は、この辺りに大きな池があったんです。",
+      "english": "There used to be a big pond around here."
+    },
+    {
+      "id": "10727827",
+      "japanese": "彼が腕をつかんでなかったら、彼女は池に落ちちゃってたよ。",
+      "english": "She would have fallen into the pond if he had not caught her by the arm."
+    },
+    {
+      "id": "198417",
+      "japanese": "ハートの形をした池は国王ご夫妻の自慢の種である。",
+      "english": "The heart-shaped pond is the pride of the royal couple."
+    },
+    {
+      "id": "203759",
+      "japanese": "たくさんの白い白鳥がいた池が以前はここにあった。",
+      "english": "There used to be a pond here where you could see many swans."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.944Z",
+  "count": 5,
+  "fileId": "kanji-00639"
+}

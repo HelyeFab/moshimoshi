@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "284-n4-point-84",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "284-n4-point-84-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Looks like / Seems\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～そうだ",
+          "romaji": "~sou da"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ～そうだ matches \"Looks like / Seems\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～そうだ.",
+      "explanation": "Used to express that something appears or seems a certain way based on observation.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "284-n4-point-84-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～そうだ.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Looks like / Seems"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ～そうだ means \"Looks like / Seems\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Looks like / Seems\".",
+      "explanation": "Used to express that something appears or seems a certain way based on observation.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "284-n4-point-84-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～そうだ.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~sou da"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ~sou da is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~sou da.",
+      "explanation": "Used to express that something appears or seems a certain way based on observation.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "284-n4-point-84-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～そうだ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Used to express that something appears or seems a certain way based on observation."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to express that something appears or seems a certain way based on observation.",
+      "explanation": "Used to express that something appears or seems a certain way based on observation.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "284-n4-point-84-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Looks like / Seems\".",
+      "correctAnswer": "～そうだ",
+      "acceptedVariations": [
+        "～そうだ",
+        "～そうだ"
+      ],
+      "correctFeedback": "Nice! ～そうだ is correct.",
+      "incorrectFeedback": "The correct pattern is: ～そうだ (~sou da).",
+      "explanation": "Used to express that something appears or seems a certain way based on observation.",
+      "hints": [
+        "~sou da",
+        "Used to express that something appears or seems a certain way based on observation."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "284-n4-point-84-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～そうだ.",
+      "correctAnswer": "~sou da",
+      "acceptedVariations": [
+        "~sou da",
+        "~sou da"
+      ],
+      "correctFeedback": "Nice! ~sou da is correct.",
+      "incorrectFeedback": "The correct romaji is: ~sou da.",
+      "explanation": "Used to express that something appears or seems a certain way based on observation.",
+      "hints": [
+        "Used to express that something appears or seems a certain way based on observation."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "284-n4-point-84-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～そうだ.",
+      "correctAnswer": "Looks like / Seems",
+      "acceptedVariations": [
+        "Looks like / Seems",
+        "looks like / seems"
+      ],
+      "correctFeedback": "Correct! \"Looks like / Seems\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Looks like / Seems\".",
+      "explanation": "Used to express that something appears or seems a certain way based on observation.",
+      "hints": [
+        "Used to express that something appears or seems a certain way based on observation."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "284-n4-point-84-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～そうだ",
+          "romaji": "~sou da",
+          "english": "Looks like / Seems"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to express that something appears or seems a certain way based on observation.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "284-n4-point-84-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to express that something appears or seems a certain way based on observation..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～そうだ",
+          "romaji": "~sou da"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～そうだ matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～そうだ.",
+      "explanation": "Used to express that something appears or seems a certain way based on observation.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "284-n4-point-84-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～そうだ",
+      "acceptedVariations": [
+        "～そうだ",
+        "～そうだ"
+      ],
+      "correctFeedback": "Great! ～そうだ is correct.",
+      "incorrectFeedback": "The correct pattern is: ～そうだ.",
+      "explanation": "Used to express that something appears or seems a certain way based on observation.",
+      "hints": [
+        "~sou da"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "乾",
+  "sentences": [
+    {
+      "id": "178575",
+      "japanese": "君のＴシャツを乾かしてあげましょう。",
+      "english": "I will dry your T-shirt."
+    },
+    {
+      "id": "178576",
+      "japanese": "君のＴシャツはすぐ乾くでしょう。",
+      "english": "Your T-shirt will dry soon."
+    },
+    {
+      "id": "179232",
+      "japanese": "靴下はもう乾いたのですか。",
+      "english": "Are my socks dry already?"
+    },
+    {
+      "id": "8995003",
+      "japanese": "私の靴下って、もう乾いた？",
+      "english": "Are my socks dry already?"
+    },
+    {
+      "id": "180538",
+      "japanese": "強い日差しで地面が乾いた。",
+      "english": "The hot sun baked the ground dry."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.379Z",
+  "count": 5,
+  "fileId": "kanji-00833"
+}

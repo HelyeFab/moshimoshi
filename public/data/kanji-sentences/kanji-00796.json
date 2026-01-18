@@ -1,0 +1,33 @@
+{
+  "kanji": "舟",
+  "sentences": [
+    {
+      "id": "209439",
+      "japanese": "その舟は、今晩イギリスに向けて出港することになっている。",
+      "english": "The boat is to leave for England this evening."
+    },
+    {
+      "id": "76396",
+      "japanese": "むろん、舟は何百艘も水面を動きまわっているが、どれでもいいというわけにはいかない。",
+      "english": "Of course there were several hundred boats moving around on the water but not just any old one would do."
+    },
+    {
+      "id": "84026",
+      "japanese": "風と潮の流れがその舟を岸に押しやった。",
+      "english": "The wind and tide impelled the ship to the shore."
+    },
+    {
+      "id": "96685",
+      "japanese": "彼らは川を舟をこいで上った。",
+      "english": "They rowed up the river."
+    },
+    {
+      "id": "117001",
+      "japanese": "彼の舟は２時間、海に出ている。",
+      "english": "His boat has been at sea for two hours."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.503Z",
+  "count": 5,
+  "fileId": "kanji-00796"
+}

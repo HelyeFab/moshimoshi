@@ -1,0 +1,33 @@
+{
+  "kanji": "閉",
+  "sentences": [
+    {
+      "id": "138779",
+      "japanese": "去る時はドアを閉めてください。",
+      "english": "Close the door when you leave."
+    },
+    {
+      "id": "138784",
+      "japanese": "出る時にドアをお閉めください。",
+      "english": "Please will you close the door when you go out."
+    },
+    {
+      "id": "177088",
+      "japanese": "君は全部のドアを施錠するか、せめて閉じるべきだった。",
+      "english": "You should have locked, or at least closed, all the doors."
+    },
+    {
+      "id": "179601",
+      "japanese": "銀行がいつ閉まるかわかりますか。",
+      "english": "Do you have any idea when the bank closes?"
+    },
+    {
+      "id": "180305",
+      "japanese": "教科書を閉じて私の言うことを聞きなさい。",
+      "english": "Listen to me with your textbooks closed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.101Z",
+  "count": 5,
+  "fileId": "kanji-00370"
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "209-n4-point-9",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "209-n4-point-9-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"To become a noun\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Noun に なる",
+          "romaji": "Noun ni naru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Noun に なる matches \"To become a noun\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Noun に なる.",
+      "explanation": "Expresses changing into a new state, status, or condition using a noun.",
+      "difficulty": "easy"
+    }
+  ]
+}

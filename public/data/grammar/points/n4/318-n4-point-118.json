@@ -1,0 +1,84 @@
+{
+  "id": "318-n4-point-118",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～も (〜mo)",
+    "romaji": "~mo",
+    "en": "also, too"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～も grammar point is used to express that something is also true, or to add some additional information to the previous statement. It can be translated as 'also', 'too', or 'as well' in English.",
+    "ja": "～もは、何かがまた真実であることを表現するために使用されます。または前の文に追加情報を付けるために使います。英語では「も」「も」や「さらに」と訳せます。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + も, い-Adjective + も, な-Adjective + も, Noun + も",
+    "components": [
+      {
+        "part": "～も (〜mo)",
+        "explanation": "used to indicate also/too/as well in the sentence.",
+        "examples": [
+          "私はお寿司が好きです。",
+          "彼女は英語も日本語も話せます。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私もお寿司が好きです。",
+      "romaji": "Watashi mo osushi ga suki desu.",
+      "english": "I also like sushi.",
+      "breakdown": {
+        "token": "我也喜欢寿司",
+        "gloss": "watashi - I / mo - also / osushi - sushi / ga - subject marker / suki - like / desu - polite auxiliary"
+      }
+    },
+    {
+      "japanese": "彼女は英語も日本語も話せます。",
+      "romaji": "Kanojo wa eigo mo nihongo mo hanasemasu.",
+      "english": "She can speak both English and Japanese.",
+      "breakdown": {
+        "token": "她会说英语和日语",
+        "gloss": "kanojo - she / eigo - English / mo - also / nihongo - Japanese / hanasemasu - can speak"
+      }
+    },
+    {
+      "japanese": "その映画は面白いし、彼も見たいと言っています。",
+      "romaji": "Sono eiga wa omoshiroi shi, kare mo mitai to itteimasu.",
+      "english": "That movie is interesting, and he also said he wants to see it.",
+      "breakdown": {
+        "token": "那部电影很有趣，他也很想看",
+        "gloss": "sono - that / eiga - movie / omoshiroi - interesting / kare - he / mitai - want to see"
+      }
+    },
+    {
+      "japanese": "今日は寒いです。明日も寒いでしょう。",
+      "romaji": "Kyou wa samui desu. Ashita mo samui deshou.",
+      "english": "It is cold today. It will probably be cold tomorrow as well.",
+      "breakdown": {
+        "token": "今天很冷，明天也会冷",
+        "gloss": "kyou - today / samui - cold / ashita - tomorrow / deshou - probably"
+      }
+    }
+  ],
+  "relatedPoints": [
+    "～し、～し、～",
+    "～てはいけない",
+    "～といい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Watashi wa sushi ga suki desu.",
+      "correction": "Watashi mo osushi ga suki desu.",
+      "example": "I also like sushi."
+    }
+  ],
+  "tags": [
+    "n4",
+    "miscellaneous",
+    "also-too-as-well",
+    "conjunctions"
+  ]
+}

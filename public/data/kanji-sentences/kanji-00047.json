@@ -1,0 +1,33 @@
+{
+  "kanji": "語",
+  "sentences": [
+    {
+      "id": "4880",
+      "japanese": "私はフランス語がそんなにきちんとは話せない。",
+      "english": "I don't speak French well enough!"
+    },
+    {
+      "id": "4994",
+      "japanese": "イタリア語を話せますか？",
+      "english": "Do you speak Italian?"
+    },
+    {
+      "id": "5002",
+      "japanese": "２、３年でフランス語に熟達するのはきわめて難しい。",
+      "english": "It's quite difficult to master French in 2 or 3 years."
+    },
+    {
+      "id": "5054",
+      "japanese": "イタリア語では何て言うんですか。",
+      "english": "How do you say that in Italian?"
+    },
+    {
+      "id": "10087617",
+      "japanese": "イタリア語だと、どう言うの？",
+      "english": "How do you say that in Italian?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.736Z",
+  "count": 5,
+  "fileId": "kanji-00047"
+}

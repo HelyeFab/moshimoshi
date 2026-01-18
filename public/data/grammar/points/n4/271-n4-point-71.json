@@ -1,0 +1,110 @@
+{
+  "id": "271-n4-point-71",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb 方 (〜hou)",
+    "romaji": "Verb kata (〜hou)",
+    "en": "Verb + Kata for Method"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～方 grammar point is used to express the way or method of doing something, similar to 'how to' or 'the way of' in English.",
+    "ja": "方（ほう）は、どのようにするかや方法を表すために使います。"
+  },
+  "structure": {
+    "pattern": "Verb-stem + 方 (〜かた)",
+    "components": [
+      {
+        "part": "Verb-stem",
+        "explanation": "The stem of the verb is used before adding '方'.",
+        "examples": [
+          "作り",
+          "話し",
+          "使い"
+        ]
+      },
+      {
+        "part": "方 (かた)",
+        "explanation": "Read as 'かた' to indicate method or way.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "誰かがケーキの作り方を知っていますか？",
+      "romaji": "Dareka ga keeki no tsukurikata o shitteimasu ka?",
+      "english": "Does anyone know how to make a cake?",
+      "breakdown": {
+        "token": {
+          "誰かが": "someone",
+          "ケーキの": "cake's",
+          "作り方": "making method",
+          "を知っていますか？": "know?"
+        }
+      },
+      "notes": "询问某人是否知道如何做蛋糕的方法。"
+    },
+    {
+      "japanese": "彼女は英語の話し方を学んでいます。",
+      "romaji": "Kanojo wa eigo no hanashikata o manandeimasu.",
+      "english": "She is learning how to speak English.",
+      "breakdown": {
+        "token": {
+          "彼女は": "she",
+          "英語の": "English's",
+          "話し方": "speaking method",
+          "を学んでいます。": "learning"
+        }
+      },
+      "notes": "描述某人正在学习英语的说话方式。"
+    },
+    {
+      "japanese": "このパソコンの使い方を教えてください。",
+      "romaji": "Kono pasokon no tsukaikata o oshiete kudasai.",
+      "english": "Please teach me how to use this computer.",
+      "breakdown": {
+        "token": {
+          "この": "this",
+          "パソコンの": "computer's",
+          "使い方": "using method",
+          "を教えてください。": "teach please"
+        }
+      },
+      "notes": "请求某人教授如何使用电脑的方法。"
+    },
+    {
+      "japanese": "数学の問題の解き方を覚えるのが難しいです。",
+      "romaji": "Suugaku no mondai no tokikata o oboeru no ga muzukashii desu.",
+      "english": "It is difficult to remember the way to solve math problems.",
+      "breakdown": {
+        "token": {
+          "数学の": "math's",
+          "問題の": "problem's",
+          "解き方": "solving method",
+          "を覚えるのが難しいです。": "difficult to remember"
+        }
+      },
+      "notes": "描述记忆解决数学问题的方法困难。"
+    }
+  ],
+  "relatedPoints": [
+    "～かもしれない",
+    "Verb ながら (〜nagara)",
+    "な-adjective に する/なる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "作りかた",
+      "correction": "作り方 (つくりかた)",
+      "example": "ケーキの作り方を教えてください。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "method-expression",
+    "verb-patterns",
+    "daily-conversation"
+  ]
+}

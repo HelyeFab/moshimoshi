@@ -1,0 +1,33 @@
+{
+  "kanji": "薦",
+  "sentences": [
+    {
+      "id": "1317010",
+      "japanese": "あなたのお薦めは何ですか。",
+      "english": "What do you suggest?"
+    },
+    {
+      "id": "197612",
+      "japanese": "ビザの一連の手続きをお願いしている方がこの学校を薦めてくれました。",
+      "english": "This school was recommended to me by someone I asked to help me with the visa application process."
+    },
+    {
+      "id": "199834",
+      "japanese": "トムは彼らにその小説を薦めた。",
+      "english": "Tom recommended the novel to them."
+    },
+    {
+      "id": "209251",
+      "japanese": "その小説を読むことを薦めます。",
+      "english": "I recommend that you read that novel."
+    },
+    {
+      "id": "231231",
+      "japanese": "あのレストランで食べるのはお薦めしません。料理がひどいのです。",
+      "english": "I don't recommend eating in that restaurant. The food is awful."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:41.355Z",
+  "count": 5,
+  "fileId": "kanji-01896"
+}

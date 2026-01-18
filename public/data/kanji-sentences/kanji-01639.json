@@ -1,0 +1,33 @@
+{
+  "kanji": "履",
+  "sentences": [
+    {
+      "id": "233907",
+      "japanese": "あなたが履いている靴はかなり高そうだ。",
+      "english": "The shoes you are wearing look rather expensive."
+    },
+    {
+      "id": "179235",
+      "japanese": "靴を履いて夕食を食べに行きましょう。",
+      "english": "Put on your shoes. Let's go out for dinner."
+    },
+    {
+      "id": "179236",
+      "japanese": "靴を履いてください。",
+      "english": "Please put on your shoes."
+    },
+    {
+      "id": "179237",
+      "japanese": "靴を履いて。",
+      "english": "Put on your shoes."
+    },
+    {
+      "id": "237454",
+      "japanese": "靴を買う前には、試しに履いてみなければならない。",
+      "english": "Before buying shoes, you should try them on."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:31.650Z",
+  "count": 5,
+  "fileId": "kanji-01639"
+}

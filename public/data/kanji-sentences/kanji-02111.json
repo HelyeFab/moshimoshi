@@ -1,0 +1,33 @@
+{
+  "kanji": "敵",
+  "sentences": [
+    {
+      "id": "170406",
+      "japanese": "最善はしばしば善の敵である。",
+      "english": "The best is often the enemy of the good."
+    },
+    {
+      "id": "185676",
+      "japanese": "我々は敵の不意をついた。",
+      "english": "We took the enemy by surprise."
+    },
+    {
+      "id": "185677",
+      "japanese": "我々は敵に向かって大砲を撃った。",
+      "english": "We fired guns at the enemy."
+    },
+    {
+      "id": "186019",
+      "japanese": "我々はたくさんの敵をやっつけた。",
+      "english": "We defeated various enemies."
+    },
+    {
+      "id": "186273",
+      "japanese": "我々の最初の攻撃で敵は逃走した。",
+      "english": "After our first attack, the enemy fled."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:49.780Z",
+  "count": 5,
+  "fileId": "kanji-02111"
+}

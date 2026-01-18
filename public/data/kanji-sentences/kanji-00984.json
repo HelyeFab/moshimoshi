@@ -1,0 +1,23 @@
+{
+  "kanji": "管",
+  "sentences": [
+    {
+      "id": "183844",
+      "japanese": "管から水が吹き出した。",
+      "english": "Water shot from the pipe."
+    },
+    {
+      "id": "76533",
+      "japanese": "テレビを点け、彼女がブラウン管の前で遊弋している。「おい、飯だぞ？」",
+      "english": "Television turned on, she patrols in front of the CRT. \"Hey you, food's up!\""
+    },
+    {
+      "id": "1727020",
+      "japanese": "水圧が原因で管は破裂しました。",
+      "english": "The water pressure caused the pipe to burst."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.561Z",
+  "count": 3,
+  "fileId": "kanji-00984"
+}

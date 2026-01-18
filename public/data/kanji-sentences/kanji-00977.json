@@ -1,0 +1,33 @@
+{
+  "kanji": "導",
+  "sentences": [
+    {
+      "id": "221473",
+      "japanese": "この実験の結果、要素Ｔが構造全体を決定しているという推定が導き出される。",
+      "english": "The result of this experiment leads to our presumption that element T determines the entire structure."
+    },
+    {
+      "id": "223791",
+      "japanese": "このことから、大規模な人口移動は経済変化の結果ではないという議論を導くことができる。",
+      "english": "From this we can derive the argument that major population shifts are not the result of economic change."
+    },
+    {
+      "id": "224268",
+      "japanese": "ここへとぼくを導いてくれる。",
+      "english": "It always leads me here."
+    },
+    {
+      "id": "224972",
+      "japanese": "コーチはチームを勝利に導いた。",
+      "english": "The coach steered his team to victory."
+    },
+    {
+      "id": "226451",
+      "japanese": "ガイドさんが私たちを有名な公園へと導いてくれるだろう。",
+      "english": "The guide will lead us to the famous park."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.372Z",
+  "count": 5,
+  "fileId": "kanji-00977"
+}

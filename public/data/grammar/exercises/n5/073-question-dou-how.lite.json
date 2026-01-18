@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "073-question-dou-how",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "073-question-dou-how-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: __行きますか。",
+      "options": [
+        {
+          "id": "a",
+          "text": "どう"
+        },
+        {
+          "id": "b",
+          "text": "いつ"
+        },
+        {
+          "id": "c",
+          "text": "どこ"
+        },
+        {
+          "id": "d",
+          "text": "だれ"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! どう means 'how.'",
+      "incorrectFeedback": "Not quite. どう is for manner.",
+      "explanation": "どう asks about how something is done.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "247-n4-point-47",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "247-n4-point-47-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Want someone to do something for you\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb てもらいたい (～te moraitai)",
+          "romaji": "Verb te moraitai"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Verb てもらいたい (～te moraitai) matches \"Want someone to do something for you\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb てもらいたい (～te moraitai).",
+      "explanation": "Expresses wanting someone else to do something for you.",
+      "difficulty": "easy"
+    }
+  ]
+}

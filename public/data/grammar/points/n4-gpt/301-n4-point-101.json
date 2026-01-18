@@ -1,0 +1,109 @@
+{
+  "id": "301-n4-point-101",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～と思う",
+    "romaji": "~to omou",
+    "en": "I think/believe"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～と思う grammar point is used to express one's thoughts or opinions on a particular subject or situation. It can be translated as 'I think' or 'I believe' in English.",
+    "ja": "～と思うは、特定の主題や状況についての自分の意見や考えを表現するために使われます。英語では「私は〜と思います」または「私は〜と信じています」と訳されます。"
+  },
+  "structure": {
+    "pattern": "[Verb-casual + と思う], [い-Adjective + と思う], [な-Adjective + だと思う], [Noun + だと思う]",
+    "components": [
+      {
+        "part": "Verb-casual",
+        "explanation": "The casual form of the verb is used before ～と思う.",
+        "examples": [
+          "晴れる (hareru) - to be sunny"
+        ]
+      },
+      {
+        "part": "い-Adjective",
+        "explanation": "い-adjectives directly precede ～と思う without any change.",
+        "examples": [
+          "面白い (omoshiroi) - interesting"
+        ]
+      },
+      {
+        "part": "な-Adjective",
+        "explanation": "な-adjectives require 'だ' before ～と思う.",
+        "examples": [
+          "親切 (shinsetsu) - kind"
+        ]
+      },
+      {
+        "part": "Noun",
+        "explanation": "Nouns are followed by 'だ' and then ～と思う.",
+        "examples": [
+          "先生 (sensei) - teacher"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日晴れると思います。",
+      "romaji": "Ashita hareru to omoimasu.",
+      "english": "I think it will be sunny tomorrow.",
+      "breakdown": {
+        "token": "明日 (ashita) - tomorrow, 晴れる (hareru) - to clear up, と思います (to omou) - I think/believe"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この映画は面白いと思う。",
+      "romaji": "Kono eiga wa omoshiroi to omou.",
+      "english": "I think this movie is interesting.",
+      "breakdown": {
+        "token": "この (kono) - this, 映画 (eiga) - film/movie, 面白い (omoshiroi) - interesting"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は親切だと思います。",
+      "romaji": "Kare wa shinsetsu da to omoimasu.",
+      "english": "I think he is kind.",
+      "breakdown": {
+        "token": "彼 (kare) - he, 親切 (shinsetsu) - kind"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "鈴木さんは先生だと思う。",
+      "romaji": "Suzuki-san wa sensei da to omou.",
+      "english": "I think Suzuki-san is a teacher.",
+      "breakdown": {
+        "token": "鈴木さん (Suzuki-san) - Mr./Ms. Suzuki, 先生 (sensei) - teacher"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～かもしれない",
+    "そんなに～",
+    "～なきゃいけない"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼は親切と思う。",
+      "correction": "彼は親切だと思います。",
+      "example": "Kare wa shinsetsu da to omoimasu."
+    },
+    {
+      "mistake": "この映画面白と思う。",
+      "correction": "この映画は面白いと思う。",
+      "example": "Kono eiga wa omoshiroi to omou."
+    }
+  ],
+  "tags": [
+    "n4",
+    "opinion",
+    "thinking",
+    "expression"
+  ]
+}

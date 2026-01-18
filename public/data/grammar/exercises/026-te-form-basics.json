@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "026-te-form-basics",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "026-te-form-basics-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct te-form: 食べる → ?",
+      "options": [
+        { "id": "a", "text": "食べて" },
+        { "id": "b", "text": "食べます" },
+        { "id": "c", "text": "食べるて" },
+        { "id": "d", "text": "食べった" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 食べる → 食べて.",
+      "incorrectFeedback": "Not quite. る-verbs drop る and add て.",
+      "explanation": "Ru-verbs: 食べる → 食べて.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "026-te-form-basics-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct te-form: 読む → ?",
+      "options": [
+        { "id": "a", "text": "読んで" },
+        { "id": "b", "text": "読みて" },
+        { "id": "c", "text": "読んて" },
+        { "id": "d", "text": "読むて" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 読む → 読んで.",
+      "incorrectFeedback": "Try again. む verbs change to んで.",
+      "explanation": "U-verbs ending in む become んで.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "026-te-form-basics-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I eat breakfast and go to school.'",
+      "correctAnswer": "朝ご飯を食べて学校に行きます",
+      "acceptedVariations": [
+        "朝ご飯を食べて学校に行きます。",
+        "あさごはんをたべてがっこうにいきます",
+        "asagohan o tabete gakkou ni ikimasu",
+        "asagohan o tabete gakkou ni ikimasu."
+      ],
+      "correctFeedback": "Great! 朝ご飯を食べて学校に行きます is correct.",
+      "incorrectFeedback": "The correct answer is: 朝ご飯を食べて学校に行きます (asagohan o tabete gakkou ni ikimasu).",
+      "explanation": "Use the て-form to connect actions.",
+      "hints": ["食べて + 行きます", "Use に for destination"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "026-te-form-basics-ex-04",
+      "type": "multiple-choice",
+      "question": "Which is the correct te-form of 書く?",
+      "options": [
+        { "id": "a", "text": "書いて" },
+        { "id": "b", "text": "書きて" },
+        { "id": "c", "text": "書いてる" },
+        { "id": "d", "text": "書った" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 書く → 書いて.",
+      "incorrectFeedback": "Not quite. く verbs change to いて.",
+      "explanation": "U-verbs ending in く become いて.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "026-te-form-basics-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I read a book and sleep.'",
+      "correctAnswer": "本を読んで寝ます",
+      "acceptedVariations": [
+        "本を読んで寝ます。",
+        "ほんをよんでねます",
+        "hon o yonde nemasu",
+        "hon o yonde nemasu."
+      ],
+      "correctFeedback": "Nice! 本を読んで寝ます is correct.",
+      "incorrectFeedback": "The correct answer is: 本を読んで寝ます (hon o yonde nemasu).",
+      "explanation": "Use て-form for the first action.",
+      "hints": ["読んで = read (te-form)", "寝ます = sleep"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "026-te-form-basics-ex-06",
+      "type": "multiple-choice",
+      "question": "Which is the correct te-form of する?",
+      "options": [
+        { "id": "a", "text": "して" },
+        { "id": "b", "text": "すて" },
+        { "id": "c", "text": "するて" },
+        { "id": "d", "text": "した" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! する → して.",
+      "incorrectFeedback": "Try again. する is irregular: して.",
+      "explanation": "Irregular te-form: する → して.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "026-te-form-basics-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I meet my friend and talk.'",
+      "correctAnswer": "友だちに会って話します",
+      "acceptedVariations": [
+        "友だちに会って話します。",
+        "ともだちにあってはなします",
+        "tomodachi ni atte hanashimasu",
+        "tomodachi ni atte hanashimasu."
+      ],
+      "correctFeedback": "Great! 友だちに会って話します is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちに会って話します (tomodachi ni atte hanashimasu).",
+      "explanation": "Use て-form (会って) to connect actions.",
+      "hints": ["会う → 会って", "話します = talk"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "026-te-form-basics-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "朝ご飯を食べて学校に行きます。",
+          "romaji": "Asagohan o tabete gakkou ni ikimasu.",
+          "english": "I eat breakfast and go to school."
+        },
+        {
+          "japanese": "本を読んで寝ます。",
+          "romaji": "Hon o yonde nemasu.",
+          "english": "I read a book and sleep."
+        },
+        {
+          "japanese": "テレビを見て休みます。",
+          "romaji": "Terebi o mite yasumimasu.",
+          "english": "I watch TV and rest."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review the て-form.",
+      "explanation": "Each sentence uses the て-form to connect actions.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "026-te-form-basics-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "ご飯を食べて行きます。" },
+        { "id": "b", "text": "本を読んで寝ます。" },
+        { "id": "c", "text": "本を読む寝ます。" },
+        { "id": "d", "text": "友だちに会って話します。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use the て-form to connect actions.",
+      "incorrectFeedback": "Try again. The て-form is needed for the first action.",
+      "explanation": "読む寝ます is incorrect; use 読んで寝ます.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "026-te-form-basics-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I watch TV and study.'",
+      "correctAnswer": "テレビを見て勉強します",
+      "acceptedVariations": [
+        "テレビを見て勉強します。",
+        "てれびをみてべんきょうします",
+        "terebi o mite benkyou shimasu",
+        "terebi o mite benkyou shimasu."
+      ],
+      "correctFeedback": "Nice! テレビを見て勉強します is correct.",
+      "incorrectFeedback": "The correct answer is: テレビを見て勉強します (terebi o mite benkyou shimasu).",
+      "explanation": "Use the て-form to connect actions.",
+      "hints": ["見て = watch (te-form)", "勉強します = study"],
+      "difficulty": "hard"
+    }
+  ]
+}

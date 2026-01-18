@@ -1,0 +1,33 @@
+{
+  "kanji": "梅",
+  "sentences": [
+    {
+      "id": "121521",
+      "japanese": "梅の花は3月に咲く。",
+      "english": "Plum blossoms come out in March."
+    },
+    {
+      "id": "165351",
+      "japanese": "私たちは梅の花で有名な水戸公園を見に行った。",
+      "english": "We visited Mito Park, which is famous for its plum blossoms."
+    },
+    {
+      "id": "3520711",
+      "japanese": "梅の花は今週が見頃です。",
+      "english": "The plum blossoms are at their best this week."
+    },
+    {
+      "id": "1774618",
+      "japanese": "彼は桜と梅を見分けられないが、それぞれを１２ヵ国語で言える。",
+      "english": "He can't tell a cherry tree from a plum tree, but he can name them in twelve languages."
+    },
+    {
+      "id": "9619245",
+      "japanese": "梅酒は、梅から作った日本のリキュールです。",
+      "english": "Umeshu is a Japanese liqueur made from plums."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:21.734Z",
+  "count": 5,
+  "fileId": "kanji-01308"
+}

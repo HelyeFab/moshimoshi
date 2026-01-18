@@ -1,0 +1,185 @@
+{
+  "grammarPointId": "045-na-adjectives-present",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "045-na-adjectives-present-ex-01",
+      "type": "multiple-choice",
+      "question": "Which word is a な-adjective?",
+      "options": [
+        { "id": "a", "text": "おいしい" },
+        { "id": "b", "text": "きれい" },
+        { "id": "c", "text": "たかい" },
+        { "id": "d", "text": "ながい" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! きれい is a な-adjective.",
+      "incorrectFeedback": "Not quite. きれい is a な-adjective even though it ends in い.",
+      "explanation": "Many な-adjectives end in い but behave differently.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "045-na-adjectives-present-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase: 'a quiet room'",
+      "options": [
+        { "id": "a", "text": "静か部屋" },
+        { "id": "b", "text": "静かな部屋" },
+        { "id": "c", "text": "静かい部屋" },
+        { "id": "d", "text": "静かの部屋" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Yes! な is required before a noun.",
+      "incorrectFeedback": "Try again. Use な before the noun.",
+      "explanation": "な-adjectives take な when modifying nouns.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "045-na-adjectives-present-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This room is quiet.'",
+      "correctAnswer": "この部屋は静かです",
+      "acceptedVariations": [
+        "この部屋は静かです。",
+        "このへやはしずかです",
+        "このへやはしずかです。",
+        "kono heya wa shizuka desu",
+        "kono heya wa shizuka desu."
+      ],
+      "correctFeedback": "Great! この部屋は静かです is correct.",
+      "incorrectFeedback": "The correct answer is: この部屋は静かです (kono heya wa shizuka desu).",
+      "explanation": "な-adjectives end a sentence with です.",
+      "hints": ["静か means quiet", "Use は after 部屋"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "045-na-adjectives-present-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "この町はきれいです。" },
+        { "id": "b", "text": "この町はきれいなです。" },
+        { "id": "c", "text": "この町はきれいですな。" },
+        { "id": "d", "text": "この町はきれいいます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use です after a な-adjective.",
+      "incorrectFeedback": "Not quite. The correct form is きれいです.",
+      "explanation": "な-adjectives use です at the end of the sentence.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "045-na-adjectives-present-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'It is a convenient store.'",
+      "correctAnswer": "便利な店です",
+      "acceptedVariations": [
+        "便利な店です。",
+        "べんりなみせです",
+        "べんりなみせです。",
+        "benri na mise desu",
+        "benri na mise desu."
+      ],
+      "correctFeedback": "Nice! 便利な店です is correct.",
+      "incorrectFeedback": "The correct answer is: 便利な店です (benri na mise desu).",
+      "explanation": "Use な before a noun with a な-adjective.",
+      "hints": ["便利 means convenient", "店 means shop"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "045-na-adjectives-present-ex-06",
+      "type": "multiple-choice",
+      "question": "Which adjective needs な before a noun?",
+      "options": [
+        { "id": "a", "text": "おもしろい" },
+        { "id": "b", "text": "たかい" },
+        { "id": "c", "text": "げんき" },
+        { "id": "d", "text": "あつい" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! げんき is a な-adjective.",
+      "incorrectFeedback": "Try again. げんき takes な before nouns.",
+      "explanation": "げんき is a な-adjective; use げんきな学生.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "045-na-adjectives-present-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a healthy student.'",
+      "correctAnswer": "元気な学生がいます",
+      "acceptedVariations": [
+        "元気な学生がいます。",
+        "げんきながくせいがいます",
+        "げんきながくせいがいます。",
+        "genki na gakusei ga imasu",
+        "genki na gakusei ga imasu."
+      ],
+      "correctFeedback": "Great! 元気な学生がいます is correct.",
+      "incorrectFeedback": "The correct answer is: 元気な学生がいます (genki na gakusei ga imasu).",
+      "explanation": "Use な to connect the adjective to the noun.",
+      "hints": ["元気 means healthy/energetic", "Use が for the subject"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "045-na-adjectives-present-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "この店は便利です。",
+          "romaji": "Kono mise wa benri desu.",
+          "english": "This shop is convenient."
+        },
+        {
+          "japanese": "静かな部屋です。",
+          "romaji": "Shizuka na heya desu.",
+          "english": "It is a quiet room."
+        },
+        {
+          "japanese": "きれいな町です。",
+          "romaji": "Kirei na machi desu.",
+          "english": "It is a beautiful town."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review how な connects to nouns.",
+      "explanation": "Each sentence uses a な-adjective.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "045-na-adjectives-present-ex-09",
+      "type": "multiple-choice",
+      "question": "Which phrase is correct for 'a clean room'?",
+      "options": [
+        { "id": "a", "text": "きれい部屋" },
+        { "id": "b", "text": "きれいな部屋" },
+        { "id": "c", "text": "きれいの部屋" },
+        { "id": "d", "text": "きれい部屋です" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! きれいな部屋 is the right form.",
+      "incorrectFeedback": "Try again. Use な before the noun.",
+      "explanation": "な-adjectives require な to modify nouns.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "045-na-adjectives-present-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This town is famous.'",
+      "correctAnswer": "この町は有名です",
+      "acceptedVariations": [
+        "この町は有名です。",
+        "このまちはゆうめいです",
+        "このまちはゆうめいです。",
+        "kono machi wa yuumei desu",
+        "kono machi wa yuumei desu."
+      ],
+      "correctFeedback": "Nice! この町は有名です is correct.",
+      "incorrectFeedback": "The correct answer is: この町は有名です (kono machi wa yuumei desu).",
+      "explanation": "有名 is a な-adjective used with です.",
+      "hints": ["有名 means famous", "Use は after 町"],
+      "difficulty": "hard"
+    }
+  ]
+}

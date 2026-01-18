@@ -1,0 +1,33 @@
+{
+  "kanji": "段",
+  "sentences": [
+    {
+      "id": "184358",
+      "japanese": "学校を一歩出ると、住む家のない人々が段ボール箱を家代わりにして生活している様子が目にはいった。",
+      "english": "Outside the school, she saw people with no homes living in cardboard boxes."
+    },
+    {
+      "id": "199862",
+      "japanese": "トムは段々よくなっている。",
+      "english": "Tom is getting better."
+    },
+    {
+      "id": "75237",
+      "japanese": "多くの言語で辞書形の語尾が決まっており、日本語ではう段の文字で終わる。",
+      "english": "In many languages the way dictionary-form words end is fixed; in Japanese they end in a 'u row' character."
+    },
+    {
+      "id": "121832",
+      "japanese": "年をとるにつれて記憶力は段々衰える。",
+      "english": "As we grow older, our memory becomes weaker."
+    },
+    {
+      "id": "127282",
+      "japanese": "段々暗くなっていきます。",
+      "english": "It's getting darker little by little."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.440Z",
+  "count": 5,
+  "fileId": "kanji-00615"
+}

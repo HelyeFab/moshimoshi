@@ -1,0 +1,55 @@
+{
+  "id": "289-n4-point-89",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～たら どうですか (〜tara doudesuka)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～たら どうですか grammar point is used to make a suggestion or give advice to someone. It can be translated as 'what if', 'how about', or 'why don't you' in English. This structure is used with the た-form of verbs to make a gentle, polite suggestion.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-た form + ら どうですか",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "スキーに行ったらどうですか？",
+      "romaji": "Sukii ni ittara doudesuka?",
+      "english": "How about going skiing?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "少し休んだらどうですか？",
+      "romaji": "Sukoshi yasundara doudesuka?",
+      "english": "What if you take a little break?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この本を読んだらどうですか？",
+      "romaji": "Kono hon wo yondara doudesuka?",
+      "english": "Why don't you read this book?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "タクシーで帰ったらどうですか？",
+      "romaji": "Takushii de kaettara doudesuka?",
+      "english": "How about going home by taxi?",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

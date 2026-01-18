@@ -1,0 +1,33 @@
+{
+  "kanji": "側",
+  "sentences": [
+    {
+      "id": "5046",
+      "japanese": "君が側にいてくれれば何もいらない。",
+      "english": "You're by my side; everything's fine now."
+    },
+    {
+      "id": "180292",
+      "japanese": "教会はちょうど通りの向こう側にある。",
+      "english": "The church is just across the street."
+    },
+    {
+      "id": "182760",
+      "japanese": "丘の向こう側に美しい谷がある。",
+      "english": "A beautiful valley lies behind the hill."
+    },
+    {
+      "id": "183377",
+      "japanese": "機が熟したら、大胆に突き進むべきだ。僕が側にいる。",
+      "english": "When the time is ripe, be bold and go for it! I'll stand by you."
+    },
+    {
+      "id": "184385",
+      "japanese": "学校は川のこちら側ですか。",
+      "english": "Is the school on this side of the river?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.740Z",
+  "count": 5,
+  "fileId": "kanji-00566"
+}

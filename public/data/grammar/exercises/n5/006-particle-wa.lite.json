@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "006-particle-wa",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "006-particle-wa-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 私＿＿日本人です。",
+      "questionRomaji": "Watashi __ nihonjin desu.",
+      "options": [
+        {
+          "id": "a",
+          "text": "は",
+          "romaji": "wa"
+        },
+        {
+          "id": "b",
+          "text": "が",
+          "romaji": "ga"
+        },
+        {
+          "id": "c",
+          "text": "を",
+          "romaji": "o"
+        },
+        {
+          "id": "d",
+          "text": "に",
+          "romaji": "ni"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! は marks the topic.",
+      "incorrectFeedback": "Not quite. Use は to mark the topic.",
+      "explanation": "The topic in a basic statement uses は.",
+      "difficulty": "easy"
+    }
+  ]
+}

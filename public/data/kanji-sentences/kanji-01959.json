@@ -1,0 +1,33 @@
+{
+  "kanji": "渇",
+  "sentences": [
+    {
+      "id": "5184",
+      "japanese": "喉が渇いた。",
+      "english": "I'm thirsty."
+    },
+    {
+      "id": "198563",
+      "japanese": "喉が渇きました。",
+      "english": "I'm thirsty."
+    },
+    {
+      "id": "2999617",
+      "japanese": "のどが渇いた。",
+      "english": "I'm thirsty."
+    },
+    {
+      "id": "3759421",
+      "japanese": "のど渇いた。",
+      "english": "I'm thirsty."
+    },
+    {
+      "id": "179307",
+      "japanese": "空腹でのどの渇きを覚え、私たちはようやく宿に着いた。",
+      "english": "Hungry and thirsty, we at last reached the inn."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:44.165Z",
+  "count": 5,
+  "fileId": "kanji-01959"
+}

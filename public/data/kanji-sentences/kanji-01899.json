@@ -1,0 +1,33 @@
+{
+  "kanji": "刈",
+  "sentences": [
+    {
+      "id": "177009",
+      "japanese": "君は髪の毛を刈ってもらったほうがいい。",
+      "english": "You should get your hair cut."
+    },
+    {
+      "id": "177786",
+      "japanese": "君はすぐ頭を刈ってもらったほうがいい。",
+      "english": "You'd better have your hair cut at once."
+    },
+    {
+      "id": "177934",
+      "japanese": "君はいつか自分でまいた種を刈り取らなければならないだろう。",
+      "english": "Some day you will have to reap the harvest of your own sowing."
+    },
+    {
+      "id": "184059",
+      "japanese": "刈られた草の匂いは暑い夏の午後のイメージを想い浮かばせる。",
+      "english": "The smell of cut grass summons up images of hot summer afternoons."
+    },
+    {
+      "id": "186434",
+      "japanese": "我が家は大きくなく、敷地は３分の２エーカーである。それを買った頃は毎週何時間もかけて芝刈り機を直し、芝を刈った。そうした手順でいつもやったのである。",
+      "english": "The house isn't huge and it's on about two-thirds of an acre, and when we first bought it I spent several hours every week getting the lawnmower fixed and cutting the lawn, in that order."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:41.464Z",
+  "count": 5,
+  "fileId": "kanji-01899"
+}

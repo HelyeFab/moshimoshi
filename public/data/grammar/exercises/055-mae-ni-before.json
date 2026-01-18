@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "055-mae-ni-before",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "055-mae-ni-before-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct form: 寝る__本を読みます。",
+      "options": [
+        { "id": "a", "text": "前に" },
+        { "id": "b", "text": "後で" },
+        { "id": "c", "text": "まで" },
+        { "id": "d", "text": "から" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 寝る前に is 'before sleeping.'",
+      "incorrectFeedback": "Not quite. Use 前に for 'before.'",
+      "explanation": "前に means 'before.'",
+      "difficulty": "easy"
+    },
+    {
+      "id": "055-mae-ni-before-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "授業の前に勉強します。" },
+        { "id": "b", "text": "授業前に勉強します。" },
+        { "id": "c", "text": "授業に前に勉強します。" },
+        { "id": "d", "text": "授業で前に勉強します。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use の before 前に with nouns.",
+      "incorrectFeedback": "Try again. Nouns need の before 前に.",
+      "explanation": "Noun + の + 前に.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "055-mae-ni-before-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I call before going out.'",
+      "correctAnswer": "出かける前に電話します",
+      "acceptedVariations": [
+        "出かける前に電話します。",
+        "でかけるまえにでんわします",
+        "dekakeru mae ni denwa shimasu",
+        "dekakeru mae ni denwa shimasu."
+      ],
+      "correctFeedback": "Great! 出かける前に電話します is correct.",
+      "incorrectFeedback": "The correct answer is: 出かける前に電話します (dekakeru mae ni denwa shimasu).",
+      "explanation": "Use dictionary form before 前に.",
+      "hints": ["出かける = go out", "電話します = call"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "055-mae-ni-before-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct form: 食べる__手を洗います。",
+      "options": [
+        { "id": "a", "text": "前に" },
+        { "id": "b", "text": "後で" },
+        { "id": "c", "text": "から" },
+        { "id": "d", "text": "まで" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 食べる前に.",
+      "incorrectFeedback": "Not quite. Use 前に for 'before.'",
+      "explanation": "Verb dictionary form + 前に.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "055-mae-ni-before-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I study before class.'",
+      "correctAnswer": "授業の前に勉強します",
+      "acceptedVariations": [
+        "授業の前に勉強します。",
+        "じゅぎょうのまえにべんきょうします",
+        "jugyou no mae ni benkyou shimasu",
+        "jugyou no mae ni benkyou shimasu."
+      ],
+      "correctFeedback": "Nice! 授業の前に勉強します is correct.",
+      "incorrectFeedback": "The correct answer is: 授業の前に勉強します (jugyou no mae ni benkyou shimasu).",
+      "explanation": "Noun + の + 前に.",
+      "hints": ["授業 = class", "勉強します = study"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "055-mae-ni-before-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "寝る前に本を読みます。" },
+        { "id": "b", "text": "出かける前に電話します。" },
+        { "id": "c", "text": "授業前に勉強します。" },
+        { "id": "d", "text": "ご飯の前に手を洗います。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use 授業の前に with nouns.",
+      "incorrectFeedback": "Try again. Nouns need の before 前に.",
+      "explanation": "授業 is a noun, so add の.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "055-mae-ni-before-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I read a book before sleeping.'",
+      "correctAnswer": "寝る前に本を読みます",
+      "acceptedVariations": [
+        "寝る前に本を読みます。",
+        "ねるまえにほんをよみます",
+        "neru mae ni hon o yomimasu",
+        "neru mae ni hon o yomimasu."
+      ],
+      "correctFeedback": "Great! 寝る前に本を読みます is correct.",
+      "incorrectFeedback": "The correct answer is: 寝る前に本を読みます (neru mae ni hon o yomimasu).",
+      "explanation": "Use dictionary form before 前に.",
+      "hints": ["寝る = sleep", "本を読みます = read a book"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "055-mae-ni-before-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "寝る前に本を読みます。",
+          "romaji": "Neru mae ni hon o yomimasu.",
+          "english": "I read a book before sleeping."
+        },
+        {
+          "japanese": "授業の前に勉強します。",
+          "romaji": "Jugyou no mae ni benkyou shimasu.",
+          "english": "I study before class."
+        },
+        {
+          "japanese": "出かける前に電話します。",
+          "romaji": "Dekakeru mae ni denwa shimasu.",
+          "english": "I call before going out."
+        }
+      ],
+      "correctFeedback": "Perfect! All use 前に.",
+      "incorrectFeedback": "Not quite. Review 前に usage.",
+      "explanation": "前に marks the earlier action or time.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "055-mae-ni-before-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'before meals'?",
+      "options": [
+        { "id": "a", "text": "ご飯の前に" },
+        { "id": "b", "text": "ご飯前に" },
+        { "id": "c", "text": "ご飯に前に" },
+        { "id": "d", "text": "ご飯を前に" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ご飯の前に.",
+      "incorrectFeedback": "Try again. Nouns need の before 前に.",
+      "explanation": "Noun + の + 前に.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "055-mae-ni-before-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I wash my hands before meals.'",
+      "correctAnswer": "ご飯の前に手を洗います",
+      "acceptedVariations": [
+        "ご飯の前に手を洗います。",
+        "ごはんのまえにてをあらいます",
+        "gohan no mae ni te o araimasu",
+        "gohan no mae ni te o araimasu."
+      ],
+      "correctFeedback": "Nice! ご飯の前に手を洗います is correct.",
+      "incorrectFeedback": "The correct answer is: ご飯の前に手を洗います (gohan no mae ni te o araimasu).",
+      "explanation": "Use の before 前に with nouns.",
+      "hints": ["ご飯 = meal", "手を洗います = wash hands"],
+      "difficulty": "hard"
+    }
+  ]
+}

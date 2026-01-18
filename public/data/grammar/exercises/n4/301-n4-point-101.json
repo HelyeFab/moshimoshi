@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "301-n4-point-101",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "301-n4-point-101-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"I think/believe\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～と思う",
+          "romaji": "~to omou"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! ～と思う matches \"I think/believe\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～と思う.",
+      "explanation": "Used to state your opinion or what you think about something.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "301-n4-point-101-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～と思う.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "I think/believe"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～と思う means \"I think/believe\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"I think/believe\".",
+      "explanation": "Used to state your opinion or what you think about something.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "301-n4-point-101-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～と思う.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "~to omou"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ~to omou is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~to omou.",
+      "explanation": "Used to state your opinion or what you think about something.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "301-n4-point-101-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～と思う?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Used to state your opinion or what you think about something."
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to state your opinion or what you think about something.",
+      "explanation": "Used to state your opinion or what you think about something.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "301-n4-point-101-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"I think/believe\".",
+      "correctAnswer": "～と思う",
+      "acceptedVariations": [
+        "～と思う",
+        "～と思う"
+      ],
+      "correctFeedback": "Nice! ～と思う is correct.",
+      "incorrectFeedback": "The correct pattern is: ～と思う (~to omou).",
+      "explanation": "Used to state your opinion or what you think about something.",
+      "hints": [
+        "~to omou",
+        "Used to state your opinion or what you think about something."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "301-n4-point-101-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～と思う.",
+      "correctAnswer": "~to omou",
+      "acceptedVariations": [
+        "~to omou",
+        "~to omou"
+      ],
+      "correctFeedback": "Nice! ~to omou is correct.",
+      "incorrectFeedback": "The correct romaji is: ~to omou.",
+      "explanation": "Used to state your opinion or what you think about something.",
+      "hints": [
+        "Used to state your opinion or what you think about something."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "301-n4-point-101-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～と思う.",
+      "correctAnswer": "I think/believe",
+      "acceptedVariations": [
+        "I think/believe",
+        "i think/believe"
+      ],
+      "correctFeedback": "Correct! \"I think/believe\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"I think/believe\".",
+      "explanation": "Used to state your opinion or what you think about something.",
+      "hints": [
+        "Used to state your opinion or what you think about something."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "301-n4-point-101-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～と思う",
+          "romaji": "~to omou",
+          "english": "I think/believe"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to state your opinion or what you think about something.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "301-n4-point-101-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to state your opinion or what you think about something..",
+      "options": [
+        {
+          "id": "a",
+          "text": "～と思う",
+          "romaji": "~to omou"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ～と思う matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～と思う.",
+      "explanation": "Used to state your opinion or what you think about something.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "301-n4-point-101-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～と思う",
+      "acceptedVariations": [
+        "～と思う",
+        "～と思う"
+      ],
+      "correctFeedback": "Great! ～と思う is correct.",
+      "incorrectFeedback": "The correct pattern is: ～と思う.",
+      "explanation": "Used to state your opinion or what you think about something.",
+      "hints": [
+        "~to omou"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

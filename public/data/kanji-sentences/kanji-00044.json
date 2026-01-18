@@ -1,0 +1,33 @@
+{
+  "kanji": "川",
+  "sentences": [
+    {
+      "id": "177830",
+      "japanese": "君はこの川を泳いで渡れますか。",
+      "english": "Can you swim across the river?"
+    },
+    {
+      "id": "232928",
+      "japanese": "あなたは、泳いで川を渡ることができますのか。",
+      "english": "Can you swim across the river?"
+    },
+    {
+      "id": "179176",
+      "japanese": "君がこの川で泳ぐのは危険です。",
+      "english": "It is dangerous for you to swim in this river."
+    },
+    {
+      "id": "179265",
+      "japanese": "隅田川はもはや泳ぐのに適した川ではありません。",
+      "english": "The Sumida is not a good river for us to swim in any more."
+    },
+    {
+      "id": "179488",
+      "japanese": "空から見ると川は巨大な蛇のように見えた。",
+      "english": "Seen from the sky, the river looked like a huge snake."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.704Z",
+  "count": 5,
+  "fileId": "kanji-00044"
+}

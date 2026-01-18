@@ -1,0 +1,23 @@
+{
+  "kanji": "没",
+  "sentences": [
+    {
+      "id": "138083",
+      "japanese": "太陽は地平線下に没した。",
+      "english": "The sun went below the horizon."
+    },
+    {
+      "id": "138093",
+      "japanese": "太陽は西に没する。",
+      "english": "The sun sets in the west."
+    },
+    {
+      "id": "175673",
+      "japanese": "月が没した。",
+      "english": "The moon has gone down."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:26.444Z",
+  "count": 3,
+  "fileId": "kanji-01465"
+}

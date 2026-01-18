@@ -1,0 +1,33 @@
+{
+  "kanji": "一",
+  "sentences": [
+    {
+      "id": "537071",
+      "japanese": "この世界は本で、旅しない人は一ページしか読まない。",
+      "english": "The world is a book, and those who do not travel read only a page."
+    },
+    {
+      "id": "177958",
+      "japanese": "君はあのとき一か八かやってみるべきだったのに。",
+      "english": "You should have taken a chance then."
+    },
+    {
+      "id": "178637",
+      "japanese": "君に一つ忠告しておきたい。",
+      "english": "Let me give you a bit of advice."
+    },
+    {
+      "id": "178639",
+      "japanese": "君によいニュースが一つある。",
+      "english": "There is a piece of good news for you."
+    },
+    {
+      "id": "179079",
+      "japanese": "君が一つの形式に拘っている限り、素晴らしい考えを思い付くことはできない。",
+      "english": "As long as you stick to one style, you can't hit upon a wonderful idea."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.240Z",
+  "count": 5,
+  "fileId": "kanji-00001"
+}

@@ -88,7 +88,7 @@ export default function WordExplanationModal({
   const [selectedKanji, setSelectedKanji] = useState<Kanji | null>(null)
   const [kanjiModalOpen, setKanjiModalOpen] = useState(false)
 
-  const { play, playing, currentText } = useTTS()
+  const { play, preload, playing, currentText } = useTTS()
   const {
     translateText,
     isLoading: translationLoading,
@@ -198,6 +198,17 @@ export default function WordExplanationModal({
       loadTatoebaExamples()
     }
   }, [isOpen, word])
+
+  useEffect(() => {
+    if (!isOpen || tatoebaExamples.length === 0) return
+    const texts = tatoebaExamples
+      .map(example => example.japanese)
+      .filter(Boolean)
+      .slice(0, 5)
+    if (texts.length > 0) {
+      preload(texts, { voice: ttsVoice, speed: 0.85 })
+    }
+  }, [isOpen, tatoebaExamples, preload, ttsVoice])
 
   // ============================================
   // Render Helpers

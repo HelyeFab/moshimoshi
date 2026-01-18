@@ -1,0 +1,33 @@
+{
+  "kanji": "月",
+  "sentences": [
+    {
+      "id": "4705",
+      "japanese": "今日は６月１８日で、ムーリエルの誕生日です！",
+      "english": "Today is June 18th and it is Muiriel's birthday!"
+    },
+    {
+      "id": "12482301",
+      "japanese": "今夜は月が綺麗ですね。",
+      "english": "I love you."
+    },
+    {
+      "id": "4895",
+      "japanese": "明日、彼は月に着陸する。",
+      "english": "Tomorrow, he will land on the moon."
+    },
+    {
+      "id": "138766",
+      "japanese": "あなたはいつか人類が月に植民すると思いますか。",
+      "english": "Do you think mankind will someday colonize the Moon?"
+    },
+    {
+      "id": "122039",
+      "japanese": "妊娠４か月です。",
+      "english": "I am four months pregnant."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.503Z",
+  "count": 5,
+  "fileId": "kanji-00029"
+}

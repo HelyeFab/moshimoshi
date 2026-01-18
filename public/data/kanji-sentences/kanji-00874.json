@@ -1,0 +1,33 @@
+{
+  "kanji": "湿",
+  "sentences": [
+    {
+      "id": "179379",
+      "japanese": "空気は穏やかで、土には湿り気がある。",
+      "english": "The air is soft, the soil moist."
+    },
+    {
+      "id": "185136",
+      "japanese": "海からの風は湿っている。",
+      "english": "Winds from the sea are moist."
+    },
+    {
+      "id": "188737",
+      "japanese": "煙草を湿らないようにしておきなさい。",
+      "english": "Keep your cigarettes dry."
+    },
+    {
+      "id": "220364",
+      "japanese": "この土は最近の雨のために湿っている。",
+      "english": "This earth is moist owing to the recent rain."
+    },
+    {
+      "id": "223136",
+      "japanese": "このマッチは湿っていて火がつかない。",
+      "english": "This damp match won't light."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.088Z",
+  "count": 5,
+  "fileId": "kanji-00874"
+}

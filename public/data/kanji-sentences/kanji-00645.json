@@ -1,0 +1,33 @@
+{
+  "kanji": "羽",
+  "sentences": [
+    {
+      "id": "189853",
+      "japanese": "羽は鳥に固有のものだ。",
+      "english": "Feathers are peculiar to birds."
+    },
+    {
+      "id": "189854",
+      "japanese": "羽に深い傷を負った小鳥を見つけました。",
+      "english": "I found a bird whose wing was severely damaged."
+    },
+    {
+      "id": "203602",
+      "japanese": "ダチョウは羽があるが飛べない。",
+      "english": "The ostrich has wings, but it cannot fly."
+    },
+    {
+      "id": "207755",
+      "japanese": "その鳥は白い羽に覆われていた。",
+      "english": "The bird was covered with white feathers."
+    },
+    {
+      "id": "207761",
+      "japanese": "その鳥は羽を震わせた。",
+      "english": "The bird quivered its wings."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.119Z",
+  "count": 5,
+  "fileId": "kanji-00645"
+}

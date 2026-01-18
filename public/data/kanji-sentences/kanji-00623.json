@@ -1,0 +1,33 @@
+{
+  "kanji": "布",
+  "sentences": [
+    {
+      "id": "196480",
+      "japanese": "ボールは何でできていたのでしょう。何千年も前には、エジプト人はボールを柔らかい革か布で作っていました。",
+      "english": "What were the balls made of? Thousands of years ago, the Egyptians made balls out of soft leather or cloth."
+    },
+    {
+      "id": "199217",
+      "japanese": "なぜはさみで布を切らずに裂いたの。",
+      "english": "Why did you tear the cloth instead of cutting it with scissors?"
+    },
+    {
+      "id": "209213",
+      "japanese": "その少女はその布を裂いた。",
+      "english": "The girl tore the cloth."
+    },
+    {
+      "id": "220074",
+      "japanese": "この布は裂けやすい。",
+      "english": "This cloth tears easily."
+    },
+    {
+      "id": "220085",
+      "japanese": "この布はすぐ破ける。",
+      "english": "This cloth tears easily."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.563Z",
+  "count": 5,
+  "fileId": "kanji-00623"
+}

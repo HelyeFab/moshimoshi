@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "030-mashou-lets",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "030-mashou-lets-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct 'let's' form: 行きます → ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "行きましょう"
+        },
+        {
+          "id": "b",
+          "text": "行きません"
+        },
+        {
+          "id": "c",
+          "text": "行きました"
+        },
+        {
+          "id": "d",
+          "text": "行くましょう"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行きましょう means 'let's go.'",
+      "incorrectFeedback": "Not quite. Replace ます with ましょう.",
+      "explanation": "ます → ましょう for suggestions.",
+      "difficulty": "easy"
+    }
+  ]
+}

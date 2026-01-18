@@ -21,6 +21,7 @@ export interface Decision {
   resetAtUtc?: string;
   limit?: number;
   usageBefore?: number;
+  incremented?: boolean;
 }
 
 export interface CheckOptions {
@@ -404,7 +405,11 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
       }
 
       const decision: Decision = await response.json();
-      updateUsageSnapshotFromDecision(featureId, decision, true);
+      updateUsageSnapshotFromDecision(
+        featureId,
+        decision,
+        decision.incremented ?? true
+      );
       setRemaining(decision.remaining);
       setLastDecision(decision);
       

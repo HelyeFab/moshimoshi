@@ -1,0 +1,33 @@
+{
+  "kanji": "正",
+  "sentences": [
+    {
+      "id": "182286",
+      "japanese": "おまえってほんとに正しい優先順位がわかってないな。",
+      "english": "You really don't have the right priorities!"
+    },
+    {
+      "id": "1643712",
+      "japanese": "ユーザー名とパスワードが正しく入力されていることを確認してください。",
+      "english": "Check that your username and password are written correctly."
+    },
+    {
+      "id": "5188",
+      "japanese": "あなたは正しい。",
+      "english": "You're right."
+    },
+    {
+      "id": "177111",
+      "japanese": "君は正しいと思いますが。",
+      "english": "I should think you are right."
+    },
+    {
+      "id": "177112",
+      "japanese": "君は正しいかもしれないが私は君の意見に反対する。",
+      "english": "You may be right, but I am against your opinion."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.885Z",
+  "count": 5,
+  "fileId": "kanji-00202"
+}

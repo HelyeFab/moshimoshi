@@ -1,0 +1,33 @@
+{
+  "kanji": "神",
+  "sentences": [
+    {
+      "id": "144923",
+      "japanese": "神の存在を信じますか。",
+      "english": "Do you believe in God?"
+    },
+    {
+      "id": "144925",
+      "japanese": "神の実在を信じますか。",
+      "english": "Do you believe in God?"
+    },
+    {
+      "id": "177124",
+      "japanese": "君は神を信じますか。",
+      "english": "Do you believe in God?"
+    },
+    {
+      "id": "180300",
+      "japanese": "教会に行く人はみんな神を信じています。",
+      "english": "Whoever goes to church believes in God."
+    },
+    {
+      "id": "183745",
+      "japanese": "間違いをするのが人間で、許すのは神だ。",
+      "english": "To err is human, to forgive divine."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.357Z",
+  "count": 5,
+  "fileId": "kanji-00462"
+}

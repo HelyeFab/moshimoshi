@@ -1,0 +1,33 @@
+{
+  "kanji": "発",
+  "sentences": [
+    {
+      "id": "117859",
+      "japanese": "彼の感動は大きくて一言も発することはできなかった。",
+      "english": "So great was his emotion that he could not utter a word."
+    },
+    {
+      "id": "183911",
+      "japanese": "感動のあまり、彼は一言も発することができなかった。",
+      "english": "So great was his emotion that he could not utter a word."
+    },
+    {
+      "id": "186609",
+      "japanese": "花は大変心地良い香りを発する。",
+      "english": "The flowers give off a very pleasant scent."
+    },
+    {
+      "id": "190331",
+      "japanese": "一度ここを発つと、再び戻ることはできない。",
+      "english": "Once you leave here, you can't come back again."
+    },
+    {
+      "id": "192845",
+      "japanese": "ヨーロッパへ発つ前に君に会いたいモノだ。",
+      "english": "I'd like to see you before I leave for Europe."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.521Z",
+  "count": 5,
+  "fileId": "kanji-00175"
+}

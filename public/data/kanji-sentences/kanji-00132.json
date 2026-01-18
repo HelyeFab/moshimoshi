@@ -1,0 +1,33 @@
+{
+  "kanji": "夏",
+  "sentences": [
+    {
+      "id": "179225",
+      "japanese": "熊はまた、２４時間明るい夏は当てはまらないが、夜よりも昼に寝る傾向がある。夜活動するのはアザラシの行動と関係があるだろう。",
+      "english": "Bears also tend to sleep more during the day than at night, although in the summer, with twenty-four hours of light, this does not apply."
+    },
+    {
+      "id": "181788",
+      "japanese": "京都の夏はとても暑い。",
+      "english": "Summers are very hot in Kyoto."
+    },
+    {
+      "id": "182223",
+      "japanese": "去年の夏、父の田舎に行きました。",
+      "english": "I visited my father's hometown last summer."
+    },
+    {
+      "id": "182225",
+      "japanese": "去年の夏、私は農場でアルバイトをした。",
+      "english": "Last summer, I worked part time on the farm."
+    },
+    {
+      "id": "182239",
+      "japanese": "去年の夏はイタリアへ旅行した。",
+      "english": "Last summer I traveled to Italy."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.032Z",
+  "count": 5,
+  "fileId": "kanji-00132"
+}

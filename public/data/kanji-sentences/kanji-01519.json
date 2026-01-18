@@ -1,0 +1,33 @@
+{
+  "kanji": "菌",
+  "sentences": [
+    {
+      "id": "198600",
+      "japanese": "ねずみはペスト菌を運ぶ。",
+      "english": "Rats carry the plague."
+    },
+    {
+      "id": "208878",
+      "japanese": "その食品の中からコレラ菌が検出された。",
+      "english": "Cholera germs were found in the food."
+    },
+    {
+      "id": "229400",
+      "japanese": "イースト菌がパン生地を膨らます。",
+      "english": "Yeast makes dough rise."
+    },
+    {
+      "id": "229399",
+      "japanese": "イースト菌はパンを膨らませる際の作用剤だ。",
+      "english": "Yeast acts as an agent in making bread rise."
+    },
+    {
+      "id": "756975",
+      "japanese": "乳酸菌はかなりしぶとい菌で、冷凍しても単に冬眠するだけで、解凍すればそのまま復活させることができます。",
+      "english": "Lactic-acid bacilli are such unyielding bacteria that, even if frozen, they would simply hibernate and can restore themselves as if they came back to life."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:28.174Z",
+  "count": 5,
+  "fileId": "kanji-01519"
+}

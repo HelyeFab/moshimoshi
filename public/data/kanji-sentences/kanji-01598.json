@@ -1,0 +1,33 @@
+{
+  "kanji": "駒",
+  "sentences": [
+    {
+      "id": "75036",
+      "japanese": "僕はボードの上の駒を一つ前に進めた。",
+      "english": "I moved a chess piece on the board one forward."
+    },
+    {
+      "id": "85367",
+      "japanese": "瓢箪から駒って言うのかな、知人の紹介で就職決まっちゃったんだよ。",
+      "english": "I just got a great job because of an introduction from a friend. Sometimes things happen when you least expect it."
+    },
+    {
+      "id": "122589",
+      "japanese": "日本の将棋には何種類の駒がありますか。",
+      "english": "How many different pieces are there in Japanese chess?"
+    },
+    {
+      "id": "8980522",
+      "japanese": "チェスしてるよ。私、もう彼の駒を4つ取ったよ。",
+      "english": "We're playing chess. I already took four of his pieces."
+    },
+    {
+      "id": "8980526",
+      "japanese": "チェスをしてるんだ。僕、もう相手の駒4つも取ったんだ。",
+      "english": "We're playing chess. I already took four of his pieces."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.327Z",
+  "count": 5,
+  "fileId": "kanji-01598"
+}

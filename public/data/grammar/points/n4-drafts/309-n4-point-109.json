@@ -1,0 +1,55 @@
+{
+  "id": "309-n4-point-109",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～に (〜ni)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～に grammar point is one of the most versatile Japanese particles. It is commonly used to indicate the direction or destination of an action, to show the purpose of an action or item, or to specify a point in time. Depending on the context, it can be translated as 'to', 'at', 'in', 'on', or 'for' in English.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + に",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "母は私にケーキを作りました。",
+      "romaji": "Haha wa watashi ni keiki wo tsukurimashita.",
+      "english": "My mother made a cake for me.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は東京に引っ越しました。",
+      "romaji": "Kanojo wa Toukyou ni hikkoshimashita.",
+      "english": "She moved to Tokyo.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "銀行にお金を預けます。",
+      "romaji": "Ginkou ni okane wo azukemasu.",
+      "english": "I deposit money in the bank.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "私は７時に起きます。",
+      "romaji": "Watashi wa shichi ji ni okimasu.",
+      "english": "I wake up at 7 o'clock.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "id": "065-hou-ga-more-than",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜の方が〜",
+    "romaji": "-no hou ga -",
+    "en": "〜の方が〜 (more than)"
+  },
+  "jlptLevel": "N5",
+  "category": "comparisons",
+  "explanation": {
+    "en": "〜の方が〜 means “A is more … than B.” It is often used with より to make clear comparisons: “A のほうが B より …”\n\nKey points:\n• A のほうが B より + adjective\n• のほうが highlights A as the stronger choice\n• Often used with より together\n• Very common in spoken Japanese\n\nExample: “犬のほうが猫より大きいです” means “Dogs are bigger than cats.”\n\nYou can also use のほうが without より if the comparison is clear: “電車のほうが早いです” (Trains are faster).\n\nThis pattern helps emphasize which one is more. It is useful for opinions and preferences too: “コーヒーのほうが好きです.”\n\nPractice with simple pairs: りんごとみかん, 夏と冬, 日本語と英語.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "A のほうが B より + Adjective",
+    "components": [
+      {
+        "part": "A のほうが",
+        "explanation": "The thing that is more",
+        "examples": ["犬のほうが", "電車のほうが", "この本のほうが"]
+      },
+      {
+        "part": "B より",
+        "explanation": "The comparison target",
+        "examples": ["猫より", "バスより", "あの本より"]
+      },
+      {
+        "part": "Adjective",
+        "explanation": "Comparison adjective",
+        "examples": ["大きいです", "早いです", "安いです"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "犬のほうが猫より大きいです。",
+      "romaji": "Inu no hou ga neko yori ookii desu.",
+      "english": "Dogs are bigger than cats.",
+      "breakdown": {
+        "犬": "dog",
+        "のほうが": "is more",
+        "猫": "cat",
+        "より": "than",
+        "大きい": "big",
+        "です": "polite ending"
+      },
+      "notes": "Clear comparison"
+    },
+    {
+      "japanese": "電車のほうがバスより早いです。",
+      "romaji": "Densha no hou ga basu yori hayai desu.",
+      "english": "Trains are faster than buses.",
+      "breakdown": {
+        "電車": "train",
+        "のほうが": "is more",
+        "バス": "bus",
+        "より": "than",
+        "早い": "fast",
+        "です": "polite ending"
+      },
+      "notes": "Speed comparison"
+    },
+    {
+      "japanese": "この本のほうがあの本より安いです。",
+      "romaji": "Kono hon no hou ga ano hon yori yasui desu.",
+      "english": "This book is cheaper than that book.",
+      "breakdown": {
+        "この": "this",
+        "本": "book",
+        "のほうが": "is more",
+        "あの": "that",
+        "本": "book",
+        "より": "than",
+        "安い": "cheap",
+        "です": "polite ending"
+      },
+      "notes": "Price comparison"
+    },
+    {
+      "japanese": "夏のほうが冬より好きです。",
+      "romaji": "Natsu no hou ga fuyu yori suki desu.",
+      "english": "I like summer more than winter.",
+      "breakdown": {
+        "夏": "summer",
+        "のほうが": "is more",
+        "冬": "winter",
+        "より": "than",
+        "好き": "like",
+        "です": "polite ending"
+      },
+      "notes": "Preference"
+    }
+  ],
+  "relatedPoints": [
+    "064-yori-than",
+    "066-ichiban-most"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Dropping の before ほうが",
+      "correction": "Use のほうが after the noun",
+      "example": "❌ 犬ほうが大きい → ✅ 犬のほうが大きい"
+    },
+    {
+      "mistake": "Placing より before A",
+      "correction": "B より comes after the comparison target",
+      "example": "❌ より猫犬のほうが大きい → ✅ 犬のほうが猫より大きい"
+    }
+  ],
+  "tags": ["comparison", "houga", "beginner"]
+}

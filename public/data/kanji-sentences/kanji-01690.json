@@ -1,0 +1,33 @@
+{
+  "kanji": "帆",
+  "sentences": [
+    {
+      "id": "180509",
+      "japanese": "強い風を受けて帆がぴんと張った。",
+      "english": "The sail tightened in the strong wind."
+    },
+    {
+      "id": "190440",
+      "japanese": "一陣の風をうけて帆がふくらんだ。",
+      "english": "A gust of wind swelled the sails."
+    },
+    {
+      "id": "84006",
+      "japanese": "風は帆に向かって吹く。",
+      "english": "The wind blows against the sails."
+    },
+    {
+      "id": "121231",
+      "japanese": "帆は全部下ろされた。",
+      "english": "All the sails were taken down."
+    },
+    {
+      "id": "121232",
+      "japanese": "帆が風にはためいた。",
+      "english": "The sails fluttered in the wind."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:33.412Z",
+  "count": 5,
+  "fileId": "kanji-01690"
+}

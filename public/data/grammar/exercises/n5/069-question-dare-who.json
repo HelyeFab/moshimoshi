@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "069-question-dare-who",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "069-question-dare-who-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: あの人は__ですか。",
+      "options": [
+        { "id": "a", "text": "誰" },
+        { "id": "b", "text": "何" },
+        { "id": "c", "text": "どこ" },
+        { "id": "d", "text": "いつ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 誰 means 'who.'",
+      "incorrectFeedback": "Not quite. 誰 is used for people.",
+      "explanation": "誰 asks about people.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "069-question-dare-who-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "誰が先生ですか。" },
+        { "id": "b", "text": "誰を先生ですか。" },
+        { "id": "c", "text": "誰に先生ですか。" },
+        { "id": "d", "text": "誰で先生ですか。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use が for the subject.",
+      "incorrectFeedback": "Try again. 誰が asks 'who' as subject.",
+      "explanation": "誰が = who (subject).",
+      "difficulty": "easy"
+    },
+    {
+      "id": "069-question-dare-who-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Who is that person?'",
+      "correctAnswer": "あの人は誰ですか",
+      "acceptedVariations": [
+        "あの人は誰ですか。",
+        "あのひとはだれですか",
+        "ano hito wa dare desu ka",
+        "ano hito wa dare desu ka."
+      ],
+      "correctFeedback": "Great! あの人は誰ですか is correct.",
+      "incorrectFeedback": "The correct answer is: あの人は誰ですか (ano hito wa dare desu ka).",
+      "explanation": "Use 誰 for people.",
+      "hints": ["あの人 = that person", "誰 = who"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "069-question-dare-who-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 誰__行きますか。 (Who will you go with?)",
+      "options": [
+        { "id": "a", "text": "と" },
+        { "id": "b", "text": "に" },
+        { "id": "c", "text": "で" },
+        { "id": "d", "text": "を" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 誰と行きますか.",
+      "incorrectFeedback": "Not quite. と means 'with.'",
+      "explanation": "Use と for 'with.'",
+      "difficulty": "medium"
+    },
+    {
+      "id": "069-question-dare-who-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Who will you meet?'",
+      "correctAnswer": "誰に会いますか",
+      "acceptedVariations": [
+        "誰に会いますか。",
+        "だれにあいますか",
+        "dare ni aimasu ka",
+        "dare ni aimasu ka."
+      ],
+      "correctFeedback": "Nice! 誰に会いますか is correct.",
+      "incorrectFeedback": "The correct answer is: 誰に会いますか (dare ni aimasu ka).",
+      "explanation": "Use に with 会います.",
+      "hints": ["会います = meet", "Use に"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "069-question-dare-who-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "あの人は誰ですか。" },
+        { "id": "b", "text": "誰が先生ですか。" },
+        { "id": "c", "text": "誰と行きますか。" },
+        { "id": "d", "text": "誰を行きますか。" }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Use と or に, not を, with 行きます.",
+      "incorrectFeedback": "Try again. 行きます doesn't take a direct object.",
+      "explanation": "行きます uses に or へ, not を.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "069-question-dare-who-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Who is the teacher?'",
+      "correctAnswer": "誰が先生ですか",
+      "acceptedVariations": [
+        "誰が先生ですか。",
+        "だれがせんせいですか",
+        "dare ga sensei desu ka",
+        "dare ga sensei desu ka."
+      ],
+      "correctFeedback": "Great! 誰が先生ですか is correct.",
+      "incorrectFeedback": "The correct answer is: 誰が先生ですか (dare ga sensei desu ka).",
+      "explanation": "Use 誰が for the subject.",
+      "hints": ["先生 = teacher", "Use が"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "069-question-dare-who-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "あの人は誰ですか。",
+          "romaji": "Ano hito wa dare desu ka.",
+          "english": "Who is that person?"
+        },
+        {
+          "japanese": "誰が先生ですか。",
+          "romaji": "Dare ga sensei desu ka.",
+          "english": "Who is the teacher?"
+        },
+        {
+          "japanese": "誰と行きますか。",
+          "romaji": "Dare to ikimasu ka.",
+          "english": "Who will you go with?"
+        }
+      ],
+      "correctFeedback": "Perfect! All use 誰 for 'who.'",
+      "incorrectFeedback": "Not quite. Review 誰 questions.",
+      "explanation": "誰 asks about people.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "069-question-dare-who-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'Who will you meet?'",
+      "options": [
+        { "id": "a", "text": "誰に会いますか" },
+        { "id": "b", "text": "誰を会いますか" },
+        { "id": "c", "text": "誰で会いますか" },
+        { "id": "d", "text": "誰が会いますか" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 会います uses に.",
+      "incorrectFeedback": "Try again. Use に with 会います.",
+      "explanation": "会います takes に for the person you meet.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "069-question-dare-who-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Who will you go with?'",
+      "correctAnswer": "誰と行きますか",
+      "acceptedVariations": [
+        "誰と行きますか。",
+        "だれといきますか",
+        "dare to ikimasu ka",
+        "dare to ikimasu ka."
+      ],
+      "correctFeedback": "Nice! 誰と行きますか is correct.",
+      "incorrectFeedback": "The correct answer is: 誰と行きますか (dare to ikimasu ka).",
+      "explanation": "Use と for 'with.'",
+      "hints": ["行きます = go", "Use と"],
+      "difficulty": "hard"
+    }
+  ]
+}

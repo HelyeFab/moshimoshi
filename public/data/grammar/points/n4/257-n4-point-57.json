@@ -1,0 +1,88 @@
+{
+  "id": "257-n4-point-57",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb やすい (〜yasui)",
+    "romaji": "Verb yasui",
+    "en": "Easy to do"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The やすい grammar point is used to express that something is easy to do or easy for someone. It is attached to the verb stem and can be translated as 'easy to' or 'easy for' in English.",
+    "ja": "やすいの用法は、何かが簡単にできるか、誰かにとって簡単であることを表現します。動詞の語幹に付けて使います。"
+  },
+  "structure": {
+    "pattern": "Verb-stem + やすい",
+    "components": [
+      {
+        "part": "Verb Stem",
+        "explanation": "The base form of a verb without the final -u or -ru.",
+        "examples": [
+          "読む (yom-u) -> 読み (yomi)",
+          "着る (ki-ru) -> 着い (ki-)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この本は読みやすいです。",
+      "romaji": "Kono hon wa yomiyasui desu.",
+      "english": "This book is easy to read.",
+      "breakdown": {
+        "読みやす": "easy to read",
+        "です": "is"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このシャツは着やすい。",
+      "romaji": "Kono shatsu wa kiyasui.",
+      "english": "This shirt is easy to wear.",
+      "breakdown": {
+        "着や": "wear easily",
+        "すい": "-easy"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は話しやすい人です。",
+      "romaji": "Kare wa hanashiyasui hito desu.",
+      "english": "He is an easy person to talk to.",
+      "breakdown": {
+        "話しやす": "talk easily",
+        "です": "is"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この料理は作りやすい。",
+      "romaji": "Kono ryouri wa tsukuriyasui.",
+      "english": "This dish is easy to make.",
+      "breakdown": {
+        "作や": "make easily",
+        "すい": "-easy"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～すぎる",
+    "A は B ほど～ありません",
+    "A は B ほど～ない"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "読むやすい",
+      "correction": "読みやすい",
+      "example": "この本は読みやすいです。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "adjectives",
+    "ease-of-action"
+  ]
+}

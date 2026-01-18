@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "020-particle-ya",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "020-particle-ya-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle for a non-exhaustive list: パン＿＿牛乳を買います。",
+      "questionRomaji": "Pan __ gyuunyuu o kaimasu.",
+      "options": [
+        { "id": "a", "text": "と", "romaji": "to" },
+        { "id": "b", "text": "や", "romaji": "ya" },
+        { "id": "c", "text": "に", "romaji": "ni" },
+        { "id": "d", "text": "で", "romaji": "de" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! や lists examples.",
+      "incorrectFeedback": "Not quite. Use や for a non-exhaustive list.",
+      "explanation": "パンや牛乳 = bread, milk, etc.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "020-particle-ya-ex-02",
+      "type": "multiple-choice",
+      "question": "Which particle means “A, B, etc.”?",
+      "options": [
+        { "id": "a", "text": "と" },
+        { "id": "b", "text": "や" },
+        { "id": "c", "text": "も" },
+        { "id": "d", "text": "で" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Yes! や is for non-exhaustive lists.",
+      "incorrectFeedback": "Try again. や means “A, B, etc.”",
+      "explanation": "Use や to list examples.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "020-particle-ya-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I eat apples, oranges, and other things.'",
+      "correctAnswer": "りんごやみかんを食べます",
+      "acceptedVariations": [
+        "りんごやみかんを食べます。",
+        "ringo ya mikan o tabemasu",
+        "ringo ya mikan o tabemasu."
+      ],
+      "correctFeedback": "Great! りんごやみかんを食べます is correct.",
+      "incorrectFeedback": "The correct answer is: りんごやみかんを食べます (ringo ya mikan o tabemasu).",
+      "explanation": "や gives a non-exhaustive list.",
+      "hints": ["Use や between nouns", "食べます = eat"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "020-particle-ya-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence shows a non-exhaustive list?",
+      "options": [
+        { "id": "a", "text": "パンと牛乳を買います。" },
+        { "id": "b", "text": "パンや牛乳を買います。" },
+        { "id": "c", "text": "パンで牛乳を買います。" },
+        { "id": "d", "text": "パンに牛乳を買います。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! や indicates an incomplete list.",
+      "incorrectFeedback": "Not quite. Use や for examples.",
+      "explanation": "や means “and so on.”",
+      "difficulty": "medium"
+    },
+    {
+      "id": "020-particle-ya-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There are books, pens, and so on.'",
+      "correctAnswer": "本やペンなどがあります",
+      "acceptedVariations": [
+        "本やペンなどがあります。",
+        "ほんやぺんなどがあります",
+        "hon ya pen nado ga arimasu",
+        "hon ya pen nado ga arimasu."
+      ],
+      "correctFeedback": "Nice! 本やペンなどがあります is correct.",
+      "incorrectFeedback": "The correct answer is: 本やペンなどがあります (hon ya pen nado ga arimasu).",
+      "explanation": "や + など makes the list non-exhaustive.",
+      "hints": ["など = etc.", "Use が with あります"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "020-particle-ya-ex-06",
+      "type": "multiple-choice",
+      "question": "Which particle should you use for a complete list?",
+      "options": [
+        { "id": "a", "text": "や" },
+        { "id": "b", "text": "と" },
+        { "id": "c", "text": "も" },
+        { "id": "d", "text": "に" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! と is for complete lists.",
+      "incorrectFeedback": "Try again. と lists all items.",
+      "explanation": "や is for examples; と is complete.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "020-particle-ya-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I talk about movies, music, and so on.'",
+      "correctAnswer": "映画や音楽の話をします",
+      "acceptedVariations": [
+        "映画や音楽の話をします。",
+        "えいがやおんがくのはなしをします",
+        "eiga ya ongaku no hanashi o shimasu",
+        "eiga ya ongaku no hanashi o shimasu."
+      ],
+      "correctFeedback": "Great! 映画や音楽の話をします is correct.",
+      "incorrectFeedback": "The correct answer is: 映画や音楽の話をします (eiga ya ongaku no hanashi o shimasu).",
+      "explanation": "や shows examples of topics.",
+      "hints": ["話 = talk", "Use や between nouns"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "020-particle-ya-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "パンや牛乳を買います。",
+          "romaji": "Pan ya gyuunyuu o kaimasu.",
+          "english": "I buy bread, milk, and other things."
+        },
+        {
+          "japanese": "本やペンなどがあります。",
+          "romaji": "Hon ya pen nado ga arimasu.",
+          "english": "There are books, pens, and so on."
+        },
+        {
+          "japanese": "りんごやみかんを食べます。",
+          "romaji": "Ringo ya mikan o tabemasu.",
+          "english": "I eat apples, oranges, and so on."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review や for non-exhaustive lists.",
+      "explanation": "Each sentence uses や to list examples.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "020-particle-ya-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "パンや牛乳を買います。" },
+        { "id": "b", "text": "本やペンなどがあります。" },
+        { "id": "c", "text": "映画や音楽の話をします。" },
+        { "id": "d", "text": "パンや牛乳と卵です。" }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Mixing や and と is awkward here.",
+      "incorrectFeedback": "Try again. Use や for examples or と for complete lists.",
+      "explanation": "Use one list style consistently.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "020-particle-ya-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I buy vegetables, fruit, and so on.'",
+      "correctAnswer": "野菜や果物を買います",
+      "acceptedVariations": [
+        "野菜や果物を買います。",
+        "やさいやくだものをかいます",
+        "yasai ya kudamono o kaimasu",
+        "yasai ya kudamono o kaimasu."
+      ],
+      "correctFeedback": "Nice! 野菜や果物を買います is correct.",
+      "incorrectFeedback": "The correct answer is: 野菜や果物を買います (yasai ya kudamono o kaimasu).",
+      "explanation": "や lists examples, not a complete list.",
+      "hints": ["野菜 = vegetables", "果物 = fruit"],
+      "difficulty": "hard"
+    }
+  ]
+}

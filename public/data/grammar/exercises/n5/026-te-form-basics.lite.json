@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "026-te-form-basics",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "026-te-form-basics-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct te-form: 食べる → ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "食べて"
+        },
+        {
+          "id": "b",
+          "text": "食べます"
+        },
+        {
+          "id": "c",
+          "text": "食べるて"
+        },
+        {
+          "id": "d",
+          "text": "食べった"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 食べる → 食べて.",
+      "incorrectFeedback": "Not quite. る-verbs drop る and add て.",
+      "explanation": "Ru-verbs: 食べる → 食べて.",
+      "difficulty": "easy"
+    }
+  ]
+}

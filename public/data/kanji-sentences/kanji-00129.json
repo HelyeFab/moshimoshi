@@ -1,0 +1,33 @@
+{
+  "kanji": "週",
+  "sentences": [
+    {
+      "id": "180296",
+      "japanese": "教会の時計は週に３分進む。",
+      "english": "The church clock gains three minutes a week."
+    },
+    {
+      "id": "184824",
+      "japanese": "外国での生活がどんなに忙しくても、彼は必ず週１回は故国の父母に手紙を書いていた。",
+      "english": "No matter how busy he was while living abroad, he never failed to write home to his parents at least once a week."
+    },
+    {
+      "id": "185356",
+      "japanese": "会議は次の週まで延期された。",
+      "english": "The meeting was adjourned until the next week."
+    },
+    {
+      "id": "10766992",
+      "japanese": "週に何日学校に行ってるの？",
+      "english": "How many days a week do you go to school?"
+    },
+    {
+      "id": "148146",
+      "japanese": "週に何回お風呂に入りますか。",
+      "english": "How often a week do you take a bath?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.010Z",
+  "count": 5,
+  "fileId": "kanji-00129"
+}

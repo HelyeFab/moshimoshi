@@ -1,0 +1,33 @@
+{
+  "kanji": "風",
+  "sentences": [
+    {
+      "id": "4742",
+      "japanese": "私はそんな風には生きられない。",
+      "english": "I can't live that kind of life."
+    },
+    {
+      "id": "4930",
+      "japanese": "またいつか風のように走るんだ。",
+      "english": "Someday I'll run like the wind."
+    },
+    {
+      "id": "5165",
+      "japanese": "風がおだやかになった。",
+      "english": "The wind calmed down."
+    },
+    {
+      "id": "84033",
+      "japanese": "風が和らいだ。",
+      "english": "The wind calmed down."
+    },
+    {
+      "id": "84039",
+      "japanese": "風が静まった。",
+      "english": "The wind calmed down."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.272Z",
+  "count": 5,
+  "fileId": "kanji-00231"
+}

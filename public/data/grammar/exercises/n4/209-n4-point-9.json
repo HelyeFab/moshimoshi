@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "209-n4-point-9",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "209-n4-point-9-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"To become a noun\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Noun に なる",
+          "romaji": "Noun ni naru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Noun に なる matches \"To become a noun\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Noun に なる.",
+      "explanation": "Expresses changing into a new state, status, or condition using a noun.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "209-n4-point-9-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Noun に なる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "To become a noun"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Noun に なる means \"To become a noun\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"To become a noun\".",
+      "explanation": "Expresses changing into a new state, status, or condition using a noun.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "209-n4-point-9-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Noun に なる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Noun ni naru"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Noun ni naru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Noun ni naru.",
+      "explanation": "Expresses changing into a new state, status, or condition using a noun.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "209-n4-point-9-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Noun に なる?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Expresses changing into a new state, status, or condition using a noun."
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses changing into a new state, status, or condition using a noun.",
+      "explanation": "Expresses changing into a new state, status, or condition using a noun.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "209-n4-point-9-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"To become a noun\".",
+      "correctAnswer": "Noun に なる",
+      "acceptedVariations": [
+        "Noun に なる",
+        "Nounになる"
+      ],
+      "correctFeedback": "Nice! Noun に なる is correct.",
+      "incorrectFeedback": "The correct pattern is: Noun に なる (Noun ni naru).",
+      "explanation": "Expresses changing into a new state, status, or condition using a noun.",
+      "hints": [
+        "Noun ni naru",
+        "Expresses changing into a new state, status, or condition using a noun."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "209-n4-point-9-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Noun に なる.",
+      "correctAnswer": "Noun ni naru",
+      "acceptedVariations": [
+        "Noun ni naru",
+        "noun ni naru"
+      ],
+      "correctFeedback": "Nice! Noun ni naru is correct.",
+      "incorrectFeedback": "The correct romaji is: Noun ni naru.",
+      "explanation": "Expresses changing into a new state, status, or condition using a noun.",
+      "hints": [
+        "Expresses changing into a new state, status, or condition using a noun."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "209-n4-point-9-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Noun に なる.",
+      "correctAnswer": "To become a noun",
+      "acceptedVariations": [
+        "To become a noun",
+        "to become a noun"
+      ],
+      "correctFeedback": "Correct! \"To become a noun\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"To become a noun\".",
+      "explanation": "Expresses changing into a new state, status, or condition using a noun.",
+      "hints": [
+        "Expresses changing into a new state, status, or condition using a noun."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "209-n4-point-9-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Noun に なる",
+          "romaji": "Noun ni naru",
+          "english": "To become a noun"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses changing into a new state, status, or condition using a noun.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "209-n4-point-9-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses changing into a new state, status, or condition using a noun..",
+      "options": [
+        {
+          "id": "a",
+          "text": "Noun に なる",
+          "romaji": "Noun ni naru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Noun に なる matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Noun に なる.",
+      "explanation": "Expresses changing into a new state, status, or condition using a noun.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "209-n4-point-9-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Nounになる",
+      "acceptedVariations": [
+        "Nounになる",
+        "Noun に なる"
+      ],
+      "correctFeedback": "Great! Nounになる is correct.",
+      "incorrectFeedback": "The correct pattern is: Nounになる.",
+      "explanation": "Expresses changing into a new state, status, or condition using a noun.",
+      "hints": [
+        "Noun ni naru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

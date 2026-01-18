@@ -1,0 +1,33 @@
+{
+  "kanji": "局",
+  "sentences": [
+    {
+      "id": "220371",
+      "japanese": "この都市には大きなテレビ局がある。",
+      "english": "This city has a big TV station."
+    },
+    {
+      "id": "10680327",
+      "japanese": "この街には大手テレビ局があります。",
+      "english": "This city has a big TV station."
+    },
+    {
+      "id": "224307",
+      "japanese": "ここは私の叔父がアナウンサーとして働いているテレビ局です。",
+      "english": "This is the TV station where my uncle works as an announcer."
+    },
+    {
+      "id": "231298",
+      "japanese": "あのテレビ局は映画だけを放送しているんだ。",
+      "english": "That TV station only broadcasts movies."
+    },
+    {
+      "id": "231299",
+      "japanese": "あのテレビ局は１日２４時間放送中だ。",
+      "english": "That TV station is on the air 24 hours a day."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.309Z",
+  "count": 5,
+  "fileId": "kanji-00602"
+}

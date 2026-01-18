@@ -1,0 +1,93 @@
+{
+  "id": "299-n4-point-99",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～という (〜to iu) Noun",
+    "romaji": "~to iu Noun",
+    "en": "Called/Named"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～という grammar point is used to define or explain a noun more specifically. It can be translated as 'called', 'named', or 'that is to say' in English and can be used with nouns, na-adjectives, and adjectival verbs.",
+    "ja": "～というは、名詞をより具体的に定義または説明するために使われます。英語では「と呼ばれる」や「と命名される」と訳せます。名詞、ナ形容詞、動詞形容詞と組み合わせて使用できます。"
+  },
+  "structure": {
+    "pattern": "Noun + という + Noun, na-Adjective + という + Noun, Adjectival Verb + という + Noun",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "",
+        "examples": []
+      },
+      {
+        "part": "という (to iu)",
+        "explanation": "indicates the defining or naming relation.",
+        "examples": [
+          "有名な歌手という彼女は、たくさんのファンがいます。"
+        ]
+      },
+      {
+        "part": "Noun, na-Adjective, Adjectival Verb",
+        "explanation": "",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼は日本語が流暢なアメリカ人という人です。",
+      "romaji": "Kare wa nihongo ga ryuuchou na amerikajin to iu hito desu.",
+      "english": "He is an American who speaks fluent Japanese.",
+      "breakdown": {
+        "token": "彼 (he), 日本語 (Japanese language), 流暢な (fluent), アメリカ人 (American)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "昨日、美味しかったというケーキを食べました。",
+      "romaji": "Kinou, oishikatta to iu keeki wo tabemashita.",
+      "english": "Yesterday, I ate a cake that was said to be delicious.",
+      "breakdown": {
+        "token": "昨日 (yesterday), 美味しかった (delicious), ケーキ (cake), 食べました (ate)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "有名な歌手という彼女は、たくさんのファンがいます。",
+      "romaji": "Yuumei na kashu to iu kanojo wa, takusan no fan ga imasu.",
+      "english": "She, who is called a famous singer, has many fans.",
+      "breakdown": {
+        "token": "有名な (famous), 歌手 (singer), 彼女 (she), ファン (fans)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "環境に優しいという製品が人気があります。",
+      "romaji": "Kankyou ni yasashii to iu seihin ga ninki ga arimasu.",
+      "english": "Products that are said to be environmentally friendly are popular.",
+      "breakdown": {
+        "token": "環境 (environment), 優しい (kind/friendly), 製品 (product)"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～し、～し、～",
+    "～てはいけない",
+    "～といい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "*名詞 + と呼ぶ + 名詞",
+      "correction": "名詞 + という + 名詞",
+      "example": "彼は日本語が流暢なアメリカ人という人です。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "defining",
+    "explaining",
+    "miscellaneous"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "拒",
+  "sentences": [
+    {
+      "id": "179147",
+      "japanese": "君がその提案を拒むのも当然だ。",
+      "english": "It is no wonder that you are turning down the proposal."
+    },
+    {
+      "id": "183075",
+      "japanese": "記者はその情報源を明かすことを拒んだ。",
+      "english": "The reporter refused to name his sources."
+    },
+    {
+      "id": "185596",
+      "japanese": "我々は彼らが損害賠償を拒んだので告訴した。",
+      "english": "We went to court when they refused to pay for the damage."
+    },
+    {
+      "id": "190930",
+      "japanese": "医師団はもう一度手術を行うのを拒んだ。",
+      "english": "Doctors refused to perform a second operation."
+    },
+    {
+      "id": "116524",
+      "japanese": "彼の忠告に彼女がしたがうのを拒んだために彼はとても怒った。",
+      "english": "He got very angry, for she refused to follow his advice."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:26.936Z",
+  "count": 5,
+  "fileId": "kanji-01482"
+}

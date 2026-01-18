@@ -1,0 +1,33 @@
+{
+  "kanji": "例",
+  "sentences": [
+    {
+      "id": "5322",
+      "japanese": "日本には美しい都市が多い。例えば京都、奈良だ。",
+      "english": "Japan is full of beautiful cities. Kyoto and Nara, for instance."
+    },
+    {
+      "id": "179868",
+      "japanese": "近ごろでは、結婚の動機は必ずしも純粋とは限らない。例えばジェニファーを見てごらんよ。",
+      "english": "These days, the motive for marriage is not necessarily pure. Take Jennifer for example."
+    },
+    {
+      "id": "182928",
+      "japanese": "擬声語的表現については、ホピ語に興味深い例がある。",
+      "english": "As to onomatopoetic expressions, we find interesting examples in Hopi."
+    },
+    {
+      "id": "183079",
+      "japanese": "記者：例を１つあげてくださいますか。",
+      "english": "Reporter: Can you give me an example?"
+    },
+    {
+      "id": "185045",
+      "japanese": "海岸の避暑地は、例えばニューボートがそうだが、夏には非常に混雑する。",
+      "english": "Seaside resorts, such as Newport, are very crowded in summer."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.429Z",
+  "count": 5,
+  "fileId": "kanji-00252"
+}

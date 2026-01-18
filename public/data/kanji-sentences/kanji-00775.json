@@ -1,0 +1,33 @@
+{
+  "kanji": "脇",
+  "sentences": [
+    {
+      "id": "197489",
+      "japanese": "ヒトミが入れるようにジャックは脇に立った。",
+      "english": "Jack stood aside for Hitomi to enter."
+    },
+    {
+      "id": "205995",
+      "japanese": "ソファーは写真前方にあってテーブルの脇にある。",
+      "english": "The couch is in the foreground next to the table."
+    },
+    {
+      "id": "210553",
+      "japanese": "その混ぜ物をかき混ぜて、泡立ったら脇に置いておきましょう。",
+      "english": "Stir the mixture until it foams, then set it aside."
+    },
+    {
+      "id": "225013",
+      "japanese": "こうした熊独特の特徴が、熊が動かずに狩猟すること（アザラシの呼吸孔の脇でじっと動かず、アザラシが海面に上がってくるのを待つ）を好む説明になっている。",
+      "english": "These special characteristics explain its preference for still-hunting (lying motionless beside a seal's breathing hole, waiting for one to surface)."
+    },
+    {
+      "id": "77134",
+      "japanese": "脇へ寄ってくださいませんか。",
+      "english": "Would you mind standing aside?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.035Z",
+  "count": 5,
+  "fileId": "kanji-00775"
+}

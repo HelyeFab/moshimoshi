@@ -501,8 +501,8 @@ export default function MoodBoardDetailPage() {
                 }}
                 className={`p-4 rounded-xl transition-all shadow-lg transform hover:scale-105 active:scale-95 ${
                   isKanjiLearned(displayKanji[currentCardIndex].kanji)
-                    ? 'bg-gray-400 text-white shadow-gray-400/30'
-                    : 'bg-green-500 text-white shadow-green-500/30 hover:bg-green-600'
+                    ? 'bg-green-500 text-white shadow-green-500/30'
+                    : 'bg-purple-100 dark:bg-purple-900/30 hover:bg-purple-200 dark:hover:bg-purple-900/40 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400'
                 }`}
                 title={isKanjiLearned(displayKanji[currentCardIndex].kanji) ? 'Learned' : 'Mark as Learned'}
               >

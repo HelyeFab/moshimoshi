@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "232-n4-point-32",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "232-n4-point-32-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb ていただく (te itadaku)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞ていただく",
+          "romaji": "doushi te itadaku"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 動詞ていただく matches \"Verb ていただく (te itadaku)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ていただく.",
+      "explanation": "Expresses humbly receiving a favor or action from someone else.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "232-n4-point-32-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞ていただく.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb ていただく (te itadaku)"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 動詞ていただく means \"Verb ていただく (te itadaku)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb ていただく (te itadaku)\".",
+      "explanation": "Expresses humbly receiving a favor or action from someone else.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "232-n4-point-32-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞ていただく.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "doushi te itadaku"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! doushi te itadaku is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is doushi te itadaku.",
+      "explanation": "Expresses humbly receiving a favor or action from someone else.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "232-n4-point-32-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞ていただく?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Expresses humbly receiving a favor or action from someone else."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses humbly receiving a favor or action from someone else.",
+      "explanation": "Expresses humbly receiving a favor or action from someone else.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "232-n4-point-32-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb ていただく (te itadaku)\".",
+      "correctAnswer": "動詞ていただく",
+      "acceptedVariations": [
+        "動詞ていただく",
+        "動詞ていただく"
+      ],
+      "correctFeedback": "Nice! 動詞ていただく is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞ていただく (doushi te itadaku).",
+      "explanation": "Expresses humbly receiving a favor or action from someone else.",
+      "hints": [
+        "doushi te itadaku",
+        "Expresses humbly receiving a favor or action from someone else."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "232-n4-point-32-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞ていただく.",
+      "correctAnswer": "doushi te itadaku",
+      "acceptedVariations": [
+        "doushi te itadaku",
+        "doushi te itadaku"
+      ],
+      "correctFeedback": "Nice! doushi te itadaku is correct.",
+      "incorrectFeedback": "The correct romaji is: doushi te itadaku.",
+      "explanation": "Expresses humbly receiving a favor or action from someone else.",
+      "hints": [
+        "Expresses humbly receiving a favor or action from someone else."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "232-n4-point-32-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞ていただく.",
+      "correctAnswer": "Verb ていただく (te itadaku)",
+      "acceptedVariations": [
+        "Verb ていただく (te itadaku)",
+        "verb ていただく (te itadaku)"
+      ],
+      "correctFeedback": "Correct! \"Verb ていただく (te itadaku)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb ていただく (te itadaku)\".",
+      "explanation": "Expresses humbly receiving a favor or action from someone else.",
+      "hints": [
+        "Expresses humbly receiving a favor or action from someone else."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "232-n4-point-32-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞ていただく",
+          "romaji": "doushi te itadaku",
+          "english": "Verb ていただく (te itadaku)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses humbly receiving a favor or action from someone else.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "232-n4-point-32-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses humbly receiving a favor or action from someone else..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞ていただく",
+          "romaji": "doushi te itadaku"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! 動詞ていただく matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ていただく.",
+      "explanation": "Expresses humbly receiving a favor or action from someone else.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "232-n4-point-32-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞ていただく",
+      "acceptedVariations": [
+        "動詞ていただく",
+        "動詞ていただく"
+      ],
+      "correctFeedback": "Great! 動詞ていただく is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞ていただく.",
+      "explanation": "Expresses humbly receiving a favor or action from someone else.",
+      "hints": [
+        "doushi te itadaku"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

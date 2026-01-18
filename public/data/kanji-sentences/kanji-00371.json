@@ -1,0 +1,33 @@
+{
+  "kanji": "吸",
+  "sentences": [
+    {
+      "id": "177353",
+      "japanese": "勤務中はタバコを吸わない方がいいよ。",
+      "english": "You had better not smoke while on duty."
+    },
+    {
+      "id": "177435",
+      "japanese": "君は煙草を吸うのをやめるのが先決だ。",
+      "english": "First, you have to stop smoking."
+    },
+    {
+      "id": "177436",
+      "japanese": "君は煙草を吸うのをやめることが必要だ。",
+      "english": "It is necessary for you to stop smoking."
+    },
+    {
+      "id": "177660",
+      "japanese": "君はたばこを吸い過ぎだ。減らすべきだ。",
+      "english": "You smoke far too much. You should cut back."
+    },
+    {
+      "id": "177867",
+      "japanese": "君はここでたばこを吸うことを禁じられている。",
+      "english": "You are prohibited from smoking here."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.108Z",
+  "count": 5,
+  "fileId": "kanji-00371"
+}

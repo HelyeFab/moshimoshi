@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "216-n4-point-16",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "216-n4-point-16-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Noun wo kureru (to give to me/someone close)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "名詞 を くれる",
+          "romaji": "Noun wo kureru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 名詞 を くれる matches \"Noun wo kureru (to give to me/someone close)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 名詞 を くれる.",
+      "explanation": "Used when someone gives something to the speaker or someone close.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import { KanaAdapter } from './kana.adapter';
 import { KanjiAdapter } from './kanji.adapter';
 import { VocabularyAdapter } from './vocabulary.adapter';
 import { SentenceAdapter } from './sentence.adapter';
+import { GrammarAdapter } from './grammar.adapter';
 import { CustomContentAdapter } from './custom.adapter';
 import { MoodBoardAdapter } from './MoodBoardAdapter';
 import { UserListAdapter } from './UserListAdapter';
@@ -38,6 +39,7 @@ export class AdapterRegistry {
     this.adapters.set('kanji', new KanjiAdapter(config.kanji));
     this.adapters.set('vocabulary', new VocabularyAdapter(config.vocabulary));
     this.adapters.set('sentence', new SentenceAdapter(config.sentence));
+    this.adapters.set('grammar', new GrammarAdapter(config.grammar));
     this.adapters.set('custom', new CustomContentAdapter(config.custom || this.getDefaultCustomConfig()));
     this.adapters.set('moodboard', new MoodBoardAdapter());
     this.adapters.set('kanji_mastery', new KanjiMasteryAdapter());
@@ -376,6 +378,46 @@ export function createDefaultAdapterConfigs(): Record<string, ContentTypeConfig>
       validationStrategy: 'fuzzy',
       validationOptions: {
         threshold: 0.7,
+        ignoreCase: true,
+        ignoreWhitespace: true,
+        ignorePunctuation: true
+      },
+      fontSize: 'medium',
+      features: {
+        furigana: true
+      }
+    },
+
+    grammar: {
+      contentType: 'grammar',
+      availableModes: [
+        {
+          mode: 'recognition',
+          showPrimary: true,
+          showSecondary: false,
+          showTertiary: true,
+          showMedia: false,
+          inputType: 'multiple-choice',
+          optionCount: 4,
+          optionSource: 'curated',
+          allowHints: true,
+          hintPenalty: 0.1
+        },
+        {
+          mode: 'recall',
+          showPrimary: true,
+          showSecondary: true,
+          showTertiary: true,
+          showMedia: false,
+          inputType: 'text',
+          allowHints: true,
+          hintPenalty: 0.2
+        }
+      ],
+      defaultMode: 'recall',
+      validationStrategy: 'fuzzy',
+      validationOptions: {
+        threshold: 0.8,
         ignoreCase: true,
         ignoreWhitespace: true,
         ignorePunctuation: true

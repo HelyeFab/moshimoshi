@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "070-question-doko-where",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "070-question-doko-where-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: トイレは__ですか。",
+      "options": [
+        {
+          "id": "a",
+          "text": "どこ"
+        },
+        {
+          "id": "b",
+          "text": "だれ"
+        },
+        {
+          "id": "c",
+          "text": "なに"
+        },
+        {
+          "id": "d",
+          "text": "いつ"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! どこ means 'where.'",
+      "incorrectFeedback": "Not quite. どこ is for locations.",
+      "explanation": "どこ asks about place.",
+      "difficulty": "easy"
+    }
+  ]
+}

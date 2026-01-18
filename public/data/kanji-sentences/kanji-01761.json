@@ -1,0 +1,33 @@
+{
+  "kanji": "縫",
+  "sentences": [
+    {
+      "id": "208975",
+      "japanese": "その上手な運転手は車の列を縫うように車を走らせた。",
+      "english": "The good driver wove his way through the traffic."
+    },
+    {
+      "id": "209241",
+      "japanese": "その小道は山中を縫って続いている。",
+      "english": "The path twists through the mountains."
+    },
+    {
+      "id": "217640",
+      "japanese": "これを手で縫ったんですか。",
+      "english": "Did you sew this by hand?"
+    },
+    {
+      "id": "9127544",
+      "japanese": "これ手で縫ったの？",
+      "english": "Did you sew this by hand?"
+    },
+    {
+      "id": "222561",
+      "japanese": "この間違いを修正するためにこの縫い目をほどかなくてはならない。",
+      "english": "In order to fix this mistake we'll have to tear out this seam."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:35.979Z",
+  "count": 5,
+  "fileId": "kanji-01761"
+}

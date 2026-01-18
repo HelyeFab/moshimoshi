@@ -1,0 +1,55 @@
+{
+  "id": "310-n4-point-110",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～ので (〜node)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～ので grammar point is used to express reason or cause for something. It can be translated as 'because', 'since', or 'so' in English. It is similar to から but is considered more polite and formal. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + ので, い-Adjective + ので, な-Adjective + なので, Noun + なので",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "明日試験があるので、今晩勉強します。",
+      "romaji": "Ashita shiken ga aru node, konban benkyou shimasu.",
+      "english": "I will study tonight because there is a test tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このドレスが高いので、買わないことにします。",
+      "romaji": "Kono doresu ga takai node, kawanai koto ni shimasu.",
+      "english": "I will not buy this dress because it is expensive.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "田中さんは病気なので、今日は来ません。",
+      "romaji": "Tanaka-san wa byouki na node, kyou wa kimasen.",
+      "english": "Tanaka-san will not come today since he is sick.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "雨が降っているので、外に出ない方がいいですよ。",
+      "romaji": "Ame ga futte iru node, soto ni denai hou ga ii desu yo.",
+      "english": "It is better not to go outside because it is raining.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "休",
+  "sentences": [
+    {
+      "id": "48301",
+      "japanese": "休みは終わった。",
+      "english": "The vacation is over now."
+    },
+    {
+      "id": "176917",
+      "japanese": "君は疲れているようだから、休んだ方がよい。",
+      "english": "Since you look tired, you had better take a rest."
+    },
+    {
+      "id": "176918",
+      "japanese": "君は疲れているので、休んだ方がよい。",
+      "english": "Now that you are tired, you'd better rest."
+    },
+    {
+      "id": "9812240",
+      "japanese": "疲れてるみたいだね。１時間か２時間、休んだ方がいいよ。",
+      "english": "You look tired. You ought to rest for an hour or two."
+    },
+    {
+      "id": "177140",
+      "japanese": "君は少し休んだほうがよい。",
+      "english": "You had better take a little rest."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.183Z",
+  "count": 5,
+  "fileId": "kanji-00078"
+}

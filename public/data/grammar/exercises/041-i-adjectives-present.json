@@ -1,0 +1,185 @@
+{
+  "grammarPointId": "041-i-adjectives-present",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "041-i-adjectives-present-ex-01",
+      "type": "multiple-choice",
+      "question": "Which word is an い-adjective?",
+      "options": [
+        { "id": "a", "text": "きれい" },
+        { "id": "b", "text": "おもしろい" },
+        { "id": "c", "text": "べんり" },
+        { "id": "d", "text": "げんき" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! おもしろい is an い-adjective.",
+      "incorrectFeedback": "Not quite. Look for adjectives ending in い.",
+      "explanation": "い-adjectives end with い in their dictionary form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "041-i-adjectives-present-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence: 'This book is interesting.'",
+      "options": [
+        { "id": "a", "text": "この本はおもしろいです。" },
+        { "id": "b", "text": "この本はおもしろいなです。" },
+        { "id": "c", "text": "この本はおもしろです。" },
+        { "id": "d", "text": "この本はおもしろいます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Yes! おもしろいです is correct.",
+      "incorrectFeedback": "Try again. Use the い-adjective and add です.",
+      "explanation": "In present polite form, keep い and add です.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "041-i-adjectives-present-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This apple is red.'",
+      "correctAnswer": "このりんごは赤いです",
+      "acceptedVariations": [
+        "このりんごは赤いです。",
+        "このりんごはあかいです",
+        "このりんごはあかいです。",
+        "kono ringo wa akai desu",
+        "kono ringo wa akai desu."
+      ],
+      "correctFeedback": "Great! このりんごは赤いです is correct.",
+      "incorrectFeedback": "The correct answer is: このりんごは赤いです (kono ringo wa akai desu).",
+      "explanation": "赤い is an い-adjective used in present form.",
+      "hints": ["赤い means red", "Use は to mark the topic"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "041-i-adjectives-present-ex-04",
+      "type": "multiple-choice",
+      "question": "Which phrase is correct for 'a big dog'?",
+      "options": [
+        { "id": "a", "text": "大きい犬" },
+        { "id": "b", "text": "大きいな犬" },
+        { "id": "c", "text": "大きいの犬" },
+        { "id": "d", "text": "大きいで犬" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! い-adjectives go directly before nouns.",
+      "incorrectFeedback": "Not quite. Do not add な with い-adjectives.",
+      "explanation": "い-adjectives directly modify nouns without な.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "041-i-adjectives-present-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Today is hot.'",
+      "correctAnswer": "今日は暑いです",
+      "acceptedVariations": [
+        "今日は暑いです。",
+        "きょうはあついです",
+        "きょうはあついです。",
+        "kyou wa atsui desu",
+        "kyou wa atsui desu."
+      ],
+      "correctFeedback": "Nice! 今日は暑いです is correct.",
+      "incorrectFeedback": "The correct answer is: 今日は暑いです (kyou wa atsui desu).",
+      "explanation": "Use the い-adjective and add です for politeness.",
+      "hints": ["暑い means hot", "Use は after 今日"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "041-i-adjectives-present-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence uses an い-adjective correctly?",
+      "options": [
+        { "id": "a", "text": "この店は便利です。" },
+        { "id": "b", "text": "この店は高いです。" },
+        { "id": "c", "text": "この店はきれいです。" },
+        { "id": "d", "text": "この店は静かです。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 高い is an い-adjective.",
+      "incorrectFeedback": "Not quite. Look for an adjective ending in い.",
+      "explanation": "高い is an い-adjective; the others are な-adjectives.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "041-i-adjectives-present-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'That movie is long.'",
+      "correctAnswer": "その映画は長いです",
+      "acceptedVariations": [
+        "その映画は長いです。",
+        "そのえいがはながいです",
+        "そのえいがはながいです。",
+        "sono eiga wa nagai desu",
+        "sono eiga wa nagai desu."
+      ],
+      "correctFeedback": "Great! その映画は長いです is correct.",
+      "incorrectFeedback": "The correct answer is: その映画は長いです (sono eiga wa nagai desu).",
+      "explanation": "長い is an い-adjective used in the present.",
+      "hints": ["長い means long", "映画 means movie"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "041-i-adjectives-present-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "この本は安いです。",
+          "romaji": "Kono hon wa yasui desu.",
+          "english": "This book is cheap."
+        },
+        {
+          "japanese": "今日は寒いです。",
+          "romaji": "Kyou wa samui desu.",
+          "english": "Today is cold."
+        },
+        {
+          "japanese": "大きい犬がいます。",
+          "romaji": "Ookii inu ga imasu.",
+          "english": "There is a big dog."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review how い-adjectives are used.",
+      "explanation": "Each sentence uses an い-adjective in the present.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "041-i-adjectives-present-ex-09",
+      "type": "multiple-choice",
+      "question": "Which phrase is correct for 'interesting book'?",
+      "options": [
+        { "id": "a", "text": "おもしろい本" },
+        { "id": "b", "text": "おもしろいな本" },
+        { "id": "c", "text": "おもしろいの本" },
+        { "id": "d", "text": "おもしろいで本" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! い-adjectives go directly before nouns.",
+      "incorrectFeedback": "Try again. Do not add な after an い-adjective.",
+      "explanation": "い-adjectives directly modify nouns.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "041-i-adjectives-present-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This shirt is cheap.'",
+      "correctAnswer": "このシャツは安いです",
+      "acceptedVariations": [
+        "このシャツは安いです。",
+        "このしゃつはやすいです",
+        "このしゃつはやすいです。",
+        "kono shatsu wa yasui desu",
+        "kono shatsu wa yasui desu."
+      ],
+      "correctFeedback": "Nice! このシャツは安いです is correct.",
+      "incorrectFeedback": "The correct answer is: このシャツは安いです (kono shatsu wa yasui desu).",
+      "explanation": "安い is an い-adjective; add です for politeness.",
+      "hints": ["安い means cheap", "シャツ means shirt"],
+      "difficulty": "hard"
+    }
+  ]
+}

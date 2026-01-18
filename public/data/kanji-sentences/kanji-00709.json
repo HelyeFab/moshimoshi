@@ -1,0 +1,33 @@
+{
+  "kanji": "伸",
+  "sentences": [
+    {
+      "id": "11189209",
+      "japanese": "教育は、潜在能力を伸ばすことを目的としています。",
+      "english": "Education aims to develop potential abilities."
+    },
+    {
+      "id": "184203",
+      "japanese": "学生達は英語の力を伸ばしている。",
+      "english": "The students are making good progress in English."
+    },
+    {
+      "id": "187238",
+      "japanese": "夏には草がよく伸びる。",
+      "english": "Grass is luxuriant in summer."
+    },
+    {
+      "id": "187297",
+      "japanese": "価格が下がったので輸入車への需要が伸びている。",
+      "english": "Demand for imported cars is increasing due to lower prices."
+    },
+    {
+      "id": "189888",
+      "japanese": "右腕を伸ばせません。",
+      "english": "I can't stretch my right arm."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.475Z",
+  "count": 5,
+  "fileId": "kanji-00709"
+}

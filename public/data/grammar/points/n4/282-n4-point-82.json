@@ -1,0 +1,126 @@
+{
+  "id": "282-n4-point-82",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～すぎる",
+    "romaji": "~sugiru",
+    "en": "Too much"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～すぎる grammar point is used to express that something is excessive or beyond a certain level. It can be translated as 'too much', 'too', or 'over' in English.",
+    "ja": "～すぎるは、何かが過度であるか、あるレベルを超えたことを表現するために使われます。英語では「あまりにも」や「過剰に」と訳すことができます。"
+  },
+  "structure": {
+    "pattern": "Verb-stem + すぎる, い-Adjective (remove い) + すぎる, な-Adjective + すぎる",
+    "components": [
+      {
+        "part": "Verb-stem",
+        "explanation": "The stem of the verb before adding すぎる.",
+        "examples": [
+          "寝(ね)-",
+          "話(はな)-"
+        ]
+      },
+      {
+        "part": "い-Adjective (remove い)",
+        "explanation": "Remove the final 'い' from an い-adjective and add すぎる.",
+        "examples": [
+          "暑(あつ)い -> 暑(あつ)+すぎる",
+          "早(はや)い -> 早(はや)+すぎる"
+        ]
+      },
+      {
+        "part": "な-Adjective + すぎる",
+        "explanation": "Add すぎる directly to a な-adjective.",
+        "examples": [
+          "静か(しずか)な -> 静か(しずか)+すぎる"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この部屋は暑すぎる。",
+      "romaji": "Kono heya wa atsui sugiru.",
+      "english": "This room is too hot.",
+      "breakdown": {
+        "token": "gloss",
+        "tokens": [
+          "この (this)",
+          "部屋 (room)",
+          "暑い (hot)",
+          "すぎる (too much)"
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は早く来すぎた。",
+      "romaji": "Kare wa hayaku kisugita.",
+      "english": "He came too early.",
+      "breakdown": {
+        "token": "gloss",
+        "tokens": [
+          "彼 (he)",
+          "早速 (early)",
+          "来すぎる (to come too much)"
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この箱は重すぎて持ち上げられない。",
+      "romaji": "Kono hako wa omosugite mochiagerarenai.",
+      "english": "This box is too heavy to lift.",
+      "breakdown": {
+        "token": "gloss",
+        "tokens": [
+          "この (this)",
+          "箱 (box)",
+          "重すぎる (too heavy)",
+          "持ち上げられない (can't be lifted)"
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は忙しくて遊びすぎはしない。",
+      "romaji": "Kanojo wa isogashikute asobisugi wa shinai.",
+      "english": "She's too busy to play too much.",
+      "breakdown": {
+        "token": "gloss",
+        "tokens": [
+          "彼女 (she)",
+          "忙しい (busy)",
+          "遊びすぎる (play too much)"
+        ]
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb やすい (〜yasui)",
+    "A は B ほど～ありません",
+    "A は B ほど～ない"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "早すぎる",
+      "correction": "早くすぎる",
+      "example": "彼は早くすぎる。"
+    },
+    {
+      "mistake": "静かすぎる",
+      "correction": "静かすぎにすぎる",
+      "example": "この部屋は静かすぎない。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "expressions-of-degree",
+    "adjectives",
+    "verbs"
+  ]
+}

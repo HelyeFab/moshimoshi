@@ -1,0 +1,33 @@
+{
+  "kanji": "要",
+  "sentences": [
+    {
+      "id": "10276565",
+      "japanese": "あなたに声をかけるの、かなり勇気が要ったんですよ。",
+      "english": "I was almost afraid to talk to you."
+    },
+    {
+      "id": "180366",
+      "japanese": "教えるということは大いに忍耐力を要する。",
+      "english": "Teaching demands a lot of patience."
+    },
+    {
+      "id": "182441",
+      "japanese": "急を要することだから急いでください。",
+      "english": "Please hurry, it's urgent."
+    },
+    {
+      "id": "182941",
+      "japanese": "偽りの友達なんて要らない。",
+      "english": "I don't need fake friends."
+    },
+    {
+      "id": "185830",
+      "japanese": "我々は財政的に困窮していた。要するに破産したのだ。",
+      "english": "We were financially troubled, in short, we were bankrupt."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.341Z",
+  "count": 5,
+  "fileId": "kanji-00460"
+}

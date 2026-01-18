@@ -1,0 +1,103 @@
+{
+  "id": "302-n4-point-102",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～という",
+    "romaji": "~to iu",
+    "en": "To Quote or Define"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～という grammar point is used to quote someone's words, express something you heard or read from someone else, or define and clarify the subject. It can be translated as 'called', 'that', or 'it is said'. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun.",
+    "ja": "～というの文法は、誰かの言葉を引用したり、他人から聞いたり読んだりしたことを表現したり、対象を定義または明確にすることに使用されます。動詞、イ形容詞、ナ形容詞、名詞と一緒に使用する場合により形成が異なります。"
+  },
+  "structure": {
+    "pattern": "{word}という",
+    "components": [
+      {
+        "part": "verb-casual",
+        "explanation": "Casual form of the verb.",
+        "examples": [
+          "彼は「好きだ」と言った。"
+        ]
+      },
+      {
+        "part": "い-adjective",
+        "explanation": "Plain form of い-adjective.",
+        "examples": [
+          "その映画は面白いという評判があります。"
+        ]
+      },
+      {
+        "part": "な-adjective",
+        "explanation": "Adjective used with 'na'.",
+        "examples": []
+      },
+      {
+        "part": "noun",
+        "explanation": "Noun phrase following the pattern.",
+        "examples": [
+          "日本には富士山という高い山があります。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼は「好きだ」と言った。",
+      "romaji": "Kare wa 'suki da' to itta.",
+      "english": "He said 'I like you'.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "その映画は面白いという評判があります。",
+      "romaji": "Sono eiga wa omoshiroi to iu hyouban ga arimasu.",
+      "english": "The movie has a reputation for being interesting.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "日本には富士山という高い山があります。",
+      "romaji": "Nihon ni wa Fujisan to iu takai yama ga arimasu.",
+      "english": "In Japan, there is a tall mountain called Mount Fuji.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は難しい仕事をしているという話です。",
+      "romaji": "Kanojo wa muzukashii shigoto o shiteiru to iu hanashi desu.",
+      "english": "I heard she is doing a difficult job.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～という (〜to iu) Noun",
+    "Noun しか～ない",
+    "Verb てもらいたい (～te moraitai)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "使用する場合に形を変える必要があることを忘れます。",
+      "correction": "動詞は丁寧形、形容詞と名詞はそのまま使います。",
+      "example": "彼女は忙しいと言っています。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "quoting",
+    "reporting",
+    "defining",
+    "casual-form"
+  ]
+}

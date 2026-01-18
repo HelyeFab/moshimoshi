@@ -1,0 +1,33 @@
+{
+  "kanji": "撮",
+  "sentences": [
+    {
+      "id": "6004",
+      "japanese": "ここで写真を撮らないでください。",
+      "english": "Please do not take photos here."
+    },
+    {
+      "id": "178236",
+      "japanese": "君の写真を撮ってもいい？",
+      "english": "May I take your picture?"
+    },
+    {
+      "id": "233227",
+      "japanese": "あなたの写真を撮ってもいいですか。",
+      "english": "May I take your picture?"
+    },
+    {
+      "id": "182161",
+      "japanese": "許可なく劇場内で写真を撮ることはできません。",
+      "english": "You cannot take a picture in the theater without permission."
+    },
+    {
+      "id": "184608",
+      "japanese": "拡大コピーを撮ってくるよ。",
+      "english": "I'm going to make enlarged copies."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.802Z",
+  "count": 5,
+  "fileId": "kanji-01229"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "215-n4-point-15",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Nounをくださる",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The grammar point 'Nounをくださる' is a polite expression used to say that someone is giving or doing something for the benefit of the speaker. It is often used when referring to people who have a higher social status or when expressing gratitude for their actions.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + を + くださる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "先生が資料をくださった。",
+      "romaji": "Sensei ga shiryou wo kudasatta.",
+      "english": "The teacher gave me the materials.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "お母さんがおやつをくださる。",
+      "romaji": "Okaasan ga oyatsu wo kudasaru.",
+      "english": "My mother gives me snacks.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "上司がアドバイスをくださいました。",
+      "romaji": "Joushi ga adobaisu wo kudasaimashita.",
+      "english": "My boss gave me advice.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "友達がプレゼントをくださった。",
+      "romaji": "Tomodachi ga purezento wo kudasatta.",
+      "english": "My friend gave me a present.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

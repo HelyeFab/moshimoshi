@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "299-n4-point-99",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "299-n4-point-99-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Called/Named\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～という (〜to iu) Noun",
+          "romaji": "~to iu Noun"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～という (〜to iu) Noun matches \"Called/Named\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～という (〜to iu) Noun.",
+      "explanation": "Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "difficulty": "easy"
+    }
+  ]
+}

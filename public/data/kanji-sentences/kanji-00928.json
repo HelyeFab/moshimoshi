@@ -1,0 +1,33 @@
+{
+  "kanji": "像",
+  "sentences": [
+    {
+      "id": "192319",
+      "japanese": "レンズを通ると像は逆になった。",
+      "english": "Through the lens the image was inverted."
+    },
+    {
+      "id": "195026",
+      "japanese": "ミロのビーナスが完全であったときには、像には腕もついていた。",
+      "english": "When the Venus de Milo was entire, there were arms on the statue."
+    },
+    {
+      "id": "208328",
+      "japanese": "その像は石を刻んで作ったものだ。",
+      "english": "The statue is carved out of stone."
+    },
+    {
+      "id": "208329",
+      "japanese": "その像は首が欠けている。",
+      "english": "The statue is missing its head."
+    },
+    {
+      "id": "208330",
+      "japanese": "その像は自由の象徴である。",
+      "english": "The statue expresses freedom."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.560Z",
+  "count": 5,
+  "fileId": "kanji-00928"
+}

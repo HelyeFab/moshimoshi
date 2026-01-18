@@ -1,0 +1,55 @@
+{
+  "id": "317-n4-point-117",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～みたいだ (〜mitai da)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～みたいだ grammar point is used to express that something appears, seems or resembles something else. It can be used with nouns, verbs, い-adjectives, and な-adjectives. It can be translated as 'it seems', 'appears', or 'looks like' in English.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + みたいだ, い-Adjective + みたいだ, な-Adjective + みたいだ, Noun + みたいだ",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼女が病気のみたいだ。",
+      "romaji": "Kanojo ga byouki no mitai da.",
+      "english": "She seems to be sick.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このドレスは高いみたいだ。",
+      "romaji": "Kono doresu wa takai mitai da.",
+      "english": "This dress seems to be expensive.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "あの人は有名人みたいだ。",
+      "romaji": "Ano hito wa yuumeijin mitai da.",
+      "english": "That person looks like a celebrity.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は今忙しいみたいだ。",
+      "romaji": "Kare wa ima isogashii mitai da.",
+      "english": "It seems he is busy right now.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

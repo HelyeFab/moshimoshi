@@ -1,0 +1,104 @@
+{
+  "id": "310-n4-point-110",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～ので",
+    "romaji": "~node",
+    "en": "Because"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "The ～ので grammar point is used to express reason or cause for something. It can be translated as 'because', 'since', or 'so' in English and is considered more polite than から.",
+    "ja": "～のでは、何かの理由や原因を表現するために使います。英語でいう「because」、「since」、「so」と訳されます。からより丁寧な表現です。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + ので, い-Adjective + ので, な-Adjective + なので, Noun + なので",
+    "components": [
+      {
+        "part": "Verb-casual + ので",
+        "explanation": "Casual form of the verb followed by ので.",
+        "examples": [
+          "勉強しますので。"
+        ]
+      },
+      {
+        "part": "い-Adjective + ので",
+        "explanation": "い-adjective directly followed by ので.",
+        "examples": [
+          "高いので。"
+        ]
+      },
+      {
+        "part": "な-Adjective + なので",
+        "explanation": "な-adjective followed by なので.",
+        "examples": [
+          "美しいなので。"
+        ]
+      },
+      {
+        "part": "Noun + なので",
+        "explanation": "Noun followed by なので.",
+        "examples": [
+          "試験なので。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日試験があるので、今晩勉強します。",
+      "romaji": "Ashita shiken ga aru node, konban benkyou shimasu.",
+      "english": "I will study tonight because there is a test tomorrow.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": "明日: ashita (tomorrow), 試験: shiken (exam), ので: node (because)"
+    },
+    {
+      "japanese": "このドレスが高いので、買わないことにします。",
+      "romaji": "Kono doresu ga takai node, kawanai koto ni shimasu.",
+      "english": "I will not buy this dress because it is expensive.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": "この: kono (this), ドレス: doresu (dress), 高い: takai (expensive)"
+    },
+    {
+      "japanese": "田中さんは病気なので、今日は来ません。",
+      "romaji": "Tanaka-san wa byouki na node, kyou wa kimasen.",
+      "english": "Tanaka-san will not come today since he is sick.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": "田中: Tanaka (name), 病気: byouki (illness)"
+    },
+    {
+      "japanese": "雨が降っているので、外に出ない方がいいですよ。",
+      "romaji": "Ame ga futte iru node, soto ni denai hou ga ii desu yo.",
+      "english": "It is better not to go outside because it is raining.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": "雨: ame (rain), 降っている: futte iru (raining)"
+    }
+  ],
+  "relatedPoints": [
+    "～のです",
+    "～し、～し、～",
+    "～んです"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "雨が降っているから、外に出ない方がいいです。",
+      "correction": "雨が降っているので、外に出ない方がいいです。",
+      "example": "Because it is raining, it's better not to go outside."
+    }
+  ],
+  "tags": [
+    "n4",
+    "reasons",
+    "causes",
+    "polite-expressions"
+  ]
+}

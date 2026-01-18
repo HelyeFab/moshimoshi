@@ -1,0 +1,33 @@
+{
+  "kanji": "功",
+  "sentences": [
+    {
+      "id": "182943",
+      "japanese": "亀の甲より年の功。",
+      "english": "Experience without learning is better than learning without experience."
+    },
+    {
+      "id": "185195",
+      "japanese": "解決策が功を奏したのは試行錯誤の結果だった。",
+      "english": "Finding a solution that worked was a process of trial and error."
+    },
+    {
+      "id": "192374",
+      "japanese": "レーガン大統領の税政策はまだ功を奏していない。",
+      "english": "President Reagan's tax program has not worked."
+    },
+    {
+      "id": "121846",
+      "japanese": "年の功というのか、彼の意見はさすがに一日の長があるね。",
+      "english": "Maybe it's his age but his opinions seem a little more grounded in experience than everyone else's."
+    },
+    {
+      "id": "11257862",
+      "japanese": "亀の甲より年の功、だよ。",
+      "english": "Experience is the best teacher."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.123Z",
+  "count": 5,
+  "fileId": "kanji-01203"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "隅",
+  "sentences": [
+    {
+      "id": "179267",
+      "japanese": "隅のテーブルがいいのですが。",
+      "english": "Could we have a table in the corner?"
+    },
+    {
+      "id": "10758932",
+      "japanese": "隅のテーブルをお願いできますか。",
+      "english": "Could we have a table in the corner?"
+    },
+    {
+      "id": "179268",
+      "japanese": "隅にいた男の人が夫に話しかけた。",
+      "english": "The man in the corner addressed himself to the husband."
+    },
+    {
+      "id": "204974",
+      "japanese": "それは庭の隅の小さな部屋にあります。",
+      "english": "It's in a small room at the end of the garden."
+    },
+    {
+      "id": "207486",
+      "japanese": "その島は隅々まで探索されている。",
+      "english": "Every part of the island has been explored."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.409Z",
+  "count": 5,
+  "fileId": "kanji-00836"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "北",
+  "sentences": [
+    {
+      "id": "185116",
+      "japanese": "海に面した都市で、隣のもっと有名な都市、ドーヴァーからは、海岸を１３キロほど北に寄ったところに位置しています。",
+      "english": "It's on the coast about 13 kilometers to the north of its more famous neighbor, Dover."
+    },
+    {
+      "id": "185752",
+      "japanese": "我々は真っすぐ北へ進んだ。",
+      "english": "We went due north."
+    },
+    {
+      "id": "185933",
+      "japanese": "我々は角を左に曲がって北へ進んだ。",
+      "english": "We turned left at the corner and drove north."
+    },
+    {
+      "id": "10078500",
+      "japanese": "私たちは角を左に曲がり、車を北へと走らせた。",
+      "english": "We turned left at the corner and drove north."
+    },
+    {
+      "id": "185934",
+      "japanese": "我々は角を曲がり北へと車を走らせた。",
+      "english": "We turned a corner and drove north."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.960Z",
+  "count": 5,
+  "fileId": "kanji-00061"
+}

@@ -1,0 +1,155 @@
+{
+  "id": "320-n4-point-120",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～んです",
+    "romaji": "~n desu",
+    "en": "Providing an Explanation"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～んです grammar point is used to provide an explanation or reason for a situation or action. It can be translated as 'it is that', 'the thing is', or 'the reason is' in English.",
+    "ja": "〜んですは、状況や行動の説明や理由を提供するために使用されます。英語で言うと、「それは」とか「そのことは」、または「その理由は」と訳すことができます。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + んです, い-Adjective + んです, な-Adjective + なんです, Noun + んです",
+    "components": [
+      {
+        "part": "Verb-casual + んです",
+        "explanation": "The casual form of the verb followed by んです.",
+        "examples": [
+          "遅れたんですが、電車が遅れました。Okuretan desuga, densha ga okuremashita."
+        ]
+      },
+      {
+        "part": "い-Adjective + んです",
+        "explanation": "An い-adjective directly followed by んです.",
+        "examples": [
+          "疲れたんです。Tsukareta n desu."
+        ]
+      },
+      {
+        "part": "な-Adjective + なんです",
+        "explanation": "A な-adjective followed by なんです.",
+        "examples": [
+          "彼は優しいんです。Kare wa yasashii n desu."
+        ]
+      },
+      {
+        "part": "Noun + んです",
+        "explanation": "A noun directly followed by んです.",
+        "examples": [
+          "宿題が多いんです。Shukudai ga ooi n desu."
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "遅れたんですが、電車が遅れました。",
+      "romaji": "Okuretan desuga, densha ga okuremashita.",
+      "english": "I was late because the train was delayed.",
+      "breakdown": {
+        "token": [
+          "遅れた",
+          "ん",
+          "です",
+          "電車",
+          "が",
+          "遅れました"
+        ],
+        "gloss": [
+          "was late",
+          "",
+          "",
+          "train",
+          "",
+          "delayed"
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "疲れたんです。",
+      "romaji": "Tsukareta n desu.",
+      "english": "I'm tired (that's why).",
+      "breakdown": {
+        "token": [
+          "疲れた",
+          "ん",
+          "です"
+        ],
+        "gloss": [
+          "was tired",
+          "",
+          ""
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は優しいんです。",
+      "romaji": "Kare wa yasashii n desu.",
+      "english": "The thing is, he is kind.",
+      "breakdown": {
+        "token": [
+          "彼",
+          "は",
+          "優しい",
+          "ん",
+          "です"
+        ],
+        "gloss": [
+          "he",
+          "",
+          "kind",
+          "",
+          ""
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "宿題が多いんです。",
+      "romaji": "Shukudai ga ooi n desu.",
+      "english": "The reason is I have a lot of homework.",
+      "breakdown": {
+        "token": [
+          "宿題",
+          "が",
+          "多い",
+          "ん",
+          "です"
+        ],
+        "gloss": [
+          "homework",
+          "",
+          "a lot",
+          "",
+          ""
+        ]
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～し、～し、～",
+    "～ので",
+    "～のです"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "～んです for all types of words without proper adjustment.",
+      "correction": "Ensure the appropriate form is used based on word type (verb, い-adjective, な-adjective, noun).",
+      "example": ""
+    }
+  ],
+  "tags": [
+    "n4",
+    "explanation",
+    "reasons",
+    "casual-expressions",
+    "polite-form"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "301-n4-point-101",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～と思う (〜to omou)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～と思う grammar point is used to express one's thoughts or opinions on a particular subject or situation. It can be translated as 'I think' or 'I believe' in English. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + と思う, い-Adjective + と思う, な-Adjective + だと思う, Noun + だと思う",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "明日晴れると思います。",
+      "romaji": "Ashita hareru to omoimasu.",
+      "english": "I think it will be sunny tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この映画は面白いと思う。",
+      "romaji": "Kono eiga wa omoshiroi to omou.",
+      "english": "I think this movie is interesting.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は親切だと思います。",
+      "romaji": "Kare wa shinsetsu da to omoimasu.",
+      "english": "I think he is kind.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "鈴木さんは先生だと思う。",
+      "romaji": "Suzuki-san wa sensei da to omou.",
+      "english": "I think Suzuki-san is a teacher.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

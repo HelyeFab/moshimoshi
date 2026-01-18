@@ -1,0 +1,33 @@
+{
+  "kanji": "加",
+  "sentences": [
+    {
+      "id": "178153",
+      "japanese": "君の息子さん学生運動に加わってたそうだね。",
+      "english": "Your son took part in the student movement, I hear."
+    },
+    {
+      "id": "178817",
+      "japanese": "君たちに加われるとは思うが、まだ決めていない。",
+      "english": "I think I might join you, but I haven't decided yet."
+    },
+    {
+      "id": "178875",
+      "japanese": "君が勉強した学校ではタイプに加えて常識というものを教えてもらわなかったかい。",
+      "english": "Didn't they teach you common sense as well as typing at the school where you studied?"
+    },
+    {
+      "id": "178929",
+      "japanese": "君が仲間に加われないのは残念だ。",
+      "english": "It is a pity that you can't join us."
+    },
+    {
+      "id": "178982",
+      "japanese": "君が私たちのパレードに加わって、通りを行進することを希望する。",
+      "english": "I hope you will join us in the parade and march along the street."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.901Z",
+  "count": 5,
+  "fileId": "kanji-00499"
+}

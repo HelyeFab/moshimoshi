@@ -1,0 +1,33 @@
+{
+  "kanji": "円",
+  "sentences": [
+    {
+      "id": "180541",
+      "japanese": "強い円が経済を揺さぶっている。",
+      "english": "A strong yen is shaking the economy."
+    },
+    {
+      "id": "183967",
+      "japanese": "完全な円にはもう見えないのである。",
+      "english": "It no longer seems to be a perfect circle."
+    },
+    {
+      "id": "183987",
+      "japanese": "勘定は5000円になる。",
+      "english": "The bill amounts to five thousand yen."
+    },
+    {
+      "id": "237405",
+      "japanese": "円を描いてくれ。",
+      "english": "Draw a circle."
+    },
+    {
+      "id": "188810",
+      "japanese": "円をドルに両替できますか。",
+      "english": "Can I exchange yen for dollars here?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.859Z",
+  "count": 5,
+  "fileId": "kanji-00058"
+}

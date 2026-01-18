@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "066-ichiban-most",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "066-ichiban-most-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the word for 'the most':",
+      "options": [
+        { "id": "a", "text": "一番" },
+        { "id": "b", "text": "より" },
+        { "id": "c", "text": "と" },
+        { "id": "d", "text": "ほど" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 一番 means 'the most.'",
+      "incorrectFeedback": "Not quite. 一番 is 'the most.'",
+      "explanation": "一番 = the most.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "066-ichiban-most-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "日本料理が一番好きです。" },
+        { "id": "b", "text": "日本料理を一番好きです。" },
+        { "id": "c", "text": "日本料理に一番好きです。" },
+        { "id": "d", "text": "日本料理で一番好きです。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use が with 一番好きです.",
+      "incorrectFeedback": "Try again. Use が to mark what is most.",
+      "explanation": "が marks what is the most.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "066-ichiban-most-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I like apples the most.'",
+      "correctAnswer": "りんごが一番好きです",
+      "acceptedVariations": [
+        "りんごが一番好きです。",
+        "りんごがいちばんすきです",
+        "ringo ga ichiban suki desu",
+        "ringo ga ichiban suki desu."
+      ],
+      "correctFeedback": "Great! りんごが一番好きです is correct.",
+      "incorrectFeedback": "The correct answer is: りんごが一番好きです (ringo ga ichiban suki desu).",
+      "explanation": "Use が一番好きです for preferences.",
+      "hints": ["りんご = apple", "好き = like"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "066-ichiban-most-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase for 'Among fruits':",
+      "options": [
+        { "id": "a", "text": "果物の中で" },
+        { "id": "b", "text": "果物の前に" },
+        { "id": "c", "text": "果物の後で" },
+        { "id": "d", "text": "果物のより" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! の中で means 'among.'",
+      "incorrectFeedback": "Not quite. Use の中で for 'among.'",
+      "explanation": "の中で sets the comparison group.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "066-ichiban-most-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Among fruits, I like apples the most.'",
+      "correctAnswer": "果物の中でりんごが一番好きです",
+      "acceptedVariations": [
+        "果物の中でりんごが一番好きです。",
+        "くだもののなかでりんごがいちばんすきです",
+        "kudamono no naka de ringo ga ichiban suki desu",
+        "kudamono no naka de ringo ga ichiban suki desu."
+      ],
+      "correctFeedback": "Nice! 果物の中でりんごが一番好きです is correct.",
+      "incorrectFeedback": "The correct answer is: 果物の中でりんごが一番好きです (kudamono no naka de ringo ga ichiban suki desu).",
+      "explanation": "Use の中で to show the group.",
+      "hints": ["果物 = fruit", "の中で = among"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "066-ichiban-most-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "この町が一番きれいです。" },
+        { "id": "b", "text": "日本料理が一番好きです。" },
+        { "id": "c", "text": "りんごを一番好きです。" },
+        { "id": "d", "text": "果物の中でりんごが一番好きです。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use が, not を, with 一番好きです.",
+      "incorrectFeedback": "Try again. 一番 uses が for the subject.",
+      "explanation": "Use が to mark what is the most.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "066-ichiban-most-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This town is the cleanest.'",
+      "correctAnswer": "この町が一番きれいです",
+      "acceptedVariations": [
+        "この町が一番きれいです。",
+        "このまちがいちばんきれいです",
+        "kono machi ga ichiban kirei desu",
+        "kono machi ga ichiban kirei desu."
+      ],
+      "correctFeedback": "Great! この町が一番きれいです is correct.",
+      "incorrectFeedback": "The correct answer is: この町が一番きれいです (kono machi ga ichiban kirei desu).",
+      "explanation": "Use が一番 + adjective.",
+      "hints": ["町 = town", "きれい = clean"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "066-ichiban-most-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "日本料理が一番好きです。",
+          "romaji": "Nihon ryouri ga ichiban suki desu.",
+          "english": "I like Japanese food the most."
+        },
+        {
+          "japanese": "この町が一番きれいです。",
+          "romaji": "Kono machi ga ichiban kirei desu.",
+          "english": "This town is the cleanest."
+        },
+        {
+          "japanese": "果物の中でりんごが一番好きです。",
+          "romaji": "Kudamono no naka de ringo ga ichiban suki desu.",
+          "english": "Among fruits, I like apples the most."
+        }
+      ],
+      "correctFeedback": "Perfect! All use 一番.",
+      "incorrectFeedback": "Not quite. Review the use of 一番.",
+      "explanation": "一番 marks the superlative.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "066-ichiban-most-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'the fastest'?",
+      "options": [
+        { "id": "a", "text": "一番早い" },
+        { "id": "b", "text": "より早い" },
+        { "id": "c", "text": "同じ早い" },
+        { "id": "d", "text": "早いと" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 一番早い = the fastest.",
+      "incorrectFeedback": "Try again. 一番 marks the most.",
+      "explanation": "一番 + adjective = the most ...",
+      "difficulty": "hard"
+    },
+    {
+      "id": "066-ichiban-most-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'In the class, Tanaka is the fastest.'",
+      "correctAnswer": "クラスで田中さんが一番早いです",
+      "acceptedVariations": [
+        "クラスで田中さんが一番早いです。",
+        "くらすでたなかさんがいちばんはやいです",
+        "kurasu de Tanaka-san ga ichiban hayai desu",
+        "kurasu de Tanaka-san ga ichiban hayai desu."
+      ],
+      "correctFeedback": "Nice! クラスで田中さんが一番早いです is correct.",
+      "incorrectFeedback": "The correct answer is: クラスで田中さんが一番早いです (kurasu de Tanaka-san ga ichiban hayai desu).",
+      "explanation": "Use 一番 to show the superlative.",
+      "hints": ["クラスで = in the class", "早い = fast"],
+      "difficulty": "hard"
+    }
+  ]
+}

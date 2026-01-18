@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "252-n4-point-52",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "252-n4-point-52-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb not to become\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb ない ことになる",
+          "romaji": "Verb nai koto ni naru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb ない ことになる matches \"Verb not to become\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ない ことになる.",
+      "explanation": "Expresses that something will end up not happening or being done.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "252-n4-point-52-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb ない ことになる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb not to become"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb ない ことになる means \"Verb not to become\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb not to become\".",
+      "explanation": "Expresses that something will end up not happening or being done.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "252-n4-point-52-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb ない ことになる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb nai koto ni naru"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb nai koto ni naru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb nai koto ni naru.",
+      "explanation": "Expresses that something will end up not happening or being done.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "252-n4-point-52-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb ない ことになる?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Expresses that something will end up not happening or being done."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses that something will end up not happening or being done.",
+      "explanation": "Expresses that something will end up not happening or being done.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "252-n4-point-52-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb not to become\".",
+      "correctAnswer": "Verb ない ことになる",
+      "acceptedVariations": [
+        "Verb ない ことになる",
+        "Verbないことになる"
+      ],
+      "correctFeedback": "Nice! Verb ない ことになる is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb ない ことになる (Verb nai koto ni naru).",
+      "explanation": "Expresses that something will end up not happening or being done.",
+      "hints": [
+        "Verb nai koto ni naru",
+        "Expresses that something will end up not happening or being done."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "252-n4-point-52-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb ない ことになる.",
+      "correctAnswer": "Verb nai koto ni naru",
+      "acceptedVariations": [
+        "Verb nai koto ni naru",
+        "verb nai koto ni naru"
+      ],
+      "correctFeedback": "Nice! Verb nai koto ni naru is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb nai koto ni naru.",
+      "explanation": "Expresses that something will end up not happening or being done.",
+      "hints": [
+        "Expresses that something will end up not happening or being done."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "252-n4-point-52-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb ない ことになる.",
+      "correctAnswer": "Verb not to become",
+      "acceptedVariations": [
+        "Verb not to become",
+        "verb not to become"
+      ],
+      "correctFeedback": "Correct! \"Verb not to become\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb not to become\".",
+      "explanation": "Expresses that something will end up not happening or being done.",
+      "hints": [
+        "Expresses that something will end up not happening or being done."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "252-n4-point-52-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb ない ことになる",
+          "romaji": "Verb nai koto ni naru",
+          "english": "Verb not to become"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses that something will end up not happening or being done.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "252-n4-point-52-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses that something will end up not happening or being done..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb ない ことになる",
+          "romaji": "Verb nai koto ni naru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb ない ことになる matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ない ことになる.",
+      "explanation": "Expresses that something will end up not happening or being done.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "252-n4-point-52-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbないことになる",
+      "acceptedVariations": [
+        "Verbないことになる",
+        "Verb ない ことになる"
+      ],
+      "correctFeedback": "Great! Verbないことになる is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbないことになる.",
+      "explanation": "Expresses that something will end up not happening or being done.",
+      "hints": [
+        "Verb nai koto ni naru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

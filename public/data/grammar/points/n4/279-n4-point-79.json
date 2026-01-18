@@ -1,0 +1,101 @@
+{
+  "id": "279-n4-point-79",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～けれど",
+    "romaji": "~keredo",
+    "en": "But, however"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～けれど grammar point is used to express a soft contrast or contradiction between two statements. It can be translated as 'but' or 'however' in English and is relatively informal.",
+    "ja": "〜けれどは二つの文の間でソフトな対立や矛盾を表現するために使います。英語では「でも」や「しかし」と訳すことができます。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + けれど, い-Adjective + けれど, な-Adjective + だけれど, Noun + だけれど",
+    "components": [
+      {
+        "part": "Verb-casual",
+        "explanation": "The verb in its casual form.",
+        "examples": [
+          "忙しい (isogashii)"
+        ]
+      },
+      {
+        "part": "い-Adjective",
+        "explanation": "An adjective ending with 'い'.",
+        "examples": [
+          "高い (takai)"
+        ]
+      },
+      {
+        "part": "な-Adjective + だけれど",
+        "explanation": "For adjectives that require the particle 'な' before adding だけれど.",
+        "examples": []
+      },
+      {
+        "part": "Noun + だけれど",
+        "explanation": "A noun followed by だけれど.",
+        "examples": [
+          "病気 (byouki)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "今日は忙しいけれど、明日はもっと時間がある。",
+      "romaji": "Kyou wa isogashii keredo, ashita wa motto jikan ga aru.",
+      "english": "I'm busy today, but I have more time tomorrow.",
+      "breakdown": {
+        "token": "kyou-wa-isogashii-keredo|ashita-wa-motto-jikan-ga-aru"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このレストランは高いけれど、料理が美味しい。",
+      "romaji": "Kono resutoran wa takai keredo, ryouri ga oishii.",
+      "english": "This restaurant is expensive, but the food is delicious.",
+      "breakdown": {
+        "token": "kono-resutoran-wa-takai-keredo|ryouri-ga-oishii"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は若いけれど、とても経験豊富だ。",
+      "romaji": "Kare wa wakai keredo, totemo keiken houfu da.",
+      "english": "He is young, but he is very experienced.",
+      "breakdown": {
+        "token": "kare-wa-wakai-keredo|totemo-keiken-houfu-da"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は病気だけれど、明るく元気だ。",
+      "romaji": "Kanojo wa byouki da keredo, akaruku genki da.",
+      "english": "She is sick, but she is cheerful and energetic.",
+      "breakdown": {
+        "token": "kanojo-wa-byouki-da-keredo|akaruku-genki-da"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "n4-013",
+    "n5-008"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "今日は忙しいが、明日はもっと時間がある。",
+      "correction": "今日は忙しいけれど、明日はもっと時間がある。",
+      "example": "Using が instead of けれど for softer contrast."
+    }
+  ],
+  "tags": [
+    "n4",
+    "contrast",
+    "informal",
+    "soft-contradiction"
+  ]
+}

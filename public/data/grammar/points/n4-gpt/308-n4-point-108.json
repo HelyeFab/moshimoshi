@@ -1,0 +1,90 @@
+{
+  "id": "308-n4-point-108",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～なければ ならない",
+    "romaji": "~nakereba naranai",
+    "en": "Must / Have to"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "Expresses obligation or necessity. Translated as 'must', 'have to', or 'need to'. Cannot be used with い-adjectives, な-adjectives, or nouns.",
+    "ja": "義務や必要性を表現します。'must', 'have to', または 'need to' のように訳されます。イ形容詞、ナ形容詞、名詞には使用できません。"
+  },
+  "structure": {
+    "pattern": "Verb-ない form + なければ ならない",
+    "components": [
+      {
+        "part": "Verb-ない form",
+        "explanation": "The negative form of the verb.",
+        "examples": [
+          "やらな",
+          "読まな",
+          "起きな",
+          "買わな"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "宿題をやらなければならない。",
+      "romaji": "Shukudai wo yaranakereba naranai.",
+      "english": "I have to do my homework.",
+      "breakdown": {
+        "宿題(shukudai)": "homework",
+        "やる(yaru)": "to do"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "明日までにこの本を読まなければならない。",
+      "romaji": "Ashita made ni kono hon wo yomanakereba naranai.",
+      "english": "I have to read this book by tomorrow.",
+      "breakdown": {
+        "明日(ashita)": "tomorrow",
+        "読む(yomu)": "to read"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "授業に遅れないように、早く起きなければならない。",
+      "romaji": "Jugyou ni okurenai you ni, hayaku okinakereba naranai.",
+      "english": "I have to wake up early so I don't be late for class.",
+      "breakdown": {
+        "授業(jugyou)": "class",
+        "遅れる(okureru)": "to be late"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "旅行に行く前に切符を買わなければならない。",
+      "romaji": "Ryokou ni iku mae ni kippu wo kawanakereba naranai.",
+      "english": "I have to buy a ticket before going on a trip.",
+      "breakdown": {
+        "旅行(ryokou)": "trip",
+        "買う(kau)": "to buy"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～ばいい",
+    "～ないといけない",
+    "～たり～たり"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "使用する形容詞は「い」形容詞",
+      "correction": "「なければならない」は動詞のみに使用可能。",
+      "example": "正しい: 食べなければならない。間違った: 美しくなければならない。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "obligation",
+    "verbs",
+    "negatives"
+  ]
+}

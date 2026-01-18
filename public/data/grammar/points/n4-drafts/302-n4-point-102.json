@@ -1,0 +1,55 @@
+{
+  "id": "302-n4-point-102",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～という (〜to iu)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～という grammar point is used to quote someone's words, express something you heard or read from someone else, or define and clarify the subject. It can be translated as 'called', 'that', or 'it is said'. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + という, い-Adjective + という, な-Adjective + という, Noun + という",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼は「好きだ」と言った。",
+      "romaji": "Kare wa 'suki da' to itta.",
+      "english": "He said 'I like you'.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "その映画は面白いという評判があります。",
+      "romaji": "Sono eiga wa omoshiroi to iu hyouban ga arimasu.",
+      "english": "The movie has a reputation for being interesting.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "日本には富士山という高い山があります。",
+      "romaji": "Nihon ni wa Fujisan to iu takai yama ga arimasu.",
+      "english": "In Japan, there is a tall mountain called Mount Fuji.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は難しい仕事をしているという話です。",
+      "romaji": "Kanojo wa muzukashii shigoto o shiteiru to iu hanashi desu.",
+      "english": "I heard she is doing a difficult job.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

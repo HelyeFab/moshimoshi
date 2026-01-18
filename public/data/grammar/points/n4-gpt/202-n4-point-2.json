@@ -1,0 +1,104 @@
+{
+  "id": "202-n4-point-2",
+  "version": "1.0.0",
+  "title": {
+    "ja": "A は B ほど～ありません",
+    "romaji": "A wa B hodo ~ arimasen",
+    "en": "Not as much/less than"
+  },
+  "jlptLevel": "N4",
+  "category": "comparisons",
+  "explanation": {
+    "en": "The grammar point A は B ほど～ありません is used to express that A is not as much or less than B, emphasizing the difference. It can be translated as 'not as... as' or 'not... to the extent of'.",
+    "ja": "A は B ほど～ありませんという文法は、AがBほどではないまたはBほどまでにはいかないことを表すのに使われます。これは英語の「as... as」という表現に相当します。"
+  },
+  "structure": {
+    "pattern": "A は B ほど Verb/adjective ありません",
+    "components": [
+      {
+        "part": "A",
+        "explanation": "The subject being compared.",
+        "examples": [
+          "今日 (Kyou)",
+          "彼女 (Kanojo)"
+        ]
+      },
+      {
+        "part": "B",
+        "explanation": "The comparison standard or the other subject.",
+        "examples": [
+          "昨日 (Kinou)",
+          "彼 (Kare)"
+        ]
+      },
+      {
+        "part": "ほど",
+        "explanation": "Indicates that A does not reach up to B in some way.",
+        "examples": []
+      },
+      {
+        "part": "Verb/adjective ありません",
+        "explanation": "Expresses a lack or absence relative to the comparison standard B.",
+        "examples": [
+          "寒くありません (samuku arimasen)",
+          "忙しくありません (isogashiku arimasen)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "今日は昨日ほど寒くありません。",
+      "romaji": "Kyou wa kinou hodo samuku arimasen.",
+      "english": "Today is not as cold as yesterday.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は私ほど上手に英語を話せません。",
+      "romaji": "Kare wa watashi hodo jouzu ni eigo o hanasemasen.",
+      "english": "He cannot speak English as well as I can.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このレストランはあのレストランほど高くありません。",
+      "romaji": "Kono resutoran wa ano resutoran hodo takaku arimasen.",
+      "english": "This restaurant is not as expensive as that restaurant.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は彼ほど忙しくありません。",
+      "romaji": "Kanojo wa kare hodo isogashiku arimasen.",
+      "english": "She is not as busy as him.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "N4-Comparison-MoreThan"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "今日は昨日ほど寒いです。",
+      "correction": "今日は昨日ほど寒くありません。",
+      "example": "Incorrect use of い-adjective instead of its negative form."
+    }
+  ],
+  "tags": [
+    "n4",
+    "comparison",
+    "negative",
+    "adjectives",
+    "verbs"
+  ]
+}

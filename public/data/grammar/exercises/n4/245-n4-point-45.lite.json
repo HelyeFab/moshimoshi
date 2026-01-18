@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "245-n4-point-45",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "245-n4-point-45-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Want someone to do something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb て ほしい",
+          "romaji": "Verb-te hoshii"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb て ほしい matches \"Want someone to do something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb て ほしい.",
+      "explanation": "Expresses wanting someone else to do an action for you.",
+      "difficulty": "easy"
+    }
+  ]
+}

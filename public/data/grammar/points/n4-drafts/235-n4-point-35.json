@@ -1,0 +1,55 @@
+{
+  "id": "235-n4-point-35",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て いる ところ (Verb te iru tokoro)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The て いる ところ grammar point is used to express an action that is currently happening or taking place. It can be translated as 'in the middle of' or 'in the process of' in English. It is formed by using the て-form of a verb followed by いる and ところ.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + いる ところ",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼は宿題をしているところです。",
+      "romaji": "Kare wa shukudai wo shite iru tokoro desu.",
+      "english": "He is in the middle of doing his homework.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "私たちは映画を見ているところでした。",
+      "romaji": "Watashitachi wa eiga wo mite iru tokoro deshita.",
+      "english": "We were in the process of watching a movie.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "子供たちは公園で遊んでいるところです。",
+      "romaji": "Kodomotachi wa kouen de asonde iru tokoro desu.",
+      "english": "The kids are in the middle of playing in the park.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女はケーキを作っているところで、すぐ来ます。",
+      "romaji": "Kanojo wa keeki wo tsukutte iru tokoro de, sugu kimasu.",
+      "english": "She is in the process of making a cake and will come soon.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Modal from '@/components/ui/Modal'
 import AudioButton from '@/components/ui/AudioButton'
 import { LoadingSpinner } from '@/components/ui/Loading'
@@ -27,8 +27,19 @@ export default function ExamplesModal({
   loading = false,
 }: ExamplesModalProps) {
   const { strings } = useI18n()
-  const { play, loading: ttsLoading, playing, currentText } = useTTS({ cacheFirst: true })
+  const { play, preload, loading: ttsLoading, playing, currentText } = useTTS({ cacheFirst: true })
   const [showFurigana, setShowFurigana] = useState(true)
+
+  useEffect(() => {
+    if (!isOpen || sentences.length === 0) return
+    const texts = sentences
+      .map(sentence => sentence.japanese)
+      .filter(Boolean)
+      .slice(0, 5)
+    if (texts.length > 0) {
+      preload(texts, { voice: '23', speed: 0.85 })
+    }
+  }, [isOpen, sentences, preload])
 
   return (
     <Modal

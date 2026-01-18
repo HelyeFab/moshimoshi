@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "023-masu-form-negative",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "023-masu-form-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the polite negative form: 行きます → ?",
+      "options": [
+        { "id": "a", "text": "行きました" },
+        { "id": "b", "text": "行きません" },
+        { "id": "c", "text": "行きます" },
+        { "id": "d", "text": "行かないです" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 行きません is the polite negative.",
+      "incorrectFeedback": "Not quite. Replace ます with ません.",
+      "explanation": "ます → ません for polite negative.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "023-masu-form-negative-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'I do not eat breakfast'?",
+      "options": [
+        { "id": "a", "text": "朝ご飯を食べません。" },
+        { "id": "b", "text": "朝ご飯を食べました。" },
+        { "id": "c", "text": "朝ご飯を食べます。" },
+        { "id": "d", "text": "朝ご飯を食べませんでした。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 食べません is the polite negative.",
+      "incorrectFeedback": "Try again. 食べません means 'do not eat'.",
+      "explanation": "Present/future negative uses ません.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "023-masu-form-negative-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I do not go today.'",
+      "correctAnswer": "今日は行きません",
+      "acceptedVariations": [
+        "今日は行きません。",
+        "きょうはいきません",
+        "kyou wa ikimasen",
+        "kyou wa ikimasen."
+      ],
+      "correctFeedback": "Great! 今日は行きません is correct.",
+      "incorrectFeedback": "The correct answer is: 今日は行きません (kyou wa ikimasen).",
+      "explanation": "Use ません for the polite negative.",
+      "hints": ["今日 = today", "End with 行きません"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "023-masu-form-negative-ex-04",
+      "type": "multiple-choice",
+      "question": "Which verb is in polite negative form?",
+      "options": [
+        { "id": "a", "text": "読みます" },
+        { "id": "b", "text": "読みません" },
+        { "id": "c", "text": "読みました" },
+        { "id": "d", "text": "読まない" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 読みません is the polite negative.",
+      "incorrectFeedback": "Not quite. Look for ません.",
+      "explanation": "Polite negative ends with ません.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "023-masu-form-negative-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I don't speak Japanese.'",
+      "correctAnswer": "日本語を話しません",
+      "acceptedVariations": [
+        "日本語を話しません。",
+        "にほんごをはなしません",
+        "nihongo o hanashimasen",
+        "nihongo o hanashimasen."
+      ],
+      "correctFeedback": "Nice! 日本語を話しません is correct.",
+      "incorrectFeedback": "The correct answer is: 日本語を話しません (nihongo o hanashimasen).",
+      "explanation": "Use ません for polite negative statements.",
+      "hints": ["話します → 話しません", "日本語 = Japanese"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "023-masu-form-negative-ex-06",
+      "type": "multiple-choice",
+      "question": "Choose the correct negative sentence:",
+      "options": [
+        { "id": "a", "text": "明日行きません。" },
+        { "id": "b", "text": "明日行きました。" },
+        { "id": "c", "text": "明日行きます。" },
+        { "id": "d", "text": "明日行くです。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行きません is polite negative.",
+      "incorrectFeedback": "Try again. Use ません for negative.",
+      "explanation": "Replace ます with ません.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "023-masu-form-negative-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I will not work tomorrow.'",
+      "correctAnswer": "明日は働きません",
+      "acceptedVariations": [
+        "明日は働きません。",
+        "あしたははたらきません",
+        "ashita wa hatarakimasen",
+        "ashita wa hatarakimasen."
+      ],
+      "correctFeedback": "Great! 明日は働きません is correct.",
+      "incorrectFeedback": "The correct answer is: 明日は働きません (ashita wa hatarakimasen).",
+      "explanation": "The ます negative covers future too.",
+      "hints": ["働きます → 働きません", "明日 = tomorrow"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "023-masu-form-negative-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "今日は行きません。",
+          "romaji": "Kyou wa ikimasen.",
+          "english": "I am not going today."
+        },
+        {
+          "japanese": "朝ご飯を食べません。",
+          "romaji": "Asagohan o tabemasen.",
+          "english": "I do not eat breakfast."
+        },
+        {
+          "japanese": "日本語を話しません。",
+          "romaji": "Nihongo o hanashimasen.",
+          "english": "I do not speak Japanese."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review the ません form.",
+      "explanation": "All sentences end with ません.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "023-masu-form-negative-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "本を読みません。" },
+        { "id": "b", "text": "水を飲みません。" },
+        { "id": "c", "text": "行きますない。" },
+        { "id": "d", "text": "日本語を勉強しません。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ない does not attach to ます form.",
+      "incorrectFeedback": "Try again. Use ません for polite negative.",
+      "explanation": "行きますない is incorrect.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "023-masu-form-negative-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I do not study on Sunday.'",
+      "correctAnswer": "日曜日に勉強しません",
+      "acceptedVariations": [
+        "日曜日に勉強しません。",
+        "にちようびにべんきょうしません",
+        "nichiyoubi ni benkyou shimasen",
+        "nichiyoubi ni benkyou shimasen."
+      ],
+      "correctFeedback": "Nice! 日曜日に勉強しません is correct.",
+      "incorrectFeedback": "The correct answer is: 日曜日に勉強しません (nichiyoubi ni benkyou shimasen).",
+      "explanation": "Use ません for polite negative.",
+      "hints": ["日曜日 = Sunday", "勉強します → 勉強しません"],
+      "difficulty": "hard"
+    }
+  ]
+}

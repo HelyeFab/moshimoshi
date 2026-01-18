@@ -1,0 +1,23 @@
+{
+  "kanji": "餓",
+  "sentences": [
+    {
+      "id": "97427",
+      "japanese": "彼らは餓えに苦しんでいる。",
+      "english": "They are suffering from hunger."
+    },
+    {
+      "id": "109098",
+      "japanese": "彼は餓えたものに食物を供給した。",
+      "english": "He furnished the hungry with food."
+    },
+    {
+      "id": "139149",
+      "japanese": "村人たちがおそれていたのは餓えた熊だった。",
+      "english": "It was the hungry bears that the villagers were afraid of."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:45.143Z",
+  "count": 3,
+  "fileId": "kanji-01980"
+}

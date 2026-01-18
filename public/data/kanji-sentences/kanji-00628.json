@@ -1,0 +1,33 @@
+{
+  "kanji": "減",
+  "sentences": [
+    {
+      "id": "236875",
+      "japanese": "君は食事を減らした方がいいと思う。",
+      "english": "I think you'd better go on a diet."
+    },
+    {
+      "id": "177660",
+      "japanese": "君はたばこを吸い過ぎだ。減らすべきだ。",
+      "english": "You smoke far too much. You should cut back."
+    },
+    {
+      "id": "179253",
+      "japanese": "靴の底がすり減ってしまった。",
+      "english": "The soles of my shoes are worn."
+    },
+    {
+      "id": "163841",
+      "japanese": "私の靴はすり減っている。",
+      "english": "My shoes are worn out."
+    },
+    {
+      "id": "179260",
+      "japanese": "靴がすり減った。",
+      "english": "My shoes are worn out."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.660Z",
+  "count": 5,
+  "fileId": "kanji-00628"
+}

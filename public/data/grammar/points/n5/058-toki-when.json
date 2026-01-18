@@ -1,0 +1,111 @@
+{
+  "id": "058-toki-when",
+  "version": "1.0.0",
+  "title": {
+    "ja": "時",
+    "romaji": "toki",
+    "en": "時 (when)"
+  },
+  "jlptLevel": "N5",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "時 (とき) means “when.” It connects a time or action with another action. You can use it with verbs and adjectives to say “when I do…,” “when it is…,” or “when I did….”\n\nKey points:\n• Verb (dictionary) + 時 = when you do\n• Verb (past) + 時 = when you did\n• Noun + の + 時 = when (noun)\n• Adjective + 時 = when it is/was\n\nExample: “日本に行く時、写真を撮ります” means “When I go to Japan, I take photos.” “暇な時、映画を見ます” means “When I am free, I watch movies.”\n\nUse dictionary form for general or future situations, and past form for past situations. For nouns, add の before 時.\n\nThis pattern is very common and helps you talk about situations and timing in a natural way.\n\nPractice by describing daily routines: 朝起きる時、コーヒーを飲みます. 友だちに会った時、うれしかったです.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "(Verb/Adj/Noun) + 時 + Action",
+    "components": [
+      {
+        "part": "Verb/Adj/Noun",
+        "explanation": "The time or condition",
+        "examples": ["行く", "行った", "暇な", "雨の"]
+      },
+      {
+        "part": "時",
+        "explanation": "When",
+        "examples": ["時"]
+      },
+      {
+        "part": "Action",
+        "explanation": "Main action",
+        "examples": ["写真を撮ります", "家にいます", "うれしいです"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "日本に行く時、写真を撮ります。",
+      "romaji": "Nihon ni iku toki, shashin o torimasu.",
+      "english": "When I go to Japan, I take photos.",
+      "breakdown": {
+        "日本": "Japan",
+        "に": "to",
+        "行く": "go (dictionary)",
+        "時": "when",
+        "写真": "photos",
+        "を": "object marker",
+        "撮ります": "take"
+      },
+      "notes": "General/future"
+    },
+    {
+      "japanese": "家に帰った時、シャワーを浴びます。",
+      "romaji": "Ie ni kaetta toki, shawaa o abimasu.",
+      "english": "When I got home, I take a shower.",
+      "breakdown": {
+        "家": "home",
+        "に": "to",
+        "帰った": "returned (past)",
+        "時": "when",
+        "シャワー": "shower",
+        "を": "object marker",
+        "浴びます": "take (a shower)"
+      },
+      "notes": "Past situation"
+    },
+    {
+      "japanese": "暇な時、映画を見ます。",
+      "romaji": "Hima na toki, eiga o mimasu.",
+      "english": "When I am free, I watch movies.",
+      "breakdown": {
+        "暇な": "free (na-adj)",
+        "時": "when",
+        "映画": "movie",
+        "を": "object marker",
+        "見ます": "watch"
+      },
+      "notes": "Adjective + 時"
+    },
+    {
+      "japanese": "雨の時、家にいます。",
+      "romaji": "Ame no toki, ie ni imasu.",
+      "english": "When it rains, I stay home.",
+      "breakdown": {
+        "雨": "rain",
+        "の": "of",
+        "時": "when",
+        "家": "home",
+        "に": "at",
+        "います": "be (animate)"
+      },
+      "notes": "Noun + の + 時"
+    }
+  ],
+  "relatedPoints": [
+    "055-mae-ni-before",
+    "056-ato-de-after"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ます-form before 時",
+      "correction": "Use dictionary or past form",
+      "example": "❌ 行きます時 → ✅ 行く時"
+    },
+    {
+      "mistake": "Forgetting な with na-adjectives",
+      "correction": "Use な before 時",
+      "example": "❌ 暇時 → ✅ 暇な時"
+    }
+  ],
+  "tags": ["time", "when", "sequence", "beginner"]
+}

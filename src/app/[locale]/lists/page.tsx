@@ -137,7 +137,7 @@ export default function MyListsPage() {
       if (success) {
         await loadLists()
         await refresh()
-        showToast(t('lists.deleted'), 'success')
+        showToast(t('lists.success.deleted'), 'success')
       } else {
         showToast(t('lists.errors.deleteFailed'), 'error')
       }

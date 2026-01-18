@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "075-counter-nin",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "075-counter-nin-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct reading for 1 person:",
+      "options": [
+        { "id": "a", "text": "ひとり" },
+        { "id": "b", "text": "いちにん" },
+        { "id": "c", "text": "ひとにん" },
+        { "id": "d", "text": "いっぴと" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 1 person is ひとり.",
+      "incorrectFeedback": "Not quite. ひとり is the correct reading.",
+      "explanation": "ひとり is irregular for 1 person.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "075-counter-nin-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "学生が三人います。" },
+        { "id": "b", "text": "学生が三ついます。" },
+        { "id": "c", "text": "学生が三本います。" },
+        { "id": "d", "text": "学生が三枚います。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 三人 is the people counter.",
+      "incorrectFeedback": "Try again. Use 人 for people.",
+      "explanation": "People are counted with 人.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "075-counter-nin-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There are two people.'",
+      "correctAnswer": "二人がいます",
+      "acceptedVariations": [
+        "二人がいます。",
+        "ふたりがいます",
+        "futari ga imasu",
+        "futari ga imasu."
+      ],
+      "correctFeedback": "Great! 二人がいます is correct.",
+      "incorrectFeedback": "The correct answer is: 二人がいます (futari ga imasu).",
+      "explanation": "二人 is irregular for two people.",
+      "hints": ["二人 = two people", "います = exist"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "075-counter-nin-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct reading for 4 people:",
+      "options": [
+        { "id": "a", "text": "よにん" },
+        { "id": "b", "text": "よっにん" },
+        { "id": "c", "text": "しにん" },
+        { "id": "d", "text": "よんにん" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 4 people is よにん.",
+      "incorrectFeedback": "Not quite. よにん is standard.",
+      "explanation": "四人 is read よにん.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "075-counter-nin-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'My family has four people.'",
+      "correctAnswer": "家族は四人です",
+      "acceptedVariations": [
+        "家族は四人です。",
+        "かぞくはよにんです",
+        "kazoku wa yonin desu",
+        "kazoku wa yonin desu."
+      ],
+      "correctFeedback": "Nice! 家族は四人です is correct.",
+      "incorrectFeedback": "The correct answer is: 家族は四人です (kazoku wa yonin desu).",
+      "explanation": "Use 人 to count people.",
+      "hints": ["家族 = family", "四人 = four people"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "075-counter-nin-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "一人で行きます。" },
+        { "id": "b", "text": "二人で食べます。" },
+        { "id": "c", "text": "本が三人あります。" },
+        { "id": "d", "text": "学生が三人います。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 人 is for people, not books.",
+      "incorrectFeedback": "Try again. 人 is only for people.",
+      "explanation": "Use つ or 本 for objects, not 人.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "075-counter-nin-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There are three students.'",
+      "correctAnswer": "学生が三人います",
+      "acceptedVariations": [
+        "学生が三人います。",
+        "がくせいがさんにんいます",
+        "gakusei ga sannin imasu",
+        "gakusei ga sannin imasu."
+      ],
+      "correctFeedback": "Great! 学生が三人います is correct.",
+      "incorrectFeedback": "The correct answer is: 学生が三人います (gakusei ga sannin imasu).",
+      "explanation": "Use 人 for people.",
+      "hints": ["学生 = students", "三人 = three people"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "075-counter-nin-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "一人で行きます。",
+          "romaji": "Hitori de ikimasu.",
+          "english": "I will go alone."
+        },
+        {
+          "japanese": "二人で食べます。",
+          "romaji": "Futari de tabemasu.",
+          "english": "We eat as two people."
+        },
+        {
+          "japanese": "学生が三人います。",
+          "romaji": "Gakusei ga sannin imasu.",
+          "english": "There are three students."
+        }
+      ],
+      "correctFeedback": "Perfect! All use 人 for people.",
+      "incorrectFeedback": "Not quite. Review 人 counters.",
+      "explanation": "人 is the counter for people.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "075-counter-nin-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct reading for 2 people?",
+      "options": [
+        { "id": "a", "text": "ふたり" },
+        { "id": "b", "text": "ににん" },
+        { "id": "c", "text": "ふたにん" },
+        { "id": "d", "text": "にひと" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 2 people is ふたり.",
+      "incorrectFeedback": "Try again. ふたり is the correct reading.",
+      "explanation": "二人 is irregular: ふたり.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "075-counter-nin-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I will go with three people.'",
+      "correctAnswer": "三人で行きます",
+      "acceptedVariations": [
+        "三人で行きます。",
+        "さんにんでいきます",
+        "sannin de ikimasu",
+        "sannin de ikimasu."
+      ],
+      "correctFeedback": "Nice! 三人で行きます is correct.",
+      "incorrectFeedback": "The correct answer is: 三人で行きます (sannin de ikimasu).",
+      "explanation": "Use 人 with で to show number of people.",
+      "hints": ["三人 = three people", "行きます = go"],
+      "difficulty": "hard"
+    }
+  ]
+}

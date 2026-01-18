@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "033-te-wa-ikenai",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "033-te-wa-ikenai-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct prohibition form: 入る → ?",
+      "options": [
+        { "id": "a", "text": "入ってはいけません" },
+        { "id": "b", "text": "入ってもいいです" },
+        { "id": "c", "text": "入ります" },
+        { "id": "d", "text": "入らないです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 入ってはいけません means 'must not enter.'",
+      "incorrectFeedback": "Not quite. Use て-form + はいけません.",
+      "explanation": "Prohibition uses て-form + はいけません.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "033-te-wa-ikenai-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'You must not smoke here'?",
+      "options": [
+        { "id": "a", "text": "ここでタバコを吸ってはいけません。" },
+        { "id": "b", "text": "ここでタバコを吸ってもいいです。" },
+        { "id": "c", "text": "ここでタバコを吸います。" },
+        { "id": "d", "text": "ここでタバコを吸いません。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 〜てはいけません is prohibition.",
+      "incorrectFeedback": "Try again. Use て-form + はいけません.",
+      "explanation": "吸ってはいけません = must not smoke.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "033-te-wa-ikenai-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'You must not enter this room.'",
+      "correctAnswer": "この部屋に入ってはいけません",
+      "acceptedVariations": [
+        "この部屋に入ってはいけません。",
+        "このへやにはいってはいけません",
+        "kono heya ni haitte wa ikemasen",
+        "kono heya ni haitte wa ikemasen."
+      ],
+      "correctFeedback": "Great! この部屋に入ってはいけません is correct.",
+      "incorrectFeedback": "The correct answer is: この部屋に入ってはいけません (kono heya ni haitte wa ikemasen).",
+      "explanation": "Use て-form + はいけません for prohibition.",
+      "hints": ["入る → 入って", "Use はいけません"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "033-te-wa-ikenai-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "授業中は話してはいけません。" },
+        { "id": "b", "text": "授業中は話すはいけません。" },
+        { "id": "c", "text": "授業中は話してもいいです。" },
+        { "id": "d", "text": "授業中は話しません。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! て-form + はいけません.",
+      "incorrectFeedback": "Not quite. Use て-form + はいけません.",
+      "explanation": "話してはいけません = must not talk.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "033-te-wa-ikenai-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'You must not take photos here.'",
+      "correctAnswer": "ここで写真を撮ってはいけません",
+      "acceptedVariations": [
+        "ここで写真を撮ってはいけません。",
+        "ここでしゃしんをとってはいけません",
+        "koko de shashin o totte wa ikemasen",
+        "koko de shashin o totte wa ikemasen."
+      ],
+      "correctFeedback": "Nice! ここで写真を撮ってはいけません is correct.",
+      "incorrectFeedback": "The correct answer is: ここで写真を撮ってはいけません (koko de shashin o totte wa ikemasen).",
+      "explanation": "Use て-form + はいけません to prohibit.",
+      "hints": ["撮る → 撮って", "Use はいけません"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "033-te-wa-ikenai-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "ここで食べてはいけません。" },
+        { "id": "b", "text": "ここで食べるはいけません。" },
+        { "id": "c", "text": "ここで話してはいけません。" },
+        { "id": "d", "text": "ここで泳いではいけません。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Use the て-form before はいけません.",
+      "incorrectFeedback": "Try again. Dictionary form is incorrect here.",
+      "explanation": "食べるはいけません is incorrect.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "033-te-wa-ikenai-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'You must not talk during class.'",
+      "correctAnswer": "授業中は話してはいけません",
+      "acceptedVariations": [
+        "授業中は話してはいけません。",
+        "じゅぎょうちゅうははなしてはいけません",
+        "jugyou-chuu wa hanashite wa ikemasen",
+        "jugyou-chuu wa hanashite wa ikemasen."
+      ],
+      "correctFeedback": "Great! 授業中は話してはいけません is correct.",
+      "incorrectFeedback": "The correct answer is: 授業中は話してはいけません (jugyou-chuu wa hanashite wa ikemasen).",
+      "explanation": "Use て-form + はいけません.",
+      "hints": ["授業中 = during class", "話してはいけません"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "033-te-wa-ikenai-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "ここでタバコを吸ってはいけません。",
+          "romaji": "Koko de tabako o sutte wa ikemasen.",
+          "english": "You must not smoke here."
+        },
+        {
+          "japanese": "この部屋に入ってはいけません。",
+          "romaji": "Kono heya ni haitte wa ikemasen.",
+          "english": "You must not enter this room."
+        },
+        {
+          "japanese": "ここで写真を撮ってはいけません。",
+          "romaji": "Koko de shashin o totte wa ikemasen.",
+          "english": "You must not take photos here."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review てはいけません.",
+      "explanation": "Each sentence uses the prohibition pattern.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "033-te-wa-ikenai-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is a prohibition?",
+      "options": [
+        { "id": "a", "text": "行ってもいいです。" },
+        { "id": "b", "text": "行ってはいけません。" },
+        { "id": "c", "text": "行きましょう。" },
+        { "id": "d", "text": "行きませんか。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! てはいけません means must not.",
+      "incorrectFeedback": "Try again. Look for てはいけません.",
+      "explanation": "てはいけません expresses prohibition.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "033-te-wa-ikenai-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'You must not use your phone here.'",
+      "correctAnswer": "ここで携帯を使ってはいけません",
+      "acceptedVariations": [
+        "ここで携帯を使ってはいけません。",
+        "ここでけいたいをつかってはいけません",
+        "koko de keitai o tsukatte wa ikemasen",
+        "koko de keitai o tsukatte wa ikemasen."
+      ],
+      "correctFeedback": "Nice! ここで携帯を使ってはいけません is correct.",
+      "incorrectFeedback": "The correct answer is: ここで携帯を使ってはいけません (koko de keitai o tsukatte wa ikemasen).",
+      "explanation": "Use て-form + はいけません for rules.",
+      "hints": ["使う → 使って", "携帯 = cellphone"],
+      "difficulty": "hard"
+    }
+  ]
+}

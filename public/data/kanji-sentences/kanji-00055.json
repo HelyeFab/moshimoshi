@@ -1,0 +1,33 @@
+{
+  "kanji": "万",
+  "sentences": [
+    {
+      "id": "179567",
+      "japanese": "銀行は会社に１００万ドル貸し付けた。",
+      "english": "The bank loaned the company $1 million."
+    },
+    {
+      "id": "182911",
+      "japanese": "義男は新しいバスケットシューズに１万５千円も払うといったが、私はそれは高すぎると思いました。",
+      "english": "Yoshio said he would pay as much as 15,000 yen for a new pair of basketball shoes, but I thought that was quite expensive."
+    },
+    {
+      "id": "186210",
+      "japanese": "我々の負債の合計は１万ドルに達している。",
+      "english": "Our total debts amount to ten thousand dollars."
+    },
+    {
+      "id": "193448",
+      "japanese": "もし万が一彼女が日本に来るとすれば、ジェーンはとても喜ぶだろう。",
+      "english": "If she should come to Japan, Jane would be very happy."
+    },
+    {
+      "id": "193449",
+      "japanese": "もし万が一私が失敗したら両親は何と言うだろう。",
+      "english": "If I should fail, what would my parents say?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.821Z",
+  "count": 5,
+  "fileId": "kanji-00055"
+}

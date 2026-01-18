@@ -1,0 +1,33 @@
+{
+  "kanji": "鈴",
+  "sentences": [
+    {
+      "id": "203208",
+      "japanese": "だれがその猫に鈴をつけられるか。",
+      "english": "Who can put a bell on the cat?"
+    },
+    {
+      "id": "79818",
+      "japanese": "問題は誰が猫に鈴をつけるかだ。",
+      "english": "The question is: Who will bell the cat."
+    },
+    {
+      "id": "136862",
+      "japanese": "誰が猫の首に鈴をつけるか。",
+      "english": "Who will bell the cat?"
+    },
+    {
+      "id": "145850",
+      "japanese": "食事の最中に呼び鈴が鳴った。",
+      "english": "The doorbell rang during the meal."
+    },
+    {
+      "id": "10579875",
+      "japanese": "鈴の音が聞こえました。",
+      "english": "I heard the sound of a ringing bell."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:21.531Z",
+  "count": 5,
+  "fileId": "kanji-01302"
+}

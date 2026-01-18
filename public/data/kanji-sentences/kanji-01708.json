@@ -1,0 +1,33 @@
+{
+  "kanji": "堪",
+  "sentences": [
+    {
+      "id": "194482",
+      "japanese": "もうこの失恋の痛みに堪えることができない。",
+      "english": "I can bear this broken heart no longer."
+    },
+    {
+      "id": "207171",
+      "japanese": "その板は重さに堪えるに十分な強度がある。",
+      "english": "The board is strong enough to bear the weight."
+    },
+    {
+      "id": "210787",
+      "japanese": "その光景は見るに堪えなかった。",
+      "english": "I could not bear to see the scene."
+    },
+    {
+      "id": "220770",
+      "japanese": "この船は遠洋航海には堪えない。",
+      "english": "This ship is not fit for an ocean voyage."
+    },
+    {
+      "id": "236790",
+      "japanese": "この時計は強い衝撃にも堪えます。",
+      "english": "This watch is shock-proof."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:34.103Z",
+  "count": 5,
+  "fileId": "kanji-01708"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "313-n4-point-113",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～ばいい (〜ba ii)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～ばいい grammar point is used to express a suggestion, recommendation or advice. It can be translated as 'should', or 'it would be good if' in English. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-ば-form + いい, い-Adjective + ければいい, な-Adjective + であればいい, Noun + であればいい",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "もっと勉強すればいい。",
+      "romaji": "Motto benkyou sureba ii.",
+      "english": "You should study more.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "お腹が空いたら、何か食べればいい。",
+      "romaji": "Onaka ga suita ra, nanika tabereba ii.",
+      "english": "If you're hungry, you should eat something.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "もっと速く走ればいい。",
+      "romaji": "Motto hayaku hashireba ii.",
+      "english": "You should run faster.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "わからなければ、先生に聞けばいい。",
+      "romaji": "Wakaranakereba, sensei ni kikeba ii.",
+      "english": "If you don't understand, you should ask the teacher.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

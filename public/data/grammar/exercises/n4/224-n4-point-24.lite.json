@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "224-n4-point-24",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "224-n4-point-24-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb た ところ\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞たところ",
+          "romaji": "Doushi ta tokoro"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 動詞たところ matches \"Verb た ところ\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞たところ.",
+      "explanation": "Expresses what happened immediately after completing an action.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "重",
+  "sentences": [
+    {
+      "id": "178212",
+      "japanese": "君の重さじゃ氷が割れるよ。",
+      "english": "The ice will give under your weight."
+    },
+    {
+      "id": "178529",
+      "japanese": "スーツケースの重さはどれくらいありますか。",
+      "english": "What's the weight of your suitcase?"
+    },
+    {
+      "id": "179385",
+      "japanese": "空気に重さがある、という考えはその子にはびっくりするようなことだった。",
+      "english": "The idea that air has weight was surprising to the child."
+    },
+    {
+      "id": "179719",
+      "japanese": "金は鉄より重い。",
+      "english": "Gold is heavier than iron."
+    },
+    {
+      "id": "179724",
+      "japanese": "金は水よりずっと重い。",
+      "english": "Gold is far heavier than water."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.971Z",
+  "count": 5,
+  "fileId": "kanji-00210"
+}

@@ -1,169 +1,296 @@
-// Magic Link authentication endpoint
-// Sends a passwordless sign-in link to the user's email
+// Magic link request endpoint
+// Generates and sends passwordless authentication links
 
 import { NextRequest, NextResponse } from 'next/server'
-import { adminAuth, ensureAdminInitialized } from '@/lib/firebase/admin'
-import { getSecurityHeaders } from '@/lib/auth/validation'
+import { adminAuth, adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin'
+import { magicLinkRequestSchema, getSecurityHeaders, formatZodErrors } from '@/lib/auth/validation'
+import { checkMagicLinkRateLimit, getRateLimitHeaders } from '@/lib/auth/rateLimit'
 import { logAuditEvent, AuditEvent } from '@/lib/auth/audit'
 import { sendMagicLinkEmail } from '@/lib/email/resend'
 import { buildDirectMagicLink } from '@/lib/auth/magicLink'
+import { z } from 'zod'
 
 export async function POST(request: NextRequest) {
-  console.log('[API /auth/magic-link] Request received')
-
   try {
     // Ensure Firebase Admin is initialized
-    console.log('[API /auth/magic-link] Initializing Firebase Admin')
-    try {
-      ensureAdminInitialized()
-    } catch (initError: any) {
-      console.error('[API /auth/magic-link] Firebase Admin initialization failed:', initError)
+    ensureAdminInitialized()
+
+    // Check rate limiting
+    const rateLimitResult = await checkMagicLinkRateLimit(request)
+    if (!rateLimitResult.success) {
       return NextResponse.json(
         {
           error: {
-            code: 'FIREBASE_INIT_FAILED',
-            message: 'Firebase Admin initialization failed: ' + initError.message,
+            code: 'RATE_LIMITED',
+            message: rateLimitResult.message || 'Too many magic link requests',
           },
         },
-        {
-          status: 500,
-          headers: getSecurityHeaders(),
+        { 
+          status: 429,
+          headers: {
+            ...getSecurityHeaders(),
+            ...getRateLimitHeaders(rateLimitResult),
+          },
         }
       )
     }
 
-    // Parse request body
+    // Parse and validate request body
     const body = await request.json()
-    const { email } = body
-
-    if (!email) {
-      return NextResponse.json(
-        {
-          error: {
-            code: 'MISSING_EMAIL',
-            message: 'Email is required',
-          },
-        },
-        {
-          status: 400,
-          headers: getSecurityHeaders(),
-        }
-      )
-    }
-
-    console.log('[API /auth/magic-link] Generating magic link for:', email)
-
-    // Generate the magic link URL
-    const actionCodeSettings = {
-      // URL to redirect to after the user clicks the link
-      // Note: Using /en as default locale for magic links (will work for all users)
-      url: `${process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app'}/en/auth/verify-magic-link`,
-      // This must be true for email link sign-in
-      handleCodeInApp: true,
-    }
-
+    
+    let validatedData
     try {
-      // Generate the sign-in link
-      const link = await adminAuth!.generateSignInWithEmailLink(email, actionCodeSettings)
-      const directMagicLink = buildDirectMagicLink(link)
-
-      console.log('[API /auth/magic-link] Magic link generated successfully')
-
-      // Send the magic link via email
-      try {
-        await sendMagicLinkEmail(email, directMagicLink)
-        console.log('[API /auth/magic-link] Email sent successfully')
-      } catch (emailError) {
-        console.error('[API /auth/magic-link] Failed to send email:', emailError)
-        // Continue even if email fails in development
-        if (process.env.NODE_ENV !== 'development') {
-          throw emailError
-        }
-      }
-
-      // Log the event
-      await logAuditEvent(
-        AuditEvent.MAGIC_LINK_REQUEST,
-        {
-          ipAddress: request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown',
-          userAgent: request.headers.get('user-agent') || 'unknown',
-          endpoint: '/api/auth/magic-link',
-        },
-        {
-          email,
-        },
-        'success'
-      )
-
-      // In development, return the link for testing
-      if (process.env.NODE_ENV === 'development') {
+      validatedData = magicLinkRequestSchema.parse(body)
+    } catch (error) {
+      if (error instanceof z.ZodError) {
         return NextResponse.json(
           {
-            success: true,
-            message: 'Magic link sent to your email',
-            // Remove this in production!
-            devLink: directMagicLink,
+            error: {
+              code: 'VALIDATION_ERROR',
+              message: 'Invalid input data',
+              details: formatZodErrors(error),
+            },
           },
-          {
-            status: 200,
+          { 
+            status: 400,
             headers: getSecurityHeaders(),
           }
         )
       }
+      throw error
+    }
 
-      // In production, just confirm the email was sent
-      return NextResponse.json(
-        {
-          success: true,
-          message: 'Magic link sent to your email',
-        },
-        {
-          status: 200,
-          headers: getSecurityHeaders(),
-        }
-      )
+    const { email } = validatedData
 
-    } catch (linkError: any) {
-      console.error('[API /auth/magic-link] Failed to generate magic link:', linkError)
+    // Get client information for audit logging
+    const ipAddress = request.headers.get('x-forwarded-for')?.split(',')[0] || 
+                     request.headers.get('x-real-ip') || 'unknown'
+    const userAgent = request.headers.get('user-agent') || 'unknown'
 
-      // Check if user exists
-      if (linkError.code === 'auth/user-not-found') {
-        // Optionally create the user first
-        try {
-          await adminAuth!.createUser({
-            email,
-            emailVerified: false,
-          })
+    try {
+      // Check if user exists (but don't reveal this information to prevent email enumeration)
+      let userRecord: any = null
+      let userExists = false
+      let displayName: string | undefined
 
-          // Retry generating the link
-          const link = await adminAuth!.generateSignInWithEmailLink(email, actionCodeSettings)
+      try {
+        userRecord = await adminAuth!.getUserByEmail(email)
+        userExists = true
+        
+        // Get display name from Firestore
+        const userDoc = await adminFirestore!.collection('users').doc(userRecord.uid).get()
+        const userData = userDoc.data()
+        displayName = userData?.displayName || userRecord.displayName || undefined
+        
+        // Check if account is active
+        if (userData?.userState === 'suspended') {
+          await logAuditEvent(
+            AuditEvent.MAGIC_LINK_REQUEST,
+            {
+              userId: userRecord.uid,
+              ipAddress,
+              userAgent,
+              endpoint: '/api/auth/magic-link',
+            },
+            {
+              email,
+              reason: 'account_suspended',
+            },
+            'failure'
+          )
 
-          console.log('[API /auth/magic-link] User created and magic link sent')
-
+          // Don't reveal account status, just return generic success message
           return NextResponse.json(
             {
               success: true,
-              message: 'Magic link sent to your email',
-              newUser: true,
+              message: 'If an account exists with this email, a sign-in link has been sent',
             },
-            {
+            { 
               status: 200,
-              headers: getSecurityHeaders(),
+              headers: {
+                ...getSecurityHeaders(),
+                ...getRateLimitHeaders(rateLimitResult),
+              },
             }
           )
-        } catch (createError: any) {
-          console.error('[API /auth/magic-link] Failed to create user:', createError)
-          throw createError
+        }
+
+        if (userData?.userState === 'deleted') {
+          await logAuditEvent(
+            AuditEvent.MAGIC_LINK_REQUEST,
+            {
+              userId: userRecord.uid,
+              ipAddress,
+              userAgent,
+              endpoint: '/api/auth/magic-link',
+            },
+            {
+              email,
+              reason: 'account_deleted',
+            },
+            'failure'
+          )
+
+          // Don't reveal account status
+          return NextResponse.json(
+            {
+              success: true,
+              message: 'If an account exists with this email, a sign-in link has been sent',
+            },
+            { 
+              status: 200,
+              headers: {
+                ...getSecurityHeaders(),
+                ...getRateLimitHeaders(rateLimitResult),
+              },
+            }
+          )
+        }
+
+      } catch (error) {
+        if ((error as any)?.code === 'auth/user-not-found') {
+          userExists = false
+        } else {
+          throw error // Re-throw unexpected errors
         }
       }
 
-      throw linkError
+      // Generate Firebase magic link using Firebase Admin SDK
+      // Note: Using /en as default locale for magic links (will work for all users)
+      const baseUrl =
+        process.env.NEXT_PUBLIC_APP_URL ||
+        process.env.NEXTAUTH_URL ||
+        'https://moshimoshi.app'
+      const actionCodeSettings = {
+        url: `${baseUrl}/en/auth/verify-magic-link`,
+        handleCodeInApp: true,
+      }
+
+      const firebaseMagicLink = await adminAuth!.generateSignInWithEmailLink(
+        email,
+        actionCodeSettings
+      )
+      const directMagicLink = buildDirectMagicLink(firebaseMagicLink)
+
+      // Log the link in development for easy testing
+      if (process.env.NODE_ENV === 'development') {
+        console.log('🔗 Firebase Magic Link for', email, ':', firebaseMagicLink)
+        console.log('🔗 Direct Magic Link for', email, ':', directMagicLink)
+      }
+
+      // Send the magic link email (Firebase handles token storage and validation)
+      try {
+        await sendMagicLinkEmail(email, directMagicLink)
+        
+        // Log successful magic link request
+        await logAuditEvent(
+          AuditEvent.MAGIC_LINK_REQUEST,
+          {
+            ...(userExists && userRecord?.uid ? { userId: userRecord.uid } : {}),
+            ipAddress,
+            userAgent,
+            endpoint: '/api/auth/magic-link',
+          },
+          {
+            email,
+            tokenGenerated: true,
+            userExists,
+            displayName,
+          },
+          'success'
+        )
+
+      } catch (emailError) {
+        console.error('Failed to send magic link email:', emailError)
+
+        // Note: Firebase handles token lifecycle, no cleanup needed
+
+        await logAuditEvent(
+          AuditEvent.MAGIC_LINK_REQUEST,
+          {
+            ...(userExists && userRecord?.uid ? { userId: userRecord.uid } : {}),
+            ipAddress,
+            userAgent,
+            endpoint: '/api/auth/magic-link',
+          },
+          {
+            email,
+            error: 'email_send_failed',
+            userExists,
+          },
+          'failure'
+        )
+
+        return NextResponse.json(
+          {
+            error: {
+              code: 'EMAIL_SEND_FAILED',
+              message: 'Failed to send magic link. Please try again.',
+            },
+          },
+          { 
+            status: 500,
+            headers: {
+              ...getSecurityHeaders(),
+              ...getRateLimitHeaders(rateLimitResult),
+            },
+          }
+        )
+      }
+
+      // Always return success message to prevent email enumeration
+      return NextResponse.json(
+        {
+          success: true,
+          message: 'If an account exists with this email, a sign-in link has been sent',
+        },
+        { 
+          status: 200,
+          headers: {
+            ...getSecurityHeaders(),
+            ...getRateLimitHeaders(rateLimitResult),
+          },
+        }
+      )
+
+    } catch (magicLinkError) {
+      console.error('Magic link request error:', magicLinkError)
+
+      await logAuditEvent(
+        AuditEvent.MAGIC_LINK_REQUEST,
+        {
+          ipAddress,
+          userAgent,
+          endpoint: '/api/auth/magic-link',
+        },
+        {
+          email,
+          error: magicLinkError instanceof Error ? magicLinkError.message : 'Unknown error',
+        },
+        'failure'
+      )
+
+      return NextResponse.json(
+        {
+          error: {
+            code: 'MAGIC_LINK_FAILED',
+            message: 'Failed to process magic link request',
+          },
+        },
+        { 
+          status: 500,
+          headers: {
+            ...getSecurityHeaders(),
+            ...getRateLimitHeaders(rateLimitResult),
+          },
+        }
+      )
     }
 
-  } catch (error: any) {
-    console.error('[API /auth/magic-link] Error:', error?.message || error)
-
-    // Log error
+  } catch (error) {
+    console.error('Magic link request endpoint error:', error)
+    
+    // Log system error
     await logAuditEvent(
       AuditEvent.SYSTEM_ERROR,
       {
@@ -172,8 +299,7 @@ export async function POST(request: NextRequest) {
         endpoint: '/api/auth/magic-link',
       },
       {
-        error: error.message,
-        code: error.code,
+        error: error instanceof Error ? error.message : 'Unknown error',
       },
       'failure'
     )
@@ -181,14 +307,43 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: {
-          code: 'MAGIC_LINK_FAILED',
-          message: error.message || 'Failed to send magic link',
+          code: 'INTERNAL_ERROR',
+          message: 'Internal server error',
         },
       },
-      {
+      { 
         status: 500,
         headers: getSecurityHeaders(),
       }
     )
   }
+}
+
+// All other methods not allowed
+export async function GET() {
+  return NextResponse.json(
+    { error: { code: 'METHOD_NOT_ALLOWED', message: 'Method not allowed' } },
+    { status: 405, headers: getSecurityHeaders() }
+  )
+}
+
+export async function PUT() {
+  return NextResponse.json(
+    { error: { code: 'METHOD_NOT_ALLOWED', message: 'Method not allowed' } },
+    { status: 405, headers: getSecurityHeaders() }
+  )
+}
+
+export async function DELETE() {
+  return NextResponse.json(
+    { error: { code: 'METHOD_NOT_ALLOWED', message: 'Method not allowed' } },
+    { status: 405, headers: getSecurityHeaders() }
+  )
+}
+
+export async function PATCH() {
+  return NextResponse.json(
+    { error: { code: 'METHOD_NOT_ALLOWED', message: 'Method not allowed' } },
+    { status: 405, headers: getSecurityHeaders() }
+  )
 }

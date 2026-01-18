@@ -1,0 +1,33 @@
+{
+  "kanji": "善",
+  "sentences": [
+    {
+      "id": "179723",
+      "japanese": "金は善い召使だが悪い主人だ。",
+      "english": "Money is a good servant, but a bad master."
+    },
+    {
+      "id": "181522",
+      "japanese": "競争それ自体は善でも悪でもない。",
+      "english": "Competition is neither good nor evil in itself."
+    },
+    {
+      "id": "170406",
+      "japanese": "最善はしばしば善の敵である。",
+      "english": "The best is often the enemy of the good."
+    },
+    {
+      "id": "186827",
+      "japanese": "科学的知識の増加とともに、人間の悪を行う力は、善を行う力に比例して増えてきた。",
+      "english": "With every increase of scientific knowledge, man's power for evil is increased in the same proportion as his power for good."
+    },
+    {
+      "id": "186851",
+      "japanese": "科学者がつねに主張しているように、いかなる科学的発見もそれ自体は善でも悪でもない。",
+      "english": "As scientists keep insisting, there is neither good nor bad in any scientific discovery."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.027Z",
+  "count": 5,
+  "fileId": "kanji-01163"
+}

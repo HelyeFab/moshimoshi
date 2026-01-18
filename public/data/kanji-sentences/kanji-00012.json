@@ -1,0 +1,33 @@
+{
+  "kanji": "分",
+  "sentences": [
+    {
+      "id": "4711",
+      "japanese": "何と言ったら良いか分かりません。",
+      "english": "I'm at a loss for words."
+    },
+    {
+      "id": "4717",
+      "japanese": "時間があるか分かりません。",
+      "english": "I don't know if I have the time."
+    },
+    {
+      "id": "4802",
+      "japanese": "それがどこから来たのか分からなかった。",
+      "english": "I didn't know where it came from."
+    },
+    {
+      "id": "4826",
+      "japanese": "何が言いたいのか分からないなあ。",
+      "english": "I don't know what you mean."
+    },
+    {
+      "id": "4260154",
+      "japanese": "何が言いたいのか分かんないんだけど。",
+      "english": "I don't know what you mean."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.336Z",
+  "count": 5,
+  "fileId": "kanji-00012"
+}

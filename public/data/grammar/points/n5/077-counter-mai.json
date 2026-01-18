@@ -1,0 +1,97 @@
+{
+  "id": "077-counter-mai",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜枚",
+    "romaji": "-mai",
+    "en": "〜枚 (flat objects counter)"
+  },
+  "jlptLevel": "N5",
+  "category": "numbers-counters",
+  "explanation": {
+    "en": "〜枚 (まい) is the counter for flat, thin objects like paper, shirts, tickets, or plates. The pronunciation does not change with the number.\n\nKey points:\n• Use 〜枚 for flat items\n• Same reading for all numbers: いちまい, にまい, さんまい\n• Common for paper, shirts, tickets\n• Easy and regular\n\nExample: “切符を二枚買いました” means “I bought two tickets.”\n\nBecause the reading is regular, 〜枚 is one of the easiest counters to use.\n\nPractice by counting paper and shirts: 紙を三枚, シャツを二枚.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Number + 枚",
+    "components": [
+      {
+        "part": "Number",
+        "explanation": "Count of flat objects",
+        "examples": ["いち", "に", "さん", "よん"]
+      },
+      {
+        "part": "枚",
+        "explanation": "Flat object counter",
+        "examples": ["枚"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "切符を二枚買いました。",
+      "romaji": "Kippu o nimai kaimashita.",
+      "english": "I bought two tickets.",
+      "breakdown": {
+        "切符": "ticket",
+        "を": "object marker",
+        "二枚": "two (flat objects)",
+        "買いました": "bought"
+      },
+      "notes": "Tickets"
+    },
+    {
+      "japanese": "紙を三枚ください。",
+      "romaji": "Kami o sanmai kudasai.",
+      "english": "Please give me three sheets of paper.",
+      "breakdown": {
+        "紙": "paper",
+        "を": "object marker",
+        "三枚": "three (flat objects)",
+        "ください": "please give"
+      },
+      "notes": "Paper"
+    },
+    {
+      "japanese": "シャツが四枚あります。",
+      "romaji": "Shatsu ga yonmai arimasu.",
+      "english": "There are four shirts.",
+      "breakdown": {
+        "シャツ": "shirt",
+        "が": "subject marker",
+        "四枚": "four (flat objects)",
+        "あります": "exist"
+      },
+      "notes": "Clothing"
+    },
+    {
+      "japanese": "写真を五枚撮りました。",
+      "romaji": "Shashin o gomai torimashita.",
+      "english": "I took five photos.",
+      "breakdown": {
+        "写真": "photo",
+        "を": "object marker",
+        "五枚": "five (flat objects)",
+        "撮りました": "took"
+      },
+      "notes": "Photos"
+    }
+  ],
+  "relatedPoints": [
+    "074-counter-tsu",
+    "076-counter-hon"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using 本 for flat objects",
+      "correction": "Use 枚 for flat objects",
+      "example": "❌ 切符を二本 → ✅ 切符を二枚"
+    },
+    {
+      "mistake": "Adding sound changes",
+      "correction": "枚 has regular readings",
+      "example": "❌ さんばい → ✅ さんまい"
+    }
+  ],
+  "tags": ["counters", "mai", "beginner"]
+}

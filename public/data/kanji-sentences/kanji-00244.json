@@ -1,0 +1,33 @@
+{
+  "kanji": "店",
+  "sentences": [
+    {
+      "id": "177993",
+      "japanese": "君は、この店に来るあらゆる客に応対するだけでよい。",
+      "english": "All you have to do is wait on any customers that come to the shop."
+    },
+    {
+      "id": "179271",
+      "japanese": "偶然にも私たちは彼がその店から出てくるのを見ました。",
+      "english": "By chance we saw him as he came out of the shop."
+    },
+    {
+      "id": "179593",
+      "japanese": "銀行と学校の間にその店があります。",
+      "english": "You'll find the shop between a bank and a school."
+    },
+    {
+      "id": "179814",
+      "japanese": "近所に行きつけの店があるから、今日はそこでランチを食べよう。",
+      "english": "I'm a regular at a restaurant in this neighborhood. Let's have lunch there today."
+    },
+    {
+      "id": "179883",
+      "japanese": "近くにおいしいタイ料理のお店があるんです。",
+      "english": "There's a nice Thai restaurant near here."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.370Z",
+  "count": 5,
+  "fileId": "kanji-00244"
+}

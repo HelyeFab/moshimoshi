@@ -1,0 +1,33 @@
+{
+  "kanji": "塩",
+  "sentences": [
+    {
+      "id": "5076",
+      "japanese": "「塩を取って下さい」「はい、どうぞ」",
+      "english": "\"Pass me the salt, please.\" \"Here you are.\""
+    },
+    {
+      "id": "182114",
+      "japanese": "魚に塩とこしょうで味をつけた。",
+      "english": "I seasoned the fish with salt and pepper."
+    },
+    {
+      "id": "185210",
+      "japanese": "会話にとって機知は食物に対する塩のようなものである。",
+      "english": "Wit is to conversation what salt is to food."
+    },
+    {
+      "id": "188582",
+      "japanese": "塩を入れましたか。",
+      "english": "Did you put in any salt?"
+    },
+    {
+      "id": "188583",
+      "japanese": "塩を渡してもらえませんか。",
+      "english": "Would you be kind enough to pass the salt?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.638Z",
+  "count": 5,
+  "fileId": "kanji-00802"
+}

@@ -1,0 +1,101 @@
+{
+  "id": "011-particle-de-location",
+  "version": "1.0.0",
+  "title": {
+    "ja": "で（場所）",
+    "romaji": "de (location of action)",
+    "en": "で (location of action)"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "で marks the place where an action happens. It answers “where?” and is used with action verbs like eat, study, and play. This is different from に, which marks a destination or the location of existence.\n\nKey points:\n• で marks the place of an action\n• Use with action verbs: 食べます, 勉強します, 遊びます\n• Use に for destination or existence, not for action location\n• It can also mark the place where an event happens\n\nFor example, “学校で勉強します” means “I study at school.” The action (studying) happens at school, so use で. “レストランでご飯を食べます” means “I eat at a restaurant.”\n\nIf you say “学校に勉強します,” it sounds incorrect because に is not used for the location of an action. Reserve に for going to a place or existing at a place: “学校に行きます” or “学校にいます.”\n\nRemember: action location = で. Destination/existence = に. Keeping this difference clear will make your sentences accurate and natural.\n\nIf the verb is something you do (study, eat, play), think で. If the verb is movement or existence (go, come, be), think に. This quick check helps you choose the right particle.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Place で + Action Verb",
+    "components": [
+      {
+        "part": "Place で",
+        "explanation": "Location where the action occurs",
+        "examples": ["学校で", "公園で", "家で"]
+      },
+      {
+        "part": "Action Verb",
+        "explanation": "Verb describing the action",
+        "examples": ["勉強します", "食べます", "遊びます"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "学校で日本語を勉強します。",
+      "romaji": "Gakkou de nihongo o benkyou shimasu.",
+      "english": "I study Japanese at school.",
+      "breakdown": {
+        "学校": "school",
+        "で": "location marker",
+        "日本語": "Japanese",
+        "を": "object marker",
+        "勉強します": "study (polite)"
+      },
+      "notes": "Action location"
+    },
+    {
+      "japanese": "公園でサッカーをします。",
+      "romaji": "Kouen de sakkaa o shimasu.",
+      "english": "I play soccer in the park.",
+      "breakdown": {
+        "公園": "park",
+        "で": "location marker",
+        "サッカー": "soccer",
+        "を": "object marker",
+        "します": "do/play (polite)"
+      },
+      "notes": "Activity with で"
+    },
+    {
+      "japanese": "家でご飯を食べます。",
+      "romaji": "Ie de gohan o tabemasu.",
+      "english": "I eat at home.",
+      "breakdown": {
+        "家": "home",
+        "で": "location marker",
+        "ご飯": "meal/rice",
+        "を": "object marker",
+        "食べます": "eat (polite)"
+      },
+      "notes": "Everyday action"
+    },
+    {
+      "japanese": "図書館で本を読みます。",
+      "romaji": "Toshokan de hon o yomimasu.",
+      "english": "I read a book at the library.",
+      "breakdown": {
+        "図書館": "library",
+        "で": "location marker",
+        "本": "book",
+        "を": "object marker",
+        "読みます": "read (polite)"
+      },
+      "notes": "Reading at a place"
+    }
+  ],
+  "relatedPoints": [
+    "009-particle-ni-location",
+    "012-particle-de-means"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using に for action location",
+      "correction": "Use で when the action happens at a place",
+      "example": "❌ 学校に勉強します → ✅ 学校で勉強します"
+    },
+    {
+      "mistake": "Using で for destinations",
+      "correction": "Use に or へ for destinations",
+      "example": "❌ 学校で行きます → ✅ 学校に行きます"
+    }
+  ],
+  "tags": ["particle", "location", "action", "de"]
+}

@@ -1,0 +1,23 @@
+{
+  "kanji": "刑",
+  "sentences": [
+    {
+      "id": "85822",
+      "japanese": "被告は懲役１０年の刑を宣告された。",
+      "english": "The accused was condemned to ten years in prison."
+    },
+    {
+      "id": "102118",
+      "japanese": "彼は懲役十年で、女房には三年の刑が下った。",
+      "english": "He was given ten years and his wife three."
+    },
+    {
+      "id": "170260",
+      "japanese": "裁判官はその未決囚の行動に対する嫌悪の念をためらうことなくあからさまにして、できるだけ過酷な刑を下した。",
+      "english": "The judge made no bones about his disgust with the accused's actions and handed down the severest sentence possible."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.095Z",
+  "count": 3,
+  "fileId": "kanji-01166"
+}

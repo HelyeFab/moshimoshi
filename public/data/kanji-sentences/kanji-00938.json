@@ -1,0 +1,33 @@
+{
+  "kanji": "州",
+  "sentences": [
+    {
+      "id": "195821",
+      "japanese": "マーケティング分科会の実際のミーティングは、１９９９年１月２７日の午後、カリフォルニア州サンフランシスコ・エアポートマリオットで行います。",
+      "english": "There will be an in-person meeting of the marketing subcommittee on Tuesday afternoon of Jan 27, 1999 at the San Francisco CA Airport Marriott."
+    },
+    {
+      "id": "198596",
+      "japanese": "ネッドはユタ州の出身。",
+      "english": "Ned comes from the state of Utah."
+    },
+    {
+      "id": "198684",
+      "japanese": "ニューヨーク州はギリシャとほぼ同じ大きさだ。",
+      "english": "New York State is almost as large as Greece."
+    },
+    {
+      "id": "198685",
+      "japanese": "ニューヨーク州アーモンクに本社のあるＩＢＭは世界最大のコンピューター会社です。",
+      "english": "International Business Machines Corporation, based in Armonk, New York, is the world's largest computer firm."
+    },
+    {
+      "id": "202362",
+      "japanese": "テキサス州はメキシコと接している。",
+      "english": "Texas borders on Mexico."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.673Z",
+  "count": 5,
+  "fileId": "kanji-00938"
+}

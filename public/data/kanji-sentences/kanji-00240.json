@@ -1,0 +1,33 @@
+{
+  "kanji": "帰",
+  "sentences": [
+    {
+      "id": "4950",
+      "japanese": "家に帰りましょうか。",
+      "english": "Why don't we go home?"
+    },
+    {
+      "id": "177040",
+      "japanese": "君は直ちに家へ帰らなければならない。",
+      "english": "You must go home at once."
+    },
+    {
+      "id": "177799",
+      "japanese": "君はすぐに家に帰らなければいけません。",
+      "english": "You must go home at once."
+    },
+    {
+      "id": "214911",
+      "japanese": "すぐに家に帰りなさい。",
+      "english": "You must go home at once."
+    },
+    {
+      "id": "177182",
+      "japanese": "君は自由に帰っていいよ。",
+      "english": "You are free to go home."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.341Z",
+  "count": 5,
+  "fileId": "kanji-00240"
+}

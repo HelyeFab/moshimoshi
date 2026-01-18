@@ -1,0 +1,33 @@
+{
+  "kanji": "砂",
+  "sentences": [
+    {
+      "id": "184057",
+      "japanese": "乾いた砂は水を吸い込む。",
+      "english": "Dry sand absorbs water."
+    },
+    {
+      "id": "185839",
+      "japanese": "我々は砂の上に足跡を見つけた。",
+      "english": "We found the footprints in the sand."
+    },
+    {
+      "id": "199738",
+      "japanese": "トラックは砂を地面にどさっと落した。",
+      "english": "The truck dumped the sand on the ground."
+    },
+    {
+      "id": "209590",
+      "japanese": "その車は、後ろに砂ぼこりをたてて通り過ぎた。",
+      "english": "The car passed by, raising a cloud of dust behind it."
+    },
+    {
+      "id": "212681",
+      "japanese": "そのビンは砂のようにみえるので一杯だった。",
+      "english": "The bottle was filled with what looked like sand."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:05.429Z",
+  "count": 5,
+  "fileId": "kanji-00752"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "刃",
+  "sentences": [
+    {
+      "id": "212860",
+      "japanese": "そのナイフは刃が鋭い。",
+      "english": "The knife has a very sharp edge."
+    },
+    {
+      "id": "223426",
+      "japanese": "このナイフは刃が鋭く、よく切れる。",
+      "english": "This knife has a fine edge and cuts well."
+    },
+    {
+      "id": "223431",
+      "japanese": "このナイフの刃はするどくてよく切れる。",
+      "english": "The edge of this knife is sharp and cuts well."
+    },
+    {
+      "id": "143904",
+      "japanese": "刃の鋭いナイフを手に入れた。",
+      "english": "I've got a keen-edged knife."
+    },
+    {
+      "id": "164140",
+      "japanese": "私のナイフの刃は、とても鋭い。",
+      "english": "My knife has such a fine edge."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:29.911Z",
+  "count": 5,
+  "fileId": "kanji-01578"
+}

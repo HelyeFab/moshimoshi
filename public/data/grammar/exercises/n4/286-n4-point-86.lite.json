@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "286-n4-point-86",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "286-n4-point-86-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Not so much / Not that\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "そんなに～",
+          "romaji": "sonna ni〜"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! そんなに～ matches \"Not so much / Not that\".",
+      "incorrectFeedback": "Not quite. The correct pattern is そんなに～.",
+      "explanation": "Used to say something is not as much or not to that extent.",
+      "difficulty": "easy"
+    }
+  ]
+}

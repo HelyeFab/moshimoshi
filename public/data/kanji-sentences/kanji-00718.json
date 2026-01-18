@@ -1,0 +1,33 @@
+{
+  "kanji": "混",
+  "sentences": [
+    {
+      "id": "182293",
+      "japanese": "牛乳には水が混ぜてあった。",
+      "english": "The milk was diluted with water."
+    },
+    {
+      "id": "182292",
+      "japanese": "牛乳と卵を混ぜなさい。",
+      "english": "Blend milk and eggs together."
+    },
+    {
+      "id": "183127",
+      "japanese": "汽車は思っていたほど混んでいなかった。",
+      "english": "The train was not so crowded as I had expected."
+    },
+    {
+      "id": "183148",
+      "japanese": "汽車が混んでいたので、私は京都までずっと立ち続けだった。",
+      "english": "As the train was crowded, I kept standing all the way to Kyoto."
+    },
+    {
+      "id": "1192235",
+      "japanese": "電車が混んでいたので、京都まで行くのにずっと立ち通しだった。",
+      "english": "As the train was crowded, I kept standing all the way to Kyoto."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.642Z",
+  "count": 5,
+  "fileId": "kanji-00718"
+}

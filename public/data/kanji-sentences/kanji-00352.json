@@ -1,0 +1,33 @@
+{
+  "kanji": "留",
+  "sentences": [
+    {
+      "id": "173372",
+      "japanese": "行くも留まるも自由にしなさい。",
+      "english": "You may go or stay at will."
+    },
+    {
+      "id": "173374",
+      "japanese": "行くも留まるもあなたの自由です。",
+      "english": "You may go or stay at will."
+    },
+    {
+      "id": "1736475",
+      "japanese": "行くも留まるも君次第だよ。",
+      "english": "You can go or stay, as you wish."
+    },
+    {
+      "id": "180160",
+      "japanese": "教授の話を書き留めておいてくれませんか。",
+      "english": "Can you take notes for me during the professor's talk?"
+    },
+    {
+      "id": "183070",
+      "japanese": "記者は話されたことはすべて書き留めた。",
+      "english": "The reporter took down everything that was said."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.887Z",
+  "count": 5,
+  "fileId": "kanji-00352"
+}

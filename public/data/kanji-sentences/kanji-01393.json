@@ -1,0 +1,33 @@
+{
+  "kanji": "鶴",
+  "sentences": [
+    {
+      "id": "183064",
+      "japanese": "記念碑の一番上で禎子が頭の上に金の鶴をかざしている。",
+      "english": "On top of the statue, Sadako is holding a golden crane over her head."
+    },
+    {
+      "id": "193462",
+      "japanese": "もし病気の人が千羽の鶴を折ると、その人の願いが叶うの。",
+      "english": "If a sick person folds one thousand paper cranes, her wish will come true."
+    },
+    {
+      "id": "207717",
+      "japanese": "その鶴は片足で立っていた。",
+      "english": "The crane was standing on one leg."
+    },
+    {
+      "id": "207718",
+      "japanese": "その鶴は彼女が折った最後の鶴になった。",
+      "english": "It was the last crane she ever made."
+    },
+    {
+      "id": "207719",
+      "japanese": "その鶴は、禎子が折らなければならない千羽鶴の最初の一羽だった。",
+      "english": "It was the first of the one thousand cranes that Sadako had to make."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:24.385Z",
+  "count": 5,
+  "fileId": "kanji-01393"
+}

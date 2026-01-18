@@ -1,0 +1,33 @@
+{
+  "kanji": "型",
+  "sentences": [
+    {
+      "id": "208331",
+      "japanese": "その像は型に入れられて作られた。",
+      "english": "The statue was cast in a mold."
+    },
+    {
+      "id": "218380",
+      "japanese": "これは私がなくしたのと同じ型のカメラだ。",
+      "english": "This is the same type of camera as the one I lost."
+    },
+    {
+      "id": "218423",
+      "japanese": "これは古い型のアメリカの時計です。",
+      "english": "This is an old type of American clock."
+    },
+    {
+      "id": "218526",
+      "japanese": "これはポケット型の辞書だ。",
+      "english": "This is a pocket dictionary."
+    },
+    {
+      "id": "218991",
+      "japanese": "これがちょうど私の欲しい型の車だ。",
+      "english": "This is just the type of car I want."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.765Z",
+  "count": 5,
+  "fileId": "kanji-00942"
+}

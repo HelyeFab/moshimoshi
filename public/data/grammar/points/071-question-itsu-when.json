@@ -1,0 +1,95 @@
+{
+  "id": "071-question-itsu-when",
+  "version": "1.0.0",
+  "title": {
+    "ja": "いつ",
+    "romaji": "itsu",
+    "en": "いつ (when)"
+  },
+  "jlptLevel": "N5",
+  "category": "questions",
+  "explanation": {
+    "en": "いつ means “when.” It is used to ask about time in general. Unlike specific times, いつ does not take に.\n\nKey points:\n• いつ = when (general)\n• Usually used without に\n• Often paired with verbs like 行きます, 来ます, 会います\n• For exact time, use time + に instead\n\nExample: “いつ行きますか” means “When will you go?” “いつ会いますか” means “When will we meet?”\n\nIf you want a specific time, answer with a time expression plus に: “三時に行きます.”\n\nPractice by asking simple questions: いつ帰りますか, いつ勉強しますか.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "いつ + Verb",
+    "components": [
+      {
+        "part": "いつ",
+        "explanation": "When",
+        "examples": ["いつ"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action",
+        "examples": ["行きます", "来ます", "会います"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "いつ行きますか。",
+      "romaji": "Itsu ikimasu ka.",
+      "english": "When will you go?",
+      "breakdown": {
+        "いつ": "when",
+        "行きます": "go",
+        "か": "question marker"
+      },
+      "notes": "General time"
+    },
+    {
+      "japanese": "いつ会いますか。",
+      "romaji": "Itsu aimasu ka.",
+      "english": "When will we meet?",
+      "breakdown": {
+        "いつ": "when",
+        "会います": "meet",
+        "か": "question marker"
+      },
+      "notes": "Meeting time"
+    },
+    {
+      "japanese": "いつ来ますか。",
+      "romaji": "Itsu kimasu ka.",
+      "english": "When will you come?",
+      "breakdown": {
+        "いつ": "when",
+        "来ます": "come",
+        "か": "question marker"
+      },
+      "notes": "Arrival"
+    },
+    {
+      "japanese": "誕生日はいつですか。",
+      "romaji": "Tanjoubi wa itsu desu ka.",
+      "english": "When is your birthday?",
+      "breakdown": {
+        "誕生日": "birthday",
+        "は": "topic marker",
+        "いつ": "when",
+        "です": "is",
+        "か": "question marker"
+      },
+      "notes": "Date question"
+    }
+  ],
+  "relatedPoints": [
+    "051-time-particle-ni",
+    "058-toki-when"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Adding に after いつ",
+      "correction": "Do not add に after いつ",
+      "example": "❌ いつに行きますか → ✅ いつ行きますか"
+    },
+    {
+      "mistake": "Using いつ for exact time",
+      "correction": "Use a time expression with に",
+      "example": "❌ いつに会います → ✅ 三時に会います"
+    }
+  ],
+  "tags": ["questions", "itsu", "beginner"]
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "311-n4-point-111",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "311-n4-point-111-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"~no desu (explaining/clarifying reason)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～のです",
+          "romaji": "~no desu"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～のです matches \"~no desu (explaining/clarifying reason)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～のです.",
+      "explanation": "Used to explain, justify, or clarify the reason for a situation.",
+      "difficulty": "easy"
+    }
+  ]
+}

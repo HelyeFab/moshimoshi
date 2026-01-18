@@ -1,0 +1,33 @@
+{
+  "kanji": "巣",
+  "sentences": [
+    {
+      "id": "5044",
+      "japanese": "世界は奇人の巣だ。",
+      "english": "The world is a den of crazies."
+    },
+    {
+      "id": "9712111",
+      "japanese": "空き巣に入られたんだ。",
+      "english": "Our house was robbed while we were away."
+    },
+    {
+      "id": "194576",
+      "japanese": "めんどりは巣で卵を抱いていた。",
+      "english": "The hen was sitting on the eggs in the nest."
+    },
+    {
+      "id": "195092",
+      "japanese": "ミツバチは、においのサンプルを巣に持ち帰ることによって食糧のありかを伝える。",
+      "english": "Bees communicate the location of food by carrying odor samples back to the hive."
+    },
+    {
+      "id": "204553",
+      "japanese": "それを巣に戻しなさい。",
+      "english": "Put it back in the nest."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:32.414Z",
+  "count": 5,
+  "fileId": "kanji-01665"
+}

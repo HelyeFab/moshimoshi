@@ -1,0 +1,33 @@
+{
+  "kanji": "折",
+  "sentences": [
+    {
+      "id": "178521",
+      "japanese": "君のためにできるだけ骨を折ろう。",
+      "english": "I will do all I can for you."
+    },
+    {
+      "id": "183660",
+      "japanese": "岩棚から落ちて彼は足を折った。",
+      "english": "The fall from the ledge shattered his leg."
+    },
+    {
+      "id": "185850",
+      "japanese": "我々は骨を折って山を登った。",
+      "english": "We toiled up a hill."
+    },
+    {
+      "id": "186917",
+      "japanese": "家賃に関して私は彼と折り合いがついた。",
+      "english": "Regarding the matter of house-rent, I have come to terms with him."
+    },
+    {
+      "id": "187290",
+      "japanese": "価格の折り合えば、大量注文したいと思います。",
+      "english": "If your prices are competitive, we will place a large order."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.038Z",
+  "count": 5,
+  "fileId": "kanji-00363"
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "205-n4-point-5",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "205-n4-point-5-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"i-Adjective ku suru/naru\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "い-Adjective く する/なる",
+          "romaji": "i-adjective ku suru/naru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! い-Adjective く する/なる matches \"i-Adjective ku suru/naru\".",
+      "incorrectFeedback": "Not quite. The correct pattern is い-Adjective く する/なる.",
+      "explanation": "Expresses becoming or making something more of an i-adjective quality.",
+      "difficulty": "easy"
+    }
+  ]
+}

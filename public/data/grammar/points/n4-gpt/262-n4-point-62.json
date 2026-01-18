@@ -1,0 +1,99 @@
+{
+  "id": "262-n4-point-62",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ように言う",
+    "romaji": "Verb you ni iu",
+    "en": "Tell/Instruct to Do Something"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The grammar point Verb ように言う is used when someone tells or instructs another person to do something. It can be translated as 'tell to do' or 'instruct to do' in English.",
+    "ja": "Verb ように言うは、誰かが他の人に対し何かをするよう指示や伝える場合に使われます。英語では「〜するように」と訳すことができます。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + ように言う",
+    "components": [
+      {
+        "part": "Verb-casual",
+        "explanation": "The base form of the verb.",
+        "examples": [
+          "やる",
+          "片付ける",
+          "提出する"
+        ]
+      },
+      {
+        "part": "ように言う",
+        "explanation": "Expresses the action of telling or instructing someone to do something.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "先生は私たちに宿題をやるように言いました。",
+      "romaji": "Sensei wa watashitachi ni shukudai o yaru you ni iimashita.",
+      "english": "The teacher told us to do our homework.",
+      "breakdown": {
+        "token": "宿題(shukudai) 宿題",
+        "gloss": "homework (do)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "母は弟に部屋を片付けるように言いました。",
+      "romaji": "Haha wa otouto ni heya wo katazukeru you ni iimashita.",
+      "english": "My mother told my younger brother to clean his room.",
+      "breakdown": {
+        "token": "部屋(heya) 片付ける(katazukeru)",
+        "gloss": "room (clean)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "上司は私に報告書を提出するように言いました。",
+      "romaji": "Joushi wa watashi ni houkokusho wo teishutsu suru you ni iimashita.",
+      "english": "My boss told me to submit the report.",
+      "breakdown": {
+        "token": "報告書(houkokusho) 提出(teishutsu)",
+        "gloss": "report (submit)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "友達が私に早く来るように言いました。",
+      "romaji": "Tomodachi ga watashi ni hayaku kuru you ni iimashita.",
+      "english": "My friend told me to come early.",
+      "breakdown": {
+        "token": "早速(hayaku) 来る(kuru)",
+        "gloss": "early (come)"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb ようになる (〜you ni naru)",
+    "Verb ように (〜you ni)",
+    "Verb ようにする"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "やるように言う",
+      "correction": "やるよう言う",
+      "example": "先生は私たちに宿題をやるように言いました。"
+    },
+    {
+      "mistake": "片付けるように言った",
+      "correction": "片付けろと言って",
+      "example": "母は弟に部屋を片付けるように言いました。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "instructions",
+    "telling"
+  ]
+}

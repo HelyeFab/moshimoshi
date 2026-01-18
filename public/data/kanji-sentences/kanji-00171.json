@@ -1,0 +1,33 @@
+{
+  "kanji": "知",
+  "sentences": [
+    {
+      "id": "4727",
+      "japanese": "すぐに諦めて昼寝をするかも知れない。",
+      "english": "I may give up soon and just nap instead."
+    },
+    {
+      "id": "4768",
+      "japanese": "それで彼らの気が変わったのかも知れない。",
+      "english": "That was probably what influenced their decision."
+    },
+    {
+      "id": "4782",
+      "japanese": "僕は不幸かも知れないけれど自殺はしない。",
+      "english": "I'd be unhappy, but I wouldn't kill myself."
+    },
+    {
+      "id": "4817",
+      "japanese": "来週には凍るかも知れない。",
+      "english": "It may freeze next week."
+    },
+    {
+      "id": "8591396",
+      "japanese": "誰も知らないでしょう。",
+      "english": "No one will know."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.484Z",
+  "count": 5,
+  "fileId": "kanji-00171"
+}

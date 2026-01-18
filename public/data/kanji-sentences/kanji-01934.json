@@ -1,0 +1,33 @@
+{
+  "kanji": "餌",
+  "sentences": [
+    {
+      "id": "897051",
+      "japanese": "毎日朝と夜、猫に餌を与えています。",
+      "english": "I feed my cat every morning and every evening."
+    },
+    {
+      "id": "9703091",
+      "japanese": "毎日朝晩、猫に餌をあげてるよ。",
+      "english": "I feed my cat every morning and every evening."
+    },
+    {
+      "id": "179689",
+      "japanese": "金魚に餌をやってるの。",
+      "english": "I'm feeding the goldfish."
+    },
+    {
+      "id": "182897",
+      "japanese": "議会をなだめるための餌ですよ。",
+      "english": "It's a sop to Congress."
+    },
+    {
+      "id": "192676",
+      "japanese": "ライオンは肉を餌とする。",
+      "english": "Lions feed on flesh."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:43.131Z",
+  "count": 5,
+  "fileId": "kanji-01934"
+}

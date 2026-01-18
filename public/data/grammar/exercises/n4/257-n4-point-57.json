@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "257-n4-point-57",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "257-n4-point-57-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Easy to do\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb やすい (〜yasui)",
+          "romaji": "Verb yasui"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb やすい (〜yasui) matches \"Easy to do\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb やすい (〜yasui).",
+      "explanation": "Expresses that an action is easy to do; attaches to verb stems.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "257-n4-point-57-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb やすい (〜yasui).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Easy to do"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb やすい (〜yasui) means \"Easy to do\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Easy to do\".",
+      "explanation": "Expresses that an action is easy to do; attaches to verb stems.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "257-n4-point-57-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb やすい (〜yasui).",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb yasui"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb yasui is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb yasui.",
+      "explanation": "Expresses that an action is easy to do; attaches to verb stems.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "257-n4-point-57-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb やすい (〜yasui)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Expresses that an action is easy to do; attaches to verb stems."
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses that an action is easy to do; attaches to verb stems.",
+      "explanation": "Expresses that an action is easy to do; attaches to verb stems.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "257-n4-point-57-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Easy to do\".",
+      "correctAnswer": "Verb やすい (〜yasui)",
+      "acceptedVariations": [
+        "Verb やすい (〜yasui)",
+        "Verbやすい(〜yasui)"
+      ],
+      "correctFeedback": "Nice! Verb やすい (〜yasui) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb やすい (〜yasui) (Verb yasui).",
+      "explanation": "Expresses that an action is easy to do; attaches to verb stems.",
+      "hints": [
+        "Verb yasui",
+        "Expresses that an action is easy to do; attaches to verb stems."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "257-n4-point-57-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb やすい (〜yasui).",
+      "correctAnswer": "Verb yasui",
+      "acceptedVariations": [
+        "Verb yasui",
+        "verb yasui"
+      ],
+      "correctFeedback": "Nice! Verb yasui is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb yasui.",
+      "explanation": "Expresses that an action is easy to do; attaches to verb stems.",
+      "hints": [
+        "Expresses that an action is easy to do; attaches to verb stems."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "257-n4-point-57-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb やすい (〜yasui).",
+      "correctAnswer": "Easy to do",
+      "acceptedVariations": [
+        "Easy to do",
+        "easy to do"
+      ],
+      "correctFeedback": "Correct! \"Easy to do\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Easy to do\".",
+      "explanation": "Expresses that an action is easy to do; attaches to verb stems.",
+      "hints": [
+        "Expresses that an action is easy to do; attaches to verb stems."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "257-n4-point-57-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb やすい (〜yasui)",
+          "romaji": "Verb yasui",
+          "english": "Easy to do"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses that an action is easy to do; attaches to verb stems.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "257-n4-point-57-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses that an action is easy to do; attaches to verb stems..",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb やすい (〜yasui)",
+          "romaji": "Verb yasui"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb やすい (〜yasui) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb やすい (〜yasui).",
+      "explanation": "Expresses that an action is easy to do; attaches to verb stems.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "257-n4-point-57-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbやすい(〜yasui)",
+      "acceptedVariations": [
+        "Verbやすい(〜yasui)",
+        "Verb やすい (〜yasui)"
+      ],
+      "correctFeedback": "Great! Verbやすい(〜yasui) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbやすい(〜yasui).",
+      "explanation": "Expresses that an action is easy to do; attaches to verb stems.",
+      "hints": [
+        "Verb yasui"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

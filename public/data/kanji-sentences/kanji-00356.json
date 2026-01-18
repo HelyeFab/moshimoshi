@@ -1,0 +1,33 @@
+{
+  "kanji": "払",
+  "sentences": [
+    {
+      "id": "5269",
+      "japanese": "税金を払ったら実生活の始まりだ。",
+      "english": "Life begins when you pay taxes."
+    },
+    {
+      "id": "920490",
+      "japanese": "税金を払うようになって、初めて人生が始まる。",
+      "english": "Life begins when you pay taxes."
+    },
+    {
+      "id": "176903",
+      "japanese": "君は部屋代を前もって払うべきだ。",
+      "english": "You should pay your rent in advance."
+    },
+    {
+      "id": "176968",
+      "japanese": "君は彼の言う事にもっと注意を払うべきだ。",
+      "english": "You should pay more attention to what he says."
+    },
+    {
+      "id": "176969",
+      "japanese": "君は彼の言うことに注意を払わなければならない。",
+      "english": "You must pay attention to him."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.924Z",
+  "count": 5,
+  "fileId": "kanji-00356"
+}

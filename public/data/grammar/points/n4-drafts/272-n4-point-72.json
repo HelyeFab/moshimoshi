@@ -1,0 +1,55 @@
+{
+  "id": "272-n4-point-72",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb 終わる (〜owaru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The verb 終わる (owaru) is used to express that an action has been completed or something has come to an end. Despite ending in る, 終わる is a godan (u-verb), so it does not follow the typical ichidan (る-verb) conjugation. It is translated as 'to finish', 'to end' or 'to be over' in English.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "終わる (owaru) is a godan (u-verb)",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "映画が終わったら、家に帰ります。",
+      "romaji": "Eiga ga owattara, ie ni kaerimasu.",
+      "english": "When the movie finishes, I'll go home.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "仕事が終わるまで、待ってください。",
+      "romaji": "Shigoto ga owaru made, matte kudasai.",
+      "english": "Please wait until the work is finished.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "パーティーはもうすぐ終わります。",
+      "romaji": "Paatii wa mou sugu owarimasu.",
+      "english": "The party will be over soon.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "試験が終わったら、友達と遊びに行く予定です。",
+      "romaji": "Shiken ga owattara, tomodachi to asobi ni iku yotei desu.",
+      "english": "Once the exam is over, I plan to go out with my friends.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

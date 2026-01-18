@@ -1,0 +1,33 @@
+{
+  "kanji": "身",
+  "sentences": [
+    {
+      "id": "177252",
+      "japanese": "君は指示に従う事を身につけなければいけない。",
+      "english": "You must learn to obey instructions."
+    },
+    {
+      "id": "177365",
+      "japanese": "君は規則正しい習慣を身につけないといけない。",
+      "english": "You must form regular habits."
+    },
+    {
+      "id": "178181",
+      "japanese": "君の身から出た錆だ。",
+      "english": "You have no one but yourself to blame."
+    },
+    {
+      "id": "179519",
+      "japanese": "苦労しても犬の訓練方法を身につけたいという気持ちがなければ、犬を飼ってはいけない。",
+      "english": "If you're not prepared to take the trouble to learn how to train a dog, don't get one."
+    },
+    {
+      "id": "183954",
+      "japanese": "寛大さが生まれながら身についている人もいる。",
+      "english": "Generosity is innate in some people."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.688Z",
+  "count": 5,
+  "fileId": "kanji-00191"
+}

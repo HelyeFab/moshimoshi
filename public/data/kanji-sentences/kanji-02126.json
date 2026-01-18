@@ -1,0 +1,33 @@
+{
+  "kanji": "幕",
+  "sentences": [
+    {
+      "id": "183066",
+      "japanese": "記念式典は閉会の辞で幕を閉じた。",
+      "english": "The commemorative ceremony ended with the closing address."
+    },
+    {
+      "id": "188249",
+      "japanese": "音楽会は国歌で幕となった。",
+      "english": "The concert concluded with the national anthem."
+    },
+    {
+      "id": "202651",
+      "japanese": "ついに戦いの幕が切って落とされた。",
+      "english": "The war finally broke out."
+    },
+    {
+      "id": "206891",
+      "japanese": "その物語は彼の死で幕を閉じる。",
+      "english": "The story ends with his death."
+    },
+    {
+      "id": "211149",
+      "japanese": "その劇団は３幕ものの劇を上演した。",
+      "english": "The company presented a three-act play."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:50.133Z",
+  "count": 5,
+  "fileId": "kanji-02126"
+}

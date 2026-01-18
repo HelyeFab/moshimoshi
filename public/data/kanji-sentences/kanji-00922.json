@@ -1,0 +1,33 @@
+{
+  "kanji": "寺",
+  "sentences": [
+    {
+      "id": "181627",
+      "japanese": "京都を訪問すべきだよ。古いお寺や神社で有名だから。",
+      "english": "You should visit Kyoto, which is famous for its old temples and shrines."
+    },
+    {
+      "id": "181636",
+      "japanese": "京都は古いお寺があるので有名だ。",
+      "english": "Kyoto is famous for its old temples."
+    },
+    {
+      "id": "181785",
+      "japanese": "京都の魅力は古い寺の美しさにある。",
+      "english": "The charm of Kyoto consists of the beauty of its old temples."
+    },
+    {
+      "id": "182002",
+      "japanese": "京都には古いお寺がたくさんある。",
+      "english": "There are many old temples in Kyoto."
+    },
+    {
+      "id": "191178",
+      "japanese": "以前はちょうどここにお寺があった。",
+      "english": "There used to be a temple right here."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.385Z",
+  "count": 5,
+  "fileId": "kanji-00922"
+}

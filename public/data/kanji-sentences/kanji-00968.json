@@ -1,0 +1,33 @@
+{
+  "kanji": "税",
+  "sentences": [
+    {
+      "id": "188492",
+      "japanese": "王は人民から税を厳しく取り立てた。",
+      "english": "The king exacted taxes from his people."
+    },
+    {
+      "id": "188495",
+      "japanese": "王は国民に重い税を課した。",
+      "english": "The king imposed heavy taxes on his people."
+    },
+    {
+      "id": "203442",
+      "japanese": "タバコにかけられている税は高い。",
+      "english": "There is a heavy tax on tobacco."
+    },
+    {
+      "id": "207891",
+      "japanese": "その地域に工場を設立する外国企業には、税が大幅に減免される。",
+      "english": "A generous tax break will be provided to foreign companies that set up factories in the area."
+    },
+    {
+      "id": "208630",
+      "japanese": "その税は農民に重くのしかかった。",
+      "english": "The tax bore hard on the peasantry."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.264Z",
+  "count": 5,
+  "fileId": "kanji-00968"
+}

@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "060-aru-inanimate",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "060-aru-inanimate-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct verb: 机の上に本が＿＿。",
+      "questionRomaji": "Tsukue no ue ni hon ga __.",
+      "options": [
+        {
+          "id": "a",
+          "text": "います",
+          "romaji": "imasu"
+        },
+        {
+          "id": "b",
+          "text": "あります",
+          "romaji": "arimasu"
+        },
+        {
+          "id": "c",
+          "text": "です",
+          "romaji": "desu"
+        },
+        {
+          "id": "d",
+          "text": "ます",
+          "romaji": "masu"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! あります is used for inanimate things.",
+      "incorrectFeedback": "Not quite. Use あります for objects.",
+      "explanation": "本 is inanimate, so use あります.",
+      "difficulty": "easy"
+    }
+  ]
+}

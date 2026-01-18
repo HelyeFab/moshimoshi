@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "216-n4-point-16",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "216-n4-point-16-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Noun wo kureru (to give to me/someone close)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "名詞 を くれる",
+          "romaji": "Noun wo kureru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 名詞 を くれる matches \"Noun wo kureru (to give to me/someone close)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 名詞 を くれる.",
+      "explanation": "Used when someone gives something to the speaker or someone close.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "216-n4-point-16-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 名詞 を くれる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Noun wo kureru (to give to me/someone close)"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 名詞 を くれる means \"Noun wo kureru (to give to me/someone close)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Noun wo kureru (to give to me/someone close)\".",
+      "explanation": "Used when someone gives something to the speaker or someone close.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "216-n4-point-16-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 名詞 を くれる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Noun wo kureru"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Noun wo kureru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Noun wo kureru.",
+      "explanation": "Used when someone gives something to the speaker or someone close.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "216-n4-point-16-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 名詞 を くれる?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Used when someone gives something to the speaker or someone close."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used when someone gives something to the speaker or someone close.",
+      "explanation": "Used when someone gives something to the speaker or someone close.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "216-n4-point-16-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Noun wo kureru (to give to me/someone close)\".",
+      "correctAnswer": "名詞 を くれる",
+      "acceptedVariations": [
+        "名詞 を くれる",
+        "名詞をくれる"
+      ],
+      "correctFeedback": "Nice! 名詞 を くれる is correct.",
+      "incorrectFeedback": "The correct pattern is: 名詞 を くれる (Noun wo kureru).",
+      "explanation": "Used when someone gives something to the speaker or someone close.",
+      "hints": [
+        "Noun wo kureru",
+        "Used when someone gives something to the speaker or someone close."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "216-n4-point-16-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 名詞 を くれる.",
+      "correctAnswer": "Noun wo kureru",
+      "acceptedVariations": [
+        "Noun wo kureru",
+        "noun wo kureru"
+      ],
+      "correctFeedback": "Nice! Noun wo kureru is correct.",
+      "incorrectFeedback": "The correct romaji is: Noun wo kureru.",
+      "explanation": "Used when someone gives something to the speaker or someone close.",
+      "hints": [
+        "Used when someone gives something to the speaker or someone close."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "216-n4-point-16-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 名詞 を くれる.",
+      "correctAnswer": "Noun wo kureru (to give to me/someone close)",
+      "acceptedVariations": [
+        "Noun wo kureru (to give to me/someone close)",
+        "noun wo kureru (to give to me/someone close)"
+      ],
+      "correctFeedback": "Correct! \"Noun wo kureru (to give to me/someone close)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Noun wo kureru (to give to me/someone close)\".",
+      "explanation": "Used when someone gives something to the speaker or someone close.",
+      "hints": [
+        "Used when someone gives something to the speaker or someone close."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "216-n4-point-16-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "名詞 を くれる",
+          "romaji": "Noun wo kureru",
+          "english": "Noun wo kureru (to give to me/someone close)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used when someone gives something to the speaker or someone close.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "216-n4-point-16-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used when someone gives something to the speaker or someone close..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "名詞 を くれる",
+          "romaji": "Noun wo kureru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! 名詞 を くれる matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 名詞 を くれる.",
+      "explanation": "Used when someone gives something to the speaker or someone close.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "216-n4-point-16-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "名詞をくれる",
+      "acceptedVariations": [
+        "名詞をくれる",
+        "名詞 を くれる"
+      ],
+      "correctFeedback": "Great! 名詞をくれる is correct.",
+      "incorrectFeedback": "The correct pattern is: 名詞をくれる.",
+      "explanation": "Used when someone gives something to the speaker or someone close.",
+      "hints": [
+        "Noun wo kureru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

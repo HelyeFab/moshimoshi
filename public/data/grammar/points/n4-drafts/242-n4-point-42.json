@@ -1,0 +1,55 @@
+{
+  "id": "242-n4-point-42",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て くれる (Verb-te kureru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The て くれる grammar point is used to express when someone does something for, or gives something to the speaker (or someone in the speaker's group). The action is usually done willingly or as a favor by the person performing the action. It is usually translated into English as 'to do something for me' or 'to give something to me'.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-te form + くれる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "友達が宿題を手伝ってくれました。",
+      "romaji": "Tomodachi ga shukudai wo tetsudatte kuremashita.",
+      "english": "My friend helped me with my homework.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "弟が部屋を掃除してくれた。",
+      "romaji": "Otouto ga heya wo souji shite kureta.",
+      "english": "My younger brother cleaned the room for me.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "先生が質問に答えてくれます。",
+      "romaji": "Sensei ga shitsumon ni kotaete kuremasu.",
+      "english": "The teacher answers my questions for me.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女が手紙を書いてくれる。",
+      "romaji": "Kanojo ga tegami wo kaite kureru.",
+      "english": "She writes a letter for me.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

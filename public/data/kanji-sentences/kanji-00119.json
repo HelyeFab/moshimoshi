@@ -1,0 +1,33 @@
+{
+  "kanji": "飲",
+  "sentences": [
+    {
+      "id": "4913",
+      "japanese": "何かお飲みになりますか？",
+      "english": "Would you like something to drink?"
+    },
+    {
+      "id": "188052",
+      "japanese": "何か飲み物はいかがですか。",
+      "english": "Would you like something to drink?"
+    },
+    {
+      "id": "188057",
+      "japanese": "何か飲みますか。",
+      "english": "Would you like something to drink?"
+    },
+    {
+      "id": "227405",
+      "japanese": "お飲み物はどうなさいますか。",
+      "english": "Would you like something to drink?"
+    },
+    {
+      "id": "227406",
+      "japanese": "お飲み物はいかがですか。",
+      "english": "Would you like something to drink?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.866Z",
+  "count": 5,
+  "fileId": "kanji-00119"
+}

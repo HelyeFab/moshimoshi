@@ -1,0 +1,33 @@
+{
+  "kanji": "鐘",
+  "sentences": [
+    {
+      "id": "179873",
+      "japanese": "近くの教会からカーンカーンという鐘の音がしてきた。",
+      "english": "We could hear the donnnng ... donnnng of the church bells nearby."
+    },
+    {
+      "id": "180216",
+      "japanese": "教会堂の鐘が鳴っている。",
+      "english": "The church bells are ringing."
+    },
+    {
+      "id": "180295",
+      "japanese": "教会の鐘が鳴っている。",
+      "english": "The church bells are ringing."
+    },
+    {
+      "id": "180293",
+      "japanese": "教会の鐘は３時に鳴ったものです。",
+      "english": "The church bell used to ring at three."
+    },
+    {
+      "id": "180294",
+      "japanese": "教会の鐘が一斉に鳴り出した。",
+      "english": "All the church bells started ringing together."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:37.263Z",
+  "count": 5,
+  "fileId": "kanji-01795"
+}

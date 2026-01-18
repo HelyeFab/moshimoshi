@@ -1,0 +1,33 @@
+{
+  "kanji": "題",
+  "sentences": [
+    {
+      "id": "199247",
+      "japanese": "なぜその題を選んだのか。",
+      "english": "Why did you choose that particular subject?"
+    },
+    {
+      "id": "222184",
+      "japanese": "この劇の題は「オセロ」です。",
+      "english": "The title of this play is \"Othello\"."
+    },
+    {
+      "id": "236141",
+      "japanese": "「友情」という題で作文を書きなさい。",
+      "english": "Write an essay on \"Friendship\"."
+    },
+    {
+      "id": "236162",
+      "japanese": "「秘めた恋」という題の作文で、メアリーは賞をもらった。",
+      "english": "Mary received an award for her composition called \"Secret love\"."
+    },
+    {
+      "id": "141573",
+      "japanese": "先生は私達に宿題として１０題の問題を割り当てた。",
+      "english": "The teacher assigned us ten problems for homework."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.124Z",
+  "count": 5,
+  "fileId": "kanji-00221"
+}

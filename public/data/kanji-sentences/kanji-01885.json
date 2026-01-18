@@ -1,0 +1,33 @@
+{
+  "kanji": "宜",
+  "sentences": [
+    {
+      "id": "10306723",
+      "japanese": "ナイフを借りても宜しいでしょうか。",
+      "english": "May I borrow your knife?"
+    },
+    {
+      "id": "226740",
+      "japanese": "お父さんに宜しく。",
+      "english": "Remember me to your father."
+    },
+    {
+      "id": "140378",
+      "japanese": "窓を開けても宜しいですか。",
+      "english": "Can I open the window?"
+    },
+    {
+      "id": "369327",
+      "japanese": "宜しければお会いしていただけませんか？",
+      "english": "If you don't mind, will you please meet with me?"
+    },
+    {
+      "id": "443122",
+      "japanese": "どうぞ宜しくお願い申し上げます。",
+      "english": "Thank you very much for the consideration you will give to our request."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:40.951Z",
+  "count": 5,
+  "fileId": "kanji-01885"
+}

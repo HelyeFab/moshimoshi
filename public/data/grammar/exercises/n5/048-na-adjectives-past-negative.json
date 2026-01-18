@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "048-na-adjectives-past-negative",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "048-na-adjectives-past-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the past negative form of 静か:",
+      "options": [
+        { "id": "a", "text": "静かではありませんでした" },
+        { "id": "b", "text": "静かではありません" },
+        { "id": "c", "text": "静かでした" },
+        { "id": "d", "text": "静かくなかった" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 静かではありませんでした.",
+      "incorrectFeedback": "Not quite. Use ではありませんでした.",
+      "explanation": "Na-adjective past negative uses ではありませんでした.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "048-na-adjectives-past-negative-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "昨日のテストは簡単ではありませんでした。" },
+        { "id": "b", "text": "昨日のテストは簡単くなかったです。" },
+        { "id": "c", "text": "昨日のテストは簡単でした。" },
+        { "id": "d", "text": "昨日のテストは簡単ではありません。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ではありませんでした is past negative.",
+      "incorrectFeedback": "Try again. Use ではありませんでした.",
+      "explanation": "Past negative na-adjectives use ではありませんでした.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "048-na-adjectives-past-negative-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'That room was not clean.'",
+      "correctAnswer": "あの部屋はきれいではありませんでした",
+      "acceptedVariations": [
+        "あの部屋はきれいではありませんでした。",
+        "あのへやはきれいではありませんでした",
+        "ano heya wa kirei dewa arimasen deshita",
+        "ano heya wa kirei dewa arimasen deshita."
+      ],
+      "correctFeedback": "Great! あの部屋はきれいではありませんでした is correct.",
+      "incorrectFeedback": "The correct answer is: あの部屋はきれいではありませんでした (ano heya wa kirei dewa arimasen deshita).",
+      "explanation": "きれい is a na-adjective; use ではありませんでした.",
+      "hints": ["部屋 = room", "Use ではありませんでした"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "048-na-adjectives-past-negative-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the past negative form of 便利:",
+      "options": [
+        { "id": "a", "text": "便利ではありませんでした" },
+        { "id": "b", "text": "便利ではありません" },
+        { "id": "c", "text": "便利でした" },
+        { "id": "d", "text": "便利くなかった" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 便利ではありませんでした.",
+      "incorrectFeedback": "Not quite. Use ではありませんでした.",
+      "explanation": "Past negative na-adjective uses ではありませんでした.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "048-na-adjectives-past-negative-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This shop was not convenient.'",
+      "correctAnswer": "この店は便利ではありませんでした",
+      "acceptedVariations": [
+        "この店は便利ではありませんでした。",
+        "このみせはべんりではありませんでした",
+        "kono mise wa benri dewa arimasen deshita",
+        "kono mise wa benri dewa arimasen deshita."
+      ],
+      "correctFeedback": "Nice! この店は便利ではありませんでした is correct.",
+      "incorrectFeedback": "The correct answer is: この店は便利ではありませんでした (kono mise wa benri dewa arimasen deshita).",
+      "explanation": "便利 is a na-adjective; use ではありませんでした.",
+      "hints": ["店 = shop", "Use ではありませんでした"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "048-na-adjectives-past-negative-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "昨日の町は静かではありませんでした。" },
+        { "id": "b", "text": "あの部屋はきれいではありませんでした。" },
+        { "id": "c", "text": "この店は便利ではありませんでした。" },
+        { "id": "d", "text": "テストは簡単くなかったです。" }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Use ではありませんでした for na-adjectives.",
+      "incorrectFeedback": "Try again. Na-adjectives use ではありませんでした.",
+      "explanation": "簡単 is na-adjective; くなかった is for い-adjectives.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "048-na-adjectives-past-negative-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'The town was not quiet.'",
+      "correctAnswer": "町は静かではありませんでした",
+      "acceptedVariations": [
+        "町は静かではありませんでした。",
+        "まちはしずかではありませんでした",
+        "machi wa shizuka dewa arimasen deshita",
+        "machi wa shizuka dewa arimasen deshita."
+      ],
+      "correctFeedback": "Great! 町は静かではありませんでした is correct.",
+      "incorrectFeedback": "The correct answer is: 町は静かではありませんでした (machi wa shizuka dewa arimasen deshita).",
+      "explanation": "静か is a na-adjective; use ではありませんでした.",
+      "hints": ["町 = town", "Use ではありませんでした"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "048-na-adjectives-past-negative-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "昨日のテストは簡単ではありませんでした。",
+          "romaji": "Kinou no tesuto wa kantan dewa arimasen deshita.",
+          "english": "Yesterday's test was not easy."
+        },
+        {
+          "japanese": "この店は便利ではありませんでした。",
+          "romaji": "Kono mise wa benri dewa arimasen deshita.",
+          "english": "This shop was not convenient."
+        },
+        {
+          "japanese": "あの部屋はきれいではありませんでした。",
+          "romaji": "Ano heya wa kirei dewa arimasen deshita.",
+          "english": "That room was not clean."
+        }
+      ],
+      "correctFeedback": "Perfect! All use ではありませんでした.",
+      "incorrectFeedback": "Not quite. Review past negative na-adjectives.",
+      "explanation": "Na-adjectives use ではありませんでした for past negative.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "048-na-adjectives-past-negative-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct past negative form of きれい?",
+      "options": [
+        { "id": "a", "text": "きれいではありませんでした" },
+        { "id": "b", "text": "きれいではありません" },
+        { "id": "c", "text": "きれいでした" },
+        { "id": "d", "text": "きれいくなかった" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! きれいではありませんでした.",
+      "incorrectFeedback": "Try again. Use ではありませんでした.",
+      "explanation": "Past negative na-adjective uses ではありませんでした.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "048-na-adjectives-past-negative-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'The test was not easy.'",
+      "correctAnswer": "テストは簡単ではありませんでした",
+      "acceptedVariations": [
+        "テストは簡単ではありませんでした。",
+        "てすとはかんたんではありませんでした",
+        "tesuto wa kantan dewa arimasen deshita",
+        "tesuto wa kantan dewa arimasen deshita."
+      ],
+      "correctFeedback": "Nice! テストは簡単ではありませんでした is correct.",
+      "incorrectFeedback": "The correct answer is: テストは簡単ではありませんでした (tesuto wa kantan dewa arimasen deshita).",
+      "explanation": "簡単 is a na-adjective; use ではありませんでした.",
+      "hints": ["簡単 = easy", "Use ではありませんでした"],
+      "difficulty": "hard"
+    }
+  ]
+}

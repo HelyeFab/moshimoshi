@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "031-masen-ka-invitation",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "031-masen-ka-invitation-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct invitation form: 行きます → ?",
+      "options": [
+        { "id": "a", "text": "行きませんか" },
+        { "id": "b", "text": "行きましょう" },
+        { "id": "c", "text": "行きません" },
+        { "id": "d", "text": "行きました" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行きませんか is a polite invitation.",
+      "incorrectFeedback": "Not quite. Use ませんか to invite.",
+      "explanation": "Verb ません + か = invitation.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "031-masen-ka-invitation-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'Would you like to watch a movie?'",
+      "options": [
+        { "id": "a", "text": "映画を見ませんか。" },
+        { "id": "b", "text": "映画を見ます。" },
+        { "id": "c", "text": "映画を見ましょう。" },
+        { "id": "d", "text": "映画を見ません。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 見ませんか is an invitation.",
+      "incorrectFeedback": "Try again. Use ませんか for invitations.",
+      "explanation": "The ませんか form invites someone politely.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "031-masen-ka-invitation-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Would you like to drink coffee?'",
+      "correctAnswer": "コーヒーを飲みませんか",
+      "acceptedVariations": [
+        "コーヒーを飲みませんか。",
+        "こーひーをのみませんか",
+        "koohii o nomimasen ka",
+        "koohii o nomimasen ka."
+      ],
+      "correctFeedback": "Great! コーヒーを飲みませんか is correct.",
+      "incorrectFeedback": "The correct answer is: コーヒーを飲みませんか (koohii o nomimasen ka).",
+      "explanation": "Use ませんか to invite.",
+      "hints": ["飲みます → 飲みませんか", "コーヒー = coffee"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "031-masen-ka-invitation-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is a polite invitation?",
+      "options": [
+        { "id": "a", "text": "一緒に行きます。" },
+        { "id": "b", "text": "一緒に行きませんか。" },
+        { "id": "c", "text": "一緒に行きません。" },
+        { "id": "d", "text": "一緒に行きました。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ませんか is an invitation.",
+      "incorrectFeedback": "Not quite. Use ませんか for invitations.",
+      "explanation": "The ませんか form invites politely.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "031-masen-ka-invitation-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Would you like to study together?'",
+      "correctAnswer": "一緒に勉強しませんか",
+      "acceptedVariations": [
+        "一緒に勉強しませんか。",
+        "いっしょにべんきょうしませんか",
+        "issho ni benkyou shimasen ka",
+        "issho ni benkyou shimasen ka."
+      ],
+      "correctFeedback": "Nice! 一緒に勉強しませんか is correct.",
+      "incorrectFeedback": "The correct answer is: 一緒に勉強しませんか (issho ni benkyou shimasen ka).",
+      "explanation": "Use ませんか to invite.",
+      "hints": ["勉強します → 勉強しませんか", "一緒に = together"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "031-masen-ka-invitation-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "明日公園へ行きませんか。" },
+        { "id": "b", "text": "映画を見ませんか。" },
+        { "id": "c", "text": "一緒に食べませんか。" },
+        { "id": "d", "text": "一緒に食べるませんか。" }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Use ませんか, not dictionary form.",
+      "incorrectFeedback": "Try again. Use the ません form.",
+      "explanation": "食べるませんか is incorrect; use 食べませんか.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "031-masen-ka-invitation-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Would you like to go to the park tomorrow?'",
+      "correctAnswer": "明日公園へ行きませんか",
+      "acceptedVariations": [
+        "明日公園へ行きませんか。",
+        "あしたこうえんへいきませんか",
+        "ashita kouen e ikimasen ka",
+        "ashita kouen e ikimasen ka."
+      ],
+      "correctFeedback": "Great! 明日公園へ行きませんか is correct.",
+      "incorrectFeedback": "The correct answer is: 明日公園へ行きませんか (ashita kouen e ikimasen ka).",
+      "explanation": "Use ませんか to invite politely.",
+      "hints": ["明日 = tomorrow", "行きませんか"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "031-masen-ka-invitation-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese invitations with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "映画を見ませんか。",
+          "romaji": "Eiga o mimasen ka.",
+          "english": "Would you like to watch a movie?"
+        },
+        {
+          "japanese": "コーヒーを飲みませんか。",
+          "romaji": "Koohii o nomimasen ka.",
+          "english": "Would you like to drink coffee?"
+        },
+        {
+          "japanese": "一緒に勉強しませんか。",
+          "romaji": "Issho ni benkyou shimasen ka.",
+          "english": "Would you like to study together?"
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all invitations correctly.",
+      "incorrectFeedback": "Not quite. Review ませんか as invitation.",
+      "explanation": "Each sentence uses ませんか to invite.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "031-masen-ka-invitation-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is a polite invitation?",
+      "options": [
+        { "id": "a", "text": "行きません。" },
+        { "id": "b", "text": "行きませんか。" },
+        { "id": "c", "text": "行きましょう。" },
+        { "id": "d", "text": "行きます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ませんか is an invitation.",
+      "incorrectFeedback": "Try again. Use ませんか for invitations.",
+      "explanation": "ませんか = won't you...?",
+      "difficulty": "hard"
+    },
+    {
+      "id": "031-masen-ka-invitation-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Would you like to eat lunch together?'",
+      "correctAnswer": "一緒に昼ご飯を食べませんか",
+      "acceptedVariations": [
+        "一緒に昼ご飯を食べませんか。",
+        "いっしょにひるごはんをたべませんか",
+        "issho ni hirugohan o tabemasen ka",
+        "issho ni hirugohan o tabemasen ka."
+      ],
+      "correctFeedback": "Nice! 一緒に昼ご飯を食べませんか is correct.",
+      "incorrectFeedback": "The correct answer is: 一緒に昼ご飯を食べませんか (issho ni hirugohan o tabemasen ka).",
+      "explanation": "Use ませんか for a polite invitation.",
+      "hints": ["昼ご飯 = lunch", "食べませんか"],
+      "difficulty": "hard"
+    }
+  ]
+}

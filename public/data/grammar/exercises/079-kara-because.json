@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "079-kara-because",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "079-kara-because-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: 雨です__行きません。",
+      "options": [
+        { "id": "a", "text": "から" },
+        { "id": "b", "text": "ので" },
+        { "id": "c", "text": "まで" },
+        { "id": "d", "text": "より" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! から means 'because.'",
+      "incorrectFeedback": "Not quite. から is used for reasons.",
+      "explanation": "Use から after the reason.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "079-kara-because-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "雨ですから、行きません。" },
+        { "id": "b", "text": "雨からです、行きません。" },
+        { "id": "c", "text": "雨はから、行きません。" },
+        { "id": "d", "text": "雨でから、行きません。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 雨ですから、行きません。",
+      "incorrectFeedback": "Try again. Put から after the reason clause.",
+      "explanation": "Reason + から + result.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "079-kara-because-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Because I like Japan, I study Japanese.'",
+      "correctAnswer": "日本が好きだから日本語を勉強します",
+      "acceptedVariations": [
+        "日本が好きだから日本語を勉強します。",
+        "にほんがすきだからにほんごをべんきょうします",
+        "nihon ga suki dakara nihongo o benkyou shimasu",
+        "nihon ga suki dakara nihongo o benkyou shimasu."
+      ],
+      "correctFeedback": "Great! 日本が好きだから日本語を勉強します is correct.",
+      "incorrectFeedback": "The correct answer is: 日本が好きだから日本語を勉強します (nihon ga suki dakara nihongo o benkyou shimasu).",
+      "explanation": "Use から after the reason clause.",
+      "hints": ["好き = like", "勉強します = study"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "079-kara-because-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct ending: 忙しい__、今日は休みます。",
+      "options": [
+        { "id": "a", "text": "から" },
+        { "id": "b", "text": "ので" },
+        { "id": "c", "text": "より" },
+        { "id": "d", "text": "まで" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 忙しいから...",
+      "incorrectFeedback": "Not quite. から is correct here.",
+      "explanation": "Use から after a reason.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "079-kara-because-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Because it is rain, I won't go.'",
+      "correctAnswer": "雨ですから行きません",
+      "acceptedVariations": [
+        "雨ですから行きません。",
+        "あめですからいきません",
+        "ame desu kara ikimasen",
+        "ame desu kara ikimasen."
+      ],
+      "correctFeedback": "Nice! 雨ですから行きません is correct.",
+      "incorrectFeedback": "The correct answer is: 雨ですから行きません (ame desu kara ikimasen).",
+      "explanation": "Use です before から in polite speech.",
+      "hints": ["雨 = rain", "行きません = do not go"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "079-kara-because-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "日本が好きだから日本語を勉強します。" },
+        { "id": "b", "text": "忙しいから行きません。" },
+        { "id": "c", "text": "雨から行きません。" },
+        { "id": "d", "text": "お腹がすいたからご飯を食べます。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use 雨ですから in polite speech.",
+      "incorrectFeedback": "Try again. Add です before から with nouns.",
+      "explanation": "Nouns use ですから in polite speech.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "079-kara-because-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Because I'm busy, I won't go.'",
+      "correctAnswer": "忙しいから行きません",
+      "acceptedVariations": [
+        "忙しいから行きません。",
+        "いそがしいからいきません",
+        "isogashii kara ikimasen",
+        "isogashii kara ikimasen."
+      ],
+      "correctFeedback": "Great! 忙しいから行きません is correct.",
+      "incorrectFeedback": "The correct answer is: 忙しいから行きません (isogashii kara ikimasen).",
+      "explanation": "Use から after the reason.",
+      "hints": ["忙しい = busy", "行きません = do not go"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "079-kara-because-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "雨ですから、行きません。",
+          "romaji": "Ame desu kara, ikimasen.",
+          "english": "Because it is raining, I won't go."
+        },
+        {
+          "japanese": "忙しいから、今日は休みます。",
+          "romaji": "Isogashii kara, kyou wa yasumimasu.",
+          "english": "Because I'm busy, I will rest today."
+        },
+        {
+          "japanese": "日本が好きだから、日本語を勉強します。",
+          "romaji": "Nihon ga suki dakara, nihongo o benkyou shimasu.",
+          "english": "Because I like Japan, I study Japanese."
+        }
+      ],
+      "correctFeedback": "Perfect! All use から for reasons.",
+      "incorrectFeedback": "Not quite. Review から usage.",
+      "explanation": "から connects reason and result.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "079-kara-because-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct reason answer?",
+      "options": [
+        { "id": "a", "text": "時間がないからです。" },
+        { "id": "b", "text": "時間がないです。" },
+        { "id": "c", "text": "時間がないですか。" },
+        { "id": "d", "text": "時間がないでした。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 〜からです gives a reason.",
+      "incorrectFeedback": "Try again. Use からです to explain why.",
+      "explanation": "Add からです to state a reason.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "079-kara-because-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Because I'm hungry, I eat.'",
+      "correctAnswer": "お腹がすいたから食べます",
+      "acceptedVariations": [
+        "お腹がすいたから食べます。",
+        "おなかがすいたからたべます",
+        "onaka ga suita kara tabemasu",
+        "onaka ga suita kara tabemasu."
+      ],
+      "correctFeedback": "Nice! お腹がすいたから食べます is correct.",
+      "incorrectFeedback": "The correct answer is: お腹がすいたから食べます (onaka ga suita kara tabemasu).",
+      "explanation": "Use から after the reason.",
+      "hints": ["お腹がすいた = got hungry", "食べます = eat"],
+      "difficulty": "hard"
+    }
+  ]
+}

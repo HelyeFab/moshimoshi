@@ -1,0 +1,33 @@
+{
+  "kanji": "色",
+  "sentences": [
+    {
+      "id": "178196",
+      "japanese": "君の色に対する好みは感心しない。",
+      "english": "I don't like your taste in color."
+    },
+    {
+      "id": "1233813",
+      "japanese": "あなたの色の好みは好きじゃないな。",
+      "english": "I don't like your taste in color."
+    },
+    {
+      "id": "178253",
+      "japanese": "君の時計は形も色も私のに似ている。",
+      "english": "Your watch is similar to mine in shape and color."
+    },
+    {
+      "id": "178996",
+      "japanese": "君が最も好きな色を選びなさい。",
+      "english": "Choose the color you like the best."
+    },
+    {
+      "id": "179725",
+      "japanese": "金は色が真鍮と似ている。",
+      "english": "Gold is similar in color to brass."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.334Z",
+  "count": 5,
+  "fileId": "kanji-00239"
+}

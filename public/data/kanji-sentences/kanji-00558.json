@@ -1,0 +1,33 @@
+{
+  "kanji": "断",
+  "sentences": [
+    {
+      "id": "177977",
+      "japanese": "君は、彼の申し出を断るべきだった。",
+      "english": "You should have refused his offer."
+    },
+    {
+      "id": "178898",
+      "japanese": "彼の助力を断ったのは間違いだ。",
+      "english": "You did wrong to refuse his help."
+    },
+    {
+      "id": "179068",
+      "japanese": "君が援助を断ったので、事態がややこしくなった。",
+      "english": "Your refusal to help complicated matters."
+    },
+    {
+      "id": "180053",
+      "japanese": "驚いたことに、彼は私の申し出を断った。",
+      "english": "To my surprise, he refused my offer."
+    },
+    {
+      "id": "184925",
+      "japanese": "開演中入場お断り。",
+      "english": "No admittance during the performance."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.654Z",
+  "count": 5,
+  "fileId": "kanji-00558"
+}

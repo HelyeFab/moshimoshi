@@ -1,0 +1,114 @@
+{
+  "id": "294-n4-point-94",
+  "version": "1.0.0",
+  "title": {
+    "ja": "~でしょう",
+    "romaji": "~deshou",
+    "en": "probably"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～でしょう grammar point is used to indicate a conjecture or probability. It can be translated as 'probably', 'I think', or 'it seems' in English.",
+    "ja": "~でしょうは推量や可能性を表現するために使われます。英語では「おそらく」、「〜だと思う」「〜らしい」と訳すことができます。"
+  },
+  "structure": {
+    "pattern": "~でしょう",
+    "components": [
+      {
+        "part": "Verb-ますstem + でしょう",
+        "explanation": "Used to express conjecture about a future or ongoing action.",
+        "examples": [
+          "明日は晴れでしょう。"
+        ]
+      },
+      {
+        "part": "い-Adjective + でしょう",
+        "explanation": "Expresses conjecture for an い-adjective state.",
+        "examples": [
+          "この本は面白いでしょう。"
+        ]
+      },
+      {
+        "part": "な-Adjective + でしょう",
+        "explanation": "Used with な-adjectives to express a guess or belief about the characteristic of something.",
+        "examples": []
+      },
+      {
+        "part": "Noun + でしょう",
+        "explanation": "Expresses conjecture for nouns, indicating one's guess or assumption about someone or something.",
+        "examples": [
+          "彼女は医者でしょう。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日は晴れでしょう。",
+      "romaji": "Ashita wa hare deshou.",
+      "english": "It will probably be sunny tomorrow.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "晴れ": "sunny",
+        "でしょう": "probably"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は元気でしょう。",
+      "romaji": "Kare wa genki deshou.",
+      "english": "He is probably fine.",
+      "breakdown": {
+        "彼": "he",
+        "元気": "fine/healthy",
+        "でしょう": "probably"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この本は面白いでしょう。",
+      "romaji": "Kono hon wa omoshiroi deshou.",
+      "english": "This book is probably interesting.",
+      "breakdown": {
+        "この本": "this book",
+        "面白い": "interesting",
+        "でしょう": "probably"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は医者でしょう。",
+      "romaji": "Kanojo wa isha deshou.",
+      "english": "She is probably a doctor.",
+      "breakdown": {
+        "彼女": "she",
+        "医者": "doctor",
+        "でしょう": "probably"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "doubt-expressions",
+    "probability-indicators"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "明日は晴れるでしょう。",
+      "correction": "明日は晴れでしょう。",
+      "example": ""
+    },
+    {
+      "mistake": "この本は面白いです。",
+      "correction": "この本は面白いでしょう。",
+      "example": ""
+    }
+  ],
+  "tags": [
+    "n4",
+    "conjecture",
+    "probability",
+    "doubt-expressions"
+  ]
+}

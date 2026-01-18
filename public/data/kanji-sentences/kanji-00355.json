@@ -1,0 +1,33 @@
+{
+  "kanji": "雪",
+  "sentences": [
+    {
+      "id": "3080897",
+      "japanese": "人生で知らなきゃいけない事は、みんな雪だるまから学んだ。",
+      "english": "All I need to know about life, I learned from a snowman."
+    },
+    {
+      "id": "179289",
+      "japanese": "空模様から判断すると、明日は雪になるかもしれない。",
+      "english": "Judging from the look of the sky, we may have snow tomorrow."
+    },
+    {
+      "id": "179291",
+      "japanese": "空模様から判断すると、雪が降りそうだ。",
+      "english": "Judging from the look of the sky, it is going to snow."
+    },
+    {
+      "id": "179295",
+      "japanese": "空模様からすると、今夜あたり雪になるかもしれない。",
+      "english": "From the look of the sky, it may begin to snow tonight."
+    },
+    {
+      "id": "182212",
+      "japanese": "去年は雪が多かった。",
+      "english": "We had a lot of snow last year."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.916Z",
+  "count": 5,
+  "fileId": "kanji-00355"
+}

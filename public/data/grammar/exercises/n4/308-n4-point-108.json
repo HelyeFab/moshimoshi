@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "308-n4-point-108",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "308-n4-point-108-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Must / Have to\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～なければ ならない",
+          "romaji": "~nakereba naranai"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ～なければ ならない matches \"Must / Have to\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～なければ ならない.",
+      "explanation": "Expresses obligation; used to say someone must or has to do something.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "308-n4-point-108-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～なければ ならない.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Must / Have to"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ～なければ ならない means \"Must / Have to\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Must / Have to\".",
+      "explanation": "Expresses obligation; used to say someone must or has to do something.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "308-n4-point-108-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～なければ ならない.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~nakereba naranai"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ~nakereba naranai is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~nakereba naranai.",
+      "explanation": "Expresses obligation; used to say someone must or has to do something.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "308-n4-point-108-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～なければ ならない?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Expresses obligation; used to say someone must or has to do something."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses obligation; used to say someone must or has to do something.",
+      "explanation": "Expresses obligation; used to say someone must or has to do something.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "308-n4-point-108-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Must / Have to\".",
+      "correctAnswer": "～なければ ならない",
+      "acceptedVariations": [
+        "～なければ ならない",
+        "～なければならない"
+      ],
+      "correctFeedback": "Nice! ～なければ ならない is correct.",
+      "incorrectFeedback": "The correct pattern is: ～なければ ならない (~nakereba naranai).",
+      "explanation": "Expresses obligation; used to say someone must or has to do something.",
+      "hints": [
+        "~nakereba naranai",
+        "Expresses obligation; used to say someone must or has to do something."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "308-n4-point-108-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～なければ ならない.",
+      "correctAnswer": "~nakereba naranai",
+      "acceptedVariations": [
+        "~nakereba naranai",
+        "~nakereba naranai"
+      ],
+      "correctFeedback": "Nice! ~nakereba naranai is correct.",
+      "incorrectFeedback": "The correct romaji is: ~nakereba naranai.",
+      "explanation": "Expresses obligation; used to say someone must or has to do something.",
+      "hints": [
+        "Expresses obligation; used to say someone must or has to do something."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "308-n4-point-108-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～なければ ならない.",
+      "correctAnswer": "Must / Have to",
+      "acceptedVariations": [
+        "Must / Have to",
+        "must / have to"
+      ],
+      "correctFeedback": "Correct! \"Must / Have to\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Must / Have to\".",
+      "explanation": "Expresses obligation; used to say someone must or has to do something.",
+      "hints": [
+        "Expresses obligation; used to say someone must or has to do something."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "308-n4-point-108-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～なければ ならない",
+          "romaji": "~nakereba naranai",
+          "english": "Must / Have to"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses obligation; used to say someone must or has to do something.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "308-n4-point-108-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses obligation; used to say someone must or has to do something..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～なければ ならない",
+          "romaji": "~nakereba naranai"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～なければ ならない matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～なければ ならない.",
+      "explanation": "Expresses obligation; used to say someone must or has to do something.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "308-n4-point-108-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～なければならない",
+      "acceptedVariations": [
+        "～なければならない",
+        "～なければ ならない"
+      ],
+      "correctFeedback": "Great! ～なければならない is correct.",
+      "incorrectFeedback": "The correct pattern is: ～なければならない.",
+      "explanation": "Expresses obligation; used to say someone must or has to do something.",
+      "hints": [
+        "~nakereba naranai"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

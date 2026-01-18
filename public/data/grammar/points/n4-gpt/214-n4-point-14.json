@@ -1,0 +1,100 @@
+{
+  "id": "214-n4-point-14",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Nounをいただく",
+    "romaji": "Noun wo itadaku",
+    "en": "Receiving something in a humble manner"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The Nounをいただく grammar point is used to express the action of receiving or accepting something in a polite or humble manner. The verb 'いただく' is a more respectful version of the verb 'もらう' (to receive), so using 'いただく' shows humility and respect towards the person who is giving you something.",
+    "ja": "Nounをいただくという文法は、何かを受け取るまたは受け入れる行動を丁寧なかたちで表現するために使用されます。動詞の「いただく」は、「もらう」という受けることを表す動詞よりも敬意を示すものですので、「いただく」を使うことで相手に謙虚さと敬意を示すことができます。"
+  },
+  "structure": {
+    "pattern": "Noun + を + いただく",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "The object that is received.",
+        "examples": [
+          "プレゼント (gift)",
+          "アドバイス (advice)"
+        ]
+      },
+      {
+        "part": "を",
+        "explanation": "Object marker particle used to indicate the direct object of a verb.",
+        "examples": []
+      },
+      {
+        "part": "いただく",
+        "explanation": "A humble expression for receiving something, showing respect and humility.",
+        "examples": [
+          "いただきました (received)",
+          "いただきます (will receive)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "プレゼントをいただきありがとうございます。",
+      "romaji": "Purezento wo itadaki arigatou gozaimasu.",
+      "english": "Thank you for the gift that I received.",
+      "breakdown": {
+        "token": "",
+        "gloss": ""
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "先生からアドバイスをいただきました。",
+      "romaji": "Sensei kara adobaisu wo itadakimashita.",
+      "english": "I received advice from my teacher.",
+      "breakdown": {
+        "token": "",
+        "gloss": ""
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このコーヒーをいただいていいですか？",
+      "romaji": "Kono koohii wo itadaite ii desu ka?",
+      "english": "May I have this coffee?",
+      "breakdown": {
+        "token": "",
+        "gloss": ""
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "会社の上司に昇進のお知らせをいただきました。",
+      "romaji": "Kaisha no joushi ni shoushin no oshirase wo itadakimashita.",
+      "english": "I received a promotion notification from my boss at the company.",
+      "breakdown": {
+        "token": "",
+        "gloss": ""
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Nounをもらう",
+    "謙譲語"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "プレゼントをもらいました。",
+      "correction": "プレゼントをいただきました。",
+      "example": "When showing respect to the giver, it is better to use 'いただく'."
+    }
+  ],
+  "tags": [
+    "n4",
+    "politeness-levels",
+    "humble-expressions",
+    "receiving-something"
+  ]
+}

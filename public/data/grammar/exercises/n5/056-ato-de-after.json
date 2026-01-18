@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "056-ato-de-after",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "056-ato-de-after-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct form: 食べた__勉強します。",
+      "options": [
+        { "id": "a", "text": "後で" },
+        { "id": "b", "text": "前に" },
+        { "id": "c", "text": "まで" },
+        { "id": "d", "text": "から" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 食べた後で means 'after eating.'",
+      "incorrectFeedback": "Not quite. Use 後で for 'after.'",
+      "explanation": "後で means 'after/later.'",
+      "difficulty": "easy"
+    },
+    {
+      "id": "056-ato-de-after-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "授業の後で友だちに会います。" },
+        { "id": "b", "text": "授業後で友だちに会います。" },
+        { "id": "c", "text": "授業に後で友だちに会います。" },
+        { "id": "d", "text": "授業で後で友だちに会います。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use の before 後で with nouns.",
+      "incorrectFeedback": "Try again. Nouns need の before 後で.",
+      "explanation": "Noun + の + 後で.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "056-ato-de-after-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I study after eating lunch.'",
+      "correctAnswer": "昼ご飯を食べた後で勉強します",
+      "acceptedVariations": [
+        "昼ご飯を食べた後で勉強します。",
+        "ひるごはんをたべたあとでべんきょうします",
+        "hirugohan o tabeta ato de benkyou shimasu",
+        "hirugohan o tabeta ato de benkyou shimasu."
+      ],
+      "correctFeedback": "Great! 昼ご飯を食べた後で勉強します is correct.",
+      "incorrectFeedback": "The correct answer is: 昼ご飯を食べた後で勉強します (hirugohan o tabeta ato de benkyou shimasu).",
+      "explanation": "Use past short form + 後で.",
+      "hints": ["昼ご飯 = lunch", "食べた = ate"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "056-ato-de-after-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct form: 帰った__シャワーを浴びます。",
+      "options": [
+        { "id": "a", "text": "後で" },
+        { "id": "b", "text": "前に" },
+        { "id": "c", "text": "から" },
+        { "id": "d", "text": "まで" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 帰った後で.",
+      "incorrectFeedback": "Not quite. Use 後で for 'after.'",
+      "explanation": "Past short form + 後で.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "056-ato-de-after-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I shop after work.'",
+      "correctAnswer": "仕事の後で買い物します",
+      "acceptedVariations": [
+        "仕事の後で買い物します。",
+        "しごとのあとでかいものします",
+        "shigoto no ato de kaimono shimasu",
+        "shigoto no ato de kaimono shimasu."
+      ],
+      "correctFeedback": "Nice! 仕事の後で買い物します is correct.",
+      "incorrectFeedback": "The correct answer is: 仕事の後で買い物します (shigoto no ato de kaimono shimasu).",
+      "explanation": "Noun + の + 後で.",
+      "hints": ["仕事 = work", "買い物します = shop"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "056-ato-de-after-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "昼ご飯を食べた後で勉強します。" },
+        { "id": "b", "text": "授業の後で友だちに会います。" },
+        { "id": "c", "text": "帰る後でシャワーを浴びます。" },
+        { "id": "d", "text": "仕事の後で買い物します。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use 帰った後で, not 帰る後で.",
+      "incorrectFeedback": "Try again. Use past short form before 後で.",
+      "explanation": "後で needs the past short form with verbs.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "056-ato-de-after-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I call later.'",
+      "correctAnswer": "後で電話します",
+      "acceptedVariations": [
+        "後で電話します。",
+        "あとででんわします",
+        "ato de denwa shimasu",
+        "ato de denwa shimasu."
+      ],
+      "correctFeedback": "Great! 後で電話します is correct.",
+      "incorrectFeedback": "The correct answer is: 後で電話します (ato de denwa shimasu).",
+      "explanation": "後で can mean 'later' by itself.",
+      "hints": ["電話します = call", "後で = later"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "056-ato-de-after-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "昼ご飯を食べた後で勉強します。",
+          "romaji": "Hirugohan o tabeta ato de benkyou shimasu.",
+          "english": "I study after eating lunch."
+        },
+        {
+          "japanese": "授業の後で友だちに会います。",
+          "romaji": "Jugyou no ato de tomodachi ni aimasu.",
+          "english": "I meet my friend after class."
+        },
+        {
+          "japanese": "後で電話します。",
+          "romaji": "Ato de denwa shimasu.",
+          "english": "I will call later."
+        }
+      ],
+      "correctFeedback": "Perfect! All use 後で.",
+      "incorrectFeedback": "Not quite. Review 後で usage.",
+      "explanation": "後で marks the later action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "056-ato-de-after-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'after class'?",
+      "options": [
+        { "id": "a", "text": "授業の後で" },
+        { "id": "b", "text": "授業後で" },
+        { "id": "c", "text": "授業に後で" },
+        { "id": "d", "text": "授業で後で" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 授業の後で.",
+      "incorrectFeedback": "Try again. Nouns need の before 後で.",
+      "explanation": "Noun + の + 後で.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "056-ato-de-after-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I take a shower after I get home.'",
+      "correctAnswer": "家に帰った後でシャワーを浴びます",
+      "acceptedVariations": [
+        "家に帰った後でシャワーを浴びます。",
+        "いえにかえったあとでしゃわーをあびます",
+        "ie ni kaetta ato de shawaa o abimasu",
+        "ie ni kaetta ato de shawaa o abimasu."
+      ],
+      "correctFeedback": "Nice! 家に帰った後でシャワーを浴びます is correct.",
+      "incorrectFeedback": "The correct answer is: 家に帰った後でシャワーを浴びます (ie ni kaetta ato de shawaa o abimasu).",
+      "explanation": "Use past short form + 後で.",
+      "hints": ["帰った = returned", "シャワーを浴びます = take a shower"],
+      "difficulty": "hard"
+    }
+  ]
+}

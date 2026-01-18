@@ -1,0 +1,33 @@
+{
+  "kanji": "怠",
+  "sentences": [
+    {
+      "id": "177052",
+      "japanese": "君は遅かれ早かれ怠けていたことを後悔するよ。",
+      "english": "Sooner or later, you will regret your idleness."
+    },
+    {
+      "id": "177579",
+      "japanese": "君はパンを買ってくるように私に言うのを怠った。",
+      "english": "You neglected to tell me to buy bread."
+    },
+    {
+      "id": "179984",
+      "japanese": "勤勉な少年もいれば、怠け者もいる。",
+      "english": "Some boys are diligent, others are idle."
+    },
+    {
+      "id": "182703",
+      "japanese": "休みはただ怠けていました。",
+      "english": "I did nothing during the holidays."
+    },
+    {
+      "id": "182908",
+      "japanese": "義務を怠ってはならない。",
+      "english": "You are not to neglect your duty."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:38.529Z",
+  "count": 5,
+  "fileId": "kanji-01827"
+}

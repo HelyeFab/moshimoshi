@@ -1,0 +1,33 @@
+{
+  "kanji": "父",
+  "sentences": [
+    {
+      "id": "84318",
+      "japanese": "父も父なら、息子も息子。",
+      "english": "Like father, like son."
+    },
+    {
+      "id": "1553629",
+      "japanese": "この父にしてこの子あり。",
+      "english": "Like father, like son."
+    },
+    {
+      "id": "177883",
+      "japanese": "君はお父さんの忠告を聞けばよかったのだ。",
+      "english": "You ought to have taken your father's advice."
+    },
+    {
+      "id": "177884",
+      "japanese": "君はお父さんの忠告を聞くべきである。",
+      "english": "You ought to take your father's advice."
+    },
+    {
+      "id": "177885",
+      "japanese": "君はお父さんの忠告に従った方がよい。",
+      "english": "You may as well follow your father's advice."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.940Z",
+  "count": 5,
+  "fileId": "kanji-00060"
+}

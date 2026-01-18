@@ -1,0 +1,108 @@
+{
+  "id": "032-te-mo-ii",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜てもいい",
+    "romaji": "-te mo ii",
+    "en": "May / OK to"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "〜てもいい expresses permission. It means “it is okay to …” or “you may …”. It is made with the verb’s て-form + も + いい.\n\nKey points:\n• Verb て-form + もいい\n• Means permission or allowance\n• Polite form: 〜てもいいです\n• Often used to ask or give permission\n\nFor example, “ここに座ってもいいです” means “You may sit here.” If you want to ask for permission, you can say “座ってもいいですか” (Is it okay to sit?).\n\nThis pattern is very common in daily life for rules and polite requests. It is soft and friendly.\n\nRemember: て-form + も + いい. You can think of it as “even if you do it, it’s good,” which becomes “it’s okay to do it.”\n\nPractice with simple verbs: 行ってもいいです, 食べてもいいです, 見てもいいです.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + もいい (です)",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "Action you want permission for",
+        "examples": ["座って", "食べて", "見て"]
+      },
+      {
+        "part": "もいい",
+        "explanation": "Permission phrase",
+        "examples": ["もいい"]
+      },
+      {
+        "part": "です",
+        "explanation": "Polite ending (optional)",
+        "examples": ["です"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "ここに座ってもいいです。",
+      "romaji": "Koko ni suwatte mo ii desu.",
+      "english": "You may sit here.",
+      "breakdown": {
+        "ここ": "here",
+        "に": "location marker",
+        "座って": "sit (te-form)",
+        "もいい": "may",
+        "です": "polite ending"
+      },
+      "notes": "Giving permission"
+    },
+    {
+      "japanese": "写真を撮ってもいいですか。",
+      "romaji": "Shashin o totte mo ii desu ka.",
+      "english": "May I take a photo?",
+      "breakdown": {
+        "写真": "photo",
+        "を": "object marker",
+        "撮って": "take (te-form)",
+        "もいい": "may",
+        "です": "polite ending",
+        "か": "question marker"
+      },
+      "notes": "Asking permission"
+    },
+    {
+      "japanese": "このペンを使ってもいいです。",
+      "romaji": "Kono pen o tsukatte mo ii desu.",
+      "english": "You may use this pen.",
+      "breakdown": {
+        "この": "this",
+        "ペン": "pen",
+        "を": "object marker",
+        "使って": "use (te-form)",
+        "もいい": "may",
+        "です": "polite ending"
+      },
+      "notes": "Permission with object"
+    },
+    {
+      "japanese": "今入ってもいいですか。",
+      "romaji": "Ima haitte mo ii desu ka.",
+      "english": "May I come in now?",
+      "breakdown": {
+        "今": "now",
+        "入って": "enter (te-form)",
+        "もいい": "may",
+        "です": "polite ending",
+        "か": "question marker"
+      },
+      "notes": "Polite request"
+    }
+  ],
+  "relatedPoints": [
+    "033-te-wa-ikenai",
+    "026-te-form-basics"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using dictionary form with もいい",
+      "correction": "Use the て-form before もいい",
+      "example": "❌ 食べるもいい → ✅ 食べてもいい"
+    },
+    {
+      "mistake": "Forgetting か when asking",
+      "correction": "Add か to make it a question",
+      "example": "❌ 座ってもいいです → ✅ 座ってもいいですか"
+    }
+  ],
+  "tags": ["verbs", "permission", "te-form", "beginner"]
+}

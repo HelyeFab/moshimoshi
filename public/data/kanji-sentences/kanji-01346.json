@@ -1,0 +1,33 @@
+{
+  "kanji": "巡",
+  "sentences": [
+    {
+      "id": "185698",
+      "japanese": "我々は太陽を巡るすべての惑星を探検するだろう。",
+      "english": "We will explore every planet that goes around the sun."
+    },
+    {
+      "id": "10871951",
+      "japanese": "家の周りにはフェンスが張り巡らされている。",
+      "english": "A fence runs around the house."
+    },
+    {
+      "id": "10900270",
+      "japanese": "このバスで市内を巡れますよ。",
+      "english": "This bus will take you around the city."
+    },
+    {
+      "id": "227027",
+      "japanese": "お巡りさん、この事故は私とは関係ありませんよ。",
+      "english": "This accident has nothing to do with me, officer."
+    },
+    {
+      "id": "227028",
+      "japanese": "お巡りがやってきたぞ。",
+      "english": "Here comes a copper!"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:22.905Z",
+  "count": 5,
+  "fileId": "kanji-01346"
+}

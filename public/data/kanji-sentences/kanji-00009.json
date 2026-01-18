@@ -1,0 +1,33 @@
+{
+  "kanji": "見",
+  "sentences": [
+    {
+      "id": "4733",
+      "japanese": "長い目で見れば違ってくると思います。",
+      "english": "I suppose it's different when you think about it over the long term."
+    },
+    {
+      "id": "4808",
+      "japanese": "歌詞を見てみれば、あまり意味が無いことに気付くでしょう。",
+      "english": "If you look at the lyrics, they don't really mean much."
+    },
+    {
+      "id": "4825",
+      "japanese": "丸一日オンラインで君を見ないなんてびっくりだよ。",
+      "english": "It almost scared me not to see you online for a whole day."
+    },
+    {
+      "id": "4833",
+      "japanese": "私よりも物知りな数学者が自分のことをはっきりと表現できていないのを見るのは心地の良いものではない。",
+      "english": "I don't like it when mathematicians who know much more than I do can't express themselves explicitly."
+    },
+    {
+      "id": "4873",
+      "japanese": "ロボットなんかに私がなるわけないでしょう？ロボットは夢を見ないんだから。",
+      "english": "How could I be a robot? Robots don't dream."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.312Z",
+  "count": 5,
+  "fileId": "kanji-00009"
+}

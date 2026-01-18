@@ -1,0 +1,33 @@
+{
+  "kanji": "獲",
+  "sentences": [
+    {
+      "id": "183390",
+      "japanese": "期待どおり彼は賞を獲った。",
+      "english": "As was expected, he succeeded in winning the prize."
+    },
+    {
+      "id": "78774",
+      "japanese": "欲しいほうを獲れ。",
+      "english": "Take whichever you like."
+    },
+    {
+      "id": "1234528",
+      "japanese": "ジャネットが一等を獲った。",
+      "english": "It was Janet that won first prize."
+    },
+    {
+      "id": "92682",
+      "japanese": "彼女はスピーチコンテストで１等賞を獲った。",
+      "english": "She won first prize in the speech contest."
+    },
+    {
+      "id": "2165402",
+      "japanese": "私は昨日大きな魚を獲りました。",
+      "english": "I caught a big fish yesterday."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:23.860Z",
+  "count": 5,
+  "fileId": "kanji-01376"
+}

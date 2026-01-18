@@ -1,0 +1,33 @@
+{
+  "kanji": "虹",
+  "sentences": [
+    {
+      "id": "179447",
+      "japanese": "空に美しい虹がかかっている。",
+      "english": "A beautiful rainbow is spanning the sky."
+    },
+    {
+      "id": "187737",
+      "japanese": "何と美しい虹だろう。",
+      "english": "What a beautiful rainbow!"
+    },
+    {
+      "id": "189683",
+      "japanese": "雨が止んだとたんにきれいな虹が出た。",
+      "english": "No sooner had it stopped raining than a beautiful rainbow appeared."
+    },
+    {
+      "id": "189823",
+      "japanese": "雨がやんだとたんに虹が現れた。",
+      "english": "Scarcely had the rain stopped before a rainbow appeared."
+    },
+    {
+      "id": "74860",
+      "japanese": "同じ虹を、これだけたくさんの人が撮影したものを見たことがありません。",
+      "english": "I've never seen as many people as this photograph the same rainbow."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:11.402Z",
+  "count": 5,
+  "fileId": "kanji-01012"
+}

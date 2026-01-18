@@ -1,0 +1,33 @@
+{
+  "kanji": "品",
+  "sentences": [
+    {
+      "id": "191684",
+      "japanese": "われわれはぜいたく品なしですまさなければならない。",
+      "english": "We must go without luxuries."
+    },
+    {
+      "id": "193356",
+      "japanese": "もちろん品も、そして郵送料すらも返ってこなかった。",
+      "english": "Of course, neither goods nor mailing fee returned."
+    },
+    {
+      "id": "201995",
+      "japanese": "テレビは、昔ぜいたく品だった。",
+      "english": "A television set used to be a luxury."
+    },
+    {
+      "id": "207050",
+      "japanese": "その品は品切れになりました。",
+      "english": "That article is out of stock."
+    },
+    {
+      "id": "207051",
+      "japanese": "その品は届くまで２週間ほどかかります。",
+      "english": "It'll be two weeks before you receive the article."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.220Z",
+  "count": 5,
+  "fileId": "kanji-00225"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "震",
+  "sentences": [
+    {
+      "id": "180376",
+      "japanese": "恐怖で彼の足が震えていた。",
+      "english": "His legs were trembling from fear."
+    },
+    {
+      "id": "188386",
+      "japanese": "心が震える。",
+      "english": "My heart is trembling."
+    },
+    {
+      "id": "188420",
+      "japanese": "臆病なその男は恐怖に震えた。",
+      "english": "The timid man trembled with fear."
+    },
+    {
+      "id": "189321",
+      "japanese": "映画の最中に彼は震え始めた。",
+      "english": "He began to tremble during the movie."
+    },
+    {
+      "id": "191651",
+      "japanese": "われわれは皆ひどい寒さに震えていた。",
+      "english": "We were all shaking from the bitter cold."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.597Z",
+  "count": 5,
+  "fileId": "kanji-00670"
+}

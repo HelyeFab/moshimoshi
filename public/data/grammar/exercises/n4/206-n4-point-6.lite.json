@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "206-n4-point-6",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "206-n4-point-6-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Change or Decision with Na-adjectives\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "な-adjective に する/なる",
+          "romaji": "Na-adjective ni suru/naru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! な-adjective に する/なる matches \"Change or Decision with Na-adjectives\".",
+      "incorrectFeedback": "Not quite. The correct pattern is な-adjective に する/なる.",
+      "explanation": "Expresses change or decision using na-adjectives with ni suru/naru.",
+      "difficulty": "easy"
+    }
+  ]
+}

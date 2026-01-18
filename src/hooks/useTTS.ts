@@ -240,11 +240,15 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
               cacheKey: `${text}_${provider}_${voice}_${speed}`,
             }
             console.log(
-              `TTS Provider: ${provider}, Offline Cached: true, Text: "${text.substring(0, 30)}..."`
+              `%c[useTTS] ⚡ CACHE HIT - Instant playback from IndexedDB | Text: "${text.substring(0, 40)}..."`,
+              'color: #00ff00; font-weight: bold; background: #001a00; padding: 2px 4px'
             )
           } else {
             // Cache miss, proceed with API call
-            console.log(`TTS Offline cache miss, calling API for: "${text.substring(0, 30)}..."`)
+            console.log(
+              `%c[useTTS] 🔄 Cache miss - Fetching from API | Text: "${text.substring(0, 40)}..."`,
+              'color: #ff9800; font-weight: bold'
+            )
             setIsFetchingFromAPI(true)
             ttsLoadingState.setFetching(true)
 
@@ -295,12 +299,19 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
                 : result.audioUrl
             offlineCache
               .set(text, provider, voice, speed, cacheUrl, result.duration || 0, pitch)
+              .then(() => {
+                console.log(
+                  `%c[useTTS] 💾 Cached to IndexedDB | Text: "${text.substring(0, 40)}..."`,
+                  'color: #2196f3; font-weight: bold'
+                )
+              })
               .catch(error => {
-                console.warn('[useTTS] Failed to cache audio offline:', error)
+                console.warn('[useTTS] ⚠️  Failed to cache audio offline:', error)
               })
 
             console.log(
-              `TTS Provider: ${result.provider}, Server Cached: ${result.cached}, Text: "${text.substring(0, 30)}..."`
+              `%c[useTTS] ✅ API Success | Provider: ${result.provider} | Server Cached: ${result.cached} | Text: "${text.substring(0, 40)}..."`,
+              'color: #4caf50; font-weight: bold'
             )
           }
         } else {
@@ -578,7 +589,14 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
   }, [usingFallback])
 
   const preload = useCallback(async (texts: string[], ttsOptions?: TTSOptions) => {
+    console.log(
+      `%c[useTTS] 🔄 Preloading ${texts.length} audio items...`,
+      'color: #9c27b0; font-weight: bold'
+    )
+    console.log('[useTTS] Texts to preload:', texts.map(t => t.substring(0, 30) + (t.length > 30 ? '...' : '')))
+
     try {
+      const startTime = Date.now()
       const response = await fetch('/api/tts/preload', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -592,8 +610,14 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
       if (!response.ok) {
         throw new Error('Preload failed')
       }
+
+      const duration = Date.now() - startTime
+      console.log(
+        `%c[useTTS] ✅ Preload complete | ${texts.length} items | ${duration}ms`,
+        'color: #00c853; font-weight: bold'
+      )
     } catch (err) {
-      console.error('Preload error:', err)
+      console.error('%c[useTTS] ❌ Preload error:', 'color: #f44336; font-weight: bold', err)
     }
   }, [])
 

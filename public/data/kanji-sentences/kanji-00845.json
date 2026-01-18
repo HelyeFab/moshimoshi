@@ -1,0 +1,33 @@
+{
+  "kanji": "粉",
+  "sentences": [
+    {
+      "id": "186562",
+      "japanese": "花瓶は粉々に砕けた。",
+      "english": "The vase burst into fragments."
+    },
+    {
+      "id": "186563",
+      "japanese": "花瓶は床に落ちて粉々になった。",
+      "english": "The vase fell to the floor and shattered."
+    },
+    {
+      "id": "186564",
+      "japanese": "花瓶はテーブルから落ちて粉々にくだけた。",
+      "english": "The vase fell from the table and crashed to pieces."
+    },
+    {
+      "id": "186570",
+      "japanese": "花瓶が粉々に割れた。",
+      "english": "The vase was broken to pieces."
+    },
+    {
+      "id": "186605",
+      "japanese": "花びんは粉々になった。",
+      "english": "The vase broke into fragments."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.521Z",
+  "count": 5,
+  "fileId": "kanji-00845"
+}

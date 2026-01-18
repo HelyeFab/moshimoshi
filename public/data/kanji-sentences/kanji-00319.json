@@ -1,0 +1,33 @@
+{
+  "kanji": "訪",
+  "sentences": [
+    {
+      "id": "177886",
+      "japanese": "君はお父さんの生まれ故郷を訪ねたことがありますか。",
+      "english": "Have you visited the town where your father was born?"
+    },
+    {
+      "id": "177888",
+      "japanese": "君はお父さんが働いている会社を訪れたことがあるかい。",
+      "english": "Have you ever visited the office where your father works?"
+    },
+    {
+      "id": "179146",
+      "japanese": "君がその美術館を訪ねたのはいつだったのか。",
+      "english": "When was it that you visited the museum?"
+    },
+    {
+      "id": "179833",
+      "japanese": "近頃は私を訪ねるひともほとんどいない。",
+      "english": "Few people visit me these days."
+    },
+    {
+      "id": "179910",
+      "japanese": "近いうちに春が当地に訪れるだろう。",
+      "english": "Spring will be here before long."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.426Z",
+  "count": 5,
+  "fileId": "kanji-00319"
+}

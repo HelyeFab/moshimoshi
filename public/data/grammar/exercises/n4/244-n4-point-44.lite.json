@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "244-n4-point-44",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "244-n4-point-44-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb てしまう\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞てしまう",
+          "romaji": "doushi te shimau"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 動詞てしまう matches \"Verb てしまう\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞てしまう.",
+      "explanation": "Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "difficulty": "easy"
+    }
+  ]
+}

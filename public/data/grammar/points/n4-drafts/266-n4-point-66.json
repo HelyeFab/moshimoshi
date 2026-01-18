@@ -1,0 +1,55 @@
+{
+  "id": "266-n4-point-66",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ることにする (〜ru koto ni suru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～ることにする grammar point is used to express that someone has made a decision to do something or has decided on a specific course of action. It is formed by attaching ことにする to the verb in its る form.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-る + ことにする",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "来週、ジムに行くことにしました。",
+      "romaji": "Raishuu, jimu ni iku koto ni shimashita.",
+      "english": "I decided to go to the gym next week.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この靴を買うことにしました。",
+      "romaji": "Kono kutsu wo kau koto ni shimashita.",
+      "english": "I decided to buy these shoes.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "毎日、散歩をすることにしました。",
+      "romaji": "Mainichi, sanpo wo suru koto ni shimashita.",
+      "english": "I decided to take a walk every day.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼に電話をかけることにします。",
+      "romaji": "Kare ni denwa wo kakeru koto ni shimasu.",
+      "english": "I’ve decided to call him.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

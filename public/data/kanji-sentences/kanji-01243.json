@@ -1,0 +1,33 @@
+{
+  "kanji": "鹿",
+  "sentences": [
+    {
+      "id": "4942",
+      "japanese": "射手は鹿を射た。",
+      "english": "The archer killed the deer."
+    },
+    {
+      "id": "197767",
+      "japanese": "ハンターは鹿を狙って撃った。",
+      "english": "The hunter shot at a deer."
+    },
+    {
+      "id": "209674",
+      "japanese": "その鹿はライオンの餌食になった。",
+      "english": "The deer fell prey to the lion."
+    },
+    {
+      "id": "209675",
+      "japanese": "その鹿はジェーンの三倍重い。",
+      "english": "The deer is three times as heavy as Jane."
+    },
+    {
+      "id": "74225",
+      "japanese": "私なんぞには野牛と鹿と馬とを描き分けることなど到底出来ない。",
+      "english": "Me? I can't even begin to draw buffalo, deer and horses so you can tell them apart."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.106Z",
+  "count": 5,
+  "fileId": "kanji-01243"
+}

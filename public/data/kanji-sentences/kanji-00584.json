@@ -1,0 +1,33 @@
+{
+  "kanji": "客",
+  "sentences": [
+    {
+      "id": "177993",
+      "japanese": "君は、この店に来るあらゆる客に応対するだけでよい。",
+      "english": "All you have to do is wait on any customers that come to the shop."
+    },
+    {
+      "id": "182781",
+      "japanese": "客は私の真向かいに座っていた。",
+      "english": "The visitor sat across from me."
+    },
+    {
+      "id": "182783",
+      "japanese": "客は三々五々到着した。",
+      "english": "Guests arrived by twos and threes."
+    },
+    {
+      "id": "182785",
+      "japanese": "客はみな帰った。",
+      "english": "The guests are all gone."
+    },
+    {
+      "id": "182782",
+      "japanese": "客はやってこなかった。",
+      "english": "The customer did not come."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.019Z",
+  "count": 5,
+  "fileId": "kanji-00584"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "間",
+  "sentences": [
+    {
+      "id": "5207",
+      "japanese": "理論上、理論と実行の間には何の違いもないが、実際上違いはあるものだ。",
+      "english": "In theory, there is no difference between theory and practice. But, in practice, there is."
+    },
+    {
+      "id": "5255",
+      "japanese": "まだ晴れている間に洗濯をしなければなりません。",
+      "english": "I have to do laundry while it's still sunny."
+    },
+    {
+      "id": "5266",
+      "japanese": "夏休みの間、私は夜中に夕食を食べていた。",
+      "english": "During summer breaks, I ate dinner at midnight."
+    },
+    {
+      "id": "236519",
+      "japanese": "ピザを食べている間に、彼は妹をイライラさせていた。",
+      "english": "While eating a pizza he was annoying his sister."
+    },
+    {
+      "id": "177154",
+      "japanese": "君は授業に間に合いませんよ。",
+      "english": "You won't be in time for school."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.367Z",
+  "count": 5,
+  "fileId": "kanji-00016"
+}

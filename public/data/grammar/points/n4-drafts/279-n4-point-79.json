@@ -1,0 +1,55 @@
+{
+  "id": "279-n4-point-79",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～けれど (〜keredo)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～けれど grammar point is used to express a soft contrast or contradiction between two statements. It can be translated as 'but' or 'however' in English. It is relatively informal and can be replaced by more formal expressions like けれども or が. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + けれど, い-Adjective + けれど, な-Adjective + だけれど, Noun + だけれど",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "今日は忙しいけれど、明日はもっと時間がある。",
+      "romaji": "Kyou wa isogashii keredo, ashita wa motto jikan ga aru.",
+      "english": "I'm busy today, but I have more time tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このレストランは高いけれど、料理が美味しい。",
+      "romaji": "Kono resutoran wa takai keredo, ryouri ga oishii.",
+      "english": "This restaurant is expensive, but the food is delicious.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は若いけれど、とても経験豊富だ。",
+      "romaji": "Kare wa wakai keredo, totemo keiken houfu da.",
+      "english": "He is young, but he is very experienced.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は病気だけれど、明るく元気だ。",
+      "romaji": "Kanojo wa byouki da keredo, akaruku genki da.",
+      "english": "She is sick, but she is cheerful and energetic.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

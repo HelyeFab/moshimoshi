@@ -1,0 +1,118 @@
+{
+  "id": "225-n4-point-25",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞たほうがいい",
+    "romaji": "Doushi ta hou ga ii",
+    "en": "Verb ta hou ga ii"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The たほうがいい grammar point is used to give advice or make a suggestion, often translated as 'should', 'it's better to', or 'it's a good idea to'. It is formed by using the verb in its past (た) form followed by ほうがいい.",
+    "ja": "「たほうがいい」は助言や提案をするときに使う文法です。動詞のた形に「ほうがいい」をつけて表現します。"
+  },
+  "structure": {
+    "pattern": "Verb (た-form) + ほうがいい",
+    "components": [
+      {
+        "part": "Verb (た-form)",
+        "explanation": "The verb is conjugated into its past (た) form.",
+        "examples": [
+          "食べた",
+          "行った",
+          "勉強した"
+        ]
+      },
+      {
+        "part": "ほうがいい",
+        "explanation": "Added after the verb to express advice or suggestion.",
+        "examples": [
+          "寝たほうがいい",
+          "飲んだほうがいい"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "早く寝たほうがいい。",
+      "romaji": "Hayaku neta hou ga ii.",
+      "english": "It's better if you go to bed early.",
+      "breakdown": {
+        "早く": "early",
+        "寝た": "slept (go to bed, ta-form)",
+        "ほう": "side/way",
+        "が": "subject marker",
+        "いい": "good"
+      },
+      "notes": "Suggesting the listener should go to bed early."
+    },
+    {
+      "japanese": "もっと勉強したほうがいい。",
+      "romaji": "Motto benkyou shita hou ga ii.",
+      "english": "You should study more.",
+      "breakdown": {
+        "もっと": "more",
+        "勉強した": "studied (study, ta-form)",
+        "ほう": "side/way",
+        "が": "subject marker",
+        "いい": "good"
+      },
+      "notes": "Advice to increase study."
+    },
+    {
+      "japanese": "病気の時は、薬を飲んだほうがいい。",
+      "romaji": "Byouki no toki wa, kusuri wo nonda hou ga ii.",
+      "english": "It's a good idea to take medicine when you're sick.",
+      "breakdown": {
+        "病気の時": "when (you're) sick",
+        "は": "topic marker",
+        "薬を": "medicine (object)",
+        "飲んだ": "took (drink, ta-form)",
+        "ほう": "side/way",
+        "が": "subject marker",
+        "いい": "good"
+      },
+      "notes": "Common advice for illness."
+    },
+    {
+      "japanese": "コーヒーを飲まないほうがいい。",
+      "romaji": "Koohii wo nomanai hou ga ii.",
+      "english": "It's better if you don't drink coffee.",
+      "breakdown": {
+        "コーヒーを": "coffee (object)",
+        "飲まない": "do not drink",
+        "ほう": "side/way",
+        "が": "subject marker",
+        "いい": "good"
+      },
+      "notes": "Negative form (not to do something) is also possible."
+    }
+  ],
+  "relatedPoints": [
+    "～たらいい",
+    "～たら どうですか",
+    "～ばいい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using the plain form instead of the た-form.",
+      "correction": "Use the verb in た-form before ほうがいい.",
+      "example": "× 早く寝るほうがいい。→ 〇 早く寝たほうがいい。"
+    },
+    {
+      "mistake": "Using です after ほうがいい in casual speech.",
+      "correction": "Omit です in casual speech, or use です/ます form only in polite situations.",
+      "example": "× もっと勉強したほうがいいです。 (acceptable in polite speech, but unnecessary in casual)"
+    }
+  ],
+  "tags": [
+    "n4",
+    "advice",
+    "suggestion",
+    "verbs",
+    "ta-form",
+    "should"
+  ]
+}

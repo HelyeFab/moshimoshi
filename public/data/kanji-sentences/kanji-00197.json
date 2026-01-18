@@ -1,0 +1,33 @@
+{
+  "kanji": "開",
+  "sentences": [
+    {
+      "id": "4979",
+      "japanese": "電車が停まるまで開けないで。",
+      "english": "Don't open before the train stops."
+    },
+    {
+      "id": "5067",
+      "japanese": "口を開けてください！",
+      "english": "Open your mouth!"
+    },
+    {
+      "id": "173919",
+      "japanese": "口を開けなさい。",
+      "english": "Open your mouth!"
+    },
+    {
+      "id": "191062",
+      "japanese": "意志があるところに道は開ける。",
+      "english": "Where there's a will, there's a way."
+    },
+    {
+      "id": "177137",
+      "japanese": "君は職務怠慢の申し開きをしなければならない。",
+      "english": "You must account for your neglect of duty."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.796Z",
+  "count": 5,
+  "fileId": "kanji-00197"
+}

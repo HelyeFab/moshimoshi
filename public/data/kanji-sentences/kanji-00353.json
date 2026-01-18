@@ -1,0 +1,33 @@
+{
+  "kanji": "礼",
+  "sentences": [
+    {
+      "id": "161783",
+      "japanese": "私はあなたにお礼の申しようがない。",
+      "english": "I can't thank you enough."
+    },
+    {
+      "id": "187799",
+      "japanese": "何とお礼を申しあげてよいか分かりません。",
+      "english": "I can't thank you enough."
+    },
+    {
+      "id": "226521",
+      "japanese": "お礼の申し上げ様もございません。",
+      "english": "I can't thank you enough."
+    },
+    {
+      "id": "226523",
+      "japanese": "お礼の申し上げようもない。",
+      "english": "I can't thank you enough."
+    },
+    {
+      "id": "226525",
+      "japanese": "お礼の申しようもありません。",
+      "english": "I can't thank you enough."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.895Z",
+  "count": 5,
+  "fileId": "kanji-00353"
+}

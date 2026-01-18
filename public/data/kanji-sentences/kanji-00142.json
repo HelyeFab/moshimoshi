@@ -1,0 +1,33 @@
+{
+  "kanji": "冬",
+  "sentences": [
+    {
+      "id": "5279",
+      "japanese": "冬は私の一番好きな季節です。",
+      "english": "Winter is my favorite season."
+    },
+    {
+      "id": "179429",
+      "japanese": "空はどんよりとした冬の陰にかすんでいる。",
+      "english": "The sky is a hazy shade of winter."
+    },
+    {
+      "id": "179854",
+      "japanese": "近づいてくる冬の寒さを考えて我々は予定していたピクニックを取りやめにした。",
+      "english": "The chill of coming winter discouraged our picnic."
+    },
+    {
+      "id": "182218",
+      "japanese": "去年の冬は暖かだった。",
+      "english": "We had a mild winter last year."
+    },
+    {
+      "id": "182219",
+      "japanese": "去年の冬は雪が多かった。",
+      "english": "We had a good deal of snow last winter."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.117Z",
+  "count": 5,
+  "fileId": "kanji-00142"
+}

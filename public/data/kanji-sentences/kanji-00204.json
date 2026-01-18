@@ -1,0 +1,33 @@
+{
+  "kanji": "味",
+  "sentences": [
+    {
+      "id": "182114",
+      "japanese": "魚に塩とこしょうで味をつけた。",
+      "english": "I seasoned the fish with salt and pepper."
+    },
+    {
+      "id": "183690",
+      "japanese": "韓国料理は、香辛料のきいた味でよく知られている。",
+      "english": "Korean food is noted for its spicy flavor."
+    },
+    {
+      "id": "188594",
+      "japanese": "塩を加えたら味が大いに良くなった。",
+      "english": "The addition of salt greatly improved the flavor."
+    },
+    {
+      "id": "188611",
+      "japanese": "塩で味を付ける。",
+      "english": "We season with salt."
+    },
+    {
+      "id": "188795",
+      "japanese": "宴会の世話役は、ぶどう酒になったその水を味わってみた。",
+      "english": "And the banquet sponsor tasted the water, which had turned into wine."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.900Z",
+  "count": 5,
+  "fileId": "kanji-00204"
+}

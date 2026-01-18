@@ -1,0 +1,33 @@
+{
+  "kanji": "猿",
+  "sentences": [
+    {
+      "id": "188380",
+      "japanese": "俺はあんたに話し掛けてるんじゃない、猿に話し掛けてるんだ。",
+      "english": "I'm not talking to you; I'm talking to the monkey."
+    },
+    {
+      "id": "188721",
+      "japanese": "猿も木から落ちる。",
+      "english": "Even the worthy Homer sometimes nods."
+    },
+    {
+      "id": "188723",
+      "japanese": "猿は木に登る。",
+      "english": "Monkeys climb trees."
+    },
+    {
+      "id": "188722",
+      "japanese": "猿まねはやめろ。",
+      "english": "Don't be a copycat."
+    },
+    {
+      "id": "188725",
+      "japanese": "猿に飛びかかられて彼は怖がった。",
+      "english": "He was scared when the monkey jumped at him."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:31.885Z",
+  "count": 5,
+  "fileId": "kanji-01646"
+}

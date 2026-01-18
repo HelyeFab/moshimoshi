@@ -1,0 +1,55 @@
+{
+  "id": "265-n4-point-65",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ることができる (〜ru koto ga dekiru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～ることができる grammar point is used to express the ability or possibility of doing an action in Japanese. It can be translated as 'can', 'be able to', or 'is possible' in English. The formation is made by adding the phrase 'ことができる' to the verb in its conjugated る-form.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-る + ことができる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "私は日本語を話すことができます。",
+      "romaji": "Watashi wa nihongo wo hanasu koto ga dekimasu.",
+      "english": "I can speak Japanese.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼はギターを弾くことができます。",
+      "romaji": "Kare wa gitaa wo hiku koto ga dekimasu.",
+      "english": "He can play the guitar.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この問題を解決することができますか？",
+      "romaji": "Kono mondai wo kaiketsu suru koto ga dekimasu ka?",
+      "english": "Can you solve this problem?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は犬を泳がせることができます。",
+      "romaji": "Kanojo wa inu wo oyogaseru koto ga dekimasu.",
+      "english": "She can make the dog swim.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

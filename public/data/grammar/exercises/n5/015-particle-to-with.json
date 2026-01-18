@@ -1,0 +1,182 @@
+{
+  "grammarPointId": "015-particle-to-with",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "015-particle-to-with-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 友だち＿＿映画を見ます。",
+      "questionRomaji": "Tomodachi __ eiga o mimasu.",
+      "options": [
+        { "id": "a", "text": "と", "romaji": "to" },
+        { "id": "b", "text": "で", "romaji": "de" },
+        { "id": "c", "text": "に", "romaji": "ni" },
+        { "id": "d", "text": "を", "romaji": "o" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! と means “with” here.",
+      "incorrectFeedback": "Not quite. Use と to show “with” a person.",
+      "explanation": "友だちと = with a friend.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "015-particle-to-with-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'I eat with my mother'?",
+      "options": [
+        { "id": "a", "text": "母とご飯を食べます。" },
+        { "id": "b", "text": "母にご飯を食べます。" },
+        { "id": "c", "text": "母でご飯を食べます。" },
+        { "id": "d", "text": "母をご飯を食べます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! と marks the person you are with.",
+      "incorrectFeedback": "Try again. Use と to mean “with.”",
+      "explanation": "母と = with my mother.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "015-particle-to-with-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I study with my friend.'",
+      "correctAnswer": "友だちと勉強します",
+      "acceptedVariations": [
+        "友だちと勉強します。",
+        "ともだちとべんきょうします",
+        "tomodachi to benkyou shimasu",
+        "tomodachi to benkyou shimasu."
+      ],
+      "correctFeedback": "Great! 友だちと勉強します is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちと勉強します (tomodachi to benkyou shimasu).",
+      "explanation": "Use と for “with” a person.",
+      "hints": ["友だち = friend", "Use と"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "015-particle-to-with-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "先生と日本語を勉強します。" },
+        { "id": "b", "text": "先生に日本語を勉強します。" },
+        { "id": "c", "text": "先生で日本語を勉強します。" },
+        { "id": "d", "text": "先生を日本語を勉強します。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! と shows you study together with the teacher.",
+      "incorrectFeedback": "Not quite. Use と for “with” a person.",
+      "explanation": "と marks the person you do the action with.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "015-particle-to-with-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I go to the park with my friend.'",
+      "correctAnswer": "友だちと公園に行きます",
+      "acceptedVariations": [
+        "友だちと公園に行きます。",
+        "ともだちとこうえんにいきます",
+        "tomodachi to kouen ni ikimasu",
+        "tomodachi to kouen ni ikimasu."
+      ],
+      "correctFeedback": "Nice! 友だちと公園に行きます is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちと公園に行きます (tomodachi to kouen ni ikimasu).",
+      "explanation": "Use と for the person and に for the destination.",
+      "hints": ["公園 = park", "Use と + に"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "015-particle-to-with-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence uses と correctly (with a person)?",
+      "options": [
+        { "id": "a", "text": "友だちと会います。" },
+        { "id": "b", "text": "友だちに会います。" },
+        { "id": "c", "text": "友だちで会います。" },
+        { "id": "d", "text": "友だちを会います。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! と means “with” in this sentence.",
+      "incorrectFeedback": "Try again. と marks doing something together.",
+      "explanation": "友だちと会います = meet with a friend.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "015-particle-to-with-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I eat lunch with my mother.'",
+      "correctAnswer": "母と昼ご飯を食べます",
+      "acceptedVariations": [
+        "母と昼ご飯を食べます。",
+        "ははとひるごはんをたべます",
+        "haha to hirugohan o tabemasu",
+        "haha to hirugohan o tabemasu."
+      ],
+      "correctFeedback": "Great! 母と昼ご飯を食べます is correct.",
+      "incorrectFeedback": "The correct answer is: 母と昼ご飯を食べます (haha to hirugohan o tabemasu).",
+      "explanation": "Use と to show who you are with.",
+      "hints": ["昼ご飯 = lunch", "Use と"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "015-particle-to-with-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "友だちと映画を見ます。",
+          "romaji": "Tomodachi to eiga o mimasu.",
+          "english": "I watch a movie with a friend."
+        },
+        {
+          "japanese": "母と買い物に行きます。",
+          "romaji": "Haha to kaimono ni ikimasu.",
+          "english": "I go shopping with my mother."
+        },
+        {
+          "japanese": "先生と日本語を勉強します。",
+          "romaji": "Sensei to nihongo o benkyou shimasu.",
+          "english": "I study Japanese with the teacher."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review と as “with.”",
+      "explanation": "Each sentence uses と for doing something together.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "015-particle-to-with-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "友だちと映画を見ます。" },
+        { "id": "b", "text": "先生に本をあげます。" },
+        { "id": "c", "text": "友だちと本をあげます。" },
+        { "id": "d", "text": "母とご飯を食べます。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Giving needs に for the receiver, not と.",
+      "incorrectFeedback": "Try again. Use に for the receiver of giving.",
+      "explanation": "と is for togetherness; に is for the receiver.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "015-particle-to-with-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I go to the station with my friend.'",
+      "correctAnswer": "友だちと駅に行きます",
+      "acceptedVariations": [
+        "友だちと駅に行きます。",
+        "ともだちとえきにいきます",
+        "tomodachi to eki ni ikimasu",
+        "tomodachi to eki ni ikimasu."
+      ],
+      "correctFeedback": "Nice! 友だちと駅に行きます is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちと駅に行きます (tomodachi to eki ni ikimasu).",
+      "explanation": "Use と for the person and に for the destination.",
+      "hints": ["駅 = station", "Use と + に"],
+      "difficulty": "hard"
+    }
+  ]
+}

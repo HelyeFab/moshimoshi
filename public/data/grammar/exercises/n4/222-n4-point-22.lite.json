@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "222-n4-point-22",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "222-n4-point-22-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb ta koto ga aru\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "動詞たことがある",
+          "romaji": "Doushi ta koto ga aru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! 動詞たことがある matches \"Verb ta koto ga aru\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞たことがある.",
+      "explanation": "Expresses having ever experienced an action using the verb's た-form.",
+      "difficulty": "easy"
+    }
+  ]
+}

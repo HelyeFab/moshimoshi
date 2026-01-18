@@ -1,5 +1,8 @@
 import { UniversalProgressManager } from './UniversalProgressManager'
 import { SessionState, KanjiProgress } from '@/app/[locale]/tools/kanji-mastery/learn/LearnContent'
+import { kanjiMasteryDB, type KanjiSession, type KanjiProgressRecord, type KanjiStatistics, type SerializedSRSData } from '@/lib/kanji-mastery/kanjiMasteryDB'
+import { AlgorithmFactory } from '@/lib/review-engine/srs/algorithm-factory'
+import type { ReviewResult, ReviewableContentWithSRS, SRSData } from '@/lib/review-engine/srs'
 
 // Simplified user type - only uid is needed for progress tracking
 interface ProgressUser {
@@ -11,6 +14,7 @@ export interface KanjiMasterySession {
   userId: string
   startTime: Date
   endTime: Date
+  level?: string
   kanji: Array<{
     id: string
     character: string
@@ -21,12 +25,8 @@ export interface KanjiMasterySession {
     }
     finalScore: number
     nextReviewDate: string
+    srsData?: SerializedSRSData
   }>
-  /** @deprecated XP calculation moved to external gamification service */
-  totalXP: number
-  streakContribution: boolean
-  /** @deprecated Achievement tracking moved to external gamification service */
-  achievements: string[]
   sessionStats: {
     totalKanji: number
     perfectKanji: number
@@ -50,9 +50,17 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
     const timeSpentSeconds = Math.round(
       (endTime.getTime() - sessionState.startTime.getTime()) / 1000
     )
+    const averageResponseTimeMs = sessionState.kanji.length > 0
+      ? Math.max(500, Math.round((timeSpentSeconds * 1000) / sessionState.kanji.length))
+      : 1000
 
     // Calculate session statistics
     const sessionStats = this.calculateSessionStats(sessionState, timeSpentSeconds)
+
+    const existingProgress = user
+      ? await kanjiMasteryDB.getProgressByUserAndLevel(user.uid, sessionState.level || '')
+      : []
+    const progressById = new Map(existingProgress.map(record => [record.kanjiId, record]))
 
     // Prepare session data
     const session: KanjiMasterySession = {
@@ -60,18 +68,20 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
       userId: user?.uid || 'guest',
       startTime: sessionState.startTime,
       endTime,
-      kanji: this.prepareKanjiData(sessionState),
-      totalXP: 0, // Deprecated: XP calculation moved to external gamification service
-      streakContribution: true,
-      achievements: [], // Deprecated: Achievement tracking moved to external service
+      level: sessionState.level,
+      kanji: this.prepareKanjiData(sessionState, progressById, averageResponseTimeMs),
       sessionStats
     }
 
-    // Handle storage based on user tier
-    await this.saveKanjiMasterySession(session, user, isPremium)
+    // LWW (Last Write Wins) - Write to IndexedDB first for all users
+    if (user) {
+      await this.saveKanjiMasteryToIndexedDB(session, user)
+    }
 
-    // Track individual kanji progress
-    await this.trackKanjiProgress(session.kanji, user, isPremium)
+    // Queue Firebase sync for premium users only
+    if (user && isPremium) {
+      await this.queueKanjiMasteryFirebaseSync(session, user)
+    }
 
     return session
   }
@@ -101,25 +111,28 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
     }
   }
 
-  /**
-   * @deprecated XP calculation has been moved to external gamification service.
-   * External services should listen to session completion events and calculate XP independently.
-   * This method remains for backward compatibility but always returns 0.
-   * TODO: Remove this method in next major version after external gamification service is fully integrated.
-   */
-  calculateSessionXP(_sessionState: SessionState, _sessionStats: any): number {
-    return 0
-  }
-
-  private prepareKanjiData(sessionState: SessionState) {
+  private prepareKanjiData(
+    sessionState: SessionState,
+    progressById: Map<string, KanjiProgressRecord>,
+    averageResponseTimeMs: number
+  ) {
     const kanjiData: KanjiMasterySession['kanji'] = []
 
     sessionState.kanji.forEach((kanji) => {
       const progress = sessionState.progress.get(kanji.kanji)
+      const existingProgress = progressById.get(kanji.kanji)
 
       if (progress) {
         const finalScore = this.calculateKanjiFinalScore(progress)
-        const nextReviewDate = this.calculateNextReviewDate(finalScore)
+        const { srsData, nextReviewDate } = this.calculateSRSData({
+          kanjiId: kanji.kanji,
+          character: kanji.kanji,
+          level: sessionState.level,
+          accuracy: progress.round2Accuracy,
+          rating: progress.round3Rating || 3,
+          existingSrsData: existingProgress?.srsData,
+          responseTimeMs: averageResponseTimeMs
+        })
 
         kanjiData.push({
           id: kanji.kanji,
@@ -130,7 +143,8 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
             round3Rating: progress.round3Rating || 0
           },
           finalScore,
-          nextReviewDate
+          nextReviewDate,
+          srsData
         })
       }
     })
@@ -149,133 +163,116 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
     return round2Score * round2Weight + round3Score * round3Weight
   }
 
-  private calculateNextReviewDate(finalScore: number): string {
-    // Calculate next review based on performance
-    let daysUntilReview: number
+  private calculateSRSData(options: {
+    kanjiId: string
+    character: string
+    level?: string
+    accuracy: number
+    rating: number
+    existingSrsData?: SerializedSRSData
+    responseTimeMs: number
+  }): { srsData: SerializedSRSData; nextReviewDate: string } {
+    const {
+      kanjiId,
+      character,
+      level,
+      accuracy,
+      rating,
+      existingSrsData,
+      responseTimeMs
+    } = options
 
-    if (finalScore >= 0.9) {
-      daysUntilReview = 7 // Excellent - review in a week
-    } else if (finalScore >= 0.8) {
-      daysUntilReview = 4 // Good - review in 4 days
-    } else if (finalScore >= 0.7) {
-      daysUntilReview = 2 // Fair - review in 2 days
-    } else if (finalScore >= 0.5) {
-      daysUntilReview = 1 // Struggling - review tomorrow
-    } else {
-      daysUntilReview = 0 // Poor - review today
+    const baseItem: ReviewableContentWithSRS = {
+      id: kanjiId,
+      contentType: 'kanji',
+      primaryDisplay: character,
+      primaryAnswer: character,
+      difficulty: 0.5,
+      tags: ['kanji_mastery', ...(level ? [`jlpt_${level.toLowerCase()}`] : [])],
+      supportedModes: ['recognition', 'recall']
     }
 
-    const nextDate = new Date()
-    nextDate.setDate(nextDate.getDate() + daysUntilReview)
-    return nextDate.toISOString()
+    const initialSrs = existingSrsData
+      ? this.deserializeSRSData(existingSrsData)
+      : AlgorithmFactory.getDefault().initializeCardSRS(baseItem)
+
+    const difficulty = this.mapPerformanceToDifficulty(accuracy, rating)
+    const reviewResult: ReviewResult = {
+      correct: difficulty !== 'again',
+      responseTime: responseTimeMs,
+      confidence: Math.max(1, Math.min(5, Math.round(rating))) as 1 | 2 | 3 | 4 | 5,
+      difficulty
+    }
+
+    const algorithm = AlgorithmFactory.fromSRSData(initialSrs)
+    const updatedSrs = algorithm.calculateNextReview(
+      { ...baseItem, srsData: initialSrs },
+      reviewResult
+    )
+
+    return {
+      srsData: this.serializeSRSData(updatedSrs),
+      nextReviewDate: updatedSrs.nextReviewAt.toISOString()
+    }
   }
 
-  private async saveKanjiMasterySession(
+  private mapPerformanceToDifficulty(
+    accuracy: number,
+    rating: number
+  ): 'again' | 'hard' | 'good' | 'easy' {
+    const ratingScore = Math.max(0, Math.min(1, rating / 5))
+    const combinedScore = Math.max(0, Math.min(1, accuracy * 0.7 + ratingScore * 0.3))
+
+    if (combinedScore < 0.5) return 'again'
+    if (combinedScore < 0.7) return 'hard'
+    if (combinedScore < 0.85) return 'good'
+    return 'easy'
+  }
+
+  private serializeSRSData(srsData: SRSData): SerializedSRSData {
+    return {
+      ...srsData,
+      lastReviewedAt: srsData.lastReviewedAt ? srsData.lastReviewedAt.toISOString() : null,
+      nextReviewAt: srsData.nextReviewAt.toISOString()
+    }
+  }
+
+  private deserializeSRSData(srsData: SerializedSRSData): SRSData {
+    return {
+      ...srsData,
+      lastReviewedAt: srsData.lastReviewedAt ? new Date(srsData.lastReviewedAt) : null,
+      nextReviewAt: new Date(srsData.nextReviewAt)
+    }
+  }
+
+  /**
+   * IndexedDB-first: Write to local storage for ALL users
+   * This runs BEFORE Firebase sync
+   */
+  private async saveKanjiMasteryToIndexedDB(
     session: KanjiMasterySession,
-    user: ProgressUser | null,
-    isPremium: boolean
-  ) {
-    // Save to IndexedDB for all authenticated users
-    if (user) {
-      await this.saveKanjiMasteryToIndexedDB(session)
-    }
-
-    // Firebase saving is handled by API endpoint
-    // Premium users will have their data synced through the API
-  }
-
-  private async saveKanjiMasteryToIndexedDB(session: KanjiMasterySession) {
+    user: ProgressUser
+  ): Promise<void> {
     try {
-      // Open IndexedDB
-      const request = indexedDB.open('moshimoshi_progress', 2)
-
-      request.onupgradeneeded = (event) => {
-        const db = (event.target as IDBOpenDBRequest).result
-
-        // Create kanji_mastery_sessions store if it doesn't exist
-        if (!db.objectStoreNames.contains('kanji_mastery_sessions')) {
-          const store = db.createObjectStore('kanji_mastery_sessions', {
-            keyPath: 'sessionId'
-          })
-          store.createIndex('userId', 'userId', { unique: false })
-          store.createIndex('startTime', 'startTime', { unique: false })
-        }
+      // 1. Save session
+      const sessionData: KanjiSession = {
+        ...session,
+        startTime: session.startTime.toISOString(),
+        endTime: session.endTime.toISOString()
       }
+      await kanjiMasteryDB.saveSession(sessionData)
 
-      const db = await new Promise<IDBDatabase>((resolve, reject) => {
-        request.onsuccess = () => resolve(request.result)
-        request.onerror = () => reject(request.error)
-      })
-
-      // Save session
-      const transaction = db.transaction(['kanji_mastery_sessions'], 'readwrite')
-      const store = transaction.objectStore('kanji_mastery_sessions')
-
-      await new Promise((resolve, reject) => {
-        const addRequest = store.put({
-          ...session,
-          startTime: session.startTime.toISOString(),
-          endTime: session.endTime.toISOString()
-        })
-        addRequest.onsuccess = resolve
-        addRequest.onerror = () => reject(addRequest.error)
-      })
-
-      db.close()
-    } catch (error) {
-      console.error('Error saving to IndexedDB:', error)
-    }
-  }
-
-  private async trackKanjiProgress(
-    kanjiData: KanjiMasterySession['kanji'],
-    user: ProgressUser | null,
-    isPremium: boolean
-  ) {
-    if (!user) return
-
-    try {
-      // Open IndexedDB
-      const request = indexedDB.open('moshimoshi_progress', 2)
-
-      request.onupgradeneeded = (event) => {
-        const db = (event.target as IDBOpenDBRequest).result
-
-        // Create kanji_progress store if it doesn't exist
-        if (!db.objectStoreNames.contains('kanji_progress')) {
-          const store = db.createObjectStore('kanji_progress', {
-            keyPath: ['userId', 'kanjiId']
-          })
-          store.createIndex('userId', 'userId', { unique: false })
-          store.createIndex('kanjiId', 'kanjiId', { unique: false })
-          store.createIndex('nextReviewDate', 'nextReviewDate', { unique: false })
-        }
-      }
-
-      const db = await new Promise<IDBDatabase>((resolve, reject) => {
-        request.onsuccess = () => resolve(request.result)
-        request.onerror = () => reject(request.error)
-      })
-
-      // Update progress for each kanji
-      const transaction = db.transaction(['kanji_progress'], 'readwrite')
-      const store = transaction.objectStore('kanji_progress')
-
-      for (const kanji of kanjiData) {
-        const key = [user.uid, kanji.id]
-
+      // 2. Save/update individual kanji progress
+      for (const kanji of session.kanji) {
         // Get existing progress
-        const getRequest = store.get(key)
-        const existingProgress = await new Promise<any>((resolve) => {
-          getRequest.onsuccess = () => resolve(getRequest.result)
-          getRequest.onerror = () => resolve(null)
-        })
+        const existingProgress = await kanjiMasteryDB.getProgress(user.uid, kanji.id)
 
         // Update or create progress
-        const progress = {
+        const progress: KanjiProgressRecord = {
           userId: user.uid,
           kanjiId: kanji.id,
           character: kanji.character,
+          level: session.level,
           lastReviewed: new Date().toISOString(),
           nextReviewDate: kanji.nextReviewDate,
           reviewCount: (existingProgress?.reviewCount || 0) + 1,
@@ -283,70 +280,85 @@ export class KanjiMasteryProgressManager extends UniversalProgressManager {
             ? (existingProgress.averageScore + kanji.finalScore) / 2
             : kanji.finalScore,
           lastScore: kanji.finalScore,
-          rounds: kanji.rounds
+          lastAccuracy: kanji.rounds.round2Accuracy,
+          rounds: kanji.rounds,
+          srsData: kanji.srsData
         }
 
-        await new Promise((resolve, reject) => {
-          const putRequest = store.put(progress)
-          putRequest.onsuccess = resolve
-          putRequest.onerror = () => reject(putRequest.error)
-        })
+        await kanjiMasteryDB.saveProgress(progress)
       }
 
-      db.close()
-
-      // Sync to Firebase for premium users
-      if (isPremium) {
-        await this.syncKanjiProgressToFirebase(kanjiData, user)
+      // 3. Update statistics
+      const existingStats = await kanjiMasteryDB.getStatistics(user.uid)
+      const stats: KanjiStatistics = {
+        userId: user.uid,
+        totalSessions: (existingStats?.totalSessions || 0) + 1,
+        totalKanjiLearned: existingStats
+          ? existingStats.totalKanjiLearned + session.kanji.length
+          : session.kanji.length,
+        perfectSessions: existingStats
+          ? existingStats.perfectSessions + (session.sessionStats.perfectKanji === session.sessionStats.totalKanji ? 1 : 0)
+          : (session.sessionStats.perfectKanji === session.sessionStats.totalKanji ? 1 : 0),
+        averageAccuracy: existingStats
+          ? (existingStats.averageAccuracy + session.sessionStats.averageAccuracy) / 2
+          : session.sessionStats.averageAccuracy,
+        lastSessionDate: session.endTime.toISOString()
       }
+
+      await kanjiMasteryDB.updateStatistics(stats)
+
+      console.log('[KanjiMastery] Successfully saved to IndexedDB')
     } catch (error) {
-      console.error('Error tracking kanji progress:', error)
+      console.error('[KanjiMastery] Error saving to IndexedDB:', error)
+      // Don't throw - we still want to attempt Firebase sync
     }
   }
 
-  private async syncKanjiProgressToFirebase(
-    kanjiData: KanjiMasterySession['kanji'],
+  /**
+   * Sync to Firebase for premium users via existing API endpoint
+   * Calls /api/kanji-mastery/session which handles all Firebase operations
+   */
+  private async queueKanjiMasteryFirebaseSync(
+    session: KanjiMasterySession,
     user: ProgressUser
-  ) {
-    // Firebase sync handled by API endpoint
-    // This method is kept for future direct Firebase integration
-    console.log('Firebase sync should be handled by API endpoint')
+  ): Promise<void> {
+    try {
+      // Call existing API endpoint that handles Firebase sync
+      const response = await fetch('/api/kanji-mastery/session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...session,
+          startTime: session.startTime.toISOString(),
+          endTime: session.endTime.toISOString()
+        })
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        console.error('[KanjiMastery] Firebase sync failed:', error)
+        return
+      }
+
+      const result = await response.json()
+      console.log('[KanjiMastery] Firebase sync successful:', result.message)
+    } catch (error) {
+      console.error('[KanjiMastery] Error syncing to Firebase:', error)
+      // Don't throw - data is already in IndexedDB
+      // Will retry on next session if offline
+    }
   }
 
-  async getUpcomingReviews(userId: string, limit = 20): Promise<any[]> {
+  /**
+   * Get upcoming reviews from IndexedDB
+   */
+  async getUpcomingReviews(userId: string, limit = 20): Promise<KanjiProgressRecord[]> {
     try {
-      // Open IndexedDB
-      const request = indexedDB.open('moshimoshi_progress', 2)
-      const db = await new Promise<IDBDatabase>((resolve, reject) => {
-        request.onsuccess = () => resolve(request.result)
-        request.onerror = () => reject(request.error)
-      })
-
-      const transaction = db.transaction(['kanji_progress'], 'readonly')
-      const store = transaction.objectStore('kanji_progress')
-      const index = store.index('userId')
-
-      // Get all kanji progress for user
-      const userProgress = await new Promise<any[]>((resolve, reject) => {
-        const getRequest = index.getAll(userId)
-        getRequest.onsuccess = () => resolve(getRequest.result || [])
-        getRequest.onerror = () => reject(getRequest.error)
-      })
-
-      db.close()
-
-      // Filter and sort by review date
-      const now = new Date()
-      const upcomingReviews = userProgress
-        .filter((progress) => new Date(progress.nextReviewDate) <= now)
-        .sort((a, b) =>
-          new Date(a.nextReviewDate).getTime() - new Date(b.nextReviewDate).getTime()
-        )
-        .slice(0, limit)
-
-      return upcomingReviews
+      return await kanjiMasteryDB.getUpcomingReviews(userId, limit)
     } catch (error) {
-      console.error('Error getting upcoming reviews:', error)
+      console.error('[KanjiMastery] Error getting upcoming reviews:', error)
       return []
     }
   }

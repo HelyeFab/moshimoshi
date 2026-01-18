@@ -1,0 +1,33 @@
+{
+  "kanji": "刺",
+  "sentences": [
+    {
+      "id": "177544",
+      "japanese": "君はもう少しで私の目を鉛筆で突き刺すところだった。",
+      "english": "You nearly poked me in the eye with your pencil."
+    },
+    {
+      "id": "10335368",
+      "japanese": "喉に魚の骨が刺さってしまった。",
+      "english": "I got a fish bone stuck in my throat."
+    },
+    {
+      "id": "186459",
+      "japanese": "蚊にたくさん刺されました。",
+      "english": "I got a lot of mosquito bites."
+    },
+    {
+      "id": "12035971",
+      "japanese": "蚊にいっぱい刺された。",
+      "english": "I got a lot of mosquito bites."
+    },
+    {
+      "id": "186458",
+      "japanese": "蚊に刺されたところをかいちゃだめだよ。はれちゃうから。",
+      "english": "Don't scratch your mosquito bite. It'll get inflamed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.641Z",
+  "count": 5,
+  "fileId": "kanji-00674"
+}

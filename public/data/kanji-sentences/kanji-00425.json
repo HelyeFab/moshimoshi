@@ -1,0 +1,33 @@
+{
+  "kanji": "当",
+  "sentences": [
+    {
+      "id": "176976",
+      "japanese": "君は彼の援助を当てにすることができる。",
+      "english": "You can depend on his help."
+    },
+    {
+      "id": "177690",
+      "japanese": "君はそれを当てにできる。",
+      "english": "You can bank on that."
+    },
+    {
+      "id": "1561539",
+      "japanese": "当てにしていていいよ。",
+      "english": "You can bank on that."
+    },
+    {
+      "id": "178018",
+      "japanese": "君の予言が当たったよ。",
+      "english": "Your prophecy has come true."
+    },
+    {
+      "id": "178024",
+      "japanese": "君の約束を当てにしている。",
+      "english": "I rest on your promise."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.884Z",
+  "count": 5,
+  "fileId": "kanji-00425"
+}

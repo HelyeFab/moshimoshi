@@ -1,0 +1,55 @@
+{
+  "id": "304-n4-point-104",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～なきゃいけない (〜nakya ikenai)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～なきゃいけない grammar point is used to express a sense of necessity or obligation, similar to saying 'must' or 'have to' in English. It is a casual and more colloquial form of the ～なければいけない grammar point. The formation is different for verbs, but it is not used with い-adjectives, な-adjectives, or nouns.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual (negative form without い) + なきゃいけない",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "明日までに宿題を終わらなきゃいけない。",
+      "romaji": "Ashita made ni shukudai wo owaranakya ikenai.",
+      "english": "I have to finish my homework by tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "もうすぐ出かけるから、急いで準備しなきゃいけない。",
+      "romaji": "Mou sugu dekakeru kara, isoide junbi shinakya ikenai.",
+      "english": "We're leaving soon, so I have to hurry and get ready.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このプロジェクトは来週提出しなきゃいけない。",
+      "romaji": "Kono purojekuto wa raishuu teishutsu shinakya ikenai.",
+      "english": "I must submit this project by next week.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "電車に乗る前に、切符を買わなきゃいけない。",
+      "romaji": "Densha ni noru mae ni, kippu wo kawanakya ikenai.",
+      "english": "I have to buy a ticket before getting on the train.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

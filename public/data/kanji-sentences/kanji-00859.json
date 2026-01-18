@@ -1,0 +1,33 @@
+{
+  "kanji": "召",
+  "sentences": [
+    {
+      "id": "819032",
+      "japanese": "お召し上がれ。",
+      "english": "Enjoy your meal!"
+    },
+    {
+      "id": "819033",
+      "japanese": "お召し上がり下さい。",
+      "english": "Enjoy your meal!"
+    },
+    {
+      "id": "819034",
+      "japanese": "どうぞ、お召し上がれ。",
+      "english": "Enjoy your meal!"
+    },
+    {
+      "id": "183825",
+      "japanese": "缶詰の食料は彼女のお気に召さない。",
+      "english": "Canned food doesn't interest her."
+    },
+    {
+      "id": "186795",
+      "japanese": "果物を召し上がりませんか。",
+      "english": "Would you like some fruit?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.813Z",
+  "count": 5,
+  "fileId": "kanji-00859"
+}

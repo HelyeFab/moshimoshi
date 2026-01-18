@@ -1,0 +1,33 @@
+{
+  "kanji": "迷",
+  "sentences": [
+    {
+      "id": "184149",
+      "japanese": "楽しく遊んできなさい。でも道に迷わないように。",
+      "english": "Have fun, but don't get lost."
+    },
+    {
+      "id": "184188",
+      "japanese": "学部の選択で迷った。",
+      "english": "He was at a loss as to which faculty to choose."
+    },
+    {
+      "id": "185656",
+      "japanese": "我々は道に迷った事を知った。",
+      "english": "We found that we had lost our way."
+    },
+    {
+      "id": "185754",
+      "japanese": "我々は森の中で道に迷った。",
+      "english": "We went astray in the woods."
+    },
+    {
+      "id": "187599",
+      "japanese": "何をすべきか私は迷っている。",
+      "english": "I'm doubtful about what I ought to do."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.450Z",
+  "count": 5,
+  "fileId": "kanji-00391"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "初",
+  "sentences": [
+    {
+      "id": "920490",
+      "japanese": "税金を払うようになって、初めて人生が始まる。",
+      "english": "Life begins when you pay taxes."
+    },
+    {
+      "id": "183473",
+      "japanese": "幾度も読んでみて初めてその詩のよさが分かる。",
+      "english": "You cannot appreciate the poem until you have read it many times."
+    },
+    {
+      "id": "184591",
+      "japanese": "核兵器を全面的に禁止して初めて、兵器競争を止めさせることができる。",
+      "english": "Only by prohibiting nuclear weapons altogether can we stop the arms race."
+    },
+    {
+      "id": "184753",
+      "japanese": "外国人は英詩をたくさん読んで初めてシェイクスピアの作品を理解することができる。",
+      "english": "Only if a foreigner has read much English poetry can he understand Shakespeare."
+    },
+    {
+      "id": "184799",
+      "japanese": "外国へ行ってみると、日本がいかにせまいか初めて分かる。",
+      "english": "It is not until you go abroad that you realize how small Japan is."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.663Z",
+  "count": 5,
+  "fileId": "kanji-00484"
+}

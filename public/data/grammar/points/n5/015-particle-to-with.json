@@ -1,0 +1,101 @@
+{
+  "id": "015-particle-to-with",
+  "version": "1.0.0",
+  "title": {
+    "ja": "と（いっしょに）",
+    "romaji": "to (with)",
+    "en": "with (together)"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "と can also mean “with” when you do something together with someone. This is different from と meaning “and” in lists. The meaning depends on the verb and context.\n\nKey points:\n• と + person = with (together)\n• Used with verbs like 行きます, 食べます, 勉強します\n• It emphasizes doing something together\n• Different from で (means) and に (indirect object)\n\nFor example, “友だちと映画を見ます” means “I watch a movie with a friend.” The friend is the person you are together with.\n\nThis use of と is very common in daily conversation. It helps you say who you do activities with. If you want to say “I go to the park with my friend,” you use と for the person and に or へ for the destination: “友だちと公園に行きます.”\n\nRemember: と can mean “and” when connecting nouns, but when it comes before a person and a verb, it usually means “with.”\n\nIf you can replace と with “together with” in English, then it is the “with” usage. This makes it easier to decide which meaning is intended in a sentence.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Person と + Action Verb",
+    "components": [
+      {
+        "part": "Person と",
+        "explanation": "Person you do the action with",
+        "examples": ["友だちと", "母と", "先生と"]
+      },
+      {
+        "part": "Action Verb",
+        "explanation": "Action done together",
+        "examples": ["行きます", "食べます", "勉強します"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "友だちと映画を見ます。",
+      "romaji": "Tomodachi to eiga o mimasu.",
+      "english": "I watch a movie with a friend.",
+      "breakdown": {
+        "友だち": "friend",
+        "と": "with",
+        "映画": "movie",
+        "を": "object marker",
+        "見ます": "watch (polite)"
+      },
+      "notes": "Doing an activity together"
+    },
+    {
+      "japanese": "母と買い物に行きます。",
+      "romaji": "Haha to kaimono ni ikimasu.",
+      "english": "I go shopping with my mother.",
+      "breakdown": {
+        "母": "mother",
+        "と": "with",
+        "買い物": "shopping",
+        "に": "purpose marker",
+        "行きます": "go (polite)"
+      },
+      "notes": "With + destination"
+    },
+    {
+      "japanese": "友だちと昼ご飯を食べます。",
+      "romaji": "Tomodachi to hirugohan o tabemasu.",
+      "english": "I eat lunch with a friend.",
+      "breakdown": {
+        "友だち": "friend",
+        "と": "with",
+        "昼ご飯": "lunch",
+        "を": "object marker",
+        "食べます": "eat (polite)"
+      },
+      "notes": "Eating together"
+    },
+    {
+      "japanese": "先生と日本語を勉強します。",
+      "romaji": "Sensei to nihongo o benkyou shimasu.",
+      "english": "I study Japanese with the teacher.",
+      "breakdown": {
+        "先生": "teacher",
+        "と": "with",
+        "日本語": "Japanese",
+        "を": "object marker",
+        "勉強します": "study (polite)"
+      },
+      "notes": "Studying together"
+    }
+  ],
+  "relatedPoints": [
+    "014-particle-to-and",
+    "010-particle-ni-indirect-object"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using と for the receiver of giving",
+      "correction": "Use に for the person who receives",
+      "example": "❌ 先生と本をあげます → ✅ 先生に本をあげます"
+    },
+    {
+      "mistake": "Confusing と (with) and で (means)",
+      "correction": "Use と for people, で for tools/methods",
+      "example": "友だちと行く / バスで行く"
+    }
+  ],
+  "tags": ["particle", "with", "together", "people"]
+}

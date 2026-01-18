@@ -1,0 +1,89 @@
+{
+  "id": "254-n4-point-54",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ながら (〜nagara)",
+    "romaji": "Verb nagara (〜nagara)",
+    "en": "While Doing (Two Actions at the Same Time)"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "The ～ながら grammar point is used to indicate that two actions are happening simultaneously or that one action is happening while another is taking place. This can be translated to 'while' or 'as' in English. It is primarily used with verbs.",
+    "ja": "～ながらは、二つの行動が同時に起こっているか、一方の行動が他方の行動が行われている間に行われていることを示すために使います。これは英語で「while」や「as」と訳されます。主に動詞と使用します。"
+  },
+  "structure": {
+    "pattern": "Verb-masu stem + ながら",
+    "components": [
+      {
+        "part": "Verb-masu stem",
+        "explanation": "The base form of the verb that precedes the ながら.",
+        "examples": [
+          "見る (miru) → 見 (mi)",
+          "聞く (kiku) → 聞 (ki)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "テレビを見ながら宿題をしました。",
+      "romaji": "Terebi wo minagara shukudai wo shimashita.",
+      "english": "I did my homework while watching television.",
+      "breakdown": {
+        "みながら": "while watching",
+        "しました": "did"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "音楽を聞きながら料理をしました。",
+      "romaji": "Ongaku wo kikinagara ryouri wo shimashita.",
+      "english": "I cooked while listening to music.",
+      "breakdown": {
+        "きながら": "while listening",
+        "しました": "cooked"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "歩きながらスマホを見るのは危険です。",
+      "romaji": "Arukinagara sumaho wo miru no wa kiken desu.",
+      "english": "Looking at your smartphone while walking is dangerous.",
+      "breakdown": {
+        "ながら": "while",
+        "見るのは": "looking"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は話しながら笑っていました。",
+      "romaji": "Kare wa hanashi nagara waratte imashita.",
+      "english": "He was laughing while talking.",
+      "breakdown": {
+        "ながら": "while",
+        "いました": "was doing"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb 方 (〜hou)",
+    "A とか B とか",
+    "名詞にする"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ながら with an intransitive verb without a noun.",
+      "correction": "Use the correct form, possibly by adding a noun or changing to a transitive verb.",
+      "example": "歩きながら話す (arukinagara hanasu) is incorrect, use 歩きながら話をしている (arukinagara hanashi wo shite iru)."
+    }
+  ],
+  "tags": [
+    "n4",
+    "simultaneous-action",
+    "verb-patterns",
+    "while",
+    "as"
+  ]
+}

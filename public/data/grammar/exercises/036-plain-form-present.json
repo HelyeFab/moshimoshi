@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "036-plain-form-present",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "036-plain-form-present-ex-01",
+      "type": "multiple-choice",
+      "question": "Which is the plain present form of 'to go'?",
+      "options": [
+        { "id": "a", "text": "行きます" },
+        { "id": "b", "text": "行く" },
+        { "id": "c", "text": "行った" },
+        { "id": "d", "text": "行きません" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 行く is the plain present form.",
+      "incorrectFeedback": "Not quite. The dictionary form is 行く.",
+      "explanation": "Plain present = dictionary form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "036-plain-form-present-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is in plain present form?",
+      "options": [
+        { "id": "a", "text": "毎日日本語を勉強します。" },
+        { "id": "b", "text": "毎日日本語を勉強する。" },
+        { "id": "c", "text": "毎日日本語を勉強しました。" },
+        { "id": "d", "text": "毎日日本語を勉強しません。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 勉強する is plain form.",
+      "incorrectFeedback": "Try again. Look for the dictionary form.",
+      "explanation": "Plain form uses the dictionary form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "036-plain-form-present-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese (casual): 'I eat sushi.'",
+      "correctAnswer": "寿司を食べる",
+      "acceptedVariations": [
+        "寿司を食べる。",
+        "すしをたべる",
+        "sushi o taberu",
+        "sushi o taberu."
+      ],
+      "correctFeedback": "Great! 寿司を食べる is correct.",
+      "incorrectFeedback": "The correct answer is: 寿司を食べる (sushi o taberu).",
+      "explanation": "Use the dictionary form for casual present.",
+      "hints": ["食べる = eat", "Plain form"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "036-plain-form-present-ex-04",
+      "type": "multiple-choice",
+      "question": "Which form is the plain present of 見る?",
+      "options": [
+        { "id": "a", "text": "見ます" },
+        { "id": "b", "text": "見る" },
+        { "id": "c", "text": "見た" },
+        { "id": "d", "text": "見ません" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 見る is the plain present.",
+      "incorrectFeedback": "Not quite. Use the dictionary form.",
+      "explanation": "Plain present = dictionary form.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "036-plain-form-present-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese (casual): 'I will go tomorrow.'",
+      "correctAnswer": "明日行く",
+      "acceptedVariations": [
+        "明日行く。",
+        "あしたいく",
+        "ashita iku",
+        "ashita iku."
+      ],
+      "correctFeedback": "Nice! 明日行く is correct.",
+      "incorrectFeedback": "The correct answer is: 明日行く (ashita iku).",
+      "explanation": "Plain form can express future with time words.",
+      "hints": ["明日 = tomorrow", "行く = go"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "036-plain-form-present-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is polite (not plain)?",
+      "options": [
+        { "id": "a", "text": "本を読む。" },
+        { "id": "b", "text": "本を読みます。" },
+        { "id": "c", "text": "本を読むよ。" },
+        { "id": "d", "text": "本を読む。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 読みます is polite.",
+      "incorrectFeedback": "Try again. Look for ます form.",
+      "explanation": "ます form is polite; plain form is casual.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "036-plain-form-present-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese (casual): 'I watch TV.'",
+      "correctAnswer": "テレビを見る",
+      "acceptedVariations": [
+        "テレビを見る。",
+        "てれびをみる",
+        "terebi o miru",
+        "terebi o miru."
+      ],
+      "correctFeedback": "Great! テレビを見る is correct.",
+      "incorrectFeedback": "The correct answer is: テレビを見る (terebi o miru).",
+      "explanation": "Use dictionary form for plain present.",
+      "hints": ["見る = watch", "Plain form"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "036-plain-form-present-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the plain sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "日本語を勉強する。",
+          "romaji": "Nihongo o benkyou suru.",
+          "english": "I study Japanese."
+        },
+        {
+          "japanese": "明日行く。",
+          "romaji": "Ashita iku.",
+          "english": "I will go tomorrow."
+        },
+        {
+          "japanese": "本を読む。",
+          "romaji": "Hon o yomu.",
+          "english": "I read a book."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review plain present form.",
+      "explanation": "All sentences use dictionary form.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "036-plain-form-present-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect for plain present?",
+      "options": [
+        { "id": "a", "text": "毎日行く。" },
+        { "id": "b", "text": "昨日行く。" },
+        { "id": "c", "text": "日本語を勉強する。" },
+        { "id": "d", "text": "映画を見る。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 昨日 requires past form.",
+      "incorrectFeedback": "Try again. Past time words need past form.",
+      "explanation": "昨日行く is wrong; use 昨日行った.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "036-plain-form-present-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese (casual): 'I study every day.'",
+      "correctAnswer": "毎日勉強する",
+      "acceptedVariations": [
+        "毎日勉強する。",
+        "まいにちべんきょうする",
+        "mainichi benkyou suru",
+        "mainichi benkyou suru."
+      ],
+      "correctFeedback": "Nice! 毎日勉強する is correct.",
+      "incorrectFeedback": "The correct answer is: 毎日勉強する (mainichi benkyou suru).",
+      "explanation": "Use dictionary form for plain present.",
+      "hints": ["毎日 = every day", "勉強する = study"],
+      "difficulty": "hard"
+    }
+  ]
+}

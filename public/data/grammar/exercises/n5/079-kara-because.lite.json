@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "079-kara-because",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "079-kara-because-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: 雨です__行きません。",
+      "options": [
+        {
+          "id": "a",
+          "text": "から"
+        },
+        {
+          "id": "b",
+          "text": "ので"
+        },
+        {
+          "id": "c",
+          "text": "まで"
+        },
+        {
+          "id": "d",
+          "text": "より"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! から means 'because.'",
+      "incorrectFeedback": "Not quite. から is used for reasons.",
+      "explanation": "Use から after the reason.",
+      "difficulty": "easy"
+    }
+  ]
+}

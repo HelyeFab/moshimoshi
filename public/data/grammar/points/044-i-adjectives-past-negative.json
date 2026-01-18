@@ -1,0 +1,99 @@
+{
+  "id": "044-i-adjectives-past-negative",
+  "version": "1.0.0",
+  "title": {
+    "ja": "い形容詞（過去否定）",
+    "romaji": "i-keiyoushi (past negative)",
+    "en": "i-adjectives (past negative)"
+  },
+  "jlptLevel": "N5",
+  "category": "adjectives",
+  "explanation": {
+    "en": "The past negative form of い-adjectives means “was not.” To make it, change the final い to くなかった.\n\nKey points:\n• い-adjective past negative: い → くなかった\n• Add です for politeness: 高くなかったです\n• Used to describe past negatives\n• Same pattern for all い-adjectives\n\nFor example, “高い” becomes “高くなかった” (was not expensive). “暑い” becomes “暑くなかった” (was not hot).\n\nYou can say “昨日は寒くなかったです” to mean “It was not cold yesterday.”\n\nRemember: do not use ではありませんでした with い-adjectives. Use くなかった instead.\n\nPractice: 安い → 安くなかった, おいしい → おいしくなかった, 楽しい → 楽しくなかった.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "i-adjective (past negative) + です",
+    "components": [
+      {
+        "part": "i-adjective (past negative)",
+        "explanation": "Change い → くなかった",
+        "examples": ["高くなかった", "暑くなかった", "おいしくなかった"]
+      },
+      {
+        "part": "です",
+        "explanation": "Polite ending (optional)",
+        "examples": ["です"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "昨日は寒くなかったです。",
+      "romaji": "Kinou wa samukunakatta desu.",
+      "english": "It was not cold yesterday.",
+      "breakdown": {
+        "昨日": "yesterday",
+        "は": "topic marker",
+        "寒くなかった": "was not cold",
+        "です": "polite ending"
+      },
+      "notes": "Past negative weather"
+    },
+    {
+      "japanese": "この本は高くなかったです。",
+      "romaji": "Kono hon wa takakunakatta desu.",
+      "english": "This book was not expensive.",
+      "breakdown": {
+        "この": "this",
+        "本": "book",
+        "は": "topic marker",
+        "高くなかった": "was not expensive",
+        "です": "polite ending"
+      },
+      "notes": "Past negative description"
+    },
+    {
+      "japanese": "旅行は楽しくなかったです。",
+      "romaji": "Ryokou wa tanoshikunakatta desu.",
+      "english": "The trip was not fun.",
+      "breakdown": {
+        "旅行": "trip",
+        "は": "topic marker",
+        "楽しくなかった": "was not fun",
+        "です": "polite ending"
+      },
+      "notes": "Past negative opinion"
+    },
+    {
+      "japanese": "昨日の昼ご飯はおいしくなかったです。",
+      "romaji": "Kinou no hirugohan wa oishikunakatta desu.",
+      "english": "Yesterday's lunch was not tasty.",
+      "breakdown": {
+        "昨日の": "yesterday's",
+        "昼ご飯": "lunch",
+        "は": "topic marker",
+        "おいしくなかった": "was not tasty",
+        "です": "polite ending"
+      },
+      "notes": "Food negative"
+    }
+  ],
+  "relatedPoints": [
+    "043-i-adjectives-negative",
+    "042-i-adjectives-past"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ではありませんでした",
+      "correction": "Use くなかった for い-adjectives",
+      "example": "❌ 高いではありませんでした → ✅ 高くなかったです"
+    },
+    {
+      "mistake": "Forgetting く in the past negative",
+      "correction": "Use くなかった",
+      "example": "❌ たかくなかた → ✅ たかくなかった"
+    }
+  ],
+  "tags": ["adjectives", "i-adjectives", "past-negative", "beginner"]
+}

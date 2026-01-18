@@ -1,0 +1,100 @@
+{
+  "id": "054-kara-from",
+  "version": "1.0.0",
+  "title": {
+    "ja": "から",
+    "romaji": "kara",
+    "en": "から (from)"
+  },
+  "jlptLevel": "N5",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "から means “from.” It marks the starting point of time (and sometimes place). When you say a time + から, you show when something begins.\n\nKey points:\n• Time + から = from that time\n• Often pairs with まで to show a range\n• The start point is included\n• Used with schedules and routines\n\nExamples: “九時から授業が始まります” means “Class starts from 9.” “三月から日本にいます” means “I will be in Japan from March.”\n\nWhen you use から and まで together, you clearly show both the start and end: “九時から五時まで働きます.”\n\nYou can also use から with places, but this point focuses on time. Be sure to place から right after the time expression.\n\nPractice by making your own schedule: 何時から勉強しますか。何時までですか。 These questions are very common in daily conversation.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Time + から",
+    "components": [
+      {
+        "part": "Time",
+        "explanation": "Start time",
+        "examples": ["九時", "三月", "月曜日"]
+      },
+      {
+        "part": "から",
+        "explanation": "Marks the start point",
+        "examples": ["から"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "九時から授業が始まります。",
+      "romaji": "Ku-ji kara jugyou ga hajimarimasu.",
+      "english": "Class starts from 9.",
+      "breakdown": {
+        "九時": "9 o'clock",
+        "から": "from",
+        "授業": "class",
+        "が": "subject marker",
+        "始まります": "starts"
+      },
+      "notes": "Start time"
+    },
+    {
+      "japanese": "三月から日本にいます。",
+      "romaji": "Sangatsu kara Nihon ni imasu.",
+      "english": "I will be in Japan from March.",
+      "breakdown": {
+        "三月": "March",
+        "から": "from",
+        "日本": "Japan",
+        "に": "location marker",
+        "います": "be (animate)"
+      },
+      "notes": "Start month"
+    },
+    {
+      "japanese": "月曜日から仕事です。",
+      "romaji": "Getsuyoubi kara shigoto desu.",
+      "english": "Work starts from Monday.",
+      "breakdown": {
+        "月曜日": "Monday",
+        "から": "from",
+        "仕事": "work",
+        "です": "is"
+      },
+      "notes": "Start day"
+    },
+    {
+      "japanese": "七時から九時まで勉強します。",
+      "romaji": "Shichi-ji kara ku-ji made benkyou shimasu.",
+      "english": "I study from 7 to 9.",
+      "breakdown": {
+        "七時": "7 o'clock",
+        "から": "from",
+        "九時": "9 o'clock",
+        "まで": "until",
+        "勉強します": "study"
+      },
+      "notes": "Time range"
+    }
+  ],
+  "relatedPoints": [
+    "053-made-until",
+    "051-time-particle-ni"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using に instead of から for start time",
+      "correction": "Use から to show the beginning",
+      "example": "❌ 九時に授業が始まります(meaning from) → ✅ 九時から授業が始まります"
+    },
+    {
+      "mistake": "Forgetting まで in ranges",
+      "correction": "Add まで to show the end",
+      "example": "❌ 九時から五時 → ✅ 九時から五時まで"
+    }
+  ],
+  "tags": ["time", "from", "range", "beginner"]
+}

@@ -1,0 +1,99 @@
+{
+  "id": "247-n4-point-47",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb てもらいたい (～te moraitai)",
+    "romaji": "Verb te moraitai",
+    "en": "Want someone to do something for you"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～てもらいたい grammar point expresses a desire to receive an action or favor from another person.",
+    "ja": "～てもらいたいという文法は、他の人が何か行動や恩恵を与えてくれることを希望するときに使います。"
+  },
+  "structure": {
+    "pattern": "Verb-て-form + もらいたい",
+    "components": [
+      {
+        "part": "Verb-て-form",
+        "explanation": "The te-form of a verb.",
+        "examples": [
+          "運ん",
+          "教えて",
+          "説明して"
+        ]
+      },
+      {
+        "part": "もらいたい",
+        "explanation": "Expresses the desire to receive something from someone else.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この荷物を運んでもらいたいです。",
+      "romaji": "Kono nimotsu o hakonde moraitai desu.",
+      "english": "I want you to carry this luggage for me.",
+      "breakdown": {
+        "この": "this",
+        "荷物を": "luggage",
+        "運んでもらいたいです": "want you to carry"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼にそのニュースを教えてもらいたい。",
+      "romaji": "Kare ni sono nyuusu o oshiete moraitai.",
+      "english": "I want him to tell me the news.",
+      "breakdown": {
+        "彼に": "from him",
+        "そのニュースを": "that news",
+        "教えてもらいたい": "want him to tell"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "友達に日本語を教えてもらいたい。",
+      "romaji": "Tomodachi ni Nihongo o oshiete moraitai.",
+      "english": "I want my friend to teach me Japanese.",
+      "breakdown": {
+        "友達に": "from a friend",
+        "日本語を": "Japanese",
+        "教えてもらいたい": "want him/her to teach"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "スタッフにチェックインの方法を説明してもらいたい。",
+      "romaji": "Sutaffu ni chekkuin no houhou o setsumei shite moraitai.",
+      "english": "I want the staff to explain the check-in process to me.",
+      "breakdown": {
+        "スタッフに": "from the staff",
+        "チェックインの方法を": "check-in method",
+        "説明してもらいたい": "want them to explain"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～てもいい",
+    "Verb てもらえませんか",
+    "動詞てあげる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼は教えてもらいたい。",
+      "correction": "私は彼に教えてもらいたい。",
+      "example": "I want him to teach me."
+    }
+  ],
+  "tags": [
+    "n4",
+    "requests",
+    "verbs",
+    "te-form",
+    "favor"
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "251-n4-point-51",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "251-n4-point-51-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Decide not to do something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb ない + ことにする",
+          "romaji": "Verb nai koto ni suru"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Verb ない + ことにする matches \"Decide not to do something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ない + ことにする.",
+      "explanation": "Express a personal decision to not do something or refrain from an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "251-n4-point-51-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb ない + ことにする.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "Decide not to do something"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb ない + ことにする means \"Decide not to do something\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Decide not to do something\".",
+      "explanation": "Express a personal decision to not do something or refrain from an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "251-n4-point-51-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb ない + ことにする.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb nai koto ni suru"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb nai koto ni suru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb nai koto ni suru.",
+      "explanation": "Express a personal decision to not do something or refrain from an action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "251-n4-point-51-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb ない + ことにする?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Express a personal decision to not do something or refrain from an action."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Express a personal decision to not do something or refrain from an action.",
+      "explanation": "Express a personal decision to not do something or refrain from an action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "251-n4-point-51-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Decide not to do something\".",
+      "correctAnswer": "Verb ない + ことにする",
+      "acceptedVariations": [
+        "Verb ない + ことにする",
+        "Verbない+ことにする"
+      ],
+      "correctFeedback": "Nice! Verb ない + ことにする is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb ない + ことにする (Verb nai koto ni suru).",
+      "explanation": "Express a personal decision to not do something or refrain from an action.",
+      "hints": [
+        "Verb nai koto ni suru",
+        "Express a personal decision to not do something or refrain from an action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "251-n4-point-51-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb ない + ことにする.",
+      "correctAnswer": "Verb nai koto ni suru",
+      "acceptedVariations": [
+        "Verb nai koto ni suru",
+        "verb nai koto ni suru"
+      ],
+      "correctFeedback": "Nice! Verb nai koto ni suru is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb nai koto ni suru.",
+      "explanation": "Express a personal decision to not do something or refrain from an action.",
+      "hints": [
+        "Express a personal decision to not do something or refrain from an action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "251-n4-point-51-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb ない + ことにする.",
+      "correctAnswer": "Decide not to do something",
+      "acceptedVariations": [
+        "Decide not to do something",
+        "decide not to do something"
+      ],
+      "correctFeedback": "Correct! \"Decide not to do something\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Decide not to do something\".",
+      "explanation": "Express a personal decision to not do something or refrain from an action.",
+      "hints": [
+        "Express a personal decision to not do something or refrain from an action."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "251-n4-point-51-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb ない + ことにする",
+          "romaji": "Verb nai koto ni suru",
+          "english": "Decide not to do something"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Express a personal decision to not do something or refrain from an action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "251-n4-point-51-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Express a personal decision to not do something or refrain from an action..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb ない + ことにする",
+          "romaji": "Verb nai koto ni suru"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb ない + ことにする matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ない + ことにする.",
+      "explanation": "Express a personal decision to not do something or refrain from an action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "251-n4-point-51-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbない+ことにする",
+      "acceptedVariations": [
+        "Verbない+ことにする",
+        "Verb ない + ことにする"
+      ],
+      "correctFeedback": "Great! Verbない+ことにする is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbない+ことにする.",
+      "explanation": "Express a personal decision to not do something or refrain from an action.",
+      "hints": [
+        "Verb nai koto ni suru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

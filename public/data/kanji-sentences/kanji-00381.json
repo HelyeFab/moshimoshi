@@ -1,0 +1,33 @@
+{
+  "kanji": "適",
+  "sentences": [
+    {
+      "id": "179265",
+      "japanese": "隅田川はもはや泳ぐのに適した川ではありません。",
+      "english": "The Sumida is not a good river for us to swim in any more."
+    },
+    {
+      "id": "193111",
+      "japanese": "やさしい英語で書いてあるので、この本は初心者に適している。",
+      "english": "Written in simple English, this book is suitable for beginners."
+    },
+    {
+      "id": "200056",
+      "japanese": "トムはその仕事に適した少年だ。",
+      "english": "Tom is the proper boy for the job."
+    },
+    {
+      "id": "200280",
+      "japanese": "どの大学が私にもっとも適しているかよく考えているところです。",
+      "english": "I'm thinking about which college might be best for me."
+    },
+    {
+      "id": "207364",
+      "japanese": "その肉は全く食用に適さなかった。",
+      "english": "None of the meat was fit to eat."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.250Z",
+  "count": 5,
+  "fileId": "kanji-00381"
+}

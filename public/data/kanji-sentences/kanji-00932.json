@@ -1,0 +1,33 @@
+{
+  "kanji": "再",
+  "sentences": [
+    {
+      "id": "180081",
+      "japanese": "興奮がおさまった時、話し合いが再び始まった。",
+      "english": "When the excitement died down, the discussion resumed."
+    },
+    {
+      "id": "185838",
+      "japanese": "我々は再び戦争をしてはいけない。",
+      "english": "We must not go to war again."
+    },
+    {
+      "id": "186710",
+      "japanese": "火山が再び活動を始めた。",
+      "english": "The volcano has become active again."
+    },
+    {
+      "id": "190331",
+      "japanese": "一度ここを発つと、再び戻ることはできない。",
+      "english": "Once you leave here, you can't come back again."
+    },
+    {
+      "id": "190750",
+      "japanese": "医者や病院は、再び健康体になれる人々の手助けをすべきです。",
+      "english": "Doctors and hospitals should help the people who can get healthy again."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.592Z",
+  "count": 5,
+  "fileId": "kanji-00932"
+}

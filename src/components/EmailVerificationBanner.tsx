@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { X, Mail, CheckCircle, AlertCircle } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 
@@ -9,9 +9,14 @@ export function EmailVerificationBanner() {
   const [isDismissed, setIsDismissed] = useState(false)
   const [isSending, setIsSending] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
 
   // Don't show if user is verified or banner is dismissed
-  if (!user || user.emailVerified || isDismissed) {
+  if (!isMounted || !user || user.emailVerified || isDismissed) {
     return null
   }
 

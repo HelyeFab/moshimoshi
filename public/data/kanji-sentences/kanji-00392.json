@@ -1,0 +1,33 @@
+{
+  "kanji": "洗",
+  "sentences": [
+    {
+      "id": "4977",
+      "japanese": "洗ったあと引っ張って形にして。",
+      "english": "Pull into shape after washing."
+    },
+    {
+      "id": "177132",
+      "japanese": "君は食事前に手を洗いますか。",
+      "english": "Do you wash your hands before meals?"
+    },
+    {
+      "id": "10944586",
+      "japanese": "ご飯の前に手は洗ってる？",
+      "english": "Do you wash your hands before meals?"
+    },
+    {
+      "id": "177167",
+      "japanese": "君は車を洗ってもらった方がよい。",
+      "english": "You had better have your car washed."
+    },
+    {
+      "id": "177260",
+      "japanese": "君は皿を洗いさえすればよい。",
+      "english": "All you have to do is wash the dish."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.458Z",
+  "count": 5,
+  "fileId": "kanji-00392"
+}

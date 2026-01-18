@@ -1,0 +1,33 @@
+{
+  "kanji": "世",
+  "sentences": [
+    {
+      "id": "2533732",
+      "japanese": "世の中には10種類の人間がいる。二進法が分かる者と分からない者だ。",
+      "english": "There are 10 types of people in the world: those who understand binary, and those who don't."
+    },
+    {
+      "id": "5288",
+      "japanese": "この世は、愚か者だらけ。",
+      "english": "The world is full of fools."
+    },
+    {
+      "id": "103434",
+      "japanese": "彼は世の中の事に無知だ。",
+      "english": "He is ignorant of the world."
+    },
+    {
+      "id": "179030",
+      "japanese": "君が居なくてはどんなにさびしい世の中になることだろう。",
+      "english": "What a lonely world it will be with you away!"
+    },
+    {
+      "id": "186178",
+      "japanese": "我々は、新聞、雑誌、ニュース番組で世の中の出来事を知る。",
+      "english": "Newspapers, magazines, and newscasts tell what is going on in the world."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.544Z",
+  "count": 5,
+  "fileId": "kanji-00178"
+}

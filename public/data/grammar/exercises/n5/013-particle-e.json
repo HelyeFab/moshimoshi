@@ -1,0 +1,182 @@
+{
+  "grammarPointId": "013-particle-e",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "013-particle-e-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 学校＿＿行きます。",
+      "questionRomaji": "Gakkou __ ikimasu.",
+      "options": [
+        { "id": "a", "text": "へ", "romaji": "e" },
+        { "id": "b", "text": "で", "romaji": "de" },
+        { "id": "c", "text": "を", "romaji": "o" },
+        { "id": "d", "text": "が", "romaji": "ga" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! へ marks direction/destination.",
+      "incorrectFeedback": "Not quite. Use へ with movement verbs.",
+      "explanation": "行きます can take へ to show direction.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "013-particle-e-ex-02",
+      "type": "multiple-choice",
+      "question": "How is the particle へ pronounced?",
+      "options": [
+        { "id": "a", "text": "he" },
+        { "id": "b", "text": "e" },
+        { "id": "c", "text": "wa" },
+        { "id": "d", "text": "o" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Yes! As a particle, へ is pronounced 'e'.",
+      "incorrectFeedback": "Try again. The particle へ is pronounced 'e'.",
+      "explanation": "This is a special pronunciation for the particle.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "013-particle-e-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I go to Japan.'",
+      "correctAnswer": "日本へ行きます",
+      "acceptedVariations": [
+        "日本へ行きます。",
+        "にほんへいきます",
+        "nihon e ikimasu",
+        "nihon e ikimasu."
+      ],
+      "correctFeedback": "Great! 日本へ行きます is correct.",
+      "incorrectFeedback": "The correct answer is: 日本へ行きます (nihon e ikimasu).",
+      "explanation": "Use へ for direction/destination.",
+      "hints": ["日本 = Japan", "Use へ with 行きます"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "013-particle-e-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "駅へ行きます。" },
+        { "id": "b", "text": "駅で行きます。" },
+        { "id": "c", "text": "駅を行きます。" },
+        { "id": "d", "text": "駅が行きます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! へ marks the direction to the station.",
+      "incorrectFeedback": "Try again. Use へ or に for destinations.",
+      "explanation": "Movement verbs take へ for direction.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "013-particle-e-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I go home.'",
+      "correctAnswer": "うちへ帰ります",
+      "acceptedVariations": [
+        "うちへ帰ります。",
+        "うちへかえります",
+        "uchi e kaerimasu",
+        "uchi e kaerimasu."
+      ],
+      "correctFeedback": "Nice! うちへ帰ります is correct.",
+      "incorrectFeedback": "The correct answer is: うちへ帰ります (uchi e kaerimasu).",
+      "explanation": "へ marks the direction toward home.",
+      "hints": ["帰ります = return", "Use へ"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "013-particle-e-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence uses へ correctly (not for action location)?",
+      "options": [
+        { "id": "a", "text": "学校へ勉強します。" },
+        { "id": "b", "text": "学校へ行きます。" },
+        { "id": "c", "text": "学校へ食べます。" },
+        { "id": "d", "text": "学校へ読みます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! へ is used with movement verbs.",
+      "incorrectFeedback": "Not quite. へ is for direction with movement verbs.",
+      "explanation": "Use へ with 行きます/来ます/帰ります.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "013-particle-e-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I go to my friend's house.'",
+      "correctAnswer": "友だちの家へ行きます",
+      "acceptedVariations": [
+        "友だちの家へ行きます。",
+        "ともだちのいえへいきます",
+        "tomodachi no ie e ikimasu",
+        "tomodachi no ie e ikimasu."
+      ],
+      "correctFeedback": "Great! 友だちの家へ行きます is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちの家へ行きます (tomodachi no ie e ikimasu).",
+      "explanation": "Use へ to show direction to a place.",
+      "hints": ["家 = house", "Use へ with 行きます"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "013-particle-e-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "学校へ行きます。",
+          "romaji": "Gakkou e ikimasu.",
+          "english": "I go to school."
+        },
+        {
+          "japanese": "日本へ来ます。",
+          "romaji": "Nihon e kimasu.",
+          "english": "I come to Japan."
+        },
+        {
+          "japanese": "うちへ帰ります。",
+          "romaji": "Uchi e kaerimasu.",
+          "english": "I go home."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review へ as a direction marker.",
+      "explanation": "Each sentence uses へ with a movement verb.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "013-particle-e-ex-09",
+      "type": "multiple-choice",
+      "question": "Which particle can often replace へ for destinations?",
+      "options": [
+        { "id": "a", "text": "を" },
+        { "id": "b", "text": "が" },
+        { "id": "c", "text": "に" },
+        { "id": "d", "text": "で" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! に can also mark destinations.",
+      "incorrectFeedback": "Try again. に is commonly used for destinations too.",
+      "explanation": "に and へ are often interchangeable with movement verbs.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "013-particle-e-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I go to the park.'",
+      "correctAnswer": "公園へ行きます",
+      "acceptedVariations": [
+        "公園へ行きます。",
+        "こうえんへいきます",
+        "kouen e ikimasu",
+        "kouen e ikimasu."
+      ],
+      "correctFeedback": "Nice! 公園へ行きます is correct.",
+      "incorrectFeedback": "The correct answer is: 公園へ行きます (kouen e ikimasu).",
+      "explanation": "Use へ to mark the direction/destination.",
+      "hints": ["公園 = park", "Use へ with 行きます"],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "化",
+  "sentences": [
+    {
+      "id": "190021",
+      "japanese": "一連の爆発で、その研究施設は瓦礫の山と化した。",
+      "english": "A series of blasts reduced the laboratory to ruins."
+    },
+    {
+      "id": "11267635",
+      "japanese": "その爆発で、施設は廃墟と化した。",
+      "english": "The explosion reduced the facilities to ruins."
+    },
+    {
+      "id": "211038",
+      "japanese": "その建物は化け物みたいだ。",
+      "english": "The building is a monstrous structure."
+    },
+    {
+      "id": "4843466",
+      "japanese": "お化けって信じる？",
+      "english": "Do you believe in ghosts?"
+    },
+    {
+      "id": "4843467",
+      "japanese": "お化けって信じますか？",
+      "english": "Do you believe in ghosts?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.037Z",
+  "count": 5,
+  "fileId": "kanji-00437"
+}

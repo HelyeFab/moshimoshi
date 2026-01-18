@@ -1,0 +1,55 @@
+{
+  "id": "233-n4-point-33",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て いただけませんか (Verb te itadakemasen ka)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The て いただけませんか grammar point is used to make a polite request to someone. It is a more polite form of て くれませんか, and can be translated as 'Could you please...' or 'Would you mind...' in English. To use it, change the verb to its て-form and add いただけませんか.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + いただけませんか",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "この手紙を投函していただけませんか。",
+      "romaji": "Kono tegami wo toukan shite itadakemasen ka.",
+      "english": "Could you please mail this letter for me?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この荷物を持っていただけませんか。",
+      "romaji": "Kono nimotsu wo motte itadakemasen ka.",
+      "english": "Could you please carry this luggage for me?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "隣の部屋にいる人に静かにしていただけませんか。",
+      "romaji": "Tonari no heya ni iru hito ni shizuka ni shite itadakemasen ka.",
+      "english": "Could you please ask the person next door to be quiet?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "説明書を読んでいただけませんか。",
+      "romaji": "Setsumeisho wo yonde itadakemasen ka.",
+      "english": "Could you please read the instruction manual?",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

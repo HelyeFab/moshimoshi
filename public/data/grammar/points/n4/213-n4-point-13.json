@@ -1,0 +1,106 @@
+{
+  "id": "213-n4-point-13",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun を あげる",
+    "romaji": "Noun wo ageru",
+    "en": "Giving something"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "The grammar point Noun + を + あげる is used to express giving something tangible or offering a favor.",
+    "ja": "名詞+を+あげるという文法は、何か物を与えるまたは提供することを表現します。"
+  },
+  "structure": {
+    "pattern": "Noun + を + あげる",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "The item being given.",
+        "examples": [
+          "プレゼント (present)",
+          "花 (flower)"
+        ]
+      },
+      {
+        "part": "を",
+        "explanation": "Marks the direct object of the verb.",
+        "examples": []
+      },
+      {
+        "part": "あげる",
+        "explanation": "To give, offer, or present.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "プレゼントをあげる。",
+      "romaji": "Purezento wo ageru.",
+      "english": "I give a present.",
+      "breakdown": {
+        "プレゼント": "present",
+        "を": "OBJ-MARKER",
+        "あげる": "give"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "友達に花をあげた。",
+      "romaji": "Tomodachi ni hana wo ageta.",
+      "english": "I gave flowers to my friend.",
+      "breakdown": {
+        "友達": "friend",
+        "に": "to (indicates recipient)",
+        "花": "flower",
+        "を": "OBJ-MARKER"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "父に時計をあげます。",
+      "romaji": "Chichi ni tokei wo agemasu.",
+      "english": "I will give a watch to my father.",
+      "breakdown": {
+        "父": "father",
+        "に": "to (indicates recipient)",
+        "時計": "watch"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女に手紙をあげたい。",
+      "romaji": "Kanojo ni tegami wo agetai.",
+      "english": "I want to give her a letter.",
+      "breakdown": {
+        "彼女": "girlfriend",
+        "に": "to (indicates recipient)",
+        "手紙": "letter"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "N4-013"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "プレゼントをあげ。",
+      "correction": "プレゼントをあげます。",
+      "example": "Correctly use the appropriate politeness level."
+    },
+    {
+      "mistake": "友達に花があげた。",
+      "correction": "友達に花をあげた。",
+      "example": "Make sure to correctly mark the object with を."
+    }
+  ],
+  "tags": [
+    "n4",
+    "basic-sentences",
+    "verbs",
+    "giving-receiving"
+  ]
+}

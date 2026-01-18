@@ -1,0 +1,33 @@
+{
+  "kanji": "求",
+  "sentences": [
+    {
+      "id": "4831",
+      "japanese": "学校に全てを求めることはできない。",
+      "english": "One can't expect everything from schools."
+    },
+    {
+      "id": "5028",
+      "japanese": "あなたは何を求めているのですか。",
+      "english": "What do you want?"
+    },
+    {
+      "id": "234175",
+      "japanese": "あなたがたは何を求めているのですか。",
+      "english": "What do you want?"
+    },
+    {
+      "id": "176955",
+      "japanese": "君は彼らを助けるよう求められている。",
+      "english": "You're required to help them."
+    },
+    {
+      "id": "176984",
+      "japanese": "君は彼に助言を求めるべきだ。",
+      "english": "You ought to ask him for advice."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.731Z",
+  "count": 5,
+  "fileId": "kanji-00272"
+}

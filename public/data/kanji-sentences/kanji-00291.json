@@ -1,0 +1,33 @@
+{
+  "kanji": "処",
+  "sentences": [
+    {
+      "id": "5243",
+      "japanese": "殺人犯は有罪判決を受けて終身刑に処せられた。",
+      "english": "The murderer was convicted and sentenced to life in prison."
+    },
+    {
+      "id": "208039",
+      "japanese": "その男は終身刑に処せられた。",
+      "english": "The man was given a life sentence."
+    },
+    {
+      "id": "82677",
+      "japanese": "法廷は彼を死刑に処した。",
+      "english": "The court sentenced him to death."
+    },
+    {
+      "id": "103476",
+      "japanese": "彼は酔払い運転のかどで５ポンドの科料に処せられた。",
+      "english": "He was fined five pounds for drunken driving."
+    },
+    {
+      "id": "106451",
+      "japanese": "彼は死刑に処せられた。",
+      "english": "He was sentenced to death."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.071Z",
+  "count": 5,
+  "fileId": "kanji-00291"
+}

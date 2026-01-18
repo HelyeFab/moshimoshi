@@ -1,0 +1,33 @@
+{
+  "kanji": "位",
+  "sentences": [
+    {
+      "id": "199627",
+      "japanese": "どれ位かかりますか。",
+      "english": "How long will it take?"
+    },
+    {
+      "id": "192023",
+      "japanese": "わが国の国民総生産は第２位である。",
+      "english": "The gross national product of our country is the second largest."
+    },
+    {
+      "id": "197725",
+      "japanese": "ピアノ・コンクールで私が第１位になるなんて夢想だにしなかった。",
+      "english": "Never did I dream that I would take first place in the piano contest."
+    },
+    {
+      "id": "200345",
+      "japanese": "どの位したら会は始まるか。",
+      "english": "How soon will the meeting begin?"
+    },
+    {
+      "id": "222665",
+      "japanese": "この会社は石油業界で２位に位している。",
+      "english": "This firm ranks second in the oil trade."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.855Z",
+  "count": 5,
+  "fileId": "kanji-00574"
+}

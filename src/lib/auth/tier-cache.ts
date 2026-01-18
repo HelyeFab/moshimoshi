@@ -2,8 +2,9 @@
 // Provides short-lived Redis caching (60s) to prevent stale tier data
 // while maintaining good performance
 
-import { redis, RedisKeys, RedisUtils, CacheTTL } from '@/lib/redis/client'
-import { adminDb, getAdminDb } from '@/lib/firebase/admin'
+import { redis, RedisKeys, RedisUtils } from '@/lib/redis/client'
+import { getAdminDb } from '@/lib/firebase/admin'
+import { recordTierMetricCount, recordTierMetricTiming, getStaleSampleRate } from '@/lib/auth/tier-metrics'
 
 // Use centralized getAdminDb() for null-safe database access
 const getDb = getAdminDb
@@ -22,6 +23,50 @@ const getDb = getAdminDb
  */
 class TierCacheService {
   private readonly TTL = 30; // 30 seconds cache TTL - faster tier change reflection
+  private readonly staleSampleRate = getStaleSampleRate();
+
+  private resolveTierFromUserData(userData: any): 'free' | 'premium_monthly' | 'premium_yearly' {
+    let tier: 'free' | 'premium_monthly' | 'premium_yearly' = 'free'
+
+    if (userData?.subscription) {
+      const { status, plan } = userData.subscription
+      console.log(`[TierCache] User subscription - status: ${status}, plan: ${plan}`)
+
+      if ((status === 'active' || status === 'trialing') && plan) {
+        tier = plan as any
+      }
+    }
+
+    return tier
+  }
+
+  private async sampleStaleTier(userId: string, cachedTier: string): Promise<void> {
+    if (this.staleSampleRate <= 0 || Math.random() >= this.staleSampleRate) {
+      return
+    }
+
+    void recordTierMetricCount('stale_check')
+
+    const start = Date.now()
+    try {
+      const db = getDb()
+      const userDoc = await db.collection('users').doc(userId).get()
+      const duration = Date.now() - start
+      void recordTierMetricTiming('firestore_latency_ms', duration)
+
+      const userData = userDoc.data()
+      const actualTier = userDoc.exists && userData ? this.resolveTierFromUserData(userData) : 'free'
+
+      if (actualTier !== cachedTier) {
+        void recordTierMetricCount('stale_mismatch')
+      }
+    } catch (error) {
+      const duration = Date.now() - start
+      void recordTierMetricTiming('firestore_latency_ms', duration)
+      void recordTierMetricCount('firestore_error')
+      console.error('[TierCache] Stale tier sample check failed:', error)
+    }
+  }
 
   /**
    * Get user tier with caching
@@ -39,15 +84,21 @@ class TierCacheService {
       const cached = await redis.get(cacheKey)
 
       if (cached) {
+        void recordTierMetricCount('cache_hit')
         console.log(`[TierCache] Cache HIT for user ${userId}: ${cached}`)
+        void this.sampleStaleTier(userId, cached as string)
         return cached as any
       }
 
+      void recordTierMetricCount('cache_miss')
       console.log(`[TierCache] Cache MISS for user ${userId}, fetching from Firestore`)
 
       // Fetch from Firestore
       const db = getDb()
+      const firestoreStart = Date.now()
       const userDoc = await db.collection('users').doc(userId).get()
+      const firestoreDuration = Date.now() - firestoreStart
+      void recordTierMetricTiming('firestore_latency_ms', firestoreDuration)
       const userData = userDoc.data()
 
       if (!userDoc.exists || !userData) {
@@ -56,22 +107,8 @@ class TierCacheService {
       }
 
       // Determine tier from subscription data
-      let tier: 'free' | 'premium_monthly' | 'premium_yearly' = 'free'
-
-      if (userData.subscription) {
-        const { status, plan } = userData.subscription
-        console.log(`[TierCache] User ${userId} subscription - status: ${status}, plan: ${plan}`)
-
-        // Check if subscription is valid (active or trialing)
-        if ((status === 'active' || status === 'trialing') && plan) {
-          tier = plan as any
-          console.log(`[TierCache] User ${userId} has active subscription: ${tier}`)
-        } else {
-          console.log(`[TierCache] User ${userId} subscription not active or no plan, using free tier`)
-        }
-      } else {
-        console.log(`[TierCache] User ${userId} has no subscription data, using free tier`)
-      }
+      const tier = this.resolveTierFromUserData(userData)
+      console.log(`[TierCache] User ${userId} resolved tier: ${tier}`)
 
       // Cache the result for 60 seconds
       await redis.setex(cacheKey, this.TTL, tier)
@@ -80,18 +117,23 @@ class TierCacheService {
       return tier
 
     } catch (error) {
+      void recordTierMetricCount('cache_error')
       console.error(`[TierCache] Error getting tier for user ${userId}:`, error)
 
       // In case of any error, try direct Firestore as last resort
       try {
         const db = getDb()
+        const fallbackStart = Date.now()
         const userDoc = await db.collection('users').doc(userId).get()
+        const fallbackDuration = Date.now() - fallbackStart
+        void recordTierMetricTiming('firestore_latency_ms', fallbackDuration)
         const userData = userDoc.data()
 
         if (userData?.subscription?.status === 'active' && userData?.subscription?.plan) {
           return userData.subscription.plan
         }
       } catch (fallbackError) {
+        void recordTierMetricCount('firestore_error')
         console.error(`[TierCache] Fallback Firestore fetch also failed:`, fallbackError)
       }
 

@@ -10,6 +10,44 @@ import { logAuditEvent, AuditEvent, logAuthAttempt } from '@/lib/auth/audit'
 import { verifyReCaptcha, isReCaptchaConfigured } from '@/lib/auth/recaptcha'
 import { z } from 'zod'
 
+type FirebaseRestSignInResult = {
+  localId: string
+  email: string
+  idToken: string
+  refreshToken: string
+  expiresIn: string
+  registered?: boolean
+}
+
+async function verifyPasswordWithFirebase(
+  email: string,
+  password: string,
+  apiKey: string
+): Promise<FirebaseRestSignInResult> {
+  const response = await fetch(
+    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email,
+        password,
+        returnSecureToken: true,
+      }),
+    }
+  )
+
+  const data = await response.json().catch(() => ({}))
+  if (!response.ok) {
+    const message = data?.error?.message || 'AUTH_FAILED'
+    const error: any = new Error(message)
+    error.code = message
+    throw error
+  }
+
+  return data as FirebaseRestSignInResult
+}
+
 export async function POST(request: NextRequest) {
   try {
     // Ensure Firebase Admin is initialized
@@ -42,6 +80,22 @@ export async function POST(request: NextRequest) {
 
     const { email, rememberMe } = validatedData
     const recaptchaToken = body.recaptchaToken
+    const firebaseApiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY
+    if (!firebaseApiKey) {
+      console.error('[API /auth/signin] Missing Firebase API key for REST verification')
+      return NextResponse.json(
+        {
+          error: {
+            code: 'AUTH_CONFIG_ERROR',
+            message: 'Authentication configuration error',
+          },
+        },
+        {
+          status: 500,
+          headers: getSecurityHeaders(),
+        }
+      )
+    }
 
     // Get client information for audit logging and rate limiting
     const ipAddress = request.headers.get('x-forwarded-for')?.split(',')[0] ||
@@ -148,40 +202,43 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-      // First, verify the user exists and get their information
-      let userRecord
+      // Verify credentials via Firebase Auth REST API
+      let authResult: FirebaseRestSignInResult
       try {
-        userRecord = await adminAuth!.getUserByEmail(email)
-      } catch (error) {
-        if ((error as any)?.code === 'auth/user-not-found') {
-          // User doesn't exist, but we don't want to reveal this for security
-          await trackAuthAttempt(emailIdentifier, false)
-          await trackAuthAttempt(ipIdentifier, false)
-          
-          await logAuthAttempt(
-            AuditEvent.FAILED_LOGIN,
-            {
-              ipAddress,
-              userAgent,
-              endpoint: '/api/auth/signin',
-            },
-            {
-              email,
-              method: 'email',
-              reason: 'user_not_found',
-            },
-            'failure'
-          )
+        authResult = await verifyPasswordWithFirebase(email, validatedData.password, firebaseApiKey)
+      } catch (error: any) {
+        const reason = error?.code || 'auth_failed'
+        const isInvalidCredentials = reason === 'EMAIL_NOT_FOUND' || reason === 'INVALID_PASSWORD'
+        const isUserDisabled = reason === 'USER_DISABLED'
 
+        await trackAuthAttempt(emailIdentifier, false)
+        await trackAuthAttempt(ipIdentifier, false)
+
+        await logAuthAttempt(
+          AuditEvent.FAILED_LOGIN,
+          {
+            ipAddress,
+            userAgent,
+            endpoint: '/api/auth/signin',
+          },
+          {
+            email,
+            method: 'email',
+            reason: isInvalidCredentials ? 'invalid_credentials' : reason,
+          },
+          'failure'
+        )
+
+        if (isUserDisabled) {
           return NextResponse.json(
             {
               error: {
-                code: 'AUTH_INVALID_CREDENTIALS',
-                message: 'Invalid email or password',
+                code: 'AUTH_USER_DISABLED',
+                message: 'This account has been disabled',
               },
             },
-            { 
-              status: 401,
+            {
+              status: 403,
               headers: {
                 ...getSecurityHeaders(),
                 ...getRateLimitHeaders(rateLimitResult),
@@ -189,8 +246,28 @@ export async function POST(request: NextRequest) {
             }
           )
         }
-        throw error
+
+        return NextResponse.json(
+          {
+            error: {
+              code: 'AUTH_INVALID_CREDENTIALS',
+              message: 'Invalid email or password',
+            },
+          },
+          { 
+            status: 401,
+            headers: {
+              ...getSecurityHeaders(),
+              ...getRateLimitHeaders(rateLimitResult),
+            },
+          }
+        )
       }
+
+      const userId = authResult.localId
+
+      // Fetch user record for additional checks
+      const userRecord = await adminAuth!.getUser(userId)
 
       // Get user profile from Firestore to check state and tier
       const userDoc = await adminFirestore!.collection('users').doc(userRecord.uid).get()
@@ -306,17 +383,6 @@ export async function POST(request: NextRequest) {
           }
         )
       }
-
-      // Attempt to sign in with password using Firebase Admin
-      // Note: Firebase Admin SDK doesn't have built-in password verification
-      // In a real implementation, you would either:
-      // 1. Use Firebase client SDK on server (not recommended for security)
-      // 2. Store password hashes separately and verify them
-      // 3. Use Firebase Auth REST API
-      // For this implementation, we'll assume password validation is done elsewhere
-
-      // For now, we'll simulate successful authentication
-      // In production, you would implement proper password verification here
 
       // Clear failed attempts on successful login
       await trackAuthAttempt(emailIdentifier, true)

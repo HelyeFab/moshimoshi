@@ -1,0 +1,103 @@
+{
+  "id": "014-particle-to-and",
+  "version": "1.0.0",
+  "title": {
+    "ja": "と（並列）",
+    "romaji": "to (and)",
+    "en": "and (nouns)"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "と connects nouns in a complete list. It is like “and” in English. Use it when you want to name all items in the list.\n\nKey points:\n• と connects nouns: AとB\n• It is a complete list (no other items)\n• It can connect more than two nouns\n• Different from や, which gives examples\n\nFor example, “パンと牛乳を買います” means “I buy bread and milk.” The listener understands that these are the items. If you use や, it would mean “bread, milk, and other things.”\n\nと can also connect people: “父と母” means “my father and mother.” It does not connect verbs or sentences at N5; it is mainly for nouns.\n\nUsing と makes your meaning precise. If you want to say a complete list, use と. If you want to say “A, B, etc.,” use や instead.\n\nA simple test is: if you can add “and that’s all,” then と is a good choice. If you mean “and so on,” then や is a better fit.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun と Noun (と Noun) + Verb",
+    "components": [
+      {
+        "part": "Noun と Noun",
+        "explanation": "Two or more nouns connected by と",
+        "examples": ["パンと牛乳", "父と母", "本とペン"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action with the noun list",
+        "examples": ["買います", "食べます", "持ちます"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "パンと牛乳を買います。",
+      "romaji": "Pan to gyuunyuu o kaimasu.",
+      "english": "I buy bread and milk.",
+      "breakdown": {
+        "パン": "bread",
+        "と": "and",
+        "牛乳": "milk",
+        "を": "object marker",
+        "買います": "buy (polite)"
+      },
+      "notes": "Complete list of items"
+    },
+    {
+      "japanese": "本とペンがあります。",
+      "romaji": "Hon to pen ga arimasu.",
+      "english": "There are books and pens.",
+      "breakdown": {
+        "本": "book",
+        "と": "and",
+        "ペン": "pen",
+        "が": "subject marker",
+        "あります": "exist (polite)"
+      },
+      "notes": "Connecting two nouns"
+    },
+    {
+      "japanese": "父と母は日本にいます。",
+      "romaji": "Chichi to haha wa Nihon ni imasu.",
+      "english": "My father and mother are in Japan.",
+      "breakdown": {
+        "父": "father",
+        "と": "and",
+        "母": "mother",
+        "は": "topic marker",
+        "日本": "Japan",
+        "に": "location marker",
+        "います": "exist (polite)"
+      },
+      "notes": "People connected with と"
+    },
+    {
+      "japanese": "りんごとみかんを食べます。",
+      "romaji": "Ringo to mikan o tabemasu.",
+      "english": "I eat apples and oranges.",
+      "breakdown": {
+        "りんご": "apple",
+        "と": "and",
+        "みかん": "mandarin orange",
+        "を": "object marker",
+        "食べます": "eat (polite)"
+      },
+      "notes": "Two items in a set"
+    }
+  ],
+  "relatedPoints": [
+    "020-particle-ya",
+    "008-particle-wo"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using と for an incomplete list",
+      "correction": "Use や when you mean “A, B, etc.”",
+      "example": "❌ パンと牛乳や卵 → ✅ パンと牛乳"
+    },
+    {
+      "mistake": "Using と between verb phrases",
+      "correction": "At N5, use と to connect nouns",
+      "example": "❌ 食べると飲む → ✅ 食べて飲む (later lesson)"
+    }
+  ],
+  "tags": ["particle", "and", "lists", "nouns"]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "企",
+  "sentences": [
+    {
+      "id": "211577",
+      "japanese": "その企ては失敗に終わった。",
+      "english": "The attempt ended in failure."
+    },
+    {
+      "id": "211920",
+      "japanese": "その過激派が政府打倒の陰謀を企てているという噂が立ってる。",
+      "english": "There is a rumor that the radicals are plotting against the government."
+    },
+    {
+      "id": "225801",
+      "japanese": "きょうこそは彼らが脱走を企てる運命の日だ。",
+      "english": "Today is the fatal day that they will attempt their escape."
+    },
+    {
+      "id": "233834",
+      "japanese": "あなたと私は、企てに成功した。",
+      "english": "You and I have succeeded in our attempt."
+    },
+    {
+      "id": "234123",
+      "japanese": "あなたが何を企んでいるかお見通しだ。",
+      "english": "I know what your game is."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:48.793Z",
+  "count": 5,
+  "fileId": "kanji-02077"
+}

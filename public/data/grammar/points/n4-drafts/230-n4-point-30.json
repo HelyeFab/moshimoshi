@@ -1,0 +1,55 @@
+{
+  "id": "230-n4-point-30",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て いく (Verb-te iku)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The て いく grammar point is used to indicate that an action will continue or a change will progress into the future. It can be attached to the て-form of a verb and is often translated as 'to keep', 'to continue', or 'to go on' in English.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb in て-form + いく",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "このまま練習を続けていくと、上達するでしょう。",
+      "romaji": "Kono mama renshuu o tsuzukete iku to, joutatsu suru deshou.",
+      "english": "If you keep practicing like this, you will improve.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は成長していくうちに、自立心が強くなった。",
+      "romaji": "Kare wa seichou shite iku uchi ni, jiritsushin ga tsuyoku natta.",
+      "english": "As he grew up, his independence became stronger.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この会社はこれからも技術革新を行っていくでしょう。",
+      "romaji": "Kono kaisha wa korekara mo gijutsu kakushin o okonatte iku deshou.",
+      "english": "This company will continue to innovate in technology in the future.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "子供たちはどんどん学んでいく。",
+      "romaji": "Kodomo-tachi wa dondon manande iku.",
+      "english": "Children will keep learning more and more.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

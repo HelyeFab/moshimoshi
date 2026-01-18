@@ -1,0 +1,126 @@
+{
+  "id": "217-n4-point-17",
+  "version": "1.0.0",
+  "title": {
+    "ja": "名詞 を さしあげる",
+    "romaji": "Noun wo sashiageru",
+    "en": "Giving (to someone of higher status): Noun を さしあげる"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The expression 'Noun を さしあげる' is used to politely give something to someone of higher status. It replaces the regular verb あげる (ageru) when showing respect to the recipient. Used with nouns, it is a humble way to express giving.",
+    "ja": "「名詞 を さしあげる」は、目上の人などに物をあげるときに使う丁寧な表現です。普通の「あげる」よりも敬意を表します。"
+  },
+  "structure": {
+    "pattern": "Noun + を + さしあげる",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "The object you are giving.",
+        "examples": [
+          "本",
+          "花",
+          "プレゼント"
+        ]
+      },
+      {
+        "part": "を",
+        "explanation": "Object marker particle.",
+        "examples": [
+          "本を",
+          "花を"
+        ]
+      },
+      {
+        "part": "さしあげる",
+        "explanation": "Humble verb for 'to give' (to someone of higher status).",
+        "examples": [
+          "さしあげます",
+          "さしあげたい"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "先生に本をさしあげます。",
+      "romaji": "Sensei ni hon wo sashiagemasu.",
+      "english": "I will give a book to the teacher.",
+      "breakdown": {
+        "先生": "teacher",
+        "に": "to",
+        "本": "book",
+        "を": "object marker",
+        "さしあげます": "give (humble, polite)"
+      },
+      "notes": "Used for giving to someone of higher status (teacher)."
+    },
+    {
+      "japanese": "お母さんに花をさしあげたいです。",
+      "romaji": "Okaasan ni hana wo sashiagetai desu.",
+      "english": "I want to give flowers to my mother.",
+      "breakdown": {
+        "お母さん": "mother",
+        "に": "to",
+        "花": "flowers",
+        "を": "object marker",
+        "さしあげたい": "want to give (humble)"
+      },
+      "notes": "Shows respect to one's mother."
+    },
+    {
+      "japanese": "お客様にお茶をさしあげましょう。",
+      "romaji": "Okyakusama ni ocha wo sashiagemashou.",
+      "english": "Let's offer tea to the guest.",
+      "breakdown": {
+        "お客様": "guest",
+        "に": "to",
+        "お茶": "tea",
+        "を": "object marker",
+        "さしあげましょう": "let's give (humble)"
+      },
+      "notes": "Polite suggestion to offer something to a guest."
+    },
+    {
+      "japanese": "先輩にプレゼントをさしあげたら、喜んでいました。",
+      "romaji": "Senpai ni purezento wo sashiagetara, yorokonde imashita.",
+      "english": "When I gave a present to my senior, they were delighted.",
+      "breakdown": {
+        "先輩": "senior",
+        "に": "to",
+        "プレゼント": "present",
+        "を": "object marker",
+        "さしあげたら": "if/when gave (humble)",
+        "喜んでいました": "was delighted"
+      },
+      "notes": "Shows humility when giving to someone senior."
+    }
+  ],
+  "relatedPoints": [
+    "あげる",
+    "やる",
+    "くださる",
+    "差し上げる（敬語）"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "先生に本をあげます。",
+      "correction": "先生に本をさしあげます。",
+      "example": "Use 'さしあげる' instead of 'あげる' when giving to someone of higher status."
+    },
+    {
+      "mistake": "友達にプレゼントをさしあげます。",
+      "correction": "友達にプレゼントをあげます。",
+      "example": "'さしあげる' is too formal for friends; use 'あげる' instead."
+    }
+  ],
+  "tags": [
+    "n4",
+    "giving",
+    "polite",
+    "humble",
+    "keigo",
+    "verbs"
+  ]
+}

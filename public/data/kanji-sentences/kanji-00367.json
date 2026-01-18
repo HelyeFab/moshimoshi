@@ -1,0 +1,33 @@
+{
+  "kanji": "責",
+  "sentences": [
+    {
+      "id": "9257669",
+      "japanese": "お前がやったことを責めてはいないんだよ。",
+      "english": "I don't blame you for doing that."
+    },
+    {
+      "id": "184079",
+      "japanese": "株券を盗んだと言ってジルを責める理由はあなたにはない。",
+      "english": "You have no grounds for accusing Jill of stealing the stock certificates."
+    },
+    {
+      "id": "185007",
+      "japanese": "皆が私のうっかりした間違いを責めるのです。",
+      "english": "Everybody blames me for my careless mistake."
+    },
+    {
+      "id": "190058",
+      "japanese": "一方では君は間違っている。かといって、私はそのことであなたを責めることはできない。",
+      "english": "On the one hand, you are wrong, but on the other hand, I can't blame you for that."
+    },
+    {
+      "id": "3459221",
+      "japanese": "責めを負うべきは、あなたではなく、私です。",
+      "english": "It is not you but I that am to blame."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.077Z",
+  "count": 5,
+  "fileId": "kanji-00367"
+}

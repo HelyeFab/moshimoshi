@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "220-n4-point-20",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "220-n4-point-20-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb -saserareru (passive causative)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞させられる",
+          "romaji": "Doushi saserareru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 動詞させられる matches \"Verb -saserareru (passive causative)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞させられる.",
+      "explanation": "Expresses being made or forced by someone to do an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "220-n4-point-20-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞させられる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb -saserareru (passive causative)"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 動詞させられる means \"Verb -saserareru (passive causative)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb -saserareru (passive causative)\".",
+      "explanation": "Expresses being made or forced by someone to do an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "220-n4-point-20-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞させられる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Doushi saserareru"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Doushi saserareru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Doushi saserareru.",
+      "explanation": "Expresses being made or forced by someone to do an action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "220-n4-point-20-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞させられる?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Expresses being made or forced by someone to do an action."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses being made or forced by someone to do an action.",
+      "explanation": "Expresses being made or forced by someone to do an action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "220-n4-point-20-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb -saserareru (passive causative)\".",
+      "correctAnswer": "動詞させられる",
+      "acceptedVariations": [
+        "動詞させられる",
+        "動詞させられる"
+      ],
+      "correctFeedback": "Nice! 動詞させられる is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞させられる (Doushi saserareru).",
+      "explanation": "Expresses being made or forced by someone to do an action.",
+      "hints": [
+        "Doushi saserareru",
+        "Expresses being made or forced by someone to do an action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "220-n4-point-20-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞させられる.",
+      "correctAnswer": "Doushi saserareru",
+      "acceptedVariations": [
+        "Doushi saserareru",
+        "doushi saserareru"
+      ],
+      "correctFeedback": "Nice! Doushi saserareru is correct.",
+      "incorrectFeedback": "The correct romaji is: Doushi saserareru.",
+      "explanation": "Expresses being made or forced by someone to do an action.",
+      "hints": [
+        "Expresses being made or forced by someone to do an action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "220-n4-point-20-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞させられる.",
+      "correctAnswer": "Verb -saserareru (passive causative)",
+      "acceptedVariations": [
+        "Verb -saserareru (passive causative)",
+        "verb -saserareru (passive causative)"
+      ],
+      "correctFeedback": "Correct! \"Verb -saserareru (passive causative)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb -saserareru (passive causative)\".",
+      "explanation": "Expresses being made or forced by someone to do an action.",
+      "hints": [
+        "Expresses being made or forced by someone to do an action."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "220-n4-point-20-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞させられる",
+          "romaji": "Doushi saserareru",
+          "english": "Verb -saserareru (passive causative)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses being made or forced by someone to do an action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "220-n4-point-20-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses being made or forced by someone to do an action..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞させられる",
+          "romaji": "Doushi saserareru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! 動詞させられる matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞させられる.",
+      "explanation": "Expresses being made or forced by someone to do an action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "220-n4-point-20-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞させられる",
+      "acceptedVariations": [
+        "動詞させられる",
+        "動詞させられる"
+      ],
+      "correctFeedback": "Great! 動詞させられる is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞させられる.",
+      "explanation": "Expresses being made or forced by someone to do an action.",
+      "hints": [
+        "Doushi saserareru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

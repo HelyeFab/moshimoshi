@@ -1,0 +1,33 @@
+{
+  "kanji": "物",
+  "sentences": [
+    {
+      "id": "4883",
+      "japanese": "宇宙でどうやって食べ物をみつけるの？",
+      "english": "How do you find food in outer space?"
+    },
+    {
+      "id": "4887",
+      "japanese": "堅い書き物は大嫌いだ。",
+      "english": "I utterly despise formal writing!"
+    },
+    {
+      "id": "188052",
+      "japanese": "何か飲み物はいかがですか。",
+      "english": "Would you like something to drink?"
+    },
+    {
+      "id": "227405",
+      "japanese": "お飲み物はどうなさいますか。",
+      "english": "Would you like something to drink?"
+    },
+    {
+      "id": "227406",
+      "japanese": "お飲み物はいかがですか。",
+      "english": "Would you like something to drink?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.430Z",
+  "count": 5,
+  "fileId": "kanji-00166"
+}

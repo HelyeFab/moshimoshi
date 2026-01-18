@@ -1,0 +1,33 @@
+{
+  "kanji": "綿",
+  "sentences": [
+    {
+      "id": "185519",
+      "japanese": "我々は綿の代わりにピーナッツを植えた。",
+      "english": "We planted peanuts instead of cotton."
+    },
+    {
+      "id": "186041",
+      "japanese": "我々はその畑に今年は綿を植え付けるつもりだ。",
+      "english": "We will crop the field with cotton this year."
+    },
+    {
+      "id": "219458",
+      "japanese": "この綿の靴下は洗濯がきく。",
+      "english": "These cotton socks bear washing well."
+    },
+    {
+      "id": "219459",
+      "japanese": "この綿のシャツは洗濯がよく効く。",
+      "english": "This cotton shirt washes well."
+    },
+    {
+      "id": "11683080",
+      "japanese": "このブラウスは綿100%です。",
+      "english": "This blouse is cotton."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.975Z",
+  "count": 5,
+  "fileId": "kanji-00867"
+}

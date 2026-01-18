@@ -1,0 +1,33 @@
+{
+  "kanji": "感",
+  "sentences": [
+    {
+      "id": "136462",
+      "japanese": "私は自由だと感じている。",
+      "english": "I feel that I am free."
+    },
+    {
+      "id": "177254",
+      "japanese": "君は仕事に欲求不満を感じている。",
+      "english": "You are frustrated with your work."
+    },
+    {
+      "id": "177743",
+      "japanese": "君はその仕事に欲求不満を感じている。",
+      "english": "You are frustrated with your work."
+    },
+    {
+      "id": "178268",
+      "japanese": "君の仕事を手伝うことをこの上なく嬉しく感じる。",
+      "english": "I am only too glad to help you with your work."
+    },
+    {
+      "id": "178768",
+      "japanese": "君といたら、彼はきっと感づくだろう。",
+      "english": "He'll be sure to smell a rat if I'm with you."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.932Z",
+  "count": 5,
+  "fileId": "kanji-00430"
+}

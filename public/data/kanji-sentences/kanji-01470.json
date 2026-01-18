@@ -1,0 +1,33 @@
+{
+  "kanji": "覆",
+  "sentences": [
+    {
+      "id": "179423",
+      "japanese": "空は雲で覆われている。",
+      "english": "The sky is covered with clouds."
+    },
+    {
+      "id": "10701387",
+      "japanese": "空が雲で覆われてきた。",
+      "english": "The sky has become overcast."
+    },
+    {
+      "id": "182727",
+      "japanese": "丘は雪に覆われていた。",
+      "english": "The hill lay covered with snow."
+    },
+    {
+      "id": "182729",
+      "japanese": "丘は雪ですっかり覆われていた。",
+      "english": "The hill was all covered with snow."
+    },
+    {
+      "id": "183410",
+      "japanese": "机はほこりで覆われている。",
+      "english": "The desk is covered with dust."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:26.566Z",
+  "count": 5,
+  "fileId": "kanji-01470"
+}

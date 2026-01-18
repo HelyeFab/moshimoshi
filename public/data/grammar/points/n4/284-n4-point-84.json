@@ -1,0 +1,114 @@
+{
+  "id": "284-n4-point-84",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～そうだ",
+    "romaji": "~sou da",
+    "en": "Looks like / Seems"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～そうだ grammar point is used to describe the appearance or feeling of something based on what is observed or inferred. It can be translated as 'looks like', 'seems', or 'appears' in English.",
+    "ja": "～そうだは、観察や推測に基づいて何かの外見や気分を説明するときに使われます。英語では「〜らしく」「〜そうです」に相当します。"
+  },
+  "structure": {
+    "pattern": "Verb-ますstem + そうだ, い-Adjective (without い) + そうだ, な-Adjective + そうだ",
+    "components": [
+      {
+        "part": "Verb-ますstem",
+        "explanation": "The stem of the verb without the -ます ending.",
+        "examples": [
+          "降りる -> 降り + そうだ"
+        ]
+      },
+      {
+        "part": "い-Adjective (without い)",
+        "explanation": "An い-adjective minus its final い character.",
+        "examples": [
+          "楽しい -> 楽し + そうだ"
+        ]
+      },
+      {
+        "part": "な-Adjective",
+        "explanation": "A な-adjective with そう added directly.",
+        "examples": [
+          "きれい -> きれい + そうだ"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "その花はとてもきれいそうだ。",
+      "romaji": "Sono hana wa totemo kirei sou da.",
+      "english": "That flower looks very beautiful.",
+      "breakdown": {
+        "token": "gloss",
+        "その": "that",
+        "花": "flower",
+        "は": "topic marker",
+        "とても": "very",
+        "きれい": "beautiful",
+        "そうだ": "looks like"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は疲れそうだ。",
+      "romaji": "Kare wa tsukare sou da.",
+      "english": "He looks tired.",
+      "breakdown": {
+        "token": "gloss",
+        "彼": "he",
+        "は": "topic marker",
+        "疲れ": "tired",
+        "そうだ": "looks like"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この本は面白そうだ。",
+      "romaji": "Kono hon wa omoshiro sou da.",
+      "english": "This book looks interesting.",
+      "breakdown": {
+        "token": "gloss",
+        "この": "this",
+        "本": "book",
+        "は": "topic marker",
+        "面白": "interesting",
+        "そうだ": "looks like"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "雨が降りそうだ。",
+      "romaji": "Ame ga furi sou da.",
+      "english": "It looks like it's going to rain.",
+      "breakdown": {
+        "token": "gloss",
+        "雨": "rain",
+        "が": "subject marker",
+        "降り": "to fall (used for rain)",
+        "そうだ": "looks like"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "n4_verb_te_form"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "雨がふるそうだ。",
+      "correction": "雨が降りそうだ。",
+      "example": "It looks like it's going to rain."
+    }
+  ],
+  "tags": [
+    "n4",
+    "appearance",
+    "inference",
+    "looks-like"
+  ]
+}

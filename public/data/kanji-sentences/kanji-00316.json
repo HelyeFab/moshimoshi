@@ -1,0 +1,33 @@
+{
+  "kanji": "庭",
+  "sentences": [
+    {
+      "id": "916412",
+      "japanese": "彼女の庭は芸術作品です。",
+      "english": "Her garden is a work of art."
+    },
+    {
+      "id": "177323",
+      "japanese": "君は犬が庭を通り抜けて行くのを見なかったかい。",
+      "english": "Didn't you see a dog pass through the yard?"
+    },
+    {
+      "id": "186437",
+      "japanese": "我が家の庭は甘い香りの花で満ちている。",
+      "english": "My garden is filled with sweet-smelling blooms."
+    },
+    {
+      "id": "186438",
+      "japanese": "我が家の前には狭い庭があります。",
+      "english": "There is a small garden in front of my house."
+    },
+    {
+      "id": "186440",
+      "japanese": "我が家に庭があればよいのに。",
+      "english": "If only we had a garden!"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.358Z",
+  "count": 5,
+  "fileId": "kanji-00316"
+}

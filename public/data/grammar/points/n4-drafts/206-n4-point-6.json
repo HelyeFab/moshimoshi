@@ -1,0 +1,55 @@
+{
+  "id": "206-n4-point-6",
+  "version": "1.0.0",
+  "title": {
+    "ja": "な-adjective に する/なる",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The な-adjective に する/なる grammar point is used to express a change or a decision related to a na-adjective. The なる (naru) form indicates a change that occurs by itself, while the する (suru) form indicates a conscious decision made by someone.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "な-Adjective + に + する/なる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "部屋をきれいにする。",
+      "romaji": "Heya o kirei ni suru.",
+      "english": "To make the room clean.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は元気になりました。",
+      "romaji": "Kare wa genki ni narimashita.",
+      "english": "He became energetic.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "毎日静かにすることが大切です。",
+      "romaji": "Mainichi shizuka ni suru koto ga taisetsu desu.",
+      "english": "It is important to make it quiet every day.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "日本語の勉強が楽しくなるように努力します。",
+      "romaji": "Nihongo no benkyou ga tanoshiku naru you ni doryoku shimasu.",
+      "english": "I will try to make studying Japanese become enjoyable.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

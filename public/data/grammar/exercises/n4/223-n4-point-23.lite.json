@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "223-n4-point-23",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "223-n4-point-23-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"When (Verb-たときに)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "動詞たときに",
+          "romaji": "Doushi ta toki ni"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! 動詞たときに matches \"When (Verb-たときに)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞たときに.",
+      "explanation": "Used after past verbs to specify when something happened.",
+      "difficulty": "easy"
+    }
+  ]
+}

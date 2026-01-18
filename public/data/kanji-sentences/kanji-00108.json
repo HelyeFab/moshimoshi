@@ -1,0 +1,33 @@
+{
+  "kanji": "紙",
+  "sentences": [
+    {
+      "id": "138733",
+      "japanese": "私は手紙を書かねばなりません。紙を持っていますか。",
+      "english": "I have to write a letter. Do you have some paper?"
+    },
+    {
+      "id": "177739",
+      "japanese": "君はその紙を切りましたか。",
+      "english": "Did you cut the paper?"
+    },
+    {
+      "id": "10808978",
+      "japanese": "この紙にサインするだけでいいんだよ。",
+      "english": "All you have to do is sign this paper."
+    },
+    {
+      "id": "182362",
+      "japanese": "給紙トレーに紙が入ってないよ。",
+      "english": "The printer needs paper."
+    },
+    {
+      "id": "182619",
+      "japanese": "吸取り紙はインク吸い取る。",
+      "english": "Blotting paper absorbs ink."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.683Z",
+  "count": 5,
+  "fileId": "kanji-00108"
+}

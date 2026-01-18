@@ -1,0 +1,100 @@
+{
+  "id": "063-possession-ga-aru",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜がある（所有）",
+    "romaji": "-ga aru (possession)",
+    "en": "〜がある (possession)"
+  },
+  "jlptLevel": "N5",
+  "category": "existence",
+  "explanation": {
+    "en": "To say you have something in Japanese, you often use 〜がある (for non-living things) and 〜がいる/います (for living things). This grammar point focuses on the possession use of がある.\n\nKey points:\n• Noun が あります = I/you/we have (non-living)\n• Common for belongings: 車, 本, お金\n• Subject (I/you) is often omitted\n• For people/animals, use がいます instead\n\nExample: “車があります” means “I have a car.” “時間があります” means “I have time.”\n\nThis is different from English because Japanese does not use “have” directly. Instead, it says that the thing exists with you.\n\nIf you need to be clear about the owner, you can add 私は or 彼は: “私は車があります.” But in conversation, the subject is often understood from context.\n\nPractice with common items: 本があります, いすがあります, お金があります. Then use います for people or pets: 妹がいます.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "(Person は) + Noun が + あります",
+    "components": [
+      {
+        "part": "Person は",
+        "explanation": "Owner (often omitted)",
+        "examples": ["私 は", "兄 は"]
+      },
+      {
+        "part": "Noun が",
+        "explanation": "Thing owned",
+        "examples": ["車が", "本が", "時間が"]
+      },
+      {
+        "part": "あります",
+        "explanation": "Exist/possess (non-living)",
+        "examples": ["あります"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "車があります。",
+      "romaji": "Kuruma ga arimasu.",
+      "english": "I have a car.",
+      "breakdown": {
+        "車": "car",
+        "が": "subject marker",
+        "あります": "have/exist (non-living)"
+      },
+      "notes": "Possession"
+    },
+    {
+      "japanese": "時間があります。",
+      "romaji": "Jikan ga arimasu.",
+      "english": "I have time.",
+      "breakdown": {
+        "時間": "time",
+        "が": "subject marker",
+        "あります": "have/exist"
+      },
+      "notes": "Common expression"
+    },
+    {
+      "japanese": "私は本があります。",
+      "romaji": "Watashi wa hon ga arimasu.",
+      "english": "I have a book.",
+      "breakdown": {
+        "私": "I",
+        "は": "topic marker",
+        "本": "book",
+        "が": "subject marker",
+        "あります": "have/exist"
+      },
+      "notes": "Owner stated"
+    },
+    {
+      "japanese": "お金があります。",
+      "romaji": "Okane ga arimasu.",
+      "english": "I have money.",
+      "breakdown": {
+        "お金": "money",
+        "が": "subject marker",
+        "あります": "have/exist"
+      },
+      "notes": "Possession"
+    }
+  ],
+  "relatedPoints": [
+    "061-imasu-arimasu",
+    "060-aru-inanimate"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using あります for people",
+      "correction": "Use います for people/animals",
+      "example": "❌ 兄があります → ✅ 兄がいます"
+    },
+    {
+      "mistake": "Omitting が with possession",
+      "correction": "Use が to mark the thing you have",
+      "example": "❌ 車あります → ✅ 車があります"
+    }
+  ],
+  "tags": ["existence", "possession", "aru", "beginner"]
+}

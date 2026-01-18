@@ -1,0 +1,33 @@
+{
+  "kanji": "従",
+  "sentences": [
+    {
+      "id": "182337",
+      "japanese": "民主主義者というのは、多数派の意思に従う自由な市民だ。",
+      "english": "A democrat is a free citizen who yields to the will of the majority."
+    },
+    {
+      "id": "176896",
+      "japanese": "君は法律に従わなければならない。",
+      "english": "You are supposed to obey the law."
+    },
+    {
+      "id": "176929",
+      "japanese": "君は彼女の忠告に従って行動すべきだったのにしなかった。",
+      "english": "You should have acted on her advice."
+    },
+    {
+      "id": "176962",
+      "japanese": "君は彼の忠告に従ったほうがよい。",
+      "english": "You may as well follow his advice."
+    },
+    {
+      "id": "176964",
+      "japanese": "君は彼の助言に従えさえすればよい。",
+      "english": "All you have to do is follow his advice."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:49.769Z",
+  "count": 5,
+  "fileId": "kanji-02110"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "星",
+  "sentences": [
+    {
+      "id": "178429",
+      "japanese": "君の眼は、私に星を思い出させる。",
+      "english": "Your eyes remind me of stars."
+    },
+    {
+      "id": "179419",
+      "japanese": "空は星でいっぱいだ。",
+      "english": "The sky is full of stars."
+    },
+    {
+      "id": "10654422",
+      "japanese": "満天の星だ。",
+      "english": "The sky is full of stars."
+    },
+    {
+      "id": "179448",
+      "japanese": "空に星は出ていた？",
+      "english": "Were there any stars in the sky?"
+    },
+    {
+      "id": "179449",
+      "japanese": "空に数千の星を見ることができる。",
+      "english": "We can see thousands of stars in the sky."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.630Z",
+  "count": 5,
+  "fileId": "kanji-00990"
+}

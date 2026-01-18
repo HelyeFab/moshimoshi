@@ -1,0 +1,33 @@
+{
+  "kanji": "本",
+  "sentences": [
+    {
+      "id": "5179",
+      "japanese": "本を取ってそれを読みなさい。",
+      "english": "Take a book and read it."
+    },
+    {
+      "id": "404561",
+      "japanese": "私は食事をしながら本を読みました。",
+      "english": "I read a book while eating."
+    },
+    {
+      "id": "537071",
+      "japanese": "この世界は本で、旅しない人は一ページしか読まない。",
+      "english": "The world is a book, and those who do not travel read only a page."
+    },
+    {
+      "id": "5326",
+      "japanese": "土曜日までに本を返さなければなりません。",
+      "english": "I have to give back the book before Saturday."
+    },
+    {
+      "id": "127749",
+      "japanese": "子供のころ、私は一人、自室で何時間も本を読んで過ごしたものだった。",
+      "english": "When I was a child, I would spend hours reading alone in my room."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.278Z",
+  "count": 5,
+  "fileId": "kanji-00006"
+}

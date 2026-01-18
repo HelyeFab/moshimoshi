@@ -1,0 +1,33 @@
+{
+  "kanji": "社",
+  "sentences": [
+    {
+      "id": "186399",
+      "japanese": "我が社もすぐにインターネットにアクセスできる環境を整えなくては取り残されてしまう。",
+      "english": "If we don't create an environment that enables instant Internet access, our company will also fall behind."
+    },
+    {
+      "id": "186400",
+      "japanese": "我が社は創立４０周年を迎えた。",
+      "english": "Our company had the fortieth anniversary of its foundation."
+    },
+    {
+      "id": "186401",
+      "japanese": "我が社は世界中にあらゆる種類のコンピューターを輸出している。",
+      "english": "We export various kinds of computers all over the globe."
+    },
+    {
+      "id": "186402",
+      "japanese": "我が社は経営が非常にうまくいっています。",
+      "english": "This is an extremely well run company."
+    },
+    {
+      "id": "186403",
+      "japanese": "我が社は均一料金にすることに決定した。",
+      "english": "Our company decided on flat rate pricing."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.477Z",
+  "count": 5,
+  "fileId": "kanji-00170"
+}

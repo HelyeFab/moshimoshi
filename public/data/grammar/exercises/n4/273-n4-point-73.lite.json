@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "273-n4-point-73",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "273-n4-point-73-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"To continue doing\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb + 続ける",
+          "romaji": "tsuzukeru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb + 続ける matches \"To continue doing\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb + 続ける.",
+      "explanation": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

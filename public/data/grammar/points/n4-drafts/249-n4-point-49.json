@@ -1,0 +1,55 @@
+{
+  "id": "249-n4-point-49",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb てもらえませんか (～te moraemasen ka)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～てもらえませんか grammar point is a polite and indirect way of asking someone to do something for you or asking for a favor. It is formed by conjugating the verb into the て-form and adding もらえませんか. This form is used in conversations to show politeness and humility.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + もらえませんか",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "この手紙を見てもらえませんか。",
+      "romaji": "Kono tegami o mite moraemasen ka?",
+      "english": "Could you take a look at this letter for me?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "荷物を持ってもらえませんか。",
+      "romaji": "Nimotsu o motte moraemasen ka?",
+      "english": "Could you carry this luggage for me?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "部屋を掃除してもらえませんか。",
+      "romaji": "Heya o souji shite moraemasen ka?",
+      "english": "Could you clean the room for me?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "明日のミーティングに参加してもらえませんか。",
+      "romaji": "Ashita no miitingu ni sanka shite moraemasen ka?",
+      "english": "Could you attend tomorrow's meeting for me?",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

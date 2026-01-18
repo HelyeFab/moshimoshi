@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "067-onaji-same",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "067-onaji-same-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: この本はあの本と__です。",
+      "options": [
+        {
+          "id": "a",
+          "text": "同じ"
+        },
+        {
+          "id": "b",
+          "text": "より"
+        },
+        {
+          "id": "c",
+          "text": "一番"
+        },
+        {
+          "id": "d",
+          "text": "ほうが"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 同じ means 'same.'",
+      "incorrectFeedback": "Not quite. 同じ is used for 'same.'",
+      "explanation": "同じ = same.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "248-n4-point-48",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て もらう (Verb-te morau)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The Verb て もらう grammar point is used to express that the speaker or a third person receives a favor or action from someone else. It describes an action performed by someone for the benefit of the speaker or a third person, implying gratitude or request from the beneficiary.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + もらう",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "友達に宿題を手伝ってもらった。",
+      "romaji": "Tomodachi ni shukudai o tetsudatte moratta.",
+      "english": "I had my friend help me with my homework.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "母に部屋を掃除してもらいました。",
+      "romaji": "Haha ni heya o souji shite moraimashita.",
+      "english": "I had my mother clean my room.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼に荷物を持ってもらいたい。",
+      "romaji": "Kare ni nimotsu o motte moraitai.",
+      "english": "I want him to carry my luggage for me.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "先生に質問に答えてもらえますか？",
+      "romaji": "Sensei ni shitsumon ni kotaete moraemasu ka?",
+      "english": "Can I have the teacher answer my question?",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

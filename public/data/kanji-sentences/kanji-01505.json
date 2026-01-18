@@ -1,0 +1,33 @@
+{
+  "kanji": "斜",
+  "sentences": [
+    {
+      "id": "84917",
+      "japanese": "布を斜めに裁ちなさい。",
+      "english": "Cut the cloth in a diagonal direction."
+    },
+    {
+      "id": "100017",
+      "japanese": "彼は帽子を斜めにかぶっていた。",
+      "english": "He wore his hat askew."
+    },
+    {
+      "id": "8763985",
+      "japanese": "布を斜めに切ります。",
+      "english": "Cut the cloth diagonally."
+    },
+    {
+      "id": "8763986",
+      "japanese": "布を斜めにカットします。",
+      "english": "Cut the cloth diagonally."
+    },
+    {
+      "id": "3060103",
+      "japanese": "「ああ。きれいなお星様」 　呟いた時、ふと星が流れて、青い光がすっと斜に、あえかな尾を引いて、消えた。",
+      "english": "Just when she said \"Ooh, what a beautiful star,\" a star fell across the sky and a blue light quickly fainted in a diagonal trajectory, dragging behind a faint tail."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:27.811Z",
+  "count": 5,
+  "fileId": "kanji-01505"
+}

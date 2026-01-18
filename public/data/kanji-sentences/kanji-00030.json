@@ -1,0 +1,33 @@
+{
+  "kanji": "何",
+  "sentences": [
+    {
+      "id": "4702",
+      "japanese": "何かしてみましょう。",
+      "english": "Let's try something."
+    },
+    {
+      "id": "4711",
+      "japanese": "何と言ったら良いか分かりません。",
+      "english": "I'm at a loss for words."
+    },
+    {
+      "id": "4713",
+      "japanese": "何と言ったらいいか・・・。",
+      "english": "I just don't know what to say."
+    },
+    {
+      "id": "187759",
+      "japanese": "何とも言いようがないなあ。",
+      "english": "I just don't know what to say."
+    },
+    {
+      "id": "4765",
+      "japanese": "だから何？",
+      "english": "So what?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.514Z",
+  "count": 5,
+  "fileId": "kanji-00030"
+}

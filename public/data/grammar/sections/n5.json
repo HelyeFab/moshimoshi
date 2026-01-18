@@ -1,0 +1,283 @@
+{
+  "version": "1.0.0",
+  "jlptLevel": "N5",
+  "lastUpdated": "2026-01-18",
+  "chapters": [
+    {
+      "id": "n5-ch1",
+      "order": 1,
+      "title": {
+        "en": "Basic Sentences & Word Order",
+        "ja": "基本文と語順",
+        "de": "Grundlegende Sätze & Wortstellung",
+        "es": "Oraciones básicas y orden de palabras",
+        "fr": "Phrases de base et ordre des mots",
+        "it": "Frasi base e ordine delle parole"
+      },
+      "points": [
+        "004-basic-word-order",
+        "001-x-wa-y-desu",
+        "002-x-wa-y-de-wa-arimasen",
+        "003-kore-sore-are",
+        "005-sentence-ending-particles"
+      ]
+    },
+    {
+      "id": "n5-ch2",
+      "order": 2,
+      "title": {
+        "en": "Particles: The Basics",
+        "ja": "助詞：基本",
+        "de": "Partikeln: Die Grundlagen",
+        "es": "Partículas: lo básico",
+        "fr": "Particules : les bases",
+        "it": "Particelle: le basi"
+      },
+      "points": [
+        "006-particle-wa",
+        "007-particle-ga",
+        "008-particle-wo",
+        "018-particle-ka-question",
+        "019-particle-mo"
+      ]
+    },
+    {
+      "id": "n5-ch3",
+      "order": 3,
+      "title": {
+        "en": "Particles: Place, Time & Possession",
+        "ja": "助詞：場所・時間・所有",
+        "de": "Partikeln: Ort, Zeit & Besitz",
+        "es": "Partículas: lugar, tiempo y posesión",
+        "fr": "Particules : lieu, temps et possession",
+        "it": "Particelle: luogo, tempo e possesso"
+      },
+      "points": [
+        "009-particle-ni-location",
+        "010-particle-ni-indirect-object",
+        "011-particle-de-location",
+        "012-particle-de-means",
+        "013-particle-e",
+        "016-particle-no-possessive",
+        "017-particle-no-explanation"
+      ]
+    },
+    {
+      "id": "n5-ch4",
+      "order": 4,
+      "title": {
+        "en": "Particles: Connecting & Listing",
+        "ja": "助詞：接続と列挙",
+        "de": "Partikeln: Verbinden & Aufzählen",
+        "es": "Partículas: conexión y enumeración",
+        "fr": "Particules : connexion et énumération",
+        "it": "Particelle: collegamento ed elencazione"
+      },
+      "points": [
+        "014-particle-to-and",
+        "015-particle-to-with",
+        "020-particle-ya"
+      ]
+    },
+    {
+      "id": "n5-ch5",
+      "order": 5,
+      "title": {
+        "en": "Verbs: Groups & Polite Forms",
+        "ja": "動詞：グループと丁寧形",
+        "de": "Verben: Gruppen & höfliche Formen",
+        "es": "Verbos: grupos y formas corteses",
+        "fr": "Verbes : groupes et formes polies",
+        "it": "Verbi: gruppi e forme cortesi"
+      },
+      "points": [
+        "021-verb-groups",
+        "022-masu-form-present",
+        "023-masu-form-negative",
+        "024-masu-form-past",
+        "025-masu-form-past-negative"
+      ]
+    },
+    {
+      "id": "n5-ch6",
+      "order": 6,
+      "title": {
+        "en": "Verbs: Te-form & Usage",
+        "ja": "動詞：て形と使い方",
+        "de": "Verben: Te-Form & Verwendung",
+        "es": "Verbos: forma te y uso",
+        "fr": "Verbes : forme en te et usage",
+        "it": "Verbi: forma te e uso"
+      },
+      "points": [
+        "026-te-form-basics",
+        "027-te-iru-progressive",
+        "028-te-kudasai",
+        "032-te-mo-ii",
+        "033-te-wa-ikenai"
+      ]
+    },
+    {
+      "id": "n5-ch7",
+      "order": 7,
+      "title": {
+        "en": "Verbs: Expressing Desire, Invitation & Ability",
+        "ja": "動詞：希望・勧誘・可能",
+        "de": "Verben: Wunsch, Einladung & Fähigkeit",
+        "es": "Verbos: deseo, invitación y habilidad",
+        "fr": "Verbes : désir, invitation et capacité",
+        "it": "Verbi: desiderio, invito e abilità"
+      },
+      "points": [
+        "029-tai-want-to",
+        "030-mashou-lets",
+        "031-masen-ka-invitation",
+        "034-nakute-wa-ikenai",
+        "035-koto-ga-dekiru"
+      ]
+    },
+    {
+      "id": "n5-ch8",
+      "order": 8,
+      "title": {
+        "en": "Verbs: Plain, Dictionary & Negative Forms",
+        "ja": "動詞：普通形・辞書形・否定形",
+        "de": "Verben: Grundform, Wörterbuchform & Negation",
+        "es": "Verbos: forma simple, diccionario y negativa",
+        "fr": "Verbes : forme neutre, dictionnaire et négative",
+        "it": "Verbi: forma piana, dizionario e negativa"
+      },
+      "points": [
+        "036-plain-form-present",
+        "037-plain-form-past",
+        "038-plain-form-negative",
+        "039-nai-form",
+        "040-dictionary-form"
+      ]
+    },
+    {
+      "id": "n5-ch9",
+      "order": 9,
+      "title": {
+        "en": "Adjectives: i & na Forms",
+        "ja": "形容詞：い形・な形",
+        "de": "Adjektive: i- & na-Formen",
+        "es": "Adjetivos: formas i y na",
+        "fr": "Adjectifs : formes i et na",
+        "it": "Aggettivi: forme i e na"
+      },
+      "points": [
+        "041-i-adjectives-present",
+        "042-i-adjectives-past",
+        "043-i-adjectives-negative",
+        "044-i-adjectives-past-negative",
+        "045-na-adjectives-present",
+        "046-na-adjectives-past",
+        "047-na-adjectives-negative",
+        "048-na-adjectives-past-negative"
+      ]
+    },
+    {
+      "id": "n5-ch10",
+      "order": 10,
+      "title": {
+        "en": "Adjectives: Usage & Modification",
+        "ja": "形容詞：使い方と修飾",
+        "de": "Adjektive: Gebrauch & Modifikation",
+        "es": "Adjetivos: uso y modificación",
+        "fr": "Adjectifs : usage et modification",
+        "it": "Aggettivi: uso e modifica"
+      },
+      "points": [
+        "049-adjective-modification",
+        "050-i-adjective-adverb"
+      ]
+    },
+    {
+      "id": "n5-ch11",
+      "order": 11,
+      "title": {
+        "en": "Time Expressions & Frequency",
+        "ja": "時間表現と頻度",
+        "de": "Zeitausdrücke & Häufigkeit",
+        "es": "Expresiones de tiempo y frecuencia",
+        "fr": "Expressions temporelles et fréquence",
+        "it": "Espressioni temporali e frequenza"
+      },
+      "points": [
+        "051-time-particle-ni",
+        "052-duration-particle-kan",
+        "053-made-until",
+        "054-kara-from",
+        "055-mae-ni-before",
+        "056-ato-de-after",
+        "057-frequency-adverbs",
+        "058-toki-when"
+      ]
+    },
+    {
+      "id": "n5-ch12",
+      "order": 12,
+      "title": {
+        "en": "Existence, Possession & Counters",
+        "ja": "存在・所有・助数詞",
+        "de": "Existenz, Besitz & Zähler",
+        "es": "Existencia, posesión y contadores",
+        "fr": "Existence, possession et compteurs",
+        "it": "Esistenza, possesso e contatori"
+      },
+      "points": [
+        "059-iru-animate",
+        "060-aru-inanimate",
+        "061-imasu-arimasu",
+        "062-location-ni-iru-aru",
+        "063-possession-ga-aru",
+        "074-counter-tsu",
+        "075-counter-nin",
+        "076-counter-hon",
+        "077-counter-mai",
+        "078-age-sai"
+      ]
+    },
+    {
+      "id": "n5-ch13",
+      "order": 13,
+      "title": {
+        "en": "Questions & Comparisons",
+        "ja": "疑問詞と比較",
+        "de": "Fragen & Vergleiche",
+        "es": "Preguntas y comparaciones",
+        "fr": "Questions et comparaisons",
+        "it": "Domande e confronti"
+      },
+      "points": [
+        "068-question-nani-what",
+        "069-question-dare-who",
+        "070-question-doko-where",
+        "071-question-itsu-when",
+        "072-question-naze-doushite-why",
+        "073-question-dou-how",
+        "064-yori-than",
+        "065-hou-ga-more-than",
+        "066-ichiban-most",
+        "067-onaji-same"
+      ]
+    },
+    {
+      "id": "n5-ch14",
+      "order": 14,
+      "title": {
+        "en": "Giving Reasons & Explanations",
+        "ja": "理由と説明",
+        "de": "Begründungen & Erklärungen",
+        "es": "Dar razones y explicaciones",
+        "fr": "Donner des raisons et des explications",
+        "it": "Dare motivazioni e spiegazioni"
+      },
+      "points": [
+        "079-kara-because",
+        "080-node-so"
+      ]
+    }
+  ]
+}

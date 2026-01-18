@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "021-verb-groups",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "021-verb-groups-ex-01",
+      "type": "multiple-choice",
+      "question": "Which verb is an irregular verb?",
+      "options": [
+        {
+          "id": "a",
+          "text": "食べる"
+        },
+        {
+          "id": "b",
+          "text": "書く"
+        },
+        {
+          "id": "c",
+          "text": "する"
+        },
+        {
+          "id": "d",
+          "text": "読む"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! する is irregular.",
+      "incorrectFeedback": "Not quite. する and 来る are irregular.",
+      "explanation": "Only する and 来る are irregular at N5.",
+      "difficulty": "easy"
+    }
+  ]
+}

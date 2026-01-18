@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "208-n4-point-8",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "208-n4-point-8-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Deciding on something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "名詞にする",
+          "romaji": "Noun ni suru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 名詞にする matches \"Deciding on something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 名詞にする.",
+      "explanation": "Expresses choosing or deciding on something from available options.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "含",
+  "sentences": [
+    {
+      "id": "182839",
+      "japanese": "喫煙による短期的な影響には、体調が悪いこと、ぜいぜい息をすること、病気に対する抵抗力の全般的な低下、口臭、肌荒れなどが含まれる。",
+      "english": "Short-term effects of smoking include unfitness, wheezing, a general vulnerability to illness, bad breath, bad skin and so on."
+    },
+    {
+      "id": "183526",
+      "japanese": "基本計画には、レクリエーションだけでなく職を供給する計画も含まれている。",
+      "english": "The master plan includes programs to provide employment as well as recreation."
+    },
+    {
+      "id": "183894",
+      "japanese": "環境を救うために、みんなが拠出も含めた協力をしなければならないでしょう。",
+      "english": "Everybody will have to pitch in to save the environment."
+    },
+    {
+      "id": "187293",
+      "japanese": "価格には郵送料が含まれている。",
+      "english": "The price includes the postage charge."
+    },
+    {
+      "id": "187294",
+      "japanese": "価格には箱代は含まれていません。",
+      "english": "The price does not include the case."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.499Z",
+  "count": 5,
+  "fileId": "kanji-00662"
+}

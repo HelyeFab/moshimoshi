@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "071-question-itsu-when",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "071-question-itsu-when-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: __行きますか。",
+      "options": [
+        {
+          "id": "a",
+          "text": "いつ"
+        },
+        {
+          "id": "b",
+          "text": "どこ"
+        },
+        {
+          "id": "c",
+          "text": "だれ"
+        },
+        {
+          "id": "d",
+          "text": "なに"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! いつ means 'when.'",
+      "incorrectFeedback": "Not quite. いつ is for time questions.",
+      "explanation": "いつ asks about time.",
+      "difficulty": "easy"
+    }
+  ]
+}

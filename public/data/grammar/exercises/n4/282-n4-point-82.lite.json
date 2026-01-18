@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "282-n4-point-82",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "282-n4-point-82-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Too much\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～すぎる",
+          "romaji": "~sugiru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ～すぎる matches \"Too much\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～すぎる.",
+      "explanation": "Expresses that something is excessive or more than necessary.",
+      "difficulty": "easy"
+    }
+  ]
+}

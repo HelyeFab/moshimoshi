@@ -1,0 +1,33 @@
+{
+  "kanji": "船",
+  "sentences": [
+    {
+      "id": "183119",
+      "japanese": "汽笛が鳴って船はゆっくりと港から離れていった。",
+      "english": "A whistle blew, and the boat slowly began to pull out of port."
+    },
+    {
+      "id": "183683",
+      "japanese": "岸から遠く離れたところに何せきか船が見える。",
+      "english": "I can see some boats far away from the shore."
+    },
+    {
+      "id": "184820",
+      "japanese": "外国に行くなら船で行く。",
+      "english": "If I were to go abroad, I would go by boat."
+    },
+    {
+      "id": "185034",
+      "japanese": "海戦に先立って出港したからには、乗組員が船に慣れる時間がないことが、しばしばあるものだ。",
+      "english": "A sailor frequently has no time to get his sea legs after leaving port before a battle starts."
+    },
+    {
+      "id": "165820",
+      "japanese": "私たちは港の方向へ船を動かし始めた。",
+      "english": "We began to sail in the direction of the port."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.031Z",
+  "count": 5,
+  "fileId": "kanji-00585"
+}

@@ -1,0 +1,124 @@
+{
+  "id": "222-n4-point-22",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞たことがある",
+    "romaji": "Doushi ta koto ga aru",
+    "en": "Verb ta koto ga aru"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ～たことがある structure is used to express that someone has experienced doing something at least once in the past. It is formed by attaching ことがある to the verb's た-form.",
+    "ja": "「～たことがある」は、過去に一度でもその行動を経験したことがあることを表します。動詞のた形に「ことがある」をつけて使います。"
+  },
+  "structure": {
+    "pattern": "Verb-た-form + ことがある",
+    "components": [
+      {
+        "part": "Verb-た-form",
+        "explanation": "Past tense (plain) form of the verb.",
+        "examples": [
+          "行った (went)",
+          "食べた (ate)",
+          "した (did)"
+        ]
+      },
+      {
+        "part": "ことがある",
+        "explanation": "Phrase meaning 'have the experience of'.",
+        "examples": [
+          "ことがある (have done)",
+          "ことがありません (have never done)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "日本に行ったことがあります。",
+      "romaji": "Nihon ni itta koto ga arimasu.",
+      "english": "I have been to Japan before.",
+      "breakdown": {
+        "日本": "Japan",
+        "に": "to",
+        "行った": "went",
+        "こと": "thing",
+        "が": "subject marker",
+        "あります": "there is/have"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "寿司を食べたことがありますか？",
+      "romaji": "Sushi wo tabeta koto ga arimasu ka?",
+      "english": "Have you ever eaten sushi before?",
+      "breakdown": {
+        "寿司": "sushi",
+        "を": "object marker",
+        "食べた": "ate",
+        "こと": "thing",
+        "が": "subject marker",
+        "ありますか": "is there?/have (question)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼はマラソンを走ったことがあります。",
+      "romaji": "Kare wa marason wo hashitta koto ga arimasu.",
+      "english": "He has experienced running a marathon.",
+      "breakdown": {
+        "彼": "he",
+        "は": "topic marker",
+        "マラソン": "marathon",
+        "を": "object marker",
+        "走った": "ran",
+        "こと": "thing",
+        "が": "subject marker",
+        "あります": "have"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "私はスカイダイビングをしたことがありません。",
+      "romaji": "Watashi wa sukaidaibingu wo shita koto ga arimasen.",
+      "english": "I have never experienced skydiving.",
+      "breakdown": {
+        "私": "I",
+        "は": "topic marker",
+        "スカイダイビング": "skydiving",
+        "を": "object marker",
+        "した": "did",
+        "こと": "thing",
+        "が": "subject marker",
+        "ありません": "do not have"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "動詞させられる",
+    "動詞たところ",
+    "動詞たほうがいい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using the plain form instead of the た-form: 日本に行くことがある。",
+      "correction": "日本に行ったことがある。",
+      "example": "Correct: 日本に行ったことがある。"
+    },
+    {
+      "mistake": "Omitting こと: 寿司を食べたがある。",
+      "correction": "寿司を食べたことがある。",
+      "example": "Correct: 寿司を食べたことがある。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "past",
+    "experience",
+    "verbs",
+    "grammar",
+    "ta-form"
+  ]
+}

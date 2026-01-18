@@ -1,0 +1,33 @@
+{
+  "kanji": "否",
+  "sentences": [
+    {
+      "id": "184887",
+      "japanese": "外に出るや否や雨が降ってきた。",
+      "english": "No sooner had I gone out than it began to rain."
+    },
+    {
+      "id": "186384",
+      "japanese": "我々がその戦いに勝つか否かはきわめて重要であろう。",
+      "english": "It will be very important whether we win the battle or not."
+    },
+    {
+      "id": "186982",
+      "japanese": "家を出るや否や激しく雨が降り出した。",
+      "english": "I had no sooner left the house than it began to rain hard."
+    },
+    {
+      "id": "190475",
+      "japanese": "一人になるや否や、彼女はその手紙を開いた。",
+      "english": "The moment she was alone she opened the letter."
+    },
+    {
+      "id": "1230893",
+      "japanese": "否が応でも君はそれをしなくてはいけない。",
+      "english": "You'll have to do it, whether you like it or not."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.352Z",
+  "count": 5,
+  "fileId": "kanji-00386"
+}

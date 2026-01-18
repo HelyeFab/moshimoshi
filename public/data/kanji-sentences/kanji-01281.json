@@ -1,0 +1,33 @@
+{
+  "kanji": "謝",
+  "sentences": [
+    {
+      "id": "4886",
+      "japanese": "してもいないことをどうして謝るの？",
+      "english": "Why are you sorry for something you haven't done?"
+    },
+    {
+      "id": "176932",
+      "japanese": "君は彼女に謝らなければならぬ、しかもいますぐに。",
+      "english": "You must apologize to her, and that at once."
+    },
+    {
+      "id": "177049",
+      "japanese": "君は遅れたことを謝りさえすればいい。",
+      "english": "All you have to do is apologize for being late."
+    },
+    {
+      "id": "177737",
+      "japanese": "君はその事について彼女に謝るべきだ。",
+      "english": "You are to apologize to her for it."
+    },
+    {
+      "id": "13177637",
+      "japanese": "謝ったほうがいい。",
+      "english": "You should apologize."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:21.034Z",
+  "count": 5,
+  "fileId": "kanji-01281"
+}

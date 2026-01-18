@@ -111,6 +111,17 @@ export default function TextbookVocabularyStudyMode({
     fetchTatoebaSentences()
   }, [vocabulary?.japanese])
 
+  useEffect(() => {
+    if (tatoebaSentences.length === 0) return
+    const texts = tatoebaSentences
+      .map(sentence => sentence.japanese)
+      .filter(Boolean)
+      .slice(0, 5)
+    if (texts.length > 0) {
+      preload(texts, { voice: '23', speed: 0.85 })
+    }
+  }, [tatoebaSentences, preload])
+
   // Reset state when vocabulary changes
   useEffect(() => {
     // Clear any existing timers

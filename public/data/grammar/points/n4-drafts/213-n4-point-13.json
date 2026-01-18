@@ -1,0 +1,55 @@
+{
+  "id": "213-n4-point-13",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun を あげる (Noun wo ageru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The を あげる grammar point is used to express giving something to someone. It can be translated as 'give', 'offer', or 'present' in English. This construction is commonly used with nouns to indicate giving or offering a tangible item, action, or favor to someone else.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + を + あげる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "プレゼントをあげる。",
+      "romaji": "Purezento wo ageru.",
+      "english": "I give a present.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "友達に花をあげた。",
+      "romaji": "Tomodachi ni hana wo ageta.",
+      "english": "I gave flowers to my friend.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "父に時計をあげます。",
+      "romaji": "Chichi ni tokei wo agemasu.",
+      "english": "I will give a watch to my father.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女に手紙をあげたい。",
+      "romaji": "Kanojo ni tegami wo agetai.",
+      "english": "I want to give her a letter.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

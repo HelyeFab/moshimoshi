@@ -1,0 +1,33 @@
+{
+  "kanji": "剥",
+  "sentences": [
+    {
+      "id": "196640",
+      "japanese": "ペンキが剥げてるよ。",
+      "english": "The paint is off."
+    },
+    {
+      "id": "212048",
+      "japanese": "その家は暴風の為に屋根を剥ぎ取られた。",
+      "english": "The house had its roof ripped off by the storm."
+    },
+    {
+      "id": "74961",
+      "japanese": "母はひろしの夜具をぐいと引き剥がした。",
+      "english": "Mother yanked the bedclothes off Hiroshi."
+    },
+    {
+      "id": "83481",
+      "japanese": "壁からペンキが剥げ始めていた。",
+      "english": "The paint was coming off the wall."
+    },
+    {
+      "id": "88179",
+      "japanese": "彼女は窓からステッカーを引き剥がした。",
+      "english": "She tore away the stickers from the window."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:17.285Z",
+  "count": 5,
+  "fileId": "kanji-01132"
+}

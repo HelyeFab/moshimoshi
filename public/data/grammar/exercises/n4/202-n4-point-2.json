@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "202-n4-point-2",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "202-n4-point-2-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Not as much/less than\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "A より B のほうが〜",
+          "romaji": "A yori B no hou ga 〜"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! A は B ほど～ありません matches \"Not as much/less than\".",
+      "incorrectFeedback": "Not quite. The correct pattern is A は B ほど～ありません.",
+      "explanation": "Used to say A is not as ~ as B; A is less ~ than B.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "202-n4-point-2-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: A は B ほど～ありません.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as...as"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "B is more ~ than A"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! A は B ほど～ありません means \"Not as much/less than\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Not as much/less than\".",
+      "explanation": "Used to say A is not as ~ as B; A is less ~ than B.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "202-n4-point-2-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: A は B ほど～ありません.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "c",
+          "text": "A yori B no hou ga 〜"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ arimasen"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! A wa B hodo ~ arimasen is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is A wa B hodo ~ arimasen.",
+      "explanation": "Used to say A is not as ~ as B; A is less ~ than B.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "202-n4-point-2-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: A は B ほど～ありません?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Used to show that B has more of a quality than A in comparisons."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to say A is not as ~ as B; A is less ~ than B.",
+      "explanation": "Used to say A is not as ~ as B; A is less ~ than B.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "202-n4-point-2-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Not as much/less than\".",
+      "correctAnswer": "A は B ほど～ありません",
+      "acceptedVariations": [
+        "A は B ほど～ありません",
+        "AはBほど～ありません"
+      ],
+      "correctFeedback": "Nice! A は B ほど～ありません is correct.",
+      "incorrectFeedback": "The correct pattern is: A は B ほど～ありません (A wa B hodo ~ arimasen).",
+      "explanation": "Used to say A is not as ~ as B; A is less ~ than B.",
+      "hints": [
+        "A wa B hodo ~ arimasen",
+        "Used to say A is not as ~ as B; A is less ~ than B."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "202-n4-point-2-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: A は B ほど～ありません.",
+      "correctAnswer": "A wa B hodo ~ arimasen",
+      "acceptedVariations": [
+        "A wa B hodo ~ arimasen",
+        "a wa b hodo ~ arimasen"
+      ],
+      "correctFeedback": "Nice! A wa B hodo ~ arimasen is correct.",
+      "incorrectFeedback": "The correct romaji is: A wa B hodo ~ arimasen.",
+      "explanation": "Used to say A is not as ~ as B; A is less ~ than B.",
+      "hints": [
+        "Used to say A is not as ~ as B; A is less ~ than B."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "202-n4-point-2-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: A は B ほど～ありません.",
+      "correctAnswer": "Not as much/less than",
+      "acceptedVariations": [
+        "Not as much/less than",
+        "not as much/less than"
+      ],
+      "correctFeedback": "Correct! \"Not as much/less than\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Not as much/less than\".",
+      "explanation": "Used to say A is not as ~ as B; A is less ~ than B.",
+      "hints": [
+        "Used to say A is not as ~ as B; A is less ~ than B."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "202-n4-point-2-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai",
+          "english": "Not as...as"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to say A is not as ~ as B; A is less ~ than B.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "202-n4-point-2-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to say A is not as ~ as B; A is less ~ than B..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "A より B のほうが〜",
+          "romaji": "A yori B no hou ga 〜"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! A は B ほど～ありません matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is A は B ほど～ありません.",
+      "explanation": "Used to say A is not as ~ as B; A is less ~ than B.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "202-n4-point-2-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "AはBほど～ありません",
+      "acceptedVariations": [
+        "AはBほど～ありません",
+        "A は B ほど～ありません"
+      ],
+      "correctFeedback": "Great! AはBほど～ありません is correct.",
+      "incorrectFeedback": "The correct pattern is: AはBほど～ありません.",
+      "explanation": "Used to say A is not as ~ as B; A is less ~ than B.",
+      "hints": [
+        "A wa B hodo ~ arimasen"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

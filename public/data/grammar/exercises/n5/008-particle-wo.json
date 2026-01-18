@@ -1,0 +1,186 @@
+{
+  "grammarPointId": "008-particle-wo",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "008-particle-wo-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: パン＿＿食べます。",
+      "questionRomaji": "Pan __ tabemasu.",
+      "options": [
+        { "id": "a", "text": "は", "romaji": "wa" },
+        { "id": "b", "text": "が", "romaji": "ga" },
+        { "id": "c", "text": "を", "romaji": "o" },
+        { "id": "d", "text": "に", "romaji": "ni" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! を marks the direct object.",
+      "incorrectFeedback": "Not quite. Use を for the object of an action verb.",
+      "explanation": "パン is the object of 食べます, so use を.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "008-particle-wo-ex-02",
+      "type": "multiple-choice",
+      "question": "How is the particle を pronounced?",
+      "options": [
+        { "id": "a", "text": "wo" },
+        { "id": "b", "text": "o" },
+        { "id": "c", "text": "wa" },
+        { "id": "d", "text": "ga" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Yes! As a particle, を is pronounced 'o'.",
+      "incorrectFeedback": "Try again. The particle を is pronounced 'o'.",
+      "explanation": "This is a special pronunciation for the object particle.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "008-particle-wo-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I read a book.'",
+      "correctAnswer": "本を読みます",
+      "acceptedVariations": [
+        "本を読みます。",
+        "ほんをよみます",
+        "ほんをよみます。",
+        "hon o yomimasu",
+        "hon o yomimasu."
+      ],
+      "correctFeedback": "Great! 本を読みます is correct.",
+      "incorrectFeedback": "The correct answer is: 本を読みます (hon o yomimasu).",
+      "explanation": "本 is the object, so it takes を.",
+      "hints": ["Use を after 本", "読みます means read"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "008-particle-wo-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence uses を correctly?",
+      "options": [
+        { "id": "a", "text": "水を飲みます。" },
+        { "id": "b", "text": "水が飲みます。" },
+        { "id": "c", "text": "水は飲みます。" },
+        { "id": "d", "text": "水に飲みます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! を marks the object of 飲みます.",
+      "incorrectFeedback": "Not quite. Use を to mark the object.",
+      "explanation": "飲みます is an action verb that takes an object.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "008-particle-wo-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I study Japanese.'",
+      "correctAnswer": "日本語を勉強します",
+      "acceptedVariations": [
+        "日本語を勉強します。",
+        "にほんごをべんきょうします",
+        "にほんごをべんきょうします。",
+        "nihongo o benkyou shimasu",
+        "nihongo o benkyou shimasu."
+      ],
+      "correctFeedback": "Nice! 日本語を勉強します is correct.",
+      "incorrectFeedback": "The correct answer is: 日本語を勉強します (nihongo o benkyou shimasu).",
+      "explanation": "日本語 is the object of 勉強します, so use を.",
+      "hints": ["Use を after 日本語", "勉強します means study"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "008-particle-wo-ex-06",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence for 'I watch a movie.'",
+      "options": [
+        { "id": "a", "text": "映画を見ます。" },
+        { "id": "b", "text": "映画が見ます。" },
+        { "id": "c", "text": "映画は見ます。" },
+        { "id": "d", "text": "映画に見ます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 映画 is the object, so use を.",
+      "incorrectFeedback": "Try again. 見ます takes an object with を.",
+      "explanation": "を marks what you watch.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "008-particle-wo-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I drink coffee.'",
+      "correctAnswer": "コーヒーを飲みます",
+      "acceptedVariations": [
+        "コーヒーを飲みます。",
+        "こーひーをのみます",
+        "こーひーをのみます。",
+        "koohii o nomimasu",
+        "koohii o nomimasu."
+      ],
+      "correctFeedback": "Great! コーヒーを飲みます is correct.",
+      "incorrectFeedback": "The correct answer is: コーヒーを飲みます (koohii o nomimasu).",
+      "explanation": "コーヒー is the object of 飲みます.",
+      "hints": ["Use を after コーヒー", "飲みます means drink"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "008-particle-wo-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "パンを食べます。",
+          "romaji": "Pan o tabemasu.",
+          "english": "I eat bread."
+        },
+        {
+          "japanese": "本を読みます。",
+          "romaji": "Hon o yomimasu.",
+          "english": "I read a book."
+        },
+        {
+          "japanese": "水を飲みます。",
+          "romaji": "Mizu o nomimasu.",
+          "english": "I drink water."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review the object particle を.",
+      "explanation": "Each sentence uses を to mark the object.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "008-particle-wo-ex-09",
+      "type": "multiple-choice",
+      "question": "Which particle marks the direct object?",
+      "options": [
+        { "id": "a", "text": "は" },
+        { "id": "b", "text": "が" },
+        { "id": "c", "text": "を" },
+        { "id": "d", "text": "に" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! を marks the direct object.",
+      "incorrectFeedback": "Try again. The object particle is を.",
+      "explanation": "Use を with action verbs to mark what you do.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "008-particle-wo-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I buy a pen.'",
+      "correctAnswer": "ペンを買います",
+      "acceptedVariations": [
+        "ペンを買います。",
+        "ぺんをかいます",
+        "ぺんをかいます。",
+        "pen o kaimasu",
+        "pen o kaimasu."
+      ],
+      "correctFeedback": "Nice! ペンを買います is correct.",
+      "incorrectFeedback": "The correct answer is: ペンを買います (pen o kaimasu).",
+      "explanation": "ペン is the object of 買います, so use を.",
+      "hints": ["Use を after ペン", "買います means buy"],
+      "difficulty": "hard"
+    }
+  ]
+}

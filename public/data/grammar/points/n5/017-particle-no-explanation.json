@@ -1,0 +1,110 @@
+{
+  "id": "017-particle-no-explanation",
+  "version": "1.0.0",
+  "title": {
+    "ja": "の（名詞化）",
+    "romaji": "no (nominalizer)",
+    "en": "nominalizer の"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "の can turn a phrase into a noun-like expression. This is called nominalization. It lets you say things like “the one who…” or “the thing that…” in a simple way.\n\nKey points:\n• Verb/plain form + の becomes a noun-like phrase\n• It can be the subject or object of a sentence\n• Common with 好き/上手/下手/大切\n• Often replaced by こと, but の is more conversational\n\nFor example, “日本語を勉強するのが好きです” means “I like studying Japanese.” The phrase 勉強する becomes “the act of studying” by adding の.\n\nAnother common use is identifying something: “赤いのは私のかばんです” means “The red one is my bag.” Here の stands for a noun that is already understood.\n\nAt N5, you can focus on two patterns: Verb + のが好きです, and Adjective + の (the one that is...). This helps you talk about activities you like and identify objects without repeating nouns.\n\nAs you progress, you will see の used in many places. For now, treat it as a way to make a verb phrase into a “thing” so it can fit into a sentence as a noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (plain) + の + Particle",
+    "components": [
+      {
+        "part": "Verb (plain)",
+        "explanation": "Action in plain form",
+        "examples": ["食べる", "行く", "勉強する"]
+      },
+      {
+        "part": "の",
+        "explanation": "Nominalizer",
+        "examples": ["の"]
+      },
+      {
+        "part": "Particle",
+        "explanation": "Often が or を",
+        "examples": ["が", "を"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "日本語を勉強するのが好きです。",
+      "romaji": "Nihongo o benkyou suru no ga suki desu.",
+      "english": "I like studying Japanese.",
+      "breakdown": {
+        "日本語": "Japanese",
+        "を": "object marker",
+        "勉強する": "study (plain)",
+        "の": "nominalizer",
+        "が": "subject marker",
+        "好き": "like",
+        "です": "is (polite)"
+      },
+      "notes": "Verb phrase becomes a noun"
+    },
+    {
+      "japanese": "早く起きるのは大切です。",
+      "romaji": "Hayaku okiru no wa taisetsu desu.",
+      "english": "Waking up early is important.",
+      "breakdown": {
+        "早く": "early",
+        "起きる": "wake up (plain)",
+        "の": "nominalizer",
+        "は": "topic marker",
+        "大切": "important",
+        "です": "is (polite)"
+      },
+      "notes": "General statement about an action"
+    },
+    {
+      "japanese": "赤いのは私のかばんです。",
+      "romaji": "Akai no wa watashi no kaban desu.",
+      "english": "The red one is my bag.",
+      "breakdown": {
+        "赤い": "red",
+        "の": "one (nominalizer)",
+        "は": "topic marker",
+        "私の": "my",
+        "かばん": "bag",
+        "です": "is (polite)"
+      },
+      "notes": "の stands for a noun already known"
+    },
+    {
+      "japanese": "見るのが上手です。",
+      "romaji": "Miru no ga jouzu desu.",
+      "english": "(He/She) is good at watching/seeing.",
+      "breakdown": {
+        "見る": "see/watch (plain)",
+        "の": "nominalizer",
+        "が": "subject marker",
+        "上手": "good at",
+        "です": "is (polite)"
+      },
+      "notes": "Skill expression"
+    }
+  ],
+  "relatedPoints": [
+    "016-particle-no-possessive",
+    "018-particle-ka-question"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using の after a ます-form verb",
+      "correction": "Use the plain form before の",
+      "example": "❌ 勉強しますのが好き → ✅ 勉強するのが好き"
+    },
+    {
+      "mistake": "Confusing possessive の with nominalizer の",
+      "correction": "Check if の links two nouns or turns a verb into a noun",
+      "example": "私の本 / 食べるのが好き"
+    }
+  ],
+  "tags": ["particle", "nominalizer", "grammar", "beginner"]
+}

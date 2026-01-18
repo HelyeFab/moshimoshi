@@ -1,0 +1,33 @@
+{
+  "kanji": "治",
+  "sentences": [
+    {
+      "id": "182777",
+      "japanese": "脚が治ったらまた動き回ります。",
+      "english": "I'll be about again when my leg heals."
+    },
+    {
+      "id": "183678",
+      "japanese": "癌は発見が間に合えば、治すことができる。",
+      "english": "Cancer can be cured if discovered in time."
+    },
+    {
+      "id": "183935",
+      "japanese": "患者はまもなく病気が治るだろう。",
+      "english": "The patient will soon recover from his illness."
+    },
+    {
+      "id": "183965",
+      "japanese": "完全には治りません。",
+      "english": "It cannot be completely cured."
+    },
+    {
+      "id": "188494",
+      "japanese": "王は自分の王国を公正に治めた。",
+      "english": "The king ruled his kingdom justly."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.411Z",
+  "count": 5,
+  "fileId": "kanji-00466"
+}

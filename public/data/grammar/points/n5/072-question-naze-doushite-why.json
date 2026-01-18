@@ -1,0 +1,97 @@
+{
+  "id": "072-question-naze-doushite-why",
+  "version": "1.0.0",
+  "title": {
+    "ja": "なぜ／どうして",
+    "romaji": "naze / doushite",
+    "en": "なぜ／どうして (why)"
+  },
+  "jlptLevel": "N5",
+  "category": "questions",
+  "explanation": {
+    "en": "なぜ and どうして both mean “why.” They are used to ask for reasons. どうして is more common in daily conversation; なぜ is a bit more formal.\n\nKey points:\n• なぜ = why (more formal)\n• どうして = why (casual/common)\n• Often answered with ～から (because)\n• Used at the beginning of questions\n\nExample: “どうして日本語を勉強しますか” means “Why do you study Japanese?” A common answer is “日本が好きだからです.”\n\nYou can use either word in most situations. If you want to be polite, use どうして. If you want a slightly formal tone, use なぜ.\n\nPractice by asking simple questions about reasons: どうして学校へ行きますか, なぜ忙しいですか.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "なぜ／どうして + Sentence",
+    "components": [
+      {
+        "part": "なぜ／どうして",
+        "explanation": "Why",
+        "examples": ["なぜ", "どうして"]
+      },
+      {
+        "part": "Sentence",
+        "explanation": "Question sentence",
+        "examples": ["日本語を勉強しますか", "忙しいですか"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "どうして日本語を勉強しますか。",
+      "romaji": "Doushite nihongo o benkyou shimasu ka.",
+      "english": "Why do you study Japanese?",
+      "breakdown": {
+        "どうして": "why",
+        "日本語": "Japanese language",
+        "を": "object marker",
+        "勉強します": "study",
+        "か": "question marker"
+      },
+      "notes": "Common question"
+    },
+    {
+      "japanese": "なぜ遅いですか。",
+      "romaji": "Naze osoi desu ka.",
+      "english": "Why are you late?",
+      "breakdown": {
+        "なぜ": "why",
+        "遅い": "late",
+        "です": "is",
+        "か": "question marker"
+      },
+      "notes": "Formal tone"
+    },
+    {
+      "japanese": "どうして来ませんか。",
+      "romaji": "Doushite kimasen ka.",
+      "english": "Why aren't you coming?",
+      "breakdown": {
+        "どうして": "why",
+        "来ません": "do not come",
+        "か": "question marker"
+      },
+      "notes": "Negative question"
+    },
+    {
+      "japanese": "なぜ忙しいですか。",
+      "romaji": "Naze isogashii desu ka.",
+      "english": "Why are you busy?",
+      "breakdown": {
+        "なぜ": "why",
+        "忙しい": "busy",
+        "です": "is",
+        "か": "question marker"
+      },
+      "notes": "Reason question"
+    }
+  ],
+  "relatedPoints": [
+    "079-kara-because",
+    "018-particle-ka-question"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Answering without から",
+      "correction": "Use から to give a reason",
+      "example": "❌ 日本が好きです → ✅ 日本が好きだからです"
+    },
+    {
+      "mistake": "Placing なぜ in the middle",
+      "correction": "Put なぜ/どうして at the start",
+      "example": "❌ 日本語をなぜ勉強しますか → ✅ なぜ日本語を勉強しますか"
+    }
+  ],
+  "tags": ["questions", "why", "beginner"]
+}

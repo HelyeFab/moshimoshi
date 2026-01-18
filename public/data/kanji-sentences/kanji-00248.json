@@ -1,0 +1,33 @@
+{
+  "kanji": "待",
+  "sentences": [
+    {
+      "id": "4849",
+      "japanese": "待つしかない。",
+      "english": "I can only wait."
+    },
+    {
+      "id": "3449196",
+      "japanese": "私にはただ待つことしかできない。",
+      "english": "I can only wait."
+    },
+    {
+      "id": "4855",
+      "japanese": "そんなに待ちたくない。",
+      "english": "I don't want to wait that long."
+    },
+    {
+      "id": "10335021",
+      "japanese": "そんなには待ちたくないな。",
+      "english": "I don't want to wait that long."
+    },
+    {
+      "id": "4934",
+      "japanese": "そこで私たちを待っている幸福が、私たちが望むような幸福ではないかもしれない。",
+      "english": "It may be that the happiness awaiting us is not at all the sort of happiness we would want."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.400Z",
+  "count": 5,
+  "fileId": "kanji-00248"
+}

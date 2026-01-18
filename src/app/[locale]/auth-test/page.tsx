@@ -1,8 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useAuth } from '@/hooks/useAuth'
+
+const MAGIC_LINK_ENABLED = process.env.NEXT_PUBLIC_MAGIC_LINK_ENABLED === 'true'
 
 export default function AuthTestPage() {
+  const { signIn, user: authUser } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [message, setMessage] = useState('')
@@ -42,20 +46,8 @@ export default function AuthTestPage() {
     setMessage('')
     
     try {
-      const response = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      })
-      
-      const data = await response.json()
-      
-      if (response.ok) {
-        setMessage('Sign in successful!')
-        setUser(data.user)
-      } else {
-        setMessage(`Error: ${data.error?.message || 'Sign in failed'}`)
-      }
+      await signIn(email, password)
+      setMessage('Sign in successful!')
     } catch (error) {
       setMessage(`Error: ${error}`)
     } finally {
@@ -85,6 +77,12 @@ export default function AuthTestPage() {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    if (authUser) {
+      setUser(authUser)
+    }
+  }, [authUser])
 
   // Test Sign Out
   const handleSignOut = async () => {
@@ -117,7 +115,7 @@ export default function AuthTestPage() {
     setMessage('')
     
     try {
-      const response = await fetch('/api/auth/magic-link/request', {
+      const response = await fetch('/api/auth/magic-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -212,13 +210,15 @@ export default function AuthTestPage() {
             Sign In
           </button>
           
-          <button
-            onClick={requestMagicLink}
-            disabled={loading || !email}
-            className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed"
-          >
-            Request Magic Link
-          </button>
+          {MAGIC_LINK_ENABLED && (
+            <button
+              onClick={requestMagicLink}
+              disabled={loading || !email}
+              className="px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              Request Magic Link
+            </button>
+          )}
           
           <button
             onClick={checkSession}
@@ -245,7 +245,7 @@ export default function AuthTestPage() {
             <li>Click "Sign Up" to create a new account</li>
             <li>Click "Sign In" to log in with existing account</li>
             <li>Click "Check Session" to verify if you're logged in</li>
-            <li>Click "Request Magic Link" for passwordless login</li>
+            {MAGIC_LINK_ENABLED && <li>Click "Request Magic Link" for passwordless login</li>}
             <li>Click "Sign Out" to end your session</li>
           </ol>
           

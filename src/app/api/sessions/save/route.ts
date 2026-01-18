@@ -16,11 +16,24 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Check storage decision
+    const {
+      sessionType, // 'review' or 'study'
+      sessionId,
+      characters,
+      stats,
+      startedAt,
+      completedAt
+    } = await request.json()
+
+    // Check storage decision (grammar sessions always sync)
     const decision = await getStorageDecision(session)
+    const forceFirebaseForGrammar = characters?.[0]?.script === 'grammar'
+    const effectiveDecision = forceFirebaseForGrammar
+      ? { ...decision, shouldWriteToFirebase: true, storageLocation: 'both' as const }
+      : decision
 
     // For free users, return success with local storage indicator
-    if (!decision.shouldWriteToFirebase) {
+    if (!effectiveDecision.shouldWriteToFirebase) {
       console.log(`[Sessions API] Free user - should store locally: ${session.uid}`)
       return NextResponse.json({
         success: true,
@@ -31,15 +44,6 @@ export async function POST(request: NextRequest) {
         }
       })
     }
-
-    const {
-      sessionType, // 'review' or 'study'
-      sessionId,
-      characters,
-      stats,
-      startedAt,
-      completedAt
-    } = await request.json()
 
     // Validate required fields
     if (!sessionType || !sessionId || !characters || !stats) {
@@ -104,7 +108,7 @@ export async function POST(request: NextRequest) {
         sessionId,
         message: `${sessionType} session saved successfully`
       },
-      decision
+      effectiveDecision
     )
 
   } catch (error) {

@@ -1,0 +1,122 @@
+{
+  "id": "242-n4-point-42",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞てくれる",
+    "romaji": "Doushi te kureru",
+    "en": "Verb-te kureru"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The grammar point てくれる is used when someone does something for the speaker or someone close to the speaker (their in-group). It expresses that the action is done as a favor or kindness. It is often translated as 'do something for me' or 'do something for us.'",
+    "ja": "「てくれる」は、話し手や話し手の身内のために誰かが何かをしてくれることを表します。親切や好意で行動が行われる場合に使います。"
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + くれる",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "The verb in て-form, indicating the action being performed.",
+        "examples": [
+          "手伝って",
+          "掃除して",
+          "答えて",
+          "書いて"
+        ]
+      },
+      {
+        "part": "くれる",
+        "explanation": "Indicates that the action is done as a favor for the speaker or their group.",
+        "examples": [
+          "くれる",
+          "くれました",
+          "くれた",
+          "くれます"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "友達が宿題を手伝ってくれました。",
+      "romaji": "Tomodachi ga shukudai wo tetsudatte kuremashita.",
+      "english": "My friend helped me with my homework.",
+      "breakdown": {
+        "友達": "friend",
+        "が": "subject marker",
+        "宿題": "homework",
+        "を": "object marker",
+        "手伝って": "help (te-form)",
+        "くれました": "did for me (polite past)"
+      },
+      "notes": "Shows a friend did a favor for the speaker."
+    },
+    {
+      "japanese": "弟が部屋を掃除してくれた。",
+      "romaji": "Otouto ga heya wo souji shite kureta.",
+      "english": "My younger brother cleaned the room for me.",
+      "breakdown": {
+        "弟": "younger brother",
+        "が": "subject marker",
+        "部屋": "room",
+        "を": "object marker",
+        "掃除して": "clean (te-form)",
+        "くれた": "did for me (past)"
+      },
+      "notes": "Expresses gratitude for a favor done by the speaker's brother."
+    },
+    {
+      "japanese": "先生が質問に答えてくれます。",
+      "romaji": "Sensei ga shitsumon ni kotaete kuremasu.",
+      "english": "The teacher answers my questions for me.",
+      "breakdown": {
+        "先生": "teacher",
+        "が": "subject marker",
+        "質問": "question",
+        "に": "target marker",
+        "答えて": "answer (te-form)",
+        "くれます": "does for me (polite)"
+      },
+      "notes": "The teacher is doing the favor of answering questions."
+    },
+    {
+      "japanese": "彼女が手紙を書いてくれる。",
+      "romaji": "Kanojo ga tegami wo kaite kureru.",
+      "english": "She writes a letter for me.",
+      "breakdown": {
+        "彼女": "she/girlfriend",
+        "が": "subject marker",
+        "手紙": "letter",
+        "を": "object marker",
+        "書いて": "write (te-form)",
+        "くれる": "does for me"
+      },
+      "notes": "Describes a favor done by 'her' for the speaker."
+    }
+  ],
+  "relatedPoints": [
+    "verb-te-morau",
+    "verb-te-ageru"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "友達が宿題を手伝ってもらいました。",
+      "correction": "友達が宿題を手伝ってくれました。",
+      "example": "Use くれる when the speaker is the beneficiary, not もらう."
+    },
+    {
+      "mistake": "私が友達に手伝ってくれました。",
+      "correction": "友達が私に手伝ってくれました。",
+      "example": "The person doing the favor is the subject, not the speaker."
+    }
+  ],
+  "tags": [
+    "n4",
+    "favor",
+    "verbs",
+    "te-form",
+    "giving-receiving",
+    "politeness"
+  ]
+}

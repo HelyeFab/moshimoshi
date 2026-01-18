@@ -1,6 +1,19 @@
 /**
- * Service for enriching kanji with vocabulary examples and sentences
- * Uses JMDict for vocabulary and Tatoeba for example sentences
+ * @deprecated This service is deprecated and should not be used.
+ *
+ * ISSUE: Uses Node.js 'fs' module which fails in browser context.
+ * Browser environments cannot access the filesystem directly.
+ *
+ * REPLACEMENT: Use the new kanjiSentenceCache service instead:
+ * - Build-time: scripts/generate-kanji-sentence-cache.js
+ * - Runtime: src/services/kanjiSentenceCache.ts
+ *
+ * Migration:
+ * - Pre-generate sentence caches: npm run build:kanji-cache
+ * - Use getKanjiSentences(kanji) instead of this service
+ *
+ * This file remains for reference only.
+ * DO NOT IMPORT OR USE THIS SERVICE.
  */
 
 import fs from 'fs'

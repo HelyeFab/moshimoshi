@@ -1,0 +1,114 @@
+{
+  "id": "246-n4-point-46",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb てみる (〜te miru)",
+    "romaji": "Verb te miru",
+    "en": "Trying out something"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～てみる grammar point is used with verbs to express 'trying' or 'attempting' to do something. It emphasizes the idea of giving something a go or trying it out, often to see what the results or outcome will be.",
+    "ja": "〜てみるという表現は、何かを試したり、やってみたりする際に使います。結果や反応を見るために何かに挑戦する意図を強調します。"
+  },
+  "structure": {
+    "pattern": "Verb-て form + みる",
+    "components": [
+      {
+        "part": "Verb-て form",
+        "explanation": "The te-form of the verb.",
+        "examples": [
+          "作って",
+          "着て",
+          "行って"
+        ]
+      },
+      {
+        "part": "みる (miru)",
+        "explanation": "To see or to try. In this context, it means 'to try out'.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この料理を作ってみます。",
+      "romaji": "Kono ryouri o tsukutte mimasu.",
+      "english": "I will try to make this dish.",
+      "breakdown": {
+        "token": "",
+        "gloss": {
+          "この (kono)": "this",
+          "料理 (ryōri)": "dish",
+          "を作ってみます (tsukutte mimasu)": "try making"
+        }
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "その服を着てみてください。",
+      "romaji": "Sono fuku o kite mite kudasai.",
+      "english": "Please try on those clothes.",
+      "breakdown": {
+        "token": "",
+        "gloss": {
+          "その (sono)": "those",
+          "服 (fuku)": "clothes",
+          "着てみて (kite mite)": "try wearing"
+        }
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "新しいレストランに行ってみよう。",
+      "romaji": "Atarashii resutoran ni itte miyou.",
+      "english": "Let's try going to the new restaurant.",
+      "breakdown": {
+        "token": "",
+        "gloss": {
+          "新しい (atarashii)": "new",
+          "レストラン (resutoran)": "restaurant",
+          "に行ってみよう (ni ite miyou)": "let's go and see"
+        }
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "映画を見てみたいです。",
+      "romaji": "Eiga o mite mitai desu.",
+      "english": "I want to try watching the movie.",
+      "breakdown": {
+        "token": "",
+        "gloss": {
+          "映画 (eiga)": "movie",
+          "見てみたい (mite mitai)": "want to try watching"
+        }
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb て もらう",
+    "Verb る ことになる",
+    "Noun ばかり (〜bakari)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼は料理を作った。",
+      "correction": "彼は料理を作ってみた。",
+      "example": "He tried making the dish."
+    },
+    {
+      "mistake": "映画を見ました。",
+      "correction": "映画を見てみました。",
+      "example": "I tried watching the movie."
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "miscellaneous",
+    "expressions-of-intention"
+  ]
+}

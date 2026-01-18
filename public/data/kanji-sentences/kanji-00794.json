@@ -1,0 +1,33 @@
+{
+  "kanji": "虫",
+  "sentences": [
+    {
+      "id": "140522",
+      "japanese": "早起きの鳥は虫を捕える。",
+      "english": "The early bird catches the worm."
+    },
+    {
+      "id": "179224",
+      "japanese": "熊は岩の下にいる、肥った虫をさがして、石という石をひっくりかえした。",
+      "english": "The bear left no stone unturned in his search for fat bugs under the rocks."
+    },
+    {
+      "id": "180002",
+      "japanese": "極小の虫でも踏まれれば、そりくり返る。",
+      "english": "Even the smallest worm will turn if trodden on."
+    },
+    {
+      "id": "1129832",
+      "japanese": "この虫は英語で何て言うのですか。",
+      "english": "What do you call this insect in English?"
+    },
+    {
+      "id": "190439",
+      "japanese": "一寸の虫にも五分の魂。",
+      "english": "The worm turns."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.474Z",
+  "count": 5,
+  "fileId": "kanji-00794"
+}

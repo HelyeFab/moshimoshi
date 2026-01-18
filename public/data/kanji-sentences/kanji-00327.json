@@ -1,0 +1,33 @@
+{
+  "kanji": "財",
+  "sentences": [
+    {
+      "id": "101850",
+      "japanese": "彼は努力によって財を成した。",
+      "english": "He has made a fortune through hard work."
+    },
+    {
+      "id": "170223",
+      "japanese": "財を成すため、彼は地位を利用した。",
+      "english": "He exploited his position to build up his fortune."
+    },
+    {
+      "id": "173014",
+      "japanese": "国民総生産は一国の財とサービスを貨幣価値で測った総生産高である。",
+      "english": "Gross national product is a nation's total output of goods and services as measured in monetary value."
+    },
+    {
+      "id": "1181157",
+      "japanese": "彼は財を成した。",
+      "english": "He has accumulated wealth."
+    },
+    {
+      "id": "3052829",
+      "japanese": "トムは石油で財を成した。",
+      "english": "Tom made a fortune in oil."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.526Z",
+  "count": 5,
+  "fileId": "kanji-00327"
+}

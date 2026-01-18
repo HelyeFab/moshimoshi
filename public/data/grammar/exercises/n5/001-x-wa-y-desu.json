@@ -1,0 +1,187 @@
+{
+  "grammarPointId": "001-x-wa-y-desu",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "001-x-wa-y-desu-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 私＿＿学生です。",
+      "questionRomaji": "Watashi __ gakusei desu.",
+      "options": [
+        { "id": "a", "text": "は", "romaji": "wa" },
+        { "id": "b", "text": "が", "romaji": "ga" },
+        { "id": "c", "text": "を", "romaji": "o" },
+        { "id": "d", "text": "に", "romaji": "ni" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Perfect! は marks the topic in XはYです.",
+      "incorrectFeedback": "Not quite. Use は to mark the topic in this pattern.",
+      "explanation": "In XはYです, は marks the topic (X).",
+      "difficulty": "easy"
+    },
+    {
+      "id": "001-x-wa-y-desu-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct ending: これは本＿＿",
+      "questionRomaji": "Kore wa hon __",
+      "options": [
+        { "id": "a", "text": "です", "romaji": "desu" },
+        { "id": "b", "text": "ます", "romaji": "masu" },
+        { "id": "c", "text": "でした", "romaji": "deshita" },
+        { "id": "d", "text": "ない", "romaji": "nai" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Yes! です is the polite ending for XはYです.",
+      "incorrectFeedback": "Try again. The polite ending for this pattern is です.",
+      "explanation": "XはYです uses です as the polite copula.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "001-x-wa-y-desu-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I am a student.'",
+      "correctAnswer": "私は学生です",
+      "acceptedVariations": [
+        "私は学生です。",
+        "わたしはがくせいです",
+        "わたしはがくせいです。",
+        "watashi wa gakusei desu",
+        "watashi wa gakusei desu."
+      ],
+      "correctFeedback": "Excellent! 私は学生です is correct.",
+      "incorrectFeedback": "The correct answer is: 私は学生です (watashi wa gakusei desu).",
+      "explanation": "私 = I, は = topic marker, 学生 = student, です = am (polite).",
+      "hints": ["Use X は Y です", "学生 means student"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "001-x-wa-y-desu-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence has the correct word order?",
+      "options": [
+        { "id": "a", "text": "です 私は学生" },
+        { "id": "b", "text": "私は学生です" },
+        { "id": "c", "text": "学生は私です" },
+        { "id": "d", "text": "私です学生は" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! The order is X は Y です.",
+      "incorrectFeedback": "Not quite. The correct order is X は Y です.",
+      "explanation": "Japanese polite sentences follow Topic → Description → です.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "001-x-wa-y-desu-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This is a book.'",
+      "correctAnswer": "これは本です",
+      "acceptedVariations": [
+        "これは本です。",
+        "これ は ほん です",
+        "これ は ほん です。",
+        "kore wa hon desu",
+        "kore wa hon desu."
+      ],
+      "correctFeedback": "Great! これは本です is correct.",
+      "incorrectFeedback": "The correct answer is: これは本です (kore wa hon desu).",
+      "explanation": "これ = this, 本 = book, です = is (polite).",
+      "hints": ["Start with これ", "Use です at the end"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "001-x-wa-y-desu-ex-06",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence for 'Tanaka-san is a teacher.'",
+      "options": [
+        { "id": "a", "text": "田中さんは先生です。" },
+        { "id": "b", "text": "田中さんが先生です。" },
+        { "id": "c", "text": "田中さんを先生です。" },
+        { "id": "d", "text": "先生は田中さんです。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! XはYです with は is natural here.",
+      "incorrectFeedback": "Not quite. The standard pattern is 田中さんは先生です。",
+      "explanation": "Use は to mark Tanaka-san as the topic in a basic statement.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "001-x-wa-y-desu-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Tanaka-san is Japanese.'",
+      "correctAnswer": "田中さんは日本人です",
+      "acceptedVariations": [
+        "田中さんは日本人です。",
+        "たなかさんはにほんじんです",
+        "たなかさんはにほんじんです。",
+        "tanaka-san wa nihonjin desu",
+        "tanaka-san wa nihonjin desu."
+      ],
+      "correctFeedback": "Nice! 田中さんは日本人です is correct.",
+      "incorrectFeedback": "The correct answer is: 田中さんは日本人です (tanaka-san wa nihonjin desu).",
+      "explanation": "Use XはYです to state nationality politely.",
+      "hints": ["日本人 means Japanese person", "Use は as the topic marker"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "001-x-wa-y-desu-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "私は学生です。",
+          "romaji": "Watashi wa gakusei desu.",
+          "english": "I am a student."
+        },
+        {
+          "japanese": "これはペンです。",
+          "romaji": "Kore wa pen desu.",
+          "english": "This is a pen."
+        },
+        {
+          "japanese": "その店は便利です。",
+          "romaji": "Sono mise wa benri desu.",
+          "english": "That shop is convenient."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review the XはYです pattern and try again.",
+      "explanation": "All sentences follow Topic は Description です.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "001-x-wa-y-desu-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the best translation: 'This shop is lively.'",
+      "options": [
+        { "id": "a", "text": "この店はにぎやかです。" },
+        { "id": "b", "text": "この店をにぎやかです。" },
+        { "id": "c", "text": "この店がにぎやかます。" },
+        { "id": "d", "text": "にぎやかこの店です。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! This follows XはYです with a な-adjective.",
+      "incorrectFeedback": "Try again. The correct form is この店はにぎやかです。",
+      "explanation": "Use は for the topic and です at the end.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "001-x-wa-y-desu-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I am a teacher.'",
+      "correctAnswer": "私は先生です",
+      "acceptedVariations": [
+        "私は先生です。",
+        "わたしはせんせいです",
+        "わたしはせんせいです。",
+        "watashi wa sensei desu",
+        "watashi wa sensei desu."
+      ],
+      "correctFeedback": "Great! 私は先生です is correct.",
+      "incorrectFeedback": "The correct answer is: 私は先生です (watashi wa sensei desu).",
+      "explanation": "Use X は Y です to state a job politely.",
+      "hints": ["先生 means teacher", "Finish with です"],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "229-n4-point-29",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て ある (Verb-te aru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～てある grammar point is used to express that an action has been done and its result remains in effect. It indicates that the action was intentionally performed and its effect continues. The formation is done by conjugating the verb into its て-form and then adding ある.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + ある",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "窓が開けてある。",
+      "romaji": "Mado ga akete aru.",
+      "english": "The window has been opened (and remains open).",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "宿題がもう終わってある。",
+      "romaji": "Shukudai ga mou owatte aru.",
+      "english": "The homework has already been done (and remains that way).",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "洗濯物が全部干してある。",
+      "romaji": "Sentakumono ga zenbu hoshite aru.",
+      "english": "The laundry has been hung up to dry (and remains that way).",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この部屋はきれいに掃除してある。",
+      "romaji": "Kono heya wa kirei ni souji shite aru.",
+      "english": "This room has been cleaned (and remains clean).",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

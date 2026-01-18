@@ -1,0 +1,33 @@
+{
+  "kanji": "革",
+  "sentences": [
+    {
+      "id": "77890",
+      "japanese": "良い革は何年ももつ。",
+      "english": "Good leather will wear for years."
+    },
+    {
+      "id": "192888",
+      "japanese": "よい革は何年ももつものだ。",
+      "english": "Good leather will wear for years."
+    },
+    {
+      "id": "196480",
+      "japanese": "ボールは何でできていたのでしょう。何千年も前には、エジプト人はボールを柔らかい革か布で作っていました。",
+      "english": "What were the balls made of? Thousands of years ago, the Egyptians made balls out of soft leather or cloth."
+    },
+    {
+      "id": "202517",
+      "japanese": "つり革につかまりなさい。電車がすぐ動き出すだろうから。",
+      "english": "Hold on to the strap. The train will start to move soon."
+    },
+    {
+      "id": "202518",
+      "japanese": "つり革におつかまりください。",
+      "english": "Please hold on to the strap."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.586Z",
+  "count": 5,
+  "fileId": "kanji-00986"
+}

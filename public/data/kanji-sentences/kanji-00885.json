@@ -1,0 +1,33 @@
+{
+  "kanji": "貝",
+  "sentences": [
+    {
+      "id": "184904",
+      "japanese": "貝は好きではない。",
+      "english": "I don't like shellfish."
+    },
+    {
+      "id": "215703",
+      "japanese": "トムは美しい貝がらを浜辺でひろった。",
+      "english": "Tom picked up some pretty shells on the beach."
+    },
+    {
+      "id": "76292",
+      "japanese": "火力とお鍋と貝の種類によるわ。",
+      "english": "It depends on the strength of the flame, the pan used and the type of ingredients."
+    },
+    {
+      "id": "76454",
+      "japanese": "プレゼントにするきれいな貝がらをひろいにいったよ！",
+      "english": "I went looking for pretty shells as a present!"
+    },
+    {
+      "id": "167691",
+      "japanese": "私が手にしてるのは貝の化石です。",
+      "english": "What I have in my hand is a fossil seashell."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.408Z",
+  "count": 5,
+  "fileId": "kanji-00885"
+}

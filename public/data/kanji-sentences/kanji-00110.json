@@ -1,0 +1,33 @@
+{
+  "kanji": "注",
+  "sentences": [
+    {
+      "id": "182775",
+      "japanese": "脚注とはページの下部の注をいう。",
+      "english": "Footnotes are notes at the foot of a page."
+    },
+    {
+      "id": "186749",
+      "japanese": "火に油を注ぐだけだ。",
+      "english": "It only adds fuel to the fire."
+    },
+    {
+      "id": "189830",
+      "japanese": "雨がまともに私に降り注いでいた。",
+      "english": "The rain was falling on my face."
+    },
+    {
+      "id": "195070",
+      "japanese": "みなの視線が彼女に注がれた。",
+      "english": "Everyone's eyes were fixed upon her."
+    },
+    {
+      "id": "195110",
+      "japanese": "ミシシッピ川はメキシコ湾に注いでいる。",
+      "english": "The Mississippi River flows into the Gulf of Mexico."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.698Z",
+  "count": 5,
+  "fileId": "kanji-00110"
+}

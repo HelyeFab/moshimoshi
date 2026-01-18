@@ -213,6 +213,54 @@ describe('/api/usage/[featureId] routes', () => {
         { merge: true }
       )
       expect(data.allow).toBe(true)
+      expect(data.incremented).toBe(true)
+    })
+
+    it('does not increment for repeated unique items', async () => {
+      mockedGetSession.mockResolvedValue({ uid: 'user-1' })
+
+      const usageSet = jest.fn().mockResolvedValue(true)
+      const usageGet = jest.fn().mockResolvedValue({
+        data: () => ({ news: 1, news_items: ['item-1'] }),
+      })
+
+      mockedAdminDb.collection.mockImplementation((name: string) => {
+        if (name === 'idempotency') {
+          return {
+            doc: jest.fn(() => ({
+              get: jest.fn().mockResolvedValue({ exists: false }),
+              set: jest.fn().mockResolvedValue(true),
+            })),
+          }
+        }
+        if (name === 'users') {
+          return {
+            doc: jest.fn(() => ({
+              get: jest.fn().mockResolvedValue({
+                data: () => ({ subscription: { plan: 'free' } }),
+              }),
+              collection: jest.fn().mockReturnValue({
+                doc: jest.fn(() => ({ get: usageGet, set: usageSet })),
+              }),
+            })),
+          }
+        }
+        return { doc: jest.fn() }
+      })
+
+      const request = new NextRequest('http://localhost/api/usage/news/increment', {
+        method: 'POST',
+        body: JSON.stringify({ idempotencyKey: 'news-1', itemId: 'item-1' }),
+      })
+      const response = await incrementPOST(request, {
+        params: Promise.resolve({ featureId: 'news' }),
+      })
+
+      const data = await response.json()
+      expect(response.status).toBe(200)
+      expect(usageSet).not.toHaveBeenCalled()
+      expect(data.allow).toBe(true)
+      expect(data.incremented).toBe(false)
     })
   })
 })

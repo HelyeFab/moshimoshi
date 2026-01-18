@@ -1,0 +1,110 @@
+{
+  "id": "066-ichiban-most",
+  "version": "1.0.0",
+  "title": {
+    "ja": "一番",
+    "romaji": "ichiban",
+    "en": "一番 (the most)"
+  },
+  "jlptLevel": "N5",
+  "category": "comparisons",
+  "explanation": {
+    "en": "一番 (いちばん) means “the most.” It is used to say something is the best, biggest, fastest, etc. It often appears in the pattern “X が 一番 + adjective.”\n\nKey points:\n• X が一番 + adjective = X is the most ...\n• You can add a category: Noun の中で (among)\n• Common with 好き (like), 大きい (big), 早い (fast)\n• Useful for preferences\n\nExample: “日本料理が一番好きです” means “I like Japanese food the most.” “この町が一番きれいです” means “This town is the cleanest.”\n\nYou can also say “A は B の中で一番〜です” to be more specific: “スポーツの中でサッカーが一番好きです.”\n\nPractice by choosing your favorites: 食べ物、スポーツ、季節. Then use 一番 to say which you like most.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "(Category の中で) X が 一番 + Adjective",
+    "components": [
+      {
+        "part": "Category の中で",
+        "explanation": "Among (optional)",
+        "examples": ["スポーツの中で", "果物の中で"]
+      },
+      {
+        "part": "X が",
+        "explanation": "Thing that is most",
+        "examples": ["サッカーが", "りんごが"]
+      },
+      {
+        "part": "一番 + Adjective",
+        "explanation": "The most ...",
+        "examples": ["一番好きです", "一番大きいです"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "日本料理が一番好きです。",
+      "romaji": "Nihon ryouri ga ichiban suki desu.",
+      "english": "I like Japanese food the most.",
+      "breakdown": {
+        "日本料理": "Japanese food",
+        "が": "subject marker",
+        "一番": "most",
+        "好き": "like",
+        "です": "polite ending"
+      },
+      "notes": "Preference"
+    },
+    {
+      "japanese": "この町が一番きれいです。",
+      "romaji": "Kono machi ga ichiban kirei desu.",
+      "english": "This town is the cleanest.",
+      "breakdown": {
+        "この": "this",
+        "町": "town",
+        "が": "subject marker",
+        "一番": "most",
+        "きれい": "clean/pretty",
+        "です": "polite ending"
+      },
+      "notes": "Superlative"
+    },
+    {
+      "japanese": "果物の中でりんごが一番好きです。",
+      "romaji": "Kudamono no naka de ringo ga ichiban suki desu.",
+      "english": "Among fruits, I like apples the most.",
+      "breakdown": {
+        "果物": "fruit",
+        "の中で": "among",
+        "りんご": "apple",
+        "が": "subject marker",
+        "一番": "most",
+        "好き": "like",
+        "です": "polite ending"
+      },
+      "notes": "Among group"
+    },
+    {
+      "japanese": "クラスで田中さんが一番早いです。",
+      "romaji": "Kurasu de Tanaka-san ga ichiban hayai desu.",
+      "english": "In the class, Tanaka-san is the fastest.",
+      "breakdown": {
+        "クラスで": "in the class",
+        "田中さん": "Tanaka",
+        "が": "subject marker",
+        "一番": "most",
+        "早い": "fast",
+        "です": "polite ending"
+      },
+      "notes": "Speed comparison"
+    }
+  ],
+  "relatedPoints": [
+    "064-yori-than",
+    "065-hou-ga-more-than"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using 一番 without a comparison context",
+      "correction": "Include a group or clear context",
+      "example": "❌ 一番好きです (no subject) → ✅ 日本料理が一番好きです"
+    },
+    {
+      "mistake": "Using を instead of が",
+      "correction": "Use が to mark what is the most",
+      "example": "❌ りんごを一番好きです → ✅ りんごが一番好きです"
+    }
+  ],
+  "tags": ["comparison", "superlative", "ichiban", "beginner"]
+}

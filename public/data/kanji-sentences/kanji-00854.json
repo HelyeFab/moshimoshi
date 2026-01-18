@@ -1,0 +1,33 @@
+{
+  "kanji": "卵",
+  "sentences": [
+    {
+      "id": "4972",
+      "japanese": "すみません、卵はどこにありますか？",
+      "english": "Where are the eggs, please?"
+    },
+    {
+      "id": "5090",
+      "japanese": "とても暑くて、車のボンネットで卵が焼けるよ。",
+      "english": "It's so hot that you could cook an egg on the hood of a car."
+    },
+    {
+      "id": "179743",
+      "japanese": "金の卵を生むガチョウを殺すな。",
+      "english": "Don't kill the goose that lays the golden eggs."
+    },
+    {
+      "id": "182292",
+      "japanese": "牛乳と卵を混ぜなさい。",
+      "english": "Blend milk and eggs together."
+    },
+    {
+      "id": "182297",
+      "japanese": "牛乳、バター卵などを買わなければならない。",
+      "english": "You must buy milk, eggs, butter, and so on."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.729Z",
+  "count": 5,
+  "fileId": "kanji-00854"
+}

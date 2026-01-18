@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "076-counter-hon",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "076-counter-hon-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct reading for 1 long object:",
+      "options": [
+        {
+          "id": "a",
+          "text": "いっぽん"
+        },
+        {
+          "id": "b",
+          "text": "いちほん"
+        },
+        {
+          "id": "c",
+          "text": "いちぼん"
+        },
+        {
+          "id": "d",
+          "text": "いっほん"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 1本 is いっぽん.",
+      "incorrectFeedback": "Not quite. 1本 is いっぽん.",
+      "explanation": "Use the sound change いっぽん.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "290-n4-point-90",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "290-n4-point-90-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Listing Actions or States\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～たり～たり",
+          "romaji": "~tari ~tari"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ～たり～たり matches \"Listing Actions or States\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～たり～たり.",
+      "explanation": "Used to list multiple example actions or states, not in a fixed order.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "290-n4-point-90-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～たり～たり.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Listing Actions or States"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～たり～たり means \"Listing Actions or States\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Listing Actions or States\".",
+      "explanation": "Used to list multiple example actions or states, not in a fixed order.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "290-n4-point-90-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～たり～たり.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~tari ~tari"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ~tari ~tari is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~tari ~tari.",
+      "explanation": "Used to list multiple example actions or states, not in a fixed order.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "290-n4-point-90-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～たり～たり?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Used to list multiple example actions or states, not in a fixed order."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to list multiple example actions or states, not in a fixed order.",
+      "explanation": "Used to list multiple example actions or states, not in a fixed order.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "290-n4-point-90-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Listing Actions or States\".",
+      "correctAnswer": "～たり～たり",
+      "acceptedVariations": [
+        "～たり～たり",
+        "～たり～たり"
+      ],
+      "correctFeedback": "Nice! ～たり～たり is correct.",
+      "incorrectFeedback": "The correct pattern is: ～たり～たり (~tari ~tari).",
+      "explanation": "Used to list multiple example actions or states, not in a fixed order.",
+      "hints": [
+        "~tari ~tari",
+        "Used to list multiple example actions or states, not in a fixed order."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "290-n4-point-90-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～たり～たり.",
+      "correctAnswer": "~tari ~tari",
+      "acceptedVariations": [
+        "~tari ~tari",
+        "~tari ~tari"
+      ],
+      "correctFeedback": "Nice! ~tari ~tari is correct.",
+      "incorrectFeedback": "The correct romaji is: ~tari ~tari.",
+      "explanation": "Used to list multiple example actions or states, not in a fixed order.",
+      "hints": [
+        "Used to list multiple example actions or states, not in a fixed order."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "290-n4-point-90-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～たり～たり.",
+      "correctAnswer": "Listing Actions or States",
+      "acceptedVariations": [
+        "Listing Actions or States",
+        "listing actions or states"
+      ],
+      "correctFeedback": "Correct! \"Listing Actions or States\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Listing Actions or States\".",
+      "explanation": "Used to list multiple example actions or states, not in a fixed order.",
+      "hints": [
+        "Used to list multiple example actions or states, not in a fixed order."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "290-n4-point-90-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～たり～たり",
+          "romaji": "~tari ~tari",
+          "english": "Listing Actions or States"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to list multiple example actions or states, not in a fixed order.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "290-n4-point-90-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to list multiple example actions or states, not in a fixed order..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～たり～たり",
+          "romaji": "~tari ~tari"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～たり～たり matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～たり～たり.",
+      "explanation": "Used to list multiple example actions or states, not in a fixed order.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "290-n4-point-90-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～たり～たり",
+      "acceptedVariations": [
+        "～たり～たり",
+        "～たり～たり"
+      ],
+      "correctFeedback": "Great! ～たり～たり is correct.",
+      "incorrectFeedback": "The correct pattern is: ～たり～たり.",
+      "explanation": "Used to list multiple example actions or states, not in a fixed order.",
+      "hints": [
+        "~tari ~tari"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

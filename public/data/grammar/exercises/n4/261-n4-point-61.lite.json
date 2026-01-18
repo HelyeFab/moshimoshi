@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "261-n4-point-61",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "261-n4-point-61-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Becoming Able to Do Something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb ようになる (〜you ni naru)",
+          "romaji": "Verb you ni naru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb ようになる (〜you ni naru) matches \"Becoming Able to Do Something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ようになる (〜you ni naru).",
+      "explanation": "Expresses a change where someone comes to be able to do something.",
+      "difficulty": "easy"
+    }
+  ]
+}

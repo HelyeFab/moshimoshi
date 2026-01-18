@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "047-na-adjectives-negative",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "047-na-adjectives-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the negative form of 静か:",
+      "options": [
+        {
+          "id": "a",
+          "text": "静かではありません"
+        },
+        {
+          "id": "b",
+          "text": "静かくない"
+        },
+        {
+          "id": "c",
+          "text": "静かでした"
+        },
+        {
+          "id": "d",
+          "text": "静かいです"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 静かではありません.",
+      "incorrectFeedback": "Not quite. Use ではありません for na-adjectives.",
+      "explanation": "Na-adjective negative uses ではありません.",
+      "difficulty": "easy"
+    }
+  ]
+}

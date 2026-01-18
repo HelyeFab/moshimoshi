@@ -1,0 +1,55 @@
+{
+  "id": "299-n4-point-99",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～という (〜to iu) Noun",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～という grammar point is used to define or explain a noun more specifically. It is often translated as 'called', 'named', or 'that is to say' in English. It can be used with nouns, な-adjectives, and adjectival verbs.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + という + Noun, な-Adjective + という + Noun, Adjectival Verb + という + Noun",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼は日本語が流暢なアメリカ人という人です。",
+      "romaji": "Kare wa nihongo ga ryuuchou na amerikajin to iu hito desu.",
+      "english": "He is an American who speaks fluent Japanese.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "昨日、美味しかったというケーキを食べました。",
+      "romaji": "Kinou, oishikatta to iu keeki wo tabemashita.",
+      "english": "Yesterday, I ate a cake that was said to be delicious.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "有名な歌手という彼女は、たくさんのファンがいます。",
+      "romaji": "Yuumei na kashu to iu kanojo wa, takusan no fan ga imasu.",
+      "english": "She, who is called a famous singer, has many fans.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "環境に優しいという製品が人気があります。",
+      "romaji": "Kankyou ni yasashii to iu seihin ga ninki ga arimasu.",
+      "english": "Products that are said to be environmentally friendly are popular.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

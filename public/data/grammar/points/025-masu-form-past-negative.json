@@ -1,0 +1,95 @@
+{
+  "id": "025-masu-form-past-negative",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜ませんでした",
+    "romaji": "-masen deshita",
+    "en": "Polite past negative"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "〜ませんでした is the polite past negative form. It means “did not” and is used for actions that did not happen in the past.\n\nKey points:\n• Replace ます with ませんでした to make past negative\n• Polite and clear for everyday speech\n• Often used with time words like 昨日 or 先週\n• Same word order as other ます-form sentences\n\nFor example, “行きます” becomes “行きませんでした” (did not go). “食べます” becomes “食べませんでした” (did not eat).\n\nTime words make the meaning obvious: “昨日行きませんでした” means “I did not go yesterday.”\n\nThis form is longer, but it is regular and easy to build. Just take the ます form and replace it with ませんでした.\n\nPractice by making pairs: 食べました / 食べませんでした, 行きました / 行きませんでした. This helps you switch between past and past negative smoothly.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-stem + ませんでした",
+    "components": [
+      {
+        "part": "Verb-stem",
+        "explanation": "Polite verb stem",
+        "examples": ["食べ", "行き", "読み", "勉強し"]
+      },
+      {
+        "part": "ませんでした",
+        "explanation": "Polite past negative ending",
+        "examples": ["ませんでした"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "昨日学校に行きませんでした。",
+      "romaji": "Kinou gakkou ni ikimasen deshita.",
+      "english": "I did not go to school yesterday.",
+      "breakdown": {
+        "昨日": "yesterday",
+        "学校": "school",
+        "に": "destination marker",
+        "行きませんでした": "did not go (polite)"
+      },
+      "notes": "Past negative with time word"
+    },
+    {
+      "japanese": "朝ご飯を食べませんでした。",
+      "romaji": "Asagohan o tabemasen deshita.",
+      "english": "I did not eat breakfast.",
+      "breakdown": {
+        "朝ご飯": "breakfast",
+        "を": "object marker",
+        "食べませんでした": "did not eat (polite)"
+      },
+      "notes": "Completed non-action"
+    },
+    {
+      "japanese": "先週映画を見ませんでした。",
+      "romaji": "Senshuu eiga o mimasen deshita.",
+      "english": "I did not watch a movie last week.",
+      "breakdown": {
+        "先週": "last week",
+        "映画": "movie",
+        "を": "object marker",
+        "見ませんでした": "did not watch (polite)"
+      },
+      "notes": "Past negative with object"
+    },
+    {
+      "japanese": "友だちと会いませんでした。",
+      "romaji": "Tomodachi to aimasen deshita.",
+      "english": "I did not meet my friend.",
+      "breakdown": {
+        "友だち": "friend",
+        "と": "with",
+        "会いませんでした": "did not meet (polite)"
+      },
+      "notes": "Negative of meeting"
+    }
+  ],
+  "relatedPoints": [
+    "023-masu-form-negative",
+    "024-masu-form-past"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ません with past time words",
+      "correction": "Use ませんでした for past negative",
+      "example": "❌ 昨日行きません → ✅ 昨日行きませんでした"
+    },
+    {
+      "mistake": "Forgetting the でした",
+      "correction": "The full past negative is ませんでした",
+      "example": "❌ 食べませんだ → ✅ 食べませんでした"
+    }
+  ],
+  "tags": ["verbs", "past", "negative", "polite"]
+}

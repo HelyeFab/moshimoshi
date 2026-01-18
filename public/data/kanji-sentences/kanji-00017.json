@@ -1,0 +1,33 @@
+{
+  "kanji": "時",
+  "sentences": [
+    {
+      "id": "4730",
+      "japanese": "彼は時々変です。",
+      "english": "Sometimes he can be a strange guy."
+    },
+    {
+      "id": "4773",
+      "japanese": "時々感情が抑えられないことがある。",
+      "english": "Sometimes I can't help showing emotions."
+    },
+    {
+      "id": "4783",
+      "japanese": "高校生の時は毎朝6時に起きていた。",
+      "english": "Back in high school, I got up at 6 a.m. every morning."
+    },
+    {
+      "id": "1596595",
+      "japanese": "高校の時、毎朝６時に起きたものだ。",
+      "english": "Back in high school, I got up at 6 a.m. every morning."
+    },
+    {
+      "id": "413438",
+      "japanese": "授業は８時３０分までは始まらない。",
+      "english": "Class doesn't begin until eight-thirty."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.375Z",
+  "count": 5,
+  "fileId": "kanji-00017"
+}

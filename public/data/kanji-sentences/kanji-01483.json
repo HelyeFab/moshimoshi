@@ -1,0 +1,33 @@
+{
+  "kanji": "概",
+  "sentences": [
+    {
+      "id": "179865",
+      "japanese": "近ごろの親は概して子供に甘いので、マナーの知らない子供が多い。",
+      "english": "As these days most parents indulge their children, many children don't know what good manners are."
+    },
+    {
+      "id": "184265",
+      "japanese": "学生は、概して自分たちの抱えている問題を理解してくれる教師が好きだ。",
+      "english": "Students generally like a teacher who understands their problems."
+    },
+    {
+      "id": "184653",
+      "japanese": "概して彼女は早起きだ。",
+      "english": "As a rule, she is an early riser."
+    },
+    {
+      "id": "184654",
+      "japanese": "概して日本人は働き者だ。",
+      "english": "Generally speaking, Japanese are hard workers."
+    },
+    {
+      "id": "184655",
+      "japanese": "概して日本の気候は温和であると言える。",
+      "english": "It may be said, as a rule, that the climate of Japan is mild."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:26.943Z",
+  "count": 5,
+  "fileId": "kanji-01483"
+}

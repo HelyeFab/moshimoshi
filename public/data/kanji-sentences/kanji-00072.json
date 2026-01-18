@@ -1,0 +1,33 @@
+{
+  "kanji": "南",
+  "sentences": [
+    {
+      "id": "184640",
+      "japanese": "街道は次の村で南へ向かう。",
+      "english": "The road tends to the south at the next village."
+    },
+    {
+      "id": "190683",
+      "japanese": "一夏のアバンチュールを求めて南の島へ行きました。",
+      "english": "I went to the South Pacific for a summer of romantic adventure."
+    },
+    {
+      "id": "195304",
+      "japanese": "まもなくツバメが南からやってくる。",
+      "english": "Soon, swallows will come from the south."
+    },
+    {
+      "id": "196997",
+      "japanese": "フランスは英国の南にある。",
+      "english": "France is to the south of England."
+    },
+    {
+      "id": "202253",
+      "japanese": "デジネフ岬は北極圏の南３０マイルにある。",
+      "english": "Cape Dezhnev is 30 miles south of the Arctic Circle."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.084Z",
+  "count": 5,
+  "fileId": "kanji-00072"
+}

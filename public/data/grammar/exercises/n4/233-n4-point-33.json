@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "233-n4-point-33",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "233-n4-point-33-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb te itadakemasen ka\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "動詞ていただけませんか",
+          "romaji": "doushi te itadakemasen ka"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! 動詞ていただけませんか matches \"Verb te itadakemasen ka\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ていただけませんか.",
+      "explanation": "Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "233-n4-point-33-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞ていただけませんか.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Verb te itadakemasen ka"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 動詞ていただけませんか means \"Verb te itadakemasen ka\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb te itadakemasen ka\".",
+      "explanation": "Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "233-n4-point-33-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞ていただけませんか.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "doushi te itadakemasen ka"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! doushi te itadakemasen ka is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is doushi te itadakemasen ka.",
+      "explanation": "Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "233-n4-point-33-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞ていただけませんか?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Make a very polite request using the verb te-form plus itadakemasen ka."
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "explanation": "Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "233-n4-point-33-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb te itadakemasen ka\".",
+      "correctAnswer": "動詞ていただけませんか",
+      "acceptedVariations": [
+        "動詞ていただけませんか",
+        "動詞ていただけませんか"
+      ],
+      "correctFeedback": "Nice! 動詞ていただけませんか is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞ていただけませんか (doushi te itadakemasen ka).",
+      "explanation": "Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "hints": [
+        "doushi te itadakemasen ka",
+        "Make a very polite request using the verb te-form plus itadakemasen ka."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "233-n4-point-33-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞ていただけませんか.",
+      "correctAnswer": "doushi te itadakemasen ka",
+      "acceptedVariations": [
+        "doushi te itadakemasen ka",
+        "doushi te itadakemasen ka"
+      ],
+      "correctFeedback": "Nice! doushi te itadakemasen ka is correct.",
+      "incorrectFeedback": "The correct romaji is: doushi te itadakemasen ka.",
+      "explanation": "Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "hints": [
+        "Make a very polite request using the verb te-form plus itadakemasen ka."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "233-n4-point-33-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞ていただけませんか.",
+      "correctAnswer": "Verb te itadakemasen ka",
+      "acceptedVariations": [
+        "Verb te itadakemasen ka",
+        "verb te itadakemasen ka"
+      ],
+      "correctFeedback": "Correct! \"Verb te itadakemasen ka\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb te itadakemasen ka\".",
+      "explanation": "Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "hints": [
+        "Make a very polite request using the verb te-form plus itadakemasen ka."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "233-n4-point-33-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞ていただけませんか",
+          "romaji": "doushi te itadakemasen ka",
+          "english": "Verb te itadakemasen ka"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "233-n4-point-33-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Make a very polite request using the verb te-form plus itadakemasen ka..",
+      "options": [
+        {
+          "id": "a",
+          "text": "動詞ていただけませんか",
+          "romaji": "doushi te itadakemasen ka"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 動詞ていただけませんか matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ていただけませんか.",
+      "explanation": "Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "233-n4-point-33-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞ていただけませんか",
+      "acceptedVariations": [
+        "動詞ていただけませんか",
+        "動詞ていただけませんか"
+      ],
+      "correctFeedback": "Great! 動詞ていただけませんか is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞ていただけませんか.",
+      "explanation": "Make a very polite request using the verb te-form plus itadakemasen ka.",
+      "hints": [
+        "doushi te itadakemasen ka"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

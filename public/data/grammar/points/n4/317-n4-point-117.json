@@ -1,0 +1,125 @@
+{
+  "id": "317-n4-point-117",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～みたいだ",
+    "romaji": "〜mitai da",
+    "en": "seems like; appears; looks like"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The grammar point ～みたいだ is used to express that something appears, seems, or resembles something else based on the speaker's impression or indirect evidence. It can be attached to verbs (casual form), い-adjectives, な-adjectives, and nouns. Common translations include 'seems', 'appears', or 'looks like'.",
+    "ja": "～みたいだは、何かが他のもののように見える、またはそう感じられるときに使います。動詞、い形容詞、な形容詞、名詞に付けて使います。"
+  },
+  "structure": {
+    "pattern": "Verb-casual / い-adjective / な-adjective / Noun + みたいだ",
+    "components": [
+      {
+        "part": "Verb-casual",
+        "explanation": "Plain (dictionary) form of the verb.",
+        "examples": [
+          "雨が降るみたいだ。"
+        ]
+      },
+      {
+        "part": "い-adjective",
+        "explanation": "Plain form of い-adjective.",
+        "examples": [
+          "このケーキは甘いみたいだ。"
+        ]
+      },
+      {
+        "part": "な-adjective",
+        "explanation": "Plain form of な-adjective (without な).",
+        "examples": [
+          "彼は元気みたいだ。"
+        ]
+      },
+      {
+        "part": "Noun",
+        "explanation": "Noun directly followed by みたいだ.",
+        "examples": [
+          "彼は先生みたいだ。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼女が病気みたいだ。",
+      "romaji": "Kanojo ga byouki mitai da.",
+      "english": "She seems to be sick.",
+      "breakdown": {
+        "彼女": "she",
+        "が": "subject marker",
+        "病気": "sick/illness",
+        "みたいだ": "seems like"
+      },
+      "notes": "Expresses the speaker's impression based on observation."
+    },
+    {
+      "japanese": "このドレスは高いみたいだ。",
+      "romaji": "Kono doresu wa takai mitai da.",
+      "english": "This dress seems to be expensive.",
+      "breakdown": {
+        "この": "this",
+        "ドレス": "dress",
+        "は": "topic marker",
+        "高い": "expensive",
+        "みたいだ": "seems like"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "あの人は有名人みたいだ。",
+      "romaji": "Ano hito wa yuumeijin mitai da.",
+      "english": "That person looks like a celebrity.",
+      "breakdown": {
+        "あの": "that",
+        "人": "person",
+        "は": "topic marker",
+        "有名人": "celebrity",
+        "みたいだ": "looks like"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は今忙しいみたいだ。",
+      "romaji": "Kare wa ima isogashii mitai da.",
+      "english": "It seems he is busy right now.",
+      "breakdown": {
+        "彼": "he",
+        "は": "topic marker",
+        "今": "now",
+        "忙しい": "busy",
+        "みたいだ": "seems like"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "ようだ",
+    "そうだ"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼女が病気のようみたいだ。",
+      "correction": "彼女が病気みたいだ。",
+      "example": "Do not use both よう and みたい together."
+    },
+    {
+      "mistake": "彼女が病気なみたいだ。",
+      "correction": "彼女が病気みたいだ。",
+      "example": "Do not add な after a noun before みたいだ."
+    }
+  ],
+  "tags": [
+    "n4",
+    "appearance",
+    "impression",
+    "similarity",
+    "sentence-ending",
+    "expressions"
+  ]
+}

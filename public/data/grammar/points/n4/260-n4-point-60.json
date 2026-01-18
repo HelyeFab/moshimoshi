@@ -1,0 +1,102 @@
+{
+  "id": "260-n4-point-60",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ようにする",
+    "romaji": "Verb you ni suru",
+    "en": "Make sure to/try to do"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ようにする grammar point is used to express that someone is making an effort, trying, or seeing to it that something happens. It can be translated as 'make sure to', 'try to', or 'ensure that' in English.",
+    "ja": "ようにするという文法は、誰かが努力し、何かを試みる、または起こるように見るのが一般的です。英語では「~するようにする」、「~しようとすること」や「~することを確保する」と訳すことができます。"
+  },
+  "structure": {
+    "pattern": "Verb-dictionary form + ようにする",
+    "components": [
+      {
+        "part": "Verb",
+        "explanation": "The verb in its dictionary form.",
+        "examples": [
+          "食べる (taberu)",
+          "寝る (neru)",
+          "約束を守る (yakusoku o mamoru)"
+        ]
+      },
+      {
+        "part": "ようにする",
+        "explanation": "Means to make sure or try that something happens.",
+        "examples": [
+          "するようにする",
+          "しないようにする"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "毎日運動するようにしています。",
+      "romaji": "Mainichi undou suru you ni shiteimasu.",
+      "english": "I try to exercise every day.",
+      "breakdown": {
+        "毎日": "everyday",
+        "運動する": "exercise",
+        "ようにしています": "try to do"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "早く寝るようにしてください。",
+      "romaji": "Hayaku neru you ni shite kudasai.",
+      "english": "Please try to go to bed early.",
+      "breakdown": {
+        "早く": "early",
+        "寝る": "sleep",
+        "ようにする": "try to"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "約束を守るようにします。",
+      "romaji": "Yakusoku o mamoru you ni shimasu.",
+      "english": "I will make sure to keep my promise.",
+      "breakdown": {
+        "約束": "promise",
+        "守る": "keep",
+        "ようにする": "make sure"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼に会わないようにする。",
+      "romaji": "Kare ni awanai you ni suru.",
+      "english": "I will try not to see him.",
+      "breakdown": {
+        "彼": "him",
+        "会う": "meet",
+        "ないようにする": "try not to"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb ように (〜you ni)",
+    "Verb ように言う",
+    "Noun ばかり (〜bakari)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "毎日運動をするようにしています。",
+      "correction": "毎日運動するようにしています。",
+      "example": "The dictionary form of the verb should be used."
+    }
+  ],
+  "tags": [
+    "n4",
+    "effort",
+    "trying",
+    "ensure",
+    "miscellaneous"
+  ]
+}

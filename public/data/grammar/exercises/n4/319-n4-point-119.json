@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "319-n4-point-119",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "319-n4-point-119-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"It seems/appears (～you da)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～ようだ",
+          "romaji": "~you da"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～ようだ matches \"It seems/appears (～you da)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～ようだ.",
+      "explanation": "Used to express appearance, similarity, or inference; means “it seems/appears.”",
+      "difficulty": "easy"
+    },
+    {
+      "id": "319-n4-point-119-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～ようだ.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "It seems/appears (～you da)"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～ようだ means \"It seems/appears (～you da)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"It seems/appears (～you da)\".",
+      "explanation": "Used to express appearance, similarity, or inference; means “it seems/appears.”",
+      "difficulty": "easy"
+    },
+    {
+      "id": "319-n4-point-119-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～ようだ.",
+      "options": [
+        {
+          "id": "a",
+          "text": "~you da"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ~you da is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~you da.",
+      "explanation": "Used to express appearance, similarity, or inference; means “it seems/appears.”",
+      "difficulty": "medium"
+    },
+    {
+      "id": "319-n4-point-119-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～ようだ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to express appearance, similarity, or inference; means “it seems/appears.”"
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to express appearance, similarity, or inference; means “it seems/appears.”",
+      "explanation": "Used to express appearance, similarity, or inference; means “it seems/appears.”",
+      "difficulty": "medium"
+    },
+    {
+      "id": "319-n4-point-119-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"It seems/appears (～you da)\".",
+      "correctAnswer": "～ようだ",
+      "acceptedVariations": [
+        "～ようだ",
+        "～ようだ"
+      ],
+      "correctFeedback": "Nice! ～ようだ is correct.",
+      "incorrectFeedback": "The correct pattern is: ～ようだ (~you da).",
+      "explanation": "Used to express appearance, similarity, or inference; means “it seems/appears.”",
+      "hints": [
+        "~you da",
+        "Used to express appearance, similarity, or inference; means “it seems/appears.”"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "319-n4-point-119-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～ようだ.",
+      "correctAnswer": "~you da",
+      "acceptedVariations": [
+        "~you da",
+        "~you da"
+      ],
+      "correctFeedback": "Nice! ~you da is correct.",
+      "incorrectFeedback": "The correct romaji is: ~you da.",
+      "explanation": "Used to express appearance, similarity, or inference; means “it seems/appears.”",
+      "hints": [
+        "Used to express appearance, similarity, or inference; means “it seems/appears.”"
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "319-n4-point-119-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～ようだ.",
+      "correctAnswer": "It seems/appears (～you da)",
+      "acceptedVariations": [
+        "It seems/appears (～you da)",
+        "it seems/appears (～you da)"
+      ],
+      "correctFeedback": "Correct! \"It seems/appears (～you da)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"It seems/appears (～you da)\".",
+      "explanation": "Used to express appearance, similarity, or inference; means “it seems/appears.”",
+      "hints": [
+        "Used to express appearance, similarity, or inference; means “it seems/appears.”"
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "319-n4-point-119-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～ようだ",
+          "romaji": "~you da",
+          "english": "It seems/appears (～you da)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to express appearance, similarity, or inference; means “it seems/appears.”",
+      "difficulty": "hard"
+    },
+    {
+      "id": "319-n4-point-119-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to express appearance, similarity, or inference; means “it seems/appears.”.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～ようだ",
+          "romaji": "~you da"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～ようだ matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～ようだ.",
+      "explanation": "Used to express appearance, similarity, or inference; means “it seems/appears.”",
+      "difficulty": "hard"
+    },
+    {
+      "id": "319-n4-point-119-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～ようだ",
+      "acceptedVariations": [
+        "～ようだ",
+        "～ようだ"
+      ],
+      "correctFeedback": "Great! ～ようだ is correct.",
+      "incorrectFeedback": "The correct pattern is: ～ようだ.",
+      "explanation": "Used to express appearance, similarity, or inference; means “it seems/appears.”",
+      "hints": [
+        "~you da"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

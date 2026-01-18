@@ -1,0 +1,55 @@
+{
+  "id": "303-n4-point-103",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～ないといけない (〜nai to ikenai)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～ないといけない grammar point is used to express a sense of necessity or obligation, similar to 'must', 'have to', or 'need to' in English. This structure is formed by using the negative form of the verb (ending in ない) followed by といけない.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-negative + といけない",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "明日試験があるから、今夜勉強しないといけない。",
+      "romaji": "Ashita shiken ga aru kara, kon'ya benkyou shinai to ikenai.",
+      "english": "I have an exam tomorrow, so I have to study tonight.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "９時に出発しないといけない。",
+      "romaji": "Ku-ji ni shuppatsu shinai to ikenai.",
+      "english": "We must leave at 9 o'clock.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "風邪をひかないように、手をよく洗わないといけない。",
+      "romaji": "Kaze o hikanai you ni, te o yoku arawanai to ikenai.",
+      "english": "To avoid catching a cold, we have to wash our hands well.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この仕事は明日までに終わらないといけない。",
+      "romaji": "Kono shigoto wa ashita made ni owaranai to ikenai.",
+      "english": "This work must be finished by tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "id": "042-i-adjectives-past",
+  "version": "1.0.0",
+  "title": {
+    "ja": "い形容詞（過去）",
+    "romaji": "i-keiyoushi (past)",
+    "en": "i-adjectives (past)"
+  },
+  "jlptLevel": "N5",
+  "category": "adjectives",
+  "explanation": {
+    "en": "The past form of い-adjectives is used to describe something that was true in the past. To make the past, change the final い to かった.\n\nKey points:\n• い-adjective past: い → かった\n• Add です for politeness: 高かったです\n• Works for descriptions in the past\n• Same form for all い-adjectives\n\nFor example, “暑い” (hot) becomes “暑かった” (was hot). “楽しい” (fun) becomes “楽しかった” (was fun).\n\nYou can use time words to make it clear: “昨日は寒かったです” means “It was cold yesterday.”\n\nRemember that い-adjectives already contain the “be” meaning, so you just change the ending. You do not add でした to the adjective itself.\n\nPractice by changing common adjectives: おいしい → おいしかった, 大きい → 大きかった, 安い → 安かった.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "i-adjective (past) + です",
+    "components": [
+      {
+        "part": "i-adjective (past)",
+        "explanation": "Change い → かった",
+        "examples": ["暑かった", "楽しかった", "高かった"]
+      },
+      {
+        "part": "です",
+        "explanation": "Polite ending (optional)",
+        "examples": ["です"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "昨日は寒かったです。",
+      "romaji": "Kinou wa samukatta desu.",
+      "english": "It was cold yesterday.",
+      "breakdown": {
+        "昨日": "yesterday",
+        "は": "topic marker",
+        "寒かった": "was cold",
+        "です": "polite ending"
+      },
+      "notes": "Past weather"
+    },
+    {
+      "japanese": "旅行は楽しかったです。",
+      "romaji": "Ryokou wa tanoshikatta desu.",
+      "english": "The trip was fun.",
+      "breakdown": {
+        "旅行": "trip",
+        "は": "topic marker",
+        "楽しかった": "was fun",
+        "です": "polite ending"
+      },
+      "notes": "Past experience"
+    },
+    {
+      "japanese": "この本は高かったです。",
+      "romaji": "Kono hon wa takakatta desu.",
+      "english": "This book was expensive.",
+      "breakdown": {
+        "この": "this",
+        "本": "book",
+        "は": "topic marker",
+        "高かった": "was expensive",
+        "です": "polite ending"
+      },
+      "notes": "Past description"
+    },
+    {
+      "japanese": "昨日の昼ご飯はおいしかったです。",
+      "romaji": "Kinou no hirugohan wa oishikatta desu.",
+      "english": "Yesterday's lunch was tasty.",
+      "breakdown": {
+        "昨日の": "yesterday's",
+        "昼ご飯": "lunch",
+        "は": "topic marker",
+        "おいしかった": "was tasty",
+        "です": "polite ending"
+      },
+      "notes": "Food description"
+    }
+  ],
+  "relatedPoints": [
+    "041-i-adjectives-present",
+    "043-i-adjectives-negative"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using でした after an い-adjective",
+      "correction": "Change い to かった instead",
+      "example": "❌ 寒いでした → ✅ 寒かったです"
+    },
+    {
+      "mistake": "Forgetting to change い",
+      "correction": "Past form must be かった",
+      "example": "❌ 楽しいです(昨日) → ✅ 楽しかったです"
+    }
+  ],
+  "tags": ["adjectives", "i-adjectives", "past", "beginner"]
+}

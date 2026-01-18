@@ -1,0 +1,33 @@
+{
+  "kanji": "扉",
+  "sentences": [
+    {
+      "id": "186064",
+      "japanese": "我々はその建物に入る秘密の扉を発見した。",
+      "english": "We found a secret door into the building."
+    },
+    {
+      "id": "10993184",
+      "japanese": "扉よ開け。",
+      "english": "Open the door."
+    },
+    {
+      "id": "9196530",
+      "japanese": "その扉のそばの自転車、私のよ。",
+      "english": "The bicycle by the door is mine."
+    },
+    {
+      "id": "207132",
+      "japanese": "その扉は今開きかけている。",
+      "english": "The door is opening now."
+    },
+    {
+      "id": "207131",
+      "japanese": "その扉は今開いている。",
+      "english": "The door is open now."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:28.396Z",
+  "count": 5,
+  "fileId": "kanji-01530"
+}

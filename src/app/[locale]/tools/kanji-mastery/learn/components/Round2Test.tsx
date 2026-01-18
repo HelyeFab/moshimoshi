@@ -1,10 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { KanjiWithExamples } from '../LearnContent'
-import { useKanjiDetails } from '@/hooks/useKanjiDetails'
-import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
+import { CheckCircle, XCircle } from 'lucide-react'
 
 interface Round2TestProps {
   kanji: KanjiWithExamples
@@ -21,7 +20,15 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
   const [userInput, setUserInput] = useState('')
   const [showResult, setShowResult] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
-  const { modalKanji, openKanjiDetails, closeKanjiDetails } = useKanjiDetails()
+
+  // Reset state when kanji changes
+  useEffect(() => {
+    setCurrentTest(0)
+    setResults([])
+    setUserInput('')
+    setShowResult(false)
+    setIsCorrect(false)
+  }, [kanji.kanji])
 
   // Define test sequence
   const allTests: Array<{ type: TestType; question: string; answer: string | string[] }> = [
@@ -71,11 +78,25 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
       correct = userInput.trim() === currentTestData.answer
     } else {
       // For readings, check if input matches any of the readings
+      // Support both Japanese (hiragana) and romanji input
       const answers = Array.isArray(currentTestData.answer) ? currentTestData.answer : [currentTestData.answer]
-      correct = answers.some(answer =>
-        answer.toLowerCase() === normalizedInput ||
-        answer.replace(/[-.]/g, '') === normalizedInput.replace(/[-.]/g, '')
-      )
+
+      // Convert romanji to hiragana if the input contains romanji
+      const hiraganaInput = /[a-z]/i.test(normalizedInput) ? romajiToHiragana(normalizedInput) : normalizedInput
+
+      correct = answers.some(answer => {
+        const normalizedAnswer = answer.toLowerCase().replace(/[-.]/g, '')
+        const cleanInput = normalizedInput.replace(/[-.]/g, '')
+        const cleanHiraganaInput = hiraganaInput.replace(/[-.]/g, '')
+
+        // Convert katakana to hiragana for comparison (on'yomi are in katakana)
+        const answerInHiragana = katakanaToHiragana(normalizedAnswer)
+
+        // Check: original input OR hiragana-converted input against both katakana and hiragana
+        return normalizedAnswer === cleanInput ||
+               normalizedAnswer === cleanHiraganaInput ||
+               answerInHiragana === cleanHiraganaInput
+      })
     }
 
     setIsCorrect(correct)
@@ -176,8 +197,8 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
                 animate={{ opacity: 1, y: 0 }}
                 className="mt-6"
               >
-                <p className={`text-lg font-medium ${isCorrect ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                  {isCorrect ? '✅ Correct!' : '❌ Incorrect'}
+                <p className={`text-lg font-medium flex items-center justify-center gap-2 ${isCorrect ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                  {isCorrect ? <><CheckCircle className="w-5 h-5" /> Correct!</> : <><XCircle className="w-5 h-5" /> Incorrect</>}
                 </p>
                 {!isCorrect && (
                   <p className="text-gray-600 dark:text-gray-400 mt-2">
@@ -189,12 +210,15 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
           </div>
 
           {showResult && (
-            <div className="flex justify-end">
+            <div className="flex justify-center mt-4">
               <button
                 onClick={handleNext}
-                className="px-6 py-3 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 transition-colors"
+                className="p-2 bg-primary-500 text-white rounded-full hover:bg-primary-600 transition-all hover:scale-110"
+                aria-label="Continue"
               >
-                {currentTest < tests.length - 1 ? 'Next Test →' : 'Continue →'}
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
               </button>
             </div>
           )}
@@ -222,23 +246,9 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
       <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
           {/* Kanji display for meaning/reading tests (not recognition - that's handled above with early return) */}
-          <div className="relative inline-block">
-            <div className="text-6xl font-bold text-gray-900 dark:text-gray-100 mb-6"
-                 style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
-              {kanji.kanji}
-            </div>
-            {/* View Details Button */}
-            <button
-              onClick={() => openKanjiDetails(kanji)}
-              className="absolute -top-2 -right-14 p-2 text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 transition-all hover:scale-110"
-              title="View full details"
-              aria-label="View kanji details"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </button>
+          <div className="text-6xl font-bold text-gray-900 dark:text-gray-100 mb-6"
+               style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+            {kanji.kanji}
           </div>
 
           <h3 className="text-xl font-medium text-gray-900 dark:text-gray-100 mb-6">
@@ -263,19 +273,25 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
           </div>
 
           {!showResult && (
-            <div className="flex justify-center gap-4 mt-6">
+            <div className="flex justify-center gap-3 mt-6">
+              <button
+                onClick={handleSkip}
+                className="p-2 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-300 dark:hover:bg-dark-600 transition-all hover:scale-110"
+                aria-label="Skip"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+                </svg>
+              </button>
               <button
                 onClick={checkAnswer}
                 disabled={!userInput.trim()}
-                className="px-6 py-2 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 disabled:bg-gray-300 dark:disabled:bg-dark-600 disabled:text-gray-500 transition-colors"
+                className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 disabled:bg-gray-300 dark:disabled:bg-dark-600 disabled:text-gray-500 transition-all hover:scale-110 disabled:hover:scale-100"
+                aria-label="Check answer"
               >
-                Check Answer
-              </button>
-              <button
-                onClick={handleSkip}
-                className="px-6 py-2 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-300 dark:hover:bg-dark-600 transition-colors"
-              >
-                Skip
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
               </button>
             </div>
           )}
@@ -286,8 +302,8 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
               animate={{ opacity: 1, y: 0 }}
               className="mt-6"
             >
-              <p className={`text-lg font-medium ${isCorrect ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
-                {isCorrect ? '✅ Correct!' : '❌ Incorrect'}
+              <p className={`text-lg font-medium flex items-center justify-center gap-2 ${isCorrect ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'}`}>
+                {isCorrect ? <><CheckCircle className="w-5 h-5" /> Correct!</> : <><XCircle className="w-5 h-5" /> Incorrect</>}
               </p>
               {!isCorrect && (
                 <p className="text-gray-600 dark:text-gray-400 mt-2">
@@ -303,25 +319,119 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
         </div>
 
         {showResult && (
-          <div className="flex justify-end">
+          <div className="flex justify-center mt-4">
             <button
               onClick={handleNext}
-              className="px-6 py-3 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 transition-colors"
+              className="p-2 bg-primary-500 text-white rounded-full hover:bg-primary-600 transition-all hover:scale-110"
+              aria-label="Continue"
             >
-              {currentTest < tests.length - 1 ? 'Next Test →' : 'Continue →'}
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
             </button>
           </div>
         )}
       </div>
-
-      {/* Kanji Details Modal */}
-      <KanjiDetailsModal
-        kanji={modalKanji}
-        isOpen={!!modalKanji}
-        onClose={closeKanjiDetails}
-      />
     </motion.div>
   )
+}
+
+// Helper function to convert katakana to hiragana
+function katakanaToHiragana(input: string): string {
+  return input.replace(/[\u30A1-\u30F6]/g, (match) => {
+    const code = match.charCodeAt(0) - 0x60
+    return String.fromCharCode(code)
+  })
+}
+
+// Helper function to convert romanji to hiragana
+function romajiToHiragana(input: string): string {
+  if (!/[a-z]/.test(input)) return input
+
+  const map: Record<string, string> = {
+    kya: 'きゃ', kyu: 'きゅ', kyo: 'きょ',
+    gya: 'ぎゃ', gyu: 'ぎゅ', gyo: 'ぎょ',
+    sha: 'しゃ', shu: 'しゅ', sho: 'しょ',
+    ja: 'じゃ', ju: 'じゅ', jo: 'じょ',
+    cha: 'ちゃ', chu: 'ちゅ', cho: 'ちょ',
+    nya: 'にゃ', nyu: 'にゅ', nyo: 'にょ',
+    hya: 'ひゃ', hyu: 'ひゅ', hyo: 'ひょ',
+    mya: 'みゃ', myu: 'みゅ', myo: 'みょ',
+    rya: 'りゃ', ryu: 'りゅ', ryo: 'りょ',
+    bya: 'びゃ', byu: 'びゅ', byo: 'びょ',
+    pya: 'ぴゃ', pyu: 'ぴゅ', pyo: 'ぴょ',
+    shi: 'し', chi: 'ち', tsu: 'つ', fu: 'ふ',
+    ka: 'か', ki: 'き', ku: 'く', ke: 'け', ko: 'こ',
+    sa: 'さ', su: 'す', se: 'せ', so: 'そ',
+    ta: 'た', te: 'て', to: 'と',
+    na: 'な', ni: 'に', nu: 'ぬ', ne: 'ね', no: 'の',
+    ha: 'は', hi: 'ひ', he: 'へ', ho: 'ほ',
+    ma: 'ま', mi: 'み', mu: 'む', me: 'め', mo: 'も',
+    ya: 'や', yu: 'ゆ', yo: 'よ',
+    ra: 'ら', ri: 'り', ru: 'る', re: 'れ', ro: 'ろ',
+    wa: 'わ', wo: 'を',
+    ga: 'が', gi: 'ぎ', gu: 'ぐ', ge: 'げ', go: 'ご',
+    za: 'ざ', ji: 'じ', zu: 'ず', ze: 'ぜ', zo: 'ぞ',
+    da: 'だ', de: 'で', do: 'ど',
+    ba: 'ば', bi: 'び', bu: 'ぶ', be: 'べ', bo: 'ぼ',
+    pa: 'ぱ', pi: 'ぴ', pu: 'ぷ', pe: 'ぺ', po: 'ぽ',
+    a: 'あ', i: 'い', u: 'う', e: 'え', o: 'お',
+  }
+
+  let result = ''
+  let i = 0
+  const text = input.toLowerCase()
+
+  while (i < text.length) {
+    const three = text.slice(i, i + 3)
+    const two = text.slice(i, i + 2)
+    const current = text[i]
+    const next = text[i + 1]
+
+    // Double consonant -> っ
+    if (next && current === next && !'aeiou'.includes(current) && current !== 'n') {
+      result += 'っ'
+      i += 1
+      continue
+    }
+
+    // Try 3-char match
+    if (map[three]) {
+      result += map[three]
+      i += 3
+      continue
+    }
+
+    // Try 2-char match
+    if (map[two]) {
+      result += map[two]
+      i += 2
+      continue
+    }
+
+    // Handle 'n' -> ん
+    if (current === 'n') {
+      const following = text[i + 1]
+      if (!following || !'aeiouy'.includes(following)) {
+        result += 'ん'
+        i += 1
+        continue
+      }
+    }
+
+    // Try 1-char match
+    if (map[current]) {
+      result += map[current]
+      i += 1
+      continue
+    }
+
+    // Keep as-is
+    result += current
+    i += 1
+  }
+
+  return result
 }
 
 // Helper function to generate kanji options for multiple choice

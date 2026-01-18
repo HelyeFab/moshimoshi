@@ -1,0 +1,100 @@
+{
+  "id": "047-na-adjectives-negative",
+  "version": "1.0.0",
+  "title": {
+    "ja": "な形容詞（否定）",
+    "romaji": "na-keiyoushi (negative)",
+    "en": "na-adjectives (negative)"
+  },
+  "jlptLevel": "N5",
+  "category": "adjectives",
+  "explanation": {
+    "en": "The negative form of な-adjectives is made with ではありません (or じゃありません in casual speech). It means “is not.”\n\nKey points:\n• な-adjective negative: adjective + ではありません\n• Polite and common for negative statements\n• Use じゃありません in casual speech\n• Same pattern as nouns + ではありません\n\nFor example, “静か” becomes “静かではありません” (is not quiet). “便利” becomes “便利ではありません” (is not convenient).\n\nYou can say “この部屋はきれいではありません” to mean “This room is not clean/pretty.”\n\nRemember: な-adjectives behave like nouns, so the negative is the same as for nouns.\n\nPractice with common adjectives: きれいではありません, しずかではありません, べんりではありません.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "na-adjective + ではありません",
+    "components": [
+      {
+        "part": "na-adjective",
+        "explanation": "Adjective base",
+        "examples": ["静か", "便利", "きれい"]
+      },
+      {
+        "part": "ではありません",
+        "explanation": "Polite negative copula",
+        "examples": ["ではありません"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この部屋は静かではありません。",
+      "romaji": "Kono heya wa shizuka de wa arimasen.",
+      "english": "This room is not quiet.",
+      "breakdown": {
+        "この": "this",
+        "部屋": "room",
+        "は": "topic marker",
+        "静か": "quiet",
+        "ではありません": "is not (polite)"
+      },
+      "notes": "Negative description"
+    },
+    {
+      "japanese": "この店は便利ではありません。",
+      "romaji": "Kono mise wa benri de wa arimasen.",
+      "english": "This shop is not convenient.",
+      "breakdown": {
+        "この": "this",
+        "店": "shop",
+        "は": "topic marker",
+        "便利": "convenient",
+        "ではありません": "is not (polite)"
+      },
+      "notes": "Negative evaluation"
+    },
+    {
+      "japanese": "あの町はにぎやかではありません。",
+      "romaji": "Ano machi wa nigiyaka de wa arimasen.",
+      "english": "That town is not lively.",
+      "breakdown": {
+        "あの": "that",
+        "町": "town",
+        "は": "topic marker",
+        "にぎやか": "lively",
+        "ではありません": "is not"
+      },
+      "notes": "Negative adjective"
+    },
+    {
+      "japanese": "今日は暇ではありません。",
+      "romaji": "Kyou wa hima de wa arimasen.",
+      "english": "I am not free today.",
+      "breakdown": {
+        "今日": "today",
+        "は": "topic marker",
+        "暇": "free",
+        "ではありません": "is not"
+      },
+      "notes": "Negative state"
+    }
+  ],
+  "relatedPoints": [
+    "045-na-adjectives-present",
+    "048-na-adjectives-past-negative"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using くない with な-adjectives",
+      "correction": "Use ではありません",
+      "example": "❌ 便利くない → ✅ 便利ではありません"
+    },
+    {
+      "mistake": "Forgetting では in the negative",
+      "correction": "Use ではありません as a unit",
+      "example": "❌ 静かありません → ✅ 静かではありません"
+    }
+  ],
+  "tags": ["adjectives", "na-adjectives", "negative", "beginner"]
+}

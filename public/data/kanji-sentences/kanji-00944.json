@@ -1,0 +1,33 @@
+{
+  "kanji": "量",
+  "sentences": [
+    {
+      "id": "179165",
+      "japanese": "君がする仕事の量に応じて金を払おう。",
+      "english": "We will pay you according to the amount of work you do."
+    },
+    {
+      "id": "179383",
+      "japanese": "空気の場合、大気中には常にある程度の湿気があるが、その量が大幅に増えると光の波に影響してくる。",
+      "english": "As for the air, there is always some moisture in the atmosphere, but when the amount increases a great deal, it affects the light waves."
+    },
+    {
+      "id": "189563",
+      "japanese": "雨の量が作物の生育に影響するのですか。",
+      "english": "Does the amount of rain affect the growth of crops?"
+    },
+    {
+      "id": "190184",
+      "japanese": "一般的に、消費者は質よりも量を選ぶ。",
+      "english": "In general, consumers prefer quantity to quality."
+    },
+    {
+      "id": "190612",
+      "japanese": "一国で生産され消費される紙の量は、その国の文化水準と密接な関係がある。",
+      "english": "The amount of paper produced by a country is closely related to its cultural standards."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.780Z",
+  "count": 5,
+  "fileId": "kanji-00944"
+}

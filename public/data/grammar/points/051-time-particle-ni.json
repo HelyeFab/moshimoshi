@@ -1,0 +1,100 @@
+{
+  "id": "051-time-particle-ni",
+  "version": "1.0.0",
+  "title": {
+    "ja": "時間に",
+    "romaji": "jikan ni",
+    "en": "Time particle に"
+  },
+  "jlptLevel": "N5",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "The particle に is used with specific time expressions to mark the exact time when something happens. Think of に as pointing to a time on a clock or calendar. It answers “when?” in a precise way.\n\nKey points:\n• Use に with specific times: 7時に, 3月に, 日曜日に\n• Use に with days and dates: 月曜日に, 8月10日に\n• Do NOT use に with relative time words like 今日, 明日, 毎日\n• に comes after the time word\n\nFor example, “7時に起きます” means “I wake up at 7.” “日曜日に行きます” means “I will go on Sunday.”\n\nIf the time is not specific (like “every day” or “this week”), you usually skip に: “毎日勉強します.”\n\nUsing に helps make your timing clear and polite. It is one of the first particles learners use, and it pairs well with basic verbs like 行きます, 来ます, and 起きます.\n\nPractice by adding に to exact times: 5時, 火曜日, 6月. Then make simple sentences about your schedule.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Time + に + Verb",
+    "components": [
+      {
+        "part": "Time",
+        "explanation": "Specific time or date",
+        "examples": ["7時", "月曜日", "8月10日"]
+      },
+      {
+        "part": "に",
+        "explanation": "Marks the exact time",
+        "examples": ["に"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action that happens at that time",
+        "examples": ["起きます", "行きます", "来ます"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "七時に起きます。",
+      "romaji": "Shichi-ji ni okimasu.",
+      "english": "I wake up at 7.",
+      "breakdown": {
+        "七時": "7 o'clock",
+        "に": "time marker",
+        "起きます": "wake up"
+      },
+      "notes": "Exact time"
+    },
+    {
+      "japanese": "日曜日に行きます。",
+      "romaji": "Nichiyoubi ni ikimasu.",
+      "english": "I will go on Sunday.",
+      "breakdown": {
+        "日曜日": "Sunday",
+        "に": "time marker",
+        "行きます": "go"
+      },
+      "notes": "Specific day"
+    },
+    {
+      "japanese": "三月に日本へ来ます。",
+      "romaji": "Sangatsu ni Nihon e kimasu.",
+      "english": "I will come to Japan in March.",
+      "breakdown": {
+        "三月": "March",
+        "に": "time marker",
+        "日本": "Japan",
+        "へ": "direction particle",
+        "来ます": "come"
+      },
+      "notes": "Specific month"
+    },
+    {
+      "japanese": "八月十日に会います。",
+      "romaji": "Hachigatsu tooka ni aimasu.",
+      "english": "We will meet on August 10th.",
+      "breakdown": {
+        "八月十日": "August 10th",
+        "に": "time marker",
+        "会います": "meet"
+      },
+      "notes": "Specific date"
+    }
+  ],
+  "relatedPoints": [
+    "009-particle-ni-location",
+    "054-kara-from"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using に with 今日/明日",
+      "correction": "Do not add に to relative time words",
+      "example": "❌ 今日に行きます → ✅ 今日行きます"
+    },
+    {
+      "mistake": "Forgetting に with exact time",
+      "correction": "Add に for specific times",
+      "example": "❌ 七時起きます → ✅ 七時に起きます"
+    }
+  ],
+  "tags": ["time", "particle", "schedule", "beginner"]
+}

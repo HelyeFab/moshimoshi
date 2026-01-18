@@ -1,0 +1,33 @@
+{
+  "kanji": "札",
+  "sentences": [
+    {
+      "id": "190374",
+      "japanese": "一束だけ一番上に本物の札がのっていた。",
+      "english": "Only one stack had a real bill on top."
+    },
+    {
+      "id": "203749",
+      "japanese": "たくさん札束が入っていたが、１０００ドル札ではなかった。",
+      "english": "There were lots of bundles, but they weren't thousand-dollar bills."
+    },
+    {
+      "id": "205594",
+      "japanese": "それは１００ドル札だった。",
+      "english": "It was a one hundred dollar bill."
+    },
+    {
+      "id": "213893",
+      "japanese": "そうしたら、茂みの下にいくつかの１０００ドル札の束を見つけ、それをバスケットの中に入れた。",
+      "english": "Then she found several stacks of thousand-dollar bills under a bush and put them in her basket."
+    },
+    {
+      "id": "223940",
+      "japanese": "このお札を両替してくださいませんか。",
+      "english": "Could you change this bill, please?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.004Z",
+  "count": 5,
+  "fileId": "kanji-00773"
+}

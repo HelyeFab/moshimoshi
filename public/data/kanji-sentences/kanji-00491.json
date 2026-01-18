@@ -1,0 +1,33 @@
+{
+  "kanji": "選",
+  "sentences": [
+    {
+      "id": "5241",
+      "japanese": "この評論を優勝作品に選んだ基準は何ですか。",
+      "english": "What criterion did you use when you elected this essay as the winner?"
+    },
+    {
+      "id": "177991",
+      "japanese": "君は、その２冊の本のうち、どちらを選んでもよい。",
+      "english": "You may choose either of the two books."
+    },
+    {
+      "id": "178335",
+      "japanese": "好きなラケットを選びなさい。",
+      "english": "Choose your favorite racket."
+    },
+    {
+      "id": "178340",
+      "japanese": "君の好きなものを選びなさい。",
+      "english": "Make your choice."
+    },
+    {
+      "id": "178519",
+      "japanese": "君のためになるような友達を選びなさい。",
+      "english": "Choose such friends as will benefit you."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.767Z",
+  "count": 5,
+  "fileId": "kanji-00491"
+}

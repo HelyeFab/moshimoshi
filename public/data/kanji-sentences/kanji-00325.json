@@ -1,0 +1,33 @@
+{
+  "kanji": "似",
+  "sentences": [
+    {
+      "id": "139908",
+      "japanese": "息子は父親に似る。",
+      "english": "Like father, like son."
+    },
+    {
+      "id": "177627",
+      "japanese": "君はどちらの両親に似ていますか。",
+      "english": "Which of your parents do you take after?"
+    },
+    {
+      "id": "231488",
+      "japanese": "あなたは両親のどちらに似ていますか。",
+      "english": "Which of your parents do you take after?"
+    },
+    {
+      "id": "232683",
+      "japanese": "あなたはご両親のどちらに似ていらっしゃいますか。",
+      "english": "Which of your parents do you take after?"
+    },
+    {
+      "id": "232687",
+      "japanese": "あなたはご両親のどちらに似ていますか。",
+      "english": "Which of your parents do you take after?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.472Z",
+  "count": 5,
+  "fileId": "kanji-00325"
+}

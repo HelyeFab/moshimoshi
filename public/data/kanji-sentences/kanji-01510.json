@@ -1,0 +1,33 @@
+{
+  "kanji": "勧",
+  "sentences": [
+    {
+      "id": "179957",
+      "japanese": "禁煙を勧めます。",
+      "english": "I advise you to stop smoking."
+    },
+    {
+      "id": "2265666",
+      "japanese": "禁煙をお勧めします。",
+      "english": "I advise you to stop smoking."
+    },
+    {
+      "id": "180190",
+      "japanese": "教師は生徒に善行をするように説き勧めた。",
+      "english": "The teacher exhorted his pupils to do well."
+    },
+    {
+      "id": "180215",
+      "japanese": "教官は私に毎日運動するように勧めた。",
+      "english": "The instructor advised me to get exercise every day."
+    },
+    {
+      "id": "183854",
+      "japanese": "看護婦は、彼が歩いているほうがよいと勧めた。",
+      "english": "The nurse recommended that he try walking."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:27.898Z",
+  "count": 5,
+  "fileId": "kanji-01510"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "来",
+  "sentences": [
+    {
+      "id": "195279",
+      "japanese": "まもなく私は戻って来ます。",
+      "english": "I will be back soon."
+    },
+    {
+      "id": "4802",
+      "japanese": "それがどこから来たのか分からなかった。",
+      "english": "I didn't know where it came from."
+    },
+    {
+      "id": "4856",
+      "japanese": "家に来ませんか。",
+      "english": "Why don't you come visit us?"
+    },
+    {
+      "id": "4881",
+      "japanese": "今日君は来るのかなと思っていたところだよ。",
+      "english": "I was wondering if you were going to show up today."
+    },
+    {
+      "id": "4966",
+      "japanese": "マドリードから来た人たちは変わっている。",
+      "english": "People from Madrid are weird."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.524Z",
+  "count": 5,
+  "fileId": "kanji-00031"
+}

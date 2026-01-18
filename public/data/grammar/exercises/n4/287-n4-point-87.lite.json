@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "287-n4-point-87",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "287-n4-point-87-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"It would be good if / should / I hope\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～たらいい",
+          "romaji": "~tara ii"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～たらいい matches \"It would be good if / should / I hope\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～たらいい.",
+      "explanation": "Expresses hope, suggestion, or advice: \"It would be good if...\"",
+      "difficulty": "easy"
+    }
+  ]
+}

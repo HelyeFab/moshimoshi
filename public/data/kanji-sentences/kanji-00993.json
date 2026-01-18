@@ -1,0 +1,33 @@
+{
+  "kanji": "並",
+  "sentences": [
+    {
+      "id": "179207",
+      "japanese": "君があまり速く歩くので、いっしょに並んで歩けない。",
+      "english": "You walk too fast for me to keep up with you."
+    },
+    {
+      "id": "184641",
+      "japanese": "街道沿いに家が並んでいた。",
+      "english": "Houses were lined up alongside the highway."
+    },
+    {
+      "id": "185694",
+      "japanese": "大きさ順に本を並べた。",
+      "english": "We arranged the books according to size."
+    },
+    {
+      "id": "186960",
+      "japanese": "家主は、この３日間暖房がきかなかった理由をあれこれ並べ立てたが、どうせ見え透いたウソだった。",
+      "english": "The landlord told me a cock and bull story about why we didn't have heat for three days."
+    },
+    {
+      "id": "188983",
+      "japanese": "英国人は列を作って並ぶのに慣れている。",
+      "english": "British people are used to standing in queues."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.707Z",
+  "count": 5,
+  "fileId": "kanji-00993"
+}

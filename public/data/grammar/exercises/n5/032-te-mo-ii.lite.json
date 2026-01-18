@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "032-te-mo-ii",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "032-te-mo-ii-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct permission form: 座る → ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "座ってもいいです"
+        },
+        {
+          "id": "b",
+          "text": "座りますもいいです"
+        },
+        {
+          "id": "c",
+          "text": "座るもいいです"
+        },
+        {
+          "id": "d",
+          "text": "座っていいです"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! て-form + もいいです.",
+      "incorrectFeedback": "Not quite. Use て-form + もいいです.",
+      "explanation": "座る → 座ってもいいです.",
+      "difficulty": "easy"
+    }
+  ]
+}

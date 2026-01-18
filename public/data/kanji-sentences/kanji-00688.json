@@ -1,0 +1,23 @@
+{
+  "kanji": "衣",
+  "sentences": [
+    {
+      "id": "190987",
+      "japanese": "衣ばかりで和尚はできぬ。",
+      "english": "The dress does not make the fair."
+    },
+    {
+      "id": "122012",
+      "japanese": "濡れ衣を着せられた。",
+      "english": "I was falsely accused."
+    },
+    {
+      "id": "2759290",
+      "japanese": "トムは濡れ衣を着せられた。",
+      "english": "Tom was falsely accused."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.027Z",
+  "count": 3,
+  "fileId": "kanji-00688"
+}

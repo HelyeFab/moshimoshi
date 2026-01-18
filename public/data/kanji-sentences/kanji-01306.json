@@ -1,0 +1,33 @@
+{
+  "kanji": "熊",
+  "sentences": [
+    {
+      "id": "179222",
+      "japanese": "熊は死体には触れないものだ。",
+      "english": "A bear will not touch a dead body."
+    },
+    {
+      "id": "179223",
+      "japanese": "熊は木に登る事ができる。",
+      "english": "A bear can climb a tree."
+    },
+    {
+      "id": "8933556",
+      "japanese": "熊は木に登れる。",
+      "english": "A bear can climb a tree."
+    },
+    {
+      "id": "179224",
+      "japanese": "熊は岩の下にいる、肥った虫をさがして、石という石をひっくりかえした。",
+      "english": "The bear left no stone unturned in his search for fat bugs under the rocks."
+    },
+    {
+      "id": "179225",
+      "japanese": "熊はまた、２４時間明るい夏は当てはまらないが、夜よりも昼に寝る傾向がある。夜活動するのはアザラシの行動と関係があるだろう。",
+      "english": "Bears also tend to sleep more during the day than at night, although in the summer, with twenty-four hours of light, this does not apply."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:21.648Z",
+  "count": 5,
+  "fileId": "kanji-01306"
+}

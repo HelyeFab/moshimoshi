@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "264-n4-point-64",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "264-n4-point-64-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Sometimes do something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb る ことがある",
+          "romaji": "Verb ru koto ga aru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb る ことがある matches \"Sometimes do something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb る ことがある.",
+      "explanation": "Used to say you sometimes do or have ever done an action.",
+      "difficulty": "easy"
+    }
+  ]
+}

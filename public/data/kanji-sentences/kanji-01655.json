@@ -1,0 +1,33 @@
+{
+  "kanji": "滝",
+  "sentences": [
+    {
+      "id": "180126",
+      "japanese": "橋の上流に滝がある。",
+      "english": "There is a waterfall above the bridge."
+    },
+    {
+      "id": "189662",
+      "japanese": "雨が滝のように降ってきた。",
+      "english": "Down came the rain in torrents."
+    },
+    {
+      "id": "208220",
+      "japanese": "その滝は橋の少し下流にあります。",
+      "english": "The falls are some distance below the bridge."
+    },
+    {
+      "id": "213742",
+      "japanese": "そこですばらしい滝を見た。",
+      "english": "I saw a wonderful fall there."
+    },
+    {
+      "id": "76981",
+      "japanese": "ナイアガラの滝は世界有数の観光地として名高い。",
+      "english": "The Niagara Falls are famous as a world leading tourist resort."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:32.134Z",
+  "count": 5,
+  "fileId": "kanji-01655"
+}

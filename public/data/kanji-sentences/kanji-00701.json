@@ -1,0 +1,33 @@
+{
+  "kanji": "旧",
+  "sentences": [
+    {
+      "id": "74292",
+      "japanese": "ロバート・ハンセンが、旧ソ連に秘密情報を売りさばいた容疑で逮捕された。",
+      "english": "Robert Hansen was arrested on suspicion of having sold off secret information to the former Soviet Union."
+    },
+    {
+      "id": "76237",
+      "japanese": "旧システム用に書かれたソフトとの上位互換性を保つのは大切です。",
+      "english": "It is important to maintain backward compatibility with software that was written to run on the former system."
+    },
+    {
+      "id": "145302",
+      "japanese": "新トンネルは旧トンネルの２倍の長さだ。",
+      "english": "The new tunnel is twice as long as the old one."
+    },
+    {
+      "id": "1246465",
+      "japanese": "旧い伝統が次第に破壊されています。",
+      "english": "Old customs are gradually being destroyed."
+    },
+    {
+      "id": "3530851",
+      "japanese": "旧いものを毀そうとするのは無駄な骨折だ。ほんとうに自分等が新しくなることが出来れば、旧いものは既に毀れている。",
+      "english": "It is a waste of effort to try and destroy the old. If we can truly renew ourselves, the old will already be destroyed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.370Z",
+  "count": 5,
+  "fileId": "kanji-00701"
+}

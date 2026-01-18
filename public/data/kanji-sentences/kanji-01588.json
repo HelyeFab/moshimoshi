@@ -1,0 +1,33 @@
+{
+  "kanji": "鎖",
+  "sentences": [
+    {
+      "id": "210982",
+      "japanese": "その犬は鎖でつないでおくべきだ。",
+      "english": "The dog should be on a chain."
+    },
+    {
+      "id": "215660",
+      "japanese": "ジョージはその犬に鎖をつけた。",
+      "english": "George put a chain on the dog."
+    },
+    {
+      "id": "148307",
+      "japanese": "囚人たちは鎖につながれている。",
+      "english": "The prisoners are in chains."
+    },
+    {
+      "id": "170859",
+      "japanese": "鎖の強さはその環の一番弱いところに左右される。",
+      "english": "The strength of the chain is in the weakest link."
+    },
+    {
+      "id": "175245",
+      "japanese": "犬は柱に鎖でつながれていた。",
+      "english": "The dog was chained to the post."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.160Z",
+  "count": 5,
+  "fileId": "kanji-01588"
+}

@@ -1,0 +1,102 @@
+{
+  "id": "009-particle-ni-location",
+  "version": "1.0.0",
+  "title": {
+    "ja": "に（場所・時間）",
+    "romaji": "ni (location/time)",
+    "en": "に (location/time)"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "に marks a specific point in time or a destination/location. It answers “when?” or “to where?” and is used with time words and movement or existence verbs.\n\nKey points:\n• Use に for a specific time: 3時に, 月曜日に\n• Use に for destinations: 学校に行きます\n• Use に for existence location: 机の上に本があります\n• Do not use に for general time words like きょう or まいにち\n\nFor time, に attaches to exact points: “7時に起きます” (I wake up at 7). For place, に marks where someone goes or where something exists: “公園に行きます” (go to the park), “部屋に猫がいます” (there is a cat in the room).\n\nThe key idea is that に points to a single, specific point. When the time or place is more general (like “every day” or “this year”), に is often omitted.\n\nIf you are unsure, ask yourself: “Is this a specific time or destination?” If yes, に is likely correct. If it is a general time or the place where an action happens, consider dropping に or using で.\n\nBeginners should remember three common patterns: Time に + verb, Place に + 行く/来る, and Place に + いる/ある. Using に correctly makes your sentences clear about time and destination.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Time に / Place に + Verb",
+    "components": [
+      {
+        "part": "Time/Place",
+        "explanation": "Specific time or destination/location",
+        "examples": ["7時", "月曜日", "学校", "部屋"]
+      },
+      {
+        "part": "に",
+        "explanation": "Particle marking time or location",
+        "examples": ["に"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action or existence verb",
+        "examples": ["行きます", "来ます", "います", "あります"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "7時に起きます。",
+      "romaji": "Shichi-ji ni okimasu.",
+      "english": "I wake up at 7 o'clock.",
+      "breakdown": {
+        "7時": "7 o'clock",
+        "に": "time marker",
+        "起きます": "wake up (polite)"
+      },
+      "notes": "Specific time with に"
+    },
+    {
+      "japanese": "学校に行きます。",
+      "romaji": "Gakkou ni ikimasu.",
+      "english": "I go to school.",
+      "breakdown": {
+        "学校": "school",
+        "に": "destination marker",
+        "行きます": "go (polite)"
+      },
+      "notes": "Destination with に"
+    },
+    {
+      "japanese": "部屋に猫がいます。",
+      "romaji": "Heya ni neko ga imasu.",
+      "english": "There is a cat in the room.",
+      "breakdown": {
+        "部屋": "room",
+        "に": "location marker",
+        "猫": "cat",
+        "が": "subject marker",
+        "います": "exists (polite)"
+      },
+      "notes": "Existence location with に"
+    },
+    {
+      "japanese": "日曜日に友だちと会います。",
+      "romaji": "Nichiyoubi ni tomodachi to aimasu.",
+      "english": "I meet a friend on Sunday.",
+      "breakdown": {
+        "日曜日": "Sunday",
+        "に": "time marker",
+        "友だち": "friend",
+        "と": "with",
+        "会います": "meet (polite)"
+      },
+      "notes": "Specific day with に"
+    }
+  ],
+  "relatedPoints": [
+    "011-particle-de-location",
+    "059-iru-animate"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using に with general time words like きょう",
+      "correction": "Do not add に to words like きょう, まいにち",
+      "example": "❌ きょうに行きます → ✅ きょう行きます"
+    },
+    {
+      "mistake": "Using に for the location of an action",
+      "correction": "Use で for where an action happens",
+      "example": "❌ 学校に勉強します → ✅ 学校で勉強します"
+    }
+  ],
+  "tags": ["particle", "time", "location", "destination"]
+}

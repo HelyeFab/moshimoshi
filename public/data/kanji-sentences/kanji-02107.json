@@ -1,0 +1,33 @@
+{
+  "kanji": "街",
+  "sentences": [
+    {
+      "id": "5032",
+      "japanese": "パリは世界で最も美しい街である。",
+      "english": "Paris is the most beautiful city in the world."
+    },
+    {
+      "id": "724627",
+      "japanese": "ここが前に話した街です。",
+      "english": "This is the town I told you about."
+    },
+    {
+      "id": "184150",
+      "japanese": "楽しく街を見ましたが、少し疲れました。",
+      "english": "We enjoyed seeing the city, but we got a little tired."
+    },
+    {
+      "id": "184642",
+      "japanese": "街を当てもなく歩いた。",
+      "english": "I walked about aimlessly on the street."
+    },
+    {
+      "id": "184644",
+      "japanese": "街まで乗せていってください。",
+      "english": "Give us a ride downtown."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:49.742Z",
+  "count": 5,
+  "fileId": "kanji-02107"
+}

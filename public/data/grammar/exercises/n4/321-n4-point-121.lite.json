@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "321-n4-point-121",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "321-n4-point-121-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Sentence A; furthermore, Sentence B\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "文A。そのうえ 文B。",
+          "romaji": "Mon A. Sono ue Mon B."
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! 文A。そのうえ 文B。 matches \"Sentence A; furthermore, Sentence B\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 文A。そのうえ 文B。.",
+      "explanation": "Adds more information to Sentence A; Sentence B builds on it.",
+      "difficulty": "easy"
+    }
+  ]
+}

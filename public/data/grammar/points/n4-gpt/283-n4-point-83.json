@@ -1,0 +1,89 @@
+{
+  "id": "283-n4-point-83",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～ずつ",
+    "romaji": "~zutsu",
+    "en": "each, per"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～ずつ grammar point is used to express an equal distribution of something, whether it is an action, amount, or item.",
+    "ja": "～ずつは、行動や数量、アイテムを等しく分配することを表現するために使用されます。"
+  },
+  "structure": {
+    "pattern": "Noun + ずつ",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "A noun that specifies the item or action distributed.",
+        "examples": [
+          "りんご (apple)",
+          "掃除 (cleaning)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "りんごを2つずつ配ります。",
+      "romaji": "Ringo wo futatsu zutsu kubarimasu.",
+      "english": "I will distribute 2 apples each.",
+      "breakdown": {
+        "りんご": "apple",
+        "2つずつ": "each two",
+        "配る": "to distribute"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "私たちは週に一度ずつ掃除をします。",
+      "romaji": "Watashitachi wa shuu ni ichido zutsu souji o shimasu.",
+      "english": "We each clean once per week.",
+      "breakdown": {
+        "週に一度ずつ": "once a week",
+        "掃除する": "to clean"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "みんなは同じ距離を一歩ずつ歩いた。",
+      "romaji": "Minna wa onaji kyori o ippo zutsu aruita.",
+      "english": "Everyone walked the same distance, one step at a time.",
+      "breakdown": {
+        "同じ距離": "the same distance",
+        "一歩ずつ": "one step each"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は子供たちに一枚ずつプレゼントをくれました。",
+      "romaji": "Kanojo wa kodomotachi ni ichimai zutsu purezento o kuremashita.",
+      "english": "She gave one present to each child.",
+      "breakdown": {
+        "一枚ずつ": "each one",
+        "子供たちに": "to the children"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Noun しか～ない",
+    "Verb てもらいたい (～te moraitai)",
+    "～かしら"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "りんごを2つづつ配ります。",
+      "correction": "りんごを2つずつ配ります。",
+      "example": "Ringo wo futatsu zutsu kubarimasu."
+    }
+  ],
+  "tags": [
+    "n4",
+    "distribution",
+    "equal-sharing",
+    "numbers"
+  ]
+}

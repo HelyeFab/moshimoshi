@@ -1,0 +1,113 @@
+{
+  "id": "316-n4-point-116",
+  "version": "1.0.0",
+  "title": {
+    "ja": "~まま",
+    "romaji": "~mama",
+    "en": "As it is"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "Expresses a state or condition that remains unchanged.",
+    "ja": "状態や条件が変わらないままを表現します。"
+  },
+  "structure": {
+    "pattern": "[Verb-てform + いる+ まま], [Adjective (い & な) + まま], [Noun + のまま]",
+    "components": [
+      {
+        "part": "Verb",
+        "explanation": "Use the te-form followed by いる and then まま.",
+        "examples": [
+          "開けたまま",
+          "止めたまま"
+        ]
+      },
+      {
+        "part": "Adjective",
+        "explanation": "Used directly after both い-adjectives and な-adjectives.",
+        "examples": [
+          "きれいなまま",
+          "暖かいまま"
+        ]
+      },
+      {
+        "part": "Noun",
+        "explanation": "Follow the noun with の and then まま.",
+        "examples": [
+          "子供のまま"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "ドアを開けたまま出かけてしまった。",
+      "romaji": "Doa o aketa mama dekakete shimatta.",
+      "english": "I accidentally left with the door open.",
+      "breakdown": {
+        "ドアを": "door",
+        "開けて": "open",
+        "まま": "as it is",
+        "出かけてしまった": "left"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は目覚まし時計を止めたまま寝ってしまった。",
+      "romaji": "Kare wa mezamashi dokei o tometa mama nete shimatta.",
+      "english": "He fell asleep with the alarm clock stopped.",
+      "breakdown": {
+        "彼は": "he",
+        "目覚まし時計を": "alarm clock",
+        "止めて": "stop",
+        "まま": "as it is",
+        "寝てしまった": "fell asleep"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "その部屋はきれいなままにしておいてください。",
+      "romaji": "Sono heya wa kirei na mama ni shite oite kudasai.",
+      "english": "Please keep the room clean.",
+      "breakdown": {
+        "その部屋は": "the room",
+        "きれいな": "clean",
+        "ままに": "as it is",
+        "しておいてください": "keep"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は子供のままの心を持っている。",
+      "romaji": "Kanojo wa kodomo no mama no kokoro o motte iru.",
+      "english": "She has the heart of a child.",
+      "breakdown": {
+        "彼女は": "she",
+        "子供の": "child's",
+        "ままの": "as it is",
+        "心を持っています": "has the heart"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～し、～し、～",
+    "～てはいけない",
+    "～といい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼は目覚まし時計を止めて寝てしまった。",
+      "correction": "彼は目覚まし時計を止めたまま寝てしまった。",
+      "example": "The sentence without ～まま implies that the action of stopping the alarm clock is completed and does not imply the state."
+    }
+  ],
+  "tags": [
+    "n4",
+    "condition",
+    "state",
+    "unchanged",
+    "miscellaneous"
+  ]
+}

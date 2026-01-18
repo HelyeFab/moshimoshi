@@ -1,0 +1,33 @@
+{
+  "kanji": "及",
+  "sentences": [
+    {
+      "id": "177345",
+      "japanese": "君は靴を脱ぐには及ばない。",
+      "english": "You need not take off your shoes."
+    },
+    {
+      "id": "1656141",
+      "japanese": "君に害は及ばないよ。",
+      "english": "No harm will come to you."
+    },
+    {
+      "id": "182621",
+      "japanese": "及ばずながらお手伝いしましょう。",
+      "english": "I will help you all I can."
+    },
+    {
+      "id": "10339561",
+      "japanese": "喫煙は健康に影響を及ぼします。",
+      "english": "Smoking affects your health."
+    },
+    {
+      "id": "184836",
+      "japanese": "外交の駆け引きでは、とても彼には及ばない。",
+      "english": "I am no match for him in diplomatic shrewdness."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:17.424Z",
+  "count": 5,
+  "fileId": "kanji-01136"
+}

@@ -1,1 +1,13 @@
 export { GrammarExplanationTrigger } from './GrammarExplanationTrigger';
+export { GrammarPointGrid } from './GrammarPointGrid';
+export { GrammarPointCard } from './GrammarPointCard';
+export { GrammarPointDetail } from './GrammarPointDetail';
+export { ExampleSentence } from './ExampleSentence';
+export { GrammarStructure } from './GrammarStructure';
+export { RelatedPoints } from './RelatedPoints';
+export { ExerciseContainer } from './ExerciseContainer';
+export { ExerciseFeedback } from './ExerciseFeedback';
+export { ExerciseProgress } from './ExerciseProgress';
+export { MultipleChoice } from './exercises/MultipleChoice';
+export { FillInBlank } from './exercises/FillInBlank';
+export { SentenceMatching } from './exercises/SentenceMatching';

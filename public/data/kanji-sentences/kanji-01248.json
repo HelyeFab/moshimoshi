@@ -1,0 +1,33 @@
+{
+  "kanji": "致",
+  "sentences": [
+    {
+      "id": "494184",
+      "japanese": "「ありがとうご座います」「どう致しまして」",
+      "english": "\"Thank you.\" \"You're welcome.\""
+    },
+    {
+      "id": "183545",
+      "japanese": "喜んでご招待をお受け致します。",
+      "english": "I am glad to accept your invitation."
+    },
+    {
+      "id": "188230",
+      "japanese": "下記の値下げ致しましたことをご通知申し上げます。",
+      "english": "We wish to advise you of the following price reductions."
+    },
+    {
+      "id": "9194922",
+      "japanese": "申し訳ありませんが、すぐにお答え致しかねます。",
+      "english": "I'm sorry, but I can't answer right away."
+    },
+    {
+      "id": "215071",
+      "japanese": "スーツケースをお持ち致しましょう。",
+      "english": "Let me relieve you of your suitcase."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.161Z",
+  "count": 5,
+  "fileId": "kanji-01248"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "歯",
+  "sentences": [
+    {
+      "id": "79979",
+      "japanese": "目には目を、歯には歯を。",
+      "english": "An eye for an eye, a tooth for a tooth."
+    },
+    {
+      "id": "184014",
+      "japanese": "寒くて歯がガチガチ鳴った。",
+      "english": "My teeth chattered with cold."
+    },
+    {
+      "id": "184015",
+      "japanese": "寒くて歯ががたがたいった。",
+      "english": "My teeth chattered with cold."
+    },
+    {
+      "id": "184061",
+      "japanese": "噛むとこの歯が痛みます。",
+      "english": "When I bite down, this tooth hurts."
+    },
+    {
+      "id": "10045032",
+      "japanese": "噛むとこの歯が痛いの。",
+      "english": "When I bite down, this tooth hurts."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.500Z",
+  "count": 5,
+  "fileId": "kanji-00396"
+}

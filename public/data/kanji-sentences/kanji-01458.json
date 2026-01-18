@@ -1,0 +1,33 @@
+{
+  "kanji": "網",
+  "sentences": [
+    {
+      "id": "185117",
+      "japanese": "海に網を投げ入れた。",
+      "english": "I cast my net into the sea."
+    },
+    {
+      "id": "197764",
+      "japanese": "ハンター達はその野生動物を丈夫なロープの網で捕まえた。",
+      "english": "The hunters captured the wild animal with a strong rope net."
+    },
+    {
+      "id": "211438",
+      "japanese": "その漁師達は網を海に投げた。",
+      "english": "The fishermen cast their nets into the sea."
+    },
+    {
+      "id": "219457",
+      "japanese": "この網は蚊を寄せ付けないためのものだ。",
+      "english": "This net here is to keep off mosquitoes."
+    },
+    {
+      "id": "223724",
+      "japanese": "このコンピューター網は、いわば、会社の神経組織である。",
+      "english": "This computer network is, as it were, the nervous system of the company."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:26.251Z",
+  "count": 5,
+  "fileId": "kanji-01458"
+}

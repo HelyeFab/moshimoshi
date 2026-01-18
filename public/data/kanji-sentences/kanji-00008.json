@@ -1,0 +1,33 @@
+{
+  "kanji": "子",
+  "sentences": [
+    {
+      "id": "4772",
+      "japanese": "あなたが女の子だからよ。",
+      "english": "That's because you're a girl."
+    },
+    {
+      "id": "5029",
+      "japanese": "学校教育の義務的側面は子どもの学習意欲を改善させる様々な研究の多くの取り組みの中ではめったに分析されない。",
+      "english": "The mandatory character of schooling is rarely analyzed in the multitude of works dedicated to the study of the various ways to develop within children the desire to learn."
+    },
+    {
+      "id": "5155",
+      "japanese": "私は結婚していて子どもが二人いる。",
+      "english": "I am married and have two children."
+    },
+    {
+      "id": "144844",
+      "japanese": "親が親なら子も子。",
+      "english": "Like father, like son."
+    },
+    {
+      "id": "220068",
+      "japanese": "この親にしてこの子あり。",
+      "english": "Like father, like son."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.300Z",
+  "count": 5,
+  "fileId": "kanji-00008"
+}

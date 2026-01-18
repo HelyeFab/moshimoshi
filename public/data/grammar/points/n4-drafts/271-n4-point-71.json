@@ -1,0 +1,55 @@
+{
+  "id": "271-n4-point-71",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb 方 (〜hou)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～方 grammar point is used to express the way or method of doing something, similar to 'how to' or 'the way of' in English. It can be attached to the stem of a verb to form a noun that indicates the method of doing the action. In practice, ～方 is usually read as '～かた' (e.g., 作り方＝つくりかた).",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-stem + 方 (read as かた)",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "誰かがケーキの作り方を知っていますか？",
+      "romaji": "Dareka ga keeki no tsukurikata o shitteimasu ka?",
+      "english": "Does anyone know how to make a cake?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は英語の話し方を学んでいます。",
+      "romaji": "Kanojo wa eigo no hanashikata o manandeimasu.",
+      "english": "She is learning how to speak English.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このパソコンの使い方を教えてください。",
+      "romaji": "Kono pasokon no tsukaikata o oshiete kudasai.",
+      "english": "Please teach me how to use this computer.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "数学の問題の解き方を覚えるのが難しいです。",
+      "romaji": "Suugaku no mondai no tokikata o oboeru no ga muzukashii desu.",
+      "english": "It is difficult to remember the way to solve math problems.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

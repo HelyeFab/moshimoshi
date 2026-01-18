@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "211-n4-point-11",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "211-n4-point-11-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"During the period of\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Noun の 間に (〜no aida ni)",
+          "romaji": "noun no aida ni"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Noun の 間に (〜no aida ni) matches \"During the period of\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Noun の 間に (〜no aida ni).",
+      "explanation": "Expresses an action happening during a specific period marked by a noun.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "211-n4-point-11-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Noun の 間に (〜no aida ni).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "During the period of"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Noun の 間に (〜no aida ni) means \"During the period of\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"During the period of\".",
+      "explanation": "Expresses an action happening during a specific period marked by a noun.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "211-n4-point-11-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Noun の 間に (〜no aida ni).",
+      "options": [
+        {
+          "id": "a",
+          "text": "noun no aida ni"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! noun no aida ni is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is noun no aida ni.",
+      "explanation": "Expresses an action happening during a specific period marked by a noun.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "211-n4-point-11-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Noun の 間に (〜no aida ni)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Expresses an action happening during a specific period marked by a noun."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses an action happening during a specific period marked by a noun.",
+      "explanation": "Expresses an action happening during a specific period marked by a noun.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "211-n4-point-11-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"During the period of\".",
+      "correctAnswer": "Noun の 間に (〜no aida ni)",
+      "acceptedVariations": [
+        "Noun の 間に (〜no aida ni)",
+        "Nounの間に(〜noaidani)"
+      ],
+      "correctFeedback": "Nice! Noun の 間に (〜no aida ni) is correct.",
+      "incorrectFeedback": "The correct pattern is: Noun の 間に (〜no aida ni) (noun no aida ni).",
+      "explanation": "Expresses an action happening during a specific period marked by a noun.",
+      "hints": [
+        "noun no aida ni",
+        "Expresses an action happening during a specific period marked by a noun."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "211-n4-point-11-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Noun の 間に (〜no aida ni).",
+      "correctAnswer": "noun no aida ni",
+      "acceptedVariations": [
+        "noun no aida ni",
+        "noun no aida ni"
+      ],
+      "correctFeedback": "Nice! noun no aida ni is correct.",
+      "incorrectFeedback": "The correct romaji is: noun no aida ni.",
+      "explanation": "Expresses an action happening during a specific period marked by a noun.",
+      "hints": [
+        "Expresses an action happening during a specific period marked by a noun."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "211-n4-point-11-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Noun の 間に (〜no aida ni).",
+      "correctAnswer": "During the period of",
+      "acceptedVariations": [
+        "During the period of",
+        "during the period of"
+      ],
+      "correctFeedback": "Correct! \"During the period of\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"During the period of\".",
+      "explanation": "Expresses an action happening during a specific period marked by a noun.",
+      "hints": [
+        "Expresses an action happening during a specific period marked by a noun."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "211-n4-point-11-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Noun の 間に (〜no aida ni)",
+          "romaji": "noun no aida ni",
+          "english": "During the period of"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses an action happening during a specific period marked by a noun.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "211-n4-point-11-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses an action happening during a specific period marked by a noun..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Noun の 間に (〜no aida ni)",
+          "romaji": "noun no aida ni"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Noun の 間に (〜no aida ni) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Noun の 間に (〜no aida ni).",
+      "explanation": "Expresses an action happening during a specific period marked by a noun.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "211-n4-point-11-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Nounの間に(〜noaidani)",
+      "acceptedVariations": [
+        "Nounの間に(〜noaidani)",
+        "Noun の 間に (〜no aida ni)"
+      ],
+      "correctFeedback": "Great! Nounの間に(〜noaidani) is correct.",
+      "incorrectFeedback": "The correct pattern is: Nounの間に(〜noaidani).",
+      "explanation": "Expresses an action happening during a specific period marked by a noun.",
+      "hints": [
+        "noun no aida ni"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,102 @@
+{
+  "id": "207-n4-point-7",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun しか～ない",
+    "romaji": "Noun shika~nai",
+    "en": "Only ~"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The grammar point Noun しか～ない emphasizes the small quantity or exclusiveness of something. It can be translated as 'only', 'nothing but', or 'no other' in English and is used with a negative verb.",
+    "ja": "名詞+しか~ないは何かの数量が少ないか、または唯一であることを強調します。英語では「だけ」「何も他にはない」や「ほかに何もない」と訳すことができます。否定形の動詞と一緒に使います。"
+  },
+  "structure": {
+    "pattern": "Noun + しか + Negative Verb",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "The noun that is being emphasized.",
+        "examples": [
+          "リンゴ (ringo)",
+          "電車 (densha)"
+        ]
+      },
+      {
+        "part": "しか",
+        "explanation": "Particles used to emphasize the exclusiveness of something.",
+        "examples": []
+      },
+      {
+        "part": "Negative Verb",
+        "explanation": "A verb in negative form that follows しか and conveys the meaning.",
+        "examples": [
+          "食べない (tabenai)",
+          "持っていません (motte imasen)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私はリンゴしか食べない。",
+      "romaji": "Watashi wa ringo shika tabenai.",
+      "english": "I eat only apples.",
+      "breakdown": {
+        "token": "Watashi (I) / ringo (apple) / shika (only) / tabe (eat) nai (not)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "電車で行くしかないです。",
+      "romaji": "Densha de iku shika nai desu.",
+      "english": "There is no other way but to go by train.",
+      "breakdown": {
+        "token": "densha (train) / iku (go) shika (only) / nai desu (there isn't)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は一冊の本しか持っていない。",
+      "romaji": "Kare wa isatsu no hon shika motte inai.",
+      "english": "He has only one book.",
+      "breakdown": {
+        "token": "kare (he) / isatsu (one volume) / hon (book) shika (only) / motte inai (has not)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この店にはビールしかない。",
+      "romaji": "Kono mise ni wa biiru shika nai.",
+      "english": "There is nothing but beer in this store.",
+      "breakdown": {
+        "token": "kono (this) / mise (store) / biiru (beer) shika (only)"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "そんなに～",
+    "Verb 出す (~dasu)",
+    "Verb てもらいたい (～te moraitai)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼はリンゴしか食べる。",
+      "correction": "彼はリンゴしか食べない。",
+      "example": "Kare wa ringo shika tabenai."
+    },
+    {
+      "mistake": "ここには水だけある。",
+      "correction": "ここには水しかない。",
+      "example": "Koko ni wa mizu shika nai."
+    }
+  ],
+  "tags": [
+    "n4",
+    "emphasis",
+    "negation",
+    "exclusiveness"
+  ]
+}

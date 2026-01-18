@@ -1,0 +1,33 @@
+{
+  "kanji": "役",
+  "sentences": [
+    {
+      "id": "4827",
+      "japanese": "私のパソコンは何かの役に立つはずだ。",
+      "english": "My computer has got to be useful for something."
+    },
+    {
+      "id": "178203",
+      "japanese": "君の助言はいつも私の役に立つ。",
+      "english": "Your advice is always helpful to me."
+    },
+    {
+      "id": "178869",
+      "japanese": "君が僕に教えてくれた情報はあまり役に立たない。",
+      "english": "The information you gave me is of little use."
+    },
+    {
+      "id": "179220",
+      "japanese": "繰り返すことが物事を覚えるのに役に立つ。",
+      "english": "Repetition helps you remember something."
+    },
+    {
+      "id": "182328",
+      "japanese": "牛はこの国では他のどんな動物よりも役に立つ。",
+      "english": "Cows are more useful than any other animal in this country."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.456Z",
+  "count": 5,
+  "fileId": "kanji-00547"
+}

@@ -122,6 +122,17 @@ export default function KanjiStudyMode({
     }
   }, [kanji.kanji])
 
+  useEffect(() => {
+    if (!tatoebaData?.sentences || tatoebaData.sentences.length === 0) return
+    const texts = tatoebaData.sentences
+      .map(sentence => sentence.japanese)
+      .filter(Boolean)
+      .slice(0, 5)
+    if (texts.length > 0) {
+      preload(texts, { voice: '23', speed: 0.85 })
+    }
+  }, [tatoebaData, preload])
+
   const handlePlayAudio = async (text: string) => {
     try {
       // Use the app's proper TTS system (will use cache first, then API)

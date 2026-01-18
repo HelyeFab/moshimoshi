@@ -1,0 +1,33 @@
+{
+  "kanji": "片",
+  "sentences": [
+    {
+      "id": "177131",
+      "japanese": "君は食卓の上を片づけなければならない。",
+      "english": "You must clear the table."
+    },
+    {
+      "id": "177371",
+      "japanese": "机を少しは片づけなさい。",
+      "english": "Clear up your desk a bit."
+    },
+    {
+      "id": "179810",
+      "japanese": "近所の人たちに、お別れをいうまえに、スミスさんの一家は家の中の最後の取り片づけをしなければならなかった。",
+      "english": "Before saying goodbye to their neighbors, the Smiths had to tie up some loose ends inside the house."
+    },
+    {
+      "id": "185407",
+      "japanese": "会議で使った書類の片づけを頼まれた。",
+      "english": "I was asked to put away all the papers we used at the meeting."
+    },
+    {
+      "id": "186342",
+      "japanese": "我々に道具をくれ、そうすれば仕事を片づけてみせよう。",
+      "english": "Give us the tools, and we'll finish the job."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.699Z",
+  "count": 5,
+  "fileId": "kanji-00992"
+}

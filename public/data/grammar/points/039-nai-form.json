@@ -1,0 +1,97 @@
+{
+  "id": "039-nai-form",
+  "version": "1.0.0",
+  "title": {
+    "ja": "ない形",
+    "romaji": "nai-kei",
+    "en": "ない form"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ない-form is the base negative form of a verb. It is used on its own in casual speech and as a building block for many grammar patterns such as 〜なくてはいけない and 〜ないでください (later).\n\nKey points:\n• ない-form = casual negative\n• Built differently for each verb group\n• Used before patterns like なくてはいけない\n• Irregular: する→しない, 来る→こない\n\nFor u-verbs, change the final vowel to the a-sound and add ない: 書く→書かない, 読む→読まない, 行く→行かない. For ru-verbs, drop る and add ない: 食べる→食べない, 見る→見ない.\n\nThe ない-form is essential for making obligations and prohibitions. If you learn this form, many other patterns become easy to build.\n\nAt N5, focus on common verbs and memorize their ない-forms. Once you see them often, the pattern becomes natural.\n\nRemember to keep the form consistent with casual style. If you need polite speech, use ません instead.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (ない-form)",
+    "components": [
+      {
+        "part": "U-verb change",
+        "explanation": "Final u-sound → a-sound + ない",
+        "examples": ["書かない", "読まない", "行かない"]
+      },
+      {
+        "part": "Ru-verb change",
+        "explanation": "Drop る + ない",
+        "examples": ["食べない", "見ない", "起きない"]
+      },
+      {
+        "part": "Irregular",
+        "explanation": "Two special verbs",
+        "examples": ["しない", "こない"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "今日は行かない。",
+      "romaji": "Kyou wa ikanai.",
+      "english": "I am not going today.",
+      "breakdown": {
+        "今日": "today",
+        "は": "topic marker",
+        "行かない": "do not go (nai-form)"
+      },
+      "notes": "U-verb ない-form"
+    },
+    {
+      "japanese": "肉を食べない。",
+      "romaji": "Niku o tabenai.",
+      "english": "I do not eat meat.",
+      "breakdown": {
+        "肉": "meat",
+        "を": "object marker",
+        "食べない": "do not eat (nai-form)"
+      },
+      "notes": "Ru-verb ない-form"
+    },
+    {
+      "japanese": "宿題をしない。",
+      "romaji": "Shukudai o shinai.",
+      "english": "I do not do homework.",
+      "breakdown": {
+        "宿題": "homework",
+        "を": "object marker",
+        "しない": "do not do (nai-form)"
+      },
+      "notes": "Irregular する"
+    },
+    {
+      "japanese": "明日来ない。",
+      "romaji": "Ashita konai.",
+      "english": "I will not come tomorrow.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "来ない": "do not come (nai-form)"
+      },
+      "notes": "Irregular 来る"
+    }
+  ],
+  "relatedPoints": [
+    "038-plain-form-negative",
+    "034-nakute-wa-ikenai"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ません as the base form",
+      "correction": "Use the plain ない-form as the base",
+      "example": "❌ 食べませんて → ✅ 食べなくて"
+    },
+    {
+      "mistake": "Forgetting irregular forms",
+      "correction": "する→しない, 来る→こない",
+      "example": "❌ するない → ✅ しない"
+    }
+  ],
+  "tags": ["verbs", "nai-form", "negative", "beginner"]
+}

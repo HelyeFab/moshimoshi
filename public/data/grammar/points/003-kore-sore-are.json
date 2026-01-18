@@ -1,0 +1,109 @@
+{
+  "id": "003-kore-sore-are",
+  "version": "1.0.0",
+  "title": {
+    "ja": "これ・それ・あれ",
+    "romaji": "kore / sore / are",
+    "en": "this / that / that over there"
+  },
+  "jlptLevel": "N5",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "これ・それ・あれ are demonstratives used to point to things. The choice depends on distance from the speaker and listener. これ is “this” near the speaker. それ is “that” near the listener. あれ is “that over there,” far from both.\n\nKey points:\n• これ = near me (the speaker)\n• それ = near you (the listener)\n• あれ = far from both\n• They replace a noun, like “this thing” or “that thing”\n\nFor example, if you hold a pen, you say “これはペンです.” If the pen is by your friend, you say “それはペンです.” If it is across the room, you say “あれはペンです.”\n\nThese words are very common in daily conversation because they let you point without naming the object. They are often used with XはYです to identify objects.\n\nThere are also related forms: この/その/あの + noun (e.g., この本 = this book). Those are different because they modify a noun directly. In this lesson, focus on これ/それ/あれ as standalone nouns.\n\nA helpful habit is to imagine a small “map” between you and the listener. If it is in your space, use これ; if it is in their space, use それ; if it is away from both, use あれ. This keeps your choice consistent.\n\nChoosing the right one makes your speech feel natural. Think about where the object is relative to you and the listener, then pick the appropriate word.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "これ／それ／あれ は N です",
+    "components": [
+      {
+        "part": "これ／それ／あれ",
+        "explanation": "Demonstrative pronoun for objects",
+        "examples": ["これ", "それ", "あれ"]
+      },
+      {
+        "part": "は",
+        "explanation": "Topic marker",
+        "examples": ["は"]
+      },
+      {
+        "part": "N",
+        "explanation": "Noun (object name)",
+        "examples": ["ペン", "本", "かばん"]
+      },
+      {
+        "part": "です",
+        "explanation": "Polite copula",
+        "examples": ["です"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "これはペンです。",
+      "romaji": "Kore wa pen desu.",
+      "english": "This is a pen.",
+      "breakdown": {
+        "これ": "this (near me)",
+        "は": "topic marker",
+        "ペン": "pen",
+        "です": "is (polite)"
+      },
+      "notes": "Object near the speaker"
+    },
+    {
+      "japanese": "それはあなたのかばんです。",
+      "romaji": "Sore wa anata no kaban desu.",
+      "english": "That is your bag.",
+      "breakdown": {
+        "それ": "that (near you)",
+        "は": "topic marker",
+        "あなたの": "your",
+        "かばん": "bag",
+        "です": "is (polite)"
+      },
+      "notes": "Object near the listener"
+    },
+    {
+      "japanese": "あれは図書館です。",
+      "romaji": "Are wa toshokan desu.",
+      "english": "That over there is the library.",
+      "breakdown": {
+        "あれ": "that over there",
+        "は": "topic marker",
+        "図書館": "library",
+        "です": "is (polite)"
+      },
+      "notes": "Object far from both"
+    },
+    {
+      "japanese": "これは私の本です。",
+      "romaji": "Kore wa watashi no hon desu.",
+      "english": "This is my book.",
+      "breakdown": {
+        "これ": "this",
+        "は": "topic marker",
+        "私の": "my",
+        "本": "book",
+        "です": "is (polite)"
+      },
+      "notes": "Using これ as a noun"
+    }
+  ],
+  "relatedPoints": [
+    "001-x-wa-y-desu",
+    "016-particle-no-possessive"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using これ for something far away",
+      "correction": "Use あれ for things far from both people",
+      "example": "❌ これは山です → ✅ あれは山です"
+    },
+    {
+      "mistake": "Confusing それ with あれ",
+      "correction": "それ is near the listener; あれ is far from both",
+      "example": "(Near listener) それは本です"
+    }
+  ],
+  "tags": ["demonstratives", "basic", "nouns", "pointing"]
+}

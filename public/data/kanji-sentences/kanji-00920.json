@@ -1,0 +1,33 @@
+{
+  "kanji": "造",
+  "sentences": [
+    {
+      "id": "182744",
+      "japanese": "丘の上のあの古い教会は１２世紀に造られた。",
+      "english": "The old church on the hill dates back to the twelfth century."
+    },
+    {
+      "id": "193783",
+      "japanese": "もしも神が存在しないのならば、神を造り出す必要があろう。",
+      "english": "If God did not exist, it would be necessary to invent him."
+    },
+    {
+      "id": "210748",
+      "japanese": "その公園は小さな子ども用に造られた。",
+      "english": "The park was designed for small children."
+    },
+    {
+      "id": "210852",
+      "japanese": "その湖は自然のものではなく人工によって造られたものである。",
+      "english": "The lake is made not by nature but by art."
+    },
+    {
+      "id": "212072",
+      "japanese": "その家は石で造られている。",
+      "english": "The house is made of stone."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.367Z",
+  "count": 5,
+  "fileId": "kanji-00920"
+}

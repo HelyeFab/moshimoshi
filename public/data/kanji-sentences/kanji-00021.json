@@ -1,0 +1,33 @@
+{
+  "kanji": "三",
+  "sentences": [
+    {
+      "id": "1066131",
+      "japanese": "失礼ですが、上の記事にある誤りを三つ指摘させてください。",
+      "english": "Excuse me; allow me to point out three errors in the above article."
+    },
+    {
+      "id": "1568240",
+      "japanese": "空き部屋は三つありますが、どれも使用できません。",
+      "english": "We have three spare rooms, none of which can be used."
+    },
+    {
+      "id": "182064",
+      "japanese": "京子がどこに住んでいるのか正確にはしりませんが、三ノ宮の方です。",
+      "english": "I don't know exactly where Kyoko lives, but it's in the direction of Sannomiya."
+    },
+    {
+      "id": "182783",
+      "japanese": "客は三々五々到着した。",
+      "english": "Guests arrived by twos and threes."
+    },
+    {
+      "id": "2037385",
+      "japanese": "私たちの家が完成するまでに三カ月はかかるでしょうね。",
+      "english": "It will be three months before our house is completed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.407Z",
+  "count": 5,
+  "fileId": "kanji-00021"
+}

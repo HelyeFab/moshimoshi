@@ -1,0 +1,89 @@
+{
+  "id": "245-n4-point-45",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て ほしい",
+    "romaji": "Verb-te hoshii",
+    "en": "Want someone to do something"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The て ほしい grammar point expresses the speaker's desire for someone else to perform an action.",
+    "ja": "てほしい文法は、誰かが行動を取ることを望む表現です。"
+  },
+  "structure": {
+    "pattern": "Verb-て form + ほしい",
+    "components": [
+      {
+        "part": "Verb-て form",
+        "explanation": "The te-form of the verb expresses the action that should be done.",
+        "examples": [
+          "勉強して (benkyou shite - studying)",
+          "来て (kite - coming)"
+        ]
+      },
+      {
+        "part": "ほしい",
+        "explanation": "This indicates the speaker's desire for something to happen.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "子供にもっと勉強してほしい。",
+      "romaji": "Kodomo ni motto benkyou shite hoshii.",
+      "english": "I want my child to study more.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼にもっと早く来てほしい。",
+      "romaji": "Kare ni motto hayaku kite hoshii.",
+      "english": "I want him to come earlier.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "友達にその本を読んでほしい。",
+      "romaji": "Tomodachi ni sono hon o yonde hoshii.",
+      "english": "I want my friend to read that book.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "先生に質問に答えてほしい。",
+      "romaji": "Sensei ni shitsumon ni kotaete hoshii.",
+      "english": "I want the teacher to answer the question.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb てもらいたい (～te moraitai)",
+    "動詞てくださいませんか",
+    "～てもいい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "子供がもっと勉強してほしい。",
+      "correction": "子供に(も)もっと勉強してほしい。",
+      "example": "The subject should be marked with に, not が."
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "desires",
+    "requests"
+  ]
+}

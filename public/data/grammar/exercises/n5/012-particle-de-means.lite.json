@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "012-particle-de-means",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "012-particle-de-means-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: バス＿＿学校に行きます。",
+      "questionRomaji": "Basu __ gakkou ni ikimasu.",
+      "options": [
+        {
+          "id": "a",
+          "text": "で",
+          "romaji": "de"
+        },
+        {
+          "id": "b",
+          "text": "に",
+          "romaji": "ni"
+        },
+        {
+          "id": "c",
+          "text": "を",
+          "romaji": "o"
+        },
+        {
+          "id": "d",
+          "text": "が",
+          "romaji": "ga"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! で marks the means of transportation.",
+      "incorrectFeedback": "Not quite. Use で for means/method.",
+      "explanation": "バスで = by bus.",
+      "difficulty": "easy"
+    }
+  ]
+}

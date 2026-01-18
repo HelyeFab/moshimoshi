@@ -1,0 +1,97 @@
+{
+  "id": "306-n4-point-106",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～なくてはいけない",
+    "romaji": "~nakute wa ikenai",
+    "en": "Must/Have to"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "Expresses necessity or obligation.",
+    "ja": "する必要があることを表現します。"
+  },
+  "structure": {
+    "pattern": "Verb-negative form + なくてはいけない",
+    "components": [
+      {
+        "part": "Verb-negative form",
+        "explanation": "Negative form of the verb.",
+        "examples": [
+          "しない",
+          "出さない"
+        ]
+      },
+      {
+        "part": "なくては",
+        "explanation": "Connects negative verb to indicate necessity or obligation.",
+        "examples": []
+      },
+      {
+        "part": "いけない",
+        "explanation": "Cannot go/progress; indicates a problem if not done.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "宿題をしなくてはいけない。",
+      "romaji": "Shukudai o shinakute wa ikenai.",
+      "english": "I have to do my homework.",
+      "breakdown": {
+        "宿題 (shukudai)": "homework",
+        "する (suru)": "to do",
+        "しなくてはいけない (shinakute wa ikenai)": "must"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この手紙を明日までに出さなくてはいけない。",
+      "romaji": "Kono tegami o ashita made ni dasanakute wa ikenai.",
+      "english": "I must send this letter by tomorrow.",
+      "breakdown": {
+        "出さなくてはいけない (dasanakute wa ikenai)": "must"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "食べ物を無駄にしなくてはいけない。",
+      "romaji": "Tabemono o muda ni shinakute wa ikenai.",
+      "english": "We must not waste food.",
+      "breakdown": {
+        "無駄にする (mudani suru)": "to waste",
+        "しなくてはいけない (shinakute wa ikenai)": "must"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "早退したいが、授業が終わるまで待たなくてはいけない。",
+      "romaji": "Soutai shitai ga, jugyou ga owaru made matanakute wa ikenai.",
+      "english": "I want to leave early, but I have to wait until the class finishes.",
+      "breakdown": {
+        "待たなくてはいけない (matanakute wa ikenai)": "must"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～なきゃいけない",
+    "～てはいけない",
+    "～ないといけない"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "宿題をしなくていい。",
+      "correction": "宿題をしなくてはいけない。",
+      "example": "Shukudai o shinakute wa ikenai. (I have to do my homework.)"
+    }
+  ],
+  "tags": [
+    "n4",
+    "obligation",
+    "necessity",
+    "negative-form"
+  ]
+}

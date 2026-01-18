@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "270-n4-point-70",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "270-n4-point-70-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Using the Verb 出す\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb 出す (~dasu)",
+          "romaji": "Verb dasu"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! Verb 出す (~dasu) matches \"Using the Verb 出す\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb 出す (~dasu).",
+      "explanation": "Shows taking out, starting suddenly, or emphasizing an action.",
+      "difficulty": "easy"
+    }
+  ]
+}

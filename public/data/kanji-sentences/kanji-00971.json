@@ -1,0 +1,33 @@
+{
+  "kanji": "辺",
+  "sentences": [
+    {
+      "id": "5065",
+      "japanese": "この辺りにユースホステルはありますか？",
+      "english": "Is there a youth hostel near here?"
+    },
+    {
+      "id": "83356",
+      "japanese": "辺りをよく見なさい。",
+      "english": "Look about you."
+    },
+    {
+      "id": "183406",
+      "japanese": "旗色が悪いからこの辺でやめよう。",
+      "english": "The odds are against me, so I think I'll quit now."
+    },
+    {
+      "id": "188110",
+      "japanese": "何かこの辺り臭いんだけど。",
+      "english": "Something stinks here."
+    },
+    {
+      "id": "191202",
+      "japanese": "以前この辺にたくさんのホタルがいたものだった。",
+      "english": "There used to be lots of fireflies around here."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.290Z",
+  "count": 5,
+  "fileId": "kanji-00971"
+}

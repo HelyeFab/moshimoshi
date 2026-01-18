@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "254-n4-point-54",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "254-n4-point-54-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"While Doing (Two Actions at the Same Time)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ながら (〜nagara)",
+          "romaji": "Verb nagara (〜nagara)"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! Verb ながら (〜nagara) matches \"While Doing (Two Actions at the Same Time)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ながら (〜nagara).",
+      "explanation": "While doing; expresses two actions happening at the same time.",
+      "difficulty": "easy"
+    }
+  ]
+}

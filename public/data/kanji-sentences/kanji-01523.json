@@ -1,0 +1,33 @@
+{
+  "kanji": "猛",
+  "sentences": [
+    {
+      "id": "201097",
+      "japanese": "どう猛な犬が女の子に飛びかかった。",
+      "english": "A fierce dog attacked the girl."
+    },
+    {
+      "id": "204025",
+      "japanese": "そんな猛スピードで運転しては危険だ。",
+      "english": "It is dangerous to drive so fast."
+    },
+    {
+      "id": "215929",
+      "japanese": "ジムは猛スピードで運転したが、それは無謀だった。",
+      "english": "Jim drove too fast, which was reckless."
+    },
+    {
+      "id": "80168",
+      "japanese": "猛り狂う海の嵐のように一族が激しく走る。",
+      "english": "Clans run wild like a storm in a raging sea."
+    },
+    {
+      "id": "149110",
+      "japanese": "車が猛スピードで通り過ぎていった。",
+      "english": "A car went by at terrific speed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:28.257Z",
+  "count": 5,
+  "fileId": "kanji-01523"
+}

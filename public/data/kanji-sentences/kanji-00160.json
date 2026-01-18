@@ -1,0 +1,33 @@
+{
+  "kanji": "地",
+  "sentences": [
+    {
+      "id": "179872",
+      "japanese": "近くの空き地でキャッチボールをするのはどうですか。",
+      "english": "How about playing catch in the vacant lot near by?"
+    },
+    {
+      "id": "184063",
+      "japanese": "鎌倉は源氏ゆかりの地です。",
+      "english": "Kamakura is a place noted in connection with the Genji family."
+    },
+    {
+      "id": "191166",
+      "japanese": "以前は肥沃な平野であったのに今では荒れ地にすぎなくなっている。",
+      "english": "Now there is nothing but desert, where there used to be a fertile plain."
+    },
+    {
+      "id": "192353",
+      "japanese": "レジャー産業は新たなリゾート地にさらなる投資をしています。",
+      "english": "The leisure industry is sinking more money into new resorts."
+    },
+    {
+      "id": "200694",
+      "japanese": "どっちが最終的な安息の地となるんだろう。",
+      "english": "Which one will be our final resting place?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.386Z",
+  "count": 5,
+  "fileId": "kanji-00160"
+}

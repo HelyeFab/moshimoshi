@@ -1,0 +1,86 @@
+{
+  "version": "1.0.0",
+  "lastUpdated": "2026-01-18",
+  "labels": {
+    "adjectives": {
+      "en": "Adjectives",
+      "ja": "形容詞",
+      "de": "Adjektive",
+      "es": "Adjetivos",
+      "fr": "Adjectifs",
+      "it": "Aggettivi"
+    },
+    "basic-sentences": {
+      "en": "Basic Sentences",
+      "ja": "基本文",
+      "de": "Grundsätze",
+      "es": "Frases básicas",
+      "fr": "Phrases de base",
+      "it": "Frasi base"
+    },
+    "comparisons": {
+      "en": "Comparisons",
+      "ja": "比較",
+      "de": "Vergleiche",
+      "es": "Comparaciones",
+      "fr": "Comparaisons",
+      "it": "Comparazioni"
+    },
+    "existence": {
+      "en": "Existence",
+      "ja": "存在",
+      "de": "Existenz",
+      "es": "Existencia",
+      "fr": "Existence",
+      "it": "Esistenza"
+    },
+    "miscellaneous": {
+      "en": "Miscellaneous",
+      "ja": "その他",
+      "de": "Verschiedenes",
+      "es": "Misceláneo",
+      "fr": "Divers",
+      "it": "Varie"
+    },
+    "numbers-counters": {
+      "en": "Numbers & Counters",
+      "ja": "数・助数詞",
+      "de": "Zahlen & Zähler",
+      "es": "Números y contadores",
+      "fr": "Nombres & compteurs",
+      "it": "Numeri e contatori"
+    },
+    "particles": {
+      "en": "Particles",
+      "ja": "助詞",
+      "de": "Partikeln",
+      "es": "Partículas",
+      "fr": "Particules",
+      "it": "Particelle"
+    },
+    "questions": {
+      "en": "Questions",
+      "ja": "疑問文",
+      "de": "Fragen",
+      "es": "Preguntas",
+      "fr": "Questions",
+      "it": "Domande"
+    },
+    "time-expressions": {
+      "en": "Time Expressions",
+      "ja": "時間表現",
+      "de": "Zeitausdrücke",
+      "es": "Expresiones de tiempo",
+      "fr": "Expressions temporelles",
+      "it": "Espressioni temporali"
+    },
+    "verbs": {
+      "en": "Verbs",
+      "ja": "動詞",
+      "de": "Verben",
+      "es": "Verbos",
+      "fr": "Verbes",
+      "it": "Verbi"
+    }
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "274-n4-point-74",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "274-n4-point-74-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Expressing uncertainty\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～かしら",
+          "romaji": "~kashira"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ～かしら matches \"Expressing uncertainty\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～かしら.",
+      "explanation": "Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "274-n4-point-74-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～かしら.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Expressing uncertainty"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～かしら means \"Expressing uncertainty\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Expressing uncertainty\".",
+      "explanation": "Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "274-n4-point-74-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～かしら.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~kashira"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ~kashira is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~kashira.",
+      "explanation": "Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "274-n4-point-74-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～かしら?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Used to express uncertainty or wonder, often translated as \"I wonder.\""
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "explanation": "Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "274-n4-point-74-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Expressing uncertainty\".",
+      "correctAnswer": "～かしら",
+      "acceptedVariations": [
+        "～かしら",
+        "～かしら"
+      ],
+      "correctFeedback": "Nice! ～かしら is correct.",
+      "incorrectFeedback": "The correct pattern is: ～かしら (~kashira).",
+      "explanation": "Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "hints": [
+        "~kashira",
+        "Used to express uncertainty or wonder, often translated as \"I wonder.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "274-n4-point-74-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～かしら.",
+      "correctAnswer": "~kashira",
+      "acceptedVariations": [
+        "~kashira",
+        "~kashira"
+      ],
+      "correctFeedback": "Nice! ~kashira is correct.",
+      "incorrectFeedback": "The correct romaji is: ~kashira.",
+      "explanation": "Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "hints": [
+        "Used to express uncertainty or wonder, often translated as \"I wonder.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "274-n4-point-74-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～かしら.",
+      "correctAnswer": "Expressing uncertainty",
+      "acceptedVariations": [
+        "Expressing uncertainty",
+        "expressing uncertainty"
+      ],
+      "correctFeedback": "Correct! \"Expressing uncertainty\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Expressing uncertainty\".",
+      "explanation": "Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "hints": [
+        "Used to express uncertainty or wonder, often translated as \"I wonder.\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "274-n4-point-74-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～かしら",
+          "romaji": "~kashira",
+          "english": "Expressing uncertainty"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "274-n4-point-74-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to express uncertainty or wonder, often translated as \"I wonder.\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～かしら",
+          "romaji": "~kashira"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～かしら matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～かしら.",
+      "explanation": "Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "274-n4-point-74-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～かしら",
+      "acceptedVariations": [
+        "～かしら",
+        "～かしら"
+      ],
+      "correctFeedback": "Great! ～かしら is correct.",
+      "incorrectFeedback": "The correct pattern is: ～かしら.",
+      "explanation": "Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "hints": [
+        "~kashira"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "生",
+  "sentences": [
+    {
+      "id": "4742",
+      "japanese": "私はそんな風には生きられない。",
+      "english": "I can't live that kind of life."
+    },
+    {
+      "id": "4797",
+      "japanese": "人間は決して永遠には生きられないものだ。",
+      "english": "Humans were never meant to live forever."
+    },
+    {
+      "id": "4899",
+      "japanese": "僕は彼女無しに生きる術を学んだ。",
+      "english": "I learned to live without her."
+    },
+    {
+      "id": "4920",
+      "japanese": "私たちは兄弟として共に生きることを知らなければならない。さもなくば、愚か者として共に滅びるであろう。",
+      "english": "We must learn to live together as brothers, or we will perish together as fools."
+    },
+    {
+      "id": "4943",
+      "japanese": "私の生きているうちに共産主義が効力を持つことは無いだろう。",
+      "english": "Communism will never be reached in my lifetime."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.344Z",
+  "count": 5,
+  "fileId": "kanji-00013"
+}

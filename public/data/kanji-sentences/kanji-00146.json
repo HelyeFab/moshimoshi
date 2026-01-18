@@ -1,0 +1,33 @@
+{
+  "kanji": "牛",
+  "sentences": [
+    {
+      "id": "182307",
+      "japanese": "牛を売って牛乳は飲めない。",
+      "english": "You cannot sell the cow and drink the milk."
+    },
+    {
+      "id": "182306",
+      "japanese": "牛を飼育する。",
+      "english": "I raise cattle."
+    },
+    {
+      "id": "182308",
+      "japanese": "そして彼は牛や羊も皆、宮から追いだした。",
+      "english": "And he chased the cattle, the sheep, and the people out of the temple."
+    },
+    {
+      "id": "182309",
+      "japanese": "牛は有用な動物である。",
+      "english": "A cow is a useful animal."
+    },
+    {
+      "id": "182310",
+      "japanese": "牛は背の高い緑色の草の中をゆっくり動いていました。",
+      "english": "The cows were moving very slowly through the long green grass."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.231Z",
+  "count": 5,
+  "fileId": "kanji-00146"
+}

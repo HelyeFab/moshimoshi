@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "053-made-until",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "053-made-until-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 五時__働きます。",
+      "options": [
+        {
+          "id": "a",
+          "text": "まで"
+        },
+        {
+          "id": "b",
+          "text": "から"
+        },
+        {
+          "id": "c",
+          "text": "に"
+        },
+        {
+          "id": "d",
+          "text": "で"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! まで marks the end time.",
+      "incorrectFeedback": "Not quite. Use まで for the end point.",
+      "explanation": "まで means 'until.'",
+      "difficulty": "easy"
+    }
+  ]
+}

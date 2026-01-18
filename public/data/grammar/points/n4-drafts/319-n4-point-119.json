@@ -1,0 +1,55 @@
+{
+  "id": "319-n4-point-119",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～ようだ (〜you da)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～ようだ grammar point is used to express appearance, similarity or inference about a situation or action. It can be translated as 'it seems', 'it looks like', or 'it appears' in English. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + ようだ, い-Adjective (drop い) + ようだ, な-Adjective + のようだ, Noun + のようだ",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼は元気がないようだ。",
+      "romaji": "Kare wa genki ga nai you da.",
+      "english": "He seems to be lacking energy.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この料理は美味しいようだ。",
+      "romaji": "Kono ryouri wa oishii you da.",
+      "english": "This dish seems to be delicious.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は有名人のようだ。",
+      "romaji": "Kanojo wa yuumeijin no you da.",
+      "english": "She seems like a famous person.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この部屋は図書館のようだ。",
+      "romaji": "Kono heya wa toshokan no you da.",
+      "english": "This room looks like a library.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

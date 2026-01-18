@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "207-n4-point-7",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "207-n4-point-7-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Only ~\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Noun しか～ない",
+          "romaji": "Noun shika~nai"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Noun しか～ない matches \"Only ~\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Noun しか～ない.",
+      "explanation": "Expresses that there is nothing except the specified noun; only that exists.",
+      "difficulty": "easy"
+    }
+  ]
+}

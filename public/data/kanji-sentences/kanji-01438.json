@@ -1,0 +1,33 @@
+{
+  "kanji": "炎",
+  "sentences": [
+    {
+      "id": "186707",
+      "japanese": "火山は炎と溶岩を吹き出す。",
+      "english": "The volcano shoots out flames and lava."
+    },
+    {
+      "id": "186711",
+      "japanese": "火山が炎と煙を噴き出している。",
+      "english": "The volcano is belching out flames and smoke."
+    },
+    {
+      "id": "10096027",
+      "japanese": "家は炎に包まれていた。",
+      "english": "The house was in flames."
+    },
+    {
+      "id": "163966",
+      "japanese": "私の家は炎に包まれました。",
+      "english": "My house was on fire."
+    },
+    {
+      "id": "188761",
+      "japanese": "炎を弱くしなさい。",
+      "english": "Turn the flame down low."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:25.640Z",
+  "count": 5,
+  "fileId": "kanji-01438"
+}

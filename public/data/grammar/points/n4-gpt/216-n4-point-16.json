@@ -1,0 +1,136 @@
+{
+  "id": "216-n4-point-16",
+  "version": "1.0.0",
+  "title": {
+    "ja": "名詞 を くれる",
+    "romaji": "Noun wo kureru",
+    "en": "Noun wo kureru (to give to me/someone close)"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The grammar point 'Noun を くれる' is used when someone (other than the speaker) gives something to the speaker or to someone close to the speaker. The giver is marked by が, the receiver (usually the speaker or someone close) by に, and くれる shows that the action benefits the receiver.",
+    "ja": "「名詞 を くれる」は、話し手や話し手に近い人に他の誰かが何かを与えるときに使います。与える人は「が」、受け取る人は「に」で示し、くれるは受け手に恩恵があることを表します。"
+  },
+  "structure": {
+    "pattern": "Giver + が + Receiver + に + Noun + を + くれる",
+    "components": [
+      {
+        "part": "Giver + が",
+        "explanation": "The person who gives something; marked by が.",
+        "examples": [
+          "友達が",
+          "彼が",
+          "先生が"
+        ]
+      },
+      {
+        "part": "Receiver + に",
+        "explanation": "The person who receives; usually the speaker or someone close; marked by に.",
+        "examples": [
+          "私に",
+          "弟に"
+        ]
+      },
+      {
+        "part": "Noun + を",
+        "explanation": "The thing being given; marked by を.",
+        "examples": [
+          "プレゼントを",
+          "花を",
+          "本を",
+          "お菓子を"
+        ]
+      },
+      {
+        "part": "くれる",
+        "explanation": "The verb 'to give' (favoring the speaker or someone close).",
+        "examples": [
+          "くれました",
+          "くれた"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "友達が私にプレゼントをくれました。",
+      "romaji": "Tomodachi ga watashi ni purezento wo kuremashita.",
+      "english": "My friend gave me a present.",
+      "breakdown": {
+        "友達": "friend",
+        "が": "subject marker",
+        "私": "me",
+        "に": "to (receiver)",
+        "プレゼント": "present",
+        "を": "object marker",
+        "くれました": "gave (to me)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼が私に花をくれた。",
+      "romaji": "Kare ga watashi ni hana wo kureta.",
+      "english": "He gave me flowers.",
+      "breakdown": {
+        "彼": "he",
+        "が": "subject marker",
+        "私": "me",
+        "に": "to (receiver)",
+        "花": "flowers",
+        "を": "object marker",
+        "くれた": "gave (to me)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "先生が私に本をくれました。",
+      "romaji": "Sensei ga watashi ni hon wo kuremashita.",
+      "english": "The teacher gave me a book.",
+      "breakdown": {
+        "先生": "teacher",
+        "が": "subject marker",
+        "私": "me",
+        "に": "to (receiver)",
+        "本": "book",
+        "を": "object marker",
+        "くれました": "gave (to me)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "お母さんが弟にお菓子をくれました。",
+      "romaji": "Okaasan ga otouto ni okashi wo kuremashita.",
+      "english": "Mom gave my little brother some sweets.",
+      "breakdown": {
+        "お母さん": "mom",
+        "が": "subject marker",
+        "弟": "little brother",
+        "に": "to (receiver)",
+        "お菓子": "sweets",
+        "を": "object marker",
+        "くれました": "gave (to someone close)"
+      },
+      "notes": "弟 (little brother) is considered close to the speaker."
+    }
+  ],
+  "relatedPoints": [
+    "noun-wo-ageru",
+    "noun-wo-morau"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "友達が彼にプレゼントをくれました。",
+      "correction": "友達が彼にプレゼントをあげました。",
+      "example": "Use あげる when the receiver is not the speaker or someone close."
+    }
+  ],
+  "tags": [
+    "n4",
+    "giving",
+    "verbs",
+    "recipient",
+    "favor",
+    "particles"
+  ]
+}

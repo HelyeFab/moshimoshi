@@ -1,0 +1,33 @@
+{
+  "kanji": "縄",
+  "sentences": [
+    {
+      "id": "180474",
+      "japanese": "強盗は私を後ろ手に縄で縛った。",
+      "english": "The burglar tied my hands behind my back with a rope."
+    },
+    {
+      "id": "186638",
+      "japanese": "禍福は糾える縄の如し。",
+      "english": "When an ill wind blows it does good to no one."
+    },
+    {
+      "id": "101557",
+      "japanese": "彼は縄で木に縛り付けられた。",
+      "english": "He was tied to the tree with a rope."
+    },
+    {
+      "id": "125342",
+      "japanese": "泥棒を見て縄をなう。",
+      "english": "It's too late to shut the barn door after the horse is stolen."
+    },
+    {
+      "id": "1487118",
+      "japanese": "私は縄を手放した。",
+      "english": "I let go of the rope."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.625Z",
+  "count": 5,
+  "fileId": "kanji-01265"
+}

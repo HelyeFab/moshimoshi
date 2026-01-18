@@ -125,6 +125,17 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
     }
   }, [word, isOpen, isAllowed])
 
+  useEffect(() => {
+    if (!isOpen || examples.length === 0) return
+    const texts = examples
+      .map(example => example.japanese)
+      .filter(Boolean)
+      .slice(0, 5)
+    if (texts.length > 0) {
+      preload(texts, { voice: '23', speed: 0.85 })
+    }
+  }, [isOpen, examples, preload])
+
   const loadExamples = async () => {
     if (!word) return
 
@@ -298,34 +309,26 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                 <div className="flex-1">
                   <div className="flex items-center gap-4 mb-2">
                     {word.kanji && (
-                      <div className="flex items-center gap-2">
-                        <span
-                          className="text-4xl font-bold text-gray-900 dark:text-gray-100"
-                          style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
-                        >
-                          {word.kanji.split('').map((char, idx) => {
-                            const isKanjiChar = /[\u4e00-\u9faf]/.test(char)
-                            return isKanjiChar ? (
-                              <span
-                                key={idx}
-                                className="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors inline-block hover:scale-110"
-                                onClick={() => openKanjiDetails(char)}
-                                title={`View details for ${char}`}
-                              >
-                                {char}
-                              </span>
-                            ) : (
-                              <span key={idx}>{char}</span>
-                            )
-                          })}
-                        </span>
-                        <AudioButton
-                          size="sm"
-                          onPlay={() => handleSpeak(word.kanji!)}
-                          loading={ttsLoading && currentText === word.kanji}
-                          playing={ttsPlaying && currentText === word.kanji}
-                        />
-                      </div>
+                      <span
+                        className="text-4xl font-bold text-gray-900 dark:text-gray-100"
+                        style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                      >
+                        {word.kanji.split('').map((char, idx) => {
+                          const isKanjiChar = /[\u4e00-\u9faf]/.test(char)
+                          return isKanjiChar ? (
+                            <span
+                              key={idx}
+                              className="cursor-pointer hover:text-primary-600 dark:hover:text-primary-400 transition-colors inline-block hover:scale-110"
+                              onClick={() => openKanjiDetails(char)}
+                              title={`View details for ${char}`}
+                            >
+                              {char}
+                            </span>
+                          ) : (
+                            <span key={idx}>{char}</span>
+                          )
+                        })}
+                      </span>
                     )}
 
                     <div className="flex items-center gap-2">

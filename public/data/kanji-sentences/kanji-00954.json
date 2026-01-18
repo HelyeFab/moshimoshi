@@ -1,0 +1,33 @@
+{
+  "kanji": "鉄",
+  "sentences": [
+    {
+      "id": "179630",
+      "japanese": "金門橋は鉄でできている。",
+      "english": "The Golden Gate Bridge is made of iron."
+    },
+    {
+      "id": "179719",
+      "japanese": "金は鉄より重い。",
+      "english": "Gold is heavier than iron."
+    },
+    {
+      "id": "179720",
+      "japanese": "金は鉄よりも貴重だ。",
+      "english": "Gold is more precious than iron."
+    },
+    {
+      "id": "207675",
+      "japanese": "その鉄の棒はさびてぼろぼろになった。",
+      "english": "Rust ate away the iron bar."
+    },
+    {
+      "id": "216752",
+      "japanese": "錆が鉄を虫食むのと同様に心配は心を虫食む。",
+      "english": "As rust eats iron, so care eats the heart."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.956Z",
+  "count": 5,
+  "fileId": "kanji-00954"
+}

@@ -1,0 +1,97 @@
+{
+  "id": "076-counter-hon",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜本",
+    "romaji": "-hon",
+    "en": "〜本 (long objects counter)"
+  },
+  "jlptLevel": "N5",
+  "category": "numbers-counters",
+  "explanation": {
+    "en": "〜本 (ほん) is the counter for long, thin objects such as bottles, pencils, and umbrellas. The pronunciation changes depending on the number.\n\nKey points:\n• 1本 = いっぽん\n• 2本 = にほん\n• 3本 = さんぼん\n• 4本 = よんほん\n• 5本 = ごほん\n• 6本 = ろっぽん\n• 7本 = ななほん\n• 8本 = はっぽん\n• 9本 = きゅうほん\n• 10本 = じゅっぽん\n\nExample: “ペンを三本買いました” means “I bought three pens.”\n\nRemember the sound changes (hon → bon/pon) for certain numbers.\n\nPractice by counting pens, bottles, or chopsticks with 本.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Number + 本",
+    "components": [
+      {
+        "part": "Number",
+        "explanation": "Count of long objects",
+        "examples": ["いっ", "さん", "ろっ", "はっ"]
+      },
+      {
+        "part": "本",
+        "explanation": "Long object counter",
+        "examples": ["本"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "ペンを一本ください。",
+      "romaji": "Pen o ippon kudasai.",
+      "english": "Please give me one pen.",
+      "breakdown": {
+        "ペン": "pen",
+        "を": "object marker",
+        "一本": "one (long object)",
+        "ください": "please give"
+      },
+      "notes": "One long object"
+    },
+    {
+      "japanese": "水を二本買います。",
+      "romaji": "Mizu o nihon kaimasu.",
+      "english": "I will buy two bottles of water.",
+      "breakdown": {
+        "水": "water",
+        "を": "object marker",
+        "二本": "two (long objects)",
+        "買います": "buy"
+      },
+      "notes": "Bottles"
+    },
+    {
+      "japanese": "傘が三本あります。",
+      "romaji": "Kasa ga sanbon arimasu.",
+      "english": "There are three umbrellas.",
+      "breakdown": {
+        "傘": "umbrella",
+        "が": "subject marker",
+        "三本": "three (long objects)",
+        "あります": "exist"
+      },
+      "notes": "Counting umbrellas"
+    },
+    {
+      "japanese": "えんぴつを六本使います。",
+      "romaji": "Enpitsu o roppon tsukaimasu.",
+      "english": "I use six pencils.",
+      "breakdown": {
+        "えんぴつ": "pencil",
+        "を": "object marker",
+        "六本": "six (long objects)",
+        "使います": "use"
+      },
+      "notes": "Sound change"
+    }
+  ],
+  "relatedPoints": [
+    "074-counter-tsu",
+    "077-counter-mai"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using plain numbers with 本",
+      "correction": "Use correct sound changes",
+      "example": "❌ さんほん → ✅ さんぼん"
+    },
+    {
+      "mistake": "Using 本 for non-long items",
+      "correction": "Use a different counter or つ",
+      "example": "❌ りんご三本 → ✅ りんご三つ"
+    }
+  ],
+  "tags": ["counters", "hon", "beginner"]
+}

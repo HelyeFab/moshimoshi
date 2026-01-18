@@ -1,0 +1,174 @@
+{
+  "id": "221-n4-point-21",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb させる (Verb-saseru)",
+    "romaji": "Birabu Saseru",
+    "en": "Verb + saseru"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ~saseru verb form is used to describe causing or allowing someone to do something. It can be translated as 'to make someone do something', 'to let someone do something', or 'to cause someone to do something' in English.",
+    "ja": "~させる形は、何かをさせたり許したりすることを表現するために使われます。英語では「～させてあげる」、「～させてもらう」といったように翻訳できます。"
+  },
+  "structure": {
+    "pattern": "Verb + させる",
+    "components": [
+      {
+        "part": "Group 1 Verbs: Change the last hiragana to せる",
+        "explanation": "一段動詞の場合は最後の一文字を「せる」に変える",
+        "examples": [
+          "話す → 話させる"
+        ]
+      },
+      {
+        "part": "Group 2 Verbs: Remove る and add させる",
+        "explanation": "二段動詞の場合は「る」を取り除き、「させる」を追加する",
+        "examples": [
+          "食べる → 食べさせる"
+        ]
+      },
+      {
+        "part": "Group 3 Verbs: する → させる, くる → こさせる",
+        "explanation": "特殊動詞は「する」→「させる」「くる」→「こさせる」となる",
+        "examples": [
+          "する → させる",
+          "くる → こさせる"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "先生が生徒に宿題をさせました。",
+      "romaji": "Sensei ga seito ni shukudai o sasemashita.",
+      "english": "The teacher made the students do homework.",
+      "breakdown": {
+        "token": "gloss",
+        "elements": [
+          {
+            "token": "先生",
+            "gloss": "teacher"
+          },
+          {
+            "token": "が",
+            "gloss": "subject marker"
+          },
+          {
+            "token": "生徒に",
+            "gloss": "to student"
+          },
+          {
+            "token": "宿題を",
+            "gloss": "homework"
+          },
+          {
+            "token": "させました。",
+            "gloss": "made"
+          }
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "母が私に部屋を掃除させました。",
+      "romaji": "Haha ga watashi ni heya o souji sasemashita.",
+      "english": "My mother made me clean my room.",
+      "breakdown": {
+        "token": "gloss",
+        "elements": [
+          {
+            "token": "母",
+            "gloss": "mother"
+          },
+          {
+            "token": "が",
+            "gloss": "subject marker"
+          },
+          {
+            "token": "私に",
+            "gloss": "to me"
+          },
+          {
+            "token": "部屋を",
+            "gloss": "room"
+          },
+          {
+            "token": "掃除させました。",
+            "gloss": "made clean"
+          }
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女にピアノを弾かせてあげました。",
+      "romaji": "Kanojo ni piano o hikasete agemashita.",
+      "english": "I let her play the piano.",
+      "breakdown": {
+        "token": "gloss",
+        "elements": [
+          {
+            "token": "彼女に",
+            "gloss": "to her"
+          },
+          {
+            "token": "ピアノを",
+            "gloss": "piano"
+          },
+          {
+            "token": "弾かせてあげました。",
+            "gloss": "let play"
+          }
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "上司は彼にそのプログラムを作らせました。",
+      "romaji": "Joushi wa kare ni sono puroguramu o tsukurasemashita.",
+      "english": "The boss made him create the program.",
+      "breakdown": {
+        "token": "gloss",
+        "elements": [
+          {
+            "token": "上司は",
+            "gloss": "boss"
+          },
+          {
+            "token": "彼に",
+            "gloss": "to him"
+          },
+          {
+            "token": "そのプログラムを",
+            "gloss": "the program"
+          },
+          {
+            "token": "作らせました。",
+            "gloss": "made create"
+          }
+        ]
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "動詞させられる",
+    "名詞をくださる",
+    "名詞 を くれる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using させる with intransitive verbs.",
+      "correction": "Use ～てもらう or ～てくれる instead for intransitive verbs.",
+      "example": "誤：車が動くをさせます。正：車が動きます。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "causative",
+    "allowing"
+  ]
+}

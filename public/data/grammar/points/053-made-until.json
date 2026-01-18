@@ -1,0 +1,95 @@
+{
+  "id": "053-made-until",
+  "version": "1.0.0",
+  "title": {
+    "ja": "まで",
+    "romaji": "made",
+    "en": "まで (until)"
+  },
+  "jlptLevel": "N5",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "まで means “until” or “up to.” It marks the end point of time or place. When you say a time + まで, you are saying that something continues until that time.\n\nKey points:\n• Time + まで = until that time\n• Place + まで = up to that place\n• Often pairs with から (from)\n• The end point is included\n\nExamples: “五時まで働きます” means “I will work until 5.” “駅まで歩きます” means “I will walk to the station.”\n\nWhen you use から and まで together, you clearly show a range: “九時から五時まで” (from 9 to 5).\n\nNote that まで can be used for location or time, so context is important. This grammar point focuses on time, but you will also see it with destinations.\n\nPractice with daily schedules: 学校は八時から三時まで, or 勉強は夜まで. It is a very common word in everyday Japanese.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Time + まで",
+    "components": [
+      {
+        "part": "Time",
+        "explanation": "End time",
+        "examples": ["五時", "九時", "日曜日"]
+      },
+      {
+        "part": "まで",
+        "explanation": "Marks the end point",
+        "examples": ["まで"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "五時まで働きます。",
+      "romaji": "Go-ji made hatarakimasu.",
+      "english": "I work until 5.",
+      "breakdown": {
+        "五時": "5 o'clock",
+        "まで": "until",
+        "働きます": "work"
+      },
+      "notes": "End time"
+    },
+    {
+      "japanese": "九時まで勉強します。",
+      "romaji": "Ku-ji made benkyou shimasu.",
+      "english": "I study until 9.",
+      "breakdown": {
+        "九時": "9 o'clock",
+        "まで": "until",
+        "勉強します": "study"
+      },
+      "notes": "Study schedule"
+    },
+    {
+      "japanese": "日曜日まで日本にいます。",
+      "romaji": "Nichiyoubi made Nihon ni imasu.",
+      "english": "I will be in Japan until Sunday.",
+      "breakdown": {
+        "日曜日": "Sunday",
+        "まで": "until",
+        "日本": "Japan",
+        "に": "location marker",
+        "います": "be (animate)"
+      },
+      "notes": "Stay until a day"
+    },
+    {
+      "japanese": "夜まで起きています。",
+      "romaji": "Yoru made okite imasu.",
+      "english": "I stay awake until night.",
+      "breakdown": {
+        "夜": "night",
+        "まで": "until",
+        "起きています": "stay awake"
+      },
+      "notes": "End point"
+    }
+  ],
+  "relatedPoints": [
+    "054-kara-from",
+    "051-time-particle-ni"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using に for the end time",
+      "correction": "Use まで to show the end",
+      "example": "❌ 五時に働きます(meaning until) → ✅ 五時まで働きます"
+    },
+    {
+      "mistake": "Forgetting まで with ranges",
+      "correction": "Use から and まで together",
+      "example": "❌ 九時五時 → ✅ 九時から五時まで"
+    }
+  ],
+  "tags": ["time", "until", "range", "beginner"]
+}

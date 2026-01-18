@@ -1,0 +1,33 @@
+{
+  "kanji": "禁",
+  "sentences": [
+    {
+      "id": "177867",
+      "japanese": "君はここでたばこを吸うことを禁じられている。",
+      "english": "You are prohibited from smoking here."
+    },
+    {
+      "id": "224607",
+      "japanese": "ここでは喫煙は禁じられている。",
+      "english": "You are prohibited from smoking here."
+    },
+    {
+      "id": "178420",
+      "japanese": "君の喫煙を禁じる。",
+      "english": "I forbid you to smoke."
+    },
+    {
+      "id": "192350",
+      "japanese": "レストランでの喫煙は禁じられていた。",
+      "english": "Smoking in the restaurant was forbidden."
+    },
+    {
+      "id": "196804",
+      "japanese": "ベッドでの煙草を禁ずる厳しい規則がある。",
+      "english": "There is a very strict rule forbidding smoking in bed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.769Z",
+  "count": 5,
+  "fileId": "kanji-00726"
+}

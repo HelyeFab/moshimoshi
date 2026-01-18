@@ -1,0 +1,33 @@
+{
+  "kanji": "和",
+  "sentences": [
+    {
+      "id": "84033",
+      "japanese": "風が和らいだ。",
+      "english": "The wind calmed down."
+    },
+    {
+      "id": "182383",
+      "japanese": "泣くことは悲しみを和らげる。",
+      "english": "To weep is to make less the depth of grief."
+    },
+    {
+      "id": "183204",
+      "japanese": "気候は間もなく和らいでくるでしょう。",
+      "english": "The weather will soon begin to calm down."
+    },
+    {
+      "id": "186853",
+      "japanese": "科学技術は人間と自然の対立関係を和らげることができなかった。",
+      "english": "Technology has failed to ease the conflict between man and nature."
+    },
+    {
+      "id": "196564",
+      "japanese": "ポーシャは正義を慈悲で和らげた。",
+      "english": "Portia tempered justice with mercy."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.392Z",
+  "count": 5,
+  "fileId": "kanji-00464"
+}

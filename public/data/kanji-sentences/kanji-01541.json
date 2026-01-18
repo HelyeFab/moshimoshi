@@ -1,0 +1,33 @@
+{
+  "kanji": "煮",
+  "sentences": [
+    {
+      "id": "178598",
+      "japanese": "君に豆を煮てあげよう。",
+      "english": "I'll boil you the beans."
+    },
+    {
+      "id": "179717",
+      "japanese": "金は鍋を煮え立たせる。",
+      "english": "Money will make the pot boil."
+    },
+    {
+      "id": "195051",
+      "japanese": "ミルクが煮えこぼれた。",
+      "english": "The milk boiled over."
+    },
+    {
+      "id": "203276",
+      "japanese": "タマネギはジャガイモよりはやく煮える。",
+      "english": "Onions cook more quickly than potatoes."
+    },
+    {
+      "id": "204513",
+      "japanese": "それを聞いてはらわたが煮えくり返った。",
+      "english": "It made my blood boil to hear that."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:28.794Z",
+  "count": 5,
+  "fileId": "kanji-01541"
+}

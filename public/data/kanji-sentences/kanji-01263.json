@@ -1,0 +1,33 @@
+{
+  "kanji": "銃",
+  "sentences": [
+    {
+      "id": "180473",
+      "japanese": "強盗は店員に銃を向けた。",
+      "english": "The robber aimed his gun at the clerk."
+    },
+    {
+      "id": "180476",
+      "japanese": "強盗は警官に銃を向けた。",
+      "english": "The robber aimed his gun at the police officer."
+    },
+    {
+      "id": "183247",
+      "japanese": "気をつけろ、その男は銃を持っている。",
+      "english": "Watch out, the man has a gun."
+    },
+    {
+      "id": "97503",
+      "japanese": "彼らは遠くで銃が発砲されるのを聞いた。",
+      "english": "They heard a gun go off in the distance."
+    },
+    {
+      "id": "188697",
+      "japanese": "遠くで銃の発射される音が聞こえた。",
+      "english": "They heard a gun go off in the distance."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.568Z",
+  "count": 5,
+  "fileId": "kanji-01263"
+}

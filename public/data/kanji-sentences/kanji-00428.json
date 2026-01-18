@@ -1,0 +1,33 @@
+{
+  "kanji": "対",
+  "sentences": [
+    {
+      "id": "177195",
+      "japanese": "君は自分の行動に対して責任を取りなさい。",
+      "english": "You'll have to answer for your behavior."
+    },
+    {
+      "id": "177204",
+      "japanese": "君は自分のしたことに対して責任がある。",
+      "english": "You are responsible for what you have done."
+    },
+    {
+      "id": "205139",
+      "japanese": "それは私に対する誤解ですよ。",
+      "english": "You do me wrong."
+    },
+    {
+      "id": "177474",
+      "japanese": "君は暗闇に対する恐怖を克服しなければならない。",
+      "english": "You must conquer your fear of the dark."
+    },
+    {
+      "id": "178072",
+      "japanese": "君の彼に対する評価は、ひかえ目に言っても、少し高いよ。",
+      "english": "Your estimation of him is a little high, to say the least."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.915Z",
+  "count": 5,
+  "fileId": "kanji-00428"
+}

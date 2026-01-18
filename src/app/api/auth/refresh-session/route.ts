@@ -8,15 +8,26 @@ import { cookies } from 'next/headers';
  * Forces a session refresh to sync with current subscription status
  */
 export async function POST(request: NextRequest) {
+  const deprecationHeaders = {
+    Deprecation: 'true',
+    Link: '</api/auth/refresh>; rel="successor-version"',
+  }
+
   try {
     // Get current session
     const currentSession = await getSession();
     if (!currentSession) {
-      return NextResponse.json({ error: 'No active session' }, { status: 401 });
+      return NextResponse.json(
+        { error: 'No active session' },
+        { status: 401, headers: deprecationHeaders }
+      );
     }
 
     if (!adminDb) {
-      return NextResponse.json({ error: 'Database not initialized' }, { status: 500 });
+      return NextResponse.json(
+        { error: 'Database not initialized' },
+        { status: 500, headers: deprecationHeaders }
+      );
     }
 
     // Get fresh user data from Firestore
@@ -24,7 +35,10 @@ export async function POST(request: NextRequest) {
     const userData = userDoc.data();
 
     if (!userData) {
-      return NextResponse.json({ error: 'User not found' }, { status: 404 });
+      return NextResponse.json(
+        { error: 'User not found' },
+        { status: 404, headers: deprecationHeaders }
+      );
     }
 
     // Determine current tier from subscription
@@ -50,18 +64,21 @@ export async function POST(request: NextRequest) {
       }
     );
 
-    return NextResponse.json({
-      success: true,
-      message: 'Session refreshed',
-      oldTier: currentSession.tier,
-      newTier: tier,
-      subscription: userData.subscription
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        message: 'Session refreshed',
+        oldTier: currentSession.tier,
+        newTier: tier,
+        subscription: userData.subscription,
+      },
+      { headers: deprecationHeaders }
+    );
   } catch (error) {
     console.error('Session refresh error:', error);
     return NextResponse.json(
       { error: 'Failed to refresh session' },
-      { status: 500 }
+      { status: 500, headers: deprecationHeaders }
     );
   }
 }

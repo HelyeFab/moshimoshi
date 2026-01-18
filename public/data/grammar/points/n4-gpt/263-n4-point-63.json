@@ -1,0 +1,102 @@
+{
+  "id": "263-n4-point-63",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb られる (〜rareru)",
+    "romaji": "Verb rareru",
+    "en": "Passive and Potential Forms"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The られる grammar point can be used to express passive voice or potential form for verbs. Passive voice indicates that the action is being done to the subject, while potential form expresses the ability or possibility to do an action.",
+    "ja": "られる文法点は、動詞の受身や可能形を表すために使用することができます。受身形では主語に行動が行われていることを示し、可能形ではその行動を行う能力または可能性を表現します。"
+  },
+  "structure": {
+    "pattern": "〜rareru",
+    "components": [
+      {
+        "part": "う-verb (passive)",
+        "explanation": "Replace the final う with われる",
+        "examples": [
+          "泳ぐ -> 泳がれる"
+        ]
+      },
+      {
+        "part": "る-verb (passive & potential)",
+        "explanation": "Replace る with られる",
+        "examples": [
+          "食べる -> 食べられる"
+        ]
+      },
+      {
+        "part": "Irregular verbs",
+        "explanation": "する → される, くる → こられる",
+        "examples": [
+          "する -> される"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼は先生に褒められました。",
+      "romaji": "Kare wa sensei ni homeraremashita.",
+      "english": "He was praised by the teacher.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": "Passive form of 褒める (to praise)"
+    },
+    {
+      "japanese": "彼は友達に笑われました。",
+      "romaji": "Kare wa tomodachi ni warawaremashita.",
+      "english": "He was laughed at by his friends.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": "Passive form of 笑う (to laugh)"
+    },
+    {
+      "japanese": "映画は観られましたか？",
+      "romaji": "Eiga wa miraremashita ka?",
+      "english": "Were you able to watch the movie?",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": "Potential form of 見る (to see/watch)"
+    },
+    {
+      "japanese": "彼女はリーダーに選ばれました。",
+      "romaji": "Kanojo wa riidaa ni erabaremashita.",
+      "english": "She was chosen as the leader.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": "Passive form of 選ぶ (to choose)"
+    }
+  ],
+  "relatedPoints": [
+    "動詞させられる",
+    "名詞をくださる",
+    "名詞 を くれる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼は褒められました。",
+      "correction": "彼は先生に褒められました。",
+      "example": "Correctly identifies the agent with に."
+    },
+    {
+      "mistake": "映画は見ますか？",
+      "correction": "映画は観られますか？",
+      "example": "Uses potential form to indicate ability."
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "passive",
+    "potential"
+  ]
+}

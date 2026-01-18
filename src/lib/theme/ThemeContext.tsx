@@ -39,7 +39,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [theme, setThemeState] = useState<Theme>('dark')
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>('dark')
   const [mounted, setMounted] = useState(false)
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
   const { isPremium } = useSubscription()
 
   // Get system preference
@@ -89,69 +89,72 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setResolvedTheme(resolved)
       applyTheme(resolved)
 
-      // Load palette and accessibility settings using preferencesManager (respects user tier)
-      try {
-        const preferences = await preferencesManager.getPreferences(user, isPremium ?? false)
-        if (preferences.palette) {
-          document.documentElement.setAttribute('data-palette', preferences.palette)
-        } else {
-          // Fallback to default palette
-          document.documentElement.setAttribute('data-palette', 'sakura')
-        }
+      // Only attempt cloud preferences after auth state is resolved
+      if (!loading) {
+        // Load palette and accessibility settings using preferencesManager (respects user tier)
+        try {
+          const preferences = await preferencesManager.getPreferences(user, isPremium ?? false)
+          if (preferences.palette) {
+            document.documentElement.setAttribute('data-palette', preferences.palette)
+          } else {
+            // Fallback to default palette
+            document.documentElement.setAttribute('data-palette', 'sakura')
+          }
 
-        // Apply accessibility settings
-        if (preferences.accessibility) {
-          if (preferences.accessibility.largeText) {
-            document.documentElement.classList.add('text-large')
+          // Apply accessibility settings
+          if (preferences.accessibility) {
+            if (preferences.accessibility.largeText) {
+              document.documentElement.classList.add('text-large')
+            }
+            if (preferences.accessibility.reduceMotion) {
+              document.documentElement.classList.add('reduce-motion')
+            }
+            if (preferences.accessibility.highContrast) {
+              document.documentElement.classList.add('high-contrast')
+            }
           }
-          if (preferences.accessibility.reduceMotion) {
-            document.documentElement.classList.add('reduce-motion')
-          }
-          if (preferences.accessibility.highContrast) {
-            document.documentElement.classList.add('high-contrast')
-          }
-        }
-      } catch (error) {
-        console.error('[ThemeContext] Failed to load preferences:', error)
-        // Fallback to localStorage for backward compatibility
-        const loadPaletteFallback = () => {
-          if (userId) {
-            const userPrefs = localStorage.getItem(`user-preferences-${userId}`)
-            if (userPrefs) {
+        } catch (error) {
+          console.error('[ThemeContext] Failed to load preferences:', error)
+          // Fallback to localStorage for backward compatibility
+          const loadPaletteFallback = () => {
+            if (userId) {
+              const userPrefs = localStorage.getItem(`user-preferences-${userId}`)
+              if (userPrefs) {
+                try {
+                  const prefs = JSON.parse(userPrefs)
+                  if (prefs.palette) {
+                    document.documentElement.setAttribute('data-palette', prefs.palette)
+                    return
+                  }
+                } catch (e) {
+                  console.error('Failed to load user palette preference:', e)
+                }
+              }
+            }
+
+            // Fall back to global preferences
+            const savedPrefs = localStorage.getItem('user-preferences')
+            if (savedPrefs) {
               try {
-                const prefs = JSON.parse(userPrefs)
+                const prefs = JSON.parse(savedPrefs)
                 if (prefs.palette) {
                   document.documentElement.setAttribute('data-palette', prefs.palette)
-                  return
                 }
               } catch (e) {
-                console.error('Failed to load user palette preference:', e)
+                console.error('Failed to load palette preference:', e)
               }
             }
           }
 
-          // Fall back to global preferences
-          const savedPrefs = localStorage.getItem('user-preferences')
-          if (savedPrefs) {
-            try {
-              const prefs = JSON.parse(savedPrefs)
-              if (prefs.palette) {
-                document.documentElement.setAttribute('data-palette', prefs.palette)
-              }
-            } catch (e) {
-              console.error('Failed to load palette preference:', e)
-            }
-          }
+          loadPaletteFallback()
         }
-
-        loadPaletteFallback()
       }
 
       setMounted(true)
     }
 
     initializeThemeAndPalette()
-  }, [user, isPremium]) // Re-run when user or premium status changes
+  }, [user, isPremium, loading]) // Re-run when user or premium status changes
 
   // Listen for system theme changes
   useEffect(() => {

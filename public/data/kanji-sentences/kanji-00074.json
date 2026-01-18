@@ -1,0 +1,33 @@
+{
+  "kanji": "友",
+  "sentences": [
+    {
+      "id": "179695",
+      "japanese": "金を貸して友を失え。",
+      "english": "Lend your money and lose your friend."
+    },
+    {
+      "id": "3477002",
+      "japanese": "ルーシーにも私と同じくらいたくさん友だちがいる。",
+      "english": "Lucy has as many friends as I do."
+    },
+    {
+      "id": "192886",
+      "japanese": "よい友を選ぶことは大切だ。",
+      "english": "It is important for us to choose good friends."
+    },
+    {
+      "id": "195667",
+      "japanese": "まさかの時の友は真の友。",
+      "english": "A friend in need is a friend indeed."
+    },
+    {
+      "id": "195675",
+      "japanese": "まさかの時の友こそ真の友。",
+      "english": "A friend in need is a friend indeed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.106Z",
+  "count": 5,
+  "fileId": "kanji-00074"
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "271-n4-point-71",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "271-n4-point-71-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb + Kata for Method\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb 方 (〜hou)",
+          "romaji": "Verb kata (〜hou)"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Verb 方 (〜hou) matches \"Verb + Kata for Method\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb 方 (〜hou).",
+      "explanation": "Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

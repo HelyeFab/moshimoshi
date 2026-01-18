@@ -1,0 +1,102 @@
+{
+  "id": "029-tai-want-to",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜たい",
+    "romaji": "-tai",
+    "en": "Want to"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "〜たい expresses what you want to do. It attaches to the verb stem (the same stem used for ます). It is often translated as “want to.”\n\nKey points:\n• Verb stem + たい\n• Expresses the speaker’s desire\n• Works like an い-adjective (e.g., 行きたいです)\n• Use が or を depending on the verb and context\n\nFor example, “食べたいです” means “I want to eat.” “日本へ行きたいです” means “I want to go to Japan.”\n\nBecause たい is an adjective, you can add です for politeness: “見たいです.” You can also use negative: “食べたくないです” (I don’t want to eat), which you will learn soon.\n\nBe careful: たい expresses your own desire. Asking about someone else’s desire is possible but more polite forms are often used. At N5, use it mainly for your own wants.\n\nThis pattern is very common and useful for talking about plans and goals.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-stem + たい (です)",
+    "components": [
+      {
+        "part": "Verb-stem",
+        "explanation": "Polite verb stem",
+        "examples": ["食べ", "行き", "見", "勉強し"]
+      },
+      {
+        "part": "たい",
+        "explanation": "Want-to ending",
+        "examples": ["たい"]
+      },
+      {
+        "part": "です",
+        "explanation": "Polite ending (optional)",
+        "examples": ["です"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "寿司を食べたいです。",
+      "romaji": "Sushi o tabetai desu.",
+      "english": "I want to eat sushi.",
+      "breakdown": {
+        "寿司": "sushi",
+        "を": "object marker",
+        "食べたい": "want to eat",
+        "です": "polite ending"
+      },
+      "notes": "Basic desire"
+    },
+    {
+      "japanese": "日本へ行きたいです。",
+      "romaji": "Nihon e ikitai desu.",
+      "english": "I want to go to Japan.",
+      "breakdown": {
+        "日本": "Japan",
+        "へ": "direction marker",
+        "行きたい": "want to go",
+        "です": "polite ending"
+      },
+      "notes": "Destination desire"
+    },
+    {
+      "japanese": "映画を見たいです。",
+      "romaji": "Eiga o mitai desu.",
+      "english": "I want to watch a movie.",
+      "breakdown": {
+        "映画": "movie",
+        "を": "object marker",
+        "見たい": "want to watch",
+        "です": "polite ending"
+      },
+      "notes": "Common desire"
+    },
+    {
+      "japanese": "友だちと話したいです。",
+      "romaji": "Tomodachi to hanashitai desu.",
+      "english": "I want to talk with my friend.",
+      "breakdown": {
+        "友だち": "friend",
+        "と": "with",
+        "話したい": "want to talk",
+        "です": "polite ending"
+      },
+      "notes": "Wanting to do together"
+    }
+  ],
+  "relatedPoints": [
+    "022-masu-form-present",
+    "030-mashou-lets"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using dictionary form + たい",
+      "correction": "Use the verb stem before たい",
+      "example": "❌ 食べるたい → ✅ 食べたい"
+    },
+    {
+      "mistake": "Forgetting that たい is adjective-like",
+      "correction": "Add です for politeness",
+      "example": "❌ 行きたい → ✅ 行きたいです"
+    }
+  ],
+  "tags": ["verbs", "desire", "tai", "beginner"]
+}

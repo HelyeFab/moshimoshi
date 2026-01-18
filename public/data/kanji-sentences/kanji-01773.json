@@ -1,0 +1,33 @@
+{
+  "kanji": "叱",
+  "sentences": [
+    {
+      "id": "5068118",
+      "japanese": "校長先生は、生徒が廊下を散らかしたときは、きびしく叱りました。",
+      "english": "The principal severely reproved the students whenever they made a mess in the hallway."
+    },
+    {
+      "id": "178938",
+      "japanese": "君が先生に叱られるのも当たり前だ。",
+      "english": "It is not surprising that you should be scolded by your teacher."
+    },
+    {
+      "id": "180150",
+      "japanese": "教授は授業をサボったジョンを叱った。",
+      "english": "The professor scolded John for skipping class."
+    },
+    {
+      "id": "183332",
+      "japanese": "帰ってくるのが遅いといって彼女は子供を叱った。",
+      "english": "She scolded the child for coming home so late."
+    },
+    {
+      "id": "186904",
+      "japanese": "家庭教師の先生は私が馬鹿なことをしたと叱った。",
+      "english": "My tutor scolded me for my stupid behavior."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:36.444Z",
+  "count": 5,
+  "fileId": "kanji-01773"
+}

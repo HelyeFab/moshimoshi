@@ -1,0 +1,106 @@
+{
+  "id": "020-particle-ya",
+  "version": "1.0.0",
+  "title": {
+    "ja": "や",
+    "romaji": "ya",
+    "en": "and (non-exhaustive)"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "や connects nouns in a non-exhaustive list. It is like saying “A, B, and so on.” It suggests there are other items not mentioned.\n\nKey points:\n• や lists examples, not a complete list\n• Often followed by など (etc.)\n• Use と for complete lists\n• Works only with nouns at this level\n\nFor example, “パンや牛乳を買います” means “I buy bread, milk, and other things.” The listener understands that there are more items. If you want to list everything, use と instead: “パンと牛乳を買います.”\n\nや is helpful when you want to give examples without listing everything. It makes speech more natural and flexible.\n\nA common pattern is “AやBなど.” The など makes the “and so on” meaning even clearer.\n\nAs a beginner, remember: と = complete list, や = examples. This simple contrast will help you choose the right particle.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun や Noun (や Noun) + Verb",
+    "components": [
+      {
+        "part": "Noun や Noun",
+        "explanation": "Example nouns",
+        "examples": ["パンや牛乳", "本やペン", "りんごやみかん"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action with the items",
+        "examples": ["買います", "食べます", "持ちます"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "パンや牛乳を買います。",
+      "romaji": "Pan ya gyuunyuu o kaimasu.",
+      "english": "I buy bread, milk, and other things.",
+      "breakdown": {
+        "パン": "bread",
+        "や": "and (etc.)",
+        "牛乳": "milk",
+        "を": "object marker",
+        "買います": "buy (polite)"
+      },
+      "notes": "Non-exhaustive list"
+    },
+    {
+      "japanese": "本やペンなどがあります。",
+      "romaji": "Hon ya pen nado ga arimasu.",
+      "english": "There are books, pens, and so on.",
+      "breakdown": {
+        "本": "book",
+        "や": "and (etc.)",
+        "ペン": "pen",
+        "など": "etc.",
+        "が": "subject marker",
+        "あります": "exist (polite)"
+      },
+      "notes": "Using など for clarity"
+    },
+    {
+      "japanese": "りんごやみかんを食べます。",
+      "romaji": "Ringo ya mikan o tabemasu.",
+      "english": "I eat apples, oranges, and so on.",
+      "breakdown": {
+        "りんご": "apple",
+        "や": "and (etc.)",
+        "みかん": "mandarin orange",
+        "を": "object marker",
+        "食べます": "eat (polite)"
+      },
+      "notes": "Examples of fruit"
+    },
+    {
+      "japanese": "友だちと映画や音楽の話をします。",
+      "romaji": "Tomodachi to eiga ya ongaku no hanashi o shimasu.",
+      "english": "I talk with friends about movies, music, and so on.",
+      "breakdown": {
+        "友だち": "friend",
+        "と": "with",
+        "映画": "movie",
+        "や": "and (etc.)",
+        "音楽": "music",
+        "の": "of",
+        "話": "talk",
+        "を": "object marker",
+        "します": "do (polite)"
+      },
+      "notes": "Non-exhaustive topics"
+    }
+  ],
+  "relatedPoints": [
+    "014-particle-to-and",
+    "019-particle-mo"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using や for a complete list",
+      "correction": "Use と when listing all items",
+      "example": "❌ パンや牛乳です → ✅ パンと牛乳です"
+    },
+    {
+      "mistake": "Forgetting that や is only for nouns",
+      "correction": "Use や between nouns only",
+      "example": "❌ 行くや食べる → ✅ 食べ物や飲み物"
+    }
+  ],
+  "tags": ["particle", "lists", "examples", "beginner"]
+}

@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "074-counter-tsu",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "074-counter-tsu-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct reading for 1 item:",
+      "options": [
+        {
+          "id": "a",
+          "text": "ひとつ"
+        },
+        {
+          "id": "b",
+          "text": "いちつ"
+        },
+        {
+          "id": "c",
+          "text": "いっつ"
+        },
+        {
+          "id": "d",
+          "text": "ひと"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ひとつ.",
+      "incorrectFeedback": "Not quite. 1 item is ひとつ.",
+      "explanation": "Use the special reading ひとつ.",
+      "difficulty": "easy"
+    }
+  ]
+}

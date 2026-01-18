@@ -1,0 +1,33 @@
+{
+  "kanji": "習",
+  "sentences": [
+    {
+      "id": "5224",
+      "japanese": "先週中国語を習い始めました。",
+      "english": "I started learning Chinese last week."
+    },
+    {
+      "id": "486821",
+      "japanese": "私は先週中国語を習い始めました。",
+      "english": "I started learning Chinese last week."
+    },
+    {
+      "id": "178781",
+      "japanese": "君たちは先生から何を習っていますか。",
+      "english": "What are you learning from the teacher?"
+    },
+    {
+      "id": "184133",
+      "japanese": "楽器の演奏を習うものもいた。",
+      "english": "Some learned to play musical instruments."
+    },
+    {
+      "id": "184772",
+      "japanese": "外国語を習うには多くの忍耐力が必要だ。",
+      "english": "You must have a lot of patience to learn foreign languages."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.018Z",
+  "count": 5,
+  "fileId": "kanji-00130"
+}

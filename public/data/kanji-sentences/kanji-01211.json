@@ -1,0 +1,33 @@
+{
+  "kanji": "露",
+  "sentences": [
+    {
+      "id": "183711",
+      "japanese": "間近から見ると、ものごとはその欠点や本来備わる醜さを露わにする傾向がある。",
+      "english": "Seen close-up, things have a way of showing their defects, their innate ugliness."
+    },
+    {
+      "id": "216133",
+      "japanese": "芝生に露が降りている。",
+      "english": "Dew has formed on the lawn."
+    },
+    {
+      "id": "225260",
+      "japanese": "今朝は露が降りた。",
+      "english": "The dew fell this morning."
+    },
+    {
+      "id": "77391",
+      "japanese": "露は太陽が昇ると蒸発した。",
+      "english": "The dew evaporated when the sun rose."
+    },
+    {
+      "id": "77392",
+      "japanese": "露が草の葉におりている。",
+      "english": "The dew is on the leaves of grass."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.394Z",
+  "count": 5,
+  "fileId": "kanji-01211"
+}

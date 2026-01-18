@@ -1,0 +1,33 @@
+{
+  "kanji": "写",
+  "sentences": [
+    {
+      "id": "177354",
+      "japanese": "教科書を書き写すときに１語落としてしまったよ。",
+      "english": "You've left out a word in copying the textbook."
+    },
+    {
+      "id": "177970",
+      "japanese": "君は３０年前のお父さんに生き写しだ。",
+      "english": "You look the way your father did thirty years ago."
+    },
+    {
+      "id": "206697",
+      "japanese": "その本の一節をノートに書き写した。",
+      "english": "I copied a passage from the book into my notebook."
+    },
+    {
+      "id": "209615",
+      "japanese": "その写真は空から写されたものである。",
+      "english": "The picture was taken from the air."
+    },
+    {
+      "id": "209621",
+      "japanese": "その写しは原本と合っている。",
+      "english": "The copy agrees with the original."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.828Z",
+  "count": 5,
+  "fileId": "kanji-00116"
+}

@@ -1,0 +1,110 @@
+{
+  "id": "060-aru-inanimate",
+  "version": "1.0.0",
+  "title": {
+    "ja": "ある",
+    "romaji": "aru",
+    "en": "Existence (inanimate)"
+  },
+  "jlptLevel": "N5",
+  "category": "existence",
+  "explanation": {
+    "en": "ある is the verb used to say that things or places exist. It is used for inanimate objects such as books, tables, and buildings. The polite form is あります.\n\nKey points:\n• Use ある/あります for things and places\n• The pattern is Location に Thing が あります\n• が marks the thing that exists\n• に marks the location\n\nFor example, “机の上に本があります” means “There is a book on the desk.” The book is the thing that exists (が), and the location is marked by に.\n\nWhen talking about where something is, あります is the polite default. If the subject is a person or animal, switch to います. This is a core difference in Japanese existence verbs.\n\nYou can also use ある to say that you have something, such as “時間があります” (I have time). For beginners, focus on location sentences first, then notice this “have” meaning later.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Location に Inanimate が ある/あります",
+    "components": [
+      {
+        "part": "Location に",
+        "explanation": "Where something exists",
+        "examples": ["机の上に", "部屋に", "駅の近くに"]
+      },
+      {
+        "part": "Inanimate が",
+        "explanation": "Thing or place that exists",
+        "examples": ["本が", "店が", "いすが"]
+      },
+      {
+        "part": "ある/あります",
+        "explanation": "Existence verb for inanimate things",
+        "examples": ["ある", "あります"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "机の上に本があります。",
+      "romaji": "Tsukue no ue ni hon ga arimasu.",
+      "english": "There is a book on the desk.",
+      "breakdown": {
+        "机": "desk",
+        "の": "of",
+        "上": "top",
+        "に": "location marker",
+        "本": "book",
+        "が": "subject marker",
+        "あります": "exists (polite)"
+      },
+      "notes": "Location + object"
+    },
+    {
+      "japanese": "駅の近くにコンビニがあります。",
+      "romaji": "Eki no chikaku ni konbini ga arimasu.",
+      "english": "There is a convenience store near the station.",
+      "breakdown": {
+        "駅": "station",
+        "の": "of",
+        "近く": "near",
+        "に": "location marker",
+        "コンビニ": "convenience store",
+        "が": "subject marker",
+        "あります": "exists (polite)"
+      },
+      "notes": "Place exists near another place"
+    },
+    {
+      "japanese": "この町に大きい公園があります。",
+      "romaji": "Kono machi ni ookii kouen ga arimasu.",
+      "english": "There is a big park in this town.",
+      "breakdown": {
+        "この": "this",
+        "町": "town",
+        "に": "location marker",
+        "大きい": "big",
+        "公園": "park",
+        "が": "subject marker",
+        "あります": "exists (polite)"
+      },
+      "notes": "Adjective + noun with ある"
+    },
+    {
+      "japanese": "時間があります。",
+      "romaji": "Jikan ga arimasu.",
+      "english": "I have time.",
+      "breakdown": {
+        "時間": "time",
+        "が": "subject marker",
+        "あります": "exists (polite)"
+      },
+      "notes": "“Have” meaning"
+    }
+  ],
+  "relatedPoints": [
+    "059-iru-animate",
+    "007-particle-ga"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ある for people",
+      "correction": "Use いる/います for animate things",
+      "example": "❌ 先生があります → ✅ 先生がいます"
+    },
+    {
+      "mistake": "Using を for the subject",
+      "correction": "Use が to mark the thing that exists",
+      "example": "❌ 本をあります → ✅ 本があります"
+    }
+  ],
+  "tags": ["existence", "aru", "inanimate", "beginner"]
+}

@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "313-n4-point-113",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "313-n4-point-113-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"~ba ii (should / it would be good if)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～ばいい",
+          "romaji": "~ba ii"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! ～ばいい matches \"~ba ii (should / it would be good if)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～ばいい.",
+      "explanation": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "313-n4-point-113-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～ばいい.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "~ba ii (should / it would be good if)"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～ばいい means \"~ba ii (should / it would be good if)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"~ba ii (should / it would be good if)\".",
+      "explanation": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "313-n4-point-113-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～ばいい.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "~ba ii"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ~ba ii is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~ba ii.",
+      "explanation": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "313-n4-point-113-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～ばいい?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\""
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "explanation": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "313-n4-point-113-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"~ba ii (should / it would be good if)\".",
+      "correctAnswer": "～ばいい",
+      "acceptedVariations": [
+        "～ばいい",
+        "～ばいい"
+      ],
+      "correctFeedback": "Nice! ～ばいい is correct.",
+      "incorrectFeedback": "The correct pattern is: ～ばいい (~ba ii).",
+      "explanation": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "hints": [
+        "~ba ii",
+        "Expresses advice or suggestion; means \"should\" or \"it would be good if.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "313-n4-point-113-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～ばいい.",
+      "correctAnswer": "~ba ii",
+      "acceptedVariations": [
+        "~ba ii",
+        "~ba ii"
+      ],
+      "correctFeedback": "Nice! ~ba ii is correct.",
+      "incorrectFeedback": "The correct romaji is: ~ba ii.",
+      "explanation": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "hints": [
+        "Expresses advice or suggestion; means \"should\" or \"it would be good if.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "313-n4-point-113-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～ばいい.",
+      "correctAnswer": "~ba ii (should / it would be good if)",
+      "acceptedVariations": [
+        "~ba ii (should / it would be good if)",
+        "~ba ii (should / it would be good if)"
+      ],
+      "correctFeedback": "Correct! \"~ba ii (should / it would be good if)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"~ba ii (should / it would be good if)\".",
+      "explanation": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "hints": [
+        "Expresses advice or suggestion; means \"should\" or \"it would be good if.\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "313-n4-point-113-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～ばいい",
+          "romaji": "~ba ii",
+          "english": "~ba ii (should / it would be good if)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "313-n4-point-113-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses advice or suggestion; means \"should\" or \"it would be good if.\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～ばいい",
+          "romaji": "~ba ii"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ～ばいい matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～ばいい.",
+      "explanation": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "313-n4-point-113-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～ばいい",
+      "acceptedVariations": [
+        "～ばいい",
+        "～ばいい"
+      ],
+      "correctFeedback": "Great! ～ばいい is correct.",
+      "incorrectFeedback": "The correct pattern is: ～ばいい.",
+      "explanation": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "hints": [
+        "~ba ii"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

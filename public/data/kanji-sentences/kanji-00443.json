@@ -1,0 +1,33 @@
+{
+  "kanji": "向",
+  "sentences": [
+    {
+      "id": "177089",
+      "japanese": "君は全然ぼくの話を聞いてくれない。壁に向って話すようなものだ。",
+      "english": "You never listen. I might as well talk to the wall."
+    },
+    {
+      "id": "10977039",
+      "japanese": "現実と向き合わなきゃ。",
+      "english": "You must face the facts."
+    },
+    {
+      "id": "178053",
+      "japanese": "君の妹はいつロンドンに向けて東京を出発したのですか。",
+      "english": "When did your sister leave Tokyo for London?"
+    },
+    {
+      "id": "179413",
+      "japanese": "風船が空に向かって上昇しています。",
+      "english": "A balloon is ascending into the sky."
+    },
+    {
+      "id": "116304",
+      "japanese": "彼の飛行機は午後２時に香港へ向けて出発します。",
+      "english": "His plane leaves for Hong Kong at 2:00 p.m."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.149Z",
+  "count": 5,
+  "fileId": "kanji-00443"
+}

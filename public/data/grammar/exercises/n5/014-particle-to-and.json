@@ -1,0 +1,180 @@
+{
+  "grammarPointId": "014-particle-to-and",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "014-particle-to-and-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: パン＿＿牛乳を買います。",
+      "questionRomaji": "Pan __ gyuunyuu o kaimasu.",
+      "options": [
+        { "id": "a", "text": "と", "romaji": "to" },
+        { "id": "b", "text": "や", "romaji": "ya" },
+        { "id": "c", "text": "に", "romaji": "ni" },
+        { "id": "d", "text": "で", "romaji": "de" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! と connects nouns in a complete list.",
+      "incorrectFeedback": "Not quite. Use と to connect two nouns.",
+      "explanation": "パンと牛乳 is a complete list of two items.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "014-particle-to-and-ex-02",
+      "type": "multiple-choice",
+      "question": "Which particle means 'and' for nouns?",
+      "options": [
+        { "id": "a", "text": "と" },
+        { "id": "b", "text": "で" },
+        { "id": "c", "text": "へ" },
+        { "id": "d", "text": "が" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Yes! と connects nouns with 'and'.",
+      "incorrectFeedback": "Try again. と is the noun-connector.",
+      "explanation": "Use と to connect nouns in a complete list.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "014-particle-to-and-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I eat apples and oranges.'",
+      "correctAnswer": "りんごとみかんを食べます",
+      "acceptedVariations": [
+        "りんごとみかんを食べます。",
+        "ringo to mikan o tabemasu",
+        "ringo to mikan o tabemasu."
+      ],
+      "correctFeedback": "Great! りんごとみかんを食べます is correct.",
+      "incorrectFeedback": "The correct answer is: りんごとみかんを食べます (ringo to mikan o tabemasu).",
+      "explanation": "と connects the two nouns in a complete list.",
+      "hints": ["Use と between nouns", "End with 食べます"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "014-particle-to-and-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence shows a complete list?",
+      "options": [
+        { "id": "a", "text": "パンや牛乳を買います。" },
+        { "id": "b", "text": "パンと牛乳を買います。" },
+        { "id": "c", "text": "パンで牛乳を買います。" },
+        { "id": "d", "text": "パンに牛乳を買います。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! と indicates a complete list.",
+      "incorrectFeedback": "Not quite. と is used for a complete list.",
+      "explanation": "や is for examples; と is for full lists.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "014-particle-to-and-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There are books and pens.'",
+      "correctAnswer": "本とペンがあります",
+      "acceptedVariations": [
+        "本とペンがあります。",
+        "ほんとぺんがあります",
+        "hon to pen ga arimasu",
+        "hon to pen ga arimasu."
+      ],
+      "correctFeedback": "Nice! 本とペンがあります is correct.",
+      "incorrectFeedback": "The correct answer is: 本とペンがあります (hon to pen ga arimasu).",
+      "explanation": "と connects the nouns in the list.",
+      "hints": ["Use と between nouns", "Use あります"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "014-particle-to-and-ex-06",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence for 'My father and mother are in Japan.'",
+      "options": [
+        { "id": "a", "text": "父と母は日本にいます。" },
+        { "id": "b", "text": "父や母は日本にいます。" },
+        { "id": "c", "text": "父に母は日本にいます。" },
+        { "id": "d", "text": "父で母は日本にいます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! と connects the two family members.",
+      "incorrectFeedback": "Try again. Use と for a complete list.",
+      "explanation": "父と母 is a complete list of two people.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "014-particle-to-and-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I buy bread and milk.'",
+      "correctAnswer": "パンと牛乳を買います",
+      "acceptedVariations": [
+        "パンと牛乳を買います。",
+        "pan to gyuunyuu o kaimasu",
+        "pan to gyuunyuu o kaimasu."
+      ],
+      "correctFeedback": "Great! パンと牛乳を買います is correct.",
+      "incorrectFeedback": "The correct answer is: パンと牛乳を買います (pan to gyuunyuu o kaimasu).",
+      "explanation": "と connects the two items.",
+      "hints": ["Use と between nouns", "買います = buy"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "014-particle-to-and-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "りんごとみかんを食べます。",
+          "romaji": "Ringo to mikan o tabemasu.",
+          "english": "I eat apples and oranges."
+        },
+        {
+          "japanese": "本とペンがあります。",
+          "romaji": "Hon to pen ga arimasu.",
+          "english": "There are books and pens."
+        },
+        {
+          "japanese": "父と母は日本にいます。",
+          "romaji": "Chichi to haha wa Nihon ni imasu.",
+          "english": "My father and mother are in Japan."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review と for complete lists.",
+      "explanation": "Each sentence uses と to connect nouns.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "014-particle-to-and-ex-09",
+      "type": "multiple-choice",
+      "question": "Which particle is used for a non-exhaustive list?",
+      "options": [
+        { "id": "a", "text": "と" },
+        { "id": "b", "text": "や" },
+        { "id": "c", "text": "に" },
+        { "id": "d", "text": "で" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! や is for non-exhaustive lists.",
+      "incorrectFeedback": "Try again. や means “A, B, etc.”",
+      "explanation": "と is for complete lists; や is for examples.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "014-particle-to-and-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I drink water and tea.'",
+      "correctAnswer": "水とお茶を飲みます",
+      "acceptedVariations": [
+        "水とお茶を飲みます。",
+        "みずとおちゃをのみます",
+        "mizu to ocha o nomimasu",
+        "mizu to ocha o nomimasu."
+      ],
+      "correctFeedback": "Nice! 水とお茶を飲みます is correct.",
+      "incorrectFeedback": "The correct answer is: 水とお茶を飲みます (mizu to ocha o nomimasu).",
+      "explanation": "と connects the two nouns.",
+      "hints": ["Use と between nouns", "飲みます = drink"],
+      "difficulty": "hard"
+    }
+  ]
+}

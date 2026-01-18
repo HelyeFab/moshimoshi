@@ -1,0 +1,33 @@
+{
+  "kanji": "鍵",
+  "sentences": [
+    {
+      "id": "5145",
+      "japanese": "鍵となる問題は何を得ることができるかではなく、何を失わなければならないかである。",
+      "english": "The key question is not what can I gain but what do I have to lose."
+    },
+    {
+      "id": "1019501",
+      "japanese": "君は違う鍵を取った。",
+      "english": "You took the wrong key."
+    },
+    {
+      "id": "177320",
+      "japanese": "君は鍵をなくすなんて不注意だったね。",
+      "english": "It was careless of you to lose the key."
+    },
+    {
+      "id": "10499839",
+      "japanese": "この鍵はどこで見つけたの？",
+      "english": "Where was it that you found this key?"
+    },
+    {
+      "id": "174769",
+      "japanese": "言うまでもなく、不断の努力は幸せのための鍵である。",
+      "english": "Needless to say, diligence is a key to happiness."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:29.543Z",
+  "count": 5,
+  "fileId": "kanji-01564"
+}

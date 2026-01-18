@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "072-question-naze-doushite-why",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "072-question-naze-doushite-why-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the word for 'why':",
+      "options": [
+        { "id": "a", "text": "どうして" },
+        { "id": "b", "text": "どこ" },
+        { "id": "c", "text": "いつ" },
+        { "id": "d", "text": "なに" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! どうして means 'why.'",
+      "incorrectFeedback": "Not quite. どうして is 'why.'",
+      "explanation": "どうして asks for reasons.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "072-question-naze-doushite-why-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "なぜ日本語を勉強しますか。" },
+        { "id": "b", "text": "日本語をなぜ勉強しますか。" },
+        { "id": "c", "text": "日本語を勉強なぜしますか。" },
+        { "id": "d", "text": "日本語を勉強しますなぜか。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! なぜ is best at the beginning.",
+      "incorrectFeedback": "Try again. Put なぜ/どうして at the start.",
+      "explanation": "なぜ/どうして usually starts the question.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "072-question-naze-doushite-why-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Why do you study Japanese?'",
+      "correctAnswer": "どうして日本語を勉強しますか",
+      "acceptedVariations": [
+        "どうして日本語を勉強しますか。",
+        "どうしてにほんごをべんきょうしますか",
+        "doushite nihongo o benkyou shimasu ka",
+        "doushite nihongo o benkyou shimasu ka."
+      ],
+      "correctFeedback": "Great! どうして日本語を勉強しますか is correct.",
+      "incorrectFeedback": "The correct answer is: どうして日本語を勉強しますか (doushite nihongo o benkyou shimasu ka).",
+      "explanation": "Use どうして/なぜ to ask for reasons.",
+      "hints": ["日本語 = Japanese", "勉強します = study"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "072-question-naze-doushite-why-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct response to a 'why' question:",
+      "options": [
+        { "id": "a", "text": "日本が好きだからです。" },
+        { "id": "b", "text": "日本が好きです。" },
+        { "id": "c", "text": "日本が好きですか。" },
+        { "id": "d", "text": "日本が好きでした。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 〜からです gives a reason.",
+      "incorrectFeedback": "Not quite. Use から to answer 'why.'",
+      "explanation": "Reasons are often given with からです.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "072-question-naze-doushite-why-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Why are you busy?'",
+      "correctAnswer": "なぜ忙しいですか",
+      "acceptedVariations": [
+        "なぜ忙しいですか。",
+        "なぜいそがしいですか",
+        "naze isogashii desu ka",
+        "naze isogashii desu ka."
+      ],
+      "correctFeedback": "Nice! なぜ忙しいですか is correct.",
+      "incorrectFeedback": "The correct answer is: なぜ忙しいですか (naze isogashii desu ka).",
+      "explanation": "Use なぜ for a slightly formal 'why.'",
+      "hints": ["忙しい = busy", "Use なぜ"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "072-question-naze-doushite-why-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "どうして来ませんか。" },
+        { "id": "b", "text": "なぜ遅いですか。" },
+        { "id": "c", "text": "どうしては日本語を勉強しますか。" },
+        { "id": "d", "text": "なぜ忙しいですか。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! どうして should not take は here.",
+      "incorrectFeedback": "Try again. Place どうして at the start without は.",
+      "explanation": "どうして is used as a question word at the start.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "072-question-naze-doushite-why-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Why aren't you coming?'",
+      "correctAnswer": "どうして来ませんか",
+      "acceptedVariations": [
+        "どうして来ませんか。",
+        "どうしてきませんか",
+        "doushite kimasen ka",
+        "doushite kimasen ka."
+      ],
+      "correctFeedback": "Great! どうして来ませんか is correct.",
+      "incorrectFeedback": "The correct answer is: どうして来ませんか (doushite kimasen ka).",
+      "explanation": "Use どうして for 'why' questions.",
+      "hints": ["来ません = do not come", "Use どうして"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "072-question-naze-doushite-why-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "どうして日本語を勉強しますか。",
+          "romaji": "Doushite nihongo o benkyou shimasu ka.",
+          "english": "Why do you study Japanese?"
+        },
+        {
+          "japanese": "なぜ遅いですか。",
+          "romaji": "Naze osoi desu ka.",
+          "english": "Why are you late?"
+        },
+        {
+          "japanese": "どうして来ませんか。",
+          "romaji": "Doushite kimasen ka.",
+          "english": "Why aren't you coming?"
+        }
+      ],
+      "correctFeedback": "Perfect! All are 'why' questions.",
+      "incorrectFeedback": "Not quite. Review なぜ/どうして.",
+      "explanation": "なぜ and どうして both mean 'why.'",
+      "difficulty": "hard"
+    },
+    {
+      "id": "072-question-naze-doushite-why-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the best reason answer?",
+      "options": [
+        { "id": "a", "text": "雨だからです。" },
+        { "id": "b", "text": "雨ですか。" },
+        { "id": "c", "text": "雨でした。" },
+        { "id": "d", "text": "雨です。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 〜だからです gives a reason.",
+      "incorrectFeedback": "Try again. Use から to explain why.",
+      "explanation": "Use から to answer 'why' questions.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "072-question-naze-doushite-why-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Why is the test easy?'",
+      "correctAnswer": "なぜテストは簡単ですか",
+      "acceptedVariations": [
+        "なぜテストは簡単ですか。",
+        "なぜてすとはかんたんですか",
+        "naze tesuto wa kantan desu ka",
+        "naze tesuto wa kantan desu ka."
+      ],
+      "correctFeedback": "Nice! なぜテストは簡単ですか is correct.",
+      "incorrectFeedback": "The correct answer is: なぜテストは簡単ですか (naze tesuto wa kantan desu ka).",
+      "explanation": "Use なぜ/どうして to ask for reasons.",
+      "hints": ["テスト = test", "簡単 = easy"],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "剣",
+  "sentences": [
+    {
+      "id": "196616",
+      "japanese": "ペンは剣よりも強し。",
+      "english": "The pen is mightier than the sword."
+    },
+    {
+      "id": "74406",
+      "japanese": "『カムイの剣』は、1868年の徳川将軍時代の崩壊と、明治天皇下での日本の復興という変革期を舞台にした、一種の侍/忍者物語だ。",
+      "english": "Kamui no Ken was a sort of samurai/ninja story set during the transition of the fall of the Tokugawa Shogunate and the re-establishment of Japan under the Emperor Meiji in 1868."
+    },
+    {
+      "id": "83611",
+      "japanese": "兵士たちは剣をきらきらさせながら行進していた。",
+      "english": "The soldiers were marching with their swords shining."
+    },
+    {
+      "id": "107733",
+      "japanese": "彼は剣で殺された。",
+      "english": "He was killed with a sword."
+    },
+    {
+      "id": "113480",
+      "japanese": "彼はすきを捨てて剣を取った。",
+      "english": "He exchanged a plough for a sword."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.687Z",
+  "count": 5,
+  "fileId": "kanji-01188"
+}

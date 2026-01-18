@@ -1,0 +1,33 @@
+{
+  "kanji": "八",
+  "sentences": [
+    {
+      "id": "177958",
+      "japanese": "君はあのとき一か八かやってみるべきだったのに。",
+      "english": "You should have taken a chance then."
+    },
+    {
+      "id": "10253170",
+      "japanese": "一か八か、当たって砕けろだ。",
+      "english": "Let's take a chance and go for broke."
+    },
+    {
+      "id": "190716",
+      "japanese": "一か八かやってみることで一財産できるだろう。",
+      "english": "You'll make a fortune by taking a chance."
+    },
+    {
+      "id": "200459",
+      "japanese": "とにかく一か八かやってみる。",
+      "english": "Anyway, I'll take a chance."
+    },
+    {
+      "id": "227446",
+      "japanese": "オレに八つ当たりするなよ。",
+      "english": "Don't take it out on me."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.759Z",
+  "count": 5,
+  "fileId": "kanji-00050"
+}

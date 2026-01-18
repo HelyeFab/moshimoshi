@@ -1,0 +1,33 @@
+{
+  "kanji": "超",
+  "sentences": [
+    {
+      "id": "180422",
+      "japanese": "恐らく彼女は４０を超えているでしょう。",
+      "english": "She is probably over forty."
+    },
+    {
+      "id": "183086",
+      "japanese": "記事の長さは１０００語を超えてはならない。",
+      "english": "The length of the article is not to exceed 1000 words."
+    },
+    {
+      "id": "186259",
+      "japanese": "我々の借金は我々の返済能力を超えている。",
+      "english": "Our debt is more than we can pay."
+    },
+    {
+      "id": "199559",
+      "japanese": "どんなにひどくても、損害は百万を超えないだろうと見積もられている。",
+      "english": "The damages are estimated not to exceed a million yen at the worst."
+    },
+    {
+      "id": "199960",
+      "japanese": "トムは勤務終了時間を超えて働くと、５割アップの時給をもらっていた。",
+      "english": "Tom got time and a half when he worked beyond his usual quitting time."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.477Z",
+  "count": 5,
+  "fileId": "kanji-00660"
+}

@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "275-n4-point-75",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "275-n4-point-75-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"whether or if\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～かどうか",
+          "romaji": "~ka dou ka"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～かどうか matches \"whether or if\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～かどうか.",
+      "explanation": "Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "difficulty": "easy"
+    },
+    {
+      "id": "275-n4-point-75-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～かどうか.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "whether or if"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～かどうか means \"whether or if\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"whether or if\".",
+      "explanation": "Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "difficulty": "easy"
+    },
+    {
+      "id": "275-n4-point-75-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～かどうか.",
+      "options": [
+        {
+          "id": "a",
+          "text": "~ka dou ka"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ~ka dou ka is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~ka dou ka.",
+      "explanation": "Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "difficulty": "medium"
+    },
+    {
+      "id": "275-n4-point-75-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～かどうか?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to express uncertainty or indirect questions with \"whether\" or \"if\"."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "explanation": "Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "difficulty": "medium"
+    },
+    {
+      "id": "275-n4-point-75-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"whether or if\".",
+      "correctAnswer": "～かどうか",
+      "acceptedVariations": [
+        "～かどうか",
+        "～かどうか"
+      ],
+      "correctFeedback": "Nice! ～かどうか is correct.",
+      "incorrectFeedback": "The correct pattern is: ～かどうか (~ka dou ka).",
+      "explanation": "Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "hints": [
+        "~ka dou ka",
+        "Used to express uncertainty or indirect questions with \"whether\" or \"if\"."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "275-n4-point-75-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～かどうか.",
+      "correctAnswer": "~ka dou ka",
+      "acceptedVariations": [
+        "~ka dou ka",
+        "~ka dou ka"
+      ],
+      "correctFeedback": "Nice! ~ka dou ka is correct.",
+      "incorrectFeedback": "The correct romaji is: ~ka dou ka.",
+      "explanation": "Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "hints": [
+        "Used to express uncertainty or indirect questions with \"whether\" or \"if\"."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "275-n4-point-75-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～かどうか.",
+      "correctAnswer": "whether or if",
+      "acceptedVariations": [
+        "whether or if",
+        "whether or if"
+      ],
+      "correctFeedback": "Correct! \"whether or if\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"whether or if\".",
+      "explanation": "Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "hints": [
+        "Used to express uncertainty or indirect questions with \"whether\" or \"if\"."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "275-n4-point-75-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～かどうか",
+          "romaji": "~ka dou ka",
+          "english": "whether or if"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "difficulty": "hard"
+    },
+    {
+      "id": "275-n4-point-75-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to express uncertainty or indirect questions with \"whether\" or \"if\"..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～かどうか",
+          "romaji": "~ka dou ka"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～かどうか matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～かどうか.",
+      "explanation": "Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "difficulty": "hard"
+    },
+    {
+      "id": "275-n4-point-75-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～かどうか",
+      "acceptedVariations": [
+        "～かどうか",
+        "～かどうか"
+      ],
+      "correctFeedback": "Great! ～かどうか is correct.",
+      "incorrectFeedback": "The correct pattern is: ～かどうか.",
+      "explanation": "Used to express uncertainty or indirect questions with \"whether\" or \"if\".",
+      "hints": [
+        "~ka dou ka"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

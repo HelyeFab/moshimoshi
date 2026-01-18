@@ -1,0 +1,33 @@
+{
+  "kanji": "山",
+  "sentences": [
+    {
+      "id": "4715",
+      "japanese": "私は山にいました。",
+      "english": "I was in the mountains."
+    },
+    {
+      "id": "179211",
+      "japanese": "君が１人でこの山に登るなんてとても危険だと思う。",
+      "english": "We think it is very dangerous that you're climbing the mountain alone."
+    },
+    {
+      "id": "179407",
+      "japanese": "空を背景にして山は本当に美しく見えた。",
+      "english": "Seen against the sky, the mountain looked really beautiful."
+    },
+    {
+      "id": "179474",
+      "japanese": "空と山の対比が鮮烈だ。",
+      "english": "The contrast between the sky and the mountain is striking."
+    },
+    {
+      "id": "183115",
+      "japanese": "紀元前776年、最初のオリンピック競技大会は、ギリシャ人の主神ゼウスを称えるため、オリンポス山の麓で開催された。",
+      "english": "In 776 B.C., the first Olympic Games were held at the foot of Mount Olympus to honor the Greeks' chief god, Zeus."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.540Z",
+  "count": 5,
+  "fileId": "kanji-00033"
+}

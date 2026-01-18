@@ -1,0 +1,33 @@
+{
+  "kanji": "王",
+  "sentences": [
+    {
+      "id": "180582",
+      "japanese": "凶漢が王の馬車に爆弾を投げつけた。",
+      "english": "A fanatic threw a bomb at the king's coach."
+    },
+    {
+      "id": "180584",
+      "japanese": "共和国とは王や王女でなく大統領が長となる国家である。",
+      "english": "A republic is a nation whose head is not a king or queen, but a president."
+    },
+    {
+      "id": "188500",
+      "japanese": "王はその囚人を解放するように命じた。",
+      "english": "The king ordered that the prisoner should be set free."
+    },
+    {
+      "id": "188468",
+      "japanese": "王妃は王のかたわらに立っていた。",
+      "english": "The queen stood beside the king."
+    },
+    {
+      "id": "188486",
+      "japanese": "王や女王が世界に君臨した時代があった。",
+      "english": "There was a time when kings and queens reigned over the world."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.160Z",
+  "count": 5,
+  "fileId": "kanji-00597"
+}

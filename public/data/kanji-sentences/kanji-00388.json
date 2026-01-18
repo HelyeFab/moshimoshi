@@ -1,0 +1,33 @@
+{
+  "kanji": "煙",
+  "sentences": [
+    {
+      "id": "188752",
+      "japanese": "煙は彼の心臓によくないかもしれない。",
+      "english": "Smoking may be harmful to his heart."
+    },
+    {
+      "id": "186711",
+      "japanese": "火山が炎と煙を噴き出している。",
+      "english": "The volcano is belching out flames and smoke."
+    },
+    {
+      "id": "186747",
+      "japanese": "火のない所に煙は立たないということは、誰も否定することはできません。",
+      "english": "No one can deny the fact that there is no smoke without fire."
+    },
+    {
+      "id": "186748",
+      "japanese": "火のないところに煙は立たず。",
+      "english": "There is no smoke without fire."
+    },
+    {
+      "id": "354111",
+      "japanese": "火のない所には煙はたたぬ。",
+      "english": "There is no smoke without fire."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.370Z",
+  "count": 5,
+  "fileId": "kanji-00388"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "音",
+  "sentences": [
+    {
+      "id": "4995",
+      "japanese": "「あの音で考え事ができないわ」と、彼女はタイプライターを見つめながら言った。",
+      "english": "\"I can't think with that noise,\" she said, as she stared at the typewriter."
+    },
+    {
+      "id": "178229",
+      "japanese": "君の車は音が大きすぎる。調べてもらうべきだよ。",
+      "english": "Your car makes too much noise. You should have it looked at."
+    },
+    {
+      "id": "179378",
+      "japanese": "空気は音の媒体だ。",
+      "english": "The air is a medium for sound."
+    },
+    {
+      "id": "179404",
+      "japanese": "空気がないので月の上では風も音もないはずだ。",
+      "english": "Without air there can be no wind or sound on the moon."
+    },
+    {
+      "id": "1619847",
+      "japanese": "大気のないが故に、月には風も音も存在し得ない。",
+      "english": "Without air there can be no wind or sound on the moon."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.244Z",
+  "count": 5,
+  "fileId": "kanji-00228"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "背",
+  "sentences": [
+    {
+      "id": "176888",
+      "japanese": "君は僕と同じ背の高さです。",
+      "english": "You are as tall as I am."
+    },
+    {
+      "id": "177590",
+      "japanese": "君はなんて背が高いんだろう。",
+      "english": "How tall you are!"
+    },
+    {
+      "id": "232434",
+      "japanese": "あなたはなんて背が高いんでしょう。",
+      "english": "How tall you are!"
+    },
+    {
+      "id": "4806867",
+      "japanese": "すっごく背が高いね！",
+      "english": "How tall you are!"
+    },
+    {
+      "id": "121555",
+      "japanese": "背はどれぐらいありますか。",
+      "english": "How tall are you?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.047Z",
+  "count": 5,
+  "fileId": "kanji-00587"
+}

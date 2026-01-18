@@ -1,0 +1,33 @@
+{
+  "kanji": "忍",
+  "sentences": [
+    {
+      "id": "180383",
+      "japanese": "恐ろしさが私の心に忍び込み、そこに残った。",
+      "english": "Fear crept into my heart and settled there."
+    },
+    {
+      "id": "199623",
+      "japanese": "泥棒が窓から忍び込んだ。",
+      "english": "A thief crept in through the window."
+    },
+    {
+      "id": "204086",
+      "japanese": "そんな場面を見るに忍びなかった。",
+      "english": "I couldn't bear to see such a scene."
+    },
+    {
+      "id": "212672",
+      "japanese": "そのふたりの男はその家に忍び込むのが目撃された。",
+      "english": "The two men were seen to steal into the house."
+    },
+    {
+      "id": "224131",
+      "japanese": "こっそり家に忍び込む。",
+      "english": "I steal into the house."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:21.422Z",
+  "count": 5,
+  "fileId": "kanji-01296"
+}

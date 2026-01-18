@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "080-node-so",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "080-node-so-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: 雨です__行きません。",
+      "options": [
+        { "id": "a", "text": "ので" },
+        { "id": "b", "text": "から" },
+        { "id": "c", "text": "まで" },
+        { "id": "d", "text": "より" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ので is a soft 'because.'",
+      "incorrectFeedback": "Not quite. Use ので for a soft reason.",
+      "explanation": "ので connects reason and result politely.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "080-node-so-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "雨ですので、行きません。" },
+        { "id": "b", "text": "雨なので、行きません。" },
+        { "id": "c", "text": "雨でので、行きません。" },
+        { "id": "d", "text": "雨からので、行きません。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 雨ですので is polite.",
+      "incorrectFeedback": "Try again. Use ですので with nouns.",
+      "explanation": "Nouns use ですので in polite speech.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "080-node-so-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Because I'm busy, I won't go.'",
+      "correctAnswer": "忙しいので行きません",
+      "acceptedVariations": [
+        "忙しいので行きません。",
+        "いそがしいのでいきません",
+        "isogashii node ikimasen",
+        "isogashii node ikimasen."
+      ],
+      "correctFeedback": "Great! 忙しいので行きません is correct.",
+      "incorrectFeedback": "The correct answer is: 忙しいので行きません (isogashii node ikimasen).",
+      "explanation": "Use ので for a softer reason.",
+      "hints": ["忙しい = busy", "行きません = do not go"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "080-node-so-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct form for a noun: 学生__お金がありません。",
+      "options": [
+        { "id": "a", "text": "なので" },
+        { "id": "b", "text": "ので" },
+        { "id": "c", "text": "から" },
+        { "id": "d", "text": "ですから" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 学生なので.",
+      "incorrectFeedback": "Not quite. Nouns take なので.",
+      "explanation": "Nouns/na-adjectives use なので.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "080-node-so-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Because it is raining, I won't go.'",
+      "correctAnswer": "雨ですので行きません",
+      "acceptedVariations": [
+        "雨ですので行きません。",
+        "あめですのでいきません",
+        "ame desu node ikimasen",
+        "ame desu node ikimasen."
+      ],
+      "correctFeedback": "Nice! 雨ですので行きません is correct.",
+      "incorrectFeedback": "The correct answer is: 雨ですので行きません (ame desu node ikimasen).",
+      "explanation": "Use ですので with nouns in polite speech.",
+      "hints": ["雨 = rain", "行きません = do not go"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "080-node-so-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "忙しいので行きません。" },
+        { "id": "b", "text": "学生なのでお金がありません。" },
+        { "id": "c", "text": "雨でので行きません。" },
+        { "id": "d", "text": "時間がないので急ぎます。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use ので or ですので, not でので.",
+      "incorrectFeedback": "Try again. でので is incorrect.",
+      "explanation": "Use ので after plain forms or ですので with nouns.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "080-node-so-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Because I'm a student, I don't have money.'",
+      "correctAnswer": "学生なのでお金がありません",
+      "acceptedVariations": [
+        "学生なのでお金がありません。",
+        "がくせいなのでおかねがありません",
+        "gakusei na node okane ga arimasen",
+        "gakusei na node okane ga arimasen."
+      ],
+      "correctFeedback": "Great! 学生なのでお金がありません is correct.",
+      "incorrectFeedback": "The correct answer is: 学生なのでお金がありません (gakusei na node okane ga arimasen).",
+      "explanation": "Nouns use なので.",
+      "hints": ["学生 = student", "お金がありません = don't have money"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "080-node-so-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "雨ですので、行きません。",
+          "romaji": "Ame desu node, ikimasen.",
+          "english": "Because it is raining, I won't go."
+        },
+        {
+          "japanese": "忙しいので、今日は休みます。",
+          "romaji": "Isogashii node, kyou wa yasumimasu.",
+          "english": "Because I'm busy, I will rest today."
+        },
+        {
+          "japanese": "学生なので、お金がありません。",
+          "romaji": "Gakusei na node, okane ga arimasen.",
+          "english": "Because I'm a student, I don't have money."
+        }
+      ],
+      "correctFeedback": "Perfect! All use ので for reasons.",
+      "incorrectFeedback": "Not quite. Review ので usage.",
+      "explanation": "ので is a softer reason than から.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "080-node-so-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for a soft reason?",
+      "options": [
+        { "id": "a", "text": "時間がないので急ぎます。" },
+        { "id": "b", "text": "時間がないから急ぎます。" },
+        { "id": "c", "text": "時間がないで急ぎます。" },
+        { "id": "d", "text": "時間がないより急ぎます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ので is softer and polite.",
+      "incorrectFeedback": "Try again. ので gives a softer reason.",
+      "explanation": "ので is used for soft, polite reasons.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "080-node-so-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Because I don't have time, I hurry.'",
+      "correctAnswer": "時間がないので急ぎます",
+      "acceptedVariations": [
+        "時間がないので急ぎます。",
+        "じかんがないのでいそぎます",
+        "jikan ga nai node isogimasu",
+        "jikan ga nai node isogimasu."
+      ],
+      "correctFeedback": "Nice! 時間がないので急ぎます is correct.",
+      "incorrectFeedback": "The correct answer is: 時間がないので急ぎます (jikan ga nai node isogimasu).",
+      "explanation": "Use ので after the reason clause.",
+      "hints": ["時間がない = no time", "急ぎます = hurry"],
+      "difficulty": "hard"
+    }
+  ]
+}

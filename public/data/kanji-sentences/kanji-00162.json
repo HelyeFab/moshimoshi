@@ -1,0 +1,33 @@
+{
+  "kanji": "場",
+  "sentences": [
+    {
+      "id": "178810",
+      "japanese": "君たちの意見はそれぞれ一長一短があるようだし、どちらが良いのかこの場では判断できないよ。",
+      "english": "There are merits and demerits to both your opinions so I'm not going to decide right away which to support."
+    },
+    {
+      "id": "179326",
+      "japanese": "空港リムジンバス乗り場はどこですか。",
+      "english": "Where can I get a shuttle bus at the airport?"
+    },
+    {
+      "id": "179343",
+      "japanese": "空港バスの乗り場はどこですか。",
+      "english": "Where do I get an airport bus?"
+    },
+    {
+      "id": "183288",
+      "japanese": "気がつくと逃げ場はどこにもなかった。",
+      "english": "Now that I notice it, I have nowhere to run."
+    },
+    {
+      "id": "188215",
+      "japanese": "下品極まる盛り場に通いつける。",
+      "english": "He haunts the lowest resorts."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.401Z",
+  "count": 5,
+  "fileId": "kanji-00162"
+}

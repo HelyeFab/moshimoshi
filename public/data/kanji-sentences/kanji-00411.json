@@ -1,0 +1,33 @@
+{
+  "kanji": "誤",
+  "sentences": [
+    {
+      "id": "4991",
+      "japanese": "失礼だが、上記の記事にある３つの誤りを指摘しておきたい。",
+      "english": "Excuse me; allow me to point out three errors in the above article."
+    },
+    {
+      "id": "1066131",
+      "japanese": "失礼ですが、上の記事にある誤りを三つ指摘させてください。",
+      "english": "Excuse me; allow me to point out three errors in the above article."
+    },
+    {
+      "id": "182336",
+      "japanese": "どんな意見も真実と誤りの混合だ。",
+      "english": "Every opinion is a mixture of truth and mistakes."
+    },
+    {
+      "id": "177096",
+      "japanese": "君は前と同じ誤りを犯した。",
+      "english": "You made the same mistake as last time."
+    },
+    {
+      "id": "177821",
+      "japanese": "君はこれからの誤りを正さなければならない。",
+      "english": "You must put these mistakes right."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.670Z",
+  "count": 5,
+  "fileId": "kanji-00411"
+}

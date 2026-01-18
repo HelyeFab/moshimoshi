@@ -1,0 +1,33 @@
+{
+  "kanji": "慌",
+  "sentences": [
+    {
+      "id": "173600",
+      "japanese": "慌てて事を運ぶとミスをしますよ。",
+      "english": "You make mistakes if you do things in a hurry."
+    },
+    {
+      "id": "9949538",
+      "japanese": "私は慌てて家を飛び出した。",
+      "english": "I rushed out of my house."
+    },
+    {
+      "id": "173597",
+      "japanese": "慌てることは無駄を作る。",
+      "english": "Haste makes waste."
+    },
+    {
+      "id": "204271",
+      "japanese": "そんなに慌てて運転して、一体、どこへ行こうってんだよ。時間はあるんだから、安全運転してくれよ。",
+      "english": "Where are you going in such a hurry? We've got plenty of time, so drive safely."
+    },
+    {
+      "id": "207914",
+      "japanese": "その知らせを聞いて彼は慌てた。",
+      "english": "He lost his presence of mind at the news."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.238Z",
+  "count": 5,
+  "fileId": "kanji-01592"
+}

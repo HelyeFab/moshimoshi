@@ -1,0 +1,33 @@
+{
+  "kanji": "植",
+  "sentences": [
+    {
+      "id": "185519",
+      "japanese": "我々は綿の代わりにピーナッツを植えた。",
+      "english": "We planted peanuts instead of cotton."
+    },
+    {
+      "id": "186041",
+      "japanese": "我々はその畑に今年は綿を植え付けるつもりだ。",
+      "english": "We will crop the field with cotton this year."
+    },
+    {
+      "id": "192460",
+      "japanese": "りんごの木が年老いて新しい木が植えられました。",
+      "english": "The apple trees grew old and new ones were planted."
+    },
+    {
+      "id": "201213",
+      "japanese": "とうとう子供たちは山の真中に、りんごの木が植わっている小さな果樹園を見つけました。",
+      "english": "Finally the children saw a little orchard in the middle of the mountain with apple trees growing inside it."
+    },
+    {
+      "id": "206552",
+      "japanese": "その木は３０メートル間隔で植えられている。",
+      "english": "The trees are planted at intervals of thirty meters."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.510Z",
+  "count": 5,
+  "fileId": "kanji-00663"
+}

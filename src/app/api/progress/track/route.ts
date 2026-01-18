@@ -36,11 +36,17 @@ export async function POST(request: NextRequest) {
 
     // Check storage decision
     const decision = await getStorageDecision(session)
+    const forceFirebaseForGrammar = contentType === 'grammar'
+    const effectiveDecision = forceFirebaseForGrammar
+      ? { ...decision, shouldWriteToFirebase: true, storageLocation: 'both' as const }
+      : decision
 
-    console.log(`[API Progress] User ${session.uid} - Premium: ${decision.isPremium}, Content Type: ${contentType}`)
+    console.log(
+      `[API Progress] User ${session.uid} - Premium: ${decision.isPremium}, Content Type: ${contentType}`
+    )
 
     // Only save to Firebase for premium users
-    if (decision.shouldWriteToFirebase) {
+    if (effectiveDecision.shouldWriteToFirebase) {
       console.log(`[API Progress] Premium user - saving to Firebase`)
 
       const db = getDb()
@@ -90,7 +96,9 @@ export async function POST(request: NextRequest) {
         console.log(`[API Progress] Saved ${items.length} progress items to Firebase`)
       }
     } else {
-      console.log(`[API Progress] Free user - skipping Firebase save, data should be stored locally`)
+      console.log(
+        `[API Progress] Free user - skipping Firebase save, data should be stored locally`
+      )
     }
 
     // Save review history if provided and user is premium
@@ -119,9 +127,9 @@ export async function POST(request: NextRequest) {
     return createStorageResponse(
       {
         message: `Progress saved for ${contentType}`,
-        itemsCount: items.length
+        itemsCount: items.length,
       },
-      decision
+      effectiveDecision
     )
 
   } catch (error) {
@@ -157,17 +165,23 @@ export async function GET(request: NextRequest) {
 
     // Check storage decision
     const decision = await getStorageDecision(session)
+    const forceFirebaseForGrammar = contentType === 'grammar'
+    const effectiveDecision = forceFirebaseForGrammar
+      ? { ...decision, shouldWriteToFirebase: true, storageLocation: 'both' as const }
+      : decision
 
     // For free users, return empty with local storage indicator
-    if (!decision.shouldWriteToFirebase) {
-      console.log(`[GET /api/progress] Free user - should use local storage: ${session.uid}`)
+    if (!effectiveDecision.shouldWriteToFirebase) {
+      console.log(
+        `[GET /api/progress] Free user - should use local storage: ${session.uid}`
+      )
       return NextResponse.json({
         items: {},
         contentType,
         storage: {
           location: 'local',
-          message: 'Free users should fetch from IndexedDB'
-        }
+          message: 'Free users should fetch from IndexedDB',
+        },
       })
     }
 
@@ -215,9 +229,9 @@ export async function GET(request: NextRequest) {
         contentType,
         lastUpdated: data?.lastUpdated?.toDate?.() || null,
         storage: {
-          location: decision.storageLocation,
-          syncEnabled: decision.shouldWriteToFirebase
-        }
+          location: effectiveDecision.storageLocation,
+          syncEnabled: effectiveDecision.shouldWriteToFirebase,
+        },
       })
     }
 
@@ -240,9 +254,9 @@ export async function GET(request: NextRequest) {
       contentType,
       lastUpdated: null,
       storage: {
-        location: decision.storageLocation,
-        syncEnabled: decision.shouldWriteToFirebase
-      }
+        location: effectiveDecision.storageLocation,
+        syncEnabled: effectiveDecision.shouldWriteToFirebase,
+      },
     })
 
   } catch (error) {

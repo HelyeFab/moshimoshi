@@ -1,0 +1,33 @@
+{
+  "kanji": "筋",
+  "sentences": [
+    {
+      "id": "178161",
+      "japanese": "君の説明はもっともらしいが、筋がちっとも通ってない。",
+      "english": "Your explanation sounds plausible, but it just doesn't hold water."
+    },
+    {
+      "id": "178347",
+      "japanese": "言ってることの筋が通らないぞ。",
+      "english": "What you are saying does not make sense."
+    },
+    {
+      "id": "178567",
+      "japanese": "君のいっていることは筋が通らない。",
+      "english": "What you are saying does not make sense."
+    },
+    {
+      "id": "178410",
+      "japanese": "君の計画が筋の通ったものであることは認めるけれど、それを実行するのはやはりとても難しいと思うよ。",
+      "english": "Admittedly your plan makes sense, but I still think it will be very hard to carry out."
+    },
+    {
+      "id": "178573",
+      "japanese": "君のアイディアは新しいとは言えない。私は去年、それを別の筋から聞いた。",
+      "english": "Your idea cannot be brand new. I heard about it from another source last year."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.002Z",
+  "count": 5,
+  "fileId": "kanji-01160"
+}

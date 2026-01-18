@@ -1,0 +1,33 @@
+{
+  "kanji": "旗",
+  "sentences": [
+    {
+      "id": "183408",
+      "japanese": "旗が揚がっている。",
+      "english": "The flag is up."
+    },
+    {
+      "id": "183407",
+      "japanese": "旗を見失わないようにしろ。",
+      "english": "Keep sight of the flag."
+    },
+    {
+      "id": "186972",
+      "japanese": "家々の軒先には旗が掲げられていた。",
+      "english": "The fronts of the houses were hung with flags."
+    },
+    {
+      "id": "194941",
+      "japanese": "みんな旗を振り始めた。",
+      "english": "Everybody started waving his flag."
+    },
+    {
+      "id": "198595",
+      "japanese": "ネッドは旗をまっすぐに立てて持ってきた。",
+      "english": "Ned held the flag erect."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:23.240Z",
+  "count": 5,
+  "fileId": "kanji-01357"
+}

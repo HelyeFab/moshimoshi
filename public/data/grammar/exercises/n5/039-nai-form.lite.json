@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "039-nai-form",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "039-nai-form-ex-01",
+      "type": "multiple-choice",
+      "question": "Which is the ない-form of 書く?",
+      "options": [
+        {
+          "id": "a",
+          "text": "書かない"
+        },
+        {
+          "id": "b",
+          "text": "書きない"
+        },
+        {
+          "id": "c",
+          "text": "書くない"
+        },
+        {
+          "id": "d",
+          "text": "書いてない"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 書く → 書かない.",
+      "incorrectFeedback": "Not quite. Change the final vowel to a-sound + ない.",
+      "explanation": "U-verb: 書く → 書かない.",
+      "difficulty": "easy"
+    }
+  ]
+}

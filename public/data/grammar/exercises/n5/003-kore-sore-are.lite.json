@@ -1,0 +1,36 @@
+{
+  "grammarPointId": "003-kore-sore-are",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "003-kore-sore-are-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word for something near you: ＿＿はペンです。",
+      "questionRomaji": "__ wa pen desu.",
+      "options": [
+        {
+          "id": "a",
+          "text": "これ"
+        },
+        {
+          "id": "b",
+          "text": "それ"
+        },
+        {
+          "id": "c",
+          "text": "あれ"
+        },
+        {
+          "id": "d",
+          "text": "どれ"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! これ is for things near the speaker.",
+      "incorrectFeedback": "Not quite. Use これ for things near you.",
+      "explanation": "これ means “this (near me).”",
+      "difficulty": "easy"
+    }
+  ]
+}

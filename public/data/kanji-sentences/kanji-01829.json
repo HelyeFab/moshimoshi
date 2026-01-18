@@ -1,0 +1,28 @@
+{
+  "kanji": "弦",
+  "sentences": [
+    {
+      "id": "2751135",
+      "japanese": "ギターの弦が切れた。",
+      "english": "I broke a string on my guitar."
+    },
+    {
+      "id": "11015541",
+      "japanese": "このギター、弦が一本足りないよ。",
+      "english": "This guitar is missing a string."
+    },
+    {
+      "id": "11015542",
+      "japanese": "このギター、弦が一本ないよ。",
+      "english": "This guitar is missing a string."
+    },
+    {
+      "id": "11015543",
+      "japanese": "このギター、弦が一本切れてるよ。",
+      "english": "This guitar has one broken string."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:38.610Z",
+  "count": 4,
+  "fileId": "kanji-01829"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "安",
+  "sentences": [
+    {
+      "id": "117782",
+      "japanese": "給料が安いため、彼はその家を買うことが出来ない。",
+      "english": "His low salary prevents him from buying the house."
+    },
+    {
+      "id": "182357",
+      "japanese": "給料が安いからといって人を軽蔑してはいけない。",
+      "english": "You should not despise a man because he is poorly paid."
+    },
+    {
+      "id": "183034",
+      "japanese": "貴重な思い出料としては安いものですよ。",
+      "english": "That'll make for a memorable time."
+    },
+    {
+      "id": "183113",
+      "japanese": "規制緩和が進んで、セルフサービスのガソリン給油は値段が少し安くなった。",
+      "english": "Gas is a little cheaper with self-service, now that deregulation is kicking in."
+    },
+    {
+      "id": "188804",
+      "japanese": "円高ドル安だ。",
+      "english": "The yen is rising and the dollar is falling."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.080Z",
+  "count": 5,
+  "fileId": "kanji-00216"
+}

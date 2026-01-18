@@ -1,0 +1,33 @@
+{
+  "kanji": "草",
+  "sentences": [
+    {
+      "id": "182012",
+      "japanese": "京子は草の上に横になっています。",
+      "english": "Kyoko is lying on the grass."
+    },
+    {
+      "id": "182310",
+      "japanese": "牛は背の高い緑色の草の中をゆっくり動いていました。",
+      "english": "The cows were moving very slowly through the long green grass."
+    },
+    {
+      "id": "182312",
+      "japanese": "牛は草を食べて生きている。",
+      "english": "Cows live on grass."
+    },
+    {
+      "id": "236835",
+      "japanese": "牛は草を常食とする。",
+      "english": "Cattle feed on grass."
+    },
+    {
+      "id": "182331",
+      "japanese": "牛が野原で草をはんでいた。",
+      "english": "Cattle were grazing in the field."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.902Z",
+  "count": 5,
+  "fileId": "kanji-00282"
+}

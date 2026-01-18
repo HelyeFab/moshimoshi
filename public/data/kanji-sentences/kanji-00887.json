@@ -1,0 +1,33 @@
+{
+  "kanji": "枯",
+  "sentences": [
+    {
+      "id": "183511",
+      "japanese": "奇妙なことに枯れた木に花が咲いた。",
+      "english": "Curiously, a flower bloomed on the withered up tree."
+    },
+    {
+      "id": "186611",
+      "japanese": "花は水が無くて枯れかけていた。",
+      "english": "The flowers were dying without water."
+    },
+    {
+      "id": "186612",
+      "japanese": "花は水がなくて枯れた。",
+      "english": "The flowers died for lack of water."
+    },
+    {
+      "id": "189515",
+      "japanese": "雨不足で野山の植物が枯れた。",
+      "english": "A lack of rain caused wild plants to die."
+    },
+    {
+      "id": "189756",
+      "japanese": "雨が降らなかったために庭の花が枯れてしまった。",
+      "english": "The flowers in the garden died from the absence of rain."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.428Z",
+  "count": 5,
+  "fileId": "kanji-00887"
+}

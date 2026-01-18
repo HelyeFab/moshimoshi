@@ -1,0 +1,33 @@
+{
+  "kanji": "編",
+  "sentences": [
+    {
+      "id": "194699",
+      "japanese": "メアリーは毎晩レースを編んでいる。",
+      "english": "Mary crochets lace every night."
+    },
+    {
+      "id": "199813",
+      "japanese": "トムは編み物をするのが好きだ。",
+      "english": "Tom likes to knit."
+    },
+    {
+      "id": "211614",
+      "japanese": "その巻末には修辞学と論理学の技法についての２編の短い大要があり、後者はソクラテス式論争方の見本で結ばれていた。",
+      "english": "The end of which there were two little sketches of rhetoric and logic, the latter finishing with a specimen of a dispute in the Socratic method."
+    },
+    {
+      "id": "223599",
+      "japanese": "このセーターを編むのは彼女には難しかったにちがいない。",
+      "english": "It must have been difficult for her to knit this sweater."
+    },
+    {
+      "id": "229149",
+      "japanese": "いく日もいく日も、彼女は彼のセーターを編むのに費やした。",
+      "english": "Many a day did she spend knitting a sweater for him."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.180Z",
+  "count": 5,
+  "fileId": "kanji-00962"
+}

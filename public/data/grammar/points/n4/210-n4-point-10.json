@@ -1,0 +1,72 @@
+{
+  "id": "210-n4-point-10",
+  "version": "1.0.0",
+  "title": {
+    "ja": "のために (no tame ni)",
+    "romaji": "no tame ni",
+    "en": "for, in order to"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "The のために grammar point is used to express the purpose or reason for doing something, or for the benefit of someone or something.",
+    "ja": "のための文法は、何かを行う目的や理由を表すのに使われます。または、誰かや何かのために使うことができます。"
+  },
+  "structure": {
+    "pattern": "Noun + のために",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "A noun that represents the purpose or beneficiary.",
+        "examples": [
+          "勉強 (benkyou) - study",
+          "家族 (kazoku) - family"
+        ]
+      },
+      {
+        "part": "のため",
+        "explanation": "Expresses 'for' or 'in order to'.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "勉強のために、図書館で静かな場所を探しています。",
+      "romaji": "Benkyou no tame ni, toshokan de shizukana basho o sagashiteimasu.",
+      "english": "In order to study, I am looking for a quiet place in the library.",
+      "breakdown": {
+        "勉強: benkyou (study), のため: no tame (for the sake of), 探しています: sagashiteimasu (looking for)": "",
+        "図書館: toshokan (library), 静かな場所: shizukana basho (quiet place)": ""
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は家族のために、一生懸命働いています。",
+      "romaji": "Kare wa kazoku no tame ni, isshoukenmei hataraiteimasu.",
+      "english": "He works hard for the sake of his family.",
+      "breakdown": {
+        "彼: kare (he), 家族: kazoku (family), 働いています: hataraiteimasu (working)": ""
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb ために",
+    "文A。だから 文B",
+    "～に"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "勉強のために、図書館で静かな場所を探しています。",
+      "correction": "勉強のためには、図書館で静かな場所を探しています。",
+      "example": ""
+    }
+  ],
+  "tags": [
+    "n4",
+    "purpose",
+    "reason",
+    "benefit"
+  ]
+}

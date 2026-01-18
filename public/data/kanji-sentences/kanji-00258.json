@@ -1,0 +1,33 @@
+{
+  "kanji": "負",
+  "sentences": [
+    {
+      "id": "5248",
+      "japanese": "負けない！",
+      "english": "I won't lose!"
+    },
+    {
+      "id": "178065",
+      "japanese": "君の負けだ、降参しろ。",
+      "english": "You have been beaten. Give in!"
+    },
+    {
+      "id": "178878",
+      "japanese": "君が負けるとは夢にも思わなかった。",
+      "english": "Never did I dream that you would lose."
+    },
+    {
+      "id": "179038",
+      "japanese": "君が間抜けだったおかげで、僕たちはその試合に負けたんだ。",
+      "english": "Thanks to your stupidity, we lost the game."
+    },
+    {
+      "id": "180038",
+      "japanese": "驚いたことに彼はその試合で負けてしまった。",
+      "english": "To our surprise, he was defeated in the match."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.515Z",
+  "count": 5,
+  "fileId": "kanji-00258"
+}

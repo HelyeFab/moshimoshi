@@ -1,0 +1,33 @@
+{
+  "kanji": "助",
+  "sentences": [
+    {
+      "id": "4964",
+      "japanese": "それで誰もあなたを助けなかったの？",
+      "english": "And nobody helped you?"
+    },
+    {
+      "id": "5203",
+      "japanese": "君の助けが必要なんだ。",
+      "english": "I need your help."
+    },
+    {
+      "id": "176927",
+      "japanese": "君は彼女を助けなければいけない。しかもすぐに。",
+      "english": "You must help her, and soon!"
+    },
+    {
+      "id": "231614",
+      "japanese": "あなたは彼女を助けなければならない。しかもすぐにだ。",
+      "english": "You must help her, and soon!"
+    },
+    {
+      "id": "176955",
+      "japanese": "君は彼らを助けるよう求められている。",
+      "english": "You're required to help them."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.909Z",
+  "count": 5,
+  "fileId": "kanji-00500"
+}

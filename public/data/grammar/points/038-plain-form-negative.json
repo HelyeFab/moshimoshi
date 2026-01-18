@@ -1,0 +1,90 @@
+{
+  "id": "038-plain-form-negative",
+  "version": "1.0.0",
+  "title": {
+    "ja": "普通形（否定）",
+    "romaji": "futsuu-kei (negative)",
+    "en": "Plain form (negative)"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "The plain negative form is the casual “do not” form. It is made with the ない-form and is used in informal speech and in many grammar patterns.\n\nKey points:\n• Plain negative uses ない: 行かない, 食べない\n• Used in casual speech and before other grammar\n• Equivalent to ません in polite speech\n• Time words show present or future negative\n\nFor example, “今日は行かない” means “I am not going today.” “肉は食べない” means “I do not eat meat.”\n\nThe ない-form is a key base form. Many other patterns use it (e.g., 〜なくてはいけない). So learning the plain negative helps you build many other structures.\n\nBe careful with verb group changes: 行く → 行かない, 飲む → 飲まない, 食べる → 食べない, する → しない, 来る → こない.\n\nEven if you mostly speak politely, understanding the plain negative helps you understand casual speech and grammar patterns.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (ない-form)",
+    "components": [
+      {
+        "part": "ない-form",
+        "explanation": "Plain negative form",
+        "examples": ["行かない", "食べない", "しない"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "今日は学校に行かない。",
+      "romaji": "Kyou wa gakkou ni ikanai.",
+      "english": "I am not going to school today.",
+      "breakdown": {
+        "今日": "today",
+        "は": "topic marker",
+        "学校": "school",
+        "に": "destination marker",
+        "行かない": "do not go (plain)"
+      },
+      "notes": "Casual negative"
+    },
+    {
+      "japanese": "肉は食べない。",
+      "romaji": "Niku wa tabenai.",
+      "english": "I do not eat meat.",
+      "breakdown": {
+        "肉": "meat",
+        "は": "topic marker",
+        "食べない": "do not eat (plain)"
+      },
+      "notes": "Habit negative"
+    },
+    {
+      "japanese": "今日は勉強しない。",
+      "romaji": "Kyou wa benkyou shinai.",
+      "english": "I won't study today.",
+      "breakdown": {
+        "今日": "today",
+        "は": "topic marker",
+        "勉強しない": "do not study (plain)"
+      },
+      "notes": "する-verb negative"
+    },
+    {
+      "japanese": "友だちに会わない。",
+      "romaji": "Tomodachi ni awanai.",
+      "english": "I do not meet my friend.",
+      "breakdown": {
+        "友だち": "friend",
+        "に": "target marker",
+        "会わない": "do not meet (plain)"
+      },
+      "notes": "U-verb negative"
+    }
+  ],
+  "relatedPoints": [
+    "039-nai-form",
+    "023-masu-form-negative"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ない with ます-form verbs",
+      "correction": "Use the ない-form instead",
+      "example": "❌ 行きますない → ✅ 行かない"
+    },
+    {
+      "mistake": "Forgetting irregular negatives",
+      "correction": "する→しない, 来る→こない",
+      "example": "❌ 来ない (くない) → ✅ こない"
+    }
+  ],
+  "tags": ["verbs", "plain-form", "negative", "casual"]
+}

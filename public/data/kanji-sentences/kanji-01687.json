@@ -1,0 +1,33 @@
+{
+  "kanji": "貼",
+  "sentences": [
+    {
+      "id": "198303",
+      "japanese": "はがきにこの切手を貼って郵便箱に投函しなさい。",
+      "english": "Put this stamp on the postcard and drop it in the mailbox."
+    },
+    {
+      "id": "206931",
+      "japanese": "封筒には切手を貼りましたか？",
+      "english": "Did you put a stamp on the envelope?"
+    },
+    {
+      "id": "209613",
+      "japanese": "その写真は至る所に貼ってある。",
+      "english": "The pictures are pasted on all sides."
+    },
+    {
+      "id": "209617",
+      "japanese": "その写真はアルバムに貼ったほうがよい。",
+      "english": "You should stick those pictures in your album."
+    },
+    {
+      "id": "221343",
+      "japanese": "この手紙に切手を貼って下さい。",
+      "english": "Will you stamp this letter for me?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:33.302Z",
+  "count": 5,
+  "fileId": "kanji-01687"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "320-n4-point-120",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～んです (〜n desu)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～んです grammar point is used to provide an explanation or reason for a situation or action. It can be translated as 'it is that', 'the thing is', or 'the reason is' in English. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + んです, い-Adjective + んです, な-Adjective + なんです, Noun + なんです",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "遅れたんですが、電車が遅れました。",
+      "romaji": "Okuretan desuga, densha ga okuremashita.",
+      "english": "I was late because the train was delayed.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "疲れたんです。",
+      "romaji": "Tsukareta n desu.",
+      "english": "I'm tired (that's why).",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は優しいんです。",
+      "romaji": "Kare wa yasashii n desu.",
+      "english": "The thing is, he is kind.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "宿題が多いんです。",
+      "romaji": "Shukudai ga ooi n desu.",
+      "english": "The reason is I have a lot of homework.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -49,25 +49,71 @@ export default function StoryDetailPage() {
         const response = await fetch(`/api/stories/${slug}`)
 
         if (!response.ok) {
-          throw new Error('Story not found')
+          let errorData: any = {}
+          let errorText = ''
+          try {
+            errorData = await response.json()
+          } catch {
+            try {
+              errorText = await response.text()
+            } catch {
+              errorText = ''
+            }
+          }
+          const errorMessage =
+            errorData?.error ||
+            errorData?.message ||
+            errorText ||
+            'Unknown error'
+
+          // Log detailed error info for debugging
+          console.error('[Story Detail] API Error:', {
+            status: response.status,
+            statusText: response.statusText,
+            errorMessage,
+            slug,
+            errorData,
+            errorText
+          })
+
+          // Throw specific error based on status code
+          if (response.status === 401) {
+            throw new Error('Please sign in to view stories')
+          } else if (response.status === 403) {
+            throw new Error('You do not have permission to view this story')
+          } else if (response.status === 429) {
+            throw new Error('Daily story limit reached. Upgrade to premium for unlimited access.')
+          } else if (response.status === 404) {
+            throw new Error('Story not found or is not published')
+          } else {
+            throw new Error(`Failed to load story: ${errorMessage}`)
+          }
         }
 
         const data = await response.json()
 
         if (!data.success || !data.story) {
-          throw new Error('Story not found')
+          console.error('[Story Detail] Invalid response data:', data)
+          throw new Error('Story data is invalid or missing')
         }
 
         setStory(data.story)
         await cacheStory(data.story)
       } catch (error) {
-        console.error('Error loading story:', error)
+        console.error('[Story Detail] Error loading story:', error)
+
+        // Try to fall back to cached version
         const cachedStory = await getStoryBySlug(slug)
         if (cachedStory) {
+          console.log('[Story Detail] Using cached story as fallback')
           setStory(normalizeCachedStory(cachedStory))
+          showToast('Viewing cached version of story', 'info')
           return
         }
-        showToast('Failed to load story', 'error')
+
+        // Show specific error message to user
+        const errorMessage = error instanceof Error ? error.message : 'Failed to load story'
+        showToast(errorMessage, 'error')
         router.push('/stories')
       } finally {
         setLoading(false)

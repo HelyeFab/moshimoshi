@@ -1,0 +1,95 @@
+{
+  "id": "023-masu-form-negative",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜ません",
+    "romaji": "-masen",
+    "en": "Polite negative"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "〜ません is the polite negative form of verbs in the ます style. It means “do not” or “does not.” You use it to say something is not done in the present or future.\n\nKey points:\n• Replace ます with ません to make a negative\n• Polite and safe for everyday conversations\n• Covers present and future negative\n• Often used with time words for clarity\n\nFor example, “食べます” becomes “食べません” (do not eat). “行きます” becomes “行きません” (do not go / will not go).\n\nTime words help show the meaning: “今日は行きません” means “I am not going today.” “明日は行きません” means “I will not go tomorrow.”\n\nThe structure stays the same; only the verb ending changes. This makes it easy to turn any polite sentence into a polite negative.\n\nAs a beginner, focus on common verbs and practice switching ます to ません. Once you are comfortable, you will be able to express simple negatives clearly and politely.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-stem + ません",
+    "components": [
+      {
+        "part": "Verb-stem",
+        "explanation": "Polite verb stem",
+        "examples": ["食べ", "行き", "読み", "勉強し"]
+      },
+      {
+        "part": "ません",
+        "explanation": "Polite negative ending",
+        "examples": ["ません"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "朝ご飯を食べません。",
+      "romaji": "Asagohan o tabemasen.",
+      "english": "I do not eat breakfast.",
+      "breakdown": {
+        "朝ご飯": "breakfast",
+        "を": "object marker",
+        "食べません": "do not eat (polite)"
+      },
+      "notes": "Simple negative"
+    },
+    {
+      "japanese": "今日は学校に行きません。",
+      "romaji": "Kyou wa gakkou ni ikimasen.",
+      "english": "I am not going to school today.",
+      "breakdown": {
+        "今日": "today",
+        "は": "topic marker",
+        "学校": "school",
+        "に": "destination marker",
+        "行きません": "do not go (polite)"
+      },
+      "notes": "Negative with time word"
+    },
+    {
+      "japanese": "日本語を話しません。",
+      "romaji": "Nihongo o hanashimasen.",
+      "english": "I do not speak Japanese.",
+      "breakdown": {
+        "日本語": "Japanese",
+        "を": "object marker",
+        "話しません": "do not speak (polite)"
+      },
+      "notes": "Negative statement"
+    },
+    {
+      "japanese": "明日は働きません。",
+      "romaji": "Ashita wa hatarakimasen.",
+      "english": "I will not work tomorrow.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "は": "topic marker",
+        "働きません": "do not work (polite)"
+      },
+      "notes": "Future negative"
+    }
+  ],
+  "relatedPoints": [
+    "022-masu-form-present",
+    "025-masu-form-past-negative"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ない with ます-form verbs",
+      "correction": "Use ません for polite negative",
+      "example": "❌ 食べますない → ✅ 食べません"
+    },
+    {
+      "mistake": "Forgetting to change the verb ending",
+      "correction": "Replace ます with ません",
+      "example": "食べます → 食べません"
+    }
+  ],
+  "tags": ["verbs", "negative", "polite", "beginner"]
+}

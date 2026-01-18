@@ -1,0 +1,33 @@
+{
+  "kanji": "承",
+  "sentences": [
+    {
+      "id": "124932",
+      "japanese": "伝言を承りましょうか。",
+      "english": "Would you like to leave a message?"
+    },
+    {
+      "id": "10308591",
+      "japanese": "わかりました。お申し出を承ります。",
+      "english": "All right. I'll accept your offer."
+    },
+    {
+      "id": "199575",
+      "japanese": "どんなご意見でもありがたく承ります。",
+      "english": "Any comments will be gratefully appreciated."
+    },
+    {
+      "id": "216998",
+      "japanese": "ご用は承っておりますか。",
+      "english": "Is anybody waiting on you?"
+    },
+    {
+      "id": "217051",
+      "japanese": "ご伝言を承ります。",
+      "english": "May I take a message for him?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.487Z",
+  "count": 5,
+  "fileId": "kanji-00710"
+}

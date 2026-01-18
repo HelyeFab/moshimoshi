@@ -1,0 +1,33 @@
+{
+  "kanji": "上",
+  "sentences": [
+    {
+      "id": "1066131",
+      "japanese": "失礼ですが、上の記事にある誤りを三つ指摘させてください。",
+      "english": "Excuse me; allow me to point out three errors in the above article."
+    },
+    {
+      "id": "5181",
+      "japanese": "うれしさで舞い上がっています。",
+      "english": "I'm beside myself with joy."
+    },
+    {
+      "id": "5239",
+      "japanese": "彼の評論は問題の表面的な分析結果を取り上げていただけだったのでクラスで最上位の成績を得たことにとても驚いた。",
+      "english": "His essay gave only a superficial analysis of the problem, so it was a real surprise to him when he got the highest grade in the class."
+    },
+    {
+      "id": "819032",
+      "japanese": "お召し上がれ。",
+      "english": "Enjoy your meal!"
+    },
+    {
+      "id": "819033",
+      "japanese": "お召し上がり下さい。",
+      "english": "Enjoy your meal!"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.329Z",
+  "count": 5,
+  "fileId": "kanji-00011"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "292-n4-point-92",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～っていう (〜tte iu)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～っていう grammar point is used for quoting, defining, or specifying a noun. It can be translated as 'called', 'that is to say', or 'I mean' in English. This expression is similar to ～という, but it is more casual and commonly used in spoken conversations.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun/Adjective/Verb + っていう + Noun",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "ピザっていう料理が大好きです。",
+      "romaji": "Piza tte iu ryouri ga daisuki desu.",
+      "english": "I love the dish called pizza.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼っていう男性はすごく面白いです。",
+      "romaji": "Kare tte iu dansei wa sugoku omoshiroi desu.",
+      "english": "That man (called ‘kare’) is really interesting.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この映画っていうのは本当に感動的だよ。",
+      "romaji": "Kono eiga tte iu no wa hontou ni kandouteki da yo.",
+      "english": "This movie, I mean, is really touching.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女が言っているっていう店はここではない。",
+      "romaji": "Kanojo ga itte iru tte iu mise wa koko de wa nai.",
+      "english": "The store she's talking about, I mean, is not here.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

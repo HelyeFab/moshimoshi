@@ -9,11 +9,12 @@ import { useStories } from '@/hooks/useStories'
 import { useStoryCache } from '@/hooks/useStoryCache'
 import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
-import LearningPageHeader from '@/components/learn/LearningPageHeader'
+import PageHeader from '@/components/ui/PageHeader'
 import { Select } from '@/components/ui/Select'
 import { Story, JLPTLevel } from '@/types/story'
-import { FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import { DesktopCircularIndicator, MobileBarIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import { useFeature } from '@/hooks/useFeature'
 
 interface FilterState {
   jlptLevel: 'all' | JLPTLevel
@@ -27,6 +28,7 @@ export default function StoriesPage() {
   const { t } = useI18n()
   const router = useRouter()
   const { isPremium } = useSubscription()
+  const { checkOnly, lastDecision, remaining } = useFeature('story')
   const {
     stories,
     userProgress,
@@ -45,8 +47,21 @@ export default function StoriesPage() {
   const { prefetchStories } = useStoryCache()
   const [prefetchStatus, setPrefetchStatus] = useState<'idle' | 'prefetching' | 'done'>('idle')
 
+  // Calculate usage data for indicators
+  const limitCount = lastDecision?.limit ?? 0
+  const isUnlimited = limitCount === -1
+  const usedCount = typeof lastDecision?.usageBefore === 'number'
+    ? lastDecision.usageBefore
+    : Math.max(0, limitCount - (remaining ?? 0))
+  const hasUsageData = !!lastDecision && !isUnlimited
+
   // Get unique themes from stories
   const themes = Array.from(new Set(stories.map(s => s.theme).filter(Boolean)))
+
+  // Check feature usage on mount
+  useEffect(() => {
+    checkOnly({ failOpen: true })
+  }, [checkOnly])
 
   // Auto-prefetch current page + next page for offline use (24 stories total)
   useEffect(() => {
@@ -135,10 +150,30 @@ export default function StoriesPage() {
         <Navbar user={user} showUserMenu={true} />
       </div>
 
-      {/* LearningPageHeader with only required props */}
-      <LearningPageHeader title={t('stories.title')} description={t('stories.description')} mascot="none" />
+      {/* PageHeader with usage indicator */}
+      <div className="container mx-auto px-4 py-8 pb-4">
+        <PageHeader
+          title={t('stories.title')}
+          description={t('stories.description')}
+          actions={
+            hasUsageData ? (
+              <DesktopCircularIndicator
+                remaining={remaining ?? 0}
+                limitCount={limitCount}
+                usedCount={usedCount}
+                color={usedCount >= limitCount ? 'red' : usedCount >= limitCount * 0.8 ? 'yellow' : 'green'}
+              />
+            ) : null
+          }
+        />
 
-      <FeatureUsageIndicator featureId="story" />
+        {hasUsageData && (
+          <MobileBarIndicator
+            remaining={remaining ?? 0}
+            limitCount={limitCount}
+          />
+        )}
+      </div>
 
       {/* Filters */}
       <div className="container mx-auto px-4 py-6">

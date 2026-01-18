@@ -1,0 +1,33 @@
+{
+  "kanji": "踊",
+  "sentences": [
+    {
+      "id": "5058",
+      "japanese": "僕と踊ってくれませんか。",
+      "english": "Would you like to dance with me?"
+    },
+    {
+      "id": "164856",
+      "japanese": "私と踊っていただけませんか。",
+      "english": "Would you like to dance with me?"
+    },
+    {
+      "id": "164889",
+      "japanese": "私と一緒に踊っていただけますか。",
+      "english": "Would you like to dance with me?"
+    },
+    {
+      "id": "190514",
+      "japanese": "一緒に踊りませんか。",
+      "english": "Would you like to dance with me?"
+    },
+    {
+      "id": "993638",
+      "japanese": "フラメンコを踊るナイトクラブもある。",
+      "english": "There are also nightclubs where you dance flamenco."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.181Z",
+  "count": 5,
+  "fileId": "kanji-00824"
+}

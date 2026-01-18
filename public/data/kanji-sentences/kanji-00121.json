@@ -1,0 +1,33 @@
+{
+  "kanji": "服",
+  "sentences": [
+    {
+      "id": "5162",
+      "japanese": "私は服を脱いでいる。",
+      "english": "I'm undressing."
+    },
+    {
+      "id": "177996",
+      "japanese": "君は、いつも私の服をけなすのだから。",
+      "english": "You are always digging at me about my clothes."
+    },
+    {
+      "id": "178185",
+      "japanese": "君の新しい服はとても似合っています。",
+      "english": "Your new dress becomes you very well."
+    },
+    {
+      "id": "178412",
+      "japanese": "君の靴はその服と合わない。",
+      "english": "Your shoes do not go with the suit."
+    },
+    {
+      "id": "178610",
+      "japanese": "君に新しい服を作ってやろう。",
+      "english": "I'll make you a new suit."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.881Z",
+  "count": 5,
+  "fileId": "kanji-00121"
+}

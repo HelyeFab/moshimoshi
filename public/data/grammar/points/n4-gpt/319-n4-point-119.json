@@ -1,0 +1,128 @@
+{
+  "id": "319-n4-point-119",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～ようだ",
+    "romaji": "~you da",
+    "en": "It seems/appears (～you da)"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The grammar point ～ようだ is used to express appearance, similarity, or inference. It can mean 'it seems', 'it looks like', or 'it appears'. The structure changes depending on whether it follows a verb, adjective, or noun.",
+    "ja": "～ようだは、見た目や様子、推測を表すときに使います。「〜のようだ」は「〜みたいだ」と似ています。"
+  },
+  "structure": {
+    "pattern": "Verb-plain + ようだ / い-adjective (drop い) + ようだ / な-adjective + のようだ / Noun + のようだ",
+    "components": [
+      {
+        "part": "Verb-plain",
+        "explanation": "Use the plain (dictionary or て-form) of the verb before ようだ.",
+        "examples": [
+          "雨が降っているようだ。"
+        ]
+      },
+      {
+        "part": "い-adjective (drop い)",
+        "explanation": "Drop the final い from the い-adjective and add ようだ.",
+        "examples": [
+          "このケーキは甘いようだ。"
+        ]
+      },
+      {
+        "part": "な-adjective + の",
+        "explanation": "Add の after a な-adjective before ようだ.",
+        "examples": [
+          "彼は元気のようだ。"
+        ]
+      },
+      {
+        "part": "Noun + の",
+        "explanation": "Add の after a noun before ようだ.",
+        "examples": [
+          "彼女は先生のようだ。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼は元気がないようだ。",
+      "romaji": "Kare wa genki ga nai you da.",
+      "english": "He seems to be lacking energy.",
+      "breakdown": {
+        "彼": "he",
+        "は": "topic particle",
+        "元気": "energy/health",
+        "が": "subject particle",
+        "ない": "not have",
+        "ようだ": "it seems"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この料理は美味しいようだ。",
+      "romaji": "Kono ryouri wa oishii you da.",
+      "english": "This dish seems to be delicious.",
+      "breakdown": {
+        "この": "this",
+        "料理": "dish/food",
+        "は": "topic particle",
+        "美味しい": "delicious",
+        "ようだ": "it seems"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は有名人のようだ。",
+      "romaji": "Kanojo wa yuumeijin no you da.",
+      "english": "She seems like a famous person.",
+      "breakdown": {
+        "彼女": "she",
+        "は": "topic particle",
+        "有名人": "famous person",
+        "の": "nominalizer",
+        "ようだ": "it seems"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この部屋は図書館のようだ。",
+      "romaji": "Kono heya wa toshokan no you da.",
+      "english": "This room looks like a library.",
+      "breakdown": {
+        "この": "this",
+        "部屋": "room",
+        "は": "topic particle",
+        "図書館": "library",
+        "の": "nominalizer",
+        "ようだ": "it seems"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "n4-mitai",
+    "n4-souda"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼女は有名人ようだ。",
+      "correction": "彼女は有名人のようだ。",
+      "example": "Missing の after the noun before ようだ."
+    },
+    {
+      "mistake": "この料理は美味いようだ。",
+      "correction": "この料理は美味しいようだ。",
+      "example": "Use the correct い-adjective form before ようだ."
+    }
+  ],
+  "tags": [
+    "n4",
+    "appearance",
+    "inference",
+    "similarity",
+    "seems",
+    "grammar"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "grammarPointId": "029-tai-want-to",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "029-tai-want-to-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct form: 行く → 行き＿",
+      "questionRomaji": "Iku → iki __",
+      "options": [
+        {
+          "id": "a",
+          "text": "たい"
+        },
+        {
+          "id": "b",
+          "text": "て"
+        },
+        {
+          "id": "c",
+          "text": "ます"
+        },
+        {
+          "id": "d",
+          "text": "ない"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行きたい means 'want to go.'",
+      "incorrectFeedback": "Not quite. Use the verb stem + たい.",
+      "explanation": "行く → 行きたい.",
+      "difficulty": "easy"
+    }
+  ]
+}

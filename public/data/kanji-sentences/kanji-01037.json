@@ -1,0 +1,33 @@
+{
+  "kanji": "霜",
+  "sentences": [
+    {
+      "id": "192464",
+      "japanese": "リンゴの花は霜でいたんでいた。",
+      "english": "The apple-blossom was touched by the frost."
+    },
+    {
+      "id": "208343",
+      "japanese": "その霜でオレンジの収穫がだめになった。",
+      "english": "The frost rendered the orange crop worthless."
+    },
+    {
+      "id": "208904",
+      "japanese": "その植物は霜で被害を受けた。",
+      "english": "The plants were damaged by the frost."
+    },
+    {
+      "id": "79132",
+      "japanese": "ゆうべ霜が降りた。",
+      "english": "It frosted last night."
+    },
+    {
+      "id": "124361",
+      "japanese": "冬の朝には車の窓に霜が沢山つく。",
+      "english": "Car windows accumulate frost on winter mornings."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:12.552Z",
+  "count": 5,
+  "fileId": "kanji-01037"
+}

@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "014-particle-to-and",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "014-particle-to-and-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: パン＿＿牛乳を買います。",
+      "questionRomaji": "Pan __ gyuunyuu o kaimasu.",
+      "options": [
+        {
+          "id": "a",
+          "text": "と",
+          "romaji": "to"
+        },
+        {
+          "id": "b",
+          "text": "や",
+          "romaji": "ya"
+        },
+        {
+          "id": "c",
+          "text": "に",
+          "romaji": "ni"
+        },
+        {
+          "id": "d",
+          "text": "で",
+          "romaji": "de"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! と connects nouns in a complete list.",
+      "incorrectFeedback": "Not quite. Use と to connect two nouns.",
+      "explanation": "パンと牛乳 is a complete list of two items.",
+      "difficulty": "easy"
+    }
+  ]
+}

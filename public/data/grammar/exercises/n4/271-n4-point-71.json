@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "271-n4-point-71",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "271-n4-point-71-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb + Kata for Method\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb 方 (〜hou)",
+          "romaji": "Verb kata (〜hou)"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Verb 方 (〜hou) matches \"Verb + Kata for Method\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb 方 (〜hou).",
+      "explanation": "Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "271-n4-point-71-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb 方 (〜hou).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "Verb + Kata for Method"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb 方 (〜hou) means \"Verb + Kata for Method\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb + Kata for Method\".",
+      "explanation": "Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "271-n4-point-71-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb 方 (〜hou).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb kata (〜hou)"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb kata (〜hou) is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb kata (〜hou).",
+      "explanation": "Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "271-n4-point-71-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb 方 (〜hou)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Expresses how to do something; forms nouns meaning \"way of doing.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "explanation": "Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "271-n4-point-71-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb + Kata for Method\".",
+      "correctAnswer": "Verb 方 (〜hou)",
+      "acceptedVariations": [
+        "Verb 方 (〜hou)",
+        "Verb方(〜hou)"
+      ],
+      "correctFeedback": "Nice! Verb 方 (〜hou) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb 方 (〜hou) (Verb kata (〜hou)).",
+      "explanation": "Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "hints": [
+        "Verb kata (〜hou)",
+        "Expresses how to do something; forms nouns meaning \"way of doing.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "271-n4-point-71-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb 方 (〜hou).",
+      "correctAnswer": "Verb kata (〜hou)",
+      "acceptedVariations": [
+        "Verb kata (〜hou)",
+        "verb kata (〜hou)"
+      ],
+      "correctFeedback": "Nice! Verb kata (〜hou) is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb kata (〜hou).",
+      "explanation": "Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "hints": [
+        "Expresses how to do something; forms nouns meaning \"way of doing.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "271-n4-point-71-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb 方 (〜hou).",
+      "correctAnswer": "Verb + Kata for Method",
+      "acceptedVariations": [
+        "Verb + Kata for Method",
+        "verb + kata for method"
+      ],
+      "correctFeedback": "Correct! \"Verb + Kata for Method\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb + Kata for Method\".",
+      "explanation": "Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "hints": [
+        "Expresses how to do something; forms nouns meaning \"way of doing.\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "271-n4-point-71-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb 方 (〜hou)",
+          "romaji": "Verb kata (〜hou)",
+          "english": "Verb + Kata for Method"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "271-n4-point-71-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses how to do something; forms nouns meaning \"way of doing.\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb 方 (〜hou)",
+          "romaji": "Verb kata (〜hou)"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb 方 (〜hou) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb 方 (〜hou).",
+      "explanation": "Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "271-n4-point-71-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verb方(〜hou)",
+      "acceptedVariations": [
+        "Verb方(〜hou)",
+        "Verb 方 (〜hou)"
+      ],
+      "correctFeedback": "Great! Verb方(〜hou) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb方(〜hou).",
+      "explanation": "Expresses how to do something; forms nouns meaning \"way of doing.\"",
+      "hints": [
+        "Verb kata (〜hou)"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

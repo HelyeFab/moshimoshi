@@ -92,6 +92,7 @@ if (typeof window !== 'undefined') {
 
 const SESSION_CACHE_TTL = 5000 // 5 seconds cache TTL
 const OFFLINE_AUTH_CACHE_KEY = 'auth-user-cache'
+const AUTH_FLOW_FLAG = 'auth-flow-in-progress'
 
 // Hook to consume auth context
 export function useAuth(): Auth {
@@ -311,11 +312,21 @@ function useAuthProvider(): Auth {
         return data
       }
 
+      const fetchSession = async () => {
+        const response = await fetch('/api/auth/session', {
+          credentials: 'include'
+        })
+        return response.json()
+      }
+
+      const shouldRetryAfterAuthFlow = () => {
+        if (typeof window === 'undefined') return false
+        return sessionStorage.getItem(AUTH_FLOW_FLAG) === 'true'
+      }
+
       // Create new request and cache the promise
       // Fetching /api/auth/session
-      const requestPromise = fetch('/api/auth/session', {
-        credentials: 'include'
-      }).then(res => res.json())
+      const requestPromise = fetchSession()
       sessionCache.promise = requestPromise
       sessionCache.timestamp = now
 
@@ -324,6 +335,58 @@ function useAuthProvider(): Auth {
       sessionCache.data = data
 
       logger.auth('[useAuthProvider] Session data from API:', data)
+
+      if (!data.authenticated && shouldRetryAfterAuthFlow()) {
+        logger.auth('[useAuthProvider] Session not ready after auth flow, retrying...')
+        const retryDelays = [300, 600, 900]
+        let retryData = data
+        for (let i = 0; i < retryDelays.length; i++) {
+          await new Promise((resolve) => setTimeout(resolve, retryDelays[i]))
+          retryData = await fetchSession()
+          logger.auth('[useAuthProvider] Session retry result', { attempt: i + 1, authenticated: retryData?.authenticated })
+          if (retryData?.authenticated) {
+            sessionCache.data = retryData
+            break
+          }
+        }
+        if (retryData?.authenticated) {
+          logger.auth('[useAuthProvider] Session established after retry')
+          sessionStorage.removeItem(AUTH_FLOW_FLAG)
+          sessionCache.data = retryData
+          if (retryData.user) {
+            const authUser = {
+              uid: retryData.user.uid,
+              email: retryData.user.email,
+              displayName: retryData.user.displayName || retryData.user.name,
+              photoURL: retryData.user.photoURL || retryData.user.avatar,
+              emailVerified: retryData.user.emailVerified ?? true,
+              isAnonymous: false,
+              isAdmin: retryData.user.isAdmin,
+              metadata: {
+                creationTime: retryData.user.createdAt,
+                lastSignInTime: retryData.user.lastLoginAt
+              },
+              providerData: retryData.user.providerData || []
+            }
+            setUser(authUser)
+            setIsOffline(false)
+            if (typeof window !== 'undefined' && authUser) {
+              localStorage.setItem('auth-user', JSON.stringify({
+                uid: authUser.uid,
+                email: authUser.email
+              }))
+              localStorage.setItem(OFFLINE_AUTH_CACHE_KEY, JSON.stringify(authUser))
+              await migrateUserStores(authUser.uid)
+            }
+            refreshEntitlementsSnapshot()
+            setLoading(false)
+            return retryData
+          }
+        } else {
+          logger.auth('[useAuthProvider] Session retry failed after auth flow')
+          sessionStorage.removeItem(AUTH_FLOW_FLAG)
+        }
+      }
 
       if (data.authenticated && data.user) {
         // Convert API user data to AuthUser format

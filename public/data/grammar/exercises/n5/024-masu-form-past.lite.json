@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "024-masu-form-past",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "024-masu-form-past-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the polite past form: 行きます → ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "行きました"
+        },
+        {
+          "id": "b",
+          "text": "行きません"
+        },
+        {
+          "id": "c",
+          "text": "行きます"
+        },
+        {
+          "id": "d",
+          "text": "行く"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行きました is polite past.",
+      "incorrectFeedback": "Not quite. Replace ます with ました.",
+      "explanation": "ます → ました for polite past.",
+      "difficulty": "easy"
+    }
+  ]
+}

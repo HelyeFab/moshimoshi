@@ -1,0 +1,33 @@
+{
+  "kanji": "頭",
+  "sentences": [
+    {
+      "id": "123866",
+      "japanese": "頭が痛いんです。",
+      "english": "I have a headache."
+    },
+    {
+      "id": "123868",
+      "japanese": "頭が痛いな。",
+      "english": "I have a headache."
+    },
+    {
+      "id": "123871",
+      "japanese": "頭が痛い。",
+      "english": "I have a headache."
+    },
+    {
+      "id": "842643",
+      "japanese": "頭が痛いです。",
+      "english": "I have a headache."
+    },
+    {
+      "id": "177033",
+      "japanese": "君は頭がよいからその難問も解けないはずはない。",
+      "english": "You are too clever not to solve the hard problem."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.530Z",
+  "count": 5,
+  "fileId": "kanji-00476"
+}

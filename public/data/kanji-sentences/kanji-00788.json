@@ -1,0 +1,33 @@
+{
+  "kanji": "停",
+  "sentences": [
+    {
+      "id": "4979",
+      "japanese": "電車が停まるまで開けないで。",
+      "english": "Don't open before the train stops."
+    },
+    {
+      "id": "184441",
+      "japanese": "学校の近くにバス停がある。",
+      "english": "There is a bus stop near our school."
+    },
+    {
+      "id": "190112",
+      "japanese": "一番近いバス停はどこですか。",
+      "english": "Can you tell me where the nearest bus stop is?"
+    },
+    {
+      "id": "191183",
+      "japanese": "以前はこのバス停の前にレストランがありました。",
+      "english": "There used to be a restaurant in front of this bus stop."
+    },
+    {
+      "id": "194877",
+      "japanese": "メアリーがバス停に着いたときは最終バスはすでに出ていた。",
+      "english": "When Mary reached the bus stop, the last bus had already left."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.274Z",
+  "count": 5,
+  "fileId": "kanji-00788"
+}

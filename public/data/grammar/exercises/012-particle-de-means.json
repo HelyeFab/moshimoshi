@@ -1,0 +1,183 @@
+{
+  "grammarPointId": "012-particle-de-means",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "012-particle-de-means-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: バス＿＿学校に行きます。",
+      "questionRomaji": "Basu __ gakkou ni ikimasu.",
+      "options": [
+        { "id": "a", "text": "で", "romaji": "de" },
+        { "id": "b", "text": "に", "romaji": "ni" },
+        { "id": "c", "text": "を", "romaji": "o" },
+        { "id": "d", "text": "が", "romaji": "ga" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! で marks the means of transportation.",
+      "incorrectFeedback": "Not quite. Use で for means/method.",
+      "explanation": "バスで = by bus.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "012-particle-de-means-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: はし＿＿ご飯を食べます。",
+      "questionRomaji": "Hashi __ gohan o tabemasu.",
+      "options": [
+        { "id": "a", "text": "で", "romaji": "de" },
+        { "id": "b", "text": "に", "romaji": "ni" },
+        { "id": "c", "text": "を", "romaji": "o" },
+        { "id": "d", "text": "が", "romaji": "ga" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! で marks the tool used.",
+      "incorrectFeedback": "Try again. Use で for tools.",
+      "explanation": "はしで = with chopsticks.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "012-particle-de-means-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I go to school by train.'",
+      "correctAnswer": "電車で学校に行きます",
+      "acceptedVariations": [
+        "電車で学校に行きます。",
+        "でんしゃでがっこうにいきます",
+        "densha de gakkou ni ikimasu",
+        "densha de gakkou ni ikimasu."
+      ],
+      "correctFeedback": "Great! 電車で学校に行きます is correct.",
+      "incorrectFeedback": "The correct answer is: 電車で学校に行きます (densha de gakkou ni ikimasu).",
+      "explanation": "Use で for the means (train).",
+      "hints": ["電車 = train", "Use で"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "012-particle-de-means-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence uses で as means?",
+      "options": [
+        { "id": "a", "text": "図書館で本を読みます。" },
+        { "id": "b", "text": "ペンで名前を書きます。" },
+        { "id": "c", "text": "学校で勉強します。" },
+        { "id": "d", "text": "公園で遊びます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! で marks the tool (pen).",
+      "incorrectFeedback": "Not quite. Look for で used with a tool.",
+      "explanation": "ペンで = with a pen.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "012-particle-de-means-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I speak in Japanese.'",
+      "correctAnswer": "日本語で話します",
+      "acceptedVariations": [
+        "日本語で話します。",
+        "にほんごではなします",
+        "nihongo de hanashimasu",
+        "nihongo de hanashimasu."
+      ],
+      "correctFeedback": "Nice! 日本語で話します is correct.",
+      "incorrectFeedback": "The correct answer is: 日本語で話します (nihongo de hanashimasu).",
+      "explanation": "Use で for language as the means.",
+      "hints": ["日本語 = Japanese", "Use で"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "012-particle-de-means-ex-06",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence for 'I write with a pen.'",
+      "options": [
+        { "id": "a", "text": "ペンに書きます。" },
+        { "id": "b", "text": "ペンで書きます。" },
+        { "id": "c", "text": "ペンを書きます。" },
+        { "id": "d", "text": "ペンが書きます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! で marks the tool.",
+      "incorrectFeedback": "Try again. Use で for tools.",
+      "explanation": "ペンで = with a pen.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "012-particle-de-means-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I go to the station by taxi.'",
+      "correctAnswer": "タクシーで駅に行きます",
+      "acceptedVariations": [
+        "タクシーで駅に行きます。",
+        "たくしーでえきにいきます",
+        "takushii de eki ni ikimasu",
+        "takushii de eki ni ikimasu."
+      ],
+      "correctFeedback": "Great! タクシーで駅に行きます is correct.",
+      "incorrectFeedback": "The correct answer is: タクシーで駅に行きます (takushii de eki ni ikimasu).",
+      "explanation": "Use で for transportation.",
+      "hints": ["タクシー = taxi", "Use で"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "012-particle-de-means-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "バスで学校に行きます。",
+          "romaji": "Basu de gakkou ni ikimasu.",
+          "english": "I go to school by bus."
+        },
+        {
+          "japanese": "はしで食べます。",
+          "romaji": "Hashi de tabemasu.",
+          "english": "I eat with chopsticks."
+        },
+        {
+          "japanese": "日本語で話します。",
+          "romaji": "Nihongo de hanashimasu.",
+          "english": "I speak in Japanese."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review で as means/method.",
+      "explanation": "Each sentence uses で to show means or method.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "012-particle-de-means-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence uses で for means (not location)?",
+      "options": [
+        { "id": "a", "text": "家でテレビを見ます。" },
+        { "id": "b", "text": "ペンで名前を書きます。" },
+        { "id": "c", "text": "図書館で勉強します。" },
+        { "id": "d", "text": "公園で遊びます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! で marks the tool in that sentence.",
+      "incorrectFeedback": "Try again. Look for a tool or method.",
+      "explanation": "ペン is the means, so で is used as a tool marker.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "012-particle-de-means-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I write my name in English.'",
+      "correctAnswer": "英語で名前を書きます",
+      "acceptedVariations": [
+        "英語で名前を書きます。",
+        "えいごでなまえをかきます",
+        "eigo de namae o kakimasu",
+        "eigo de namae o kakimasu."
+      ],
+      "correctFeedback": "Nice! 英語で名前を書きます is correct.",
+      "incorrectFeedback": "The correct answer is: 英語で名前を書きます (eigo de namae o kakimasu).",
+      "explanation": "Use で to mark the language as the means.",
+      "hints": ["英語 = English", "Use で for language"],
+      "difficulty": "hard"
+    }
+  ]
+}

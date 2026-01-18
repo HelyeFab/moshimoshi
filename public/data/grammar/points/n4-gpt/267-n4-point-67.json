@@ -1,0 +1,91 @@
+{
+  "id": "267-n4-point-67",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb る ことになる",
+    "romaji": "Verb-ru koto ni naru",
+    "en": "Deciding or Arranging Something"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "Used to express that something has been decided or arranged, often indicating a decision made by someone else or due to circumstances.",
+    "ja": "何かが決定または手配されたことを表現します。通常、他の人によって決まったり、状況により決められたことを示します。"
+  },
+  "structure": {
+    "pattern": "Verb-る + ことになる",
+    "components": [
+      {
+        "part": "ことになる",
+        "explanation": "Indicates that something has been decided or arranged.",
+        "examples": [
+          "決定された (kettei sareta) - It was decided"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "今日は会議がなくなることになりました。",
+      "romaji": "Kyou wa kaigi ga nakunaru koto ni narimashita.",
+      "english": "It has been decided that there will be no meeting today.",
+      "breakdown": {
+        "今日は": "kyou wa - today",
+        "会議が": "kaigi ga - the meeting",
+        "なくなることになります": "nakunaru koto ni narimasu - it was decided to cancel"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "来週、友達と旅行することになった。",
+      "romaji": "Raishuu, tomodachi to ryokou suru koto ni natta.",
+      "english": "It has been arranged that I will travel with my friends next week.",
+      "breakdown": {
+        "来週": "raishuu - next week",
+        "友達と": "tomodachi to - with friends",
+        "旅行することになった": "ryokou suru koto ni natta - it was decided to travel"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女が今度のプロジェクトのリーダーになることになりました。",
+      "romaji": "Kanojo ga kondo no purojekuto no riida ni naru koto ni narimashita.",
+      "english": "It has been decided that she will be the leader of the next project.",
+      "breakdown": {
+        "彼女が": "kanojo ga - she",
+        "今度のプロジェクトの": "kondo no purojekuto no - the next project's",
+        "リーダーになることになりました": "riida ni naru koto ni narimashita - it was decided that she would be the leader"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "急に仕事が入ったので、休みを取ることになった。",
+      "romaji": "Kyuu ni shigoto ga haitta node, yasumi wo toru koto ni natta.",
+      "english": "Due to sudden work, it has been decided that I will take a day off.",
+      "breakdown": {
+        "急に仕事が入った": "kyuu ni shigoto ga haitta - due to sudden work",
+        "休みを取ることになった": "yasumi wo toru koto ni natta - it was decided to take a break"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb てみる (〜te miru)",
+    "Verb て もらう",
+    "Noun ばかり (〜bakari)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ことになる without a preceding verb in る form.",
+      "correction": "Ensure the sentence includes a verb in its dictionary (る) form before applying ことになる.",
+      "example": "Correct: 食べることになった。 - It was decided that I would eat."
+    }
+  ],
+  "tags": [
+    "n4",
+    "decision-making",
+    "arrangement",
+    "verbs",
+    "miscellaneous"
+  ]
+}

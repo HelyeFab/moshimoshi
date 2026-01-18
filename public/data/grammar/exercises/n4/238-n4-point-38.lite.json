@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "238-n4-point-38",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "238-n4-point-38-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb-te kudasaimasen ka\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "動詞てくださいませんか",
+          "romaji": "Doushi te kudasaimasen ka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! 動詞てくださいませんか matches \"Verb-te kudasaimasen ka\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞てくださいませんか.",
+      "explanation": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "difficulty": "easy"
+    }
+  ]
+}

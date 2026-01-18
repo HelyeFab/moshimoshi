@@ -1,0 +1,109 @@
+{
+  "id": "205-n4-point-5",
+  "version": "1.0.0",
+  "title": {
+    "ja": "い-Adjective く する/なる",
+    "romaji": "i-adjective ku suru/naru",
+    "en": "i-Adjective ku suru/naru"
+  },
+  "jlptLevel": "N4",
+  "category": "adjectives",
+  "explanation": {
+    "en": "The i-Adjective ku suru/naru grammar point is used to indicate a change happening (naru) or intentionally making something change (suru).",
+    "ja": "い形容詞のくする/なるは、変化が起こる（なる）または何かを意図的に変える（する）ことを表します。"
+  },
+  "structure": {
+    "pattern": "[i-adj] + く + [verb]",
+    "components": [
+      {
+        "part": "i-adjective",
+        "explanation": "Remove the -い ending of an i-adjective.",
+        "examples": [
+          "明るい (akarui)",
+          "辛い (karai)"
+        ]
+      },
+      {
+        "part": "く form",
+        "explanation": "Change the i-adjective to its ku form by replacing the い with く.",
+        "examples": [
+          "明るく (akaruku)",
+          "辛く (karaku)"
+        ]
+      },
+      {
+        "part": "する / なる",
+        "explanation": "Follow the ku form with either する (to make a change happen intentionally) or なる (the change happens naturally).",
+        "examples": [
+          "部屋を明るくします。(Heya o akaruku shimasu.)",
+          "顔が赤くなりました。(Kao ga aka ni narimashita.)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "部屋を明るくします。",
+      "romaji": "Heya o akaruku shimasu.",
+      "english": "I will make the room brighter.",
+      "breakdown": {
+        "部屋": "room",
+        "明るい": "bright",
+        "する": "to do"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼の顔は赤くなりました。",
+      "romaji": "Kare no kao wa akaku narimashita.",
+      "english": "His face turned red.",
+      "breakdown": {
+        "顔": "face",
+        "赤い": "red",
+        "なる": "become"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この料理を辛くしてください。",
+      "romaji": "Kono ryouri o karaku shite kudasai.",
+      "english": "Please make this dish spicy.",
+      "breakdown": {
+        "料理": "dish",
+        "辛い": "spicy",
+        "する": "to do"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "雨が降ると、道が滑りやすくなります。",
+      "romaji": "Ame ga furu to, michi ga suberiyasuku narimasu.",
+      "english": "When it rains, the road becomes slippery.",
+      "breakdown": {
+        "雨": "rain",
+        "降る": "to fall",
+        "道": "road",
+        "滑りやすい": "slippery"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "A は B ほど～ありません",
+    "A は B ほど～ない",
+    "A より B のほうが〜"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "明るくにします。",
+      "correction": "明るくします。",
+      "example": "部屋を明るくします。(Heya o akaruku shimasu.)"
+    }
+  ],
+  "tags": [
+    "n4",
+    "adjectives",
+    "change",
+    "transformation"
+  ]
+}

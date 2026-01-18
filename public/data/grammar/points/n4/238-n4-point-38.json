@@ -1,0 +1,113 @@
+{
+  "id": "238-n4-point-38",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞てくださいませんか",
+    "romaji": "Doushi te kudasaimasen ka",
+    "en": "Verb-te kudasaimasen ka"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The grammar point てくださいませんか is a very polite way to request someone to do something. It is more formal than てください and is used in formal situations or when speaking to people with whom you are not close.",
+    "ja": "「てくださいませんか」は、相手に何かを丁寧にお願いする時に使う表現です。「てください」よりも丁寧で、フォーマルな場面や目上の人に使います。"
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + くださいませんか",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "The verb is conjugated into its て-form.",
+        "examples": [
+          "飲んで",
+          "閉めて",
+          "会って",
+          "送って"
+        ]
+      },
+      {
+        "part": "くださいませんか",
+        "explanation": "A polite negative question form of ください, making the request very formal.",
+        "examples": [
+          "飲んでくださいませんか",
+          "閉めてくださいませんか"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "コーヒーを飲んでくださいませんか。",
+      "romaji": "Koohii o nonde kudasaimasen ka.",
+      "english": "Would you please drink some coffee?",
+      "breakdown": {
+        "コーヒー": "coffee",
+        "を": "object marker",
+        "飲んで": "drink (te-form)",
+        "くださいませんか": "would you please"
+      },
+      "notes": "Very polite request, suitable for formal situations."
+    },
+    {
+      "japanese": "ドアを閉めてくださいませんか。",
+      "romaji": "Doa o shimete kudasaimasen ka.",
+      "english": "Would you please close the door?",
+      "breakdown": {
+        "ドア": "door",
+        "を": "object marker",
+        "閉めて": "close (te-form)",
+        "くださいませんか": "would you please"
+      },
+      "notes": "Used to politely ask someone to close the door."
+    },
+    {
+      "japanese": "明日お昼に会ってくださいませんか。",
+      "romaji": "Ashita ohiru ni atte kudasaimasen ka.",
+      "english": "Would you please meet me at lunch tomorrow?",
+      "breakdown": {
+        "明日": "tomorrow",
+        "お昼に": "at lunch",
+        "会って": "meet (te-form)",
+        "くださいませんか": "would you please"
+      },
+      "notes": "Polite way to ask for a meeting."
+    },
+    {
+      "japanese": "その資料を送ってくださいませんか。",
+      "romaji": "Sono shiryou o okutte kudasaimasen ka.",
+      "english": "Would you please send me that document?",
+      "breakdown": {
+        "その": "that",
+        "資料": "document",
+        "を": "object marker",
+        "送って": "send (te-form)",
+        "くださいませんか": "would you please"
+      },
+      "notes": "Very formal request, e.g., in business emails."
+    }
+  ],
+  "relatedPoints": [
+    "verb-te-kudasai",
+    "verb-te-itadakemasen-ka"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using dictionary form instead of て-form: コーヒーを飲むくださいませんか。",
+      "correction": "コーヒーを飲んでくださいませんか。",
+      "example": "Use the て-form of the verb before くださいませんか."
+    },
+    {
+      "mistake": "Omitting ません: ドアを閉めてくださいか。",
+      "correction": "ドアを閉めてくださいませんか。",
+      "example": "Use the full polite negative question to sound formal."
+    }
+  ],
+  "tags": [
+    "n4",
+    "polite",
+    "requests",
+    "te-form",
+    "formal",
+    "verbs"
+  ]
+}

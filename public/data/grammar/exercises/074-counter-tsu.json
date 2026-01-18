@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "074-counter-tsu",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "074-counter-tsu-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct reading for 1 item:",
+      "options": [
+        { "id": "a", "text": "ひとつ" },
+        { "id": "b", "text": "いちつ" },
+        { "id": "c", "text": "いっつ" },
+        { "id": "d", "text": "ひと" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ひとつ.",
+      "incorrectFeedback": "Not quite. 1 item is ひとつ.",
+      "explanation": "Use the special reading ひとつ.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "074-counter-tsu-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "りんごを三つください。" },
+        { "id": "b", "text": "りんごをさんつください。" },
+        { "id": "c", "text": "りんごを三つにください。" },
+        { "id": "d", "text": "りんごを三つでください。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 三つ uses the special reading みっつ.",
+      "incorrectFeedback": "Try again. Use the correct つ reading.",
+      "explanation": "三つ is read みっつ.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "074-counter-tsu-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Please give me two apples.'",
+      "correctAnswer": "りんごを二つください",
+      "acceptedVariations": [
+        "りんごを二つください。",
+        "りんごをふたつください",
+        "ringo o futatsu kudasai",
+        "ringo o futatsu kudasai."
+      ],
+      "correctFeedback": "Great! りんごを二つください is correct.",
+      "incorrectFeedback": "The correct answer is: りんごを二つください (ringo o futatsu kudasai).",
+      "explanation": "二つ is the general counter for two items.",
+      "hints": ["二つ = two items", "ください = please give"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "074-counter-tsu-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct reading for 4 items:",
+      "options": [
+        { "id": "a", "text": "よっつ" },
+        { "id": "b", "text": "よんつ" },
+        { "id": "c", "text": "しつ" },
+        { "id": "d", "text": "よつ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 4 items is よっつ.",
+      "incorrectFeedback": "Not quite. Use よっつ.",
+      "explanation": "4 items uses the special reading よっつ.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "074-counter-tsu-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There are three oranges.'",
+      "correctAnswer": "みかんが三つあります",
+      "acceptedVariations": [
+        "みかんが三つあります。",
+        "みかんがみっつあります",
+        "mikan ga mittsu arimasu",
+        "mikan ga mittsu arimasu."
+      ],
+      "correctFeedback": "Nice! みかんが三つあります is correct.",
+      "incorrectFeedback": "The correct answer is: みかんが三つあります (mikan ga mittsu arimasu).",
+      "explanation": "三つ uses the special reading みっつ.",
+      "hints": ["みかん = oranges", "あります = exist"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "074-counter-tsu-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "本を二つ買いました。" },
+        { "id": "b", "text": "椅子を四つ並べます。" },
+        { "id": "c", "text": "りんごをさんつください。" },
+        { "id": "d", "text": "みかんが三つあります。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 三つ is みっつ, not さんつ.",
+      "incorrectFeedback": "Try again. Use the special reading.",
+      "explanation": "三つ is read みっつ.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "074-counter-tsu-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I bought four chairs.'",
+      "correctAnswer": "椅子を四つ買いました",
+      "acceptedVariations": [
+        "椅子を四つ買いました。",
+        "いすをよっつかいました",
+        "isu o yottsu kaimashita",
+        "isu o yottsu kaimashita."
+      ],
+      "correctFeedback": "Great! 椅子を四つ買いました is correct.",
+      "incorrectFeedback": "The correct answer is: 椅子を四つ買いました (isu o yottsu kaimashita).",
+      "explanation": "四つ is read よっつ.",
+      "hints": ["椅子 = chair", "買いました = bought"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "074-counter-tsu-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "りんごを一つください。",
+          "romaji": "Ringo o hitotsu kudasai.",
+          "english": "Please give me one apple."
+        },
+        {
+          "japanese": "本を二つ買いました。",
+          "romaji": "Hon o futatsu kaimashita.",
+          "english": "I bought two books."
+        },
+        {
+          "japanese": "みかんが三つあります。",
+          "romaji": "Mikan ga mittsu arimasu.",
+          "english": "There are three oranges."
+        }
+      ],
+      "correctFeedback": "Perfect! All use the 〜つ counter.",
+      "incorrectFeedback": "Not quite. Review the 〜つ readings.",
+      "explanation": "〜つ is a general counter for items.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "074-counter-tsu-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct reading for 8 items?",
+      "options": [
+        { "id": "a", "text": "やっつ" },
+        { "id": "b", "text": "はっつ" },
+        { "id": "c", "text": "はちつ" },
+        { "id": "d", "text": "やつ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 8 items is やっつ.",
+      "incorrectFeedback": "Try again. 8 items is やっつ.",
+      "explanation": "やっつ is the special reading for 8.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "074-counter-tsu-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Please give me five items.'",
+      "correctAnswer": "五つください",
+      "acceptedVariations": [
+        "五つください。",
+        "いつつください",
+        "itsutsu kudasai",
+        "itsutsu kudasai."
+      ],
+      "correctFeedback": "Nice! 五つください is correct.",
+      "incorrectFeedback": "The correct answer is: 五つください (itsutsu kudasai).",
+      "explanation": "五つ is read いつつ.",
+      "hints": ["五つ = five items", "ください = please"],
+      "difficulty": "hard"
+    }
+  ]
+}

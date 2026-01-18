@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "252-n4-point-52",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "252-n4-point-52-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb not to become\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb ない ことになる",
+          "romaji": "Verb nai koto ni naru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb ない ことになる matches \"Verb not to become\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ない ことになる.",
+      "explanation": "Expresses that something will end up not happening or being done.",
+      "difficulty": "easy"
+    }
+  ]
+}

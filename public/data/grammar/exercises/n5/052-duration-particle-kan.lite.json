@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "052-duration-particle-kan",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "052-duration-particle-kan-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct duration expression: 'for two hours'",
+      "options": [
+        {
+          "id": "a",
+          "text": "二時間"
+        },
+        {
+          "id": "b",
+          "text": "二時間に"
+        },
+        {
+          "id": "c",
+          "text": "二時間で"
+        },
+        {
+          "id": "d",
+          "text": "二時間を"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 二時間 means 'for two hours.'",
+      "incorrectFeedback": "Not quite. Use the plain duration without に.",
+      "explanation": "Duration uses the time word directly (often with 間).",
+      "difficulty": "easy"
+    }
+  ]
+}

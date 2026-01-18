@@ -1,0 +1,33 @@
+{
+  "kanji": "徳",
+  "sentences": [
+    {
+      "id": "126220",
+      "japanese": "朝起きは三文の徳。",
+      "english": "The early bird catches the worm."
+    },
+    {
+      "id": "1265372",
+      "japanese": "早起きは三文の徳。",
+      "english": "The early bird catches the worm."
+    },
+    {
+      "id": "182940",
+      "japanese": "偽善とは悪徳が徳に対して払う忠順の誓いである。",
+      "english": "Hypocrisy is the homage that vice pays to virtue."
+    },
+    {
+      "id": "101620",
+      "japanese": "彼は徳のある人だ。",
+      "english": "He is a man of virtue."
+    },
+    {
+      "id": "101622",
+      "japanese": "彼は徳を備えた人だ。",
+      "english": "He is a man of virtue."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:49.526Z",
+  "count": 5,
+  "fileId": "kanji-02097"
+}

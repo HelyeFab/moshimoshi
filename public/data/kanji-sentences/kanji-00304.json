@@ -1,0 +1,33 @@
+{
+  "kanji": "静",
+  "sentences": [
+    {
+      "id": "84039",
+      "japanese": "風が静まった。",
+      "english": "The wind calmed down."
+    },
+    {
+      "id": "6006",
+      "japanese": "奈良は静かで、きれいな町です。",
+      "english": "Nara is a quiet and beautiful city."
+    },
+    {
+      "id": "177971",
+      "japanese": "君は２、３日の間、静かにしていなくてはなりません。",
+      "english": "You must keep quiet for a few days."
+    },
+    {
+      "id": "178970",
+      "japanese": "君が次に話し、君は静かにしていなさい。",
+      "english": "You talk next and you be quiet."
+    },
+    {
+      "id": "179214",
+      "japanese": "君、静かにしろ。",
+      "english": "You, be quiet!"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.246Z",
+  "count": 5,
+  "fileId": "kanji-00304"
+}

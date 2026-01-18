@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "072-question-naze-doushite-why",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "072-question-naze-doushite-why-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the word for 'why':",
+      "options": [
+        {
+          "id": "a",
+          "text": "どうして"
+        },
+        {
+          "id": "b",
+          "text": "どこ"
+        },
+        {
+          "id": "c",
+          "text": "いつ"
+        },
+        {
+          "id": "d",
+          "text": "なに"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! どうして means 'why.'",
+      "incorrectFeedback": "Not quite. どうして is 'why.'",
+      "explanation": "どうして asks for reasons.",
+      "difficulty": "easy"
+    }
+  ]
+}

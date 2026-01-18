@@ -1,0 +1,33 @@
+{
+  "kanji": "城",
+  "sentences": [
+    {
+      "id": "182740",
+      "japanese": "丘の上の方に城があります。",
+      "english": "A castle stands a little way up the hill."
+    },
+    {
+      "id": "188480",
+      "japanese": "王子はその城に３年間監禁された。",
+      "english": "The prince was confined in the castle for three years."
+    },
+    {
+      "id": "188650",
+      "japanese": "遠方に城が見えた。",
+      "english": "We saw a castle in the distance."
+    },
+    {
+      "id": "9345976",
+      "japanese": "遠くの方に城が見えた。",
+      "english": "We saw a castle in the distance."
+    },
+    {
+      "id": "188706",
+      "japanese": "遠くから見ると、その大きな岩は、古い城のように見える。",
+      "english": "Seen from a distance, the big rock looks like an old castle."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.994Z",
+  "count": 5,
+  "fileId": "kanji-00907"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "迎",
+  "sentences": [
+    {
+      "id": "179329",
+      "japanese": "空港まで迎えの車を出すように手配した。",
+      "english": "I arranged for a car to meet you at the airport."
+    },
+    {
+      "id": "179340",
+      "japanese": "空港へあなたを迎えに行けたのに。",
+      "english": "I could've met you at the airport."
+    },
+    {
+      "id": "9264947",
+      "japanese": "空港へ迎えに行ってあげることもできたんだけど。",
+      "english": "I could've met you at the airport."
+    },
+    {
+      "id": "179353",
+      "japanese": "家族を空港に迎えに行かなくては。",
+      "english": "I have to go to the airport to meet my family."
+    },
+    {
+      "id": "179358",
+      "japanese": "空港に５時に迎えに来てください。",
+      "english": "Please pick me up at the airport at five."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.046Z",
+  "count": 5,
+  "fileId": "kanji-00364"
+}

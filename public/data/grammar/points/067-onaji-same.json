@@ -1,0 +1,122 @@
+{
+  "id": "067-onaji-same",
+  "version": "1.0.0",
+  "title": {
+    "ja": "同じ",
+    "romaji": "onaji",
+    "en": "同じ (same)"
+  },
+  "jlptLevel": "N5",
+  "category": "comparisons",
+  "explanation": {
+    "en": "同じ (おなじ) means “same.” It is used to say that two things are the same. It behaves like a な-adjective, but it does not take な before a noun.\n\nKey points:\n• Pattern: A は B と 同じ です\n• と connects the two things being compared\n• 同じ acts like a noun/na-adjective but no な before noun\n• Very common for identity or similarity\n\nExample: “この本はあの本と同じです” means “This book is the same as that book.”\n\nYou can also use it with people: “私とあなたは同じ学校です” (We are from the same school).\n\nRemember: do not add な before nouns (❌ 同じな本). Just use 同じ + noun: “同じ本.”\n\nPractice by comparing things around you: 同じ色, 同じ名前, 同じクラス.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "A は B と 同じ (Noun) です",
+    "components": [
+      {
+        "part": "A は",
+        "explanation": "Thing being described",
+        "examples": ["この本は", "私たちは"]
+      },
+      {
+        "part": "B と",
+        "explanation": "Thing to compare with",
+        "examples": ["あの本と", "あなたと"]
+      },
+      {
+        "part": "同じ",
+        "explanation": "Same",
+        "examples": ["同じ"]
+      },
+      {
+        "part": "Noun/です",
+        "explanation": "Optional noun and copula",
+        "examples": ["です", "学校です", "色です"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この本はあの本と同じです。",
+      "romaji": "Kono hon wa ano hon to onaji desu.",
+      "english": "This book is the same as that book.",
+      "breakdown": {
+        "この": "this",
+        "本": "book",
+        "は": "topic marker",
+        "あの": "that",
+        "本": "book",
+        "と": "with",
+        "同じ": "same",
+        "です": "polite ending"
+      },
+      "notes": "Basic comparison"
+    },
+    {
+      "japanese": "私とあなたは同じ学校です。",
+      "romaji": "Watashi to anata wa onaji gakkou desu.",
+      "english": "You and I are at the same school.",
+      "breakdown": {
+        "私": "I",
+        "と": "and/with",
+        "あなた": "you",
+        "は": "topic marker",
+        "同じ": "same",
+        "学校": "school",
+        "です": "polite ending"
+      },
+      "notes": "Same school"
+    },
+    {
+      "japanese": "このペンはそのペンと同じ色です。",
+      "romaji": "Kono pen wa sono pen to onaji iro desu.",
+      "english": "This pen is the same color as that pen.",
+      "breakdown": {
+        "この": "this",
+        "ペン": "pen",
+        "は": "topic marker",
+        "その": "that",
+        "ペン": "pen",
+        "と": "with",
+        "同じ": "same",
+        "色": "color",
+        "です": "polite ending"
+      },
+      "notes": "Same color"
+    },
+    {
+      "japanese": "田中さんは私と同じクラスです。",
+      "romaji": "Tanaka-san wa watashi to onaji kurasu desu.",
+      "english": "Tanaka-san is in the same class as me.",
+      "breakdown": {
+        "田中さん": "Tanaka",
+        "は": "topic marker",
+        "私": "me",
+        "と": "with",
+        "同じ": "same",
+        "クラス": "class",
+        "です": "polite ending"
+      },
+      "notes": "Same class"
+    }
+  ],
+  "relatedPoints": [
+    "064-yori-than",
+    "014-particle-to-and"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Adding な before a noun",
+      "correction": "Do not add な after 同じ",
+      "example": "❌ 同じな本 → ✅ 同じ本"
+    },
+    {
+      "mistake": "Using が instead of と for comparison",
+      "correction": "Use と to connect the two items",
+      "example": "❌ この本はあの本が同じ → ✅ この本はあの本と同じ"
+    }
+  ],
+  "tags": ["comparison", "onaji", "beginner"]
+}

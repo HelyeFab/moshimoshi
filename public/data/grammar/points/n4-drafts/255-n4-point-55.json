@@ -1,0 +1,55 @@
+{
+  "id": "255-n4-point-55",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb なさい (〜nasai)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The なさい grammar point is used to give orders or instructions, often used by teachers, parents, or other authority figures when addressing someone younger or of lower status. It is formed by attaching なさい to the stem of a verb. This form sounds polite, but can be considered strong and direct.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-stem + なさい",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "部屋を掃除しなさい。",
+      "romaji": "Heya wo souji shinasai.",
+      "english": "Clean your room.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "勉強しなさい。",
+      "romaji": "Benkyou shinasai.",
+      "english": "Study.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "早く起きなさい。",
+      "romaji": "Hayaku okinasai.",
+      "english": "Wake up early.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "宿題をやりなさい。",
+      "romaji": "Shukudai wo yarinasai.",
+      "english": "Do your homework.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

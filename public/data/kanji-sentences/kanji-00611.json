@@ -1,0 +1,33 @@
+{
+  "kanji": "増",
+  "sentences": [
+    {
+      "id": "179383",
+      "japanese": "空気の場合、大気中には常にある程度の湿気があるが、その量が大幅に増えると光の波に影響してくる。",
+      "english": "As for the air, there is always some moisture in the atmosphere, but when the amount increases a great deal, it affects the light waves."
+    },
+    {
+      "id": "179823",
+      "japanese": "近頃日本の帰国子女が増えている。",
+      "english": "The number of Japanese students returning after life abroad has been increasing as of late."
+    },
+    {
+      "id": "179828",
+      "japanese": "近頃外国旅行をする人がだんだん増えている。",
+      "english": "These days more and more people are traveling abroad."
+    },
+    {
+      "id": "179835",
+      "japanese": "近頃は海外旅行を経験する若い日本人が増えた。",
+      "english": "Many young Japanese travel overseas these days."
+    },
+    {
+      "id": "179869",
+      "japanese": "近ごろ、少年犯罪が増えた。",
+      "english": "Recently juvenile delinquency has been on the rise."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.387Z",
+  "count": 5,
+  "fileId": "kanji-00611"
+}

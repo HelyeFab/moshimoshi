@@ -1,0 +1,132 @@
+{
+  "id": "323-n4-point-123",
+  "version": "1.0.0",
+  "title": {
+    "ja": "文A。それに 文B",
+    "romaji": "Bun A. Soreni Bun B",
+    "en": "Sentence A. In addition, Sentence B"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "This grammar pattern is used to add supplementary information to what was stated in the previous sentence. 'それに' means 'in addition,' 'besides,' or 'on top of that,' and connects two sentences to emphasize extra facts, reasons, or opinions.",
+    "ja": "この文法は、前の文に追加の情報や理由、意見を付け加えるときに使います。「それに」は「その上」「さらに」などの意味です。"
+  },
+  "structure": {
+    "pattern": "Sentence A。それに Sentence B",
+    "components": [
+      {
+        "part": "Sentence A",
+        "explanation": "The first statement or fact.",
+        "examples": [
+          "彼は頭がいい。",
+          "このケーキはおいしい。"
+        ]
+      },
+      {
+        "part": "それに",
+        "explanation": "Connective meaning 'in addition' or 'besides.'",
+        "examples": [
+          "それに、スポーツも得意だ。",
+          "それに、値段も安い。"
+        ]
+      },
+      {
+        "part": "Sentence B",
+        "explanation": "The supplementary statement or fact.",
+        "examples": [
+          "スポーツも得意だ。",
+          "値段も安い。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼は頭がいい。それに、スポーツも得意だ。",
+      "romaji": "Kare wa atama ga ii. Soreni, supo-tsu mo tokui da.",
+      "english": "He is smart. In addition, he is good at sports.",
+      "breakdown": {
+        "彼": "he",
+        "は": "topic marker",
+        "頭がいい": "smart",
+        "それに": "in addition",
+        "スポーツ": "sports",
+        "も": "also",
+        "得意だ": "is good at"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このケーキはおいしい。それに、値段も安い。",
+      "romaji": "Kono keeki wa oishii. Soreni, nedan mo yasui.",
+      "english": "This cake is delicious. Besides, the price is also cheap.",
+      "breakdown": {
+        "この": "this",
+        "ケーキ": "cake",
+        "は": "topic marker",
+        "おいしい": "delicious",
+        "それに": "besides",
+        "値段": "price",
+        "も": "also",
+        "安い": "cheap"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "私は日本語が話せます。それに、韓国語も話せます。",
+      "romaji": "Watashi wa nihongo ga hanasemasu. Soreni, kankokugo mo hanasemasu.",
+      "english": "I can speak Japanese. On top of that, I can also speak Korean.",
+      "breakdown": {
+        "私": "I",
+        "は": "topic marker",
+        "日本語": "Japanese (language)",
+        "が": "subject marker",
+        "話せます": "can speak",
+        "それに": "on top of that",
+        "韓国語": "Korean (language)",
+        "も": "also"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は美人だ。それに、性格もいい。",
+      "romaji": "Kanojo wa bijin da. Soreni, seikaku mo ii.",
+      "english": "She is beautiful. In addition, she has a good personality.",
+      "breakdown": {
+        "彼女": "she",
+        "は": "topic marker",
+        "美人だ": "is beautiful",
+        "それに": "in addition",
+        "性格": "personality",
+        "も": "also",
+        "いい": "good"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～し、～し、～",
+    "文A。それで 文B"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼は頭がいい、それにスポーツも得意だ。",
+      "correction": "彼は頭がいい。それに、スポーツも得意だ。",
+      "example": "Do not use a comma instead of a period to separate the sentences."
+    },
+    {
+      "mistake": "彼は頭がいいので、それにスポーツも得意だ。",
+      "correction": "彼は頭がいい。それに、スポーツも得意だ。",
+      "example": "Do not use ので with それに; それに adds information, not a reason."
+    }
+  ],
+  "tags": [
+    "n4",
+    "conjunctions",
+    "addition",
+    "sentence-connector",
+    "writing",
+    "speaking"
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "id": "315-n4-point-115",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～までに",
+    "romaji": "~made ni",
+    "en": "by (a certain time)"
+  },
+  "jlptLevel": "N4",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "The ～までに grammar point is used to indicate that something must be completed or occurs by a certain time or before a specific action. It can be used with verbs, nouns, and time expressions.",
+    "ja": "～までにという文法は、特定の時間または行動以前に何かが完了するか起こることを示します。動詞、名詞、および時刻表現と使用できます。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + までに, Noun + までに, Time expression + までに",
+    "components": [
+      {
+        "part": "Verb-casual",
+        "explanation": "The verb in its casual form.",
+        "examples": [
+          "起きてください (okite kudasai)"
+        ]
+      },
+      {
+        "part": "Noun",
+        "explanation": "A noun that can be followed by までに to indicate a deadline or time limit.",
+        "examples": [
+          "レポートを提出してください (repooto wo teishutsu shite kudasai)"
+        ]
+      },
+      {
+        "part": "Time expression + までに",
+        "explanation": "Indicates the point up until which something must be done by.",
+        "examples": [
+          "明日の朝８時までに起きてください。(Ashita no asa hachiji made ni okite kudasai.)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日の朝８時までに起きてください。",
+      "romaji": "Ashita no asa hachiji made ni okite kudasai.",
+      "english": "Please wake up by 8 a.m. tomorrow.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "来週の金曜日までにレポートを提出してください。",
+      "romaji": "Raishuu no kinyoubi made ni repooto wo teishutsu shite kudasai.",
+      "english": "Please submit the report by next Friday.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼が帰るまでに料理を終わらせたい。",
+      "romaji": "Kare ga kaeru made ni ryouri wo owarasetai.",
+      "english": "I want to finish cooking before he comes back.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "３０分までに駅に着く必要があります。",
+      "romaji": "Sanjuppun made ni eki ni tsuku hitsuyou ga arimasu.",
+      "english": "We need to arrive at the station by 30 minutes (from now).",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "~まで",
+    "Noun の 間に (〜no aida ni)",
+    "Verb ている間に"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "駅までに着く",
+      "correction": "駅に着く前に",
+      "example": "We need to do something before arriving at the station."
+    }
+  ],
+  "tags": [
+    "n4",
+    "time-expressions",
+    "deadline",
+    "completion-by-time"
+  ]
+}

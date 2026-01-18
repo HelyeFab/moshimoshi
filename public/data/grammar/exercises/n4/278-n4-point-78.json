@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "278-n4-point-78",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "278-n4-point-78-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Because/Since\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~から",
+          "romaji": "~kara"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ~から matches \"Because/Since\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ~から.",
+      "explanation": "Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "278-n4-point-78-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ~から.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Because/Since"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ~から means \"Because/Since\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Because/Since\".",
+      "explanation": "Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "278-n4-point-78-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ~から.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~kara"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ~kara is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~kara.",
+      "explanation": "Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "278-n4-point-78-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ~から?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expresses a reason or cause; translates as \"because\" or \"since.\""
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "explanation": "Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "278-n4-point-78-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Because/Since\".",
+      "correctAnswer": "~から",
+      "acceptedVariations": [
+        "~から",
+        "~から"
+      ],
+      "correctFeedback": "Nice! ~から is correct.",
+      "incorrectFeedback": "The correct pattern is: ~から (~kara).",
+      "explanation": "Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "hints": [
+        "~kara",
+        "Expresses a reason or cause; translates as \"because\" or \"since.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "278-n4-point-78-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ~から.",
+      "correctAnswer": "~kara",
+      "acceptedVariations": [
+        "~kara",
+        "~kara"
+      ],
+      "correctFeedback": "Nice! ~kara is correct.",
+      "incorrectFeedback": "The correct romaji is: ~kara.",
+      "explanation": "Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "hints": [
+        "Expresses a reason or cause; translates as \"because\" or \"since.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "278-n4-point-78-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ~から.",
+      "correctAnswer": "Because/Since",
+      "acceptedVariations": [
+        "Because/Since",
+        "because/since"
+      ],
+      "correctFeedback": "Correct! \"Because/Since\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Because/Since\".",
+      "explanation": "Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "hints": [
+        "Expresses a reason or cause; translates as \"because\" or \"since.\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "278-n4-point-78-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "~から",
+          "romaji": "~kara",
+          "english": "Because/Since"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "278-n4-point-78-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses a reason or cause; translates as \"because\" or \"since.\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~から",
+          "romaji": "~kara"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ~から matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ~から.",
+      "explanation": "Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "278-n4-point-78-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "~から",
+      "acceptedVariations": [
+        "~から",
+        "~から"
+      ],
+      "correctFeedback": "Great! ~から is correct.",
+      "incorrectFeedback": "The correct pattern is: ~から.",
+      "explanation": "Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "hints": [
+        "~kara"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

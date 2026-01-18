@@ -1,0 +1,33 @@
+{
+  "kanji": "絹",
+  "sentences": [
+    {
+      "id": "213290",
+      "japanese": "そのガウンは絹からできている。",
+      "english": "The gown is made of silk."
+    },
+    {
+      "id": "220131",
+      "japanese": "この美しいドレスは絹で出来ている。",
+      "english": "This beautiful dress is made of silk."
+    },
+    {
+      "id": "222085",
+      "japanese": "この絹は触ってなめらかな感じだ。",
+      "english": "This silk feels smooth."
+    },
+    {
+      "id": "77129",
+      "japanese": "枠が出来上がると、クモはちょうど自転車の車輪のやのように、それに絹の糸をかける。",
+      "english": "When the frame is finished, the spider fixes lines of silk across it, just like the spokes of a bicycle wheel."
+    },
+    {
+      "id": "90081",
+      "japanese": "彼女は豪華な絹の服を着ていた。",
+      "english": "She was dressed in rich silks."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:37.753Z",
+  "count": 5,
+  "fileId": "kanji-01807"
+}

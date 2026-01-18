@@ -1,0 +1,33 @@
+{
+  "kanji": "勤",
+  "sentences": [
+    {
+      "id": "232870",
+      "japanese": "あなたはあの勤め口に申し込むべきだ。",
+      "english": "You should apply for that post."
+    },
+    {
+      "id": "179586",
+      "japanese": "銀行に勤めている間に、彼は大学で経済学を教えた。",
+      "english": "While employed at the bank, he taught economics at college."
+    },
+    {
+      "id": "182255",
+      "japanese": "去年から彼はあの会社に勤めているのです。",
+      "english": "He began to work for that company last year."
+    },
+    {
+      "id": "185082",
+      "japanese": "海運会社に勤めています。",
+      "english": "I work for a shipping company."
+    },
+    {
+      "id": "185671",
+      "japanese": "我々は天然の資源を保存するように勤めなければならない。",
+      "english": "We must try to conserve our natural resources."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.226Z",
+  "count": 5,
+  "fileId": "kanji-00378"
+}

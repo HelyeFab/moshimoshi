@@ -1,0 +1,109 @@
+{
+  "id": "079-kara-because",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜から",
+    "romaji": "-kara",
+    "en": "〜から (because)"
+  },
+  "jlptLevel": "N5",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "〜から means “because.” It is used to give a reason. Place から after the reason clause, then follow with the result.\n\nKey points:\n• Reason + から + Result\n• Used in both casual and polite speech\n• Often answers why-questions\n• Can end the sentence with から in casual speech\n\nExample: “日本が好きだから、日本語を勉強します” means “Because I like Japan, I study Japanese.”\n\nIn polite speech, you can end with です/ます: “忙しいですから、行きません.”\n\nPractice by answering why questions: どうして来ませんか？→ 忙しいからです.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Reason + から + Result",
+    "components": [
+      {
+        "part": "Reason",
+        "explanation": "Cause clause",
+        "examples": ["忙しいです", "雨です", "日本が好きです"]
+      },
+      {
+        "part": "から",
+        "explanation": "Because",
+        "examples": ["から"]
+      },
+      {
+        "part": "Result",
+        "explanation": "Effect clause",
+        "examples": ["行きません", "勉強します", "休みます"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "日本が好きだから、日本語を勉強します。",
+      "romaji": "Nihon ga suki dakara, nihongo o benkyou shimasu.",
+      "english": "Because I like Japan, I study Japanese.",
+      "breakdown": {
+        "日本": "Japan",
+        "が": "subject marker",
+        "好き": "like",
+        "だから": "because",
+        "日本語": "Japanese",
+        "を": "object marker",
+        "勉強します": "study"
+      },
+      "notes": "Reason + result"
+    },
+    {
+      "japanese": "雨ですから、行きません。",
+      "romaji": "Ame desu kara, ikimasen.",
+      "english": "Because it is raining, I won't go.",
+      "breakdown": {
+        "雨": "rain",
+        "です": "is",
+        "から": "because",
+        "行きません": "do not go"
+      },
+      "notes": "Polite reason"
+    },
+    {
+      "japanese": "忙しいから、今日は休みます。",
+      "romaji": "Isogashii kara, kyou wa yasumimasu.",
+      "english": "Because I'm busy, I will rest today.",
+      "breakdown": {
+        "忙しい": "busy",
+        "から": "because",
+        "今日": "today",
+        "は": "topic marker",
+        "休みます": "rest"
+      },
+      "notes": "Casual reason"
+    },
+    {
+      "japanese": "お腹がすいたから、ご飯を食べます。",
+      "romaji": "Onaka ga suita kara, gohan o tabemasu.",
+      "english": "Because I'm hungry, I eat a meal.",
+      "breakdown": {
+        "お腹": "stomach",
+        "が": "subject marker",
+        "すいた": "got hungry",
+        "から": "because",
+        "ご飯": "meal",
+        "を": "object marker",
+        "食べます": "eat"
+      },
+      "notes": "Everyday reason"
+    }
+  ],
+  "relatedPoints": [
+    "072-question-naze-doushite-why",
+    "080-node-so"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Putting から at the end in polite speech",
+      "correction": "In polite speech, add です/ます before から",
+      "example": "❌ 雨から行きません → ✅ 雨ですから行きません"
+    },
+    {
+      "mistake": "Using から without a reason clause",
+      "correction": "Place から after the reason",
+      "example": "❌ から日本語を勉強します → ✅ 日本が好きだから日本語を勉強します"
+    }
+  ],
+  "tags": ["because", "kara", "beginner"]
+}

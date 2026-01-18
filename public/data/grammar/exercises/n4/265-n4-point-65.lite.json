@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "265-n4-point-65",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "265-n4-point-65-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Can do (Verb + ことができる)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb ることができる",
+          "romaji": "Verb ru koto ga dekiru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb ることができる matches \"Can do (Verb + ことができる)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ることができる.",
+      "explanation": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "286-n4-point-86",
+  "version": "1.0.0",
+  "title": {
+    "ja": "そんなに～ (sonna ni〜)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The grammar point そんなに is an adverb used to express that something is not as extreme as described or not to that extent. It is often translated as 'not so much', 'not that', or 'not so ~'. It is commonly followed by a negative form of a verb or adjective.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "そんなに + Verb-negation, そんなに + Adjective-negation",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "そんなに急がなくてもいいですよ。",
+      "romaji": "Sonna ni isoganakutemo ii desu yo.",
+      "english": "You don't have to hurry that much.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "そんなに難しくない問題だと思います。",
+      "romaji": "Sonna ni muzukashikunai mondai da to omoimasu.",
+      "english": "I don't think the problem is that difficult.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女はそんなに背が高くありません。",
+      "romaji": "Kanojo wa sonna ni se ga takaku arimasen.",
+      "english": "She is not that tall.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "そんなにたくさん食べる必要はないと思う。",
+      "romaji": "Sonna ni takusan taberu hitsuyou wa nai to omou.",
+      "english": "I don't think there's a need to eat so much.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

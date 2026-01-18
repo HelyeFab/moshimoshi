@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "290-n4-point-90",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "290-n4-point-90-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Listing Actions or States\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～たり～たり",
+          "romaji": "~tari ~tari"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ～たり～たり matches \"Listing Actions or States\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～たり～たり.",
+      "explanation": "Used to list multiple example actions or states, not in a fixed order.",
+      "difficulty": "easy"
+    }
+  ]
+}

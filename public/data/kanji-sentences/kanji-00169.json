@@ -1,0 +1,33 @@
+{
+  "kanji": "動",
+  "sentences": [
+    {
+      "id": "178841",
+      "japanese": "ここを動くんじゃないぞ。",
+      "english": "Don't you move from here."
+    },
+    {
+      "id": "182094",
+      "japanese": "魚は尾を動かして泳ぐ。",
+      "english": "A fish swims by moving its tail."
+    },
+    {
+      "id": "182310",
+      "japanese": "牛は背の高い緑色の草の中をゆっくり動いていました。",
+      "english": "The cows were moving very slowly through the long green grass."
+    },
+    {
+      "id": "182630",
+      "japanese": "休日で車は街道をのろのろと動いた。",
+      "english": "The holiday traffic crawled along the highway."
+    },
+    {
+      "id": "182777",
+      "japanese": "脚が治ったらまた動き回ります。",
+      "english": "I'll be about again when my leg heals."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.466Z",
+  "count": 5,
+  "fileId": "kanji-00169"
+}

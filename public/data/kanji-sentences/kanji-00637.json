@@ -1,0 +1,33 @@
+{
+  "kanji": "額",
+  "sentences": [
+    {
+      "id": "183901",
+      "japanese": "汗が額を滴り落ちるのを感じた。",
+      "english": "I felt the sweat trickle down my brow."
+    },
+    {
+      "id": "184119",
+      "japanese": "額は２万円以上に達した。",
+      "english": "The sum came to over 20,000 yen."
+    },
+    {
+      "id": "184118",
+      "japanese": "額は熱でひどく熱かった。",
+      "english": "My forehead burned with fever."
+    },
+    {
+      "id": "184120",
+      "japanese": "額の汗をふきなさい。",
+      "english": "Wipe the sweat from your brow."
+    },
+    {
+      "id": "184121",
+      "japanese": "額にさわらせてちょうだい。",
+      "english": "Come feel my forehead."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.919Z",
+  "count": 5,
+  "fileId": "kanji-00637"
+}

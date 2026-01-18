@@ -1,0 +1,33 @@
+{
+  "kanji": "刻",
+  "sentences": [
+    {
+      "id": "200533",
+      "japanese": "トニーはナイフで自分の名を木に刻んだ。",
+      "english": "Tony carved his name on a tree with a knife."
+    },
+    {
+      "id": "207826",
+      "japanese": "その彫像はさくら材の木片を刻んで作らせた。",
+      "english": "The statue was carved from a block of cherry wood."
+    },
+    {
+      "id": "207827",
+      "japanese": "その彫刻家は木で仏像を刻んだ。",
+      "english": "The sculptor carved wood into an image of Buddha."
+    },
+    {
+      "id": "207830",
+      "japanese": "その彫刻には１９２０年と刻まれている。",
+      "english": "The statue is dated 1920."
+    },
+    {
+      "id": "208328",
+      "japanese": "その像は石を刻んで作ったものだ。",
+      "english": "The statue is carved out of stone."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.632Z",
+  "count": 5,
+  "fileId": "kanji-00337"
+}

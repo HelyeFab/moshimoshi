@@ -1,0 +1,33 @@
+{
+  "kanji": "暇",
+  "sentences": [
+    {
+      "id": "6018",
+      "japanese": "暇だったら、手伝ってください。",
+      "english": "If you are free, give me a hand."
+    },
+    {
+      "id": "177906",
+      "japanese": "いつ暇になりますか？",
+      "english": "When will you be free?"
+    },
+    {
+      "id": "229033",
+      "japanese": "いつお暇ですか。",
+      "english": "When will you be free?"
+    },
+    {
+      "id": "178730",
+      "japanese": "君にないのは暇ではなく意志だ。",
+      "english": "It's not the time but the will that you lack."
+    },
+    {
+      "id": "179054",
+      "japanese": "君が暇なときにまた来るよ。",
+      "english": "I'll come again when you are free."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:29.343Z",
+  "count": 5,
+  "fileId": "kanji-01557"
+}

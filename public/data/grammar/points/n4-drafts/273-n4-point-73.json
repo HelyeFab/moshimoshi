@@ -1,0 +1,55 @@
+{
+  "id": "273-n4-point-73",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb + 続ける (つづける, tsuzukeru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The grammar point 続ける (tsuzukeru) is attached to the masu-stem form of verbs, and it indicates the ongoing continuity of an action. It can be translated as 'to continue doing' or 'to keep doing' in English.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-masu-stem + 続ける",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼は毎日ジムで運動を続けています。",
+      "romaji": "Kare wa mainichi jimu de undou o tsuzuketeimasu.",
+      "english": "He continues to exercise at the gym every day.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は勉強を続けるために図書館に行きました。",
+      "romaji": "Kanojo wa benkyou o tsuzukeru tame ni toshokan ni ikimashita.",
+      "english": "She went to the library to continue studying.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "私たちは雨にも関わらず散歩を続けました。",
+      "romaji": "Watashitachi wa ame ni mo kakawarazu sanpo o tsuzukemashita.",
+      "english": "We continued walking despite the rain.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は仕事を続けることに決めた。",
+      "romaji": "Kare wa shigoto o tsuzukeru koto ni kimeta.",
+      "english": "He decided to continue working.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "乳",
+  "sentences": [
+    {
+      "id": "1614436",
+      "japanese": "チーズは、ウシ、ヤギ、ヒツジやその他の哺乳類の乳から作られる固形の食べ物だ。",
+      "english": "Cheese is a solid food made from the milk of cows, goats, sheep, and other mammals."
+    },
+    {
+      "id": "182326",
+      "japanese": "牛は乳が出る。",
+      "english": "A cow gives us milk."
+    },
+    {
+      "id": "208571",
+      "japanese": "その赤ん坊は乳を飲まされてはじめて泣き止んだ。",
+      "english": "It was not until the baby was fed that he stopped crying."
+    },
+    {
+      "id": "212979",
+      "japanese": "そのチーズは羊の乳から作られています。",
+      "english": "That cheese is made from sheep's milk."
+    },
+    {
+      "id": "228216",
+      "japanese": "うちの牛は全く乳が出ない。",
+      "english": "Our cow doesn't give us any milk."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.657Z",
+  "count": 5,
+  "fileId": "kanji-00720"
+}

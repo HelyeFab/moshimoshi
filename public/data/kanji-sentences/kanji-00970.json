@@ -1,0 +1,33 @@
+{
+  "kanji": "囲",
+  "sentences": [
+    {
+      "id": "4962",
+      "japanese": "多くの人に囲まれて彼は自然と少し緊張しだした。",
+      "english": "With so many people around he naturally became a bit nervous."
+    },
+    {
+      "id": "180220",
+      "japanese": "教会は森と湖に囲まれている。",
+      "english": "The church is surrounded by woods and lakes."
+    },
+    {
+      "id": "122493",
+      "japanese": "日本は海に取り囲まれているので、気候が温和である。",
+      "english": "Surrounded by the sea, Japan has a mild climate."
+    },
+    {
+      "id": "185121",
+      "japanese": "海に囲まれているので、日本の気候は温和である。",
+      "english": "Surrounded by the sea, Japan has a mild climate."
+    },
+    {
+      "id": "187037",
+      "japanese": "家の周りには囲いがしてある。",
+      "english": "There is a fence about the house."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.283Z",
+  "count": 5,
+  "fileId": "kanji-00970"
+}

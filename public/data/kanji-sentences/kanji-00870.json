@@ -1,0 +1,33 @@
+{
+  "kanji": "瓶",
+  "sentences": [
+    {
+      "id": "1052820",
+      "japanese": "塩が欲しかったが、瓶の中には全くなかった。",
+      "english": "I wanted some salt, but there was none in the jar."
+    },
+    {
+      "id": "194923",
+      "japanese": "瓶の中にいくつかクッキーが入っている。",
+      "english": "There are some cookies in the jar."
+    },
+    {
+      "id": "2533729",
+      "japanese": "クッキーが瓶の中に入っている。",
+      "english": "There are some cookies in the jar."
+    },
+    {
+      "id": "197250",
+      "japanese": "瓶の中には少し水がある。",
+      "english": "There is a little water in the bottle."
+    },
+    {
+      "id": "630578",
+      "japanese": "ビール瓶の材質はガラスです。",
+      "english": "Beer bottles are made of glass."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.003Z",
+  "count": 5,
+  "fileId": "kanji-00870"
+}

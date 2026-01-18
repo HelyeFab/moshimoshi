@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "281-n4-point-81",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "281-n4-point-81-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Connecting Reasons\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～し、～し、～",
+          "romaji": "~shi, ~shi, ~"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! ～し、～し、～ matches \"Connecting Reasons\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～し、～し、～.",
+      "explanation": "Used to list multiple reasons or qualities supporting a statement.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "集",
+  "sentences": [
+    {
+      "id": "177757",
+      "japanese": "君はその救済事業の資金を集めなければならない。",
+      "english": "You have to raise funds for the relief work."
+    },
+    {
+      "id": "183522",
+      "japanese": "奇術師は子供たちの注目を集めていた。",
+      "english": "The magician had the children's attention."
+    },
+    {
+      "id": "183870",
+      "japanese": "監督は選手を運動場に集めた。",
+      "english": "The manager assembled the players on the field."
+    },
+    {
+      "id": "184307",
+      "japanese": "学生たちは教室に集まった。",
+      "english": "The students assembled in the classroom."
+    },
+    {
+      "id": "184316",
+      "japanese": "学生たちはその演説を聞くためにここに集まった。",
+      "english": "The students met here to hear the speech."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.979Z",
+  "count": 5,
+  "fileId": "kanji-00211"
+}

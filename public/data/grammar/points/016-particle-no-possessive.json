@@ -1,0 +1,106 @@
+{
+  "id": "016-particle-no-possessive",
+  "version": "1.0.0",
+  "title": {
+    "ja": "の（所有）",
+    "romaji": "no (possessive)",
+    "en": "of / possessive"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "の links two nouns and shows possession or relationship. It is similar to “of” or the possessive “’s” in English. The pattern is simple: Noun A の Noun B.\n\nKey points:\n• Noun A の Noun B = B of A / A’s B\n• It shows ownership, family, or description\n• It can link places and people: 学校の先生\n• It is one of the most common particles\n\nFor example, “私の本” means “my book.” “田中さんのかばん” means “Tanaka-san’s bag.” The first noun tells you who or what the second noun belongs to.\n\nの can also show relationships beyond ownership. “日本の食べ物” means “Japanese food,” and “学校の図書館” means “the school’s library.” It can also connect a place and a person: “東京の友だち” (a friend in Tokyo).\n\nYou can chain の to make longer phrases: “田中さんの妹の本” (Tanaka-san’s younger sister’s book). This is common, but keep it short as a beginner.\n\nIf you remember just one rule, it is: place the owner or descriptor first, then の, then the main noun. This creates clear, natural noun phrases in Japanese.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun A の Noun B",
+    "components": [
+      {
+        "part": "Noun A",
+        "explanation": "Owner or descriptor",
+        "examples": ["私", "田中さん", "日本"]
+      },
+      {
+        "part": "の",
+        "explanation": "Links the two nouns",
+        "examples": ["の"]
+      },
+      {
+        "part": "Noun B",
+        "explanation": "Main noun",
+        "examples": ["本", "かばん", "先生"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私の本です。",
+      "romaji": "Watashi no hon desu.",
+      "english": "It is my book.",
+      "breakdown": {
+        "私": "I, me",
+        "の": "possessive",
+        "本": "book",
+        "です": "is (polite)"
+      },
+      "notes": "Basic possession"
+    },
+    {
+      "japanese": "田中さんのかばんは新しいです。",
+      "romaji": "Tanaka-san no kaban wa atarashii desu.",
+      "english": "Tanaka-san's bag is new.",
+      "breakdown": {
+        "田中さん": "Mr./Ms. Tanaka",
+        "の": "possessive",
+        "かばん": "bag",
+        "は": "topic marker",
+        "新しい": "new",
+        "です": "is (polite)"
+      },
+      "notes": "Owner + item"
+    },
+    {
+      "japanese": "日本の食べ物はおいしいです。",
+      "romaji": "Nihon no tabemono wa oishii desu.",
+      "english": "Japanese food is tasty.",
+      "breakdown": {
+        "日本": "Japan",
+        "の": "of",
+        "食べ物": "food",
+        "は": "topic marker",
+        "おいしい": "tasty",
+        "です": "is (polite)"
+      },
+      "notes": "Relationship (country + food)"
+    },
+    {
+      "japanese": "学校の先生です。",
+      "romaji": "Gakkou no sensei desu.",
+      "english": "(He/She is) a school teacher.",
+      "breakdown": {
+        "学校": "school",
+        "の": "of",
+        "先生": "teacher",
+        "です": "is (polite)"
+      },
+      "notes": "Place + person role"
+    }
+  ],
+  "relatedPoints": [
+    "003-kore-sore-are",
+    "017-particle-no-explanation"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Reversing the order",
+      "correction": "Put the owner/descriptor before の",
+      "example": "❌ 本の私 → ✅ 私の本"
+    },
+    {
+      "mistake": "Using の between adjectives and nouns",
+      "correction": "Use adjectives directly before nouns",
+      "example": "❌ きれいの部屋 → ✅ きれいな部屋"
+    }
+  ],
+  "tags": ["particle", "possessive", "nouns", "beginner"]
+}

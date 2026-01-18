@@ -1,0 +1,33 @@
+{
+  "kanji": "里",
+  "sentences": [
+    {
+      "id": "226537",
+      "japanese": "お里が知れる。",
+      "english": "The shepherd, even when he become a gentleman, smells of the lamb."
+    },
+    {
+      "id": "236101",
+      "japanese": "１００里を行く者は９９里を半ばとする。",
+      "english": "There's many a slip between the cup and the lip."
+    },
+    {
+      "id": "519618",
+      "japanese": "里さんは岩の上に立っていました。",
+      "english": "Mr Sato was standing on top of a boulder."
+    },
+    {
+      "id": "519703",
+      "japanese": "里さんって文学が上手ですか。",
+      "english": "Is Mr Sato good at literature?"
+    },
+    {
+      "id": "4252374",
+      "japanese": "山から里の方へ遊びにいった猿が一本の赤い蝋燭を拾いました。赤い蝋燭は沢山あるものではありません。それで猿は赤い蝋燭を花火だと思い込んでしまいました。猿は拾った赤い蝋燭を大事に山へ持って帰りました。",
+      "english": "The monkey, who came from the mountain to play in the village, picked up a red candle. There aren't many red candles. So the monkey thought of it as a firework. He brought it back to the mountain with care."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.859Z",
+  "count": 5,
+  "fileId": "kanji-00635"
+}

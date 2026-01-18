@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "282-n4-point-82",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "282-n4-point-82-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Too much\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～すぎる",
+          "romaji": "~sugiru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ～すぎる matches \"Too much\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～すぎる.",
+      "explanation": "Expresses that something is excessive or more than necessary.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "282-n4-point-82-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～すぎる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Too much"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～すぎる means \"Too much\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Too much\".",
+      "explanation": "Expresses that something is excessive or more than necessary.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "282-n4-point-82-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～すぎる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~sugiru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ~sugiru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~sugiru.",
+      "explanation": "Expresses that something is excessive or more than necessary.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "282-n4-point-82-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～すぎる?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expresses that something is excessive or more than necessary."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses that something is excessive or more than necessary.",
+      "explanation": "Expresses that something is excessive or more than necessary.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "282-n4-point-82-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Too much\".",
+      "correctAnswer": "～すぎる",
+      "acceptedVariations": [
+        "～すぎる",
+        "～すぎる"
+      ],
+      "correctFeedback": "Nice! ～すぎる is correct.",
+      "incorrectFeedback": "The correct pattern is: ～すぎる (~sugiru).",
+      "explanation": "Expresses that something is excessive or more than necessary.",
+      "hints": [
+        "~sugiru",
+        "Expresses that something is excessive or more than necessary."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "282-n4-point-82-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～すぎる.",
+      "correctAnswer": "~sugiru",
+      "acceptedVariations": [
+        "~sugiru",
+        "~sugiru"
+      ],
+      "correctFeedback": "Nice! ~sugiru is correct.",
+      "incorrectFeedback": "The correct romaji is: ~sugiru.",
+      "explanation": "Expresses that something is excessive or more than necessary.",
+      "hints": [
+        "Expresses that something is excessive or more than necessary."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "282-n4-point-82-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～すぎる.",
+      "correctAnswer": "Too much",
+      "acceptedVariations": [
+        "Too much",
+        "too much"
+      ],
+      "correctFeedback": "Correct! \"Too much\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Too much\".",
+      "explanation": "Expresses that something is excessive or more than necessary.",
+      "hints": [
+        "Expresses that something is excessive or more than necessary."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "282-n4-point-82-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～すぎる",
+          "romaji": "~sugiru",
+          "english": "Too much"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses that something is excessive or more than necessary.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "282-n4-point-82-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses that something is excessive or more than necessary..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～すぎる",
+          "romaji": "~sugiru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～すぎる matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～すぎる.",
+      "explanation": "Expresses that something is excessive or more than necessary.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "282-n4-point-82-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～すぎる",
+      "acceptedVariations": [
+        "～すぎる",
+        "～すぎる"
+      ],
+      "correctFeedback": "Great! ～すぎる is correct.",
+      "incorrectFeedback": "The correct pattern is: ～すぎる.",
+      "explanation": "Expresses that something is excessive or more than necessary.",
+      "hints": [
+        "~sugiru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

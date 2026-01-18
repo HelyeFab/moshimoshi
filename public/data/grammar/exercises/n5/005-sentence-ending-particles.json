@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "005-sentence-ending-particles",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "005-sentence-ending-particles-ex-01",
+      "type": "multiple-choice",
+      "question": "Which particle makes a polite question?",
+      "options": [
+        { "id": "a", "text": "ね" },
+        { "id": "b", "text": "よ" },
+        { "id": "c", "text": "か" },
+        { "id": "d", "text": "を" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! か marks a question.",
+      "incorrectFeedback": "Not quite. か is the question marker.",
+      "explanation": "Add か to make a polite question.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "005-sentence-ending-particles-ex-02",
+      "type": "multiple-choice",
+      "question": "Which particle seeks agreement?",
+      "options": [
+        { "id": "a", "text": "ね" },
+        { "id": "b", "text": "よ" },
+        { "id": "c", "text": "か" },
+        { "id": "d", "text": "に" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Yes! ね invites agreement.",
+      "incorrectFeedback": "Try again. ね is used to seek agreement.",
+      "explanation": "ね is like “right?”",
+      "difficulty": "easy"
+    },
+    {
+      "id": "005-sentence-ending-particles-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'It’s cold today, isn’t it?'",
+      "correctAnswer": "今日は寒いですね",
+      "acceptedVariations": [
+        "今日は寒いですね。",
+        "きょうはさむいですね",
+        "kyou wa samui desu ne",
+        "kyou wa samui desu ne."
+      ],
+      "correctFeedback": "Great! 今日は寒いですね is correct.",
+      "incorrectFeedback": "The correct answer is: 今日は寒いですね (kyou wa samui desu ne).",
+      "explanation": "Use ね to seek agreement.",
+      "hints": ["Use ね at the end", "寒い means cold"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "005-sentence-ending-particles-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence adds emphasis?",
+      "options": [
+        { "id": "a", "text": "これは本です。" },
+        { "id": "b", "text": "これは本ですよ。" },
+        { "id": "c", "text": "これは本ですか。" },
+        { "id": "d", "text": "これは本ですね。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! よ adds emphasis or new information.",
+      "incorrectFeedback": "Not quite. よ is the emphasis particle.",
+      "explanation": "よ tells the listener something new or important.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "005-sentence-ending-particles-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Is Tanaka-san a student?'",
+      "correctAnswer": "田中さんは学生ですか",
+      "acceptedVariations": [
+        "田中さんは学生ですか。",
+        "たなかさんはがくせいですか",
+        "tanaka-san wa gakusei desu ka",
+        "tanaka-san wa gakusei desu ka."
+      ],
+      "correctFeedback": "Nice! 田中さんは学生ですか is correct.",
+      "incorrectFeedback": "The correct answer is: 田中さんは学生ですか (tanaka-san wa gakusei desu ka).",
+      "explanation": "Add か to make it a question.",
+      "hints": ["Use か at the end", "学生 means student"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "005-sentence-ending-particles-ex-06",
+      "type": "multiple-choice",
+      "question": "Which particle is best for “you know/for sure”?",
+      "options": [
+        { "id": "a", "text": "ね" },
+        { "id": "b", "text": "よ" },
+        { "id": "c", "text": "か" },
+        { "id": "d", "text": "へ" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! よ adds emphasis.",
+      "incorrectFeedback": "Try again. よ is used for emphasis.",
+      "explanation": "よ tells the listener the information is important.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "005-sentence-ending-particles-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This is tasty, you know.'",
+      "correctAnswer": "これはおいしいですよ",
+      "acceptedVariations": [
+        "これはおいしいですよ。",
+        "これはおいしいですよ",
+        "kore wa oishii desu yo",
+        "kore wa oishii desu yo."
+      ],
+      "correctFeedback": "Great! これはおいしいですよ is correct.",
+      "incorrectFeedback": "The correct answer is: これはおいしいですよ (kore wa oishii desu yo).",
+      "explanation": "Use よ to add emphasis.",
+      "hints": ["おいしい means tasty", "End with よ"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "005-sentence-ending-particles-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "これは本ですか。",
+          "romaji": "Kore wa hon desu ka.",
+          "english": "Is this a book?"
+        },
+        {
+          "japanese": "今日は暑いですね。",
+          "romaji": "Kyou wa atsui desu ne.",
+          "english": "It’s hot today, isn’t it?"
+        },
+        {
+          "japanese": "明日行きますよ。",
+          "romaji": "Ashita ikimasu yo.",
+          "english": "I will go tomorrow (for sure)."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review ね/よ/か and try again.",
+      "explanation": "Each sentence uses a different ending particle.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "005-sentence-ending-particles-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence sounds like you want agreement?",
+      "options": [
+        { "id": "a", "text": "今日は雨です。" },
+        { "id": "b", "text": "今日は雨ですね。" },
+        { "id": "c", "text": "今日は雨ですよ。" },
+        { "id": "d", "text": "今日は雨ですか。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ね asks for agreement.",
+      "incorrectFeedback": "Try again. ね is used to seek agreement.",
+      "explanation": "ね softens the statement and invites agreement.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "005-sentence-ending-particles-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Is this your bag?'",
+      "correctAnswer": "これはあなたのかばんですか",
+      "acceptedVariations": [
+        "これはあなたのかばんですか。",
+        "これはあなたの鞄ですか。",
+        "kore wa anata no kaban desu ka",
+        "kore wa anata no kaban desu ka."
+      ],
+      "correctFeedback": "Nice! これはあなたのかばんですか is correct.",
+      "incorrectFeedback": "The correct answer is: これはあなたのかばんですか (kore wa anata no kaban desu ka).",
+      "explanation": "Add か to make a polite question.",
+      "hints": ["Use か at the end", "あなたの = your"],
+      "difficulty": "hard"
+    }
+  ]
+}

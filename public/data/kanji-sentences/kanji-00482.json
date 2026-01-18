@@ -1,0 +1,33 @@
+{
+  "kanji": "流",
+  "sentences": [
+    {
+      "id": "180115",
+      "japanese": "橋は大水で流された。",
+      "english": "The bridge was carried away by the flood."
+    },
+    {
+      "id": "211385",
+      "japanese": "その橋は洪水で流された。",
+      "english": "The bridge was carried away by the flood."
+    },
+    {
+      "id": "211386",
+      "japanese": "その橋は洪水で押し流されてしまった。",
+      "english": "The bridge was carried away by the flood."
+    },
+    {
+      "id": "180116",
+      "japanese": "橋は大水で洗い流された。",
+      "english": "The bridge was washed away by the flood."
+    },
+    {
+      "id": "180121",
+      "japanese": "橋は強い流れに耐えられず崩壊した。",
+      "english": "The bridge couldn't sustain the force of the strong current and collapsed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.624Z",
+  "count": 5,
+  "fileId": "kanji-00482"
+}

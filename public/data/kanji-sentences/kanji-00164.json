@@ -1,0 +1,33 @@
+{
+  "kanji": "私",
+  "sentences": [
+    {
+      "id": "4703",
+      "japanese": "私は眠らなければなりません。",
+      "english": "I have to go to sleep."
+    },
+    {
+      "id": "195279",
+      "japanese": "まもなく私は戻って来ます。",
+      "english": "I will be back soon."
+    },
+    {
+      "id": "157243",
+      "japanese": "私は言葉に詰まった。",
+      "english": "I'm at a loss for words."
+    },
+    {
+      "id": "1050420",
+      "japanese": "私は言葉を失った。",
+      "english": "I'm at a loss for words."
+    },
+    {
+      "id": "4715",
+      "japanese": "私は山にいました。",
+      "english": "I was in the mountains."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.415Z",
+  "count": 5,
+  "fileId": "kanji-00164"
+}

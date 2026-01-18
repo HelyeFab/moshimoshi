@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "045-na-adjectives-present",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "045-na-adjectives-present-ex-01",
+      "type": "multiple-choice",
+      "question": "Which word is a な-adjective?",
+      "options": [
+        {
+          "id": "a",
+          "text": "おいしい"
+        },
+        {
+          "id": "b",
+          "text": "きれい"
+        },
+        {
+          "id": "c",
+          "text": "たかい"
+        },
+        {
+          "id": "d",
+          "text": "ながい"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! きれい is a な-adjective.",
+      "incorrectFeedback": "Not quite. きれい is a な-adjective even though it ends in い.",
+      "explanation": "Many な-adjectives end in い but behave differently.",
+      "difficulty": "easy"
+    }
+  ]
+}

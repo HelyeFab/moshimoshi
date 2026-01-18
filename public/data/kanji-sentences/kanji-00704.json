@@ -1,0 +1,33 @@
+{
+  "kanji": "群",
+  "sentences": [
+    {
+      "id": "1120545",
+      "japanese": "私は空高く飛んでいる鳥の群れを見ました。",
+      "english": "I saw a flock of birds flying aloft."
+    },
+    {
+      "id": "1120547",
+      "japanese": "鳥の群れが空高く飛んでいるのを見ました。",
+      "english": "I saw a flock of birds flying aloft."
+    },
+    {
+      "id": "185533",
+      "japanese": "我々は蜂の群れにあった。",
+      "english": "We were attacked by swarms of bees."
+    },
+    {
+      "id": "186232",
+      "japanese": "我々の船は魚の群れを追った。",
+      "english": "Our boat followed a school of fish."
+    },
+    {
+      "id": "186457",
+      "japanese": "蚊の群れが彼を追った。",
+      "english": "A swarm of mosquitoes followed him."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.398Z",
+  "count": 5,
+  "fileId": "kanji-00704"
+}

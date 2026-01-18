@@ -1,0 +1,55 @@
+{
+  "id": "227-n4-point-27",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb つもり (〜tsumori)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～つもり grammar point is used to express the intention, plan, or determination to do something. It can be translated as 'I intend to', 'I plan to', or 'I'm determined to' in English. It is used with verbs in the casual form.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + つもり",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "明日、友達に会うつもりです。",
+      "romaji": "Ashita, tomodachi ni au tsumori desu.",
+      "english": "I plan to meet my friend tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "今夜、晩ご飯を作るつもりです。",
+      "romaji": "Konya, bangohan o tsukuru tsumori desu.",
+      "english": "I intend to cook dinner tonight.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "来年、留学するつもりです。",
+      "romaji": "Rainen, ryuugaku suru tsumori desu.",
+      "english": "I plan to study abroad next year.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この週末、山に登るつもりです。",
+      "romaji": "Kono shuumatsu, yama ni noboru tsumori desu.",
+      "english": "I'm determined to climb the mountain this weekend.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

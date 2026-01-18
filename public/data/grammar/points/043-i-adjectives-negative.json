@@ -1,0 +1,100 @@
+{
+  "id": "043-i-adjectives-negative",
+  "version": "1.0.0",
+  "title": {
+    "ja": "い形容詞（否定）",
+    "romaji": "i-keiyoushi (negative)",
+    "en": "i-adjectives (negative)"
+  },
+  "jlptLevel": "N5",
+  "category": "adjectives",
+  "explanation": {
+    "en": "The negative form of い-adjectives is used to say something is not true. To make the negative, change the final い to くない.\n\nKey points:\n• い-adjective negative: い → くない\n• Add です for politeness: 高くないです\n• Used for present/future negative\n• Same pattern for all い-adjectives\n\nFor example, “高い” becomes “高くない” (not expensive). “暑い” becomes “暑くない” (not hot).\n\nYou can say “この店は高くないです” to mean “This shop is not expensive.”\n\nRemember: you do not use ではありません with い-adjectives. Use くない instead.\n\nPractice with common adjectives: 安い → 安くない, おいしい → おいしくない, 大きい → 大きくない.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "i-adjective (negative) + です",
+    "components": [
+      {
+        "part": "i-adjective (negative)",
+        "explanation": "Change い → くない",
+        "examples": ["高くない", "暑くない", "おいしくない"]
+      },
+      {
+        "part": "です",
+        "explanation": "Polite ending (optional)",
+        "examples": ["です"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この店は高くないです。",
+      "romaji": "Kono mise wa takakunai desu.",
+      "english": "This shop is not expensive.",
+      "breakdown": {
+        "この": "this",
+        "店": "shop",
+        "は": "topic marker",
+        "高くない": "not expensive",
+        "です": "polite ending"
+      },
+      "notes": "Negative description"
+    },
+    {
+      "japanese": "今日は暑くないです。",
+      "romaji": "Kyou wa atsukunai desu.",
+      "english": "Today is not hot.",
+      "breakdown": {
+        "今日": "today",
+        "は": "topic marker",
+        "暑くない": "not hot",
+        "です": "polite ending"
+      },
+      "notes": "Weather negative"
+    },
+    {
+      "japanese": "この本はおもしろくないです。",
+      "romaji": "Kono hon wa omoshirokunai desu.",
+      "english": "This book is not interesting.",
+      "breakdown": {
+        "この": "this",
+        "本": "book",
+        "は": "topic marker",
+        "おもしろくない": "not interesting",
+        "です": "polite ending"
+      },
+      "notes": "Negative opinion"
+    },
+    {
+      "japanese": "そのりんごは赤くないです。",
+      "romaji": "Sono ringo wa akakunai desu.",
+      "english": "That apple is not red.",
+      "breakdown": {
+        "その": "that",
+        "りんご": "apple",
+        "は": "topic marker",
+        "赤くない": "not red",
+        "です": "polite ending"
+      },
+      "notes": "Color negative"
+    }
+  ],
+  "relatedPoints": [
+    "041-i-adjectives-present",
+    "044-i-adjectives-past-negative"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ではありません with い-adjectives",
+      "correction": "Use くない for い-adjectives",
+      "example": "❌ 高いではありません → ✅ 高くないです"
+    },
+    {
+      "mistake": "Dropping く in the negative",
+      "correction": "Keep くない",
+      "example": "❌ おいしいない → ✅ おいしくない"
+    }
+  ],
+  "tags": ["adjectives", "i-adjectives", "negative", "beginner"]
+}

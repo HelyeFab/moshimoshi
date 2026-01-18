@@ -1,0 +1,33 @@
+{
+  "kanji": "死",
+  "sentences": [
+    {
+      "id": "4948",
+      "japanese": "人は食事を取らなければ死んでしまう。",
+      "english": "If you don't eat, you die."
+    },
+    {
+      "id": "227604",
+      "japanese": "おなかがすいて死にそうだ。",
+      "english": "I'm starving!"
+    },
+    {
+      "id": "3528967",
+      "japanese": "お腹すいて死にそう。",
+      "english": "I'm starving!"
+    },
+    {
+      "id": "176948",
+      "japanese": "君は彼を死んだものとしてあきらめなければなりません。",
+      "english": "You must give him up for dead."
+    },
+    {
+      "id": "120306",
+      "japanese": "彼が死んだものと諦めてはいけない。",
+      "english": "You should not give him up for lost."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.071Z",
+  "count": 5,
+  "fileId": "kanji-00215"
+}

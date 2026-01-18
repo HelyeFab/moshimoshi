@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "253-n4-point-53",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "253-n4-point-53-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Better not to [Verb]\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb ないほうがいい",
+          "romaji": "Verb nai hou ga ii"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb ないほうがいい matches \"Better not to [Verb]\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ないほうがいい.",
+      "explanation": "Used to advise that not doing something is the better choice.",
+      "difficulty": "easy"
+    }
+  ]
+}

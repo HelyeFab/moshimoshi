@@ -1,0 +1,33 @@
+{
+  "kanji": "心",
+  "sentences": [
+    {
+      "id": "5303",
+      "japanese": "私の心は幸福感でいっぱいだった。",
+      "english": "My heart was filled with happiness."
+    },
+    {
+      "id": "177129",
+      "japanese": "君は心ないことをしたものだ。",
+      "english": "How thoughtless of you to do that."
+    },
+    {
+      "id": "178025",
+      "japanese": "君の問題は心にとめておくよ。",
+      "english": "I'll keep your problems in mind."
+    },
+    {
+      "id": "178191",
+      "japanese": "君の心を変えさせたのは何でしたか。",
+      "english": "What was it that caused you to change your mind?"
+    },
+    {
+      "id": "178950",
+      "japanese": "君が心を変えたのは何故ですか。",
+      "english": "What was it that caused you to change your mind?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.507Z",
+  "count": 5,
+  "fileId": "kanji-00174"
+}

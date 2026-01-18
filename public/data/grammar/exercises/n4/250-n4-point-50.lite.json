@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "250-n4-point-50",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "250-n4-point-50-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Indicating Instances of Non-action\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ない ことがある",
+          "romaji": "Verb nai koto ga aru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! Verb ない ことがある matches \"Indicating Instances of Non-action\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ない ことがある.",
+      "explanation": "Used to express that something sometimes does not happen or is not done.",
+      "difficulty": "easy"
+    }
+  ]
+}

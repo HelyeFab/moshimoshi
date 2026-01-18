@@ -1,0 +1,33 @@
+{
+  "kanji": "逆",
+  "sentences": [
+    {
+      "id": "5042",
+      "japanese": "しかし、逆もまた真である。",
+      "english": "And yet, the contrary is always true as well."
+    },
+    {
+      "id": "180447",
+      "japanese": "強風に逆らって飛ぶのは大変なことだ。",
+      "english": "Flying against a strong wind is very difficult."
+    },
+    {
+      "id": "182772",
+      "japanese": "逆もまた真なり。",
+      "english": "The converse is also true."
+    },
+    {
+      "id": "182771",
+      "japanese": "逆さまに向きを変えてください。",
+      "english": "Please turn over."
+    },
+    {
+      "id": "183108",
+      "japanese": "規則に逆らうな。",
+      "english": "Don't go against the rules."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.179Z",
+  "count": 5,
+  "fileId": "kanji-00647"
+}

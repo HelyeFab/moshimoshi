@@ -1,0 +1,55 @@
+{
+  "id": "267-n4-point-67",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb る ことになる (〜ru koto ni naru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The る ことになる grammar point is used to express that something has been decided or arranged. It often indicates a decision made by someone else or due to circumstances. It can be translated as 'it has been decided that' or 'it turns out that' in English. The formation requires a verb in る (dictionary) form.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-る + ことになる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "今日は会議がなくなることになりました。",
+      "romaji": "Kyou wa kaigi ga nakunaru koto ni narimashita.",
+      "english": "It has been decided that there will be no meeting today.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "来週、友達と旅行することになった。",
+      "romaji": "Raishuu, tomodachi to ryokou suru koto ni natta.",
+      "english": "It has been arranged that I will travel with my friends next week.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女が今度のプロジェクトのリーダーになることになりました。",
+      "romaji": "Kanojo ga kondo no purojekuto no riida ni naru koto ni narimashita.",
+      "english": "It has been decided that she will be the leader of the next project.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "急に仕事が入ったので、休みを取ることになった。",
+      "romaji": "Kyuu ni shigoto ga haitta node, yasumi wo toru koto ni natta.",
+      "english": "Due to sudden work, it has been decided that I will take a day off.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

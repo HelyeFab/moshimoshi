@@ -1,0 +1,33 @@
+{
+  "kanji": "矢",
+  "sentences": [
+    {
+      "id": "190045",
+      "japanese": "一本の矢が鷹を貫通した。",
+      "english": "An arrow passed through the hawk."
+    },
+    {
+      "id": "79575",
+      "japanese": "矢は的からひどく外れた。",
+      "english": "The arrow fell wide of the mark."
+    },
+    {
+      "id": "206327",
+      "japanese": "その矢は的から大きく外れた。",
+      "english": "The arrow fell wide of the mark."
+    },
+    {
+      "id": "228337",
+      "japanese": "ウイリアム・テルは息子の頭の上のリンゴをねらって矢を射た。",
+      "english": "William Tell shot an arrow at the apple on his son's head."
+    },
+    {
+      "id": "228381",
+      "japanese": "インディアンは弓と矢で戦った。",
+      "english": "The Indians fought with bows and arrows."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.405Z",
+  "count": 5,
+  "fileId": "kanji-01212"
+}

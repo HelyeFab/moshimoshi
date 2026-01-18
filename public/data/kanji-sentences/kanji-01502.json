@@ -1,0 +1,33 @@
+{
+  "kanji": "垂",
+  "sentences": [
+    {
+      "id": "189370",
+      "japanese": "雲が低く垂れ込めた。",
+      "english": "The clouds hung low."
+    },
+    {
+      "id": "198656",
+      "japanese": "濡れたタオルから滴が垂れている。",
+      "english": "Water is dripping from the wet towel."
+    },
+    {
+      "id": "102215",
+      "japanese": "彼は恥ずかしさのあまり首を垂れた。",
+      "english": "He hung his head in shame."
+    },
+    {
+      "id": "116201",
+      "japanese": "彼の服からしずくが垂れていた。",
+      "english": "His clothes were dripping."
+    },
+    {
+      "id": "141348",
+      "japanese": "川岸で数人の男が糸を垂れている。",
+      "english": "Several men are fishing from the riverbank."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:27.691Z",
+  "count": 5,
+  "fileId": "kanji-01502"
+}

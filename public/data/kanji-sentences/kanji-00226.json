@@ -1,0 +1,33 @@
+{
+  "kanji": "着",
+  "sentences": [
+    {
+      "id": "4989",
+      "japanese": "あなたが駅に着くのにどのくらいかかりますか。",
+      "english": "How long does it take to get to the station?"
+    },
+    {
+      "id": "234128",
+      "japanese": "駅に着くのにどのくらいかかりますか。",
+      "english": "How long does it take to get to the station?"
+    },
+    {
+      "id": "5087",
+      "japanese": "友達はいつも僕のこととても落ち着いてるって言うけれど、家族にはいつもいらいらしているって言われるんだ。",
+      "english": "My friends always say I'm too calm, but my family always says I'm too annoying."
+    },
+    {
+      "id": "5111",
+      "japanese": "いつ着くの？",
+      "english": "When do we arrive?"
+    },
+    {
+      "id": "177359",
+      "japanese": "急がなくてもよかったのに。早く着きすぎですよ。",
+      "english": "You needn't have hurried; you've arrived too early."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.228Z",
+  "count": 5,
+  "fileId": "kanji-00226"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "浅",
+  "sentences": [
+    {
+      "id": "185685",
+      "japanese": "我々は知り合ってからまだ日が浅い。",
+      "english": "We haven't known each other long."
+    },
+    {
+      "id": "207852",
+      "japanese": "その池は泳ぐには浅すぎる。",
+      "english": "The pond is too shallow for swimming."
+    },
+    {
+      "id": "10032759",
+      "japanese": "その池は浅すぎて泳げないよ。",
+      "english": "The pond is too shallow for swimming."
+    },
+    {
+      "id": "220819",
+      "japanese": "この川はあそこで浅くなっている。",
+      "english": "This river becomes shallow at that point."
+    },
+    {
+      "id": "222608",
+      "japanese": "この学校のカリキュラムは広く浅い。",
+      "english": "The curriculum of this school is wide and shallow."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.671Z",
+  "count": 5,
+  "fileId": "kanji-00677"
+}

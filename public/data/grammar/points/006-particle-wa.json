@@ -1,0 +1,104 @@
+{
+  "id": "006-particle-wa",
+  "version": "1.0.0",
+  "title": {
+    "ja": "は",
+    "romaji": "wa",
+    "en": "Topic marker"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "は is the topic marker in Japanese. It tells the listener what the sentence is about. The topic is often something already known or something you want to talk about. Even though it is written as は, it is pronounced “wa.”\n\nKey points:\n• は marks the topic, not always the grammatical subject\n• It can show contrast between two things\n• It is pronounced “wa,” not “ha”\n• It often appears with です/ではありません sentences\n\nThink of は as “As for …” For example, “私は学生です” means “As for me, I am a student.” You can also contrast: “私はコーヒーは飲みますが、紅茶は飲みません。” This means “As for me, I drink coffee, but I don’t drink tea.”\n\nIn beginner sentences, は usually appears once, near the beginning. If you are stating a general fact about the topic, は is a natural choice. When you want to focus on the subject as new information, you often use が instead. So は and が work together: は introduces the topic, and が highlights new or specific information.\n\nStart with は for basic identity sentences and simple descriptions. As you learn more, you will notice how は can add contrast or emphasis without changing the basic meaning.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Topic は Comment",
+    "components": [
+      {
+        "part": "Topic",
+        "explanation": "What the sentence is about",
+        "examples": ["私", "この本", "田中さん"]
+      },
+      {
+        "part": "は",
+        "explanation": "Topic marker (pronounced 'wa')",
+        "examples": ["は"]
+      },
+      {
+        "part": "Comment",
+        "explanation": "Information about the topic",
+        "examples": ["学生です", "おいしいです", "日本人です"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私は日本人です。",
+      "romaji": "Watashi wa nihonjin desu.",
+      "english": "I am Japanese.",
+      "breakdown": {
+        "私": "I, me",
+        "は": "topic marker (wa)",
+        "日本人": "Japanese person",
+        "です": "am (polite)"
+      },
+      "notes": "Simple identity sentence"
+    },
+    {
+      "japanese": "この本はおもしろいです。",
+      "romaji": "Kono hon wa omoshiroi desu.",
+      "english": "This book is interesting.",
+      "breakdown": {
+        "この": "this",
+        "本": "book",
+        "は": "topic marker",
+        "おもしろい": "interesting",
+        "です": "is (polite)"
+      },
+      "notes": "Topic + description"
+    },
+    {
+      "japanese": "田中さんは先生です。",
+      "romaji": "Tanaka-san wa sensei desu.",
+      "english": "Tanaka-san is a teacher.",
+      "breakdown": {
+        "田中さん": "Mr./Ms. Tanaka",
+        "は": "topic marker",
+        "先生": "teacher",
+        "です": "is (polite)"
+      },
+      "notes": "Introducing a person"
+    },
+    {
+      "japanese": "私は魚は食べません。",
+      "romaji": "Watashi wa sakana wa tabemasen.",
+      "english": "As for me, I do not eat fish.",
+      "breakdown": {
+        "私": "I, me",
+        "は": "topic marker",
+        "魚": "fish",
+        "は": "topic marker (contrast)",
+        "食べません": "do not eat"
+      },
+      "notes": "は can show contrast"
+    }
+  ],
+  "relatedPoints": [
+    "001-x-wa-y-desu",
+    "007-particle-ga"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Pronouncing は as 'ha'",
+      "correction": "When は is a particle, it is pronounced 'wa'",
+      "example": "❌ watashi ha → ✅ watashi wa"
+    },
+    {
+      "mistake": "Using は for new, specific information",
+      "correction": "Use が when the subject is newly introduced or emphasized",
+      "example": "❌ 誰は来ましたか → ✅ 誰が来ましたか"
+    }
+  ],
+  "tags": ["particle", "topic", "contrast", "beginner"]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "第",
+  "sentences": [
+    {
+      "id": "178654",
+      "japanese": "君には第２の漱石になってほしいね。",
+      "english": "I want you to be the next Soseki."
+    },
+    {
+      "id": "179616",
+      "japanese": "金曜日の予習に第４章を読んでおくこと。",
+      "english": "Read chapter 4 for Friday."
+    },
+    {
+      "id": "183605",
+      "japanese": "企業収益は第１四半期に大きく改善した。",
+      "english": "Corporate earnings in the first quarter improved sharply."
+    },
+    {
+      "id": "191790",
+      "japanese": "わたしは第３の立場を取るつもりだ。",
+      "english": "I intend to take my position as a third party."
+    },
+    {
+      "id": "192023",
+      "japanese": "わが国の国民総生産は第２位である。",
+      "english": "The gross national product of our country is the second largest."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:47.702Z",
+  "count": 5,
+  "fileId": "kanji-02040"
+}

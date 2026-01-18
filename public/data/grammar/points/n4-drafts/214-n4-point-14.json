@@ -1,0 +1,55 @@
+{
+  "id": "214-n4-point-14",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Nounをいただく (Noun wo itadaku)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The Nounをいただく grammar point is used to express the action of receiving or accepting something in a polite or humble manner. The verb 'いただく' is a more respectful version of the verb 'もらう' (to receive), so using 'いただく' shows humility and respect towards the person who is giving you something.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + を + いただく",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "プレゼントをいただきありがとうございます。",
+      "romaji": "Purezento wo itadaki arigatou gozaimasu.",
+      "english": "Thank you for the gift that I received.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "先生からアドバイスをいただきました。",
+      "romaji": "Sensei kara adobaisu wo itadakimashita.",
+      "english": "I received advice from my teacher.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このコーヒーをいただいていいですか？",
+      "romaji": "Kono koohii wo itadaite ii desu ka?",
+      "english": "May I have this coffee?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "会社の上司に昇進のお知らせをいただきました。",
+      "romaji": "Kaisha no joushi ni shoushin no oshirase wo itadakimashita.",
+      "english": "I received a promotion notification from my boss at the company.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

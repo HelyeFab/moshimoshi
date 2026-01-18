@@ -1,0 +1,33 @@
+{
+  "kanji": "港",
+  "sentences": [
+    {
+      "id": "183119",
+      "japanese": "汽笛が鳴って船はゆっくりと港から離れていった。",
+      "english": "A whistle blew, and the boat slowly began to pull out of port."
+    },
+    {
+      "id": "165820",
+      "japanese": "私たちは港の方向へ船を動かし始めた。",
+      "english": "We began to sail in the direction of the port."
+    },
+    {
+      "id": "185856",
+      "japanese": "我々は港の方へ航行し始めた。",
+      "english": "We began to sail in the direction of the port."
+    },
+    {
+      "id": "203803",
+      "japanese": "たくさんのヨットが港にはいってる。",
+      "english": "Many yachts are in the harbor."
+    },
+    {
+      "id": "207506",
+      "japanese": "その島にはよい港がある。",
+      "english": "The island has a fine harbor."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.068Z",
+  "count": 5,
+  "fileId": "kanji-00366"
+}

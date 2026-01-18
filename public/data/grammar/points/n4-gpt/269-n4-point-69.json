@@ -1,0 +1,138 @@
+{
+  "id": "269-n4-point-69",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb る ところ",
+    "romaji": "Verb-ru tokoro",
+    "en": "Verb + ところ"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "The grammar point 'Verb る ところ' is used to express that one is just about to do something, or is in the process of doing it. It can be translated as 'just about to' or 'in the middle of' in English.",
+    "ja": "「Verb る ところ」は、何かをすぐに行う直前やその行為の最中であることを表現します。英語では、「just about to」とか「in the middle of」と訳せます。"
+  },
+  "structure": {
+    "pattern": "Verb-dictionary form + ところ",
+    "components": [
+      {
+        "part": "Verb-dictionary form",
+        "explanation": "The verb in its dictionary form (plain, non-past).",
+        "examples": [
+          "食べる(taberu)",
+          "出かける(dekakeru)"
+        ]
+      },
+      {
+        "part": "ところ",
+        "explanation": "This word indicates the state or situation of an action.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼は食べるところです。",
+      "romaji": "Kare wa taberu tokoro desu.",
+      "english": "He is in the process of eating.",
+      "breakdown": {
+        "token": "gloss",
+        "tokens": [
+          {
+            "taberu": "eat"
+          },
+          {
+            "tokoro": "place/point"
+          },
+          {
+            "desu": "(polite)"
+          }
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "私は出かけるところです。",
+      "romaji": "Watashi wa dekakeru tokoro desu.",
+      "english": "I am just about to leave.",
+      "breakdown": {
+        "token": "gloss",
+        "tokens": [
+          {
+            "dekakeru": "leave"
+          },
+          {
+            "tokoro": "place/point"
+          },
+          {
+            "desu": "(polite)"
+          }
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は泣くところでした。",
+      "romaji": "Kanojo wa naku tokoro deshita.",
+      "english": "She was on the verge of crying.",
+      "breakdown": {
+        "token": "gloss",
+        "tokens": [
+          {
+            "naku": "cry"
+          },
+          {
+            "tokoro": "place/point"
+          },
+          {
+            "deshita": "(polite past)"
+          }
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "私たちは勉強するところです。",
+      "romaji": "Watashitachi wa benkyou suru tokoro desu.",
+      "english": "We are in the middle of studying.",
+      "breakdown": {
+        "token": "gloss",
+        "tokens": [
+          {
+            "benkyou suru": "study"
+          },
+          {
+            "tokoro": "place/point"
+          },
+          {
+            "desu": "(polite)"
+          }
+        ]
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Noun を あげる",
+    "Verb ない ことがある",
+    "Verb ない ことになる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼は食べるところだ。",
+      "correction": "彼は食べるところです。",
+      "example": "Kare wa taberu tokoro desu."
+    },
+    {
+      "mistake": "私は出かけるとこで。",
+      "correction": "私は出かけるところです。",
+      "example": "Watashi wa dekakeru tokoro desu."
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "politeness-levels",
+    "action-state"
+  ]
+}

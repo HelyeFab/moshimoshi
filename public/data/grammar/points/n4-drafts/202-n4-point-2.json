@@ -1,0 +1,55 @@
+{
+  "id": "202-n4-point-2",
+  "version": "1.0.0",
+  "title": {
+    "ja": "A は B ほど～ありません (A wa B hodo ～ arimasen)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The は B ほど～ありません grammar point is used to express that A is not as much as B or not to the same extent as B, emphasizing the difference. It can be translated as 'not as... as' or 'not... to the extent of' in English.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "A は B ほど Verb/adjective ありません",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "今日は昨日ほど寒くありません。",
+      "romaji": "Kyou wa kinou hodo samuku arimasen.",
+      "english": "Today is not as cold as yesterday.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は私ほど上手に英語を話せません。",
+      "romaji": "Kare wa watashi hodo jouzu ni eigo o hanasemasen.",
+      "english": "He cannot speak English as well as I can.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このレストランはあのレストランほど高くありません。",
+      "romaji": "Kono resutoran wa ano resutoran hodo takaku arimasen.",
+      "english": "This restaurant is not as expensive as that restaurant.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は彼ほど忙しくありません。",
+      "romaji": "Kanojo wa kare hodo isogashiku arimasen.",
+      "english": "She is not as busy as him.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

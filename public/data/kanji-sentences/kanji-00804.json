@@ -1,0 +1,33 @@
+{
+  "kanji": "湖",
+  "sentences": [
+    {
+      "id": "180220",
+      "japanese": "教会は森と湖に囲まれている。",
+      "english": "The church is surrounded by woods and lakes."
+    },
+    {
+      "id": "182761",
+      "japanese": "丘のふもとに美しい湖がある。",
+      "english": "At the foot of the hill is a beautiful lake."
+    },
+    {
+      "id": "183603",
+      "japanese": "危ういところで少女は湖でおぼれそうになった。",
+      "english": "It was a close call when the little girl almost drowned in the lake."
+    },
+    {
+      "id": "184536",
+      "japanese": "角を曲がると、湖が見えてきた。",
+      "english": "As we went around the corner, the lake came in sight."
+    },
+    {
+      "id": "185873",
+      "japanese": "我々は湖の近くでキャンプをした。",
+      "english": "We made camp near the lake."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.690Z",
+  "count": 5,
+  "fileId": "kanji-00804"
+}

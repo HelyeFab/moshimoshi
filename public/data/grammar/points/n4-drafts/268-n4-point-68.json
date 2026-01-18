@@ -1,0 +1,55 @@
+{
+  "id": "268-n4-point-68",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb るときに (〜ru toki ni)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～るときに grammar point is used to indicate the time when a certain action or event happens. It can be translated as 'when' or 'at the time' in English. The formation involves attaching ときに to the verb in its dictionary (る) form.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-る + ときに",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "映画を見るときに、ポップコーンを食べます。",
+      "romaji": "Eiga wo miru toki ni, poppukoon wo tabemasu.",
+      "english": "When I watch a movie, I eat popcorn.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "寝るときに、部屋の電気を消します。",
+      "romaji": "Neru toki ni, heya no denki wo keshimasu.",
+      "english": "When I go to bed, I turn off the room lights.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "運動するときに、水分補給が大切です。",
+      "romaji": "Undou suru toki ni, suibun hokyuu ga taisetsu desu.",
+      "english": "When exercising, it's important to stay hydrated.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "旅行するときに、カメラを持っていくことが好きです。",
+      "romaji": "Ryokou suru toki ni, kamera wo motteiku koto ga suki desu.",
+      "english": "When I travel, I like to bring a camera.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "駅",
+  "sentences": [
+    {
+      "id": "4963",
+      "japanese": "私が駅を出た時、男の人を見た。",
+      "english": "When I left the train station, I saw a man."
+    },
+    {
+      "id": "4989",
+      "japanese": "あなたが駅に着くのにどのくらいかかりますか。",
+      "english": "How long does it take to get to the station?"
+    },
+    {
+      "id": "234128",
+      "japanese": "駅に着くのにどのくらいかかりますか。",
+      "english": "How long does it take to get to the station?"
+    },
+    {
+      "id": "5150",
+      "japanese": "ジュネーブから来る列車が駅に到着します。",
+      "english": "The train from Geneva will arrive at the station."
+    },
+    {
+      "id": "177402",
+      "japanese": "君は何時に駅に着くの。",
+      "english": "What time will you get to the station?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.102Z",
+  "count": 5,
+  "fileId": "kanji-00140"
+}

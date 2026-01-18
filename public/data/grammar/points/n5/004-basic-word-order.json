@@ -1,0 +1,106 @@
+{
+  "id": "004-basic-word-order",
+  "version": "1.0.0",
+  "title": {
+    "ja": "基本の語順",
+    "romaji": "kihon no gojun",
+    "en": "Basic word order"
+  },
+  "jlptLevel": "N5",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "Japanese basic word order is Subject–Object–Verb (SOV). The verb usually comes at the end of the sentence. This is different from English, which is Subject–Verb–Object (SVO).\n\nKey points:\n• The verb is placed at the end\n• Particles show the role of each word, so order is flexible\n• Topic + Object + Verb is very common\n• Adjectives come before nouns they describe\n\nFor example, in English you say “I eat sushi.” In Japanese you say “私は寿司を食べます.” The verb 食べます comes last. The particle は marks the topic, and を marks the object, so the sentence is clear even if you move words around.\n\nBecause particles show the roles, you can often change word order for emphasis, but beginners should stick to the basic pattern: Topic (or Subject) + Object + Verb. This makes your sentences natural and easy to understand.\n\nAlso remember that question words (what, where, who) usually stay in the same position as a normal word. The verb still goes at the end. So “What do you eat?” becomes “何を食べますか.”\n\nWhen you hear Japanese, listen for the final verb first. It tells you the action and helps you understand the sentence quickly. Then match the nouns with their particles.\n\nIf you keep the verb at the end and use the right particles, your Japanese sentences will be clear even if you don’t know many words yet.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "(Topic) (Object) Verb",
+    "components": [
+      {
+        "part": "Topic/Subject",
+        "explanation": "Who or what the sentence is about",
+        "examples": ["私は", "田中さんは", "猫が"]
+      },
+      {
+        "part": "Object",
+        "explanation": "What is acted on",
+        "examples": ["寿司を", "本を", "日本語を"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action at the end",
+        "examples": ["食べます", "読みます", "勉強します"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私は寿司を食べます。",
+      "romaji": "Watashi wa sushi o tabemasu.",
+      "english": "I eat sushi.",
+      "breakdown": {
+        "私": "I, me",
+        "は": "topic marker",
+        "寿司": "sushi",
+        "を": "object marker",
+        "食べます": "eat (polite)"
+      },
+      "notes": "SOV order with particles"
+    },
+    {
+      "japanese": "田中さんは本を読みます。",
+      "romaji": "Tanaka-san wa hon o yomimasu.",
+      "english": "Tanaka-san reads a book.",
+      "breakdown": {
+        "田中さん": "Mr./Ms. Tanaka",
+        "は": "topic marker",
+        "本": "book",
+        "を": "object marker",
+        "読みます": "read (polite)"
+      },
+      "notes": "Topic + object + verb"
+    },
+    {
+      "japanese": "何を食べますか。",
+      "romaji": "Nani o tabemasu ka.",
+      "english": "What do you eat?",
+      "breakdown": {
+        "何": "what",
+        "を": "object marker",
+        "食べます": "eat (polite)",
+        "か": "question marker"
+      },
+      "notes": "Question word stays before the verb"
+    },
+    {
+      "japanese": "私は毎日日本語を勉強します。",
+      "romaji": "Watashi wa mainichi nihongo o benkyou shimasu.",
+      "english": "I study Japanese every day.",
+      "breakdown": {
+        "私": "I, me",
+        "は": "topic marker",
+        "毎日": "every day",
+        "日本語": "Japanese",
+        "を": "object marker",
+        "勉強します": "study (polite)"
+      },
+      "notes": "Time words can go before the object"
+    }
+  ],
+  "relatedPoints": [
+    "008-particle-wo",
+    "022-masu-form-present"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Putting the verb in the middle like English",
+      "correction": "In Japanese the verb usually comes last",
+      "example": "❌ 私は食べます寿司 → ✅ 私は寿司を食べます"
+    },
+    {
+      "mistake": "Dropping particles and relying on word order",
+      "correction": "Use particles to show each role",
+      "example": "❌ 私 寿司 食べます → ✅ 私は寿司を食べます"
+    }
+  ],
+  "tags": ["word-order", "sov", "basic", "sentence-structure"]
+}

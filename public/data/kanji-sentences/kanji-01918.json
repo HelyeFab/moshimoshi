@@ -1,0 +1,33 @@
+{
+  "kanji": "鉛",
+  "sentences": [
+    {
+      "id": "188632",
+      "japanese": "鉛は簡単に曲がる。",
+      "english": "Lead bends easily."
+    },
+    {
+      "id": "188633",
+      "japanese": "鉛と金とでは、どちらが重いんですか。",
+      "english": "Which is heavier, lead or gold?"
+    },
+    {
+      "id": "218489",
+      "japanese": "これは鉛のように重い。",
+      "english": "This is as heavy as lead."
+    },
+    {
+      "id": "74751",
+      "japanese": "腰の痛みから足が鉛のように重く引きずるように歩いていました。",
+      "english": "His backache left him lurching along with leaden legs."
+    },
+    {
+      "id": "538116",
+      "japanese": "水道水には塩素、鉛などの有害物質が含まれている可能性がある。",
+      "english": "There's a chance that tap water may contain harmful substances like chlorine and lead."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:42.335Z",
+  "count": 5,
+  "fileId": "kanji-01918"
+}

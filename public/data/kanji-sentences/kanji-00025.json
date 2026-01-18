@@ -1,0 +1,33 @@
+{
+  "kanji": "後",
+  "sentences": [
+    {
+      "id": "5193",
+      "japanese": "また後でかけ直していただけませんか？",
+      "english": "Could you call again later, please?"
+    },
+    {
+      "id": "5195",
+      "japanese": "さぁ笑って、泣くのは後！",
+      "english": "Smile now, cry later!"
+    },
+    {
+      "id": "177942",
+      "japanese": "そんなに長い旅行の後で疲れているに違いない。",
+      "english": "You must be tired after such a long trip."
+    },
+    {
+      "id": "178227",
+      "japanese": "君の車を引き出してくれよ、俺の車が後へ出られないから。",
+      "english": "Pull your car out a bit, I can't back my car out."
+    },
+    {
+      "id": "178939",
+      "japanese": "君が先に話しなさい、私は後で話します。",
+      "english": "You speak first; I will speak after."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.453Z",
+  "count": 5,
+  "fileId": "kanji-00025"
+}

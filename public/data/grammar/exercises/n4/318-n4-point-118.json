@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "318-n4-point-118",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "318-n4-point-118-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"also, too\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～も (〜mo)",
+          "romaji": "~mo"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ～も (〜mo) matches \"also, too\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～も (〜mo).",
+      "explanation": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "318-n4-point-118-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～も (〜mo).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "also, too"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～も (〜mo) means \"also, too\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"also, too\".",
+      "explanation": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "318-n4-point-118-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～も (〜mo).",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~mo"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ~mo is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~mo.",
+      "explanation": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "318-n4-point-118-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～も (〜mo)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "explanation": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "318-n4-point-118-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"also, too\".",
+      "correctAnswer": "～も (〜mo)",
+      "acceptedVariations": [
+        "～も (〜mo)",
+        "～も(〜mo)"
+      ],
+      "correctFeedback": "Nice! ～も (〜mo) is correct.",
+      "incorrectFeedback": "The correct pattern is: ～も (〜mo) (~mo).",
+      "explanation": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "hints": [
+        "~mo",
+        "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "318-n4-point-118-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～も (〜mo).",
+      "correctAnswer": "~mo",
+      "acceptedVariations": [
+        "~mo",
+        "~mo"
+      ],
+      "correctFeedback": "Nice! ~mo is correct.",
+      "incorrectFeedback": "The correct romaji is: ~mo.",
+      "explanation": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "hints": [
+        "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "318-n4-point-118-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～も (〜mo).",
+      "correctAnswer": "also, too",
+      "acceptedVariations": [
+        "also, too",
+        "also, too"
+      ],
+      "correctFeedback": "Correct! \"also, too\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"also, too\".",
+      "explanation": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "hints": [
+        "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "318-n4-point-118-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～も (〜mo)",
+          "romaji": "~mo",
+          "english": "also, too"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "318-n4-point-118-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～も (〜mo)",
+          "romaji": "~mo"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～も (〜mo) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～も (〜mo).",
+      "explanation": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "318-n4-point-118-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～も(〜mo)",
+      "acceptedVariations": [
+        "～も(〜mo)",
+        "～も (〜mo)"
+      ],
+      "correctFeedback": "Great! ～も(〜mo) is correct.",
+      "incorrectFeedback": "The correct pattern is: ～も(〜mo).",
+      "explanation": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "hints": [
+        "~mo"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

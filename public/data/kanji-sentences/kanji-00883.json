@@ -1,0 +1,33 @@
+{
+  "kanji": "銅",
+  "sentences": [
+    {
+      "id": "227464",
+      "japanese": "オリンピックでは金メダルが１位、銀メダルが２位、銅メダルが３位だ。",
+      "english": "In Olympic competitions, a gold medal is for first place, a silver medal for second, and a bronze medal is for third place."
+    },
+    {
+      "id": "74930",
+      "japanese": "青銅器は主として銅と錫の合金で出来ている。",
+      "english": "Bronze-ware is largely made from alloys of brass and tin."
+    },
+    {
+      "id": "123491",
+      "japanese": "銅も銀も金属である。",
+      "english": "Copper and silver are both metals."
+    },
+    {
+      "id": "123493",
+      "japanese": "銅は電気をよく伝える。",
+      "english": "Copper conducts electricity well."
+    },
+    {
+      "id": "123494",
+      "japanese": "銅はよく電気を通す。",
+      "english": "Copper conducts electricity well."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.382Z",
+  "count": 5,
+  "fileId": "kanji-00883"
+}

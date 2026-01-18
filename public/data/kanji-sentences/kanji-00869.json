@@ -1,0 +1,33 @@
+{
+  "kanji": "凍",
+  "sentences": [
+    {
+      "id": "4817",
+      "japanese": "来週には凍るかも知れない。",
+      "english": "It may freeze next week."
+    },
+    {
+      "id": "182269",
+      "japanese": "牛乳は凍って固まった。",
+      "english": "The milk froze and became solid."
+    },
+    {
+      "id": "10766663",
+      "japanese": "牛乳が凍って、カチカチになったんだ。",
+      "english": "The milk froze and became solid."
+    },
+    {
+      "id": "183240",
+      "japanese": "気を付けないと凍った階段で滑って転ぶよ。",
+      "english": "If you're not careful, you might slip and fall on the icy steps."
+    },
+    {
+      "id": "184012",
+      "japanese": "寒くて凍えそうだ。",
+      "english": "I'm freezing."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.991Z",
+  "count": 5,
+  "fileId": "kanji-00869"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "踏",
+  "sentences": [
+    {
+      "id": "177372",
+      "japanese": "君は危険な領域に踏み込んでいるよ。",
+      "english": "You're stepping into dangerous territory."
+    },
+    {
+      "id": "178634",
+      "japanese": "君に会い損ねて地団駄を踏んだよ。",
+      "english": "I was chagrined at missing you."
+    },
+    {
+      "id": "180002",
+      "japanese": "極小の虫でも踏まれれば、そりくり返る。",
+      "english": "Even the smallest worm will turn if trodden on."
+    },
+    {
+      "id": "184110",
+      "japanese": "割れたガラスを踏むな。",
+      "english": "Don't step on the broken glass."
+    },
+    {
+      "id": "184905",
+      "japanese": "階段を踏みはずして足首を捻挫したようです。",
+      "english": "I missed a step on the stairs and I'm afraid I sprained my ankle."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.547Z",
+  "count": 5,
+  "fileId": "kanji-01184"
+}

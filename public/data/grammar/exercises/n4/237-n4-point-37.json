@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "237-n4-point-37",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "237-n4-point-37-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb ておく (do something in advance)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "動詞ておく",
+          "romaji": "doushi te oku"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! 動詞ておく matches \"Verb ておく (do something in advance)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ておく.",
+      "explanation": "Expresses doing something in advance or as preparation for a future need.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "237-n4-point-37-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞ておく.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Verb ておく (do something in advance)"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 動詞ておく means \"Verb ておく (do something in advance)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb ておく (do something in advance)\".",
+      "explanation": "Expresses doing something in advance or as preparation for a future need.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "237-n4-point-37-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞ておく.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "doushi te oku"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! doushi te oku is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is doushi te oku.",
+      "explanation": "Expresses doing something in advance or as preparation for a future need.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "237-n4-point-37-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞ておく?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Expresses doing something in advance or as preparation for a future need."
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses doing something in advance or as preparation for a future need.",
+      "explanation": "Expresses doing something in advance or as preparation for a future need.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "237-n4-point-37-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb ておく (do something in advance)\".",
+      "correctAnswer": "動詞ておく",
+      "acceptedVariations": [
+        "動詞ておく",
+        "動詞ておく"
+      ],
+      "correctFeedback": "Nice! 動詞ておく is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞ておく (doushi te oku).",
+      "explanation": "Expresses doing something in advance or as preparation for a future need.",
+      "hints": [
+        "doushi te oku",
+        "Expresses doing something in advance or as preparation for a future need."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "237-n4-point-37-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞ておく.",
+      "correctAnswer": "doushi te oku",
+      "acceptedVariations": [
+        "doushi te oku",
+        "doushi te oku"
+      ],
+      "correctFeedback": "Nice! doushi te oku is correct.",
+      "incorrectFeedback": "The correct romaji is: doushi te oku.",
+      "explanation": "Expresses doing something in advance or as preparation for a future need.",
+      "hints": [
+        "Expresses doing something in advance or as preparation for a future need."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "237-n4-point-37-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞ておく.",
+      "correctAnswer": "Verb ておく (do something in advance)",
+      "acceptedVariations": [
+        "Verb ておく (do something in advance)",
+        "verb ておく (do something in advance)"
+      ],
+      "correctFeedback": "Correct! \"Verb ておく (do something in advance)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb ておく (do something in advance)\".",
+      "explanation": "Expresses doing something in advance or as preparation for a future need.",
+      "hints": [
+        "Expresses doing something in advance or as preparation for a future need."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "237-n4-point-37-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞ておく",
+          "romaji": "doushi te oku",
+          "english": "Verb ておく (do something in advance)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses doing something in advance or as preparation for a future need.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "237-n4-point-37-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses doing something in advance or as preparation for a future need..",
+      "options": [
+        {
+          "id": "a",
+          "text": "動詞ておく",
+          "romaji": "doushi te oku"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 動詞ておく matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ておく.",
+      "explanation": "Expresses doing something in advance or as preparation for a future need.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "237-n4-point-37-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞ておく",
+      "acceptedVariations": [
+        "動詞ておく",
+        "動詞ておく"
+      ],
+      "correctFeedback": "Great! 動詞ておく is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞ておく.",
+      "explanation": "Expresses doing something in advance or as preparation for a future need.",
+      "hints": [
+        "doushi te oku"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

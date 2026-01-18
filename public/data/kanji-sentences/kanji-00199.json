@@ -1,0 +1,33 @@
+{
+  "kanji": "近",
+  "sentences": [
+    {
+      "id": "5225",
+      "japanese": "私は海の近くに住んでいるのでよく海岸に行きます。",
+      "english": "I live near the sea, so I often get to go to the beach."
+    },
+    {
+      "id": "178148",
+      "japanese": "君の誕生日が近づいているね。",
+      "english": "Your birthday is drawing near."
+    },
+    {
+      "id": "178427",
+      "japanese": "君の願いは近い将来実現するだろう。",
+      "english": "Your wish will come true in the near future."
+    },
+    {
+      "id": "178439",
+      "japanese": "君の家の近くに住めたらいいのに。",
+      "english": "I wish I could live near your house."
+    },
+    {
+      "id": "179345",
+      "japanese": "空港はすぐ近くにあります。",
+      "english": "The airport is close at hand."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.811Z",
+  "count": 5,
+  "fileId": "kanji-00199"
+}

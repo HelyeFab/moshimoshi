@@ -1,0 +1,33 @@
+{
+  "kanji": "幸",
+  "sentences": [
+    {
+      "id": "177315",
+      "japanese": "幸せですか？",
+      "english": "Are you happy?"
+    },
+    {
+      "id": "1090098",
+      "japanese": "あなたは幸せですか？",
+      "english": "Are you happy?"
+    },
+    {
+      "id": "177675",
+      "japanese": "君はそんな友人たちを持って幸せだ。",
+      "english": "You are very fortunate that you have such friends."
+    },
+    {
+      "id": "178071",
+      "japanese": "君の微笑みはいつも私を幸せにしてくれる。",
+      "english": "Your smile always makes me happy."
+    },
+    {
+      "id": "178201",
+      "japanese": "君の将来が幸せでありますように。",
+      "english": "I hope you have a happy future ahead of you."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.894Z",
+  "count": 5,
+  "fileId": "kanji-00281"
+}

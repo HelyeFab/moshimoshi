@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "041-i-adjectives-present",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "041-i-adjectives-present-ex-01",
+      "type": "multiple-choice",
+      "question": "Which word is an い-adjective?",
+      "options": [
+        {
+          "id": "a",
+          "text": "きれい"
+        },
+        {
+          "id": "b",
+          "text": "おもしろい"
+        },
+        {
+          "id": "c",
+          "text": "べんり"
+        },
+        {
+          "id": "d",
+          "text": "げんき"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! おもしろい is an い-adjective.",
+      "incorrectFeedback": "Not quite. Look for adjectives ending in い.",
+      "explanation": "い-adjectives end with い in their dictionary form.",
+      "difficulty": "easy"
+    }
+  ]
+}

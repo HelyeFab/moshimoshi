@@ -1,0 +1,33 @@
+{
+  "kanji": "替",
+  "sentences": [
+    {
+      "id": "9276100",
+      "japanese": "車の買い替え時だよ。",
+      "english": "It's time for you to buy a new car."
+    },
+    {
+      "id": "178485",
+      "japanese": "君のラジオを僕の自転車と取り替えっこしないか。",
+      "english": "Will you give me your radio for my bicycle?"
+    },
+    {
+      "id": "178605",
+      "japanese": "君に替わる人はどこにもいない。",
+      "english": "I look around but it's you I can't replace."
+    },
+    {
+      "id": "180114",
+      "japanese": "橋は塗り替え中である。",
+      "english": "The bridge is being repainted."
+    },
+    {
+      "id": "185114",
+      "japanese": "海に面した部屋に替えて下さい。",
+      "english": "I'd like a room facing the ocean instead."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.034Z",
+  "count": 5,
+  "fileId": "kanji-00689"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "息",
+  "sentences": [
+    {
+      "id": "177081",
+      "japanese": "君は息が臭い。",
+      "english": "You have foul breath."
+    },
+    {
+      "id": "182111",
+      "japanese": "魚の骨がつかえて息が詰まりそうだった。",
+      "english": "I nearly choked on a fishbone."
+    },
+    {
+      "id": "182839",
+      "japanese": "喫煙による短期的な影響には、体調が悪いこと、ぜいぜい息をすること、病気に対する抵抗力の全般的な低下、口臭、肌荒れなどが含まれる。",
+      "english": "Short-term effects of smoking include unfitness, wheezing, a general vulnerability to illness, bad breath, bad skin and so on."
+    },
+    {
+      "id": "182964",
+      "japanese": "飢えた人たちの写真にはっと息をのむ思いをした。",
+      "english": "I gasped with surprise at the horrible picture of the starving people."
+    },
+    {
+      "id": "183871",
+      "japanese": "監督は自分のチームの力を相手チームの力とくらべてため息をついた。",
+      "english": "The manager balanced the strength of his team against that of their opponent and sighed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.076Z",
+  "count": 5,
+  "fileId": "kanji-00590"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "宅",
+  "sentences": [
+    {
+      "id": "226888",
+      "japanese": "お宅の電話をお借りしてもよろしいでしょうか。",
+      "english": "May I use your phone?"
+    },
+    {
+      "id": "179923",
+      "japanese": "近いうちにお宅にうかがいます。",
+      "english": "We'll visit you one of these days."
+    },
+    {
+      "id": "183011",
+      "japanese": "貴方のお宅の住所はどこですか。",
+      "english": "What's your home address?"
+    },
+    {
+      "id": "9280305",
+      "japanese": "お宅の娘さん、麻薬やってますよ。",
+      "english": "Your daughter's on drugs."
+    },
+    {
+      "id": "231458",
+      "japanese": "お宅まで車でお送りしましょう。",
+      "english": "I'll drive you home."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.336Z",
+  "count": 5,
+  "fileId": "kanji-00313"
+}

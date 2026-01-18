@@ -1,0 +1,33 @@
+{
+  "kanji": "台",
+  "sentences": [
+    {
+      "id": "10335226",
+      "japanese": "３台も車持ってるんだね。",
+      "english": "You have three cars."
+    },
+    {
+      "id": "185280",
+      "japanese": "会社の遠足のためバスを１台チャーターした。",
+      "english": "They chartered a bus for the firm's outing."
+    },
+    {
+      "id": "187111",
+      "japanese": "家にはテレビが２台ある。",
+      "english": "We have two television sets."
+    },
+    {
+      "id": "187110",
+      "japanese": "家にはパソコンが５台あるが、内２台は役立っていない。",
+      "english": "There are 5 computers in the house, but 2 of them are useless."
+    },
+    {
+      "id": "189966",
+      "japanese": "飲み過ぎはあなたの人生を台なしにする。",
+      "english": "Too much drinking will make your life a ruin."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.401Z",
+  "count": 5,
+  "fileId": "kanji-00091"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "201-n4-point-1",
+  "version": "1.0.0",
+  "title": {
+    "ja": "A とか B とか",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The とか grammar point is used to list multiple examples or possibilities. It can be translated as 'such as', 'like', or 'for example' in English. とか is used between the listed items and expresses that the list is not exhaustive.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + とか + Noun + とか",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "週末は映画とか買い物とか楽しいことをしたいです。",
+      "romaji": "Shuumatsu wa eiga toka kaimono toka tanoshii koto o shitai desu.",
+      "english": "I want to do fun things like watching movies and shopping on the weekend.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は英語とかフランス語とかいろいろな言葉を話せます。",
+      "romaji": "Kanojo wa eigo toka furansugo toka iroirona kotoba o hanasemasu.",
+      "english": "She can speak various languages, like English and French.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この店は寿司とか刺身とか日本料理を提供しています。",
+      "romaji": "Kono mise wa sushi toka sashimi toka nihon ryouri o teikyou shiteimasu.",
+      "english": "This restaurant offers Japanese dishes such as sushi and sashimi.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "$1BOXとか$5BOXとか、異なる価格のランチBOXがあります。",
+      "romaji": "Ichi-doru BOX toka go-doru BOX toka, kotonaru kakaku no ranchi BOX ga arimasu.",
+      "english": "There are lunch boxes with different prices, like $1 boxes and $5 boxes.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

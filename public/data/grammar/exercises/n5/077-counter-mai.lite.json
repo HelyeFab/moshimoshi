@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "077-counter-mai",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "077-counter-mai-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct counter for flat objects:",
+      "options": [
+        {
+          "id": "a",
+          "text": "枚"
+        },
+        {
+          "id": "b",
+          "text": "本"
+        },
+        {
+          "id": "c",
+          "text": "人"
+        },
+        {
+          "id": "d",
+          "text": "つ"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 枚 is for flat objects.",
+      "incorrectFeedback": "Not quite. 枚 is the flat object counter.",
+      "explanation": "枚 counts flat objects.",
+      "difficulty": "easy"
+    }
+  ]
+}

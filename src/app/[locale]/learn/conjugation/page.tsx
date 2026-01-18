@@ -29,8 +29,6 @@ import {
   X,
 } from 'lucide-react'
 import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
-import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
-import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 import Modal from '@/components/ui/Modal'
 
 type ViewMode = 'browse' | 'study' | 'review'
@@ -41,8 +39,6 @@ export default function ConjugationPracticePage() {
   const router = useRouter()
   const { user } = useAuth()
   const { t, strings } = useI18n()
-  const usageData = useFeatureUsage('conjugation_learn')
-
   const [viewMode, setViewMode] = useState<ViewMode>('browse')
   const [loading, setLoading] = useState(true)
   const [practiceWords, setPracticeWords] = useState<JapaneseWord[]>([])
@@ -272,32 +268,20 @@ export default function ConjugationPracticePage() {
   }
 
   return (
-    <EntitlementGate featureId="conjugation_learn">
-      <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
-        {/* Desktop Navbar */}
-        <div className="hidden sm:block">
-          <Navbar user={user} showUserMenu={true} />
-        </div>
+    <div className="min-h-screen bg-gradient-to-b from-sakura-50 to-white dark:from-gray-900 dark:to-gray-800">
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
-        <PageHeader
-          title={t('conjugation.title')}
-          description={t('conjugation.description')}
-          backHref="/dashboard"
-          actions={
-            usageData.hasData ? (
-              <DesktopCircularIndicator
-                remaining={usageData.remaining}
-                limitCount={usageData.limitCount}
-                usedCount={usageData.usedCount}
-                color={usageData.color}
-              />
-            ) : null
-          }
-        />
+      <PageHeader
+        title={t('conjugation.title')}
+        description={t('conjugation.description')}
+        backHref="/dashboard"
+        actions={null}
+      />
 
-        <FeatureUsageIndicator featureId="conjugation_learn" />
-
-        <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-4 py-6">
           {/* Search Bar */}
           <div className="mb-6">
             <form
@@ -741,6 +725,5 @@ export default function ConjugationPracticePage() {
         )}
       </div>
     </div>
-    </EntitlementGate>
   )
 }

@@ -1,0 +1,105 @@
+{
+  "id": "070-question-doko-where",
+  "version": "1.0.0",
+  "title": {
+    "ja": "どこ",
+    "romaji": "doko",
+    "en": "どこ (where)"
+  },
+  "jlptLevel": "N5",
+  "category": "questions",
+  "explanation": {
+    "en": "どこ means “where.” It is used to ask about location. You can use it with particles like に, で, and へ depending on the meaning.\n\nKey points:\n• どこに = where (location/existence)\n• どこで = where (action place)\n• どこへ = where (destination)\n• Common in daily questions\n\nExample: “トイレはどこですか” means “Where is the toilet?” “どこで勉強しますか” means “Where do you study?”\n\nUse に with existence or location, で with actions, and へ with destinations. This is a great way to practice particles too.\n\nPractice by asking about places: どこに住んでいますか, どこで働きますか.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "どこ + Particle + Verb",
+    "components": [
+      {
+        "part": "どこ",
+        "explanation": "Where",
+        "examples": ["どこ", "どこに", "どこで"]
+      },
+      {
+        "part": "Particle",
+        "explanation": "Marks location role",
+        "examples": ["に", "で", "へ"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action/description",
+        "examples": ["あります", "勉強します", "行きます"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "トイレはどこですか。",
+      "romaji": "Toire wa doko desu ka.",
+      "english": "Where is the toilet?",
+      "breakdown": {
+        "トイレ": "toilet",
+        "は": "topic marker",
+        "どこ": "where",
+        "です": "is",
+        "か": "question marker"
+      },
+      "notes": "Location question"
+    },
+    {
+      "japanese": "どこで勉強しますか。",
+      "romaji": "Doko de benkyou shimasu ka.",
+      "english": "Where do you study?",
+      "breakdown": {
+        "どこ": "where",
+        "で": "at (action place)",
+        "勉強します": "study",
+        "か": "question marker"
+      },
+      "notes": "Action location"
+    },
+    {
+      "japanese": "どこへ行きますか。",
+      "romaji": "Doko e ikimasu ka.",
+      "english": "Where are you going?",
+      "breakdown": {
+        "どこ": "where",
+        "へ": "to",
+        "行きます": "go",
+        "か": "question marker"
+      },
+      "notes": "Destination"
+    },
+    {
+      "japanese": "駅はどこにありますか。",
+      "romaji": "Eki wa doko ni arimasu ka.",
+      "english": "Where is the station?",
+      "breakdown": {
+        "駅": "station",
+        "は": "topic marker",
+        "どこ": "where",
+        "に": "location marker",
+        "あります": "exists",
+        "か": "question marker"
+      },
+      "notes": "Existence location"
+    }
+  ],
+  "relatedPoints": [
+    "009-particle-ni-location",
+    "011-particle-de-location"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using に for action place",
+      "correction": "Use で for where an action happens",
+      "example": "❌ どこに勉強しますか → ✅ どこで勉強しますか"
+    },
+    {
+      "mistake": "Forgetting か",
+      "correction": "Add か for questions",
+      "example": "❌ トイレはどこです → ✅ トイレはどこですか"
+    }
+  ],
+  "tags": ["questions", "doko", "beginner"]
+}

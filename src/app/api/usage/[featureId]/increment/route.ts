@@ -130,6 +130,7 @@ export async function POST(
           newsItems.includes(itemId)));
 
     // 7. If allowed, increment usage
+    let didIncrement = false;
     if (decision.allow && userId && adminDb && !isRepeat) {
       try {
         const usageRef = adminDb.collection('users').doc(userId).collection('usage').doc(bucketKey);
@@ -158,6 +159,7 @@ export async function POST(
         // Update decision with new usage
         const limit = decision.limit ?? 0;
         decision.remaining = limit === -1 ? -1 : Math.max(0, limit - (currentUsage + 1));
+        didIncrement = true;
       } catch (error) {
         console.error('Error updating usage:', error);
       }
@@ -180,7 +182,7 @@ export async function POST(
     }
 
     // 9. Return decision
-    return NextResponse.json(decision);
+    return NextResponse.json({ ...decision, incremented: didIncrement });
 
   } catch (error) {
     console.error('Error in usage increment API:', error);

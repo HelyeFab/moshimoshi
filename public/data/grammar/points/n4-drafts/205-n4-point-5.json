@@ -1,0 +1,55 @@
+{
+  "id": "205-n4-point-5",
+  "version": "1.0.0",
+  "title": {
+    "ja": "い-Adjective く する/なる (i-Adjective kusuru/naru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The い-Adjective く する/なる grammar point is used to indicate a change happening (naru) or intentionally making something change (suru). When using this grammatical structure, the い-adjective is changed to its く form, and then is followed by either する (to make the change) or なる (the change happens).",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "い-Adjective (remove い) + く + する/なる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "部屋を明るくします。",
+      "romaji": "Heya o akaruku shimasu.",
+      "english": "I will make the room brighter.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼の顔は赤くなりました。",
+      "romaji": "Kare no kao wa akaku narimashita.",
+      "english": "His face turned red.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この料理を辛くしてください。",
+      "romaji": "Kono ryouri o karaku shite kudasai.",
+      "english": "Please make this dish spicy.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "雨が降ると、道が滑りやすくなります。",
+      "romaji": "Ame ga furu to, michi ga suberiyasuku narimasu.",
+      "english": "When it rains, the road becomes slippery.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "豚",
+  "sentences": [
+    {
+      "id": "203467",
+      "japanese": "たとえ豚が空を飛ぶようなことがあっても、私は彼女を信じる。",
+      "english": "Even if pigs were to fly in the air, I would believe her."
+    },
+    {
+      "id": "10565768",
+      "japanese": "それは、豚に真珠ってもんだよ。",
+      "english": "It is like casting pearls before swine."
+    },
+    {
+      "id": "221762",
+      "japanese": "この子は豚じゃないわよ。猿よ。",
+      "english": "It's not a pig; it's a monkey."
+    },
+    {
+      "id": "229609",
+      "japanese": "あんた、なんで豚と一緒なんだい？",
+      "english": "Why are you with a pig?"
+    },
+    {
+      "id": "96862",
+      "japanese": "彼らは銃でねらわれ豚のように逃げ回る。",
+      "english": "They run like pigs from a gun."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:35.805Z",
+  "count": 5,
+  "fileId": "kanji-01756"
+}

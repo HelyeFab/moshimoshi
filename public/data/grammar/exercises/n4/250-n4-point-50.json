@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "250-n4-point-50",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "250-n4-point-50-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Indicating Instances of Non-action\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ない ことがある",
+          "romaji": "Verb nai koto ga aru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! Verb ない ことがある matches \"Indicating Instances of Non-action\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ない ことがある.",
+      "explanation": "Used to express that something sometimes does not happen or is not done.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "250-n4-point-50-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb ない ことがある.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Indicating Instances of Non-action"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb ない ことがある means \"Indicating Instances of Non-action\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Indicating Instances of Non-action\".",
+      "explanation": "Used to express that something sometimes does not happen or is not done.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "250-n4-point-50-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb ない ことがある.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb nai koto ga aru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb nai koto ga aru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb nai koto ga aru.",
+      "explanation": "Used to express that something sometimes does not happen or is not done.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "250-n4-point-50-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb ない ことがある?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Used to express that something sometimes does not happen or is not done."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to express that something sometimes does not happen or is not done.",
+      "explanation": "Used to express that something sometimes does not happen or is not done.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "250-n4-point-50-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Indicating Instances of Non-action\".",
+      "correctAnswer": "Verb ない ことがある",
+      "acceptedVariations": [
+        "Verb ない ことがある",
+        "Verbないことがある"
+      ],
+      "correctFeedback": "Nice! Verb ない ことがある is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb ない ことがある (Verb nai koto ga aru).",
+      "explanation": "Used to express that something sometimes does not happen or is not done.",
+      "hints": [
+        "Verb nai koto ga aru",
+        "Used to express that something sometimes does not happen or is not done."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "250-n4-point-50-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb ない ことがある.",
+      "correctAnswer": "Verb nai koto ga aru",
+      "acceptedVariations": [
+        "Verb nai koto ga aru",
+        "verb nai koto ga aru"
+      ],
+      "correctFeedback": "Nice! Verb nai koto ga aru is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb nai koto ga aru.",
+      "explanation": "Used to express that something sometimes does not happen or is not done.",
+      "hints": [
+        "Used to express that something sometimes does not happen or is not done."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "250-n4-point-50-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb ない ことがある.",
+      "correctAnswer": "Indicating Instances of Non-action",
+      "acceptedVariations": [
+        "Indicating Instances of Non-action",
+        "indicating instances of non-action"
+      ],
+      "correctFeedback": "Correct! \"Indicating Instances of Non-action\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Indicating Instances of Non-action\".",
+      "explanation": "Used to express that something sometimes does not happen or is not done.",
+      "hints": [
+        "Used to express that something sometimes does not happen or is not done."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "250-n4-point-50-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb ない ことがある",
+          "romaji": "Verb nai koto ga aru",
+          "english": "Indicating Instances of Non-action"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to express that something sometimes does not happen or is not done.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "250-n4-point-50-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to express that something sometimes does not happen or is not done..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ない ことがある",
+          "romaji": "Verb nai koto ga aru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb ない ことがある matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ない ことがある.",
+      "explanation": "Used to express that something sometimes does not happen or is not done.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "250-n4-point-50-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbないことがある",
+      "acceptedVariations": [
+        "Verbないことがある",
+        "Verb ない ことがある"
+      ],
+      "correctFeedback": "Great! Verbないことがある is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbないことがある.",
+      "explanation": "Used to express that something sometimes does not happen or is not done.",
+      "hints": [
+        "Verb nai koto ga aru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

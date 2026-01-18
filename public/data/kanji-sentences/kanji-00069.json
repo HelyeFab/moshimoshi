@@ -1,0 +1,33 @@
+{
+  "kanji": "千",
+  "sentences": [
+    {
+      "id": "5154",
+      "japanese": "一立方メートルは千リットルにあたる。",
+      "english": "A cubic meter corresponds to 1000 liters."
+    },
+    {
+      "id": "570317",
+      "japanese": "一人あたり７千ドル払った。",
+      "english": "Each individual paid 7000 dollars."
+    },
+    {
+      "id": "190502",
+      "japanese": "一人あたり千ドル払った。",
+      "english": "Each individual paid 1,000 dollars."
+    },
+    {
+      "id": "199729",
+      "japanese": "トラベラーズチェックで千ドル、現金で五百ドルです。",
+      "english": "I have one thousand dollars in travelers' checks and five hundred in cash."
+    },
+    {
+      "id": "210423",
+      "japanese": "その仕事で彼は年間８千ドル稼ぐ。",
+      "english": "The business brings him in 8000 dollars a year."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.048Z",
+  "count": 5,
+  "fileId": "kanji-00069"
+}

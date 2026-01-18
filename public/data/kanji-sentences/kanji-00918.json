@@ -1,0 +1,23 @@
+{
+  "kanji": "介",
+  "sentences": [
+    {
+      "id": "111448",
+      "japanese": "彼はどんな忠告も意に介さない。",
+      "english": "He doesn't heed any advice."
+    },
+    {
+      "id": "1237104",
+      "japanese": "私たちは言葉を介して互いに意思を通わせる。",
+      "english": "We communicate with one another by means of language."
+    },
+    {
+      "id": "9594366",
+      "japanese": "トムは通訳を介して話をした。",
+      "english": "Tom spoke through an interpreter."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.309Z",
+  "count": 3,
+  "fileId": "kanji-00918"
+}

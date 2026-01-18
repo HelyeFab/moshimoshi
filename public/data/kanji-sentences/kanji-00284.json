@@ -1,0 +1,33 @@
+{
+  "kanji": "登",
+  "sentences": [
+    {
+      "id": "84947",
+      "japanese": "富士山に登ったことがありますか。",
+      "english": "Have you ever climbed Mt. Fuji?"
+    },
+    {
+      "id": "232053",
+      "japanese": "あなたは今までに富士山を登ったことがありますか。",
+      "english": "Have you ever climbed Mt. Fuji?"
+    },
+    {
+      "id": "232057",
+      "japanese": "今までに富士山に登ったことってある？",
+      "english": "Have you ever climbed Mt. Fuji?"
+    },
+    {
+      "id": "3332582",
+      "japanese": "富士山に登ったことはありますか？",
+      "english": "Have you ever climbed Mt. Fuji?"
+    },
+    {
+      "id": "178926",
+      "japanese": "君が頂上まで登るのはむずかしい。",
+      "english": "It is difficult for you to climb to the mountaintop."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.918Z",
+  "count": 5,
+  "fileId": "kanji-00284"
+}

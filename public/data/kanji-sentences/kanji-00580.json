@@ -1,0 +1,33 @@
+{
+  "kanji": "居",
+  "sentences": [
+    {
+      "id": "4956",
+      "japanese": "１か月あまり名古屋に居たことがある。",
+      "english": "I lived for more than a month in Nagoya."
+    },
+    {
+      "id": "178677",
+      "japanese": "君にはぼくというよい友達が居る。",
+      "english": "You have a good friend in me."
+    },
+    {
+      "id": "178754",
+      "japanese": "君と居るとくつろいだ気分になる。",
+      "english": "I feel relaxed with you."
+    },
+    {
+      "id": "179030",
+      "japanese": "君が居なくてはどんなにさびしい世の中になることだろう。",
+      "english": "What a lonely world it will be with you away!"
+    },
+    {
+      "id": "182946",
+      "japanese": "鬼の居ぬ間に洗濯。",
+      "english": "When the cat is away, the mice will play."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.904Z",
+  "count": 5,
+  "fileId": "kanji-00580"
+}

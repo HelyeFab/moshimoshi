@@ -1,0 +1,176 @@
+{
+  "grammarPointId": "040-dictionary-form",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "040-dictionary-form-ex-01",
+      "type": "multiple-choice",
+      "question": "Which is the dictionary form of 'to eat'?",
+      "options": [
+        { "id": "a", "text": "食べる" },
+        { "id": "b", "text": "食べます" },
+        { "id": "c", "text": "食べた" },
+        { "id": "d", "text": "食べない" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 食べる is the dictionary form.",
+      "incorrectFeedback": "Not quite. Dictionary form ends with る for ru-verbs.",
+      "explanation": "Dictionary form is the base verb form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "040-dictionary-form-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence uses a dictionary form?",
+      "options": [
+        { "id": "a", "text": "本を読む。" },
+        { "id": "b", "text": "本を読みます。" },
+        { "id": "c", "text": "本を読みました。" },
+        { "id": "d", "text": "本を読みません。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 読む is dictionary form.",
+      "incorrectFeedback": "Try again. Look for the base form.",
+      "explanation": "Dictionary form is used in casual speech.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "040-dictionary-form-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'to go' (dictionary form)",
+      "correctAnswer": "行く",
+      "acceptedVariations": [
+        "行く",
+        "いく",
+        "iku"
+      ],
+      "correctFeedback": "Great! 行く is correct.",
+      "incorrectFeedback": "The correct answer is: 行く (iku).",
+      "explanation": "Dictionary form is the base verb form.",
+      "hints": ["Verb in base form"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "040-dictionary-form-ex-04",
+      "type": "multiple-choice",
+      "question": "Which is the dictionary form of 'to see/watch'?",
+      "options": [
+        { "id": "a", "text": "見る" },
+        { "id": "b", "text": "見ます" },
+        { "id": "c", "text": "見た" },
+        { "id": "d", "text": "見ない" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 見る is dictionary form.",
+      "incorrectFeedback": "Not quite. Use the base form.",
+      "explanation": "Dictionary form ends in る for ru-verbs.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "040-dictionary-form-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'to read' (dictionary form)",
+      "correctAnswer": "読む",
+      "acceptedVariations": [
+        "読む",
+        "よむ",
+        "yomu"
+      ],
+      "correctFeedback": "Nice! 読む is correct.",
+      "incorrectFeedback": "The correct answer is: 読む (yomu).",
+      "explanation": "Dictionary form is the base verb form.",
+      "hints": ["Base form ending in む"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "040-dictionary-form-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect for dictionary form?",
+      "options": [
+        { "id": "a", "text": "食べる" },
+        { "id": "b", "text": "行く" },
+        { "id": "c", "text": "します" },
+        { "id": "d", "text": "見る" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! します is polite, not dictionary form.",
+      "incorrectFeedback": "Try again. Dictionary form is the base form.",
+      "explanation": "Dictionary form of する is する.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "040-dictionary-form-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'to do' (dictionary form)",
+      "correctAnswer": "する",
+      "acceptedVariations": [
+        "する",
+        "suru"
+      ],
+      "correctFeedback": "Great! する is correct.",
+      "incorrectFeedback": "The correct answer is: する (suru).",
+      "explanation": "Irregular dictionary form is する.",
+      "hints": ["Irregular verb"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "040-dictionary-form-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the dictionary forms with their meanings:",
+      "pairs": [
+        {
+          "japanese": "行く",
+          "romaji": "iku",
+          "english": "to go"
+        },
+        {
+          "japanese": "食べる",
+          "romaji": "taberu",
+          "english": "to eat"
+        },
+        {
+          "japanese": "見る",
+          "romaji": "miru",
+          "english": "to watch/see"
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all verbs correctly.",
+      "incorrectFeedback": "Not quite. Review dictionary forms.",
+      "explanation": "Dictionary forms are base verbs.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "040-dictionary-form-ex-09",
+      "type": "multiple-choice",
+      "question": "Which dictionary form is correct?",
+      "options": [
+        { "id": "a", "text": "飲みます" },
+        { "id": "b", "text": "飲む" },
+        { "id": "c", "text": "飲んだ" },
+        { "id": "d", "text": "飲まない" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 飲む is dictionary form.",
+      "incorrectFeedback": "Try again. Base form ends in む.",
+      "explanation": "Dictionary form is 飲む.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "040-dictionary-form-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'to study' (dictionary form)",
+      "correctAnswer": "勉強する",
+      "acceptedVariations": [
+        "勉強する",
+        "べんきょうする",
+        "benkyou suru"
+      ],
+      "correctFeedback": "Nice! 勉強する is correct.",
+      "incorrectFeedback": "The correct answer is: 勉強する (benkyou suru).",
+      "explanation": "Suru-verb dictionary form is 勉強する.",
+      "hints": ["Suru-verb"],
+      "difficulty": "hard"
+    }
+  ]
+}

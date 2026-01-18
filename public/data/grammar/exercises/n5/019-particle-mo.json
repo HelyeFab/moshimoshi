@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "019-particle-mo",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "019-particle-mo-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 私＿＿学生です。 (I am also a student.)",
+      "questionRomaji": "Watashi __ gakusei desu.",
+      "options": [
+        { "id": "a", "text": "は", "romaji": "wa" },
+        { "id": "b", "text": "も", "romaji": "mo" },
+        { "id": "c", "text": "が", "romaji": "ga" },
+        { "id": "d", "text": "を", "romaji": "o" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! も means 'also'.",
+      "incorrectFeedback": "Not quite. Use も to mean 'also'.",
+      "explanation": "も replaces は to add 'also'.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "019-particle-mo-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'Tanaka-san is coming too'?",
+      "options": [
+        { "id": "a", "text": "田中さんは来ます。" },
+        { "id": "b", "text": "田中さんも来ます。" },
+        { "id": "c", "text": "田中さんが来ます。" },
+        { "id": "d", "text": "田中さんを来ます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Yes! も adds the meaning 'too'.",
+      "incorrectFeedback": "Try again. Use も for 'also'.",
+      "explanation": "も replaces the usual subject particle.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "019-particle-mo-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I also eat apples.'",
+      "correctAnswer": "りんごも食べます",
+      "acceptedVariations": [
+        "りんごも食べます。",
+        "ringo mo tabemasu",
+        "ringo mo tabemasu."
+      ],
+      "correctFeedback": "Great! りんごも食べます is correct.",
+      "incorrectFeedback": "The correct answer is: りんごも食べます (ringo mo tabemasu).",
+      "explanation": "も replaces を to mean 'also'.",
+      "hints": ["Use も after りんご", "食べます = eat"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "019-particle-mo-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "私はも学生です。" },
+        { "id": "b", "text": "私も学生です。" },
+        { "id": "c", "text": "私がも学生です。" },
+        { "id": "d", "text": "私をも学生です。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! も replaces は.",
+      "incorrectFeedback": "Not quite. Use も right after the noun.",
+      "explanation": "も comes directly after the word it modifies.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "019-particle-mo-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I will go tomorrow too.'",
+      "correctAnswer": "明日も行きます",
+      "acceptedVariations": [
+        "明日も行きます。",
+        "あしたもいきます",
+        "ashita mo ikimasu",
+        "ashita mo ikimasu."
+      ],
+      "correctFeedback": "Nice! 明日も行きます is correct.",
+      "incorrectFeedback": "The correct answer is: 明日も行きます (ashita mo ikimasu).",
+      "explanation": "も can attach to time words too.",
+      "hints": ["明日 = tomorrow", "Use も after 明日"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "019-particle-mo-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence uses も correctly as an object marker?",
+      "options": [
+        { "id": "a", "text": "水も飲みます。" },
+        { "id": "b", "text": "水はも飲みます。" },
+        { "id": "c", "text": "水がも飲みます。" },
+        { "id": "d", "text": "水をも飲みます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! も replaces the object particle.",
+      "incorrectFeedback": "Try again. も replaces を.",
+      "explanation": "水も飲みます = I also drink water.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "019-particle-mo-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'My friend also studies Japanese.'",
+      "correctAnswer": "友だちも日本語を勉強します",
+      "acceptedVariations": [
+        "友だちも日本語を勉強します。",
+        "ともだちもにほんごをべんきょうします",
+        "tomodachi mo nihongo o benkyou shimasu",
+        "tomodachi mo nihongo o benkyou shimasu."
+      ],
+      "correctFeedback": "Great! 友だちも日本語を勉強します is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちも日本語を勉強します (tomodachi mo nihongo o benkyou shimasu).",
+      "explanation": "も adds the meaning 'also'.",
+      "hints": ["友だち = friend", "Use も after 友だち"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "019-particle-mo-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "私も学生です。",
+          "romaji": "Watashi mo gakusei desu.",
+          "english": "I am also a student."
+        },
+        {
+          "japanese": "田中さんも来ます。",
+          "romaji": "Tanaka-san mo kimasu.",
+          "english": "Tanaka-san is coming too."
+        },
+        {
+          "japanese": "明日も行きます。",
+          "romaji": "Ashita mo ikimasu.",
+          "english": "I will go tomorrow too."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review how も is used.",
+      "explanation": "も adds the meaning 'also/too'.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "019-particle-mo-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "私も学生です。" },
+        { "id": "b", "text": "本も読みます。" },
+        { "id": "c", "text": "私はも学生です。" },
+        { "id": "d", "text": "水も飲みます。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! も replaces は; do not use both.",
+      "incorrectFeedback": "Try again. も replaces other particles.",
+      "explanation": "Use 私も, not 私はも.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "019-particle-mo-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I don't drink tea, but I drink coffee too.'",
+      "correctAnswer": "お茶は飲みませんがコーヒーも飲みます",
+      "acceptedVariations": [
+        "お茶は飲みませんがコーヒーも飲みます。",
+        "おちゃはのみませんがこーひーものみます",
+        "ocha wa nomimasen ga koohii mo nomimasu",
+        "ocha wa nomimasen ga koohii mo nomimasu."
+      ],
+      "correctFeedback": "Nice! お茶は飲みませんがコーヒーも飲みます is correct.",
+      "incorrectFeedback": "The correct answer is: お茶は飲みませんがコーヒーも飲みます (ocha wa nomimasen ga koohii mo nomimasu).",
+      "explanation": "も adds 'also' to コーヒー.",
+      "hints": ["Use は for contrast", "Use も for 'also'"],
+      "difficulty": "hard"
+    }
+  ]
+}

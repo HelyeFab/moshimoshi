@@ -1,0 +1,55 @@
+{
+  "id": "259-n4-point-59",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ように (〜you ni)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～ように grammar point is used to express different meanings depending on the context: 'like', 'as if', 'in order to', or 'so that'. Formation patterns can include: Noun + のように, Verb dictionary/negative form + ように, い-adjective + ように, etc.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Examples: Noun + のように / Verb-casual + ように / い-adjective + ように",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼女は鳥のように軽やかに踊る。",
+      "romaji": "Kanojo wa tori no you ni karoyaka ni odoru.",
+      "english": "She dances lightly like a bird.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "覚えたことを忘れないように、毎日復習しましょう。",
+      "romaji": "Oboeta koto wo wasurenai you ni, mainichi fukushuu shimashou.",
+      "english": "In order not to forget what you've learned, let's review every day.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "歌手になるように、毎日歌の練習をしています。",
+      "romaji": "Kashu ni naru you ni, mainichi uta no renshuu wo shiteimasu.",
+      "english": "In order to become a singer, I practice singing every day.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "道を渡る時、車が来ないように確認してください。",
+      "romaji": "Michi wo wataru toki, kuruma ga konai you ni kakunin shite kudasai.",
+      "english": "When crossing the road, please make sure no cars are coming.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

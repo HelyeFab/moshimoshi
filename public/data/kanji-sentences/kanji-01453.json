@@ -1,0 +1,33 @@
+{
+  "kanji": "畑",
+  "sentences": [
+    {
+      "id": "186041",
+      "japanese": "我々はその畑に今年は綿を植え付けるつもりだ。",
+      "english": "We will crop the field with cotton this year."
+    },
+    {
+      "id": "205809",
+      "japanese": "それぞれの畑はどのくらいの小麦を産出しますか。",
+      "english": "How much wheat does each field yield?"
+    },
+    {
+      "id": "207194",
+      "japanese": "その畑からはよい収穫があった。",
+      "english": "The fields yielded a good harvest."
+    },
+    {
+      "id": "207271",
+      "japanese": "その農民は畑に麦の種をまいた。",
+      "english": "The farmer sowed his field with wheat."
+    },
+    {
+      "id": "207423",
+      "japanese": "道はくねくねと畑の中を走っていた。",
+      "english": "The road wound through the fields."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:26.124Z",
+  "count": 5,
+  "fileId": "kanji-01453"
+}

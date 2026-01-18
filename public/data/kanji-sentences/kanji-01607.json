@@ -1,0 +1,33 @@
+{
+  "kanji": "遭",
+  "sentences": [
+    {
+      "id": "183301",
+      "japanese": "帰宅の途中でにわか雨に遭った。",
+      "english": "I was caught in shower on my way home."
+    },
+    {
+      "id": "157853",
+      "japanese": "学校へ行く途中で通りを横断しているときに事故に遭った。",
+      "english": "While crossing the street on my way to school, I encountered an accident."
+    },
+    {
+      "id": "184504",
+      "japanese": "学校からの帰りに、にわか雨に遭って、僕はずぶ濡れになって風邪をひいた。",
+      "english": "I was caught in a shower on my way home from school, got soaking wet and caught a cold."
+    },
+    {
+      "id": "185506",
+      "japanese": "我々は嵐に遭った。",
+      "english": "We were caught in a storm."
+    },
+    {
+      "id": "188876",
+      "japanese": "駅へ行く途中でにわか雨に遭った。",
+      "english": "I was caught in a shower on my way to the station."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.654Z",
+  "count": 5,
+  "fileId": "kanji-01607"
+}

@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "068-question-nani-what",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "068-question-nani-what-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: これは__ですか。",
+      "options": [
+        { "id": "a", "text": "何" },
+        { "id": "b", "text": "誰" },
+        { "id": "c", "text": "どこ" },
+        { "id": "d", "text": "いつ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 何 is 'what.'",
+      "incorrectFeedback": "Not quite. 何 means 'what.'",
+      "explanation": "何 is used for things.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "068-question-nani-what-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "何を食べますか。" },
+        { "id": "b", "text": "何が食べますか。" },
+        { "id": "c", "text": "何に食べますか。" },
+        { "id": "d", "text": "何で食べますか。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use を with 食べます.",
+      "incorrectFeedback": "Try again. Use を for the object.",
+      "explanation": "何を食べますか = What will you eat?",
+      "difficulty": "easy"
+    },
+    {
+      "id": "068-question-nani-what-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'What is this?'",
+      "correctAnswer": "これは何ですか",
+      "acceptedVariations": [
+        "これは何ですか。",
+        "これはなんですか",
+        "kore wa nan desu ka",
+        "kore wa nan desu ka."
+      ],
+      "correctFeedback": "Great! これは何ですか is correct.",
+      "incorrectFeedback": "The correct answer is: これは何ですか (kore wa nan desu ka).",
+      "explanation": "Use なん before です.",
+      "hints": ["これ = this", "なんですか = what is it"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "068-question-nani-what-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct reading before です: これは__ですか。",
+      "options": [
+        { "id": "a", "text": "なん" },
+        { "id": "b", "text": "なに" },
+        { "id": "c", "text": "どこ" },
+        { "id": "d", "text": "だれ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! なんですか is standard.",
+      "incorrectFeedback": "Not quite. Use なん before です.",
+      "explanation": "Before です, 何 is read as なん.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "068-question-nani-what-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'What do you like?'",
+      "correctAnswer": "何が好きですか",
+      "acceptedVariations": [
+        "何が好きですか。",
+        "なにがすきですか",
+        "nani ga suki desu ka",
+        "nani ga suki desu ka."
+      ],
+      "correctFeedback": "Nice! 何が好きですか is correct.",
+      "incorrectFeedback": "The correct answer is: 何が好きですか (nani ga suki desu ka).",
+      "explanation": "Use が with 好きです.",
+      "hints": ["好き = like", "Use が"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "068-question-nani-what-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "これは何ですか。" },
+        { "id": "b", "text": "何を食べますか。" },
+        { "id": "c", "text": "何で行きますか。" },
+        { "id": "d", "text": "何に行きますか。" }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Use で for means, not に.",
+      "incorrectFeedback": "Try again. 何で asks 'by what means.'",
+      "explanation": "何に行きますか is unnatural for means.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "068-question-nani-what-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'What will you drink?'",
+      "correctAnswer": "何を飲みますか",
+      "acceptedVariations": [
+        "何を飲みますか。",
+        "なにをのみますか",
+        "nani o nomimasu ka",
+        "nani o nomimasu ka."
+      ],
+      "correctFeedback": "Great! 何を飲みますか is correct.",
+      "incorrectFeedback": "The correct answer is: 何を飲みますか (nani o nomimasu ka).",
+      "explanation": "Use を for the object.",
+      "hints": ["飲みます = drink", "Use を"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "068-question-nani-what-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "これは何ですか。",
+          "romaji": "Kore wa nan desu ka.",
+          "english": "What is this?"
+        },
+        {
+          "japanese": "何を食べますか。",
+          "romaji": "Nani o tabemasu ka.",
+          "english": "What will you eat?"
+        },
+        {
+          "japanese": "何が好きですか。",
+          "romaji": "Nani ga suki desu ka.",
+          "english": "What do you like?"
+        }
+      ],
+      "correctFeedback": "Perfect! All use 何 for 'what.'",
+      "incorrectFeedback": "Not quite. Review the use of 何.",
+      "explanation": "何 asks about things.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "068-question-nani-what-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'by what means'?",
+      "options": [
+        { "id": "a", "text": "何で" },
+        { "id": "b", "text": "何に" },
+        { "id": "c", "text": "何を" },
+        { "id": "d", "text": "何が" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 何で asks 'by what means.'",
+      "incorrectFeedback": "Try again. Use で for means.",
+      "explanation": "で marks means or method.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "068-question-nani-what-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'What will you buy?'",
+      "correctAnswer": "何を買いますか",
+      "acceptedVariations": [
+        "何を買いますか。",
+        "なにをかいますか",
+        "nani o kaimasu ka",
+        "nani o kaimasu ka."
+      ],
+      "correctFeedback": "Nice! 何を買いますか is correct.",
+      "incorrectFeedback": "The correct answer is: 何を買いますか (nani o kaimasu ka).",
+      "explanation": "Use を for the object.",
+      "hints": ["買います = buy", "Use を"],
+      "difficulty": "hard"
+    }
+  ]
+}

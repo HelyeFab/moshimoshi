@@ -1,0 +1,33 @@
+{
+  "kanji": "匹",
+  "sentences": [
+    {
+      "id": "182473",
+      "japanese": "急に３匹の犬が私たちの前に現れた。",
+      "english": "All of a sudden, three dogs appeared in front of us."
+    },
+    {
+      "id": "187012",
+      "japanese": "家はねこが２匹います。１匹は白で、もう１匹は黒です。",
+      "english": "We have two cats; one is white, and the other is black."
+    },
+    {
+      "id": "187115",
+      "japanese": "家には２匹の犬がいる。１匹は黒で、もう１匹は白である。",
+      "english": "We have two dogs. One is black and the other is white."
+    },
+    {
+      "id": "194725",
+      "japanese": "メアリーは読書をしており、１匹の猫がかたわらで眠っていた。",
+      "english": "Mary was reading, with a cat sleeping beside her."
+    },
+    {
+      "id": "204772",
+      "japanese": "それらのイヌの内の１匹が生きています。",
+      "english": "One of the dogs is alive."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.963Z",
+  "count": 5,
+  "fileId": "kanji-00866"
+}

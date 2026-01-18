@@ -1,0 +1,33 @@
+{
+  "kanji": "炊",
+  "sentences": [
+    {
+      "id": "10198422",
+      "japanese": "お米のおいしい炊き方知ってる？",
+      "english": "Do you know how to cook rice well?"
+    },
+    {
+      "id": "219009",
+      "japanese": "これがお米の炊き方です。",
+      "english": "This is how we cook rice."
+    },
+    {
+      "id": "10680324",
+      "japanese": "お米はこうやって炊くんだ。",
+      "english": "This is how we cook rice."
+    },
+    {
+      "id": "10680325",
+      "japanese": "ご飯はこうやって炊くんだよ。",
+      "english": "This is how we cook rice."
+    },
+    {
+      "id": "76510",
+      "japanese": "とろ火で時間をかけて豆を炊いてください。",
+      "english": "Please simmer the beans for a while over a low heat."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:41.036Z",
+  "count": 5,
+  "fileId": "kanji-01888"
+}

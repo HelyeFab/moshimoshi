@@ -1,0 +1,33 @@
+{
+  "kanji": "文",
+  "sentences": [
+    {
+      "id": "4786",
+      "japanese": "多くの人が日常のことについて文を書く。",
+      "english": "Most people write about their daily life."
+    },
+    {
+      "id": "5238",
+      "japanese": "もしスペンサーが文を足して訳し続けなければ、他の貢献者がきっと彼を追い抜くだろう。",
+      "english": "If Spenser doesn't keep adding and translating sentences, the other contributors will surely surpass him."
+    },
+    {
+      "id": "178799",
+      "japanese": "君たちはこの文を暗記しさえすればよい。",
+      "english": "All you have to do is to learn this sentence by heart."
+    },
+    {
+      "id": "178806",
+      "japanese": "君たちの文を黒板の文と比較しなさい。",
+      "english": "Compare your sentence with the one on the blackboard."
+    },
+    {
+      "id": "188220",
+      "japanese": "下線のある文を訳しなさい。",
+      "english": "Translate the underlined sentences."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.604Z",
+  "count": 5,
+  "fileId": "kanji-00186"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "述",
+  "sentences": [
+    {
+      "id": "177117",
+      "japanese": "君は数ページ先でそれが述べられているのを見つけるでしょう。",
+      "english": "You will find it stated a few pages further on."
+    },
+    {
+      "id": "177735",
+      "japanese": "君はその事実をありのまま述べなければならない。",
+      "english": "You must state the fact as it is."
+    },
+    {
+      "id": "182365",
+      "japanese": "級友を代表してお礼の言葉を述べさしていただきます。",
+      "english": "On behalf of my classmates, let me say a few words of thanks to you."
+    },
+    {
+      "id": "182866",
+      "japanese": "議論の重要なポイントはこれまでに述べてきたとおりである。",
+      "english": "The essential points of my argument have been expressed in the preceding pages."
+    },
+    {
+      "id": "182880",
+      "japanese": "議長は自らの見解を非公式に述べるだけだろう。",
+      "english": "The chairman would only make her comments off the record."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.651Z",
+  "count": 5,
+  "fileId": "kanji-00675"
+}

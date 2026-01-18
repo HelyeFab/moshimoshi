@@ -1,0 +1,33 @@
+{
+  "kanji": "勘",
+  "sentences": [
+    {
+      "id": "184114",
+      "japanese": "割り勘で行こうよ。",
+      "english": "Let's split it."
+    },
+    {
+      "id": "151996",
+      "japanese": "私達のどちらも相手を映画に連れて行くだけの余裕がなかったので、割り勘にした。",
+      "english": "Since neither one of us could afford to take the other to the movies, we went Dutch."
+    },
+    {
+      "id": "208817",
+      "japanese": "その新聞記者はニュースを嗅ぎつける鋭い勘を持っている。",
+      "english": "The newsman has a nose for news."
+    },
+    {
+      "id": "83849",
+      "japanese": "支払いは割り勘にしよう。",
+      "english": "Let's split the bill."
+    },
+    {
+      "id": "145818",
+      "japanese": "食事代を割り勘にした。",
+      "english": "We shared the cost of the meal."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.921Z",
+  "count": 5,
+  "fileId": "kanji-01278"
+}

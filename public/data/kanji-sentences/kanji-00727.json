@@ -1,0 +1,33 @@
+{
+  "kanji": "順",
+  "sentences": [
+    {
+      "id": "185694",
+      "japanese": "大きさ順に本を並べた。",
+      "english": "We arranged the books according to size."
+    },
+    {
+      "id": "203924",
+      "japanese": "たいていの病院ではカルテはアルファベット順に保管されている。",
+      "english": "The clinical records in most hospitals are kept in alphabetical order."
+    },
+    {
+      "id": "147580",
+      "japanese": "順にやるのが公平だ。",
+      "english": "Turn about is fair play."
+    },
+    {
+      "id": "76026",
+      "japanese": "順を追って基本的なタグを覚えていこう。",
+      "english": "Let's learn the basic tags in order."
+    },
+    {
+      "id": "78859",
+      "japanese": "用紙は順に番号が打ってある。",
+      "english": "Each sheet bears a number in sequence."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.782Z",
+  "count": 5,
+  "fileId": "kanji-00727"
+}

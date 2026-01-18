@@ -1,0 +1,55 @@
+{
+  "id": "284-n4-point-84",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～そうだ (〜sou da)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～そうだ grammar point is used to describe the appearance or feeling of something based on what is observed or inferred. It can be translated as 'looks like', 'seems', or 'appears' in English. The formation differs depending on whether it is used with a verb, い-adjective, or な-adjective.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-ますstem + そうだ, い-Adjective (without い) + そうだ, な-Adjective + そうだ",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "その花はとてもきれいそうだ。",
+      "romaji": "Sono hana wa totemo kirei sou da.",
+      "english": "That flower looks very beautiful.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は疲れそうだ。",
+      "romaji": "Kare wa tsukare sou da.",
+      "english": "He looks tired.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この本は面白そうだ。",
+      "romaji": "Kono hon wa omoshiro sou da.",
+      "english": "This book looks interesting.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "雨が降りそうだ。",
+      "romaji": "Ame ga furi sou da.",
+      "english": "It looks like it's going to rain.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "積",
+  "sentences": [
+    {
+      "id": "183450",
+      "japanese": "机の上にファンレターが山と積まれていた。",
+      "english": "Fan letters lay in a heap on the desk."
+    },
+    {
+      "id": "10756884",
+      "japanese": "机の上には漫画の本が積まれていた。",
+      "english": "The comic books were piled on the desk."
+    },
+    {
+      "id": "190379",
+      "japanese": "一隻の船に全部を積む冒険をするな。",
+      "english": "Don't risk putting everything in one boat."
+    },
+    {
+      "id": "143903",
+      "japanese": "塵も積もれば山となる。",
+      "english": "Many a little makes a mickle."
+    },
+    {
+      "id": "208409",
+      "japanese": "その船は武器をいっぱいに積んでいた。",
+      "english": "The ship was stowed with arms."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.597Z",
+  "count": 5,
+  "fileId": "kanji-00333"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "異",
+  "sentences": [
+    {
+      "id": "178326",
+      "japanese": "君の考えは私のと異なる。",
+      "english": "Your ideas are different from mine."
+    },
+    {
+      "id": "178762",
+      "japanese": "君と意見を異にするので私には心苦しい。",
+      "english": "It pains me to disagree with your opinion."
+    },
+    {
+      "id": "182346",
+      "japanese": "給料は労働者の年齢との関連で異なってくる。",
+      "english": "Wages vary in relation to the age of the worker."
+    },
+    {
+      "id": "186856",
+      "japanese": "科学技術は異なる文化を作り出した。",
+      "english": "Technology has differentiated our cultures."
+    },
+    {
+      "id": "187582",
+      "japanese": "何をなすべきかについて私の意見は彼の意見と異なる。",
+      "english": "My view is different from his as to what should be done."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:48.638Z",
+  "count": 5,
+  "fileId": "kanji-02070"
+}

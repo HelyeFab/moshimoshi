@@ -1,0 +1,33 @@
+{
+  "kanji": "置",
+  "sentences": [
+    {
+      "id": "4946",
+      "japanese": "トランプを樫のテーブルに置いて。",
+      "english": "Place the deck of cards on the oaken table."
+    },
+    {
+      "id": "138759",
+      "japanese": "チップを置きましたか。",
+      "english": "Did you leave a tip?"
+    },
+    {
+      "id": "177339",
+      "japanese": "君は君の理論の基礎をどこに置いているのか。",
+      "english": "What do you base your theory on?"
+    },
+    {
+      "id": "177698",
+      "japanese": "君はそれを一定の間隔を置いて練習すべきだ。",
+      "english": "You must practice it at regular intervals."
+    },
+    {
+      "id": "178962",
+      "japanese": "君が手紙を置くまで待ちましょう。",
+      "english": "I will wait till you have written the letter."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.023Z",
+  "count": 5,
+  "fileId": "kanji-00513"
+}

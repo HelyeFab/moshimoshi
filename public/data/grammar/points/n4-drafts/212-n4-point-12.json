@@ -1,0 +1,55 @@
+{
+  "id": "212-n4-point-12",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun ばかり (〜bakari)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ばかり grammar point is used to express that something is only, nothing but, just, or always. It can be attached to nouns, verbs, or adjectives, and has various meanings based on the context.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + ばかり, Verb-casual + ばかり, い-Adjective + ばかり, な-Adjective + だ ばかり",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼はお金の話ばかりする。",
+      "romaji": "Kare wa okane no hanashi bakari suru.",
+      "english": "He talks about nothing but money.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は勉強ばかりしている。",
+      "romaji": "Kanojo wa benkyou bakari shiteiru.",
+      "english": "She is always studying.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "デパートには高い商品ばかりだ。",
+      "romaji": "Depaato ni wa takai shouhin bakari da.",
+      "english": "There are only expensive items in the department store.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この部屋は狭いばかりだ。",
+      "romaji": "Kono heya wa semai bakari da.",
+      "english": "This room is nothing but small.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

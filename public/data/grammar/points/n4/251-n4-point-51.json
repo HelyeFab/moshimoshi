@@ -1,0 +1,100 @@
+{
+  "id": "251-n4-point-51",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ない + ことにする",
+    "romaji": "Verb nai koto ni suru",
+    "en": "Decide not to do something"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "This grammar point is used to express the decision not to do something, indicating a conscious choice.",
+    "ja": "何かをする決断をしないことを表現し、意識的な選択を示します。"
+  },
+  "structure": {
+    "pattern": "Verb-ない form + ことにする",
+    "components": [
+      {
+        "part": "Verb (negative)",
+        "explanation": "The verb in its negative form.",
+        "examples": [
+          "行かない",
+          "食べない"
+        ]
+      },
+      {
+        "part": "ことにする",
+        "explanation": "Means 'to decide to do'",
+        "examples": [
+          "することにする"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日のパーティーに行かないことにする。",
+      "romaji": "Ashita no paatii ni ikanai koto ni suru.",
+      "english": "I've decided not to go to tomorrow's party.",
+      "breakdown": {
+        "明日のパーティーに": "to tomorrow's party",
+        "行かない": "not to go",
+        "ことにする": "decide"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "そのケーキを食べないことにします。",
+      "romaji": "Sono keeki wo tabenai koto ni shimasu.",
+      "english": "I've decided not to eat that cake.",
+      "breakdown": {
+        "そのケーキを": "that cake",
+        "食べない": "not to eat",
+        "ことにする": "decide"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "今日はジョギングをしないことにする。",
+      "romaji": "Kyou wa jogingu wo shinai koto ni suru.",
+      "english": "I've decided not to go jogging today.",
+      "breakdown": {
+        "今日": "today",
+        "ジョギングを": "jogging",
+        "しない": "not to do",
+        "ことにする": "decide"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼と会わないことにしました。",
+      "romaji": "Kare to awanai koto ni shimashita.",
+      "english": "I've decided not to meet him.",
+      "breakdown": {
+        "彼と": "with him",
+        "会わない": "not to meet",
+        "ことにする": "decide"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "な-adjective に する/なる",
+    "Verb ないほうがいい",
+    "～なきゃいけない"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "明日のパーティーに行かないにします。",
+      "correction": "明日のパーティーに行かないことにします。",
+      "example": "I've decided not to go to tomorrow's party."
+    }
+  ],
+  "tags": [
+    "n4",
+    "decision",
+    "negative-form",
+    "conscious-choice"
+  ]
+}

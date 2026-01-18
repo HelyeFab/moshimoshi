@@ -1,0 +1,33 @@
+{
+  "kanji": "甲",
+  "sentences": [
+    {
+      "id": "182943",
+      "japanese": "亀の甲より年の功。",
+      "english": "Experience without learning is better than learning without experience."
+    },
+    {
+      "id": "173524",
+      "japanese": "甲の食物は乙の毒。",
+      "english": "One man's meat is another man's poison."
+    },
+    {
+      "id": "173522",
+      "japanese": "甲の薬は乙の毒。",
+      "english": "One man's medicine is another man's poison."
+    },
+    {
+      "id": "173523",
+      "japanese": "甲の損は乙の得。",
+      "english": "One man's gain is another man's loss."
+    },
+    {
+      "id": "11257862",
+      "japanese": "亀の甲より年の功、だよ。",
+      "english": "Experience is the best teacher."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.481Z",
+  "count": 5,
+  "fileId": "kanji-01181"
+}

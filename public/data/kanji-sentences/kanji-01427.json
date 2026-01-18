@@ -1,0 +1,33 @@
+{
+  "kanji": "桜",
+  "sentences": [
+    {
+      "id": "182850",
+      "japanese": "吉野は桜の名所です。",
+      "english": "Yoshino is a place famous for its cherry blossoms."
+    },
+    {
+      "id": "191168",
+      "japanese": "以前は私の家の裏に、大きな桜の木がありました。",
+      "english": "There used to be a big cherry tree at the back of my house."
+    },
+    {
+      "id": "193136",
+      "japanese": "やがてキャンパスの桜の花が咲くでしょう。",
+      "english": "It will not be long before the cherry blossoms on our campus come out."
+    },
+    {
+      "id": "195285",
+      "japanese": "まもなく桜の花が咲くだろう。",
+      "english": "It will not be long before the cherry blossoms come out."
+    },
+    {
+      "id": "197416",
+      "japanese": "ヒラヒラと桜の花が舞っている。もうお花見の季節も終わりだな。",
+      "english": "It looks like cherry blossom-viewing season is at an end. You can see the petals fluttering down."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:25.378Z",
+  "count": 5,
+  "fileId": "kanji-01427"
+}

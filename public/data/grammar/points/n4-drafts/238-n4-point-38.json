@@ -1,0 +1,55 @@
+{
+  "id": "238-n4-point-38",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て くださいませんか (Verb-te kudasaimasen ka)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The て くださいませんか grammar point is a polite way of asking someone for a favor or requesting them to do something. It is more formal than the simple て form followed by ください, and it is commonly used in more formal settings or when speaking to someone who is not close.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb in て-form + くださいませんか",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "コーヒーを飲んでくださいませんか。",
+      "romaji": "Koohii o nonde kudasaimasen ka.",
+      "english": "Would you please drink some coffee?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "ドアを閉めてくださいませんか。",
+      "romaji": "Doa o shimete kudasaimasen ka.",
+      "english": "Would you please close the door?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "明日お昼に会ってくださいませんか。",
+      "romaji": "Ashita ohiru ni atte kudasaimasen ka.",
+      "english": "Would you please meet me at lunch tomorrow?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "その資料を送ってくださいませんか。",
+      "romaji": "Sono shiryou o okutte kudasaimasen ka.",
+      "english": "Would you please send me that document?",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

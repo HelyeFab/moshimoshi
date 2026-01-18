@@ -1,0 +1,33 @@
+{
+  "kanji": "度",
+  "sentences": [
+    {
+      "id": "177560",
+      "japanese": "君はもう１度この本を読んだら３度読んだことになるね。",
+      "english": "If you read this book again, you will have read it three times."
+    },
+    {
+      "id": "181784",
+      "japanese": "京都は、１度は行ってみる価値がある。",
+      "english": "Kyoto is worth visiting once."
+    },
+    {
+      "id": "185151",
+      "japanese": "懐かしきよき昔は過ぎ去ってしまい、２度と帰ってこないでしょう。",
+      "english": "The good old days have gone, never to return."
+    },
+    {
+      "id": "185459",
+      "japanese": "会いに行く度に彼は寝ている。",
+      "english": "Every time I go to see him, he is in bed."
+    },
+    {
+      "id": "188084",
+      "japanese": "何かの手を借りなければ、彼は２度と歩けるようにはならないだろうと医者が言った。",
+      "english": "The doctors said he would never again be able to walk without some support."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.552Z",
+  "count": 5,
+  "fileId": "kanji-00179"
+}

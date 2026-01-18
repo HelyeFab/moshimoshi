@@ -1,0 +1,33 @@
+{
+  "kanji": "半",
+  "sentences": [
+    {
+      "id": "147776",
+      "japanese": "出だしがよければ半ばやり遂げたようなものだ。",
+      "english": "Well begun is half done."
+    },
+    {
+      "id": "168945",
+      "japanese": "始めよければ半ば成功。",
+      "english": "Well begun is half done."
+    },
+    {
+      "id": "168954",
+      "japanese": "始まりがうまければ半ばうまくいったもおなじ。",
+      "english": "Well begun is half done."
+    },
+    {
+      "id": "184103",
+      "japanese": "滑り出しが好調なら事は半ば成就したのに等しい。",
+      "english": "Well begun is half done."
+    },
+    {
+      "id": "216860",
+      "japanese": "さいさき良ければ半ば成功。",
+      "english": "Well begun is half done."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.990Z",
+  "count": 5,
+  "fileId": "kanji-00064"
+}

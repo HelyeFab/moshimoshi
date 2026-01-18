@@ -1,0 +1,55 @@
+{
+  "id": "324-n4-point-124",
+  "version": "1.0.0",
+  "title": {
+    "ja": "文A。だから 文B (Bun A. Dakara Bun B)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The 文A。だから 文B grammar point is used to indicate that the reason or cause of an action or event expressed in the second sentence (文B) is a result or consequence of the situation described in the first sentence (文A). It can be translated as 'because', 'so', or 'therefore' in English.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Sentence A + だから + Sentence B",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "明日は試験だ。だから今日勉強しなければならない。",
+      "romaji": "Ashita wa shiken da. Dakara kyou benkyou shinakereba naranai.",
+      "english": "Tomorrow is the exam, so I have to study today.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この料理は簡単だ。だから初心者でも作れる。",
+      "romaji": "Kono ryouri wa kantan da. Dakara shoshinsha demo tsukureru.",
+      "english": "This dish is simple, so even beginners can make it.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は病気だ。だから今日学校を休む。",
+      "romaji": "Kare wa byouki da. Dakara kyou gakkou wo yasumu.",
+      "english": "He is sick, so he will take a day off from school today.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "駅まで遠い。だからタクシーで行ったほうがいい。",
+      "romaji": "Eki made tooi. Dakara takushii de itta hou ga ii.",
+      "english": "The station is far, so it's better to go by taxi.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

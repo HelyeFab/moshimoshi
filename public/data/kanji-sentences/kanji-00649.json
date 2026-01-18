@@ -1,0 +1,33 @@
+{
+  "kanji": "短",
+  "sentences": [
+    {
+      "id": "5302",
+      "japanese": "ウサギには長い耳と短い尾がある。",
+      "english": "A rabbit has long ears and a short tail."
+    },
+    {
+      "id": "2250722",
+      "japanese": "ウサギは耳が長くてしっぽが短い。",
+      "english": "A rabbit has long ears and a short tail."
+    },
+    {
+      "id": "182638",
+      "japanese": "休憩は短いから十分に活用しなさい。",
+      "english": "You have only a short rest, so make the best of it."
+    },
+    {
+      "id": "182672",
+      "japanese": "休暇は短いので、最大限に活用しなければなりません。",
+      "english": "We must make the most of our vacation, as it is so short."
+    },
+    {
+      "id": "183558",
+      "japanese": "喜びは短く、後悔は長し。",
+      "english": "Short pleasure, long repentance."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.195Z",
+  "count": 5,
+  "fileId": "kanji-00649"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "笛",
+  "sentences": [
+    {
+      "id": "225283",
+      "japanese": "ゲームの開始には笛が吹かれる。",
+      "english": "A whistle is blown at the start of a game."
+    },
+    {
+      "id": "83230",
+      "japanese": "捕らえられるまで、鳥には鳥捕りの笛がよい音に聞こえる。",
+      "english": "The fowler's pipe sounds sweet till the bird is caught."
+    },
+    {
+      "id": "125293",
+      "japanese": "笛が鳴るとレースが始まります。",
+      "english": "When the whistle blows, the race will start."
+    },
+    {
+      "id": "145617",
+      "japanese": "審判は試合を終わらせるために笛を吹いた。",
+      "english": "The referee blew his whistle to end the match."
+    },
+    {
+      "id": "173133",
+      "japanese": "合図の笛がなった。",
+      "english": "The whistle blew."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:37.922Z",
+  "count": 5,
+  "fileId": "kanji-01811"
+}

@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "212-n4-point-12",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "212-n4-point-12-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Only/Just [noun]\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Noun ばかり (〜bakari)",
+          "romaji": "noun bakari"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Noun ばかり (〜bakari) matches \"Only/Just [noun]\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Noun ばかり (〜bakari).",
+      "explanation": "Expresses that there is nothing but or only a certain noun.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "212-n4-point-12-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Noun ばかり (〜bakari).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Only/Just [noun]"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Noun ばかり (〜bakari) means \"Only/Just [noun]\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Only/Just [noun]\".",
+      "explanation": "Expresses that there is nothing but or only a certain noun.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "212-n4-point-12-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Noun ばかり (〜bakari).",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "noun bakari"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! noun bakari is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is noun bakari.",
+      "explanation": "Expresses that there is nothing but or only a certain noun.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "212-n4-point-12-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Noun ばかり (〜bakari)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Expresses that there is nothing but or only a certain noun."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses that there is nothing but or only a certain noun.",
+      "explanation": "Expresses that there is nothing but or only a certain noun.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "212-n4-point-12-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Only/Just [noun]\".",
+      "correctAnswer": "Noun ばかり (〜bakari)",
+      "acceptedVariations": [
+        "Noun ばかり (〜bakari)",
+        "Nounばかり(〜bakari)"
+      ],
+      "correctFeedback": "Nice! Noun ばかり (〜bakari) is correct.",
+      "incorrectFeedback": "The correct pattern is: Noun ばかり (〜bakari) (noun bakari).",
+      "explanation": "Expresses that there is nothing but or only a certain noun.",
+      "hints": [
+        "noun bakari",
+        "Expresses that there is nothing but or only a certain noun."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "212-n4-point-12-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Noun ばかり (〜bakari).",
+      "correctAnswer": "noun bakari",
+      "acceptedVariations": [
+        "noun bakari",
+        "noun bakari"
+      ],
+      "correctFeedback": "Nice! noun bakari is correct.",
+      "incorrectFeedback": "The correct romaji is: noun bakari.",
+      "explanation": "Expresses that there is nothing but or only a certain noun.",
+      "hints": [
+        "Expresses that there is nothing but or only a certain noun."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "212-n4-point-12-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Noun ばかり (〜bakari).",
+      "correctAnswer": "Only/Just [noun]",
+      "acceptedVariations": [
+        "Only/Just [noun]",
+        "only/just [noun]"
+      ],
+      "correctFeedback": "Correct! \"Only/Just [noun]\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Only/Just [noun]\".",
+      "explanation": "Expresses that there is nothing but or only a certain noun.",
+      "hints": [
+        "Expresses that there is nothing but or only a certain noun."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "212-n4-point-12-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Noun ばかり (〜bakari)",
+          "romaji": "noun bakari",
+          "english": "Only/Just [noun]"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses that there is nothing but or only a certain noun.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "212-n4-point-12-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses that there is nothing but or only a certain noun..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Noun ばかり (〜bakari)",
+          "romaji": "noun bakari"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Noun ばかり (〜bakari) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Noun ばかり (〜bakari).",
+      "explanation": "Expresses that there is nothing but or only a certain noun.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "212-n4-point-12-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Nounばかり(〜bakari)",
+      "acceptedVariations": [
+        "Nounばかり(〜bakari)",
+        "Noun ばかり (〜bakari)"
+      ],
+      "correctFeedback": "Great! Nounばかり(〜bakari) is correct.",
+      "incorrectFeedback": "The correct pattern is: Nounばかり(〜bakari).",
+      "explanation": "Expresses that there is nothing but or only a certain noun.",
+      "hints": [
+        "noun bakari"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

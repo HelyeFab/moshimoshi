@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "027-te-iru-progressive",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "027-te-iru-progressive-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct progressive form: 勉強する → ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "勉強しています"
+        },
+        {
+          "id": "b",
+          "text": "勉強します"
+        },
+        {
+          "id": "c",
+          "text": "勉強してます"
+        },
+        {
+          "id": "d",
+          "text": "勉強するています"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! て-form + います.",
+      "incorrectFeedback": "Not quite. Use して + います.",
+      "explanation": "勉強する → 勉強している (polite: しています).",
+      "difficulty": "easy"
+    }
+  ]
+}

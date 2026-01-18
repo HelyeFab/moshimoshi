@@ -1,0 +1,33 @@
+{
+  "kanji": "癒",
+  "sentences": [
+    {
+      "id": "10898007",
+      "japanese": "喉の渇きを癒すため、ビールを一杯飲んだ。",
+      "english": "I had a glass of beer to quench my thirst."
+    },
+    {
+      "id": "145575",
+      "japanese": "心を癒すピアノ音楽。",
+      "english": "Piano music soothes the soul."
+    },
+    {
+      "id": "150660",
+      "japanese": "時はどんな悲しみも癒してくれる。",
+      "english": "Time tames the strongest grief."
+    },
+    {
+      "id": "150663",
+      "japanese": "時はすべての傷を癒してくれる。",
+      "english": "Time heals all wounds."
+    },
+    {
+      "id": "150686",
+      "japanese": "時が彼女の悲しみを癒した。",
+      "english": "Time cured her of her sorrow."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:35.367Z",
+  "count": 5,
+  "fileId": "kanji-01745"
+}

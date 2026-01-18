@@ -1,0 +1,33 @@
+{
+  "kanji": "坊",
+  "sentences": [
+    {
+      "id": "138769",
+      "japanese": "彼は赤ん坊のように眠っています。",
+      "english": "He's sleeping like a baby."
+    },
+    {
+      "id": "182396",
+      "japanese": "泣いている赤ん坊は手に負えない。",
+      "english": "It's hard to handle crying babies."
+    },
+    {
+      "id": "183848",
+      "japanese": "看護婦は赤ん坊の世話をした。",
+      "english": "The nurse looked after the babies."
+    },
+    {
+      "id": "184165",
+      "japanese": "楽しい夢を見てね、ティミー坊や。",
+      "english": "Sweet dreams, Timmy."
+    },
+    {
+      "id": "190076",
+      "japanese": "一部の赤ん坊は、１歳になる前に泳げるようになる。",
+      "english": "Some babies learn to swim even before they are one year old."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.246Z",
+  "count": 5,
+  "fileId": "kanji-00785"
+}

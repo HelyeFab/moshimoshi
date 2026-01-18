@@ -1,0 +1,33 @@
+{
+  "kanji": "縦",
+  "sentences": [
+    {
+      "id": "184932",
+      "japanese": "蟹を縦に歩かせることはできない。",
+      "english": "You cannot make a crab walk straight."
+    },
+    {
+      "id": "197215",
+      "japanese": "プールを縦に二回泳いだ。",
+      "english": "I swam two pool lengths."
+    },
+    {
+      "id": "219994",
+      "japanese": "この部屋は縦１２フィート横２４フィートあります。",
+      "english": "This room is twelve feet by twenty-four feet."
+    },
+    {
+      "id": "223683",
+      "japanese": "このじゅうたんの大きさは縦１２０センチ横１６０センチだ。",
+      "english": "The size of the carpet is 120 by 160 centimeters."
+    },
+    {
+      "id": "1602966",
+      "japanese": "このカーペットのサイズは縦120センチ、横160センチです。",
+      "english": "The size of the carpet is 120 by 160 centimeters."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.182Z",
+  "count": 5,
+  "fileId": "kanji-01590"
+}

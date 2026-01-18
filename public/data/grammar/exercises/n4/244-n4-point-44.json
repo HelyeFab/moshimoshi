@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "244-n4-point-44",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "244-n4-point-44-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb てしまう\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞てしまう",
+          "romaji": "doushi te shimau"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 動詞てしまう matches \"Verb てしまう\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞てしまう.",
+      "explanation": "Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "244-n4-point-44-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞てしまう.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb てしまう"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 動詞てしまう means \"Verb てしまう\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb てしまう\".",
+      "explanation": "Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "244-n4-point-44-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞てしまう.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "doushi te shimau"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! doushi te shimau is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is doushi te shimau.",
+      "explanation": "Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "244-n4-point-44-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞てしまう?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Expresses completion or regret; attach しまう to the verb’s て-form."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "explanation": "Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "244-n4-point-44-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb てしまう\".",
+      "correctAnswer": "動詞てしまう",
+      "acceptedVariations": [
+        "動詞てしまう",
+        "動詞てしまう"
+      ],
+      "correctFeedback": "Nice! 動詞てしまう is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞てしまう (doushi te shimau).",
+      "explanation": "Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "hints": [
+        "doushi te shimau",
+        "Expresses completion or regret; attach しまう to the verb’s て-form."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "244-n4-point-44-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞てしまう.",
+      "correctAnswer": "doushi te shimau",
+      "acceptedVariations": [
+        "doushi te shimau",
+        "doushi te shimau"
+      ],
+      "correctFeedback": "Nice! doushi te shimau is correct.",
+      "incorrectFeedback": "The correct romaji is: doushi te shimau.",
+      "explanation": "Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "hints": [
+        "Expresses completion or regret; attach しまう to the verb’s て-form."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "244-n4-point-44-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞てしまう.",
+      "correctAnswer": "Verb てしまう",
+      "acceptedVariations": [
+        "Verb てしまう",
+        "verb てしまう"
+      ],
+      "correctFeedback": "Correct! \"Verb てしまう\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb てしまう\".",
+      "explanation": "Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "hints": [
+        "Expresses completion or regret; attach しまう to the verb’s て-form."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "244-n4-point-44-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞てしまう",
+          "romaji": "doushi te shimau",
+          "english": "Verb てしまう"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "244-n4-point-44-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses completion or regret; attach しまう to the verb’s て-form..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞てしまう",
+          "romaji": "doushi te shimau"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! 動詞てしまう matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞てしまう.",
+      "explanation": "Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "244-n4-point-44-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞てしまう",
+      "acceptedVariations": [
+        "動詞てしまう",
+        "動詞てしまう"
+      ],
+      "correctFeedback": "Great! 動詞てしまう is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞てしまう.",
+      "explanation": "Expresses completion or regret; attach しまう to the verb’s て-form.",
+      "hints": [
+        "doushi te shimau"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

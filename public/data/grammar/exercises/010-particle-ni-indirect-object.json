@@ -1,0 +1,182 @@
+{
+  "grammarPointId": "010-particle-ni-indirect-object",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "010-particle-ni-indirect-object-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 先生＿＿本をあげます。",
+      "questionRomaji": "Sensei __ hon o agemasu.",
+      "options": [
+        { "id": "a", "text": "に", "romaji": "ni" },
+        { "id": "b", "text": "を", "romaji": "o" },
+        { "id": "c", "text": "で", "romaji": "de" },
+        { "id": "d", "text": "が", "romaji": "ga" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! に marks the receiver.",
+      "incorrectFeedback": "Not quite. Use に for the person who receives.",
+      "explanation": "あげます uses に for the indirect object.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "010-particle-ni-indirect-object-ex-02",
+      "type": "multiple-choice",
+      "question": "Which particle is used with 会います (meet)?",
+      "options": [
+        { "id": "a", "text": "に" },
+        { "id": "b", "text": "を" },
+        { "id": "c", "text": "で" },
+        { "id": "d", "text": "へ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Yes! 会います uses に for the person you meet.",
+      "incorrectFeedback": "Try again. Use に with 会います.",
+      "explanation": "友だちに会います is the standard pattern.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "010-particle-ni-indirect-object-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I give a present to my mother.'",
+      "correctAnswer": "母にプレゼントをあげます",
+      "acceptedVariations": [
+        "母にプレゼントをあげます。",
+        "ははにぷれぜんとをあげます",
+        "haha ni purezento o agemasu",
+        "haha ni purezento o agemasu."
+      ],
+      "correctFeedback": "Great! 母にプレゼントをあげます is correct.",
+      "incorrectFeedback": "The correct answer is: 母にプレゼントをあげます (haha ni purezento o agemasu).",
+      "explanation": "Use に for the receiver.",
+      "hints": ["母 = mother", "プレゼント = present"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "010-particle-ni-indirect-object-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "友だちを会います。" },
+        { "id": "b", "text": "友だちに会います。" },
+        { "id": "c", "text": "友だちで会います。" },
+        { "id": "d", "text": "友だちが会います。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 会います uses に.",
+      "incorrectFeedback": "Not quite. Use に with 会います.",
+      "explanation": "The person you meet takes に.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "010-particle-ni-indirect-object-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I ask the teacher a question.'",
+      "correctAnswer": "先生に質問します",
+      "acceptedVariations": [
+        "先生に質問します。",
+        "せんせいにしつもんします",
+        "sensei ni shitsumon shimasu",
+        "sensei ni shitsumon shimasu."
+      ],
+      "correctFeedback": "Nice! 先生に質問します is correct.",
+      "incorrectFeedback": "The correct answer is: 先生に質問します (sensei ni shitsumon shimasu).",
+      "explanation": "に marks the person you ask.",
+      "hints": ["質問します = ask a question", "Use に for the target"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "010-particle-ni-indirect-object-ex-06",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence for 'I give a book to my friend.'",
+      "options": [
+        { "id": "a", "text": "友だちに本をあげます。" },
+        { "id": "b", "text": "友だちを本をあげます。" },
+        { "id": "c", "text": "友だちで本をあげます。" },
+        { "id": "d", "text": "友だちが本をあげます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! に marks the receiver.",
+      "incorrectFeedback": "Try again. Use に for the person receiving the item.",
+      "explanation": "あげます uses に for the indirect object.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "010-particle-ni-indirect-object-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I meet my friend at the station.'",
+      "correctAnswer": "駅で友だちに会います",
+      "acceptedVariations": [
+        "駅で友だちに会います。",
+        "えきでともだちにあいます",
+        "eki de tomodachi ni aimasu",
+        "eki de tomodachi ni aimasu."
+      ],
+      "correctFeedback": "Great! 駅で友だちに会います is correct.",
+      "incorrectFeedback": "The correct answer is: 駅で友だちに会います (eki de tomodachi ni aimasu).",
+      "explanation": "に marks the person you meet; で marks the location.",
+      "hints": ["Use に with 会います", "駅で = at the station"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "010-particle-ni-indirect-object-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "先生に本をあげます。",
+          "romaji": "Sensei ni hon o agemasu.",
+          "english": "I give a book to the teacher."
+        },
+        {
+          "japanese": "友だちに会います。",
+          "romaji": "Tomodachi ni aimasu.",
+          "english": "I meet a friend."
+        },
+        {
+          "japanese": "母にプレゼントをあげます。",
+          "romaji": "Haha ni purezento o agemasu.",
+          "english": "I give a present to my mother."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review に as the target/receiver.",
+      "explanation": "に marks the person receiving or targeted by the action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "010-particle-ni-indirect-object-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence uses に correctly?",
+      "options": [
+        { "id": "a", "text": "田中さんを電話します。" },
+        { "id": "b", "text": "田中さんに電話します。" },
+        { "id": "c", "text": "田中さんで電話します。" },
+        { "id": "d", "text": "田中さんが電話します。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! に marks the person you call.",
+      "incorrectFeedback": "Try again. Use に for the target of the action.",
+      "explanation": "電話します takes に for the person you call.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "010-particle-ni-indirect-object-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I write a letter to my friend.'",
+      "correctAnswer": "友だちに手紙を書きます",
+      "acceptedVariations": [
+        "友だちに手紙を書きます。",
+        "ともだちにてがみをかきます",
+        "tomodachi ni tegami o kakimasu",
+        "tomodachi ni tegami o kakimasu."
+      ],
+      "correctFeedback": "Nice! 友だちに手紙を書きます is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちに手紙を書きます (tomodachi ni tegami o kakimasu).",
+      "explanation": "に marks the person who receives the letter.",
+      "hints": ["手紙 = letter", "Use に for the receiver"],
+      "difficulty": "hard"
+    }
+  ]
+}

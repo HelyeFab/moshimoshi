@@ -1,0 +1,33 @@
+{
+  "kanji": "忘",
+  "sentences": [
+    {
+      "id": "4815",
+      "japanese": "その後私はそこを出るんだけど、鞄を忘れてきたことに気付くんだ。",
+      "english": "After that, I left, but then I realized that I forgot my backpack at their house."
+    },
+    {
+      "id": "5008",
+      "japanese": "いつか私のことは忘れちゃうわ。",
+      "english": "You'll forget about me someday."
+    },
+    {
+      "id": "136176",
+      "japanese": "私たちのことを忘れないで。",
+      "english": "Don't forget about us!"
+    },
+    {
+      "id": "138758",
+      "japanese": "チケットを忘れないでください。",
+      "english": "Don't forget the ticket."
+    },
+    {
+      "id": "4067860",
+      "japanese": "チケットを忘れないように。",
+      "english": "Don't forget the ticket."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.971Z",
+  "count": 5,
+  "fileId": "kanji-00360"
+}

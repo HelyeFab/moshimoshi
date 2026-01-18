@@ -1,0 +1,121 @@
+{
+  "id": "239-n4-point-39",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞てくださる",
+    "romaji": "Doushi te kudasaru",
+    "en": "Verb-te kudasaru"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The grammar point てくださる is an honorific expression used when someone (usually of higher status or to whom you want to show respect) kindly does a favor or action for the speaker or someone in their in-group. It is formed by attaching くださる to the verb's て-form, expressing gratitude and respect.",
+    "ja": "「てくださる」は、目上の人や敬意を表したい相手が自分や自分の身内のために何かをしてくれる時に使う敬語表現です。動詞のて形に「くださる」をつけて使います。"
+  },
+  "structure": {
+    "pattern": "Verb て-form + くださる",
+    "components": [
+      {
+        "part": "Verb て-form",
+        "explanation": "The verb conjugated into its て-form.",
+        "examples": [
+          "手伝って",
+          "作って",
+          "送って",
+          "答えて"
+        ]
+      },
+      {
+        "part": "くださる",
+        "explanation": "An honorific verb meaning 'to kindly do (for me/us)'.",
+        "examples": [
+          "くださる"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "先生が手伝ってくださる。",
+      "romaji": "Sensei ga tetsudatte kudasaru.",
+      "english": "The teacher kindly helps.",
+      "breakdown": {
+        "先生": "teacher",
+        "が": "subject marker",
+        "手伝って": "help (te-form)",
+        "くださる": "kindly does (honorific)"
+      },
+      "notes": "Shows respect to the teacher for helping."
+    },
+    {
+      "japanese": "お母さんが美味しい料理を作ってくださる。",
+      "romaji": "Okaasan ga oishii ryouri wo tsukutte kudasaru.",
+      "english": "My mother kindly cooks delicious meals.",
+      "breakdown": {
+        "お母さん": "mother",
+        "が": "subject marker",
+        "美味しい": "delicious",
+        "料理": "meal",
+        "を": "object marker",
+        "作って": "make (te-form)",
+        "くださる": "kindly does (honorific)"
+      },
+      "notes": "Expresses gratitude to mother for cooking."
+    },
+    {
+      "japanese": "友達が私を駅まで送ってくださる。",
+      "romaji": "Tomodachi ga watashi wo eki made okutte kudasaru.",
+      "english": "My friend kindly gives me a ride to the station.",
+      "breakdown": {
+        "友達": "friend",
+        "が": "subject marker",
+        "私": "me",
+        "を": "object marker",
+        "駅": "station",
+        "まで": "to (destination)",
+        "送って": "send/give a ride (te-form)",
+        "くださる": "kindly does (honorific)"
+      },
+      "notes": "Shows appreciation for the friend's help."
+    },
+    {
+      "japanese": "部長がすぐに質問に答えてくださる。",
+      "romaji": "Buchou ga sugu ni shitsumon ni kotaete kudasaru.",
+      "english": "The manager kindly answers the questions immediately.",
+      "breakdown": {
+        "部長": "manager",
+        "が": "subject marker",
+        "すぐに": "immediately",
+        "質問": "question",
+        "に": "target marker",
+        "答えて": "answer (te-form)",
+        "くださる": "kindly does (honorific)"
+      },
+      "notes": "Shows respect to the manager for their promptness."
+    }
+  ],
+  "relatedPoints": [
+    "てくれる",
+    "ていただく"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "先生が手伝ってくれる。",
+      "correction": "先生が手伝ってくださる。",
+      "example": "Using くれる instead of くださる is too casual for someone of higher status."
+    },
+    {
+      "mistake": "お母さんが美味しい料理を作るくださる。",
+      "correction": "お母さんが美味しい料理を作ってくださる。",
+      "example": "Using the dictionary form instead of the て-form before くださる is incorrect."
+    }
+  ],
+  "tags": [
+    "n4",
+    "honorific",
+    "verbs",
+    "politeness",
+    "favor",
+    "te-form"
+  ]
+}

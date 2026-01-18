@@ -1,0 +1,111 @@
+{
+  "id": "290-n4-point-90",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～たり～たり",
+    "romaji": "~tari ~tari",
+    "en": "Listing Actions or States"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "The ～たり～たり grammar point is used to list two or more actions or states, without specifying their order or importance. It implies that these actions or states are representative examples and there may be others.",
+    "ja": "〜たり〜たりは、行動や状態を列挙するときに使用されます。これらの行動や状態の順序や重要性を特定せずに、代表的な例として提示します。"
+  },
+  "structure": {
+    "pattern": "Verb-ta + り + next verb-ta + り",
+    "components": [
+      {
+        "part": "Verb-ta",
+        "explanation": "Past form of the verb.",
+        "examples": [
+          "観た (mita)",
+          "読んだ (yonda)"
+        ]
+      },
+      {
+        "part": "り",
+        "explanation": "Connects actions or states.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "週末は映画を観たり、本を読んだりする。",
+      "romaji": "Shuumatsu wa eiga wo mitari, hon wo yondari suru.",
+      "english": "On weekends, I do things like watching movies and reading books.",
+      "breakdown": {
+        "token": "gloss",
+        "examples": [
+          {
+            "観たり": "watching",
+            "読んだり": "reading"
+          }
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は料理が上手だったり、歌がうまかったりする。",
+      "romaji": "Kanojo wa ryouri ga jouzu dattari, uta ga umakattari suru.",
+      "english": "She is good at things like cooking and singing.",
+      "breakdown": {
+        "token": "gloss",
+        "examples": [
+          {
+            "料理が上手だったり": "good at cooking",
+            "歌がうまかったり": "good at singing"
+          }
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このリゾートではスキーをしたり、温泉に入ったりできる。",
+      "romaji": "Kono rizooto de wa sukii wo shitari, onsen ni haittari dekiru.",
+      "english": "At this resort, you can do things like skiing and going to hot springs.",
+      "breakdown": {
+        "token": "gloss",
+        "examples": [
+          {
+            "スキーをしたり": "skiing",
+            "温泉に入ったり": "going to hot springs"
+          }
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この地域の天気は暑かったり、寒かったりする。",
+      "romaji": "Kono chiiki no tenki wa atsukattari, samukattari suru.",
+      "english": "The weather in this area can be hot or cold.",
+      "breakdown": {
+        "token": "gloss",
+        "examples": [
+          {
+            "暑かったり": "hot",
+            "寒かったり": "cold"
+          }
+        ]
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "n4-basic-sentence-patterns"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "〜たりする instead of 〜たり〜たりする",
+      "correction": "Use the full structure: 〜たり〜たり.",
+      "example": "週末は映画を観たり、本を読んだり"
+    }
+  ],
+  "tags": [
+    "n4",
+    "listings",
+    "verbs",
+    "adjectives"
+  ]
+}

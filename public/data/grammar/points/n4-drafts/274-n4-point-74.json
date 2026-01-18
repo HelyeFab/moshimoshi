@@ -1,0 +1,55 @@
+{
+  "id": "274-n4-point-74",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～かしら (〜kashira)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～かしら grammar point is used to express uncertainty or doubt about a situation. It can be translated as 'I wonder' or 'I'm not sure' in English. It is primarily used by females in casual conversations but can be used by males in some contexts as well. ～かしら is used with verbs, い-adjectives, な-adjectives, and nouns.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + かしら, い-Adjective + かしら, な-Adjective + かしら, Noun + かしら",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "今日は雨が降るかしら？",
+      "romaji": "Kyou wa ame ga furu kashira?",
+      "english": "I wonder if it will rain today?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このケーキは美味しいかしら？",
+      "romaji": "Kono keeki wa oishii kashira?",
+      "english": "I wonder if this cake is delicious?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は病気かしら？",
+      "romaji": "Kare wa byouki kashira?",
+      "english": "I wonder if he is sick?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は学生かしら？",
+      "romaji": "Kanojo wa gakusei kashira?",
+      "english": "I wonder if she is a student?",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -12,10 +12,12 @@ import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import { motion } from 'framer-motion'
 import Dropdown from '@/components/ui/Dropdown'
+import { BookOpen, Clock, Settings, Brain, AlertTriangle, Lightbulb } from 'lucide-react'
 import KanjiProgressSummary from './components/KanjiProgressSummary'
 import ReviewDueAlert from './components/ReviewDueAlert'
 import { useUserStorage } from '@/hooks/useUserStorage'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 interface StudySettings {
   sessionSize: number
@@ -155,8 +157,6 @@ function KanjiMasteryContent() {
           }
         />
 
-        <FeatureUsageIndicator featureId="kanji_mastery" />
-
         <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Main Content */}
         <div className="space-y-6">
@@ -172,7 +172,7 @@ function KanjiMasteryContent() {
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center">
-                  <span className="text-lg">📚</span>
+                  <BookOpen className="w-5 h-5 text-primary-600 dark:text-primary-400" />
                 </div>
                 <div>
                   <p className="text-xs text-gray-600 dark:text-gray-400">{t('kanjiMasteryTool.sessionSize')}</p>
@@ -189,7 +189,7 @@ function KanjiMasteryContent() {
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/20 flex items-center justify-center">
-                  <span className="text-lg">⏱️</span>
+                  <Clock className="w-5 h-5 text-primary-600 dark:text-primary-400" />
                 </div>
                 <div>
                   <p className="text-xs text-gray-600 dark:text-gray-400">{t('kanjiMasteryTool.estTime')}</p>
@@ -211,12 +211,8 @@ function KanjiMasteryContent() {
                 <span className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('kanjiMasteryTool.linearProgress')}</span>
                 <span className="text-xs text-gray-600 dark:text-gray-400">
                   {(() => {
-                    const storageKey = `kanjiLinearProgress_${settings.jlptLevel}`
-                    const lastIndex = parseInt(
-                      typeof window !== 'undefined'
-                        ? localStorage.getItem(storageKey) || '0'
-                        : '0'
-                    )
+                    const progressData = getItem<Record<string, number>>('kanjiLinearProgress', {}) || {}
+                    const lastIndex = progressData[settings.jlptLevel] || 0
                     const total = settings.studyMode === 'jlpt' ? 80 : 100 // N5 has 80 kanji
                     return `${Math.min(lastIndex, total)}/${total} ${t('kanjiMasteryTool.kanji')}`
                   })()}
@@ -227,12 +223,8 @@ function KanjiMasteryContent() {
                   className="bg-primary-500 h-2 rounded-full transition-all"
                   style={{
                     width: `${(() => {
-                      const storageKey = `kanjiLinearProgress_${settings.jlptLevel}`
-                      const lastIndex = parseInt(
-                        typeof window !== 'undefined'
-                          ? localStorage.getItem(storageKey) || '0'
-                          : '0'
-                      )
+                      const progressData = getItem<Record<string, number>>('kanjiLinearProgress', {}) || {}
+                      const lastIndex = progressData[settings.jlptLevel] || 0
                       const total = settings.studyMode === 'jlpt' ? 80 : 100
                       return Math.min((lastIndex / total) * 100, 100)
                     })()}%`
@@ -253,7 +245,7 @@ function KanjiMasteryContent() {
             className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-6"
           >
             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
-              <span>⚙️</span>
+              <Settings className="w-5 h-5" />
               {t('kanjiMasteryTool.configureSession')}
             </h2>
 
@@ -272,7 +264,7 @@ function KanjiMasteryContent() {
                   }`}
                 >
                   <div className="flex flex-col items-center gap-1">
-                    <span className="text-lg">🧠</span>
+                    <Brain className="w-5 h-5" />
                     <span>{t('kanjiMasteryTool.smartSelection')}</span>
                     <span className="text-xs opacity-80">{t('kanjiMasteryTool.adaptiveLearning')}</span>
                   </div>
@@ -286,7 +278,7 @@ function KanjiMasteryContent() {
                   }`}
                 >
                   <div className="flex flex-col items-center gap-1">
-                    <span className="text-lg">📚</span>
+                    <BookOpen className="w-5 h-5" />
                     <span>{t('kanjiMasteryTool.linearOrder')}</span>
                     <span className="text-xs opacity-80">{t('kanjiMasteryTool.sequentialStudy')}</span>
                   </div>
@@ -382,27 +374,57 @@ function KanjiMasteryContent() {
 
             {/* Session Size */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
-                {t('kanjiMasteryTool.kanjiPerSession')} {settings.sessionSize}
+              <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
+                {t('kanjiMasteryTool.kanjiPerSession')}
               </label>
-              <input
-                type="range"
-                min="1"
-                max="50"
-                value={settings.sessionSize}
-                onChange={(e) => setSettings({ ...settings, sessionSize: parseInt(e.target.value) })}
-                className="w-full accent-primary-500"
-              />
-              <div className="flex justify-between text-xs text-gray-600 dark:text-gray-400 mt-1">
-                <span>1</span>
-                <span className="font-medium">{t('kanjiMasteryTool.recommended')}</span>
-                <span>50</span>
+
+              {/* Preset buttons */}
+              <div className="grid grid-cols-4 gap-2 mb-3">
+                {[5, 10, 15, 20].map((size) => (
+                  <button
+                    key={size}
+                    onClick={() => setSettings({ ...settings, sessionSize: size })}
+                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                      settings.sessionSize === size
+                        ? 'bg-primary-500 text-white shadow-lg'
+                        : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                ))}
+              </div>
+
+              {/* Stepper control */}
+              <div className="flex items-center justify-center gap-3 bg-gray-50 dark:bg-dark-700 rounded-lg p-3">
+                <button
+                  onClick={() => setSettings({ ...settings, sessionSize: Math.max(1, settings.sessionSize - 1) })}
+                  className="w-10 h-10 rounded-lg bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-600 hover:bg-gray-100 dark:hover:bg-dark-750 transition-colors flex items-center justify-center text-gray-700 dark:text-gray-300 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={settings.sessionSize <= 1}
+                >
+                  -
+                </button>
+                <div className="min-w-[80px] text-center">
+                  <div className="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                    {settings.sessionSize}
+                  </div>
+                  <div className="text-xs text-gray-600 dark:text-gray-400">
+                    {t('kanjiMasteryTool.kanji')}
+                  </div>
+                </div>
+                <button
+                  onClick={() => setSettings({ ...settings, sessionSize: Math.min(50, settings.sessionSize + 1) })}
+                  className="w-10 h-10 rounded-lg bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-600 hover:bg-gray-100 dark:hover:bg-dark-750 transition-colors flex items-center justify-center text-gray-700 dark:text-gray-300 font-bold disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={settings.sessionSize >= 50}
+                >
+                  +
+                </button>
               </div>
 
               {settings.sessionSize > 20 && (
-                <div className="mt-2 p-3 bg-yellow-100 dark:bg-yellow-900/20 border border-yellow-300 dark:border-yellow-700 rounded-lg">
+                <div className="mt-3 p-3 bg-yellow-100 dark:bg-yellow-900/20 border border-yellow-300 dark:border-yellow-700 rounded-lg">
                   <p className="text-sm text-yellow-800 dark:text-yellow-200 flex items-center gap-2">
-                    <span>⚠️</span>
+                    <AlertTriangle className="w-4 h-4" />
                     <span>{t('kanjiMasteryTool.warningLargeSession')}</span>
                   </p>
                 </div>
@@ -444,7 +466,7 @@ function KanjiMasteryContent() {
             className="bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-6"
           >
             <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
-              <span>💡</span>
+              <Lightbulb className="w-5 h-5" />
               {t('kanjiMasteryTool.howItWorks')}
             </h2>
             <div className="space-y-3">
@@ -478,6 +500,7 @@ function KanjiMasteryContent() {
 
         </div>
       </div>
+      <MobileNavSpacer />
     </>
   )
 }

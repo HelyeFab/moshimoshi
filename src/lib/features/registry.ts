@@ -99,16 +99,6 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     notifications: true,
     description: 'Practice Japanese verb and adjective conjugations with interactive drills',
   },
-  conjugation_learn: {
-    id: 'conjugation_learn',
-    name: 'Conjugation Learn',
-    category: 'learning',
-    lifecycle: 'active',
-    permission: Permission.DO_PRACTICE,
-    limitType: 'daily',
-    notifications: false,
-    description: 'Browse and study conjugation patterns with guided practice',
-  },
   grammar_explanations: {
     id: 'grammar_explanations',
     name: 'Grammar Explanations',

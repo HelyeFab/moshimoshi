@@ -1,0 +1,89 @@
+{
+  "id": "037-plain-form-past",
+  "version": "1.0.0",
+  "title": {
+    "ja": "普通形（過去）",
+    "romaji": "futsuu-kei (past)",
+    "en": "Plain form (past)"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "The plain past form is the casual past tense. It is used in informal speech and in many grammar patterns. It corresponds to ました in polite speech.\n\nKey points:\n• Plain past is casual: 行った, 食べた, 見た\n• Used with friends/family or in diaries\n• Also appears before grammar like 〜と思う (later)\n• Time words show when it happened\n\nFor example, “昨日行った” means “I went yesterday.” “本を読んだ” means “I read a book.”\n\nThe plain past form changes depending on verb group, so you must learn common forms. Ru-verbs drop る and add た (食べる → 食べた). U-verbs change endings (書く → 書いた, 読む → 読んだ). Irregular verbs are する → した, 来る → 来た.\n\nEven if you mostly speak politely, you will see these forms in conversation, anime, and casual messages. Recognizing them helps you understand native speech.\n\nAt N5, focus on a few common verbs and their past forms. This builds a strong base for casual Japanese.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (plain past)",
+    "components": [
+      {
+        "part": "Plain past",
+        "explanation": "Casual past form",
+        "examples": ["行った", "食べた", "見た", "した"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "昨日映画を見た。",
+      "romaji": "Kinou eiga o mita.",
+      "english": "I watched a movie yesterday.",
+      "breakdown": {
+        "昨日": "yesterday",
+        "映画": "movie",
+        "を": "object marker",
+        "見た": "watched (plain past)"
+      },
+      "notes": "Casual past"
+    },
+    {
+      "japanese": "朝ご飯を食べた。",
+      "romaji": "Asagohan o tabeta.",
+      "english": "I ate breakfast.",
+      "breakdown": {
+        "朝ご飯": "breakfast",
+        "を": "object marker",
+        "食べた": "ate (plain past)"
+      },
+      "notes": "Ru-verb past"
+    },
+    {
+      "japanese": "友だちと話した。",
+      "romaji": "Tomodachi to hanashita.",
+      "english": "I talked with my friend.",
+      "breakdown": {
+        "友だち": "friend",
+        "と": "with",
+        "話した": "talked (plain past)"
+      },
+      "notes": "する-verb past"
+    },
+    {
+      "japanese": "日本へ行った。",
+      "romaji": "Nihon e itta.",
+      "english": "I went to Japan.",
+      "breakdown": {
+        "日本": "Japan",
+        "へ": "direction marker",
+        "行った": "went (plain past)"
+      },
+      "notes": "U-verb past"
+    }
+  ],
+  "relatedPoints": [
+    "024-masu-form-past",
+    "036-plain-form-present"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using た with ます-form verbs",
+      "correction": "Use the plain past form, not ます + た",
+      "example": "❌ 行きますた → ✅ 行った"
+    },
+    {
+      "mistake": "Mixing polite and plain styles",
+      "correction": "Keep the same speech level in a sentence",
+      "example": "❌ 昨日行ったです → ✅ 昨日行った"
+    }
+  ],
+  "tags": ["verbs", "plain-form", "past", "casual"]
+}

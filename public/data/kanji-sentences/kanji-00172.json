@@ -1,0 +1,33 @@
+{
+  "kanji": "理",
+  "sentences": [
+    {
+      "id": "182780",
+      "japanese": "客観的に見て、彼の主張は全く理にかなっていなかった。",
+      "english": "From an objective viewpoint, his argument was far from rational."
+    },
+    {
+      "id": "190659",
+      "japanese": "一見したところそれ以上に理にかなったことはないであろう。",
+      "english": "Nothing could be more reasonable, on the face of it."
+    },
+    {
+      "id": "124139",
+      "japanese": "盗人にも三分の理。",
+      "english": "Give the devil his due."
+    },
+    {
+      "id": "211223",
+      "japanese": "その計画は理にかなっていると我々全員一致した。",
+      "english": "We all agreed that the plan made sense."
+    },
+    {
+      "id": "78352",
+      "japanese": "理論は理にかなっていたけれども、彼は納得しなかった。",
+      "english": "Although the arguments were rational, he was not convinced."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.492Z",
+  "count": 5,
+  "fileId": "kanji-00172"
+}

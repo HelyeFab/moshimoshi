@@ -1,0 +1,121 @@
+{
+  "id": "303-n4-point-103",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～ないといけない",
+    "romaji": "~nai to ikenai",
+    "en": "have to / must (nai to ikenai)"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The grammar point ～ないといけない expresses obligation or necessity, similar to 'must', 'have to', or 'need to' in English. It is formed by attaching といけない to the negative form of a verb (ending in ない).",
+    "ja": "「～ないといけない」は義務や必要性を表す文法です。動詞の否定形（〜ない）に「といけない」をつけて使います。"
+  },
+  "structure": {
+    "pattern": "Verb (negative form) + といけない",
+    "components": [
+      {
+        "part": "Verb (negative form)",
+        "explanation": "The plain negative (ない) form of the verb.",
+        "examples": [
+          "食べない",
+          "行かない",
+          "勉強しない"
+        ]
+      },
+      {
+        "part": "といけない",
+        "explanation": "Follows the negative verb to indicate obligation or necessity.",
+        "examples": [
+          "行かないといけない",
+          "勉強しないといけない"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日試験があるから、今夜勉強しないといけない。",
+      "romaji": "Ashita shiken ga aru kara, kon'ya benkyou shinai to ikenai.",
+      "english": "I have an exam tomorrow, so I have to study tonight.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "試験": "exam",
+        "ある": "there is",
+        "から": "because",
+        "今夜": "tonight",
+        "勉強しない": "not study",
+        "といけない": "must"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "９時に出発しないといけない。",
+      "romaji": "Ku-ji ni shuppatsu shinai to ikenai.",
+      "english": "We must leave at 9 o'clock.",
+      "breakdown": {
+        "９時": "9 o'clock",
+        "に": "at",
+        "出発しない": "not depart",
+        "といけない": "must"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "風邪をひかないように、手をよく洗わないといけない。",
+      "romaji": "Kaze o hikanai you ni, te o yoku arawanai to ikenai.",
+      "english": "To avoid catching a cold, we have to wash our hands well.",
+      "breakdown": {
+        "風邪": "cold (illness)",
+        "を": "object marker",
+        "ひかない": "not catch",
+        "ように": "so that",
+        "手": "hands",
+        "よく": "well",
+        "洗わない": "not wash",
+        "といけない": "must"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この仕事は明日までに終わらないといけない。",
+      "romaji": "Kono shigoto wa ashita made ni owaranai to ikenai.",
+      "english": "This work must be finished by tomorrow.",
+      "breakdown": {
+        "この": "this",
+        "仕事": "work",
+        "は": "topic marker",
+        "明日": "tomorrow",
+        "までに": "by",
+        "終わらない": "not finish",
+        "といけない": "must"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "なければならない",
+    "なくてはいけない"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using the affirmative verb form: 勉強するといけない。",
+      "correction": "Use the negative form: 勉強しないといけない。",
+      "example": "✗ 明日試験があるから、今夜勉強するといけない。→ 〇 今夜勉強しないといけない。"
+    },
+    {
+      "mistake": "Omitting と: 勉強しないいけない。",
+      "correction": "Include と: 勉強しないといけない。",
+      "example": "✗ 今夜勉強しないいけない。→ 〇 今夜勉強しないといけない。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "obligation",
+    "necessity",
+    "verbs",
+    "must",
+    "grammar"
+  ]
+}

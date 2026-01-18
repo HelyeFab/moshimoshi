@@ -1,0 +1,33 @@
+{
+  "kanji": "探",
+  "sentences": [
+    {
+      "id": "4924",
+      "japanese": "「これが探していたものだ」と彼は叫んだ。",
+      "english": "\"This is what I was looking for!\" he exclaimed."
+    },
+    {
+      "id": "182300",
+      "japanese": "探す人が、見つけるのだ。",
+      "english": "Who searches, finds."
+    },
+    {
+      "id": "177405",
+      "japanese": "何を探しているんですか？",
+      "english": "What are you looking for?"
+    },
+    {
+      "id": "187545",
+      "japanese": "何を探しているの？",
+      "english": "What are you looking for?"
+    },
+    {
+      "id": "177911",
+      "japanese": "君はいつも僕のあら探しばかりしているね。",
+      "english": "You're always finding fault with me."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.159Z",
+  "count": 5,
+  "fileId": "kanji-00298"
+}

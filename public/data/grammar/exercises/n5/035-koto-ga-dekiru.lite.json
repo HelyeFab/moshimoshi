@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "035-koto-ga-dekiru",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "035-koto-ga-dekiru-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct ability form: 話す → ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "話すことができます"
+        },
+        {
+          "id": "b",
+          "text": "話しますことができます"
+        },
+        {
+          "id": "c",
+          "text": "話してことができます"
+        },
+        {
+          "id": "d",
+          "text": "話すができます"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Dictionary form + ことができます.",
+      "incorrectFeedback": "Not quite. Use dictionary form before ことができます.",
+      "explanation": "話すことができます = can speak.",
+      "difficulty": "easy"
+    }
+  ]
+}

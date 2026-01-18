@@ -1,0 +1,33 @@
+{
+  "kanji": "喜",
+  "sentences": [
+    {
+      "id": "5136",
+      "japanese": "彼がそれを聞いたら喜ぶよ。",
+      "english": "He would be glad to hear that."
+    },
+    {
+      "id": "178423",
+      "japanese": "君の帰りが早ければ早いほど、お父さんは喜ぶでしょう。",
+      "english": "The sooner you return, the happier your father will be."
+    },
+    {
+      "id": "178523",
+      "japanese": "君のためなら喜んでなんでもする。",
+      "english": "I am ready to do anything for you."
+    },
+    {
+      "id": "233516",
+      "japanese": "あなたのためなら喜んでどんなことでもします。",
+      "english": "I am ready to do anything for you."
+    },
+    {
+      "id": "178991",
+      "japanese": "君が賛成してくれれば喜んで彼にその仕事を提供しよう。",
+      "english": "With your approval, I would like to offer him the job."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.135Z",
+  "count": 5,
+  "fileId": "kanji-00295"
+}

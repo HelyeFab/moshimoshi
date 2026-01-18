@@ -1,0 +1,102 @@
+{
+  "id": "033-te-wa-ikenai",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜てはいけない",
+    "romaji": "-te wa ikenai",
+    "en": "Must not"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "〜てはいけない expresses prohibition. It means “you must not …” or “it is not allowed to …”. It is made with the verb’s て-form + は + いけない.\n\nKey points:\n• Verb て-form + はいけない\n• Strong prohibition or rule\n• Polite form: 〜てはいけません / 〜てはいけないです\n• Often used for rules and warnings\n\nFor example, “ここでタバコを吸ってはいけません” means “You must not smoke here.”\n\nThis pattern is strong, so use it for rules or strict advice. For softer language, people might say だめです, but てはいけない is clear and direct.\n\nRemember: て-form + は + いけない. It is the opposite of 〜てもいい (permission).\n\nAs a beginner, use it in set phrases and rules you often see: “入ってはいけません” (Do not enter), “食べてはいけません” (You must not eat).",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + はいけない",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "Action that is not allowed",
+        "examples": ["入って", "吸って", "食べて"]
+      },
+      {
+        "part": "はいけない",
+        "explanation": "Prohibition phrase",
+        "examples": ["はいけない", "はいけません"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "ここでタバコを吸ってはいけません。",
+      "romaji": "Koko de tabako o sutte wa ikemasen.",
+      "english": "You must not smoke here.",
+      "breakdown": {
+        "ここ": "here",
+        "で": "location marker",
+        "タバコ": "cigarettes",
+        "を": "object marker",
+        "吸って": "smoke (te-form)",
+        "はいけません": "must not (polite)"
+      },
+      "notes": "Rule or prohibition"
+    },
+    {
+      "japanese": "この部屋に入ってはいけません。",
+      "romaji": "Kono heya ni haitte wa ikemasen.",
+      "english": "You must not enter this room.",
+      "breakdown": {
+        "この": "this",
+        "部屋": "room",
+        "に": "location marker",
+        "入って": "enter (te-form)",
+        "はいけません": "must not"
+      },
+      "notes": "Do not enter"
+    },
+    {
+      "japanese": "授業中は話してはいけません。",
+      "romaji": "Jugyou-chuu wa hanashite wa ikemasen.",
+      "english": "You must not talk during class.",
+      "breakdown": {
+        "授業中": "during class",
+        "は": "topic marker",
+        "話して": "talk (te-form)",
+        "はいけません": "must not"
+      },
+      "notes": "Classroom rule"
+    },
+    {
+      "japanese": "ここで写真を撮ってはいけません。",
+      "romaji": "Koko de shashin o totte wa ikemasen.",
+      "english": "You must not take photos here.",
+      "breakdown": {
+        "ここ": "here",
+        "で": "location marker",
+        "写真": "photo",
+        "を": "object marker",
+        "撮って": "take (te-form)",
+        "はいけません": "must not"
+      },
+      "notes": "No photos"
+    }
+  ],
+  "relatedPoints": [
+    "032-te-mo-ii",
+    "034-nakute-wa-ikenai"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using dictionary form with はいけない",
+      "correction": "Use the て-form before はいけない",
+      "example": "❌ 入るはいけない → ✅ 入ってはいけない"
+    },
+    {
+      "mistake": "Using it for soft advice",
+      "correction": "It is strong; use softer forms for gentle advice",
+      "example": "For gentle advice, use 〜ないほうがいい (later)"
+    }
+  ],
+  "tags": ["verbs", "prohibition", "te-form", "beginner"]
+}

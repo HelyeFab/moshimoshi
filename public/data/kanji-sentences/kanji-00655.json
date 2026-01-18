@@ -1,0 +1,33 @@
+{
+  "kanji": "版",
+  "sentences": [
+    {
+      "id": "219734",
+      "japanese": "この本は８版を重ねました。",
+      "english": "This book has gone through eight editions."
+    },
+    {
+      "id": "219756",
+      "japanese": "この本のペーパーバック版はありますか。",
+      "english": "Is there a paperback edition of this book?"
+    },
+    {
+      "id": "220160",
+      "japanese": "この版は7,000部に限定されています。",
+      "english": "This edition is limited to seven thousand copies."
+    },
+    {
+      "id": "76941",
+      "japanese": "Microsoftがβ版をランチするのは「NetShow streaming server」で動画や音声をオンデマンドで提供する。",
+      "english": "What Microsoft is launching is a beta version of its \"NetShow streaming server\"; it supplies video and audio on demand."
+    },
+    {
+      "id": "76942",
+      "japanese": "Ｍａｒｋ／Ｓｐａｃｅは７月１８日、Ｍａｃ　ＯＳ Ｘ用シンクロソフト、Ｍｉｓｓｉｎｇ　Ｓｙｎｃ　ｆｏｒ　Ｗｉｎｄｏｗｓ　Ｍｏｂｉｌｅのアップデート版をリリースした。",
+      "english": "On Jul 18th Mark/Space released an updated version of Missing Sync for Windows Mobile for the Mac OS X."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.352Z",
+  "count": 5,
+  "fileId": "kanji-00655"
+}

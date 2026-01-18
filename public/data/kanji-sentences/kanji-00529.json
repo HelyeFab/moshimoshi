@@ -1,0 +1,33 @@
+{
+  "kanji": "確",
+  "sentences": [
+    {
+      "id": "177386",
+      "japanese": "君は確かに物知りだが、それを教えるのはうまくない。",
+      "english": "Indeed you know a lot of things, but you're not good at teaching them."
+    },
+    {
+      "id": "177657",
+      "japanese": "君はためらわずに事実を確かめるべきだ。",
+      "english": "You should make sure of the fact without hesitation."
+    },
+    {
+      "id": "178574",
+      "japanese": "君のアイディアは確かに検討する価値がある。",
+      "english": "Your idea is definitely worth thinking about."
+    },
+    {
+      "id": "179751",
+      "japanese": "金の価格が上昇するのは確かである。",
+      "english": "It is certain that the price of gold will go up."
+    },
+    {
+      "id": "180151",
+      "japanese": "教授は試験問題が注意深くチェックされたことを確かめた。",
+      "english": "The professor made sure the test was checked carefully."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.174Z",
+  "count": 5,
+  "fileId": "kanji-00529"
+}

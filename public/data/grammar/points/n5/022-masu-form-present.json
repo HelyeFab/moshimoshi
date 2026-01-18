@@ -1,0 +1,99 @@
+{
+  "id": "022-masu-form-present",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜ます",
+    "romaji": "-masu",
+    "en": "Polite present/future"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "The 〜ます form is the polite verb ending used in everyday conversation with people you do not know well. It is the standard form taught at N5. This form covers both present and future time, so “行きます” can mean “I go” or “I will go,” depending on context.\n\nKey points:\n• Add 〜ます to a verb stem to make it polite\n• The same form is used for present and future\n• It is safe for formal or polite situations\n• Often used with particles like を, に, で\n\nFor example, “食べます” means “(I) eat” or “(I) will eat.” The time is usually clear from context or a time word like きょう (today) or あした (tomorrow).\n\nTo make 〜ます, you change the verb to its polite stem and add ます. For beginners, it is enough to memorize common verbs in their ます form: 行きます, 来ます, 食べます, 見ます. Later you will learn how to form it for each verb group.\n\nUsing 〜ます immediately makes your Japanese sound polite and natural. Start your sentences with a topic (like 私は) or a time word, then use the ます verb at the end. This is the core pattern for polite speech.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-stem + ます",
+    "components": [
+      {
+        "part": "Verb-stem",
+        "explanation": "Polite verb stem",
+        "examples": ["行き", "食べ", "読み", "勉強し"]
+      },
+      {
+        "part": "ます",
+        "explanation": "Polite present/future ending",
+        "examples": ["ます"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私は毎日日本語を勉強します。",
+      "romaji": "Watashi wa mainichi nihongo o benkyou shimasu.",
+      "english": "I study Japanese every day.",
+      "breakdown": {
+        "私": "I, me",
+        "は": "topic marker",
+        "毎日": "every day",
+        "日本語": "Japanese language",
+        "を": "object marker",
+        "勉強します": "study (polite)"
+      },
+      "notes": "Present habit"
+    },
+    {
+      "japanese": "明日学校へ行きます。",
+      "romaji": "Ashita gakkou e ikimasu.",
+      "english": "I will go to school tomorrow.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "学校": "school",
+        "へ": "direction marker",
+        "行きます": "go (polite)"
+      },
+      "notes": "Future action with time word"
+    },
+    {
+      "japanese": "昼ご飯を食べます。",
+      "romaji": "Hirugohan o tabemasu.",
+      "english": "I eat lunch.",
+      "breakdown": {
+        "昼ご飯": "lunch",
+        "を": "object marker",
+        "食べます": "eat (polite)"
+      },
+      "notes": "Simple present"
+    },
+    {
+      "japanese": "友だちと映画を見ます。",
+      "romaji": "Tomodachi to eiga o mimasu.",
+      "english": "I watch a movie with a friend.",
+      "breakdown": {
+        "友だち": "friend",
+        "と": "with",
+        "映画": "movie",
+        "を": "object marker",
+        "見ます": "watch (polite)"
+      },
+      "notes": "Action with a partner"
+    }
+  ],
+  "relatedPoints": [
+    "023-masu-form-negative",
+    "008-particle-wo"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Assuming ます is only future",
+      "correction": "ます can be present or future; time words show which",
+      "example": "きょう行きます / あした行きます"
+    },
+    {
+      "mistake": "Using casual dictionary form in polite speech",
+      "correction": "Use 〜ます when speaking politely",
+      "example": "❌ 行くです → ✅ 行きます"
+    }
+  ],
+  "tags": ["verbs", "polite", "present", "future", "beginner"]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "測",
+  "sentences": [
+    {
+      "id": "183863",
+      "japanese": "看護婦が私の体温を測った。",
+      "english": "A nurse took my temperature."
+    },
+    {
+      "id": "188322",
+      "japanese": "温度計は温度を測る器具です。",
+      "english": "The thermometer is an instrument for measuring temperature."
+    },
+    {
+      "id": "188550",
+      "japanese": "奥様、寸法をお測りしましょう。",
+      "english": "May I take your size, madam?"
+    },
+    {
+      "id": "191679",
+      "japanese": "われわれはその川の深さを測った。",
+      "english": "We measured the depth of the river."
+    },
+    {
+      "id": "193181",
+      "japanese": "ものさしでその棒の長さを測りなさい。",
+      "english": "Measure the length of the stick with a ruler."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.626Z",
+  "count": 5,
+  "fileId": "kanji-00716"
+}

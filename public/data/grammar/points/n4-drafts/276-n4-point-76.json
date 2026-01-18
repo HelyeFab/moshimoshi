@@ -1,0 +1,55 @@
+{
+  "id": "276-n4-point-76",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～かなあ (〜kanaa)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～かなあ grammar point is used to express a feeling of uncertainty or wonder about a situation or statement. It can be translated as 'I wonder' or 'I'm not sure' in English. In casual spoken Japanese, when using nouns or な-adjectives before かなあ, the copula だ is often omitted or replaced with の (e.g., 学生かなあ or 学生なのかなあ). This grammar point should not be used when asking questions directly to someone, as it may come off as too direct or impolite.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + かなあ, い-Adjective + かなあ, (な-Adjective/Noun) + (だ) + かなあ",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "明日雨が降るかなあ。",
+      "romaji": "Ashita ame ga furu kanaa.",
+      "english": "I wonder if it will rain tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このケーキは美味しいかなあ。",
+      "romaji": "Kono keeki wa oishii kanaa.",
+      "english": "I wonder if this cake is delicious.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は病気かなあ。",
+      "romaji": "Kare wa byouki kanaa.",
+      "english": "I wonder if he is sick.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は学生かなあ。",
+      "romaji": "Kanojo wa gakusei kanaa.",
+      "english": "I wonder if she is a student.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

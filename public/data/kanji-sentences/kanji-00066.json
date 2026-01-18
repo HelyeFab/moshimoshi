@@ -1,0 +1,33 @@
+{
+  "kanji": "土",
+  "sentences": [
+    {
+      "id": "179379",
+      "japanese": "空気は穏やかで、土には湿り気がある。",
+      "english": "The air is soft, the soil moist."
+    },
+    {
+      "id": "203575",
+      "japanese": "だって私達は結局冷たい土に倒れるのだから。",
+      "english": "Because we'll all fall down on the cold ground."
+    },
+    {
+      "id": "220364",
+      "japanese": "この土は最近の雨のために湿っている。",
+      "english": "This earth is moist owing to the recent rain."
+    },
+    {
+      "id": "74674",
+      "japanese": "雨が降って土に湿り気があると草は取りやすくなる。",
+      "english": "When rain's fallen and the soil is moist, it becomes easier to pull out weeds."
+    },
+    {
+      "id": "88621",
+      "japanese": "彼女は植木鉢に新しい土を入れた。",
+      "english": "She put new soil in the flower pot."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.018Z",
+  "count": 5,
+  "fileId": "kanji-00066"
+}

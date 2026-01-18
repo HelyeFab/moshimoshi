@@ -1,0 +1,55 @@
+{
+  "id": "322-n4-point-122",
+  "version": "1.0.0",
+  "title": {
+    "ja": "文A。それで 文B (Bun A. Sorede Bun B)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The grammar point 文A。それで 文B is used to connect two sentences and show that the second sentence (文B) is a result or consequence of the first sentence (文A). It can be translated as 'so', 'that's why', or 'therefore' in English.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Sentence A。それで Sentence B。",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "今日は暑いです。それで、エアコンをつけました。",
+      "romaji": "Kyou wa atsui desu. Sorede, eakon wo tsukemashita.",
+      "english": "It is hot today. So, I turned on the air conditioner.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "電車が遅れました。それで、仕事に遅れてしまいました。",
+      "romaji": "Densha ga okuremashita. Sorede, shigoto ni okurete shimaimashita.",
+      "english": "The train was delayed. That's why I was late for work.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は疲れている。それで、早く寝ることにした。",
+      "romaji": "Kare wa tsukarete iru. Sorede, hayaku neru koto ni shita.",
+      "english": "He is tired. Therefore, he decided to go to bed early.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "試験に合格しました。それで、友達とお祝いパーティーを開きました。",
+      "romaji": "Shiken ni goukaku shimashita. Sorede, tomodachi to oiwai paatii wo hirakimashita.",
+      "english": "I passed the exam. So, I held a celebration party with friends.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

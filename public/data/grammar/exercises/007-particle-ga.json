@@ -1,0 +1,185 @@
+{
+  "grammarPointId": "007-particle-ga",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "007-particle-ga-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: だれ＿＿来ますか。",
+      "questionRomaji": "Dare __ kimasu ka.",
+      "options": [
+        { "id": "a", "text": "は", "romaji": "wa" },
+        { "id": "b", "text": "が", "romaji": "ga" },
+        { "id": "c", "text": "を", "romaji": "o" },
+        { "id": "d", "text": "に", "romaji": "ni" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! が marks the subject in who-questions.",
+      "incorrectFeedback": "Not quite. Use が for who-questions.",
+      "explanation": "だれが来ますか is the standard question.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "007-particle-ga-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the best answer: だれが来ますか。",
+      "options": [
+        { "id": "a", "text": "田中さんが来ます。" },
+        { "id": "b", "text": "田中さんは来ます。" },
+        { "id": "c", "text": "田中さんを来ます。" },
+        { "id": "d", "text": "田中さんに来ます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Yes! The answer uses が to mark the subject.",
+      "incorrectFeedback": "Try again. Use が to focus on who is coming.",
+      "explanation": "が marks the subject being identified.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "007-particle-ga-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a cat.'",
+      "correctAnswer": "猫がいます",
+      "acceptedVariations": [
+        "猫がいます。",
+        "ねこがいます",
+        "ねこがいます。",
+        "neko ga imasu",
+        "neko ga imasu."
+      ],
+      "correctFeedback": "Great! 猫がいます is correct.",
+      "incorrectFeedback": "The correct answer is: 猫がいます (neko ga imasu).",
+      "explanation": "Existence sentences use が to mark the subject.",
+      "hints": ["Use が to mark the subject", "います is for animate things"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "007-particle-ga-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence best introduces new information?",
+      "options": [
+        { "id": "a", "text": "私が学生です。" },
+        { "id": "b", "text": "私は学生です。" },
+        { "id": "c", "text": "私を学生です。" },
+        { "id": "d", "text": "私に学生です。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! が highlights the subject as new information.",
+      "incorrectFeedback": "Not quite. が is used when the subject is in focus.",
+      "explanation": "が marks the subject with emphasis or contrast.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "007-particle-ga-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Japanese is fun.'",
+      "correctAnswer": "日本語が楽しいです",
+      "acceptedVariations": [
+        "日本語が楽しいです。",
+        "にほんごがたのしいです",
+        "にほんごがたのしいです。",
+        "nihongo ga tanoshii desu",
+        "nihongo ga tanoshii desu."
+      ],
+      "correctFeedback": "Nice! 日本語が楽しいです is correct.",
+      "incorrectFeedback": "The correct answer is: 日本語が楽しいです (nihongo ga tanoshii desu).",
+      "explanation": "Feelings often use が to mark the subject.",
+      "hints": ["楽しい means fun", "Use が with feelings"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "007-particle-ga-ex-06",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence for 'There is a dog in the park.'",
+      "options": [
+        { "id": "a", "text": "公園に犬がいます。" },
+        { "id": "b", "text": "公園を犬がいます。" },
+        { "id": "c", "text": "公園に犬をいます。" },
+        { "id": "d", "text": "公園が犬にいます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Location に + subject が + います.",
+      "incorrectFeedback": "Try again. Use に for location and が for the subject.",
+      "explanation": "Existence sentences use に for location and が for the subject.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "007-particle-ga-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Who is a teacher?'",
+      "correctAnswer": "だれが先生ですか",
+      "acceptedVariations": [
+        "だれが先生ですか。",
+        "誰が先生ですか。",
+        "dare ga sensei desu ka",
+        "dare ga sensei desu ka."
+      ],
+      "correctFeedback": "Great! だれが先生ですか is correct.",
+      "incorrectFeedback": "The correct answer is: だれが先生ですか (dare ga sensei desu ka).",
+      "explanation": "Who-questions use が to mark the subject.",
+      "hints": ["Use が after だれ", "End with か"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "007-particle-ga-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "だれが来ますか。",
+          "romaji": "Dare ga kimasu ka.",
+          "english": "Who is coming?"
+        },
+        {
+          "japanese": "田中さんが来ます。",
+          "romaji": "Tanaka-san ga kimasu.",
+          "english": "Tanaka-san is coming."
+        },
+        {
+          "japanese": "猫がいます。",
+          "romaji": "Neko ga imasu.",
+          "english": "There is a cat."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review how が marks the subject.",
+      "explanation": "Each sentence uses が to mark the subject.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "007-particle-ga-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence emphasizes the subject?",
+      "options": [
+        { "id": "a", "text": "私は学生です。" },
+        { "id": "b", "text": "私が学生です。" },
+        { "id": "c", "text": "私を学生です。" },
+        { "id": "d", "text": "私に学生です。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! が emphasizes the subject.",
+      "incorrectFeedback": "Try again. が marks the focused subject.",
+      "explanation": "Using が highlights who the subject is.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "007-particle-ga-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a student in the classroom.'",
+      "correctAnswer": "教室に学生がいます",
+      "acceptedVariations": [
+        "教室に学生がいます。",
+        "きょうしつにがくせいがいます",
+        "きょうしつにがくせいがいます。",
+        "kyoushitsu ni gakusei ga imasu",
+        "kyoushitsu ni gakusei ga imasu."
+      ],
+      "correctFeedback": "Nice! 教室に学生がいます is correct.",
+      "incorrectFeedback": "The correct answer is: 教室に学生がいます (kyoushitsu ni gakusei ga imasu).",
+      "explanation": "Location に + subject が + います.",
+      "hints": ["教室 means classroom", "Use に for location"],
+      "difficulty": "hard"
+    }
+  ]
+}

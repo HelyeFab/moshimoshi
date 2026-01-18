@@ -1030,6 +1030,22 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         stallImage: getRandomStallImage(),
       },
       {
+        id: 'grammar',
+        title: strings.dashboard?.cards?.grammar?.title || 'Grammar',
+        subtitle: strings.dashboard?.cards?.grammar?.subtitle || '文法',
+        description:
+          strings.dashboard?.cards?.grammar?.description || 'Browse N5 and N4 grammar points',
+        href: getLocalePath('/learn/grammar'),
+        icon: '📘',
+        stallType: 'scroll',
+        color: 'from-sky-400 to-blue-600',
+        glow: 'shadow-sky-500/50',
+        doshiMood: 'thinking' as const,
+        progress: 0,
+        lanternColor: '#0ea5e9',
+        stallImage: getRandomStallImage(),
+      },
+      {
         id: 'blog',
         title: strings.dashboard?.cards?.blog?.title || 'Blog',
         subtitle: strings.dashboard?.cards?.blog?.subtitle || 'ブログ',
@@ -1173,7 +1189,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         'my-videos',
       ] as StallId[],
       play: ['games', 'review-hub'] as StallId[],
-      community: ['achievements', 'leaderboard', 'resources', 'blog', 'todos', 'qa'] as StallId[],
+      community: [
+        'grammar',
+        'achievements',
+        'leaderboard',
+        'resources',
+        'blog',
+        'todos',
+        'qa',
+      ] as StallId[],
     }),
     []
   )
@@ -1629,6 +1653,10 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
           {districtEntries.map(([catKey, stallIds]) => {
             // Filter stalls that belong to this category AND are currently enabled/visible
             const categoryStalls = filteredStalls.filter(s => stallIds.includes(s.id as StallId))
+            const orderedStalls = [...categoryStalls].sort(
+              (a, b) =>
+                stallIds.indexOf(a.id as StallId) - stallIds.indexOf(b.id as StallId)
+            )
 
             // Don't render empty sections
             if (categoryStalls.length === 0) return null
@@ -1673,7 +1701,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
                       transition={{ duration: 0.3, ease: 'easeInOut' }}
                       className="space-y-3 overflow-hidden"
                     >
-                      {categoryStalls.map((stall, index) => (
+                      {orderedStalls.map((stall, index) => (
                         <MobileStallCard
                           key={stall.id}
                           stall={stall}
@@ -1694,6 +1722,10 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
           {districtEntries.map(([catKey, stallIds]) => {
             // Filter stalls that belong to this category AND are currently enabled/visible
             const categoryStalls = filteredStalls.filter(s => stallIds.includes(s.id as StallId))
+            const orderedStalls = [...categoryStalls].sort(
+              (a, b) =>
+                stallIds.indexOf(a.id as StallId) - stallIds.indexOf(b.id as StallId)
+            )
 
             // Don't render empty sections
             if (categoryStalls.length === 0) return null
@@ -1733,7 +1765,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
                   className="flex -ml-3 sm:-ml-6 w-auto"
                   columnClassName="pl-3 sm:pl-6 bg-clip-padding"
                 >
-                  {categoryStalls.map((stall, index) => (
+                  {orderedStalls.map((stall, index) => (
                     <div key={stall.id} className="mb-3 sm:mb-6 break-inside-avoid">
                       <StallCard
                         stall={stall}

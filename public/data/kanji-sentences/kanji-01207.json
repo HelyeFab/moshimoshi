@@ -1,0 +1,33 @@
+{
+  "kanji": "創",
+  "sentences": [
+    {
+      "id": "191713",
+      "japanese": "われわれの知っているような言語は人間の創り出したものである。",
+      "english": "Language as we know is a human invention."
+    },
+    {
+      "id": "214420",
+      "japanese": "すべての人間が平等に創られているわけではない。",
+      "english": "Not all men are created equal."
+    },
+    {
+      "id": "144517",
+      "japanese": "人は皆平等に創られている。",
+      "english": "All men are created equal."
+    },
+    {
+      "id": "218145",
+      "japanese": "これは彼が自分で創った問題だ。",
+      "english": "This is a problem of his own making."
+    },
+    {
+      "id": "142651",
+      "japanese": "聖書によれば、神は６日で世界を創られた。",
+      "english": "According to the Bible, God made the world in six days."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.281Z",
+  "count": 5,
+  "fileId": "kanji-01207"
+}

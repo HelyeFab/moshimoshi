@@ -1,0 +1,33 @@
+{
+  "kanji": "比",
+  "sentences": [
+    {
+      "id": "176941",
+      "japanese": "君は彼女と比べて勤勉だ。",
+      "english": "Unlike her, you are diligent."
+    },
+    {
+      "id": "1046161",
+      "japanese": "あなたの解答を先生のと比べてみなさい。",
+      "english": "Compare your answers with the teacher's."
+    },
+    {
+      "id": "178232",
+      "japanese": "君の車と比べれば、ぼくの車は小さい。",
+      "english": "Compared with yours, my car is small."
+    },
+    {
+      "id": "178281",
+      "japanese": "君の作文を手本と比べてみたまえ。",
+      "english": "Compare your composition with the example."
+    },
+    {
+      "id": "178421",
+      "japanese": "君の議論に比べて彼の議論はもっと急進的だ。",
+      "english": "His argument is more radical than yours."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.200Z",
+  "count": 5,
+  "fileId": "kanji-00964"
+}

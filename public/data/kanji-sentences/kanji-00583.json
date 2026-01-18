@@ -1,0 +1,33 @@
+{
+  "kanji": "座",
+  "sentences": [
+    {
+      "id": "494184",
+      "japanese": "「ありがとうご座います」「どう致しまして」",
+      "english": "\"Thank you.\" \"You're welcome.\""
+    },
+    {
+      "id": "177858",
+      "japanese": "君はここに座っていさえすればいい。",
+      "english": "You have only to sit here."
+    },
+    {
+      "id": "178997",
+      "japanese": "君が座っている腰掛けのペンキはまだ塗り立てだよ。",
+      "english": "The paint on the seat on which you are sitting is still wet."
+    },
+    {
+      "id": "179877",
+      "japanese": "近くに座りなさい。",
+      "english": "Sit near at hand."
+    },
+    {
+      "id": "182781",
+      "japanese": "客は私の真向かいに座っていた。",
+      "english": "The visitor sat across from me."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.010Z",
+  "count": 5,
+  "fileId": "kanji-00583"
+}

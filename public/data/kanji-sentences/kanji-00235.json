@@ -1,0 +1,33 @@
+{
+  "kanji": "起",
+  "sentences": [
+    {
+      "id": "4729",
+      "japanese": "そんなことは起きないでしょう。",
+      "english": "That won't happen."
+    },
+    {
+      "id": "4783",
+      "japanese": "高校生の時は毎朝6時に起きていた。",
+      "english": "Back in high school, I got up at 6 a.m. every morning."
+    },
+    {
+      "id": "1596595",
+      "japanese": "高校の時、毎朝６時に起きたものだ。",
+      "english": "Back in high school, I got up at 6 a.m. every morning."
+    },
+    {
+      "id": "4784",
+      "japanese": "起きた時私は悲しかった。",
+      "english": "When I woke up, I was sad."
+    },
+    {
+      "id": "4864",
+      "japanese": "君には何が起こるか分かるんじゃないかと思うけどね。",
+      "english": "You can probably guess what happens though."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.302Z",
+  "count": 5,
+  "fileId": "kanji-00235"
+}

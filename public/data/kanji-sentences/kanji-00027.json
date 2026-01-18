@@ -1,0 +1,33 @@
+{
+  "kanji": "下",
+  "sentences": [
+    {
+      "id": "4933",
+      "japanese": "何か私にできることがありましたらお知らせ下さい。",
+      "english": "Let me know if there is anything I can do."
+    },
+    {
+      "id": "199105",
+      "japanese": "なにか私にできることがありましたらお知らせ下さい。",
+      "english": "Let me know if there is anything I can do."
+    },
+    {
+      "id": "5021",
+      "japanese": "あの方が言われる事を、何でもしてあげて下さい。",
+      "english": "Do whatever he tells you."
+    },
+    {
+      "id": "5076",
+      "japanese": "「塩を取って下さい」「はい、どうぞ」",
+      "english": "\"Pass me the salt, please.\" \"Here you are.\""
+    },
+    {
+      "id": "227364",
+      "japanese": "お勘定して下さい。",
+      "english": "The check, please."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.478Z",
+  "count": 5,
+  "fileId": "kanji-00027"
+}

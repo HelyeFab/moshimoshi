@@ -1,0 +1,33 @@
+{
+  "kanji": "画",
+  "sentences": [
+    {
+      "id": "199720",
+      "japanese": "トランジスターの発明は新時代を画した。",
+      "english": "The invention of the transistor marked a new era."
+    },
+    {
+      "id": "218136",
+      "japanese": "これは彼によってかかれた画です。",
+      "english": "This is a picture painted by him."
+    },
+    {
+      "id": "222696",
+      "japanese": "この画は何をイメージして描いたのですか。",
+      "english": "What image did you have in mind as you painted this picture?"
+    },
+    {
+      "id": "159746",
+      "japanese": "私はそれは本物のピカソの画だと信じる。",
+      "english": "I believe it is a genuine Picasso."
+    },
+    {
+      "id": "2271260",
+      "japanese": "僕の名前は上下合わせて50画もあるので、書くのがとても面倒だ。",
+      "english": "It's a lot of trouble to write my name, because it takes 50 strokes to write both my first and last names."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.063Z",
+  "count": 5,
+  "fileId": "kanji-00214"
+}

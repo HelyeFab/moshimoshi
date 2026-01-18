@@ -1,0 +1,33 @@
+{
+  "kanji": "捜",
+  "sentences": [
+    {
+      "id": "232217",
+      "japanese": "あなたは何を捜しているのですか。",
+      "english": "What are you looking for?"
+    },
+    {
+      "id": "177920",
+      "japanese": "君はいつも私のあら捜しをしている。",
+      "english": "You're always finding fault with me."
+    },
+    {
+      "id": "232826",
+      "japanese": "あなたはいつも私のあら捜しばかりしている。",
+      "english": "You're always finding fault with me."
+    },
+    {
+      "id": "178887",
+      "japanese": "君が彼女のあら捜しをするのは残酷だよ。",
+      "english": "It is cruel of you to find fault with her."
+    },
+    {
+      "id": "178935",
+      "japanese": "君が捜していたズバリそのものを見つけました。",
+      "english": "I found the very thing you had been looking for."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.451Z",
+  "count": 5,
+  "fileId": "kanji-00706"
+}

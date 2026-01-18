@@ -1,0 +1,33 @@
+{
+  "kanji": "効",
+  "sentences": [
+    {
+      "id": "188330",
+      "japanese": "温泉はあなたに効くでしょう。",
+      "english": "The hot spring will do you good."
+    },
+    {
+      "id": "190856",
+      "japanese": "医者はこの病気に効く薬を探している。",
+      "english": "The doctor is looking for medicine that is effective for this illness."
+    },
+    {
+      "id": "196928",
+      "japanese": "ブレーキが効かなかった。",
+      "english": "The brakes did not work."
+    },
+    {
+      "id": "206296",
+      "japanese": "その薬は彼の体に驚くほどよく効いた。",
+      "english": "The medicine did wonders for his health."
+    },
+    {
+      "id": "206298",
+      "japanese": "その薬は彼に不思議なほどよく効いた。",
+      "english": "The medicine had a wonderful effect on him."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.612Z",
+  "count": 5,
+  "fileId": "kanji-00988"
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "267-n4-point-67",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "267-n4-point-67-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Deciding or Arranging Something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb る ことになる",
+          "romaji": "Verb-ru koto ni naru"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Verb る ことになる matches \"Deciding or Arranging Something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb る ことになる.",
+      "explanation": "Used to show that something has been decided or arranged by others or circumstances.",
+      "difficulty": "easy"
+    }
+  ]
+}

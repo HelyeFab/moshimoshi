@@ -1,0 +1,33 @@
+{
+  "kanji": "代",
+  "sentences": [
+    {
+      "id": "4774",
+      "japanese": "これは代わりになるものをみつけたい単語だ。",
+      "english": "It's a word I'd like to find a substitute for."
+    },
+    {
+      "id": "1084351",
+      "japanese": "代わりにダイアルしていただけませんか？電話の位置が高すぎて。",
+      "english": "Could you dial for me? The telephone is too high."
+    },
+    {
+      "id": "177929",
+      "japanese": "君はいつでもその代わりに質問をすることができる。",
+      "english": "You can always ask a question in return."
+    },
+    {
+      "id": "178617",
+      "japanese": "私の代わりに行ってもらいたいのですが。",
+      "english": "I would like you to go instead of me."
+    },
+    {
+      "id": "178976",
+      "japanese": "君か私のどちらかが彼の代わりに行かなければならない。",
+      "english": "Either you or I must go in his place."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.409Z",
+  "count": 5,
+  "fileId": "kanji-00163"
+}

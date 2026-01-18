@@ -1,0 +1,55 @@
+{
+  "id": "295-n4-point-95",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～てはいけない (〜te wa ikenai)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～てはいけない grammar point is used to express strict prohibition or something that must not be done. It can be translated as 'must not', 'cannot', or 'should not' in English. It is formed by adding て-form of a verb followed by はいけない.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て-form + はいけない",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "公園でたばこを吸ってはいけない。",
+      "romaji": "Kouen de tabako o sutte wa ikenai.",
+      "english": "You must not smoke in the park.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "ここで写真を撮ってはいけない。",
+      "romaji": "Koko de shashin o totte wa ikenai.",
+      "english": "You cannot take pictures here.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "図書館で大きな声を出してはいけない。",
+      "romaji": "Toshokan de ookina koe o dashite wa ikenai.",
+      "english": "You must not speak loudly in the library.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "バスの中で立っている人に席を譲ってはいけない。(Note: Unusual in real life, but grammatically correct.)",
+      "romaji": "Basu no naka de tatteiru hito ni seki o yuzutte wa ikenai.",
+      "english": "You should not give up your seat to someone standing on the bus. (Note: Odd in actual social context, but valid grammar.)",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "id": "219-n4-point-19",
+  "version": "1.0.0",
+  "title": {
+    "ja": "名詞＋中（ちゅう）",
+    "romaji": "Meishi + chuu",
+    "en": "Noun + chuu (in the middle of ~)"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The grammar point 中 (ちゅう) is attached to a noun to indicate that something is currently happening, ongoing, or in the middle of a process. It is often used for activities like work, study, meetings, or events. The reading can change to じゅう with some words.",
+    "ja": "「中（ちゅう）」は名詞に付けて、何かが進行中・最中であることを表します。仕事中、勉強中、会議中などで使います。一部の単語では「じゅう」と読むこともあります。"
+  },
+  "structure": {
+    "pattern": "Noun + 中（ちゅう）",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "The activity or event currently happening.",
+        "examples": [
+          "勉強 (study)",
+          "仕事 (work)",
+          "会議 (meeting)"
+        ]
+      },
+      {
+        "part": "中（ちゅう）",
+        "explanation": "Indicates 'in the middle of' or 'during'.",
+        "examples": [
+          "勉強中 (in the middle of studying)",
+          "会議中 (during a meeting)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼は仕事中です。",
+      "romaji": "Kare wa shigotochuu desu.",
+      "english": "He is in the middle of work.",
+      "breakdown": {
+        "彼": "he",
+        "は": "topic marker",
+        "仕事": "work",
+        "中": "in the middle of",
+        "です": "is"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "試験中、携帯電話を使ってはいけません。",
+      "romaji": "Shiken chuu, keitai denwa wo tsukatte wa ikemasen.",
+      "english": "During the exam, you must not use your mobile phone.",
+      "breakdown": {
+        "試験": "exam",
+        "中": "during",
+        "携帯電話": "mobile phone",
+        "を": "object marker",
+        "使って": "use (te-form)",
+        "は": "topic/contrast marker",
+        "いけません": "must not"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "映画を観ている最中に、彼は泣き始めました。",
+      "romaji": "Eiga o mite iru saichuu ni, kare wa naki hajimemashita.",
+      "english": "In the middle of watching the movie, he started to cry.",
+      "breakdown": {
+        "映画": "movie",
+        "を": "object marker",
+        "観ている": "watching",
+        "最中に": "in the middle of",
+        "彼": "he",
+        "は": "topic marker",
+        "泣き始めました": "started to cry"
+      },
+      "notes": "最中（さいちゅう） is a related word meaning 'in the midst of'."
+    },
+    {
+      "japanese": "彼女は今勉強中です。",
+      "romaji": "Kanojo wa ima benkyouchuu desu.",
+      "english": "She is currently studying.",
+      "breakdown": {
+        "彼女": "she",
+        "は": "topic marker",
+        "今": "now",
+        "勉強": "study",
+        "中": "in the middle of",
+        "です": "is"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "最中（さいちゅう）",
+    "間（あいだ）"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Verb + 中",
+      "correction": "Noun + 中",
+      "example": "× 勉強して中です → ○ 勉強中です"
+    },
+    {
+      "mistake": "Using 中 with nouns that do not express actions or events.",
+      "correction": "Use 中 with activity/event nouns.",
+      "example": "× 猫中です → ○ 散歩中です"
+    }
+  ],
+  "tags": [
+    "n4",
+    "time",
+    "progressive",
+    "state",
+    "noun",
+    "activity"
+  ]
+}

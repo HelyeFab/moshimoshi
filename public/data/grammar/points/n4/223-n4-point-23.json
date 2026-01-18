@@ -1,0 +1,119 @@
+{
+  "id": "223-n4-point-23",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞たときに",
+    "romaji": "Doushi ta toki ni",
+    "en": "When (Verb-たときに)"
+  },
+  "jlptLevel": "N4",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "The grammar point たときに is used after a verb in the た-form to specify a particular moment in the past when something happened. It translates to 'when' or 'at the time (when)' in English and emphasizes the timing of an event.",
+    "ja": "「たときに」は動詞のた形の後に使い、過去の特定の時点や出来事を表します。「〜したときに」のように使い、その時に何が起こったかを強調します。"
+  },
+  "structure": {
+    "pattern": "Verb-た + ときに",
+    "components": [
+      {
+        "part": "Verb-た",
+        "explanation": "The past tense (た-form) of a verb, indicating a completed action.",
+        "examples": [
+          "見た",
+          "会った",
+          "行った",
+          "来た"
+        ]
+      },
+      {
+        "part": "ときに",
+        "explanation": "Means 'when' or 'at the time (of)', marking the specific time the action occurred.",
+        "examples": [
+          "食べたときに",
+          "終わったときに"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "映画を見たときに、泣きました。",
+      "romaji": "Eiga wo mita toki ni, nakimashita.",
+      "english": "When I watched the movie, I cried.",
+      "breakdown": {
+        "映画": "movie",
+        "を": "object marker",
+        "見た": "watched (past)",
+        "ときに": "when",
+        "泣きました": "cried"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼に初めて会ったときに、遅刻していました。",
+      "romaji": "Kare ni hajimete atta toki ni, chikoku shite imashita.",
+      "english": "When I first met him, he was late.",
+      "breakdown": {
+        "彼に": "to him",
+        "初めて": "for the first time",
+        "会った": "met (past)",
+        "ときに": "when",
+        "遅刻していました": "was late"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "日本へ行ったときに、たくさんの写真を撮りました。",
+      "romaji": "Nihon e itta toki ni, takusan no shashin wo torimashita.",
+      "english": "When I went to Japan, I took a lot of photos.",
+      "breakdown": {
+        "日本へ": "to Japan",
+        "行った": "went (past)",
+        "ときに": "when",
+        "たくさんの": "many",
+        "写真を": "photos (object)",
+        "撮りました": "took"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "友達が家に来たときに、ゲームをしました。",
+      "romaji": "Tomodachi ga ie ni kita toki ni, geemu wo shimashita.",
+      "english": "When my friend came to my house, we played games.",
+      "breakdown": {
+        "友達が": "friend (subject)",
+        "家に": "to my house",
+        "来た": "came (past)",
+        "ときに": "when",
+        "ゲームを": "games (object)",
+        "しました": "played"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "動詞たことがある",
+    "動詞たところ",
+    "Verb るときに"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using the dictionary form instead of た-form: 映画を見るときに、泣きました。",
+      "correction": "映画を見たときに、泣きました。",
+      "example": "映画を見たときに、泣きました。"
+    },
+    {
+      "mistake": "Omitting に: 日本へ行ったとき、たくさんの写真を撮りました。",
+      "correction": "日本へ行ったときに、たくさんの写真を撮りました。",
+      "example": "日本へ行ったときに、たくさんの写真を撮りました。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "time",
+    "past",
+    "when",
+    "verbs",
+    "event"
+  ]
+}

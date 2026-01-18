@@ -1,0 +1,55 @@
+{
+  "id": "240-n4-point-40",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て くる (Verb te kuru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The て くる grammar point is used to express an action that starts in the past and continues to the present or future. It can also show a change in state or condition. The formation involves attaching the て-form of the verb followed by くる.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb て-form + くる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "最近、日本語が分かってくるようになりました。",
+      "romaji": "Saikin, nihongo ga wakatte kuru you ni narimashita.",
+      "english": "Recently, I've come to understand Japanese.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "寒くなってきたので、コートを着ましょう。",
+      "romaji": "Samuku natte kita node, kooto wo kimashou.",
+      "english": "Since it's gotten cold, let's put on a coat.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "雨がやんできました。",
+      "romaji": "Ame ga yande kimashita.",
+      "english": "The rain has stopped (and it's cleared up).",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼がだんだん怖くなってきた。",
+      "romaji": "Kare ga dandan kowaku natte kita.",
+      "english": "He has become progressively scarier.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

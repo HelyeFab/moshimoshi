@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "245-n4-point-45",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "245-n4-point-45-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Want someone to do something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb て ほしい",
+          "romaji": "Verb-te hoshii"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb て ほしい matches \"Want someone to do something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb て ほしい.",
+      "explanation": "Expresses wanting someone else to do an action for you.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "245-n4-point-45-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb て ほしい.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Want someone to do something"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb て ほしい means \"Want someone to do something\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Want someone to do something\".",
+      "explanation": "Expresses wanting someone else to do an action for you.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "245-n4-point-45-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb て ほしい.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb-te hoshii"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb-te hoshii is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb-te hoshii.",
+      "explanation": "Expresses wanting someone else to do an action for you.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "245-n4-point-45-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb て ほしい?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Expresses wanting someone else to do an action for you."
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses wanting someone else to do an action for you.",
+      "explanation": "Expresses wanting someone else to do an action for you.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "245-n4-point-45-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Want someone to do something\".",
+      "correctAnswer": "Verb て ほしい",
+      "acceptedVariations": [
+        "Verb て ほしい",
+        "Verbてほしい"
+      ],
+      "correctFeedback": "Nice! Verb て ほしい is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb て ほしい (Verb-te hoshii).",
+      "explanation": "Expresses wanting someone else to do an action for you.",
+      "hints": [
+        "Verb-te hoshii",
+        "Expresses wanting someone else to do an action for you."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "245-n4-point-45-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb て ほしい.",
+      "correctAnswer": "Verb-te hoshii",
+      "acceptedVariations": [
+        "Verb-te hoshii",
+        "verb-te hoshii"
+      ],
+      "correctFeedback": "Nice! Verb-te hoshii is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb-te hoshii.",
+      "explanation": "Expresses wanting someone else to do an action for you.",
+      "hints": [
+        "Expresses wanting someone else to do an action for you."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "245-n4-point-45-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb て ほしい.",
+      "correctAnswer": "Want someone to do something",
+      "acceptedVariations": [
+        "Want someone to do something",
+        "want someone to do something"
+      ],
+      "correctFeedback": "Correct! \"Want someone to do something\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Want someone to do something\".",
+      "explanation": "Expresses wanting someone else to do an action for you.",
+      "hints": [
+        "Expresses wanting someone else to do an action for you."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "245-n4-point-45-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb て ほしい",
+          "romaji": "Verb-te hoshii",
+          "english": "Want someone to do something"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses wanting someone else to do an action for you.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "245-n4-point-45-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses wanting someone else to do an action for you..",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb て ほしい",
+          "romaji": "Verb-te hoshii"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb て ほしい matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb て ほしい.",
+      "explanation": "Expresses wanting someone else to do an action for you.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "245-n4-point-45-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbてほしい",
+      "acceptedVariations": [
+        "Verbてほしい",
+        "Verb て ほしい"
+      ],
+      "correctFeedback": "Great! Verbてほしい is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbてほしい.",
+      "explanation": "Expresses wanting someone else to do an action for you.",
+      "hints": [
+        "Verb-te hoshii"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "排",
+  "sentences": [
+    {
+      "id": "81092",
+      "japanese": "万難を排して君の味方をしよう。",
+      "english": "I'll stand by you through thick and thin."
+    },
+    {
+      "id": "81093",
+      "japanese": "万難を排してやり遂げよう。",
+      "english": "I will do it at all costs."
+    },
+    {
+      "id": "81094",
+      "japanese": "少年たちは「万難を排して決行しましょう」と言った。",
+      "english": "The young men said that they would do it despite all of the difficulties."
+    },
+    {
+      "id": "107026",
+      "japanese": "彼は困難を排して進んでいった。",
+      "english": "He made his way through difficulties."
+    },
+    {
+      "id": "149026",
+      "japanese": "車の排ガスは有毒である。",
+      "english": "Exhaust gases of a car are noxious."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:25.418Z",
+  "count": 5,
+  "fileId": "kanji-01429"
+}

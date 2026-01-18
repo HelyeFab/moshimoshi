@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "034-nakute-wa-ikenai",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "034-nakute-wa-ikenai-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct obligation form: 勉強する → ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "勉強してはいけません"
+        },
+        {
+          "id": "b",
+          "text": "勉強しなくてはいけません"
+        },
+        {
+          "id": "c",
+          "text": "勉強してもいいです"
+        },
+        {
+          "id": "d",
+          "text": "勉強します"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! しなくてはいけません means must do.",
+      "incorrectFeedback": "Not quite. Use ない-form + くてはいけません.",
+      "explanation": "勉強する → 勉強しなくてはいけません.",
+      "difficulty": "easy"
+    }
+  ]
+}

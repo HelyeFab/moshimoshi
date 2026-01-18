@@ -1,0 +1,33 @@
+{
+  "kanji": "誓",
+  "sentences": [
+    {
+      "id": "177103",
+      "japanese": "君は聖書に手をのせて誓うべきだ。",
+      "english": "You should swear on the Bible."
+    },
+    {
+      "id": "182940",
+      "japanese": "偽善とは悪徳が徳に対して払う忠順の誓いである。",
+      "english": "Hypocrisy is the homage that vice pays to virtue."
+    },
+    {
+      "id": "185567",
+      "japanese": "我々は彼女に秘密を守るよう誓わせた。",
+      "english": "We bound her to secrecy."
+    },
+    {
+      "id": "185622",
+      "japanese": "我々は彼に秘密を誓わせた。",
+      "english": "We bound him to secrecy."
+    },
+    {
+      "id": "188487",
+      "japanese": "騎士が王への忠誠を誓った。",
+      "english": "The knight swore an oath of allegiance to the king."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:34.278Z",
+  "count": 5,
+  "fileId": "kanji-01713"
+}

@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "300-n4-point-100",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "300-n4-point-100-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"What kind of Noun\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "どういう Noun",
+          "romaji": "dou iu Noun"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! どういう Noun matches \"What kind of Noun\".",
+      "incorrectFeedback": "Not quite. The correct pattern is どういう Noun.",
+      "explanation": "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "300-n4-point-100-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: どういう Noun.",
+      "options": [
+        {
+          "id": "a",
+          "text": "What kind of Noun"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! どういう Noun means \"What kind of Noun\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"What kind of Noun\".",
+      "explanation": "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "300-n4-point-100-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: どういう Noun.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "dou iu Noun"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! dou iu Noun is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is dou iu Noun.",
+      "explanation": "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "300-n4-point-100-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: どういう Noun?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification.",
+      "explanation": "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "300-n4-point-100-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"What kind of Noun\".",
+      "correctAnswer": "どういう Noun",
+      "acceptedVariations": [
+        "どういう Noun",
+        "どういうNoun"
+      ],
+      "correctFeedback": "Nice! どういう Noun is correct.",
+      "incorrectFeedback": "The correct pattern is: どういう Noun (dou iu Noun).",
+      "explanation": "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification.",
+      "hints": [
+        "dou iu Noun",
+        "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "300-n4-point-100-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: どういう Noun.",
+      "correctAnswer": "dou iu Noun",
+      "acceptedVariations": [
+        "dou iu Noun",
+        "dou iu noun"
+      ],
+      "correctFeedback": "Nice! dou iu Noun is correct.",
+      "incorrectFeedback": "The correct romaji is: dou iu Noun.",
+      "explanation": "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification.",
+      "hints": [
+        "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "300-n4-point-100-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: どういう Noun.",
+      "correctAnswer": "What kind of Noun",
+      "acceptedVariations": [
+        "What kind of Noun",
+        "what kind of noun"
+      ],
+      "correctFeedback": "Correct! \"What kind of Noun\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"What kind of Noun\".",
+      "explanation": "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification.",
+      "hints": [
+        "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "300-n4-point-100-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "どういう Noun",
+          "romaji": "dou iu Noun",
+          "english": "What kind of Noun"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "300-n4-point-100-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "どういう Noun",
+          "romaji": "dou iu Noun"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! どういう Noun matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is どういう Noun.",
+      "explanation": "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "300-n4-point-100-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "どういうNoun",
+      "acceptedVariations": [
+        "どういうNoun",
+        "どういう Noun"
+      ],
+      "correctFeedback": "Great! どういうNoun is correct.",
+      "incorrectFeedback": "The correct pattern is: どういうNoun.",
+      "explanation": "Used to ask \"what kind of\" or \"what sort of\" before a noun for clarification.",
+      "hints": [
+        "dou iu Noun"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

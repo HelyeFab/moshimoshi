@@ -1,0 +1,33 @@
+{
+  "kanji": "栓",
+  "sentences": [
+    {
+      "id": "198628",
+      "japanese": "ネコがひっくり返すといけないから、ビンに栓をしなさい。",
+      "english": "Put the cap back on the bottle in case the cat knocks it over."
+    },
+    {
+      "id": "215739",
+      "japanese": "シャンパンの栓がぽんと音を立ててとんだ。",
+      "english": "The champagne cork popped out."
+    },
+    {
+      "id": "219048",
+      "japanese": "コルクの栓がどうしても抜けなかった。",
+      "english": "The cork would not come out."
+    },
+    {
+      "id": "220788",
+      "japanese": "この栓はびんに合わない。",
+      "english": "This stopper does not fit the bottle."
+    },
+    {
+      "id": "223754",
+      "japanese": "このコルクの栓はどうしてもぬけない。",
+      "english": "This cork will not come out."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:12.005Z",
+  "count": 5,
+  "fileId": "kanji-01025"
+}

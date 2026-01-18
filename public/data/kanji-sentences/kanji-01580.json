@@ -1,0 +1,33 @@
+{
+  "kanji": "霧",
+  "sentences": [
+    {
+      "id": "179341",
+      "japanese": "空港は霧のために閉鎖された。",
+      "english": "The airport was closed because of the fog."
+    },
+    {
+      "id": "189430",
+      "japanese": "運転手は霧で信号がよく見えなかった。",
+      "english": "The driver could not distinguish the signal in the fog."
+    },
+    {
+      "id": "189639",
+      "japanese": "雨と霧のために湖の美しい景色を楽しむことができなかった。",
+      "english": "The beautiful scene of the lake couldn't be enjoyed because of the rain and fog."
+    },
+    {
+      "id": "192100",
+      "japanese": "ロンドンは霧で有名だ。",
+      "english": "London is famous for its fog."
+    },
+    {
+      "id": "192110",
+      "japanese": "ロンドンはもはや霧の都ではない。",
+      "english": "London is no longer a city of fog."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:29.963Z",
+  "count": 5,
+  "fileId": "kanji-01580"
+}

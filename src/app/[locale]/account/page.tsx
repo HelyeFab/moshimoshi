@@ -11,6 +11,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { useFeature } from '@/hooks/useFeature'
 import { SubscriptionStatus } from '@/components/subscription/SubscriptionStatus'
 import { InvoiceHistory } from '@/components/subscription/InvoiceHistory'
+import { PricingPlanCard } from '@/components/subscription/PricingPlanCard'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay, LoadingButton } from '@/components/ui/Loading'
@@ -19,7 +20,7 @@ import Image from 'next/image'
 import PageContainer from '@/components/ui/PageContainer'
 import PageHeader from '@/components/ui/PageHeader'
 import Section from '@/components/ui/Section'
-import { PRICING_CONFIG } from '@/config/pricing'
+import { PRICING_PLANS, PricingPlan } from '@/lib/stripe/types'
 // Premium gradient border - no import needed
 import { Input } from '@/components/ui/Input'
 import dynamic from 'next/dynamic'
@@ -62,11 +63,20 @@ function AccountPageContent() {
   const [resendingVerification, setResendingVerification] = useState(false)
   const [showPresetPicker, setShowPresetPicker] = useState(false)
 
-  // Get pricing from configuration
-  const monthlyPrice = PRICING_CONFIG.monthly.displayAmount
-  const yearlyPrice = PRICING_CONFIG.yearly.displayAmount
-  const currency = PRICING_CONFIG.currency
-  const currencySymbol = PRICING_CONFIG.currencySymbol
+  // Helper function to check if a plan is the current plan
+  const isCurrentPlan = (planId: string) => {
+    return subscription?.plan === planId && subscription?.status === 'active'
+  }
+
+  // Get premium plans for upgrade section
+  const premiumPlans = PRICING_PLANS.filter(plan =>
+    plan.id === 'premium_monthly' || plan.id === 'premium_yearly'
+  )
+
+  // Handle plan selection
+  const handleSelectPlan = async (plan: PricingPlan) => {
+    await upgradeToPremium(plan.id as 'premium_monthly' | 'premium_yearly')
+  }
 
   // Check for checkout success from URL params
   useEffect(() => {
@@ -724,88 +734,16 @@ function AccountPageContent() {
                   </p>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Monthly Plan Card */}
-                    <div className="relative border-2 border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary-500 dark:hover:border-primary-400 transition-colors">
-                      <div className="mb-3">
-                        <h3 className="font-semibold text-gray-900 dark:text-gray-100">
-                          {strings.subscription.plans.premiumMonthly}
-                        </h3>
-                        <div className="mt-2">
-                          <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-                            {currencySymbol}
-                            {monthlyPrice}
-                          </span>
-                          <span className="text-gray-600 dark:text-gray-400">/month</span>
-                        </div>
-                      </div>
-                      <ul className="text-sm space-y-2 mb-4">
-                        <li className="flex items-start gap-2">
-                          <span className="text-green-500 mt-0.5">✓</span>
-                          <span className="text-gray-700 dark:text-gray-300">
-                            {(strings.subscription.features as any).unlimited ||
-                              'Unlimited practice sessions'}
-                          </span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="text-green-500 mt-0.5">✓</span>
-                          <span className="text-gray-700 dark:text-gray-300">
-                            {(strings.subscription.features as any).cancelAnytime ||
-                              'Cancel anytime'}
-                          </span>
-                        </li>
-                      </ul>
-                      <button
-                        onClick={() => upgradeToPremium('premium_monthly')}
-                        className="w-full px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-colors"
-                      >
-                        {(strings.subscription.upgrade as any).selectMonthly || 'Choose Monthly'}
-                      </button>
-                    </div>
-
-                    {/* Yearly Plan Card */}
-                    <div className="relative border-2 border-primary-500 dark:border-primary-400 rounded-lg p-4 bg-gradient-to-br from-primary-50/50 to-transparent dark:from-primary-900/10">
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                        <span className="px-3 py-1 bg-gradient-to-r from-primary-500 to-primary-600 text-white text-xs font-bold rounded-full">
-                          {(strings.subscription as any).bestValue || 'BEST VALUE'}
-                        </span>
-                      </div>
-                      <div className="mb-3">
-                        <h3 className="font-semibold text-gray-900 dark:text-gray-100">
-                          {strings.subscription.plans.premiumYearly}
-                        </h3>
-                        <div className="mt-2">
-                          <span className="text-3xl font-bold text-gray-900 dark:text-gray-100">
-                            {currencySymbol}
-                            {yearlyPrice}
-                          </span>
-                          <span className="text-gray-600 dark:text-gray-400">/year</span>
-                        </div>
-                        <p className="text-sm text-green-600 dark:text-green-400 font-medium mt-1">
-                          {(strings.subscription as any).savings || 'Save 25% with annual billing'}
-                        </p>
-                      </div>
-                      <ul className="text-sm space-y-2 mb-4">
-                        <li className="flex items-start gap-2">
-                          <span className="text-green-500 mt-0.5">✓</span>
-                          <span className="text-gray-700 dark:text-gray-300">
-                            {(strings.subscription.features as any).unlimited ||
-                              'Unlimited practice sessions'}
-                          </span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="text-green-500 mt-0.5">✓</span>
-                          <span className="text-gray-700 dark:text-gray-300">
-                            {strings.subscription.features.bestValue}
-                          </span>
-                        </li>
-                      </ul>
-                      <button
-                        onClick={() => upgradeToPremium('premium_yearly')}
-                        className="w-full px-4 py-2 bg-gradient-to-r from-primary-500 to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-medium rounded-lg transition-all"
-                      >
-                        {(strings.subscription.upgrade as any).selectYearly || 'Choose Yearly'}
-                      </button>
-                    </div>
+                    {premiumPlans.map((plan) => (
+                      <PricingPlanCard
+                        key={plan.id}
+                        plan={plan}
+                        onSelect={handleSelectPlan}
+                        isCurrentPlan={isCurrentPlan(plan.id)}
+                        user={user}
+                        variant="compact"
+                      />
+                    ))}
                   </div>
                 </div>
               )}

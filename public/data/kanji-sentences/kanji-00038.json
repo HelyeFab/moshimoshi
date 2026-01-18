@@ -1,0 +1,33 @@
+{
+  "kanji": "名",
+  "sentences": [
+    {
+      "id": "1643712",
+      "japanese": "ユーザー名とパスワードが正しく入力されていることを確認してください。",
+      "english": "Check that your username and password are written correctly."
+    },
+    {
+      "id": "994797",
+      "japanese": "君たちの不道徳な行いは我が校の名を汚すものだ。",
+      "english": "Your wrongdoing is a disgrace to our school."
+    },
+    {
+      "id": "179361",
+      "japanese": "空港で時限爆弾が爆発し１３名もの命を奪った。",
+      "english": "A time bomb went off in the airport killing thirteen people."
+    },
+    {
+      "id": "182786",
+      "japanese": "客の数は２０名である。",
+      "english": "The number of guests is 20."
+    },
+    {
+      "id": "183370",
+      "japanese": "機会とは神意を表す一つのあだ名である。",
+      "english": "Chance is a nickname for Providence."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.580Z",
+  "count": 5,
+  "fileId": "kanji-00038"
+}

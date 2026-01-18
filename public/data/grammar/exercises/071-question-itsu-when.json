@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "071-question-itsu-when",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "071-question-itsu-when-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: __行きますか。",
+      "options": [
+        { "id": "a", "text": "いつ" },
+        { "id": "b", "text": "どこ" },
+        { "id": "c", "text": "だれ" },
+        { "id": "d", "text": "なに" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! いつ means 'when.'",
+      "incorrectFeedback": "Not quite. いつ is for time questions.",
+      "explanation": "いつ asks about time.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "071-question-itsu-when-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "いつ会いますか。" },
+        { "id": "b", "text": "いつに会いますか。" },
+        { "id": "c", "text": "いつで会いますか。" },
+        { "id": "d", "text": "いつを会いますか。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! いつ does not take に.",
+      "incorrectFeedback": "Try again. Do not add に after いつ.",
+      "explanation": "いつ is used without に.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "071-question-itsu-when-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'When will you go?'",
+      "correctAnswer": "いつ行きますか",
+      "acceptedVariations": [
+        "いつ行きますか。",
+        "いついきますか",
+        "itsu ikimasu ka",
+        "itsu ikimasu ka."
+      ],
+      "correctFeedback": "Great! いつ行きますか is correct.",
+      "incorrectFeedback": "The correct answer is: いつ行きますか (itsu ikimasu ka).",
+      "explanation": "Use いつ for general time questions.",
+      "hints": ["行きます = go", "Use いつ"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "071-question-itsu-when-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct question: 'When is your birthday?'",
+      "options": [
+        { "id": "a", "text": "誕生日はいつですか。" },
+        { "id": "b", "text": "誕生日はいつにですか。" },
+        { "id": "c", "text": "誕生日はいつでですか。" },
+        { "id": "d", "text": "誕生日はどこですか。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! いつですか is used here.",
+      "incorrectFeedback": "Not quite. Use いつ without に.",
+      "explanation": "誕生日はいつですか is correct.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "071-question-itsu-when-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'When will you come?'",
+      "correctAnswer": "いつ来ますか",
+      "acceptedVariations": [
+        "いつ来ますか。",
+        "いつきますか",
+        "itsu kimasu ka",
+        "itsu kimasu ka."
+      ],
+      "correctFeedback": "Nice! いつ来ますか is correct.",
+      "incorrectFeedback": "The correct answer is: いつ来ますか (itsu kimasu ka).",
+      "explanation": "Use いつ for general time.",
+      "hints": ["来ます = come", "Use いつ"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "071-question-itsu-when-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "いつ帰りますか。" },
+        { "id": "b", "text": "いつ会いますか。" },
+        { "id": "c", "text": "いつに行きますか。" },
+        { "id": "d", "text": "誕生日はいつですか。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Do not add に after いつ.",
+      "incorrectFeedback": "Try again. いつ is used without に.",
+      "explanation": "いつに is incorrect.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "071-question-itsu-when-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'When do you study?'",
+      "correctAnswer": "いつ勉強しますか",
+      "acceptedVariations": [
+        "いつ勉強しますか。",
+        "いつべんきょうしますか",
+        "itsu benkyou shimasu ka",
+        "itsu benkyou shimasu ka."
+      ],
+      "correctFeedback": "Great! いつ勉強しますか is correct.",
+      "incorrectFeedback": "The correct answer is: いつ勉強しますか (itsu benkyou shimasu ka).",
+      "explanation": "Use いつ for time questions.",
+      "hints": ["勉強します = study", "Use いつ"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "071-question-itsu-when-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "いつ行きますか。",
+          "romaji": "Itsu ikimasu ka.",
+          "english": "When will you go?"
+        },
+        {
+          "japanese": "いつ会いますか。",
+          "romaji": "Itsu aimasu ka.",
+          "english": "When will we meet?"
+        },
+        {
+          "japanese": "誕生日はいつですか。",
+          "romaji": "Tanjoubi wa itsu desu ka.",
+          "english": "When is your birthday?"
+        }
+      ],
+      "correctFeedback": "Perfect! All use いつ.",
+      "incorrectFeedback": "Not quite. Review いつ questions.",
+      "explanation": "いつ asks about time in general.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "071-question-itsu-when-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'When will you meet?'",
+      "options": [
+        { "id": "a", "text": "いつ会いますか" },
+        { "id": "b", "text": "いつに会いますか" },
+        { "id": "c", "text": "いつで会いますか" },
+        { "id": "d", "text": "いつを会いますか" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! いつ does not take に.",
+      "incorrectFeedback": "Try again. Use いつ alone.",
+      "explanation": "いつ is used without に.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "071-question-itsu-when-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'When do you go to Japan?'",
+      "correctAnswer": "いつ日本に行きますか",
+      "acceptedVariations": [
+        "いつ日本に行きますか。",
+        "いつにほんにいきますか",
+        "itsu nihon ni ikimasu ka",
+        "itsu nihon ni ikimasu ka."
+      ],
+      "correctFeedback": "Nice! いつ日本に行きますか is correct.",
+      "incorrectFeedback": "The correct answer is: いつ日本に行きますか (itsu nihon ni ikimasu ka).",
+      "explanation": "Use いつ before the verb.",
+      "hints": ["日本 = Japan", "行きます = go"],
+      "difficulty": "hard"
+    }
+  ]
+}

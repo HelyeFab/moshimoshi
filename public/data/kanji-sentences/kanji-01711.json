@@ -1,0 +1,33 @@
+{
+  "kanji": "尿",
+  "sentences": [
+    {
+      "id": "223901",
+      "japanese": "このカップに尿をとってください。",
+      "english": "Please leave a urine sample in this cup."
+    },
+    {
+      "id": "228735",
+      "japanese": "いつもより尿の回数が多いです。",
+      "english": "I urinate more often than usual."
+    },
+    {
+      "id": "76049",
+      "japanese": "実はビートを食べると、尿がうっすらピンク色をすることがあります。",
+      "english": "Actually if you eat beets your urine may turn a light pink colour."
+    },
+    {
+      "id": "122046",
+      "japanese": "尿の色は澄んでいます。",
+      "english": "My urine is clear."
+    },
+    {
+      "id": "122047",
+      "japanese": "尿の色が濁っています。",
+      "english": "My urine is cloudy."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:34.237Z",
+  "count": 5,
+  "fileId": "kanji-01711"
+}

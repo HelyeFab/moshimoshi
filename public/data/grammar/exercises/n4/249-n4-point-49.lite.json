@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "249-n4-point-49",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "249-n4-point-49-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Could you do something for me?\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb てもらえませんか",
+          "romaji": "verb te moraemasen ka"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb てもらえませんか matches \"Could you do something for me?\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb てもらえませんか.",
+      "explanation": "Polite way to request someone to do something for you.",
+      "difficulty": "easy"
+    }
+  ]
+}

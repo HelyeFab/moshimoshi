@@ -1,0 +1,33 @@
+{
+  "kanji": "体",
+  "sentences": [
+    {
+      "id": "5130",
+      "japanese": "体が触れられたとき肌の感覚器官は脳に信号を送り、エンドルフィンのような化学物質が放出される。",
+      "english": "When the body is touched, receptors in the skin send messages to the brain causing the release of chemicals such as endorphins."
+    },
+    {
+      "id": "5321",
+      "japanese": "体を大事にしなさい。",
+      "english": "Take good care of yourself."
+    },
+    {
+      "id": "225438",
+      "japanese": "くれぐれもお体をお大事に。",
+      "english": "Take good care of yourself."
+    },
+    {
+      "id": "226911",
+      "japanese": "お体をお大事に。",
+      "english": "Take good care of yourself."
+    },
+    {
+      "id": "177072",
+      "japanese": "君は体に気を付けさえすればいいよ。",
+      "english": "All you have to do is to take care of yourself."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.459Z",
+  "count": 5,
+  "fileId": "kanji-00168"
+}

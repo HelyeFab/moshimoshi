@@ -1,0 +1,33 @@
+{
+  "kanji": "苗",
+  "sentences": [
+    {
+      "id": "104440",
+      "japanese": "彼は種からトマトの苗を育てた。",
+      "english": "He raised tomato plants from seed."
+    },
+    {
+      "id": "124365",
+      "japanese": "冬の間は苗を鉢植えにする。",
+      "english": "The young plants are potted during the winter."
+    },
+    {
+      "id": "3456797",
+      "japanese": "苗は赤ちゃんを扱うようにやさしく扱ってください。",
+      "english": "Treat the sprout gently, as you would treat a baby."
+    },
+    {
+      "id": "11310560",
+      "japanese": "苗とは若い植物体のことです。",
+      "english": "Seedlings are young plants."
+    },
+    {
+      "id": "11310561",
+      "japanese": "苗は若い植物です。",
+      "english": "Seedlings are young plants."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:31.688Z",
+  "count": 5,
+  "fileId": "kanji-01640"
+}

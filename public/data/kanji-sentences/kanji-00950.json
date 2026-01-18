@@ -1,0 +1,33 @@
+{
+  "kanji": "移",
+  "sentences": [
+    {
+      "id": "178474",
+      "japanese": "君の案を実行に移せると思っているのか。",
+      "english": "Do you think that you can put your idea into practice?"
+    },
+    {
+      "id": "183376",
+      "japanese": "機は急角度で上昇し、それから海岸を離れるにつれて水平飛行に移った。",
+      "english": "The plane rose sharply before leveling off as it left the coast."
+    },
+    {
+      "id": "185241",
+      "japanese": "会社は税金上の目的で本社所在地を香港に移した。",
+      "english": "The company moved its corporate domicile to Hong Kong for tax purposes."
+    },
+    {
+      "id": "186765",
+      "japanese": "火がめらめらと隣家に燃え移っていった。",
+      "english": "The fire spread and licked the neighboring house."
+    },
+    {
+      "id": "190678",
+      "japanese": "一家はニューヨークに移ったが、新しい環境にすぐに順応した。",
+      "english": "They moved to New York, but adapted easily to their new surroundings."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.880Z",
+  "count": 5,
+  "fileId": "kanji-00950"
+}

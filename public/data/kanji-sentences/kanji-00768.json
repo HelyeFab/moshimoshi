@@ -1,0 +1,33 @@
+{
+  "kanji": "券",
+  "sentences": [
+    {
+      "id": "177842",
+      "japanese": "君はこの券で無料で食事ができる。",
+      "english": "This ticket entitles you to a free meal."
+    },
+    {
+      "id": "182173",
+      "japanese": "読売ジャイアンツ・中日ドラゴンズ戦のナイターの券が２枚あるんだけど見に行かない？",
+      "english": "I have two tickets to the Yomiuri Giants - Chunichi Dragons night game. Want to go?"
+    },
+    {
+      "id": "189997",
+      "japanese": "引き換え券を見せて下さい。",
+      "english": "May I see your claim tags?"
+    },
+    {
+      "id": "212752",
+      "japanese": "そのパーティー券は１０ドル以上で売れている。",
+      "english": "The party tickets go for ten dollars and upward."
+    },
+    {
+      "id": "213084",
+      "japanese": "そのコンサートの券をどうやって手に入れたのですか。",
+      "english": "How did you get tickets for the concert?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:05.955Z",
+  "count": 5,
+  "fileId": "kanji-00768"
+}

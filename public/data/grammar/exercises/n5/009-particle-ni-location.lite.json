@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "009-particle-ni-location",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "009-particle-ni-location-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 7時＿＿起きます。",
+      "questionRomaji": "Shichi-ji __ okimasu.",
+      "options": [
+        {
+          "id": "a",
+          "text": "に",
+          "romaji": "ni"
+        },
+        {
+          "id": "b",
+          "text": "で",
+          "romaji": "de"
+        },
+        {
+          "id": "c",
+          "text": "を",
+          "romaji": "o"
+        },
+        {
+          "id": "d",
+          "text": "が",
+          "romaji": "ga"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! に marks a specific time.",
+      "incorrectFeedback": "Not quite. Use に for specific time.",
+      "explanation": "7時 is a specific time point, so use に.",
+      "difficulty": "easy"
+    }
+  ]
+}

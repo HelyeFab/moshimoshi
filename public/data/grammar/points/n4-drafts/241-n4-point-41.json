@@ -1,0 +1,55 @@
+{
+  "id": "241-n4-point-41",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb てくれませんか (〜te kuremasen ka)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～てくれませんか grammar point is used to ask someone politely to do something for you. It is formed by using the て-form of a verb followed by くれませんか. It translates to 'Could you please', 'Would you please', or 'Won't you' in English.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + くれませんか",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "ドアを開けてくれませんか。",
+      "romaji": "Doa wo akete kuremasen ka.",
+      "english": "Could you please open the door?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "これを見てくれませんか。",
+      "romaji": "Kore wo mite kuremasen ka.",
+      "english": "Would you please take a look at this?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "手伝ってくれませんか。",
+      "romaji": "Tetsudatte kuremasen ka.",
+      "english": "Won't you help me?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "明日、迎えに来てくれませんか。",
+      "romaji": "Ashita, mukae ni kite kuremasen ka.",
+      "english": "Could you please come to pick me up tomorrow?",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

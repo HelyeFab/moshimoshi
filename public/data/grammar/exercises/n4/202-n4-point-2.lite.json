@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "202-n4-point-2",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "202-n4-point-2-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Not as much/less than\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "A より B のほうが〜",
+          "romaji": "A yori B no hou ga 〜"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! A は B ほど～ありません matches \"Not as much/less than\".",
+      "incorrectFeedback": "Not quite. The correct pattern is A は B ほど～ありません.",
+      "explanation": "Used to say A is not as ~ as B; A is less ~ than B.",
+      "difficulty": "easy"
+    }
+  ]
+}

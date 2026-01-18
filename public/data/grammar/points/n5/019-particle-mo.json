@@ -1,0 +1,101 @@
+{
+  "id": "019-particle-mo",
+  "version": "1.0.0",
+  "title": {
+    "ja": "も",
+    "romaji": "mo",
+    "en": "also / too"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "も means “also” or “too.” It replaces other particles like は, が, or を to show that something is added to what was already mentioned.\n\nKey points:\n• も means “also/too”\n• It replaces は/が/を, not used together with them\n• It can attach to nouns, times, or quantities\n• It often answers “me too” or “also” statements\n\nFor example, “私は学生です” means “I am a student.” If you want to say “I am also a student,” you say “私も学生です.” Here も replaces は.\n\nYou can also say “りんごも食べます” to mean “I also eat apples.” If the original sentence had を, も replaces it.\n\nThis particle is very common in conversation because it helps you add information politely and naturally. It is especially useful when agreeing or adding yourself to a group: “私も行きます” (I will go too).\n\nRemember: place も where the original particle would be. This makes your sentence sound natural and keeps the meaning clear.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + も + Predicate",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "The item that is also included",
+        "examples": ["私", "りんご", "明日"]
+      },
+      {
+        "part": "も",
+        "explanation": "Also/too marker",
+        "examples": ["も"]
+      },
+      {
+        "part": "Predicate",
+        "explanation": "Action or description",
+        "examples": ["学生です", "食べます", "行きます"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私も学生です。",
+      "romaji": "Watashi mo gakusei desu.",
+      "english": "I am also a student.",
+      "breakdown": {
+        "私": "I, me",
+        "も": "also",
+        "学生": "student",
+        "です": "is (polite)"
+      },
+      "notes": "も replaces は"
+    },
+    {
+      "japanese": "りんごも食べます。",
+      "romaji": "Ringo mo tabemasu.",
+      "english": "I also eat apples.",
+      "breakdown": {
+        "りんご": "apple",
+        "も": "also",
+        "食べます": "eat (polite)"
+      },
+      "notes": "も replaces を"
+    },
+    {
+      "japanese": "田中さんも来ます。",
+      "romaji": "Tanaka-san mo kimasu.",
+      "english": "Tanaka-san is coming too.",
+      "breakdown": {
+        "田中さん": "Mr./Ms. Tanaka",
+        "も": "also",
+        "来ます": "come (polite)"
+      },
+      "notes": "Adding another person"
+    },
+    {
+      "japanese": "明日も学校に行きます。",
+      "romaji": "Ashita mo gakkou ni ikimasu.",
+      "english": "I will go to school tomorrow too.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "も": "also",
+        "学校": "school",
+        "に": "destination marker",
+        "行きます": "go (polite)"
+      },
+      "notes": "Also with time words"
+    }
+  ],
+  "relatedPoints": [
+    "006-particle-wa",
+    "008-particle-wo"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using も together with は/が/を",
+      "correction": "も replaces the particle",
+      "example": "❌ 私はも学生です → ✅ 私も学生です"
+    },
+    {
+      "mistake": "Placing も at the end of the sentence",
+      "correction": "Place も right after the noun it modifies",
+      "example": "❌ 私は学生ですも → ✅ 私も学生です"
+    }
+  ],
+  "tags": ["particle", "also", "too", "beginner"]
+}

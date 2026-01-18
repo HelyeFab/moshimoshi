@@ -1,0 +1,33 @@
+{
+  "kanji": "竜",
+  "sentences": [
+    {
+      "id": "78215",
+      "japanese": "竜は想像上の生物である。",
+      "english": "The dragon is an imaginary creature."
+    },
+    {
+      "id": "146281",
+      "japanese": "上の左端の動物は、竜のつもりでしょう。",
+      "english": "The animal in the top left-hand corner is meant to be a dragon."
+    },
+    {
+      "id": "160516",
+      "japanese": "私はずっと竜が見たかったのですが、竜は現実の生物ではないのです。",
+      "english": "I have always wanted to see a dragon, but dragons are not real creatures."
+    },
+    {
+      "id": "1144488",
+      "japanese": "竜は空想上の生き物だ。",
+      "english": "The dragon is an imaginary creature."
+    },
+    {
+      "id": "1125130",
+      "japanese": "竜は想像上の動物だ。",
+      "english": "A dragon is a creature of fancy."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:21.470Z",
+  "count": 5,
+  "fileId": "kanji-01300"
+}

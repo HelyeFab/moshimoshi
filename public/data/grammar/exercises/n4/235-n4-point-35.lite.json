@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "235-n4-point-35",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "235-n4-point-35-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb te iru tokoro\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "動詞ているところ",
+          "romaji": "Doushi te iru tokoro"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! 動詞ているところ matches \"Verb te iru tokoro\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ているところ.",
+      "explanation": "Emphasizes an action happening right now; \"in the middle of doing.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

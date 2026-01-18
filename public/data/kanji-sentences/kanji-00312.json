@@ -1,0 +1,33 @@
+{
+  "kanji": "寝",
+  "sentences": [
+    {
+      "id": "344904",
+      "japanese": "そろそろ寝なくちゃ。",
+      "english": "I have to go to sleep."
+    },
+    {
+      "id": "10786615",
+      "japanese": "寝なきゃ。",
+      "english": "I have to go to sleep."
+    },
+    {
+      "id": "11211436",
+      "japanese": "寝た方がいいよ。",
+      "english": "You should sleep."
+    },
+    {
+      "id": "4814",
+      "japanese": "私は寝なければなりません。",
+      "english": "I have to go to bed."
+    },
+    {
+      "id": "194057",
+      "japanese": "もう寝なくちゃ。",
+      "english": "I have to go to bed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.329Z",
+  "count": 5,
+  "fileId": "kanji-00312"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "207-n4-point-7",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun しか～ない (Noun shika~nai)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The grammar point Noun しか～ない is used to emphasize the small quantity or exclusiveness of something. It can be translated as 'only', 'nothing but', or 'no other' in English. It is used with a negative verb to convey the meaning.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + しか + Negative Verb",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "私はリンゴしか食べない。",
+      "romaji": "Watashi wa ringo shika tabenai.",
+      "english": "I eat only apples.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "電車で行くしかないです。",
+      "romaji": "Densha de iku shika nai desu.",
+      "english": "There is no other way but to go by train.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は一冊の本しか持っていない。",
+      "romaji": "Kare wa isatsu no hon shika motte inai.",
+      "english": "He has only one book.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この店にはビールしかない。",
+      "romaji": "Kono mise ni wa biiru shika nai.",
+      "english": "There is nothing but beer in this store.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "020-particle-ya",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "020-particle-ya-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle for a non-exhaustive list: パン＿＿牛乳を買います。",
+      "questionRomaji": "Pan __ gyuunyuu o kaimasu.",
+      "options": [
+        {
+          "id": "a",
+          "text": "と",
+          "romaji": "to"
+        },
+        {
+          "id": "b",
+          "text": "や",
+          "romaji": "ya"
+        },
+        {
+          "id": "c",
+          "text": "に",
+          "romaji": "ni"
+        },
+        {
+          "id": "d",
+          "text": "で",
+          "romaji": "de"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! や lists examples.",
+      "incorrectFeedback": "Not quite. Use や for a non-exhaustive list.",
+      "explanation": "パンや牛乳 = bread, milk, etc.",
+      "difficulty": "easy"
+    }
+  ]
+}

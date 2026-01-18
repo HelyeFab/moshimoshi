@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "217-n4-point-17",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "217-n4-point-17-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Giving (to someone of higher status): Noun を さしあげる\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "名詞 を さしあげる",
+          "romaji": "Noun wo sashiageru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! 名詞 を さしあげる matches \"Giving (to someone of higher status): Noun を さしあげる\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 名詞 を さしあげる.",
+      "explanation": "Polite way to give something to a superior; humble form of あげる.",
+      "difficulty": "easy"
+    }
+  ]
+}

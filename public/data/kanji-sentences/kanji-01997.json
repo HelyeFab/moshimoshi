@@ -1,0 +1,33 @@
+{
+  "kanji": "柵",
+  "sentences": [
+    {
+      "id": "10286279",
+      "japanese": "庭園は木の柵で囲まれていました。",
+      "english": "The garden was surrounded by a wooden fence."
+    },
+    {
+      "id": "210498",
+      "japanese": "その柵は、狼を中に入れなくしておくほど高くはなかった。",
+      "english": "The fence was not high enough to keep the wolves out."
+    },
+    {
+      "id": "225092",
+      "japanese": "ケンは簡単に柵を飛び越えた。",
+      "english": "Ken easily cleared the fence."
+    },
+    {
+      "id": "77777",
+      "japanese": "隣の家との境を示す柵がある。",
+      "english": "There is a fence marking the boundary between our yard and the neighbor's."
+    },
+    {
+      "id": "116366",
+      "japanese": "彼の馬は柵を飛び越えた。",
+      "english": "His horse jumped over the fence."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:45.836Z",
+  "count": 5,
+  "fileId": "kanji-01997"
+}

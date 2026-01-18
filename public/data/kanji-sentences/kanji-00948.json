@@ -1,0 +1,18 @@
+{
+  "kanji": "区",
+  "sentences": [
+    {
+      "id": "220399",
+      "japanese": "この点については意見が区々に分かれている。",
+      "english": "Opinion is divided on this point."
+    },
+    {
+      "id": "10693879",
+      "japanese": "市内の区から他の区へ引っ越した場合は、区間異動届をご提出ください。",
+      "english": "If you move from one borough to another within the city, please submit a notification of the change."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.865Z",
+  "count": 2,
+  "fileId": "kanji-00948"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "教",
+  "sentences": [
+    {
+      "id": "8612284",
+      "japanese": "そのやり方を教えて。",
+      "english": "Teach me how you do it."
+    },
+    {
+      "id": "8612285",
+      "japanese": "どうやればいいか教えて。",
+      "english": "Teach me how you do it."
+    },
+    {
+      "id": "138757",
+      "japanese": "教えてよ！",
+      "english": "Tell me about it!"
+    },
+    {
+      "id": "177386",
+      "japanese": "君は確かに物知りだが、それを教えるのはうまくない。",
+      "english": "Indeed you know a lot of things, but you're not good at teaching them."
+    },
+    {
+      "id": "178007",
+      "japanese": "君の連絡先住所を教えてください。",
+      "english": "Please give me your permanent address."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.803Z",
+  "count": 5,
+  "fileId": "kanji-00198"
+}

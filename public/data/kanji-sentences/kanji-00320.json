@@ -1,0 +1,33 @@
+{
+  "kanji": "冷",
+  "sentences": [
+    {
+      "id": "179640",
+      "japanese": "金属は冷やされると縮小する。",
+      "english": "Metal contracts when cooled."
+    },
+    {
+      "id": "179928",
+      "japanese": "緊縮財政政策は経済を冷やし過ぎることになるかもしれない。",
+      "english": "The fiscal austerity may lead to an overkill of the economy."
+    },
+    {
+      "id": "1650346",
+      "japanese": "冷えてきたので暖房を入れた。",
+      "english": "Feeling chilly, I turned on the heater."
+    },
+    {
+      "id": "184849",
+      "japanese": "外気は少し冷たかった。",
+      "english": "The air felt a little cold."
+    },
+    {
+      "id": "184896",
+      "japanese": "外では冷たい北風が轟々と吹き荒れていた。",
+      "english": "The cold north wind was roaring outside."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.434Z",
+  "count": 5,
+  "fileId": "kanji-00320"
+}

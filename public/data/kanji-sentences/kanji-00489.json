@@ -1,0 +1,33 @@
+{
+  "kanji": "直",
+  "sentences": [
+    {
+      "id": "5193",
+      "japanese": "また後でかけ直していただけませんか？",
+      "english": "Could you call again later, please?"
+    },
+    {
+      "id": "4792",
+      "japanese": "傷を付けたのは私だけど、こんなの簡単に直せる傷よ。",
+      "english": "I was the one who scratched it, but this kind of scratch is easy to fix."
+    },
+    {
+      "id": "177039",
+      "japanese": "君は直に出発する方がいい。",
+      "english": "You may as well leave at once."
+    },
+    {
+      "id": "177040",
+      "japanese": "君は直ちに家へ帰らなければならない。",
+      "english": "You must go home at once."
+    },
+    {
+      "id": "177041",
+      "japanese": "君は直ちに医者に行く必要がある。",
+      "english": "It is necessary for you to see a doctor at once."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.750Z",
+  "count": 5,
+  "fileId": "kanji-00489"
+}

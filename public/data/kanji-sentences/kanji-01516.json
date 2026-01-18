@@ -1,0 +1,33 @@
+{
+  "kanji": "紫",
+  "sentences": [
+    {
+      "id": "208891",
+      "japanese": "その色はピンクというより紫だ。",
+      "english": "The color is purple rather than pink."
+    },
+    {
+      "id": "142221",
+      "japanese": "赤と青を混ぜると紫になる。",
+      "english": "Red and blue paint mixed together give us purple."
+    },
+    {
+      "id": "151193",
+      "japanese": "紫のじゅうたんはこの赤いカーテンと調和しないだろう。",
+      "english": "A purple carpet will not go with this red curtain."
+    },
+    {
+      "id": "2380296",
+      "japanese": "青と赤を混ぜると紫になる。",
+      "english": "If you mix blue and red, the result is purple."
+    },
+    {
+      "id": "891803",
+      "japanese": "絵具の赤と青を混ぜると紫になるって知ってた？",
+      "english": "Did you know that if you mixed red and blue paint you obtained purple?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:28.069Z",
+  "count": 5,
+  "fileId": "kanji-01516"
+}

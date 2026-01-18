@@ -1,0 +1,33 @@
+{
+  "kanji": "骨",
+  "sentences": [
+    {
+      "id": "178521",
+      "japanese": "君のためにできるだけ骨を折ろう。",
+      "english": "I will do all I can for you."
+    },
+    {
+      "id": "178984",
+      "japanese": "君が死んだら骨を拾ってあげる。",
+      "english": "I'll look after your affairs when you are dead."
+    },
+    {
+      "id": "182110",
+      "japanese": "魚の骨がのどにひっかかりました。",
+      "english": "I got a fish bone stuck in my throat."
+    },
+    {
+      "id": "10335368",
+      "japanese": "喉に魚の骨が刺さってしまった。",
+      "english": "I got a fish bone stuck in my throat."
+    },
+    {
+      "id": "182111",
+      "japanese": "魚の骨がつかえて息が詰まりそうだった。",
+      "english": "I nearly choked on a fishbone."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.093Z",
+  "count": 5,
+  "fileId": "kanji-00691"
+}

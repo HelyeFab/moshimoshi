@@ -1,0 +1,94 @@
+{
+  "id": "031-masen-ka-invitation",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜ませんか",
+    "romaji": "-masen ka",
+    "en": "Invitation"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "〜ませんか is a polite way to invite someone or make a suggestion. It literally means “won’t you…?” and sounds softer than a direct request.\n\nKey points:\n• Verb ません + か makes an invitation\n• Polite and gentle in tone\n• Often used with friends or classmates\n• Similar meaning to “Let’s…?”\n\nFor example, “一緒に行きませんか” means “Won’t you go together?” or “Would you like to go together?” It sounds friendly and polite.\n\nYou can use this to invite someone to do an activity: “映画を見ませんか” (Would you like to watch a movie?).\n\nThis pattern is a question, so the intonation rises at the end. It is very common in everyday conversation when you want to suggest something without sounding too direct.\n\nAt N5, practice with common verbs like 行きます, 食べます, 勉強します. It will help you make polite invitations easily.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (ません) + か",
+    "components": [
+      {
+        "part": "Verb (ません)",
+        "explanation": "Polite negative form",
+        "examples": ["行きません", "食べません", "勉強しません"]
+      },
+      {
+        "part": "か",
+        "explanation": "Question marker",
+        "examples": ["か"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "一緒に映画を見ませんか。",
+      "romaji": "Issho ni eiga o mimasen ka.",
+      "english": "Would you like to watch a movie together?",
+      "breakdown": {
+        "一緒に": "together",
+        "映画": "movie",
+        "を": "object marker",
+        "見ませんか": "won't you watch?"
+      },
+      "notes": "Polite invitation"
+    },
+    {
+      "japanese": "コーヒーを飲みませんか。",
+      "romaji": "Koohii o nomimasen ka.",
+      "english": "Would you like to drink coffee?",
+      "breakdown": {
+        "コーヒー": "coffee",
+        "を": "object marker",
+        "飲みませんか": "won't you drink?"
+      },
+      "notes": "Invite for a drink"
+    },
+    {
+      "japanese": "一緒に勉強しませんか。",
+      "romaji": "Issho ni benkyou shimasen ka.",
+      "english": "Would you like to study together?",
+      "breakdown": {
+        "一緒に": "together",
+        "勉強しませんか": "won't you study?"
+      },
+      "notes": "Invite to study"
+    },
+    {
+      "japanese": "明日公園へ行きませんか。",
+      "romaji": "Ashita kouen e ikimasen ka.",
+      "english": "Would you like to go to the park tomorrow?",
+      "breakdown": {
+        "明日": "tomorrow",
+        "公園": "park",
+        "へ": "direction marker",
+        "行きませんか": "won't you go?"
+      },
+      "notes": "Invitation with time"
+    }
+  ],
+  "relatedPoints": [
+    "030-mashou-lets",
+    "023-masu-form-negative"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ませんか as a simple negative question",
+      "correction": "In many contexts it is an invitation",
+      "example": "行きませんか = Would you like to go?"
+    },
+    {
+      "mistake": "Forgetting か at the end",
+      "correction": "Add か to make it a question",
+      "example": "❌ 行きません → ✅ 行きませんか"
+    }
+  ],
+  "tags": ["verbs", "invitations", "polite", "beginner"]
+}

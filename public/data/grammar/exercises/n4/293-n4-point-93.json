@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "293-n4-point-93",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "293-n4-point-93-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"by/with/at (means, method, place marker)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～で",
+          "romaji": "~de"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! ～で matches \"by/with/at (means, method, place marker)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～で.",
+      "explanation": "Indicates means, method, tool, language, or place of an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "293-n4-point-93-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～で.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "by/with/at (means, method, place marker)"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～で means \"by/with/at (means, method, place marker)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"by/with/at (means, method, place marker)\".",
+      "explanation": "Indicates means, method, tool, language, or place of an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "293-n4-point-93-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～で.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "~de"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ~de is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~de.",
+      "explanation": "Indicates means, method, tool, language, or place of an action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "293-n4-point-93-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～で?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Indicates means, method, tool, language, or place of an action."
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Indicates means, method, tool, language, or place of an action.",
+      "explanation": "Indicates means, method, tool, language, or place of an action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "293-n4-point-93-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"by/with/at (means, method, place marker)\".",
+      "correctAnswer": "～で",
+      "acceptedVariations": [
+        "～で",
+        "～で"
+      ],
+      "correctFeedback": "Nice! ～で is correct.",
+      "incorrectFeedback": "The correct pattern is: ～で (~de).",
+      "explanation": "Indicates means, method, tool, language, or place of an action.",
+      "hints": [
+        "~de",
+        "Indicates means, method, tool, language, or place of an action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "293-n4-point-93-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～で.",
+      "correctAnswer": "~de",
+      "acceptedVariations": [
+        "~de",
+        "~de"
+      ],
+      "correctFeedback": "Nice! ~de is correct.",
+      "incorrectFeedback": "The correct romaji is: ~de.",
+      "explanation": "Indicates means, method, tool, language, or place of an action.",
+      "hints": [
+        "Indicates means, method, tool, language, or place of an action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "293-n4-point-93-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～で.",
+      "correctAnswer": "by/with/at (means, method, place marker)",
+      "acceptedVariations": [
+        "by/with/at (means, method, place marker)",
+        "by/with/at (means, method, place marker)"
+      ],
+      "correctFeedback": "Correct! \"by/with/at (means, method, place marker)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"by/with/at (means, method, place marker)\".",
+      "explanation": "Indicates means, method, tool, language, or place of an action.",
+      "hints": [
+        "Indicates means, method, tool, language, or place of an action."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "293-n4-point-93-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～で",
+          "romaji": "~de",
+          "english": "by/with/at (means, method, place marker)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Indicates means, method, tool, language, or place of an action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "293-n4-point-93-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Indicates means, method, tool, language, or place of an action..",
+      "options": [
+        {
+          "id": "a",
+          "text": "～で",
+          "romaji": "~de"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ～で matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～で.",
+      "explanation": "Indicates means, method, tool, language, or place of an action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "293-n4-point-93-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～で",
+      "acceptedVariations": [
+        "～で",
+        "～で"
+      ],
+      "correctFeedback": "Great! ～で is correct.",
+      "incorrectFeedback": "The correct pattern is: ～で.",
+      "explanation": "Indicates means, method, tool, language, or place of an action.",
+      "hints": [
+        "~de"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

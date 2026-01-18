@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "017-particle-no-explanation",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "017-particle-no-explanation-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase: 'I like studying Japanese.'",
+      "options": [
+        {
+          "id": "a",
+          "text": "日本語を勉強するのが好きです。"
+        },
+        {
+          "id": "b",
+          "text": "日本語を勉強しますのが好きです。"
+        },
+        {
+          "id": "c",
+          "text": "日本語を勉強するは好きです。"
+        },
+        {
+          "id": "d",
+          "text": "日本語を勉強するが好きです。"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb + の makes it a noun phrase.",
+      "incorrectFeedback": "Not quite. Use the plain form + の + が.",
+      "explanation": "勉強するのが好きです is the standard pattern.",
+      "difficulty": "easy"
+    }
+  ]
+}

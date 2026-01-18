@@ -1,0 +1,33 @@
+{
+  "kanji": "襲",
+  "sentences": [
+    {
+      "id": "897050",
+      "japanese": "狼は普通、人々を襲ったりしません。",
+      "english": "Wolves won't usually attack people."
+    },
+    {
+      "id": "180460",
+      "japanese": "強盗団は今日、白昼堂々、もうひとつの銀行を襲った。",
+      "english": "The thieves knocked off another bank today in a daytime robbery."
+    },
+    {
+      "id": "180461",
+      "japanese": "強盗達が木陰から出てきて彼に襲い掛かった。",
+      "english": "The robbers fell upon him from behind the trees."
+    },
+    {
+      "id": "180463",
+      "japanese": "強盗は裏通りで彼女を襲った。",
+      "english": "The robber attacked her on a back street."
+    },
+    {
+      "id": "180472",
+      "japanese": "強盗は白昼堂々と郵便局を襲った。",
+      "english": "The burglar broke into the post office in broad daylight."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.477Z",
+  "count": 5,
+  "fileId": "kanji-01216"
+}

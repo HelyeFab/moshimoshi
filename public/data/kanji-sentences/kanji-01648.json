@@ -1,0 +1,33 @@
+{
+  "kanji": "傘",
+  "sentences": [
+    {
+      "id": "177259",
+      "japanese": "傘を持っていった方がいいよ。",
+      "english": "You had better take an umbrella with you."
+    },
+    {
+      "id": "178279",
+      "japanese": "君の傘をバスの中に忘れてきてしまった。",
+      "english": "I left your umbrella in the bus."
+    },
+    {
+      "id": "10729187",
+      "japanese": "間違えてお前の傘を持ってっちゃったんだ。",
+      "english": "I took your umbrella by mistake."
+    },
+    {
+      "id": "178992",
+      "japanese": "君が傘を持って行ったのは賢明だった。",
+      "english": "It was wise of you to take your umbrella with you."
+    },
+    {
+      "id": "179592",
+      "japanese": "銀行と言うのはお天気の日に傘を貸したがるが、雨の日には、人を見捨てようとするところだ。",
+      "english": "Banks will try to lend you an umbrella on a sunny day, but they will turn their backs on a rainy day."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:31.942Z",
+  "count": 5,
+  "fileId": "kanji-01648"
+}

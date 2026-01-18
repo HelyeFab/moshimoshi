@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "318-n4-point-118",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "318-n4-point-118-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"also, too\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～も (〜mo)",
+          "romaji": "~mo"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ～も (〜mo) matches \"also, too\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～も (〜mo).",
+      "explanation": "Used to indicate \"also,\" \"too,\" or \"as well\" in a sentence.",
+      "difficulty": "easy"
+    }
+  ]
+}

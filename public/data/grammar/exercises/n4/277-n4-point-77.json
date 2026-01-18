@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "277-n4-point-77",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "277-n4-point-77-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"might / possibly\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～かもしれない",
+          "romaji": "~kamoshirenai"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! ～かもしれない matches \"might / possibly\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～かもしれない.",
+      "explanation": "Expresses uncertainty or possibility; means \"might\" or \"maybe.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "277-n4-point-77-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～かもしれない.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "might / possibly"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～かもしれない means \"might / possibly\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"might / possibly\".",
+      "explanation": "Expresses uncertainty or possibility; means \"might\" or \"maybe.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "277-n4-point-77-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～かもしれない.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "~kamoshirenai"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ~kamoshirenai is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~kamoshirenai.",
+      "explanation": "Expresses uncertainty or possibility; means \"might\" or \"maybe.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "277-n4-point-77-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～かもしれない?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Expresses uncertainty or possibility; means \"might\" or \"maybe.\""
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses uncertainty or possibility; means \"might\" or \"maybe.\"",
+      "explanation": "Expresses uncertainty or possibility; means \"might\" or \"maybe.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "277-n4-point-77-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"might / possibly\".",
+      "correctAnswer": "～かもしれない",
+      "acceptedVariations": [
+        "～かもしれない",
+        "～かもしれない"
+      ],
+      "correctFeedback": "Nice! ～かもしれない is correct.",
+      "incorrectFeedback": "The correct pattern is: ～かもしれない (~kamoshirenai).",
+      "explanation": "Expresses uncertainty or possibility; means \"might\" or \"maybe.\"",
+      "hints": [
+        "~kamoshirenai",
+        "Expresses uncertainty or possibility; means \"might\" or \"maybe.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "277-n4-point-77-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～かもしれない.",
+      "correctAnswer": "~kamoshirenai",
+      "acceptedVariations": [
+        "~kamoshirenai",
+        "~kamoshirenai"
+      ],
+      "correctFeedback": "Nice! ~kamoshirenai is correct.",
+      "incorrectFeedback": "The correct romaji is: ~kamoshirenai.",
+      "explanation": "Expresses uncertainty or possibility; means \"might\" or \"maybe.\"",
+      "hints": [
+        "Expresses uncertainty or possibility; means \"might\" or \"maybe.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "277-n4-point-77-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～かもしれない.",
+      "correctAnswer": "might / possibly",
+      "acceptedVariations": [
+        "might / possibly",
+        "might / possibly"
+      ],
+      "correctFeedback": "Correct! \"might / possibly\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"might / possibly\".",
+      "explanation": "Expresses uncertainty or possibility; means \"might\" or \"maybe.\"",
+      "hints": [
+        "Expresses uncertainty or possibility; means \"might\" or \"maybe.\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "277-n4-point-77-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～かもしれない",
+          "romaji": "~kamoshirenai",
+          "english": "might / possibly"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses uncertainty or possibility; means \"might\" or \"maybe.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "277-n4-point-77-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses uncertainty or possibility; means \"might\" or \"maybe.\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～かもしれない",
+          "romaji": "~kamoshirenai"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ～かもしれない matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～かもしれない.",
+      "explanation": "Expresses uncertainty or possibility; means \"might\" or \"maybe.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "277-n4-point-77-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～かもしれない",
+      "acceptedVariations": [
+        "～かもしれない",
+        "～かもしれない"
+      ],
+      "correctFeedback": "Great! ～かもしれない is correct.",
+      "incorrectFeedback": "The correct pattern is: ～かもしれない.",
+      "explanation": "Expresses uncertainty or possibility; means \"might\" or \"maybe.\"",
+      "hints": [
+        "~kamoshirenai"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

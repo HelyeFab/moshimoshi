@@ -1,0 +1,33 @@
+{
+  "kanji": "書",
+  "sentences": [
+    {
+      "id": "4786",
+      "japanese": "多くの人が日常のことについて文を書く。",
+      "english": "Most people write about their daily life."
+    },
+    {
+      "id": "8791760",
+      "japanese": "ほとんどの人が日々の生活について書いている。",
+      "english": "Most people write about their daily life."
+    },
+    {
+      "id": "4887",
+      "japanese": "堅い書き物は大嫌いだ。",
+      "english": "I utterly despise formal writing!"
+    },
+    {
+      "id": "138776",
+      "japanese": "彼が六歳のときタイプライターの使い方を学び、手で書くことを学ぶ必要などないと先生に言った。",
+      "english": "At the age of six he had learned to use the typewriter and told the teacher that he did not need to learn to write by hand."
+    },
+    {
+      "id": "138733",
+      "japanese": "私は手紙を書かねばなりません。紙を持っていますか。",
+      "english": "I have to write a letter. Do you have some paper?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.564Z",
+  "count": 5,
+  "fileId": "kanji-00036"
+}

@@ -1,0 +1,89 @@
+{
+  "id": "280-n4-point-80",
+  "version": "1.0.0",
+  "title": {
+    "ja": "~させてください",
+    "romaji": "~sasete kudasai",
+    "en": "Please let me do..."
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～させてください grammar point is used to make a polite request to allow or permit someone to do something. It can be translated as 'please let me' or 'please allow me to' in English.",
+    "ja": "「～させてください」は、誰かに何かを許可したり、認めたりするための丁寧なリクエストを作るために使います。英語で言えば、「Please let me」とか「Please allow me to」という意味です。"
+  },
+  "structure": {
+    "pattern": "Verb-causative form + ください",
+    "components": [
+      {
+        "part": "verb causative",
+        "explanation": "The verb in its causative form.",
+        "examples": [
+          "考えさせる (kangaesaseru) - to make think"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "もう少し考えさせてください。",
+      "romaji": "Mou sukoshi kangaesasete kudasai.",
+      "english": "Please let me think a little more.",
+      "breakdown": {
+        "もう (mou)": "more",
+        "すこし (sukoshi)": "a bit",
+        "考える (kangaeru)": "to think"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "写真を撮らせてください。",
+      "romaji": "Shashin o torasete kudasai.",
+      "english": "Please let me take a photo.",
+      "breakdown": {
+        "写真 (shashin)": "photo",
+        "撮る (toru)": "to take"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "もうちょっと練習させてください。",
+      "romaji": "Mou chotto renshuu sasete kudasai.",
+      "english": "Please let me practice a little more.",
+      "breakdown": {
+        "もう (mou)": "more",
+        "ちょっと (chotto)": "a bit",
+        "練習する (renshuu suru)": "to practice"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "ここで待たせてください。",
+      "romaji": "Koko de matasete kudasai.",
+      "english": "Please let me wait here.",
+      "breakdown": {
+        "ここ (koko)": "here",
+        "待つ (matsu)": "to wait"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "動詞ていただく",
+    "～てもいい",
+    "～なくてもいい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "考えさせてください。",
+      "correction": "もう少し考えさせてください。",
+      "example": "When asking to think a bit more, it's important to include 'もう少し' (a little more)."
+    }
+  ],
+  "tags": [
+    "n4",
+    "politeness",
+    "request",
+    "causative-form"
+  ]
+}

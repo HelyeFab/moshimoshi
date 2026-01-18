@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "205-n4-point-5",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "205-n4-point-5-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"i-Adjective ku suru/naru\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "い-Adjective く する/なる",
+          "romaji": "i-adjective ku suru/naru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! い-Adjective く する/なる matches \"i-Adjective ku suru/naru\".",
+      "incorrectFeedback": "Not quite. The correct pattern is い-Adjective く する/なる.",
+      "explanation": "Expresses becoming or making something more of an i-adjective quality.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "205-n4-point-5-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: い-Adjective く する/なる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "i-Adjective ku suru/naru"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! い-Adjective く する/なる means \"i-Adjective ku suru/naru\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"i-Adjective ku suru/naru\".",
+      "explanation": "Expresses becoming or making something more of an i-adjective quality.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "205-n4-point-5-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: い-Adjective く する/なる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "i-adjective ku suru/naru"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! i-adjective ku suru/naru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is i-adjective ku suru/naru.",
+      "explanation": "Expresses becoming or making something more of an i-adjective quality.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "205-n4-point-5-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: い-Adjective く する/なる?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Expresses becoming or making something more of an i-adjective quality."
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses becoming or making something more of an i-adjective quality.",
+      "explanation": "Expresses becoming or making something more of an i-adjective quality.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "205-n4-point-5-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"i-Adjective ku suru/naru\".",
+      "correctAnswer": "い-Adjective く する/なる",
+      "acceptedVariations": [
+        "い-Adjective く する/なる",
+        "い-Adjectiveくする/なる"
+      ],
+      "correctFeedback": "Nice! い-Adjective く する/なる is correct.",
+      "incorrectFeedback": "The correct pattern is: い-Adjective く する/なる (i-adjective ku suru/naru).",
+      "explanation": "Expresses becoming or making something more of an i-adjective quality.",
+      "hints": [
+        "i-adjective ku suru/naru",
+        "Expresses becoming or making something more of an i-adjective quality."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "205-n4-point-5-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: い-Adjective く する/なる.",
+      "correctAnswer": "i-adjective ku suru/naru",
+      "acceptedVariations": [
+        "i-adjective ku suru/naru",
+        "i-adjective ku suru/naru"
+      ],
+      "correctFeedback": "Nice! i-adjective ku suru/naru is correct.",
+      "incorrectFeedback": "The correct romaji is: i-adjective ku suru/naru.",
+      "explanation": "Expresses becoming or making something more of an i-adjective quality.",
+      "hints": [
+        "Expresses becoming or making something more of an i-adjective quality."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "205-n4-point-5-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: い-Adjective く する/なる.",
+      "correctAnswer": "i-Adjective ku suru/naru",
+      "acceptedVariations": [
+        "i-Adjective ku suru/naru",
+        "i-adjective ku suru/naru"
+      ],
+      "correctFeedback": "Correct! \"i-Adjective ku suru/naru\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"i-Adjective ku suru/naru\".",
+      "explanation": "Expresses becoming or making something more of an i-adjective quality.",
+      "hints": [
+        "Expresses becoming or making something more of an i-adjective quality."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "205-n4-point-5-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "い-Adjective く する/なる",
+          "romaji": "i-adjective ku suru/naru",
+          "english": "i-Adjective ku suru/naru"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses becoming or making something more of an i-adjective quality.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "205-n4-point-5-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses becoming or making something more of an i-adjective quality..",
+      "options": [
+        {
+          "id": "a",
+          "text": "い-Adjective く する/なる",
+          "romaji": "i-adjective ku suru/naru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! い-Adjective く する/なる matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is い-Adjective く する/なる.",
+      "explanation": "Expresses becoming or making something more of an i-adjective quality.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "205-n4-point-5-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "い-Adjectiveくする/なる",
+      "acceptedVariations": [
+        "い-Adjectiveくする/なる",
+        "い-Adjective く する/なる"
+      ],
+      "correctFeedback": "Great! い-Adjectiveくする/なる is correct.",
+      "incorrectFeedback": "The correct pattern is: い-Adjectiveくする/なる.",
+      "explanation": "Expresses becoming or making something more of an i-adjective quality.",
+      "hints": [
+        "i-adjective ku suru/naru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

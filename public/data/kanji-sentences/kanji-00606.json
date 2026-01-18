@@ -1,0 +1,33 @@
+{
+  "kanji": "寄",
+  "sentences": [
+    {
+      "id": "179034",
+      "japanese": "君が帰り道に私の家にちょっと立ち寄ってくれるといいのだが。",
+      "english": "I wish you could drop in at my house on your way home."
+    },
+    {
+      "id": "179870",
+      "japanese": "近くへおいでのときはお立ち寄りください。",
+      "english": "Please drop in when you happen to be in the neighborhood."
+    },
+    {
+      "id": "8584627",
+      "japanese": "近くにお越しの際はぜひお立ち寄りください。",
+      "english": "Please drop in when you happen to be in the neighborhood."
+    },
+    {
+      "id": "179903",
+      "japanese": "近いうちに立ち寄らせていただきます。",
+      "english": "I'll drop in on you sometime in the near future."
+    },
+    {
+      "id": "183324",
+      "japanese": "帰りに私の家に立ち寄ってください。",
+      "english": "Please drop in at my house on your way home."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.345Z",
+  "count": 5,
+  "fileId": "kanji-00606"
+}

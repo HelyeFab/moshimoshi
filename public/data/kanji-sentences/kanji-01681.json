@@ -1,0 +1,33 @@
+{
+  "kanji": "賭",
+  "sentences": [
+    {
+      "id": "185243",
+      "japanese": "会社は生き残りを賭けて奮闘している。",
+      "english": "The company is struggling for survival."
+    },
+    {
+      "id": "185267",
+      "japanese": "会社の賭けはうまくいきました。",
+      "english": "The company's gamble paid off."
+    },
+    {
+      "id": "192580",
+      "japanese": "ラスベガスの賭け事は本当に楽しかった。",
+      "english": "I really enjoyed betting in Las Vegas."
+    },
+    {
+      "id": "199717",
+      "japanese": "トランプで賭けてはいけない。",
+      "english": "You must not gamble at cards."
+    },
+    {
+      "id": "202461",
+      "japanese": "デイブが彼の新車に大金を払ったほうに僕は賭けるよ。",
+      "english": "I bet Dave paid a pretty penny for his new car."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:33.060Z",
+  "count": 5,
+  "fileId": "kanji-01681"
+}

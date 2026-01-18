@@ -1,0 +1,23 @@
+{
+  "kanji": "鋼",
+  "sentences": [
+    {
+      "id": "221967",
+      "japanese": "この鋼は錆びない。",
+      "english": "This steel is stainless."
+    },
+    {
+      "id": "107312",
+      "japanese": "彼は鋼を鍛えて刀を作った。",
+      "english": "He forged the steel into a sword."
+    },
+    {
+      "id": "4252780",
+      "japanese": "彼は鋼のような意志を持っている。",
+      "english": "He has a will of steel."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:40.045Z",
+  "count": 3,
+  "fileId": "kanji-01864"
+}

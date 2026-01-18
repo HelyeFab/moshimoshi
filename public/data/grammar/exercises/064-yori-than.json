@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "064-yori-than",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "064-yori-than-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: 犬は猫__大きいです。",
+      "options": [
+        { "id": "a", "text": "より" },
+        { "id": "b", "text": "と" },
+        { "id": "c", "text": "で" },
+        { "id": "d", "text": "に" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! より means 'than.'",
+      "incorrectFeedback": "Not quite. Use より for comparisons.",
+      "explanation": "より marks the comparison target.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "064-yori-than-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "この本はあの本より安いです。" },
+        { "id": "b", "text": "この本はあの本と安いです。" },
+        { "id": "c", "text": "この本はあの本で安いです。" },
+        { "id": "d", "text": "この本はあの本に安いです。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use より for 'than.'",
+      "incorrectFeedback": "Try again. Use より for comparisons.",
+      "explanation": "より marks the comparison target.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "064-yori-than-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Trains are faster than buses.'",
+      "correctAnswer": "電車はバスより早いです",
+      "acceptedVariations": [
+        "電車はバスより早いです。",
+        "でんしゃはばすよりはやいです",
+        "densha wa basu yori hayai desu",
+        "densha wa basu yori hayai desu."
+      ],
+      "correctFeedback": "Great! 電車はバスより早いです is correct.",
+      "incorrectFeedback": "The correct answer is: 電車はバスより早いです (densha wa basu yori hayai desu).",
+      "explanation": "Use より to compare two items.",
+      "hints": ["電車 = train", "バス = bus"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "064-yori-than-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 今日は昨日__暑いです。",
+      "options": [
+        { "id": "a", "text": "より" },
+        { "id": "b", "text": "と" },
+        { "id": "c", "text": "で" },
+        { "id": "d", "text": "に" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! より marks 'than.'",
+      "incorrectFeedback": "Not quite. Use より for comparison.",
+      "explanation": "より compares today and yesterday.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "064-yori-than-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This book is cheaper than that book.'",
+      "correctAnswer": "この本はあの本より安いです",
+      "acceptedVariations": [
+        "この本はあの本より安いです。",
+        "このほんはあのほんよりやすいです",
+        "kono hon wa ano hon yori yasui desu",
+        "kono hon wa ano hon yori yasui desu."
+      ],
+      "correctFeedback": "Nice! この本はあの本より安いです is correct.",
+      "incorrectFeedback": "The correct answer is: この本はあの本より安いです (kono hon wa ano hon yori yasui desu).",
+      "explanation": "Use より for comparisons.",
+      "hints": ["安い = cheap", "あの本 = that book"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "064-yori-than-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "犬は猫より大きいです。" },
+        { "id": "b", "text": "今日は昨日より暑いです。" },
+        { "id": "c", "text": "この本はあの本と安いです。" },
+        { "id": "d", "text": "電車はバスより早いです。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use より, not と, for comparisons.",
+      "incorrectFeedback": "Try again. より is for 'than.'",
+      "explanation": "Comparisons use より.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "064-yori-than-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Today is hotter than yesterday.'",
+      "correctAnswer": "今日は昨日より暑いです",
+      "acceptedVariations": [
+        "今日は昨日より暑いです。",
+        "きょうはきのうよりあついです",
+        "kyou wa kinou yori atsui desu",
+        "kyou wa kinou yori atsui desu."
+      ],
+      "correctFeedback": "Great! 今日は昨日より暑いです is correct.",
+      "incorrectFeedback": "The correct answer is: 今日は昨日より暑いです (kyou wa kinou yori atsui desu).",
+      "explanation": "Use より to compare two times.",
+      "hints": ["今日 = today", "昨日 = yesterday"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "064-yori-than-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "犬は猫より大きいです。",
+          "romaji": "Inu wa neko yori ookii desu.",
+          "english": "Dogs are bigger than cats."
+        },
+        {
+          "japanese": "電車はバスより早いです。",
+          "romaji": "Densha wa basu yori hayai desu.",
+          "english": "Trains are faster than buses."
+        },
+        {
+          "japanese": "この本はあの本より安いです。",
+          "romaji": "Kono hon wa ano hon yori yasui desu.",
+          "english": "This book is cheaper than that book."
+        }
+      ],
+      "correctFeedback": "Perfect! All use より for comparisons.",
+      "incorrectFeedback": "Not quite. Review より usage.",
+      "explanation": "より means 'than.'",
+      "difficulty": "hard"
+    },
+    {
+      "id": "064-yori-than-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'A is bigger than B'?",
+      "options": [
+        { "id": "a", "text": "AはBより大きいです" },
+        { "id": "b", "text": "AはBと大きいです" },
+        { "id": "c", "text": "AはBで大きいです" },
+        { "id": "d", "text": "AはBに大きいです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use Bより.",
+      "incorrectFeedback": "Try again. より means 'than.'",
+      "explanation": "Comparison uses Bより.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "064-yori-than-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This town is bigger than that town.'",
+      "correctAnswer": "この町はあの町より大きいです",
+      "acceptedVariations": [
+        "この町はあの町より大きいです。",
+        "このまちはあのまちよりおおきいです",
+        "kono machi wa ano machi yori ookii desu",
+        "kono machi wa ano machi yori ookii desu."
+      ],
+      "correctFeedback": "Nice! この町はあの町より大きいです is correct.",
+      "incorrectFeedback": "The correct answer is: この町はあの町より大きいです (kono machi wa ano machi yori ookii desu).",
+      "explanation": "Use より to compare two towns.",
+      "hints": ["町 = town", "大きい = big"],
+      "difficulty": "hard"
+    }
+  ]
+}

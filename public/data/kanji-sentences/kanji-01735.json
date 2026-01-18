@@ -1,0 +1,33 @@
+{
+  "kanji": "峠",
+  "sentences": [
+    {
+      "id": "197219",
+      "japanese": "ブームは峠を越した。",
+      "english": "The boom has peaked out."
+    },
+    {
+      "id": "85232",
+      "japanese": "病人はもう峠を越した。",
+      "english": "The patient is now safe."
+    },
+    {
+      "id": "152033",
+      "japanese": "私達が峠にさしかかる頃に雨になった。",
+      "english": "It began to rain as we came near the pass."
+    },
+    {
+      "id": "1278405",
+      "japanese": "患者さんは峠を越しました。",
+      "english": "The patient is now out of danger."
+    },
+    {
+      "id": "2624253",
+      "japanese": "猛暑の峠は越えたようだが、日中はまだまだ暑い。",
+      "english": "We have already passed the peak of the summer heat, but it's still hot during the day."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:35.051Z",
+  "count": 5,
+  "fileId": "kanji-01735"
+}

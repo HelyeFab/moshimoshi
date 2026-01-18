@@ -1,0 +1,97 @@
+{
+  "id": "034-nakute-wa-ikenai",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜なくてはいけない",
+    "romaji": "-nakute wa ikenai",
+    "en": "Must"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "〜なくてはいけない expresses obligation. It means “must” or “have to.” It is the opposite of 〜てはいけない.\n\nKey points:\n• Verb ない-form + くてはいけない\n• Means you must do something\n• Polite form: 〜なくてはいけません\n• Often used for rules and responsibilities\n\nFor example, “勉強しなくてはいけません” means “I must study.” “早く起きなくてはいけません” means “I have to wake up early.”\n\nIt sounds strong, so use it when the obligation is real. In casual speech, people often shorten it to 〜なきゃ, but at N5 you should use the full form.\n\nTo make this pattern, first change the verb to the ない-form, then add くてはいけない. For する, it becomes しなくてはいけない.\n\nPractice with common verbs to get used to the form and meaning.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (ない-form) + くてはいけない",
+    "components": [
+      {
+        "part": "Verb (ない-form)",
+        "explanation": "Negative base form",
+        "examples": ["行かない", "食べない", "しない"]
+      },
+      {
+        "part": "くてはいけない",
+        "explanation": "Must/obligation phrase",
+        "examples": ["くてはいけない", "くてはいけません"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "宿題をしなくてはいけません。",
+      "romaji": "Shukudai o shinakute wa ikemasen.",
+      "english": "I must do my homework.",
+      "breakdown": {
+        "宿題": "homework",
+        "を": "object marker",
+        "しなくて": "do not (negative form)",
+        "はいけません": "must (polite)"
+      },
+      "notes": "Obligation"
+    },
+    {
+      "japanese": "早く起きなくてはいけません。",
+      "romaji": "Hayaku okinakute wa ikemasen.",
+      "english": "I have to wake up early.",
+      "breakdown": {
+        "早く": "early",
+        "起きなくて": "wake up (negative form)",
+        "はいけません": "must"
+      },
+      "notes": "Daily responsibility"
+    },
+    {
+      "japanese": "明日学校に行かなくてはいけません。",
+      "romaji": "Ashita gakkou ni ikanakute wa ikemasen.",
+      "english": "I must go to school tomorrow.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "学校": "school",
+        "に": "destination marker",
+        "行かなくて": "go (negative form)",
+        "はいけません": "must"
+      },
+      "notes": "Obligation with time"
+    },
+    {
+      "japanese": "薬を飲まなくてはいけません。",
+      "romaji": "Kusuri o nomanakute wa ikemasen.",
+      "english": "I must take medicine.",
+      "breakdown": {
+        "薬": "medicine",
+        "を": "object marker",
+        "飲まなくて": "drink/take (negative form)",
+        "はいけません": "must"
+      },
+      "notes": "Strong necessity"
+    }
+  ],
+  "relatedPoints": [
+    "033-te-wa-ikenai",
+    "039-nai-form"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using dictionary form before なくてはいけない",
+      "correction": "Use the ない-form",
+      "example": "❌ 行くなくてはいけない → ✅ 行かなくてはいけない"
+    },
+    {
+      "mistake": "Dropping the negative part",
+      "correction": "Keep the ない-form + くてはいけない",
+      "example": "❌ 行くてはいけない → ✅ 行かなくてはいけない"
+    }
+  ],
+  "tags": ["verbs", "obligation", "negative", "beginner"]
+}

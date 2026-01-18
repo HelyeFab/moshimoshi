@@ -1,0 +1,33 @@
+{
+  "kanji": "余",
+  "sentences": [
+    {
+      "id": "10974626",
+      "japanese": "彼女はお金が有り余ってるんだよ。",
+      "english": "She's rolling in money."
+    },
+    {
+      "id": "180020",
+      "japanese": "驚きの余り話す力がなくなってしまった。",
+      "english": "I was too astonished to speak."
+    },
+    {
+      "id": "182178",
+      "japanese": "居合わせた人々は皆感動の余りないた。",
+      "english": "Those present were all moved to tears."
+    },
+    {
+      "id": "189388",
+      "japanese": "運動不足で食欲が余りない。",
+      "english": "I have little appetite due to lack of exercise."
+    },
+    {
+      "id": "190801",
+      "japanese": "医者は私に余り食べ過ぎないように注意した。",
+      "english": "The doctor advised me not to eat too much."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.414Z",
+  "count": 5,
+  "fileId": "kanji-00318"
+}

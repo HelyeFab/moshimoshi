@@ -1,0 +1,33 @@
+{
+  "kanji": "弓",
+  "sentences": [
+    {
+      "id": "228381",
+      "japanese": "インディアンは弓と矢で戦った。",
+      "english": "The Indians fought with bows and arrows."
+    },
+    {
+      "id": "75282",
+      "japanese": "この弓は張りが強いです。",
+      "english": "This bow has a strong draw."
+    },
+    {
+      "id": "76950",
+      "japanese": "７歳の時、すでに自ら弓と矢を作った。",
+      "english": "By the age of seven, he had already made his own bow and arrows."
+    },
+    {
+      "id": "121934",
+      "japanese": "猫は背を弓なりに曲げた。",
+      "english": "The cat arched its back."
+    },
+    {
+      "id": "122966",
+      "japanese": "虹は空に弓じょうにかかる。",
+      "english": "The rainbow forms an arc in the sky."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.745Z",
+  "count": 5,
+  "fileId": "kanji-01610"
+}

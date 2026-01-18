@@ -1,0 +1,33 @@
+{
+  "kanji": "密",
+  "sentences": [
+    {
+      "id": "217861",
+      "japanese": "これらの商品は密かに海外から輸入された。",
+      "english": "These goods were imported from abroad in secret."
+    },
+    {
+      "id": "226179",
+      "japanese": "からだ全体が密に毛でおおわれている。",
+      "english": "The entire body is densely covered with hair."
+    },
+    {
+      "id": "86595",
+      "japanese": "彼女は密かに彼の失敗を笑った。",
+      "english": "She laughed up her sleeve at his failure."
+    },
+    {
+      "id": "99747",
+      "japanese": "彼は密かに遊びたいと思っている。",
+      "english": "He has a secret desire to play."
+    },
+    {
+      "id": "99748",
+      "japanese": "彼は密かに庭に入り込んだ。",
+      "english": "He entered the garden secretly."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:49.032Z",
+  "count": 5,
+  "fileId": "kanji-02084"
+}

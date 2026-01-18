@@ -1,0 +1,33 @@
+{
+  "kanji": "汗",
+  "sentences": [
+    {
+      "id": "183900",
+      "japanese": "汗が彼の顔からしたたり落ちてくる。",
+      "english": "Sweat is dripping from his face."
+    },
+    {
+      "id": "183901",
+      "japanese": "汗が額を滴り落ちるのを感じた。",
+      "english": "I felt the sweat trickle down my brow."
+    },
+    {
+      "id": "183902",
+      "japanese": "汗がダラダラです。",
+      "english": "I'm dripping with sweat."
+    },
+    {
+      "id": "8585709",
+      "japanese": "汗だくだよ。",
+      "english": "I'm dripping with sweat."
+    },
+    {
+      "id": "184120",
+      "japanese": "額の汗をふきなさい。",
+      "english": "Wipe the sweat from your brow."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.339Z",
+  "count": 5,
+  "fileId": "kanji-00790"
+}

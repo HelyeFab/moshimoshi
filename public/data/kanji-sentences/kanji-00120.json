@@ -1,0 +1,33 @@
+{
+  "kanji": "肉",
+  "sentences": [
+    {
+      "id": "177025",
+      "japanese": "君は肉の料理の仕方を知っていますか。",
+      "english": "Do you know how to cook meat?"
+    },
+    {
+      "id": "179860",
+      "japanese": "近ごろは肉がとても高い。",
+      "english": "Meat is very expensive nowadays."
+    },
+    {
+      "id": "180040",
+      "japanese": "驚いたことに肉を生で食べた。",
+      "english": "To my surprise, they ate the meat raw."
+    },
+    {
+      "id": "182093",
+      "japanese": "魚や肉を売っているんだよ。",
+      "english": "They sell fish and meat."
+    },
+    {
+      "id": "182115",
+      "japanese": "魚と肉はともに栄養があるが、後者のほうが前者より値段が高い。",
+      "english": "Fish and meat are both nourishing, but the latter is more expensive than the former."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.874Z",
+  "count": 5,
+  "fileId": "kanji-00120"
+}

@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "227-n4-point-27",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "227-n4-point-27-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb + tsumori (to intend/plan to)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "動詞＋つもり",
+          "romaji": "Doushi + tsumori"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! 動詞＋つもり matches \"Verb + tsumori (to intend/plan to)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞＋つもり.",
+      "explanation": "Expresses intention or plan to do something using the plain verb form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "227-n4-point-27-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞＋つもり.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "Verb + tsumori (to intend/plan to)"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! 動詞＋つもり means \"Verb + tsumori (to intend/plan to)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb + tsumori (to intend/plan to)\".",
+      "explanation": "Expresses intention or plan to do something using the plain verb form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "227-n4-point-27-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞＋つもり.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Doushi + tsumori"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Doushi + tsumori is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Doushi + tsumori.",
+      "explanation": "Expresses intention or plan to do something using the plain verb form.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "227-n4-point-27-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞＋つもり?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Expresses intention or plan to do something using the plain verb form."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses intention or plan to do something using the plain verb form.",
+      "explanation": "Expresses intention or plan to do something using the plain verb form.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "227-n4-point-27-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb + tsumori (to intend/plan to)\".",
+      "correctAnswer": "動詞＋つもり",
+      "acceptedVariations": [
+        "動詞＋つもり",
+        "動詞＋つもり"
+      ],
+      "correctFeedback": "Nice! 動詞＋つもり is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞＋つもり (Doushi + tsumori).",
+      "explanation": "Expresses intention or plan to do something using the plain verb form.",
+      "hints": [
+        "Doushi + tsumori",
+        "Expresses intention or plan to do something using the plain verb form."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "227-n4-point-27-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞＋つもり.",
+      "correctAnswer": "Doushi + tsumori",
+      "acceptedVariations": [
+        "Doushi + tsumori",
+        "doushi + tsumori"
+      ],
+      "correctFeedback": "Nice! Doushi + tsumori is correct.",
+      "incorrectFeedback": "The correct romaji is: Doushi + tsumori.",
+      "explanation": "Expresses intention or plan to do something using the plain verb form.",
+      "hints": [
+        "Expresses intention or plan to do something using the plain verb form."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "227-n4-point-27-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞＋つもり.",
+      "correctAnswer": "Verb + tsumori (to intend/plan to)",
+      "acceptedVariations": [
+        "Verb + tsumori (to intend/plan to)",
+        "verb + tsumori (to intend/plan to)"
+      ],
+      "correctFeedback": "Correct! \"Verb + tsumori (to intend/plan to)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb + tsumori (to intend/plan to)\".",
+      "explanation": "Expresses intention or plan to do something using the plain verb form.",
+      "hints": [
+        "Expresses intention or plan to do something using the plain verb form."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "227-n4-point-27-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞＋つもり",
+          "romaji": "Doushi + tsumori",
+          "english": "Verb + tsumori (to intend/plan to)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses intention or plan to do something using the plain verb form.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "227-n4-point-27-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses intention or plan to do something using the plain verb form..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "動詞＋つもり",
+          "romaji": "Doushi + tsumori"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 動詞＋つもり matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞＋つもり.",
+      "explanation": "Expresses intention or plan to do something using the plain verb form.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "227-n4-point-27-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞＋つもり",
+      "acceptedVariations": [
+        "動詞＋つもり",
+        "動詞＋つもり"
+      ],
+      "correctFeedback": "Great! 動詞＋つもり is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞＋つもり.",
+      "explanation": "Expresses intention or plan to do something using the plain verb form.",
+      "hints": [
+        "Doushi + tsumori"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

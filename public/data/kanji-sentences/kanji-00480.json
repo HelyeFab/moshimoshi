@@ -1,0 +1,23 @@
+{
+  "kanji": "能",
+  "sentences": [
+    {
+      "id": "121728",
+      "japanese": "能は伝統的な日本の芸術である。",
+      "english": "Noh is a traditional Japanese art."
+    },
+    {
+      "id": "154645",
+      "japanese": "私は能に興味を持つアメリカ人に会いました。",
+      "english": "I met an American who was interested in Noh plays."
+    },
+    {
+      "id": "1801549",
+      "japanese": "能ある鷹は爪を隠す。",
+      "english": "A smart falcon hides its talons."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.609Z",
+  "count": 3,
+  "fileId": "kanji-00480"
+}

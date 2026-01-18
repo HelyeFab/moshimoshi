@@ -1,0 +1,33 @@
+{
+  "kanji": "蛍",
+  "sentences": [
+    {
+      "id": "8823605",
+      "japanese": "洞窟は蛍でいっぱいだ。",
+      "english": "The cave is full of fireflies."
+    },
+    {
+      "id": "8823607",
+      "japanese": "あなたの庭に蛍がいるの？",
+      "english": "Are there fireflies in your garden?"
+    },
+    {
+      "id": "8823608",
+      "japanese": "蛍を見たことある？",
+      "english": "Have you ever even seen a firefly?"
+    },
+    {
+      "id": "8823604",
+      "japanese": "たくさんの蛍がいたよ。",
+      "english": "There were lots of fireflies."
+    },
+    {
+      "id": "8823610",
+      "japanese": "蛍がヒキガエルに食べられちゃったよ。",
+      "english": "The firefly was eaten by a toad."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:11.703Z",
+  "count": 5,
+  "fileId": "kanji-01018"
+}

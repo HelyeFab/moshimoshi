@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "043-i-adjectives-negative",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "043-i-adjectives-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the negative form of 高い:",
+      "options": [
+        {
+          "id": "a",
+          "text": "高くない"
+        },
+        {
+          "id": "b",
+          "text": "高かった"
+        },
+        {
+          "id": "c",
+          "text": "高いでした"
+        },
+        {
+          "id": "d",
+          "text": "高いです"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 高い → 高くない.",
+      "incorrectFeedback": "Not quite. Change い to くない.",
+      "explanation": "Negative い-adjectives use くない.",
+      "difficulty": "easy"
+    }
+  ]
+}

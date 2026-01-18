@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "077-counter-mai",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "077-counter-mai-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct counter for flat objects:",
+      "options": [
+        { "id": "a", "text": "枚" },
+        { "id": "b", "text": "本" },
+        { "id": "c", "text": "人" },
+        { "id": "d", "text": "つ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 枚 is for flat objects.",
+      "incorrectFeedback": "Not quite. 枚 is the flat object counter.",
+      "explanation": "枚 counts flat objects.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "077-counter-mai-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "切符を二枚買いました。" },
+        { "id": "b", "text": "切符を二本買いました。" },
+        { "id": "c", "text": "切符を二つ買いました。" },
+        { "id": "d", "text": "切符を二人買いました。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Tickets are flat, so use 枚.",
+      "incorrectFeedback": "Try again. Use 枚 for flat items.",
+      "explanation": "切符 is flat, so use 枚.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "077-counter-mai-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Please give me three sheets of paper.'",
+      "correctAnswer": "紙を三枚ください",
+      "acceptedVariations": [
+        "紙を三枚ください。",
+        "かみをさんまいください",
+        "kami o sanmai kudasai",
+        "kami o sanmai kudasai."
+      ],
+      "correctFeedback": "Great! 紙を三枚ください is correct.",
+      "incorrectFeedback": "The correct answer is: 紙を三枚ください (kami o sanmai kudasai).",
+      "explanation": "枚 is used for paper.",
+      "hints": ["紙 = paper", "三枚 = three sheets"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "077-counter-mai-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct reading for 4 sheets:",
+      "options": [
+        { "id": "a", "text": "よんまい" },
+        { "id": "b", "text": "よんばい" },
+        { "id": "c", "text": "よっまい" },
+        { "id": "d", "text": "よんほん" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 4枚 is よんまい.",
+      "incorrectFeedback": "Not quite. 枚 is regular: よんまい.",
+      "explanation": "枚 does not change sound.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "077-counter-mai-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I bought two tickets.'",
+      "correctAnswer": "切符を二枚買いました",
+      "acceptedVariations": [
+        "切符を二枚買いました。",
+        "きっぷをにまいかいました",
+        "kippu o nimai kaimashita",
+        "kippu o nimai kaimashita."
+      ],
+      "correctFeedback": "Nice! 切符を二枚買いました is correct.",
+      "incorrectFeedback": "The correct answer is: 切符を二枚買いました (kippu o nimai kaimashita).",
+      "explanation": "Use 枚 for tickets.",
+      "hints": ["切符 = ticket", "二枚 = two"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "077-counter-mai-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "紙を三枚ください。" },
+        { "id": "b", "text": "シャツが四枚あります。" },
+        { "id": "c", "text": "写真を五本撮りました。" },
+        { "id": "d", "text": "切符を二枚買いました。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Photos are flat; use 枚.",
+      "incorrectFeedback": "Try again. Use 枚 for photos.",
+      "explanation": "写真 uses 枚, not 本.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "077-counter-mai-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There are four shirts.'",
+      "correctAnswer": "シャツが四枚あります",
+      "acceptedVariations": [
+        "シャツが四枚あります。",
+        "しゃつがよんまいあります",
+        "shatsu ga yonmai arimasu",
+        "shatsu ga yonmai arimasu."
+      ],
+      "correctFeedback": "Great! シャツが四枚あります is correct.",
+      "incorrectFeedback": "The correct answer is: シャツが四枚あります (shatsu ga yonmai arimasu).",
+      "explanation": "Use 枚 for flat clothing items.",
+      "hints": ["シャツ = shirt", "四枚 = four"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "077-counter-mai-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "切符を二枚買いました。",
+          "romaji": "Kippu o nimai kaimashita.",
+          "english": "I bought two tickets."
+        },
+        {
+          "japanese": "紙を三枚ください。",
+          "romaji": "Kami o sanmai kudasai.",
+          "english": "Please give me three sheets of paper."
+        },
+        {
+          "japanese": "写真を五枚撮りました。",
+          "romaji": "Shashin o gomai torimashita.",
+          "english": "I took five photos."
+        }
+      ],
+      "correctFeedback": "Perfect! All use 枚.",
+      "incorrectFeedback": "Not quite. Review the 枚 counter.",
+      "explanation": "枚 is for flat items.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "077-counter-mai-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'two photos'?",
+      "options": [
+        { "id": "a", "text": "写真を二枚" },
+        { "id": "b", "text": "写真を二本" },
+        { "id": "c", "text": "写真を二つ" },
+        { "id": "d", "text": "写真を二人" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Photos use 枚.",
+      "incorrectFeedback": "Try again. Use 枚 for photos.",
+      "explanation": "Flat items use 枚.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "077-counter-mai-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I took five photos.'",
+      "correctAnswer": "写真を五枚撮りました",
+      "acceptedVariations": [
+        "写真を五枚撮りました。",
+        "しゃしんをごまいとりました",
+        "shashin o gomai torimashita",
+        "shashin o gomai torimashita."
+      ],
+      "correctFeedback": "Nice! 写真を五枚撮りました is correct.",
+      "incorrectFeedback": "The correct answer is: 写真を五枚撮りました (shashin o gomai torimashita).",
+      "explanation": "Use 枚 for flat items like photos.",
+      "hints": ["写真 = photo", "五枚 = five"],
+      "difficulty": "hard"
+    }
+  ]
+}

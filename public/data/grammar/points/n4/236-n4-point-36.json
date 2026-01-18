@@ -1,0 +1,118 @@
+{
+  "id": "236-n4-point-36",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ている間に",
+    "romaji": "Verb te iru aida ni",
+    "en": "During the time (verb in progress)"
+  },
+  "jlptLevel": "N4",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "Expresses that an action or event occurs during the time another is happening.",
+    "ja": "ある行動や事象が別の進行中の時間帯に起こっていることを表現します。"
+  },
+  "structure": {
+    "pattern": "Verb-て form + いる + 間に",
+    "components": [
+      {
+        "part": "Verb-て form",
+        "explanation": "The te-form of the verb.",
+        "examples": [
+          "見て (mite)",
+          "遊んで (asonde)"
+        ]
+      },
+      {
+        "part": "いる",
+        "explanation": "Present progressive auxiliary verb.",
+        "examples": []
+      },
+      {
+        "part": "間に",
+        "explanation": "During the time",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "映画を見ている間に、彼は寝てしまった。",
+      "romaji": "Eiga o mite iru aida ni, kare wa nete shimatta.",
+      "english": "While watching the movie, he fell asleep.",
+      "breakdown": {
+        "token": "gloss",
+        "tokens": [
+          "映画を (movie)",
+          "見ている間に (while watching)",
+          "彼は (he)",
+          "寝てしまった (fell asleep)"
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "子供が遊んでいる間に、私は料理を作ります。",
+      "romaji": "Kodomo ga asonde iru aida ni, watashi wa ryouri o tsukurimasu.",
+      "english": "While the children are playing, I'll cook.",
+      "breakdown": {
+        "token": "gloss",
+        "tokens": [
+          "子供が (children)",
+          "遊んでいる間に (while playing)",
+          "私は (I)",
+          "料理を作ります (cook)"
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "会議が行われている間に、雨が降り始めました。",
+      "romaji": "Kaigi ga okonawarete iru aida ni, ame ga furihajimemashita.",
+      "english": "While the meeting was being held, it started raining.",
+      "breakdown": {
+        "token": "gloss",
+        "tokens": [
+          "会議が (meeting)",
+          "行われている間に (while holding)",
+          "雨が (rain)",
+          "降り始めました (started)"
+        ]
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼が仕事をしている間に、私たちは買い物に行く。",
+      "romaji": "Kare ga shigoto o shite iru aida ni, watashitachi wa kaimono ni iku.",
+      "english": "While he is working, we'll go shopping.",
+      "breakdown": {
+        "token": "gloss",
+        "tokens": [
+          "彼が (he)",
+          "仕事をしている間に (while working)",
+          "私たちは (we)",
+          "買い物に行く (go shopping)"
+        ]
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Noun の 間に (〜no aida ni)",
+    "Verb るときに",
+    "~まで"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "映画を見ている間、彼は寝てしまった。",
+      "correction": "映画を見ている間に、彼は寝ってしまった。",
+      "example": "In this case, it's important to add 'に' after 間 to properly express the time during which something is happening."
+    }
+  ],
+  "tags": [
+    "n4",
+    "time-expressions",
+    "progressive-forms",
+    "during-time"
+  ]
+}

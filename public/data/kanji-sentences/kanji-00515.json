@@ -1,0 +1,33 @@
+{
+  "kanji": "論",
+  "sentences": [
+    {
+      "id": "185734",
+      "japanese": "我々は政治を論じた。",
+      "english": "We argued politics."
+    },
+    {
+      "id": "186034",
+      "japanese": "我々はその問題を詳細に論じた。",
+      "english": "We discussed the matter at large."
+    },
+    {
+      "id": "191093",
+      "japanese": "委員会は教育問題について論じている。",
+      "english": "The committee held a discussion on the problem of education."
+    },
+    {
+      "id": "191124",
+      "japanese": "委員が集まり、誰をそのポストに任命すべきか論じた。",
+      "english": "The committee met and discussed whom to appoint to the post."
+    },
+    {
+      "id": "191744",
+      "japanese": "われわれがその問題を論じるには、３時間は短すぎます。",
+      "english": "Three hours is too short for us to discuss that matter."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.045Z",
+  "count": 5,
+  "fileId": "kanji-00515"
+}

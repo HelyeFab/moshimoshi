@@ -1,0 +1,33 @@
+{
+  "kanji": "個",
+  "sentences": [
+    {
+      "id": "183443",
+      "japanese": "机の上にリンゴが１個ある。",
+      "english": "There is one apple on the desk."
+    },
+    {
+      "id": "183750",
+      "japanese": "間違いの数は多くて１０個です。",
+      "english": "The number of mistakes is ten at most."
+    },
+    {
+      "id": "184537",
+      "japanese": "角砂糖を１個コーヒーに入れて下さい。",
+      "english": "Please put a lump of sugar in my coffee."
+    },
+    {
+      "id": "11224335",
+      "japanese": "お砂糖は１個でお願いします。",
+      "english": "Please put a lump of sugar in my coffee."
+    },
+    {
+      "id": "192456",
+      "japanese": "リンゴは１個５ドルで売っている。",
+      "english": "They sell apples at five dollars each."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.028Z",
+  "count": 5,
+  "fileId": "kanji-00957"
+}

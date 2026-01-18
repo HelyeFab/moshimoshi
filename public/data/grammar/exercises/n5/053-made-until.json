@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "053-made-until",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "053-made-until-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 五時__働きます。",
+      "options": [
+        { "id": "a", "text": "まで" },
+        { "id": "b", "text": "から" },
+        { "id": "c", "text": "に" },
+        { "id": "d", "text": "で" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! まで marks the end time.",
+      "incorrectFeedback": "Not quite. Use まで for the end point.",
+      "explanation": "まで means 'until.'",
+      "difficulty": "easy"
+    },
+    {
+      "id": "053-made-until-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "九時まで勉強します。" },
+        { "id": "b", "text": "九時に勉強します。" },
+        { "id": "c", "text": "九時で勉強します。" },
+        { "id": "d", "text": "九時を勉強します。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! まで shows the end time.",
+      "incorrectFeedback": "Try again. Use まで for 'until.'",
+      "explanation": "まで marks the end point of time.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "053-made-until-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I stay until Sunday.'",
+      "correctAnswer": "日曜日までいます",
+      "acceptedVariations": [
+        "日曜日までいます。",
+        "にちようびまでいます",
+        "nichiyoubi made imasu",
+        "nichiyoubi made imasu."
+      ],
+      "correctFeedback": "Great! 日曜日までいます is correct.",
+      "incorrectFeedback": "The correct answer is: 日曜日までいます (nichiyoubi made imasu).",
+      "explanation": "Use まで to show the end time.",
+      "hints": ["日曜日 = Sunday", "います = be"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "053-made-until-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase for 'until night':",
+      "options": [
+        { "id": "a", "text": "夜まで" },
+        { "id": "b", "text": "夜から" },
+        { "id": "c", "text": "夜に" },
+        { "id": "d", "text": "夜で" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 夜まで means 'until night.'",
+      "incorrectFeedback": "Not quite. Use まで for 'until.'",
+      "explanation": "まで marks the end point.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "053-made-until-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I will work until 5.'",
+      "correctAnswer": "五時まで働きます",
+      "acceptedVariations": [
+        "五時まで働きます。",
+        "ごじまではたらきます",
+        "goji made hatarakimasu",
+        "goji made hatarakimasu."
+      ],
+      "correctFeedback": "Nice! 五時まで働きます is correct.",
+      "incorrectFeedback": "The correct answer is: 五時まで働きます (goji made hatarakimasu).",
+      "explanation": "Use まで for the end time.",
+      "hints": ["五時 = 5 o'clock", "働きます = work"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "053-made-until-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "日曜日まで日本にいます。" },
+        { "id": "b", "text": "夜まで起きています。" },
+        { "id": "c", "text": "九時まで勉強します。" },
+        { "id": "d", "text": "九時に勉強します(meaning until)." }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Use まで for 'until', not に.",
+      "incorrectFeedback": "Try again. まで marks the end point.",
+      "explanation": "に marks a point in time, not an end limit.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "053-made-until-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I study until 9.'",
+      "correctAnswer": "九時まで勉強します",
+      "acceptedVariations": [
+        "九時まで勉強します。",
+        "くじまでべんきょうします",
+        "kuji made benkyou shimasu",
+        "kuji made benkyou shimasu."
+      ],
+      "correctFeedback": "Great! 九時まで勉強します is correct.",
+      "incorrectFeedback": "The correct answer is: 九時まで勉強します (kuji made benkyou shimasu).",
+      "explanation": "Use まで to show the end time.",
+      "hints": ["九時 = 9 o'clock", "勉強します = study"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "053-made-until-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "五時まで働きます。",
+          "romaji": "Go-ji made hatarakimasu.",
+          "english": "I work until 5."
+        },
+        {
+          "japanese": "日曜日までいます。",
+          "romaji": "Nichiyoubi made imasu.",
+          "english": "I stay until Sunday."
+        },
+        {
+          "japanese": "夜まで起きています。",
+          "romaji": "Yoru made okite imasu.",
+          "english": "I stay awake until night."
+        }
+      ],
+      "correctFeedback": "Perfect! All use まで for the end time.",
+      "incorrectFeedback": "Not quite. Review まで usage.",
+      "explanation": "まで marks the end point of time.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "053-made-until-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'until Monday'?",
+      "options": [
+        { "id": "a", "text": "月曜日まで" },
+        { "id": "b", "text": "月曜日から" },
+        { "id": "c", "text": "月曜日に" },
+        { "id": "d", "text": "月曜日で" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 月曜日まで.",
+      "incorrectFeedback": "Try again. Use まで for 'until.'",
+      "explanation": "Use まで to mark the end point.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "053-made-until-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I will be in Japan until March.'",
+      "correctAnswer": "三月まで日本にいます",
+      "acceptedVariations": [
+        "三月まで日本にいます。",
+        "さんがつまでにほんにいます",
+        "sangatsu made nihon ni imasu",
+        "sangatsu made nihon ni imasu."
+      ],
+      "correctFeedback": "Nice! 三月まで日本にいます is correct.",
+      "incorrectFeedback": "The correct answer is: 三月まで日本にいます (sangatsu made nihon ni imasu).",
+      "explanation": "Use まで to show the end month.",
+      "hints": ["三月 = March", "日本にいます = be in Japan"],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "青",
+  "sentences": [
+    {
+      "id": "992672",
+      "japanese": "隣の芝は青い。",
+      "english": "What you don't have is better than what you do have."
+    },
+    {
+      "id": "183645",
+      "japanese": "顔が青いよ。",
+      "english": "You look pale."
+    },
+    {
+      "id": "177375",
+      "japanese": "君は顔色がまっ青だよ。",
+      "english": "You are as white as a sheet."
+    },
+    {
+      "id": "179417",
+      "japanese": "空は青い。",
+      "english": "The sky is blue."
+    },
+    {
+      "id": "10930413",
+      "japanese": "空が青いです。",
+      "english": "The sky is blue."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.668Z",
+  "count": 5,
+  "fileId": "kanji-00106"
+}

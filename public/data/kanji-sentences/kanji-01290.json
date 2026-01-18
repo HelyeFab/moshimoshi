@@ -1,0 +1,33 @@
+{
+  "kanji": "穴",
+  "sentences": [
+    {
+      "id": "178409",
+      "japanese": "靴下に大きな穴があいてるよ。",
+      "english": "There is a big hole in your stocking."
+    },
+    {
+      "id": "179233",
+      "japanese": "靴下に穴が開いているよ。",
+      "english": "There is a hole in your sock."
+    },
+    {
+      "id": "126362",
+      "japanese": "注意して！道路に穴があいてるよ。",
+      "english": "Look out! There's a hole in the road."
+    },
+    {
+      "id": "183237",
+      "japanese": "気を付けろ、道路に穴があるぞ。",
+      "english": "Look out! There's a hole in the road."
+    },
+    {
+      "id": "183250",
+      "japanese": "気をつけて。そこに大きな穴があるよ。",
+      "english": "Watch out! There's a big hole there."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:21.285Z",
+  "count": 5,
+  "fileId": "kanji-01290"
+}

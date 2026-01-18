@@ -1,0 +1,23 @@
+{
+  "kanji": "勉",
+  "sentences": [
+    {
+      "id": "76240",
+      "japanese": "休み中に置き勉してると没収されるんだよな。",
+      "english": "If you leave your textbooks at school during the break, they'll get confiscated."
+    },
+    {
+      "id": "402800",
+      "japanese": "私たちの年代の卒業生たちはノー勉で卒業試験を受ける人が結構いたようです。",
+      "english": "In our time, there were many students who passed the graduation exam without studying."
+    },
+    {
+      "id": "4711497",
+      "japanese": "「テストどうだった？」「やばいよ。0点かも」「は、まじで？」「テストあるの忘れててノー勉で受けたもん」",
+      "english": "\"How'd the test go?\" \"Horrible. I might've not even got a single question right.\" \"What, are you serious?\" \"Well, I forgot we had a test, so I went in totally unprepared.\""
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.299Z",
+  "count": 3,
+  "fileId": "kanji-00149"
+}

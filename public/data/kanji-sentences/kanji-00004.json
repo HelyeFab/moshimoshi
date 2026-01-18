@@ -1,0 +1,33 @@
+{
+  "kanji": "年",
+  "sentences": [
+    {
+      "id": "4952",
+      "japanese": "１０年は待つには長い時間だ。",
+      "english": "Ten years is a long time to wait."
+    },
+    {
+      "id": "5002",
+      "japanese": "２、３年でフランス語に熟達するのはきわめて難しい。",
+      "english": "It's quite difficult to master French in 2 or 3 years."
+    },
+    {
+      "id": "5268",
+      "japanese": "この業界ではもう年をとりすぎている。",
+      "english": "I am too old for this world."
+    },
+    {
+      "id": "101376",
+      "japanese": "彼は年に見えない。",
+      "english": "He doesn't look his age."
+    },
+    {
+      "id": "6056",
+      "japanese": "彼は1888年7月28日に生まれました。",
+      "english": "He was born on July 28th, 1888."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.264Z",
+  "count": 5,
+  "fileId": "kanji-00004"
+}

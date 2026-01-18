@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "037-plain-form-past",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "037-plain-form-past-ex-01",
+      "type": "multiple-choice",
+      "question": "Which is the plain past of 行く?",
+      "options": [
+        { "id": "a", "text": "行った" },
+        { "id": "b", "text": "行きます" },
+        { "id": "c", "text": "行く" },
+        { "id": "d", "text": "行きません" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行く → 行った.",
+      "incorrectFeedback": "Not quite. Plain past is 行った.",
+      "explanation": "U-verb past form is 行った.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "037-plain-form-past-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is in plain past form?",
+      "options": [
+        { "id": "a", "text": "昨日映画を見た。" },
+        { "id": "b", "text": "昨日映画を見ます。" },
+        { "id": "c", "text": "昨日映画を見ません。" },
+        { "id": "d", "text": "昨日映画を見る。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 見た is plain past.",
+      "incorrectFeedback": "Try again. Use the た-form.",
+      "explanation": "Plain past uses た/だ endings.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "037-plain-form-past-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese (casual): 'I ate breakfast.'",
+      "correctAnswer": "朝ご飯を食べた",
+      "acceptedVariations": [
+        "朝ご飯を食べた。",
+        "あさごはんをたべた",
+        "asagohan o tabeta",
+        "asagohan o tabeta."
+      ],
+      "correctFeedback": "Great! 朝ご飯を食べた is correct.",
+      "incorrectFeedback": "The correct answer is: 朝ご飯を食べた (asagohan o tabeta).",
+      "explanation": "Use plain past form with た.",
+      "hints": ["食べる → 食べた", "Plain past"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "037-plain-form-past-ex-04",
+      "type": "multiple-choice",
+      "question": "Which is the plain past of 読む?",
+      "options": [
+        { "id": "a", "text": "読んだ" },
+        { "id": "b", "text": "読みます" },
+        { "id": "c", "text": "読む" },
+        { "id": "d", "text": "読まない" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 読む → 読んだ.",
+      "incorrectFeedback": "Not quite. む verbs become んだ.",
+      "explanation": "U-verb past form: 読んだ.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "037-plain-form-past-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese (casual): 'I talked with my friend.'",
+      "correctAnswer": "友だちと話した",
+      "acceptedVariations": [
+        "友だちと話した。",
+        "ともだちとはなした",
+        "tomodachi to hanashita",
+        "tomodachi to hanashita."
+      ],
+      "correctFeedback": "Nice! 友だちと話した is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちと話した (tomodachi to hanashita).",
+      "explanation": "する-verb past is した.",
+      "hints": ["話す → 話した", "と = with"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "037-plain-form-past-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "昨日行った。" },
+        { "id": "b", "text": "昨日行く。" },
+        { "id": "c", "text": "本を読んだ。" },
+        { "id": "d", "text": "映画を見た。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 昨日 needs past form.",
+      "incorrectFeedback": "Try again. Past time words need past form.",
+      "explanation": "昨日行く is incorrect; use 行った.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "037-plain-form-past-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese (casual): 'I went to Japan.'",
+      "correctAnswer": "日本へ行った",
+      "acceptedVariations": [
+        "日本へ行った。",
+        "にほんへいった",
+        "nihon e itta",
+        "nihon e itta."
+      ],
+      "correctFeedback": "Great! 日本へ行った is correct.",
+      "incorrectFeedback": "The correct answer is: 日本へ行った (nihon e itta).",
+      "explanation": "Use plain past form for casual past.",
+      "hints": ["行く → 行った", "日本 = Japan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "037-plain-form-past-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the plain past sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "昨日映画を見た。",
+          "romaji": "Kinou eiga o mita.",
+          "english": "I watched a movie yesterday."
+        },
+        {
+          "japanese": "朝ご飯を食べた。",
+          "romaji": "Asagohan o tabeta.",
+          "english": "I ate breakfast."
+        },
+        {
+          "japanese": "友だちと話した。",
+          "romaji": "Tomodachi to hanashita.",
+          "english": "I talked with my friend."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review the plain past form.",
+      "explanation": "All sentences use the た/だ past ending.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "037-plain-form-past-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the plain past of する?",
+      "options": [
+        { "id": "a", "text": "しない" },
+        { "id": "b", "text": "した" },
+        { "id": "c", "text": "します" },
+        { "id": "d", "text": "して" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! する → した.",
+      "incorrectFeedback": "Try again. The past of する is した.",
+      "explanation": "Irregular past form: した.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "037-plain-form-past-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese (casual): 'I read a book.' (past)",
+      "correctAnswer": "本を読んだ",
+      "acceptedVariations": [
+        "本を読んだ。",
+        "ほんをよんだ",
+        "hon o yonda",
+        "hon o yonda."
+      ],
+      "correctFeedback": "Nice! 本を読んだ is correct.",
+      "incorrectFeedback": "The correct answer is: 本を読んだ (hon o yonda).",
+      "explanation": "Use the plain past た/だ form.",
+      "hints": ["読む → 読んだ", "Plain past"],
+      "difficulty": "hard"
+    }
+  ]
+}

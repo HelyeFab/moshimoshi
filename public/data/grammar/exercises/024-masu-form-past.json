@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "024-masu-form-past",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "024-masu-form-past-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the polite past form: 行きます → ?",
+      "options": [
+        { "id": "a", "text": "行きました" },
+        { "id": "b", "text": "行きません" },
+        { "id": "c", "text": "行きます" },
+        { "id": "d", "text": "行く" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行きました is polite past.",
+      "incorrectFeedback": "Not quite. Replace ます with ました.",
+      "explanation": "ます → ました for polite past.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "024-masu-form-past-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'I ate breakfast'?",
+      "options": [
+        { "id": "a", "text": "朝ご飯を食べます。" },
+        { "id": "b", "text": "朝ご飯を食べません。" },
+        { "id": "c", "text": "朝ご飯を食べました。" },
+        { "id": "d", "text": "朝ご飯を食べませんでした。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 食べました is past.",
+      "incorrectFeedback": "Try again. Past uses ました.",
+      "explanation": "Polite past ends with ました.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "024-masu-form-past-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I went yesterday.'",
+      "correctAnswer": "昨日行きました",
+      "acceptedVariations": [
+        "昨日行きました。",
+        "きのういきました",
+        "kinou ikimashita",
+        "kinou ikimashita."
+      ],
+      "correctFeedback": "Great! 昨日行きました is correct.",
+      "incorrectFeedback": "The correct answer is: 昨日行きました (kinou ikimashita).",
+      "explanation": "Use ました for past actions.",
+      "hints": ["昨日 = yesterday", "End with 行きました"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "024-masu-form-past-ex-04",
+      "type": "multiple-choice",
+      "question": "Which verb is in polite past form?",
+      "options": [
+        { "id": "a", "text": "読みます" },
+        { "id": "b", "text": "読みません" },
+        { "id": "c", "text": "読みました" },
+        { "id": "d", "text": "読まない" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 読みました is polite past.",
+      "incorrectFeedback": "Not quite. Look for ました.",
+      "explanation": "Polite past ends with ました.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "024-masu-form-past-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I studied Japanese last week.'",
+      "correctAnswer": "先週日本語を勉強しました",
+      "acceptedVariations": [
+        "先週日本語を勉強しました。",
+        "せんしゅうにほんごをべんきょうしました",
+        "senshuu nihongo o benkyou shimashita",
+        "senshuu nihongo o benkyou shimashita."
+      ],
+      "correctFeedback": "Nice! 先週日本語を勉強しました is correct.",
+      "incorrectFeedback": "The correct answer is: 先週日本語を勉強しました (senshuu nihongo o benkyou shimashita).",
+      "explanation": "Use ました for past actions.",
+      "hints": ["先週 = last week", "勉強しました = studied"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "024-masu-form-past-ex-06",
+      "type": "multiple-choice",
+      "question": "Choose the correct past sentence:",
+      "options": [
+        { "id": "a", "text": "昨日映画を見ました。" },
+        { "id": "b", "text": "昨日映画を見ます。" },
+        { "id": "c", "text": "昨日映画を見ません。" },
+        { "id": "d", "text": "昨日映画を見る。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 見ました is past polite.",
+      "incorrectFeedback": "Try again. Use ました with past time words.",
+      "explanation": "Past time word + ました.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "024-masu-form-past-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I watched TV.'",
+      "correctAnswer": "テレビを見ました",
+      "acceptedVariations": [
+        "テレビを見ました。",
+        "てれびをみました",
+        "terebi o mimashita",
+        "terebi o mimashita."
+      ],
+      "correctFeedback": "Great! テレビを見ました is correct.",
+      "incorrectFeedback": "The correct answer is: テレビを見ました (terebi o mimashita).",
+      "explanation": "Use ました for the past.",
+      "hints": ["見ます → 見ました", "テレビ = TV"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "024-masu-form-past-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "昨日行きました。",
+          "romaji": "Kinou ikimashita.",
+          "english": "I went yesterday."
+        },
+        {
+          "japanese": "朝ご飯を食べました。",
+          "romaji": "Asagohan o tabemashita.",
+          "english": "I ate breakfast."
+        },
+        {
+          "japanese": "先週勉強しました。",
+          "romaji": "Senshuu benkyou shimashita.",
+          "english": "I studied last week."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review ました for past actions.",
+      "explanation": "All sentences end with ました.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "024-masu-form-past-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "昨日行きました。" },
+        { "id": "b", "text": "先週勉強しました。" },
+        { "id": "c", "text": "昨日行きます。" },
+        { "id": "d", "text": "映画を見ました。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Past time words need ました.",
+      "incorrectFeedback": "Try again. Use ました with yesterday.",
+      "explanation": "昨日 + ます is inconsistent.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "024-masu-form-past-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I met my friend yesterday.'",
+      "correctAnswer": "昨日友だちに会いました",
+      "acceptedVariations": [
+        "昨日友だちに会いました。",
+        "きのうともだちにあいました",
+        "kinou tomodachi ni aimashita",
+        "kinou tomodachi ni aimashita."
+      ],
+      "correctFeedback": "Nice! 昨日友だちに会いました is correct.",
+      "incorrectFeedback": "The correct answer is: 昨日友だちに会いました (kinou tomodachi ni aimashita).",
+      "explanation": "Use ました for the past.",
+      "hints": ["会います → 会いました", "Use に with 会う"],
+      "difficulty": "hard"
+    }
+  ]
+}

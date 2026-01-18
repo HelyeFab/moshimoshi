@@ -1,0 +1,33 @@
+{
+  "kanji": "預",
+  "sentences": [
+    {
+      "id": "179564",
+      "japanese": "銀行は人の金を預かる。",
+      "english": "The bank keeps money for people."
+    },
+    {
+      "id": "179581",
+      "japanese": "銀行に預けるのが嫌いな人もいる。",
+      "english": "Some people do not like to deposit their money in banks."
+    },
+    {
+      "id": "10565647",
+      "japanese": "銀行にいくら預けてるの？",
+      "english": "How much money do you have in the bank?"
+    },
+    {
+      "id": "179589",
+      "japanese": "銀行にそのお金を預けてください。",
+      "english": "Please deposit the money in a bank."
+    },
+    {
+      "id": "179590",
+      "japanese": "銀行にお金を預ければ、預金した事になる。",
+      "english": "When you put money in the bank, you deposit it."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.995Z",
+  "count": 5,
+  "fileId": "kanji-00817"
+}

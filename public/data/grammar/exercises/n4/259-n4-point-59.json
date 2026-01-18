@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "259-n4-point-59",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "259-n4-point-59-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb-like construction\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb ように (〜you ni)",
+          "romaji": "Verb you ni"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Verb ように (〜you ni) matches \"Verb-like construction\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ように (〜you ni).",
+      "explanation": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "259-n4-point-59-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb ように (〜you ni).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "Verb-like construction"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb ように (〜you ni) means \"Verb-like construction\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb-like construction\".",
+      "explanation": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "259-n4-point-59-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb ように (〜you ni).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb you ni"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb you ni is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb you ni.",
+      "explanation": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "259-n4-point-59-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb ように (〜you ni)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "explanation": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "259-n4-point-59-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb-like construction\".",
+      "correctAnswer": "Verb ように (〜you ni)",
+      "acceptedVariations": [
+        "Verb ように (〜you ni)",
+        "Verbように(〜youni)"
+      ],
+      "correctFeedback": "Nice! Verb ように (〜you ni) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb ように (〜you ni) (Verb you ni).",
+      "explanation": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "hints": [
+        "Verb you ni",
+        "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "259-n4-point-59-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb ように (〜you ni).",
+      "correctAnswer": "Verb you ni",
+      "acceptedVariations": [
+        "Verb you ni",
+        "verb you ni"
+      ],
+      "correctFeedback": "Nice! Verb you ni is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb you ni.",
+      "explanation": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "hints": [
+        "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "259-n4-point-59-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb ように (〜you ni).",
+      "correctAnswer": "Verb-like construction",
+      "acceptedVariations": [
+        "Verb-like construction",
+        "verb-like construction"
+      ],
+      "correctFeedback": "Correct! \"Verb-like construction\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb-like construction\".",
+      "explanation": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "hints": [
+        "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "259-n4-point-59-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb ように (〜you ni)",
+          "romaji": "Verb you ni",
+          "english": "Verb-like construction"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "259-n4-point-59-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb ように (〜you ni)",
+          "romaji": "Verb you ni"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb ように (〜you ni) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ように (〜you ni).",
+      "explanation": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "259-n4-point-59-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbように(〜youni)",
+      "acceptedVariations": [
+        "Verbように(〜youni)",
+        "Verb ように (〜you ni)"
+      ],
+      "correctFeedback": "Great! Verbように(〜youni) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbように(〜youni).",
+      "explanation": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "hints": [
+        "Verb you ni"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

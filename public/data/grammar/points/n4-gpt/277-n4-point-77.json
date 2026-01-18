@@ -1,0 +1,125 @@
+{
+  "id": "277-n4-point-77",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～かもしれない",
+    "romaji": "~kamoshirenai",
+    "en": "might / possibly"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～かもしれない grammar point is used to express uncertainty or the possibility of something occurring. It can be translated as 'maybe', 'might', or 'possibly' in English.",
+    "ja": "～かもしれないは何かが起こる可能性や不確実性を表現するために使われます。英語では「かもしれません」、あるいは「可能性がある」と訳すことができます。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + かもしれない, i-Adjective + かもしれない, na-Adjective + だかもしれない, Noun + だかもしれない",
+    "components": [
+      {
+        "part": "Verb-casual",
+        "explanation": "The casual form of a verb is used before ～かもしれない.",
+        "examples": [
+          "降る (furu) - to rain"
+        ]
+      },
+      {
+        "part": "i-Adjective",
+        "explanation": "An i-adjective directly followed by ～かもしれない expresses uncertainty about the quality.",
+        "examples": [
+          "美味しい (oishii) - delicious"
+        ]
+      },
+      {
+        "part": "na-Adjective + だ",
+        "explanation": "A na-adjective is used with だ before ～かもしれない, but in casual speech, だ can be omitted.",
+        "examples": [
+          "静か (shizuka) - quiet"
+        ]
+      },
+      {
+        "part": "Noun",
+        "explanation": "A noun requires だ before ～かもしれない, although this can be dropped in informal contexts.",
+        "examples": [
+          "学生 (gakusei) - student"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日雨が降るかもしれない。",
+      "romaji": "Ashita ame ga furu kamoshirenai.",
+      "english": "It might rain tomorrow.",
+      "breakdown": {
+        "token": "gloss",
+        "明日": "tomorrow",
+        "雨が": "rain (subject marker)",
+        "降る": "to fall/rain",
+        "かもしれない": "might"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このケーキは美味しいかもしれない。",
+      "romaji": "Kono keeki wa oishii kamoshirenai.",
+      "english": "This cake might be delicious.",
+      "breakdown": {
+        "token": "gloss",
+        "この": "this",
+        "ケーキ": "cake",
+        "は": "(topic marker)",
+        "美味しい": "delicious",
+        "かもしれない": "might"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼が病気かもしれない。",
+      "romaji": "Kare ga byouki kamoshirenai.",
+      "english": "He might be sick.",
+      "breakdown": {
+        "token": "gloss",
+        "彼が": "he (subject marker)",
+        "病気": "sick",
+        "かもしれない": "might"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は学生かもしれない。",
+      "romaji": "Kanojo wa gakusei kamoshirenai.",
+      "english": "She might be a student.",
+      "breakdown": {
+        "token": "gloss",
+        "彼女は": "she (topic marker)",
+        "学生": "student",
+        "かもしれない": "might"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～かしら",
+    "そんなに～",
+    "～と思う"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "明日雨が降るだかもしれない。",
+      "correction": "明日雨が降るかもしれない。",
+      "example": "Incorrectly adding だ before ～かもしれない."
+    },
+    {
+      "mistake": "このケーキは美味しいですか。",
+      "correction": "このケーキは美味しいかもしれません。",
+      "example": "Using the polite form instead of expressing possibility."
+    }
+  ],
+  "tags": [
+    "n4",
+    "expression",
+    "possibility",
+    "uncertainty",
+    "daily-conversation"
+  ]
+}

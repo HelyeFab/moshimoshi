@@ -1,0 +1,33 @@
+{
+  "kanji": "属",
+  "sentences": [
+    {
+      "id": "232465",
+      "japanese": "あなたはどのクラブに属していますか。",
+      "english": "Which club do you belong to?"
+    },
+    {
+      "id": "191657",
+      "japanese": "われわれは何人といえど、自分が属している社会という組織から自分を切り離すことは出来ない。",
+      "english": "No one of us can cut himself off from the body of the community to which he belongs."
+    },
+    {
+      "id": "192166",
+      "japanese": "ロブスターは海洋動物の一種に属します。",
+      "english": "Lobsters belong to a class of marine animals."
+    },
+    {
+      "id": "202213",
+      "japanese": "テニスクラブに属している。",
+      "english": "I belong to a tennis club."
+    },
+    {
+      "id": "204757",
+      "japanese": "それらの国は以前フランスに属していた。",
+      "english": "Those countries used to belong to France."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.111Z",
+  "count": 5,
+  "fileId": "kanji-01202"
+}

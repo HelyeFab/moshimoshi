@@ -1,0 +1,33 @@
+{
+  "kanji": "臭",
+  "sentences": [
+    {
+      "id": "177081",
+      "japanese": "君は息が臭い。",
+      "english": "You have foul breath."
+    },
+    {
+      "id": "187895",
+      "japanese": "何か腐った臭いがします。",
+      "english": "I smell something rotten."
+    },
+    {
+      "id": "188110",
+      "japanese": "何かこの辺り臭いんだけど。",
+      "english": "Something stinks here."
+    },
+    {
+      "id": "1171705",
+      "japanese": "何か焦げ臭いよ。",
+      "english": "I smell something burning."
+    },
+    {
+      "id": "192912",
+      "japanese": "よい魚も３日たてば臭くなる。",
+      "english": "The best fish smell when they are three days old."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:22.911Z",
+  "count": 5,
+  "fileId": "kanji-01347"
+}

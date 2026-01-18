@@ -1,0 +1,33 @@
+{
+  "kanji": "床",
+  "sentences": [
+    {
+      "id": "5226",
+      "japanese": "君のめがねが床に落ちたよ。",
+      "english": "Your glasses fell on the floor."
+    },
+    {
+      "id": "5284",
+      "japanese": "私はひざを曲げずに両方の手のひらを床に付けることができる。",
+      "english": "I can place the palms of my hands on the floor without bending my knees."
+    },
+    {
+      "id": "180065",
+      "japanese": "鏡の破片が床に散乱していた。",
+      "english": "Fragments of the mirror were scattered on the floor."
+    },
+    {
+      "id": "183409",
+      "japanese": "机を動かそうとしたら、足が床に引っ掛かっていたらしくガーッという音がした。",
+      "english": "When I tried to move the desk, one of its legs made a jarring sound as it scraped across the floor."
+    },
+    {
+      "id": "186166",
+      "japanese": "我々は１１時に床につく。",
+      "english": "We retire at eleven o'clock."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.710Z",
+  "count": 5,
+  "fileId": "kanji-00724"
+}

@@ -13,6 +13,7 @@ import { kanaProgressManagerV2 } from '@/utils/kanaProgressManagerV2'
 import StrokeOrderModal from '@/components/kanji/StrokeOrderModal'
 import DrawingPracticeModal from '@/components/drawing-practice/DrawingPracticeModal'
 import StudyNavigation from '@/components/ui/StudyNavigation'
+import { IoCheckmarkCircle, IoPlayForward, IoClose } from 'react-icons/io5'
 
 interface KanaStudyModeProps {
   character: KanaCharacter
@@ -1490,59 +1491,68 @@ export default function KanaStudyMode({
       {/* Action Buttons */}
       <div className="flex flex-wrap items-center justify-center gap-3 mt-8">
         <button
-          onClick={handleSkip}
-          className="px-6 py-3 min-w-[120px] rounded-xl bg-gray-100 dark:bg-dark-700
-                   hover:bg-gray-200 dark:hover:bg-dark-600 transition-all
-                   transform hover:scale-105 active:scale-95"
+          onClick={onBack}
+          className="p-4 rounded-xl bg-gray-100 dark:bg-dark-700
+                   hover:bg-gray-200 dark:hover:bg-dark-600
+                   text-gray-600 dark:text-gray-400
+                   transition-all transform hover:scale-105 active:scale-95"
+          title="Exit Study"
         >
-          <span className="flex items-center justify-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M13 5l7 7-7 7M5 5l7 7-7 7"
-              />
-            </svg>
-            {t('kana.study.skip') || 'Skip'}
-          </span>
+          <IoClose className="w-6 h-6" />
+        </button>
+
+        <button
+          onClick={handleSkip}
+          className="p-4 rounded-xl bg-gray-100 dark:bg-dark-700
+                   hover:bg-gray-200 dark:hover:bg-dark-600
+                   transition-all transform hover:scale-105 active:scale-95"
+          title={t('kana.study.skip') || 'Skip'}
+        >
+          <IoPlayForward className="w-6 h-6" />
         </button>
 
         <button
           onClick={handleMarkAsLearned}
           disabled={progress?.status === 'learned'}
-          className={`px-6 py-3 min-w-[120px] rounded-xl transition-all
-                   transform hover:scale-105 active:scale-95
-                   ${
-                     progress?.status === 'learned'
-                       ? 'bg-green-500 text-white shadow-lg cursor-default'
-                       : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-green-500 hover:text-white'
-                   }`}
+          className={`p-4 rounded-xl transition-all shadow-lg transform hover:scale-105 active:scale-95 ${
+            progress?.status === 'learned'
+              ? 'bg-green-500 text-white shadow-green-500/30 cursor-default'
+              : 'bg-purple-100 dark:bg-purple-900/30 hover:bg-purple-200 dark:hover:bg-purple-900/40 border border-purple-200 dark:border-purple-800 text-purple-700 dark:text-purple-400'
+          }`}
+          title={progress?.status === 'learned' ? (t('kana.study.learned') || 'Learned') : t('kana.study.markAsLearned')}
         >
-          <span className="flex items-center justify-center gap-2">
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-            {progress?.status === 'learned'
-              ? t('kana.study.learned') || 'Learned'
-              : t('kana.study.markAsLearned')}
-          </span>
+          <IoCheckmarkCircle className="w-6 h-6" />
         </button>
       </div>
 
-      {/* Navigation */}
-      <StudyNavigation
-        backToLabel={t('kana.navigation.characters') || 'Characters'}
-        onBack={onBack}
-        onPrevious={totalCharacters > 1 ? onPrevious : undefined}
-        onNext={totalCharacters > 1 ? onNext : undefined}
-        className="mt-8"
-      />
+      {/* Navigation - Prev/Next */}
+      {totalCharacters > 1 && (
+        <div className="flex items-center justify-center gap-4 w-full max-w-2xl mt-8">
+          <button
+            onClick={onPrevious}
+            className="p-3 rounded-xl bg-gray-100 dark:bg-dark-700
+                     hover:bg-gray-200 dark:hover:bg-dark-600
+                     transition-all transform hover:scale-105 active:scale-95"
+            title="Previous"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          <button
+            onClick={onNext}
+            className="p-3 rounded-xl bg-gray-100 dark:bg-dark-700
+                     hover:bg-gray-200 dark:hover:bg-dark-600
+                     transition-all transform hover:scale-105 active:scale-95"
+            title="Next"
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+      )}
 
       {/* Modals */}
       {showStrokeOrder && (

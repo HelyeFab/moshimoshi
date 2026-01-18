@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "279-n4-point-79",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "279-n4-point-79-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"But, however\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～けれど",
+          "romaji": "~keredo"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～けれど matches \"But, however\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～けれど.",
+      "explanation": "Expresses a soft contrast or contradiction between two statements.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "279-n4-point-79-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～けれど.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "But, however"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～けれど means \"But, however\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"But, however\".",
+      "explanation": "Expresses a soft contrast or contradiction between two statements.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "279-n4-point-79-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～けれど.",
+      "options": [
+        {
+          "id": "a",
+          "text": "~keredo"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ~keredo is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~keredo.",
+      "explanation": "Expresses a soft contrast or contradiction between two statements.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "279-n4-point-79-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～けれど?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Expresses a soft contrast or contradiction between two statements."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses a soft contrast or contradiction between two statements.",
+      "explanation": "Expresses a soft contrast or contradiction between two statements.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "279-n4-point-79-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"But, however\".",
+      "correctAnswer": "～けれど",
+      "acceptedVariations": [
+        "～けれど",
+        "～けれど"
+      ],
+      "correctFeedback": "Nice! ～けれど is correct.",
+      "incorrectFeedback": "The correct pattern is: ～けれど (~keredo).",
+      "explanation": "Expresses a soft contrast or contradiction between two statements.",
+      "hints": [
+        "~keredo",
+        "Expresses a soft contrast or contradiction between two statements."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "279-n4-point-79-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～けれど.",
+      "correctAnswer": "~keredo",
+      "acceptedVariations": [
+        "~keredo",
+        "~keredo"
+      ],
+      "correctFeedback": "Nice! ~keredo is correct.",
+      "incorrectFeedback": "The correct romaji is: ~keredo.",
+      "explanation": "Expresses a soft contrast or contradiction between two statements.",
+      "hints": [
+        "Expresses a soft contrast or contradiction between two statements."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "279-n4-point-79-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～けれど.",
+      "correctAnswer": "But, however",
+      "acceptedVariations": [
+        "But, however",
+        "but, however"
+      ],
+      "correctFeedback": "Correct! \"But, however\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"But, however\".",
+      "explanation": "Expresses a soft contrast or contradiction between two statements.",
+      "hints": [
+        "Expresses a soft contrast or contradiction between two statements."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "279-n4-point-79-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～けれど",
+          "romaji": "~keredo",
+          "english": "But, however"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses a soft contrast or contradiction between two statements.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "279-n4-point-79-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses a soft contrast or contradiction between two statements..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～けれど",
+          "romaji": "~keredo"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～けれど matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～けれど.",
+      "explanation": "Expresses a soft contrast or contradiction between two statements.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "279-n4-point-79-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～けれど",
+      "acceptedVariations": [
+        "～けれど",
+        "～けれど"
+      ],
+      "correctFeedback": "Great! ～けれど is correct.",
+      "incorrectFeedback": "The correct pattern is: ～けれど.",
+      "explanation": "Expresses a soft contrast or contradiction between two statements.",
+      "hints": [
+        "~keredo"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

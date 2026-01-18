@@ -1,0 +1,33 @@
+{
+  "kanji": "麺",
+  "sentences": [
+    {
+      "id": "80186",
+      "japanese": "麺はふつう小麦粉から作られる。",
+      "english": "Noodles are usually made from wheat."
+    },
+    {
+      "id": "369322",
+      "japanese": "今日初めてつけ麺を食べた。",
+      "english": "I ate noodles for the first time today."
+    },
+    {
+      "id": "10163010",
+      "japanese": "その通りさ。ここの麺の出汁はちょっと値が張るんだ。",
+      "english": "You're right. The noodle broth here is a bit expensive."
+    },
+    {
+      "id": "10163011",
+      "japanese": "その通り。ここの麺のスープは少し高いんだ。",
+      "english": "You're right. The noodle broth here is a bit expensive."
+    },
+    {
+      "id": "10760343",
+      "japanese": "「お腹空いた。何かない？」「カップ麺ならあるけど、食べる？」「うん。食べる」",
+      "english": "\"I'm hungry. Do we have anything?\" \"There's some cup noodles, would you want that?\" \"Yeah, I'll take it.\""
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:13.785Z",
+  "count": 5,
+  "fileId": "kanji-01062"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "急",
+  "sentences": [
+    {
+      "id": "4754",
+      "japanese": "急いで！",
+      "english": "Hurry up."
+    },
+    {
+      "id": "182508",
+      "japanese": "急ぎなさい。",
+      "english": "Hurry up."
+    },
+    {
+      "id": "216944",
+      "japanese": "さあ、急いで。",
+      "english": "Hurry up."
+    },
+    {
+      "id": "5955881",
+      "japanese": "急げ！",
+      "english": "Hurry up."
+    },
+    {
+      "id": "177347",
+      "japanese": "君は空港に急いで行く必要はなかったのだ。",
+      "english": "You needn't have hurried to the airport."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.577Z",
+  "count": 5,
+  "fileId": "kanji-00100"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "亡",
+  "sentences": [
+    {
+      "id": "4976",
+      "japanese": "誰かが亡くなったときは悲しいものだよ。",
+      "english": "It's a pity when somebody dies."
+    },
+    {
+      "id": "5098",
+      "japanese": "馬が亡くなってから鞍が淋しい。",
+      "english": "It's lonely in the saddle since the horse died."
+    },
+    {
+      "id": "177006",
+      "japanese": "君は彼が２年前に亡くなったのを知らないのか。",
+      "english": "Didn't you know that he passed away two years ago?"
+    },
+    {
+      "id": "177008",
+      "japanese": "君は彼が２年前に亡くなったことを知らないのか。",
+      "english": "Didn't you know that he passed away two years ago?"
+    },
+    {
+      "id": "177007",
+      "japanese": "君は彼が２年前に亡くなったということを知らないのか。",
+      "english": "Don't you know that he passed away two years ago?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.804Z",
+  "count": 5,
+  "fileId": "kanji-00347"
+}

@@ -4,8 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { KanjiWithExamples, KanjiProgress } from '../LearnContent'
 import DoshiMascot from '@/components/ui/DoshiMascot'
-import { useKanjiDetails } from '@/hooks/useKanjiDetails'
-import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
+import { Frown, Meh, HelpCircle, Smile, Sparkles, Check, X } from 'lucide-react'
 
 interface Round3EvaluateProps {
   kanji: KanjiWithExamples
@@ -17,7 +16,6 @@ interface Round3EvaluateProps {
 
 export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progress, onComplete }: Round3EvaluateProps) {
   const [selectedRating, setSelectedRating] = useState<number | null>(null)
-  const { modalKanji, openKanjiDetails, closeKanjiDetails } = useKanjiDetails()
 
   const handleRatingSelect = (rating: number) => {
     setSelectedRating(rating)
@@ -48,11 +46,11 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
   }
 
   const ratingOptions = [
-    { value: 1, label: 'Forgot', emoji: '😓', color: 'bg-red-500' },
-    { value: 2, label: 'Hard', emoji: '😰', color: 'bg-orange-500' },
-    { value: 3, label: 'Medium', emoji: '🤔', color: 'bg-yellow-500' },
-    { value: 4, label: 'Easy', emoji: '😊', color: 'bg-green-500' },
-    { value: 5, label: 'Perfect', emoji: '🎉', color: 'bg-blue-500' }
+    { value: 1, label: 'Forgot', icon: Frown, color: 'bg-red-500' },
+    { value: 2, label: 'Hard', icon: Meh, color: 'bg-orange-500' },
+    { value: 3, label: 'Medium', icon: HelpCircle, color: 'bg-yellow-500' },
+    { value: 4, label: 'Easy', icon: Smile, color: 'bg-green-500' },
+    { value: 5, label: 'Perfect', icon: Sparkles, color: 'bg-blue-500' }
   ]
 
   return (
@@ -75,23 +73,9 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
       <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
           {/* Kanji Display */}
-          <div className="relative inline-block">
-            <div className="text-7xl font-bold text-gray-900 dark:text-gray-100 mb-4"
-                 style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
-              {kanji.kanji}
-            </div>
-            {/* View Details Button */}
-            <button
-              onClick={() => openKanjiDetails(kanji)}
-              className="absolute -top-2 -right-14 p-2 text-primary-500 hover:text-primary-600 dark:text-primary-400 dark:hover:text-primary-300 transition-all hover:scale-110"
-              title="View full details"
-              aria-label="View kanji details"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                  d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </button>
+          <div className="text-7xl font-bold text-gray-900 dark:text-gray-100 mb-4"
+               style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+            {kanji.kanji}
           </div>
 
           {/* Meaning */}
@@ -137,7 +121,9 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
                 }`}
               >
                 <div className="text-xs font-medium mb-1 capitalize">{result.type}</div>
-                <div className="text-lg">{result.correct ? '✓' : '✗'}</div>
+                <div className="flex items-center justify-center">
+                  {result.correct ? <Check className="w-5 h-5" /> : <X className="w-5 h-5" />}
+                </div>
               </div>
             ))}
           </div>
@@ -177,7 +163,9 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
                   }
                 `}
               >
-                <div className="text-2xl mb-1">{option.emoji}</div>
+                <div className="flex items-center justify-center mb-1">
+                  <option.icon className="w-6 h-6" />
+                </div>
                 <div className={`text-sm font-medium ${
                   selectedRating === option.value ? 'text-white' : 'text-gray-700 dark:text-gray-300'
                 }`}>
@@ -192,13 +180,6 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
           </p>
         </div>
       </div>
-
-      {/* Kanji Details Modal */}
-      <KanjiDetailsModal
-        kanji={modalKanji}
-        isOpen={!!modalKanji}
-        onClose={closeKanjiDetails}
-      />
     </motion.div>
   )
 }

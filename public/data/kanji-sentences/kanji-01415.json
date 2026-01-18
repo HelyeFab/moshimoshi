@@ -1,0 +1,33 @@
+{
+  "kanji": "耐",
+  "sentences": [
+    {
+      "id": "4893",
+      "japanese": "忍耐が耐えられないこともある。",
+      "english": "Bearing can be unbearable."
+    },
+    {
+      "id": "112843",
+      "japanese": "彼はその仕事に耐えられる。",
+      "english": "He is equal to the task."
+    },
+    {
+      "id": "179303",
+      "japanese": "空腹に耐えられず彼は盗みを働いた。",
+      "english": "Hunger drove him to steal."
+    },
+    {
+      "id": "179524",
+      "japanese": "苦痛にはもう耐えられない。",
+      "english": "I cannot bear the pain any more."
+    },
+    {
+      "id": "180121",
+      "japanese": "橋は強い流れに耐えられず崩壊した。",
+      "english": "The bridge couldn't sustain the force of the strong current and collapsed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:25.097Z",
+  "count": 5,
+  "fileId": "kanji-01415"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "的",
+  "sentences": [
+    {
+      "id": "178178",
+      "japanese": "君の推測は的はずれだ。",
+      "english": "You're wide of the mark."
+    },
+    {
+      "id": "178378",
+      "japanese": "君の言うことはまったく的はずれだ。",
+      "english": "What you say is quite wide of the mark."
+    },
+    {
+      "id": "191050",
+      "japanese": "意思の弱い人は批判の的になる。だから友達でさえも、その欠点を直せるものならと思っていじめようとするだろう。",
+      "english": "A man of weak will is the target of criticism; even his friends would badger him into correcting his defects."
+    },
+    {
+      "id": "191228",
+      "japanese": "闇夜に鉄砲じゃあるまいし、そんな場当たり的なやり方でうまくいくとは思えないよ。",
+      "english": "That's just a shot in the dark. How do you think you'll succeed by just acting on the spur of the moment like that?"
+    },
+    {
+      "id": "79575",
+      "japanese": "矢は的からひどく外れた。",
+      "english": "The arrow fell wide of the mark."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.370Z",
+  "count": 5,
+  "fileId": "kanji-00158"
+}

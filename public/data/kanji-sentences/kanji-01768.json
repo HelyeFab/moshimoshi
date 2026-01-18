@@ -1,0 +1,33 @@
+{
+  "kanji": "宛",
+  "sentences": [
+    {
+      "id": "218659",
+      "japanese": "これはあなた宛ての手紙です。",
+      "english": "This letter is addressed to you."
+    },
+    {
+      "id": "221342",
+      "japanese": "この手紙はあなた宛だ。",
+      "english": "This letter is addressed to you."
+    },
+    {
+      "id": "234148",
+      "japanese": "あなたからご連絡がないので、１月１０日付であなた宛に出した電子メールは着いたのだろうかと思っています。",
+      "english": "I wonder if you received my e-mail on January 10, since I have not heard anything from you yet."
+    },
+    {
+      "id": "75843",
+      "japanese": "同一差出人から同一受取人に宛てて郵袋という、文字通り袋に印刷物を入れて郵送します。",
+      "english": "A mailbag from a single sender addressed to one recipient, as the name suggests, is for delivering a bag of printed matter."
+    },
+    {
+      "id": "93796",
+      "japanese": "彼女は、ジョン宛に手紙を書いた。",
+      "english": "She addressed the letter to John."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:36.260Z",
+  "count": 5,
+  "fileId": "kanji-01768"
+}

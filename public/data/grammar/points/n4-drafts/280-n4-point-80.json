@@ -1,0 +1,55 @@
+{
+  "id": "280-n4-point-80",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～させてください (〜sasete kudasai)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～させてください grammar point is used to make a polite request to allow or permit someone to do something. It can be translated as 'please let me' or 'please allow me to' in English. It is formed by taking the causative form of a verb and adding ください.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-causative form + ください",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "もう少し考えさせてください。",
+      "romaji": "Mou sukoshi kangaesasete kudasai.",
+      "english": "Please let me think a little more.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "写真を撮らせてください。",
+      "romaji": "Shashin o torasete kudasai.",
+      "english": "Please let me take a photo.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "もうちょっと練習させてください。",
+      "romaji": "Mou chotto renshuu sasete kudasai.",
+      "english": "Please let me practice a little more.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "ここで待たせてください。",
+      "romaji": "Koko de matasete kudasai.",
+      "english": "Please let me wait here.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

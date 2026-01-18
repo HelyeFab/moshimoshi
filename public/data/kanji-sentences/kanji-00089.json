@@ -1,0 +1,33 @@
+{
+  "kanji": "早",
+  "sentences": [
+    {
+      "id": "387691",
+      "japanese": "早く！",
+      "english": "Hurry up."
+    },
+    {
+      "id": "5127",
+      "japanese": "「もし疲れているなら寝たらどう？」「僕が今寝たらあまりに早く目覚めてしまうから」",
+      "english": "\"If you're tired, why don't you go to sleep?\" \"Because if I go to sleep now I will wake up too early.\""
+    },
+    {
+      "id": "182422",
+      "japanese": "なぜ、早くないのに、「お早う」というのでしょう？",
+      "english": "Why does one say \"Good day\" when the day is not good?"
+    },
+    {
+      "id": "139697",
+      "japanese": "早ければ早いほどいい。",
+      "english": "The sooner, the better."
+    },
+    {
+      "id": "140536",
+      "japanese": "早ければ早い程よい。",
+      "english": "The sooner, the better."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.378Z",
+  "count": 5,
+  "fileId": "kanji-00089"
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "320-n4-point-120",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "320-n4-point-120-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Providing an Explanation\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～んです",
+          "romaji": "~n desu"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ～んです matches \"Providing an Explanation\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～んです.",
+      "explanation": "Used to explain reasons or provide background for a situation.",
+      "difficulty": "easy"
+    }
+  ]
+}

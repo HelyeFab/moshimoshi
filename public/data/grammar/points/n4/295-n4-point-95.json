@@ -1,0 +1,103 @@
+{
+  "id": "295-n4-point-95",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～てはいけない",
+    "romaji": "~te wa ikenai",
+    "en": "Must not do something"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～てはいけない grammar point is used to express strict prohibition or something that must not be done. It can be translated as 'must not', 'cannot', or 'should not' in English.",
+    "ja": "～てはいけないという文法は、禁止や絶対にすべきでないことを表現するために使われます。英語では「must not」「cannot」「should not」と訳すことができます。"
+  },
+  "structure": {
+    "pattern": "~te wa ikenai",
+    "components": [
+      {
+        "part": "Verb-て-form",
+        "explanation": "The て-form of the verb comes first.",
+        "examples": [
+          "吸って (sutte) - smoking",
+          "撮って (totte) - taking pictures",
+          "出して (dashite) - speaking out loud"
+        ]
+      },
+      {
+        "part": "はいけない",
+        "explanation": "Followed by this fixed expression to indicate prohibition.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "公園でたばこを吸ってはいけない。",
+      "romaji": "Kouen de tabako o sutte wa ikenai.",
+      "english": "You must not smoke in the park.",
+      "breakdown": {
+        "公園 (kouen)": "park",
+        "たばこ (tabako)": "cigarettes",
+        "吸ってはいけない (sutte wa ikenai)": "must not smoke"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "ここで写真を撮ってはいけない。",
+      "romaji": "Koko de shashin o totte wa ikenai.",
+      "english": "You cannot take pictures here.",
+      "breakdown": {
+        "ここ (koko)": "here",
+        "写真 (shashin)": "pictures",
+        "撮ってはいけない (totte wa ikenai)": "must not take"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "図書館で大きな声を出してはいけない。",
+      "romaji": "Toshokan de ookina koe o dashite wa ikenai.",
+      "english": "You must not speak loudly in the library.",
+      "breakdown": {
+        "図書館 (toshokan)": "library",
+        "大きな声 (ookina koe)": "loud voice",
+        "出してはいけない (dashite wa ikenai)": "must not speak out loud"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "バスの中で立っている人に席を譲ってはいけない。(Note: Unusual in real life, but grammatically correct.)",
+      "romaji": "Basu no naka de tatteiru hito ni seki o yuzutte wa ikenai.",
+      "english": "You should not give up your seat to someone standing on the bus. (Note: Odd in actual social context, but valid grammar.)",
+      "breakdown": {
+        "バスの中で (basu no naka de)": "on the bus",
+        "立っている人 (tatteiru hito)": "standing person",
+        "席を譲ってはいけない (seki o yuzutte wa ikenai)": "must not give up your seat"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～なくてはいけない",
+    "～し、～し、～",
+    "～といい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "吸っていけない。",
+      "correction": "吸ってはいけない。",
+      "example": "Kouen de tabako o sutte wa ikenai."
+    },
+    {
+      "mistake": "ここでは写真を撮っていいません。",
+      "correction": "ここで写真を撮ってはいけません。",
+      "example": "Koko de shashin o totte wa ikemasen."
+    }
+  ],
+  "tags": [
+    "n4",
+    "prohibition",
+    "verb-te-form",
+    "miscellaneous"
+  ]
+}

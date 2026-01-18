@@ -1,0 +1,84 @@
+{
+  "id": "211-n4-point-11",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun の 間に (〜no aida ni)",
+    "romaji": "noun no aida ni",
+    "en": "During the period of"
+  },
+  "jlptLevel": "N4",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "The Noun の 間に grammar point is used to indicate a specific period or time during which an action takes place. It can be translated as 'while' or 'during'. This grammar point requires a noun to represent the time or period.",
+    "ja": "名詞の間には、ある行動が進行する特定の期間や時間を示すために使われます。これは英語で「while」または「during」と訳されます。この文法点は、時間や期間を表現するための名詞が必要です."
+  },
+  "structure": {
+    "pattern": "Noun + の間に",
+    "components": [
+      {
+        "part": "noun",
+        "explanation": "The noun represents a specific time or period.",
+        "examples": [
+          "昼休み (hiruyasumi - lunch break)",
+          "夏休み (natsuyasumi - summer vacation)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "昼休みの間に銀行に行きます。",
+      "romaji": "Hiruyasumi no aida ni ginkou ni ikimasu.",
+      "english": "I will go to the bank during lunch break.",
+      "breakdown": {
+        "昼休み (hiruyasumi): lunch break, の (no): of, 間に (aida ni): during, 銀行 (ginkou): bank, に行きます (ni ikimasu): I will go to... ": ", "
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "夏休みの間に海外旅行に行く予定です。",
+      "romaji": "Natsuyasumi no aida ni kaigai ryokou ni iku yotei desu.",
+      "english": "I plan to go on an overseas trip during the summer vacation.",
+      "breakdown": {
+        "夏休み (natsuyasumi): summer vacation, の (no): of, 間に (aida ni): during, 海外旅行 (kaigai ryokou): overseas trip, に行く予定です (ni iku yotei desu): I plan to go... ": ", "
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "子供たちが学校の間に買い物に行きました。",
+      "romaji": "Kodomo-tachi ga gakkou no aida ni kaimono ni ikimashita.",
+      "english": "I went shopping while the kids were at school.",
+      "breakdown": {
+        "子供たち (kodomo-tachi): children, 学校の間 (gakkou no aida): during school time, 買い物に (kaimono ni): to go shopping, 行きました (ikimashita): went ": ", "
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "母の日にお母さんにプレゼントを送りました。",
+      "romaji": "Haha no hi ni okaasan ni purezento o okurimashita.",
+      "english": "I sent a gift to my mother on Mother’s Day.",
+      "breakdown": {
+        "母の日 (haha no hi): Mother's Day, に (ni): at/on, お母さん (okaasan): mother, プレゼントを送りました (purezento o okurimashita): sent a present ": ", "
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb ている間に",
+    "Verb るときに",
+    "~まで"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "昼休みに銀行に行きます。",
+      "correction": "昼休みの間に銀行に行きます。",
+      "example": "During the lunch break, I will go to the bank."
+    }
+  ],
+  "tags": [
+    "n4",
+    "time-expressions",
+    "grammar-patterns",
+    "intermediate-grammar"
+  ]
+}

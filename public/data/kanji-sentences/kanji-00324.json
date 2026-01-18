@@ -1,0 +1,33 @@
+{
+  "kanji": "許",
+  "sentences": [
+    {
+      "id": "178586",
+      "japanese": "君に免じて彼を許してやろう。",
+      "english": "I will forgive him out of consideration for you."
+    },
+    {
+      "id": "161845",
+      "japanese": "私はあなたがそんな事をするのを許すわけにはいきません。",
+      "english": "I can't allow you to do that."
+    },
+    {
+      "id": "179162",
+      "japanese": "君がそうすることを許すわけにはいかない。",
+      "english": "I can't allow you to do that."
+    },
+    {
+      "id": "9828792",
+      "japanese": "そんな事を許すわけにはいきません。",
+      "english": "I can't allow you to do that."
+    },
+    {
+      "id": "125971",
+      "japanese": "長い間手紙を書かなかったことを許してください。",
+      "english": "Please forgive me for not having written for a long time."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.464Z",
+  "count": 5,
+  "fileId": "kanji-00324"
+}

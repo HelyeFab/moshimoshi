@@ -1,0 +1,55 @@
+{
+  "id": "282-n4-point-82",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～すぎる (〜sugiru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～すぎる grammar point is used to express that something is excessive or beyond a certain level. It can be translated as 'too much', 'too', or 'over' in English. The formation differs depending on whether it is used with a verb, い-adjective, or な-adjective.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-stem + すぎる, い-Adjective (remove い) + すぎる, な-Adjective + すぎる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "この部屋は暑すぎる。",
+      "romaji": "Kono heya wa atsui sugiru.",
+      "english": "This room is too hot.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は早く来すぎた。",
+      "romaji": "Kare wa hayaku kisugita.",
+      "english": "He came too early.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この箱は重すぎて持ち上げられない。",
+      "romaji": "Kono hako wa omosugite mochiagerarenai.",
+      "english": "This box is too heavy to lift.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は忙しくて遊びすぎはしない。",
+      "romaji": "Kanojo wa isogashikute asobisugi wa shinai.",
+      "english": "She's too busy to play too much.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

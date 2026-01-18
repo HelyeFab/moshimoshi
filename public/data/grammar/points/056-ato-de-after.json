@@ -1,0 +1,103 @@
+{
+  "id": "056-ato-de-after",
+  "version": "1.0.0",
+  "title": {
+    "ja": "後で",
+    "romaji": "ato de",
+    "en": "後で (after / later)"
+  },
+  "jlptLevel": "N5",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "後で means “after” or “later.” It is used to say that one action happens after another action or time. You can use it with verbs or nouns.\n\nKey points:\n• Verb (past short form) + 後で: 食べた後で\n• Noun + の + 後で: 授業の後で\n• It marks the action that happens later\n• Common in daily routines\n\nExample: “昼ご飯を食べた後で勉強します” means “I study after eating lunch.” “授業の後で友だちに会います” means “I meet my friend after class.”\n\nWhen using verbs, use the past short form (た-form). When using a noun, add の before 後で.\n\n後で can also mean “later” by itself, like “後で電話します” (I’ll call later).\n\nPractice by describing order: 仕事の後で買い物します, 寝た後でシャワーを浴びます.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "(Noun + の / Verb past) + 後で + Action",
+    "components": [
+      {
+        "part": "Noun + の / Verb past",
+        "explanation": "The earlier time or action",
+        "examples": ["授業の", "食べた", "帰った"]
+      },
+      {
+        "part": "後で",
+        "explanation": "After / later",
+        "examples": ["後で"]
+      },
+      {
+        "part": "Action",
+        "explanation": "Later action",
+        "examples": ["勉強します", "会います", "電話します"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "昼ご飯を食べた後で勉強します。",
+      "romaji": "Hirugohan o tabeta ato de benkyou shimasu.",
+      "english": "I study after eating lunch.",
+      "breakdown": {
+        "昼ご飯": "lunch",
+        "を": "object marker",
+        "食べた": "ate",
+        "後で": "after",
+        "勉強します": "study"
+      },
+      "notes": "Verb + 後で"
+    },
+    {
+      "japanese": "授業の後で友だちに会います。",
+      "romaji": "Jugyou no ato de tomodachi ni aimasu.",
+      "english": "I meet my friend after class.",
+      "breakdown": {
+        "授業": "class",
+        "の": "of",
+        "後で": "after",
+        "友だち": "friend",
+        "に": "to",
+        "会います": "meet"
+      },
+      "notes": "Noun + の + 後で"
+    },
+    {
+      "japanese": "仕事の後で買い物します。",
+      "romaji": "Shigoto no ato de kaimono shimasu.",
+      "english": "I shop after work.",
+      "breakdown": {
+        "仕事": "work",
+        "の": "of",
+        "後で": "after",
+        "買い物します": "shop"
+      },
+      "notes": "After work"
+    },
+    {
+      "japanese": "後で電話します。",
+      "romaji": "Ato de denwa shimasu.",
+      "english": "I will call later.",
+      "breakdown": {
+        "後で": "later",
+        "電話します": "call"
+      },
+      "notes": "Later"
+    }
+  ],
+  "relatedPoints": [
+    "055-mae-ni-before",
+    "026-te-form-basics"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using dictionary form before 後で",
+      "correction": "Use the past short form before 後で",
+      "example": "❌ 食べる後で → ✅ 食べた後で"
+    },
+    {
+      "mistake": "Forgetting の with nouns",
+      "correction": "Add の before 後で with nouns",
+      "example": "❌ 授業後で → ✅ 授業の後で"
+    }
+  ],
+  "tags": ["time", "after", "sequence", "beginner"]
+}

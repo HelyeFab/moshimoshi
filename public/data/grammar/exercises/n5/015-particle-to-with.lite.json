@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "015-particle-to-with",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "015-particle-to-with-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 友だち＿＿映画を見ます。",
+      "questionRomaji": "Tomodachi __ eiga o mimasu.",
+      "options": [
+        {
+          "id": "a",
+          "text": "と",
+          "romaji": "to"
+        },
+        {
+          "id": "b",
+          "text": "で",
+          "romaji": "de"
+        },
+        {
+          "id": "c",
+          "text": "に",
+          "romaji": "ni"
+        },
+        {
+          "id": "d",
+          "text": "を",
+          "romaji": "o"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! と means “with” here.",
+      "incorrectFeedback": "Not quite. Use と to show “with” a person.",
+      "explanation": "友だちと = with a friend.",
+      "difficulty": "easy"
+    }
+  ]
+}

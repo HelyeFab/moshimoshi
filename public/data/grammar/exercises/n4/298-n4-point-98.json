@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "298-n4-point-98",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "298-n4-point-98-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"~to ii (I hope / It would be nice if)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～といい",
+          "romaji": "~to ii"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ～といい matches \"~to ii (I hope / It would be nice if)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～といい.",
+      "explanation": "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "298-n4-point-98-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～といい.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "~to ii (I hope / It would be nice if)"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～といい means \"~to ii (I hope / It would be nice if)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"~to ii (I hope / It would be nice if)\".",
+      "explanation": "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "298-n4-point-98-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～といい.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~to ii"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ~to ii is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~to ii.",
+      "explanation": "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "298-n4-point-98-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～といい?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\""
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\"",
+      "explanation": "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "298-n4-point-98-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"~to ii (I hope / It would be nice if)\".",
+      "correctAnswer": "～といい",
+      "acceptedVariations": [
+        "～といい",
+        "～といい"
+      ],
+      "correctFeedback": "Nice! ～といい is correct.",
+      "incorrectFeedback": "The correct pattern is: ～といい (~to ii).",
+      "explanation": "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\"",
+      "hints": [
+        "~to ii",
+        "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "298-n4-point-98-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～といい.",
+      "correctAnswer": "~to ii",
+      "acceptedVariations": [
+        "~to ii",
+        "~to ii"
+      ],
+      "correctFeedback": "Nice! ~to ii is correct.",
+      "incorrectFeedback": "The correct romaji is: ~to ii.",
+      "explanation": "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\"",
+      "hints": [
+        "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "298-n4-point-98-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～といい.",
+      "correctAnswer": "~to ii (I hope / It would be nice if)",
+      "acceptedVariations": [
+        "~to ii (I hope / It would be nice if)",
+        "~to ii (i hope / it would be nice if)"
+      ],
+      "correctFeedback": "Correct! \"~to ii (I hope / It would be nice if)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"~to ii (I hope / It would be nice if)\".",
+      "explanation": "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\"",
+      "hints": [
+        "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "298-n4-point-98-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～といい",
+          "romaji": "~to ii",
+          "english": "~to ii (I hope / It would be nice if)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "298-n4-point-98-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～といい",
+          "romaji": "~to ii"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～といい matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～といい.",
+      "explanation": "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "298-n4-point-98-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～といい",
+      "acceptedVariations": [
+        "～といい",
+        "～といい"
+      ],
+      "correctFeedback": "Great! ～といい is correct.",
+      "incorrectFeedback": "The correct pattern is: ～といい.",
+      "explanation": "Expresses hope or wish for a situation; \"I hope...\" or \"It'd be nice if...\"",
+      "hints": [
+        "~to ii"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

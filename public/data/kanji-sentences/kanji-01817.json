@@ -1,0 +1,33 @@
+{
+  "kanji": "碁",
+  "sentences": [
+    {
+      "id": "228601",
+      "japanese": "いつ来てくれても、碁の相手をしますよ。",
+      "english": "Whenever come, I'll play go with you."
+    },
+    {
+      "id": "84590",
+      "japanese": "父は碁をやります。",
+      "english": "Father goes in for the game of Go."
+    },
+    {
+      "id": "174230",
+      "japanese": "碁を打つのが私の唯一の娯楽だ。",
+      "english": "Playing go is my only recreation."
+    },
+    {
+      "id": "174231",
+      "japanese": "碁を打つことが私の唯一の楽しみだ。",
+      "english": "Playing go is my only recreation."
+    },
+    {
+      "id": "174232",
+      "japanese": "碁を打つことが一番の気晴らしだ。",
+      "english": "Playing go is my favorite pastime."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:38.129Z",
+  "count": 5,
+  "fileId": "kanji-01817"
+}

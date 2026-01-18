@@ -1,0 +1,33 @@
+{
+  "kanji": "幅",
+  "sentences": [
+    {
+      "id": "207413",
+      "japanese": "その道路は幅が１０フィートだ。",
+      "english": "The road is ten feet in width."
+    },
+    {
+      "id": "207419",
+      "japanese": "その道路の幅は安全運転に不十分だ。",
+      "english": "The width of the road is insufficient for safe driving."
+    },
+    {
+      "id": "208238",
+      "japanese": "その大箱は幅が３フィートある。",
+      "english": "The chest is three feet wide."
+    },
+    {
+      "id": "208309",
+      "japanese": "その村は、幅およそ０．５マイルの谷間にあった。",
+      "english": "The village lay in a valley about half a mile in breadth."
+    },
+    {
+      "id": "208489",
+      "japanese": "その川は幅が広い。",
+      "english": "The river is wide."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.412Z",
+  "count": 5,
+  "fileId": "kanji-00792"
+}

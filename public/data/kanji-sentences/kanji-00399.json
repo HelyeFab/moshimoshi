@@ -1,0 +1,33 @@
+{
+  "kanji": "晩",
+  "sentences": [
+    {
+      "id": "179618",
+      "japanese": "金曜日の晩に高校でダンスパーティーがある。",
+      "english": "There will be a dance Friday night at the high school."
+    },
+    {
+      "id": "192201",
+      "japanese": "ロジャーは朝から晩まで働いている。",
+      "english": "Roger works from morning till night."
+    },
+    {
+      "id": "349079",
+      "japanese": "ロジャーは朝から晩まで働いています。",
+      "english": "Roger works from morning till night."
+    },
+    {
+      "id": "192233",
+      "japanese": "ローラのための不意打ちパーティーは、今晩ではなく明日の晩だ。",
+      "english": "The surprise party for Laura is not tonight, but tomorrow night."
+    },
+    {
+      "id": "10967351",
+      "japanese": "もう晩ご飯食べたの？",
+      "english": "Have you eaten your dinner already?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.524Z",
+  "count": 5,
+  "fileId": "kanji-00399"
+}

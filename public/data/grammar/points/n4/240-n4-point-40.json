@@ -1,0 +1,113 @@
+{
+  "id": "240-n4-point-40",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞てくる",
+    "romaji": "Doushi te kuru",
+    "en": "Verb te kuru"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The てくる (te kuru) grammar point is used to express an action or change that began in the past and continues toward the present, or a gradual change in state. It is formed by attaching the て-form of a verb to くる.",
+    "ja": "「てくる」は、過去に始まった動作や変化が現在に向かって続いていること、または状態の変化を表します。動詞のて形に「くる」をつけて使います。"
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + くる",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "The verb in its て-form shows the action or change.",
+        "examples": [
+          "食べて",
+          "分かって",
+          "寒くなって"
+        ]
+      },
+      {
+        "part": "くる",
+        "explanation": "Indicates the action or change is approaching the present or is ongoing.",
+        "examples": [
+          "分かってくる",
+          "寒くなってくる"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "最近、日本語が分かってくるようになりました。",
+      "romaji": "Saikin, nihongo ga wakatte kuru you ni narimashita.",
+      "english": "Recently, I've come to understand Japanese.",
+      "breakdown": {
+        "最近": "recently",
+        "日本語": "Japanese (language)",
+        "が": "subject marker",
+        "分かってくる": "come to understand",
+        "ようになりました": "became able to"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "寒くなってきたので、コートを着ましょう。",
+      "romaji": "Samuku natte kita node, kooto wo kimashou.",
+      "english": "Since it's gotten cold, let's put on a coat.",
+      "breakdown": {
+        "寒くなってきた": "has gotten cold",
+        "ので": "because",
+        "コート": "coat",
+        "を": "object marker",
+        "着ましょう": "let's put on"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "雨がやんできました。",
+      "romaji": "Ame ga yande kimashita.",
+      "english": "The rain has stopped (and it's cleared up).",
+      "breakdown": {
+        "雨": "rain",
+        "が": "subject marker",
+        "やんできました": "has stopped (rain)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼がだんだん怖くなってきた。",
+      "romaji": "Kare ga dandan kowaku natte kita.",
+      "english": "He has become progressively scarier.",
+      "breakdown": {
+        "彼": "he",
+        "が": "subject marker",
+        "だんだん": "gradually",
+        "怖くなってきた": "has become scary"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "動詞てある",
+    "動詞ていく",
+    "動詞ている（Verb て いる）"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using てくる for future actions only.",
+      "correction": "Use てくる for actions or changes that started in the past and are ongoing or approaching the present.",
+      "example": "× 明日、勉強してくる。 (Incorrect for 'I will study tomorrow.')"
+    },
+    {
+      "mistake": "Confusing てくる with ていく.",
+      "correction": "てくる indicates movement toward the speaker or present; ていく indicates movement away or into the future.",
+      "example": "春になると、暖かくなっていく。 (It gets warmer as spring comes.)"
+    }
+  ],
+  "tags": [
+    "n4",
+    "verb",
+    "te-form",
+    "change",
+    "state",
+    "progression"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "指",
+  "sentences": [
+    {
+      "id": "186741",
+      "japanese": "火ばさみで人差し指をやけどした。",
+      "english": "I burned my forefinger on fire tongs."
+    },
+    {
+      "id": "10559546",
+      "japanese": "温度計は氷点下3度を指しています。",
+      "english": "The thermometer reads three degrees below zero."
+    },
+    {
+      "id": "188324",
+      "japanese": "温度計は１０度を指している。",
+      "english": "The thermometer reads 10C."
+    },
+    {
+      "id": "188410",
+      "japanese": "俺、指が太いから、小さなキーボードじゃだめなんだよ。",
+      "english": "I have chubby fingers, so I can't use a small keyboard."
+    },
+    {
+      "id": "193113",
+      "japanese": "やけどした指を、流水中で冷やしなさい。",
+      "english": "Cool the burned finger in running water."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.549Z",
+  "count": 5,
+  "fileId": "kanji-00478"
+}

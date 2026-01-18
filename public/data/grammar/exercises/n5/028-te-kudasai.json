@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "028-te-kudasai",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "028-te-kudasai-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct request form: 見る → ?",
+      "options": [
+        { "id": "a", "text": "見てください" },
+        { "id": "b", "text": "見ますください" },
+        { "id": "c", "text": "見るください" },
+        { "id": "d", "text": "見てくれる" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use te-form + ください.",
+      "incorrectFeedback": "Not quite. Use 見てください.",
+      "explanation": "Verb て-form + ください makes a polite request.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "028-te-kudasai-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'Please write your name here'?",
+      "options": [
+        { "id": "a", "text": "ここに名前を書いてください。" },
+        { "id": "b", "text": "ここに名前を書きます。" },
+        { "id": "c", "text": "ここに名前を書きません。" },
+        { "id": "d", "text": "ここに名前を書く。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 書いてください is a polite request.",
+      "incorrectFeedback": "Try again. Use て-form + ください.",
+      "explanation": "書いてください = please write.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "028-te-kudasai-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Please wait a moment.'",
+      "correctAnswer": "ちょっと待ってください",
+      "acceptedVariations": [
+        "ちょっと待ってください。",
+        "ちょっとまってください",
+        "chotto matte kudasai",
+        "chotto matte kudasai."
+      ],
+      "correctFeedback": "Great! ちょっと待ってください is correct.",
+      "incorrectFeedback": "The correct answer is: ちょっと待ってください (chotto matte kudasai).",
+      "explanation": "Use て-form + ください for a request.",
+      "hints": ["待つ → 待って", "ちょっと = a moment"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "028-te-kudasai-ex-04",
+      "type": "multiple-choice",
+      "question": "Which is the correct request form of 話す?",
+      "options": [
+        { "id": "a", "text": "話してください" },
+        { "id": "b", "text": "話すください" },
+        { "id": "c", "text": "話しますください" },
+        { "id": "d", "text": "話してくれ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 話してください is polite.",
+      "incorrectFeedback": "Not quite. Use て-form + ください.",
+      "explanation": "話す → 話してください.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "028-te-kudasai-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Please read this book.'",
+      "correctAnswer": "この本を読んでください",
+      "acceptedVariations": [
+        "この本を読んでください。",
+        "このほんをよんでください",
+        "kono hon o yonde kudasai",
+        "kono hon o yonde kudasai."
+      ],
+      "correctFeedback": "Nice! この本を読んでください is correct.",
+      "incorrectFeedback": "The correct answer is: この本を読んでください (kono hon o yonde kudasai).",
+      "explanation": "読んでください is a polite request.",
+      "hints": ["読む → 読んで", "Use ください"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "028-te-kudasai-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "ゆっくり話してください。" },
+        { "id": "b", "text": "ここに座ってください。" },
+        { "id": "c", "text": "見てください。" },
+        { "id": "d", "text": "見るください。" }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Use て-form before ください.",
+      "incorrectFeedback": "Try again. Dictionary form + ください is wrong.",
+      "explanation": "見るください is incorrect; use 見てください.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "028-te-kudasai-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Please speak slowly.'",
+      "correctAnswer": "ゆっくり話してください",
+      "acceptedVariations": [
+        "ゆっくり話してください。",
+        "ゆっくりはなしてください",
+        "yukkuri hanashite kudasai",
+        "yukkuri hanashite kudasai."
+      ],
+      "correctFeedback": "Great! ゆっくり話してください is correct.",
+      "incorrectFeedback": "The correct answer is: ゆっくり話してください (yukkuri hanashite kudasai).",
+      "explanation": "Use て-form + ください.",
+      "hints": ["話す → 話して", "ゆっくり = slowly"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "028-te-kudasai-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese requests with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "ちょっと待ってください。",
+          "romaji": "Chotto matte kudasai.",
+          "english": "Please wait a moment."
+        },
+        {
+          "japanese": "ここに座ってください。",
+          "romaji": "Koko ni suwatte kudasai.",
+          "english": "Please sit here."
+        },
+        {
+          "japanese": "この本を読んでください。",
+          "romaji": "Kono hon o yonde kudasai.",
+          "english": "Please read this book."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all requests correctly.",
+      "incorrectFeedback": "Not quite. Review て-form + ください.",
+      "explanation": "Each sentence uses a polite request form.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "028-te-kudasai-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is a polite request?",
+      "options": [
+        { "id": "a", "text": "行きます。" },
+        { "id": "b", "text": "行ってください。" },
+        { "id": "c", "text": "行きました。" },
+        { "id": "d", "text": "行きません。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 行ってください is a request.",
+      "incorrectFeedback": "Try again. Use て-form + ください.",
+      "explanation": "行く → 行ってください.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "028-te-kudasai-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Please listen.'",
+      "correctAnswer": "聞いてください",
+      "acceptedVariations": [
+        "聞いてください。",
+        "きいてください",
+        "kiite kudasai",
+        "kiite kudasai."
+      ],
+      "correctFeedback": "Nice! 聞いてください is correct.",
+      "incorrectFeedback": "The correct answer is: 聞いてください (kiite kudasai).",
+      "explanation": "Use て-form + ください for requests.",
+      "hints": ["聞く → 聞いて", "ください = please"],
+      "difficulty": "hard"
+    }
+  ]
+}

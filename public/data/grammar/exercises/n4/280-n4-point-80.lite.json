@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "280-n4-point-80",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "280-n4-point-80-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Please let me do...\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~させてください",
+          "romaji": "~sasete kudasai"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ~させてください matches \"Please let me do...\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ~させてください.",
+      "explanation": "Used to politely ask for permission to do something yourself.",
+      "difficulty": "easy"
+    }
+  ]
+}

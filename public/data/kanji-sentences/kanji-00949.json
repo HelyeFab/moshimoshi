@@ -1,0 +1,33 @@
+{
+  "kanji": "波",
+  "sentences": [
+    {
+      "id": "179383",
+      "japanese": "空気の場合、大気中には常にある程度の湿気があるが、その量が大幅に増えると光の波に影響してくる。",
+      "english": "As for the air, there is always some moisture in the atmosphere, but when the amount increases a great deal, it affects the light waves."
+    },
+    {
+      "id": "183561",
+      "japanese": "喜びの波は解き放たれた私の心を漂う。",
+      "english": "Waves of joy drift through my opened heart."
+    },
+    {
+      "id": "183682",
+      "japanese": "岸辺の波の音が聞こえますか。",
+      "english": "Can you hear the noise of the waves on the beach?"
+    },
+    {
+      "id": "189906",
+      "japanese": "右手に海のさざ波が見えてきたよ。",
+      "english": "I could see the rippling waves on my right."
+    },
+    {
+      "id": "195718",
+      "japanese": "マイクロ波はオーブンの中の食物を突き抜ける。",
+      "english": "Microwaves penetrate the food in the oven."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.872Z",
+  "count": 5,
+  "fileId": "kanji-00949"
+}

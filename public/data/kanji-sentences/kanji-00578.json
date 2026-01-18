@@ -1,0 +1,33 @@
+{
+  "kanji": "消",
+  "sentences": [
+    {
+      "id": "5282",
+      "japanese": "彼は跡形もなく姿を消してしまったんだ。",
+      "english": "He disappeared without a trace."
+    },
+    {
+      "id": "779007",
+      "japanese": "彼は跡形もなく消えたんだ。",
+      "english": "He disappeared without a trace."
+    },
+    {
+      "id": "5304",
+      "japanese": "彼は嫌な思い出が消えることを願っている。",
+      "english": "He wishes to erase bad memories."
+    },
+    {
+      "id": "147693",
+      "japanese": "出発前に必ず火を消しなさい。",
+      "english": "Be sure to put out the fire before you leave."
+    },
+    {
+      "id": "231492",
+      "japanese": "離れる前に必ず火を消しなさい。",
+      "english": "Be sure to put out the fire before you leave."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.888Z",
+  "count": 5,
+  "fileId": "kanji-00578"
+}

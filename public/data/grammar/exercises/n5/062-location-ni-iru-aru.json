@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "062-location-ni-iru-aru",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "062-location-ni-iru-aru-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 部屋__猫がいます。",
+      "options": [
+        { "id": "a", "text": "に" },
+        { "id": "b", "text": "で" },
+        { "id": "c", "text": "を" },
+        { "id": "d", "text": "が" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use に for location with います/あります.",
+      "incorrectFeedback": "Not quite. に marks the location of existence.",
+      "explanation": "に is used for location in existence sentences.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "062-location-ni-iru-aru-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "机の上にペンがあります。" },
+        { "id": "b", "text": "机の上でペンがあります。" },
+        { "id": "c", "text": "机の上をペンがあります。" },
+        { "id": "d", "text": "机の上がペンがあります。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! に marks the location.",
+      "incorrectFeedback": "Try again. Use に for existence location.",
+      "explanation": "Place + に + あります.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "062-location-ni-iru-aru-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a dog in the park.'",
+      "correctAnswer": "公園に犬がいます",
+      "acceptedVariations": [
+        "公園に犬がいます。",
+        "こうえんにいぬがいます",
+        "kouen ni inu ga imasu",
+        "kouen ni inu ga imasu."
+      ],
+      "correctFeedback": "Great! 公園に犬がいます is correct.",
+      "incorrectFeedback": "The correct answer is: 公園に犬がいます (kouen ni inu ga imasu).",
+      "explanation": "Use に for the location of a living thing.",
+      "hints": ["公園 = park", "犬 = dog"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "062-location-ni-iru-aru-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence:",
+      "options": [
+        { "id": "a", "text": "冷蔵庫にジュースがあります。" },
+        { "id": "b", "text": "冷蔵庫でジュースがあります。" },
+        { "id": "c", "text": "冷蔵庫をジュースがあります。" },
+        { "id": "d", "text": "冷蔵庫がジュースがあります。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! に marks the location.",
+      "incorrectFeedback": "Not quite. Use に with あります.",
+      "explanation": "Location + に + あります.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "062-location-ni-iru-aru-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There are children in the park.'",
+      "correctAnswer": "公園に子どもがいます",
+      "acceptedVariations": [
+        "公園に子どもがいます。",
+        "こうえんにこどもがいます",
+        "kouen ni kodomo ga imasu",
+        "kouen ni kodomo ga imasu."
+      ],
+      "correctFeedback": "Nice! 公園に子どもがいます is correct.",
+      "incorrectFeedback": "The correct answer is: 公園に子どもがいます (kouen ni kodomo ga imasu).",
+      "explanation": "Use に for the location of existence.",
+      "hints": ["子ども = children", "Use に"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "062-location-ni-iru-aru-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "部屋に猫がいます。" },
+        { "id": "b", "text": "机の上に本があります。" },
+        { "id": "c", "text": "公園で犬がいます。" },
+        { "id": "d", "text": "冷蔵庫にジュースがあります。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use に, not で, for existence.",
+      "incorrectFeedback": "Try again. Existence uses に.",
+      "explanation": "で is for actions; に is for existence.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "062-location-ni-iru-aru-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a pen on the desk.'",
+      "correctAnswer": "机の上にペンがあります",
+      "acceptedVariations": [
+        "机の上にペンがあります。",
+        "つくえのうえにぺんがあります",
+        "tsukue no ue ni pen ga arimasu",
+        "tsukue no ue ni pen ga arimasu."
+      ],
+      "correctFeedback": "Great! 机の上にペンがあります is correct.",
+      "incorrectFeedback": "The correct answer is: 机の上にペンがあります (tsukue no ue ni pen ga arimasu).",
+      "explanation": "Use に for location of non-living things.",
+      "hints": ["机の上 = on the desk", "ペン = pen"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "062-location-ni-iru-aru-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "部屋に猫がいます。",
+          "romaji": "Heya ni neko ga imasu.",
+          "english": "There is a cat in the room."
+        },
+        {
+          "japanese": "机の上に本があります。",
+          "romaji": "Tsukue no ue ni hon ga arimasu.",
+          "english": "There is a book on the desk."
+        },
+        {
+          "japanese": "公園に子どもがいます。",
+          "romaji": "Kouen ni kodomo ga imasu.",
+          "english": "There are children in the park."
+        }
+      ],
+      "correctFeedback": "Perfect! All use に with います/あります.",
+      "incorrectFeedback": "Not quite. Review location + に.",
+      "explanation": "に marks the location of existence.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "062-location-ni-iru-aru-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'There is juice in the fridge'?",
+      "options": [
+        { "id": "a", "text": "冷蔵庫にジュースがあります" },
+        { "id": "b", "text": "冷蔵庫でジュースがあります" },
+        { "id": "c", "text": "冷蔵庫をジュースがあります" },
+        { "id": "d", "text": "冷蔵庫がジュースがあります" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use に for location.",
+      "incorrectFeedback": "Try again. Existence uses に.",
+      "explanation": "Location + に + あります.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "062-location-ni-iru-aru-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a book on the desk.'",
+      "correctAnswer": "机の上に本があります",
+      "acceptedVariations": [
+        "机の上に本があります。",
+        "つくえのうえにほんがあります",
+        "tsukue no ue ni hon ga arimasu",
+        "tsukue no ue ni hon ga arimasu."
+      ],
+      "correctFeedback": "Nice! 机の上に本があります is correct.",
+      "incorrectFeedback": "The correct answer is: 机の上に本があります (tsukue no ue ni hon ga arimasu).",
+      "explanation": "Use に for location of non-living things.",
+      "hints": ["机の上 = on the desk", "本 = book"],
+      "difficulty": "hard"
+    }
+  ]
+}

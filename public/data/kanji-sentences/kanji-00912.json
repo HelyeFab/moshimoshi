@@ -1,0 +1,33 @@
+{
+  "kanji": "勢",
+  "sentences": [
+    {
+      "id": "193179",
+      "japanese": "ものすごい勢いで駆けていった。",
+      "english": "He was flying down the road."
+    },
+    {
+      "id": "214723",
+      "japanese": "すごい勢いで駆けていったよ。",
+      "english": "He was flying down the road."
+    },
+    {
+      "id": "200825",
+      "japanese": "ドジャースは破竹の勢いで勝ち進んだ。",
+      "english": "The Dodgers went on winning with irresistible force."
+    },
+    {
+      "id": "201910",
+      "japanese": "ドアがパッと勢い良くあいた。",
+      "english": "The door burst open."
+    },
+    {
+      "id": "214722",
+      "japanese": "すごい勢いで飛ばしてるよ。",
+      "english": "He is going like the devil."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.144Z",
+  "count": 5,
+  "fileId": "kanji-00912"
+}

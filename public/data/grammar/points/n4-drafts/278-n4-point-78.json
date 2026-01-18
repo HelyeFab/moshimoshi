@@ -1,0 +1,55 @@
+{
+  "id": "278-n4-point-78",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～から (〜kara)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～から grammar point is used to express a reason, cause, or the origin of something. It can be translated as 'because', 'since', or 'due to' in English. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + から, い-Adjective + から, な-Adjective + だから, Noun + だから",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "雨が降るから、傘を持って行ってください。",
+      "romaji": "Ame ga furu kara, kasa wo motte itte kudasai.",
+      "english": "Because it's raining, please bring an umbrella.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このケーキは美味しいから、みんな食べるでしょう。",
+      "romaji": "Kono keeki wa oishii kara, minna taberu deshou.",
+      "english": "Because this cake is delicious, everyone will probably eat it.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は病気だから、学校を休みます。",
+      "romaji": "Kare wa byouki dakara, gakkou wo yasumimasu.",
+      "english": "He will be absent from school because he is sick.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "今日は日曜日だから、学校がありません。",
+      "romaji": "Kyou wa nichiyoubi dakara, gakkou ga arimasen.",
+      "english": "There is no school today because it is Sunday.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

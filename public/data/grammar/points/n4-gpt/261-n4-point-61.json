@@ -1,0 +1,113 @@
+{
+  "id": "261-n4-point-61",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ようになる (〜you ni naru)",
+    "romaji": "Verb you ni naru",
+    "en": "Becoming Able to Do Something"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ようになる grammar implies a change or development involving new abilities, situations, or states. It can be translated into English as 'become able to', 'come to' or 'begin to'. This grammar is often used when talking about a skill that has been acquired or a change in habit or situation over time.",
+    "ja": "ようになるは新しい能力、状況、または状態の変化や発展を示します。これは英語で「become able to」、「come to」または「begin to」と訳されます。この文法は、スキルを獲得したときや習慣や状況が時間とともに変わったときに使われます。"
+  },
+  "structure": {
+    "pattern": "Verb-dictionary/potential form + ようになる",
+    "components": [
+      {
+        "part": "Verb-dictionary form",
+        "explanation": "The base verb in its dictionary form.",
+        "examples": [
+          "話す (to speak)",
+          "寝る (to sleep)"
+        ]
+      },
+      {
+        "part": "ようになる",
+        "explanation": "Indicates a change leading to the ability or state described by the verb.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "日本語が話せるようになりました。",
+      "romaji": "Nihongo ga hanaseru you ni narimashita.",
+      "english": "I have become able to speak Japanese.",
+      "breakdown": {
+        "token": {
+          "日本語": "Japanese",
+          "が": "subject marker",
+          "話せる": "can speak (potential form)",
+          "ようになる": "to come to be able",
+          "ました": "past tense"
+        }
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "最近、早く寝るようになった。",
+      "romaji": "Saikin, hayaku neru you ni natta.",
+      "english": "Recently, I have come to go to bed early.",
+      "breakdown": {
+        "token": {
+          "最近": "recently",
+          "早": "early",
+          "寝るようになる": "to start sleeping"
+        }
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼はピアノを弾けるようになりました。",
+      "romaji": "Kare wa piano wo hikeru you ni narimashita.",
+      "english": "He has become able to play the piano.",
+      "breakdown": {
+        "token": {
+          "彼": "he",
+          "ピアノを弾ける": "can play (potential form)",
+          "ようになる": "to come to be able"
+        }
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この仕事を始めてから、毎日忙しいと感じるようになりました。",
+      "romaji": "Kono shigoto o hajimete kara, mainichi isogashii to kanjiru you ni narimashita.",
+      "english": "Since I started this job, I've begun to feel busy every day.",
+      "breakdown": {
+        "token": {
+          "この仕事": "this job",
+          "始めてから": "since starting",
+          "毎日忙しいと感じるようになる": "begin to feel busy every day"
+        }
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb ることができる",
+    "Verb ように言う",
+    "名詞をくださる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "日本語が話せるなりました。",
+      "correction": "日本語が話せるようになりました。",
+      "example": "I have become able to speak Japanese."
+    },
+    {
+      "mistake": "最近、早く寝るになりました。",
+      "correction": "最近、早く寝るようになった。",
+      "example": "Recently, I have come to go to bed early."
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "change",
+    "development",
+    "ability"
+  ]
+}

@@ -1,0 +1,104 @@
+{
+  "id": "041-i-adjectives-present",
+  "version": "1.0.0",
+  "title": {
+    "ja": "い形容詞（現在）",
+    "romaji": "i-keiyoushi (present)",
+    "en": "i-adjectives (present)"
+  },
+  "jlptLevel": "N5",
+  "category": "adjectives",
+  "explanation": {
+    "en": "い-adjectives are adjectives that end in い in their basic form, such as たかい (expensive/high), おいしい (delicious), or おもしろい (interesting). They can directly describe a noun or end a sentence.\n\nKey points:\n• い-adjectives end in い in the dictionary form\n• They can go before nouns: おいしいパン\n• They can end a polite sentence with です: おいしいです\n• You do not add な before a noun\n\nTo say “This book is interesting,” you can say “この本はおもしろいです.” The adjective itself stays the same in the present. You just add です to make it polite.\n\nBecause い-adjectives already have the “be” meaning inside them, you do not use です like a verb. You simply add it as a polite ending. This is different from nouns or な-adjectives, which require です to be a sentence.\n\nFor beginners, remember: if it ends in い (like たかい, あつい, さむい), it is usually an い-adjective. Use it before a noun without な, or at the end with です. This gives you a quick way to make polite descriptions.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "(Noun は) い-adjective (です)",
+    "components": [
+      {
+        "part": "Noun は",
+        "explanation": "Topic (optional)",
+        "examples": ["この本は", "天気は", "この店は"]
+      },
+      {
+        "part": "い-adjective",
+        "explanation": "Adjective ending in い",
+        "examples": ["おもしろい", "たかい", "さむい"]
+      },
+      {
+        "part": "です",
+        "explanation": "Polite ending (optional)",
+        "examples": ["です"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この本はおもしろいです。",
+      "romaji": "Kono hon wa omoshiroi desu.",
+      "english": "This book is interesting.",
+      "breakdown": {
+        "この": "this",
+        "本": "book",
+        "は": "topic marker",
+        "おもしろい": "interesting",
+        "です": "polite ending"
+      },
+      "notes": "Basic description"
+    },
+    {
+      "japanese": "今日は暑いです。",
+      "romaji": "Kyou wa atsui desu.",
+      "english": "Today is hot.",
+      "breakdown": {
+        "今日": "today",
+        "は": "topic marker",
+        "暑い": "hot",
+        "です": "polite ending"
+      },
+      "notes": "Weather description"
+    },
+    {
+      "japanese": "大きい犬がいます。",
+      "romaji": "Ookii inu ga imasu.",
+      "english": "There is a big dog.",
+      "breakdown": {
+        "大きい": "big",
+        "犬": "dog",
+        "が": "subject marker",
+        "います": "exists (polite)"
+      },
+      "notes": "Adjective before a noun"
+    },
+    {
+      "japanese": "このりんごは赤いです。",
+      "romaji": "Kono ringo wa akai desu.",
+      "english": "This apple is red.",
+      "breakdown": {
+        "この": "this",
+        "りんご": "apple",
+        "は": "topic marker",
+        "赤い": "red",
+        "です": "polite ending"
+      },
+      "notes": "Color description"
+    }
+  ],
+  "relatedPoints": [
+    "042-i-adjectives-past",
+    "045-na-adjectives-present"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Adding な before a noun",
+      "correction": "い-adjectives do not use な",
+      "example": "❌ おもしろいな本 → ✅ おもしろい本"
+    },
+    {
+      "mistake": "Dropping い at the end",
+      "correction": "Keep the い in the present form",
+      "example": "❌ おもしろです → ✅ おもしろいです"
+    }
+  ],
+  "tags": ["adjectives", "i-adjectives", "present", "descriptions"]
+}

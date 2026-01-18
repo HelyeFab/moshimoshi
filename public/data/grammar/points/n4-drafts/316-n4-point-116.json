@@ -1,0 +1,55 @@
+{
+  "id": "316-n4-point-116",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～まま (〜mama)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～まま grammar point is used to express a state or condition that remains unchanged or continues, often translated as 'as it is', 'while', or 'unchanged'. It can be used with verbs and adjectives to show that something remains in a certain state or condition.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-てform + いる+ まま, Adjective (い & な) + まま, Noun + のまま",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "ドアを開けたまま出かけてしまった。",
+      "romaji": "Doa o aketa mama dekakete shimatta.",
+      "english": "I accidentally left with the door open.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は目覚まし時計を止めたまま寝てしまった。",
+      "romaji": "Kare wa mezamashi dokei o tometa mama nete shimatta.",
+      "english": "He fell asleep with the alarm clock stopped.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "その部屋はきれいなままにしておいてください。",
+      "romaji": "Sono heya wa kirei na mama ni shite oite kudasai.",
+      "english": "Please keep the room clean.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は子供のままの心を持っている。",
+      "romaji": "Kanojo wa kodomo no mama no kokoro o motte iru.",
+      "english": "She has the heart of a child.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

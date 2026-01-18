@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "315-n4-point-115",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "315-n4-point-115-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"by (a certain time)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～までに",
+          "romaji": "~made ni"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～までに matches \"by (a certain time)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～までに.",
+      "explanation": "Indicates a deadline by which an action must be finished.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "315-n4-point-115-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～までに.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "by (a certain time)"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～までに means \"by (a certain time)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"by (a certain time)\".",
+      "explanation": "Indicates a deadline by which an action must be finished.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "315-n4-point-115-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～までに.",
+      "options": [
+        {
+          "id": "a",
+          "text": "~made ni"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ~made ni is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~made ni.",
+      "explanation": "Indicates a deadline by which an action must be finished.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "315-n4-point-115-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～までに?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Indicates a deadline by which an action must be finished."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Indicates a deadline by which an action must be finished.",
+      "explanation": "Indicates a deadline by which an action must be finished.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "315-n4-point-115-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"by (a certain time)\".",
+      "correctAnswer": "～までに",
+      "acceptedVariations": [
+        "～までに",
+        "～までに"
+      ],
+      "correctFeedback": "Nice! ～までに is correct.",
+      "incorrectFeedback": "The correct pattern is: ～までに (~made ni).",
+      "explanation": "Indicates a deadline by which an action must be finished.",
+      "hints": [
+        "~made ni",
+        "Indicates a deadline by which an action must be finished."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "315-n4-point-115-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～までに.",
+      "correctAnswer": "~made ni",
+      "acceptedVariations": [
+        "~made ni",
+        "~made ni"
+      ],
+      "correctFeedback": "Nice! ~made ni is correct.",
+      "incorrectFeedback": "The correct romaji is: ~made ni.",
+      "explanation": "Indicates a deadline by which an action must be finished.",
+      "hints": [
+        "Indicates a deadline by which an action must be finished."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "315-n4-point-115-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～までに.",
+      "correctAnswer": "by (a certain time)",
+      "acceptedVariations": [
+        "by (a certain time)",
+        "by (a certain time)"
+      ],
+      "correctFeedback": "Correct! \"by (a certain time)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"by (a certain time)\".",
+      "explanation": "Indicates a deadline by which an action must be finished.",
+      "hints": [
+        "Indicates a deadline by which an action must be finished."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "315-n4-point-115-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～までに",
+          "romaji": "~made ni",
+          "english": "by (a certain time)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Indicates a deadline by which an action must be finished.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "315-n4-point-115-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Indicates a deadline by which an action must be finished..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～までに",
+          "romaji": "~made ni"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～までに matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～までに.",
+      "explanation": "Indicates a deadline by which an action must be finished.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "315-n4-point-115-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～までに",
+      "acceptedVariations": [
+        "～までに",
+        "～までに"
+      ],
+      "correctFeedback": "Great! ～までに is correct.",
+      "incorrectFeedback": "The correct pattern is: ～までに.",
+      "explanation": "Indicates a deadline by which an action must be finished.",
+      "hints": [
+        "~made ni"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

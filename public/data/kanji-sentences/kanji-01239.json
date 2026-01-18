@@ -1,0 +1,33 @@
+{
+  "kanji": "核",
+  "sentences": [
+    {
+      "id": "205295",
+      "japanese": "それは核ミサイルをボタン一つで操作し合う戦争になるだろう。",
+      "english": "It will be a push-button war of nuclear missiles."
+    },
+    {
+      "id": "207563",
+      "japanese": "その都市には数カ所の核シェルターがある。",
+      "english": "There are a few nuclear bomb shelters in the city."
+    },
+    {
+      "id": "75967",
+      "japanese": "世界的な全面核戦争が起これば、地球規模でこの「核の冬」が数カ月間も続くと言われています。",
+      "english": "If there's a world-wide all-out nuclear war it's said that there will be a \"nuclear winter\" all over the planet for several months."
+    },
+    {
+      "id": "794660",
+      "japanese": "日本で核の危機が起きたのは大変です。",
+      "english": "It is dreadful that a nuclear crisis has hit Japan."
+    },
+    {
+      "id": "794661",
+      "japanese": "国際社会が日本での核の危険に関して警告を発している。",
+      "english": "The international community is issuing warnings regarding the nuclear threat in Japan."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.989Z",
+  "count": 5,
+  "fileId": "kanji-01239"
+}

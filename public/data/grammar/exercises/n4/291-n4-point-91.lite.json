@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "291-n4-point-91",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "291-n4-point-91-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"~darou (probably, I think)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～だろう",
+          "romaji": "~darou"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～だろう matches \"~darou (probably, I think)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～だろう.",
+      "explanation": "Expresses probability or conjecture; used to say \"probably\" or \"I think.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

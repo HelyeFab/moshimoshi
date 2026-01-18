@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "293-n4-point-93",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "293-n4-point-93-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"by/with/at (means, method, place marker)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～で",
+          "romaji": "~de"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! ～で matches \"by/with/at (means, method, place marker)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～で.",
+      "explanation": "Indicates means, method, tool, language, or place of an action.",
+      "difficulty": "easy"
+    }
+  ]
+}

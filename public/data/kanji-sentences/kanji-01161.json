@@ -1,0 +1,33 @@
+{
+  "kanji": "訳",
+  "sentences": [
+    {
+      "id": "4951",
+      "japanese": "申し訳ないけど長居できないんですよ。",
+      "english": "I'm sorry, I can't stay long."
+    },
+    {
+      "id": "4983",
+      "japanese": "あら、申し訳ございません。",
+      "english": "Oh, I'm sorry."
+    },
+    {
+      "id": "5023",
+      "japanese": "２、３ページの英語を訳すのに２時間以上もかかりました。",
+      "english": "It took me more than two hours to translate a few pages of English."
+    },
+    {
+      "id": "5238",
+      "japanese": "もしスペンサーが文を足して訳し続けなければ、他の貢献者がきっと彼を追い抜くだろう。",
+      "english": "If Spenser doesn't keep adding and translating sentences, the other contributors will surely surpass him."
+    },
+    {
+      "id": "176989",
+      "japanese": "あいつは君の言い訳には耳を貸さないと思うよ。",
+      "english": "I don't think you can gain his ear."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.010Z",
+  "count": 5,
+  "fileId": "kanji-01161"
+}

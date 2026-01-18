@@ -1,0 +1,33 @@
+{
+  "kanji": "部",
+  "sentences": [
+    {
+      "id": "192306",
+      "japanese": "ロイヤル・シアターの夜の部の公演が終わり、観客たちは帰って行った。",
+      "english": "The evening performance at the Royal Theater had ended, and the audience had gone home."
+    },
+    {
+      "id": "192943",
+      "japanese": "ユミコはテニス部に所属しています。",
+      "english": "Yumiko belongs to the tennis club."
+    },
+    {
+      "id": "193776",
+      "japanese": "もしも無料でしたら１部コピーしてください。",
+      "english": "If it is free, please send me a copy."
+    },
+    {
+      "id": "198594",
+      "japanese": "ネットワーク誌１１月号に掲載されていたあなたのレポートを７０部コピーし、私どもの代理店に配ってよろしいですか。",
+      "english": "Is it possible to reproduce 70 copies of your report which appeared in the November issue of The Network and distribute them to our agents?"
+    },
+    {
+      "id": "201368",
+      "japanese": "どうぞ、私のレポートのコピーを７０部お作りください。",
+      "english": "I appreciate your request to reproduce 70 copies of my report."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.851Z",
+  "count": 5,
+  "fileId": "kanji-00421"
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "219-n4-point-19",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "219-n4-point-19-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Noun + chuu (in the middle of ~)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "名詞＋中（ちゅう）",
+          "romaji": "Meishi + chuu"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! 名詞＋中（ちゅう） matches \"Noun + chuu (in the middle of ~)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 名詞＋中（ちゅう）.",
+      "explanation": "Used after nouns to show something is currently happening or ongoing.",
+      "difficulty": "easy"
+    }
+  ]
+}

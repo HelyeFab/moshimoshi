@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "065-hou-ga-more-than",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "065-hou-ga-more-than-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase: 犬__猫より大きいです。",
+      "options": [
+        { "id": "a", "text": "のほうが" },
+        { "id": "b", "text": "より" },
+        { "id": "c", "text": "と" },
+        { "id": "d", "text": "で" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 犬のほうが...",
+      "incorrectFeedback": "Not quite. Use のほうが to highlight A.",
+      "explanation": "A のほうが B より + adjective.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "065-hou-ga-more-than-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "電車のほうがバスより早いです。" },
+        { "id": "b", "text": "電車ほうがバスより早いです。" },
+        { "id": "c", "text": "電車のほうがバスと早いです。" },
+        { "id": "d", "text": "電車のほうがバスで早いです。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use のほうが + より.",
+      "incorrectFeedback": "Try again. Use のほうが and より.",
+      "explanation": "のほうが emphasizes which one is more.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "065-hou-ga-more-than-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Dogs are bigger than cats.'",
+      "correctAnswer": "犬のほうが猫より大きいです",
+      "acceptedVariations": [
+        "犬のほうが猫より大きいです。",
+        "いぬのほうがねこよりおおきいです",
+        "inu no hou ga neko yori ookii desu",
+        "inu no hou ga neko yori ookii desu."
+      ],
+      "correctFeedback": "Great! 犬のほうが猫より大きいです is correct.",
+      "incorrectFeedback": "The correct answer is: 犬のほうが猫より大きいです (inu no hou ga neko yori ookii desu).",
+      "explanation": "Use のほうが to emphasize A.",
+      "hints": ["犬 = dog", "猫 = cat"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "065-hou-ga-more-than-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase: この本__あの本より安いです。",
+      "options": [
+        { "id": "a", "text": "のほうが" },
+        { "id": "b", "text": "より" },
+        { "id": "c", "text": "と" },
+        { "id": "d", "text": "が" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! この本のほうが...",
+      "incorrectFeedback": "Not quite. Use のほうが for the stronger item.",
+      "explanation": "A のほうが B より + adjective.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "065-hou-ga-more-than-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Trains are faster than buses.'",
+      "correctAnswer": "電車のほうがバスより早いです",
+      "acceptedVariations": [
+        "電車のほうがバスより早いです。",
+        "でんしゃのほうがばすよりはやいです",
+        "densha no hou ga basu yori hayai desu",
+        "densha no hou ga basu yori hayai desu."
+      ],
+      "correctFeedback": "Nice! 電車のほうがバスより早いです is correct.",
+      "incorrectFeedback": "The correct answer is: 電車のほうがバスより早いです (densha no hou ga basu yori hayai desu).",
+      "explanation": "Use のほうが with より.",
+      "hints": ["電車 = train", "バス = bus"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "065-hou-ga-more-than-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "犬のほうが猫より大きいです。" },
+        { "id": "b", "text": "夏のほうが冬より好きです。" },
+        { "id": "c", "text": "電車のほうがバスと早いです。" },
+        { "id": "d", "text": "この本のほうがあの本より安いです。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use より, not と, for comparisons.",
+      "incorrectFeedback": "Try again. Comparisons use より.",
+      "explanation": "Use より with のほうが.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "065-hou-ga-more-than-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I like summer more than winter.'",
+      "correctAnswer": "夏のほうが冬より好きです",
+      "acceptedVariations": [
+        "夏のほうが冬より好きです。",
+        "なつのほうがふゆよりすきです",
+        "natsu no hou ga fuyu yori suki desu",
+        "natsu no hou ga fuyu yori suki desu."
+      ],
+      "correctFeedback": "Great! 夏のほうが冬より好きです is correct.",
+      "incorrectFeedback": "The correct answer is: 夏のほうが冬より好きです (natsu no hou ga fuyu yori suki desu).",
+      "explanation": "Use のほうが to emphasize what you like more.",
+      "hints": ["夏 = summer", "冬 = winter"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "065-hou-ga-more-than-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "犬のほうが猫より大きいです。",
+          "romaji": "Inu no hou ga neko yori ookii desu.",
+          "english": "Dogs are bigger than cats."
+        },
+        {
+          "japanese": "電車のほうがバスより早いです。",
+          "romaji": "Densha no hou ga basu yori hayai desu.",
+          "english": "Trains are faster than buses."
+        },
+        {
+          "japanese": "夏のほうが冬より好きです。",
+          "romaji": "Natsu no hou ga fuyu yori suki desu.",
+          "english": "I like summer more than winter."
+        }
+      ],
+      "correctFeedback": "Perfect! All use のほうが + より.",
+      "incorrectFeedback": "Not quite. Review のほうが usage.",
+      "explanation": "のほうが highlights A as more.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "065-hou-ga-more-than-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'This book is cheaper than that book'?",
+      "options": [
+        { "id": "a", "text": "この本のほうがあの本より安いです" },
+        { "id": "b", "text": "この本ほうがあの本より安いです" },
+        { "id": "c", "text": "この本のほうがあの本と安いです" },
+        { "id": "d", "text": "この本のほうがあの本で安いです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use のほうが + より.",
+      "incorrectFeedback": "Try again. Keep の before ほうが and use より.",
+      "explanation": "のほうが needs の and より.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "065-hou-ga-more-than-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This town is bigger than that town.'",
+      "correctAnswer": "この町のほうがあの町より大きいです",
+      "acceptedVariations": [
+        "この町のほうがあの町より大きいです。",
+        "このまちのほうがあのまちよりおおきいです",
+        "kono machi no hou ga ano machi yori ookii desu",
+        "kono machi no hou ga ano machi yori ookii desu."
+      ],
+      "correctFeedback": "Nice! この町のほうがあの町より大きいです is correct.",
+      "incorrectFeedback": "The correct answer is: この町のほうがあの町より大きいです (kono machi no hou ga ano machi yori ookii desu).",
+      "explanation": "Use のほうが to highlight the bigger town.",
+      "hints": ["町 = town", "大きい = big"],
+      "difficulty": "hard"
+    }
+  ]
+}

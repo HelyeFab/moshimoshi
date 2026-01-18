@@ -1,0 +1,33 @@
+{
+  "kanji": "右",
+  "sentences": [
+    {
+      "id": "138734",
+      "japanese": "その交差点を右に曲がってください。",
+      "english": "Turn right at the crossroad."
+    },
+    {
+      "id": "185183",
+      "japanese": "回れ右を命じる。",
+      "english": "I order you to turn right."
+    },
+    {
+      "id": "185184",
+      "japanese": "回れ右！",
+      "english": "About face!"
+    },
+    {
+      "id": "189228",
+      "japanese": "英語ではクラスの山田の右に出るものはいない。",
+      "english": "Yamada is second to none in English in his class."
+    },
+    {
+      "id": "189229",
+      "japanese": "英語ではクラスで彼の右に出る者はいない。",
+      "english": "He is second to none in his English class."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.069Z",
+  "count": 5,
+  "fileId": "kanji-00071"
+}

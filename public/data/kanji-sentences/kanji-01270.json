@@ -1,0 +1,33 @@
+{
+  "kanji": "仮",
+  "sentences": [
+    {
+      "id": "188179",
+      "japanese": "仮の議事内容を送付しました。",
+      "english": "Attached is the tentative agenda."
+    },
+    {
+      "id": "188180",
+      "japanese": "仮のブリッジをいれます。",
+      "english": "You'll need a temporary bridge."
+    },
+    {
+      "id": "188181",
+      "japanese": "仮に明日雨が降ることがあれば、試合は延期されるだろう。",
+      "english": "If it were to rain tomorrow, the match would be postponed."
+    },
+    {
+      "id": "188182",
+      "japanese": "仮に宝くじに当たったとしたら、そのお金で何を買いますか。",
+      "english": "If you were to win the lottery, what would you buy with the money?"
+    },
+    {
+      "id": "188183",
+      "japanese": "仮に地球が自転をやめれば、どうなると思いますか。",
+      "english": "Were the earth to stop revolving, what do you suppose would happen?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.758Z",
+  "count": 5,
+  "fileId": "kanji-01270"
+}

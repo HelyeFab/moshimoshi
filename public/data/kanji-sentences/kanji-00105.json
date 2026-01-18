@@ -1,0 +1,33 @@
+{
+  "kanji": "走",
+  "sentences": [
+    {
+      "id": "4930",
+      "japanese": "またいつか風のように走るんだ。",
+      "english": "Someday I'll run like the wind."
+    },
+    {
+      "id": "177102",
+      "japanese": "君は赤信号を無視して走りましたね。",
+      "english": "You ran a red light."
+    },
+    {
+      "id": "179999",
+      "japanese": "極端に走ってはならない。",
+      "english": "Don't go to extremes."
+    },
+    {
+      "id": "180000",
+      "japanese": "極端に走ってはいけない。適度であることは何事においても大切である。",
+      "english": "Don't go to extremes. To be moderate is important in anything."
+    },
+    {
+      "id": "180176",
+      "japanese": "教室に向かって子供たちは走っていった。",
+      "english": "The children ran toward the classroom."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.661Z",
+  "count": 5,
+  "fileId": "kanji-00105"
+}

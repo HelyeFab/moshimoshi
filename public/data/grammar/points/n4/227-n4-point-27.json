@@ -1,0 +1,127 @@
+{
+  "id": "227-n4-point-27",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞＋つもり",
+    "romaji": "Doushi + tsumori",
+    "en": "Verb + tsumori (to intend/plan to)"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ～つもり grammar point is used to express one's intention, plan, or determination to do something. It is attached to the plain (casual) form of verbs and can be translated as 'I intend to', 'I plan to', or 'I'm determined to' in English.",
+    "ja": "「～つもり」は、何かをする意志や予定、決意を表す文法です。動詞の普通形に付けて使います。"
+  },
+  "structure": {
+    "pattern": "Verb (plain form) + つもり（です）",
+    "components": [
+      {
+        "part": "Verb (plain form)",
+        "explanation": "Use the dictionary (casual) form of the verb.",
+        "examples": [
+          "会う",
+          "作る",
+          "留学する",
+          "登る"
+        ]
+      },
+      {
+        "part": "つもり",
+        "explanation": "Indicates intention, plan, or determination.",
+        "examples": [
+          "会うつもり",
+          "作るつもり"
+        ]
+      },
+      {
+        "part": "です (optional)",
+        "explanation": "Politeness marker; can be omitted in casual speech.",
+        "examples": [
+          "会うつもりです",
+          "作るつもり"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日、友達に会うつもりです。",
+      "romaji": "Ashita, tomodachi ni au tsumori desu.",
+      "english": "I plan to meet my friend tomorrow.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "友達": "friend",
+        "に": "to",
+        "会う": "meet",
+        "つもり": "plan/intend",
+        "です": "polite ending"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "今夜、晩ご飯を作るつもりです。",
+      "romaji": "Konya, bangohan o tsukuru tsumori desu.",
+      "english": "I intend to cook dinner tonight.",
+      "breakdown": {
+        "今夜": "tonight",
+        "晩ご飯": "dinner",
+        "を": "object marker",
+        "作る": "to cook",
+        "つもり": "intend",
+        "です": "polite ending"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "来年、留学するつもりです。",
+      "romaji": "Rainen, ryuugaku suru tsumori desu.",
+      "english": "I plan to study abroad next year.",
+      "breakdown": {
+        "来年": "next year",
+        "留学する": "to study abroad",
+        "つもり": "plan/intend",
+        "です": "polite ending"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この週末、山に登るつもりです。",
+      "romaji": "Kono shuumatsu, yama ni noboru tsumori desu.",
+      "english": "I'm determined to climb the mountain this weekend.",
+      "breakdown": {
+        "この週末": "this weekend",
+        "山": "mountain",
+        "に": "to",
+        "登る": "climb",
+        "つもり": "determined/intend",
+        "です": "polite ending"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "動詞てある",
+    "名詞をくださる",
+    "名詞 を くれる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ます-form before つもり (e.g., 会いますつもり)",
+      "correction": "Use the plain form (e.g., 会うつもり)",
+      "example": "明日、友達に会いますつもりです。→ 明日、友達に会うつもりです。"
+    },
+    {
+      "mistake": "Using つもり with nouns or adjectives",
+      "correction": "つもり is only used with verbs in plain form.",
+      "example": "学生つもりです。→ (Incorrect, should use a different structure)"
+    }
+  ],
+  "tags": [
+    "n4",
+    "intention",
+    "plan",
+    "verbs",
+    "plain-form",
+    "expression"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "岸",
+  "sentences": [
+    {
+      "id": "183666",
+      "japanese": "岩が岸から川に突き出ていた。",
+      "english": "A rock stuck out from the bank into the river."
+    },
+    {
+      "id": "183683",
+      "japanese": "岸から遠く離れたところに何せきか船が見える。",
+      "english": "I can see some boats far away from the shore."
+    },
+    {
+      "id": "186231",
+      "japanese": "我々の船は潮によって岸へ押し流された。",
+      "english": "Our boat drifted to shore on the tide."
+    },
+    {
+      "id": "196547",
+      "japanese": "ボートは大綱で岸につながれていた。",
+      "english": "The boat was tied to the shore by a cable."
+    },
+    {
+      "id": "196552",
+      "japanese": "ボートは岸へ打ち上げられた。",
+      "english": "The boat was cast ashore."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.469Z",
+  "count": 5,
+  "fileId": "kanji-00659"
+}

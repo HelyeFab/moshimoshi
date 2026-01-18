@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "064-yori-than",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "064-yori-than-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: 犬は猫__大きいです。",
+      "options": [
+        {
+          "id": "a",
+          "text": "より"
+        },
+        {
+          "id": "b",
+          "text": "と"
+        },
+        {
+          "id": "c",
+          "text": "で"
+        },
+        {
+          "id": "d",
+          "text": "に"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! より means 'than.'",
+      "incorrectFeedback": "Not quite. Use より for comparisons.",
+      "explanation": "より marks the comparison target.",
+      "difficulty": "easy"
+    }
+  ]
+}

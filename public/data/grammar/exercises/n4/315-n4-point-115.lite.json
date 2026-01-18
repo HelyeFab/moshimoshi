@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "315-n4-point-115",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "315-n4-point-115-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"by (a certain time)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～までに",
+          "romaji": "~made ni"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～までに matches \"by (a certain time)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～までに.",
+      "explanation": "Indicates a deadline by which an action must be finished.",
+      "difficulty": "easy"
+    }
+  ]
+}

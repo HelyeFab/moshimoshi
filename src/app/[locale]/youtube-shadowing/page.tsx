@@ -107,6 +107,8 @@ function YouTubeShadowingContent() {
   const [showUrlInput, setShowUrlInput] = useState(true);
   const [videoLoopEnabled, setVideoLoopEnabled] = useState(false);
   const [isScreenLocked, setIsScreenLocked] = useState(false);
+  const repeatCountDisplay = videoLoopEnabled ? 1 : repeatCount;
+  const currentRepeatDisplay = videoLoopEnabled ? 1 : currentRepeat;
 
   // Word explanation state
   const [wordModalOpen, setWordModalOpen] = useState(false);
@@ -670,7 +672,7 @@ function YouTubeShadowingContent() {
                     </span>
                     <span className={styles.repeatCounter}>
                       <Repeat className="w-3 h-3" />
-                      {currentRepeat}/{repeatCount}
+                      {currentRepeatDisplay}/{repeatCountDisplay}
                     </span>
                   </div>
 
@@ -715,10 +717,10 @@ function YouTubeShadowingContent() {
                       key={`${segment.start}-${index}`}
                       className={`${styles.segment} ${active ? styles.segmentActive : ""}`}
                     >
-                      {/* Repeat badge - top right corner */}
+                        {/* Repeat badge - top right corner */}
                       {active && (
                         <span className={styles.repeatBadge}>
-                          {currentRepeat}/{repeatCount}
+                          {currentRepeatDisplay}/{repeatCountDisplay}
                         </span>
                       )}
                       <div className={styles.segmentHeader}>
@@ -1031,7 +1033,6 @@ function YouTubeShadowingContent() {
         isLocked={isScreenLocked && videoLoopEnabled}
         onUnlock={() => {
           setIsScreenLocked(false);
-          setVideoLoopEnabled(false);
         }}
         title={t("youtubeShadowing.lockScreen.title")}
         unlockText={t("youtubeShadowing.lockScreen.tapToUnlock")}

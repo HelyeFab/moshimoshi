@@ -1,0 +1,33 @@
+{
+  "kanji": "我",
+  "sentences": [
+    {
+      "id": "4926",
+      "japanese": "彼らのコミュニケーションは我々が考えてきたものよりはるかに複雑かもしれません。",
+      "english": "Their communication may be much more complex than we thought."
+    },
+    {
+      "id": "3606283",
+      "japanese": "我思わず、故に我なし。",
+      "english": "I don't think, therefore I am not."
+    },
+    {
+      "id": "724628",
+      "japanese": "我々は友人のことを考えねばなりません。",
+      "english": "We must think about friends."
+    },
+    {
+      "id": "1099134",
+      "japanese": "我々は最悪の事態を考えておかなければいけない。",
+      "english": "We have to expect the worst."
+    },
+    {
+      "id": "138768",
+      "japanese": "我々は彼をすぐに病院へ連れていかねばならない。彼は重症だ。",
+      "english": "We have to take him to the hospital immediately; he is seriously injured!"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:49.893Z",
+  "count": 5,
+  "fileId": "kanji-02115"
+}

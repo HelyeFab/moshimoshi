@@ -1,0 +1,185 @@
+{
+  "grammarPointId": "022-masu-form-present",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "022-masu-form-present-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the polite verb form: 行く → ?",
+      "options": [
+        { "id": "a", "text": "行きます" },
+        { "id": "b", "text": "行くます" },
+        { "id": "c", "text": "行ます" },
+        { "id": "d", "text": "行きです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行きます is the polite form.",
+      "incorrectFeedback": "Not quite. The polite form is 行きます.",
+      "explanation": "The ます form uses the verb stem + ます.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "022-masu-form-present-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is polite?",
+      "options": [
+        { "id": "a", "text": "私は学校に行く。" },
+        { "id": "b", "text": "私は学校に行きます。" },
+        { "id": "c", "text": "私は学校に行くです。" },
+        { "id": "d", "text": "私は学校に行きだ。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Yes! 行きます is the polite form.",
+      "incorrectFeedback": "Try again. Use 〜ます for polite speech.",
+      "explanation": "Polite verbs end with 〜ます.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "022-masu-form-present-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I eat breakfast.'",
+      "correctAnswer": "朝ご飯を食べます",
+      "acceptedVariations": [
+        "朝ご飯を食べます。",
+        "あさごはんをたべます",
+        "あさごはんをたべます。",
+        "asagohan o tabemasu",
+        "asagohan o tabemasu."
+      ],
+      "correctFeedback": "Great! 朝ご飯を食べます is correct.",
+      "incorrectFeedback": "The correct answer is: 朝ご飯を食べます (asagohan o tabemasu).",
+      "explanation": "Use the polite ます form for the verb.",
+      "hints": ["朝ご飯 means breakfast", "Use 食べます"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "022-masu-form-present-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the best translation: 'I will go tomorrow.'",
+      "options": [
+        { "id": "a", "text": "明日行きます。" },
+        { "id": "b", "text": "明日行くです。" },
+        { "id": "c", "text": "明日行きました。" },
+        { "id": "d", "text": "明日行きません。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 〜ます can express future with a time word.",
+      "incorrectFeedback": "Not quite. Use 〜ます with 明日.",
+      "explanation": "The ます form covers present or future.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "022-masu-form-present-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I study Japanese every day.'",
+      "correctAnswer": "毎日日本語を勉強します",
+      "acceptedVariations": [
+        "毎日日本語を勉強します。",
+        "まいにちにほんごをべんきょうします",
+        "まいにちにほんごをべんきょうします。",
+        "mainichi nihongo o benkyou shimasu",
+        "mainichi nihongo o benkyou shimasu."
+      ],
+      "correctFeedback": "Nice! 毎日日本語を勉強します is correct.",
+      "incorrectFeedback": "The correct answer is: 毎日日本語を勉強します (mainichi nihongo o benkyou shimasu).",
+      "explanation": "Use ます for polite present habits.",
+      "hints": ["毎日 means every day", "勉強します is study"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "022-masu-form-present-ex-06",
+      "type": "multiple-choice",
+      "question": "Which verb is already in ます form?",
+      "options": [
+        { "id": "a", "text": "読む" },
+        { "id": "b", "text": "読むます" },
+        { "id": "c", "text": "読みます" },
+        { "id": "d", "text": "読み" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 読みます is the polite form.",
+      "incorrectFeedback": "Try again. The ます form ends with ます.",
+      "explanation": "読みます is the polite present/future form of 読む.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "022-masu-form-present-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I watch a movie with a friend.'",
+      "correctAnswer": "友だちと映画を見ます",
+      "acceptedVariations": [
+        "友だちと映画を見ます。",
+        "ともだちとえいがをみます",
+        "ともだちとえいがをみます。",
+        "tomodachi to eiga o mimasu",
+        "tomodachi to eiga o mimasu."
+      ],
+      "correctFeedback": "Great! 友だちと映画を見ます is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちと映画を見ます (tomodachi to eiga o mimasu).",
+      "explanation": "Use 〜ます for polite action verbs.",
+      "hints": ["友だち means friend", "見ます means watch"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "022-masu-form-present-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "昼ご飯を食べます。",
+          "romaji": "Hirugohan o tabemasu.",
+          "english": "I eat lunch."
+        },
+        {
+          "japanese": "明日学校へ行きます。",
+          "romaji": "Ashita gakkou e ikimasu.",
+          "english": "I will go to school tomorrow."
+        },
+        {
+          "japanese": "日本語を勉強します。",
+          "romaji": "Nihongo o benkyou shimasu.",
+          "english": "I study Japanese."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review the ます form and try again.",
+      "explanation": "All verbs end in 〜ます.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "022-masu-form-present-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'I will go' (polite)?",
+      "options": [
+        { "id": "a", "text": "行きます。" },
+        { "id": "b", "text": "行きません。" },
+        { "id": "c", "text": "行きました。" },
+        { "id": "d", "text": "行く。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行きます is polite present/future.",
+      "incorrectFeedback": "Try again. 行きます is the polite present/future form.",
+      "explanation": "Without time words, 〜ます can be present or future.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "022-masu-form-present-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I buy a pen.'",
+      "correctAnswer": "ペンを買います",
+      "acceptedVariations": [
+        "ペンを買います。",
+        "ぺんをかいます",
+        "ぺんをかいます。",
+        "pen o kaimasu",
+        "pen o kaimasu."
+      ],
+      "correctFeedback": "Nice! ペンを買います is correct.",
+      "incorrectFeedback": "The correct answer is: ペンを買います (pen o kaimasu).",
+      "explanation": "Use the ます form to be polite.",
+      "hints": ["買います means buy", "Use を for the object"],
+      "difficulty": "hard"
+    }
+  ]
+}

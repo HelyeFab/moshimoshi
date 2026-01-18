@@ -1,0 +1,33 @@
+{
+  "kanji": "継",
+  "sentences": [
+    {
+      "id": "178918",
+      "japanese": "君が日本を離れている間は、私が君の職務を引き継ぎましょう。",
+      "english": "I'll take over your duties while you are away from Japan."
+    },
+    {
+      "id": "188485",
+      "japanese": "王位を継ぐ。",
+      "english": "I succeed to the throne."
+    },
+    {
+      "id": "196268",
+      "japanese": "ボストン行きの乗り継ぎ便に乗りたいのですが。",
+      "english": "I want to get a connecting flight to Boston."
+    },
+    {
+      "id": "196270",
+      "japanese": "ボストンへの乗り継ぎ便に乗りたいんです。",
+      "english": "I want to get a connecting flight to Boston."
+    },
+    {
+      "id": "197163",
+      "japanese": "ブッシュが大統領としてレーガンのあとを継いだ。",
+      "english": "Bush followed Reagan as president."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:50.262Z",
+  "count": 5,
+  "fileId": "kanji-02131"
+}

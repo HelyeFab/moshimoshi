@@ -1,0 +1,105 @@
+{
+  "id": "080-node-so",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜ので",
+    "romaji": "-node",
+    "en": "〜ので (so / because)"
+  },
+  "jlptLevel": "N5",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "〜ので means “because” or “so.” It is similar to から but sounds softer and more polite. You use it to give a reason for an action.\n\nKey points:\n• Reason + ので + Result\n• Softer than から\n• Use です/ます before ので in polite speech\n• Often used in polite explanations\n\nExample: “雨ですので、行きません” means “Because it is raining, I won’t go.”\n\nFor nouns and na-adjectives, add なので: 学生なので, 静かなので. For i-adjectives and verbs, use the plain form + ので: 忙しいので, 行くので.\n\nPractice by giving polite reasons: 今日は忙しいので、行きません.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Reason + ので + Result",
+    "components": [
+      {
+        "part": "Reason",
+        "explanation": "Cause clause",
+        "examples": ["雨です", "忙しい", "学生なので"]
+      },
+      {
+        "part": "ので",
+        "explanation": "Because/so",
+        "examples": ["ので"]
+      },
+      {
+        "part": "Result",
+        "explanation": "Effect clause",
+        "examples": ["行きません", "休みます", "帰ります"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "雨ですので、行きません。",
+      "romaji": "Ame desu node, ikimasen.",
+      "english": "Because it is raining, I won't go.",
+      "breakdown": {
+        "雨": "rain",
+        "です": "is",
+        "ので": "because",
+        "行きません": "do not go"
+      },
+      "notes": "Polite reason"
+    },
+    {
+      "japanese": "忙しいので、今日は休みます。",
+      "romaji": "Isogashii node, kyou wa yasumimasu.",
+      "english": "Because I'm busy, I will rest today.",
+      "breakdown": {
+        "忙しい": "busy",
+        "ので": "because",
+        "今日": "today",
+        "は": "topic marker",
+        "休みます": "rest"
+      },
+      "notes": "Soft reason"
+    },
+    {
+      "japanese": "学生なので、お金がありません。",
+      "romaji": "Gakusei na node, okane ga arimasen.",
+      "english": "Because I'm a student, I don't have money.",
+      "breakdown": {
+        "学生": "student",
+        "なので": "because (noun + na)",
+        "お金": "money",
+        "が": "subject marker",
+        "ありません": "do not have"
+      },
+      "notes": "Noun + なので"
+    },
+    {
+      "japanese": "時間がないので、急ぎます。",
+      "romaji": "Jikan ga nai node, isogimasu.",
+      "english": "Because I don't have time, I hurry.",
+      "breakdown": {
+        "時間": "time",
+        "が": "subject marker",
+        "ない": "not have",
+        "ので": "because",
+        "急ぎます": "hurry"
+      },
+      "notes": "Reason with verb/adjective"
+    }
+  ],
+  "relatedPoints": [
+    "079-kara-because",
+    "072-question-naze-doushite-why"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ので with plain noun",
+      "correction": "Add なので after nouns/na-adjectives",
+      "example": "❌ 学生ので → ✅ 学生なので"
+    },
+    {
+      "mistake": "Using ので in a strong tone",
+      "correction": "Use から for a stronger reason",
+      "example": "Use ので for softer explanations"
+    }
+  ],
+  "tags": ["because", "node", "beginner"]
+}

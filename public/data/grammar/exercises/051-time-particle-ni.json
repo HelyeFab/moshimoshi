@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "051-time-particle-ni",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "051-time-particle-ni-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 七時__起きます。",
+      "options": [
+        { "id": "a", "text": "に" },
+        { "id": "b", "text": "で" },
+        { "id": "c", "text": "を" },
+        { "id": "d", "text": "が" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use に with exact time.",
+      "incorrectFeedback": "Not quite. に marks the exact time.",
+      "explanation": "Specific times use に.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "051-time-particle-ni-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "日曜日に行きます。" },
+        { "id": "b", "text": "日曜日で行きます。" },
+        { "id": "c", "text": "日曜日を行きます。" },
+        { "id": "d", "text": "日曜日が行きます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use に with specific days.",
+      "incorrectFeedback": "Try again. Specific days take に.",
+      "explanation": "日曜日 is a specific day, so use に.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "051-time-particle-ni-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I meet at 3 o'clock.'",
+      "correctAnswer": "三時に会います",
+      "acceptedVariations": [
+        "三時に会います。",
+        "さんじにあいます",
+        "sanji ni aimasu",
+        "sanji ni aimasu."
+      ],
+      "correctFeedback": "Great! 三時に会います is correct.",
+      "incorrectFeedback": "The correct answer is: 三時に会います (sanji ni aimasu).",
+      "explanation": "Use に with exact times.",
+      "hints": ["会います = meet", "Use に"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "051-time-particle-ni-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 八月十日__行きます。",
+      "options": [
+        { "id": "a", "text": "に" },
+        { "id": "b", "text": "で" },
+        { "id": "c", "text": "と" },
+        { "id": "d", "text": "へ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Dates take に.",
+      "incorrectFeedback": "Not quite. Use に for dates.",
+      "explanation": "Specific dates use に.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "051-time-particle-ni-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Class starts at 9.'",
+      "correctAnswer": "九時に授業が始まります",
+      "acceptedVariations": [
+        "九時に授業が始まります。",
+        "くじにじゅぎょうがはじまります",
+        "kuji ni jugyou ga hajimarimasu",
+        "kuji ni jugyou ga hajimarimasu."
+      ],
+      "correctFeedback": "Nice! 九時に授業が始まります is correct.",
+      "incorrectFeedback": "The correct answer is: 九時に授業が始まります (kuji ni jugyou ga hajimarimasu).",
+      "explanation": "Use に to mark the exact start time.",
+      "hints": ["授業 = class", "始まります = starts"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "051-time-particle-ni-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "今朝に起きます。" },
+        { "id": "b", "text": "月曜日に行きます。" },
+        { "id": "c", "text": "七時に来ます。" },
+        { "id": "d", "text": "三月に日本へ行きます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 今朝 is a relative time word and usually doesn't take に.",
+      "incorrectFeedback": "Try again. Relative time words usually skip に.",
+      "explanation": "今朝/今日/明日 usually do not use に.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "051-time-particle-ni-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I will go in March.'",
+      "correctAnswer": "三月に行きます",
+      "acceptedVariations": [
+        "三月に行きます。",
+        "さんがつにいきます",
+        "sangatsu ni ikimasu",
+        "sangatsu ni ikimasu."
+      ],
+      "correctFeedback": "Great! 三月に行きます is correct.",
+      "incorrectFeedback": "The correct answer is: 三月に行きます (sangatsu ni ikimasu).",
+      "explanation": "Use に with specific months.",
+      "hints": ["三月 = March", "Use に"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "051-time-particle-ni-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "七時に起きます。",
+          "romaji": "Shichi-ji ni okimasu.",
+          "english": "I wake up at 7."
+        },
+        {
+          "japanese": "日曜日に行きます。",
+          "romaji": "Nichiyoubi ni ikimasu.",
+          "english": "I will go on Sunday."
+        },
+        {
+          "japanese": "三月に来ます。",
+          "romaji": "Sangatsu ni kimasu.",
+          "english": "I will come in March."
+        }
+      ],
+      "correctFeedback": "Perfect! All use に with exact time.",
+      "incorrectFeedback": "Not quite. Review time + に.",
+      "explanation": "に marks specific times and dates.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "051-time-particle-ni-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'on Tuesday'?",
+      "options": [
+        { "id": "a", "text": "火曜日に" },
+        { "id": "b", "text": "火曜日で" },
+        { "id": "c", "text": "火曜日を" },
+        { "id": "d", "text": "火曜日が" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 火曜日に.",
+      "incorrectFeedback": "Try again. Days take に.",
+      "explanation": "Use に with days of the week.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "051-time-particle-ni-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'We will meet on August 10th.'",
+      "correctAnswer": "八月十日に会います",
+      "acceptedVariations": [
+        "八月十日に会います。",
+        "はちがつとおかにあいます",
+        "hachigatsu tooka ni aimasu",
+        "hachigatsu tooka ni aimasu."
+      ],
+      "correctFeedback": "Nice! 八月十日に会います is correct.",
+      "incorrectFeedback": "The correct answer is: 八月十日に会います (hachigatsu tooka ni aimasu).",
+      "explanation": "Use に with specific dates.",
+      "hints": ["八月十日 = Aug 10", "Use に"],
+      "difficulty": "hard"
+    }
+  ]
+}

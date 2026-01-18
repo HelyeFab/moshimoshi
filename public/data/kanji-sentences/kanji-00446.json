@@ -1,0 +1,33 @@
+{
+  "kanji": "経",
+  "sentences": [
+    {
+      "id": "5005",
+      "japanese": "年月を経て物事がどう変わっていくか見るのは面白そうだ。",
+      "english": "It would be fun to see how things change over the years."
+    },
+    {
+      "id": "183474",
+      "japanese": "幾多の紆余曲折を経て条約は締結されるに至った。",
+      "english": "The treaty has been concluded after many twists and turns."
+    },
+    {
+      "id": "184144",
+      "japanese": "楽しんでいるときは時の経つのがはやい。",
+      "english": "Time goes by quickly when you're having fun."
+    },
+    {
+      "id": "184800",
+      "japanese": "外国へ行って１ヶ月も経たぬうちに、彼は病気になった。",
+      "english": "He had not been abroad for one month before he was taken ill."
+    },
+    {
+      "id": "187303",
+      "japanese": "何分か経ったのか、それとも何時間か経ったのか、沼田先生が家に入ってきて、禎子の額に手を当てた。",
+      "english": "It could have been minutes, or even hours before Dr. Numata came in to feel Sadako's head."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.182Z",
+  "count": 5,
+  "fileId": "kanji-00446"
+}

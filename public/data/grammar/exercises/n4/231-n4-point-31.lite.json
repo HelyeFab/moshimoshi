@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "231-n4-point-31",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "231-n4-point-31-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb-te itadakitai (would like you to do...)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "動詞ていただきたい",
+          "romaji": "doushi te itadakitai"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! 動詞ていただきたい matches \"Verb-te itadakitai (would like you to do...)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ていただきたい.",
+      "explanation": "Polite way to express wanting someone to do something for you.",
+      "difficulty": "easy"
+    }
+  ]
+}

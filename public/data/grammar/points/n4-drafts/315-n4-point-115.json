@@ -1,0 +1,55 @@
+{
+  "id": "315-n4-point-115",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～までに (〜made ni)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～までに grammar point is used to indicate that something must be completed or occurs by a certain time or before a specific action. It can be used with verbs, nouns, and time expressions.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + までに, Noun + までに, Time expression + までに",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "明日の朝８時までに起きてください。",
+      "romaji": "Ashita no asa hachiji made ni okite kudasai.",
+      "english": "Please wake up by 8 a.m. tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "来週の金曜日までにレポートを提出してください。",
+      "romaji": "Raishuu no kinyoubi made ni repooto wo teishutsu shite kudasai.",
+      "english": "Please submit the report by next Friday.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼が帰るまでに料理を終わらせたい。",
+      "romaji": "Kare ga kaeru made ni ryouri wo owarasetai.",
+      "english": "I want to finish cooking before he comes back.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "３０分までに駅に着く必要があります。",
+      "romaji": "Sanjuppun made ni eki ni tsuku hitsuyou ga arimasu.",
+      "english": "We need to arrive at the station by 30 minutes (from now).",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

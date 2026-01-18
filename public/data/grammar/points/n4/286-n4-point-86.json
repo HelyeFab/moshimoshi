@@ -1,0 +1,87 @@
+{
+  "id": "286-n4-point-86",
+  "version": "1.0.0",
+  "title": {
+    "ja": "そんなに～",
+    "romaji": "sonna ni〜",
+    "en": "Not so much / Not that"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The grammar point そんなに is an adverb used to express that something is not as extreme as described or not to that extent. It is often translated as 'not so much', 'not that', or 'not so ~'. It is commonly followed by a negative form of a verb or adjective.",
+    "ja": "そんなには、そのような程度ではないことを表現する副詞です。主に動詞や形容詞の否定形と組み合わせて使われます。"
+  },
+  "structure": {
+    "pattern": "そんなに + Verb-negation, そんなに + Adjective-negation",
+    "components": [
+      {
+        "part": "そんなに",
+        "explanation": "Adverb indicating 'not so much'",
+        "examples": [
+          "そんなに急がなくてもいいです。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "そんなに急がなくてもいいですよ。",
+      "romaji": "Sonna ni isoganakutemo ii desu yo.",
+      "english": "You don't have to hurry that much.",
+      "breakdown": {
+        "そんなに": "not so much",
+        "急がないで": "don't hurry"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "そんなに難しくない問題だと思います。",
+      "romaji": "Sonna ni muzukashikunai mondai da to omoimasu.",
+      "english": "I don't think the problem is that difficult.",
+      "breakdown": {
+        "そんなに": "not so",
+        "難しくない": "not difficult"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女はそんなに背が高くありません。",
+      "romaji": "Kanojo wa sonna ni se ga takaku arimasen.",
+      "english": "She is not that tall.",
+      "breakdown": {
+        "そんなに": "not so",
+        "高い": "tall"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "そんなにたくさん食べる必要はないと思う。",
+      "romaji": "Sonna ni takusan taberu hitsuyou wa nai to omou.",
+      "english": "I don't think there's a need to eat so much.",
+      "breakdown": {
+        "そんなに": "not so",
+        "たくさんの": "much"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Noun しか～ない",
+    "～かもしれない",
+    "～と思う"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "そんなに急がなくてもいいです。",
+      "correction": "そんなに急がなくていいです。",
+      "example": "When the verb is in negative form, ても can be replaced by で to make a more natural sentence."
+    }
+  ],
+  "tags": [
+    "n4",
+    "adverb",
+    "negation",
+    "expression"
+  ]
+}

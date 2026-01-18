@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "058-toki-when",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "058-toki-when-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct form: 日本に行く__写真を撮ります。",
+      "options": [
+        { "id": "a", "text": "時" },
+        { "id": "b", "text": "前に" },
+        { "id": "c", "text": "後で" },
+        { "id": "d", "text": "から" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行く時 means 'when I go.'",
+      "incorrectFeedback": "Not quite. Use 時 for 'when.'",
+      "explanation": "時 connects the time/condition to the action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "058-toki-when-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "暇な時、映画を見ます。" },
+        { "id": "b", "text": "暇時、映画を見ます。" },
+        { "id": "c", "text": "暇に時、映画を見ます。" },
+        { "id": "d", "text": "暇だ時、映画を見ます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use な with na-adjectives before 時.",
+      "incorrectFeedback": "Try again. Use 暇な時.",
+      "explanation": "Na-adjectives use な before 時.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "058-toki-when-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'When I go to Japan, I take photos.'",
+      "correctAnswer": "日本に行く時、写真を撮ります",
+      "acceptedVariations": [
+        "日本に行く時、写真を撮ります。",
+        "にほんにいくとき、しゃしんをとります",
+        "nihon ni iku toki, shashin o torimasu",
+        "nihon ni iku toki, shashin o torimasu."
+      ],
+      "correctFeedback": "Great! 日本に行く時、写真を撮ります is correct.",
+      "incorrectFeedback": "The correct answer is: 日本に行く時、写真を撮ります (nihon ni iku toki, shashin o torimasu).",
+      "explanation": "Use dictionary form + 時 for general/future.",
+      "hints": ["行く = go", "写真を撮ります = take photos"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "058-toki-when-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct form: 帰った__シャワーを浴びます。",
+      "options": [
+        { "id": "a", "text": "時" },
+        { "id": "b", "text": "前に" },
+        { "id": "c", "text": "後で" },
+        { "id": "d", "text": "まで" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 帰った時 means 'when I got home.'",
+      "incorrectFeedback": "Not quite. Use 時 for 'when.'",
+      "explanation": "Past form + 時 refers to a past time.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "058-toki-when-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'When I am free, I watch movies.'",
+      "correctAnswer": "暇な時、映画を見ます",
+      "acceptedVariations": [
+        "暇な時、映画を見ます。",
+        "ひまなとき、えいがをみます",
+        "hima na toki, eiga o mimasu",
+        "hima na toki, eiga o mimasu."
+      ],
+      "correctFeedback": "Nice! 暇な時、映画を見ます is correct.",
+      "incorrectFeedback": "The correct answer is: 暇な時、映画を見ます (hima na toki, eiga o mimasu).",
+      "explanation": "Na-adjective + な + 時.",
+      "hints": ["暇 = free", "映画を見ます = watch movies"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "058-toki-when-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "日本に行く時、写真を撮ります。" },
+        { "id": "b", "text": "家に帰った時、シャワーを浴びます。" },
+        { "id": "c", "text": "暇時、映画を見ます。" },
+        { "id": "d", "text": "雨の時、家にいます。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use 暇な時 with na-adjectives.",
+      "incorrectFeedback": "Try again. Na-adjectives need な before 時.",
+      "explanation": "暇 is a na-adjective, so use 暇な時.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "058-toki-when-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'When it rains, I stay home.'",
+      "correctAnswer": "雨の時、家にいます",
+      "acceptedVariations": [
+        "雨の時、家にいます。",
+        "あめのとき、いえにいます",
+        "ame no toki, ie ni imasu",
+        "ame no toki, ie ni imasu."
+      ],
+      "correctFeedback": "Great! 雨の時、家にいます is correct.",
+      "incorrectFeedback": "The correct answer is: 雨の時、家にいます (ame no toki, ie ni imasu).",
+      "explanation": "Use Noun + の + 時.",
+      "hints": ["雨 = rain", "家にいます = stay home"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "058-toki-when-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "日本に行く時、写真を撮ります。",
+          "romaji": "Nihon ni iku toki, shashin o torimasu.",
+          "english": "When I go to Japan, I take photos."
+        },
+        {
+          "japanese": "暇な時、映画を見ます。",
+          "romaji": "Hima na toki, eiga o mimasu.",
+          "english": "When I am free, I watch movies."
+        },
+        {
+          "japanese": "雨の時、家にいます。",
+          "romaji": "Ame no toki, ie ni imasu.",
+          "english": "When it rains, I stay home."
+        }
+      ],
+      "correctFeedback": "Perfect! All use 時 to mean 'when.'",
+      "incorrectFeedback": "Not quite. Review 時 usage.",
+      "explanation": "時 connects the time/condition with the action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "058-toki-when-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'when I ate'?",
+      "options": [
+        { "id": "a", "text": "食べた時" },
+        { "id": "b", "text": "食べる時" },
+        { "id": "c", "text": "食べます時" },
+        { "id": "d", "text": "食べに時" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 食べた時 refers to a past time.",
+      "incorrectFeedback": "Try again. Use past short form for past time.",
+      "explanation": "Past form + 時 = when you did something.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "058-toki-when-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'When I got home, I took a shower.'",
+      "correctAnswer": "家に帰った時、シャワーを浴びました",
+      "acceptedVariations": [
+        "家に帰った時、シャワーを浴びました。",
+        "いえにかえったとき、しゃわーをあびました",
+        "ie ni kaetta toki, shawaa o abimashita",
+        "ie ni kaetta toki, shawaa o abimashita."
+      ],
+      "correctFeedback": "Nice! 家に帰った時、シャワーを浴びました is correct.",
+      "incorrectFeedback": "The correct answer is: 家に帰った時、シャワーを浴びました (ie ni kaetta toki, shawaa o abimashita).",
+      "explanation": "Past form + 時 connects two past events.",
+      "hints": ["帰った = returned", "浴びました = took (a shower)"],
+      "difficulty": "hard"
+    }
+  ]
+}

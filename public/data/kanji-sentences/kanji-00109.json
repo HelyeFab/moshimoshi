@@ -1,0 +1,33 @@
+{
+  "kanji": "歌",
+  "sentences": [
+    {
+      "id": "5208",
+      "japanese": "あまりに馬鹿げていて言葉にできないことは歌うことで生み出される。",
+      "english": "Anything that is too stupid to be spoken is sung."
+    },
+    {
+      "id": "177866",
+      "japanese": "君はここで歌うつもりですか。",
+      "english": "Are you going to sing here?"
+    },
+    {
+      "id": "178434",
+      "japanese": "君の歌はプロ顔負けだ。",
+      "english": "Your singing puts professional singers to shame."
+    },
+    {
+      "id": "178701",
+      "japanese": "君にその歌を歌ってほしい。",
+      "english": "We want you to sing the song."
+    },
+    {
+      "id": "10280525",
+      "japanese": "あの歌を歌って欲しいな。",
+      "english": "We want you to sing the song."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.691Z",
+  "count": 5,
+  "fileId": "kanji-00109"
+}

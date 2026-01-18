@@ -7,7 +7,7 @@ import { getAuth } from 'firebase/auth'
 import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, enableNetwork, disableNetwork } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 import { getAnalytics, isSupported } from 'firebase/analytics'
-import { firebaseConfig } from './config'
+import { firebaseConfig } from './config-base'
 
 // Initialize Firebase only once
 const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp()
@@ -63,6 +63,7 @@ if (typeof window !== 'undefined') {
 }
 
 export { firestore }
+export const db = firestore
 export const storage = getStorage(app)
 
 // Initialize analytics only on client side and if supported

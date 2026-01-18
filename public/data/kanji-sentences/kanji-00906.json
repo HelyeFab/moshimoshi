@@ -1,0 +1,23 @@
+{
+  "kanji": "武",
+  "sentences": [
+    {
+      "id": "83688",
+      "japanese": "文は武に勝る。",
+      "english": "The pen is mightier than the sword."
+    },
+    {
+      "id": "225567",
+      "japanese": "クラスメートはみな武を待った。",
+      "english": "All of the classmates waited for Takeshi."
+    },
+    {
+      "id": "84267",
+      "japanese": "武は来るには来たが、すぐ帰った。",
+      "english": "Takeshi did come, but didn't stay long."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.987Z",
+  "count": 3,
+  "fileId": "kanji-00906"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "袖",
+  "sentences": [
+    {
+      "id": "189920",
+      "japanese": "右の袖をあげてください。",
+      "english": "Roll up your right sleeve."
+    },
+    {
+      "id": "199328",
+      "japanese": "ない袖は振れぬ。",
+      "english": "An empty bag can't stand upright."
+    },
+    {
+      "id": "1088974",
+      "japanese": "ない袖は振れない。",
+      "english": "An empty bag can't stand upright."
+    },
+    {
+      "id": "214071",
+      "japanese": "セーターの袖がほぐれ始めた。",
+      "english": "The sleeves of the sweater began to unravel."
+    },
+    {
+      "id": "230683",
+      "japanese": "あの政治家に会うつもりなら、袖の下を使わない限り駄目だね。",
+      "english": "That politician won't meet you unless you grease his palm."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:29.994Z",
+  "count": 5,
+  "fileId": "kanji-01583"
+}

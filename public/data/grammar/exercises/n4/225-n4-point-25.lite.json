@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "225-n4-point-25",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "225-n4-point-25-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb ta hou ga ii\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "動詞たほうがいい",
+          "romaji": "Doushi ta hou ga ii"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! 動詞たほうがいい matches \"Verb ta hou ga ii\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞たほうがいい.",
+      "explanation": "Gives advice or suggestions using the verb's past (ta) form plus ほうがいい.",
+      "difficulty": "easy"
+    }
+  ]
+}

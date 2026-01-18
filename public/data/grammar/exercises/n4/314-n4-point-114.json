@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "314-n4-point-114",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "314-n4-point-114-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"until/up to\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~まで",
+          "romaji": "~made"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ~まで matches \"until/up to\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ~まで.",
+      "explanation": "Expresses the limit or endpoint of time, place, or action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "314-n4-point-114-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ~まで.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "until/up to"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ~まで means \"until/up to\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"until/up to\".",
+      "explanation": "Expresses the limit or endpoint of time, place, or action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "314-n4-point-114-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ~まで.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~made"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ~made is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~made.",
+      "explanation": "Expresses the limit or endpoint of time, place, or action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "314-n4-point-114-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ~まで?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expresses the limit or endpoint of time, place, or action."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses the limit or endpoint of time, place, or action.",
+      "explanation": "Expresses the limit or endpoint of time, place, or action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "314-n4-point-114-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"until/up to\".",
+      "correctAnswer": "~まで",
+      "acceptedVariations": [
+        "~まで",
+        "~まで"
+      ],
+      "correctFeedback": "Nice! ~まで is correct.",
+      "incorrectFeedback": "The correct pattern is: ~まで (~made).",
+      "explanation": "Expresses the limit or endpoint of time, place, or action.",
+      "hints": [
+        "~made",
+        "Expresses the limit or endpoint of time, place, or action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "314-n4-point-114-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ~まで.",
+      "correctAnswer": "~made",
+      "acceptedVariations": [
+        "~made",
+        "~made"
+      ],
+      "correctFeedback": "Nice! ~made is correct.",
+      "incorrectFeedback": "The correct romaji is: ~made.",
+      "explanation": "Expresses the limit or endpoint of time, place, or action.",
+      "hints": [
+        "Expresses the limit or endpoint of time, place, or action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "314-n4-point-114-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ~まで.",
+      "correctAnswer": "until/up to",
+      "acceptedVariations": [
+        "until/up to",
+        "until/up to"
+      ],
+      "correctFeedback": "Correct! \"until/up to\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"until/up to\".",
+      "explanation": "Expresses the limit or endpoint of time, place, or action.",
+      "hints": [
+        "Expresses the limit or endpoint of time, place, or action."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "314-n4-point-114-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "~まで",
+          "romaji": "~made",
+          "english": "until/up to"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses the limit or endpoint of time, place, or action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "314-n4-point-114-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses the limit or endpoint of time, place, or action..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~まで",
+          "romaji": "~made"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ~まで matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ~まで.",
+      "explanation": "Expresses the limit or endpoint of time, place, or action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "314-n4-point-114-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "~まで",
+      "acceptedVariations": [
+        "~まで",
+        "~まで"
+      ],
+      "correctFeedback": "Great! ~まで is correct.",
+      "incorrectFeedback": "The correct pattern is: ~まで.",
+      "explanation": "Expresses the limit or endpoint of time, place, or action.",
+      "hints": [
+        "~made"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

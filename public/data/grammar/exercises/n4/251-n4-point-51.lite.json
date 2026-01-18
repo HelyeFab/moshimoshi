@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "251-n4-point-51",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "251-n4-point-51-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Decide not to do something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb ない + ことにする",
+          "romaji": "Verb nai koto ni suru"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Verb ない + ことにする matches \"Decide not to do something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ない + ことにする.",
+      "explanation": "Express a personal decision to not do something or refrain from an action.",
+      "difficulty": "easy"
+    }
+  ]
+}

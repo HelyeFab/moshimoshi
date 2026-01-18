@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "292-n4-point-92",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "292-n4-point-92-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"That is to say\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～っていう",
+          "romaji": "~tte iu"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ～っていう matches \"That is to say\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～っていう.",
+      "explanation": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

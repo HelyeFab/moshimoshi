@@ -1,0 +1,33 @@
+{
+  "kanji": "漏",
+  "sentences": [
+    {
+      "id": "5305",
+      "japanese": "私は秘密を漏らしたりしません。",
+      "english": "Your secret will be safe with me."
+    },
+    {
+      "id": "189359",
+      "japanese": "雲間から一条の光が漏れてきた。",
+      "english": "A beam of sunlight came through the clouds."
+    },
+    {
+      "id": "189704",
+      "japanese": "雨が降ると必ず屋根から雨水が漏る。",
+      "english": "Every time it rains, the roof leaks."
+    },
+    {
+      "id": "190951",
+      "japanese": "医師が患者の秘密を漏らすのは道義にもとる。",
+      "english": "It is not ethical for a doctor to reveal confidences."
+    },
+    {
+      "id": "194817",
+      "japanese": "メアリーはジムが彼女の友人の何人かに秘密を漏らしたと疑って、彼に腹を立てた。",
+      "english": "Suspecting him of telling her secret to some of her friends, Mary was angry with Jim."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:29.666Z",
+  "count": 5,
+  "fileId": "kanji-01568"
+}

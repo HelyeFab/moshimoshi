@@ -1,0 +1,33 @@
+{
+  "kanji": "険",
+  "sentences": [
+    {
+      "id": "220584",
+      "japanese": "この地点から登りが急に険しくなった。",
+      "english": "From this point the climb suddenly became steep."
+    },
+    {
+      "id": "97239",
+      "japanese": "彼らは険しい北面を登った。",
+      "english": "They climbed the rugged north face."
+    },
+    {
+      "id": "107643",
+      "japanese": "彼は険しい斜面をじっと見た。",
+      "english": "He stared at the steep slope."
+    },
+    {
+      "id": "165873",
+      "japanese": "私たちは険しい山を登った。",
+      "english": "We climbed up the steep mountain."
+    },
+    {
+      "id": "165874",
+      "japanese": "私たちは険しい坂を登った。",
+      "english": "We climbed the steep slope."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.495Z",
+  "count": 5,
+  "fileId": "kanji-00326"
+}

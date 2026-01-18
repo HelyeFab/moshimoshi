@@ -1,0 +1,55 @@
+{
+  "id": "203-n4-point-3",
+  "version": "1.0.0",
+  "title": {
+    "ja": "A は B ほど～ない (A wa B hodo ~ nai)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The A は B ほど～ない grammar point is used to express that A is not as ~ as B in some aspect. It can be translated as 'not as...as' in English. This structure is commonly used with い-adjectives (without い) and な-adjective. For verbs, you can use the negative potential form.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "A は B ほど + い-Adjective stem (without い) + くない, な-Adjective + じゃない, Verb-negative potential form",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "山田さんは鈴木さんほど背が高くない。",
+      "romaji": "Yamada-san wa Suzuki-san hodo se ga takakunai.",
+      "english": "Yamada is not as tall as Suzuki.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このリンゴはあのリンゴほど甘くない。",
+      "romaji": "Kono ringo wa ano ringo hodo amakunai.",
+      "english": "This apple is not as sweet as that apple.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は私ほど勉強ができない。",
+      "romaji": "Kare wa watashi hodo benkyou ga dekinai.",
+      "english": "He can't study as well as I can.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このレストランはあのレストランほど静かじゃない。",
+      "romaji": "Kono resutoran wa ano resutoran hodo shizuka janai.",
+      "english": "This restaurant is not as quiet as that restaurant.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

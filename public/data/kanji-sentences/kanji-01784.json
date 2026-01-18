@@ -1,0 +1,33 @@
+{
+  "kanji": "濁",
+  "sentences": [
+    {
+      "id": "122047",
+      "japanese": "尿の色が濁っています。",
+      "english": "My urine is cloudy."
+    },
+    {
+      "id": "141358",
+      "japanese": "川は泥で濁っていた。",
+      "english": "The river was cloudy with silt."
+    },
+    {
+      "id": "143624",
+      "japanese": "水面から飛び立つ鳥は努めてあとを濁さぬようにする。",
+      "english": "A bird flying out of the water is careful not to cause turbulence."
+    },
+    {
+      "id": "11598315",
+      "japanese": "湖の水は濁っている。",
+      "english": "The water in the lake is murky."
+    },
+    {
+      "id": "11891600",
+      "japanese": "コップの水は濁ってる。",
+      "english": "The water in the glass is cloudy."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:36.877Z",
+  "count": 5,
+  "fileId": "kanji-01784"
+}

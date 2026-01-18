@@ -1,0 +1,118 @@
+{
+  "id": "244-n4-point-44",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞てしまう",
+    "romaji": "doushi te shimau",
+    "en": "Verb てしまう"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The grammar point ～てしまう is used to express unintentional or regrettable actions, or to show that something has been completed (often with a sense of finality or regret). It is often translated as 'to end up doing,' 'to finish doing,' or 'to accidentally do.' Attach しまう to the て-form of a verb.",
+    "ja": "「～てしまう」は、意図せずに起こったことや後悔の気持ちを表すとき、または何かが完了したことを強調するときに使います。動詞のて形に「しまう」をつけます。"
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + しまう",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "The verb in its て-form (e.g., 食べて, 忘れて, 言って, 買って)",
+        "examples": [
+          "食べて",
+          "忘れて",
+          "言って",
+          "買って"
+        ]
+      },
+      {
+        "part": "しまう",
+        "explanation": "An auxiliary verb expressing completion or regret.",
+        "examples": [
+          "しまう",
+          "しまいました",
+          "しまった"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "ケーキを全部食べてしまった。",
+      "romaji": "Keeki wo zenbu tabete shimatta.",
+      "english": "I ended up eating the whole cake.",
+      "breakdown": {
+        "ケーキ": "cake",
+        "を": "object marker",
+        "全部": "all/whole",
+        "食べて": "eat (te-form)",
+        "しまった": "ended up (regret/completion)"
+      },
+      "notes": "Shows regret or unintended completion."
+    },
+    {
+      "japanese": "宿題を忘れてしまいました。",
+      "romaji": "Shukudai wo wasurete shimaimashita.",
+      "english": "I accidentally forgot my homework.",
+      "breakdown": {
+        "宿題": "homework",
+        "を": "object marker",
+        "忘れて": "forget (te-form)",
+        "しまいました": "accidentally did (polite)"
+      },
+      "notes": "Polite form, expresses accidental action."
+    },
+    {
+      "japanese": "彼に秘密を言ってしまった。",
+      "romaji": "Kare ni himitsu wo itte shimatta.",
+      "english": "I accidentally told him the secret.",
+      "breakdown": {
+        "彼に": "to him",
+        "秘密": "secret",
+        "を": "object marker",
+        "言って": "say (te-form)",
+        "しまった": "accidentally did"
+      },
+      "notes": "Implies the speaker regrets telling the secret."
+    },
+    {
+      "japanese": "値札を見ずに高い服を買ってしまった。",
+      "romaji": "Nefuda wo mizu ni takai fuku wo katte shimatta.",
+      "english": "I ended up buying expensive clothes without looking at the price tag.",
+      "breakdown": {
+        "値札": "price tag",
+        "を": "object marker",
+        "見ずに": "without looking",
+        "高い服": "expensive clothes",
+        "買って": "buy (te-form)",
+        "しまった": "ended up (regret)"
+      },
+      "notes": "Emphasizes the unintended result."
+    }
+  ],
+  "relatedPoints": [
+    "てしまう (spoken contraction: ちゃう/じゃう)",
+    "〜ている",
+    "〜てみる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using the plain form of the verb instead of the て-form.",
+      "correction": "Use the て-form of the verb before しまう.",
+      "example": "× 食べしまった → 〇 食べてしまった"
+    },
+    {
+      "mistake": "Omitting しまう when expressing regret.",
+      "correction": "Include しまう to show regret or unintentional action.",
+      "example": "× ケーキを全部食べた → 〇 ケーキを全部食べてしまった"
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "regret",
+    "completion",
+    "te-form",
+    "auxiliary"
+  ]
+}

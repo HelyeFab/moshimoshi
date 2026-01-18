@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "052-duration-particle-kan",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "052-duration-particle-kan-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct duration expression: 'for two hours'",
+      "options": [
+        { "id": "a", "text": "二時間" },
+        { "id": "b", "text": "二時間に" },
+        { "id": "c", "text": "二時間で" },
+        { "id": "d", "text": "二時間を" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 二時間 means 'for two hours.'",
+      "incorrectFeedback": "Not quite. Use the plain duration without に.",
+      "explanation": "Duration uses the time word directly (often with 間).",
+      "difficulty": "easy"
+    },
+    {
+      "id": "052-duration-particle-kan-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "五分間待ちます。" },
+        { "id": "b", "text": "五分に待ちます。" },
+        { "id": "c", "text": "五分で待ちます。" },
+        { "id": "d", "text": "五分を待ちます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 五分間待ちます is natural.",
+      "incorrectFeedback": "Try again. Use 間 for duration.",
+      "explanation": "五分間 shows the duration of waiting.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "052-duration-particle-kan-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I study for three hours.'",
+      "correctAnswer": "三時間勉強します",
+      "acceptedVariations": [
+        "三時間勉強します。",
+        "さんじかんべんきょうします",
+        "sanjikan benkyou shimasu",
+        "sanjikan benkyou shimasu."
+      ],
+      "correctFeedback": "Great! 三時間勉強します is correct.",
+      "incorrectFeedback": "The correct answer is: 三時間勉強します (sanjikan benkyou shimasu).",
+      "explanation": "Use the duration before the verb.",
+      "hints": ["三時間 = three hours", "勉強します = study"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "052-duration-particle-kan-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence:",
+      "options": [
+        { "id": "a", "text": "一週間休みます。" },
+        { "id": "b", "text": "一週間に休みます。" },
+        { "id": "c", "text": "一週間で休みます。" },
+        { "id": "d", "text": "一週間を休みます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 一週間休みます means 'rest for one week.'",
+      "incorrectFeedback": "Not quite. Use a duration without に.",
+      "explanation": "Time duration goes directly before the verb.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "052-duration-particle-kan-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I will wait for five minutes.'",
+      "correctAnswer": "五分間待ちます",
+      "acceptedVariations": [
+        "五分間待ちます。",
+        "ごふんかんまちます",
+        "gofunkan machimasu",
+        "gofunkan machimasu."
+      ],
+      "correctFeedback": "Nice! 五分間待ちます is correct.",
+      "incorrectFeedback": "The correct answer is: 五分間待ちます (gofunkan machimasu).",
+      "explanation": "五分間 shows the duration of waiting.",
+      "hints": ["五分 = five minutes", "待ちます = wait"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "052-duration-particle-kan-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "三日間日本にいます。" },
+        { "id": "b", "text": "二時間勉強します。" },
+        { "id": "c", "text": "一週間に休みます。" },
+        { "id": "d", "text": "五分間待ちます。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use duration without に.",
+      "incorrectFeedback": "Try again. Duration does not use に.",
+      "explanation": "Use 一週間休みます, not 一週間に休みます.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "052-duration-particle-kan-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I will be in Japan for three days.'",
+      "correctAnswer": "三日間日本にいます",
+      "acceptedVariations": [
+        "三日間日本にいます。",
+        "みっかかんにほんにいます",
+        "mikka-kan nihon ni imasu",
+        "mikka-kan nihon ni imasu."
+      ],
+      "correctFeedback": "Great! 三日間日本にいます is correct.",
+      "incorrectFeedback": "The correct answer is: 三日間日本にいます (mikka-kan nihon ni imasu).",
+      "explanation": "三日間 shows the duration of staying.",
+      "hints": ["三日間 = three days", "います = be"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "052-duration-particle-kan-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "二時間勉強します。",
+          "romaji": "Ni-jikan benkyou shimasu.",
+          "english": "I study for two hours."
+        },
+        {
+          "japanese": "五分間待ちます。",
+          "romaji": "Gofun-kan machimasu.",
+          "english": "I wait for five minutes."
+        },
+        {
+          "japanese": "一週間休みます。",
+          "romaji": "Isshuukan yasumimasu.",
+          "english": "I rest for one week."
+        }
+      ],
+      "correctFeedback": "Perfect! All sentences show duration.",
+      "incorrectFeedback": "Not quite. Review duration expressions.",
+      "explanation": "Time duration goes directly before the verb.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "052-duration-particle-kan-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'for ten minutes'?",
+      "options": [
+        { "id": "a", "text": "十分間" },
+        { "id": "b", "text": "十分に" },
+        { "id": "c", "text": "十分で" },
+        { "id": "d", "text": "十分を" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 十分間 means 'for ten minutes.'",
+      "incorrectFeedback": "Try again. Use 間 for duration.",
+      "explanation": "Minutes + 間 shows duration.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "052-duration-particle-kan-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I work for eight hours.'",
+      "correctAnswer": "八時間働きます",
+      "acceptedVariations": [
+        "八時間働きます。",
+        "はちじかんはたらきます",
+        "hachijikan hatarakimasu",
+        "hachijikan hatarakimasu."
+      ],
+      "correctFeedback": "Nice! 八時間働きます is correct.",
+      "incorrectFeedback": "The correct answer is: 八時間働きます (hachijikan hatarakimasu).",
+      "explanation": "Use the duration before the verb.",
+      "hints": ["八時間 = eight hours", "働きます = work"],
+      "difficulty": "hard"
+    }
+  ]
+}

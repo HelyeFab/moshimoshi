@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "037-plain-form-past",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "037-plain-form-past-ex-01",
+      "type": "multiple-choice",
+      "question": "Which is the plain past of 行く?",
+      "options": [
+        {
+          "id": "a",
+          "text": "行った"
+        },
+        {
+          "id": "b",
+          "text": "行きます"
+        },
+        {
+          "id": "c",
+          "text": "行く"
+        },
+        {
+          "id": "d",
+          "text": "行きません"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行く → 行った.",
+      "incorrectFeedback": "Not quite. Plain past is 行った.",
+      "explanation": "U-verb past form is 行った.",
+      "difficulty": "easy"
+    }
+  ]
+}

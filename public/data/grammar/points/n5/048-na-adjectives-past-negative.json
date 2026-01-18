@@ -1,0 +1,100 @@
+{
+  "id": "048-na-adjectives-past-negative",
+  "version": "1.0.0",
+  "title": {
+    "ja": "な形容詞（過去否定）",
+    "romaji": "na-keiyoushi (past negative)",
+    "en": "na-adjectives (past negative)"
+  },
+  "jlptLevel": "N5",
+  "category": "adjectives",
+  "explanation": {
+    "en": "The past negative form of な-adjectives is made with ではありませんでした. It means “was not.”\n\nKey points:\n• な-adjective past negative: adjective + ではありませんでした\n• Polite and common for past negative statements\n• Casual form: じゃありませんでした\n• Same pattern as nouns in past negative\n\nFor example, “静か” becomes “静かではありませんでした” (was not quiet). “便利” becomes “便利ではありませんでした” (was not convenient).\n\nYou can say “昨日の店はきれいではありませんでした” to mean “The shop was not clean.”\n\nRemember: な-adjectives use でした/ではありませんでした just like nouns.\n\nPractice with common adjectives: きれいではありませんでした, しずかではありませんでした, べんりではありませんでした.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "na-adjective + ではありませんでした",
+    "components": [
+      {
+        "part": "na-adjective",
+        "explanation": "Adjective base",
+        "examples": ["静か", "便利", "きれい"]
+      },
+      {
+        "part": "ではありませんでした",
+        "explanation": "Polite past negative copula",
+        "examples": ["ではありませんでした"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "昨日の部屋は静かではありませんでした。",
+      "romaji": "Kinou no heya wa shizuka de wa arimasen deshita.",
+      "english": "The room was not quiet yesterday.",
+      "breakdown": {
+        "昨日の": "yesterday's",
+        "部屋": "room",
+        "は": "topic marker",
+        "静か": "quiet",
+        "ではありませんでした": "was not (polite)"
+      },
+      "notes": "Past negative description"
+    },
+    {
+      "japanese": "この店は便利ではありませんでした。",
+      "romaji": "Kono mise wa benri de wa arimasen deshita.",
+      "english": "This shop was not convenient.",
+      "breakdown": {
+        "この": "this",
+        "店": "shop",
+        "は": "topic marker",
+        "便利": "convenient",
+        "ではありませんでした": "was not"
+      },
+      "notes": "Past negative evaluation"
+    },
+    {
+      "japanese": "旅行は暇ではありませんでした。",
+      "romaji": "Ryokou wa hima de wa arimasen deshita.",
+      "english": "The trip was not boring/free.",
+      "breakdown": {
+        "旅行": "trip",
+        "は": "topic marker",
+        "暇": "free/boring",
+        "ではありませんでした": "was not"
+      },
+      "notes": "Past negative state"
+    },
+    {
+      "japanese": "昨日の町はにぎやかではありませんでした。",
+      "romaji": "Kinou no machi wa nigiyaka de wa arimasen deshita.",
+      "english": "The town was not lively yesterday.",
+      "breakdown": {
+        "昨日の": "yesterday's",
+        "町": "town",
+        "は": "topic marker",
+        "にぎやか": "lively",
+        "ではありませんでした": "was not"
+      },
+      "notes": "Past negative adjective"
+    }
+  ],
+  "relatedPoints": [
+    "047-na-adjectives-negative",
+    "046-na-adjectives-past"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using くなかった with な-adjectives",
+      "correction": "Use ではありませんでした",
+      "example": "❌ 便利くなかった → ✅ 便利ではありませんでした"
+    },
+    {
+      "mistake": "Dropping では from the phrase",
+      "correction": "Keep ではありませんでした",
+      "example": "❌ 静かありませんでした → ✅ 静かではありませんでした"
+    }
+  ],
+  "tags": ["adjectives", "na-adjectives", "past-negative", "beginner"]
+}

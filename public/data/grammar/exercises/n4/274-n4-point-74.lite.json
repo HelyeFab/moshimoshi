@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "274-n4-point-74",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "274-n4-point-74-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Expressing uncertainty\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～かしら",
+          "romaji": "~kashira"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ～かしら matches \"Expressing uncertainty\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～かしら.",
+      "explanation": "Used to express uncertainty or wonder, often translated as \"I wonder.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

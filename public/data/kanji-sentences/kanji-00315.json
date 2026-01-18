@@ -1,0 +1,33 @@
+{
+  "kanji": "破",
+  "sentences": [
+    {
+      "id": "5095",
+      "japanese": "彼は約束を破った。",
+      "english": "He broke his word."
+    },
+    {
+      "id": "177366",
+      "japanese": "君は規則を破った。",
+      "english": "You broke the rule."
+    },
+    {
+      "id": "178532",
+      "japanese": "君のシャツは破れている。別のシャツを着た方がいい。",
+      "english": "Your shirt is torn. You better put on another shirt."
+    },
+    {
+      "id": "182853",
+      "japanese": "吉田氏は決して約束を破らない。",
+      "english": "Mr Yoshida never breaks his promise."
+    },
+    {
+      "id": "183097",
+      "japanese": "規則を破ればだれでもすぐに出て行ってもらいます。",
+      "english": "Anyone breaking the rules will be asked to leave on the spot."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.350Z",
+  "count": 5,
+  "fileId": "kanji-00315"
+}

@@ -1,0 +1,109 @@
+{
+  "id": "002-x-wa-y-de-wa-arimasen",
+  "version": "1.0.0",
+  "title": {
+    "ja": "XはYではありません",
+    "romaji": "X wa Y de wa arimasen",
+    "en": "X is not Y"
+  },
+  "jlptLevel": "N5",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "This pattern is the polite negative form of XはYです. It says that X is not Y. You still mark the topic with は, but you change the ending to ではありません (de wa arimasen) to make it negative and polite.\n\nKey points:\n• は still marks the topic\n• ではありません means “is not / am not / are not”\n• The word order is the same as the positive sentence\n• Use it for identity, description, and simple facts\n\nThink of ではありません as the polite “not.” For example, “私は学生ではありません” means “I am not a student.” This is useful when you want to correct information or make a polite denial.\n\nThere is also a shorter polite form: じゃありません. It is common in speech, but ではありません is more formal and safe for beginners. Start with ではありません to be clear and polite.\n\nThe rest of the sentence does not change. You can replace X and Y with nouns or な-adjectives, and even い-adjectives with です. Just keep the pattern: X は Y ではありません. This makes it easy to turn any basic statement into a polite negative.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "X は Y ではありません",
+    "components": [
+      {
+        "part": "X",
+        "explanation": "The topic (person, thing, or idea)",
+        "examples": ["私", "この本", "田中さん"]
+      },
+      {
+        "part": "は",
+        "explanation": "Topic marker particle (wa)",
+        "examples": ["は"]
+      },
+      {
+        "part": "Y",
+        "explanation": "The identity or description",
+        "examples": ["学生", "日本人", "先生", "しずか"]
+      },
+      {
+        "part": "ではありません",
+        "explanation": "Polite negative of です",
+        "examples": ["ではありません"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私は学生ではありません。",
+      "romaji": "Watashi wa gakusei de wa arimasen.",
+      "english": "I am not a student.",
+      "breakdown": {
+        "私": "I, me",
+        "は": "topic marker (wa)",
+        "学生": "student",
+        "ではありません": "am not (polite)"
+      },
+      "notes": "Polite negative self-introduction"
+    },
+    {
+      "japanese": "これは私の本ではありません。",
+      "romaji": "Kore wa watashi no hon de wa arimasen.",
+      "english": "This is not my book.",
+      "breakdown": {
+        "これ": "this",
+        "は": "topic marker",
+        "私の": "my",
+        "本": "book",
+        "ではありません": "is not (polite)"
+      },
+      "notes": "Denying ownership"
+    },
+    {
+      "japanese": "田中さんは先生ではありません。",
+      "romaji": "Tanaka-san wa sensei de wa arimasen.",
+      "english": "Tanaka-san is not a teacher.",
+      "breakdown": {
+        "田中さん": "Mr./Ms. Tanaka",
+        "は": "topic marker",
+        "先生": "teacher",
+        "ではありません": "is not (polite)"
+      },
+      "notes": "Polite correction"
+    },
+    {
+      "japanese": "この部屋はしずかではありません。",
+      "romaji": "Kono heya wa shizuka de wa arimasen.",
+      "english": "This room is not quiet.",
+      "breakdown": {
+        "この": "this",
+        "部屋": "room",
+        "は": "topic marker",
+        "しずか": "quiet",
+        "ではありません": "is not (polite)"
+      },
+      "notes": "Using a な-adjective in negative"
+    }
+  ],
+  "relatedPoints": [
+    "001-x-wa-y-desu",
+    "006-particle-wa"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Dropping は in the negative",
+      "correction": "The topic marker still appears in negative sentences",
+      "example": "❌ 私学生ではありません → ✅ 私は学生ではありません"
+    },
+    {
+      "mistake": "Using じゃありません in formal writing",
+      "correction": "Use ではありません for the more formal style",
+      "example": "❌ これは本じゃありません → ✅ これは本ではありません"
+    }
+  ],
+  "tags": ["basic", "negative", "polite", "identity"]
+}

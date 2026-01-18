@@ -1,0 +1,33 @@
+{
+  "kanji": "整",
+  "sentences": [
+    {
+      "id": "10808951",
+      "japanese": "列車が発車する準備が整った。",
+      "english": "The train is ready to start."
+    },
+    {
+      "id": "186399",
+      "japanese": "我が社もすぐにインターネットにアクセスできる環境を整えなくては取り残されてしまう。",
+      "english": "If we don't create an environment that enables instant Internet access, our company will also fall behind."
+    },
+    {
+      "id": "194104",
+      "japanese": "もう少し環境を整えてほしい。",
+      "english": "I want you to straighten up the environment a little more."
+    },
+    {
+      "id": "196240",
+      "japanese": "ポッターさんは毎日ジョギングをすることで調子を整えています。",
+      "english": "Mr Potter keeps himself in good condition by going jogging every day."
+    },
+    {
+      "id": "196778",
+      "japanese": "ベッドを整えるために誰かよこして下さいますか。",
+      "english": "Could you send someone up to make the bed?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:50.337Z",
+  "count": 5,
+  "fileId": "kanji-02134"
+}

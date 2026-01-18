@@ -1,0 +1,33 @@
+{
+  "kanji": "自",
+  "sentences": [
+    {
+      "id": "180192",
+      "japanese": "教師は自らの権威を頼みとしてはならない。",
+      "english": "Teachers shouldn't fall back on their authority."
+    },
+    {
+      "id": "182880",
+      "japanese": "議長は自らの見解を非公式に述べるだけだろう。",
+      "english": "The chairman would only make her comments off the record."
+    },
+    {
+      "id": "183937",
+      "japanese": "患者はただ自らの病気に屈して死ぬことがよくある。",
+      "english": "Patients often die simply because they yield to their diseases."
+    },
+    {
+      "id": "185799",
+      "japanese": "我々は自らの文化を次の世代に伝えていかなければならない。",
+      "english": "We have to transmit our culture to the next generation."
+    },
+    {
+      "id": "185800",
+      "japanese": "我々は自らの文化を次の世代に伝えていかなくてはならない。",
+      "english": "We have to transmit our culture to the next generation."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.321Z",
+  "count": 5,
+  "fileId": "kanji-00152"
+}

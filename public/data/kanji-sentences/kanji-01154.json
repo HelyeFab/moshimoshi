@@ -1,0 +1,33 @@
+{
+  "kanji": "級",
+  "sentences": [
+    {
+      "id": "191658",
+      "japanese": "われわれは英検２級に受かるために勉強しているのです。",
+      "english": "We are studying in order to pass the STEP 2nd grade test."
+    },
+    {
+      "id": "197099",
+      "japanese": "フライ級チャンピオンは強い挑戦者と戦った。",
+      "english": "The flyweight champion contended with a strong challenger."
+    },
+    {
+      "id": "109873",
+      "japanese": "彼は一年飛び級をした。",
+      "english": "He skipped a grade."
+    },
+    {
+      "id": "110847",
+      "japanese": "彼はまだヘビー級の選手権を保持している。",
+      "english": "He still holds the heavyweight title."
+    },
+    {
+      "id": "114969",
+      "japanese": "彼はあしたヘビー級チャンピオンと対戦する。",
+      "english": "He will fight the heavyweight champion tomorrow."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:17.932Z",
+  "count": 5,
+  "fileId": "kanji-01154"
+}

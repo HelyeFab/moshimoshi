@@ -1,0 +1,55 @@
+{
+  "id": "246-n4-point-46",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb てみる (〜te miru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～てみる grammar point is used with verbs to express 'trying' or 'attempting' to do something. It emphasizes the idea of giving something a go or trying it out, often to see what the results or outcome will be.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + みる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "この料理を作ってみます。",
+      "romaji": "Kono ryouri o tsukutte mimasu.",
+      "english": "I will try to make this dish.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "その服を着てみてください。",
+      "romaji": "Sono fuku o kite mite kudasai.",
+      "english": "Please try on those clothes.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "新しいレストランに行ってみよう。",
+      "romaji": "Atarashii resutoran ni itte miyou.",
+      "english": "Let's try going to the new restaurant.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "映画を見てみたいです。",
+      "romaji": "Eiga o mite mitai desu.",
+      "english": "I want to try watching the movie.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

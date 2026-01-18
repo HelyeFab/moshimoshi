@@ -1,0 +1,87 @@
+{
+  "id": "253-n4-point-53",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ないほうがいい",
+    "romaji": "Verb nai hou ga ii",
+    "en": "Better not to [Verb]"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ないほうがいい grammar point is used to suggest that it's better not to do a certain action. It is formed by taking the negative form of the verb and adding ほうがいい.",
+    "ja": "ないほうがいいの文型は、特定の行動をしない方が良いと提案する際に使われます。この形式では、動詞の否定形に「ほうがいい」が追加されます。"
+  },
+  "structure": {
+    "pattern": "{Verb-negative form} + ほうがいい",
+    "components": [
+      {
+        "part": "Verb-negative form",
+        "explanation": "The negative form of the verb.",
+        "examples": [
+          "飲まない (nomanai)",
+          "走らない (hashiranai)"
+        ]
+      },
+      {
+        "part": "ほうがいい",
+        "explanation": "Indicates that it's better not to do something.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この薬は飲まないほうがいいです。",
+      "romaji": "Kono kusuri wa nomanai hou ga ii desu.",
+      "english": "It's better not to take this medicine.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "急いでいるときは、走らないほうがいい。",
+      "romaji": "Isoide iru toki wa, hashiranai hou ga ii.",
+      "english": "When you're in a hurry, it's better not to run.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼に秘密を知られたくなければ、話さないほうがいい。",
+      "romaji": "Kare ni himitsu o shiraretakunakereba, hanasanai hou ga ii.",
+      "english": "If you don't want him to know your secret, it's better not to tell him.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "雨の日には、外出しないほうがいい。",
+      "romaji": "Ame no hi ni wa, gaishutsu shinai hou ga ii.",
+      "english": "It's better not to go out on a rainy day.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "verb-negative-form"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "走るほうがいい。",
+      "correction": "走らないほうがいい。",
+      "example": "When suggesting not to run, use the negative form of the verb."
+    }
+  ],
+  "tags": [
+    "n4",
+    "suggestions",
+    "negative-form",
+    "advice"
+  ]
+}

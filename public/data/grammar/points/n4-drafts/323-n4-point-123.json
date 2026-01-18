@@ -1,0 +1,55 @@
+{
+  "id": "323-n4-point-123",
+  "version": "1.0.0",
+  "title": {
+    "ja": "文A。それに 文B (Bun A. Soreni Bun B)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "This grammar point 文A。それに 文B is used to express an additional statement on what was mentioned earlier. It can be translated as 'in addition to,' 'besides,' or 'on top of that,' in English. It connects two sentences by highlighting supplementary information, opinions, or reasons.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Sentence A + それに + Sentence B",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼は頭がいい。それに、スポーツも得意だ。",
+      "romaji": "Kare wa atama ga ii. Soreni, supo-tsu mo tokui da.",
+      "english": "He is smart. In addition, he is good at sports.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このケーキはおいしい。それに、値段も安い。",
+      "romaji": "Kono keeki wa oishii. Soreni, nedan mo yasui.",
+      "english": "This cake is delicious. Besides, the price is also cheap.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "私は日本語が話せます。それに、韓国語も話せます。",
+      "romaji": "Watashi wa nihongo ga hanasemasu. Soreni, kankokugo mo hanasemasu.",
+      "english": "I can speak Japanese. On top of that, I can also speak Korean.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は美人だ。それに、性格もいい。",
+      "romaji": "Kanojo wa bijin da. Soreni, seikaku mo ii.",
+      "english": "She is beautiful. In addition, she has a good personality.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

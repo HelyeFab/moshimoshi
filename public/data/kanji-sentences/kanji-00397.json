@@ -1,0 +1,33 @@
+{
+  "kanji": "盗",
+  "sentences": [
+    {
+      "id": "178138",
+      "japanese": "君の忠告がなかったら鞄を盗まれるところだった。",
+      "english": "Without your advice, I would have been robbed of my bag."
+    },
+    {
+      "id": "179304",
+      "japanese": "空腹のためにその少年はやむなくレジからお金を盗んだ。",
+      "english": "Hunger compelled the boy to steal money from the cash register."
+    },
+    {
+      "id": "179303",
+      "japanese": "空腹に耐えられず彼は盗みを働いた。",
+      "english": "Hunger drove him to steal."
+    },
+    {
+      "id": "179310",
+      "japanese": "空腹が彼を盗みに駆り立てた。",
+      "english": "Hunger drove him to steal."
+    },
+    {
+      "id": "179752",
+      "japanese": "金の延べ棒１本を盗まれた。",
+      "english": "We had a bar of gold stolen."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.508Z",
+  "count": 5,
+  "fileId": "kanji-00397"
+}

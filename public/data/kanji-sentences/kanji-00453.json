@@ -1,0 +1,33 @@
+{
+  "kanji": "次",
+  "sentences": [
+    {
+      "id": "4865",
+      "japanese": "君が次に分かることは君が新聞に載るってことだ。",
+      "english": "Next thing you know, you'll be in the papers."
+    },
+    {
+      "id": "177213",
+      "japanese": "君は次の昇任予定者です。",
+      "english": "You are the next in line for promotion."
+    },
+    {
+      "id": "178783",
+      "japanese": "君たちは次の世代の人間だ。",
+      "english": "You belong to the next generation."
+    },
+    {
+      "id": "178970",
+      "japanese": "君が次に話し、君は静かにしていなさい。",
+      "english": "You talk next and you be quiet."
+    },
+    {
+      "id": "182484",
+      "japanese": "急げば、次のバスに間に合いますよ。",
+      "english": "If you hurry, you can make the next bus."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.287Z",
+  "count": 5,
+  "fileId": "kanji-00453"
+}

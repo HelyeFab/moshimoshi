@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "214-n4-point-14",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "214-n4-point-14-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Receiving something in a humble manner\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Nounをいただく",
+          "romaji": "Noun wo itadaku"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! Nounをいただく matches \"Receiving something in a humble manner\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Nounをいただく.",
+      "explanation": "Expresses humbly receiving something from someone; polite form of \"もらう\".",
+      "difficulty": "easy"
+    }
+  ]
+}

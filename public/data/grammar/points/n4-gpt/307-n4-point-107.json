@@ -1,0 +1,122 @@
+{
+  "id": "307-n4-point-107",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～なくてもいい",
+    "romaji": "~nakutemo ii",
+    "en": "don't have to / it's okay if not"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The grammar point ～なくてもいい is used to say that something is not necessary or required. It expresses that it is okay if an action does not happen, and is often translated as 'don't have to' or 'it's okay if not' in English. Used with the negative (nai) form of verbs.",
+    "ja": "～なくてもいいは、ある行動や状況が必要ないこと、しなくてもよいことを表します。動詞のない形に付けて使います。"
+  },
+  "structure": {
+    "pattern": "Verb (ない-form) + なくてもいい",
+    "components": [
+      {
+        "part": "Verb (ない-form)",
+        "explanation": "The negative (nai) form of a verb, e.g., 飲まない (nomanai), しない (shinai)",
+        "examples": [
+          "食べない",
+          "行かない",
+          "書かない"
+        ]
+      },
+      {
+        "part": "なくてもいい",
+        "explanation": "Means 'it's okay if not' or 'don't have to'.",
+        "examples": [
+          "飲まなくてもいい",
+          "しなくてもいい"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "コーヒーは飲まなくてもいいです。",
+      "romaji": "Koohii wa nomanakutemo ii desu.",
+      "english": "You don't have to drink the coffee.",
+      "breakdown": {
+        "コーヒー": "coffee",
+        "は": "topic marker",
+        "飲まなくても": "even if (you) don't drink",
+        "いい": "good/okay",
+        "です": "polite ending"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "宿題を今日しなくてもいいです。",
+      "romaji": "Shukudai wo kyou shinakutemo ii desu.",
+      "english": "It's okay if you don't do your homework today.",
+      "breakdown": {
+        "宿題": "homework",
+        "を": "object marker",
+        "今日": "today",
+        "しなくても": "even if (you) don't do",
+        "いい": "good/okay",
+        "です": "polite ending"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "すぐに返事をしなくてもいいですよ。",
+      "romaji": "Sugu ni henji wo shinakutemo ii desu yo.",
+      "english": "You don't have to reply immediately.",
+      "breakdown": {
+        "すぐに": "immediately",
+        "返事": "reply",
+        "を": "object marker",
+        "しなくても": "even if (you) don't do",
+        "いい": "good/okay",
+        "です": "polite ending",
+        "よ": "emphasis"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "全部食べなくてもいいですから、無理しないでください。",
+      "romaji": "Zenbu tabenakutemo ii desu kara, muri shinai de kudasai.",
+      "english": "You don't have to eat everything, so please don't force yourself.",
+      "breakdown": {
+        "全部": "everything",
+        "食べなくても": "even if (you) don't eat",
+        "いい": "good/okay",
+        "です": "polite ending",
+        "から": "because/so",
+        "無理": "overdo/force",
+        "しないで": "don't do",
+        "ください": "please"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～てもいい",
+    "～ないといけない",
+    "名詞をくださる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "コーヒーは飲んでもいいです。",
+      "correction": "コーヒーは飲まなくてもいいです。",
+      "example": "Using ～んでもいい instead of ～なくてもいい changes the meaning from 'don't have to drink' to 'may drink'."
+    },
+    {
+      "mistake": "宿題をしないてもいいです。",
+      "correction": "宿題をしなくてもいいです。",
+      "example": "Incorrect negative form: 'しないても' should be 'しなくても'."
+    }
+  ],
+  "tags": [
+    "n4",
+    "negative",
+    "verbs",
+    "necessity",
+    "permission",
+    "politeness"
+  ]
+}

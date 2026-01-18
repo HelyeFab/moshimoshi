@@ -1,0 +1,33 @@
+{
+  "kanji": "空",
+  "sentences": [
+    {
+      "id": "5152",
+      "japanese": "おなか空いた！",
+      "english": "I'm starving!"
+    },
+    {
+      "id": "177348",
+      "japanese": "君は空を飛ぶ夢を見る事がありますか。",
+      "english": "Do you ever dream about flying through the sky?"
+    },
+    {
+      "id": "8969092",
+      "japanese": "いつなら空いてる？",
+      "english": "When will you be free?"
+    },
+    {
+      "id": "177926",
+      "japanese": "君はいつもうわの空だ。",
+      "english": "You are always hearing but not listening."
+    },
+    {
+      "id": "10671698",
+      "japanese": "空の感じでは、午後には晴れそうですよ。",
+      "english": "Judging from the look of the sky, it will clear up in the afternoon."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.287Z",
+  "count": 5,
+  "fileId": "kanji-00233"
+}

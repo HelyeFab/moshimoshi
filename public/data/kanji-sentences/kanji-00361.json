@@ -1,0 +1,33 @@
+{
+  "kanji": "晴",
+  "sentences": [
+    {
+      "id": "5255",
+      "japanese": "まだ晴れている間に洗濯をしなければなりません。",
+      "english": "I have to do laundry while it's still sunny."
+    },
+    {
+      "id": "179288",
+      "japanese": "空模様から判断すると明日は晴れるだろう。",
+      "english": "Judging from the look of the sky, it will be fine tomorrow."
+    },
+    {
+      "id": "179292",
+      "japanese": "空模様から判断すると、午後は晴れ上がるでしょう。",
+      "english": "Judging from the look of the sky, it will clear up in the afternoon."
+    },
+    {
+      "id": "10671698",
+      "japanese": "空の感じでは、午後には晴れそうですよ。",
+      "english": "Judging from the look of the sky, it will clear up in the afternoon."
+    },
+    {
+      "id": "179416",
+      "japanese": "空は相変わらず晴れ渡っていた。",
+      "english": "The sky was as clear as ever."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.980Z",
+  "count": 5,
+  "fileId": "kanji-00361"
+}

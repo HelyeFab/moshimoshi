@@ -1,0 +1,33 @@
+{
+  "kanji": "脈",
+  "sentences": [
+    {
+      "id": "178046",
+      "japanese": "君の脈は正常だ。",
+      "english": "You have a regular pulse."
+    },
+    {
+      "id": "190765",
+      "japanese": "医者は彼の脈をとった。",
+      "english": "The doctor felt his pulse."
+    },
+    {
+      "id": "190796",
+      "japanese": "医者は私の脈をとった。",
+      "english": "The doctor felt my pulse."
+    },
+    {
+      "id": "190849",
+      "japanese": "医者はその患者の脈は少し速いと思った。",
+      "english": "The doctor thought the patient's pulse was rather rapid."
+    },
+    {
+      "id": "233008",
+      "japanese": "あなたの脈は普通です。",
+      "english": "Your pulse is normal."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:25.225Z",
+  "count": 5,
+  "fileId": "kanji-01419"
+}

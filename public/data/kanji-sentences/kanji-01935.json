@@ -1,0 +1,33 @@
+{
+  "kanji": "岬",
+  "sentences": [
+    {
+      "id": "202253",
+      "japanese": "デジネフ岬は北極圏の南３０マイルにある。",
+      "english": "Cape Dezhnev is 30 miles south of the Arctic Circle."
+    },
+    {
+      "id": "208407",
+      "japanese": "その船は岬を回った。",
+      "english": "The ship sailed around the cape."
+    },
+    {
+      "id": "213730",
+      "japanese": "そこでは岬が海に突き出している。",
+      "english": "There a cape pushes out into the sea."
+    },
+    {
+      "id": "141093",
+      "japanese": "船は岬に沿って回った。",
+      "english": "The boat sailed around the promontory."
+    },
+    {
+      "id": "393842",
+      "japanese": "木曜島はオーストラリア最北端ヨーク岬とニューギニア島の間のトレス海峡に位置する。",
+      "english": "Thursday Island is situated in the Torres Strait between Australia's northernmost Cape York and New Guinea."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:43.150Z",
+  "count": 5,
+  "fileId": "kanji-01935"
+}

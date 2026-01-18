@@ -1,0 +1,33 @@
+{
+  "kanji": "桁",
+  "sentences": [
+    {
+      "id": "190910",
+      "japanese": "医者なら６桁の収入は珍しくない。",
+      "english": "A six-figure income is not uncommon for physicians."
+    },
+    {
+      "id": "235515",
+      "japanese": "２桁のＩＱがある人間なら誰でも、この選択が政治的に偏ったものだって分かってるよ。",
+      "english": "Anybody with at least a two-digit IQ knows this was a politically biased choice."
+    },
+    {
+      "id": "11283901",
+      "japanese": "100万は7桁です。",
+      "english": "One million is a seven digit number."
+    },
+    {
+      "id": "11283909",
+      "japanese": "3桁の数字です。",
+      "english": "It's a three-digit number."
+    },
+    {
+      "id": "10219080",
+      "japanese": "925,814,703,692は、12桁の数字です。",
+      "english": "Nine hundred twenty-five billion, eight hundred fourteen million, seven hundred three thousand, six hundred ninety-two is a twelve-digit number."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:11.825Z",
+  "count": 5,
+  "fileId": "kanji-01021"
+}

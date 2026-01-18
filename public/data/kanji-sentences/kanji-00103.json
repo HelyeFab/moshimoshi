@@ -1,0 +1,33 @@
+{
+  "kanji": "花",
+  "sentences": [
+    {
+      "id": "180288",
+      "japanese": "教会は結婚式に備えて花で美しく飾られている。",
+      "english": "The church is decorated with flowers for the wedding."
+    },
+    {
+      "id": "10784160",
+      "japanese": "教会には結婚式用の花が飾られている。",
+      "english": "The church is decorated with flowers for the wedding."
+    },
+    {
+      "id": "182719",
+      "japanese": "久しぶりに会ったんだから、酒でも飲みながら、昔話にでも花を咲かせるとするか。",
+      "english": "It's been so long since we last met up. Let's have a drink or two and talk about the good old days."
+    },
+    {
+      "id": "12131473",
+      "japanese": "見ぬが花。",
+      "english": "Prospect is often better than possession."
+    },
+    {
+      "id": "183435",
+      "japanese": "机の上に花が見える。",
+      "english": "I see a flower on the desk."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.601Z",
+  "count": 5,
+  "fileId": "kanji-00103"
+}

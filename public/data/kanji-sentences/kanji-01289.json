@@ -1,0 +1,33 @@
+{
+  "kanji": "潮",
+  "sentences": [
+    {
+      "id": "185101",
+      "japanese": "潮の満ち干は月の運行に左右される。",
+      "english": "The rise and fall of the sea is governed by the moon."
+    },
+    {
+      "id": "186231",
+      "japanese": "我々の船は潮によって岸へ押し流された。",
+      "english": "Our boat drifted to shore on the tide."
+    },
+    {
+      "id": "75701",
+      "japanese": "満ち潮で水没する砂浜でキャンプを張るのは、実に愚かな行為です。",
+      "english": "Pitching camp on sand banks that go under at high tide is a truly stupid thing to do."
+    },
+    {
+      "id": "84026",
+      "japanese": "風と潮の流れがその舟を岸に押しやった。",
+      "english": "The wind and tide impelled the ship to the shore."
+    },
+    {
+      "id": "102096",
+      "japanese": "彼は潮の流れに逆らって泳ごうとした。",
+      "english": "He tried to swim against the tide."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:21.278Z",
+  "count": 5,
+  "fileId": "kanji-01289"
+}

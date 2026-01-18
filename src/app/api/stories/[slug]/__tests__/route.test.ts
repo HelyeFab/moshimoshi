@@ -2,25 +2,31 @@ import { NextRequest } from 'next/server'
 import { GET } from '../route'
 import { getSession } from '@/lib/auth/session'
 import { adminFirestore } from '@/lib/firebase/admin'
-import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server'
+import { getUserPlan } from '@/lib/entitlements/server'
+import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator'
 
 jest.mock('@/lib/auth/session', () => ({
   getSession: jest.fn(),
 }))
 
 jest.mock('@/lib/firebase/admin', () => ({
-  adminFirestore: { collection: jest.fn() },
+  adminFirestore: { collection: jest.fn(), runTransaction: jest.fn() },
 }))
 
 jest.mock('@/lib/entitlements/server', () => ({
-  evaluateFeatureAccess: jest.fn(),
   getUserPlan: jest.fn(),
+}))
+
+jest.mock('@/lib/entitlements/evaluator', () => ({
+  evaluate: jest.fn(),
+  getBucketKey: jest.fn(),
 }))
 
 const mockedGetSession = getSession as jest.Mock
 const mockedFirestore = adminFirestore as unknown as { collection: jest.Mock }
-const mockedEvaluateFeatureAccess = evaluateFeatureAccess as jest.Mock
 const mockedGetUserPlan = getUserPlan as jest.Mock
+const mockedEvaluate = evaluate as jest.Mock
+const mockedGetBucketKey = getBucketKey as jest.Mock
 
 describe('/api/stories/[slug] GET', () => {
   beforeEach(() => {
@@ -30,8 +36,48 @@ describe('/api/stories/[slug] GET', () => {
   it('returns 429 when entitlement denies', async () => {
     mockedGetSession.mockResolvedValue({ uid: 'user-1' })
     mockedGetUserPlan.mockResolvedValue('free')
-    mockedEvaluateFeatureAccess.mockResolvedValue({
-      decision: { allow: false, remaining: 0, reason: 'limit_reached', limit: 2 },
+    mockedEvaluate.mockReturnValue({
+      allow: false,
+      remaining: 0,
+      reason: 'limit_reached',
+      limit: 2,
+      policyVersion: 1
+    })
+    mockedGetBucketKey.mockReturnValue('story_2025-12-26')
+
+    const update = jest.fn().mockResolvedValue(true)
+    const storyDoc = {
+      data: () => ({ title: 'Test Story', status: 'published', viewCount: 0 }),
+      id: 'story-1',
+    }
+    const get = jest.fn().mockResolvedValue({ empty: false, docs: [storyDoc] })
+
+    const usageRef = { id: 'story_2025-12-26' }
+    const transactionGet = jest.fn().mockResolvedValue({ exists: false, data: () => ({}) })
+    const transactionSet = jest.fn()
+    mockedFirestore.runTransaction.mockImplementation(async (callback: any) => {
+      return callback({ get: transactionGet, set: transactionSet })
+    })
+
+    mockedFirestore.collection.mockImplementation((name: string) => {
+      if (name === 'stories') {
+        return {
+          where: jest.fn().mockReturnThis(),
+          limit: jest.fn().mockReturnThis(),
+          get,
+          doc: jest.fn(() => ({ update })),
+        }
+      }
+      if (name === 'users') {
+        return {
+          doc: jest.fn(() => ({
+            collection: jest.fn().mockReturnValue({
+              doc: jest.fn(() => usageRef),
+            }),
+          })),
+        }
+      }
+      return { doc: jest.fn(), get: jest.fn() }
     })
 
     const request = new NextRequest('http://localhost/api/stories/story-1')
@@ -43,13 +89,14 @@ describe('/api/stories/[slug] GET', () => {
   it('returns story and increments usage when allowed', async () => {
     mockedGetSession.mockResolvedValue({ uid: 'user-1' })
     mockedGetUserPlan.mockResolvedValue('free')
-    mockedEvaluateFeatureAccess
-      .mockResolvedValueOnce({
-        decision: { allow: true, remaining: 2, reason: 'ok', limit: 2 },
-      })
-      .mockResolvedValueOnce({
-        decision: { allow: true, remaining: 1, reason: 'ok', limit: 2 },
-      })
+    mockedEvaluate.mockReturnValue({
+      allow: true,
+      remaining: 2,
+      reason: 'ok',
+      limit: 2,
+      policyVersion: 1
+    })
+    mockedGetBucketKey.mockReturnValue('story_2025-12-26')
 
     const update = jest.fn().mockResolvedValue(true)
     const storyDoc = {
@@ -58,6 +105,13 @@ describe('/api/stories/[slug] GET', () => {
     }
     const get = jest.fn().mockResolvedValue({ empty: false, docs: [storyDoc] })
 
+    const usageRef = { id: 'story_2025-12-26' }
+    const transactionGet = jest.fn().mockResolvedValue({ exists: false, data: () => ({}) })
+    const transactionSet = jest.fn()
+    mockedFirestore.runTransaction.mockImplementation(async (callback: any) => {
+      return callback({ get: transactionGet, set: transactionSet })
+    })
+
     mockedFirestore.collection.mockImplementation((name: string) => {
       if (name === 'stories') {
         return {
@@ -65,6 +119,15 @@ describe('/api/stories/[slug] GET', () => {
           limit: jest.fn().mockReturnThis(),
           get,
           doc: jest.fn(() => ({ update })),
+        }
+      }
+      if (name === 'users') {
+        return {
+          doc: jest.fn(() => ({
+            collection: jest.fn().mockReturnValue({
+              doc: jest.fn(() => usageRef),
+            }),
+          })),
         }
       }
       return { doc: jest.fn(), get: jest.fn() }
@@ -77,5 +140,6 @@ describe('/api/stories/[slug] GET', () => {
     expect(response.status).toBe(200)
     expect(data.success).toBe(true)
     expect(update).toHaveBeenCalled()
+    expect(transactionSet).toHaveBeenCalled()
   })
 })

@@ -1,0 +1,55 @@
+{
+  "id": "247-n4-point-47",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb てもらいたい (～te moraitai)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～てもらいたい grammar point is used to express one's desire to receive a favor, service, or action from someone else. It is formed by attaching もらいたい to the て-form of verbs. This structure emphasizes the help or favor the speaker wants from someone else.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て-form + もらいたい",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "この荷物を運んでもらいたいです。",
+      "romaji": "Kono nimotsu o hakonde moraitai desu.",
+      "english": "I want you to carry this luggage for me.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼にそのニュースを教えてもらいたい。",
+      "romaji": "Kare ni sono nyuusu o oshiete moraitai.",
+      "english": "I want him to tell me the news.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "友達に日本語を教えてもらいたい。",
+      "romaji": "Tomodachi ni Nihongo o oshiete moraitai.",
+      "english": "I want my friend to teach me Japanese.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "スタッフにチェックインの方法を説明してもらいたい。",
+      "romaji": "Sutaffu ni chekkuin no houhou o setsumei shite moraitai.",
+      "english": "I want the staff to explain the check-in process to me.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

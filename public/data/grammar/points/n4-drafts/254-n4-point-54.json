@@ -1,0 +1,55 @@
+{
+  "id": "254-n4-point-54",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ながら (〜nagara)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～ながら grammar point is used to indicate that two actions are happening simultaneously or that one action is happening while another is taking place. This can be translated to 'while' or 'as' in English. It is primarily used with verbs.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-masu stem + ながら",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "テレビを見ながら宿題をしました。",
+      "romaji": "Terebi wo minagara shukudai wo shimashita.",
+      "english": "I did my homework while watching television.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "音楽を聞きながら料理をしました。",
+      "romaji": "Ongaku wo kikinagara ryouri wo shimashita.",
+      "english": "I cooked while listening to music.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "歩きながらスマホを見るのは危険です。",
+      "romaji": "Arukinagara sumaho wo miru no wa kiken desu.",
+      "english": "Looking at your smartphone while walking is dangerous.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は話しながら笑っていました。",
+      "romaji": "Kare wa hanashi nagara waratte imashita.",
+      "english": "He was laughing while talking.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

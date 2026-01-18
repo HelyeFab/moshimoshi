@@ -1,0 +1,55 @@
+{
+  "id": "318-n4-point-118",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～も (〜mo)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～も grammar point is used to express that something is also true, or to add some additional information to the previous statement. It can be translated as 'also', 'too', or 'as well' in English. The grammar point can be used with verbs, adjectives, and nouns.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + も, い-Adjective + も, な-Adjective + も, Noun + も",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "私もお寿司が好きです。",
+      "romaji": "Watashi mo osushi ga suki desu.",
+      "english": "I also like sushi.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は英語も日本語も話せます。",
+      "romaji": "Kanojo wa eigo mo nihongo mo hanasemasu.",
+      "english": "She can speak both English and Japanese.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "その映画は面白いし、彼も見たいと言っています。",
+      "romaji": "Sono eiga wa omoshiroi shi, kare mo mitai to itteimasu.",
+      "english": "That movie is interesting, and he also said he wants to see it.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "今日は寒いです。明日も寒いでしょう。",
+      "romaji": "Kyou wa samui desu. Ashita mo samui deshou.",
+      "english": "It is cold today. It will probably be cold tomorrow as well.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

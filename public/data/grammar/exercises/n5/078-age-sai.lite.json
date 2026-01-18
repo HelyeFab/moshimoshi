@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "078-age-sai",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "078-age-sai-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: 何__ですか。 (How old are you?)",
+      "options": [
+        {
+          "id": "a",
+          "text": "歳"
+        },
+        {
+          "id": "b",
+          "text": "本"
+        },
+        {
+          "id": "c",
+          "text": "人"
+        },
+        {
+          "id": "d",
+          "text": "枚"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 何歳ですか.",
+      "incorrectFeedback": "Not quite. Use 歳 for age.",
+      "explanation": "歳 is the age counter.",
+      "difficulty": "easy"
+    }
+  ]
+}

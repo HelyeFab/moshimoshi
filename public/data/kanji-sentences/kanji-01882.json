@@ -1,0 +1,33 @@
+{
+  "kanji": "戴",
+  "sentences": [
+    {
+      "id": "770959",
+      "japanese": "ブラウンさんとお話させて戴く事はできますか？",
+      "english": "May I talk to Ms. Brown?"
+    },
+    {
+      "id": "724630",
+      "japanese": "「どなたか手伝って戴けませんか？」「はい。私でよろしければ」",
+      "english": "\"Can somebody help me?\" \"I will.\""
+    },
+    {
+      "id": "630544",
+      "japanese": "お名前を教えて戴けますか。",
+      "english": "What is your name?"
+    },
+    {
+      "id": "753376",
+      "japanese": "テーブルの上に鍵を忘れてきてしまいました。お手数ですが持ってきて戴けませんか？",
+      "english": "I left my keys on the table. Could I trouble you to bring them to me?"
+    },
+    {
+      "id": "769587",
+      "japanese": "どなたか上記のコメントを私が理解できる言語へ翻訳して戴けませんか？",
+      "english": "Could someone translate the comment above to a language which I can understand?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:40.784Z",
+  "count": 5,
+  "fileId": "kanji-01882"
+}

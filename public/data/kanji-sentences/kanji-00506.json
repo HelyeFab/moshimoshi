@@ -1,0 +1,33 @@
+{
+  "kanji": "番",
+  "sentences": [
+    {
+      "id": "178073",
+      "japanese": "君の番だよ。",
+      "english": "It's your move."
+    },
+    {
+      "id": "179942",
+      "japanese": "緊急の場合は、１１９番に電話しなさい。",
+      "english": "In case of emergency, call 119."
+    },
+    {
+      "id": "179943",
+      "japanese": "緊急の場合には１１０番にお電話ください。",
+      "english": "In case of an emergency, dial 110."
+    },
+    {
+      "id": "186452",
+      "japanese": "我がチームではトムが４番を打つ。",
+      "english": "Tom bats cleanup on our team."
+    },
+    {
+      "id": "186681",
+      "japanese": "火事の場合には１１９番すべきです。",
+      "english": "In case of fire, you should dial 119."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.970Z",
+  "count": 5,
+  "fileId": "kanji-00506"
+}

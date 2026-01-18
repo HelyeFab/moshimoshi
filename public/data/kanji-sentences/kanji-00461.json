@@ -1,0 +1,33 @@
+{
+  "kanji": "変",
+  "sentences": [
+    {
+      "id": "4730",
+      "japanese": "彼は時々変です。",
+      "english": "Sometimes he can be a strange guy."
+    },
+    {
+      "id": "4768",
+      "japanese": "それで彼らの気が変わったのかも知れない。",
+      "english": "That was probably what influenced their decision."
+    },
+    {
+      "id": "4829",
+      "japanese": "ああ、凄く変だなあ・・・。",
+      "english": "Uh, now it's really weird..."
+    },
+    {
+      "id": "4966",
+      "japanese": "マドリードから来た人たちは変わっている。",
+      "english": "People from Madrid are weird."
+    },
+    {
+      "id": "5005",
+      "japanese": "年月を経て物事がどう変わっていくか見るのは面白そうだ。",
+      "english": "It would be fun to see how things change over the years."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.349Z",
+  "count": 5,
+  "fileId": "kanji-00461"
+}

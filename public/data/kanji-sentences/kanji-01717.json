@@ -1,0 +1,33 @@
+{
+  "kanji": "架",
+  "sentences": [
+    {
+      "id": "208512",
+      "japanese": "その川に大きな橋が架けられた。",
+      "english": "A big bridge was built over the river."
+    },
+    {
+      "id": "208516",
+      "japanese": "その川には橋が架かっている。",
+      "english": "There is a bridge across the river."
+    },
+    {
+      "id": "220827",
+      "japanese": "この川に架かっているあの橋は町で一番古い。",
+      "english": "That bridge across this river is the oldest in the town."
+    },
+    {
+      "id": "236009",
+      "japanese": "１０年前その川には小さな橋が架かっていた。",
+      "english": "There used to be a small bridge over the river 10 years ago."
+    },
+    {
+      "id": "85794",
+      "japanese": "費用は別として、その橋を架けるには長い時間がかかるだろう。",
+      "english": "Apart from the cost, it will take a long time to build the bridge."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:34.383Z",
+  "count": 5,
+  "fileId": "kanji-01717"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "氷",
+  "sentences": [
+    {
+      "id": "178212",
+      "japanese": "君の重さじゃ氷が割れるよ。",
+      "english": "The ice will give under your weight."
+    },
+    {
+      "id": "183228",
+      "japanese": "気温が低いと水は氷になる。",
+      "english": "Low temperatures turn water into ice."
+    },
+    {
+      "id": "185102",
+      "japanese": "海の氷はきわめて変わりやすい——寒く風のない天候のときは固く凍っているが、嵐のときは外洋の広い水域で割れてしまう。",
+      "english": "The sea ice is highly variable - frozen solid during cold, calm weather and broken up in large areas of open water during storms."
+    },
+    {
+      "id": "186256",
+      "japanese": "我々の重みで氷が割れるだろう。",
+      "english": "The ice will crack beneath our weight."
+    },
+    {
+      "id": "191165",
+      "japanese": "以前は氷を売ることなどだれも思いつかなかった。",
+      "english": "No one had ever thought of selling ice before."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.401Z",
+  "count": 5,
+  "fileId": "kanji-00835"
+}

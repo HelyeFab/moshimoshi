@@ -1,0 +1,33 @@
+{
+  "kanji": "沖",
+  "sentences": [
+    {
+      "id": "185050",
+      "japanese": "海岸から約１マイル沖に漁船が見えた。",
+      "english": "I saw a fishing boat about a mile off the shore."
+    },
+    {
+      "id": "207487",
+      "japanese": "その島は海岸から約２マイル離れた沖にあります。",
+      "english": "The island is about two miles off the coast."
+    },
+    {
+      "id": "207488",
+      "japanese": "その島は海岸から１マイル沖にある。",
+      "english": "The island lies a mile off the coast."
+    },
+    {
+      "id": "76198",
+      "japanese": "見渡すと、既に船はかなり沖の方にいた。",
+      "english": "Looking around the boat was already quite far out in the open sea."
+    },
+    {
+      "id": "108713",
+      "japanese": "彼は岸から沖へと波にさらわれていった。",
+      "english": "He was carried by the waves away from the shore and out to sea."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.798Z",
+  "count": 5,
+  "fileId": "kanji-01274"
+}

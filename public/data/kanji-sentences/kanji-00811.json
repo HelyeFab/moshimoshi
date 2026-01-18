@@ -1,0 +1,33 @@
+{
+  "kanji": "干",
+  "sentences": [
+    {
+      "id": "183950",
+      "japanese": "干し草を納屋に蓄えた。",
+      "english": "We stored the hay in the barn."
+    },
+    {
+      "id": "183951",
+      "japanese": "干し草に自然発生的に火がついた。",
+      "english": "A spontaneous fire started in the hay."
+    },
+    {
+      "id": "184064",
+      "japanese": "蒲団を干して下さい。",
+      "english": "Air the futon."
+    },
+    {
+      "id": "185101",
+      "japanese": "潮の満ち干は月の運行に左右される。",
+      "english": "The rise and fall of the sea is governed by the moon."
+    },
+    {
+      "id": "190641",
+      "japanese": "グレタ君がビールを一口で飲み干した。",
+      "english": "Greta chugged the beer in one gulp."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.842Z",
+  "count": 5,
+  "fileId": "kanji-00811"
+}

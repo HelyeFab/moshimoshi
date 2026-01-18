@@ -1,0 +1,105 @@
+{
+  "id": "312-n4-point-112",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～のに",
+    "romaji": "~no ni",
+    "en": "Even though, despite"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～のに grammar point expresses contrast between an expectation and reality or a purpose for doing something.",
+    "ja": "～のには期待と現実の対比や何かをする目的を表現するための文法です。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + のに, い-Adjective + のに, な-adjective + なのに, Noun + なのに",
+    "components": [
+      {
+        "part": "Verb-casual",
+        "explanation": "Use the casual form of verbs.",
+        "examples": [
+          "遅刻したのに"
+        ]
+      },
+      {
+        "part": "い-Adjective",
+        "explanation": "Follow an い-adjective with のに.",
+        "examples": [
+          "疲れているのに"
+        ]
+      },
+      {
+        "part": "な-adjective + なのに",
+        "explanation": "Add なのに after a な-adjective and noun phrase.",
+        "examples": [
+          "健康的な生活を送るのに"
+        ]
+      },
+      {
+        "part": "Noun + なのに",
+        "explanation": "Use the particle のに with nouns to show contrast or purpose.",
+        "examples": [
+          "静かな場所が必要です。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "遅刻したのに、先生は怒らなかった。",
+      "romaji": "Chikoku shita no ni, sensei wa okoranakatta.",
+      "english": "Even though I was late, the teacher didn't get angry.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は疲れているのに、まだ働いています。",
+      "romaji": "Kare wa tsukarete iru no ni, mada hataraite imasu.",
+      "english": "Despite being tired, he is still working.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "勉強するのに静かな場所が必要です。",
+      "romaji": "Benkyou suru no ni, shizukana basho ga hitsuyou desu.",
+      "english": "In order to study, I need a quiet place.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "健康のために毎日運動するのに、うちでヨガをしている。",
+      "romaji": "Kenkou no tame ni mainichi undou suru no ni, uchi de yoga wo shite iru.",
+      "english": "In order to exercise for my health every day, I do yoga at home.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～といい",
+    "～けれど",
+    "～し、～し、～"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼は疲れているのに、まだ働いています。",
+      "correction": "彼は疲れているのに、まだ働いていますね。",
+      "example": "Even though he is tired, he still works. Isn't it?"
+    }
+  ],
+  "tags": [
+    "n4",
+    "contrast",
+    "purpose",
+    "conditional",
+    "miscellaneous"
+  ]
+}

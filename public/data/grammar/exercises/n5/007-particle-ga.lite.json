@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "007-particle-ga",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "007-particle-ga-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: だれ＿＿来ますか。",
+      "questionRomaji": "Dare __ kimasu ka.",
+      "options": [
+        {
+          "id": "a",
+          "text": "は",
+          "romaji": "wa"
+        },
+        {
+          "id": "b",
+          "text": "が",
+          "romaji": "ga"
+        },
+        {
+          "id": "c",
+          "text": "を",
+          "romaji": "o"
+        },
+        {
+          "id": "d",
+          "text": "に",
+          "romaji": "ni"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! が marks the subject in who-questions.",
+      "incorrectFeedback": "Not quite. Use が for who-questions.",
+      "explanation": "だれが来ますか is the standard question.",
+      "difficulty": "easy"
+    }
+  ]
+}

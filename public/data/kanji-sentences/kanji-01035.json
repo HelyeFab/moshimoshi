@@ -1,0 +1,33 @@
+{
+  "kanji": "雌",
+  "sentences": [
+    {
+      "id": "224302",
+      "japanese": "ココは雌のゴリラである。",
+      "english": "Koko is a female gorilla."
+    },
+    {
+      "id": "226093",
+      "japanese": "カンガルーの雌は子供を腹の袋に入れて動く。",
+      "english": "A female kangaroo carries its young in the pouch."
+    },
+    {
+      "id": "126293",
+      "japanese": "著者たちはごく少数の種の雌も歌うと非常に明確に述べている。",
+      "english": "The authors state quite categorically that the female members of only a small number of species also sing."
+    },
+    {
+      "id": "150986",
+      "japanese": "雌の鵞鳥のソースになるものは雄の鵞鳥のソースにもなる。",
+      "english": "What is sauce for the goose is sauce for the gander."
+    },
+    {
+      "id": "175312",
+      "japanese": "犬は３匹いますが、１匹が雄であとは雌です。",
+      "english": "I have three dogs; one is male and the others are female."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:12.485Z",
+  "count": 5,
+  "fileId": "kanji-01035"
+}

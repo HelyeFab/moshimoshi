@@ -1,0 +1,33 @@
+{
+  "kanji": "建",
+  "sentences": [
+    {
+      "id": "180303",
+      "japanese": "教会が島中に建てられた。",
+      "english": "Churches were erected all over the island."
+    },
+    {
+      "id": "182739",
+      "japanese": "丘の中腹に建っている建物は私たちの学校です。",
+      "english": "The building which stands on the hillside is our school."
+    },
+    {
+      "id": "182752",
+      "japanese": "丘の上に建っているので彼の家は見晴らしがよい。",
+      "english": "Situated on a hill, his house commands a fine view."
+    },
+    {
+      "id": "182751",
+      "japanese": "丘の上に建っている家はとても古い。",
+      "english": "The house which stands on the hill is very old."
+    },
+    {
+      "id": "183065",
+      "japanese": "記念碑が公園に建てられた。",
+      "english": "The monument was set up in the park."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.443Z",
+  "count": 5,
+  "fileId": "kanji-00094"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "酔",
+  "sentences": [
+    {
+      "id": "187320",
+      "japanese": "何杯か飲むと、その男は酔って気持ちよくなった。",
+      "english": "After a couple of drinks, the guy was feeling no pain."
+    },
+    {
+      "id": "189463",
+      "japanese": "運転するには酔い過ぎている。",
+      "english": "You're too drunk to drive."
+    },
+    {
+      "id": "195145",
+      "japanese": "まるで酔っているようだ。",
+      "english": "She looks as if she were drunk."
+    },
+    {
+      "id": "195938",
+      "japanese": "ほろ酔い気分ですよ。",
+      "english": "I'm getting high."
+    },
+    {
+      "id": "196650",
+      "japanese": "ベロベロに酔っぱらっちゃった。",
+      "english": "We got dead drunk."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:22.657Z",
+  "count": 5,
+  "fileId": "kanji-01339"
+}

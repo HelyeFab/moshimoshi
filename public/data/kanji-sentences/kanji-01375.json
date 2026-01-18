@@ -1,0 +1,33 @@
+{
+  "kanji": "沿",
+  "sentences": [
+    {
+      "id": "184702",
+      "japanese": "崖っぷちに沿って狭い道が通っている。",
+      "english": "There is a narrow path running along the cliff."
+    },
+    {
+      "id": "185825",
+      "japanese": "我々は山の中で小川に沿って登った。",
+      "english": "We climbed along the stream in the mountains."
+    },
+    {
+      "id": "3081122",
+      "japanese": "海岸線に沿って航海せよ。",
+      "english": "Sail along the coast."
+    },
+    {
+      "id": "207725",
+      "japanese": "その通りは川に沿っている。",
+      "english": "The street runs along the river."
+    },
+    {
+      "id": "207739",
+      "japanese": "通りに沿って大邸宅が並んでいる。",
+      "english": "There are large houses along the street."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:23.847Z",
+  "count": 5,
+  "fileId": "kanji-01375"
+}

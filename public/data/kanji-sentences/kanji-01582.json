@@ -1,0 +1,33 @@
+{
+  "kanji": "棚",
+  "sentences": [
+    {
+      "id": "178049",
+      "japanese": "君の漫画の本は棚の上にあるよ。",
+      "english": "Your comic books are on the shelf."
+    },
+    {
+      "id": "203042",
+      "japanese": "チーズの棚はどちらの方向にありますか。",
+      "english": "Which way is the cheese shelf?"
+    },
+    {
+      "id": "206634",
+      "japanese": "その本を棚に戻しておきなさい。",
+      "english": "Put the book back on the shelf."
+    },
+    {
+      "id": "206635",
+      "japanese": "その本を棚から下ろしなさい。",
+      "english": "Take down the book from the shelf."
+    },
+    {
+      "id": "206654",
+      "japanese": "その本を棚に置いてください。",
+      "english": "Please put the book on the shelf."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:29.982Z",
+  "count": 5,
+  "fileId": "kanji-01582"
+}

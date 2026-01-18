@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "308-n4-point-108",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "308-n4-point-108-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Must / Have to\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～なければ ならない",
+          "romaji": "~nakereba naranai"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ～なければ ならない matches \"Must / Have to\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～なければ ならない.",
+      "explanation": "Expresses obligation; used to say someone must or has to do something.",
+      "difficulty": "easy"
+    }
+  ]
+}

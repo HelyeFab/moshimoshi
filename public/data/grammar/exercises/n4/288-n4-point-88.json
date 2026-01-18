@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "288-n4-point-88",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "288-n4-point-88-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"How about...?\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~たら いかがですか",
+          "romaji": "~tara ikaga desu ka"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ~たら いかがですか matches \"How about...?\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ~たら いかがですか.",
+      "explanation": "Polite way to suggest or recommend an action if a condition is met.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "288-n4-point-88-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ~たら いかがですか.",
+      "options": [
+        {
+          "id": "a",
+          "text": "How about...?"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ~たら いかがですか means \"How about...?\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"How about...?\".",
+      "explanation": "Polite way to suggest or recommend an action if a condition is met.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "288-n4-point-88-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ~たら いかがですか.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~tara ikaga desu ka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ~tara ikaga desu ka is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~tara ikaga desu ka.",
+      "explanation": "Polite way to suggest or recommend an action if a condition is met.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "288-n4-point-88-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ~たら いかがですか?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Polite way to suggest or recommend an action if a condition is met."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Polite way to suggest or recommend an action if a condition is met.",
+      "explanation": "Polite way to suggest or recommend an action if a condition is met.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "288-n4-point-88-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"How about...?\".",
+      "correctAnswer": "~たら いかがですか",
+      "acceptedVariations": [
+        "~たら いかがですか",
+        "~たらいかがですか"
+      ],
+      "correctFeedback": "Nice! ~たら いかがですか is correct.",
+      "incorrectFeedback": "The correct pattern is: ~たら いかがですか (~tara ikaga desu ka).",
+      "explanation": "Polite way to suggest or recommend an action if a condition is met.",
+      "hints": [
+        "~tara ikaga desu ka",
+        "Polite way to suggest or recommend an action if a condition is met."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "288-n4-point-88-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ~たら いかがですか.",
+      "correctAnswer": "~tara ikaga desu ka",
+      "acceptedVariations": [
+        "~tara ikaga desu ka",
+        "~tara ikaga desu ka"
+      ],
+      "correctFeedback": "Nice! ~tara ikaga desu ka is correct.",
+      "incorrectFeedback": "The correct romaji is: ~tara ikaga desu ka.",
+      "explanation": "Polite way to suggest or recommend an action if a condition is met.",
+      "hints": [
+        "Polite way to suggest or recommend an action if a condition is met."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "288-n4-point-88-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ~たら いかがですか.",
+      "correctAnswer": "How about...?",
+      "acceptedVariations": [
+        "How about...?",
+        "how about...?"
+      ],
+      "correctFeedback": "Correct! \"How about...?\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"How about...?\".",
+      "explanation": "Polite way to suggest or recommend an action if a condition is met.",
+      "hints": [
+        "Polite way to suggest or recommend an action if a condition is met."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "288-n4-point-88-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "~たら いかがですか",
+          "romaji": "~tara ikaga desu ka",
+          "english": "How about...?"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Polite way to suggest or recommend an action if a condition is met.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "288-n4-point-88-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Polite way to suggest or recommend an action if a condition is met..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~たら いかがですか",
+          "romaji": "~tara ikaga desu ka"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ~たら いかがですか matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ~たら いかがですか.",
+      "explanation": "Polite way to suggest or recommend an action if a condition is met.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "288-n4-point-88-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "~たらいかがですか",
+      "acceptedVariations": [
+        "~たらいかがですか",
+        "~たら いかがですか"
+      ],
+      "correctFeedback": "Great! ~たらいかがですか is correct.",
+      "incorrectFeedback": "The correct pattern is: ~たらいかがですか.",
+      "explanation": "Polite way to suggest or recommend an action if a condition is met.",
+      "hints": [
+        "~tara ikaga desu ka"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

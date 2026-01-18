@@ -1,0 +1,33 @@
+{
+  "kanji": "拾",
+  "sentences": [
+    {
+      "id": "178984",
+      "japanese": "君が死んだら骨を拾ってあげる。",
+      "english": "I'll look after your affairs when you are dead."
+    },
+    {
+      "id": "183317",
+      "japanese": "帰り道で拾ったラジオを修理しているのさ。",
+      "english": "I'm fixing the radio which I found on my way home."
+    },
+    {
+      "id": "188828",
+      "japanese": "駅前でタクシーを拾った。",
+      "english": "I got a taxi in front of the station."
+    },
+    {
+      "id": "196196",
+      "japanese": "ホテルの前で私を車で拾ってください。",
+      "english": "Please pick me up by car in front of the hotel."
+    },
+    {
+      "id": "203712",
+      "japanese": "タクシーはどこで拾えますか。",
+      "english": "Where can I get a taxi?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.658Z",
+  "count": 5,
+  "fileId": "kanji-00851"
+}

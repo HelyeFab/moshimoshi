@@ -1,0 +1,33 @@
+{
+  "kanji": "株",
+  "sentences": [
+    {
+      "id": "184091",
+      "japanese": "株は新高値を付けた。",
+      "english": "Stocks hit a new high."
+    },
+    {
+      "id": "184092",
+      "japanese": "株に手を出すなんて彼女はなんと愚かなのだろう。",
+      "english": "What a fool she is to dabble in stocks!"
+    },
+    {
+      "id": "184093",
+      "japanese": "株でやられるまで彼は証券市場の帝王でしたよ。",
+      "english": "He was a stock-market tycoon until the bears got him."
+    },
+    {
+      "id": "184094",
+      "japanese": "株ですってんてんになっちまった。",
+      "english": "I lost my shirt on the stock market."
+    },
+    {
+      "id": "184225",
+      "japanese": "学生間では彼の株が急に上がった。",
+      "english": "His stock with the students has soared."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:49.761Z",
+  "count": 5,
+  "fileId": "kanji-02109"
+}

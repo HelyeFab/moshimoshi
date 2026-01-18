@@ -1,0 +1,33 @@
+{
+  "kanji": "跳",
+  "sentences": [
+    {
+      "id": "177619",
+      "japanese": "君はどのくらい高く跳べますか。",
+      "english": "How high can you jump?"
+    },
+    {
+      "id": "180424",
+      "japanese": "恐くてその溝は跳び越せないよ。",
+      "english": "I am afraid to jump over the ditch."
+    },
+    {
+      "id": "182121",
+      "japanese": "魚が水中で水を跳ね上げているのが見えた。",
+      "english": "We saw a fish splashing in the water."
+    },
+    {
+      "id": "196474",
+      "japanese": "ボールは空中高く跳ね上がった。",
+      "english": "The ball bounced high in the air."
+    },
+    {
+      "id": "196508",
+      "japanese": "ボールが高く跳ね上がった。",
+      "english": "The ball bounced up high."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.867Z",
+  "count": 5,
+  "fileId": "kanji-01614"
+}

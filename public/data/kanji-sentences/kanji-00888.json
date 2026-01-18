@@ -1,0 +1,33 @@
+{
+  "kanji": "滴",
+  "sentences": [
+    {
+      "id": "183901",
+      "japanese": "汗が額を滴り落ちるのを感じた。",
+      "english": "I felt the sweat trickle down my brow."
+    },
+    {
+      "id": "189812",
+      "japanese": "雨が屋根からゆっくりと滴り落ちた。",
+      "english": "Rain dripped off the roof slowly."
+    },
+    {
+      "id": "197614",
+      "japanese": "ひさしから雨水が滴り落ちている。",
+      "english": "The eaves are dripping."
+    },
+    {
+      "id": "198656",
+      "japanese": "濡れたタオルから滴が垂れている。",
+      "english": "Water is dripping from the wet towel."
+    },
+    {
+      "id": "235479",
+      "japanese": "２週間の間たった１滴も雨は降らなかった。",
+      "english": "We have not had a single drop of rain for two weeks."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.440Z",
+  "count": 5,
+  "fileId": "kanji-00888"
+}

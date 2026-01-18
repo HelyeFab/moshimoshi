@@ -1,0 +1,33 @@
+{
+  "kanji": "道",
+  "sentences": [
+    {
+      "id": "5167",
+      "japanese": "意志あるところには道がある。",
+      "english": "Where there's a will, there's a way."
+    },
+    {
+      "id": "191060",
+      "japanese": "意志のあるところに道あり。",
+      "english": "Where there's a will, there's a way."
+    },
+    {
+      "id": "191061",
+      "japanese": "意志のあるところには道がある。",
+      "english": "Where there's a will, there's a way."
+    },
+    {
+      "id": "191062",
+      "japanese": "意志があるところに道は開ける。",
+      "english": "Where there's a will, there's a way."
+    },
+    {
+      "id": "191063",
+      "japanese": "意志ある所に道あり。",
+      "english": "Where there's a will, there's a way."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.681Z",
+  "count": 5,
+  "fileId": "kanji-00190"
+}

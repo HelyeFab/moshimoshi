@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "289-n4-point-89",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "289-n4-point-89-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"How about if you ~? / Why don't you ~?\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～たら どうですか",
+          "romaji": "~tara doudesuka"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! ～たら どうですか matches \"How about if you ~? / Why don't you ~?\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～たら どうですか.",
+      "explanation": "Used after verb た-form to gently suggest or recommend an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "289-n4-point-89-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～たら どうですか.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "How about if you ~? / Why don't you ~?"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～たら どうですか means \"How about if you ~? / Why don't you ~?\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"How about if you ~? / Why don't you ~?\".",
+      "explanation": "Used after verb た-form to gently suggest or recommend an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "289-n4-point-89-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～たら どうですか.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "~tara doudesuka"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ~tara doudesuka is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~tara doudesuka.",
+      "explanation": "Used after verb た-form to gently suggest or recommend an action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "289-n4-point-89-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～たら どうですか?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Used after verb た-form to gently suggest or recommend an action."
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used after verb た-form to gently suggest or recommend an action.",
+      "explanation": "Used after verb た-form to gently suggest or recommend an action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "289-n4-point-89-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"How about if you ~? / Why don't you ~?\".",
+      "correctAnswer": "～たら どうですか",
+      "acceptedVariations": [
+        "～たら どうですか",
+        "～たらどうですか"
+      ],
+      "correctFeedback": "Nice! ～たら どうですか is correct.",
+      "incorrectFeedback": "The correct pattern is: ～たら どうですか (~tara doudesuka).",
+      "explanation": "Used after verb た-form to gently suggest or recommend an action.",
+      "hints": [
+        "~tara doudesuka",
+        "Used after verb た-form to gently suggest or recommend an action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "289-n4-point-89-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～たら どうですか.",
+      "correctAnswer": "~tara doudesuka",
+      "acceptedVariations": [
+        "~tara doudesuka",
+        "~tara doudesuka"
+      ],
+      "correctFeedback": "Nice! ~tara doudesuka is correct.",
+      "incorrectFeedback": "The correct romaji is: ~tara doudesuka.",
+      "explanation": "Used after verb た-form to gently suggest or recommend an action.",
+      "hints": [
+        "Used after verb た-form to gently suggest or recommend an action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "289-n4-point-89-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～たら どうですか.",
+      "correctAnswer": "How about if you ~? / Why don't you ~?",
+      "acceptedVariations": [
+        "How about if you ~? / Why don't you ~?",
+        "how about if you ~? / why don't you ~?"
+      ],
+      "correctFeedback": "Correct! \"How about if you ~? / Why don't you ~?\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"How about if you ~? / Why don't you ~?\".",
+      "explanation": "Used after verb た-form to gently suggest or recommend an action.",
+      "hints": [
+        "Used after verb た-form to gently suggest or recommend an action."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "289-n4-point-89-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～たら どうですか",
+          "romaji": "~tara doudesuka",
+          "english": "How about if you ~? / Why don't you ~?"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used after verb た-form to gently suggest or recommend an action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "289-n4-point-89-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used after verb た-form to gently suggest or recommend an action..",
+      "options": [
+        {
+          "id": "a",
+          "text": "～たら どうですか",
+          "romaji": "~tara doudesuka"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ～たら どうですか matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～たら どうですか.",
+      "explanation": "Used after verb た-form to gently suggest or recommend an action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "289-n4-point-89-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～たらどうですか",
+      "acceptedVariations": [
+        "～たらどうですか",
+        "～たら どうですか"
+      ],
+      "correctFeedback": "Great! ～たらどうですか is correct.",
+      "incorrectFeedback": "The correct pattern is: ～たらどうですか.",
+      "explanation": "Used after verb た-form to gently suggest or recommend an action.",
+      "hints": [
+        "~tara doudesuka"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

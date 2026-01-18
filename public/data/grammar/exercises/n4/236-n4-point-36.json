@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "236-n4-point-36",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "236-n4-point-36-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"During the time (verb in progress)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb ている間に",
+          "romaji": "Verb te iru aida ni"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb ている間に matches \"During the time (verb in progress)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ている間に.",
+      "explanation": "While one action is ongoing, another action happens during that time.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "236-n4-point-36-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb ている間に.",
+      "options": [
+        {
+          "id": "a",
+          "text": "During the time (verb in progress)"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb ている間に means \"During the time (verb in progress)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"During the time (verb in progress)\".",
+      "explanation": "While one action is ongoing, another action happens during that time.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "236-n4-point-36-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb ている間に.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb te iru aida ni"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb te iru aida ni is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb te iru aida ni.",
+      "explanation": "While one action is ongoing, another action happens during that time.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "236-n4-point-36-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb ている間に?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "While one action is ongoing, another action happens during that time."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: While one action is ongoing, another action happens during that time.",
+      "explanation": "While one action is ongoing, another action happens during that time.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "236-n4-point-36-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"During the time (verb in progress)\".",
+      "correctAnswer": "Verb ている間に",
+      "acceptedVariations": [
+        "Verb ている間に",
+        "Verbている間に"
+      ],
+      "correctFeedback": "Nice! Verb ている間に is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb ている間に (Verb te iru aida ni).",
+      "explanation": "While one action is ongoing, another action happens during that time.",
+      "hints": [
+        "Verb te iru aida ni",
+        "While one action is ongoing, another action happens during that time."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "236-n4-point-36-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb ている間に.",
+      "correctAnswer": "Verb te iru aida ni",
+      "acceptedVariations": [
+        "Verb te iru aida ni",
+        "verb te iru aida ni"
+      ],
+      "correctFeedback": "Nice! Verb te iru aida ni is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb te iru aida ni.",
+      "explanation": "While one action is ongoing, another action happens during that time.",
+      "hints": [
+        "While one action is ongoing, another action happens during that time."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "236-n4-point-36-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb ている間に.",
+      "correctAnswer": "During the time (verb in progress)",
+      "acceptedVariations": [
+        "During the time (verb in progress)",
+        "during the time (verb in progress)"
+      ],
+      "correctFeedback": "Correct! \"During the time (verb in progress)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"During the time (verb in progress)\".",
+      "explanation": "While one action is ongoing, another action happens during that time.",
+      "hints": [
+        "While one action is ongoing, another action happens during that time."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "236-n4-point-36-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb ている間に",
+          "romaji": "Verb te iru aida ni",
+          "english": "During the time (verb in progress)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "While one action is ongoing, another action happens during that time.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "236-n4-point-36-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: While one action is ongoing, another action happens during that time..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb ている間に",
+          "romaji": "Verb te iru aida ni"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb ている間に matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ている間に.",
+      "explanation": "While one action is ongoing, another action happens during that time.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "236-n4-point-36-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbている間に",
+      "acceptedVariations": [
+        "Verbている間に",
+        "Verb ている間に"
+      ],
+      "correctFeedback": "Great! Verbている間に is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbている間に.",
+      "explanation": "While one action is ongoing, another action happens during that time.",
+      "hints": [
+        "Verb te iru aida ni"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

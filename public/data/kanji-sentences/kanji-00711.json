@@ -1,0 +1,33 @@
+{
+  "kanji": "雲",
+  "sentences": [
+    {
+      "id": "189360",
+      "japanese": "雲を掴むような話だな。",
+      "english": "What you are saying does not make sense."
+    },
+    {
+      "id": "179423",
+      "japanese": "空は雲で覆われている。",
+      "english": "The sky is covered with clouds."
+    },
+    {
+      "id": "179446",
+      "japanese": "空に浮かぶ雲が美しい。",
+      "english": "The clouds floating in the sky are beautiful."
+    },
+    {
+      "id": "179467",
+      "japanese": "空には一片の雲もなかった。",
+      "english": "There wasn't a cloud in the sky."
+    },
+    {
+      "id": "179452",
+      "japanese": "空には雲ひとつありません。",
+      "english": "There isn't a single cloud in the sky."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.493Z",
+  "count": 5,
+  "fileId": "kanji-00711"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "脳",
+  "sentences": [
+    {
+      "id": "5130",
+      "japanese": "体が触れられたとき肌の感覚器官は脳に信号を送り、エンドルフィンのような化学物質が放出される。",
+      "english": "When the body is touched, receptors in the skin send messages to the brain causing the release of chemicals such as endorphins."
+    },
+    {
+      "id": "184585",
+      "japanese": "確かに、脳と意識の関係はもともと因果関係ではないのだと考える学者もいる。",
+      "english": "Indeed, some writers do not think the relation of brain to consciousness is a causal relation in the first place."
+    },
+    {
+      "id": "193333",
+      "japanese": "もっとも重要なことは、脳にはこれらの解剖学的組織を結合する全体的な再入経路が必要である。",
+      "english": "Most important of all, the brain needs global reentry pathways connecting these anatomical structures."
+    },
+    {
+      "id": "193780",
+      "japanese": "もしも脳が死んでいたら、その患者を死なせてあげるべきです。",
+      "english": "If the brain is dead, we should let the patient die."
+    },
+    {
+      "id": "194068",
+      "japanese": "もう少し脳みそをしぼって考えろ。",
+      "english": "Rack your brains a little harder."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.225Z",
+  "count": 5,
+  "fileId": "kanji-00697"
+}

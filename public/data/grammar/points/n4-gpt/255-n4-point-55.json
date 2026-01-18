@@ -1,0 +1,103 @@
+{
+  "id": "255-n4-point-55",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb なさい (〜nasai)",
+    "romaji": "Verb nasai",
+    "en": "Verb + nasai"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "The なさい grammar point is used to give orders or instructions, often by authority figures when addressing someone younger or of lower status. It sounds polite but can be strong and direct.",
+    "ja": "なさいは、教師や親などが年下や地位の低い人に対し命令や指示を出す際に使います。丁寧ですが強くて直接的な表現です。"
+  },
+  "structure": {
+    "pattern": "Verb-stem + なさい",
+    "components": [
+      {
+        "part": "verb stem",
+        "explanation": "The base form of the verb before adding なさい.",
+        "examples": [
+          "掃除し",
+          "勉強し",
+          "起き"
+        ]
+      },
+      {
+        "part": "なさい",
+        "explanation": "Attached to the verb stem to express a polite but strong command or instruction.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "部屋を掃除しなさい。",
+      "romaji": "Heya wo souji shinasai.",
+      "english": "Clean your room.",
+      "breakdown": {
+        "部屋を": "room",
+        "掃除し": "to clean",
+        "なさい": "do"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "勉強しなさい。",
+      "romaji": "Benkyou shinasai.",
+      "english": "Study.",
+      "breakdown": {
+        "勉強し": "to study",
+        "なさい": "do"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "早く起きなさい。",
+      "romaji": "Hayaku okinasai.",
+      "english": "Wake up early.",
+      "breakdown": {
+        "早": "early",
+        "起きて": "to wake",
+        "なさい": "do"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "宿題をやりなさい。",
+      "romaji": "Shukudai wo yarinasai.",
+      "english": "Do your homework.",
+      "breakdown": {
+        "宿題を": "homework",
+        "やっ": "to do",
+        "なさい": "do"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "名詞 を さしあげる",
+    "動詞ていただきたい",
+    "動詞ていただけませんか"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "掃除しなさい。",
+      "correction": "掃除しなさい。",
+      "example": "部屋を掃除しなさい。"
+    },
+    {
+      "mistake": "勉強なさい。",
+      "correction": "勉強しなさい。",
+      "example": "Benkyou shinasai."
+    }
+  ],
+  "tags": [
+    "n4",
+    "command",
+    "polite",
+    "instruction",
+    "authority"
+  ]
+}

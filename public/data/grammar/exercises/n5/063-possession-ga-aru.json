@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "063-possession-ga-aru",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "063-possession-ga-aru-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct verb: 車が__。",
+      "options": [
+        { "id": "a", "text": "あります" },
+        { "id": "b", "text": "います" },
+        { "id": "c", "text": "します" },
+        { "id": "d", "text": "なります" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 車 is non-living, so use あります.",
+      "incorrectFeedback": "Not quite. Use あります for non-living things.",
+      "explanation": "がある is used for possession of objects.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "063-possession-ga-aru-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'I have a book'?",
+      "options": [
+        { "id": "a", "text": "本があります。" },
+        { "id": "b", "text": "本がいます。" },
+        { "id": "c", "text": "本をあります。" },
+        { "id": "d", "text": "本にあります。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 本があります means 'I have a book.'",
+      "incorrectFeedback": "Try again. Use あります for objects.",
+      "explanation": "がある is used for non-living possession.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "063-possession-ga-aru-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I have time.'",
+      "correctAnswer": "時間があります",
+      "acceptedVariations": [
+        "時間があります。",
+        "じかんがあります",
+        "jikan ga arimasu",
+        "jikan ga arimasu."
+      ],
+      "correctFeedback": "Great! 時間があります is correct.",
+      "incorrectFeedback": "The correct answer is: 時間があります (jikan ga arimasu).",
+      "explanation": "時間 is non-living, so use あります.",
+      "hints": ["時間 = time", "Use あります"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "063-possession-ga-aru-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence:",
+      "options": [
+        { "id": "a", "text": "お金があります。" },
+        { "id": "b", "text": "お金がいます。" },
+        { "id": "c", "text": "お金をあります。" },
+        { "id": "d", "text": "お金にあります。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! お金 is non-living.",
+      "incorrectFeedback": "Not quite. Use あります for non-living things.",
+      "explanation": "がある expresses possession of objects.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "063-possession-ga-aru-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I have a car.'",
+      "correctAnswer": "車があります",
+      "acceptedVariations": [
+        "車があります。",
+        "くるまがあります",
+        "kuruma ga arimasu",
+        "kuruma ga arimasu."
+      ],
+      "correctFeedback": "Nice! 車があります is correct.",
+      "incorrectFeedback": "The correct answer is: 車があります (kuruma ga arimasu).",
+      "explanation": "Use あります for non-living possession.",
+      "hints": ["車 = car", "Use あります"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "063-possession-ga-aru-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "本があります。" },
+        { "id": "b", "text": "車があります。" },
+        { "id": "c", "text": "兄があります。" },
+        { "id": "d", "text": "時間があります。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use います for people, not あります.",
+      "incorrectFeedback": "Try again. People use います.",
+      "explanation": "兄 is a person, so use います.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "063-possession-ga-aru-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I have money.'",
+      "correctAnswer": "お金があります",
+      "acceptedVariations": [
+        "お金があります。",
+        "おかねがあります",
+        "okane ga arimasu",
+        "okane ga arimasu."
+      ],
+      "correctFeedback": "Great! お金があります is correct.",
+      "incorrectFeedback": "The correct answer is: お金があります (okane ga arimasu).",
+      "explanation": "Use あります for non-living items.",
+      "hints": ["お金 = money", "Use あります"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "063-possession-ga-aru-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "車があります。",
+          "romaji": "Kuruma ga arimasu.",
+          "english": "I have a car."
+        },
+        {
+          "japanese": "時間があります。",
+          "romaji": "Jikan ga arimasu.",
+          "english": "I have time."
+        },
+        {
+          "japanese": "本があります。",
+          "romaji": "Hon ga arimasu.",
+          "english": "I have a book."
+        }
+      ],
+      "correctFeedback": "Perfect! All use がある for possession.",
+      "incorrectFeedback": "Not quite. Review がある for possessions.",
+      "explanation": "がある expresses possession of non-living things.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "063-possession-ga-aru-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'I have a sister'?",
+      "options": [
+        { "id": "a", "text": "妹がいます" },
+        { "id": "b", "text": "妹があります" },
+        { "id": "c", "text": "妹をあります" },
+        { "id": "d", "text": "妹にあります" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! People use います.",
+      "incorrectFeedback": "Try again. Use います for living things.",
+      "explanation": "For people, use がいます.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "063-possession-ga-aru-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I have a pen.'",
+      "correctAnswer": "ペンがあります",
+      "acceptedVariations": [
+        "ペンがあります。",
+        "ぺんがあります",
+        "pen ga arimasu",
+        "pen ga arimasu."
+      ],
+      "correctFeedback": "Nice! ペンがあります is correct.",
+      "incorrectFeedback": "The correct answer is: ペンがあります (pen ga arimasu).",
+      "explanation": "Use あります for non-living items.",
+      "hints": ["ペン = pen", "Use あります"],
+      "difficulty": "hard"
+    }
+  ]
+}

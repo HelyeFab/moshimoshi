@@ -1,0 +1,33 @@
+{
+  "kanji": "国",
+  "sentences": [
+    {
+      "id": "5062",
+      "japanese": "イタリアはとても美しい国です。",
+      "english": "Italy is a very beautiful country."
+    },
+    {
+      "id": "178298",
+      "japanese": "君の国はどこですか。",
+      "english": "Where do you come from?"
+    },
+    {
+      "id": "178299",
+      "japanese": "君の国では、お米をたべますか。",
+      "english": "Do you eat rice in your country?"
+    },
+    {
+      "id": "764094",
+      "japanese": "あなたの国では米を食べますか？",
+      "english": "Do you eat rice in your country?"
+    },
+    {
+      "id": "179629",
+      "japanese": "金融サービスのコストはどの国でも高くなっている。",
+      "english": "Costs of financial services are rising in every country."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.321Z",
+  "count": 5,
+  "fileId": "kanji-00010"
+}

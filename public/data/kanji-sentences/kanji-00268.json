@@ -1,0 +1,33 @@
+{
+  "kanji": "割",
+  "sentences": [
+    {
+      "id": "330723",
+      "japanese": "重要なことに割ける時間はないよ！",
+      "english": "You never have time for important things!"
+    },
+    {
+      "id": "11138675",
+      "japanese": "窓を割ったのはわざとなの？それとも、うっかり割っちゃったの？",
+      "english": "Did you break the window on purpose or by accident?"
+    },
+    {
+      "id": "178212",
+      "japanese": "君の重さじゃ氷が割れるよ。",
+      "english": "The ice will give under your weight."
+    },
+    {
+      "id": "180063",
+      "japanese": "鏡を割らないでください。",
+      "english": "Don't break a mirror."
+    },
+    {
+      "id": "182884",
+      "japanese": "議長は意見が割れるかも知れないという可能性を除外しはしなかった。",
+      "english": "The chairman did not rule out the possibility of a disagreement."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.691Z",
+  "count": 5,
+  "fileId": "kanji-00268"
+}

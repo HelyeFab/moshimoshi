@@ -1,0 +1,1620 @@
+{
+  "version": "1.0.0",
+  "jlptLevel": "N4",
+  "totalPoints": 124,
+  "lastUpdated": "2026-01-17",
+  "points": [
+    {
+      "id": "201-n4-point-1",
+      "order": 1,
+      "category": "uncategorized",
+      "title": {
+        "ja": "A とか B とか",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to express multiple examples or possibilities; 'such as', 'like', 'for example'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "202-n4-point-2",
+      "order": 2,
+      "category": "uncategorized",
+      "title": {
+        "ja": "A は B ほど～ありません (A wa B hodo ～ arimasen)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express that A is not as much as B; 'not as... as', 'not... to the extent of'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "203-n4-point-3",
+      "order": 3,
+      "category": "uncategorized",
+      "title": {
+        "ja": "A は B ほど～ない (A wa B hodo ~ nai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expressing that A is not as ~ as B; 'not as...as'",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "204-n4-point-4",
+      "order": 4,
+      "category": "uncategorized",
+      "title": {
+        "ja": "A より B のほうが〜 (A yori B no hou ga 〜)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Comparing two things; 'B is more ~ than A'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "205-n4-point-5",
+      "order": 5,
+      "category": "uncategorized",
+      "title": {
+        "ja": "い-Adjective く する/なる (i-Adjective kusuru/naru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a change happening or making something change.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "206-n4-point-6",
+      "order": 6,
+      "category": "uncategorized",
+      "title": {
+        "ja": "な-adjective に する/なる",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to indicate change or decision; 'to become' or 'to make' with na-adjectives.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "207-n4-point-7",
+      "order": 7,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Noun しか～ない (Noun shika~nai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses 'only', 'nothing but', or 'no other'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "208-n4-point-8",
+      "order": 8,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Noun に する (Noun ni suru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to indicate a choice or decision, 'to decide on' or 'to choose'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "209-n4-point-9",
+      "order": 9,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Noun に なる (Noun ni naru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "To become; to change into; to turn into.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "210-n4-point-10",
+      "order": 10,
+      "category": "uncategorized",
+      "title": {
+        "ja": "のために (no tame ni)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to express purpose or reason; 'for', 'for the sake of', 'in order to'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "211-n4-point-11",
+      "order": 11,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Noun の 間に (〜no aida ni)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses 'while' or 'during' a specific period or time.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "212-n4-point-12",
+      "order": 12,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Noun ばかり (〜bakari)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses 'only', 'nothing but', 'always', or 'just'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "213-n4-point-13",
+      "order": 13,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Noun を あげる (Noun wo ageru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "To give something to someone; 'give', 'offer', 'present'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "214-n4-point-14",
+      "order": 14,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Nounをいただく (Noun wo itadaku)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "To receive or accept something politely; 'to receive', 'to get', 'to accept'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "215-n4-point-15",
+      "order": 15,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Nounをくださる",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to express someone doing something as a favor or for the benefit of the speaker.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "216-n4-point-16",
+      "order": 16,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Noun を くれる (Noun wo kureru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses that someone gives a thing to the speaker or someone close to the speaker.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "217-n4-point-17",
+      "order": 17,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Noun を さしあげる (Noun wo sashiageru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "A polite way of expressing to give something.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "218-n4-point-18",
+      "order": 18,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Noun もらう (Noun wo morau)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "To receive or get something from someone; 'to receive', 'to get'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "219-n4-point-19",
+      "order": 19,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Noun + 中 (Noun + ちゅう)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express 'in the middle of', 'during', or 'in the process of'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "220-n4-point-20",
+      "order": 20,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb させられる (Verb-saserareru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express the passive causative form; 'to be made to', 'to be forced to'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "221-n4-point-21",
+      "order": 21,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb させる (Verb-saseru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses 'to make someone do something', 'to let someone do something', or 'to cause someone to...",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "222-n4-point-22",
+      "order": 22,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb た ことがある (Verb ta koto ga aru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses the experience of having done something in the past.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "223-n4-point-23",
+      "order": 23,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb た ときに (Verb た ときに)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express an action or event that occurred at a specific time in the past; 'when', 'at the time'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "224-n4-point-24",
+      "order": 24,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb た ところ (Verb ta tokoro)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses the situation right after an action has taken place.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "225-n4-point-25",
+      "order": 25,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb たほうがいい (〜ta hou ga ii)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to give advice or make a suggestion to someone - 'it's better if...'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "226-n4-point-26",
+      "order": 26,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ために (tame ni)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to describe the purpose or reason for an action; 'for the sake of', 'in order to', 'because...",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "227-n4-point-27",
+      "order": 27,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb つもり (〜tsumori)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express the intention, plan, or determination to do something; 'I intend to', 'I plan to', 'I'm d...",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "228-n4-point-28",
+      "order": 28,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb てあげる (Verb te ageru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to express doing something for someone; 'do something for someone'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "229-n4-point-29",
+      "order": 29,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb て ある (Verb-te aru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Indicates that an action has been done and its result is still in effect.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "230-n4-point-30",
+      "order": 30,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb て いく (Verb-te iku)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses an action that continues on into the future or a change that progresses over time.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "231-n4-point-31",
+      "order": 31,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ていただきたい (te itadakitai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a polite request or desire that someone does something for you.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "232-n4-point-32",
+      "order": 32,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ていただく (〜te itadaku)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to express receiving someone's favor or help; 'to kindly do'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "233-n4-point-33",
+      "order": 33,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb て いただけませんか (Verb te itadakemasen ka)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "A polite request; 'Could you please...', 'Would you mind...'",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "234-n4-point-34",
+      "order": 34,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb て いる (Verb-te iru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses an ongoing action or a state resulting from a past action.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "235-n4-point-35",
+      "order": 35,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb て いる ところ (Verb te iru tokoro)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Describes an action that is currently happening; 'in the middle of', 'in the process of'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "236-n4-point-36",
+      "order": 36,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ている間に (te iru aida ni)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses 'while' or 'during the time' something is happening.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "237-n4-point-37",
+      "order": 37,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ておく (〜te oku)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Perform an action in preparation for a future situation; 'to do something in advance'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "238-n4-point-38",
+      "order": 38,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb て くださいませんか (Verb-te kudasaimasen ka)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Polite request for asking someone for a favor.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "239-n4-point-39",
+      "order": 39,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb て くださる (Verb-te kudasaru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses gratitude for receiving someone's favor; 'to kindly do'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "240-n4-point-40",
+      "order": 40,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb て くる (Verb te kuru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "An action that starts in the past and continues to the present or future; 'come to', 'begin to',...",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "241-n4-point-41",
+      "order": 41,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb てくれませんか (〜te kuremasen ka)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "A polite way to request someone to do something for you; 'Could you please', 'Would you please',...",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "242-n4-point-42",
+      "order": 42,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb て くれる (Verb-te kureru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses that someone does something for the speaker (or another person in speaker's group); 'to...",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "243-n4-point-43",
+      "order": 43,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb て + さしあげる (Verb TE sashiageru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "A polite way to express giving or doing something for someone.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "244-n4-point-44",
+      "order": 44,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb てしまう (〜te shimau)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses unintentional actions or actions with regrettable outcomes; 'to end up doing', 'to acci...",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "245-n4-point-45",
+      "order": 45,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb て ほしい (Verb-te hoshii)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a desire for someone else to do something; 'I want (someone) to'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "246-n4-point-46",
+      "order": 46,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb てみる (〜te miru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to express 'try to' or 'attempt to do'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "247-n4-point-47",
+      "order": 47,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb てもらいたい (～te moraitai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a desire to receive a favor or service from someone else.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "248-n4-point-48",
+      "order": 48,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb て もらう (Verb-te morau)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express receiving a favor or action from someone.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "249-n4-point-49",
+      "order": 49,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb てもらえませんか (～te moraemasen ka)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "A polite way to ask for a favor or request someone to do something.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "250-n4-point-50",
+      "order": 50,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ない ことがある (Verb-nai koto ga aru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses that something doesn't always happen or there are occasions when it doesn't happen.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "251-n4-point-51",
+      "order": 51,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ない + ことにする (Verb nai koto ni suru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "To decide not to do something.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "252-n4-point-52",
+      "order": 52,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ない ことになる (Verb nai koto ni naru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses a result; 'end up not', 'it will become that', 'it would mean that'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "253-n4-point-53",
+      "order": 53,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ないほうがいい (Verb nai hou ga ii)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses the idea that it is better not to do something.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "254-n4-point-54",
+      "order": 54,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ながら (〜nagara)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses 'while' or 'as' in the sense of doing two things simultaneously.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "255-n4-point-55",
+      "order": 55,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb なさい (〜nasai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "A command form used to give orders or instructions; 'Please do', 'Do this'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "256-n4-point-56",
+      "order": 56,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb にくい (〜nikui)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express difficulty or complexity; 'hard to', 'difficult to', 'not easily'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "257-n4-point-57",
+      "order": 57,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb やすい (〜yasui)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Indicates that something is easy to do; 'easy to', 'easy for'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "258-n4-point-58",
+      "order": 58,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ようと思う (Verb-you to omou)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express intention or plan to do something; 'I think I will', 'I plan to', 'I intend to'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "259-n4-point-59",
+      "order": 59,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ように (〜you ni)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to express 'like', 'as if', 'in order to', or 'so that'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "260-n4-point-60",
+      "order": 60,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ようにする (Verb ~you ni suru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Make an effort to; try to; see to it that; ensure that.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "261-n4-point-61",
+      "order": 61,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ようになる (〜you ni naru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a change in ability, situation or state; 'become able to', 'come to', 'begin to'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "262-n4-point-62",
+      "order": 62,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ように言う (Verb-you ni iu)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Tell someone to do something; 'tell to do', 'instruct to do'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "263-n4-point-63",
+      "order": 63,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb られる (〜rareru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses passive voice or potential form for verbs.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "264-n4-point-64",
+      "order": 64,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb る ことがある (〜ru koto ga aru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to express that something happens sometimes or has happened before.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "265-n4-point-65",
+      "order": 65,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ることができる (〜ru koto ga dekiru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express ability or possibility of doing an action; 'can', 'be able to', 'is possible'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "266-n4-point-66",
+      "order": 66,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb ることにする (〜ru koto ni suru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Decide to do something, make a decision.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "267-n4-point-67",
+      "order": 67,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb る ことになる (〜ru koto ni naru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Indicates that something has been decided or arranged; 'it has been decided that', 'it turns out...",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "268-n4-point-68",
+      "order": 68,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb るときに (〜ru toki ni)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Describes the time when a certain action takes place; 'when', 'at the time'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "269-n4-point-69",
+      "order": 69,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb る ところ (Verb-ru tokoro)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses the state or moment when an action is about to happen or is happening.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "270-n4-point-70",
+      "order": 70,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb 出す (~dasu)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express the action of taking something out, starting an action, or emphasizing a verb.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "271-n4-point-71",
+      "order": 71,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb 方 (〜hou)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Indicates the way or method of doing something; often read as '～かた' ('how to', 'the way of').",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "272-n4-point-72",
+      "order": 72,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb 終わる (〜owaru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Verbal action is completed; 'to finish', 'to end'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "273-n4-point-73",
+      "order": 73,
+      "category": "uncategorized",
+      "title": {
+        "ja": "Verb + 続ける (つづける, tsuzukeru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "To continue doing or to keep doing an action.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "274-n4-point-74",
+      "order": 74,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～かしら (〜kashira)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Indicates uncertainty or doubt; 'I wonder', 'I'm not sure'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "275-n4-point-75",
+      "order": 75,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～かどうか (〜ka dou ka)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to express 'whether' or 'if' in indirect questions or statements.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "276-n4-point-76",
+      "order": 76,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～かなあ (〜kanaa)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses uncertainty or wonder; 'I wonder', 'I'm not sure'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "277-n4-point-77",
+      "order": 77,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～かもしれない (〜kamoshirenai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express uncertainty; 'maybe', 'might', 'possibly'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "278-n4-point-78",
+      "order": 78,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～から (〜kara)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a reason or cause; 'because', 'since', 'due to'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "279-n4-point-79",
+      "order": 79,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～けれど (〜keredo)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Indicate a soft contrast or contradiction; 'but', 'however'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "280-n4-point-80",
+      "order": 80,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～させてください (〜sasete kudasai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a polite request to allow or permit someone to do something.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "281-n4-point-81",
+      "order": 81,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～し、～し、～ (〜shi, 〜shi, 〜)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express multiple reasons or characteristics; 'and', 'because', 'since'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "282-n4-point-82",
+      "order": 82,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～すぎる (〜sugiru)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses that something is excessive or overdone; 'too much', 'too', 'over'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "283-n4-point-83",
+      "order": 83,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～ずつ (〜zutsu)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Indicates equal distribution; 'each', 'per', 'apiece'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "284-n4-point-84",
+      "order": 84,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～そうだ (〜sou da)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express the appearance, seeming, or feeling of something; 'looks like', 'seems', 'appears'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "285-n4-point-85",
+      "order": 85,
+      "category": "uncategorized",
+      "title": {
+        "ja": "そんな (sonna) + Noun",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses 'that kind/type of'; referring to something near the listener or previously mentioned.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "286-n4-point-86",
+      "order": 86,
+      "category": "uncategorized",
+      "title": {
+        "ja": "そんなに～ (sonna ni〜)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses 'not so much', 'not that', or 'not so ~'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "287-n4-point-87",
+      "order": 87,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～たらいい (〜tara ii)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expressing a desire or suggestion for a particular outcome; 'it would be good if', 'should', 'I h...",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "288-n4-point-88",
+      "order": 88,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～たら いかがですか (〜tara ikaga desu ka)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Making polite suggestions; 'how about if', 'what if', 'it would be good if'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "289-n4-point-89",
+      "order": 89,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～たら どうですか (〜tara doudesuka)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a suggestion or advice; 'what if', 'how about', 'why don't you'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "290-n4-point-90",
+      "order": 90,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～たり～たり (〜tari 〜tari)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to list multiple actions or states; 'doing things like', 'and so on', 'etc.'",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "291-n4-point-91",
+      "order": 91,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～だろう (〜darou)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express probability, likelihood or certainty; 'probably', 'maybe', 'I think'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "292-n4-point-92",
+      "order": 92,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～っていう (〜tte iu)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to quote, define, or specify a noun.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "293-n4-point-93",
+      "order": 93,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～で (〜de)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Indicates the means, method, or place.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "294-n4-point-94",
+      "order": 94,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～でしょう (〜deshou)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "A conjecture or probability; 'probably', 'I think', 'it seems'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "295-n4-point-95",
+      "order": 95,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～てはいけない (〜te wa ikenai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses prohibition; 'must not', 'cannot'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "296-n4-point-96",
+      "order": 96,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～てもいい (〜temo ii)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "To give or ask permission; 'it's okay to', 'may', 'can'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "297-n4-point-97",
+      "order": 97,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～ても/でも (〜te mo/demo)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses 'even if' or 'even though'; used to convey contradiction or contrast.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "298-n4-point-98",
+      "order": 98,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～といい (〜to ii)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a wish or hope; 'I hope', 'it would be good if'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "299-n4-point-99",
+      "order": 99,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～という (〜to iu) Noun",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to define or explain a noun more specifically.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "300-n4-point-100",
+      "order": 100,
+      "category": "uncategorized",
+      "title": {
+        "ja": "どういう Noun (dou iu Noun)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Asking for clarification or more information about a noun; 'what kind of', 'what sort of'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "301-n4-point-101",
+      "order": 101,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～と思う (〜to omou)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express one's thoughts or opinions; 'I think', 'I believe'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "302-n4-point-102",
+      "order": 102,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～という (〜to iu)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to quote, express hearsay or define something.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "303-n4-point-103",
+      "order": 103,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～ないといけない (〜nai to ikenai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a necessity; 'must', 'have to', 'need to'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "304-n4-point-104",
+      "order": 104,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～なきゃいけない (〜nakya ikenai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a necessity or obligation; 'must', 'have to'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "305-n4-point-105",
+      "order": 105,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～なくちゃいけない (〜naku cha ikenai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express the obligation to do something; 'have to', 'must', 'need to'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "306-n4-point-106",
+      "order": 106,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～なくてはいけない (〜nakute wa ikenai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses the necessity or obligation; 'must', 'have to'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "307-n4-point-107",
+      "order": 107,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～なくてもいい (〜nakutemo ii)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses that something is not necessary to do; 'it's okay if not', 'don't have to'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "308-n4-point-108",
+      "order": 108,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～なければ ならない (〜nakereba naranai)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express obligation or necessity; 'must', 'have to', 'need to'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "309-n4-point-109",
+      "order": 109,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～に (〜ni)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Indicates direction, destination, purpose, or time.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "310-n4-point-110",
+      "order": 110,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～ので (〜node)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a reason or a cause for something; 'because', 'since', 'so'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "311-n4-point-111",
+      "order": 111,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～のです (〜no desu)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Provides an explanation or gives background information; 'the fact is', 'the reason is', 'actually'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "312-n4-point-112",
+      "order": 112,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～のに (〜no ni)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to express contrast between expectation and reality, or to indicate a purpose for doing some...",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "313-n4-point-113",
+      "order": 113,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～ばいい (〜ba ii)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express a suggestion or advice; 'should', 'it would be good if'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "314-n4-point-114",
+      "order": 114,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～まで (〜made)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Indicates extent, 'until', 'up to', 'as far as', 'even'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "315-n4-point-115",
+      "order": 115,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～までに (〜made ni)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express 'by' or 'before' a certain time or action.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "316-n4-point-116",
+      "order": 116,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～まま (〜mama)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express 'as it is', 'while' or 'unchanged state'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "317-n4-point-117",
+      "order": 117,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～みたいだ (〜mitai da)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Indicates similarity, resemblance or 'like'; 'it seems', 'appears', 'looks like'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "318-n4-point-118",
+      "order": 118,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～も (〜mo)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Indicates 'also', 'too', or 'as well'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "319-n4-point-119",
+      "order": 119,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～ようだ (〜you da)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Expresses appearance, similarity or inference; 'it seems', 'it looks like', 'it appears'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "320-n4-point-120",
+      "order": 120,
+      "category": "uncategorized",
+      "title": {
+        "ja": "～んです (〜n desu)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Provide an explanation or reason; 'it is that', 'the thing is', 'the reason is'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "321-n4-point-121",
+      "order": 121,
+      "category": "uncategorized",
+      "title": {
+        "ja": "文A。そのうえ 文B。",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Shows additional information; 'furthermore', 'besides', 'in addition'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "322-n4-point-122",
+      "order": 122,
+      "category": "uncategorized",
+      "title": {
+        "ja": "文A。それで 文B (Bun A. Sorede Bun B)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Used to connect two sentences; 'So', 'That's why', 'Therefore'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "323-n4-point-123",
+      "order": 123,
+      "category": "uncategorized",
+      "title": {
+        "ja": "文A。それに 文B (Bun A. Soreni Bun B)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express 'in addition to; besides,' used to include additional information.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    },
+    {
+      "id": "324-n4-point-124",
+      "order": 124,
+      "category": "uncategorized",
+      "title": {
+        "ja": "文A。だから 文B (Bun A. Dakara Bun B)",
+        "romaji": "",
+        "en": ""
+      },
+      "shortDescription": "Express reason or cause; 'because', 'so', 'therefore'.",
+      "jlptLevel": "N4",
+      "difficulty": "intermediate"
+    }
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "018-particle-ka-question",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "018-particle-ka-question-ex-01",
+      "type": "multiple-choice",
+      "question": "Which particle makes a polite question?",
+      "options": [
+        { "id": "a", "text": "ね" },
+        { "id": "b", "text": "よ" },
+        { "id": "c", "text": "か" },
+        { "id": "d", "text": "を" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! か marks a question.",
+      "incorrectFeedback": "Not quite. Use か for questions.",
+      "explanation": "Add か at the end of a sentence to ask a question.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "018-particle-ka-question-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct question: 'Is this a pen?'",
+      "options": [
+        { "id": "a", "text": "これはペンです。" },
+        { "id": "b", "text": "これはペンですか。" },
+        { "id": "c", "text": "これはペンですよ。" },
+        { "id": "d", "text": "これはペンですね。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Add か to make a question.",
+      "incorrectFeedback": "Try again. Use か at the end.",
+      "explanation": "Statement + か = question.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "018-particle-ka-question-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Are you a student?'",
+      "correctAnswer": "学生ですか",
+      "acceptedVariations": [
+        "学生ですか。",
+        "がくせいですか",
+        "gakusei desu ka",
+        "gakusei desu ka."
+      ],
+      "correctFeedback": "Great! 学生ですか is correct.",
+      "incorrectFeedback": "The correct answer is: 学生ですか (gakusei desu ka).",
+      "explanation": "Add か to the end to make a question.",
+      "hints": ["Use です + か", "学生 = student"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "018-particle-ka-question-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "どこへ行きますか。" },
+        { "id": "b", "text": "どこへ行きますよ。" },
+        { "id": "c", "text": "どこへ行きますね。" },
+        { "id": "d", "text": "どこへ行きますを。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! か makes it a question.",
+      "incorrectFeedback": "Not quite. Use か at the end.",
+      "explanation": "Question words keep order; add か.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "018-particle-ka-question-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'What do you eat?'",
+      "correctAnswer": "何を食べますか",
+      "acceptedVariations": [
+        "何を食べますか。",
+        "なにをたべますか",
+        "nani o tabemasu ka",
+        "nani o tabemasu ka."
+      ],
+      "correctFeedback": "Nice! 何を食べますか is correct.",
+      "incorrectFeedback": "The correct answer is: 何を食べますか (nani o tabemasu ka).",
+      "explanation": "Keep word order and add か.",
+      "hints": ["何 = what", "End with か"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "018-particle-ka-question-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is a polite question?",
+      "options": [
+        { "id": "a", "text": "明日行きます。" },
+        { "id": "b", "text": "明日行きますか。" },
+        { "id": "c", "text": "明日行きますよ。" },
+        { "id": "d", "text": "明日行きますね。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! か makes it a question.",
+      "incorrectFeedback": "Try again. Add か for a question.",
+      "explanation": "Statement + か becomes a question.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "018-particle-ka-question-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Is this your book?'",
+      "correctAnswer": "これはあなたの本ですか",
+      "acceptedVariations": [
+        "これはあなたの本ですか。",
+        "これはあなたのほんですか",
+        "kore wa anata no hon desu ka",
+        "kore wa anata no hon desu ka."
+      ],
+      "correctFeedback": "Great! これはあなたの本ですか is correct.",
+      "incorrectFeedback": "The correct answer is: これはあなたの本ですか (kore wa anata no hon desu ka).",
+      "explanation": "Use か to make it a question.",
+      "hints": ["あなたの = your", "End with か"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "018-particle-ka-question-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese questions with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "これは本ですか。",
+          "romaji": "Kore wa hon desu ka.",
+          "english": "Is this a book?"
+        },
+        {
+          "japanese": "どこへ行きますか。",
+          "romaji": "Doko e ikimasu ka.",
+          "english": "Where are you going?"
+        },
+        {
+          "japanese": "何を食べますか。",
+          "romaji": "Nani o tabemasu ka.",
+          "english": "What do you eat?"
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all questions correctly.",
+      "incorrectFeedback": "Not quite. Review the use of か.",
+      "explanation": "Each sentence ends with か.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "018-particle-ka-question-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "学生ですか。" },
+        { "id": "b", "text": "これは本ですか。" },
+        { "id": "c", "text": "田中さんは先生ですか。" },
+        { "id": "d", "text": "これは本ですかよ。" }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! か alone is enough in polite questions.",
+      "incorrectFeedback": "Try again. Do not mix か with よ in this pattern.",
+      "explanation": "Use only か for a polite question at N5.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "018-particle-ka-question-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Are you going tomorrow?'",
+      "correctAnswer": "明日行きますか",
+      "acceptedVariations": [
+        "明日行きますか。",
+        "あしたいきますか",
+        "ashita ikimasu ka",
+        "ashita ikimasu ka."
+      ],
+      "correctFeedback": "Nice! 明日行きますか is correct.",
+      "incorrectFeedback": "The correct answer is: 明日行きますか (ashita ikimasu ka).",
+      "explanation": "Add か to make the sentence a question.",
+      "hints": ["明日 = tomorrow", "End with か"],
+      "difficulty": "hard"
+    }
+  ]
+}

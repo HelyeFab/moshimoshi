@@ -1,0 +1,33 @@
+{
+  "kanji": "占",
+  "sentences": [
+    {
+      "id": "177355",
+      "japanese": "君は漁夫の利を占めようとしているのか。",
+      "english": "Are you trying to fish in troubled waters?"
+    },
+    {
+      "id": "182132",
+      "japanese": "漁夫の利を占める。",
+      "english": "A third party makes off with the profits."
+    },
+    {
+      "id": "182130",
+      "japanese": "漁夫の利を占めるつもりはない。",
+      "english": "I have no intention of fishing in troubled waters."
+    },
+    {
+      "id": "186506",
+      "japanese": "過去６年間でＣＦＩＴは墜落事故の３分の１を若干越えるくらいの割合を占めているが、死亡件数の５３％の原因となっている。",
+      "english": "Although CFIT accounted for just over a third of crashes in the past six years, it caused 53% of the deaths."
+    },
+    {
+      "id": "188205",
+      "japanese": "化学製品が当社の輸出品のおよそ３分の２を占めます。",
+      "english": "Chemical products account for approximately two-thirds of our exports."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.634Z",
+  "count": 5,
+  "fileId": "kanji-00717"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "釣",
+  "sentences": [
+    {
+      "id": "5335",
+      "japanese": "ごめん、お釣りが無い。",
+      "english": "I'm sorry, I don't have change."
+    },
+    {
+      "id": "8692231",
+      "japanese": "趣味は、釣りとテレビを見ることだ。",
+      "english": "My hobbies are fishing and watching television."
+    },
+    {
+      "id": "182133",
+      "japanese": "漁師は釣り上げた魚の大きさをおおげさにいった。",
+      "english": "The fisherman exaggerated the size of the fish he had caught."
+    },
+    {
+      "id": "182135",
+      "japanese": "漁師は釣り糸を水中に投げた。",
+      "english": "The fisherman cast his line into the water."
+    },
+    {
+      "id": "184222",
+      "japanese": "学生時代にはよく釣りにいったものだ。",
+      "english": "I used to go fishing in my school days."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.905Z",
+  "count": 5,
+  "fileId": "kanji-01236"
+}

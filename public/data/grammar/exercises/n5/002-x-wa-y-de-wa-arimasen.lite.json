@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "002-x-wa-y-de-wa-arimasen",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "002-x-wa-y-de-wa-arimasen-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct negative ending: 私は学生＿＿。",
+      "questionRomaji": "Watashi wa gakusei __.",
+      "options": [
+        {
+          "id": "a",
+          "text": "です",
+          "romaji": "desu"
+        },
+        {
+          "id": "b",
+          "text": "ではありません",
+          "romaji": "de wa arimasen"
+        },
+        {
+          "id": "c",
+          "text": "ました",
+          "romaji": "mashita"
+        },
+        {
+          "id": "d",
+          "text": "ません",
+          "romaji": "masen"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ではありません makes the sentence negative and polite.",
+      "incorrectFeedback": "Not quite. The polite negative ending is ではありません.",
+      "explanation": "XはYではありません is the polite negative of XはYです.",
+      "difficulty": "easy"
+    }
+  ]
+}

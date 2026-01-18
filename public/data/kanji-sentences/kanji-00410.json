@@ -1,0 +1,33 @@
+{
+  "kanji": "猫",
+  "sentences": [
+    {
+      "id": "897051",
+      "japanese": "毎日朝と夜、猫に餌を与えています。",
+      "english": "I feed my cat every morning and every evening."
+    },
+    {
+      "id": "9703091",
+      "japanese": "毎日朝晩、猫に餌をあげてるよ。",
+      "english": "I feed my cat every morning and every evening."
+    },
+    {
+      "id": "1614190",
+      "japanese": "夜中の猫はどれも灰色。",
+      "english": "All cats are grey in the dark."
+    },
+    {
+      "id": "167270",
+      "japanese": "私たちが休暇をとっている間、近所の人が私たちの猫の世話をしてくれた。",
+      "english": "While we were on holiday, a neighbor took care of our cat."
+    },
+    {
+      "id": "182652",
+      "japanese": "休暇中、近所の人がうちの猫の世話をしてくれた。",
+      "english": "While we were on holiday, a neighbor took care of our cat."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.662Z",
+  "count": 5,
+  "fileId": "kanji-00410"
+}

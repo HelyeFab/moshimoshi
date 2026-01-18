@@ -1,0 +1,92 @@
+{
+  "id": "258-n4-point-58",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ようと思う",
+    "romaji": "Verb-you to omou",
+    "en": "I think I will/plan to/intend to"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ようと思う grammar point is used to express the intention or plan to do something in the future. It can be translated as 'I think I will', 'I plan to', or 'I intend to' in English.",
+    "ja": "ようと思うという文法は将来の行動の意図や計画を表現するために使われます。英語では「私は〜するつもりだ」などと訳せます。"
+  },
+  "structure": {
+    "pattern": "Verb-volitional + と思う",
+    "components": [
+      {
+        "part": "verb-volitional",
+        "explanation": "The volitional form of the verb, expressing a future intention.",
+        "examples": [
+          "見よう (miyou) - will watch",
+          "遊ぼう (asobou) - will play"
+        ]
+      },
+      {
+        "part": "と思う",
+        "explanation": "Indicates an intention or plan in the future.",
+        "examples": [
+          "と思います (to omoumasu)",
+          "と思っています (to omotteimasu)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日、映画を見ようと思います。",
+      "romaji": "Ashita, eiga o miyou to omoimasu.",
+      "english": "I think I will watch a movie tomorrow.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "週末に友達と遊ぼうと思っています。",
+      "romaji": "Shuumatsu ni tomodachi to asobou to omotteimasu.",
+      "english": "I plan to hang out with friends on the weekend.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "勉強をもっと頑張ろうと思う。",
+      "romaji": "Benkyou o motto ganbarou to omou.",
+      "english": "I intend to study harder.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "来年は海外旅行に行こうと思っている。",
+      "romaji": "Rainen wa kaigai ryokou ni ikou to omotteiru.",
+      "english": "I plan to go on an overseas trip next year.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "動詞＋つもり",
+    "動詞てある",
+    "な-adjective に する/なる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "明日、映画を見ますと思う。",
+      "correction": "明日、映画を見ようと思います。",
+      "example": "Correcting the mistake by using the volitional form followed by とおもう."
+    }
+  ],
+  "tags": [
+    "n4",
+    "intention",
+    "future-plans",
+    "volitional-form"
+  ]
+}

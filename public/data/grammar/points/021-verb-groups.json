@@ -1,0 +1,94 @@
+{
+  "id": "021-verb-groups",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞グループ",
+    "romaji": "doushi group",
+    "en": "Verb groups"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "Japanese verbs are grouped because they change in similar ways. At N5, you learn three groups: う-verbs, る-verbs, and irregular verbs. Knowing the group helps you make ます forms, て forms, and negatives correctly.\n\nKey points:\n• う-verbs end in a u-sound: 書く, 話す, 待つ\n• る-verbs end in る and usually have an i/e sound before it: 食べる, 見る, 起きる\n• Irregular verbs are する and 来る (くる)\n• Some る-verbs are actually う-verbs, so memorize common ones\n\nFor example, 食べる (to eat) is a る-verb, and 書く (to write) is a う-verb. The polite ます form is made differently for each group.\n\nA good beginner habit is to learn verbs with their group. Many textbooks list the group next to the verb. Over time, you will naturally recognize patterns: verbs like 見る and 寝る are usually る-verbs, while verbs like 帰る and 入る are う-verbs even though they end in る.\n\nDon’t worry if this feels confusing at first. Focus on a small set of common verbs and learn their ます forms. As you see them again and again, the group patterns will become clearer.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb groups: う-verbs / る-verbs / irregular",
+    "components": [
+      {
+        "part": "う-verbs",
+        "explanation": "End in a u-sound",
+        "examples": ["書く", "話す", "飲む", "行く"]
+      },
+      {
+        "part": "る-verbs",
+        "explanation": "End in る with i/e sound before it",
+        "examples": ["食べる", "見る", "起きる"]
+      },
+      {
+        "part": "Irregular",
+        "explanation": "Two special verbs",
+        "examples": ["する", "来る"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "食べる → 食べます",
+      "romaji": "Taberu → tabemasu",
+      "english": "eat (ru-verb)",
+      "breakdown": {
+        "食べる": "to eat (ru-verb)",
+        "食べます": "eat (polite)"
+      },
+      "notes": "Ru-verb example"
+    },
+    {
+      "japanese": "書く → 書きます",
+      "romaji": "Kaku → kakimasu",
+      "english": "write (u-verb)",
+      "breakdown": {
+        "書く": "to write (u-verb)",
+        "書きます": "write (polite)"
+      },
+      "notes": "U-verb example"
+    },
+    {
+      "japanese": "する → します",
+      "romaji": "Suru → shimasu",
+      "english": "do (irregular)",
+      "breakdown": {
+        "する": "to do (irregular)",
+        "します": "do (polite)"
+      },
+      "notes": "Irregular verb"
+    },
+    {
+      "japanese": "来る → 来ます",
+      "romaji": "Kuru → kimasu",
+      "english": "come (irregular)",
+      "breakdown": {
+        "来る": "to come (irregular)",
+        "来ます": "come (polite)"
+      },
+      "notes": "Irregular verb"
+    }
+  ],
+  "relatedPoints": [
+    "022-masu-form-present",
+    "026-te-form-basics"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Assuming every る verb is a る-verb",
+      "correction": "Some る verbs are う-verbs (e.g., 帰る, 入る)",
+      "example": "帰る is a う-verb, not a る-verb"
+    },
+    {
+      "mistake": "Treating する/来る like regular verbs",
+      "correction": "They are irregular and have special forms",
+      "example": "する→します, 来る→来ます"
+    }
+  ],
+  "tags": ["verbs", "groups", "conjugation", "beginner"]
+}

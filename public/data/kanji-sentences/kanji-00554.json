@@ -1,0 +1,33 @@
+{
+  "kanji": "供",
+  "sentences": [
+    {
+      "id": "183551",
+      "japanese": "喜んでお供します。",
+      "english": "I am ready to go with you."
+    },
+    {
+      "id": "188861",
+      "japanese": "駅までお供しましょう。",
+      "english": "I'll accompany you to the station."
+    },
+    {
+      "id": "206107",
+      "japanese": "その老人は孫をお供に従えていた。",
+      "english": "The old man was accompanied by his grandchild."
+    },
+    {
+      "id": "169333",
+      "japanese": "散歩のお供をしてもよろしいでしょうか。",
+      "english": "May I accompany you on your walk?"
+    },
+    {
+      "id": "76802",
+      "japanese": "お墓には供花が供えられていた。",
+      "english": "An offering of flowers had been placed at the grave."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.541Z",
+  "count": 5,
+  "fileId": "kanji-00554"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "略",
+  "sentences": [
+    {
+      "id": "10191692",
+      "japanese": "これは何の略ですか？",
+      "english": "What does this stand for?"
+    },
+    {
+      "id": "192947",
+      "japanese": "ユネスコが何の略か知っていますか。",
+      "english": "Do you know what UNESCO stands for?"
+    },
+    {
+      "id": "234783",
+      "japanese": "ＵＳＳＲは何の略ですか。",
+      "english": "What does USSR stand for?"
+    },
+    {
+      "id": "10614492",
+      "japanese": "ＵＮって何の略なの？",
+      "english": "What does UN stand for?"
+    },
+    {
+      "id": "9834555",
+      "japanese": "ＧＮＰって、何の略なの？",
+      "english": "What does G.N.P. stand for?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.671Z",
+  "count": 5,
+  "fileId": "kanji-00629"
+}

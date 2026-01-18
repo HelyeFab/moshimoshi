@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "278-n4-point-78",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "278-n4-point-78-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Because/Since\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~から",
+          "romaji": "~kara"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ~から matches \"Because/Since\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ~から.",
+      "explanation": "Expresses a reason or cause; translates as \"because\" or \"since.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

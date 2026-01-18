@@ -1,0 +1,98 @@
+{
+  "id": "073-question-dou-how",
+  "version": "1.0.0",
+  "title": {
+    "ja": "どう",
+    "romaji": "dou",
+    "en": "どう (how)"
+  },
+  "jlptLevel": "N5",
+  "category": "questions",
+  "explanation": {
+    "en": "どう means “how.” It is used to ask about manner, condition, or opinion. It can also be used to ask “how is it?” or “how do you do it?”\n\nKey points:\n• どう + Verb = how (do something)\n• どうですか = how is it?\n• どうやって = how to do (more specific)\n• Common in daily conversation\n\nExample: “どう行きますか” means “How will you go?” “この映画はどうですか” means “How is this movie?”\n\nIt is a very flexible question word. Use it to ask about feelings, health, or methods.\n\nPractice with simple questions: どうしますか, どうやって作りますか.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "どう + Verb / どうですか",
+    "components": [
+      {
+        "part": "どう",
+        "explanation": "How",
+        "examples": ["どう"]
+      },
+      {
+        "part": "Verb/ですか",
+        "explanation": "Action or description",
+        "examples": ["行きますか", "しますか", "ですか"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "どう行きますか。",
+      "romaji": "Dou ikimasu ka.",
+      "english": "How will you go?",
+      "breakdown": {
+        "どう": "how",
+        "行きます": "go",
+        "か": "question marker"
+      },
+      "notes": "Manner"
+    },
+    {
+      "japanese": "この映画はどうですか。",
+      "romaji": "Kono eiga wa dou desu ka.",
+      "english": "How is this movie?",
+      "breakdown": {
+        "この": "this",
+        "映画": "movie",
+        "は": "topic marker",
+        "どう": "how",
+        "です": "is",
+        "か": "question marker"
+      },
+      "notes": "Opinion"
+    },
+    {
+      "japanese": "日本語はどうですか。",
+      "romaji": "Nihongo wa dou desu ka.",
+      "english": "How is Japanese?",
+      "breakdown": {
+        "日本語": "Japanese language",
+        "は": "topic marker",
+        "どう": "how",
+        "です": "is",
+        "か": "question marker"
+      },
+      "notes": "Evaluation"
+    },
+    {
+      "japanese": "どうやって来ましたか。",
+      "romaji": "Dou yatte kimashita ka.",
+      "english": "How did you come?",
+      "breakdown": {
+        "どうやって": "how (method)",
+        "来ました": "came",
+        "か": "question marker"
+      },
+      "notes": "Method"
+    }
+  ],
+  "relatedPoints": [
+    "068-question-nani-what",
+    "070-question-doko-where"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using どう with time questions",
+      "correction": "Use いつ for time",
+      "example": "❌ どう行きますか (meaning when) → ✅ いつ行きますか"
+    },
+    {
+      "mistake": "Forgetting か in questions",
+      "correction": "Add か to make it a question",
+      "example": "❌ この映画はどうです → ✅ この映画はどうですか"
+    }
+  ],
+  "tags": ["questions", "dou", "beginner"]
+}

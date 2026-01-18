@@ -1,0 +1,33 @@
+{
+  "kanji": "陽",
+  "sentences": [
+    {
+      "id": "189373",
+      "japanese": "雲が晴れて陽が差し始めた。",
+      "english": "The clouds cleared up and let the sun shine."
+    },
+    {
+      "id": "197899",
+      "japanese": "パラソルは顔に陽が当たらないように夏に用いる。",
+      "english": "A parasol is used during the summertime to shade the face."
+    },
+    {
+      "id": "78787",
+      "japanese": "陽は知らぬ間に地平線下に沈んだ。",
+      "english": "The sun sank below the horizon before I knew it."
+    },
+    {
+      "id": "78788",
+      "japanese": "陽が昇らないうちに出発しよう。",
+      "english": "Let's start before the sun rises."
+    },
+    {
+      "id": "78789",
+      "japanese": "陽があかあかと沈む。",
+      "english": "The sun goes down in a wild blaze of color."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.797Z",
+  "count": 5,
+  "fileId": "kanji-00346"
+}

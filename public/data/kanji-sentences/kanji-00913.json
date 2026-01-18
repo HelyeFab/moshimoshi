@@ -1,0 +1,33 @@
+{
+  "kanji": "党",
+  "sentences": [
+    {
+      "id": "186397",
+      "japanese": "我が党の党首は他の党首達と会見し、その問題について話をした。",
+      "english": "The leader of our party met with the other leaders and talked about the problem."
+    },
+    {
+      "id": "186398",
+      "japanese": "我が党にもようやく、誇りをもって出せる候補者ができた。",
+      "english": "Our party finally had a candidate we could put forward with pride."
+    },
+    {
+      "id": "207524",
+      "japanese": "その党は総選挙で圧勝した。",
+      "english": "The party won a sweeping victory at the general election."
+    },
+    {
+      "id": "207525",
+      "japanese": "その党は主に働く女性から成り立っている。",
+      "english": "The party is mainly made up of working women."
+    },
+    {
+      "id": "207526",
+      "japanese": "その党は急激にのびた。",
+      "english": "The party gained ground rapidly."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.157Z",
+  "count": 5,
+  "fileId": "kanji-00913"
+}

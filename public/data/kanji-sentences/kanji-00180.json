@@ -1,0 +1,33 @@
+{
+  "kanji": "明",
+  "sentences": [
+    {
+      "id": "4836",
+      "japanese": "こんなに明らかなことをわざわざどうやって説明したらいいのか分からない。",
+      "english": "I don't know how to demonstrate it, since it's too obvious!"
+    },
+    {
+      "id": "138773",
+      "japanese": "朝の5時だというのに明るい。",
+      "english": "It's just five in the morning, but nevertheless it is light out."
+    },
+    {
+      "id": "138735",
+      "japanese": "明かりをつけてくれませんか。",
+      "english": "Could you turn on the light, please?"
+    },
+    {
+      "id": "177780",
+      "japanese": "君はすべてのことを打ち明けるほうがよい。",
+      "english": "You had better make a clean breast of everything."
+    },
+    {
+      "id": "178594",
+      "japanese": "君に秘密を打ち明けよう。",
+      "english": "I will tell you a secret."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.560Z",
+  "count": 5,
+  "fileId": "kanji-00180"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "球",
+  "sentences": [
+    {
+      "id": "182377",
+      "japanese": "球は小川の中に転がり込んだ。",
+      "english": "The ball rolled into the stream."
+    },
+    {
+      "id": "182376",
+      "japanese": "球はわずかにカーブした。",
+      "english": "The ball curved slightly."
+    },
+    {
+      "id": "182378",
+      "japanese": "球はバウンドして塀を越えた。",
+      "english": "The ball bounced over the wall."
+    },
+    {
+      "id": "196522",
+      "japanese": "ボーラは、手に握らないほうの端に２つの石の球と長いひもから成り立っている。",
+      "english": "Bolas are made up of a long cord with two stone balls at the free ends."
+    },
+    {
+      "id": "197297",
+      "japanese": "ビルは第１球を打ちそこなった。",
+      "english": "Bill missed the first ball."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.576Z",
+  "count": 5,
+  "fileId": "kanji-00260"
+}

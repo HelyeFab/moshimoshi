@@ -1,0 +1,186 @@
+{
+  "grammarPointId": "060-aru-inanimate",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "060-aru-inanimate-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct verb: 机の上に本が＿＿。",
+      "questionRomaji": "Tsukue no ue ni hon ga __.",
+      "options": [
+        { "id": "a", "text": "います", "romaji": "imasu" },
+        { "id": "b", "text": "あります", "romaji": "arimasu" },
+        { "id": "c", "text": "です", "romaji": "desu" },
+        { "id": "d", "text": "ます", "romaji": "masu" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! あります is used for inanimate things.",
+      "incorrectFeedback": "Not quite. Use あります for objects.",
+      "explanation": "本 is inanimate, so use あります.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "060-aru-inanimate-ex-02",
+      "type": "multiple-choice",
+      "question": "Which particle marks the subject in existence sentences?",
+      "options": [
+        { "id": "a", "text": "は" },
+        { "id": "b", "text": "が" },
+        { "id": "c", "text": "を" },
+        { "id": "d", "text": "で" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Yes! が marks the thing that exists.",
+      "incorrectFeedback": "Try again. が marks the subject in existence sentences.",
+      "explanation": "The pattern is Location に Thing が あります.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "060-aru-inanimate-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a book on the desk.'",
+      "correctAnswer": "机の上に本があります",
+      "acceptedVariations": [
+        "机の上に本があります。",
+        "つくえのうえにほんがあります",
+        "つくえのうえにほんがあります。",
+        "tsukue no ue ni hon ga arimasu",
+        "tsukue no ue ni hon ga arimasu."
+      ],
+      "correctFeedback": "Great! 机の上に本があります is correct.",
+      "incorrectFeedback": "The correct answer is: 机の上に本があります (tsukue no ue ni hon ga arimasu).",
+      "explanation": "Use あります for inanimate objects.",
+      "hints": ["本 is inanimate", "Use に for location"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "060-aru-inanimate-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "駅の近くにコンビニがいます。" },
+        { "id": "b", "text": "駅の近くにコンビニがあります。" },
+        { "id": "c", "text": "駅の近くにコンビニをあります。" },
+        { "id": "d", "text": "駅の近くにコンビニにあります。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Convenience stores are inanimate, so use あります.",
+      "incorrectFeedback": "Not quite. Use あります for things/places.",
+      "explanation": "コンビニ is inanimate, so use あります.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "060-aru-inanimate-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a park in this town.'",
+      "correctAnswer": "この町に公園があります",
+      "acceptedVariations": [
+        "この町に公園があります。",
+        "このまちにこうえんがあります",
+        "このまちにこうえんがあります。",
+        "kono machi ni kouen ga arimasu",
+        "kono machi ni kouen ga arimasu."
+      ],
+      "correctFeedback": "Nice! この町に公園があります is correct.",
+      "incorrectFeedback": "The correct answer is: この町に公園があります (kono machi ni kouen ga arimasu).",
+      "explanation": "Use に for location and あります for inanimate objects.",
+      "hints": ["公園 means park", "Use が for the subject"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "060-aru-inanimate-ex-06",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence for 'There is a table in the room.'",
+      "options": [
+        { "id": "a", "text": "部屋にテーブルがあります。" },
+        { "id": "b", "text": "部屋にテーブルがいます。" },
+        { "id": "c", "text": "部屋をテーブルがあります。" },
+        { "id": "d", "text": "部屋にテーブルをあります。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Tables are inanimate, so use あります.",
+      "incorrectFeedback": "Try again. Use あります and が for the subject.",
+      "explanation": "The pattern is Location に Thing が あります.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "060-aru-inanimate-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I have time.'",
+      "correctAnswer": "時間があります",
+      "acceptedVariations": [
+        "時間があります。",
+        "じかんがあります",
+        "じかんがあります。",
+        "jikan ga arimasu",
+        "jikan ga arimasu."
+      ],
+      "correctFeedback": "Great! 時間があります is correct.",
+      "incorrectFeedback": "The correct answer is: 時間があります (jikan ga arimasu).",
+      "explanation": "ある can mean 'have' with abstract nouns.",
+      "hints": ["時間 means time", "Use が for the subject"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "060-aru-inanimate-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "机の上に本があります。",
+          "romaji": "Tsukue no ue ni hon ga arimasu.",
+          "english": "There is a book on the desk."
+        },
+        {
+          "japanese": "駅の近くにコンビニがあります。",
+          "romaji": "Eki no chikaku ni konbini ga arimasu.",
+          "english": "There is a convenience store near the station."
+        },
+        {
+          "japanese": "この町に公園があります。",
+          "romaji": "Kono machi ni kouen ga arimasu.",
+          "english": "There is a park in this town."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review the pattern with あります.",
+      "explanation": "All sentences use あります for inanimate existence.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "060-aru-inanimate-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence uses ある/あります correctly?",
+      "options": [
+        { "id": "a", "text": "先生があります。" },
+        { "id": "b", "text": "猫があります。" },
+        { "id": "c", "text": "本があります。" },
+        { "id": "d", "text": "田中さんがあります。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 本 is inanimate, so あります is correct.",
+      "incorrectFeedback": "Try again. あります is for inanimate things.",
+      "explanation": "Use ある/あります for objects and places.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "060-aru-inanimate-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a chair in the classroom.'",
+      "correctAnswer": "教室にいすがあります",
+      "acceptedVariations": [
+        "教室にいすがあります。",
+        "きょうしつにいすがあります",
+        "きょうしつにいすがあります。",
+        "kyoushitsu ni isu ga arimasu",
+        "kyoushitsu ni isu ga arimasu."
+      ],
+      "correctFeedback": "Nice! 教室にいすがあります is correct.",
+      "incorrectFeedback": "The correct answer is: 教室にいすがあります (kyoushitsu ni isu ga arimasu).",
+      "explanation": "Use あります for inanimate objects.",
+      "hints": ["いす means chair", "Use に for location"],
+      "difficulty": "hard"
+    }
+  ]
+}

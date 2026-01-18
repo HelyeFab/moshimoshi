@@ -1,0 +1,96 @@
+{
+  "id": "052-duration-particle-kan",
+  "version": "1.0.0",
+  "title": {
+    "ja": "期間の間",
+    "romaji": "kikan no aida (kan)",
+    "en": "Duration particle 間 (kan)"
+  },
+  "jlptLevel": "N5",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "間 (かん) is used to say how long an action continues. It means “for” or “during” a period of time. You put 間 after a time amount to show duration.\n\nKey points:\n• Time + 間 = duration: 2時間, 3日間\n• Use it with actions that last: 勉強します, 休みます, 仕事します\n• It answers “how long?” not “when?”\n• For minutes and hours, 間 is common and clear\n\nExample: “二時間勉強します” means “I study for two hours.” “三日間日本にいます” means “I will be in Japan for three days.”\n\nBe careful: に marks a point in time, while 間 shows duration. “七時に起きます” (at 7) is different from “七時間勉強します” (study for 7 hours).\n\nYou can also use 間 with days or weeks to show a period: 一週間, 二週間, 三日間. It is a simple way to talk about how long you do something.\n\nPractice by making sentences about your day: 勉強, 仕事, 休み, 旅行, and add a duration with 間.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Time duration + 間 + Verb",
+    "components": [
+      {
+        "part": "Time duration",
+        "explanation": "Amount of time",
+        "examples": ["二時間", "三日", "一週間"]
+      },
+      {
+        "part": "間",
+        "explanation": "Shows duration",
+        "examples": ["間"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action that lasts",
+        "examples": ["勉強します", "います", "休みます"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "二時間勉強します。",
+      "romaji": "Ni-jikan benkyou shimasu.",
+      "english": "I study for two hours.",
+      "breakdown": {
+        "二時間": "two hours",
+        "勉強します": "study"
+      },
+      "notes": "Duration of study"
+    },
+    {
+      "japanese": "三日間日本にいます。",
+      "romaji": "Mikka-kan Nihon ni imasu.",
+      "english": "I will be in Japan for three days.",
+      "breakdown": {
+        "三日間": "three days",
+        "日本": "Japan",
+        "に": "location marker",
+        "います": "be (animate)"
+      },
+      "notes": "Duration of stay"
+    },
+    {
+      "japanese": "一週間休みます。",
+      "romaji": "Isshuukan yasumimasu.",
+      "english": "I will rest for one week.",
+      "breakdown": {
+        "一週間": "one week",
+        "休みます": "rest"
+      },
+      "notes": "Duration of rest"
+    },
+    {
+      "japanese": "五分間待ちます。",
+      "romaji": "Gofun-kan machimasu.",
+      "english": "I will wait for five minutes.",
+      "breakdown": {
+        "五分間": "five minutes",
+        "待ちます": "wait"
+      },
+      "notes": "Duration of waiting"
+    }
+  ],
+  "relatedPoints": [
+    "051-time-particle-ni",
+    "054-kara-from"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using に for duration",
+      "correction": "Use 間 to show how long",
+      "example": "❌ 二時間に勉強します → ✅ 二時間勉強します"
+    },
+    {
+      "mistake": "Forgetting 間 with days",
+      "correction": "Add 間 for a clear duration",
+      "example": "❌ 三日日本にいます → ✅ 三日間日本にいます"
+    }
+  ],
+  "tags": ["time", "duration", "beginner"]
+}

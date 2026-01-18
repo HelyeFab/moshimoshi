@@ -1,0 +1,33 @@
+{
+  "kanji": "図",
+  "sentences": [
+    {
+      "id": "178438",
+      "japanese": "君の家の見取り図を書いてよ。",
+      "english": "Make a sketch of your house."
+    },
+    {
+      "id": "184623",
+      "japanese": "各種の性格類型が概略図の形で図１に示されている。",
+      "english": "The different character typologies are represented schematically in figure one."
+    },
+    {
+      "id": "9414408",
+      "japanese": "私たちは様々な方法で、お互いの意思疎通を図ることができます。",
+      "english": "We can communicate with each other in many ways."
+    },
+    {
+      "id": "187815",
+      "japanese": "何て図々しい奴だ！",
+      "english": "You have a lot of nerve!"
+    },
+    {
+      "id": "191645",
+      "japanese": "われわれは局面の打開を図らなくてはならない。",
+      "english": "We must try to break the deadlock."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.585Z",
+  "count": 5,
+  "fileId": "kanji-00101"
+}

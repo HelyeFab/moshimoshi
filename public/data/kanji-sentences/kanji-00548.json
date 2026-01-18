@@ -1,0 +1,33 @@
+{
+  "kanji": "他",
+  "sentences": [
+    {
+      "id": "4838",
+      "japanese": "何か他の言い方はある？",
+      "english": "Can it be phrased in another way?"
+    },
+    {
+      "id": "11753100",
+      "japanese": "他の言い方ってある？",
+      "english": "Can it be phrased in another way?"
+    },
+    {
+      "id": "4866",
+      "japanese": "他にどんな選択肢があるの？",
+      "english": "What other options do I have?"
+    },
+    {
+      "id": "4868",
+      "japanese": "それをするより他はない。",
+      "english": "I have nothing better to do."
+    },
+    {
+      "id": "181963",
+      "japanese": "いままで試してきた他の政治形態を除いて考えると、民主主義とは最低の政治形態だ。",
+      "english": "Democracy is the worst form of government, except all the others that have been tried."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.464Z",
+  "count": 5,
+  "fileId": "kanji-00548"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "酒",
+  "sentences": [
+    {
+      "id": "177155",
+      "japanese": "君は酒をやめるべきだ。",
+      "english": "You should give up drinking."
+    },
+    {
+      "id": "177156",
+      "japanese": "君は酒に頼るべきではない。",
+      "english": "You should not resort to drinking."
+    },
+    {
+      "id": "177157",
+      "japanese": "タバコと酒を止めるべきだ。",
+      "english": "You should give up drinking and smoking."
+    },
+    {
+      "id": "11897895",
+      "japanese": "酒とタバコはやめた方がいいよ。",
+      "english": "You should give up drinking and smoking."
+    },
+    {
+      "id": "9032637",
+      "japanese": "タバコとお酒はやめた方がいいよ。",
+      "english": "You should give up smoking and drinking."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.583Z",
+  "count": 5,
+  "fileId": "kanji-00261"
+}

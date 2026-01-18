@@ -1,0 +1,130 @@
+{
+  "id": "311-n4-point-111",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～のです",
+    "romaji": "~no desu",
+    "en": "~no desu (explaining/clarifying reason)"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "The grammar point ～のです is used to explain or clarify the reason or background for a situation. It often adds nuance, such as justification, emphasis, or providing context. It can be translated as 'the fact is', 'actually', or 'you see' in English. The form changes depending on whether it follows a verb, い-adjective, な-adjective, or noun.",
+    "ja": "「～のです」は、理由や状況の説明、背景を述べるときに使います。話し手が説明や強調、理由を伝えたいときによく使われます。動詞、い形容詞、な形容詞、名詞によって形が異なります。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + のです / い-Adjective + のです / な-Adjective + なのです / Noun + なのです",
+    "components": [
+      {
+        "part": "Verb-casual + のです",
+        "explanation": "After plain (dictionary or た-form) verbs.",
+        "examples": [
+          "行くのです",
+          "食べたのです"
+        ]
+      },
+      {
+        "part": "い-Adjective + のです",
+        "explanation": "After い-adjectives (no change).",
+        "examples": [
+          "寒いのです",
+          "難しいのです"
+        ]
+      },
+      {
+        "part": "な-Adjective + なのです",
+        "explanation": "Add な before のです.",
+        "examples": [
+          "静かなのです",
+          "有名なのです"
+        ]
+      },
+      {
+        "part": "Noun + なのです",
+        "explanation": "Add な before のです.",
+        "examples": [
+          "先生なのです",
+          "雨なのです"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この本は難しいのです。",
+      "romaji": "Kono hon wa muzukashii no desu.",
+      "english": "This book is difficult, you see.",
+      "breakdown": {
+        "この": "this",
+        "本": "book",
+        "は": "topic marker",
+        "難しい": "difficult",
+        "のです": "explaining/clarifying"
+      },
+      "notes": "Used to explain or justify why the book is difficult."
+    },
+    {
+      "japanese": "明日は忙しいのです。",
+      "romaji": "Ashita wa isogashii no desu.",
+      "english": "The fact is, I am busy tomorrow.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "は": "topic marker",
+        "忙しい": "busy",
+        "のです": "explaining/clarifying"
+      },
+      "notes": "Gives a reason or background for being unavailable."
+    },
+    {
+      "japanese": "彼女は英語の先生なのです。",
+      "romaji": "Kanojo wa eigo no sensei na no desu.",
+      "english": "The reason is, she is an English teacher.",
+      "breakdown": {
+        "彼女": "she",
+        "は": "topic marker",
+        "英語": "English",
+        "の": "possessive",
+        "先生": "teacher",
+        "なのです": "explaining/clarifying"
+      },
+      "notes": "Used to clarify or explain her role."
+    },
+    {
+      "japanese": "私は風邪なのです。",
+      "romaji": "Watashi wa kaze na no desu.",
+      "english": "Actually, I’ve got a cold.",
+      "breakdown": {
+        "私": "I",
+        "は": "topic marker",
+        "風邪": "cold (illness)",
+        "なのです": "explaining/clarifying"
+      },
+      "notes": "Gives the reason for one's condition or behavior."
+    }
+  ],
+  "relatedPoints": [
+    "～ので",
+    "～だろう",
+    "文A。それに 文B"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼は学生のです。",
+      "correction": "彼は学生なのです。",
+      "example": "Use 'なのです' after nouns and な-adjectives, not just 'のです'."
+    },
+    {
+      "mistake": "静かのです。",
+      "correction": "静かなのです。",
+      "example": "Add 'な' before 'のです' when using な-adjectives."
+    }
+  ],
+  "tags": [
+    "n4",
+    "explanation",
+    "clarification",
+    "background",
+    "sentence-ending",
+    "speaking"
+  ]
+}

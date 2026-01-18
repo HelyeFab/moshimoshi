@@ -1,0 +1,33 @@
+{
+  "kanji": "調",
+  "sentences": [
+    {
+      "id": "178229",
+      "japanese": "君の車は音が大きすぎる。調べてもらうべきだよ。",
+      "english": "Your car makes too much noise. You should have it looked at."
+    },
+    {
+      "id": "178246",
+      "japanese": "君の辞書で‘ｇｕｙ’の語義を調べなさい。",
+      "english": "Look up the definition of 'guy' in your dictionary."
+    },
+    {
+      "id": "178245",
+      "japanese": "君の辞書でその単語を調べてみなさい。",
+      "english": "Look up the words in your dictionary."
+    },
+    {
+      "id": "1009963",
+      "japanese": "あなたの報告書を調べてみます。",
+      "english": "I'll study your report."
+    },
+    {
+      "id": "185017",
+      "japanese": "海洋中の山、それに山脈までが現在も発見され続けており、そのほとんどはまだ詳しく調べられてはいない。",
+      "english": "Mountains in the ocean and even whole ranges are still being discovered, and most of them have not yet been explored in detail."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.683Z",
+  "count": 5,
+  "fileId": "kanji-00486"
+}

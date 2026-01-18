@@ -1,0 +1,33 @@
+{
+  "kanji": "師",
+  "sentences": [
+    {
+      "id": "230653",
+      "japanese": "あの占い師はうそつき同然だ。",
+      "english": "That fortune-teller is no better than a liar."
+    },
+    {
+      "id": "75435",
+      "japanese": "内弟子とは師と寝食をともにし、あらゆる武術のノウハウと秘伝を伝える制度だ。",
+      "english": "Apprenticeship is a system where you eat, sleep and live with your master and are taught various martial arts know-how and secrets."
+    },
+    {
+      "id": "87203",
+      "japanese": "彼女は彼を師と考えている。",
+      "english": "She regards him as her master."
+    },
+    {
+      "id": "87204",
+      "japanese": "彼女は彼を師と仰いでいる。",
+      "english": "She looks on him as her master."
+    },
+    {
+      "id": "93695",
+      "japanese": "彼女は、彼はペテン師だ、とまで言った。",
+      "english": "She went so far as to say that he was a swindler."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.696Z",
+  "count": 5,
+  "fileId": "kanji-00560"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "胃",
+  "sentences": [
+    {
+      "id": "179114",
+      "japanese": "君がなぜ胃が痛いかははっきりしている。",
+      "english": "It is obvious why you have a stomach-ache."
+    },
+    {
+      "id": "183677",
+      "japanese": "癌は彼女の胃に移転している。",
+      "english": "The cancer has spread to her stomach."
+    },
+    {
+      "id": "187370",
+      "japanese": "何人も空の胃の腑では愛国者たり得ない。",
+      "english": "No man can be a patriot on an empty stomach."
+    },
+    {
+      "id": "189972",
+      "japanese": "飲みすぎると胃の病気になるかもしれません。",
+      "english": "Too much alcohol may result in gastric disease."
+    },
+    {
+      "id": "190862",
+      "japanese": "医者は、私の胃を調べるためにＸ線を用いた。",
+      "english": "The doctor used X-rays to examine my stomach."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.281Z",
+  "count": 5,
+  "fileId": "kanji-00880"
+}

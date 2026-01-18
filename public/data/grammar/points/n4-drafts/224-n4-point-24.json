@@ -1,0 +1,55 @@
+{
+  "id": "224-n4-point-24",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb た ところ (Verb ta tokoro)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The たところ grammar point is used to describe a situation that occurs right after an action has taken place. It is often translated as 'just now', 'right after', or 'when'. The formation is relatively simple as it only requires the verb in its た form (past tense) followed by ところ.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (た form) + ところ",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "ドアを開けたところ、猫が飛び出してきた。",
+      "romaji": "Doa wo aketa tokoro, neko ga tobidashite kita.",
+      "english": "When I opened the door, a cat came jumping out.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "電話を切ったところ、また鳴った。",
+      "romaji": "Denwa wo kitta tokoro, mata natta.",
+      "english": "Right after I hung up the phone, it rang again.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "宿題を終わらせたところで、友達から連絡が来た。",
+      "romaji": "Shukudai wo owaraseta tokoro de, tomodachi kara renraku ga kita.",
+      "english": "Just as I finished my homework, I got a message from my friend.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "買い物をして帰ったところ、財布を失くしたことに気づいた。",
+      "romaji": "Kaimono wo shite kaetta tokoro, saifu wo nakushita koto ni kizuita.",
+      "english": "After shopping and returning home, I realized I had lost my wallet.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

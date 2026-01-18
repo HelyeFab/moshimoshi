@@ -1,0 +1,55 @@
+{
+  "id": "226-n4-point-26",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ために (tame ni)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ために (tame ni) grammar point is used to express either the purpose of doing something (in which case it translates to 'for the sake of' or 'in order to') or the cause/reason for a situation (in which case it translates to 'because of'). Typically, we use the dictionary form of the verb (e.g., 合格する) for the 'in order to' meaning. For an adjective or noun, attach ために appropriately (い-Adjective + ために, な-Adjective + な + ために, Noun + の + ために).",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "1) Verb (dictionary form) + ために (purpose)\n2) い-Adjective + ために (reason)\n3) な-Adjective + な + ために (reason)\n4) Noun + の + ために (reason)",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "試験に合格するために、毎日勉強しています。",
+      "romaji": "Shiken ni goukaku suru tame ni, mainichi benkyou shiteimasu.",
+      "english": "I study every day in order to pass the exam.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "健康のために、毎日運動しなければなりません。",
+      "romaji": "Kenkou no tame ni, mainichi undou shinakereba narimasen.",
+      "english": "For the sake of health, I must exercise daily.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "仕事が忙しいために、友達と会う時間がありません。",
+      "romaji": "Shigoto ga isogashii tame ni, tomodachi to au jikan ga arimasen.",
+      "english": "Because my work is busy, I don't have time to meet friends.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "雨が降ったために、試合が中止されました。",
+      "romaji": "Ame ga futta tame ni, shiai ga chuushi saremashita.",
+      "english": "The game was canceled because of the rain.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

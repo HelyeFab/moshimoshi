@@ -1,0 +1,55 @@
+{
+  "id": "204-n4-point-4",
+  "version": "1.0.0",
+  "title": {
+    "ja": "A より B のほうが〜 (A yori B no hou ga 〜)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The より and のほうが grammar pattern is used to compare two things by means of an adjective or verb. In this structure, item A is compared to item B, suggesting that item B is more ~ than item A.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "A + より + B + のほうが + Adjective/Verb",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "田中さんより鈴木さんのほうが背が高いです。",
+      "romaji": "Tanaka-san yori Suzuki-san no hou ga se ga takai desu.",
+      "english": "Suzuki is taller than Tanaka.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "リンゴよりバナナのほうが甘いです。",
+      "romaji": "Ringo yori banana no hou ga amai desu.",
+      "english": "Bananas are sweeter than apples.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "冬より夏のほうが暑いです。",
+      "romaji": "Fuyu yori natsu no hou ga atsui desu.",
+      "english": "Summer is hotter than winter.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "東京より京都のほうが歴史があると思います。",
+      "romaji": "Toukyou yori Kyouto no hou ga rekishi ga aru to omoimasu.",
+      "english": "I think Kyoto has more history than Tokyo.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

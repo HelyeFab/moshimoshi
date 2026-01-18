@@ -1,0 +1,95 @@
+{
+  "id": "256-n4-point-56",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb にくい (〜nikui)",
+    "romaji": "Verb nikui",
+    "en": "Difficulty in Action with ～にくい"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～にくい grammar point is used to express that an action is difficult or relatively hard to do. It can be translated as 'hard to', 'difficult to', or 'not easily' in English.",
+    "ja": "～にくいは、ある行動が困難またはやりづらいことを表現するために使います。英語で「難しい」とか「しにくい」を意味します。"
+  },
+  "structure": {
+    "pattern": "Verb-stem + にくい",
+    "components": [
+      {
+        "part": "Verb-stem",
+        "explanation": "The stem of a verb before adding にくい.",
+        "examples": [
+          "読-み-",
+          "開け-",
+          "作り-"
+        ]
+      },
+      {
+        "part": "にくい",
+        "explanation": "Adjective suffix indicating difficulty or hardness in performing the action.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この字は読みにくいです。",
+      "romaji": "Kono ji wa yomi nikui desu.",
+      "english": "This character is hard to read.",
+      "breakdown": {
+        "token": "この - this; 字 - character, writing; 読み - read (verb-stem); にくい - difficult"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このドアは開けにくい。",
+      "romaji": "Kono doa wa ake nikui.",
+      "english": "This door is difficult to open.",
+      "breakdown": {
+        "token": "この - this; ドア - door; 開け - open (verb-stem); にくい - hard"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼の字は読みにくい。",
+      "romaji": "Kare no ji wa yomi nikui.",
+      "english": "His handwriting is hard to read.",
+      "breakdown": {
+        "token": "彼の - his; 字 - writing, character; 読み - read (verb-stem); にくい - difficult"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この料理は作りにくい。",
+      "romaji": "Kono ryouri wa tsukuri nikui.",
+      "english": "This dish is difficult to make.",
+      "breakdown": {
+        "token": "この - this; 料理 - dish, cooking; 作る - make (verb-stem); にくい - hard"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Noun ばかり (〜bakari)",
+    "Verb ために",
+    "Verb てみる (〜te miru)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "読み難い",
+      "correction": "読みにくい",
+      "example": "この字は読みにくいです。"
+    },
+    {
+      "mistake": "開け辛い",
+      "correction": "開けにくい",
+      "example": "このドアは開けにくい。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "difficulty-expression",
+    "adjective-suffixes",
+    "miscellaneous"
+  ]
+}

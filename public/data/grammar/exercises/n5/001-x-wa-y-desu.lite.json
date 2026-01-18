@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "001-x-wa-y-desu",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "001-x-wa-y-desu-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 私＿＿学生です。",
+      "questionRomaji": "Watashi __ gakusei desu.",
+      "options": [
+        {
+          "id": "a",
+          "text": "は",
+          "romaji": "wa"
+        },
+        {
+          "id": "b",
+          "text": "が",
+          "romaji": "ga"
+        },
+        {
+          "id": "c",
+          "text": "を",
+          "romaji": "o"
+        },
+        {
+          "id": "d",
+          "text": "に",
+          "romaji": "ni"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Perfect! は marks the topic in XはYです.",
+      "incorrectFeedback": "Not quite. Use は to mark the topic in this pattern.",
+      "explanation": "In XはYです, は marks the topic (X).",
+      "difficulty": "easy"
+    }
+  ]
+}

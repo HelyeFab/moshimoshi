@@ -1,0 +1,33 @@
+{
+  "kanji": "撃",
+  "sentences": [
+    {
+      "id": "792686",
+      "japanese": "あいつを撃つ。",
+      "english": "I'm gonna shoot him."
+    },
+    {
+      "id": "179408",
+      "japanese": "空を飛んでいる鳥を撃つ事は難しい。",
+      "english": "It is difficult to shoot a bird flying in the air."
+    },
+    {
+      "id": "185677",
+      "japanese": "我々は敵に向かって大砲を撃った。",
+      "english": "We fired guns at the enemy."
+    },
+    {
+      "id": "187312",
+      "japanese": "何百羽とキジを撃った。",
+      "english": "We shot pheasants by the hundred."
+    },
+    {
+      "id": "187513",
+      "japanese": "何故私は彼らを撃つ、教えてくれ、彼らが何をしたのだ？",
+      "english": "Why am I shooting these guys, tell me, what have they done?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:48.373Z",
+  "count": 5,
+  "fileId": "kanji-02061"
+}

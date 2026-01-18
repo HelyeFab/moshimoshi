@@ -1,0 +1,110 @@
+{
+  "id": "241-n4-point-41",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞てくれませんか",
+    "romaji": "doushi te kuremasen ka",
+    "en": "Verb てくれませんか"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The grammar point ～てくれませんか is used to politely ask someone to do something for you. It is formed by attaching くれませんか to the て-form of a verb. It translates as 'Could you please...', 'Would you please...', or 'Won't you...' in English.",
+    "ja": "「～てくれませんか」は、誰かに何かをしてもらうよう丁寧に頼むときに使います。動詞のて形に「くれませんか」をつけて作ります。"
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + くれませんか",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "The verb in て-form, indicating the action you want someone to do.",
+        "examples": [
+          "開けて (akete)",
+          "見て (mite)",
+          "手伝って (tetsudatte)",
+          "来て (kite)"
+        ]
+      },
+      {
+        "part": "くれませんか",
+        "explanation": "A polite negative question form of くれる, meaning 'won't you (do for me)?'.",
+        "examples": [
+          "くれませんか (kuremasen ka)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "ドアを開けてくれませんか。",
+      "romaji": "Doa wo akete kuremasen ka.",
+      "english": "Could you please open the door?",
+      "breakdown": {
+        "ドア": "door",
+        "を": "object marker",
+        "開けて": "open (te-form)",
+        "くれませんか": "could you please (for me)?"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "これを見てくれませんか。",
+      "romaji": "Kore wo mite kuremasen ka.",
+      "english": "Would you please take a look at this?",
+      "breakdown": {
+        "これ": "this",
+        "を": "object marker",
+        "見て": "look (te-form)",
+        "くれませんか": "would you please (for me)?"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "手伝ってくれませんか。",
+      "romaji": "Tetsudatte kuremasen ka.",
+      "english": "Won't you help me?",
+      "breakdown": {
+        "手伝って": "help (te-form)",
+        "くれませんか": "won't you (for me)?"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "明日、迎えに来てくれませんか。",
+      "romaji": "Ashita, mukae ni kite kuremasen ka.",
+      "english": "Could you please come to pick me up tomorrow?",
+      "breakdown": {
+        "明日": "tomorrow",
+        "迎えに": "to pick up",
+        "来て": "come (te-form)",
+        "くれませんか": "could you please (for me)?"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "動詞ていただけませんか",
+    "動詞ていただきたい",
+    "動詞てくださいませんか"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using the plain form instead of て-form: ドアを開くくれませんか。",
+      "correction": "ドアを開けてくれませんか。",
+      "example": "ドアを開けてくれませんか。"
+    },
+    {
+      "mistake": "Using ください instead of くれませんか for personal requests: 手伝ってください。",
+      "correction": "手伝ってくれませんか。",
+      "example": "手伝ってくれませんか。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "request",
+    "polite",
+    "te-form",
+    "speaking",
+    "conversation"
+  ]
+}

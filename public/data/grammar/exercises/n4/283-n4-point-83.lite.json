@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "283-n4-point-83",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "283-n4-point-83-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"each, per\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～ずつ",
+          "romaji": "~zutsu"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～ずつ matches \"each, per\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～ずつ.",
+      "explanation": "Expresses giving or doing something equally to each person or thing.",
+      "difficulty": "easy"
+    }
+  ]
+}

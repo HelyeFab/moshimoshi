@@ -1,0 +1,33 @@
+{
+  "kanji": "聴",
+  "sentences": [
+    {
+      "id": "188260",
+      "japanese": "音楽を聴くのはとても楽しい。",
+      "english": "It is a lot of fun to listen to music."
+    },
+    {
+      "id": "188261",
+      "japanese": "音楽は聴くのが好きですか？歌うのが好きですか？",
+      "english": "Do you like listening to music or singing songs?"
+    },
+    {
+      "id": "188262",
+      "japanese": "音楽を聴きます。",
+      "english": "I listen to music."
+    },
+    {
+      "id": "188263",
+      "japanese": "音楽を聴いて彼女の神経が静まった。",
+      "english": "Music has settled her nerves."
+    },
+    {
+      "id": "192622",
+      "japanese": "ラジオの英語番組を聴けば、無料で英語の勉強をすることができる。",
+      "english": "If you listen to English programs on the radio, you can learn English for nothing."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.467Z",
+  "count": 5,
+  "fileId": "kanji-01215"
+}

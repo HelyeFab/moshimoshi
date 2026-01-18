@@ -82,6 +82,10 @@ export const redis = (!UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes
       console.log('[Mock Redis] INCR:', key)
       return 1
     },
+    incrby: async (key: string, increment: number) => {
+      console.log('[Mock Redis] INCRBY:', key, increment)
+      return increment
+    },
     mget: async (...keys: string[]) => {
       console.log('[Mock Redis] MGET:', keys)
       return keys.map(() => null)
@@ -90,12 +94,33 @@ export const redis = (!UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes
       console.log('[Mock Redis] MSET:', data)
       return 'OK'
     },
-    pipeline: () => ({
-      exec: async () => {
-        console.log('[Mock Redis] PIPELINE EXEC')
-        return []
+    pipeline: () => {
+      const commands: Array<{ op: string; args: any[] }> = []
+      const pipelineApi = {
+        incr: (key: string) => {
+          commands.push({ op: 'incr', args: [key] })
+          return pipelineApi
+        },
+        incrby: (key: string, increment: number) => {
+          commands.push({ op: 'incrby', args: [key, increment] })
+          return pipelineApi
+        },
+        expire: (key: string, ttl: number) => {
+          commands.push({ op: 'expire', args: [key, ttl] })
+          return pipelineApi
+        },
+        exec: async () => {
+          console.log('[Mock Redis] PIPELINE EXEC:', commands)
+          return commands.map((command) => {
+            if (command.op === 'incr') return 1
+            if (command.op === 'incrby') return command.args[1]
+            if (command.op === 'expire') return 1
+            return null
+          })
+        }
       }
-    })
+      return pipelineApi
+    }
   } as any :
   new Redis({
     url: UPSTASH_REDIS_REST_URL,
@@ -197,6 +222,17 @@ export const RedisUtils = {
   async incrementWithTTL(key: string, ttl: number): Promise<number> {
     const pipeline = redis.pipeline()
     pipeline.incr(key)
+    pipeline.expire(key, ttl)
+    const results = await pipeline.exec()
+    return results[0] as number
+  },
+
+  /**
+   * Increment by a value with expiration
+   */
+  async incrementByWithTTL(key: string, ttl: number, increment: number): Promise<number> {
+    const pipeline = redis.pipeline()
+    pipeline.incrby(key, increment)
     pipeline.expire(key, ttl)
     const results = await pipeline.exec()
     return results[0] as number

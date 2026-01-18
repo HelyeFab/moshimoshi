@@ -1,0 +1,33 @@
+{
+  "kanji": "雑",
+  "sentences": [
+    {
+      "id": "227326",
+      "japanese": "お客が雑な作りのスタンドに座って靴を磨いてもらっている。",
+      "english": "A customer is having his shoes shined on a slapped-together stand."
+    },
+    {
+      "id": "106670",
+      "japanese": "彼は仕事が雑だ。",
+      "english": "He is careless and untidy in his work."
+    },
+    {
+      "id": "121153",
+      "japanese": "彼、一気呵成に書き上げたと言ってたけど、この提案書、少し雑だね。",
+      "english": "He said he dashed this proposal off in one sitting. It's pretty sloppy."
+    },
+    {
+      "id": "941177",
+      "japanese": "お前は物を雑に扱い過ぎる。もっと丁寧にやれよ。",
+      "english": "You do things too sloppily. Please do things more carefully."
+    },
+    {
+      "id": "2692381",
+      "japanese": "トムは仕事が雑だ。",
+      "english": "Tom works sloppily."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.561Z",
+  "count": 5,
+  "fileId": "kanji-00329"
+}

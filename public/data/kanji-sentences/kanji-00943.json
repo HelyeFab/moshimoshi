@@ -1,0 +1,33 @@
+{
+  "kanji": "香",
+  "sentences": [
+    {
+      "id": "182858",
+      "japanese": "菊はよい香りがする。",
+      "english": "Chrysanthemums smell sweet."
+    },
+    {
+      "id": "183577",
+      "japanese": "危険な香りがする。",
+      "english": "There's a scent of danger."
+    },
+    {
+      "id": "183882",
+      "japanese": "甘い香りがそよ風に乗ってくる。",
+      "english": "Sweet scents are borne on soft breezes."
+    },
+    {
+      "id": "186437",
+      "japanese": "我が家の庭は甘い香りの花で満ちている。",
+      "english": "My garden is filled with sweet-smelling blooms."
+    },
+    {
+      "id": "186573",
+      "japanese": "花壇のバラは良い香りがする。",
+      "english": "The roses in the garden smell sweet."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.772Z",
+  "count": 5,
+  "fileId": "kanji-00943"
+}

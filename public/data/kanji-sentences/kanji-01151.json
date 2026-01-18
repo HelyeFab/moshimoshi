@@ -1,0 +1,33 @@
+{
+  "kanji": "妙",
+  "sentences": [
+    {
+      "id": "187887",
+      "japanese": "何か妙なにおいがしませんか。",
+      "english": "Don't you smell something unusual?"
+    },
+    {
+      "id": "196652",
+      "japanese": "ヘレンは妙な音を聞いてぎょっとした。",
+      "english": "Helen jumped in fright at the strange sound."
+    },
+    {
+      "id": "223122",
+      "japanese": "このミルクは妙な味がする。",
+      "english": "This milk has a peculiar taste."
+    },
+    {
+      "id": "223123",
+      "japanese": "このミルクは妙なにおいがする。",
+      "english": "This milk has a peculiar smell."
+    },
+    {
+      "id": "233493",
+      "japanese": "あなたのは初めて耳にする妙なお話です。",
+      "english": "Yours is a very strange story."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:17.815Z",
+  "count": 5,
+  "fileId": "kanji-01151"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "灯",
+  "sentences": [
+    {
+      "id": "4843",
+      "japanese": "私はロウソクの灯りって好きだな。",
+      "english": "I like candlelight."
+    },
+    {
+      "id": "1905031",
+      "japanese": "出かける前に必ず灯りを全部消してください。",
+      "english": "Make sure to turn off all the lights before going out."
+    },
+    {
+      "id": "188683",
+      "japanese": "遠くに町の灯りが見えた。",
+      "english": "We could see the lights of the town in the distance."
+    },
+    {
+      "id": "11467359",
+      "japanese": "キャンドルに火を灯してください。",
+      "english": "Please light a candle."
+    },
+    {
+      "id": "1171970",
+      "japanese": "灯りを消してください。",
+      "english": "Please turn off the light."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.239Z",
+  "count": 5,
+  "fileId": "kanji-00784"
+}

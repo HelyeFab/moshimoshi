@@ -1,0 +1,127 @@
+{
+  "id": "224-n4-point-24",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞たところ",
+    "romaji": "Doushi ta tokoro",
+    "en": "Verb た ところ"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The たところ grammar point expresses that something happened immediately after an action was completed. It often means 'just now', 'right after', or 'when'. Use the verb in its た (past) form plus ところ.",
+    "ja": "「たところ」は、動作が終わった直後に別のことが起きたことを表します。動詞のた形＋ところで使います。"
+  },
+  "structure": {
+    "pattern": "Verb (た form) + ところ",
+    "components": [
+      {
+        "part": "Verb (た form)",
+        "explanation": "The verb in its past tense (た form).",
+        "examples": [
+          "食べた",
+          "見た",
+          "開けた"
+        ]
+      },
+      {
+        "part": "ところ",
+        "explanation": "Means 'just now' or 'right after'.",
+        "examples": [
+          "行ったところ",
+          "終わったところ"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "ドアを開けたところ、猫が飛び出してきた。",
+      "romaji": "Doa wo aketa tokoro, neko ga tobidashite kita.",
+      "english": "When I opened the door, a cat came jumping out.",
+      "breakdown": {
+        "ドア": "door",
+        "を": "object marker",
+        "開けた": "opened",
+        "ところ": "just as/when",
+        "猫": "cat",
+        "が": "subject marker",
+        "飛び出してきた": "jumped out"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "電話を切ったところ、また鳴った。",
+      "romaji": "Denwa wo kitta tokoro, mata natta.",
+      "english": "Right after I hung up the phone, it rang again.",
+      "breakdown": {
+        "電話": "phone",
+        "を": "object marker",
+        "切った": "hung up",
+        "ところ": "just after",
+        "また": "again",
+        "鳴った": "rang"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "宿題を終わらせたところで、友達から連絡が来た。",
+      "romaji": "Shukudai wo owaraseta tokoro de, tomodachi kara renraku ga kita.",
+      "english": "Just as I finished my homework, I got a message from my friend.",
+      "breakdown": {
+        "宿題": "homework",
+        "を": "object marker",
+        "終わらせた": "finished",
+        "ところで": "just as",
+        "友達": "friend",
+        "から": "from",
+        "連絡": "message",
+        "が": "subject marker",
+        "来た": "came"
+      },
+      "notes": "The use of ところで emphasizes the timing."
+    },
+    {
+      "japanese": "買い物をして帰ったところ、財布を失くしたことに気づいた。",
+      "romaji": "Kaimono wo shite kaetta tokoro, saifu wo nakushita koto ni kizuita.",
+      "english": "After shopping and returning home, I realized I had lost my wallet.",
+      "breakdown": {
+        "買い物": "shopping",
+        "をして": "did",
+        "帰った": "returned",
+        "ところ": "just after",
+        "財布": "wallet",
+        "を": "object marker",
+        "失くした": "lost",
+        "ことに": "about the fact",
+        "気づいた": "noticed/realized"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "動詞たことがある",
+    "動詞たときに",
+    "名詞をくださる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Use of present tense verb before ところ (e.g., 開けるところ).",
+      "correction": "Use the た form: 開けたところ.",
+      "example": "ドアを開けるところ、猫が飛び出してきた。→ ドアを開けたところ、猫が飛び出してきた。"
+    },
+    {
+      "mistake": "Confusing たところ with ているところ (in the middle of doing).",
+      "correction": "Use たところ for 'just after' and ているところ for 'in the middle of'.",
+      "example": "今、食べたところです。（just ate） vs. 今、食べているところです。（eating now）"
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "sequence",
+    "timing",
+    "past",
+    "just-after"
+  ]
+}

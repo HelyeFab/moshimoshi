@@ -1,0 +1,33 @@
+{
+  "kanji": "診",
+  "sentences": [
+    {
+      "id": "177301",
+      "japanese": "君は今すぐ医者に診てもらわなければいけない。",
+      "english": "It is necessary for you to see a doctor at once."
+    },
+    {
+      "id": "177302",
+      "japanese": "君は今すぐ医者に診てもらわなければならない。",
+      "english": "It is necessary for you to see a doctor at once."
+    },
+    {
+      "id": "177221",
+      "japanese": "歯医者に診てもらうべきだ。",
+      "english": "You ought to see a dentist."
+    },
+    {
+      "id": "182440",
+      "japanese": "急患で診ていただきたいのですが。",
+      "english": "I need medical help."
+    },
+    {
+      "id": "190879",
+      "japanese": "医者に診てもらったらどうですか。",
+      "english": "What do you say to seeing a doctor?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:21.442Z",
+  "count": 5,
+  "fileId": "kanji-01299"
+}

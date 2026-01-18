@@ -1,0 +1,33 @@
+{
+  "kanji": "制",
+  "sentences": [
+    {
+      "id": "230824",
+      "japanese": "あの新しい会社は競争を制するかもしれません。",
+      "english": "That new company could flatten the competition."
+    },
+    {
+      "id": "97151",
+      "japanese": "彼らは国会で過半数を制した。",
+      "english": "They commanded a majority in the Diet."
+    },
+    {
+      "id": "99076",
+      "japanese": "彼は理性で情欲を制することが出来る。",
+      "english": "He is able to subordinate passion to reason."
+    },
+    {
+      "id": "118635",
+      "japanese": "彼に機先を制された。",
+      "english": "He had the jump on me."
+    },
+    {
+      "id": "123436",
+      "japanese": "毒をもって毒を制すだ！",
+      "english": "We've got to fight fire with fire!"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.854Z",
+  "count": 5,
+  "fileId": "kanji-00494"
+}

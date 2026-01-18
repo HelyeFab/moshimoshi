@@ -1,0 +1,89 @@
+{
+  "id": "050-i-adjective-adverb",
+  "version": "1.0.0",
+  "title": {
+    "ja": "い形容詞→副詞",
+    "romaji": "i-keiyoushi to fukushi",
+    "en": "i-adjective → adverb"
+  },
+  "jlptLevel": "N5",
+  "category": "adjectives",
+  "explanation": {
+    "en": "You can turn an い-adjective into an adverb by changing the final い to く. This allows the adjective to modify a verb.\n\nKey points:\n• い → く makes an adverb\n• Adverbs describe how an action is done\n• Works for all い-adjectives\n• Example: 早い → 早く (quickly)\n\nFor example, “早く起きます” means “I wake up early.” “ゆっくり” is already an adverb, but many adverbs are made from い-adjectives.\n\nAnother example: “おいしい” becomes “おいしく,” and you can say “おいしく食べます” (I eat deliciously).\n\nThis pattern is very useful for adding detail to actions. Once you know an い-adjective, you can easily make an adverb and use it with verbs.\n\nPractice: 大きい → 大きく, 速い → 速く, 安い → 安く.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "i-adjective (〜く) + Verb",
+    "components": [
+      {
+        "part": "i-adjective (〜く)",
+        "explanation": "Change い to く",
+        "examples": ["早く", "安く", "大きく"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action being modified",
+        "examples": ["起きます", "食べます", "話します"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "早く起きます。",
+      "romaji": "Hayaku okimasu.",
+      "english": "I wake up early.",
+      "breakdown": {
+        "早く": "early (adverb)",
+        "起きます": "wake up (polite)"
+      },
+      "notes": "Adverb from い-adjective"
+    },
+    {
+      "japanese": "安く買います。",
+      "romaji": "Yasuku kaimasu.",
+      "english": "I buy (it) cheaply.",
+      "breakdown": {
+        "安く": "cheaply",
+        "買います": "buy (polite)"
+      },
+      "notes": "Price adverb"
+    },
+    {
+      "japanese": "大きく書きます。",
+      "romaji": "Ookiku kakimasu.",
+      "english": "I write largely/big.",
+      "breakdown": {
+        "大きく": "big (adverb)",
+        "書きます": "write (polite)"
+      },
+      "notes": "Size adverb"
+    },
+    {
+      "japanese": "おいしく食べます。",
+      "romaji": "Oishiku tabemasu.",
+      "english": "I eat deliciously.",
+      "breakdown": {
+        "おいしく": "deliciously",
+        "食べます": "eat (polite)"
+      },
+      "notes": "Manner of eating"
+    }
+  ],
+  "relatedPoints": [
+    "041-i-adjectives-present",
+    "049-adjective-modification"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using い-adjective directly with a verb",
+      "correction": "Change い to く",
+      "example": "❌ 早い起きます → ✅ 早く起きます"
+    },
+    {
+      "mistake": "Adding な to make an adverb",
+      "correction": "Use く for い-adjectives",
+      "example": "❌ 安いな買います → ✅ 安く買います"
+    }
+  ],
+  "tags": ["adjectives", "adverb", "i-adjectives", "beginner"]
+}

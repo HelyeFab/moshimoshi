@@ -1,0 +1,33 @@
+{
+  "kanji": "姓",
+  "sentences": [
+    {
+      "id": "233141",
+      "japanese": "あなたの姓はどう発音するのですか。",
+      "english": "How do you pronounce your last name?"
+    },
+    {
+      "id": "233142",
+      "japanese": "あなたの姓が聞き取れませんでした。",
+      "english": "I didn't catch your last name."
+    },
+    {
+      "id": "233669",
+      "japanese": "あなたの姓が聞き取れなかった。",
+      "english": "I didn't get your last name."
+    },
+    {
+      "id": "90277",
+      "japanese": "彼女は結婚前スミス姓だった。",
+      "english": "She was a Smith before her marriage."
+    },
+    {
+      "id": "126778",
+      "japanese": "池田が姓で和子が名です。",
+      "english": "Ikeda is my last name, and Kazuko is my first name."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.868Z",
+  "count": 5,
+  "fileId": "kanji-00812"
+}

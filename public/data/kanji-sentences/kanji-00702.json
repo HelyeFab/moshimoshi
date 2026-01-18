@@ -1,0 +1,33 @@
+{
+  "kanji": "筆",
+  "sentences": [
+    {
+      "id": "173605",
+      "japanese": "弘法も筆の誤り。",
+      "english": "Even the worthy Homer sometimes nods."
+    },
+    {
+      "id": "207084",
+      "japanese": "その美観は筆では書き表せない。",
+      "english": "The beauty of the sight is beyond description."
+    },
+    {
+      "id": "100622",
+      "japanese": "彼は筆まめだ。",
+      "english": "He is a good correspondent."
+    },
+    {
+      "id": "100623",
+      "japanese": "彼は筆で生計を立てている。",
+      "english": "He earns his bread by writing."
+    },
+    {
+      "id": "157933",
+      "japanese": "私は絵のことはよくわからないが、この筆のタッチはすごいと思う。",
+      "english": "I don't know much about painting, but I can tell that this brush has an excellent stroke feel to it."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.383Z",
+  "count": 5,
+  "fileId": "kanji-00702"
+}

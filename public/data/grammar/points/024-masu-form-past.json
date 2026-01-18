@@ -1,0 +1,95 @@
+{
+  "id": "024-masu-form-past",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜ました",
+    "romaji": "-mashita",
+    "en": "Polite past"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "〜ました is the polite past form of verbs in the ます style. It means “did” or “went,” and it is used for actions that already happened.\n\nKey points:\n• Replace ます with ました to make the past\n• Polite and common in conversation\n• Used for completed actions\n• Time words often show when it happened\n\nFor example, “食べます” becomes “食べました” (ate). “行きます” becomes “行きました” (went).\n\nYou can add time words to make it clear: “昨日行きました” means “I went yesterday.” “先週勉強しました” means “I studied last week.”\n\nThe word order stays the same; only the verb ending changes. This makes it easy to shift a present sentence into the past.\n\nPractice by taking simple ます sentences and changing ます to ました. This is one of the most useful and frequent patterns in polite Japanese.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-stem + ました",
+    "components": [
+      {
+        "part": "Verb-stem",
+        "explanation": "Polite verb stem",
+        "examples": ["食べ", "行き", "読み", "勉強し"]
+      },
+      {
+        "part": "ました",
+        "explanation": "Polite past ending",
+        "examples": ["ました"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "昨日映画を見ました。",
+      "romaji": "Kinou eiga o mimashita.",
+      "english": "I watched a movie yesterday.",
+      "breakdown": {
+        "昨日": "yesterday",
+        "映画": "movie",
+        "を": "object marker",
+        "見ました": "watched (polite past)"
+      },
+      "notes": "Past action with time word"
+    },
+    {
+      "japanese": "朝ご飯を食べました。",
+      "romaji": "Asagohan o tabemashita.",
+      "english": "I ate breakfast.",
+      "breakdown": {
+        "朝ご飯": "breakfast",
+        "を": "object marker",
+        "食べました": "ate (polite past)"
+      },
+      "notes": "Completed action"
+    },
+    {
+      "japanese": "先週日本へ行きました。",
+      "romaji": "Senshuu Nihon e ikimashita.",
+      "english": "I went to Japan last week.",
+      "breakdown": {
+        "先週": "last week",
+        "日本": "Japan",
+        "へ": "direction marker",
+        "行きました": "went (polite past)"
+      },
+      "notes": "Past travel"
+    },
+    {
+      "japanese": "友だちと勉強しました。",
+      "romaji": "Tomodachi to benkyou shimashita.",
+      "english": "I studied with a friend.",
+      "breakdown": {
+        "友だち": "friend",
+        "と": "with",
+        "勉強しました": "studied (polite past)"
+      },
+      "notes": "Past activity with someone"
+    }
+  ],
+  "relatedPoints": [
+    "022-masu-form-present",
+    "025-masu-form-past-negative"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ます with past time words",
+      "correction": "Use ました for past actions",
+      "example": "❌ 昨日行きます → ✅ 昨日行きました"
+    },
+    {
+      "mistake": "Dropping ました in polite speech",
+      "correction": "Keep ました to stay polite",
+      "example": "❌ 食べたです → ✅ 食べました"
+    }
+  ],
+  "tags": ["verbs", "past", "polite", "beginner"]
+}

@@ -253,7 +253,7 @@ export default function AddToListButton({
                 {/* Backdrop */}
                 <div className="fixed inset-0 z-[100]" onClick={() => setShowMenu(false)} />
 
-                {/* Menu - centered on mobile, positioned near button on desktop */}
+                {/* Menu - centered at screen center */}
                 <motion.div
                   initial={{ opacity: 0, scale: 0.95, y: -10 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -261,19 +261,7 @@ export default function AddToListButton({
                   transition={{ duration: 0.15 }}
                   className="fixed w-64 bg-white dark:bg-dark-800 rounded-xl
                   shadow-xl border border-gray-200 dark:border-dark-600 overflow-hidden
-                  z-[101] left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2
-                  sm:translate-x-0 sm:translate-y-0 sm:left-auto sm:top-auto"
-                  style={{
-                    // On desktop (sm+), use button-relative positioning
-                    ...(window.innerWidth >= 640
-                      ? {
-                          top: buttonRect.bottom + 8,
-                          right: Math.max(16, window.innerWidth - buttonRect.right),
-                          left: 'auto',
-                          transform: 'none',
-                        }
-                      : {}),
-                  }}
+                  z-[101] left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2"
                 >
                   <div className="p-3 border-b border-gray-100 dark:border-dark-700">
                     <div className="text-sm font-semibold text-gray-900 dark:text-gray-100">

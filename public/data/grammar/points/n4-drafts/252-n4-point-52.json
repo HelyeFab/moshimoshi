@@ -1,0 +1,55 @@
+{
+  "id": "252-n4-point-52",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ない ことになる (Verb nai koto ni naru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The Verb ない ことになる grammar point is used to express a result or consequence. It translates to 'end up not', 'it will become that', or 'it would mean that' in English. It is formed by using the negative form (ない) of a verb followed by ことになる.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-negative (ない) + ことになる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "今日彼が来ないことになると、私たちの予定はキャンセルされます。",
+      "romaji": "Kyou kare ga konai koto ni naru to, watashitachi no yotei wa kyanseru saremasu.",
+      "english": "If he doesn't come today, our plans will be canceled.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このプロジェクトが進まないことになると、収益が減るでしょう。",
+      "romaji": "Kono purojekuto ga susumanai koto ni naru to, shuueki ga heru deshou.",
+      "english": "If this project doesn't progress, it would mean that revenue will decrease.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は試験に合格しないことになると、卒業が遅れます。",
+      "romaji": "Kanojo wa shiken ni goukaku shinai koto ni naru to, sotsugyou ga okuremasu.",
+      "english": "If she ends up not passing the exam, her graduation will be delayed.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "雨が降ると、ピクニックが行われないことになるでしょう。",
+      "romaji": "Ame ga furu to, pikunikku ga okonawarenai koto ni naru deshou.",
+      "english": "If it rains, it will become that the picnic doesn't take place.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

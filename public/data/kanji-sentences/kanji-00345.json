@@ -1,0 +1,33 @@
+{
+  "kanji": "罪",
+  "sentences": [
+    {
+      "id": "182959",
+      "japanese": "飢えのために彼はやむなく罪を犯した。",
+      "english": "It was hunger that impelled him to crime."
+    },
+    {
+      "id": "193518",
+      "japanese": "もし彼が罪を犯したのなら、罰せられるべきだ。",
+      "english": "He ought to be punished if he committed a crime."
+    },
+    {
+      "id": "197264",
+      "japanese": "ピン１本でさえ盗むのは罪である。",
+      "english": "It is a sin to steal even a pin."
+    },
+    {
+      "id": "197360",
+      "japanese": "ビルはその罪を犯していなかった。",
+      "english": "Bill did not commit the crime."
+    },
+    {
+      "id": "207164",
+      "japanese": "その犯人は間違いなくあの店に強盗に入った罪で刑務所に行くだろう。",
+      "english": "The criminal is sure to do time for robbing the store."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.785Z",
+  "count": 5,
+  "fileId": "kanji-00345"
+}

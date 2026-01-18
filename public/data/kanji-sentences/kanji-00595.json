@@ -1,0 +1,33 @@
+{
+  "kanji": "号",
+  "sentences": [
+    {
+      "id": "195168",
+      "japanese": "マリナー９号は、１９７１年５月３０日に発射された。",
+      "english": "Mariner 9 was launched on May 30, 1971."
+    },
+    {
+      "id": "197633",
+      "japanese": "ひかり号は東京と新大阪の間を３時間１０分で走る。",
+      "english": "The Hikari runs between Tokyo and Shin-Osaka in three hours and ten minutes."
+    },
+    {
+      "id": "198580",
+      "japanese": "のぞみ号は日本のすべての列車の中で一番速い。",
+      "english": "The Nozomi is the fastest of all the trains in Japan."
+    },
+    {
+      "id": "203971",
+      "japanese": "タイタニック号は処女航海で沈没した。",
+      "english": "The Titanic sunk on its maiden voyage."
+    },
+    {
+      "id": "203972",
+      "japanese": "タイタニック号が最初の航海中に沈没したのは１９１２年のことだ。",
+      "english": "It was in 1912 that the Titanic sank during her first voyage."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.142Z",
+  "count": 5,
+  "fileId": "kanji-00595"
+}

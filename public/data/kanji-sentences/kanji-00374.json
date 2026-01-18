@@ -1,0 +1,33 @@
+{
+  "kanji": "眠",
+  "sentences": [
+    {
+      "id": "4703",
+      "japanese": "私は眠らなければなりません。",
+      "english": "I have to go to sleep."
+    },
+    {
+      "id": "4738",
+      "japanese": "眠った方がいいよ。",
+      "english": "You should sleep."
+    },
+    {
+      "id": "5018",
+      "japanese": "うるさくて眠れないんです。",
+      "english": "We can't sleep because of the noise."
+    },
+    {
+      "id": "11256165",
+      "japanese": "眠い。",
+      "english": "I'm tired."
+    },
+    {
+      "id": "5223",
+      "japanese": "僕はあまりに疲れていたので昼休みにひと眠りした。",
+      "english": "I slept a little during lunch break because I was so tired."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.149Z",
+  "count": 5,
+  "fileId": "kanji-00374"
+}

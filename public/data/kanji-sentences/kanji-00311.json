@@ -1,0 +1,33 @@
+{
+  "kanji": "倒",
+  "sentences": [
+    {
+      "id": "3045271",
+      "japanese": "休み取らないと倒れちゃうよ。",
+      "english": "If you don't take a vacation, you'll collapse."
+    },
+    {
+      "id": "187005",
+      "japanese": "家は地震で倒れた。",
+      "english": "The house collapsed in an earthquake."
+    },
+    {
+      "id": "187065",
+      "japanese": "家に着くやいなや、彼は床に倒れ込んだ。",
+      "english": "On arriving home, he laid himself on the floor."
+    },
+    {
+      "id": "187307",
+      "japanese": "何百万という木が切り倒されて燃料になった。",
+      "english": "Millions of trees have been cut down for fuel."
+    },
+    {
+      "id": "192458",
+      "japanese": "りんごの木はすべて切り倒された。",
+      "english": "All the apple trees were cut down."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.322Z",
+  "count": 5,
+  "fileId": "kanji-00311"
+}

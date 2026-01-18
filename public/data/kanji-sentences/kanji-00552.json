@@ -1,0 +1,33 @@
+{
+  "kanji": "乗",
+  "sentences": [
+    {
+      "id": "177011",
+      "japanese": "馬に乗ることができますか？",
+      "english": "Can you ride a horse?"
+    },
+    {
+      "id": "10246225",
+      "japanese": "馬に乗れるの？",
+      "english": "Can you ride a horse?"
+    },
+    {
+      "id": "177013",
+      "japanese": "君は馬に乗ることができない。",
+      "english": "You can't ride a horse."
+    },
+    {
+      "id": "9661956",
+      "japanese": "暗い所が怖いっていうのを乗り越える必要がありますね。",
+      "english": "You must conquer your fear of the dark."
+    },
+    {
+      "id": "177672",
+      "japanese": "タクシーに乗る必要はなかったのに。",
+      "english": "You needn't have taken a taxi."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.521Z",
+  "count": 5,
+  "fileId": "kanji-00552"
+}

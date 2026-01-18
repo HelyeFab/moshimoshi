@@ -1,0 +1,33 @@
+{
+  "kanji": "考",
+  "sentences": [
+    {
+      "id": "4745",
+      "japanese": "僕が最後に自分の考えを伝えた人は、僕を気違いだと思ったようだ。",
+      "english": "The last person I told my idea to thought I was nuts."
+    },
+    {
+      "id": "4776",
+      "japanese": "最悪の場合を考えておこう。",
+      "english": "Let's consider the worst that could happen."
+    },
+    {
+      "id": "4798",
+      "japanese": "行き過ぎたものであっても、僕は自分の考えをなくしたくない。",
+      "english": "I don't want to lose my ideas, even though some of them are a bit extreme."
+    },
+    {
+      "id": "4926",
+      "japanese": "彼らのコミュニケーションは我々が考えてきたものよりはるかに複雑かもしれません。",
+      "english": "Their communication may be much more complex than we thought."
+    },
+    {
+      "id": "181963",
+      "japanese": "いままで試してきた他の政治形態を除いて考えると、民主主義とは最低の政治形態だ。",
+      "english": "Democracy is the worst form of government, except all the others that have been tried."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.789Z",
+  "count": 5,
+  "fileId": "kanji-00196"
+}

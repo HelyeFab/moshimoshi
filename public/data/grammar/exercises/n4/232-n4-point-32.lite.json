@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "232-n4-point-32",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "232-n4-point-32-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb ていただく (te itadaku)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞ていただく",
+          "romaji": "doushi te itadaku"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 動詞ていただく matches \"Verb ていただく (te itadaku)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ていただく.",
+      "explanation": "Expresses humbly receiving a favor or action from someone else.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "中",
+  "sentences": [
+    {
+      "id": "4917",
+      "japanese": "「洞穴の中で何が起こっているんだろう？すごく知りたいなあ」「見当もつかないよ」",
+      "english": "\"What's going on in the cave? I'm curious.\" \"I have no idea.\""
+    },
+    {
+      "id": "5029",
+      "japanese": "学校教育の義務的側面は子どもの学習意欲を改善させる様々な研究の多くの取り組みの中ではめったに分析されない。",
+      "english": "The mandatory character of schooling is rarely analyzed in the multitude of works dedicated to the study of the various ways to develop within children the desire to learn."
+    },
+    {
+      "id": "2533732",
+      "japanese": "世の中には10種類の人間がいる。二進法が分かる者と分からない者だ。",
+      "english": "There are 10 types of people in the world: those who understand binary, and those who don't."
+    },
+    {
+      "id": "2193324",
+      "japanese": "美は見る人の目の中にある。",
+      "english": "Beauty lies in the eyes of the one who sees."
+    },
+    {
+      "id": "934612",
+      "japanese": "都会では気付かれず通り過ぎることもあるだろうが、村の中ではそうはいかない。",
+      "english": "In a town you may pass unnoticed, whereas in a village it's impossible."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.289Z",
+  "count": 5,
+  "fileId": "kanji-00007"
+}

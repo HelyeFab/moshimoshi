@@ -1,0 +1,33 @@
+{
+  "kanji": "告",
+  "sentences": [
+    {
+      "id": "182885",
+      "japanese": "議長は委員会の始まりを告げた。",
+      "english": "The chairman called the committee to order."
+    },
+    {
+      "id": "934580",
+      "japanese": "真実を告げることをためらってはなりません。",
+      "english": "Never hesitate to tell the truth."
+    },
+    {
+      "id": "189813",
+      "japanese": "雨が一日中降るだろうと彼女は我々に告げた。",
+      "english": "She advised us that it would rain all day."
+    },
+    {
+      "id": "190764",
+      "japanese": "医者は彼は脳死状態だとあなたに告げるのです。",
+      "english": "The doctors tell you that he is brain-dead."
+    },
+    {
+      "id": "192606",
+      "japanese": "ラジオは悪天候になると告げた。",
+      "english": "The radio gave a warning of bad weather."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.703Z",
+  "count": 5,
+  "fileId": "kanji-00561"
+}

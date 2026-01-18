@@ -1,0 +1,123 @@
+{
+  "id": "288-n4-point-88",
+  "version": "1.0.0",
+  "title": {
+    "ja": "~たら いかがですか",
+    "romaji": "~tara ikaga desu ka",
+    "en": "How about...?"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "Used to make polite suggestions or ask for opinions, implying something would be good if the condition is met.",
+    "ja": "条件が満たされたら何かが良いと思われる提案や意見を尋ねるための表現です。"
+  },
+  "structure": {
+    "pattern": "~たら いかがですか",
+    "components": [
+      {
+        "part": "Verb-casual, past + たら いかがですか",
+        "explanation": "Use for verb-based suggestions.",
+        "examples": [
+          "図書館に行ったらいかがですか。"
+        ]
+      },
+      {
+        "part": "い-Adjective + かったら いかがですか",
+        "explanation": "Used with i-adjectives to suggest something if the condition is met.",
+        "examples": [
+          "寒かったらカーディガンを着るのはいかがですか。"
+        ]
+      },
+      {
+        "part": "な-Adjective + だったら いかがですか, Noun + だったら いかがですか",
+        "explanation": "Used with na-adjectives and nouns to suggest actions or opinions.",
+        "examples": [
+          "部屋が暗かったら照明を付けるのはいかがですか。",
+          "自分の意見だったら他人に聞くのはいかがですか。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "図書館に行ったらいかがですか。",
+      "romaji": "Toshokan ni ittara ikaga desu ka.",
+      "english": "How about going to the library?",
+      "breakdown": {
+        "図書館": "library",
+        "行った": "went",
+        "たら": "if",
+        "いかが": "how",
+        "です": "is",
+        "か": "?"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "寒かったらカーディガンを着るのはいかがですか。",
+      "romaji": "Samukattara kaadigan wo kiru no wa ikaga desu ka.",
+      "english": "How about wearing a cardigan if it's cold?",
+      "breakdown": {
+        "寒かっ": "cold",
+        "たら": "if",
+        "カーディガン": "cardigan",
+        "を": "object particle",
+        "着る": "wear"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "部屋が暗かったら照明を付けるのはいかがですか。",
+      "romaji": "Heya ga kurakattara shoumei wo tsukeru no wa ikaga desu ka.",
+      "english": "What if you turn on the light if the room is dark?",
+      "breakdown": {
+        "部屋": "room",
+        "暗かっ": "dark",
+        "たら": "if",
+        "照明": "lighting",
+        "を": "object particle",
+        "付ける": "turn on"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "自分の意見だったら他人に聞くのはいかがですか。",
+      "romaji": "Jibun no iken dattara tanin ni kiku no wa ikaga desu ka.",
+      "english": "How about asking others if it's your own opinion?",
+      "breakdown": {
+        "自分の": "your",
+        "意見": "opinion",
+        "だった": "was",
+        "他人": "others",
+        "に": "to",
+        "聞く": "ask"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～たら どうですか",
+    "～たらいい",
+    "～ばいい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "寒かったらいかがですか。",
+      "correction": "寒かったらカーディガンを着るのはいかがですか。",
+      "example": "Incorrect use without specifying the suggestion."
+    },
+    {
+      "mistake": "図書館に行ったらいいです。",
+      "correction": "図書館に行ったらいかがですか。",
+      "example": "Not using いかがですか for a polite suggestion"
+    }
+  ],
+  "tags": [
+    "n4",
+    "polite-suggestions",
+    "conditional",
+    "opinions",
+    "verbs"
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "grammarPointId": "002-x-wa-y-de-wa-arimasen",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "002-x-wa-y-de-wa-arimasen-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct negative ending: 私は学生＿＿。",
+      "questionRomaji": "Watashi wa gakusei __.",
+      "options": [
+        { "id": "a", "text": "です", "romaji": "desu" },
+        { "id": "b", "text": "ではありません", "romaji": "de wa arimasen" },
+        { "id": "c", "text": "ました", "romaji": "mashita" },
+        { "id": "d", "text": "ません", "romaji": "masen" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ではありません makes the sentence negative and polite.",
+      "incorrectFeedback": "Not quite. The polite negative ending is ではありません.",
+      "explanation": "XはYではありません is the polite negative of XはYです.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "002-x-wa-y-de-wa-arimasen-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: これは私の本＿＿ありません。",
+      "questionRomaji": "Kore wa watashi no hon __ arimasen.",
+      "options": [
+        { "id": "a", "text": "が", "romaji": "ga" },
+        { "id": "b", "text": "を", "romaji": "o" },
+        { "id": "c", "text": "では", "romaji": "de wa" },
+        { "id": "d", "text": "に", "romaji": "ni" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Yes! ではありません is the fixed negative ending.",
+      "incorrectFeedback": "Try again. You need では to form ではありません.",
+      "explanation": "The negative copula is ではありません.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "002-x-wa-y-de-wa-arimasen-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I am not a student.'",
+      "correctAnswer": "私は学生ではありません",
+      "acceptedVariations": [
+        "私は学生ではありません。",
+        "わたしはがくせいではありません",
+        "わたしはがくせいではありません。",
+        "watashi wa gakusei de wa arimasen",
+        "watashi wa gakusei de wa arimasen."
+      ],
+      "correctFeedback": "Great! 私は学生ではありません is correct.",
+      "incorrectFeedback": "The correct answer is: 私は学生ではありません (watashi wa gakusei de wa arimasen).",
+      "explanation": "Use は for the topic and ではありません for the negative.",
+      "hints": ["Use X は Y ではありません", "学生 means student"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "002-x-wa-y-de-wa-arimasen-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is the polite negative?",
+      "options": [
+        { "id": "a", "text": "これは本です。" },
+        { "id": "b", "text": "これは本ではありません。" },
+        { "id": "c", "text": "これは本じゃです。" },
+        { "id": "d", "text": "これは本ます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! これは本ではありません is the polite negative.",
+      "incorrectFeedback": "Not quite. Use ではありません to make it negative.",
+      "explanation": "The negative of XはYです is XはYではありません.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "002-x-wa-y-de-wa-arimasen-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This is not my book.'",
+      "correctAnswer": "これは私の本ではありません",
+      "acceptedVariations": [
+        "これは私の本ではありません。",
+        "これはわたしのほんではありません",
+        "これはわたしのほんではありません。",
+        "kore wa watashi no hon de wa arimasen",
+        "kore wa watashi no hon de wa arimasen."
+      ],
+      "correctFeedback": "Nice! これは私の本ではありません is correct.",
+      "incorrectFeedback": "The correct answer is: これは私の本ではありません (kore wa watashi no hon de wa arimasen).",
+      "explanation": "Use XはYではありません for a polite denial.",
+      "hints": ["私の means my", "End with ではありません"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "002-x-wa-y-de-wa-arimasen-ex-06",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Tanaka-san is not a teacher.'",
+      "correctAnswer": "田中さんは先生ではありません",
+      "acceptedVariations": [
+        "田中さんは先生ではありません。",
+        "たなかさんはせんせいではありません",
+        "たなかさんはせんせいではありません。",
+        "tanaka-san wa sensei de wa arimasen",
+        "tanaka-san wa sensei de wa arimasen."
+      ],
+      "correctFeedback": "Great! 田中さんは先生ではありません is correct.",
+      "incorrectFeedback": "The correct answer is: 田中さんは先生ではありません (tanaka-san wa sensei de wa arimasen).",
+      "explanation": "Use ではありません for polite negative statements.",
+      "hints": ["先生 means teacher", "Use は as topic marker"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "002-x-wa-y-de-wa-arimasen-ex-07",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence for 'This room is not quiet.'",
+      "options": [
+        { "id": "a", "text": "この部屋はしずかではありません。" },
+        { "id": "b", "text": "この部屋がしずかではありません。" },
+        { "id": "c", "text": "この部屋はしずかじゃです。" },
+        { "id": "d", "text": "この部屋はしずかません。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! This uses the polite negative ending.",
+      "incorrectFeedback": "Not quite. Use は and ではありません.",
+      "explanation": "な-adjectives use ではありません for the polite negative.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "002-x-wa-y-de-wa-arimasen-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "私は学生ではありません。",
+          "romaji": "Watashi wa gakusei de wa arimasen.",
+          "english": "I am not a student."
+        },
+        {
+          "japanese": "これは私の本ではありません。",
+          "romaji": "Kore wa watashi no hon de wa arimasen.",
+          "english": "This is not my book."
+        },
+        {
+          "japanese": "田中さんは先生ではありません。",
+          "romaji": "Tanaka-san wa sensei de wa arimasen.",
+          "english": "Tanaka-san is not a teacher."
+        }
+      ],
+      "correctFeedback": "Perfect! All sentences use the polite negative pattern.",
+      "incorrectFeedback": "Not quite. Review XはYではありません and try again.",
+      "explanation": "Each sentence follows X は Y ではありません.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "002-x-wa-y-de-wa-arimasen-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is a polite correction?",
+      "options": [
+        { "id": "a", "text": "これは本です。" },
+        { "id": "b", "text": "これは本ではありません。" },
+        { "id": "c", "text": "これは本。" },
+        { "id": "d", "text": "本ではありません。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! これは本ではありません is a polite correction.",
+      "incorrectFeedback": "Try again. The full polite negative sentence is これは本ではありません。",
+      "explanation": "A complete polite correction keeps the topic and negative ending.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "002-x-wa-y-de-wa-arimasen-ex-10",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "この店は便利ではありません。",
+          "romaji": "Kono mise wa benri de wa arimasen.",
+          "english": "This shop is not convenient."
+        },
+        {
+          "japanese": "その人は日本人ではありません。",
+          "romaji": "Sono hito wa nihonjin de wa arimasen.",
+          "english": "That person is not Japanese."
+        },
+        {
+          "japanese": "今日は休みではありません。",
+          "romaji": "Kyou wa yasumi de wa arimasen.",
+          "english": "Today is not a holiday."
+        }
+      ],
+      "correctFeedback": "Great! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review the negative pattern and try again.",
+      "explanation": "All sentences use XはYではありません.",
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "丸",
+  "sentences": [
+    {
+      "id": "179215",
+      "japanese": "君、少し丸くなったね。",
+      "english": "You've filled out."
+    },
+    {
+      "id": "183687",
+      "japanese": "丸くおさまってよかった。",
+      "english": "I am glad that the matter was settled amicably."
+    },
+    {
+      "id": "188626",
+      "japanese": "鉛筆の先が丸くなった。",
+      "english": "The point of the pencil has become dull."
+    },
+    {
+      "id": "192712",
+      "japanese": "より寒い日には、体を丸めたり、雪の中に穴を掘ったりする。",
+      "english": "On colder days, they curl up or dig a hole in the snow."
+    },
+    {
+      "id": "194580",
+      "japanese": "メンツ丸つぶれだ。",
+      "english": "I have lost face completely."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.390Z",
+  "count": 5,
+  "fileId": "kanji-00979"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "珍",
+  "sentences": [
+    {
+      "id": "186567",
+      "japanese": "花瓶に珍しい花が見える。",
+      "english": "I see a rare flower in the vase."
+    },
+    {
+      "id": "187919",
+      "japanese": "何か珍しいことがありますか。",
+      "english": "What is the news?"
+    },
+    {
+      "id": "189860",
+      "japanese": "宇宙旅行はそのうち珍しくないものになるだろう。",
+      "english": "Space travel will be commonplace some time in the future."
+    },
+    {
+      "id": "190910",
+      "japanese": "医者なら６桁の収入は珍しくない。",
+      "english": "A six-figure income is not uncommon for physicians."
+    },
+    {
+      "id": "196800",
+      "japanese": "ペットとして珍しい動物を飼っている人もいます。",
+      "english": "Some people keep rare animals as pets."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.939Z",
+  "count": 5,
+  "fileId": "kanji-00815"
+}

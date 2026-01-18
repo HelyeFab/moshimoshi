@@ -1,0 +1,33 @@
+{
+  "kanji": "尋",
+  "sentences": [
+    {
+      "id": "4801",
+      "japanese": "もし誰かにこの話の要点は何かって尋ねられても、私はさっぱりわからないわ。",
+      "english": "If anyone was to ask what the point of the story is, I really don't know."
+    },
+    {
+      "id": "4806",
+      "japanese": "彼女は、どうしてそんなことが可能なのかと尋ねている。",
+      "english": "She's asking how that's possible."
+    },
+    {
+      "id": "10561299",
+      "japanese": "「何ごと？」と、小さな白うさぎが尋ねました。",
+      "english": "\"What's the matter?\" asked the little white rabbit."
+    },
+    {
+      "id": "5001",
+      "japanese": "「気分はどうですか」と彼は尋ねた。",
+      "english": "\"How do you feel?\" he inquired."
+    },
+    {
+      "id": "5185",
+      "japanese": "高校時代について最も後悔することを人々に尋ねると大抵の人は決まってこう言う。時間を無駄にしすぎていた、と。",
+      "english": "When I ask people what they regret most about high school, they nearly all say the same thing: that they wasted so much time."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:23.228Z",
+  "count": 5,
+  "fileId": "kanji-01356"
+}

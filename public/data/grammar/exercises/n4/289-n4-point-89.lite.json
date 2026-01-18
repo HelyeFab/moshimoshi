@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "289-n4-point-89",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "289-n4-point-89-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"How about if you ~? / Why don't you ~?\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～たら どうですか",
+          "romaji": "~tara doudesuka"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! ～たら どうですか matches \"How about if you ~? / Why don't you ~?\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～たら どうですか.",
+      "explanation": "Used after verb た-form to gently suggest or recommend an action.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,103 @@
+{
+  "id": "049-adjective-modification",
+  "version": "1.0.0",
+  "title": {
+    "ja": "形容詞＋名詞",
+    "romaji": "keiyoushi + meishi",
+    "en": "Adjective + noun"
+  },
+  "jlptLevel": "N5",
+  "category": "adjectives",
+  "explanation": {
+    "en": "Adjectives in Japanese come before the noun they describe, just like in English. For い-adjectives, put them directly before the noun. For な-adjectives, add な before the noun.\n\nKey points:\n• い-adjective + noun: おいしいパン\n• な-adjective + な + noun: きれいな部屋\n• Adjective order is before the noun\n• No need for additional particles inside the phrase\n\nFor example, “大きい犬” means “big dog.” “静かな町” means “quiet town.”\n\nThis structure is used all the time in everyday speech. It allows you to make more specific noun phrases.\n\nBe careful to choose the right type: い-adjectives do not take な, and な-adjectives must take な before a noun.\n\nPractice by pairing common adjectives with common nouns, like “高い本,” “きれいな花,” and “おもしろい映画.”",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Adjective + Noun",
+    "components": [
+      {
+        "part": "Adjective",
+        "explanation": "i-adjective or na-adjective",
+        "examples": ["おいしい", "大きい", "きれい"]
+      },
+      {
+        "part": "(な)",
+        "explanation": "Only for な-adjectives",
+        "examples": ["な"]
+      },
+      {
+        "part": "Noun",
+        "explanation": "The thing being described",
+        "examples": ["本", "部屋", "犬"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "大きい犬がいます。",
+      "romaji": "Ookii inu ga imasu.",
+      "english": "There is a big dog.",
+      "breakdown": {
+        "大きい": "big",
+        "犬": "dog",
+        "が": "subject marker",
+        "います": "exists (polite)"
+      },
+      "notes": "i-adjective before noun"
+    },
+    {
+      "japanese": "きれいな部屋です。",
+      "romaji": "Kirei na heya desu.",
+      "english": "It is a clean/pretty room.",
+      "breakdown": {
+        "きれい": "clean/pretty",
+        "な": "adjective linker",
+        "部屋": "room",
+        "です": "is (polite)"
+      },
+      "notes": "na-adjective before noun"
+    },
+    {
+      "japanese": "おもしろい映画を見ます。",
+      "romaji": "Omoshiroi eiga o mimasu.",
+      "english": "I watch an interesting movie.",
+      "breakdown": {
+        "おもしろい": "interesting",
+        "映画": "movie",
+        "を": "object marker",
+        "見ます": "watch (polite)"
+      },
+      "notes": "i-adjective phrase"
+    },
+    {
+      "japanese": "静かな町に住んでいます。",
+      "romaji": "Shizuka na machi ni sunde imasu.",
+      "english": "I live in a quiet town.",
+      "breakdown": {
+        "静か": "quiet",
+        "な": "adjective linker",
+        "町": "town",
+        "に": "location marker",
+        "住んでいます": "live (polite)"
+      },
+      "notes": "na-adjective phrase"
+    }
+  ],
+  "relatedPoints": [
+    "041-i-adjectives-present",
+    "045-na-adjectives-present"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Adding な after an い-adjective",
+      "correction": "Use い-adjectives directly before nouns",
+      "example": "❌ おもしろいな本 → ✅ おもしろい本"
+    },
+    {
+      "mistake": "Forgetting な with な-adjectives",
+      "correction": "Add な before the noun",
+      "example": "❌ きれい部屋 → ✅ きれいな部屋"
+    }
+  ],
+  "tags": ["adjectives", "modification", "nouns", "beginner"]
+}

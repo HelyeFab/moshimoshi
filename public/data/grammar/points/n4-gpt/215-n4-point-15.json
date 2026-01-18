@@ -1,0 +1,127 @@
+{
+  "id": "215-n4-point-15",
+  "version": "1.0.0",
+  "title": {
+    "ja": "名詞をくださる",
+    "romaji": "Noun wo kudasaru",
+    "en": "Noun wo kudasaru"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "'Nounをくださる' is a respectful way to say someone gives or does something for you. It is used when the giver is of higher status or to show gratitude.",
+    "ja": "「名詞をくださる」は、目上の人や他人が自分に何かをしてくれる時に使う丁寧な表現です。"
+  },
+  "structure": {
+    "pattern": "Noun + を + くださる",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "The item or thing being given or done.",
+        "examples": [
+          "資料 (materials)",
+          "おやつ (snacks)",
+          "アドバイス (advice)",
+          "プレゼント (present)"
+        ]
+      },
+      {
+        "part": "を",
+        "explanation": "Object marker particle.",
+        "examples": [
+          "資料を",
+          "おやつを",
+          "アドバイスを",
+          "プレゼントを"
+        ]
+      },
+      {
+        "part": "くださる",
+        "explanation": "Respectful verb meaning 'to give' (from a superior to the speaker).",
+        "examples": [
+          "くださる",
+          "くださいました",
+          "くださった"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "先生が資料をくださった。",
+      "romaji": "Sensei ga shiryou wo kudasatta.",
+      "english": "The teacher gave me the materials.",
+      "breakdown": {
+        "先生": "teacher",
+        "が": "subject marker",
+        "資料": "materials",
+        "を": "object marker",
+        "くださった": "gave (respectful)"
+      },
+      "notes": "Used to show respect to the teacher."
+    },
+    {
+      "japanese": "お母さんがおやつをくださる。",
+      "romaji": "Okaasan ga oyatsu wo kudasaru.",
+      "english": "My mother gives me snacks.",
+      "breakdown": {
+        "お母さん": "mother",
+        "が": "subject marker",
+        "おやつ": "snacks",
+        "を": "object marker",
+        "くださる": "gives (respectful)"
+      },
+      "notes": "Shows gratitude or respect to the mother."
+    },
+    {
+      "japanese": "上司がアドバイスをくださいました。",
+      "romaji": "Joushi ga adobaisu wo kudasaimashita.",
+      "english": "My boss gave me advice.",
+      "breakdown": {
+        "上司": "boss",
+        "が": "subject marker",
+        "アドバイス": "advice",
+        "を": "object marker",
+        "くださいました": "gave (very polite)"
+      },
+      "notes": "Very polite; used for superiors."
+    },
+    {
+      "japanese": "友達がプレゼントをくださった。",
+      "romaji": "Tomodachi ga purezento wo kudasatta.",
+      "english": "My friend gave me a present.",
+      "breakdown": {
+        "友達": "friend",
+        "が": "subject marker",
+        "プレゼント": "present",
+        "を": "object marker",
+        "くださった": "gave (respectful)"
+      },
+      "notes": "Polite, but can be used for friends to show gratitude."
+    }
+  ],
+  "relatedPoints": [
+    "Nounをもらう",
+    "Nounをくれる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using くださる for one's own actions.",
+      "correction": "Use あげる or さしあげる when you are the giver.",
+      "example": "（Incorrect）私は先生に本をくださった。→（Correct）私は先生に本をさしあげた。"
+    },
+    {
+      "mistake": "Using くださる for actions not benefiting the speaker.",
+      "correction": "Use くれる or あげる for neutral or non-honorific situations.",
+      "example": "（Incorrect）友達が彼にプレゼントをくださった。→（Correct）友達が彼にプレゼントをあげた。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "giving",
+    "respect",
+    "politeness",
+    "verbs",
+    "honorific"
+  ]
+}

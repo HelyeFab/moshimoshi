@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "268-n4-point-68",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "268-n4-point-68-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"When doing something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb るときに",
+          "romaji": "Verb ~ru toki ni"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb るときに matches \"When doing something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb るときに.",
+      "explanation": "Used to express the time when an action or event occurs.",
+      "difficulty": "easy"
+    }
+  ]
+}

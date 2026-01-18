@@ -1,0 +1,33 @@
+{
+  "kanji": "際",
+  "sentences": [
+    {
+      "id": "8584627",
+      "japanese": "近くにお越しの際はぜひお立ち寄りください。",
+      "english": "Please drop in when you happen to be in the neighborhood."
+    },
+    {
+      "id": "179946",
+      "japanese": "緊急の際には、すぐに私の代理人と連絡を取って下さい。",
+      "english": "In case of an emergency, get in touch with my agent right away."
+    },
+    {
+      "id": "180103",
+      "japanese": "狂気の状態の際に、善悪を区別させようとしても無駄である。",
+      "english": "It is no use trying to separate the sheep from the goats while in a state of madness."
+    },
+    {
+      "id": "9279733",
+      "japanese": "お着きの際は、ご連絡ください。",
+      "english": "Let us know when you'll arrive."
+    },
+    {
+      "id": "183069",
+      "japanese": "記者会見の際、大統領は外交関係にちょっと触れた。",
+      "english": "During the press conference, the President touched on foreign relations."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.053Z",
+  "count": 5,
+  "fileId": "kanji-00516"
+}

@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "031-masen-ka-invitation",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "031-masen-ka-invitation-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct invitation form: 行きます → ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "行きませんか"
+        },
+        {
+          "id": "b",
+          "text": "行きましょう"
+        },
+        {
+          "id": "c",
+          "text": "行きません"
+        },
+        {
+          "id": "d",
+          "text": "行きました"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行きませんか is a polite invitation.",
+      "incorrectFeedback": "Not quite. Use ませんか to invite.",
+      "explanation": "Verb ません + か = invitation.",
+      "difficulty": "easy"
+    }
+  ]
+}

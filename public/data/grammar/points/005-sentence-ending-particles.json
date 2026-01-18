@@ -1,0 +1,99 @@
+{
+  "id": "005-sentence-ending-particles",
+  "version": "1.0.0",
+  "title": {
+    "ja": "文末助詞（ね・よ・か）",
+    "romaji": "bunmatsu joshi (ne / yo / ka)",
+    "en": "Sentence-ending particles"
+  },
+  "jlptLevel": "N5",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "Sentence-ending particles add feeling and intent to a sentence. The most common at N5 are ね, よ, and か. They are placed at the end of a sentence after です/ます or a plain form.\n\nKey points:\n• ね = seeking agreement or softening a statement\n• よ = giving new information or emphasis\n• か = question marker\n\nね is like “right?” or “isn’t it?” For example, “今日は寒いですね” means “It’s cold today, isn’t it?” You are inviting the listener to agree.\n\nよ is used when you are telling the listener something they may not know or when you want to emphasize. “これはおいしいですよ” means “This is tasty, you know.”\n\nか turns a sentence into a question. “田中さんは学生ですか” means “Is Tanaka-san a student?”\n\nThese particles make your Japanese sound natural and friendly. They are short, but they change the tone of the sentence. Be careful not to overuse them, and remember that か is required for many polite questions, while ね and よ are optional for nuance.\n\nAs you listen to native speech, notice how people use ね to check understanding and よ to sound confident or helpful. Copying these small particles will make your conversations feel more natural.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Sentence + ね／よ／か",
+    "components": [
+      {
+        "part": "Sentence",
+        "explanation": "Any complete sentence",
+        "examples": ["今日は寒いです", "これは本です", "行きます"]
+      },
+      {
+        "part": "ね／よ／か",
+        "explanation": "Ending particle for tone or question",
+        "examples": ["ね", "よ", "か"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "今日は寒いですね。",
+      "romaji": "Kyou wa samui desu ne.",
+      "english": "It’s cold today, isn’t it?",
+      "breakdown": {
+        "今日": "today",
+        "は": "topic marker",
+        "寒い": "cold",
+        "です": "polite ending",
+        "ね": "seeking agreement"
+      },
+      "notes": "ね invites agreement"
+    },
+    {
+      "japanese": "これはおいしいですよ。",
+      "romaji": "Kore wa oishii desu yo.",
+      "english": "This is tasty, you know.",
+      "breakdown": {
+        "これ": "this",
+        "は": "topic marker",
+        "おいしい": "tasty",
+        "です": "polite ending",
+        "よ": "emphasis"
+      },
+      "notes": "よ adds emphasis"
+    },
+    {
+      "japanese": "田中さんは学生ですか。",
+      "romaji": "Tanaka-san wa gakusei desu ka.",
+      "english": "Is Tanaka-san a student?",
+      "breakdown": {
+        "田中さん": "Mr./Ms. Tanaka",
+        "は": "topic marker",
+        "学生": "student",
+        "です": "polite ending",
+        "か": "question marker"
+      },
+      "notes": "か makes a question"
+    },
+    {
+      "japanese": "明日行きますよ。",
+      "romaji": "Ashita ikimasu yo.",
+      "english": "I will go tomorrow (for sure).",
+      "breakdown": {
+        "明日": "tomorrow",
+        "行きます": "go (polite)",
+        "よ": "emphasis"
+      },
+      "notes": "Emphasizing the statement"
+    }
+  ],
+  "relatedPoints": [
+    "001-x-wa-y-desu",
+    "018-particle-ka-question"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using か with ね/よ together in simple sentences",
+      "correction": "For beginners, use one ending particle at a time",
+      "example": "❌ ですかねよ → ✅ ですか / ですよ"
+    },
+    {
+      "mistake": "Forgetting か in polite questions",
+      "correction": "Add か to make it a question",
+      "example": "❌ 学生です。 → ✅ 学生ですか。"
+    }
+  ],
+  "tags": ["sentence-ending", "particles", "tone", "questions"]
+}

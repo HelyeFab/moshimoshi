@@ -1,0 +1,33 @@
+{
+  "kanji": "支",
+  "sentences": [
+    {
+      "id": "210593",
+      "japanese": "その国は産業によって支えられている。",
+      "english": "The country is supported by industry."
+    },
+    {
+      "id": "210858",
+      "japanese": "その湖の氷は薄すぎて、君の体重を支えられない。",
+      "english": "The ice on the lake is too thin to bear your weight."
+    },
+    {
+      "id": "212416",
+      "japanese": "そのロープは彼を支えられるほど丈夫ではなかった。",
+      "english": "The rope wasn't strong enough to support him."
+    },
+    {
+      "id": "212723",
+      "japanese": "そのばね１個で車の全重量を支えている。",
+      "english": "That one spring carries the whole weight of the car."
+    },
+    {
+      "id": "213500",
+      "japanese": "そして時折私が仕事と育児を両立させようという試みにくじけそうになったとき、私の決意を支える助けになったのは夫だった。",
+      "english": "And at times when I became discouraged with trying to reconcile working and bringing up children, it was my husband who helped to maintain my determination."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.491Z",
+  "count": 5,
+  "fileId": "kanji-00550"
+}

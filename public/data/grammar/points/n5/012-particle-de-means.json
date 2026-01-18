@@ -1,0 +1,99 @@
+{
+  "id": "012-particle-de-means",
+  "version": "1.0.0",
+  "title": {
+    "ja": "で（手段）",
+    "romaji": "de (means/method)",
+    "en": "で (means/method)"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "で can also mark the means or method used to do something. It answers “by what?” or “with what?” This use is different from で as a location marker, but the particle is the same.\n\nKey points:\n• で marks the tool, method, or language used\n• Common with transportation: バスで行きます\n• Common with tools: はしで食べます\n• Common with language: 日本語で話します\n\nFor example, “バスで学校に行きます” means “I go to school by bus.” “はしで食べます” means “I eat with chopsticks.” The tool or method comes before で.\n\nThis use is very practical because it helps you explain how you do something. It can be a physical tool (pen, chopsticks), a method (online), or a language.\n\nIf the noun is a vehicle, tool, or language, で is a strong choice. Practice with everyday items to make the pattern feel natural: ペンで書きます, バスで行きます, 日本語で話します.\n\nTo avoid confusion, check the verb. If the verb is an action and you want to say how you do it, use で for the means. If you want to say where you do it, use で for the location. The same particle works in both roles, but the meaning comes from the context and the noun it follows.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Means で + Verb",
+    "components": [
+      {
+        "part": "Means で",
+        "explanation": "Tool, method, or language",
+        "examples": ["バスで", "はしで", "日本語で"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action verb",
+        "examples": ["行きます", "食べます", "話します"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "バスで学校に行きます。",
+      "romaji": "Basu de gakkou ni ikimasu.",
+      "english": "I go to school by bus.",
+      "breakdown": {
+        "バス": "bus",
+        "で": "means marker",
+        "学校": "school",
+        "に": "destination marker",
+        "行きます": "go (polite)"
+      },
+      "notes": "Transportation as means"
+    },
+    {
+      "japanese": "はしでご飯を食べます。",
+      "romaji": "Hashi de gohan o tabemasu.",
+      "english": "I eat with chopsticks.",
+      "breakdown": {
+        "はし": "chopsticks",
+        "で": "means marker",
+        "ご飯": "meal/rice",
+        "を": "object marker",
+        "食べます": "eat (polite)"
+      },
+      "notes": "Tool used for the action"
+    },
+    {
+      "japanese": "日本語で話します。",
+      "romaji": "Nihongo de hanashimasu.",
+      "english": "I speak in Japanese.",
+      "breakdown": {
+        "日本語": "Japanese language",
+        "で": "means marker",
+        "話します": "speak (polite)"
+      },
+      "notes": "Language as means"
+    },
+    {
+      "japanese": "ペンで名前を書きます。",
+      "romaji": "Pen de namae o kakimasu.",
+      "english": "I write my name with a pen.",
+      "breakdown": {
+        "ペン": "pen",
+        "で": "means marker",
+        "名前": "name",
+        "を": "object marker",
+        "書きます": "write (polite)"
+      },
+      "notes": "Tool for writing"
+    }
+  ],
+  "relatedPoints": [
+    "011-particle-de-location",
+    "013-particle-e"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using を for tools",
+      "correction": "Use で to mark the tool or method",
+      "example": "❌ ペンを書きます → ✅ ペンで書きます"
+    },
+    {
+      "mistake": "Confusing location で and means で",
+      "correction": "Check if the noun is a place or a tool/method",
+      "example": "図書館で本を読む / ペンで書く"
+    }
+  ],
+  "tags": ["particle", "means", "method", "tools"]
+}

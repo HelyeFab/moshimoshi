@@ -1,0 +1,33 @@
+{
+  "kanji": "階",
+  "sentences": [
+    {
+      "id": "183253",
+      "japanese": "気まずい沈黙の後、ビルは彼女の手を取って上の階へ引っ張って行った。",
+      "english": "After an awkward pause, Bill took her by the hand and dragged her upstairs."
+    },
+    {
+      "id": "186675",
+      "japanese": "火事は１階から出た。",
+      "english": "A fire broke out on the first floor."
+    },
+    {
+      "id": "186674",
+      "japanese": "火事は５階から起きました。",
+      "english": "A fire broke out on the fifth floor."
+    },
+    {
+      "id": "9130917",
+      "japanese": "火災は５階で発生しました。",
+      "english": "A fire broke out on the fifth floor."
+    },
+    {
+      "id": "195856",
+      "japanese": "ホンプキンスさんはとても大声で話したので、２階にいても聞こえた。",
+      "english": "Mr Hopkins spoke in such a loud voice that I could hear him upstairs."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.811Z",
+  "count": 5,
+  "fileId": "kanji-00947"
+}

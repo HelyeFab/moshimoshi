@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "263-n4-point-63",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "263-n4-point-63-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Passive and Potential Forms\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb られる (〜rareru)",
+          "romaji": "Verb rareru"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Verb られる (〜rareru) matches \"Passive and Potential Forms\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb られる (〜rareru).",
+      "explanation": "Expresses passive voice or ability (can do) with verbs using られる.",
+      "difficulty": "easy"
+    }
+  ]
+}

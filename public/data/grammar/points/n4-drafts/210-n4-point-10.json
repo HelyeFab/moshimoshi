@@ -1,0 +1,55 @@
+{
+  "id": "210-n4-point-10",
+  "version": "1.0.0",
+  "title": {
+    "ja": "のために (no tame ni)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The のために grammar point is used to express the purpose or reason for doing something, or for the benefit of someone or something. It can be translated as 'for', 'for the sake of', or 'in order to' in English. The formation is straightforward, simply place のために after a noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + のために",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "勉強のために、図書館で静かな場所を探しています。",
+      "romaji": "Benkyou no tame ni, toshokan de shizukana basho o sagashiteimasu.",
+      "english": "In order to study, I am looking for a quiet place in the library.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は家族のために、一生懸命働いています。",
+      "romaji": "Kare wa kazoku no tame ni, isshoukenmei hataraiteimasu.",
+      "english": "He works hard for the sake of his family.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "健康のために、毎日運動をしています。",
+      "romaji": "Kenkou no tame ni, mainichi undou o shiteimasu.",
+      "english": "I exercise every day for the sake of my health.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "世界平和のために、みんなで協力しましょう。",
+      "romaji": "Sekai heiwa no tame ni, minna de kyouryoku shimashou.",
+      "english": "Let's all cooperate for the sake of world peace.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

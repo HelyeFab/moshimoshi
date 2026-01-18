@@ -1,0 +1,33 @@
+{
+  "kanji": "鶏",
+  "sentences": [
+    {
+      "id": "182325",
+      "japanese": "牛は我々にミルクをくれ、鶏は卵をくれる。",
+      "english": "Cows give us milk, and hens, eggs."
+    },
+    {
+      "id": "211175",
+      "japanese": "その鶏は最近卵を産んでいない。",
+      "english": "The chicken hasn't laid any eggs lately."
+    },
+    {
+      "id": "220498",
+      "japanese": "この鶏は近頃ちっとも卵を産まない。",
+      "english": "This hen does not lay eggs at all these days."
+    },
+    {
+      "id": "222188",
+      "japanese": "この鶏は近頃卵を産まない。",
+      "english": "This hen does not lay eggs at all these days."
+    },
+    {
+      "id": "222187",
+      "japanese": "この鶏は週に何個卵を産みますか。",
+      "english": "How many eggs does this hen lay each week?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:36.452Z",
+  "count": 5,
+  "fileId": "kanji-01774"
+}

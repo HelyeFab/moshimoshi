@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "286-n4-point-86",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "286-n4-point-86-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Not so much / Not that\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "そんなに～",
+          "romaji": "sonna ni〜"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! そんなに～ matches \"Not so much / Not that\".",
+      "incorrectFeedback": "Not quite. The correct pattern is そんなに～.",
+      "explanation": "Used to say something is not as much or not to that extent.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "286-n4-point-86-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: そんなに～.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not so much / Not that"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! そんなに～ means \"Not so much / Not that\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Not so much / Not that\".",
+      "explanation": "Used to say something is not as much or not to that extent.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "286-n4-point-86-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: そんなに～.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "sonna ni〜"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! sonna ni〜 is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is sonna ni〜.",
+      "explanation": "Used to say something is not as much or not to that extent.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "286-n4-point-86-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: そんなに～?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Used to say something is not as much or not to that extent."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to say something is not as much or not to that extent.",
+      "explanation": "Used to say something is not as much or not to that extent.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "286-n4-point-86-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Not so much / Not that\".",
+      "correctAnswer": "そんなに～",
+      "acceptedVariations": [
+        "そんなに～",
+        "そんなに～"
+      ],
+      "correctFeedback": "Nice! そんなに～ is correct.",
+      "incorrectFeedback": "The correct pattern is: そんなに～ (sonna ni〜).",
+      "explanation": "Used to say something is not as much or not to that extent.",
+      "hints": [
+        "sonna ni〜",
+        "Used to say something is not as much or not to that extent."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "286-n4-point-86-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: そんなに～.",
+      "correctAnswer": "sonna ni〜",
+      "acceptedVariations": [
+        "sonna ni〜",
+        "sonna ni〜"
+      ],
+      "correctFeedback": "Nice! sonna ni〜 is correct.",
+      "incorrectFeedback": "The correct romaji is: sonna ni〜.",
+      "explanation": "Used to say something is not as much or not to that extent.",
+      "hints": [
+        "Used to say something is not as much or not to that extent."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "286-n4-point-86-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: そんなに～.",
+      "correctAnswer": "Not so much / Not that",
+      "acceptedVariations": [
+        "Not so much / Not that",
+        "not so much / not that"
+      ],
+      "correctFeedback": "Correct! \"Not so much / Not that\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Not so much / Not that\".",
+      "explanation": "Used to say something is not as much or not to that extent.",
+      "hints": [
+        "Used to say something is not as much or not to that extent."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "286-n4-point-86-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "そんなに～",
+          "romaji": "sonna ni〜",
+          "english": "Not so much / Not that"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to say something is not as much or not to that extent.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "286-n4-point-86-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to say something is not as much or not to that extent..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "そんなに～",
+          "romaji": "sonna ni〜"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! そんなに～ matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is そんなに～.",
+      "explanation": "Used to say something is not as much or not to that extent.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "286-n4-point-86-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "そんなに～",
+      "acceptedVariations": [
+        "そんなに～",
+        "そんなに～"
+      ],
+      "correctFeedback": "Great! そんなに～ is correct.",
+      "incorrectFeedback": "The correct pattern is: そんなに～.",
+      "explanation": "Used to say something is not as much or not to that extent.",
+      "hints": [
+        "sonna ni〜"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

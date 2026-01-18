@@ -1,0 +1,33 @@
+{
+  "kanji": "天",
+  "sentences": [
+    {
+      "id": "11035466",
+      "japanese": "天にも昇る心地だったよ。",
+      "english": "I jumped for joy."
+    },
+    {
+      "id": "188715",
+      "japanese": "縁組は天でなされる。",
+      "english": "Marriage is made in heaven."
+    },
+    {
+      "id": "219011",
+      "japanese": "これがいわゆる「天ぷら」というものです。",
+      "english": "This is what we call \"tempura\"."
+    },
+    {
+      "id": "231864",
+      "japanese": "あなたは寿司と天ぷら、どっちが好き。",
+      "english": "Which do you like better, sushi or tempura?"
+    },
+    {
+      "id": "10083449",
+      "japanese": "寿司と天ぷらだったら、どっちがいい？",
+      "english": "Which do you like better, sushi or tempura?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.779Z",
+  "count": 5,
+  "fileId": "kanji-00052"
+}

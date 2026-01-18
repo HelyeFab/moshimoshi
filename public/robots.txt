@@ -16,14 +16,20 @@ Disallow: /*/tts-demo/
 Disallow: /api/
 Disallow: /_next/
 
-# Sitemap locations (per-locale sitemaps with sitemap index)
+# Sitemap locations (main sitemap + per-locale blog & grammar sitemaps)
 Sitemap: https://moshimoshi.app/sitemap.xml
-Sitemap: https://moshimoshi.app/sitemap/0.xml
-Sitemap: https://moshimoshi.app/sitemap/1.xml
-Sitemap: https://moshimoshi.app/sitemap/2.xml
-Sitemap: https://moshimoshi.app/sitemap/3.xml
-Sitemap: https://moshimoshi.app/sitemap/4.xml
-Sitemap: https://moshimoshi.app/sitemap/5.xml
+Sitemap: https://moshimoshi.app/en/blog/sitemap.xml
+Sitemap: https://moshimoshi.app/ja/blog/sitemap.xml
+Sitemap: https://moshimoshi.app/de/blog/sitemap.xml
+Sitemap: https://moshimoshi.app/es/blog/sitemap.xml
+Sitemap: https://moshimoshi.app/fr/blog/sitemap.xml
+Sitemap: https://moshimoshi.app/it/blog/sitemap.xml
+Sitemap: https://moshimoshi.app/en/learn/grammar/sitemap.xml
+Sitemap: https://moshimoshi.app/ja/learn/grammar/sitemap.xml
+Sitemap: https://moshimoshi.app/de/learn/grammar/sitemap.xml
+Sitemap: https://moshimoshi.app/es/learn/grammar/sitemap.xml
+Sitemap: https://moshimoshi.app/fr/learn/grammar/sitemap.xml
+Sitemap: https://moshimoshi.app/it/learn/grammar/sitemap.xml
 
 # Crawl delay (be nice to servers)
 Crawl-delay: 1

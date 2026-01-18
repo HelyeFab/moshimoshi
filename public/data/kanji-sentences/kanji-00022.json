@@ -1,0 +1,33 @@
+{
+  "kanji": "前",
+  "sentences": [
+    {
+      "id": "4978",
+      "japanese": "最初着る前に洗濯してください。",
+      "english": "Wash before first wearing."
+    },
+    {
+      "id": "4804657",
+      "japanese": "お前のせいで食欲失せたわ。",
+      "english": "Thanks to you I've lost my appetite."
+    },
+    {
+      "id": "138767",
+      "japanese": "出発する前に私に電話するよう、彼らに伝えてください。",
+      "english": "Tell them to call me before they leave."
+    },
+    {
+      "id": "11563372",
+      "japanese": "ドアの前で待ってらっしゃるわよ。",
+      "english": "They are waiting for you in front of the door."
+    },
+    {
+      "id": "724627",
+      "japanese": "ここが前に話した街です。",
+      "english": "This is the town I told you about."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.414Z",
+  "count": 5,
+  "fileId": "kanji-00022"
+}

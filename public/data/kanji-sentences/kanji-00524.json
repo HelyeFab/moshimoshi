@@ -1,0 +1,33 @@
+{
+  "kanji": "係",
+  "sentences": [
+    {
+      "id": "196046",
+      "japanese": "ボブはそのデパートでエレベーター係をしている。",
+      "english": "Bob operates an elevator in the department store."
+    },
+    {
+      "id": "201770",
+      "japanese": "ドア係に切符を見せて、劇場の中に入っていきました。",
+      "english": "I showed my ticket to the doorman and went into the theatre."
+    },
+    {
+      "id": "204410",
+      "japanese": "そんなことに係わり合いたくない。",
+      "english": "I don't want to get involved in that business."
+    },
+    {
+      "id": "224143",
+      "japanese": "こちら国際電話の係りです。",
+      "english": "Overseas service here."
+    },
+    {
+      "id": "74018",
+      "japanese": "虫歯を侮ると命に係わる場合もあるのです。",
+      "english": "Making light of cavities can be a matter of life and death."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.122Z",
+  "count": 5,
+  "fileId": "kanji-00524"
+}

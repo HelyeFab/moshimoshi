@@ -1,0 +1,108 @@
+{
+  "id": "274-n4-point-74",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～かしら",
+    "romaji": "~kashira",
+    "en": "Expressing uncertainty"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～かしら grammar point is used to express uncertainty or doubt about a situation, often translated as 'I wonder' or 'I'm not sure'. It's primarily used by females in casual conversations but can be used by males in some contexts.",
+    "ja": "～かしらは、ある状況についての不確実さや疑問を表現するのに使われます。主に女性がカジュアルな会話で使用しますが、男性も一部の文脈では使うことができます。"
+  },
+  "structure": {
+    "pattern": "X + かしら",
+    "components": [
+      {
+        "part": "Verb-casual",
+        "explanation": "Use the casual form of verbs followed by かしら.",
+        "examples": [
+          "降る (furu)",
+          "食べる (taberu)"
+        ]
+      },
+      {
+        "part": "い-Adjective",
+        "explanation": "Use an い-adjective directly followed by かしら.",
+        "examples": [
+          "美味しい (oishii)",
+          "元気 (genki)"
+        ]
+      },
+      {
+        "part": "な-Adjective",
+        "explanation": "Use a な-adjective directly followed by かしら.",
+        "examples": [
+          "静か (shizuka)",
+          "忙しい (isogashii)"
+        ]
+      },
+      {
+        "part": "Noun",
+        "explanation": "Follow nouns with かしら to express uncertainty.",
+        "examples": [
+          "学生 (gakusei)",
+          "医者 (isha)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "今日は雨が降るかしら？",
+      "romaji": "Kyou wa ame ga furu kashira?",
+      "english": "I wonder if it will rain today?",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このケーキは美味しいかしら？",
+      "romaji": "Kono keeki wa oishii kashira?",
+      "english": "I wonder if this cake is delicious?",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は病気かしら？",
+      "romaji": "Kare wa byouki kashira?",
+      "english": "I wonder if he is sick?",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は学生かしら？",
+      "romaji": "Kanojo wa gakusei kashira?",
+      "english": "I wonder if she is a student?",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～かもしれない",
+    "～かどうか",
+    "Noun しか～ない"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using かしら in formal settings",
+      "correction": "Avoid using かしら in professional or formal contexts.",
+      "example": "上司に「会議は延期するかしら？」と聞くのは適切ではありません。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "uncertainty",
+    "casual-conversations",
+    "female-speech"
+  ]
+}

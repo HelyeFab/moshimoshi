@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "025-masu-form-past-negative",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "025-masu-form-past-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the polite past negative form: 行きます → ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "行きません"
+        },
+        {
+          "id": "b",
+          "text": "行きませんでした"
+        },
+        {
+          "id": "c",
+          "text": "行きました"
+        },
+        {
+          "id": "d",
+          "text": "行かない"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 行きませんでした is past negative.",
+      "incorrectFeedback": "Not quite. Replace ます with ませんでした.",
+      "explanation": "Past negative uses ませんでした.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "飢",
+  "sentences": [
+    {
+      "id": "182956",
+      "japanese": "飢え死にするくらいなら、溺れ死んだほうがましだ。",
+      "english": "I might as well drown as starve."
+    },
+    {
+      "id": "182958",
+      "japanese": "飢えの前に法律はない。",
+      "english": "Hunger knows no law."
+    },
+    {
+      "id": "182957",
+      "japanese": "飢えは最大の社会的不幸の１つである。",
+      "english": "Hunger is one of the strongest griefs."
+    },
+    {
+      "id": "182959",
+      "japanese": "飢えのために彼はやむなく罪を犯した。",
+      "english": "It was hunger that impelled him to crime."
+    },
+    {
+      "id": "182960",
+      "japanese": "日本の戦中は、飢えとの戦いに明け暮れていたとも言えます。",
+      "english": "We can say that Japan was fighting a constant battle against hunger during the war."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:38.410Z",
+  "count": 5,
+  "fileId": "kanji-01823"
+}

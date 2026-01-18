@@ -1,0 +1,28 @@
+{
+  "kanji": "罵",
+  "sentences": [
+    {
+      "id": "86547",
+      "japanese": "彼女は面と向かって夫を罵った。",
+      "english": "She called her husband names to his face."
+    },
+    {
+      "id": "89250",
+      "japanese": "彼女は私を馬鹿だの何だのと罵った。",
+      "english": "She called me a fool and what not."
+    },
+    {
+      "id": "96732",
+      "japanese": "彼らは声の限りに罵りあった。",
+      "english": "They were swearing at each other at the top of their voices."
+    },
+    {
+      "id": "100824",
+      "japanese": "彼は彼女を罵った。",
+      "english": "He called her bad names."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:42.270Z",
+  "count": 4,
+  "fileId": "kanji-01916"
+}

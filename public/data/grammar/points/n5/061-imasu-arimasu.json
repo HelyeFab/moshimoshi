@@ -1,0 +1,104 @@
+{
+  "id": "061-imasu-arimasu",
+  "version": "1.0.0",
+  "title": {
+    "ja": "います／あります",
+    "romaji": "imasu / arimasu",
+    "en": "います／あります (polite existence)"
+  },
+  "jlptLevel": "N5",
+  "category": "existence",
+  "explanation": {
+    "en": "います and あります are polite verbs that mean “there is/are” or “to exist.” Use います for living things (people, animals) and あります for non-living things (objects, places, events).\n\nKey points:\n• います = living things (people, animals)\n• あります = non-living things (objects, places)\n• Often used with location particles に or には\n• Polite and very common in daily speech\n\nExample: “公園に犬がいます” means “There is a dog in the park.” “机の上に本があります” means “There is a book on the desk.”\n\nThese verbs are also used to say you have something: “車があります” (I have a car) or “兄がいます” (I have an older brother). This is a natural way to express possession in Japanese.\n\nRemember: います is for living things, so people and animals. あります is for objects and places. This simple rule will help you choose the correct verb.\n\nPractice by looking around your room and making sentences about what exists and where it is.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "(Place に) + Noun が + います／あります",
+    "components": [
+      {
+        "part": "Place に",
+        "explanation": "Location (optional)",
+        "examples": ["公園に", "部屋に", "机の上に"]
+      },
+      {
+        "part": "Noun が",
+        "explanation": "Thing that exists",
+        "examples": ["犬が", "本が", "人が"]
+      },
+      {
+        "part": "います／あります",
+        "explanation": "Existence (living/non-living)",
+        "examples": ["います", "あります"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "公園に犬がいます。",
+      "romaji": "Kouen ni inu ga imasu.",
+      "english": "There is a dog in the park.",
+      "breakdown": {
+        "公園": "park",
+        "に": "location marker",
+        "犬": "dog",
+        "が": "subject marker",
+        "います": "exists (living)"
+      },
+      "notes": "Living thing"
+    },
+    {
+      "japanese": "机の上に本があります。",
+      "romaji": "Tsukue no ue ni hon ga arimasu.",
+      "english": "There is a book on the desk.",
+      "breakdown": {
+        "机": "desk",
+        "の": "of",
+        "上": "on",
+        "に": "location marker",
+        "本": "book",
+        "が": "subject marker",
+        "あります": "exists (non-living)"
+      },
+      "notes": "Non-living thing"
+    },
+    {
+      "japanese": "友だちがいます。",
+      "romaji": "Tomodachi ga imasu.",
+      "english": "I have a friend.",
+      "breakdown": {
+        "友だち": "friend",
+        "が": "subject marker",
+        "います": "exists (living)"
+      },
+      "notes": "Possession (living)"
+    },
+    {
+      "japanese": "車があります。",
+      "romaji": "Kuruma ga arimasu.",
+      "english": "I have a car.",
+      "breakdown": {
+        "車": "car",
+        "が": "subject marker",
+        "あります": "exists (non-living)"
+      },
+      "notes": "Possession (non-living)"
+    }
+  ],
+  "relatedPoints": [
+    "059-iru-animate",
+    "060-aru-inanimate"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using あります for people",
+      "correction": "Use います for living things",
+      "example": "❌ 先生があります → ✅ 先生がいます"
+    },
+    {
+      "mistake": "Using います for objects",
+      "correction": "Use あります for non-living things",
+      "example": "❌ 本がいます → ✅ 本があります"
+    }
+  ],
+  "tags": ["existence", "imasu", "arimasu", "beginner"]
+}

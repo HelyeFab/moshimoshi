@@ -1,0 +1,33 @@
+{
+  "kanji": "頼",
+  "sentences": [
+    {
+      "id": "4740",
+      "japanese": "私は彼らにチケットをもう一枚送ってくれるように頼んだ。",
+      "english": "I told them to send me another ticket."
+    },
+    {
+      "id": "5081",
+      "japanese": "飲み物を俺に頼まないでくれよ。自分で買いにいけばいいだろ。",
+      "english": "Stop asking me for a drink! Go get it yourself."
+    },
+    {
+      "id": "183977",
+      "japanese": "勘定を頼むよ。",
+      "english": "The check, please."
+    },
+    {
+      "id": "138731",
+      "japanese": "頼みを聞いてくれませんか。",
+      "english": "Could you do me a favour please?"
+    },
+    {
+      "id": "108036",
+      "japanese": "彼に頼っておけばいい。",
+      "english": "You can rely on him."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.372Z",
+  "count": 5,
+  "fileId": "kanji-00609"
+}

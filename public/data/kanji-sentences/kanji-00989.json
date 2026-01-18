@@ -1,0 +1,33 @@
+{
+  "kanji": "賞",
+  "sentences": [
+    {
+      "id": "178682",
+      "japanese": "君にはその賞を取るに値する。",
+      "english": "You deserve the prize."
+    },
+    {
+      "id": "180037",
+      "japanese": "驚いたことに彼は賞をもらった。",
+      "english": "To my surprise, he won the prize."
+    },
+    {
+      "id": "183390",
+      "japanese": "期待どおり彼は賞を獲った。",
+      "english": "As was expected, he succeeded in winning the prize."
+    },
+    {
+      "id": "183392",
+      "japanese": "期待どおり、彼はみごとに賞をもらった。",
+      "english": "As was expected, he succeeded in winning the prize."
+    },
+    {
+      "id": "183391",
+      "japanese": "期待どおり、彼は賞を得た。",
+      "english": "As was expected, he won the prize."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.621Z",
+  "count": 5,
+  "fileId": "kanji-00989"
+}

@@ -1,0 +1,127 @@
+{
+  "id": "291-n4-point-91",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～だろう",
+    "romaji": "~darou",
+    "en": "~darou (probably, I think)"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "The grammar point ～だろう is used to express probability, conjecture, or the speaker's guess about a situation. It is often translated as 'probably', 'I think', or 'maybe'. It follows the plain form of verbs, い-adjectives (without い), な-adjectives, or nouns.",
+    "ja": "「～だろう」は、話し手の推量や予想を表すときに使います。「たぶん」「～でしょう」と似た意味で、カジュアルな場面でよく使われます。"
+  },
+  "structure": {
+    "pattern": "Verb-casual / い-adjective (drop い) / な-adjective / Noun + だろう",
+    "components": [
+      {
+        "part": "Verb (plain form) + だろう",
+        "explanation": "Attach だろう directly to the plain form of the verb.",
+        "examples": [
+          "行くだろう",
+          "食べるだろう"
+        ]
+      },
+      {
+        "part": "い-adjective (drop い) + だろう",
+        "explanation": "Remove the final い from the adjective before adding だろう.",
+        "examples": [
+          "高かろう",
+          "新しかろう"
+        ]
+      },
+      {
+        "part": "な-adjective + だろう",
+        "explanation": "Attach だろう directly to the な-adjective stem.",
+        "examples": [
+          "静かだろう",
+          "元気だろう"
+        ]
+      },
+      {
+        "part": "Noun + だろう",
+        "explanation": "Attach だろう directly to the noun.",
+        "examples": [
+          "先生だろう",
+          "雨だろう"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日は晴れるだろう。",
+      "romaji": "Ashita wa hareru darou.",
+      "english": "It will probably be sunny tomorrow.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "は": "topic particle",
+        "晴れる": "be sunny",
+        "だろう": "probably"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は忙しいだろう。",
+      "romaji": "Kare wa isogashii darou.",
+      "english": "He is probably busy.",
+      "breakdown": {
+        "彼": "he",
+        "は": "topic particle",
+        "忙しい": "busy",
+        "だろう": "probably"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この本は面白いだろう。",
+      "romaji": "Kono hon wa omoshiroi darou.",
+      "english": "This book is probably interesting.",
+      "breakdown": {
+        "この": "this",
+        "本": "book",
+        "は": "topic particle",
+        "面白い": "interesting",
+        "だろう": "probably"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は先生だろう。",
+      "romaji": "Kanojo wa sensei darou.",
+      "english": "She is probably a teacher.",
+      "breakdown": {
+        "彼女": "she",
+        "は": "topic particle",
+        "先生": "teacher",
+        "だろう": "probably"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "でしょう",
+    "かもしれない"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "忙しいいだろう。",
+      "correction": "忙しいだろう。",
+      "example": "Incorrect: 彼は忙しいいだろう。 Correct: 彼は忙しいだろう。"
+    },
+    {
+      "mistake": "先生ですだろう。",
+      "correction": "先生だろう。",
+      "example": "Incorrect: 彼女は先生ですだろう。 Correct: 彼女は先生だろう。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "modality",
+    "probability",
+    "casual",
+    "guessing",
+    "sentence-ending"
+  ]
+}

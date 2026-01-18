@@ -1,0 +1,89 @@
+{
+  "id": "292-n4-point-92",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～っていう",
+    "romaji": "~tte iu",
+    "en": "That is to say"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～っていう grammar point is used for quoting, defining, or specifying a noun. It can be translated as 'called', 'that is to say', or 'I mean' in English.",
+    "ja": "～っていう文法は、引用したり、定義をしたり、名詞を具体的に特定するために使います。英語で言うと「呼ばれる」、「つまり」や「つまり」と訳すことができます。"
+  },
+  "structure": {
+    "pattern": "Noun/Adjective/Verb + っていう + Noun",
+    "components": [
+      {
+        "part": "Noun/Adjective/Verb",
+        "explanation": "The first part can be a noun, adjective or verb.",
+        "examples": [
+          "ピザ",
+          "面白い"
+        ]
+      },
+      {
+        "part": "っていう",
+        "explanation": "The core structure that connects the context to what it specifies.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "ピザっていう料理が大好きです。",
+      "romaji": "Piza tte iu ryouri ga daisuki desu.",
+      "english": "I love the dish called pizza.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼っていう男性はすごく面白いです。",
+      "romaji": "Kare tte iu dansei wa sugoku omoshiroi desu.",
+      "english": "That man (called ‘kare’) is really interesting.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この映画っていうのは本当に感動的だよ。",
+      "romaji": "Kono eiga tte iu no wa hontou ni kandouteki da yo.",
+      "english": "This movie, I mean, is really touching.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女が言っているっていう店はここではない。",
+      "romaji": "Kanojo ga itte iru tte iu mise wa koko de wa nai.",
+      "english": "The store she's talking about, I mean, is not here.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～なきゃいけない",
+    "～だろう",
+    "～のです"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "ピザっていう料理が大好きです。",
+      "correction": "ピザっていう料理が大好きです。",
+      "example": "The correct usage is ～っていう, not ～っていう."
+    }
+  ],
+  "tags": [
+    "n4",
+    "casual",
+    "speaking",
+    "quotations"
+  ]
+}

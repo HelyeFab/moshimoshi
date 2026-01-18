@@ -1,0 +1,33 @@
+{
+  "kanji": "枕",
+  "sentences": [
+    {
+      "id": "74524",
+      "japanese": "けいこは枕に顔をうずめて泣いた。",
+      "english": "Keiko buried her head in the pillow and cried."
+    },
+    {
+      "id": "79001",
+      "japanese": "予備の枕をください。",
+      "english": "I need an extra pillow."
+    },
+    {
+      "id": "81216",
+      "japanese": "枕を下さい。",
+      "english": "Can I get a pillow?"
+    },
+    {
+      "id": "81219",
+      "japanese": "枕と毛布を下さい。",
+      "english": "May I have a pillow and a blanket, please?"
+    },
+    {
+      "id": "81220",
+      "japanese": "枕と毛布をもってきていただけるか。",
+      "english": "Could you bring me a pillow and blanket, please?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:33.535Z",
+  "count": 5,
+  "fileId": "kanji-01694"
+}

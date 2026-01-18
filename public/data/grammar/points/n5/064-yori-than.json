@@ -1,0 +1,112 @@
+{
+  "id": "064-yori-than",
+  "version": "1.0.0",
+  "title": {
+    "ja": "より",
+    "romaji": "yori",
+    "en": "より (than)"
+  },
+  "jlptLevel": "N5",
+  "category": "comparisons",
+  "explanation": {
+    "en": "より means “than.” It is used to compare two things. The basic pattern is “A は B より [adjective]” which means “A is more [adjective] than B.”\n\nKey points:\n• B より A は + adjective = A is more … than B\n• より comes after the thing you compare to\n• Use with adjectives like 大きい, 安い, 早い, etc.\n• Very common in everyday comparisons\n\nExample: “犬は猫より大きいです” means “Dogs are bigger than cats.” “この本はあの本より安いです” means “This book is cheaper than that book.”\n\nYou can also drop the topic は if it’s clear: “猫より犬のほうが大きいです.” This is a natural comparison style.\n\nPractice by comparing two simple things: りんごとみかん, バスと電車, 日本とアメリカ. Use より to show which is bigger, faster, or cheaper.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "A は B より + Adjective",
+    "components": [
+      {
+        "part": "A は",
+        "explanation": "Thing being described",
+        "examples": ["犬は", "この本は", "東京は"]
+      },
+      {
+        "part": "B より",
+        "explanation": "Thing being compared to",
+        "examples": ["猫より", "あの本より", "大阪より"]
+      },
+      {
+        "part": "Adjective",
+        "explanation": "Comparison adjective",
+        "examples": ["大きいです", "安いです", "早いです"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "犬は猫より大きいです。",
+      "romaji": "Inu wa neko yori ookii desu.",
+      "english": "Dogs are bigger than cats.",
+      "breakdown": {
+        "犬": "dog",
+        "は": "topic marker",
+        "猫": "cat",
+        "より": "than",
+        "大きい": "big",
+        "です": "polite ending"
+      },
+      "notes": "Basic comparison"
+    },
+    {
+      "japanese": "この本はあの本より安いです。",
+      "romaji": "Kono hon wa ano hon yori yasui desu.",
+      "english": "This book is cheaper than that book.",
+      "breakdown": {
+        "この": "this",
+        "本": "book",
+        "は": "topic marker",
+        "あの": "that",
+        "本": "book",
+        "より": "than",
+        "安い": "cheap",
+        "です": "polite ending"
+      },
+      "notes": "Price comparison"
+    },
+    {
+      "japanese": "電車はバスより早いです。",
+      "romaji": "Densha wa basu yori hayai desu.",
+      "english": "Trains are faster than buses.",
+      "breakdown": {
+        "電車": "train",
+        "は": "topic marker",
+        "バス": "bus",
+        "より": "than",
+        "早い": "fast",
+        "です": "polite ending"
+      },
+      "notes": "Speed comparison"
+    },
+    {
+      "japanese": "今日は昨日より暑いです。",
+      "romaji": "Kyou wa kinou yori atsui desu.",
+      "english": "Today is hotter than yesterday.",
+      "breakdown": {
+        "今日": "today",
+        "は": "topic marker",
+        "昨日": "yesterday",
+        "より": "than",
+        "暑い": "hot",
+        "です": "polite ending"
+      },
+      "notes": "Time comparison"
+    }
+  ],
+  "relatedPoints": [
+    "065-hou-ga-more-than",
+    "066-ichiban-most"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Putting より after A",
+      "correction": "Place より after the comparison item (B)",
+      "example": "❌ 犬より猫は大きい → ✅ 猫は犬より大きい"
+    },
+    {
+      "mistake": "Using と instead of より",
+      "correction": "Use より for 'than' comparisons",
+      "example": "❌ 犬は猫と大きい → ✅ 犬は猫より大きい"
+    }
+  ],
+  "tags": ["comparison", "yori", "beginner"]
+}

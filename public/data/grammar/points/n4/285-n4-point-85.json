@@ -1,0 +1,70 @@
+{
+  "id": "285-n4-point-85",
+  "version": "1.0.0",
+  "title": {
+    "ja": "そんな (sonna) + Noun",
+    "romaji": "Sonna + Noun",
+    "en": "That Kind of [Noun]"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The word 'そんな' is used before a noun to indicate 'that kind of' or 'that type of', typically referring to something near the listener or previously mentioned in the conversation. It specifies the noun based on context or shared understanding between the speaker and the listener.",
+    "ja": "'そんな'は名詞の前に使われ、「そのような」や「その種類の」という意味で、聞き手に近いものや以前に話題に出たものを指します。話し手と聞き手間での文脈や共有理解に基づいて名詞を特定します。"
+  },
+  "structure": {
+    "pattern": "そんな + Noun",
+    "components": [
+      {
+        "part": "そんな (sonna)",
+        "explanation": "Indicates 'that kind of' or 'that type of'.",
+        "examples": [
+          "そんな話 (Sonna hanashi - that kind of story)",
+          "そんな映画 (Sonna eiga - that kind of movie)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "そんな話、信じられない。",
+      "romaji": "Sonna hanashi, shinjirarenai.",
+      "english": "I can't believe that kind of story.",
+      "breakdown": {
+        "そんな": "that kind of",
+        "話": "story",
+        "信じられない": "can't believe"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "そんな映画、見たくない。",
+      "romaji": "Sonna eiga, mitakunai.",
+      "english": "I don't want to watch that kind of movie.",
+      "breakdown": {
+        "そんな": "that kind of",
+        "映画": "movie",
+        "見たくない": "don't want to watch"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Noun ばかり (〜bakari)",
+    "Verb ために",
+    "Verb てみる (〜te miru)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "その + Noun without a previous mention.",
+      "correction": "Use その only when referring to something previously mentioned or immediately clear from context.",
+      "example": "その話、信じられない。 (Kore ga atarimae da.)"
+    }
+  ],
+  "tags": [
+    "n4",
+    "miscellaneous",
+    "context-dependent",
+    "modifiers"
+  ]
+}

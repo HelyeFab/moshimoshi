@@ -1,0 +1,92 @@
+{
+  "id": "249-n4-point-49",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb てもらえませんか",
+    "romaji": "verb te moraemasen ka",
+    "en": "Could you do something for me?"
+  },
+  "jlptLevel": "N4",
+  "category": "questions",
+  "explanation": {
+    "en": "The ～てもらえませんか grammar point is a polite and indirect way of asking someone to do something for you or asking for a favor. It is formed by conjugating the verb into the て-form and adding もらえませんか.",
+    "ja": "～てもらえませんかは、何かを他人に頼んだり、お願いをするための丁寧で婉曲的な表現です。動詞をて形にしてから、もらえませんかをつけます。"
+  },
+  "structure": {
+    "pattern": "Verb-て form + もらえませんか",
+    "components": [
+      {
+        "part": "Verb-て form",
+        "explanation": "The verb conjugated into the て-form.",
+        "examples": [
+          "見て (mite)",
+          "持つ (motta)"
+        ]
+      },
+      {
+        "part": "もらえませんか",
+        "explanation": "Expresses a polite request or favor.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "この手紙を見てもらえませんか。",
+      "romaji": "Kono tegami o mite moraemasen ka?",
+      "english": "Could you take a look at this letter for me?",
+      "breakdown": {
+        "みて (mite)": "look at",
+        "てがみを (tegami o)": "the letter",
+        "もらえますか (moraemasen ka?)": "could I ask"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "荷物を持ってもらえませんか。",
+      "romaji": "Nimotsu o motte moraemasen ka?",
+      "english": "Could you carry this luggage for me?",
+      "breakdown": {
+        "もって (motte)": "carry",
+        "にんもつを (nimotsu o)": "the luggage"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "部屋を掃除してもらえませんか。",
+      "romaji": "Heya o souji shite moraemasen ka?",
+      "english": "Could you clean the room for me?",
+      "breakdown": {
+        "そうじして (souji shite)": "clean",
+        "へやを (heyao)": "the room"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "明日のミーティングに参加してもらえませんか。",
+      "romaji": "Ashita no miitingu ni sanka shite moraemasen ka?",
+      "english": "Could you attend tomorrow's meeting for me?",
+      "breakdown": {
+        "さんかして (sanka shite)": "participate in",
+        "あしたの (ashita no)": "tomorrow's"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "te-form-questions"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Verb-te form + もらいますか?",
+      "correction": "Verb-て form + もらえませんか?",
+      "example": "この手紙をみてもらいますか？ (incorrect) -> この手紙をみてもらえませんか? (correct)"
+    }
+  ],
+  "tags": [
+    "n4",
+    "politeness",
+    "requests",
+    "te-form"
+  ]
+}

@@ -14,18 +14,19 @@ export function useSessionRefresh() {
 
     setIsRefreshing(true);
     try {
-      const response = await fetch('/api/auth/refresh-session', {
+      const response = await fetch('/api/auth/refresh', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
+        body: JSON.stringify({ force: true }),
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log('Session refreshed:', data);
 
-        if (data.oldTier !== data.newTier) {
+        if (data.oldTier && data.newTier && data.oldTier !== data.newTier) {
           showToast(
             `Session updated: ${data.oldTier} → ${data.newTier}`,
             'success'

@@ -1,0 +1,33 @@
+{
+  "kanji": "泳",
+  "sentences": [
+    {
+      "id": "176993",
+      "japanese": "君は彼と同じくらい速く泳げますか。",
+      "english": "Can you swim as fast as he?"
+    },
+    {
+      "id": "177002",
+      "japanese": "君は彼が泳いでいるのを見たことがありますか。",
+      "english": "Have you ever seen him swimming?"
+    },
+    {
+      "id": "177028",
+      "japanese": "君は独りで泳ぎに行ける歳ではない。",
+      "english": "You are not old enough to go swimming by yourself."
+    },
+    {
+      "id": "226938",
+      "japanese": "お前は一人で泳ぎに行くにはまだ幼すぎる。",
+      "english": "You are not old enough to go swimming by yourself."
+    },
+    {
+      "id": "177449",
+      "japanese": "君は泳げるんだろう？",
+      "english": "You can swim, can't you?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.811Z",
+  "count": 5,
+  "fileId": "kanji-00417"
+}

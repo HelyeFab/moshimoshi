@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "034-nakute-wa-ikenai",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "034-nakute-wa-ikenai-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct obligation form: 勉強する → ?",
+      "options": [
+        { "id": "a", "text": "勉強してはいけません" },
+        { "id": "b", "text": "勉強しなくてはいけません" },
+        { "id": "c", "text": "勉強してもいいです" },
+        { "id": "d", "text": "勉強します" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! しなくてはいけません means must do.",
+      "incorrectFeedback": "Not quite. Use ない-form + くてはいけません.",
+      "explanation": "勉強する → 勉強しなくてはいけません.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "034-nakute-wa-ikenai-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'I must do my homework'?",
+      "options": [
+        { "id": "a", "text": "宿題をしてはいけません。" },
+        { "id": "b", "text": "宿題をしなくてはいけません。" },
+        { "id": "c", "text": "宿題をしてもいいです。" },
+        { "id": "d", "text": "宿題をします。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! しなくてはいけません means must do.",
+      "incorrectFeedback": "Try again. Use なくてはいけません for obligation.",
+      "explanation": "Obligation uses なくてはいけません.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "034-nakute-wa-ikenai-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I have to wake up early.'",
+      "correctAnswer": "早く起きなくてはいけません",
+      "acceptedVariations": [
+        "早く起きなくてはいけません。",
+        "はやくおきなくてはいけません",
+        "hayaku okinakute wa ikemasen",
+        "hayaku okinakute wa ikemasen."
+      ],
+      "correctFeedback": "Great! 早く起きなくてはいけません is correct.",
+      "incorrectFeedback": "The correct answer is: 早く起きなくてはいけません (hayaku okinakute wa ikemasen).",
+      "explanation": "Use ない-form + くてはいけません.",
+      "hints": ["起きる → 起きない", "早く = early"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "034-nakute-wa-ikenai-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "明日学校に行かなくてはいけません。" },
+        { "id": "b", "text": "明日学校に行ってはいけません。" },
+        { "id": "c", "text": "明日学校に行ってもいいです。" },
+        { "id": "d", "text": "明日学校に行きません。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行かなくてはいけません means must go.",
+      "incorrectFeedback": "Not quite. Use ない-form + くてはいけません.",
+      "explanation": "Obligation uses なくてはいけません.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "034-nakute-wa-ikenai-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I must take medicine.'",
+      "correctAnswer": "薬を飲まなくてはいけません",
+      "acceptedVariations": [
+        "薬を飲まなくてはいけません。",
+        "くすりをのまなくてはいけません",
+        "kusuri o nomanakute wa ikemasen",
+        "kusuri o nomanakute wa ikemasen."
+      ],
+      "correctFeedback": "Nice! 薬を飲まなくてはいけません is correct.",
+      "incorrectFeedback": "The correct answer is: 薬を飲まなくてはいけません (kusuri o nomanakute wa ikemasen).",
+      "explanation": "Use the ない-form before くてはいけません.",
+      "hints": ["飲む → 飲まない", "薬 = medicine"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "034-nakute-wa-ikenai-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "宿題をしなくてはいけません。" },
+        { "id": "b", "text": "早く起きなくてはいけません。" },
+        { "id": "c", "text": "行くなくてはいけません。" },
+        { "id": "d", "text": "薬を飲まなくてはいけません。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use the ない-form before くてはいけません.",
+      "incorrectFeedback": "Try again. 行くなくて is incorrect.",
+      "explanation": "行く → 行かない → 行かなくてはいけません.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "034-nakute-wa-ikenai-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I must study today.'",
+      "correctAnswer": "今日は勉強しなくてはいけません",
+      "acceptedVariations": [
+        "今日は勉強しなくてはいけません。",
+        "きょうはべんきょうしなくてはいけません",
+        "kyou wa benkyou shinakute wa ikemasen",
+        "kyou wa benkyou shinakute wa ikemasen."
+      ],
+      "correctFeedback": "Great! 今日は勉強しなくてはいけません is correct.",
+      "incorrectFeedback": "The correct answer is: 今日は勉強しなくてはいけません (kyou wa benkyou shinakute wa ikemasen).",
+      "explanation": "Use なくてはいけません for obligation.",
+      "hints": ["今日 = today", "勉強する → 勉強しない"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "034-nakute-wa-ikenai-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "宿題をしなくてはいけません。",
+          "romaji": "Shukudai o shinakute wa ikemasen.",
+          "english": "I must do my homework."
+        },
+        {
+          "japanese": "早く起きなくてはいけません。",
+          "romaji": "Hayaku okinakute wa ikemasen.",
+          "english": "I have to wake up early."
+        },
+        {
+          "japanese": "薬を飲まなくてはいけません。",
+          "romaji": "Kusuri o nomanakute wa ikemasen.",
+          "english": "I must take medicine."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review なくてはいけません.",
+      "explanation": "Each sentence expresses obligation.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "034-nakute-wa-ikenai-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence expresses obligation?",
+      "options": [
+        { "id": "a", "text": "行ってもいいです。" },
+        { "id": "b", "text": "行ってはいけません。" },
+        { "id": "c", "text": "行かなくてはいけません。" },
+        { "id": "d", "text": "行きません。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! なくてはいけません means must.",
+      "incorrectFeedback": "Try again. Obligation uses なくてはいけません.",
+      "explanation": "行かなくてはいけません = must go.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "034-nakute-wa-ikenai-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I must go to the hospital.'",
+      "correctAnswer": "病院に行かなくてはいけません",
+      "acceptedVariations": [
+        "病院に行かなくてはいけません。",
+        "びょういんにいかなくてはいけません",
+        "byouin ni ikanakute wa ikemasen",
+        "byouin ni ikanakute wa ikemasen."
+      ],
+      "correctFeedback": "Nice! 病院に行かなくてはいけません is correct.",
+      "incorrectFeedback": "The correct answer is: 病院に行かなくてはいけません (byouin ni ikanakute wa ikemasen).",
+      "explanation": "Use ない-form + くてはいけません.",
+      "hints": ["行く → 行かない", "病院 = hospital"],
+      "difficulty": "hard"
+    }
+  ]
+}

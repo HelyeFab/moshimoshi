@@ -1,0 +1,33 @@
+{
+  "kanji": "戸",
+  "sentences": [
+    {
+      "id": "188528",
+      "japanese": "押したらその戸はあいた。",
+      "english": "The door gave to my pressure."
+    },
+    {
+      "id": "199556",
+      "japanese": "どんなにやってみても、彼は戸を開けることができなかった。",
+      "english": "No matter how he tried, he could not open the door."
+    },
+    {
+      "id": "174534",
+      "japanese": "戸を閉めてください。",
+      "english": "Close the door, please."
+    },
+    {
+      "id": "210868",
+      "japanese": "その戸を閉めて下さい。",
+      "english": "Close the door, please."
+    },
+    {
+      "id": "201642",
+      "japanese": "どうか戸を閉めてください。",
+      "english": "Shut the door, please."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.935Z",
+  "count": 5,
+  "fileId": "kanji-00905"
+}

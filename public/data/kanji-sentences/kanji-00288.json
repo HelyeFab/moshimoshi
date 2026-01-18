@@ -1,0 +1,33 @@
+{
+  "kanji": "精",
+  "sentences": [
+    {
+      "id": "177256",
+      "japanese": "君は仕事に精を出すべきだ。",
+      "english": "You should go about your business."
+    },
+    {
+      "id": "177257",
+      "japanese": "君は仕事に精を出した方がよい。",
+      "english": "You'd better knuckle down to work."
+    },
+    {
+      "id": "227699",
+      "japanese": "おしゃべりなしで仕事に精をだそう。",
+      "english": "Let's attend to our work instead of talking."
+    },
+    {
+      "id": "231901",
+      "japanese": "あなたは自分の仕事に精を出すべきだ。",
+      "english": "You should attend to your business."
+    },
+    {
+      "id": "149840",
+      "japanese": "自分の仕事に精を出しなさい。",
+      "english": "You must attend to your work."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.005Z",
+  "count": 5,
+  "fileId": "kanji-00288"
+}

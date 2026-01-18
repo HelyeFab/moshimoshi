@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "273-n4-point-73",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "273-n4-point-73-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"To continue doing\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb + 続ける",
+          "romaji": "tsuzukeru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb + 続ける matches \"To continue doing\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb + 続ける.",
+      "explanation": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "273-n4-point-73-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb + 続ける.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "To continue doing"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb + 続ける means \"To continue doing\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"To continue doing\".",
+      "explanation": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "273-n4-point-73-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb + 続ける.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "tsuzukeru"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! tsuzukeru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is tsuzukeru.",
+      "explanation": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "273-n4-point-73-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb + 続ける?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\""
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "explanation": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "273-n4-point-73-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"To continue doing\".",
+      "correctAnswer": "Verb + 続ける",
+      "acceptedVariations": [
+        "Verb + 続ける",
+        "Verb+続ける"
+      ],
+      "correctFeedback": "Nice! Verb + 続ける is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb + 続ける (tsuzukeru).",
+      "explanation": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "hints": [
+        "tsuzukeru",
+        "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "273-n4-point-73-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb + 続ける.",
+      "correctAnswer": "tsuzukeru",
+      "acceptedVariations": [
+        "tsuzukeru",
+        "tsuzukeru"
+      ],
+      "correctFeedback": "Nice! tsuzukeru is correct.",
+      "incorrectFeedback": "The correct romaji is: tsuzukeru.",
+      "explanation": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "hints": [
+        "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "273-n4-point-73-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb + 続ける.",
+      "correctAnswer": "To continue doing",
+      "acceptedVariations": [
+        "To continue doing",
+        "to continue doing"
+      ],
+      "correctFeedback": "Correct! \"To continue doing\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"To continue doing\".",
+      "explanation": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "hints": [
+        "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "273-n4-point-73-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb + 続ける",
+          "romaji": "tsuzukeru",
+          "english": "To continue doing"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "273-n4-point-73-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb + 続ける",
+          "romaji": "tsuzukeru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb + 続ける matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb + 続ける.",
+      "explanation": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "273-n4-point-73-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verb+続ける",
+      "acceptedVariations": [
+        "Verb+続ける",
+        "Verb + 続ける"
+      ],
+      "correctFeedback": "Great! Verb+続ける is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb+続ける.",
+      "explanation": "Expresses the ongoing continuation of an action using \"verb + tsuzukeru.\"",
+      "hints": [
+        "tsuzukeru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

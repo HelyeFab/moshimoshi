@@ -1,0 +1,33 @@
+{
+  "kanji": "茶",
+  "sentences": [
+    {
+      "id": "186116",
+      "japanese": "我々はお茶を一ポンド買った。",
+      "english": "We bought a pound of tea."
+    },
+    {
+      "id": "161225",
+      "japanese": "私はお茶よりコーヒーを好む。",
+      "english": "I prefer coffee to tea."
+    },
+    {
+      "id": "226863",
+      "japanese": "お茶よりコーヒーが好きです。",
+      "english": "I prefer coffee to tea."
+    },
+    {
+      "id": "192973",
+      "japanese": "ゆっくりしてお茶でも飲んでいきませんか。",
+      "english": "Won't you stay for tea?"
+    },
+    {
+      "id": "193678",
+      "japanese": "もし今飲まなければ、あなたのお茶は冷めますよ。",
+      "english": "Your tea will get cold if you don't drink it now."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.903Z",
+  "count": 5,
+  "fileId": "kanji-00123"
+}

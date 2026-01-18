@@ -1,0 +1,33 @@
+{
+  "kanji": "者",
+  "sentences": [
+    {
+      "id": "4920",
+      "japanese": "私たちは兄弟として共に生きることを知らなければならない。さもなくば、愚か者として共に滅びるであろう。",
+      "english": "We must learn to live together as brothers, or we will perish together as fools."
+    },
+    {
+      "id": "4981",
+      "japanese": "こわれやすいガラス張りの家に住む者は石を投げてはいけない。",
+      "english": "Those who live in glass houses should not throw stones."
+    },
+    {
+      "id": "2533732",
+      "japanese": "世の中には10種類の人間がいる。二進法が分かる者と分からない者だ。",
+      "english": "There are 10 types of people in the world: those who understand binary, and those who don't."
+    },
+    {
+      "id": "182426",
+      "japanese": "賢明さを理解するには賢明でなければならない。音楽は聴衆がろう者では意味がないのと同様に。",
+      "english": "It requires wisdom to understand wisdom: the music is nothing if the audience is deaf."
+    },
+    {
+      "id": "5288",
+      "japanese": "この世は、愚か者だらけ。",
+      "english": "The world is full of fools."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.328Z",
+  "count": 5,
+  "fileId": "kanji-00153"
+}

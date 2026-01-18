@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "076-counter-hon",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "076-counter-hon-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct reading for 1 long object:",
+      "options": [
+        { "id": "a", "text": "いっぽん" },
+        { "id": "b", "text": "いちほん" },
+        { "id": "c", "text": "いちぼん" },
+        { "id": "d", "text": "いっほん" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 1本 is いっぽん.",
+      "incorrectFeedback": "Not quite. 1本 is いっぽん.",
+      "explanation": "Use the sound change いっぽん.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "076-counter-hon-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "ペンを三本買いました。" },
+        { "id": "b", "text": "ペンを三つ買いました。" },
+        { "id": "c", "text": "ペンを三枚買いました。" },
+        { "id": "d", "text": "ペンを三人買いました。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ペン is a long object, so use 本.",
+      "incorrectFeedback": "Try again. Use 本 for long objects.",
+      "explanation": "本 is the counter for long, thin objects.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "076-counter-hon-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Please give me one pen.'",
+      "correctAnswer": "ペンを一本ください",
+      "acceptedVariations": [
+        "ペンを一本ください。",
+        "ぺんをいっぽんください",
+        "pen o ippon kudasai",
+        "pen o ippon kudasai."
+      ],
+      "correctFeedback": "Great! ペンを一本ください is correct.",
+      "incorrectFeedback": "The correct answer is: ペンを一本ください (pen o ippon kudasai).",
+      "explanation": "Use 一本 for one long object.",
+      "hints": ["一本 = one long object", "ください = please"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "076-counter-hon-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct reading for 3 long objects:",
+      "options": [
+        { "id": "a", "text": "さんぼん" },
+        { "id": "b", "text": "さんほん" },
+        { "id": "c", "text": "さんぽん" },
+        { "id": "d", "text": "さんぼ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 3本 is さんぼん.",
+      "incorrectFeedback": "Not quite. 3本 is さんぼん.",
+      "explanation": "本 changes to ぼん after 3.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "076-counter-hon-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There are three umbrellas.'",
+      "correctAnswer": "傘が三本あります",
+      "acceptedVariations": [
+        "傘が三本あります。",
+        "かさがさんぼんあります",
+        "kasa ga sanbon arimasu",
+        "kasa ga sanbon arimasu."
+      ],
+      "correctFeedback": "Nice! 傘が三本あります is correct.",
+      "incorrectFeedback": "The correct answer is: 傘が三本あります (kasa ga sanbon arimasu).",
+      "explanation": "Use 本 for long objects like umbrellas.",
+      "hints": ["傘 = umbrella", "三本 = three (long)"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "076-counter-hon-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "水を二本買います。" },
+        { "id": "b", "text": "えんぴつを六本使います。" },
+        { "id": "c", "text": "切符を三本買いました。" },
+        { "id": "d", "text": "ペンを一本ください。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Tickets are flat; use 枚.",
+      "incorrectFeedback": "Try again. 切符 uses 枚.",
+      "explanation": "本 is for long objects; 切符 uses 枚.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "076-counter-hon-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I use six pencils.'",
+      "correctAnswer": "えんぴつを六本使います",
+      "acceptedVariations": [
+        "えんぴつを六本使います。",
+        "えんぴつをろっぽんつかいます",
+        "enpitsu o roppon tsukaimasu",
+        "enpitsu o roppon tsukaimasu."
+      ],
+      "correctFeedback": "Great! えんぴつを六本使います is correct.",
+      "incorrectFeedback": "The correct answer is: えんぴつを六本使います (enpitsu o roppon tsukaimasu).",
+      "explanation": "Use 本 for long objects, with sound change roppon.",
+      "hints": ["えんぴつ = pencil", "六本 = six (long)"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "076-counter-hon-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "ペンを一本ください。",
+          "romaji": "Pen o ippon kudasai.",
+          "english": "Please give me one pen."
+        },
+        {
+          "japanese": "水を二本買います。",
+          "romaji": "Mizu o nihon kaimasu.",
+          "english": "I will buy two bottles of water."
+        },
+        {
+          "japanese": "傘が三本あります。",
+          "romaji": "Kasa ga sanbon arimasu.",
+          "english": "There are three umbrellas."
+        }
+      ],
+      "correctFeedback": "Perfect! All use 本.",
+      "incorrectFeedback": "Not quite. Review 本 counter.",
+      "explanation": "本 is for long, thin objects.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "076-counter-hon-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct reading for 8 long objects?",
+      "options": [
+        { "id": "a", "text": "はっぽん" },
+        { "id": "b", "text": "はちほん" },
+        { "id": "c", "text": "はちぼん" },
+        { "id": "d", "text": "はっほん" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 8本 is はっぽん.",
+      "incorrectFeedback": "Try again. 8本 is はっぽん.",
+      "explanation": "Sound change: はっぽん.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "076-counter-hon-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I bought two bottles of water.'",
+      "correctAnswer": "水を二本買いました",
+      "acceptedVariations": [
+        "水を二本買いました。",
+        "みずをにほんかいました",
+        "mizu o nihon kaimashita",
+        "mizu o nihon kaimashita."
+      ],
+      "correctFeedback": "Nice! 水を二本買いました is correct.",
+      "incorrectFeedback": "The correct answer is: 水を二本買いました (mizu o nihon kaimashita).",
+      "explanation": "Use 本 for bottles (long objects).",
+      "hints": ["水 = water", "二本 = two bottles"],
+      "difficulty": "hard"
+    }
+  ]
+}

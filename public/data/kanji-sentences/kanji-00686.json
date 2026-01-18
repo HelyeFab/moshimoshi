@@ -1,0 +1,33 @@
+{
+  "kanji": "湯",
+  "sentences": [
+    {
+      "id": "183018",
+      "japanese": "貴殿はテニス肘と診断されました。温かいお湯に腕をつけてください。",
+      "english": "You have tennis elbow. Soak your arm in warm water."
+    },
+    {
+      "id": "183709",
+      "japanese": "間欠泉は２時間毎に湯を噴出する。",
+      "english": "The geyser sends up a column of hot water every two hours."
+    },
+    {
+      "id": "193870",
+      "japanese": "もしコーヒーが濃すぎれば、いくらかお湯を足して下さい。",
+      "english": "If the coffee is too strong, add some more water."
+    },
+    {
+      "id": "196234",
+      "japanese": "ポットにお湯はありますか？",
+      "english": "Is there any water in the pot?"
+    },
+    {
+      "id": "216402",
+      "japanese": "ジェシーはコーヒーを入れる為にお湯を沸かしている。",
+      "english": "Jessie is boiling water to make coffee."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.966Z",
+  "count": 5,
+  "fileId": "kanji-00686"
+}

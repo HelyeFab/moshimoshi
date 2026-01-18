@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "313-n4-point-113",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "313-n4-point-113-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"~ba ii (should / it would be good if)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～ばいい",
+          "romaji": "~ba ii"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! ～ばいい matches \"~ba ii (should / it would be good if)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～ばいい.",
+      "explanation": "Expresses advice or suggestion; means \"should\" or \"it would be good if.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

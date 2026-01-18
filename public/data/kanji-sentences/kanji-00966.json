@@ -1,0 +1,33 @@
+{
+  "kanji": "装",
+  "sentences": [
+    {
+      "id": "79597",
+      "japanese": "野山は春の装いだ。",
+      "english": "Hills and fields cloaked in spring colors."
+    },
+    {
+      "id": "86586",
+      "japanese": "彼女は無邪気を装った。",
+      "english": "She put on an air of innocence."
+    },
+    {
+      "id": "88714",
+      "japanese": "彼女は女優風に装っていた。",
+      "english": "She was dressed after the fashion of an actress."
+    },
+    {
+      "id": "99695",
+      "japanese": "彼は無知を装ったが、そのことが私をさらに怒らせた。",
+      "english": "He pretended ignorance, which made me still more angry."
+    },
+    {
+      "id": "110039",
+      "japanese": "彼は医者を装っていた。",
+      "english": "He made believe he was a doctor."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.240Z",
+  "count": 5,
+  "fileId": "kanji-00966"
+}

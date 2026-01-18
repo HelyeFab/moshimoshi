@@ -1,0 +1,55 @@
+{
+  "id": "311-n4-point-111",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～のです (〜no desu)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～のです grammar point is used to provide an explanation or give background information on a situation, often used when there is a need to justify or clarify one's statement. It can be translated as 'the fact is', 'the reason is', or 'actually' in English. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + のです, い-Adjective + のです, な-Adjective + なのです, Noun + なのです",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "この本は難しいのです。",
+      "romaji": "Kono hon wa muzukashii no desu.",
+      "english": "This book is difficult, you see.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "明日は忙しいのです。",
+      "romaji": "Ashita wa isogashii no desu.",
+      "english": "The fact is, I am busy tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は英語の先生なのです。",
+      "romaji": "Kanojo wa eigo no sensei na no desu.",
+      "english": "The reason is, she is an English teacher.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "私は風邪なのです。",
+      "romaji": "Watashi wa kaze na no desu.",
+      "english": "Actually, I’ve got a cold.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

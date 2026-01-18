@@ -1,0 +1,98 @@
+{
+  "id": "276-n4-point-76",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～かなあ",
+    "romaji": "~kanaa",
+    "en": "Expressing Uncertainty or Wonder"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～かなあ grammar point is used to express a feeling of uncertainty or wonder about a situation or statement. It can be translated as 'I wonder' or 'I'm not sure' in English.",
+    "ja": "～かなあは、状況や主張についての不確実さや興味を表現するために使われます。英語で「私は〜かしら」という意味に訳すことができます。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + かなあ, い-Adjective + かなあ, (な-Adjective/Noun) + (だ) + かなあ",
+    "components": [
+      {
+        "part": "Verb-casual",
+        "explanation": "The casual form of a verb.",
+        "examples": [
+          "降る (furu - rain)",
+          "来る (kuru - come)"
+        ]
+      },
+      {
+        "part": "い-Adjective + かなあ",
+        "explanation": "Used after an i-adjective to express uncertainty.",
+        "examples": [
+          "美味しいかなあ (oishii kanaa - delicious?)"
+        ]
+      },
+      {
+        "part": "(な-Adjective/Noun) + (だ) + かなあ",
+        "explanation": "Used with na-adjectives or nouns, often omitting 'だ'.",
+        "examples": [
+          "学生かなあ (gakusei kanaa - student?)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日雨が降るかなあ。",
+      "romaji": "Ashita ame ga furu kanaa.",
+      "english": "I wonder if it will rain tomorrow.",
+      "breakdown": {
+        "token": "ashita (tomorrow), ame (rain), furu (will rain), kanaa (wondering)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このケーキは美味しいかなあ。",
+      "romaji": "Kono keeki wa oishii kanaa.",
+      "english": "I wonder if this cake is delicious.",
+      "breakdown": {
+        "token": "kono (this), keeki (cake), oishii (delicious), kanaa (wondering)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は病気かなあ。",
+      "romaji": "Kare wa byouki kanaa.",
+      "english": "I wonder if he is sick.",
+      "breakdown": {
+        "token": "kare (he), byouki (sick), kanaa (wondering)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は学生かなあ。",
+      "romaji": "Kanojo wa gakusei kanaa.",
+      "english": "I wonder if she is a student.",
+      "breakdown": {
+        "token": "kanojo (she), gakusei (student), kanaa (wondering)"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Noun しか～ない",
+    "Verb てもらいたい (～te moraitai)",
+    "Verb るときに"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using かなあ to directly ask someone questions.",
+      "correction": "Avoid using it when you need a direct response from others as it may sound impolite or too direct.",
+      "example": "誤: あなたは学生かなあ？ (Are you a student?) 正: あなたは学生ですか？"
+    }
+  ],
+  "tags": [
+    "n4",
+    "expressions-of-uncertainty",
+    "casual-speech",
+    "intermediate"
+  ]
+}

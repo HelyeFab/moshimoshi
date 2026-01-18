@@ -1,0 +1,108 @@
+{
+  "id": "001-x-wa-y-desu",
+  "version": "1.0.0",
+  "title": {
+    "ja": "XはYです",
+    "romaji": "X wa Y desu",
+    "en": "X is Y"
+  },
+  "jlptLevel": "N5",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "This is the most basic polite sentence pattern in Japanese. It tells the listener what something is or how to describe it. X is the topic, marked by は (pronounced ‘wa’). Y is the description or identity. です is a polite ending like ‘is/am/are’.\n\nKey points:\n• は marks the topic: the thing you are talking about\n• です makes the sentence polite\n• The order is Topic → Description → です\n• This pattern is used for identity, job, nationality, and simple descriptions\n\nThink of は as saying “As for X…” and です as a polite “is.” For example, “私は学生です” means “As for me, (I) am a student.” You can replace X and Y with many nouns or adjectives. This makes it a flexible pattern for introductions and basic statements.\n\nBecause Japanese often leaves out the subject, this pattern helps keep your sentence clear. Start with X (the topic), add Y (what it is), and finish with です to be polite. Once you are comfortable, you can also drop です in casual speech, but for beginners, always include it.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "X は Y です",
+    "components": [
+      {
+        "part": "X",
+        "explanation": "The topic (person, thing, or idea you are talking about)",
+        "examples": ["私", "これ", "田中さん"]
+      },
+      {
+        "part": "は",
+        "explanation": "Topic marker particle (pronounced 'wa')",
+        "examples": ["は"]
+      },
+      {
+        "part": "Y",
+        "explanation": "The description or identity of X",
+        "examples": ["学生", "本", "日本人", "大きい"]
+      },
+      {
+        "part": "です",
+        "explanation": "Polite copula meaning 'is/am/are'",
+        "examples": ["です"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私は学生です。",
+      "romaji": "Watashi wa gakusei desu.",
+      "english": "I am a student.",
+      "breakdown": {
+        "私": "I, me",
+        "は": "topic marker (wa)",
+        "学生": "student",
+        "です": "am (polite)"
+      },
+      "notes": "Common self-introduction"
+    },
+    {
+      "japanese": "これは本です。",
+      "romaji": "Kore wa hon desu.",
+      "english": "This is a book.",
+      "breakdown": {
+        "これ": "this",
+        "は": "topic marker",
+        "本": "book",
+        "です": "is (polite)"
+      },
+      "notes": "Identifying an object"
+    },
+    {
+      "japanese": "田中さんは日本人です。",
+      "romaji": "Tanaka-san wa nihonjin desu.",
+      "english": "Tanaka-san is Japanese.",
+      "breakdown": {
+        "田中さん": "Mr./Ms. Tanaka",
+        "は": "topic marker",
+        "日本人": "Japanese person",
+        "です": "is (polite)"
+      },
+      "notes": "Describing nationality"
+    },
+    {
+      "japanese": "この店はにぎやかです。",
+      "romaji": "Kono mise wa nigiyaka desu.",
+      "english": "This shop is lively.",
+      "breakdown": {
+        "この": "this",
+        "店": "shop",
+        "は": "topic marker",
+        "にぎやか": "lively",
+        "です": "is (polite)"
+      },
+      "notes": "Using a な-adjective with です"
+    }
+  ],
+  "relatedPoints": [
+    "002-x-wa-y-de-wa-arimasen",
+    "006-particle-wa"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using を instead of は",
+      "correction": "は marks the topic, を marks the direct object",
+      "example": "❌ 私を学生です → ✅ 私は学生です"
+    },
+    {
+      "mistake": "Forgetting です in polite speech",
+      "correction": "です is needed for polite style",
+      "example": "❌ 私は学生 → ✅ 私は学生です"
+    }
+  ],
+  "tags": ["basic", "identity", "polite", "beginner-essential", "self-introduction"]
+}

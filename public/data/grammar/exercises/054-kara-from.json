@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "054-kara-from",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "054-kara-from-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 九時__授業が始まります。",
+      "options": [
+        { "id": "a", "text": "から" },
+        { "id": "b", "text": "まで" },
+        { "id": "c", "text": "に" },
+        { "id": "d", "text": "で" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! から marks the start time.",
+      "incorrectFeedback": "Not quite. Use から for the start.",
+      "explanation": "から means 'from.'",
+      "difficulty": "easy"
+    },
+    {
+      "id": "054-kara-from-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "月曜日から仕事です。" },
+        { "id": "b", "text": "月曜日まで仕事です。" },
+        { "id": "c", "text": "月曜日に仕事です。" },
+        { "id": "d", "text": "月曜日で仕事です。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! から shows the starting day.",
+      "incorrectFeedback": "Try again. Use から for the start.",
+      "explanation": "から marks the start point.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "054-kara-from-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I study from 7.'",
+      "correctAnswer": "七時から勉強します",
+      "acceptedVariations": [
+        "七時から勉強します。",
+        "しちじからべんきょうします",
+        "shichiji kara benkyou shimasu",
+        "shichiji kara benkyou shimasu."
+      ],
+      "correctFeedback": "Great! 七時から勉強します is correct.",
+      "incorrectFeedback": "The correct answer is: 七時から勉強します (shichiji kara benkyou shimasu).",
+      "explanation": "Use から to show the start time.",
+      "hints": ["七時 = 7 o'clock", "勉強します = study"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "054-kara-from-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase for 'from March':",
+      "options": [
+        { "id": "a", "text": "三月から" },
+        { "id": "b", "text": "三月まで" },
+        { "id": "c", "text": "三月に" },
+        { "id": "d", "text": "三月で" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 三月から means 'from March.'",
+      "incorrectFeedback": "Not quite. Use から for the start.",
+      "explanation": "から marks the start month.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "054-kara-from-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Class starts from 9.'",
+      "correctAnswer": "九時から授業が始まります",
+      "acceptedVariations": [
+        "九時から授業が始まります。",
+        "くじからじゅぎょうがはじまります",
+        "kuji kara jugyou ga hajimarimasu",
+        "kuji kara jugyou ga hajimarimasu."
+      ],
+      "correctFeedback": "Nice! 九時から授業が始まります is correct.",
+      "incorrectFeedback": "The correct answer is: 九時から授業が始まります (kuji kara jugyou ga hajimarimasu).",
+      "explanation": "Use から for the start time.",
+      "hints": ["授業 = class", "始まります = starts"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "054-kara-from-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "七時から九時まで勉強します。" },
+        { "id": "b", "text": "三月から日本にいます。" },
+        { "id": "c", "text": "九時に授業が始まります(meaning from)." },
+        { "id": "d", "text": "月曜日から仕事です。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use から for the starting time.",
+      "incorrectFeedback": "Try again. から marks the start.",
+      "explanation": "に is a point in time, not 'from.'",
+      "difficulty": "medium"
+    },
+    {
+      "id": "054-kara-from-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I will be in Japan from March.'",
+      "correctAnswer": "三月から日本にいます",
+      "acceptedVariations": [
+        "三月から日本にいます。",
+        "さんがつからにほんにいます",
+        "sangatsu kara nihon ni imasu",
+        "sangatsu kara nihon ni imasu."
+      ],
+      "correctFeedback": "Great! 三月から日本にいます is correct.",
+      "incorrectFeedback": "The correct answer is: 三月から日本にいます (sangatsu kara nihon ni imasu).",
+      "explanation": "Use から to show the start month.",
+      "hints": ["三月 = March", "日本にいます = be in Japan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "054-kara-from-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "九時から授業が始まります。",
+          "romaji": "Ku-ji kara jugyou ga hajimarimasu.",
+          "english": "Class starts from 9."
+        },
+        {
+          "japanese": "三月から日本にいます。",
+          "romaji": "Sangatsu kara Nihon ni imasu.",
+          "english": "I will be in Japan from March."
+        },
+        {
+          "japanese": "七時から九時まで勉強します。",
+          "romaji": "Shichi-ji kara ku-ji made benkyou shimasu.",
+          "english": "I study from 7 to 9."
+        }
+      ],
+      "correctFeedback": "Perfect! All use から for the start.",
+      "incorrectFeedback": "Not quite. Review から usage.",
+      "explanation": "から marks the starting time.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "054-kara-from-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'from Monday'?",
+      "options": [
+        { "id": "a", "text": "月曜日から" },
+        { "id": "b", "text": "月曜日まで" },
+        { "id": "c", "text": "月曜日に" },
+        { "id": "d", "text": "月曜日で" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 月曜日から.",
+      "incorrectFeedback": "Try again. Use から for the start.",
+      "explanation": "から marks the starting day.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "054-kara-from-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I work from 9 to 5.'",
+      "correctAnswer": "九時から五時まで働きます",
+      "acceptedVariations": [
+        "九時から五時まで働きます。",
+        "くじからごじまではたらきます",
+        "kuji kara goji made hatarakimasu",
+        "kuji kara goji made hatarakimasu."
+      ],
+      "correctFeedback": "Nice! 九時から五時まで働きます is correct.",
+      "incorrectFeedback": "The correct answer is: 九時から五時まで働きます (kuji kara goji made hatarakimasu).",
+      "explanation": "Use から and まで to show a range.",
+      "hints": ["九時 = 9", "五時 = 5", "Use から...まで"],
+      "difficulty": "hard"
+    }
+  ]
+}

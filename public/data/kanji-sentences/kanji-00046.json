@@ -1,0 +1,33 @@
+{
+  "kanji": "聞",
+  "sentences": [
+    {
+      "id": "4789",
+      "japanese": "なんで聞くの？",
+      "english": "Why do you ask?"
+    },
+    {
+      "id": "1596597",
+      "japanese": "なぜ聞くの？",
+      "english": "Why do you ask?"
+    },
+    {
+      "id": "4816",
+      "japanese": "今日はもう聞かないよ。",
+      "english": "I won't ask you anything else today."
+    },
+    {
+      "id": "4916",
+      "japanese": "「どうかしたの？」と小さな白いウサギが聞きました。",
+      "english": "\"What's the matter?\" asked the little white rabbit."
+    },
+    {
+      "id": "5128",
+      "japanese": "私の言う事を聞くべきだったのに。",
+      "english": "You should have listened to me."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.729Z",
+  "count": 5,
+  "fileId": "kanji-00046"
+}

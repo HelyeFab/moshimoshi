@@ -1,0 +1,33 @@
+{
+  "kanji": "運",
+  "sentences": [
+    {
+      "id": "177454",
+      "japanese": "君は運がよかった。飛行機は定時運航だよ。",
+      "english": "You're in luck. The plane is on time."
+    },
+    {
+      "id": "177592",
+      "japanese": "君はなんて運がいいんだろう。",
+      "english": "How lucky you are!"
+    },
+    {
+      "id": "178834",
+      "japanese": "君だけがそのかばんを運ぶことができる。",
+      "english": "Only you can carry the bag."
+    },
+    {
+      "id": "189474",
+      "japanese": "運まかせにするな。",
+      "english": "Don't leave it up to chance."
+    },
+    {
+      "id": "182014",
+      "japanese": "京子は親切にも私のために荷物を運んでくれた。",
+      "english": "Kyoko had the kindness to carry my baggage for me."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.312Z",
+  "count": 5,
+  "fileId": "kanji-00236"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "211-n4-point-11",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun の 間に (〜no aida ni)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The Noun の 間に grammar point is used to indicate a specific period or time during which an action takes place. It is often translated as 'while' or 'during' in English. This grammar point requires a noun to represent the time or period.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + の間に",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "昼休みの間に銀行に行きます。",
+      "romaji": "Hiruyasumi no aida ni ginkou ni ikimasu.",
+      "english": "I will go to the bank during lunch break.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "夏休みの間に海外旅行に行く予定です。",
+      "romaji": "Natsuyasumi no aida ni kaigai ryokou ni iku yotei desu.",
+      "english": "I plan to go on an overseas trip during the summer vacation.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "子供たちが学校の間に買い物に行きました。",
+      "romaji": "Kodomo-tachi ga gakkou no aida ni kaimono ni ikimashita.",
+      "english": "I went shopping while the kids were at school.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "母の日にお母さんにプレゼントを送りました。",
+      "romaji": "Haha no hi ni okaasan ni purezento o okurimashita.",
+      "english": "I sent a gift to my mother on Mother’s Day.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

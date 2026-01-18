@@ -1,0 +1,33 @@
+{
+  "kanji": "認",
+  "sentences": [
+    {
+      "id": "5116",
+      "japanese": "いびきをかくことは認めるよ・・・。",
+      "english": "I must admit that I snore."
+    },
+    {
+      "id": "176978",
+      "japanese": "彼の言ったことが本当だと認めたのですか。",
+      "english": "Did you accept his statement as true?"
+    },
+    {
+      "id": "177177",
+      "japanese": "君は失敗を認めるべきだ。",
+      "english": "You should acknowledge your failure."
+    },
+    {
+      "id": "10836919",
+      "japanese": "自分の失敗を認めろよ。",
+      "english": "You should acknowledge your failure."
+    },
+    {
+      "id": "177210",
+      "japanese": "君は自分がまちがっていることを認めなければならない。",
+      "english": "You must admit that you are in the wrong."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.842Z",
+  "count": 5,
+  "fileId": "kanji-00573"
+}

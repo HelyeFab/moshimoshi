@@ -1,0 +1,33 @@
+{
+  "kanji": "市",
+  "sentences": [
+    {
+      "id": "178265",
+      "japanese": "君の市の人口は私の町の人口の約５倍だ。",
+      "english": "The population of your city is about five times as large as that of my town."
+    },
+    {
+      "id": "183116",
+      "japanese": "紀元２０２０年までには、この市の人口は倍増しているだろう。",
+      "english": "By the year 2020, the population of our city will have doubled."
+    },
+    {
+      "id": "184130",
+      "japanese": "楽隊が先頭に立って市を行進した。",
+      "english": "A band led the parade through the city."
+    },
+    {
+      "id": "186270",
+      "japanese": "我々の市は東京の３分の１の人口です。",
+      "english": "Our city has one third as many people as Tokyo."
+    },
+    {
+      "id": "188518",
+      "japanese": "横浜は日本で２番目に人口が多い市だ。",
+      "english": "Yokohama is the city in Japan with the second largest population."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.458Z",
+  "count": 5,
+  "fileId": "kanji-00472"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "梨",
+  "sentences": [
+    {
+      "id": "78382",
+      "japanese": "梨は今年は概して大きい。",
+      "english": "Pears are running large this year."
+    },
+    {
+      "id": "81737",
+      "japanese": "僕は梨を無料でもらった。",
+      "english": "I got the pears for nothing."
+    },
+    {
+      "id": "121364",
+      "japanese": "箱の中には梨がいくつかある。",
+      "english": "There are some pears in the box."
+    },
+    {
+      "id": "10271686",
+      "japanese": "タダで梨をもらっちゃった。",
+      "english": "I got the pears for nothing."
+    },
+    {
+      "id": "1079272",
+      "japanese": "日本の梨は、見たところまるでりんごのようだ。",
+      "english": "Japanese pears look just like apples."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:32.188Z",
+  "count": 5,
+  "fileId": "kanji-01658"
+}

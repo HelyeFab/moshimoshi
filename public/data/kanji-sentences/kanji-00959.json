@@ -1,0 +1,33 @@
+{
+  "kanji": "各",
+  "sentences": [
+    {
+      "id": "184245",
+      "japanese": "学生は各々順番に卒業証書を受け取った。",
+      "english": "Each student received his diploma in turn."
+    },
+    {
+      "id": "184309",
+      "japanese": "学生たちは各々その会合に出席しなければならない。",
+      "english": "Each of the students has to attend the meeting."
+    },
+    {
+      "id": "184630",
+      "japanese": "各々の乗客には荷物二つの制限がある。",
+      "english": "There is a limit of two pieces of luggage for each passenger."
+    },
+    {
+      "id": "184632",
+      "japanese": "各ロボットには通話機が取り付けられています。",
+      "english": "Each robot is equipped with a talking machine."
+    },
+    {
+      "id": "201769",
+      "japanese": "ということはつまり、たとえ彼らが各々２子しか持たないとしても人口は急増し続けるだろう。",
+      "english": "That means that even if they only have two children each, the population will continue to grow rapidly."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.091Z",
+  "count": 5,
+  "fileId": "kanji-00959"
+}

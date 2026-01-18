@@ -1,0 +1,89 @@
+{
+  "id": "270-n4-point-70",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb 出す (~dasu)",
+    "romaji": "Verb dasu",
+    "en": "Using the Verb 出す"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The verb 出す (~dasu) is used to express actions like taking something out, starting an action, or emphasizing a verb.",
+    "ja": "動詞「出す」（〜だす）は、何かを取り出すことや始める動作を表現します。"
+  },
+  "structure": {
+    "pattern": "Verb stem + 出す (~dasu)",
+    "components": [
+      {
+        "part": "Verb stem",
+        "explanation": "The base form of the verb before attaching 出す.",
+        "examples": [
+          "出- (dash-)",
+          "歌い- (utai-)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "本を棚から出してください。",
+      "romaji": "Hon o tana kara dashite kudasai.",
+      "english": "Please take the book out from the shelf.",
+      "breakdown": {
+        "本": "book",
+        "出す": "take out"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は部屋から急いで出ました。",
+      "romaji": "Kare wa heya kara isoide demashita.",
+      "english": "He rushed out of the room.",
+      "breakdown": {
+        "出る": "to leave",
+        "出す": "emphasizes rush"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "授業が始まる前に宿題を出してください。",
+      "romaji": "Jugyou ga hajimaru mae ni shukudai wo dashite kudasai.",
+      "english": "Submit your homework before class starts.",
+      "breakdown": {
+        "提出する": "submit",
+        "出す": "emphasizes submission"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は歌い出しました。",
+      "romaji": "Kanojo wa utaidashimashita.",
+      "english": "She began to sing.",
+      "breakdown": {
+        "始める": "to start",
+        "出す": "emphasizes beginning action"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～たらいい",
+    "～たら どうですか",
+    "～てもいい"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "本を出す。 (Hon o dasu.)",
+      "correction": "本を取り出す。(Hon wo toridashita.)",
+      "example": "To clearly express taking out an object, use 取り出す instead of 出す. 本を取り出してから読みます。(Take the book out and then read it.)"
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "expressions",
+    "actions",
+    "emphasis"
+  ]
+}

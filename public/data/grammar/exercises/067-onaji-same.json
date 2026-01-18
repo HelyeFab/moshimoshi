@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "067-onaji-same",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "067-onaji-same-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: この本はあの本と__です。",
+      "options": [
+        { "id": "a", "text": "同じ" },
+        { "id": "b", "text": "より" },
+        { "id": "c", "text": "一番" },
+        { "id": "d", "text": "ほうが" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 同じ means 'same.'",
+      "incorrectFeedback": "Not quite. 同じ is used for 'same.'",
+      "explanation": "同じ = same.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "067-onaji-same-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "この本はあの本と同じです。" },
+        { "id": "b", "text": "この本はあの本が同じです。" },
+        { "id": "c", "text": "この本はあの本で同じです。" },
+        { "id": "d", "text": "この本はあの本に同じです。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use と with 同じ.",
+      "incorrectFeedback": "Try again. Use と to connect the two items.",
+      "explanation": "と connects the items being compared.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "067-onaji-same-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This pen is the same color as that pen.'",
+      "correctAnswer": "このペンはそのペンと同じ色です",
+      "acceptedVariations": [
+        "このペンはそのペンと同じ色です。",
+        "このぺんはそのぺんとおなじいろです",
+        "kono pen wa sono pen to onaji iro desu",
+        "kono pen wa sono pen to onaji iro desu."
+      ],
+      "correctFeedback": "Great! このペンはそのペンと同じ色です is correct.",
+      "incorrectFeedback": "The correct answer is: このペンはそのペンと同じ色です (kono pen wa sono pen to onaji iro desu).",
+      "explanation": "Use と to connect the two items.",
+      "hints": ["色 = color", "同じ = same"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "067-onaji-same-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase for 'the same book':",
+      "options": [
+        { "id": "a", "text": "同じ本" },
+        { "id": "b", "text": "同じな本" },
+        { "id": "c", "text": "同じの本" },
+        { "id": "d", "text": "同じで本" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 同じ本 (no な).",
+      "incorrectFeedback": "Not quite. Do not add な after 同じ.",
+      "explanation": "同じ does not take な before nouns.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "067-onaji-same-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This book is the same as that book.'",
+      "correctAnswer": "この本はあの本と同じです",
+      "acceptedVariations": [
+        "この本はあの本と同じです。",
+        "このほんはあのほんとおなじです",
+        "kono hon wa ano hon to onaji desu",
+        "kono hon wa ano hon to onaji desu."
+      ],
+      "correctFeedback": "Nice! この本はあの本と同じです is correct.",
+      "incorrectFeedback": "The correct answer is: この本はあの本と同じです (kono hon wa ano hon to onaji desu).",
+      "explanation": "Use と to compare two items.",
+      "hints": ["本 = book", "同じ = same"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "067-onaji-same-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "この本はあの本と同じです。" },
+        { "id": "b", "text": "私とあなたは同じ学校です。" },
+        { "id": "c", "text": "同じなペンがあります。" },
+        { "id": "d", "text": "このペンはそのペンと同じ色です。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use 同じペン, not 同じなペン.",
+      "incorrectFeedback": "Try again. 同じ does not take な.",
+      "explanation": "同じ is used directly before nouns.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "067-onaji-same-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'We are in the same class.'",
+      "correctAnswer": "私たちは同じクラスです",
+      "acceptedVariations": [
+        "私たちは同じクラスです。",
+        "わたしたちはおなじくらすです",
+        "watashitachi wa onaji kurasu desu",
+        "watashitachi wa onaji kurasu desu."
+      ],
+      "correctFeedback": "Great! 私たちは同じクラスです is correct.",
+      "incorrectFeedback": "The correct answer is: 私たちは同じクラスです (watashitachi wa onaji kurasu desu).",
+      "explanation": "同じ comes directly before nouns.",
+      "hints": ["クラス = class", "同じ = same"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "067-onaji-same-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "この本はあの本と同じです。",
+          "romaji": "Kono hon wa ano hon to onaji desu.",
+          "english": "This book is the same as that book."
+        },
+        {
+          "japanese": "私とあなたは同じ学校です。",
+          "romaji": "Watashi to anata wa onaji gakkou desu.",
+          "english": "You and I are at the same school."
+        },
+        {
+          "japanese": "このペンはそのペンと同じ色です。",
+          "romaji": "Kono pen wa sono pen to onaji iro desu.",
+          "english": "This pen is the same color as that pen."
+        }
+      ],
+      "correctFeedback": "Perfect! All use 同じ.",
+      "incorrectFeedback": "Not quite. Review 同じ usage.",
+      "explanation": "同じ means 'same' and uses と for comparison.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "067-onaji-same-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'the same class'?",
+      "options": [
+        { "id": "a", "text": "同じクラス" },
+        { "id": "b", "text": "同じなクラス" },
+        { "id": "c", "text": "同じのクラス" },
+        { "id": "d", "text": "同じでクラス" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 同じクラス.",
+      "incorrectFeedback": "Try again. Do not add な after 同じ.",
+      "explanation": "同じ is used directly before nouns.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "067-onaji-same-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Tanaka is in the same class as me.'",
+      "correctAnswer": "田中さんは私と同じクラスです",
+      "acceptedVariations": [
+        "田中さんは私と同じクラスです。",
+        "たなかさんはわたしとおなじくらすです",
+        "Tanaka-san wa watashi to onaji kurasu desu",
+        "Tanaka-san wa watashi to onaji kurasu desu."
+      ],
+      "correctFeedback": "Nice! 田中さんは私と同じクラスです is correct.",
+      "incorrectFeedback": "The correct answer is: 田中さんは私と同じクラスです (Tanaka-san wa watashi to onaji kurasu desu).",
+      "explanation": "Use と to compare two people.",
+      "hints": ["田中さん = Tanaka", "同じクラス = same class"],
+      "difficulty": "hard"
+    }
+  ]
+}

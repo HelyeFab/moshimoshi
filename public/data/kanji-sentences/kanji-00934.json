@@ -1,0 +1,33 @@
+{
+  "kanji": "算",
+  "sentences": [
+    {
+      "id": "210118",
+      "japanese": "その子は足し算の仕方さえ知らない。",
+      "english": "The child does not even know how to add."
+    },
+    {
+      "id": "228182",
+      "japanese": "うちの息子はまだちゃんと足し算ができない。",
+      "english": "My boy can't do addition properly yet."
+    },
+    {
+      "id": "235192",
+      "japanese": "５＋１０の足し算はやさしい。",
+      "english": "It is easy to add 5 to 10."
+    },
+    {
+      "id": "115441",
+      "japanese": "彼は、足し算が速い。",
+      "english": "He is quick at addition."
+    },
+    {
+      "id": "139872",
+      "japanese": "足し算を非常に早くすることは可能だ。",
+      "english": "It is possible for us to do addition very quickly."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.625Z",
+  "count": 5,
+  "fileId": "kanji-00934"
+}

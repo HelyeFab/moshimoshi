@@ -1,0 +1,55 @@
+{
+  "id": "283-n4-point-83",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～ずつ (〜zutsu)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～ずつ grammar point is used to express an equal distribution of something, whether it is an action, an amount, or an item. It is translated as 'each', 'per', or 'apiece' in English.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + ずつ",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "りんごを2つずつ配ります。",
+      "romaji": "Ringo wo futatsu zutsu kubarimasu.",
+      "english": "I will distribute 2 apples each.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "私たちは週に一度ずつ掃除をします。",
+      "romaji": "Watashitachi wa shuu ni ichido zutsu souji o shimasu.",
+      "english": "We each clean once per week.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "みんなは同じ距離を一歩ずつ歩いた。",
+      "romaji": "Minna wa onaji kyori o ippo zutsu aruita.",
+      "english": "Everyone walked the same distance, one step at a time.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は子供たちに一枚ずつプレゼントをくれました。",
+      "romaji": "Kanojo wa kodomotachi ni ichimai zutsu purezento o kuremashita.",
+      "english": "She gave one present to each child.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

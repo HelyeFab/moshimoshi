@@ -1,0 +1,33 @@
+{
+  "kanji": "性",
+  "sentences": [
+    {
+      "id": "183471",
+      "japanese": "机でする仕事はどうも性に合わない。",
+      "english": "Desk work is just not my cup of tea."
+    },
+    {
+      "id": "220360",
+      "japanese": "この土地の空気は私の性に合わない。",
+      "english": "The climate here does not agree with me."
+    },
+    {
+      "id": "223467",
+      "japanese": "このところ、ここの気候はかなり変だけど、君も知ってのとおり、その方が僕の性に合っていてね。",
+      "english": "The weather here has been very unusual, but you know that's my cup of tea."
+    },
+    {
+      "id": "74266",
+      "japanese": "小学校のときから、酸性・アルカリ性という性質をリトマス紙で調べたりしてきていますね。",
+      "english": "Since primary school we've been checking for the qualities known as acidity and alkalinity with litmus paper."
+    },
+    {
+      "id": "74542",
+      "japanese": "しかしながら、これらの溶剤は発がん性が指摘された。",
+      "english": "However, these solvents were identified as carcinogenic."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.905Z",
+  "count": 5,
+  "fileId": "kanji-00427"
+}

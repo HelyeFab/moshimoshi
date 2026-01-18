@@ -1,0 +1,33 @@
+{
+  "kanji": "底",
+  "sentences": [
+    {
+      "id": "179252",
+      "japanese": "靴の底にガムが付いてしまった。",
+      "english": "Gum got stuck to the bottom of my shoe."
+    },
+    {
+      "id": "10769188",
+      "japanese": "靴の底にガムがくっついちゃったんだ。",
+      "english": "Gum got stuck to the bottom of my shoe."
+    },
+    {
+      "id": "179253",
+      "japanese": "靴の底がすり減ってしまった。",
+      "english": "The soles of my shoes are worn."
+    },
+    {
+      "id": "183606",
+      "japanese": "企業収益の悪化はまだ底を打っていない。",
+      "english": "The deterioration of corporate earnings has yet to bottom out."
+    },
+    {
+      "id": "186251",
+      "japanese": "我々の食料は底を突いた。",
+      "english": "Our supply of food is exhausted."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.715Z",
+  "count": 5,
+  "fileId": "kanji-00994"
+}

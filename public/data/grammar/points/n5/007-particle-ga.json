@@ -1,0 +1,100 @@
+{
+  "id": "007-particle-ga",
+  "version": "1.0.0",
+  "title": {
+    "ja": "が",
+    "romaji": "ga",
+    "en": "Subject marker"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "が marks the grammatical subject of a sentence. It often introduces new information or answers a question like “who?” or “what?” In beginner Japanese, が is used when the subject is the main focus.\n\nKey points:\n• が marks the subject (the doer or the thing that is)\n• Use が when the subject is new or emphasized\n• Common with questions and answers\n• It can appear with existence verbs いる/ある\n\nIf someone asks “だれが来ますか” (Who is coming?), the answer uses が: “田中さんが来ます.” This highlights Tanaka as the new information.\n\nが and は are different. は sets the topic, while が points to the subject as the focus. In many simple sentences either can appear, but the meaning changes slightly. When you want to identify or emphasize the subject, choose が.\n\nYou will also see が with feelings or abilities, like “日本語が好きです” (I like Japanese) or “泳ぐことができます” (I can swim). For now, remember that が is your go-to particle for “who/what is it?” questions and for introducing something new.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Subject が Predicate",
+    "components": [
+      {
+        "part": "Subject",
+        "explanation": "The doer or the thing that is",
+        "examples": ["だれ", "猫", "私"]
+      },
+      {
+        "part": "が",
+        "explanation": "Subject marker",
+        "examples": ["が"]
+      },
+      {
+        "part": "Predicate",
+        "explanation": "Action or description",
+        "examples": ["来ます", "います", "好きです"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "だれが来ますか。",
+      "romaji": "Dare ga kimasu ka.",
+      "english": "Who is coming?",
+      "breakdown": {
+        "だれ": "who",
+        "が": "subject marker",
+        "来ます": "comes (polite)",
+        "か": "question marker"
+      },
+      "notes": "Question with が"
+    },
+    {
+      "japanese": "田中さんが来ます。",
+      "romaji": "Tanaka-san ga kimasu.",
+      "english": "Tanaka-san is coming.",
+      "breakdown": {
+        "田中さん": "Mr./Ms. Tanaka",
+        "が": "subject marker",
+        "来ます": "comes (polite)"
+      },
+      "notes": "Answer to a who-question"
+    },
+    {
+      "japanese": "猫がいます。",
+      "romaji": "Neko ga imasu.",
+      "english": "There is a cat.",
+      "breakdown": {
+        "猫": "cat",
+        "が": "subject marker",
+        "います": "exists (polite, animate)"
+      },
+      "notes": "Existence with が"
+    },
+    {
+      "japanese": "日本語が好きです。",
+      "romaji": "Nihongo ga suki desu.",
+      "english": "I like Japanese.",
+      "breakdown": {
+        "日本語": "Japanese language",
+        "が": "subject marker",
+        "好き": "like",
+        "です": "is (polite)"
+      },
+      "notes": "Feelings often use が"
+    }
+  ],
+  "relatedPoints": [
+    "006-particle-wa",
+    "059-iru-animate"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using は in answers to who/what questions",
+      "correction": "Use が to mark the focused subject",
+      "example": "❌ だれは来ますか → ✅ だれが来ますか"
+    },
+    {
+      "mistake": "Thinking が is always the topic",
+      "correction": "が marks the subject, は marks the topic",
+      "example": "Topic: 私は / Subject focus: 私が"
+    }
+  ],
+  "tags": ["particle", "subject", "focus", "beginner"]
+}

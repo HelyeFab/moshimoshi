@@ -1,0 +1,33 @@
+{
+  "kanji": "問",
+  "sentences": [
+    {
+      "id": "183802",
+      "japanese": "観光案内所に問い合わせてください。",
+      "english": "Please refer to the tourist information office."
+    },
+    {
+      "id": "9049830",
+      "japanese": "観光案内所にお問い合わせください。",
+      "english": "Please refer to the tourist information office."
+    },
+    {
+      "id": "185247",
+      "japanese": "会社は心配の問い合わせでてんやわんやだった。",
+      "english": "The office was besieged by anxious inquiries."
+    },
+    {
+      "id": "186575",
+      "japanese": "花子は本当かどうかを問いただした。",
+      "english": "Hanako called his bluff."
+    },
+    {
+      "id": "186576",
+      "japanese": "花子は不信に思って本当かどうか問いただした。",
+      "english": "Hanako called his bluff."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.878Z",
+  "count": 5,
+  "fileId": "kanji-00201"
+}

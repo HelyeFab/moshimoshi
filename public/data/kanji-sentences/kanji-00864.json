@@ -1,0 +1,33 @@
+{
+  "kanji": "机",
+  "sentences": [
+    {
+      "id": "177371",
+      "japanese": "机を少しは片づけなさい。",
+      "english": "Clear up your desk a bit."
+    },
+    {
+      "id": "178056",
+      "japanese": "君の本は机の上にある。",
+      "english": "Your book is on the desk."
+    },
+    {
+      "id": "178424",
+      "japanese": "君の机をそのままにしてきなさい。",
+      "english": "Leave your desk as it is."
+    },
+    {
+      "id": "178425",
+      "japanese": "君の机をそのままにしておけ。",
+      "english": "Leave your desk as it is."
+    },
+    {
+      "id": "180024",
+      "japanese": "驚いて飛び上がったので机の上の花瓶がひっくり返った。",
+      "english": "The vase on my desk overturned when I jumped up in surprise."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.939Z",
+  "count": 5,
+  "fileId": "kanji-00864"
+}

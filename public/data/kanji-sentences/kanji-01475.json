@@ -1,0 +1,23 @@
+{
+  "kanji": "託",
+  "sentences": [
+    {
+      "id": "100107",
+      "japanese": "彼は弁護士にその書類を託すことにした。",
+      "english": "He decided to trust the lawyer with the document."
+    },
+    {
+      "id": "155422",
+      "japanese": "私は船長に命を託さなければならなかった。",
+      "english": "I had to trust the captain with my life."
+    },
+    {
+      "id": "11038509",
+      "japanese": "チーム再建を託された監督が脱税でクビだってよ。",
+      "english": "I heard that the manager entrusted with rebuilding the team was fired for tax evasion."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:26.758Z",
+  "count": 3,
+  "fileId": "kanji-01475"
+}

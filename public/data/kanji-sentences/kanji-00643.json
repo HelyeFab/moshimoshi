@@ -1,0 +1,33 @@
+{
+  "kanji": "板",
+  "sentences": [
+    {
+      "id": "178460",
+      "japanese": "君の英語はすっかり板に付いた。",
+      "english": "You are now quite at home in English."
+    },
+    {
+      "id": "179721",
+      "japanese": "金は打ち延ばされ薄い板になった。",
+      "english": "The gold was beaten into thin plates."
+    },
+    {
+      "id": "185171",
+      "japanese": "壊れた窓は板でふさがれた。",
+      "english": "The broken window was boarded up."
+    },
+    {
+      "id": "195561",
+      "japanese": "まず、板のかんながけをしてください。",
+      "english": "Try the board surface first."
+    },
+    {
+      "id": "197268",
+      "japanese": "ひろしは材木をひいて板にしています。",
+      "english": "Hiroshi is sawing the wood into boards."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.099Z",
+  "count": 5,
+  "fileId": "kanji-00643"
+}

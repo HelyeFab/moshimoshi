@@ -1,0 +1,33 @@
+{
+  "kanji": "始",
+  "sentences": [
+    {
+      "id": "4936",
+      "japanese": "授業は八時三十分から始まるから。",
+      "english": "Class doesn't begin until eight-thirty."
+    },
+    {
+      "id": "413427",
+      "japanese": "授業が始まるのは８時半からだ。",
+      "english": "Class doesn't begin until eight-thirty."
+    },
+    {
+      "id": "413438",
+      "japanese": "授業は８時３０分までは始まらない。",
+      "english": "Class doesn't begin until eight-thirty."
+    },
+    {
+      "id": "5039",
+      "japanese": "驚くこと、不思議に思うことは理解し始めるということなんだ。",
+      "english": "To be surprised, to wonder, is to begin to understand."
+    },
+    {
+      "id": "5170",
+      "japanese": "「おわったの」「それどころかまだ始めていないよ」",
+      "english": "\"Have you finished?\" \"On the contrary, I have not even begun yet.\""
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.242Z",
+  "count": 5,
+  "fileId": "kanji-00080"
+}

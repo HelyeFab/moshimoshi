@@ -1,0 +1,28 @@
+{
+  "kanji": "頑",
+  "sentences": [
+    {
+      "id": "208075",
+      "japanese": "その男は頑としてその職にしがみつき、決して退職しようとはしなかった。",
+      "english": "The man held on to his job stubbornly and would not retire."
+    },
+    {
+      "id": "90632",
+      "japanese": "彼女は頑として信念を曲げない。",
+      "english": "She persists in her belief."
+    },
+    {
+      "id": "108700",
+      "japanese": "彼は頑として自分の間違いを認めようとしなかった。",
+      "english": "He was not about to admit his mistake."
+    },
+    {
+      "id": "121622",
+      "japanese": "馬は頑として動かなかった。",
+      "english": "The horse would not move."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:28.693Z",
+  "count": 4,
+  "fileId": "kanji-01538"
+}

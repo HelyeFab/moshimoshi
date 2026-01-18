@@ -1,0 +1,55 @@
+{
+  "id": "209-n4-point-9",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun に なる (Noun ni naru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The 'Noun に なる' grammar point is used to show a change or a transformation from one state or form into another. In English, it can be translated as 'to become', 'to change into', or 'to turn into'. It is often used with nouns that indicate profession, status, or condition.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + に + なる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼は医者になりました。",
+      "romaji": "Kare wa isha ni narimashita.",
+      "english": "He became a doctor.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "子供の頃、私は先生になりたかったです。",
+      "romaji": "Kodomo no koro, watashi wa sensei ni naritakatta desu.",
+      "english": "When I was a child, I wanted to become a teacher.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は緊張して顔が赤くなりました。",
+      "romaji": "Kanojo wa kinchou shite kao ga akaku narimashita.",
+      "english": "She got nervous, and her face turned red.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "春になると桜が咲きます。",
+      "romaji": "Haru ni naru to sakura ga sakimasu.",
+      "english": "When it becomes spring, cherry blossoms bloom.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

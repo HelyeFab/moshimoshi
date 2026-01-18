@@ -1,0 +1,55 @@
+{
+  "id": "223-n4-point-23",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb た ときに (Verb た ときに)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The たときに grammar point is used to express an action that happened at a specific time in the past, usually with a focus on a specific event or moment. It can be translated as 'when' or 'at the time' in English. This grammar point requires a verb in its た-form followed by ときに to indicate the time at which the action occurred.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-た + ときに",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "映画を見たときに、泣きました。",
+      "romaji": "Eiga wo mita toki ni, nakimashita.",
+      "english": "When I watched the movie, I cried.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼に初めて会ったときに、遅刻していました。",
+      "romaji": "Kare ni hajimete atta toki ni, chikoku shite imashita.",
+      "english": "When I first met him, he was late.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "日本へ行ったときに、たくさんの写真を撮りました。",
+      "romaji": "Nihon e itta toki ni, takusan no shashin wo torimashita.",
+      "english": "When I went to Japan, I took a lot of photos.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "友達が家に来たときに、ゲームをしました。",
+      "romaji": "Tomodachi ga ie ni kita toki ni, geemu wo shimashita.",
+      "english": "When my friend came to my house, we played games.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "頂",
+  "sentences": [
+    {
+      "id": "180379",
+      "japanese": "恐縮ですが、９時にここへおいで頂けますか。",
+      "english": "Will you kindly come here at nine?"
+    },
+    {
+      "id": "234133",
+      "japanese": "あなたが一度約束した事は実行して頂きたい。",
+      "english": "We expect you to carry out what you have once promised."
+    },
+    {
+      "id": "187875",
+      "japanese": "何か冷たいものを頂けませんか。",
+      "english": "Would you give me something cold to drink?"
+    },
+    {
+      "id": "187931",
+      "japanese": "何か食べ物を頂けますか。",
+      "english": "Can I have something to eat?"
+    },
+    {
+      "id": "190692",
+      "japanese": "お願いを聞いて頂けませんか。",
+      "english": "May I ask a favor of you?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.597Z",
+  "count": 5,
+  "fileId": "kanji-00402"
+}

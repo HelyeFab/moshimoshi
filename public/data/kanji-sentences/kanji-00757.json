@@ -1,0 +1,33 @@
+{
+  "kanji": "荷",
+  "sentences": [
+    {
+      "id": "178679",
+      "japanese": "君にはちょっと荷が勝っているね。",
+      "english": "I'm afraid this job is too much for you."
+    },
+    {
+      "id": "203031",
+      "japanese": "チームが優勝して私も肩の荷が下りた。",
+      "english": "It took a load off my mind when our team won the championship."
+    },
+    {
+      "id": "208453",
+      "japanese": "その船の荷を降ろした。",
+      "english": "They unloaded the ship."
+    },
+    {
+      "id": "212880",
+      "japanese": "そのトラックの積み荷は三トンを超えていた。",
+      "english": "The load of the truck was in excess of three tons."
+    },
+    {
+      "id": "218765",
+      "japanese": "これで肩の荷がおりました。",
+      "english": "It's like a weight has been lifted from my shoulders."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:05.566Z",
+  "count": 5,
+  "fileId": "kanji-00757"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "腐",
+  "sentences": [
+    {
+      "id": "179769",
+      "japanese": "金が腐るほどある。",
+      "english": "He is rolling in riches."
+    },
+    {
+      "id": "182295",
+      "japanese": "牛乳が腐った。",
+      "english": "The milk has gone bad."
+    },
+    {
+      "id": "212566",
+      "japanese": "そのミルクは腐ってますよ。",
+      "english": "The milk has gone bad."
+    },
+    {
+      "id": "186801",
+      "japanese": "果物は日に当たると腐る。",
+      "english": "Fruits decay in the sun."
+    },
+    {
+      "id": "187895",
+      "japanese": "何か腐った臭いがします。",
+      "english": "I smell something rotten."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:26.979Z",
+  "count": 5,
+  "fileId": "kanji-01485"
+}

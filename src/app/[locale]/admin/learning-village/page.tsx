@@ -41,6 +41,7 @@ const STALL_NAMES: Record<StallId, string> = {
   'katakana': 'Katakana',
   'drill': 'Drill Practice',
   'vocabulary': 'Vocabulary',
+  'grammar': 'Grammar',
   'my-lists': 'My Lists',
   'kanji-browser': 'Kanji Browser',
   'kanji-mastery': 'Kanji Mastery',

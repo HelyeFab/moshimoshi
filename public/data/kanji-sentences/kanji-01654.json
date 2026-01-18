@@ -1,0 +1,33 @@
+{
+  "kanji": "衰",
+  "sentences": [
+    {
+      "id": "183088",
+      "japanese": "記憶力が衰えました。",
+      "english": "My memory is failing."
+    },
+    {
+      "id": "212194",
+      "japanese": "その炎は衰え始めた。",
+      "english": "The flame has begun to fade."
+    },
+    {
+      "id": "224233",
+      "japanese": "ここ数ヶ月彼女の健康は衰えている。",
+      "english": "Her health has been declining these past months."
+    },
+    {
+      "id": "230940",
+      "japanese": "あの事故以来、彼の健康は衰えている。",
+      "english": "His health has declined since the accident."
+    },
+    {
+      "id": "75983",
+      "japanese": "薪が足りず、はやくも火勢が衰えはじめた暖炉。",
+      "english": "The fireplace, lacking firewood, flames already starting to lose their vigour."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:32.127Z",
+  "count": 5,
+  "fileId": "kanji-01654"
+}

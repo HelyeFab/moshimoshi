@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "312-n4-point-112",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "312-n4-point-112-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Even though, despite\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～のに",
+          "romaji": "~no ni"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ～のに matches \"Even though, despite\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～のに.",
+      "explanation": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "312-n4-point-112-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～のに.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Even though, despite"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ～のに means \"Even though, despite\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Even though, despite\".",
+      "explanation": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "312-n4-point-112-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～のに.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~no ni"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ~no ni is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~no ni.",
+      "explanation": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "312-n4-point-112-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～のに?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\""
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "explanation": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "312-n4-point-112-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Even though, despite\".",
+      "correctAnswer": "～のに",
+      "acceptedVariations": [
+        "～のに",
+        "～のに"
+      ],
+      "correctFeedback": "Nice! ～のに is correct.",
+      "incorrectFeedback": "The correct pattern is: ～のに (~no ni).",
+      "explanation": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "hints": [
+        "~no ni",
+        "Expresses contrast between expectation and reality; \"even though,\" \"despite.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "312-n4-point-112-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～のに.",
+      "correctAnswer": "~no ni",
+      "acceptedVariations": [
+        "~no ni",
+        "~no ni"
+      ],
+      "correctFeedback": "Nice! ~no ni is correct.",
+      "incorrectFeedback": "The correct romaji is: ~no ni.",
+      "explanation": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "hints": [
+        "Expresses contrast between expectation and reality; \"even though,\" \"despite.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "312-n4-point-112-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～のに.",
+      "correctAnswer": "Even though, despite",
+      "acceptedVariations": [
+        "Even though, despite",
+        "even though, despite"
+      ],
+      "correctFeedback": "Correct! \"Even though, despite\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Even though, despite\".",
+      "explanation": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "hints": [
+        "Expresses contrast between expectation and reality; \"even though,\" \"despite.\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "312-n4-point-112-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～のに",
+          "romaji": "~no ni",
+          "english": "Even though, despite"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "312-n4-point-112-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses contrast between expectation and reality; \"even though,\" \"despite.\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～のに",
+          "romaji": "~no ni"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～のに matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～のに.",
+      "explanation": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "312-n4-point-112-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～のに",
+      "acceptedVariations": [
+        "～のに",
+        "～のに"
+      ],
+      "correctFeedback": "Great! ～のに is correct.",
+      "incorrectFeedback": "The correct pattern is: ～のに.",
+      "explanation": "Expresses contrast between expectation and reality; \"even though,\" \"despite.\"",
+      "hints": [
+        "~no ni"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

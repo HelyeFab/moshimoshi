@@ -1,0 +1,33 @@
+{
+  "kanji": "基",
+  "sentences": [
+    {
+      "id": "177342",
+      "japanese": "君は君の主義に基づいて行動すべきだ。",
+      "english": "You must live up to your principles."
+    },
+    {
+      "id": "182350",
+      "japanese": "給料は、経験と学歴に基づいて決まります。",
+      "english": "Pay will be based on experience and educational background."
+    },
+    {
+      "id": "182862",
+      "japanese": "議論は相互の尊敬の念に基づいている。",
+      "english": "Discussion is based upon mutual respect."
+    },
+    {
+      "id": "186863",
+      "japanese": "科学は非常に綿密な観察に基づいている。",
+      "english": "Science is based on very careful observations."
+    },
+    {
+      "id": "186865",
+      "japanese": "科学は注意深い観察に基づいている。",
+      "english": "Science is based on careful observation."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:48.268Z",
+  "count": 5,
+  "fileId": "kanji-02057"
+}

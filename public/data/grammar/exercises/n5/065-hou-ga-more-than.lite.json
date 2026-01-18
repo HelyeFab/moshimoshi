@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "065-hou-ga-more-than",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "065-hou-ga-more-than-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase: 犬__猫より大きいです。",
+      "options": [
+        {
+          "id": "a",
+          "text": "のほうが"
+        },
+        {
+          "id": "b",
+          "text": "より"
+        },
+        {
+          "id": "c",
+          "text": "と"
+        },
+        {
+          "id": "d",
+          "text": "で"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 犬のほうが...",
+      "incorrectFeedback": "Not quite. Use のほうが to highlight A.",
+      "explanation": "A のほうが B より + adjective.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "左",
+  "sentences": [
+    {
+      "id": "185933",
+      "japanese": "我々は角を左に曲がって北へ進んだ。",
+      "english": "We turned left at the corner and drove north."
+    },
+    {
+      "id": "10078500",
+      "japanese": "私たちは角を左に曲がり、車を北へと走らせた。",
+      "english": "We turned left at the corner and drove north."
+    },
+    {
+      "id": "189927",
+      "japanese": "右と左は反対語です。",
+      "english": "Right and left are opposites."
+    },
+    {
+      "id": "196996",
+      "japanese": "フランスは左に、イギリスは右に揺れているように思われる。",
+      "english": "France seems to be swinging left - Britain to the right."
+    },
+    {
+      "id": "199741",
+      "japanese": "トラックは急に左へ曲がった。",
+      "english": "The truck made a sharp turn to the left."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.097Z",
+  "count": 5,
+  "fileId": "kanji-00073"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "谷",
+  "sentences": [
+    {
+      "id": "182760",
+      "japanese": "丘の向こう側に美しい谷がある。",
+      "english": "A beautiful valley lies behind the hill."
+    },
+    {
+      "id": "1698834",
+      "japanese": "人生山あり谷あり。",
+      "english": "A man's life has its ups and downs."
+    },
+    {
+      "id": "190062",
+      "japanese": "一歩誤るとせんじんの谷だ。",
+      "english": "One step further, and you will fall into an abyss."
+    },
+    {
+      "id": "206004",
+      "japanese": "その埃っぽい小道は谷へと下って行く。",
+      "english": "The dusty track descends to a valley."
+    },
+    {
+      "id": "208215",
+      "japanese": "その谷で金が見つかったといううわさがある。",
+      "english": "There is a rumor that gold has been found in the valley."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.577Z",
+  "count": 5,
+  "fileId": "kanji-00930"
+}

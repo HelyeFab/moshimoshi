@@ -1,0 +1,33 @@
+{
+  "kanji": "食",
+  "sentences": [
+    {
+      "id": "4883",
+      "japanese": "宇宙でどうやって食べ物をみつけるの？",
+      "english": "How do you find food in outer space?"
+    },
+    {
+      "id": "5080",
+      "japanese": "私のチョコレートを食べることを考えさえしないで。",
+      "english": "Don't you even think of eating my chocolate!"
+    },
+    {
+      "id": "2765300",
+      "japanese": "どうして野菜を食べないの？",
+      "english": "Why don't you eat vegetables?"
+    },
+    {
+      "id": "182299",
+      "japanese": "バナナパイを食べたことがありますか。",
+      "english": "Have you ever eaten a banana pie?"
+    },
+    {
+      "id": "5266",
+      "japanese": "夏休みの間、私は夜中に夕食を食べていた。",
+      "english": "During summer breaks, I ate dinner at midnight."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.751Z",
+  "count": 5,
+  "fileId": "kanji-00049"
+}

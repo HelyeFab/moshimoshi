@@ -1,0 +1,33 @@
+{
+  "kanji": "控",
+  "sentences": [
+    {
+      "id": "182811",
+      "japanese": "喫煙をお控え下さい。",
+      "english": "Please refrain from smoking."
+    },
+    {
+      "id": "201318",
+      "japanese": "どうぞタバコを控えてください。",
+      "english": "Please refrain from smoking."
+    },
+    {
+      "id": "203378",
+      "japanese": "タバコを控えてくれ。",
+      "english": "Please refrain from smoking."
+    },
+    {
+      "id": "183885",
+      "japanese": "甘いものは控えているんです。",
+      "english": "I'm cutting down on sweets."
+    },
+    {
+      "id": "186343",
+      "japanese": "我々に同意する人、しない人、意見を控えている人とさまざまです。",
+      "english": "Some members agree with us, some don't, and others haven't expressed their opinions."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:26.330Z",
+  "count": 5,
+  "fileId": "kanji-01462"
+}

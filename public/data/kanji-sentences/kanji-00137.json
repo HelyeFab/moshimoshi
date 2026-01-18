@@ -1,0 +1,33 @@
+{
+  "kanji": "魚",
+  "sentences": [
+    {
+      "id": "11015282",
+      "japanese": "僕は本当の魚じゃなくて、ただのぬいぐるみだよ。",
+      "english": "I'm not a real fish, I'm just a mere plushy."
+    },
+    {
+      "id": "1168428",
+      "japanese": "私は魚よりもむしろ鳥になりたい。",
+      "english": "I'd rather be a bird than a fish."
+    },
+    {
+      "id": "1168429",
+      "japanese": "私はどちらかといえば魚より鳥になりたい。",
+      "english": "I'd rather be a bird than a fish."
+    },
+    {
+      "id": "177755",
+      "japanese": "君はその魚を生で食べるべきではなかった。",
+      "english": "You shouldn't have eaten the fish raw."
+    },
+    {
+      "id": "9025296",
+      "japanese": "その魚は生で食べちゃ駄目だったんだよ。",
+      "english": "You shouldn't have eaten the fish raw."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.079Z",
+  "count": 5,
+  "fileId": "kanji-00137"
+}

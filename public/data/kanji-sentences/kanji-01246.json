@@ -1,0 +1,33 @@
+{
+  "kanji": "仰",
+  "sentences": [
+    {
+      "id": "183056",
+      "japanese": "貴社との間の財政上の問題を解決するために貴社のご助力を仰ぎたく、お願いをする次第です。",
+      "english": "We would like to ask for your help in clearing up our financial problems with your company."
+    },
+    {
+      "id": "74795",
+      "japanese": "これについては「まことに仰る通りでございます」と答えるしかないのです。",
+      "english": "In connection with this I can only reply, \"it is just as you say.\""
+    },
+    {
+      "id": "87204",
+      "japanese": "彼女は彼を師と仰いでいる。",
+      "english": "She looks on him as her master."
+    },
+    {
+      "id": "96313",
+      "japanese": "彼らは彼をリーダーとして仰ぐ。",
+      "english": "They look up to him as their leader."
+    },
+    {
+      "id": "101137",
+      "japanese": "彼は彼らの師と仰がれた。",
+      "english": "He was respected as their teacher."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.135Z",
+  "count": 5,
+  "fileId": "kanji-01246"
+}

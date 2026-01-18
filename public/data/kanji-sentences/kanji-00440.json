@@ -1,0 +1,33 @@
+{
+  "kanji": "法",
+  "sentences": [
+    {
+      "id": "188984",
+      "japanese": "英国人は法と秩序を大いに尊重する。",
+      "english": "The British have a lot of respect for law and order."
+    },
+    {
+      "id": "191643",
+      "japanese": "われわれは権力を憎むが法と秩序の必要は認める。",
+      "english": "While we hate force, we recognize the need for law and order."
+    },
+    {
+      "id": "200306",
+      "japanese": "どの社会で暮らすにも、法を守らなければなりません。",
+      "english": "We all must abide by laws to live in any society."
+    },
+    {
+      "id": "200307",
+      "japanese": "どの社会で暮らすにも、法を守らなくてなりません。",
+      "english": "We all abide by law to live in any society."
+    },
+    {
+      "id": "204029",
+      "japanese": "そんな法に従わなくてもよい。",
+      "english": "You don't have to obey such a law."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.122Z",
+  "count": 5,
+  "fileId": "kanji-00440"
+}

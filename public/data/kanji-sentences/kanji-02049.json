@@ -1,0 +1,33 @@
+{
+  "kanji": "松",
+  "sentences": [
+    {
+      "id": "218467",
+      "japanese": "これは格好のよい松の木だ。",
+      "english": "This is a well-shaped pine tree."
+    },
+    {
+      "id": "77699",
+      "japanese": "例えばジャック・パインの松かさは、高温により影響を受けるまでは自ら開いて種子を放出しない。",
+      "english": "The cones of the jack pine, for example, do not readily open to release their seeds until they have been subjected to great heat."
+    },
+    {
+      "id": "118000",
+      "japanese": "彼の家の前には松の木が立っている。",
+      "english": "A pine stands in front of his house."
+    },
+    {
+      "id": "142378",
+      "japanese": "昔私の家の前には大きな松の木があった。",
+      "english": "There used to be a big pine tree in front of my house."
+    },
+    {
+      "id": "173252",
+      "japanese": "高い松の木が湖の周囲を取り囲んでいる。",
+      "english": "Tall pine trees form a ring around the lake."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:48.052Z",
+  "count": 5,
+  "fileId": "kanji-02049"
+}

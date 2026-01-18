@@ -1,0 +1,115 @@
+{
+  "id": "229-n4-point-29",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞てある",
+    "romaji": "Doushi te aru",
+    "en": "Verb-te aru"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ～てある grammar is used to show that an action was intentionally done and its result remains. It is formed by putting a verb into its て-form and adding ある. It often describes a prepared or arranged state that still continues.",
+    "ja": "「～てある」は、ある行動が意図的に行われ、その結果が今も残っていることを表します。動詞をて形にして「ある」をつけて使います。"
+  },
+  "structure": {
+    "pattern": "Verb-て form + ある",
+    "components": [
+      {
+        "part": "Verb-て form",
+        "explanation": "The verb is conjugated into its て-form.",
+        "examples": [
+          "開けて",
+          "終わって",
+          "干して",
+          "掃除して"
+        ]
+      },
+      {
+        "part": "ある",
+        "explanation": "Indicates the existence of the result of the action.",
+        "examples": [
+          "ある"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "窓が開けてある。",
+      "romaji": "Mado ga akete aru.",
+      "english": "The window has been opened (and remains open).",
+      "breakdown": {
+        "窓": "window",
+        "が": "subject marker",
+        "開けて": "open (te-form)",
+        "ある": "exists (result state)"
+      },
+      "notes": "Implies someone opened the window intentionally, and it is still open."
+    },
+    {
+      "japanese": "宿題がもう終わってある。",
+      "romaji": "Shukudai ga mou owatte aru.",
+      "english": "The homework has already been done (and remains that way).",
+      "breakdown": {
+        "宿題": "homework",
+        "が": "subject marker",
+        "もう": "already",
+        "終わって": "finished (te-form)",
+        "ある": "exists (result state)"
+      },
+      "notes": "Shows the homework was completed and is still in that state."
+    },
+    {
+      "japanese": "洗濯物が全部干してある。",
+      "romaji": "Sentakumono ga zenbu hoshite aru.",
+      "english": "The laundry has been hung up to dry (and remains that way).",
+      "breakdown": {
+        "洗濯物": "laundry",
+        "が": "subject marker",
+        "全部": "all",
+        "干して": "hang to dry (te-form)",
+        "ある": "exists (result state)"
+      },
+      "notes": "Focuses on the fact that the laundry was hung up and is still hanging."
+    },
+    {
+      "japanese": "この部屋はきれいに掃除してある。",
+      "romaji": "Kono heya wa kirei ni souji shite aru.",
+      "english": "This room has been cleaned (and remains clean).",
+      "breakdown": {
+        "この": "this",
+        "部屋": "room",
+        "は": "topic marker",
+        "きれいに": "cleanly",
+        "掃除して": "clean (te-form)",
+        "ある": "exists (result state)"
+      },
+      "notes": "Emphasizes that the room was cleaned and is still in a clean state."
+    }
+  ],
+  "relatedPoints": [
+    "verb-te-oku",
+    "verb-te-iru"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using いる instead of ある with transitive verbs for intentional results.",
+      "correction": "Use ある for intentional actions with results that remain.",
+      "example": "窓が開けている。→ 窓が開けてある。"
+    },
+    {
+      "mistake": "Using with intransitive verbs.",
+      "correction": "Use only with transitive verbs (actions done intentionally).",
+      "example": "ドアが閉まってある。→ ドアが閉めてある。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "result",
+    "state",
+    "te-form",
+    "intention",
+    "verbs"
+  ]
+}

@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "004-basic-word-order",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "004-basic-word-order-ex-01",
+      "type": "multiple-choice",
+      "question": "Which word order is correct in Japanese?",
+      "options": [
+        { "id": "a", "text": "Subject-Verb-Object" },
+        { "id": "b", "text": "Subject-Object-Verb" },
+        { "id": "c", "text": "Verb-Subject-Object" },
+        { "id": "d", "text": "Object-Verb-Subject" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Japanese basic order is S-O-V.",
+      "incorrectFeedback": "Not quite. The basic order is Subject-Object-Verb.",
+      "explanation": "The verb usually comes at the end of the sentence.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "004-basic-word-order-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence:",
+      "options": [
+        { "id": "a", "text": "私は食べます寿司。" },
+        { "id": "b", "text": "私は寿司を食べます。" },
+        { "id": "c", "text": "寿司を私は食べますは。" },
+        { "id": "d", "text": "食べます私は寿司を。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Topic + object + verb.",
+      "incorrectFeedback": "Try again. The verb goes at the end.",
+      "explanation": "Use particles and place the verb at the end.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "004-basic-word-order-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I read a book.'",
+      "correctAnswer": "私は本を読みます",
+      "acceptedVariations": [
+        "私は本を読みます。",
+        "わたしはほんをよみます",
+        "watashi wa hon o yomimasu",
+        "watashi wa hon o yomimasu."
+      ],
+      "correctFeedback": "Great! 私は本を読みます is correct.",
+      "incorrectFeedback": "The correct answer is: 私は本を読みます (watashi wa hon o yomimasu).",
+      "explanation": "Topic + object + verb at the end.",
+      "hints": ["Use は after 私", "End with 読みます"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "004-basic-word-order-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence has the verb at the end?",
+      "options": [
+        { "id": "a", "text": "私は食べますパンを。" },
+        { "id": "b", "text": "私はパンを食べます。" },
+        { "id": "c", "text": "パンを食べます私は。" },
+        { "id": "d", "text": "食べますパンを私は。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! The verb is at the end.",
+      "incorrectFeedback": "Not quite. The verb should be at the end.",
+      "explanation": "Basic order is topic + object + verb.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "004-basic-word-order-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'What do you eat?'",
+      "correctAnswer": "何を食べますか",
+      "acceptedVariations": [
+        "何を食べますか。",
+        "なにをたべますか",
+        "nani o tabemasu ka",
+        "nani o tabemasu ka."
+      ],
+      "correctFeedback": "Nice! 何を食べますか is correct.",
+      "incorrectFeedback": "The correct answer is: 何を食べますか (nani o tabemasu ka).",
+      "explanation": "Question word stays before the verb; verb is last.",
+      "hints": ["Use 何 + を", "End with か"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "004-basic-word-order-ex-06",
+      "type": "multiple-choice",
+      "question": "Which is the best order for 'I study Japanese every day'?",
+      "options": [
+        { "id": "a", "text": "私は勉強します毎日日本語を。" },
+        { "id": "b", "text": "私は毎日日本語を勉強します。" },
+        { "id": "c", "text": "日本語を毎日私は勉強しますは。" },
+        { "id": "d", "text": "毎日私は勉強します日本語を。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Time can come before the object, verb ends the sentence.",
+      "incorrectFeedback": "Try again. Keep the verb at the end.",
+      "explanation": "Use topic + time + object + verb.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "004-basic-word-order-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Tanaka-san goes to school.'",
+      "correctAnswer": "田中さんは学校に行きます",
+      "acceptedVariations": [
+        "田中さんは学校に行きます。",
+        "たなかさんはがっこうにいきます",
+        "tanaka-san wa gakkou ni ikimasu",
+        "tanaka-san wa gakkou ni ikimasu."
+      ],
+      "correctFeedback": "Great! 田中さんは学校に行きます is correct.",
+      "incorrectFeedback": "The correct answer is: 田中さんは学校に行きます (tanaka-san wa gakkou ni ikimasu).",
+      "explanation": "Topic + destination + verb at the end.",
+      "hints": ["Use に for destination", "End with 行きます"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "004-basic-word-order-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "私は水を飲みます。",
+          "romaji": "Watashi wa mizu o nomimasu.",
+          "english": "I drink water."
+        },
+        {
+          "japanese": "田中さんは本を読みます。",
+          "romaji": "Tanaka-san wa hon o yomimasu.",
+          "english": "Tanaka-san reads a book."
+        },
+        {
+          "japanese": "何を食べますか。",
+          "romaji": "Nani o tabemasu ka.",
+          "english": "What do you eat?"
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review basic word order and try again.",
+      "explanation": "Each sentence ends with the verb.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "004-basic-word-order-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence keeps the verb at the end?",
+      "options": [
+        { "id": "a", "text": "行きます私は学校に。" },
+        { "id": "b", "text": "私は学校に行きます。" },
+        { "id": "c", "text": "学校に行きます私はは。" },
+        { "id": "d", "text": "学校に私は行きますは。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb is at the end.",
+      "incorrectFeedback": "Try again. Place the verb last.",
+      "explanation": "Basic order is topic/destination + verb.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "004-basic-word-order-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I watch TV at home.'",
+      "correctAnswer": "家でテレビを見ます",
+      "acceptedVariations": [
+        "家でテレビを見ます。",
+        "いえでてれびをみます",
+        "ie de terebi o mimasu",
+        "ie de terebi o mimasu."
+      ],
+      "correctFeedback": "Nice! 家でテレビを見ます is correct.",
+      "incorrectFeedback": "The correct answer is: 家でテレビを見ます (ie de terebi o mimasu).",
+      "explanation": "Place + object + verb at the end.",
+      "hints": ["Use で for location", "End with 見ます"],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "曇",
+  "sentences": [
+    {
+      "id": "179415",
+      "japanese": "空は曇ってきている。",
+      "english": "The sky is becoming cloudy."
+    },
+    {
+      "id": "8623904",
+      "japanese": "空が曇ってきた。",
+      "english": "The sky is becoming cloudy."
+    },
+    {
+      "id": "179430",
+      "japanese": "空はすっかり曇った。",
+      "english": "The sky clouded over."
+    },
+    {
+      "id": "179485",
+      "japanese": "空が一面に曇ってきた。",
+      "english": "The sky has become overcast."
+    },
+    {
+      "id": "179493",
+      "japanese": "空がだんだん曇ってきた。",
+      "english": "The sky has gradually clouded over."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.723Z",
+  "count": 5,
+  "fileId": "kanji-00896"
+}

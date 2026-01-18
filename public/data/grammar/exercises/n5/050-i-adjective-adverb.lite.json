@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "050-i-adjective-adverb",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "050-i-adjective-adverb-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the adverb form of 早い (early/fast):",
+      "options": [
+        {
+          "id": "a",
+          "text": "早く"
+        },
+        {
+          "id": "b",
+          "text": "早かった"
+        },
+        {
+          "id": "c",
+          "text": "早いく"
+        },
+        {
+          "id": "d",
+          "text": "早くない"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 早い → 早く.",
+      "incorrectFeedback": "Not quite. Change い to く.",
+      "explanation": "I-adjectives become adverbs by changing い to く.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "脱",
+  "sentences": [
+    {
+      "id": "5162",
+      "japanese": "私は服を脱いでいる。",
+      "english": "I'm undressing."
+    },
+    {
+      "id": "177345",
+      "japanese": "君は靴を脱ぐには及ばない。",
+      "english": "You need not take off your shoes."
+    },
+    {
+      "id": "2378570",
+      "japanese": "靴は脱がなくていいよ！",
+      "english": "You need not take off your shoes."
+    },
+    {
+      "id": "178684",
+      "japanese": "君にはシャッポを脱ぐよ。",
+      "english": "I take my hat off to you!"
+    },
+    {
+      "id": "179230",
+      "japanese": "靴下を脱いでください。",
+      "english": "Take off your socks, please."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.127Z",
+  "count": 5,
+  "fileId": "kanji-01168"
+}

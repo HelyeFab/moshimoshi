@@ -1,0 +1,55 @@
+{
+  "id": "244-n4-point-44",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb てしまう (〜te shimau)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～てしまう grammar point is used to indicate unintentional actions or actions with regrettable outcomes. It can often be translated as 'to end up doing' or 'to accidentally do' in English. The formation requires adding しまう to the て-form of a verb.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-te form + しまう",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "ケーキを全部食べてしまった。",
+      "romaji": "Keeki wo zenbu tabete shimatta.",
+      "english": "I ended up eating the whole cake.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "宿題を忘れてしまいました。",
+      "romaji": "Shukudai wo wasurete shimaimashita.",
+      "english": "I accidentally forgot my homework.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼に秘密を言ってしまった。",
+      "romaji": "Kare ni himitsu wo itte shimatta.",
+      "english": "I accidentally told him the secret.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "値札を見ずに高い服を買ってしまった。",
+      "romaji": "Nefuda wo mizu ni takai fuku wo katte shimatta.",
+      "english": "I ended up buying expensive clothes without looking at the price tag.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

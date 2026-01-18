@@ -1,0 +1,90 @@
+{
+  "id": "212-n4-point-12",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun ばかり (〜bakari)",
+    "romaji": "noun bakari",
+    "en": "Only/Just [noun]"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ばかり grammar point is used to express that something is only, nothing but, just, or always. It can be attached to nouns, verbs, or adjectives, and has various meanings based on the context.",
+    "ja": "ばかりの文法は、何かがただそれだけである、またはいつもそうであることを表現するために使用されます。名詞、動詞、形容詞に接続可能で、文脈によって異なる意味を持ちます。"
+  },
+  "structure": {
+    "pattern": "Noun + ばかり, Verb-casual + ばかり, い-Adjective + ばかり, な-Adjective + だ ばかり",
+    "components": [
+      {
+        "part": "Noun/Verb/i-adjective/n-adjective",
+        "explanation": "The base word or phrase to which ばかり is attached.",
+        "examples": [
+          "お金の話",
+          "勉強",
+          "高い商品",
+          "狭い"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼はお金の話ばかりする。",
+      "romaji": "Kare wa okane no hanashi bakari suru.",
+      "english": "He talks about nothing but money.",
+      "breakdown": {
+        "お金": "money",
+        "話": "talk/discussion",
+        "ばか": "only"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は勉強ばかりしている。",
+      "romaji": "Kanojo wa benkyou bakari shiteiru.",
+      "english": "She is always studying.",
+      "breakdown": {
+        "勉強": "study",
+        "ばか": "only"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "デパートには高い商品ばかりだ。",
+      "romaji": "Depaato ni wa takai shouhin bakari da.",
+      "english": "There are only expensive items in the department store.",
+      "breakdown": {
+        "高い": "expensive",
+        "商品": "items/goods"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この部屋は狭いばかりだ。",
+      "romaji": "Kono heya wa semai bakari da.",
+      "english": "This room is nothing but small.",
+      "breakdown": {
+        "狭い": "small/narrow"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb ために",
+    "Verb てみる (〜te miru)",
+    "Verb て もらう"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "ばかり used without a clear context",
+      "correction": "Ensure there's a clear context or intention for using ばかり.",
+      "example": ""
+    }
+  ],
+  "tags": [
+    "n4",
+    "miscellaneous",
+    "context-dependency",
+    "expression-of-restriction"
+  ]
+}

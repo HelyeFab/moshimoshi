@@ -1,0 +1,33 @@
+{
+  "kanji": "馬",
+  "sentences": [
+    {
+      "id": "5098",
+      "japanese": "馬が亡くなってから鞍が淋しい。",
+      "english": "It's lonely in the saddle since the horse died."
+    },
+    {
+      "id": "177011",
+      "japanese": "馬に乗ることができますか？",
+      "english": "Can you ride a horse?"
+    },
+    {
+      "id": "10246225",
+      "japanese": "馬に乗れるの？",
+      "english": "Can you ride a horse?"
+    },
+    {
+      "id": "177013",
+      "japanese": "君は馬に乗ることができない。",
+      "english": "You can't ride a horse."
+    },
+    {
+      "id": "178416",
+      "japanese": "君の金を馬にかけるのはりこうではない。",
+      "english": "It is not wise to put your money on a horse."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.199Z",
+  "count": 5,
+  "fileId": "kanji-00532"
+}

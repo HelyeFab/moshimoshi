@@ -1,0 +1,33 @@
+{
+  "kanji": "親",
+  "sentences": [
+    {
+      "id": "144844",
+      "japanese": "親が親なら子も子。",
+      "english": "Like father, like son."
+    },
+    {
+      "id": "220068",
+      "japanese": "この親にしてこの子あり。",
+      "english": "Like father, like son."
+    },
+    {
+      "id": "177944",
+      "japanese": "君はあんなふうに親に口答えすべきではない。",
+      "english": "You shouldn't talk back to your parents like that."
+    },
+    {
+      "id": "178176",
+      "japanese": "君の性格はどちらの親に似ているの。",
+      "english": "Which of your parents do you take after in character?"
+    },
+    {
+      "id": "179865",
+      "japanese": "近ごろの親は概して子供に甘いので、マナーの知らない子供が多い。",
+      "english": "As these days most parents indulge their children, many children don't know what good manners are."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.087Z",
+  "count": 5,
+  "fileId": "kanji-00217"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "217-n4-point-17",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun を さしあげる (Noun wo sashiageru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The grammar point Noun を さしあげる is used to say that you are giving something to someone in a polite way. When offering something to a person of higher status, this expression is used. It is used in conjunction with a noun and replaces the regular verb あげる (ageru) to give.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Noun + を + さしあげる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "先生に本をさしあげます。",
+      "romaji": "Sensei ni hon wo sashiagemasu.",
+      "english": "I will give a book to the teacher.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "お母さんに花をさしあげたいです。",
+      "romaji": "Okaasan ni hana wo sashiagetai desu.",
+      "english": "I want to give flowers to my mother.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "お客様にお茶をさしあげましょう。",
+      "romaji": "Okyakusama ni ocha wo sashiagemashou.",
+      "english": "Let's offer tea to the guest.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "先輩にプレゼントをさしあげたら、喜んでいました。",
+      "romaji": "Senpai ni purezento wo sashiagetara, yorokonde imashita.",
+      "english": "When I gave a present to my senior, they were delighted.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

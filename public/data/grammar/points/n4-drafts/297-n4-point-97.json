@@ -1,0 +1,55 @@
+{
+  "id": "297-n4-point-97",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～ても/でも (〜te mo/demo)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～ても/でも grammar point is used to express 'even if' or 'even though' in a sentence, showing the idea of contradiction or contrast. The formation of ても differs depending on whether it is used with a verb, い-adjective, or な-adjective. For nouns, でも is used.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て-form + も, い-Adjective (-い) + くても, な-Adjective + でも, Noun + でも",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "雨が降っても、学校に行きます。",
+      "romaji": "Ame ga futte mo, gakkou ni ikimasu.",
+      "english": "Even if it rains, I will go to school.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この部屋が汚くても、掃除しないつもりです。",
+      "romaji": "Kono heya ga kitanakute mo, souji shinai tsumori desu.",
+      "english": "Even if this room is dirty, I don't intend to clean it.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "その映画が面白くなくても、見ます。",
+      "romaji": "Sono eiga ga omoshirokunakute mo, mimasu.",
+      "english": "Even if that movie is not interesting, I will watch it.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女が病気でも、働きます。",
+      "romaji": "Kanojo ga byouki demo, hatarakimasu.",
+      "english": "Even if she is sick, she will work.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

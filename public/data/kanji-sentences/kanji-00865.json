@@ -1,0 +1,33 @@
+{
+  "kanji": "貯",
+  "sentences": [
+    {
+      "id": "191970",
+      "japanese": "わずかながらお金を貯めている。",
+      "english": "She has a little money put aside."
+    },
+    {
+      "id": "193346",
+      "japanese": "もっとお金を貯めたかったのだけれど。",
+      "english": "I had hoped to save more money."
+    },
+    {
+      "id": "194722",
+      "japanese": "メアリーは日本に行くためにお金を貯めている。",
+      "english": "Mary is setting by money to go to Japan."
+    },
+    {
+      "id": "195370",
+      "japanese": "マックは新型ムスタングが買いたいので、お金を貯めている。",
+      "english": "Since Mac wants to buy a new Mustang, he is saving money."
+    },
+    {
+      "id": "195671",
+      "japanese": "まさかの時に備えてお金をいくらか貯えておくべきだ。",
+      "english": "You should save some money against a rainy day."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.955Z",
+  "count": 5,
+  "fileId": "kanji-00865"
+}

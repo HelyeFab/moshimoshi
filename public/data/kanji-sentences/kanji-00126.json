@@ -1,0 +1,33 @@
+{
+  "kanji": "兄",
+  "sentences": [
+    {
+      "id": "177890",
+      "japanese": "君はお兄さんにそっくりだよ。",
+      "english": "You look just like your big brother."
+    },
+    {
+      "id": "10236622",
+      "japanese": "お前と兄ちゃんの見分けがつかないよ。",
+      "english": "It is hard to distinguish you from your brother."
+    },
+    {
+      "id": "179025",
+      "japanese": "君が君のお兄さんかの、どちらかが間違っている。",
+      "english": "Either you or your brother is wrong."
+    },
+    {
+      "id": "182007",
+      "japanese": "京都にいる私の兄は先生になった。",
+      "english": "My brother in Kyoto became a teacher."
+    },
+    {
+      "id": "186892",
+      "japanese": "叔父の兄の倅が変なビジネスに手を染めて、家名を落とすことになった。",
+      "english": "My uncle's brother's son got involved in a shady business and disgraced the family."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.978Z",
+  "count": 5,
+  "fileId": "kanji-00126"
+}

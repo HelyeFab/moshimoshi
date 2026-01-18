@@ -1,0 +1,104 @@
+{
+  "id": "055-mae-ni-before",
+  "version": "1.0.0",
+  "title": {
+    "ja": "前に",
+    "romaji": "mae ni",
+    "en": "前に (before)"
+  },
+  "jlptLevel": "N5",
+  "category": "time-expressions",
+  "explanation": {
+    "en": "前に means “before.” It is used to say that one action happens earlier than another action or time. You can use it with nouns (like time words) or verbs.\n\nKey points:\n• Noun + の + 前に: 授業の前に\n• Verb (dictionary form) + 前に: 食べる前に\n• It marks the action or time that comes earlier\n• Common in daily routines\n\nExample: “寝る前に本を読みます” means “I read a book before sleeping.” “授業の前に勉強します” means “I study before class.”\n\nWhen using verbs, use the dictionary form (not ます). When using a noun, add の before 前に.\n\nThis pattern helps you talk about order and routine. It pairs well with basic verbs like 行く, 食べる, and 勉強する.\n\nPractice by describing your day: 朝ご飯を食べる前にシャワーを浴びます. These are simple, natural sentences for beginners.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "(Noun + の / Verb dictionary) + 前に + Action",
+    "components": [
+      {
+        "part": "Noun + の / Verb",
+        "explanation": "The time or action that comes earlier",
+        "examples": ["授業の", "寝る", "出かける"]
+      },
+      {
+        "part": "前に",
+        "explanation": "Before",
+        "examples": ["前に"]
+      },
+      {
+        "part": "Action",
+        "explanation": "Main action",
+        "examples": ["勉強します", "本を読みます", "歯をみがきます"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "寝る前に本を読みます。",
+      "romaji": "Neru mae ni hon o yomimasu.",
+      "english": "I read a book before sleeping.",
+      "breakdown": {
+        "寝る": "sleep (dictionary form)",
+        "前に": "before",
+        "本": "book",
+        "を": "object marker",
+        "読みます": "read"
+      },
+      "notes": "Verb + 前に"
+    },
+    {
+      "japanese": "授業の前に勉強します。",
+      "romaji": "Jugyou no mae ni benkyou shimasu.",
+      "english": "I study before class.",
+      "breakdown": {
+        "授業": "class",
+        "の": "of",
+        "前に": "before",
+        "勉強します": "study"
+      },
+      "notes": "Noun + の + 前に"
+    },
+    {
+      "japanese": "出かける前に電話します。",
+      "romaji": "Dekakeru mae ni denwa shimasu.",
+      "english": "I call before going out.",
+      "breakdown": {
+        "出かける": "go out",
+        "前に": "before",
+        "電話します": "call"
+      },
+      "notes": "Order of actions"
+    },
+    {
+      "japanese": "ご飯の前に手を洗います。",
+      "romaji": "Gohan no mae ni te o araimasu.",
+      "english": "I wash my hands before meals.",
+      "breakdown": {
+        "ご飯": "meal",
+        "の": "of",
+        "前に": "before",
+        "手": "hands",
+        "を": "object marker",
+        "洗います": "wash"
+      },
+      "notes": "Noun + の + 前に"
+    }
+  ],
+  "relatedPoints": [
+    "056-ato-de-after",
+    "040-dictionary-form"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ます-form before 前に",
+      "correction": "Use dictionary form before 前に",
+      "example": "❌ 食べます前に → ✅ 食べる前に"
+    },
+    {
+      "mistake": "Forgetting の with nouns",
+      "correction": "Add の before 前に with nouns",
+      "example": "❌ 授業前に → ✅ 授業の前に"
+    }
+  ],
+  "tags": ["time", "before", "sequence", "beginner"]
+}

@@ -21,6 +21,7 @@ export default function CustomCard({
 
   // Check if this is an Anki card with rich content
   const isAnkiCard = content.metadata?.source === 'anki'
+  const isGrammarCard = content.contentType === 'grammar'
   const reading = content.reading || content.metadata?.reading
   const expression = content.metadata?.expression
   const meaning = content.metadata?.meaning
@@ -37,7 +38,11 @@ export default function CustomCard({
             <div className="text-center">
               {/* Primary content (expression/kanji) */}
               <div className="text-2xl sm:text-3xl font-bold mb-2">
-                {mode === 'recognition' ? content.primaryDisplay : content.secondaryDisplay || 'Question'}
+                {mode === 'recognition'
+                  ? content.primaryDisplay
+                  : isGrammarCard
+                    ? content.primaryDisplay
+                    : content.secondaryDisplay || 'Question'}
               </div>
 
               {/* Reading (hiragana) - show on front for Anki cards */}
@@ -97,7 +102,11 @@ export default function CustomCard({
                     {/* For sentence lists: show Japanese content as answer, not English meaning */}
                     {content.metadata?.listType === 'sentence'
                       ? (content.metadata?.itemContent || content.primaryAnswer)
-                      : (meaning || (mode === 'recognition' ? content.primaryAnswer : content.primaryDisplay))
+                      : (meaning || (mode === 'recognition'
+                        ? content.primaryAnswer
+                        : isGrammarCard
+                          ? content.primaryAnswer
+                          : content.primaryDisplay))
                     }
                   </div>
 

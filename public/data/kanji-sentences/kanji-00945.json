@@ -1,0 +1,33 @@
+{
+  "kanji": "久",
+  "sentences": [
+    {
+      "id": "181792",
+      "japanese": "京都に久しぶりに大雪が降った。",
+      "english": "A heavy snow fell in Kyoto for the first time in ages."
+    },
+    {
+      "id": "182716",
+      "japanese": "久々に聞いたこの曲。なつかしい。",
+      "english": "Hearing this song after so long really brings back the old times."
+    },
+    {
+      "id": "182717",
+      "japanese": "久しぶりに彼は帰ってきた。",
+      "english": "After a long absence he came back."
+    },
+    {
+      "id": "182718",
+      "japanese": "久しぶりに昔の友人がひょっこり訪ねてきてくれた。",
+      "english": "An old friend of mine dropped in on me for the first time in ages."
+    },
+    {
+      "id": "182719",
+      "japanese": "久しぶりに会ったんだから、酒でも飲みながら、昔話にでも花を咲かせるとするか。",
+      "english": "It's been so long since we last met up. Let's have a drink or two and talk about the good old days."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.787Z",
+  "count": 5,
+  "fileId": "kanji-00945"
+}

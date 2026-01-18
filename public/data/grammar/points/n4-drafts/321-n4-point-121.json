@@ -1,0 +1,55 @@
+{
+  "id": "321-n4-point-121",
+  "version": "1.0.0",
+  "title": {
+    "ja": "文A。そのうえ 文B。",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "This grammar point is used to connect two sentences, where the first sentence 文A provides some information, and the second sentence 文B adds additional related information. It can be translated as 'furthermore', 'besides', or 'in addition' in English.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Sentence A + そのうえ + Sentence B + 。",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "このソフトウェアは使いやすい。そのうえ、価格も手ごろだ。",
+      "romaji": "Kono sofutouea wa tsukaiyasui. Sono ue, kakaku mo tegoro da.",
+      "english": "This software is easy to use. Furthermore, the price is reasonable.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は美人だ。そのうえ、頭もいい。",
+      "romaji": "Kanojo wa bijin da. Sono ue, atama mo ii.",
+      "english": "She is beautiful. In addition, she is smart.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この映画は面白い。そのうえ、俳優たちの演技も素晴らしい。",
+      "romaji": "Kono eiga wa omoshiroi. Sono ue, haiyuutachi no engi mo subarashii.",
+      "english": "This movie is interesting. Besides, the actors' performances are also great.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "東京はたくさんの観光スポットがある。そのうえ、美味しいレストランも多い。",
+      "romaji": "Toukyou wa takusan no kankou supotto ga aru. Sono ue, oishii resutoran mo oi.",
+      "english": "Tokyo has many sightseeing spots. In addition, there are many delicious restaurants.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

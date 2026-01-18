@@ -1,0 +1,33 @@
+{
+  "kanji": "缶",
+  "sentences": [
+    {
+      "id": "179478",
+      "japanese": "空き缶がその場所のあちこちに散らばっていた。",
+      "english": "Empty cans were scattered about the place."
+    },
+    {
+      "id": "183826",
+      "japanese": "缶は空っぽだ。",
+      "english": "The can is empty."
+    },
+    {
+      "id": "11135132",
+      "japanese": "缶の中は空っぽよ。",
+      "english": "The can is empty."
+    },
+    {
+      "id": "11135133",
+      "japanese": "缶は空よ。",
+      "english": "The can is empty."
+    },
+    {
+      "id": "197656",
+      "japanese": "ビールをもう１缶いただけますか。",
+      "english": "Could I get one more beer, please?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.416Z",
+  "count": 5,
+  "fileId": "kanji-00886"
+}

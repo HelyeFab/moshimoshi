@@ -1,0 +1,33 @@
+{
+  "kanji": "面",
+  "sentences": [
+    {
+      "id": "178437",
+      "japanese": "君の家はどちらの方向に面していますか。",
+      "english": "What direction does your house face?"
+    },
+    {
+      "id": "182382",
+      "japanese": "泣き面に蜂。",
+      "english": "Misfortunes never come singly."
+    },
+    {
+      "id": "182387",
+      "japanese": "泣きっ面に蜂。",
+      "english": "Misfortunes never come singly."
+    },
+    {
+      "id": "183661",
+      "japanese": "岩石や鉱物はいろいろな面で私たちに有益である。",
+      "english": "Rocks and minerals are useful for us in many ways."
+    },
+    {
+      "id": "184634",
+      "japanese": "蛙の面に水。",
+      "english": "Like water off a duck's back."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.196Z",
+  "count": 5,
+  "fileId": "kanji-00448"
+}

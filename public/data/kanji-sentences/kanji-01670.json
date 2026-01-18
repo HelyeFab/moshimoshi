@@ -1,0 +1,33 @@
+{
+  "kanji": "狩",
+  "sentences": [
+    {
+      "id": "188466",
+      "japanese": "王様はけさ狩りに出かけた。",
+      "english": "The king went hunting this morning."
+    },
+    {
+      "id": "197768",
+      "japanese": "ハンターは犬を連れてウサギを狩った。",
+      "english": "A hunter hunted hares with his dog."
+    },
+    {
+      "id": "220896",
+      "japanese": "この静かな森で動物を狩ることは禁止されている。",
+      "english": "Hunting game is forbidden in these tranquil woods."
+    },
+    {
+      "id": "235709",
+      "japanese": "１頭の象がそこで狩られた。",
+      "english": "An elephant was hunted there."
+    },
+    {
+      "id": "96879",
+      "japanese": "彼らは狩りで獲物をたくさん捕らえた。",
+      "english": "They had a good hunt."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:32.623Z",
+  "count": 5,
+  "fileId": "kanji-01670"
+}

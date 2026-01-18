@@ -1,0 +1,33 @@
+{
+  "kanji": "貸",
+  "sentences": [
+    {
+      "id": "176989",
+      "japanese": "あいつは君の言い訳には耳を貸さないと思うよ。",
+      "english": "I don't think you can gain his ear."
+    },
+    {
+      "id": "124643",
+      "japanese": "電話を貸してもらえませんか。",
+      "english": "May I use your phone?"
+    },
+    {
+      "id": "178226",
+      "japanese": "君の車を貸してください。",
+      "english": "Please lend me your car."
+    },
+    {
+      "id": "148943",
+      "japanese": "車を貸していただけませんか。",
+      "english": "Would you mind lending me your car?"
+    },
+    {
+      "id": "178243",
+      "japanese": "君の辞書を貸してくれませんか。",
+      "english": "Will you lend me your dictionary?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.246Z",
+  "count": 5,
+  "fileId": "kanji-00148"
+}

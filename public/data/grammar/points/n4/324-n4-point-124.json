@@ -1,0 +1,125 @@
+{
+  "id": "324-n4-point-124",
+  "version": "1.0.0",
+  "title": {
+    "ja": "文A。だから 文B",
+    "romaji": "Bun A. Dakara Bun B",
+    "en": "Sentence A. Therefore, Sentence B"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "This grammar structure is used to show that Sentence B is a result or consequence of the situation stated in Sentence A. 'だから' means 'so', 'therefore', or 'because of that'. It connects two sentences, with the first providing the reason and the second giving the result.",
+    "ja": "この文法は、文Aが理由や原因であり、その結果として文Bが起こることを表します。「だから」は「それで」や「そのため」と同じ意味で使われます。"
+  },
+  "structure": {
+    "pattern": "Sentence A。だから Sentence B。",
+    "components": [
+      {
+        "part": "Sentence A",
+        "explanation": "States the reason or cause.",
+        "examples": [
+          "明日は試験だ。",
+          "この料理は簡単だ。"
+        ]
+      },
+      {
+        "part": "だから",
+        "explanation": "Means 'so', 'therefore', or 'because of that'. Connects the two sentences.",
+        "examples": [
+          "だから今日勉強しなければならない。",
+          "だから初心者でも作れる。"
+        ]
+      },
+      {
+        "part": "Sentence B",
+        "explanation": "States the result or consequence.",
+        "examples": [
+          "今日勉強しなければならない。",
+          "初心者でも作れる。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日は試験だ。だから今日勉強しなければならない。",
+      "romaji": "Ashita wa shiken da. Dakara kyou benkyou shinakereba naranai.",
+      "english": "Tomorrow is the exam, so I have to study today.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "試験": "exam",
+        "だ": "is",
+        "だから": "so",
+        "今日": "today",
+        "勉強しなければならない": "have to study"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この料理は簡単だ。だから初心者でも作れる。",
+      "romaji": "Kono ryouri wa kantan da. Dakara shoshinsha demo tsukureru.",
+      "english": "This dish is simple, so even beginners can make it.",
+      "breakdown": {
+        "この料理": "this dish",
+        "簡単だ": "is simple",
+        "だから": "so",
+        "初心者": "beginners",
+        "でも": "even",
+        "作れる": "can make"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は病気だ。だから今日学校を休む。",
+      "romaji": "Kare wa byouki da. Dakara kyou gakkou wo yasumu.",
+      "english": "He is sick, so he will take a day off from school today.",
+      "breakdown": {
+        "彼": "he",
+        "病気だ": "is sick",
+        "だから": "so",
+        "今日": "today",
+        "学校を休む": "will take a day off from school"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "駅まで遠い。だからタクシーで行ったほうがいい。",
+      "romaji": "Eki made tooi. Dakara takushii de itta hou ga ii.",
+      "english": "The station is far, so it's better to go by taxi.",
+      "breakdown": {
+        "駅まで": "to the station",
+        "遠い": "far",
+        "だから": "so",
+        "タクシーで": "by taxi",
+        "行ったほうがいい": "it's better to go"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "文A。それで 文B",
+    "～から",
+    "～ので"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Combining だから directly with a noun or verb without a sentence ending.",
+      "correction": "End Sentence A with だ or です before だから.",
+      "example": "× 明日試験、だから勉強する。 → ○ 明日は試験だ。だから勉強する。"
+    },
+    {
+      "mistake": "Using だから at the start of a sentence without a clear preceding reason.",
+      "correction": "Always provide Sentence A as the reason before だから.",
+      "example": "× だから勉強する。 → ○ 明日は試験だ。だから勉強する。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "conjunction",
+    "cause-effect",
+    "sentence-connector",
+    "reason",
+    "result"
+  ]
+}

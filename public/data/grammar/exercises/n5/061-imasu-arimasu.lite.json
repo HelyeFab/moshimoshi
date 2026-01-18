@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "061-imasu-arimasu",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "061-imasu-arimasu-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct verb: 公園に犬が__。",
+      "options": [
+        {
+          "id": "a",
+          "text": "います"
+        },
+        {
+          "id": "b",
+          "text": "あります"
+        },
+        {
+          "id": "c",
+          "text": "します"
+        },
+        {
+          "id": "d",
+          "text": "なります"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 犬 is living, so use います.",
+      "incorrectFeedback": "Not quite. Use います for living things.",
+      "explanation": "います is for living things.",
+      "difficulty": "easy"
+    }
+  ]
+}

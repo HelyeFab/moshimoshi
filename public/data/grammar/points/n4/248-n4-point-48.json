@@ -1,0 +1,101 @@
+{
+  "id": "248-n4-point-48",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て もらう",
+    "romaji": "Verb te morau",
+    "en": "Receiving a Favor"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "Used to express receiving an action or favor from someone, indicating gratitude or request.",
+    "ja": "誰かから行動や恩恵を受けることを表現し、感謝または依頼を示す。"
+  },
+  "structure": {
+    "pattern": "Verb-て form + もらう",
+    "components": [
+      {
+        "part": "Verb-て",
+        "explanation": "The て form of the verb.",
+        "examples": [
+          "手伝って",
+          "掃除して"
+        ]
+      },
+      {
+        "part": "もらう",
+        "explanation": "Receive, indicating gratitude or request for an action done by someone else.",
+        "examples": [
+          "moratta",
+          "moraimashita"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "友達に宿題を手伝ってもらった。",
+      "romaji": "Tomodachi ni shukudai o tetsudatte moratta.",
+      "english": "I had my friend help me with my homework.",
+      "breakdown": {
+        "手伝って": "help",
+        "もらった": "received"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "母に部屋を掃除してもらいました。",
+      "romaji": "Haha ni heya o souji shite moraimashita.",
+      "english": "I had my mother clean my room.",
+      "breakdown": {
+        "掃除して": "clean",
+        "もらいました": "received"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼に荷物を持ってもらいたい。",
+      "romaji": "Kare ni nimotsu o motte moraitai.",
+      "english": "I want him to carry my luggage for me.",
+      "breakdown": {
+        "持って": "carry",
+        "もらいたい": "want to receive"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "先生に質問に答えてもらえますか？",
+      "romaji": "Sensei ni shitsumon ni kotaete moraemasu ka?",
+      "english": "Can I have the teacher answer my question?",
+      "breakdown": {
+        "答えて": "answer",
+        "もらえますか": "can receive"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb てみる (〜te miru)",
+    "Verb る ことになる",
+    "Noun ばかり (〜bakari)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "友達に宿題を手伝ってもらった。",
+      "correction": "友達に宿題を手伝ってもらった。",
+      "example": "Both are correct."
+    },
+    {
+      "mistake": "母に部屋を掃除してもらう。",
+      "correction": "母に部屋を掃除してもらいました。",
+      "example": "The past tense is necessary to indicate the action has been received."
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "miscellaneous",
+    "receiving-favor"
+  ]
+}

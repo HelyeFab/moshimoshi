@@ -1,0 +1,33 @@
+{
+  "kanji": "存",
+  "sentences": [
+    {
+      "id": "5292",
+      "japanese": "これにつきまして、お考えをお聞かせ願えればと存じます。",
+      "english": "I look forward to hearing your thoughts on this matter."
+    },
+    {
+      "id": "183405",
+      "japanese": "既にご存じのように。",
+      "english": "As you already know."
+    },
+    {
+      "id": "183924",
+      "japanese": "感謝のしるしにこれをさし上げたいと存じます。",
+      "english": "May I present this to you in token of my appreciation?"
+    },
+    {
+      "id": "184956",
+      "japanese": "皆様にお話出来ることを光栄に存じます。",
+      "english": "I esteem it an honor to address this audience."
+    },
+    {
+      "id": "186415",
+      "japanese": "あなたは弊社のことを既にご存じかと思います。",
+      "english": "You have, no doubt, heard of our company."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.718Z",
+  "count": 5,
+  "fileId": "kanji-00563"
+}

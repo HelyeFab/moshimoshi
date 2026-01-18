@@ -1,0 +1,18 @@
+{
+  "kanji": "領",
+  "sentences": [
+    {
+      "id": "220332",
+      "japanese": "この島は１９世紀にはフランス領であった。",
+      "english": "This island belonged to France in the 19th century."
+    },
+    {
+      "id": "76897",
+      "japanese": "あの大名は十万石を領している。",
+      "english": "That daimyo holds a fief yielding 100,000 koku of rice."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.722Z",
+  "count": 2,
+  "fileId": "kanji-00939"
+}

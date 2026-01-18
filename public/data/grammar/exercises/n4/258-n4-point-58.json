@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "258-n4-point-58",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "258-n4-point-58-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"I think I will/plan to/intend to\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ようと思う",
+          "romaji": "Verb-you to omou"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! Verb ようと思う matches \"I think I will/plan to/intend to\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ようと思う.",
+      "explanation": "Expresses intention or plan to do something in the near future.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "258-n4-point-58-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb ようと思う.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "I think I will/plan to/intend to"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb ようと思う means \"I think I will/plan to/intend to\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"I think I will/plan to/intend to\".",
+      "explanation": "Expresses intention or plan to do something in the near future.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "258-n4-point-58-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb ようと思う.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb-you to omou"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb-you to omou is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb-you to omou.",
+      "explanation": "Expresses intention or plan to do something in the near future.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "258-n4-point-58-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb ようと思う?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expresses intention or plan to do something in the near future."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses intention or plan to do something in the near future.",
+      "explanation": "Expresses intention or plan to do something in the near future.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "258-n4-point-58-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"I think I will/plan to/intend to\".",
+      "correctAnswer": "Verb ようと思う",
+      "acceptedVariations": [
+        "Verb ようと思う",
+        "Verbようと思う"
+      ],
+      "correctFeedback": "Nice! Verb ようと思う is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb ようと思う (Verb-you to omou).",
+      "explanation": "Expresses intention or plan to do something in the near future.",
+      "hints": [
+        "Verb-you to omou",
+        "Expresses intention or plan to do something in the near future."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "258-n4-point-58-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb ようと思う.",
+      "correctAnswer": "Verb-you to omou",
+      "acceptedVariations": [
+        "Verb-you to omou",
+        "verb-you to omou"
+      ],
+      "correctFeedback": "Nice! Verb-you to omou is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb-you to omou.",
+      "explanation": "Expresses intention or plan to do something in the near future.",
+      "hints": [
+        "Expresses intention or plan to do something in the near future."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "258-n4-point-58-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb ようと思う.",
+      "correctAnswer": "I think I will/plan to/intend to",
+      "acceptedVariations": [
+        "I think I will/plan to/intend to",
+        "i think i will/plan to/intend to"
+      ],
+      "correctFeedback": "Correct! \"I think I will/plan to/intend to\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"I think I will/plan to/intend to\".",
+      "explanation": "Expresses intention or plan to do something in the near future.",
+      "hints": [
+        "Expresses intention or plan to do something in the near future."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "258-n4-point-58-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb ようと思う",
+          "romaji": "Verb-you to omou",
+          "english": "I think I will/plan to/intend to"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses intention or plan to do something in the near future.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "258-n4-point-58-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses intention or plan to do something in the near future..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ようと思う",
+          "romaji": "Verb-you to omou"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb ようと思う matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ようと思う.",
+      "explanation": "Expresses intention or plan to do something in the near future.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "258-n4-point-58-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbようと思う",
+      "acceptedVariations": [
+        "Verbようと思う",
+        "Verb ようと思う"
+      ],
+      "correctFeedback": "Great! Verbようと思う is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbようと思う.",
+      "explanation": "Expresses intention or plan to do something in the near future.",
+      "hints": [
+        "Verb-you to omou"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

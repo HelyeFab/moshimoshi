@@ -1,0 +1,33 @@
+{
+  "kanji": "米",
+  "sentences": [
+    {
+      "id": "178299",
+      "japanese": "君の国では、お米をたべますか。",
+      "english": "Do you eat rice in your country?"
+    },
+    {
+      "id": "764094",
+      "japanese": "あなたの国では米を食べますか？",
+      "english": "Do you eat rice in your country?"
+    },
+    {
+      "id": "185477",
+      "japanese": "我々日本人は米を常食としている。",
+      "english": "We Japanese live on rice."
+    },
+    {
+      "id": "191016",
+      "japanese": "異常低温が今年の米の不作の原因である。",
+      "english": "Unusually low temperatures account for the poor rice crop this year."
+    },
+    {
+      "id": "192022",
+      "japanese": "わが国の主な農産物は米である。",
+      "english": "The chief crop of our country is rice."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.329Z",
+  "count": 5,
+  "fileId": "kanji-00537"
+}

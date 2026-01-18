@@ -1,0 +1,33 @@
+{
+  "kanji": "冊",
+  "sentences": [
+    {
+      "id": "177991",
+      "japanese": "君は、その２冊の本のうち、どちらを選んでもよい。",
+      "english": "You may choose either of the two books."
+    },
+    {
+      "id": "179117",
+      "japanese": "君がどんなにがんばっても、１日で５冊も小説を読むことはできないだろう。",
+      "english": "Try as you may, you will not be able to read as many as five novels in a day."
+    },
+    {
+      "id": "183430",
+      "japanese": "机の上に本が１冊ある。",
+      "english": "There is a book on the desk."
+    },
+    {
+      "id": "183453",
+      "japanese": "机の上には本が１冊しかない。",
+      "english": "There is only one book on the desk."
+    },
+    {
+      "id": "183462",
+      "japanese": "机の上に２冊しか本がなかった。",
+      "english": "There were no more than two books on the desk."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.416Z",
+  "count": 5,
+  "fileId": "kanji-00837"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "弾",
+  "sentences": [
+    {
+      "id": "5156",
+      "japanese": "彼はピアノを上手に弾く。",
+      "english": "He plays the piano very well."
+    },
+    {
+      "id": "111209",
+      "japanese": "彼はピアノをとても上手に弾く。",
+      "english": "He plays the piano very well."
+    },
+    {
+      "id": "112094",
+      "japanese": "彼はたいへん上手にピアノを弾く。",
+      "english": "He plays the piano very well."
+    },
+    {
+      "id": "184271",
+      "japanese": "学生の中にはギターを弾くのが好きなものもいる。",
+      "english": "Some of the students like to play the guitar."
+    },
+    {
+      "id": "190222",
+      "japanese": "一年練習して、彼女はどうにかピアノを弾いている。",
+      "english": "After a year's practice, she plays the piano after a fashion."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:17.520Z",
+  "count": 5,
+  "fileId": "kanji-01141"
+}

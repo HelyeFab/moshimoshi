@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "033-te-wa-ikenai",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "033-te-wa-ikenai-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct prohibition form: 入る → ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "入ってはいけません"
+        },
+        {
+          "id": "b",
+          "text": "入ってもいいです"
+        },
+        {
+          "id": "c",
+          "text": "入ります"
+        },
+        {
+          "id": "d",
+          "text": "入らないです"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 入ってはいけません means 'must not enter.'",
+      "incorrectFeedback": "Not quite. Use て-form + はいけません.",
+      "explanation": "Prohibition uses て-form + はいけません.",
+      "difficulty": "easy"
+    }
+  ]
+}

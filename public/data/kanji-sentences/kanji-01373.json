@@ -1,0 +1,33 @@
+{
+  "kanji": "帳",
+  "sentences": [
+    {
+      "id": "234291",
+      "japanese": "アドレス帳を部屋に忘れちゃった。",
+      "english": "I left my address book in my room."
+    },
+    {
+      "id": "234292",
+      "japanese": "アドレス帳がバグってしまい、あなたのを含むたくさんのアドレスが消えてしまいました。",
+      "english": "There was a bug in my Address Book and many addresses including yours were deleted."
+    },
+    {
+      "id": "75529",
+      "japanese": "光源、つまり光の向きだな、それと陰影とかにも気をつけて、できるだけ正確に手元にあるクロッキー帳に書き取っていくだけ。",
+      "english": "Light source, that is what direction the light is facing, also take care with shadowing. Just copy down into the sketch book you have at hand as accurately as possible."
+    },
+    {
+      "id": "76670",
+      "japanese": "シンと静まった部室。響くのは、クロッキー帳に擦れる鉛筆の音だけ。",
+      "english": "The club room returned to quiet. All that could be heard was the sound of pencil on sketchpad."
+    },
+    {
+      "id": "85782",
+      "japanese": "非ヴァーチャルアドレス帳を数分前に見つけたところです。",
+      "english": "I couldn't find my non-virtual address book until only a few minutes ago."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:23.824Z",
+  "count": 5,
+  "fileId": "kanji-01373"
+}

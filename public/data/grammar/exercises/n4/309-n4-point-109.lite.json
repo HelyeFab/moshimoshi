@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "309-n4-point-109",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "309-n4-point-109-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Particle ～に (ni)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "～に",
+          "romaji": "~ni"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! ～に matches \"Particle ～に (ni)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～に.",
+      "explanation": "Indicates direction, purpose, time, or location depending on context.",
+      "difficulty": "easy"
+    }
+  ]
+}

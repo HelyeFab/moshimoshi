@@ -1,0 +1,122 @@
+{
+  "id": "234-n4-point-34",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞ている（Verb て いる）",
+    "romaji": "Doushi te iru",
+    "en": "Verb-te iru"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ている (te iru) form is used to describe ongoing actions or states resulting from a completed action. It is made by attaching いる to the verb's て-form. Depending on the verb, it can mean 'is doing' or 'has become/is in a state.'",
+    "ja": "「ている」形は、進行中の動作や、過去の動作の結果としての状態を表します。動詞のて形に「いる」を付けて作ります。動詞の種類によって「〜している」「〜になっている」などの意味になります。"
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + いる",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "Conjugate the verb into its て-form.",
+        "examples": [
+          "読む → 読んで",
+          "勉強する → 勉強して",
+          "入る → 入って",
+          "なる → なって"
+        ]
+      },
+      {
+        "part": "いる",
+        "explanation": "Add いる after the て-form to indicate ongoing action or state.",
+        "examples": [
+          "読んでいる",
+          "勉強している",
+          "入っている",
+          "なっている"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "今、本を読んでいます。",
+      "romaji": "Ima, hon wo yonde imasu.",
+      "english": "I am reading a book now.",
+      "breakdown": {
+        "今": "now",
+        "本": "book",
+        "を": "object marker",
+        "読んで": "reading (te-form)",
+        "います": "am (polite te-iru)"
+      },
+      "notes": "Shows an action in progress."
+    },
+    {
+      "japanese": "彼は英語を勉強しています。",
+      "romaji": "Kare wa eigo wo benkyou shite imasu.",
+      "english": "He is studying English.",
+      "breakdown": {
+        "彼": "he",
+        "は": "topic marker",
+        "英語": "English",
+        "を": "object marker",
+        "勉強して": "studying (te-form)",
+        "います": "is (polite te-iru)"
+      },
+      "notes": "Describes a continuous activity."
+    },
+    {
+      "japanese": "ケーキが冷蔵庫に入っています。",
+      "romaji": "Keeki ga reizouko ni haitte imasu.",
+      "english": "The cake is in the refrigerator.",
+      "breakdown": {
+        "ケーキ": "cake",
+        "が": "subject marker",
+        "冷蔵庫": "refrigerator",
+        "に": "location marker",
+        "入って": "entered (te-form)",
+        "います": "is (state te-iru)"
+      },
+      "notes": "Indicates a state resulting from a past action."
+    },
+    {
+      "japanese": "部屋がきれいになっています。",
+      "romaji": "Heya ga kirei ni natte imasu.",
+      "english": "The room has become clean.",
+      "breakdown": {
+        "部屋": "room",
+        "が": "subject marker",
+        "きれい": "clean",
+        "に": "to (state change)",
+        "なって": "has become (te-form)",
+        "います": "is (state te-iru)"
+      },
+      "notes": "Describes a result state from a completed action."
+    }
+  ],
+  "relatedPoints": [
+    "動詞てある",
+    "動詞てあげる",
+    "動詞ていただけませんか"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "今、本を読みます。",
+      "correction": "今、本を読んでいます。",
+      "example": "Use ている to show the action is ongoing, not just habitual."
+    },
+    {
+      "mistake": "ケーキが冷蔵庫に入ります。",
+      "correction": "ケーキが冷蔵庫に入っています。",
+      "example": "Use ている to indicate the cake is currently in the refrigerator as a result of being put there."
+    }
+  ],
+  "tags": [
+    "n4",
+    "te-form",
+    "progressive",
+    "state",
+    "verbs",
+    "result"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "203-n4-point-3",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "203-n4-point-3-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Not as...as\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "A より B のほうが〜",
+          "romaji": "A yori B no hou ga 〜"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! A は B ほど～ない matches \"Not as...as\".",
+      "incorrectFeedback": "Not quite. The correct pattern is A は B ほど～ない.",
+      "explanation": "A is not as ~ as B; shows a lesser degree or extent than B.",
+      "difficulty": "easy"
+    }
+  ]
+}

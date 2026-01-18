@@ -1,0 +1,33 @@
+{
+  "kanji": "徐",
+  "sentences": [
+    {
+      "id": "179392",
+      "japanese": "空気が抜けるにつれて風船は徐々に降りてきた。",
+      "english": "The balloon descended gradually as the air came out."
+    },
+    {
+      "id": "179780",
+      "japanese": "近年、物価が徐々に上がっている。",
+      "english": "Prices have been gradually rising in recent years."
+    },
+    {
+      "id": "186301",
+      "japanese": "我々の関係は徐々に冷えていくようだ。",
+      "english": "Relations between us seem to be on the ebb."
+    },
+    {
+      "id": "188939",
+      "japanese": "駅にもどるには遠い道のりであったが、徐々にその古い荷馬車は近づいて行った。",
+      "english": "Although it was a long way back to the station, little by little the old wagon drew near."
+    },
+    {
+      "id": "198108",
+      "japanese": "バスは徐々にスピードを上げた。",
+      "english": "The bus picked up the speed gradually."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:34.037Z",
+  "count": 5,
+  "fileId": "kanji-01706"
+}

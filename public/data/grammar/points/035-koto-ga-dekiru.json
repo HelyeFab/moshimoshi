@@ -1,0 +1,97 @@
+{
+  "id": "035-koto-ga-dekiru",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜ことができる",
+    "romaji": "-koto ga dekiru",
+    "en": "Can do"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "〜ことができる expresses ability. It means “can do” or “be able to.” It is made by using the dictionary form + ことができる.\n\nKey points:\n• Dictionary form + ことができる\n• Means ability or possibility\n• Polite form: 〜ことができます\n• Common with skills like speaking or playing\n\nFor example, “日本語を話すことができます” means “I can speak Japanese.” “泳ぐことができます” means “I can swim.”\n\nYou can also use it to say something is possible: “ここで写真を撮ることができます” means “You can take photos here.”\n\nThis pattern is very regular and useful. It is different from できます alone because it attaches to a specific verb.\n\nAs a beginner, remember to keep the verb in dictionary form before こと. This makes the phrase a noun-like action that can be “possible.”",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (dictionary form) + ことができます",
+    "components": [
+      {
+        "part": "Verb (dictionary)",
+        "explanation": "Base verb form",
+        "examples": ["話す", "泳ぐ", "読む"]
+      },
+      {
+        "part": "ことができます",
+        "explanation": "Can do (polite)",
+        "examples": ["ことができます"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "日本語を話すことができます。",
+      "romaji": "Nihongo o hanasu koto ga dekimasu.",
+      "english": "I can speak Japanese.",
+      "breakdown": {
+        "日本語": "Japanese",
+        "を": "object marker",
+        "話す": "speak (dictionary)",
+        "ことができます": "can do (polite)"
+      },
+      "notes": "Ability with language"
+    },
+    {
+      "japanese": "泳ぐことができます。",
+      "romaji": "Oyogu koto ga dekimasu.",
+      "english": "I can swim.",
+      "breakdown": {
+        "泳ぐ": "swim (dictionary)",
+        "ことができます": "can do"
+      },
+      "notes": "Basic ability"
+    },
+    {
+      "japanese": "ここで写真を撮ることができます。",
+      "romaji": "Koko de shashin o toru koto ga dekimasu.",
+      "english": "You can take photos here.",
+      "breakdown": {
+        "ここ": "here",
+        "で": "location marker",
+        "写真": "photo",
+        "を": "object marker",
+        "撮る": "take (dictionary)",
+        "ことができます": "can do"
+      },
+      "notes": "Permission/possibility"
+    },
+    {
+      "japanese": "漢字を読むことができます。",
+      "romaji": "Kanji o yomu koto ga dekimasu.",
+      "english": "I can read kanji.",
+      "breakdown": {
+        "漢字": "kanji",
+        "を": "object marker",
+        "読む": "read (dictionary)",
+        "ことができます": "can do"
+      },
+      "notes": "Skill ability"
+    }
+  ],
+  "relatedPoints": [
+    "021-verb-groups",
+    "036-plain-form-present"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ます-form before ことができます",
+      "correction": "Use dictionary form",
+      "example": "❌ 話しますことができます → ✅ 話すことができます"
+    },
+    {
+      "mistake": "Dropping こと",
+      "correction": "Keep こと to nominalize the verb",
+      "example": "❌ 話すができます → ✅ 話すことができます"
+    }
+  ],
+  "tags": ["verbs", "ability", "koto", "beginner"]
+}

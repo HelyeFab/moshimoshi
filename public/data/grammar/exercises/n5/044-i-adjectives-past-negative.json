@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "044-i-adjectives-past-negative",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "044-i-adjectives-past-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the past negative form of 高い:",
+      "options": [
+        { "id": "a", "text": "高くなかった" },
+        { "id": "b", "text": "高くない" },
+        { "id": "c", "text": "高かった" },
+        { "id": "d", "text": "高いでした" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 高い → 高くなかった.",
+      "incorrectFeedback": "Not quite. Use くなかった.",
+      "explanation": "Past negative い-adjectives end with くなかった.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "044-i-adjectives-past-negative-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "昨日は暑くなかったです。" },
+        { "id": "b", "text": "昨日は暑いではありませんでした。" },
+        { "id": "c", "text": "昨日は暑くないです。" },
+        { "id": "d", "text": "昨日は暑かったです。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 暑くなかったです is past negative.",
+      "incorrectFeedback": "Try again. Use くなかった for past negative.",
+      "explanation": "Past negative uses くなかった (optionally + です).",
+      "difficulty": "easy"
+    },
+    {
+      "id": "044-i-adjectives-past-negative-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'The test was not easy.'",
+      "correctAnswer": "テストは簡単ではなかったです",
+      "acceptedVariations": [
+        "テストは簡単ではなかったです。",
+        "てすとはかんたんではなかったです",
+        "tesuto wa kantan dewa nakatta desu",
+        "tesuto wa kantan dewa nakatta desu."
+      ],
+      "correctFeedback": "Nice! テストは簡単ではなかったです is correct.",
+      "incorrectFeedback": "The correct answer is: テストは簡単ではなかったです (tesuto wa kantan dewa nakatta desu).",
+      "explanation": "This uses な-adjective past negative (ではなかったです).",
+      "hints": ["簡単 = easy", "Use ではなかったです"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "044-i-adjectives-past-negative-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the past negative form of おいしい:",
+      "options": [
+        { "id": "a", "text": "おいしくなかった" },
+        { "id": "b", "text": "おいしくない" },
+        { "id": "c", "text": "おいしかった" },
+        { "id": "d", "text": "おいしいでした" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! おいしい → おいしくなかった.",
+      "incorrectFeedback": "Not quite. Use くなかった.",
+      "explanation": "Past negative い-adjective uses くなかった.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "044-i-adjectives-past-negative-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Yesterday's lunch was not tasty.'",
+      "correctAnswer": "昨日の昼ご飯はおいしくなかったです",
+      "acceptedVariations": [
+        "昨日の昼ご飯はおいしくなかったです。",
+        "きのうのひるごはんはおいしくなかったです",
+        "kinou no hirugohan wa oishikunakatta desu",
+        "kinou no hirugohan wa oishikunakatta desu."
+      ],
+      "correctFeedback": "Great! 昨日の昼ご飯はおいしくなかったです is correct.",
+      "incorrectFeedback": "The correct answer is: 昨日の昼ご飯はおいしくなかったです (kinou no hirugohan wa oishikunakatta desu).",
+      "explanation": "おいしい → おいしくなかった.",
+      "hints": ["昼ご飯 = lunch", "Use くなかった"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "044-i-adjectives-past-negative-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "この映画は長くなかったです。" },
+        { "id": "b", "text": "昨日は寒くなかったです。" },
+        { "id": "c", "text": "そのりんごは赤くないでした。" },
+        { "id": "d", "text": "旅行は楽しくなかったです。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use くなかった, not くないでした.",
+      "incorrectFeedback": "Try again. Past negative is くなかった.",
+      "explanation": "The correct form is 赤くなかったです.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "044-i-adjectives-past-negative-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'That apple was not red.'",
+      "correctAnswer": "そのりんごは赤くなかったです",
+      "acceptedVariations": [
+        "そのりんごは赤くなかったです。",
+        "そのりんごはあかくなかったです",
+        "sono ringo wa akakunakatta desu",
+        "sono ringo wa akakunakatta desu."
+      ],
+      "correctFeedback": "Great! そのりんごは赤くなかったです is correct.",
+      "incorrectFeedback": "The correct answer is: そのりんごは赤くなかったです (sono ringo wa akakunakatta desu).",
+      "explanation": "赤い → 赤くなかった.",
+      "hints": ["りんご = apple", "Use くなかった"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "044-i-adjectives-past-negative-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "昨日は暑くなかったです。",
+          "romaji": "Kinou wa atsukunakatta desu.",
+          "english": "It was not hot yesterday."
+        },
+        {
+          "japanese": "旅行は楽しくなかったです。",
+          "romaji": "Ryokou wa tanoshikunakatta desu.",
+          "english": "The trip was not fun."
+        },
+        {
+          "japanese": "この映画は長くなかったです。",
+          "romaji": "Kono eiga wa nagakunakatta desu.",
+          "english": "This movie was not long."
+        }
+      ],
+      "correctFeedback": "Perfect! All use くなかった.",
+      "incorrectFeedback": "Not quite. Review past negative い-adjectives.",
+      "explanation": "All sentences are past negative い-adjectives.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "044-i-adjectives-past-negative-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct past negative form of 大きい?",
+      "options": [
+        { "id": "a", "text": "大きくなかった" },
+        { "id": "b", "text": "大きくない" },
+        { "id": "c", "text": "大きかった" },
+        { "id": "d", "text": "大きいでした" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 大きい → 大きくなかった.",
+      "incorrectFeedback": "Try again. Use くなかった.",
+      "explanation": "Past negative い-adjective uses くなかった.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "044-i-adjectives-past-negative-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'The book was not interesting.'",
+      "correctAnswer": "その本はおもしろくなかったです",
+      "acceptedVariations": [
+        "その本はおもしろくなかったです。",
+        "そのほんはおもしろくなかったです",
+        "sono hon wa omoshirokunakatta desu",
+        "sono hon wa omoshirokunakatta desu."
+      ],
+      "correctFeedback": "Nice! その本はおもしろくなかったです is correct.",
+      "incorrectFeedback": "The correct answer is: その本はおもしろくなかったです (sono hon wa omoshirokunakatta desu).",
+      "explanation": "おもしろい → おもしろくなかった.",
+      "hints": ["本 = book", "Use くなかった"],
+      "difficulty": "hard"
+    }
+  ]
+}

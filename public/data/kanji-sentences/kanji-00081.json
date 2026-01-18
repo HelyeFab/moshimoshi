@@ -1,0 +1,33 @@
+{
+  "kanji": "終",
+  "sentences": [
+    {
+      "id": "48301",
+      "japanese": "休みは終わった。",
+      "english": "The vacation is over now."
+    },
+    {
+      "id": "997768",
+      "japanese": "これで休暇は終わった。",
+      "english": "The vacation is over now."
+    },
+    {
+      "id": "5211",
+      "japanese": "私たちはもう終わったわ。指輪を返して！",
+      "english": "It's over between us. Give me back my ring!"
+    },
+    {
+      "id": "5260",
+      "japanese": "ほぼ終わった。",
+      "english": "I'm almost done."
+    },
+    {
+      "id": "3808439",
+      "japanese": "この調子じゃ今週中に終わりそうにないね。",
+      "english": "At this rate, we're not likely to be done before the end of the week."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.249Z",
+  "count": 5,
+  "fileId": "kanji-00081"
+}

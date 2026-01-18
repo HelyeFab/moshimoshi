@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "264-n4-point-64",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "264-n4-point-64-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Sometimes do something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb る ことがある",
+          "romaji": "Verb ru koto ga aru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb る ことがある matches \"Sometimes do something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb る ことがある.",
+      "explanation": "Used to say you sometimes do or have ever done an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "264-n4-point-64-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb る ことがある.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Sometimes do something"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb る ことがある means \"Sometimes do something\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Sometimes do something\".",
+      "explanation": "Used to say you sometimes do or have ever done an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "264-n4-point-64-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb る ことがある.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ru koto ga aru"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb ru koto ga aru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb ru koto ga aru.",
+      "explanation": "Used to say you sometimes do or have ever done an action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "264-n4-point-64-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb る ことがある?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Used to say you sometimes do or have ever done an action."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to say you sometimes do or have ever done an action.",
+      "explanation": "Used to say you sometimes do or have ever done an action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "264-n4-point-64-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Sometimes do something\".",
+      "correctAnswer": "Verb る ことがある",
+      "acceptedVariations": [
+        "Verb る ことがある",
+        "Verbることがある"
+      ],
+      "correctFeedback": "Nice! Verb る ことがある is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb る ことがある (Verb ru koto ga aru).",
+      "explanation": "Used to say you sometimes do or have ever done an action.",
+      "hints": [
+        "Verb ru koto ga aru",
+        "Used to say you sometimes do or have ever done an action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "264-n4-point-64-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb る ことがある.",
+      "correctAnswer": "Verb ru koto ga aru",
+      "acceptedVariations": [
+        "Verb ru koto ga aru",
+        "verb ru koto ga aru"
+      ],
+      "correctFeedback": "Nice! Verb ru koto ga aru is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb ru koto ga aru.",
+      "explanation": "Used to say you sometimes do or have ever done an action.",
+      "hints": [
+        "Used to say you sometimes do or have ever done an action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "264-n4-point-64-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb る ことがある.",
+      "correctAnswer": "Sometimes do something",
+      "acceptedVariations": [
+        "Sometimes do something",
+        "sometimes do something"
+      ],
+      "correctFeedback": "Correct! \"Sometimes do something\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Sometimes do something\".",
+      "explanation": "Used to say you sometimes do or have ever done an action.",
+      "hints": [
+        "Used to say you sometimes do or have ever done an action."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "264-n4-point-64-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb る ことがある",
+          "romaji": "Verb ru koto ga aru",
+          "english": "Sometimes do something"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to say you sometimes do or have ever done an action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "264-n4-point-64-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to say you sometimes do or have ever done an action..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb る ことがある",
+          "romaji": "Verb ru koto ga aru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb る ことがある matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb る ことがある.",
+      "explanation": "Used to say you sometimes do or have ever done an action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "264-n4-point-64-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbることがある",
+      "acceptedVariations": [
+        "Verbることがある",
+        "Verb る ことがある"
+      ],
+      "correctFeedback": "Great! Verbることがある is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbることがある.",
+      "explanation": "Used to say you sometimes do or have ever done an action.",
+      "hints": [
+        "Verb ru koto ga aru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "防",
+  "sentences": [
+    {
+      "id": "186667",
+      "japanese": "火事は中途半端なやり方では防げない。",
+      "english": "Fire cannot be prevented by half measures."
+    },
+    {
+      "id": "187768",
+      "japanese": "何としても戦争は防がねばならない。",
+      "english": "We must prevent war at any cost."
+    },
+    {
+      "id": "188607",
+      "japanese": "塩は魚が腐るのを防ぐ。",
+      "english": "Salt preserves fish from spoilage."
+    },
+    {
+      "id": "3459071",
+      "japanese": "この病気を防ぐ手立てはない。",
+      "english": "It is a disease that can't be prevented."
+    },
+    {
+      "id": "207067",
+      "japanese": "その病気が急速に広がるのを防ぐのは容易な事ではなかった。",
+      "english": "To prevent the disease from spreading quickly was not an easy task."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.322Z",
+  "count": 5,
+  "fileId": "kanji-00974"
+}

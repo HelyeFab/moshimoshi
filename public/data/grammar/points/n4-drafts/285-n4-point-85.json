@@ -1,0 +1,41 @@
+{
+  "id": "285-n4-point-85",
+  "version": "1.0.0",
+  "title": {
+    "ja": "そんな (sonna) + Noun",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The word 'そんな' is used before a noun to indicate 'that kind of' or 'that type of', typically referring to something near the listener or previously mentioned in the conversation. It specifies the noun based on context or shared understanding between the speaker and the listener.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "そんな + Noun",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "そんな話、信じられない。",
+      "romaji": "Sonna hanashi, shinjirarenai.",
+      "english": "I can't believe that kind of story.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "そんな映画、見たくない。",
+      "romaji": "Sonna eiga, mitakunai.",
+      "english": "I don't want to watch that kind of movie.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

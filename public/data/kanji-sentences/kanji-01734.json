@@ -1,0 +1,33 @@
+{
+  "kanji": "腫",
+  "sentences": [
+    {
+      "id": "195146",
+      "japanese": "まるで腫れ物に触るように扱った。",
+      "english": "He treated it with utmost care."
+    },
+    {
+      "id": "197796",
+      "japanese": "腫れるかもしれませんが気にしないでください。",
+      "english": "You may have swelling, but don't worry about it."
+    },
+    {
+      "id": "197797",
+      "japanese": "腫れが引くまで何日くらいかかりますか。",
+      "english": "How many days will it take until the swelling goes down?"
+    },
+    {
+      "id": "8866540",
+      "japanese": "腫れが治まるまで、どれぐらいかかりそうですか？",
+      "english": "How many days will it take until the swelling goes down?"
+    },
+    {
+      "id": "209468",
+      "japanese": "その腫れから判断すると、その人はきっと蛇にかまれたに違いありません。",
+      "english": "Judging by the swelling, the man must have been bitten by a snake."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:35.033Z",
+  "count": 5,
+  "fileId": "kanji-01734"
+}

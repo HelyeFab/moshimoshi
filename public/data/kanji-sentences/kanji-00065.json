@@ -1,0 +1,33 @@
+{
+  "kanji": "百",
+  "sentences": [
+    {
+      "id": "163124",
+      "japanese": "私の息子は百まで数えられる。",
+      "english": "My son can count up to a hundred now."
+    },
+    {
+      "id": "228176",
+      "japanese": "うちの息子は百まで数えられるんだ。",
+      "english": "My son can count up to a hundred now."
+    },
+    {
+      "id": "214689",
+      "japanese": "すずめ百まで踊り忘れず。",
+      "english": "What is learned in the cradle is carried to the tomb."
+    },
+    {
+      "id": "207422",
+      "japanese": "その道を百メートル程行くと、三叉路があります。",
+      "english": "Go straight up the street for about 100 meters, and you will get to the junction of three roads."
+    },
+    {
+      "id": "207693",
+      "japanese": "その程度のことは百も承知だったから、私は少しも驚かなかった。",
+      "english": "I was not in the least surprised, for I had fully expected as much."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.004Z",
+  "count": 5,
+  "fileId": "kanji-00065"
+}

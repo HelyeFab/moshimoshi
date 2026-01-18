@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "279-n4-point-79",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "279-n4-point-79-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"But, however\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～けれど",
+          "romaji": "~keredo"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～けれど matches \"But, however\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～けれど.",
+      "explanation": "Expresses a soft contrast or contradiction between two statements.",
+      "difficulty": "easy"
+    }
+  ]
+}

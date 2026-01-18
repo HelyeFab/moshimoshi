@@ -1,0 +1,98 @@
+{
+  "id": "209-n4-point-9",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun に なる",
+    "romaji": "Noun ni naru",
+    "en": "To become a noun"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "The 'Noun に なる' grammar point is used to show a change or a transformation from one state or form into another. It can be translated as 'to become', 'to change into', or 'to turn into'. Often used with nouns that indicate profession, status, or condition.",
+    "ja": "「Noun に なる」は、ある状態や形から別の状態や形への変化を示します。職業、地位、または状況を示す名詞とよく使用されます。"
+  },
+  "structure": {
+    "pattern": "Noun + に + なる",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "The noun indicates the state or form after the transformation.",
+        "examples": [
+          "医者 (doctor)",
+          "先生 (teacher)"
+        ]
+      },
+      {
+        "part": "に",
+        "explanation": "Marks the target of the change.",
+        "examples": []
+      },
+      {
+        "part": "なる",
+        "explanation": "Verb indicating a change into a new state or form.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼は医者になりました。",
+      "romaji": "Kare wa isha ni narimashita.",
+      "english": "He became a doctor.",
+      "breakdown": {
+        "token": "彼 (he)",
+        "gloss": "kare"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "子供の頃、私は先生になりたかったです。",
+      "romaji": "Kodomo no koro, watashi wa sensei ni naritakatta desu.",
+      "english": "When I was a child, I wanted to become a teacher.",
+      "breakdown": {
+        "token": "子供の頃 (when I was a child)",
+        "gloss": "kodomo no koro"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は緊張して顔が赤くなりました。",
+      "romaji": "Kanojo wa kinchou shite kao ga akaku narimashita.",
+      "english": "She got nervous, and her face turned red.",
+      "breakdown": {
+        "token": "緊張 (nervous)",
+        "gloss": "kinchou"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "春になると桜が咲きます。",
+      "romaji": "Haru ni naru to sakura ga sakimasu.",
+      "english": "When it becomes spring, cherry blossoms bloom.",
+      "breakdown": {
+        "token": "春 (spring)",
+        "gloss": "haru"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "い-Adjective く する/なる",
+    "A とか B とか",
+    "名詞にする"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼は医者になりました。",
+      "correction": "彼は医者になります。",
+      "example": "If the sentence is in present tense, なります should not be changed to なりました."
+    }
+  ],
+  "tags": [
+    "n4",
+    "transformation",
+    "become",
+    "status-change"
+  ]
+}

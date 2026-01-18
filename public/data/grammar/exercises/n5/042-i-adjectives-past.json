@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "042-i-adjectives-past",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "042-i-adjectives-past-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the past form of おいしい:",
+      "options": [
+        { "id": "a", "text": "おいしかった" },
+        { "id": "b", "text": "おいしくない" },
+        { "id": "c", "text": "おいしいでした" },
+        { "id": "d", "text": "おいしいです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! おいしい → おいしかった.",
+      "incorrectFeedback": "Not quite. Change い to かった.",
+      "explanation": "Past い-adjective uses かった.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "042-i-adjectives-past-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "昨日は寒かったです。" },
+        { "id": "b", "text": "昨日は寒いでした。" },
+        { "id": "c", "text": "昨日は寒くないです。" },
+        { "id": "d", "text": "昨日は寒いです。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 寒かったです is past.",
+      "incorrectFeedback": "Try again. Use かった for past.",
+      "explanation": "Past い-adjectives use かった.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "042-i-adjectives-past-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'The trip was fun.'",
+      "correctAnswer": "旅行は楽しかったです",
+      "acceptedVariations": [
+        "旅行は楽しかったです。",
+        "りょこうはたのしかったです",
+        "ryokou wa tanoshikatta desu",
+        "ryokou wa tanoshikatta desu."
+      ],
+      "correctFeedback": "Great! 旅行は楽しかったです is correct.",
+      "incorrectFeedback": "The correct answer is: 旅行は楽しかったです (ryokou wa tanoshikatta desu).",
+      "explanation": "Use かった to make past form.",
+      "hints": ["楽しい → 楽しかった", "旅行 = trip"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "042-i-adjectives-past-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the past form of 高い:",
+      "options": [
+        { "id": "a", "text": "高かった" },
+        { "id": "b", "text": "高くない" },
+        { "id": "c", "text": "高いです" },
+        { "id": "d", "text": "高いでした" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 高い → 高かった.",
+      "incorrectFeedback": "Not quite. Change い to かった.",
+      "explanation": "Past い-adjective ends with かった.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "042-i-adjectives-past-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This book was expensive.'",
+      "correctAnswer": "この本は高かったです",
+      "acceptedVariations": [
+        "この本は高かったです。",
+        "このほんはたかかったです",
+        "kono hon wa takakatta desu",
+        "kono hon wa takakatta desu."
+      ],
+      "correctFeedback": "Nice! この本は高かったです is correct.",
+      "incorrectFeedback": "The correct answer is: この本は高かったです (kono hon wa takakatta desu).",
+      "explanation": "Use かった for past adjectives.",
+      "hints": ["高い → 高かった", "本 = book"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "042-i-adjectives-past-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "昨日は暑かったです。" },
+        { "id": "b", "text": "昨日は暑いでした。" },
+        { "id": "c", "text": "テストは簡単でした。" },
+        { "id": "d", "text": "本はおもしろかったです。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Use かった, not いでした.",
+      "incorrectFeedback": "Try again. い-adjectives change to かった.",
+      "explanation": "暑いでした is incorrect; use 暑かったです.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "042-i-adjectives-past-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Yesterday's lunch was tasty.'",
+      "correctAnswer": "昨日の昼ご飯はおいしかったです",
+      "acceptedVariations": [
+        "昨日の昼ご飯はおいしかったです。",
+        "きのうのひるごはんはおいしかったです",
+        "kinou no hirugohan wa oishikatta desu",
+        "kinou no hirugohan wa oishikatta desu."
+      ],
+      "correctFeedback": "Great! 昨日の昼ご飯はおいしかったです is correct.",
+      "incorrectFeedback": "The correct answer is: 昨日の昼ご飯はおいしかったです (kinou no hirugohan wa oishikatta desu).",
+      "explanation": "おいしい → おいしかった.",
+      "hints": ["昼ご飯 = lunch", "Use かった"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "042-i-adjectives-past-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "昨日は寒かったです。",
+          "romaji": "Kinou wa samukatta desu.",
+          "english": "It was cold yesterday."
+        },
+        {
+          "japanese": "旅行は楽しかったです。",
+          "romaji": "Ryokou wa tanoshikatta desu.",
+          "english": "The trip was fun."
+        },
+        {
+          "japanese": "この本は高かったです。",
+          "romaji": "Kono hon wa takakatta desu.",
+          "english": "This book was expensive."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review past い-adjectives.",
+      "explanation": "All sentences use かった.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "042-i-adjectives-past-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct past form of 楽しい?",
+      "options": [
+        { "id": "a", "text": "楽しかった" },
+        { "id": "b", "text": "楽しくない" },
+        { "id": "c", "text": "楽しでした" },
+        { "id": "d", "text": "楽しいでした" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 楽しい → 楽しかった.",
+      "incorrectFeedback": "Try again. Use かった.",
+      "explanation": "Past form uses かった.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "042-i-adjectives-past-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'The test was easy.'",
+      "correctAnswer": "テストは簡単でした",
+      "acceptedVariations": [
+        "テストは簡単でした。",
+        "てすとはかんたんでした",
+        "tesuto wa kantan deshita",
+        "tesuto wa kantan deshita."
+      ],
+      "correctFeedback": "Nice! テストは簡単でした is correct.",
+      "incorrectFeedback": "The correct answer is: テストは簡単でした (tesuto wa kantan deshita).",
+      "explanation": "簡単 is a な-adjective; this is its past form.",
+      "hints": ["簡単 = easy", "Use でした"],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "226-n4-point-26",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "226-n4-point-26-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"For the sake of/In order to\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ために",
+          "romaji": "tame ni"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! Verb ために matches \"For the sake of/In order to\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ために.",
+      "explanation": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "226-n4-point-26-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb ために.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "For the sake of/In order to"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb ために means \"For the sake of/In order to\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"For the sake of/In order to\".",
+      "explanation": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "226-n4-point-26-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb ために.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "tame ni"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! tame ni is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is tame ni.",
+      "explanation": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "226-n4-point-26-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb ために?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\""
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "explanation": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "226-n4-point-26-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"For the sake of/In order to\".",
+      "correctAnswer": "Verb ために",
+      "acceptedVariations": [
+        "Verb ために",
+        "Verbために"
+      ],
+      "correctFeedback": "Nice! Verb ために is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb ために (tame ni).",
+      "explanation": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "hints": [
+        "tame ni",
+        "Expresses purpose or reason: \"in order to\" or \"for the sake of.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "226-n4-point-26-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb ために.",
+      "correctAnswer": "tame ni",
+      "acceptedVariations": [
+        "tame ni",
+        "tame ni"
+      ],
+      "correctFeedback": "Nice! tame ni is correct.",
+      "incorrectFeedback": "The correct romaji is: tame ni.",
+      "explanation": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "hints": [
+        "Expresses purpose or reason: \"in order to\" or \"for the sake of.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "226-n4-point-26-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb ために.",
+      "correctAnswer": "For the sake of/In order to",
+      "acceptedVariations": [
+        "For the sake of/In order to",
+        "for the sake of/in order to"
+      ],
+      "correctFeedback": "Correct! \"For the sake of/In order to\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"For the sake of/In order to\".",
+      "explanation": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "hints": [
+        "Expresses purpose or reason: \"in order to\" or \"for the sake of.\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "226-n4-point-26-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb ために",
+          "romaji": "tame ni",
+          "english": "For the sake of/In order to"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "226-n4-point-26-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses purpose or reason: \"in order to\" or \"for the sake of.\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ために",
+          "romaji": "tame ni"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb ために matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ために.",
+      "explanation": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "226-n4-point-26-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbために",
+      "acceptedVariations": [
+        "Verbために",
+        "Verb ために"
+      ],
+      "correctFeedback": "Great! Verbために is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbために.",
+      "explanation": "Expresses purpose or reason: \"in order to\" or \"for the sake of.\"",
+      "hints": [
+        "tame ni"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

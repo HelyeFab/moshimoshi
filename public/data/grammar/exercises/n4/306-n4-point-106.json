@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "306-n4-point-106",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "306-n4-point-106-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Must/Have to\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～なくてはいけない",
+          "romaji": "~nakute wa ikenai"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ～なくてはいけない matches \"Must/Have to\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～なくてはいけない.",
+      "explanation": "Used to show something is necessary or must be done.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "306-n4-point-106-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～なくてはいけない.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Must/Have to"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～なくてはいけない means \"Must/Have to\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Must/Have to\".",
+      "explanation": "Used to show something is necessary or must be done.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "306-n4-point-106-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～なくてはいけない.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~nakute wa ikenai"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ~nakute wa ikenai is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~nakute wa ikenai.",
+      "explanation": "Used to show something is necessary or must be done.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "306-n4-point-106-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～なくてはいけない?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Used to show something is necessary or must be done."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to show something is necessary or must be done.",
+      "explanation": "Used to show something is necessary or must be done.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "306-n4-point-106-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Must/Have to\".",
+      "correctAnswer": "～なくてはいけない",
+      "acceptedVariations": [
+        "～なくてはいけない",
+        "～なくてはいけない"
+      ],
+      "correctFeedback": "Nice! ～なくてはいけない is correct.",
+      "incorrectFeedback": "The correct pattern is: ～なくてはいけない (~nakute wa ikenai).",
+      "explanation": "Used to show something is necessary or must be done.",
+      "hints": [
+        "~nakute wa ikenai",
+        "Used to show something is necessary or must be done."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "306-n4-point-106-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～なくてはいけない.",
+      "correctAnswer": "~nakute wa ikenai",
+      "acceptedVariations": [
+        "~nakute wa ikenai",
+        "~nakute wa ikenai"
+      ],
+      "correctFeedback": "Nice! ~nakute wa ikenai is correct.",
+      "incorrectFeedback": "The correct romaji is: ~nakute wa ikenai.",
+      "explanation": "Used to show something is necessary or must be done.",
+      "hints": [
+        "Used to show something is necessary or must be done."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "306-n4-point-106-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～なくてはいけない.",
+      "correctAnswer": "Must/Have to",
+      "acceptedVariations": [
+        "Must/Have to",
+        "must/have to"
+      ],
+      "correctFeedback": "Correct! \"Must/Have to\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Must/Have to\".",
+      "explanation": "Used to show something is necessary or must be done.",
+      "hints": [
+        "Used to show something is necessary or must be done."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "306-n4-point-106-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～なくてはいけない",
+          "romaji": "~nakute wa ikenai",
+          "english": "Must/Have to"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to show something is necessary or must be done.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "306-n4-point-106-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to show something is necessary or must be done..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～なくてはいけない",
+          "romaji": "~nakute wa ikenai"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～なくてはいけない matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～なくてはいけない.",
+      "explanation": "Used to show something is necessary or must be done.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "306-n4-point-106-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～なくてはいけない",
+      "acceptedVariations": [
+        "～なくてはいけない",
+        "～なくてはいけない"
+      ],
+      "correctFeedback": "Great! ～なくてはいけない is correct.",
+      "incorrectFeedback": "The correct pattern is: ～なくてはいけない.",
+      "explanation": "Used to show something is necessary or must be done.",
+      "hints": [
+        "~nakute wa ikenai"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

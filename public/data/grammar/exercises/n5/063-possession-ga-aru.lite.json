@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "063-possession-ga-aru",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "063-possession-ga-aru-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct verb: 車が__。",
+      "options": [
+        {
+          "id": "a",
+          "text": "あります"
+        },
+        {
+          "id": "b",
+          "text": "います"
+        },
+        {
+          "id": "c",
+          "text": "します"
+        },
+        {
+          "id": "d",
+          "text": "なります"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 車 is non-living, so use あります.",
+      "incorrectFeedback": "Not quite. Use あります for non-living things.",
+      "explanation": "がある is used for possession of objects.",
+      "difficulty": "easy"
+    }
+  ]
+}

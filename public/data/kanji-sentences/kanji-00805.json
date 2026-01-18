@@ -1,0 +1,33 @@
+{
+  "kanji": "損",
+  "sentences": [
+    {
+      "id": "178634",
+      "japanese": "君に会い損ねて地団駄を踏んだよ。",
+      "english": "I was chagrined at missing you."
+    },
+    {
+      "id": "1143182",
+      "japanese": "喫煙に健康を損ねるリスクがあるのは事実だ。",
+      "english": "It is a fact that smoking is a danger to health."
+    },
+    {
+      "id": "186055",
+      "japanese": "我々はその仕事で損をした。",
+      "english": "We lost on that job."
+    },
+    {
+      "id": "191341",
+      "japanese": "安いと思って買ったのに、腐っていたのでかえって損をした。",
+      "english": "I bought it thinking it was cheap, but it was rotten, so I ended up losing out."
+    },
+    {
+      "id": "77718",
+      "japanese": "たとえどちらを選んでも、損はしないよ。",
+      "english": "Whichever you choose, you cannot lose."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.698Z",
+  "count": 5,
+  "fileId": "kanji-00805"
+}

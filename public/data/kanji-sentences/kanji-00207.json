@@ -1,0 +1,33 @@
+{
+  "kanji": "少",
+  "sentences": [
+    {
+      "id": "4962",
+      "japanese": "多くの人に囲まれて彼は自然と少し緊張しだした。",
+      "english": "With so many people around he naturally became a bit nervous."
+    },
+    {
+      "id": "5163",
+      "japanese": "このような辞書には、「冷蔵庫」という言葉を使った例文が少なくとも2つは載っているはずだ。",
+      "english": "In a dictionary like this one there should be at least two sentences with \"fridge\"."
+    },
+    {
+      "id": "349135",
+      "japanese": "待合室で少々お待ちください。",
+      "english": "Wait in the waiting room."
+    },
+    {
+      "id": "146658",
+      "japanese": "少々お待ち下さい。",
+      "english": "Just a minute."
+    },
+    {
+      "id": "146661",
+      "japanese": "少々おまちください。",
+      "english": "Just a minute."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.949Z",
+  "count": 5,
+  "fileId": "kanji-00207"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "守",
+  "sentences": [
+    {
+      "id": "85843",
+      "japanese": "秘密を守れる？",
+      "english": "Can you keep a secret?"
+    },
+    {
+      "id": "176916",
+      "japanese": "秘密を守れますか。",
+      "english": "Can you keep a secret?"
+    },
+    {
+      "id": "176996",
+      "japanese": "君は彼が約束を守ると信じてよい。",
+      "english": "You can trust him to keep his word."
+    },
+    {
+      "id": "10229768",
+      "japanese": "あいつなら、ちゃんと約束を守るよ。",
+      "english": "You can trust him to keep his word."
+    },
+    {
+      "id": "177961",
+      "japanese": "君はあくまでも約束を守らなければならない。",
+      "english": "You must stick to your promise."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.872Z",
+  "count": 5,
+  "fileId": "kanji-00576"
+}

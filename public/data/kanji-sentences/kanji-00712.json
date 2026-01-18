@@ -1,0 +1,33 @@
+{
+  "kanji": "練",
+  "sentences": [
+    {
+      "id": "177056",
+      "japanese": "君は胆力を練る必要がある。",
+      "english": "You must build up your courage."
+    },
+    {
+      "id": "178004",
+      "japanese": "君の話から考えて、我々の計画は練り直すべきだと思う。",
+      "english": "In the light of what you told us, I think we should revise our plan."
+    },
+    {
+      "id": "203888",
+      "japanese": "タイムをとって作戦を練ろう。",
+      "english": "Let's take time out to elaborate a strategy."
+    },
+    {
+      "id": "222547",
+      "japanese": "この企画はもう一度想を練り直せ。",
+      "english": "You should rethink this program."
+    },
+    {
+      "id": "77839",
+      "japanese": "これはかなり良く練られた計画だったね。",
+      "english": "This was quite a well thought-out plan."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.501Z",
+  "count": 5,
+  "fileId": "kanji-00712"
+}

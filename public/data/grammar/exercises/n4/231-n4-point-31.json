@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "231-n4-point-31",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "231-n4-point-31-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb-te itadakitai (would like you to do...)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "動詞ていただきたい",
+          "romaji": "doushi te itadakitai"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! 動詞ていただきたい matches \"Verb-te itadakitai (would like you to do...)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ていただきたい.",
+      "explanation": "Polite way to express wanting someone to do something for you.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "231-n4-point-31-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞ていただきたい.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "Verb-te itadakitai (would like you to do...)"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! 動詞ていただきたい means \"Verb-te itadakitai (would like you to do...)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb-te itadakitai (would like you to do...)\".",
+      "explanation": "Polite way to express wanting someone to do something for you.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "231-n4-point-31-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞ていただきたい.",
+      "options": [
+        {
+          "id": "a",
+          "text": "doushi te itadakitai"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! doushi te itadakitai is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is doushi te itadakitai.",
+      "explanation": "Polite way to express wanting someone to do something for you.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "231-n4-point-31-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞ていただきたい?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Polite way to express wanting someone to do something for you."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Polite way to express wanting someone to do something for you.",
+      "explanation": "Polite way to express wanting someone to do something for you.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "231-n4-point-31-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb-te itadakitai (would like you to do...)\".",
+      "correctAnswer": "動詞ていただきたい",
+      "acceptedVariations": [
+        "動詞ていただきたい",
+        "動詞ていただきたい"
+      ],
+      "correctFeedback": "Nice! 動詞ていただきたい is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞ていただきたい (doushi te itadakitai).",
+      "explanation": "Polite way to express wanting someone to do something for you.",
+      "hints": [
+        "doushi te itadakitai",
+        "Polite way to express wanting someone to do something for you."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "231-n4-point-31-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞ていただきたい.",
+      "correctAnswer": "doushi te itadakitai",
+      "acceptedVariations": [
+        "doushi te itadakitai",
+        "doushi te itadakitai"
+      ],
+      "correctFeedback": "Nice! doushi te itadakitai is correct.",
+      "incorrectFeedback": "The correct romaji is: doushi te itadakitai.",
+      "explanation": "Polite way to express wanting someone to do something for you.",
+      "hints": [
+        "Polite way to express wanting someone to do something for you."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "231-n4-point-31-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞ていただきたい.",
+      "correctAnswer": "Verb-te itadakitai (would like you to do...)",
+      "acceptedVariations": [
+        "Verb-te itadakitai (would like you to do...)",
+        "verb-te itadakitai (would like you to do...)"
+      ],
+      "correctFeedback": "Correct! \"Verb-te itadakitai (would like you to do...)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb-te itadakitai (would like you to do...)\".",
+      "explanation": "Polite way to express wanting someone to do something for you.",
+      "hints": [
+        "Polite way to express wanting someone to do something for you."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "231-n4-point-31-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞ていただきたい",
+          "romaji": "doushi te itadakitai",
+          "english": "Verb-te itadakitai (would like you to do...)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Polite way to express wanting someone to do something for you.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "231-n4-point-31-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Polite way to express wanting someone to do something for you..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "動詞ていただきたい",
+          "romaji": "doushi te itadakitai"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 動詞ていただきたい matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ていただきたい.",
+      "explanation": "Polite way to express wanting someone to do something for you.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "231-n4-point-31-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞ていただきたい",
+      "acceptedVariations": [
+        "動詞ていただきたい",
+        "動詞ていただきたい"
+      ],
+      "correctFeedback": "Great! 動詞ていただきたい is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞ていただきたい.",
+      "explanation": "Polite way to express wanting someone to do something for you.",
+      "hints": [
+        "doushi te itadakitai"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

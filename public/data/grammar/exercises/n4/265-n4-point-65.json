@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "265-n4-point-65",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "265-n4-point-65-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Can do (Verb + ことができる)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb ることができる",
+          "romaji": "Verb ru koto ga dekiru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb ることができる matches \"Can do (Verb + ことができる)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ることができる.",
+      "explanation": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "265-n4-point-65-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb ることができる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Can do (Verb + ことができる)"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb ることができる means \"Can do (Verb + ことができる)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Can do (Verb + ことができる)\".",
+      "explanation": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "265-n4-point-65-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb ることができる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb ru koto ga dekiru"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb ru koto ga dekiru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb ru koto ga dekiru.",
+      "explanation": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "265-n4-point-65-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb ることができる?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\""
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "explanation": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "265-n4-point-65-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Can do (Verb + ことができる)\".",
+      "correctAnswer": "Verb ることができる",
+      "acceptedVariations": [
+        "Verb ることができる",
+        "Verbることができる"
+      ],
+      "correctFeedback": "Nice! Verb ることができる is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb ることができる (Verb ru koto ga dekiru).",
+      "explanation": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "hints": [
+        "Verb ru koto ga dekiru",
+        "Expresses ability or possibility to do something; means \"can\" or \"be able to.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "265-n4-point-65-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb ることができる.",
+      "correctAnswer": "Verb ru koto ga dekiru",
+      "acceptedVariations": [
+        "Verb ru koto ga dekiru",
+        "verb ru koto ga dekiru"
+      ],
+      "correctFeedback": "Nice! Verb ru koto ga dekiru is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb ru koto ga dekiru.",
+      "explanation": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "hints": [
+        "Expresses ability or possibility to do something; means \"can\" or \"be able to.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "265-n4-point-65-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb ることができる.",
+      "correctAnswer": "Can do (Verb + ことができる)",
+      "acceptedVariations": [
+        "Can do (Verb + ことができる)",
+        "can do (verb + ことができる)"
+      ],
+      "correctFeedback": "Correct! \"Can do (Verb + ことができる)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Can do (Verb + ことができる)\".",
+      "explanation": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "hints": [
+        "Expresses ability or possibility to do something; means \"can\" or \"be able to.\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "265-n4-point-65-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb ることができる",
+          "romaji": "Verb ru koto ga dekiru",
+          "english": "Can do (Verb + ことができる)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "265-n4-point-65-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses ability or possibility to do something; means \"can\" or \"be able to.\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb ることができる",
+          "romaji": "Verb ru koto ga dekiru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb ることができる matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ることができる.",
+      "explanation": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "265-n4-point-65-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbることができる",
+      "acceptedVariations": [
+        "Verbることができる",
+        "Verb ることができる"
+      ],
+      "correctFeedback": "Great! Verbることができる is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbることができる.",
+      "explanation": "Expresses ability or possibility to do something; means \"can\" or \"be able to.\"",
+      "hints": [
+        "Verb ru koto ga dekiru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

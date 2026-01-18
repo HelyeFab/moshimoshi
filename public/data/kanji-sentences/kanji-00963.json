@@ -1,0 +1,33 @@
+{
+  "kanji": "裏",
+  "sentences": [
+    {
+      "id": "186436",
+      "japanese": "我が家の裏には家庭菜園があります。",
+      "english": "There is a kitchen garden behind my house."
+    },
+    {
+      "id": "191168",
+      "japanese": "以前は私の家の裏に、大きな桜の木がありました。",
+      "english": "There used to be a big cherry tree at the back of my house."
+    },
+    {
+      "id": "85098",
+      "japanese": "不幸の裏には幸いあり。",
+      "english": "Every cloud has a silver lining."
+    },
+    {
+      "id": "1673939",
+      "japanese": "表なら俺の勝ち。裏ならお前の負けだ。",
+      "english": "Heads I win, tails you lose."
+    },
+    {
+      "id": "206470",
+      "japanese": "その問題の裏には複雑な状況がある。",
+      "english": "There are complicated circumstances behind the matter."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.192Z",
+  "count": 5,
+  "fileId": "kanji-00963"
+}

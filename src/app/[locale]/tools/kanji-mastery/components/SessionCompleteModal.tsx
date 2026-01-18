@@ -5,6 +5,7 @@ import DoshiMascot from '@/components/ui/DoshiMascot'
 import { SessionState } from '../learn/LearnContent'
 import Link from 'next/link'
 import { useUserStorage } from '@/hooks/useUserStorage'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 interface SessionCompleteModalProps {
   sessionState: SessionState
@@ -197,6 +198,9 @@ export default function SessionCompleteModal({ sessionState, onClose }: SessionC
               Start New Session
             </Link>
           </div>
+
+          {/* Mobile bottom spacing */}
+          <MobileNavSpacer />
         </div>
       </motion.div>
     </div>

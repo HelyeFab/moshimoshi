@@ -1,0 +1,33 @@
+{
+  "kanji": "刀",
+  "sentences": [
+    {
+      "id": "220335",
+      "japanese": "この刀には不思議ないわれがある。",
+      "english": "This sword has a strange history."
+    },
+    {
+      "id": "75236",
+      "japanese": "「刀の投擲の練習？」「すっぽ抜けただけです」",
+      "english": "\"Practising sword throwing?\" \"It just slipped out of my hands.\""
+    },
+    {
+      "id": "107312",
+      "japanese": "彼は鋼を鍛えて刀を作った。",
+      "english": "He forged the steel into a sword."
+    },
+    {
+      "id": "123083",
+      "japanese": "二人の刀がガチッと切りあった。",
+      "english": "Their swords clashed."
+    },
+    {
+      "id": "173555",
+      "japanese": "江戸時代、武士は刀を２本刺していた。",
+      "english": "A samurai in the Edo era carried two swords."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:17.753Z",
+  "count": 5,
+  "fileId": "kanji-01149"
+}

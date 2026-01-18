@@ -1,0 +1,33 @@
+{
+  "kanji": "沸",
+  "sentences": [
+    {
+      "id": "216402",
+      "japanese": "ジェシーはコーヒーを入れる為にお湯を沸かしている。",
+      "english": "Jessie is boiling water to make coffee."
+    },
+    {
+      "id": "226794",
+      "japanese": "お湯を少し沸かしてください。",
+      "english": "Boil some water."
+    },
+    {
+      "id": "79471",
+      "japanese": "薬缶のお湯が沸いている。",
+      "english": "The kettle is boiling."
+    },
+    {
+      "id": "93076",
+      "japanese": "彼女はお茶を入れる前にお湯が沸くまで待った。",
+      "english": "She waited until the water boiled before making the tea with it."
+    },
+    {
+      "id": "118240",
+      "japanese": "彼のホームランは観衆を沸かせた。",
+      "english": "The spectators were excited by his home run."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.715Z",
+  "count": 5,
+  "fileId": "kanji-00895"
+}

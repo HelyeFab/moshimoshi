@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "008-particle-wo",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "008-particle-wo-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: パン＿＿食べます。",
+      "questionRomaji": "Pan __ tabemasu.",
+      "options": [
+        {
+          "id": "a",
+          "text": "は",
+          "romaji": "wa"
+        },
+        {
+          "id": "b",
+          "text": "が",
+          "romaji": "ga"
+        },
+        {
+          "id": "c",
+          "text": "を",
+          "romaji": "o"
+        },
+        {
+          "id": "d",
+          "text": "に",
+          "romaji": "ni"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! を marks the direct object.",
+      "incorrectFeedback": "Not quite. Use を for the object of an action verb.",
+      "explanation": "パン is the object of 食べます, so use を.",
+      "difficulty": "easy"
+    }
+  ]
+}

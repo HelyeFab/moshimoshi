@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "272-n4-point-72",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "272-n4-point-72-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb 'to finish'\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb 終わる (〜owaru)",
+          "romaji": "Verb Owaru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb 終わる (〜owaru) matches \"Verb 'to finish'\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb 終わる (〜owaru).",
+      "explanation": "Expresses that something finishes or an action is completed; a godan verb.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "272-n4-point-72-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb 終わる (〜owaru).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb 'to finish'"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb 終わる (〜owaru) means \"Verb 'to finish'\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb 'to finish'\".",
+      "explanation": "Expresses that something finishes or an action is completed; a godan verb.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "272-n4-point-72-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb 終わる (〜owaru).",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb Owaru"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb Owaru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb Owaru.",
+      "explanation": "Expresses that something finishes or an action is completed; a godan verb.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "272-n4-point-72-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb 終わる (〜owaru)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Expresses that something finishes or an action is completed; a godan verb."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses that something finishes or an action is completed; a godan verb.",
+      "explanation": "Expresses that something finishes or an action is completed; a godan verb.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "272-n4-point-72-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb 'to finish'\".",
+      "correctAnswer": "Verb 終わる (〜owaru)",
+      "acceptedVariations": [
+        "Verb 終わる (〜owaru)",
+        "Verb終わる(〜owaru)"
+      ],
+      "correctFeedback": "Nice! Verb 終わる (〜owaru) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb 終わる (〜owaru) (Verb Owaru).",
+      "explanation": "Expresses that something finishes or an action is completed; a godan verb.",
+      "hints": [
+        "Verb Owaru",
+        "Expresses that something finishes or an action is completed; a godan verb."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "272-n4-point-72-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb 終わる (〜owaru).",
+      "correctAnswer": "Verb Owaru",
+      "acceptedVariations": [
+        "Verb Owaru",
+        "verb owaru"
+      ],
+      "correctFeedback": "Nice! Verb Owaru is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb Owaru.",
+      "explanation": "Expresses that something finishes or an action is completed; a godan verb.",
+      "hints": [
+        "Expresses that something finishes or an action is completed; a godan verb."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "272-n4-point-72-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb 終わる (〜owaru).",
+      "correctAnswer": "Verb 'to finish'",
+      "acceptedVariations": [
+        "Verb 'to finish'",
+        "verb 'to finish'"
+      ],
+      "correctFeedback": "Correct! \"Verb 'to finish'\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb 'to finish'\".",
+      "explanation": "Expresses that something finishes or an action is completed; a godan verb.",
+      "hints": [
+        "Expresses that something finishes or an action is completed; a godan verb."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "272-n4-point-72-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb 終わる (〜owaru)",
+          "romaji": "Verb Owaru",
+          "english": "Verb 'to finish'"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses that something finishes or an action is completed; a godan verb.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "272-n4-point-72-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses that something finishes or an action is completed; a godan verb..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb 終わる (〜owaru)",
+          "romaji": "Verb Owaru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb 終わる (〜owaru) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb 終わる (〜owaru).",
+      "explanation": "Expresses that something finishes or an action is completed; a godan verb.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "272-n4-point-72-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verb終わる(〜owaru)",
+      "acceptedVariations": [
+        "Verb終わる(〜owaru)",
+        "Verb 終わる (〜owaru)"
+      ],
+      "correctFeedback": "Great! Verb終わる(〜owaru) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb終わる(〜owaru).",
+      "explanation": "Expresses that something finishes or an action is completed; a godan verb.",
+      "hints": [
+        "Verb Owaru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

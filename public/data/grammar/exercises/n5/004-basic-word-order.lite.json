@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "004-basic-word-order",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "004-basic-word-order-ex-01",
+      "type": "multiple-choice",
+      "question": "Which word order is correct in Japanese?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Subject-Verb-Object"
+        },
+        {
+          "id": "b",
+          "text": "Subject-Object-Verb"
+        },
+        {
+          "id": "c",
+          "text": "Verb-Subject-Object"
+        },
+        {
+          "id": "d",
+          "text": "Object-Verb-Subject"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Japanese basic order is S-O-V.",
+      "incorrectFeedback": "Not quite. The basic order is Subject-Object-Verb.",
+      "explanation": "The verb usually comes at the end of the sentence.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "行",
+  "sentences": [
+    {
+      "id": "4739",
+      "japanese": "行くよ。",
+      "english": "I'm going to go."
+    },
+    {
+      "id": "789580",
+      "japanese": "あとで行くね。",
+      "english": "I'm going to go."
+    },
+    {
+      "id": "4798",
+      "japanese": "行き過ぎたものであっても、僕は自分の考えをなくしたくない。",
+      "english": "I don't want to lose my ideas, even though some of them are a bit extreme."
+    },
+    {
+      "id": "4812",
+      "japanese": "日本へ行けたらいいのに。",
+      "english": "I wish I could go to Japan."
+    },
+    {
+      "id": "4861",
+      "japanese": "いつかフランスに行くことは避けられない、それがいつかは分からないけれど。",
+      "english": "It is inevitable that I go to France someday, I just don't know when."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.351Z",
+  "count": 5,
+  "fileId": "kanji-00014"
+}

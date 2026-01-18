@@ -1,0 +1,33 @@
+{
+  "kanji": "通",
+  "sentences": [
+    {
+      "id": "5036",
+      "japanese": "こちらは私の友達のレイチェルです。私たちは同じ高校に通っていました。",
+      "english": "This is my friend Rachel. We went to high school together."
+    },
+    {
+      "id": "934612",
+      "japanese": "都会では気付かれず通り過ぎることもあるだろうが、村の中ではそうはいかない。",
+      "english": "In a town you may pass unnoticed, whereas in a village it's impossible."
+    },
+    {
+      "id": "163695",
+      "japanese": "私の言った通りにしなさい。",
+      "english": "You are to do as I tell you."
+    },
+    {
+      "id": "177248",
+      "japanese": "君は私がすすめる通りにするほうがよい。",
+      "english": "You had better do as I suggest."
+    },
+    {
+      "id": "177319",
+      "japanese": "君は言われた通りにしなければならない。",
+      "english": "You must do as you are told to do."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.597Z",
+  "count": 5,
+  "fileId": "kanji-00185"
+}

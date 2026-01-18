@@ -1,0 +1,55 @@
+{
+  "id": "228-n4-point-28",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb てあげる (Verb te ageru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The てあげる grammar point is used to express that the speaker or someone other than the listener is doing something for someone else. It shows that the action is being done as a favor or out of kindness. This grammar point is used with verbs in their て-form, followed by あげる.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + あげる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "友達が疲れていたから、荷物を持ってあげた。",
+      "romaji": "Tomodachi ga tsukareteita kara, nimotsu o motte ageta.",
+      "english": "Since my friend was tired, I carried their luggage for them.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "弟は宿題がわからなかったので、手伝ってあげた。",
+      "romaji": "Otouto wa shukudai ga wakaranakatta node, tetsudatte ageta.",
+      "english": "My younger brother couldn't understand the homework, so I helped him.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女が遅れそうだったから、駅まで迎えに行ってあげた。",
+      "romaji": "Kanojo ga okuresou datta kara, eki made mukae ni itte ageta.",
+      "english": "She was running late, so I went to pick her up at the station.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "犬はのどが渇いたそうだったので、水を飲ませてあげた。",
+      "romaji": "Inu wa nodo ga kawaita sou datta node, mizu o nomasete ageta.",
+      "english": "The dog seemed thirsty, so I gave it water to drink.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

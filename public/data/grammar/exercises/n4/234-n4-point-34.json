@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "234-n4-point-34",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "234-n4-point-34-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb-te iru\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "動詞ている（Verb て いる）",
+          "romaji": "Doushi te iru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! 動詞ている（Verb て いる） matches \"Verb-te iru\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ている（Verb て いる）.",
+      "explanation": "Describes ongoing actions or current states using the verb's て-form plus いる.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "234-n4-point-34-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞ている（Verb て いる）.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Verb-te iru"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 動詞ている（Verb て いる） means \"Verb-te iru\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb-te iru\".",
+      "explanation": "Describes ongoing actions or current states using the verb's て-form plus いる.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "234-n4-point-34-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞ている（Verb て いる）.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Doushi te iru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Doushi te iru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Doushi te iru.",
+      "explanation": "Describes ongoing actions or current states using the verb's て-form plus いる.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "234-n4-point-34-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞ている（Verb て いる）?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Describes ongoing actions or current states using the verb's て-form plus いる."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Describes ongoing actions or current states using the verb's て-form plus いる.",
+      "explanation": "Describes ongoing actions or current states using the verb's て-form plus いる.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "234-n4-point-34-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb-te iru\".",
+      "correctAnswer": "動詞ている（Verb て いる）",
+      "acceptedVariations": [
+        "動詞ている（Verb て いる）",
+        "動詞ている（Verbている）"
+      ],
+      "correctFeedback": "Nice! 動詞ている（Verb て いる） is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞ている（Verb て いる） (Doushi te iru).",
+      "explanation": "Describes ongoing actions or current states using the verb's て-form plus いる.",
+      "hints": [
+        "Doushi te iru",
+        "Describes ongoing actions or current states using the verb's て-form plus いる."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "234-n4-point-34-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞ている（Verb て いる）.",
+      "correctAnswer": "Doushi te iru",
+      "acceptedVariations": [
+        "Doushi te iru",
+        "doushi te iru"
+      ],
+      "correctFeedback": "Nice! Doushi te iru is correct.",
+      "incorrectFeedback": "The correct romaji is: Doushi te iru.",
+      "explanation": "Describes ongoing actions or current states using the verb's て-form plus いる.",
+      "hints": [
+        "Describes ongoing actions or current states using the verb's て-form plus いる."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "234-n4-point-34-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞ている（Verb て いる）.",
+      "correctAnswer": "Verb-te iru",
+      "acceptedVariations": [
+        "Verb-te iru",
+        "verb-te iru"
+      ],
+      "correctFeedback": "Correct! \"Verb-te iru\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb-te iru\".",
+      "explanation": "Describes ongoing actions or current states using the verb's て-form plus いる.",
+      "hints": [
+        "Describes ongoing actions or current states using the verb's て-form plus いる."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "234-n4-point-34-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞ている（Verb て いる）",
+          "romaji": "Doushi te iru",
+          "english": "Verb-te iru"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Describes ongoing actions or current states using the verb's て-form plus いる.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "234-n4-point-34-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Describes ongoing actions or current states using the verb's て-form plus いる..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "動詞ている（Verb て いる）",
+          "romaji": "Doushi te iru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 動詞ている（Verb て いる） matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ている（Verb て いる）.",
+      "explanation": "Describes ongoing actions or current states using the verb's て-form plus いる.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "234-n4-point-34-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞ている（Verbている）",
+      "acceptedVariations": [
+        "動詞ている（Verbている）",
+        "動詞ている（Verb て いる）"
+      ],
+      "correctFeedback": "Great! 動詞ている（Verbている） is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞ている（Verbている）.",
+      "explanation": "Describes ongoing actions or current states using the verb's て-form plus いる.",
+      "hints": [
+        "Doushi te iru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

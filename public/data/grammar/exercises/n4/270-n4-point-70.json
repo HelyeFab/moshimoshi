@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "270-n4-point-70",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "270-n4-point-70-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Using the Verb 出す\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb 出す (~dasu)",
+          "romaji": "Verb dasu"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! Verb 出す (~dasu) matches \"Using the Verb 出す\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb 出す (~dasu).",
+      "explanation": "Shows taking out, starting suddenly, or emphasizing an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "270-n4-point-70-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb 出す (~dasu).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Using the Verb 出す"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb 出す (~dasu) means \"Using the Verb 出す\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Using the Verb 出す\".",
+      "explanation": "Shows taking out, starting suddenly, or emphasizing an action.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "270-n4-point-70-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb 出す (~dasu).",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb dasu"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb dasu is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb dasu.",
+      "explanation": "Shows taking out, starting suddenly, or emphasizing an action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "270-n4-point-70-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb 出す (~dasu)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Shows taking out, starting suddenly, or emphasizing an action."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Shows taking out, starting suddenly, or emphasizing an action.",
+      "explanation": "Shows taking out, starting suddenly, or emphasizing an action.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "270-n4-point-70-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Using the Verb 出す\".",
+      "correctAnswer": "Verb 出す (~dasu)",
+      "acceptedVariations": [
+        "Verb 出す (~dasu)",
+        "Verb出す(~dasu)"
+      ],
+      "correctFeedback": "Nice! Verb 出す (~dasu) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb 出す (~dasu) (Verb dasu).",
+      "explanation": "Shows taking out, starting suddenly, or emphasizing an action.",
+      "hints": [
+        "Verb dasu",
+        "Shows taking out, starting suddenly, or emphasizing an action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "270-n4-point-70-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb 出す (~dasu).",
+      "correctAnswer": "Verb dasu",
+      "acceptedVariations": [
+        "Verb dasu",
+        "verb dasu"
+      ],
+      "correctFeedback": "Nice! Verb dasu is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb dasu.",
+      "explanation": "Shows taking out, starting suddenly, or emphasizing an action.",
+      "hints": [
+        "Shows taking out, starting suddenly, or emphasizing an action."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "270-n4-point-70-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb 出す (~dasu).",
+      "correctAnswer": "Using the Verb 出す",
+      "acceptedVariations": [
+        "Using the Verb 出す",
+        "using the verb 出す"
+      ],
+      "correctFeedback": "Correct! \"Using the Verb 出す\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Using the Verb 出す\".",
+      "explanation": "Shows taking out, starting suddenly, or emphasizing an action.",
+      "hints": [
+        "Shows taking out, starting suddenly, or emphasizing an action."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "270-n4-point-70-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb 出す (~dasu)",
+          "romaji": "Verb dasu",
+          "english": "Using the Verb 出す"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Shows taking out, starting suddenly, or emphasizing an action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "270-n4-point-70-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Shows taking out, starting suddenly, or emphasizing an action..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb 出す (~dasu)",
+          "romaji": "Verb dasu"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb 出す (~dasu) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb 出す (~dasu).",
+      "explanation": "Shows taking out, starting suddenly, or emphasizing an action.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "270-n4-point-70-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verb出す(~dasu)",
+      "acceptedVariations": [
+        "Verb出す(~dasu)",
+        "Verb 出す (~dasu)"
+      ],
+      "correctFeedback": "Great! Verb出す(~dasu) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb出す(~dasu).",
+      "explanation": "Shows taking out, starting suddenly, or emphasizing an action.",
+      "hints": [
+        "Verb dasu"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

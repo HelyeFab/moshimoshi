@@ -1,0 +1,33 @@
+{
+  "kanji": "火",
+  "sentences": [
+    {
+      "id": "178448",
+      "japanese": "君の煙草の火でコートに焼け焦げができた。",
+      "english": "You burnt a hole in my coat with your cigarette."
+    },
+    {
+      "id": "178526",
+      "japanese": "君のためならたとえ火の中水の中。",
+      "english": "I'd jump through hoops for you."
+    },
+    {
+      "id": "147693",
+      "japanese": "出発前に必ず火を消しなさい。",
+      "english": "Be sure to put out the fire before you leave."
+    },
+    {
+      "id": "147791",
+      "japanese": "出かける前に火の後始末をしなさい。",
+      "english": "Be sure to put out the fire before you leave."
+    },
+    {
+      "id": "231492",
+      "japanese": "離れる前に必ず火を消しなさい。",
+      "english": "Be sure to put out the fire before you leave."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.114Z",
+  "count": 5,
+  "fileId": "kanji-00075"
+}

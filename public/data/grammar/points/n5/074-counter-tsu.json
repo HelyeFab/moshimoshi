@@ -1,0 +1,97 @@
+{
+  "id": "074-counter-tsu",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜つ",
+    "romaji": "-tsu",
+    "en": "〜つ (general counter)"
+  },
+  "jlptLevel": "N5",
+  "category": "numbers-counters",
+  "explanation": {
+    "en": "〜つ is a general counter used for counting items when you don't know the specific counter. It is most common for numbers 1–10. This is one of the first counters you learn in Japanese.\n\nKey points:\n• Use 〜つ for general items (1–10)\n• Irregular readings: ひとつ, ふたつ, みっつ, よっつ, いつつ, むっつ, ななつ, やっつ, ここのつ, とお\n• Often used with ください (please give)\n• After 10, use other counters or numbers\n\nExample: “りんごを三つください” means “Please give me three apples.”\n\nThe 〜つ counter is very handy in daily life for counting objects, pieces, or amounts when you are unsure of the specific counter.\n\nPractice by counting items around you: 本を一つ, いすを二つ, みかんを三つ.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Number + つ",
+    "components": [
+      {
+        "part": "Number",
+        "explanation": "1–10 with special readings",
+        "examples": ["ひと", "ふた", "みっ", "よっ"]
+      },
+      {
+        "part": "つ",
+        "explanation": "General counter",
+        "examples": ["つ"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "りんごを一つください。",
+      "romaji": "Ringo o hitotsu kudasai.",
+      "english": "Please give me one apple.",
+      "breakdown": {
+        "りんご": "apple",
+        "を": "object marker",
+        "一つ": "one (thing)",
+        "ください": "please give"
+      },
+      "notes": "Request"
+    },
+    {
+      "japanese": "本を二つ買いました。",
+      "romaji": "Hon o futatsu kaimashita.",
+      "english": "I bought two books.",
+      "breakdown": {
+        "本": "book",
+        "を": "object marker",
+        "二つ": "two (things)",
+        "買いました": "bought"
+      },
+      "notes": "General items"
+    },
+    {
+      "japanese": "みかんが三つあります。",
+      "romaji": "Mikan ga mittsu arimasu.",
+      "english": "There are three oranges.",
+      "breakdown": {
+        "みかん": "mandarin oranges",
+        "が": "subject marker",
+        "三つ": "three (things)",
+        "あります": "exist"
+      },
+      "notes": "Existence"
+    },
+    {
+      "japanese": "椅子を四つ並べます。",
+      "romaji": "Isu o yottsu narabemasu.",
+      "english": "I line up four chairs.",
+      "breakdown": {
+        "椅子": "chair",
+        "を": "object marker",
+        "四つ": "four (things)",
+        "並べます": "line up"
+      },
+      "notes": "Counting objects"
+    }
+  ],
+  "relatedPoints": [
+    "075-counter-nin",
+    "076-counter-hon"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using regular numbers with つ",
+      "correction": "Use the special readings",
+      "example": "❌ さんつ → ✅ みっつ"
+    },
+    {
+      "mistake": "Using つ above 10",
+      "correction": "Use other counters after 10",
+      "example": "❌ じゅういちつ → ✅ 十一個 (or another counter)"
+    }
+  ],
+  "tags": ["counters", "numbers", "tsu", "beginner"]
+}

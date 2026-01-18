@@ -14,6 +14,7 @@ import {
 } from './jwt'
 import { redis } from '@/lib/redis/client'
 import { tierCache } from './tier-cache'
+import { recordTierMetricCount } from './tier-metrics'
 
 const SESSION_COOKIE_NAME = 'session'
 const SESSION_COOKIE_OPTIONS = {
@@ -438,11 +439,13 @@ export async function getTierForSession(
     // Fall back to session.tier for backward compatibility
     // This ensures old JWT tokens with embedded tier continue working
     if (session.tier) {
+      void recordTierMetricCount('fallback_to_jwt')
       console.log(`[getTierForSession] Using fallback session.tier for ${session.uid}: ${session.tier}`)
       return session.tier
     }
 
     // Ultimate fallback
+    void recordTierMetricCount('fallback_to_free')
     console.log(`[getTierForSession] No tier available for ${session.uid}, defaulting to free`)
     return 'free'
   }

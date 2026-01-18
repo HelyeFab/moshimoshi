@@ -1,0 +1,55 @@
+{
+  "id": "250-n4-point-50",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ない ことがある (Verb-nai koto ga aru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ないことがある grammar point is used to indicate that there are instances or times when something doesn't happen or isn't done. It is formed by combining the negative form of a verb (ない) with ことがある.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-negative form + ことがある",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼は会議に出席しないことがある。",
+      "romaji": "Kare wa kaigi ni shusseki shinai koto ga aru.",
+      "english": "There are times when he doesn't attend meetings.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この電車は定刻に来ないことがある。",
+      "romaji": "Kono densha wa teikoku ni konai koto ga aru.",
+      "english": "There are occasions when this train doesn't come on time.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "私は朝食を食べないことがある。",
+      "romaji": "Watashi wa choushoku o tabenai koto ga aru.",
+      "english": "There are times when I don't eat breakfast.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は電話に出ないことがある。",
+      "romaji": "Kanojo wa denwa ni denai koto ga aru.",
+      "english": "There are occasions when she doesn't answer the phone.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

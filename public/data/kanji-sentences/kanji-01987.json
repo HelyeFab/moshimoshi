@@ -1,0 +1,33 @@
+{
+  "kanji": "鯨",
+  "sentences": [
+    {
+      "id": "203955",
+      "japanese": "たいていの鯨はプランクトンをえさとする。",
+      "english": "Most whales feed on plankton."
+    },
+    {
+      "id": "211170",
+      "japanese": "その鯨が和歌山沖で発見された。",
+      "english": "The whale has been found off the coast of Wakayama."
+    },
+    {
+      "id": "225697",
+      "japanese": "鯨は哺乳動物に属する。",
+      "english": "Whales come under mammals."
+    },
+    {
+      "id": "225699",
+      "japanese": "鯨は馬と同様に魚ではない。",
+      "english": "A whale is no more a fish than a horse is."
+    },
+    {
+      "id": "225703",
+      "japanese": "鯨が魚でないのは、馬が魚でないのと同じである。",
+      "english": "A whale is no more a fish than a horse is."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:45.420Z",
+  "count": 5,
+  "fileId": "kanji-01987"
+}

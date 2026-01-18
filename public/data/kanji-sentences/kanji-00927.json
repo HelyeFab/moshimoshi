@@ -1,0 +1,33 @@
+{
+  "kanji": "泉",
+  "sentences": [
+    {
+      "id": "208023",
+      "japanese": "その男は知識の泉ともいうべき人だった。",
+      "english": "The man was a fountain of knowledge."
+    },
+    {
+      "id": "97893",
+      "japanese": "彼らはその泉で喉の渇きをいやした。",
+      "english": "They satisfied their thirst at the spring."
+    },
+    {
+      "id": "112578",
+      "japanese": "彼はその泉の水を飲んだ。",
+      "english": "He drank from the spring."
+    },
+    {
+      "id": "141228",
+      "japanese": "泉はおよそ１７０フィートの高さまで温水を吹き出す。",
+      "english": "The fountain sends hot water to a height of 170 feet."
+    },
+    {
+      "id": "11992271",
+      "japanese": "村の真ん中には、泉があります。",
+      "english": "There's a spring in the center of the village."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.544Z",
+  "count": 5,
+  "fileId": "kanji-00927"
+}

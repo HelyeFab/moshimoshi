@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "044-i-adjectives-past-negative",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "044-i-adjectives-past-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the past negative form of 高い:",
+      "options": [
+        {
+          "id": "a",
+          "text": "高くなかった"
+        },
+        {
+          "id": "b",
+          "text": "高くない"
+        },
+        {
+          "id": "c",
+          "text": "高かった"
+        },
+        {
+          "id": "d",
+          "text": "高いでした"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 高い → 高くなかった.",
+      "incorrectFeedback": "Not quite. Use くなかった.",
+      "explanation": "Past negative い-adjectives end with くなかった.",
+      "difficulty": "easy"
+    }
+  ]
+}

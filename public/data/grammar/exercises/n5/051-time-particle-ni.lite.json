@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "051-time-particle-ni",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "051-time-particle-ni-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 七時__起きます。",
+      "options": [
+        {
+          "id": "a",
+          "text": "に"
+        },
+        {
+          "id": "b",
+          "text": "で"
+        },
+        {
+          "id": "c",
+          "text": "を"
+        },
+        {
+          "id": "d",
+          "text": "が"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use に with exact time.",
+      "incorrectFeedback": "Not quite. に marks the exact time.",
+      "explanation": "Specific times use に.",
+      "difficulty": "easy"
+    }
+  ]
+}

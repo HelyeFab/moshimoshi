@@ -1,0 +1,33 @@
+{
+  "kanji": "痛",
+  "sentences": [
+    {
+      "id": "123866",
+      "japanese": "頭が痛いんです。",
+      "english": "I have a headache."
+    },
+    {
+      "id": "123868",
+      "japanese": "頭が痛いな。",
+      "english": "I have a headache."
+    },
+    {
+      "id": "123871",
+      "japanese": "頭が痛い。",
+      "english": "I have a headache."
+    },
+    {
+      "id": "842643",
+      "japanese": "頭が痛いです。",
+      "english": "I have a headache."
+    },
+    {
+      "id": "178664",
+      "japanese": "君には御両親の心の痛みが分からないのか。",
+      "english": "Can't you understand the pain of your parents?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.611Z",
+  "count": 5,
+  "fileId": "kanji-00335"
+}

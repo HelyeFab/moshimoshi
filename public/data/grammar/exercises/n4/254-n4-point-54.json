@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "254-n4-point-54",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "254-n4-point-54-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"While Doing (Two Actions at the Same Time)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ながら (〜nagara)",
+          "romaji": "Verb nagara (〜nagara)"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! Verb ながら (〜nagara) matches \"While Doing (Two Actions at the Same Time)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ながら (〜nagara).",
+      "explanation": "While doing; expresses two actions happening at the same time.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "254-n4-point-54-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb ながら (〜nagara).",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "While Doing (Two Actions at the Same Time)"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb ながら (〜nagara) means \"While Doing (Two Actions at the Same Time)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"While Doing (Two Actions at the Same Time)\".",
+      "explanation": "While doing; expresses two actions happening at the same time.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "254-n4-point-54-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb ながら (〜nagara).",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb nagara (〜nagara)"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb nagara (〜nagara) is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb nagara (〜nagara).",
+      "explanation": "While doing; expresses two actions happening at the same time.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "254-n4-point-54-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb ながら (〜nagara)?",
+      "options": [
+        {
+          "id": "a",
+          "text": "While doing; expresses two actions happening at the same time."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: While doing; expresses two actions happening at the same time.",
+      "explanation": "While doing; expresses two actions happening at the same time.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "254-n4-point-54-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"While Doing (Two Actions at the Same Time)\".",
+      "correctAnswer": "Verb ながら (〜nagara)",
+      "acceptedVariations": [
+        "Verb ながら (〜nagara)",
+        "Verbながら(〜nagara)"
+      ],
+      "correctFeedback": "Nice! Verb ながら (〜nagara) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb ながら (〜nagara) (Verb nagara (〜nagara)).",
+      "explanation": "While doing; expresses two actions happening at the same time.",
+      "hints": [
+        "Verb nagara (〜nagara)",
+        "While doing; expresses two actions happening at the same time."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "254-n4-point-54-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb ながら (〜nagara).",
+      "correctAnswer": "Verb nagara (〜nagara)",
+      "acceptedVariations": [
+        "Verb nagara (〜nagara)",
+        "verb nagara (〜nagara)"
+      ],
+      "correctFeedback": "Nice! Verb nagara (〜nagara) is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb nagara (〜nagara).",
+      "explanation": "While doing; expresses two actions happening at the same time.",
+      "hints": [
+        "While doing; expresses two actions happening at the same time."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "254-n4-point-54-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb ながら (〜nagara).",
+      "correctAnswer": "While Doing (Two Actions at the Same Time)",
+      "acceptedVariations": [
+        "While Doing (Two Actions at the Same Time)",
+        "while doing (two actions at the same time)"
+      ],
+      "correctFeedback": "Correct! \"While Doing (Two Actions at the Same Time)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"While Doing (Two Actions at the Same Time)\".",
+      "explanation": "While doing; expresses two actions happening at the same time.",
+      "hints": [
+        "While doing; expresses two actions happening at the same time."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "254-n4-point-54-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb ながら (〜nagara)",
+          "romaji": "Verb nagara (〜nagara)",
+          "english": "While Doing (Two Actions at the Same Time)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "While doing; expresses two actions happening at the same time.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "254-n4-point-54-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: While doing; expresses two actions happening at the same time..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ながら (〜nagara)",
+          "romaji": "Verb nagara (〜nagara)"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb ながら (〜nagara) matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ながら (〜nagara).",
+      "explanation": "While doing; expresses two actions happening at the same time.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "254-n4-point-54-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbながら(〜nagara)",
+      "acceptedVariations": [
+        "Verbながら(〜nagara)",
+        "Verb ながら (〜nagara)"
+      ],
+      "correctFeedback": "Great! Verbながら(〜nagara) is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbながら(〜nagara).",
+      "explanation": "While doing; expresses two actions happening at the same time.",
+      "hints": [
+        "Verb nagara (〜nagara)"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

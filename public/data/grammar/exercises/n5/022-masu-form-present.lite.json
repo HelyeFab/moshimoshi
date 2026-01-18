@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "022-masu-form-present",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "022-masu-form-present-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the polite verb form: 行く → ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "行きます"
+        },
+        {
+          "id": "b",
+          "text": "行くます"
+        },
+        {
+          "id": "c",
+          "text": "行ます"
+        },
+        {
+          "id": "d",
+          "text": "行きです"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行きます is the polite form.",
+      "incorrectFeedback": "Not quite. The polite form is 行きます.",
+      "explanation": "The ます form uses the verb stem + ます.",
+      "difficulty": "easy"
+    }
+  ]
+}

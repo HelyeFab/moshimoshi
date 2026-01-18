@@ -1,0 +1,33 @@
+{
+  "kanji": "幾",
+  "sentences": [
+    {
+      "id": "178470",
+      "japanese": "君の意見の幾つかには賛成します。",
+      "english": "I agree with some of your opinions."
+    },
+    {
+      "id": "178986",
+      "japanese": "使った金額は全部で幾らですか？",
+      "english": "How much money did you spend in total?"
+    },
+    {
+      "id": "179460",
+      "japanese": "空には幾つも星が見えた。",
+      "english": "There were several stars to be seen in the sky."
+    },
+    {
+      "id": "182438",
+      "japanese": "急行の料金は幾らですか。",
+      "english": "How much is the express?"
+    },
+    {
+      "id": "183478",
+      "japanese": "幾つでも好きなだけ上げましょう。",
+      "english": "I'll give you as many as you like."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.690Z",
+  "count": 5,
+  "fileId": "kanji-00413"
+}

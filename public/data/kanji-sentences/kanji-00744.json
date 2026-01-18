@@ -1,0 +1,33 @@
+{
+  "kanji": "延",
+  "sentences": [
+    {
+      "id": "179721",
+      "japanese": "金は打ち延ばされ薄い板になった。",
+      "english": "The gold was beaten into thin plates."
+    },
+    {
+      "id": "179752",
+      "japanese": "金の延べ棒１本を盗まれた。",
+      "english": "We had a bar of gold stolen."
+    },
+    {
+      "id": "179972",
+      "japanese": "勤務時間が延びて、社員の不満の声を上げた。",
+      "english": "The workers complained when their working hours were extended."
+    },
+    {
+      "id": "180347",
+      "japanese": "教育の年限を今より延ばすべきだ。",
+      "english": "Education should be carried further than it is now."
+    },
+    {
+      "id": "185672",
+      "japanese": "我々は天気が変わるまでピクニックを延ばした。",
+      "english": "We postponed our picnic pending a change in the weather."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:05.185Z",
+  "count": 5,
+  "fileId": "kanji-00744"
+}

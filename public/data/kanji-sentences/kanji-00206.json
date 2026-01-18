@@ -1,0 +1,33 @@
+{
+  "kanji": "無",
+  "sentences": [
+    {
+      "id": "4760",
+      "japanese": "こんな馬鹿なことは言ったことが無い。",
+      "english": "That's the stupidest thing I've ever said."
+    },
+    {
+      "id": "4808",
+      "japanese": "歌詞を見てみれば、あまり意味が無いことに気付くでしょう。",
+      "english": "If you look at the lyrics, they don't really mean much."
+    },
+    {
+      "id": "4943",
+      "japanese": "私の生きているうちに共産主義が効力を持つことは無いだろう。",
+      "english": "Communism will never be reached in my lifetime."
+    },
+    {
+      "id": "5034",
+      "japanese": "なぁ、金は無いかもしれないけどまだプライドは捨てちゃいないんだ。",
+      "english": "Hey, I may have no money, but I still have my pride."
+    },
+    {
+      "id": "5335",
+      "japanese": "ごめん、お釣りが無い。",
+      "english": "I'm sorry, I don't have change."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.942Z",
+  "count": 5,
+  "fileId": "kanji-00206"
+}

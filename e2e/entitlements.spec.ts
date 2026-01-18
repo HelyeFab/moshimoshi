@@ -1,9 +1,17 @@
 import { test, expect, type Page } from '@playwright/test'
+import fs from 'fs'
+import path from 'path'
+import admin from 'firebase-admin'
 
 const freeEmail = process.env.E2E_FREE_EMAIL
 const freePassword = process.env.E2E_FREE_PASSWORD
 const premiumEmail = process.env.E2E_PREMIUM_EMAIL
 const premiumPassword = process.env.E2E_PREMIUM_PASSWORD
+const serviceAccountPath =
+  process.env.E2E_SERVICE_ACCOUNT_PATH ||
+  path.resolve(__dirname, '..', 'moshimoshi-service-account.json')
+
+type PlanId = 'guest' | 'free' | 'premium_monthly' | 'premium_yearly'
 
 async function seedEntitlementsSnapshot(page: Page) {
   const response = await page.request.get('/api/entitlements/snapshot')
@@ -66,6 +74,86 @@ async function ensureAuthenticated(page: Page) {
   if (!data?.user) {
     throw new Error('Auth session missing. Re-run `npx playwright test --project=setup`.')
   }
+}
+
+function loadLimits() {
+  const configPath = path.resolve(__dirname, '..', 'config', 'features.v1.json')
+  const raw = fs.readFileSync(configPath, 'utf-8')
+  const parsed = JSON.parse(raw) as {
+    limits: Record<PlanId, { daily: Record<string, number>; monthly: Record<string, number> }>
+  }
+  return parsed.limits
+}
+
+function ensureAdmin() {
+  if (admin.apps.length > 0) return
+  const serviceAccount = JSON.parse(fs.readFileSync(serviceAccountPath, 'utf-8'))
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+  })
+}
+
+async function resolveUserId(email: string) {
+  ensureAdmin()
+  const auth = admin.auth()
+  const user = await auth.getUserByEmail(email)
+  return user.uid
+}
+
+async function getUsageDoc(userId: string, bucketKey: string) {
+  ensureAdmin()
+  const db = admin.firestore()
+  const usageRef = db.collection('users').doc(userId).collection('usage').doc(bucketKey)
+  const snapshot = await usageRef.get()
+  return snapshot.exists ? snapshot.data() : null
+}
+
+async function setUsageDoc(
+  userId: string,
+  bucketKey: string,
+  data: Record<string, unknown> | null
+) {
+  ensureAdmin()
+  const db = admin.firestore()
+  const usageRef = db.collection('users').doc(userId).collection('usage').doc(bucketKey)
+  if (!data) {
+    await usageRef.delete()
+    return
+  }
+  await usageRef.set(data)
+}
+
+async function setUsageValue(
+  userId: string,
+  bucketKey: string,
+  featureId: string,
+  value: number | null
+) {
+  ensureAdmin()
+  const db = admin.firestore()
+  const usageRef = db.collection('users').doc(userId).collection('usage').doc(bucketKey)
+  const snapshot = await usageRef.get()
+  const previousValue = snapshot.data()?.[featureId]
+
+  if (value === null) {
+    await usageRef.set(
+      {
+        [featureId]: admin.firestore.FieldValue.delete(),
+        lastUpdated: new Date().toISOString(),
+      },
+      { merge: true }
+    )
+  } else {
+    await usageRef.set(
+      {
+        [featureId]: value,
+        lastUpdated: new Date().toISOString(),
+      },
+      { merge: true }
+    )
+  }
+
+  return previousValue ?? null
 }
 
 test.describe('Entitlement gating (free vs premium)', () => {
@@ -295,6 +383,121 @@ test.describe('Entitlement gating (free vs premium)', () => {
         throw new Error('Premium account appears to be on Free plan (redirected to pricing).')
       }
       await expect(page).toHaveURL(/\/en\/kanji-connection\/visual-layout/)
+    })
+  })
+
+  test.describe('action-level gating', () => {
+    test.use({ storageState: 'e2e/.auth/free.json' })
+
+    test('drawing practice blocks when daily limit is reached', async ({ page }) => {
+      test.setTimeout(120000)
+      test.skip(!freeEmail || !freePassword, 'E2E_FREE_EMAIL/E2E_FREE_PASSWORD not set')
+
+      await ensureAuthenticated(page)
+
+      const limits = loadLimits()
+      const limit = limits.free.daily.drawing_practice
+      if (typeof limit !== 'number') {
+        test.skip(true, 'No drawing_practice limit configured')
+      }
+
+      const userId = await resolveUserId(freeEmail!)
+      const today = new Date().toISOString().split('T')[0]
+      const bucketKey = `drawing_practice_${today}`
+
+      const previousValue = await setUsageValue(userId, bucketKey, 'drawing_practice', limit)
+      try {
+        await page.goto('/en/learn/hiragana')
+
+        // Open the "All Characters" modal via the quick stats card.
+        await page.getByText('ALL', { exact: true }).click()
+        const allCharactersDialog = page.getByRole('dialog')
+        await expect(allCharactersDialog.getByText('All Characters')).toBeVisible()
+
+        // Select the first kana to open details.
+        await allCharactersDialog.getByRole('button', { name: 'あ' }).first().click()
+
+        const incrementResponsePromise = page.waitForResponse(response =>
+          response.url().includes('/api/usage/drawing_practice/increment')
+        )
+
+        await page.getByRole('dialog').getByRole('button', { name: 'Practice' }).click()
+
+        const incrementResponse = await incrementResponsePromise
+        expect(incrementResponse.ok()).toBe(true)
+        const payload = await incrementResponse.json()
+        expect(payload.allow).toBe(false)
+        expect(payload.reason).toBe('limit_reached')
+
+        await expect(page.getByText(/Drawing Practice:/)).toHaveCount(0)
+      } finally {
+        await setUsageValue(userId, bucketKey, 'drawing_practice', previousValue)
+      }
+    })
+
+    test('story usage only increments once per story', async ({ page }) => {
+      test.setTimeout(120000)
+      test.skip(!freeEmail || !freePassword, 'E2E_FREE_EMAIL/E2E_FREE_PASSWORD not set')
+
+      await ensureAuthenticated(page)
+
+      const storiesResponse = await page.request.get('/api/stories?limit=1&offset=0')
+      if (!storiesResponse.ok()) {
+        throw new Error(`Failed to load stories: ${storiesResponse.status()}`)
+      }
+      const storiesPayload = await storiesResponse.json()
+      const story = storiesPayload?.stories?.[0]
+      test.skip(!story?.slug || !story?.id, 'No stories available to validate')
+
+      const userId = await resolveUserId(freeEmail!)
+      const today = new Date().toISOString().split('T')[0]
+      const bucketKey = `story_${today}`
+      const previousDoc = await getUsageDoc(userId, bucketKey)
+
+      try {
+        await admin
+          .firestore()
+          .collection('users')
+          .doc(userId)
+          .collection('usage')
+          .doc(bucketKey)
+          .set(
+            {
+              story: 0,
+              story_items: [],
+              updatedAt: new Date().toISOString(),
+            },
+            { merge: true }
+          )
+
+        const firstResponsePromise = page.waitForResponse(response =>
+          response.url().includes(`/api/stories/${story.slug}`)
+        )
+        await page.goto(`/en/stories/${story.slug}`)
+        await firstResponsePromise
+
+        const afterFirst = await getUsageDoc(userId, bucketKey)
+        const storyItemsFirst = Array.isArray(afterFirst?.story_items)
+          ? (afterFirst?.story_items as string[])
+          : []
+        expect(afterFirst?.story).toBe(1)
+        expect(storyItemsFirst).toContain(story.id)
+
+        const secondResponsePromise = page.waitForResponse(response =>
+          response.url().includes(`/api/stories/${story.slug}`)
+        )
+        await page.reload()
+        await secondResponsePromise
+
+        const afterSecond = await getUsageDoc(userId, bucketKey)
+        const storyItemsSecond = Array.isArray(afterSecond?.story_items)
+          ? (afterSecond?.story_items as string[])
+          : []
+        expect(afterSecond?.story).toBe(1)
+        expect(storyItemsSecond.filter(id => id === story.id)).toHaveLength(1)
+      } finally {
+        await setUsageDoc(userId, bucketKey, previousDoc)
+      }
     })
   })
 })

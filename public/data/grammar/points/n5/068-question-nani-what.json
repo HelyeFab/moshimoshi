@@ -1,0 +1,104 @@
+{
+  "id": "068-question-nani-what",
+  "version": "1.0.0",
+  "title": {
+    "ja": "何",
+    "romaji": "nani",
+    "en": "何 (what)"
+  },
+  "jlptLevel": "N5",
+  "category": "questions",
+  "explanation": {
+    "en": "何 (なに／なん) means “what.” It is used to ask about things, actions, or information. The reading changes depending on the following sound.\n\nKey points:\n• 何 (なに) is common before particles: 何を, 何で\n• 何 (なん) is common before です/だ or counters: 何ですか, 何人\n• Use it to ask about objects, activities, or details\n• Often appears with particles like を, が, で\n\nExample: “これは何ですか” means “What is this?” “何を食べますか” means “What will you eat?”\n\nThe reading “なん” is used before です and many counters: 何ですか, 何人 (なんにん). For other cases, “なに” is safer.\n\nPractice by asking simple questions: 何をしますか, 何が好きですか, 何で行きますか.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "何 + Particle + Verb",
+    "components": [
+      {
+        "part": "何",
+        "explanation": "What",
+        "examples": ["何", "何を", "何で"]
+      },
+      {
+        "part": "Particle",
+        "explanation": "Marks role",
+        "examples": ["を", "が", "で"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action",
+        "examples": ["食べます", "します", "買います"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "これは何ですか。",
+      "romaji": "Kore wa nan desu ka.",
+      "english": "What is this?",
+      "breakdown": {
+        "これ": "this",
+        "は": "topic marker",
+        "何": "what",
+        "です": "is",
+        "か": "question marker"
+      },
+      "notes": "Using なん before です"
+    },
+    {
+      "japanese": "何を食べますか。",
+      "romaji": "Nani o tabemasu ka.",
+      "english": "What will you eat?",
+      "breakdown": {
+        "何": "what",
+        "を": "object marker",
+        "食べます": "eat",
+        "か": "question marker"
+      },
+      "notes": "Object question"
+    },
+    {
+      "japanese": "何で行きますか。",
+      "romaji": "Nani de ikimasu ka.",
+      "english": "How will you go? (by what?)",
+      "breakdown": {
+        "何": "what",
+        "で": "means/with",
+        "行きます": "go",
+        "か": "question marker"
+      },
+      "notes": "By what means"
+    },
+    {
+      "japanese": "何が好きですか。",
+      "romaji": "Nani ga suki desu ka.",
+      "english": "What do you like?",
+      "breakdown": {
+        "何": "what",
+        "が": "subject marker",
+        "好き": "like",
+        "です": "is",
+        "か": "question marker"
+      },
+      "notes": "Preference question"
+    }
+  ],
+  "relatedPoints": [
+    "018-particle-ka-question",
+    "073-question-dou-how"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using なに before です",
+      "correction": "Use なん before です",
+      "example": "❌ なにですか → ✅ なんですか"
+    },
+    {
+      "mistake": "Forgetting か in questions",
+      "correction": "Add か to make it a question",
+      "example": "❌ これは何です → ✅ これは何ですか"
+    }
+  ],
+  "tags": ["questions", "nani", "beginner"]
+}

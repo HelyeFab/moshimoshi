@@ -1,0 +1,33 @@
+{
+  "kanji": "応",
+  "sentences": [
+    {
+      "id": "178132",
+      "japanese": "君の賃金は仕事量に応じて支払われる。",
+      "english": "You'll be paid according to the amount of work you do."
+    },
+    {
+      "id": "10136262",
+      "japanese": "仕事量に応じて報酬が支払われます。",
+      "english": "You'll be paid according to the amount of work you do."
+    },
+    {
+      "id": "179165",
+      "japanese": "君がする仕事の量に応じて金を払おう。",
+      "english": "We will pay you according to the amount of work you do."
+    },
+    {
+      "id": "185548",
+      "japanese": "我々は貧富に応じて物事を見る。",
+      "english": "We see things differently according to whether we are rich or poor."
+    },
+    {
+      "id": "182348",
+      "japanese": "給料は年齢と経験に応じて決まっている。",
+      "english": "The salary is fixed according to age and experience."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:48.060Z",
+  "count": 5,
+  "fileId": "kanji-02050"
+}

@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "322-n4-point-122",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "322-n4-point-122-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Sentence A. Sorede Sentence B\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "文A。それで 文B",
+          "romaji": "Bun A. Sorede Bun B"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! 文A。それで 文B matches \"Sentence A. Sorede Sentence B\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 文A。それで 文B.",
+      "explanation": "Connects sentences; B is the result or consequence of A.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "322-n4-point-122-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 文A。それで 文B.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Sentence A. Sorede Sentence B"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 文A。それで 文B means \"Sentence A. Sorede Sentence B\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Sentence A. Sorede Sentence B\".",
+      "explanation": "Connects sentences; B is the result or consequence of A.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "322-n4-point-122-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 文A。それで 文B.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Bun A. Sorede Bun B"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Bun A. Sorede Bun B is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Bun A. Sorede Bun B.",
+      "explanation": "Connects sentences; B is the result or consequence of A.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "322-n4-point-122-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 文A。それで 文B?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Connects sentences; B is the result or consequence of A."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Connects sentences; B is the result or consequence of A.",
+      "explanation": "Connects sentences; B is the result or consequence of A.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "322-n4-point-122-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Sentence A. Sorede Sentence B\".",
+      "correctAnswer": "文A。それで 文B",
+      "acceptedVariations": [
+        "文A。それで 文B",
+        "文A。それで文B"
+      ],
+      "correctFeedback": "Nice! 文A。それで 文B is correct.",
+      "incorrectFeedback": "The correct pattern is: 文A。それで 文B (Bun A. Sorede Bun B).",
+      "explanation": "Connects sentences; B is the result or consequence of A.",
+      "hints": [
+        "Bun A. Sorede Bun B",
+        "Connects sentences; B is the result or consequence of A."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "322-n4-point-122-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 文A。それで 文B.",
+      "correctAnswer": "Bun A. Sorede Bun B",
+      "acceptedVariations": [
+        "Bun A. Sorede Bun B",
+        "bun a. sorede bun b"
+      ],
+      "correctFeedback": "Nice! Bun A. Sorede Bun B is correct.",
+      "incorrectFeedback": "The correct romaji is: Bun A. Sorede Bun B.",
+      "explanation": "Connects sentences; B is the result or consequence of A.",
+      "hints": [
+        "Connects sentences; B is the result or consequence of A."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "322-n4-point-122-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 文A。それで 文B.",
+      "correctAnswer": "Sentence A. Sorede Sentence B",
+      "acceptedVariations": [
+        "Sentence A. Sorede Sentence B",
+        "sentence a. sorede sentence b"
+      ],
+      "correctFeedback": "Correct! \"Sentence A. Sorede Sentence B\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Sentence A. Sorede Sentence B\".",
+      "explanation": "Connects sentences; B is the result or consequence of A.",
+      "hints": [
+        "Connects sentences; B is the result or consequence of A."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "322-n4-point-122-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "文A。それで 文B",
+          "romaji": "Bun A. Sorede Bun B",
+          "english": "Sentence A. Sorede Sentence B"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Connects sentences; B is the result or consequence of A.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "322-n4-point-122-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Connects sentences; B is the result or consequence of A..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "文A。それで 文B",
+          "romaji": "Bun A. Sorede Bun B"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 文A。それで 文B matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 文A。それで 文B.",
+      "explanation": "Connects sentences; B is the result or consequence of A.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "322-n4-point-122-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "文A。それで文B",
+      "acceptedVariations": [
+        "文A。それで文B",
+        "文A。それで 文B"
+      ],
+      "correctFeedback": "Great! 文A。それで文B is correct.",
+      "incorrectFeedback": "The correct pattern is: 文A。それで文B.",
+      "explanation": "Connects sentences; B is the result or consequence of A.",
+      "hints": [
+        "Bun A. Sorede Bun B"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "kanji": "格",
+  "sentences": [
+    {
+      "id": "76935",
+      "japanese": "thatには、主格、目的格の２つしかなく、格による形の変化はない。",
+      "english": "'That' has only the two cases, nominative and objective, and it does not inflect depending on the case."
+    },
+    {
+      "id": "2696913",
+      "japanese": "ラテン語には、主格・属格・与格・対格・奪格・呼格の6つの格がある。",
+      "english": "In Latin, there are six cases: nominative, genitive, dative, accusative, ablative, and vocative."
+    },
+    {
+      "id": "2697593",
+      "japanese": "格が5つ以上ある言語はこれまで全部挫折してきました。",
+      "english": "Up until now, languages with more than four cases have only caused me frustration."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.592Z",
+  "count": 3,
+  "fileId": "kanji-00555"
+}

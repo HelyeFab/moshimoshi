@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "059-iru-animate",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "059-iru-animate-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct verb: 部屋に猫が＿＿。",
+      "questionRomaji": "Heya ni neko ga __.",
+      "options": [
+        {
+          "id": "a",
+          "text": "あります",
+          "romaji": "arimasu"
+        },
+        {
+          "id": "b",
+          "text": "います",
+          "romaji": "imasu"
+        },
+        {
+          "id": "c",
+          "text": "です",
+          "romaji": "desu"
+        },
+        {
+          "id": "d",
+          "text": "ます",
+          "romaji": "masu"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! います is used for animate things.",
+      "incorrectFeedback": "Not quite. Use います for people and animals.",
+      "explanation": "Cats are animate, so use います.",
+      "difficulty": "easy"
+    }
+  ]
+}

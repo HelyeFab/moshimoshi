@@ -1,0 +1,33 @@
+{
+  "kanji": "乱",
+  "sentences": [
+    {
+      "id": "184442",
+      "japanese": "学校の規律が乱れている。",
+      "english": "School discipline is not as it should be."
+    },
+    {
+      "id": "196016",
+      "japanese": "ボブは酷く取り乱していて、現実と虚構の区別がほとんど出来なかった。",
+      "english": "Bob was so beside himself that he could scarcely tell fact from fiction."
+    },
+    {
+      "id": "203883",
+      "japanese": "ダイヤが乱れていた。",
+      "english": "The timetable was disrupted."
+    },
+    {
+      "id": "208120",
+      "japanese": "その男は、終身刑であると裁判官が判決を下した時、取り乱した。",
+      "english": "The man went to pieces when the judge said he would have to go to prison for life."
+    },
+    {
+      "id": "220517",
+      "japanese": "この町の風紀は乱れている。",
+      "english": "Public morals have been corrupted in this town."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.487Z",
+  "count": 5,
+  "fileId": "kanji-00620"
+}

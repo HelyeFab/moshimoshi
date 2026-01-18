@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "054-kara-from",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "054-kara-from-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 九時__授業が始まります。",
+      "options": [
+        {
+          "id": "a",
+          "text": "から"
+        },
+        {
+          "id": "b",
+          "text": "まで"
+        },
+        {
+          "id": "c",
+          "text": "に"
+        },
+        {
+          "id": "d",
+          "text": "で"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! から marks the start time.",
+      "incorrectFeedback": "Not quite. Use から for the start.",
+      "explanation": "から means 'from.'",
+      "difficulty": "easy"
+    }
+  ]
+}

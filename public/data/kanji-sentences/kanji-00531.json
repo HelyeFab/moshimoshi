@@ -1,0 +1,33 @@
+{
+  "kanji": "約",
+  "sentences": [
+    {
+      "id": "178215",
+      "japanese": "君の収入は僕の収入の約２倍だ。",
+      "english": "Your income is about twice as large as mine."
+    },
+    {
+      "id": "178265",
+      "japanese": "君の市の人口は私の町の人口の約５倍だ。",
+      "english": "The population of your city is about five times as large as that of my town."
+    },
+    {
+      "id": "180313",
+      "japanese": "教科書の各章に約１２もの練習問題がついている。",
+      "english": "Each chapter in the textbook is followed by about a dozen comprehension questions."
+    },
+    {
+      "id": "185050",
+      "japanese": "海岸から約１マイル沖に漁船が見えた。",
+      "english": "I saw a fishing boat about a mile off the shore."
+    },
+    {
+      "id": "185088",
+      "japanese": "海は地球の表面の約４分の３を覆っている。",
+      "english": "The sea covers nearly three-fourths of the earth's surface."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.190Z",
+  "count": 5,
+  "fileId": "kanji-00531"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "田",
+  "sentences": [
+    {
+      "id": "207584",
+      "japanese": "その田んぼは荒れ果てたままだ。",
+      "english": "The rice field lies waste."
+    },
+    {
+      "id": "224019",
+      "japanese": "この辺りは昔、田んぼだったんだよ。",
+      "english": "There used to be rice fields around here."
+    },
+    {
+      "id": "87778",
+      "japanese": "彼女は田んぼの方に進んだ。",
+      "english": "She made for a rice field."
+    },
+    {
+      "id": "10837242",
+      "japanese": "津波は田んぼを押し流し、町は水浸しになりました。",
+      "english": "Tsunamis swept through rice fields and flooded the towns."
+    },
+    {
+      "id": "8969085",
+      "japanese": "家の近くに田んぼがあるからさ、この時期になると一晩中カエルのケロケロ鳴く声が、よく聞こえてくるんだよ。",
+      "english": "Since there are rice paddies near my house, I often hear frogs croaking all night long this time of year."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.452Z",
+  "count": 5,
+  "fileId": "kanji-00167"
+}

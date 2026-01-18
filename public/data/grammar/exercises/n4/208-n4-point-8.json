@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "208-n4-point-8",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "208-n4-point-8-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Deciding on something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "名詞にする",
+          "romaji": "Noun ni suru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 名詞にする matches \"Deciding on something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 名詞にする.",
+      "explanation": "Expresses choosing or deciding on something from available options.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "208-n4-point-8-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 名詞にする.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Deciding on something"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 名詞にする means \"Deciding on something\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Deciding on something\".",
+      "explanation": "Expresses choosing or deciding on something from available options.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "208-n4-point-8-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 名詞にする.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Noun ni suru"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Noun ni suru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Noun ni suru.",
+      "explanation": "Expresses choosing or deciding on something from available options.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "208-n4-point-8-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 名詞にする?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Expresses choosing or deciding on something from available options."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses choosing or deciding on something from available options.",
+      "explanation": "Expresses choosing or deciding on something from available options.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "208-n4-point-8-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Deciding on something\".",
+      "correctAnswer": "名詞にする",
+      "acceptedVariations": [
+        "名詞にする",
+        "名詞にする"
+      ],
+      "correctFeedback": "Nice! 名詞にする is correct.",
+      "incorrectFeedback": "The correct pattern is: 名詞にする (Noun ni suru).",
+      "explanation": "Expresses choosing or deciding on something from available options.",
+      "hints": [
+        "Noun ni suru",
+        "Expresses choosing or deciding on something from available options."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "208-n4-point-8-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 名詞にする.",
+      "correctAnswer": "Noun ni suru",
+      "acceptedVariations": [
+        "Noun ni suru",
+        "noun ni suru"
+      ],
+      "correctFeedback": "Nice! Noun ni suru is correct.",
+      "incorrectFeedback": "The correct romaji is: Noun ni suru.",
+      "explanation": "Expresses choosing or deciding on something from available options.",
+      "hints": [
+        "Expresses choosing or deciding on something from available options."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "208-n4-point-8-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 名詞にする.",
+      "correctAnswer": "Deciding on something",
+      "acceptedVariations": [
+        "Deciding on something",
+        "deciding on something"
+      ],
+      "correctFeedback": "Correct! \"Deciding on something\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Deciding on something\".",
+      "explanation": "Expresses choosing or deciding on something from available options.",
+      "hints": [
+        "Expresses choosing or deciding on something from available options."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "208-n4-point-8-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "名詞にする",
+          "romaji": "Noun ni suru",
+          "english": "Deciding on something"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses choosing or deciding on something from available options.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "208-n4-point-8-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses choosing or deciding on something from available options..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "名詞にする",
+          "romaji": "Noun ni suru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! 名詞にする matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 名詞にする.",
+      "explanation": "Expresses choosing or deciding on something from available options.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "208-n4-point-8-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "名詞にする",
+      "acceptedVariations": [
+        "名詞にする",
+        "名詞にする"
+      ],
+      "correctFeedback": "Great! 名詞にする is correct.",
+      "incorrectFeedback": "The correct pattern is: 名詞にする.",
+      "explanation": "Expresses choosing or deciding on something from available options.",
+      "hints": [
+        "Noun ni suru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

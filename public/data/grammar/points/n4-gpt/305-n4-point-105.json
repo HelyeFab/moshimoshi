@@ -1,0 +1,98 @@
+{
+  "id": "305-n4-point-105",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～なくちゃいけない",
+    "romaji": "~naku cha ikenai",
+    "en": "Have to/Must"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～なくちゃいけない grammar point is used to express that there is an obligation or necessity to do something. It can be translated as 'have to', 'must', or 'need to' in English.",
+    "ja": "～なくちゃいけないは何かをする義務や必要性を表現するために使われます。英語の「must」、「have to」、または「need to」と訳すことができます。"
+  },
+  "structure": {
+    "pattern": "Verb-ない form + なくちゃいけない",
+    "components": [
+      {
+        "part": "Verb-ない form",
+        "explanation": "The negative form of the verb (without -ない ending).",
+        "examples": [
+          "行か-",
+          "勉強し-",
+          "更新し-",
+          "払わ-"
+        ]
+      },
+      {
+        "part": "なくちゃいけない",
+        "explanation": "This structure emphasizes the necessity or obligation.",
+        "examples": []
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "仕事に行かなくちゃいけないので、早起きしなければなりません。",
+      "romaji": "Shigoto ni ikanakucha ikenai node, hayaoki shinakereba narimasen.",
+      "english": "I have to go to work, so I must wake up early.",
+      "breakdown": {
+        "仕事に": "to work",
+        "行かなくちゃいけない": "have to go",
+        "早起きしなければなりません。": "must get up"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "試験があるから、勉強しなくちゃいけません。",
+      "romaji": "Shiken ga aru kara, benkyou shinakucha ikemasen.",
+      "english": "I have a test, so I must study.",
+      "breakdown": {
+        "試験が": "test",
+        "あるから": "because there is",
+        "勉強しなくちゃいけません。": "must study"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "パスポートを更新しなくちゃいけないので、大使館に行かなければ。",
+      "romaji": "Pasupooto wo koushin shinakucha ikenai node, taishikan ni ikanakereba.",
+      "english": "I have to renew my passport, so I need to go to the embassy.",
+      "breakdown": {
+        "パスポートを": "passport",
+        "更新しなくちゃいけない": "have to renew",
+        "大使館に": "to the embassy"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "今日はお金を払わなくちゃいけないから、銀行に行かないと。",
+      "romaji": "Kyou wa okane wo harawanakucha ikenai kara, ginkou ni ikanaito.",
+      "english": "I have to pay money today, so I need to go to the bank.",
+      "breakdown": {
+        "お金を払わなくちゃいけない": "have to pay",
+        "銀行に": "to the bank"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～なきゃいけない",
+    "～なくてはいけない",
+    "～ないといけない"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "誤った：仕事に行かなければなりません。",
+      "correction": "正解: 仕事に行かなくちゃいけないので、早起きしなければなりません。",
+      "example": ""
+    }
+  ],
+  "tags": [
+    "n4",
+    "obligation",
+    "grammar point",
+    "expression of necessity"
+  ]
+}

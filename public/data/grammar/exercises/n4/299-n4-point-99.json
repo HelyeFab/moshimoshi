@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "299-n4-point-99",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "299-n4-point-99-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Called/Named\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～という (〜to iu) Noun",
+          "romaji": "~to iu Noun"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～という (〜to iu) Noun matches \"Called/Named\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～という (〜to iu) Noun.",
+      "explanation": "Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "299-n4-point-99-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～という (〜to iu) Noun.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "Called/Named"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～という (〜to iu) Noun means \"Called/Named\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Called/Named\".",
+      "explanation": "Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "299-n4-point-99-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～という (〜to iu) Noun.",
+      "options": [
+        {
+          "id": "a",
+          "text": "~to iu Noun"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ~to iu Noun is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~to iu Noun.",
+      "explanation": "Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "299-n4-point-99-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～という (〜to iu) Noun?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to specify or clarify a noun as \"called\" or \"named\" something."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "explanation": "Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "299-n4-point-99-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Called/Named\".",
+      "correctAnswer": "～という (〜to iu) Noun",
+      "acceptedVariations": [
+        "～という (〜to iu) Noun",
+        "～という(〜toiu)Noun"
+      ],
+      "correctFeedback": "Nice! ～という (〜to iu) Noun is correct.",
+      "incorrectFeedback": "The correct pattern is: ～という (〜to iu) Noun (~to iu Noun).",
+      "explanation": "Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "hints": [
+        "~to iu Noun",
+        "Used to specify or clarify a noun as \"called\" or \"named\" something."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "299-n4-point-99-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～という (〜to iu) Noun.",
+      "correctAnswer": "~to iu Noun",
+      "acceptedVariations": [
+        "~to iu Noun",
+        "~to iu noun"
+      ],
+      "correctFeedback": "Nice! ~to iu Noun is correct.",
+      "incorrectFeedback": "The correct romaji is: ~to iu Noun.",
+      "explanation": "Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "hints": [
+        "Used to specify or clarify a noun as \"called\" or \"named\" something."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "299-n4-point-99-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～という (〜to iu) Noun.",
+      "correctAnswer": "Called/Named",
+      "acceptedVariations": [
+        "Called/Named",
+        "called/named"
+      ],
+      "correctFeedback": "Correct! \"Called/Named\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Called/Named\".",
+      "explanation": "Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "hints": [
+        "Used to specify or clarify a noun as \"called\" or \"named\" something."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "299-n4-point-99-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～という (〜to iu) Noun",
+          "romaji": "~to iu Noun",
+          "english": "Called/Named"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "299-n4-point-99-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to specify or clarify a noun as \"called\" or \"named\" something..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～という (〜to iu) Noun",
+          "romaji": "~to iu Noun"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～という (〜to iu) Noun matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～という (〜to iu) Noun.",
+      "explanation": "Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "299-n4-point-99-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～という(〜toiu)Noun",
+      "acceptedVariations": [
+        "～という(〜toiu)Noun",
+        "～という (〜to iu) Noun"
+      ],
+      "correctFeedback": "Great! ～という(〜toiu)Noun is correct.",
+      "incorrectFeedback": "The correct pattern is: ～という(〜toiu)Noun.",
+      "explanation": "Used to specify or clarify a noun as \"called\" or \"named\" something.",
+      "hints": [
+        "~to iu Noun"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

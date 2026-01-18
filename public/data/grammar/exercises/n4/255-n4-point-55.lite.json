@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "255-n4-point-55",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "255-n4-point-55-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb + nasai\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb なさい (〜nasai)",
+          "romaji": "Verb nasai"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Verb なさい (〜nasai) matches \"Verb + nasai\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb なさい (〜nasai).",
+      "explanation": "Used to give direct orders or instructions, often by superiors.",
+      "difficulty": "easy"
+    }
+  ]
+}

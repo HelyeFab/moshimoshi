@@ -1,0 +1,100 @@
+{
+  "id": "204-n4-point-4",
+  "version": "1.0.0",
+  "title": {
+    "ja": "A より B のほうが〜",
+    "romaji": "A yori B no hou ga 〜",
+    "en": "B is more ~ than A"
+  },
+  "jlptLevel": "N4",
+  "category": "comparisons",
+  "explanation": {
+    "en": "The 'より' and 'のほうが' pattern is used to compare two things using an adjective or verb. Item B is presented as being more ~ than item A.",
+    "ja": "よりとのがほうという文型は、形容詞や動詞を使って2つのものを比較するときに使います。Bの方がAよりも〜です。"
+  },
+  "structure": {
+    "pattern": "A より B のほうが Adjective/Verb",
+    "components": [
+      {
+        "part": "A より",
+        "explanation": "Introduces the first item in comparison.",
+        "examples": [
+          "田中さんより",
+          "リンゴより"
+        ]
+      },
+      {
+        "part": "B のほうが",
+        "explanation": "Indicates that B is more ~ than A.",
+        "examples": [
+          "鈴木さんのほうが",
+          "バナナのほうが"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "田中さんより鈴木さんのほうが背が高いです。",
+      "romaji": "Tanaka-san yori Suzuki-san no hou ga se ga takai desu.",
+      "english": "Suzuki is taller than Tanaka.",
+      "breakdown": {
+        "田中さんより": "than Tanaka",
+        "鈴木さんのほうが": "Suzuki's side",
+        "背が高いです。": "is tall"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "リンゴよりバナナのほうが甘いです。",
+      "romaji": "Ringo yori banana no hou ga amai desu.",
+      "english": "Bananas are sweeter than apples.",
+      "breakdown": {
+        "リンゴより": "than apple",
+        "バナナのほうが": "banana's side",
+        "甘いです。": "is sweet"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "冬より夏のほうが暑いです。",
+      "romaji": "Fuyu yori natsu no hou ga atsui desu.",
+      "english": "Summer is hotter than winter.",
+      "breakdown": {
+        "冬より": "than winter",
+        "夏のほうが": "summer's side",
+        "暑いです。": "is hot"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "東京より京都のほうが歴史があると思います。",
+      "romaji": "Toukyou yori Kyouto no hou ga rekishi ga aru to omoimasu.",
+      "english": "I think Kyoto has more history than Tokyo.",
+      "breakdown": {
+        "東京より": "than Tokyo",
+        "京都のほうが": "Kyoto's side",
+        "歴史があると思います。": "has history"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "A は B ほど～ありません",
+    "A は B ほど～ない",
+    "Verb やすい (〜yasui)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "A より B は〜です。",
+      "correction": "A より B のほうが〜です。",
+      "example": "リンゴよりバナナが甘いです。(incorrect) -> リンゴよりバナナのほうが甘いです。(correct)"
+    }
+  ],
+  "tags": [
+    "n4",
+    "comparison",
+    "adjectives",
+    "verbs"
+  ]
+}

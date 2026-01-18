@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "320-n4-point-120",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "320-n4-point-120-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Providing an Explanation\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～んです",
+          "romaji": "~n desu"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ～んです matches \"Providing an Explanation\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～んです.",
+      "explanation": "Used to explain reasons or provide background for a situation.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "320-n4-point-120-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～んです.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Providing an Explanation"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ～んです means \"Providing an Explanation\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Providing an Explanation\".",
+      "explanation": "Used to explain reasons or provide background for a situation.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "320-n4-point-120-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～んです.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~n desu"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ~n desu is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~n desu.",
+      "explanation": "Used to explain reasons or provide background for a situation.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "320-n4-point-120-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～んです?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Used to explain reasons or provide background for a situation."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to explain reasons or provide background for a situation.",
+      "explanation": "Used to explain reasons or provide background for a situation.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "320-n4-point-120-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Providing an Explanation\".",
+      "correctAnswer": "～んです",
+      "acceptedVariations": [
+        "～んです",
+        "～んです"
+      ],
+      "correctFeedback": "Nice! ～んです is correct.",
+      "incorrectFeedback": "The correct pattern is: ～んです (~n desu).",
+      "explanation": "Used to explain reasons or provide background for a situation.",
+      "hints": [
+        "~n desu",
+        "Used to explain reasons or provide background for a situation."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "320-n4-point-120-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～んです.",
+      "correctAnswer": "~n desu",
+      "acceptedVariations": [
+        "~n desu",
+        "~n desu"
+      ],
+      "correctFeedback": "Nice! ~n desu is correct.",
+      "incorrectFeedback": "The correct romaji is: ~n desu.",
+      "explanation": "Used to explain reasons or provide background for a situation.",
+      "hints": [
+        "Used to explain reasons or provide background for a situation."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "320-n4-point-120-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～んです.",
+      "correctAnswer": "Providing an Explanation",
+      "acceptedVariations": [
+        "Providing an Explanation",
+        "providing an explanation"
+      ],
+      "correctFeedback": "Correct! \"Providing an Explanation\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Providing an Explanation\".",
+      "explanation": "Used to explain reasons or provide background for a situation.",
+      "hints": [
+        "Used to explain reasons or provide background for a situation."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "320-n4-point-120-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～んです",
+          "romaji": "~n desu",
+          "english": "Providing an Explanation"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to explain reasons or provide background for a situation.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "320-n4-point-120-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to explain reasons or provide background for a situation..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～んです",
+          "romaji": "~n desu"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～んです matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～んです.",
+      "explanation": "Used to explain reasons or provide background for a situation.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "320-n4-point-120-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～んです",
+      "acceptedVariations": [
+        "～んです",
+        "～んです"
+      ],
+      "correctFeedback": "Great! ～んです is correct.",
+      "incorrectFeedback": "The correct pattern is: ～んです.",
+      "explanation": "Used to explain reasons or provide background for a situation.",
+      "hints": [
+        "~n desu"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

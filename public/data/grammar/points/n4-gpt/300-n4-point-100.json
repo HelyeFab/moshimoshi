@@ -1,0 +1,114 @@
+{
+  "id": "300-n4-point-100",
+  "version": "1.0.0",
+  "title": {
+    "ja": "どういう Noun",
+    "romaji": "dou iu Noun",
+    "en": "What kind of Noun"
+  },
+  "jlptLevel": "N4",
+  "category": "questions",
+  "explanation": {
+    "en": "The grammar point どういう + Noun is used to ask for clarification or details about a noun. It means 'what kind of' or 'what sort of.' Use どういう directly before the noun you want to ask about.",
+    "ja": "「どういう」は名詞の前に使い、その名詞について詳しく知りたいときに使います。「どんな」と似ていますが、より具体的な説明を求める時に使われます。"
+  },
+  "structure": {
+    "pattern": "どういう + Noun",
+    "components": [
+      {
+        "part": "どういう",
+        "explanation": "An interrogative phrase meaning 'what kind of' or 'what sort of'.",
+        "examples": [
+          "どういう人 (what kind of person)",
+          "どういう問題 (what kind of problem)"
+        ]
+      },
+      {
+        "part": "Noun",
+        "explanation": "The noun you want to know more about.",
+        "examples": [
+          "仕事 (work)",
+          "映画 (movie)",
+          "服 (clothes)",
+          "理由 (reason)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "どういう仕事をしていますか？",
+      "romaji": "Dou iu shigoto wo shite imasu ka?",
+      "english": "What kind of work do you do?",
+      "breakdown": {
+        "どういう": "what kind of",
+        "仕事": "work",
+        "を": "object marker",
+        "しています": "are doing",
+        "か": "question marker"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "どういう映画が好きですか？",
+      "romaji": "Dou iu eiga ga suki desu ka?",
+      "english": "What kind of movies do you like?",
+      "breakdown": {
+        "どういう": "what kind of",
+        "映画": "movie",
+        "が": "subject marker",
+        "好き": "like",
+        "です": "polite copula",
+        "か": "question marker"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "どういう服を着たいですか？",
+      "romaji": "Dou iu fuku wo kitai desu ka?",
+      "english": "What kind of clothes do you want to wear?",
+      "breakdown": {
+        "どういう": "what kind of",
+        "服": "clothes",
+        "を": "object marker",
+        "着たい": "want to wear",
+        "です": "polite copula",
+        "か": "question marker"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "どういう理由で遅れましたか？",
+      "romaji": "Dou iu riyuu de okuremashita ka?",
+      "english": "What sort of reason caused you to be late?",
+      "breakdown": {
+        "どういう": "what kind of",
+        "理由": "reason",
+        "で": "by/for",
+        "遅れました": "were late",
+        "か": "question marker"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "どんな",
+    "どの",
+    "なに"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using どんな instead of どういう in formal clarification questions.",
+      "correction": "Use どういう when asking for a more specific or detailed explanation.",
+      "example": "どういう理由ですか？ (Correct) / どんな理由ですか？ (More general)"
+    }
+  ],
+  "tags": [
+    "n4",
+    "question",
+    "clarification",
+    "noun",
+    "interrogative",
+    "usage"
+  ]
+}

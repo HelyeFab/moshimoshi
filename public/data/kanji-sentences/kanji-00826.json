@@ -1,0 +1,33 @@
+{
+  "kanji": "兆",
+  "sentences": [
+    {
+      "id": "189553",
+      "japanese": "雨は止む兆しが無い。",
+      "english": "The rain shows no sign of stopping."
+    },
+    {
+      "id": "195389",
+      "japanese": "まだ目にみえる春の兆しはなかった。",
+      "english": "There were still no visual signs of spring."
+    },
+    {
+      "id": "206222",
+      "japanese": "その両国間に緊張が高まりつつある兆しがある。",
+      "english": "There are signs of growing tensions between the two countries."
+    },
+    {
+      "id": "211025",
+      "japanese": "その建物は老朽化の兆しを見せている。",
+      "english": "The building exhibits signs of dilapidation."
+    },
+    {
+      "id": "101719",
+      "japanese": "彼は糖尿病のどんな兆しにも注意していた。",
+      "english": "He was watchful for any sign of diabetes."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.228Z",
+  "count": 5,
+  "fileId": "kanji-00826"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "油",
+  "sentences": [
+    {
+      "id": "182397",
+      "japanese": "泣いている子を怒鳴るな。火に油だから。",
+      "english": "Don't shout at the crying child. It only adds fuel to the fire."
+    },
+    {
+      "id": "183354",
+      "japanese": "機械は油がきれてキイキイいった。",
+      "english": "The machine squealed for lack of oil."
+    },
+    {
+      "id": "186749",
+      "japanese": "火に油を注ぐだけだ。",
+      "english": "It only adds fuel to the fire."
+    },
+    {
+      "id": "194753",
+      "japanese": "メアリーは自転車に油をさした。",
+      "english": "Mary oiled her bicycle."
+    },
+    {
+      "id": "195190",
+      "japanese": "マヨネーズの油は分離することがある。",
+      "english": "The oil in mayonnaise sometimes separates from the other ingredients."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.460Z",
+  "count": 5,
+  "fileId": "kanji-00707"
+}

@@ -1,0 +1,182 @@
+{
+  "grammarPointId": "003-kore-sore-are",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "003-kore-sore-are-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word for something near you: ＿＿はペンです。",
+      "questionRomaji": "__ wa pen desu.",
+      "options": [
+        { "id": "a", "text": "これ" },
+        { "id": "b", "text": "それ" },
+        { "id": "c", "text": "あれ" },
+        { "id": "d", "text": "どれ" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! これ is for things near the speaker.",
+      "incorrectFeedback": "Not quite. Use これ for things near you.",
+      "explanation": "これ means “this (near me).”",
+      "difficulty": "easy"
+    },
+    {
+      "id": "003-kore-sore-are-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct word for something near the listener:",
+      "options": [
+        { "id": "a", "text": "これ" },
+        { "id": "b", "text": "それ" },
+        { "id": "c", "text": "あれ" },
+        { "id": "d", "text": "どれ" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Yes! それ is near the listener.",
+      "incorrectFeedback": "Try again. それ is used for things near the listener.",
+      "explanation": "それ = that (near you).",
+      "difficulty": "easy"
+    },
+    {
+      "id": "003-kore-sore-are-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This is a book.'",
+      "correctAnswer": "これは本です",
+      "acceptedVariations": [
+        "これは本です。",
+        "これ は ほん です",
+        "これ は ほん です。",
+        "kore wa hon desu",
+        "kore wa hon desu."
+      ],
+      "correctFeedback": "Great! これは本です is correct.",
+      "incorrectFeedback": "The correct answer is: これは本です (kore wa hon desu).",
+      "explanation": "Use これ for something near you.",
+      "hints": ["Use これ + は + 本", "Finish with です"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "003-kore-sore-are-ex-04",
+      "type": "multiple-choice",
+      "question": "You point to something far from both people. Which is correct?",
+      "options": [
+        { "id": "a", "text": "これは山です。" },
+        { "id": "b", "text": "それは山です。" },
+        { "id": "c", "text": "あれは山です。" },
+        { "id": "d", "text": "どれは山です。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! あれ is for things far from both.",
+      "incorrectFeedback": "Not quite. Use あれ for distant things.",
+      "explanation": "あれ = that over there (far from both).",
+      "difficulty": "medium"
+    },
+    {
+      "id": "003-kore-sore-are-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'That (near you) is your bag.'",
+      "correctAnswer": "それはあなたのかばんです",
+      "acceptedVariations": [
+        "それはあなたのかばんです。",
+        "それはあなたの鞄です。",
+        "sore wa anata no kaban desu",
+        "sore wa anata no kaban desu."
+      ],
+      "correctFeedback": "Nice! それはあなたのかばんです is correct.",
+      "incorrectFeedback": "The correct answer is: それはあなたのかばんです (sore wa anata no kaban desu).",
+      "explanation": "それ is used for things near the listener.",
+      "hints": ["Use それ for near you", "あなたの = your"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "003-kore-sore-are-ex-06",
+      "type": "multiple-choice",
+      "question": "Which word means 'that over there'?",
+      "options": [
+        { "id": "a", "text": "これ" },
+        { "id": "b", "text": "それ" },
+        { "id": "c", "text": "あれ" },
+        { "id": "d", "text": "この" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! あれ means 'that over there'.",
+      "incorrectFeedback": "Try again. あれ is used for things far from both people.",
+      "explanation": "あれ points to something far away.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "003-kore-sore-are-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'That over there is the library.'",
+      "correctAnswer": "あれは図書館です",
+      "acceptedVariations": [
+        "あれは図書館です。",
+        "あれはとしょかんです",
+        "are wa toshokan desu",
+        "are wa toshokan desu."
+      ],
+      "correctFeedback": "Great! あれは図書館です is correct.",
+      "incorrectFeedback": "The correct answer is: あれは図書館です (are wa toshokan desu).",
+      "explanation": "Use あれ for things far from both people.",
+      "hints": ["図書館 = library", "Use あれ for far objects"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "003-kore-sore-are-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "これはペンです。",
+          "romaji": "Kore wa pen desu.",
+          "english": "This is a pen."
+        },
+        {
+          "japanese": "それはあなたの本です。",
+          "romaji": "Sore wa anata no hon desu.",
+          "english": "That (near you) is your book."
+        },
+        {
+          "japanese": "あれは駅です。",
+          "romaji": "Are wa eki desu.",
+          "english": "That over there is the station."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review これ/それ/あれ and try again.",
+      "explanation": "Each sentence uses a different demonstrative.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "003-kore-sore-are-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence for something near the speaker:",
+      "options": [
+        { "id": "a", "text": "それは私の本です。" },
+        { "id": "b", "text": "あれは私の本です。" },
+        { "id": "c", "text": "これは私の本です。" },
+        { "id": "d", "text": "どれは私の本です。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! これは is for something near the speaker.",
+      "incorrectFeedback": "Try again. Use これ for something near you.",
+      "explanation": "これ = this (near me).",
+      "difficulty": "hard"
+    },
+    {
+      "id": "003-kore-sore-are-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'That (near you) is a pen.'",
+      "correctAnswer": "それはペンです",
+      "acceptedVariations": [
+        "それはペンです。",
+        "sore wa pen desu",
+        "sore wa pen desu."
+      ],
+      "correctFeedback": "Nice! それはペンです is correct.",
+      "incorrectFeedback": "The correct answer is: それはペンです (sore wa pen desu).",
+      "explanation": "Use それ for items near the listener.",
+      "hints": ["それ = that (near you)", "Finish with です"],
+      "difficulty": "hard"
+    }
+  ]
+}

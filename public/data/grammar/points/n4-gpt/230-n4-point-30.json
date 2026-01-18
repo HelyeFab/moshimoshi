@@ -1,0 +1,120 @@
+{
+  "id": "230-n4-point-30",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞ていく",
+    "romaji": "Doushi te iku",
+    "en": "Verb-te iku"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ていく (te iku) grammar point is used after the て-form of a verb to express that an action or change will continue or progress into the future. It often translates as 'to keep', 'to continue', or 'to go on' in English, emphasizing the ongoing nature of the action from the present onward.",
+    "ja": "「ていく」は動詞のて形に続けて使い、動作や変化がこれから続いていくことや、今後進行していくことを表します。"
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + いく",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "The verb in its て-form, indicating the action to be continued.",
+        "examples": [
+          "食べて",
+          "続けて",
+          "学んで"
+        ]
+      },
+      {
+        "part": "いく",
+        "explanation": "Auxiliary verb meaning 'to go on' or 'to continue'.",
+        "examples": [
+          "続けていく",
+          "学んでいく"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "このまま練習を続けていくと、上達するでしょう。",
+      "romaji": "Kono mama renshuu o tsuzukete iku to, joutatsu suru deshou.",
+      "english": "If you keep practicing like this, you will improve.",
+      "breakdown": {
+        "このまま": "like this",
+        "練習": "practice",
+        "を": "object marker",
+        "続けていく": "keep continuing",
+        "と": "if",
+        "上達する": "improve",
+        "でしょう": "will probably"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は成長していくうちに、自立心が強くなった。",
+      "romaji": "Kare wa seichou shite iku uchi ni, jiritsushin ga tsuyoku natta.",
+      "english": "As he grew up, his independence became stronger.",
+      "breakdown": {
+        "彼": "he",
+        "は": "topic marker",
+        "成長していく": "keep growing up",
+        "うちに": "while/during",
+        "自立心": "independence",
+        "が": "subject marker",
+        "強くなった": "became stronger"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この会社はこれからも技術革新を行っていくでしょう。",
+      "romaji": "Kono kaisha wa korekara mo gijutsu kakushin o okonatte iku deshou.",
+      "english": "This company will continue to innovate in technology in the future.",
+      "breakdown": {
+        "この会社": "this company",
+        "は": "topic marker",
+        "これからも": "from now on, too",
+        "技術革新": "technological innovation",
+        "を": "object marker",
+        "行っていく": "continue to do",
+        "でしょう": "will probably"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "子供たちはどんどん学んでいく。",
+      "romaji": "Kodomo-tachi wa dondon manande iku.",
+      "english": "Children will keep learning more and more.",
+      "breakdown": {
+        "子供たち": "children",
+        "は": "topic marker",
+        "どんどん": "steadily/more and more",
+        "学んでいく": "keep learning"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "verb-te-kuru",
+    "verb-masu-tsuzukeru"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Use いく with past actions.",
+      "correction": "Use いく for ongoing or future actions, not for actions completed in the past.",
+      "example": "✗ 昨日、勉強していく。→ ○ 昨日、勉強してきた。"
+    },
+    {
+      "mistake": "Confusing ていく with てくる.",
+      "correction": "Use ていく for actions moving away from the present, てくる for actions coming toward the present.",
+      "example": "✗ これから人が増えてくる。→ ○ これから人が増えていく。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "verb",
+    "progression",
+    "continuation",
+    "future",
+    "auxiliary"
+  ]
+}

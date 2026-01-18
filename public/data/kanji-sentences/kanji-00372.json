@@ -1,0 +1,33 @@
+{
+  "kanji": "髪",
+  "sentences": [
+    {
+      "id": "5993",
+      "japanese": "マリアさんの髪は長いです。",
+      "english": "Maria has long hair."
+    },
+    {
+      "id": "121286",
+      "japanese": "髪を切ってもらった方がいいよ。",
+      "english": "You should get your hair cut."
+    },
+    {
+      "id": "177009",
+      "japanese": "君は髪の毛を刈ってもらったほうがいい。",
+      "english": "You should get your hair cut."
+    },
+    {
+      "id": "177529",
+      "japanese": "君はもう髪をきりにいってよい。",
+      "english": "It's high time you had a haircut."
+    },
+    {
+      "id": "194400",
+      "japanese": "もうそろそろ髪を切っても良いころだ。",
+      "english": "It's high time you had a haircut."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.116Z",
+  "count": 5,
+  "fileId": "kanji-00372"
+}

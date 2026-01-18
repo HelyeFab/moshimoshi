@@ -1,0 +1,33 @@
+{
+  "kanji": "招",
+  "sentences": [
+    {
+      "id": "178334",
+      "japanese": "君の好きな人なら誰でも招きなさい。",
+      "english": "You may invite any person you like."
+    },
+    {
+      "id": "182340",
+      "japanese": "旧友がレセプションに招かれた。",
+      "english": "Old friends were invited to the reception."
+    },
+    {
+      "id": "195568",
+      "japanese": "まず第一にここにお招きいただいてとても嬉しく思っている事を述べます。",
+      "english": "First of all, let me say how glad I am to be here."
+    },
+    {
+      "id": "198484",
+      "japanese": "パーティーに招いていただき感謝いたします。",
+      "english": "I am grateful to you for inviting me to the party."
+    },
+    {
+      "id": "198503",
+      "japanese": "パーティーにお招きいただき心から感謝申し上げます。",
+      "english": "I would like to express to you my deepest gratitude for having been a guest at your party."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.622Z",
+  "count": 5,
+  "fileId": "kanji-00405"
+}

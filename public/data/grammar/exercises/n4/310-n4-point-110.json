@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "310-n4-point-110",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "310-n4-point-110-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Because\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～ので",
+          "romaji": "~node"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ～ので matches \"Because\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～ので.",
+      "explanation": "Expresses reason or cause; more polite than から; means \"because\" or \"since\".",
+      "difficulty": "easy"
+    },
+    {
+      "id": "310-n4-point-110-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～ので.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Because"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～ので means \"Because\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Because\".",
+      "explanation": "Expresses reason or cause; more polite than から; means \"because\" or \"since\".",
+      "difficulty": "easy"
+    },
+    {
+      "id": "310-n4-point-110-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～ので.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~node"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ~node is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~node.",
+      "explanation": "Expresses reason or cause; more polite than から; means \"because\" or \"since\".",
+      "difficulty": "medium"
+    },
+    {
+      "id": "310-n4-point-110-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～ので?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expresses reason or cause; more polite than から; means \"because\" or \"since\"."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses reason or cause; more polite than から; means \"because\" or \"since\".",
+      "explanation": "Expresses reason or cause; more polite than から; means \"because\" or \"since\".",
+      "difficulty": "medium"
+    },
+    {
+      "id": "310-n4-point-110-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Because\".",
+      "correctAnswer": "～ので",
+      "acceptedVariations": [
+        "～ので",
+        "～ので"
+      ],
+      "correctFeedback": "Nice! ～ので is correct.",
+      "incorrectFeedback": "The correct pattern is: ～ので (~node).",
+      "explanation": "Expresses reason or cause; more polite than から; means \"because\" or \"since\".",
+      "hints": [
+        "~node",
+        "Expresses reason or cause; more polite than から; means \"because\" or \"since\"."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "310-n4-point-110-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～ので.",
+      "correctAnswer": "~node",
+      "acceptedVariations": [
+        "~node",
+        "~node"
+      ],
+      "correctFeedback": "Nice! ~node is correct.",
+      "incorrectFeedback": "The correct romaji is: ~node.",
+      "explanation": "Expresses reason or cause; more polite than から; means \"because\" or \"since\".",
+      "hints": [
+        "Expresses reason or cause; more polite than から; means \"because\" or \"since\"."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "310-n4-point-110-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～ので.",
+      "correctAnswer": "Because",
+      "acceptedVariations": [
+        "Because",
+        "because"
+      ],
+      "correctFeedback": "Correct! \"Because\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Because\".",
+      "explanation": "Expresses reason or cause; more polite than から; means \"because\" or \"since\".",
+      "hints": [
+        "Expresses reason or cause; more polite than から; means \"because\" or \"since\"."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "310-n4-point-110-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～ので",
+          "romaji": "~node",
+          "english": "Because"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses reason or cause; more polite than から; means \"because\" or \"since\".",
+      "difficulty": "hard"
+    },
+    {
+      "id": "310-n4-point-110-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses reason or cause; more polite than から; means \"because\" or \"since\"..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～ので",
+          "romaji": "~node"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ～ので matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～ので.",
+      "explanation": "Expresses reason or cause; more polite than から; means \"because\" or \"since\".",
+      "difficulty": "hard"
+    },
+    {
+      "id": "310-n4-point-110-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～ので",
+      "acceptedVariations": [
+        "～ので",
+        "～ので"
+      ],
+      "correctFeedback": "Great! ～ので is correct.",
+      "incorrectFeedback": "The correct pattern is: ～ので.",
+      "explanation": "Expresses reason or cause; more polite than から; means \"because\" or \"since\".",
+      "hints": [
+        "~node"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

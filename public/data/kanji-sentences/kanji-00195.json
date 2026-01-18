@@ -1,0 +1,33 @@
+{
+  "kanji": "野",
+  "sentences": [
+    {
+      "id": "205220",
+      "japanese": "それは虎を野に放つようなものだ。",
+      "english": "It is like letting a tiger run loose."
+    },
+    {
+      "id": "219319",
+      "japanese": "この野バラは甘い香りを放つ。",
+      "english": "This wild rose gives off a sweet scent."
+    },
+    {
+      "id": "219320",
+      "japanese": "この野の花はいい匂いがする。",
+      "english": "These wild flowers give off a nice smell."
+    },
+    {
+      "id": "221018",
+      "japanese": "この森には野ブドウが密集して生えている。",
+      "english": "There is a dense growth of vines in this forest."
+    },
+    {
+      "id": "224386",
+      "japanese": "ここに野の花がたくさんある。",
+      "english": "There are many wildflowers here."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.781Z",
+  "count": 5,
+  "fileId": "kanji-00195"
+}

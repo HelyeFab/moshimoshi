@@ -1,0 +1,55 @@
+{
+  "id": "221-n4-point-21",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb させる (Verb-saseru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～させる verb form is used to describe causing or allowing someone to do something. It can be translated as 'to make someone do something', 'to let someone do something', or 'to cause someone to do something' in English. The formation of the ～させる form depends on the verb it is attached to.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Group 1 Verbs: Change the last hiragana to ～せる, Group 2 Verbs: Remove ～る and add ～させる, Group 3 Verbs: する → させる, くる → こさせる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "先生が生徒に宿題をさせました。",
+      "romaji": "Sensei ga seito ni shukudai o sasemashita.",
+      "english": "The teacher made the students do homework.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "母が私に部屋を掃除させました。",
+      "romaji": "Haha ga watashi ni heya o souji sasemashita.",
+      "english": "My mother made me clean my room.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女にピアノを弾かせてあげました。",
+      "romaji": "Kanojo ni piano o hikasete agemashita.",
+      "english": "I let her play the piano.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "上司は彼にそのプログラムを作らせました。",
+      "romaji": "Joushi wa kare ni sono puroguramu o tsukurasemashita.",
+      "english": "The boss made him create the program.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

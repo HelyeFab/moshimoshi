@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "057-frequency-adverbs",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "057-frequency-adverbs-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the word for 'always':",
+      "options": [
+        { "id": "a", "text": "いつも" },
+        { "id": "b", "text": "ときどき" },
+        { "id": "c", "text": "あまり" },
+        { "id": "d", "text": "よく" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! いつも means 'always.'",
+      "incorrectFeedback": "Not quite. いつも is 'always.'",
+      "explanation": "いつも = always.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "057-frequency-adverbs-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "ときどき映画を見ます。" },
+        { "id": "b", "text": "映画を見ますときどき。" },
+        { "id": "c", "text": "映画ときどきを見ます。" },
+        { "id": "d", "text": "ときどきは映画を見ます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Place the adverb before the verb.",
+      "incorrectFeedback": "Try again. Put the frequency adverb before the verb.",
+      "explanation": "Frequency adverbs go before the verb.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "057-frequency-adverbs-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I always eat breakfast.'",
+      "correctAnswer": "いつも朝ご飯を食べます",
+      "acceptedVariations": [
+        "いつも朝ご飯を食べます。",
+        "いつもあさごはんをたべます",
+        "itsumo asagohan o tabemasu",
+        "itsumo asagohan o tabemasu."
+      ],
+      "correctFeedback": "Great! いつも朝ご飯を食べます is correct.",
+      "incorrectFeedback": "The correct answer is: いつも朝ご飯を食べます (itsumo asagohan o tabemasu).",
+      "explanation": "Place いつも before the verb.",
+      "hints": ["朝ご飯 = breakfast", "食べます = eat"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "057-frequency-adverbs-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the word for 'often':",
+      "options": [
+        { "id": "a", "text": "よく" },
+        { "id": "b", "text": "ときどき" },
+        { "id": "c", "text": "あまり" },
+        { "id": "d", "text": "いつも" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! よく means 'often.'",
+      "incorrectFeedback": "Not quite. よく is 'often.'",
+      "explanation": "よく = often.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "057-frequency-adverbs-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I sometimes watch movies.'",
+      "correctAnswer": "ときどき映画を見ます",
+      "acceptedVariations": [
+        "ときどき映画を見ます。",
+        "ときどきえいがをみます",
+        "tokidoki eiga o mimasu",
+        "tokidoki eiga o mimasu."
+      ],
+      "correctFeedback": "Nice! ときどき映画を見ます is correct.",
+      "incorrectFeedback": "The correct answer is: ときどき映画を見ます (tokidoki eiga o mimasu).",
+      "explanation": "Place ときどき before the verb.",
+      "hints": ["映画 = movie", "見ます = watch"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "057-frequency-adverbs-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "よく図書館へ行きます。" },
+        { "id": "b", "text": "あまりテレビを見ません。" },
+        { "id": "c", "text": "あまりテレビを見ます。" },
+        { "id": "d", "text": "いつも朝ご飯を食べます。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! あまり must be used with a negative verb.",
+      "incorrectFeedback": "Try again. あまり needs a negative verb.",
+      "explanation": "Use あまり with negative forms (見ません).",
+      "difficulty": "medium"
+    },
+    {
+      "id": "057-frequency-adverbs-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I don't watch TV very often.'",
+      "correctAnswer": "あまりテレビを見ません",
+      "acceptedVariations": [
+        "あまりテレビを見ません。",
+        "あまりてれびをみません",
+        "amari terebi o mimasen",
+        "amari terebi o mimasen."
+      ],
+      "correctFeedback": "Great! あまりテレビを見ません is correct.",
+      "incorrectFeedback": "The correct answer is: あまりテレビを見ません (amari terebi o mimasen).",
+      "explanation": "Use あまり with a negative verb.",
+      "hints": ["テレビ = TV", "見ません = do not watch"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "057-frequency-adverbs-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "私はいつも朝ご飯を食べます。",
+          "romaji": "Watashi wa itsumo asagohan o tabemasu.",
+          "english": "I always eat breakfast."
+        },
+        {
+          "japanese": "よく図書館へ行きます。",
+          "romaji": "Yoku toshokan e ikimasu.",
+          "english": "I often go to the library."
+        },
+        {
+          "japanese": "ときどき映画を見ます。",
+          "romaji": "Tokidoki eiga o mimasu.",
+          "english": "I sometimes watch movies."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched the frequency adverbs.",
+      "incorrectFeedback": "Not quite. Review the meanings of each adverb.",
+      "explanation": "Each adverb shows how often something happens.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "057-frequency-adverbs-ex-09",
+      "type": "multiple-choice",
+      "question": "Which word means 'sometimes'?",
+      "options": [
+        { "id": "a", "text": "ときどき" },
+        { "id": "b", "text": "いつも" },
+        { "id": "c", "text": "あまり" },
+        { "id": "d", "text": "よく" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ときどき means 'sometimes.'",
+      "incorrectFeedback": "Try again. ときどき = sometimes.",
+      "explanation": "ときどき = sometimes.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "057-frequency-adverbs-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I often drink coffee.'",
+      "correctAnswer": "よくコーヒーを飲みます",
+      "acceptedVariations": [
+        "よくコーヒーを飲みます。",
+        "よくこーひーをのみます",
+        "yoku koohii o nomimasu",
+        "yoku koohii o nomimasu."
+      ],
+      "correctFeedback": "Nice! よくコーヒーを飲みます is correct.",
+      "incorrectFeedback": "The correct answer is: よくコーヒーを飲みます (yoku koohii o nomimasu).",
+      "explanation": "Place よく before the verb.",
+      "hints": ["コーヒー = coffee", "飲みます = drink"],
+      "difficulty": "hard"
+    }
+  ]
+}

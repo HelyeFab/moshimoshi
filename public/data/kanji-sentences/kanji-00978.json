@@ -1,0 +1,33 @@
+{
+  "kanji": "森",
+  "sentences": [
+    {
+      "id": "180220",
+      "japanese": "教会は森と湖に囲まれている。",
+      "english": "The church is surrounded by woods and lakes."
+    },
+    {
+      "id": "185753",
+      "japanese": "我々は森を切り開いて道を作った。",
+      "english": "We cleared a path through the woods."
+    },
+    {
+      "id": "185754",
+      "japanese": "我々は森の中で道に迷った。",
+      "english": "We went astray in the woods."
+    },
+    {
+      "id": "185852",
+      "japanese": "我々は行方不明の子を求めて森の中を探した。",
+      "english": "We searched the woods for the missing child."
+    },
+    {
+      "id": "186497",
+      "japanese": "ある日、私はぶらぶらと歩いて森の中に入っていった。",
+      "english": "One day I strolled into the woods."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:10.382Z",
+  "count": 5,
+  "fileId": "kanji-00978"
+}

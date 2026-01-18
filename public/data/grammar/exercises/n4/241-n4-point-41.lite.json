@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "241-n4-point-41",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "241-n4-point-41-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb てくれませんか\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "動詞てくれませんか",
+          "romaji": "doushi te kuremasen ka"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! 動詞てくれませんか matches \"Verb てくれませんか\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞てくれませんか.",
+      "explanation": "Polite way to request someone to do something for you.",
+      "difficulty": "easy"
+    }
+  ]
+}

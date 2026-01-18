@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "236-n4-point-36",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "236-n4-point-36-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"During the time (verb in progress)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb ている間に",
+          "romaji": "Verb te iru aida ni"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb ている間に matches \"During the time (verb in progress)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ている間に.",
+      "explanation": "While one action is ongoing, another action happens during that time.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "038-plain-form-negative",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "038-plain-form-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Which is the plain negative of 行く?",
+      "options": [
+        {
+          "id": "a",
+          "text": "行かない"
+        },
+        {
+          "id": "b",
+          "text": "行きません"
+        },
+        {
+          "id": "c",
+          "text": "行かないです"
+        },
+        {
+          "id": "d",
+          "text": "行くない"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行く → 行かない.",
+      "incorrectFeedback": "Not quite. Plain negative is 行かない.",
+      "explanation": "Plain negative uses the ない-form.",
+      "difficulty": "easy"
+    }
+  ]
+}

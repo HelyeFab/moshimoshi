@@ -1,0 +1,120 @@
+{
+  "id": "237-n4-point-37",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞ておく",
+    "romaji": "doushi te oku",
+    "en": "Verb ておく (do something in advance)"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ～ておく grammar point is used to express that an action is performed in preparation for something, or done in advance for a future situation. It is attached to the te-form of a verb and shows that the action is done beforehand as a preparatory step.",
+    "ja": "「〜ておく」は、将来のために準備として何かをしておくことを表します。動詞のて形に「おく」をつけて使います。"
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + おく",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "The action to be done in advance or as preparation.",
+        "examples": [
+          "買って",
+          "寝て",
+          "勉強して",
+          "掃除して"
+        ]
+      },
+      {
+        "part": "おく",
+        "explanation": "Indicates the action is done in advance or for future benefit.",
+        "examples": [
+          "買っておく",
+          "寝ておく",
+          "勉強しておく",
+          "掃除しておく"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "駅で切符を買っておこう。",
+      "romaji": "Eki de kippu wo katte okou.",
+      "english": "Let's buy the tickets in advance at the station.",
+      "breakdown": {
+        "駅": "station",
+        "で": "at",
+        "切符": "ticket",
+        "を": "object marker",
+        "買って": "buy (te-form)",
+        "おこう": "let's do in advance"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "明日早く起きるために、今晩早く寝ておきます。",
+      "romaji": "Ashita hayaku okiru tame ni, konban hayaku nete okimasu.",
+      "english": "I will go to bed early tonight to wake up early tomorrow.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "早く": "early",
+        "起きる": "wake up",
+        "ために": "in order to",
+        "今晩": "tonight",
+        "寝ておきます": "sleep in advance"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "試験前に勉強しておかないと、失敗するかもしれない。",
+      "romaji": "Shiken mae ni benkyou shite okanai to, shippai suru kamo shirenai.",
+      "english": "If I don't study in advance before the exam, I might fail.",
+      "breakdown": {
+        "試験前に": "before the exam",
+        "勉強しておかないと": "if (I) don't study in advance",
+        "失敗する": "fail",
+        "かもしれない": "might"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼が到着する前に、部屋をきれいに掃除しておきましょう。",
+      "romaji": "Kare ga touchaku suru mae ni, heya wo kirei ni souji shite okimashou.",
+      "english": "Let's clean the room before he arrives.",
+      "breakdown": {
+        "彼が": "he (subject)",
+        "到着する前に": "before (he) arrives",
+        "部屋を": "room (object)",
+        "きれいに": "cleanly",
+        "掃除しておきましょう": "let's clean in advance"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "動詞させられる",
+    "動詞たことがある",
+    "動詞てあげる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using plain verb form instead of て-form before おく.",
+      "correction": "Use the て-form of the verb before おく.",
+      "example": "✗ 切符を買うおく → ✓ 切符を買っておく"
+    },
+    {
+      "mistake": "Confusing ておく with ている (continuous action).",
+      "correction": "ておく is for preparatory actions; ている is for ongoing actions.",
+      "example": "✗ 部屋を掃除している (I'm cleaning the room now) ≠ 部屋を掃除しておく (I clean the room in advance)"
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "preparation",
+    "te-form",
+    "advance",
+    "grammar"
+  ]
+}

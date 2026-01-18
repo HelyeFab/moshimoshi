@@ -1,0 +1,33 @@
+{
+  "kanji": "為",
+  "sentences": [
+    {
+      "id": "2257012",
+      "japanese": "為せば成る、為さねば成らぬ何事も。",
+      "english": "Where there's a will, there's a way."
+    },
+    {
+      "id": "161702",
+      "japanese": "私はあなたの為に何でもしますよ。",
+      "english": "I will do anything for you."
+    },
+    {
+      "id": "233460",
+      "japanese": "あなたの為なら何でもします。",
+      "english": "I will do anything for you."
+    },
+    {
+      "id": "183342",
+      "japanese": "機長は気象訓示を受ける為に気象室へ行く。",
+      "english": "The captain will go to the meteorological office to get a weather briefing."
+    },
+    {
+      "id": "185738",
+      "japanese": "我々は世界平和を維持する為にあらゆる努力をするべきである。",
+      "english": "We should make every effort to maintain world peace."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:17.701Z",
+  "count": 5,
+  "fileId": "kanji-01147"
+}

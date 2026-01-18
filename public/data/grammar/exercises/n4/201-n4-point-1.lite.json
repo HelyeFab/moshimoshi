@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "201-n4-point-1",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "201-n4-point-1-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Such as A and B\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "A より B のほうが〜",
+          "romaji": "A yori B no hou ga 〜"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! A とか B とか matches \"Such as A and B\".",
+      "incorrectFeedback": "Not quite. The correct pattern is A とか B とか.",
+      "explanation": "Lists examples or possibilities, similar to \"such as A and B.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "芸",
+  "sentences": [
+    {
+      "id": "188724",
+      "japanese": "猿はたくさん芸を覚える。",
+      "english": "Monkeys can learn a lot of tricks."
+    },
+    {
+      "id": "222896",
+      "japanese": "この猿は、きちんと仕込めばいろいろな芸ができるようになるだろう。",
+      "english": "The monkey, trained properly, will be able to do a lot of tricks."
+    },
+    {
+      "id": "77325",
+      "japanese": "老犬に新しい芸は仕込めない。",
+      "english": "You can't teach an old dog new tricks."
+    },
+    {
+      "id": "77326",
+      "japanese": "老犬に新しい芸は教えられない。",
+      "english": "You can't teach an old dog new tricks."
+    },
+    {
+      "id": "82091",
+      "japanese": "僕はサーカスで見事な動物の芸を見た。",
+      "english": "I saw a marvelous animal act at the circus."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.745Z",
+  "count": 5,
+  "fileId": "kanji-00941"
+}

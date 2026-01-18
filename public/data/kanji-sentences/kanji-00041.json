@@ -1,0 +1,33 @@
+{
+  "kanji": "外",
+  "sentences": [
+    {
+      "id": "5264",
+      "japanese": "外は真っ暗だ。",
+      "english": "It's all dark outside."
+    },
+    {
+      "id": "178626",
+      "japanese": "君に会えるかと思って外で待っていた。",
+      "english": "I waited outside on the chance of seeing you."
+    },
+    {
+      "id": "179047",
+      "japanese": "外が見れるように、カーテンを開けてあげるね。",
+      "english": "I'll open the curtain for you to look out."
+    },
+    {
+      "id": "179623",
+      "japanese": "金曜日には外で食事する予定なんです。",
+      "english": "We're going out for a meal on Friday."
+    },
+    {
+      "id": "179851",
+      "japanese": "近頃、子供は外に遊びに出ない。",
+      "english": "Nowadays children do not play outdoors."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.672Z",
+  "count": 5,
+  "fileId": "kanji-00041"
+}

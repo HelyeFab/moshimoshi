@@ -1,0 +1,33 @@
+{
+  "kanji": "申",
+  "sentences": [
+    {
+      "id": "4951",
+      "japanese": "申し訳ないけど長居できないんですよ。",
+      "english": "I'm sorry, I can't stay long."
+    },
+    {
+      "id": "4983",
+      "japanese": "あら、申し訳ございません。",
+      "english": "Oh, I'm sorry."
+    },
+    {
+      "id": "177137",
+      "japanese": "君は職務怠慢の申し開きをしなければならない。",
+      "english": "You must account for your neglect of duty."
+    },
+    {
+      "id": "177194",
+      "japanese": "君は自分の行動の申し開きをしなければならない。",
+      "english": "You must account for your conduct."
+    },
+    {
+      "id": "177208",
+      "japanese": "君は自分が申し立てていることに自信がありますか。",
+      "english": "Are you sure of your facts?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.422Z",
+  "count": 5,
+  "fileId": "kanji-00251"
+}

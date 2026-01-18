@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "057-frequency-adverbs",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "057-frequency-adverbs-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the word for 'always':",
+      "options": [
+        {
+          "id": "a",
+          "text": "いつも"
+        },
+        {
+          "id": "b",
+          "text": "ときどき"
+        },
+        {
+          "id": "c",
+          "text": "あまり"
+        },
+        {
+          "id": "d",
+          "text": "よく"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! いつも means 'always.'",
+      "incorrectFeedback": "Not quite. いつも is 'always.'",
+      "explanation": "いつも = always.",
+      "difficulty": "easy"
+    }
+  ]
+}

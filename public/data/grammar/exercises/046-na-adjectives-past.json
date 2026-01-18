@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "046-na-adjectives-past",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "046-na-adjectives-past-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the past form of 静か:",
+      "options": [
+        { "id": "a", "text": "静かでした" },
+        { "id": "b", "text": "静かくなかった" },
+        { "id": "c", "text": "静かった" },
+        { "id": "d", "text": "静かです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 静か + でした.",
+      "incorrectFeedback": "Not quite. Use でした for na-adjectives.",
+      "explanation": "Na-adjective past uses でした.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "046-na-adjectives-past-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "テストは簡単でした。" },
+        { "id": "b", "text": "テストは簡単かったです。" },
+        { "id": "c", "text": "テストは簡単くないです。" },
+        { "id": "d", "text": "テストは簡単です。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 簡単でした is past.",
+      "incorrectFeedback": "Try again. Use でした after na-adjectives.",
+      "explanation": "Na-adjectives use でした for past.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "046-na-adjectives-past-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'The town was quiet.'",
+      "correctAnswer": "町は静かでした",
+      "acceptedVariations": [
+        "町は静かでした。",
+        "まちはしずかでした",
+        "machi wa shizuka deshita",
+        "machi wa shizuka deshita."
+      ],
+      "correctFeedback": "Great! 町は静かでした is correct.",
+      "incorrectFeedback": "The correct answer is: 町は静かでした (machi wa shizuka deshita).",
+      "explanation": "静か is a na-adjective; add でした.",
+      "hints": ["町 = town", "Use でした"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "046-na-adjectives-past-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the past form of 便利:",
+      "options": [
+        { "id": "a", "text": "便利でした" },
+        { "id": "b", "text": "便利くなかった" },
+        { "id": "c", "text": "便利かった" },
+        { "id": "d", "text": "便利です" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 便利 + でした.",
+      "incorrectFeedback": "Not quite. Use でした.",
+      "explanation": "Na-adjective past: adjective + でした.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "046-na-adjectives-past-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This shop was convenient.'",
+      "correctAnswer": "この店は便利でした",
+      "acceptedVariations": [
+        "この店は便利でした。",
+        "このみせはべんりでした",
+        "kono mise wa benri deshita",
+        "kono mise wa benri deshita."
+      ],
+      "correctFeedback": "Nice! この店は便利でした is correct.",
+      "incorrectFeedback": "The correct answer is: この店は便利でした (kono mise wa benri deshita).",
+      "explanation": "便利 is a na-adjective; add でした.",
+      "hints": ["店 = shop", "Use でした"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "046-na-adjectives-past-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "あの部屋はきれいでした。" },
+        { "id": "b", "text": "昨日の町は静かでした。" },
+        { "id": "c", "text": "この店は便利だったです。" },
+        { "id": "d", "text": "テストは簡単でした。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use でした in polite speech.",
+      "incorrectFeedback": "Try again. Polite past is でした.",
+      "explanation": "Use でした, not だったです.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "046-na-adjectives-past-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'That room was clean.'",
+      "correctAnswer": "あの部屋はきれいでした",
+      "acceptedVariations": [
+        "あの部屋はきれいでした。",
+        "あのへやはきれいでした",
+        "ano heya wa kirei deshita",
+        "ano heya wa kirei deshita."
+      ],
+      "correctFeedback": "Great! あの部屋はきれいでした is correct.",
+      "incorrectFeedback": "The correct answer is: あの部屋はきれいでした (ano heya wa kirei deshita).",
+      "explanation": "きれい is a na-adjective; add でした.",
+      "hints": ["部屋 = room", "Use でした"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "046-na-adjectives-past-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "町は静かでした。",
+          "romaji": "Machi wa shizuka deshita.",
+          "english": "The town was quiet."
+        },
+        {
+          "japanese": "この店は便利でした。",
+          "romaji": "Kono mise wa benri deshita.",
+          "english": "This shop was convenient."
+        },
+        {
+          "japanese": "あの部屋はきれいでした。",
+          "romaji": "Ano heya wa kirei deshita.",
+          "english": "That room was clean."
+        }
+      ],
+      "correctFeedback": "Perfect! All use でした.",
+      "incorrectFeedback": "Not quite. Review na-adjective past form.",
+      "explanation": "Na-adjectives take でした in the past.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "046-na-adjectives-past-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct past form of きれい?",
+      "options": [
+        { "id": "a", "text": "きれいでした" },
+        { "id": "b", "text": "きれいくなかった" },
+        { "id": "c", "text": "きれいかった" },
+        { "id": "d", "text": "きれいです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! きれい + でした.",
+      "incorrectFeedback": "Try again. Use でした.",
+      "explanation": "Na-adjective past uses でした.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "046-na-adjectives-past-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'The test was easy.'",
+      "correctAnswer": "テストは簡単でした",
+      "acceptedVariations": [
+        "テストは簡単でした。",
+        "てすとはかんたんでした",
+        "tesuto wa kantan deshita",
+        "tesuto wa kantan deshita."
+      ],
+      "correctFeedback": "Nice! テストは簡単でした is correct.",
+      "incorrectFeedback": "The correct answer is: テストは簡単でした (tesuto wa kantan deshita).",
+      "explanation": "簡単 is a na-adjective; add でした.",
+      "hints": ["簡単 = easy", "Use でした"],
+      "difficulty": "hard"
+    }
+  ]
+}

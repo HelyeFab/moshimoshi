@@ -1,0 +1,33 @@
+{
+  "kanji": "墓",
+  "sentences": [
+    {
+      "id": "209089",
+      "japanese": "その少年は死んだ自分の犬のために墓を掘った。",
+      "english": "The boy dug a grave for his dog that had died."
+    },
+    {
+      "id": "209090",
+      "japanese": "その少年は死んだ自分のペットのために墓を掘った。",
+      "english": "The boy dug a grave for his dead pet."
+    },
+    {
+      "id": "231355",
+      "japanese": "あのお墓には誰が入っているのだろう。",
+      "english": "I wonder who's buried in that tomb."
+    },
+    {
+      "id": "236412",
+      "japanese": "「ロメオはどこだ」「こちらへ。お墓へ」",
+      "english": "\"Where is Romeo?\" \"This way! To the tomb!\""
+    },
+    {
+      "id": "76802",
+      "japanese": "お墓には供花が供えられていた。",
+      "english": "An offering of flowers had been placed at the grave."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:25.032Z",
+  "count": 5,
+  "fileId": "kanji-01412"
+}

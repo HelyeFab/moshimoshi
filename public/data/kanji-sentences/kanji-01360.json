@@ -1,0 +1,33 @@
+{
+  "kanji": "票",
+  "sentences": [
+    {
+      "id": "182905",
+      "japanese": "議案は１０票の小差で通過した。",
+      "english": "The bill passed by a small majority of 10 votes."
+    },
+    {
+      "id": "184620",
+      "japanese": "各人が１票ずつを投じなければならない。",
+      "english": "Each man must cast a vote."
+    },
+    {
+      "id": "191346",
+      "japanese": "圧倒的多数がその残酷な刑罰を廃止することに票を投じた。",
+      "english": "An overwhelming majority voted to abolish the brutal punishment."
+    },
+    {
+      "id": "74947",
+      "japanese": "お楽しみいただけましたら、ポチっと１票お願いいたします！",
+      "english": "If you enjoyed this, please give a click on the vote link!"
+    },
+    {
+      "id": "102877",
+      "japanese": "彼は双方の候補者から票を奪った。",
+      "english": "He attracted votes away from both candidates."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:23.340Z",
+  "count": 5,
+  "fileId": "kanji-01360"
+}

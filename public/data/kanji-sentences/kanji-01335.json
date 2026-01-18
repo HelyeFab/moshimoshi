@@ -1,0 +1,33 @@
+{
+  "kanji": "侍",
+  "sentences": [
+    {
+      "id": "74329",
+      "japanese": "『うぐいす侍』人間愛とユーモア溢れる侍物語。",
+      "english": "\"The Nightingale Samurai\" is a samurai tale full of humanity and humour."
+    },
+    {
+      "id": "74406",
+      "japanese": "『カムイの剣』は、1868年の徳川将軍時代の崩壊と、明治天皇下での日本の復興という変革期を舞台にした、一種の侍/忍者物語だ。",
+      "english": "Kamui no Ken was a sort of samurai/ninja story set during the transition of the fall of the Tokugawa Shogunate and the re-establishment of Japan under the Emperor Meiji in 1868."
+    },
+    {
+      "id": "539950",
+      "japanese": "俺は侍の道で生きてる。",
+      "english": "I live by the way of the samurai."
+    },
+    {
+      "id": "769164",
+      "japanese": "現代の日本に忍者や侍はいません。",
+      "english": "Nowadays there are no ninjas or samurais in Japan."
+    },
+    {
+      "id": "2240523",
+      "japanese": "太郎には侍の血が流れている。",
+      "english": "A samurai's blood runs in Taro's veins."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:22.545Z",
+  "count": 5,
+  "fileId": "kanji-01335"
+}

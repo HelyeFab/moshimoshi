@@ -1,0 +1,178 @@
+{
+  "grammarPointId": "049-adjective-modification",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "049-adjective-modification-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase: 'a big dog'",
+      "options": [
+        { "id": "a", "text": "大きい犬" },
+        { "id": "b", "text": "犬大きい" },
+        { "id": "c", "text": "大きいな犬" },
+        { "id": "d", "text": "大きいです犬" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! い-adjectives come before nouns.",
+      "incorrectFeedback": "Not quite. Use adjective + noun.",
+      "explanation": "Use い-adjective directly before the noun.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "049-adjective-modification-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase: 'a quiet room'",
+      "options": [
+        { "id": "a", "text": "静かな部屋" },
+        { "id": "b", "text": "静か部屋" },
+        { "id": "c", "text": "静かい部屋" },
+        { "id": "d", "text": "部屋は静か" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! な-adjective uses な before nouns.",
+      "incorrectFeedback": "Try again. Use な before the noun.",
+      "explanation": "Na-adjective + な + noun.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "049-adjective-modification-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'a cheap book'",
+      "correctAnswer": "安い本",
+      "acceptedVariations": [
+        "安い本",
+        "やすいほん",
+        "yasui hon"
+      ],
+      "correctFeedback": "Great! 安い本 is correct.",
+      "incorrectFeedback": "The correct answer is: 安い本 (yasui hon).",
+      "explanation": "い-adjectives go directly before the noun.",
+      "hints": ["安い = cheap", "本 = book"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "049-adjective-modification-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase: 'a clean room'",
+      "options": [
+        { "id": "a", "text": "きれいな部屋" },
+        { "id": "b", "text": "きれい部屋" },
+        { "id": "c", "text": "きれいの部屋" },
+        { "id": "d", "text": "きれいかった部屋" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! きれい is a な-adjective.",
+      "incorrectFeedback": "Not quite. Use な before the noun.",
+      "explanation": "Na-adjectives require な when modifying nouns.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "049-adjective-modification-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'a famous place'",
+      "correctAnswer": "有名な所",
+      "acceptedVariations": [
+        "有名な所",
+        "有名なところ",
+        "ゆうめいなところ",
+        "yuumei na tokoro"
+      ],
+      "correctFeedback": "Nice! 有名な所 is correct.",
+      "incorrectFeedback": "The correct answer is: 有名な所 (yuumei na tokoro).",
+      "explanation": "有名 is a な-adjective; add な before nouns.",
+      "hints": ["有名 = famous", "所/ところ = place"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "049-adjective-modification-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "新しい本を買いました。" },
+        { "id": "b", "text": "静かな町です。" },
+        { "id": "c", "text": "きれい部屋があります。" },
+        { "id": "d", "text": "大きい犬がいます。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use きれいな部屋.",
+      "incorrectFeedback": "Try again. Na-adjectives need な.",
+      "explanation": "きれい is a な-adjective and requires な before nouns.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "049-adjective-modification-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'a quiet town'",
+      "correctAnswer": "静かな町",
+      "acceptedVariations": [
+        "静かな町",
+        "しずかなまち",
+        "shizuka na machi"
+      ],
+      "correctFeedback": "Great! 静かな町 is correct.",
+      "incorrectFeedback": "The correct answer is: 静かな町 (shizuka na machi).",
+      "explanation": "静か is a な-adjective; add な.",
+      "hints": ["静か = quiet", "町 = town"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "049-adjective-modification-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the phrases with their meanings:",
+      "pairs": [
+        {
+          "japanese": "大きい犬",
+          "romaji": "Ookii inu",
+          "english": "a big dog"
+        },
+        {
+          "japanese": "静かな部屋",
+          "romaji": "Shizuka na heya",
+          "english": "a quiet room"
+        },
+        {
+          "japanese": "新しい本",
+          "romaji": "Atarashii hon",
+          "english": "a new book"
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all phrases.",
+      "incorrectFeedback": "Not quite. Review adjective + noun order.",
+      "explanation": "Both い- and な-adjectives come before nouns (な needed for な-adjectives).",
+      "difficulty": "hard"
+    },
+    {
+      "id": "049-adjective-modification-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct phrase for 'a convenient shop'?",
+      "options": [
+        { "id": "a", "text": "便利な店" },
+        { "id": "b", "text": "便利店" },
+        { "id": "c", "text": "便利い店" },
+        { "id": "d", "text": "店は便利" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 便利な店 is correct.",
+      "incorrectFeedback": "Try again. Na-adjectives use な before nouns.",
+      "explanation": "便利 is a な-adjective; add な before the noun.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "049-adjective-modification-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'a red apple'",
+      "correctAnswer": "赤いりんご",
+      "acceptedVariations": [
+        "赤いりんご",
+        "あかいりんご",
+        "akai ringo"
+      ],
+      "correctFeedback": "Nice! 赤いりんご is correct.",
+      "incorrectFeedback": "The correct answer is: 赤いりんご (akai ringo).",
+      "explanation": "い-adjectives go directly before nouns.",
+      "hints": ["赤い = red", "りんご = apple"],
+      "difficulty": "hard"
+    }
+  ]
+}

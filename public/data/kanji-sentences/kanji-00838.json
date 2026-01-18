@@ -1,0 +1,33 @@
+{
+  "kanji": "糸",
+  "sentences": [
+    {
+      "id": "182135",
+      "japanese": "漁師は釣り糸を水中に投げた。",
+      "english": "The fisherman cast his line into the water."
+    },
+    {
+      "id": "199863",
+      "japanese": "トムは凧に糸を付けた。",
+      "english": "Tom attached the string to the kite."
+    },
+    {
+      "id": "207720",
+      "japanese": "その釣り人は釣り糸に強い引きを感じた。",
+      "english": "The angler felt a strong tug on the line."
+    },
+    {
+      "id": "214397",
+      "japanese": "すべての文化には何本かの共通する糸が通っている。",
+      "english": "Some common threads run through all cultures."
+    },
+    {
+      "id": "221660",
+      "japanese": "この事件はだれかが糸を引いているに違いない。",
+      "english": "Somebody must be at the bottom of this affair."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.424Z",
+  "count": 5,
+  "fileId": "kanji-00838"
+}

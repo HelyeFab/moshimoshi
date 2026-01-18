@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "259-n4-point-59",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "259-n4-point-59-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb-like construction\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb ように (〜you ni)",
+          "romaji": "Verb you ni"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Verb ように (〜you ni) matches \"Verb-like construction\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb ように (〜you ni).",
+      "explanation": "Expresses similarity, manner, or purpose: \"like,\" \"as if,\" or \"so that.\"",
+      "difficulty": "easy"
+    }
+  ]
+}

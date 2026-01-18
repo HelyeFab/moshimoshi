@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "303-n4-point-103",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "303-n4-point-103-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"have to / must (nai to ikenai)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～ないといけない",
+          "romaji": "~nai to ikenai"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～ないといけない matches \"have to / must (nai to ikenai)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～ないといけない.",
+      "explanation": "Expresses obligation; used to say you must or have to do something.",
+      "difficulty": "easy"
+    }
+  ]
+}

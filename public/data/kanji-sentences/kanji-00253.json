@@ -1,0 +1,33 @@
+{
+  "kanji": "働",
+  "sentences": [
+    {
+      "id": "138742",
+      "japanese": "働くより楽しむほうが簡単である。",
+      "english": "It's easier to have fun than to work."
+    },
+    {
+      "id": "6021",
+      "japanese": "日曜日でも、働きます。",
+      "english": "I work even on Sunday."
+    },
+    {
+      "id": "177000",
+      "japanese": "君は彼が君の年だったころと同じほどよく働く。",
+      "english": "You work as hard as he did at your age."
+    },
+    {
+      "id": "177019",
+      "japanese": "君は日曜日に働く必要があるのですか。",
+      "english": "Must you work on Sunday?"
+    },
+    {
+      "id": "177029",
+      "japanese": "働きすぎですよ。",
+      "english": "You work too hard."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.435Z",
+  "count": 5,
+  "fileId": "kanji-00253"
+}

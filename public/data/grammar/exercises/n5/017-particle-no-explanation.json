@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "017-particle-no-explanation",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "017-particle-no-explanation-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct phrase: 'I like studying Japanese.'",
+      "options": [
+        { "id": "a", "text": "日本語を勉強するのが好きです。" },
+        { "id": "b", "text": "日本語を勉強しますのが好きです。" },
+        { "id": "c", "text": "日本語を勉強するは好きです。" },
+        { "id": "d", "text": "日本語を勉強するが好きです。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb + の makes it a noun phrase.",
+      "incorrectFeedback": "Not quite. Use the plain form + の + が.",
+      "explanation": "勉強するのが好きです is the standard pattern.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "017-particle-no-explanation-ex-02",
+      "type": "multiple-choice",
+      "question": "Which verb form should come before の?",
+      "options": [
+        { "id": "a", "text": "食べます" },
+        { "id": "b", "text": "食べる" },
+        { "id": "c", "text": "食べました" },
+        { "id": "d", "text": "食べません" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Yes! Use the plain form before の.",
+      "incorrectFeedback": "Try again. The plain form is used before の.",
+      "explanation": "Verb (plain) + の.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "017-particle-no-explanation-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Waking up early is important.'",
+      "correctAnswer": "早く起きるのは大切です",
+      "acceptedVariations": [
+        "早く起きるのは大切です。",
+        "はやくおきるのはたいせつです",
+        "hayaku okiru no wa taisetsu desu",
+        "hayaku okiru no wa taisetsu desu."
+      ],
+      "correctFeedback": "Great! 早く起きるのは大切です is correct.",
+      "incorrectFeedback": "The correct answer is: 早く起きるのは大切です (hayaku okiru no wa taisetsu desu).",
+      "explanation": "Use plain verb + の to make a noun phrase.",
+      "hints": ["起きる = wake up", "Use の + は"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "017-particle-no-explanation-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "見るのが上手です。" },
+        { "id": "b", "text": "見ますのが上手です。" },
+        { "id": "c", "text": "見てのが上手です。" },
+        { "id": "d", "text": "見たのが上手です。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use the plain form before の.",
+      "incorrectFeedback": "Not quite. The plain form + の is correct.",
+      "explanation": "見るのが上手です is the natural pattern.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "017-particle-no-explanation-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'The red one is my bag.'",
+      "correctAnswer": "赤いのは私のかばんです",
+      "acceptedVariations": [
+        "赤いのは私のかばんです。",
+        "あかいのはわたしのかばんです",
+        "akai no wa watashi no kaban desu",
+        "akai no wa watashi no kaban desu."
+      ],
+      "correctFeedback": "Nice! 赤いのは私のかばんです is correct.",
+      "incorrectFeedback": "The correct answer is: 赤いのは私のかばんです (akai no wa watashi no kaban desu).",
+      "explanation": "の stands for a noun already known.",
+      "hints": ["赤い = red", "Use の to mean 'the one'"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "017-particle-no-explanation-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence uses の as a nominalizer?",
+      "options": [
+        { "id": "a", "text": "私の本です。" },
+        { "id": "b", "text": "食べるのが好きです。" },
+        { "id": "c", "text": "田中さんのかばんです。" },
+        { "id": "d", "text": "日本の食べ物です。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! の turns the verb into a noun phrase.",
+      "incorrectFeedback": "Try again. Look for verb + の.",
+      "explanation": "食べるのが好きです uses の as a nominalizer.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "017-particle-no-explanation-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I like eating sushi.'",
+      "correctAnswer": "寿司を食べるのが好きです",
+      "acceptedVariations": [
+        "寿司を食べるのが好きです。",
+        "すしをたべるのがすきです",
+        "sushi o taberu no ga suki desu",
+        "sushi o taberu no ga suki desu."
+      ],
+      "correctFeedback": "Great! 寿司を食べるのが好きです is correct.",
+      "incorrectFeedback": "The correct answer is: 寿司を食べるのが好きです (sushi o taberu no ga suki desu).",
+      "explanation": "Verb + の + が好きです.",
+      "hints": ["Use plain form 食べる", "Add のが好きです"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "017-particle-no-explanation-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "日本語を勉強するのが好きです。",
+          "romaji": "Nihongo o benkyou suru no ga suki desu.",
+          "english": "I like studying Japanese."
+        },
+        {
+          "japanese": "早く起きるのは大切です。",
+          "romaji": "Hayaku okiru no wa taisetsu desu.",
+          "english": "Waking up early is important."
+        },
+        {
+          "japanese": "赤いのは私のかばんです。",
+          "romaji": "Akai no wa watashi no kaban desu.",
+          "english": "The red one is my bag."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review how の is used.",
+      "explanation": "Each sentence uses の as a nominalizer.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "017-particle-no-explanation-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "読むのが好きです。" },
+        { "id": "b", "text": "読んでのが好きです。" },
+        { "id": "c", "text": "見るのが上手です。" },
+        { "id": "d", "text": "食べるのが大切です。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Use the plain form before の.",
+      "incorrectFeedback": "Try again. Plain form + の is correct.",
+      "explanation": "読んで is not used before の in this pattern.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "017-particle-no-explanation-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Watching movies is fun.'",
+      "correctAnswer": "映画を見るのは楽しいです",
+      "acceptedVariations": [
+        "映画を見るのは楽しいです。",
+        "えいがをみるのはたのしいです",
+        "eiga o miru no wa tanoshii desu",
+        "eiga o miru no wa tanoshii desu."
+      ],
+      "correctFeedback": "Nice! 映画を見るのは楽しいです is correct.",
+      "incorrectFeedback": "The correct answer is: 映画を見るのは楽しいです (eiga o miru no wa tanoshii desu).",
+      "explanation": "Plain verb + の makes it a noun-like phrase.",
+      "hints": ["見る = watch", "Use のは"],
+      "difficulty": "hard"
+    }
+  ]
+}

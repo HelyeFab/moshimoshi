@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "295-n4-point-95",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "295-n4-point-95-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Must not do something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～てはいけない",
+          "romaji": "~te wa ikenai"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～てはいけない matches \"Must not do something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～てはいけない.",
+      "explanation": "Expresses prohibition; indicates that an action is not allowed.",
+      "difficulty": "easy"
+    }
+  ]
+}

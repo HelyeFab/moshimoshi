@@ -1,0 +1,33 @@
+{
+  "kanji": "博",
+  "sentences": [
+    {
+      "id": "402827",
+      "japanese": "マイクと申しますが、博さんはいらっしゃいますか。",
+      "english": "This is Mike speaking. May I speak to Hiroshi, please?"
+    },
+    {
+      "id": "199687",
+      "japanese": "トルストイは世界的名声を博した。",
+      "english": "Tolstoy achieved worldwide fame."
+    },
+    {
+      "id": "210837",
+      "japanese": "その後でマイクは博にシートベルトを締めるように言います。",
+      "english": "Then Mike tells Hiroshi to fasten his seat belt."
+    },
+    {
+      "id": "236155",
+      "japanese": "「僕、飛行機に乗るのはこれが初めてなんだ。緊張するよ」と博がいいます。",
+      "english": "\"This is my first flight. I'm nervous,\" says Hiroshi."
+    },
+    {
+      "id": "236205",
+      "japanese": "「博、君の気持ちは分かるよ」とマイクが言います。",
+      "english": "\"I understand how you feel, Hiroshi,\" says Mike."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.150Z",
+  "count": 5,
+  "fileId": "kanji-01170"
+}

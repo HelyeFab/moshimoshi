@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "268-n4-point-68",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "268-n4-point-68-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"When doing something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb るときに",
+          "romaji": "Verb ~ru toki ni"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb るときに matches \"When doing something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb るときに.",
+      "explanation": "Used to express the time when an action or event occurs.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "268-n4-point-68-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb るときに.",
+      "options": [
+        {
+          "id": "a",
+          "text": "When doing something"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb るときに means \"When doing something\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"When doing something\".",
+      "explanation": "Used to express the time when an action or event occurs.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "268-n4-point-68-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb るときに.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "Verb ~ru toki ni"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb ~ru toki ni is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb ~ru toki ni.",
+      "explanation": "Used to express the time when an action or event occurs.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "268-n4-point-68-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb るときに?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Used to express the time when an action or event occurs."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to express the time when an action or event occurs.",
+      "explanation": "Used to express the time when an action or event occurs.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "268-n4-point-68-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"When doing something\".",
+      "correctAnswer": "Verb るときに",
+      "acceptedVariations": [
+        "Verb るときに",
+        "Verbるときに"
+      ],
+      "correctFeedback": "Nice! Verb るときに is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb るときに (Verb ~ru toki ni).",
+      "explanation": "Used to express the time when an action or event occurs.",
+      "hints": [
+        "Verb ~ru toki ni",
+        "Used to express the time when an action or event occurs."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "268-n4-point-68-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb るときに.",
+      "correctAnswer": "Verb ~ru toki ni",
+      "acceptedVariations": [
+        "Verb ~ru toki ni",
+        "verb ~ru toki ni"
+      ],
+      "correctFeedback": "Nice! Verb ~ru toki ni is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb ~ru toki ni.",
+      "explanation": "Used to express the time when an action or event occurs.",
+      "hints": [
+        "Used to express the time when an action or event occurs."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "268-n4-point-68-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb るときに.",
+      "correctAnswer": "When doing something",
+      "acceptedVariations": [
+        "When doing something",
+        "when doing something"
+      ],
+      "correctFeedback": "Correct! \"When doing something\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"When doing something\".",
+      "explanation": "Used to express the time when an action or event occurs.",
+      "hints": [
+        "Used to express the time when an action or event occurs."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "268-n4-point-68-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb るときに",
+          "romaji": "Verb ~ru toki ni",
+          "english": "When doing something"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to express the time when an action or event occurs.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "268-n4-point-68-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to express the time when an action or event occurs..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb るときに",
+          "romaji": "Verb ~ru toki ni"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb るときに matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb るときに.",
+      "explanation": "Used to express the time when an action or event occurs.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "268-n4-point-68-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbるときに",
+      "acceptedVariations": [
+        "Verbるときに",
+        "Verb るときに"
+      ],
+      "correctFeedback": "Great! Verbるときに is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbるときに.",
+      "explanation": "Used to express the time when an action or event occurs.",
+      "hints": [
+        "Verb ~ru toki ni"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

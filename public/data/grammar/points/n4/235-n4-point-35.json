@@ -1,0 +1,135 @@
+{
+  "id": "235-n4-point-35",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞ているところ",
+    "romaji": "Doushi te iru tokoro",
+    "en": "Verb te iru tokoro"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The ているところ (te iru tokoro) structure is used to emphasize that an action is currently taking place, similar to 'in the middle of' or 'in the process of' in English. It highlights the exact moment when the action is happening.",
+    "ja": "「ているところ」は、動作がちょうど行われている最中であることを強調する文法です。「〜しているところ」の形で使い、動作の進行中を表します。"
+  },
+  "structure": {
+    "pattern": "Verb-て form + いる + ところ",
+    "components": [
+      {
+        "part": "Verb-て form",
+        "explanation": "The verb in its て-form, indicating the ongoing action.",
+        "examples": [
+          "して",
+          "見て",
+          "遊んで",
+          "作って"
+        ]
+      },
+      {
+        "part": "いる",
+        "explanation": "Indicates the continuous or ongoing aspect of the verb.",
+        "examples": [
+          "している",
+          "見ている",
+          "遊んでいる",
+          "作っている"
+        ]
+      },
+      {
+        "part": "ところ",
+        "explanation": "Emphasizes the specific point in time when the action is happening.",
+        "examples": [
+          "しているところ",
+          "見ているところ"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼は宿題をしているところです。",
+      "romaji": "Kare wa shukudai wo shite iru tokoro desu.",
+      "english": "He is in the middle of doing his homework.",
+      "breakdown": {
+        "彼": "he",
+        "は": "topic marker",
+        "宿題": "homework",
+        "を": "object marker",
+        "している": "is doing",
+        "ところ": "in the middle of",
+        "です": "polite ending"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "私たちは映画を見ているところでした。",
+      "romaji": "Watashitachi wa eiga wo mite iru tokoro deshita.",
+      "english": "We were in the process of watching a movie.",
+      "breakdown": {
+        "私たち": "we",
+        "は": "topic marker",
+        "映画": "movie",
+        "を": "object marker",
+        "見ている": "were watching",
+        "ところ": "in the process of",
+        "でした": "was (polite)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "子供たちは公園で遊んでいるところです。",
+      "romaji": "Kodomotachi wa kouen de asonde iru tokoro desu.",
+      "english": "The kids are in the middle of playing in the park.",
+      "breakdown": {
+        "子供たち": "children",
+        "は": "topic marker",
+        "公園": "park",
+        "で": "at",
+        "遊んでいる": "are playing",
+        "ところ": "in the middle of",
+        "です": "polite ending"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女はケーキを作っているところで、すぐ来ます。",
+      "romaji": "Kanojo wa keeki wo tsukutte iru tokoro de, sugu kimasu.",
+      "english": "She is in the process of making a cake and will come soon.",
+      "breakdown": {
+        "彼女": "she",
+        "は": "topic marker",
+        "ケーキ": "cake",
+        "を": "object marker",
+        "作っている": "is making",
+        "ところで": "while/in the process",
+        "すぐ": "soon",
+        "来ます": "will come"
+      },
+      "notes": "The ところで here links to the next action."
+    }
+  ],
+  "relatedPoints": [
+    "verb-te-iru",
+    "verb-tokoro"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼は宿題をしているです。",
+      "correction": "彼は宿題をしているところです。",
+      "example": "Omitting ところ makes the nuance less clear; use しているところ for 'in the middle of doing'."
+    },
+    {
+      "mistake": "映画を見ている時でした。",
+      "correction": "映画を見ているところでした。",
+      "example": "Using 時 (toki) changes the meaning; ところ emphasizes the exact moment."
+    }
+  ],
+  "tags": [
+    "n4",
+    "progressive",
+    "aspect",
+    "verbs",
+    "ongoing",
+    "action"
+  ]
+}

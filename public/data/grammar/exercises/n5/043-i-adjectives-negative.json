@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "043-i-adjectives-negative",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "043-i-adjectives-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the negative form of 高い:",
+      "options": [
+        { "id": "a", "text": "高くない" },
+        { "id": "b", "text": "高かった" },
+        { "id": "c", "text": "高いでした" },
+        { "id": "d", "text": "高いです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 高い → 高くない.",
+      "incorrectFeedback": "Not quite. Change い to くない.",
+      "explanation": "Negative い-adjectives use くない.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "043-i-adjectives-negative-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "今日は暑くないです。" },
+        { "id": "b", "text": "今日は暑いではありません。" },
+        { "id": "c", "text": "今日は暑いでした。" },
+        { "id": "d", "text": "今日は暑かったです。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 暑くないです is the negative form.",
+      "incorrectFeedback": "Try again. Use くない for い-adjectives.",
+      "explanation": "Use くない (or くないです) to make い-adjectives negative.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "043-i-adjectives-negative-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This shop is not expensive.'",
+      "correctAnswer": "この店は高くないです",
+      "acceptedVariations": [
+        "この店は高くないです。",
+        "このみせはたかくないです",
+        "kono mise wa takakunai desu",
+        "kono mise wa takakunai desu."
+      ],
+      "correctFeedback": "Great! この店は高くないです is correct.",
+      "incorrectFeedback": "The correct answer is: この店は高くないです (kono mise wa takakunai desu).",
+      "explanation": "高い → 高くない for negative.",
+      "hints": ["店 = shop", "Use くない"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "043-i-adjectives-negative-ex-04",
+      "type": "multiple-choice",
+      "question": "Choose the negative form of おいしい:",
+      "options": [
+        { "id": "a", "text": "おいしくない" },
+        { "id": "b", "text": "おいしかった" },
+        { "id": "c", "text": "おいしいでした" },
+        { "id": "d", "text": "おいしいです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! おいしい → おいしくない.",
+      "incorrectFeedback": "Not quite. Change い to くない.",
+      "explanation": "Negative い-adjectives end with くない.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "043-i-adjectives-negative-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This book is not interesting.'",
+      "correctAnswer": "この本はおもしろくないです",
+      "acceptedVariations": [
+        "この本はおもしろくないです。",
+        "このほんはおもしろくないです",
+        "kono hon wa omoshirokunai desu",
+        "kono hon wa omoshirokunai desu."
+      ],
+      "correctFeedback": "Nice! この本はおもしろくないです is correct.",
+      "incorrectFeedback": "The correct answer is: この本はおもしろくないです (kono hon wa omoshirokunai desu).",
+      "explanation": "おもしろい → おもしろくない.",
+      "hints": ["本 = book", "Use くない"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "043-i-adjectives-negative-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "そのりんごは赤くないです。" },
+        { "id": "b", "text": "この映画は長くないです。" },
+        { "id": "c", "text": "この店は高いではありません。" },
+        { "id": "d", "text": "今日は寒くないです。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Use くない, not ではありません.",
+      "incorrectFeedback": "Try again. い-adjectives use くない.",
+      "explanation": "い-adjectives do not use ではありません.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "043-i-adjectives-negative-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'That apple is not red.'",
+      "correctAnswer": "そのりんごは赤くないです",
+      "acceptedVariations": [
+        "そのりんごは赤くないです。",
+        "そのりんごはあかくないです",
+        "sono ringo wa akakunai desu",
+        "sono ringo wa akakunai desu."
+      ],
+      "correctFeedback": "Great! そのりんごは赤くないです is correct.",
+      "incorrectFeedback": "The correct answer is: そのりんごは赤くないです (sono ringo wa akakunai desu).",
+      "explanation": "赤い → 赤くない for negative.",
+      "hints": ["りんご = apple", "Use くない"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "043-i-adjectives-negative-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "今日は暑くないです。",
+          "romaji": "Kyou wa atsukunai desu.",
+          "english": "Today is not hot."
+        },
+        {
+          "japanese": "この本はおもしろくないです。",
+          "romaji": "Kono hon wa omoshirokunai desu.",
+          "english": "This book is not interesting."
+        },
+        {
+          "japanese": "そのりんごは赤くないです。",
+          "romaji": "Sono ringo wa akakunai desu.",
+          "english": "That apple is not red."
+        }
+      ],
+      "correctFeedback": "Perfect! All sentences use くない.",
+      "incorrectFeedback": "Not quite. Review the negative い-adjective form.",
+      "explanation": "All sentences are negative い-adjectives.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "043-i-adjectives-negative-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is the correct negative form of 大きい?",
+      "options": [
+        { "id": "a", "text": "大きくない" },
+        { "id": "b", "text": "大きかった" },
+        { "id": "c", "text": "大きいではありません" },
+        { "id": "d", "text": "大きいです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 大きい → 大きくない.",
+      "incorrectFeedback": "Try again. Change い to くない.",
+      "explanation": "Negative い-adjectives use くない.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "043-i-adjectives-negative-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This movie is not long.'",
+      "correctAnswer": "この映画は長くないです",
+      "acceptedVariations": [
+        "この映画は長くないです。",
+        "このえいがはながくないです",
+        "kono eiga wa nagakunai desu",
+        "kono eiga wa nagakunai desu."
+      ],
+      "correctFeedback": "Nice! この映画は長くないです is correct.",
+      "incorrectFeedback": "The correct answer is: この映画は長くないです (kono eiga wa nagakunai desu).",
+      "explanation": "長い → 長くない for negative.",
+      "hints": ["映画 = movie", "Use くない"],
+      "difficulty": "hard"
+    }
+  ]
+}

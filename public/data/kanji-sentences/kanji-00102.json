@@ -1,0 +1,33 @@
+{
+  "kanji": "黒",
+  "sentences": [
+    {
+      "id": "5296",
+      "japanese": "彼女は黒い帽子をかぶっていた。",
+      "english": "She was wearing a black hat."
+    },
+    {
+      "id": "182122",
+      "japanese": "魚が真っ黒に焦げた。",
+      "english": "The fish is burnt black."
+    },
+    {
+      "id": "187012",
+      "japanese": "家はねこが２匹います。１匹は白で、もう１匹は黒です。",
+      "english": "We have two cats; one is white, and the other is black."
+    },
+    {
+      "id": "187115",
+      "japanese": "家には２匹の犬がいる。１匹は黒で、もう１匹は白である。",
+      "english": "We have two dogs. One is black and the other is white."
+    },
+    {
+      "id": "188732",
+      "japanese": "煙突から黒い煙が出てきた。",
+      "english": "Black smoke came out of the chimney."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.593Z",
+  "count": 5,
+  "fileId": "kanji-00102"
+}

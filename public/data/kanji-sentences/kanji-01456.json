@@ -1,0 +1,33 @@
+{
+  "kanji": "恩",
+  "sentences": [
+    {
+      "id": "226934",
+      "japanese": "お前は恩を仇で返したな。",
+      "english": "You bit the hand that fed you."
+    },
+    {
+      "id": "80757",
+      "japanese": "命がある限りあなたのご恩は忘れません。",
+      "english": "I shall never forget your kindness."
+    },
+    {
+      "id": "8854010",
+      "japanese": "ご恩は一生忘れません。",
+      "english": "I will never forget your kindness."
+    },
+    {
+      "id": "10154247",
+      "japanese": "恩を仇で返すんじゃないぞ。",
+      "english": "Don't bite the hand that feeds you."
+    },
+    {
+      "id": "10154272",
+      "japanese": "恩を仇で返すな。",
+      "english": "Don't bite the hand that feeds you."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:26.228Z",
+  "count": 5,
+  "fileId": "kanji-01456"
+}

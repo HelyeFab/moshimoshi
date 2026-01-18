@@ -1,0 +1,33 @@
+{
+  "kanji": "旬",
+  "sentences": [
+    {
+      "id": "10668522",
+      "japanese": "スイカは今が旬だよ。",
+      "english": "Watermelons are in season now."
+    },
+    {
+      "id": "229059",
+      "japanese": "イチゴは今が旬です。",
+      "english": "Strawberries are in season now."
+    },
+    {
+      "id": "229063",
+      "japanese": "イチゴは今が旬だよ。",
+      "english": "Strawberries are in season now."
+    },
+    {
+      "id": "172641",
+      "japanese": "今は松茸が旬でお安いですよ。",
+      "english": "Matsutake mushrooms are in season now so they are cheap."
+    },
+    {
+      "id": "2598542",
+      "japanese": "さくらんぼは6〜7月が旬だ。",
+      "english": "The fruiting season for the cherry trees is from June to July."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.068Z",
+  "count": 5,
+  "fileId": "kanji-01585"
+}

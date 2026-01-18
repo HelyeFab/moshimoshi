@@ -1,0 +1,33 @@
+{
+  "kanji": "贈",
+  "sentences": [
+    {
+      "id": "5151",
+      "japanese": "彼の誕生日に贈り物をあげたいんです。",
+      "english": "I would like to give him a present for his birthday."
+    },
+    {
+      "id": "995435",
+      "japanese": "彼の誕生日にプレゼントを贈りたいんです。",
+      "english": "I would like to give him a present for his birthday."
+    },
+    {
+      "id": "157416",
+      "japanese": "私は君の誕生日に自転車を贈るつもりです。",
+      "english": "I will give you a bicycle for your birthday."
+    },
+    {
+      "id": "178146",
+      "japanese": "君の誕生日に自転車を贈ろう。",
+      "english": "I will give you a bicycle for your birthday."
+    },
+    {
+      "id": "178155",
+      "japanese": "君の贈り物を受け取ることはできない。",
+      "english": "I cannot accept your gift."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.983Z",
+  "count": 5,
+  "fileId": "kanji-00868"
+}

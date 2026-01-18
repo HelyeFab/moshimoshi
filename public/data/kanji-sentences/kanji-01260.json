@@ -1,0 +1,33 @@
+{
+  "kanji": "鬼",
+  "sentences": [
+    {
+      "id": "179071",
+      "japanese": "君が英語ができれば鬼に金棒なんだが。",
+      "english": "If you could only speak English, you would be perfect."
+    },
+    {
+      "id": "179184",
+      "japanese": "君がここにいてくれるなら、なにも怖いものなし。鬼に金棒だよ。",
+      "english": "With you here beside me I'm not afraid of anything. You're my fortress."
+    },
+    {
+      "id": "182944",
+      "japanese": "鬼の留守に洗濯。",
+      "english": "When the cat is away, the mice will play."
+    },
+    {
+      "id": "182946",
+      "japanese": "鬼の居ぬ間に洗濯。",
+      "english": "When the cat is away, the mice will play."
+    },
+    {
+      "id": "182945",
+      "japanese": "鬼の目にも涙。",
+      "english": "Even the hard-hearted can be moved to tears."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.500Z",
+  "count": 5,
+  "fileId": "kanji-01260"
+}

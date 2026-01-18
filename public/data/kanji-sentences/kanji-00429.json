@@ -1,0 +1,33 @@
+{
+  "kanji": "関",
+  "sentences": [
+    {
+      "id": "181952",
+      "japanese": "私にそれに関する理論をもっていると思う。",
+      "english": "I think I have a theory about that."
+    },
+    {
+      "id": "2270748",
+      "japanese": "このことに関してあなたに文句を言われる筋合いはありません。",
+      "english": "You have no business complaining about the matter."
+    },
+    {
+      "id": "10774623",
+      "japanese": "この件には関わってないんだから、気をもむ必要はないよ。",
+      "english": "Since you have nothing to do with this matter, you don't have to worry."
+    },
+    {
+      "id": "10895584",
+      "japanese": "この件に関しては、お前に選択の余地はないからな。",
+      "english": "You have no choice in this matter."
+    },
+    {
+      "id": "178183",
+      "japanese": "君の申し出に関して、私は君を支持したい。",
+      "english": "With reference to your request, I will support."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.924Z",
+  "count": 5,
+  "fileId": "kanji-00429"
+}

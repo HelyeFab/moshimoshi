@@ -1,0 +1,33 @@
+{
+  "kanji": "室",
+  "sentences": [
+    {
+      "id": "190124",
+      "japanese": "一番安い部屋を１室、４泊お願いします。",
+      "english": "I'd like the most inexpensive room you have for four nights."
+    },
+    {
+      "id": "223875",
+      "japanese": "このカルテを持って３階のレントゲン室へ行ってください。",
+      "english": "Please take this chart to the X-ray Room on the third floor."
+    },
+    {
+      "id": "235197",
+      "japanese": "４室から成るアパートを彼女は借りた。",
+      "english": "She rented a four-room flat."
+    },
+    {
+      "id": "235664",
+      "japanese": "１泊６０ドルくらいのシングルの部屋を２室、２１日から３泊でお願いします。",
+      "english": "I'd like two singles for three nights from the 21st for about sixty dollars a night."
+    },
+    {
+      "id": "157823",
+      "japanese": "私は鞄と傘を一時預かり室に預けた。",
+      "english": "I checked my briefcase and umbrella in the cloakroom."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.414Z",
+  "count": 5,
+  "fileId": "kanji-00092"
+}

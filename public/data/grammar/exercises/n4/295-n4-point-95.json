@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "295-n4-point-95",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "295-n4-point-95-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Must not do something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～てはいけない",
+          "romaji": "~te wa ikenai"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～てはいけない matches \"Must not do something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～てはいけない.",
+      "explanation": "Expresses prohibition; indicates that an action is not allowed.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "295-n4-point-95-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～てはいけない.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "Must not do something"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～てはいけない means \"Must not do something\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Must not do something\".",
+      "explanation": "Expresses prohibition; indicates that an action is not allowed.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "295-n4-point-95-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～てはいけない.",
+      "options": [
+        {
+          "id": "a",
+          "text": "~te wa ikenai"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ~te wa ikenai is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~te wa ikenai.",
+      "explanation": "Expresses prohibition; indicates that an action is not allowed.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "295-n4-point-95-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～てはいけない?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Expresses prohibition; indicates that an action is not allowed."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses prohibition; indicates that an action is not allowed.",
+      "explanation": "Expresses prohibition; indicates that an action is not allowed.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "295-n4-point-95-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Must not do something\".",
+      "correctAnswer": "～てはいけない",
+      "acceptedVariations": [
+        "～てはいけない",
+        "～てはいけない"
+      ],
+      "correctFeedback": "Nice! ～てはいけない is correct.",
+      "incorrectFeedback": "The correct pattern is: ～てはいけない (~te wa ikenai).",
+      "explanation": "Expresses prohibition; indicates that an action is not allowed.",
+      "hints": [
+        "~te wa ikenai",
+        "Expresses prohibition; indicates that an action is not allowed."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "295-n4-point-95-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～てはいけない.",
+      "correctAnswer": "~te wa ikenai",
+      "acceptedVariations": [
+        "~te wa ikenai",
+        "~te wa ikenai"
+      ],
+      "correctFeedback": "Nice! ~te wa ikenai is correct.",
+      "incorrectFeedback": "The correct romaji is: ~te wa ikenai.",
+      "explanation": "Expresses prohibition; indicates that an action is not allowed.",
+      "hints": [
+        "Expresses prohibition; indicates that an action is not allowed."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "295-n4-point-95-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～てはいけない.",
+      "correctAnswer": "Must not do something",
+      "acceptedVariations": [
+        "Must not do something",
+        "must not do something"
+      ],
+      "correctFeedback": "Correct! \"Must not do something\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Must not do something\".",
+      "explanation": "Expresses prohibition; indicates that an action is not allowed.",
+      "hints": [
+        "Expresses prohibition; indicates that an action is not allowed."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "295-n4-point-95-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～てはいけない",
+          "romaji": "~te wa ikenai",
+          "english": "Must not do something"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses prohibition; indicates that an action is not allowed.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "295-n4-point-95-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses prohibition; indicates that an action is not allowed..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～てはいけない",
+          "romaji": "~te wa ikenai"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～てはいけない matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～てはいけない.",
+      "explanation": "Expresses prohibition; indicates that an action is not allowed.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "295-n4-point-95-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～てはいけない",
+      "acceptedVariations": [
+        "～てはいけない",
+        "～てはいけない"
+      ],
+      "correctFeedback": "Great! ～てはいけない is correct.",
+      "incorrectFeedback": "The correct pattern is: ～てはいけない.",
+      "explanation": "Expresses prohibition; indicates that an action is not allowed.",
+      "hints": [
+        "~te wa ikenai"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

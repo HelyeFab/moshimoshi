@@ -1,0 +1,33 @@
+{
+  "kanji": "課",
+  "sentences": [
+    {
+      "id": "185058",
+      "japanese": "海外製品に不公平な関税が課せられている。",
+      "english": "Unfair tariffs are imposed on foreign products."
+    },
+    {
+      "id": "236930",
+      "japanese": "王は人民に重税を課した。",
+      "english": "The king imposed heavy taxes on the people."
+    },
+    {
+      "id": "188495",
+      "japanese": "王は国民に重い税を課した。",
+      "english": "The king imposed heavy taxes on his people."
+    },
+    {
+      "id": "192069",
+      "japanese": "ワインに重税が課せられている。",
+      "english": "Heavy taxes are laid on wine."
+    },
+    {
+      "id": "203440",
+      "japanese": "タバコに新税が課せられた。",
+      "english": "A new tax has been imposed on cigarettes."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.557Z",
+  "count": 5,
+  "fileId": "kanji-00666"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "町",
+  "sentences": [
+    {
+      "id": "6006",
+      "japanese": "奈良は静かで、きれいな町です。",
+      "english": "Nara is a quiet and beautiful city."
+    },
+    {
+      "id": "177802",
+      "japanese": "すぐこの町が好きになりますよ。",
+      "english": "You will soon come to like this town."
+    },
+    {
+      "id": "178133",
+      "japanese": "君の町にいくつ学校がありますか。",
+      "english": "How many schools are there in your city?"
+    },
+    {
+      "id": "178265",
+      "japanese": "君の市の人口は私の町の人口の約５倍だ。",
+      "english": "The population of your city is about five times as large as that of my town."
+    },
+    {
+      "id": "179175",
+      "japanese": "君がこの町にいるなんて知らなかった。",
+      "english": "I didn't know that you were in this town."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.378Z",
+  "count": 5,
+  "fileId": "kanji-00245"
+}

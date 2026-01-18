@@ -1,0 +1,33 @@
+{
+  "kanji": "耕",
+  "sentences": [
+    {
+      "id": "207274",
+      "japanese": "その農民は２００エーカーの農園を耕した。",
+      "english": "That farmer cultivated a 200 acre plantation."
+    },
+    {
+      "id": "121686",
+      "japanese": "農夫は土地を耕す。",
+      "english": "Farmers cultivate the soil."
+    },
+    {
+      "id": "121695",
+      "japanese": "農場主は一日中畑を耕した。",
+      "english": "The farmer plowed his field all day."
+    },
+    {
+      "id": "121708",
+      "japanese": "農家の人達は鋤で土を耕す。",
+      "english": "Farmers turn up the soil with plows."
+    },
+    {
+      "id": "124487",
+      "japanese": "土地を耕す。",
+      "english": "I till the earth."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.174Z",
+  "count": 5,
+  "fileId": "kanji-00877"
+}

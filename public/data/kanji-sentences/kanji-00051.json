@@ -1,0 +1,33 @@
+{
+  "kanji": "水",
+  "sentences": [
+    {
+      "id": "236796",
+      "japanese": "空気中の酸素は水に溶解する。",
+      "english": "Oxygen from the air dissolves in water."
+    },
+    {
+      "id": "179387",
+      "japanese": "空気と水は両方とも生命にとって欠くことができない。",
+      "english": "Both air and water are indispensable for life."
+    },
+    {
+      "id": "179388",
+      "japanese": "空気と水がなければ、私たちは生きることはできないだろう。",
+      "english": "If it were not for air and water, we could not live."
+    },
+    {
+      "id": "193725",
+      "japanese": "もし空気と水がなければ、私たちは生きていけないだろう。",
+      "english": "If it were not for air and water, we could not live."
+    },
+    {
+      "id": "179389",
+      "japanese": "空気と水がなかったら、何も生きられないであろう。",
+      "english": "Without air and water, nothing could live."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.766Z",
+  "count": 5,
+  "fileId": "kanji-00051"
+}

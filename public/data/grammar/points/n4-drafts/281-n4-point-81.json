@@ -1,0 +1,55 @@
+{
+  "id": "281-n4-point-81",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～し、～し、～ (〜shi, 〜shi, 〜)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～し、～し、～ grammar point is used to connect multiple reasons or characteristics that support a conclusion or statement. It can be translated as 'and', 'because', or 'since' in English. This grammar can be used with verbs, い-adjectives, な-adjectives, and nouns.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + し, い-Adjective + し, な-Adjective + だし, Noun + だし",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼は若いし、元気だし、フレンドリーだし、みんなと仲良くなれると思います。",
+      "romaji": "Kare wa wakai shi, genki da shi, furendorī da shi, minna to nakayoku nareru to omoimasu.",
+      "english": "He is young, energetic, friendly, and I think he can get along with everyone.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このレストランは料理が美味しいし、雰囲気がいいし、価格も手頃だからお勧めです。",
+      "romaji": "Kono resutoran wa ryouri ga oishii shi, fun'iki ga ii shi, kakaku mo tegoro dakara osusume desu.",
+      "english": "I recommend this restaurant because the food is delicious, the atmosphere is nice, and the prices are reasonable.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は勉強ができるし、スポーツも得意だし、性格もいい。",
+      "romaji": "Kanojo wa benkyou ga dekiru shi, supōtsu mo tokui da shi, seikaku mo ii.",
+      "english": "She is good at studying, good at sports, and has a good personality.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "今日は寒いし、雨も降っているし、家でゆっくり休んだ方がいいでしょう。",
+      "romaji": "Kyou wa samui shi, ame mo futte iru shi, ie de yukkuri yasunda hou ga ii deshou.",
+      "english": "It's cold today, and it's raining, so it's better to relax at home.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

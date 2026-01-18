@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "229-n4-point-29",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "229-n4-point-29-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb-te aru\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "動詞てある",
+          "romaji": "Doushi te aru"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! 動詞てある matches \"Verb-te aru\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞てある.",
+      "explanation": "Describes a state resulting from an intentional completed action.",
+      "difficulty": "easy"
+    }
+  ]
+}

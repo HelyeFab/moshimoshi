@@ -1,0 +1,33 @@
+{
+  "kanji": "失",
+  "sentences": [
+    {
+      "id": "1050420",
+      "japanese": "私は言葉を失った。",
+      "english": "I'm at a loss for words."
+    },
+    {
+      "id": "2116046",
+      "japanese": "その戦争では百万人もの人命が失われた。",
+      "english": "One million people lost their lives in the war."
+    },
+    {
+      "id": "5145",
+      "japanese": "鍵となる問題は何を得ることができるかではなく、何を失わなければならないかである。",
+      "english": "The key question is not what can I gain but what do I have to lose."
+    },
+    {
+      "id": "139060",
+      "japanese": "私はひらめきを失った。",
+      "english": "I lost my inspiration."
+    },
+    {
+      "id": "156176",
+      "japanese": "私は失った時間を取り戻さなければならない。",
+      "english": "I must make up for lost time."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:02.084Z",
+  "count": 5,
+  "fileId": "kanji-00591"
+}

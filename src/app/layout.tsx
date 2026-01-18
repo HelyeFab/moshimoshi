@@ -284,11 +284,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           priceCurrency: 'USD',
           description: 'Free tier with optional premium features',
         },
-        aggregateRating: {
-          '@type': 'AggregateRating',
-          ratingValue: '4.8',
-          ratingCount: '1250',
-        },
         featureList: [
           'YouTube Shadowing',
           'Anki Deck Import',
@@ -319,11 +314,6 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         name: 'Moshimoshi',
         publisher: {
           '@id': 'https://moshimoshi.app/#organization',
-        },
-        potentialAction: {
-          '@type': 'SearchAction',
-          target: 'https://moshimoshi.app/search?q={search_term_string}',
-          'query-input': 'required name=search_term_string',
         },
       },
     ],

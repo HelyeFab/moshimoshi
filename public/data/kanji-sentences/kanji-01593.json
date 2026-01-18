@@ -1,0 +1,33 @@
+{
+  "kanji": "穏",
+  "sentences": [
+    {
+      "id": "179379",
+      "japanese": "空気は穏やかで、土には湿り気がある。",
+      "english": "The air is soft, the soil moist."
+    },
+    {
+      "id": "184030",
+      "japanese": "寒い冬の後、春は穏やかな天候をもたらす。",
+      "english": "Spring brings mild weather after the cold winter."
+    },
+    {
+      "id": "184678",
+      "japanese": "概してフロリダの気候は穏やかだ。",
+      "english": "The weather in Florida is generally moderate."
+    },
+    {
+      "id": "185089",
+      "japanese": "海は全く穏やかであった。",
+      "english": "The sea was truly calm."
+    },
+    {
+      "id": "185097",
+      "japanese": "海は穏やかに、そしてなめらかに見える。",
+      "english": "The sea looks calm and smooth."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:30.245Z",
+  "count": 5,
+  "fileId": "kanji-01593"
+}

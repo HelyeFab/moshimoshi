@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "023-masu-form-negative",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "023-masu-form-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the polite negative form: 行きます → ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "行きました"
+        },
+        {
+          "id": "b",
+          "text": "行きません"
+        },
+        {
+          "id": "c",
+          "text": "行きます"
+        },
+        {
+          "id": "d",
+          "text": "行かないです"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 行きません is the polite negative.",
+      "incorrectFeedback": "Not quite. Replace ます with ません.",
+      "explanation": "ます → ません for polite negative.",
+      "difficulty": "easy"
+    }
+  ]
+}

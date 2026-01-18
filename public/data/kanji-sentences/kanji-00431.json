@@ -1,0 +1,33 @@
+{
+  "kanji": "定",
+  "sentences": [
+    {
+      "id": "179534",
+      "japanese": "苦しむことは人間の定めである。",
+      "english": "It is man's lot to suffer."
+    },
+    {
+      "id": "191242",
+      "japanese": "案の定、幽霊はバルコニーに現れた。",
+      "english": "Sure enough, the ghost appeared on the balcony."
+    },
+    {
+      "id": "191241",
+      "japanese": "案の定、彼女は電話をかけてきた。",
+      "english": "She called me up, as I had expected."
+    },
+    {
+      "id": "191243",
+      "japanese": "案の定、彼は第一位になった。",
+      "english": "As was to be expected, he took the first place."
+    },
+    {
+      "id": "191244",
+      "japanese": "案の定、彼は疑念を抱いていた。",
+      "english": "Sure enough, he entertained doubts."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.940Z",
+  "count": 5,
+  "fileId": "kanji-00431"
+}

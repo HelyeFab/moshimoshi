@@ -1,0 +1,33 @@
+{
+  "kanji": "速",
+  "sentences": [
+    {
+      "id": "176993",
+      "japanese": "君は彼と同じくらい速く泳げますか。",
+      "english": "Can you swim as fast as he?"
+    },
+    {
+      "id": "179116",
+      "japanese": "君がどんなに速く歩いても、彼には追いつけません。",
+      "english": "However fast you may walk, you can't catch up with him."
+    },
+    {
+      "id": "179207",
+      "japanese": "君があまり速く歩くので、いっしょに並んで歩けない。",
+      "english": "You walk too fast for me to keep up with you."
+    },
+    {
+      "id": "180533",
+      "japanese": "強い風が吹いていて速く歩けない。",
+      "english": "A strong wind is blowing and I can't walk fast."
+    },
+    {
+      "id": "182435",
+      "japanese": "急行列車が目にとまらぬ速さで走りすぎていった。",
+      "english": "The express train went by so fast that we hardly saw it."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.295Z",
+  "count": 5,
+  "fileId": "kanji-00307"
+}

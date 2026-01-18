@@ -1,0 +1,33 @@
+{
+  "kanji": "易",
+  "sentences": [
+    {
+      "id": "182838",
+      "japanese": "喫煙による短期的な影響の方が分かり易いと思う人もいる。",
+      "english": "Some people find it easier to grasp the short-term effects of smoking."
+    },
+    {
+      "id": "190660",
+      "japanese": "一見したところ、その問題は易しそうにみえた。",
+      "english": "At first glance, the question seemed easy."
+    },
+    {
+      "id": "191030",
+      "japanese": "易しく書かれているので、その本は初心者向きだ。",
+      "english": "Written as it is in easy style, the book is for beginners."
+    },
+    {
+      "id": "191031",
+      "japanese": "易しい英語で言ってください。",
+      "english": "Could you say that in plain English?"
+    },
+    {
+      "id": "191032",
+      "japanese": "易しい英語でかかれているので、その本は君でも読める。",
+      "english": "Written in plain English, the book can be read even by you."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.158Z",
+  "count": 5,
+  "fileId": "kanji-00375"
+}

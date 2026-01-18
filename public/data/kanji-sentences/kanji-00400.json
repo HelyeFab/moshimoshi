@@ -1,0 +1,33 @@
+{
+  "kanji": "箱",
+  "sentences": [
+    {
+      "id": "177069",
+      "japanese": "君は大きい箱か小さい箱のどちらかをとっていいよ。",
+      "english": "You may take either the big box or the small one."
+    },
+    {
+      "id": "177827",
+      "japanese": "君はこの箱が何で作られているかを知っていますか。",
+      "english": "Do you know what this box is made of?"
+    },
+    {
+      "id": "10952452",
+      "japanese": "この箱、何でできてるか分かる？",
+      "english": "Do you know what this box is made of?"
+    },
+    {
+      "id": "182849",
+      "japanese": "吉雄は私がその箱を持ち上げるのを手伝ってくれた。",
+      "english": "Yoshio helped me lift the box up."
+    },
+    {
+      "id": "184358",
+      "japanese": "学校を一歩出ると、住む家のない人々が段ボール箱を家代わりにして生活している様子が目にはいった。",
+      "english": "Outside the school, she saw people with no homes living in cardboard boxes."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.532Z",
+  "count": 5,
+  "fileId": "kanji-00400"
+}

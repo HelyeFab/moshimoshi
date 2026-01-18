@@ -1,0 +1,117 @@
+{
+  "id": "296-n4-point-96",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～てもいい",
+    "romaji": "temo ii",
+    "en": "It's okay to / May / Can (permission)"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The grammar point ～てもいい is used to ask for or give permission to do something. It is formed by adding てもいい to the て-form of a verb. It can be translated as 'it's okay to', 'may', or 'can' in English.",
+    "ja": "動詞のて形に「もいい」を付けて、許可を求めたり与えたりする表現です。「〜してもいい」の形で、「〜してもかまいません」や「〜しても大丈夫です」と同じ意味になります。"
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + もいい",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "The て-form of the verb, used to connect to もいい.",
+        "examples": [
+          "食べて",
+          "行って",
+          "遊んで"
+        ]
+      },
+      {
+        "part": "もいい",
+        "explanation": "Means 'it's okay to' or 'may', gives or asks permission.",
+        "examples": [
+          "食べてもいい",
+          "行ってもいい"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "ここで写真を撮ってもいいですか。",
+      "romaji": "Koko de shashin wo tottemo ii desu ka?",
+      "english": "Is it okay to take a photo here?",
+      "breakdown": {
+        "ここで": "here (location particle)",
+        "写真": "photo",
+        "を": "object marker",
+        "撮って": "take (te-form)",
+        "もいい": "may/it's okay",
+        "ですか": "polite question"
+      },
+      "notes": "Polite way to ask for permission."
+    },
+    {
+      "japanese": "このリンゴを食べてもいいですか。",
+      "romaji": "Kono ringo wo tabetemo ii desu ka.",
+      "english": "May I eat this apple?",
+      "breakdown": {
+        "この": "this",
+        "リンゴ": "apple",
+        "を": "object marker",
+        "食べて": "eat (te-form)",
+        "もいい": "may/it's okay",
+        "ですか": "polite question"
+      },
+      "notes": "Asking for permission to eat."
+    },
+    {
+      "japanese": "試験が終わったら、帰ってもいいです。",
+      "romaji": "Shiken ga owattara, kaettemo ii desu.",
+      "english": "You can go home after the exam is over.",
+      "breakdown": {
+        "試験": "exam",
+        "が": "subject marker",
+        "終わったら": "if/when finished",
+        "帰って": "go home (te-form)",
+        "もいい": "may/it's okay",
+        "です": "polite"
+      },
+      "notes": "Giving permission after a condition is met."
+    },
+    {
+      "japanese": "今夜友達と遊んでもいい。",
+      "romaji": "Kon'ya tomodachi to asondemo ii.",
+      "english": "It's okay to play with friends tonight.",
+      "breakdown": {
+        "今夜": "tonight",
+        "友達と": "with friends",
+        "遊んで": "play (te-form)",
+        "もいい": "may/it's okay"
+      },
+      "notes": "Informal, granting permission."
+    }
+  ],
+  "relatedPoints": [
+    "てもかまいません",
+    "ても大丈夫"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using plain verb instead of て-form: 食べもいい",
+      "correction": "Use the て-form: 食べてもいい",
+      "example": "× このリンゴを食べもいいですか。 → ○ このリンゴを食べてもいいですか。"
+    },
+    {
+      "mistake": "Omitting も: 食べていい",
+      "correction": "Use てもいい for polite permission: 食べてもいい",
+      "example": "× このリンゴを食べていいですか。 → ○ このリンゴを食べてもいいですか。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "permission",
+    "verbs",
+    "te-form",
+    "requests",
+    "politeness"
+  ]
+}

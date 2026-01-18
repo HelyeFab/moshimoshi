@@ -1,0 +1,33 @@
+{
+  "kanji": "由",
+  "sentences": [
+    {
+      "id": "188006",
+      "japanese": "何が起こるか知る由もない。",
+      "english": "There is no knowing what may happen."
+    },
+    {
+      "id": "205685",
+      "japanese": "それについては知る由もなかった。",
+      "english": "She had no way to know about it."
+    },
+    {
+      "id": "120783",
+      "japanese": "彼がどこへ行ってしまったか知る由もない。",
+      "english": "There is no way of knowing where he's gone."
+    },
+    {
+      "id": "7560870",
+      "japanese": "私たちは何をなしたのかを知ることはできても、それを変えることはできない。そして未来は変えることができるが、なにをなし得るかについては知る由もない。",
+      "english": "It is possible for us to know what has been achieved in the past, but it is not possible for us to change it. And it is possible for us to change the future, but it is not possible for us to know what will be achieved in it."
+    },
+    {
+      "id": "3555722",
+      "japanese": "まさかこんなことが起きようとは、トムには知る由もなかった。",
+      "english": "Tom had no way of knowing that this would happen."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.134Z",
+  "count": 5,
+  "fileId": "kanji-00525"
+}

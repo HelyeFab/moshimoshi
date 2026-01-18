@@ -1,0 +1,55 @@
+{
+  "id": "257-n4-point-57",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb やすい (〜yasui)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The やすい grammar point is used to express that something is easy to do or easy for someone. It is attached to the verb stem and can be translated as 'easy to' or 'easy for' in English. This formation is used with verbs only.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-stem + やすい",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "この本は読みやすいです。",
+      "romaji": "Kono hon wa yomiyasui desu.",
+      "english": "This book is easy to read.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "このシャツは着やすい。",
+      "romaji": "Kono shatsu wa kiyasui.",
+      "english": "This shirt is easy to wear.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は話しやすい人です。",
+      "romaji": "Kare wa hanashiyasui hito desu.",
+      "english": "He is an easy person to talk to.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この料理は作りやすい。",
+      "romaji": "Kono ryouri wa tsukuriyasui.",
+      "english": "This dish is easy to make.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

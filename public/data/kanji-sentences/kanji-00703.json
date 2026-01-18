@@ -1,0 +1,33 @@
+{
+  "kanji": "換",
+  "sentences": [
+    {
+      "id": "179580",
+      "japanese": "銀行のところで降りて、Ａ５２に乗り換えないと駄目ですよ。",
+      "english": "You'll have to get off at the bank and take the A52."
+    },
+    {
+      "id": "179585",
+      "japanese": "銀行に行けばその５０ドルの小切手を現金に換えてくれる。",
+      "english": "The bank will cash your fifty dollar check."
+    },
+    {
+      "id": "189997",
+      "japanese": "引き換え券を見せて下さい。",
+      "english": "May I see your claim tags?"
+    },
+    {
+      "id": "192950",
+      "japanese": "ユナイテッドの１１１便に乗り換えるのですが。",
+      "english": "I have a connecting flight on UA 111."
+    },
+    {
+      "id": "194018",
+      "japanese": "もう電子レンジは買い換えてもいい頃です。",
+      "english": "It is about time we bought a new microwave oven."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:04.390Z",
+  "count": 5,
+  "fileId": "kanji-00703"
+}

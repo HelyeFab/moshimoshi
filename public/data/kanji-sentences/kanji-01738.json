@@ -1,0 +1,33 @@
+{
+  "kanji": "窮",
+  "sentences": [
+    {
+      "id": "182371",
+      "japanese": "窮すれば通ず。",
+      "english": "Necessity is the mother of invention."
+    },
+    {
+      "id": "152903",
+      "japanese": "私は返答に窮した。",
+      "english": "I was at a loss for an answer."
+    },
+    {
+      "id": "107571",
+      "japanese": "彼は言葉に窮した。",
+      "english": "He didn't know how to express himself."
+    },
+    {
+      "id": "157241",
+      "japanese": "私は言葉に窮した。",
+      "english": "I didn't know how to express myself."
+    },
+    {
+      "id": "175776",
+      "japanese": "結婚してくれと言われたとき、私は言葉に窮した。",
+      "english": "Asked to marry him, I was at a loss for words."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:35.161Z",
+  "count": 5,
+  "fileId": "kanji-01738"
+}

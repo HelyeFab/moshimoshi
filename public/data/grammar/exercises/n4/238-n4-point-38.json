@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "238-n4-point-38",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "238-n4-point-38-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb-te kudasaimasen ka\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "動詞てくださいませんか",
+          "romaji": "Doushi te kudasaimasen ka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! 動詞てくださいませんか matches \"Verb-te kudasaimasen ka\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞てくださいませんか.",
+      "explanation": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "238-n4-point-38-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞てくださいませんか.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Verb-te kudasaimasen ka"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 動詞てくださいませんか means \"Verb-te kudasaimasen ka\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb-te kudasaimasen ka\".",
+      "explanation": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "238-n4-point-38-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞てくださいませんか.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Doushi te kudasaimasen ka"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Doushi te kudasaimasen ka is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Doushi te kudasaimasen ka.",
+      "explanation": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "238-n4-point-38-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞てくださいませんか?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "explanation": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "238-n4-point-38-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb-te kudasaimasen ka\".",
+      "correctAnswer": "動詞てくださいませんか",
+      "acceptedVariations": [
+        "動詞てくださいませんか",
+        "動詞てくださいませんか"
+      ],
+      "correctFeedback": "Nice! 動詞てくださいませんか is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞てくださいませんか (Doushi te kudasaimasen ka).",
+      "explanation": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "hints": [
+        "Doushi te kudasaimasen ka",
+        "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "238-n4-point-38-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞てくださいませんか.",
+      "correctAnswer": "Doushi te kudasaimasen ka",
+      "acceptedVariations": [
+        "Doushi te kudasaimasen ka",
+        "doushi te kudasaimasen ka"
+      ],
+      "correctFeedback": "Nice! Doushi te kudasaimasen ka is correct.",
+      "incorrectFeedback": "The correct romaji is: Doushi te kudasaimasen ka.",
+      "explanation": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "hints": [
+        "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "238-n4-point-38-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞てくださいませんか.",
+      "correctAnswer": "Verb-te kudasaimasen ka",
+      "acceptedVariations": [
+        "Verb-te kudasaimasen ka",
+        "verb-te kudasaimasen ka"
+      ],
+      "correctFeedback": "Correct! \"Verb-te kudasaimasen ka\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb-te kudasaimasen ka\".",
+      "explanation": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "hints": [
+        "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "238-n4-point-38-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞てくださいませんか",
+          "romaji": "Doushi te kudasaimasen ka",
+          "english": "Verb-te kudasaimasen ka"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "238-n4-point-38-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "動詞てくださいませんか",
+          "romaji": "Doushi te kudasaimasen ka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 動詞てくださいませんか matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞てくださいませんか.",
+      "explanation": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "238-n4-point-38-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞てくださいませんか",
+      "acceptedVariations": [
+        "動詞てくださいませんか",
+        "動詞てくださいませんか"
+      ],
+      "correctFeedback": "Great! 動詞てくださいませんか is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞てくださいませんか.",
+      "explanation": "Very polite request form: \"Would you please...?\" using verb-te kudasaimasen ka.",
+      "hints": [
+        "Doushi te kudasaimasen ka"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

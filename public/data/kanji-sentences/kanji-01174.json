@@ -1,0 +1,33 @@
+{
+  "kanji": "染",
+  "sentences": [
+    {
+      "id": "1125950",
+      "japanese": "襟に染みがついてますよ。",
+      "english": "Your collar has a stain on it."
+    },
+    {
+      "id": "186745",
+      "japanese": "火の暖気で彼女のほおが赤く染まった。",
+      "english": "Her cheeks were tinged with red by the warmth of fire."
+    },
+    {
+      "id": "186892",
+      "japanese": "叔父の兄の倅が変なビジネスに手を染めて、家名を落とすことになった。",
+      "english": "My uncle's brother's son got involved in a shady business and disgraced the family."
+    },
+    {
+      "id": "191413",
+      "japanese": "悪習に染まるのは簡単だ。",
+      "english": "It's easy to fall into bad habits."
+    },
+    {
+      "id": "209046",
+      "japanese": "その少年は注目されたくて髪を染めた。",
+      "english": "The boy dyed his hair because he wanted to be noticed."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:18.309Z",
+  "count": 5,
+  "fileId": "kanji-01174"
+}

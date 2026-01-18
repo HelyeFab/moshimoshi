@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "316-n4-point-116",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "316-n4-point-116-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"As it is\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~まま",
+          "romaji": "~mama"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ~まま matches \"As it is\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ~まま.",
+      "explanation": "Describes something left unchanged or kept in its current state.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "316-n4-point-116-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ~まま.",
+      "options": [
+        {
+          "id": "a",
+          "text": "As it is"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ~まま means \"As it is\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"As it is\".",
+      "explanation": "Describes something left unchanged or kept in its current state.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "316-n4-point-116-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ~まま.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~mama"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ~mama is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~mama.",
+      "explanation": "Describes something left unchanged or kept in its current state.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "316-n4-point-116-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ~まま?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Describes something left unchanged or kept in its current state."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Describes something left unchanged or kept in its current state.",
+      "explanation": "Describes something left unchanged or kept in its current state.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "316-n4-point-116-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"As it is\".",
+      "correctAnswer": "~まま",
+      "acceptedVariations": [
+        "~まま",
+        "~まま"
+      ],
+      "correctFeedback": "Nice! ~まま is correct.",
+      "incorrectFeedback": "The correct pattern is: ~まま (~mama).",
+      "explanation": "Describes something left unchanged or kept in its current state.",
+      "hints": [
+        "~mama",
+        "Describes something left unchanged or kept in its current state."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "316-n4-point-116-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ~まま.",
+      "correctAnswer": "~mama",
+      "acceptedVariations": [
+        "~mama",
+        "~mama"
+      ],
+      "correctFeedback": "Nice! ~mama is correct.",
+      "incorrectFeedback": "The correct romaji is: ~mama.",
+      "explanation": "Describes something left unchanged or kept in its current state.",
+      "hints": [
+        "Describes something left unchanged or kept in its current state."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "316-n4-point-116-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ~まま.",
+      "correctAnswer": "As it is",
+      "acceptedVariations": [
+        "As it is",
+        "as it is"
+      ],
+      "correctFeedback": "Correct! \"As it is\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"As it is\".",
+      "explanation": "Describes something left unchanged or kept in its current state.",
+      "hints": [
+        "Describes something left unchanged or kept in its current state."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "316-n4-point-116-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "~まま",
+          "romaji": "~mama",
+          "english": "As it is"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Describes something left unchanged or kept in its current state.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "316-n4-point-116-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Describes something left unchanged or kept in its current state..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "~まま",
+          "romaji": "~mama"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ~まま matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ~まま.",
+      "explanation": "Describes something left unchanged or kept in its current state.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "316-n4-point-116-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "~まま",
+      "acceptedVariations": [
+        "~まま",
+        "~まま"
+      ],
+      "correctFeedback": "Great! ~まま is correct.",
+      "incorrectFeedback": "The correct pattern is: ~まま.",
+      "explanation": "Describes something left unchanged or kept in its current state.",
+      "hints": [
+        "~mama"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "id": "281-n4-point-81",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～し、～し、～",
+    "romaji": "~shi, ~shi, ~",
+    "en": "Connecting Reasons"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～し、～し、～ grammar point is used to connect multiple reasons or characteristics that support a conclusion or statement. It can be translated as 'and', 'because', or 'since' in English.",
+    "ja": "～し、～し、～の文法は、複数の理由や特徴を結びつけ、結論や発言を支持するために使用されます。英語では「そして」、「なぜなら」、「〜なので」と訳すことができます。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + し, い-Adjective + し, な-Adjective + だし, Noun + だし",
+    "components": [
+      {
+        "part": "Verb-casual",
+        "explanation": "Use the casual form of verbs followed by し.",
+        "examples": [
+          "若いし (Wakai shi - Young and)",
+          "勉強ができるし (Benkyou ga dekiru shi - Good at studying and)"
+        ]
+      },
+      {
+        "part": "い-Adjective + し",
+        "explanation": "Attach し directly to the end of an い-adjective.",
+        "examples": [
+          "元気だし (Genki da shi - Energetic and)",
+          "寒いし (Samui shi - Cold and)"
+        ]
+      },
+      {
+        "part": "な-Adjective + だし",
+        "explanation": "Attach だし to the end of a な-adjective.",
+        "examples": [
+          "フレンドリーだし (Furendorī da shi - Friendly and)",
+          "手頃だし (Tegoro da shi - Reasonable and)"
+        ]
+      },
+      {
+        "part": "Noun + だし",
+        "explanation": "Attach だし to the end of a noun.",
+        "examples": [
+          "レストランだし (Resutoran da shi - Restaurant and)",
+          "スポーツだし (Supōtsu da shi - Sports and)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼は若いし、元気だし、フレンドリーだし、みんなと仲良くなれると思います。",
+      "romaji": "Kare wa wakai shi, genki da shi, furendorī da shi, minna to nakayoku nareru to omoimasu.",
+      "english": "He is young and energetic and friendly so I think he can get along with everyone.",
+      "breakdown": {
+        "彼 (Kare)": "he",
+        "若いし (Wakai shi)": "young and",
+        "元気だし (Genki da shi)": "energetic and",
+        "フレンドリーだし (Furendorī da shi)": "friendly and",
+        "みんなと仲良くなれると思います (Minna to nakayoku nareru to omoimasu)": "I think he can get along with everyone"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このレストランは料理が美味しいし、雰囲気がいいし、価格も手頃だからお勧めです。",
+      "romaji": "Kono resutoran wa ryouri ga oishii shi, fun'iki ga ii shi, kakaku mo tegoro dakara osusume desu.",
+      "english": "I recommend this restaurant because the food is delicious and the atmosphere is nice and the prices are reasonable.",
+      "breakdown": {
+        "このレストランは (Kono resutoran wa)": "this restaurant",
+        "料理が美味しいし (Ryouri ga oishii shi)": "the food is delicious and",
+        "雰囲気がいいし (Fun'iki ga ii shi)": "atmosphere is nice and",
+        "価格も手頃だし (Kakaku mo tegoro da shi)": "prices are reasonable and"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は勉強ができるし、スポーツも得意だし、性格もいい。",
+      "romaji": "Kanojo wa benkyou ga dekiru shi, supōtsu mo tokui da shi, seikaku mo ii.",
+      "english": "She is good at studying and sports and has a good personality.",
+      "breakdown": {
+        "彼女は (Kanojo wa)": "she",
+        "勉強ができるし (Benkyou ga dekiru shi)": "good at studying and",
+        "スポーツも得意だし (Supōtsu mo tokui da shi)": "good at sports and",
+        "性格もいい (Seikaku mo ii)": "has a good personality"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "今日は寒いし、雨も降っているし、家でゆっくり休んだ方がいいでしょう。",
+      "romaji": "Kyou wa samui shi, ame mo futte iru shi, ie de yukkuri yasunda hou ga ii deshou.",
+      "english": "It's cold today and it's raining so it is better to relax at home.",
+      "breakdown": {
+        "今日は (Kyou wa)": "today",
+        "寒いし (Samui shi)": "it's cold and",
+        "雨も降っているし (Ame mo futte iru shi)": "rain is falling and",
+        "家でゆっくり休んだ方がいいでしょう (Ie de yukkuri yasunda hou ga ii deshou)": "It's better to relax at home"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～てはいけない",
+    "～といい",
+    "～という (〜to iu) Noun"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼は元気だし、若いし。",
+      "correction": "彼は若いし、元気だし。",
+      "example": "The order of reasons should be natural and logical."
+    }
+  ],
+  "tags": [
+    "n4",
+    "connectors",
+    "reasons",
+    "conclusion",
+    "miscellaneous"
+  ]
+}

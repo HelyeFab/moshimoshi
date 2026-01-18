@@ -1,0 +1,102 @@
+{
+  "id": "203-n4-point-3",
+  "version": "1.0.0",
+  "title": {
+    "ja": "A は B ほど～ない",
+    "romaji": "A wa B hodo ~ nai",
+    "en": "Not as...as"
+  },
+  "jlptLevel": "N4",
+  "category": "comparisons",
+  "explanation": {
+    "en": "This grammar expresses that A is not as ~ as B in some aspect, using 'not as...as' in English. It can be formed with い-adjectives (without the final い), な-adjective forms, and verb negative potential forms.",
+    "ja": "この文法は、AがBほど～ない（英語で言うと「〜ほどではない」）という意味を表します。それは、形容詞のイ形（最後の『い』なし）、ナ形、動詞の否定可能形を使って形成されます。"
+  },
+  "structure": {
+    "pattern": "A は B ほど + 形容詞の原型 + くない / じゃない, 動詞の否定可能形",
+    "components": [
+      {
+        "part": "形容詞の原型",
+        "explanation": "い形容詞の場合は、最後の『い』を抜いて使います。な形容詞はそのままです。",
+        "examples": [
+          "甘くない (amakunai)",
+          "静かじゃない (shizuka janai)"
+        ]
+      },
+      {
+        "part": "動詞の否定可能形",
+        "explanation": "動詞に「できない」や「できわない」を付けます。",
+        "examples": [
+          "勉強ができない (benkyou ga dekinai)",
+          "泳げない (oyogewanai)"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "山田さんは鈴木さんほど背が高くない。",
+      "romaji": "Yamada-san wa Suzuki-san hodo se ga takakunai.",
+      "english": "Yamada is not as tall as Suzuki.",
+      "breakdown": {
+        "token": "gloss",
+        "sega": "his height",
+        "takakunai": "not so high"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このリンゴはあのリンゴほど甘くない。",
+      "romaji": "Kono ringo wa ano ringo hodo amakunai.",
+      "english": "This apple is not as sweet as that apple.",
+      "breakdown": {
+        "token": "gloss",
+        "amakunai": "not so sweet"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は私ほど勉強ができない。",
+      "romaji": "Kare wa watashi hodo benkyou ga dekinai.",
+      "english": "He can't study as well as I can.",
+      "breakdown": {
+        "token": "gloss",
+        "benkyougadekinai": "can't study"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このレストランはあのレストランほど静かじゃない。",
+      "romaji": "Kono resutoran wa ano resutoran hodo shizuka janai.",
+      "english": "This restaurant is not as quiet as that restaurant.",
+      "breakdown": {
+        "token": "gloss",
+        "shizukajanai": "not so quiet"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "A は B ほど～ありません",
+    "A より B のほうが〜",
+    "～すぎる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "A は B ほど + 形容詞の原型 + ない",
+      "correction": "形容詞の原型に「くない」（イ形）または「じゃない」（ナ形）を追加する。",
+      "example": "このリンゴはあのリンゴほど甘くない。（正しくは、amakunai）"
+    },
+    {
+      "mistake": "A は B ほど + 動詞の否定形",
+      "correction": "動詞の否定可能形を用いる（例：できない）。",
+      "example": "彼は私ほど勉強ができない。（正しくは、benkyou ga dekinai）"
+    }
+  ],
+  "tags": [
+    "n4",
+    "comparison",
+    "adjectives",
+    "verbs"
+  ]
+}

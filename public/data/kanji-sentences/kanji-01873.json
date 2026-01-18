@@ -1,0 +1,23 @@
+{
+  "kanji": "茎",
+  "sentences": [
+    {
+      "id": "197881",
+      "japanese": "バラは茎に刺がある。",
+      "english": "A rose has thorns on its stem."
+    },
+    {
+      "id": "211294",
+      "japanese": "その茎は君の小指よりやや太い。",
+      "english": "The stalk is a little bigger around than your little finger."
+    },
+    {
+      "id": "10156821",
+      "japanese": "台風の日は茎が折れる危険性があるので補強する必要があります。",
+      "english": "On days where there's a typhoon, there's a risk the stalks will break, so they must be reinforced."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:40.432Z",
+  "count": 3,
+  "fileId": "kanji-01873"
+}

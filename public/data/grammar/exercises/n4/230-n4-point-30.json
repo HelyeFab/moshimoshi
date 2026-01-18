@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "230-n4-point-30",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "230-n4-point-30-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb-te iku\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "動詞ていく",
+          "romaji": "Doushi te iku"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! 動詞ていく matches \"Verb-te iku\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ていく.",
+      "explanation": "Expresses an action continuing or progressing from now into the future.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "230-n4-point-30-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞ていく.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Verb-te iku"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 動詞ていく means \"Verb-te iku\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb-te iku\".",
+      "explanation": "Expresses an action continuing or progressing from now into the future.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "230-n4-point-30-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞ていく.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Doushi te iku"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Doushi te iku is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Doushi te iku.",
+      "explanation": "Expresses an action continuing or progressing from now into the future.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "230-n4-point-30-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞ていく?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expresses an action continuing or progressing from now into the future."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses an action continuing or progressing from now into the future.",
+      "explanation": "Expresses an action continuing or progressing from now into the future.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "230-n4-point-30-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb-te iku\".",
+      "correctAnswer": "動詞ていく",
+      "acceptedVariations": [
+        "動詞ていく",
+        "動詞ていく"
+      ],
+      "correctFeedback": "Nice! 動詞ていく is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞ていく (Doushi te iku).",
+      "explanation": "Expresses an action continuing or progressing from now into the future.",
+      "hints": [
+        "Doushi te iku",
+        "Expresses an action continuing or progressing from now into the future."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "230-n4-point-30-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞ていく.",
+      "correctAnswer": "Doushi te iku",
+      "acceptedVariations": [
+        "Doushi te iku",
+        "doushi te iku"
+      ],
+      "correctFeedback": "Nice! Doushi te iku is correct.",
+      "incorrectFeedback": "The correct romaji is: Doushi te iku.",
+      "explanation": "Expresses an action continuing or progressing from now into the future.",
+      "hints": [
+        "Expresses an action continuing or progressing from now into the future."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "230-n4-point-30-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞ていく.",
+      "correctAnswer": "Verb-te iku",
+      "acceptedVariations": [
+        "Verb-te iku",
+        "verb-te iku"
+      ],
+      "correctFeedback": "Correct! \"Verb-te iku\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb-te iku\".",
+      "explanation": "Expresses an action continuing or progressing from now into the future.",
+      "hints": [
+        "Expresses an action continuing or progressing from now into the future."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "230-n4-point-30-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞ていく",
+          "romaji": "Doushi te iku",
+          "english": "Verb-te iku"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses an action continuing or progressing from now into the future.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "230-n4-point-30-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses an action continuing or progressing from now into the future..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "動詞ていく",
+          "romaji": "Doushi te iku"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 動詞ていく matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ていく.",
+      "explanation": "Expresses an action continuing or progressing from now into the future.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "230-n4-point-30-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞ていく",
+      "acceptedVariations": [
+        "動詞ていく",
+        "動詞ていく"
+      ],
+      "correctFeedback": "Great! 動詞ていく is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞ていく.",
+      "explanation": "Expresses an action continuing or progressing from now into the future.",
+      "hints": [
+        "Doushi te iku"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

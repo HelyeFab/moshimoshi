@@ -25,6 +25,7 @@ import WordDetailsModal from '@/app/[locale]/vocabulary/components/WordDetailsMo
 import { searchJMdictWords, loadJMdictData } from '@/utils/jmdictLocalSearch'
 import { UserListAdapter } from '@/lib/review-engine/adapters/UserListAdapter'
 import { buildTatoebaDistractorPool, TatoebaSentence } from '@/utils/tatoeba-client'
+import { useTTS } from '@/hooks/useTTS'
 import dynamic from 'next/dynamic'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import { ReviewEventType } from '@/lib/review-engine/core/events'
@@ -374,6 +375,7 @@ export default function ListDetailPage() {
 
   // State for loading Tatoeba distractors
   const [loadingDistractors, setLoadingDistractors] = useState(false)
+  const { preload } = useTTS({ cacheFirst: true })
 
   // Review mode handler
   const handleStartReview = async () => {
@@ -408,6 +410,15 @@ export default function ListDetailPage() {
 
         // Fetch Tatoeba sentences
         const tatoebaSentences = await buildTatoebaDistractorPool(userSentences, 50)
+
+        // Preload TTS for fetched Tatoeba sentences (cap for perf)
+        const preloadTexts = tatoebaSentences
+          .map(s => s.japanese)
+          .filter(Boolean)
+          .slice(0, 10)
+        if (preloadTexts.length > 0) {
+          preload(preloadTexts, { voice: '23', speed: 0.85 })
+        }
 
         // Transform Tatoeba sentences to ReviewableContent format
         // For sentence lists: English meaning as display, Japanese as answer (for multiple choice)

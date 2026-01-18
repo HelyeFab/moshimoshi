@@ -1,0 +1,55 @@
+{
+  "id": "307-n4-point-107",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～なくてもいい (〜nakutemo ii)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～なくてもいい grammar point is used to express that an action or situation is not necessary or required, implying that it's okay if it does not occur. It can be translated as 'it's okay if not' or 'don't have to' in English. This grammar is used with verbs.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-ない-form + てもいい",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "コーヒーは飲まなくてもいいです。",
+      "romaji": "Koohii wa nomanakutemo ii desu.",
+      "english": "You don't have to drink the coffee.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "宿題を今日しなくてもいいです。",
+      "romaji": "Shukudai wo kyou shinakutemo ii desu.",
+      "english": "It's okay if you don't do your homework today.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "すぐに返事をしなくてもいいですよ。",
+      "romaji": "Sugu ni henji wo shinakutemo ii desu yo.",
+      "english": "You don't have to reply immediately.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "全部食べなくてもいいですから、無理しないでください。",
+      "romaji": "Zenbu tabenakutemo ii desu kara, muri shinai de kudasai.",
+      "english": "You don't have to eat everything, so please don't force yourself.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

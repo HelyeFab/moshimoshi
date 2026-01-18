@@ -1,0 +1,33 @@
+{
+  "kanji": "字",
+  "sentences": [
+    {
+      "id": "177216",
+      "japanese": "君は字をもっときれいに書く必要がある。",
+      "english": "There is need for improvement in your handwriting."
+    },
+    {
+      "id": "177217",
+      "japanese": "君は字がうまいね。",
+      "english": "You write a very good hand."
+    },
+    {
+      "id": "191674",
+      "japanese": "われわれはつづり字の間違いに注意しなければならない。",
+      "english": "We must guard against mistakes in spelling."
+    },
+    {
+      "id": "202577",
+      "japanese": "つづり字の間違いが少しあることを除いてはそれはよい論文だ。",
+      "english": "It's a good paper, apart from a few spelling mistakes."
+    },
+    {
+      "id": "208145",
+      "japanese": "その男の子は字を読むことを覚えた。",
+      "english": "The boy has learned to read."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.520Z",
+  "count": 5,
+  "fileId": "kanji-00098"
+}

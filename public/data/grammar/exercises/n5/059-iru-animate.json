@@ -1,0 +1,186 @@
+{
+  "grammarPointId": "059-iru-animate",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "059-iru-animate-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct verb: 部屋に猫が＿＿。",
+      "questionRomaji": "Heya ni neko ga __.",
+      "options": [
+        { "id": "a", "text": "あります", "romaji": "arimasu" },
+        { "id": "b", "text": "います", "romaji": "imasu" },
+        { "id": "c", "text": "です", "romaji": "desu" },
+        { "id": "d", "text": "ます", "romaji": "masu" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! います is used for animate things.",
+      "incorrectFeedback": "Not quite. Use います for people and animals.",
+      "explanation": "Cats are animate, so use います.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "059-iru-animate-ex-02",
+      "type": "multiple-choice",
+      "question": "Which particle marks the location?",
+      "options": [
+        { "id": "a", "text": "は" },
+        { "id": "b", "text": "が" },
+        { "id": "c", "text": "に" },
+        { "id": "d", "text": "を" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Yes! に marks the location.",
+      "incorrectFeedback": "Try again. Location is marked with に.",
+      "explanation": "The pattern is Location に Person/Animal が います.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "059-iru-animate-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a dog in the park.'",
+      "correctAnswer": "公園に犬がいます",
+      "acceptedVariations": [
+        "公園に犬がいます。",
+        "こうえんにいぬがいます",
+        "こうえんにいぬがいます。",
+        "kouen ni inu ga imasu",
+        "kouen ni inu ga imasu."
+      ],
+      "correctFeedback": "Great! 公園に犬がいます is correct.",
+      "incorrectFeedback": "The correct answer is: 公園に犬がいます (kouen ni inu ga imasu).",
+      "explanation": "Use に for location and が for the subject.",
+      "hints": ["公園 means park", "犬 is animate"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "059-iru-animate-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "机の上に犬があります。" },
+        { "id": "b", "text": "机の上に犬がいます。" },
+        { "id": "c", "text": "机の上に犬をいます。" },
+        { "id": "d", "text": "机の上に犬にいます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Dogs are animate, so use います.",
+      "incorrectFeedback": "Not quite. Use います with animals.",
+      "explanation": "いる/います is for animate subjects.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "059-iru-animate-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a student in the classroom.'",
+      "correctAnswer": "教室に学生がいます",
+      "acceptedVariations": [
+        "教室に学生がいます。",
+        "きょうしつにがくせいがいます",
+        "きょうしつにがくせいがいます。",
+        "kyoushitsu ni gakusei ga imasu",
+        "kyoushitsu ni gakusei ga imasu."
+      ],
+      "correctFeedback": "Nice! 教室に学生がいます is correct.",
+      "incorrectFeedback": "The correct answer is: 教室に学生がいます (kyoushitsu ni gakusei ga imasu).",
+      "explanation": "Students are people, so use います.",
+      "hints": ["教室 means classroom", "Use が for the subject"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "059-iru-animate-ex-06",
+      "type": "multiple-choice",
+      "question": "Choose the correct sentence for 'Tanaka-san is at school.'",
+      "options": [
+        { "id": "a", "text": "田中さんは学校にいます。" },
+        { "id": "b", "text": "田中さんは学校にあります。" },
+        { "id": "c", "text": "田中さんが学校にあります。" },
+        { "id": "d", "text": "田中さんを学校にいます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Use います for people.",
+      "incorrectFeedback": "Try again. People use います.",
+      "explanation": "Animate subjects use いる/います.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "059-iru-animate-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There are children in the park.'",
+      "correctAnswer": "公園に子どもがいます",
+      "acceptedVariations": [
+        "公園に子どもがいます。",
+        "こうえんにこどもがいます",
+        "こうえんにこどもがいます。",
+        "kouen ni kodomo ga imasu",
+        "kouen ni kodomo ga imasu."
+      ],
+      "correctFeedback": "Great! 公園に子どもがいます is correct.",
+      "incorrectFeedback": "The correct answer is: 公園に子どもがいます (kouen ni kodomo ga imasu).",
+      "explanation": "Children are animate, so use います.",
+      "hints": ["子ども means child", "Use に for location"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "059-iru-animate-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English translations:",
+      "pairs": [
+        {
+          "japanese": "部屋に猫がいます。",
+          "romaji": "Heya ni neko ga imasu.",
+          "english": "There is a cat in the room."
+        },
+        {
+          "japanese": "公園に子どもがいます。",
+          "romaji": "Kouen ni kodomo ga imasu.",
+          "english": "There are children in the park."
+        },
+        {
+          "japanese": "うちに犬がいます。",
+          "romaji": "Uchi ni inu ga imasu.",
+          "english": "There is a dog at my house."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review the pattern with います.",
+      "explanation": "All sentences use います for animate existence.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "059-iru-animate-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence uses いる/います correctly?",
+      "options": [
+        { "id": "a", "text": "本がいます。" },
+        { "id": "b", "text": "先生がいます。" },
+        { "id": "c", "text": "机がいます。" },
+        { "id": "d", "text": "店がいます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 先生 is a person, so use います.",
+      "incorrectFeedback": "Try again. Use います for people or animals.",
+      "explanation": "Only animate subjects take いる/います.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "059-iru-animate-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a cat at home.'",
+      "correctAnswer": "うちに猫がいます",
+      "acceptedVariations": [
+        "うちに猫がいます。",
+        "うちにねこがいます",
+        "うちにねこがいます。",
+        "uchi ni neko ga imasu",
+        "uchi ni neko ga imasu."
+      ],
+      "correctFeedback": "Nice! うちに猫がいます is correct.",
+      "incorrectFeedback": "The correct answer is: うちに猫がいます (uchi ni neko ga imasu).",
+      "explanation": "Use に for location and が for the animate subject.",
+      "hints": ["うち means home", "猫 is animate"],
+      "difficulty": "hard"
+    }
+  ]
+}

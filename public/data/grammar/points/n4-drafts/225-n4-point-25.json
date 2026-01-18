@@ -1,0 +1,55 @@
+{
+  "id": "225-n4-point-25",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb たほうがいい (〜ta hou ga ii)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The たほうがいい grammar point is used to give advice or make a suggestion to someone. It can be translated as 'it's better if...', 'should', or 'it's a good idea to'. It is formed by conjugating the verb into the past tense (た-form) and adding ほうがいい.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (past tense) + ほうがいい",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "早く寝たほうがいい。",
+      "romaji": "Hayaku neta hou ga ii.",
+      "english": "It's better if you go to bed early.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "もっと勉強したほうがいい。",
+      "romaji": "Motto benkyou shita hou ga ii.",
+      "english": "You should study more.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "病気の時は、薬を飲んだほうがいい。",
+      "romaji": "Byouki no toki wa, kusuri wo nonda hou ga ii.",
+      "english": "It's a good idea to take medicine when you're sick.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "コーヒーを飲まないほうがいい。",
+      "romaji": "Koohii wo nomanai hou ga ii.",
+      "english": "It's better if you don't drink coffee.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

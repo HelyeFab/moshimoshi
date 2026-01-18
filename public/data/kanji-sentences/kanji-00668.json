@@ -1,0 +1,33 @@
+{
+  "kanji": "触",
+  "sentences": [
+    {
+      "id": "5130",
+      "japanese": "体が触れられたとき肌の感覚器官は脳に信号を送り、エンドルフィンのような化学物質が放出される。",
+      "english": "When the body is touched, receptors in the skin send messages to the brain causing the release of chemicals such as endorphins."
+    },
+    {
+      "id": "177671",
+      "japanese": "君はただそのボタンに触りさえすればよい。",
+      "english": "You have only to touch the button."
+    },
+    {
+      "id": "179222",
+      "japanese": "熊は死体には触れないものだ。",
+      "english": "A bear will not touch a dead body."
+    },
+    {
+      "id": "183062",
+      "japanese": "記録面に手を触れないで下さい。",
+      "english": "Please do not touch the record side."
+    },
+    {
+      "id": "183069",
+      "japanese": "記者会見の際、大統領は外交関係にちょっと触れた。",
+      "english": "During the press conference, the President touched on foreign relations."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.581Z",
+  "count": 5,
+  "fileId": "kanji-00668"
+}

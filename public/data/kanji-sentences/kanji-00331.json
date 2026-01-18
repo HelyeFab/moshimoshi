@@ -1,0 +1,33 @@
+{
+  "kanji": "値",
+  "sentences": [
+    {
+      "id": "178838",
+      "japanese": "君この車に高い値を付けすぎだよ。",
+      "english": "You are asking too much for this car."
+    },
+    {
+      "id": "178682",
+      "japanese": "君にはその賞を取るに値する。",
+      "english": "You deserve the prize."
+    },
+    {
+      "id": "183615",
+      "japanese": "企業の好業績発表を受けて株価は活発な取引の中で値を上げた。",
+      "english": "Stock prices soared in active trading as corporations announced good financial results."
+    },
+    {
+      "id": "188820",
+      "japanese": "円がドルに対して値を下げる見込みだ。",
+      "english": "The yen is expected to lose value against the dollar."
+    },
+    {
+      "id": "194831",
+      "japanese": "メアリーはあなたの信頼を受けるに値しなかった。",
+      "english": "Mary was not worthy of your trust."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.575Z",
+  "count": 5,
+  "fileId": "kanji-00331"
+}

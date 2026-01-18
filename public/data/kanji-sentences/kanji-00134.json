@@ -1,0 +1,33 @@
+{
+  "kanji": "鳥",
+  "sentences": [
+    {
+      "id": "140522",
+      "japanese": "早起きの鳥は虫を捕える。",
+      "english": "The early bird catches the worm."
+    },
+    {
+      "id": "1168428",
+      "japanese": "私は魚よりもむしろ鳥になりたい。",
+      "english": "I'd rather be a bird than a fish."
+    },
+    {
+      "id": "1168429",
+      "japanese": "私はどちらかといえば魚より鳥になりたい。",
+      "english": "I'd rather be a bird than a fish."
+    },
+    {
+      "id": "179325",
+      "japanese": "空高く一群の鳥が飛んでいるのを見た。",
+      "english": "I saw a flock of birds flying aloft."
+    },
+    {
+      "id": "1120545",
+      "japanese": "私は空高く飛んでいる鳥の群れを見ました。",
+      "english": "I saw a flock of birds flying aloft."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.048Z",
+  "count": 5,
+  "fileId": "kanji-00134"
+}

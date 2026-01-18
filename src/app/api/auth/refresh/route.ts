@@ -2,13 +2,15 @@
 // Refreshes JWT session tokens to extend user sessions
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getSession, refreshSessionIfNeeded } from '@/lib/auth/session'
+import { createSession, getSession, getTierForSession, refreshSessionIfNeeded } from '@/lib/auth/session'
 import { adminFirestore } from '@/lib/firebase/admin'
 import { getSecurityHeaders } from '@/lib/auth/validation'
 import { checkApiRateLimit, getRateLimitHeaders } from '@/lib/auth/rateLimit'
 import { logAuditEvent, AuditEvent } from '@/lib/auth/audit'
 import { verifySessionToken, isTokenNearExpiration } from '@/lib/auth/jwt'
 import { cookies } from 'next/headers'
+import { getUserTier } from '@/lib/auth/tier-utils'
+import { tierCache } from '@/lib/auth/tier-cache'
 
 export async function POST(request: NextRequest) {
   try {
@@ -57,6 +59,119 @@ export async function POST(request: NextRequest) {
     const ipAddress = request.headers.get('x-forwarded-for')?.split(',')[0] || 
                      request.headers.get('x-real-ip') || 'unknown'
     const userAgent = request.headers.get('user-agent') || 'unknown'
+
+    let forceRefresh = false
+    try {
+      const body = await request.json().catch(() => ({} as any))
+      forceRefresh = body?.force === true
+    } catch {
+      forceRefresh = false
+    }
+
+    if (forceRefresh) {
+      // Force refresh to sync tier immediately
+      const userDoc = await adminFirestore!.collection('users').doc(session.uid).get()
+      const userData = userDoc.data()
+
+      if (!userData) {
+        return NextResponse.json(
+          {
+            error: {
+              code: 'USER_NOT_FOUND',
+              message: 'User profile not found',
+            },
+          },
+          { 
+            status: 404,
+            headers: getSecurityHeaders(),
+          }
+        )
+      }
+
+      if (userData.userState === 'suspended' || userData.userState === 'deleted') {
+        await logAuditEvent(
+          AuditEvent.SESSION_REFRESH,
+          {
+            userId: session.uid,
+            sessionId: session.sessionId,
+            ipAddress,
+            userAgent,
+            endpoint: '/api/auth/refresh',
+          },
+          {
+            reason: 'account_inactive',
+            userState: userData.userState,
+          },
+          'failure'
+        )
+
+        return NextResponse.json(
+          {
+            error: {
+              code: 'ACCOUNT_INACTIVE',
+              message: 'Account is no longer active. Please sign in again.',
+            },
+          },
+          { 
+            status: 403,
+            headers: getSecurityHeaders(),
+          }
+        )
+      }
+
+      const oldTier = await getTierForSession(session)
+      const newTier = getUserTier(userData)
+
+      // Update tier cache for immediate consistency
+      await tierCache.setTier(session.uid, newTier)
+
+      const refreshedSession = await createSession(
+        {
+          uid: session.uid,
+          email: session.email,
+          tier: newTier,
+          admin: session.admin,
+        },
+        {
+          rememberMe: true,
+          userAgent,
+          ipAddress,
+        }
+      )
+
+      await logAuditEvent(
+        AuditEvent.SESSION_REFRESH,
+        {
+          userId: session.uid,
+          sessionId: refreshedSession.sessionId,
+          ipAddress,
+          userAgent,
+          endpoint: '/api/auth/refresh',
+        },
+        {
+          email: session.email,
+          oldTier,
+          newTier,
+          forced: true,
+        },
+        'success'
+      )
+
+      return NextResponse.json(
+        {
+          success: true,
+          message: 'Session refreshed',
+          refreshed: true,
+          oldTier,
+          newTier,
+          subscription: userData.subscription,
+        },
+        {
+          status: 200,
+          headers: getSecurityHeaders(),
+        }
+      )
+    }
 
     // Get current session token
     let currentToken: string | null = null

@@ -1,0 +1,33 @@
+{
+  "kanji": "案",
+  "sentences": [
+    {
+      "id": "177236",
+      "japanese": "君は私の案に賛成ですか反対ですか。",
+      "english": "Are you for or against my plan?"
+    },
+    {
+      "id": "177763",
+      "japanese": "君はその案を実行するのに少し苦労するだろう。",
+      "english": "You'll have some difficulty in carrying out the plan."
+    },
+    {
+      "id": "177762",
+      "japanese": "君はその案に賛成か反対か。",
+      "english": "Are you in favor of the plan or not?"
+    },
+    {
+      "id": "178474",
+      "japanese": "君の案を実行に移せると思っているのか。",
+      "english": "Do you think that you can put your idea into practice?"
+    },
+    {
+      "id": "178475",
+      "japanese": "君の案はよさそうだね。",
+      "english": "Your idea sounds like a good one."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:48.848Z",
+  "count": 5,
+  "fileId": "kanji-02079"
+}

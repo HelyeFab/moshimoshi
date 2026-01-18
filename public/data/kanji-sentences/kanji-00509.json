@@ -1,0 +1,33 @@
+{
+  "kanji": "得",
+  "sentences": [
+    {
+      "id": "4910",
+      "japanese": "有り得ない！",
+      "english": "It can't be!"
+    },
+    {
+      "id": "5013",
+      "japanese": "努力なくしては何も得られない。",
+      "english": "Nothing is achieved without effort."
+    },
+    {
+      "id": "5145",
+      "japanese": "鍵となる問題は何を得ることができるかではなく、何を失わなければならないかである。",
+      "english": "The key question is not what can I gain but what do I have to lose."
+    },
+    {
+      "id": "5146",
+      "japanese": "誤解され得るものはいずれすべて誤解されるであろう。",
+      "english": "Anything that can be misunderstood will be."
+    },
+    {
+      "id": "894224",
+      "japanese": "われらは教皇を得た。",
+      "english": "We have a Pope."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.993Z",
+  "count": 5,
+  "fileId": "kanji-00509"
+}

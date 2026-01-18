@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "257-n4-point-57",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "257-n4-point-57-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Easy to do\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb やすい (〜yasui)",
+          "romaji": "Verb yasui"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb やすい (〜yasui) matches \"Easy to do\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb やすい (〜yasui).",
+      "explanation": "Expresses that an action is easy to do; attaches to verb stems.",
+      "difficulty": "easy"
+    }
+  ]
+}

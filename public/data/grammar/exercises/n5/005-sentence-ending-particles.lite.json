@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "005-sentence-ending-particles",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "005-sentence-ending-particles-ex-01",
+      "type": "multiple-choice",
+      "question": "Which particle makes a polite question?",
+      "options": [
+        {
+          "id": "a",
+          "text": "ね"
+        },
+        {
+          "id": "b",
+          "text": "よ"
+        },
+        {
+          "id": "c",
+          "text": "か"
+        },
+        {
+          "id": "d",
+          "text": "を"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! か marks a question.",
+      "incorrectFeedback": "Not quite. か is the question marker.",
+      "explanation": "Add か to make a polite question.",
+      "difficulty": "easy"
+    }
+  ]
+}

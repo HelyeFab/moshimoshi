@@ -1,0 +1,33 @@
+{
+  "kanji": "夕",
+  "sentences": [
+    {
+      "id": "79146",
+      "japanese": "夕べお父さんが病院で死んだ。",
+      "english": "His father passed away last night in the hospital."
+    },
+    {
+      "id": "11685573",
+      "japanese": "買い物と、家の掃除、それから夕ご飯作ってあげるね。",
+      "english": "I'll do your shopping, clean up the house, and cook your dinner for you."
+    },
+    {
+      "id": "79128",
+      "japanese": "夕べ彼の家は泥棒に入られた。",
+      "english": "His house was broken into last night."
+    },
+    {
+      "id": "79129",
+      "japanese": "夕べ彼のお父さんが病気で亡くなった。",
+      "english": "Last night his father passed away because of his illness."
+    },
+    {
+      "id": "79131",
+      "japanese": "夕べ大雪が降った。",
+      "english": "It snowed a good deal last night."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.072Z",
+  "count": 5,
+  "fileId": "kanji-00136"
+}

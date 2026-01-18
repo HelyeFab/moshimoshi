@@ -1,0 +1,33 @@
+{
+  "kanji": "族",
+  "sentences": [
+    {
+      "id": "195234",
+      "japanese": "マヤ族の人々はボールをゴムで作っていました。",
+      "english": "The Mayas made their balls out of rubber."
+    },
+    {
+      "id": "195612",
+      "japanese": "まずやって来たのはケルト族で、紀元前６００年のことでした。",
+      "english": "First came the Celts in 600 B.C."
+    },
+    {
+      "id": "196523",
+      "japanese": "ボーラの扱いはとても難しいが、古代インカ族はそれがとてもうまかった。",
+      "english": "It is very difficult to handle the bola, but the ancient Incas were very good at it."
+    },
+    {
+      "id": "198762",
+      "japanese": "ニュージーランド全体の人口は３４１万人で、その７分の１はマオリ族です。",
+      "english": "The whole population of New Zealand is 3,410,000, and one seventh of it are the Maori people."
+    },
+    {
+      "id": "225689",
+      "japanese": "クスコは海抜３５００メーターにあり、そこで多くのインカ族に会うことができる。",
+      "english": "Cuzco lies about 3,500 meters above sea level, and you can still see many Incas there."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.336Z",
+  "count": 5,
+  "fileId": "kanji-00085"
+}

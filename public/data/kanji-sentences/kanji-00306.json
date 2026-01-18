@@ -1,0 +1,33 @@
+{
+  "kanji": "席",
+  "sentences": [
+    {
+      "id": "178118",
+      "japanese": "君の提言が会合の席で話題にのぼったよ。",
+      "english": "Your suggestion came up at the meeting."
+    },
+    {
+      "id": "142472",
+      "japanese": "席にもどりなさい。",
+      "english": "Go back to your seat."
+    },
+    {
+      "id": "149798",
+      "japanese": "自分の席にもどりなさい。",
+      "english": "Go back to your seat."
+    },
+    {
+      "id": "11639980",
+      "japanese": "奥の席をお願いします。",
+      "english": "Could we have a table in the corner?"
+    },
+    {
+      "id": "179494",
+      "japanese": "空いてる席はありますか。",
+      "english": "Is there a vacant seat?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.288Z",
+  "count": 5,
+  "fileId": "kanji-00306"
+}

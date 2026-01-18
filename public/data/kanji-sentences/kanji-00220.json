@@ -1,0 +1,33 @@
+{
+  "kanji": "朝",
+  "sentences": [
+    {
+      "id": "138773",
+      "japanese": "朝の5時だというのに明るい。",
+      "english": "It's just five in the morning, but nevertheless it is light out."
+    },
+    {
+      "id": "9207975",
+      "japanese": "朝ごはんはどんなもの食べてるの？",
+      "english": "What do you have for breakfast?"
+    },
+    {
+      "id": "9035337",
+      "japanese": "朝ごはんは食べないと。",
+      "english": "You need to have breakfast."
+    },
+    {
+      "id": "179411",
+      "japanese": "空を見ると朝にはいい天気になりそうだ。",
+      "english": "The skies promise better weather in the morning."
+    },
+    {
+      "id": "182966",
+      "japanese": "輝かしい晴れた日曜日の朝だった。",
+      "english": "It was a bright and clear Sunday morning."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.109Z",
+  "count": 5,
+  "fileId": "kanji-00220"
+}

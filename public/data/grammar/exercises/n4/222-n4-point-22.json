@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "222-n4-point-22",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "222-n4-point-22-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb ta koto ga aru\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "動詞たことがある",
+          "romaji": "Doushi ta koto ga aru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! 動詞たことがある matches \"Verb ta koto ga aru\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞たことがある.",
+      "explanation": "Expresses having ever experienced an action using the verb's た-form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "222-n4-point-22-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞たことがある.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Verb ta koto ga aru"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 動詞たことがある means \"Verb ta koto ga aru\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb ta koto ga aru\".",
+      "explanation": "Expresses having ever experienced an action using the verb's た-form.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "222-n4-point-22-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞たことがある.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Doushi ta koto ga aru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Doushi ta koto ga aru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Doushi ta koto ga aru.",
+      "explanation": "Expresses having ever experienced an action using the verb's た-form.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "222-n4-point-22-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞たことがある?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Expresses having ever experienced an action using the verb's た-form."
+        },
+        {
+          "id": "b",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses having ever experienced an action using the verb's た-form.",
+      "explanation": "Expresses having ever experienced an action using the verb's た-form.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "222-n4-point-22-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb ta koto ga aru\".",
+      "correctAnswer": "動詞たことがある",
+      "acceptedVariations": [
+        "動詞たことがある",
+        "動詞たことがある"
+      ],
+      "correctFeedback": "Nice! 動詞たことがある is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞たことがある (Doushi ta koto ga aru).",
+      "explanation": "Expresses having ever experienced an action using the verb's た-form.",
+      "hints": [
+        "Doushi ta koto ga aru",
+        "Expresses having ever experienced an action using the verb's た-form."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "222-n4-point-22-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞たことがある.",
+      "correctAnswer": "Doushi ta koto ga aru",
+      "acceptedVariations": [
+        "Doushi ta koto ga aru",
+        "doushi ta koto ga aru"
+      ],
+      "correctFeedback": "Nice! Doushi ta koto ga aru is correct.",
+      "incorrectFeedback": "The correct romaji is: Doushi ta koto ga aru.",
+      "explanation": "Expresses having ever experienced an action using the verb's た-form.",
+      "hints": [
+        "Expresses having ever experienced an action using the verb's た-form."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "222-n4-point-22-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞たことがある.",
+      "correctAnswer": "Verb ta koto ga aru",
+      "acceptedVariations": [
+        "Verb ta koto ga aru",
+        "verb ta koto ga aru"
+      ],
+      "correctFeedback": "Correct! \"Verb ta koto ga aru\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb ta koto ga aru\".",
+      "explanation": "Expresses having ever experienced an action using the verb's た-form.",
+      "hints": [
+        "Expresses having ever experienced an action using the verb's た-form."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "222-n4-point-22-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞たことがある",
+          "romaji": "Doushi ta koto ga aru",
+          "english": "Verb ta koto ga aru"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses having ever experienced an action using the verb's た-form.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "222-n4-point-22-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses having ever experienced an action using the verb's た-form..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "動詞たことがある",
+          "romaji": "Doushi ta koto ga aru"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 動詞たことがある matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞たことがある.",
+      "explanation": "Expresses having ever experienced an action using the verb's た-form.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "222-n4-point-22-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞たことがある",
+      "acceptedVariations": [
+        "動詞たことがある",
+        "動詞たことがある"
+      ],
+      "correctFeedback": "Great! 動詞たことがある is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞たことがある.",
+      "explanation": "Expresses having ever experienced an action using the verb's た-form.",
+      "hints": [
+        "Doushi ta koto ga aru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

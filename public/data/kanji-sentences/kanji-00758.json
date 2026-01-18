@@ -1,0 +1,33 @@
+{
+  "kanji": "枝",
+  "sentences": [
+    {
+      "id": "192525",
+      "japanese": "リスは枝の中に隠れた。",
+      "english": "A squirrel hid among the branches."
+    },
+    {
+      "id": "192549",
+      "japanese": "ランプが木の枝から吊り下げられた。",
+      "english": "The lamp was suspended from the branch of a tree."
+    },
+    {
+      "id": "197949",
+      "japanese": "パティは背が低くてその枝に手が届かなかった。",
+      "english": "Patty was so short that she couldn't get at the branch."
+    },
+    {
+      "id": "203761",
+      "japanese": "たくさんの鳥が枝にとまっている。",
+      "english": "Many birds are on the branch."
+    },
+    {
+      "id": "206542",
+      "japanese": "その木は広く枝を四方に張り出している。",
+      "english": "The tree thrusts its branches far and wide."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:05.583Z",
+  "count": 5,
+  "fileId": "kanji-00758"
+}

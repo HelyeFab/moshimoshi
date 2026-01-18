@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "237-n4-point-37",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "237-n4-point-37-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb ておく (do something in advance)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "動詞ておく",
+          "romaji": "doushi te oku"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! 動詞ておく matches \"Verb ておく (do something in advance)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞ておく.",
+      "explanation": "Expresses doing something in advance or as preparation for a future need.",
+      "difficulty": "easy"
+    }
+  ]
+}

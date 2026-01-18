@@ -1,0 +1,125 @@
+{
+  "id": "218-n4-point-18",
+  "version": "1.0.0",
+  "title": {
+    "ja": "名詞＋をもらう",
+    "romaji": "Noun + wo morau",
+    "en": "Receiving (Noun wo morau)"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The grammar point もらう (morau) is used to express receiving or getting something from someone. It emphasizes that you are the beneficiary of the action. The noun for the received item is marked with を (wo), and the giver is usually marked with から (kara) or に (ni).",
+    "ja": "「もらう」は何かを誰かから受け取ることを表します。受け取った物は「を」で示し、相手は「から」や「に」で示されます。"
+  },
+  "structure": {
+    "pattern": "Noun + を + もらう",
+    "components": [
+      {
+        "part": "Noun",
+        "explanation": "The item or thing being received.",
+        "examples": [
+          "プレゼント",
+          "アドバイス",
+          "手紙"
+        ]
+      },
+      {
+        "part": "を",
+        "explanation": "Particle marking the direct object (the thing received).",
+        "examples": [
+          "プレゼントを",
+          "アドバイスを"
+        ]
+      },
+      {
+        "part": "もらう",
+        "explanation": "Verb meaning 'to receive' or 'to get'.",
+        "examples": [
+          "もらいました",
+          "もらう",
+          "もらった"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "友達からプレゼントをもらいました。",
+      "romaji": "Tomodachi kara purezento wo moraimashita.",
+      "english": "I received a gift from my friend.",
+      "breakdown": {
+        "友達": "friend",
+        "から": "from",
+        "プレゼント": "gift",
+        "を": "object marker",
+        "もらいました": "received"
+      },
+      "notes": "The giver is marked with から."
+    },
+    {
+      "japanese": "先生にアドバイスをもらいました。",
+      "romaji": "Sensei ni adobaisu wo moraimashita.",
+      "english": "I got advice from my teacher.",
+      "breakdown": {
+        "先生": "teacher",
+        "に": "from",
+        "アドバイス": "advice",
+        "を": "object marker",
+        "もらいました": "received"
+      },
+      "notes": "The giver is marked with に."
+    },
+    {
+      "japanese": "お父さんからお小遣いをもらう。",
+      "romaji": "Otousan kara okozukai wo morau.",
+      "english": "To receive an allowance from one's father.",
+      "breakdown": {
+        "お父さん": "father",
+        "から": "from",
+        "お小遣い": "allowance",
+        "を": "object marker",
+        "もらう": "receive"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女に手紙をもらった。",
+      "romaji": "Kanojo ni tegami wo moratta.",
+      "english": "I got a letter from her.",
+      "breakdown": {
+        "彼女": "her",
+        "に": "from",
+        "手紙": "letter",
+        "を": "object marker",
+        "もらった": "got"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "名詞 を くれる",
+    "名詞をくださる",
+    "名詞 を さしあげる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "友達をプレゼントもらいました。",
+      "correction": "友達からプレゼントをもらいました。",
+      "example": "Incorrectly marking the giver with を instead of から."
+    },
+    {
+      "mistake": "先生がアドバイスをもらいました。",
+      "correction": "先生にアドバイスをもらいました。",
+      "example": "Incorrectly using が for the giver instead of に."
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "receiving",
+    "object-marker",
+    "beneficiary",
+    "particles"
+  ]
+}

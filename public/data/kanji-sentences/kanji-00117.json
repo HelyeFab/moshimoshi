@@ -1,0 +1,33 @@
+{
+  "kanji": "去",
+  "sentences": [
+    {
+      "id": "138779",
+      "japanese": "去る時はドアを閉めてください。",
+      "english": "Close the door when you leave."
+    },
+    {
+      "id": "177696",
+      "japanese": "君はそれを見ることはできるが、持ち去ることはできない。",
+      "english": "You can see it, but you cannot take it away."
+    },
+    {
+      "id": "234104",
+      "japanese": "あなたが去る前には火を確実に消しなさい。",
+      "english": "Be sure to put out the fire before you leave."
+    },
+    {
+      "id": "236842",
+      "japanese": "君が去る前には火を確実に消しなさい。",
+      "english": "Be sure to put out the fire before you leave."
+    },
+    {
+      "id": "182257",
+      "japanese": "去れ、忌まわしき憂鬱よ。",
+      "english": "Hence, loathed melancholy."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.835Z",
+  "count": 5,
+  "fileId": "kanji-00117"
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "306-n4-point-106",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "306-n4-point-106-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Must/Have to\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "～なくてはいけない",
+          "romaji": "~nakute wa ikenai"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Great! ～なくてはいけない matches \"Must/Have to\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～なくてはいけない.",
+      "explanation": "Used to show something is necessary or must be done.",
+      "difficulty": "easy"
+    }
+  ]
+}

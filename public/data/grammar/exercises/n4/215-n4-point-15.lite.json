@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "215-n4-point-15",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "215-n4-point-15-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Noun wo kudasaru\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "名詞をくださる",
+          "romaji": "Noun wo kudasaru"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! 名詞をくださる matches \"Noun wo kudasaru\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 名詞をくださる.",
+      "explanation": "Polite form to say someone of higher status gives you something.",
+      "difficulty": "easy"
+    }
+  ]
+}

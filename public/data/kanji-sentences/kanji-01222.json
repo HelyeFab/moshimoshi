@@ -1,0 +1,33 @@
+{
+  "kanji": "陰",
+  "sentences": [
+    {
+      "id": "179429",
+      "japanese": "空はどんよりとした冬の陰にかすんでいる。",
+      "english": "The sky is a hazy shade of winter."
+    },
+    {
+      "id": "183490",
+      "japanese": "寄らば大樹の陰。",
+      "english": "When you take shelter, make sure you go under a big tree."
+    },
+    {
+      "id": "189345",
+      "japanese": "陰で他の人の悪口を言ってはならない。",
+      "english": "We must not speak ill of others behind their backs."
+    },
+    {
+      "id": "189367",
+      "japanese": "雲の陰に隠れて月は見えません。",
+      "english": "The moon is invisible behind the clouds."
+    },
+    {
+      "id": "189787",
+      "japanese": "雨が降って、その秋の日を陰うつにした。",
+      "english": "The rain made the autumn day dismal."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.671Z",
+  "count": 5,
+  "fileId": "kanji-01222"
+}

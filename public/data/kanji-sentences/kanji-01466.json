@@ -1,0 +1,33 @@
+{
+  "kanji": "既",
+  "sentences": [
+    {
+      "id": "182584",
+      "japanese": "急いで駅まで行ったが、電車は既に出た後だった。",
+      "english": "I hurried to the station only to find that the train had already left."
+    },
+    {
+      "id": "1237535",
+      "japanese": "駅へ急いで行くと、電車は既に出発した後だった。",
+      "english": "I hurried to the station only to find that the train had already left."
+    },
+    {
+      "id": "183402",
+      "japanese": "既に知っていることを証明してくれるものしか受け入れたがらない傾向が私たちにはあるのである。",
+      "english": "We tend to welcome only proof of what we already know."
+    },
+    {
+      "id": "183404",
+      "japanese": "既に手に負えない状態だ。",
+      "english": "Now, the situation is out of hand."
+    },
+    {
+      "id": "183403",
+      "japanese": "既に宿題を終えてしまった。",
+      "english": "I have already done my homework."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:26.450Z",
+  "count": 5,
+  "fileId": "kanji-01466"
+}

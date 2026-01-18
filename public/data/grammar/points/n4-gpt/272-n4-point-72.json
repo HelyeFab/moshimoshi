@@ -1,0 +1,90 @@
+{
+  "id": "272-n4-point-72",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb 終わる (〜owaru)",
+    "romaji": "Verb Owaru",
+    "en": "Verb 'to finish'"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The verb 終わる (owaru) is used to express that an action has been completed or something has come to an end. Despite ending in る, 終わる is a godan (u-verb), so it does not follow the typical ichidan (る-verb) conjugation.",
+    "ja": "動詞「終わる（おわる）」は、ある行動が完了したか何かが終わったことを表現します。終わるは「る」という文字で終わっていますが、これは五段動詞であり、「る」の活用規則に従いません。"
+  },
+  "structure": {
+    "pattern": "verb",
+    "components": [
+      {
+        "part": "owaru",
+        "explanation": "The verb form used to express completion.",
+        "examples": [
+          "映画が終わったら、家に帰ります。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "映画が終わったら、家に帰ります。",
+      "romaji": "Eiga ga owattara, ie ni kaerimasu.",
+      "english": "When the movie finishes, I'll go home.",
+      "breakdown": {
+        "eiga": "movie",
+        "owattara": "when finished",
+        "kaerimasu": "will return"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "仕事が終わるまで、待ってください。",
+      "romaji": "Shigoto ga owaru made, matte kudasai.",
+      "english": "Please wait until the work is finished.",
+      "breakdown": {
+        "shigoto": "work",
+        "owaru": "to finish",
+        "made": "until"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "パーティーはもうすぐ終わります。",
+      "romaji": "Paatii wa mou sugu owarimasu.",
+      "english": "The party will be over soon.",
+      "breakdown": {
+        "paatii": "party",
+        "owarimasu": "will end"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "試験が終わったら、友達と遊びに行く予定です。",
+      "romaji": "Shiken ga owattara, tomodachi to asobi ni iku yotei desu.",
+      "english": "Once the exam is over, I plan to go out with my friends.",
+      "breakdown": {
+        "shiken": "exam",
+        "owattara": "when finished",
+        "yotei": "plan"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "動詞てしまう",
+    "名詞をくださる",
+    "名詞 を くれる"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "終わる is treated as an ichidan verb",
+      "correction": "終わる is a godan (u-verb) and follows u-verb conjugation rules.",
+      "example": "The correct negative form of 終わる is '終わりません' not '終わらない'."
+    }
+  ],
+  "tags": [
+    "n4",
+    "verbs",
+    "completion",
+    "endings"
+  ]
+}

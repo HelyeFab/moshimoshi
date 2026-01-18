@@ -1,0 +1,33 @@
+{
+  "kanji": "降",
+  "sentences": [
+    {
+      "id": "5212",
+      "japanese": "雨が降っている。",
+      "english": "It is raining."
+    },
+    {
+      "id": "5213",
+      "japanese": "今日海岸に行こうと思っていたのに雨が降ってきた。",
+      "english": "I was planning on going to the beach today, but then it started to rain."
+    },
+    {
+      "id": "138739",
+      "japanese": "一晩中雪が降っています。",
+      "english": "It's been snowing all night."
+    },
+    {
+      "id": "179287",
+      "japanese": "空模様から判断するといつ降り出すかもわからない。",
+      "english": "Judging from the look of the sky, it may rain at any moment."
+    },
+    {
+      "id": "179291",
+      "japanese": "空模様から判断すると、雪が降りそうだ。",
+      "english": "Judging from the look of the sky, it is going to snow."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.800Z",
+  "count": 5,
+  "fileId": "kanji-00274"
+}

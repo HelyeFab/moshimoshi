@@ -1,0 +1,33 @@
+{
+  "kanji": "受",
+  "sentences": [
+    {
+      "id": "5243",
+      "japanese": "殺人犯は有罪判決を受けて終身刑に処せられた。",
+      "english": "The murderer was convicted and sentenced to life in prison."
+    },
+    {
+      "id": "176961",
+      "japanese": "君は彼の忠告を受け入れるべきだったのに。",
+      "english": "You should have accepted his advice."
+    },
+    {
+      "id": "177100",
+      "japanese": "君は先生の許可を受けるべきだ。",
+      "english": "You ought to ask for your teacher's permission."
+    },
+    {
+      "id": "177224",
+      "japanese": "君は試験に受かるように一生懸命勉強すべきだ。",
+      "english": "You should study hard so that you can pass the examination."
+    },
+    {
+      "id": "177499",
+      "japanese": "君はものごとをあるがままに受け入れなければいけない。",
+      "english": "You must take things as they are."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.441Z",
+  "count": 5,
+  "fileId": "kanji-00470"
+}

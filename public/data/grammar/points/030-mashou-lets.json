@@ -1,0 +1,90 @@
+{
+  "id": "030-mashou-lets",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜ましょう",
+    "romaji": "-mashou",
+    "en": "Let’s"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "〜ましょう is a polite way to suggest doing something together. It is similar to “Let’s …” in English. It is made by replacing ます with ましょう.\n\nKey points:\n• Verb ます-form → ましょう\n• Used to make a suggestion or invitation\n• Polite and friendly\n• Often followed by よ or ね for tone\n\nFor example, “行きます” becomes “行きましょう” (Let’s go). “食べます” becomes “食べましょう” (Let’s eat).\n\nYou can use it in daily conversation to propose an action: “一緒に勉強しましょう” means “Let’s study together.”\n\nIt is softer than a direct command and sounds cooperative. If you want to be even more gentle, you can add か: “行きましょうか” (Shall we go?).\n\nAs a beginner, practice by taking common ます verbs and switching to ましょう. This makes it easy to invite others politely.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-stem + ましょう",
+    "components": [
+      {
+        "part": "Verb-stem",
+        "explanation": "Polite verb stem",
+        "examples": ["行き", "食べ", "勉強し"]
+      },
+      {
+        "part": "ましょう",
+        "explanation": "Let’s ending",
+        "examples": ["ましょう"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "映画を見ましょう。",
+      "romaji": "Eiga o mimashou.",
+      "english": "Let's watch a movie.",
+      "breakdown": {
+        "映画": "movie",
+        "を": "object marker",
+        "見ましょう": "let's watch"
+      },
+      "notes": "Simple suggestion"
+    },
+    {
+      "japanese": "一緒に勉強しましょう。",
+      "romaji": "Issho ni benkyou shimashou.",
+      "english": "Let's study together.",
+      "breakdown": {
+        "一緒に": "together",
+        "勉強しましょう": "let's study"
+      },
+      "notes": "Polite invitation"
+    },
+    {
+      "japanese": "公園へ行きましょう。",
+      "romaji": "Kouen e ikimashou.",
+      "english": "Let's go to the park.",
+      "breakdown": {
+        "公園": "park",
+        "へ": "direction marker",
+        "行きましょう": "let's go"
+      },
+      "notes": "Destination suggestion"
+    },
+    {
+      "japanese": "休みましょう。",
+      "romaji": "Yasumimashou.",
+      "english": "Let's take a break.",
+      "breakdown": {
+        "休みましょう": "let's rest"
+      },
+      "notes": "Short suggestion"
+    }
+  ],
+  "relatedPoints": [
+    "031-masen-ka-invitation",
+    "022-masu-form-present"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using dictionary form + ましょう",
+      "correction": "Replace ます with ましょう",
+      "example": "❌ 行くましょう → ✅ 行きましょう"
+    },
+    {
+      "mistake": "Using ましょう as a command",
+      "correction": "It is a suggestion, not a strong command",
+      "example": "Use a friendly tone when inviting"
+    }
+  ],
+  "tags": ["verbs", "suggestions", "mashou", "beginner"]
+}

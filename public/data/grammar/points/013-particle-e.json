@@ -1,0 +1,93 @@
+{
+  "id": "013-particle-e",
+  "version": "1.0.0",
+  "title": {
+    "ja": "へ",
+    "romaji": "e",
+    "en": "Direction marker"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "へ marks direction or destination with movement verbs. It is often similar to に, but it focuses on the direction rather than the arrival point. It is written as へ but pronounced “e.”\n\nKey points:\n• へ marks direction/destination\n• Used with movement verbs like 行きます, 来ます, 帰ります\n• Pronounced “e,” not “he”\n• Often interchangeable with に in beginner sentences\n\nFor example, “学校へ行きます” means “I go toward school.” “うちへ帰ります” means “I go home.” If you use に instead, the meaning is also fine for beginners, but に emphasizes arrival.\n\nIn daily conversation, you can use either に or へ for destinations. Many textbooks introduce both, and you will see both in real Japanese.\n\nRemember the pronunciation: when へ is a particle, say “e.” This is similar to how は is pronounced “wa.”\n\nAs a beginner, you can safely use に for destinations and still be correct, but learning へ helps you read and understand more natural sentences.\n\nWhen you read signs or schedules, you will often see へ because it focuses on direction. Recognizing it quickly will make it easier to understand movement-related sentences.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Place へ + Movement Verb",
+    "components": [
+      {
+        "part": "Place へ",
+        "explanation": "Destination or direction",
+        "examples": ["学校へ", "日本へ", "うちへ"]
+      },
+      {
+        "part": "Movement Verb",
+        "explanation": "Verb of movement",
+        "examples": ["行きます", "来ます", "帰ります"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "学校へ行きます。",
+      "romaji": "Gakkou e ikimasu.",
+      "english": "I go to school.",
+      "breakdown": {
+        "学校": "school",
+        "へ": "direction marker",
+        "行きます": "go (polite)"
+      },
+      "notes": "Destination with へ"
+    },
+    {
+      "japanese": "日本へ来ます。",
+      "romaji": "Nihon e kimasu.",
+      "english": "I come to Japan.",
+      "breakdown": {
+        "日本": "Japan",
+        "へ": "direction marker",
+        "来ます": "come (polite)"
+      },
+      "notes": "Movement toward a place"
+    },
+    {
+      "japanese": "うちへ帰ります。",
+      "romaji": "Uchi e kaerimasu.",
+      "english": "I go home.",
+      "breakdown": {
+        "うち": "home",
+        "へ": "direction marker",
+        "帰ります": "return (polite)"
+      },
+      "notes": "Common phrase"
+    },
+    {
+      "japanese": "友だちの家へ行きます。",
+      "romaji": "Tomodachi no ie e ikimasu.",
+      "english": "I go to my friend's house.",
+      "breakdown": {
+        "友だちの家": "friend's house",
+        "へ": "direction marker",
+        "行きます": "go (polite)"
+      },
+      "notes": "Destination with a noun phrase"
+    }
+  ],
+  "relatedPoints": [
+    "009-particle-ni-location",
+    "012-particle-de-means"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Pronouncing へ as 'he'",
+      "correction": "As a particle, へ is pronounced 'e'",
+      "example": "❌ he → ✅ e"
+    },
+    {
+      "mistake": "Using へ for action location",
+      "correction": "Use で for where an action happens",
+      "example": "❌ 学校へ勉強します → ✅ 学校で勉強します"
+    }
+  ],
+  "tags": ["particle", "direction", "movement", "destination"]
+}

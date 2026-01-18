@@ -1,0 +1,55 @@
+{
+  "id": "263-n4-point-63",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb られる (〜rareru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The られる grammar point can be used to express passive voice or potential form for verbs. Passive voice indicates that the action is being done to the subject, while potential form expresses the ability or possibility to do an action. The formation of られる depends on the type of verb (う, る, or irregular verbs).",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "う-verb (passive): Replace the final う with われる / る-verb (passive & potential): Replace る with られる / Irregular: する → される, くる → こられる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "彼は先生に褒められました。",
+      "romaji": "Kare wa sensei ni homeraremashita.",
+      "english": "He was praised by the teacher.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼は友達に笑われました。",
+      "romaji": "Kare wa tomodachi ni warawaremashita.",
+      "english": "He was laughed at by his friends.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "映画は観られましたか？",
+      "romaji": "Eiga wa miraremashita ka?",
+      "english": "Were you able to watch the movie?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼女はリーダーに選ばれました。",
+      "romaji": "Kanojo wa riidaa ni erabaremashita.",
+      "english": "She was chosen as the leader.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

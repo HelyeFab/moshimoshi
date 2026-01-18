@@ -1,0 +1,33 @@
+{
+  "kanji": "打",
+  "sentences": [
+    {
+      "id": "5202",
+      "japanese": "病院にいるよ。雷に打たれたんだ。",
+      "english": "I'm at the hospital. I got struck by lightning."
+    },
+    {
+      "id": "177674",
+      "japanese": "君はタイプライターを打つことができるか。",
+      "english": "Are you able to type?"
+    },
+    {
+      "id": "177780",
+      "japanese": "君はすべてのことを打ち明けるほうがよい。",
+      "english": "You had better make a clean breast of everything."
+    },
+    {
+      "id": "178594",
+      "japanese": "君に秘密を打ち明けよう。",
+      "english": "I will tell you a secret."
+    },
+    {
+      "id": "179721",
+      "japanese": "金は打ち延ばされ薄い板になった。",
+      "english": "The gold was beaten into thin plates."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.600Z",
+  "count": 5,
+  "fileId": "kanji-00556"
+}

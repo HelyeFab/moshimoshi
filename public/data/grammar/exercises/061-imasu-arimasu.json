@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "061-imasu-arimasu",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "061-imasu-arimasu-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct verb: 公園に犬が__。",
+      "options": [
+        { "id": "a", "text": "います" },
+        { "id": "b", "text": "あります" },
+        { "id": "c", "text": "します" },
+        { "id": "d", "text": "なります" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 犬 is living, so use います.",
+      "incorrectFeedback": "Not quite. Use います for living things.",
+      "explanation": "います is for living things.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "061-imasu-arimasu-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct verb: 机の上に本が__。",
+      "options": [
+        { "id": "a", "text": "あります" },
+        { "id": "b", "text": "います" },
+        { "id": "c", "text": "行きます" },
+        { "id": "d", "text": "来ます" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 本 is non-living, so use あります.",
+      "incorrectFeedback": "Try again. Use あります for objects.",
+      "explanation": "あります is for non-living things.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "061-imasu-arimasu-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a cat in the room.'",
+      "correctAnswer": "部屋に猫がいます",
+      "acceptedVariations": [
+        "部屋に猫がいます。",
+        "へやにねこがいます",
+        "heya ni neko ga imasu",
+        "heya ni neko ga imasu."
+      ],
+      "correctFeedback": "Great! 部屋に猫がいます is correct.",
+      "incorrectFeedback": "The correct answer is: 部屋に猫がいます (heya ni neko ga imasu).",
+      "explanation": "猫 is living, so use います.",
+      "hints": ["部屋 = room", "猫 = cat"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "061-imasu-arimasu-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "車があります。" },
+        { "id": "b", "text": "車がいます。" },
+        { "id": "c", "text": "車をいます。" },
+        { "id": "d", "text": "車にいます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 車 is non-living.",
+      "incorrectFeedback": "Not quite. Use あります for objects.",
+      "explanation": "Use あります for non-living things.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "061-imasu-arimasu-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is a book on the desk.'",
+      "correctAnswer": "机の上に本があります",
+      "acceptedVariations": [
+        "机の上に本があります。",
+        "つくえのうえにほんがあります",
+        "tsukue no ue ni hon ga arimasu",
+        "tsukue no ue ni hon ga arimasu."
+      ],
+      "correctFeedback": "Nice! 机の上に本があります is correct.",
+      "incorrectFeedback": "The correct answer is: 机の上に本があります (tsukue no ue ni hon ga arimasu).",
+      "explanation": "本 is non-living, so use あります.",
+      "hints": ["机の上 = on the desk", "本 = book"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "061-imasu-arimasu-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "公園に犬がいます。" },
+        { "id": "b", "text": "部屋に人がいます。" },
+        { "id": "c", "text": "机の上にペンがいます。" },
+        { "id": "d", "text": "冷蔵庫にジュースがあります。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ペン is non-living, so use あります.",
+      "incorrectFeedback": "Try again. います is for living things.",
+      "explanation": "Use あります for objects.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "061-imasu-arimasu-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There are children in the park.'",
+      "correctAnswer": "公園に子どもがいます",
+      "acceptedVariations": [
+        "公園に子どもがいます。",
+        "こうえんにこどもがいます",
+        "kouen ni kodomo ga imasu",
+        "kouen ni kodomo ga imasu."
+      ],
+      "correctFeedback": "Great! 公園に子どもがいます is correct.",
+      "incorrectFeedback": "The correct answer is: 公園に子どもがいます (kouen ni kodomo ga imasu).",
+      "explanation": "子ども is living, so use います.",
+      "hints": ["公園 = park", "子ども = children"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "061-imasu-arimasu-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the sentences with their meanings:",
+      "pairs": [
+        {
+          "japanese": "公園に犬がいます。",
+          "romaji": "Kouen ni inu ga imasu.",
+          "english": "There is a dog in the park."
+        },
+        {
+          "japanese": "机の上に本があります。",
+          "romaji": "Tsukue no ue ni hon ga arimasu.",
+          "english": "There is a book on the desk."
+        },
+        {
+          "japanese": "車があります。",
+          "romaji": "Kuruma ga arimasu.",
+          "english": "I have a car."
+        }
+      ],
+      "correctFeedback": "Perfect! All use います/あります correctly.",
+      "incorrectFeedback": "Not quite. Review living vs non-living.",
+      "explanation": "Use います for living, あります for non-living.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "061-imasu-arimasu-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is correct for 'There is a teacher'?",
+      "options": [
+        { "id": "a", "text": "先生がいます" },
+        { "id": "b", "text": "先生があります" },
+        { "id": "c", "text": "先生をいます" },
+        { "id": "d", "text": "先生にあります" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 先生 is a person, so use います.",
+      "incorrectFeedback": "Try again. Use います for people.",
+      "explanation": "People use います.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "061-imasu-arimasu-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'There is juice in the fridge.'",
+      "correctAnswer": "冷蔵庫にジュースがあります",
+      "acceptedVariations": [
+        "冷蔵庫にジュースがあります。",
+        "れいぞうこにじゅーすがあります",
+        "reizouko ni juusu ga arimasu",
+        "reizouko ni juusu ga arimasu."
+      ],
+      "correctFeedback": "Nice! 冷蔵庫にジュースがあります is correct.",
+      "incorrectFeedback": "The correct answer is: 冷蔵庫にジュースがあります (reizouko ni juusu ga arimasu).",
+      "explanation": "ジュース is non-living, so use あります.",
+      "hints": ["冷蔵庫 = fridge", "ジュース = juice"],
+      "difficulty": "hard"
+    }
+  ]
+}

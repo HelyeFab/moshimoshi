@@ -1,0 +1,33 @@
+{
+  "kanji": "限",
+  "sentences": [
+    {
+      "id": "177653",
+      "japanese": "君はできる限り早く家に帰った方がいい。",
+      "english": "You'd better go home as soon as possible."
+    },
+    {
+      "id": "177859",
+      "japanese": "ここにいる限り安全です。",
+      "english": "You are safe so long as you stay here."
+    },
+    {
+      "id": "178066",
+      "japanese": "君の父の友達が父の味方だと限らない。",
+      "english": "Your father's supporters are not limited to his friends."
+    },
+    {
+      "id": "178555",
+      "japanese": "君のお父さんの友達がお父さんの味方だとは限らない。",
+      "english": "Your father's supporters are not limited to his friends."
+    },
+    {
+      "id": "178342",
+      "japanese": "君の限られた時間をできるだけうまく利用すべきだ。",
+      "english": "You should make the best of your limited time."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.700Z",
+  "count": 5,
+  "fileId": "kanji-00269"
+}

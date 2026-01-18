@@ -1,0 +1,1048 @@
+{
+  "version": "1.0.0",
+  "jlptLevel": "N5",
+  "totalPoints": 80,
+  "lastUpdated": "2026-01-17",
+  "points": [
+    {
+      "id": "001-x-wa-y-desu",
+      "order": 1,
+      "category": "basic-sentences",
+      "title": {
+        "ja": "XはYです",
+        "romaji": "X wa Y desu",
+        "en": "X is Y"
+      },
+      "shortDescription": "Polite identity pattern for stating who or what X is in simple sentences.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "002-x-wa-y-de-wa-arimasen",
+      "order": 2,
+      "category": "basic-sentences",
+      "title": {
+        "ja": "XはYではありません",
+        "romaji": "X wa Y de wa arimasen",
+        "en": "X is not Y"
+      },
+      "shortDescription": "Polite negative of XはYです for denying identity or description politely.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "003-kore-sore-are",
+      "order": 3,
+      "category": "basic-sentences",
+      "title": {
+        "ja": "これ・それ・あれ",
+        "romaji": "kore/sore/are",
+        "en": "this/that/that over there"
+      },
+      "shortDescription": "Demonstratives for things: this (near me), that (near you), that over there.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "004-basic-word-order",
+      "order": 4,
+      "category": "basic-sentences",
+      "title": {
+        "ja": "基本の語順",
+        "romaji": "kihon no gojun",
+        "en": "Basic word order"
+      },
+      "shortDescription": "Basic Japanese SOV order with the verb at the end and particles showing roles.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "005-sentence-ending-particles",
+      "order": 5,
+      "category": "basic-sentences",
+      "title": {
+        "ja": "文末助詞（ね・よ・か）",
+        "romaji": "bunmatsu joshi (ne/yo/ka)",
+        "en": "Sentence-ending particles"
+      },
+      "shortDescription": "Sentence-ending particles ね/よ/か to soften, emphasize, or ask questions.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "006-particle-wa",
+      "order": 6,
+      "category": "particles",
+      "title": {
+        "ja": "は",
+        "romaji": "wa",
+        "en": "Topic marker"
+      },
+      "shortDescription": "Topic marker は for setting the topic and showing contrast in sentences.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "007-particle-ga",
+      "order": 7,
+      "category": "particles",
+      "title": {
+        "ja": "が",
+        "romaji": "ga",
+        "en": "Subject marker"
+      },
+      "shortDescription": "Subject marker が to highlight new information or answer who/what questions.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "008-particle-wo",
+      "order": 8,
+      "category": "particles",
+      "title": {
+        "ja": "を",
+        "romaji": "o",
+        "en": "Object marker"
+      },
+      "shortDescription": "Object marker を for direct objects in action-verb sentences and patterns.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "009-particle-ni-location",
+      "order": 9,
+      "category": "particles",
+      "title": {
+        "ja": "に（場所・時間）",
+        "romaji": "ni (location/time)",
+        "en": "に (location/time)"
+      },
+      "shortDescription": "Particle に for specific time points, destinations, and existence locations.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "010-particle-ni-indirect-object",
+      "order": 10,
+      "category": "particles",
+      "title": {
+        "ja": "に（間接目的語）",
+        "romaji": "ni (indirect object)",
+        "en": "に (indirect object)"
+      },
+      "shortDescription": "Particle に for indirect objects: the person receiving or targeted.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "011-particle-de-location",
+      "order": 11,
+      "category": "particles",
+      "title": {
+        "ja": "で（場所）",
+        "romaji": "de (location of action)",
+        "en": "で (location of action)"
+      },
+      "shortDescription": "Particle で to mark the place where an action happens in a sentence.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "012-particle-de-means",
+      "order": 12,
+      "category": "particles",
+      "title": {
+        "ja": "で（手段）",
+        "romaji": "de (means/method)",
+        "en": "で (means/method)"
+      },
+      "shortDescription": "Particle で to show means or method, like tools, transport, or language.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "013-particle-e",
+      "order": 13,
+      "category": "particles",
+      "title": {
+        "ja": "へ",
+        "romaji": "e",
+        "en": "Direction marker"
+      },
+      "shortDescription": "Particle へ to mark direction or destination with movement verbs.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "014-particle-to-and",
+      "order": 14,
+      "category": "particles",
+      "title": {
+        "ja": "と（並列）",
+        "romaji": "to (and)",
+        "en": "and (nouns)"
+      },
+      "shortDescription": "Particle と to connect nouns in a complete list (A and B).",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "015-particle-to-with",
+      "order": 15,
+      "category": "particles",
+      "title": {
+        "ja": "と（いっしょに）",
+        "romaji": "to (with)",
+        "en": "with (together)"
+      },
+      "shortDescription": "Particle と meaning with someone, showing you do an action together.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "016-particle-no-possessive",
+      "order": 16,
+      "category": "particles",
+      "title": {
+        "ja": "の（所有）",
+        "romaji": "no (possessive)",
+        "en": "of/possessive"
+      },
+      "shortDescription": "Possessive の linking nouns to show ownership or other relationships.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "017-particle-no-explanation",
+      "order": 17,
+      "category": "particles",
+      "title": {
+        "ja": "の（名詞化）",
+        "romaji": "no (nominalizer)",
+        "en": "nominalizer の"
+      },
+      "shortDescription": "Nominalizer の turning verb phrases into noun-like expressions.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "018-particle-ka-question",
+      "order": 18,
+      "category": "particles",
+      "title": {
+        "ja": "か（疑問）",
+        "romaji": "ka (question)",
+        "en": "question marker"
+      },
+      "shortDescription": "Question marker か to make polite questions at the end of a sentence.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "019-particle-mo",
+      "order": 19,
+      "category": "particles",
+      "title": {
+        "ja": "も",
+        "romaji": "mo",
+        "en": "also/too"
+      },
+      "shortDescription": "Particle も meaning also/too and replacing は/が/を in context.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "020-particle-ya",
+      "order": 20,
+      "category": "particles",
+      "title": {
+        "ja": "や",
+        "romaji": "ya",
+        "en": "and (non-exhaustive)"
+      },
+      "shortDescription": "Particle や for non-exhaustive lists: A, B, and so on.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "021-verb-groups",
+      "order": 21,
+      "category": "verbs",
+      "title": {
+        "ja": "動詞グループ",
+        "romaji": "doushi group",
+        "en": "Verb groups"
+      },
+      "shortDescription": "Verb groups overview: う-verbs, る-verbs, and irregular verbs.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "022-masu-form-present",
+      "order": 22,
+      "category": "verbs",
+      "title": {
+        "ja": "〜ます",
+        "romaji": "-masu",
+        "en": "Polite present/future"
+      },
+      "shortDescription": "Polite ます form for present or future actions in standard speech.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "023-masu-form-negative",
+      "order": 23,
+      "category": "verbs",
+      "title": {
+        "ja": "〜ません",
+        "romaji": "-masen",
+        "en": "Polite negative"
+      },
+      "shortDescription": "Polite negative ません for present or future actions you do not do.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "024-masu-form-past",
+      "order": 24,
+      "category": "verbs",
+      "title": {
+        "ja": "〜ました",
+        "romaji": "-mashita",
+        "en": "Polite past"
+      },
+      "shortDescription": "Polite past ました for actions completed in the past.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "025-masu-form-past-negative",
+      "order": 25,
+      "category": "verbs",
+      "title": {
+        "ja": "〜ませんでした",
+        "romaji": "-masen deshita",
+        "en": "Polite past negative"
+      },
+      "shortDescription": "Polite past negative ませんでした for actions not done in the past.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "026-te-form-basics",
+      "order": 26,
+      "category": "verbs",
+      "title": {
+        "ja": "て形（基本）",
+        "romaji": "te-kei (basic)",
+        "en": "te-form basics"
+      },
+      "shortDescription": "Te-form basics for connecting actions and building many core patterns.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "027-te-iru-progressive",
+      "order": 27,
+      "category": "verbs",
+      "title": {
+        "ja": "〜ている",
+        "romaji": "-te iru",
+        "en": "Progressive"
+      },
+      "shortDescription": "Progressive 〜ている for ongoing actions and continuing states in polite speech.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "028-te-kudasai",
+      "order": 28,
+      "category": "verbs",
+      "title": {
+        "ja": "〜てください",
+        "romaji": "-te kudasai",
+        "en": "Please do"
+      },
+      "shortDescription": "Polite request form using the て-form plus ください for asking help.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "029-tai-want-to",
+      "order": 29,
+      "category": "verbs",
+      "title": {
+        "ja": "〜たい",
+        "romaji": "-tai",
+        "en": "Want to"
+      },
+      "shortDescription": "Expresses desire with verb stem + たい for what you want to do.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "030-mashou-lets",
+      "order": 30,
+      "category": "verbs",
+      "title": {
+        "ja": "〜ましょう",
+        "romaji": "-mashou",
+        "en": "Let’s"
+      },
+      "shortDescription": "Polite suggestion form 〜ましょう meaning “let’s do it together.”",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "031-masen-ka-invitation",
+      "order": 31,
+      "category": "verbs",
+      "title": {
+        "ja": "〜ませんか",
+        "romaji": "-masen ka",
+        "en": "Invitation"
+      },
+      "shortDescription": "Polite invitation using ませんか to suggest doing something together.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "032-te-mo-ii",
+      "order": 32,
+      "category": "verbs",
+      "title": {
+        "ja": "〜てもいい",
+        "romaji": "-te mo ii",
+        "en": "May / OK to"
+      },
+      "shortDescription": "Permission pattern 〜てもいい for saying it is okay to do something.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "033-te-wa-ikenai",
+      "order": 33,
+      "category": "verbs",
+      "title": {
+        "ja": "〜てはいけない",
+        "romaji": "-te wa ikenai",
+        "en": "Must not"
+      },
+      "shortDescription": "Prohibition pattern 〜てはいけない for rules and things not allowed.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "034-nakute-wa-ikenai",
+      "order": 34,
+      "category": "verbs",
+      "title": {
+        "ja": "〜なくてはいけない",
+        "romaji": "-nakute wa ikenai",
+        "en": "Must"
+      },
+      "shortDescription": "Obligation pattern 〜なくてはいけない for things you must do.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "035-koto-ga-dekiru",
+      "order": 35,
+      "category": "verbs",
+      "title": {
+        "ja": "〜ことができる",
+        "romaji": "-koto ga dekiru",
+        "en": "Can do"
+      },
+      "shortDescription": "Ability pattern 〜ことができる using dictionary form + こと to say can do.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "036-plain-form-present",
+      "order": 36,
+      "category": "verbs",
+      "title": {
+        "ja": "普通形（現在）",
+        "romaji": "futsuu-kei (present)",
+        "en": "Plain form (present)"
+      },
+      "shortDescription": "Plain present (dictionary) form for casual present/future statements.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "037-plain-form-past",
+      "order": 37,
+      "category": "verbs",
+      "title": {
+        "ja": "普通形（過去）",
+        "romaji": "futsuu-kei (past)",
+        "en": "Plain form (past)"
+      },
+      "shortDescription": "Plain past form for casual speech, ending with た/だ.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "038-plain-form-negative",
+      "order": 38,
+      "category": "verbs",
+      "title": {
+        "ja": "普通形（否定）",
+        "romaji": "futsuu-kei (negative)",
+        "en": "Plain form (negative)"
+      },
+      "shortDescription": "Plain negative ない-form used in casual speech and many patterns.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "039-nai-form",
+      "order": 39,
+      "category": "verbs",
+      "title": {
+        "ja": "ない形",
+        "romaji": "nai-kei",
+        "en": "ない form"
+      },
+      "shortDescription": "The ない-form base negative used to build many grammar patterns.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "040-dictionary-form",
+      "order": 40,
+      "category": "verbs",
+      "title": {
+        "ja": "辞書形",
+        "romaji": "jisho-kei",
+        "en": "Dictionary form"
+      },
+      "shortDescription": "Dictionary form is the base verb form used for study and grammar.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "041-i-adjectives-present",
+      "order": 41,
+      "category": "adjectives",
+      "title": {
+        "ja": "い形容詞（現在）",
+        "romaji": "i-keiyoushi (present)",
+        "en": "i-adjectives (present)"
+      },
+      "shortDescription": "Present form of い-adjectives for describing nouns or sentences.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "042-i-adjectives-past",
+      "order": 42,
+      "category": "adjectives",
+      "title": {
+        "ja": "い形容詞（過去）",
+        "romaji": "i-keiyoushi (past)",
+        "en": "i-adjectives (past)"
+      },
+      "shortDescription": "Past form of い-adjectives using かった for polite descriptions.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "043-i-adjectives-negative",
+      "order": 43,
+      "category": "adjectives",
+      "title": {
+        "ja": "い形容詞（否定）",
+        "romaji": "i-keiyoushi (negative)",
+        "en": "i-adjectives (negative)"
+      },
+      "shortDescription": "Negative い-adjectives with くない to say something is not true.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "044-i-adjectives-past-negative",
+      "order": 44,
+      "category": "adjectives",
+      "title": {
+        "ja": "い形容詞（過去否定）",
+        "romaji": "i-keiyoushi (past negative)",
+        "en": "i-adjectives (past negative)"
+      },
+      "shortDescription": "Past negative い-adjectives with くなかった for “was not”.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "045-na-adjectives-present",
+      "order": 45,
+      "category": "adjectives",
+      "title": {
+        "ja": "な形容詞（現在）",
+        "romaji": "na-keiyoushi (present)",
+        "en": "na-adjectives (present)"
+      },
+      "shortDescription": "Present form of な-adjectives with な before nouns and です.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "046-na-adjectives-past",
+      "order": 46,
+      "category": "adjectives",
+      "title": {
+        "ja": "な形容詞（過去）",
+        "romaji": "na-keiyoushi (past)",
+        "en": "na-adjectives (past)"
+      },
+      "shortDescription": "Past な-adjectives with でした for polite past descriptions.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "047-na-adjectives-negative",
+      "order": 47,
+      "category": "adjectives",
+      "title": {
+        "ja": "な形容詞（否定）",
+        "romaji": "na-keiyoushi (negative)",
+        "en": "na-adjectives (negative)"
+      },
+      "shortDescription": "Negative な-adjectives using ではありません to say something is not true.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "048-na-adjectives-past-negative",
+      "order": 48,
+      "category": "adjectives",
+      "title": {
+        "ja": "な形容詞（過去否定）",
+        "romaji": "na-keiyoushi (past negative)",
+        "en": "na-adjectives (past negative)"
+      },
+      "shortDescription": "Past negative な-adjectives using ではありませんでした for “was not”.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "049-adjective-modification",
+      "order": 49,
+      "category": "adjectives",
+      "title": {
+        "ja": "形容詞＋名詞",
+        "romaji": "keiyoushi + meishi",
+        "en": "Adjective + noun"
+      },
+      "shortDescription": "Adjective + noun order: い-adjectives and な-adjectives with な.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "050-i-adjective-adverb",
+      "order": 50,
+      "category": "adjectives",
+      "title": {
+        "ja": "い形容詞→副詞",
+        "romaji": "i-keiyoushi to fukushi",
+        "en": "i-adjective → adverb"
+      },
+      "shortDescription": "Change い-adjectives to adverbs with く to modify verbs.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "051-time-particle-ni",
+      "order": 51,
+      "category": "time-expressions",
+      "title": {
+        "ja": "時間に",
+        "romaji": "jikan ni",
+        "en": "Time particle に"
+      },
+      "shortDescription": "Use に with exact times and dates to say when something happens.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "052-duration-particle-kan",
+      "order": 52,
+      "category": "time-expressions",
+      "title": {
+        "ja": "期間の間",
+        "romaji": "kikan no aida (kan)",
+        "en": "Duration particle 間 (kan)"
+      },
+      "shortDescription": "Use 間 to express how long an action lasts, like two hours.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "053-made-until",
+      "order": 53,
+      "category": "time-expressions",
+      "title": {
+        "ja": "まで",
+        "romaji": "made",
+        "en": "まで (until)"
+      },
+      "shortDescription": "Use まで to mark an end time or limit, often with から.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "054-kara-from",
+      "order": 54,
+      "category": "time-expressions",
+      "title": {
+        "ja": "から",
+        "romaji": "kara",
+        "en": "から (from)"
+      },
+      "shortDescription": "Use から to mark a starting time, often paired with まで.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "055-mae-ni-before",
+      "order": 55,
+      "category": "time-expressions",
+      "title": {
+        "ja": "前に",
+        "romaji": "mae ni",
+        "en": "前に (before)"
+      },
+      "shortDescription": "前に for “before” with noun+の or verb dictionary form.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "056-ato-de-after",
+      "order": 56,
+      "category": "time-expressions",
+      "title": {
+        "ja": "後で",
+        "romaji": "ato de",
+        "en": "後で (after / later)"
+      },
+      "shortDescription": "後で for “after/later” with noun+の or verb past form.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "057-frequency-adverbs",
+      "order": 57,
+      "category": "time-expressions",
+      "title": {
+        "ja": "頻度の副詞",
+        "romaji": "hindo no fukushi",
+        "en": "Frequency adverbs"
+      },
+      "shortDescription": "Frequency adverbs like いつも, よく, ときどき, あまり〜ない for habits.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "058-toki-when",
+      "order": 58,
+      "category": "time-expressions",
+      "title": {
+        "ja": "時",
+        "romaji": "toki",
+        "en": "時 (when)"
+      },
+      "shortDescription": "時 (とき) to say “when” using verbs, adjectives, or nouns.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "059-iru-animate",
+      "order": 59,
+      "category": "existence",
+      "title": {
+        "ja": "いる",
+        "romaji": "iru",
+        "en": "Existence (animate)"
+      },
+      "shortDescription": "Existence verb いる/います for people and animals in polite speech.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "060-aru-inanimate",
+      "order": 60,
+      "category": "existence",
+      "title": {
+        "ja": "ある",
+        "romaji": "aru",
+        "en": "Existence (inanimate)"
+      },
+      "shortDescription": "Existence verb ある/あります for objects and inanimate things.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "061-imasu-arimasu",
+      "order": 61,
+      "category": "existence",
+      "title": {
+        "ja": "います／あります",
+        "romaji": "imasu / arimasu",
+        "en": "います／あります (polite existence)"
+      },
+      "shortDescription": "Polite います/あります to say something exists or you have it.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "062-location-ni-iru-aru",
+      "order": 62,
+      "category": "existence",
+      "title": {
+        "ja": "場所にいる／ある",
+        "romaji": "basho ni iru / aru",
+        "en": "Location に いる／ある"
+      },
+      "shortDescription": "Use に with いる/ある to show where people or things are.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "063-possession-ga-aru",
+      "order": 63,
+      "category": "existence",
+      "title": {
+        "ja": "〜がある（所有）",
+        "romaji": "-ga aru (possession)",
+        "en": "〜がある (possession)"
+      },
+      "shortDescription": "Use がある for non-living possession; います for people.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "064-yori-than",
+      "order": 64,
+      "category": "comparisons",
+      "title": {
+        "ja": "より",
+        "romaji": "yori",
+        "en": "より (than)"
+      },
+      "shortDescription": "Use より to compare two things and say “A is more than B”.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "065-hou-ga-more-than",
+      "order": 65,
+      "category": "comparisons",
+      "title": {
+        "ja": "〜の方が〜",
+        "romaji": "-no hou ga -",
+        "en": "〜の方が〜 (more than)"
+      },
+      "shortDescription": "Use のほうが with より to emphasize which option is more.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "066-ichiban-most",
+      "order": 66,
+      "category": "comparisons",
+      "title": {
+        "ja": "一番",
+        "romaji": "ichiban",
+        "en": "一番 (the most)"
+      },
+      "shortDescription": "Use 一番 to say the most or favorite within a group.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "067-onaji-same",
+      "order": 67,
+      "category": "comparisons",
+      "title": {
+        "ja": "同じ",
+        "romaji": "onaji",
+        "en": "同じ (same)"
+      },
+      "shortDescription": "Use 同じ with と to say two things are the same thing.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "068-question-nani-what",
+      "order": 68,
+      "category": "questions",
+      "title": {
+        "ja": "何",
+        "romaji": "nani",
+        "en": "何 (what)"
+      },
+      "shortDescription": "Use 何 to ask “what” with particles like を, が, で in questions.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "069-question-dare-who",
+      "order": 69,
+      "category": "questions",
+      "title": {
+        "ja": "誰",
+        "romaji": "dare",
+        "en": "誰 (who)"
+      },
+      "shortDescription": "Use 誰 to ask “who” with particles like が, と, に in questions.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "070-question-doko-where",
+      "order": 70,
+      "category": "questions",
+      "title": {
+        "ja": "どこ",
+        "romaji": "doko",
+        "en": "どこ (where)"
+      },
+      "shortDescription": "Use どこ to ask “where” with に, で, or へ for location.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "071-question-itsu-when",
+      "order": 71,
+      "category": "questions",
+      "title": {
+        "ja": "いつ",
+        "romaji": "itsu",
+        "en": "いつ (when)"
+      },
+      "shortDescription": "Use いつ to ask “when” without に for general time questions.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "072-question-naze-doushite-why",
+      "order": 72,
+      "category": "questions",
+      "title": {
+        "ja": "なぜ／どうして",
+        "romaji": "naze / doushite",
+        "en": "なぜ／どうして (why)"
+      },
+      "shortDescription": "Use なぜ/どうして to ask “why”, often answered with から/だから.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "073-question-dou-how",
+      "order": 73,
+      "category": "questions",
+      "title": {
+        "ja": "どう",
+        "romaji": "dou",
+        "en": "どう (how)"
+      },
+      "shortDescription": "Use どう to ask “how” or ask for opinions and methods.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "074-counter-tsu",
+      "order": 74,
+      "category": "numbers-counters",
+      "title": {
+        "ja": "〜つ",
+        "romaji": "-tsu",
+        "en": "〜つ (general counter)"
+      },
+      "shortDescription": "General counter 〜つ for counting items 1–10 with special readings.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "075-counter-nin",
+      "order": 75,
+      "category": "numbers-counters",
+      "title": {
+        "ja": "〜人",
+        "romaji": "-nin",
+        "en": "〜人 (people counter)"
+      },
+      "shortDescription": "Counter 〜人 for people; irregular ひとり and ふたり forms.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "076-counter-hon",
+      "order": 76,
+      "category": "numbers-counters",
+      "title": {
+        "ja": "〜本",
+        "romaji": "-hon",
+        "en": "〜本 (long objects counter)"
+      },
+      "shortDescription": "Counter 〜本 for long objects like pens and bottles with sound changes.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "077-counter-mai",
+      "order": 77,
+      "category": "numbers-counters",
+      "title": {
+        "ja": "〜枚",
+        "romaji": "-mai",
+        "en": "〜枚 (flat objects counter)"
+      },
+      "shortDescription": "Counter 〜枚 for flat objects like paper, tickets, and shirts.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "078-age-sai",
+      "order": 78,
+      "category": "numbers-counters",
+      "title": {
+        "ja": "〜歳",
+        "romaji": "-sai",
+        "en": "〜歳 (age)"
+      },
+      "shortDescription": "Counter 〜歳 for age, with special reading はたち for 20.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "079-kara-because",
+      "order": 79,
+      "category": "miscellaneous",
+      "title": {
+        "ja": "〜から",
+        "romaji": "-kara",
+        "en": "〜から (because)"
+      },
+      "shortDescription": "Use から to give a reason: reason + から + result in sentences.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "080-node-so",
+      "order": 80,
+      "category": "miscellaneous",
+      "title": {
+        "ja": "〜ので",
+        "romaji": "-node",
+        "en": "〜ので (so / because)"
+      },
+      "shortDescription": "Use ので for a softer reason; often more polite than から.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "母",
+  "sentences": [
+    {
+      "id": "4879",
+      "japanese": "私の母はあまり英語が上手に話せない。",
+      "english": "My mom doesn't speak English very well."
+    },
+    {
+      "id": "2244824",
+      "japanese": "母は英語があまりできません。",
+      "english": "My mom doesn't speak English very well."
+    },
+    {
+      "id": "4914",
+      "japanese": "「どなたですか」「お母さんよ」",
+      "english": "\"Who is it?\" \"It's your mother.\""
+    },
+    {
+      "id": "5295",
+      "japanese": "私の母はオレンジジュースを二本買った。",
+      "english": "My mother bought two bottles of orange juice."
+    },
+    {
+      "id": "176909",
+      "japanese": "君は病気のお母さんの面倒をもっと見るべきだ。",
+      "english": "You should take care of your sick mother."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.978Z",
+  "count": 5,
+  "fileId": "kanji-00063"
+}

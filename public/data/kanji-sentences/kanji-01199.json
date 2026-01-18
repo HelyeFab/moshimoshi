@@ -1,0 +1,33 @@
+{
+  "kanji": "壊",
+  "sentences": [
+    {
+      "id": "136461",
+      "japanese": "あ〜！！パソコンが壊れた！",
+      "english": "Aaah!! My computer is broken!"
+    },
+    {
+      "id": "178602",
+      "japanese": "君に電話ができなかった。電話が壊れていたんだ。",
+      "english": "I couldn't call you; the telephone was out of order."
+    },
+    {
+      "id": "180138",
+      "japanese": "橋が壊れていたので、泳ぐしかなかった。",
+      "english": "With the bridge destroyed, there was nothing to do but swim."
+    },
+    {
+      "id": "182776",
+      "japanese": "脚の壊れている椅子は捨てなさい。",
+      "english": "Throw away the chairs whose legs are broken."
+    },
+    {
+      "id": "185169",
+      "japanese": "壊れていたものを早急に交換していただけますか。",
+      "english": "Would you please replace the broken one promptly?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:19.089Z",
+  "count": 5,
+  "fileId": "kanji-01199"
+}

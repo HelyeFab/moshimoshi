@@ -1,0 +1,98 @@
+{
+  "id": "008-particle-wo",
+  "version": "1.0.0",
+  "title": {
+    "ja": "を",
+    "romaji": "wo",
+    "en": "Object marker"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "を marks the direct object of an action verb. It tells you what is being acted on. Although it is written as を, it is pronounced “o.”\n\nKey points:\n• を marks the direct object\n• It appears with action verbs like 食べます, 見ます, 買います\n• It is pronounced “o,” not “wo”\n• It does not mark people or places as subjects\n\nFor example, in “パンを食べます,” the bread (パン) is the thing being eaten. In “日本語を勉強します,” Japanese is the thing being studied.\n\nIn beginner sentences, を usually appears before the verb. This helps you quickly see the verb’s object. Many verbs need an object, so を is very common.\n\nBe careful not to confuse を with は or が. は introduces the topic, が marks the subject, and を marks the direct object. If the verb is something you do to an object, you likely need を.\n\nOnce you learn more, you will also see を used with movement verbs like “公園を歩きます” (walk through the park). For now, focus on the basic action-verb pattern: Object を Verb.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Object を Verb",
+    "components": [
+      {
+        "part": "Object",
+        "explanation": "The thing receiving the action",
+        "examples": ["パン", "本", "日本語"]
+      },
+      {
+        "part": "を",
+        "explanation": "Object marker (pronounced 'o')",
+        "examples": ["を"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action verb",
+        "examples": ["食べます", "読みます", "勉強します"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "パンを食べます。",
+      "romaji": "Pan o tabemasu.",
+      "english": "I eat bread.",
+      "breakdown": {
+        "パン": "bread",
+        "を": "object marker",
+        "食べます": "eat (polite)"
+      },
+      "notes": "Basic object + verb"
+    },
+    {
+      "japanese": "本を読みます。",
+      "romaji": "Hon o yomimasu.",
+      "english": "I read a book.",
+      "breakdown": {
+        "本": "book",
+        "を": "object marker",
+        "読みます": "read (polite)"
+      },
+      "notes": "Common action verb"
+    },
+    {
+      "japanese": "日本語を勉強します。",
+      "romaji": "Nihongo o benkyou shimasu.",
+      "english": "I study Japanese.",
+      "breakdown": {
+        "日本語": "Japanese language",
+        "を": "object marker",
+        "勉強します": "study (polite)"
+      },
+      "notes": "Studying with を"
+    },
+    {
+      "japanese": "水を飲みます。",
+      "romaji": "Mizu o nomimasu.",
+      "english": "I drink water.",
+      "breakdown": {
+        "水": "water",
+        "を": "object marker",
+        "飲みます": "drink (polite)"
+      },
+      "notes": "Everyday action"
+    }
+  ],
+  "relatedPoints": [
+    "006-particle-wa",
+    "022-masu-form-present"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Pronouncing を as 'wo'",
+      "correction": "When used as a particle, it is pronounced 'o'",
+      "example": "❌ hon wo yomimasu → ✅ hon o yomimasu"
+    },
+    {
+      "mistake": "Using が instead of を with action verbs",
+      "correction": "Use を for the direct object",
+      "example": "❌ パンが食べます → ✅ パンを食べます"
+    }
+  ],
+  "tags": ["particle", "object", "verbs", "beginner"]
+}

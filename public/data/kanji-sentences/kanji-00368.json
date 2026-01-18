@@ -1,0 +1,33 @@
+{
+  "kanji": "除",
+  "sentences": [
+    {
+      "id": "181963",
+      "japanese": "いままで試してきた他の政治形態を除いて考えると、民主主義とは最低の政治形態だ。",
+      "english": "Democracy is the worst form of government, except all the others that have been tried."
+    },
+    {
+      "id": "178288",
+      "japanese": "君の作文は２、３の誤りを除けば完璧だ。",
+      "english": "Your composition is perfect except for a few mistakes."
+    },
+    {
+      "id": "179258",
+      "japanese": "靴から泥を取り除いてください。",
+      "english": "Please remove the mud from your shoes."
+    },
+    {
+      "id": "179634",
+      "japanese": "金儲けのことを除けば、私は不動産のことには興味はない。",
+      "english": "Apart from earning money, I have no interest in real estate."
+    },
+    {
+      "id": "186554",
+      "japanese": "荷造りを除いては、することはなにも残っていない。",
+      "english": "There's nothing left to do aside from packing."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.085Z",
+  "count": 5,
+  "fileId": "kanji-00368"
+}

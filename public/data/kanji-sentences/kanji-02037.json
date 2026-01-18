@@ -1,0 +1,33 @@
+{
+  "kanji": "結",
+  "sentences": [
+    {
+      "id": "8552954",
+      "japanese": "あなたの努力はいつか実を結ぶだろう。",
+      "english": "Your efforts will pay off one day."
+    },
+    {
+      "id": "178108",
+      "japanese": "君の努力はいつかは実を結ぶだろう。",
+      "english": "Your efforts will bear fruit someday."
+    },
+    {
+      "id": "178111",
+      "japanese": "君の努力が実を結べばいいね。",
+      "english": "I hope your efforts will bear fruit."
+    },
+    {
+      "id": "178390",
+      "japanese": "君の研究は実を結ぶだろう。",
+      "english": "Your study will bear fruit."
+    },
+    {
+      "id": "179251",
+      "japanese": "靴の紐を結びなさい。",
+      "english": "Tie your shoelaces."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:47.631Z",
+  "count": 5,
+  "fileId": "kanji-02037"
+}

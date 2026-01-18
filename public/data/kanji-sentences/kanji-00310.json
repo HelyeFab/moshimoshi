@@ -1,0 +1,33 @@
+{
+  "kanji": "程",
+  "sentences": [
+    {
+      "id": "140536",
+      "japanese": "早ければ早い程よい。",
+      "english": "The sooner, the better."
+    },
+    {
+      "id": "10091488",
+      "japanese": "失礼にも程がある！",
+      "english": "How rude of you!"
+    },
+    {
+      "id": "9550195",
+      "japanese": "程なくして、月が顔を出した。",
+      "english": "Before long, the moon came out."
+    },
+    {
+      "id": "77920",
+      "japanese": "料理人は彼の信じられない程の食欲にとても驚いた。",
+      "english": "The cook was astonished at his incredible appetite."
+    },
+    {
+      "id": "219134",
+      "japanese": "この話は又聞きなので、真偽の程は分かりません。",
+      "english": "As I heard the story secondhand, I can't ascertain the truth of it."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.315Z",
+  "count": 5,
+  "fileId": "kanji-00310"
+}

@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "075-counter-nin",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "075-counter-nin-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct reading for 1 person:",
+      "options": [
+        {
+          "id": "a",
+          "text": "ひとり"
+        },
+        {
+          "id": "b",
+          "text": "いちにん"
+        },
+        {
+          "id": "c",
+          "text": "ひとにん"
+        },
+        {
+          "id": "d",
+          "text": "いっぴと"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 1 person is ひとり.",
+      "incorrectFeedback": "Not quite. ひとり is the correct reading.",
+      "explanation": "ひとり is irregular for 1 person.",
+      "difficulty": "easy"
+    }
+  ]
+}

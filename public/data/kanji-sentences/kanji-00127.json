@@ -1,0 +1,33 @@
+{
+  "kanji": "秋",
+  "sentences": [
+    {
+      "id": "181632",
+      "japanese": "京都は秋がもっとも美しい。",
+      "english": "Kyoto is most beautiful in autumn."
+    },
+    {
+      "id": "182222",
+      "japanese": "去年の秋、私たちはニューヨークに引っ越した。",
+      "english": "We moved to New York last fall."
+    },
+    {
+      "id": "1034621",
+      "japanese": "私たちは去年の秋に、ニューヨークへ引っ越しました。",
+      "english": "We moved to New York last fall."
+    },
+    {
+      "id": "184664",
+      "japanese": "概して秋には雨が多い。",
+      "english": "As a rule, we have a lot of rain in the fall."
+    },
+    {
+      "id": "185787",
+      "japanese": "我々は秋に夏の作物を収穫します。",
+      "english": "In the fall we harvest our summer crops."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.986Z",
+  "count": 5,
+  "fileId": "kanji-00127"
+}

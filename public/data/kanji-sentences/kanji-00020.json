@@ -1,0 +1,33 @@
+{
+  "kanji": "女",
+  "sentences": [
+    {
+      "id": "4772",
+      "japanese": "あなたが女の子だからよ。",
+      "english": "That's because you're a girl."
+    },
+    {
+      "id": "178615",
+      "japanese": "君に手を振っているあの女の子はだれだい。",
+      "english": "Who is that girl waving to you?"
+    },
+    {
+      "id": "178951",
+      "japanese": "君が寝室を共用していた女の子はどうなったのだろう。",
+      "english": "What happened to the girl you were sharing the bedroom with?"
+    },
+    {
+      "id": "179503",
+      "japanese": "愚かな女の子に、彼が収入を浪費しているというのが両親の意見でした。",
+      "english": "His parents' view was that he was wasting his earnings on a silly girl."
+    },
+    {
+      "id": "179637",
+      "japanese": "金髪の女の子があなたに会いにきました。",
+      "english": "A girl with blonde hair came to see you."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.398Z",
+  "count": 5,
+  "fileId": "kanji-00020"
+}

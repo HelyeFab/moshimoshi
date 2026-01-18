@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "016-particle-no-possessive",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "016-particle-no-possessive-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 私＿＿本です。",
+      "questionRomaji": "Watashi __ hon desu.",
+      "options": [
+        {
+          "id": "a",
+          "text": "の",
+          "romaji": "no"
+        },
+        {
+          "id": "b",
+          "text": "は",
+          "romaji": "wa"
+        },
+        {
+          "id": "c",
+          "text": "が",
+          "romaji": "ga"
+        },
+        {
+          "id": "d",
+          "text": "を",
+          "romaji": "o"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! の shows possession.",
+      "incorrectFeedback": "Not quite. Use の to show “my book.”",
+      "explanation": "私の本 = my book.",
+      "difficulty": "easy"
+    }
+  ]
+}

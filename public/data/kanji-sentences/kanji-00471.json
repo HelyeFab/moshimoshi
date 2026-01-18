@@ -1,0 +1,33 @@
+{
+  "kanji": "解",
+  "sentences": [
+    {
+      "id": "177033",
+      "japanese": "君は頭がよいからその難問も解けないはずはない。",
+      "english": "You are too clever not to solve the hard problem."
+    },
+    {
+      "id": "177717",
+      "japanese": "君はその問題を解くことができましたか。",
+      "english": "Could you solve the problem?"
+    },
+    {
+      "id": "8741764",
+      "japanese": "その問題を解くことができた？",
+      "english": "Could you solve the problem?"
+    },
+    {
+      "id": "10846640",
+      "japanese": "あの問題は解けたの？",
+      "english": "Could you solve the problem?"
+    },
+    {
+      "id": "178855",
+      "japanese": "君が問題を解く容易さには驚くぜ。",
+      "english": "I'm amazed by the ease with which you solve the problem."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.450Z",
+  "count": 5,
+  "fileId": "kanji-00471"
+}

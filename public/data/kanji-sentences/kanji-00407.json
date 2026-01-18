@@ -1,0 +1,33 @@
+{
+  "kanji": "恥",
+  "sentences": [
+    {
+      "id": "177054",
+      "japanese": "君は恥を知るべきだ。",
+      "english": "You ought to be ashamed."
+    },
+    {
+      "id": "10068253",
+      "japanese": "恥を知りなさい。",
+      "english": "You ought to be ashamed."
+    },
+    {
+      "id": "177186",
+      "japanese": "君は自分の無知を恥じるべきである。",
+      "english": "You should be ashamed of your ignorance."
+    },
+    {
+      "id": "177198",
+      "japanese": "君は自分の行いを恥ずかしいと思うべきだ。",
+      "english": "You should be ashamed of your conduct."
+    },
+    {
+      "id": "177981",
+      "japanese": "君は、自分の愚かさを恥ずべきだ。",
+      "english": "You should be ashamed of your folly."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.638Z",
+  "count": 5,
+  "fileId": "kanji-00407"
+}

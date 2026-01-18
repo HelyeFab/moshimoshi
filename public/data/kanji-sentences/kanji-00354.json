@@ -1,0 +1,33 @@
+{
+  "kanji": "列",
+  "sentences": [
+    {
+      "id": "183023",
+      "japanese": "貴族に列せられた。",
+      "english": "He was created a peer."
+    },
+    {
+      "id": "183347",
+      "japanese": "機関車は長い貨物車の列を引っ張って走っていた。",
+      "english": "The locomotive was pulling a long line of freight cars."
+    },
+    {
+      "id": "188488",
+      "japanese": "王は彼を貴族に列した。",
+      "english": "The king created him a peer."
+    },
+    {
+      "id": "188792",
+      "japanese": "延々と続く車の列があった。",
+      "english": "There was a continuous line of cars."
+    },
+    {
+      "id": "188983",
+      "japanese": "英国人は列を作って並ぶのに慣れている。",
+      "english": "British people are used to standing in queues."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.909Z",
+  "count": 5,
+  "fileId": "kanji-00354"
+}

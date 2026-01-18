@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "228-n4-point-28",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "228-n4-point-28-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb te ageru\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "動詞てあげる",
+          "romaji": "doushi te ageru"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! 動詞てあげる matches \"Verb te ageru\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞てあげる.",
+      "explanation": "Expresses doing a kind action for someone else using the verb te-form.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "美",
+  "sentences": [
+    {
+      "id": "4796",
+      "japanese": "潔白であることは美しいことだ。",
+      "english": "Innocence is a beautiful thing."
+    },
+    {
+      "id": "4894",
+      "japanese": "真実のみが美しい。",
+      "english": "Nothing is beautiful but the truth."
+    },
+    {
+      "id": "5032",
+      "japanese": "パリは世界で最も美しい街である。",
+      "english": "Paris is the most beautiful city in the world."
+    },
+    {
+      "id": "5062",
+      "japanese": "イタリアはとても美しい国です。",
+      "english": "Italy is a very beautiful country."
+    },
+    {
+      "id": "5196",
+      "japanese": "人生は美しい。",
+      "english": "Life is beautiful."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.302Z",
+  "count": 5,
+  "fileId": "kanji-00455"
+}

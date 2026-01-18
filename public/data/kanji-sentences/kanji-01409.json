@@ -1,0 +1,33 @@
+{
+  "kanji": "揚",
+  "sentences": [
+    {
+      "id": "177910",
+      "japanese": "君はいつも僕の揚げ足を取るね。",
+      "english": "You always like to trip me up, don't you?"
+    },
+    {
+      "id": "183408",
+      "japanese": "旗が揚がっている。",
+      "english": "The flag is up."
+    },
+    {
+      "id": "195310",
+      "japanese": "豆のかき揚げが好きです。",
+      "english": "I like pea pods in my stir fry."
+    },
+    {
+      "id": "3419592",
+      "japanese": "凧を揚げるのは危険かもしれない。",
+      "english": "Flying a kite can be dangerous."
+    },
+    {
+      "id": "222186",
+      "japanese": "この鶏肉はよく揚げられている。",
+      "english": "This chicken is fried well."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:24.920Z",
+  "count": 5,
+  "fileId": "kanji-01409"
+}

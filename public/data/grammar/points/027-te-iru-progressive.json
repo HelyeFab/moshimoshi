@@ -1,0 +1,101 @@
+{
+  "id": "027-te-iru-progressive",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜ている",
+    "romaji": "-te iru",
+    "en": "Progressive"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "〜ている expresses an ongoing action, similar to “am/is/are doing.” It is made by adding いる to the て-form of a verb. In polite speech, use 〜ています.\n\nKey points:\n• Verb て-form + いる/います\n• Describes actions happening now\n• Often translated as “is doing”\n• Some verbs describe a current state (like “住んでいます”)\n\nFor example, “今、勉強しています” means “I am studying now.” The action is in progress. Another example: “友だちは東京に住んでいます” means “My friend lives in Tokyo.” Here, 住んでいます describes a continuing state.\n\nTo form it, first make the て-form (食べて, 行って, 見て) and then add いる/います. For beginners, using the polite います form is safest: 食べています, 行っています, 見ています.\n\nBe aware that some verbs use 〜ている to show a result state rather than an action. For example, “結婚しています” means “(I am) married.” You will learn these gradually.\n\nStart with simple “now” sentences and add a time word like 今 to make the meaning clear.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + います",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "Base verb in て-form",
+        "examples": ["食べて", "行って", "見て"]
+      },
+      {
+        "part": "います",
+        "explanation": "Polite progressive ending",
+        "examples": ["います"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "今、勉強しています。",
+      "romaji": "Ima, benkyou shite imasu.",
+      "english": "I am studying now.",
+      "breakdown": {
+        "今": "now",
+        "勉強して": "study (te-form)",
+        "います": "am (polite progressive)"
+      },
+      "notes": "Action happening now"
+    },
+    {
+      "japanese": "友だちはテレビを見ています。",
+      "romaji": "Tomodachi wa terebi o mite imasu.",
+      "english": "My friend is watching TV.",
+      "breakdown": {
+        "友だち": "friend",
+        "は": "topic marker",
+        "テレビ": "TV",
+        "を": "object marker",
+        "見て": "watch (te-form)",
+        "います": "is (progressive)"
+      },
+      "notes": "Ongoing action"
+    },
+    {
+      "japanese": "先生は教室にいます。",
+      "romaji": "Sensei wa kyoushitsu ni imasu.",
+      "english": "The teacher is in the classroom.",
+      "breakdown": {
+        "先生": "teacher",
+        "は": "topic marker",
+        "教室": "classroom",
+        "に": "location marker",
+        "います": "exists (polite)"
+      },
+      "notes": "Not progressive; simple existence"
+    },
+    {
+      "japanese": "私は東京に住んでいます。",
+      "romaji": "Watashi wa Tokyo ni sunde imasu.",
+      "english": "I live in Tokyo.",
+      "breakdown": {
+        "私": "I, me",
+        "は": "topic marker",
+        "東京": "Tokyo",
+        "に": "location marker",
+        "住んで": "live (te-form)",
+        "います": "am (state)"
+      },
+      "notes": "Continuing state"
+    }
+  ],
+  "relatedPoints": [
+    "026-te-form-basics",
+    "059-iru-animate"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using dictionary form + いる",
+      "correction": "Use the て-form before いる",
+      "example": "❌ 食べるいる → ✅ 食べている"
+    },
+    {
+      "mistake": "Forgetting to use います in polite speech",
+      "correction": "Use ています for polite style",
+      "example": "❌ 見ているです → ✅ 見ています"
+    }
+  ],
+  "tags": ["verbs", "progressive", "te-form", "beginner"]
+}

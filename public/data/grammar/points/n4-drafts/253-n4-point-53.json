@@ -1,0 +1,55 @@
+{
+  "id": "253-n4-point-53",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb ないほうがいい (Verb nai hou ga ii)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ないほうがいい grammar point is used to suggest that it's better not to do a certain action. It is formed by taking the negative form of the verb and adding ほうがいい.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-negative form + ほうがいい",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "この薬は飲まないほうがいいです。",
+      "romaji": "Kono kusuri wa nomanai hou ga ii desu.",
+      "english": "It's better not to take this medicine.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "急いでいるときは、走らないほうがいい。",
+      "romaji": "Isoide iru toki wa, hashiranai hou ga ii.",
+      "english": "When you're in a hurry, it's better not to run.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼に秘密を知られたくなければ、話さないほうがいい。",
+      "romaji": "Kare ni himitsu o shiraretakunakereba, hanasanai hou ga ii.",
+      "english": "If you don't want him to know your secret, it's better not to tell him.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "雨の日には、外出しないほうがいい。",
+      "romaji": "Ame no hi ni wa, gaishutsu shinai hou ga ii.",
+      "english": "It's better not to go out on a rainy day.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

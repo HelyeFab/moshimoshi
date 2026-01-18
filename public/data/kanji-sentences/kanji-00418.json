@@ -1,0 +1,33 @@
+{
+  "kanji": "靴",
+  "sentences": [
+    {
+      "id": "5123",
+      "japanese": "靴が小さすぎるから新しいのを買う必要があるな。",
+      "english": "My shoes are too small. I need new ones."
+    },
+    {
+      "id": "177345",
+      "japanese": "君は靴を脱ぐには及ばない。",
+      "english": "You need not take off your shoes."
+    },
+    {
+      "id": "2378570",
+      "japanese": "靴は脱がなくていいよ！",
+      "english": "You need not take off your shoes."
+    },
+    {
+      "id": "177677",
+      "japanese": "君はそんな靴が流行していると思っているかもしれないが、そうじゃないんだ。",
+      "english": "You may think those shoes are in fashion, but they aren't."
+    },
+    {
+      "id": "178412",
+      "japanese": "君の靴はその服と合わない。",
+      "english": "Your shoes do not go with the suit."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.818Z",
+  "count": 5,
+  "fileId": "kanji-00418"
+}

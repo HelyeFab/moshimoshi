@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "032-te-mo-ii",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "032-te-mo-ii-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct permission form: 座る → ?",
+      "options": [
+        { "id": "a", "text": "座ってもいいです" },
+        { "id": "b", "text": "座りますもいいです" },
+        { "id": "c", "text": "座るもいいです" },
+        { "id": "d", "text": "座っていいです" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! て-form + もいいです.",
+      "incorrectFeedback": "Not quite. Use て-form + もいいです.",
+      "explanation": "座る → 座ってもいいです.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "032-te-mo-ii-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'May I take a photo?'",
+      "options": [
+        { "id": "a", "text": "写真を撮ってもいいですか。" },
+        { "id": "b", "text": "写真を撮りますか。" },
+        { "id": "c", "text": "写真を撮りませんか。" },
+        { "id": "d", "text": "写真を撮ってください。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! てもいいですか asks permission.",
+      "incorrectFeedback": "Try again. Use て-form + もいいですか.",
+      "explanation": "Permission question uses てもいいですか.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "032-te-mo-ii-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'You may sit here.'",
+      "correctAnswer": "ここに座ってもいいです",
+      "acceptedVariations": [
+        "ここに座ってもいいです。",
+        "ここにすわってもいいです",
+        "koko ni suwatte mo ii desu",
+        "koko ni suwatte mo ii desu."
+      ],
+      "correctFeedback": "Great! ここに座ってもいいです is correct.",
+      "incorrectFeedback": "The correct answer is: ここに座ってもいいです (koko ni suwatte mo ii desu).",
+      "explanation": "Use て-form + もいいです to give permission.",
+      "hints": ["座る → 座って", "Use もいいです"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "032-te-mo-ii-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "このペンを使ってもいいです。" },
+        { "id": "b", "text": "このペンを使いますもいいです。" },
+        { "id": "c", "text": "このペンを使うもいいです。" },
+        { "id": "d", "text": "このペンを使ってください。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! て-form + もいいです.",
+      "incorrectFeedback": "Not quite. Use て-form before もいいです.",
+      "explanation": "使ってもいいです = you may use.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "032-te-mo-ii-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'May I come in now?'",
+      "correctAnswer": "今入ってもいいですか",
+      "acceptedVariations": [
+        "今入ってもいいですか。",
+        "いまはいってもいいですか",
+        "ima haitte mo ii desu ka",
+        "ima haitte mo ii desu ka."
+      ],
+      "correctFeedback": "Nice! 今入ってもいいですか is correct.",
+      "incorrectFeedback": "The correct answer is: 今入ってもいいですか (ima haitte mo ii desu ka).",
+      "explanation": "Use てもいいですか to ask permission.",
+      "hints": ["入る → 入って", "Add か for a question"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "032-te-mo-ii-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "ここで食べてもいいです。" },
+        { "id": "b", "text": "ここで食べるもいいです。" },
+        { "id": "c", "text": "ここで食べてもいいですか。" },
+        { "id": "d", "text": "ここで食べてもいいです。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Use て-form before もいい.",
+      "incorrectFeedback": "Try again. Dictionary form is incorrect here.",
+      "explanation": "食べるもいい is wrong; use 食べてもいい.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "032-te-mo-ii-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'You may use the dictionary.'",
+      "correctAnswer": "辞書を使ってもいいです",
+      "acceptedVariations": [
+        "辞書を使ってもいいです。",
+        "じしょをつかってもいいです",
+        "jisho o tsukatte mo ii desu",
+        "jisho o tsukatte mo ii desu."
+      ],
+      "correctFeedback": "Great! 辞書を使ってもいいです is correct.",
+      "incorrectFeedback": "The correct answer is: 辞書を使ってもいいです (jisho o tsukatte mo ii desu).",
+      "explanation": "Use て-form + もいいです for permission.",
+      "hints": ["使う → 使って", "辞書 = dictionary"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "032-te-mo-ii-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "ここに座ってもいいです。",
+          "romaji": "Koko ni suwatte mo ii desu.",
+          "english": "You may sit here."
+        },
+        {
+          "japanese": "写真を撮ってもいいですか。",
+          "romaji": "Shashin o totte mo ii desu ka.",
+          "english": "May I take a photo?"
+        },
+        {
+          "japanese": "このペンを使ってもいいです。",
+          "romaji": "Kono pen o tsukatte mo ii desu.",
+          "english": "You may use this pen."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review てもいいです.",
+      "explanation": "Each sentence gives or asks permission.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "032-te-mo-ii-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is a permission question?",
+      "options": [
+        { "id": "a", "text": "行ってもいいです。" },
+        { "id": "b", "text": "行ってもいいですか。" },
+        { "id": "c", "text": "行ってはいけません。" },
+        { "id": "d", "text": "行きません。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! か makes it a question.",
+      "incorrectFeedback": "Try again. Add か for a question.",
+      "explanation": "てもいいですか = may I...?",
+      "difficulty": "hard"
+    },
+    {
+      "id": "032-te-mo-ii-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Is it okay to eat here?'",
+      "correctAnswer": "ここで食べてもいいですか",
+      "acceptedVariations": [
+        "ここで食べてもいいですか。",
+        "ここでたべてもいいですか",
+        "koko de tabete mo ii desu ka",
+        "koko de tabete mo ii desu ka."
+      ],
+      "correctFeedback": "Nice! ここで食べてもいいですか is correct.",
+      "incorrectFeedback": "The correct answer is: ここで食べてもいいですか (koko de tabete mo ii desu ka).",
+      "explanation": "Use て-form + もいいですか.",
+      "hints": ["食べる → 食べて", "Add か"],
+      "difficulty": "hard"
+    }
+  ]
+}

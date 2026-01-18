@@ -1,0 +1,85 @@
+{
+  "id": "304-n4-point-104",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～なきゃいけない",
+    "romaji": "~nakya ikenai",
+    "en": "Must/Have to"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "Expresses a sense of necessity or obligation, similar to 'must' or 'have to'. A casual form of ～なければいけない.",
+    "ja": "必要や義務を表す表現で、「must」や「have to」と似ています。～なければいけないのくだけた形です。"
+  },
+  "structure": {
+    "pattern": "Verb-casual (negative without い) + なきゃいけない",
+    "components": [
+      {
+        "part": "Verb-casual (negative)",
+        "explanation": "The verb is placed in the negative form but omitting the 'い'.",
+        "examples": [
+          "終わらなく",
+          "準備しなく"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "明日までに宿題を終わらなきゃいけない。",
+      "romaji": "Ashita made ni shukudai wo owaranakya ikenai.",
+      "english": "I have to finish my homework by tomorrow.",
+      "breakdown": {
+        "token": "明日 (ashita) - tomorrow, 宿題 (shukudai) - homework"
+      },
+      "notes": "The verb 'finish' is transformed into its negative form without the 'い'."
+    },
+    {
+      "japanese": "もうすぐ出かけるから、急いで準備しなきゃいけない。",
+      "romaji": "Mou sugu dekakeru kara, isoide junbi shinakya ikenai.",
+      "english": "We're leaving soon, so I have to hurry and get ready.",
+      "breakdown": {
+        "token": "出かける (dekakeru) - leave, 準備する (junbi suru) - prepare"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このプロジェクトは来週提出しなきゃいけない。",
+      "romaji": "Kono purojekuto wa raishuu teishutsu shinakya ikenai.",
+      "english": "I must submit this project by next week.",
+      "breakdown": {
+        "token": "プロジェクト (purojekuto) - project, 提出する (teishutsu suru) - submit"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "電車に乗る前に、切符を買わなきゃいけない。",
+      "romaji": "Densha ni noru mae ni, kippu wo kawanakya ikenai.",
+      "english": "I have to buy a ticket before getting on the train.",
+      "breakdown": {
+        "token": "電車 (densha) - train, 切符 (kippu) - ticket"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～なくてはいけない",
+    "～かもしれない",
+    "そんなに～"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "～なきゃいけない with い-adjectives",
+      "correction": "This form is not used with い-adjectives.",
+      "example": "～なきゃいけないは、い形容詞には使われません。"
+    }
+  ],
+  "tags": [
+    "n4",
+    "casual",
+    "obligation",
+    "negative-form",
+    "expression"
+  ]
+}

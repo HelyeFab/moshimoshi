@@ -1,0 +1,33 @@
+{
+  "kanji": "怒",
+  "sentences": [
+    {
+      "id": "897055",
+      "japanese": "彼女は私に怒っています。",
+      "english": "She is mad at me."
+    },
+    {
+      "id": "10538095",
+      "japanese": "私が言ったことに怒ってるの？",
+      "english": "Are you angry at what I said?"
+    },
+    {
+      "id": "176947",
+      "japanese": "君は彼を怒らせないように気をつけなければならない。",
+      "english": "You must be careful not to make him angry."
+    },
+    {
+      "id": "178522",
+      "japanese": "君のためにそれをしたのだから、怒らないでくれ。",
+      "english": "Don't be angry with me, for I did it for your sake."
+    },
+    {
+      "id": "4054701",
+      "japanese": "彼を侮辱したから、君に怒っている。",
+      "english": "As you have insulted him, he is cross with you."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.880Z",
+  "count": 5,
+  "fileId": "kanji-00351"
+}

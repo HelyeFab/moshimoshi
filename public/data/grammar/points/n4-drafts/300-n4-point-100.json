@@ -1,0 +1,55 @@
+{
+  "id": "300-n4-point-100",
+  "version": "1.0.0",
+  "title": {
+    "ja": "どういう Noun (dou iu Noun)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The どういう Noun grammar point is used to ask for more information or clarification about a specific noun. It can be translated as 'what kind of' or 'what sort of' in English. The formation is simply using どういう followed by the noun in question.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "どういう + Noun",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "どういう仕事をしていますか？",
+      "romaji": "Dou iu shigoto wo shite imasu ka?",
+      "english": "What kind of work do you do?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "どういう映画が好きですか？",
+      "romaji": "Dou iu eiga ga suki desu ka?",
+      "english": "What kind of movies do you like?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "どういう服を着たいですか？",
+      "romaji": "Dou iu fuku wo kitai desu ka?",
+      "english": "What kind of clothes do you want to wear?",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "どういう理由で遅れましたか？",
+      "romaji": "Dou iu riyuu de okuremashita ka?",
+      "english": "What sort of reason caused you to be late?",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

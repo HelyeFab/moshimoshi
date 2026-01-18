@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "223-n4-point-23",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "223-n4-point-23-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"When (Verb-たときに)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "動詞たときに",
+          "romaji": "Doushi ta toki ni"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! 動詞たときに matches \"When (Verb-たときに)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞たときに.",
+      "explanation": "Used after past verbs to specify when something happened.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "223-n4-point-23-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: 動詞たときに.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "When (Verb-たときに)"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! 動詞たときに means \"When (Verb-たときに)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"When (Verb-たときに)\".",
+      "explanation": "Used after past verbs to specify when something happened.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "223-n4-point-23-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: 動詞たときに.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Doushi ta toki ni"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Doushi ta toki ni is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Doushi ta toki ni.",
+      "explanation": "Used after past verbs to specify when something happened.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "223-n4-point-23-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: 動詞たときに?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used after past verbs to specify when something happened."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used after past verbs to specify when something happened.",
+      "explanation": "Used after past verbs to specify when something happened.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "223-n4-point-23-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"When (Verb-たときに)\".",
+      "correctAnswer": "動詞たときに",
+      "acceptedVariations": [
+        "動詞たときに",
+        "動詞たときに"
+      ],
+      "correctFeedback": "Nice! 動詞たときに is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞たときに (Doushi ta toki ni).",
+      "explanation": "Used after past verbs to specify when something happened.",
+      "hints": [
+        "Doushi ta toki ni",
+        "Used after past verbs to specify when something happened."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "223-n4-point-23-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: 動詞たときに.",
+      "correctAnswer": "Doushi ta toki ni",
+      "acceptedVariations": [
+        "Doushi ta toki ni",
+        "doushi ta toki ni"
+      ],
+      "correctFeedback": "Nice! Doushi ta toki ni is correct.",
+      "incorrectFeedback": "The correct romaji is: Doushi ta toki ni.",
+      "explanation": "Used after past verbs to specify when something happened.",
+      "hints": [
+        "Used after past verbs to specify when something happened."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "223-n4-point-23-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: 動詞たときに.",
+      "correctAnswer": "When (Verb-たときに)",
+      "acceptedVariations": [
+        "When (Verb-たときに)",
+        "when (verb-たときに)"
+      ],
+      "correctFeedback": "Correct! \"When (Verb-たときに)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"When (Verb-たときに)\".",
+      "explanation": "Used after past verbs to specify when something happened.",
+      "hints": [
+        "Used after past verbs to specify when something happened."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "223-n4-point-23-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "動詞たときに",
+          "romaji": "Doushi ta toki ni",
+          "english": "When (Verb-たときに)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used after past verbs to specify when something happened.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "223-n4-point-23-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used after past verbs to specify when something happened..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "動詞たときに",
+          "romaji": "Doushi ta toki ni"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 動詞たときに matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is 動詞たときに.",
+      "explanation": "Used after past verbs to specify when something happened.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "223-n4-point-23-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "動詞たときに",
+      "acceptedVariations": [
+        "動詞たときに",
+        "動詞たときに"
+      ],
+      "correctFeedback": "Great! 動詞たときに is correct.",
+      "incorrectFeedback": "The correct pattern is: 動詞たときに.",
+      "explanation": "Used after past verbs to specify when something happened.",
+      "hints": [
+        "Doushi ta toki ni"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

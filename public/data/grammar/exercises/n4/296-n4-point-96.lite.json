@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "296-n4-point-96",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "296-n4-point-96-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"It's okay to / May / Can (permission)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～てもいい",
+          "romaji": "temo ii"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ～てもいい matches \"It's okay to / May / Can (permission)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～てもいい.",
+      "explanation": "Expresses permission to do something; \"may\" or \"can\" in English.",
+      "difficulty": "easy"
+    }
+  ]
+}

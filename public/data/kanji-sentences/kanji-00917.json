@@ -1,0 +1,33 @@
+{
+  "kanji": "巻",
+  "sentences": [
+    {
+      "id": "177878",
+      "japanese": "君ばかりか僕まで巻き添えを食らった。",
+      "english": "Not only you but also I was involved."
+    },
+    {
+      "id": "183861",
+      "japanese": "看護婦さんが私の足に包帯を巻いてくれた。",
+      "english": "The nurse wound my leg with a bandage."
+    },
+    {
+      "id": "185863",
+      "japanese": "我々は交通事故に巻きこまれた。",
+      "english": "We got involved in a traffic accident."
+    },
+    {
+      "id": "1047093",
+      "japanese": "私たちは交通事故に巻き込まれた。",
+      "english": "We got involved in a traffic accident."
+    },
+    {
+      "id": "186588",
+      "japanese": "花環が彼の頭に巻かれた。",
+      "english": "A wreath was bound around his head."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:09.258Z",
+  "count": 5,
+  "fileId": "kanji-00917"
+}

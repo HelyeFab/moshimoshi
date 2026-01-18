@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "211-n4-point-11",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "211-n4-point-11-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"During the period of\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Noun の 間に (〜no aida ni)",
+          "romaji": "noun no aida ni"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Noun の 間に (〜no aida ni) matches \"During the period of\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Noun の 間に (〜no aida ni).",
+      "explanation": "Expresses an action happening during a specific period marked by a noun.",
+      "difficulty": "easy"
+    }
+  ]
+}

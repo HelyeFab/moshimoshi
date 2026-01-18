@@ -1,0 +1,55 @@
+{
+  "id": "245-n4-point-45",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て ほしい (Verb-te hoshii)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The て ほしい grammar point is used to express the speaker's desire for someone else to do an action. It is formed by combining the て-form of a verb with ほしい. The subject is usually followed by the particle に, but it can be dropped in casual speech.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-て form + ほしい",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "子供にもっと勉強してほしい。",
+      "romaji": "Kodomo ni motto benkyou shite hoshii.",
+      "english": "I want my child to study more.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼にもっと早く来てほしい。",
+      "romaji": "Kare ni motto hayaku kite hoshii.",
+      "english": "I want him to come earlier.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "友達にその本を読んでほしい。",
+      "romaji": "Tomodachi ni sono hon o yonde hoshii.",
+      "english": "I want my friend to read that book.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "先生に質問に答えてほしい。",
+      "romaji": "Sensei ni shitsumon ni kotaete hoshii.",
+      "english": "I want the teacher to answer the question.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

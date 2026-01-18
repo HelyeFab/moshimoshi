@@ -1,0 +1,33 @@
+{
+  "kanji": "塔",
+  "sentences": [
+    {
+      "id": "177959",
+      "japanese": "君はあのテレビ塔の高さがどれくらいあるか知っていますか。",
+      "english": "Do you know how high the television tower is?"
+    },
+    {
+      "id": "180291",
+      "japanese": "教会の塔の時計が９時を打った。",
+      "english": "The clock in the church tower struck nine."
+    },
+    {
+      "id": "182613",
+      "japanese": "宮殿には高い塔がある。",
+      "english": "The palace has a tall tower."
+    },
+    {
+      "id": "182748",
+      "japanese": "丘の上に立っているあの塔を見なさい。",
+      "english": "Look at that tower standing on the hill."
+    },
+    {
+      "id": "187146",
+      "japanese": "家からその塔が見える。",
+      "english": "I see the tower from my house."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.642Z",
+  "count": 5,
+  "fileId": "kanji-00849"
+}

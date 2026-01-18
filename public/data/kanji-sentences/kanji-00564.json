@@ -1,0 +1,33 @@
+{
+  "kanji": "争",
+  "sentences": [
+    {
+      "id": "5085",
+      "japanese": "両親がくだらないことで言い争っていて、とてもいらいらするよ。",
+      "english": "My parents keep arguing about stupid things. It's so annoying!"
+    },
+    {
+      "id": "5330",
+      "japanese": "彼らは言い争いをした。",
+      "english": "They quarreled."
+    },
+    {
+      "id": "179651",
+      "japanese": "金銭のことで彼と争いになった。",
+      "english": "I had a quarrel with him over money."
+    },
+    {
+      "id": "191967",
+      "japanese": "わずかな額のことで言い争うのはよせ。",
+      "english": "Don't haggle over a small sum of money."
+    },
+    {
+      "id": "196264",
+      "japanese": "ポスト争いは厳しい。",
+      "english": "Competition for the position is very intense."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.725Z",
+  "count": 5,
+  "fileId": "kanji-00564"
+}

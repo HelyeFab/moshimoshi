@@ -1,0 +1,104 @@
+{
+  "id": "278-n4-point-78",
+  "version": "1.0.0",
+  "title": {
+    "ja": "~から",
+    "romaji": "~kara",
+    "en": "Because/Since"
+  },
+  "jlptLevel": "N4",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "The ～から grammar point is used to express a reason, cause, or the origin of something. It can be translated as 'because', 'since', or 'due to' in English.",
+    "ja": "～からは、何かの理由や原因を表現するために使います。英語では「because」「since」または「due to」と訳されます。"
+  },
+  "structure": {
+    "pattern": "Verb-casual + から, い-Adjective + から, な-adjective + だから, Noun + だから",
+    "components": [
+      {
+        "part": "Verb-casual + から",
+        "explanation": "Attach to the casual form of a verb.",
+        "examples": [
+          "雨が降るから、傘を持って行ってください。"
+        ]
+      },
+      {
+        "part": "い-Adjective + から",
+        "explanation": "Directly follows an い-adjective.",
+        "examples": [
+          "このケーキは美味しいから、みんな食べるでしょう。"
+        ]
+      },
+      {
+        "part": "な-adjective + だから",
+        "explanation": "Follows a noun or na-adjective and requires 'だ'.",
+        "examples": [
+          "彼は病気だから、学校を休みます。"
+        ]
+      },
+      {
+        "part": "Noun + だから",
+        "explanation": "Follows a noun.",
+        "examples": [
+          "今日は日曜日だから、学校がありません。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "雨が降るから、傘を持って行ってください。",
+      "romaji": "Ame ga furu kara, kasa wo motte itte kudasai.",
+      "english": "Because it's raining, please bring an umbrella.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "このケーキは美味しいから、みんな食べるでしょう。",
+      "romaji": "Kono keeki wa oishii kara, minna taberu deshou.",
+      "english": "Because this cake is delicious, everyone will probably eat it.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は病気だから、学校を休みます。",
+      "romaji": "Kare wa byouki dakara, gakkou wo yasumimasu.",
+      "english": "He will be absent from school because he is sick.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "今日は日曜日だから、学校がありません。",
+      "romaji": "Kyou wa nichiyoubi dakara, gakkou ga arimasen.",
+      "english": "There is no school today because it is Sunday.",
+      "breakdown": {
+        "token": "gloss"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "文A。だから 文B",
+    "Noun しか～ない",
+    "Noun の 間に (〜no aida ni)"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "雨が降るだから、傘を持って行ってください。",
+      "correction": "雨が降るから、傘を持って行ってください。",
+      "example": "Avoid adding 'だ' before から for verbs and i-adjectives."
+    }
+  ],
+  "tags": [
+    "n4",
+    "causal-reasoning",
+    "reason-expression",
+    "intermediate-grammar"
+  ]
+}

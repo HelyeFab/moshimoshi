@@ -1,0 +1,33 @@
+{
+  "kanji": "派",
+  "sentences": [
+    {
+      "id": "177989",
+      "japanese": "君は、どちらの派に所属しているのですか。",
+      "english": "Which party do you belong to?"
+    },
+    {
+      "id": "207828",
+      "japanese": "その彫刻家はルネサンス派に属する。",
+      "english": "The sculptor belongs to the Renaissance school."
+    },
+    {
+      "id": "151158",
+      "japanese": "詩人キーツはロマン派に属する。",
+      "english": "The poet Keats belongs to the Romantic school."
+    },
+    {
+      "id": "155144",
+      "japanese": "私は断然ウィンドウズ派。",
+      "english": "I'm a Windows person."
+    },
+    {
+      "id": "159177",
+      "japanese": "私はネコ派です。",
+      "english": "I am a cat person."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:48.440Z",
+  "count": 5,
+  "fileId": "kanji-02064"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "酸",
+  "sentences": [
+    {
+      "id": "179641",
+      "japanese": "金属が酸で腐食してしまった。",
+      "english": "The acid burned the metal."
+    },
+    {
+      "id": "182275",
+      "japanese": "牛乳は酸っぱくなりやすい。",
+      "english": "Milk easily turns sour."
+    },
+    {
+      "id": "182289",
+      "japanese": "牛乳は、酸っぱくなった。",
+      "english": "The milk turned sour."
+    },
+    {
+      "id": "192323",
+      "japanese": "レモンは酸っぱい。",
+      "english": "Lemon is sour."
+    },
+    {
+      "id": "195052",
+      "japanese": "ミルクが酸っぱくなった。",
+      "english": "The milk went sour."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:20.507Z",
+  "count": 5,
+  "fileId": "kanji-01261"
+}

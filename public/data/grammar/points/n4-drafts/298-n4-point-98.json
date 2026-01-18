@@ -1,0 +1,55 @@
+{
+  "id": "298-n4-point-98",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～といい (〜to ii)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The ～といい grammar point is used to express a wish or hope for a certain situation or outcome. It can be translated as 'I hope', 'it would be good if', or 'it would be nice if' in English. The formation differs depending on whether it is used with a verb, い-adjective, な-adjective, or noun.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb-casual + といい, い-Adjective + といい, な-Adjective + だといい, Noun + だといい",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "明日晴れるといいね。",
+      "romaji": "Ashita hareru to ii ne.",
+      "english": "I hope it will be sunny tomorrow.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "この試験に合格するといい。",
+      "romaji": "Kono shiken ni goukaku suru to ii.",
+      "english": "I hope to pass this exam.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼が元気だといいな。",
+      "romaji": "Kare ga genki da to ii na.",
+      "english": "I hope he is doing well.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "そのレストランが美味しいといいですね。",
+      "romaji": "Sono resutoran ga oishii to ii desu ne.",
+      "english": "It would be nice if that restaurant is delicious.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

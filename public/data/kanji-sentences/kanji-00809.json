@@ -1,0 +1,33 @@
+{
+  "kanji": "軒",
+  "sentences": [
+    {
+      "id": "182754",
+      "japanese": "丘の上に１軒の大きな家があります。",
+      "english": "There is a large house on the hill."
+    },
+    {
+      "id": "182755",
+      "japanese": "丘の上に１軒の家があります。",
+      "english": "There is a house on the hill."
+    },
+    {
+      "id": "213443",
+      "japanese": "その２軒の家は背中向かいにたっている。",
+      "english": "The two houses stand back to back."
+    },
+    {
+      "id": "235504",
+      "japanese": "２軒の家の間の道は雪で閉ざされていた。",
+      "english": "The path between the two houses was blocked by snow."
+    },
+    {
+      "id": "235505",
+      "japanese": "２軒の家が並んでたっている。",
+      "english": "The two houses stand alongside of each other."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.782Z",
+  "count": 5,
+  "fileId": "kanji-00809"
+}

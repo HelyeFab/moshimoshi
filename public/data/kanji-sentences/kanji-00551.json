@@ -1,0 +1,33 @@
+{
+  "kanji": "両",
+  "sentences": [
+    {
+      "id": "200797",
+      "japanese": "どちらが勝ってもおかしくない。両チームとも実力はほぼ互角だからね。",
+      "english": "It's a tossup as to who will win; both teams are about the same in quality."
+    },
+    {
+      "id": "75963",
+      "japanese": "性能のよさとデザインの優美さが両々相まって本機種の声価を高めてきた。",
+      "english": "The high performance and the elegant design of this model have combined to give it a high reputation."
+    },
+    {
+      "id": "77542",
+      "japanese": "列車の後部３両はひどい損傷を受けた。",
+      "english": "The last three coaches of the train were badly damaged."
+    },
+    {
+      "id": "145613",
+      "japanese": "審判は両チームに対して公平でなければならない。",
+      "english": "The referee must be fair to both teams."
+    },
+    {
+      "id": "170966",
+      "japanese": "混同しないように、両チームは色の違う服を着ていた。",
+      "english": "To avoid confusion, the teams wore different colors."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.511Z",
+  "count": 5,
+  "fileId": "kanji-00551"
+}

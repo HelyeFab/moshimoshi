@@ -1,0 +1,33 @@
+{
+  "kanji": "願",
+  "sentences": [
+    {
+      "id": "4932",
+      "japanese": "お願いだから泣かないで。",
+      "english": "Please don't cry."
+    },
+    {
+      "id": "4856416",
+      "japanese": "お願い、泣かないで。",
+      "english": "Please don't cry."
+    },
+    {
+      "id": "1555127",
+      "japanese": "もし間違いがありましたら、訂正をお願いします。",
+      "english": "If you see a mistake, then please correct it."
+    },
+    {
+      "id": "5025",
+      "japanese": "ブラウンさんをお願いします。",
+      "english": "May I talk to Ms. Brown?"
+    },
+    {
+      "id": "5026",
+      "japanese": "「ええ、オレンジジュースをお願いします」マイクは言った。",
+      "english": "\"Yes, orange juice please,\" says Mike."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.774Z",
+  "count": 5,
+  "fileId": "kanji-00344"
+}

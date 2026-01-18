@@ -55,6 +55,7 @@ export const STALL_OFFLINE_SUPPORT: Record<string, OfflineSupport> = {
   blog: 'none', // Server content
   todos: 'partial', // IndexedDB with sync
   qa: 'none', // Q&A forum requires network for posting/voting/moderation
+  grammar: 'partial', // Grammar points cached after first visit
 }
 
 // All available stall IDs in the Learning Village
@@ -84,6 +85,7 @@ export const STALL_IDS = [
   'achievements',
   'leaderboard',
   'resources',
+  'grammar',
   'blog',
   'todos',
   'qa',
@@ -165,10 +167,11 @@ export const DEFAULT_CONFIG: LearningVillageConfig = {
     // Progress & Community
     { id: 'achievements', order: 22, isPopular: false, enabled: true },
     { id: 'leaderboard', order: 23, isPopular: true, enabled: true },
-    { id: 'resources', order: 24, isPopular: false, enabled: true },
-    { id: 'blog', order: 25, isPopular: false, enabled: true },
-    { id: 'todos', order: 26, isPopular: false, enabled: true },
-    { id: 'qa', order: 27, isPopular: false, enabled: true },
+    { id: 'grammar', order: 24, isPopular: false, enabled: true },
+    { id: 'resources', order: 25, isPopular: false, enabled: true },
+    { id: 'blog', order: 26, isPopular: false, enabled: true },
+    { id: 'todos', order: 27, isPopular: false, enabled: true },
+    { id: 'qa', order: 28, isPopular: false, enabled: true },
   ],
 }
 

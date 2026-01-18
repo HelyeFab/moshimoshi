@@ -1,0 +1,33 @@
+{
+  "kanji": "泡",
+  "sentences": [
+    {
+      "id": "179520",
+      "japanese": "苦労したのに全て水の泡だった。",
+      "english": "All my troubles came to nothing."
+    },
+    {
+      "id": "182610",
+      "japanese": "急いだことが水の泡だった。",
+      "english": "All my haste was in vain."
+    },
+    {
+      "id": "214041",
+      "japanese": "せっかくの苦労が水の泡になった。",
+      "english": "All my pains were in vain."
+    },
+    {
+      "id": "225679",
+      "japanese": "くだける波が泡を作った。",
+      "english": "The breaking waves formed foam."
+    },
+    {
+      "id": "78871",
+      "japanese": "洋服店を開こうというトムの努力は水の泡になった。",
+      "english": "Tom's efforts to open a clothing store went up in smoke."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:38.617Z",
+  "count": 5,
+  "fileId": "kanji-01830"
+}

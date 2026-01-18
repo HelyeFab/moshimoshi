@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "010-particle-ni-indirect-object",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "010-particle-ni-indirect-object-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 先生＿＿本をあげます。",
+      "questionRomaji": "Sensei __ hon o agemasu.",
+      "options": [
+        {
+          "id": "a",
+          "text": "に",
+          "romaji": "ni"
+        },
+        {
+          "id": "b",
+          "text": "を",
+          "romaji": "o"
+        },
+        {
+          "id": "c",
+          "text": "で",
+          "romaji": "de"
+        },
+        {
+          "id": "d",
+          "text": "が",
+          "romaji": "ga"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! に marks the receiver.",
+      "incorrectFeedback": "Not quite. Use に for the person who receives.",
+      "explanation": "あげます uses に for the indirect object.",
+      "difficulty": "easy"
+    }
+  ]
+}

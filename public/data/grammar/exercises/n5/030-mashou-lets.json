@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "030-mashou-lets",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "030-mashou-lets-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct 'let's' form: 行きます → ?",
+      "options": [
+        { "id": "a", "text": "行きましょう" },
+        { "id": "b", "text": "行きません" },
+        { "id": "c", "text": "行きました" },
+        { "id": "d", "text": "行くましょう" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 行きましょう means 'let's go.'",
+      "incorrectFeedback": "Not quite. Replace ます with ましょう.",
+      "explanation": "ます → ましょう for suggestions.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "030-mashou-lets-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'Let's watch a movie'?",
+      "options": [
+        { "id": "a", "text": "映画を見ます。" },
+        { "id": "b", "text": "映画を見ましょう。" },
+        { "id": "c", "text": "映画を見ません。" },
+        { "id": "d", "text": "映画を見ました。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 見ましょう is the 'let's' form.",
+      "incorrectFeedback": "Try again. Use ましょう.",
+      "explanation": "Verb stem + ましょう.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "030-mashou-lets-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Let's study together.'",
+      "correctAnswer": "一緒に勉強しましょう",
+      "acceptedVariations": [
+        "一緒に勉強しましょう。",
+        "いっしょにべんきょうしましょう",
+        "issho ni benkyou shimashou",
+        "issho ni benkyou shimashou."
+      ],
+      "correctFeedback": "Great! 一緒に勉強しましょう is correct.",
+      "incorrectFeedback": "The correct answer is: 一緒に勉強しましょう (issho ni benkyou shimashou).",
+      "explanation": "Use ましょう to suggest doing together.",
+      "hints": ["勉強します → 勉強しましょう", "一緒に = together"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "030-mashou-lets-ex-04",
+      "type": "multiple-choice",
+      "question": "Which is the correct ましょう form of 食べます?",
+      "options": [
+        { "id": "a", "text": "食べましょう" },
+        { "id": "b", "text": "食べますましょう" },
+        { "id": "c", "text": "食べましょうか" },
+        { "id": "d", "text": "食べるましょう" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 食べます → 食べましょう.",
+      "incorrectFeedback": "Not quite. Replace ます with ましょう.",
+      "explanation": "Verb stem + ましょう.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "030-mashou-lets-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Let's go to the park.'",
+      "correctAnswer": "公園へ行きましょう",
+      "acceptedVariations": [
+        "公園へ行きましょう。",
+        "こうえんへいきましょう",
+        "kouen e ikimashou",
+        "kouen e ikimashou."
+      ],
+      "correctFeedback": "Nice! 公園へ行きましょう is correct.",
+      "incorrectFeedback": "The correct answer is: 公園へ行きましょう (kouen e ikimashou).",
+      "explanation": "Use ましょう to invite someone.",
+      "hints": ["行きます → 行きましょう", "公園 = park"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "030-mashou-lets-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "休みましょう。" },
+        { "id": "b", "text": "飲みましょう。" },
+        { "id": "c", "text": "行きましょう。" },
+        { "id": "d", "text": "行くましょう。" }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Use the ます stem, not dictionary form.",
+      "incorrectFeedback": "Try again. Replace ます with ましょう.",
+      "explanation": "行くましょう is incorrect.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "030-mashou-lets-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Let's take a break.'",
+      "correctAnswer": "休みましょう",
+      "acceptedVariations": [
+        "休みましょう。",
+        "やすみましょう",
+        "yasumimashou",
+        "yasumimashou."
+      ],
+      "correctFeedback": "Great! 休みましょう is correct.",
+      "incorrectFeedback": "The correct answer is: 休みましょう (yasumimashou).",
+      "explanation": "Use ましょう to suggest.",
+      "hints": ["休みます → 休みましょう"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "030-mashou-lets-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "映画を見ましょう。",
+          "romaji": "Eiga o mimashou.",
+          "english": "Let's watch a movie."
+        },
+        {
+          "japanese": "一緒に勉強しましょう。",
+          "romaji": "Issho ni benkyou shimashou.",
+          "english": "Let's study together."
+        },
+        {
+          "japanese": "公園へ行きましょう。",
+          "romaji": "Kouen e ikimashou.",
+          "english": "Let's go to the park."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review the ましょう form.",
+      "explanation": "Each sentence uses ましょう for a suggestion.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "030-mashou-lets-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence uses ましょう correctly?",
+      "options": [
+        { "id": "a", "text": "食べますしょう。" },
+        { "id": "b", "text": "食べましょう。" },
+        { "id": "c", "text": "食べるましょう。" },
+        { "id": "d", "text": "食べませんか。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 食べましょう is correct.",
+      "incorrectFeedback": "Try again. Replace ます with ましょう.",
+      "explanation": "ます → ましょう.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "030-mashou-lets-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Let's eat lunch.'",
+      "correctAnswer": "昼ご飯を食べましょう",
+      "acceptedVariations": [
+        "昼ご飯を食べましょう。",
+        "ひるごはんをたべましょう",
+        "hirugohan o tabemashou",
+        "hirugohan o tabemashou."
+      ],
+      "correctFeedback": "Nice! 昼ご飯を食べましょう is correct.",
+      "incorrectFeedback": "The correct answer is: 昼ご飯を食べましょう (hirugohan o tabemashou).",
+      "explanation": "Use ましょう for a suggestion.",
+      "hints": ["食べます → 食べましょう", "昼ご飯 = lunch"],
+      "difficulty": "hard"
+    }
+  ]
+}

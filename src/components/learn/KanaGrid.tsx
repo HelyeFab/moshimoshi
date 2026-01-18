@@ -355,8 +355,12 @@ const KanaGrid = memo(function KanaGrid({
                         >
                           <div
                             onClick={() => {
-                              if (onToggleSelection) {
+                              // In study/review modes: toggle selection
+                              // In browse mode: open details modal
+                              if (isSelectionMode && onToggleSelection) {
                                 onToggleSelection(char)
+                              } else {
+                                onCharacterSelect(char)
                               }
                             }}
                             onMouseEnter={() => setHoveredId(char.id)}
@@ -367,7 +371,7 @@ const KanaGrid = memo(function KanaGrid({
                               bg-white dark:bg-dark-800 border-2
                               hover:shadow-lg
                               ${
-                                isSelected
+                                isSelectionMode && isSelected
                                   ? 'border-primary-500 ring-2 ring-primary-200 dark:ring-primary-800'
                                   : isLearned
                                     ? 'border-green-500 dark:border-green-600'
@@ -376,31 +380,23 @@ const KanaGrid = memo(function KanaGrid({
                             `}
                             style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
                           >
-                            {/* Pin button - always visible for selection */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                if (onToggleSelection) {
-                                  onToggleSelection(char)
-                                }
-                              }}
-                              className="absolute -top-2 -right-2 w-6 h-6 rounded-full shadow-lg z-20 transition-all hover:scale-110"
-                              style={{
-                                backgroundColor: isSelected ? '#6366f1' : '#9ca3af',
-                                opacity: isSelected ? 1 : 0.5,
-                              }}
-                              title={isSelected ? 'Unpin' : 'Pin for study/review'}
-                            />
-
-                            {/* Clickable center area for modal */}
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                onCharacterSelect(char)
-                              }}
-                              className="absolute inset-[25%] rounded-lg hover:bg-white/10 dark:hover:bg-white/5 transition-colors z-10"
-                              title="View details"
-                            />
+                            {/* Selection button - ONLY in study/review modes */}
+                            {isSelectionMode && (
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  if (onToggleSelection) {
+                                    onToggleSelection(char)
+                                  }
+                                }}
+                                className="absolute -top-2 -right-2 w-6 h-6 rounded-full shadow-lg z-20 transition-all hover:scale-110"
+                                style={{
+                                  backgroundColor: isSelected ? '#6366f1' : '#9ca3af',
+                                  opacity: isSelected ? 1 : 0.5,
+                                }}
+                                title={isSelected ? 'Deselect' : 'Select for study/review'}
+                              />
+                            )}
 
                             {/* Learned indicator - bottom right corner */}
                             {isLearned && (

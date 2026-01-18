@@ -1,0 +1,33 @@
+{
+  "kanji": "押",
+  "sentences": [
+    {
+      "id": "178467",
+      "japanese": "君の意見を押しつけないでくれ。",
+      "english": "Don't press your opinions on me."
+    },
+    {
+      "id": "178699",
+      "japanese": "君にそれをやる気があるならあと押ししよう。",
+      "english": "I'll stand behind you if you are going to do it."
+    },
+    {
+      "id": "179941",
+      "japanese": "緊急の場合は、このボタンを押しなさい。",
+      "english": "In case of an emergency, push this button."
+    },
+    {
+      "id": "211386",
+      "japanese": "その橋は洪水で押し流されてしまった。",
+      "english": "The bridge was carried away by the flood."
+    },
+    {
+      "id": "180480",
+      "japanese": "強盗はその子供を押し入れに閉じ込めた。",
+      "english": "The burglar shut the child in the closet."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.682Z",
+  "count": 5,
+  "fileId": "kanji-00267"
+}

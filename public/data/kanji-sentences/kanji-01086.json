@@ -1,0 +1,18 @@
+{
+  "kanji": "弧",
+  "sentences": [
+    {
+      "id": "78803",
+      "japanese": "要素ＣとＤは弧の生成には無関係なので排除することができる。",
+      "english": "We can eliminate C and D since they are irrelevant to the generation of the arcs."
+    },
+    {
+      "id": "9096675",
+      "japanese": "花火のフィナーレを飾った「しだれ柳」は、夜空に華やかに舞い上がり、緩やかな弧を描きながらゆっくりと垂れ下がって、やがてその可憐な姿を消していった。",
+      "english": "The Firework's displays final \"Weeping Willow\" display brilliantly launched into the night sky, slowly dripping down as it drew a gentle slope until finally its blossoming figure gradually vanished."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:14.992Z",
+  "count": 2,
+  "fileId": "kanji-01086"
+}

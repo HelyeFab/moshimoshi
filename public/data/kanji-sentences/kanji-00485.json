@@ -1,0 +1,33 @@
+{
+  "kanji": "在",
+  "sentences": [
+    {
+      "id": "188899",
+      "japanese": "駅はここから約３マイルのところに在ります。",
+      "english": "The station is about three miles from here."
+    },
+    {
+      "id": "231907",
+      "japanese": "あなたは自分の家が在ればよいのにとお思いになるでしょう。",
+      "english": "You will wish you had a house of your own."
+    },
+    {
+      "id": "120170",
+      "japanese": "彼が住んでいる所は町から遠い所に在ります。",
+      "english": "The place where he lives is far from town."
+    },
+    {
+      "id": "144357",
+      "japanese": "人間の価値は、その人の人柄に在るのであって、その人の財産にあるのではない。",
+      "english": "A man's worth depends on what he is, and not what he has."
+    },
+    {
+      "id": "145604",
+      "japanese": "心ここに在らざれば聞けども聴こえず。",
+      "english": "There are none so deaf as those who won't hear."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.675Z",
+  "count": 5,
+  "fileId": "kanji-00485"
+}

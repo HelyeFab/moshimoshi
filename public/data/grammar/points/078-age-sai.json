@@ -1,0 +1,96 @@
+{
+  "id": "078-age-sai",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜歳",
+    "romaji": "-sai",
+    "en": "〜歳 (age)"
+  },
+  "jlptLevel": "N5",
+  "category": "numbers-counters",
+  "explanation": {
+    "en": "〜歳 (さい) is the counter for age. It is used to say how old someone is. The age 20 has a special reading: はたち.\n\nKey points:\n• Use number + 歳 to state age\n• 20 years old = はたち (special)\n• Question: 何歳ですか (How old?)\n• Polite: おいくつですか (more polite)\n\nExample: “私は二十歳です” means “I am 20 years old.” “何歳ですか” means “How old are you?”\n\nThe reading さい is regular for most numbers. Remember the special form はたち for 20.\n\nPractice by stating ages: 十八歳, 二十二歳, 三十歳.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Number + 歳",
+    "components": [
+      {
+        "part": "Number",
+        "explanation": "Age number",
+        "examples": ["十八", "二十", "三十"]
+      },
+      {
+        "part": "歳",
+        "explanation": "Age counter",
+        "examples": ["歳"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "私は二十歳です。",
+      "romaji": "Watashi wa hatachi desu.",
+      "english": "I am 20 years old.",
+      "breakdown": {
+        "私": "I",
+        "は": "topic marker",
+        "二十歳": "20 years old",
+        "です": "is"
+      },
+      "notes": "Special reading"
+    },
+    {
+      "japanese": "兄は十八歳です。",
+      "romaji": "Ani wa juuhassai desu.",
+      "english": "My older brother is 18 years old.",
+      "breakdown": {
+        "兄": "older brother",
+        "は": "topic marker",
+        "十八歳": "18 years old",
+        "です": "is"
+      },
+      "notes": "Age statement"
+    },
+    {
+      "japanese": "田中さんは三十歳です。",
+      "romaji": "Tanaka-san wa sanjuu-sai desu.",
+      "english": "Tanaka is 30 years old.",
+      "breakdown": {
+        "田中さん": "Tanaka",
+        "は": "topic marker",
+        "三十歳": "30 years old",
+        "です": "is"
+      },
+      "notes": "Age of person"
+    },
+    {
+      "japanese": "何歳ですか。",
+      "romaji": "Nan-sai desu ka.",
+      "english": "How old are you?",
+      "breakdown": {
+        "何歳": "how old",
+        "です": "is",
+        "か": "question marker"
+      },
+      "notes": "Age question"
+    }
+  ],
+  "relatedPoints": [
+    "068-question-nani-what",
+    "074-counter-tsu"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Saying 二十歳 as にじゅっさい",
+      "correction": "Use はたち for 20",
+      "example": "❌ にじゅっさい → ✅ はたち"
+    },
+    {
+      "mistake": "Forgetting 歳",
+      "correction": "Add 歳 to state age",
+      "example": "❌ 私は二十です → ✅ 私は二十歳です"
+    }
+  ],
+  "tags": ["counters", "age", "sai", "beginner"]
+}

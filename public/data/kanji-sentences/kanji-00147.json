@@ -1,0 +1,33 @@
+{
+  "kanji": "妹",
+  "sentences": [
+    {
+      "id": "236519",
+      "japanese": "ピザを食べている間に、彼は妹をイライラさせていた。",
+      "english": "While eating a pizza he was annoying his sister."
+    },
+    {
+      "id": "177812",
+      "japanese": "君はジェーンを彼の妹と間違えたのかもしれない。",
+      "english": "You may have mistaken Jane for his sister."
+    },
+    {
+      "id": "178050",
+      "japanese": "君の妹はなんてかわいいんだろう。",
+      "english": "How pretty your sister is!"
+    },
+    {
+      "id": "178051",
+      "japanese": "君の妹はどうなりましたか。",
+      "english": "What has become of your sister?"
+    },
+    {
+      "id": "178053",
+      "japanese": "君の妹はいつロンドンに向けて東京を出発したのですか。",
+      "english": "When did your sister leave Tokyo for London?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.239Z",
+  "count": 5,
+  "fileId": "kanji-00147"
+}

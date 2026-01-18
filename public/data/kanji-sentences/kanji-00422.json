@@ -1,0 +1,33 @@
+{
+  "kanji": "彼",
+  "sentences": [
+    {
+      "id": "4730",
+      "japanese": "彼は時々変です。",
+      "english": "Sometimes he can be a strange guy."
+    },
+    {
+      "id": "4740",
+      "japanese": "私は彼らにチケットをもう一枚送ってくれるように頼んだ。",
+      "english": "I told them to send me another ticket."
+    },
+    {
+      "id": "4750",
+      "japanese": "彼は私を蹴っています！",
+      "english": "He's kicking me!"
+    },
+    {
+      "id": "473878",
+      "japanese": "俺は彼を射殺してやる。",
+      "english": "I'm gonna shoot him."
+    },
+    {
+      "id": "4768",
+      "japanese": "それで彼らの気が変わったのかも知れない。",
+      "english": "That was probably what influenced their decision."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:59.860Z",
+  "count": 5,
+  "fileId": "kanji-00422"
+}

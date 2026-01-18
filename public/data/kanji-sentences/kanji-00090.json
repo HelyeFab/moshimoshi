@@ -1,0 +1,33 @@
+{
+  "kanji": "質",
+  "sentences": [
+    {
+      "id": "179384",
+      "japanese": "大気の質は過去数年において悪化した。",
+      "english": "Air quality has deteriorated these past few years."
+    },
+    {
+      "id": "190184",
+      "japanese": "一般的に、消費者は質よりも量を選ぶ。",
+      "english": "In general, consumers prefer quantity to quality."
+    },
+    {
+      "id": "237452",
+      "japanese": "その夕食は彼が今夜食べた夕食より質が良かった。",
+      "english": "The dinner was superior in quality to the one he ate this evening."
+    },
+    {
+      "id": "217798",
+      "japanese": "これらの品物は質よりも量でまさっている。",
+      "english": "These goods are greater in quantity than in quality."
+    },
+    {
+      "id": "9421747",
+      "japanese": "この布はあれよりも質がいいですよ。",
+      "english": "This cloth is superior to that."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.386Z",
+  "count": 5,
+  "fileId": "kanji-00090"
+}

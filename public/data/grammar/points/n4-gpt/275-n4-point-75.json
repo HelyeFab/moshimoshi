@@ -1,0 +1,104 @@
+{
+  "id": "275-n4-point-75",
+  "version": "1.0.0",
+  "title": {
+    "ja": "～かどうか",
+    "romaji": "~ka dou ka",
+    "en": "whether or if"
+  },
+  "jlptLevel": "N4",
+  "category": "questions",
+  "explanation": {
+    "en": "The ～かどうか grammar point is used to express 'whether' or 'if' in indirect questions or statements. It is often used to express uncertainty or to inquire about information in a more polite form.",
+    "ja": "～かどうかの文型は、間接疑問や主張で「whether」または「if」という意味を表します。この形式は、情報の問い合わせ時により丁寧な形で使われます。"
+  },
+  "structure": {
+    "pattern": "~かどうか",
+    "components": [
+      {
+        "part": "Verb-casual",
+        "explanation": "The casual form of the verb.",
+        "examples": [
+          "来る (kuru) - to come"
+        ]
+      },
+      {
+        "part": "い-Adjective",
+        "explanation": "An い-adjective directly followed by かどうか.",
+        "examples": [
+          "面白い (omoshiroi) - interesting"
+        ]
+      },
+      {
+        "part": "な-Adjective",
+        "explanation": "A な-adjective plus (だ)かどうか.",
+        "examples": [
+          "綺麗 (kirei) - beautiful"
+        ]
+      },
+      {
+        "part": "Noun",
+        "explanation": "A noun plus (だ)かどうか to form the structure.",
+        "examples": [
+          "先生 (sensei) - teacher"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "彼が来るかどうか知りません。",
+      "romaji": "Kare ga kuru ka dou ka shirimasen.",
+      "english": "I don't know if he will come or not.",
+      "breakdown": {
+        "token": "kare (he) - kuru (come) - ka dou ka (whether) - shirimasen (don't know)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この本が面白いかどうか教えてください。",
+      "romaji": "Kono hon ga omoshiroi ka dou ka oshiete kudasai.",
+      "english": "Please tell me if this book is interesting or not.",
+      "breakdown": {
+        "token": "kono (this) - hon (book) - omoshiro(i) (interesting) - ka dou ka (whether) - oshiete kudasai (please tell)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女が綺麗だかどうかは分かりません。",
+      "romaji": "Kanojo ga kirei da ka dou ka wa wakarimasen.",
+      "english": "I don't know whether she is beautiful or not.",
+      "breakdown": {
+        "token": "kanojo (she) - kirei (beautiful) - da ka dou ka (whether) - wakarimasen (don't know)"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼が先生だかどうか覚えていません。",
+      "romaji": "Kare ga sensei da ka dou ka oboete imasen.",
+      "english": "I don't remember if he is a teacher or not.",
+      "breakdown": {
+        "token": "kare (he) - sensei (teacher) - da ka dou ka (whether) - oboete imasen (don't remember)"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "～かしら",
+    "～かもしれない",
+    "Verb てもらえませんか"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "彼が来るか知りません。",
+      "correction": "彼が来るかどうか知りません。",
+      "example": "I don't know if he will come or not."
+    }
+  ],
+  "tags": [
+    "n4",
+    "questions",
+    "indirect-questions",
+    "uncertainty"
+  ]
+}

@@ -1,0 +1,122 @@
+{
+  "id": "220-n4-point-20",
+  "version": "1.0.0",
+  "title": {
+    "ja": "動詞させられる",
+    "romaji": "Doushi saserareru",
+    "en": "Verb -saserareru (passive causative)"
+  },
+  "jlptLevel": "N4",
+  "category": "verbs",
+  "explanation": {
+    "en": "The -させられる (-saserareru) form is the passive causative form of verbs. It expresses that someone was made or forced by another to do something, often against their will or not voluntarily.",
+    "ja": "「させられる」は動詞の受け身使役形で、他人によって何かをさせられた、つまり自分の意思ではなく行動を強いられたことを表します。"
+  },
+  "structure": {
+    "pattern": "Verb させられる",
+    "components": [
+      {
+        "part": "Group 1 Verb",
+        "explanation": "Replace ～う with ～わせられる",
+        "examples": [
+          "書く → 書かせられる",
+          "話す → 話させられる"
+        ]
+      },
+      {
+        "part": "Group 2 Verb",
+        "explanation": "Replace ～る with ～させられる",
+        "examples": [
+          "食べる → 食べさせられる",
+          "見る → 見させられる"
+        ]
+      },
+      {
+        "part": "Group 3 Verb",
+        "explanation": "する → させられる, くる → こさせられる",
+        "examples": [
+          "勉強する → 勉強させられる",
+          "来る → 来させられる"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "子供たちは先生に宿題をやらせられました。",
+      "romaji": "Kodomo-tachi wa sensei ni shukudai wo yaraseraremashita.",
+      "english": "The children were made to do their homework by the teacher.",
+      "breakdown": {
+        "子供たち": "children",
+        "は": "topic marker",
+        "先生に": "by the teacher",
+        "宿題を": "homework (object)",
+        "やらせられました": "were made to do"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼は会社にもっと働かせられた。",
+      "romaji": "Kare wa kaisha ni motto hatarakaserareta.",
+      "english": "He was forced to work more by the company.",
+      "breakdown": {
+        "彼": "he",
+        "は": "topic marker",
+        "会社に": "by the company",
+        "もっと": "more",
+        "働かせられた": "was made to work"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "私は友達にその機密を話させられました。",
+      "romaji": "Watashi wa tomodachi ni sono kimitsu o hanasaseraremashita.",
+      "english": "I was made to reveal that secret by my friend.",
+      "breakdown": {
+        "私": "I",
+        "は": "topic marker",
+        "友達に": "by my friend",
+        "その機密を": "that secret (object)",
+        "話させられました": "was made to speak/reveal"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "怪我をした選手は、コーチに休ませられました。",
+      "romaji": "Kega wo shita senshu wa, kouchi ni yasumaseraremashita.",
+      "english": "The injured player was forced to rest by the coach.",
+      "breakdown": {
+        "怪我をした選手": "injured player",
+        "は": "topic marker",
+        "コーチに": "by the coach",
+        "休ませられました": "was made to rest"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "Verb させる (Verb-saseru)",
+    "動詞たことがある",
+    "動詞ておく"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using the normal causative form instead of passive causative.",
+      "correction": "Use させられる, not させる, when someone is forced by another.",
+      "example": "× 先生は子供たちに宿題をやらせました。 (This means 'The teacher made the children do homework.' Not passive causative.)"
+    },
+    {
+      "mistake": "Incorrect verb conjugation for Group 1 verbs.",
+      "correction": "For Group 1, replace the final う with わせられる.",
+      "example": "× 書うせられる → ○ 書かせられる"
+    }
+  ],
+  "tags": [
+    "n4",
+    "passive",
+    "causative",
+    "verbs",
+    "conjugation",
+    "grammar"
+  ]
+}

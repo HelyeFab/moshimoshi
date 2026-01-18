@@ -1,0 +1,33 @@
+{
+  "kanji": "軍",
+  "sentences": [
+    {
+      "id": "186427",
+      "japanese": "我が軍は敵の防御を突破した。",
+      "english": "Our army broke through the enemy defenses."
+    },
+    {
+      "id": "186428",
+      "japanese": "我が軍は絶えずゲリラの攻撃を受けた。",
+      "english": "Our troops were constantly attacked by the guerrillas."
+    },
+    {
+      "id": "186429",
+      "japanese": "我が軍はその王国を不意打ちにした。",
+      "english": "Our army took the kingdom by surprise."
+    },
+    {
+      "id": "192029",
+      "japanese": "わが軍は敵に夜襲をかけた。",
+      "english": "Our army attacked the enemy during the night."
+    },
+    {
+      "id": "192030",
+      "japanese": "わが軍は敵に痛撃を与えた。",
+      "english": "We gave the enemy a drubbing."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:08.880Z",
+  "count": 5,
+  "fileId": "kanji-00900"
+}

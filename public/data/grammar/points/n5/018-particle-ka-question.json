@@ -1,0 +1,99 @@
+{
+  "id": "018-particle-ka-question",
+  "version": "1.0.0",
+  "title": {
+    "ja": "か（疑問）",
+    "romaji": "ka (question)",
+    "en": "question marker"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "か is the particle used to make a polite question. It is placed at the end of a sentence. In polite Japanese, you usually need か to show that you are asking a question.\n\nKey points:\n• Add か to the end of a sentence to ask a question\n• Used with です/ます in polite speech\n• Question words (何, どこ, だれ) stay in place\n• Intonation is less important when か is present\n\nFor example, “これは本ですか” means “Is this a book?” You take a normal sentence and add か. Another example: “どこへ行きますか” means “Where are you going?”\n\nIn casual speech, people can ask questions without か by raising intonation, but for beginners, it is safest to use か. It makes your question clear and polite.\n\nYou can also use か to offer choices: “コーヒーかお茶” means “coffee or tea.” This is a later nuance, but it is useful to recognize.\n\nFor now, focus on the basic pattern: Statement + か. This simple step turns a statement into a polite question.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Sentence + か",
+    "components": [
+      {
+        "part": "Sentence",
+        "explanation": "A complete polite sentence",
+        "examples": ["学生です", "行きます", "これは本です"]
+      },
+      {
+        "part": "か",
+        "explanation": "Question marker",
+        "examples": ["か"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "これは本ですか。",
+      "romaji": "Kore wa hon desu ka.",
+      "english": "Is this a book?",
+      "breakdown": {
+        "これ": "this",
+        "は": "topic marker",
+        "本": "book",
+        "です": "is (polite)",
+        "か": "question marker"
+      },
+      "notes": "Basic yes/no question"
+    },
+    {
+      "japanese": "田中さんは学生ですか。",
+      "romaji": "Tanaka-san wa gakusei desu ka.",
+      "english": "Is Tanaka-san a student?",
+      "breakdown": {
+        "田中さん": "Mr./Ms. Tanaka",
+        "は": "topic marker",
+        "学生": "student",
+        "です": "is (polite)",
+        "か": "question marker"
+      },
+      "notes": "Asking about a person"
+    },
+    {
+      "japanese": "何を食べますか。",
+      "romaji": "Nani o tabemasu ka.",
+      "english": "What do you eat?",
+      "breakdown": {
+        "何": "what",
+        "を": "object marker",
+        "食べます": "eat (polite)",
+        "か": "question marker"
+      },
+      "notes": "Question word + か"
+    },
+    {
+      "japanese": "どこへ行きますか。",
+      "romaji": "Doko e ikimasu ka.",
+      "english": "Where are you going?",
+      "breakdown": {
+        "どこ": "where",
+        "へ": "direction marker",
+        "行きます": "go (polite)",
+        "か": "question marker"
+      },
+      "notes": "Location question"
+    }
+  ],
+  "relatedPoints": [
+    "005-sentence-ending-particles",
+    "068-question-nani-what"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Forgetting か in polite questions",
+      "correction": "Add か to make the sentence a question",
+      "example": "❌ これは本です。 → ✅ これは本ですか。"
+    },
+    {
+      "mistake": "Changing word order for questions",
+      "correction": "Keep the normal order and add か",
+      "example": "❌ 本ですかこれは → ✅ これは本ですか"
+    }
+  ],
+  "tags": ["particle", "questions", "polite", "beginner"]
+}

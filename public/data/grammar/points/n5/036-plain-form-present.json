@@ -1,0 +1,94 @@
+{
+  "id": "036-plain-form-present",
+  "version": "1.0.0",
+  "title": {
+    "ja": "普通形（現在）",
+    "romaji": "futsuu-kei (present)",
+    "en": "Plain form (present)"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "The plain present form (dictionary form) is used in casual speech and in many grammar patterns. It expresses present or future actions, just like the ます form, but it is less polite.\n\nKey points:\n• Plain present = dictionary form (行く, 食べる, 見る)\n• Used in casual conversation with friends/family\n• Also used before grammar like 〜と思います, 〜から (later)\n• Can express future with time words\n\nFor example, “明日行く” means “I will go tomorrow.” “毎日食べる” means “I eat every day.” The time word tells you if it is present or future.\n\nThe plain form is essential because many patterns require it. Even if you speak politely with ます, you still need to recognize plain forms when reading or listening.\n\nYou can use the plain form with close friends, but be careful with strangers or teachers. Use ます form for polite situations.\n\nAt N5, focus on understanding the plain present forms of common verbs. Once you recognize them, you can understand casual speech and build longer sentences later.\n\nThink of the plain form as the base you see in dictionaries. It is the starting point for many other forms.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (dictionary form)",
+    "components": [
+      {
+        "part": "Verb (dictionary)",
+        "explanation": "Plain present/future form",
+        "examples": ["行く", "食べる", "見る", "する"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "毎日日本語を勉強する。",
+      "romaji": "Mainichi nihongo o benkyou suru.",
+      "english": "I study Japanese every day.",
+      "breakdown": {
+        "毎日": "every day",
+        "日本語": "Japanese",
+        "を": "object marker",
+        "勉強する": "study (plain)"
+      },
+      "notes": "Casual statement"
+    },
+    {
+      "japanese": "明日学校へ行く。",
+      "romaji": "Ashita gakkou e iku.",
+      "english": "I will go to school tomorrow.",
+      "breakdown": {
+        "明日": "tomorrow",
+        "学校": "school",
+        "へ": "direction marker",
+        "行く": "go (plain)"
+      },
+      "notes": "Future with time word"
+    },
+    {
+      "japanese": "友だちと映画を見る。",
+      "romaji": "Tomodachi to eiga o miru.",
+      "english": "I watch a movie with a friend.",
+      "breakdown": {
+        "友だち": "friend",
+        "と": "with",
+        "映画": "movie",
+        "を": "object marker",
+        "見る": "watch (plain)"
+      },
+      "notes": "Casual description"
+    },
+    {
+      "japanese": "今日は家にいる。",
+      "romaji": "Kyou wa ie ni iru.",
+      "english": "I am at home today.",
+      "breakdown": {
+        "今日": "today",
+        "は": "topic marker",
+        "家": "home",
+        "に": "location marker",
+        "いる": "be (plain)"
+      },
+      "notes": "Plain existence"
+    }
+  ],
+  "relatedPoints": [
+    "022-masu-form-present",
+    "040-dictionary-form"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using plain form in polite situations",
+      "correction": "Use ます form with teachers or strangers",
+      "example": "❌ 明日行く → ✅ 明日行きます (polite)"
+    },
+    {
+      "mistake": "Thinking plain present is only present",
+      "correction": "It can also express future with time words",
+      "example": "明日行く = will go tomorrow"
+    }
+  ],
+  "tags": ["verbs", "plain-form", "present", "casual"]
+}

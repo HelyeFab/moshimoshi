@@ -1,0 +1,33 @@
+{
+  "kanji": "意",
+  "sentences": [
+    {
+      "id": "177308",
+      "japanese": "君は行くもとどまるも意のままにしなさい。",
+      "english": "You may go or stay at will."
+    },
+    {
+      "id": "190289",
+      "japanese": "一同を代表して、歓迎の意を表します。",
+      "english": "On behalf of the company, I welcome you."
+    },
+    {
+      "id": "193329",
+      "japanese": "もっとも優秀な学生がクラスを代表して感謝の意をあらわした。",
+      "english": "The brightest student expressed gratitude on behalf of his classmates."
+    },
+    {
+      "id": "206824",
+      "japanese": "その返事は我が意を得たものだった。",
+      "english": "That was the answer I wanted."
+    },
+    {
+      "id": "217075",
+      "japanese": "ご尊父のご逝去に対し、謹んで哀悼の意を表します。",
+      "english": "Please accept my condolences on the death of your father."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.575Z",
+  "count": 5,
+  "fileId": "kanji-00182"
+}

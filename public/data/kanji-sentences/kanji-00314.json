@@ -1,0 +1,33 @@
+{
+  "kanji": "絵",
+  "sentences": [
+    {
+      "id": "137039",
+      "japanese": "誰がこの絵を描いたのですか。",
+      "english": "Who painted this painting?"
+    },
+    {
+      "id": "222642",
+      "japanese": "この絵は誰が描いたのですか。",
+      "english": "Who painted this painting?"
+    },
+    {
+      "id": "2416431",
+      "japanese": "この絵を描いたのは誰ですか？",
+      "english": "Who painted this painting?"
+    },
+    {
+      "id": "178041",
+      "japanese": "君の夢一杯のビジネスプラン、絵に描いた餅にならんことを切に望むよ。",
+      "english": "This business plan of yours seems almost too optimistic. All I can say is I hope it's more than just wishful thinking."
+    },
+    {
+      "id": "179019",
+      "japanese": "君が見ている絵はピカソの複製だ。",
+      "english": "The picture you are looking at is a copy of a Picasso."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.343Z",
+  "count": 5,
+  "fileId": "kanji-00314"
+}

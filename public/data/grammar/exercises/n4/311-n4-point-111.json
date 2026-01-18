@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "311-n4-point-111",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "311-n4-point-111-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"~no desu (explaining/clarifying reason)\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～のです",
+          "romaji": "~no desu"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! ～のです matches \"~no desu (explaining/clarifying reason)\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～のです.",
+      "explanation": "Used to explain, justify, or clarify the reason for a situation.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "311-n4-point-111-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～のです.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "~no desu (explaining/clarifying reason)"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～のです means \"~no desu (explaining/clarifying reason)\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"~no desu (explaining/clarifying reason)\".",
+      "explanation": "Used to explain, justify, or clarify the reason for a situation.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "311-n4-point-111-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～のです.",
+      "options": [
+        {
+          "id": "a",
+          "text": "~no desu"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ~no desu is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~no desu.",
+      "explanation": "Used to explain, justify, or clarify the reason for a situation.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "311-n4-point-111-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～のです?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to explain, justify, or clarify the reason for a situation."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to explain, justify, or clarify the reason for a situation.",
+      "explanation": "Used to explain, justify, or clarify the reason for a situation.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "311-n4-point-111-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"~no desu (explaining/clarifying reason)\".",
+      "correctAnswer": "～のです",
+      "acceptedVariations": [
+        "～のです",
+        "～のです"
+      ],
+      "correctFeedback": "Nice! ～のです is correct.",
+      "incorrectFeedback": "The correct pattern is: ～のです (~no desu).",
+      "explanation": "Used to explain, justify, or clarify the reason for a situation.",
+      "hints": [
+        "~no desu",
+        "Used to explain, justify, or clarify the reason for a situation."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "311-n4-point-111-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～のです.",
+      "correctAnswer": "~no desu",
+      "acceptedVariations": [
+        "~no desu",
+        "~no desu"
+      ],
+      "correctFeedback": "Nice! ~no desu is correct.",
+      "incorrectFeedback": "The correct romaji is: ~no desu.",
+      "explanation": "Used to explain, justify, or clarify the reason for a situation.",
+      "hints": [
+        "Used to explain, justify, or clarify the reason for a situation."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "311-n4-point-111-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～のです.",
+      "correctAnswer": "~no desu (explaining/clarifying reason)",
+      "acceptedVariations": [
+        "~no desu (explaining/clarifying reason)",
+        "~no desu (explaining/clarifying reason)"
+      ],
+      "correctFeedback": "Correct! \"~no desu (explaining/clarifying reason)\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"~no desu (explaining/clarifying reason)\".",
+      "explanation": "Used to explain, justify, or clarify the reason for a situation.",
+      "hints": [
+        "Used to explain, justify, or clarify the reason for a situation."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "311-n4-point-111-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～のです",
+          "romaji": "~no desu",
+          "english": "~no desu (explaining/clarifying reason)"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to explain, justify, or clarify the reason for a situation.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "311-n4-point-111-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to explain, justify, or clarify the reason for a situation..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "～のです",
+          "romaji": "~no desu"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! ～のです matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～のです.",
+      "explanation": "Used to explain, justify, or clarify the reason for a situation.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "311-n4-point-111-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～のです",
+      "acceptedVariations": [
+        "～のです",
+        "～のです"
+      ],
+      "correctFeedback": "Great! ～のです is correct.",
+      "incorrectFeedback": "The correct pattern is: ～のです.",
+      "explanation": "Used to explain, justify, or clarify the reason for a situation.",
+      "hints": [
+        "~no desu"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

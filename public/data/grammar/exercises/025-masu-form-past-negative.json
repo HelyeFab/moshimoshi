@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "025-masu-form-past-negative",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "025-masu-form-past-negative-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the polite past negative form: 行きます → ?",
+      "options": [
+        { "id": "a", "text": "行きません" },
+        { "id": "b", "text": "行きませんでした" },
+        { "id": "c", "text": "行きました" },
+        { "id": "d", "text": "行かない" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 行きませんでした is past negative.",
+      "incorrectFeedback": "Not quite. Replace ます with ませんでした.",
+      "explanation": "Past negative uses ませんでした.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "025-masu-form-past-negative-ex-02",
+      "type": "multiple-choice",
+      "question": "Which sentence means 'I did not eat breakfast'?",
+      "options": [
+        { "id": "a", "text": "朝ご飯を食べません。" },
+        { "id": "b", "text": "朝ご飯を食べませんでした。" },
+        { "id": "c", "text": "朝ご飯を食べました。" },
+        { "id": "d", "text": "朝ご飯を食べます。" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 食べませんでした is past negative.",
+      "incorrectFeedback": "Try again. Use ませんでした for past negative.",
+      "explanation": "Past negative ends with ませんでした.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "025-masu-form-past-negative-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I did not go yesterday.'",
+      "correctAnswer": "昨日行きませんでした",
+      "acceptedVariations": [
+        "昨日行きませんでした。",
+        "きのういきませんでした",
+        "kinou ikimasen deshita",
+        "kinou ikimasen deshita."
+      ],
+      "correctFeedback": "Great! 昨日行きませんでした is correct.",
+      "incorrectFeedback": "The correct answer is: 昨日行きませんでした (kinou ikimasen deshita).",
+      "explanation": "Use ませんでした for past negative.",
+      "hints": ["昨日 = yesterday", "End with 行きませんでした"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "025-masu-form-past-negative-ex-04",
+      "type": "multiple-choice",
+      "question": "Which verb is in polite past negative form?",
+      "options": [
+        { "id": "a", "text": "読みません" },
+        { "id": "b", "text": "読みませんでした" },
+        { "id": "c", "text": "読みました" },
+        { "id": "d", "text": "読まない" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 読みませんでした is past negative.",
+      "incorrectFeedback": "Not quite. Look for ませんでした.",
+      "explanation": "Polite past negative ends with ませんでした.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "025-masu-form-past-negative-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I did not study last week.'",
+      "correctAnswer": "先週勉強しませんでした",
+      "acceptedVariations": [
+        "先週勉強しませんでした。",
+        "せんしゅうべんきょうしませんでした",
+        "senshuu benkyou shimasen deshita",
+        "senshuu benkyou shimasen deshita."
+      ],
+      "correctFeedback": "Nice! 先週勉強しませんでした is correct.",
+      "incorrectFeedback": "The correct answer is: 先週勉強しませんでした (senshuu benkyou shimasen deshita).",
+      "explanation": "Use ませんでした for past negative.",
+      "hints": ["先週 = last week", "勉強します → 勉強しませんでした"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "025-masu-form-past-negative-ex-06",
+      "type": "multiple-choice",
+      "question": "Choose the correct past negative sentence:",
+      "options": [
+        { "id": "a", "text": "昨日映画を見ませんでした。" },
+        { "id": "b", "text": "昨日映画を見ません。" },
+        { "id": "c", "text": "昨日映画を見ました。" },
+        { "id": "d", "text": "昨日映画を見ます。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 見ませんでした is past negative.",
+      "incorrectFeedback": "Try again. Past negative uses ませんでした.",
+      "explanation": "Use ませんでした with past time words.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "025-masu-form-past-negative-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I did not meet my friend.'",
+      "correctAnswer": "友だちに会いませんでした",
+      "acceptedVariations": [
+        "友だちに会いませんでした。",
+        "ともだちにあいませんでした",
+        "tomodachi ni aimasen deshita",
+        "tomodachi ni aimasen deshita."
+      ],
+      "correctFeedback": "Great! 友だちに会いませんでした is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちに会いませんでした (tomodachi ni aimasen deshita).",
+      "explanation": "Use ませんでした for past negative.",
+      "hints": ["会います → 会いませんでした", "Use に with 会う"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "025-masu-form-past-negative-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese sentences with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "昨日行きませんでした。",
+          "romaji": "Kinou ikimasen deshita.",
+          "english": "I did not go yesterday."
+        },
+        {
+          "japanese": "朝ご飯を食べませんでした。",
+          "romaji": "Asagohan o tabemasen deshita.",
+          "english": "I did not eat breakfast."
+        },
+        {
+          "japanese": "先週勉強しませんでした。",
+          "romaji": "Senshuu benkyou shimasen deshita.",
+          "english": "I did not study last week."
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all sentences correctly.",
+      "incorrectFeedback": "Not quite. Review ませんでした for past negative.",
+      "explanation": "All sentences end with ませんでした.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "025-masu-form-past-negative-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "昨日行きませんでした。" },
+        { "id": "b", "text": "先週勉強しませんでした。" },
+        { "id": "c", "text": "昨日行きません。" },
+        { "id": "d", "text": "朝ご飯を食べませんでした。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Past time words need ませんでした.",
+      "incorrectFeedback": "Try again. Use ませんでした with past time words.",
+      "explanation": "昨日 + ません is inconsistent.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "025-masu-form-past-negative-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'I did not watch TV.'",
+      "correctAnswer": "テレビを見ませんでした",
+      "acceptedVariations": [
+        "テレビを見ませんでした。",
+        "てれびをみませんでした",
+        "terebi o mimasen deshita",
+        "terebi o mimasen deshita."
+      ],
+      "correctFeedback": "Nice! テレビを見ませんでした is correct.",
+      "incorrectFeedback": "The correct answer is: テレビを見ませんでした (terebi o mimasen deshita).",
+      "explanation": "Use ませんでした for past negative.",
+      "hints": ["見ます → 見ませんでした", "テレビ = TV"],
+      "difficulty": "hard"
+    }
+  ]
+}

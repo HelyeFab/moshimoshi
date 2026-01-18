@@ -191,9 +191,9 @@ export function ConjugationDisplay({
               {/* Group header */}
               <button
                 onClick={() => toggleGroup(groupId)}
-                className="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 dark:hover:bg-dark-750 transition-colors"
+                className="w-full px-4 py-3 flex items-center justify-between transition-colors text-gray-900 dark:text-gray-100"
               >
-                <span className="font-semibold text-gray-900 dark:text-gray-100 hover:text-gray-900 dark:hover:text-gray-100">
+                <span className="font-semibold">
                   {t(`conjugation.groups.${group.title.toLowerCase().replace(/\s+/g, '')}`) || group.title}
                 </span>
                 {isExpanded ? (

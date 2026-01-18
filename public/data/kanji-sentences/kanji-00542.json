@@ -1,0 +1,33 @@
+{
+  "kanji": "果",
+  "sentences": [
+    {
+      "id": "177200",
+      "japanese": "君は自分の義務を果たすべきだ。",
+      "english": "You must perform your duty."
+    },
+    {
+      "id": "177756",
+      "japanese": "君はその義務を果たすべきである。",
+      "english": "You must perform your duty."
+    },
+    {
+      "id": "177340",
+      "japanese": "君は君の役割を果たせ、僕はその他の事をやる。",
+      "english": "You do your part and I'll do the rest."
+    },
+    {
+      "id": "177608",
+      "japanese": "君はなぜお金を使い果たしたのか。",
+      "english": "Why did you use up all the money?"
+    },
+    {
+      "id": "177609",
+      "japanese": "君はなぜお金をすべて使い果たしたのか。",
+      "english": "Why did you use up all the money?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.414Z",
+  "count": 5,
+  "fileId": "kanji-00542"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "激",
+  "sentences": [
+    {
+      "id": "179427",
+      "japanese": "空はますます暗くなり、風はますます激しく吹いた。",
+      "english": "The sky grew darker and darker, and the wind blew harder and harder."
+    },
+    {
+      "id": "180539",
+      "japanese": "強い東風が我々の顔に激しく吹き付けた。",
+      "english": "The strong east wind lashed at our faces."
+    },
+    {
+      "id": "181519",
+      "japanese": "競争は激しくなった。",
+      "english": "The competition has become fierce."
+    },
+    {
+      "id": "184901",
+      "japanese": "外からの圧力がますます激しくなってきている。",
+      "english": "External pressure grows ever more intense."
+    },
+    {
+      "id": "185038",
+      "japanese": "海上では激しい嵐だった。",
+      "english": "There was a violent storm at sea."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:49.519Z",
+  "count": 5,
+  "fileId": "kanji-02096"
+}

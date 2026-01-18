@@ -1,0 +1,33 @@
+{
+  "kanji": "歩",
+  "sentences": [
+    {
+      "id": "5022",
+      "japanese": "学校まで１０分で歩いて行ける。",
+      "english": "I can walk to school in 10 minutes."
+    },
+    {
+      "id": "11294950",
+      "japanese": "学校には歩いて10分で行けます。",
+      "english": "I can walk to school in 10 minutes."
+    },
+    {
+      "id": "138770",
+      "japanese": "わたし達はたくさん歩きました。",
+      "english": "We walked a lot."
+    },
+    {
+      "id": "9812275",
+      "japanese": "私達たくさん歩いたわね。",
+      "english": "We walked a lot."
+    },
+    {
+      "id": "179116",
+      "japanese": "君がどんなに速く歩いても、彼には追いつけません。",
+      "english": "However fast you may walk, you can't catch up with him."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.349Z",
+  "count": 5,
+  "fileId": "kanji-00241"
+}

@@ -1,0 +1,28 @@
+{
+  "kanji": "労",
+  "sentences": [
+    {
+      "id": "77389",
+      "japanese": "労なくして益なし。",
+      "english": "No pain, no gain."
+    },
+    {
+      "id": "86208",
+      "japanese": "彼女は労を惜しまず空港へ友人を迎えに行った。",
+      "english": "She took the trouble to meet her friend at the airport."
+    },
+    {
+      "id": "87236",
+      "japanese": "彼女は彼らのために労をいとわず家を見つけてやった。",
+      "english": "She took the trouble to find a home for them."
+    },
+    {
+      "id": "98883",
+      "japanese": "彼は労をいとわず私を助けてくれた。",
+      "english": "He spared no pains to help me."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.063Z",
+  "count": 4,
+  "fileId": "kanji-00290"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "声",
+  "sentences": [
+    {
+      "id": "12188436",
+      "japanese": "声がガラガラだよ。",
+      "english": "I've got a frog in my throat."
+    },
+    {
+      "id": "9754839",
+      "japanese": "そっちの声がほとんど聞こえないの。",
+      "english": "I can hardly hear you."
+    },
+    {
+      "id": "178163",
+      "japanese": "君の声は聞こえるが、姿は見えないよ。",
+      "english": "I can hear you, but I can't see you."
+    },
+    {
+      "id": "8659832",
+      "japanese": "声は聞こえるけど、見えないよ。",
+      "english": "I can hear you, but I can't see you."
+    },
+    {
+      "id": "178164",
+      "japanese": "君の声はよく通るな。",
+      "english": "Your voice carries well."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.326Z",
+  "count": 5,
+  "fileId": "kanji-00458"
+}

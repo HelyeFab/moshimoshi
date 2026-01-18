@@ -1,0 +1,33 @@
+{
+  "kanji": "会",
+  "sentences": [
+    {
+      "id": "4735",
+      "japanese": "会えなくて淋しい。",
+      "english": "I miss you."
+    },
+    {
+      "id": "4885",
+      "japanese": "みんなあなたに会いたがってる。あなたは有名なのよ！",
+      "english": "Everyone wants to meet you. You're famous!"
+    },
+    {
+      "id": "4939",
+      "japanese": "「以前にどこかで会ったことがありませんか」とその学生はたずねた。",
+      "english": "\"Haven't we met somewhere before?\" asked the student."
+    },
+    {
+      "id": "138781",
+      "japanese": "あなたは彼と大学で会いましたか。",
+      "english": "You met him at the university?"
+    },
+    {
+      "id": "176935",
+      "japanese": "君は彼女に会ったのかい。",
+      "english": "Did you meet her?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.353Z",
+  "count": 5,
+  "fileId": "kanji-00156"
+}

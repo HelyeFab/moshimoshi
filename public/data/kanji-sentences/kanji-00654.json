@@ -1,0 +1,33 @@
+{
+  "kanji": "毛",
+  "sentences": [
+    {
+      "id": "177009",
+      "japanese": "君は髪の毛を刈ってもらったほうがいい。",
+      "english": "You should get your hair cut."
+    },
+    {
+      "id": "179824",
+      "japanese": "近頃若い人は髪の毛を長くのばす。",
+      "english": "Young people wear their hair long these days."
+    },
+    {
+      "id": "198405",
+      "japanese": "パーマをかけたので、髪の毛が縮れています。",
+      "english": "Now I have curly hair, because I had a perm."
+    },
+    {
+      "id": "198624",
+      "japanese": "ネコの毛がさかだった。",
+      "english": "The cat's fur stood on end."
+    },
+    {
+      "id": "198652",
+      "japanese": "ぬれた髪の毛をタオルで拭いた。",
+      "english": "She wiped her wet hair with a towel."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.329Z",
+  "count": 5,
+  "fileId": "kanji-00654"
+}

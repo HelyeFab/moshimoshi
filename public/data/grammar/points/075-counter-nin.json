@@ -1,0 +1,95 @@
+{
+  "id": "075-counter-nin",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜人",
+    "romaji": "-nin",
+    "en": "〜人 (people counter)"
+  },
+  "jlptLevel": "N5",
+  "category": "numbers-counters",
+  "explanation": {
+    "en": "〜人 (にん) is the counter for people. It is used to count how many people there are. The first two are irregular: ひとり (one person) and ふたり (two people).\n\nKey points:\n• 1 person = ひとり\n• 2 people = ふたり\n• 3+ people use にん: さんにん, よにん, ごにん\n• Often used with が or は\n\nExample: “学生が三人います” means “There are three students.”\n\nRemember the irregular forms for 1 and 2 people. After that, it is straightforward.\n\nPractice by counting people in a room: 一人, 二人, 三人, 四人.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Number + 人",
+    "components": [
+      {
+        "part": "Number",
+        "explanation": "Count of people",
+        "examples": ["ひと", "ふた", "さん", "よ"]
+      },
+      {
+        "part": "人",
+        "explanation": "People counter",
+        "examples": ["人"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "一人で行きます。",
+      "romaji": "Hitori de ikimasu.",
+      "english": "I will go alone.",
+      "breakdown": {
+        "一人": "one person",
+        "で": "by/alone",
+        "行きます": "go"
+      },
+      "notes": "One person"
+    },
+    {
+      "japanese": "二人で食べます。",
+      "romaji": "Futari de tabemasu.",
+      "english": "We eat as two people.",
+      "breakdown": {
+        "二人": "two people",
+        "で": "by/with",
+        "食べます": "eat"
+      },
+      "notes": "Two people"
+    },
+    {
+      "japanese": "学生が三人います。",
+      "romaji": "Gakusei ga sannin imasu.",
+      "english": "There are three students.",
+      "breakdown": {
+        "学生": "students",
+        "が": "subject marker",
+        "三人": "three people",
+        "います": "exist (living)"
+      },
+      "notes": "Counting people"
+    },
+    {
+      "japanese": "家族は四人です。",
+      "romaji": "Kazoku wa yonin desu.",
+      "english": "My family has four people.",
+      "breakdown": {
+        "家族": "family",
+        "は": "topic marker",
+        "四人": "four people",
+        "です": "is"
+      },
+      "notes": "Family size"
+    }
+  ],
+  "relatedPoints": [
+    "074-counter-tsu",
+    "061-imasu-arimasu"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using いちにん/ににん",
+      "correction": "Use ひとり and ふたり",
+      "example": "❌ いちにん → ✅ ひとり"
+    },
+    {
+      "mistake": "Using 人 for objects",
+      "correction": "Use 人 only for people",
+      "example": "❌ 本が三人 → ✅ 本が三つ"
+    }
+  ],
+  "tags": ["counters", "people", "nin", "beginner"]
+}

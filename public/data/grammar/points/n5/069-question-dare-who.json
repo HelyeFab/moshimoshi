@@ -1,0 +1,105 @@
+{
+  "id": "069-question-dare-who",
+  "version": "1.0.0",
+  "title": {
+    "ja": "誰",
+    "romaji": "dare",
+    "en": "誰 (who)"
+  },
+  "jlptLevel": "N5",
+  "category": "questions",
+  "explanation": {
+    "en": "誰 (だれ) means “who.” It is used to ask about people. You can use it with particles like が, は, に, と to ask about the subject, topic, or person involved.\n\nKey points:\n• 誰が = who (subject)\n• 誰ですか = who is it\n• 誰と = who with\n• Polite form: どなた (more formal)\n\nExample: “あの人は誰ですか” means “Who is that person?” “誰と行きますか” means “Who will you go with?”\n\nWhen asking politely, you can use どなた, but 誰 is common and natural in everyday conversation.\n\nPractice by asking about people around you: 誰が先生ですか, 誰と勉強しますか.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "誰 + Particle + Verb",
+    "components": [
+      {
+        "part": "誰",
+        "explanation": "Who",
+        "examples": ["誰", "誰が", "誰と"]
+      },
+      {
+        "part": "Particle",
+        "explanation": "Marks role",
+        "examples": ["が", "と", "に"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Action/description",
+        "examples": ["です", "行きます", "来ます"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "あの人は誰ですか。",
+      "romaji": "Ano hito wa dare desu ka.",
+      "english": "Who is that person?",
+      "breakdown": {
+        "あの": "that",
+        "人": "person",
+        "は": "topic marker",
+        "誰": "who",
+        "です": "is",
+        "か": "question marker"
+      },
+      "notes": "Identity question"
+    },
+    {
+      "japanese": "誰が先生ですか。",
+      "romaji": "Dare ga sensei desu ka.",
+      "english": "Who is the teacher?",
+      "breakdown": {
+        "誰": "who",
+        "が": "subject marker",
+        "先生": "teacher",
+        "です": "is",
+        "か": "question marker"
+      },
+      "notes": "Subject question"
+    },
+    {
+      "japanese": "誰と行きますか。",
+      "romaji": "Dare to ikimasu ka.",
+      "english": "Who will you go with?",
+      "breakdown": {
+        "誰": "who",
+        "と": "with",
+        "行きます": "go",
+        "か": "question marker"
+      },
+      "notes": "With whom"
+    },
+    {
+      "japanese": "誰に会いますか。",
+      "romaji": "Dare ni aimasu ka.",
+      "english": "Who will you meet?",
+      "breakdown": {
+        "誰": "who",
+        "に": "to",
+        "会います": "meet",
+        "か": "question marker"
+      },
+      "notes": "Person you meet"
+    }
+  ],
+  "relatedPoints": [
+    "068-question-nani-what",
+    "018-particle-ka-question"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Forgetting か in questions",
+      "correction": "Add か to make it a question",
+      "example": "❌ 誰です → ✅ 誰ですか"
+    },
+    {
+      "mistake": "Using 何 for people",
+      "correction": "Use 誰 for people",
+      "example": "❌ 何が先生ですか → ✅ 誰が先生ですか"
+    }
+  ],
+  "tags": ["questions", "dare", "beginner"]
+}

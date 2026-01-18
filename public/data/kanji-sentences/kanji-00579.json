@@ -1,0 +1,33 @@
+{
+  "kanji": "任",
+  "sentences": [
+    {
+      "id": "177066",
+      "japanese": "君は大きな危険を冒しながら、彼に任せている事になる。",
+      "english": "You're running a big risk in trusting him."
+    },
+    {
+      "id": "185627",
+      "japanese": "我々は彼にその問題を任せざるを得なかった。",
+      "english": "We had no choice but to leave the matter to him."
+    },
+    {
+      "id": "170519",
+      "japanese": "最終決定は彼に任せた。",
+      "english": "We left the final decision to him."
+    },
+    {
+      "id": "1168403",
+      "japanese": "何をするかを決めるのは、あなたに任せます。",
+      "english": "It is up to you to decide what to do."
+    },
+    {
+      "id": "82272",
+      "japanese": "僕に任せてください。",
+      "english": "Let me handle this."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.897Z",
+  "count": 5,
+  "fileId": "kanji-00579"
+}

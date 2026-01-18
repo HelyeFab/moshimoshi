@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "046-na-adjectives-past",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "046-na-adjectives-past-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the past form of 静か:",
+      "options": [
+        {
+          "id": "a",
+          "text": "静かでした"
+        },
+        {
+          "id": "b",
+          "text": "静かくなかった"
+        },
+        {
+          "id": "c",
+          "text": "静かった"
+        },
+        {
+          "id": "d",
+          "text": "静かです"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 静か + でした.",
+      "incorrectFeedback": "Not quite. Use でした for na-adjectives.",
+      "explanation": "Na-adjective past uses でした.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "id": "321-n4-point-121",
+  "version": "1.0.0",
+  "title": {
+    "ja": "文A。そのうえ 文B。",
+    "romaji": "Mon A. Sono ue Mon B.",
+    "en": "Sentence A; furthermore, Sentence B"
+  },
+  "jlptLevel": "N4",
+  "category": "basic-sentences",
+  "explanation": {
+    "en": "This grammar point is used to connect two sentences, where the first sentence provides some information and the second adds additional related information.",
+    "ja": "この文型は、一つ目の文章で情報提供し、二つ目の文章で関連する追加情報を補足するために使用されます。"
+  },
+  "structure": {
+    "pattern": "Sentence A + そのうえ + Sentence B",
+    "components": [
+      {
+        "part": "そのうえ",
+        "explanation": "indicates additional information or a further point being made.",
+        "examples": [
+          "このソフトウェアは使いやすい。そのうえ、価格も手ごろだ。"
+        ]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "このソフトウェアは使いやすい。そのうえ、価格も手ごろだ。",
+      "romaji": "Kono sofutouea wa tsukaiyasui. Sono ue, kakaku mo tegoro da.",
+      "english": "This software is easy to use; furthermore, the price is reasonable.",
+      "breakdown": {
+        "この": "this",
+        "使いやすい": "easy to use",
+        "そのうえ": "furthermore",
+        "価格も手ごろだ": "the price is reasonable"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "彼女は美人だ。そのうえ、頭もいい。",
+      "romaji": "Kanojo wa bijin da. Sono ue, atama mo ii.",
+      "english": "She is beautiful; in addition, she is smart.",
+      "breakdown": {
+        "彼女": "she",
+        "美人だ": "is beautiful",
+        "そのうえ": "furthermore",
+        "頭もいい": "smart"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "この映画は面白い。そのうえ、俳優たちの演技も素晴らしい。",
+      "romaji": "Kono eiga wa omoshiroi. Sono ue, haiyuutachi no engi mo subarashii.",
+      "english": "This movie is interesting; besides, the actors' performances are also great.",
+      "breakdown": {
+        "この映画は": "this movie",
+        "面白い": "interesting",
+        "そのうえ": "furthermore",
+        "俳優たちの演技も素晴らしい": "the actors' performance is wonderful"
+      },
+      "notes": ""
+    },
+    {
+      "japanese": "東京はたくさんの観光スポットがある。そのうえ、美味しいレストランも多い。",
+      "romaji": "Toukyou wa takusan no kankou supotto ga aru. Sono ue, oishii resutoran mo oi.",
+      "english": "Tokyo has many sightseeing spots; in addition, there are also many delicious restaurants.",
+      "breakdown": {
+        "東京は": "Tokyo",
+        "たくさんの観光スポットがある": "has many sightseeing spots",
+        "そのうえ": "furthermore",
+        "美味しいレストランも多い": "there are many delicious restaurants"
+      },
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [
+    "文A。それに 文B",
+    "文A。それで 文B",
+    "文A。だから 文B"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "その上 instead of そのうえ",
+      "correction": "Correct usage is 'そのうえ'",
+      "example": ""
+    }
+  ],
+  "tags": [
+    "n4",
+    "conjunctions",
+    "additional-information"
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "id": "239-n4-point-39",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Verb て くださる (Verb-te kudasaru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The て くださる grammar point is used to express gratitude for receiving a favor or action from someone else. It is an honorific way to say that someone kindly does something for the speaker or the listener. The verb is conjugated to its ～て form and followed by くださる.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb て-form + くださる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "先生が手伝ってくださる。",
+      "romaji": "Sensei ga tetsudatte kudasaru.",
+      "english": "The teacher kindly helps.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "お母さんが美味しい料理を作ってくださる。",
+      "romaji": "Okaasan ga oishii ryouri wo tsukutte kudasaru.",
+      "english": "My mother kindly cooks delicious meals.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "友達が私を駅まで送ってくださる。",
+      "romaji": "Tomodachi ga watashi wo eki made okutte kudasaru.",
+      "english": "My friend kindly gives me a ride to the station.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "部長がすぐに質問に答えてくださる。",
+      "romaji": "Buchou ga sugu ni shitsumon ni kotaete kudasaru.",
+      "english": "The manager kindly answers the questions immediately.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

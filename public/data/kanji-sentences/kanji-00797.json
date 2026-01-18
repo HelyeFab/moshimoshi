@@ -1,0 +1,33 @@
+{
+  "kanji": "闇",
+  "sentences": [
+    {
+      "id": "190438",
+      "japanese": "一寸先は闇。",
+      "english": "Who can read the future?"
+    },
+    {
+      "id": "191230",
+      "japanese": "闇はこれに打ち勝たなかった。",
+      "english": "The darkness has not overcome it."
+    },
+    {
+      "id": "191232",
+      "japanese": "闇の中でかろうじて２人の人影が見分けられた。",
+      "english": "We could barely make out two figures in the dark."
+    },
+    {
+      "id": "191233",
+      "japanese": "闇とは光がないことです。",
+      "english": "Darkness is the absence of light."
+    },
+    {
+      "id": "80740",
+      "japanese": "明かりが消えて、私たちは闇の中に取り残された。",
+      "english": "The light went out and we were left in the dark."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:06.516Z",
+  "count": 5,
+  "fileId": "kanji-00797"
+}

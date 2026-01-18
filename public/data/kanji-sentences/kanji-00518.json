@@ -1,0 +1,33 @@
+{
+  "kanji": "反",
+  "sentences": [
+    {
+      "id": "177164",
+      "japanese": "君は若い、それに反し私はかなり年をとっている。",
+      "english": "You are young. I, on the contrary, am very old."
+    },
+    {
+      "id": "178494",
+      "japanese": "君のやったことは規則に反しているよ。",
+      "english": "What you did is against the rules."
+    },
+    {
+      "id": "9958124",
+      "japanese": "ああいうルールに反する人は罰せられるよ。",
+      "english": "Those who violate the rules will be punished."
+    },
+    {
+      "id": "191052",
+      "japanese": "意志に反して何かを無理にさせる事はできない。",
+      "english": "No one can force you to do anything against your will."
+    },
+    {
+      "id": "199985",
+      "japanese": "トムは泳ぎが全然できないが、それに反して、野球はとても上手である。",
+      "english": "Tom can't swim at all. On the other hand, he is a good baseball player."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.068Z",
+  "count": 5,
+  "fileId": "kanji-00518"
+}

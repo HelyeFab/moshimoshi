@@ -1,0 +1,33 @@
+{
+  "kanji": "鳴",
+  "sentences": [
+    {
+      "id": "4927",
+      "japanese": "「電話が鳴っているよ」「私が出ます」",
+      "english": "\"The phone is ringing.\" \"I'll get it.\""
+    },
+    {
+      "id": "233082",
+      "japanese": "あなたの電話が鳴ったときまさに出かけようとするところだった。",
+      "english": "I was about to leave when you telephoned."
+    },
+    {
+      "id": "180216",
+      "japanese": "教会堂の鐘が鳴っている。",
+      "english": "The church bells are ringing."
+    },
+    {
+      "id": "180295",
+      "japanese": "教会の鐘が鳴っている。",
+      "english": "The church bells are ringing."
+    },
+    {
+      "id": "180293",
+      "japanese": "教会の鐘は３時に鳴ったものです。",
+      "english": "The church bell used to ring at three."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.640Z",
+  "count": 5,
+  "fileId": "kanji-00338"
+}

@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "304-n4-point-104",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "304-n4-point-104-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Must/Have to\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～なきゃいけない",
+          "romaji": "~nakya ikenai"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ～なきゃいけない matches \"Must/Have to\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～なきゃいけない.",
+      "explanation": "Used to express that something must or has to be done; obligation.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "304-n4-point-104-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～なきゃいけない.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Must/Have to"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ～なきゃいけない means \"Must/Have to\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Must/Have to\".",
+      "explanation": "Used to express that something must or has to be done; obligation.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "304-n4-point-104-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～なきゃいけない.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~nakya ikenai"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ~nakya ikenai is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~nakya ikenai.",
+      "explanation": "Used to express that something must or has to be done; obligation.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "304-n4-point-104-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～なきゃいけない?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Used to express that something must or has to be done; obligation."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to express that something must or has to be done; obligation.",
+      "explanation": "Used to express that something must or has to be done; obligation.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "304-n4-point-104-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Must/Have to\".",
+      "correctAnswer": "～なきゃいけない",
+      "acceptedVariations": [
+        "～なきゃいけない",
+        "～なきゃいけない"
+      ],
+      "correctFeedback": "Nice! ～なきゃいけない is correct.",
+      "incorrectFeedback": "The correct pattern is: ～なきゃいけない (~nakya ikenai).",
+      "explanation": "Used to express that something must or has to be done; obligation.",
+      "hints": [
+        "~nakya ikenai",
+        "Used to express that something must or has to be done; obligation."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "304-n4-point-104-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～なきゃいけない.",
+      "correctAnswer": "~nakya ikenai",
+      "acceptedVariations": [
+        "~nakya ikenai",
+        "~nakya ikenai"
+      ],
+      "correctFeedback": "Nice! ~nakya ikenai is correct.",
+      "incorrectFeedback": "The correct romaji is: ~nakya ikenai.",
+      "explanation": "Used to express that something must or has to be done; obligation.",
+      "hints": [
+        "Used to express that something must or has to be done; obligation."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "304-n4-point-104-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～なきゃいけない.",
+      "correctAnswer": "Must/Have to",
+      "acceptedVariations": [
+        "Must/Have to",
+        "must/have to"
+      ],
+      "correctFeedback": "Correct! \"Must/Have to\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Must/Have to\".",
+      "explanation": "Used to express that something must or has to be done; obligation.",
+      "hints": [
+        "Used to express that something must or has to be done; obligation."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "304-n4-point-104-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～なきゃいけない",
+          "romaji": "~nakya ikenai",
+          "english": "Must/Have to"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to express that something must or has to be done; obligation.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "304-n4-point-104-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to express that something must or has to be done; obligation..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～なきゃいけない",
+          "romaji": "~nakya ikenai"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～なきゃいけない matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～なきゃいけない.",
+      "explanation": "Used to express that something must or has to be done; obligation.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "304-n4-point-104-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～なきゃいけない",
+      "acceptedVariations": [
+        "～なきゃいけない",
+        "～なきゃいけない"
+      ],
+      "correctFeedback": "Great! ～なきゃいけない is correct.",
+      "incorrectFeedback": "The correct pattern is: ～なきゃいけない.",
+      "explanation": "Used to express that something must or has to be done; obligation.",
+      "hints": [
+        "~nakya ikenai"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

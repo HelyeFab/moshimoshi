@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "269-n4-point-69",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "269-n4-point-69-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Verb + ところ\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb る ところ",
+          "romaji": "Verb-ru tokoro"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Great! Verb る ところ matches \"Verb + ところ\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb る ところ.",
+      "explanation": "Expresses being just about to do an action; \"about to [verb]\".",
+      "difficulty": "easy"
+    },
+    {
+      "id": "269-n4-point-69-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb る ところ.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Verb + ところ"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! Verb る ところ means \"Verb + ところ\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Verb + ところ\".",
+      "explanation": "Expresses being just about to do an action; \"about to [verb]\".",
+      "difficulty": "easy"
+    },
+    {
+      "id": "269-n4-point-69-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb る ところ.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb-ru tokoro"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb-ru tokoro is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb-ru tokoro.",
+      "explanation": "Expresses being just about to do an action; \"about to [verb]\".",
+      "difficulty": "medium"
+    },
+    {
+      "id": "269-n4-point-69-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb る ところ?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        },
+        {
+          "id": "d",
+          "text": "Expresses being just about to do an action; \"about to [verb]\"."
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Expresses being just about to do an action; \"about to [verb]\".",
+      "explanation": "Expresses being just about to do an action; \"about to [verb]\".",
+      "difficulty": "medium"
+    },
+    {
+      "id": "269-n4-point-69-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Verb + ところ\".",
+      "correctAnswer": "Verb る ところ",
+      "acceptedVariations": [
+        "Verb る ところ",
+        "Verbるところ"
+      ],
+      "correctFeedback": "Nice! Verb る ところ is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb る ところ (Verb-ru tokoro).",
+      "explanation": "Expresses being just about to do an action; \"about to [verb]\".",
+      "hints": [
+        "Verb-ru tokoro",
+        "Expresses being just about to do an action; \"about to [verb]\"."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "269-n4-point-69-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb る ところ.",
+      "correctAnswer": "Verb-ru tokoro",
+      "acceptedVariations": [
+        "Verb-ru tokoro",
+        "verb-ru tokoro"
+      ],
+      "correctFeedback": "Nice! Verb-ru tokoro is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb-ru tokoro.",
+      "explanation": "Expresses being just about to do an action; \"about to [verb]\".",
+      "hints": [
+        "Expresses being just about to do an action; \"about to [verb]\"."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "269-n4-point-69-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb る ところ.",
+      "correctAnswer": "Verb + ところ",
+      "acceptedVariations": [
+        "Verb + ところ",
+        "verb + ところ"
+      ],
+      "correctFeedback": "Correct! \"Verb + ところ\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Verb + ところ\".",
+      "explanation": "Expresses being just about to do an action; \"about to [verb]\".",
+      "hints": [
+        "Expresses being just about to do an action; \"about to [verb]\"."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "269-n4-point-69-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb る ところ",
+          "romaji": "Verb-ru tokoro",
+          "english": "Verb + ところ"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Expresses being just about to do an action; \"about to [verb]\".",
+      "difficulty": "hard"
+    },
+    {
+      "id": "269-n4-point-69-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Expresses being just about to do an action; \"about to [verb]\"..",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb る ところ",
+          "romaji": "Verb-ru tokoro"
+        },
+        {
+          "id": "b",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb る ところ matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb る ところ.",
+      "explanation": "Expresses being just about to do an action; \"about to [verb]\".",
+      "difficulty": "hard"
+    },
+    {
+      "id": "269-n4-point-69-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbるところ",
+      "acceptedVariations": [
+        "Verbるところ",
+        "Verb る ところ"
+      ],
+      "correctFeedback": "Great! Verbるところ is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbるところ.",
+      "explanation": "Expresses being just about to do an action; \"about to [verb]\".",
+      "hints": [
+        "Verb-ru tokoro"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "竹",
+  "sentences": [
+    {
+      "id": "207850",
+      "japanese": "その竹はしなったが折れなかった。",
+      "english": "The bamboo gave but did not break."
+    },
+    {
+      "id": "75660",
+      "japanese": "林に竹が目立つ。",
+      "english": "Bamboo stands out in the woods."
+    },
+    {
+      "id": "126628",
+      "japanese": "竹は風でたわむ。",
+      "english": "Bamboo bends before the wind."
+    },
+    {
+      "id": "126629",
+      "japanese": "竹が雪のおもみでたわんでいる。",
+      "english": "The bamboo is bending with the weight of the snow."
+    },
+    {
+      "id": "165437",
+      "japanese": "私たちは竹かごの作り方を教わった。",
+      "english": "We received instructions on how to make a bamboo basket."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:03.272Z",
+  "count": 5,
+  "fileId": "kanji-00652"
+}

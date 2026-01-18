@@ -1,0 +1,33 @@
+{
+  "kanji": "耳",
+  "sentences": [
+    {
+      "id": "5302",
+      "japanese": "ウサギには長い耳と短い尾がある。",
+      "english": "A rabbit has long ears and a short tail."
+    },
+    {
+      "id": "2250722",
+      "japanese": "ウサギは耳が長くてしっぽが短い。",
+      "english": "A rabbit has long ears and a short tail."
+    },
+    {
+      "id": "1148685",
+      "japanese": "壁に耳あり。",
+      "english": "The walls have ears."
+    },
+    {
+      "id": "176989",
+      "japanese": "あいつは君の言い訳には耳を貸さないと思うよ。",
+      "english": "I don't think you can gain his ear."
+    },
+    {
+      "id": "1120565",
+      "japanese": "隣の家に泥棒が入ったのを耳にしましたか。",
+      "english": "Have you heard that a burglar broke into my neighbor's house?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:58.710Z",
+  "count": 5,
+  "fileId": "kanji-00342"
+}

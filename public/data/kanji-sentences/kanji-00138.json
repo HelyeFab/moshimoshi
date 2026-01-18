@@ -1,0 +1,33 @@
+{
+  "kanji": "借",
+  "sentences": [
+    {
+      "id": "10773473",
+      "japanese": "借りたものは返さなきゃ。",
+      "english": "You should pay your debts."
+    },
+    {
+      "id": "177351",
+      "japanese": "君は銀行から金が借りられるよ。",
+      "english": "You can get a loan from a bank."
+    },
+    {
+      "id": "226805",
+      "japanese": "お電話をお借りしてもよろしいですか。",
+      "english": "May I use your phone?"
+    },
+    {
+      "id": "226888",
+      "japanese": "お宅の電話をお借りしてもよろしいでしょうか。",
+      "english": "May I use your phone?"
+    },
+    {
+      "id": "233079",
+      "japanese": "電話をお借りしてもいいですか。",
+      "english": "May I use your phone?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:56.086Z",
+  "count": 5,
+  "fileId": "kanji-00138"
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "隊",
+  "sentences": [
+    {
+      "id": "192352",
+      "japanese": "レスキュー隊は行方不明の乗客を捜査した。",
+      "english": "The rescue party searched for the missing passengers."
+    },
+    {
+      "id": "192377",
+      "japanese": "レインジャー隊は船員の救助に向かうことを決めた。",
+      "english": "The rangers decided to go to the sailor's rescue."
+    },
+    {
+      "id": "202079",
+      "japanese": "デモ隊は整然と行進した。",
+      "english": "The demonstrators marched in order."
+    },
+    {
+      "id": "74965",
+      "japanese": "警官隊はデモ隊と乱闘になった。",
+      "english": "The police brawled with the demonstrators."
+    },
+    {
+      "id": "168236",
+      "japanese": "指揮者はその公園でデモ隊を解散させた。",
+      "english": "The leader dismissed the demonstrators in the park."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:48.284Z",
+  "count": 5,
+  "fileId": "kanji-02058"
+}

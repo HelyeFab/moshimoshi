@@ -1,0 +1,181 @@
+{
+  "grammarPointId": "016-particle-no-possessive",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "016-particle-no-possessive-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 私＿＿本です。",
+      "questionRomaji": "Watashi __ hon desu.",
+      "options": [
+        { "id": "a", "text": "の", "romaji": "no" },
+        { "id": "b", "text": "は", "romaji": "wa" },
+        { "id": "c", "text": "が", "romaji": "ga" },
+        { "id": "d", "text": "を", "romaji": "o" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! の shows possession.",
+      "incorrectFeedback": "Not quite. Use の to show “my book.”",
+      "explanation": "私の本 = my book.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "016-particle-no-possessive-ex-02",
+      "type": "multiple-choice",
+      "question": "Which phrase means 'Tanaka-san's bag'?",
+      "options": [
+        { "id": "a", "text": "田中さんのかばん" },
+        { "id": "b", "text": "田中さんはかばん" },
+        { "id": "c", "text": "田中さんをかばん" },
+        { "id": "d", "text": "田中さんでかばん" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Yes! の links the owner and the item.",
+      "incorrectFeedback": "Try again. Use の between the two nouns.",
+      "explanation": "Owner + の + item.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "016-particle-no-possessive-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This is my book.'",
+      "correctAnswer": "これは私の本です",
+      "acceptedVariations": [
+        "これは私の本です。",
+        "これはわたしのほんです",
+        "kore wa watashi no hon desu",
+        "kore wa watashi no hon desu."
+      ],
+      "correctFeedback": "Great! これは私の本です is correct.",
+      "incorrectFeedback": "The correct answer is: これは私の本です (kore wa watashi no hon desu).",
+      "explanation": "Use の to show possession.",
+      "hints": ["私の = my", "本 = book"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "016-particle-no-possessive-ex-04",
+      "type": "multiple-choice",
+      "question": "Which sentence is correct?",
+      "options": [
+        { "id": "a", "text": "日本の食べ物はおいしいです。" },
+        { "id": "b", "text": "日本は食べ物のです。" },
+        { "id": "c", "text": "日本を食べ物です。" },
+        { "id": "d", "text": "日本で食べ物です。" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! の links Japan and food.",
+      "incorrectFeedback": "Not quite. Use の to link two nouns.",
+      "explanation": "日本の食べ物 = Japanese food.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "016-particle-no-possessive-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'Tanaka-san's teacher.'",
+      "correctAnswer": "田中さんの先生",
+      "acceptedVariations": [
+        "田中さんの先生",
+        "たなかさんのせんせい",
+        "tanaka-san no sensei"
+      ],
+      "correctFeedback": "Nice! 田中さんの先生 is correct.",
+      "incorrectFeedback": "The correct answer is: 田中さんの先生 (tanaka-san no sensei).",
+      "explanation": "Use の to show the relationship.",
+      "hints": ["の links two nouns", "先生 = teacher"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "016-particle-no-possessive-ex-06",
+      "type": "multiple-choice",
+      "question": "Which phrase is correct for 'school library'?",
+      "options": [
+        { "id": "a", "text": "学校の図書館" },
+        { "id": "b", "text": "学校は図書館" },
+        { "id": "c", "text": "学校を図書館" },
+        { "id": "d", "text": "学校で図書館" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! の links the two nouns.",
+      "incorrectFeedback": "Try again. Use の between the nouns.",
+      "explanation": "学校の図書館 = the school's library.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "016-particle-no-possessive-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'My friend's book is new.'",
+      "correctAnswer": "友だちの本は新しいです",
+      "acceptedVariations": [
+        "友だちの本は新しいです。",
+        "ともだちのほんはあたらしいです",
+        "tomodachi no hon wa atarashii desu",
+        "tomodachi no hon wa atarashii desu."
+      ],
+      "correctFeedback": "Great! 友だちの本は新しいです is correct.",
+      "incorrectFeedback": "The correct answer is: 友だちの本は新しいです (tomodachi no hon wa atarashii desu).",
+      "explanation": "Use の for possession and は for the topic.",
+      "hints": ["友だち = friend", "新しい = new"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "016-particle-no-possessive-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese phrases with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "私の本",
+          "romaji": "Watashi no hon",
+          "english": "my book"
+        },
+        {
+          "japanese": "日本の食べ物",
+          "romaji": "Nihon no tabemono",
+          "english": "Japanese food"
+        },
+        {
+          "japanese": "学校の先生",
+          "romaji": "Gakkou no sensei",
+          "english": "school teacher"
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all phrases correctly.",
+      "incorrectFeedback": "Not quite. Review how の links nouns.",
+      "explanation": "の connects the owner/descriptor and the noun.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "016-particle-no-possessive-ex-09",
+      "type": "multiple-choice",
+      "question": "Which sentence is incorrect?",
+      "options": [
+        { "id": "a", "text": "田中さんのかばんです。" },
+        { "id": "b", "text": "日本の食べ物です。" },
+        { "id": "c", "text": "きれいの部屋です。" },
+        { "id": "d", "text": "私の本です。" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Adjectives do not use の.",
+      "incorrectFeedback": "Try again. Only nouns use の for possession.",
+      "explanation": "きれい is a な-adjective; use きれいな部屋.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "016-particle-no-possessive-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'This is Tanaka-san's pen.'",
+      "correctAnswer": "これは田中さんのペンです",
+      "acceptedVariations": [
+        "これは田中さんのペンです。",
+        "これはたなかさんのぺんです",
+        "kore wa tanaka-san no pen desu",
+        "kore wa tanaka-san no pen desu."
+      ],
+      "correctFeedback": "Nice! これは田中さんのペンです is correct.",
+      "incorrectFeedback": "The correct answer is: これは田中さんのペンです (kore wa tanaka-san no pen desu).",
+      "explanation": "Use の to show ownership.",
+      "hints": ["田中さん = Tanaka-san", "ペン = pen"],
+      "difficulty": "hard"
+    }
+  ]
+}

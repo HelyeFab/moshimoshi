@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "080-node-so",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "080-node-so-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct word: 雨です__行きません。",
+      "options": [
+        {
+          "id": "a",
+          "text": "ので"
+        },
+        {
+          "id": "b",
+          "text": "から"
+        },
+        {
+          "id": "c",
+          "text": "まで"
+        },
+        {
+          "id": "d",
+          "text": "より"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ので is a soft 'because.'",
+      "incorrectFeedback": "Not quite. Use ので for a soft reason.",
+      "explanation": "ので connects reason and result politely.",
+      "difficulty": "easy"
+    }
+  ]
+}

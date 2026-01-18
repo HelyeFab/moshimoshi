@@ -1,0 +1,33 @@
+{
+  "kanji": "拭",
+  "sentences": [
+    {
+      "id": "195344",
+      "japanese": "マットで靴を拭きなさい。",
+      "english": "Wipe your shoes on the mat."
+    },
+    {
+      "id": "198652",
+      "japanese": "ぬれた髪の毛をタオルで拭いた。",
+      "english": "She wiped her wet hair with a towel."
+    },
+    {
+      "id": "9698828",
+      "japanese": "テーブルを拭いてもらえる？",
+      "english": "Would you wipe the table for me?"
+    },
+    {
+      "id": "203852",
+      "japanese": "タオルで顔を拭きなさい。",
+      "english": "Dry your face with a towel."
+    },
+    {
+      "id": "223577",
+      "japanese": "このタオルで手を拭きなさい。",
+      "english": "Wipe your hands with this towel."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:29.065Z",
+  "count": 5,
+  "fileId": "kanji-01550"
+}

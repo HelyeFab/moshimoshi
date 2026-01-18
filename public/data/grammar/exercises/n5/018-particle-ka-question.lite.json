@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "018-particle-ka-question",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "018-particle-ka-question-ex-01",
+      "type": "multiple-choice",
+      "question": "Which particle makes a polite question?",
+      "options": [
+        {
+          "id": "a",
+          "text": "ね"
+        },
+        {
+          "id": "b",
+          "text": "よ"
+        },
+        {
+          "id": "c",
+          "text": "か"
+        },
+        {
+          "id": "d",
+          "text": "を"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! か marks a question.",
+      "incorrectFeedback": "Not quite. Use か for questions.",
+      "explanation": "Add か at the end of a sentence to ask a question.",
+      "difficulty": "easy"
+    }
+  ]
+}

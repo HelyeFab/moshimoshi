@@ -1,0 +1,33 @@
+{
+  "kanji": "又",
+  "sentences": [
+    {
+      "id": "75006",
+      "japanese": "今、飛行機の乗り換えだ。今まで飛行機８時間乗って、乗り換えてこれから又２時間だ。",
+      "english": "I'm in transit between flights now. I've spent 8 hours on a plane so far, after changing planes now it's another two hours."
+    },
+    {
+      "id": "81212",
+      "japanese": "又しても彼女は遅刻した。",
+      "english": "She was late once again."
+    },
+    {
+      "id": "81213",
+      "japanese": "又しても死を免れることができた。",
+      "english": "Again I was able to escape death."
+    },
+    {
+      "id": "81214",
+      "japanese": "又しても彼は試験に落ちた。",
+      "english": "He failed the examination again."
+    },
+    {
+      "id": "81215",
+      "japanese": "又お会いできてうれしいです。",
+      "english": "I'm very glad to see you again."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:22.491Z",
+  "count": 5,
+  "fileId": "kanji-01332"
+}

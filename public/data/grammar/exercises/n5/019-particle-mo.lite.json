@@ -1,0 +1,40 @@
+{
+  "grammarPointId": "019-particle-mo",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "019-particle-mo-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct particle: 私＿＿学生です。 (I am also a student.)",
+      "questionRomaji": "Watashi __ gakusei desu.",
+      "options": [
+        {
+          "id": "a",
+          "text": "は",
+          "romaji": "wa"
+        },
+        {
+          "id": "b",
+          "text": "も",
+          "romaji": "mo"
+        },
+        {
+          "id": "c",
+          "text": "が",
+          "romaji": "ga"
+        },
+        {
+          "id": "d",
+          "text": "を",
+          "romaji": "o"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! も means 'also'.",
+      "incorrectFeedback": "Not quite. Use も to mean 'also'.",
+      "explanation": "も replaces は to add 'also'.",
+      "difficulty": "easy"
+    }
+  ]
+}

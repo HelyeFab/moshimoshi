@@ -1,0 +1,33 @@
+{
+  "kanji": "悪",
+  "sentences": [
+    {
+      "id": "3841989",
+      "japanese": "悪いですか？",
+      "english": "Is it bad?"
+    },
+    {
+      "id": "1116820",
+      "japanese": "気分が悪い。",
+      "english": "I don't feel well."
+    },
+    {
+      "id": "5336",
+      "japanese": "状況は私たちが思っていたよりも悪い。",
+      "english": "The situation is worse than we believed."
+    },
+    {
+      "id": "176887",
+      "japanese": "君は僕と同様、物覚えが悪い。",
+      "english": "You are no better at remembering things than I am."
+    },
+    {
+      "id": "177142",
+      "japanese": "君は少し休んだほうがいいと思うよ。顔色が悪いから。",
+      "english": "I think you'd better take a rest; you look ill."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:57.356Z",
+  "count": 5,
+  "fileId": "kanji-00242"
+}

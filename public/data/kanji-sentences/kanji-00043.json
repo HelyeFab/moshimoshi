@@ -1,0 +1,33 @@
+{
+  "kanji": "先",
+  "sentences": [
+    {
+      "id": "177117",
+      "japanese": "君は数ページ先でそれが述べられているのを見つけるでしょう。",
+      "english": "You will find it stated a few pages further on."
+    },
+    {
+      "id": "178324",
+      "japanese": "君の考えは時勢に先んじているね。",
+      "english": "Your ideas are ahead of the times."
+    },
+    {
+      "id": "178590",
+      "japanese": "君に僕が言おうとしていることを先にいわれてしまったな。",
+      "english": "You took the words right out of my mouth."
+    },
+    {
+      "id": "178939",
+      "japanese": "君が先に話しなさい、私は後で話します。",
+      "english": "You speak first; I will speak after."
+    },
+    {
+      "id": "233988",
+      "japanese": "あなたが先に話して下さい。",
+      "english": "You speak first; I will speak after."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:54.697Z",
+  "count": 5,
+  "fileId": "kanji-00043"
+}

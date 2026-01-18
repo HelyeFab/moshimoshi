@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "323-n4-point-123",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "323-n4-point-123-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Sentence A. In addition, Sentence B\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "文A。それに 文B",
+          "romaji": "Bun A. Soreni Bun B"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! 文A。それに 文B matches \"Sentence A. In addition, Sentence B\".",
+      "incorrectFeedback": "Not quite. The correct pattern is 文A。それに 文B.",
+      "explanation": "Adds extra information to the previous sentence using \"それに\" (in addition).",
+      "difficulty": "easy"
+    }
+  ]
+}

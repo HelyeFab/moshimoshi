@@ -1,0 +1,33 @@
+{
+  "kanji": "残",
+  "sentences": [
+    {
+      "id": "5261",
+      "japanese": "いくつサンドイッチ残ってるの？",
+      "english": "How many sandwiches are there left?"
+    },
+    {
+      "id": "952103",
+      "japanese": "最も力の強い種や、最も知能の高い種が生き残るのではなく、変化に最も良く適応できる種が生き残るのです。",
+      "english": "It is not the strongest of the species that survives, not the most intelligent, but the one most responsive to change."
+    },
+    {
+      "id": "178674",
+      "japanese": "君にはもう高いポストはほとんど残っていない。",
+      "english": "There are few high-ranking positions left open for you."
+    },
+    {
+      "id": "179771",
+      "japanese": "金が残っていないようだ。",
+      "english": "It seems like there's no money left."
+    },
+    {
+      "id": "180177",
+      "japanese": "教室には生徒はほとんど残っていなかった。",
+      "english": "There were few students left in the classroom."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:01.436Z",
+  "count": 5,
+  "fileId": "kanji-00545"
+}

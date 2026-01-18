@@ -1,0 +1,177 @@
+{
+  "grammarPointId": "039-nai-form",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "039-nai-form-ex-01",
+      "type": "multiple-choice",
+      "question": "Which is the ない-form of 書く?",
+      "options": [
+        { "id": "a", "text": "書かない" },
+        { "id": "b", "text": "書きない" },
+        { "id": "c", "text": "書くない" },
+        { "id": "d", "text": "書いてない" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 書く → 書かない.",
+      "incorrectFeedback": "Not quite. Change the final vowel to a-sound + ない.",
+      "explanation": "U-verb: 書く → 書かない.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "039-nai-form-ex-02",
+      "type": "multiple-choice",
+      "question": "Which is the ない-form of 食べる?",
+      "options": [
+        { "id": "a", "text": "食べない" },
+        { "id": "b", "text": "食べるない" },
+        { "id": "c", "text": "食べますない" },
+        { "id": "d", "text": "食べてない" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 食べる → 食べない.",
+      "incorrectFeedback": "Try again. Drop る and add ない.",
+      "explanation": "Ru-verb: 食べる → 食べない.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "039-nai-form-ex-03",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'do not go' (nai-form)",
+      "correctAnswer": "行かない",
+      "acceptedVariations": [
+        "行かない",
+        "いかない",
+        "ikanai"
+      ],
+      "correctFeedback": "Great! 行かない is correct.",
+      "incorrectFeedback": "The correct answer is: 行かない (ikanai).",
+      "explanation": "行く → 行かない.",
+      "hints": ["U-verb change", "a-sound + ない"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "039-nai-form-ex-04",
+      "type": "multiple-choice",
+      "question": "Which is the ない-form of する?",
+      "options": [
+        { "id": "a", "text": "しない" },
+        { "id": "b", "text": "するない" },
+        { "id": "c", "text": "しなく" },
+        { "id": "d", "text": "しません" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! する → しない.",
+      "incorrectFeedback": "Not quite. The irregular negative is しない.",
+      "explanation": "Irregular: する → しない.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "039-nai-form-ex-05",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'do not come' (nai-form)",
+      "correctAnswer": "来ない",
+      "acceptedVariations": [
+        "来ない",
+        "こない",
+        "konai"
+      ],
+      "correctFeedback": "Nice! 来ない is correct.",
+      "incorrectFeedback": "The correct answer is: 来ない (konai).",
+      "explanation": "Irregular: 来る → 来ない.",
+      "hints": ["くる → こない", "Irregular"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "039-nai-form-ex-06",
+      "type": "multiple-choice",
+      "question": "Which sentence uses a correct ない-form?",
+      "options": [
+        { "id": "a", "text": "見るない" },
+        { "id": "b", "text": "見ない" },
+        { "id": "c", "text": "見ますない" },
+        { "id": "d", "text": "見てない" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 見る → 見ない.",
+      "incorrectFeedback": "Try again. Use the base ない-form.",
+      "explanation": "Ru-verb negative: 見ない.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "039-nai-form-ex-07",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'do not read' (nai-form)",
+      "correctAnswer": "読まない",
+      "acceptedVariations": [
+        "読まない",
+        "よまない",
+        "yomanai"
+      ],
+      "correctFeedback": "Great! 読まない is correct.",
+      "incorrectFeedback": "The correct answer is: 読まない (yomanai).",
+      "explanation": "読む → 読まない.",
+      "hints": ["む → まない", "U-verb"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "039-nai-form-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the verbs with their ない-forms:",
+      "pairs": [
+        {
+          "japanese": "食べる → 食べない",
+          "romaji": "taberu → tabenai",
+          "english": "ru-verb"
+        },
+        {
+          "japanese": "書く → 書かない",
+          "romaji": "kaku → kakanai",
+          "english": "u-verb"
+        },
+        {
+          "japanese": "する → しない",
+          "romaji": "suru → shinai",
+          "english": "irregular"
+        }
+      ],
+      "correctFeedback": "Perfect! You matched all forms correctly.",
+      "incorrectFeedback": "Not quite. Review ない-form rules.",
+      "explanation": "Each pair shows the correct ない-form.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "039-nai-form-ex-09",
+      "type": "multiple-choice",
+      "question": "Which is incorrect?",
+      "options": [
+        { "id": "a", "text": "行かない" },
+        { "id": "b", "text": "食べない" },
+        { "id": "c", "text": "書きない" },
+        { "id": "d", "text": "来ない" }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! 書く → 書かない, not 書きない.",
+      "incorrectFeedback": "Try again. U-verbs change to a-sound.",
+      "explanation": "書きない is incorrect.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "039-nai-form-ex-10",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: 'do not eat' (nai-form)",
+      "correctAnswer": "食べない",
+      "acceptedVariations": [
+        "食べない",
+        "たべない",
+        "tabenai"
+      ],
+      "correctFeedback": "Nice! 食べない is correct.",
+      "incorrectFeedback": "The correct answer is: 食べない (tabenai).",
+      "explanation": "Ru-verb: 食べる → 食べない.",
+      "hints": ["Drop る + ない"],
+      "difficulty": "hard"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "grammarPointId": "256-n4-point-56",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "256-n4-point-56-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Difficulty in Action with ～にくい\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "Verb にくい (〜nikui)",
+          "romaji": "Verb nikui"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! Verb にくい (〜nikui) matches \"Difficulty in Action with ～にくい\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb にくい (〜nikui).",
+      "explanation": "Expresses that something is hard or difficult to do.",
+      "difficulty": "easy"
+    }
+  ]
+}

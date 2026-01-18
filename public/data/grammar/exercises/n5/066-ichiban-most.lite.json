@@ -1,0 +1,35 @@
+{
+  "grammarPointId": "066-ichiban-most",
+  "version": "1.0.0",
+  "totalExercises": 1,
+  "exercises": [
+    {
+      "id": "066-ichiban-most-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the word for 'the most':",
+      "options": [
+        {
+          "id": "a",
+          "text": "一番"
+        },
+        {
+          "id": "b",
+          "text": "より"
+        },
+        {
+          "id": "c",
+          "text": "と"
+        },
+        {
+          "id": "d",
+          "text": "ほど"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 一番 means 'the most.'",
+      "incorrectFeedback": "Not quite. 一番 is 'the most.'",
+      "explanation": "一番 = the most.",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -1,0 +1,98 @@
+{
+  "id": "028-te-kudasai",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜てください",
+    "romaji": "-te kudasai",
+    "en": "Please do"
+  },
+  "jlptLevel": "N5",
+  "category": "verbs",
+  "explanation": {
+    "en": "〜てください is the polite way to ask someone to do something. It is made by using the verb’s て-form and adding ください.\n\nKey points:\n• Verb て-form + ください\n• Polite and common for requests\n• Softer than a direct command\n• Use with people you don’t know well\n\nFor example, “見てください” means “Please look.” “書いてください” means “Please write.” The request sounds polite and natural.\n\nYou can also use it with objects: “この漢字を読んでください” means “Please read this kanji.”\n\nDo not use dictionary form with ください. Always convert the verb to て-form first.\n\nAs a beginner, remember that 〜てください is a safe, polite way to ask for help. It is useful in class, stores, and daily life.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Verb (て-form) + ください",
+    "components": [
+      {
+        "part": "Verb (て-form)",
+        "explanation": "Action you want someone to do",
+        "examples": ["書いて", "見て", "待って"]
+      },
+      {
+        "part": "ください",
+        "explanation": "Polite request ending",
+        "examples": ["ください"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "もう一度言ってください。",
+      "romaji": "Mou ichido itte kudasai.",
+      "english": "Please say it one more time.",
+      "breakdown": {
+        "もう一度": "one more time",
+        "言って": "say (te-form)",
+        "ください": "please"
+      },
+      "notes": "Common classroom request"
+    },
+    {
+      "japanese": "ここに名前を書いてください。",
+      "romaji": "Koko ni namae o kaite kudasai.",
+      "english": "Please write your name here.",
+      "breakdown": {
+        "ここ": "here",
+        "に": "location marker",
+        "名前": "name",
+        "を": "object marker",
+        "書いて": "write (te-form)",
+        "ください": "please"
+      },
+      "notes": "Polite instruction"
+    },
+    {
+      "japanese": "ゆっくり話してください。",
+      "romaji": "Yukkuri hanashite kudasai.",
+      "english": "Please speak slowly.",
+      "breakdown": {
+        "ゆっくり": "slowly",
+        "話して": "speak (te-form)",
+        "ください": "please"
+      },
+      "notes": "Polite request"
+    },
+    {
+      "japanese": "この本を読んでください。",
+      "romaji": "Kono hon o yonde kudasai.",
+      "english": "Please read this book.",
+      "breakdown": {
+        "この": "this",
+        "本": "book",
+        "を": "object marker",
+        "読んで": "read (te-form)",
+        "ください": "please"
+      },
+      "notes": "Request with object"
+    }
+  ],
+  "relatedPoints": [
+    "026-te-form-basics",
+    "027-te-iru-progressive"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using dictionary form + ください",
+      "correction": "Use the て-form before ください",
+      "example": "❌ 読むください → ✅ 読んでください"
+    },
+    {
+      "mistake": "Using it with casual speech endings",
+      "correction": "Keep the request polite with ください",
+      "example": "❌ 見てくれ → ✅ 見てください"
+    }
+  ],
+  "tags": ["verbs", "requests", "te-form", "beginner"]
+}

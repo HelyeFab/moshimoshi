@@ -1,0 +1,33 @@
+{
+  "kanji": "皿",
+  "sentences": [
+    {
+      "id": "177260",
+      "japanese": "君は皿を洗いさえすればよい。",
+      "english": "All you have to do is wash the dish."
+    },
+    {
+      "id": "177669",
+      "japanese": "君はただ皿を洗いさえすればいい。",
+      "english": "All you have to do is wash the dishes."
+    },
+    {
+      "id": "182363",
+      "japanese": "給仕は新しいお皿を持ってきた。",
+      "english": "The waiter brought a new plate."
+    },
+    {
+      "id": "192347",
+      "japanese": "レストランの不潔な皿に私達は吐き気を催させられた。",
+      "english": "The dirty plates in the restaurant disgusted us."
+    },
+    {
+      "id": "194973",
+      "japanese": "みんなで分けて食べたいので、取り皿をもらえますか。",
+      "english": "We're all going to share it. Could you bring us some extra plates?"
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:07.785Z",
+  "count": 5,
+  "fileId": "kanji-00856"
+}

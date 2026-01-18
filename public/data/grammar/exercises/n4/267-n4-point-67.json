@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "267-n4-point-67",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "267-n4-point-67-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"Deciding or Arranging Something\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb る ことになる",
+          "romaji": "Verb-ru koto ni naru"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Great! Verb る ことになる matches \"Deciding or Arranging Something\".",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb る ことになる.",
+      "explanation": "Used to show that something has been decided or arranged by others or circumstances.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "267-n4-point-67-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: Verb る ことになる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "b",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "c",
+          "text": "Not as...as"
+        },
+        {
+          "id": "d",
+          "text": "Deciding or Arranging Something"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! Verb る ことになる means \"Deciding or Arranging Something\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"Deciding or Arranging Something\".",
+      "explanation": "Used to show that something has been decided or arranged by others or circumstances.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "267-n4-point-67-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: Verb る ことになる.",
+      "options": [
+        {
+          "id": "a",
+          "text": "Verb-ru koto ni naru"
+        },
+        {
+          "id": "b",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! Verb-ru koto ni naru is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is Verb-ru koto ni naru.",
+      "explanation": "Used to show that something has been decided or arranged by others or circumstances.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "267-n4-point-67-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: Verb る ことになる?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to show that something has been decided or arranged by others or circumstances."
+        },
+        {
+          "id": "c",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to show that something has been decided or arranged by others or circumstances.",
+      "explanation": "Used to show that something has been decided or arranged by others or circumstances.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "267-n4-point-67-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"Deciding or Arranging Something\".",
+      "correctAnswer": "Verb る ことになる",
+      "acceptedVariations": [
+        "Verb る ことになる",
+        "Verbることになる"
+      ],
+      "correctFeedback": "Nice! Verb る ことになる is correct.",
+      "incorrectFeedback": "The correct pattern is: Verb る ことになる (Verb-ru koto ni naru).",
+      "explanation": "Used to show that something has been decided or arranged by others or circumstances.",
+      "hints": [
+        "Verb-ru koto ni naru",
+        "Used to show that something has been decided or arranged by others or circumstances."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "267-n4-point-67-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: Verb る ことになる.",
+      "correctAnswer": "Verb-ru koto ni naru",
+      "acceptedVariations": [
+        "Verb-ru koto ni naru",
+        "verb-ru koto ni naru"
+      ],
+      "correctFeedback": "Nice! Verb-ru koto ni naru is correct.",
+      "incorrectFeedback": "The correct romaji is: Verb-ru koto ni naru.",
+      "explanation": "Used to show that something has been decided or arranged by others or circumstances.",
+      "hints": [
+        "Used to show that something has been decided or arranged by others or circumstances."
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "267-n4-point-67-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: Verb る ことになる.",
+      "correctAnswer": "Deciding or Arranging Something",
+      "acceptedVariations": [
+        "Deciding or Arranging Something",
+        "deciding or arranging something"
+      ],
+      "correctFeedback": "Correct! \"Deciding or Arranging Something\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"Deciding or Arranging Something\".",
+      "explanation": "Used to show that something has been decided or arranged by others or circumstances.",
+      "hints": [
+        "Used to show that something has been decided or arranged by others or circumstances."
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "267-n4-point-67-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "Verb る ことになる",
+          "romaji": "Verb-ru koto ni naru",
+          "english": "Deciding or Arranging Something"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to show that something has been decided or arranged by others or circumstances.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "267-n4-point-67-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to show that something has been decided or arranged by others or circumstances..",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "Verb る ことになる",
+          "romaji": "Verb-ru koto ni naru"
+        },
+        {
+          "id": "d",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Correct! Verb る ことになる matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is Verb る ことになる.",
+      "explanation": "Used to show that something has been decided or arranged by others or circumstances.",
+      "difficulty": "hard"
+    },
+    {
+      "id": "267-n4-point-67-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "Verbることになる",
+      "acceptedVariations": [
+        "Verbることになる",
+        "Verb る ことになる"
+      ],
+      "correctFeedback": "Great! Verbることになる is correct.",
+      "incorrectFeedback": "The correct pattern is: Verbることになる.",
+      "explanation": "Used to show that something has been decided or arranged by others or circumstances.",
+      "hints": [
+        "Verb-ru koto ni naru"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

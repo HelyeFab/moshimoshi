@@ -1,0 +1,299 @@
+{
+  "version": "1.0.0",
+  "jlptLevel": "N4",
+  "lastUpdated": "2026-01-18",
+  "chapters": [
+    {
+      "id": "n4-ch1",
+      "order": 1,
+      "title": {
+        "en": "Describing and Comparing",
+        "ja": "説明と比較",
+        "de": "Beschreiben und Vergleichen",
+        "es": "Describir y Comparar",
+        "fr": "Décrire et Comparer",
+        "it": "Descrivere e Confrontare"
+      },
+      "points": [
+        "201-n4-point-1",
+        "202-n4-point-2",
+        "203-n4-point-3",
+        "204-n4-point-4",
+        "205-n4-point-5",
+        "206-n4-point-6",
+        "208-n4-point-8",
+        "209-n4-point-9",
+        "212-n4-point-12",
+        "254-n4-point-54",
+        "319-n4-point-119"
+      ]
+    },
+    {
+      "id": "n4-ch2",
+      "order": 2,
+      "title": {
+        "en": "Giving and Receiving",
+        "ja": "あげる・もらう・くれる",
+        "de": "Geben und Erhalten",
+        "es": "Dar y Recibir",
+        "fr": "Donner et Recevoir",
+        "it": "Dare e Ricevere"
+      },
+      "points": [
+        "213-n4-point-13",
+        "214-n4-point-14",
+        "215-n4-point-15",
+        "216-n4-point-16",
+        "217-n4-point-17",
+        "218-n4-point-18",
+        "228-n4-point-28",
+        "232-n4-point-32",
+        "239-n4-point-39",
+        "242-n4-point-42",
+        "243-n4-point-43",
+        "248-n4-point-48"
+      ]
+    },
+    {
+      "id": "n4-ch3",
+      "order": 3,
+      "title": {
+        "en": "Intentions and Experience",
+        "ja": "意志と経験",
+        "de": "Absichten und Erfahrungen",
+        "es": "Intenciones y Experiencias",
+        "fr": "Intentions et Expériences",
+        "it": "Intenzioni ed Esperienze"
+      },
+      "points": [
+        "222-n4-point-22",
+        "223-n4-point-23",
+        "224-n4-point-24",
+        "225-n4-point-25",
+        "227-n4-point-27",
+        "258-n4-point-58",
+        "266-n4-point-66",
+        "267-n4-point-67",
+        "264-n4-point-64",
+        "275-n4-point-75"
+      ]
+    },
+    {
+      "id": "n4-ch4",
+      "order": 4,
+      "title": {
+        "en": "Requests and Permissions",
+        "ja": "依頼と許可",
+        "de": "Bitten und Erlaubnisse",
+        "es": "Peticiones y Permisos",
+        "fr": "Demandes et Permissions",
+        "it": "Richieste e Permessi"
+      },
+      "points": [
+        "231-n4-point-31",
+        "233-n4-point-33",
+        "238-n4-point-38",
+        "241-n4-point-41",
+        "249-n4-point-49",
+        "296-n4-point-96",
+        "295-n4-point-95",
+        "280-n4-point-80",
+        "255-n4-point-55",
+        "279-n4-point-79"
+      ]
+    },
+    {
+      "id": "n4-ch5",
+      "order": 5,
+      "title": {
+        "en": "Passive, Causative, and Potential",
+        "ja": "受身・使役・可能形",
+        "de": "Passiv, Kausativ und Potenzial",
+        "es": "Pasiva, Causativa y Potencial",
+        "fr": "Passif, Causatif et Potentiel",
+        "it": "Passivo, Causativo e Potenziale"
+      },
+      "points": [
+        "220-n4-point-20",
+        "221-n4-point-21",
+        "263-n4-point-63",
+        "265-n4-point-65",
+        "261-n4-point-61",
+        "270-n4-point-70",
+        "272-n4-point-72",
+        "273-n4-point-73",
+        "234-n4-point-34",
+        "309-n4-point-109"
+      ]
+    },
+    {
+      "id": "n4-ch6",
+      "order": 6,
+      "title": {
+        "en": "Time and Sequence",
+        "ja": "時間と順序",
+        "de": "Zeit und Reihenfolge",
+        "es": "Tiempo y Secuencia",
+        "fr": "Temps et Séquence",
+        "it": "Tempo e Sequenza"
+      },
+      "points": [
+        "211-n4-point-11",
+        "236-n4-point-36",
+        "268-n4-point-68",
+        "269-n4-point-69",
+        "235-n4-point-35",
+        "229-n4-point-29",
+        "230-n4-point-30",
+        "240-n4-point-40",
+        "271-n4-point-71",
+        "219-n4-point-19",
+        "314-n4-point-114",
+        "315-n4-point-115"
+      ]
+    },
+    {
+      "id": "n4-ch7",
+      "order": 7,
+      "title": {
+        "en": "Expressing Reason and Purpose",
+        "ja": "理由と目的の表現",
+        "de": "Grund und Zweck ausdrücken",
+        "es": "Expresar Razón y Propósito",
+        "fr": "Exprimer la Raison et le But",
+        "it": "Esprimere Motivo e Scopo"
+      },
+      "points": [
+        "210-n4-point-10",
+        "226-n4-point-26",
+        "278-n4-point-78",
+        "310-n4-point-110",
+        "311-n4-point-111",
+        "320-n4-point-120",
+        "312-n4-point-112",
+        "316-n4-point-116",
+        "237-n4-point-37",
+        "313-n4-point-113"
+      ]
+    },
+    {
+      "id": "n4-ch8",
+      "order": 8,
+      "title": {
+        "en": "Obligation and Necessity",
+        "ja": "義務と必要性",
+        "de": "Pflicht und Notwendigkeit",
+        "es": "Obligación y Necesidad",
+        "fr": "Obligation et Nécessité",
+        "it": "Obbligo e Necessità"
+      },
+      "points": [
+        "303-n4-point-103",
+        "304-n4-point-104",
+        "305-n4-point-105",
+        "306-n4-point-106",
+        "307-n4-point-107",
+        "308-n4-point-108",
+        "253-n4-point-53",
+        "251-n4-point-51",
+        "252-n4-point-52",
+        "250-n4-point-50"
+      ]
+    },
+    {
+      "id": "n4-ch9",
+      "order": 9,
+      "title": {
+        "en": "Expressing Hopes, Suggestions, and Uncertainty",
+        "ja": "希望・提案・不確かさの表現",
+        "de": "Hoffnungen, Vorschläge und Unsicherheit ausdrücken",
+        "es": "Expresar Esperanzas, Sugerencias e Incertidumbre",
+        "fr": "Exprimer Espoirs, Suggestions et Incertitude",
+        "it": "Esprimere Speranze, Suggerimenti e Incertezza"
+      },
+      "points": [
+        "287-n4-point-87",
+        "288-n4-point-88",
+        "289-n4-point-89",
+        "297-n4-point-97",
+        "298-n4-point-98",
+        "291-n4-point-91",
+        "294-n4-point-94",
+        "274-n4-point-74",
+        "276-n4-point-76",
+        "277-n4-point-77"
+      ]
+    },
+    {
+      "id": "n4-ch10",
+      "order": 10,
+      "title": {
+        "en": "Expressing Manner and State",
+        "ja": "様子と状態の表現",
+        "de": "Art und Zustand ausdrücken",
+        "es": "Expresar Manera y Estado",
+        "fr": "Exprimer la Manière et l'État",
+        "it": "Esprimere Modo e Stato"
+      },
+      "points": [
+        "284-n4-point-84",
+        "285-n4-point-85",
+        "286-n4-point-86",
+        "282-n4-point-82",
+        "257-n4-point-57",
+        "256-n4-point-56",
+        "246-n4-point-46",
+        "244-n4-point-44"
+      ]
+    },
+    {
+      "id": "n4-ch11",
+      "order": 11,
+      "title": {
+        "en": "Connecting and Listing",
+        "ja": "接続と列挙",
+        "de": "Verbinden und Aufzählen",
+        "es": "Conectar y Enumerar",
+        "fr": "Connecter et Énumérer",
+        "it": "Collegare ed Elencare"
+      },
+      "points": [
+        "290-n4-point-90",
+        "281-n4-point-81",
+        "293-n4-point-93",
+        "318-n4-point-118",
+        "321-n4-point-121",
+        "322-n4-point-122",
+        "323-n4-point-123",
+        "324-n4-point-124",
+        "283-n4-point-83",
+        "317-n4-point-117"
+      ]
+    },
+    {
+      "id": "n4-ch12",
+      "order": 12,
+      "title": {
+        "en": "Miscellaneous and Advanced Expressions",
+        "ja": "その他・発展表現",
+        "de": "Verschiedenes und Fortgeschrittene Ausdrücke",
+        "es": "Expresiones Misceláneas y Avanzadas",
+        "fr": "Expressions Diverses et Avancées",
+        "it": "Espressioni Varie e Avanzate"
+      },
+      "points": [
+        "207-n4-point-7",
+        "245-n4-point-45",
+        "247-n4-point-47",
+        "259-n4-point-59",
+        "260-n4-point-60",
+        "262-n4-point-62",
+        "299-n4-point-99",
+        "300-n4-point-100",
+        "301-n4-point-101",
+        "302-n4-point-102",
+        "292-n4-point-92"
+      ]
+    }
+  ]
+}

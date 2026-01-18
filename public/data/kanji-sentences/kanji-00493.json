@@ -1,0 +1,33 @@
+{
+  "kanji": "利",
+  "sentences": [
+    {
+      "id": "177318",
+      "japanese": "君は口の利き方を知らなければならない。",
+      "english": "You've got to learn to hold your tongue."
+    },
+    {
+      "id": "177355",
+      "japanese": "君は漁夫の利を占めようとしているのか。",
+      "english": "Are you trying to fish in troubled waters?"
+    },
+    {
+      "id": "10450964",
+      "japanese": "よくもまあ、そんな口の利き方ができるね。",
+      "english": "How dare you speak like that!"
+    },
+    {
+      "id": "182132",
+      "japanese": "漁夫の利を占める。",
+      "english": "A third party makes off with the profits."
+    },
+    {
+      "id": "182130",
+      "japanese": "漁夫の利を占めるつもりはない。",
+      "english": "I have no intention of fishing in troubled waters."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:00.827Z",
+  "count": 5,
+  "fileId": "kanji-00493"
+}

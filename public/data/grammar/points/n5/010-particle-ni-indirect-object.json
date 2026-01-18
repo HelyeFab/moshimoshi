@@ -1,0 +1,103 @@
+{
+  "id": "010-particle-ni-indirect-object",
+  "version": "1.0.0",
+  "title": {
+    "ja": "に（間接目的語）",
+    "romaji": "ni (indirect object)",
+    "en": "に (indirect object)"
+  },
+  "jlptLevel": "N5",
+  "category": "particles",
+  "explanation": {
+    "en": "に can mark the indirect object: the person who receives something or is affected by an action. It answers “to whom?” or “for whom?” This is different from に as a location or time marker.\n\nKey points:\n• Use に with verbs of giving: 先生に本をあげます\n• Use に with verbs like 会う (meet): 友だちに会います\n• It often appears with people, not things\n• It can show the target of an action or emotion\n\nFor example, “私は先生に質問します” means “I ask the teacher a question.” The teacher is the person receiving the action. Another common pattern is with “あげます/もらいます,” where に marks who receives.\n\nBe careful not to confuse this with に for location. The same particle is used, but the meaning changes based on the verb. If the verb is about giving, meeting, or contacting, に usually marks the person involved.\n\nAs a beginner, remember this simple pattern: Person に + Verb (of giving/meeting). This helps you say who your action is directed toward.\n\nWhen you learn more verbs, check whether the action is directed at a person. If so, に is often the right choice. This makes sentences like “電話します” and “教えます” clear and polite.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Person に + Object を + Verb",
+    "components": [
+      {
+        "part": "Person に",
+        "explanation": "The person who receives or is targeted",
+        "examples": ["先生に", "友だちに", "母に"]
+      },
+      {
+        "part": "Object を",
+        "explanation": "Thing being given or action object",
+        "examples": ["本を", "プレゼントを", "質問を"]
+      },
+      {
+        "part": "Verb",
+        "explanation": "Giving/meeting/action verb",
+        "examples": ["あげます", "もらいます", "会います"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "先生に本をあげます。",
+      "romaji": "Sensei ni hon o agemasu.",
+      "english": "I give a book to the teacher.",
+      "breakdown": {
+        "先生": "teacher",
+        "に": "indirect object marker",
+        "本": "book",
+        "を": "object marker",
+        "あげます": "give (polite)"
+      },
+      "notes": "Giving to someone"
+    },
+    {
+      "japanese": "友だちに会います。",
+      "romaji": "Tomodachi ni aimasu.",
+      "english": "I meet a friend.",
+      "breakdown": {
+        "友だち": "friend",
+        "に": "target marker",
+        "会います": "meet (polite)"
+      },
+      "notes": "Meeting someone"
+    },
+    {
+      "japanese": "母にプレゼントをあげます。",
+      "romaji": "Haha ni purezento o agemasu.",
+      "english": "I give a present to my mother.",
+      "breakdown": {
+        "母": "mother",
+        "に": "indirect object marker",
+        "プレゼント": "present",
+        "を": "object marker",
+        "あげます": "give (polite)"
+      },
+      "notes": "Indirect object with a gift"
+    },
+    {
+      "japanese": "先生に質問します。",
+      "romaji": "Sensei ni shitsumon shimasu.",
+      "english": "I ask the teacher a question.",
+      "breakdown": {
+        "先生": "teacher",
+        "に": "target marker",
+        "質問": "question",
+        "します": "do/ask (polite)"
+      },
+      "notes": "Target of asking"
+    }
+  ],
+  "relatedPoints": [
+    "009-particle-ni-location",
+    "015-particle-to-with"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using を to mark the receiver",
+      "correction": "Use に for the person receiving the action",
+      "example": "❌ 先生を本をあげます → ✅ 先生に本をあげます"
+    },
+    {
+      "mistake": "Confusing に (target) with へ (direction)",
+      "correction": "Use に with people/targets, へ for direction",
+      "example": "友だちに会います / 学校へ行きます"
+    }
+  ],
+  "tags": ["particle", "indirect-object", "giving", "meeting"]
+}

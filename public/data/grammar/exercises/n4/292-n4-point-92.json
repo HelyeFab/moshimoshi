@@ -1,0 +1,250 @@
+{
+  "grammarPointId": "292-n4-point-92",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "292-n4-point-92-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the grammar pattern that matches: \"That is to say\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～っていう",
+          "romaji": "~tte iu"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Great! ～っていう matches \"That is to say\".",
+      "incorrectFeedback": "Not quite. The correct pattern is ～っていう.",
+      "explanation": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "292-n4-point-92-ex-02",
+      "type": "multiple-choice",
+      "question": "Choose the correct meaning for: ～っていう.",
+      "options": [
+        {
+          "id": "a",
+          "text": "That is to say"
+        },
+        {
+          "id": "b",
+          "text": "Such as A and B"
+        },
+        {
+          "id": "c",
+          "text": "Not as much/less than"
+        },
+        {
+          "id": "d",
+          "text": "Not as...as"
+        }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! ～っていう means \"That is to say\".",
+      "incorrectFeedback": "Not quite. The correct meaning is \"That is to say\".",
+      "explanation": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "difficulty": "easy"
+    },
+    {
+      "id": "292-n4-point-92-ex-03",
+      "type": "multiple-choice",
+      "question": "Choose the correct romaji for: ～っていう.",
+      "options": [
+        {
+          "id": "a",
+          "text": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "~tte iu"
+        },
+        {
+          "id": "c",
+          "text": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "d",
+          "text": "A wa B hodo ~ nai"
+        }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! ~tte iu is right.",
+      "incorrectFeedback": "Not quite. The correct romaji is ~tte iu.",
+      "explanation": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "292-n4-point-92-ex-04",
+      "type": "multiple-choice",
+      "question": "Which explanation matches: ～っていう?",
+      "options": [
+        {
+          "id": "a",
+          "text": "Lists examples or possibilities, similar to \"such as A and B.\""
+        },
+        {
+          "id": "b",
+          "text": "Used to say A is not as ~ as B; A is less ~ than B."
+        },
+        {
+          "id": "c",
+          "text": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\""
+        },
+        {
+          "id": "d",
+          "text": "A is not as ~ as B; shows a lesser degree or extent than B."
+        }
+      ],
+      "correctAnswer": "c",
+      "correctFeedback": "Nice! That explanation fits this grammar.",
+      "incorrectFeedback": "Not quite. The correct explanation is: Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "explanation": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "difficulty": "medium"
+    },
+    {
+      "id": "292-n4-point-92-ex-05",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern for: \"That is to say\".",
+      "correctAnswer": "～っていう",
+      "acceptedVariations": [
+        "～っていう",
+        "～っていう"
+      ],
+      "correctFeedback": "Nice! ～っていう is correct.",
+      "incorrectFeedback": "The correct pattern is: ～っていう (~tte iu).",
+      "explanation": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "hints": [
+        "~tte iu",
+        "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "292-n4-point-92-ex-06",
+      "type": "fill-in-blank",
+      "question": "Write the romaji for: ～っていう.",
+      "correctAnswer": "~tte iu",
+      "acceptedVariations": [
+        "~tte iu",
+        "~tte iu"
+      ],
+      "correctFeedback": "Nice! ~tte iu is correct.",
+      "incorrectFeedback": "The correct romaji is: ~tte iu.",
+      "explanation": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "hints": [
+        "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\""
+      ],
+      "difficulty": "medium"
+    },
+    {
+      "id": "292-n4-point-92-ex-07",
+      "type": "fill-in-blank",
+      "question": "Write the English meaning for: ～っていう.",
+      "correctAnswer": "That is to say",
+      "acceptedVariations": [
+        "That is to say",
+        "that is to say"
+      ],
+      "correctFeedback": "Correct! \"That is to say\" is right.",
+      "incorrectFeedback": "The correct meaning is: \"That is to say\".",
+      "explanation": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "hints": [
+        "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\""
+      ],
+      "difficulty": "hard"
+    },
+    {
+      "id": "292-n4-point-92-ex-08",
+      "type": "sentence-matching",
+      "question": "Match the Japanese patterns with their English meanings:",
+      "pairs": [
+        {
+          "japanese": "～っていう",
+          "romaji": "~tte iu",
+          "english": "That is to say"
+        },
+        {
+          "japanese": "A とか B とか",
+          "romaji": "A toka B toka",
+          "english": "Such as A and B"
+        },
+        {
+          "japanese": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen",
+          "english": "Not as much/less than"
+        }
+      ],
+      "correctFeedback": "Nice work! You matched the meanings correctly.",
+      "incorrectFeedback": "Review the patterns and try again.",
+      "explanation": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "292-n4-point-92-ex-09",
+      "type": "multiple-choice",
+      "question": "Choose the pattern that fits this usage: Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\".",
+      "options": [
+        {
+          "id": "a",
+          "text": "A とか B とか",
+          "romaji": "A toka B toka"
+        },
+        {
+          "id": "b",
+          "text": "A は B ほど～ありません",
+          "romaji": "A wa B hodo ~ arimasen"
+        },
+        {
+          "id": "c",
+          "text": "A は B ほど～ない",
+          "romaji": "A wa B hodo ~ nai"
+        },
+        {
+          "id": "d",
+          "text": "～っていう",
+          "romaji": "~tte iu"
+        }
+      ],
+      "correctAnswer": "d",
+      "correctFeedback": "Correct! ～っていう matches that usage.",
+      "incorrectFeedback": "Not quite. The correct pattern is ～っていう.",
+      "explanation": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "difficulty": "hard"
+    },
+    {
+      "id": "292-n4-point-92-ex-10",
+      "type": "fill-in-blank",
+      "question": "Write the Japanese pattern (no spaces):",
+      "correctAnswer": "～っていう",
+      "acceptedVariations": [
+        "～っていう",
+        "～っていう"
+      ],
+      "correctFeedback": "Great! ～っていう is correct.",
+      "incorrectFeedback": "The correct pattern is: ～っていう.",
+      "explanation": "Used to quote, define, or specify nouns; means \"called\" or \"that is to say.\"",
+      "hints": [
+        "~tte iu"
+      ],
+      "difficulty": "hard"
+    }
+  ]
+}

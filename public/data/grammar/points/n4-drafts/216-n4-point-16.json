@@ -1,0 +1,55 @@
+{
+  "id": "216-n4-point-16",
+  "version": "1.0.0",
+  "title": {
+    "ja": "Noun を くれる (Noun wo kureru)",
+    "romaji": "",
+    "en": ""
+  },
+  "jlptLevel": "N4",
+  "category": "uncategorized",
+  "explanation": {
+    "en": "The grammar point Noun を くれる is used to express when someone (other than the speaker) gives something to the speaker or someone close to the speaker. The giver is the subject, and the receiver is the speaker or someone close to the speaker. くれる indicates that the action of giving 'favors' the speaker or someone close to the speaker.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "Giver + が + Receiver + に + Noun + を + くれる",
+    "components": []
+  },
+  "examples": [
+    {
+      "japanese": "友達が私にプレゼントをくれました。",
+      "romaji": "Tomodachi ga watashi ni purezento wo kuremashita.",
+      "english": "My friend gave me a present.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "彼が私に花をくれた。",
+      "romaji": "Kare ga watashi ni hana wo kureta.",
+      "english": "He gave me flowers.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "先生が私に本をくれました。",
+      "romaji": "Sensei ga watashi ni hon wo kuremashita.",
+      "english": "The teacher gave me a book.",
+      "breakdown": {},
+      "notes": ""
+    },
+    {
+      "japanese": "お母さんが弟にお菓子をくれました。",
+      "romaji": "Okaasan ga otouto ni okashi wo kuremashita.",
+      "english": "Mom gave my little brother some sweets.",
+      "breakdown": {},
+      "notes": ""
+    }
+  ],
+  "relatedPoints": [],
+  "commonMistakes": [],
+  "tags": [
+    "n4",
+    "hanabira-seed"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "kanji": "銀",
+  "sentences": [
+    {
+      "id": "179603",
+      "japanese": "銀とブリキの区別がつきますか。",
+      "english": "Can you distinguish silver from tin?"
+    },
+    {
+      "id": "179712",
+      "japanese": "金より銀の指輪の方が好きです。",
+      "english": "I prefer silver rings to gold ones."
+    },
+    {
+      "id": "179732",
+      "japanese": "金は銀より重い。",
+      "english": "Gold is heavier than silver."
+    },
+    {
+      "id": "200344",
+      "japanese": "どの雲にも銀の裏地がついている。",
+      "english": "Every cloud has a silver lining."
+    },
+    {
+      "id": "226325",
+      "japanese": "かつて日本では金は銀よりも価値が低かった。",
+      "english": "Once gold was less valuable than silver in Japan."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:45:55.889Z",
+  "count": 5,
+  "fileId": "kanji-00122"
+}

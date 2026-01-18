@@ -11,6 +11,9 @@ import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 import { useReCaptcha } from '@/components/ReCaptchaProvider'
 import { getDeviceInfo, isIOSPWAStandalone } from '@/lib/utils/device-detection'
 import { useAuth } from '@/hooks/useAuth'
+import { Eye, EyeOff } from 'lucide-react'
+
+const MAGIC_LINK_ENABLED = process.env.NEXT_PUBLIC_MAGIC_LINK_ENABLED === 'true'
 
 function SignInContent() {
   const router = useRouter()
@@ -19,9 +22,10 @@ function SignInContent() {
   const { strings } = useTranslation()
   const { getLocalePath } = useLocalePath()
   const { executeRecaptcha } = useReCaptcha()
-  const { isAuthenticated, loading: authLoading, signOut: signOutUser } = useAuth()
+  const { isAuthenticated, loading: authLoading, signOut: signOutUser, signIn } = useAuth()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const hasSignedOutRef = useRef(false)
@@ -76,58 +80,17 @@ function SignInContent() {
     }
 
     try {
-      // Execute reCAPTCHA
+      // Execute reCAPTCHA before Firebase sign-in (client-side protection)
       const recaptchaToken = await executeRecaptcha('signin')
-      logger.auth('reCAPTCHA token obtained', { hasToken: !!recaptchaToken })
+      logger.auth('Sign in reCAPTCHA token obtained', { hasToken: !!recaptchaToken })
 
-      const response = await fetch('/api/auth/signin', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, recaptchaToken })
-      })
-
-      const data = await response.json()
-      logger.auth('Sign in response', { status: response.status, data })
-
-      if (response.ok) {
-        // Store reCAPTCHA result for display on dashboard
-        if (data.recaptcha) {
-          sessionStorage.setItem('recaptcha_result', JSON.stringify({
-            verified: true,
-            score: data.recaptcha.score,
-            action: 'signin',
-            timestamp: Date.now()
-          }))
-        }
-
-        logger.auth('Sign in successful, redirecting to dashboard')
-        showToast(strings.auth.signin.messages.signinSuccess, 'success')
-        // Use window.location for a hard redirect to ensure navigation
-        setTimeout(() => {
-          window.location.href = buildLocalePath('/dashboard')
-        }, 100)
-      } else {
-        console.error('Sign in error:', data.error, 'Full response:', data)
-        // Handle various error response structures
-        let errorMessage = strings.auth.signin.errors.signinFailed
-
-        if (data.error) {
-          // Check if error has code or message properties
-          if (data.error.code) {
-            errorMessage = getUserFriendlyErrorMessage(data.error.code)
-          } else if (data.error.message) {
-            errorMessage = getUserFriendlyErrorMessage(data.error.message)
-          } else if (typeof data.error === 'string') {
-            errorMessage = getUserFriendlyErrorMessage(data.error)
-          }
-          // If error is an empty object or has no useful properties, use default message
-        } else if (data.message) {
-          // Sometimes the error might be at the root level
-          errorMessage = getUserFriendlyErrorMessage(data.message)
-        }
-
-        setError(errorMessage)
-      }
+      await signIn(email, password)
+      logger.auth('Sign in successful, redirecting to dashboard')
+      showToast(strings.auth.signin.messages.signinSuccess, 'success')
+      // Use window.location for a hard redirect to ensure navigation
+      setTimeout(() => {
+        window.location.href = buildLocalePath('/dashboard')
+      }, 100)
     } catch (err) {
       console.error('Sign in exception:', err)
       setError(getUserFriendlyErrorMessage(err))
@@ -295,7 +258,7 @@ function SignInContent() {
     setError('')
 
     try {
-      const response = await fetch('/api/auth/magic-link/request', {
+      const response = await fetch('/api/auth/magic-link', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
@@ -406,15 +369,30 @@ function SignInContent() {
               <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 {strings.auth.signin.form.labels.password}
               </label>
-              <input
-                id="password"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-                placeholder={strings.auth.signin.form.placeholders.password}
-                required
-              />
+              <div className="relative">
+                <input
+                  id="password"
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full px-4 py-2 pr-11 border border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                  placeholder={strings.auth.signin.form.placeholders.password}
+                  required
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  aria-pressed={showPassword}
+                  className="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5" aria-hidden="true" />
+                  ) : (
+                    <Eye className="h-5 w-5" aria-hidden="true" />
+                  )}
+                </button>
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
@@ -436,14 +414,16 @@ function SignInContent() {
             </button>
           </form>
 
-          <button
-            type="button"
-            onClick={handleMagicLink}
-            disabled={loading || !email}
-            className="w-full py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed mt-4"
-          >
-            {strings.auth.signin.alternativeAuth.magicLinkButton}
-          </button>
+          {MAGIC_LINK_ENABLED && (
+            <button
+              type="button"
+              onClick={handleMagicLink}
+              disabled={loading || !email}
+              className="w-full py-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 transition-all font-medium disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+            >
+              {strings.auth.signin.alternativeAuth.magicLinkButton}
+            </button>
+          )}
 
           <p className="text-center text-sm text-gray-600 dark:text-gray-400 mt-6">
             <Link href={getLocalePath('/auth/signup')} className="text-primary-600 dark:text-primary-400 hover:underline font-medium">

@@ -1,0 +1,33 @@
+{
+  "kanji": "嘆",
+  "sentences": [
+    {
+      "id": "186515",
+      "japanese": "過ぎ去ったことを嘆いてもしょうがない。",
+      "english": "It is no use crying over spilt milk."
+    },
+    {
+      "id": "219099",
+      "japanese": "こぼれたミルクを嘆いても無駄だ。",
+      "english": "It is no use crying over spilt milk."
+    },
+    {
+      "id": "206803",
+      "japanese": "その母親は子供の死をいまだに嘆き悲しんでいた。",
+      "english": "The mother was still grieving over her child's death."
+    },
+    {
+      "id": "214604",
+      "japanese": "すでに起こったこと嘆いても無駄だ。",
+      "english": "There's no use crying over spilt milk."
+    },
+    {
+      "id": "228552",
+      "japanese": "いまさら嘆いても、それこそ、後の祭だよ。",
+      "english": "You can regret it all you want, but it won't do you any good now."
+    }
+  ],
+  "generatedAt": "2026-01-17T18:46:29.785Z",
+  "count": 5,
+  "fileId": "kanji-01574"
+}
