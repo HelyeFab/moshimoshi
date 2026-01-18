@@ -10,6 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { t } = await getTranslations(locale as Locale)
 
   return generateLocalizedMetadata({
+    path: '/textbook-vocabulary',
     title: t('seo.textbookVocabulary.title'),
     description: t('seo.textbookVocabulary.description'),
   })

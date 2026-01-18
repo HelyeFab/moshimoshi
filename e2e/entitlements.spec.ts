@@ -499,6 +499,58 @@ test.describe('Entitlement gating (free vs premium)', () => {
         await setUsageDoc(userId, bucketKey, previousDoc)
       }
     })
+
+    test('story allows repeat reads even at daily limit', async ({ page }) => {
+      test.setTimeout(120000)
+      test.skip(!freeEmail || !freePassword, 'E2E_FREE_EMAIL/E2E_FREE_PASSWORD not set')
+
+      await ensureAuthenticated(page)
+
+      const storiesResponse = await page.request.get('/api/stories?limit=1&offset=0')
+      if (!storiesResponse.ok()) {
+        throw new Error(`Failed to load stories: ${storiesResponse.status()}`)
+      }
+      const storiesPayload = await storiesResponse.json()
+      const story = storiesPayload?.stories?.[0]
+      test.skip(!story?.slug || !story?.id, 'No stories available to validate')
+
+      const limits = loadLimits()
+      const limit = limits.free.daily.story
+      if (typeof limit !== 'number') {
+        test.skip(true, 'No story limit configured')
+      }
+
+      const userId = await resolveUserId(freeEmail!)
+      const today = new Date().toISOString().split('T')[0]
+      const bucketKey = `story_${today}`
+      const previousDoc = await getUsageDoc(userId, bucketKey)
+
+      try {
+        await admin
+          .firestore()
+          .collection('users')
+          .doc(userId)
+          .collection('usage')
+          .doc(bucketKey)
+          .set(
+            {
+              story: limit,
+              story_items: [story.id],
+              updatedAt: new Date().toISOString(),
+            },
+            { merge: true }
+          )
+
+        const responsePromise = page.waitForResponse(response =>
+          response.url().includes(`/api/stories/${story.slug}`)
+        )
+        await page.goto(`/en/stories/${story.slug}`)
+        const response = await responsePromise
+        expect(response.ok()).toBe(true)
+      } finally {
+        await setUsageDoc(userId, bucketKey, previousDoc)
+      }
+    })
   })
 })
 

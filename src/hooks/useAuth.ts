@@ -29,6 +29,7 @@ interface AuthUser {
   emailVerified: boolean
   isAnonymous: boolean
   isAdmin?: boolean
+  authProvider?: string | null
   metadata: {
     creationTime?: string
     lastSignInTime?: string
@@ -43,6 +44,13 @@ interface AuthState {
   isAuthenticated: boolean
   isGuest: boolean
   isOffline: boolean
+  debug?: {
+    lastSessionCheckAt: number | null
+    lastSessionCheck: any | null
+    lastSessionError: string | null
+    authFlowFlag: boolean
+    sessionHistory?: any[]
+  }
 }
 
 interface AuthMethods {
@@ -93,6 +101,7 @@ if (typeof window !== 'undefined') {
 const SESSION_CACHE_TTL = 5000 // 5 seconds cache TTL
 const OFFLINE_AUTH_CACHE_KEY = 'auth-user-cache'
 const AUTH_FLOW_FLAG = 'auth-flow-in-progress'
+const SESSION_HISTORY_KEY = 'auth-debug-session-history'
 
 // Hook to consume auth context
 export function useAuth(): Auth {
@@ -126,6 +135,11 @@ function useAuthProvider(): Auth {
     if (typeof navigator === 'undefined') return false
     return !navigator.onLine && !!getCachedAuthUser()
   })
+  const [lastSessionCheckAt, setLastSessionCheckAt] = useState<number | null>(null)
+  const [lastSessionCheck, setLastSessionCheck] = useState<any | null>(null)
+  const [lastSessionError, setLastSessionError] = useState<string | null>(null)
+  const [authFlowFlagState, setAuthFlowFlagState] = useState(false)
+  const [sessionHistory, setSessionHistory] = useState<any[]>([])
 
   // Wrap setUser for consistency
   const setUser = useCallback((newUser: AuthUser | null) => {
@@ -268,6 +282,7 @@ function useAuthProvider(): Auth {
             emailVerified: cachedData.user.emailVerified ?? true,
             isAnonymous: false,
             isAdmin: cachedData.user.isAdmin,
+            authProvider: cachedData.user.authProvider ?? null,
             metadata: {
               creationTime: cachedData.user.createdAt,
               lastSignInTime: cachedData.user.lastLoginAt
@@ -296,6 +311,7 @@ function useAuthProvider(): Auth {
             emailVerified: data.user.emailVerified ?? true,
             isAnonymous: false,
             isAdmin: data.user.isAdmin,
+            authProvider: data.user.authProvider ?? null,
             metadata: {
               creationTime: data.user.createdAt,
               lastSignInTime: data.user.lastLoginAt
@@ -335,6 +351,22 @@ function useAuthProvider(): Auth {
       sessionCache.data = data
 
       logger.auth('[useAuthProvider] Session data from API:', data)
+      setLastSessionCheckAt(Date.now())
+      setLastSessionCheck(data)
+      setLastSessionError(null)
+      if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
+        const nextEntry = {
+          at: Date.now(),
+          path: window.location.pathname,
+          authenticated: !!data?.authenticated,
+          user: data?.user ? { uid: data.user.uid, email: data.user.email } : null,
+        }
+        const existing = sessionStorage.getItem(SESSION_HISTORY_KEY)
+        const parsed = existing ? JSON.parse(existing) : []
+        const updated = [nextEntry, ...parsed].slice(0, 5)
+        sessionStorage.setItem(SESSION_HISTORY_KEY, JSON.stringify(updated))
+        setSessionHistory(updated)
+      }
 
       if (!data.authenticated && shouldRetryAfterAuthFlow()) {
         logger.auth('[useAuthProvider] Session not ready after auth flow, retrying...')
@@ -344,6 +376,22 @@ function useAuthProvider(): Auth {
           await new Promise((resolve) => setTimeout(resolve, retryDelays[i]))
           retryData = await fetchSession()
           logger.auth('[useAuthProvider] Session retry result', { attempt: i + 1, authenticated: retryData?.authenticated })
+          setLastSessionCheckAt(Date.now())
+          setLastSessionCheck(retryData)
+          if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
+            const retryEntry = {
+              at: Date.now(),
+              path: window.location.pathname,
+              authenticated: !!retryData?.authenticated,
+              user: retryData?.user ? { uid: retryData.user.uid, email: retryData.user.email } : null,
+              retry: i + 1,
+            }
+            const existing = sessionStorage.getItem(SESSION_HISTORY_KEY)
+            const parsed = existing ? JSON.parse(existing) : []
+            const updated = [retryEntry, ...parsed].slice(0, 5)
+            sessionStorage.setItem(SESSION_HISTORY_KEY, JSON.stringify(updated))
+            setSessionHistory(updated)
+          }
           if (retryData?.authenticated) {
             sessionCache.data = retryData
             break
@@ -362,6 +410,7 @@ function useAuthProvider(): Auth {
               emailVerified: retryData.user.emailVerified ?? true,
               isAnonymous: false,
               isAdmin: retryData.user.isAdmin,
+              authProvider: retryData.user.authProvider ?? null,
               metadata: {
                 creationTime: retryData.user.createdAt,
                 lastSignInTime: retryData.user.lastLoginAt
@@ -398,6 +447,7 @@ function useAuthProvider(): Auth {
           emailVerified: data.user.emailVerified ?? true,
           isAnonymous: false,
           isAdmin: data.user.isAdmin,
+          authProvider: data.user.authProvider ?? null,
           metadata: {
             creationTime: data.user.createdAt,
             lastSignInTime: data.user.lastLoginAt
@@ -432,6 +482,22 @@ function useAuthProvider(): Auth {
       return data
     } catch (err: any) {
       logger.error('Session check error:', err)
+      setLastSessionCheckAt(Date.now())
+      setLastSessionCheck(null)
+      setLastSessionError(err?.message || 'Unknown session check error')
+      if (typeof window !== 'undefined' && process.env.NODE_ENV !== 'production') {
+        const errorEntry = {
+          at: Date.now(),
+          path: window.location.pathname,
+          authenticated: false,
+          error: err?.message || 'Unknown session check error',
+        }
+        const existing = sessionStorage.getItem(SESSION_HISTORY_KEY)
+        const parsed = existing ? JSON.parse(existing) : []
+        const updated = [errorEntry, ...parsed].slice(0, 5)
+        sessionStorage.setItem(SESSION_HISTORY_KEY, JSON.stringify(updated))
+        setSessionHistory(updated)
+      }
       const isNavigatorOffline = typeof navigator !== 'undefined' && !navigator.onLine
       if (isNavigatorOffline && typeof window !== 'undefined') {
         const cachedAuth = localStorage.getItem(OFFLINE_AUTH_CACHE_KEY)
@@ -703,6 +769,17 @@ function useAuthProvider(): Auth {
 
   // Initialize auth state
   useEffect(() => {
+    if (typeof window !== 'undefined') {
+      setAuthFlowFlagState(sessionStorage.getItem(AUTH_FLOW_FLAG) === 'true')
+      if (process.env.NODE_ENV !== 'production') {
+        try {
+          const existing = sessionStorage.getItem(SESSION_HISTORY_KEY)
+          setSessionHistory(existing ? JSON.parse(existing) : [])
+        } catch {
+          setSessionHistory([])
+        }
+      }
+    }
     // Prevent duplicate initialization
     if (initializingRef.current || hasInitializedRef.current) {
       return
@@ -917,6 +994,13 @@ function useAuthProvider(): Auth {
     isAuthenticated: !!user,
     isGuest,
     isOffline,
+    debug: process.env.NODE_ENV !== 'production' ? {
+      lastSessionCheckAt,
+      lastSessionCheck,
+      lastSessionError,
+      authFlowFlag: authFlowFlagState,
+      sessionHistory,
+    } : undefined,
 
     // Methods
     signIn,
@@ -926,7 +1010,25 @@ function useAuthProvider(): Auth {
     signOut: signOutUser,
     refreshSession,
     clearError
-  }), [user, loading, error, isGuest, isOffline, signIn, signUp, signInWithGoogle, signInWithApple, signOutUser, refreshSession, clearError])
+  }), [
+    user,
+    loading,
+    error,
+    isGuest,
+    isOffline,
+    lastSessionCheckAt,
+    lastSessionCheck,
+    lastSessionError,
+    authFlowFlagState,
+    sessionHistory,
+    signIn,
+    signUp,
+    signInWithGoogle,
+    signInWithApple,
+    signOutUser,
+    refreshSession,
+    clearError
+  ])
 
   return authValue
 }

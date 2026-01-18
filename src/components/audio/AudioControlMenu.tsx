@@ -11,6 +11,9 @@ interface AudioControlMenuProps {
   isPlayingFullStory: boolean
   isStoryLoopEnabled: boolean
   isScreenLocked?: boolean
+  isArticleLoopEnabled?: boolean
+  repeatCount?: number
+  currentRepeat?: number
 
   // Status info
   currentPage: number
@@ -23,6 +26,9 @@ interface AudioControlMenuProps {
   onRestartFullStory: () => void
   onToggleLoop: () => void
   onToggleLock?: () => void
+  onToggleArticleLoop?: () => void
+  onRepeatCountChange?: (value: number) => void
+  showArticleLoopControls?: boolean
 
   // UI customization
   className?: string
@@ -34,6 +40,9 @@ export default function AudioControlMenu({
   isPlayingFullStory,
   isStoryLoopEnabled,
   isScreenLocked = false,
+  isArticleLoopEnabled = false,
+  repeatCount = 1,
+  currentRepeat = 1,
   currentPage,
   totalPages,
   onPlayPage,
@@ -42,12 +51,19 @@ export default function AudioControlMenu({
   onRestartFullStory,
   onToggleLoop,
   onToggleLock,
+  onToggleArticleLoop,
+  onRepeatCountChange,
+  showArticleLoopControls = false,
   className = '',
   disabled = false,
 }: AudioControlMenuProps) {
   const { t } = useI18n()
   const [isOpen, setIsOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const getLabel = (key: string, fallback: string) => {
+    const value = t(key)
+    return value === key ? fallback : value
+  }
 
   // Detect mobile viewport
   useEffect(() => {
@@ -129,6 +145,94 @@ export default function AudioControlMenu({
           </div>
         </button>
       </div>
+
+      {/* Article Loop + Repeat + Lock (TTS/VOICEVOX only) */}
+      {showArticleLoopControls && onToggleArticleLoop && onRepeatCountChange && (
+        <div className="space-y-3 pt-2 border-t border-gray-200 dark:border-gray-700">
+          <button
+            onClick={() => {
+              onToggleArticleLoop()
+              setIsOpen(false)
+            }}
+            className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 ${
+              isArticleLoopEnabled
+                ? 'bg-primary-500 text-white'
+                : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500'
+            }`}
+          >
+            <Repeat className="w-4 h-4" />
+            <div className="flex-1 text-left">
+              <div className="text-sm font-medium">
+                {getLabel('story.loop', 'Loop Full Audio')}
+              </div>
+            </div>
+          </button>
+
+          <div className={`${isArticleLoopEnabled ? '' : 'opacity-50 pointer-events-none'}`}>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {getLabel('youtubeShadowing.form.repeatLabel', 'Repeat count (1-10)')}
+            </label>
+
+            {/* Stepper controls */}
+            <div className="flex items-center justify-center gap-4 p-3 bg-gray-50 dark:bg-gray-900/50 rounded-lg">
+              <button
+                onClick={() => onRepeatCountChange?.(Math.max(1, repeatCount - 1))}
+                className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors active:scale-95"
+                disabled={!isArticleLoopEnabled || repeatCount <= 1}
+              >
+                <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">−</span>
+              </button>
+
+              <div className="flex flex-col items-center gap-1">
+                <input
+                  type="number"
+                  min="1"
+                  max="10"
+                  value={repeatCount}
+                  disabled={!isArticleLoopEnabled}
+                  onChange={(e) => {
+                    const value = Math.max(1, Math.min(10, Number(e.target.value)));
+                    onRepeatCountChange?.(value);
+                  }}
+                  className="w-16 px-2 py-2 text-center text-lg font-semibold border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-800 focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                />
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  {currentRepeat}/{repeatCount}
+                </span>
+              </div>
+
+              <button
+                onClick={() => onRepeatCountChange?.(Math.min(10, repeatCount + 1))}
+                className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors active:scale-95"
+                disabled={!isArticleLoopEnabled || repeatCount >= 10}
+              >
+                <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">+</span>
+              </button>
+            </div>
+          </div>
+
+          {onToggleLock && (
+            <button
+              onClick={() => {
+                if (!isArticleLoopEnabled) return
+                onToggleLock()
+                setIsOpen(false)
+              }}
+              disabled={!isArticleLoopEnabled}
+              className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-primary-400 dark:hover:border-primary-500 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <Lock className="w-4 h-4 text-primary-500" />
+              <div className="flex-1 text-left">
+                <div className="text-sm font-medium">
+                  {isScreenLocked
+                    ? getLabel('story.unlock', 'Unlock Screen')
+                    : getLabel('story.lock', 'Lock Screen')}
+                </div>
+              </div>
+            </button>
+          )}
+        </div>
+      )}
     </div>
   )
 

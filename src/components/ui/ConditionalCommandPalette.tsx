@@ -14,7 +14,7 @@ export default function ConditionalCommandPalette() {
   const shouldHide =
     pathname === '/' ||
     pathname === '/landing' ||
-    pathname.startsWith('/auth/')
+    pathname.includes('/auth/')
 
   if (shouldHide) {
     return null

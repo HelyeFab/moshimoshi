@@ -10,6 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { t } = await getTranslations(locale as Locale)
 
   return generateLocalizedMetadata({
+    path: '/youtube-series',
     title: t('seo.youtubeSeries.title'),
     description: t('seo.youtubeSeries.description'),
   })

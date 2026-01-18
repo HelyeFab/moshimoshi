@@ -6,10 +6,11 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { locale } = await params
+  const { locale, deckId } = await params
   const { t } = await getTranslations(locale as Locale)
 
   return generateLocalizedMetadata({
+    path: `/anki-study/${deckId}`,
     title: t('seo.ankiStudy.title'),
     description: t('seo.ankiStudy.description'),
   })

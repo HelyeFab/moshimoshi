@@ -10,6 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { t } = await getTranslations(locale as Locale)
 
   return generateLocalizedMetadata({
+    path: '/games/sentence-scramble',
     title: t('seo.games.sentenceScramble.title'),
     description: t('seo.games.sentenceScramble.description'),
   })

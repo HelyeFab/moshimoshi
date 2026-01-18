@@ -10,6 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { t } = await getTranslations(locale as Locale)
 
   return generateLocalizedMetadata({
+    path: '/tools/kanji-mastery',
     title: t('seo.kanjiMastery.title'),
     description: t('seo.kanjiMastery.description'),
   })

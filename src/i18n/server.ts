@@ -63,6 +63,8 @@ export async function getTranslations(localeOverride?: Locale) {
 export interface LocalizedMetadataOptions {
   title: string;
   description: string;
+  /** Optional path without locale prefix (e.g., '/about' or '/learn/grammar/teiru') */
+  path?: string;
   /** Optional title template, defaults to '%s | Moshimoshi' */
   titleTemplate?: string;
   /** Additional metadata properties */
@@ -95,19 +97,26 @@ export interface LocalizedMetadataOptions {
 export async function generateLocalizedMetadata(
   options: LocalizedMetadataOptions
 ): Promise<Metadata> {
-  const { title, description, titleTemplate = '%s | Moshimoshi', other = {} } = options;
+  const { title, description, path, titleTemplate = '%s | Moshimoshi', other = {} } = options;
   const currentLocale = (await getLocale()) as Locale;
 
   // Generate alternate links for all locales
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://moshimoshi.app';
+  const localePrefixRegex = new RegExp(`^/(${locales.join('|')})(?=/|$)`, 'i');
+  const rawPath = path ?? '';
+  const normalizedPath = rawPath
+    ? rawPath.startsWith('/') ? rawPath : `/${rawPath}`
+    : '';
+  const pathWithoutLocale = normalizedPath.replace(localePrefixRegex, '');
+  const canonicalPath = pathWithoutLocale === '/' ? '' : pathWithoutLocale.replace(/\/$/, '');
 
   // Create language alternates for SEO
   const languages: Record<string, string> = {};
   for (const loc of locales) {
-    languages[loc] = `${baseUrl}/${loc}`;
+    languages[loc] = `${baseUrl}/${loc}${canonicalPath}`;
   }
   // Add x-default for users with unsupported locales (falls back to English)
-  languages['x-default'] = `${baseUrl}/${defaultLocale}`;
+  languages['x-default'] = `${baseUrl}/${defaultLocale}${canonicalPath}`;
 
   return {
     title: {
@@ -116,7 +125,7 @@ export async function generateLocalizedMetadata(
     },
     description,
     alternates: {
-      canonical: `${baseUrl}/${currentLocale}`,
+      canonical: `${baseUrl}/${currentLocale}${canonicalPath}`,
       languages,
     },
     openGraph: {

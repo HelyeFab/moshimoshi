@@ -14,6 +14,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { t } = await getTranslations(locale as Locale)
 
   return generateLocalizedMetadata({
+    path: '/kanji-connection/families',
     title: t('seo.kanjiConnection.families.title'),
     description: t('seo.kanjiConnection.families.description'),
   })

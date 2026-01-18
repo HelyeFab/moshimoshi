@@ -14,6 +14,7 @@ import { TTSLoadingProvider } from '@/components/tts';
 import CelebrationProvider from '@/components/gamification/CelebrationProvider';
 import { ConjugationHelpProvider } from '@/contexts/ConjugationHelpContext';
 import { EmailVerificationBanner } from '@/components/EmailVerificationBanner';
+import { DevAuthDebugBanner } from '@/components/DevAuthDebugBanner';
 import ConditionalCommandPalette from '@/components/ui/ConditionalCommandPalette';
 import TimeMachineButton from '@/components/dev/TimeMachineButton';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
@@ -68,6 +69,7 @@ export default async function LocaleLayout({
                   <CelebrationProvider>
                     <TTSLoadingProvider>
                       <OfflineBanner />
+                      <DevAuthDebugBanner />
                       <EmailVerificationBanner />
                       {children}
                       {process.env.NODE_ENV === 'development' &&

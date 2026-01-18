@@ -255,10 +255,25 @@ export default function MoshiShadowingPlayer({
     setCurrentRepeat(result.currentRepeat);
 
     if (result.didAdvanceSegment) {
+      const wasPlaying = isPlayingRef.current;
+      isManualStopRef.current = true;
+      stopTTS();
+      if (pauseTimeoutRef.current) {
+        clearTimeout(pauseTimeoutRef.current);
+        pauseTimeoutRef.current = null;
+      }
       currentSentenceIndexRef.current = result.segmentIndex;
       setCurrentSentenceIndex(result.segmentIndex);
+
+      if (wasPlaying) {
+        setIsPlaying(true);
+        isPlayingRef.current = true;
+        setTimeout(() => {
+          playSentence(result.segmentIndex);
+        }, 50);
+      }
     }
-  }, [sentences.length]);
+  }, [sentences.length, stopTTS, playSentence]);
 
   // Handle word tap
   const handleWordTap = useCallback(async (word: string, context: string) => {

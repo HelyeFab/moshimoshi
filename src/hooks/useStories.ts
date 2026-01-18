@@ -214,6 +214,11 @@ export function useStories() {
             setUserProgress(progressMap);
           },
           (error) => {
+            const code = (error as { code?: string }).code;
+            if (code === 'permission-denied' || !user?.uid) {
+              console.warn('[useStories] Story progress listener stopped due to auth change.');
+              return;
+            }
             console.error('Error fetching story progress:', error);
           }
         );

@@ -11,6 +11,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     ...await generateLocalizedMetadata({
+      path: '/drill',
       title: t('seo.drill.title'),
       description: t('seo.drill.description'),
     }),

@@ -12,6 +12,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     ...await generateLocalizedMetadata({
+      path: '/my-videos',
       title: t('seo.myVideosPage.title'),
       description: t('seo.myVideosPage.description'),
     }),

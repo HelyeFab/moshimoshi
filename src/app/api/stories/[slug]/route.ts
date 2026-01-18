@@ -98,11 +98,15 @@ export async function GET(
 
       const evaluated = evaluate('story', context)
 
-      if (!evaluated.allow) {
-        return evaluated
+      if (storyItems.includes(storyId)) {
+        return {
+          ...evaluated,
+          allow: true,
+          reason: 'ok'
+        }
       }
 
-      if (storyItems.includes(storyId)) {
+      if (!evaluated.allow) {
         return evaluated
       }
 
@@ -129,19 +133,57 @@ export async function GET(
     })
 
     if (!decision.allow) {
-      console.log('[API Story Detail] Access denied:', {
-        slug,
-        userId: session.uid,
-        reason: decision.reason,
-        decision
-      })
-      return NextResponse.json(
-        {
-          error: decision.reason === 'limit_reached' ? 'Daily limit reached' : 'Access denied',
+      if (decision.reason === 'limit_reached') {
+        const progressSnapshot = await adminFirestore
+          .collection('storyProgress')
+          .where('userId', '==', session.uid)
+          .where('storyId', '==', storyId)
+          .limit(1)
+          .get()
+
+        if (!progressSnapshot.empty) {
+          await adminFirestore
+            .collection('users')
+            .doc(session.uid)
+            .collection('usage')
+            .doc(bucketKey)
+            .set(
+              {
+                story_items: FieldValue.arrayUnion(storyId),
+                updatedAt: nowUtcISO
+              },
+              { merge: true }
+            )
+        } else {
+          console.log('[API Story Detail] Access denied:', {
+            slug,
+            userId: session.uid,
+            reason: decision.reason,
+            decision
+          })
+          return NextResponse.json(
+            {
+              error: 'Daily limit reached',
+              decision
+            },
+            { status: 429 }
+          )
+        }
+      } else {
+        console.log('[API Story Detail] Access denied:', {
+          slug,
+          userId: session.uid,
+          reason: decision.reason,
           decision
-        },
-        { status: decision.reason === 'limit_reached' ? 429 : 403 }
-      )
+        })
+        return NextResponse.json(
+          {
+            error: 'Access denied',
+            decision
+          },
+          { status: 403 }
+        )
+      }
     }
 
     await adminFirestore.collection('stories').doc(storyId).update({

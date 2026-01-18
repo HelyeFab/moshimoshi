@@ -133,6 +133,7 @@ export async function GET(request: NextRequest) {
           photoURL: userProfile?.photoURL || null,
           emailVerified: userProfile?.emailVerified || false,
           isAdmin: userProfile?.isAdmin === true || session.admin === true, // Combine Firebase flag + session claim
+          authProvider: userProfile?.authProvider || null,
           admin: session.admin || false, // Keep for backward compatibility
         },
         expiresIn,

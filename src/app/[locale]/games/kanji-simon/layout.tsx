@@ -10,6 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { t } = await getTranslations(locale as Locale)
 
   return generateLocalizedMetadata({
+    path: '/games/kanji-simon',
     title: t('seo.games.kanjiSimon.title'),
     description: t('seo.games.kanjiSimon.description'),
   })

@@ -66,28 +66,33 @@ export default function StoryDetailPage() {
             errorText ||
             'Unknown error'
 
-          // Log detailed error info for debugging
-          console.error('[Story Detail] API Error:', {
-            status: response.status,
-            statusText: response.statusText,
-            errorMessage,
-            slug,
-            errorData,
-            errorText
-          })
-
-          // Throw specific error based on status code
-          if (response.status === 401) {
-            throw new Error('Please sign in to view stories')
-          } else if (response.status === 403) {
-            throw new Error('You do not have permission to view this story')
-          } else if (response.status === 429) {
-            throw new Error('Daily story limit reached. Upgrade to premium for unlimited access.')
-          } else if (response.status === 404) {
-            throw new Error('Story not found or is not published')
-          } else {
-            throw new Error(`Failed to load story: ${errorMessage}`)
+          const isExpectedStatus = [401, 403, 404, 429].includes(response.status)
+          if (!isExpectedStatus) {
+            console.error('[Story Detail] API Error:', {
+              status: response.status,
+              statusText: response.statusText,
+              errorMessage,
+              slug,
+              errorData,
+              errorText
+            })
           }
+
+          if (response.status === 401) {
+            showToast('Please sign in to view stories', 'error')
+          } else if (response.status === 403) {
+            showToast('You do not have permission to view this story', 'error')
+          } else if (response.status === 429) {
+            showToast('Daily story limit reached. Upgrade to premium for unlimited access.', 'warning')
+          } else if (response.status === 404) {
+            showToast('Story not found or is not published', 'error')
+          } else {
+            showToast(`Failed to load story: ${errorMessage}`, 'error')
+          }
+
+          setLoading(false)
+          router.push('/stories')
+          return
         }
 
         const data = await response.json()
@@ -139,7 +144,9 @@ export default function StoryDetailPage() {
   }
 
   const handleBack = () => {
-    router.push('/stories')
+    // On mobile, go to dashboard; on desktop, go to stories list
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+    router.push(isMobile ? '/dashboard' : '/stories')
   }
 
   if (loading) {

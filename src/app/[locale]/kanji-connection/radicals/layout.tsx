@@ -11,6 +11,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     ...await generateLocalizedMetadata({
+      path: '/kanji-connection/radicals',
       title: t('seo.kanji.radicals.title'),
       description: t('seo.kanji.radicals.description'),
     }),

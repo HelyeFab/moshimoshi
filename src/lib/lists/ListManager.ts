@@ -508,8 +508,17 @@ class ListManager {
     }
 
     let syncedCount = 0;
+    let warnedForeignLists = false;
 
     for (const list of localLists) {
+      if (list.userId !== userId) {
+        if (!warnedForeignLists) {
+          console.warn('[ListManager.syncLocalListsToServer] Skipping lists for a different user');
+          warnedForeignLists = true;
+        }
+        continue;
+      }
+
       try {
         // Check if list exists on server first
         const checkResponse = await fetch(`/api/lists/${list.id}`, {
@@ -529,7 +538,16 @@ class ListManager {
           if (response.ok) {
             syncedCount++;
           } else {
-            console.error('[ListManager.syncLocalListsToServer] Failed to sync list:', list.name, await response.text());
+            const responseText = await response.text().catch(() => '');
+            const isForeignUser = response.status === 403 && responseText.includes('Cannot sync lists for other users');
+            if (isForeignUser) {
+              if (!warnedForeignLists) {
+                console.warn('[ListManager.syncLocalListsToServer] Skipping lists for a different user');
+                warnedForeignLists = true;
+              }
+              continue;
+            }
+            console.error('[ListManager.syncLocalListsToServer] Failed to sync list:', list.name, responseText);
           }
         }
       } catch (error) {

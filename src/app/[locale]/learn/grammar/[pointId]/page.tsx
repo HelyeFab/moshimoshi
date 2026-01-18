@@ -133,6 +133,7 @@ export async function generateMetadata({
     }
 
     return generateLocalizedMetadata({
+      path: `/learn/grammar/${pointId}`,
       title: t('grammarStall.breadcrumb.grammar'),
       description: t('grammarStall.description', { count: fallbackCount }),
     })

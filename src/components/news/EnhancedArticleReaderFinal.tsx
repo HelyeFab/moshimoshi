@@ -180,7 +180,6 @@ import {
 } from 'lucide-react'
 import { useNewsProgress } from '@/hooks/useNewsProgress'
 import NewsArticleFallbackImage from './NewsArticleFallbackImage'
-import AudioControlMenu from '@/components/audio/AudioControlMenu'
 import { LockScreen } from '@/components/ui/LockScreen'
 
 interface NewsArticle {
@@ -813,6 +812,16 @@ export default function EnhancedArticleReader({
       console.error('TTS Error in article reader:', err)
       // TODO: Could integrate with toast notification system if available
     },
+    onEnd: () => {
+      if (playingSentenceIndex !== null) return
+      if (isPlayingFullStoryRef.current) return
+      if (!isArticleLoopEnabledRef.current) {
+        currentRepeatRef.current = 1
+        setCurrentRepeat(1)
+        return
+      }
+      handleArticleAudioEnd()
+    },
   })
   const [settings, setSettings] = useState<ReadingSettings>({
     fontSize: 'medium',
@@ -923,6 +932,9 @@ export default function EnhancedArticleReader({
   const currentPageImage = isStoryMode ? pages![currentPageIndex].imageUrl : article.imageUrl
   const totalPages = isStoryMode ? pages!.length : 1
   const displayTitle = storyTitle || article.title
+  const fullAudioContent = isStoryMode
+    ? pages?.map(p => p.text || '').filter(Boolean).join(' ') || ''
+    : (typeof article.content === 'string' ? article.content : '')
 
   // Handle mark complete with celebration screen and URE event emission
   const handleMarkComplete = async () => {
@@ -1130,6 +1142,14 @@ export default function EnhancedArticleReader({
   const isStoryLoopEnabledRef = useRef(false) // Ref to access in audio callbacks
   const fullStoryFailureCountRef = useRef(0) // Track consecutive pages without audio
 
+  // Article-level loop + repeat (TTS/VOICEVOX only)
+  const [isArticleLoopEnabled, setIsArticleLoopEnabled] = useState(false)
+  const [repeatCount, setRepeatCount] = useState(3)
+  const [currentRepeat, setCurrentRepeat] = useState(1)
+  const isArticleLoopEnabledRef = useRef(false)
+  const repeatCountRef = useRef(3)
+  const currentRepeatRef = useRef(1)
+
   // Lock screen state (prevents accidental touches during full story playback)
   const [isScreenLocked, setIsScreenLocked] = useState(false)
 
@@ -1145,6 +1165,9 @@ export default function EnhancedArticleReader({
     setPlaybackRate: setNhkPlaybackRate,
     initialize: initializeNhkAudio,
   } = useNhkAudio()
+
+  const isArticleAudioActive =
+    (ttsPlaying || isPreGeneratedPlaying) && !isPlayingFullStory && !isNhkPlaying
 
   // AI word explanation feature
   const [isWordModalOpen, setIsWordModalOpen] = useState(false)
@@ -1180,6 +1203,10 @@ export default function EnhancedArticleReader({
       ttsStop()
       // Reset full story mode
       setIsPlayingFullStory(false)
+      // Reset article loop + repeat
+      setIsArticleLoopEnabled(false)
+      setRepeatCount(3)
+      setCurrentRepeat(1)
       // Reset lock screen
       setIsScreenLocked(false)
     }
@@ -1193,6 +1220,18 @@ export default function EnhancedArticleReader({
   useEffect(() => {
     isStoryLoopEnabledRef.current = isStoryLoopEnabled
   }, [isStoryLoopEnabled])
+
+  useEffect(() => {
+    isArticleLoopEnabledRef.current = isArticleLoopEnabled
+  }, [isArticleLoopEnabled])
+
+  useEffect(() => {
+    repeatCountRef.current = repeatCount
+  }, [repeatCount])
+
+  useEffect(() => {
+    currentRepeatRef.current = currentRepeat
+  }, [currentRepeat])
 
   // Prefetch word explanations for instant modal response
   useEffect(() => {
@@ -1379,8 +1418,14 @@ export default function EnhancedArticleReader({
       appTtsFallback: '✅ Always available (Priority 2)',
     })
 
+    const isActiveAudio = ttsPlaying || isPreGeneratedPlaying || !!currentTTSText
+    if (isArticleLoopEnabledRef.current && !isActiveAudio) {
+      currentRepeatRef.current = 1
+      setCurrentRepeat(1)
+    }
+
     // Use pre-generated VOICEVOX if present; otherwise app TTS fallback
-    handleVoicevoxOrTTSFallback()
+    handleVoicevoxOrTTSFallback({ forceFullAudio: isArticleLoopEnabledRef.current })
   }
 
   // ============================================
@@ -1579,6 +1624,10 @@ export default function EnhancedArticleReader({
     }
     setIsPreGeneratedPlaying(false)
     ttsStop()
+    if (isArticleLoopEnabledRef.current) {
+      currentRepeatRef.current = 1
+      setCurrentRepeat(1)
+    }
 
     // Restart current audio (whether it's an article, single page, or current page in full story)
     setTimeout(() => {
@@ -1595,11 +1644,59 @@ export default function EnhancedArticleReader({
   }
 
   /**
+   * Toggle loop mode for full article audio (TTS/VOICEVOX only)
+   */
+  const handleToggleArticleLoop = () => {
+    setIsArticleLoopEnabled(prev => {
+      const next = !prev
+      if (!next) {
+        currentRepeatRef.current = 1
+        setCurrentRepeat(1)
+      } else if (isArticleAudioActive) {
+        currentRepeatRef.current = 1
+        setCurrentRepeat(1)
+        if (preGeneratedAudioRef.current) {
+          cleanupAudio(preGeneratedAudioRef.current)
+          preGeneratedAudioRef.current = null
+          setIsPreGeneratedPlaying(false)
+        }
+        ttsStop()
+        setTimeout(() => {
+          handleVoicevoxOrTTSFallback({ forceFullAudio: true })
+        }, 150)
+      }
+      return next
+    })
+  }
+
+  /**
+   * Change repeat count for full article audio
+   */
+  const handleArticleRepeatChange = (value: number) => {
+    const nextCount = Math.min(10, Math.max(1, Math.floor(value)))
+    setRepeatCount(nextCount)
+    repeatCountRef.current = nextCount
+    if (currentRepeatRef.current > nextCount) {
+      currentRepeatRef.current = nextCount
+      setCurrentRepeat(nextCount)
+    }
+  }
+
+  /**
    * Toggle lock screen (prevents accidental touches)
    */
   const handleToggleLock = () => {
-    setIsScreenLocked(prev => !prev)
-    console.log(`[Lock Screen] ${!isScreenLocked ? 'Locked' : 'Unlocked'}`)
+    if (isScreenLocked) {
+      return
+    }
+    if (!isArticleLoopEnabled && !isStoryLoopEnabled) {
+      return
+    }
+    if (isArticleLoopEnabled && !isArticleAudioActive) {
+      handlePlayArticle()
+    }
+    setIsScreenLocked(true)
+    console.log('[Lock Screen] Locked')
   }
 
   /**
@@ -1612,12 +1709,20 @@ export default function EnhancedArticleReader({
 
   // Auto-unlock when conditions change
   useEffect(() => {
-    // Unlock if full story stops or loop is disabled
-    if (isScreenLocked && (!isPlayingFullStory || !isStoryLoopEnabled)) {
+    const shouldStayLocked =
+      (isPlayingFullStory && isStoryLoopEnabled) || isArticleLoopEnabled
+
+    // Unlock if playback/loop conditions are no longer satisfied
+    if (isScreenLocked && !shouldStayLocked) {
       console.log('[Lock Screen] Auto-unlocking - playback conditions changed')
       setIsScreenLocked(false)
     }
-  }, [isScreenLocked, isPlayingFullStory, isStoryLoopEnabled])
+  }, [
+    isScreenLocked,
+    isPlayingFullStory,
+    isStoryLoopEnabled,
+    isArticleLoopEnabled,
+  ])
 
   // Handle NHK HLS audio playback (Priority 1)
   const handleNhkAudioPlayback = async () => {
@@ -1657,13 +1762,20 @@ export default function EnhancedArticleReader({
   }
 
   // Handle VOICEVOX TTS playback
-  const handleVoicevoxOrTTSFallback = async () => {
+  const handleVoicevoxOrTTSFallback = async (
+    options?: {
+      forceFullAudio?: boolean
+    }
+  ) => {
     console.log('%c🔄 Attempting VOICEVOX TTS playback...', 'color: #FF9800; font-weight: bold;')
 
     // In story mode, prefer per-page audio URL if available
     // This allows audio to naturally stop at page boundaries
     const currentPageAudioUrl = isStoryMode ? pages![currentPageIndex]?.audioUrl : undefined
-    const audioUrlToUse = currentPageAudioUrl || article.generatedContentAudioUrl
+    const shouldForceFullAudio = options?.forceFullAudio ?? false
+    const audioUrlToUse = shouldForceFullAudio
+      ? article.generatedContentAudioUrl
+      : (currentPageAudioUrl || article.generatedContentAudioUrl)
 
     if (audioUrlToUse) {
       // If already playing VOICEVOX audio, pause it
@@ -1701,9 +1813,9 @@ export default function EnhancedArticleReader({
 
       // Otherwise, start playing VOICEVOX audio from beginning
       try {
-        const isPerPageAudio = !!currentPageAudioUrl
+        const isPerPageAudio = !shouldForceFullAudio && !!currentPageAudioUrl
         console.log(
-          `%c[Audio] SOURCE: FIREBASE PRE-CACHED (${isPerPageAudio ? 'Per-Page' : 'Full Story'} VOICEVOX TTS)`,
+          `%c[Audio] SOURCE: FIREBASE PRE-CACHED (${isPerPageAudio ? 'Per-Page' : 'Full Audio'} VOICEVOX TTS)`,
           'color: #ff9900; font-weight: bold',
           {
             provider: article.audioProvider || 'voicevox',
@@ -1742,6 +1854,7 @@ export default function EnhancedArticleReader({
         audio.onended = () => {
           setIsPreGeneratedPlaying(false)
           console.log('[Article Reader] VOICEVOX TTS audio finished')
+          handleArticleAudioEnd()
         }
 
         audio.onerror = () => {
@@ -1767,7 +1880,7 @@ export default function EnhancedArticleReader({
           setIsPreGeneratedPlaying(false)
           // Fall back to app TTS on error
           console.log('[Article Reader] Falling back to app TTS')
-          handleTTSPlayback()
+          handleTTSPlayback({ forceFullAudio: shouldForceFullAudio })
         }
 
         preGeneratedAudioRef.current = audio
@@ -1778,7 +1891,13 @@ export default function EnhancedArticleReader({
         )
         console.log('Provider: VOICEVOX (pre-generated, cached in Firebase Storage)')
         return
-      } catch (error) {
+      } catch (error: any) {
+        if (
+          error?.name === 'AbortError' ||
+          String(error?.message || '').includes('play() request was interrupted')
+        ) {
+          return
+        }
         console.error('[Article Reader] Failed to play VOICEVOX audio:', error)
         // Fall through to app TTS fallback
       }
@@ -1792,11 +1911,11 @@ export default function EnhancedArticleReader({
         reason: 'No pre-cached audio available',
       }
     )
-    handleTTSPlayback()
+    handleTTSPlayback({ forceFullAudio: shouldForceFullAudio })
   }
 
   // Separate TTS playback logic for cleaner code
-  const handleTTSPlayback = async () => {
+  const handleTTSPlayback = async (options?: { forceFullAudio?: boolean }) => {
     // If already playing TTS, pause it
     if (ttsPlaying) {
       ttsPause()
@@ -1818,7 +1937,11 @@ export default function EnhancedArticleReader({
       console.log(
         'Provider chain: VOICEVOX → ElevenLabs (check server logs for actual provider used)'
       )
-      await playTTS(article.content, {
+      const shouldForceFullAudio = options?.forceFullAudio ?? false
+      const textToPlay = shouldForceFullAudio && fullAudioContent
+        ? fullAudioContent
+        : currentContent
+      await playTTS(textToPlay, {
         speed: settings.playbackSpeed,
       })
       console.log('Article playback started with App TTS fallback')
@@ -1827,6 +1950,34 @@ export default function EnhancedArticleReader({
       // Error already logged by onError callback in useTTS
       // Could show user-facing error notification here if toast system exists
     }
+  }
+
+  /**
+   * Handle end of full-article audio (VOICEVOX or App TTS) for loop/repeat
+   */
+  const handleArticleAudioEnd = () => {
+    if (playingSentenceIndex !== null) return
+    if (isPlayingFullStoryRef.current) return
+    if (isNhkPlaying) return
+
+    if (!isArticleLoopEnabledRef.current) {
+      currentRepeatRef.current = 1
+      setCurrentRepeat(1)
+      return
+    }
+
+    const nextRepeat = currentRepeatRef.current + 1
+    if (nextRepeat <= repeatCountRef.current) {
+      currentRepeatRef.current = nextRepeat
+      setCurrentRepeat(nextRepeat)
+      setTimeout(() => {
+        handleVoicevoxOrTTSFallback({ forceFullAudio: true })
+      }, 150)
+      return
+    }
+
+    currentRepeatRef.current = 1
+    setCurrentRepeat(1)
   }
 
   // Split article content into sentences
@@ -2153,60 +2304,45 @@ export default function EnhancedArticleReader({
             </button>
           )}
 
-          {/* Audio Controls - Use AudioControlMenu for all content types */}
-          {/* Show full menu when audio is playing OR for multi-page stories */}
-          {(isStoryMode && totalPages > 1) || (ttsPlaying || isPreGeneratedPlaying) ? (
-            <AudioControlMenu
-              className="ml-auto"
-              isPlayingPage={ttsPlaying || isPreGeneratedPlaying}
-              isPlayingFullStory={isPlayingFullStory}
-              isStoryLoopEnabled={isStoryLoopEnabled}
-              isScreenLocked={isScreenLocked}
-              currentPage={currentPageIndex}
-              totalPages={totalPages}
-              onPlayPage={handlePlayArticle}
-              onPlayFullStory={handlePlayFullStory}
-              onStopFullStory={handleStopFullStory}
-              onRestartFullStory={handleRestartFullStory}
-              onToggleLoop={handleToggleStoryLoop}
-              onToggleLock={handleToggleLock}
-              disabled={ttsLoading}
-            />
-          ) : (
-            <button
-              onClick={handlePlayArticle}
-              disabled={ttsLoading}
-              className={`ml-auto px-5 py-2 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 shadow-sm font-medium ${
-                ttsLoading
-                  ? 'bg-gray-100 text-gray-400 cursor-wait'
-                  : 'bg-primary-500 text-white hover:bg-primary-600 hover:shadow-md hover:shadow-primary-500/20'
-              }`}
-              aria-label={
-                ttsLoading
-                  ? t('common.loading')
-                  : ttsPlaying || isPreGeneratedPlaying
-                    ? t('common.pause')
-                    : t('common.play')
-              }
-            >
-              {ttsLoading ? (
-                <>
-                  <div className="animate-spin w-4 h-4 border-2 border-white/80 border-t-transparent rounded-full" />
-                  <span className="text-sm hidden sm:inline">{t('common.loading')}</span>
-                </>
-              ) : ttsPlaying || isPreGeneratedPlaying ? (
-                <>
-                  <Pause className="w-4 h-4 fill-current" />
-                  <span className="text-sm hidden sm:inline">{t('common.pause')}</span>
-                </>
-              ) : (
-                <>
-                  <Play className="w-4 h-4 fill-current" />
-                  <span className="text-sm hidden sm:inline">{t('common.play')}</span>
-                </>
-              )}
-            </button>
-          )}
+          {/* Simple Play/Pause Button - Shows playback state only */}
+          <button
+            onClick={handlePlayArticle}
+            disabled={ttsLoading}
+            className={`ml-auto px-5 py-2 rounded-full transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 shadow-sm font-medium ${
+              ttsLoading
+                ? 'bg-gray-100 dark:bg-gray-700 text-gray-400 cursor-wait'
+                : 'bg-primary-500 text-white hover:bg-primary-600 hover:shadow-md hover:shadow-primary-500/20'
+            }`}
+            aria-label={
+              ttsLoading
+                ? t('common.loading')
+                : ttsPlaying || isPreGeneratedPlaying
+                  ? t('common.pause')
+                  : t('common.play')
+            }
+          >
+            {ttsLoading ? (
+              <>
+                <div className="animate-spin w-4 h-4 border-2 border-white/80 border-t-transparent rounded-full" />
+                <span className="text-sm hidden sm:inline">{t('common.loading')}</span>
+              </>
+            ) : (isArticleLoopEnabled || isStoryLoopEnabled) && (ttsPlaying || isPreGeneratedPlaying) ? (
+              <>
+                <Repeat className="w-4 h-4 animate-pulse" />
+                <span className="text-sm hidden sm:inline">{t('common.looping')}</span>
+              </>
+            ) : ttsPlaying || isPreGeneratedPlaying ? (
+              <>
+                <Pause className="w-4 h-4 fill-current" />
+                <span className="text-sm hidden sm:inline">{t('common.pause')}</span>
+              </>
+            ) : (
+              <>
+                <Play className="w-4 h-4 fill-current" />
+                <span className="text-sm hidden sm:inline">{t('common.play')}</span>
+              </>
+            )}
+          </button>
         </div>
       </header>
 
@@ -2637,6 +2773,20 @@ export default function EnhancedArticleReader({
             console.log('Closing mobile settings')
             setShowMobileSettings(false)
           }}
+          // Audio controls
+          isPlayingAudio={ttsPlaying || isPreGeneratedPlaying}
+          isArticleLoopEnabled={isArticleLoopEnabled}
+          isStoryLoopEnabled={isStoryLoopEnabled}
+          isScreenLocked={isScreenLocked}
+          repeatCount={repeatCount}
+          currentRepeat={currentRepeat}
+          onPlayPause={handlePlayArticle}
+          onRestart={handleRestartFullStory}
+          onToggleArticleLoop={handleToggleArticleLoop}
+          onToggleStoryLoop={handleToggleStoryLoop}
+          onToggleLock={handleToggleLock}
+          onRepeatCountChange={handleArticleRepeatChange}
+          showAudioControls={!isNhkPlaying}
         />
       )}
 
@@ -2673,7 +2823,10 @@ export default function EnhancedArticleReader({
 
       {/* Lock Screen - Prevents accidental touches during full story playback */}
       <LockScreen
-        isLocked={isScreenLocked && isPlayingFullStory && isStoryLoopEnabled}
+        isLocked={
+          isScreenLocked &&
+          ((isPlayingFullStory && isStoryLoopEnabled) || isArticleLoopEnabled)
+        }
         onUnlock={handleUnlockScreen}
         title={t('story.lockScreenTitle')}
         unlockText={t('story.lockScreenUnlockText')}

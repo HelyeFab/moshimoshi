@@ -72,9 +72,6 @@ export const metadata: Metadata = {
     creator: '@moshimoshiapp',
     images: ['https://moshimoshi.app/moshimoshi-logo.png'],
   },
-  alternates: {
-    canonical: 'https://moshimoshi.app',
-  },
   manifest: '/manifest.json',
   icons: {
     icon: '/favicon.svg',

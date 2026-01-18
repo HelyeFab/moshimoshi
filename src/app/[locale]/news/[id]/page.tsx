@@ -53,7 +53,9 @@ export default function NewsArticlePage() {
   }, [articleId, cachedRepeatAllowed, checkAndTrack, router])
 
   const handleBack = () => {
-    router.push('/news')
+    // On mobile, go to dashboard; on desktop, go to news list
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+    router.push(isMobile ? '/dashboard' : '/news')
   }
 
   if (loading || (!cachedRepeatAllowed && hasAccess === null)) {
@@ -95,12 +97,6 @@ export default function NewsArticlePage() {
 
   return (
     <div className="min-h-screen bg-background-light dark:bg-dark-850">
-      {/* Cache indicator for development - shows if article was served from cache */}
-      {process.env.NODE_ENV === 'development' && fromCache && (
-        <div className="fixed bottom-20 left-4 z-50 px-3 py-1.5 bg-green-500 text-white text-xs font-medium rounded-full shadow-lg">
-          📦 From Cache
-        </div>
-      )}
       <EnhancedArticleReader article={article} onBack={handleBack} />
       <MobileNavSpacer />
     </div>
