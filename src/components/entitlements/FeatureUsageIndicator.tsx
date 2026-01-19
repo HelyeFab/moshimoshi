@@ -137,7 +137,7 @@ function MobileBarIndicator({
   const used = limitCount - remaining;
 
   return (
-    <div className={`sm:hidden px-4 -mt-4 mb-4 ${className}`}>
+    <div className={`sm:hidden px-4 -mt-2 mb-4 ${className}`}>
       <div className="bg-white dark:bg-dark-800 rounded-lg p-3 shadow-sm">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm font-bold text-gray-900 dark:text-white">

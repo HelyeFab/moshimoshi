@@ -84,6 +84,10 @@ exports.redis = (!UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes('moc
             console.log('[Mock Redis] INCR:', key);
             return 1;
         },
+        incrby: async (key, increment) => {
+            console.log('[Mock Redis] INCRBY:', key, increment);
+            return increment;
+        },
         mget: async (...keys) => {
             console.log('[Mock Redis] MGET:', keys);
             return keys.map(() => null);
@@ -92,12 +96,36 @@ exports.redis = (!UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes('moc
             console.log('[Mock Redis] MSET:', data);
             return 'OK';
         },
-        pipeline: () => ({
-            exec: async () => {
-                console.log('[Mock Redis] PIPELINE EXEC');
-                return [];
-            }
-        })
+        pipeline: () => {
+            const commands = [];
+            const pipelineApi = {
+                incr: (key) => {
+                    commands.push({ op: 'incr', args: [key] });
+                    return pipelineApi;
+                },
+                incrby: (key, increment) => {
+                    commands.push({ op: 'incrby', args: [key, increment] });
+                    return pipelineApi;
+                },
+                expire: (key, ttl) => {
+                    commands.push({ op: 'expire', args: [key, ttl] });
+                    return pipelineApi;
+                },
+                exec: async () => {
+                    console.log('[Mock Redis] PIPELINE EXEC:', commands);
+                    return commands.map((command) => {
+                        if (command.op === 'incr')
+                            return 1;
+                        if (command.op === 'incrby')
+                            return command.args[1];
+                        if (command.op === 'expire')
+                            return 1;
+                        return null;
+                    });
+                }
+            };
+            return pipelineApi;
+        }
     } :
     new redis_1.Redis({
         url: UPSTASH_REDIS_REST_URL,
@@ -184,6 +212,16 @@ exports.RedisUtils = {
     async incrementWithTTL(key, ttl) {
         const pipeline = exports.redis.pipeline();
         pipeline.incr(key);
+        pipeline.expire(key, ttl);
+        const results = await pipeline.exec();
+        return results[0];
+    },
+    /**
+     * Increment by a value with expiration
+     */
+    async incrementByWithTTL(key, ttl, increment) {
+        const pipeline = exports.redis.pipeline();
+        pipeline.incrby(key, increment);
         pipeline.expire(key, ttl);
         const results = await pipeline.exec();
         return results[0];

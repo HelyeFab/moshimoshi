@@ -18,11 +18,13 @@ import { linkWaitlistToUser } from '@/lib/waitlist/linkWaitlist'
 
 export async function POST(request: NextRequest) {
   console.log('[API /auth/google] Request received')
+  let stage = 'start'
 
   try {
     // Ensure Firebase Admin is initialized
     console.log('[API /auth/google] Initializing Firebase Admin')
     try {
+      stage = 'firebase_init'
       ensureAdminInitialized()
     } catch (initError: any) {
       console.error('[API /auth/google] Firebase Admin initialization failed:', initError)
@@ -41,6 +43,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Parse request body
+    stage = 'parse_body'
     const body = await request.json()
     const { idToken } = body
 
@@ -64,6 +67,7 @@ export async function POST(request: NextRequest) {
     // Verify the ID token
     let decodedToken
     try {
+      stage = 'verify_id_token'
       if (!adminAuth) {
         throw new Error('Firebase Admin Auth is not initialized')
       }
@@ -91,6 +95,7 @@ export async function POST(request: NextRequest) {
     console.log('[API /auth/google] Token verified for:', email)
 
     // Check if user exists in Firestore
+    stage = 'firestore_user_lookup'
     const userDoc = await adminFirestore!.collection('users').doc(uid).get()
 
     let isNewUser = false
@@ -101,9 +106,11 @@ export async function POST(request: NextRequest) {
       isNewUser = true
 
       // Use ensureUserProfile for complete default schema
+      stage = 'ensure_user_profile'
       await ensureUserProfile(uid, email)
 
       // Add authentication-specific fields using merge
+      stage = 'create_user_profile'
       await adminFirestore!
         .collection('users')
         .doc(uid)
@@ -149,14 +156,17 @@ export async function POST(request: NextRequest) {
     }
 
     // Get user data for session
+    stage = 'get_user_data'
     const userData = isNewUser
       ? { uid, email, displayName, emailVerified: true }
       : userDoc.data() || { uid, email, displayName, emailVerified: true }
 
     // Determine user tier from subscription data
+    stage = 'get_user_tier'
     const userTier = getUserTier(userData)
 
     // Check if user is admin using Firebase isAdmin field
+    stage = 'admin_check'
     const isAdmin = await isAdminUser(uid)
     console.log(
       '[API /auth/google] Admin check for user:',
@@ -165,6 +175,7 @@ export async function POST(request: NextRequest) {
 
     // Set Firebase custom claims for admin users
     if (isAdmin) {
+      stage = 'set_admin_claims'
       const claimsSet = await setAdminClaims(uid, true)
       console.log('[API /auth/google] Admin claims set:', claimsSet)
     }
@@ -172,6 +183,7 @@ export async function POST(request: NextRequest) {
     // Create session token
     let sessionToken
     try {
+      stage = 'session_create'
       const { createSessionToken, decodeSessionToken, generateFingerprint } =
         await import('@/lib/auth/jwt')
 
@@ -232,6 +244,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Log successful authentication
+    stage = 'audit_success'
     await logAuditEvent(
       isNewUser ? AuditEvent.SIGN_UP : AuditEvent.SIGN_IN,
       {
@@ -285,8 +298,10 @@ export async function POST(request: NextRequest) {
     return response
   } catch (error: any) {
     console.error('[API /auth/google] Error:', error?.message || error)
+    console.error('[API /auth/google] Stage:', stage)
 
     // Log error
+    stage = 'audit_failure'
     await logAuditEvent(
       AuditEvent.SYSTEM_ERROR,
       {
@@ -297,6 +312,7 @@ export async function POST(request: NextRequest) {
       {
         error: error.message,
         code: error.code,
+        stage,
       },
       'failure'
     )

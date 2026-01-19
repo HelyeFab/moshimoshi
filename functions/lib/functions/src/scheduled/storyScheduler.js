@@ -936,7 +936,7 @@ exports.scheduledStoryGeneratorFunction = (0, scheduler_1.onSchedule)({
     retryCount: 1, // Retry once on failure
     secrets: [OPENAI_API_KEY, MODAL_API_KEY, GEMINI_API_KEY, RESEND_API_KEY],
 }, async (event) => {
-    var _a, _b;
+    var _a, _b, _c, _d;
     logger.info('[StoryScheduler] Scheduled trigger activated', {
         scheduleTime: event.scheduleTime,
         jobName: event.jobName,
@@ -978,12 +978,52 @@ exports.scheduledStoryGeneratorFunction = (0, scheduler_1.onSchedule)({
         logger.info('[StoryScheduler] Successfully resumed and published story', result);
         return;
     }
-    // No incomplete drafts - generate a new story
+    // SECOND: Check if a story was already successfully generated today (idempotency)
+    const nowUtc = new Date();
+    const todayDateString = nowUtc.toISOString().split('T')[0]; // YYYY-MM-DD
+    logger.info('[StoryScheduler] Checking for duplicate generation today', {
+        todayDate: todayDateString,
+    });
+    try {
+        const recentLogsSnapshot = await db
+            .collection('story_generation_logs')
+            .where('type', '==', 'scheduled')
+            .where('success', '==', true)
+            .orderBy('createdAt', 'desc')
+            .limit(1)
+            .get();
+        if (!recentLogsSnapshot.empty) {
+            const lastSuccessfulLog = recentLogsSnapshot.docs[0].data();
+            const lastLogDate = ((_c = (_b = lastSuccessfulLog.createdAt) === null || _b === void 0 ? void 0 : _b.toDate) === null || _c === void 0 ? void 0 : _c.call(_b))
+                ? lastSuccessfulLog.createdAt.toDate().toISOString().split('T')[0]
+                : new Date(lastSuccessfulLog.createdAt).toISOString().split('T')[0];
+            if (lastLogDate === todayDateString) {
+                logger.info('[StoryScheduler] Story already generated today - skipping to prevent duplicate', {
+                    todayDate: todayDateString,
+                    lastGeneratedDate: lastLogDate,
+                    lastStoryId: lastSuccessfulLog.storyId,
+                    lastDraftId: lastSuccessfulLog.draftId,
+                });
+                return;
+            }
+            logger.info('[StoryScheduler] Last successful generation was on different day - proceeding', {
+                todayDate: todayDateString,
+                lastGeneratedDate: lastLogDate,
+            });
+        }
+    }
+    catch (error) {
+        // Don't block generation if idempotency check fails - just log warning
+        logger.warn('[StoryScheduler] Idempotency check failed - proceeding with generation', {
+            error: error instanceof Error ? error.message : 'Unknown error',
+        });
+    }
+    // No incomplete drafts and no story today - generate a new story
     logger.info('[StoryScheduler] No incomplete drafts - generating new story');
     const result = await generateDailyStory(adminKey);
     if (!result.success) {
         // If it failed but created a pending draft, don't throw (will retry next time)
-        if ((_b = result.error) === null || _b === void 0 ? void 0 : _b.includes('pending')) {
+        if ((_d = result.error) === null || _d === void 0 ? void 0 : _d.includes('pending')) {
             logger.warn('[StoryScheduler] Story pending - will retry next run', result);
             return;
         }

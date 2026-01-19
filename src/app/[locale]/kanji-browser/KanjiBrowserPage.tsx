@@ -14,8 +14,7 @@ import { useTheme } from '@/lib/theme/ThemeContext'
 import { motion } from 'framer-motion'
 import { useKanjiBrowser } from '@/hooks/useKanjiBrowser'
 import { useAuth } from '@/hooks/useAuth'
-import SearchBar from '@/components/ui/SearchBar'
-import { Pencil, Pin } from 'lucide-react'
+import { Pencil, Pin, Search, X } from 'lucide-react'
 import { useSubscription } from '@/hooks/useSubscription'
 import dynamic from 'next/dynamic'
 import { KanjiBrowserAdapter } from '@/lib/review-engine/adapters/KanjiBrowserAdapter'
@@ -62,7 +61,7 @@ function KanjiBrowserContent() {
   const [loading, setLoading] = useState(true)
   const [loadingLevels, setLoadingLevels] = useState<Set<JLPTLevel>>(new Set())
   const [modalKanji, setModalKanji] = useState<Kanji | null>(null)
-  const [expandedLevels, setExpandedLevels] = useState<Set<JLPTLevel>>(new Set(['N5']))
+  const [expandedLevels, setExpandedLevels] = useState<Set<JLPTLevel>>(new Set())
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<Kanji[]>([])
   const [isSearching, setIsSearching] = useState(false)
@@ -551,6 +550,23 @@ function KanjiBrowserContent() {
     })
   }
 
+  const scrollToLevel = (level: JLPTLevel) => {
+    // Expand the level if it's not already expanded
+    setExpandedLevels(prev => {
+      const newSet = new Set(prev)
+      newSet.add(level)
+      return newSet
+    })
+
+    // Scroll to the level section
+    setTimeout(() => {
+      const element = document.getElementById(`level-${level}`)
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    }, 100)
+  }
+
   const renderKanjiGrid = (kanji: Kanji[]) => (
     <div className="grid grid-cols-3 sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 gap-2 mt-4">
       {kanji.map((kanjiItem, index) => {
@@ -753,7 +769,7 @@ function KanjiBrowserContent() {
         hideBottomBar={isSearchFocused || showDrawingSearch}
       />
 
-      <FeatureUsageIndicator featureId="kanji_browser" />
+      <FeatureUsageIndicator featureId="kanji_browser" className="-mt-24" />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 max-w-7xl">
@@ -763,37 +779,71 @@ function KanjiBrowserContent() {
           animate={{ opacity: 1, y: 0 }}
           className="mb-8 bg-white dark:bg-dark-800 rounded-lg shadow-sm border border-gray-200 dark:border-dark-700 p-6"
         >
-          <div className="flex gap-2 items-center">
-            <div className="flex-1">
-              <SearchBar
+          <div className="space-y-3">
+            {/* Search Input */}
+            <div className="relative">
+              <input
+                type="text"
                 value={searchQuery}
-                onChange={setSearchQuery}
-                onSearch={handleSearch}
-                onClear={() => {
-                  setSearchQuery('')
-                  setSearchResults([])
-                  setHasSearched(false)
-                }}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 onFocus={() => setIsSearchFocused(true)}
                 onBlur={() => setIsSearchFocused(false)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleSearch(searchQuery)
+                  }
+                }}
                 placeholder={
                   strings.kanjiBrowser?.searchPlaceholder ||
                   'Search kanji by character, meaning, or reading...'
                 }
-                searching={isSearching}
-                showQuickSearch={false}
+                disabled={isSearching}
+                className="w-full px-4 py-2.5 pr-10 rounded-lg bg-white dark:bg-dark-800 border border-gray-200 dark:border-dark-700 text-gray-900 dark:text-gray-100 placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
               />
+
+              {/* Clear button */}
+              {searchQuery && !isSearching && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery('')
+                    setSearchResults([])
+                    setHasSearched(false)
+                  }}
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
+                  aria-label="Clear search"
+                >
+                  <X className="w-4 h-4 text-gray-500 dark:text-gray-400" />
+                </button>
+              )}
             </div>
 
-            {/* Drawing Search Button */}
-            <button
-              onClick={() => setShowDrawingSearch(true)}
-              className="p-2.5 rounded-lg transition-colors flex-shrink-0 bg-gray-100 dark:bg-dark-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-600"
-              title="Search by drawing"
-              aria-label="Search by drawing"
-            >
-              <Pencil className="w-4 h-4" />
-            </button>
+            {/* Action Buttons Row */}
+            <div className="flex gap-2">
+              {/* Search button */}
+              <button
+                onClick={() => handleSearch(searchQuery)}
+                disabled={isSearching || !searchQuery.trim()}
+                className="flex-1 px-4 py-2.5 rounded-lg bg-primary-500 text-white hover:bg-primary-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+                aria-label="Search"
+              >
+                <Search className="w-4 h-4" />
+                <span>{isSearching ? 'Searching...' : 'Search'}</span>
+                {isSearching && (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                )}
+              </button>
+
+              {/* Drawing Search Button */}
+              <button
+                onClick={() => setShowDrawingSearch(true)}
+                className="p-2.5 rounded-lg transition-colors bg-gray-100 dark:bg-dark-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-600"
+                title="Search by drawing"
+                aria-label="Search by drawing"
+              >
+                <Pencil className="w-4 h-4" />
+              </button>
+            </div>
           </div>
 
           {/* Drawing Search Modal */}
@@ -842,7 +892,7 @@ function KanjiBrowserContent() {
               animate={{ opacity: 1, scale: 1 }}
               whileHover={{ scale: 1.05 }}
               className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl p-4 text-center shadow-lg cursor-pointer"
-              onClick={() => toggleLevel(level as JLPTLevel)}
+              onClick={() => scrollToLevel(level as JLPTLevel)}
             >
               <div
                 className={`w-8 h-8 ${info.color} rounded-full mx-auto mb-2 flex items-center justify-center text-white text-sm font-bold`}
@@ -867,6 +917,7 @@ function KanjiBrowserContent() {
             return (
               <motion.div
                 key={level}
+                id={`level-${level}`}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="bg-white/70 dark:bg-dark-800/70 backdrop-blur-sm rounded-xl overflow-hidden shadow-lg"

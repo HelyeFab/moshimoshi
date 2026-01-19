@@ -7,20 +7,26 @@ import { createRateLimiter, getRateLimitHeaders } from '@/lib/api/rate-limiter';
 
 export async function POST(request: NextRequest) {
   try {
-    // Rate limiting for TTS endpoint
-    const rateLimiter = createRateLimiter('tts', 'synthesize');
-    const rateLimitResult = await rateLimiter.check(request, {
-      cost: 2, // TTS is resource-intensive
-    });
-    
-    if (!rateLimitResult.success) {
-      return createErrorResponse(
-        Errors.rateLimit(rateLimitResult.retryAfter),
-        {
-          endpoint: '/api/tts/synthesize',
-          method: 'POST',
-        }
-      );
+    // Rate limiting for TTS endpoint (fail-open if Redis is unavailable)
+    let rateLimitResult;
+    try {
+      const rateLimiter = createRateLimiter('tts', 'synthesize');
+      rateLimitResult = await rateLimiter.check(request, {
+        cost: 2, // TTS is resource-intensive
+      });
+      
+      if (!rateLimitResult.success) {
+        return createErrorResponse(
+          Errors.rateLimit(rateLimitResult.retryAfter),
+          {
+            endpoint: '/api/tts/synthesize',
+            method: 'POST',
+          }
+        );
+      }
+    } catch (rateLimitError) {
+      console.error('[TTS] Rate limiter failed, allowing request:', rateLimitError);
+      // Continue without rate limiting
     }
 
     // Optional: Check session if you want to restrict TTS to logged-in users
@@ -62,10 +68,12 @@ export async function POST(request: NextRequest) {
     });
     
     // Add rate limit headers
-    const rateLimitHeaders = getRateLimitHeaders(rateLimitResult);
-    Object.entries(rateLimitHeaders).forEach(([key, value]) => {
-      response.headers.set(key, value);
-    });
+    if (rateLimitResult) {
+      const rateLimitHeaders = getRateLimitHeaders(rateLimitResult);
+      Object.entries(rateLimitHeaders).forEach(([key, value]) => {
+        response.headers.set(key, value);
+      });
+    }
     
     return response;
   } catch (error: any) {

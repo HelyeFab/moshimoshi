@@ -19,7 +19,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-6bfaad09224d';
+const CACHE_VERSION = 'moshimoshi-20260119-1';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;

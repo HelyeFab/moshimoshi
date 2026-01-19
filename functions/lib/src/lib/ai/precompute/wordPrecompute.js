@@ -209,16 +209,15 @@ async function extractJapaneseWords(text) {
 async function precomputeWordExplanations({ contentId, contentType, text, limit = 1000, // Increased from 400 to 1000 for better completeness
 jlptLevel = 'N5', chunkIndex, onProgress, }) {
     var _a;
-    if (!admin_1.adminFirestore) {
-        throw new Error('Firebase Admin not initialized');
-    }
+    // Get db instance - will throw if not initialized
+    const db = (0, admin_1.getAdminDb)();
     const collection = COLLECTION_MAP[contentType];
     if (!collection) {
         throw new Error(`Unsupported contentType: ${contentType}`);
     }
     // Extract words and apply limit, keeping original order
     const words = (await extractJapaneseWords(text)).slice(0, limit);
-    const docRef = admin_1.adminFirestore.collection(collection).doc(contentId);
+    const docRef = db.collection(collection).doc(contentId);
     const existingSnap = await docRef.get();
     const existingWords = ((_a = existingSnap.data()) === null || _a === void 0 ? void 0 : _a.words) || [];
     const existingSet = new Set(existingWords.map(w => { var _a, _b; return ((_b = (_a = w.word) === null || _a === void 0 ? void 0 : _a.toLowerCase) === null || _b === void 0 ? void 0 : _b.call(_a)) || ''; }).filter(Boolean));
