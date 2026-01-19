@@ -289,11 +289,36 @@ export class OfflineTTSCache {
         entry.accessCount += 1
         await this.promisifyRequest(store.put(entry))
 
-        // Create blob URL for the cached audio
-        const audioUrl = URL.createObjectURL(entry.audioBlob)
-        console.log(`[OfflineTTSCache] Cache HIT for: "${text.substring(0, 30)}..."`)
+        // iOS 17.4.1 workaround: Blob URLs stopped working, use data URLs instead
+        // https://developer.apple.com/forums/thread/751063
+        const isIOS = typeof navigator !== 'undefined' &&
+                      /iPad|iPhone|iPod/.test(navigator.userAgent) &&
+                      !(window as any).MSStream
 
-        return { audioUrl, cached: true }
+        if (isIOS && entry.audioBlob.size > 0) {
+          // Convert blob to data URL for iOS compatibility
+          try {
+            const reader = new FileReader()
+            const dataUrl = await new Promise<string>((resolve, reject) => {
+              reader.onload = () => resolve(reader.result as string)
+              reader.onerror = () => reject(reader.error)
+              reader.readAsDataURL(entry.audioBlob)
+            })
+
+            console.log(`[OfflineTTSCache] iOS: Cache HIT, using data URL (${(entry.audioBlob.size / 1024).toFixed(1)}KB) for: "${text.substring(0, 30)}..."`)
+            return { audioUrl: dataUrl, cached: true }
+          } catch (error) {
+            console.warn('[OfflineTTSCache] iOS: Failed to convert blob to data URL, falling back to blob URL:', error)
+            // Fallback to standard blob URL if conversion fails
+            const audioUrl = URL.createObjectURL(entry.audioBlob)
+            return { audioUrl, cached: true }
+          }
+        } else {
+          // Standard blob URL for non-iOS browsers (faster, no conversion needed)
+          const audioUrl = URL.createObjectURL(entry.audioBlob)
+          console.log(`[OfflineTTSCache] Cache HIT for: "${text.substring(0, 30)}..."`)
+          return { audioUrl, cached: true }
+        }
       } else {
         console.log(`[OfflineTTSCache] Cache MISS for: "${text.substring(0, 30)}..."`)
         return null

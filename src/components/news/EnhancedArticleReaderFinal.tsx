@@ -2584,6 +2584,25 @@ export default function EnhancedArticleReader({
             <div>Story sentence cache: {storySentenceData.isLoading ? 'loading' : (storySentenceData.hasCachedData ? 'ready' : 'missing')}</div>
             <div>Page translation: {currentTranslation ? 'present' : 'missing'}</div>
             <div>Translated content: {translatedContent ? 'present' : 'empty'}</div>
+            {/* iOS-specific debugging info */}
+            {(() => {
+              const isIOS = typeof navigator !== 'undefined' && /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
+              if (!isIOS) return null
+
+              const iosVersion = navigator.userAgent.match(/OS (\d+)_(\d+)/)?.[1] || 'Unknown'
+              const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+              const isPrivate = typeof navigator !== 'undefined' && navigator.storage?.persist ? 'Unknown' : 'Possibly'
+
+              return (
+                <div className="pt-2 border-t border-yellow-500/30 space-y-1">
+                  <div className="text-yellow-300 font-semibold">📱 iOS Debug Info:</div>
+                  <div className="text-yellow-200">iOS Version: {iosVersion}</div>
+                  <div className="text-yellow-200">Safari: {isSafari ? 'Yes' : 'No'}</div>
+                  <div className="text-yellow-200">Private Mode: {isPrivate}</div>
+                  <div className="text-yellow-200">TTS State: {ttsPlaying ? 'Playing' : ttsLoading ? 'Loading' : 'Idle'}</div>
+                </div>
+              )
+            })()}
           </div>
           <div className="max-h-64 overflow-auto px-3 py-2 text-[11px] leading-snug space-y-1 select-text">
             {debugEvents.length === 0 ? (

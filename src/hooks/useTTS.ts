@@ -207,20 +207,20 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
   const play = useCallback(
     async (text: string, ttsOptions?: TTSOptions) => {
+      const debug = (message: string, data?: Record<string, unknown>) => {
+        if (typeof window === 'undefined') return
+        window.dispatchEvent(
+          new CustomEvent('moshi-debug', {
+            detail: { message, data },
+          })
+        )
+      }
+
       try {
         setLoading(true)
         setError(null)
         setCurrentText(text)
         unlockAudioOnUserGesture()
-
-        const debug = (message: string, data?: Record<string, unknown>) => {
-          if (typeof window === 'undefined') return
-          window.dispatchEvent(
-            new CustomEvent('moshi-debug', {
-              detail: { message, data },
-            })
-          )
-        }
 
         // Stop current audio if playing (but don't remove it)
         if (audioRef.current && !audioRef.current.paused) {
@@ -382,6 +382,13 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         if (!audioRef.current) {
           audioRef.current = new Audio()
 
+          // CRITICAL for iOS Safari + Firebase Storage CORS
+          // Safari requires explicit crossOrigin setting for Firebase Storage URLs
+          audioRef.current.crossOrigin = 'anonymous'
+
+          // iOS-specific: Preload metadata for better event reliability
+          audioRef.current.preload = 'metadata'
+
           // Set up permanent event handlers
           audioRef.current.onplay = () => {
             setPlaying(true)
@@ -435,20 +442,38 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
         // Wait for audio to be ready before playing
         // IMPORTANT: Set up listeners BEFORE setting src to avoid race conditions
+        // iOS 17.4+ FIX: Use loadedmetadata instead of canplaythrough (which never fires on iOS)
         await new Promise<void>((resolve, reject) => {
           let resolved = false
           let timeoutId: ReturnType<typeof setTimeout>
 
           const cleanup = () => {
-            audio.removeEventListener('canplaythrough', onCanPlay)
+            audio.removeEventListener('loadstart', onLoadStart)
+            audio.removeEventListener('loadedmetadata', onLoadedMetadata)
+            audio.removeEventListener('canplaythrough', onCanPlaythrough)
             audio.removeEventListener('error', onError)
             if (timeoutId) clearTimeout(timeoutId)
           }
 
-          const onCanPlay = () => {
+          const onLoadStart = () => {
+            debug('[useTTS] loadstart event fired')
+            // Don't resolve yet, wait for metadata
+          }
+
+          const onLoadedMetadata = () => {
             if (!resolved) {
               resolved = true
               cleanup()
+              debug('[useTTS] loadedmetadata event fired - ready to play (iOS compatible)')
+              resolve()
+            }
+          }
+
+          const onCanPlaythrough = () => {
+            if (!resolved) {
+              resolved = true
+              cleanup()
+              debug('[useTTS] canplaythrough event fired - ready to play')
               resolve()
             }
           }
@@ -467,7 +492,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
               }
 
               const errorMessage = getMediaErrorMessage(mediaError)
-              console.error('Audio load error:', {
+              console.error('[useTTS] Audio load error:', {
                 code: mediaError?.code,
                 message: mediaError?.message,
                 errorMessage,
@@ -477,35 +502,66 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
             }
           }
 
-          // Use canplaythrough for more reliable playback
-          audio.addEventListener('canplaythrough', onCanPlay)
+          // iOS 17.4+ workaround: Listen to multiple events for maximum compatibility
+          // - loadstart: Fires when loading begins (iOS always fires this)
+          // - loadedmetadata: Fires when metadata is loaded (iOS 17.4+ reliable)
+          // - canplaythrough: Fires on other browsers (iOS 17.4+ may not fire)
+          audio.addEventListener('loadstart', onLoadStart)
+          audio.addEventListener('loadedmetadata', onLoadedMetadata)
+          audio.addEventListener('canplaythrough', onCanPlaythrough)
           audio.addEventListener('error', onError)
 
           // FIRST set the new source (this resets readyState)
           audio.src = audioUrl
           audio.load()
 
-          // If it's a data/blob URL, resolve immediately after load kickoff
+          // iOS-specific: Check if metadata already loaded
+          // readyState >= 1 means HAVE_METADATA (minimum for play() to work)
+          if (audio.readyState >= 1) {
+            debug('[useTTS] Metadata already loaded (readyState >= 1), resolving immediately')
+            onLoadedMetadata()
+            return
+          }
+
+          // If it's a data/blob URL, give iOS a moment to process
           if (audioUrl.startsWith('data:audio') || audioUrl.startsWith('blob:')) {
-            onCanPlay()
+            debug('[useTTS] Data/Blob URL detected, waiting for metadata')
+            // iOS needs a tick to process blob URLs
+            setTimeout(() => {
+              if (!resolved && audio.readyState >= 1) {
+                debug('[useTTS] Blob URL processed, metadata ready')
+                onLoadedMetadata()
+              }
+            }, 50)
             return
           }
 
           // THEN check if audio loaded instantly (browser cache for this specific URL)
           // readyState >= 3 means HAVE_FUTURE_DATA or HAVE_ENOUGH_DATA
           if (audio.readyState >= 3) {
-            onCanPlay()
+            debug('[useTTS] Audio fully cached (readyState >= 3), resolving immediately')
+            onCanPlaythrough()
             return
           }
 
-          // Timeout fallback (extended to handle slower first-byte latency)
+          // Timeout fallback (reduced for iOS - iOS loads faster but events are unreliable)
+          const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !(window as any).MSStream
+          const timeout = isIOS ? 15000 : 30000 // 15s for iOS, 30s for others
+
           timeoutId = setTimeout(() => {
             if (!resolved) {
               resolved = true
               cleanup()
-              reject(new Error('Audio loading timed out after 30 seconds'))
+              console.error('[useTTS] Audio loading timed out', {
+                isIOS,
+                readyState: audio.readyState,
+                networkState: audio.networkState,
+                src: audio.src?.substring(0, 100),
+                duration: timeout / 1000 + 's'
+              })
+              reject(new Error(`Audio loading timed out after ${timeout / 1000} seconds`))
             }
-          }, 30000)
+          }, timeout)
         })
 
         // Play the audio
