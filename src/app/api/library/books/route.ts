@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
 
       return NextResponse.json({
         success: true,
-        data: {
+        book: {
           id: bookDoc.id,
           ...data,
           createdAt: data?.createdAt?.toDate?.() || data?.createdAt,

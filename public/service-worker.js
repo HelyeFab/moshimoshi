@@ -19,7 +19,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-85cdab3393d2';
+const CACHE_VERSION = 'moshimoshi-6c9df9b182b2';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -126,8 +126,8 @@ const MANUAL_PRECACHE_URLS = [
   '/data/kanji/jlpt_5.json'
 ];
 const PRECACHE_URLS = [
-  "/_next/static/PsK2VYKplQ2d45OMarZhd/_buildManifest.js",
-  "/_next/static/PsK2VYKplQ2d45OMarZhd/_ssgManifest.js",
+  "/_next/static/0yI-uJOc18tDcl3WRzfFZ/_buildManifest.js",
+  "/_next/static/0yI-uJOc18tDcl3WRzfFZ/_ssgManifest.js",
   "/_next/static/chunks/10152-ef8441d3e4c2aca0.js",
   "/_next/static/chunks/1036-a680cf451ab48a19.js",
   "/_next/static/chunks/10409-6d4e4d0c8b82e5c5.js",
@@ -204,7 +204,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/54469-80a2f9dda48676d7.js",
   "/_next/static/chunks/54a60aa6-fde3c27555179f9b.js",
   "/_next/static/chunks/55191-538723d65b120d53.js",
-  "/_next/static/chunks/56526-591b96e287fc78df.js",
+  "/_next/static/chunks/56526-8c38ca9481fc591c.js",
   "/_next/static/chunks/57130-9e55277cf6166f27.js",
   "/_next/static/chunks/57292-9c5155a5e6940f3d.js",
   "/_next/static/chunks/57604-7726abae737bf68b.js",
@@ -255,7 +255,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/84584-362b7b6c9580d167.js",
   "/_next/static/chunks/85361-0e7684f50440b44f.js",
   "/_next/static/chunks/85630-94cff4daa8ff6dab.js",
-  "/_next/static/chunks/86480-c9cd6804fb48a171.js",
+  "/_next/static/chunks/86480-ff2eb3c2abd77f62.js",
   "/_next/static/chunks/87135-165b64127c326a1c.js",
   "/_next/static/chunks/87342-a9ca6345a7df069d.js",
   "/_next/static/chunks/87998-a4773ef7a91106b9.js",
@@ -278,7 +278,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/9c4e2130-9af91afdfe80adac.js",
   "/_next/static/chunks/a4634e51-fadde5bb5e34f614.js",
   "/_next/static/chunks/app/[locale]/(home)/layout-affc02e55525d0e6.js",
-  "/_next/static/chunks/app/[locale]/(home)/page-caf1749a34224b23.js",
+  "/_next/static/chunks/app/[locale]/(home)/page-6e2e8baf0c211431.js",
   "/_next/static/chunks/app/[locale]/(public)/landing/layout-affc02e55525d0e6.js",
   "/_next/static/chunks/app/[locale]/(public)/landing/page-7af9fa4c9d7c1612.js",
   "/_next/static/chunks/app/[locale]/account/layout-affc02e55525d0e6.js",
@@ -375,9 +375,9 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/kanji-connection/layout-affc02e55525d0e6.js",
   "/_next/static/chunks/app/[locale]/kanji-connection/page-fbbb12ab6d73caab.js",
   "/_next/static/chunks/app/[locale]/kanji-connection/radicals/layout-affc02e55525d0e6.js",
-  "/_next/static/chunks/app/[locale]/kanji-connection/radicals/page-6fa6b76f57776300.js",
+  "/_next/static/chunks/app/[locale]/kanji-connection/radicals/page-f120bc86aa667d76.js",
   "/_next/static/chunks/app/[locale]/kanji-connection/visual-layout/layout-affc02e55525d0e6.js",
-  "/_next/static/chunks/app/[locale]/kanji-connection/visual-layout/page-77fb12a87d20d692.js",
+  "/_next/static/chunks/app/[locale]/kanji-connection/visual-layout/page-c267bebfde489203.js",
   "/_next/static/chunks/app/[locale]/kanji-moods/[boardId]/page-7e38340a74d626f4.js",
   "/_next/static/chunks/app/[locale]/kanji-moods/layout-affc02e55525d0e6.js",
   "/_next/static/chunks/app/[locale]/kanji-moods/page-14472cfa51243103.js",
@@ -410,7 +410,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/my-videos/page-3d803ba1062bcc41.js",
   "/_next/static/chunks/app/[locale]/news/[id]/page-2b0d558f08e60e14.js",
   "/_next/static/chunks/app/[locale]/news/layout-affc02e55525d0e6.js",
-  "/_next/static/chunks/app/[locale]/news/page-c8443f2879fed74a.js",
+  "/_next/static/chunks/app/[locale]/news/page-9749351609527b2b.js",
   "/_next/static/chunks/app/[locale]/newsletter/verify-error/page-90af254991881db6.js",
   "/_next/static/chunks/app/[locale]/newsletter/verify-success/page-c469d362479eed05.js",
   "/_next/static/chunks/app/[locale]/not-found-02c26a9c28e0c794.js",
@@ -501,8 +501,8 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/polyfills-42372ed130431b0a.js",
   "/_next/static/chunks/webpack-092c5825f8136d2b.js",
   "/_next/static/css/58ca86956afb7910.css",
+  "/_next/static/css/5a4a35693360d578.css",
   "/_next/static/css/6e09cdf58928be98.css",
-  "/_next/static/css/96ac96a682157b93.css",
   "/_next/static/css/af47b6060c4fddcc.css"
 ].concat(MANUAL_PRECACHE_URLS);
 

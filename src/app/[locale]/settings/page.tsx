@@ -84,8 +84,10 @@ export default function SettingsPage() {
       const preferences = await preferencesManager.getPreferences(user, isPremium ?? false)
 
       // Update state with loaded preferences
-      if (preferences.notifications) setNotifications(preferences.notifications)
-      if (preferences.learning) setLearning(preferences.learning)
+      if (process.env.NEXT_PUBLIC_FEATURE_NOTIFICATIONS === 'true' && preferences.notifications)
+        setNotifications(preferences.notifications)
+      if (process.env.NEXT_PUBLIC_FEATURE_LEARNING === 'true' && preferences.learning)
+        setLearning(preferences.learning)
       if (preferences.privacy) setPrivacy(preferences.privacy)
       if (preferences.accessibility) {
         setAccessibility(preferences.accessibility)
@@ -141,8 +143,8 @@ export default function SettingsPage() {
         theme,
         language,
         palette: selectedPalette,
-        notifications,
-        learning,
+        ...(process.env.NEXT_PUBLIC_FEATURE_NOTIFICATIONS === 'true' && { notifications }),
+        ...(process.env.NEXT_PUBLIC_FEATURE_LEARNING === 'true' && { learning }),
         privacy,
         accessibility,
       }
@@ -454,11 +456,12 @@ export default function SettingsPage() {
           </CollapsibleSection>
 
           {/* Notifications */}
-          <CollapsibleSection
-            title={strings.settings?.sections?.notifications?.title || 'Notifications'}
-            icon="🔔"
-            defaultOpen={false}
-          >
+          {process.env.NEXT_PUBLIC_FEATURE_NOTIFICATIONS === 'true' && (
+            <CollapsibleSection
+              title={strings.settings?.sections?.notifications?.title || 'Notifications'}
+              icon="🔔"
+              defaultOpen={false}
+            >
             <div className="space-y-6">
               {/* Review Notifications (NEW) */}
               <div className="mb-6">
@@ -528,6 +531,7 @@ export default function SettingsPage() {
               </div>
             </div>
           </CollapsibleSection>
+          )}
 
           {/* Privacy */}
           <CollapsibleSection

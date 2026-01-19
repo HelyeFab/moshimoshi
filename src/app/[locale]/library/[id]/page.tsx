@@ -88,9 +88,11 @@ export default function BookReaderPage() {
     const loadBook = async () => {
       try {
         setLoading(true);
+        setError(null);
         const result = await getBook(bookId);
         if (!result.book) {
-          throw new Error(result.error || 'Book not found');
+          setError(result.error || 'Book not found');
+          return;
         }
         setBook(normalizeCachedBook(result.book));
       } catch (err) {
