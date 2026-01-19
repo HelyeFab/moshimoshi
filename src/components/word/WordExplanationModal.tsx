@@ -27,6 +27,7 @@ import CompactConjugationTable from '@/components/conjugation/CompactConjugation
 import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
 import { kanjiService } from '@/services/kanjiService'
 import type { Kanji } from '@/types/kanji'
+import { unlockAudioOnUserGesture } from '@/utils/audioUnlock'
 
 // ============================================
 // Modal Props
@@ -106,6 +107,7 @@ export default function WordExplanationModal({
   const handlePlayExample = useCallback(
     async (text: string) => {
       try {
+        unlockAudioOnUserGesture()
         if (typeof window !== 'undefined') {
           window.dispatchEvent(
             new CustomEvent('moshi-debug', {
@@ -127,6 +129,7 @@ export default function WordExplanationModal({
   const handlePlayWord = useCallback(async () => {
     if (explanation?.audioUrl) {
       try {
+        unlockAudioOnUserGesture()
         const rawUrl = explanation.audioUrl
         const proxiedUrl =
           rawUrl.includes('firebasestorage') || rawUrl.includes('storage.googleapis.com')

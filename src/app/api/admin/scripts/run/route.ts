@@ -5,17 +5,15 @@ import path from 'path'
 
 // Define available scripts with metadata
 const AVAILABLE_SCRIPTS = {
-  'restore-user-stats': {
-    file: 'restore-user-stats.ts',
-    description: 'Restore user stats from firebase-user-data backups',
-    requiresConfirmation: true,
-    tier: 'critical',
-  },
   'mark-users-verified': {
     file: 'mark-existing-users-verified.ts',
-    description: 'Mark all existing users as email verified',
+    description: 'Mark users as email verified (all or by email)',
     requiresConfirmation: true,
     tier: 'critical',
+    requiresParams: true,
+    paramConfig: {
+      email: { type: 'text', label: 'Email Address (leave empty for all users)' },
+    },
   },
   'delete-test-users': {
     file: 'delete-test-users.ts',
@@ -35,36 +33,16 @@ const AVAILABLE_SCRIPTS = {
     requiresConfirmation: false,
     tier: 'high',
   },
-  'migrate-leaderboard': {
-    file: 'migrate-leaderboard-stats.ts',
-    description: 'Migrate/refresh leaderboard stats',
-    requiresConfirmation: true,
-    tier: 'medium',
-  },
-  'gen-entitlements': {
-    file: 'gen-entitlements.ts',
-    description: 'Regenerate feature entitlements',
-    requiresConfirmation: false,
-    tier: 'medium',
-  },
-  'check-firebase': {
-    file: 'check-firebase-collections.ts',
-    description: 'Check Firebase collection health',
-    requiresConfirmation: false,
-    tier: 'medium',
-  },
-  'check-transcripts': {
-    file: 'check-transcripts.ts',
-    description: 'Check video transcript processing',
-    requiresConfirmation: false,
-    tier: 'low',
-  },
-  'check-video-processing': {
-    file: 'check-video-processing.ts',
-    description: 'Check video processing status (requires videoId)',
+  'check-entitlements': {
+    file: 'check-entitlements.ts',
+    description: 'Check user entitlements and usage data',
     requiresConfirmation: false,
     tier: 'low',
     requiresParams: true,
+    paramConfig: {
+      userId: { type: 'text', label: 'User ID' },
+      email: { type: 'text', label: 'Email Address (alternative to User ID)' },
+    },
   },
   'backfill-story-translations': {
     file: 'backfill-story-translations.ts',

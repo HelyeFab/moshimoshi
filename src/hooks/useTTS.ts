@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from 'react'
 import { TTSOptions, TTSResult, TTSError } from '@/lib/tts/types'
 import { OfflineTTSCache } from '@/lib/tts/offlineCache'
 import { ttsLoadingState } from '@/lib/tts/loadingState'
+import { unlockAudioOnUserGesture } from '@/utils/audioUnlock'
 
 interface UseTTSOptions {
   autoPlay?: boolean
@@ -210,6 +211,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         setLoading(true)
         setError(null)
         setCurrentText(text)
+        unlockAudioOnUserGesture()
 
         // Stop current audio if playing (but don't remove it)
         if (audioRef.current && !audioRef.current.paused) {
