@@ -14,6 +14,7 @@ const API_VERSIONS = {
 
 // Cookie name for locale preference (used by next-intl)
 const LOCALE_COOKIE = 'NEXT_LOCALE';
+const PRELAUNCH_AUTH_COOKIE = 'prelaunch_auth';
 
 // Routes that require authentication (not admin, just logged in)
 // These routes will redirect to signin if no session cookie exists
@@ -64,6 +65,14 @@ function isProtectedRoute(pathname: string): boolean {
   return PROTECTED_ROUTES.some(route =>
     routeWithoutLocale === route || routeWithoutLocale.startsWith(`${route}/`)
   );
+}
+
+/**
+ * Check if a pathname is an auth route (locale-aware)
+ */
+function isAuthRoute(pathname: string): boolean {
+  const routeWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/';
+  return routeWithoutLocale === '/auth' || routeWithoutLocale.startsWith('/auth/');
 }
 
 /**
@@ -118,7 +127,9 @@ export async function middleware(request: NextRequest) {
   // EXCEPTION: Logged-in users (have session cookie) can bypass the lock
   // This allows existing users (e.g., developer testing) to use the full app
   const hasSession = request.cookies.has('session');
-  if (isPreLaunch() && !isAllowedDuringPreLaunch(pathname) && !hasSession) {
+  const hasPrelaunchAuth = request.cookies.get(PRELAUNCH_AUTH_COOKIE)?.value === '1';
+  const allowPrelaunchAuthRoute = hasPrelaunchAuth && isAuthRoute(pathname);
+  if (isPreLaunch() && !isAllowedDuringPreLaunch(pathname) && !hasSession && !allowPrelaunchAuthRoute) {
     console.log(`[Middleware] Pre-launch lock: Redirecting ${pathname} to landing page`);
     return NextResponse.redirect(getLocaleAwareRedirect(request, '/'));
   }

@@ -48,6 +48,7 @@ export default function LandingPageClient() {
   const [currentLibrarySlide, setCurrentLibrarySlide] = useState(0)
   const [mounted, setMounted] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const secretTapRef = useRef({ count: 0, lastTap: 0 })
 
   // Visibility tracking for lazy-loading below-fold carousels
   const [testimonialsVisible, setTestimonialsVisible] = useState(false)
@@ -221,6 +222,28 @@ export default function LandingPageClient() {
     }, 4000)
     return () => clearInterval(timer)
   }, [ankiVisible])
+
+  const handleSecretLogoTap = useCallback(() => {
+    if (!isPreLaunch) return
+
+    const tapWindowMs = 2500
+    const requiredTaps = 7
+    const now = Date.now()
+    const tapState = secretTapRef.current
+
+    if (now - tapState.lastTap > tapWindowMs) {
+      tapState.count = 0
+    }
+
+    tapState.count += 1
+    tapState.lastTap = now
+
+    if (tapState.count >= requiredTaps) {
+      tapState.count = 0
+      document.cookie = 'prelaunch_auth=1; max-age=600; path=/; samesite=lax'
+      router.push(getLocalePath('/auth/signin'))
+    }
+  }, [isPreLaunch, router, getLocalePath])
 
   // Auto-rotate Textbook slideshow every 4 seconds (only when visible)
   useEffect(() => {
@@ -406,7 +429,14 @@ export default function LandingPageClient() {
     <div className="min-h-screen bg-white dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-300 overflow-x-hidden">
       {/* Header */}
       <header className="w-full px-4 md:px-6 py-4 flex justify-between items-center sticky top-0 bg-white/90 dark:bg-gray-900/90 backdrop-blur-sm z-50 border-b border-gray-200 dark:border-gray-800 max-w-full">
-        <Logo />
+        <button
+          type="button"
+          onClick={handleSecretLogoTap}
+          aria-label="Moshimoshi"
+          className="flex items-center gap-2 p-0 bg-transparent border-0"
+        >
+          <Logo />
+        </button>
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center gap-4">
