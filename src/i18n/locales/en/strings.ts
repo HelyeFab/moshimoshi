@@ -4287,7 +4287,7 @@ export const strings = {
       createFailed: 'Failed to create list',
       loadFailed: 'Failed to load lists',
       saveFailed: 'Failed to save item',
-      addFailed: 'Failed to add to list',
+      addFailed: "Couldn't add that! Check list type.",
       signInRequired: 'Please sign in to use lists',
       noListSelected: 'Please select at least one list',
       incompatibleType: 'This list type cannot accept this item',

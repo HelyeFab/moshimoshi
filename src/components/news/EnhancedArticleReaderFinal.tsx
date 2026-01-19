@@ -1231,7 +1231,7 @@ export default function EnhancedArticleReader({
   // AI word explanation feature
   const [isWordModalOpen, setIsWordModalOpen] = useState(false)
   const [wordContext, setWordContext] = useState<string | undefined>(undefined)
-  const [debugEnabled, setDebugEnabled] = useState(false)
+  const [debugEnabled, setDebugEnabled] = useState(true)
   const [debugEvents, setDebugEvents] = useState<string[]>([])
   const addDebugEvent = useCallback(
     (message: string, data?: Record<string, unknown>) => {
@@ -1266,7 +1266,7 @@ export default function EnhancedArticleReader({
     if (typeof window === 'undefined') return
     const params = new URLSearchParams(window.location.search)
     const enabled = localStorage.getItem('moshi-debug') === 'true' || params.has('debug')
-    setDebugEnabled(enabled)
+    setDebugEnabled(enabled || true)
   }, [])
 
   useEffect(() => {

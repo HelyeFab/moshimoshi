@@ -3787,7 +3787,7 @@ export const strings = {
       noListSelected: 'Por favor selecciona al menos una lista',
       incompatibleType: 'Este tipo de lista no puede aceptar este elemento',
       duplicateItem: 'Este elemento ya existe en la lista',
-      addFailed: 'Error al agregar a la lista',
+      addFailed: '¡No se pudo agregar! Verifica el tipo de lista.',
       signInRequired: 'Por favor, inicia sesión para usar listas',
     },
     validation: {

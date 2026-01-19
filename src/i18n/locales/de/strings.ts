@@ -3789,7 +3789,7 @@ export const strings = {
       noListSelected: 'Bitte wählen Sie mindestens eine Liste',
       incompatibleType: 'Dieser Listentyp kann dieses Element nicht akzeptieren',
       duplicateItem: 'Dieses Element existiert bereits in der Liste',
-      addFailed: 'Hinzufügen zur Liste fehlgeschlagen',
+      addFailed: 'Konnte nicht hinzufügen! Listentyp prüfen.',
       signInRequired: 'Bitte melden Sie sich an, um Listen zu verwenden',
     },
     validation: {

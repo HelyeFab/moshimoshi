@@ -4027,7 +4027,7 @@ export const strings = {
       noListSelected: '少なくとも一つのリストを選択してください',
       incompatibleType: 'このリストタイプはこのアイテムを受け入れることができません',
       duplicateItem: 'このアイテムは既にリストに存在します',
-      addFailed: 'リストへの追加に失敗しました',
+      addFailed: '追加できませんでした！リストタイプを確認してください。',
       signInRequired: 'リストを使用するにはサインインしてください',
     },
     validation: {
