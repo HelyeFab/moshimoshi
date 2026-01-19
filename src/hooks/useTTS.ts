@@ -304,13 +304,10 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
             // Cache the result for offline use (fire and forget)
             // Route Firebase Storage URLs through proxy to avoid CORS issues
-            const cacheUrl =
-              result.audioUrl.includes('firebasestorage') ||
-              result.audioUrl.includes('storage.googleapis.com')
-                ? `/api/tts/proxy?url=${encodeURIComponent(result.audioUrl)}`
-                : result.audioUrl
+            // iOS FIX: Cache the direct Firebase URL (not proxied)
+            // This allows iOS to play cached audio properly
             offlineCache
-              .set(text, provider, voice, speed, cacheUrl, result.duration || 0, pitch)
+              .set(text, provider, voice, speed, result.audioUrl, result.duration || 0, pitch)
               .then(() => {
                 console.log(
                   `%c[useTTS] 💾 Cached to IndexedDB | Text: "${text.substring(0, 40)}..."`,
@@ -431,13 +428,17 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
         // Load and play audio
         // Route Firebase Storage URLs through TTS proxy to handle CORS
-        const audioUrl =
-          result.audioUrl.includes('firebasestorage') ||
-          result.audioUrl.includes('storage.googleapis.com')
-            ? `/api/tts/proxy?url=${encodeURIComponent(result.audioUrl)}`
-            : result.audioUrl
+        // iOS FIX: Use direct Firebase Storage URLs instead of proxy
+        // The proxy causes audio.play() promise to hang forever on iOS Safari
+        // CORS must be configured on Firebase Storage bucket instead
+        const audioUrl = result.audioUrl
 
         console.log('Setting audio source:', audioUrl)
+        debug('[useTTS] Audio URL', {
+          isDirect: !audioUrl.includes('/proxy'),
+          isFirebase: audioUrl.includes('firebasestorage') || audioUrl.includes('storage.googleapis.com'),
+          urlPreview: audioUrl.substring(0, 100)
+        })
         setLoading(false)
 
         // Wait for audio to be ready before playing

@@ -131,10 +131,10 @@ export default function WordExplanationModal({
       try {
         unlockAudioOnUserGesture()
         const rawUrl = explanation.audioUrl
-        const proxiedUrl =
-          rawUrl.includes('firebasestorage') || rawUrl.includes('storage.googleapis.com')
-            ? `/api/tts/proxy?url=${encodeURIComponent(rawUrl)}`
-            : rawUrl
+
+        // iOS FIX: Use direct Firebase URLs instead of proxy
+        // The proxy causes audio.play() promise to hang on iOS Safari
+        const proxiedUrl = rawUrl
 
         if (typeof window !== 'undefined') {
           window.dispatchEvent(
