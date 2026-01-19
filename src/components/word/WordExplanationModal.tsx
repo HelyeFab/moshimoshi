@@ -127,17 +127,60 @@ export default function WordExplanationModal({
   const handlePlayWord = useCallback(async () => {
     if (explanation?.audioUrl) {
       try {
+        const rawUrl = explanation.audioUrl
+        const proxiedUrl =
+          rawUrl.includes('firebasestorage') || rawUrl.includes('storage.googleapis.com')
+            ? `/api/tts/proxy?url=${encodeURIComponent(rawUrl)}`
+            : rawUrl
+
         if (typeof window !== 'undefined') {
           window.dispatchEvent(
             new CustomEvent('moshi-debug', {
               detail: {
                 message: '[WordExplanation] Play word audio (precomputed URL)',
-                data: { url: explanation.audioUrl.substring(0, 80) },
+                data: { url: proxiedUrl.substring(0, 80) },
               },
             })
           )
         }
-        const audio = new Audio(explanation.audioUrl)
+        const audio = new Audio()
+        audio.src = proxiedUrl
+        audio.load()
+
+        await new Promise<void>((resolve, reject) => {
+          let resolved = false
+          const timeoutId = setTimeout(() => {
+            if (!resolved) {
+              resolved = true
+              cleanup()
+              reject(new Error('Precomputed audio load timed out'))
+            }
+          }, 8000)
+
+          const cleanup = () => {
+            audio.removeEventListener('canplaythrough', onCanPlay)
+            audio.removeEventListener('error', onError)
+            clearTimeout(timeoutId)
+          }
+
+          const onCanPlay = () => {
+            if (resolved) return
+            resolved = true
+            cleanup()
+            resolve()
+          }
+
+          const onError = () => {
+            if (resolved) return
+            resolved = true
+            cleanup()
+            reject(new Error('Precomputed audio failed to load'))
+          }
+
+          audio.addEventListener('canplaythrough', onCanPlay)
+          audio.addEventListener('error', onError)
+        })
+
         await audio.play()
         return
       } catch (err) {
