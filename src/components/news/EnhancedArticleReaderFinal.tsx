@@ -1061,8 +1061,25 @@ export default function EnhancedArticleReader({
         return
       }
 
-      // STORY MODE: No pre-stored translation - fall back to AI translation
+      // STORY MODE: No pre-stored translation - try sentence cache, then AI fallback
       if (isStoryMode && !currentTranslation && currentContent) {
+        // If sentence cache is still loading, wait to avoid unnecessary fallback
+        if (storySentenceData.isLoading) {
+          return
+        }
+
+        const pageNumber = pages?.[currentPageIndex]?.pageNumber ?? currentPageIndex + 1
+        const cachedSentences = storySentenceData.getPageSentences(pageNumber)
+        const cachedTranslation = cachedSentences
+          .map(sentence => sentence.translation?.translatedText)
+          .filter(Boolean)
+          .join(' ')
+
+        if (cachedTranslation) {
+          setTranslatedContent(cachedTranslation)
+          return
+        }
+
         console.warn('[Translation] Story page missing pre-stored translation, using AI fallback')
 
         // Fall back to AI translation for stories without pre-stored translations
@@ -1107,7 +1124,17 @@ export default function EnhancedArticleReader({
     }
 
     handleTranslation()
-  }, [settings.translationMode, currentContent, currentTranslation, currentPageIndex, isStoryMode, article.id, getFullTranslation])
+  }, [
+    settings.translationMode,
+    currentContent,
+    currentTranslation,
+    currentPageIndex,
+    isStoryMode,
+    article.id,
+    getFullTranslation,
+    pages,
+    storySentenceData,
+  ])
 
   // Sync translation settings when reading settings change
   useEffect(() => {

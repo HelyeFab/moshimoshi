@@ -10,6 +10,8 @@ interface TTSLoadingOverlayProps {
   isLoading: boolean
   /** Minimum delay before showing (ms) - prevents flicker for fast loads */
   minDelay?: number
+  /** Callback when user dismisses the overlay (doesn't stop loading, just hides UI) */
+  onDismiss?: () => void
 }
 
 // Fun Japanese phrases for loading (hiragana only) - will be shown with translations
@@ -24,10 +26,11 @@ const LOADING_PHRASES = [
   { ja: 'まほうをかけてるよ', en: 'Casting magic...' },
 ]
 
-export function TTSLoadingOverlay({ isLoading, minDelay = 300 }: TTSLoadingOverlayProps) {
+export function TTSLoadingOverlay({ isLoading, minDelay = 300, onDismiss }: TTSLoadingOverlayProps) {
   const { t } = useI18n()
   const [shouldShow, setShouldShow] = useState(false)
   const [phraseIndex, setPhraseIndex] = useState(0)
+  const [userDismissed, setUserDismissed] = useState(false)
 
   // Pick a random starting phrase
   const shuffledPhrases = useMemo(() => {
@@ -49,6 +52,7 @@ export function TTSLoadingOverlay({ isLoading, minDelay = 300 }: TTSLoadingOverl
       }, minDelay)
     } else {
       setShouldShow(false)
+      setUserDismissed(false) // Reset dismissal when loading completes
     }
 
     return () => {
@@ -72,9 +76,16 @@ export function TTSLoadingOverlay({ isLoading, minDelay = 300 }: TTSLoadingOverl
 
   const currentPhrase = shuffledPhrases[phraseIndex]
 
+  const handleDismiss = () => {
+    setUserDismissed(true)
+    if (onDismiss) {
+      onDismiss()
+    }
+  }
+
   return (
     <AnimatePresence>
-      {shouldShow && (
+      {shouldShow && !userDismissed && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -85,12 +96,14 @@ export function TTSLoadingOverlay({ isLoading, minDelay = 300 }: TTSLoadingOverl
           aria-live="polite"
           aria-label={t('tts.loading.ariaLabel') || 'Loading audio'}
         >
-          {/* Subtle backdrop */}
+          {/* Subtle backdrop - clickable to dismiss */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="absolute inset-0 bg-black/10 dark:bg-black/20 backdrop-blur-[2px]"
+            onClick={handleDismiss}
+            className="absolute inset-0 bg-black/10 dark:bg-black/20 backdrop-blur-[2px] pointer-events-auto cursor-pointer"
+            title="Click to dismiss (audio generation continues)"
           />
 
           {/* Content container */}
@@ -103,7 +116,8 @@ export function TTSLoadingOverlay({ isLoading, minDelay = 300 }: TTSLoadingOverl
               damping: 25,
               stiffness: 300,
             }}
-            className="relative flex flex-col items-center gap-4 p-6 bg-white/95 dark:bg-dark-800/95 rounded-2xl shadow-2xl border border-gray-200/50 dark:border-dark-600/50"
+            onClick={(e) => e.stopPropagation()}
+            className="relative flex flex-col items-center gap-4 p-6 bg-white/95 dark:bg-dark-800/95 rounded-2xl shadow-2xl border border-gray-200/50 dark:border-dark-600/50 pointer-events-auto"
           >
             {/* Animated Doshi mascot */}
             <motion.div
@@ -160,6 +174,11 @@ export function TTSLoadingOverlay({ isLoading, minDelay = 300 }: TTSLoadingOverl
                 />
               ))}
             </div>
+
+            {/* Dismiss hint */}
+            <p className="text-xs text-gray-400 dark:text-gray-500 text-center">
+              Click outside to continue using the app
+            </p>
           </motion.div>
         </motion.div>
       )}
