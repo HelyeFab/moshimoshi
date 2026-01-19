@@ -1215,7 +1215,10 @@ export default function EnhancedArticleReader({
     article.id,
     getFullTranslation,
     pages,
-    storySentenceData,
+    storySentenceData.isLoading,
+    storySentenceData.hasCachedData,
+    storySentenceData.pageData?.length,
+    storySentenceData.getPageSentences,
     addDebugEvent,
   ])
 
@@ -2554,7 +2557,28 @@ export default function EnhancedArticleReader({
               Copy
             </button>
           </div>
-          <div className="px-3 py-2 text-xs space-y-1 border-b border-white/10">
+          <div className="px-3 py-2 text-xs space-y-2 border-b border-white/10">
+            {isStoryMode && totalPages > 1 && (
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  className="rounded px-2 py-1 text-[10px] font-semibold bg-white/10 hover:bg-white/20 active:bg-white/30 disabled:opacity-40 disabled:hover:bg-white/10"
+                  onClick={() => handlePageChange('prev')}
+                  disabled={currentPageIndex === 0}
+                >
+                  Prev
+                </button>
+                <button
+                  type="button"
+                  className="rounded px-2 py-1 text-[10px] font-semibold bg-white/10 hover:bg-white/20 active:bg-white/30 disabled:opacity-40 disabled:hover:bg-white/10"
+                  onClick={() => handlePageChange('next')}
+                  disabled={currentPageIndex >= totalPages - 1}
+                >
+                  Next
+                </button>
+                <span className="text-[10px] text-white/70">Navigate pages</span>
+              </div>
+            )}
             <div>Content: {contentType}</div>
             <div>Page: {currentPageIndex + 1} / {totalPages}</div>
             <div>Story sentence cache: {storySentenceData.isLoading ? 'loading' : (storySentenceData.hasCachedData ? 'ready' : 'missing')}</div>

@@ -66,6 +66,29 @@ const AVAILABLE_SCRIPTS = {
     tier: 'low',
     requiresParams: true,
   },
+  'backfill-story-translations': {
+    file: 'backfill-story-translations.ts',
+    description: 'Add English translations to stories using OpenAI',
+    requiresConfirmation: true,
+    tier: 'medium',
+    requiresParams: true,
+    paramConfig: {
+      dryRun: { type: 'boolean', label: 'Dry Run (preview only)' },
+      limit: { type: 'number', label: 'Limit (stories to process)' },
+      storyId: { type: 'text', label: 'Story ID (specific story)' },
+    },
+  },
+  'backfill-story-word-explanations': {
+    file: 'backfillStoryWordExplanations.ts',
+    description: 'Generate word explanations for published stories',
+    requiresConfirmation: true,
+    tier: 'medium',
+    requiresParams: true,
+    paramConfig: {
+      dryRun: { type: 'boolean', label: 'Dry Run (preview only)' },
+      story: { type: 'text', label: 'Story ID (specific story)' },
+    },
+  },
 } as const
 
 type ScriptId = keyof typeof AVAILABLE_SCRIPTS
@@ -90,8 +113,18 @@ export const POST = withAdminAuth(async (request: NextRequest, context: AdminCon
     const args: string[] = []
     if (params && typeof params === 'object') {
       Object.entries(params).forEach(([key, value]) => {
-        if (value) {
-          args.push(`--${key}`, String(value))
+        if (value !== null && value !== undefined && value !== '') {
+          // Handle boolean flags (e.g., --dry-run)
+          if (typeof value === 'boolean' && value === true) {
+            // Convert camelCase to kebab-case for flags
+            const flagKey = key.replace(/([A-Z])/g, '-$1').toLowerCase()
+            args.push(`--${flagKey}`)
+          } else if (typeof value !== 'boolean') {
+            // Handle other values (number, string)
+            // Convert camelCase to kebab-case for keys
+            const paramKey = key.replace(/([A-Z])/g, '-$1').toLowerCase()
+            args.push(`--${paramKey}=${String(value)}`)
+          }
         }
       })
     }

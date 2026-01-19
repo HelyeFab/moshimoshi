@@ -8,6 +8,13 @@ import { useAuth } from '@/hooks/useAuth';
 import { auth } from '@/lib/firebase/client';
 import Modal from '@/components/ui/Modal';
 
+interface ParamConfig {
+  [key: string]: {
+    type: 'boolean' | 'number' | 'text';
+    label: string;
+  };
+}
+
 interface Script {
   id: string;
   file: string;
@@ -15,6 +22,7 @@ interface Script {
   requiresConfirmation: boolean;
   tier: 'critical' | 'high' | 'medium' | 'low';
   requiresParams?: boolean;
+  paramConfig?: ParamConfig;
 }
 
 export default function AdminScriptsPage() {
@@ -27,6 +35,7 @@ export default function AdminScriptsPage() {
   const [scriptOutput, setScriptOutput] = useState<string>('');
   const [showConfirm, setShowConfirm] = useState<Script | null>(null);
   const [paramInput, setParamInput] = useState('');
+  const [scriptParams, setScriptParams] = useState<Record<string, any>>({});
 
   useEffect(() => {
     fetchScripts();
@@ -73,8 +82,14 @@ export default function AdminScriptsPage() {
       if (!token) throw new Error('Not authenticated');
 
       const body: any = { scriptId: script.id };
-      if (script.requiresParams && paramInput) {
-        body.params = { videoId: paramInput };
+      if (script.requiresParams) {
+        if (script.paramConfig) {
+          // Use the new multi-param system
+          body.params = scriptParams[script.id] || {};
+        } else if (paramInput) {
+          // Legacy single param (videoId) for backwards compatibility
+          body.params = { videoId: paramInput };
+        }
       }
 
       const response = await fetch('/api/admin/scripts/run', {
@@ -101,6 +116,7 @@ export default function AdminScriptsPage() {
     } finally {
       setExecuting(null);
       setParamInput('');
+      setScriptParams({});
     }
   };
 
@@ -181,6 +197,8 @@ export default function AdminScriptsPage() {
                 getTierBadge={getTierBadge}
                 paramInput={paramInput}
                 setParamInput={setParamInput}
+                scriptParams={scriptParams}
+                setScriptParams={setScriptParams}
               />
             ))}
           </div>
@@ -204,6 +222,8 @@ export default function AdminScriptsPage() {
                 getTierBadge={getTierBadge}
                 paramInput={paramInput}
                 setParamInput={setParamInput}
+                scriptParams={scriptParams}
+                setScriptParams={setScriptParams}
               />
             ))}
           </div>
@@ -227,6 +247,8 @@ export default function AdminScriptsPage() {
                 getTierBadge={getTierBadge}
                 paramInput={paramInput}
                 setParamInput={setParamInput}
+                scriptParams={scriptParams}
+                setScriptParams={setScriptParams}
               />
             ))}
           </div>
@@ -250,6 +272,8 @@ export default function AdminScriptsPage() {
                 getTierBadge={getTierBadge}
                 paramInput={paramInput}
                 setParamInput={setParamInput}
+                scriptParams={scriptParams}
+                setScriptParams={setScriptParams}
               />
             ))}
           </div>
@@ -313,7 +337,9 @@ function ScriptCard({
   getTierColor,
   getTierBadge,
   paramInput,
-  setParamInput
+  setParamInput,
+  scriptParams,
+  setScriptParams
 }: {
   script: Script;
   executing: boolean;
@@ -322,7 +348,18 @@ function ScriptCard({
   getTierBadge: (tier: string) => string;
   paramInput: string;
   setParamInput: (value: string) => void;
+  scriptParams: Record<string, any>;
+  setScriptParams: (params: Record<string, any>) => void;
 }) {
+  const handleParamChange = (paramKey: string, value: any) => {
+    setScriptParams({
+      ...scriptParams,
+      [script.id]: {
+        ...(scriptParams[script.id] || {}),
+        [paramKey]: value,
+      },
+    });
+  };
   return (
     <motion.div
       whileHover={{ scale: 1.02 }}
@@ -343,7 +380,62 @@ function ScriptCard({
           </span>
         </div>
 
-        {script.requiresParams && (
+        {script.requiresParams && script.paramConfig && (
+          <div className="space-y-2">
+            {Object.entries(script.paramConfig).map(([paramKey, paramDef]) => {
+              const currentValue = scriptParams[script.id]?.[paramKey];
+
+              if (paramDef.type === 'boolean') {
+                return (
+                  <label key={paramKey} className="flex items-center gap-2 text-sm cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={currentValue || false}
+                      onChange={(e) => handleParamChange(paramKey, e.target.checked)}
+                      className="w-4 h-4 rounded border-gray-300 dark:border-gray-600 text-primary-500 focus:ring-primary-500"
+                    />
+                    <span className="text-gray-700 dark:text-gray-300">{paramDef.label}</span>
+                  </label>
+                );
+              }
+
+              if (paramDef.type === 'number') {
+                return (
+                  <div key={paramKey}>
+                    <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                      {paramDef.label}
+                    </label>
+                    <input
+                      type="number"
+                      value={currentValue || ''}
+                      onChange={(e) => handleParamChange(paramKey, e.target.value ? parseInt(e.target.value) : null)}
+                      placeholder={paramDef.label}
+                      className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-white text-sm"
+                    />
+                  </div>
+                );
+              }
+
+              // text type
+              return (
+                <div key={paramKey}>
+                  <label className="block text-xs text-gray-600 dark:text-gray-400 mb-1">
+                    {paramDef.label}
+                  </label>
+                  <input
+                    type="text"
+                    value={currentValue || ''}
+                    onChange={(e) => handleParamChange(paramKey, e.target.value)}
+                    placeholder={paramDef.label}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-850 text-gray-900 dark:text-white text-sm"
+                  />
+                </div>
+              );
+            })}
+          </div>
+        )}
+
+        {script.requiresParams && !script.paramConfig && (
           <input
             type="text"
             value={paramInput}
