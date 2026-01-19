@@ -184,7 +184,21 @@ export default function WordExplanationModal({
           audio.addEventListener('error', onError)
         })
 
-        await audio.play()
+        try {
+          await audio.play()
+        } catch (playError: any) {
+          if (typeof window !== 'undefined') {
+            window.dispatchEvent(
+              new CustomEvent('moshi-debug', {
+                detail: {
+                  message: '[WordExplanation] Precomputed play failed',
+                  data: { name: playError?.name, message: playError?.message },
+                },
+              })
+            )
+          }
+          throw playError
+        }
         return
       } catch (err) {
         console.warn('Audio playback failed, falling back to TTS', err)

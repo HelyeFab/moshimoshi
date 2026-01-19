@@ -213,6 +213,15 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         setCurrentText(text)
         unlockAudioOnUserGesture()
 
+        const debug = (message: string, data?: Record<string, unknown>) => {
+          if (typeof window === 'undefined') return
+          window.dispatchEvent(
+            new CustomEvent('moshi-debug', {
+              detail: { message, data },
+            })
+          )
+        }
+
         // Stop current audio if playing (but don't remove it)
         if (audioRef.current && !audioRef.current.paused) {
           audioRef.current.pause()
@@ -251,6 +260,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
               `%c[useTTS] 🔄 Cache miss - Fetching from API | Text: "${text.substring(0, 40)}..."`,
               'color: #ff9800; font-weight: bold'
             )
+            debug('[useTTS] API request', { textPreview: text.substring(0, 40) })
             setIsFetchingFromAPI(true)
             ttsLoadingState.setFetching(true)
 
@@ -315,6 +325,11 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
               `%c[useTTS] ✅ API Success | Provider: ${result.provider} | Server Cached: ${result.cached} | Text: "${text.substring(0, 40)}..."`,
               'color: #4caf50; font-weight: bold'
             )
+            debug('[useTTS] API success', {
+              provider: result.provider,
+              cached: result.cached,
+              textPreview: text.substring(0, 40),
+            })
           }
         } else {
           // Cache disabled, always call API
@@ -495,7 +510,24 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
         // Play the audio
         try {
-          await audio.play()
+          const playWithRetry = async () => {
+            try {
+              await audio.play()
+              return
+            } catch (playError: any) {
+              if (playError?.name === 'NotAllowedError') {
+                debug('[useTTS] Audio play blocked (NotAllowedError)', {
+                  textPreview: text.substring(0, 40),
+                })
+                unlockAudioOnUserGesture()
+                await audio.play()
+                return
+              }
+              throw playError
+            }
+          }
+
+          await playWithRetry()
           console.log('Audio playing successfully')
 
           // NOW dismiss the loading modal - audio is actually playing
@@ -509,6 +541,11 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
           // Ignore AbortError if it's because we're switching to a new audio
           if (playError.name !== 'AbortError') {
             console.error('Failed to play audio:', playError)
+            debug('[useTTS] Audio play failed', {
+              name: playError?.name,
+              message: playError?.message,
+              textPreview: text.substring(0, 40),
+            })
             throw playError
           }
         }
@@ -546,6 +583,7 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
         ttsLoadingState.setFetching(false)
         setCurrentText(null)
         onError?.(error)
+        debug('[useTTS] Error', { message: error.message, textPreview: text.substring(0, 40) })
         throw error
       }
     },
