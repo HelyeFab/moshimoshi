@@ -566,43 +566,75 @@ export function useTTS(options: UseTTSOptions = {}): UseTTSReturn {
 
         // Play the audio
         try {
+          debug('[useTTS] Attempting to play audio', {
+            textPreview: text.substring(0, 40),
+            readyState: audio.readyState,
+            paused: audio.paused,
+            src: audio.src?.substring(0, 50)
+          })
+
           const playWithRetry = async () => {
             try {
-              await audio.play()
+              debug('[useTTS] Calling audio.play()')
+              const playPromise = audio.play()
+              debug('[useTTS] audio.play() called, waiting for promise')
+              await playPromise
+              debug('[useTTS] audio.play() promise resolved successfully')
               return
             } catch (playError: any) {
+              debug('[useTTS] audio.play() threw error', {
+                name: playError?.name,
+                message: playError?.message,
+                code: playError?.code
+              })
+
               if (playError?.name === 'NotAllowedError') {
-                debug('[useTTS] Audio play blocked (NotAllowedError)', {
-                  textPreview: text.substring(0, 40),
-                })
+                debug('[useTTS] NotAllowedError - user gesture lost, trying unlock')
                 unlockAudioOnUserGesture()
-                await audio.play()
-                return
+
+                // Try one more time
+                try {
+                  debug('[useTTS] Retrying audio.play() after unlock')
+                  await audio.play()
+                  debug('[useTTS] Retry succeeded')
+                  return
+                } catch (retryError: any) {
+                  debug('[useTTS] Retry failed', {
+                    name: retryError?.name,
+                    message: retryError?.message
+                  })
+                  throw retryError
+                }
               }
               throw playError
             }
           }
 
           await playWithRetry()
-          console.log('Audio playing successfully')
+          console.log('%c[useTTS] ✅ Audio playing successfully', 'color: #00ff00; font-weight: bold')
+          debug('[useTTS] Audio playback started successfully')
 
           // NOW dismiss the loading modal - audio is actually playing
           setIsFetchingFromAPI(false)
           ttsLoadingState.setFetching(false)
         } catch (playError: any) {
-          // Dismiss modal on error too
+          console.error('%c[useTTS] ❌ Audio play failed:', 'color: #ff0000; font-weight: bold', playError)
+
+          // CRITICAL: Dismiss modal on error too, otherwise it hangs forever
           setIsFetchingFromAPI(false)
           ttsLoadingState.setFetching(false)
 
           // Ignore AbortError if it's because we're switching to a new audio
           if (playError.name !== 'AbortError') {
-            console.error('Failed to play audio:', playError)
-            debug('[useTTS] Audio play failed', {
+            debug('[useTTS] Audio play failed - final error', {
               name: playError?.name,
               message: playError?.message,
               textPreview: text.substring(0, 40),
             })
-            throw playError
+
+            // Don't throw - just log the error and let user retry
+            // Throwing here would break the UI flow
+            console.warn('[useTTS] Play failed, but not throwing to allow retry')
           }
         }
       } catch (err: any) {
