@@ -60,8 +60,21 @@ export class TTSService {
     })
     if (cached) {
       console.log(`TTS cache hit for: ${text.substring(0, 50)}...`)
+
+      // iOS FIX: Strip proxy from old cached URLs
+      // Old cache entries may have proxied URLs which cause iOS audio.play() to hang
+      let audioUrl = cached.audioUrl
+      if (audioUrl.includes('/api/tts/proxy?url=')) {
+        // Extract the actual Firebase URL from the proxy
+        const match = audioUrl.match(/\/api\/tts\/proxy\?url=(.+)/)
+        if (match && match[1]) {
+          audioUrl = decodeURIComponent(match[1])
+          console.log(`[TTS Cache] Stripped proxy from old cached URL: ${text.substring(0, 30)}`)
+        }
+      }
+
       return {
-        audioUrl: cached.audioUrl,
+        audioUrl,  // Return direct URL (proxy stripped if present)
         cached: true,
         duration: cached.duration,
         provider: cached.provider,
