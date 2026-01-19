@@ -1133,6 +1133,7 @@ export default function EnhancedArticleReader({
           `story-ai-fallback-${currentPageIndex}`,
           '[Translation] Story missing cache -> AI fallback',
           { page: currentPageIndex + 1 }
+        )
         // Fall back to AI translation for stories without pre-stored translations
         try {
           const result = await getFullTranslation(currentContent)
