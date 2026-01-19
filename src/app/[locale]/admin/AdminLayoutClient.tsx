@@ -100,6 +100,7 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
     { href: '/admin/stripe-testing', label: 'Stripe Testing', icon: '🥚' },
     { href: '/admin/blog', label: 'Blog', icon: '📝' },
     { href: '/admin/monitoring', label: 'Monitoring', icon: '📊' },
+    { href: '/admin/auth-debug', label: 'Auth Debug', icon: '🧭' },
     { href: '/admin/stats-consistency', label: 'Stats Monitor', icon: '🔍' },
     { href: '/admin/entitlements', label: 'Entitlements', icon: '🔐' },
     { href: '/admin/xp-config', label: 'XP Config', icon: '⚡' },
