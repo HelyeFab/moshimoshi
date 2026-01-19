@@ -25,22 +25,25 @@ export function AppVersionSection() {
   const [isUpdating, setIsUpdating] = useState(false)
   const [canInstall, setCanInstall] = useState(false)
   const [isInstalling, setIsInstalling] = useState(false)
-  const [showIOSInstructions, setShowIOSInstructions] = useState(false)
+  const [showInstallInstructions, setShowInstallInstructions] = useState(false)
+  const [installPlatform, setInstallPlatform] = useState<'ios' | 'android' | 'desktop'>('desktop')
 
   useEffect(() => {
     // Check if PWA can be installed
     const checkInstallability = () => {
       const canPrompt = a2hsManager.canPrompt()
       const isInstalled = a2hsManager.isAppInstalled()
-      const shouldShow = canPrompt && !isInstalled
+      const platform = a2hsManager.getPlatform()
+      const shouldShow = !isInstalled && (canPrompt || platform === 'android')
 
       console.log('[AppVersionSection] Install button check:', {
         canPrompt,
         isInstalled,
         shouldShow,
-        platform: a2hsManager.getPlatform()
+        platform
       })
 
+      setInstallPlatform(platform)
       setCanInstall(shouldShow)
     }
 
@@ -113,8 +116,9 @@ export function AppVersionSection() {
   const handleInstall = useCallback(async () => {
     const platform = a2hsManager.getPlatform()
 
-    if (platform === 'ios') {
-      setShowIOSInstructions(true)
+    if (platform === 'ios' || (platform === 'android' && !a2hsManager.canPrompt())) {
+      setInstallPlatform(platform)
+      setShowInstallInstructions(true)
       return
     }
 
@@ -254,8 +258,8 @@ export function AppVersionSection() {
       )}
 
       {/* iOS Instructions Modal */}
-      {showIOSInstructions && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setShowIOSInstructions(false)}>
+      {showInstallInstructions && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm" onClick={() => setShowInstallInstructions(false)}>
           <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden" onClick={(e) => e.stopPropagation()}>
             {/* Header */}
             <div className="bg-gradient-to-r from-primary-500 to-accent-500 p-4">
@@ -265,10 +269,10 @@ export function AppVersionSection() {
                     <Smartphone className="w-5 h-5 text-primary-600" />
                   </div>
                   <h3 className="text-lg font-bold text-white">
-                    {t('pwa.install.ios.instructions') || 'How to Install'}
+                    {t('pwa.install.instructions') || 'How to Install'}
                   </h3>
                 </div>
-                <button onClick={() => setShowIOSInstructions(false)} className="text-white/70 hover:text-white">
+                <button onClick={() => setShowInstallInstructions(false)} className="text-white/70 hover:text-white">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -286,12 +290,18 @@ export function AppVersionSection() {
                   </div>
                 </div>
               ))}
+              {installPlatform === 'android' && (
+                <p className="text-xs text-gray-600 dark:text-gray-400">
+                  {t('pwa.install.android.note') ||
+                    'If you see "Create shortcut", Chrome has not marked the app as installable yet. Try visiting the site a couple more times.'}
+                </p>
+              )}
             </div>
 
             {/* Footer */}
             <div className="p-4 pt-0">
               <button
-                onClick={() => setShowIOSInstructions(false)}
+                onClick={() => setShowInstallInstructions(false)}
                 className="w-full py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium transition-colors"
               >
                 {t('common.gotIt') || 'Got it!'}

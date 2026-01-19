@@ -19,12 +19,6 @@ import { linkWaitlistToUser } from '@/lib/waitlist/linkWaitlist'
 export async function POST(request: NextRequest) {
   console.log('[API /auth/google] Request received')
   let stage = 'start'
-  const debugTtlSeconds = 60 * 60 * 24
-  const debugKeys = {
-    lastError: 'debug:auth:google:last_error',
-    lastSuccess: 'debug:auth:google:last_success',
-  }
-  const debugContext: { uid?: string; email?: string; isNewUser?: boolean } = {}
 
   try {
     // Ensure Firebase Admin is initialized
@@ -97,8 +91,6 @@ export async function POST(request: NextRequest) {
     const email = decodedToken.email
     const displayName = decodedToken.name || email?.split('@')[0]
     const photoURL = decodedToken.picture
-    debugContext.uid = uid
-    debugContext.email = email || undefined
 
     console.log('[API /auth/google] Token verified for:', email)
 
@@ -112,7 +104,6 @@ export async function POST(request: NextRequest) {
       // Create new user profile
       console.log('[API /auth/google] Creating new user profile')
       isNewUser = true
-      debugContext.isNewUser = true
 
       // Use ensureUserProfile for complete default schema
       stage = 'ensure_user_profile'
@@ -162,7 +153,6 @@ export async function POST(request: NextRequest) {
       }
 
       await adminFirestore!.collection('users').doc(uid).update(updateData)
-      debugContext.isNewUser = false
     }
 
     // Get user data for session
@@ -305,48 +295,10 @@ export async function POST(request: NextRequest) {
       console.error('[API /auth/google] No session token to set in cookie')
     }
 
-    // Store debug success marker (best-effort)
-    try {
-      const { redis } = await import('@/lib/redis/client')
-      await redis.setex(
-        debugKeys.lastSuccess,
-        debugTtlSeconds,
-        JSON.stringify({
-          stage: 'success',
-          timestamp: new Date().toISOString(),
-          uid: debugContext.uid,
-          email: debugContext.email,
-          isNewUser: debugContext.isNewUser,
-        })
-      )
-    } catch (debugError) {
-      console.error('[API /auth/google] Debug success store failed:', debugError)
-    }
-
     return response
   } catch (error: any) {
     console.error('[API /auth/google] Error:', error?.message || error)
     console.error('[API /auth/google] Stage:', stage)
-
-    // Store debug error marker (best-effort)
-    try {
-      const { redis } = await import('@/lib/redis/client')
-      await redis.setex(
-        debugKeys.lastError,
-        debugTtlSeconds,
-        JSON.stringify({
-          stage,
-          timestamp: new Date().toISOString(),
-          message: error?.message || 'Unknown error',
-          code: error?.code || null,
-          uid: debugContext.uid,
-          email: debugContext.email,
-          isNewUser: debugContext.isNewUser,
-        })
-      )
-    } catch (debugError) {
-      console.error('[API /auth/google] Debug error store failed:', debugError)
-    }
 
     // Log error
     stage = 'audit_failure'

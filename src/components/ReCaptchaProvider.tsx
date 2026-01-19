@@ -1,7 +1,8 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState, useCallback, ReactNode } from 'react'
+import { createContext, useContext, useEffect, useState, useCallback, ReactNode, useMemo } from 'react'
 import Script from 'next/script'
+import { usePathname } from 'next/navigation'
 
 interface ReCaptchaContextType {
   executeRecaptcha: (action: string) => Promise<string | null>
@@ -31,12 +32,19 @@ declare global {
 export function ReCaptchaProvider({ children }: ReCaptchaProviderProps) {
   const [isLoaded, setIsLoaded] = useState(false)
   const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY
+  const pathname = usePathname()
   const isE2EBypass =
     process.env.NEXT_PUBLIC_E2E_BYPASS_RECAPTCHA === 'true' ||
     process.env.E2E_BYPASS_RECAPTCHA === 'true'
+  const allowAllPages = process.env.NEXT_PUBLIC_RECAPTCHA_ALL_PAGES === 'true'
 
   // Skip reCAPTCHA if not configured
   const isConfigured = siteKey && !siteKey.includes('YOUR_RECAPTCHA') && !isE2EBypass
+  const isRelevantRoute = useMemo(() => {
+    if (!pathname) return false
+    return pathname.includes('/auth') || pathname.includes('/waitlist')
+  }, [pathname])
+  const shouldLoad = isConfigured && (allowAllPages || isRelevantRoute)
 
   useEffect(() => {
     if (isE2EBypass) {
@@ -49,6 +57,10 @@ export function ReCaptchaProvider({ children }: ReCaptchaProviderProps) {
       setIsLoaded(true) // Allow forms to work without reCAPTCHA
       return
     }
+    if (!shouldLoad) {
+      setIsLoaded(true)
+      return
+    }
 
     // Check if already loaded
     if (window.grecaptcha) {
@@ -56,7 +68,7 @@ export function ReCaptchaProvider({ children }: ReCaptchaProviderProps) {
         setIsLoaded(true)
       })
     }
-  }, [isConfigured])
+  }, [isConfigured, shouldLoad, isE2EBypass])
 
   const handleScriptLoad = useCallback(() => {
     if (window.grecaptcha) {
@@ -71,6 +83,9 @@ export function ReCaptchaProvider({ children }: ReCaptchaProviderProps) {
     // If not configured, return null (bypass)
     if (!isConfigured) {
       console.log('[ReCAPTCHA] Not configured, bypassing verification')
+      return null
+    }
+    if (!shouldLoad) {
       return null
     }
 
@@ -90,7 +105,7 @@ export function ReCaptchaProvider({ children }: ReCaptchaProviderProps) {
 
   return (
     <ReCaptchaContext.Provider value={{ executeRecaptcha, isLoaded }}>
-      {isConfigured && (
+      {shouldLoad && (
         <Script
           src={`https://www.google.com/recaptcha/api.js?render=${siteKey}`}
           onLoad={handleScriptLoad}

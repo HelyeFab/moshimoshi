@@ -21,12 +21,14 @@ export interface ServiceWorkerRegistration {
 function getServiceWorkerPath(): { path: string; mode: 'development' | 'production' } {
   const isDevelopment = process.env.NODE_ENV === 'development';
   const forceProduction = process.env.NEXT_PUBLIC_FORCE_PROD_SW === 'true';
+  const swVersion = process.env.NEXT_PUBLIC_SW_VERSION?.trim();
 
   if (isDevelopment && !forceProduction) {
     return { path: '/service-worker.dev.js', mode: 'development' };
   }
 
-  return { path: '/service-worker.js', mode: 'production' };
+  const suffix = swVersion ? `?v=${encodeURIComponent(swVersion)}` : '';
+  return { path: `/service-worker.js${suffix}`, mode: 'production' };
 }
 
 /**
@@ -66,6 +68,16 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
     };
   }
 
+  if (process.env.NEXT_PUBLIC_DISABLE_SW === 'true') {
+    console.log('[SW] Service Worker registration disabled via NEXT_PUBLIC_DISABLE_SW');
+    return {
+      registration: null,
+      isSupported: true,
+      isRegistered: false,
+      error: null
+    };
+  }
+
   // Only register in production or when explicitly enabled
   if (process.env.NODE_ENV === 'development' && !process.env.NEXT_PUBLIC_ENABLE_SW_DEV) {
     console.log('[SW] Service Worker registration disabled in development');
@@ -97,7 +109,7 @@ export async function registerServiceWorker(): Promise<ServiceWorkerRegistration
     // Register service worker with updateViaCache: 'none' for dev to ensure fresh SW
     const registration = await navigator.serviceWorker.register(swPath, {
       scope: '/',
-      updateViaCache: mode === 'development' ? 'none' : 'imports'
+      updateViaCache: 'none'
     });
 
     console.log('[SW] Service Worker registered successfully');

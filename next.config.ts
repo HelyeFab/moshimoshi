@@ -128,6 +128,25 @@ const nextConfig: NextConfig = {
       'framer-motion',
     ],
   },
+  // Ensure kuromoji dictionary files are bundled for serverless routes
+  outputFileTracingIncludes: {
+    '/api/word/precompute': ['node_modules/kuromoji/dict/**'],
+    '/api/word/precompute/test': ['node_modules/kuromoji/dict/**'],
+    '/api/tatoeba/search': ['src/data/sentences/tatoeba/**'],
+    '/api/tatoeba/random': ['src/data/sentences/tatoeba/**'],
+    '/api/tatoeba/meaning': ['src/data/sentences/tatoeba/**'],
+    '/api/drill/session': [
+      'public/data/dictionary/jmdict-eng-common.json',
+      'src/data/dictionary/jmdict-eng-common.json',
+    ],
+    '/api/furigana': ['public/kuromoji_dict/**'],
+    '/api/furigana/tokenize': ['public/kuromoji_dict/**'],
+    '/api/kanji/by-family': ['public/data/kanji/**'],
+    '/api/kanji/by-radical': ['public/data/kanji/**'],
+    '/[locale]/learn/grammar/[pointId]': ['public/data/grammar/**'],
+    '/[locale]/learn/grammar/grammarHub': ['public/data/grammar/**'],
+    '/[locale]/learn/grammar/sitemap': ['public/data/grammar/**'],
+  },
   // Remove console logs in production for cleaner output and smaller bundle
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
