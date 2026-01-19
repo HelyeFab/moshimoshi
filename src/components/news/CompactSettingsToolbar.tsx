@@ -56,28 +56,6 @@ const CompactSettingsToolbar = memo(function CompactSettingsToolbar({
 
   return (
     <>
-      {/* Settings Button - Top-left on mobile, bottom-right on desktop */}
-      <div
-        className={`fixed top-10 left-6 md:top-auto md:left-auto md:bottom-10 md:right-6 z-40 transition-all duration-300 ${
-          isScrolled ? 'translate-y-0 opacity-100' : 'translate-y-2 opacity-90'
-        }`}
-      >
-        <button
-          onClick={onOpen}
-          className="w-14 h-14 rounded-full shadow-2xl backdrop-blur-xl flex items-center justify-center hover:scale-110 active:scale-95"
-          style={{
-            backgroundColor: 'var(--article-bg)',
-            border: '1px solid var(--article-border)',
-            boxShadow:
-              '0 20px 25px -5px var(--article-shadow), 0 10px 10px -5px var(--article-shadow)',
-            transition: 'transform 0.2s ease',
-          }}
-          title={t('news.reader.settings')}
-        >
-          <Settings className="w-6 h-6 text-primary-600 dark:text-primary-400" />
-        </button>
-      </div>
-
       {/* Settings Modal */}
       <Modal
         isOpen={isOpen}

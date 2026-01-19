@@ -91,7 +91,6 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
 
     let lastY = 0;
     let ticking = false;
-    let scrollTimeout: ReturnType<typeof setTimeout> | null = null;
 
     const handleScroll = () => {
       if (ticking) return;
@@ -100,14 +99,8 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
       requestAnimationFrame(() => {
         const currentScrollY = window.scrollY;
 
-        // Show when scrolling up or at top
-        if (currentScrollY < lastY || currentScrollY < 50) {
-          setIsVisible(true);
-          setShowHandle(false);
-          scheduleAutoHide();
-        }
         // Hide when scrolling down beyond threshold
-        else if (currentScrollY > lastY && currentScrollY > 100) {
+        if (currentScrollY > lastY && currentScrollY > 100) {
           setIsVisible(false);
           setShowHandle(true);
           clearHideTimeout();
@@ -116,25 +109,12 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
         lastY = currentScrollY;
         ticking = false;
       });
-
-      // Clear previous timeout
-      if (scrollTimeout) {
-        clearTimeout(scrollTimeout);
-      }
-
-      // When scrolling stops for 500ms, show bottom nav again
-      scrollTimeout = setTimeout(() => {
-        setIsVisible(true);
-        setShowHandle(false);
-        scheduleAutoHide();
-      }, 500);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
       window.removeEventListener("scroll", handleScroll);
-      if (scrollTimeout) clearTimeout(scrollTimeout);
       clearHideTimeout();
     };
   }, [hideOnScroll]);
@@ -192,13 +172,14 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
       <AnimatePresence>
         {isVisible && (
           <motion.div
-            initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 100, opacity: 0 }}
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            exit={{ scaleX: 0, opacity: 0 }}
             transition={{ type: "spring", damping: 25, stiffness: 300 }}
             className="fixed bottom-4 w-full flex justify-center z-50 md:hidden px-6"
             style={{
               bottom: `calc(16px + env(safe-area-inset-bottom, ${SAFE_AREA_FALLBACK}px))`,
+              transformOrigin: "right",
             }}
           >
             <div className="w-full">
@@ -233,7 +214,7 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
                       className="flex flex-col items-center justify-center font-medium transition-colors px-2 py-1.5 flex-shrink-0 snap-center text-gray-500 dark:text-gray-400 hover:text-primary-500 dark:hover:text-primary-400"
                       style={{ fontSize: "10px" }}
                     >
-                      <Command className="w-6 h-6" />
+                      <Command className="w-5 h-5" />
                       <span className="opacity-0 pointer-events-none">nav</span>
                     </button>
 
@@ -250,7 +231,7 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
                           }`}
                           style={{ fontSize: "10px" }}
                         >
-                          <Icon className="w-6 h-6" />
+                          <Icon className="w-5 h-5" />
                           <span>{label}</span>
                         </Link>
                       );

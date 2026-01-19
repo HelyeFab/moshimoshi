@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Dock } from 'lucide-react';
+import { Component } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface NavHandleProps {
@@ -102,8 +102,8 @@ export default function NavHandle({
               }}
             />
 
-            {/* Dock Icon */}
-            <Dock
+            {/* Component Icon */}
+            <Component
               className="relative z-10 w-5 h-5 text-gray-700 dark:text-gray-200"
               strokeWidth={2}
               aria-hidden="true"

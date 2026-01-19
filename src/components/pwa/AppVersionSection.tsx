@@ -81,10 +81,14 @@ export function AppVersionSection() {
         setTimeout(() => setStatus('idle'), 3000)
       }
 
-      // Also trigger service worker update check
+      // Also trigger service worker update check (don't fail UI if SW update throws)
       if ('serviceWorker' in navigator) {
-        const registration = await navigator.serviceWorker.ready
-        await registration.update()
+        try {
+          const registration = await navigator.serviceWorker.ready
+          await registration.update()
+        } catch (swError) {
+          console.warn('[AppVersion] Service worker update check failed:', swError)
+        }
       }
     } catch (error) {
       console.error('[AppVersion] Failed to check for updates:', error)

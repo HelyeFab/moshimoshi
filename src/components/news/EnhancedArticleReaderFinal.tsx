@@ -2365,6 +2365,24 @@ export default function EnhancedArticleReader({
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
 
+          {/* Settings Button - Top Right inside image */}
+          {!settings.shadowingMode && (
+            <div className="absolute top-1 right-1 z-10">
+              <button
+                onClick={() => setShowMobileSettings(true)}
+                className="w-9 h-9 rounded-full backdrop-blur-md flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-200"
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.03)',
+                  border: '1px solid rgba(255, 255, 255, 0.3)',
+                  boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.1), inset 0 1px 2px rgba(255, 255, 255, 0.2)',
+                }}
+                title={t('news.reader.settings')}
+              >
+                <Settings className="w-5 h-5 text-primary-600 dark:text-primary-400" />
+              </button>
+            </div>
+          )}
+
           {/* Metadata Badges on Image */}
           <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between animate-fade-in-up">
             {/* Left side: Reading time */}
