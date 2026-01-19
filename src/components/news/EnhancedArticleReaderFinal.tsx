@@ -1042,6 +1042,15 @@ export default function EnhancedArticleReader({
   const [translatedContent, setTranslatedContent] = useState<string | null>(null)
   const [debugEnabled, setDebugEnabled] = useState(true)
   const [debugEvents, setDebugEvents] = useState<string[]>([])
+  const debugEventGuardRef = useRef<Map<string, number>>(new Map())
+  const [debugPanelPos, setDebugPanelPos] = useState({ x: 0, y: 0 })
+  const debugDragStateRef = useRef<{
+    dragging: boolean
+    startX: number
+    startY: number
+    originX: number
+    originY: number
+  }>({ dragging: false, startX: 0, startY: 0, originX: 0, originY: 0 })
   const addDebugEvent = useCallback(
     (message: string, data?: Record<string, unknown>) => {
       if (!debugEnabled) return
@@ -1050,6 +1059,19 @@ export default function EnhancedArticleReader({
       setDebugEvents(prev => [`${timestamp} ${message}${payload}`, ...prev].slice(0, 80))
     },
     [debugEnabled]
+  )
+  const addDebugEventOnce = useCallback(
+    (key: string, message: string, data?: Record<string, unknown>, throttleMs: number = 2000) => {
+      if (!debugEnabled) return
+      const now = Date.now()
+      const last = debugEventGuardRef.current.get(key)
+      if (last && now - last < throttleMs) {
+        return
+      }
+      debugEventGuardRef.current.set(key, now)
+      addDebugEvent(message, data)
+    },
+    [addDebugEvent, debugEnabled]
   )
 
   // Local cache for news article translations (stories use pre-stored translations)
@@ -1068,9 +1090,11 @@ export default function EnhancedArticleReader({
 
       // STORY MODE: Use pre-stored translation directly (instant, no API call)
       if (isStoryMode && currentTranslation) {
-        addDebugEvent('[Translation] Using pre-stored page translation', {
-          page: currentPageIndex + 1,
-        })
+        addDebugEventOnce(
+          `story-prestored-${currentPageIndex}`,
+          '[Translation] Using pre-stored page translation',
+          { page: currentPageIndex + 1 }
+        )
         setTranslatedContent(currentTranslation)
         return
       }
@@ -1079,9 +1103,11 @@ export default function EnhancedArticleReader({
       if (isStoryMode && !currentTranslation && currentContent) {
         // If sentence cache is still loading, wait to avoid unnecessary fallback
         if (storySentenceData.isLoading) {
-          addDebugEvent('[Translation] Waiting for story sentence cache', {
-            page: currentPageIndex + 1,
-          })
+          addDebugEventOnce(
+            `story-waiting-${currentPageIndex}`,
+            '[Translation] Waiting for story sentence cache',
+            { page: currentPageIndex + 1 }
+          )
           return
         }
 
@@ -1093,34 +1119,42 @@ export default function EnhancedArticleReader({
           .join(' ')
 
         if (cachedTranslation) {
-          addDebugEvent('[Translation] Using story sentence cache', {
-            page: currentPageIndex + 1,
-            sentenceCount: cachedSentences.length,
-          })
+          addDebugEventOnce(
+            `story-sentence-cache-${currentPageIndex}`,
+            '[Translation] Using story sentence cache',
+            { page: currentPageIndex + 1, sentenceCount: cachedSentences.length }
+          )
           setTranslatedContent(cachedTranslation)
           return
         }
 
         console.warn('[Translation] Story page missing pre-stored translation, using AI fallback')
-        addDebugEvent('[Translation] Story missing cache -> AI fallback', {
-          page: currentPageIndex + 1,
-        })
-
+        addDebugEventOnce(
+          `story-ai-fallback-${currentPageIndex}`,
+          '[Translation] Story missing cache -> AI fallback',
+          { page: currentPageIndex + 1 }
         // Fall back to AI translation for stories without pre-stored translations
         try {
           const result = await getFullTranslation(currentContent)
           if (result?.translatedText) {
-            addDebugEvent('[Translation] AI fallback success', {
-              page: currentPageIndex + 1,
-            })
+            addDebugEventOnce(
+              `story-ai-success-${currentPageIndex}`,
+              '[Translation] AI fallback success',
+              { page: currentPageIndex + 1 }
+            )
             setTranslatedContent(result.translatedText)
           }
         } catch (error) {
           console.error('[Translation] AI fallback translation failed:', error)
-          addDebugEvent('[Translation] AI fallback failed', {
-            page: currentPageIndex + 1,
-            error: error instanceof Error ? error.message : String(error),
-          })
+          addDebugEventOnce(
+            `story-ai-failed-${currentPageIndex}`,
+            '[Translation] AI fallback failed',
+            {
+              page: currentPageIndex + 1,
+              error: error instanceof Error ? error.message : String(error),
+            },
+            5000
+          )
           setTranslatedContent(null)
         }
         return
@@ -1132,9 +1166,11 @@ export default function EnhancedArticleReader({
 
         // Check local cache (using ref)
         if (newsTranslationCacheRef.current[cacheKey]) {
-          addDebugEvent('[Translation] Using cached news translation', {
-            key: cacheKey.substring(0, 40),
-          })
+          addDebugEventOnce(
+            `news-cache-${cacheKey.substring(0, 40)}`,
+            '[Translation] Using cached news translation',
+            { key: cacheKey.substring(0, 40) }
+          )
           console.log(`[Translation] Using cached news translation`)
           setTranslatedContent(newsTranslationCacheRef.current[cacheKey])
           return
@@ -1148,16 +1184,21 @@ export default function EnhancedArticleReader({
             setTranslatedContent(result.translatedText)
             // Cache locally for this session (using ref to avoid effect re-trigger)
             newsTranslationCacheRef.current[cacheKey] = result.translatedText
-            addDebugEvent('[Translation] News translation completed and cached', {
-              key: cacheKey.substring(0, 40),
-            })
+            addDebugEventOnce(
+              `news-cache-write-${cacheKey.substring(0, 40)}`,
+              '[Translation] News translation completed and cached',
+              { key: cacheKey.substring(0, 40) }
+            )
             console.log('[Translation] News translation completed and cached')
           }
         } catch (error) {
           console.error('[Translation] News translation failed:', error)
-          addDebugEvent('[Translation] News translation failed', {
-            error: error instanceof Error ? error.message : String(error),
-          })
+          addDebugEventOnce(
+            `news-failed-${cacheKey.substring(0, 40)}`,
+            '[Translation] News translation failed',
+            { error: error instanceof Error ? error.message : String(error) },
+            5000
+          )
           setTranslatedContent(null)
         }
       }
@@ -1280,6 +1321,30 @@ export default function EnhancedArticleReader({
     window.addEventListener('moshi-debug', handler)
     return () => window.removeEventListener('moshi-debug', handler)
   }, [debugEnabled, addDebugEvent])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const handlePointerMove = (event: PointerEvent) => {
+      if (!debugDragStateRef.current.dragging) return
+      const deltaX = event.clientX - debugDragStateRef.current.startX
+      const deltaY = event.clientY - debugDragStateRef.current.startY
+      setDebugPanelPos({
+        x: debugDragStateRef.current.originX + deltaX,
+        y: debugDragStateRef.current.originY + deltaY,
+      })
+    }
+    const handlePointerUp = () => {
+      debugDragStateRef.current.dragging = false
+    }
+    window.addEventListener('pointermove', handlePointerMove)
+    window.addEventListener('pointerup', handlePointerUp)
+    window.addEventListener('pointercancel', handlePointerUp)
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerup', handlePointerUp)
+      window.removeEventListener('pointercancel', handlePointerUp)
+    }
+  }, [])
 
   // Cleanup audio when component unmounts or article changes
   useEffect(() => {
@@ -1408,17 +1473,22 @@ export default function EnhancedArticleReader({
 
   useEffect(() => {
     if (!debugEnabled) return
-    addDebugEvent('[SentenceData] Story cache state', {
-      isLoading: storySentenceData.isLoading,
-      hasCachedData: storySentenceData.hasCachedData,
-      pageCount: storySentenceData.pageData?.length ?? 0,
-    })
+    addDebugEventOnce(
+      `story-cache-${storySentenceData.isLoading}-${storySentenceData.hasCachedData}-${storySentenceData.pageData?.length ?? 0}`,
+      '[SentenceData] Story cache state',
+      {
+        isLoading: storySentenceData.isLoading,
+        hasCachedData: storySentenceData.hasCachedData,
+        pageCount: storySentenceData.pageData?.length ?? 0,
+      }
+    )
   }, [
     debugEnabled,
     storySentenceData.isLoading,
     storySentenceData.hasCachedData,
     storySentenceData.pageData,
     addDebugEvent,
+    addDebugEventOnce,
   ])
 
   // Sync playback speed with NHK audio when settings change
@@ -2433,8 +2503,22 @@ export default function EnhancedArticleReader({
       />
 
       {debugEnabled && (
-        <div className="fixed bottom-4 right-4 z-50 w-[360px] max-w-[90vw] rounded-lg border border-white/20 bg-black/80 text-white shadow-xl backdrop-blur">
-          <div className="px-3 py-2 text-xs font-semibold border-b border-white/10">
+        <div
+          className="fixed bottom-4 right-4 z-50 w-[360px] max-w-[90vw] rounded-lg border border-white/20 bg-black/80 text-white shadow-xl backdrop-blur select-none touch-none"
+          style={{ transform: `translate(${debugPanelPos.x}px, ${debugPanelPos.y}px)` }}
+        >
+          <div
+            className="px-3 py-2 text-xs font-semibold border-b border-white/10 cursor-move"
+            onPointerDown={(event) => {
+              debugDragStateRef.current = {
+                dragging: true,
+                startX: event.clientX,
+                startY: event.clientY,
+                originX: debugPanelPos.x,
+                originY: debugPanelPos.y,
+              }
+            }}
+          >
             Debug Panel
           </div>
           <div className="px-3 py-2 text-xs space-y-1 border-b border-white/10">

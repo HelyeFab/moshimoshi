@@ -5322,11 +5322,15 @@ export const strings = {
         faster: 'Tiempos de carga más rápidos',
         notifications: 'Recibe recordatorios de revisión',
       },
+      instructions: 'Cómo instalar',
       ios: {
         instructions: 'Cómo instalar en iOS:',
         step1: 'Toca el botón Compartir',
         step2: 'Desplázate y toca "Añadir a pantalla de inicio"',
         step3: 'Toca "Añadir" para instalar',
+      },
+      android: {
+        note: 'Si ves "Crear acceso directo", Chrome aún no ha marcado la app como instalable. Visita el sitio un par de veces y vuelve a intentarlo.',
       },
     },
     installing: 'Instalando...',

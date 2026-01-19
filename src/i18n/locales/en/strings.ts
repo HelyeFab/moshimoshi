@@ -5916,11 +5916,15 @@ export const strings = {
         faster: 'Faster loading times',
         notifications: 'Get review reminders',
       },
+      instructions: 'How to install',
       ios: {
         instructions: 'How to install on iOS:',
         step1: 'Tap the Share button',
         step2: 'Scroll down and tap "Add to Home Screen"',
         step3: 'Tap "Add" to install',
+      },
+      android: {
+        note: 'If you see "Create shortcut", Chrome has not marked the app as installable yet. Try visiting the site a couple more times.',
       },
     },
     installing: 'Installing...',

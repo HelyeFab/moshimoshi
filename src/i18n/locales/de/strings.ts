@@ -5277,11 +5277,15 @@ export const strings = {
         faster: 'Schnellere Ladezeiten',
         notifications: 'Erhalten Sie Wiederholungserinnerungen',
       },
+      instructions: 'So installieren',
       ios: {
         instructions: 'So installieren Sie auf iOS:',
         step1: 'Tippen Sie auf die Teilen-Schaltfläche',
         step2: 'Scrollen Sie nach unten und tippen Sie auf "Zum Home-Bildschirm"',
         step3: 'Tippen Sie auf "Hinzufügen" zum Installieren',
+      },
+      android: {
+        note: 'Wenn "Verknüpfung erstellen" angezeigt wird, hat Chrome die App noch nicht als installierbar markiert. Besuchen Sie die Seite ein paar Mal und versuchen Sie es erneut.',
       },
     },
     installing: 'Installieren...',

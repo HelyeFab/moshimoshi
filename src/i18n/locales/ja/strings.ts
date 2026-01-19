@@ -5481,11 +5481,15 @@ export const strings = {
         faster: '読み込み時間の短縮',
         notifications: '復習リマインダーを受け取る',
       },
+      instructions: 'インストール方法',
       ios: {
         instructions: 'iOSでのインストール方法:',
         step1: '共有ボタンをタップ',
         step2: '下にスクロールして「ホーム画面に追加」をタップ',
         step3: '「追加」をタップしてインストール',
+      },
+      android: {
+        note: '「ショートカットを作成」と表示される場合、Chromeがまだインストール可能と判断していません。数回アクセスしてから再試行してください。',
       },
     },
     installing: 'インストール中...',

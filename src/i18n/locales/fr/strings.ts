@@ -5228,11 +5228,15 @@ export const strings = {
         faster: 'Temps de chargement plus rapides',
         notifications: 'Recevez des rappels de révision',
       },
+      instructions: 'Comment installer',
       ios: {
         instructions: 'Comment installer sur iOS:',
         step1: 'Appuyez sur le bouton Partager',
         step2: 'Faites défiler et appuyez sur "Sur l\'écran d\'accueil"',
         step3: 'Appuyez sur "Ajouter" pour installer',
+      },
+      android: {
+        note: 'Si vous voyez "Créer un raccourci", Chrome n\'a pas encore marqué l\'app comme installable. Revenez sur le site quelques fois et réessayez.',
       },
     },
     installing: 'Installation...',

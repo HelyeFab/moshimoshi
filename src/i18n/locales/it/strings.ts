@@ -5348,11 +5348,15 @@ export const strings = {
         faster: 'Tempi di caricamento più veloci',
         notifications: 'Ricevi promemoria per le revisioni',
       },
+      instructions: 'Come installare',
       ios: {
         instructions: 'Come installare su iOS:',
         step1: 'Tocca il pulsante Condividi',
         step2: 'Scorri e tocca "Aggiungi a Home"',
         step3: 'Tocca "Aggiungi" per installare',
+      },
+      android: {
+        note: 'Se vedi "Crea scorciatoia", Chrome non ha ancora contrassegnato l\'app come installabile. Visita il sito un paio di volte e riprova.',
       },
     },
     installing: 'Installazione...',
