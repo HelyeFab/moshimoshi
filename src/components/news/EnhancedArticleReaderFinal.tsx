@@ -1040,6 +1040,17 @@ export default function EnhancedArticleReader({
 
   // Track translation state
   const [translatedContent, setTranslatedContent] = useState<string | null>(null)
+  const [debugEnabled, setDebugEnabled] = useState(true)
+  const [debugEvents, setDebugEvents] = useState<string[]>([])
+  const addDebugEvent = useCallback(
+    (message: string, data?: Record<string, unknown>) => {
+      if (!debugEnabled) return
+      const timestamp = new Date().toISOString()
+      const payload = data ? ` ${JSON.stringify(data)}` : ''
+      setDebugEvents(prev => [`${timestamp} ${message}${payload}`, ...prev].slice(0, 80))
+    },
+    [debugEnabled]
+  )
 
   // Local cache for news article translations (stories use pre-stored translations)
   // Using ref to avoid re-triggering effect when cache updates
@@ -1231,17 +1242,6 @@ export default function EnhancedArticleReader({
   // AI word explanation feature
   const [isWordModalOpen, setIsWordModalOpen] = useState(false)
   const [wordContext, setWordContext] = useState<string | undefined>(undefined)
-  const [debugEnabled, setDebugEnabled] = useState(true)
-  const [debugEvents, setDebugEvents] = useState<string[]>([])
-  const addDebugEvent = useCallback(
-    (message: string, data?: Record<string, unknown>) => {
-      if (!debugEnabled) return
-      const timestamp = new Date().toISOString()
-      const payload = data ? ` ${JSON.stringify(data)}` : ''
-      setDebugEvents(prev => [`${timestamp} ${message}${payload}`, ...prev].slice(0, 80))
-    },
-    [debugEnabled]
-  )
 
   // Detect if this is a book (from Toshokan Library) vs a news article
   const isBook = article.source === 'Toshokan Library'
