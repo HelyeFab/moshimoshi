@@ -2591,14 +2591,15 @@ export default function EnhancedArticleReader({
 
               const iosVersion = navigator.userAgent.match(/OS (\d+)_(\d+)/)?.[1] || 'Unknown'
               const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-              const isPrivate = typeof navigator !== 'undefined' && navigator.storage?.persist ? 'Unknown' : 'Possibly'
+              // Check if Storage API is available (not available in private mode)
+              const hasStorageAPI = typeof navigator !== 'undefined' && typeof navigator.storage !== 'undefined'
 
               return (
                 <div className="pt-2 border-t border-yellow-500/30 space-y-1">
                   <div className="text-yellow-300 font-semibold">📱 iOS Debug Info:</div>
                   <div className="text-yellow-200">iOS Version: {iosVersion}</div>
                   <div className="text-yellow-200">Safari: {isSafari ? 'Yes' : 'No'}</div>
-                  <div className="text-yellow-200">Private Mode: {isPrivate}</div>
+                  <div className="text-yellow-200">Storage API: {hasStorageAPI ? 'Available' : 'Unavailable'}</div>
                   <div className="text-yellow-200">TTS State: {ttsPlaying ? 'Playing' : ttsLoading ? 'Loading' : 'Idle'}</div>
                 </div>
               )
