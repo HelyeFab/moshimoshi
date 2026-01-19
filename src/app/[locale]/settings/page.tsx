@@ -88,7 +88,8 @@ export default function SettingsPage() {
         setNotifications(preferences.notifications)
       if (process.env.NEXT_PUBLIC_FEATURE_LEARNING === 'true' && preferences.learning)
         setLearning(preferences.learning)
-      if (preferences.privacy) setPrivacy(preferences.privacy)
+      if (process.env.NEXT_PUBLIC_FEATURE_PRIVACY === 'true' && preferences.privacy)
+        setPrivacy(preferences.privacy)
       if (preferences.accessibility) {
         setAccessibility(preferences.accessibility)
 
@@ -145,7 +146,7 @@ export default function SettingsPage() {
         palette: selectedPalette,
         ...(process.env.NEXT_PUBLIC_FEATURE_NOTIFICATIONS === 'true' && { notifications }),
         ...(process.env.NEXT_PUBLIC_FEATURE_LEARNING === 'true' && { learning }),
-        privacy,
+        ...(process.env.NEXT_PUBLIC_FEATURE_PRIVACY === 'true' && { privacy }),
         accessibility,
       }
 
@@ -534,11 +535,12 @@ export default function SettingsPage() {
           )}
 
           {/* Privacy */}
-          <CollapsibleSection
-            title={strings.settings?.sections?.privacy?.title || 'Privacy'}
-            icon="🔐"
-            defaultOpen={false}
-          >
+          {process.env.NEXT_PUBLIC_FEATURE_PRIVACY === 'true' && (
+            <CollapsibleSection
+              title={strings.settings?.sections?.privacy?.title || 'Privacy'}
+              icon="🔐"
+              defaultOpen={false}
+            >
             <div>
               <SettingToggle
                 label={
@@ -589,6 +591,7 @@ export default function SettingsPage() {
               />
             </div>
           </CollapsibleSection>
+          )}
 
           {/* Accessibility */}
           <CollapsibleSection

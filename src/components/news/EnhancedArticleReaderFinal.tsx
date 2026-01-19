@@ -2509,7 +2509,7 @@ export default function EnhancedArticleReader({
           style={{ transform: `translate(${debugPanelPos.x}px, ${debugPanelPos.y}px)` }}
         >
           <div
-            className="px-3 py-2 text-xs font-semibold border-b border-white/10 cursor-move"
+            className="px-3 py-2 text-xs font-semibold border-b border-white/10 cursor-move flex items-center justify-between gap-2"
             onPointerDown={(event) => {
               debugDragStateRef.current = {
                 dragging: true,
@@ -2520,7 +2520,39 @@ export default function EnhancedArticleReader({
               }
             }}
           >
-            Debug Panel
+            <span>Debug Panel</span>
+            <button
+              type="button"
+              className="rounded px-2 py-1 text-[10px] font-semibold bg-white/10 hover:bg-white/20 active:bg-white/30"
+              onPointerDown={(event) => event.stopPropagation()}
+              onClick={async () => {
+                const content = [
+                  `Content: ${contentType}`,
+                  `Page: ${currentPageIndex + 1} / ${totalPages}`,
+                  `Story sentence cache: ${
+                    storySentenceData.isLoading
+                      ? 'loading'
+                      : storySentenceData.hasCachedData
+                        ? 'ready'
+                        : 'missing'
+                  }`,
+                  `Page translation: ${currentTranslation ? 'present' : 'missing'}`,
+                  `Translated content: ${translatedContent ? 'present' : 'empty'}`,
+                  '',
+                  ...debugEvents,
+                ].join('\n')
+                try {
+                  await navigator.clipboard.writeText(content)
+                  addDebugEventOnce('debug-copy', '[Debug] Copied panel to clipboard')
+                } catch (error) {
+                  addDebugEventOnce('debug-copy-failed', '[Debug] Clipboard copy failed', {
+                    error: error instanceof Error ? error.message : String(error),
+                  })
+                }
+              }}
+            >
+              Copy
+            </button>
           </div>
           <div className="px-3 py-2 text-xs space-y-1 border-b border-white/10">
             <div>Content: {contentType}</div>
@@ -2529,7 +2561,7 @@ export default function EnhancedArticleReader({
             <div>Page translation: {currentTranslation ? 'present' : 'missing'}</div>
             <div>Translated content: {translatedContent ? 'present' : 'empty'}</div>
           </div>
-          <div className="max-h-64 overflow-auto px-3 py-2 text-[11px] leading-snug space-y-1">
+          <div className="max-h-64 overflow-auto px-3 py-2 text-[11px] leading-snug space-y-1 select-text">
             {debugEvents.length === 0 ? (
               <div className="text-white/60">No events yet.</div>
             ) : (
