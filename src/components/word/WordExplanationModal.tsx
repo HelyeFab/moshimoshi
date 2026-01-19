@@ -106,6 +106,16 @@ export default function WordExplanationModal({
   const handlePlayExample = useCallback(
     async (text: string) => {
       try {
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(
+            new CustomEvent('moshi-debug', {
+              detail: {
+                message: '[WordExplanation] Play example audio',
+                data: { textPreview: text.substring(0, 40), hasPrecomputed: false },
+              },
+            })
+          )
+        }
         await play(text, { voice: ttsVoice })
       } catch (error) {
         console.error('TTS playback failed:', error)
@@ -117,6 +127,16 @@ export default function WordExplanationModal({
   const handlePlayWord = useCallback(async () => {
     if (explanation?.audioUrl) {
       try {
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(
+            new CustomEvent('moshi-debug', {
+              detail: {
+                message: '[WordExplanation] Play word audio (precomputed URL)',
+                data: { url: explanation.audioUrl.substring(0, 80) },
+              },
+            })
+          )
+        }
         const audio = new Audio(explanation.audioUrl)
         await audio.play()
         return
@@ -125,6 +145,16 @@ export default function WordExplanationModal({
       }
     }
     if (explanation?.word) {
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(
+          new CustomEvent('moshi-debug', {
+            detail: {
+              message: '[WordExplanation] Play word audio (TTS fallback)',
+              data: { word: explanation.word },
+            },
+          })
+        )
+      }
       await handlePlayExample(explanation.word)
     }
   }, [explanation?.audioUrl, explanation?.word, handlePlayExample])

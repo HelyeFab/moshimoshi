@@ -1057,6 +1057,9 @@ export default function EnhancedArticleReader({
 
       // STORY MODE: Use pre-stored translation directly (instant, no API call)
       if (isStoryMode && currentTranslation) {
+        addDebugEvent('[Translation] Using pre-stored page translation', {
+          page: currentPageIndex + 1,
+        })
         setTranslatedContent(currentTranslation)
         return
       }
@@ -1065,6 +1068,9 @@ export default function EnhancedArticleReader({
       if (isStoryMode && !currentTranslation && currentContent) {
         // If sentence cache is still loading, wait to avoid unnecessary fallback
         if (storySentenceData.isLoading) {
+          addDebugEvent('[Translation] Waiting for story sentence cache', {
+            page: currentPageIndex + 1,
+          })
           return
         }
 
@@ -1076,20 +1082,34 @@ export default function EnhancedArticleReader({
           .join(' ')
 
         if (cachedTranslation) {
+          addDebugEvent('[Translation] Using story sentence cache', {
+            page: currentPageIndex + 1,
+            sentenceCount: cachedSentences.length,
+          })
           setTranslatedContent(cachedTranslation)
           return
         }
 
         console.warn('[Translation] Story page missing pre-stored translation, using AI fallback')
+        addDebugEvent('[Translation] Story missing cache -> AI fallback', {
+          page: currentPageIndex + 1,
+        })
 
         // Fall back to AI translation for stories without pre-stored translations
         try {
           const result = await getFullTranslation(currentContent)
           if (result?.translatedText) {
+            addDebugEvent('[Translation] AI fallback success', {
+              page: currentPageIndex + 1,
+            })
             setTranslatedContent(result.translatedText)
           }
         } catch (error) {
           console.error('[Translation] AI fallback translation failed:', error)
+          addDebugEvent('[Translation] AI fallback failed', {
+            page: currentPageIndex + 1,
+            error: error instanceof Error ? error.message : String(error),
+          })
           setTranslatedContent(null)
         }
         return
@@ -1101,6 +1121,9 @@ export default function EnhancedArticleReader({
 
         // Check local cache (using ref)
         if (newsTranslationCacheRef.current[cacheKey]) {
+          addDebugEvent('[Translation] Using cached news translation', {
+            key: cacheKey.substring(0, 40),
+          })
           console.log(`[Translation] Using cached news translation`)
           setTranslatedContent(newsTranslationCacheRef.current[cacheKey])
           return
@@ -1114,10 +1137,16 @@ export default function EnhancedArticleReader({
             setTranslatedContent(result.translatedText)
             // Cache locally for this session (using ref to avoid effect re-trigger)
             newsTranslationCacheRef.current[cacheKey] = result.translatedText
+            addDebugEvent('[Translation] News translation completed and cached', {
+              key: cacheKey.substring(0, 40),
+            })
             console.log('[Translation] News translation completed and cached')
           }
         } catch (error) {
           console.error('[Translation] News translation failed:', error)
+          addDebugEvent('[Translation] News translation failed', {
+            error: error instanceof Error ? error.message : String(error),
+          })
           setTranslatedContent(null)
         }
       }
@@ -1134,6 +1163,7 @@ export default function EnhancedArticleReader({
     getFullTranslation,
     pages,
     storySentenceData,
+    addDebugEvent,
   ])
 
   // Sync translation settings when reading settings change
@@ -1201,6 +1231,17 @@ export default function EnhancedArticleReader({
   // AI word explanation feature
   const [isWordModalOpen, setIsWordModalOpen] = useState(false)
   const [wordContext, setWordContext] = useState<string | undefined>(undefined)
+  const [debugEnabled, setDebugEnabled] = useState(false)
+  const [debugEvents, setDebugEvents] = useState<string[]>([])
+  const addDebugEvent = useCallback(
+    (message: string, data?: Record<string, unknown>) => {
+      if (!debugEnabled) return
+      const timestamp = new Date().toISOString()
+      const payload = data ? ` ${JSON.stringify(data)}` : ''
+      setDebugEvents(prev => [`${timestamp} ${message}${payload}`, ...prev].slice(0, 80))
+    },
+    [debugEnabled]
+  )
 
   // Detect if this is a book (from Toshokan Library) vs a news article
   const isBook = article.source === 'Toshokan Library'
@@ -1220,6 +1261,25 @@ export default function EnhancedArticleReader({
     bookId: isBook ? article.id : undefined,
     storyId: isStoryContent ? article.id : undefined,
   })
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const enabled = localStorage.getItem('moshi-debug') === 'true' || params.has('debug')
+    setDebugEnabled(enabled)
+  }, [])
+
+  useEffect(() => {
+    if (!debugEnabled || typeof window === 'undefined') return
+    const handler = (event: Event) => {
+      const customEvent = event as CustomEvent
+      if (customEvent.detail?.message) {
+        addDebugEvent(customEvent.detail.message, customEvent.detail.data)
+      }
+    }
+    window.addEventListener('moshi-debug', handler)
+    return () => window.removeEventListener('moshi-debug', handler)
+  }, [debugEnabled, addDebugEvent])
 
   // Cleanup audio when component unmounts or article changes
   useEffect(() => {
@@ -1273,32 +1333,68 @@ export default function EnhancedArticleReader({
         .filter(Boolean)
         .join(' ')
       if (fullText) {
+        addDebugEvent('[WordExplanation] Prefetch start', {
+          contentType: 'story',
+          textLength: fullText.length,
+          pages: pages.length,
+        })
         prefetchWordExplanations({
           contentId: article.id,
           contentType: 'story',
           text: fullText,
         })
+          .then(() => {
+            addDebugEvent('[WordExplanation] Prefetch queued', { contentType: 'story' })
+          })
+          .catch((error: unknown) => {
+            addDebugEvent('[WordExplanation] Prefetch failed', {
+              contentType: 'story',
+              error: error instanceof Error ? error.message : String(error),
+            })
+          })
       }
       return
     }
 
     // Book: use article.content under book collection
     if (isBook && article.content) {
+      addDebugEvent('[WordExplanation] Prefetch start', {
+        contentType: 'book',
+        textLength: typeof article.content === 'string' ? article.content.length : 0,
+      })
       prefetchWordExplanations({
         contentId: article.id,
         contentType: 'book',
         text: typeof article.content === 'string' ? article.content : '',
       })
+        .then(() => addDebugEvent('[WordExplanation] Prefetch queued', { contentType: 'book' }))
+        .catch((error: unknown) => {
+          addDebugEvent('[WordExplanation] Prefetch failed', {
+            contentType: 'book',
+            error: error instanceof Error ? error.message : String(error),
+          })
+        })
       return
     }
 
     // News article default
     if (article.content) {
+      addDebugEvent('[WordExplanation] Prefetch start', {
+        contentType: 'article',
+        textLength: typeof article.content === 'string' ? article.content.length : 0,
+      })
       prefetchWordExplanations({
         contentId: article.id,
         contentType: 'article',
         text: typeof article.content === 'string' ? article.content : '',
       })
+        .then(() => addDebugEvent('[WordExplanation] Prefetch queued', { contentType: 'article' }))
+        .catch((error: unknown) => {
+          addDebugEvent('[WordExplanation] Prefetch failed', {
+            contentType: 'article',
+            error: error instanceof Error ? error.message : String(error),
+          })
+        })
     }
   }, [
     article?.id,
@@ -1307,6 +1403,22 @@ export default function EnhancedArticleReader({
     isStoryContent,
     pages,
     prefetchWordExplanations,
+    addDebugEvent,
+  ])
+
+  useEffect(() => {
+    if (!debugEnabled) return
+    addDebugEvent('[SentenceData] Story cache state', {
+      isLoading: storySentenceData.isLoading,
+      hasCachedData: storySentenceData.hasCachedData,
+      pageCount: storySentenceData.pageData?.length ?? 0,
+    })
+  }, [
+    debugEnabled,
+    storySentenceData.isLoading,
+    storySentenceData.hasCachedData,
+    storySentenceData.pageData,
+    addDebugEvent,
   ])
 
   // Sync playback speed with NHK audio when settings change
@@ -2319,6 +2431,32 @@ export default function EnhancedArticleReader({
           background: `linear-gradient(to right, rgb(var(--palette-primary-500)) ${readingProgress}%, transparent ${readingProgress}%)`,
         }}
       />
+
+      {debugEnabled && (
+        <div className="fixed bottom-4 right-4 z-50 w-[360px] max-w-[90vw] rounded-lg border border-white/20 bg-black/80 text-white shadow-xl backdrop-blur">
+          <div className="px-3 py-2 text-xs font-semibold border-b border-white/10">
+            Debug Panel
+          </div>
+          <div className="px-3 py-2 text-xs space-y-1 border-b border-white/10">
+            <div>Content: {contentType}</div>
+            <div>Page: {currentPageIndex + 1} / {totalPages}</div>
+            <div>Story sentence cache: {storySentenceData.isLoading ? 'loading' : (storySentenceData.hasCachedData ? 'ready' : 'missing')}</div>
+            <div>Page translation: {currentTranslation ? 'present' : 'missing'}</div>
+            <div>Translated content: {translatedContent ? 'present' : 'empty'}</div>
+          </div>
+          <div className="max-h-64 overflow-auto px-3 py-2 text-[11px] leading-snug space-y-1">
+            {debugEvents.length === 0 ? (
+              <div className="text-white/60">No events yet.</div>
+            ) : (
+              debugEvents.map((event, idx) => (
+                <div key={idx} className="text-white/80">
+                  {event}
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Header - Sticky & Glassmorphic */}
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-b border-gray-200/50 dark:border-gray-800/50 transition-all duration-300 supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
