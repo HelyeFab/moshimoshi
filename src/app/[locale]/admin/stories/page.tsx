@@ -237,6 +237,14 @@ export default function AdminStoriesPage() {
             </Link>
 
             <Link
+              href="/admin/stories/validate"
+              className="px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white rounded-lg transition-all flex items-center gap-2 shadow-sm"
+            >
+              <span>🔍</span>
+              Validate Stories
+            </Link>
+
+            <Link
               href="/admin/stories/new"
               className="px-4 py-2 bg-primary-500 hover:bg-primary-600 text-white rounded-lg transition-colors shadow-sm"
             >

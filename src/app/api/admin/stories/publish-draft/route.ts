@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { adminFirestore } from '@/lib/firebase/admin'
 import { Story } from '@/types/story'
+import { STORY_SCHEMA_VERSION } from '@/lib/ai/schemas'
 
 /**
  * POST /api/admin/stories/publish-draft
@@ -107,6 +108,101 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // POST-GENERATION VALIDATION
+    // Comprehensive validation to prevent silent data corruption
+    const validationErrors: string[] = []
+
+    // 1. Validate pages have required fields (prevent furigana bug recurrence)
+    pages.forEach((page: any, index: number) => {
+      const pageNum = index + 1
+      const textWithFurigana = page.textWithFurigana || page.textJa || page.text
+
+      if (!textWithFurigana || textWithFurigana.trim() === '') {
+        validationErrors.push(`Page ${pageNum}: Missing textWithFurigana`)
+      }
+
+      if (!page.text && !page.textJa) {
+        validationErrors.push(`Page ${pageNum}: Missing text/textJa`)
+      }
+
+      if (!page.translation && !page.textEn) {
+        validationErrors.push(`Page ${pageNum}: Missing translation/textEn`)
+      }
+    })
+
+    // 2. Validate quiz bilingual fields (prevent quiz bug recurrence)
+    const quiz = providedStoryData?.quiz || mergedData.quiz
+    if (quiz && Array.isArray(quiz)) {
+      quiz.forEach((question: any, index: number) => {
+        const qNum = index + 1
+
+        if (!question.question || question.question.trim() === '') {
+          validationErrors.push(`Quiz Q${qNum}: Missing English question`)
+        }
+
+        if (!question.questionJa || question.questionJa.trim() === '') {
+          validationErrors.push(`Quiz Q${qNum}: Missing Japanese question (questionJa)`)
+        }
+
+        if (!question.explanation || question.explanation.trim() === '') {
+          validationErrors.push(`Quiz Q${qNum}: Missing English explanation`)
+        }
+
+        if (!question.explanationJa || question.explanationJa.trim() === '') {
+          validationErrors.push(`Quiz Q${qNum}: Missing Japanese explanation (explanationJa)`)
+        }
+
+        if (!Array.isArray(question.options) || question.options.length !== 4) {
+          validationErrors.push(`Quiz Q${qNum}: Must have exactly 4 options`)
+        }
+      })
+    }
+
+    // If validation errors found, reject publishing
+    if (validationErrors.length > 0) {
+      const errorLogId = `validation_error_${draftId}_${Date.now()}`
+      const errorLog = {
+        id: errorLogId,
+        draftId,
+        storyId: draftId.replace('draft_', 'story_'),
+        type: 'validation_failure',
+        errors: validationErrors,
+        timestamp: new Date(),
+        jlptLevel,
+        theme: mergedData.theme || 'unknown',
+        pagesCount: pages.length,
+        quizQuestionsCount: quiz?.length || 0,
+        authorId,
+        metadata: {
+          title: title || 'Unknown',
+          generationStatus: mergedData.status,
+        },
+      }
+
+      console.error('[VALIDATION ERROR] Story draft failed validation:', {
+        draftId,
+        errors: validationErrors,
+        timestamp: new Date().toISOString(),
+      })
+
+      // Log to Firestore for permanent tracking
+      try {
+        await adminFirestore.collection('ai_validation_errors').doc(errorLogId).set(errorLog)
+      } catch (logError) {
+        console.error('[ERROR] Failed to log validation error to Firestore:', logError)
+        // Don't fail the response if logging fails
+      }
+
+      return NextResponse.json(
+        {
+          error: 'Story validation failed',
+          validationErrors,
+          details: `Found ${validationErrors.length} validation error(s). Story cannot be published until all fields are complete.`,
+        },
+        { status: 400 }
+      )
+    }
+
     // titleJa fallback
     const titleJa =
       providedStoryData?.titleJa ||
@@ -177,7 +273,15 @@ export async function POST(request: NextRequest) {
 
       // AI Generation Metadata
       isAIGenerated: true,
+      schemaVersion: STORY_SCHEMA_VERSION,
     }
+
+    // Log schema version for tracking
+    console.log('[SCHEMA VERSION]', {
+      version: STORY_SCHEMA_VERSION,
+      storyId,
+      timestamp: new Date().toISOString(),
+    })
 
     // Add optional fields only if they exist (Firestore doesn't accept undefined)
     // Use first page image as cover (NOT the model sheet - that's for character consistency, not display)
@@ -185,7 +289,7 @@ export async function POST(request: NextRequest) {
     const firstPageImage = mergedData.pages?.[0]?.imageUrl || mergedData.pageImages?.["1"] || mergedData.pageImages?.[1]
     if (firstPageImage) (story as any).coverImageUrl = firstPageImage
 
-    const quiz = providedStoryData?.quiz || mergedData.quiz
+    // quiz is already declared in validation section above
     if (quiz && quiz.length > 0) (story as any).quiz = quiz
 
     if (mergedData.characterSheet) {

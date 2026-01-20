@@ -512,24 +512,6 @@ export default function DrillPage() {
     }
   }
 
-
-  const resetDrill = () => {
-    setSession(null)
-    setCurrentQuestionIndex(0)
-    setSelectedAnswer(null)
-    setShowResult(false)
-    setScore(0)
-    setIsComplete(false)
-  }
-
-  // Helper function to check if two arrays contain the same elements
-  const arraysEqual = (a: string[] | undefined, b: string[]) => {
-    if (!a || a.length !== b.length) return false
-    return a.every(item => b.includes(item)) && b.every(item => a.includes(item))
-  }
-
-  const currentQuestion = session?.questions[currentQuestionIndex]
-
   // Load examples when Rules modal opens
   useEffect(() => {
     async function loadRuleExamples() {
@@ -597,6 +579,23 @@ export default function DrillPage() {
 
     loadRuleExamples()
   }, [showRulesModal, currentQuestion])
+
+  const resetDrill = () => {
+    setSession(null)
+    setCurrentQuestionIndex(0)
+    setSelectedAnswer(null)
+    setShowResult(false)
+    setScore(0)
+    setIsComplete(false)
+  }
+
+  // Helper function to check if two arrays contain the same elements
+  const arraysEqual = (a: string[] | undefined, b: string[]) => {
+    if (!a || a.length !== b.length) return false
+    return a.every(item => b.includes(item)) && b.every(item => a.includes(item))
+  }
+
+  const currentQuestion = session?.questions[currentQuestionIndex]
 
   if (loading) {
     return <LoadingOverlay message={t('drill.loading')} />

@@ -1306,51 +1306,314 @@ export class ExtendedConjugationEngine {
   static getConjugationRule(wordType: WordType, form: keyof ExtendedConjugationForms): string {
     const rules: { [key in WordType]: { [key: string]: string } } = {
       'Ichidan': {
+        // Basic Forms
         present: 'Dictionary form - no change',
         past: 'Remove る, add た',
         negative: 'Remove る, add ない',
         pastNegative: 'Remove る, add なかった',
+        // Polite Forms
         polite: 'Remove る, add ます',
         politePast: 'Remove る, add ました',
+        politeNegative: 'Remove る, add ません',
+        politePastNegative: 'Remove る, add ませんでした',
+        politeVolitional: 'Remove る, add ましょう',
+        // Te-forms
         teForm: 'Remove る, add て',
-        potential: 'Remove る, add られる',
+        negativeTeForm: 'Remove る, add なくて',
+        naiDeForm: 'Remove る, add ないで',
+        adverbialNegative: 'Remove る, add ず',
+        // Volitional
+        volitional: 'Remove る, add よう',
+        volitionalNegative: 'Use negative + volitional (ないだろう)',
+        // Imperative
+        imperativePlain: 'Remove る, add ろ/よ',
+        imperativePolite: 'Remove る, add てください',
+        imperativeNegative: 'Remove る, add るな',
+        // Conditional
+        provisional: 'Remove る, add れば',
+        provisionalNegative: 'Remove る, add なければ',
+        provisionalNegativeColloquial: 'Remove る, add なきゃ',
         conditional: 'Remove る, add たら',
-        provisional: 'Remove る, add れば'
+        conditionalNegative: 'Remove る, add なかったら',
+        alternativeForm: 'Remove る, add たり',
+        // Potential
+        potential: 'Remove る, add られる (can do)',
+        potentialNegative: 'Remove る, add られない',
+        potentialPast: 'Remove る, add られた',
+        potentialPastNegative: 'Remove る, add られなかった',
+        potentialPolite: 'Remove る, add られます',
+        potentialPoliteNegative: 'Remove る, add られません',
+        potentialPolitePast: 'Remove る, add られました',
+        potentialPolitePastNegative: 'Remove る, add られませんでした',
+        potentialMasuStem: 'Remove る, add られ (masu-stem)',
+        potentialTeForm: 'Remove る, add られて',
+        potentialNegativeTeForm: 'Remove る, add られなくて',
+        // Passive
+        passive: 'Remove る, add られる (be done)',
+        passiveNegative: 'Remove る, add られない',
+        passivePast: 'Remove る, add られた',
+        passivePastNegative: 'Remove る, add られなかった',
+        passivePolite: 'Remove る, add られます',
+        passivePoliteNegative: 'Remove る, add られません',
+        passivePolitePast: 'Remove る, add られました',
+        passivePolitePastNegative: 'Remove る, add られませんでした',
+        passiveMasuStem: 'Remove る, add られ (masu-stem)',
+        passiveTeForm: 'Remove る, add られて',
+        passiveNegativeTeForm: 'Remove る, add られなくて',
+        // Causative
+        causative: 'Remove る, add させる (make/let do)',
+        causativeNegative: 'Remove る, add させない',
+        causativePast: 'Remove る, add させた',
+        causativePastNegative: 'Remove る, add させなかった',
+        causativePolite: 'Remove る, add させます',
+        causativePoliteNegative: 'Remove る, add させません',
+        causativePolitePast: 'Remove る, add させました',
+        causativePolitePastNegative: 'Remove る, add させませんでした',
+        causativeMasuStem: 'Remove る, add させ (masu-stem)',
+        causativeTeForm: 'Remove る, add させて',
+        causativeNegativeTeForm: 'Remove る, add させなくて',
+        // Causative Passive
+        causativePassive: 'Remove る, add させられる (be made to do)',
+        causativePassiveNegative: 'Remove る, add させられない',
+        causativePassivePast: 'Remove る, add させられた',
+        causativePassivePastNegative: 'Remove る, add させられなかった',
+        causativePassivePolite: 'Remove る, add させられます',
+        causativePassivePoliteNegative: 'Remove る, add させられません',
+        causativePassivePolitePast: 'Remove る, add させられました',
+        causativePassivePolitePastNegative: 'Remove る, add させられませんでした',
+        causativePassiveMasuStem: 'Remove る, add させられ (masu-stem)',
+        causativePassiveTeForm: 'Remove る, add させられて',
+        causativePassiveNegativeTeForm: 'Remove る, add させられなくて',
+        // Tai Forms (want to)
+        taiForm: 'Remove る, add たい (want to do)',
+        taiFormNegative: 'Remove る, add たくない',
+        taiFormPast: 'Remove る, add たかった',
+        taiFormPastNegative: 'Remove る, add たくなかった',
+        taiAdjectiveStem: 'Remove る, add たく (adverbial)',
+        taiTeForm: 'Remove る, add たくて',
+        taiNegativeTeForm: 'Remove る, add たくなくて',
+        taiAdverbial: 'Remove る, add たく',
+        taiProvisional: 'Remove る, add たければ',
+        taiProvisionalNegative: 'Remove る, add たくなければ',
+        taiConditional: 'Remove る, add たかったら',
+        taiConditionalNegative: 'Remove る, add たくなかったら',
+        taiObjective: 'Remove る, add たがる (appear to want)',
+        // Progressive (te-iru)
+        progressive: 'Remove る, add ている (doing)',
+        progressiveNegative: 'Remove る, add ていない',
+        progressivePast: 'Remove る, add ていた',
+        progressivePastNegative: 'Remove る, add ていなかった',
+        progressivePolite: 'Remove る, add ています',
+        progressivePoliteNegative: 'Remove る, add ていません',
+        progressivePolitePast: 'Remove る, add ていました',
+        progressivePolitePastNegative: 'Remove る, add ていませんでした',
+        // Request
+        request: 'Remove る, add てください (please do)',
+        requestNegative: 'Remove る, add ないでください (please don\'t)',
+        // Stems
+        masuStem: 'Remove る (masu-stem)',
+        negativeStem: 'Remove る, add ない (negative stem)',
+        // Special Forms
+        colloquialNegative: 'Remove る, add ん (colloquial negative)',
+        formalNegative: 'Remove る, add ぬ (formal negative)',
+        classicalNegative: 'Remove る, add ず (classical negative)',
+        classicalNegativeModifier: 'Remove る, add ざる (classical negative modifier)'
       },
       'Godan': {
+        // Basic Forms
         present: 'Dictionary form - no change',
-        past: 'Change ending to う-column, add た/だ',
-        negative: 'Change ending to あ-column, add ない',
-        polite: 'Change ending to い-column, add ます',
-        teForm: 'Change ending according to て-form rules',
-        potential: 'Change ending to え-column, add る',
-        conditional: 'Change ending to conditional form',
-        provisional: 'Change ending to え-column, add ば'
+        past: 'Change to う-column, add た/だ (sound change)',
+        negative: 'Change to あ-column, add ない',
+        pastNegative: 'Change to あ-column, add なかった',
+        // Polite Forms
+        polite: 'Change to い-column, add ます',
+        politePast: 'Change to い-column, add ました',
+        politeNegative: 'Change to い-column, add ません',
+        politePastNegative: 'Change to い-column, add ませんでした',
+        politeVolitional: 'Change to い-column, add ましょう',
+        // Te-forms
+        teForm: 'Apply て-form sound changes (って, んで, いて, して)',
+        negativeTeForm: 'Change to あ-column, add なくて',
+        naiDeForm: 'Change to あ-column, add ないで',
+        adverbialNegative: 'Change to あ-column, add ず',
+        // Volitional
+        volitional: 'Change to お-column, add う',
+        volitionalNegative: 'Use negative + だろう',
+        // Imperative
+        imperativePlain: 'Change to え-column (command form)',
+        imperativePolite: 'Apply て-form, add ください',
+        imperativeNegative: 'Dictionary form + な',
+        // Conditional
+        provisional: 'Change to え-column, add ば',
+        provisionalNegative: 'Change to あ-column, add なければ',
+        provisionalNegativeColloquial: 'Change to あ-column, add なきゃ',
+        conditional: 'Apply past form, add ら',
+        conditionalNegative: 'Change to あ-column, add なかったら',
+        alternativeForm: 'Apply past form, add り',
+        // Potential
+        potential: 'Change to え-column, add る (can do)',
+        potentialNegative: 'Change to え-column, add ない',
+        potentialPast: 'Change to え-column, add た',
+        potentialPastNegative: 'Change to え-column, add なかった',
+        potentialPolite: 'Change to え-column, add ます',
+        potentialPoliteNegative: 'Change to え-column, add ません',
+        potentialPolitePast: 'Change to え-column, add ました',
+        potentialPolitePastNegative: 'Change to え-column, add ませんでした',
+        potentialMasuStem: 'Change to え-column (masu-stem)',
+        potentialTeForm: 'Change to え-column, add て',
+        potentialNegativeTeForm: 'Change to え-column, add なくて',
+        // Passive
+        passive: 'Change to あ-column, add れる (be done)',
+        passiveNegative: 'Change to あ-column, add れない',
+        passivePast: 'Change to あ-column, add れた',
+        passivePastNegative: 'Change to あ-column, add れなかった',
+        passivePolite: 'Change to あ-column, add れます',
+        passivePoliteNegative: 'Change to あ-column, add れません',
+        passivePolitePast: 'Change to あ-column, add れました',
+        passivePolitePastNegative: 'Change to あ-column, add れませんでした',
+        passiveMasuStem: 'Change to あ-column, add れ (masu-stem)',
+        passiveTeForm: 'Change to あ-column, add れて',
+        passiveNegativeTeForm: 'Change to あ-column, add れなくて',
+        // Causative
+        causative: 'Change to あ-column, add せる (make/let do)',
+        causativeNegative: 'Change to あ-column, add せない',
+        causativePast: 'Change to あ-column, add せた',
+        causativePastNegative: 'Change to あ-column, add せなかった',
+        causativePolite: 'Change to あ-column, add せます',
+        causativePoliteNegative: 'Change to あ-column, add せません',
+        causativePolitePast: 'Change to あ-column, add せました',
+        causativePolitePastNegative: 'Change to あ-column, add せませんでした',
+        causativeMasuStem: 'Change to あ-column, add せ (masu-stem)',
+        causativeTeForm: 'Change to あ-column, add せて',
+        causativeNegativeTeForm: 'Change to あ-column, add せなくて',
+        // Causative Passive
+        causativePassive: 'Change to あ-column, add せられる (be made to do)',
+        causativePassiveNegative: 'Change to あ-column, add せられない',
+        causativePassivePast: 'Change to あ-column, add せられた',
+        causativePassivePastNegative: 'Change to あ-column, add せられなかった',
+        causativePassivePolite: 'Change to あ-column, add せられます',
+        causativePassivePoliteNegative: 'Change to あ-column, add せられません',
+        causativePassivePolitePast: 'Change to あ-column, add せられました',
+        causativePassivePolitePastNegative: 'Change to あ-column, add せられませんでした',
+        causativePassiveMasuStem: 'Change to あ-column, add せられ (masu-stem)',
+        causativePassiveTeForm: 'Change to あ-column, add せられて',
+        causativePassiveNegativeTeForm: 'Change to あ-column, add せられなくて',
+        // Tai Forms
+        taiForm: 'Change to い-column, add たい (want to do)',
+        taiFormNegative: 'Change to い-column, add たくない',
+        taiFormPast: 'Change to い-column, add たかった',
+        taiFormPastNegative: 'Change to い-column, add たくなかった',
+        taiAdjectiveStem: 'Change to い-column, add たく (adverbial)',
+        taiTeForm: 'Change to い-column, add たくて',
+        taiNegativeTeForm: 'Change to い-column, add たくなくて',
+        taiAdverbial: 'Change to い-column, add たく',
+        taiProvisional: 'Change to い-column, add たければ',
+        taiProvisionalNegative: 'Change to い-column, add たくなければ',
+        taiConditional: 'Change to い-column, add たかったら',
+        taiConditionalNegative: 'Change to い-column, add たくなかったら',
+        taiObjective: 'Change to い-column, add たがる (appear to want)',
+        // Progressive
+        progressive: 'Apply て-form, add いる (doing)',
+        progressiveNegative: 'Apply て-form, add いない',
+        progressivePast: 'Apply て-form, add いた',
+        progressivePastNegative: 'Apply て-form, add いなかった',
+        progressivePolite: 'Apply て-form, add います',
+        progressivePoliteNegative: 'Apply て-form, add いません',
+        progressivePolitePast: 'Apply て-form, add いました',
+        progressivePolitePastNegative: 'Apply て-form, add いませんでした',
+        // Request
+        request: 'Apply て-form, add ください (please do)',
+        requestNegative: 'Change to あ-column, add ないでください',
+        // Stems
+        masuStem: 'Change to い-column (masu-stem)',
+        negativeStem: 'Change to あ-column, add ない (negative stem)',
+        // Special Forms
+        colloquialNegative: 'Change to あ-column, add ん (colloquial)',
+        formalNegative: 'Change to あ-column, add ぬ (formal)',
+        classicalNegative: 'Change to あ-column, add ず (classical)',
+        classicalNegativeModifier: 'Change to あ-column, add ざる (classical modifier)'
       },
       'Irregular': {
-        present: 'Irregular - memorize the form',
-        past: 'Irregular - memorize the form',
-        negative: 'Irregular - memorize the form',
-        polite: 'Irregular - memorize the form',
-        teForm: 'Irregular - memorize the form'
+        present: 'Irregular - する becomes する, 来る becomes 来る',
+        past: 'Irregular - する becomes した, 来る becomes 来た',
+        negative: 'Irregular - する becomes しない, 来る becomes 来ない',
+        pastNegative: 'Irregular - する becomes しなかった, 来る becomes 来なかった',
+        polite: 'Irregular - する becomes します, 来る becomes 来ます',
+        politePast: 'Irregular - する becomes しました, 来る becomes 来ました',
+        politeNegative: 'Irregular - する becomes しません, 来る becomes 来ません',
+        politePastNegative: 'Irregular - する becomes しませんでした, 来る becomes 来ませんでした',
+        teForm: 'Irregular - する becomes して, 来る becomes 来て',
+        potential: 'Irregular - する becomes できる, 来る becomes 来られる',
+        passive: 'Irregular - する becomes される, 来る becomes 来られる',
+        causative: 'Irregular - する becomes させる, 来る becomes 来させる',
+        volitional: 'Irregular - する becomes しよう, 来る becomes 来よう',
+        conditional: 'Irregular - する becomes したら, 来る becomes 来たら',
+        provisional: 'Irregular - する becomes すれば, 来る becomes 来れば',
+        imperativePlain: 'Irregular - する becomes しろ/せよ, 来る becomes 来い',
+        progressive: 'Irregular - する becomes している, 来る becomes 来ている',
+        taiForm: 'Irregular - する becomes したい, 来る becomes 来たい',
+        masuStem: 'Irregular - する becomes し, 来る becomes 来 (masu-stem)'
       },
       'i-adjective': {
+        // Basic Forms
         present: 'Dictionary form - no change',
         past: 'Remove い, add かった',
         negative: 'Remove い, add くない',
         pastNegative: 'Remove い, add くなかった',
+        // Polite Forms
         polite: 'Add です to dictionary form',
+        politePast: 'Remove い, add かったです',
+        politeNegative: 'Remove い, add くないです or くありません',
+        politePastNegative: 'Remove い, add くなかったです or くありませんでした',
+        // Te-forms
+        teForm: 'Remove い, add くて',
+        negativeTeForm: 'Remove い, add くなくて',
+        naiDeForm: 'Remove い, add くないで',
+        adverbialNegative: 'Remove い, add くず',
+        // Conditional
+        provisional: 'Remove い, add ければ',
+        provisionalNegative: 'Remove い, add くなければ',
         conditional: 'Remove い, add かったら',
-        provisional: 'Remove い, add ければ'
+        conditionalNegative: 'Remove い, add くなかったら',
+        // Adverbial
+        taiAdverbial: 'Remove い, add く (adverbial form)',
+        // Negative variants
+        colloquialNegative: 'Remove い, add くない (plain)',
+        formalNegative: 'Remove い, add くございません (formal)',
+        classicalNegative: 'Remove い, add からず (classical)',
+        // Presumptive
+        presumptivePlain: 'Remove い, add いだろう',
+        presumptivePolite: 'Remove い, add いでしょう',
+        presumptiveNegativePlain: 'Remove い, add くないだろう',
+        presumptiveNegativePolite: 'Remove い, add くないでしょう'
       },
       'na-adjective': {
+        // Basic Forms
         present: 'Add だ to stem',
         past: 'Add だった to stem',
-        negative: 'Add じゃない to stem',
-        pastNegative: 'Add じゃなかった to stem',
+        negative: 'Add じゃない or ではない to stem',
+        pastNegative: 'Add じゃなかった or ではなかった to stem',
+        // Polite Forms
         polite: 'Add です to stem',
+        politePast: 'Add でした to stem',
+        politeNegative: 'Add じゃありません or ではありません to stem',
+        politePastNegative: 'Add じゃありませんでした or ではありませんでした to stem',
+        // Te-form
+        teForm: 'Add で to stem',
+        negativeTeForm: 'Add じゃなくて or ではなくて to stem',
+        naiDeForm: 'Add じゃないで to stem',
+        // Conditional
+        provisional: 'Add なら or であれば to stem',
+        provisionalNegative: 'Add じゃなければ or でなければ to stem',
         conditional: 'Add だったら to stem',
-        provisional: 'Add なら to stem'
+        conditionalNegative: 'Add じゃなかったら or ではなかったら to stem',
+        // Adverbial
+        taiAdverbial: 'Add に to stem (adverbial form)',
+        // Presumptive
+        presumptivePlain: 'Add だろう to stem',
+        presumptivePolite: 'Add でしょう to stem',
+        presumptiveNegativePlain: 'Add じゃないだろう to stem',
+        presumptiveNegativePolite: 'Add じゃないでしょう to stem'
       },
       'noun': {
         present: 'Nouns do not conjugate'
@@ -1366,7 +1629,7 @@ export class ExtendedConjugationEngine {
       }
     };
 
-    return rules[wordType]?.[form] || 'No rule available for this combination';
+    return rules[wordType]?.[form] || 'Advanced conjugation form - observe the answer examples';
   }
 }
 

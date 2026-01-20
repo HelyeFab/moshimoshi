@@ -8,6 +8,19 @@
 import { z } from 'zod';
 
 // ============================================
+// Schema Version Tracking
+// ============================================
+/**
+ * Schema version for tracking deployments and detecting issues.
+ * Increment when making breaking changes to schemas.
+ *
+ * Version History:
+ * - 1.0.0: Initial schema with textWithFurigana required
+ * - 1.1.0: Added bilingual quiz validation (questionJa, explanationJa required)
+ */
+export const STORY_SCHEMA_VERSION = '1.1.0';
+
+// ============================================
 // JLPT Level Schema
 // ============================================
 

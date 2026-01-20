@@ -63,6 +63,7 @@ export interface Story {
   aiModel?: string
   generationPrompt?: string
   characterSheet?: any // AI character sheet data
+  schemaVersion?: string // Schema version for tracking deployments
 
   // Audio Generation
   fullAudioUrl?: string // Full story narration (all pages concatenated)

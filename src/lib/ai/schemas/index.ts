@@ -339,6 +339,7 @@ export function applyDefaults<T extends object>(
 // ============================================
 
 export {
+  STORY_SCHEMA_VERSION,
   CharacterSheetSchema,
   StoryOutlineSchema,
   OutlinePageSchema,

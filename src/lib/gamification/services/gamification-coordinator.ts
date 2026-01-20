@@ -216,7 +216,16 @@ export async function recordDrillCompletion(params: {
     const userStatsRef = getDb().collection('user_stats').doc(userId)
     const statsDoc = await transaction.get(userStatsRef)
 
-    // Initialize if doesn't exist
+    const completionKey = buildCompletionKey('drill', sessionId)
+    const completionRef = getCompletionLedgerRef(userId, completionKey)
+    const completionDoc = await transaction.get(completionRef)
+
+    const currentStats = statsDoc.data() || {}
+    if (completionDoc.exists) {
+      return buildIdempotentResult(currentStats)
+    }
+
+    // Initialize if doesn't exist (after all reads)
     if (!statsDoc.exists) {
       transaction.set(
         userStatsRef,
@@ -235,15 +244,6 @@ export async function recordDrillCompletion(params: {
         },
         { merge: true }
       )
-    }
-
-    const currentStats = statsDoc.data() || {}
-    const completionKey = buildCompletionKey('drill', sessionId)
-    const completionRef = getCompletionLedgerRef(userId, completionKey)
-    const completionDoc = await transaction.get(completionRef)
-
-    if (completionDoc.exists) {
-      return buildIdempotentResult(currentStats)
     }
     const currentXP = currentStats.xp?.total || 0
     const newTotalXP = currentXP + xpEarned
@@ -424,7 +424,16 @@ export async function recordReviewCompletion(params: {
     const userStatsRef = getDb().collection('user_stats').doc(userId)
     const statsDoc = await transaction.get(userStatsRef)
 
-    // Initialize if doesn't exist
+    const completionKey = buildCompletionKey('review', sessionId)
+    const completionRef = getCompletionLedgerRef(userId, completionKey)
+    const completionDoc = await transaction.get(completionRef)
+
+    const currentStats = statsDoc.data() || {}
+    if (completionDoc.exists) {
+      return buildIdempotentResult(currentStats)
+    }
+
+    // Initialize if doesn't exist (after all reads)
     if (!statsDoc.exists) {
       transaction.set(
         userStatsRef,
@@ -443,15 +452,6 @@ export async function recordReviewCompletion(params: {
         },
         { merge: true }
       )
-    }
-
-    const currentStats = statsDoc.data() || {}
-    const completionKey = buildCompletionKey('review', sessionId)
-    const completionRef = getCompletionLedgerRef(userId, completionKey)
-    const completionDoc = await transaction.get(completionRef)
-
-    if (completionDoc.exists) {
-      return buildIdempotentResult(currentStats)
     }
     const currentXP = currentStats.xp?.total || 0
     const newTotalXP = currentXP + xpEarned
@@ -663,7 +663,16 @@ export async function recordNewsCompletion(params: {
     const userStatsRef = getDb().collection('user_stats').doc(userId)
     const statsDoc = await transaction.get(userStatsRef)
 
-    // Initialize if doesn't exist
+    const completionKey = buildCompletionKey('news', articleId)
+    const completionRef = getCompletionLedgerRef(userId, completionKey)
+    const completionDoc = await transaction.get(completionRef)
+
+    const currentStats = statsDoc.data() || {}
+    if (completionDoc.exists) {
+      return buildIdempotentResult(currentStats)
+    }
+
+    // Initialize if doesn't exist (after all reads)
     if (!statsDoc.exists) {
       transaction.set(
         userStatsRef,
@@ -683,15 +692,6 @@ export async function recordNewsCompletion(params: {
         },
         { merge: true }
       )
-    }
-
-    const currentStats = statsDoc.data() || {}
-    const completionKey = buildCompletionKey('news', articleId)
-    const completionRef = getCompletionLedgerRef(userId, completionKey)
-    const completionDoc = await transaction.get(completionRef)
-
-    if (completionDoc.exists) {
-      return buildIdempotentResult(currentStats)
     }
     const currentXP = currentStats.xp?.total || 0
     const newTotalXP = currentXP + xpEarned
@@ -853,7 +853,16 @@ export async function recordBookCompletion(params: {
     const userStatsRef = getDb().collection('user_stats').doc(userId)
     const statsDoc = await transaction.get(userStatsRef)
 
-    // Initialize if doesn't exist
+    const completionKey = buildCompletionKey('book', bookId)
+    const completionRef = getCompletionLedgerRef(userId, completionKey)
+    const completionDoc = await transaction.get(completionRef)
+
+    const currentStats = statsDoc.data() || {}
+    if (completionDoc.exists) {
+      return buildIdempotentResult(currentStats)
+    }
+
+    // Initialize if doesn't exist (after all reads)
     if (!statsDoc.exists) {
       transaction.set(
         userStatsRef,
@@ -873,15 +882,6 @@ export async function recordBookCompletion(params: {
         },
         { merge: true }
       )
-    }
-
-    const currentStats = statsDoc.data() || {}
-    const completionKey = buildCompletionKey('book', bookId)
-    const completionRef = getCompletionLedgerRef(userId, completionKey)
-    const completionDoc = await transaction.get(completionRef)
-
-    if (completionDoc.exists) {
-      return buildIdempotentResult(currentStats)
     }
     const currentXP = currentStats.xp?.total || 0
     const newTotalXP = currentXP + xpEarned
