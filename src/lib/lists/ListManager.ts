@@ -325,7 +325,6 @@ class ListManager {
     const requestBody = JSON.stringify(request);
 
     try {
-      const startTime = Date.now();
       const response = await fetch('/api/lists', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -371,14 +370,28 @@ class ListManager {
           url: response.url
         });
 
-        if (errorDetails?.code === 'DUPLICATE_LIST') {
+        if (response.status === 409 || errorDetails?.code === 'DUPLICATE_LIST') {
           throw new Error('DUPLICATE_LIST');
         }
-
-        // Throw error with details for better error handling
-        throw new Error(`Server rejected list creation: ${response.status} - ${JSON.stringify(errorDetails)}`);
+        if (response.status === 429) {
+          throw new Error('LIMIT_REACHED');
+        }
+        if (response.status === 401 || response.status === 403) {
+          throw new Error('UNAUTHORIZED');
+        }
+        throw new Error('CREATE_LIST_FAILED');
       }
     } catch (error) {
+      const isOffline = typeof navigator !== 'undefined' && !navigator.onLine;
+      if (
+        error instanceof Error &&
+        ['DUPLICATE_LIST', 'LIMIT_REACHED', 'UNAUTHORIZED', 'CREATE_LIST_FAILED'].includes(error.message)
+      ) {
+        throw error;
+      }
+      if (!isOffline) {
+        throw error;
+      }
       console.error('[ListManager.createList] ✗ Failed to create list on server:', error);
       // Fall through to local storage for offline users
     }

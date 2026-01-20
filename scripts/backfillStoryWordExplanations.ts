@@ -66,7 +66,27 @@ const specificStoryId = storyArgIndex !== -1 ? args[storyArgIndex + 1] : null
 const startAfterIndex = args.indexOf('--start-after')
 const startAfterStoryId = startAfterIndex !== -1 ? args[startAfterIndex + 1] : null
 const limitIndex = args.indexOf('--limit')
-const limitCount = limitIndex !== -1 ? parseInt(args[limitIndex + 1] || '0', 10) : 2
+const limitCount = limitIndex !== -1 ? parseInt(args[limitIndex + 1] || '0', 10) : 0
+const statePath = path.resolve(__dirname, '.backfill-story-state.json')
+
+function readState(): { lastProcessedId?: string } {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    return require(statePath)
+  } catch {
+    return {}
+  }
+}
+
+function writeState(state: { lastProcessedId?: string }) {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    const fs = require('fs')
+    fs.writeFileSync(statePath, JSON.stringify(state, null, 2))
+  } catch {
+    // ignore
+  }
+}
 
 interface StoryPage {
   text?: string
@@ -268,12 +288,19 @@ async function backfillStoryWordExplanations() {
 
     console.log(`\nFound ${stories.length} published story(ies)\n`)
 
-    let skipping = !!startAfterStoryId
+    const state = readState()
+    const effectiveStartAfter = startAfterStoryId || state.lastProcessedId || null
+    if (effectiveStartAfter) {
+      console.log(
+        `Resuming after: ${effectiveStartAfter} ${startAfterStoryId ? '(from --start-after)' : '(from saved state)'}`
+      )
+    }
+    let skipping = !!effectiveStartAfter
     let processedCount = 0
 
     for (const story of stories) {
       if (skipping) {
-        if (story.id === startAfterStoryId) {
+        if (story.id === effectiveStartAfter) {
           skipping = false
         }
         continue
@@ -294,11 +321,18 @@ async function backfillStoryWordExplanations() {
       else if (result.failed) results.failed++
 
       processedCount++
+      if (!isDryRun) {
+        writeState({ lastProcessedId: story.id })
+      }
 
       // Small delay between stories to avoid rate limits
       if (!isDryRun && !result.skipped) {
         await new Promise(resolve => setTimeout(resolve, 2000))
       }
+    }
+
+    if (!isDryRun && processedCount === 0) {
+      writeState({ lastProcessedId: undefined })
     }
   }
 

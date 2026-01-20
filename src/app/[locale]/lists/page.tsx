@@ -157,16 +157,18 @@ export default function MyListsPage() {
       console.log('[handleDeleteList] Missing user or deletingList, aborting')
       return
     }
+    const listToDelete = deletingList
+    setDeletingList(null)
 
     try {
       console.log('[handleDeleteList] Calling listManager.deleteList with:', {
-        listId: deletingList.id,
+        listId: listToDelete.id,
         userId: user.uid,
         isPremium: isPremium || false,
       })
 
       // Use the version with isPremium parameter
-      const success = await listManager.deleteList(deletingList.id, user.uid, isPremium || false)
+      const success = await listManager.deleteList(listToDelete.id, user.uid, isPremium || false)
 
       console.log('[handleDeleteList] Delete result:', success)
 
@@ -177,11 +179,9 @@ export default function MyListsPage() {
       } else {
         showToast(t('lists.errors.deleteFailed'), 'error')
       }
-      setDeletingList(null)
     } catch (error) {
       console.error('[handleDeleteList] Error deleting list:', error)
       showToast(t('lists.errors.deleteFailed'), 'error')
-      setDeletingList(null)
     }
   }
 

@@ -41,11 +41,13 @@ interface PanelContent {
 }
 
 const panels: PanelContent[] = [
-  { id: 1, doshiMood: 'sleepy', hasAppIcons: true }, // Why Moshimoshi - scattered app icons (tired → sleepy)
-  { id: 2, doshiMood: 'thinking' }, // Premium Philosophy (thoughtful → thinking)
-  { id: 3, doshiMood: 'curious' }, // How to Use (calm → curious)
-  { id: 4, doshiMood: 'excited' }, // YouTube Shadowing
-  { id: 5, doshiMood: 'happy' }, // Closing
+  { id: 1, doshiMood: 'sleepy', hasAppIcons: true }, // Why Moshimoshi - scattered app icons
+  { id: 2, doshiMood: 'thinking' }, // A Small, Human Project
+  { id: 3, doshiMood: 'curious' }, // A Learner's Toolbox
+  { id: 4, doshiMood: 'studying' }, // Immersion First
+  { id: 5, doshiMood: 'thinking' }, // How to Use Moshimoshi
+  { id: 6, doshiMood: 'excited' }, // YouTube Shadowing
+  { id: 7, doshiMood: 'happy' }, // Closing
 ]
 
 // Floating lantern component
@@ -486,7 +488,7 @@ function IntroTutorialContent() {
                   </div>
                 )}
 
-                {/* Panel 2: Premium Philosophy */}
+                {/* Panel 2: A Small, Human Project */}
                 {currentPanel.id === 2 && (
                   <div className="text-center space-y-6">
                     <h2 className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 font-medium">
@@ -499,21 +501,7 @@ function IntroTutorialContent() {
                       <p className="text-lg leading-relaxed">
                         {t('intro.panel2.line2')}
                       </p>
-                      <ul className="text-left max-w-md mx-auto space-y-2 text-lg">
-                        <li className="flex items-start gap-3">
-                          <span className="text-primary-500 dark:text-primary-400">•</span>
-                          <span>{t('intro.panel2.bullet1')}</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="text-primary-500 dark:text-primary-400">•</span>
-                          <span>{t('intro.panel2.bullet2')}</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="text-primary-500 dark:text-primary-400">•</span>
-                          <span>{t('intro.panel2.bullet3')}</span>
-                        </li>
-                      </ul>
-                      <p className="text-lg leading-relaxed mt-6">
+                      <p className="text-lg leading-relaxed">
                         {t('intro.panel2.line3')}
                       </p>
                       <p className="text-lg leading-relaxed">
@@ -526,7 +514,7 @@ function IntroTutorialContent() {
                   </div>
                 )}
 
-                {/* Panel 3: How to Use */}
+                {/* Panel 3: A Learner's Toolbox */}
                 {currentPanel.id === 3 && (
                   <div className="text-center space-y-6">
                     <h2 className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 font-medium">
@@ -539,39 +527,20 @@ function IntroTutorialContent() {
                       <p className="text-lg leading-relaxed">
                         {t('intro.panel3.line2')}
                       </p>
-                      <ul className="text-left max-w-md mx-auto space-y-2 text-lg">
-                        <li className="flex items-start gap-3">
-                          <span className="text-primary-500 dark:text-primary-400">•</span>
-                          <span>{t('intro.panel3.bullet1')}</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="text-primary-500 dark:text-primary-400">•</span>
-                          <span>{t('intro.panel3.bullet2')}</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="text-primary-500 dark:text-primary-400">•</span>
-                          <span>{t('intro.panel3.bullet3')}</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="text-primary-500 dark:text-primary-400">•</span>
-                          <span>{t('intro.panel3.bullet4')}</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="text-primary-500 dark:text-primary-400">•</span>
-                          <span>{t('intro.panel3.bullet5')}</span>
-                        </li>
-                      </ul>
-                      <p className="text-xl md:text-2xl font-medium leading-relaxed mt-6">
+                      <p className="text-lg leading-relaxed">
                         {t('intro.panel3.line3')}
                       </p>
                       <p className="text-lg leading-relaxed">
                         {t('intro.panel3.line4')}
                       </p>
+                      <p className="text-xl md:text-2xl font-medium leading-relaxed mt-6">
+                        {t('intro.panel3.line5')}
+                      </p>
                     </div>
                   </div>
                 )}
 
-                {/* Panel 4: YouTube Shadowing */}
+                {/* Panel 4: Immersion First */}
                 {currentPanel.id === 4 && (
                   <div className="text-center space-y-6">
                     <h2 className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 font-medium">
@@ -584,49 +553,74 @@ function IntroTutorialContent() {
                       <p className="text-lg leading-relaxed">
                         {t('intro.panel4.line2')}
                       </p>
-                      <p className="text-lg leading-relaxed font-medium">
+                      <p className="text-lg leading-relaxed">
                         {t('intro.panel4.line3')}
                       </p>
-                      <ul className="text-left max-w-md mx-auto space-y-2 text-lg">
-                        <li className="flex items-start gap-3">
-                          <span className="text-primary-500 dark:text-primary-400">•</span>
-                          <span>{t('intro.panel4.bullet1')}</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="text-primary-500 dark:text-primary-400">•</span>
-                          <span>{t('intro.panel4.bullet2')}</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="text-primary-500 dark:text-primary-400">•</span>
-                          <span>{t('intro.panel4.bullet3')}</span>
-                        </li>
-                        <li className="flex items-start gap-3">
-                          <span className="text-primary-500 dark:text-primary-400">•</span>
-                          <span>{t('intro.panel4.bullet4')}</span>
-                        </li>
-                      </ul>
                       <p className="text-xl md:text-2xl font-medium leading-relaxed mt-6">
                         {t('intro.panel4.line4')}
-                      </p>
-                      <p className="text-xl md:text-2xl font-medium leading-relaxed">
-                        {t('intro.panel4.line5')}
-                      </p>
-                      <p className="text-xl md:text-2xl font-medium leading-relaxed">
-                        {t('intro.panel4.line6')}
                       </p>
                     </div>
                   </div>
                 )}
 
-                {/* Panel 5: Closing */}
+                {/* Panel 5: How to Use Moshimoshi */}
                 {currentPanel.id === 5 && (
+                  <div className="text-center space-y-6">
+                    <h2 className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 font-medium">
+                      {t('intro.panel5.eyebrow')}
+                    </h2>
+                    <div className="space-y-4 text-gray-700 dark:text-gray-200">
+                      <p className="text-xl md:text-2xl font-medium leading-relaxed">
+                        {t('intro.panel5.line1')}
+                      </p>
+                      <p className="text-lg leading-relaxed">
+                        {t('intro.panel5.line2')}
+                      </p>
+                      <p className="text-lg leading-relaxed">
+                        {t('intro.panel5.line3')}
+                      </p>
+                      <p className="text-xl md:text-2xl font-medium leading-relaxed mt-6">
+                        {t('intro.panel5.line4')}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Panel 6: YouTube Shadowing */}
+                {currentPanel.id === 6 && (
+                  <div className="text-center space-y-6">
+                    <h2 className="text-sm uppercase tracking-wide text-gray-500 dark:text-gray-400 font-medium">
+                      {t('intro.panel6.eyebrow')}
+                    </h2>
+                    <div className="space-y-4 text-gray-700 dark:text-gray-200">
+                      <p className="text-xl md:text-2xl font-medium leading-relaxed">
+                        {t('intro.panel6.line1')}
+                      </p>
+                      <p className="text-lg leading-relaxed">
+                        {t('intro.panel6.line2')}
+                      </p>
+                      <p className="text-lg leading-relaxed">
+                        {t('intro.panel6.line3')}
+                      </p>
+                      <p className="text-lg leading-relaxed">
+                        {t('intro.panel6.line4')}
+                      </p>
+                      <p className="text-xl md:text-2xl font-medium leading-relaxed mt-6">
+                        {t('intro.panel6.line5')}
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* Panel 7: Closing */}
+                {currentPanel.id === 7 && (
                   <div className="text-center space-y-8 py-12">
                     <div className="space-y-6 text-gray-700 dark:text-gray-200">
                       <p className="text-3xl md:text-4xl font-medium leading-relaxed">
-                        {t('intro.panel5.line1')}
+                        {t('intro.closing.line1')}
                       </p>
                       <p className="text-2xl md:text-3xl font-light leading-relaxed text-gray-600 dark:text-gray-300">
-                        {t('intro.panel5.line2')}
+                        {t('intro.closing.line2')}
                       </p>
                     </div>
 
@@ -640,12 +634,12 @@ function IntroTutorialContent() {
                         {isSubmitting ? (
                           <>
                             <span className="animate-spin mr-2 h-5 w-5 border-2 border-white rounded-full border-t-transparent inline-block" />
-                            {t('intro.panel5.loading')}
+                            {t('intro.closing.loading')}
                           </>
                         ) : isReview ? (
-                          t('intro.panel5.backToSettings')
+                          t('intro.closing.backToSettings')
                         ) : (
-                          t('intro.panel5.getStarted')
+                          t('intro.closing.getStarted')
                         )}
                       </Button>
                     </div>

@@ -38,6 +38,16 @@ async function getTokenizer() {
   return tokenizerPromise
 }
 
+function normalizeWord(value: string): string {
+  let normalized = value.trim()
+  try {
+    normalized = normalized.normalize('NFKC')
+  } catch {
+    // ignore
+  }
+  return normalized.toLowerCase()
+}
+
 /**
  * Generate full conjugations for a word if it's a verb or adjective.
  * Uses the ExtendedConjugationEngine for accurate 100+ form generation.
@@ -200,7 +210,7 @@ async function ensureExtras(
 export async function extractJapaneseWords(
   text: string,
   options: { includeParticles?: boolean; minLength?: number } = {}
-): Promise<string[]> {
+): Promise<Array<{ word: string; surfaceForms: string[] }>> {
   const tokenizer = await getTokenizer()
   const tokens = tokenizer.tokenize(text || '')
 
@@ -213,23 +223,37 @@ export async function extractJapaneseWords(
   const isJapaneseToken = (word: string) =>
     /[\u3040-\u30ff\u4e00-\u9fff]/.test(word)
 
-  const words = tokens
-    .map(token => token.basic_form || token.surface_form)
-    .filter(Boolean)
-    .filter(word => isJapaneseToken(word))
-    .filter(word => word.length >= minLength)
-
-  // Deduplicate while preserving order
+  // Deduplicate while preserving order + collect surface forms
   const seen = new Set<string>()
-  const unique: string[] = []
-  for (const word of words) {
-    const key = word.toLowerCase()
+  const unique: Array<{ word: string; surfaceForms: string[] }> = []
+  const surfaceMap = new Map<string, Set<string>>()
+
+  for (const token of tokens) {
+    const base = token.basic_form || token.surface_form
+    const surface = token.surface_form || token.basic_form || base
+    if (!base) continue
+    if (!isJapaneseToken(base)) continue
+    if (base.length < minLength) continue
+
+    const key = normalizeWord(base)
+    if (!surfaceMap.has(key)) surfaceMap.set(key, new Set())
+    surfaceMap.get(key)!.add(base)
+    if (surface) surfaceMap.get(key)!.add(surface)
+
     if (!seen.has(key)) {
       seen.add(key)
-      unique.push(word)
+      unique.push({
+        word: base,
+        surfaceForms: Array.from(surfaceMap.get(key) || []),
+      })
     }
   }
-  return unique
+
+  // Ensure surfaceForms are up to date
+  return unique.map(entry => ({
+    word: entry.word,
+    surfaceForms: Array.from(surfaceMap.get(normalizeWord(entry.word)) || []),
+  }))
 }
 
 interface PrecomputeRequest {
@@ -287,11 +311,21 @@ export async function precomputeWordExplanations({
   const docRef = db.collection(collection).doc(contentId)
   const existingSnap = await docRef.get()
   const existingWords: WordExplanation[] = (existingSnap.data()?.words as WordExplanation[]) || []
-  const existingSet = new Set(
-    existingWords.map(w => w.word?.toLowerCase?.() || '').filter(Boolean)
-  )
+  const normalize = (v?: string) => (v ? normalizeWord(v) : '')
+  const hasWord = (target: string) => {
+    const normalized = normalize(target)
+    if (!normalized) return false
+    return existingWords.some(w => {
+      const surfaceForms = (w as any).surfaceForms as string[] | undefined
+      return (
+        normalize(w.word) === normalized ||
+        normalize(w.reading) === normalized ||
+        (surfaceForms || []).some(sf => normalize(sf) === normalized)
+      )
+    })
+  }
 
-  const missingWords = words.filter(w => !existingSet.has(w.toLowerCase()))
+  const missingWords = words.filter(w => !hasWord(w.word))
 
   const aiService = AIService.getInstance()
   const generatedResults: WordExplanation[] = []
@@ -313,12 +347,17 @@ export async function precomputeWordExplanations({
   while (index < missingWords.length) {
     const slice = missingWords.slice(index, index + concurrency)
     const results = await Promise.all(
-      slice.map(async (word, sliceIndex) => {
+      slice.map(async (wordObj, sliceIndex) => {
         const globalIndex = index + sliceIndex
+        const word = wordObj.word
         try {
           const cached = await getCachedWordExplanation(word)
           if (cached) {
             cachedCount += 1
+            if (!cached.surfaceForms && wordObj.surfaceForms) {
+              cached.surfaceForms = wordObj.surfaceForms
+              await setCachedWordExplanation(word, cached)
+            }
             await ensureExtras(cached, word, sentences, translationCache, jlptLevel)
             // If cached but missing fullConjugations, generate them now
             if (!cached.fullConjugations) {
@@ -345,6 +384,9 @@ export async function precomputeWordExplanations({
           }
 
           const explanation = aiResponse.data
+          if (!explanation.surfaceForms && wordObj.surfaceForms) {
+            explanation.surfaceForms = wordObj.surfaceForms
+          }
 
           // Generate full conjugations for verbs/adjectives
           const fullConjugations = await generateFullConjugations(explanation)

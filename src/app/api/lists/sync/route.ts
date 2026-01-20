@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getSession } from '@/lib/auth/session';
 import { adminDb } from '@/lib/firebase/admin';
 import type { UserList } from '@/types/userLists';
+import { evaluate } from '@/lib/entitlements/evaluator';
+import type { EvalContext } from '@/types/entitlements';
 
 // Helper for database availability check
 function getDb() {
@@ -55,6 +57,7 @@ export async function POST(request: NextRequest) {
     // Save the list to Firebase
     const listsRef = db.collection('users').doc(session.uid).collection('lists');
     const existingListsSnapshot = await listsRef.get();
+    const isExisting = existingListsSnapshot.docs.some(doc => doc.id === list.id);
     const normalizedName = normalizeListName(list.name || '');
     const duplicateList = existingListsSnapshot.docs.some(doc => {
       if (doc.id === list.id) return false;
@@ -68,6 +71,37 @@ export async function POST(request: NextRequest) {
         { error: 'List name already exists for this type', code: 'DUPLICATE_LIST' },
         { status: 409 }
       );
+    }
+
+    if (!isExisting) {
+      let plan = 'free';
+      if (userData?.subscription?.status === 'active' && userData?.subscription?.plan) {
+        plan = userData.subscription.plan;
+      }
+
+      const nowUtcISO = new Date().toISOString();
+      const currentCount = existingListsSnapshot.size;
+      const context: EvalContext = {
+        userId: session.uid,
+        plan: plan as any,
+        usage: { custom_lists: currentCount },
+        nowUtcISO
+      };
+      const evalDecision = evaluate('custom_lists', context);
+
+      if (!evalDecision.allow) {
+        return NextResponse.json(
+          {
+            error: evalDecision.reason === 'limit_reached'
+              ? `List limit reached (${evalDecision.limit} lists)`
+              : 'Cannot create more lists',
+            limit: evalDecision.limit,
+            current: currentCount,
+            remaining: evalDecision.remaining
+          },
+          { status: 429 }
+        );
+      }
     }
     await listsRef.doc(list.id).set(list);
 

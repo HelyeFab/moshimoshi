@@ -31,6 +31,7 @@ interface UseWordExplanationOptions {
 
 const MAX_PREFETCH_CHARS = 48000;
 const PREFETCH_CHUNK_SIZE = 8000;
+const PRECOMPUTE_VERSION = 'v2_all_tokens';
 
 function chunkText(text: string, size: number): string[] {
   const chunks: string[] = [];
@@ -53,6 +54,40 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
     contentType: 'article' | 'book' | 'story' | 'video' | 'comic' | 'flashcard';
     text: string;
   } | null>(null);
+  const repairTriggeredRef = useRef<Set<string>>(new Set());
+
+  const normalizeWord = useCallback((value: string | undefined | null) => {
+    if (!value) return '';
+    let normalized = value.trim();
+    try {
+      normalized = normalized.normalize('NFKC');
+    } catch {
+      // ignore if normalize not supported
+    }
+    normalized = normalized
+      .replace(
+        /^[\s「」『』（）()［］【】〈〉《》〔〕｛｝、。・！!？\?"'’”‘\-—–〜~…]+|[\s「」『』（）()［］【】〈〉《》〔〕｛｝、。・！!？\?"'’”‘\-—–〜~…]+$/g,
+        ''
+      )
+      .trim();
+    return normalized.toLowerCase();
+  }, []);
+
+  const cacheExplanation = useCallback((explanation: WordExplanation) => {
+    const keys = new Set<string>();
+    const pushKey = (v?: string) => {
+      const key = normalizeWord(v);
+      if (key) keys.add(key);
+    };
+    pushKey(explanation.word);
+    pushKey(explanation.reading);
+    if (Array.isArray((explanation as any).surfaceForms)) {
+      for (const sf of (explanation as any).surfaceForms) pushKey(sf);
+    }
+    for (const key of keys) {
+      cacheRef.current.set(key, explanation);
+    }
+  }, [normalizeWord]);
 
   const explainWord = useCallback(async (word: string, context?: string) => {
     try {
@@ -61,7 +96,12 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
       setCurrentWord(word);
 
       // Check component-level cache first
-      const cacheKey = word.toLowerCase();
+      const cacheKey = normalizeWord(word);
+      if (!cacheKey) {
+        setLoading(false);
+        setError('Invalid word');
+        return null;
+      }
       const cached = cacheRef.current.get(cacheKey);
       if (cached) {
         console.log('%c[WordExplanation] SOURCE: MEMORY CACHE (instant)', 'color: #00ff00; font-weight: bold', { word });
@@ -83,15 +123,19 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
             const words = data.words as WordExplanation[];
 
             // Find the word in pre-cached explanations
-            const preCached = words?.find(w =>
-              w.word === word ||
-              w.word.toLowerCase() === word.toLowerCase() ||
-              w.reading === word
-            );
+            const normalized = normalizeWord(word);
+            const preCached = words?.find(w => {
+              const surfaceForms = (w as any).surfaceForms as string[] | undefined;
+              return (
+                normalizeWord(w.word) === normalized ||
+                normalizeWord(w.reading) === normalized ||
+                (surfaceForms || []).some(sf => normalizeWord(sf) === normalized)
+              );
+            });
 
             if (preCached) {
               console.log('%c[WordExplanation] SOURCE: FIREBASE PRE-CACHE (fast)', 'color: #ff9900; font-weight: bold', { word, articleId: options.articleId });
-              cacheRef.current.set(cacheKey, preCached);
+              cacheExplanation(preCached);
               setExplanation(preCached);
               setLoading(false);
               options?.onSuccess?.(preCached);
@@ -118,15 +162,19 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
             const words = data.words as WordExplanation[];
 
             // Find the word in pre-cached explanations
-            const preCached = words?.find(w =>
-              w.word === word ||
-              w.word.toLowerCase() === word.toLowerCase() ||
-              w.reading === word
-            );
+            const normalized = normalizeWord(word);
+            const preCached = words?.find(w => {
+              const surfaceForms = (w as any).surfaceForms as string[] | undefined;
+              return (
+                normalizeWord(w.word) === normalized ||
+                normalizeWord(w.reading) === normalized ||
+                (surfaceForms || []).some(sf => normalizeWord(sf) === normalized)
+              );
+            });
 
             if (preCached) {
               console.log('%c[WordExplanation] SOURCE: BOOK PRE-CACHE (fast)', 'color: #9900ff; font-weight: bold', { word, bookId: options.bookId });
-              cacheRef.current.set(cacheKey, preCached);
+              cacheExplanation(preCached);
               setExplanation(preCached);
               setLoading(false);
               options?.onSuccess?.(preCached);
@@ -153,15 +201,19 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
             const words = data.words as WordExplanation[];
 
             // Find the word in pre-cached explanations
-            const preCached = words?.find(w =>
-              w.word === word ||
-              w.word.toLowerCase() === word.toLowerCase() ||
-              w.reading === word
-            );
+            const normalized = normalizeWord(word);
+            const preCached = words?.find(w => {
+              const surfaceForms = (w as any).surfaceForms as string[] | undefined;
+              return (
+                normalizeWord(w.word) === normalized ||
+                normalizeWord(w.reading) === normalized ||
+                (surfaceForms || []).some(sf => normalizeWord(sf) === normalized)
+              );
+            });
 
             if (preCached) {
               console.log('%c[WordExplanation] SOURCE: VIDEO PRE-CACHE (fast)', 'color: #00ccff; font-weight: bold', { word, videoId: options.videoId });
-              cacheRef.current.set(cacheKey, preCached);
+              cacheExplanation(preCached);
               setExplanation(preCached);
               setLoading(false);
               options?.onSuccess?.(preCached);
@@ -176,6 +228,43 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
         }
       }
 
+      // If storyId is provided, check story_word_explanations collection
+      if (options?.storyId) {
+        try {
+          console.log('[WordExplanation] Checking Firebase pre-cache for storyId:', options.storyId);
+          const docRef = doc(firestore, 'story_word_explanations', options.storyId);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            const words = data.words as WordExplanation[];
+
+            const normalized = normalizeWord(word);
+            const preCached = words?.find(w => {
+              const surfaceForms = (w as any).surfaceForms as string[] | undefined;
+              return (
+                normalizeWord(w.word) === normalized ||
+                normalizeWord(w.reading) === normalized ||
+                (surfaceForms || []).some(sf => normalizeWord(sf) === normalized)
+              );
+            });
+
+            if (preCached) {
+              console.log('%c[WordExplanation] SOURCE: STORY PRE-CACHE (fast)', 'color: #33cc66; font-weight: bold', { word, storyId: options.storyId });
+              cacheExplanation(preCached);
+              setExplanation(preCached);
+              setLoading(false);
+              options?.onSuccess?.(preCached);
+              return preCached;
+            }
+          } else {
+            console.log('[WordExplanation] No pre-cache document found for story');
+          }
+        } catch (firebaseError) {
+          console.warn('[WordExplanation] Story pre-cache check failed, falling back to API:', firebaseError);
+        }
+      }
+
       // If comicId is provided, check comic_word_explanations collection
       if (options?.comicId) {
         try {
@@ -187,15 +276,19 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
             const data = docSnap.data();
             const words = data.words as WordExplanation[];
 
-            const preCached = words?.find(w =>
-              w.word === word ||
-              w.word.toLowerCase() === word.toLowerCase() ||
-              w.reading === word
-            );
+            const normalized = normalizeWord(word);
+            const preCached = words?.find(w => {
+              const surfaceForms = (w as any).surfaceForms as string[] | undefined;
+              return (
+                normalizeWord(w.word) === normalized ||
+                normalizeWord(w.reading) === normalized ||
+                (surfaceForms || []).some(sf => normalizeWord(sf) === normalized)
+              );
+            });
 
             if (preCached) {
               console.log('%c[WordExplanation] SOURCE: COMIC PRE-CACHE (fast)', 'color: #ff66cc; font-weight: bold', { word, comicId: options.comicId });
-              cacheRef.current.set(cacheKey, preCached);
+              cacheExplanation(preCached);
               setExplanation(preCached);
               setLoading(false);
               options?.onSuccess?.(preCached);
@@ -221,15 +314,19 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
             const data = docSnap.data();
             const words = data.words as WordExplanation[];
 
-            const preCached = words?.find(w =>
-              w.word === word ||
-              w.word.toLowerCase() === word.toLowerCase() ||
-              w.reading === word
-            );
+            const normalized = normalizeWord(word);
+            const preCached = words?.find(w => {
+              const surfaceForms = (w as any).surfaceForms as string[] | undefined;
+              return (
+                normalizeWord(w.word) === normalized ||
+                normalizeWord(w.reading) === normalized ||
+                (surfaceForms || []).some(sf => normalizeWord(sf) === normalized)
+              );
+            });
 
             if (preCached) {
               console.log('%c[WordExplanation] SOURCE: FLASHCARD PRE-CACHE (fast)', 'color: #c2185b; font-weight: bold', { word, flashcardId: options.flashcardId });
-              cacheRef.current.set(cacheKey, preCached);
+              cacheExplanation(preCached);
               setExplanation(preCached);
               setLoading(false);
               options?.onSuccess?.(preCached);
@@ -249,8 +346,10 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
         const refetchedCollection =
           options?.articleId ? 'news_article_word_explanations'
             : options?.bookId ? 'book_word_explanations'
+            : options?.storyId ? 'story_word_explanations'
             : options?.videoId ? 'video_word_explanations'
             : options?.comicId ? 'comic_word_explanations'
+            : options?.flashcardId ? 'flashcard_word_explanations'
             : undefined;
 
         if (refetchedCollection && lastPrefetchRef.current.contentId) {
@@ -261,15 +360,18 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
             if (refDoc.exists()) {
               const data = refDoc.data();
               const words = (data.words as WordExplanation[]) || [];
-              const hydrated = words.find(
-                w =>
-                  w.word === word ||
-                  w.word?.toLowerCase() === word.toLowerCase() ||
-                  w.reading === word
-              );
+              const normalized = normalizeWord(word);
+              const hydrated = words.find(w => {
+                const surfaceForms = (w as any).surfaceForms as string[] | undefined;
+                return (
+                  normalizeWord(w.word) === normalized ||
+                  normalizeWord(w.reading) === normalized ||
+                  (surfaceForms || []).some(sf => normalizeWord(sf) === normalized)
+                );
+              });
               if (hydrated) {
                 console.log('%c[WordExplanation] SOURCE: PRECOMPUTE DOC (top-up)', 'color: #00c853; font-weight: bold', { word });
-                cacheRef.current.set(cacheKey, hydrated);
+                cacheExplanation(hydrated);
                 setExplanation(hydrated);
                 setLoading(false);
                 options?.onSuccess?.(hydrated);
@@ -298,7 +400,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
           ...(options?.comicId && { 'x-content-type': 'comic' }),
           ...(options?.flashcardId && { 'x-content-type': 'flashcard' }),
         },
-        body: JSON.stringify({ word, context }),
+        body: JSON.stringify({ word: cacheKey, context }),
       });
 
       const data: WordExplanationResponse = await response.json();
@@ -327,9 +429,34 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
         return null;
       }
 
+      // If we had a prefetch context and this word was missing, trigger background repair once
+      if (lastPrefetchRef.current?.contentId && lastPrefetchRef.current?.contentType) {
+        const repairKey = `${lastPrefetchRef.current.contentType}:${lastPrefetchRef.current.contentId}`;
+        if (!repairTriggeredRef.current.has(repairKey)) {
+          repairTriggeredRef.current.add(repairKey);
+          const endpoint =
+            lastPrefetchRef.current.contentType === 'book'
+              ? '/api/word/precompute/book'
+              : '/api/word/precompute';
+          fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contentId: lastPrefetchRef.current.contentId,
+              contentType: lastPrefetchRef.current.contentType,
+              text: lastPrefetchRef.current.text.slice(0, MAX_PREFETCH_CHARS),
+              allowWhileGenerating: true,
+              ...(lastPrefetchRef.current.contentType !== 'video'
+                ? { includeParticles: true, minLength: 1 }
+                : {}),
+            }),
+          }).catch(() => {});
+        }
+      }
+
       // Cache the result
       console.log('%c[WordExplanation] SOURCE: API (OpenAI)', 'color: #ff0000; font-weight: bold', { word, cached: data.cached });
-      cacheRef.current.set(cacheKey, data.explanation);
+      cacheExplanation(data.explanation);
 
       setExplanation(data.explanation);
       setLoading(false);
@@ -398,13 +525,38 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
         }
       };
 
-      // Try to hydrate from existing doc; do NOT return early so we can still top-up
+      // Try to hydrate from existing doc; decide if we should trigger background precompute
+      let shouldPrecompute = true
       try {
         docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
           const data = docSnap.data() as { words?: WordExplanation[] };
+          const precomputeStatus = (data as any)?.precomputeStatus;
+          const precomputeVersion = (data as any)?.precomputeVersion;
+          const precomputeOptions = (data as any)?.precomputeOptions || {};
           if (data?.words?.length) {
             hydrateCache(data.words);
+            const expectedOptions = contentType !== 'video'
+              ? { includeParticles: true, minLength: 1 }
+              : {};
+            const optionsMismatch = contentType !== 'video' && (
+              precomputeOptions?.includeParticles !== expectedOptions.includeParticles ||
+              precomputeOptions?.minLength !== expectedOptions.minLength
+            );
+            shouldPrecompute = precomputeVersion !== PRECOMPUTE_VERSION || optionsMismatch;
+            if (shouldPrecompute) {
+              console.log('[WordExplanation] Prefetch repair needed (version mismatch)', {
+                contentId,
+                contentType,
+                precomputeVersion,
+                expected: PRECOMPUTE_VERSION,
+                precomputeOptions,
+                expectedOptions,
+                words: data?.words?.length || 0,
+              });
+            }
+          } else if (precomputeStatus === 'generating') {
+            shouldPrecompute = false;
           }
         }
       } catch (err) {
@@ -412,14 +564,25 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
       }
 
       // If no precompute exists yet and text provided, kick off precompute and refetch
-      if (text) {
+      if (text && shouldPrecompute) {
         try {
           // Truncate total payload length and chunk to avoid dropping tail words
           const safeText =
             text.length > MAX_PREFETCH_CHARS ? text.slice(0, MAX_PREFETCH_CHARS) : text;
           const chunks = chunkText(safeText, PREFETCH_CHUNK_SIZE).slice(0, 6); // hard cap chunks
+          const includeAllTokens = contentType !== 'video';
+          const isBook = contentType === 'book';
 
           lastPrefetchRef.current = { contentId, contentType, text: safeText };
+
+          if (isBook) {
+            await fetch('/api/word/precompute/book', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ contentId }),
+            });
+            return;
+          }
 
           for (let idx = 0; idx < chunks.length; idx++) {
             const chunk = chunks[idx];
@@ -434,11 +597,28 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
                 wordCountEstimate: chunk.length / 2,
               }
             );
-            const resp = await fetch('/api/word/precompute', {
+            const endpoint = isBook ? '/api/word/precompute/book' : '/api/word/precompute';
+            const resp = await fetch(endpoint, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ contentId, contentType, text: chunk, chunkIndex: idx }),
+              body: JSON.stringify({
+                contentId,
+                contentType,
+                text: chunk,
+                chunkIndex: idx,
+                allowWhileGenerating: idx > 0,
+                ...(includeAllTokens ? { includeParticles: true, minLength: 1 } : {}),
+              }),
             });
+            if (resp.ok) {
+              const payload = await resp.json().catch(() => null);
+              if (payload?.skipped && payload.skipped !== 'locked') {
+                break;
+              }
+              if (payload?.skipped === 'locked') {
+                break;
+              }
+            }
             if (!resp.ok) {
               const details = await resp.json().catch(() => ({}));
               console.warn('[WordExplanation] Precompute failed', { status: resp.status, details });
@@ -467,7 +647,59 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
         } catch (e) {
           console.warn('[WordExplanation] Prefetch failed', e);
         }
-      } else {
+        return
+      }
+
+      if (shouldPrecompute) {
+        try {
+          if (contentType === 'book') {
+            console.log(
+              '%c[WordExplanation] PREFETCH QUEUED (book fetch)',
+              'color: #00bfff; font-weight: bold',
+              { contentId, contentType }
+            );
+            await fetch('/api/word/precompute/book', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ contentId }),
+            });
+            return;
+          }
+
+          if (contentType !== 'video') {
+            console.log(
+              '%c[WordExplanation] PREFETCH QUEUED (server fetch)',
+              'color: #00bfff; font-weight: bold',
+              { contentId, contentType }
+            );
+            await fetch('/api/word/precompute', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contentId,
+                contentType,
+                fetchContent: true,
+                includeParticles: true,
+                minLength: 1,
+              }),
+            });
+            return;
+          }
+        } catch (e) {
+          console.warn('[WordExplanation] Prefetch (server fetch) failed', e);
+        }
+      }
+
+      if (!shouldPrecompute) {
+        console.log(
+          '%c[WordExplanation] PREFETCH SKIPPED (up-to-date)',
+          'color: #999999; font-weight: bold',
+          { contentId, contentType }
+        );
+        return;
+      }
+
+      if (!text) {
         console.log(
           '%c[WordExplanation] PREFETCH SKIPPED (no text provided)',
           'color: #ffa500; font-weight: bold',

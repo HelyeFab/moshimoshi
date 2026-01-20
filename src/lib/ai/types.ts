@@ -222,6 +222,8 @@ export interface WordExplanation {
   romaji: string
   meaning: string
   partOfSpeech: string
+  // Surface forms seen in content (e.g., conjugations or inflected forms)
+  surfaceForms?: string[]
 
   // Optional precomputed audio (preferred over client TTS when available)
   audioUrl?: string

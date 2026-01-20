@@ -238,7 +238,7 @@ export default function SettingsPage() {
         <div className="space-y-6">
           {/* Help & Resources - ALWAYS AT THE TOP */}
           <CollapsibleSection
-            title="Help & Resources"
+            title={(strings.settings?.sections as any)?.helpResources?.title || 'Help & Resources'}
             icon="❓"
             defaultOpen={true}
           >
@@ -253,10 +253,10 @@ export default function SettingsPage() {
                   </div>
                   <div>
                     <p className="font-bold text-lg text-gray-900 dark:text-gray-100">
-                      View Tutorial Again
+                      {(strings.settings?.sections as any)?.helpResources?.viewTutorial?.title || 'View Tutorial Again'}
                     </p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                      Review why Moshimoshi was built and how to use it
+                      {(strings.settings?.sections as any)?.helpResources?.viewTutorial?.description || 'Review why Moshimoshi was built and how to use it'}
                     </p>
                   </div>
                 </div>
@@ -273,10 +273,10 @@ export default function SettingsPage() {
                   <span className="text-2xl">📧</span>
                   <div>
                     <p className="font-medium text-gray-900 dark:text-gray-100 text-sm">
-                      Email Support
+                      {(strings.settings?.sections as any)?.helpResources?.emailSupport?.title || 'Email Support'}
                     </p>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
-                      support@moshimoshi.app
+                      {(strings.settings?.sections as any)?.helpResources?.emailSupport?.description || 'support@moshimoshi.app'}
                     </p>
                   </div>
                 </a>
@@ -288,10 +288,10 @@ export default function SettingsPage() {
                   <span className="text-2xl">💬</span>
                   <div>
                     <p className="font-medium text-gray-900 dark:text-gray-100 text-sm">
-                      Send Feedback
+                      {(strings.settings?.sections as any)?.helpResources?.sendFeedback?.title || 'Send Feedback'}
                     </p>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
-                      Help us improve
+                      {(strings.settings?.sections as any)?.helpResources?.sendFeedback?.description || 'Help us improve'}
                     </p>
                   </div>
                 </Link>

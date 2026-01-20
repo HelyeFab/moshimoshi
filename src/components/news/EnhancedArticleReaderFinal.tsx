@@ -178,6 +178,8 @@ import {
   Square,
   ChevronLeft,
   ChevronRight,
+  ChevronDown,
+  ChevronUp,
 } from 'lucide-react'
 import { useNewsProgress } from '@/hooks/useNewsProgress'
 import NewsArticleFallbackImage from './NewsArticleFallbackImage'
@@ -1040,6 +1042,7 @@ export default function EnhancedArticleReader({
 
   // Track translation state
   const [translatedContent, setTranslatedContent] = useState<string | null>(null)
+  const [isTranslationExpanded, setIsTranslationExpanded] = useState(false)
 
   // Local cache for news article translations (stories use pre-stored translations)
   // Using ref to avoid re-triggering effect when cache updates
@@ -2587,17 +2590,83 @@ export default function EnhancedArticleReader({
           />
         </div>
 
-        {/* Translation Section - Firebase-powered */}
+        {/* Story Mode: Page Navigation */}
+        {isStoryMode && (
+          <div className="mt-10 mx-auto" style={{ maxWidth: 'var(--article-content-width)' }}>
+            <div className="flex flex-col gap-4">
+              {/* Page indicator */}
+              <div className="flex items-center justify-center gap-2">
+                {Array.from({ length: totalPages }).map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => {
+                      // Stop full story mode when manually selecting page
+                      if (isPlayingFullStory) {
+                        handleStopFullStory()
+                      }
+                      setCurrentPageIndex(index)
+                      setTranslatedContent(null)
+                    }}
+                    className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
+                      index === currentPageIndex
+                        ? 'bg-primary-500 scale-125'
+                        : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
+                    }`}
+                    aria-label={`Go to page ${index + 1}`}
+                  />
+                ))}
+              </div>
+
+              {/* Navigation buttons */}
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={() => handlePageChange('prev')}
+                  disabled={currentPageIndex === 0}
+                  className="px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                  style={{
+                    backgroundColor: 'var(--article-hover-bg)',
+                    color: 'var(--article-text)',
+                  }}
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+
+                <span
+                  className="text-sm font-medium"
+                  style={{ color: 'var(--article-text-secondary)' }}
+                >
+                  {currentPageIndex + 1} / {totalPages}
+                </span>
+
+                <button
+                  onClick={() => handlePageChange('next')}
+                  className="px-4 py-2 rounded-xl text-white transition-all duration-200 hover:scale-105"
+                  style={{
+                    backgroundColor: 'rgb(var(--palette-primary-500))',
+                  }}
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Translation Section - Firebase-powered - Collapsible */}
         {(settings.translationMode !== 'off' || settings.showTranslation) && (
           <div
-            className="mt-10 p-6 rounded-2xl animate-fade-in-up mx-auto"
+            className="mt-10 rounded-2xl animate-fade-in-up mx-auto overflow-hidden"
             style={{
               backgroundColor: 'var(--article-accent-bg)',
               maxWidth: 'var(--article-content-width)',
               animationDelay: '0.4s',
             }}
           >
-            <div className="flex items-center justify-between mb-4">
+            {/* Collapsible Header */}
+            <button
+              onClick={() => setIsTranslationExpanded(!isTranslationExpanded)}
+              className="w-full p-6 flex items-center justify-between hover:opacity-80 transition-opacity"
+            >
               <h3
                 className="font-semibold text-lg flex items-center gap-2"
                 style={{ color: 'var(--article-text)' }}
@@ -2605,10 +2674,10 @@ export default function EnhancedArticleReader({
                 <Languages className="w-5 h-5" />
                 {t('news.reader.translation')}
               </h3>
-              {settings.translationMode !== 'off' && (
-                <div className="flex items-center gap-2 text-xs">
+              <div className="flex items-center gap-3">
+                {settings.translationMode !== 'off' && (
                   <span
-                    className="px-2 py-1 rounded-full font-medium"
+                    className="px-2 py-1 rounded-full font-medium text-xs"
                     style={{
                       backgroundColor: 'rgb(var(--palette-primary-500) / 0.1)',
                       color: 'rgb(var(--palette-primary-600))',
@@ -2616,57 +2685,67 @@ export default function EnhancedArticleReader({
                   >
                     {settings.translationMode}
                   </span>
-                </div>
-              )}
-            </div>
+                )}
+                {isTranslationExpanded ? (
+                  <ChevronUp className="w-5 h-5" style={{ color: 'var(--article-text)' }} />
+                ) : (
+                  <ChevronDown className="w-5 h-5" style={{ color: 'var(--article-text)' }} />
+                )}
+              </div>
+            </button>
 
-            {/* Translation Content */}
-            {translationLoading && !isStoryMode ? (
-              <div className="flex items-center gap-3 py-8">
-                <div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
-                <span style={{ color: 'var(--article-text-secondary)' }}>
-                  Translating with AI • Firebase caching enabled...
-                </span>
-              </div>
-            ) : translationError && !isStoryMode ? (
-              <div className="py-4 px-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
-                <p className="text-red-700 dark:text-red-400 text-sm">
-                  Translation error: {translationError}
-                </p>
-              </div>
-            ) : translatedContent ? (
-              <div className="prose prose-gray dark:prose-invert max-w-none">
-                <p
-                  style={{
-                    color: 'var(--article-text-secondary)',
-                    lineHeight: '1.7',
-                    fontSize: '1rem',
-                  }}
-                  className="whitespace-pre-wrap"
-                >
-                  {translatedContent}
-                </p>
-              </div>
-            ) : settings.translationMode !== 'off' ? (
-              <div className="py-4">
-                <p style={{ color: 'var(--article-text-secondary)' }} className="text-sm italic">
-                  Translation will appear here automatically.
-                </p>
-              </div>
-            ) : (
-              <div className="py-4">
-                <p style={{ color: 'var(--article-text-secondary)' }} className="text-sm">
-                  Enable translation in settings to see the English translation.
-                </p>
-              </div>
-            )}
+            {/* Collapsible Translation Content */}
+            {isTranslationExpanded && (
+              <div className="px-6 pb-6 transition-all duration-300 ease-in-out">
+                {/* Translation Content */}
+                {translationLoading && !isStoryMode ? (
+                  <div className="flex items-center gap-3 py-8">
+                    <div className="w-6 h-6 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                    <span style={{ color: 'var(--article-text-secondary)' }}>
+                      Translating with AI • Firebase caching enabled...
+                    </span>
+                  </div>
+                ) : translationError && !isStoryMode ? (
+                  <div className="py-4 px-4 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800">
+                    <p className="text-red-700 dark:text-red-400 text-sm">
+                      Translation error: {translationError}
+                    </p>
+                  </div>
+                ) : translatedContent ? (
+                  <div className="prose prose-gray dark:prose-invert max-w-none">
+                    <p
+                      style={{
+                        color: 'var(--article-text-secondary)',
+                        lineHeight: '1.7',
+                        fontSize: '1rem',
+                      }}
+                      className="whitespace-pre-wrap"
+                    >
+                      {translatedContent}
+                    </p>
+                  </div>
+                ) : settings.translationMode !== 'off' ? (
+                  <div className="py-4">
+                    <p style={{ color: 'var(--article-text-secondary)' }} className="text-sm italic">
+                      Translation will appear here automatically.
+                    </p>
+                  </div>
+                ) : (
+                  <div className="py-4">
+                    <p style={{ color: 'var(--article-text-secondary)' }} className="text-sm">
+                      Enable translation in settings to see the English translation.
+                    </p>
+                  </div>
+                )}
 
-            {/* Translation Source Status */}
-            {translatedContent && !translationLoading && (
-              <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700 text-xs">
-                <span style={{ color: 'var(--article-text-secondary)' }} className="opacity-70">
-                  {isStoryMode ? '📖 Pre-stored story translation' : '🔥 Powered by Firebase Translation Cache'}
-                </span>
+                {/* Translation Source Status */}
+                {translatedContent && !translationLoading && (
+                  <div className="mt-4 pt-3 border-t border-gray-200 dark:border-gray-700 text-xs">
+                    <span style={{ color: 'var(--article-text-secondary)' }} className="opacity-70">
+                      {isStoryMode ? '📖 Pre-stored story translation' : '🔥 Powered by Firebase Translation Cache'}
+                    </span>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -2706,69 +2785,9 @@ export default function EnhancedArticleReader({
             )}
           </div>
 
-          {/* Navigation/Complete Section */}
-          <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
-            {isStoryMode ? (
-              /* Story Mode: Page Navigation */
-              <div className="flex flex-col gap-4">
-                {/* Page indicator */}
-                <div className="flex items-center justify-center gap-2">
-                  {Array.from({ length: totalPages }).map((_, index) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        // Stop full story mode when manually selecting page
-                        if (isPlayingFullStory) {
-                          handleStopFullStory()
-                        }
-                        setCurrentPageIndex(index)
-                        setTranslatedContent(null)
-                      }}
-                      className={`w-2.5 h-2.5 rounded-full transition-all duration-200 ${
-                        index === currentPageIndex
-                          ? 'bg-primary-500 scale-125'
-                          : 'bg-gray-300 dark:bg-gray-600 hover:bg-gray-400 dark:hover:bg-gray-500'
-                      }`}
-                      aria-label={`Go to page ${index + 1}`}
-                    />
-                  ))}
-                </div>
-
-                {/* Navigation buttons */}
-                <div className="flex items-center justify-between">
-                  <button
-                    onClick={() => handlePageChange('prev')}
-                    disabled={currentPageIndex === 0}
-                    className="px-4 py-2 rounded-xl transition-all duration-200 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
-                    style={{
-                      backgroundColor: 'var(--article-hover-bg)',
-                      color: 'var(--article-text)',
-                    }}
-                  >
-                    <ChevronLeft className="w-5 h-5" />
-                  </button>
-
-                  <span
-                    className="text-sm font-medium"
-                    style={{ color: 'var(--article-text-secondary)' }}
-                  >
-                    {currentPageIndex + 1} / {totalPages}
-                  </span>
-
-                  <button
-                    onClick={() => handlePageChange('next')}
-                    className="px-4 py-2 rounded-xl text-white transition-all duration-200 hover:scale-105"
-                    style={{
-                      backgroundColor: 'rgb(var(--palette-primary-500))',
-                    }}
-                  >
-                    <ChevronRight className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-            ) : (
-              /* Article Mode: Mark Complete */
-              <>
+          {/* Mark Complete Section (Article Mode Only) */}
+          {!isStoryMode && (
+            <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-700">
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
                   {/* Reading time indicator */}
                   <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
@@ -2811,10 +2830,8 @@ export default function EnhancedArticleReader({
                     )}
                   </button>
                 </div>
-
-              </>
-            )}
-          </div>
+            </div>
+          )}
         </footer>
       </article>
 

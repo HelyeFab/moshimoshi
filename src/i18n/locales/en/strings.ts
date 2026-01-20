@@ -3997,6 +3997,22 @@ export const strings = {
           },
         },
 
+        helpResources: {
+          title: 'Help & Resources',
+          viewTutorial: {
+            title: 'View Tutorial Again',
+            description: 'Review why Moshimoshi was built and how to use it',
+          },
+          emailSupport: {
+            title: 'Email Support',
+            description: 'support@moshimoshi.app',
+          },
+          sendFeedback: {
+            title: 'Send Feedback',
+            description: 'Help us improve',
+          },
+        },
+
         appInfo: {
           title: 'App Info',
           version: {
@@ -6889,56 +6905,62 @@ export const strings = {
     // Panel 1: Why Moshimoshi Exists
     panel1: {
       eyebrow: 'Why Moshimoshi Exists',
-      line1: 'Learning Japanese felt exhausting.',
-      line2: 'I was constantly switching between 10 different apps — one for kanji, one for grammar, one for flashcards, one for videos.',
+      line1: 'Learning Japanese started to feel exhausting.',
+      line2: 'I was constantly switching between many different apps — kanji, grammar, flashcards, videos.',
       line3: 'More tools didn\'t mean better learning. It meant more friction.',
-      line4: 'I built moshimoshi to be a calm place where everything works together — so you can slow down, focus, and learn from real Japanese.',
+      line4: 'I built Moshimoshi as a calm place where everything works together — so you can slow down, focus, and learn from real Japanese.',
     },
 
-    // Panel 2: Premium Philosophy
+    // Panel 2: A Small, Human Project
     panel2: {
-      eyebrow: 'Why Some Features Are Premium',
-      line1: 'Moshimoshi is independent and carefully built.',
-      line2: 'Some features cost real money to run — especially:',
-      bullet1: 'AI processing',
-      bullet2: 'Audio & text services',
-      bullet3: 'External APIs',
-      line3: 'Premium simply helps cover those costs.',
-      line4: 'Free users can still learn meaningfully. Premium just unlocks more depth and more flexibility.',
-      line5: 'Nothing is locked to frustrate you.',
+      eyebrow: 'A Small, Human Project',
+      line1: 'Moshimoshi is built by one person, not a team.',
+      line2: 'It is designed, coded, and maintained slowly and carefully.',
+      line3: 'Bugs will happen.',
+      line4: 'When they do, kindness and patience matter.',
+      line5: 'This app grows together with its users.',
     },
 
-    // Panel 3: How to Use Moshimoshi
+    // Panel 3: A Learner's Toolbox
     panel3: {
+      eyebrow: 'A Learner\'s Toolbox',
+      line1: 'I am a Japanese learner too.',
+      line2: 'Moshimoshi is not here to teach you Japanese.',
+      line3: 'It is the place where I gather all the tools I need while learning.',
+      line4: 'You are free to use them in your own way.',
+      line5: 'There is no single path.',
+    },
+
+    // Panel 4: Immersion First
+    panel4: {
+      eyebrow: 'Immersion First',
+      line1: 'My approach starts with immersion.',
+      line2: 'That is why Moshimoshi values shadowing, books, and news.',
+      line3: 'Textbooks and flashcards support immersion, they do not replace it.',
+      line4: 'Real Japanese comes first.',
+    },
+
+    // Panel 5: How to Use Moshimoshi
+    panel5: {
       eyebrow: 'How to Use Moshimoshi',
-      line1: 'There is no "correct" way.',
-      line2: 'You can:',
-      bullet1: 'Study textbook vocabulary',
-      bullet2: 'Review flashcards',
-      bullet3: 'Read stories or condensed books',
-      bullet4: 'Explore kanji naturally',
-      bullet5: 'Learn at your own pace',
-      line3: 'Use moshimoshi as a toolbox, not a checklist.',
+      line1: 'There is no correct way to use Moshimoshi.',
+      line2: 'You can study vocabulary, review flashcards, read stories, or explore kanji.',
+      line3: 'Use it as a toolbox, not a checklist.',
       line4: 'Progress comes from consistency, not intensity.',
     },
 
-    // Panel 4: YouTube Shadowing
-    panel4: {
-      eyebrow: 'YouTube Shadowing (The Core Idea)',
+    // Panel 6: YouTube Shadowing
+    panel6: {
+      eyebrow: 'YouTube Shadowing',
       line1: 'You already watch Japanese content.',
       line2: 'Moshimoshi helps you learn from it properly.',
-      line3: 'With YouTube Shadowing you can:',
-      bullet1: 'Pause and replay naturally',
-      bullet2: 'Save words and sentences',
-      bullet3: 'Practice listening and speaking',
-      bullet4: 'Learn inside real Japanese',
+      line3: 'Pause, replay, save words and sentences, and practice speaking.',
       line4: 'No artificial dialogues.',
-      line5: 'No forced lessons.',
-      line6: 'Just immersion — made usable.',
+      line5: 'Just immersion, made usable.',
     },
 
-    // Panel 5: Closing
-    panel5: {
+    // Closing (moved to panel 6)
+    closing: {
       line1: 'Take your time.',
       line2: 'Japanese isn\'t a race.',
       getStarted: 'Get Started',

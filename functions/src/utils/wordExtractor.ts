@@ -13,6 +13,7 @@ export interface ExtractedWord {
   frequency: number
   type: 'kanji' | 'hiragana' | 'katakana' | 'mixed'
   estimatedJLPT?: 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
+  surfaceForms?: string[]
 }
 
 export interface WordExtractionResult {
@@ -137,16 +138,9 @@ const BASIC_WORDS = new Set([
 /**
  * Extract words using Kuromoji tokenizer (proper Japanese NLP)
  */
-async function extractJapaneseWordsKuromoji(text: string): Promise<string[]> {
+async function extractJapaneseWordsKuromoji(text: string): Promise<kuromoji.IpadicFeatures[]> {
   const tokenizer = await getTokenizer()
-  const tokens = tokenizer.tokenize(text || '')
-
-  const words = tokens
-    .map(token => token.basic_form || token.surface_form)
-    .filter(Boolean)
-    .filter(word => word.length > 1) // Filter tiny tokens
-
-  return words
+  return tokenizer.tokenize(text || '')
 }
 
 /**
@@ -163,14 +157,30 @@ export async function extractWords(
     const normalizedContent = normalizeText(content)
 
     // Extract all Japanese words using Kuromoji
-    const wordMatches = await extractJapaneseWordsKuromoji(normalizedContent)
+    const tokens = await extractJapaneseWordsKuromoji(normalizedContent)
     const minLength =
       typeof options.minLength === 'number'
         ? options.minLength
         : options.includeParticles
           ? 1
           : 2
-    const prunedMatches = wordMatches.filter(word => word.length >= minLength)
+    const isJapaneseToken = (word: string) => /[\u3040-\u30ff\u4e00-\u9fff]/.test(word)
+    const prunedMatches: string[] = []
+    const surfaceFormsMap = new Map<string, Set<string>>()
+
+    for (const token of tokens) {
+      const base = token.basic_form || token.surface_form
+      const surface = token.surface_form || token.basic_form || base
+      if (!base) continue
+      if (!isJapaneseToken(base)) continue
+      if (base.length < minLength) continue
+
+      prunedMatches.push(base)
+      const existing = surfaceFormsMap.get(base) || new Set<string>()
+      existing.add(base)
+      if (surface) existing.add(surface)
+      surfaceFormsMap.set(base, existing)
+    }
 
     // Count word frequencies
     const wordFrequency = countWordFrequency(prunedMatches)
@@ -179,7 +189,7 @@ export async function extractWords(
     const filteredWords = options.includeParticles ? wordFrequency : filterWords(wordFrequency)
 
     // Sort by frequency and importance
-    const sortedWords = sortWordsByImportance(filteredWords)
+    const sortedWords = sortWordsByImportance(filteredWords, surfaceFormsMap)
 
     // Apply limit if provided
     const selectedWords =
@@ -290,18 +300,23 @@ function filterWords(wordFrequency: Record<string, number>): Record<string, numb
 /**
  * Sort words by importance (frequency + character complexity)
  */
-function sortWordsByImportance(wordFrequency: Record<string, number>): ExtractedWord[] {
+function sortWordsByImportance(
+  wordFrequency: Record<string, number>,
+  surfaceFormsMap: Map<string, Set<string>>
+): ExtractedWord[] {
   const words: ExtractedWord[] = []
 
   Object.entries(wordFrequency).forEach(([word, frequency]) => {
     const type = determineWordType(word)
     const estimatedJLPT = estimateJLPTLevel(word, type)
+    const surfaceForms = surfaceFormsMap.get(word)
 
     words.push({
       word,
       frequency,
       type,
       estimatedJLPT,
+      surfaceForms: surfaceForms ? Array.from(surfaceForms) : undefined,
     })
   })
 

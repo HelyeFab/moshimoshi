@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import Modal from '@/components/ui/Modal'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
@@ -9,6 +10,8 @@ import { useSessionRefresh } from '@/hooks/useSessionRefresh'
 import { listManager } from '@/lib/lists/ListManager'
 import { hasRequiredMetadata } from '@/lib/lists/validation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
+import { useFeature } from '@/hooks/useFeature'
+import { updateUsageSnapshotEntry } from '@/lib/pwa/offline-usage'
 import type { ListType, CreateListRequest } from '@/types/userLists'
 import { LIST_COLORS, DEFAULT_LIST_EMOJIS, SUGGESTED_EMOJIS } from '@/types/userLists'
 import { motion } from 'framer-motion'
@@ -32,10 +35,12 @@ export default function CreateListModal({
   initialMetadata,
 }: CreateListModalProps) {
   const { t, strings } = useI18n()
+  const router = useRouter()
   const { user } = useAuth()
   const { isPremium, isLoading: subscriptionLoading, subscription } = useSubscription()
   const { refreshSession } = useSessionRefresh()
   const { showToast } = useToast()
+  const { checkOnly } = useFeature('custom_lists')
 
   // Remove debug logging to avoid console spam
   // isPremium will be undefined while loading, then true/false once loaded
@@ -96,6 +101,31 @@ export default function CreateListModal({
         return handleCreate()
       }
 
+      const decision = await checkOnly({ failOpen: false })
+      if (!decision.allow) {
+        if (decision.reason === 'no_permission') {
+          showToast(
+            t('entitlements.messages.upgradeRequired'),
+            'error',
+            5000,
+            {
+              label: t('subscription.actions.viewPlans'),
+              onClick: () => router.push('/pricing')
+            }
+          )
+        } else if (decision.reason === 'limit_reached') {
+          const toastAction = isPremium ? undefined : {
+            label: t('subscription.actions.upgrade'),
+            onClick: () => router.push('/pricing')
+          }
+          showToast(t('lists.errors.limitReached'), 'warning', 5000, toastAction)
+        } else {
+          showToast(t('entitlements.messages.featureUnavailable'), 'info')
+        }
+        setIsCreating(false)
+        return
+      }
+
       console.log('[CreateListModal] Creating list with request...')
       const request: CreateListRequest = {
         name: listName.trim(),
@@ -116,6 +146,13 @@ export default function CreateListModal({
       const list = await listManager.createList(request, user.uid, isPremium || false)
 
       if (list) {
+        if (typeof decision.limit === 'number' && decision.limit >= 0 && decision.resetAtUtc) {
+          updateUsageSnapshotEntry('custom_lists', {
+            used: (decision.usageBefore ?? 0) + 1,
+            limit: decision.limit,
+            resetAtUtc: decision.resetAtUtc
+          })
+        }
         console.log('[CreateListModal] List created successfully:', list.id)
 
         // Check if initial item has required metadata
@@ -145,8 +182,14 @@ export default function CreateListModal({
       }
     } catch (error) {
       console.error('[CreateListModal] Error creating list:', error)
-      const message = error instanceof Error && error.message === 'DUPLICATE_LIST'
-        ? t('lists.errors.duplicateListName')
+      const message = error instanceof Error
+        ? error.message === 'DUPLICATE_LIST'
+          ? t('lists.errors.duplicateListName')
+          : error.message === 'LIMIT_REACHED'
+            ? t('lists.errors.limitReached')
+            : error.message === 'UNAUTHORIZED'
+              ? t('lists.errors.signInRequired')
+              : t('lists.errors.createFailed')
         : t('lists.errors.createFailed')
       showToast(message, 'error')
     } finally {

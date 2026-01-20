@@ -357,7 +357,7 @@ export { processStoryWordBatch } from './scheduled/storyWordBatchProcessor'
  * Export book word batch processor + publish trigger
  */
 export { processBookWordBatch } from './scheduled/bookWordBatchProcessor'
-export { onBookPublished } from './scheduled/bookWordScheduler'
+export { onBookPublished, onBookPrecomputeRequested } from './scheduled/bookWordScheduler'
 
 /**
  * Export scheduled comic generator functions

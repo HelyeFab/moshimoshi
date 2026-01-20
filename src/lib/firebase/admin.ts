@@ -11,6 +11,19 @@ import { getMessaging, Messaging } from 'firebase-admin/messaging'
 // Initialize Firebase Admin only once
 function initializeFirebaseAdmin() {
   if (getApps().length === 0) {
+    // In dev, ensure .env.local is loaded for server routes
+    if (!process.env.FIREBASE_ADMIN_PROJECT_ID) {
+      try {
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const dotenv = require('dotenv')
+        // eslint-disable-next-line @typescript-eslint/no-var-requires
+        const path = require('path')
+        dotenv.config({ path: path.resolve(process.cwd(), '.env.local') })
+      } catch {
+        // ignore dotenv load errors
+      }
+    }
+
     // Check if we have the required environment variables
     if (!process.env.FIREBASE_ADMIN_PROJECT_ID) {
       console.error('❌ Firebase Admin SDK not configured. Missing FIREBASE_ADMIN_PROJECT_ID')

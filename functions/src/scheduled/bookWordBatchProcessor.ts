@@ -22,6 +22,7 @@ import { ExtractedWord } from '../utils/wordExtractor'
 const db = admin.firestore()
 const pubsub = new PubSub()
 const MODAL_API_KEY = defineSecret('MODAL_API_KEY')
+const PRECOMPUTE_VERSION = 'v2_all_tokens'
 
 interface BatchMessage {
   bookId: string
@@ -180,6 +181,14 @@ export const processBookWordBatch = onMessagePublished(
             'metadata.wordExplanationsGeneratedAt': admin.firestore.FieldValue.serverTimestamp(),
             'metadata.wordProgress': null,
           })
+          await db.collection('book_word_explanations').doc(bookId).set(
+            {
+              precomputeStatus: 'complete',
+              precomputeVersion: PRECOMPUTE_VERSION,
+              precomputeUpdatedAt: admin.firestore.FieldValue.serverTimestamp(),
+            },
+            { merge: true }
+          )
         }
 
         return
@@ -231,6 +240,14 @@ export const processBookWordBatch = onMessagePublished(
           'metadata.wordExplanationsGeneratedAt': admin.firestore.FieldValue.serverTimestamp(),
           'metadata.wordProgress': null,
         })
+        await db.collection('book_word_explanations').doc(bookId).set(
+          {
+            precomputeStatus: 'complete',
+            precomputeVersion: PRECOMPUTE_VERSION,
+            precomputeUpdatedAt: admin.firestore.FieldValue.serverTimestamp(),
+          },
+          { merge: true }
+        )
       } else {
         const nextBatchNumber = batchNumber + 1
         await pubsub.topic(BATCH_TOPIC).publishMessage({

@@ -288,6 +288,7 @@ Return a valid JSON object as specified.`
       romaji: parsed.romaji || '',
       meaning: parsed.meaning || '',
       partOfSpeech: parsed.partOfSpeech || 'unknown',
+      surfaceForms: word.surfaceForms,
       kanjiBreakdown: parsed.kanjiBreakdown || [],
       conjugation: parsed.conjugation,
       relatedWords: parsed.relatedWords || { synonyms: [], antonyms: [], compounds: [] },
@@ -332,6 +333,9 @@ export async function generateWordExplanations(
     try {
       const cached = cacheMap.get(word.word.trim().toLowerCase())
       if (cached) {
+        if (!cached.surfaceForms && word.surfaceForms) {
+          cached.surfaceForms = word.surfaceForms
+        }
         explanations.push(cached)
         logger.debug('[WordExplanationPreGen] Cache hit', {
           word: word.word,

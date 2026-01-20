@@ -113,7 +113,7 @@ export default function Modal({
   if (!isOpen) return null
 
   const modalContent = (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-start sm:items-center justify-center p-4 overflow-y-auto">
       {/* Overlay */}
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"
@@ -134,6 +134,7 @@ export default function Modal({
           rounded-2xl md:rounded-2xl shadow-xl
           transform transition-all
           animate-in fade-in zoom-in-95 duration-200
+          my-4 sm:my-0
           ${className}
         `}
       >
@@ -169,7 +170,7 @@ export default function Modal({
 
         {/* Content */}
         <div
-          className={`${noPadding ? '' : 'p-4 sm:p-6'} max-h-[calc(100vh-10rem)] overflow-y-auto rounded-b-2xl scrollbar-hide`}
+          className={`${noPadding ? '' : 'p-4 sm:p-6'} max-h-[70vh] sm:max-h-[calc(100vh-10rem)] overflow-y-auto rounded-b-2xl scrollbar-hide`}
           style={{
             scrollbarWidth: 'none',
             msOverflowStyle: 'none',

@@ -18,6 +18,16 @@ function sanitizeString(value: unknown): string | undefined {
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
+function normalizeWord(value: string): string {
+  let normalized = value.trim();
+  try {
+    normalized = normalized.normalize('NFKC');
+  } catch {
+    // ignore
+  }
+  return normalized.toLowerCase();
+}
+
 const CONTENT_COLLECTIONS: Record<string, string> = {
   article: 'news_article_word_explanations',
   book: 'book_word_explanations',
@@ -29,7 +39,8 @@ const CONTENT_COLLECTIONS: Record<string, string> = {
 async function upsertContentWordExplanation(
   contentType: string,
   contentId: string,
-  explanation: WordExplanation
+  explanation: WordExplanation,
+  requestedWord?: string
 ) {
   if (!adminDb) return;
 
@@ -39,15 +50,26 @@ async function upsertContentWordExplanation(
   const docRef = adminDb.collection(collection).doc(contentId);
   const docSnap = await docRef.get();
   const existingWords = (docSnap.data()?.words as WordExplanation[]) || [];
-  const exists = existingWords.some(w =>
-    w.word === explanation.word ||
-    w.word?.toLowerCase?.() === explanation.word?.toLowerCase?.() ||
-    w.reading === explanation.word
-  );
+  const normalizedTarget = normalizeWord(explanation.word);
+  const exists = existingWords.some(w => {
+    const surfaceForms = (w as any).surfaceForms as string[] | undefined;
+    return (
+      normalizeWord(w.word || '') === normalizedTarget ||
+      normalizeWord(w.reading || '') === normalizedTarget ||
+      (surfaceForms || []).some(sf => normalizeWord(sf) === normalizedTarget)
+    );
+  });
 
   if (exists) return;
 
-  const nextWords = [...existingWords, explanation];
+  const nextSurfaceForms = new Set<string>(explanation.surfaceForms || []);
+  if (requestedWord) nextSurfaceForms.add(requestedWord);
+  const nextExplanation = {
+    ...explanation,
+    surfaceForms: Array.from(nextSurfaceForms),
+  };
+
+  const nextWords = [...existingWords, nextExplanation];
   await docRef.set(
     {
       words: nextWords,
@@ -157,7 +179,7 @@ export async function POST(request: NextRequest) {
 
       if (isContentLookup && contentId && contentType) {
         try {
-          await upsertContentWordExplanation(contentType, contentId, cached);
+        await upsertContentWordExplanation(contentType, contentId, cached, word || undefined);
         } catch (error) {
           console.warn('[WordExplainAPI] Content cache write-back failed (cached)', error);
         }
@@ -201,7 +223,7 @@ export async function POST(request: NextRequest) {
 
     if (isContentLookup && contentId && contentType) {
       try {
-        await upsertContentWordExplanation(contentType, contentId, aiResponse.data);
+        await upsertContentWordExplanation(contentType, contentId, aiResponse.data, word || undefined);
       } catch (error) {
         console.warn('[WordExplainAPI] Content cache write-back failed', error);
       }
