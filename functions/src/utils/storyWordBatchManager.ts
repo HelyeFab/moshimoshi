@@ -16,13 +16,24 @@ import { ExtractedWord } from './wordExtractor'
 const db = admin.firestore()
 
 // Batch configuration based on comics performance data
-// 27 words took 729s (~27s/word). 10 words keeps us well under 9 min with overhead.
-const BATCH_SIZE = 10
+// 27 words took 729s (~27s/word). Use dynamic sizing to scale safely with larger jobs.
+const DEFAULT_BATCH_SIZE = 10
+const MIN_BATCH_SIZE = 6
+const MAX_BATCH_SIZE = 12
+const MAX_BATCH_ATTEMPTS = 3
+
+function getBatchSize(totalWords: number): number {
+  if (totalWords <= 80) return Math.min(MAX_BATCH_SIZE, 12)
+  if (totalWords <= 200) return DEFAULT_BATCH_SIZE
+  if (totalWords <= 400) return 8
+  return MIN_BATCH_SIZE
+}
 
 export interface WordBatch {
   batchNumber: number
   words: ExtractedWord[]
   status: 'pending' | 'processing' | 'complete' | 'failed'
+  attemptCount: number
   startedAt?: admin.firestore.Timestamp
   completedAt?: admin.firestore.Timestamp
   errorMessage?: string
@@ -35,6 +46,8 @@ export interface BatchQueue {
   completedBatches: number
   completedWords: number
   currentBatch: number
+  batchSize: number
+  maxBatchAttempts: number
   batches: WordBatch[]
   createdAt: admin.firestore.Timestamp
   lastUpdatedAt: admin.firestore.Timestamp
@@ -59,18 +72,20 @@ export async function createBatchQueue(
 ): Promise<BatchQueue> {
   const batches: WordBatch[] = []
   const totalWords = words.length
-  const totalBatches = Math.ceil(totalWords / BATCH_SIZE)
+  const batchSize = getBatchSize(totalWords)
+  const totalBatches = Math.ceil(totalWords / batchSize)
 
   // Split words into batches
   for (let i = 0; i < totalBatches; i++) {
-    const startIdx = i * BATCH_SIZE
-    const endIdx = Math.min(startIdx + BATCH_SIZE, totalWords)
+    const startIdx = i * batchSize
+    const endIdx = Math.min(startIdx + batchSize, totalWords)
     const batchWords = words.slice(startIdx, endIdx)
 
     batches.push({
       batchNumber: i + 1,
       words: batchWords,
       status: 'pending',
+      attemptCount: 0,
     })
   }
 
@@ -81,6 +96,8 @@ export async function createBatchQueue(
     completedBatches: 0,
     completedWords: 0,
     currentBatch: 1,
+    batchSize,
+    maxBatchAttempts: MAX_BATCH_ATTEMPTS,
     batches,
     createdAt: admin.firestore.Timestamp.now(),
     lastUpdatedAt: admin.firestore.Timestamp.now(),
@@ -94,7 +111,8 @@ export async function createBatchQueue(
     storyId,
     totalWords,
     totalBatches,
-    batchSize: BATCH_SIZE,
+    batchSize,
+    maxBatchAttempts: MAX_BATCH_ATTEMPTS,
   })
 
   return batchQueue
@@ -157,6 +175,7 @@ export async function markBatchProcessing(
   }
 
   queue.batches[batchIdx].status = 'processing'
+  queue.batches[batchIdx].attemptCount = (queue.batches[batchIdx].attemptCount ?? 0) + 1
   queue.batches[batchIdx].startedAt = admin.firestore.Timestamp.now()
   queue.lastUpdatedAt = admin.firestore.Timestamp.now()
 

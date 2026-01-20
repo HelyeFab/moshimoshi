@@ -24,6 +24,42 @@ import ListSyncStatusIndicator from '@/components/lists/ListSyncStatusIndicator'
 import { createStarterListsIfNeeded } from '@/lib/lists/starterLists'
 import { DesktopCircularIndicator, MobileBarIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 import PageHeader from '@/components/ui/PageHeader'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+
+// Loading skeleton component for list cards
+function ListCardSkeleton({ delay = 0 }: { delay?: number }) {
+  return (
+    <div
+      className="relative rounded-2xl p-5 sm:p-6 bg-gray-100 dark:bg-dark-800 shadow-lg min-h-[180px] flex flex-col animate-pulse"
+      style={{ animationDelay: `${delay}ms` }}
+    >
+      {/* Emoji placeholder */}
+      <div className="mb-4 pr-20">
+        <div className="mb-3">
+          <div className="w-12 h-12 bg-gray-200 dark:bg-dark-700 rounded-lg"></div>
+        </div>
+        {/* Title placeholder */}
+        <div className="space-y-2">
+          <div className="h-6 bg-gray-200 dark:bg-dark-700 rounded w-3/4"></div>
+          <div className="h-4 bg-gray-200 dark:bg-dark-700 rounded w-1/2"></div>
+        </div>
+      </div>
+
+      {/* Date placeholder at bottom */}
+      <div className="mt-auto">
+        <div className="h-4 bg-gray-200 dark:bg-dark-700 rounded w-24"></div>
+      </div>
+
+      {/* Action buttons placeholder */}
+      <div className="absolute top-2 right-2 flex gap-1">
+        <div className="w-7 h-7 bg-white/20 dark:bg-white/10 rounded-lg"></div>
+        <div className="w-7 h-7 bg-white/20 dark:bg-white/10 rounded-lg"></div>
+        <div className="w-7 h-7 bg-white/20 dark:bg-white/10 rounded-lg"></div>
+        <div className="w-7 h-7 bg-white/20 dark:bg-white/10 rounded-lg"></div>
+      </div>
+    </div>
+  )
+}
 
 export default function MyListsPage() {
   const { t, strings } = useI18n()
@@ -229,11 +265,29 @@ export default function MyListsPage() {
         className="min-h-screen bg-gradient-to-br from-background-light via-white to-primary-50
         dark:from-dark-900 dark:via-dark-850 dark:to-dark-800"
       >
-        {/* Navigation is now global - rendered in root layout */}
-        <div className="container mx-auto px-4 py-16">
-          <div className="flex flex-col items-center justify-center">
-            <DoshiMascot size="large" mood="thinking" />
-            <p className="text-gray-500 dark:text-gray-400 mt-4">{t('common.loading')}</p>
+        {/* Desktop Navbar */}
+        <div className="hidden sm:block">
+          <Navbar user={user} showUserMenu={true} />
+        </div>
+
+        <div className="container mx-auto px-4 py-8 pb-24">
+          <PageHeader
+            title={t('lists.title')}
+            description={t('lists.pageDescription')}
+          />
+
+          {/* Loading message */}
+          <div className="text-center mb-6">
+            <p className="text-gray-600 dark:text-gray-400 text-sm">
+              {isPremium ? t('lists.loading.creatingStarter') || 'Creating your starter lists...' : t('common.loading')}
+            </p>
+          </div>
+
+          {/* Skeleton loaders with staggered animation */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+            <ListCardSkeleton delay={0} />
+            <ListCardSkeleton delay={150} />
+            <ListCardSkeleton delay={300} />
           </div>
         </div>
       </div>
@@ -536,6 +590,7 @@ export default function MyListsPage() {
         criticalMessage="Storage critically low! Please delete unused lists to free up space and continue using the app."
       />
       <ListSyncStatusIndicator />
+      <MobileNavSpacer />
     </div>
   )
 }

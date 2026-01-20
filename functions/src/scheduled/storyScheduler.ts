@@ -22,7 +22,6 @@ import { onCall, HttpsError } from 'firebase-functions/v2/https'
 import { onDocumentCreated } from 'firebase-functions/v2/firestore'
 import { defineSecret } from 'firebase-functions/params'
 import { preGenerateStorySentences } from '../utils/sentencePreGenerator'
-import { generateStoryWordExplanations } from '../utils/storyWordExplanationPreGenerator'
 import {
   sendStoryGenerationFailureAlert,
   sendStoryGenerationWarningAlert,
@@ -1459,13 +1458,32 @@ export const onStoryPublished = onDocumentCreated(
         pageCount: story.pages.length,
       })
 
-      // Extract top words from story text (100 words)
-      const { extractTopWords } = await import('../utils/wordExtractor')
-      const { words } = await extractTopWords(storyText, 100)
+      // Extract words based on tiered JLPT strategy
+      const { extractWords } = await import('../utils/wordExtractor')
+      const jlptLevel = (story.jlptLevel || 'N4') as 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
+      const isBeginner = jlptLevel === 'N5' || jlptLevel === 'N4'
+      const topWordLimitMap: Record<'N3' | 'N2' | 'N1', number> = {
+        N3: 150,
+        N2: 120,
+        N1: 100,
+      }
+      const limit = isBeginner ? undefined : topWordLimitMap[jlptLevel as 'N3' | 'N2' | 'N1'] ?? 100
+      const { words, extractedCount, uniqueWordCount, totalWordCount } = await extractWords(
+        storyText,
+        {
+          limit,
+          ...(isBeginner ? { includeParticles: true, minLength: 1 } : {}),
+        }
+      )
 
       logger.info('[StoryWordGen] Words extracted, creating batch queue', {
         storyId,
         wordCount: words.length,
+        extractedCount,
+        uniqueWordCount,
+        totalWordCount,
+        jlptLevel,
+        strategy: isBeginner ? 'all_filtered' : `top_${limit ?? 100}`,
       })
 
       // Create batch queue

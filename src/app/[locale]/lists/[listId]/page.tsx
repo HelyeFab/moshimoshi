@@ -35,6 +35,7 @@ import MultiTabNotifier from '@/components/lists/MultiTabNotifier'
 import StorageWarning from '@/components/flashcards/StorageWarning'
 import ListSyncStatusIndicator from '@/components/lists/ListSyncStatusIndicator'
 import { useFeature } from '@/hooks/useFeature'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 // All gamification uses Event Hub (global singleton)
 // ReviewSessionUI handles initialization automatically
@@ -194,9 +195,9 @@ export default function ListDetailPage() {
 
       // Show success message with context based on metadata
       if (hasRequiredMetadata(newItemMetadata)) {
-        showToast(t('lists.success.itemAdded'), 'success')
+        showToast(t('lists.success.itemAdded', { count: 1 }), 'success')
       } else {
-        showToast(t('lists.success.itemAdded') + ' ' + t('lists.validation.warningForStudy'), 'info')
+        showToast(t('lists.success.itemAdded', { count: 1 }) + ' ' + t('lists.validation.warningForStudy'), 'info')
       }
     } catch (error) {
       console.error('Error adding item:', error)
@@ -741,6 +742,8 @@ export default function ListDetailPage() {
             </div>
           </div>
         </main>
+
+        <MobileNavSpacer />
       </div>
     )
   }
@@ -788,6 +791,8 @@ export default function ListDetailPage() {
             config={{ showHints: false }}
           />
         </main>
+
+        <MobileNavSpacer />
       </div>
     )
   }
@@ -1107,6 +1112,8 @@ export default function ListDetailPage() {
         criticalMessage="Storage critically low! Please delete unused lists to free up space and continue using the app."
       />
       <ListSyncStatusIndicator />
+
+      <MobileNavSpacer />
     </div>
   )
 }

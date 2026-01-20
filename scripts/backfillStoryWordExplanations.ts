@@ -8,9 +8,22 @@
  *   npm run backfill:stories -- --dry-run         # Preview what will be done
  *   npm run backfill:stories                      # Actually generate word explanations
  *   npm run backfill:stories -- --story story_123 # Backfill a specific story
+ *   npm run backfill:stories -- --force           # Regenerate even if doc exists
+ *   npm run backfill:stories -- --start-after story_123 # Resume after a story id
+ *   npm run backfill:stories -- --limit 5         # Process only N stories
  */
 
 import * as admin from 'firebase-admin'
+
+// Load local env for scripts (project id + keys)
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const path = require('path')
+// Resolve from repo root even if running inside /scripts
+require('dotenv').config({ path: path.resolve(__dirname, '../.env.local') })
+if (process.env.FIREBASE_ADMIN_PROJECT_ID) {
+  process.env.GCLOUD_PROJECT ||= process.env.FIREBASE_ADMIN_PROJECT_ID
+  process.env.GOOGLE_CLOUD_PROJECT ||= process.env.FIREBASE_ADMIN_PROJECT_ID
+}
 
 // Initialize Firebase Admin
 if (!admin.apps.length) {
@@ -47,8 +60,13 @@ const db = admin.firestore()
 // Parse command line arguments
 const args = process.argv.slice(2)
 const isDryRun = args.includes('--dry-run')
+const isForce = args.includes('--force')
 const storyArgIndex = args.indexOf('--story')
 const specificStoryId = storyArgIndex !== -1 ? args[storyArgIndex + 1] : null
+const startAfterIndex = args.indexOf('--start-after')
+const startAfterStoryId = startAfterIndex !== -1 ? args[startAfterIndex + 1] : null
+const limitIndex = args.indexOf('--limit')
+const limitCount = limitIndex !== -1 ? parseInt(args[limitIndex + 1] || '0', 10) : 2
 
 interface StoryPage {
   text?: string
@@ -69,6 +87,7 @@ interface BackfillResult {
   dryRun?: boolean
   success?: boolean
   failed?: boolean
+  forced?: boolean
   storyId: string
   title?: string
   textLength?: number
@@ -106,8 +125,14 @@ async function generateWordExplanationsForStory(
   // Check if already exists
   const alreadyExists = await checkWordExplanationsExist(storyId)
   if (alreadyExists) {
-    console.log('  ✓ Word explanations already exist - SKIPPING')
-    return { skipped: true, storyId, title }
+    if (!isForce) {
+      console.log('  ✓ Word explanations already exist - SKIPPING')
+      return { skipped: true, storyId, title }
+    }
+    console.log('  ⚠️  Word explanations exist - FORCE REGENERATE')
+    if (!isDryRun) {
+      await db.collection('story_word_explanations').doc(storyId).delete()
+    }
   }
 
   // Extract text from story pages
@@ -120,11 +145,19 @@ async function generateWordExplanationsForStory(
   const textPreview = storyText.substring(0, 100) + (storyText.length > 100 ? '...' : '')
   console.log(`  Text extracted: ${textPreview}`)
   console.log(`  Total text length: ${storyText.length} characters`)
-  console.log(`  JLPT Level: ${story.jlptLevel || 'N5'}`)
+  const jlptLevel = (story.jlptLevel || 'N4') as 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
+  const isBeginner = jlptLevel === 'N5' || jlptLevel === 'N4'
+  const topWordLimitMap: Record<'N3' | 'N2' | 'N1', number> = {
+    N3: 150,
+    N2: 120,
+    N1: 100,
+  }
+  const limit = isBeginner ? undefined : topWordLimitMap[jlptLevel as 'N3' | 'N2' | 'N1'] ?? 100
+  console.log(`  JLPT Level: ${jlptLevel} (${isBeginner ? 'all filtered words' : `top ${limit}`})`)
 
   if (isDryRun) {
     console.log('  [DRY RUN] Would generate word explanations')
-    return { dryRun: true, storyId, title, textLength: storyText.length }
+    return { dryRun: true, forced: alreadyExists && isForce, storyId, title, textLength: storyText.length }
   }
 
   // Generate word explanations
@@ -132,7 +165,12 @@ async function generateWordExplanationsForStory(
     console.log('  🔄 Generating word explanations...')
 
     const { generateStoryWordExplanations } = await import('../functions/src/utils/storyWordExplanationPreGenerator')
-    const result = await generateStoryWordExplanations(storyId, storyText, 100)
+    const result = await generateStoryWordExplanations(
+      storyId,
+      storyText,
+      limit,
+      isBeginner ? { includeParticles: true, minLength: 1 } : undefined
+    )
 
     console.log(`  ✅ SUCCESS! Generated ${result.wordCount} word explanations`)
 
@@ -146,6 +184,7 @@ async function generateWordExplanationsForStory(
 
     return {
       success: true,
+      forced: alreadyExists && isForce,
       storyId,
       title,
       total: result.wordCount,
@@ -174,6 +213,7 @@ function getStorySortDate(story: StoryData): number {
 async function backfillStoryWordExplanations() {
   console.log('\n🚀 Story Word Explanations Backfill Script\n')
   console.log('Mode:', isDryRun ? '🔍 DRY RUN (preview only)' : '✍️  LIVE (will generate explanations)')
+  console.log('Force:', isForce ? '✅ enabled' : '❌ disabled')
 
   if (specificStoryId) {
     console.log(`Target: Story ${specificStoryId} only\n`)
@@ -228,7 +268,22 @@ async function backfillStoryWordExplanations() {
 
     console.log(`\nFound ${stories.length} published story(ies)\n`)
 
+    let skipping = !!startAfterStoryId
+    let processedCount = 0
+
     for (const story of stories) {
+      if (skipping) {
+        if (story.id === startAfterStoryId) {
+          skipping = false
+        }
+        continue
+      }
+
+      if (limitCount > 0 && processedCount >= limitCount) {
+        console.log(`\nReached limit (${limitCount}) - stopping early.`)
+        break
+      }
+
       results.total++
       const result = await generateWordExplanationsForStory(story.id, story.data)
       results.details.push(result)
@@ -237,6 +292,8 @@ async function backfillStoryWordExplanations() {
       else if (result.dryRun) results.dryRun++
       else if (result.success) results.success++
       else if (result.failed) results.failed++
+
+      processedCount++
 
       // Small delay between stories to avoid rate limits
       if (!isDryRun && !result.skipped) {

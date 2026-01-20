@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, BookOpen, Tag, Plus, ScrollText, Info, Loader2 } from 'lucide-react'
-import { JapaneseWord, isDrillable, getRecommendedListType } from '@/types/vocabulary'
+import { JapaneseWord, getRecommendedListType } from '@/types/vocabulary'
 import { useState, useEffect, useMemo, useRef } from 'react'
 import { useI18n } from '@/i18n/I18nContext'
 import { searchTatoebaExamples, type ExampleSentence } from '@/utils/tatoebaSearch'
@@ -348,24 +348,6 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                         className={`px-3 py-1 rounded-full text-sm font-medium ${getTypeColor(word.type)}`}
                       >
                         {word.type}
-                      </span>
-                    )}
-                    {isDrillable(word) && (
-                      <span className="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 rounded-full text-sm font-medium flex items-center gap-1">
-                        <svg
-                          className="w-3 h-3"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                        {t('lists.labels.drillable')}
                       </span>
                     )}
                     {word.jlpt && (

@@ -10,8 +10,30 @@
 import * as admin from 'firebase-admin'
 import * as logger from 'firebase-functions/logger'
 import { defineSecret } from 'firebase-functions/params'
-import { extractTopWords, ExtractedWord } from './wordExtractor'
+import { extractWords, ExtractedWord } from './wordExtractor'
 import crypto from 'crypto'
+
+// Initialize Firebase Admin if needed (scripts may not share app instance)
+if (!admin.apps.length) {
+  const projectId =
+    process.env.FIREBASE_ADMIN_PROJECT_ID ||
+    process.env.GOOGLE_CLOUD_PROJECT ||
+    process.env.GCLOUD_PROJECT
+  const clientEmail = process.env.FIREBASE_ADMIN_CLIENT_EMAIL
+  const privateKey = process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, '\n')
+
+  if (projectId && clientEmail && privateKey) {
+    admin.initializeApp({
+      credential: admin.credential.cert({
+        projectId,
+        clientEmail,
+        privateKey,
+      }),
+    })
+  } else {
+    admin.initializeApp()
+  }
+}
 
 // Initialize Firestore
 const db = admin.firestore()
@@ -411,19 +433,23 @@ function removeUndefinedValues<T>(obj: T): T {
 export async function generateStoryWordExplanations(
   storyId: string,
   storyText: string,
-  topWordCount: number = 100
+  topWordCount?: number,
+  options?: { includeParticles?: boolean; minLength?: number }
 ): Promise<StoryWordExplanations> {
   const startTime = Date.now()
 
   logger.info('[StoryWordPreGen] Starting story word explanations', {
     storyId,
     textLength: storyText.length,
-    topWordCount,
+    topWordCount: typeof topWordCount === 'number' ? topWordCount : 'all_filtered',
   })
 
   try {
-    // Extract top words from story text using Kuromoji
-    const { words } = await extractTopWords(storyText, topWordCount)
+    // Extract words from story text using Kuromoji
+    const { words } = await extractWords(storyText, {
+      ...(typeof topWordCount === 'number' ? { limit: topWordCount } : {}),
+      ...(options || {}),
+    })
 
     logger.info('[StoryWordPreGen] Words extracted', {
       storyId,

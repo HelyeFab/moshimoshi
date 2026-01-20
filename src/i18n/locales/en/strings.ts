@@ -4329,6 +4329,9 @@ export const strings = {
       versionChangeMessage: 'The database was updated in another tab. Please refresh to continue.',
       refreshButton: 'Refresh Page',
     },
+    loading: {
+      creatingStarter: 'Creating your starter lists...',
+    },
   },
 
   // YouTube Shadowing

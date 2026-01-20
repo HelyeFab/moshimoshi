@@ -1057,6 +1057,11 @@ export default function EnhancedArticleReader({
 
       // STORY MODE: Use pre-stored translation directly (instant, no API call)
       if (isStoryMode && currentTranslation) {
+        addDebugEventOnce(
+          `story-prestored-${currentPageIndex}`,
+          '[Translation] Using pre-stored page translation',
+          { page: currentPageIndex + 1 }
+        )
         setTranslatedContent(currentTranslation)
         return
       }
@@ -1065,6 +1070,11 @@ export default function EnhancedArticleReader({
       if (isStoryMode && !currentTranslation && currentContent) {
         // If sentence cache is still loading, wait to avoid unnecessary fallback
         if (storySentenceData.isLoading) {
+          addDebugEventOnce(
+            `story-waiting-${currentPageIndex}`,
+            '[Translation] Waiting for story sentence cache',
+            { page: currentPageIndex + 1 }
+          )
           return
         }
 
@@ -1076,19 +1086,43 @@ export default function EnhancedArticleReader({
           .join(' ')
 
         if (cachedTranslation) {
+          addDebugEventOnce(
+            `story-sentence-cache-${currentPageIndex}`,
+            '[Translation] Using story sentence cache',
+            { page: currentPageIndex + 1, sentenceCount: cachedSentences.length }
+          )
           setTranslatedContent(cachedTranslation)
           return
         }
 
         console.warn('[Translation] Story page missing pre-stored translation, using AI fallback')
+        addDebugEventOnce(
+          `story-ai-fallback-${currentPageIndex}`,
+          '[Translation] Story missing cache -> AI fallback',
+          { page: currentPageIndex + 1 }
+        )
         // Fall back to AI translation for stories without pre-stored translations
         try {
           const result = await getFullTranslation(currentContent)
           if (result?.translatedText) {
+            addDebugEventOnce(
+              `story-ai-success-${currentPageIndex}`,
+              '[Translation] AI fallback success',
+              { page: currentPageIndex + 1 }
+            )
             setTranslatedContent(result.translatedText)
           }
         } catch (error) {
           console.error('[Translation] AI fallback translation failed:', error)
+          addDebugEventOnce(
+            `story-ai-failed-${currentPageIndex}`,
+            '[Translation] AI fallback failed',
+            {
+              page: currentPageIndex + 1,
+              error: error instanceof Error ? error.message : String(error),
+            },
+            5000
+          )
           setTranslatedContent(null)
         }
         return
@@ -1100,6 +1134,11 @@ export default function EnhancedArticleReader({
 
         // Check local cache (using ref)
         if (newsTranslationCacheRef.current[cacheKey]) {
+          addDebugEventOnce(
+            `news-cache-${cacheKey.substring(0, 40)}`,
+            '[Translation] Using cached news translation',
+            { key: cacheKey.substring(0, 40) }
+          )
           console.log(`[Translation] Using cached news translation`)
           setTranslatedContent(newsTranslationCacheRef.current[cacheKey])
           return
@@ -1113,10 +1152,21 @@ export default function EnhancedArticleReader({
             setTranslatedContent(result.translatedText)
             // Cache locally for this session (using ref to avoid effect re-trigger)
             newsTranslationCacheRef.current[cacheKey] = result.translatedText
+            addDebugEventOnce(
+              `news-cache-write-${cacheKey.substring(0, 40)}`,
+              '[Translation] News translation completed and cached',
+              { key: cacheKey.substring(0, 40) }
+            )
             console.log('[Translation] News translation completed and cached')
           }
         } catch (error) {
           console.error('[Translation] News translation failed:', error)
+          addDebugEventOnce(
+            `news-failed-${cacheKey.substring(0, 40)}`,
+            '[Translation] News translation failed',
+            { error: error instanceof Error ? error.message : String(error) },
+            5000
+          )
           setTranslatedContent(null)
         }
       }
@@ -1136,6 +1186,7 @@ export default function EnhancedArticleReader({
     storySentenceData.hasCachedData,
     storySentenceData.pageData?.length,
     storySentenceData.getPageSentences,
+    addDebugEvent,
   ])
 
   // Sync translation settings when reading settings change
@@ -1223,6 +1274,48 @@ export default function EnhancedArticleReader({
     storyId: isStoryContent ? article.id : undefined,
   })
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const params = new URLSearchParams(window.location.search)
+    const enabled = localStorage.getItem('moshi-debug') === 'true' || params.has('debug')
+    setDebugEnabled(enabled || true)
+  }, [])
+
+  useEffect(() => {
+    if (!debugEnabled || typeof window === 'undefined') return
+    const handler = (event: Event) => {
+      const customEvent = event as CustomEvent
+      if (customEvent.detail?.message) {
+        addDebugEvent(customEvent.detail.message, customEvent.detail.data)
+      }
+    }
+    window.addEventListener('moshi-debug', handler)
+    return () => window.removeEventListener('moshi-debug', handler)
+  }, [debugEnabled, addDebugEvent])
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const handlePointerMove = (event: PointerEvent) => {
+      if (!debugDragStateRef.current.dragging) return
+      const deltaX = event.clientX - debugDragStateRef.current.startX
+      const deltaY = event.clientY - debugDragStateRef.current.startY
+      setDebugPanelPos({
+        x: debugDragStateRef.current.originX + deltaX,
+        y: debugDragStateRef.current.originY + deltaY,
+      })
+    }
+    const handlePointerUp = () => {
+      debugDragStateRef.current.dragging = false
+    }
+    window.addEventListener('pointermove', handlePointerMove)
+    window.addEventListener('pointerup', handlePointerUp)
+    window.addEventListener('pointercancel', handlePointerUp)
+    return () => {
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerup', handlePointerUp)
+      window.removeEventListener('pointercancel', handlePointerUp)
+    }
+  }, [])
 
   // Cleanup audio when component unmounts or article changes
   useEffect(() => {
@@ -1276,15 +1369,24 @@ export default function EnhancedArticleReader({
         .filter(Boolean)
         .join(' ')
       if (fullText) {
+        addDebugEvent('[WordExplanation] Prefetch start', {
+          contentType: 'story',
+          textLength: fullText.length,
+          pages: pages.length,
+        })
         prefetchWordExplanations({
           contentId: article.id,
           contentType: 'story',
           text: fullText,
         })
           .then(() => {
+            addDebugEvent('[WordExplanation] Prefetch queued', { contentType: 'story' })
           })
           .catch((error: unknown) => {
-            console.error('Story word explanations prefetch failed:', error)
+            addDebugEvent('[WordExplanation] Prefetch failed', {
+              contentType: 'story',
+              error: error instanceof Error ? error.message : String(error),
+            })
           })
       }
       return
@@ -1292,26 +1394,42 @@ export default function EnhancedArticleReader({
 
     // Book: use article.content under book collection
     if (isBook && article.content) {
+      addDebugEvent('[WordExplanation] Prefetch start', {
+        contentType: 'book',
+        textLength: typeof article.content === 'string' ? article.content.length : 0,
+      })
       prefetchWordExplanations({
         contentId: article.id,
         contentType: 'book',
         text: typeof article.content === 'string' ? article.content : '',
       })
+        .then(() => addDebugEvent('[WordExplanation] Prefetch queued', { contentType: 'book' }))
         .catch((error: unknown) => {
-          console.error('Book word explanations prefetch failed:', error)
+          addDebugEvent('[WordExplanation] Prefetch failed', {
+            contentType: 'book',
+            error: error instanceof Error ? error.message : String(error),
+          })
         })
       return
     }
 
     // News article default
     if (article.content) {
+      addDebugEvent('[WordExplanation] Prefetch start', {
+        contentType: 'article',
+        textLength: typeof article.content === 'string' ? article.content.length : 0,
+      })
       prefetchWordExplanations({
         contentId: article.id,
         contentType: 'article',
         text: typeof article.content === 'string' ? article.content : '',
       })
+        .then(() => addDebugEvent('[WordExplanation] Prefetch queued', { contentType: 'article' }))
         .catch((error: unknown) => {
-          console.error('Article word explanations prefetch failed:', error)
+          addDebugEvent('[WordExplanation] Prefetch failed', {
+            contentType: 'article',
+            error: error instanceof Error ? error.message : String(error),
+          })
         })
     }
   }, [
@@ -1321,8 +1439,28 @@ export default function EnhancedArticleReader({
     isStoryContent,
     pages,
     prefetchWordExplanations,
+    addDebugEvent,
   ])
 
+  useEffect(() => {
+    if (!debugEnabled) return
+    addDebugEventOnce(
+      `story-cache-${storySentenceData.isLoading}-${storySentenceData.hasCachedData}-${storySentenceData.pageData?.length ?? 0}`,
+      '[SentenceData] Story cache state',
+      {
+        isLoading: storySentenceData.isLoading,
+        hasCachedData: storySentenceData.hasCachedData,
+        pageCount: storySentenceData.pageData?.length ?? 0,
+      }
+    )
+  }, [
+    debugEnabled,
+    storySentenceData.isLoading,
+    storySentenceData.hasCachedData,
+    storySentenceData.pageData,
+    addDebugEvent,
+    addDebugEventOnce,
+  ])
 
   // Sync playback speed with NHK audio when settings change
   useEffect(() => {

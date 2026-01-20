@@ -33,6 +33,7 @@ import PageHeader from '@/components/ui/PageHeader'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import Link from 'next/link'
 import { LoadingSpinner } from '@/components/ui/Loading'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
 export default function MyVideos() {
   const { t, strings } = useI18n()
@@ -575,7 +576,7 @@ export default function MyVideos() {
               </div>
             </motion.div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-8">
               <AnimatePresence mode="popLayout">
                 {filteredVideos.map((video, index) => (
                   <motion.div
@@ -778,6 +779,8 @@ export default function MyVideos() {
             )}
           </AnimatePresence>
         </div>
+
+        <MobileNavSpacer />
       </div>
     </div>
   )

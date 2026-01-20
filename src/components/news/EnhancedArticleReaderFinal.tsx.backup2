@@ -1065,6 +1065,10 @@ export default function EnhancedArticleReader({
       if (isStoryMode && !currentTranslation && currentContent) {
         // If sentence cache is still loading, wait to avoid unnecessary fallback
         if (storySentenceData.isLoading) {
+            `story-waiting-${currentPageIndex}`,
+            '[Translation] Waiting for story sentence cache',
+            { page: currentPageIndex + 1 }
+          )
           return
         }
 
@@ -1076,19 +1080,39 @@ export default function EnhancedArticleReader({
           .join(' ')
 
         if (cachedTranslation) {
+            `story-sentence-cache-${currentPageIndex}`,
+            '[Translation] Using story sentence cache',
+            { page: currentPageIndex + 1, sentenceCount: cachedSentences.length }
+          )
           setTranslatedContent(cachedTranslation)
           return
         }
 
         console.warn('[Translation] Story page missing pre-stored translation, using AI fallback')
+          `story-ai-fallback-${currentPageIndex}`,
+          '[Translation] Story missing cache -> AI fallback',
+          { page: currentPageIndex + 1 }
+        )
         // Fall back to AI translation for stories without pre-stored translations
         try {
           const result = await getFullTranslation(currentContent)
           if (result?.translatedText) {
+              `story-ai-success-${currentPageIndex}`,
+              '[Translation] AI fallback success',
+              { page: currentPageIndex + 1 }
+            )
             setTranslatedContent(result.translatedText)
           }
         } catch (error) {
           console.error('[Translation] AI fallback translation failed:', error)
+            `story-ai-failed-${currentPageIndex}`,
+            '[Translation] AI fallback failed',
+            {
+              page: currentPageIndex + 1,
+              error: error instanceof Error ? error.message : String(error),
+            },
+            5000
+          )
           setTranslatedContent(null)
         }
         return
@@ -1100,6 +1124,10 @@ export default function EnhancedArticleReader({
 
         // Check local cache (using ref)
         if (newsTranslationCacheRef.current[cacheKey]) {
+            `news-cache-${cacheKey.substring(0, 40)}`,
+            '[Translation] Using cached news translation',
+            { key: cacheKey.substring(0, 40) }
+          )
           console.log(`[Translation] Using cached news translation`)
           setTranslatedContent(newsTranslationCacheRef.current[cacheKey])
           return
@@ -1113,10 +1141,19 @@ export default function EnhancedArticleReader({
             setTranslatedContent(result.translatedText)
             // Cache locally for this session (using ref to avoid effect re-trigger)
             newsTranslationCacheRef.current[cacheKey] = result.translatedText
+              `news-cache-write-${cacheKey.substring(0, 40)}`,
+              '[Translation] News translation completed and cached',
+              { key: cacheKey.substring(0, 40) }
+            )
             console.log('[Translation] News translation completed and cached')
           }
         } catch (error) {
           console.error('[Translation] News translation failed:', error)
+            `news-failed-${cacheKey.substring(0, 40)}`,
+            '[Translation] News translation failed',
+            { error: error instanceof Error ? error.message : String(error) },
+            5000
+          )
           setTranslatedContent(null)
         }
       }
@@ -1276,6 +1313,10 @@ export default function EnhancedArticleReader({
         .filter(Boolean)
         .join(' ')
       if (fullText) {
+          contentType: 'story',
+          textLength: fullText.length,
+          pages: pages.length,
+        })
         prefetchWordExplanations({
           contentId: article.id,
           contentType: 'story',
@@ -1284,7 +1325,9 @@ export default function EnhancedArticleReader({
           .then(() => {
           })
           .catch((error: unknown) => {
-            console.error('Story word explanations prefetch failed:', error)
+              contentType: 'story',
+              error: error instanceof Error ? error.message : String(error),
+            })
           })
       }
       return
@@ -1292,26 +1335,36 @@ export default function EnhancedArticleReader({
 
     // Book: use article.content under book collection
     if (isBook && article.content) {
+        contentType: 'book',
+        textLength: typeof article.content === 'string' ? article.content.length : 0,
+      })
       prefetchWordExplanations({
         contentId: article.id,
         contentType: 'book',
         text: typeof article.content === 'string' ? article.content : '',
       })
         .catch((error: unknown) => {
-          console.error('Book word explanations prefetch failed:', error)
+            contentType: 'book',
+            error: error instanceof Error ? error.message : String(error),
+          })
         })
       return
     }
 
     // News article default
     if (article.content) {
+        contentType: 'article',
+        textLength: typeof article.content === 'string' ? article.content.length : 0,
+      })
       prefetchWordExplanations({
         contentId: article.id,
         contentType: 'article',
         text: typeof article.content === 'string' ? article.content : '',
       })
         .catch((error: unknown) => {
-          console.error('Article word explanations prefetch failed:', error)
+            contentType: 'article',
+            error: error instanceof Error ? error.message : String(error),
+          })
         })
     }
   }, [

@@ -29,6 +29,7 @@ import {
   generateWordExplanation,
   WordExplanation,
 } from '../utils/storyWordExplanationPreGenerator'
+import { ExtractedWord } from '../utils/wordExtractor'
 
 const db = admin.firestore()
 const pubsub = new PubSub()
@@ -93,8 +94,36 @@ export const processStoryWordBatch = onMessagePublished(
         return
       }
 
-      // Mark batch as processing
-      await markBatchProcessing(storyId, batchNumber)
+      const maxBatchAttempts = queue.maxBatchAttempts ?? 3
+      const attemptCount = batch.attemptCount ?? 0
+
+      if (batch.status === 'complete') {
+        logger.info('[StoryBatchProcessor] Batch already complete, skipping', {
+          storyId,
+          batchNumber,
+        })
+        return
+      }
+
+      if (attemptCount >= maxBatchAttempts) {
+        logger.error('[StoryBatchProcessor] Max attempts exceeded for batch', {
+          storyId,
+          batchNumber,
+          attemptCount,
+          maxBatchAttempts,
+        })
+        await markBatchFailed(
+          storyId,
+          batchNumber,
+          `Max attempts (${maxBatchAttempts}) exceeded`
+        )
+        await db.collection('stories').doc(storyId).update({
+          wordExplanationsStatus: 'failed',
+          wordExplanationsError: `Batch ${batchNumber} exceeded max attempts`,
+          wordExplanationsFailedAt: admin.firestore.FieldValue.serverTimestamp(),
+        })
+        return
+      }
 
       // Update story status
       await db.collection('stories').doc(storyId).update({
@@ -112,78 +141,29 @@ export const processStoryWordBatch = onMessagePublished(
         wordExplanationsLastUpdatedAt: admin.firestore.FieldValue.serverTimestamp(),
       })
 
-      logger.info('[StoryBatchProcessor] Generating word explanations', {
-        storyId,
-        batchNumber,
-        wordCount: batch.words.length,
-      })
-
-      // Generate word explanations for this batch
-      const explanations: WordExplanation[] = []
-      let totalPromptTokens = 0
-      let totalCompletionTokens = 0
-      let totalTokens = 0
-
-      for (const word of batch.words) {
-        try {
-          const { explanation, usage } = await generateWordExplanation(word)
-
-          explanations.push(explanation)
-
-          totalPromptTokens += usage.promptTokens
-          totalCompletionTokens += usage.completionTokens
-          totalTokens += usage.totalTokens
-
-          logger.debug('[StoryBatchProcessor] Word explanation generated', {
-            storyId,
-            batchNumber,
-            word: word.word,
-            meaning: explanation.meaning,
-          })
-        } catch (error) {
-          logger.error('[StoryBatchProcessor] Failed to generate word explanation', {
-            storyId,
-            batchNumber,
-            word: word.word,
-            error: error instanceof Error ? error.message : 'Unknown error',
-          })
-          // Continue with next word
-        }
-      }
-
-      logger.info('[StoryBatchProcessor] Batch generation complete', {
-        storyId,
-        batchNumber,
-        wordsGenerated: explanations.length,
-        tokensUsed: totalTokens,
-      })
-
-      // Store or append explanations to Firestore (idempotent per batch)
+      // Load existing explanations to avoid duplicates and detect missing words
       const docRef = db.collection('story_word_explanations').doc(storyId)
       const existingDoc = await docRef.get()
       const existingData = existingDoc.exists ? existingDoc.data() : undefined
-      const existingExplanations = existingData?.words || []
-      const existingCostInfo = existingData?.costInfo || {
-        promptTokens: 0,
-        completionTokens: 0,
-        totalTokens: 0,
-        estimatedCost: 0,
-      }
+      const existingExplanations: WordExplanation[] = existingData?.words || []
+      const existingWords = new Set(existingExplanations.map(w => w.word))
       const existingBatchNumbers: number[] = existingData?.batchNumbers || []
       const existingBatchWordCounts: Record<string, number> =
         existingData?.batchWordCounts || {}
 
-      if (existingBatchNumbers.includes(batchNumber)) {
-        const storedCount =
-          existingBatchWordCounts[String(batchNumber)] ?? batch.words.length
-        logger.warn('[StoryBatchProcessor] Batch already stored, skipping append', {
+      const missingWords = batch.words.filter(w => !existingWords.has(w.word))
+
+      if (missingWords.length === 0) {
+        logger.info('[StoryBatchProcessor] No missing words for batch, marking complete', {
           storyId,
           batchNumber,
-          storedCount,
         })
 
-        // Mark batch as complete and update progress using stored count
-        const progress = await markBatchComplete(storyId, batchNumber, storedCount)
+        const progress = await markBatchComplete(
+          storyId,
+          batchNumber,
+          batch.words.length
+        )
 
         await db.collection('stories').doc(storyId).update({
           wordExplanationsProgress: {
@@ -209,16 +189,93 @@ export const processStoryWordBatch = onMessagePublished(
         return
       }
 
+      // Mark batch as processing
+      await markBatchProcessing(storyId, batchNumber)
+
+      logger.info('[StoryBatchProcessor] Generating word explanations', {
+        storyId,
+        batchNumber,
+        wordCount: missingWords.length,
+      })
+
+      // Generate word explanations for this batch
+      const explanations: WordExplanation[] = []
+      let totalPromptTokens = 0
+      let totalCompletionTokens = 0
+      let totalTokens = 0
+
+      const failedWords: ExtractedWord[] = []
+
+      for (const word of missingWords) {
+        try {
+          const { explanation, usage } = await generateWordExplanation(word)
+
+          explanations.push(explanation)
+
+          totalPromptTokens += usage.promptTokens
+          totalCompletionTokens += usage.completionTokens
+          totalTokens += usage.totalTokens
+
+          logger.debug('[StoryBatchProcessor] Word explanation generated', {
+            storyId,
+            batchNumber,
+            word: word.word,
+            meaning: explanation.meaning,
+          })
+        } catch (error) {
+          logger.error('[StoryBatchProcessor] Failed to generate word explanation', {
+            storyId,
+            batchNumber,
+            word: word.word,
+            error: error instanceof Error ? error.message : 'Unknown error',
+          })
+          // Continue with next word
+          failedWords.push(word)
+        }
+      }
+
+      logger.info('[StoryBatchProcessor] Batch generation complete', {
+        storyId,
+        batchNumber,
+        wordsGenerated: explanations.length,
+        tokensUsed: totalTokens,
+      })
+
+      // Store or append explanations to Firestore (idempotent per word)
+      const existingCostInfo = existingData?.costInfo || {
+        promptTokens: 0,
+        completionTokens: 0,
+        totalTokens: 0,
+        estimatedCost: 0,
+      }
+
+      const merged = [...existingExplanations, ...explanations]
+      const mergedWords = new Map<string, WordExplanation>()
+      for (const exp of merged) {
+        if (!exp?.word) continue
+        if (!mergedWords.has(exp.word)) {
+          mergedWords.set(exp.word, exp)
+        }
+      }
+      const mergedExplanations = Array.from(mergedWords.values())
+      const shouldMarkComplete = failedWords.length === 0
+      const includeBatchNumber =
+        shouldMarkComplete || existingBatchNumbers.includes(batchNumber)
+      const existingBatchCount = existingBatchWordCounts[String(batchNumber)] ?? 0
+      const updatedBatchCount = existingBatchCount + explanations.length
+
       await docRef.set(
         {
           storyId,
-          words: [...existingExplanations, ...explanations],
-          wordCount: existingExplanations.length + explanations.length,
-          total: existingExplanations.length + explanations.length,
-          batchNumbers: admin.firestore.FieldValue.arrayUnion(batchNumber),
+          words: mergedExplanations,
+          wordCount: mergedExplanations.length,
+          total: mergedExplanations.length,
+          ...(includeBatchNumber
+            ? { batchNumbers: admin.firestore.FieldValue.arrayUnion(batchNumber) }
+            : {}),
           batchWordCounts: {
             ...existingBatchWordCounts,
-            [batchNumber]: explanations.length,
+            [batchNumber]: updatedBatchCount,
           },
           costInfo: {
             promptTokens: existingCostInfo.promptTokens + totalPromptTokens,
@@ -235,11 +292,63 @@ export const processStoryWordBatch = onMessagePublished(
         { merge: true }
       )
 
+      if (!shouldMarkComplete) {
+        logger.warn('[StoryBatchProcessor] Batch incomplete, scheduling retry', {
+          storyId,
+          batchNumber,
+          failedWords: failedWords.length,
+          remainingWords: failedWords.map(w => w.word).slice(0, 10),
+        })
+
+        const refreshedQueue = await getBatchQueue(storyId)
+        const refreshedBatch =
+          refreshedQueue?.batches.find(b => b.batchNumber === batchNumber) || batch
+        const attempts = refreshedBatch.attemptCount ?? 0
+
+        if (attempts >= maxBatchAttempts) {
+          await markBatchFailed(
+            storyId,
+            batchNumber,
+            `Max attempts (${maxBatchAttempts}) exceeded`
+          )
+          await db.collection('stories').doc(storyId).update({
+            wordExplanationsStatus: 'failed',
+            wordExplanationsError: `Batch ${batchNumber} exceeded max attempts`,
+            wordExplanationsFailedAt: admin.firestore.FieldValue.serverTimestamp(),
+          })
+          return
+        }
+
+        const batchesForUpdate = (refreshedQueue?.batches || queue.batches).map(b =>
+          b.batchNumber === batchNumber
+            ? {
+                ...b,
+                status: 'pending',
+                errorMessage: `Failed ${failedWords.length} words`,
+              }
+            : b
+        )
+
+        await db.collection('story_word_batches').doc(storyId).update({
+          batches: batchesForUpdate,
+          lastUpdatedAt: admin.firestore.FieldValue.serverTimestamp(),
+        })
+
+        await pubsub.topic(BATCH_TOPIC).publishMessage({
+          json: {
+            storyId,
+            batchNumber,
+          },
+        })
+
+        return
+      }
+
       // Mark batch as complete and get updated progress
       const progress = await markBatchComplete(
         storyId,
         batchNumber,
-        explanations.length
+        batch.words.length
       )
 
       // Update story progress

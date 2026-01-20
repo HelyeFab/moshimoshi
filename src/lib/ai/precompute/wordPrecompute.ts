@@ -196,15 +196,28 @@ async function ensureExtras(
   }
 }
 
-// Basic tokenizer: extracts base forms of ALL words (including particles, grammar, etc.)
-export async function extractJapaneseWords(text: string): Promise<string[]> {
+// Basic tokenizer: extracts base forms of words (optionally including particles and single-kanji)
+export async function extractJapaneseWords(
+  text: string,
+  options: { includeParticles?: boolean; minLength?: number } = {}
+): Promise<string[]> {
   const tokenizer = await getTokenizer()
   const tokens = tokenizer.tokenize(text || '')
+
+  const minLength =
+    typeof options.minLength === 'number'
+      ? options.minLength
+      : options.includeParticles
+        ? 1
+        : 2
+  const isJapaneseToken = (word: string) =>
+    /[\u3040-\u30ff\u4e00-\u9fff]/.test(word)
 
   const words = tokens
     .map(token => token.basic_form || token.surface_form)
     .filter(Boolean)
-    .filter(word => word.length > 1) // filter tiny tokens
+    .filter(word => isJapaneseToken(word))
+    .filter(word => word.length >= minLength)
 
   // Deduplicate while preserving order
   const seen = new Set<string>()
@@ -225,6 +238,8 @@ interface PrecomputeRequest {
   text: string
   limit?: number
   jlptLevel?: JLPTLevel
+  includeParticles?: boolean
+  minLength?: number
   chunkIndex?: number
   onProgress?: (current: number, total: number, word: string, status: 'success' | 'failed') => void | Promise<void>
 }
@@ -251,6 +266,8 @@ export async function precomputeWordExplanations({
   text,
   limit = 1000, // Increased from 400 to 1000 for better completeness
   jlptLevel = 'N5',
+  includeParticles,
+  minLength,
   chunkIndex,
   onProgress,
 }: PrecomputeRequest): Promise<PrecomputeResult> {
@@ -263,7 +280,9 @@ export async function precomputeWordExplanations({
   }
 
   // Extract words and apply limit, keeping original order
-  const words = (await extractJapaneseWords(text)).slice(0, limit)
+  const words = (
+    await extractJapaneseWords(text, { includeParticles, minLength })
+  ).slice(0, limit)
 
   const docRef = db.collection(collection).doc(contentId)
   const existingSnap = await docRef.get()

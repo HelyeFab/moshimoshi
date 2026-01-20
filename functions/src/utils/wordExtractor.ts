@@ -150,11 +150,11 @@ async function extractJapaneseWordsKuromoji(text: string): Promise<string[]> {
 }
 
 /**
- * Extract top N words from article content using Kuromoji tokenization
+ * Extract words from content using Kuromoji tokenization
  */
-export async function extractTopWords(
+export async function extractWords(
   content: string,
-  limit: number = 100
+  options: { limit?: number; includeParticles?: boolean; minLength?: number } = {}
 ): Promise<WordExtractionResult> {
   const startTime = Date.now()
 
@@ -164,33 +164,44 @@ export async function extractTopWords(
 
     // Extract all Japanese words using Kuromoji
     const wordMatches = await extractJapaneseWordsKuromoji(normalizedContent)
+    const minLength =
+      typeof options.minLength === 'number'
+        ? options.minLength
+        : options.includeParticles
+          ? 1
+          : 2
+    const prunedMatches = wordMatches.filter(word => word.length >= minLength)
 
     // Count word frequencies
-    const wordFrequency = countWordFrequency(wordMatches)
+    const wordFrequency = countWordFrequency(prunedMatches)
 
     // Filter out particles, basic words, and very short words
-    const filteredWords = filterWords(wordFrequency)
+    const filteredWords = options.includeParticles ? wordFrequency : filterWords(wordFrequency)
 
     // Sort by frequency and importance
     const sortedWords = sortWordsByImportance(filteredWords)
 
-    // Take top N words
-    const topWords = sortedWords.slice(0, limit)
+    // Apply limit if provided
+    const selectedWords =
+      typeof options.limit === 'number' ? sortedWords.slice(0, options.limit) : sortedWords
 
     const duration = Date.now() - startTime
 
     logger.info('[WordExtractor] Extraction complete (Kuromoji)', {
-      totalWordCount: wordMatches.length,
+      totalWordCount: prunedMatches.length,
       uniqueWordCount: Object.keys(wordFrequency).length,
-      extractedCount: topWords.length,
+      extractedCount: selectedWords.length,
+      limit: typeof options.limit === 'number' ? options.limit : 'all',
+      includeParticles: !!options.includeParticles,
+      minLength,
       durationMs: duration,
     })
 
     return {
-      words: topWords,
-      totalWordCount: wordMatches.length,
+      words: selectedWords,
+      totalWordCount: prunedMatches.length,
       uniqueWordCount: Object.keys(wordFrequency).length,
-      extractedCount: topWords.length,
+      extractedCount: selectedWords.length,
     }
   } catch (error) {
     logger.error('[WordExtractor] Error extracting words', {
@@ -204,6 +215,16 @@ export async function extractTopWords(
       extractedCount: 0,
     }
   }
+}
+
+/**
+ * Extract top N words from article content using Kuromoji tokenization
+ */
+export async function extractTopWords(
+  content: string,
+  limit: number = 100
+): Promise<WordExtractionResult> {
+  return extractWords(content, { limit })
 }
 
 /**
