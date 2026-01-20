@@ -44,14 +44,156 @@ interface UserData {
   };
 }
 
+interface UserStatsData {
+  userId: string;
+  displayName: string;
+  email: string;
+  emailVerified: boolean;
+  xp: {
+    total: number;
+    level: number;
+    xpGainedToday: number;
+    lastXPDate: string | null;
+    weeklyXP: number;
+    monthlyXP: number;
+  };
+  streak: {
+    current: number;
+    best: number;
+    freezesRemaining: number;
+    lastActivityDate: string | null;
+    isActiveToday: boolean;
+    brokenAt: string | null;
+  };
+  sessions: {
+    total: number;
+    today: number;
+    week: number;
+    month: number;
+    totalItemsReviewed: number;
+    averageAccuracy: number;
+    totalStudyTimeMinutes: number;
+  };
+  leaderboard: {
+    weeklyXP: number;
+    monthlyXP: number;
+    allTimeXP: number;
+    weeklyRank: number | null;
+    monthlyRank: number | null;
+    allTimeRank: number | null;
+  } | null;
+  achievements: {
+    total: number;
+    unlocked: number;
+    locked: number;
+    recentUnlocked: any[];
+  };
+  subscription: {
+    status: string;
+    tier: string;
+    plan: string | null;
+  };
+  metadata: {
+    createdAt: string;
+    lastSignIn: string;
+    schemaVersion: string;
+    lastUpdated: string | null;
+  };
+}
+
+interface UserEntitlementsData {
+  userId: string;
+  tier: string;
+  status: string;
+  usage: {
+    byDate: Record<string, {
+      features: Record<string, number>;
+      updatedAt: string | null;
+      hasOldSchema: boolean;
+      isToday: boolean;
+      isThisMonth: boolean;
+    }>;
+    totals: {
+      today: Record<string, number>;
+      month: Record<string, number>;
+      allTime: Record<string, number>;
+    };
+    totalDates: number;
+  };
+  schemaIssues: Array<{ date: string; type: string }>;
+}
+
+interface UserContentData {
+  userId: string;
+  anki: {
+    deckCount: number;
+    totalCards: number;
+    decks: Array<{
+      id: string;
+      name: string;
+      cardCount: number;
+      createdAt: any;
+      lastModified: any;
+    }>;
+    metadata: any;
+  };
+  lists: {
+    count: number;
+    totalItems: number;
+    lists: Array<{
+      id: string;
+      name: string;
+      itemCount: number;
+      createdAt: any;
+      lastModified: any;
+    }>;
+  };
+  subcollections: Array<{
+    name: string;
+    documentCount: number;
+    sampleDocs: string[];
+  }>;
+}
+
+interface UserPromotionsData {
+  userId: string;
+  email: string | undefined;
+  waitlist: {
+    onWaitlist: boolean;
+    linkedUid?: string | null;
+    discountGranted?: boolean;
+    joinedAt?: string | null;
+  } | null;
+  discount: {
+    eligible: boolean;
+    promotionCodeId?: string | null;
+    source?: string | null;
+    redeemed?: boolean;
+    redeemedAt?: string | null;
+    status: string;
+  } | null;
+}
+
 export default function UserLookupPage() {
   const { strings } = useI18n();
   const { user } = useAuth();
   const [searchInput, setSearchInput] = useState('');
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [userStatsData, setUserStatsData] = useState<UserStatsData | null>(null);
+  const [userEntitlementsData, setUserEntitlementsData] = useState<UserEntitlementsData | null>(null);
+  const [userContentData, setUserContentData] = useState<UserContentData | null>(null);
+  const [userPromotionsData, setUserPromotionsData] = useState<UserPromotionsData | null>(null);
   const [loading, setLoading] = useState(false);
+  const [statsLoading, setStatsLoading] = useState(false);
+  const [entitlementsLoading, setEntitlementsLoading] = useState(false);
+  const [contentLoading, setContentLoading] = useState(false);
+  const [promotionsLoading, setPromotionsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'profile' | 'stats' | 'sessions' | 'activity' | 'raw'>('profile');
+  const [statsError, setStatsError] = useState<string | null>(null);
+  const [entitlementsError, setEntitlementsError] = useState<string | null>(null);
+  const [contentError, setContentError] = useState<string | null>(null);
+  const [promotionsError, setPromotionsError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<'profile' | 'stats' | 'xpstreak' | 'sessions' | 'activity' | 'entitlements' | 'content' | 'promotions' | 'raw'>('profile');
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({});
 
   // Waitlist data
@@ -148,6 +290,130 @@ export default function UserLookupPage() {
     }
   }, [user]);
 
+  const fetchUserStats = async (userId: string) => {
+    setStatsLoading(true);
+    setStatsError(null);
+    setUserStatsData(null);
+
+    try {
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) {
+        throw new Error('Authentication token not available');
+      }
+
+      const response = await fetch(`/api/admin/users/${encodeURIComponent(userId)}/stats`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch user stats');
+      }
+
+      const result = await response.json();
+      setUserStatsData(result.data);
+    } catch (err) {
+      setStatsError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setStatsLoading(false);
+    }
+  };
+
+  const fetchUserEntitlements = async (userId: string) => {
+    setEntitlementsLoading(true);
+    setEntitlementsError(null);
+    setUserEntitlementsData(null);
+
+    try {
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) {
+        throw new Error('Authentication token not available');
+      }
+
+      const response = await fetch(`/api/admin/users/${encodeURIComponent(userId)}/entitlements`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch entitlements data');
+      }
+
+      const result = await response.json();
+      setUserEntitlementsData(result.data);
+    } catch (err) {
+      setEntitlementsError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setEntitlementsLoading(false);
+    }
+  };
+
+  const fetchUserContent = async (userId: string) => {
+    setContentLoading(true);
+    setContentError(null);
+    setUserContentData(null);
+
+    try {
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) {
+        throw new Error('Authentication token not available');
+      }
+
+      const response = await fetch(`/api/admin/users/${encodeURIComponent(userId)}/content`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch user content');
+      }
+
+      const result = await response.json();
+      setUserContentData(result.data);
+    } catch (err) {
+      setContentError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setContentLoading(false);
+    }
+  };
+
+  const fetchUserPromotions = async (userId: string) => {
+    setPromotionsLoading(true);
+    setPromotionsError(null);
+    setUserPromotionsData(null);
+
+    try {
+      const token = await auth.currentUser?.getIdToken();
+      if (!token) {
+        throw new Error('Authentication token not available');
+      }
+
+      const response = await fetch(`/api/admin/users/${encodeURIComponent(userId)}/promotions`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch promotions data');
+      }
+
+      const result = await response.json();
+      setUserPromotionsData(result.data);
+    } catch (err) {
+      setPromotionsError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setPromotionsLoading(false);
+    }
+  };
+
   const handleSearch = async () => {
     if (!searchInput.trim()) {
       setError('Please enter a user UUID or email');
@@ -162,6 +428,10 @@ export default function UserLookupPage() {
     setLoading(true);
     setError(null);
     setUserData(null);
+    setUserStatsData(null);
+    setUserEntitlementsData(null);
+    setUserContentData(null);
+    setUserPromotionsData(null);
 
     try {
       // Get Firebase ID token for authentication
@@ -183,6 +453,15 @@ export default function UserLookupPage() {
 
       const result = await response.json();
       setUserData(result.data);
+
+      // Fetch all additional data
+      const userId = result.data.userId;
+      await Promise.all([
+        fetchUserStats(userId),
+        fetchUserEntitlements(userId),
+        fetchUserContent(userId),
+        fetchUserPromotions(userId)
+      ]);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
@@ -491,6 +770,10 @@ export default function UserLookupPage() {
             <div className="flex border-b border-gray-200 dark:border-gray-700 overflow-x-auto scrollbar-hide">
               {[
                 { id: 'profile', label: '📋 Profile', icon: '📋' },
+                { id: 'xpstreak', label: '🔥 XP & Streak', icon: '🔥' },
+                { id: 'entitlements', label: '💳 Entitlements', icon: '💳' },
+                { id: 'content', label: '🗂️ User Content', icon: '🗂️' },
+                { id: 'promotions', label: '🎟️ Promotions', icon: '🎟️' },
                 { id: 'stats', label: '📊 Stats', icon: '📊' },
                 { id: 'sessions', label: '🎯 Sessions', icon: '🎯' },
                 { id: 'activity', label: '⚡ Activity', icon: '⚡' },
@@ -548,6 +831,386 @@ export default function UserLookupPage() {
                       title="Preferences"
                       data={userData.users.preferences}
                     />
+                  )}
+                </div>
+              )}
+
+              {/* XP & Streak Tab */}
+              {activeTab === 'xpstreak' && (
+                <div className="space-y-4">
+                  {statsLoading && (
+                    <div className="flex items-center justify-center py-12">
+                      <div className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  )}
+
+                  {statsError && (
+                    <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                      <p className="text-red-800 dark:text-red-200 text-sm">❌ {statsError}</p>
+                    </div>
+                  )}
+
+                  {userStatsData && !statsLoading && (
+                    <>
+                      {/* XP Information */}
+                      <DataSection
+                        title="⭐ XP & Level"
+                        data={{
+                          'Total XP': userStatsData.xp.total,
+                          'Current Level': userStatsData.xp.level,
+                          'XP Gained Today': userStatsData.xp.xpGainedToday,
+                          'Last XP Date': userStatsData.xp.lastXPDate || 'N/A',
+                          'Weekly XP': userStatsData.xp.weeklyXP,
+                          'Monthly XP': userStatsData.xp.monthlyXP
+                        }}
+                      />
+
+                      {/* Streak Information */}
+                      <DataSection
+                        title="🔥 Streak"
+                        data={{
+                          'Current Streak': `${userStatsData.streak.current} days`,
+                          'Best Streak': `${userStatsData.streak.best} days`,
+                          'Streak Freezes Remaining': userStatsData.streak.freezesRemaining,
+                          'Last Activity Date': userStatsData.streak.lastActivityDate || 'N/A',
+                          'Is Active Today': userStatsData.streak.isActiveToday ? 'Yes' : 'No',
+                          'Broken At': userStatsData.streak.brokenAt || 'N/A'
+                        }}
+                      />
+
+                      {/* Session Statistics */}
+                      <DataSection
+                        title="📊 Sessions & Study Time"
+                        data={{
+                          'Total Sessions': userStatsData.sessions.total,
+                          'Today Sessions': userStatsData.sessions.today,
+                          'Week Sessions': userStatsData.sessions.week,
+                          'Month Sessions': userStatsData.sessions.month,
+                          'Total Items Reviewed': userStatsData.sessions.totalItemsReviewed,
+                          'Average Accuracy': userStatsData.sessions.averageAccuracy ? `${(userStatsData.sessions.averageAccuracy * 100).toFixed(1)}%` : 'N/A',
+                          'Total Study Time': `${userStatsData.sessions.totalStudyTimeMinutes} minutes`
+                        }}
+                      />
+
+                      {/* Leaderboard Data */}
+                      {userStatsData.leaderboard && (
+                        <DataSection
+                          title="🏆 Leaderboard"
+                          data={{
+                            'Weekly XP': userStatsData.leaderboard.weeklyXP,
+                            'Weekly Rank': userStatsData.leaderboard.weeklyRank ? `#${userStatsData.leaderboard.weeklyRank}` : 'N/A',
+                            'Monthly XP': userStatsData.leaderboard.monthlyXP,
+                            'Monthly Rank': userStatsData.leaderboard.monthlyRank ? `#${userStatsData.leaderboard.monthlyRank}` : 'N/A',
+                            'All-Time XP': userStatsData.leaderboard.allTimeXP,
+                            'All-Time Rank': userStatsData.leaderboard.allTimeRank ? `#${userStatsData.leaderboard.allTimeRank}` : 'N/A'
+                          }}
+                        />
+                      )}
+
+                      {/* Achievements */}
+                      <DataSection
+                        title="🏅 Achievements"
+                        data={{
+                          'Total Achievements': userStatsData.achievements.total,
+                          'Unlocked': userStatsData.achievements.unlocked,
+                          'Locked': userStatsData.achievements.locked,
+                          'Completion Rate': userStatsData.achievements.total > 0 ? `${((userStatsData.achievements.unlocked / userStatsData.achievements.total) * 100).toFixed(1)}%` : 'N/A'
+                        }}
+                      />
+
+                      {userStatsData.achievements.recentUnlocked.length > 0 && (
+                        <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                          <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Recent Achievements Unlocked</h4>
+                          <div className="space-y-2">
+                            {userStatsData.achievements.recentUnlocked.map((achievement: any) => (
+                              <div key={achievement.id} className="flex items-center justify-between p-2 bg-white dark:bg-gray-900 rounded">
+                                <span className="text-sm text-gray-900 dark:text-white">🏅 {achievement.name || achievement.id}</span>
+                                {achievement.unlockedAt && (
+                                  <span className="text-xs text-gray-500">{formatFirebaseTimestamp(achievement.unlockedAt)}</span>
+                                )}
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Subscription */}
+                      <DataSection
+                        title="💳 Subscription"
+                        data={{
+                          'Status': userStatsData.subscription.status,
+                          'Tier': userStatsData.subscription.tier,
+                          'Plan': userStatsData.subscription.plan || 'N/A'
+                        }}
+                      />
+
+                      {/* Metadata */}
+                      <DataSection
+                        title="📝 Metadata"
+                        data={{
+                          'Account Created': userStatsData.metadata.createdAt,
+                          'Last Sign In': userStatsData.metadata.lastSignIn,
+                          'Schema Version': userStatsData.metadata.schemaVersion,
+                          'Last Stats Update': userStatsData.metadata.lastUpdated || 'N/A'
+                        }}
+                      />
+                    </>
+                  )}
+
+                  {!userStatsData && !statsLoading && !statsError && (
+                    <p className="text-gray-500 dark:text-gray-400 text-center py-8">Search for a user to view their XP & Streak data</p>
+                  )}
+                </div>
+              )}
+
+              {/* Entitlements Tab */}
+              {activeTab === 'entitlements' && (
+                <div className="space-y-4">
+                  {entitlementsLoading && (
+                    <div className="flex items-center justify-center py-12">
+                      <div className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  )}
+
+                  {entitlementsError && (
+                    <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                      <p className="text-red-800 dark:text-red-200 text-sm">❌ {entitlementsError}</p>
+                    </div>
+                  )}
+
+                  {userEntitlementsData && !entitlementsLoading && (
+                    <>
+                      <DataSection
+                        title="💳 Subscription Tier"
+                        data={{
+                          'Tier': userEntitlementsData.tier,
+                          'Status': userEntitlementsData.status,
+                          'Total Usage Dates': userEntitlementsData.usage.totalDates
+                        }}
+                      />
+
+                      {userEntitlementsData.schemaIssues.length > 0 && (
+                        <div className="p-4 rounded-lg bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800">
+                          <h4 className="font-semibold text-yellow-900 dark:text-yellow-200 mb-2">⚠️ Schema Issues Detected</h4>
+                          <p className="text-sm text-yellow-800 dark:text-yellow-300">
+                            Found {userEntitlementsData.schemaIssues.length} documents using old schema
+                          </p>
+                        </div>
+                      )}
+
+                      <DataSection
+                        title="📊 Today's Usage"
+                        data={Object.keys(userEntitlementsData.usage.totals.today).length > 0
+                          ? userEntitlementsData.usage.totals.today
+                          : { 'No usage today': 'N/A' }}
+                      />
+
+                      <DataSection
+                        title="📅 This Month's Usage"
+                        data={Object.keys(userEntitlementsData.usage.totals.month).length > 0
+                          ? userEntitlementsData.usage.totals.month
+                          : { 'No usage this month': 'N/A' }}
+                      />
+
+                      <DataSection
+                        title="🔢 All-Time Usage"
+                        data={Object.keys(userEntitlementsData.usage.totals.allTime).length > 0
+                          ? userEntitlementsData.usage.totals.allTime
+                          : { 'No usage recorded': 'N/A' }}
+                      />
+
+                      <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                        <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Recent Usage by Date</h4>
+                        <div className="space-y-3">
+                          {Object.entries(userEntitlementsData.usage.byDate).map(([date, usage]) => (
+                            <details key={date} className="p-3 bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-700">
+                              <summary className="cursor-pointer text-sm font-medium text-gray-900 dark:text-white">
+                                {date} {usage.isToday && '(Today)'} {usage.isThisMonth && '(This Month)'} {usage.hasOldSchema && '⚠️'}
+                              </summary>
+                              <div className="mt-2 space-y-1">
+                                {Object.entries(usage.features).map(([feature, count]) => (
+                                  <div key={feature} className="flex justify-between text-xs">
+                                    <span className="text-gray-600 dark:text-gray-400">{feature}</span>
+                                    <span className="text-gray-900 dark:text-white font-medium">{count}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </details>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {!userEntitlementsData && !entitlementsLoading && !entitlementsError && (
+                    <p className="text-gray-500 dark:text-gray-400 text-center py-8">Search for a user to view their entitlements data</p>
+                  )}
+                </div>
+              )}
+
+              {/* User Content Tab */}
+              {activeTab === 'content' && (
+                <div className="space-y-4">
+                  {contentLoading && (
+                    <div className="flex items-center justify-center py-12">
+                      <div className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  )}
+
+                  {contentError && (
+                    <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                      <p className="text-red-800 dark:text-red-200 text-sm">❌ {contentError}</p>
+                    </div>
+                  )}
+
+                  {userContentData && !contentLoading && (
+                    <>
+                      <DataSection
+                        title="📚 Anki Decks"
+                        data={{
+                          'Total Decks': userContentData.anki.deckCount,
+                          'Total Cards': userContentData.anki.totalCards
+                        }}
+                      />
+
+                      {userContentData.anki.decks.length > 0 && (
+                        <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                          <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Anki Decks Details</h4>
+                          <div className="space-y-2">
+                            {userContentData.anki.decks.map((deck) => (
+                              <div key={deck.id} className="p-3 bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-700">
+                                <div className="flex justify-between items-start">
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-900 dark:text-white">{deck.name}</p>
+                                    <p className="text-xs text-gray-500">{deck.cardCount} cards</p>
+                                  </div>
+                                  <span className="text-xs text-gray-400">{deck.id}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <DataSection
+                        title="📝 Custom Lists"
+                        data={{
+                          'Total Lists': userContentData.lists.count,
+                          'Total Items': userContentData.lists.totalItems
+                        }}
+                      />
+
+                      {userContentData.lists.lists.length > 0 && (
+                        <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                          <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Lists Details</h4>
+                          <div className="space-y-2">
+                            {userContentData.lists.lists.map((list) => (
+                              <div key={list.id} className="p-3 bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-700">
+                                <div className="flex justify-between items-start">
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-900 dark:text-white">{list.name}</p>
+                                    <p className="text-xs text-gray-500">{list.itemCount} items</p>
+                                  </div>
+                                  <span className="text-xs text-gray-400">{list.id}</span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                        <h4 className="font-semibold text-gray-900 dark:text-white mb-3">User Subcollections</h4>
+                        <div className="space-y-2">
+                          {userContentData.subcollections.map((subcol) => (
+                            <div key={subcol.name} className="p-3 bg-white dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-700">
+                              <div className="flex justify-between items-center">
+                                <p className="text-sm font-medium text-gray-900 dark:text-white">{subcol.name}</p>
+                                <span className="text-xs text-gray-500">{subcol.documentCount} docs</span>
+                              </div>
+                              {subcol.sampleDocs.length > 0 && (
+                                <p className="text-xs text-gray-400 mt-1">Sample: {subcol.sampleDocs.join(', ')}</p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {!userContentData && !contentLoading && !contentError && (
+                    <p className="text-gray-500 dark:text-gray-400 text-center py-8">Search for a user to view their content data</p>
+                  )}
+                </div>
+              )}
+
+              {/* Promotions Tab */}
+              {activeTab === 'promotions' && (
+                <div className="space-y-4">
+                  {promotionsLoading && (
+                    <div className="flex items-center justify-center py-12">
+                      <div className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                    </div>
+                  )}
+
+                  {promotionsError && (
+                    <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg">
+                      <p className="text-red-800 dark:text-red-200 text-sm">❌ {promotionsError}</p>
+                    </div>
+                  )}
+
+                  {userPromotionsData && !promotionsLoading && (
+                    <>
+                      {userPromotionsData.waitlist && (
+                        <DataSection
+                          title="📋 Waitlist Status"
+                          data={userPromotionsData.waitlist.onWaitlist ? {
+                            'On Waitlist': 'Yes',
+                            'Linked UID': userPromotionsData.waitlist.linkedUid || 'N/A',
+                            'Discount Granted': userPromotionsData.waitlist.discountGranted ? 'Yes' : 'No',
+                            'Joined At': userPromotionsData.waitlist.joinedAt || 'N/A'
+                          } : {
+                            'On Waitlist': 'No'
+                          }}
+                        />
+                      )}
+
+                      {userPromotionsData.discount && (
+                        <>
+                          <DataSection
+                            title="🎟️ Discount Eligibility"
+                            data={{
+                              'Eligible': userPromotionsData.discount.eligible ? 'Yes' : 'No',
+                              'Status': userPromotionsData.discount.status,
+                              'Promotion Code ID': userPromotionsData.discount.promotionCodeId || 'N/A',
+                              'Source': userPromotionsData.discount.source || 'N/A',
+                              'Redeemed': userPromotionsData.discount.redeemed ? 'Yes' : 'No',
+                              'Redeemed At': userPromotionsData.discount.redeemedAt || 'N/A'
+                            }}
+                          />
+
+                          {userPromotionsData.discount.eligible && !userPromotionsData.discount.redeemed && (
+                            <div className="p-4 rounded-lg bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800">
+                              <p className="text-green-800 dark:text-green-200 text-sm font-medium">
+                                ✅ User is eligible for discount and has not redeemed it yet
+                              </p>
+                            </div>
+                          )}
+
+                          {userPromotionsData.discount.redeemed && (
+                            <div className="p-4 rounded-lg bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
+                              <p className="text-blue-800 dark:text-blue-200 text-sm font-medium">
+                                ℹ️ User has already redeemed their discount
+                              </p>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </>
+                  )}
+
+                  {!userPromotionsData && !promotionsLoading && !promotionsError && (
+                    <p className="text-gray-500 dark:text-gray-400 text-center py-8">Search for a user to view their promotions data</p>
                   )}
                 </div>
               )}

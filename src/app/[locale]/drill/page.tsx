@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useFeature } from '@/hooks/useFeature'
@@ -28,6 +28,7 @@ import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 export default function DrillPage() {
   const { t, strings } = useI18n()
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { user } = useAuth()
   const { subscription, isPremium } = useSubscription()
   const { checkOnly } = useFeature('conjugation_drill')
@@ -64,6 +65,9 @@ export default function DrillPage() {
   const [drillStats, setDrillStats] = useState<any>(null)
   const [currentErrorReport, setCurrentErrorReport] = useState<any>(null)
   const [isHydrated, setIsHydrated] = useState(false)
+  const [lastCompletionDebug, setLastCompletionDebug] = useState<any>(null)
+
+  const debugEnabled = searchParams?.get('debug') === '1'
 
   // Settings state with question count slider
   const [settings, setSettings] = useState<DrillSettings>({
@@ -459,7 +463,10 @@ export default function DrillPage() {
       // - Recording gamification (XP + streak) via coordinator
       // - IndexedDB storage for all users
       // - Firebase sync for premium users
-      await drillManager.trackDrillSession(sessionData, user, isPremium)
+      const completionResult = await drillManager.trackDrillSession(sessionData, user, isPremium)
+      if (debugEnabled) {
+        setLastCompletionDebug(completionResult)
+      }
 
       // 4. Show success message with stats
       const stats = await drillManager.getDrillStats(user.uid, isPremium)
@@ -1213,6 +1220,29 @@ export default function DrillPage() {
                     {t('drill.backToDashboard')}
                   </button>
                 </div>
+                {debugEnabled && lastCompletionDebug && (
+                  <div className="mt-6 text-left border border-gray-200 dark:border-gray-700 rounded-lg p-4 bg-white/60 dark:bg-gray-900/40">
+                    <div className="flex items-center justify-between mb-2">
+                      <span className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                        Drill Debug
+                      </span>
+                      <button
+                        onClick={() => {
+                          const payload = JSON.stringify(lastCompletionDebug, null, 2)
+                          if (navigator?.clipboard?.writeText) {
+                            navigator.clipboard.writeText(payload).catch(() => {})
+                          }
+                        }}
+                        className="text-xs px-2 py-1 rounded border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700"
+                      >
+                        Copy
+                      </button>
+                    </div>
+                    <pre className="text-xs overflow-auto max-h-48 whitespace-pre-wrap break-words">
+                      {JSON.stringify(lastCompletionDebug, null, 2)}
+                    </pre>
+                  </div>
+                )}
               </div>
             </div>
           ) : currentQuestion ? (

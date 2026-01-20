@@ -123,6 +123,7 @@ export interface WordExplanation {
   romaji: string
   meaning: string
   partOfSpeech: string
+  surfaceForms?: string[]
   kanjiBreakdown?: Array<{
     kanji: string
     meaning: string

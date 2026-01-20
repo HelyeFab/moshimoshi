@@ -1,52 +1,57 @@
-/**
- * Check comic generation logs
- */
-
 const admin = require('firebase-admin');
-const serviceAccount = require('../moshimoshi-service-account.json');
+const path = require('path');
 
 if (!admin.apps.length) {
+  const serviceAccount = require(path.join(__dirname, '../moshimoshi-service-account.json'));
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+    credential: admin.credential.cert(serviceAccount)
   });
 }
 
 const db = admin.firestore();
 
-async function checkGenerationLogs() {
-  console.log('📋 Recent comic generation logs:\n');
-
-  const logsSnapshot = await db.collection('comic_generation_logs')
-    .orderBy('startedAt', 'desc')
-    .limit(5)
+async function checkLogs() {
+  const storyId = 'story_1768694424281_scheduler-system';
+  
+  // Check story_generation_logs
+  const logsSnapshot = await db.collection('story_generation_logs')
+    .where('storyId', '==', storyId)
+    .limit(1)
     .get();
-
-  console.log(`Found ${logsSnapshot.size} logs\n`);
-
-  logsSnapshot.docs.forEach((doc, index) => {
-    const log = doc.data();
-    console.log(`${index + 1}. ${doc.id}`);
-    console.log(`   Type: ${log.type || 'unknown'}`);
-    console.log(`   Status: ${log.status}`);
-    console.log(`   Success: ${log.success}`);
-    console.log(`   Episode #: ${log.episodeNumber}`);
-    console.log(`   Theme: ${log.theme} @ ${log.location}`);
-    console.log(`   JLPT: ${log.jlptLevel}`);
-    console.log(`   Duration: ${log.duration ? Math.round(log.duration / 1000) + 's' : 'N/A'}`);
-    if (log.error) {
-      console.log(`   ❌ Error: ${log.error}`);
+  
+  if (!logsSnapshot.empty) {
+    console.log('=== STORY GENERATION LOG ===\n');
+    logsSnapshot.forEach(doc => {
+      const data = doc.data();
+      console.log('Log ID:', doc.id);
+      console.log('Status:', data.status);
+      console.log('Steps Completed:', data.stepsCompleted);
+      console.log('Errors:', data.errors || 'None');
+      console.log('Duration:', data.duration);
+      console.log('\nFull Data:', JSON.stringify(data, null, 2));
+    });
+  } else {
+    console.log('No generation logs found');
+  }
+  
+  // Check the draft
+  const draftId = storyId.replace('story_', 'draft_');
+  const draftDoc = await db.collection('ai_story_drafts').doc(draftId).get();
+  
+  if (draftDoc.exists) {
+    const draftData = draftDoc.data();
+    console.log('\n=== DRAFT DATA ===\n');
+    console.log('Status:', draftData.status);
+    console.log('Page Count:', draftData.pages?.length || 0);
+    if (draftData.pages && draftData.pages.length >= 3) {
+      const page3 = draftData.pages[2];
+      console.log('\nDRAFT Page 3 fields:', Object.keys(page3).join(', '));
+      console.log('Has textWithFurigana:', 'textWithFurigana' in page3);
     }
-    if (log.imagesGenerated !== undefined) {
-      console.log(`   Images: ${log.imagesGenerated}/${log.panelCount || 'unknown'}`);
-    }
-    console.log(`   Started: ${log.startedAt?.toDate?.() || 'unknown'}`);
-    console.log('');
-  });
-
-  process.exit(0);
+  } else {
+    console.log('\n=== NO DRAFT FOUND ===');
+    console.log('Draft ID:', draftId);
+  }
 }
 
-checkGenerationLogs().catch(err => {
-  console.error('Error:', err);
-  process.exit(1);
-});
+checkLogs().then(() => process.exit(0)).catch(e => { console.error(e); process.exit(1); });

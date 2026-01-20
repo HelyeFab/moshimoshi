@@ -56,24 +56,38 @@ const admin = __importStar(require("firebase-admin"));
 const logger = __importStar(require("firebase-functions/logger"));
 const db = admin.firestore();
 // Batch configuration based on comics performance data
-// 27 words took 729s (~27s/word). 10 words keeps us well under 9 min with overhead.
-const BATCH_SIZE = 10;
+// 27 words took 729s (~27s/word). Use dynamic sizing to scale safely with larger jobs.
+const DEFAULT_BATCH_SIZE = 10;
+const MIN_BATCH_SIZE = 6;
+const MAX_BATCH_SIZE = 12;
+const MAX_BATCH_ATTEMPTS = 3;
+function getBatchSize(totalWords) {
+    if (totalWords <= 80)
+        return Math.min(MAX_BATCH_SIZE, 12);
+    if (totalWords <= 200)
+        return DEFAULT_BATCH_SIZE;
+    if (totalWords <= 400)
+        return 8;
+    return MIN_BATCH_SIZE;
+}
 /**
  * Create batch queue from extracted words
  */
 async function createBatchQueue(storyId, words) {
     const batches = [];
     const totalWords = words.length;
-    const totalBatches = Math.ceil(totalWords / BATCH_SIZE);
+    const batchSize = getBatchSize(totalWords);
+    const totalBatches = Math.ceil(totalWords / batchSize);
     // Split words into batches
     for (let i = 0; i < totalBatches; i++) {
-        const startIdx = i * BATCH_SIZE;
-        const endIdx = Math.min(startIdx + BATCH_SIZE, totalWords);
+        const startIdx = i * batchSize;
+        const endIdx = Math.min(startIdx + batchSize, totalWords);
         const batchWords = words.slice(startIdx, endIdx);
         batches.push({
             batchNumber: i + 1,
             words: batchWords,
             status: 'pending',
+            attemptCount: 0,
         });
     }
     const batchQueue = {
@@ -83,6 +97,8 @@ async function createBatchQueue(storyId, words) {
         completedBatches: 0,
         completedWords: 0,
         currentBatch: 1,
+        batchSize,
+        maxBatchAttempts: MAX_BATCH_ATTEMPTS,
         batches,
         createdAt: admin.firestore.Timestamp.now(),
         lastUpdatedAt: admin.firestore.Timestamp.now(),
@@ -94,7 +110,8 @@ async function createBatchQueue(storyId, words) {
         storyId,
         totalWords,
         totalBatches,
-        batchSize: BATCH_SIZE,
+        batchSize,
+        maxBatchAttempts: MAX_BATCH_ATTEMPTS,
     });
     return batchQueue;
 }
@@ -131,6 +148,7 @@ async function getCurrentBatch(storyId) {
  * Mark batch as processing
  */
 async function markBatchProcessing(storyId, batchNumber) {
+    var _a;
     const queue = await getBatchQueue(storyId);
     if (!queue) {
         throw new Error('Batch queue not found');
@@ -140,6 +158,7 @@ async function markBatchProcessing(storyId, batchNumber) {
         throw new Error(`Batch ${batchNumber} not found`);
     }
     queue.batches[batchIdx].status = 'processing';
+    queue.batches[batchIdx].attemptCount = ((_a = queue.batches[batchIdx].attemptCount) !== null && _a !== void 0 ? _a : 0) + 1;
     queue.batches[batchIdx].startedAt = admin.firestore.Timestamp.now();
     queue.lastUpdatedAt = admin.firestore.Timestamp.now();
     await db.collection('story_word_batches').doc(storyId).update({

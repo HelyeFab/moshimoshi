@@ -38,6 +38,16 @@ async function getTokenizer() {
     }
     return tokenizerPromise;
 }
+function normalizeWord(value) {
+    let normalized = value.trim();
+    try {
+        normalized = normalized.normalize('NFKC');
+    }
+    catch (_a) {
+        // ignore
+    }
+    return normalized.toLowerCase();
+}
 /**
  * Generate full conjugations for a word if it's a verb or adjective.
  * Uses the ExtendedConjugationEngine for accurate 100+ form generation.
@@ -179,25 +189,48 @@ async function ensureExtras(explanation, word, sentences, translationCache, jlpt
         }
     }
 }
-// Basic tokenizer: extracts base forms of ALL words (including particles, grammar, etc.)
-async function extractJapaneseWords(text) {
+// Basic tokenizer: extracts base forms of words (optionally including particles and single-kanji)
+async function extractJapaneseWords(text, options = {}) {
     const tokenizer = await getTokenizer();
     const tokens = tokenizer.tokenize(text || '');
-    const words = tokens
-        .map(token => token.basic_form || token.surface_form)
-        .filter(Boolean)
-        .filter(word => word.length > 1); // filter tiny tokens
-    // Deduplicate while preserving order
+    const minLength = typeof options.minLength === 'number'
+        ? options.minLength
+        : options.includeParticles
+            ? 1
+            : 2;
+    const isJapaneseToken = (word) => /[\u3040-\u30ff\u4e00-\u9fff]/.test(word);
+    // Deduplicate while preserving order + collect surface forms
     const seen = new Set();
     const unique = [];
-    for (const word of words) {
-        const key = word.toLowerCase();
+    const surfaceMap = new Map();
+    for (const token of tokens) {
+        const base = token.basic_form || token.surface_form;
+        const surface = token.surface_form || token.basic_form || base;
+        if (!base)
+            continue;
+        if (!isJapaneseToken(base))
+            continue;
+        if (base.length < minLength)
+            continue;
+        const key = normalizeWord(base);
+        if (!surfaceMap.has(key))
+            surfaceMap.set(key, new Set());
+        surfaceMap.get(key).add(base);
+        if (surface)
+            surfaceMap.get(key).add(surface);
         if (!seen.has(key)) {
             seen.add(key);
-            unique.push(word);
+            unique.push({
+                word: base,
+                surfaceForms: Array.from(surfaceMap.get(key) || []),
+            });
         }
     }
-    return unique;
+    // Ensure surfaceForms are up to date
+    return unique.map(entry => ({
+        word: entry.word,
+        surfaceForms: Array.from(surfaceMap.get(normalizeWord(entry.word)) || []),
+    }));
 }
 /**
  * Precompute word explanations for a piece of content and persist to Firestore.
@@ -207,7 +240,7 @@ async function extractJapaneseWords(text) {
  * - Stores merged results in per-content collection
  */
 async function precomputeWordExplanations({ contentId, contentType, text, limit = 1000, // Increased from 400 to 1000 for better completeness
-jlptLevel = 'N5', chunkIndex, onProgress, }) {
+jlptLevel = 'N5', includeParticles, minLength, chunkIndex, onProgress, }) {
     var _a;
     // Get db instance - will throw if not initialized
     const db = (0, admin_1.getAdminDb)();
@@ -216,12 +249,23 @@ jlptLevel = 'N5', chunkIndex, onProgress, }) {
         throw new Error(`Unsupported contentType: ${contentType}`);
     }
     // Extract words and apply limit, keeping original order
-    const words = (await extractJapaneseWords(text)).slice(0, limit);
+    const words = (await extractJapaneseWords(text, { includeParticles, minLength })).slice(0, limit);
     const docRef = db.collection(collection).doc(contentId);
     const existingSnap = await docRef.get();
     const existingWords = ((_a = existingSnap.data()) === null || _a === void 0 ? void 0 : _a.words) || [];
-    const existingSet = new Set(existingWords.map(w => { var _a, _b; return ((_b = (_a = w.word) === null || _a === void 0 ? void 0 : _a.toLowerCase) === null || _b === void 0 ? void 0 : _b.call(_a)) || ''; }).filter(Boolean));
-    const missingWords = words.filter(w => !existingSet.has(w.toLowerCase()));
+    const normalize = (v) => (v ? normalizeWord(v) : '');
+    const hasWord = (target) => {
+        const normalized = normalize(target);
+        if (!normalized)
+            return false;
+        return existingWords.some(w => {
+            const surfaceForms = w.surfaceForms;
+            return (normalize(w.word) === normalized ||
+                normalize(w.reading) === normalized ||
+                (surfaceForms || []).some(sf => normalize(sf) === normalized));
+        });
+    };
+    const missingWords = words.filter(w => !hasWord(w.word));
     const aiService = AIService_1.AIService.getInstance();
     const generatedResults = [];
     let cachedCount = 0;
@@ -237,12 +281,17 @@ jlptLevel = 'N5', chunkIndex, onProgress, }) {
     let conjugationsGenerated = 0;
     while (index < missingWords.length) {
         const slice = missingWords.slice(index, index + concurrency);
-        const results = await Promise.all(slice.map(async (word, sliceIndex) => {
+        const results = await Promise.all(slice.map(async (wordObj, sliceIndex) => {
             const globalIndex = index + sliceIndex;
+            const word = wordObj.word;
             try {
                 const cached = await (0, WordExplanationCache_1.getCachedWordExplanation)(word);
                 if (cached) {
                     cachedCount += 1;
+                    if (!cached.surfaceForms && wordObj.surfaceForms) {
+                        cached.surfaceForms = wordObj.surfaceForms;
+                        await (0, WordExplanationCache_1.setCachedWordExplanation)(word, cached);
+                    }
                     await ensureExtras(cached, word, sentences, translationCache, jlptLevel);
                     // If cached but missing fullConjugations, generate them now
                     if (!cached.fullConjugations) {
@@ -265,6 +314,9 @@ jlptLevel = 'N5', chunkIndex, onProgress, }) {
                     throw new Error(aiResponse.error || `Failed to generate explanation for ${word}`);
                 }
                 const explanation = aiResponse.data;
+                if (!explanation.surfaceForms && wordObj.surfaceForms) {
+                    explanation.surfaceForms = wordObj.surfaceForms;
+                }
                 // Generate full conjugations for verbs/adjectives
                 const fullConjugations = await generateFullConjugations(explanation);
                 if (fullConjugations) {

@@ -140,10 +140,14 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
   /**
    * Track a completed drill session
    */
-  async trackDrillSession(session: DrillSessionData, user: any, isPremium: boolean): Promise<void> {
+  async trackDrillSession(
+    session: DrillSessionData,
+    user: any,
+    isPremium: boolean
+  ): Promise<{ debug: any | null; gamification: any | null; error?: string } | null> {
     if (!user?.uid) {
       reviewLogger.debug('[DrillProgressManager] No user - skipping tracking')
-      return
+      return null
     }
 
     const userId = user.uid
@@ -195,12 +199,27 @@ export class DrillProgressManager extends UniversalProgressManager<DrillProgress
             // Don't fail the whole operation if store update fails
           }
         }
+
+        return {
+          debug: result.data?.debug ?? null,
+          gamification: result.data?.gamification ?? null,
+        }
       } else {
         console.error('[DrillProgressManager] Failed to complete drill via API:', await response.text())
+        return {
+          debug: null,
+          gamification: null,
+          error: 'Failed to complete drill via API',
+        }
       }
     } catch (error) {
       console.error('[DrillProgressManager] Error calling drill completion API:', error)
       // Continue with local tracking even if API fails
+      return {
+        debug: null,
+        gamification: null,
+        error: error instanceof Error ? error.message : 'Unknown error',
+      }
     }
 
     // Get current progress

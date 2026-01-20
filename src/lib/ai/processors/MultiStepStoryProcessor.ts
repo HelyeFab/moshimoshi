@@ -525,13 +525,13 @@ Create 5-8 multiple choice questions that test:
 
 Questions should be appropriate for ${jlptLevel} learners.
 
-Response format (JSON only):
+You MUST return a JSON object in EXACTLY this format:
 {
   "questions": [
     {
       "id": "q1",
       "question": "Question in English",
-      "questionJa": "<ruby>質問<rt>しつもん</rt></ruby>を<ruby>日本語<rt>にほんご</rt></ruby>で（optional for higher levels）",
+      "questionJa": "この<ruby>物語<rt>ものがたり</rt></ruby>について<ruby>質問<rt>しつもん</rt></ruby>です。",
       "options": ["Option A", "Option B", "Option C", "Option D"],
       "correctIndex": 0,
       "explanation": "Why this answer is correct",
@@ -540,11 +540,18 @@ Response format (JSON only):
   ]
 }
 
-**IMPORTANT: For questionJa and explanationJa fields:**
-- Wrap ALL kanji in <ruby> tags with furigana readings
-- Format: <ruby>漢字<rt>かんじ</rt></ruby>
-- Example: "この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>は?"
-- Do NOT use parentheses format - use <ruby><rt> tags only`
+**CRITICAL RULES:**
+1. BOTH question (English) AND questionJa (Japanese) are REQUIRED for all questions
+2. BOTH explanation (English) AND explanationJa (Japanese) are REQUIRED for all questions
+3. questionJa must wrap ALL kanji in <ruby> tags with furigana: <ruby>漢字<rt>かんじ</rt></ruby>
+4. Do NOT use parentheses format - use <ruby><rt> tags only
+5. Do NOT reveal the answer in the question text
+6. Each question must have EXACTLY 4 options
+
+**Ruby Tag Examples:**
+- この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>は<ruby>何<rt>なん</rt></ruby>ですか？
+- <ruby>主人公<rt>しゅじんこう</rt></ruby>は<ruby>誰<rt>だれ</rt></ruby>ですか？
+- <ruby>物語<rt>ものがたり</rt></ruby>の<ruby>最初<rt>さいしょ</rt></ruby>に<ruby>何<rt>なに</rt></ruby>が<ruby>起<rt>お</rt></ruby>こりましたか？`
 
     // Use structured outputs for 100% reliability
     const { data: response, usage } = await this.callOpenAIWithSchema(

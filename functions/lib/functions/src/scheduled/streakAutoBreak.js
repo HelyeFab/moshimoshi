@@ -44,11 +44,25 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.autoBreakStreaks = void 0;
 const scheduler_1 = require("firebase-functions/v2/scheduler");
 const admin = __importStar(require("firebase-admin"));
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
 const db = admin.firestore();
+function loadStreakConfig() {
+    const configPath = path_1.default.resolve(process.cwd(), '..', 'src', 'config', 'gamification', 'streak.json');
+    const raw = fs_1.default.readFileSync(configPath, 'utf-8');
+    const parsed = JSON.parse(raw);
+    if (typeof parsed.gracePeriodHours !== 'number') {
+        throw new Error('[Auto-Break Scheduler] Invalid streak.json: gracePeriodHours missing');
+    }
+    return parsed;
+}
 /**
  * Calculate days between two dates (UTC)
  */
@@ -73,7 +87,8 @@ async function runAutoBreakStreaks() {
     var _a, _b, _c, _d;
     console.log('[Auto-Break Scheduler] Starting streak auto-break check');
     const today = getCurrentDateUTC();
-    const gracePeriodDays = 1; // 24 hours = 1 day
+    const { gracePeriodHours } = loadStreakConfig();
+    const gracePeriodDays = Math.max(1, Math.ceil(gracePeriodHours / 24));
     let totalChecked = 0;
     let totalBroken = 0;
     let totalErrors = 0;

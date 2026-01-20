@@ -1134,7 +1134,7 @@ exports.onStoryPublished = (0, firestore_1.onDocumentCreated)({
     memory: '512MiB', // Reduced - only extracting words and creating queue
     timeoutSeconds: 120, // 2 minutes - enough to extract words and publish message
 }, async (event) => {
-    var _a;
+    var _a, _b;
     const storyId = event.params.storyId;
     const story = (_a = event.data) === null || _a === void 0 ? void 0 : _a.data();
     if (!story) {
@@ -1170,12 +1170,25 @@ exports.onStoryPublished = (0, firestore_1.onDocumentCreated)({
             textLength: storyText.length,
             pageCount: story.pages.length,
         });
-        // Extract top words from story text (100 words)
-        const { extractTopWords } = await Promise.resolve().then(() => __importStar(require('../utils/wordExtractor')));
-        const { words } = await extractTopWords(storyText, 100);
+        // Extract words based on tiered JLPT strategy
+        const { extractWords } = await Promise.resolve().then(() => __importStar(require('../utils/wordExtractor')));
+        const jlptLevel = (story.jlptLevel || 'N4');
+        const isBeginner = jlptLevel === 'N5' || jlptLevel === 'N4';
+        const topWordLimitMap = {
+            N3: 150,
+            N2: 120,
+            N1: 100,
+        };
+        const limit = isBeginner ? undefined : (_b = topWordLimitMap[jlptLevel]) !== null && _b !== void 0 ? _b : 100;
+        const { words, extractedCount, uniqueWordCount, totalWordCount } = await extractWords(storyText, Object.assign({ limit }, (isBeginner ? { includeParticles: true, minLength: 1 } : {})));
         logger.info('[StoryWordGen] Words extracted, creating batch queue', {
             storyId,
             wordCount: words.length,
+            extractedCount,
+            uniqueWordCount,
+            totalWordCount,
+            jlptLevel,
+            strategy: isBeginner ? 'all_filtered' : `top_${limit !== null && limit !== void 0 ? limit : 100}`,
         });
         // Create batch queue
         const { createBatchQueue } = await Promise.resolve().then(() => __importStar(require('../utils/storyWordBatchManager')));

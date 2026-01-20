@@ -537,7 +537,10 @@ export async function PUT(request: NextRequest) {
 
       // FIXED: Issue #6 - Record gamification (XP + streak) using coordinator
       let gamificationResult = null
+      let gamificationAttempted = false
+      let gamificationError: string | null = null
       if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true') {
+        gamificationAttempted = true
         try {
           gamificationResult = await recordDrillCompletion({
             userId: session.uid,
@@ -554,6 +557,7 @@ export async function PUT(request: NextRequest) {
             currentStreak: gamificationResult.currentStreak,
           })
         } catch (error) {
+          gamificationError = error instanceof Error ? error.message : 'Unknown error'
           console.error('[Drill API] Failed to update gamification:', error)
           // Don't fail the whole request if gamification fails
         }
@@ -735,6 +739,10 @@ export async function PUT(request: NextRequest) {
                 achievementsUnlocked: gamificationResult.achievementsUnlocked,
               }
             : null,
+          debug: {
+            gamificationAttempted,
+            gamificationError,
+          },
         },
       })
     }

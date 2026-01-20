@@ -53,6 +53,7 @@ const storyWordExplanationPreGenerator_1 = require("../utils/storyWordExplanatio
 const db = admin.firestore();
 const pubsub = new pubsub_2.PubSub();
 const MODAL_API_KEY = (0, params_1.defineSecret)('MODAL_API_KEY');
+const PRECOMPUTE_VERSION = 'v2_all_tokens';
 const BATCH_TOPIC = 'book-word-batch-processing';
 function hashWord(word) {
     return crypto_1.default.createHash('sha256').update(word.trim().toLowerCase()).digest('hex');
@@ -182,6 +183,11 @@ exports.processBookWordBatch = (0, pubsub_1.onMessagePublished)({
                     'metadata.wordExplanationsGeneratedAt': admin.firestore.FieldValue.serverTimestamp(),
                     'metadata.wordProgress': null,
                 });
+                await db.collection('book_word_explanations').doc(bookId).set({
+                    precomputeStatus: 'complete',
+                    precomputeVersion: PRECOMPUTE_VERSION,
+                    precomputeUpdatedAt: admin.firestore.FieldValue.serverTimestamp(),
+                }, { merge: true });
             }
             return;
         }
@@ -213,6 +219,11 @@ exports.processBookWordBatch = (0, pubsub_1.onMessagePublished)({
                 'metadata.wordExplanationsGeneratedAt': admin.firestore.FieldValue.serverTimestamp(),
                 'metadata.wordProgress': null,
             });
+            await db.collection('book_word_explanations').doc(bookId).set({
+                precomputeStatus: 'complete',
+                precomputeVersion: PRECOMPUTE_VERSION,
+                precomputeUpdatedAt: admin.firestore.FieldValue.serverTimestamp(),
+            }, { merge: true });
         }
         else {
             const nextBatchNumber = batchNumber + 1;

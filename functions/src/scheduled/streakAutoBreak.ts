@@ -13,8 +13,31 @@
 
 import { onSchedule } from 'firebase-functions/v2/scheduler'
 import * as admin from 'firebase-admin'
+import fs from 'fs'
+import path from 'path'
 
 const db = admin.firestore()
+
+type StreakConfig = {
+  gracePeriodHours: number
+}
+
+function loadStreakConfig(): StreakConfig {
+  const configPath = path.resolve(
+    process.cwd(),
+    '..',
+    'src',
+    'config',
+    'gamification',
+    'streak.json'
+  )
+  const raw = fs.readFileSync(configPath, 'utf-8')
+  const parsed = JSON.parse(raw) as StreakConfig
+  if (typeof parsed.gracePeriodHours !== 'number') {
+    throw new Error('[Auto-Break Scheduler] Invalid streak.json: gracePeriodHours missing')
+  }
+  return parsed
+}
 
 /**
  * Calculate days between two dates (UTC)
@@ -42,7 +65,8 @@ async function runAutoBreakStreaks() {
   console.log('[Auto-Break Scheduler] Starting streak auto-break check')
 
   const today = getCurrentDateUTC()
-  const gracePeriodDays = 1 // 24 hours = 1 day
+  const { gracePeriodHours } = loadStreakConfig()
+  const gracePeriodDays = Math.max(1, Math.ceil(gracePeriodHours / 24))
 
   let totalChecked = 0
   let totalBroken = 0

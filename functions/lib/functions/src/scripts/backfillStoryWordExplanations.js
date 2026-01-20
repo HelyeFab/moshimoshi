@@ -9,6 +9,9 @@
  *   npm run backfill:stories -- --dry-run         # Preview what will be done
  *   npm run backfill:stories                      # Actually generate word explanations
  *   npm run backfill:stories -- --story story_123 # Backfill a specific story
+ *   npm run backfill:stories -- --force           # Regenerate even if doc exists
+ *   npm run backfill:stories -- --start-after story_123 # Resume after a story id
+ *   npm run backfill:stories -- --limit 5         # Process only N stories
  */
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
@@ -43,8 +46,16 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 const admin = __importStar(require("firebase-admin"));
+// Load local env for scripts (project id + keys)
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+require('dotenv').config({ path: '.env.local' });
+if (process.env.FIREBASE_ADMIN_PROJECT_ID) {
+    (_a = process.env).GCLOUD_PROJECT || (_a.GCLOUD_PROJECT = process.env.FIREBASE_ADMIN_PROJECT_ID);
+    (_b = process.env).GOOGLE_CLOUD_PROJECT || (_b.GOOGLE_CLOUD_PROJECT = process.env.FIREBASE_ADMIN_PROJECT_ID);
+}
 // Initialize Firebase Admin
 if (!admin.apps.length) {
     const serviceAccountPath = process.env.SERVICE_ACCOUNT_PATH;
@@ -76,8 +87,13 @@ const db = admin.firestore();
 // Parse command line arguments
 const args = process.argv.slice(2);
 const isDryRun = args.includes('--dry-run');
+const isForce = args.includes('--force');
 const storyArgIndex = args.indexOf('--story');
 const specificStoryId = storyArgIndex !== -1 ? args[storyArgIndex + 1] : null;
+const startAfterIndex = args.indexOf('--start-after');
+const startAfterStoryId = startAfterIndex !== -1 ? args[startAfterIndex + 1] : null;
+const limitIndex = args.indexOf('--limit');
+const limitCount = limitIndex !== -1 ? parseInt(args[limitIndex + 1] || '0', 10) : 2;
 function extractStoryText(storyData) {
     if (!storyData.pages || !Array.isArray(storyData.pages)) {
         return '';
@@ -92,13 +108,20 @@ async function checkWordExplanationsExist(storyId) {
     return wordDoc.exists;
 }
 async function generateWordExplanationsForStory(storyId, story) {
+    var _a;
     const title = story.title || storyId;
     console.log(`\n📘 Story ${storyId}: ${title}`);
     // Check if already exists
     const alreadyExists = await checkWordExplanationsExist(storyId);
     if (alreadyExists) {
-        console.log('  ✓ Word explanations already exist - SKIPPING');
-        return { skipped: true, storyId, title };
+        if (!isForce) {
+            console.log('  ✓ Word explanations already exist - SKIPPING');
+            return { skipped: true, storyId, title };
+        }
+        console.log('  ⚠️  Word explanations exist - FORCE REGENERATE');
+        if (!isDryRun) {
+            await db.collection('story_word_explanations').doc(storyId).delete();
+        }
     }
     // Extract text from story pages
     const storyText = extractStoryText(story);
@@ -109,16 +132,24 @@ async function generateWordExplanationsForStory(storyId, story) {
     const textPreview = storyText.substring(0, 100) + (storyText.length > 100 ? '...' : '');
     console.log(`  Text extracted: ${textPreview}`);
     console.log(`  Total text length: ${storyText.length} characters`);
-    console.log(`  JLPT Level: ${story.jlptLevel || 'N5'}`);
+    const jlptLevel = (story.jlptLevel || 'N4');
+    const isBeginner = jlptLevel === 'N5' || jlptLevel === 'N4';
+    const topWordLimitMap = {
+        N3: 150,
+        N2: 120,
+        N1: 100,
+    };
+    const limit = isBeginner ? undefined : (_a = topWordLimitMap[jlptLevel]) !== null && _a !== void 0 ? _a : 100;
+    console.log(`  JLPT Level: ${jlptLevel} (${isBeginner ? 'all filtered words' : `top ${limit}`})`);
     if (isDryRun) {
         console.log('  [DRY RUN] Would generate word explanations');
-        return { dryRun: true, storyId, title, textLength: storyText.length };
+        return { dryRun: true, forced: alreadyExists && isForce, storyId, title, textLength: storyText.length };
     }
     // Generate word explanations
     try {
         console.log('  🔄 Generating word explanations...');
         const { generateStoryWordExplanations } = await Promise.resolve().then(() => __importStar(require('../utils/storyWordExplanationPreGenerator')));
-        const result = await generateStoryWordExplanations(storyId, storyText, 100);
+        const result = await generateStoryWordExplanations(storyId, storyText, limit, isBeginner ? { includeParticles: true, minLength: 1 } : undefined);
         console.log(`  ✅ SUCCESS! Generated ${result.wordCount} word explanations`);
         await db.collection('stories').doc(storyId).update({
             wordExplanationsStatus: 'complete',
@@ -129,6 +160,7 @@ async function generateWordExplanationsForStory(storyId, story) {
         });
         return {
             success: true,
+            forced: alreadyExists && isForce,
             storyId,
             title,
             total: result.wordCount,
@@ -158,6 +190,7 @@ function getStorySortDate(story) {
 async function backfillStoryWordExplanations() {
     console.log('\n🚀 Story Word Explanations Backfill Script\n');
     console.log('Mode:', isDryRun ? '🔍 DRY RUN (preview only)' : '✍️  LIVE (will generate explanations)');
+    console.log('Force:', isForce ? '✅ enabled' : '❌ disabled');
     if (specificStoryId) {
         console.log(`Target: Story ${specificStoryId} only\n`);
     }
@@ -207,7 +240,19 @@ async function backfillStoryWordExplanations() {
             process.exit(0);
         }
         console.log(`\nFound ${stories.length} published story(ies)\n`);
+        let skipping = !!startAfterStoryId;
+        let processedCount = 0;
         for (const story of stories) {
+            if (skipping) {
+                if (story.id === startAfterStoryId) {
+                    skipping = false;
+                }
+                continue;
+            }
+            if (limitCount > 0 && processedCount >= limitCount) {
+                console.log(`\nReached limit (${limitCount}) - stopping early.`);
+                break;
+            }
             results.total++;
             const result = await generateWordExplanationsForStory(story.id, story.data);
             results.details.push(result);
@@ -219,6 +264,7 @@ async function backfillStoryWordExplanations() {
                 results.success++;
             else if (result.failed)
                 results.failed++;
+            processedCount++;
             // Small delay between stories to avoid rate limits
             if (!isDryRun && !result.skipped) {
                 await new Promise(resolve => setTimeout(resolve, 2000));

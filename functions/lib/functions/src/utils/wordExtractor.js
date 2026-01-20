@@ -41,6 +41,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.extractWords = extractWords;
 exports.extractTopWords = extractTopWords;
 exports.extractWordsFromArticles = extractWordsFromArticles;
 const logger = __importStar(require("firebase-functions/logger"));
@@ -150,43 +151,65 @@ const BASIC_WORDS = new Set([
  */
 async function extractJapaneseWordsKuromoji(text) {
     const tokenizer = await getTokenizer();
-    const tokens = tokenizer.tokenize(text || '');
-    const words = tokens
-        .map(token => token.basic_form || token.surface_form)
-        .filter(Boolean)
-        .filter(word => word.length > 1); // Filter tiny tokens
-    return words;
+    return tokenizer.tokenize(text || '');
 }
 /**
- * Extract top N words from article content using Kuromoji tokenization
+ * Extract words from content using Kuromoji tokenization
  */
-async function extractTopWords(content, limit = 100) {
+async function extractWords(content, options = {}) {
     const startTime = Date.now();
     try {
         // Clean and normalize content
         const normalizedContent = normalizeText(content);
         // Extract all Japanese words using Kuromoji
-        const wordMatches = await extractJapaneseWordsKuromoji(normalizedContent);
+        const tokens = await extractJapaneseWordsKuromoji(normalizedContent);
+        const minLength = typeof options.minLength === 'number'
+            ? options.minLength
+            : options.includeParticles
+                ? 1
+                : 2;
+        const isJapaneseToken = (word) => /[\u3040-\u30ff\u4e00-\u9fff]/.test(word);
+        const prunedMatches = [];
+        const surfaceFormsMap = new Map();
+        for (const token of tokens) {
+            const base = token.basic_form || token.surface_form;
+            const surface = token.surface_form || token.basic_form || base;
+            if (!base)
+                continue;
+            if (!isJapaneseToken(base))
+                continue;
+            if (base.length < minLength)
+                continue;
+            prunedMatches.push(base);
+            const existing = surfaceFormsMap.get(base) || new Set();
+            existing.add(base);
+            if (surface)
+                existing.add(surface);
+            surfaceFormsMap.set(base, existing);
+        }
         // Count word frequencies
-        const wordFrequency = countWordFrequency(wordMatches);
+        const wordFrequency = countWordFrequency(prunedMatches);
         // Filter out particles, basic words, and very short words
-        const filteredWords = filterWords(wordFrequency);
+        const filteredWords = options.includeParticles ? wordFrequency : filterWords(wordFrequency);
         // Sort by frequency and importance
-        const sortedWords = sortWordsByImportance(filteredWords);
-        // Take top N words
-        const topWords = sortedWords.slice(0, limit);
+        const sortedWords = sortWordsByImportance(filteredWords, surfaceFormsMap);
+        // Apply limit if provided
+        const selectedWords = typeof options.limit === 'number' ? sortedWords.slice(0, options.limit) : sortedWords;
         const duration = Date.now() - startTime;
         logger.info('[WordExtractor] Extraction complete (Kuromoji)', {
-            totalWordCount: wordMatches.length,
+            totalWordCount: prunedMatches.length,
             uniqueWordCount: Object.keys(wordFrequency).length,
-            extractedCount: topWords.length,
+            extractedCount: selectedWords.length,
+            limit: typeof options.limit === 'number' ? options.limit : 'all',
+            includeParticles: !!options.includeParticles,
+            minLength,
             durationMs: duration,
         });
         return {
-            words: topWords,
-            totalWordCount: wordMatches.length,
+            words: selectedWords,
+            totalWordCount: prunedMatches.length,
             uniqueWordCount: Object.keys(wordFrequency).length,
-            extractedCount: topWords.length,
+            extractedCount: selectedWords.length,
         };
     }
     catch (error) {
@@ -200,6 +223,12 @@ async function extractTopWords(content, limit = 100) {
             extractedCount: 0,
         };
     }
+}
+/**
+ * Extract top N words from article content using Kuromoji tokenization
+ */
+async function extractTopWords(content, limit = 100) {
+    return extractWords(content, { limit });
 }
 /**
  * Normalize text by removing HTML, special characters, etc.
@@ -252,16 +281,18 @@ function filterWords(wordFrequency) {
 /**
  * Sort words by importance (frequency + character complexity)
  */
-function sortWordsByImportance(wordFrequency) {
+function sortWordsByImportance(wordFrequency, surfaceFormsMap) {
     const words = [];
     Object.entries(wordFrequency).forEach(([word, frequency]) => {
         const type = determineWordType(word);
         const estimatedJLPT = estimateJLPTLevel(word, type);
+        const surfaceForms = surfaceFormsMap.get(word);
         words.push({
             word,
             frequency,
             type,
             estimatedJLPT,
+            surfaceForms: surfaceForms ? Array.from(surfaceForms) : undefined,
         });
     });
     // Sort by frequency (higher is better)

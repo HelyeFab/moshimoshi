@@ -43,6 +43,7 @@ var __importStar = (this && this.__importStar) || (function () {
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.generateWordExplanation = generateWordExplanation;
 exports.generateStoryWordExplanations = generateStoryWordExplanations;
@@ -51,6 +52,26 @@ const logger = __importStar(require("firebase-functions/logger"));
 const params_1 = require("firebase-functions/params");
 const wordExtractor_1 = require("./wordExtractor");
 const crypto_1 = __importDefault(require("crypto"));
+// Initialize Firebase Admin if needed (scripts may not share app instance)
+if (!admin.apps.length) {
+    const projectId = process.env.FIREBASE_ADMIN_PROJECT_ID ||
+        process.env.GOOGLE_CLOUD_PROJECT ||
+        process.env.GCLOUD_PROJECT;
+    const clientEmail = process.env.FIREBASE_ADMIN_CLIENT_EMAIL;
+    const privateKey = (_a = process.env.FIREBASE_ADMIN_PRIVATE_KEY) === null || _a === void 0 ? void 0 : _a.replace(/\\n/g, '\n');
+    if (projectId && clientEmail && privateKey) {
+        admin.initializeApp({
+            credential: admin.credential.cert({
+                projectId,
+                clientEmail,
+                privateKey,
+            }),
+        });
+    }
+    else {
+        admin.initializeApp();
+    }
+}
 // Initialize Firestore
 const db = admin.firestore();
 // Define Modal API key for Qwen 2.5 access
@@ -230,6 +251,7 @@ Return a valid JSON object as specified.`;
             romaji: parsed.romaji || '',
             meaning: parsed.meaning || '',
             partOfSpeech: parsed.partOfSpeech || 'unknown',
+            surfaceForms: word.surfaceForms,
             kanjiBreakdown: parsed.kanjiBreakdown || [],
             conjugation: parsed.conjugation,
             relatedWords: parsed.relatedWords || { synonyms: [], antonyms: [], compounds: [] },
@@ -266,6 +288,9 @@ async function generateWordExplanations(words, storyContext) {
         try {
             const cached = cacheMap.get(word.word.trim().toLowerCase());
             if (cached) {
+                if (!cached.surfaceForms && word.surfaceForms) {
+                    cached.surfaceForms = word.surfaceForms;
+                }
                 explanations.push(cached);
                 logger.debug('[StoryWordPreGen] Cache hit', {
                     word: word.word,
@@ -333,16 +358,16 @@ function removeUndefinedValues(obj) {
 /**
  * Generate and store word explanations for a story episode
  */
-async function generateStoryWordExplanations(storyId, storyText, topWordCount = 100) {
+async function generateStoryWordExplanations(storyId, storyText, topWordCount, options) {
     const startTime = Date.now();
     logger.info('[StoryWordPreGen] Starting story word explanations', {
         storyId,
         textLength: storyText.length,
-        topWordCount,
+        topWordCount: typeof topWordCount === 'number' ? topWordCount : 'all_filtered',
     });
     try {
-        // Extract top words from story text using Kuromoji
-        const { words } = await (0, wordExtractor_1.extractTopWords)(storyText, topWordCount);
+        // Extract words from story text using Kuromoji
+        const { words } = await (0, wordExtractor_1.extractWords)(storyText, Object.assign(Object.assign({}, (typeof topWordCount === 'number' ? { limit: topWordCount } : {})), (options || {})));
         logger.info('[StoryWordPreGen] Words extracted', {
             storyId,
             wordCount: words.length,

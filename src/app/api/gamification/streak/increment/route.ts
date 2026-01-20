@@ -10,6 +10,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getAuth } from 'firebase-admin/auth';
 import { updateStreakTransaction } from '@/lib/gamification/services/streakService';
+import { getStreakConfig } from '@/config/gamification/streakConfig';
 
 /**
  * POST /api/gamification/streak/increment
@@ -60,13 +61,15 @@ export async function POST(req: NextRequest) {
 
     // Parse request body
     const body = await req.json();
-    const { version, xpEarned = 25 } = body; // Default to minimum XP
+    const { version, xpEarned } = body;
+    const minXpForStreak = getStreakConfig().minXPForStreak;
+    const effectiveXpEarned = typeof xpEarned === 'number' ? xpEarned : minXpForStreak;
 
     // Check if user is premium (for freeze eligibility)
     const isPremium = decodedToken.stripeRole === 'premium' || false;
 
     // Call streak service
-    const result = await updateStreakTransaction(userId, xpEarned, {
+    const result = await updateStreakTransaction(userId, effectiveXpEarned, {
       isPremium,
       expectedVersion: typeof version === 'number' ? version : undefined
     });
