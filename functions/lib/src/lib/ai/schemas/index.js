@@ -12,7 +12,7 @@
  * - Ollama: Use Schema.safeParse(response) for post-response validation
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.validateStoryPage = exports.validateStoryOutline = exports.validateCharacterSheet = exports.validateStory = exports.GeneratedStorySchema = exports.StoryPageSchema = exports.PageImagePromptSchema = exports.ModelSheetPromptSchema = exports.QuizQuestionsResponseSchema = exports.OutlinePageSchema = exports.StoryOutlineSchema = exports.CharacterSheetSchema = exports.ProcessedTranscriptSchema = exports.TranscriptSegmentSchema = exports.GeneratedMoodboardSchema = exports.MoodboardKanjiSchema = exports.ReviewQuestionsResultSchema = exports.ReviewQuestionSchema = exports.GrammarSentenceExplanationSchema = exports.GrammarExplanationSchema = exports.WordExplanationSchema = exports.ConjugationTableSchema = exports.KanjiBreakdownSchema = exports.TranslationResultSchema = exports.PartialTranslationSchema = exports.TranslationHintSchema = exports.GrammarNoteSchema = exports.VocabularyItemSchema = exports.DifficultySchema = exports.JLPTLevelSchema = void 0;
+exports.validateStoryPage = exports.validateStoryOutline = exports.validateCharacterSheet = exports.validateStory = exports.GeneratedStorySchema = exports.StoryPageSchema = exports.PageImagePromptSchema = exports.ModelSheetPromptSchema = exports.QuizQuestionsResponseSchema = exports.OutlinePageSchema = exports.StoryOutlineSchema = exports.CharacterSheetSchema = exports.STORY_SCHEMA_VERSION = exports.ProcessedTranscriptSchema = exports.TranscriptSegmentSchema = exports.GeneratedMoodboardSchema = exports.MoodboardKanjiSchema = exports.ReviewQuestionsResultSchema = exports.ReviewQuestionSchema = exports.GrammarSentenceExplanationSchema = exports.GrammarExplanationSchema = exports.WordExplanationSchema = exports.ConjugationTableSchema = exports.KanjiBreakdownSchema = exports.TranslationResultSchema = exports.PartialTranslationSchema = exports.TranslationHintSchema = exports.GrammarNoteSchema = exports.VocabularyItemSchema = exports.DifficultySchema = exports.JLPTLevelSchema = void 0;
 exports.validateAIResponse = validateAIResponse;
 exports.safeValidateAIResponse = safeValidateAIResponse;
 exports.applyDefaults = applyDefaults;
@@ -274,6 +274,7 @@ function applyDefaults(data, defaults) {
 // Multi-Step Story Generation Schemas
 // ============================================
 var story_schemas_1 = require("./story-schemas");
+Object.defineProperty(exports, "STORY_SCHEMA_VERSION", { enumerable: true, get: function () { return story_schemas_1.STORY_SCHEMA_VERSION; } });
 Object.defineProperty(exports, "CharacterSheetSchema", { enumerable: true, get: function () { return story_schemas_1.CharacterSheetSchema; } });
 Object.defineProperty(exports, "StoryOutlineSchema", { enumerable: true, get: function () { return story_schemas_1.StoryOutlineSchema; } });
 Object.defineProperty(exports, "OutlinePageSchema", { enumerable: true, get: function () { return story_schemas_1.OutlinePageSchema; } });

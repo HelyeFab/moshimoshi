@@ -3978,8 +3978,12 @@ export const strings = {
       grammarWords: 'Grammatikwörter',
       allWords: 'Alle Wörter',
       clearSession: 'Sitzung löschen',
+      clearSessionConfirm: 'Dies löscht Ihre aktuelle Sitzung und setzt den Player zurück. Diese Aktion kann nicht rückgängig gemacht werden.',
       clearButton: 'Löschen',
     },
+
+    clearSessionButton: 'Sitzung löschen',
+
     lockScreen: {
       title: 'Bildschirm gesperrt',
       tapToUnlock: 'Tippe 3x auf Moshi zum Entsperren',

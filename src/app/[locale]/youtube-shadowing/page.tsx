@@ -11,7 +11,7 @@ import WordExplanationModal from "@/components/word/WordExplanationModal";
 import { GrammarHighlightedText } from "@/components/reading/GrammarHighlightedText";
 import { PlayIcon, PauseIcon } from "@heroicons/react/24/solid";
 import { useI18n } from "@/i18n/I18nContext";
-import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw, Lock, X } from "lucide-react";
+import { Settings, Repeat, Type, Highlighter, ChevronDown, Trash2, Link, Play, Languages, RefreshCw, Lock, X, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { LockScreen } from "@/components/ui/LockScreen";
 import Modal from "@/components/ui/Modal";
@@ -107,6 +107,7 @@ function YouTubeShadowingContent() {
   const [showUrlInput, setShowUrlInput] = useState(true);
   const [videoLoopEnabled, setVideoLoopEnabled] = useState(false);
   const [isScreenLocked, setIsScreenLocked] = useState(false);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
   const repeatCountDisplay = videoLoopEnabled ? 1 : repeatCount;
   const currentRepeatDisplay = videoLoopEnabled ? 1 : currentRepeat;
 
@@ -654,12 +655,25 @@ function YouTubeShadowingContent() {
                 )}
               </div>
 
-              {/* YouTube Button - small pill on left side */}
-              {videoId && (
-                <div className={styles.youtubeButtonWrapper}>
-                  <YouTubeButton videoId={videoId} />
-                </div>
-              )}
+              <div className={styles.videoBottomRow}>
+                {/* YouTube Button - small pill on left side */}
+                {videoId && (
+                  <div className={styles.youtubeButtonWrapper}>
+                    <YouTubeButton videoId={videoId} />
+                  </div>
+                )}
+
+                {/* Clear Session Button - bottom right */}
+                {videoId && (
+                  <button
+                    onClick={() => setShowClearConfirm(true)}
+                    className={styles.clearSessionButton}
+                    title={t("youtubeShadowing.settings.clearSession")}
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Current Segment Card - Hero Style */}
@@ -701,131 +715,196 @@ function YouTubeShadowingContent() {
                 </div>
               )}
             </div>
+
+            {/* URL Input Form - Card Style */}
+            {!segments.length && (
+              <form className={styles.controls} onSubmit={handleSubmit}>
+                <div className={styles.loadVideoCard}>
+                  <div className={styles.loadVideoHeader}>
+                    <div className={styles.loadVideoIcon}>
+                      <Play className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <h3 className={styles.loadVideoTitle}>{t('youtubeShadowing.form.cardTitle')}</h3>
+                      <p className={styles.loadVideoSubtitle}>{t('youtubeShadowing.form.cardSubtitle')}</p>
+                    </div>
+                  </div>
+                  <div className={styles.urlRow}>
+                    <div className={styles.inputWrapper}>
+                      <Link className={`w-4 h-4 ${styles.inputIcon}`} />
+                      <input
+                        ref={urlInputRef}
+                        id="video"
+                        name="video"
+                        className={styles.urlInput}
+                        placeholder={t('youtubeShadowing.form.videoPlaceholder')}
+                        value={videoInput}
+                        onChange={(e) => setVideoInput(e.target.value)}
+                      />
+                      <AnimatePresence>
+                        {videoInput && (
+                          <motion.button
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            type="button"
+                            onClick={() => {
+                              setVideoInput("");
+                              urlInputRef.current?.focus();
+                            }}
+                            className={styles.clearButton}
+                            aria-label={t('common.clear')}
+                          >
+                            <X className="w-4 h-4" />
+                          </motion.button>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                    <button
+                      className={styles.loadButton}
+                      type="submit"
+                      disabled={loadingTranscript}
+                    >
+                      {loadingTranscript ? (
+                        <span className={styles.loadingSpinner} />
+                      ) : (
+                        t('youtubeShadowing.form.loadButton')
+                      )}
+                    </button>
+                  </div>
+                  {(error || status) && (
+                    <div className={styles.statusBar}>
+                      {error ? <span className={styles.error}>{error}</span> : <span className={styles.status}>{status}</span>}
+                    </div>
+                  )}
+                </div>
+              </form>
+            )}
           </div>
 
-          {/* Transcript List */}
+          {/* Transcript List / Featured Video */}
           <div className={styles.transcriptColumn}>
-            <div className={styles.transcriptListSection}>
-              {segments.length > 0 && (
+            {segments.length > 0 ? (
+              <div className={styles.transcriptListSection}>
                 <h3 className={styles.listTitle}>{t('youtubeShadowing.player.transcript.title')}</h3>
-              )}
-              <div className={`${styles.segmentList} scrollbar-hide`}>
-                {segments.map((segment, index) => {
-                  const active = index === currentSegmentIndex;
-                  return (
-                    <div
-                      key={`${segment.start}-${index}`}
-                      className={`${styles.segment} ${active ? styles.segmentActive : ""}`}
-                    >
-                        {/* Repeat badge - top right corner */}
-                      {active && (
-                        <span className={styles.repeatBadge}>
-                          {currentRepeatDisplay}/{repeatCountDisplay}
-                        </span>
-                      )}
-                      <div className={styles.segmentHeader}>
-                        <button
-                          className={styles.jumpButton}
-                          onClick={() => seekToSegment(index)}
-                          title="Jump to this segment"
-                        >
-                          <PlayIcon className={styles.jumpIcon} />
-                        </button>
-                        <div className={styles.segmentMeta}>
-                          <span>
-                            {index + 1}. {segment.start.toFixed(2)}s – {segment.end.toFixed(2)}s
+                <div className={`${styles.segmentList} scrollbar-hide`}>
+                  {segments.map((segment, index) => {
+                    const active = index === currentSegmentIndex;
+                    return (
+                      <div
+                        key={`${segment.start}-${index}`}
+                        className={`${styles.segment} ${active ? styles.segmentActive : ""}`}
+                      >
+                          {/* Repeat badge - top right corner */}
+                        {active && (
+                          <span className={styles.repeatBadge}>
+                            {currentRepeatDisplay}/{repeatCountDisplay}
                           </span>
+                        )}
+                        <div className={styles.segmentHeader}>
+                          <button
+                            className={styles.jumpButton}
+                            onClick={() => seekToSegment(index)}
+                            title="Jump to this segment"
+                          >
+                            <PlayIcon className={styles.jumpIcon} />
+                          </button>
+                          <div className={styles.segmentMeta}>
+                            <span>
+                              {index + 1}. {segment.start.toFixed(2)}s – {segment.end.toFixed(2)}s
+                            </span>
+                          </div>
+                        </div>
+                        <div className={styles.segmentTextSmall}>
+                          <GrammarHighlightedText
+                            text={segment.text}
+                            highlightMode={highlightMode}
+                            showFurigana={showFurigana}
+                            onWordClick={(word, e) => {
+                              e.stopPropagation();
+                              handleWordTap(word, segment.text);
+                            }}
+                          />
                         </div>
                       </div>
-                      <div className={styles.segmentTextSmall}>
-                        <GrammarHighlightedText
-                          text={segment.text}
-                          highlightMode={highlightMode}
-                          showFurigana={showFurigana}
-                          onWordClick={(word, e) => {
-                            e.stopPropagation();
-                            handleWordTap(word, segment.text);
-                          }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            ) : (
+              <div className={styles.featuredVideoWrapper}>
+                {/* Featured Video Card */}
+                <div className={styles.featuredCard}>
+                  <div className={styles.featuredBadge}>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Featured</span>
+                  </div>
+
+                  <div className={styles.featuredThumbnail}>
+                    <img
+                      src="https://i.ytimg.com/vi/ofkWnxFRclY/maxresdefault.jpg"
+                      alt="Easy Japanese Listening [JLPT N5–N4] A Christmas Carol"
+                      className={styles.thumbnailImage}
+                    />
+                    <div className={styles.playOverlay}>
+                      <button
+                        onClick={() => {
+                          setVideoInput("https://www.youtube.com/watch?v=ofkWnxFRclY");
+                          void loadTranscript("https://www.youtube.com/watch?v=ofkWnxFRclY");
+                        }}
+                        className={styles.playButton}
+                      >
+                        <Play className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className={styles.featuredContent}>
+                    <h3 className={styles.featuredTitle}>
+                      Easy Japanese Listening [JLPT N5–N4] A Christmas Carol
+                    </h3>
+                    <p className={styles.featuredChannel}>OYASUMI JAPANESE CHANNEL</p>
+                    <p className={styles.featuredDescription}>
+                      "Created by Tomo, this channel reimagines language learning as a serene experience — where words flow like a gentle stream, stories reveal themselves naturally, and Japanese becomes something to immerse in, not just practice."
+                    </p>
+                    <button
+                      onClick={() => {
+                        setVideoInput("https://www.youtube.com/watch?v=ofkWnxFRclY");
+                        void loadTranscript("https://www.youtube.com/watch?v=ofkWnxFRclY");
+                      }}
+                      className={styles.startButton}
+                    >
+                      <Play className="w-4 h-4" />
+                      Start Learning
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
-
-        {/* URL Input Form - Card Style */}
-        {!segments.length && (
-          <form className={styles.controls} onSubmit={handleSubmit}>
-            <div className={styles.loadVideoCard}>
-              <div className={styles.loadVideoHeader}>
-                <div className={styles.loadVideoIcon}>
-                  <Play className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className={styles.loadVideoTitle}>{t('youtubeShadowing.form.cardTitle')}</h3>
-                  <p className={styles.loadVideoSubtitle}>{t('youtubeShadowing.form.cardSubtitle')}</p>
-                </div>
-              </div>
-              <div className={styles.urlRow}>
-                <div className={styles.inputWrapper}>
-                  <Link className={`w-4 h-4 ${styles.inputIcon}`} />
-                  <input
-                    ref={urlInputRef}
-                    id="video"
-                    name="video"
-                    className={styles.urlInput}
-                    placeholder={t('youtubeShadowing.form.videoPlaceholder')}
-                    value={videoInput}
-                    onChange={(e) => setVideoInput(e.target.value)}
-                  />
-                  <AnimatePresence>
-                    {videoInput && (
-                      <motion.button
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        exit={{ opacity: 0, scale: 0.8 }}
-                        type="button"
-                        onClick={() => {
-                          setVideoInput("");
-                          urlInputRef.current?.focus();
-                        }}
-                        className={styles.clearButton}
-                        aria-label={t('common.clear')}
-                      >
-                        <X className="w-4 h-4" />
-                      </motion.button>
-                    )}
-                  </AnimatePresence>
-                </div>
-                <button
-                  className={styles.loadButton}
-                  type="submit"
-                  disabled={loadingTranscript}
-                >
-                  {loadingTranscript ? (
-                    <span className={styles.loadingSpinner} />
-                  ) : (
-                    t('youtubeShadowing.form.loadButton')
-                  )}
-                </button>
-              </div>
-              {(error || status) && (
-                <div className={styles.statusBar}>
-                  {error ? <span className={styles.error}>{error}</span> : <span className={styles.status}>{status}</span>}
-                </div>
-              )}
-            </div>
-          </form>
-        )}
       </main>
 
       {/* Sticky Bottom Control Bar */}
       {segments.length > 0 && (
         <div className={styles.bottomControlBar}>
           <div className={styles.controlBarInner}>
+            {/* Top-left curved white border accent */}
+            <div
+              className="absolute inset-0 rounded-full border-2 border-white/50 pointer-events-none z-20"
+              style={{
+                maskImage: "linear-gradient(135deg, black 0%, black 5%, transparent 12%)",
+                WebkitMaskImage: "linear-gradient(135deg, black 0%, black 5%, transparent 12%)",
+              }}
+            />
+            {/* Bottom-right curved white border accent */}
+            <div
+              className="absolute inset-0 rounded-full border-2 border-white/50 pointer-events-none z-20"
+              style={{
+                maskImage: "linear-gradient(-45deg, black 0%, black 5%, transparent 12%)",
+                WebkitMaskImage: "linear-gradient(-45deg, black 0%, black 5%, transparent 12%)",
+              }}
+            />
 
             {/* Previous / Replay */}
             <button
@@ -927,19 +1006,65 @@ function YouTubeShadowingContent() {
                 <Repeat className="w-4 h-4 text-primary-500" />
                 {t("youtubeShadowing.form.repeatLabel")}
               </label>
-              <span className="text-lg font-semibold text-primary-500">{repeatCount}x</span>
             </div>
-            <input
-              type="range"
-              min={1}
-              max={10}
-              value={repeatCount}
-              onChange={(e) => handleRepeatChange(Number(e.target.value))}
-              disabled={videoLoopEnabled}
-              className="w-full h-2 bg-gray-200 dark:bg-dark-600 rounded-lg appearance-none cursor-pointer accent-primary-500 disabled:cursor-not-allowed"
-            />
+
+            {/* Quick preset buttons */}
+            <div className="grid grid-cols-5 gap-2 mb-3">
+              {[1, 2, 3, 5, 10].map((preset) => (
+                <button
+                  key={preset}
+                  onClick={() => handleRepeatChange(preset)}
+                  disabled={videoLoopEnabled}
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                    repeatCount === preset
+                      ? 'bg-primary-500 text-white'
+                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                  } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                  {preset}x
+                </button>
+              ))}
+            </div>
+
+            {/* Stepper controls */}
+            <div className="flex items-center justify-center gap-4 p-3 bg-gray-100 dark:bg-dark-800 rounded-lg">
+              <button
+                onClick={() => handleRepeatChange(Math.max(1, repeatCount - 1))}
+                disabled={repeatCount <= 1 || videoLoopEnabled}
+                className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">−</span>
+              </button>
+
+              <div className="flex flex-col items-center gap-1">
+                <input
+                  type="number"
+                  min="1"
+                  max="10"
+                  value={repeatCount}
+                  onChange={(e) => {
+                    const value = Math.max(1, Math.min(10, Number(e.target.value)));
+                    handleRepeatChange(value);
+                  }}
+                  disabled={videoLoopEnabled}
+                  className="w-16 px-2 py-2 text-center text-lg font-semibold border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-700 focus:ring-2 focus:ring-primary-500 focus:border-transparent disabled:opacity-50 disabled:cursor-not-allowed"
+                />
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  repeats
+                </span>
+              </div>
+
+              <button
+                onClick={() => handleRepeatChange(Math.min(10, repeatCount + 1))}
+                disabled={repeatCount >= 10 || videoLoopEnabled}
+                className="w-10 h-10 flex items-center justify-center rounded-lg bg-white dark:bg-dark-700 border border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-dark-600 transition-colors active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <span className="text-xl font-semibold text-gray-700 dark:text-gray-300">+</span>
+              </button>
+            </div>
+
             {videoLoopEnabled && (
-              <p className="text-xs text-gray-400 mt-2 italic">
+              <p className="text-xs text-gray-400 mt-2 italic text-center">
                 {t("youtubeShadowing.settings.repeatDisabledByLoop")}
               </p>
             )}
@@ -997,20 +1122,6 @@ function YouTubeShadowingContent() {
               ]}
             />
           </div>
-
-          {/* Clear Session */}
-          <div className="flex items-center justify-between py-3">
-            <button
-              onClick={() => {
-                clearSession();
-                setSettingsModalOpen(false);
-              }}
-              className="w-full py-2 rounded-lg text-sm font-medium bg-red-50 text-red-600 hover:bg-red-100 transition-colors flex items-center justify-center gap-2"
-            >
-              <Trash2 className="w-4 h-4" />
-              {t("youtubeShadowing.settings.clearSession")}
-            </button>
-          </div>
         </div>
       </Modal>
 
@@ -1037,6 +1148,69 @@ function YouTubeShadowingContent() {
         title={t("youtubeShadowing.lockScreen.title")}
         unlockText={t("youtubeShadowing.lockScreen.tapToUnlock")}
       />
+
+      {/* Clear Session Confirmation Modal */}
+      <AnimatePresence>
+        {showClearConfirm && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50"
+            onClick={() => setShowClearConfirm(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.8, opacity: 0, y: 50 }}
+              animate={{ scale: 1, opacity: 1, y: 0 }}
+              exit={{ scale: 0.8, opacity: 0, y: 50 }}
+              transition={{ type: 'spring', duration: 0.5 }}
+              className="bg-white/95 dark:bg-dark-800/95 backdrop-blur-2xl rounded-3xl p-8 max-w-md w-full shadow-2xl border border-white/20"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <div className="text-center mb-6">
+                <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
+                  <Trash2 className="w-8 h-8 text-red-600 dark:text-red-400" />
+                </div>
+                <h3 className="text-2xl font-bold mb-2">{t("youtubeShadowing.settings.clearSession")}</h3>
+                <p className="text-muted-foreground">
+                  {t("youtubeShadowing.settings.clearSessionConfirm")}
+                </p>
+              </div>
+
+              {videoMetadata && (
+                <div className="bg-gray-50/50 dark:bg-dark-700/50 backdrop-blur rounded-xl p-4 mb-6">
+                  <p className="font-semibold line-clamp-2 mb-1">
+                    {videoMetadata.title}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {videoMetadata.channelTitle}
+                  </p>
+                </div>
+              )}
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setShowClearConfirm(false)}
+                  className="flex-1 px-6 py-3 bg-gray-100 dark:bg-dark-700 text-foreground rounded-xl hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors font-medium"
+                >
+                  {t('common.cancel')}
+                </button>
+                <motion.button
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  onClick={() => {
+                    clearSession();
+                    setShowClearConfirm(false);
+                  }}
+                  className="flex-1 px-6 py-3 bg-gradient-to-r from-red-500 to-red-600 text-white rounded-xl hover:from-red-600 hover:to-red-700 transition-all duration-300 flex items-center justify-center font-medium shadow-lg"
+                >
+                  {t("youtubeShadowing.clearSessionButton")}
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <MobileNavSpacer />
     </div>

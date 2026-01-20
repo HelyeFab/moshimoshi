@@ -4403,8 +4403,11 @@ export const strings = {
       grammarWords: 'Grammar words',
       allWords: 'All words',
       clearSession: 'Clear Session',
+      clearSessionConfirm: 'This will clear your current session and reset the player. This action cannot be undone.',
       clearButton: 'Clear',
     },
+
+    clearSessionButton: 'Clear Session',
 
     lockScreen: {
       title: 'Screen Locked',

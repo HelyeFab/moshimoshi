@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-16T17:24:50.526Z
+ * Generated at: 2026-01-20T19:27:55.750Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -83,8 +83,8 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "pwa_badging": 0,
           "pwa_media_session": 0,
           "word_lookup": 15,
-          "news": 2,
-          "story": 2,
+          "news": 5,
+          "story": 5,
           "books": 0,
           "kanji_mood_board": 5,
           "drill": 5,

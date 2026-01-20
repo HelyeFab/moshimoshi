@@ -3960,8 +3960,12 @@ export const strings = {
       grammarWords: 'Parole grammaticali',
       allWords: 'Tutte le parole',
       clearSession: 'Cancella sessione',
+      clearSessionConfirm: 'Questo cancellerà la tua sessione attuale e resetterà il lettore. Questa azione non può essere annullata.',
       clearButton: 'Cancella',
     },
+
+    clearSessionButton: 'Cancella sessione',
+
     lockScreen: {
       title: 'Schermo bloccato',
       tapToUnlock: 'Tocca Moshi 3 volte per sbloccare',

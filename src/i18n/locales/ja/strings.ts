@@ -4126,8 +4126,12 @@ export const strings = {
       grammarWords: '文法語',
       allWords: 'すべての単語',
       clearSession: 'セッションをクリア',
+      clearSessionConfirm: '現在のセッションをクリアしてプレーヤーをリセットします。この操作は元に戻せません。',
       clearButton: 'クリア',
     },
+
+    clearSessionButton: 'セッションをクリア',
+
     lockScreen: {
       title: '画面ロック中',
       tapToUnlock: 'ドシを3回タップして解除',

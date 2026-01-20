@@ -6,12 +6,24 @@
  * They match the existing TypeScript interfaces but provide runtime validation.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PageImagePromptSchema = exports.ModelSheetPromptSchema = exports.QuizQuestionsResponseSchema = exports.StoryOutlineSchema = exports.OutlinePageSchema = exports.CharacterSheetSchema = exports.SettingSchema = exports.CharacterSchema = exports.GeneratedStorySchema = exports.VocabularyItemSchema = exports.StoryPageSchema = exports.ReviewQuestionSchema = exports.JLPTLevelSchema = void 0;
+exports.PageImagePromptSchema = exports.ModelSheetPromptSchema = exports.QuizQuestionsResponseSchema = exports.StoryOutlineSchema = exports.OutlinePageSchema = exports.CharacterSheetSchema = exports.SettingSchema = exports.CharacterSchema = exports.GeneratedStorySchema = exports.VocabularyItemSchema = exports.StoryPageSchema = exports.ReviewQuestionSchema = exports.JLPTLevelSchema = exports.STORY_SCHEMA_VERSION = void 0;
 exports.validateStory = validateStory;
 exports.validateCharacterSheet = validateCharacterSheet;
 exports.validateStoryOutline = validateStoryOutline;
 exports.validateStoryPage = validateStoryPage;
 const zod_1 = require("zod");
+// ============================================
+// Schema Version Tracking
+// ============================================
+/**
+ * Schema version for tracking deployments and detecting issues.
+ * Increment when making breaking changes to schemas.
+ *
+ * Version History:
+ * - 1.0.0: Initial schema with textWithFurigana required
+ * - 1.1.0: Added bilingual quiz validation (questionJa, explanationJa required)
+ */
+exports.STORY_SCHEMA_VERSION = '1.1.0';
 // ============================================
 // JLPT Level Schema
 // ============================================
@@ -138,11 +150,12 @@ exports.QuizQuestionsResponseSchema = zod_1.z.object({
     questions: zod_1.z.array(zod_1.z.object({
         id: zod_1.z.string(),
         question: zod_1.z.string(),
-        questionJa: zod_1.z.string(),
+        questionJa: zod_1.z.string().describe('Japanese question in plain text (no ruby tags, furigana will be added automatically)'),
         options: zod_1.z.array(zod_1.z.string()),
+        optionsJa: zod_1.z.array(zod_1.z.string()).describe('Japanese options in plain text (no ruby tags, furigana will be added automatically)'),
         correctIndex: zod_1.z.number().int().min(0), // AI returns correctIndex, we'll map to correctAnswer
         explanation: zod_1.z.string(),
-        explanationJa: zod_1.z.string(),
+        explanationJa: zod_1.z.string().describe('Japanese explanation in plain text (no ruby tags)'),
     })),
 });
 // ============================================

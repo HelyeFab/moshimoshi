@@ -3933,8 +3933,12 @@ export const strings = {
       grammarWords: 'Mots grammaticaux',
       allWords: 'Tous les mots',
       clearSession: 'Effacer la session',
+      clearSessionConfirm: 'Cela effacera votre session actuelle et réinitialisera le lecteur. Cette action ne peut pas être annulée.',
       clearButton: 'Effacer',
     },
+
+    clearSessionButton: 'Effacer la session',
+
     lockScreen: {
       title: 'Écran verrouillé',
       tapToUnlock: 'Touchez Moshi 3 fois pour déverrouiller',

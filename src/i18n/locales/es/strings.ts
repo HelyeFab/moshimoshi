@@ -3883,8 +3883,12 @@ export const strings = {
       grammarWords: 'Palabras gramaticales',
       allWords: 'Todas las palabras',
       clearSession: 'Borrar sesión',
+      clearSessionConfirm: 'Esto borrará tu sesión actual y reiniciará el reproductor. Esta acción no se puede deshacer.',
       clearButton: 'Borrar',
     },
+
+    clearSessionButton: 'Borrar sesión',
+
     lockScreen: {
       title: 'Pantalla bloqueada',
       tapToUnlock: 'Toca a Moshi 3 veces para desbloquear',
