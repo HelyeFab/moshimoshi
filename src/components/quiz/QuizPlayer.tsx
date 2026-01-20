@@ -13,7 +13,6 @@
 
 import React, { useState, useEffect } from 'react'
 import { BaseQuizQuestion, isMultipleChoiceQuestion, isAnswerCorrect } from '@/types/quiz'
-import { RubyText } from '@/components/quiz/RubyText'
 import { useI18n } from '@/i18n/I18nContext'
 import { useQuizAutoSave } from '@/hooks/useQuizAutoSave'
 import { useGamificationStore } from '@/state/userGamification'
@@ -440,6 +439,68 @@ export function QuizPlayer({
 }
 
 /**
+ * Component to render Japanese text with furigana using the API
+ * Similar to EnhancedArticleReader's FuriganaTextCore
+ */
+function FuriganaText({
+  text,
+  showFurigana,
+  className = '',
+}: {
+  text: string
+  showFurigana: boolean
+  className?: string
+}) {
+  const [furiganaHtml, setFuriganaHtml] = useState<string>(text)
+  const [loading, setLoading] = useState(false)
+
+  useEffect(() => {
+    if (!text || !showFurigana) {
+      setFuriganaHtml(text)
+      return
+    }
+
+    async function fetchFurigana() {
+      setLoading(true)
+      try {
+        const response = await fetch('/api/furigana', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+        })
+
+        if (!response.ok) throw new Error('Failed to fetch furigana')
+
+        const data = await response.json()
+        setFuriganaHtml(data.result || text)
+      } catch (error) {
+        console.error('Failed to fetch furigana:', error)
+        setFuriganaHtml(text)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchFurigana()
+  }, [text, showFurigana])
+
+  if (!showFurigana) {
+    return <div className={`text-lg font-medium text-white ${className}`}>{text}</div>
+  }
+
+  return (
+    <div
+      className={`japanese-text text-lg font-medium text-white ${className}`}
+      dangerouslySetInnerHTML={{ __html: furiganaHtml }}
+      style={{
+        lineHeight: showFurigana ? '2.5' : '1.5',
+      }}
+      css-ruby="true"
+    />
+  )
+}
+
+/**
  * Individual question component
  */
 interface QuizQuestionProps {
@@ -469,7 +530,7 @@ function QuizQuestion({
   isSubmitted,
   correctAnswer,
 }: QuizQuestionProps) {
-  const hasJapaneseQuestion = question.questionJa && question.questionJa.includes('<ruby>')
+  const hasJapaneseQuestion = !!question.questionJa
   const englishQuestion = question.question
   const japaneseQuestion = question.questionJa
 
@@ -494,14 +555,14 @@ function QuizQuestion({
         <div className="mt-2 space-y-2">
           {/* Show Japanese with furigana if available */}
           {hasJapaneseQuestion && japaneseQuestion && (
-            <RubyText
+            <FuriganaText
               text={japaneseQuestion}
               showFurigana={showFurigana}
             />
           )}
 
-          {/* Show English translation (except in Japanese locale where we only show Japanese) */}
-          {showTranslation && language !== 'ja' && englishQuestion && (
+          {/* Show English translation for bilingual quiz experience */}
+          {showTranslation && englishQuestion && (
             <p className="text-base text-gray-400 mt-2">{englishQuestion}</p>
           )}
 
@@ -518,6 +579,7 @@ function QuizQuestion({
           const isSelected = answer === oIndex
           const isCorrect = isSubmitted && correctAnswer === oIndex
           const isWrong = isSubmitted && isSelected && !isCorrect
+          const japaneseOption = question.optionsJa?.[oIndex]
 
           return (
             <label
@@ -543,7 +605,24 @@ function QuizQuestion({
                 className="w-5 h-5 accent-primary-500"
               />
 
-              <span className="flex-1 text-white">{option}</span>
+              <div className="flex-1">
+                {/* Show Japanese option if available */}
+                {japaneseOption && (
+                  <FuriganaText
+                    text={japaneseOption}
+                    showFurigana={showFurigana}
+                    className="text-base"
+                  />
+                )}
+                {/* Show English translation below in gray */}
+                {showTranslation && option && (
+                  <p className={`text-sm text-gray-400 ${japaneseOption ? 'mt-1' : ''}`}>{option}</p>
+                )}
+                {/* Fallback: if no Japanese, show English as main text */}
+                {!japaneseOption && !showTranslation && (
+                  <span className="text-white">{option}</span>
+                )}
+              </div>
 
               {isSubmitted && isCorrect && <CheckCircle size={20} className="text-green-500" />}
               {isSubmitted && isWrong && <XCircle size={20} className="text-red-500" />}

@@ -2300,11 +2300,6 @@ export default function EnhancedArticleReader({
   if (showQuiz && quiz && quiz.length > 0) {
     return (
       <>
-        {/* Desktop Navbar */}
-        <div className="hidden sm:block">
-          <Navbar user={user} showUserMenu={true} />
-        </div>
-
         <QuizPlayer
           questions={quiz}
           contentType={isStoryMode ? 'story' : 'comic'}
@@ -2313,7 +2308,7 @@ export default function EnhancedArticleReader({
           onComplete={handleQuizComplete}
           onExit={handleQuizFinish}
           onBack={() => setShowQuiz(false)}
-          showTranslation={settings.translationMode !== 'off'}
+          showTranslation={true}
           enableAutoSave={true}
           showFurigana={settings.showFurigana}
           fontSize={settings.fontSize}

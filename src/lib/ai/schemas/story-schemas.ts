@@ -168,11 +168,12 @@ export const QuizQuestionsResponseSchema = z.object({
     z.object({
       id: z.string(),
       question: z.string(),
-      questionJa: z.string(),
+      questionJa: z.string().describe('Japanese question in plain text (no ruby tags, furigana will be added automatically)'),
       options: z.array(z.string()),
+      optionsJa: z.array(z.string()).describe('Japanese options in plain text (no ruby tags, furigana will be added automatically)'),
       correctIndex: z.number().int().min(0), // AI returns correctIndex, we'll map to correctAnswer
       explanation: z.string(),
-      explanationJa: z.string(),
+      explanationJa: z.string().describe('Japanese explanation in plain text (no ruby tags)'),
     })
   ),
 });

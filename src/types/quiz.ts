@@ -30,6 +30,9 @@ export interface BaseQuizQuestion {
   /** Array of answer options for multiple-choice questions */
   options: string[]
 
+  /** Array of answer options in Japanese with furigana (optional) */
+  optionsJa?: string[]
+
   /**
    * UNIFIED FIELD: The correct answer
    * - For multiple-choice questions: number (0-based index into options array)

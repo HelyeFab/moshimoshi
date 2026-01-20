@@ -47,11 +47,12 @@ You MUST return a JSON object in EXACTLY this format:
     {
       "id": "q1",
       "question": "Question in English",
-      "questionJa": "この<ruby>物語<rt>ものがたり</rt></ruby>について<ruby>質問<rt>しつもん</rt></ruby>です。",
-      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "questionJa": "この物語について質問です。",
+      "options": ["Option A in English", "Option B in English", "Option C in English", "Option D in English"],
+      "optionsJa": ["選択肢A", "選択肢B", "選択肢C", "選択肢D"],
       "correctIndex": 0,
       "explanation": "Why this answer is correct",
-      "explanationJa": "<ruby>説明<rt>せつめい</rt></ruby>を<ruby>日本語<rt>にほんご</rt></ruby>で"
+      "explanationJa": "説明を日本語で"
     }
   ]
 }
@@ -59,15 +60,23 @@ You MUST return a JSON object in EXACTLY this format:
 **CRITICAL RULES:**
 1. BOTH question (English) AND questionJa (Japanese) are REQUIRED for all questions
 2. BOTH explanation (English) AND explanationJa (Japanese) are REQUIRED for all questions
-3. questionJa must wrap ALL kanji in <ruby> tags with furigana: <ruby>漢字<rt>かんじ</rt></ruby>
-4. Do NOT use parentheses format - use <ruby><rt> tags only
-5. Do NOT reveal the answer in the question text
-6. Each question must have EXACTLY 4 options
+3. BOTH options (English) AND optionsJa (Japanese) are REQUIRED for all questions
+4. Write questionJa, optionsJa, and explanationJa in PLAIN JAPANESE TEXT ONLY
+5. DO NOT add furigana, ruby tags, or parentheses - use plain kanji and kana
+6. Furigana will be added automatically by the system later
+7. Do NOT reveal the answer in the question text
+8. Each question must have EXACTLY 4 options
 
-**Ruby Tag Examples:**
-- この<ruby>言葉<rt>ことば</rt></ruby>の<ruby>意味<rt>いみ</rt></ruby>は<ruby>何<rt>なん</rt></ruby>ですか？
-- <ruby>主人公<rt>しゅじんこう</rt></ruby>は<ruby>誰<rt>だれ</rt></ruby>ですか？
-- <ruby>物語<rt>ものがたり</rt></ruby>の<ruby>最初<rt>さいしょ</rt></ruby>に<ruby>何<rt>なに</rt></ruby>が<ruby>起<rt>お</rt></ruby>こりましたか？`;
+**PLAIN TEXT Examples (CORRECT):**
+- questionJa: "この言葉の意味は何ですか？"
+- questionJa: "主人公は誰ですか？"
+- questionJa: "物語の最初に何が起こりましたか？"
+- optionsJa: ["選択肢A", "選択肢B", "選択肢C", "選択肢D"]
+
+**WRONG (Do NOT use these formats):**
+- ❌ "この<ruby>言葉<rt>ことば</rt></ruby>..." (NO ruby tags)
+- ❌ "この言葉(ことば)..." (NO parentheses)
+- ❌ "このことば..." (Use proper kanji, not all hiragana)`;
 }
 
 function calculateQuestionDifficulty(jlptLevel) {
@@ -87,7 +96,7 @@ async function generateQuiz(prompt) {
     messages: [
       {
         role: 'system',
-        content: 'You are an expert in creating educational assessments for Japanese language learners.',
+        content: 'You are an expert in creating educational assessments for Japanese language learners. You MUST return plain Japanese text without any furigana, ruby tags, or formatting.',
       },
       { role: 'user', content: prompt },
     ],
@@ -159,6 +168,7 @@ async function regenerateStoryQuizzes() {
         question: q.question,
         questionJa: q.questionJa,
         options: q.options || [],
+        optionsJa: q.optionsJa || [],
         correctAnswer: q.correctIndex, // Map correctIndex to correctAnswer
         explanation: q.explanation,
         explanationJa: q.explanationJa,
@@ -170,9 +180,16 @@ async function regenerateStoryQuizzes() {
       console.log(`   ✅ Generated ${questions.length} bilingual questions`);
 
       // Validate bilingual fields
-      const missingBilingual = questions.filter(q => !q.questionJa || !q.explanationJa);
+      const missingBilingual = questions.filter(q => !q.questionJa || !q.explanationJa || !q.optionsJa || q.optionsJa.length !== q.options.length);
       if (missingBilingual.length > 0) {
-        console.log(`   ⚠️  WARNING: ${missingBilingual.length} questions missing Japanese fields`);
+        console.log(`   ⚠️  WARNING: ${missingBilingual.length} questions missing Japanese fields (questionJa, optionsJa, or explanationJa)`);
+        missingBilingual.forEach((q, i) => {
+          const issues = [];
+          if (!q.questionJa) issues.push('questionJa');
+          if (!q.explanationJa) issues.push('explanationJa');
+          if (!q.optionsJa || q.optionsJa.length !== q.options.length) issues.push('optionsJa');
+          console.log(`     Question ${i + 1}: Missing ${issues.join(', ')}`);
+        });
       }
 
       // Show sample question

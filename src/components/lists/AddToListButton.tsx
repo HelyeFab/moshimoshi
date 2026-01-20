@@ -10,6 +10,7 @@ import { listManager } from '@/lib/lists/ListManager'
 import { hasRequiredMetadata } from '@/lib/lists/validation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useFeature } from '@/hooks/useFeature'
+import { useRouter } from 'next/navigation'
 import CreateListModal from './CreateListModal'
 import type { UserList, ListType } from '@/types/userLists'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -45,6 +46,8 @@ export default function AddToListButton({
   const { refreshSession } = useSessionRefresh()
   const { showToast } = useToast()
   const { checkAndTrack, checkOnly } = useFeature('save_items')
+  const { checkOnly: checkCustomListsOnly } = useFeature('custom_lists')
+  const router = useRouter()
 
   const [showMenu, setShowMenu] = useState(false)
   const [showCreateModal, setShowCreateModal] = useState(false)
@@ -157,6 +160,40 @@ export default function AddToListButton({
     await new Promise(resolve => setTimeout(resolve, 500))
     await loadUserLists()
     onAdded?.(listId)
+  }
+
+  const handleOpenCreateModal = async () => {
+    if (!user) {
+      showToast(t('lists.errors.signInRequired'), 'error')
+      return
+    }
+
+    const decision = await checkCustomListsOnly({ failOpen: false })
+    if (decision.allow) {
+      setShowCreateModal(true)
+      return
+    }
+
+    const isPremiumUser = isPremium === true
+    if (decision.reason === 'no_permission') {
+      showToast(
+        t('entitlements.messages.upgradeRequired'),
+        'error',
+        5000,
+        {
+          label: t('subscription.actions.viewPlans'),
+          onClick: () => router.push('/pricing')
+        }
+      )
+    } else if (decision.reason === 'limit_reached') {
+      const toastAction = !isPremiumUser ? {
+        label: t('subscription.actions.upgrade'),
+        onClick: () => router.push('/pricing')
+      } : undefined
+      showToast(t('lists.errors.limitReached'), 'warning', 5000, toastAction)
+    } else {
+      showToast(t('entitlements.messages.featureUnavailable'), 'info')
+    }
   }
 
   // These hooks MUST be declared before any conditional returns
@@ -313,9 +350,9 @@ export default function AddToListButton({
 
                   <div className="p-2 border-t border-gray-100 dark:border-dark-700">
                     <button
-                      onClick={() => {
+                      onClick={async () => {
                         setShowMenu(false)
-                        setShowCreateModal(true)
+                        await handleOpenCreateModal()
                       }}
                       className="w-full p-3 rounded-lg bg-primary-50 dark:bg-primary-900/20
                       hover:bg-primary-100 dark:hover:bg-primary-900/30 transition-all

@@ -576,18 +576,22 @@ export default function DrillPage() {
         })
 
         const wordExamples = await Promise.all(wordExamplesPromises)
+        console.log('[Rules Modal] Loaded word examples:', wordExamples)
 
-        // 3. Search Tatoeba for sentences with similar conjugated forms
-        // Use one of the example words' conjugated forms (not the current question word)
+        // 3. Search Tatoeba for sentences with the exact conjugated form
+        // Only show if we find the EXACT form - no base word fallbacks
         let sentences: ExampleSentence[] = []
         if (wordExamples.length > 0 && wordExamples[0].conjugated) {
           try {
+            console.log('[Rules Modal] Searching Tatoeba for exact form:', wordExamples[0].conjugated)
             sentences = await searchTatoebaExamples(wordExamples[0].conjugated, 2)
+            console.log('[Rules Modal] Found', sentences.length, 'sentences with exact conjugation')
           } catch (error) {
             console.error('Failed to load Tatoeba examples:', error)
           }
         }
 
+        console.log('[Rules Modal] Final state:', { wordExamples: wordExamples.length, sentences: sentences.length })
         setRuleExamples({ wordExamples, sentences, loading: false })
       } catch (error) {
         console.error('Failed to load rule examples:', error)
@@ -1354,24 +1358,26 @@ export default function DrillPage() {
 
               {/* Question */}
               <div className="mb-6 sm:mb-8">
-                <div className="flex items-start sm:items-center gap-2 sm:gap-3 mb-3 sm:mb-4 flex-wrap">
-                  <h2 className="text-lg sm:text-xl md:text-2xl font-bold">
-                    {t('drill.conjugateTo')}:{' '}
-                    <span className="text-primary-600">
-                      {currentQuestion.rule}
-                    </span>
-                  </h2>
-                  {settings.showRules && (
+                <h2 className="text-lg sm:text-xl md:text-2xl font-bold mb-2 sm:mb-3">
+                  {t('drill.conjugateTo')}:{' '}
+                  <span className="text-primary-600">
+                    {currentQuestion.rule}
+                  </span>
+                </h2>
+
+                {/* Rules button - own row on mobile, inline on desktop */}
+                {settings.showRules && (
+                  <div className="mb-3 sm:mb-4">
                     <button
                       onClick={() => setShowRulesModal(true)}
                       className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium bg-blue-50 hover:bg-blue-100 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-lg transition-colors border border-blue-200 dark:border-blue-800"
                       aria-label="Show conjugation rules"
                     >
                       <span className="text-base">📖</span>
-                      <span className="hidden sm:inline">Rules</span>
+                      <span>Rules</span>
                     </button>
-                  )}
-                </div>
+                  </div>
+                )}
                 <div className="flex flex-col sm:flex-row sm:items-baseline gap-2 sm:gap-4 mb-2">
                   <span className="text-2xl sm:text-3xl font-medium">
                     {currentQuestion.word.kanji}
@@ -1460,7 +1466,7 @@ export default function DrillPage() {
           >
             <div className="space-y-4">
               {/* Word Type Badge */}
-              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-300 rounded-lg text-sm font-medium">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary-100 dark:bg-primary-900/30 text-primary-800 dark:text-primary-100 rounded-lg text-sm font-medium border border-primary-200 dark:border-primary-700">
                 <span>🏷️</span>
                 <span>{conjugationType || 'Word Type'}</span>
               </div>
@@ -1509,7 +1515,7 @@ export default function DrillPage() {
                   <div className="animate-spin h-6 w-6 border-2 border-primary-500 border-t-transparent rounded-full"></div>
                   <span className="ml-2 text-sm text-gray-600 dark:text-gray-400">Loading examples...</span>
                 </div>
-              ) : ruleExamples.wordExamples.length > 0 && (
+              ) : ruleExamples.wordExamples.length > 0 ? (
                 <div>
                   <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
                     ✨ See the pattern in action
@@ -1532,6 +1538,12 @@ export default function DrillPage() {
                       </div>
                     ))}
                   </div>
+                </div>
+              ) : (
+                <div className="p-3 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+                  <p className="text-sm text-gray-600 dark:text-gray-400">
+                    No similar word examples found. The pattern above is still applicable!
+                  </p>
                 </div>
               )}
 
