@@ -8,20 +8,23 @@ import GenerateKanjiMoodboardModal from '@/components/admin/GenerateKanjiMoodboa
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useMoodBoards } from '@/hooks/useMoodBoards'
 
-// Helper function to adjust color brightness
+// Helper function to adjust color brightness with better color preservation
 function adjustColor(color: string, amount: number): string {
   // If it's already a color function like rgb() or hsl(), return as-is
   if (color.includes('(')) return color
 
-  // Convert hex to RGB, adjust, and return hex
+  // Convert hex to RGB
   const hex = color.replace('#', '')
   const r = parseInt(hex.substring(0, 2), 16)
   const g = parseInt(hex.substring(2, 4), 16)
   const b = parseInt(hex.substring(4, 6), 16)
 
-  const newR = Math.max(0, Math.min(255, r + amount))
-  const newG = Math.max(0, Math.min(255, g + amount))
-  const newB = Math.max(0, Math.min(255, b + amount))
+  // Use percentage-based darkening to preserve color vibrancy
+  const factor = amount < 0 ? 1 + (amount / 100) : 1 + (amount / 100)
+
+  const newR = Math.max(0, Math.min(255, Math.round(r * factor)))
+  const newG = Math.max(0, Math.min(255, Math.round(g * factor)))
+  const newB = Math.max(0, Math.min(255, Math.round(b * factor)))
 
   return `#${((1 << 24) + (newR << 16) + (newG << 8) + newB).toString(16).slice(1)}`
 }
@@ -49,8 +52,8 @@ export default function AdminMoodboardsPage() {
         emoji: data.emoji,
         jlpt: data.jlptLevel || 'N5',
         background: data.themeColor
-          ? `linear-gradient(135deg, ${data.themeColor} 0%, ${adjustColor(data.themeColor, -20)} 100%)`
-          : 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          ? `linear-gradient(135deg, ${data.themeColor} 0%, ${adjustColor(data.themeColor, -25)} 100%)`
+          : 'linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%)',
         kanji: data.kanjiList.map((item: any) => ({
           char: item.kanji,
           meaning: item.meaning,

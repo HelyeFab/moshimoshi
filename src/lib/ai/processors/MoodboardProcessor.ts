@@ -320,16 +320,27 @@ IMPORTANT:
    */
   private generateThemeColor(theme: string): string {
     const colors: Record<string, string> = {
-      'nature': '#4CAF50',
-      'family': '#FF6B6B',
-      'food': '#FFA500',
-      'school': '#2196F3',
-      'work': '#9C27B0',
-      'travel': '#00BCD4',
-      'time': '#FF9800',
-      'weather': '#87CEEB',
-      'emotions': '#E91E63',
-      'body': '#795548'
+      'nature': '#10B981',      // Vibrant emerald green
+      'family': '#F43F5E',      // Bright rose
+      'food': '#F59E0B',        // Bright amber
+      'school': '#3B82F6',      // Bright blue
+      'work': '#8B5CF6',        // Bright violet
+      'travel': '#06B6D4',      // Bright cyan
+      'time': '#F97316',        // Bright orange
+      'weather': '#0EA5E9',     // Bright sky blue
+      'emotions': '#EC4899',    // Bright pink
+      'body': '#EF4444',        // Bright red
+      'shopping': '#A855F7',    // Bright purple
+      'store': '#A855F7',       // Bright purple
+      'talk': '#14B8A6',        // Bright teal
+      'yourself': '#14B8A6',    // Bright teal
+      'pokemon': '#FBBF24',     // Bright yellow/gold
+      'game': '#FBBF24',        // Bright yellow/gold
+      'animal': '#10B981',      // Vibrant green
+      'color': '#EC4899',       // Bright pink
+      'number': '#3B82F6',      // Bright blue
+      'sport': '#F97316',       // Bright orange
+      'music': '#8B5CF6'        // Bright violet
     };
 
     // Check if theme matches any key
@@ -341,7 +352,7 @@ IMPORTANT:
     }
 
     // Default color
-    return '#6B46C1'; // Purple
+    return '#6366F1'; // Bright indigo
   }
 
   /**
