@@ -14,6 +14,7 @@
  *   --dry-run       Show what would be processed without making changes
  *   --limit=N       Process only N items per collection (for testing)
  *   --type=TYPE     Process only one type (article, book, story, comic)
+ *   --id=ID         Process only a specific content item by ID
  */
 
 const admin = require('firebase-admin');
@@ -50,6 +51,8 @@ const limitArg = args.find(arg => arg.startsWith('--limit='));
 const limit = limitArg ? parseInt(limitArg.split('=')[1]) : null;
 const typeArg = args.find(arg => arg.startsWith('--type='));
 const contentType = typeArg ? typeArg.split('=')[1] : null;
+const idArg = args.find(arg => arg.startsWith('--id='));
+const contentId = idArg ? idArg.split('=')[1] : null;
 
 // Content type configurations
 const CONTENT_TYPES = [
@@ -217,13 +220,22 @@ async function processContentType(config) {
 
   try {
     // Fetch all content
-    let query = db.collection(config.collection);
+    let snapshot;
 
-    if (limit) {
-      query = query.limit(limit);
+    if (contentId) {
+      // Fetch specific document by ID
+      const doc = await db.collection(config.collection).doc(contentId).get();
+      snapshot = { docs: doc.exists ? [doc] : [], size: doc.exists ? 1 : 0 };
+    } else {
+      // Fetch all or limited documents
+      let query = db.collection(config.collection);
+
+      if (limit) {
+        query = query.limit(limit);
+      }
+
+      snapshot = await query.get();
     }
-
-    const snapshot = await query.get();
     const total = snapshot.size;
 
     console.log(`Found ${total} ${config.type}(s)\n`);

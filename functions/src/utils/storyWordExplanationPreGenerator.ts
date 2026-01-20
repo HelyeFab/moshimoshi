@@ -231,6 +231,90 @@ async function callQwen(
   }
 }
 
+function escapeControlCharsInStrings(input: string): string {
+  let out = ''
+  let inString = false
+  let escape = false
+
+  for (let i = 0; i < input.length; i += 1) {
+    const ch = input[i]
+
+    if (!inString) {
+      if (ch === '"') {
+        inString = true
+      }
+      out += ch
+      continue
+    }
+
+    if (escape) {
+      out += ch
+      escape = false
+      continue
+    }
+
+    if (ch === '\\') {
+      out += ch
+      escape = true
+      continue
+    }
+
+    if (ch === '"') {
+      inString = false
+      out += ch
+      continue
+    }
+
+    const code = ch.charCodeAt(0)
+    if (code <= 0x1f) {
+      switch (ch) {
+        case '\n':
+          out += '\\n'
+          break
+        case '\r':
+          out += '\\r'
+          break
+        case '\t':
+          out += '\\t'
+          break
+        case '\b':
+          out += '\\b'
+          break
+        case '\f':
+          out += '\\f'
+          break
+        default:
+          out += `\\u${code.toString(16).padStart(4, '0')}`
+          break
+      }
+      continue
+    }
+
+    out += ch
+  }
+
+  return out
+}
+
+function safeJsonParse(input: string): any {
+  try {
+    return JSON.parse(input)
+  } catch (error) {
+    const sanitized = escapeControlCharsInStrings(input)
+    try {
+      return JSON.parse(sanitized)
+    } catch (sanitizedError) {
+      const originalMessage =
+        error instanceof Error ? error.message : 'Unknown parse error'
+      const sanitizedMessage =
+        sanitizedError instanceof Error ? sanitizedError.message : 'Unknown sanitized parse error'
+      throw new Error(
+        `Failed to parse JSON (original: ${originalMessage}; sanitized: ${sanitizedMessage})`
+      )
+    }
+  }
+}
+
 /**
  * Generate comprehensive explanation for a single word
  */
@@ -299,7 +383,7 @@ Return a valid JSON object as specified.`
 
   try {
     const { content, usage } = await callQwen(systemPrompt, userPrompt)
-    const parsed = JSON.parse(content)
+    const parsed = safeJsonParse(content)
 
     // Ensure required fields
     const explanation: WordExplanation = {
