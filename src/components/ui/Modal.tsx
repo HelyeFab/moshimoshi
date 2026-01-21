@@ -114,10 +114,10 @@ export default function Modal({
 
   const modalContent = (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto"
+      className="fixed inset-0 z-50 flex items-center justify-center px-4 overflow-y-auto"
       style={{
-        paddingTop: 'calc(1rem + env(safe-area-inset-top))',
-        paddingBottom: 'calc(1rem + env(safe-area-inset-bottom))',
+        paddingTop: 'calc(0.5rem + env(safe-area-inset-top))',
+        paddingBottom: 'calc(0.5rem + env(safe-area-inset-bottom))',
       }}
     >
       {/* Overlay */}

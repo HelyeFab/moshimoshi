@@ -12,9 +12,10 @@ interface Round3EvaluateProps {
   totalKanji: number
   progress?: KanjiProgress
   onComplete: (rating: number) => void
+  onExit: () => void
 }
 
-export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progress, onComplete }: Round3EvaluateProps) {
+export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progress, onComplete, onExit }: Round3EvaluateProps) {
   const [selectedRating, setSelectedRating] = useState<number | null>(null)
 
   const handleRatingSelect = (rating: number) => {
@@ -179,6 +180,18 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
             Your rating helps determine when you'll review this kanji again
           </p>
         </div>
+      </div>
+
+      <div className="flex items-center justify-center gap-3">
+        <button
+          onClick={onExit}
+          className="p-2 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-300 dark:hover:bg-dark-600 transition-all hover:scale-110"
+          aria-label="Exit session"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       </div>
     </motion.div>
   )

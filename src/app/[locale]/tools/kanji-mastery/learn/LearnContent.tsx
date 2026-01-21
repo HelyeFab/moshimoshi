@@ -4,7 +4,9 @@ import { useState, useEffect, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useToast } from '@/components/ui/Toast/ToastContext'
+import { useI18n } from '@/i18n/I18nContext'
 import { LoadingOverlay } from '@/components/ui/Loading'
+import Dialog from '@/components/ui/Dialog'
 import { motion } from 'framer-motion'
 import { kanjiService } from '@/services/kanjiService'
 import { Kanji } from '@/types/kanji'
@@ -19,6 +21,8 @@ import { ReviewEventType } from '@/lib/review-engine/core/events'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { kanjiMasteryEvents } from '../events'
 import { kanjiMasteryDB } from '@/lib/kanji-mastery/kanjiMasteryDB'
+import { useLocalePath } from '@/i18n/I18nContext'
+import { useGamificationStore } from '@/state/userGamification'
 
 // Import round components
 import Round1Learn from './components/Round1Learn'
@@ -62,16 +66,19 @@ export default function LearnContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { showToast } = useToast()
+  const { t } = useI18n()
   const { user, loading: authLoading, isGuest } = useAuth()
   const { subscription } = useSubscription()
   const { checkOnly } = useFeature('kanji_mastery')
   const { getItem, setItem } = useUserStorage()
+  const { getLocalePath } = useLocalePath()
 
   // Session parameters
   const sessionSize = parseInt(searchParams.get('size') || '5')
   const mode = searchParams.get('mode') as 'jlpt' | 'grade' | 'mixed'
   const level = searchParams.get('level') || 'N5'
   const approach = searchParams.get('approach') as 'smart' | 'linear' || 'smart'
+  const testMode = searchParams.get('testMode') === 'choice' ? 'choice' : 'recall'
 
   // Session state
   const [sessionState, setSessionState] = useState<SessionState>({
@@ -89,6 +96,8 @@ export default function LearnContent() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [sessionComplete, setSessionComplete] = useState(false)
+  const [showExitConfirm, setShowExitConfirm] = useState(false)
+  const [distractorPool, setDistractorPool] = useState<KanjiWithExamples[]>([])
 
   const loadAttemptedRef = useRef(false)
 
@@ -105,14 +114,14 @@ export default function LearnContent() {
 
       if (!user || isGuest) {
         setError('Sign in required to start a kanji mastery session.')
-        router.push('/auth/signin')
+        router.push(getLocalePath('/auth/signin'))
         return
       }
 
       const decision = await checkOnly({ failOpen: false })
       if (!decision.allow) {
         showToast('Daily limit reached for Kanji Mastery.', 'warning')
-        router.push('/tools/kanji-mastery')
+        router.push(getLocalePath('/tools/kanji-mastery'))
         return
       }
 
@@ -159,6 +168,8 @@ export default function LearnContent() {
         return
       }
 
+      setDistractorPool(kanjiData)
+
       // Enrich kanji with examples (we'll implement this later)
       const enrichedKanji = await enrichKanjiData(selected)
 
@@ -194,7 +205,7 @@ export default function LearnContent() {
   const selectKanjiSmartly = async (allKanji: KanjiWithExamples[], requestedSize: number): Promise<KanjiWithExamples[]> => {
     if (!user) return allKanji.slice(0, requestedSize)
 
-    const maxNew = Math.max(1, Math.floor(requestedSize * 0.4))
+    const maxNew = Math.max(1, Math.floor(requestedSize * 0.6))
     const progressRecords = await kanjiMasteryDB.getProgressByUserAndLevel(user.uid, level)
     const progressById = new Map(progressRecords.map(record => [record.kanjiId, record]))
     const now = new Date()
@@ -414,6 +425,10 @@ export default function LearnContent() {
       )
 
       // Emit session complete event for external services (e.g., gamification)
+      const accuracyPercent = Math.round(session.sessionStats.averageAccuracy * 100)
+      const correctCount = Math.round(session.sessionStats.totalKanji * session.sessionStats.averageAccuracy)
+      const durationMs = session.sessionStats.timeSpentSeconds * 1000
+
       if (user) {
         initializeEventHub(user.uid)
         await kanjiMasteryEvents.emit('session:complete', {
@@ -428,10 +443,6 @@ export default function LearnContent() {
           isPremium,
           timestamp: Date.now()
         })
-
-        const accuracyPercent = Math.round(session.sessionStats.averageAccuracy * 100)
-        const correctCount = Math.round(session.sessionStats.totalKanji * session.sessionStats.averageAccuracy)
-        const durationMs = session.sessionStats.timeSpentSeconds * 1000
 
         getEventHub().emit(ReviewEventType.SESSION_COMPLETED, {
           data: {
@@ -452,6 +463,25 @@ export default function LearnContent() {
         })
       }
 
+      if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true') {
+        try {
+          const store = useGamificationStore.getState()
+          store.setLastSessionStats({
+            itemsCompleted: session.sessionStats.totalKanji,
+            accuracy: accuracyPercent,
+            duration: durationMs,
+            xpGained: 0,
+            contentType: 'flashcard',
+            contentTitle: 'Kanji Mastery',
+            difficulty: sessionState.level,
+            readingTimeMs: durationMs
+          })
+          store.incrementSessionCount()
+        } catch (storeError) {
+          console.error('[KanjiMastery] Failed to update gamification store:', storeError)
+        }
+      }
+
       if (user) {
         try {
           await fetch('/api/usage/kanji_mastery/increment', {
@@ -465,12 +495,20 @@ export default function LearnContent() {
       }
 
       // Navigate back to main page
-      router.push('/tools/kanji-mastery')
+      router.push(getLocalePath('/tools/kanji-mastery'))
     } catch (error) {
       console.error('Error completing session:', error)
       showToast('Failed to save session progress', 'error')
-      router.push('/tools/kanji-mastery')
+      router.push(getLocalePath('/tools/kanji-mastery'))
     }
+  }
+
+  const handleExitRequest = () => {
+    setShowExitConfirm(true)
+  }
+
+  const handleExitConfirm = () => {
+    router.push(getLocalePath('/tools/kanji-mastery'))
   }
 
   if (loading) {
@@ -544,7 +582,7 @@ export default function LearnContent() {
             currentIndex={sessionState.currentIndex}
             totalKanji={totalKanji}
             onComplete={handleRound1Complete}
-            onExit={() => router.push('/tools/kanji-mastery')}
+            onExit={handleExitRequest}
           />
         )}
 
@@ -554,6 +592,9 @@ export default function LearnContent() {
             currentIndex={sessionState.currentIndex}
             totalKanji={totalKanji}
             onComplete={handleRound2Complete}
+            onExit={handleExitRequest}
+            testMode={testMode}
+            distractorPool={distractorPool}
           />
         )}
 
@@ -564,9 +605,20 @@ export default function LearnContent() {
             totalKanji={totalKanji}
             progress={sessionState.progress.get(currentKanji.kanji)}
             onComplete={handleRound3Complete}
+            onExit={handleExitRequest}
           />
         )}
       </div>
+      <Dialog
+        isOpen={showExitConfirm}
+        onClose={() => setShowExitConfirm(false)}
+        onConfirm={handleExitConfirm}
+        title={t('kanjiMasteryTool.exitConfirmTitle') || 'Exit session?'}
+        message={t('kanjiMasteryTool.exitConfirmMessage') || 'Your current kanji mastery session will be lost if you leave now.'}
+        confirmText={t('kanjiMasteryTool.exitConfirmConfirm') || 'Exit'}
+        cancelText={t('kanjiMasteryTool.exitConfirmCancel') || 'Keep learning'}
+        type="warning"
+      />
       <MobileNavSpacer />
     </div>
   )

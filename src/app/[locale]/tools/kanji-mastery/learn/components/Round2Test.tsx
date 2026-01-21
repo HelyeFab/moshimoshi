@@ -10,16 +10,29 @@ interface Round2TestProps {
   currentIndex: number
   totalKanji: number
   onComplete: (results: Array<{ type: string; correct: boolean; userAnswer?: string }>) => void
+  onExit: () => void
+  testMode: 'recall' | 'choice'
+  distractorPool?: KanjiWithExamples[]
 }
 
 type TestType = 'meaning' | 'onyomi' | 'kunyomi' | 'recognition'
 
-export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete }: Round2TestProps) {
+export default function Round2Test({
+  kanji,
+  currentIndex,
+  totalKanji,
+  onComplete,
+  onExit,
+  testMode,
+  distractorPool = []
+}: Round2TestProps) {
   const [currentTest, setCurrentTest] = useState(0)
   const [results, setResults] = useState<Array<{ type: string; correct: boolean; userAnswer?: string }>>([])
   const [userInput, setUserInput] = useState('')
   const [showResult, setShowResult] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
+  const [recognitionOptions, setRecognitionOptions] = useState<string[]>([])
+  const [choiceOptions, setChoiceOptions] = useState<string[]>([])
 
   // Reset state when kanji changes
   useEffect(() => {
@@ -28,6 +41,8 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
     setUserInput('')
     setShowResult(false)
     setIsCorrect(false)
+    setRecognitionOptions([])
+    setChoiceOptions([])
   }, [kanji.kanji])
 
   // Define test sequence
@@ -63,11 +78,19 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
 
   const currentTestData = tests[currentTest]
 
-  const checkAnswer = () => {
+  useEffect(() => {
+    if (currentTestData?.type === 'recognition') {
+      setRecognitionOptions(generateKanjiOptions(kanji.kanji, 4, distractorPool))
+    } else if (testMode === 'choice' && currentTestData?.type) {
+      setChoiceOptions(buildMultipleChoiceOptions(currentTestData.type, kanji, distractorPool, 4))
+    }
+  }, [currentTestData?.type, kanji, distractorPool, testMode])
+
+  const checkAnswer = (inputOverride?: string) => {
     if (!currentTestData) return
 
     let correct = false
-    const normalizedInput = userInput.trim().toLowerCase()
+    const normalizedInput = (inputOverride ?? userInput).trim().toLowerCase()
 
     if (currentTestData.type === 'meaning') {
       // Check if the meaning matches (allow partial matches)
@@ -135,7 +158,9 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
 
   if (currentTestData.type === 'recognition') {
     // Multiple choice for kanji recognition
-    const options = generateKanjiOptions(kanji.kanji, 4)
+    const options = recognitionOptions.length > 0
+      ? recognitionOptions
+      : generateKanjiOptions(kanji.kanji, 4, distractorPool)
 
     return (
       <motion.div
@@ -210,7 +235,16 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
           </div>
 
           {showResult && (
-            <div className="flex justify-center mt-4">
+            <div className="flex items-center justify-center gap-3 mt-4">
+              <button
+                onClick={onExit}
+                className="p-2 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-300 dark:hover:bg-dark-600 transition-all hover:scale-110"
+                aria-label="Exit session"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
               <button
                 onClick={handleNext}
                 className="p-2 bg-primary-500 text-white rounded-full hover:bg-primary-600 transition-all hover:scale-110"
@@ -226,6 +260,11 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
       </motion.div>
     )
   }
+
+  const shouldUseMultipleChoice = testMode === 'choice'
+  const multipleChoiceOptions = shouldUseMultipleChoice ? choiceOptions : []
+
+  const useMultipleChoice = shouldUseMultipleChoice && multipleChoiceOptions.length === 4
 
   // Text input for other test types
   return (
@@ -255,25 +294,58 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
             {currentTestData.question}
           </h3>
 
-          <div className="max-w-md mx-auto">
-            <input
-              type="text"
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && userInput.trim()) {
-                  checkAnswer()
-                }
-              }}
-              disabled={showResult}
-              placeholder="Type your answer..."
-              className="w-full px-4 py-3 text-lg border-2 border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-primary-500 disabled:bg-gray-100 dark:disabled:bg-dark-600"
-              autoFocus
-            />
-          </div>
+          {useMultipleChoice ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-md mx-auto">
+              {multipleChoiceOptions.map((option, idx) => (
+                <button
+                  key={`${option}-${idx}`}
+                  onClick={() => {
+                    setUserInput(option)
+                    checkAnswer(option)
+                  }}
+                  disabled={showResult}
+                  className={`p-3 sm:p-4 rounded-lg border-2 transition-all text-sm sm:text-base ${
+                    showResult && option === userInput
+                      ? isCorrect
+                        ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 border-green-500'
+                        : 'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 border-red-500'
+                      : 'bg-white/50 dark:bg-dark-700 border-gray-300 dark:border-dark-600 hover:bg-gray-100 dark:hover:bg-dark-600'
+                  }`}
+                >
+                  {option}
+                </button>
+              ))}
+            </div>
+          ) : (
+            <div className="max-w-md mx-auto">
+              <input
+                type="text"
+                value={userInput}
+                onChange={(e) => setUserInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' && userInput.trim()) {
+                    checkAnswer()
+                  }
+                }}
+                disabled={showResult}
+                placeholder="Type your answer..."
+                className="w-full px-4 py-3 text-lg border-2 border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-primary-500 disabled:bg-gray-100 dark:disabled:bg-dark-600"
+                autoFocus
+              />
+            </div>
+          )}
 
-          {!showResult && (
+          {!showResult && !useMultipleChoice && (
             <div className="flex justify-center gap-3 mt-6">
+              <button
+                onClick={onExit}
+                className="p-2 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-300 dark:hover:bg-dark-600 transition-all hover:scale-110"
+                aria-label="Exit session"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
               <button
                 onClick={handleSkip}
                 className="p-2 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-300 dark:hover:bg-dark-600 transition-all hover:scale-110"
@@ -284,13 +356,36 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
                 </svg>
               </button>
               <button
-                onClick={checkAnswer}
+                onClick={() => checkAnswer()}
                 disabled={!userInput.trim()}
                 className="p-2 bg-green-500 text-white rounded-full hover:bg-green-600 disabled:bg-gray-300 dark:disabled:bg-dark-600 disabled:text-gray-500 transition-all hover:scale-110 disabled:hover:scale-100"
                 aria-label="Check answer"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              </button>
+            </div>
+          )}
+
+          {!showResult && useMultipleChoice && (
+            <div className="flex justify-center gap-3 mt-6">
+              <button
+                onClick={onExit}
+                className="p-2 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-300 dark:hover:bg-dark-600 transition-all hover:scale-110"
+                aria-label="Exit session"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+              <button
+                onClick={handleSkip}
+                className="p-2 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-300 dark:hover:bg-dark-600 transition-all hover:scale-110"
+                aria-label="Skip"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 5l7 7-7 7M5 5l7 7-7 7" />
                 </svg>
               </button>
             </div>
@@ -319,7 +414,16 @@ export default function Round2Test({ kanji, currentIndex, totalKanji, onComplete
         </div>
 
         {showResult && (
-          <div className="flex justify-center mt-4">
+          <div className="flex items-center justify-center gap-3 mt-4">
+            <button
+              onClick={onExit}
+              className="p-2 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-300 dark:hover:bg-dark-600 transition-all hover:scale-110"
+              aria-label="Exit session"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
             <button
               onClick={handleNext}
               className="p-2 bg-primary-500 text-white rounded-full hover:bg-primary-600 transition-all hover:scale-110"
@@ -435,14 +539,68 @@ function romajiToHiragana(input: string): string {
 }
 
 // Helper function to generate kanji options for multiple choice
-function generateKanjiOptions(correct: string, count: number): string[] {
-  // This would ideally pull from a pool of similar kanji
-  // For now, just using some common kanji as distractors
-  const distractors = ['水', '火', '木', '金', '土', '日', '月', '山', '川', '田', '人', '大', '小', '中', '上', '下']
+function generateKanjiOptions(
+  correct: string,
+  count: number,
+  pool: KanjiWithExamples[]
+): string[] {
+  const poolCandidates = pool
+    .map(item => item.kanji)
+    .filter(k => k && k !== correct)
+
+  const fallback = ['水', '火', '木', '金', '土', '日', '月', '山', '川', '田', '人', '大', '小', '中', '上', '下']
     .filter(k => k !== correct)
 
-  const shuffled = distractors.sort(() => Math.random() - 0.5).slice(0, count - 1)
-  const options = [correct, ...shuffled]
+  const candidates = Array.from(new Set([...poolCandidates, ...fallback]))
+  const distractors = shuffleArray(candidates).slice(0, count - 1)
+  const options = [correct, ...distractors]
 
-  return options.sort(() => Math.random() - 0.5)
+  return shuffleArray(options)
+}
+
+function buildMultipleChoiceOptions(
+  type: TestType,
+  kanji: KanjiWithExamples,
+  pool: KanjiWithExamples[],
+  count: number
+): string[] {
+  let correct = ''
+  let candidates: string[] = []
+
+  if (type === 'meaning') {
+    correct = kanji.meaning
+    candidates = pool.map(item => item.meaning)
+  } else if (type === 'onyomi') {
+    correct = pickRandom(kanji.onyomi || [])
+    candidates = pool.flatMap(item => item.onyomi || [])
+  } else if (type === 'kunyomi') {
+    correct = pickRandom(kanji.kunyomi || [])
+    candidates = pool.flatMap(item => item.kunyomi || [])
+  }
+
+  if (!correct) return []
+
+  const uniqueCandidates = Array.from(new Set(candidates))
+    .filter(option => option && option !== correct)
+
+  if (uniqueCandidates.length < count - 1) {
+    return []
+  }
+
+  const distractors = shuffleArray(uniqueCandidates).slice(0, count - 1)
+  return shuffleArray([correct, ...distractors])
+}
+
+function shuffleArray<T>(items: T[]): T[] {
+  const array = [...items]
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[array[i], array[j]] = [array[j], array[i]]
+  }
+  return array
+}
+
+function pickRandom(items: string[]): string {
+  if (!items || items.length === 0) return ''
+  return items[Math.floor(Math.random() * items.length)]
 }

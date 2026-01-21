@@ -25,6 +25,7 @@ interface StudySettings {
   gradeLevel: string
   studyMode: 'jlpt' | 'grade' | 'mixed'
   learningApproach: 'smart' | 'linear'
+  testMode: 'recall' | 'choice'
 }
 
 function KanjiMasteryContent() {
@@ -57,7 +58,14 @@ function KanjiMasteryContent() {
     if (typeof window !== 'undefined') {
       const saved = getItem('kanjiMasterySettings')
       if (saved) {
-        return saved
+        return {
+          sessionSize: saved.sessionSize ?? 5,
+          jlptLevel: saved.jlptLevel ?? 'N5',
+          gradeLevel: saved.gradeLevel ?? '1',
+          studyMode: saved.studyMode ?? 'jlpt',
+          learningApproach: saved.learningApproach ?? 'smart',
+          testMode: saved.testMode ?? 'recall'
+        }
       }
     }
     return {
@@ -65,7 +73,8 @@ function KanjiMasteryContent() {
       jlptLevel: 'N5',
       gradeLevel: '1',
       studyMode: 'jlpt',
-      learningApproach: 'smart'
+      learningApproach: 'smart',
+      testMode: 'recall'
     }
   })
 
@@ -100,7 +109,8 @@ function KanjiMasteryContent() {
         size: settings.sessionSize.toString(),
         mode: settings.studyMode,
         level: settings.studyMode === 'jlpt' ? settings.jlptLevel : settings.gradeLevel,
-        approach: settings.learningApproach
+        approach: settings.learningApproach,
+        testMode: settings.testMode
       })
 
       // Add review mode parameters if coming from review hub
@@ -294,6 +304,39 @@ function KanjiMasteryContent() {
                   {t('kanjiMasteryTool.linearDescription')}
                 </p>
               )}
+            </div>
+
+            {/* Answer Mode Selection */}
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+                {t('kanjiMasteryTool.answerMode')}
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                <button
+                  onClick={() => setSettings({ ...settings, testMode: 'recall' })}
+                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-all border ${
+                    settings.testMode === 'recall'
+                      ? 'bg-primary-500 text-white border-primary-500 shadow-lg'
+                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 border-gray-300 dark:border-dark-600'
+                  }`}
+                >
+                  <div className="flex flex-col items-center gap-1">
+                    <span>{t('kanjiMasteryTool.recallMode')}</span>
+                  </div>
+                </button>
+                <button
+                  onClick={() => setSettings({ ...settings, testMode: 'choice' })}
+                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-all border ${
+                    settings.testMode === 'choice'
+                      ? 'bg-primary-500 text-white border-primary-500 shadow-lg'
+                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 border-gray-300 dark:border-dark-600'
+                  }`}
+                >
+                  <div className="flex flex-col items-center gap-1">
+                    <span>{t('kanjiMasteryTool.multipleChoiceMode')}</span>
+                  </div>
+                </button>
+              </div>
             </div>
 
             {/* Study Mode Selection */}
