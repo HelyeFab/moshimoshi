@@ -208,14 +208,14 @@ function DashboardContent() {
 
       <Navbar user={user} showUserMenu={true} />
 
-      <main className="container mx-auto px-4 py-2 sm:py-8 relative z-10">
+      <main className="container mx-auto px-0 sm:px-4 py-0 sm:py-8 relative z-10">
         {isGuest && <GuestModeBanner className="mb-6" />}
 
-        <div className="my-8">
+        <div className="my-0 sm:my-8">
           <PokedexCard isPremium={isPremium} />
         </div>
 
-        <div className="my-8">
+        <div className="my-0 sm:my-8">
           <LearningVillage
             key={refreshKey}
             welcomeData={{

@@ -1250,7 +1250,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
   }
 
   return (
-    <div className="relative overflow-hidden rounded-2xl">
+    <div className="relative overflow-hidden rounded-none sm:rounded-2xl">
       {/* Animation Control - Top Left Corner */}
       <div className="absolute top-4 left-4 z-50">
         <AnimationControl position="top-left" variant="glassmorphism" />
@@ -1344,7 +1344,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
 
       {/* Animated sky background */}
       <div
-        className={`absolute inset-0 bg-gradient-to-b ${skyGradient[timeOfDay]} transition-all duration-1000 rounded-2xl`}
+        className={`absolute inset-0 bg-gradient-to-b ${skyGradient[timeOfDay]} transition-all duration-1000 rounded-none sm:rounded-2xl`}
       >
         {/* Stars for night time */}
         {timeOfDay === 'night' && (
