@@ -433,6 +433,7 @@ export const strings = {
     srsReview: 'SRS-Wiederholung',
     audioSupport: 'Audiounterstützung',
     interactive: 'Interaktiv',
+    benefits: 'Vorteile',
   },
   landing: {
     hero: {

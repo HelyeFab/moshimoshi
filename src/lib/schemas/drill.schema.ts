@@ -56,6 +56,7 @@ export type JapaneseWord = z.infer<typeof JapaneseWordSchema>
 export const DrillQuestionSchema = z.object({
   id: z.string(),
   word: JapaneseWordSchema,
+  conjugationType: WordTypeSchema.optional(),
   targetForm: z.string(),
   stem: z.string(),
   correctAnswer: z.string(),

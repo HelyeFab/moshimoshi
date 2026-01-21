@@ -97,6 +97,7 @@ export interface ConjugationForms {
 export interface DrillQuestion {
   id: string;
   word: JapaneseWord;
+  conjugationType?: WordType;
   targetForm: string; // keyof ExtendedConjugationForms (using string for flexibility)
   stem: string;
   correctAnswer: string;

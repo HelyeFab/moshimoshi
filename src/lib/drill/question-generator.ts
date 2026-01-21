@@ -203,6 +203,7 @@ export class QuestionGenerator {
     return {
       id: `${word.id}-${targetForm}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
       word,
+      conjugationType: wordType as JapaneseWord['type'],
       targetForm,
       stem,
       correctAnswer,

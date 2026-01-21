@@ -541,7 +541,10 @@ export default function DrillPage() {
 
       try {
         const enhancedWord = enhanceWordWithType(currentQuestion.word as any)
-        const conjugationType = enhancedWord.conjugationType || currentQuestion.word.type
+        const conjugationType =
+          currentQuestion.conjugationType ||
+          enhancedWord.conjugationType ||
+          currentQuestion.word.type
 
         // Determine word type filter
         let typeFilter: 'verbs' | 'adjectives' | 'all' = 'all'
@@ -562,7 +565,13 @@ export default function DrillPage() {
         })
 
         // 2. Conjugate the similar words to show the pattern
-        const wordExamplesPromises = similarWords.slice(0, 3).map(async (word) => {
+        const filteredSimilarWords = similarWords.filter(word => {
+          const enhancedSimilar = enhanceWordWithType(word as any)
+          const similarType = enhancedSimilar.conjugationType || word.type
+          return similarType === conjugationType
+        })
+
+        const wordExamplesPromises = filteredSimilarWords.slice(0, 3).map(async (word) => {
           const enhanced = enhanceWordWithType(word as any)
           const forms = await ExtendedConjugationEngine.conjugate(enhanced)
           const conjugatedForm = forms[currentQuestion.targetForm as keyof typeof forms]
@@ -575,7 +584,8 @@ export default function DrillPage() {
           }
         })
 
-        const wordExamples = await Promise.all(wordExamplesPromises)
+        const rawExamples = await Promise.all(wordExamplesPromises)
+        const wordExamples = rawExamples.filter(example => example.conjugated)
         console.log('[Rules Modal] Loaded word examples:', wordExamples)
 
         // 3. Search Tatoeba for sentences with the exact conjugated form
@@ -1455,7 +1465,10 @@ export default function DrillPage() {
       {currentQuestion && (() => {
         // Enhance word with proper conjugation type detection
         const enhancedWord = enhanceWordWithType(currentQuestion.word as any)
-        const conjugationType = enhancedWord.conjugationType || currentQuestion.word.type
+        const conjugationType =
+          currentQuestion.conjugationType ||
+          enhancedWord.conjugationType ||
+          currentQuestion.word.type
 
         return (
           <Modal

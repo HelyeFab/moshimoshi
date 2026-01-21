@@ -511,6 +511,7 @@ export const strings = {
     srsReview: 'Revisione SRS',
     audioSupport: 'Supporto audio',
     interactive: 'Interattivo',
+    benefits: 'Vantaggi',
   },
   landing: {
     hero: {

@@ -118,7 +118,7 @@ export default function KanaCard({ content, mode, showAnswer, onAudioPlay }: Kan
       {/* Audio button - top right corner of the card */}
       <button
         onClick={handlePlayKanaAudio}
-        className="absolute -top-2 -right-2 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors hover:scale-110 active:scale-95"
+        className="absolute -top-1 -right-1 sm:-top-3 sm:-right-3 p-2 text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 transition-colors hover:scale-110 active:scale-95"
         title="Play audio"
         aria-label="Play kana pronunciation"
       >

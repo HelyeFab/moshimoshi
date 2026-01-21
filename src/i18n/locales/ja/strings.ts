@@ -600,6 +600,7 @@ export const strings = {
     srsReview: 'SRS復習',
     audioSupport: '音声サポート',
     interactive: 'インタラクティブ',
+    benefits: 'メリット',
   },
   dashboard: {
     loading: 'ダッシュボードを読み込み中...',

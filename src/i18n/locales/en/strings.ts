@@ -621,6 +621,7 @@ export const strings = {
     srsReview: 'SRS Review',
     audioSupport: 'Audio Support',
     interactive: 'Interactive',
+    benefits: 'Benefits',
   },
 
   // Moodboards
