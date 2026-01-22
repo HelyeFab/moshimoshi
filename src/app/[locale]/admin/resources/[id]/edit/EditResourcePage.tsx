@@ -78,6 +78,7 @@ export default function EditResourcePage({ params }: EditResourcePageProps) {
         excerpt: resourceData.excerpt,
         imageUrl: resourceData.imageUrl || '',
         imageAlt: resourceData.imageAlt || '',
+        externalUrl: resourceData.externalUrl || '',
         status: resourceData.status,
         scheduledFor: resourceData.scheduledFor ? new Date(resourceData.scheduledFor).toISOString().slice(0, 16) : '',
         tags: resourceData.tags,
@@ -341,6 +342,20 @@ export default function EditResourcePage({ params }: EditResourcePageProps) {
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500 resize-y"
                 placeholder="Brief description for cards and SEO"
               />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">External URL</label>
+              <input
+                type="url"
+                value={formData.externalUrl || ''}
+                onChange={(e) => handleInputChange('externalUrl', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                placeholder="https://example.com/original-resource"
+              />
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                Link to the original resource or external webpage (optional)
+              </p>
             </div>
           </div>
 

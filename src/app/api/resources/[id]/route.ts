@@ -86,6 +86,7 @@ export async function GET(
       content: data.content,
       imageUrl: data.imageUrl,
       imageAlt: data.imageAlt,
+      externalUrl: data.externalUrl || null,
       status: data.status,
       category: data.category,
       tags: data.tags || [],

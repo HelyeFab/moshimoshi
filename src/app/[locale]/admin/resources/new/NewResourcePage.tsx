@@ -300,6 +300,22 @@ export default function NewResourcePage() {
                 placeholder="Brief description for cards and SEO (auto-generated from content if empty)"
               />
             </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+                External URL
+              </label>
+              <input
+                type="url"
+                value={formData.externalUrl || ''}
+                onChange={(e) => handleInputChange('externalUrl', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-dark-900 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
+                placeholder="https://example.com/original-resource"
+              />
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                Link to the original resource or external webpage (optional)
+              </p>
+            </div>
           </div>
 
           {/* Content Editor */}

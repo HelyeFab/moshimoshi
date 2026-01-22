@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useI18n } from '@/i18n/I18nContext';
 import { formatDistanceToNow } from 'date-fns';
 import { motion, AnimatePresence } from 'framer-motion';
-import { BookOpen, Clock, Eye, Sparkles, ArrowRight } from 'lucide-react';
+import { BookOpen, Clock, Eye, Sparkles, ArrowRight, ExternalLink } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import PageHeader from '@/components/ui/PageHeader';
 import { useAuth } from '@/hooks/useAuth';
@@ -22,6 +22,7 @@ interface Resource {
   content: string;
   imageUrl?: string;
   imageAlt?: string;
+  externalUrl?: string;
   status: 'published' | 'draft' | 'scheduled';
   category: string;
   tags: string[];
@@ -359,9 +360,23 @@ function FeaturedResourceCard({ resource, index, router, t }: any) {
           <span className="text-sm text-gray-500 dark:text-gray-400">
             {formatPublishedDate(resource.publishedAt)}
           </span>
-          <div className="flex items-center gap-2 text-primary-600 dark:text-primary-400 font-medium group-hover:gap-3 transition-all">
-            <span className="text-sm">{t('common.readMore') || 'Read More'}</span>
-            <ArrowRight className="w-4 h-4" />
+          <div className="flex items-center gap-3">
+            {resource.externalUrl && (
+              <a
+                href={resource.externalUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={(e) => e.stopPropagation()}
+                className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 rounded-full transition-colors"
+              >
+                <ExternalLink className="w-3.5 h-3.5" />
+                <span>{t('common.visitSite') || 'Visit'}</span>
+              </a>
+            )}
+            <div className="flex items-center gap-2 text-primary-600 dark:text-primary-400 font-medium group-hover:gap-3 transition-all">
+              <span className="text-sm">{t('common.readMore') || 'Read More'}</span>
+              <ArrowRight className="w-4 h-4" />
+            </div>
           </div>
         </div>
       </div>
@@ -457,8 +472,22 @@ function ResourceCard({ resource, index, router, t }: any) {
         )}
 
         {/* Footer */}
-        <div className="text-xs text-gray-500 dark:text-gray-400 pt-3 border-t border-gray-200 dark:border-gray-700">
-          {formatPublishedDate(resource.publishedAt)}
+        <div className="flex items-center justify-between pt-3 border-t border-gray-200 dark:border-gray-700">
+          <span className="text-xs text-gray-500 dark:text-gray-400">
+            {formatPublishedDate(resource.publishedAt)}
+          </span>
+          {resource.externalUrl && (
+            <a
+              href={resource.externalUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-white bg-primary-500 hover:bg-primary-600 rounded-full transition-colors"
+            >
+              <ExternalLink className="w-3 h-3" />
+              <span>{t('common.visitSite') || 'Visit'}</span>
+            </a>
+          )}
         </div>
       </div>
     </motion.div>
