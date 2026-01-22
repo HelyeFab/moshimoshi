@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import { EventEmitter } from 'events'
 import { useRouter } from 'next/navigation'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
@@ -20,15 +19,9 @@ import { ReadingSettings, TranslationMode, StoryPage, StoryQuizQuestion } from '
 import { useContentTranslation } from '@/hooks/useContentTranslation'
 import { useArticleSentenceData, useStorySentenceData, useBookSentenceData } from '@/hooks/useSentenceData'
 import { useNhkAudio } from '@/components/audio/NhkAudioPlayer'
-import { ReviewEventType } from '@/lib/review-engine/core/events'
-import { gamificationListener } from '@/lib/gamification/gamificationListener'
 import { QuizPlayer } from '@/components/quiz/QuizPlayer'
 import Navbar from '@/components/layout/Navbar'
-import ContentCelebration from '@/components/shared/ContentCelebration'
-
-// URE event emitter for gamification integration (following Kana pattern)
-const ureEventEmitter = new EventEmitter()
-let listenerInitialized = false
+import { useGamificationStore } from '@/state/userGamification'
 
 // Helper function to cleanup audio element
 const cleanupAudio = (audio: HTMLAudioElement | null): void => {
@@ -791,15 +784,8 @@ export default function EnhancedArticleReader({
   const { t } = useI18n()
   const { user } = useAuth()
   const { showToast } = useToast()
+  const gamificationStore = useGamificationStore()
 
-  // Initialize gamification listener (following Kana pattern)
-  useEffect(() => {
-    if (user?.uid && !listenerInitialized) {
-      console.log('[News Reader] Initializing gamification listener for user:', user.uid)
-      gamificationListener.initialize(user.uid, ureEventEmitter)
-      listenerInitialized = true
-    }
-  }, [user?.uid])
   const {
     play: playTTS,
     pause: ttsPause,
@@ -872,6 +858,7 @@ export default function EnhancedArticleReader({
     sentenceMap: preCachedSentences,
     hasCachedData: hasSentenceCache,
     getAudioUrl: getPreCachedAudioUrl,
+    getTranslation: getPreCachedTranslation,
   } = (() => {
     switch (contentType) {
       case 'story':
@@ -881,20 +868,30 @@ export default function EnhancedArticleReader({
           const sentence = storySentenceData.getSentenceByText(text)
           return sentence?.audioUrl || null
         }
+        const storyGetTranslation = (text: string) => {
+          const sentence = storySentenceData.getSentenceByText(text)
+          return sentence?.translation || null
+        }
         return {
           sentenceMap: new Map(), // Stories use getSentenceByText instead
           hasCachedData: storySentenceData.hasCachedData,
           getAudioUrl: storyGetAudioUrl,
+          getTranslation: storyGetTranslation,
         }
       case 'book':
         const bookGetAudioUrl = (text: string): string | null => {
           const sentence = bookSentenceData.getSentenceByText(text)
           return sentence?.audioUrl || null
         }
+        const bookGetTranslation = (text: string) => {
+          const sentence = bookSentenceData.getSentenceByText(text)
+          return sentence?.translation || null
+        }
         return {
           sentenceMap: bookSentenceData.sentenceMap,
           hasCachedData: bookSentenceData.hasCachedData,
           getAudioUrl: bookGetAudioUrl,
+          getTranslation: bookGetTranslation,
         }
       case 'article':
       default:
@@ -902,6 +899,7 @@ export default function EnhancedArticleReader({
           sentenceMap: articleSentenceData.sentenceMap,
           hasCachedData: articleSentenceData.hasCachedData,
           getAudioUrl: articleSentenceData.getAudioUrl,
+          getTranslation: articleSentenceData.getTranslation,
         }
     }
   })()
@@ -919,13 +917,6 @@ export default function EnhancedArticleReader({
     enabled: true,
   })
 
-  // State for showing celebration screen
-  const [celebrationData, setCelebrationData] = useState<{
-    show: boolean
-    xp: number
-    readingTimeMs: number
-  } | null>(null)
-
   // Story mode state (for multi-page content with optional quiz)
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
   const [showQuiz, setShowQuiz] = useState(false)
@@ -940,39 +931,34 @@ export default function EnhancedArticleReader({
     ? pages?.map(p => p.text || '').filter(Boolean).join(' ') || ''
     : (typeof article.content === 'string' ? article.content : '')
 
-  // Handle mark complete with celebration screen and URE event emission
+  // Handle mark complete with global celebration and real stats
   const handleMarkComplete = async () => {
     const result = await markArticleComplete()
     if (result.success && result.data && !result.data.alreadyCompleted) {
-      // Show celebration screen with all data
-      setCelebrationData({
-        show: true,
-        xp: result.data.xpEarned,
+      if (result.data.bestStreak === undefined) {
+        console.warn('[News Reader] Missing bestStreak from response, skipping store update')
+        return
+      }
+
+      gamificationStore.updateFromServer({
+        totalXP: result.data.newTotalXP,
+        currentLevel: result.data.newLevel,
+        currentStreak: result.data.currentStreak,
+        bestStreak: result.data.bestStreak,
+      })
+
+      gamificationStore.setLastSessionStats({
+        itemsCompleted: 1,
+        accuracy: 100,
+        duration: activeTimeMs,
+        xpGained: result.data.xpEarned,
+        contentType: 'article',
+        contentTitle: displayTitle,
+        difficulty: article.difficulty,
         readingTimeMs: activeTimeMs,
       })
 
-      // Emit URE SESSION_COMPLETED event for unified gamification (following Kana pattern)
-      const sessionId = `news_${article.id}_${Date.now()}`
-      ureEventEmitter.emit(ReviewEventType.SESSION_COMPLETED, {
-        data: {
-          sessionId,
-          contentType: 'news',
-          statistics: {
-            correctItems: 1, // Article completion counts as 1 successful item
-            accuracy: 100, // Completion = 100% success
-          },
-          duration: activeTimeMs,
-          metadata: {
-            articleId: article.id,
-            difficulty: article.difficulty,
-            xpEarned: result.data.xpEarned,
-          },
-        },
-      })
-      console.log('[News Reader] Emitted SESSION_COMPLETED event:', {
-        sessionId,
-        xpEarned: result.data.xpEarned,
-      })
+      gamificationStore.incrementSessionCount()
     }
   }
 
@@ -2100,16 +2086,58 @@ export default function EnhancedArticleReader({
     // because pre-cached audio was generated at default speed and changing playbackRate
     // just speeds up/slows down the audio instead of regenerating at correct speed
     const currentSpeed = settings.playbackSpeed || 1.0
+    const normalizeText = (value: string) => {
+      let normalized = value.trim()
+      try {
+        normalized = normalized.normalize('NFKC')
+      } catch {
+        // ignore
+      }
+      return normalized.replace(/\s+/g, '')
+    }
     const preCachedAudioUrl = getPreCachedAudioUrl(sentence)
+    let normalizedAudioUrl: string | null = null
 
-    if (preCachedAudioUrl && currentSpeed !== 1.0) {
+    if (!preCachedAudioUrl && hasSentenceCache) {
+      const normalizedSentence = normalizeText(sentence)
+      if (normalizedSentence.length >= 2) {
+        if (contentType === 'story') {
+          for (const page of storySentenceData.pageData || []) {
+            for (const cached of page.sentences || []) {
+              if (cached?.text && normalizeText(cached.text) === normalizedSentence) {
+                normalizedAudioUrl = cached.audioUrl || null
+                break
+              }
+            }
+            if (normalizedAudioUrl) break
+          }
+        } else if (contentType === 'book') {
+          for (const cached of bookSentenceData.sentenceData || []) {
+            if (cached?.text && normalizeText(cached.text) === normalizedSentence) {
+              normalizedAudioUrl = cached.audioUrl || null
+              break
+            }
+          }
+        } else {
+          for (const cached of articleSentenceData.sentenceData || []) {
+            if (cached?.text && normalizeText(cached.text) === normalizedSentence) {
+              normalizedAudioUrl = cached.audioUrl || null
+              break
+            }
+          }
+        }
+      }
+    }
+
+    const resolvedAudioUrl = preCachedAudioUrl || normalizedAudioUrl
+    if (resolvedAudioUrl && currentSpeed !== 1.0) {
       console.log(
         `%c⚠️ Skipping pre-cached audio due to speed change (${currentSpeed}x) - will regenerate at correct speed`,
         'color: #FF9800; font-weight: bold;'
       )
     }
 
-    if (preCachedAudioUrl && currentSpeed === 1.0) {
+    if (resolvedAudioUrl && currentSpeed === 1.0) {
       try {
         console.log(
           '%c▶️ PLAYING: Pre-Cached Sentence Audio (Priority 0)',
@@ -2117,7 +2145,7 @@ export default function EnhancedArticleReader({
         )
         console.log('Source: Firebase Storage (pre-generated VOICEVOX)')
 
-        const audio = new Audio(preCachedAudioUrl)
+        const audio = new Audio(resolvedAudioUrl)
         audio.playbackRate = 1.0
 
         audio.onended = () => {
@@ -2247,6 +2275,84 @@ export default function EnhancedArticleReader({
     setTranslatingSegmentIndex(index)
 
     try {
+      // Priority 0: Use pre-cached sentence translation when available
+      const preCachedTranslation = getPreCachedTranslation?.(segment)
+      if (preCachedTranslation?.translatedText) {
+        setSegmentTranslations(prev => ({
+          ...prev,
+          [index]: preCachedTranslation,
+        }))
+        setTranslatingSegmentIndex(null)
+        console.log('[Translation] Using pre-cached sentence translation')
+        return
+      }
+
+      // Priority 0.5: If this is a segment of a longer sentence, reuse that sentence's cached translation
+      const normalizeText = (value: string) => {
+        let normalized = value.trim()
+        try {
+          normalized = normalized.normalize('NFKC')
+        } catch {
+          // ignore
+        }
+        return normalized.replace(/\s+/g, '')
+      }
+      const normalizedSegment = normalizeText(segment)
+      if (normalizedSegment.length >= 4 && hasSentenceCache) {
+        let matchedTranslation: typeof preCachedTranslation | null = null
+        let matchedSourceLength = Number.POSITIVE_INFINITY
+
+        if (contentType === 'story') {
+          for (const page of storySentenceData.pageData || []) {
+            for (const sentence of page.sentences || []) {
+              if (sentence?.text) {
+                const normalizedSentence = normalizeText(sentence.text)
+                if (normalizedSentence.includes(normalizedSegment)) {
+                  if (!matchedTranslation || sentence.text.length < matchedSourceLength) {
+                  matchedTranslation = sentence.translation
+                    matchedSourceLength = sentence.text.length
+                  }
+                }
+              }
+            }
+          }
+        } else if (contentType === 'book') {
+          for (const sentence of bookSentenceData.sentenceData || []) {
+            if (sentence?.text) {
+              const normalizedSentence = normalizeText(sentence.text)
+              if (normalizedSentence.includes(normalizedSegment)) {
+                if (!matchedTranslation || sentence.text.length < matchedSourceLength) {
+                matchedTranslation = sentence.translation
+                  matchedSourceLength = sentence.text.length
+                }
+              }
+            }
+          }
+        } else {
+          for (const sentence of articleSentenceData.sentenceData || []) {
+            if (sentence?.text) {
+              const normalizedSentence = normalizeText(sentence.text)
+              if (normalizedSentence.includes(normalizedSegment)) {
+                if (!matchedTranslation || sentence.text.length < matchedSourceLength) {
+                matchedTranslation = sentence.translation
+                  matchedSourceLength = sentence.text.length
+                }
+              }
+            }
+          }
+        }
+
+        if (matchedTranslation?.translatedText) {
+          setSegmentTranslations(prev => ({
+            ...prev,
+            [index]: matchedTranslation,
+          }))
+          setTranslatingSegmentIndex(null)
+          console.log('[Translation] Using cached parent sentence translation')
+          return
+        }
+      }
+
       console.log(`[Translation] Translating segment ${index}: "${segment.substring(0, 50)}..."`)
 
       // Use 'learning' mode for icon-based translation (optimal for Japanese learning)
@@ -2905,17 +3011,6 @@ export default function EnhancedArticleReader({
         className="z-[60]"
       />
 
-      {/* Celebration Screen - Shows when article is completed */}
-      {celebrationData?.show && (
-        <ContentCelebration
-          xpEarned={celebrationData.xp}
-          readingTimeMs={celebrationData.readingTimeMs}
-          difficulty={article.difficulty}
-          contentTitle={displayTitle}
-          contentType="article"
-          onClose={() => setCelebrationData(null)}
-        />
-      )}
     </div>
   )
 }

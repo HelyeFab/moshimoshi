@@ -64,6 +64,7 @@ export async function POST(request: NextRequest) {
           newLevel: 1,
           streakIncremented: false,
           currentStreak: 0,
+          bestStreak: 0,
           alreadyCompleted: true,
         },
       })
@@ -116,6 +117,7 @@ export async function POST(request: NextRequest) {
         newLevel: gamificationResult?.newLevel || 1,
         streakIncremented: gamificationResult?.streakIncremented || false,
         currentStreak: gamificationResult?.currentStreak || 0,
+        bestStreak: gamificationResult?.bestStreak || 0,
         alreadyCompleted: false,
       },
     })

@@ -54,6 +54,7 @@ export interface NewsProgressCompleteResponse {
     newLevel: number
     streakIncremented: boolean
     currentStreak: number
+    bestStreak: number
     alreadyCompleted?: boolean
   }
   error?: {

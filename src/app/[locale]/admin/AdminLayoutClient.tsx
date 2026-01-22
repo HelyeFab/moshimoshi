@@ -95,6 +95,7 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
     { href: '/admin/books', label: 'Library Books', icon: '📚' },
     { href: '/admin/moodboards', label: 'Moodboards', icon: '🎨' },
     { href: '/admin/learning-village', label: 'Learning Village', icon: '🏘️' },
+    { href: '/admin/village-traffic', label: 'Village Traffic', icon: '🏮' },
     { href: '/admin/grammar-stall', label: 'Grammar Stall', icon: '📘' },
     { href: '/admin/subscriptions', label: 'Subscriptions', icon: '💳' },
     { href: '/admin/stripe-testing', label: 'Stripe Testing', icon: '🥚' },

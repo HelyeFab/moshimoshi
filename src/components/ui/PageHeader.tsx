@@ -140,9 +140,6 @@ export default function PageHeader({
                 <h1 className={`text-2xl font-bold truncate ${titleClasses}`}>{title}</h1>
               </div>
 
-              {/* Actions slot - mobile */}
-              {actions && <div className="flex-shrink-0">{actions}</div>}
-
               {/* Expand/Collapse Button - only if there's content to expand */}
               {(description || subtitle || children) && (
                 <button
@@ -164,6 +161,9 @@ export default function PageHeader({
               {/* Back Button - Mobile */}
               <PillBackButton fallbackHref={localizedBackHref} alwaysUseFallback={alwaysUseBackHref} />
             </div>
+
+            {/* Actions slot - mobile (separate row under title) */}
+            {actions && <div className="mt-2">{actions}</div>}
 
             {/* Expandable Content */}
             <AnimatePresence mode="wait">

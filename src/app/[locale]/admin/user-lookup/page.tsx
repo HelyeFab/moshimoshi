@@ -672,6 +672,7 @@ export default function UserLookupPage() {
             </div>
           )}
         </div>
+
       </div>
 
       {/* Search Section */}

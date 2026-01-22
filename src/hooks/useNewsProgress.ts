@@ -132,6 +132,7 @@ export function useNewsProgress({
           newLevel: 1,
           streakIncremented: false,
           currentStreak: 0,
+          bestStreak: 0,
           alreadyCompleted: true,
         },
       }

@@ -64,6 +64,7 @@ export async function POST(request: NextRequest) {
           newLevel: 1,
           streakIncremented: false,
           currentStreak: 0,
+          bestStreak: 0,
           alreadyCompleted: true,
         },
       })
@@ -111,17 +112,18 @@ export async function POST(request: NextRequest) {
 
     await progressRef.set(progressData, { merge: true })
 
-    return NextResponse.json({
-      success: true,
-      data: {
-        xpEarned: gamificationResult?.xpEarned || 0,
-        newTotalXP: gamificationResult?.newTotalXP || 0,
-        newLevel: gamificationResult?.newLevel || 1,
-        streakIncremented: gamificationResult?.streakIncremented || false,
-        currentStreak: gamificationResult?.currentStreak || 0,
-        alreadyCompleted: false,
-      },
-    })
+      return NextResponse.json({
+        success: true,
+        data: {
+          xpEarned: gamificationResult?.xpEarned || 0,
+          newTotalXP: gamificationResult?.newTotalXP || 0,
+          newLevel: gamificationResult?.newLevel || 1,
+          streakIncremented: gamificationResult?.streakIncremented || false,
+          currentStreak: gamificationResult?.currentStreak || 0,
+          bestStreak: gamificationResult?.bestStreak || 0,
+          alreadyCompleted: false,
+        },
+      })
   } catch (error) {
     console.error('[News Progress API] Error:', error)
     return NextResponse.json(

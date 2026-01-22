@@ -244,7 +244,7 @@ export default function MoodBoardManager() {
             key={board.id}
             className="bg-white dark:bg-dark-800 rounded-lg p-4 border border-gray-200 dark:border-dark-700"
           >
-            <div className="flex items-start justify-between">
+            <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
                   <span className="text-3xl">{board.emoji}</span>
@@ -264,12 +264,6 @@ export default function MoodBoardManager() {
                   </span>
                   <span className="px-2 py-1 bg-gray-100 dark:bg-dark-700 rounded text-xs">
                     {board.kanji.length} {t('common.kanji')}
-                  </span>
-                  <span
-                    className="px-2 py-1 rounded text-xs"
-                    style={{ backgroundColor: `${board.background}20` }}
-                  >
-                    {board.background}
                   </span>
                   <span className="px-2 py-1 bg-gray-100 dark:bg-dark-700 rounded text-xs">
                     {t('common.created')}: {new Date(board.createdAt).toLocaleDateString()}
@@ -296,22 +290,22 @@ export default function MoodBoardManager() {
               </div>
 
               {/* Actions */}
-              <div className="flex flex-col gap-2 ml-4">
+              <div className="flex flex-row md:flex-col gap-2">
                 <button
                   onClick={() => handleEdit(board)}
-                  className="px-3 py-1.5 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm"
+                  className="flex-1 md:flex-none px-3 py-1.5 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm"
                 >
                   {t('common.edit')}
                 </button>
                 <button
                   onClick={() => handleDuplicate(board)}
-                  className="px-3 py-1.5 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors text-sm"
+                  className="flex-1 md:flex-none px-3 py-1.5 bg-purple-500 text-white rounded hover:bg-purple-600 transition-colors text-sm"
                 >
                   {t('common.duplicate')}
                 </button>
                 <button
                   onClick={() => handleDelete(board.id)}
-                  className={`px-3 py-1.5 rounded transition-colors text-sm ${
+                  className={`flex-1 md:flex-none px-3 py-1.5 rounded transition-colors text-sm ${
                     deleteConfirmId === board.id
                       ? 'bg-red-600 text-white'
                       : 'bg-red-500 text-white hover:bg-red-600'

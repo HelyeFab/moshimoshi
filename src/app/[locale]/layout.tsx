@@ -14,6 +14,7 @@ import { TTSLoadingProvider } from '@/components/tts';
 import CelebrationProvider from '@/components/gamification/CelebrationProvider';
 import { ConjugationHelpProvider } from '@/contexts/ConjugationHelpContext';
 import { EmailVerificationBanner } from '@/components/EmailVerificationBanner';
+import LearningVillageTracker from '@/components/analytics/LearningVillageTracker';
 import ConditionalCommandPalette from '@/components/ui/ConditionalCommandPalette';
 import TimeMachineButton from '@/components/dev/TimeMachineButton';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
@@ -69,6 +70,7 @@ export default async function LocaleLayout({
                     <TTSLoadingProvider>
                       <OfflineBanner />
                       <EmailVerificationBanner />
+                      <LearningVillageTracker />
                       {children}
                       {process.env.NODE_ENV === 'development' &&
                         process.env.NEXT_PUBLIC_ENABLE_TIME_MACHINE !== 'false' && (

@@ -1,4 +1,5 @@
 import { JapaneseWord, WordType, JLPTLevel } from '@/types/vocabulary'
+import { ValidationUtils } from '@/lib/review-engine/validation/validation-utils'
 import { getJLPTLevel, isN5Word, isN4Word } from '@/data/jlpt-conjugatable-words'
 import * as fs from 'fs'
 import * as path from 'path'
@@ -562,6 +563,81 @@ export async function searchJMdictWords(term: string, limit = 30): Promise<Japan
   }
 
   // Sort by score and convert to our format
+  results.sort((a, b) => b.score - a.score)
+
+  return results
+    .slice(0, limit)
+    .map(r => convertJMDictToWord(r.word))
+}
+
+// Strict search for English gloss or romaji (exact matches only)
+export async function searchJMdictWordsStrict(term: string, limit = 30): Promise<JapaneseWord[]> {
+  await loadJMdictData()
+  if (!jmdictData) return []
+
+  const normalizedTerm = term.trim().toLowerCase()
+  if (!normalizedTerm) return []
+
+  const cleanRomaji = normalizedTerm.replace(/[\s\-]/g, '')
+  const hiragana = ValidationUtils.romajiToHiragana(cleanRomaji)
+  const katakana = ValidationUtils.romajiToKatakana(cleanRomaji)
+
+  const results: { word: JMDictWord; score: number }[] = []
+
+  for (const word of jmdictData.words) {
+    let score = 0
+
+    const kanjiEntries = word.kanji || []
+    const kanaEntries = word.kana || []
+
+    const kanaMatch = kanaEntries.some(k => k.text === hiragana || k.text === katakana)
+    if (kanaMatch) {
+      score += 1200
+    }
+
+    const kanjiMatch = kanjiEntries.some(k => k.text === term)
+    if (kanjiMatch) {
+      score += 1200
+    }
+
+    let glossMatch = false
+    for (const sense of word.sense || []) {
+      for (const gloss of sense.gloss || []) {
+        if (gloss.lang === 'eng' || !gloss.lang) {
+          const glossText = gloss.text.toLowerCase()
+          if (glossText === normalizedTerm) {
+            score += 1100
+            glossMatch = true
+            break
+          }
+
+          const parts = glossText.split(/[,;\/]/).map(p => p.trim())
+          if (parts.includes(normalizedTerm)) {
+            score += 900
+            glossMatch = true
+            break
+          }
+        }
+      }
+      if (glossMatch) break
+    }
+
+    if (score > 0) {
+      const tags = [
+        ...(word.kanji?.flatMap(k => k.tags || []) || []),
+        ...(word.kana?.flatMap(k => k.tags || []) || [])
+      ]
+
+      score += getPriorityScore(tags)
+
+      if (word.kanji?.[0]?.common || word.kana?.[0]?.common) {
+        score += 100
+      }
+
+      results.push({ word, score })
+    }
+  }
+
   results.sort((a, b) => b.score - a.score)
 
   return results

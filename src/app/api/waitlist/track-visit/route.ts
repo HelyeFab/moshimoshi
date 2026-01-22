@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
 import { FieldValue } from 'firebase-admin/firestore';
+import { getLearningVillagePageKey, normalizeLearningVillagePath } from '@/lib/analytics/learningVillageRoutes';
 
 /**
  * POST /api/waitlist/track-visit
@@ -20,12 +21,23 @@ export async function POST(request: NextRequest) {
 
     // Get page and visitor type from request body
     const body = await request.json();
-    const page = body.page || 'unknown';
+    const page = typeof body.page === 'string' ? body.page : 'unknown';
     const isUniqueVisitor = body.isUniqueVisitor === true;
+    const durationMs = typeof body.durationMs === 'number' ? body.durationMs : null;
 
-    // Validate page
-    const validPages = ['landing', 'waitlist'];
-    const pageKey = validPages.includes(page) ? page : 'unknown';
+    let pageKey = 'unknown';
+    let routePath: string | null = null;
+
+    if (page === 'landing' || page === 'waitlist') {
+      pageKey = page;
+    } else {
+      const normalizedPath = normalizeLearningVillagePath(page);
+      const learningVillageKey = getLearningVillagePageKey(normalizedPath);
+      if (learningVillageKey) {
+        pageKey = learningVillageKey;
+        routePath = normalizedPath;
+      }
+    }
 
     // Reference to analytics document for this page
     const analyticsRef = adminFirestore.collection('analytics').doc(`page_${pageKey}`);
@@ -37,9 +49,18 @@ export async function POST(request: NextRequest) {
       lastVisit: FieldValue.serverTimestamp(),
     };
 
+    if (routePath) {
+      updateData.route = routePath;
+    }
+
     // Only increment unique visitors if this is a first-time visitor
     if (isUniqueVisitor) {
       updateData.uniqueVisitors = FieldValue.increment(1);
+    }
+
+    if (durationMs !== null && Number.isFinite(durationMs) && durationMs > 0) {
+      updateData.totalDurationMs = FieldValue.increment(Math.round(durationMs));
+      updateData.durationCount = FieldValue.increment(1);
     }
 
     // Update counters

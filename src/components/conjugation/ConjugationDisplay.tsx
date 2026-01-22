@@ -31,7 +31,7 @@ export function ConjugationDisplay({
   onToggleGroup: externalToggleGroup
 }: ConjugationDisplayProps) {
   const { t, strings } = useI18n()
-  const { play, playing } = useTTS({ cacheFirst: true })
+  const { play, preload, playing } = useTTS({ cacheFirst: true })
   const [internalExpandedGroups, setInternalExpandedGroups] = useState<Set<string>>(new Set())
   const [playingForm, setPlayingForm] = useState<string | null>(null)
   const [conjugations, setConjugations] = useState<ExtendedConjugationForms | null>(null)
@@ -63,6 +63,32 @@ export function ConjugationDisplay({
     loadConjugations()
     return () => { cancelled = true }
   }, [enhancedWord])
+
+  // Precompute audio for 10 most common forms
+  useEffect(() => {
+    if (!conjugations) return
+
+    const commonForms: Array<keyof ExtendedConjugationForms> = [
+      'present',
+      'past',
+      'negative',
+      'pastNegative',
+      'polite',
+      'politePast',
+      'politeNegative',
+      'politePastNegative',
+      'teForm',
+      'negativeTeForm'
+    ]
+
+    const texts = commonForms
+      .map(key => conjugations[key])
+      .filter((value): value is string => !!value && value.trim() !== '')
+
+    if (texts.length > 0) {
+      preload(Array.from(new Set(texts)))
+    }
+  }, [conjugations, preload])
 
   // Get the appropriate structure based on word type
   const structure = useMemo(() => {
@@ -121,10 +147,7 @@ export function ConjugationDisplay({
 
     setPlayingForm(formKey)
     try {
-      await play(form, {
-        voice: 'ja-JP',
-        rate: 0.9
-      })
+      await play(form)
     } catch (error) {
       console.error('TTS failed for conjugation:', error)
     } finally {

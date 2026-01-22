@@ -377,60 +377,6 @@ export default function BookReaderPage() {
           contentType="book"
         />
 
-        {/* Completion Section */}
-        {user && !isGuest && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="mt-12 mb-8 text-center"
-          >
-            <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-lg p-6 sm:p-8 border border-gray-200 dark:border-dark-700">
-              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">
-                {isCompleted ? 'Book Completed!' : 'Finished reading?'}
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                {isCompleted
-                  ? 'Great job completing this book! Your progress has been saved.'
-                  : 'Mark this book as complete to track your progress and earn XP.'}
-              </p>
-
-              <button
-                onClick={handleComplete}
-                disabled={isCompleted || isCompleting}
-                className={`inline-flex items-center justify-center gap-2 px-8 py-3 rounded-xl text-base font-semibold transition-all ${
-                  isCompleted
-                    ? 'bg-green-500 text-white cursor-default'
-                    : isCompleting
-                    ? 'bg-gray-300 dark:bg-dark-600 text-gray-500 dark:text-gray-400 cursor-wait'
-                    : 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:from-primary-600 hover:to-primary-700 shadow-lg shadow-primary-500/30 hover:shadow-primary-500/50 hover:scale-105 active:scale-95'
-                }`}
-              >
-                {isCompleted ? (
-                  <>
-                    <CheckCircle2 className="w-5 h-5" />
-                    Completed
-                  </>
-                ) : isCompleting ? (
-                  <>
-                    <motion.div
-                      animate={{ rotate: 360 }}
-                      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                    >
-                      <Sparkles className="w-5 h-5" />
-                    </motion.div>
-                    Completing...
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle2 className="w-5 h-5" />
-                    Mark as Complete
-                  </>
-                )}
-              </button>
-            </div>
-          </motion.div>
-        )}
       </motion.div>
 
       {/* Celebration Screen - Shows when book is completed */}

@@ -77,8 +77,8 @@
 
 | Decision                      | Rationale                                         |
 | ----------------------------- | ------------------------------------------------- |
-| Linear XP (1 per 30s)         | Simple, predictable, encourages sustained reading |
-| 50 XP cap                     | Prevents gaming, aligns with other feature caps   |
+| Linear XP (1 per 20s)         | Simple, predictable, encourages sustained reading |
+| 40 XP cap                     | Prevents gaming, aligns with other feature caps   |
 | No re-read XP                 | Encourages exploring new content                  |
 | Button trigger (not auto)     | User agency, prevents accidental completions      |
 | 60s idle timeout              | Balances engagement tracking with user breaks     |
@@ -290,8 +290,8 @@ src/
 
 export function calculateNewsXP(params: { readingTimeMs: number }): number {
   const { readingTimeMs } = params
-  const baseXP = Math.floor(readingTimeMs / 30000) // 1 XP per 30s
-  return Math.min(baseXP, 50) // Cap at 50
+  const baseXP = Math.floor(readingTimeMs / 20000) // 1 XP per 20s
+  return Math.min(baseXP, 40) // Cap at 40
 }
 ```
 
@@ -442,7 +442,7 @@ export function calculate[Feature]XP(params: {
   // const bonus = ...;
 
   // Apply cap
-  const MAX_XP = 50; // Adjust cap
+  const MAX_XP = 40; // Adjust cap
   return Math.min(baseXP, MAX_XP);
 }
 ```
@@ -803,10 +803,10 @@ match /[feature]_progress/{progressId} {
 // Test all edge cases
 calculateNewsXP({ readingTimeMs: 0 }) === 0 // No time
 calculateNewsXP({ readingTimeMs: 15000 }) === 0 // Under threshold
-calculateNewsXP({ readingTimeMs: 30000 }) === 1 // Exactly 30s
-calculateNewsXP({ readingTimeMs: 60000 }) === 2 // 60s
-calculateNewsXP({ readingTimeMs: 1500000 }) === 50 // At cap (25min)
-calculateNewsXP({ readingTimeMs: 3600000 }) === 50 // Over cap (1hr)
+calculateNewsXP({ readingTimeMs: 20000 }) === 1 // Exactly 20s
+calculateNewsXP({ readingTimeMs: 60000 }) === 3 // 60s
+calculateNewsXP({ readingTimeMs: 800000 }) === 40 // At cap (13m20s)
+calculateNewsXP({ readingTimeMs: 3600000 }) === 40 // Over cap (1hr)
 ```
 
 ### UI Tests
@@ -963,7 +963,7 @@ When adding XP to a new feature, follow these steps:
 | ------- | ------------------------------------------------ | ------- | ----------- |
 | Drill   | 5 XP/correct + accuracy bonus + completion bonus | ~120 XP | Yes         |
 | Review  | 3 XP/correct + accuracy bonus + volume bonus     | ~100 XP | Yes         |
-| News    | 1 XP/30s reading                                 | 50 XP   | No          |
+| News    | 1 XP/20s reading                                 | 40 XP   | No          |
 
 ### Key Functions
 
@@ -978,8 +978,8 @@ When adding XP to a new feature, follow these steps:
 
 | Setting            | Value           | Location                        |
 | ------------------ | --------------- | ------------------------------- |
-| XP per 30s         | 1               | gamification-coordinator.ts:516 |
-| Max XP per article | 50              | gamification-coordinator.ts:519 |
+| XP per 20s         | 1               | gamification-coordinator.ts:516 |
+| Max XP per article | 40              | gamification-coordinator.ts:519 |
 | Min XP for streak  | (from config)   | streakConfig.ts                 |
 | Level calculation  | total XP / 1000 | gamification-coordinator.ts:585 |
 

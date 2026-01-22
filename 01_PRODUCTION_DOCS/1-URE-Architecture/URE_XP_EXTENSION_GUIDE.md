@@ -125,11 +125,15 @@ calculateReviewXP({ itemsReviewed, correctCount, accuracy }): number
 // - Accuracy bonus: 30 (100%), 15 (90%+), 5 (80%+)
 // - Volume bonus: 5 XP per 10 items
 
-// News/Books: Time-based
+// News: Time-based
 calculateNewsXP({ readingTimeMs }): number
+// - 1 XP per 20 seconds of active reading
+// - Capped at 40 XP per article
+
+// Books: Time-based
 calculateBookXP({ readingTimeSec }): number
 // - 1 XP per 30 seconds of active reading
-// - Capped at 50 XP per article/book
+// - Capped at 50 XP per book
 ```
 
 ### Streak System
@@ -362,12 +366,12 @@ export async function POST(request: NextRequest) {
 
 /**
  * Calculate XP from news reading
- * Linear: 1 XP per 30 seconds, capped at 50 XP
+ * Linear: 1 XP per 20 seconds, capped at 40 XP
  */
 export function calculateNewsXP(params: { readingTimeMs: number }): number {
   const { readingTimeMs } = params;
-  const baseXP = Math.floor(readingTimeMs / 30000); // 1 XP per 30s
-  return Math.min(baseXP, 50); // Cap at 50 XP
+  const baseXP = Math.floor(readingTimeMs / 20000); // 1 XP per 20s
+  return Math.min(baseXP, 40); // Cap at 40 XP
 }
 
 /**
@@ -384,7 +388,7 @@ export async function recordNewsCompletion(params: {
 
   const xpEarned = calculateNewsXP({ readingTimeMs });
 
-  // Skip if no XP earned (read < 30 seconds)
+  // Skip if no XP earned (read < 20 seconds)
   if (xpEarned === 0) {
     return { xpEarned: 0, newTotalXP: 0, /* ... */ };
   }
@@ -1465,7 +1469,8 @@ FIRESTORE_EMULATOR_HOST=localhost:8080 npm run dev
 |---------|---------|-----|
 | Drill | `5*correct + accuracyBonus(10-50) + completionBonus(20)` | None |
 | Review (URE) | `3*correct + accuracyBonus(5-30) + volumeBonus(5/10items)` | None |
-| News/Books | `1 XP per 30 seconds` | 50 XP |
+| News | `1 XP per 20 seconds` | 40 XP |
+| Books | `1 XP per 30 seconds` | 50 XP |
 
 ### Streak Thresholds
 

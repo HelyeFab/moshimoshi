@@ -159,8 +159,11 @@ export default function ConjugationPracticePage() {
     setIsSearching(true)
     try {
       // Search using local JMdict with the same algorithm as vocabulary page
-      const { searchJMdictWords } = await import('@/utils/jmdictLocalSearch')
-      const results = await searchJMdictWords(searchTerm, 50)
+      const { searchJMdictWords, searchJMdictWordsStrict } = await import('@/utils/jmdictLocalSearch')
+      const hasJapanese = /[\u3040-\u30FF\u4E00-\u9FAF]/.test(searchTerm)
+      const results = hasJapanese
+        ? await searchJMdictWords(searchTerm, 50)
+        : await searchJMdictWordsStrict(searchTerm, 50)
 
       // Filter for conjugatable words only
       const conjugatable = results.filter(word => {
@@ -323,7 +326,7 @@ export default function ConjugationPracticePage() {
             </div>
           )}
 
-          {isSearching && searchResults.length > 0 && (
+          {false && isSearching && searchResults.length > 0 && (
             <div className="mt-2 text-sm text-gray-600 dark:text-gray-400">
               {t('conjugation.searchResults')}: {searchResults.length}
             </div>

@@ -613,16 +613,16 @@ export async function awardManualXP(params: {
 
 /**
  * Calculate XP earned from news reading
- * Linear formula: 1 XP per 30 seconds of active reading, capped at 50 XP
+ * Linear formula: 1 XP per 20 seconds of active reading, capped at 40 XP
  */
 export function calculateNewsXP(params: { readingTimeMs: number }): number {
   const { readingTimeMs } = params
 
-  // Linear: 1 XP per 30 seconds (30000ms)
-  const baseXP = Math.floor(readingTimeMs / 30000)
+  // Linear: 1 XP per 20 seconds (20000ms)
+  const baseXP = Math.floor(readingTimeMs / 20000)
 
-  // Cap at 50 XP per article
-  return Math.min(baseXP, 50)
+  // Cap at 40 XP per article
+  return Math.min(baseXP, 40)
 }
 
 /**

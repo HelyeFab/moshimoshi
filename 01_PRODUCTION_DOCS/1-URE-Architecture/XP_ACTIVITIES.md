@@ -157,13 +157,13 @@ KanaLearningComponent
 
 | Component | XP Amount |
 |-----------|-----------|
-| Base XP | 1 XP per 30 seconds of reading |
-| Maximum cap | 50 XP per article |
+| Base XP | 1 XP per 20 seconds of reading |
+| Maximum cap | 40 XP per article |
 
 **Example Calculations**:
-- 5 minutes reading: `floor(300s / 30) = 10 XP`
-- 15 minutes reading: `floor(900s / 30) = 30 XP`
-- 30 minutes reading: `floor(1800s / 30) = 50 XP` (cap reached)
+- 5 minutes reading: `floor(300s / 20) = 15 XP`
+- 10 minutes reading: `floor(600s / 20) = 30 XP`
+- 15 minutes reading: `floor(900s / 20) = 40 XP` (cap reached)
 
 **Notes**:
 - First completion only (no XP on re-reading same article)
@@ -181,7 +181,7 @@ KanaLearningComponent
 
 **API Route**: `POST /api/library/books/complete`
 
-**Mechanism**: Time-based with cap (same as news)
+**Mechanism**: Time-based with cap
 
 | Component | XP Amount |
 |-----------|-----------|
@@ -406,7 +406,7 @@ interface GamificationResult {
 | Kana Practice | 3 XP/correct | Accuracy (5-30), Volume (5/10 items) | Unlimited |
 | Drill | 5 XP/correct | Accuracy (10-50), Completion (20) | ~120 XP |
 | Review (URE) | 3 XP/correct | Accuracy (5-30), Volume (5/10 items) | Unlimited |
-| News Reading | 1 XP/30s | None | 50 XP |
+| News Reading | 1 XP/20s | None | 40 XP |
 | Book Reading | 1 XP/30s | None | 50 XP |
 | Quiz | Tiered by score | None | 30 XP |
 | Manual | Variable | N/A | N/A |
