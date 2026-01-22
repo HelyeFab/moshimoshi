@@ -3898,10 +3898,10 @@ export const strings = {
       emptyUrl: 'Bitte geben Sie eine YouTube URL ein',
       extractFailed: 'Video-ID konnte nicht aus der URL extrahiert werden',
       uploadFailed: 'Datei-Upload fehlgeschlagen',
-      transcriptFailed: 'Transkriptionserstellung fehlgeschlagen',
+      transcriptFailed: 'Dieses Video hat kein japanisches Transkript, das wir verwenden können.',
       playerFailed: 'Player-Ladevorgang fehlgeschlagen',
       invalidVideoId: 'Gib eine gültige YouTube-URL oder eine 11-stellige Video-ID ein.',
-      transcriptUnavailable: 'Transkript für dieses Video nicht verfügbar.',
+      transcriptUnavailable: 'Dieses Video hat kein japanisches Transkript, das wir verwenden können.',
     },
     features: {
       transcripts: {

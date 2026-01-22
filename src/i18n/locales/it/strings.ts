@@ -4004,10 +4004,10 @@ export const strings = {
       emptyUrl: 'Inserisci un URL YouTube',
       extractFailed: 'Impossibile estrarre l\'ID video dall\'URL',
       uploadFailed: 'Caricamento file fallito',
-      transcriptFailed: 'Generazione trascrizione fallita',
+      transcriptFailed: 'Questo video non ha una trascrizione giapponese utilizzabile.',
       playerFailed: 'Caricamento player fallito',
       invalidVideoId: 'Inserisci un URL YouTube valido o un ID video di 11 caratteri.',
-      transcriptUnavailable: 'Trascrizione non disponibile per questo video.',
+      transcriptUnavailable: 'Questo video non ha una trascrizione giapponese utilizzabile.',
     },
     features: {
       transcripts: {

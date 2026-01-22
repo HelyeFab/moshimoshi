@@ -4443,10 +4443,10 @@ export const strings = {
       emptyUrl: 'Please enter a YouTube URL',
       extractFailed: 'Could not extract video ID from URL',
       uploadFailed: 'Failed to upload file',
-      transcriptFailed: 'Failed to generate transcript',
+      transcriptFailed: "This video doesn't have a Japanese transcript we can use.",
       playerFailed: 'Failed to load player',
       invalidVideoId: 'Enter a valid YouTube URL or 11-character video ID.',
-      transcriptUnavailable: 'Transcript unavailable for this video.',
+      transcriptUnavailable: "This video doesn't have a Japanese transcript we can use.",
     },
 
     features: {

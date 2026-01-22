@@ -4167,10 +4167,10 @@ export const strings = {
       emptyUrl: 'YouTube URLを入力してください',
       extractFailed: 'URLから動画IDを抽出できませんでした',
       uploadFailed: 'ファイルのアップロードに失敗しました',
-      transcriptFailed: '文字起こしの生成に失敗しました',
+      transcriptFailed: 'この動画には使用できる日本語字幕がありません。',
       playerFailed: 'プレーヤーの読み込みに失敗しました',
       invalidVideoId: '有効なYouTube URLまたは11文字の動画IDを入力してください。',
-      transcriptUnavailable: 'この動画のトランスクリプトは利用できません。',
+      transcriptUnavailable: 'この動画には使用できる日本語字幕がありません。',
     },
     features: {
       transcripts: {

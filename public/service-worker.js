@@ -19,7 +19,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-d1e63562b0dd';
+const CACHE_VERSION = 'moshimoshi-4100a52ed608';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -126,6 +126,8 @@ const MANUAL_PRECACHE_URLS = [
   '/data/kanji/jlpt_5.json'
 ];
 const PRECACHE_URLS = [
+  "/_next/static/OdMDYW0vnneBQHnejOgI4/_buildManifest.js",
+  "/_next/static/OdMDYW0vnneBQHnejOgI4/_ssgManifest.js",
   "/_next/static/chunks/10152-ef8441d3e4c2aca0.js",
   "/_next/static/chunks/1036-a680cf451ab48a19.js",
   "/_next/static/chunks/10409-6d4e4d0c8b82e5c5.js",
@@ -207,7 +209,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/54469-a7347a4509cfaceb.js",
   "/_next/static/chunks/54a60aa6-fde3c27555179f9b.js",
   "/_next/static/chunks/56036-433799dea052d081.js",
-  "/_next/static/chunks/56526-8e5f47b2c7a3d1a1.js",
+  "/_next/static/chunks/56526-8dbb70d9d12f58b9.js",
   "/_next/static/chunks/56649-94717f36c93e31de.js",
   "/_next/static/chunks/57292-0fc48d43026e13a1.js",
   "/_next/static/chunks/57578-63879888138aead8.js",
@@ -511,9 +513,7 @@ const PRECACHE_URLS = [
   "/_next/static/css/43958bad23cd245f.css",
   "/_next/static/css/6e09cdf58928be98.css",
   "/_next/static/css/a6ae4ab4bec43017.css",
-  "/_next/static/css/af47b6060c4fddcc.css",
-  "/_next/static/eSyhMCq5GdnNrTju68ebS/_buildManifest.js",
-  "/_next/static/eSyhMCq5GdnNrTju68ebS/_ssgManifest.js"
+  "/_next/static/css/af47b6060c4fddcc.css"
 ].concat(MANUAL_PRECACHE_URLS);
 
 // Install event - cache essential files only
