@@ -236,6 +236,18 @@ export default function ResourceDetailPage() {
                     href={resource.externalUrl}
                     target="_blank"
                     rel="noopener noreferrer"
+                    onClick={() => {
+                      void fetch('/api/analytics/content-click', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          type: 'resource',
+                          contentId: resource.id,
+                          title: resource.title,
+                          source: 'resources_detail_external',
+                        }),
+                      }).catch(() => {});
+                    }}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-colors shadow-lg hover:shadow-xl"
                   >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -285,7 +297,19 @@ export default function ResourceDetailPage() {
                   <div
                     key={related.id}
                     className="bg-white dark:bg-dark-900 rounded-lg shadow-md hover:shadow-lg transition-all cursor-pointer p-6"
-                    onClick={() => router.push(`/resources/${related.id}`)}
+                    onClick={() => {
+                      void fetch('/api/analytics/content-click', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          type: 'resource',
+                          contentId: related.id,
+                          title: related.title,
+                          source: 'resources_related',
+                        }),
+                      }).catch(() => {});
+                      router.push(`/resources/${related.id}`);
+                    }}
                   >
                     <h3 className="text-lg font-semibold mb-2 text-gray-900 dark:text-white">
                       {related.title}

@@ -282,6 +282,14 @@ export default function PopularVideosPage() {
   const [userQuota, setUserQuota] = useState<UserQuota>({ used: 0, limit: 0, remaining: 0 })
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [featuredVideo, setFeaturedVideo] = useState<{
+    videoId: string
+    videoUrl: string
+    videoTitle: string
+    channelName: string
+    thumbnailUrl: string
+    description: string
+  } | null>(null)
   const [showQuotaModal, setShowQuotaModal] = useState(false)
   const [quotaMessage, setQuotaMessage] = useState<(typeof PREMIUM_LIMIT_MESSAGES)[0] | null>(null)
   const [deleteConfirm, setDeleteConfirm] = useState<{
@@ -319,6 +327,21 @@ export default function PopularVideosPage() {
     fetchPopularVideos()
   }, [t])
 
+  useEffect(() => {
+    const fetchFeaturedVideo = async () => {
+      try {
+        const response = await fetch('/api/youtube/featured')
+        if (!response.ok) return
+        const data = await response.json()
+        setFeaturedVideo(data.featured || null)
+      } catch (err) {
+        setFeaturedVideo(null)
+      }
+    }
+
+    fetchFeaturedVideo()
+  }, [])
+
   const handleWatchVideo = async (video: PopularVideo) => {
     // Check if user has quota remaining
     if (userQuota.remaining === 0) {
@@ -334,6 +357,18 @@ export default function PopularVideosPage() {
       }
       return
     }
+
+    void fetch('/api/analytics/content-click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'video',
+        contentId: video.videoId,
+        title: video.videoTitle,
+        url: video.videoUrl,
+        source: 'popular_videos_watch',
+      }),
+    }).catch(() => {})
 
     // Navigate to YouTube shadowing with the video URL
     router.push(`/youtube-shadowing?url=${encodeURIComponent(video.videoUrl)}`)
@@ -434,26 +469,26 @@ export default function PopularVideosPage() {
         )}
 
         {/* Featured Video Section */}
-        {!isLoading && videos.length > 0 && (
+        {!isLoading && featuredVideo && (
           <FeaturedVideo
-            videoId="ofkWnxFRclY"
-            videoTitle="Easy Japanese Listening [JLPT N5–N4] A Christmas Carol"
-            channelName="OYASUMI JAPANESE CHANNEL"
-            thumbnailUrl="https://i.ytimg.com/vi/ofkWnxFRclY/maxresdefault.jpg"
-            description="Created by Tomo, this channel reimagines language learning as a serene experience — where words flow like a gentle stream, stories reveal themselves naturally, and Japanese becomes something to immerse in, not just practice."
+            videoId={featuredVideo.videoId}
+            videoTitle={featuredVideo.videoTitle}
+            channelName={featuredVideo.channelName}
+            thumbnailUrl={featuredVideo.thumbnailUrl}
+            description={featuredVideo.description}
             onWatch={() => handleWatchVideo({
-              videoId: 'ofkWnxFRclY',
-              videoUrl: 'https://www.youtube.com/watch?v=ofkWnxFRclY',
-              videoTitle: 'Easy Japanese Listening [JLPT N5–N4] A Christmas Carol',
-              channelName: 'OYASUMI JAPANESE CHANNEL',
-              thumbnailUrl: 'https://i.ytimg.com/vi/ofkWnxFRclY/maxresdefault.jpg',
-              uniqueViewers: 15,
-              totalWatchCount: 148,
-              averageWatchTime: 5760,
+              videoId: featuredVideo.videoId,
+              videoUrl: featuredVideo.videoUrl,
+              videoTitle: featuredVideo.videoTitle,
+              channelName: featuredVideo.channelName,
+              thumbnailUrl: featuredVideo.thumbnailUrl,
+              uniqueViewers: 0,
+              totalWatchCount: 0,
+              averageWatchTime: 0,
               lastWatched: new Date().toISOString(),
               rank: 1,
               isTrending: true,
-              badge: '🔥 Trending',
+              badge: '⭐ Featured',
             })}
           />
         )}

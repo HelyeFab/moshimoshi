@@ -599,6 +599,33 @@ export default function AdminYouTubeSeriesPage() {
                         )}
                       </div>
 
+                      {channel.isFeatured && channel.sourceVideoId && (
+                        <div className="flex items-center gap-3 p-3 mb-3 bg-yellow-50 dark:bg-yellow-900/10 border border-yellow-200 dark:border-yellow-900/30 rounded-lg">
+                          <img
+                            src={`https://i.ytimg.com/vi/${channel.sourceVideoId}/hqdefault.jpg`}
+                            alt={channel.sourceVideoTitle || 'Featured video'}
+                            className="w-24 h-14 rounded-md object-cover"
+                          />
+                          <div className="flex-1 min-w-0">
+                            <p className="text-xs uppercase text-yellow-700 dark:text-yellow-300 font-semibold mb-1">
+                              Featured Video
+                            </p>
+                            <p className="text-sm font-medium text-foreground line-clamp-2">
+                              {channel.sourceVideoTitle || 'Untitled video'}
+                            </p>
+                          </div>
+                          <a
+                            href={channel.sourceVideoUrl || `https://www.youtube.com/watch?v=${channel.sourceVideoId}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 px-3 py-2 text-xs font-medium text-yellow-800 dark:text-yellow-200 bg-yellow-100 dark:bg-yellow-900/30 rounded-md hover:bg-yellow-200 dark:hover:bg-yellow-900/50"
+                          >
+                            <Play className="w-3 h-3" />
+                            Preview
+                          </a>
+                        </div>
+                      )}
+
                       <div className="text-xs text-muted-foreground space-y-1">
                         <p>Category: {channel.resourceCategory}</p>
                         <p>Tags: {channel.resourceTags?.join(', ') || 'None'}</p>

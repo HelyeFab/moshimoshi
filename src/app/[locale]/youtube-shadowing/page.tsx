@@ -98,6 +98,14 @@ function YouTubeShadowingContent() {
   const [currentSegmentIndex, setCurrentSegmentIndex] = useState(0);
   const [currentRepeat, setCurrentRepeat] = useState(1);
   const [videoMetadata, setVideoMetadata] = useState<VideoMetadata | null>(null);
+  const [featuredVideo, setFeaturedVideo] = useState<{
+    videoId: string;
+    videoUrl: string;
+    videoTitle: string;
+    channelName: string;
+    thumbnailUrl: string;
+    description: string;
+  } | null>(null);
 
   // Settings state
   const [showFurigana, setShowFurigana] = useState(true);
@@ -110,6 +118,35 @@ function YouTubeShadowingContent() {
   const [showClearConfirm, setShowClearConfirm] = useState(false);
   const repeatCountDisplay = videoLoopEnabled ? 1 : repeatCount;
   const currentRepeatDisplay = videoLoopEnabled ? 1 : currentRepeat;
+  const trackFeaturedClick = useCallback(() => {
+    if (!featuredVideo) return;
+    void fetch('/api/analytics/content-click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'video',
+        contentId: featuredVideo.videoId,
+        title: featuredVideo.videoTitle,
+        url: featuredVideo.videoUrl,
+        source: 'youtube_shadowing_featured',
+      }),
+    }).catch(() => {});
+  }, [featuredVideo]);
+
+  useEffect(() => {
+    const fetchFeaturedVideo = async () => {
+      try {
+        const response = await fetch('/api/youtube/featured');
+        if (!response.ok) return;
+        const data = await response.json();
+        setFeaturedVideo(data.featured || null);
+      } catch (err) {
+        setFeaturedVideo(null);
+      }
+    };
+
+    fetchFeaturedVideo();
+  }, []);
 
   // Word explanation state
   const [wordModalOpen, setWordModalOpen] = useState(false);
@@ -831,7 +868,7 @@ function YouTubeShadowingContent() {
                   })}
                 </div>
               </div>
-            ) : (
+            ) : featuredVideo ? (
               <div className={styles.featuredVideoWrapper}>
                 {/* Featured Video Card */}
                 <div className={styles.featuredCard}>
@@ -842,15 +879,16 @@ function YouTubeShadowingContent() {
 
                   <div className={styles.featuredThumbnail}>
                     <img
-                      src="https://i.ytimg.com/vi/ofkWnxFRclY/maxresdefault.jpg"
-                      alt="Easy Japanese Listening [JLPT N5–N4] A Christmas Carol"
+                      src={featuredVideo.thumbnailUrl}
+                      alt={featuredVideo.videoTitle}
                       className={styles.thumbnailImage}
                     />
                     <div className={styles.playOverlay}>
                       <button
                         onClick={() => {
-                          setVideoInput("https://www.youtube.com/watch?v=ofkWnxFRclY");
-                          void loadTranscript("https://www.youtube.com/watch?v=ofkWnxFRclY");
+                          trackFeaturedClick();
+                          setVideoInput(featuredVideo.videoUrl);
+                          void loadTranscript(featuredVideo.videoUrl);
                         }}
                         className={styles.playButton}
                       >
@@ -861,16 +899,17 @@ function YouTubeShadowingContent() {
 
                   <div className={styles.featuredContent}>
                     <h3 className={styles.featuredTitle}>
-                      Easy Japanese Listening [JLPT N5–N4] A Christmas Carol
+                      {featuredVideo.videoTitle}
                     </h3>
-                    <p className={styles.featuredChannel}>OYASUMI JAPANESE CHANNEL</p>
+                    <p className={styles.featuredChannel}>{featuredVideo.channelName}</p>
                     <p className={styles.featuredDescription}>
-                      "Created by Tomo, this channel reimagines language learning as a serene experience — where words flow like a gentle stream, stories reveal themselves naturally, and Japanese becomes something to immerse in, not just practice."
+                      "{featuredVideo.description}"
                     </p>
                     <button
                       onClick={() => {
-                        setVideoInput("https://www.youtube.com/watch?v=ofkWnxFRclY");
-                        void loadTranscript("https://www.youtube.com/watch?v=ofkWnxFRclY");
+                        trackFeaturedClick();
+                        setVideoInput(featuredVideo.videoUrl);
+                        void loadTranscript(featuredVideo.videoUrl);
                       }}
                       className={styles.startButton}
                     >
@@ -880,7 +919,7 @@ function YouTubeShadowingContent() {
                   </div>
                 </div>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
       </main>

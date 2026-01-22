@@ -11,6 +11,7 @@ const adminLinks = [
   { href: '/admin/moodboards', icon: '🎨', label: 'Moodboards' },
   { href: '/admin/learning-village', icon: '🏘️', label: 'Learning Village' },
   { href: '/admin/village-traffic', icon: '🏮', label: 'Village Traffic' },
+  { href: '/admin/content-clicks', icon: '📌', label: 'Content Clicks' },
   { href: '/admin/subscriptions', icon: '💳', label: 'Subscriptions' },
   { href: '/admin/blog', icon: '📝', label: 'Blog' },
   { href: '/admin/monitoring', icon: '📊', label: 'Monitoring' },

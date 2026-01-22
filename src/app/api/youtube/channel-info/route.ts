@@ -103,21 +103,22 @@ export async function POST(request: NextRequest) {
       // If still no channel ID, check if it's a handle (@username)
       if (!channelId && url.includes('@')) {
         const handleMatch = url.match(/@([^\/\?]+)/);
-        if (handleMatch) {
+        const handle = handleMatch?.[1]?.trim();
+        if (handle) {
           // Search for channel by handle (with retry logic)
           const searchResponse = await youtubeClient.get('/search', {
             params: {
               part: 'snippet',
-              q: handleMatch[1],
+              q: handle,
               type: 'channel',
               maxResults: 1,
               key: API_KEY,
-              fields: 'items(snippet(channelId))',
+              fields: 'items(id(channelId))',
             }
           });
 
           if (searchResponse.data.items && searchResponse.data.items.length > 0) {
-            channelId = searchResponse.data.items[0].snippet.channelId;
+            channelId = searchResponse.data.items[0].id?.channelId || null;
           }
         }
       }
@@ -175,17 +176,24 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('Error fetching channel info:', error);
 
+    const apiStatus = error.response?.status;
+    const apiMessage =
+      error.response?.data?.error?.message ||
+      error.response?.data?.error ||
+      error.message ||
+      'Failed to fetch channel information';
+
     // Check for specific API errors
-    if (error.response?.status === 403) {
+    if (apiStatus === 403) {
       return NextResponse.json(
-        { error: 'YouTube API quota exceeded or API key invalid' },
+        { error: 'YouTube API quota exceeded or API key invalid', detail: apiMessage },
         { status: 403 }
       );
     }
 
     return NextResponse.json(
-      { error: 'Failed to fetch channel information' },
-      { status: 500 }
+      { error: 'Failed to fetch channel information', detail: apiMessage },
+      { status: apiStatus || 500 }
     );
   }
 }

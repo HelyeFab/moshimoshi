@@ -920,6 +920,8 @@ export default function EnhancedArticleReader({
   // Story mode state (for multi-page content with optional quiz)
   const [currentPageIndex, setCurrentPageIndex] = useState(0)
   const [showQuiz, setShowQuiz] = useState(false)
+  const [isBookCompleted, setIsBookCompleted] = useState(false)
+  const [isCompletingBook, setIsCompletingBook] = useState(false)
 
   // Get current content based on mode
   const currentContent = isStoryMode ? pages![currentPageIndex].text : article.content
@@ -930,9 +932,66 @@ export default function EnhancedArticleReader({
   const fullAudioContent = isStoryMode
     ? pages?.map(p => p.text || '').filter(Boolean).join(' ') || ''
     : (typeof article.content === 'string' ? article.content : '')
+  const isContentCompleted = contentType === 'book' ? isBookCompleted : isArticleCompleted
+  const isCompletingContent = contentType === 'book' ? isCompletingBook : isCompletingArticle
 
   // Handle mark complete with global celebration and real stats
   const handleMarkComplete = async () => {
+    if (contentType === 'book') {
+      if (!user?.uid || isBookCompleted || isCompletingBook) return
+
+      setIsCompletingBook(true)
+      try {
+        const readingTimeSec = Math.max(0, Math.floor(activeTimeMs / 1000))
+        const response = await fetch('/api/library/books/complete', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            bookId: article.id,
+            readingTimeSec,
+          }),
+        })
+
+        const result = await response.json()
+        if (result.success && result.data && !result.data.alreadyCompleted) {
+          if (result.data.bestStreak === undefined) {
+            console.warn('[Book Reader] Missing bestStreak from response, skipping store update')
+            return
+          }
+
+          gamificationStore.updateFromServer({
+            totalXP: result.data.newTotalXP,
+            currentLevel: result.data.newLevel,
+            currentStreak: result.data.currentStreak,
+            bestStreak: result.data.bestStreak,
+          })
+
+          gamificationStore.setLastSessionStats({
+            itemsCompleted: 1,
+            accuracy: 100,
+            duration: activeTimeMs,
+            xpGained: result.data.xpEarned,
+            contentType: 'book',
+            contentTitle: displayTitle,
+            difficulty: article.difficulty,
+            readingTimeMs: activeTimeMs,
+          })
+
+          gamificationStore.incrementSessionCount()
+          setIsBookCompleted(true)
+        } else if (result.success && result.data?.alreadyCompleted) {
+          setIsBookCompleted(true)
+        }
+      } catch (error) {
+        console.error('[Book Reader] Failed to mark complete:', error)
+      } finally {
+        setIsCompletingBook(false)
+      }
+      return
+    }
+
     const result = await markArticleComplete()
     if (result.success && result.data && !result.data.alreadyCompleted) {
       if (result.data.bestStreak === undefined) {
@@ -2904,21 +2963,21 @@ export default function EnhancedArticleReader({
                   {/* Mark Complete button */}
                   <button
                     onClick={handleMarkComplete}
-                    disabled={isCompletingArticle || isArticleCompleted}
+                    disabled={isCompletingContent || isContentCompleted}
                     className={`flex items-center gap-2 px-6 py-3 rounded-full font-medium transition-all duration-200 ${
-                      isArticleCompleted
+                      isContentCompleted
                         ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 cursor-default'
-                        : isCompletingArticle
+                        : isCompletingContent
                           ? 'bg-gray-100 dark:bg-gray-800 text-gray-400 cursor-wait'
                           : 'bg-primary-500 hover:bg-primary-600 text-white hover:scale-105 active:scale-95 shadow-md hover:shadow-lg'
                     }`}
                   >
-                    {isCompletingArticle ? (
+                    {isCompletingContent ? (
                       <>
                         <Loader2 className="w-5 h-5 animate-spin" />
                         <span>Completing...</span>
                       </>
-                    ) : isArticleCompleted ? (
+                    ) : isContentCompleted ? (
                       <>
                         <CheckCircle className="w-5 h-5" />
                         <span>Completed</span>

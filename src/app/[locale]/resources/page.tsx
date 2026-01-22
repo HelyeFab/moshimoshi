@@ -56,6 +56,18 @@ export default function ResourcesPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [categories, setCategories] = useState<string[]>([]);
+  const trackResourceClick = (resource: Resource, source: string) => {
+    void fetch('/api/analytics/content-click', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: 'resource',
+        contentId: resource.id,
+        title: resource.title,
+        source,
+      }),
+    }).catch(() => {});
+  };
 
   useEffect(() => {
     loadResources();
@@ -187,7 +199,7 @@ export default function ResourcesPage() {
               transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
               className="w-12 h-12 border-4 border-primary-500 border-t-transparent rounded-full mx-auto mb-4"
             />
-            <p className="text-gray-600 dark:text-gray-400">{t('loading.default', 'Loading...')}</p>
+            <p className="text-gray-600 dark:text-gray-400">{t('common.loading')}</p>
           </div>
         )}
 
@@ -229,7 +241,14 @@ export default function ResourcesPage() {
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {featuredResources.map((resource, index) => (
-                  <FeaturedResourceCard key={resource.id} resource={resource} index={index} router={router} t={t} />
+                  <FeaturedResourceCard
+                    key={resource.id}
+                    resource={resource}
+                    index={index}
+                    router={router}
+                    t={t}
+                    onTrack={trackResourceClick}
+                  />
                 ))}
               </div>
             </motion.div>
@@ -248,7 +267,14 @@ export default function ResourcesPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {regularResources.map((resource, index) => (
-                <ResourceCard key={resource.id} resource={resource} index={index} router={router} t={t} />
+                <ResourceCard
+                  key={resource.id}
+                  resource={resource}
+                  index={index}
+                  router={router}
+                  t={t}
+                  onTrack={trackResourceClick}
+                />
               ))}
             </div>
           </motion.div>
@@ -261,7 +287,7 @@ export default function ResourcesPage() {
 }
 
 // Featured Resource Card Component
-function FeaturedResourceCard({ resource, index, router, t }: any) {
+function FeaturedResourceCard({ resource, index, router, t, onTrack }: any) {
   const gradient = getGradientForBook(resource.id);
 
   return (
@@ -270,7 +296,10 @@ function FeaturedResourceCard({ resource, index, router, t }: any) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.1 }}
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
-      onClick={() => router.push(`/resources/${resource.id}`)}
+      onClick={() => {
+        onTrack?.(resource, 'resources_list_featured');
+        router.push(`/resources/${resource.id}`);
+      }}
       className="group relative cursor-pointer overflow-hidden rounded-3xl shadow-2xl hover:shadow-3xl transition-all duration-500"
     >
       {/* Background Image or Gradient */}
@@ -366,7 +395,10 @@ function FeaturedResourceCard({ resource, index, router, t }: any) {
                 href={resource.externalUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onTrack?.(resource, 'resources_list_featured_external');
+                }}
                 className="flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-white bg-primary-500 hover:bg-primary-600 rounded-full transition-colors"
               >
                 <ExternalLink className="w-3.5 h-3.5" />
@@ -385,7 +417,7 @@ function FeaturedResourceCard({ resource, index, router, t }: any) {
 }
 
 // Regular Resource Card Component
-function ResourceCard({ resource, index, router, t }: any) {
+function ResourceCard({ resource, index, router, t, onTrack }: any) {
   const gradient = getGradientForBook(resource.id);
 
   return (
@@ -394,7 +426,10 @@ function ResourceCard({ resource, index, router, t }: any) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: index * 0.05 }}
       whileHover={{ y: -5, transition: { duration: 0.2 } }}
-      onClick={() => router.push(`/resources/${resource.id}`)}
+      onClick={() => {
+        onTrack?.(resource, 'resources_list');
+        router.push(`/resources/${resource.id}`);
+      }}
       className="group relative cursor-pointer overflow-hidden rounded-2xl bg-white/70 dark:bg-dark-900/70 backdrop-blur-xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-white/20"
     >
       {/* Image or Gradient Header */}
@@ -481,7 +516,10 @@ function ResourceCard({ resource, index, router, t }: any) {
               href={resource.externalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              onClick={(e) => e.stopPropagation()}
+              onClick={(e) => {
+                e.stopPropagation();
+                onTrack?.(resource, 'resources_list_external');
+              }}
               className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-white bg-primary-500 hover:bg-primary-600 rounded-full transition-colors"
             >
               <ExternalLink className="w-3 h-3" />
