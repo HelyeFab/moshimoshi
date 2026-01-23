@@ -110,6 +110,7 @@ export async function POST(request: NextRequest) {
       article: 'news_article_word_explanations',
       book: 'book_word_explanations',
       story: 'story_word_explanations',
+      youtube: 'youtube_word_explanations',
       video: 'video_word_explanations',
       comic: 'comic_word_explanations',
     }
@@ -216,6 +217,7 @@ export async function POST(request: NextRequest) {
       includeParticles: includeParticles === true,
       minLength: typeof minLength === 'number' ? minLength : undefined,
       chunkIndex: typeof chunkIndex === 'number' ? chunkIndex : undefined,
+      db,
     } as any)
 
     await docRef.set(
@@ -245,6 +247,7 @@ export async function POST(request: NextRequest) {
           article: 'news_article_word_explanations',
           book: 'book_word_explanations',
           story: 'story_word_explanations',
+          youtube: 'youtube_word_explanations',
           video: 'video_word_explanations',
           comic: 'comic_word_explanations',
         }

@@ -17,6 +17,7 @@ const COLLECTION_MAP = {
     article: 'news_article_word_explanations',
     book: 'book_word_explanations',
     story: 'story_word_explanations',
+    youtube: 'youtube_word_explanations',
     video: 'video_word_explanations',
     comic: 'comic_word_explanations',
 };
@@ -37,6 +38,16 @@ async function getTokenizer() {
         });
     }
     return tokenizerPromise;
+}
+function normalizeWord(value) {
+    let normalized = value.trim();
+    try {
+        normalized = normalized.normalize('NFKC');
+    }
+    catch {
+        // ignore
+    }
+    return normalized.toLowerCase();
 }
 /**
  * Generate full conjugations for a word if it's a verb or adjective.
@@ -179,25 +190,47 @@ async function ensureExtras(explanation, word, sentences, translationCache, jlpt
         }
     }
 }
-// Basic tokenizer: extracts base forms of ALL words (including particles, grammar, etc.)
-async function extractJapaneseWords(text) {
+// Basic tokenizer: extracts base forms of words (optionally including particles and single-kanji)
+async function extractJapaneseWords(text, options = {}) {
     const tokenizer = await getTokenizer();
     const tokens = tokenizer.tokenize(text || '');
-    const words = tokens
-        .map(token => token.basic_form || token.surface_form)
-        .filter(Boolean)
-        .filter(word => word.length > 1); // filter tiny tokens
-    // Deduplicate while preserving order
+    const minLength = typeof options.minLength === 'number'
+        ? options.minLength
+        : options.includeParticles
+            ? 1
+            : 2;
+    const isJapaneseToken = (word) => /[\u3040-\u30ff\u4e00-\u9fff]/.test(word);
+    // Deduplicate while preserving order + collect surface forms
     const seen = new Set();
     const unique = [];
-    for (const word of words) {
-        const key = word.toLowerCase();
+    const surfaceMap = new Map();
+    for (const token of tokens) {
+        const base = token.basic_form || token.surface_form;
+        const surface = token.surface_form || token.basic_form || base;
+        if (!base)
+            continue;
+        if (!isJapaneseToken(base))
+            continue;
+        if (base.length < minLength)
+            continue;
+        const key = normalizeWord(base);
+        if (!surfaceMap.has(key))
+            surfaceMap.set(key, new Set());
+        surfaceMap.get(key).add(base);
+        if (surface)
+            surfaceMap.get(key).add(surface);
         if (!seen.has(key)) {
             seen.add(key);
-            unique.push(word);
+            unique.push({
+                word: base,
+                surfaceForms: Array.from(surfaceMap.get(key) || []),
+            });
         }
     }
-    return unique;
+    return unique.map(entry => ({
+        word: entry.word,
+        surfaceForms: Array.from(surfaceMap.get(normalizeWord(entry.word)) || []),
+    }));
 }
 /**
  * Precompute word explanations for a piece of content and persist to Firestore.
@@ -207,9 +240,13 @@ async function extractJapaneseWords(text) {
  * - Stores merged results in per-content collection
  */
 async function precomputeWordExplanations({ contentId, contentType, text, limit = 1000, // Increased from 400 to 1000 for better completeness
-jlptLevel = 'N5', chunkIndex, onProgress, }) {
+jlptLevel = 'N5', includeParticles, minLength, chunkIndex, onProgress, db: dbOverride, }) {
     var _a;
-    if (!admin_1.adminFirestore) {
+    // Use provided db when available to avoid duplicate admin init
+    const db = dbOverride || (typeof admin_1.getAdminDb === 'function'
+        ? (0, admin_1.getAdminDb)()
+        : admin_1.adminFirestore);
+    if (!db) {
         throw new Error('Firebase Admin not initialized');
     }
     const collection = COLLECTION_MAP[contentType];
@@ -217,12 +254,23 @@ jlptLevel = 'N5', chunkIndex, onProgress, }) {
         throw new Error(`Unsupported contentType: ${contentType}`);
     }
     // Extract words and apply limit, keeping original order
-    const words = (await extractJapaneseWords(text)).slice(0, limit);
-    const docRef = admin_1.adminFirestore.collection(collection).doc(contentId);
+    const words = (await extractJapaneseWords(text, { includeParticles, minLength })).slice(0, limit);
+    const docRef = db.collection(collection).doc(contentId);
     const existingSnap = await docRef.get();
     const existingWords = ((_a = existingSnap.data()) === null || _a === void 0 ? void 0 : _a.words) || [];
-    const existingSet = new Set(existingWords.map(w => { var _a, _b; return ((_b = (_a = w.word) === null || _a === void 0 ? void 0 : _a.toLowerCase) === null || _b === void 0 ? void 0 : _b.call(_a)) || ''; }).filter(Boolean));
-    const missingWords = words.filter(w => !existingSet.has(w.toLowerCase()));
+    const normalize = (v) => (v ? normalizeWord(v) : '');
+    const hasWord = (target) => {
+        const normalized = normalize(target);
+        if (!normalized)
+            return false;
+        return existingWords.some(w => {
+            const surfaceForms = w.surfaceForms;
+            return (normalize(w.word) === normalized ||
+                normalize(w.reading) === normalized ||
+                (surfaceForms || []).some(sf => normalize(sf) === normalized));
+        });
+    };
+    const missingWords = words.filter(w => !hasWord(w.word));
     const aiService = AIService_1.AIService.getInstance();
     const generatedResults = [];
     let cachedCount = 0;
@@ -238,12 +286,17 @@ jlptLevel = 'N5', chunkIndex, onProgress, }) {
     let conjugationsGenerated = 0;
     while (index < missingWords.length) {
         const slice = missingWords.slice(index, index + concurrency);
-        const results = await Promise.all(slice.map(async (word, sliceIndex) => {
+        const results = await Promise.all(slice.map(async (wordObj, sliceIndex) => {
             const globalIndex = index + sliceIndex;
+            const word = wordObj.word;
             try {
                 const cached = await (0, WordExplanationCache_1.getCachedWordExplanation)(word);
                 if (cached) {
                     cachedCount += 1;
+                    if (!cached.surfaceForms && wordObj.surfaceForms) {
+                        cached.surfaceForms = wordObj.surfaceForms;
+                        await (0, WordExplanationCache_1.setCachedWordExplanation)(word, cached);
+                    }
                     await ensureExtras(cached, word, sentences, translationCache, jlptLevel);
                     // If cached but missing fullConjugations, generate them now
                     if (!cached.fullConjugations) {
@@ -266,6 +319,9 @@ jlptLevel = 'N5', chunkIndex, onProgress, }) {
                     throw new Error(aiResponse.error || `Failed to generate explanation for ${word}`);
                 }
                 const explanation = aiResponse.data;
+                if (!explanation.surfaceForms && wordObj.surfaceForms) {
+                    explanation.surfaceForms = wordObj.surfaceForms;
+                }
                 // Generate full conjugations for verbs/adjectives
                 const fullConjugations = await generateFullConjugations(explanation);
                 if (fullConjugations) {
@@ -301,7 +357,10 @@ jlptLevel = 'N5', chunkIndex, onProgress, }) {
         console.warn(`[WordPrecompute] Large word count detected (${merged.length}). ` +
             `May approach Firestore 1MB document limit. Consider implementing sharding.`);
     }
-    await docRef.set(Object.assign({ words: merged, wordCount: merged.length, updatedAt: admin_1.Timestamp.now(), source: 'precompute' }, (typeof chunkIndex === 'number' ? { chunkIndex } : {})), { merge: true });
+    const TimestampNow = (admin_1.Timestamp && typeof admin_1.Timestamp.now === 'function')
+        ? admin_1.Timestamp.now()
+        : require('firebase-admin/firestore').Timestamp.now();
+    await docRef.set(Object.assign({ words: merged, wordCount: merged.length, updatedAt: TimestampNow, source: 'precompute' }, (typeof chunkIndex === 'number' ? { chunkIndex } : {})), { merge: true });
     return {
         contentId,
         contentType,

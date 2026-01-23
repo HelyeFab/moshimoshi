@@ -3,17 +3,19 @@ import kuromoji from 'kuromoji'
 import { AIService } from '../AIService'
 import type { WordExplanation, JLPTLevel } from '../types'
 import { getAdminDb, Timestamp } from '@/lib/firebase/admin'
+import type { Firestore } from 'firebase-admin/firestore'
 import { getCachedWordExplanation, setCachedWordExplanation } from '../cache/WordExplanationCache'
 import { ExtendedConjugationEngine } from '@/lib/conjugation/engine'
 import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
 import { ttsService } from '@/lib/tts/service'
 
-type ContentType = 'article' | 'book' | 'story' | 'video' | 'comic'
+type ContentType = 'article' | 'book' | 'story' | 'youtube' | 'video' | 'comic'
 
 const COLLECTION_MAP: Record<ContentType, string> = {
   article: 'news_article_word_explanations',
   book: 'book_word_explanations',
   story: 'story_word_explanations',
+  youtube: 'youtube_word_explanations',
   video: 'video_word_explanations',
   comic: 'comic_word_explanations',
 }
@@ -266,6 +268,7 @@ interface PrecomputeRequest {
   minLength?: number
   chunkIndex?: number
   onProgress?: (current: number, total: number, word: string, status: 'success' | 'failed') => void | Promise<void>
+  db?: Firestore
 }
 
 interface PrecomputeResult {
@@ -294,9 +297,10 @@ export async function precomputeWordExplanations({
   minLength,
   chunkIndex,
   onProgress,
+  db: dbOverride,
 }: PrecomputeRequest): Promise<PrecomputeResult> {
-  // Get db instance - will throw if not initialized
-  const db = getAdminDb()
+  // Use provided db when available to avoid duplicate admin init
+  const db = dbOverride || getAdminDb()
 
   const collection = COLLECTION_MAP[contentType]
   if (!collection) {

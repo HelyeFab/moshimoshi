@@ -14,6 +14,7 @@ export async function GET(request: NextRequest) {
       | 'article'
       | 'book'
       | 'story'
+      | 'youtube'
       | 'video'
       | null
 
@@ -29,6 +30,7 @@ export async function GET(request: NextRequest) {
       article: 'news_article_word_explanations',
       book: 'book_word_explanations',
       story: 'story_word_explanations',
+      youtube: 'youtube_word_explanations',
       video: 'video_word_explanations',
     }
 

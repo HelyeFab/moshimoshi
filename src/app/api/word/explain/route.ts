@@ -32,6 +32,8 @@ const CONTENT_COLLECTIONS: Record<string, string> = {
   article: 'news_article_word_explanations',
   book: 'book_word_explanations',
   story: 'story_word_explanations',
+  youtube: 'youtube_word_explanations',
+  video: 'video_word_explanations',
   comic: 'comic_word_explanations',
   flashcard: 'flashcard_word_explanations',
 };

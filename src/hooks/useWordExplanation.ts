@@ -24,6 +24,7 @@ interface UseWordExplanationOptions {
   articleId?: string; // Optional: if provided, will check Firebase pre-cached explanations first
   bookId?: string; // Optional: if provided, will check book_word_explanations collection
   storyId?: string; // Optional: if provided, will check story_word_explanations collection
+  youtubeId?: string; // Optional: if provided, will check youtube_word_explanations collection
   videoId?: string; // Optional: if provided, will check video_word_explanations collection
   comicId?: string; // Optional: if provided, will check comic_word_explanations collection
   flashcardId?: string; // Optional: if provided, will check flashcard_word_explanations collection
@@ -51,7 +52,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
   const cacheRef = useRef<Map<string, WordExplanation>>(new Map());
   const lastPrefetchRef = useRef<{
     contentId: string;
-    contentType: 'article' | 'book' | 'story' | 'video' | 'comic' | 'flashcard';
+    contentType: 'article' | 'book' | 'story' | 'youtube' | 'video' | 'comic' | 'flashcard';
     text: string;
   } | null>(null);
   const repairTriggeredRef = useRef<Set<string>>(new Set());
@@ -185,6 +186,45 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
           }
         } catch (firebaseError) {
           console.warn('[WordExplanation] Book pre-cache check failed, falling back to API:', firebaseError);
+          // Continue to API fallback
+        }
+      }
+
+      // If youtubeId is provided, check youtube_word_explanations collection
+      if (options?.youtubeId) {
+        try {
+          console.log('[WordExplanation] Checking Firebase pre-cache for youtubeId:', options.youtubeId);
+          const docRef = doc(firestore, 'youtube_word_explanations', options.youtubeId);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            const words = data.words as WordExplanation[];
+
+            // Find the word in pre-cached explanations
+            const normalized = normalizeWord(word);
+            const preCached = words?.find(w => {
+              const surfaceForms = (w as any).surfaceForms as string[] | undefined;
+              return (
+                normalizeWord(w.word) === normalized ||
+                normalizeWord(w.reading) === normalized ||
+                (surfaceForms || []).some(sf => normalizeWord(sf) === normalized)
+              );
+            });
+
+            if (preCached) {
+              console.log('%c[WordExplanation] SOURCE: YOUTUBE PRE-CACHE (fast)', 'color: #00ccff; font-weight: bold', { word, youtubeId: options.youtubeId });
+              cacheExplanation(preCached);
+              setExplanation(preCached);
+              setLoading(false);
+              options?.onSuccess?.(preCached);
+              return preCached;
+            }
+          } else {
+            console.log('[WordExplanation] No pre-cache document found for youtube');
+          }
+        } catch (firebaseError) {
+          console.warn('[WordExplanation] YouTube pre-cache check failed, falling back to API:', firebaseError);
           // Continue to API fallback
         }
       }
@@ -347,6 +387,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
           options?.articleId ? 'news_article_word_explanations'
             : options?.bookId ? 'book_word_explanations'
             : options?.storyId ? 'story_word_explanations'
+            : options?.youtubeId ? 'youtube_word_explanations'
             : options?.videoId ? 'video_word_explanations'
             : options?.comicId ? 'comic_word_explanations'
             : options?.flashcardId ? 'flashcard_word_explanations'
@@ -386,7 +427,13 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
 
       // Fallback: Call API for word explanation
       // Pass content context to skip quota check for prefetched content
-      const contentId = options?.articleId || options?.bookId || options?.storyId || options?.comicId || options?.flashcardId
+      const contentId =
+        options?.articleId ||
+        options?.bookId ||
+        options?.storyId ||
+        options?.youtubeId ||
+        options?.comicId ||
+        options?.flashcardId
 
       const response = await fetch('/api/word/explain', {
         method: 'POST',
@@ -397,6 +444,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
           ...(options?.articleId && { 'x-content-type': 'article' }),
           ...(options?.bookId && { 'x-content-type': 'book' }),
           ...(options?.storyId && { 'x-content-type': 'story' }),
+          ...(options?.youtubeId && { 'x-content-type': 'youtube' }),
           ...(options?.comicId && { 'x-content-type': 'comic' }),
           ...(options?.flashcardId && { 'x-content-type': 'flashcard' }),
         },
@@ -483,7 +531,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
    * If the doc doesn't exist and text is provided, trigger server-side precompute.
    */
   const prefetch = useCallback(
-    async (params: { contentId: string; contentType: 'article' | 'book' | 'story' | 'video' | 'comic' | 'flashcard'; text?: string }) => {
+    async (params: { contentId: string; contentType: 'article' | 'book' | 'story' | 'youtube' | 'video' | 'comic' | 'flashcard'; text?: string }) => {
       const { contentId, contentType, text } = params;
       if (!contentId || !contentType) return;
 
@@ -493,10 +541,11 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
         { contentId, contentType, hasText: !!text, textLength: text?.length }
       );
 
-      const collectionMap: Record<'article' | 'book' | 'story' | 'video' | 'comic' | 'flashcard', string> = {
+      const collectionMap: Record<'article' | 'book' | 'story' | 'youtube' | 'video' | 'comic' | 'flashcard', string> = {
         article: 'news_article_word_explanations',
         book: 'book_word_explanations',
         story: 'story_word_explanations',
+        youtube: 'youtube_word_explanations',
         video: 'video_word_explanations',
         comic: 'comic_word_explanations',
         flashcard: 'flashcard_word_explanations',
@@ -536,10 +585,10 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
           const precomputeOptions = (data as any)?.precomputeOptions || {};
           if (data?.words?.length) {
             hydrateCache(data.words);
-            const expectedOptions = contentType !== 'video'
+          const expectedOptions = contentType !== 'video'
               ? { includeParticles: true, minLength: 1 }
               : {};
-            const optionsMismatch = contentType !== 'video' && (
+          const optionsMismatch = contentType !== 'video' && (
               precomputeOptions?.includeParticles !== expectedOptions.includeParticles ||
               precomputeOptions?.minLength !== expectedOptions.minLength
             );
@@ -666,7 +715,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
             return;
           }
 
-          if (contentType !== 'video') {
+          if (contentType !== 'video' && contentType !== 'youtube') {
             console.log(
               '%c[WordExplanation] PREFETCH QUEUED (server fetch)',
               'color: #00bfff; font-weight: bold',

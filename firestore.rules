@@ -593,6 +593,12 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    // YouTube word explanations - pre-cached word explanations for YouTube transcripts
+    match /youtube_word_explanations/{videoId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     // Flashcard word explanations - pre-cached vocabulary explanations for decks/cards
     match /flashcard_word_explanations/{cardId} {
       allow read: if true;

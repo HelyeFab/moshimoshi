@@ -155,7 +155,7 @@ function YouTubeShadowingContent() {
 
   // Memoize options to avoid recreating explainWord callback on every render
   const wordExplanationOptions = useMemo(
-    () => (videoId ? { videoId } : undefined),
+    () => (videoId ? { youtubeId: videoId } : undefined),
     [videoId]
   );
 
@@ -411,7 +411,7 @@ function YouTubeShadowingContent() {
         const transcriptText = data.segments.map((s) => s.text).join(" ");
         prefetchWordExplanations({
           contentId: extractedId,
-          contentType: "video",
+          contentType: "youtube",
           text: transcriptText,
         });
       } catch (err: unknown) {
