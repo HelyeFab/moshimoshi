@@ -208,6 +208,16 @@ export default function LearnContent() {
     const maxNew = Math.max(1, Math.floor(requestedSize * 0.6))
     const progressRecords = await kanjiMasteryDB.getProgressByUserAndLevel(user.uid, level)
     const progressById = new Map(progressRecords.map(record => [record.kanjiId, record]))
+    const recentSessionIds = new Set<string>()
+    try {
+      const recentSessions = await kanjiMasteryDB.getSessionsByUser(user.uid, 5)
+      const lastSameLevel = recentSessions.find(session => session.level === level)
+      if (lastSameLevel) {
+        lastSameLevel.kanji.forEach(item => recentSessionIds.add(item.id))
+      }
+    } catch (error) {
+      console.warn('[KanjiMastery] Failed to load recent sessions for pool rotation:', error)
+    }
     const now = new Date()
 
     const dueItems: Array<{ kanji: KanjiWithExamples; dueAt: number }> = []
@@ -251,21 +261,41 @@ export default function LearnContent() {
       }
     }
 
+    const shuffle = <T,>(items: T[]): T[] => {
+      const shuffled = [...items]
+      for (let i = shuffled.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1))
+        ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
+      }
+      return shuffled
+    }
+
     addItems(dueItems.map(item => item.kanji))
 
     if (selected.length < requestedSize) {
-      addItems(weakItems.map(item => item.kanji))
+      const weakNonRecent = weakItems
+        .map(item => item.kanji)
+        .filter(item => !recentSessionIds.has(item.kanji))
+      addItems(shuffle(weakNonRecent))
     }
 
     if (selected.length < requestedSize) {
       const remainingSlots = requestedSize - selected.length
       const newCount = Math.min(maxNew, remainingSlots)
-      addItems(newItems.slice(0, newCount))
+      const newNonRecent = newItems.filter(item => !recentSessionIds.has(item.kanji))
+      addItems(shuffle(newNonRecent).slice(0, newCount))
+    }
+
+    if (selected.length < requestedSize) {
+      const remaining = allKanji.filter(
+        item => !selectedIds.has(item.kanji) && !recentSessionIds.has(item.kanji)
+      )
+      addItems(shuffle(remaining).slice(0, requestedSize - selected.length))
     }
 
     if (selected.length < requestedSize) {
       const remaining = allKanji.filter(item => !selectedIds.has(item.kanji))
-      addItems(remaining.slice(0, requestedSize - selected.length))
+      addItems(shuffle(remaining).slice(0, requestedSize - selected.length))
     }
 
     return selected.slice(0, requestedSize)
@@ -391,7 +421,8 @@ export default function LearnContent() {
     }
   }
 
-  const handleSessionComplete = async () => {
+  // Extract save logic to be reusable
+  const saveSession = async (): Promise<boolean> => {
     try {
       // Determine user tier
       const isPremium = subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly' || false
@@ -494,13 +525,31 @@ export default function LearnContent() {
         }
       }
 
-      // Navigate back to main page
-      router.push(getLocalePath('/tools/kanji-mastery'))
+      return true
     } catch (error) {
-      console.error('Error completing session:', error)
+      console.error('Error saving session:', error)
       showToast('Failed to save session progress', 'error')
-      router.push(getLocalePath('/tools/kanji-mastery'))
+      return false
     }
+  }
+
+  const handleSessionComplete = async () => {
+    await saveSession()
+    router.push(getLocalePath('/tools/kanji-mastery'))
+  }
+
+  const handleGoToDashboard = async () => {
+    await saveSession()
+    router.push(getLocalePath('/dashboard'))
+  }
+
+  const handleStartNewSession = async () => {
+    await saveSession()
+    // Preserve current search params for new session
+    const currentParams = new URLSearchParams(window.location.search)
+    router.push(getLocalePath(`/tools/kanji-mastery/learn?${currentParams.toString()}`))
+    // Force a refresh to reset state
+    router.refresh()
   }
 
   const handleExitRequest = () => {
@@ -537,7 +586,13 @@ export default function LearnContent() {
   }
 
   if (sessionComplete) {
-    return <SessionCompleteModal sessionState={sessionState} onClose={handleSessionComplete} />
+    return (
+      <SessionCompleteModal
+        sessionState={sessionState}
+        onGoToDashboard={handleGoToDashboard}
+        onStartNewSession={handleStartNewSession}
+      />
+    )
   }
 
   const currentKanji = sessionState.kanji[sessionState.currentIndex]

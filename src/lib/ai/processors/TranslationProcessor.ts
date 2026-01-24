@@ -113,32 +113,36 @@ export class TranslationProcessor extends BaseProcessor<TranslationRequest, Tran
       // 🔍 STEP 1: Check Firebase cache first
       console.log(`🔍 Checking Firebase cache for: "${normalizedRequest.text.substring(0, 50)}..." (${normalizedRequest.mode})`);
 
-      const cachedResult = await translationCache.getCachedTranslation(
-        normalizedRequest.text,
-        normalizedRequest.mode,
-        normalizedRequest.userLevel,
-        {
-          includeGrammarNotes: normalizedRequest.includeGrammarNotes,
-          preserveGrammarStructure: normalizedRequest.preserveGrammarStructure
-        }
-      );
-
-      if (cachedResult) {
-        console.log(`✅ Cache HIT! Using cached translation (${Date.now() - startTime}ms)`);
-        cached = true;
-
-        return {
-          data: cachedResult,
-          usage, // Zero cost for cached results
-          metadata: {
-            mode: normalizedRequest.mode,
-            sourceLang: normalizedRequest.sourceLang,
-            targetLang: normalizedRequest.targetLang,
-            userLevel: normalizedRequest.userLevel,
-            cached: true,
-            cacheHit: true
+      if (!translationCache || typeof translationCache.getCachedTranslation !== 'function') {
+        console.warn('⚠️ Translation cache not initialized; skipping cache read');
+      } else {
+        const cachedResult = await translationCache.getCachedTranslation(
+          normalizedRequest.text,
+          normalizedRequest.mode,
+          normalizedRequest.userLevel,
+          {
+            includeGrammarNotes: normalizedRequest.includeGrammarNotes,
+            preserveGrammarStructure: normalizedRequest.preserveGrammarStructure
           }
-        };
+        );
+
+        if (cachedResult) {
+          console.log(`✅ Cache HIT! Using cached translation (${Date.now() - startTime}ms)`);
+          cached = true;
+
+          return {
+            data: cachedResult,
+            usage, // Zero cost for cached results
+            metadata: {
+              mode: normalizedRequest.mode,
+              sourceLang: normalizedRequest.sourceLang,
+              targetLang: normalizedRequest.targetLang,
+              userLevel: normalizedRequest.userLevel,
+              cached: true,
+              cacheHit: true
+            }
+          };
+        }
       }
 
       console.log(`❌ Cache MISS. Proceeding with AI translation...`);
@@ -178,18 +182,22 @@ export class TranslationProcessor extends BaseProcessor<TranslationRequest, Tran
           articleTitle: config.articleTitle
         } : undefined;
 
-        await translationCache.storeTranslation(
-          normalizedRequest.text,
-          normalizedRequest.mode,
-          normalizedRequest.userLevel,
-          enhancedResult,
-          costInfo,
-          context,
-          {
-            includeGrammarNotes: normalizedRequest.includeGrammarNotes,
-            preserveGrammarStructure: normalizedRequest.preserveGrammarStructure
-          }
-        );
+        if (!translationCache || typeof translationCache.storeTranslation !== 'function') {
+          console.warn('⚠️ Translation cache not initialized; skipping cache write');
+        } else {
+          await translationCache.storeTranslation(
+            normalizedRequest.text,
+            normalizedRequest.mode,
+            normalizedRequest.userLevel,
+            enhancedResult,
+            costInfo,
+            context,
+            {
+              includeGrammarNotes: normalizedRequest.includeGrammarNotes,
+              preserveGrammarStructure: normalizedRequest.preserveGrammarStructure
+            }
+          );
+        }
 
         console.log(`💾 Stored translation in Firebase cache (${Date.now() - startTime}ms total)`);
 

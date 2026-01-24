@@ -19,9 +19,11 @@ import {
   ReceiptJapaneseYen,
   WalletCards,
   BookA,
+  Shield,
 } from "lucide-react";
 import { useI18n } from "@/i18n/I18nContext";
 import { useKeyboardVisible } from "@/hooks/useMediaQuery";
+import { useAuth } from "@/hooks/useAuth";
 import { SAFE_AREA_FALLBACK } from "@/lib/constants/layout";
 import NavHandle from "./NavHandle";
 
@@ -35,15 +37,21 @@ interface MobileBottomNavProps {
 const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
   const pathname = usePathname();
   const { strings, language } = useI18n();
+  const { user } = useAuth();
   const isKeyboardVisible = useKeyboardVisible();
   const [isVisible, setIsVisible] = useState(true);
   const [showHandle, setShowHandle] = useState(false);
   const [isAndroid, setIsAndroid] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
   const hideTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Detect Android
+  // Only show admin link after hydration to avoid mismatch
+  const isAdmin = hasMounted && user?.isAdmin === true;
+
+  // Detect Android and mark as mounted
   useEffect(() => {
     setIsAndroid(/android/i.test(navigator.userAgent));
+    setHasMounted(true);
   }, []);
 
   const openCommandPalette = () => {
@@ -53,20 +61,33 @@ const MobileBottomNav = ({ hideOnScroll = true }: MobileBottomNavProps) => {
   const bottomNavStrings = strings.dashboard?.navigation?.bottomNav;
 
   // Nav items with locale prefix
-  const navItems = useMemo(() => [
-    { href: `/${language}/dashboard`, label: bottomNavStrings?.home || "Home", icon: Home },
-    { href: `/${language}/kanji-browser`, label: bottomNavStrings?.kanjiConnections || "Kanji", icon: ReceiptJapaneseYen },
-    { href: `/${language}/kanji-moods`, label: bottomNavStrings?.moodBoards || "Boards", icon: LayoutGrid },
-    { href: `/${language}/flashcards`, label: bottomNavStrings?.cards || "Cards", icon: WalletCards },
-    { href: `/${language}/drill`, label: bottomNavStrings?.drill || "Drill", icon: Zap },
-    { href: `/${language}/vocabulary`, label: bottomNavStrings?.vocabulary || "Vocabulary", icon: BookA },
-    { href: `/${language}/youtube-shadowing`, label: bottomNavStrings?.youtubeShadowing || "Shadow", icon: Youtube },
-    { href: `/${language}/news`, label: bottomNavStrings?.news || "News", icon: Newspaper },
-    { href: `/${language}/library`, label: bottomNavStrings?.library || "Library", icon: BookOpen },
-    { href: `/${language}/stories`, label: bottomNavStrings?.stories || "Stories", icon: BookText },
-    { href: `/${language}/account`, label: bottomNavStrings?.account || "Account", icon: User },
-    { href: `/${language}/settings`, label: bottomNavStrings?.settings || "Settings", icon: Settings },
-  ], [language, bottomNavStrings]);
+  const navItems = useMemo(() => {
+    const items = [
+      { href: `/${language}/dashboard`, label: bottomNavStrings?.home || "Home", icon: Home },
+      { href: `/${language}/kanji-browser`, label: bottomNavStrings?.kanjiConnections || "Kanji", icon: ReceiptJapaneseYen },
+      { href: `/${language}/kanji-moods`, label: bottomNavStrings?.moodBoards || "Boards", icon: LayoutGrid },
+      { href: `/${language}/flashcards`, label: bottomNavStrings?.cards || "Cards", icon: WalletCards },
+      { href: `/${language}/drill`, label: bottomNavStrings?.drill || "Drill", icon: Zap },
+      { href: `/${language}/vocabulary`, label: bottomNavStrings?.vocabulary || "Vocabulary", icon: BookA },
+      { href: `/${language}/youtube-shadowing`, label: bottomNavStrings?.youtubeShadowing || "Shadow", icon: Youtube },
+      { href: `/${language}/news`, label: bottomNavStrings?.news || "News", icon: Newspaper },
+      { href: `/${language}/library`, label: bottomNavStrings?.library || "Library", icon: BookOpen },
+      { href: `/${language}/stories`, label: bottomNavStrings?.stories || "Stories", icon: BookText },
+      { href: `/${language}/account`, label: bottomNavStrings?.account || "Account", icon: User },
+      { href: `/${language}/settings`, label: bottomNavStrings?.settings || "Settings", icon: Settings },
+    ];
+
+    // Add admin link as first item if user is admin
+    if (isAdmin) {
+      items.unshift({
+        href: `/${language}/admin`,
+        label: "Admin",
+        icon: Shield,
+      });
+    }
+
+    return items;
+  }, [language, bottomNavStrings, isAdmin]);
 
   // Clear hide timeout
   const clearHideTimeout = () => {

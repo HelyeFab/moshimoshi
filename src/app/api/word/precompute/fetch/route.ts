@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { adminFirestore as db } from '@/lib/firebase/admin'
+import { extractVideoId } from '@/lib/video'
 
 export const runtime = 'nodejs'
 
@@ -9,7 +10,7 @@ export const runtime = 'nodejs'
  */
 export async function GET(request: NextRequest) {
   try {
-    const contentId = request.nextUrl.searchParams.get('contentId')
+    const rawContentId = request.nextUrl.searchParams.get('contentId')
     const contentType = request.nextUrl.searchParams.get('contentType') as
       | 'article'
       | 'book'
@@ -18,8 +19,17 @@ export async function GET(request: NextRequest) {
       | 'video'
       | null
 
-    if (!contentId || !contentType) {
+    if (!rawContentId || !contentType) {
       return NextResponse.json({ success: false, error: 'contentId and contentType are required' }, { status: 400 })
+    }
+
+    let contentId = rawContentId.trim()
+    if (contentType === 'youtube') {
+      const extracted = extractVideoId(contentId)
+      if (extracted) contentId = extracted
+    }
+    if (contentId.includes('/')) {
+      return NextResponse.json({ success: false, error: 'invalid contentId' }, { status: 400 })
     }
 
     if (!db) {

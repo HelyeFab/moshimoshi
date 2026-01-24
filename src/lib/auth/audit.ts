@@ -168,10 +168,19 @@ export async function logAuditEvent(
     const auditKey = RedisKeys.adminAudit(event, timestamp.toISOString())
     await redis.setex(auditKey, 2592000, JSON.stringify(logEntry))
 
-    // Also store in a daily audit log set for easier querying
-    const dailySetKey = `audit_daily:${timestamp.toISOString().slice(0, 10)}`
-    await redis.sadd(dailySetKey, id)
-    await redis.expire(dailySetKey, 2592000) // 30 days
+    // Also store in a daily audit log hash for easier querying (maps ID → key path)
+    const dailyHashKey = `audit_daily:${timestamp.toISOString().slice(0, 10)}`
+
+    // Check for legacy SET keys and migrate to HASH
+    const keyType = await redis.type(dailyHashKey)
+    if (keyType === 'set') {
+      // Delete legacy SET key - old format only stored IDs without key paths
+      await redis.del(dailyHashKey)
+      console.log(`[AUDIT] Migrated legacy SET key to HASH: ${dailyHashKey}`)
+    }
+
+    await redis.hset(dailyHashKey, id, auditKey)
+    await redis.expire(dailyHashKey, 2592000) // 30 days
 
     // Store user-specific audit trail
     if (context.userId) {
@@ -252,33 +261,46 @@ export async function getAuditLogsByDate(
   limit: number = 100
 ): Promise<AuditLogEntry[]> {
   try {
-    const dailySetKey = `audit_daily:${date}`
-    const auditIds = await redis.smembers(dailySetKey)
-    
-    if (!auditIds.length) return []
+    const dailyHashKey = `audit_daily:${date}`
 
-    // Get the actual log entries
+    // Check key type to handle legacy SET keys from old implementation
+    // Old code used sadd (SET), new code uses hset (HASH)
+    const keyType = await redis.type(dailyHashKey)
+
+    if (keyType === 'set') {
+      // Legacy SET format - delete it since the old structure only stored IDs
+      // without key paths, making the data unretrievable anyway
+      await redis.del(dailyHashKey)
+      console.log(`[AUDIT] Cleaned up legacy SET key: ${dailyHashKey}`)
+      return []
+    }
+
+    if (keyType !== 'hash' && keyType !== 'none') {
+      // Unexpected type - log and return empty
+      console.warn(`[AUDIT] Unexpected key type '${keyType}' for ${dailyHashKey}`)
+      return []
+    }
+
+    const idToKeyMap = await redis.hgetall(dailyHashKey)
+
+    if (!idToKeyMap || Object.keys(idToKeyMap).length === 0) return []
+
+    // Get the key paths (values from the hash), limited to requested amount
+    const keys = Object.values(idToKeyMap).slice(0, limit) as string[]
     const logs: AuditLogEntry[] = []
-    
-    for (const id of auditIds.slice(0, limit)) {
-      // Find the log entry by searching Redis keys
-      // This is a simplified implementation - in production, you'd want better indexing
-      const keys = await redis.keys(`audit:*:*`)
-      for (const key of keys) {
-        const logData = await redis.get(key)
-        if (logData) {
-          const log = JSON.parse(logData as string)
-          if (log.id === id) {
-            logs.push({
-              ...log,
-              timestamp: new Date(log.timestamp),
-            })
-            break
-          }
-        }
+
+    // Batch fetch all entries by their direct key paths
+    for (const key of keys) {
+      const logData = await redis.get(key)
+      if (logData) {
+        const log = JSON.parse(logData as string)
+        logs.push({
+          ...log,
+          timestamp: new Date(log.timestamp),
+        })
       }
     }
-    
+
     return logs.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
   } catch (error) {
     console.error('Failed to get audit logs by date:', error)

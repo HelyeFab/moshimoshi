@@ -30,6 +30,7 @@ function writeJson<T>(key: string, value: T): void {
   localStorage.setItem(key, JSON.stringify(value))
 }
 
+
 export function readUsageSnapshot(): UsageSnapshot {
   return readJson<UsageSnapshot>(USAGE_SNAPSHOT_KEY) || {}
 }

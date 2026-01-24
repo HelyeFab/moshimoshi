@@ -1,0 +1,1 @@
+ /api/youtube/transcript/[videoId]    

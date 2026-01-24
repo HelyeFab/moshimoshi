@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { withAdminAuth, AdminContext } from '@/lib/admin/adminAuth';
+import { AdminContext } from '@/lib/admin/adminAuth';
+import { withAdminAnalyticsRateLimit } from '@/lib/api/admin-analytics-rate-limiter';
 import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
 import { getLearningVillagePageKey, learningVillageTrackedRoutes } from '@/lib/analytics/learningVillageRoutes';
 
@@ -7,11 +8,11 @@ import { getLearningVillagePageKey, learningVillageTrackedRoutes } from '@/lib/a
  * GET /api/admin/analytics/visitors
  *
  * Fetches visitor counts from Firestore (custom tracking)
- * Requires admin authentication
+ * Requires admin authentication + rate limiting (60 req/min)
  *
  * Returns counts for both landing page and waitlist page
  */
-export const GET = withAdminAuth(async (request: NextRequest, context: AdminContext) => {
+export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, context: AdminContext) => {
   try {
     ensureAdminInitialized();
 

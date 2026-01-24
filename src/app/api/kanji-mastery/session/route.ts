@@ -155,13 +155,21 @@ export async function GET(request: NextRequest) {
       })
     }
 
+    const levelTotals: Record<string, number> = {
+      N5: 80,
+      N4: 170,
+      N3: 370,
+      N2: 380,
+      N1: 1200
+    }
+
     // Fetch recent sessions from Firebase
     const sessionsSnapshot = await adminDb
       .collection('users')
       .doc(session.uid)
       .collection('kanji_mastery_sessions')
       .orderBy('createdAt', 'desc')
-      .limit(20)
+      .limit(60)
       .get()
 
     const sessions = sessionsSnapshot.docs.map(doc => ({
@@ -179,9 +187,96 @@ export async function GET(request: NextRequest) {
     const statsSnapshot = await statsRef.get()
     const stats = statsSnapshot.exists ? statsSnapshot.data() : null
 
+    // Aggregate progress by level using kanji_progress collection
+    const progressSnapshot = await adminDb
+      .collection('users')
+      .doc(session.uid)
+      .collection('kanji_progress')
+      .select('level', 'srsData', 'kanjiId')
+      .get()
+
+    const levelProgress: Record<string, { studied: number; total: number; mastered: number }> =
+      Object.fromEntries(Object.entries(levelTotals).map(([level, total]) => [
+        level,
+        { studied: 0, total, mastered: 0 }
+      ]))
+
+    let totalStudied = 0
+    let totalMastered = 0
+
+    progressSnapshot.forEach(doc => {
+      const data = doc.data() as { level?: string; srsData?: { status?: string } }
+      totalStudied += 1
+
+      const level = data.level
+      if (level && levelProgress[level]) {
+        levelProgress[level].studied += 1
+      }
+
+      if (data.srsData?.status === 'mastered') {
+        totalMastered += 1
+        if (level && levelProgress[level]) {
+          levelProgress[level].mastered += 1
+        }
+      }
+    })
+
+    const averageAccuracyPercent = Math.round(Math.max(0, stats?.averageAccuracy || 0) * 100)
+
+    const sessionDates = sessions
+      .map((sessionDoc: any) => sessionDoc.endTime || sessionDoc.createdAt)
+      .filter(Boolean)
+
+    const computeStreak = (dates: string[]) => {
+      if (dates.length === 0) {
+        return { streakDays: 0, lastStudyDate: null }
+      }
+
+      const toDayKey = (dateStr: string) => {
+        const date = new Date(dateStr)
+        if (Number.isNaN(date.getTime())) return null
+        return new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()
+      }
+
+      const uniqueDays = Array.from(
+        new Set(dates.map(toDayKey).filter((value): value is number => value !== null))
+      ).sort((a, b) => b - a)
+
+      if (uniqueDays.length === 0) {
+        return { streakDays: 0, lastStudyDate: null }
+      }
+
+      let streak = 1
+      for (let i = 0; i < uniqueDays.length - 1; i += 1) {
+        const current = uniqueDays[i]
+        const next = uniqueDays[i + 1]
+        const dayDiff = (current - next) / (24 * 60 * 60 * 1000)
+        if (dayDiff === 1) {
+          streak += 1
+        } else {
+          break
+        }
+      }
+
+      return {
+        streakDays: streak,
+        lastStudyDate: new Date(uniqueDays[0]).toISOString()
+      }
+    }
+
+    const { streakDays, lastStudyDate } = computeStreak(sessionDates as string[])
+
     return NextResponse.json({
       sessions,
       statistics: stats,
+      progressSummary: {
+        totalStudied,
+        totalMastered,
+        averageAccuracy: averageAccuracyPercent,
+        streakDays,
+        lastStudyDate: lastStudyDate || stats?.lastSessionDate || null,
+        levelProgress
+      },
       isPremium
     })
 

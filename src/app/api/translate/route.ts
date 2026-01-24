@@ -32,24 +32,28 @@ export async function POST(request: NextRequest) {
     console.log(`🔍 Checking Firebase cache for: "${text.substring(0, 50)}..." (${mode})`);
 
     try {
-      const cachedResult = await translationCache.getCachedTranslation(
-        text,
-        mode as TranslationMode,
-        userLevel || 'N5',
-        {
-          includeGrammarNotes: includeGrammarNotes ?? true,
-          preserveGrammarStructure: preserveGrammarStructure ?? true
-        }
-      );
+      if (!translationCache || typeof translationCache.getCachedTranslation !== 'function') {
+        console.warn('⚠️ Translation cache not initialized; skipping cache read');
+      } else {
+        const cachedResult = await translationCache.getCachedTranslation(
+          text,
+          mode as TranslationMode,
+          userLevel || 'N5',
+          {
+            includeGrammarNotes: includeGrammarNotes ?? true,
+            preserveGrammarStructure: preserveGrammarStructure ?? true
+          }
+        );
 
-      if (cachedResult) {
-        console.log(`✅ Firebase Cache HIT! (${Date.now() - startTime}ms)`);
-        return NextResponse.json({
-          success: true,
-          data: cachedResult,
-          cached: true,
-          responseTime: Date.now() - startTime
-        });
+        if (cachedResult) {
+          console.log(`✅ Firebase Cache HIT! (${Date.now() - startTime}ms)`);
+          return NextResponse.json({
+            success: true,
+            data: cachedResult,
+            cached: true,
+            responseTime: Date.now() - startTime
+          });
+        }
       }
 
       console.log(`❌ Firebase Cache MISS. Proceeding with AI translation...`);
@@ -84,18 +88,22 @@ export async function POST(request: NextRequest) {
           estimatedCost: response.usage?.estimatedCost || 0
         };
 
-        await translationCache.storeTranslation(
-          text,
-          mode as TranslationMode,
-          userLevel || 'N5',
-          result,
-          costInfo,
-          undefined, // context - could be enhanced later
-          {
-            includeGrammarNotes: includeGrammarNotes ?? true,
-            preserveGrammarStructure: preserveGrammarStructure ?? true
-          }
-        );
+        if (!translationCache || typeof translationCache.storeTranslation !== 'function') {
+          console.warn('⚠️ Translation cache not initialized; skipping cache write');
+        } else {
+          await translationCache.storeTranslation(
+            text,
+            mode as TranslationMode,
+            userLevel || 'N5',
+            result,
+            costInfo,
+            undefined, // context - could be enhanced later
+            {
+              includeGrammarNotes: includeGrammarNotes ?? true,
+              preserveGrammarStructure: preserveGrammarStructure ?? true
+            }
+          );
+        }
 
         console.log(`💾 Stored translation in Firebase cache (${Date.now() - startTime}ms total)`);
 

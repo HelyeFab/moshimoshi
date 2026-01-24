@@ -8,6 +8,7 @@ import ThemeToggle from '@/components/ui/ThemeToggle'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { debugLog } from '@/lib/logger/debug-logger'
 import { Dialog, Transition } from '@headlessui/react'
+import { ChevronDown } from 'lucide-react'
 
 const log = debugLog('app:admin:layout')
 
@@ -23,6 +24,7 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [showUserMenu, setShowUserMenu] = useState(false)
   const [showMobileMenu, setShowMobileMenu] = useState(false)
+  const [trackingOpen, setTrackingOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -84,6 +86,14 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
     )
   }
 
+  const trackingItems = [
+    { href: '/admin/village-traffic', label: 'Village Traffic', icon: '🏮' },
+    { href: '/admin/content-clicks', label: 'Content Clicks', icon: '📌' },
+    { href: '/admin/subscriptions', label: 'Subscriptions', icon: '💳' },
+    { href: '/admin/auth-monitor', label: 'Auth Monitor', icon: '🛡️' },
+    { href: '/admin/monitoring', label: 'Monitoring', icon: '📊' },
+  ]
+
   const navItems = [
     { href: '/admin', label: 'Dashboard', icon: '📊' },
     { href: '/admin/user-lookup', label: 'User Lookup', icon: '👤' },
@@ -95,13 +105,9 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
     { href: '/admin/books', label: 'Library Books', icon: '📚' },
     { href: '/admin/moodboards', label: 'Moodboards', icon: '🎨' },
     { href: '/admin/learning-village', label: 'Learning Village', icon: '🏘️' },
-    { href: '/admin/village-traffic', label: 'Village Traffic', icon: '🏮' },
-    { href: '/admin/content-clicks', label: 'Content Clicks', icon: '📌' },
     { href: '/admin/grammar-stall', label: 'Grammar Stall', icon: '📘' },
-    { href: '/admin/subscriptions', label: 'Subscriptions', icon: '💳' },
     { href: '/admin/stripe-testing', label: 'Stripe Testing', icon: '🥚' },
     { href: '/admin/blog', label: 'Blog', icon: '📝' },
-    { href: '/admin/monitoring', label: 'Monitoring', icon: '📊' },
     { href: '/admin/stats-consistency', label: 'Stats Monitor', icon: '🔍' },
     { href: '/admin/entitlements', label: 'Entitlements', icon: '🔐' },
     { href: '/admin/xp-config', label: 'XP Config', icon: '⚡' },
@@ -134,6 +140,52 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
           )}
         </div>
         <nav className="flex-1 mt-4 px-2 space-y-1 overflow-y-auto overflow-x-hidden scrollbar-hide pb-28">
+          {/* Tracking Subdrawer */}
+          <div className="mb-2">
+            <button
+              onClick={() => setTrackingOpen(!trackingOpen)}
+              className={`w-full flex items-center ${sidebarOpen ? 'justify-between gap-3 px-4' : 'justify-center'} py-2.5 rounded-lg transition-colors group relative ${
+                trackingItems.some(item => isActiveRoute(item.href))
+                  ? 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400'
+                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-800'
+              }`}
+              title={!sidebarOpen ? 'Tracking' : undefined}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-xl flex-shrink-0">📈</span>
+                {sidebarOpen && (
+                  <span className="text-sm font-medium whitespace-nowrap">Tracking</span>
+                )}
+              </div>
+              {sidebarOpen && (
+                <ChevronDown className={`w-4 h-4 transition-transform ${trackingOpen ? 'rotate-180' : ''}`} />
+              )}
+              {!sidebarOpen && (
+                <div className="absolute left-full ml-2 px-2 py-1 bg-gray-800 text-white text-sm rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-50">
+                  Tracking
+                </div>
+              )}
+            </button>
+            {trackingOpen && sidebarOpen && (
+              <div className="ml-4 mt-1 space-y-1 border-l-2 border-gray-200 dark:border-dark-600 pl-2">
+                {trackingItems.map(item => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${
+                      isActiveRoute(item.href)
+                        ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400'
+                        : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-dark-800'
+                    }`}
+                  >
+                    <span className="text-lg flex-shrink-0">{item.icon}</span>
+                    <span className="text-sm font-medium whitespace-nowrap">{item.label}</span>
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
           {navItems.map(item => (
             <Link
               key={item.href}
@@ -297,6 +349,43 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
                     <ul role="list" className="flex flex-1 flex-col gap-y-7">
                       <li>
                         <ul role="list" className="-mx-2 space-y-1">
+                          {/* Mobile Tracking Subdrawer */}
+                          <li>
+                            <button
+                              onClick={() => setTrackingOpen(!trackingOpen)}
+                              className={`w-full group flex items-center justify-between gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold ${
+                                trackingItems.some(item => isActiveRoute(item.href))
+                                  ? 'bg-gray-50 text-primary-600'
+                                  : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                              }`}
+                            >
+                              <div className="flex items-center gap-x-3">
+                                <span className="text-xl">📈</span>
+                                Tracking
+                              </div>
+                              <ChevronDown className={`w-4 h-4 transition-transform ${trackingOpen ? 'rotate-180' : ''}`} />
+                            </button>
+                            {trackingOpen && (
+                              <ul className="ml-6 mt-1 space-y-1 border-l-2 border-gray-200 dark:border-dark-600 pl-2">
+                                {trackingItems.map(item => (
+                                  <li key={item.href}>
+                                    <Link
+                                      href={item.href}
+                                      onClick={() => setShowMobileMenu(false)}
+                                      className={`group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold ${
+                                        isActiveRoute(item.href)
+                                          ? 'bg-gray-50 text-primary-600'
+                                          : 'text-gray-700 hover:text-primary-600 hover:bg-gray-50'
+                                      }`}
+                                    >
+                                      <span className="text-lg">{item.icon}</span>
+                                      {item.label}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </li>
                           {navItems.map(item => (
                             <li key={item.label}>
                               <Link

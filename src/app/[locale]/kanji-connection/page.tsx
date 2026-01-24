@@ -3,7 +3,6 @@
 import KanjiConnectionPage from './KanjiConnectionPage';
 import { structuredData } from '@/utils/seo';
 import { StructuredData } from '@/components/StructuredData';
-import { EntitlementGate } from '@/components/review-engine/EntitlementGate';
 
 export default function Page() {
   const breadcrumbData = structuredData.breadcrumb([
@@ -52,10 +51,10 @@ export default function Page() {
   };
 
   return (
-    <EntitlementGate featureId="kanji_connection">
+    <>
       <StructuredData data={breadcrumbData} />
       <StructuredData data={gameData} />
       <KanjiConnectionPage />
-    </EntitlementGate>
+    </>
   );
 }

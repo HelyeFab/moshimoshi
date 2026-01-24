@@ -269,7 +269,6 @@ export const LEGACY_STORAGE_KEYS = [
   'currentStreak',
   'bestStreak',
   'kana-progress',
-  'kanjiMasteryProgress',
   'kanjiReviewStats',
   'kanjiMasterySettings',
   'review_countdowns',

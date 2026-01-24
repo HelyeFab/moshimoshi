@@ -39,8 +39,6 @@ const YOUTUBE_URL_PATTERNS = [
 ]
 
 const INVALID_URL_ERROR = 'Invalid YouTube URL. Please check the URL and try again.'
-const MAX_PREFETCH_CHARS = 48000
-const PREFETCH_CHUNK_SIZE = 8000
 
 const normalizeYoutubeUrl = (url: string): string => {
   const videoId = extractVideoId(url)
@@ -82,14 +80,6 @@ const createTranscriptState = (
   metadata,
 })
 
-function chunkText(text: string, size: number): string[] {
-  const chunks: string[] = []
-  for (let i = 0; i < text.length; i += size) {
-    chunks.push(text.slice(i, i + size))
-  }
-  return chunks
-}
-
 export function useProgressiveTranscript(
   url: string | null | undefined,
   options: UseProgressiveTranscriptOptions = {}
@@ -108,7 +98,6 @@ export function useProgressiveTranscript(
   const [aiEnhancing, setAiEnhancing] = useState(false)
   const [aiProgress, setAiProgress] = useState(0)
   const [reloadFlag, setReloadFlag] = useState(0)
-  const lastPrecomputeVideoIdRef = useRef<string | null>(null)
 
   const abortControllerRef = useRef<AbortController | null>(null)
   const progressIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -119,58 +108,7 @@ export function useProgressiveTranscript(
     [enableAI, maxSegmentLength, addFurigana, includeTranslations]
   )
 
-  const triggerWordPrecompute = useCallback(async (videoId: string, segments: TranscriptSegment[]) => {
-    if (!videoId || lastPrecomputeVideoIdRef.current === videoId) {
-      return
-    }
-
-    const fullText = segments
-      .map(segment => segment.text || '')
-      .filter(Boolean)
-      .join(' ')
-
-    if (!fullText.trim()) {
-      return
-    }
-
-    lastPrecomputeVideoIdRef.current = videoId
-
-    const safeText = fullText.length > MAX_PREFETCH_CHARS
-      ? fullText.slice(0, MAX_PREFETCH_CHARS)
-      : fullText
-
-    const chunks = chunkText(safeText, PREFETCH_CHUNK_SIZE).slice(0, 6)
-
-    try {
-      for (let idx = 0; idx < chunks.length; idx++) {
-        const chunk = chunks[idx]
-        const response = await fetch('/api/word/precompute', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            contentId: videoId,
-            contentType: 'youtube',
-            text: chunk,
-            chunkIndex: idx,
-            allowWhileGenerating: idx > 0,
-            includeParticles: true,
-            minLength: 1,
-          }),
-        })
-
-        if (!response.ok) {
-          continue
-        }
-
-        const payload = await response.json().catch(() => null)
-        if (payload?.skipped === 'locked' || payload?.skipped === 'complete') {
-          break
-        }
-      }
-    } catch (error) {
-      console.warn('[ProgressiveTranscript] Word precompute failed', error)
-    }
-  }, [])
+  // Word precompute is handled by the shared word explanation prefetcher.
 
   useEffect(() => {
     return () => {
@@ -289,11 +227,6 @@ export function useProgressiveTranscript(
           setLoading(false)
 
           showToast('Transcript loaded! You can start shadowing right away.', 'success')
-        }
-
-        if (latestRequestIdRef.current === requestId) {
-          const precomputeSegments = formattedSegments ?? rawSegments
-          void triggerWordPrecompute(videoId, precomputeSegments)
         }
 
         // If AI already provided formatted transcript, skip enhancement.

@@ -386,6 +386,7 @@ export async function GET(
         endTime: line.endTime,
         text: line.text,
         words: line.words,
+        translation: line.translation,
       }))
 
       return NextResponse.json<TranscriptResponse>({

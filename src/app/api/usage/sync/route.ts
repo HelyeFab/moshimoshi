@@ -7,10 +7,22 @@ import { FEATURE_IDS } from '@/types/FeatureId'
 import { getSecurityHeaders } from '@/lib/auth/validation'
 
 const VALID_FEATURES: Set<FeatureId> = new Set(FEATURE_IDS)
+const UNIQUE_ITEM_FIELDS: Partial<Record<FeatureId, keyof UsageBucketWithUniqueItems>> = {
+  kanji_mood_board: 'kanji_mood_board_boards',
+  news: 'news_items',
+  comics: 'comics_items',
+  kanji_connection: 'kanji_connection_items',
+  textbook_vocabulary: 'textbook_vocabulary_items',
+  story: 'story_items'
+}
 
 type UsageBucketWithUniqueItems = UsageBucket & {
   kanji_mood_board_boards?: string[]
   news_items?: string[]
+  comics_items?: string[]
+  kanji_connection_items?: string[]
+  textbook_vocabulary_items?: string[]
+  story_items?: string[]
 }
 
 export async function POST(request: NextRequest) {
@@ -76,17 +88,12 @@ export async function POST(request: NextRequest) {
           ? (usageDoc.data() as UsageBucketWithUniqueItems)
           : { userId, date: bucketKey, updatedAt: nowUtcISO }
 
-        const boards = Array.isArray((usageData as any).kanji_mood_board_boards)
-          ? (usageData as any).kanji_mood_board_boards
-          : []
-        const newsItems = Array.isArray((usageData as any).news_items)
-          ? (usageData as any).news_items
-          : []
-        const usageBefore = featureId === 'kanji_mood_board'
-          ? boards.length
-          : featureId === 'news'
-            ? newsItems.length
-            : (usageData[featureId] ?? 0)
+        const uniqueField = UNIQUE_ITEM_FIELDS[featureId]
+        const hasStoredItems = !!uniqueField && Array.isArray((usageData as any)[uniqueField])
+        const storedItems = hasStoredItems ? (usageData as any)[uniqueField] : []
+        const usageBefore = uniqueField
+          ? (hasStoredItems ? storedItems.length : (usageData[featureId] ?? 0))
+          : (usageData[featureId] ?? 0)
         const context = {
           userId,
           plan,
@@ -99,29 +106,19 @@ export async function POST(request: NextRequest) {
         let appliedDelta = limit === -1 ? delta : Math.min(delta, Math.max(0, limit - usageBefore))
         let nextUsed = usageBefore + appliedDelta
 
-        if (featureId === 'kanji_mood_board' && uniqueItems?.kanji_mood_board) {
-          const incoming = Array.isArray(uniqueItems.kanji_mood_board)
-            ? uniqueItems.kanji_mood_board
+        if (uniqueField && uniqueItems?.[featureId]) {
+          const incoming = Array.isArray(uniqueItems[featureId])
+            ? uniqueItems[featureId]
             : []
-          const newBoards = incoming.filter((id: unknown) => typeof id === 'string' && !boards.includes(id))
-          const remainingForBoards = limit === -1 ? newBoards.length : Math.max(0, limit - usageBefore)
-          const appliedBoards = limit === -1 ? newBoards : newBoards.slice(0, remainingForBoards)
-          appliedDelta = appliedBoards.length
-          nextUsed = usageBefore + appliedDelta
-          if (appliedBoards.length > 0) {
-            usageData.kanji_mood_board_boards = [...boards, ...appliedBoards]
-          }
-        } else if (featureId === 'news' && uniqueItems?.news) {
-          const incoming = Array.isArray(uniqueItems.news)
-            ? uniqueItems.news
-            : []
-          const newItems = incoming.filter((id: unknown) => typeof id === 'string' && !newsItems.includes(id))
+          const newItems = incoming.filter(
+            (id: unknown) => typeof id === 'string' && !storedItems.includes(id)
+          )
           const remainingForItems = limit === -1 ? newItems.length : Math.max(0, limit - usageBefore)
           const appliedItems = limit === -1 ? newItems : newItems.slice(0, remainingForItems)
           appliedDelta = appliedItems.length
           nextUsed = usageBefore + appliedDelta
           if (appliedItems.length > 0) {
-            usageData.news_items = [...newsItems, ...appliedItems]
+            ;(usageData as Record<string, unknown>)[uniqueField] = [...storedItems, ...appliedItems]
           }
         }
 

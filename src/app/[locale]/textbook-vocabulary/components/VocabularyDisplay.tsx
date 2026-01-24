@@ -66,7 +66,8 @@ interface VocabularyDisplayProps {
   // Expose vocabulary data to parent
   onVocabularyLoaded?: (vocabulary: VocabularyItem[]) => void
   onFilteredVocabularyChange?: (filtered: VocabularyItem[]) => void
-  onLessonChange?: (lesson: number | 'all') => void
+  onLessonChange?: (lesson: number | 'all') => boolean | Promise<boolean>
+  allowAllLessons?: boolean
 }
 
 export function VocabularyDisplay({
@@ -79,6 +80,7 @@ export function VocabularyDisplay({
   onVocabularyLoaded,
   onFilteredVocabularyChange,
   onLessonChange,
+  allowAllLessons = true,
 }: VocabularyDisplayProps) {
   const { strings } = useI18n()
   const { play, isPlaying, preload } = useTTS({ cacheFirst: true })
@@ -117,6 +119,10 @@ export function VocabularyDisplay({
   // Filter vocabulary based on lesson and search
   useEffect(() => {
     let filtered = vocabulary
+
+    if (!allowAllLessons && selectedLesson === 'all') {
+      filtered = []
+    }
 
     // Filter by lesson
     if (selectedLesson !== 'all') {
@@ -169,9 +175,10 @@ export function VocabularyDisplay({
   }, [filteredVocab, viewMode, preload])
 
   // Handle lesson change
-  const handleLessonChange = useCallback((lesson: number | 'all') => {
+  const handleLessonChange = useCallback(async (lesson: number | 'all') => {
+    const allowed = (await onLessonChange?.(lesson)) !== false
+    if (!allowed) return
     setSelectedLesson(lesson)
-    onLessonChange?.(lesson)
   }, [onLessonChange])
 
   // Handle item click - either toggle selection or show details
@@ -263,7 +270,9 @@ export function VocabularyDisplay({
             onChange={(e) => handleLessonChange(e.target.value === 'all' ? 'all' : Number(e.target.value))}
             className="px-4 py-2 rounded-lg border border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-primary-500"
           >
-            <option value="all">{strings.common?.allLessons || 'All Lessons'}</option>
+            {allowAllLessons ? (
+              <option value="all">{strings.common?.allLessons || 'All Lessons'}</option>
+            ) : null}
             {lessons.map(lesson => (
               <option key={lesson} value={lesson}>
                 {strings.common?.lesson || 'Lesson'} {lesson}

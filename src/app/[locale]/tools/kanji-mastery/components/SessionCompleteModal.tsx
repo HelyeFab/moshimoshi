@@ -1,18 +1,20 @@
 'use client'
 
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import { SessionState } from '../learn/LearnContent'
-import Link from 'next/link'
-import { useUserStorage } from '@/hooks/useUserStorage'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import { Home, RefreshCw } from 'lucide-react'
 
 interface SessionCompleteModalProps {
   sessionState: SessionState
-  onClose: () => void
+  onGoToDashboard: () => Promise<void>
+  onStartNewSession: () => Promise<void>
 }
 
-export default function SessionCompleteModal({ sessionState, onClose }: SessionCompleteModalProps) {
+export default function SessionCompleteModal({ sessionState, onGoToDashboard, onStartNewSession }: SessionCompleteModalProps) {
+  const [isNavigating, setIsNavigating] = useState(false)
   // Calculate session statistics
   const totalKanji = sessionState.kanji.length
   const completedKanji = Array.from(sessionState.progress.values()).filter(p => p.round3Rating).length
@@ -53,43 +55,6 @@ export default function SessionCompleteModal({ sessionState, onClose }: SessionC
     if (averageAccuracy >= 40) return 'Nice effort! Every session makes you stronger! 📈'
     return 'Keep practicing! You\'re building a strong foundation! 🌱'
   }
-
-  // Get user storage hook
-  const { getItem, setItem } = useUserStorage()
-
-  // Update overall progress
-  const updateOverallProgress = () => {
-    const progressData = getItem('kanjiMasteryProgress')
-    const current = progressData || {
-      totalStudied: 0,
-      totalMastered: 0,
-      averageAccuracy: 0,
-      streakDays: 0,
-      lastStudyDate: null,
-      levelProgress: {}
-    }
-
-    // Update stats
-    current.totalStudied += totalKanji
-    current.totalMastered += masteryDistribution.perfect + masteryDistribution.easy
-    current.averageAccuracy = Math.round((current.averageAccuracy + averageAccuracy) / 2)
-
-    // Update streak
-    const lastDate = current.lastStudyDate ? new Date(current.lastStudyDate) : null
-    const today = new Date()
-    if (!lastDate || (today.getDate() !== lastDate.getDate())) {
-      if (lastDate && (today.getTime() - lastDate.getTime()) < 48 * 60 * 60 * 1000) {
-        current.streakDays++
-      } else {
-        current.streakDays = 1
-      }
-    }
-    current.lastStudyDate = today.toISOString()
-
-    setItem('kanjiMasteryProgress', current)
-  }
-
-  updateOverallProgress()
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
@@ -184,19 +149,29 @@ export default function SessionCompleteModal({ sessionState, onClose }: SessionC
           )}
 
           {/* Action Buttons */}
-          <div className="flex gap-3">
+          <div className="flex p-1 bg-gray-100 dark:bg-dark-700 rounded-lg">
             <button
-              onClick={onClose}
-              className="flex-1 px-4 py-3 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-300 dark:hover:bg-dark-600 transition-colors"
+              onClick={async () => {
+                setIsNavigating(true)
+                await onGoToDashboard()
+              }}
+              disabled={isNavigating}
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md text-sm font-medium transition-all text-gray-700 dark:text-gray-300 hover:bg-white dark:hover:bg-dark-600 hover:shadow-sm disabled:opacity-50"
             >
-              Back to Dashboard
+              <Home className="w-4 h-4" />
+              <span>Dashboard</span>
             </button>
-            <Link
-              href={`/tools/kanji-mastery/learn?${new URLSearchParams(window.location.search)}`}
-              className="flex-1 px-4 py-3 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 transition-colors text-center"
+            <button
+              onClick={async () => {
+                setIsNavigating(true)
+                await onStartNewSession()
+              }}
+              disabled={isNavigating}
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-md text-sm font-medium transition-all bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm disabled:opacity-50"
             >
-              Start New Session
-            </Link>
+              <RefreshCw className={`w-4 h-4 ${isNavigating ? 'animate-spin' : ''}`} />
+              <span>New Session</span>
+            </button>
           </div>
 
           {/* Mobile bottom spacing */}

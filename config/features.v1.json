@@ -90,7 +90,7 @@
       "category": "learning",
       "lifecycle": "active",
       "permission": "do_practice",
-      "limitType": "daily",
+      "limitType": "monthly",
       "notifications": false,
       "description": "Explore kanji families, radicals, and visual patterns to understand kanji relationships",
       "metadata": {
@@ -507,7 +507,7 @@
       "category": "learning",
       "lifecycle": "active",
       "permission": "do_practice",
-      "limitType": "daily",
+      "limitType": "monthly",
       "notifications": false,
       "description": "Study vocabulary from popular Japanese textbooks"
     },
@@ -557,7 +557,7 @@
       "category": "learning",
       "lifecycle": "active",
       "permission": "do_practice",
-      "limitType": "daily",
+      "limitType": "monthly",
       "notifications": false,
       "description": "Read Japanese manga-style comics with furigana and vocabulary support",
       "metadata": {
@@ -610,7 +610,10 @@
         "save_items": -1,
         "todos": 0,
         "flashcard_decks": 0,
-        "anki_imports": 0
+        "anki_imports": 0,
+        "kanji_connection": 0,
+        "textbook_vocabulary": 0,
+        "comics": 0
       }
     },
     "free": {
@@ -653,7 +656,10 @@
         "save_items": -1,
         "todos": 100,
         "flashcard_decks": 0,
-        "anki_imports": 0
+        "anki_imports": 0,
+        "kanji_connection": 1,
+        "textbook_vocabulary": 1,
+        "comics": 1
       }
     },
     "premium_monthly": {
@@ -696,7 +702,10 @@
         "save_items": -1,
         "todos": -1,
         "flashcard_decks": 10,
-        "anki_imports": 10
+        "anki_imports": 10,
+        "kanji_connection": -1,
+        "textbook_vocabulary": -1,
+        "comics": -1
       }
     },
     "premium_yearly": {
@@ -739,7 +748,10 @@
         "save_items": -1,
         "todos": -1,
         "flashcard_decks": 10,
-        "anki_imports": 10
+        "anki_imports": 10,
+        "kanji_connection": -1,
+        "textbook_vocabulary": -1,
+        "comics": -1
       }
     }
   },

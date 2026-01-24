@@ -12,13 +12,18 @@ import { useAuth } from '@/hooks/useAuth'
 import { useComicCache } from '@/hooks/useComicCache'
 import { ComicEpisode, ComicSeries } from '@/types/comic'
 import type { CachedComicEpisode } from '@/lib/comics/comic-cache.types'
-import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
 import { getValidatedEntitlementsSnapshot, isOffline } from '@/lib/pwa/offline-entitlements'
+import {
+  FeatureUsageIndicator,
+  DesktopCircularIndicator,
+  useFeatureUsage
+} from '@/components/entitlements/FeatureUsageIndicator'
 
 
 function ComicsContent() {
   const { user, loading: authLoading } = useAuth()
   const { prefetchEpisodes, getCachedIds, getEpisode } = useComicCache()
+  const usageData = useFeatureUsage('comics')
 
   const [series, setSeries] = useState<ComicSeries | null>(null)
   const [episodes, setEpisodes] = useState<ComicEpisode[]>([])
@@ -179,7 +184,18 @@ function ComicsContent() {
           series?.description || 'Follow Moshi the red panda on adventures across Japan!'
         }
         backHref="/dashboard"
+        actions={
+          usageData.hasData ? (
+            <DesktopCircularIndicator
+              remaining={usageData.remaining}
+              limitCount={usageData.limitCount}
+              usedCount={usageData.usedCount}
+              color={usageData.color}
+            />
+          ) : null
+        }
       />
+      <FeatureUsageIndicator featureId="comics" />
 
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         {/* Series Info Card - Premium Glassmorphism Design */}
@@ -365,9 +381,5 @@ function ComicsContent() {
 }
 
 export default function ComicsPage() {
-  return (
-    <EntitlementGate featureId="comics">
-      <ComicsContent />
-    </EntitlementGate>
-  )
+  return <ComicsContent />
 }

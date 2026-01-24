@@ -3,7 +3,6 @@ import VisualLayoutPage from './VisualLayoutPage';
 import { structuredData } from '@/utils/seo';
 import { StructuredData } from '@/components/StructuredData';
 import { getTranslations, generateLocalizedMetadata, type Locale } from '@/i18n/server'
-import { EntitlementGate } from '@/components/review-engine/EntitlementGate';
 
 interface Props {
   params: Promise<{ locale: string }>
@@ -66,10 +65,10 @@ export default function Page() {
   });
 
   return (
-    <EntitlementGate featureId="kanji_connection">
+    <>
       <StructuredData data={breadcrumbData} />
       <StructuredData data={learningResourceData} />
       <VisualLayoutPage />
-    </EntitlementGate>
+    </>
   );
 }

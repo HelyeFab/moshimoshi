@@ -12,6 +12,12 @@ import Navbar from '@/components/layout/Navbar';
 import Tooltip from '@/components/ui/Tooltip';
 import { HelpCircle } from 'lucide-react';
 import { useKanjiConnectionCache } from '@/hooks/useKanjiConnectionCache';
+import { useFeature } from '@/hooks/useFeature';
+import {
+  FeatureUsageIndicator,
+  DesktopCircularIndicator,
+  useFeatureUsage
+} from '@/components/entitlements/FeatureUsageIndicator';
 
 interface SkipData {
   patterns: typeof SKIP_PATTERNS;
@@ -31,6 +37,8 @@ export default function VisualLayoutPage() {
   const { user } = useAuth();
   const { t } = useI18n();
   const { getConnection, cacheConnection } = useKanjiConnectionCache();
+  const { checkAndTrack } = useFeature('kanji_connection');
+  const usageData = useFeatureUsage('kanji_connection');
 
   const [selectedPattern, setSelectedPattern] = useState<SkipPattern | null>(null);
   const [skipData, setSkipData] = useState<SkipData | null>(null);
@@ -95,7 +103,12 @@ export default function VisualLayoutPage() {
     loadSkipData(selectedPattern || undefined, showSubcategories);
   }, [selectedPattern, showSubcategories]);
 
-  const handlePatternSelect = (pattern: SkipPattern) => {
+  const handlePatternSelect = async (pattern: SkipPattern) => {
+    const allowed = await checkAndTrack({
+      showUI: true,
+      metadata: { itemId: `visual:${pattern}` }
+    });
+    if (!allowed) return;
     setSelectedPattern(pattern);
     setSelectedSubcategory(null);
   };
@@ -192,9 +205,20 @@ export default function VisualLayoutPage() {
                   Grid
                 </button>
               </div>
+
+              {usageData.hasData ? (
+                <DesktopCircularIndicator
+                  remaining={usageData.remaining}
+                  limitCount={usageData.limitCount}
+                  usedCount={usageData.usedCount}
+                  color={usageData.color}
+                  className="ml-2"
+                />
+              ) : null}
             </div>
           }
         />
+        <FeatureUsageIndicator featureId="kanji_connection" />
 
       <div className="container mx-auto px-4 pb-8">
         {/* SKIP Code Search */}

@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-20T19:27:55.750Z
+ * Generated at: 2026-01-23T09:15:50.679Z
  */
 
 export enum Permission {

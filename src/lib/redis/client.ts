@@ -66,6 +66,34 @@ export const redis = (!UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes
       console.log('[Mock Redis] KEYS:', pattern)
       return []
     },
+    sadd: async (key: string, ...members: string[]) => {
+      console.log('[Mock Redis] SADD:', key, members)
+      return members.length
+    },
+    smembers: async (key: string) => {
+      console.log('[Mock Redis] SMEMBERS:', key)
+      return []
+    },
+    hset: async (key: string, field: string, value: any) => {
+      console.log('[Mock Redis] HSET:', key, field)
+      return 1
+    },
+    hgetall: async (key: string) => {
+      console.log('[Mock Redis] HGETALL:', key)
+      return {}
+    },
+    lpush: async (key: string, ...values: any[]) => {
+      console.log('[Mock Redis] LPUSH:', key, values.length, 'items')
+      return values.length
+    },
+    lrange: async (key: string, start: number, stop: number) => {
+      console.log('[Mock Redis] LRANGE:', key, start, stop)
+      return []
+    },
+    ltrim: async (key: string, start: number, stop: number) => {
+      console.log('[Mock Redis] LTRIM:', key, start, stop)
+      return 'OK'
+    },
     exists: async (...keys: string[]) => {
       console.log('[Mock Redis] EXISTS:', keys)
       return 0

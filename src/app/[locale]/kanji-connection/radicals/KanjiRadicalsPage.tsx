@@ -12,6 +12,12 @@ import Navbar from '@/components/layout/Navbar';
 import Tooltip from '@/components/ui/Tooltip';
 import { HelpCircle } from 'lucide-react';
 import { useKanjiConnectionCache } from '@/hooks/useKanjiConnectionCache';
+import { useFeature } from '@/hooks/useFeature';
+import {
+  FeatureUsageIndicator,
+  DesktopCircularIndicator,
+  useFeatureUsage
+} from '@/components/entitlements/FeatureUsageIndicator';
 
 interface RadicalData {
   radical: any;
@@ -25,6 +31,8 @@ export default function KanjiRadicalsPage() {
   const { user } = useAuth();
   const { t } = useI18n();
   const { getConnection, cacheConnection } = useKanjiConnectionCache();
+  const { checkAndTrack } = useFeature('kanji_connection');
+  const usageData = useFeatureUsage('kanji_connection');
 
   const [selectedRadical, setSelectedRadical] = useState<string | null>(null);
   const [radicalData, setRadicalData] = useState<RadicalData | null>(null);
@@ -83,7 +91,12 @@ export default function KanjiRadicalsPage() {
     }
   }, [selectedRadical, showSubThemes]);
 
-  const handleRadicalSelect = (radicalId: string) => {
+  const handleRadicalSelect = async (radicalId: string) => {
+    const allowed = await checkAndTrack({
+      showUI: true,
+      metadata: { itemId: `radical:${radicalId}` }
+    });
+    if (!allowed) return;
     setSelectedRadical(radicalId);
     setExpandedThemes(new Set());
   };
@@ -159,9 +172,20 @@ export default function KanjiRadicalsPage() {
                   List
                 </button>
               </div>
+
+              {usageData.hasData ? (
+                <DesktopCircularIndicator
+                  remaining={usageData.remaining}
+                  limitCount={usageData.limitCount}
+                  usedCount={usageData.usedCount}
+                  color={usageData.color}
+                  className="ml-2"
+                />
+              ) : null}
             </div>
           }
         />
+        <FeatureUsageIndicator featureId="kanji_connection" />
 
       <div className="container mx-auto px-4 pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

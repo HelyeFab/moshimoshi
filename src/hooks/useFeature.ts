@@ -55,6 +55,14 @@ interface UsageMetadata {
   itemId?: string;
 }
 
+const UNIQUE_ITEM_FEATURES = new Set<FeatureId>([
+  'kanji_mood_board',
+  'news',
+  'comics',
+  'kanji_connection',
+  'textbook_vocabulary',
+]);
+
 export function useFeature(featureId: FeatureId): UseFeatureReturn {
   const [remaining, setRemaining] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -141,7 +149,7 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
   const checkOnly = useCallback(async (options: CheckOnlyOptions = {}): Promise<Decision> => {
     const { failOpen = true, metadata } = options;
     const uniqueItemId = metadata?.boardId ?? metadata?.itemId;
-    const shouldDedupe = featureId === 'kanji_mood_board' || featureId === 'news';
+    const shouldDedupe = UNIQUE_ITEM_FEATURES.has(featureId);
     const shouldUseCache = !(shouldDedupe && uniqueItemId);
     if (shouldUseCache) {
       const cached = getCachedDecision();
@@ -345,7 +353,7 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
   const checkAndTrack = useCallback(async (options: CheckOptions = {}): Promise<boolean> => {
     const { showUI = true, skipTracking = false, silent = false, metadata } = options;
     const uniqueItemId = metadata?.boardId ?? metadata?.itemId;
-    const shouldDedupe = featureId === 'kanji_mood_board' || featureId === 'news';
+    const shouldDedupe = UNIQUE_ITEM_FEATURES.has(featureId);
 
     try {
       setIsLoading(true);

@@ -1,8 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { withAdminAuth, AdminContext } from '@/lib/admin/adminAuth';
+import { AdminContext } from '@/lib/admin/adminAuth';
+import { withAdminAnalyticsRateLimit } from '@/lib/api/admin-analytics-rate-limiter';
 import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
 
-export const GET = withAdminAuth(async (request: NextRequest, context: AdminContext) => {
+/**
+ * GET /api/admin/analytics/content-clicks
+ *
+ * Fetches content click analytics from Firestore
+ * Requires admin authentication + rate limiting (60 req/min)
+ */
+export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, context: AdminContext) => {
   try {
     ensureAdminInitialized();
 

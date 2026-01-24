@@ -502,6 +502,10 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'evening' | 'night'>('day')
   const [districtOrder, setDistrictOrder] = useState<DistrictId[]>(DEFAULT_DISTRICT_ORDER)
 
+  // Auto-collapse timers for each district (1 minute = 60000ms)
+  const autoCollapseTimers = useRef<Map<DistrictId, NodeJS.Timeout>>(new Map())
+  const AUTO_COLLAPSE_DELAY = 60000 // 1 minute
+
   // Collapsed sections state for mobile (only applies to mobile view)
   // Default: ALL COLLAPSED (all category keys in the Set)
   const [collapsedSections, setCollapsedSections] = useState<Set<DistrictId>>(() => {
@@ -1153,18 +1157,51 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
     }
   }, [collapsedSections])
 
-  // Toggle section collapse (mobile only)
+  // Toggle section collapse (mobile only) with auto-collapse after 1 minute
   const toggleSection = (sectionKey: DistrictId) => {
     setCollapsedSections(prev => {
       const next = new Set(prev)
       if (next.has(sectionKey)) {
+        // Opening the section
         next.delete(sectionKey)
+
+        // Clear any existing timer for this section
+        const existingTimer = autoCollapseTimers.current.get(sectionKey)
+        if (existingTimer) {
+          clearTimeout(existingTimer)
+        }
+
+        // Set auto-collapse timer
+        const timer = setTimeout(() => {
+          setCollapsedSections(current => {
+            const updated = new Set(current)
+            updated.add(sectionKey)
+            return updated
+          })
+          autoCollapseTimers.current.delete(sectionKey)
+        }, AUTO_COLLAPSE_DELAY)
+
+        autoCollapseTimers.current.set(sectionKey, timer)
       } else {
+        // Closing the section manually - clear timer
         next.add(sectionKey)
+        const existingTimer = autoCollapseTimers.current.get(sectionKey)
+        if (existingTimer) {
+          clearTimeout(existingTimer)
+          autoCollapseTimers.current.delete(sectionKey)
+        }
       }
       return next
     })
   }
+
+  // Cleanup auto-collapse timers on unmount
+  useEffect(() => {
+    return () => {
+      autoCollapseTimers.current.forEach(timer => clearTimeout(timer))
+      autoCollapseTimers.current.clear()
+    }
+  }, [])
 
   // Define categories and their info for grouping
   const stallCategories = useMemo<Record<DistrictId, StallId[]>>(

@@ -31,7 +31,8 @@ interface UseWordExplanationOptions {
 }
 
 const MAX_PREFETCH_CHARS = 48000;
-const PREFETCH_CHUNK_SIZE = 8000;
+// Temporary: smaller chunk size for debugging background batching visibility.
+const PREFETCH_CHUNK_SIZE = 100;
 const PRECOMPUTE_VERSION = 'v2_all_tokens';
 
 function chunkText(text: string, size: number): string[] {
@@ -531,8 +532,8 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
    * If the doc doesn't exist and text is provided, trigger server-side precompute.
    */
   const prefetch = useCallback(
-    async (params: { contentId: string; contentType: 'article' | 'book' | 'story' | 'youtube' | 'video' | 'comic' | 'flashcard'; text?: string }) => {
-      const { contentId, contentType, text } = params;
+    async (params: { contentId: string; contentType: 'article' | 'book' | 'story' | 'youtube' | 'video' | 'comic' | 'flashcard'; text?: string; background?: boolean }) => {
+      const { contentId, contentType, text, background = false } = params;
       if (!contentId || !contentType) return;
 
       console.log(
@@ -576,6 +577,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
 
       // Try to hydrate from existing doc; decide if we should trigger background precompute
       let shouldPrecompute = true
+      let desiredChunkTotal: number | undefined
       try {
         docSnap = await getDoc(docRef);
         if (docSnap.exists()) {
@@ -583,6 +585,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
           const precomputeStatus = (data as any)?.precomputeStatus;
           const precomputeVersion = (data as any)?.precomputeVersion;
           const precomputeOptions = (data as any)?.precomputeOptions || {};
+          const existingChunkTotal = (data as any)?.precomputeChunkTotal;
           if (data?.words?.length) {
             hydrateCache(data.words);
           const expectedOptions = contentType !== 'video'
@@ -593,6 +596,18 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
               precomputeOptions?.minLength !== expectedOptions.minLength
             );
             shouldPrecompute = precomputeVersion !== PRECOMPUTE_VERSION || optionsMismatch;
+            if (background && text) {
+              const safeText =
+                text.length > MAX_PREFETCH_CHARS ? text.slice(0, MAX_PREFETCH_CHARS) : text;
+              const chunks = chunkText(safeText, PREFETCH_CHUNK_SIZE).slice(0, 6);
+              desiredChunkTotal = chunks.length;
+              if (
+                typeof existingChunkTotal !== 'number' ||
+                desiredChunkTotal > existingChunkTotal
+              ) {
+                shouldPrecompute = true;
+              }
+            }
             if (shouldPrecompute) {
               console.log('[WordExplanation] Prefetch repair needed (version mismatch)', {
                 contentId,
@@ -605,7 +620,8 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
               });
             }
           } else if (precomputeStatus === 'generating') {
-            shouldPrecompute = false;
+            // Allow background batches to continue while a lock is held.
+            shouldPrecompute = background;
           }
         }
       } catch (err) {
@@ -655,7 +671,9 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
                 contentType,
                 text: chunk,
                 chunkIndex: idx,
-                allowWhileGenerating: idx > 0,
+                totalChunks: chunks.length,
+                allowWhileGenerating: idx > 0 || background,
+                background,
                 ...(includeAllTokens ? { includeParticles: true, minLength: 1 } : {}),
               }),
             });
@@ -715,7 +733,7 @@ export function useWordExplanation(options?: UseWordExplanationOptions) {
             return;
           }
 
-          if (contentType !== 'video' && contentType !== 'youtube') {
+          if (contentType !== 'video') {
             console.log(
               '%c[WordExplanation] PREFETCH QUEUED (server fetch)',
               'color: #00bfff; font-weight: bold',

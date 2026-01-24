@@ -11,6 +11,14 @@ const getDb = getAdminDb;
 
 // Valid feature IDs - should match the main route
 const VALID_FEATURES: Set<FeatureId> = new Set(FEATURE_IDS);
+const UNIQUE_ITEM_FIELDS: Partial<Record<FeatureId, string>> = {
+  kanji_mood_board: 'kanji_mood_board_boards',
+  news: 'news_items',
+  story: 'story_items',
+  comics: 'comics_items',
+  kanji_connection: 'kanji_connection_items',
+  textbook_vocabulary: 'textbook_vocabulary_items'
+};
 
 export async function GET(
   request: NextRequest,
@@ -91,32 +99,18 @@ export async function GET(
     const usageDoc = await usageRef.get();
     const usageData = (usageDoc.data() as Partial<Record<FeatureId, number>> | undefined) || {};
     const currentUsage = usageData[featureId] ?? 0;
-    const moodboardBoards = Array.isArray((usageData as any).kanji_mood_board_boards)
-      ? (usageData as any).kanji_mood_board_boards
+    const uniqueField = UNIQUE_ITEM_FIELDS[featureId];
+    const uniqueItems = uniqueField && Array.isArray((usageData as any)[uniqueField])
+      ? (usageData as any)[uniqueField]
       : null;
-    const newsItems = Array.isArray((usageData as any).news_items)
-      ? (usageData as any).news_items
-      : null;
-    const storyItems = Array.isArray((usageData as any).story_items)
-      ? (usageData as any).story_items
-      : null;
-    const moodboardUsage = moodboardBoards ? moodboardBoards.length : currentUsage;
-    const newsUsage = newsItems ? newsItems.length : currentUsage;
-    const storyUsage = storyItems ? storyItems.length : currentUsage;
+    const usageFromUnique = uniqueItems ? uniqueItems.length : currentUsage;
 
     // Build evaluation context
     const context: EvalContext = {
       userId: session.uid,
       plan: plan as any,
       usage: {
-        [featureId]:
-          featureId === 'kanji_mood_board'
-            ? moodboardUsage
-            : featureId === 'news'
-              ? newsUsage
-              : featureId === 'story'
-                ? storyUsage
-              : currentUsage
+        [featureId]: usageFromUnique
       },
       nowUtcISO: nowUtcISO
     };
@@ -126,15 +120,7 @@ export async function GET(
     const isRepeat =
       typeof itemId === 'string' &&
       itemId.length > 0 &&
-      ((featureId === 'kanji_mood_board' &&
-        Array.isArray(moodboardBoards) &&
-        moodboardBoards.includes(itemId)) ||
-        (featureId === 'news' &&
-          Array.isArray(newsItems) &&
-          newsItems.includes(itemId)) ||
-        (featureId === 'story' &&
-          Array.isArray(storyItems) &&
-          storyItems.includes(itemId)));
+      (uniqueItems && uniqueItems.includes(itemId));
 
     const resolvedDecision = isRepeat
       ? {
@@ -149,14 +135,7 @@ export async function GET(
     const response = {
       ...resolvedDecision,
       featureId,
-      currentUsage:
-        featureId === 'kanji_mood_board'
-          ? moodboardUsage
-          : featureId === 'news'
-            ? newsUsage
-            : featureId === 'story'
-              ? storyUsage
-            : currentUsage,
+      currentUsage: usageFromUnique,
       bucketKey: bucket,
       plan,
       resetAtLocal: resolvedDecision.resetAtUtc ? new Date(resolvedDecision.resetAtUtc).toLocaleString() : undefined

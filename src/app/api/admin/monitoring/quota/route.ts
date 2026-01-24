@@ -1,11 +1,13 @@
 /**
  * Firebase Quota Monitoring API
  * Tracks Firestore read/write/delete operations and quota usage
+ * Now uses Redis-based tracking for accurate real-time data
  */
 
 import { NextRequest, NextResponse } from 'next/server'
 import { requireAuth } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
+import { getDailyQuota } from '@/lib/monitoring/quota-tracker'
 
 /**
  * GET /api/admin/monitoring/quota
@@ -54,43 +56,37 @@ export async function GET(request: NextRequest) {
       storage: 10240,    // 10 GB soft limit
     }
 
-    // 3. Get actual usage from your app
-    // This is a simplified version - you'd track this in real-time in production
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-
-    // Check if you have a usage tracking collection
+    // 3. Get actual usage from Redis-based quota tracker
     let dailyReads = 0
     let dailyWrites = 0
     let dailyDeletes = 0
+    let dataSource: 'redis' | 'estimate' = 'estimate'
 
     try {
-      // Try to get from usage tracking if implemented
-      const usageDoc = await adminDb
-        .collection('system_metrics')
-        .doc('daily_quota')
-        .get()
+      // Try to get from Redis quota tracker (real-time data)
+      const quotaData = await getDailyQuota()
+      dailyReads = quotaData.reads
+      dailyWrites = quotaData.writes
+      dailyDeletes = quotaData.deletes
+      dataSource = quotaData.source
 
-      if (usageDoc.exists) {
-        const data = usageDoc.data()
-        dailyReads = data?.reads || 0
-        dailyWrites = data?.writes || 0
-        dailyDeletes = data?.deletes || 0
+      if (dataSource === 'redis') {
+        console.log('[Quota] Using real Redis data')
       }
     } catch (err) {
-      // If no tracking exists, estimate based on collections size
-      console.log('[Quota] No usage tracking found, using estimates')
+      console.warn('[Quota] Failed to get Redis quota, using estimates:', err)
     }
 
-    // 4. If no tracking, provide estimates
-    if (dailyReads === 0 && dailyWrites === 0) {
-      // Estimate based on your user count
+    // 4. If no Redis data, fall back to estimates
+    if (dataSource === 'estimate' || (dailyReads === 0 && dailyWrites === 0 && dailyDeletes === 0)) {
+      // Estimate based on user count
       const totalUsers = (await adminDb.collection('users').count().get()).data().count
 
       // Rough estimates (adjust based on your actual usage patterns)
       dailyReads = totalUsers * 50   // Assume 50 reads per user per day
       dailyWrites = totalUsers * 10  // Assume 10 writes per user per day
       dailyDeletes = Math.floor(totalUsers * 0.5)  // Assume 0.5 deletes per user per day
+      dataSource = 'estimate'
     }
 
     // 5. Check storage usage
@@ -177,9 +173,12 @@ export async function GET(request: NextRequest) {
       quota,
       status,
       alerts,
+      source: dataSource,
       billingPlan: isFreeTier ? 'free' : 'blaze',
       timestamp: new Date().toISOString(),
-      note: 'Usage estimates are based on typical patterns. Enable real-time tracking for accurate data.',
+      note: dataSource === 'redis'
+        ? 'Real-time usage data from Redis tracking.'
+        : 'Usage estimates based on typical patterns. Tracking will become more accurate over time.',
     })
 
   } catch (error: any) {

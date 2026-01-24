@@ -25,6 +25,7 @@ import YouTubeButton from "@/components/shadowing/YouTubeButton";
 import { useFeature } from "@/hooks/useFeature";
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from "@/components/entitlements/FeatureUsageIndicator";
 import MobileNavSpacer from "@/components/layout/MobileNavSpacer";
+import { useYouTubePracticeTracking } from "@/hooks/useYouTubePracticeTracking";
 
 // Session persistence key
 const SESSION_STORAGE_KEY = "moshiPlayerSession";
@@ -66,6 +67,7 @@ type VideoMetadata = {
   thumbnailUrl: string;
   channelId?: string;
   channelAvatarUrl?: string;
+  durationInSeconds?: number;
 };
 
 const PLAYER_STATES = {
@@ -94,6 +96,7 @@ function YouTubeShadowingContent() {
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
   const [repeatCount, setRepeatCount] = useState(3);
   const [currentSegmentIndex, setCurrentSegmentIndex] = useState(0);
   const [currentRepeat, setCurrentRepeat] = useState(1);
@@ -170,6 +173,7 @@ function YouTubeShadowingContent() {
 
   const playerRef = useRef<YT.Player | null>(null);
   const pollRef = useRef<NodeJS.Timeout | null>(null);
+  const translationPollRef = useRef<NodeJS.Timeout | null>(null);
   const urlInputRef = useRef<HTMLInputElement>(null);
   const segmentsRef = useRef<TranscriptSegment[]>([]);
   const repeatCountRef = useRef(repeatCount);
@@ -178,6 +182,7 @@ function YouTubeShadowingContent() {
   const hasHydratedRef = useRef(false);
   const clearedSessionRef = useRef(false);
   const videoLoopEnabledRef = useRef(false);
+  const translationRequestRef = useRef<{ videoId: string; startedAt: number } | null>(null);
 
   const opts: YouTubeProps["opts"] = useMemo(
     () => ({
@@ -193,10 +198,21 @@ function YouTubeShadowingContent() {
     [],
   );
 
+  const videoUrl = useMemo(() => {
+    return videoId ? `https://www.youtube.com/watch?v=${videoId}` : null;
+  }, [videoId]);
+
   const clearPoll = useCallback(() => {
     if (pollRef.current) {
       clearInterval(pollRef.current);
       pollRef.current = null;
+    }
+  }, []);
+
+  const clearTranslationPoll = useCallback(() => {
+    if (translationPollRef.current) {
+      clearInterval(translationPollRef.current);
+      translationPollRef.current = null;
     }
   }, []);
 
@@ -225,6 +241,7 @@ function YouTubeShadowingContent() {
     if (!player || !segment) return;
 
     const currentTime = player.getCurrentTime();
+    setCurrentTime(currentTime);
     const segmentEnd = Math.max(segment.end - 0.08, segment.start + 0.05);
 
     if (currentTime >= segmentEnd) {
@@ -334,6 +351,7 @@ function YouTubeShadowingContent() {
           title: data.video.title,
           channelTitle: data.video.channelTitle,
           thumbnailUrl: data.video.thumbnailUrl,
+          durationInSeconds: data.video.durationInSeconds,
         });
       }
     } catch (error) {
@@ -356,7 +374,7 @@ function YouTubeShadowingContent() {
 
       try {
         const response = await fetch(
-          `/api/transcript?videoId=${encodeURIComponent(extractedId)}&lang=${encodeURIComponent(language)}`,
+          `/api/youtube/transcript/${encodeURIComponent(extractedId)}`,
         );
 
         if (!response.ok) {
@@ -367,6 +385,18 @@ function YouTubeShadowingContent() {
         }
 
         const data = (await response.json()) as TranscriptResponse;
+
+        // 🎯 Highlight which transcript source was used
+        console.log(
+          `%c 📹 TRANSCRIPT SOURCE: ${data.source?.toUpperCase() || 'UNKNOWN'} %c`,
+          'background: #ef4444; color: white; font-size: 14px; font-weight: bold; padding: 4px 8px; border-radius: 4px;',
+          ''
+        );
+        console.log(
+          `%c Segments: ${data.segments?.length || 0} | Language: ${data.language || 'unknown'} %c`,
+          'background: #374151; color: #ef4444; font-size: 12px; padding: 2px 8px; border-radius: 2px;',
+          ''
+        );
 
         // Check quota AFTER successful transcript fetch (only consume if transcript exists)
         if (checkQuota) {
@@ -392,6 +422,7 @@ function YouTubeShadowingContent() {
         setSource(data.source);
         setShowUrlInput(false); // Auto-collapse form after successful load
         setVideoLoopEnabled(false); // Reset video loop when loading new video
+        setShowTranslation(true); // Auto-translate on load
 
         setStatus(
           t('youtubeShadowing.status.transcriptLoaded', {
@@ -407,13 +438,45 @@ function YouTubeShadowingContent() {
         // Fetch video metadata
         fetchVideoMetadata(extractedId);
 
-        // Prefetch word explanations for instant modal response
-        const transcriptText = data.segments.map((s) => s.text).join(" ");
+        // Prefetch word explanations - prioritize first segments for instant response
+        const PRIORITY_SEGMENTS = 3; // Precompute first 3 segments immediately
+        const prioritySegments = data.segments.slice(0, PRIORITY_SEGMENTS);
+        const remainingSegments = data.segments.slice(PRIORITY_SEGMENTS);
+
+        const priorityText = prioritySegments.map((s) => s.text).join(" ");
+        const remainingText = remainingSegments.map((s) => s.text).join(" ");
+
+        console.log('[YouTubeShadowing] Prefetch word explanations (priority)', {
+          videoId: extractedId,
+          contentType: 'youtube',
+          prioritySegments: prioritySegments.length,
+          priorityTextLength: priorityText.length,
+          remainingSegments: remainingSegments.length,
+        });
+
+        // 1. Priority: First 3 segments - user needs these immediately
         prefetchWordExplanations({
           contentId: extractedId,
           contentType: "youtube",
-          text: transcriptText,
+          text: priorityText,
         });
+
+        // 2. Background: Remaining segments - precompute while user watches
+        if (remainingText.trim()) {
+          // Small delay to let priority batch start first
+          setTimeout(() => {
+            console.log('[YouTubeShadowing] Prefetch word explanations (background)', {
+              videoId: extractedId,
+              remainingTextLength: remainingText.length,
+            });
+            prefetchWordExplanations({
+              contentId: extractedId,
+              contentType: "youtube",
+              text: remainingText,
+              background: true, // Allow running while priority batch is still generating
+            });
+          }, 2000);
+        }
       } catch (err: unknown) {
         const message =
           err instanceof Error ? err.message : t('youtubeShadowing.errors.transcriptFailed');
@@ -462,6 +525,95 @@ function YouTubeShadowingContent() {
     },
     [seekToSegment],
   );
+
+  useEffect(() => {
+    return () => {
+      clearTranslationPoll();
+    };
+  }, [clearTranslationPoll]);
+
+  useEffect(() => {
+    if (!showTranslation || !videoId || !segments.length) return;
+
+    const hasTranslations = segments.some((segment) => !!segment.translation);
+    if (hasTranslations) return;
+
+    if (translationRequestRef.current?.videoId === videoId) {
+      return;
+    }
+
+    translationRequestRef.current = { videoId, startedAt: Date.now() };
+
+    const queueTranslation = async () => {
+      try {
+        await fetch("/api/youtube/transcript/translate", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ videoId, async: true, mode: "full", userLevel: "N4" }),
+        });
+      } catch (err) {
+        console.error("[YouTubeShadowing] Failed to queue transcript translation", err);
+      }
+    };
+
+    const refreshTranscript = async () => {
+      try {
+        const response = await fetch(
+          `/api/youtube/transcript/${encodeURIComponent(videoId)}?lang=${encodeURIComponent(language)}`,
+          { cache: "no-store" }
+        );
+        if (!response.ok) return;
+        const data = (await response.json()) as TranscriptResponse;
+        if (Array.isArray(data.segments) && data.segments.length) {
+          setSegments(data.segments);
+          segmentsRef.current = data.segments;
+        }
+      } catch (err) {
+        console.warn("[YouTubeShadowing] Failed to refresh transcript translations", err);
+      }
+    };
+
+    queueTranslation();
+    clearTranslationPoll();
+    translationPollRef.current = setInterval(async () => {
+      try {
+        const statusResponse = await fetch(
+          `/api/youtube/transcript/translate?videoId=${encodeURIComponent(videoId)}&status=true`,
+          { cache: "no-store" }
+        );
+        if (!statusResponse.ok) return;
+        const status = await statusResponse.json();
+        if (status?.status === "complete") {
+          clearTranslationPoll();
+          await refreshTranscript();
+        } else if (status?.status === "failed") {
+          clearTranslationPoll();
+        }
+      } catch {
+        // keep polling silently
+      }
+    }, 3000);
+  }, [showTranslation, videoId, segments, language, clearTranslationPoll]);
+
+  const practiceMetadata = useMemo(() => {
+    if (!source) return undefined;
+    return {
+      transcriptSource: source,
+      transcriptLanguage: language,
+    };
+  }, [source, language]);
+
+  useYouTubePracticeTracking({
+    videoId,
+    videoUrl,
+    videoTitle: videoMetadata?.title || videoId || null,
+    thumbnailUrl: videoMetadata?.thumbnailUrl,
+    channelName: videoMetadata?.channelTitle,
+    duration: videoMetadata?.durationInSeconds,
+    metadata: practiceMetadata,
+    isPlaying,
+    currentTime,
+  });
 
   // Handle word tap for explanation
   const handleWordTap = useCallback(

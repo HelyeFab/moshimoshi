@@ -22,6 +22,12 @@ import {
   textbookVocabularyProgressManager,
   TextbookVocabProgressData
 } from '@/utils/textbookVocabularyProgressManager'
+import { useFeature } from '@/hooks/useFeature'
+import {
+  FeatureUsageIndicator,
+  DesktopCircularIndicator,
+  useFeatureUsage
+} from '@/components/entitlements/FeatureUsageIndicator'
 
 // All gamification uses Event Hub (global singleton)
 // ReviewSessionUI handles initialization automatically
@@ -48,6 +54,8 @@ export default function TextbookVocabularyPage() {
   const { isPremium } = useSubscription()
   const { strings } = useI18n()
   const { showToast } = useToast()
+  const { checkAndTrack } = useFeature('textbook_vocabulary')
+  const usageData = useFeatureUsage('textbook_vocabulary')
 
   // Core state
   const [selectedTextbook, setSelectedTextbook] = useState<string | null>(null)
@@ -190,11 +198,23 @@ export default function TextbookVocabularyPage() {
     setFilteredVocabulary(filtered)
   }, [])
 
-  const handleLessonChange = useCallback((lesson: number | 'all') => {
+  const handleLessonChange = useCallback(async (lesson: number | 'all') => {
+    if (lesson === 'all') {
+      if (!isPremium) return false
+      setCurrentLesson('all')
+      setSelectedVocab(new Set())
+      return true
+    }
+    if (!selectedTextbook) return false
+    const allowed = await checkAndTrack({
+      showUI: true,
+      metadata: { itemId: `${selectedTextbook}:${lesson}` }
+    })
+    if (!allowed) return false
     setCurrentLesson(lesson)
-    // Clear selection when lesson changes
     setSelectedVocab(new Set())
-  }, [])
+    return true
+  }, [checkAndTrack, isPremium, selectedTextbook])
 
   const handleToggleSelection = useCallback((id: string) => {
     setSelectedVocab((prev) => {
@@ -361,7 +381,20 @@ export default function TextbookVocabularyPage() {
           showDoshi={false}
           doshiMood="happy"
           backHref="/dashboard"
+          actions={
+            usageData.hasData ? (
+              <DesktopCircularIndicator
+                remaining={usageData.remaining}
+                limitCount={usageData.limitCount}
+                usedCount={usageData.usedCount}
+                color={usageData.color}
+              />
+            ) : null
+          }
         />
+      )}
+      {!selectedTextbook && (
+        <FeatureUsageIndicator featureId="textbook_vocabulary" />
       )}
 
       {/* Learning Header with mode switching - shown when textbook selected */}
@@ -380,6 +413,21 @@ export default function TextbookVocabularyPage() {
           onStartReview={handleStartReview}
           backHref="/dashboard"
         />
+      )}
+      {selectedTextbook && isSelectionMode && (
+        <>
+          <div className="hidden sm:flex justify-end px-4 pt-4">
+            {usageData.hasData ? (
+              <DesktopCircularIndicator
+                remaining={usageData.remaining}
+                limitCount={usageData.limitCount}
+                usedCount={usageData.usedCount}
+                color={usageData.color}
+              />
+            ) : null}
+          </div>
+          <FeatureUsageIndicator featureId="textbook_vocabulary" />
+        </>
       )}
 
       <div className="container mx-auto px-4 py-6 max-w-6xl">
@@ -416,6 +464,7 @@ export default function TextbookVocabularyPage() {
                 onVocabularyLoaded={handleVocabularyLoaded}
                 onFilteredVocabularyChange={handleFilteredVocabularyChange}
                 onLessonChange={handleLessonChange}
+                allowAllLessons={!!isPremium}
               />
             </motion.div>
           )}

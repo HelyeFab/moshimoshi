@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-20T19:27:55.751Z
+ * Generated at: 2026-01-23T09:15:50.680Z
  */
 
 import type { FeatureId } from '@/types/FeatureId'
@@ -55,7 +55,7 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     category: 'learning',
     lifecycle: 'active',
     permission: Permission.DO_PRACTICE,
-    limitType: 'daily',
+    limitType: 'monthly',
     notifications: false,
     description: 'Explore kanji families, radicals, and visual patterns to understand kanji relationships',
   },
@@ -335,7 +335,7 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     category: 'learning',
     lifecycle: 'active',
     permission: Permission.DO_PRACTICE,
-    limitType: 'daily',
+    limitType: 'monthly',
     notifications: false,
     description: 'Study vocabulary from popular Japanese textbooks',
   },
@@ -385,7 +385,7 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     category: 'learning',
     lifecycle: 'active',
     permission: Permission.DO_PRACTICE,
-    limitType: 'daily',
+    limitType: 'monthly',
     notifications: false,
     description: 'Read Japanese manga-style comics with furigana and vocabulary support',
   }

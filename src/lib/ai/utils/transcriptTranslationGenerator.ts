@@ -12,6 +12,7 @@
 import { db } from '@/lib/firebase/admin';
 import { OllamaClient } from '../clients/OllamaClient';
 import { getProviderConfig, getOllamaConfig, providerHealth } from '../config/providers';
+import { transcriptCache } from '@/lib/transcript/cache';
 
 // Firestore collection (reuses existing transcriptCache)
 const COLLECTION = 'transcriptCache';
@@ -62,14 +63,10 @@ export interface TranslationProgressCallback {
  * Check if translations already exist for a transcript
  */
 export async function hasTranslations(contentId: string): Promise<boolean> {
-  if (!db) return false;
-
   try {
-    const doc = await db.collection(COLLECTION).doc(contentId).get();
-    if (!doc.exists) return false;
-
-    const data = doc.data();
-    const transcript = data?.transcript as TranscriptSegment[] | undefined;
+    const cached = await transcriptCache.get(contentId);
+    if (!cached) return false;
+    const transcript = cached.transcript as TranscriptSegment[] | undefined;
 
     if (!transcript || transcript.length === 0) return false;
 
@@ -88,14 +85,10 @@ export async function hasTranslations(contentId: string): Promise<boolean> {
 export async function getTranscriptWithTranslations(
   contentId: string
 ): Promise<TranscriptSegment[] | null> {
-  if (!db) return null;
-
   try {
-    const doc = await db.collection(COLLECTION).doc(contentId).get();
-    if (!doc.exists) return null;
-
-    const data = doc.data();
-    return data?.transcript as TranscriptSegment[] | undefined || null;
+    const cached = await transcriptCache.get(contentId);
+    if (!cached) return null;
+    return (cached.transcript as TranscriptSegment[] | undefined) || null;
   } catch (error) {
     console.error('[TranscriptTranslation] Error fetching transcript:', error);
     return null;
@@ -345,19 +338,22 @@ export async function generateTranscriptTranslations(
   console.log('='.repeat(60) + '\n');
 
   // Update Firestore with translations
-  if (db && successCount > 0) {
+  if (successCount > 0) {
     try {
-      await db.collection(COLLECTION).doc(contentId).update({
+      await transcriptCache.updateTranscriptWithMetadata({
+        contentId,
         transcript: translatedSegments,
-        'metadata.translationsGeneratedAt': new Date(),
-        'metadata.translationUserLevel': userLevel,
-        'metadata.translationProvider': useOllama ? 'ollama' : 'openai',
-        'metadata.translationStats': {
-          successCount,
-          failCount,
-          totalTokens,
-          estimatedCost,
-          duration
+        metadata: {
+          'metadata.translationsGeneratedAt': new Date(),
+          'metadata.translationUserLevel': userLevel,
+          'metadata.translationProvider': useOllama ? 'ollama' : 'openai',
+          'metadata.translationStats': {
+            successCount,
+            failCount,
+            totalTokens,
+            estimatedCost,
+            duration
+          }
         }
       });
       console.log(`💾 [TranscriptTranslation] Saved ${successCount} translations to Firebase`);

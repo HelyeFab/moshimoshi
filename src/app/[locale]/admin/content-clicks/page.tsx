@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { auth } from '@/lib/firebase/client';
+import { AdminErrorBoundary } from '@/components/admin/AdminErrorBoundary';
 
 interface ContentClickItem {
   id: string;
@@ -70,6 +71,7 @@ export default function ContentClicksAdminPage() {
   });
 
   return (
+    <AdminErrorBoundary componentName="Content Clicks">
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
@@ -154,5 +156,6 @@ export default function ContentClicksAdminPage() {
         )}
       </div>
     </motion.div>
+    </AdminErrorBoundary>
   );
 }

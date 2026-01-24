@@ -10,6 +10,12 @@ import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal';
 import PageHeader from '@/components/ui/PageHeader';
 import Navbar from '@/components/layout/Navbar';
 import { useKanjiConnectionCache } from '@/hooks/useKanjiConnectionCache';
+import { useFeature } from '@/hooks/useFeature';
+import {
+  FeatureUsageIndicator,
+  DesktopCircularIndicator,
+  useFeatureUsage
+} from '@/components/entitlements/FeatureUsageIndicator';
 
 interface KanjiDetails {
   kanji: string;
@@ -42,6 +48,8 @@ export default function KanjiFamiliesPage() {
   const { user } = useAuth();
   const { t } = useI18n();
   const { getConnection, cacheConnection } = useKanjiConnectionCache();
+  const { checkAndTrack } = useFeature('kanji_connection');
+  const usageData = useFeatureUsage('kanji_connection');
 
   const [selectedFamily, setSelectedFamily] = useState<string | null>(null);
   const [familyData, setFamilyData] = useState<FamilyData | null>(null);
@@ -92,7 +100,12 @@ export default function KanjiFamiliesPage() {
     }
   }, [selectedFamily, showCrossFamilies]);
 
-  const handleFamilySelect = (familyId: string) => {
+  const handleFamilySelect = async (familyId: string) => {
+    const allowed = await checkAndTrack({
+      showUI: true,
+      metadata: { itemId: `family:${familyId}` }
+    });
+    if (!allowed) return;
     setSelectedFamily(familyId);
   };
 
@@ -194,6 +207,16 @@ export default function KanjiFamiliesPage() {
                 )}
               </div>
 
+              {usageData.hasData ? (
+                <DesktopCircularIndicator
+                  remaining={usageData.remaining}
+                  limitCount={usageData.limitCount}
+                  usedCount={usageData.usedCount}
+                  color={usageData.color}
+                  className="ml-2"
+                />
+              ) : null}
+
               {/* Cross-families Toggle */}
               {selectedFamily && (
                 <label className="flex items-center gap-2 text-sm cursor-pointer">
@@ -209,6 +232,7 @@ export default function KanjiFamiliesPage() {
             </div>
           }
         />
+        <FeatureUsageIndicator featureId="kanji_connection" />
 
       <div className="container mx-auto px-4 pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

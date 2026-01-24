@@ -5,6 +5,7 @@ import { useAdmin } from '@/hooks/useAdmin'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import Modal from '@/components/ui/Modal'
 import Dropdown from '@/components/ui/Dropdown'
+import { AdminErrorBoundary } from '@/components/admin/AdminErrorBoundary'
 
 interface User {
   uid: string
@@ -176,6 +177,7 @@ export default function AdminSubscriptionsPage() {
   }
 
   return (
+    <AdminErrorBoundary componentName="Subscriptions">
     <div className="space-y-4 sm:space-y-6">
       {/* Header - Mobile Optimized */}
       <div>
@@ -440,5 +442,6 @@ export default function AdminSubscriptionsPage() {
         )}
       </Modal>
     </div>
+    </AdminErrorBoundary>
   )
 }

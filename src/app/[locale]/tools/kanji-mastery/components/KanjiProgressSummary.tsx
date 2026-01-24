@@ -1,8 +1,10 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { useUserStorage } from '@/hooks/useUserStorage'
+import { useAuth } from '@/hooks/useAuth'
+import { useSubscription } from '@/hooks/useSubscription'
+import { kanjiMasteryDB, type KanjiProgressRecord, type KanjiSession } from '@/lib/kanji-mastery/kanjiMasteryDB'
 
 interface ProgressData {
   totalStudied: number
@@ -19,46 +21,151 @@ interface ProgressData {
   }
 }
 
+const LEVEL_TOTALS: Record<string, number> = {
+  N5: 80,
+  N4: 170,
+  N3: 370,
+  N2: 380,
+  N1: 1200,
+}
+
+const buildEmptyProgress = (): ProgressData => ({
+  totalStudied: 0,
+  totalMastered: 0,
+  averageAccuracy: 0,
+  streakDays: 0,
+  lastStudyDate: null,
+  levelProgress: Object.fromEntries(
+    Object.entries(LEVEL_TOTALS).map(([level, total]) => [level, { studied: 0, total, mastered: 0 }])
+  ),
+})
+
+const getDayKey = (date: Date): number =>
+  new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime()
+
+const computeStreak = (dates: string[]): { streakDays: number; lastStudyDate: string | null } => {
+  if (dates.length === 0) {
+    return { streakDays: 0, lastStudyDate: null }
+  }
+
+  const uniqueDays = Array.from(
+    new Set(
+      dates
+        .map(dateStr => {
+          const parsed = new Date(dateStr)
+          return Number.isNaN(parsed.getTime()) ? null : getDayKey(parsed)
+        })
+        .filter((value): value is number => value !== null)
+    )
+  ).sort((a, b) => b - a)
+
+  if (uniqueDays.length === 0) {
+    return { streakDays: 0, lastStudyDate: null }
+  }
+
+  let streak = 1
+  for (let i = 0; i < uniqueDays.length - 1; i += 1) {
+    const current = uniqueDays[i]
+    const next = uniqueDays[i + 1]
+    const dayDiff = (current - next) / (24 * 60 * 60 * 1000)
+    if (dayDiff === 1) {
+      streak += 1
+    } else {
+      break
+    }
+  }
+
+  return {
+    streakDays: streak,
+    lastStudyDate: new Date(uniqueDays[0]).toISOString()
+  }
+}
+
+const computeProgressFromRecords = (
+  records: KanjiProgressRecord[],
+  sessions: KanjiSession[],
+  averageAccuracyRaw: number | null
+): ProgressData => {
+  const progress = buildEmptyProgress()
+  const sessionDates = sessions.map(session => session.endTime || session.startTime)
+  const { streakDays, lastStudyDate } = computeStreak(sessionDates)
+
+  let totalMastered = 0
+
+  records.forEach(record => {
+    const level = record.level
+    if (level && progress.levelProgress[level]) {
+      progress.levelProgress[level].studied += 1
+    }
+
+    if (record.srsData?.status === 'mastered') {
+      totalMastered += 1
+      if (level && progress.levelProgress[level]) {
+        progress.levelProgress[level].mastered += 1
+      }
+    }
+  })
+
+  progress.totalStudied = records.length
+  progress.totalMastered = totalMastered
+  progress.averageAccuracy = Math.round(Math.max(0, averageAccuracyRaw || 0) * 100)
+  progress.streakDays = streakDays
+  progress.lastStudyDate = lastStudyDate
+
+  return progress
+}
+
 export default function KanjiProgressSummary() {
   const [progress, setProgress] = useState<ProgressData | null>(null)
   const [loading, setLoading] = useState(true)
+  const { user } = useAuth()
+  const { isPremium } = useSubscription()
 
   useEffect(() => {
-    loadProgress()
-  }, [])
+    const loadProgress = async () => {
+      try {
+        if (!user?.uid) {
+          setProgress(buildEmptyProgress())
+          return
+        }
 
-  const { getItem } = useUserStorage()
+        if (isPremium) {
+          const response = await fetch('/api/kanji-mastery/session', {
+            method: 'GET',
+            credentials: 'same-origin',
+          })
 
-  const loadProgress = async () => {
-    try {
-      // Load progress from user-specific storage
-      // In production, this would come from the review engine
-      const stored = getItem('kanjiMasteryProgress')
-      if (stored) {
-        setProgress(stored)
-      } else {
-        // Initialize with default data
-        setProgress({
-          totalStudied: 0,
-          totalMastered: 0,
-          averageAccuracy: 0,
-          streakDays: 0,
-          lastStudyDate: null,
-          levelProgress: {
-            N5: { studied: 0, total: 80, mastered: 0 },
-            N4: { studied: 0, total: 170, mastered: 0 },
-            N3: { studied: 0, total: 370, mastered: 0 },
-            N2: { studied: 0, total: 380, mastered: 0 },
-            N1: { studied: 0, total: 1200, mastered: 0 }
+          if (response.ok) {
+            const data = await response.json()
+            if (data?.progressSummary) {
+              setProgress(data.progressSummary)
+              return
+            }
           }
-        })
+        }
+
+        const [records, sessions, stats] = await Promise.all([
+          kanjiMasteryDB.getProgressByUser(user.uid),
+          kanjiMasteryDB.getSessionsByUser(user.uid),
+          kanjiMasteryDB.getStatistics(user.uid)
+        ])
+
+        const computed = computeProgressFromRecords(
+          records,
+          sessions,
+          stats?.averageAccuracy ?? 0
+        )
+        setProgress(computed)
+      } catch (error) {
+        console.error('Failed to load progress:', error)
+        setProgress(buildEmptyProgress())
+      } finally {
+        setLoading(false)
       }
-    } catch (error) {
-      console.error('Failed to load progress:', error)
-    } finally {
-      setLoading(false)
     }
-  }
+
+    loadProgress()
+  }, [user?.uid, isPremium])
 
   if (loading) {
     return (

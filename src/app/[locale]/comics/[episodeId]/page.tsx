@@ -26,7 +26,7 @@ import { QuizPlayer } from '@/components/quiz/QuizPlayer'
 import { RubyText } from '@/components/quiz/RubyText'
 import ComicSettingsModal from '@/components/comics/ComicSettingsModal'
 import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText'
-import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
+import { useFeature } from '@/hooks/useFeature'
 
 export default function ComicReaderPage() {
   const { strings } = useI18n()
@@ -34,6 +34,7 @@ export default function ComicReaderPage() {
   const router = useRouter()
   const params = useParams()
   const episodeId = params?.episodeId as string
+  const { checkAndTrack } = useFeature('comics')
 
   // Use cache-first episode loading
   const { episode: cachedEpisode, loading, error, fromCache } = useCachedEpisode(episodeId)
@@ -47,6 +48,7 @@ export default function ComicReaderPage() {
   const [showQuiz, setShowQuiz] = useState(false)
   const [showSettings, setShowSettings] = useState(false)
   const [readingStartTime] = useState(Date.now()) // Track reading time for quiz celebration
+  const [accessAllowed, setAccessAllowed] = useState<boolean | null>(null)
 
   // Reading settings for furigana, font size, etc.
   const [settings, setSettings] = useState<ReadingSettings>({
@@ -85,6 +87,29 @@ export default function ComicReaderPage() {
       console.log(`[ComicReaderPage] Episode loaded ${fromCache ? 'from cache' : 'from network'}:`, episodeId)
     }
   }, [episode, fromCache, episodeId])
+
+  useEffect(() => {
+    let isActive = true
+    const verifyAccess = async () => {
+      if (!episodeId) return
+      const allowed = await checkAndTrack({
+        showUI: true,
+        metadata: { itemId: episodeId }
+      })
+      if (!isActive) return
+      if (!allowed) {
+        setAccessAllowed(false)
+        router.push('/comics')
+        return
+      }
+      setAccessAllowed(true)
+    }
+
+    verifyAccess()
+    return () => {
+      isActive = false
+    }
+  }, [episodeId, checkAndTrack, router])
 
   // Prefetch word explanations for this comic episode (all panels + vocabulary examples)
   useEffect(() => {
@@ -175,8 +200,10 @@ export default function ComicReaderPage() {
   const hasQuiz = episode?.quiz?.questions && episode.quiz.questions.length > 0
 
   let content: ReactNode
-  if (authLoading || loading) {
+  if (authLoading || loading || accessAllowed === null) {
     content = <LoadingOverlay isLoading={true} message="Loading episode..." />
+  } else if (accessAllowed === false) {
+    content = <LoadingOverlay isLoading={true} message="Checking access..." />
   } else if (error || !episode) {
     content = (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-50 via-white to-primary-100 dark:from-dark-950 dark:via-dark-900 dark:to-dark-850">
@@ -688,9 +715,5 @@ export default function ComicReaderPage() {
     )
   }
 
-  return (
-    <EntitlementGate featureId="comics">
-      {content}
-    </EntitlementGate>
-  )
+  return content
 }

@@ -264,46 +264,35 @@ function KanjiMasteryContent() {
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
                 {t('kanjiMasteryTool.learningApproach')}
               </label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="flex p-1 bg-gray-100 dark:bg-dark-700 rounded-lg">
                 <button
                   onClick={() => setSettings({ ...settings, learningApproach: 'smart' })}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-all border ${
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     settings.learningApproach === 'smart'
-                      ? 'bg-primary-500 text-white border-primary-500 shadow-lg'
-                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 border-gray-300 dark:border-dark-600'
+                      ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
                   }`}
                 >
-                  <div className="flex flex-col items-center gap-1">
-                    <Brain className="w-5 h-5" />
-                    <span>{t('kanjiMasteryTool.smartSelection')}</span>
-                    <span className="text-xs opacity-80">{t('kanjiMasteryTool.adaptiveLearning')}</span>
-                  </div>
+                  <Brain className="w-4 h-4" />
+                  <span>{t('kanjiMasteryTool.smartSelection')}</span>
                 </button>
                 <button
                   onClick={() => setSettings({ ...settings, learningApproach: 'linear' })}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-all border ${
+                  className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     settings.learningApproach === 'linear'
-                      ? 'bg-primary-500 text-white border-primary-500 shadow-lg'
-                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 border-gray-300 dark:border-dark-600'
+                      ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
                   }`}
                 >
-                  <div className="flex flex-col items-center gap-1">
-                    <BookOpen className="w-5 h-5" />
-                    <span>{t('kanjiMasteryTool.linearOrder')}</span>
-                    <span className="text-xs opacity-80">{t('kanjiMasteryTool.sequentialStudy')}</span>
-                  </div>
+                  <BookOpen className="w-4 h-4" />
+                  <span>{t('kanjiMasteryTool.linearOrder')}</span>
                 </button>
               </div>
-              {settings.learningApproach === 'smart' && (
-                <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
-                  {t('kanjiMasteryTool.smartDescription')}
-                </p>
-              )}
-              {settings.learningApproach === 'linear' && (
-                <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
-                  {t('kanjiMasteryTool.linearDescription')}
-                </p>
-              )}
+              <p className="text-xs text-gray-500 dark:text-gray-400 mt-2">
+                {settings.learningApproach === 'smart'
+                  ? t('kanjiMasteryTool.smartDescription')
+                  : t('kanjiMasteryTool.linearDescription')}
+              </p>
             </div>
 
             {/* Answer Mode Selection */}
@@ -311,30 +300,26 @@ function KanjiMasteryContent() {
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
                 {t('kanjiMasteryTool.answerMode')}
               </label>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="flex p-1 bg-gray-100 dark:bg-dark-700 rounded-lg">
                 <button
                   onClick={() => setSettings({ ...settings, testMode: 'recall' })}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-all border ${
+                  className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     settings.testMode === 'recall'
-                      ? 'bg-primary-500 text-white border-primary-500 shadow-lg'
-                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 border-gray-300 dark:border-dark-600'
+                      ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
                   }`}
                 >
-                  <div className="flex flex-col items-center gap-1">
-                    <span>{t('kanjiMasteryTool.recallMode')}</span>
-                  </div>
+                  {t('kanjiMasteryTool.recallMode')}
                 </button>
                 <button
                   onClick={() => setSettings({ ...settings, testMode: 'choice' })}
-                  className={`px-4 py-3 rounded-lg text-sm font-medium transition-all border ${
+                  className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     settings.testMode === 'choice'
-                      ? 'bg-primary-500 text-white border-primary-500 shadow-lg'
-                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 border-gray-300 dark:border-dark-600'
+                      ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
                   }`}
                 >
-                  <div className="flex flex-col items-center gap-1">
-                    <span>{t('kanjiMasteryTool.multipleChoiceMode')}</span>
-                  </div>
+                  {t('kanjiMasteryTool.multipleChoiceMode')}
                 </button>
               </div>
             </div>
@@ -344,33 +329,33 @@ function KanjiMasteryContent() {
               <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
                 {t('kanjiMasteryTool.studyLevel')}
               </label>
-              <div className="grid grid-cols-3 gap-2">
+              <div className="flex p-1 bg-gray-100 dark:bg-dark-700 rounded-lg">
                 <button
                   onClick={() => setSettings({ ...settings, studyMode: 'jlpt' })}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     settings.studyMode === 'jlpt'
-                      ? 'bg-primary-500 text-white shadow-lg'
-                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                      ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
                   }`}
                 >
                   {t('kanjiMasteryTool.jlptLevel')}
                 </button>
                 <button
                   onClick={() => setSettings({ ...settings, studyMode: 'grade' })}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     settings.studyMode === 'grade'
-                      ? 'bg-primary-500 text-white shadow-lg'
-                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                      ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
                   }`}
                 >
                   {t('kanjiMasteryTool.schoolGrade')}
                 </button>
                 <button
                   onClick={() => setSettings({ ...settings, studyMode: 'mixed' })}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                  className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
                     settings.studyMode === 'mixed'
-                      ? 'bg-primary-500 text-white shadow-lg'
-                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                      ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
                   }`}
                 >
                   {t('kanjiMasteryTool.mixed')}
@@ -422,15 +407,15 @@ function KanjiMasteryContent() {
               </label>
 
               {/* Preset buttons */}
-              <div className="grid grid-cols-4 gap-2 mb-3">
+              <div className="flex p-1 bg-gray-100 dark:bg-dark-700 rounded-lg mb-3">
                 {[5, 10, 15, 20].map((size) => (
                   <button
                     key={size}
                     onClick={() => setSettings({ ...settings, sessionSize: size })}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
+                    className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
                       settings.sessionSize === size
-                        ? 'bg-primary-500 text-white shadow-lg'
-                        : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                        ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
                     }`}
                   >
                     {size}

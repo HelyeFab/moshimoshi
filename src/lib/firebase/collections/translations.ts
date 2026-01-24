@@ -3,8 +3,8 @@
  * Efficient caching system for AI translations to reduce API costs
  */
 
-import { db, Timestamp, FieldValue } from '@/lib/firebase/admin';
-import { TranslationResult, TranslationMode } from '@/lib/ai/processors/TranslationProcessor';
+import { getAdminDb, Timestamp, FieldValue } from '@/lib/firebase/admin';
+import type { TranslationResult, TranslationMode } from '@/lib/ai/processors/TranslationProcessor';
 import crypto from 'crypto';
 
 // ============================================
@@ -107,15 +107,29 @@ export interface TranslationAnalytics {
 }
 
 // ============================================
-// Collection References
+// Collection References (lazy - avoid init at module load)
 // ============================================
 
-export const translationsCollection = db!.collection('translations');
-export const translationCacheCollection = db!.collection('translation_cache');
+function getCollectionsSafely() {
+  try {
+    const db = getAdminDb();
+    return {
+      translationsCollection: db.collection('translations'),
+      translationCacheCollection: db.collection('translation_cache'),
+      getTranslationAnalyticsCollection: (translationId: string) =>
+        db.collection('translations').doc(translationId).collection('analytics'),
+    };
+  } catch (error) {
+    console.warn('[TranslationCache] Firebase Admin not initialized - cache disabled', error);
+    return null;
+  }
+}
 
-// Helper to get analytics subcollection
-export const getTranslationAnalyticsCollection = (translationId: string) =>
-  db!.collection('translations').doc(translationId).collection('analytics');
+// Helper to get analytics subcollection (safe)
+export const getTranslationAnalyticsCollection = (translationId: string) => {
+  const collections = getCollectionsSafely();
+  return collections?.getTranslationAnalyticsCollection(translationId) ?? null;
+};
 
 // ============================================
 // Utility Functions
@@ -144,7 +158,11 @@ export function generateTranslationHash(
  * Generate a unique translation ID
  */
 export function generateTranslationId(): string {
-  return translationsCollection.doc().id;
+  const collections = getCollectionsSafely();
+  if (collections) {
+    return collections.translationsCollection.doc().id;
+  }
+  return crypto.randomUUID();
 }
 
 // ============================================
@@ -184,13 +202,18 @@ export class TranslationCacheService {
     }
 
     try {
+      const collections = getCollectionsSafely();
+      if (!collections) {
+        return null;
+      }
+
       // Check Firebase cache
-      const cacheDoc = await translationCacheCollection.doc(hash).get();
+      const cacheDoc = await collections.translationCacheCollection.doc(hash).get();
       if (cacheDoc.exists) {
         const cacheData = cacheDoc.data() as TranslationCacheDocument;
 
         // Get full translation document
-        const translationDoc = await translationsCollection.doc(cacheData.translationId).get();
+        const translationDoc = await collections.translationsCollection.doc(cacheData.translationId).get();
         if (translationDoc.exists) {
           const translationData = translationDoc.data() as TranslationDocument;
 
@@ -233,6 +256,12 @@ export class TranslationCacheService {
 
     try {
       // Store main translation document
+      const collections = getCollectionsSafely();
+      if (!collections) {
+        // Skip Firebase cache if Admin isn't initialized
+        return translationId;
+      }
+
       const translationDoc: any = {
         id: translationId,
         textHash: hash,
@@ -257,7 +286,7 @@ export class TranslationCacheService {
         translationDoc.context = context;
       }
 
-      await translationsCollection.doc(translationId).set(translationDoc);
+      await collections.translationsCollection.doc(translationId).set(translationDoc);
 
       // Store cache document for quick lookups
       const cacheDoc: TranslationCacheDocument = {
@@ -275,7 +304,7 @@ export class TranslationCacheService {
         }
       };
 
-      await translationCacheCollection.doc(hash).set(cacheDoc);
+      await collections.translationCacheCollection.doc(hash).set(cacheDoc);
 
       // Update memory cache
       this.memoryCache.set(hash, {
@@ -297,8 +326,13 @@ export class TranslationCacheService {
    */
   private async updateUsageTracking(translationId: string, hash: string): Promise<void> {
     try {
+      const collections = getCollectionsSafely();
+      if (!collections) {
+        return;
+      }
+
       // Update main translation document usage count
-      await translationsCollection.doc(translationId).set(
+      await collections.translationsCollection.doc(translationId).set(
         {
           usageCount: FieldValue.increment(1),
           lastUsed: FieldValue.serverTimestamp(),
@@ -308,7 +342,7 @@ export class TranslationCacheService {
       );
 
       // Update cache document usage count
-      await translationCacheCollection.doc(hash).set(
+      await collections.translationCacheCollection.doc(hash).set(
         {
           usageCount: FieldValue.increment(1),
           lastUsed: FieldValue.serverTimestamp()
@@ -346,7 +380,12 @@ export class TranslationCacheService {
    */
   async getPopularTranslations(limitCount: number = 10): Promise<TranslationCacheDocument[]> {
     try {
-      const snapshot = await translationCacheCollection
+      const collections = getCollectionsSafely();
+      if (!collections) {
+        return [];
+      }
+
+      const snapshot = await collections.translationCacheCollection
         .orderBy('usageCount', 'desc')
         .limit(limitCount)
         .get();

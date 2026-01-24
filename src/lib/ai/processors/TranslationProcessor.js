@@ -32,25 +32,31 @@ class TranslationProcessor extends BaseProcessor_1.BaseProcessor {
         try {
             // 🔍 STEP 1: Check Firebase cache first
             console.log(`🔍 Checking Firebase cache for: "${normalizedRequest.text.substring(0, 50)}..." (${normalizedRequest.mode})`);
-            const cachedResult = await translations_1.translationCache.getCachedTranslation(normalizedRequest.text, normalizedRequest.mode, normalizedRequest.userLevel, {
-                includeGrammarNotes: normalizedRequest.includeGrammarNotes,
-                preserveGrammarStructure: normalizedRequest.preserveGrammarStructure
-            });
-            if (cachedResult) {
-                console.log(`✅ Cache HIT! Using cached translation (${Date.now() - startTime}ms)`);
-                cached = true;
-                return {
-                    data: cachedResult,
-                    usage, // Zero cost for cached results
-                    metadata: {
-                        mode: normalizedRequest.mode,
-                        sourceLang: normalizedRequest.sourceLang,
-                        targetLang: normalizedRequest.targetLang,
-                        userLevel: normalizedRequest.userLevel,
-                        cached: true,
-                        cacheHit: true
-                    }
-                };
+            if (!translations_1.translationCache ||
+                typeof translations_1.translationCache.getCachedTranslation !== 'function') {
+                console.warn('⚠️ Translation cache not initialized; skipping cache read');
+            }
+            else {
+                const cachedResult = await translations_1.translationCache.getCachedTranslation(normalizedRequest.text, normalizedRequest.mode, normalizedRequest.userLevel, {
+                    includeGrammarNotes: normalizedRequest.includeGrammarNotes,
+                    preserveGrammarStructure: normalizedRequest.preserveGrammarStructure
+                });
+                if (cachedResult) {
+                    console.log(`✅ Cache HIT! Using cached translation (${Date.now() - startTime}ms)`);
+                    cached = true;
+                    return {
+                        data: cachedResult,
+                        usage, // Zero cost for cached results
+                        metadata: {
+                            mode: normalizedRequest.mode,
+                            sourceLang: normalizedRequest.sourceLang,
+                            targetLang: normalizedRequest.targetLang,
+                            userLevel: normalizedRequest.userLevel,
+                            cached: true,
+                            cacheHit: true
+                        }
+                    };
+                }
             }
             console.log(`❌ Cache MISS. Proceeding with AI translation...`);
         }
@@ -82,10 +88,16 @@ class TranslationProcessor extends BaseProcessor_1.BaseProcessor {
                     articleId: config.articleId,
                     articleTitle: config.articleTitle
                 } : undefined;
-                await translations_1.translationCache.storeTranslation(normalizedRequest.text, normalizedRequest.mode, normalizedRequest.userLevel, enhancedResult, costInfo, context, {
-                    includeGrammarNotes: normalizedRequest.includeGrammarNotes,
-                    preserveGrammarStructure: normalizedRequest.preserveGrammarStructure
-                });
+                if (!translations_1.translationCache ||
+                    typeof translations_1.translationCache.storeTranslation !== 'function') {
+                    console.warn('⚠️ Translation cache not initialized; skipping cache write');
+                }
+                else {
+                    await translations_1.translationCache.storeTranslation(normalizedRequest.text, normalizedRequest.mode, normalizedRequest.userLevel, enhancedResult, costInfo, context, {
+                        includeGrammarNotes: normalizedRequest.includeGrammarNotes,
+                        preserveGrammarStructure: normalizedRequest.preserveGrammarStructure
+                    });
+                }
                 console.log(`💾 Stored translation in Firebase cache (${Date.now() - startTime}ms total)`);
             }
             catch (storeError) {

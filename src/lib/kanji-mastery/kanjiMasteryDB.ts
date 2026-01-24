@@ -271,6 +271,29 @@ export class KanjiMasteryDB {
   }
 
   /**
+   * Get sessions for a user (most recent first)
+   */
+  async getSessionsByUser(userId: string, limit = 60): Promise<KanjiSession[]> {
+    const db = await this.getDB()
+    const tx = db.transaction([KANJI_STORES.SESSIONS], 'readonly')
+    const store = tx.objectStore(KANJI_STORES.SESSIONS)
+    const index = store.index('userId')
+
+    return new Promise((resolve, reject) => {
+      const request = index.getAll(userId)
+      request.onsuccess = () => {
+        const sessions = (request.result || [])
+          .sort((a: KanjiSession, b: KanjiSession) =>
+            new Date(b.endTime).getTime() - new Date(a.endTime).getTime()
+          )
+          .slice(0, limit)
+        resolve(sessions)
+      }
+      request.onerror = () => reject(request.error)
+    })
+  }
+
+  /**
    * Get upcoming reviews
    */
   async getUpcomingReviews(userId: string, limit = 20): Promise<KanjiProgressRecord[]> {

@@ -30,6 +30,7 @@ export function FeatureUsageIndicator({ featureId, className = '' }: FeatureUsag
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+
   // Don't show if no decision yet or unlimited
   const limitCount = lastDecision?.limit ?? 5;
   const isUnlimited = limitCount === -1;
@@ -58,6 +59,7 @@ export function useFeatureUsage(featureId: FeatureId) {
     checkOnly({ failOpen: true });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
 
   const limitCount = lastDecision?.limit ?? 5;
   const isUnlimited = limitCount === -1;

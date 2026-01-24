@@ -13,6 +13,15 @@ import type { EvalContext } from '@/lib/entitlements/evaluator';
 import { FeatureId } from '@/types/FeatureId';
 import { FEATURE_IDS } from '@/types/FeatureId';
 
+const UNIQUE_ITEM_FIELDS: Partial<Record<FeatureId, string>> = {
+  kanji_mood_board: 'kanji_mood_board_boards',
+  news: 'news_items',
+  comics: 'comics_items',
+  kanji_connection: 'kanji_connection_items',
+  textbook_vocabulary: 'textbook_vocabulary_items',
+  story: 'story_items'
+};
+
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ featureId: string }> }
@@ -84,8 +93,7 @@ export async function POST(
     const nowUtc = new Date().toISOString();
     const bucketKey = getBucketKey(featureId, userId || 'guest', nowUtc);
     let currentUsage = 0;
-    let moodboardBoards = null;
-    let newsItems = null;
+    let uniqueItems: string[] | null = null;
 
     if (userId && adminDb) {
       try {
@@ -93,17 +101,12 @@ export async function POST(
         const usageDoc = await usageRef.get();
         const usageData = (usageDoc.data() as Partial<Record<FeatureId, number>> | undefined) || {};
         currentUsage = usageData[featureId] ?? 0;
-        const boards = Array.isArray((usageData as any).kanji_mood_board_boards)
-          ? (usageData as any).kanji_mood_board_boards
+        const uniqueField = UNIQUE_ITEM_FIELDS[featureId];
+        const items = uniqueField && Array.isArray((usageData as any)[uniqueField])
+          ? (usageData as any)[uniqueField]
           : null;
-        const items = Array.isArray((usageData as any).news_items)
-          ? (usageData as any).news_items
-          : null;
-        moodboardBoards = boards;
-        newsItems = items;
-        if (featureId === 'kanji_mood_board' && Array.isArray(boards)) {
-          currentUsage = boards.length;
-        } else if (featureId === 'news' && Array.isArray(items)) {
+        uniqueItems = items;
+        if (Array.isArray(items)) {
           currentUsage = items.length;
         }
       } catch (error) {
@@ -122,29 +125,18 @@ export async function POST(
     const decision = evaluate(featureId, evalContext);
     const isRepeat =
       !!itemId &&
-      ((featureId === 'kanji_mood_board' &&
-        Array.isArray(moodboardBoards) &&
-        moodboardBoards.includes(itemId)) ||
-        (featureId === 'news' &&
-          Array.isArray(newsItems) &&
-          newsItems.includes(itemId)));
+      (Array.isArray(uniqueItems) && uniqueItems.includes(itemId));
 
     // 7. If allowed, increment usage
     let didIncrement = false;
     if (decision.allow && userId && adminDb && !isRepeat) {
       try {
         const usageRef = adminDb.collection('users').doc(userId).collection('usage').doc(bucketKey);
-        if (featureId === 'kanji_mood_board' && itemId) {
+        const uniqueField = UNIQUE_ITEM_FIELDS[featureId];
+        if (uniqueField && itemId) {
           await usageRef.set({
             [featureId]: currentUsage + 1,
-            kanji_mood_board_boards: FieldValue.arrayUnion(itemId),
-            updatedAt: nowUtc,
-            lastUpdated: nowUtc
-          }, { merge: true });
-        } else if (featureId === 'news' && itemId) {
-          await usageRef.set({
-            [featureId]: currentUsage + 1,
-            news_items: FieldValue.arrayUnion(itemId),
+            [uniqueField]: FieldValue.arrayUnion(itemId),
             updatedAt: nowUtc,
             lastUpdated: nowUtc
           }, { merge: true });

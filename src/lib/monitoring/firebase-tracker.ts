@@ -4,6 +4,8 @@
  * This helps identify any free users still accessing Firebase
  */
 
+import { incrementQuota, type QuotaOperation } from './quota-tracker'
+
 export interface FirebaseOperation {
   userId: string
   operation: 'read' | 'write' | 'delete' | 'batch'
@@ -56,6 +58,14 @@ class FirebaseUsageTracker {
     }
 
     this.operations.set(key, op)
+
+    // Track quota in Redis for real-time monitoring
+    if (operation !== 'batch') {
+      // Track individual operations (batch operations will track their individual counts separately)
+      incrementQuota(operation as QuotaOperation).catch(err => {
+        console.warn('[FirebaseTracker] Failed to increment quota:', err)
+      })
+    }
 
     // ALERT: Free user doing Firebase operations
     if (!isPremium && (operation === 'write' || operation === 'delete')) {

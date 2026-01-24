@@ -1,6 +1,7 @@
 import crypto from 'crypto';
-import { adminFirestore as db, Timestamp } from '@/lib/firebase/admin';
+import { adminDb, Timestamp } from '@/lib/firebase/admin';
 import { WordExplanation } from '../types';
+import type { Firestore } from 'firebase-admin/firestore';
 
 const COLLECTION = 'wordExplanationCache';
 
@@ -9,8 +10,8 @@ interface CacheEntry {
   wordHash: string;
   word: string;
   explanation: WordExplanation;
-  createdAt: Timestamp;
-  lastAccessedAt: Timestamp;
+  createdAt: FirebaseFirestore.Timestamp;
+  lastAccessedAt: FirebaseFirestore.Timestamp;
   accessCount: number;
 }
 
@@ -18,11 +19,9 @@ function hashText(text: string): string {
   return crypto.createHash('sha256').update(text).digest('hex');
 }
 
-export async function getCachedWordExplanation(word: string): Promise<WordExplanation | null> {
-  if (!db) {
-    console.warn('[WordCache] Firebase Admin not initialized - cache disabled');
-    return null;
-  }
+export async function getCachedWordExplanation(word: string, dbOverride?: Firestore): Promise<WordExplanation | null> {
+  const db = dbOverride || adminDb;
+  if (!db) return null;
 
   try {
     const wordHash = hashText(word.trim().toLowerCase());
@@ -53,12 +52,11 @@ export async function getCachedWordExplanation(word: string): Promise<WordExplan
 
 export async function setCachedWordExplanation(
   word: string,
-  explanation: WordExplanation
+  explanation: WordExplanation,
+  dbOverride?: Firestore
 ): Promise<void> {
-  if (!db) {
-    console.warn('[WordCache] Firebase Admin not initialized - cannot cache explanation');
-    return;
-  }
+  const db = dbOverride || adminDb;
+  if (!db) return;
 
   try {
     // Remove undefined fields to satisfy Firestore

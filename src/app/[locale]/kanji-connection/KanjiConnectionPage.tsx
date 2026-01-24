@@ -8,12 +8,18 @@ import PageHeader from '@/components/ui/PageHeader'
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n } from '@/i18n/I18nContext'
 import { useKanjiConnectionCache } from '@/hooks/useKanjiConnectionCache'
+import {
+  FeatureUsageIndicator,
+  DesktopCircularIndicator,
+  useFeatureUsage
+} from '@/components/entitlements/FeatureUsageIndicator'
 
 export default function KanjiConnectionPage() {
   const router = useRouter()
   const { user } = useAuth()
   const { t } = useI18n()
   const [loading, setLoading] = useState(false)
+  const usageData = useFeatureUsage('kanji_connection')
 
   // Offline caching - prefetch ALL kanji connections for complete offline access
   const { prefetchAll } = useKanjiConnectionCache()
@@ -87,7 +93,18 @@ export default function KanjiConnectionPage() {
         showDoshi={false}
         doshiMood="curious"
         backHref="/dashboard"
+        actions={
+          usageData.hasData ? (
+            <DesktopCircularIndicator
+              remaining={usageData.remaining}
+              limitCount={usageData.limitCount}
+              usedCount={usageData.usedCount}
+              color={usageData.color}
+            />
+          ) : null
+        }
       />
+      <FeatureUsageIndicator featureId="kanji_connection" />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 pt-8 pb-8">

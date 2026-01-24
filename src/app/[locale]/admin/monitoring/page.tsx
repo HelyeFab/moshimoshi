@@ -1,10 +1,13 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback, memo } from 'react';
 import { useAdmin } from '@/hooks/useAdmin';
+import { useMonitoringData } from '@/hooks/useMonitoringData';
 import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import { AdminErrorBoundary } from '@/components/admin/AdminErrorBoundary';
 import { RefreshCw, Activity, AlertTriangle, CheckCircle, XCircle, Database, Download, Clock, Shield } from 'lucide-react';
+import { QuotaChart } from '@/components/admin/charts/AdminCharts';
 
 interface HealthStatus {
   status: 'healthy' | 'degraded' | 'unhealthy';
@@ -61,15 +64,19 @@ interface BackupStatus {
       timestamp: string;
       type: string;
     } | null;
-    lastFailed: {
+    lastFailed?: {
       id: string;
       timestamp: string;
       error: string;
     } | null;
   };
+  storage?: {
+    bucket: string;
+    backupPath: string;
+  };
   health: {
     status: string;
-    message: string;
+    message?: string;
   };
 }
 
@@ -112,65 +119,71 @@ interface QuotaData {
 
 export default function MonitoringDashboard() {
   const { isAdmin, isLoading: adminLoading } = useAdmin();
-  const [data, setData] = useState<DashboardData | null>(null);
-  const [backupStatus, setBackupStatus] = useState<BackupStatus | null>(null);
-  const [quotaData, setQuotaData] = useState<QuotaData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [backupLoading, setBackupLoading] = useState(false);
   const [backupMessage, setBackupMessage] = useState<string | null>(null);
   const [checkingStatus, setCheckingStatus] = useState(false);
 
-  const fetchMetrics = async () => {
-    try {
-      const response = await fetch('/api/health/metrics');
-      if (!response.ok) {
-        throw new Error('Failed to fetch metrics');
-      }
-      const metrics = await response.json();
-      setData(metrics);
-      setError(null);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Use optimized monitoring hook (15s refresh instead of 5s, single batch request)
+  const {
+    data: monitoringData,
+    loading,
+    error,
+    refresh,
+    lastUpdated,
+  } = useMonitoringData({
+    enabled: isAdmin,
+    autoRefresh,
+    refreshInterval: 15000, // 15 seconds instead of 5
+  });
 
-  const fetchBackupStatus = async () => {
-    try {
-      const response = await fetch('/api/admin/backup/status');
-      if (!response.ok) {
-        console.error('Failed to fetch backup status');
-        return;
-      }
-      const result = await response.json();
-      if (result.success) {
-        setBackupStatus(result.status);
-      }
-    } catch (err) {
-      console.error('Error fetching backup status:', err);
-    }
-  };
+  // Extract data from batch response
+  const data = monitoringData.metrics as DashboardData | null;
+  const backupStatus = monitoringData.backup?.status as BackupStatus | null;
+  const quotaData = monitoringData.quota as QuotaData | null;
 
-  const fetchQuotaData = async () => {
-    try {
-      const response = await fetch('/api/admin/monitoring/quota');
-      if (!response.ok) {
-        console.error('Failed to fetch quota data');
-        return;
-      }
-      const result = await response.json();
-      if (result.success) {
-        setQuotaData(result);
-      }
-    } catch (err) {
-      console.error('Error fetching quota data:', err);
-    }
-  };
+  // Memoized computed values
+  const errorRate = useMemo(() => {
+    if (!data?.summary?.api) return '0.00';
+    const errorCount = data.summary.api['api.error.count']?.sum || 0;
+    const requestCount = data.summary.api['api.request.count']?.sum || 1;
+    return ((errorCount / requestCount) * 100).toFixed(2);
+  }, [data?.summary?.api]);
 
-  const triggerBackup = async () => {
+  const cacheHitRate = useMemo(() => {
+    if (!data?.summary?.cache) return '0.0';
+    const hits = data.summary.cache['cache.hit']?.sum || 0;
+    const misses = data.summary.cache['cache.miss']?.sum || 1;
+    return ((hits / (hits + misses)) * 100).toFixed(1);
+  }, [data?.summary?.cache]);
+
+  const syncSuccessRate = useMemo(() => {
+    if (!data?.summary?.sync) return '0.0';
+    const success = data.summary.sync['sync.success']?.sum || 0;
+    const failure = data.summary.sync['sync.failure']?.sum || 1;
+    return ((success / (success + failure)) * 100).toFixed(1);
+  }, [data?.summary?.sync]);
+
+  // Prepare quota chart data
+  const quotaChartData = useMemo(() => {
+    if (!quotaData?.quota) return [];
+    return [
+      { name: 'Reads', used: quotaData.quota.reads.used, limit: quotaData.quota.reads.limit, percentage: quotaData.quota.reads.percentage },
+      { name: 'Writes', used: quotaData.quota.writes.used, limit: quotaData.quota.writes.limit, percentage: quotaData.quota.writes.percentage },
+      { name: 'Deletes', used: quotaData.quota.deletes.used, limit: quotaData.quota.deletes.limit, percentage: quotaData.quota.deletes.percentage },
+    ];
+  }, [quotaData]);
+
+  // Memoized callbacks
+  const handleAutoRefreshToggle = useCallback(() => {
+    setAutoRefresh(prev => !prev);
+  }, []);
+
+  const handleRefresh = useCallback(() => {
+    refresh();
+  }, [refresh]);
+
+  const triggerBackup = useCallback(async () => {
     setBackupLoading(true);
     setBackupMessage(null);
 
@@ -189,9 +202,9 @@ export default function MonitoringDashboard() {
 
       if (result.success) {
         setBackupMessage('✅ Backup initiated successfully! This may take several minutes.');
-        // Refresh backup status after 2 seconds
+        // Refresh data after 2 seconds to get updated backup status
         setTimeout(() => {
-          fetchBackupStatus();
+          refresh();
         }, 2000);
       } else {
         setBackupMessage(`❌ Backup failed: ${result.message || 'Unknown error'}`);
@@ -200,12 +213,11 @@ export default function MonitoringDashboard() {
       setBackupMessage(`❌ Error: ${err instanceof Error ? err.message : 'Failed to trigger backup'}`);
     } finally {
       setBackupLoading(false);
-      // Clear message after 10 seconds
       setTimeout(() => setBackupMessage(null), 10000);
     }
-  };
+  }, [refresh]);
 
-  const checkBackupStatus = async () => {
+  const checkBackupStatus = useCallback(async () => {
     setCheckingStatus(true);
 
     try {
@@ -217,9 +229,9 @@ export default function MonitoringDashboard() {
 
       if (result.success) {
         setBackupMessage(`✅ Checked ${result.checked} backups, updated ${result.updated} to completed`);
-        // Refresh backup status
+        // Refresh data to get updated status
         setTimeout(() => {
-          fetchBackupStatus();
+          refresh();
         }, 1000);
       } else {
         setBackupMessage(`❌ Status check failed: ${result.error || 'Unknown error'}`);
@@ -230,26 +242,7 @@ export default function MonitoringDashboard() {
       setCheckingStatus(false);
       setTimeout(() => setBackupMessage(null), 5000);
     }
-  };
-
-  useEffect(() => {
-    if (isAdmin) {
-      fetchMetrics();
-      fetchBackupStatus();
-      fetchQuotaData();
-    }
-  }, [isAdmin]);
-
-  useEffect(() => {
-    if (!isAdmin || !autoRefresh) return;
-
-    const interval = setInterval(() => {
-      fetchMetrics();
-      fetchBackupStatus();
-      fetchQuotaData();
-    }, 5000); // Refresh every 5 seconds
-    return () => clearInterval(interval);
-  }, [isAdmin, autoRefresh]);
+  }, [refresh]);
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -315,23 +308,30 @@ export default function MonitoringDashboard() {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
+    <AdminErrorBoundary componentName="System Monitoring">
+    <div className="container mx-auto p-3 sm:p-6 space-y-4 sm:space-y-6">
+      {/* Header - Mobile responsive */}
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
         <div>
-          <h1 className="text-3xl font-bold">System Monitoring Dashboard</h1>
-          <p className="text-muted-foreground">Real-time metrics and health status</p>
+          <h1 className="text-xl sm:text-3xl font-bold">System Monitoring</h1>
+          <p className="text-xs sm:text-sm text-muted-foreground">Real-time metrics and health status</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2 items-center">
+          {lastUpdated && (
+            <span className="text-[10px] sm:text-xs text-muted-foreground">
+              {lastUpdated.toLocaleTimeString()}
+            </span>
+          )}
           <Button
             variant={autoRefresh ? "default" : "outline"}
-            onClick={() => setAutoRefresh(!autoRefresh)}
+            onClick={handleAutoRefreshToggle}
+            size="sm"
+            className="text-xs sm:text-sm"
           >
-            Auto-refresh: {autoRefresh ? 'ON' : 'OFF'}
+            {autoRefresh ? '⏱️ 15s' : '⏸️ Off'}
           </Button>
-          <Button onClick={fetchMetrics} variant="outline">
-            <RefreshCw className="w-4 h-4 mr-2" />
-            Refresh
+          <Button onClick={handleRefresh} variant="outline" size="sm" disabled={loading}>
+            <RefreshCw className={`w-3 h-3 sm:w-4 sm:h-4 ${loading ? 'animate-spin' : ''}`} />
           </Button>
         </div>
       </div>
@@ -408,8 +408,7 @@ export default function MonitoringDashboard() {
                   <div>
                     <p className="text-sm text-muted-foreground">Error Rate</p>
                     <p className="text-xl font-semibold">
-                      {((data.summary.api['api.error.count']?.sum || 0) / 
-                        (data.summary.api['api.request.count']?.sum || 1) * 100).toFixed(2)}%
+                      {errorRate}%
                     </p>
                   </div>
                 </>
@@ -460,9 +459,7 @@ export default function MonitoringDashboard() {
                 <div className="flex justify-between">
                   <span className="text-sm text-muted-foreground">Cache Hit Rate</span>
                   <span className="font-semibold">
-                    {((data.summary.cache['cache.hit']?.sum || 0) / 
-                      ((data.summary.cache['cache.hit']?.sum || 0) + 
-                       (data.summary.cache['cache.miss']?.sum || 1)) * 100).toFixed(1)}%
+                    {cacheHitRate}%
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -482,9 +479,7 @@ export default function MonitoringDashboard() {
                 <div className="flex justify-between">
                   <span className="text-sm text-muted-foreground">Success Rate</span>
                   <span className="font-semibold">
-                    {((data.summary.sync['sync.success']?.sum || 0) / 
-                      ((data.summary.sync['sync.success']?.sum || 0) + 
-                       (data.summary.sync['sync.failure']?.sum || 1)) * 100).toFixed(1)}%
+                    {syncSuccessRate}%
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -678,24 +673,33 @@ export default function MonitoringDashboard() {
 
             {quotaData ? (
               <>
+                {/* Quota Chart - Visual representation */}
+                <div className="mb-4 sm:mb-6 bg-gray-50/50 dark:bg-gray-800/30 rounded-xl p-3 sm:p-4">
+                  <p className="text-xs sm:text-sm text-muted-foreground mb-2">Usage Overview</p>
+                  <QuotaChart data={quotaChartData} />
+                </div>
+
                 {/* Quota Metrics Grid */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4 mb-4">
                   {/* Reads */}
-                  <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <p className="text-sm text-muted-foreground mb-1">Reads</p>
-                    <p className={`text-2xl font-bold mb-1 ${
+                  <div className="p-2 sm:p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-0.5 sm:mb-1">Reads</p>
+                    <p className={`text-lg sm:text-2xl font-bold mb-0.5 sm:mb-1 ${
                       quotaData.quota.reads.percentage > 80 ? 'text-red-600 dark:text-red-400' :
                       quotaData.quota.reads.percentage > 60 ? 'text-yellow-600 dark:text-yellow-400' :
                       'text-green-600 dark:text-green-400'
                     }`}>
                       {quotaData.quota.reads.percentage}%
                     </p>
-                    <p className="text-xs text-muted-foreground">
-                      {quotaData.quota.reads.used.toLocaleString()} / {quotaData.quota.reads.limit.toLocaleString()}
+                    <p className="text-[10px] sm:text-xs text-muted-foreground truncate">
+                      {quotaData.quota.reads.used >= 1000
+                        ? `${(quotaData.quota.reads.used / 1000).toFixed(1)}K`
+                        : quotaData.quota.reads.used}
+                      <span className="hidden sm:inline"> / {quotaData.quota.reads.limit.toLocaleString()}</span>
                     </p>
-                    <div className="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div className="mt-1 sm:mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 sm:h-2">
                       <div
-                        className={`h-2 rounded-full transition-all ${
+                        className={`h-1.5 sm:h-2 rounded-full transition-all ${
                           quotaData.quota.reads.percentage > 80 ? 'bg-red-600' :
                           quotaData.quota.reads.percentage > 60 ? 'bg-yellow-600' :
                           'bg-green-600'
@@ -706,21 +710,24 @@ export default function MonitoringDashboard() {
                   </div>
 
                   {/* Writes */}
-                  <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <p className="text-sm text-muted-foreground mb-1">Writes</p>
-                    <p className={`text-2xl font-bold mb-1 ${
+                  <div className="p-2 sm:p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-0.5 sm:mb-1">Writes</p>
+                    <p className={`text-lg sm:text-2xl font-bold mb-0.5 sm:mb-1 ${
                       quotaData.quota.writes.percentage > 80 ? 'text-red-600 dark:text-red-400' :
                       quotaData.quota.writes.percentage > 60 ? 'text-yellow-600 dark:text-yellow-400' :
                       'text-green-600 dark:text-green-400'
                     }`}>
                       {quotaData.quota.writes.percentage}%
                     </p>
-                    <p className="text-xs text-muted-foreground">
-                      {quotaData.quota.writes.used.toLocaleString()} / {quotaData.quota.writes.limit.toLocaleString()}
+                    <p className="text-[10px] sm:text-xs text-muted-foreground truncate">
+                      {quotaData.quota.writes.used >= 1000
+                        ? `${(quotaData.quota.writes.used / 1000).toFixed(1)}K`
+                        : quotaData.quota.writes.used}
+                      <span className="hidden sm:inline"> / {quotaData.quota.writes.limit.toLocaleString()}</span>
                     </p>
-                    <div className="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div className="mt-1 sm:mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 sm:h-2">
                       <div
-                        className={`h-2 rounded-full transition-all ${
+                        className={`h-1.5 sm:h-2 rounded-full transition-all ${
                           quotaData.quota.writes.percentage > 80 ? 'bg-red-600' :
                           quotaData.quota.writes.percentage > 60 ? 'bg-yellow-600' :
                           'bg-green-600'
@@ -731,21 +738,24 @@ export default function MonitoringDashboard() {
                   </div>
 
                   {/* Deletes */}
-                  <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <p className="text-sm text-muted-foreground mb-1">Deletes</p>
-                    <p className={`text-2xl font-bold mb-1 ${
+                  <div className="p-2 sm:p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-0.5 sm:mb-1">Deletes</p>
+                    <p className={`text-lg sm:text-2xl font-bold mb-0.5 sm:mb-1 ${
                       quotaData.quota.deletes.percentage > 80 ? 'text-red-600 dark:text-red-400' :
                       quotaData.quota.deletes.percentage > 60 ? 'text-yellow-600 dark:text-yellow-400' :
                       'text-green-600 dark:text-green-400'
                     }`}>
                       {quotaData.quota.deletes.percentage}%
                     </p>
-                    <p className="text-xs text-muted-foreground">
-                      {quotaData.quota.deletes.used.toLocaleString()} / {quotaData.quota.deletes.limit.toLocaleString()}
+                    <p className="text-[10px] sm:text-xs text-muted-foreground truncate">
+                      {quotaData.quota.deletes.used >= 1000
+                        ? `${(quotaData.quota.deletes.used / 1000).toFixed(1)}K`
+                        : quotaData.quota.deletes.used}
+                      <span className="hidden sm:inline"> / {quotaData.quota.deletes.limit.toLocaleString()}</span>
                     </p>
-                    <div className="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div className="mt-1 sm:mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 sm:h-2">
                       <div
-                        className={`h-2 rounded-full transition-all ${
+                        className={`h-1.5 sm:h-2 rounded-full transition-all ${
                           quotaData.quota.deletes.percentage > 80 ? 'bg-red-600' :
                           quotaData.quota.deletes.percentage > 60 ? 'bg-yellow-600' :
                           'bg-green-600'
@@ -756,21 +766,22 @@ export default function MonitoringDashboard() {
                   </div>
 
                   {/* Storage */}
-                  <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
-                    <p className="text-sm text-muted-foreground mb-1">Storage</p>
-                    <p className={`text-2xl font-bold mb-1 ${
+                  <div className="p-2 sm:p-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
+                    <p className="text-xs sm:text-sm text-muted-foreground mb-0.5 sm:mb-1">Storage</p>
+                    <p className={`text-lg sm:text-2xl font-bold mb-0.5 sm:mb-1 ${
                       quotaData.quota.storage.percentage > 80 ? 'text-red-600 dark:text-red-400' :
                       quotaData.quota.storage.percentage > 60 ? 'text-yellow-600 dark:text-yellow-400' :
                       'text-green-600 dark:text-green-400'
                     }`}>
                       {quotaData.quota.storage.percentage}%
                     </p>
-                    <p className="text-xs text-muted-foreground">
-                      {quotaData.quota.storage.used}{quotaData.quota.storage.unit} / {quotaData.quota.storage.limit}{quotaData.quota.storage.unit}
+                    <p className="text-[10px] sm:text-xs text-muted-foreground truncate">
+                      {quotaData.quota.storage.used}{quotaData.quota.storage.unit}
+                      <span className="hidden sm:inline"> / {quotaData.quota.storage.limit}{quotaData.quota.storage.unit}</span>
                     </p>
-                    <div className="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                    <div className="mt-1 sm:mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-1.5 sm:h-2">
                       <div
-                        className={`h-2 rounded-full transition-all ${
+                        className={`h-1.5 sm:h-2 rounded-full transition-all ${
                           quotaData.quota.storage.percentage > 80 ? 'bg-red-600' :
                           quotaData.quota.storage.percentage > 60 ? 'bg-yellow-600' :
                           'bg-green-600'
@@ -814,5 +825,6 @@ export default function MonitoringDashboard() {
         </>
       )}
     </div>
+    </AdminErrorBoundary>
   );
 }

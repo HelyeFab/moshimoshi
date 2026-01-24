@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-20T19:27:55.750Z
+ * Generated at: 2026-01-23T09:15:50.679Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -58,7 +58,10 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "save_items": -1,
           "todos": 0,
           "flashcard_decks": 0,
-          "anki_imports": 0
+          "anki_imports": 0,
+          "kanji_connection": 0,
+          "textbook_vocabulary": 0,
+          "comics": 0
     }
   },
   "free": {
@@ -101,7 +104,10 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "save_items": -1,
           "todos": 100,
           "flashcard_decks": 0,
-          "anki_imports": 0
+          "anki_imports": 0,
+          "kanji_connection": 1,
+          "textbook_vocabulary": 1,
+          "comics": 1
     }
   },
   "premium_monthly": {
@@ -144,7 +150,10 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "save_items": -1,
           "todos": -1,
           "flashcard_decks": 10,
-          "anki_imports": 10
+          "anki_imports": 10,
+          "kanji_connection": -1,
+          "textbook_vocabulary": -1,
+          "comics": -1
     }
   },
   "premium_yearly": {
@@ -187,7 +196,10 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "save_items": -1,
           "todos": -1,
           "flashcard_decks": 10,
-          "anki_imports": 10
+          "anki_imports": 10,
+          "kanji_connection": -1,
+          "textbook_vocabulary": -1,
+          "comics": -1
     }
   }
 };

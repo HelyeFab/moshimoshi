@@ -1,4 +1,4 @@
-import { db } from '@/lib/firebase/admin';
+import { db, storage } from '@/lib/firebase/admin';
 import { FieldValue } from 'firebase-admin/firestore';
 import { prepareFirestoreData, cleanYouTubeMetadata } from '@/lib/firebase/cleanFirestoreData';
 
@@ -19,6 +19,7 @@ interface TranscriptCacheEntry {
   videoTitle?: string;
   transcript: TranscriptLine[];
   formattedTranscript?: TranscriptLine[];
+  transcriptStoragePath?: string;
   language: string;
   duration?: number;
   createdAt: Date;
@@ -38,6 +39,50 @@ interface TranscriptCacheEntry {
 
 class TranscriptCacheService {
   private readonly collection = 'transcriptCache';
+  private readonly storagePrefix = 'transcriptCache';
+  private readonly maxDocBytes = 1024 * 1024;
+
+  private getBucket() {
+    return storage ? storage.bucket() : null;
+  }
+
+  private async saveTranscriptToStorage(
+    contentId: string,
+    payload: { transcript: TranscriptLine[]; formattedTranscript?: TranscriptLine[] }
+  ): Promise<string | null> {
+    const bucket = this.getBucket();
+    if (!bucket) return null;
+
+    const path = `${this.storagePrefix}/${contentId}.json`;
+    const file = bucket.file(path);
+    const body = JSON.stringify(payload);
+    await file.save(body, { contentType: 'application/json' });
+    return path;
+  }
+
+  private async loadTranscriptFromStorage(
+    path: string
+  ): Promise<{ transcript: TranscriptLine[]; formattedTranscript?: TranscriptLine[] } | null> {
+    const bucket = this.getBucket();
+    if (!bucket) return null;
+
+    const file = bucket.file(path);
+    const [exists] = await file.exists();
+    if (!exists) return null;
+
+    const [buffer] = await file.download();
+    const data = JSON.parse(buffer.toString('utf8'));
+    if (!data || !Array.isArray(data.transcript)) return null;
+    return data;
+  }
+
+  private estimateSizeBytes(value: unknown): number {
+    try {
+      return Buffer.byteLength(JSON.stringify(value), 'utf8');
+    } catch {
+      return this.maxDocBytes + 1;
+    }
+  }
 
   /**
    * Get cached transcript
@@ -55,6 +100,15 @@ class TranscriptCacheService {
       }
 
       const data = doc.data() as TranscriptCacheEntry;
+      if (data?.transcriptStoragePath) {
+        const stored = await this.loadTranscriptFromStorage(data.transcriptStoragePath);
+        if (stored) {
+          data.transcript = stored.transcript;
+          if (stored.formattedTranscript) {
+            data.formattedTranscript = stored.formattedTranscript;
+          }
+        }
+      }
 
       // Update access stats automatically
       await this.updateAccessStats(contentId);
@@ -117,7 +171,32 @@ class TranscriptCacheService {
 
       // Clean the entire entry to remove any undefined values
       const cleanedEntry = prepareFirestoreData(entry);
-      await db.collection(this.collection).doc(params.contentId).set(cleanedEntry);
+      const estimatedBytes = this.estimateSizeBytes(cleanedEntry);
+
+      if (estimatedBytes > this.maxDocBytes) {
+        const storagePath = await this.saveTranscriptToStorage(params.contentId, {
+          transcript: params.transcript,
+          ...(params.formattedTranscript ? { formattedTranscript: params.formattedTranscript } : {}),
+        });
+
+        if (!storagePath) {
+          console.error('❌ Transcript too large and storage unavailable:', {
+            contentId: params.contentId,
+            estimatedBytes,
+          });
+          return false;
+        }
+
+        const storageEntry = prepareFirestoreData({
+          ...entry,
+          transcript: [],
+          ...(params.formattedTranscript ? { formattedTranscript: [] } : {}),
+          transcriptStoragePath: storagePath,
+        });
+        await db.collection(this.collection).doc(params.contentId).set(storageEntry);
+      } else {
+        await db.collection(this.collection).doc(params.contentId).set(cleanedEntry);
+      }
 
       console.log('✅ Transcript cached successfully:', {
         contentId: params.contentId,
@@ -128,6 +207,33 @@ class TranscriptCacheService {
 
       return true;
     } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      if (message.includes('exceeds the maximum allowed size')) {
+        try {
+          const storagePath = await this.saveTranscriptToStorage(params.contentId, {
+            transcript: params.transcript,
+            ...(params.formattedTranscript ? { formattedTranscript: params.formattedTranscript } : {}),
+          });
+          if (storagePath && db) {
+            const fallbackEntry = prepareFirestoreData({
+              id: params.contentId,
+              contentId: params.contentId,
+              contentType: params.contentType,
+              transcript: [],
+              ...(params.formattedTranscript ? { formattedTranscript: [] } : {}),
+              transcriptStoragePath: storagePath,
+              language: params.language || 'ja',
+              createdAt: new Date(),
+              lastAccessed: new Date(),
+              accessCount: 1,
+            });
+            await db.collection(this.collection).doc(params.contentId).set(fallbackEntry);
+            return true;
+          }
+        } catch (storageError) {
+          console.error('❌ Error caching transcript to storage fallback:', storageError);
+        }
+      }
       console.error('❌ Error caching transcript:', error);
       return false;
     }
@@ -146,19 +252,83 @@ class TranscriptCacheService {
         return false;
       }
 
-      const updateData = prepareFirestoreData({
+      const updateData = {
         formattedTranscript,
         'metadata.formattedAt': new Date(),
         'metadata.formattingModel': formattingModel || 'gpt-3.5-turbo',
         'metadata.wasFormatted': true,
         lastAccessed: new Date()
-      });
-      await db.collection(this.collection).doc(contentId).update(updateData);
+      };
+      const estimatedBytes = this.estimateSizeBytes(updateData);
+      if (estimatedBytes > this.maxDocBytes) {
+        const storagePath = await this.saveTranscriptToStorage(contentId, {
+          transcript: [],
+          formattedTranscript,
+        });
+        if (storagePath) {
+          await db.collection(this.collection).doc(contentId).update(
+            prepareFirestoreData({
+              formattedTranscript: [],
+              transcriptStoragePath: storagePath,
+              'metadata.formattedAt': new Date(),
+              'metadata.formattingModel': formattingModel || 'gpt-3.5-turbo',
+              'metadata.wasFormatted': true,
+              lastAccessed: new Date(),
+            })
+          );
+        }
+      } else {
+        await db.collection(this.collection).doc(contentId).update(prepareFirestoreData(updateData));
+      }
 
       console.log('Formatted transcript updated in cache:', contentId);
       return true;
     } catch (error) {
       console.error('Error updating formatted transcript:', error);
+      return false;
+    }
+  }
+
+  async updateTranscriptWithMetadata(params: {
+    contentId: string;
+    transcript: TranscriptLine[];
+    formattedTranscript?: TranscriptLine[];
+    metadata?: Record<string, unknown>;
+  }): Promise<boolean> {
+    try {
+      if (!db) return false;
+
+      const updateData: Record<string, unknown> = {
+        transcript: params.transcript,
+        ...(params.formattedTranscript ? { formattedTranscript: params.formattedTranscript } : {}),
+        ...(params.metadata || {}),
+        lastAccessed: new Date(),
+      };
+
+      const estimatedBytes = this.estimateSizeBytes(updateData);
+      if (estimatedBytes > this.maxDocBytes) {
+        const storagePath = await this.saveTranscriptToStorage(params.contentId, {
+          transcript: params.transcript,
+          ...(params.formattedTranscript ? { formattedTranscript: params.formattedTranscript } : {}),
+        });
+        if (!storagePath) return false;
+
+        await db.collection(this.collection).doc(params.contentId).update(
+          prepareFirestoreData({
+            transcript: [],
+            ...(params.formattedTranscript ? { formattedTranscript: [] } : {}),
+            transcriptStoragePath: storagePath,
+            ...(params.metadata || {}),
+            lastAccessed: new Date(),
+          })
+        );
+      } else {
+        await db.collection(this.collection).doc(params.contentId).update(prepareFirestoreData(updateData));
+      }
+
+      return true;
+    } catch (error) {
+      console.error('Error updating transcript with metadata:', error);
       return false;
     }
   }

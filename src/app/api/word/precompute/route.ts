@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getSession } from '@/lib/auth/session'
 import { precomputeWordExplanations } from '@/lib/ai/precompute/wordPrecompute'
-import { getAdminDb, Timestamp } from '@/lib/firebase/admin'
+import { getAdminDb, Timestamp, FieldValue } from '@/lib/firebase/admin'
+import { transcriptCache } from '@/lib/transcript/cache'
 import crypto from 'crypto'
 
 export const runtime = 'nodejs'
@@ -58,6 +59,22 @@ async function fetchContentText(
     return text.trim() ? text : null
   }
 
+  if (contentType === 'youtube') {
+    const transcriptId = contentId.startsWith('youtube_') ? contentId : `youtube_${contentId}`
+    const cached = await transcriptCache.get(transcriptId)
+    if (!cached) return null
+    const transcript = Array.isArray(cached.formattedTranscript)
+      ? cached.formattedTranscript
+      : Array.isArray(cached.transcript)
+        ? cached.transcript
+        : []
+    const text = transcript
+      .map((line: any) => line?.text || '')
+      .filter(Boolean)
+      .join(' ')
+    return text.trim() ? text : null
+  }
+
   return null
 }
 
@@ -90,11 +107,15 @@ export async function POST(request: NextRequest) {
       minLength: bodyMinLength,
       allowWhileGenerating,
       fetchContent,
+      background,
+      totalChunks,
     } = body || {}
     contentId = bodyContentId
     contentType = bodyContentType
     includeParticles = bodyIncludeParticles
     minLength = bodyMinLength
+    const allowWhileGeneratingEffective =
+      allowWhileGenerating === true || (contentType === 'youtube' && fetchContent === true)
 
     console.log('[WordPrecompute] Request params:', { contentId, contentType, textLength: text?.length, limit, chunkIndex })
 
@@ -138,15 +159,17 @@ export async function POST(request: NextRequest) {
         startedAt &&
         Date.now() - startedAt.getTime() < lockTtlMs
 
-      if (isFresh && !allowWhileGenerating) {
+      if (isFresh && !allowWhileGeneratingEffective) {
         return { allowed: false, reason: 'locked' }
       }
 
+      // Skip if already complete, unless allowWhileGenerating (for background batches adding more words)
       if (
         !isFresh &&
         status === 'complete' &&
         data?.words?.length &&
-        data?.precomputeVersion === PRECOMPUTE_VERSION
+        data?.precomputeVersion === PRECOMPUTE_VERSION &&
+        !allowWhileGeneratingEffective
       ) {
         return { allowed: false, reason: 'complete' }
       }
@@ -160,10 +183,22 @@ export async function POST(request: NextRequest) {
             precomputeLockId: lockId,
             precomputeUpdatedAt: now,
             precomputeVersion: PRECOMPUTE_VERSION,
+            ...(typeof totalChunks === 'number' ? { precomputeChunkTotal: totalChunks } : {}),
+            ...(typeof chunkIndex === 'number' ? { precomputeChunkIndex: chunkIndex } : {}),
             precomputeOptions: {
               includeParticles: includeParticles === true,
               minLength: typeof minLength === 'number' ? minLength : undefined,
             },
+          },
+          { merge: true }
+        )
+      } else if (allowWhileGeneratingEffective && (typeof chunkIndex === 'number' || typeof totalChunks === 'number')) {
+        tx.set(
+          docRef,
+          {
+            precomputeUpdatedAt: now,
+            ...(typeof totalChunks === 'number' ? { precomputeChunkTotal: totalChunks } : {}),
+            ...(typeof chunkIndex === 'number' ? { precomputeChunkIndex: chunkIndex } : {}),
           },
           { merge: true }
         )
@@ -208,33 +243,48 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log('[WordPrecompute] Starting precompute...')
-    const result = await precomputeWordExplanations({
-      contentId,
-      contentType,
-      text: resolvedText,
-      limit: typeof limit === 'number' ? Math.min(Math.max(limit, 10), 1000) : undefined, // Increased from 400 to 1000
-      includeParticles: includeParticles === true,
-      minLength: typeof minLength === 'number' ? minLength : undefined,
-      chunkIndex: typeof chunkIndex === 'number' ? chunkIndex : undefined,
-      db,
-    } as any)
+    const runPrecompute = async () => {
+      console.log('[WordPrecompute] Starting precompute...')
+      const result = await precomputeWordExplanations({
+        contentId,
+        contentType,
+        text: resolvedText,
+        limit: typeof limit === 'number' ? Math.min(Math.max(limit, 10), 1000) : undefined, // Increased from 400 to 1000
+        includeParticles: includeParticles === true,
+        minLength: typeof minLength === 'number' ? minLength : undefined,
+        chunkIndex: typeof chunkIndex === 'number' ? chunkIndex : undefined,
+        db,
+      } as any)
 
-    await docRef.set(
-      {
-        precomputeStatus: 'complete',
-        precomputeCompletedAt: Timestamp.now(),
-        precomputeUpdatedAt: Timestamp.now(),
-        precomputeVersion: PRECOMPUTE_VERSION,
-        precomputeOptions: {
-          includeParticles: includeParticles === true,
-          minLength: typeof minLength === 'number' ? minLength : undefined,
+      await docRef.set(
+        {
+          precomputeStatus: 'complete',
+          precomputeCompletedAt: Timestamp.now(),
+          precomputeUpdatedAt: Timestamp.now(),
+          precomputeVersion: PRECOMPUTE_VERSION,
+          ...(typeof chunkIndex === 'number' ? { precomputeChunkLastCompletedIndex: chunkIndex } : {}),
+          precomputeChunkCompleted: FieldValue.increment(1),
+          precomputeOptions: {
+            includeParticles: includeParticles === true,
+            minLength: typeof minLength === 'number' ? minLength : undefined,
+          },
         },
-      },
-      { merge: true }
-    )
+        { merge: true }
+      )
 
-    console.log('[WordPrecompute] Success:', { generated: result.generated, cached: result.cached, total: result.total })
+      console.log('[WordPrecompute] Success:', { generated: result.generated, cached: result.cached, total: result.total })
+      return result
+    }
+
+    if (background === true) {
+      // Best-effort fire-and-forget in dev; for production consider a job queue.
+      runPrecompute().catch(error => {
+        console.error('[WordPrecompute] Background precompute failed:', error)
+      })
+      return NextResponse.json({ success: true, queued: true }, { status: 202 })
+    }
+
+    const result = await runPrecompute()
     return NextResponse.json({ success: true, result })
   } catch (error) {
     console.error('[WordPrecompute] ERROR:', error)

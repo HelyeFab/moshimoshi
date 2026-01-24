@@ -20,6 +20,21 @@ const COLLECTION_MAP: Record<ContentType, string> = {
   comic: 'comic_word_explanations',
 }
 
+let ttsServiceInstance = ttsService
+async function getTtsServiceSafe() {
+  if (ttsServiceInstance && typeof ttsServiceInstance.synthesize === 'function') {
+    return ttsServiceInstance
+  }
+  try {
+    const mod = await import('@/lib/tts/service')
+    ttsServiceInstance = mod.ttsService
+    return ttsServiceInstance
+  } catch (error) {
+    console.warn('[WordPrecompute] TTS service import failed', error)
+    return null
+  }
+}
+
 // Build kuromoji tokenizer once (server-side only)
 let tokenizerPromise: Promise<kuromoji.Tokenizer<kuromoji.IpadicFeatures>> | null = null
 
@@ -195,7 +210,12 @@ async function ensureExtras(
   // Precompute audio for short words (skip if already present)
   if (!explanation.audioUrl && explanation.word && explanation.word.length <= 12) {
     try {
-      const audio = await ttsService.synthesize(explanation.word, {
+      const tts = await getTtsServiceSafe()
+      if (!tts || typeof tts.synthesize !== 'function') {
+        console.warn('[WordPrecompute] TTS service unavailable - skipping audio', { word })
+        return
+      }
+      const audio = await tts.synthesize(explanation.word, {
         provider: 'voicevox',
         speed: 1.0,
       })
@@ -355,12 +375,12 @@ export async function precomputeWordExplanations({
         const globalIndex = index + sliceIndex
         const word = wordObj.word
         try {
-          const cached = await getCachedWordExplanation(word)
+          const cached = await getCachedWordExplanation(word, db)
           if (cached) {
             cachedCount += 1
             if (!cached.surfaceForms && wordObj.surfaceForms) {
               cached.surfaceForms = wordObj.surfaceForms
-              await setCachedWordExplanation(word, cached)
+              await setCachedWordExplanation(word, cached, db)
             }
             await ensureExtras(cached, word, sentences, translationCache, jlptLevel)
             // If cached but missing fullConjugations, generate them now
@@ -370,7 +390,7 @@ export async function precomputeWordExplanations({
                 cached.fullConjugations = fullConjugations
                 conjugationsGenerated += 1
                 // Update cache with conjugations
-                await setCachedWordExplanation(word, cached)
+                await setCachedWordExplanation(word, cached, db)
               }
             }
 
@@ -401,7 +421,7 @@ export async function precomputeWordExplanations({
 
           await ensureExtras(explanation, word, sentences, translationCache, jlptLevel)
 
-          await setCachedWordExplanation(word, explanation)
+          await setCachedWordExplanation(word, explanation, db)
 
           // Call progress callback on success
           if (onProgress) {
