@@ -14,6 +14,7 @@ class KanjiService {
   private strokeCounts: Map<string, number> = new Map()
   private grades: Map<string, number> = new Map()
   private frequencies: Map<string, number> = new Map()
+  private gradeCache: Map<number | 'S', Kanji[]> = new Map()
 
   constructor() {
     this.initializeEnrichmentData()
@@ -199,6 +200,19 @@ class KanjiService {
     return kanjiByLevel
   }
 
+  async loadKanjiByGrade(grade: number | 'S'): Promise<Kanji[]> {
+    if (this.gradeCache.has(grade)) {
+      return this.gradeCache.get(grade) || []
+    }
+
+    const all = await this.loadAllKanji()
+    const combined = Object.values(all).flatMap(level => level || [])
+    const filtered = combined.filter(kanji => kanji.grade === grade)
+
+    this.gradeCache.set(grade, filtered)
+    return filtered
+  }
+
   async searchKanji(query: string, levels?: JLPTLevel[]): Promise<Kanji[]> {
     // Safety: empty query should return empty results, not all kanji
     if (!query || !query.trim()) {
@@ -306,6 +320,62 @@ class KanjiService {
       return 0
     }
   }
+
+  /**
+   * Get a mnemonic for a kanji character
+   * Returns cached mnemonic if available, null otherwise
+   * Use generateKanjiMnemonic to create one if not cached
+   */
+  async getKanjiMnemonic(kanji: string): Promise<KanjiMnemonic | null> {
+    try {
+      const response = await fetch(`/api/kanji/mnemonic?kanji=${encodeURIComponent(kanji)}`)
+      if (!response.ok) return null
+
+      const data = await response.json()
+      if (!data.success) return null
+
+      return data.mnemonic || null
+    } catch (error) {
+      console.error('[KanjiService] Error fetching mnemonic:', error)
+      return null
+    }
+  }
+
+  /**
+   * Generate a mnemonic for a kanji character
+   * Will create and cache a new mnemonic if one doesn't exist
+   */
+  async generateKanjiMnemonic(kanji: string, meaning?: string): Promise<KanjiMnemonic | null> {
+    try {
+      const response = await fetch('/api/kanji/mnemonic', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ kanji, meaning }),
+      })
+
+      if (!response.ok) return null
+
+      const data = await response.json()
+      if (!data.success) return null
+
+      return data.mnemonic || null
+    } catch (error) {
+      console.error('[KanjiService] Error generating mnemonic:', error)
+      return null
+    }
+  }
+}
+
+// Type for kanji mnemonic (used by client-side code)
+export interface KanjiMnemonic {
+  kanji: string
+  meaning: string
+  mnemonic: string
+  components?: Array<{ part: string; meaning: string }>
+  provider: 'ollama' | 'openai' | 'koohii' | 'manual'
+  createdAt: Date
+  author?: string   // For koohii attribution
+  votes?: number    // Koohii community votes
 }
 
 export const kanjiService = new KanjiService()

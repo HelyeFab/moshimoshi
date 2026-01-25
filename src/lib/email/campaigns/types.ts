@@ -20,6 +20,10 @@ export interface EmailCampaign {
   template: CampaignTemplate
   subject: string
 
+  // Custom template support (when template === 'custom')
+  templateId?: string                           // Reference to email_templates collection
+  templateVariables?: Record<string, string>    // Variable value overrides
+
   // Segmentation
   segment: {
     type: CampaignSegment
@@ -58,6 +62,8 @@ export interface SendCampaignRequest {
   name: string
   template: CampaignTemplate
   subject: string
+  templateId?: string                         // When template === 'custom'
+  templateVariables?: Record<string, string>  // Variable overrides
   segment: {
     type: CampaignSegment
     respectMarketingPrefs: boolean

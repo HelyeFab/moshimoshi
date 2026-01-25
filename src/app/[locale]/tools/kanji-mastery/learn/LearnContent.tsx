@@ -21,6 +21,7 @@ import { ReviewEventType } from '@/lib/review-engine/core/events'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 import { kanjiMasteryEvents } from '../events'
 import { kanjiMasteryDB } from '@/lib/kanji-mastery/kanjiMasteryDB'
+import { selectKanjiSmartly, selectKanjiMixed } from './kanjiSelection'
 import { useLocalePath } from '@/i18n/I18nContext'
 import { useGamificationStore } from '@/state/userGamification'
 
@@ -127,6 +128,8 @@ export default function LearnContent() {
 
       let kanjiData: KanjiWithExamples[] = []
 
+      let sessionLevel = level
+
       if (mode === 'jlpt') {
         // Load kanji from the service
         const jlptLevel = level as import('@/types/kanji').JLPTLevel
@@ -135,6 +138,17 @@ export default function LearnContent() {
           ...k,
           jlpt: jlptLevel
         }))
+      } else if (mode === 'grade') {
+        const gradeValue = level === 'S' ? 'S' : Number(level)
+        if (gradeValue !== 'S' && !Number.isFinite(gradeValue)) {
+          setError('Invalid grade selection')
+          return
+        }
+        kanjiData = await kanjiService.loadKanjiByGrade(gradeValue)
+      } else if (mode === 'mixed') {
+        sessionLevel = 'mixed'
+        const allKanjiByLevel = await kanjiService.loadAllKanji()
+        kanjiData = Object.values(allKanjiByLevel).flatMap(list => list || [])
       } else {
         // Handle other modes later
         setError('Only JLPT mode is currently supported')
@@ -144,21 +158,46 @@ export default function LearnContent() {
       let selected: KanjiWithExamples[] = []
 
       if (approach === 'smart') {
-        selected = await selectKanjiSmartly(kanjiData, sessionSize)
+        const recentSessionIds = new Set<string>()
+        try {
+          const recentSessions = await kanjiMasteryDB.getSessionsByUser(user.uid, 5)
+          const lastSameLevel = recentSessions.find(session => session.level === sessionLevel)
+          if (lastSameLevel) {
+            lastSameLevel.kanji.forEach(item => recentSessionIds.add(item.id))
+          }
+        } catch (error) {
+          console.warn('[KanjiMastery] Failed to load recent sessions for pool rotation:', error)
+        }
+
+        if (mode === 'mixed') {
+          const progressRecords = await kanjiMasteryDB.getProgressByUser(user.uid)
+          selected = selectKanjiMixed(kanjiData, {
+            requestedSize: sessionSize,
+            progressRecords,
+            recentSessionIds
+          })
+        } else {
+          const progressRecords = await kanjiMasteryDB.getProgressByUserAndLevel(user.uid, sessionLevel)
+          selected = selectKanjiSmartly(kanjiData, {
+            requestedSize: sessionSize,
+            progressRecords,
+            recentSessionIds
+          })
+        }
       } else {
         // Linear approach - use saved progress
         const progressData = getItem<Record<string, number>>('kanjiLinearProgress', {}) || {}
-        const lastIndex = progressData[level] || 0
+        const lastIndex = progressData[sessionLevel] || 0
 
         if (lastIndex < kanjiData.length) {
           selected = kanjiData.slice(lastIndex, lastIndex + sessionSize)
           // Save new progress
-          progressData[level] = lastIndex + sessionSize
+          progressData[sessionLevel] = lastIndex + sessionSize
           setItem('kanjiLinearProgress', progressData)
         } else {
           // Start over from beginning
           selected = kanjiData.slice(0, sessionSize)
-          progressData[level] = sessionSize
+          progressData[sessionLevel] = sessionSize
           setItem('kanjiLinearProgress', progressData)
         }
       }
@@ -192,7 +231,7 @@ export default function LearnContent() {
         reviewAgainPile: new Set(),
         sessionId: Date.now().toString(),
         startTime: new Date(),
-        level,
+        level: sessionLevel,
         mode
       })
     } catch (err) {
@@ -200,105 +239,6 @@ export default function LearnContent() {
     } finally {
       setLoading(false)
     }
-  }
-
-  const selectKanjiSmartly = async (allKanji: KanjiWithExamples[], requestedSize: number): Promise<KanjiWithExamples[]> => {
-    if (!user) return allKanji.slice(0, requestedSize)
-
-    const maxNew = Math.max(1, Math.floor(requestedSize * 0.6))
-    const progressRecords = await kanjiMasteryDB.getProgressByUserAndLevel(user.uid, level)
-    const progressById = new Map(progressRecords.map(record => [record.kanjiId, record]))
-    const recentSessionIds = new Set<string>()
-    try {
-      const recentSessions = await kanjiMasteryDB.getSessionsByUser(user.uid, 5)
-      const lastSameLevel = recentSessions.find(session => session.level === level)
-      if (lastSameLevel) {
-        lastSameLevel.kanji.forEach(item => recentSessionIds.add(item.id))
-      }
-    } catch (error) {
-      console.warn('[KanjiMastery] Failed to load recent sessions for pool rotation:', error)
-    }
-    const now = new Date()
-
-    const dueItems: Array<{ kanji: KanjiWithExamples; dueAt: number }> = []
-    const weakItems: Array<{ kanji: KanjiWithExamples; weakness: number; dueAt?: number }> = []
-    const newItems: KanjiWithExamples[] = []
-
-    for (const kanji of allKanji) {
-      const record = progressById.get(kanji.kanji)
-      if (!record) {
-        newItems.push(kanji)
-        continue
-      }
-
-      const nextReview = record.srsData?.nextReviewAt || record.nextReviewDate
-      const dueAt = nextReview ? new Date(nextReview).getTime() : now.getTime()
-      if (dueAt <= now.getTime()) {
-        dueItems.push({ kanji, dueAt })
-        continue
-      }
-
-      const difficulty = record.srsData?.difficulty ?? 5
-      const accuracy = typeof record.lastAccuracy === 'number' ? record.lastAccuracy : (record.averageScore || 0)
-      const normalizedDifficulty = Math.max(0, Math.min(1, difficulty / 10))
-      const weakness = normalizedDifficulty * 0.6 + (1 - Math.max(0, Math.min(1, accuracy))) * 0.4
-
-      weakItems.push({ kanji, weakness, dueAt })
-    }
-
-    dueItems.sort((a, b) => a.dueAt - b.dueAt)
-    weakItems.sort((a, b) => b.weakness - a.weakness)
-
-    const selected: KanjiWithExamples[] = []
-    const selectedIds = new Set<string>()
-
-    const addItems = (items: KanjiWithExamples[]) => {
-      for (const item of items) {
-        if (selected.length >= requestedSize) break
-        if (selectedIds.has(item.kanji)) continue
-        selected.push(item)
-        selectedIds.add(item.kanji)
-      }
-    }
-
-    const shuffle = <T,>(items: T[]): T[] => {
-      const shuffled = [...items]
-      for (let i = shuffled.length - 1; i > 0; i -= 1) {
-        const j = Math.floor(Math.random() * (i + 1))
-        ;[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
-      }
-      return shuffled
-    }
-
-    addItems(dueItems.map(item => item.kanji))
-
-    if (selected.length < requestedSize) {
-      const weakNonRecent = weakItems
-        .map(item => item.kanji)
-        .filter(item => !recentSessionIds.has(item.kanji))
-      addItems(shuffle(weakNonRecent))
-    }
-
-    if (selected.length < requestedSize) {
-      const remainingSlots = requestedSize - selected.length
-      const newCount = Math.min(maxNew, remainingSlots)
-      const newNonRecent = newItems.filter(item => !recentSessionIds.has(item.kanji))
-      addItems(shuffle(newNonRecent).slice(0, newCount))
-    }
-
-    if (selected.length < requestedSize) {
-      const remaining = allKanji.filter(
-        item => !selectedIds.has(item.kanji) && !recentSessionIds.has(item.kanji)
-      )
-      addItems(shuffle(remaining).slice(0, requestedSize - selected.length))
-    }
-
-    if (selected.length < requestedSize) {
-      const remaining = allKanji.filter(item => !selectedIds.has(item.kanji))
-      addItems(shuffle(remaining).slice(0, requestedSize - selected.length))
-    }
-
-    return selected.slice(0, requestedSize)
   }
 
   const enrichKanjiData = async (kanji: KanjiWithExamples[]): Promise<KanjiWithExamples[]> => {

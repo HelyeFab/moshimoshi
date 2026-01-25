@@ -5,6 +5,7 @@
  * Core responsibilities:
  * - Query users based on segment criteria
  * - Filter users by email preferences
+ * - Check global suppression list (bounces, unsubscribes, complaints)
  * - Send emails in batches with rate limiting
  * - Update campaign status in real-time
  * - Track errors and failures
@@ -12,8 +13,11 @@
 
 import { adminAuth, adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin'
 import { Timestamp } from 'firebase-admin/firestore'
-import { sendEmail } from '@/lib/email/resend'
+import { sendCampaignEmail } from '@/lib/email/campaign-sender'
 import { buildWaitlistThankYouContent } from '@/lib/email/waitlistThankYou'
+import { suppressionService, generateUnsubscribeUrl } from '@/lib/email/suppression'
+import { substituteVariables, buildVariableContext } from '@/lib/email/templates/variables'
+import type { EmailTemplate } from '@/lib/email/templates/types'
 import type {
   EmailCampaign,
   CampaignRecipient,
@@ -104,6 +108,13 @@ export class CampaignService {
         if (prefs?.notifications?.marketingEmails === false) {
           continue // User explicitly opted out
         }
+      }
+
+      // Check global suppression list (bounces, unsubscribes, complaints)
+      const { suppressed, reason } = await suppressionService.isEmailSuppressed(email)
+      if (suppressed) {
+        console.log(`[CampaignService] Skipping suppressed email: ${email} (${reason})`)
+        continue
       }
 
       users.push({ uid, email })
@@ -217,6 +228,7 @@ export class CampaignService {
 
   /**
    * Send email to a single user using the campaign template
+   * Includes unsubscribe headers for Gmail/Yahoo compliance
    */
   private async sendEmailToUser(
     user: CampaignRecipient,
@@ -224,13 +236,63 @@ export class CampaignService {
   ): Promise<void> {
     const emailContent = await this.buildEmailFromTemplate(campaign.template, user, campaign)
 
-    await sendEmail({
+    // Generate unsubscribe URL for this user
+    const unsubscribeUrl = generateUnsubscribeUrl(user.email)
+
+    // Append unsubscribe footer to HTML content
+    const htmlWithUnsubscribe = this.appendUnsubscribeFooter(
+      emailContent.html,
+      unsubscribeUrl
+    )
+    const textWithUnsubscribe = this.appendUnsubscribeFooterText(
+      emailContent.text,
+      unsubscribeUrl
+    )
+
+    await sendCampaignEmail({
       to: user.email,
       subject: campaign.subject,
-      html: emailContent.html,
-      text: emailContent.text,
+      html: htmlWithUnsubscribe,
+      text: textWithUnsubscribe,
       from: 'Moshimoshi <noreply@moshimoshi.app>',
+      campaignId: campaign.id,
     })
+  }
+
+  /**
+   * Append unsubscribe footer to HTML email
+   */
+  private appendUnsubscribeFooter(html: string, unsubscribeUrl: string): string {
+    const footer = `
+      <div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #9ca3af;">
+        <p>
+          You're receiving this email because you signed up for Moshimoshi.
+        </p>
+        <p>
+          <a href="${unsubscribeUrl}" style="color: #6b7280; text-decoration: underline;">Unsubscribe</a>
+          from marketing emails
+        </p>
+      </div>
+    `
+
+    // Try to insert before </body>, otherwise append to end
+    if (html.includes('</body>')) {
+      return html.replace('</body>', `${footer}</body>`)
+    }
+    return html + footer
+  }
+
+  /**
+   * Append unsubscribe footer to plain text email
+   */
+  private appendUnsubscribeFooterText(text: string, unsubscribeUrl: string): string {
+    const footer = `
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: ${unsubscribeUrl}
+`
+    return text + footer
   }
 
   /**
@@ -253,8 +315,15 @@ export class CampaignService {
         }
 
       case 'custom':
-        // For custom emails, use the subject as the content
-        // TODO: Add custom HTML/text fields to campaign
+        // Use custom template from email_templates collection
+        if (campaign.templateId) {
+          return this.buildFromCustomTemplate(
+            campaign.templateId,
+            user,
+            campaign
+          )
+        }
+        // Fallback for campaigns without templateId
         return {
           html: `<h1>${campaign.subject}</h1>`,
           text: campaign.subject,
@@ -263,6 +332,48 @@ export class CampaignService {
       default:
         throw new Error(`Unknown template: ${template}`)
     }
+  }
+
+  /**
+   * Build email content from a custom template in email_templates collection
+   */
+  private async buildFromCustomTemplate(
+    templateId: string,
+    user: CampaignRecipient,
+    campaign: EmailCampaign
+  ): Promise<{ html: string; text: string }> {
+    if (!adminFirestore) {
+      throw new Error('Firestore not initialized')
+    }
+
+    // Fetch template from Firestore
+    const templateDoc = await adminFirestore
+      .collection('email_templates')
+      .doc(templateId)
+      .get()
+
+    if (!templateDoc.exists) {
+      throw new Error(`Template not found: ${templateId}`)
+    }
+
+    const template = templateDoc.data() as EmailTemplate
+
+    // Build variable context
+    const unsubscribeUrl = generateUnsubscribeUrl(user.email)
+    const variableContext = buildVariableContext(
+      user.email,
+      template.variables || [],
+      {
+        ...campaign.templateVariables,
+        unsubscribeUrl,
+      }
+    )
+
+    // Substitute variables in template content
+    const html = substituteVariables(template.htmlContent, variableContext)
+    const text = substituteVariables(template.textContent, variableContext)
+
+    return { html, text }
   }
 
   /**

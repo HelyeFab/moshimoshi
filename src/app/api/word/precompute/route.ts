@@ -84,19 +84,12 @@ export async function POST(request: NextRequest) {
   let includeParticles: boolean | undefined
   let minLength: number | undefined
   try {
-    console.log('[WordPrecompute] Request received')
-
     const session = await getSession()
     if (!session) {
-      console.log('[WordPrecompute] No session found')
       return NextResponse.json({ success: false, error: 'UNAUTHENTICATED' }, { status: 401 })
     }
 
-    console.log('[WordPrecompute] Session valid, parsing body')
-    const body = await request.json().catch((e) => {
-      console.error('[WordPrecompute] Failed to parse JSON body:', e)
-      return {}
-    })
+    const body = await request.json().catch(() => ({}))
     const {
       contentId: bodyContentId,
       contentType: bodyContentType,
@@ -117,10 +110,7 @@ export async function POST(request: NextRequest) {
     const allowWhileGeneratingEffective =
       allowWhileGenerating === true || (contentType === 'youtube' && fetchContent === true)
 
-    console.log('[WordPrecompute] Request params:', { contentId, contentType, textLength: text?.length, limit, chunkIndex })
-
     if (!contentId || !contentType) {
-      console.log('[WordPrecompute] Missing required fields')
       return NextResponse.json(
         { success: false, error: 'contentId and contentType are required' },
         { status: 400 }
@@ -218,7 +208,6 @@ export async function POST(request: NextRequest) {
     if (!resolvedText && fetchContent === true) {
       resolvedText = await fetchContentText(db, contentType, contentId)
       if (!resolvedText) {
-        console.log('[WordPrecompute] Unable to fetch content text')
         return NextResponse.json(
           { success: false, error: 'content text not found' },
           { status: 404 }
@@ -227,7 +216,6 @@ export async function POST(request: NextRequest) {
     }
 
     if (typeof resolvedText !== 'string' || resolvedText.trim().length === 0) {
-      console.log('[WordPrecompute] Invalid text field')
       return NextResponse.json(
         { success: false, error: 'text must be a non-empty string' },
         { status: 400 }
@@ -236,7 +224,6 @@ export async function POST(request: NextRequest) {
 
     // Guard against extremely large payloads
     if (resolvedText.length > 20000) {
-      console.log('[WordPrecompute] Text too large:', resolvedText.length)
       return NextResponse.json(
         { success: false, error: 'text too large (max 20k characters)' },
         { status: 400 }
@@ -244,7 +231,6 @@ export async function POST(request: NextRequest) {
     }
 
     const runPrecompute = async () => {
-      console.log('[WordPrecompute] Starting precompute...')
       const result = await precomputeWordExplanations({
         contentId,
         contentType,
@@ -272,25 +258,18 @@ export async function POST(request: NextRequest) {
         { merge: true }
       )
 
-      console.log('[WordPrecompute] Success:', { generated: result.generated, cached: result.cached, total: result.total })
       return result
     }
 
     if (background === true) {
       // Best-effort fire-and-forget in dev; for production consider a job queue.
-      runPrecompute().catch(error => {
-        console.error('[WordPrecompute] Background precompute failed:', error)
-      })
+      runPrecompute().catch(() => {})
       return NextResponse.json({ success: true, queued: true }, { status: 202 })
     }
 
     const result = await runPrecompute()
     return NextResponse.json({ success: true, result })
   } catch (error) {
-    console.error('[WordPrecompute] ERROR:', error)
-    console.error('[WordPrecompute] Error stack:', error instanceof Error ? error.stack : 'No stack trace')
-    console.error('[WordPrecompute] Error message:', error instanceof Error ? error.message : String(error))
-
     if (contentId && contentType) {
       try {
         const collectionMap: Record<string, string> = {

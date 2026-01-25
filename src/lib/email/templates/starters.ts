@@ -1,0 +1,563 @@
+/**
+ * Email Template Starters
+ *
+ * Pre-built HTML templates that can be used as starting points.
+ * These use the common elements from base.ts
+ */
+
+import {
+  EMAIL_ASSETS,
+  EMAIL_COLORS,
+  EMAIL_STYLES,
+  emailHeader,
+  emailFooter,
+  characterMessage,
+  ctaButton,
+  featureList,
+  highlightBox,
+  wrapEmailHtml,
+} from './base'
+
+/**
+ * Welcome Email Starter
+ * A friendly welcome email with Doshi greeting the new user
+ */
+export function welcomeEmailStarter(): { html: string; text: string; subject: string } {
+  const html = wrapEmailHtml(`
+    ${emailHeader({ showLogo: true, greeting: 'Welcome to Moshimoshi', recipientName: '{{name}}' })}
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      We're so excited to have you join our community of Japanese learners!
+    </p>
+
+    ${characterMessage({
+      character: 'doshi',
+      message: "Hi there! I'm Doshi, your learning companion. I'll be here to help you on your Japanese journey. Let's make learning fun together!",
+    })}
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      <strong>Here's what you can do with Moshimoshi:</strong>
+    </p>
+
+    ${featureList([
+      'Practice with YouTube shadowing exercises',
+      'Learn kanji through visual connections',
+      'Import your Anki decks for seamless study',
+      'Track your progress with detailed stats',
+      'Earn XP and maintain your streak',
+    ])}
+
+    ${ctaButton({ text: 'Start Learning Now', url: '{{appUrl}}' })}
+
+    ${highlightBox({
+      type: 'info',
+      title: 'Pro tip',
+      content: 'Start with just 5 minutes a day. Consistency beats intensity when learning a language!',
+    })}
+
+    ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}', showDoshi: true })}
+  `)
+
+  const text = `
+Welcome to Moshimoshi, {{name}}!
+
+We're so excited to have you join our community of Japanese learners!
+
+Doshi says: "Hi there! I'm Doshi, your learning companion. I'll be here to help you on your Japanese journey. Let's make learning fun together!"
+
+Here's what you can do with Moshimoshi:
+- Practice with YouTube shadowing exercises
+- Learn kanji through visual connections
+- Import your Anki decks for seamless study
+- Track your progress with detailed stats
+- Earn XP and maintain your streak
+
+Start learning: {{appUrl}}
+
+Pro tip: Start with just 5 minutes a day. Consistency beats intensity when learning a language!
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}
+  `.trim()
+
+  return {
+    html,
+    text,
+    subject: 'Welcome to Moshimoshi, {{name}}!',
+  }
+}
+
+/**
+ * Feature Announcement Starter
+ * Announce a new feature with excitement
+ */
+export function featureAnnouncementStarter(): { html: string; text: string; subject: string } {
+  const html = wrapEmailHtml(`
+    ${emailHeader({ showLogo: true })}
+
+    <div style="text-align: center; margin-bottom: 24px;">
+      <span style="display: inline-block; padding: 6px 16px; background: linear-gradient(135deg, ${EMAIL_COLORS.primary}, ${EMAIL_COLORS.secondary}); color: white; border-radius: 20px; font-size: 14px; font-weight: 600;">
+        NEW FEATURE
+      </span>
+    </div>
+
+    <h1 style="${EMAIL_STYLES.heading1}; text-align: center;">
+      {{featureTitle}}
+    </h1>
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      Hey {{name}},
+    </p>
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      We've been working hard on something special, and we're thrilled to share it with you!
+    </p>
+
+    ${characterMessage({
+      character: 'emma',
+      message: "I've been working on this feature for a while now. I really hope you'll love it as much as I enjoyed building it!",
+      name: 'Emma (Developer)',
+    })}
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      {{featureDescription}}
+    </p>
+
+    ${ctaButton({ text: 'Try It Now', url: '{{featureUrl}}' })}
+
+    <p style="${EMAIL_STYLES.smallText}; text-align: center;">
+      We'd love to hear your feedback! Reply to this email anytime.
+    </p>
+
+    ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}' })}
+  `)
+
+  const text = `
+NEW FEATURE: {{featureTitle}}
+
+Hey {{name}},
+
+We've been working hard on something special, and we're thrilled to share it with you!
+
+Emma (Developer) says: "I've been working on this feature for a while now. I really hope you'll love it as much as I enjoyed building it!"
+
+{{featureDescription}}
+
+Try it now: {{featureUrl}}
+
+We'd love to hear your feedback! Reply to this email anytime.
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}
+  `.trim()
+
+  return {
+    html,
+    text,
+    subject: 'New in Moshimoshi: {{featureTitle}}',
+  }
+}
+
+/**
+ * Streak Reminder Starter
+ * Gentle nudge to maintain their learning streak
+ */
+export function streakReminderStarter(): { html: string; text: string; subject: string } {
+  const html = wrapEmailHtml(`
+    ${emailHeader({ showLogo: true })}
+
+    <div style="text-align: center; margin-bottom: 24px;">
+      <span style="font-size: 48px;">🔥</span>
+      <h2 style="${EMAIL_STYLES.heading2}; margin-top: 12px;">
+        Don't let your streak end!
+      </h2>
+    </div>
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      Hey {{name}},
+    </p>
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      You've been on a <strong>{{streakDays}}-day streak</strong>! That's amazing dedication.
+    </p>
+
+    ${characterMessage({
+      character: 'doshi',
+      message: "You're doing great! Just a quick 5-minute session today will keep your streak alive. I believe in you!",
+    })}
+
+    <div style="text-align: center; padding: 20px; background: ${EMAIL_COLORS.background}; border-radius: 12px; margin: 20px 0;">
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: ${EMAIL_COLORS.textLight};">Current Streak</p>
+      <p style="margin: 0; font-size: 36px; font-weight: 700; color: ${EMAIL_COLORS.primary};">{{streakDays}} days</p>
+    </div>
+
+    ${ctaButton({ text: 'Keep My Streak', url: '{{appUrl}}' })}
+
+    ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}', showDoshi: true })}
+  `)
+
+  const text = `
+Don't let your streak end!
+
+Hey {{name}},
+
+You've been on a {{streakDays}}-day streak! That's amazing dedication.
+
+Doshi says: "You're doing great! Just a quick 5-minute session today will keep your streak alive. I believe in you!"
+
+Current Streak: {{streakDays}} days
+
+Keep your streak: {{appUrl}}
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}
+  `.trim()
+
+  return {
+    html,
+    text,
+    subject: "Your {{streakDays}}-day streak is waiting!",
+  }
+}
+
+/**
+ * Weekly Progress Starter
+ * Summary of the user's weekly learning progress
+ */
+export function weeklyProgressStarter(): { html: string; text: string; subject: string } {
+  const html = wrapEmailHtml(`
+    ${emailHeader({ showLogo: true })}
+
+    <h1 style="${EMAIL_STYLES.heading1}; text-align: center;">
+      Your Weekly Progress
+    </h1>
+
+    <p style="${EMAIL_STYLES.paragraph}; text-align: center; color: ${EMAIL_COLORS.textLight};">
+      Week of {{weekDate}}
+    </p>
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      Hey {{name}}, here's what you accomplished this week:
+    </p>
+
+    <!-- Stats Grid -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 24px 0;">
+      <div style="text-align: center; padding: 16px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
+        <p style="margin: 0; font-size: 28px; font-weight: 700; color: ${EMAIL_COLORS.primary};">{{xpEarned}}</p>
+        <p style="margin: 4px 0 0 0; font-size: 12px; color: ${EMAIL_COLORS.textLight};">XP Earned</p>
+      </div>
+      <div style="text-align: center; padding: 16px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
+        <p style="margin: 0; font-size: 28px; font-weight: 700; color: ${EMAIL_COLORS.secondary};">{{wordsLearned}}</p>
+        <p style="margin: 4px 0 0 0; font-size: 12px; color: ${EMAIL_COLORS.textLight};">Words Learned</p>
+      </div>
+      <div style="text-align: center; padding: 16px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
+        <p style="margin: 0; font-size: 28px; font-weight: 700; color: ${EMAIL_COLORS.success};">{{minutesPracticed}}</p>
+        <p style="margin: 4px 0 0 0; font-size: 12px; color: ${EMAIL_COLORS.textLight};">Minutes</p>
+      </div>
+      <div style="text-align: center; padding: 16px; background: ${EMAIL_COLORS.background}; border-radius: 12px;">
+        <p style="margin: 0; font-size: 28px; font-weight: 700; color: ${EMAIL_COLORS.accent};">{{currentStreak}}</p>
+        <p style="margin: 4px 0 0 0; font-size: 12px; color: ${EMAIL_COLORS.textLight};">Day Streak</p>
+      </div>
+    </div>
+
+    ${characterMessage({
+      character: 'doshi',
+      message: "{{personalMessage}}",
+    })}
+
+    ${ctaButton({ text: 'Continue Learning', url: '{{appUrl}}' })}
+
+    ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}' })}
+  `)
+
+  const text = `
+Your Weekly Progress - Week of {{weekDate}}
+
+Hey {{name}}, here's what you accomplished this week:
+
+- XP Earned: {{xpEarned}}
+- Words Learned: {{wordsLearned}}
+- Minutes Practiced: {{minutesPracticed}}
+- Current Streak: {{currentStreak}} days
+
+Doshi says: "{{personalMessage}}"
+
+Continue learning: {{appUrl}}
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}
+  `.trim()
+
+  return {
+    html,
+    text,
+    subject: 'Your Week in Review: {{xpEarned}} XP earned!',
+  }
+}
+
+/**
+ * New Content Release Starter
+ * Announce new content like lessons, videos, or features
+ */
+export function newContentReleaseStarter(): { html: string; text: string; subject: string } {
+  const html = wrapEmailHtml(`
+    ${emailHeader({ showLogo: true })}
+
+    <div style="text-align: center; margin-bottom: 24px;">
+      <span style="display: inline-block; padding: 6px 16px; background: linear-gradient(135deg, ${EMAIL_COLORS.accent}, ${EMAIL_COLORS.primary}); color: white; border-radius: 20px; font-size: 14px; font-weight: 600;">
+        {{contentType}}
+      </span>
+    </div>
+
+    <h1 style="${EMAIL_STYLES.heading1}; text-align: center;">
+      {{contentTitle}}
+    </h1>
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      Hey {{name}},
+    </p>
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      We just released something new that we think you'll love!
+    </p>
+
+    ${characterMessage({
+      character: 'doshi',
+      message: "{{doshiMessage}}",
+    })}
+
+    <div style="background: ${EMAIL_COLORS.background}; border-radius: 12px; padding: 24px; margin: 24px 0;">
+      <h3 style="${EMAIL_STYLES.heading2}; margin-bottom: 16px;">{{contentTitle}}</h3>
+      <p style="${EMAIL_STYLES.paragraph}; margin-bottom: 0;">
+        {{contentDescription}}
+      </p>
+    </div>
+
+    ${ctaButton({ text: 'Check It Out', url: '{{contentUrl}}' })}
+
+    <p style="${EMAIL_STYLES.smallText}; text-align: center;">
+      We're constantly working to bring you more content to help your Japanese journey!
+    </p>
+
+    ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}' })}
+  `)
+
+  const text = `
+{{contentType}}: {{contentTitle}}
+
+Hey {{name}},
+
+We just released something new that we think you'll love!
+
+Doshi says: "{{doshiMessage}}"
+
+{{contentTitle}}
+{{contentDescription}}
+
+Check it out: {{contentUrl}}
+
+We're constantly working to bring you more content to help your Japanese journey!
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}
+  `.trim()
+
+  return {
+    html,
+    text,
+    subject: 'New {{contentType}}: {{contentTitle}}',
+  }
+}
+
+/**
+ * Thank You Note Starter
+ * Express gratitude to subscribers
+ */
+export function thankYouNoteStarter(): { html: string; text: string; subject: string } {
+  const html = wrapEmailHtml(`
+    ${emailHeader({ showLogo: true })}
+
+    <div style="text-align: center; margin-bottom: 24px;">
+      <span style="font-size: 48px;">💖</span>
+    </div>
+
+    <h1 style="${EMAIL_STYLES.heading1}; text-align: center;">
+      Thank You, {{name}}!
+    </h1>
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      We wanted to take a moment to express our heartfelt gratitude for being part of the Moshimoshi family.
+    </p>
+
+    ${characterMessage({
+      character: 'doshi',
+      message: "You're amazing! Every day you spend learning Japanese brings you one step closer to your goals. I'm so proud to be on this journey with you!",
+    })}
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      {{personalMessage}}
+    </p>
+
+    ${highlightBox({
+      type: 'info',
+      title: 'Your Impact',
+      content: '{{impactMessage}}',
+    })}
+
+    ${characterMessage({
+      character: 'emma',
+      message: "Building Moshimoshi has been a labor of love, and knowing you're using it to learn Japanese makes it all worthwhile. Thank you for believing in us!",
+      name: 'Emma (Developer)',
+    })}
+
+    <p style="${EMAIL_STYLES.paragraph}; text-align: center;">
+      With gratitude,<br/>
+      <strong>The Moshimoshi Team</strong>
+    </p>
+
+    ${ctaButton({ text: 'Continue Learning', url: '{{appUrl}}' })}
+
+    ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}', showDoshi: true })}
+  `)
+
+  const text = `
+Thank You, {{name}}!
+
+We wanted to take a moment to express our heartfelt gratitude for being part of the Moshimoshi family.
+
+Doshi says: "You're amazing! Every day you spend learning Japanese brings you one step closer to your goals. I'm so proud to be on this journey with you!"
+
+{{personalMessage}}
+
+Your Impact: {{impactMessage}}
+
+Emma (Developer) says: "Building Moshimoshi has been a labor of love, and knowing you're using it to learn Japanese makes it all worthwhile. Thank you for believing in us!"
+
+With gratitude,
+The Moshimoshi Team
+
+Continue Learning: {{appUrl}}
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}
+  `.trim()
+
+  return {
+    html,
+    text,
+    subject: 'A Heartfelt Thank You from Moshimoshi 💖',
+  }
+}
+
+/**
+ * Simple Newsletter Starter
+ * Clean template for general announcements
+ */
+export function newsletterStarter(): { html: string; text: string; subject: string } {
+  const html = wrapEmailHtml(`
+    ${emailHeader({ showLogo: true })}
+
+    <h1 style="${EMAIL_STYLES.heading1}">
+      {{headline}}
+    </h1>
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      Hey {{name}},
+    </p>
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      {{introText}}
+    </p>
+
+    <hr style="${EMAIL_STYLES.divider}" />
+
+    {{mainContent}}
+
+    <hr style="${EMAIL_STYLES.divider}" />
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      {{closingText}}
+    </p>
+
+    ${ctaButton({ text: '{{ctaText}}', url: '{{ctaUrl}}' })}
+
+    ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}', showDoshi: true })}
+  `)
+
+  const text = `
+{{headline}}
+
+Hey {{name}},
+
+{{introText}}
+
+---
+
+{{mainContent}}
+
+---
+
+{{closingText}}
+
+{{ctaText}}: {{ctaUrl}}
+
+---
+You're receiving this email because you signed up for Moshimoshi.
+Unsubscribe: {{unsubscribeUrl}}
+  `.trim()
+
+  return {
+    html,
+    text,
+    subject: '{{subject}}',
+  }
+}
+
+/**
+ * Get all available starter templates
+ */
+export function getStarterTemplates() {
+  return {
+    welcome: {
+      name: 'Welcome Email',
+      description: 'A friendly welcome email with Doshi greeting new users',
+      ...welcomeEmailStarter(),
+    },
+    featureAnnouncement: {
+      name: 'Feature Announcement',
+      description: 'Announce new features with Emma (developer) message',
+      ...featureAnnouncementStarter(),
+    },
+    newContentRelease: {
+      name: 'New Content Release',
+      description: 'Announce new lessons, videos, or content with customizable type',
+      ...newContentReleaseStarter(),
+    },
+    thankYouNote: {
+      name: 'Thank You Note',
+      description: 'Express gratitude to subscribers with heartfelt message',
+      ...thankYouNoteStarter(),
+    },
+    streakReminder: {
+      name: 'Streak Reminder',
+      description: 'Gentle nudge to maintain learning streak',
+      ...streakReminderStarter(),
+    },
+    weeklyProgress: {
+      name: 'Weekly Progress',
+      description: 'Summary of weekly learning stats',
+      ...weeklyProgressStarter(),
+    },
+    newsletter: {
+      name: 'Newsletter',
+      description: 'Clean template for general announcements',
+      ...newsletterStarter(),
+    },
+  }
+}

@@ -17,6 +17,8 @@ const campaignSchema = z.object({
   name: z.string().min(1, 'Campaign name is required').max(100),
   template: z.enum(['waitlist', 'welcome', 'password_reset', 'custom']),
   subject: z.string().min(1, 'Subject is required').max(200),
+  templateId: z.string().optional(),                                // Custom template ID
+  templateVariables: z.record(z.string(), z.string()).optional(),   // Variable overrides
   segment: z.object({
     type: z.enum(['all', 'free', 'premium_monthly', 'premium_yearly']),
     respectMarketingPrefs: z.boolean(),
@@ -60,7 +62,7 @@ export const POST = withAdminAuth(
       }
 
       // Create campaign document
-      const campaignRef = await adminFirestore.collection('email_campaigns').add({
+      const campaignDoc: Record<string, any> = {
         name: validatedData.name,
         template: validatedData.template,
         subject: validatedData.subject,
@@ -75,7 +77,17 @@ export const POST = withAdminAuth(
         createdBy: context.user.uid,
         createdAt: Timestamp.now(),
         errors: [],
-      })
+      }
+
+      // Add custom template fields if present
+      if (validatedData.templateId) {
+        campaignDoc.templateId = validatedData.templateId
+      }
+      if (validatedData.templateVariables) {
+        campaignDoc.templateVariables = validatedData.templateVariables
+      }
+
+      const campaignRef = await adminFirestore.collection('email_campaigns').add(campaignDoc)
 
       console.log(
         `[API /admin/campaigns] Campaign created: ${campaignRef.id} by ${context.user.email}`

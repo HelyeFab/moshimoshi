@@ -19,6 +19,8 @@ import {
   GrammarSentenceExplanationRequest,
   WordExplanationRequest,
   WordExplanation,
+  KanjiMnemonicRequest,
+  KanjiMnemonic,
   TranscriptProcessRequest,
   ProcessedTranscript,
   ArticleProcessRequest,
@@ -43,6 +45,7 @@ import { ReviewQuestionProcessorHybrid as ReviewQuestionProcessor } from './proc
 import { GrammarExplainerProcessorHybrid as GrammarExplainerProcessor } from './processors/GrammarExplainerProcessorHybrid'
 import { GrammarSentenceProcessorHybrid as GrammarSentenceProcessor } from './processors/GrammarSentenceProcessorHybrid'
 import { WordExplainerProcessorHybrid as WordExplainerProcessor } from './processors/WordExplainerProcessorHybrid'
+import { KanjiMnemonicProcessorHybrid as KanjiMnemonicProcessor } from './processors/KanjiMnemonicProcessorHybrid'
 import { TranscriptProcessorHybrid as TranscriptProcessor } from './processors/TranscriptProcessorHybrid'
 import { StoryProcessorHybrid as StoryProcessor } from './processors/StoryProcessorHybrid'
 import { MoodboardProcessorHybrid as MoodboardProcessor } from './processors/MoodboardProcessorHybrid'
@@ -240,6 +243,7 @@ export class AIService {
       'explain_grammar',
       'explain_grammar_sentence',
       'explain_word',
+      'generate_kanji_mnemonic',
       'clean_transcript',
       'process_article',
       'generate_story',
@@ -306,6 +310,13 @@ export class AIService {
         const wordProcessor = new WordExplainerProcessor(context)
         return await wordProcessor.process(
           request.content as WordExplanationRequest,
+          request.config
+        )
+
+      case 'generate_kanji_mnemonic':
+        const mnemonicProcessor = new KanjiMnemonicProcessor(context)
+        return await mnemonicProcessor.process(
+          request.content as KanjiMnemonicRequest,
           request.config
         )
 
@@ -514,6 +525,17 @@ export class AIService {
   ): Promise<AIResponse<WordExplanation>> {
     return this.process({
       task: 'explain_word',
+      content: request,
+      config,
+    })
+  }
+
+  async generateKanjiMnemonic(
+    request: KanjiMnemonicRequest,
+    config?: TaskConfig
+  ): Promise<AIResponse<KanjiMnemonic>> {
+    return this.process({
+      task: 'generate_kanji_mnemonic',
       content: request,
       config,
     })

@@ -394,7 +394,7 @@ function KanjiMasteryContent() {
                     { value: '4', label: t('kanjiMasteryTool.grades.grade4') },
                     { value: '5', label: t('kanjiMasteryTool.grades.grade5') },
                     { value: '6', label: t('kanjiMasteryTool.grades.grade6') },
-                    { value: '7', label: t('kanjiMasteryTool.grades.secondary') },
+                    { value: 'S', label: t('kanjiMasteryTool.grades.secondary') },
                   ]}
                 />
               </div>

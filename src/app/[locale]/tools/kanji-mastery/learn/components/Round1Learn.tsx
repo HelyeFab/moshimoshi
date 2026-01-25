@@ -6,6 +6,13 @@ import { KanjiWithExamples } from '../LearnContent'
 import { useTTS } from '@/hooks/useTTS'
 import AudioButton from '@/components/ui/AudioButton'
 import { getKanjiSentences, type CachedSentence } from '@/services/kanjiSentenceCache'
+import { searchJMdictWords } from '@/utils/jmdictLocalSearch'
+import { KanjiExample } from '@/types/kanji'
+import { toRomaji } from 'wanakana'
+import { kanjiService, KanjiMnemonic } from '@/services/kanjiService'
+
+const exampleCache = new Map<string, KanjiExample[]>()
+const EXAMPLE_CACHE_PREFIX = 'kanji_examples_v1:'
 
 interface Round1LearnProps {
   kanji: KanjiWithExamples
@@ -20,7 +27,77 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
   const [showExamples, setShowExamples] = useState(false)
   const [showSentences, setShowSentences] = useState(false)
   const [sentences, setSentences] = useState<CachedSentence[]>([])
+  const [fallbackExamples, setFallbackExamples] = useState<KanjiExample[]>([])
+  const [mnemonic, setMnemonic] = useState<KanjiMnemonic | null>(null)
   const { play, preload, loading: ttsLoading, playing: ttsPlaying, currentText } = useTTS({ cacheFirst: true })
+  const resolvedExamples = kanji.examples && kanji.examples.length > 0 ? kanji.examples : fallbackExamples
+
+  useEffect(() => {
+    let cancelled = false
+
+    const loadFallbackExamples = async () => {
+      if (!kanji.kanji) return
+      if (kanji.examples && kanji.examples.length > 0) {
+        setFallbackExamples([])
+        return
+      }
+
+      const cacheKey = `${EXAMPLE_CACHE_PREFIX}${kanji.kanji}`
+      const cachedInMemory = exampleCache.get(kanji.kanji)
+      if (cachedInMemory) {
+        setFallbackExamples(cachedInMemory)
+        return
+      }
+
+      if (typeof window !== 'undefined') {
+        const cachedRaw = localStorage.getItem(cacheKey)
+        if (cachedRaw) {
+          try {
+            const parsed = JSON.parse(cachedRaw) as KanjiExample[]
+            exampleCache.set(kanji.kanji, parsed)
+            setFallbackExamples(parsed)
+            return
+          } catch (error) {
+            console.warn('[Round1Learn] Failed to parse cached examples:', error)
+            localStorage.removeItem(cacheKey)
+          }
+        }
+      }
+
+      try {
+        const results = await searchJMdictWords(kanji.kanji, 40)
+        const filtered = results.filter(result =>
+          (result.kanji || result.kana || '').includes(kanji.kanji)
+        )
+        const mapped = filtered
+          .map(result => ({
+            word: result.kanji || result.kana || '',
+            reading: result.kana || '',
+            meaning: result.meaning || '',
+          }))
+          .filter(example => example.word)
+          .slice(0, 5)
+
+        if (!cancelled) {
+          exampleCache.set(kanji.kanji, mapped)
+          setFallbackExamples(mapped)
+          if (typeof window !== 'undefined') {
+            localStorage.setItem(cacheKey, JSON.stringify(mapped))
+          }
+        }
+      } catch (error) {
+        console.error('[Round1Learn] Failed to load fallback examples:', error)
+        if (!cancelled) {
+          setFallbackExamples([])
+        }
+      }
+    }
+
+    loadFallbackExamples()
+    return () => {
+      cancelled = true
+    }
+  }, [kanji.kanji, kanji.examples])
 
   // Prefetch all audio when kanji loads for instant playback
   useEffect(() => {
@@ -91,6 +168,28 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
     prefetchAllAudio()
   }, [kanji.kanji, kanji.onyomi, kanji.kunyomi, kanji.examples, preload])
 
+  useEffect(() => {
+    if (kanji.examples && kanji.examples.length > 0) return
+    if (!resolvedExamples || resolvedExamples.length === 0) return
+
+    const exampleWords = resolvedExamples.map(ex => ex.word).slice(0, 5)
+    preload(exampleWords, { voice: '23', speed: 0.85 }).catch(error => {
+      console.error('[Round1Learn] ❌ Failed to prefetch fallback examples:', error)
+    })
+  }, [kanji.examples, resolvedExamples, preload])
+
+  // Fetch mnemonic for current kanji
+  useEffect(() => {
+    if (!kanji.kanji) return
+    setMnemonic(null) // Reset for new kanji
+
+    kanjiService.getKanjiMnemonic(kanji.kanji)
+      .then(setMnemonic)
+      .catch(error => {
+        console.error('[Round1Learn] Failed to fetch mnemonic:', error)
+      })
+  }, [kanji.kanji])
+
   const loadSentences = useCallback(() => {
     // Sentences are already loaded and prefetched in useEffect
     // This just toggles visibility
@@ -103,6 +202,7 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
     setShowExamples(false)
     setShowSentences(false)
     setSentences([])
+    setMnemonic(null)
     onComplete()
   }
 
@@ -151,6 +251,59 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
             {kanji.meaning}
           </motion.div>
 
+          {/* Memory Aid / Mnemonic */}
+          {mnemonic && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className="mb-6 p-4 bg-amber-50/80 dark:bg-amber-900/20 rounded-xl border border-amber-200/50 dark:border-amber-800/30"
+            >
+              <div className="flex items-start gap-2">
+                <span className="text-amber-500 text-lg flex-shrink-0">💡</span>
+                <div className="flex-1">
+                  <h4 className="text-sm font-semibold text-amber-800 dark:text-amber-200 mb-1">
+                    Memory Aid
+                  </h4>
+                  <p className="text-sm text-amber-700 dark:text-amber-300 leading-relaxed">
+                    {mnemonic.mnemonic}
+                  </p>
+                  {mnemonic.components && mnemonic.components.length > 0 && (
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      {mnemonic.components.map((comp, idx) => (
+                        <span
+                          key={idx}
+                          className="inline-flex items-center gap-1 px-2 py-0.5 bg-amber-100 dark:bg-amber-800/30 rounded text-xs text-amber-700 dark:text-amber-300"
+                        >
+                          <span className="font-medium">{comp.part}</span>
+                          <span className="opacity-70">({comp.meaning})</span>
+                        </span>
+                      ))}
+                    </div>
+                  )}
+                  {/* Attribution for Koohii community mnemonics */}
+                  {mnemonic.provider === 'koohii' && mnemonic.author && (
+                    <p className="mt-2 text-xs text-amber-500/60 dark:text-amber-400/40">
+                      Story by <span className="font-medium">{mnemonic.author}</span>
+                      {mnemonic.votes !== undefined && mnemonic.votes > 0 && (
+                        <span className="ml-1">({mnemonic.votes} votes)</span>
+                      )}
+                      {' · '}
+                      <a
+                        href={`https://kanji.koohii.com/study/kanji/${mnemonic.kanji}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="hover:text-amber-600 dark:hover:text-amber-300 underline"
+                      >
+                        Kanji Koohii
+                      </a>
+                    </p>
+                  )}
+                </div>
+              </div>
+            </motion.div>
+          )}
+
           {/* Readings Section */}
           <motion.div
             initial={{ height: 0 }}
@@ -173,6 +326,9 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
                       >
                         <span className="text-lg font-medium text-gray-900 dark:text-gray-100">
                           {reading}
+                        </span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {toRomaji(reading)}
                         </span>
                         <AudioButton
                           size="sm"
@@ -201,6 +357,9 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
                       >
                         <span className="text-lg font-medium text-gray-900 dark:text-gray-100">
                           {reading}
+                        </span>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {toRomaji(reading)}
                         </span>
                         <AudioButton
                           size="sm"
@@ -260,35 +419,41 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
               </button>
             ) : (
               <div className="space-y-3">
-                {kanji.examples?.map((example, idx) => (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: idx * 0.1 }}
-                    className="bg-gray-50 dark:bg-dark-700 rounded-lg p-3"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2 flex-1">
-                        <span className="text-lg font-medium text-gray-900 dark:text-gray-100">
-                          {example.word}
+                {resolvedExamples.length > 0 ? (
+                  resolvedExamples.map((example, idx) => (
+                    <motion.div
+                      key={`${example.word}-${idx}`}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: idx * 0.1 }}
+                      className="bg-gray-50 dark:bg-dark-700 rounded-lg p-3"
+                    >
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2 flex-1">
+                          <span className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                            {example.word}
+                          </span>
+                          <AudioButton
+                            size="sm"
+                            onPlay={() => play(example.word, { voice: '23', speed: 0.85 })}
+                            loading={ttsLoading && currentText === example.word}
+                            playing={ttsPlaying && currentText === example.word}
+                          />
+                        </div>
+                        <span className="text-sm text-gray-600 dark:text-gray-400">
+                          {example.reading}
                         </span>
-                        <AudioButton
-                          size="sm"
-                          onPlay={() => play(example.word, { voice: '23', speed: 0.85 })}
-                          loading={ttsLoading && currentText === example.word}
-                          playing={ttsPlaying && currentText === example.word}
-                        />
                       </div>
-                      <span className="text-sm text-gray-600 dark:text-gray-400">
-                        {example.reading}
-                      </span>
-                    </div>
-                    <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
-                      {example.meaning}
-                    </div>
-                  </motion.div>
-                ))}
+                      <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                        {example.meaning}
+                      </div>
+                    </motion.div>
+                  ))
+                ) : (
+                  <p className="text-sm text-gray-500 dark:text-gray-400 italic">
+                    No example words found for this kanji.
+                  </p>
+                )}
               </div>
             )}
           </motion.div>

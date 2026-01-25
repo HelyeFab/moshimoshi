@@ -22,7 +22,7 @@ export interface Kanji {
   // Metadata
   jlpt: JLPTLevel        // JLPT level
   strokeCount: number     // Number of strokes
-  grade?: number          // School grade level (1-6 for kyōiku, 7 for jōyō)
+  grade?: number | 'S'    // School grade level (1-6 for kyōiku, 'S' for secondary)
   frequency?: number      // Frequency rank in newspapers
 
   // Learning aids

@@ -13,6 +13,8 @@ const adminLinks = [
   { href: '/admin/moodboards', icon: '🎨', label: 'Moodboards' },
   { href: '/admin/learning-village', icon: '🏘️', label: 'Learning Village' },
   { href: '/admin/blog', icon: '📝', label: 'Blog' },
+  { href: '/admin/email-templates', icon: '✉️', label: 'Email Templates' },
+  { href: '/admin/email-campaigns', icon: '📧', label: 'Email Campaigns' },
   { href: '/admin/entitlements', icon: '🔐', label: 'Entitlements' },
   { href: '/admin/xp-config', icon: '⚡', label: 'XP Config' },
   { href: '/admin/firebase-monitoring', icon: '🔥', label: 'Firebase' },

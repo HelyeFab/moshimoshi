@@ -73,8 +73,7 @@ export async function hasTranslations(contentId: string): Promise<boolean> {
     // Check if at least 80% of segments have translations
     const translatedCount = transcript.filter(seg => seg.translation || seg.translationData).length;
     return translatedCount >= transcript.length * 0.8;
-  } catch (error) {
-    console.error('[TranscriptTranslation] Error checking translations:', error);
+  } catch {
     return false;
   }
 }
@@ -89,8 +88,7 @@ export async function getTranscriptWithTranslations(
     const cached = await transcriptCache.get(contentId);
     if (!cached) return null;
     return (cached.transcript as TranscriptSegment[] | undefined) || null;
-  } catch (error) {
-    console.error('[TranscriptTranslation] Error fetching transcript:', error);
+  } catch {
     return null;
   }
 }
@@ -197,15 +195,7 @@ export async function generateTranscriptTranslations(
     onProgress
   } = options;
 
-  console.log('\n' + '='.repeat(60));
-  console.log(`🌐 [TranscriptTranslation] STARTING PRE-GENERATION`);
-  console.log(`🌐 [TranscriptTranslation] Content ID: ${contentId}`);
-  console.log(`🌐 [TranscriptTranslation] Segments: ${segments.length}`);
-  console.log(`🌐 [TranscriptTranslation] User Level: ${userLevel}`);
-  console.log('='.repeat(60) + '\n');
-
   if (segments.length === 0) {
-    console.log('⚠️ [TranscriptTranslation] No segments to translate');
     return {
       contentId,
       translatedCount: 0,
@@ -222,40 +212,20 @@ export async function generateTranscriptTranslations(
   let useOllama = providerConfig.enabled.ollama && providerHealth.isHealthy('ollama');
   let ollamaClient: OllamaClient | null = null;
 
-  console.log(`🔍 [TranscriptTranslation] Provider check:`);
-  console.log(`   - Ollama enabled in config: ${providerConfig.enabled.ollama}`);
-  console.log(`   - Ollama health status: ${providerHealth.isHealthy('ollama') ? 'healthy' : 'unhealthy'}`);
-
   if (useOllama) {
     try {
-      console.log(`🔄 [TranscriptTranslation] Initializing Ollama client...`);
       const ollamaConfig = getOllamaConfig();
-      console.log(`   - Base URL: ${ollamaConfig.baseUrl}`);
-      console.log(`   - Model: ${ollamaConfig.model}`);
-
       ollamaClient = new OllamaClient(ollamaConfig);
-
-      console.log(`🏥 [TranscriptTranslation] Running Ollama health check...`);
-      const healthStart = Date.now();
       const healthy = await ollamaClient.healthCheck();
-      const healthTime = Date.now() - healthStart;
 
       if (!healthy) {
-        console.warn(`⚠️ [TranscriptTranslation] Ollama health check FAILED (${healthTime}ms), falling back to OpenAI`);
         useOllama = false;
         providerHealth.markUnhealthy('ollama');
-      } else {
-        console.log(`✅ [TranscriptTranslation] Ollama health check PASSED (${healthTime}ms)`);
       }
-    } catch (err) {
-      console.error(`❌ [TranscriptTranslation] Ollama initialization error:`, err);
+    } catch {
       useOllama = false;
     }
   }
-
-  const provider = useOllama ? 'Ollama (Qwen 2.5 32B) - FREE' : 'OpenAI (GPT-4o-mini)';
-  console.log(`\n🤖 [TranscriptTranslation] USING PROVIDER: ${provider}`);
-  console.log(`⏱️ [TranscriptTranslation] Estimated time: ${segments.length * 2}-${segments.length * 5} seconds\n`);
 
   const translatedSegments: TranscriptSegment[] = [];
   let totalTokens = 0;
@@ -271,7 +241,6 @@ export async function generateTranscriptTranslations(
       try {
         // Skip if already has translation
         if (segment.translation || segment.translationData?.translatedText) {
-          console.log(`⏭️ [${globalIndex + 1}/${segments.length}] "${segment.text.substring(0, 30)}..." CACHED`);
           onProgress?.(globalIndex + 1, segments.length, segment.text.substring(0, 30), 'cached');
           return segment;
         }
@@ -287,23 +256,14 @@ export async function generateTranscriptTranslations(
         totalTokens += result.tokens;
         successCount++;
 
-        const progress = Math.round(((globalIndex + 1) / segments.length) * 100);
-        console.log(
-          `✅ [${globalIndex + 1}/${segments.length}] (${progress}%) "${segment.text.substring(0, 25)}..." → "${result.translation.substring(0, 35)}..."`
-        );
-
         onProgress?.(globalIndex + 1, segments.length, segment.text.substring(0, 30), 'success');
 
         return {
           ...segment,
           translation: result.translation
         };
-      } catch (error) {
+      } catch {
         failCount++;
-        console.error(
-          `❌ [${globalIndex + 1}/${segments.length}] "${segment.text.substring(0, 30)}..." FAILED:`,
-          error instanceof Error ? error.message : error
-        );
         onProgress?.(globalIndex + 1, segments.length, segment.text.substring(0, 30), 'failed');
 
         // Return segment without translation on failure
@@ -325,18 +285,6 @@ export async function generateTranscriptTranslations(
   // Estimate cost ($0 for Ollama, ~$0.0001 per segment for OpenAI)
   const estimatedCost = useOllama ? 0 : (successCount * 0.0001);
 
-  console.log('\n' + '='.repeat(60));
-  console.log(`🎉 [TranscriptTranslation] GENERATION COMPLETE`);
-  console.log('='.repeat(60));
-  console.log(`📊 Results:`);
-  console.log(`   - Success: ${successCount}/${segments.length} segments`);
-  console.log(`   - Failed: ${failCount}/${segments.length} segments`);
-  console.log(`   - Total time: ${Math.round(duration / 1000)}s`);
-  console.log(`   - Total tokens: ${totalTokens}`);
-  console.log(`   - Estimated cost: $${estimatedCost.toFixed(4)}`);
-  console.log(`   - Provider: ${provider}`);
-  console.log('='.repeat(60) + '\n');
-
   // Update Firestore with translations
   if (successCount > 0) {
     try {
@@ -356,9 +304,8 @@ export async function generateTranscriptTranslations(
           }
         }
       });
-      console.log(`💾 [TranscriptTranslation] Saved ${successCount} translations to Firebase`);
-    } catch (error) {
-      console.error('[TranscriptTranslation] Failed to save translations:', error);
+    } catch {
+      // Ignore save failures
     }
   }
 
@@ -403,30 +350,28 @@ export async function queueTranscriptTranslations(
         'metadata.translationStatus': 'queued',
         'metadata.translationQueuedAt': new Date()
       });
-    } catch (error) {
-      console.error('[TranscriptTranslation] Failed to mark as queued:', error);
+    } catch {
+      // Ignore mark as queued failures
     }
   }
 
   // Fire and forget - don't await
   generateTranscriptTranslations(contentId, segments, options)
-    .then(result => {
-      console.log(`[TranscriptTranslation] Background job complete: ${result.translatedCount}/${result.totalSegments} via ${result.provider}`);
+    .then(() => {
       // Update status
       if (db) {
         db.collection(COLLECTION).doc(contentId).update({
           'metadata.translationStatus': 'complete'
-        }).catch(console.error);
+        }).catch(() => {});
       }
     })
-    .catch(error => {
-      console.error('[TranscriptTranslation] Background job failed:', error);
+    .catch((error: unknown) => {
       // Update status
       if (db) {
         db.collection(COLLECTION).doc(contentId).update({
           'metadata.translationStatus': 'failed',
           'metadata.translationError': error instanceof Error ? error.message : 'Unknown error'
-        }).catch(console.error);
+        }).catch(() => {});
       }
     });
 
@@ -480,8 +425,7 @@ export async function getTranslationStatus(
     }
 
     return { status: 'generating', translatedCount, totalCount };
-  } catch (error) {
-    console.error('[TranscriptTranslation] Error getting status:', error);
+  } catch {
     return { status: 'none' };
   }
 }

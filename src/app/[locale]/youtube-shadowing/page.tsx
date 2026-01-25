@@ -595,6 +595,33 @@ function YouTubeShadowingContent() {
     }, 3000);
   }, [showTranslation, videoId, segments, language, clearTranslationPoll]);
 
+  // Auto-trigger word precompute on cached session restores or navigation
+  useEffect(() => {
+    if (!videoId || segments.length === 0) return;
+
+    const priorityText = segments.slice(0, 3).map((s) => s.text).join(" ");
+    const remainingText = segments.slice(3).map((s) => s.text).join(" ");
+
+    if (priorityText.trim()) {
+      prefetchWordExplanations({
+        contentId: videoId,
+        contentType: "youtube",
+        text: priorityText,
+      });
+    }
+
+    if (remainingText.trim()) {
+      setTimeout(() => {
+        prefetchWordExplanations({
+          contentId: videoId,
+          contentType: "youtube",
+          text: remainingText,
+          background: true,
+        });
+      }, 500);
+    }
+  }, [videoId, segments, prefetchWordExplanations]);
+
   const practiceMetadata = useMemo(() => {
     if (!source) return undefined;
     return {

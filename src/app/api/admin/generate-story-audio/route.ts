@@ -296,16 +296,30 @@ export async function POST(request: NextRequest) {
       }
 
       // Update pages with their audio URLs
+      // IMPORTANT: Read existing pages from Firestore to preserve all fields (textWithFurigana, translation, etc.)
+      // The audio endpoint only receives minimal page data (pageNumber, text) - DO NOT overwrite full pages array
       if (results.pageAudio.length > 0) {
-        const pagesWithAudio = pages.map((page: any, index: number) => {
-          const pageNumber = page.pageNumber || index + 1
-          const pageAudioResult = results.pageAudio.find(pa => pa.pageNumber === pageNumber)
-          return {
-            ...page,
-            audioUrl: pageAudioResult?.url || page.audioUrl,
-          }
-        })
-        updateData.pages = pagesWithAudio
+        const collection = storyId.startsWith('draft_') ? 'ai_story_drafts' : 'stories'
+        const docSnapshot = await adminFirestore!.collection(collection).doc(storyId).get()
+        const existingData = docSnapshot.data()
+        const existingPages = existingData?.pages || []
+
+        // SAFEGUARD: Only update pages if we have existing pages to preserve
+        // This prevents overwriting with empty array if doc doesn't have pages yet
+        if (existingPages.length > 0) {
+          // Only update audioUrl on existing pages, preserving all other fields
+          const pagesWithAudio = existingPages.map((page: any, index: number) => {
+            const pageNumber = page.pageNumber || index + 1
+            const pageAudioResult = results.pageAudio.find(pa => pa.pageNumber === pageNumber)
+            return {
+              ...page, // Keep ALL existing page fields (textWithFurigana, translation, imagePrompt, etc.)
+              audioUrl: pageAudioResult?.url || page.audioUrl,
+            }
+          })
+          updateData.pages = pagesWithAudio
+        } else {
+          console.warn(`[StoryAudio] No existing pages found for ${storyId}, skipping pages update to avoid data loss`)
+        }
       }
 
       // Determine audio status
@@ -322,9 +336,9 @@ export async function POST(request: NextRequest) {
       }
 
       // Update the correct collection based on whether it's a draft or published story
-      const collection = storyId.startsWith('draft_') ? 'ai_story_drafts' : 'stories'
-      await adminFirestore!.collection(collection).doc(storyId).update(updateData)
-      console.log(`[StoryAudio] ${collection} ${storyId} updated with audio URLs`)
+      const targetCollection = storyId.startsWith('draft_') ? 'ai_story_drafts' : 'stories'
+      await adminFirestore!.collection(targetCollection).doc(storyId).update(updateData)
+      console.log(`[StoryAudio] ${targetCollection} ${storyId} updated with audio URLs`)
     } catch (saveError) {
       console.error('[StoryAudio] Failed to update Firestore:', saveError)
       results.errors.push(

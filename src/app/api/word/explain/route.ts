@@ -159,7 +159,6 @@ export async function POST(request: NextRequest) {
       }
     } else {
       // Content lookup - no quota check needed (prefetched content)
-      console.log(`[WordExplain] Content lookup (${contentType}:${contentId}) - skipping quota check`);
       decision = { allow: true, remaining: -1, reason: 'content_prefetched' };
     }
 
@@ -181,9 +180,9 @@ export async function POST(request: NextRequest) {
 
       if (isContentLookup && contentId && contentType) {
         try {
-        await upsertContentWordExplanation(contentType, contentId, cached, word || undefined);
-        } catch (error) {
-          console.warn('[WordExplainAPI] Content cache write-back failed (cached)', error);
+          await upsertContentWordExplanation(contentType, contentId, cached, word || undefined);
+        } catch {
+          // Ignore write-back failures
         }
       }
 
@@ -226,8 +225,8 @@ export async function POST(request: NextRequest) {
     if (isContentLookup && contentId && contentType) {
       try {
         await upsertContentWordExplanation(contentType, contentId, aiResponse.data, word || undefined);
-      } catch (error) {
-        console.warn('[WordExplainAPI] Content cache write-back failed', error);
+      } catch {
+        // Ignore write-back failures
       }
     }
 
@@ -241,8 +240,7 @@ export async function POST(request: NextRequest) {
         remaining: computeRemaining(decision.limit)
       }
     });
-  } catch (error) {
-    console.error('[WordExplainAPI] Unexpected error', error);
+  } catch {
     return NextResponse.json({
       success: false,
       error: 'INTERNAL_ERROR'

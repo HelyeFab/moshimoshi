@@ -1,0 +1,1538 @@
+# Email Suppression & Campaign System - Technical Onboarding Guide
+
+**Version:** 1.1
+**Last Updated:** 2025-01-25
+**Author:** Claude Code (Technical Lead)
+**Status:** Production Ready
+
+---
+
+## Table of Contents
+
+1. [Executive Summary](#1-executive-summary)
+2. [Architecture Overview](#2-architecture-overview)
+3. [File Structure & Responsibilities](#3-file-structure--responsibilities)
+4. [Core Flows](#4-core-flows)
+5. [Database Schema (Firebase Firestore)](#5-database-schema-firebase-firestore)
+6. [API Endpoints Reference](#6-api-endpoints-reference)
+7. [Token System & Security](#7-token-system--security)
+8. [Admin Dashboard Components](#8-admin-dashboard-components)
+9. [Email Templates](#9-email-templates)
+10. [Webhook Integration](#10-webhook-integration)
+11. [Environment Variables](#11-environment-variables)
+12. [Testing Guide](#12-testing-guide)
+13. [Common Issues & Fixes](#13-common-issues--fixes)
+14. [Production Checklist](#14-production-checklist)
+
+---
+
+## 1. Executive Summary
+
+### What This System Does
+
+The Email Suppression & Campaign System provides:
+
+1. **Global Email Suppression List** - Prevents sending to unsubscribed, bounced, or complained emails
+2. **HMAC-Signed Unsubscribe Links** - Industry-standard secure tokens (RFC 8058 compliant)
+3. **One-Click Unsubscribe** - Gmail/Yahoo compliance via List-Unsubscribe headers
+4. **Webhook Integration** - Automatic bounce/complaint handling from Resend
+5. **Campaign Management** - Admin dashboard for creating, previewing, and sending email campaigns
+6. **Email Preview** - Render email templates before sending
+
+### Design Decisions
+
+| Decision | Rationale |
+|----------|-----------|
+| **Email-based suppression** (not user-based) | Marketing emails should respect unsubscribe regardless of user account status |
+| **"All or Nothing" unsubscribe** | Single unsubscribe removes from ALL marketing emails - no category management |
+| **HMAC tokens** (not JWT/database) | Stateless verification, no token storage needed, impossible to forge |
+| **7-day token expiry** | Balance between security and user convenience |
+| **Server-only modules** | Firebase Admin SDK cannot be bundled for client-side |
+
+---
+
+## 2. Architecture Overview
+
+### System Diagram
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                           ADMIN DASHBOARD                            │
+│  /[locale]/admin/email-campaigns/page.tsx                           │
+│  ┌──────────────┐ ┌──────────────┐ ┌──────────────┐                │
+│  │ Create       │ │ Preview      │ │ Send         │                │
+│  │ Campaign     │ │ Recipients   │ │ Campaign     │                │
+│  └──────┬───────┘ └──────┬───────┘ └──────┬───────┘                │
+│         │                │                │                         │
+│         ▼                ▼                ▼                         │
+│  ┌──────────────────────────────────────────────────────────────┐  │
+│  │                    Email Preview Modal                        │  │
+│  │  - HTML/Text toggle                                           │  │
+│  │  - Renders with unsubscribe footer                            │  │
+│  └──────────────────────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                            API LAYER                                 │
+├─────────────────────────────────────────────────────────────────────┤
+│ POST /api/admin/campaigns           Create campaign                  │
+│ GET  /api/admin/campaigns           List campaigns                   │
+│ POST /api/admin/campaigns/[id]/send Send campaign                    │
+│ GET  /api/admin/campaigns/[id]/preview  Preview recipients           │
+│ GET  /api/admin/campaigns/[id]/email-preview  Render email template  │
+│ DELETE /api/admin/campaigns/[id]    Delete campaign                  │
+├─────────────────────────────────────────────────────────────────────┤
+│ GET  /api/email/unsubscribe         Unsubscribe (link click)         │
+│ POST /api/email/unsubscribe         Programmatic unsubscribe         │
+│ POST /api/email/unsubscribe/one-click  RFC 8058 one-click           │
+├─────────────────────────────────────────────────────────────────────┤
+│ POST /api/webhooks/resend           Bounce/complaint webhook         │
+│ GET  /api/webhooks/resend           Webhook verification             │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                         SERVICE LAYER                                │
+├─────────────────────────────────────────────────────────────────────┤
+│ src/lib/email/suppression/                                          │
+│ ├── types.ts          Type definitions                               │
+│ ├── tokens.ts         HMAC token generation/verification             │
+│ ├── service.ts        Firestore CRUD for suppression list           │
+│ └── index.ts          Barrel export                                  │
+├─────────────────────────────────────────────────────────────────────┤
+│ src/lib/email/campaigns/                                             │
+│ ├── types.ts          Campaign type definitions                      │
+│ └── service.ts        Campaign CRUD & sending logic                  │
+├─────────────────────────────────────────────────────────────────────┤
+│ src/lib/email/                                                       │
+│ ├── resend.ts         Resend SDK wrapper (client-safe)              │
+│ └── campaign-sender.ts Server-only email sending with headers        │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                       EXTERNAL SERVICES                              │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  ┌──────────────┐         ┌──────────────────────────────────────┐  │
+│  │    Resend    │◄────────│  Email Provider (SMTP)               │  │
+│  │    API       │         │  - Send transactional emails         │  │
+│  └──────┬───────┘         │  - Bounce/complaint webhooks         │  │
+│         │                 └──────────────────────────────────────┘  │
+│         │                                                            │
+│         │ Webhooks                                                   │
+│         ▼                                                            │
+│  ┌──────────────────────────────────────────────────────────────┐   │
+│  │  /api/webhooks/resend                                         │   │
+│  │  - Verifies SVix signature                                    │   │
+│  │  - Adds to suppression list on bounce/complaint               │   │
+│  └──────────────────────────────────────────────────────────────┘   │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│                       FIREBASE FIRESTORE                             │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  email_suppressions (Collection)                                     │
+│  └── {email_hash} (Document)                                         │
+│      ├── email: string                                               │
+│      ├── emailHash: string                                           │
+│      ├── reason: 'unsubscribe' | 'bounce' | 'complaint'              │
+│      ├── source: 'user' | 'admin' | 'webhook' | 'system'            │
+│      ├── createdAt: Timestamp                                        │
+│      └── metadata?: { bounceType?, webhookPayload? }                 │
+│                                                                      │
+│  email_campaigns (Collection)                                        │
+│  └── {campaignId} (Document)                                         │
+│      ├── name: string                                                │
+│      ├── subject: string                                             │
+│      ├── template: 'waitlist' | 'welcome' | 'custom'                │
+│      ├── segment: { type, respectMarketingPrefs, emailVerifiedOnly }│
+│      ├── status: 'draft' | 'sending' | 'sent' | 'failed'           │
+│      ├── stats: { totalRecipients, sentCount, failedCount, ... }    │
+│      ├── createdAt: Timestamp                                        │
+│      ├── createdBy: string                                           │
+│      └── sentAt?: Timestamp                                          │
+│                                                                      │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 3. File Structure & Responsibilities
+
+### Suppression Module
+
+```
+src/lib/email/suppression/
+├── types.ts              # Type definitions
+├── tokens.ts             # HMAC token generation/verification
+├── service.ts            # Firestore CRUD operations
+└── index.ts              # Barrel export
+```
+
+#### `types.ts` - Type Definitions
+
+```typescript
+// Key types exported:
+export interface EmailSuppression {
+  email: string
+  emailHash: string
+  reason: SuppressionReason      // 'unsubscribe' | 'bounce' | 'complaint'
+  source: SuppressionSource      // 'user' | 'admin' | 'webhook' | 'system'
+  createdAt: Date
+  metadata?: {
+    bounceType?: 'hard' | 'soft'
+    webhookPayload?: Record<string, unknown>
+  }
+}
+
+export interface UnsubscribeTokenPayload {
+  email: string    // Normalized email
+  exp: number      // Expiration timestamp (Unix)
+  iat: number      // Issued at timestamp
+}
+
+export interface ResendWebhookPayload {
+  type: 'email.bounced' | 'email.complained' | 'email.delivered' | ...
+  data: {
+    to: string[]
+    bounce?: { type: 'hard' | 'soft' }
+  }
+}
+```
+
+#### `tokens.ts` - HMAC Token System
+
+```typescript
+// Key functions:
+
+// Hash email for storage (privacy)
+export function hashEmail(email: string): string
+
+// Create signed unsubscribe token
+export function createUnsubscribeToken(
+  email: string,
+  options?: { expiresInDays?: number }
+): string
+
+// Verify and decode token (throws on invalid)
+export function verifyUnsubscribeToken(token: string): UnsubscribeTokenPayload
+
+// Generate full unsubscribe URL
+export function generateUnsubscribeUrl(email: string): string
+```
+
+**Token Format:**
+```
+base64url(JSON.stringify(payload)).base64url(HMAC-SHA256(payload, secret))
+```
+
+**Security Properties:**
+- Stateless verification
+- Cannot forge without secret
+- Expiration enforced
+- Email embedded in token
+
+#### `service.ts` - Suppression Service
+
+```typescript
+// Singleton instance
+export const suppressionService = new SuppressionService()
+
+// Key methods:
+class SuppressionService {
+  // Check if email is suppressed (before sending)
+  async isEmailSuppressed(email: string): Promise<{
+    suppressed: boolean
+    reason?: SuppressionReason
+    details?: EmailSuppression
+  }>
+
+  // Check multiple emails at once (batch operations)
+  async checkBatch(emails: string[]): Promise<Map<string, SuppressionReason | null>>
+
+  // Add email to suppression list
+  async addSuppression(
+    email: string,
+    reason: SuppressionReason,
+    source: SuppressionSource,
+    metadata?: Record<string, unknown>
+  ): Promise<boolean>
+
+  // Remove from suppression (re-subscribe)
+  async removeSuppression(email: string): Promise<boolean>
+
+  // Get suppression stats
+  async getStats(): Promise<SuppressionStats>
+}
+```
+
+### Campaign Module
+
+```
+src/lib/email/campaigns/
+├── types.ts              # Campaign type definitions
+└── service.ts            # Campaign CRUD & sending
+```
+
+#### `types.ts` - Campaign Types
+
+```typescript
+export interface EmailCampaign {
+  id: string
+  name: string
+  subject: string
+  template: 'waitlist' | 'welcome' | 'password_reset' | 'custom'
+  segment: EmailSegment
+  status: 'draft' | 'sending' | 'sent' | 'failed'
+  stats: CampaignStats
+  createdAt: Date | FirebaseTimestamp
+  createdBy: string
+  sentAt?: Date | FirebaseTimestamp
+}
+
+export interface EmailSegment {
+  type: 'all' | 'premium' | 'free' | 'waitlist' | 'inactive'
+  respectMarketingPrefs: boolean
+  emailVerifiedOnly: boolean
+}
+
+export interface CampaignStats {
+  totalRecipients: number
+  sentCount: number
+  failedCount: number
+  skippedCount: number
+}
+```
+
+#### `service.ts` - Campaign Service
+
+Key integration with suppression:
+
+```typescript
+// In sendCampaign():
+for (const email of recipients) {
+  // Check global suppression list FIRST
+  const { suppressed, reason } = await suppressionService.isEmailSuppressed(email)
+  if (suppressed) {
+    console.log(`Skipping suppressed email: ${email} (${reason})`)
+    skippedCount++
+    continue
+  }
+
+  // Send with unsubscribe headers
+  await sendCampaignEmail(email, subject, htmlContent, textContent)
+  sentCount++
+}
+```
+
+### Email Sender Module
+
+```
+src/lib/email/
+├── resend.ts             # Resend SDK wrapper (client-safe imports)
+└── campaign-sender.ts    # Server-only campaign sending
+```
+
+#### `campaign-sender.ts` - Server-Only
+
+**Why this file exists:** Firebase Admin SDK cannot be bundled for client-side. The suppression service imports firebase-admin. To prevent webpack bundling issues, campaign email sending (which needs unsubscribe URLs and List-Unsubscribe headers) is in a separate server-only file.
+
+```typescript
+export async function sendCampaignEmail(
+  to: string,
+  subject: string,
+  html: string,
+  text: string
+): Promise<{ id: string }> {
+  const unsubscribeUrl = generateUnsubscribeUrl(to)
+  const oneClickUrl = `${baseUrl}/api/email/unsubscribe/one-click`
+
+  return resend.emails.send({
+    to,
+    subject,
+    html: appendUnsubscribeFooter(html, unsubscribeUrl),
+    text: appendUnsubscribeFooterText(text, unsubscribeUrl),
+    headers: {
+      'List-Unsubscribe': `<${unsubscribeUrl}>, <mailto:unsubscribe@moshimoshi.app>`,
+      'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+    },
+  })
+}
+```
+
+---
+
+## 4. Core Flows
+
+### Flow 1: User Clicks Unsubscribe Link
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│ 1. User receives email with unsubscribe link                        │
+│    https://moshimoshi.app/api/email/unsubscribe?token=xxx           │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 2. GET /api/email/unsubscribe?token=xxx                             │
+│                                                                      │
+│    a) Extract token from query string                                │
+│    b) Verify HMAC signature (tokens.ts:verifyUnsubscribeToken)      │
+│    c) Check expiration (7 days default)                              │
+│    d) Extract email from payload                                     │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 3. Add to suppression list                                          │
+│                                                                      │
+│    suppressionService.addSuppression(email, 'unsubscribe', 'user')  │
+│                                                                      │
+│    Firestore document created:                                       │
+│    email_suppressions/{hash} = {                                     │
+│      email: "user@example.com",                                      │
+│      emailHash: "abc123...",                                         │
+│      reason: "unsubscribe",                                          │
+│      source: "user",                                                 │
+│      createdAt: Timestamp                                            │
+│    }                                                                 │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 4. Return branded HTML success page                                  │
+│                                                                      │
+│    "You've been unsubscribed from Moshimoshi marketing emails."     │
+│    [Re-subscribe link]                                               │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Flow 2: Gmail/Yahoo One-Click Unsubscribe
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│ 1. Email sent with headers:                                          │
+│    List-Unsubscribe: <url>, <mailto:...>                            │
+│    List-Unsubscribe-Post: List-Unsubscribe=One-Click                │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 2. Gmail shows "Unsubscribe" button in email header                  │
+│    User clicks it                                                    │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 3. Gmail sends:                                                      │
+│    POST /api/email/unsubscribe/one-click                            │
+│    Content-Type: application/x-www-form-urlencoded                  │
+│    Body: List-Unsubscribe=One-Click                                 │
+│    Headers: List-Unsubscribe-Email: user@example.com                │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 4. API extracts email from List-Unsubscribe-Email header            │
+│    OR from original List-Unsubscribe URL                            │
+│                                                                      │
+│    Adds to suppression list                                          │
+│    Returns 200 OK                                                    │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Flow 3: Resend Webhook (Bounce/Complaint)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│ 1. Email bounces or user reports spam                                │
+│    Resend captures the event                                         │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 2. Resend sends webhook:                                             │
+│    POST /api/webhooks/resend                                         │
+│    Headers:                                                          │
+│      svix-id: msg_xxx                                                │
+│      svix-timestamp: 1706000000                                      │
+│      svix-signature: v1,base64signature                              │
+│    Body: {                                                           │
+│      type: "email.bounced",                                          │
+│      data: {                                                         │
+│        to: ["user@example.com"],                                     │
+│        bounce: { type: "hard" }                                      │
+│      }                                                               │
+│    }                                                                 │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 3. Verify SVix signature                                             │
+│                                                                      │
+│    a) Get secret from RESEND_WEBHOOK_SECRET                          │
+│    b) Reconstruct signed content: svix-id.svix-timestamp.body       │
+│    c) Calculate HMAC-SHA256                                          │
+│    d) Compare with svix-signature                                    │
+│    e) Verify timestamp within 5 minutes (replay protection)         │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 4. Process event                                                     │
+│                                                                      │
+│    email.bounced (hard only):                                        │
+│      suppressionService.addSuppression(email, 'bounce', 'webhook')  │
+│                                                                      │
+│    email.complained:                                                 │
+│      suppressionService.addSuppression(email, 'complaint', 'webhook')│
+│                                                                      │
+│    email.delivered: Log for analytics (optional)                     │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 5. Return 200 OK (always, to prevent Resend retry)                   │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+### Flow 4: Send Campaign (Admin)
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│ 1. Admin creates campaign in dashboard                               │
+│    - Name, subject, template, segment                                │
+│    POST /api/admin/campaigns                                         │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 2. Admin previews recipients                                         │
+│    GET /api/admin/campaigns/[id]/preview                            │
+│    Returns: totalRecipients, segment details                        │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 3. Admin previews email content                                      │
+│    GET /api/admin/campaigns/[id]/email-preview                      │
+│    Returns: { html, text, campaign info }                           │
+│    Modal shows HTML/Text toggle with iframe preview                  │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 4. Admin sends campaign                                              │
+│    POST /api/admin/campaigns/[id]/send                              │
+└────────────────────────────┬────────────────────────────────────────┘
+                             │
+                             ▼
+┌─────────────────────────────────────────────────────────────────────┐
+│ 5. Campaign sending process                                          │
+│                                                                      │
+│    a) Update status to 'sending'                                     │
+│    b) Query recipients from Firestore based on segment              │
+│    c) For each recipient:                                            │
+│       i. Check suppressionService.isEmailSuppressed()               │
+│       ii. If suppressed → skip (increment skippedCount)             │
+│       iii. If not → send with campaign-sender.ts                    │
+│       iv. Batch: 50 emails, 1 second delay between batches          │
+│    d) Update stats and status to 'sent'                              │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 5. Database Schema (Firebase Firestore)
+
+### Collection: `email_suppressions`
+
+**Document ID:** SHA-256 hash of lowercased, trimmed email
+
+```typescript
+{
+  // The email address (stored for admin reference)
+  email: "user@example.com",
+
+  // SHA-256 hash for deduplication and lookup
+  emailHash: "abc123def456...",
+
+  // Why this email was suppressed
+  reason: "unsubscribe" | "bounce" | "complaint",
+
+  // How the suppression was created
+  source: "user" | "admin" | "webhook" | "system",
+
+  // When suppression was added
+  createdAt: Timestamp,
+
+  // Optional additional info
+  metadata?: {
+    bounceType?: "hard" | "soft",
+    webhookPayload?: { ... }
+  }
+}
+```
+
+**Indexes Required:**
+- `emailHash` (default, used for lookups)
+- `reason` (for filtering)
+- `createdAt` (for sorting)
+
+### Collection: `email_campaigns`
+
+```typescript
+{
+  // Auto-generated document ID
+  id: "abc123",
+
+  // Campaign display name
+  name: "Welcome Email January 2025",
+
+  // Email subject line
+  subject: "Welcome to Moshimoshi!",
+
+  // Template to use
+  template: "waitlist" | "welcome" | "password_reset" | "custom",
+
+  // Recipient targeting
+  segment: {
+    type: "all" | "premium" | "free" | "waitlist" | "inactive",
+    respectMarketingPrefs: true,
+    emailVerifiedOnly: false
+  },
+
+  // Current status
+  status: "draft" | "sending" | "sent" | "failed",
+
+  // Sending statistics
+  stats: {
+    totalRecipients: 1500,
+    sentCount: 1450,
+    failedCount: 10,
+    skippedCount: 40  // Suppressed emails
+  },
+
+  // Audit fields
+  createdAt: Timestamp,
+  createdBy: "admin-uid",
+  sentAt?: Timestamp
+}
+```
+
+---
+
+## 6. API Endpoints Reference
+
+### Unsubscribe Endpoints
+
+#### `GET /api/email/unsubscribe`
+
+Handles unsubscribe link clicks from emails.
+
+**Query Parameters:**
+- `token` (required): HMAC-signed unsubscribe token
+
+**Responses:**
+- `200`: HTML success page (unsubscribed)
+- `400`: HTML error page (missing token)
+- `401`: HTML error page (invalid/expired token)
+- `500`: HTML error page (server error)
+
+**Example:**
+```
+GET /api/email/unsubscribe?token=eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLC...
+```
+
+#### `POST /api/email/unsubscribe`
+
+Programmatic unsubscribe (for API integrations).
+
+**Request Body:**
+```json
+{
+  "token": "eyJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLC..."
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Successfully unsubscribed"
+}
+```
+
+#### `POST /api/email/unsubscribe/one-click`
+
+RFC 8058 compliant one-click unsubscribe for email clients.
+
+**Request:**
+```
+POST /api/email/unsubscribe/one-click
+Content-Type: application/x-www-form-urlencoded
+
+List-Unsubscribe=One-Click
+```
+
+**Headers Checked:**
+- `List-Unsubscribe-Email`: Email address (primary)
+- Fallback: Parse from referrer or List-Unsubscribe URL
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Successfully unsubscribed"
+}
+```
+
+### Webhook Endpoint
+
+#### `POST /api/webhooks/resend`
+
+Handles Resend email events.
+
+**Headers (SVix):**
+- `svix-id`: Unique message ID
+- `svix-timestamp`: Unix timestamp
+- `svix-signature`: `v1,base64signature`
+
+**Request Body:**
+```json
+{
+  "type": "email.bounced",
+  "data": {
+    "to": ["user@example.com"],
+    "bounce": { "type": "hard" }
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "received": true
+}
+```
+
+### Admin Campaign Endpoints
+
+All require `Authorization: Bearer {firebase-id-token}` and admin role.
+
+#### `POST /api/admin/campaigns`
+
+Create a new campaign.
+
+**Request:**
+```json
+{
+  "name": "Welcome Email",
+  "subject": "Welcome to Moshimoshi!",
+  "template": "welcome",
+  "segment": {
+    "type": "all",
+    "respectMarketingPrefs": true,
+    "emailVerifiedOnly": false
+  }
+}
+```
+
+#### `GET /api/admin/campaigns`
+
+List all campaigns.
+
+#### `GET /api/admin/campaigns/[id]/preview`
+
+Preview recipient count and segment details.
+
+**Response:**
+```json
+{
+  "success": true,
+  "totalRecipients": 1500,
+  "segment": {
+    "type": "all",
+    "respectMarketingPrefs": true,
+    "emailVerifiedOnly": false
+  }
+}
+```
+
+#### `GET /api/admin/campaigns/[id]/email-preview`
+
+Render email template for preview.
+
+**Response:**
+```json
+{
+  "success": true,
+  "campaign": {
+    "id": "abc123",
+    "name": "Welcome Email",
+    "subject": "Welcome to Moshimoshi!",
+    "template": "welcome"
+  },
+  "preview": {
+    "html": "<!DOCTYPE html>...",
+    "text": "Welcome to Moshimoshi...",
+    "previewEmail": "preview@example.com"
+  }
+}
+```
+
+#### `POST /api/admin/campaigns/[id]/send`
+
+Send the campaign to all eligible recipients.
+
+#### `DELETE /api/admin/campaigns/[id]`
+
+Delete a draft campaign.
+
+---
+
+## 7. Token System & Security
+
+### HMAC Token Architecture
+
+```typescript
+// Token structure
+{
+  payload: {
+    email: "user@example.com",  // Normalized
+    exp: 1706500000,            // Expiration (Unix timestamp)
+    iat: 1705895200             // Issued at (Unix timestamp)
+  },
+  signature: "HMAC-SHA256(payload, secret)"
+}
+
+// Token format (URL-safe)
+base64url(payload) + "." + base64url(signature)
+```
+
+### Security Properties
+
+| Property | Implementation |
+|----------|----------------|
+| **Integrity** | HMAC-SHA256 signature prevents tampering |
+| **Authenticity** | Only server with secret can create valid tokens |
+| **Expiration** | Checked on verification (default: 7 days) |
+| **Email Binding** | Email embedded in token, cannot be used for different email |
+| **Stateless** | No database lookup needed for verification |
+
+### Secret Management
+
+```bash
+# Generate cryptographically secure secret (32 bytes = 256 bits)
+openssl rand -base64 32
+
+# Store in environment
+UNSUBSCRIBE_TOKEN_SECRET=your-32-byte-secret-here
+```
+
+**Security Requirements:**
+- Minimum 32 bytes (256 bits)
+- Stored only in environment variables
+- Different secrets for production/staging
+- Rotate periodically (requires migration plan)
+
+### Token Verification Flow
+
+```typescript
+function verifyUnsubscribeToken(token: string): UnsubscribeTokenPayload {
+  // 1. Split token into parts
+  const [payloadB64, signatureB64] = token.split('.')
+
+  // 2. Decode payload
+  const payload = JSON.parse(base64url.decode(payloadB64))
+
+  // 3. Verify signature
+  const expectedSignature = createSignature(payload)
+  if (signatureB64 !== base64url.encode(expectedSignature)) {
+    throw new Error('Invalid token signature')
+  }
+
+  // 4. Check expiration
+  if (payload.exp < Math.floor(Date.now() / 1000)) {
+    throw new Error('Token has expired')
+  }
+
+  // 5. Return verified payload
+  return payload
+}
+```
+
+---
+
+## 8. Admin Dashboard Components
+
+### Page: `/[locale]/admin/email-campaigns/page.tsx`
+
+**State Management:**
+
+```typescript
+// Campaign list
+const [campaigns, setCampaigns] = useState<EmailCampaign[]>([])
+const [loading, setLoading] = useState(true)
+const [error, setError] = useState<string | null>(null)
+
+// Modals
+const [showNewCampaignModal, setShowNewCampaignModal] = useState(false)
+const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+const [previewModalOpen, setPreviewModalOpen] = useState(false)
+const [emailPreviewModalOpen, setEmailPreviewModalOpen] = useState(false)
+const [sendModalOpen, setSendModalOpen] = useState(false)
+
+// Modal data
+const [campaignToDelete, setCampaignToDelete] = useState<{id: string, name: string} | null>(null)
+const [campaignToSend, setCampaignToSend] = useState<{id: string, name: string} | null>(null)
+const [previewData, setPreviewData] = useState<any>(null)
+const [emailPreviewData, setEmailPreviewData] = useState<any>(null)
+const [emailPreviewLoading, setEmailPreviewLoading] = useState(false)
+
+// Feedback modals
+const [errorModalOpen, setErrorModalOpen] = useState(false)
+const [errorMessage, setErrorMessage] = useState<string>('')
+const [successModalOpen, setSuccessModalOpen] = useState(false)
+const [successMessage, setSuccessMessage] = useState<string>('')
+```
+
+### Component: `CampaignCard`
+
+**Props:**
+```typescript
+{
+  campaign: EmailCampaign
+  onSend: () => void
+  onPreview: () => void
+  onEmailPreview: () => void
+  onDelete: () => void
+  onRefresh: () => void
+  emailPreviewLoading: boolean
+}
+```
+
+**Features:**
+- Status badge (draft/sending/sent/failed)
+- Metadata display (template, segment, dates)
+- Stats grid (total, sent, failed, skipped)
+- Action buttons:
+  - **Preview Recipients** - Shows recipient count
+  - **Email Preview** - Opens template preview modal
+  - **Send Now** - Triggers send confirmation (draft only)
+  - **Delete** - Triggers delete confirmation (draft only)
+  - **Refresh Status** - Refetches data (sending status)
+
+### Component: `EmailPreviewModal`
+
+**Props:**
+```typescript
+{
+  isOpen: boolean
+  onClose: () => void
+  data: {
+    campaign: { id, name, subject, template }
+    preview: { html, text, previewEmail }
+  }
+}
+```
+
+**Features:**
+- HTML/Text toggle buttons
+- Campaign info header (name, template, subject)
+- HTML preview in sandboxed iframe
+- Text preview in monospace pre block
+- Note about preview email address
+
+### Component: `NewCampaignModal`
+
+**Form Fields:**
+- Campaign Name (text input)
+- Email Template (select: waitlist, welcome, password_reset, custom)
+- Email Subject (text input)
+- Segment Type (select: all, premium, free, waitlist, inactive)
+- Respect Marketing Preferences (checkbox)
+- Email Verified Only (checkbox)
+
+---
+
+## 9. Email Templates
+
+### Template System Architecture
+
+The email template system consists of modular components for building branded, responsive emails.
+
+```
+src/lib/email/templates/
+├── base.ts       # Common elements, assets, styles, and HTML builders
+├── starters.ts   # Pre-built starter templates
+├── types.ts      # TypeScript interfaces for templates
+└── variables.ts  # Variable substitution system
+```
+
+### Brand Assets
+
+All assets are served from `/public/` with absolute URLs for email client compatibility:
+
+| Asset | File | Size | Purpose |
+|-------|------|------|---------|
+| Logo | `logo-mo-generated.png` | 16KB | Main logo for email headers |
+| Logo SVG | `logo-mo.svg` | <1KB | Vector logo |
+| Logo + Text | `logo-mo-with-text.svg` | <1KB | Full brand mark |
+| Doshi | `doshi.png` | 46KB | Red panda mascot character |
+| Emma | `doshi-emma.JPG` | 226KB | Founder/developer character |
+
+### Base Components (`base.ts`)
+
+Reusable building blocks for all email templates:
+
+```typescript
+// Header with logo and greeting
+emailHeader({ showLogo: true, greeting: 'Welcome', recipientName: '{{name}}' })
+
+// Footer with unsubscribe, social links, copyright
+emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}', showDoshi: true })
+
+// Character message with avatar (Doshi or Emma)
+characterMessage({
+  character: 'doshi',  // or 'emma'
+  message: "Your motivational message here!",
+  name: 'Doshi'        // Optional custom name
+})
+
+// CTA Button (primary or secondary)
+ctaButton({ text: 'Start Learning', url: '{{appUrl}}', variant: 'primary' })
+
+// Feature list with checkmarks
+featureList(['Feature 1', 'Feature 2', 'Feature 3'])
+
+// Highlight box (info, success, warning)
+highlightBox({ type: 'info', title: 'Pro tip', content: 'Your tip here' })
+
+// Wrap content in full HTML document
+wrapEmailHtml(content)
+```
+
+### Brand Colors
+
+```typescript
+EMAIL_COLORS = {
+  primary: '#ec4899',      // Pink
+  secondary: '#8b5cf6',    // Purple
+  accent: '#f97316',       // Orange
+  success: '#10b981',      // Green
+  text: '#111827',
+  textLight: '#6b7280',
+  background: '#f5f5f5',
+}
+```
+
+### Starter Templates (`starters.ts`)
+
+Pre-built templates ready to use:
+
+| Template | Function | Use Case |
+|----------|----------|----------|
+| Welcome | `welcomeEmailStarter()` | New user onboarding with Doshi greeting |
+| Feature Announcement | `featureAnnouncementStarter()` | New feature releases with Emma message |
+| Streak Reminder | `streakReminderStarter()` | Engagement nudge with streak stats |
+| Weekly Progress | `weeklyProgressStarter()` | Stats summary with XP, words, minutes |
+| New Content | `newContentReleaseStarter()` | Content announcements |
+| Thank You | `thankYouNoteStarter()` | Appreciation emails with both characters |
+| Newsletter | `newsletterStarter()` | General announcements |
+
+**Example Usage:**
+
+```typescript
+import { getStarterTemplates } from '@/lib/email/templates/starters'
+
+const templates = getStarterTemplates()
+const welcome = templates.welcome
+// Returns: { name, description, html, text, subject }
+```
+
+### Variable System (`variables.ts`)
+
+Templates support dynamic variable substitution using `{{variableName}}` syntax.
+
+**System Variables (always available):**
+
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `{{email}}` | Recipient email | `user@example.com` |
+| `{{name}}` | Recipient name | `John` |
+| `{{unsubscribeUrl}}` | Unsubscribe link | Generated per-user |
+| `{{preferencesUrl}}` | Settings page | `/settings/notifications` |
+| `{{currentYear}}` | Current year | `2025` |
+
+**Template-Specific Variables:**
+
+| Template | Variables |
+|----------|-----------|
+| Streak Reminder | `{{streakDays}}` |
+| Weekly Progress | `{{xpEarned}}`, `{{wordsLearned}}`, `{{minutesPracticed}}`, `{{weekDate}}` |
+| Feature Announcement | `{{featureTitle}}`, `{{featureDescription}}`, `{{featureUrl}}` |
+| New Content | `{{contentType}}`, `{{contentTitle}}`, `{{contentDescription}}`, `{{contentUrl}}` |
+
+### Legacy Templates
+
+For backward compatibility, these templates are also supported:
+
+- **`waitlist`**: Uses `buildWaitlistThankYouContent()` from `src/lib/email/waitlistThankYou.ts`
+- **`welcome`**: Basic welcome template
+- **`custom`**: Uses templates from `email_templates` Firestore collection
+
+### Unsubscribe Footer
+
+Automatically appended by `CampaignService.appendUnsubscribeFooter()`:
+
+```html
+<div style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; font-size: 12px; color: #9ca3af;">
+  <p>You're receiving this email because you signed up for Moshimoshi.</p>
+  <p>
+    <a href="{{unsubscribeUrl}}" style="color: #6b7280; text-decoration: underline;">
+      Unsubscribe
+    </a>
+    from marketing emails
+  </p>
+</div>
+```
+
+---
+
+## 10. Webhook Integration
+
+### Resend Webhook Setup
+
+1. **Go to Resend Dashboard** → Webhooks
+2. **Add endpoint:**
+   - URL: `https://moshimoshi.app/api/webhooks/resend`
+   - Events: `email.bounced`, `email.complained`
+3. **Copy signing secret** to `RESEND_WEBHOOK_SECRET`
+
+### Signature Verification (SVix)
+
+```typescript
+async function verifyWebhookSignature(
+  request: NextRequest,
+  body: string
+): Promise<boolean> {
+  const secret = process.env.RESEND_WEBHOOK_SECRET
+
+  // Get SVix headers
+  const svixId = headers.get('svix-id')
+  const svixTimestamp = headers.get('svix-timestamp')
+  const svixSignature = headers.get('svix-signature')
+
+  // Check timestamp (5 minute tolerance for replay protection)
+  const timestamp = parseInt(svixTimestamp, 10)
+  const now = Math.floor(Date.now() / 1000)
+  if (Math.abs(now - timestamp) > 300) {
+    return false
+  }
+
+  // Reconstruct signed content
+  const signedContent = `${svixId}.${svixTimestamp}.${body}`
+
+  // Decode secret (base64 with "whsec_" prefix)
+  const secretBytes = Buffer.from(secret.replace('whsec_', ''), 'base64')
+
+  // Calculate expected signature
+  const expectedSignature = crypto
+    .createHmac('sha256', secretBytes)
+    .update(signedContent)
+    .digest('base64')
+
+  // Compare with received signatures
+  for (const sig of svixSignature.split(' ')) {
+    const [version, signature] = sig.split(',')
+    if (version === 'v1' && signature === expectedSignature) {
+      return true
+    }
+  }
+
+  return false
+}
+```
+
+### Event Handling
+
+| Event | Action |
+|-------|--------|
+| `email.bounced` (hard) | Add to suppression with reason `bounce` |
+| `email.bounced` (soft) | Log only, no suppression (temporary issue) |
+| `email.complained` | Add to suppression with reason `complaint` |
+| `email.delivered` | Log for analytics (optional) |
+| `email.opened` | Track engagement (optional) |
+| `email.clicked` | Track engagement (optional) |
+
+---
+
+## 11. Environment Variables
+
+### Required Variables
+
+```bash
+# Token signing secret (32+ bytes, base64)
+UNSUBSCRIBE_TOKEN_SECRET=your-secret-here
+
+# Resend webhook signing secret (from Resend dashboard)
+RESEND_WEBHOOK_SECRET=whsec_xxxxx
+
+# Resend API key
+RESEND_API_KEY=re_xxxxx
+
+# Firebase Admin (for Firestore)
+FIREBASE_ADMIN_PROJECT_ID=your-project
+FIREBASE_ADMIN_CLIENT_EMAIL=firebase-adminsdk@...
+FIREBASE_ADMIN_PRIVATE_KEY="-----BEGIN PRIVATE KEY-----\n..."
+
+# App URL (for generating unsubscribe links)
+NEXT_PUBLIC_APP_URL=https://moshimoshi.app
+```
+
+### Setting Up Secrets
+
+```bash
+# Generate unsubscribe token secret
+openssl rand -base64 32
+
+# Add to Vercel (both production and preview)
+vercel env add UNSUBSCRIBE_TOKEN_SECRET production
+vercel env add UNSUBSCRIBE_TOKEN_SECRET preview
+
+# Resend webhook secret comes from Resend dashboard
+# Copy it when creating the webhook
+```
+
+---
+
+## 12. Testing Guide
+
+### Unit Tests
+
+**Location:** `src/lib/email/suppression/__tests__/suppression.test.ts`
+
+**Run tests:**
+```bash
+npm test -- --testPathPattern=suppression
+```
+
+**Test Coverage:**
+
+```typescript
+describe('Token Module', () => {
+  describe('hashEmail', () => {
+    it('should create consistent hash for same email')
+    it('should normalize email before hashing')
+    it('should create different hashes for different emails')
+  })
+
+  describe('createUnsubscribeToken', () => {
+    it('should create valid token format')
+    it('should include email in payload')
+    it('should set correct expiration')
+    it('should use default 7-day expiry')
+    it('should accept custom expiry')
+  })
+
+  describe('verifyUnsubscribeToken', () => {
+    it('should verify valid token')
+    it('should reject tampered token')
+    it('should reject expired token')
+    it('should reject invalid format')
+  })
+
+  describe('generateUnsubscribeUrl', () => {
+    it('should generate full URL with token')
+    it('should use correct base URL')
+  })
+})
+```
+
+### Integration Testing
+
+**Test endpoint:** `/api/email/test-unsubscribe` (development only)
+
+```bash
+# 1. Generate test token
+curl "http://localhost:3000/api/email/test-unsubscribe?action=generate&email=test@example.com"
+
+# 2. Test unsubscribe flow
+curl "http://localhost:3000/api/email/unsubscribe?token={token}"
+
+# 3. Check if suppressed
+curl "http://localhost:3000/api/email/test-unsubscribe?action=check&email=test@example.com"
+
+# 4. Test re-subscribe
+curl -X POST "http://localhost:3000/api/email/test-unsubscribe" \
+  -H "Content-Type: application/json" \
+  -d '{"action": "resubscribe", "email": "test@example.com"}'
+```
+
+### Manual Testing Checklist
+
+- [ ] Create a campaign in admin dashboard
+- [ ] Preview recipients (check count matches expected)
+- [ ] Preview email (HTML and text views)
+- [ ] Send test campaign to yourself
+- [ ] Verify email received with unsubscribe link
+- [ ] Click unsubscribe link → see success page
+- [ ] Try same link again → see already unsubscribed message
+- [ ] Send another campaign → your email should be skipped
+- [ ] Check Firestore for suppression document
+- [ ] Test re-subscribe (admin only)
+
+---
+
+## 13. Common Issues & Fixes
+
+### Issue 1: Webpack Bundling Error
+
+**Error:**
+```
+Module not found: Can't resolve 'fs'
+./node_modules/@google-cloud/firestore/...
+```
+
+**Cause:** Firebase Admin SDK being bundled for client-side due to import chain.
+
+**Solution:** Create server-only modules. The `campaign-sender.ts` file was created specifically to avoid this:
+
+```typescript
+// BAD: This pulls firebase-admin into client bundle
+// src/lib/email/resend.ts
+import { suppressionService } from './suppression'
+export async function sendCampaignEmail() { ... }
+
+// GOOD: Server-only file
+// src/lib/email/campaign-sender.ts
+import { suppressionService } from './suppression'
+export async function sendCampaignEmail() { ... }
+```
+
+### Issue 2: Crypto Import Error
+
+**Error:**
+```
+TypeError: crypto.createHmac is not a function
+```
+
+**Cause:** Using `import crypto from 'crypto'` instead of `import * as crypto from 'crypto'`
+
+**Solution:**
+```typescript
+// BAD
+import crypto from 'crypto'
+
+// GOOD
+import * as crypto from 'crypto'
+```
+
+### Issue 3: Token Verification Failing
+
+**Symptoms:**
+- All tokens rejected as invalid
+- "Invalid token signature" error
+
+**Possible Causes:**
+1. **Different secrets in dev/prod** - Verify `UNSUBSCRIBE_TOKEN_SECRET` matches
+2. **Secret not loaded** - Check environment variable is set
+3. **Base64 encoding issues** - Ensure using base64url, not base64
+4. **Payload mutation** - Don't modify payload between create and verify
+
+**Debug:**
+```typescript
+console.log('Secret exists:', !!process.env.UNSUBSCRIBE_TOKEN_SECRET)
+console.log('Secret length:', process.env.UNSUBSCRIBE_TOKEN_SECRET?.length)
+```
+
+### Issue 4: Webhook Signature Verification Failing
+
+**Symptoms:**
+- Resend webhooks rejected with 401
+- "Invalid signature" in logs
+
+**Possible Causes:**
+1. **Wrong secret** - Copy from Resend dashboard again
+2. **"whsec_" prefix handling** - Secret is base64 after removing prefix
+3. **Body parsing** - Must use raw body, not parsed JSON
+
+**Solution:**
+```typescript
+// Get raw body BEFORE parsing
+const body = await request.text()
+
+// Verify THEN parse
+const isValid = await verifyWebhookSignature(request, body)
+const payload = JSON.parse(body)
+```
+
+### Issue 5: Suppression Not Working
+
+**Symptoms:**
+- Emails sent to suppressed addresses
+- Check returns false for suppressed email
+
+**Possible Causes:**
+1. **Email normalization** - Must lowercase and trim before hashing
+2. **Firestore initialization** - `ensureAdminInitialized()` not called
+3. **Document ID mismatch** - Using wrong hash algorithm
+
+**Debug:**
+```typescript
+// Check what hash is being used
+const hash = hashEmail('test@example.com')
+console.log('Hash:', hash)
+
+// Check Firestore directly
+const doc = await adminFirestore.collection('email_suppressions').doc(hash).get()
+console.log('Document exists:', doc.exists)
+```
+
+---
+
+## 14. Production Checklist
+
+### Before Deployment
+
+- [x] **Environment variables set in Vercel:** *(Completed 2025-01-25)*
+  - [x] `UNSUBSCRIBE_TOKEN_SECRET` (same for production and preview)
+  - [x] `RESEND_WEBHOOK_SECRET`
+  - [x] `RESEND_API_KEY`
+  - [x] Firebase Admin credentials
+
+- [x] **Resend webhook configured:** *(Completed 2025-01-25)*
+  - [x] Endpoint: `https://moshimoshi.app/api/webhooks/resend`
+  - [x] Events: `email.bounced`, `email.complained`
+  - [x] Signing secret copied to env
+
+- [x] **Firebase Firestore:**
+  - [x] `email_suppressions` collection exists
+  - [x] `email_campaigns` collection exists
+  - [x] Security rules allow admin access
+
+### After Deployment
+
+- [ ] **Test unsubscribe flow:**
+  1. Create test campaign
+  2. Send to test email
+  3. Click unsubscribe link
+  4. Verify suppression in Firestore
+
+- [ ] **Test webhook:**
+  1. Send test event from Resend dashboard
+  2. Check server logs for verification
+  3. Verify no errors
+
+- [ ] **Monitor logs for:**
+  - Signature verification failures
+  - Suppression service errors
+  - Campaign sending issues
+
+### Monitoring
+
+**Key Metrics:**
+- Suppression count by reason (unsubscribe, bounce, complaint)
+- Campaign delivery rate (sent / total)
+- Webhook processing success rate
+
+**Log Patterns:**
+```bash
+# Successful unsubscribe
+[Unsubscribe] Successfully unsubscribed: user@example.com
+
+# Suppression check
+[CampaignService] Skipping suppressed email: user@example.com (unsubscribe)
+
+# Webhook processing
+[ResendWebhook] Received event: email.bounced
+[ResendWebhook] Hard bounce for: user@example.com
+```
+
+---
+
+## Appendix A: Quick Command Reference
+
+```bash
+# Run suppression tests
+npm test -- --testPathPattern=suppression
+
+# Generate unsubscribe secret
+openssl rand -base64 32
+
+# Add secret to Vercel
+vercel env add UNSUBSCRIBE_TOKEN_SECRET production
+
+# Check Firestore suppressions (using Firebase CLI)
+firebase firestore:get email_suppressions --project moshimoshi
+
+# Tail production logs
+vercel logs --follow
+
+# Local development
+npm run dev
+# Visit: http://localhost:3000/en/admin/email-campaigns
+```
+
+---
+
+## Appendix B: File Quick Reference
+
+### Suppression Module
+| File | Purpose |
+|------|---------|
+| `src/lib/email/suppression/types.ts` | Type definitions |
+| `src/lib/email/suppression/tokens.ts` | HMAC token creation/verification |
+| `src/lib/email/suppression/service.ts` | Firestore CRUD for suppressions |
+| `src/lib/email/suppression/index.ts` | Barrel export |
+
+### Campaign Module
+| File | Purpose |
+|------|---------|
+| `src/lib/email/campaigns/types.ts` | Campaign type definitions |
+| `src/lib/email/campaigns/service.ts` | Campaign CRUD & sending |
+| `src/lib/email/campaign-sender.ts` | Server-only email sending with headers |
+| `src/lib/email/resend.ts` | Resend SDK wrapper |
+
+### Template Module
+| File | Purpose |
+|------|---------|
+| `src/lib/email/templates/base.ts` | Common elements, assets, styles, HTML builders |
+| `src/lib/email/templates/starters.ts` | Pre-built starter templates (welcome, streak, etc.) |
+| `src/lib/email/templates/types.ts` | Template TypeScript interfaces |
+| `src/lib/email/templates/variables.ts` | Variable substitution system |
+
+### API Endpoints
+| File | Purpose |
+|------|---------|
+| `src/app/api/email/unsubscribe/route.ts` | Unsubscribe endpoint (GET/POST) |
+| `src/app/api/email/unsubscribe/one-click/route.ts` | RFC 8058 one-click unsubscribe |
+| `src/app/api/webhooks/resend/route.ts` | Resend webhook handler |
+| `src/app/api/admin/campaigns/route.ts` | Campaign CRUD API |
+| `src/app/api/admin/campaigns/[id]/send/route.ts` | Send campaign API |
+| `src/app/api/admin/campaigns/[id]/preview/route.ts` | Preview recipients API |
+| `src/app/api/admin/campaigns/[id]/email-preview/route.ts` | Email template preview API |
+
+### Admin UI
+| File | Purpose |
+|------|---------|
+| `src/app/[locale]/admin/email-campaigns/page.tsx` | Admin dashboard UI |
+
+### Assets
+| File | Purpose |
+|------|---------|
+| `public/logo-mo-generated.png` | Email header logo |
+| `public/doshi.png` | Doshi mascot character |
+| `public/doshi-emma.JPG` | Emma/founder character |
+
+---
+
+**End of Document**
+
+*For questions or updates, refer to the codebase or contact the development team.*

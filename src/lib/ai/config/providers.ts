@@ -67,6 +67,7 @@ function getDefaultRouting(
       explain_grammar: 'openai',
       explain_grammar_sentence: 'openai',
       generate_review_questions: 'openai',
+      generate_kanji_mnemonic: 'openai',
       clean_transcript: 'openai',
       fix_transcript: 'openai',
       generate_story: 'openai',
@@ -87,6 +88,7 @@ function getDefaultRouting(
       explain_grammar: 'ollama',
       explain_grammar_sentence: 'ollama',
       generate_review_questions: 'ollama',
+      generate_kanji_mnemonic: 'ollama',
       clean_transcript: 'ollama',
       fix_transcript: 'ollama',
       generate_story: 'ollama',
@@ -107,6 +109,7 @@ function getDefaultRouting(
 
     // BACKGROUND/ASYNC TASKS → Ollama
     generate_review_questions: 'ollama', // Background generation
+    generate_kanji_mnemonic: 'ollama', // Kanji mnemonics, cached in Firebase
     clean_transcript: 'ollama', // Background processing
     fix_transcript: 'ollama', // Background processing
     translate_text: 'ollama', // Translation, Qwen is excellent

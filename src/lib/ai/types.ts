@@ -26,6 +26,7 @@ export type AITaskType =
   | 'explain_grammar'
   | 'explain_grammar_sentence'
   | 'explain_word'
+  | 'generate_kanji_mnemonic'
   | 'clean_transcript'
   | 'process_article'
   | 'generate_story'
@@ -263,6 +264,30 @@ export interface WordExplanation {
     translation: string
     notes?: string
   }>
+}
+
+// Kanji Mnemonic
+export interface KanjiMnemonicRequest {
+  kanji: string
+  meaning?: string
+  components?: string[]
+}
+
+export interface KanjiMnemonicComponent {
+  part: string
+  meaning: string
+}
+
+export interface KanjiMnemonic {
+  kanji: string
+  meaning: string
+  mnemonic: string
+  components?: KanjiMnemonicComponent[]
+  createdAt: Date
+  provider: 'ollama' | 'openai' | 'koohii' | 'manual'
+  version?: number
+  author?: string  // For koohii attribution
+  votes?: number   // Koohii community votes
 }
 
 // Transcript Processing

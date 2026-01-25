@@ -65,8 +65,7 @@ export async function GET(request: NextRequest) {
       totalCount: transcript.length,
       hasTranslations: translatedCount >= transcript.length * 0.8
     });
-  } catch (error) {
-    console.error('[Translate API] GET error:', error);
+  } catch {
     return NextResponse.json(
       { error: 'Failed to get translation status' },
       { status: 500 }
@@ -148,8 +147,6 @@ export async function POST(request: NextRequest) {
     }
 
     // Sync mode - wait for completion (can be slow!)
-    console.log(`[Translate API] Starting sync translation for ${contentId}`);
-
     const result = await generateTranscriptTranslations(contentId, segments, {
       mode,
       userLevel
@@ -164,8 +161,7 @@ export async function POST(request: NextRequest) {
       duration: result.duration,
       costInfo: result.costInfo
     });
-  } catch (error) {
-    console.error('[Translate API] POST error:', error);
+  } catch {
     return NextResponse.json(
       { error: 'Failed to generate translations' },
       { status: 500 }
