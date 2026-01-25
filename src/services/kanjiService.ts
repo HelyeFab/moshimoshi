@@ -378,4 +378,166 @@ export interface KanjiMnemonic {
   votes?: number    // Koohii community votes
 }
 
+// Type for user's custom mnemonic
+export interface UserMnemonic {
+  kanji: string
+  mnemonic: string
+  isPublic: boolean
+  createdAt: string
+  updatedAt: string
+}
+
+// Type for regeneration limit check result
+export interface RegenerationLimit {
+  allowed: boolean
+  remaining: number
+  resetAtUtc: string
+}
+
+// Type for regeneration result
+export interface RegenerationResult {
+  success: boolean
+  mnemonic?: KanjiMnemonic
+  remaining?: number
+  resetAtUtc?: string
+  error?: string
+}
+
 export const kanjiService = new KanjiService()
+
+/**
+ * Get user's custom mnemonic for a kanji
+ */
+export async function getUserMnemonic(kanji: string): Promise<UserMnemonic | null> {
+  try {
+    const response = await fetch(`/api/kanji/mnemonic/user?kanji=${encodeURIComponent(kanji)}`)
+    if (!response.ok) return null
+
+    const data = await response.json()
+    if (!data.success || !data.mnemonic) return null
+
+    return data.mnemonic
+  } catch (error) {
+    console.error('[kanjiService] Error fetching user mnemonic:', error)
+    return null
+  }
+}
+
+/**
+ * Save user's custom mnemonic for a kanji
+ */
+export async function saveUserMnemonic(
+  kanji: string,
+  mnemonic: string,
+  isPublic: boolean = false
+): Promise<boolean> {
+  try {
+    const response = await fetch('/api/kanji/mnemonic/user', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ kanji, mnemonic, isPublic }),
+    })
+
+    const data = await response.json()
+    return data.success === true
+  } catch (error) {
+    console.error('[kanjiService] Error saving user mnemonic:', error)
+    return false
+  }
+}
+
+/**
+ * Delete user's custom mnemonic for a kanji
+ */
+export async function deleteUserMnemonic(kanji: string): Promise<boolean> {
+  try {
+    const response = await fetch(`/api/kanji/mnemonic/user?kanji=${encodeURIComponent(kanji)}`, {
+      method: 'DELETE',
+    })
+
+    const data = await response.json()
+    return data.success === true
+  } catch (error) {
+    console.error('[kanjiService] Error deleting user mnemonic:', error)
+    return false
+  }
+}
+
+/**
+ * Check remaining regenerations for a kanji
+ */
+export async function checkRegenerationLimit(kanji: string): Promise<RegenerationLimit | null> {
+  console.log('[kanjiService] checkRegenerationLimit called for:', kanji)
+  try {
+    const response = await fetch(`/api/kanji/mnemonic/regenerate?kanji=${encodeURIComponent(kanji)}`)
+    console.log('[kanjiService] checkRegenerationLimit response status:', response.status)
+    if (!response.ok) {
+      console.log('[kanjiService] checkRegenerationLimit response not ok')
+      return null
+    }
+
+    const data = await response.json()
+    console.log('[kanjiService] checkRegenerationLimit data:', data)
+    if (!data.success) return null
+
+    return {
+      allowed: data.allowed,
+      remaining: data.remaining,
+      resetAtUtc: data.resetAtUtc,
+    }
+  } catch (error) {
+    console.error('[kanjiService] Error checking regeneration limit:', error)
+    return null
+  }
+}
+
+/**
+ * Regenerate AI mnemonic for a kanji (rate limited)
+ */
+export async function regenerateKanjiMnemonic(
+  kanji: string,
+  meaning?: string
+): Promise<RegenerationResult> {
+  console.log('[kanjiService] regenerateKanjiMnemonic called', { kanji, meaning })
+  try {
+    console.log('[kanjiService] Fetching /api/kanji/mnemonic/regenerate...')
+    const response = await fetch('/api/kanji/mnemonic/regenerate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ kanji, meaning }),
+    })
+
+    console.log('[kanjiService] Response status:', response.status)
+    const data = await response.json()
+    console.log('[kanjiService] Response data:', data)
+
+    if (response.status === 429) {
+      return {
+        success: false,
+        remaining: data.remaining,
+        resetAtUtc: data.resetAtUtc,
+        error: 'RATE_LIMIT_EXCEEDED',
+      }
+    }
+
+    if (!data.success) {
+      return {
+        success: false,
+        error: data.error || 'UNKNOWN_ERROR',
+      }
+    }
+
+    return {
+      success: true,
+      mnemonic: data.mnemonic,
+      remaining: data.remaining,
+      resetAtUtc: data.resetAtUtc,
+    }
+  } catch (error) {
+    console.error('[kanjiService] Error regenerating mnemonic:', error)
+    return {
+      success: false,
+      error: 'NETWORK_ERROR',
+    }
+  }
+}

@@ -1419,18 +1419,22 @@ console.log('Document exists:', doc.exists)
 
 ### After Deployment
 
-- [ ] **Test unsubscribe flow:**
-  1. Create test campaign
-  2. Send to test email
-  3. Click unsubscribe link
-  4. Verify suppression in Firestore
+- [x] **Test unsubscribe flow:** *(Tested 2025-01-25)*
+  1. ✅ Sent test email with unsubscribe link
+  2. ✅ Clicked unsubscribe link - success page displayed
+  3. ✅ Verified suppression in Firestore (`suppressed: true, reason: "unsubscribe"`)
+  4. ✅ Confirmed subsequent emails would be skipped
+
+- [x] **Test re-subscribe flow:** *(Tested 2025-01-25)*
+  1. ✅ Re-subscribed via test endpoint
+  2. ✅ Verified suppression removed
 
 - [ ] **Test webhook:**
   1. Send test event from Resend dashboard
   2. Check server logs for verification
   3. Verify no errors
 
-- [ ] **Monitor logs for:**
+- [x] **Monitor logs for:**
   - Signature verification failures
   - Suppression service errors
   - Campaign sending issues
@@ -1457,7 +1461,150 @@ console.log('Document exists:', doc.exists)
 
 ---
 
-## Appendix A: Quick Command Reference
+## Appendix A: Creating Email Templates (AI Agent Guide)
+
+This section is for AI agents tasked with creating new email templates.
+
+### Template Architecture Overview
+
+```
+Templates are stored in TWO places:
+1. Code (starters.ts)     → Pre-built templates, requires deployment
+2. Firestore              → Custom templates, editable via admin UI
+```
+
+### Method 1: Add a Code-Based Template
+
+**When to use:** For permanent, frequently-used templates.
+
+**Step 1:** Add the template function to `src/lib/email/templates/starters.ts`:
+
+```typescript
+export function myNewTemplateStarter(): { html: string; text: string; subject: string } {
+  const html = wrapEmailHtml(`
+    ${emailHeader({ showLogo: true, greeting: 'Hello', recipientName: '{{name}}' })}
+
+    <p style="${EMAIL_STYLES.paragraph}">
+      Your email content here...
+    </p>
+
+    ${characterMessage({
+      character: 'doshi',  // or 'emma'
+      message: "Doshi's message to the user!",
+    })}
+
+    ${ctaButton({ text: 'Call to Action', url: '{{ctaUrl}}' })}
+
+    ${emailFooter({ unsubscribeUrl: '{{unsubscribeUrl}}' })}
+  `)
+
+  const text = `
+Hello {{name}},
+
+Your plain text version here...
+
+CTA: {{ctaUrl}}
+
+---
+Unsubscribe: {{unsubscribeUrl}}
+  `.trim()
+
+  return {
+    html,
+    text,
+    subject: 'Your Subject Line - {{variable}}',
+  }
+}
+```
+
+**Step 2:** Register in `getStarterTemplates()`:
+
+```typescript
+export function getStarterTemplates() {
+  return {
+    // ... existing templates
+    myNewTemplate: {
+      name: 'My New Template',
+      description: 'Description for admin UI',
+      ...myNewTemplateStarter(),
+    },
+  }
+}
+```
+
+**Step 3:** Add to seed script and re-seed:
+
+```bash
+node scripts/seed-email-templates.mjs
+```
+
+### Method 2: Create via Admin UI
+
+**When to use:** For one-off campaigns or user-editable templates.
+
+1. Go to `/en/admin/email-templates`
+2. Click "New Template"
+3. Fill in the form with HTML content
+4. Save → Template is stored in Firestore `email_templates` collection
+
+### Available Components (base.ts)
+
+| Component | Usage |
+|-----------|-------|
+| `emailHeader()` | Logo + greeting |
+| `emailFooter()` | Unsubscribe, social links, copyright |
+| `characterMessage()` | Doshi or Emma with avatar and message |
+| `ctaButton()` | Primary/secondary call-to-action button |
+| `featureList()` | Bulleted list with checkmarks |
+| `highlightBox()` | Info/success/warning callout box |
+| `wrapEmailHtml()` | Wraps content in full HTML document |
+
+### Available Variables
+
+**System variables (always available):**
+- `{{name}}` - Recipient's name
+- `{{email}}` - Recipient's email
+- `{{unsubscribeUrl}}` - Unsubscribe link (REQUIRED in all templates)
+- `{{currentYear}}` - Current year
+
+**Custom variables:** Define per-template, e.g., `{{featureTitle}}`, `{{streakDays}}`
+
+### Brand Assets
+
+| Asset | URL |
+|-------|-----|
+| Logo | `https://moshimoshi.app/logo-mo-generated.png` |
+| Doshi | `https://moshimoshi.app/doshi.png` |
+| Emma | `https://moshimoshi.app/doshi-emma.JPG` |
+
+### Brand Colors
+
+```typescript
+primary: '#ec4899'    // Pink
+secondary: '#8b5cf6'  // Purple
+accent: '#f97316'     // Orange
+success: '#10b981'    // Green
+```
+
+### Testing Your Template
+
+1. Create the template in code or admin UI
+2. Go to admin dashboard → Email Campaigns
+3. Create a test campaign using your template
+4. Click "Email Preview" to see rendered HTML
+5. Send to yourself to test the actual email
+
+### Important Rules
+
+1. **Always include `{{unsubscribeUrl}}`** - Required for CAN-SPAM/GDPR compliance
+2. **Test on mobile** - Use the mobile preview toggle
+3. **Provide plain text version** - Some email clients don't render HTML
+4. **Use inline styles** - Email clients strip `<style>` tags
+5. **Keep images small** - Large images may not load
+
+---
+
+## Appendix B: Quick Command Reference
 
 ```bash
 # Run suppression tests

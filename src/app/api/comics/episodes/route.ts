@@ -86,6 +86,17 @@ export async function GET(request: NextRequest) {
     const totalCount = episodes.length
     const hasMore = offset + limit < totalCount
 
+    // Add displayNumber based on position in sorted list (1-indexed)
+    // This provides sequential numbers to users even when episodeNumber has gaps
+    // EP 1 = first episode created, EP N = latest episode created
+    episodes = episodes.map((ep: any, index: number) => ({
+      ...ep,
+      displayNumber: index + 1,
+    }))
+
+    // Reverse order so latest episodes show first (newest at top)
+    episodes.reverse()
+
     // Apply pagination
     episodes = episodes.slice(offset, offset + limit)
 

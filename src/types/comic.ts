@@ -82,6 +82,7 @@ export interface ComicEpisode {
   seriesId: string
   slug: string
   episodeNumber: number
+  displayNumber?: number // Sequential number shown to users (calculated at query time)
   title: string
   titleJa: string
   description: string

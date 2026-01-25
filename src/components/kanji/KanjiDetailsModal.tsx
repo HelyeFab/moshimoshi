@@ -2,12 +2,24 @@
 
 import { useState, useEffect } from 'react'
 import { Kanji } from '@/types/kanji'
-import { kanjiService, KanjiMnemonic } from '@/services/kanjiService'
+import {
+  kanjiService,
+  KanjiMnemonic,
+  UserMnemonic,
+  RegenerationLimit,
+  getUserMnemonic,
+  saveUserMnemonic,
+  deleteUserMnemonic,
+  checkRegenerationLimit,
+  regenerateKanjiMnemonic,
+} from '@/services/kanjiService'
 import Modal from '@/components/ui/Modal'
 import { LoadingSpinner } from '@/components/ui/Loading'
 import AudioButton from '@/components/ui/AudioButton'
 import StrokeOrderModal from './StrokeOrderModal'
 import DrawingPracticeModal from '@/components/drawing-practice/DrawingPracticeModal'
+import MnemonicDisplay from './MnemonicDisplay'
+import MnemonicEditor from './MnemonicEditor'
 import { useFeature } from '@/hooks/useFeature'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTTS } from '@/hooks/useTTS'
@@ -37,6 +49,10 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
   const [showFurigana, setShowFurigana] = useState(true)
   const [mnemonic, setMnemonic] = useState<KanjiMnemonic | null>(null)
   const [loadingMnemonic, setLoadingMnemonic] = useState(false)
+  const [userMnemonic, setUserMnemonic] = useState<UserMnemonic | null>(null)
+  const [mnemonicView, setMnemonicView] = useState<'ai' | 'user'>('ai')
+  const [regenerating, setRegenerating] = useState(false)
+  const [regenLimit, setRegenLimit] = useState<RegenerationLimit | null>(null)
   const { strings } = useI18n()
   const { user } = useAuth()
   const { subscription } = useSubscription()
@@ -55,12 +71,23 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
     }
   }, [isOpen])
 
+
   // Fetch stroke count, example sentences, mnemonic, and preload audio when modal opens
   useEffect(() => {
     if (isOpen && kanji?.kanji) {
       fetchStrokeCount(kanji.kanji)
       fetchExamples(kanji.kanji)
       fetchMnemonic(kanji.kanji, kanji.meaning)
+
+      // Fetch user mnemonic and regen limit if authenticated
+      if (user) {
+        fetchUserMnemonic(kanji.kanji)
+        fetchRegenLimit(kanji.kanji)
+      } else {
+        setUserMnemonic(null)
+        setRegenLimit(null)
+        setMnemonicView('ai')
+      }
 
       // Preload all readings for better UX
       const readingsToPreload: string[] = []
@@ -70,7 +97,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
         preload(readingsToPreload, { voice: '23', speed: 0.85 })
       }
     }
-  }, [isOpen, kanji?.kanji])
+  }, [isOpen, kanji?.kanji, user])
 
   useEffect(() => {
     if (!isOpen || exampleSentences.length === 0) return
@@ -149,6 +176,62 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
       console.error('Error fetching mnemonic:', error)
     } finally {
       setLoadingMnemonic(false)
+    }
+  }
+
+  const fetchUserMnemonic = async (character: string) => {
+    try {
+      const userMnemonicData = await getUserMnemonic(character)
+      setUserMnemonic(userMnemonicData)
+      // If user has their own mnemonic, default to showing it
+      if (userMnemonicData) {
+        setMnemonicView('user')
+      } else {
+        setMnemonicView('ai')
+      }
+    } catch (error) {
+      console.error('Error fetching user mnemonic:', error)
+    }
+  }
+
+  const fetchRegenLimit = async (character: string) => {
+    try {
+      const limit = await checkRegenerationLimit(character)
+      setRegenLimit(limit)
+    } catch (error) {
+      console.error('[KanjiDetailsModal] Error fetching regen limit:', error)
+    }
+  }
+
+  const handleRegenerate = async () => {
+    if (!kanji || regenerating) return
+
+    // If regenLimit hasn't loaded yet, try to fetch it first
+    if (!regenLimit) {
+      await fetchRegenLimit(kanji.kanji)
+      return
+    }
+
+    if (!regenLimit.allowed) return
+
+    setRegenerating(true)
+    try {
+      const result = await regenerateKanjiMnemonic(kanji.kanji, kanji.meaning)
+
+      if (result.success && result.mnemonic) {
+        setMnemonic(result.mnemonic)
+        setRegenLimit({
+          allowed: (result.remaining ?? 0) > 0,
+          remaining: result.remaining ?? 0,
+          resetAtUtc: result.resetAtUtc ?? new Date().toISOString(),
+        })
+      } else if (result.error) {
+        console.error('[KanjiDetailsModal] Regeneration failed:', result.error)
+      }
+    } catch (error) {
+      console.error('[KanjiDetailsModal] Error regenerating mnemonic:', error)
+    } finally {
+      setRegenerating(false)
     }
   }
 
@@ -361,61 +444,81 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
 
                   {/* Memory Aid / Mnemonic */}
                   <div>
-                    <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-2 uppercase tracking-wider flex items-center gap-2">
-                      <span className="text-amber-500">💡</span>
-                      Memory Aid
-                    </h3>
-                    {loadingMnemonic ? (
-                      <div className="p-4 bg-amber-50/50 dark:bg-amber-900/10 rounded-xl">
-                        <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
-                          <LoadingSpinner size="small" />
-                          <span className="text-sm">Generating memory aid...</span>
+                    <div className="flex items-center justify-between mb-2">
+                      <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider flex items-center gap-2">
+                        <span className="text-amber-500">💡</span>
+                        Memory Aid
+                      </h3>
+                      {/* Toggle only visible for authenticated users */}
+                      {user && (
+                        <div className="flex gap-1 bg-gray-100 dark:bg-dark-700 rounded-lg p-0.5">
+                          <button
+                            onClick={() => setMnemonicView('ai')}
+                            className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
+                              mnemonicView === 'ai'
+                                ? 'bg-white dark:bg-dark-600 text-amber-600 dark:text-amber-400 shadow-sm'
+                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                            }`}
+                          >
+                            AI
+                          </button>
+                          <button
+                            onClick={() => setMnemonicView('user')}
+                            className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
+                              mnemonicView === 'user'
+                                ? 'bg-white dark:bg-dark-600 text-purple-600 dark:text-purple-400 shadow-sm'
+                                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+                            }`}
+                          >
+                            Mine
+                          </button>
                         </div>
-                      </div>
-                    ) : mnemonic ? (
-                      <div className="p-4 bg-amber-50/50 dark:bg-amber-900/10 rounded-xl">
-                        <p className="text-sm text-amber-800 dark:text-amber-200 leading-relaxed">
-                          {mnemonic.mnemonic}
-                        </p>
-                        {mnemonic.components && mnemonic.components.length > 0 && (
-                          <div className="mt-3 pt-3 border-t border-amber-200/50 dark:border-amber-700/30">
-                            <p className="text-xs text-amber-600 dark:text-amber-400 font-medium mb-1">Components:</p>
-                            <div className="flex flex-wrap gap-2">
-                              {mnemonic.components.map((comp, idx) => (
-                                <span key={idx} className="text-xs px-2 py-1 bg-amber-100 dark:bg-amber-800/30 text-amber-700 dark:text-amber-300 rounded">
-                                  {comp.part} = {comp.meaning}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                        {/* Attribution for Koohii community mnemonics */}
-                        {mnemonic.provider === 'koohii' && mnemonic.author && (
-                          <div className="mt-3 pt-2 border-t border-amber-200/30 dark:border-amber-700/20">
-                            <p className="text-xs text-amber-500/70 dark:text-amber-400/50">
-                              Story by <span className="font-medium">{mnemonic.author}</span>
-                              {mnemonic.votes !== undefined && mnemonic.votes > 0 && (
-                                <span className="ml-1">({mnemonic.votes} votes)</span>
-                              )}
-                              {' · '}
-                              <a
-                                href={`https://kanji.koohii.com/study/kanji/${mnemonic.kanji}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="hover:text-amber-600 dark:hover:text-amber-300 underline"
-                              >
-                                Kanji Koohii
-                              </a>
-                            </p>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="p-4 bg-gray-50 dark:bg-dark-700 rounded-xl">
-                        <p className="text-sm text-gray-500 dark:text-gray-400 italic">
-                          Memory aid not available yet
-                        </p>
-                      </div>
+                      )}
+                    </div>
+
+                    {/* AI Mnemonic View */}
+                    {mnemonicView === 'ai' && (
+                      <MnemonicDisplay
+                        mnemonic={mnemonic}
+                        loading={loadingMnemonic}
+                        regeneration={
+                          user
+                            ? {
+                                limit: regenLimit,
+                                inProgress: regenerating,
+                                onRegenerate: handleRegenerate,
+                              }
+                            : undefined
+                        }
+                      />
+                    )}
+
+                    {/* User Mnemonic View */}
+                    {mnemonicView === 'user' && user && (
+                      <MnemonicEditor
+                        mnemonic={userMnemonic}
+                        onSave={async (text) => {
+                          if (!kanji) return
+                          const success = await saveUserMnemonic(kanji.kanji, text)
+                          if (success) {
+                            setUserMnemonic({
+                              kanji: kanji.kanji,
+                              mnemonic: text,
+                              isPublic: false,
+                              createdAt: new Date().toISOString(),
+                              updatedAt: new Date().toISOString(),
+                            })
+                          }
+                        }}
+                        onDelete={async () => {
+                          if (!kanji) return
+                          const success = await deleteUserMnemonic(kanji.kanji)
+                          if (success) {
+                            setUserMnemonic(null)
+                            setMnemonicView('ai')
+                          }
+                        }}
+                      />
                     )}
                   </div>
                 </div>

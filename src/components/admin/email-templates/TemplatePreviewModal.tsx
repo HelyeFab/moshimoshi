@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import type { TemplateVariable, PreviewTemplateResponse } from '@/lib/email/templates/types'
 import { SYSTEM_VARIABLES } from '@/lib/email/templates/types'
@@ -96,7 +96,15 @@ export function TemplatePreviewModal({
     setSampleData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const allVariables = [...SYSTEM_VARIABLES, ...customVariables]
+  // Deduplicate variables - custom variables take precedence over system variables
+  const allVariables = useMemo(() => {
+    const variableMap = new Map<string, typeof SYSTEM_VARIABLES[0]>()
+    // Add system variables first
+    SYSTEM_VARIABLES.forEach((v) => variableMap.set(v.name, v))
+    // Custom variables override system variables with same name
+    customVariables.forEach((v) => variableMap.set(v.name, v))
+    return Array.from(variableMap.values())
+  }, [customVariables])
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">

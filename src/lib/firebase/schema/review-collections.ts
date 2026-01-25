@@ -298,6 +298,36 @@ export interface ReviewPresetDocument {
 }
 
 /**
+ * Document schema for user_mnemonics collection
+ * Stores user-created custom mnemonics for kanji
+ */
+export interface UserMnemonicDocument {
+  id: string                    // Auto-generated document ID
+  userId: string                // User reference
+  kanji: string                 // The kanji character
+  mnemonic: string              // User's custom mnemonic text
+  isPublic: boolean             // For future community sharing
+  createdAt: Timestamp
+  updatedAt: Timestamp
+  version: number               // For optimistic locking
+}
+
+/**
+ * Document schema for mnemonic_regenerations collection
+ * Tracks daily regeneration limits per user
+ */
+export interface MnemonicRegenerationDocument {
+  id: string                    // Format: {userId}_{date}
+  userId: string                // User reference
+  kanjiRegenerations: Record<string, {
+    count: number               // Number of regenerations today
+    lastRegeneratedAt: Timestamp
+  }>
+  date: string                  // YYYY-MM-DD format for daily reset
+  updatedAt: Timestamp
+}
+
+/**
  * Helper type for Firestore timestamps
  */
 export type FirestoreTimestamp = Timestamp | Date | null

@@ -312,11 +312,29 @@ export async function GET(request: NextRequest) {
 
     const users = usersSnapshot.docs.map(doc => {
       const data = doc.data()
+      const subscription = data.subscription || { plan: 'free', status: 'active' }
+
+      // Convert Firestore Timestamp to ISO string for metadata.updatedAt
+      let subscribedAt = subscription.metadata?.updatedAt
+      if (subscribedAt) {
+        // Handle Firestore Timestamp (has toDate method)
+        if (typeof subscribedAt.toDate === 'function') {
+          subscribedAt = subscribedAt.toDate().toISOString()
+        }
+        // Handle Date object
+        else if (subscribedAt instanceof Date) {
+          subscribedAt = subscribedAt.toISOString()
+        }
+      }
+
       return {
         uid: doc.id,
         email: data.email,
         displayName: data.displayName,
-        subscription: data.subscription || { plan: 'free', status: 'active' },
+        subscription: {
+          ...subscription,
+          subscribedAt
+        },
         createdAt: data.createdAt,
         updatedAt: data.updatedAt
       }

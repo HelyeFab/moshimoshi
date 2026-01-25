@@ -17,6 +17,7 @@ export interface CachedComicEpisode {
   seriesId: string
   slug: string
   episodeNumber: number
+  displayNumber?: number // Sequential number shown to users
   title: string
   titleJa: string
   description: string

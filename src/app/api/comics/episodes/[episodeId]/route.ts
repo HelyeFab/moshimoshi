@@ -45,6 +45,26 @@ export async function GET(
 
     const data = episodeDoc.data()
 
+    // Calculate displayNumber by finding position among all published episodes
+    let displayNumber = data?.episodeNumber || 1
+    try {
+      const seriesId = data?.seriesId || 'moshi-goes-to-japan'
+      const allEpisodesSnapshot = await db
+        .collection('comics')
+        .where('seriesId', '==', seriesId)
+        .where('status', '==', 'published')
+        .orderBy('episodeNumber', 'asc')
+        .get()
+
+      const position = allEpisodesSnapshot.docs.findIndex(doc => doc.id === episodeId)
+      if (position !== -1) {
+        displayNumber = position + 1
+      }
+    } catch (error) {
+      // Fallback: use episodeNumber if query fails (e.g., index building)
+      console.log('Could not calculate displayNumber, using episodeNumber as fallback')
+    }
+
     // Increment view count
     await episodeDoc.ref.update({
       viewCount: (data?.viewCount || 0) + 1,
@@ -72,6 +92,7 @@ export async function GET(
       episode: {
         id: episodeDoc.id,
         ...data,
+        displayNumber,
         quiz: transformedQuiz,
         publishedAt: data?.publishedAt?.toDate?.() || data?.publishedAt,
         createdAt: data?.createdAt?.toDate?.() || data?.createdAt,

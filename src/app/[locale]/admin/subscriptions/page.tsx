@@ -14,7 +14,7 @@ interface User {
   subscription: {
     plan: 'free' | 'premium_monthly' | 'premium_yearly'
     status: string
-    currentPeriodEnd?: string
+    subscribedAt?: string
     cancelAtPeriodEnd?: boolean
     metadata?: {
       updatedBy?: string
@@ -246,7 +246,7 @@ export default function AdminSubscriptionsPage() {
                   Status
                 </th>
                 <th className="text-left px-3 sm:px-4 lg:px-6 py-2 sm:py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider hidden lg:table-cell">
-                  Expires
+                  Subscribed
                 </th>
                 <th className="text-left px-3 sm:px-4 lg:px-6 py-2 sm:py-3 text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
                   Actions
@@ -278,13 +278,10 @@ export default function AdminSubscriptionsPage() {
                   </td>
                   <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 hidden lg:table-cell">
                     <div className="text-xs sm:text-sm text-gray-900 dark:text-white">
-                      {user.subscription.currentPeriodEnd
-                        ? new Date(user.subscription.currentPeriodEnd).toLocaleDateString()
+                      {user.subscription.subscribedAt
+                        ? new Date(user.subscription.subscribedAt).toLocaleDateString('en-GB')
                         : 'N/A'}
                     </div>
-                    {user.subscription.cancelAtPeriodEnd && (
-                      <div className="text-xs text-red-600 dark:text-red-400">Cancelling</div>
-                    )}
                   </td>
                   <td className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4">
                     <button
@@ -336,12 +333,9 @@ export default function AdminSubscriptionsPage() {
                   {user.subscription.status}
                 </span>
               </div>
-              {user.subscription.currentPeriodEnd && (
+              {user.subscription.subscribedAt && (
                 <div className="text-xs text-gray-500 dark:text-gray-400 mt-2">
-                  Expires: {new Date(user.subscription.currentPeriodEnd).toLocaleDateString()}
-                  {user.subscription.cancelAtPeriodEnd && (
-                    <span className="text-red-600 dark:text-red-400 ml-2">(Cancelling)</span>
-                  )}
+                  Subscribed: {new Date(user.subscription.subscribedAt).toLocaleDateString('en-GB')}
                 </div>
               )}
             </div>

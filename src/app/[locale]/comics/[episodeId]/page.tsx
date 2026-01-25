@@ -262,7 +262,7 @@ export default function ComicReaderPage() {
               {/* Episode Title */}
               <div className="flex-1 text-center min-w-0">
                 <h1 className="text-white font-semibold text-sm sm:text-base truncate">
-                  EP {episode.episodeNumber}: {episode.title}
+                  EP {episode.displayNumber ?? episode.episodeNumber}: {episode.title}
                 </h1>
                 <p className="text-dark-400 text-xs font-japanese truncate">{episode.titleJa}</p>
               </div>
@@ -675,7 +675,7 @@ export default function ComicReaderPage() {
             questions={episode.quiz.questions}
             contentType="comic"
             contentId={episodeId}
-            contentTitle={`EP ${episode.episodeNumber}: ${episode.title}`}
+            contentTitle={`EP ${episode.displayNumber ?? episode.episodeNumber}: ${episode.title}`}
             onComplete={handleQuizComplete}
             onExit={() => router.push('/comics')}
             onBack={() => setShowQuiz(false)}

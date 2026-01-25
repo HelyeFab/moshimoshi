@@ -931,3 +931,12 @@
 2026-01-25 09:22:07 - Backup function called
 2026-01-25 09:22:07 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
 2026-01-25 09:22:07 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/08_Moshimoshi/Git'
+2026-01-25 11:25:05 - Backup function called
+2026-01-25 11:25:05 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-25 11:25:05 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/08_Moshimoshi/Git'
+2026-01-25 11:36:42 - Backup function called
+2026-01-25 11:36:42 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-25 11:36:42 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/08_Moshimoshi/Git'
+2026-01-25 15:08:18 - Backup function called
+2026-01-25 15:08:18 - ENV_FILE exists: /home/helye/DevProject/personal/moshimoshi/.env.local
+2026-01-25 15:08:18 - Backup error: EACCES: permission denied, mkdir '/home/beano/Life-Org/08_Moshimoshi/Git'

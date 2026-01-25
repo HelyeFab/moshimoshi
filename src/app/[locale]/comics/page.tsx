@@ -303,7 +303,7 @@ function ComicsContent() {
 
                       {/* Episode Number Badge - Premium pill design */}
                       <div className="absolute top-3 left-3 bg-gradient-to-r from-primary-500 to-primary-600 text-white px-3.5 py-1.5 rounded-full text-sm font-bold shadow-lg shadow-primary-500/30">
-                        EP {episode.episodeNumber}
+                        EP {episode.displayNumber ?? episode.episodeNumber}
                       </div>
 
                       {/* Hover glow effect */}
