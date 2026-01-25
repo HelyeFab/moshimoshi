@@ -80,23 +80,12 @@ export function ReCaptchaProvider({ children }: ReCaptchaProviderProps) {
   }, [])
 
   const executeRecaptcha = useCallback(async (action: string): Promise<string | null> => {
-    // TEMP DEBUG: Log all state for production debugging
-    console.log('[ReCAPTCHA] executeRecaptcha called:', {
-      action,
-      isConfigured,
-      shouldLoad,
-      isLoaded,
-      hasGrecaptcha: typeof window !== 'undefined' && !!window.grecaptcha,
-      pathname,
-    })
-
     // If not configured, return null (bypass)
     if (!isConfigured) {
       console.log('[ReCAPTCHA] Not configured, bypassing verification')
       return null
     }
     if (!shouldLoad) {
-      console.log('[ReCAPTCHA] shouldLoad is false, returning null')
       return null
     }
 
@@ -106,15 +95,13 @@ export function ReCaptchaProvider({ children }: ReCaptchaProviderProps) {
     }
 
     try {
-      console.log('[ReCAPTCHA] Executing grecaptcha.execute...')
       const token = await window.grecaptcha.execute(siteKey!, { action })
-      console.log('[ReCAPTCHA] Token obtained:', token ? 'yes' : 'no')
       return token
     } catch (error) {
       console.error('[ReCAPTCHA] Error executing:', error)
       return null
     }
-  }, [isLoaded, siteKey, isConfigured, shouldLoad, pathname])
+  }, [isLoaded, siteKey, isConfigured, shouldLoad])
 
   return (
     <ReCaptchaContext.Provider value={{ executeRecaptcha, isLoaded }}>
