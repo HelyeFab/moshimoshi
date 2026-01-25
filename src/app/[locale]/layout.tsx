@@ -14,6 +14,7 @@ import { TTSLoadingProvider } from '@/components/tts';
 import CelebrationProvider from '@/components/gamification/CelebrationProvider';
 import { ConjugationHelpProvider } from '@/contexts/ConjugationHelpContext';
 import { EmailVerificationBanner } from '@/components/EmailVerificationBanner';
+import { SundayContentBanner } from '@/components/banners/SundayContentBanner';
 import LearningVillageTracker from '@/components/analytics/LearningVillageTracker';
 import ConditionalCommandPalette from '@/components/ui/ConditionalCommandPalette';
 import TimeMachineButton from '@/components/dev/TimeMachineButton';
@@ -68,6 +69,7 @@ export default async function LocaleLayout({
                 <ServiceWorkerProvider>
                   <CelebrationProvider>
                     <TTSLoadingProvider>
+                      <SundayContentBanner />
                       <OfflineBanner />
                       <EmailVerificationBanner />
                       <LearningVillageTracker />

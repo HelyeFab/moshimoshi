@@ -11,6 +11,7 @@ const ReviewQuestionProcessorHybrid_1 = require("./processors/ReviewQuestionProc
 const GrammarExplainerProcessorHybrid_1 = require("./processors/GrammarExplainerProcessorHybrid");
 const GrammarSentenceProcessorHybrid_1 = require("./processors/GrammarSentenceProcessorHybrid");
 const WordExplainerProcessorHybrid_1 = require("./processors/WordExplainerProcessorHybrid");
+const KanjiMnemonicProcessorHybrid_1 = require("./processors/KanjiMnemonicProcessorHybrid");
 const TranscriptProcessorHybrid_1 = require("./processors/TranscriptProcessorHybrid");
 const StoryProcessorHybrid_1 = require("./processors/StoryProcessorHybrid");
 const MoodboardProcessorHybrid_1 = require("./processors/MoodboardProcessorHybrid");
@@ -183,6 +184,7 @@ class AIService {
             'explain_grammar',
             'explain_grammar_sentence',
             'explain_word',
+            'generate_kanji_mnemonic',
             'clean_transcript',
             'process_article',
             'generate_story',
@@ -232,6 +234,9 @@ class AIService {
             case 'explain_word':
                 const wordProcessor = new WordExplainerProcessorHybrid_1.WordExplainerProcessorHybrid(context);
                 return await wordProcessor.process(request.content, request.config);
+            case 'generate_kanji_mnemonic':
+                const mnemonicProcessor = new KanjiMnemonicProcessorHybrid_1.KanjiMnemonicProcessorHybrid(context);
+                return await mnemonicProcessor.process(request.content, request.config);
             case 'clean_transcript':
             case 'fix_transcript':
                 const transcriptProcessor = new TranscriptProcessorHybrid_1.TranscriptProcessorHybrid(context);
@@ -382,6 +387,13 @@ class AIService {
     async explainWord(request, config) {
         return this.process({
             task: 'explain_word',
+            content: request,
+            config,
+        });
+    }
+    async generateKanjiMnemonic(request, config) {
+        return this.process({
+            task: 'generate_kanji_mnemonic',
             content: request,
             config,
         });

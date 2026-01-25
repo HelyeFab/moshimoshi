@@ -7309,4 +7309,12 @@ export const strings = {
       acknowledgeFailed: 'No se pudo guardar el reconocimiento. Por favor, inténtalo de nuevo.',
     },
   },
+
+  // Banners
+  banners: {
+    sundayContent: {
+      message: '¡Nuevo contenido cada domingo!',
+      dismiss: 'Cerrar banner',
+    },
+  },
 };

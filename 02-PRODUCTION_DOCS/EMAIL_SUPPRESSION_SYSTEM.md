@@ -1,6 +1,6 @@
 # Email Suppression & Campaign System - Technical Onboarding Guide
 
-**Version:** 1.1
+**Version:** 1.2
 **Last Updated:** 2025-01-25
 **Author:** Claude Code (Technical Lead)
 **Status:** Production Ready
@@ -78,10 +78,13 @@ The Email Suppression & Campaign System provides:
 ├─────────────────────────────────────────────────────────────────────┤
 │ POST /api/admin/campaigns           Create campaign                  │
 │ GET  /api/admin/campaigns           List campaigns                   │
+│ GET  /api/admin/campaigns/[id]      Get single campaign              │
+│ PUT  /api/admin/campaigns/[id]      Update campaign (draft only)     │
 │ POST /api/admin/campaigns/[id]/send Send campaign                    │
+│ POST /api/admin/campaigns/[id]/send-test Send test email             │
 │ GET  /api/admin/campaigns/[id]/preview  Preview recipients           │
 │ GET  /api/admin/campaigns/[id]/email-preview  Render email template  │
-│ DELETE /api/admin/campaigns/[id]    Delete campaign                  │
+│ DELETE /api/admin/campaigns/[id]    Delete campaign (draft only)     │
 ├─────────────────────────────────────────────────────────────────────┤
 │ GET  /api/email/unsubscribe         Unsubscribe (link click)         │
 │ POST /api/email/unsubscribe         Programmatic unsubscribe         │
@@ -287,11 +290,16 @@ export interface EmailCampaign {
   name: string
   subject: string
   template: 'waitlist' | 'welcome' | 'password_reset' | 'custom'
+  templateId?: string              // For custom templates
+  templateVariables?: Record<string, string>
   segment: EmailSegment
   status: 'draft' | 'sending' | 'sent' | 'failed'
   stats: CampaignStats
+  testEmail?: string               // Email address for test sends
   createdAt: Date | FirebaseTimestamp
   createdBy: string
+  updatedAt?: Date | FirebaseTimestamp
+  updatedBy?: string
   sentAt?: Date | FirebaseTimestamp
 }
 
@@ -600,6 +608,10 @@ export async function sendCampaignEmail(
   // Template to use
   template: "waitlist" | "welcome" | "password_reset" | "custom",
 
+  // Custom template reference (when template = "custom")
+  templateId?: "template-doc-id",
+  templateVariables?: { key: "value" },
+
   // Recipient targeting
   segment: {
     type: "all" | "premium" | "free" | "waitlist" | "inactive",
@@ -618,9 +630,14 @@ export async function sendCampaignEmail(
     skippedCount: 40  // Suppressed emails
   },
 
+  // Test email for sending previews to yourself
+  testEmail?: "admin@example.com",
+
   // Audit fields
   createdAt: Timestamp,
   createdBy: "admin-uid",
+  updatedAt?: Timestamp,
+  updatedBy?: "admin-uid",
   sentAt?: Timestamp
 }
 ```
@@ -746,6 +763,85 @@ Create a new campaign.
 #### `GET /api/admin/campaigns`
 
 List all campaigns.
+
+#### `GET /api/admin/campaigns/[id]`
+
+Get a single campaign by ID.
+
+**Response:**
+```json
+{
+  "success": true,
+  "campaign": {
+    "id": "abc123",
+    "name": "Welcome Email",
+    "subject": "Welcome to Moshimoshi!",
+    "template": "custom",
+    "templateId": "template-doc-id",
+    "templateVariables": { "featureTitle": "Kanji Memory Aids" },
+    "segment": { ... },
+    "status": "draft",
+    "testEmail": "admin@example.com",
+    "createdAt": "2025-01-25T12:00:00Z",
+    "createdBy": "admin-uid"
+  }
+}
+```
+
+#### `PUT /api/admin/campaigns/[id]`
+
+Update a draft campaign.
+
+**Request:**
+```json
+{
+  "name": "Updated Campaign Name",
+  "subject": "Updated Subject Line",
+  "template": "custom",
+  "templateId": "new-template-id",
+  "templateVariables": { "key": "value" },
+  "testEmail": "test@example.com",
+  "segment": {
+    "type": "all",
+    "respectMarketingPrefs": true,
+    "emailVerifiedOnly": false
+  }
+}
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "message": "Campaign updated successfully"
+}
+```
+
+**Errors:**
+- `400 INVALID_STATUS` - Cannot edit non-draft campaigns
+- `404 NOT_FOUND` - Campaign not found
+
+#### `POST /api/admin/campaigns/[id]/send-test`
+
+Send a test email to the campaign's configured test email address.
+
+**Prerequisites:**
+- Campaign must have a `testEmail` configured
+- Campaign uses a custom template with `templateId`
+
+**Response (success):**
+```json
+{
+  "success": true,
+  "message": "Test email sent successfully",
+  "email": "admin@example.com"
+}
+```
+
+**Errors:**
+- `400 NO_TEST_EMAIL` - No test email configured
+- `404 TEMPLATE_NOT_FOUND` - Custom template not found
+- `500 EMAIL_SEND_FAILED` - Resend API error
 
 #### `GET /api/admin/campaigns/[id]/preview`
 
@@ -909,11 +1005,13 @@ const [successMessage, setSuccessMessage] = useState<string>('')
 {
   campaign: EmailCampaign
   onSend: () => void
+  onSendTest: () => void        // Send test email to configured address
   onPreview: () => void
   onEmailPreview: () => void
   onDelete: () => void
   onRefresh: () => void
   emailPreviewLoading: boolean
+  sendingTest: boolean          // Loading state for test email
 }
 ```
 
@@ -924,6 +1022,7 @@ const [successMessage, setSuccessMessage] = useState<string>('')
 - Action buttons:
   - **Preview Recipients** - Shows recipient count
   - **Email Preview** - Opens template preview modal
+  - **Send Test** - Sends test email to configured testEmail (draft only)
   - **Send Now** - Triggers send confirmation (draft only)
   - **Delete** - Triggers delete confirmation (draft only)
   - **Refresh Status** - Refetches data (sending status)
@@ -949,15 +1048,32 @@ const [successMessage, setSuccessMessage] = useState<string>('')
 - Text preview in monospace pre block
 - Note about preview email address
 
+### Template Editor (Admin UI)
+
+The email template editor uses CodeMirror for HTML editing with syntax highlighting.
+
+**Features:**
+- Visual editor tab (Tiptap-based WYSIWYG)
+- HTML Source tab (CodeMirror with syntax highlighting)
+- Dark mode support (auto-detects system theme)
+- Template preview modal
+
+**Known Limitations:**
+- **Visual editor strips inline CSS** - The Tiptap visual editor may strip inline CSS styles when switching between tabs. For templates with complex styling, edit only in the HTML Source tab.
+- **Recommended workflow:** Use seed scripts (e.g., `scripts/seed-kanji-mnemonics-template.mjs`) for complex templates to preserve all CSS styling.
+
 ### Component: `NewCampaignModal`
 
 **Form Fields:**
 - Campaign Name (text input)
 - Email Template (select: waitlist, welcome, password_reset, custom)
+- Custom Template (select, shown when template = custom)
 - Email Subject (text input)
+- Template Variables (key-value inputs, shown for custom templates)
 - Segment Type (select: all, premium, free, waitlist, inactive)
 - Respect Marketing Preferences (checkbox)
 - Email Verified Only (checkbox)
+- **Test Email** (email input) - Address to send test emails before launching campaign
 
 ---
 
@@ -1086,6 +1202,44 @@ For backward compatibility, these templates are also supported:
 - **`waitlist`**: Uses `buildWaitlistThankYouContent()` from `src/lib/email/waitlistThankYou.ts`
 - **`welcome`**: Basic welcome template
 - **`custom`**: Uses templates from `email_templates` Firestore collection
+
+### Mobile/Android Email Considerations
+
+Email templates include mobile-responsive CSS to handle display issues across devices:
+
+**Required Meta Tags:**
+```html
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+<meta name="x-apple-disable-message-reformatting">
+```
+
+**Android Text Size Fix:**
+Android email clients may inflate text sizes. Include these styles:
+```css
+body, table, td, p, a, li, blockquote {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+```
+
+**Mobile Responsive Classes:**
+Templates use CSS classes for mobile font size adjustments:
+```css
+@media only screen and (max-width: 620px) {
+  .mobile-text { font-size: 14px !important; line-height: 1.5 !important; }
+  .mobile-text-sm { font-size: 12px !important; }
+  .mobile-heading { font-size: 16px !important; }
+  .mobile-cta { font-size: 14px !important; padding: 12px 20px !important; }
+  .container { width: 100% !important; padding: 10px !important; }
+  .card { padding: 16px !important; }
+}
+```
+
+**Testing Recommendations:**
+1. Always send test emails to both iOS and Android devices
+2. Check Gmail app on Android specifically (known for text inflation)
+3. Verify CTA buttons are tappable on mobile
 
 ### Unsubscribe Footer
 
@@ -1278,9 +1432,15 @@ curl -X POST "http://localhost:3000/api/email/test-unsubscribe" \
 ### Manual Testing Checklist
 
 - [ ] Create a campaign in admin dashboard
+- [ ] Configure test email address in campaign settings
 - [ ] Preview recipients (check count matches expected)
 - [ ] Preview email (HTML and text views)
-- [ ] Send test campaign to yourself
+- [ ] **Send test email** using the "Send Test" button
+- [ ] Verify test email received (subject prefixed with `[TEST]`)
+- [ ] Check email renders correctly on:
+  - [ ] Desktop email client
+  - [ ] iOS Mail app
+  - [ ] Android Gmail app
 - [ ] Verify email received with unsubscribe link
 - [ ] Click unsubscribe link → see success page
 - [ ] Try same link again → see already unsubscribed message
@@ -1597,14 +1757,233 @@ success: '#10b981'    // Green
 ### Important Rules
 
 1. **Always include `{{unsubscribeUrl}}`** - Required for CAN-SPAM/GDPR compliance
-2. **Test on mobile** - Use the mobile preview toggle
-3. **Provide plain text version** - Some email clients don't render HTML
-4. **Use inline styles** - Email clients strip `<style>` tags
-5. **Keep images small** - Large images may not load
+2. **Test on mobile** - Send test emails to both iOS and Android devices
+3. **Include mobile CSS** - Add `-webkit-text-size-adjust: 100%` and responsive media queries
+4. **Provide plain text version** - Some email clients don't render HTML
+5. **Use inline styles** - Email clients strip `<style>` tags (but media queries in `<head>` work)
+6. **Keep images small** - Large images may not load
+7. **Use seed scripts for complex templates** - Avoid visual editor for templates with detailed CSS styling
 
 ---
 
-## Appendix B: Quick Command Reference
+## Appendix B: Resend Rate Limits & Bulk Sending Guide
+
+### Resend Limits
+
+| Limit Type | Value | Notes |
+|------------|-------|-------|
+| **Rate Limit** | 2 emails/second | API will reject with 429 if exceeded |
+| **Daily Quota (Free)** | 100 emails/day | Resets at midnight UTC |
+| **Daily Quota (Starter)** | ~200 emails/day | Check your plan |
+| **Daily Quota (Pro)** | Higher | Check Resend dashboard |
+
+### Campaign Sending Architecture
+
+The campaign service sends emails at **2 emails/second** to respect Resend's rate limit:
+
+```typescript
+// src/lib/email/campaigns/service.ts
+private readonly EMAILS_PER_SECOND = 2
+private readonly RATE_LIMIT_DELAY_MS = 1000
+```
+
+**Time estimates:**
+| Recipients | Time |
+|------------|------|
+| 100 | ~1 minute |
+| 500 | ~4 minutes |
+| 1000 | ~8 minutes |
+
+### Handling Quota Exceeded
+
+When daily quota is exceeded:
+1. Resend API returns success initially (email queued)
+2. Then returns `429 daily_quota_exceeded`
+3. Emails after quota are NOT delivered
+
+**To identify undelivered emails:**
+
+```bash
+# Run this to analyze which emails were sent before quota hit
+node -e "
+const { initializeApp, cert } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
+const fs = require('fs');
+
+const serviceAccount = JSON.parse(fs.readFileSync('./moshimoshi-service-account.json', 'utf8'));
+initializeApp({ credential: cert(serviceAccount) });
+const db = getFirestore();
+
+const CAMPAIGN_ID = 'YOUR_CAMPAIGN_ID';  // <-- Change this
+const DAILY_QUOTA = 201;  // <-- Your Resend daily quota
+
+async function analyze() {
+  const snapshot = await db.collection('email_campaigns').doc(CAMPAIGN_ID)
+    .collection('sent_emails').orderBy('sentAt', 'asc').get();
+
+  const emails = [];
+  snapshot.forEach(doc => emails.push(doc.data().email));
+
+  console.log('Total tracked:', emails.length);
+  console.log('Likely delivered:', Math.min(DAILY_QUOTA, emails.length));
+  console.log('Likely NOT delivered:', Math.max(0, emails.length - DAILY_QUOTA));
+
+  // Save undelivered to file
+  const notDelivered = emails.slice(DAILY_QUOTA);
+  if (notDelivered.length > 0) {
+    fs.writeFileSync('not-delivered-emails.txt', notDelivered.join('\n'));
+    console.log('Saved to: not-delivered-emails.txt');
+  }
+}
+analyze();
+"
+```
+
+### Bulk Sending Scripts
+
+#### 1. Send Campaign with Tracking
+
+Use this instead of the admin UI for large campaigns. Tracks each sent email in a subcollection for safe retries.
+
+```bash
+# Set environment variables
+source .env.local
+
+# Run tracked send
+node scripts/send-campaign-tracked.mjs <campaignId>
+```
+
+**Features:**
+- Tracks each successful send in `email_campaigns/{id}/sent_emails/`
+- Can be re-run safely - skips already-sent emails
+- Respects 2 emails/second rate limit
+- Shows progress with ETA
+
+#### 2. Resend to Quota-Failed Emails
+
+After quota resets, resend only to emails that weren't delivered:
+
+```bash
+source .env.local
+node scripts/resend-quota-failed.mjs <campaignId>
+```
+
+**Features:**
+- Reads from `not-delivered-emails.txt`
+- Stops if quota exceeded again
+- Updates file with remaining emails
+- Can be run multiple days until complete
+
+#### 3. Resend to Specific Failed Emails
+
+For campaigns with logged errors (rate limit failures, etc.):
+
+```bash
+source .env.local
+node scripts/resend-failed-campaign.mjs <campaignId>
+```
+
+### Multi-Day Campaign Strategy
+
+If you have more recipients than your daily quota:
+
+**Day 1:**
+```bash
+# Send first batch (up to quota)
+source .env.local && node scripts/send-campaign-tracked.mjs <campaignId>
+# Script will stop when quota exceeded
+# Check not-delivered-emails.txt for remaining
+```
+
+**Day 2+:**
+```bash
+# Wait for quota reset (midnight UTC)
+source .env.local && node scripts/resend-quota-failed.mjs <campaignId>
+# Repeat until not-delivered-emails.txt is empty
+```
+
+### Checking Campaign Status
+
+```bash
+node -e "
+const { initializeApp, cert } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
+const fs = require('fs');
+
+const sa = JSON.parse(fs.readFileSync('./moshimoshi-service-account.json', 'utf8'));
+initializeApp({ credential: cert(sa) });
+const db = getFirestore();
+
+db.collection('email_campaigns').doc('CAMPAIGN_ID').get().then(doc => {
+  const d = doc.data();
+  console.log('Name:', d.name);
+  console.log('Status:', d.status);
+  console.log('Stats:', JSON.stringify(d.stats, null, 2));
+  console.log('Errors:', d.errors?.length || 0);
+});
+"
+```
+
+### Script Files Reference
+
+| Script | Purpose |
+|--------|---------|
+| `scripts/send-campaign-tracked.mjs` | Send campaign with per-email tracking |
+| `scripts/resend-quota-failed.mjs` | Resend from `not-delivered-emails.txt` |
+| `scripts/resend-failed-campaign.mjs` | Resend to logged error emails |
+| `scripts/seed-email-templates.mjs` | Seed email templates to Firestore |
+| `scripts/seed-kanji-mnemonics-template.mjs` | Seed specific template |
+
+### Troubleshooting
+
+**"Too many requests" errors:**
+- Resend rate limit is 2/second
+- The campaign service now respects this
+- If using old code, update `src/lib/email/campaigns/service.ts`
+
+**Emails not delivered but script shows success:**
+- Check Resend dashboard for actual delivery status
+- Daily quota may have been exceeded
+- Run analysis script to find undelivered emails
+
+**User didn't receive email but others did:**
+- Check if user has `marketingEmails: false` in preferences
+- Check if user is in suppression list
+- Check if user was filtered by segment criteria
+
+```bash
+# Check specific user
+node -e "
+const { initializeApp, cert } = require('firebase-admin/app');
+const { getFirestore } = require('firebase-admin/firestore');
+const fs = require('fs');
+
+const sa = JSON.parse(fs.readFileSync('./moshimoshi-service-account.json', 'utf8'));
+initializeApp({ credential: cert(sa) });
+const db = getFirestore();
+
+const EMAIL = 'user@example.com';
+
+async function check() {
+  // Check preferences
+  const users = await db.collection('users').where('email', '==', EMAIL).get();
+  if (!users.empty) {
+    const uid = users.docs[0].id;
+    const prefs = await db.collection('users').doc(uid).collection('preferences').doc('settings').get();
+    console.log('Preferences:', prefs.data());
+  }
+
+  // Check suppression
+  const supp = await db.collection('email_suppressions').where('email', '==', EMAIL).get();
+  console.log('Suppressed:', !supp.empty);
+}
+check();
+"
+```
+
+---
+
+## Appendix C: Quick Command Reference
 
 ```bash
 # Run suppression tests
@@ -1629,7 +2008,7 @@ npm run dev
 
 ---
 
-## Appendix B: File Quick Reference
+## Appendix D: File Quick Reference
 
 ### Suppression Module
 | File | Purpose |
@@ -1661,8 +2040,10 @@ npm run dev
 | `src/app/api/email/unsubscribe/route.ts` | Unsubscribe endpoint (GET/POST) |
 | `src/app/api/email/unsubscribe/one-click/route.ts` | RFC 8058 one-click unsubscribe |
 | `src/app/api/webhooks/resend/route.ts` | Resend webhook handler |
-| `src/app/api/admin/campaigns/route.ts` | Campaign CRUD API |
+| `src/app/api/admin/campaigns/route.ts` | Campaign create/list API |
+| `src/app/api/admin/campaigns/[id]/route.ts` | Campaign get/update/delete API |
 | `src/app/api/admin/campaigns/[id]/send/route.ts` | Send campaign API |
+| `src/app/api/admin/campaigns/[id]/send-test/route.ts` | Send test email API |
 | `src/app/api/admin/campaigns/[id]/preview/route.ts` | Preview recipients API |
 | `src/app/api/admin/campaigns/[id]/email-preview/route.ts` | Email template preview API |
 
@@ -1677,6 +2058,15 @@ npm run dev
 | `public/logo-mo-generated.png` | Email header logo |
 | `public/doshi.png` | Doshi mascot character |
 | `public/doshi-emma.JPG` | Emma/founder character |
+
+### Scripts
+| File | Purpose |
+|------|---------|
+| `scripts/send-campaign-tracked.mjs` | Send campaign with per-email tracking |
+| `scripts/resend-quota-failed.mjs` | Resend from `not-delivered-emails.txt` after quota reset |
+| `scripts/resend-failed-campaign.mjs` | Resend to logged error emails |
+| `scripts/seed-email-templates.mjs` | Seed all email templates to Firestore |
+| `scripts/seed-kanji-mnemonics-template.mjs` | Seed Kanji Mnemonics template |
 
 ---
 

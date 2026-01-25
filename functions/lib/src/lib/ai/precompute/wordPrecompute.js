@@ -1,4 +1,37 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -17,9 +50,25 @@ const COLLECTION_MAP = {
     article: 'news_article_word_explanations',
     book: 'book_word_explanations',
     story: 'story_word_explanations',
+    youtube: 'youtube_word_explanations',
     video: 'video_word_explanations',
     comic: 'comic_word_explanations',
 };
+let ttsServiceInstance = service_1.ttsService;
+async function getTtsServiceSafe() {
+    if (ttsServiceInstance && typeof ttsServiceInstance.synthesize === 'function') {
+        return ttsServiceInstance;
+    }
+    try {
+        const mod = await Promise.resolve().then(() => __importStar(require('@/lib/tts/service')));
+        ttsServiceInstance = mod.ttsService;
+        return ttsServiceInstance;
+    }
+    catch (error) {
+        console.warn('[WordPrecompute] TTS service import failed', error);
+        return null;
+    }
+}
 // Build kuromoji tokenizer once (server-side only)
 let tokenizerPromise = null;
 async function getTokenizer() {
@@ -176,7 +225,12 @@ async function ensureExtras(explanation, word, sentences, translationCache, jlpt
     // Precompute audio for short words (skip if already present)
     if (!explanation.audioUrl && explanation.word && explanation.word.length <= 12) {
         try {
-            const audio = await service_1.ttsService.synthesize(explanation.word, {
+            const tts = await getTtsServiceSafe();
+            if (!tts || typeof tts.synthesize !== 'function') {
+                console.warn('[WordPrecompute] TTS service unavailable - skipping audio', { word });
+                return;
+            }
+            const audio = await tts.synthesize(explanation.word, {
                 provider: 'voicevox',
                 speed: 1.0,
             });
@@ -240,10 +294,10 @@ async function extractJapaneseWords(text, options = {}) {
  * - Stores merged results in per-content collection
  */
 async function precomputeWordExplanations({ contentId, contentType, text, limit = 1000, // Increased from 400 to 1000 for better completeness
-jlptLevel = 'N5', includeParticles, minLength, chunkIndex, onProgress, }) {
+jlptLevel = 'N5', includeParticles, minLength, chunkIndex, onProgress, db: dbOverride, }) {
     var _a;
-    // Get db instance - will throw if not initialized
-    const db = (0, admin_1.getAdminDb)();
+    // Use provided db when available to avoid duplicate admin init
+    const db = dbOverride || (0, admin_1.getAdminDb)();
     const collection = COLLECTION_MAP[contentType];
     if (!collection) {
         throw new Error(`Unsupported contentType: ${contentType}`);
@@ -285,12 +339,12 @@ jlptLevel = 'N5', includeParticles, minLength, chunkIndex, onProgress, }) {
             const globalIndex = index + sliceIndex;
             const word = wordObj.word;
             try {
-                const cached = await (0, WordExplanationCache_1.getCachedWordExplanation)(word);
+                const cached = await (0, WordExplanationCache_1.getCachedWordExplanation)(word, db);
                 if (cached) {
                     cachedCount += 1;
                     if (!cached.surfaceForms && wordObj.surfaceForms) {
                         cached.surfaceForms = wordObj.surfaceForms;
-                        await (0, WordExplanationCache_1.setCachedWordExplanation)(word, cached);
+                        await (0, WordExplanationCache_1.setCachedWordExplanation)(word, cached, db);
                     }
                     await ensureExtras(cached, word, sentences, translationCache, jlptLevel);
                     // If cached but missing fullConjugations, generate them now
@@ -300,7 +354,7 @@ jlptLevel = 'N5', includeParticles, minLength, chunkIndex, onProgress, }) {
                             cached.fullConjugations = fullConjugations;
                             conjugationsGenerated += 1;
                             // Update cache with conjugations
-                            await (0, WordExplanationCache_1.setCachedWordExplanation)(word, cached);
+                            await (0, WordExplanationCache_1.setCachedWordExplanation)(word, cached, db);
                         }
                     }
                     // Call progress callback on success
@@ -324,7 +378,7 @@ jlptLevel = 'N5', includeParticles, minLength, chunkIndex, onProgress, }) {
                     conjugationsGenerated += 1;
                 }
                 await ensureExtras(explanation, word, sentences, translationCache, jlptLevel);
-                await (0, WordExplanationCache_1.setCachedWordExplanation)(word, explanation);
+                await (0, WordExplanationCache_1.setCachedWordExplanation)(word, explanation, db);
                 // Call progress callback on success
                 if (onProgress) {
                     await onProgress(globalIndex + 1, missingWords.length, word, 'success');

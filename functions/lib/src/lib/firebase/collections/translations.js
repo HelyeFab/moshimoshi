@@ -7,18 +7,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.translationCache = exports.TranslationCacheService = exports.getTranslationAnalyticsCollection = exports.translationCacheCollection = exports.translationsCollection = void 0;
+exports.translationCache = exports.TranslationCacheService = exports.getTranslationAnalyticsCollection = void 0;
 exports.generateTranslationHash = generateTranslationHash;
 exports.generateTranslationId = generateTranslationId;
 const admin_1 = require("@/lib/firebase/admin");
 const crypto_1 = __importDefault(require("crypto"));
 // ============================================
-// Collection References
+// Collection References (lazy - avoid init at module load)
 // ============================================
-exports.translationsCollection = admin_1.db.collection('translations');
-exports.translationCacheCollection = admin_1.db.collection('translation_cache');
-// Helper to get analytics subcollection
-const getTranslationAnalyticsCollection = (translationId) => admin_1.db.collection('translations').doc(translationId).collection('analytics');
+function getCollectionsSafely() {
+    try {
+        const db = (0, admin_1.getAdminDb)();
+        return {
+            translationsCollection: db.collection('translations'),
+            translationCacheCollection: db.collection('translation_cache'),
+            getTranslationAnalyticsCollection: (translationId) => db.collection('translations').doc(translationId).collection('analytics'),
+        };
+    }
+    catch (error) {
+        console.warn('[TranslationCache] Firebase Admin not initialized - cache disabled', error);
+        return null;
+    }
+}
+// Helper to get analytics subcollection (safe)
+const getTranslationAnalyticsCollection = (translationId) => {
+    var _a;
+    const collections = getCollectionsSafely();
+    return (_a = collections === null || collections === void 0 ? void 0 : collections.getTranslationAnalyticsCollection(translationId)) !== null && _a !== void 0 ? _a : null;
+};
 exports.getTranslationAnalyticsCollection = getTranslationAnalyticsCollection;
 // ============================================
 // Utility Functions
@@ -36,7 +52,11 @@ function generateTranslationHash(text, mode, userLevel, options) {
  * Generate a unique translation ID
  */
 function generateTranslationId() {
-    return exports.translationsCollection.doc().id;
+    const collections = getCollectionsSafely();
+    if (collections) {
+        return collections.translationsCollection.doc().id;
+    }
+    return crypto_1.default.randomUUID();
 }
 // ============================================
 // Translation Cache Service
@@ -63,12 +83,16 @@ class TranslationCacheService {
             return memCached.data;
         }
         try {
+            const collections = getCollectionsSafely();
+            if (!collections) {
+                return null;
+            }
             // Check Firebase cache
-            const cacheDoc = await exports.translationCacheCollection.doc(hash).get();
+            const cacheDoc = await collections.translationCacheCollection.doc(hash).get();
             if (cacheDoc.exists) {
                 const cacheData = cacheDoc.data();
                 // Get full translation document
-                const translationDoc = await exports.translationsCollection.doc(cacheData.translationId).get();
+                const translationDoc = await collections.translationsCollection.doc(cacheData.translationId).get();
                 if (translationDoc.exists) {
                     const translationData = translationDoc.data();
                     // Update memory cache
@@ -96,6 +120,11 @@ class TranslationCacheService {
         const translationId = generateTranslationId();
         try {
             // Store main translation document
+            const collections = getCollectionsSafely();
+            if (!collections) {
+                // Skip Firebase cache if Admin isn't initialized
+                return translationId;
+            }
             const translationDoc = {
                 id: translationId,
                 textHash: hash,
@@ -118,7 +147,7 @@ class TranslationCacheService {
             if (context && Object.keys(context).length > 0) {
                 translationDoc.context = context;
             }
-            await exports.translationsCollection.doc(translationId).set(translationDoc);
+            await collections.translationsCollection.doc(translationId).set(translationDoc);
             // Store cache document for quick lookups
             const cacheDoc = {
                 textHash: hash,
@@ -134,7 +163,7 @@ class TranslationCacheService {
                     grammarNotesCount: ((_b = result.grammarNotes) === null || _b === void 0 ? void 0 : _b.length) || 0
                 }
             };
-            await exports.translationCacheCollection.doc(hash).set(cacheDoc);
+            await collections.translationCacheCollection.doc(hash).set(cacheDoc);
             // Update memory cache
             this.memoryCache.set(hash, {
                 data: result,
@@ -153,14 +182,18 @@ class TranslationCacheService {
      */
     async updateUsageTracking(translationId, hash) {
         try {
+            const collections = getCollectionsSafely();
+            if (!collections) {
+                return;
+            }
             // Update main translation document usage count
-            await exports.translationsCollection.doc(translationId).set({
+            await collections.translationsCollection.doc(translationId).set({
                 usageCount: admin_1.FieldValue.increment(1),
                 lastUsed: admin_1.FieldValue.serverTimestamp(),
                 updatedAt: admin_1.FieldValue.serverTimestamp()
             }, { merge: true });
             // Update cache document usage count
-            await exports.translationCacheCollection.doc(hash).set({
+            await collections.translationCacheCollection.doc(hash).set({
                 usageCount: admin_1.FieldValue.increment(1),
                 lastUsed: admin_1.FieldValue.serverTimestamp()
             }, { merge: true });
@@ -190,7 +223,11 @@ class TranslationCacheService {
      */
     async getPopularTranslations(limitCount = 10) {
         try {
-            const snapshot = await exports.translationCacheCollection
+            const collections = getCollectionsSafely();
+            if (!collections) {
+                return [];
+            }
+            const snapshot = await collections.translationCacheCollection
                 .orderBy('usageCount', 'desc')
                 .limit(limitCount)
                 .get();

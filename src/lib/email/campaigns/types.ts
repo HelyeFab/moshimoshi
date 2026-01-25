@@ -24,6 +24,9 @@ export interface EmailCampaign {
   templateId?: string                           // Reference to email_templates collection
   templateVariables?: Record<string, string>    // Variable value overrides
 
+  // Test email for sending preview to yourself
+  testEmail?: string
+
   // Segmentation
   segment: {
     type: CampaignSegment
@@ -64,6 +67,7 @@ export interface SendCampaignRequest {
   subject: string
   templateId?: string                         // When template === 'custom'
   templateVariables?: Record<string, string>  // Variable overrides
+  testEmail?: string                          // Email for sending test
   segment: {
     type: CampaignSegment
     respectMarketingPrefs: boolean

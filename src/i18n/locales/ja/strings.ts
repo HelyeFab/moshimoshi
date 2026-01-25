@@ -7278,4 +7278,12 @@ export const strings = {
       acknowledgeFailed: '承認の保存に失敗しました。もう一度お試しください。',
     },
   },
+
+  // バナー
+  banners: {
+    sundayContent: {
+      message: '毎週日曜日に新しいコンテンツを追加！',
+      dismiss: 'バナーを閉じる',
+    },
+  },
 };

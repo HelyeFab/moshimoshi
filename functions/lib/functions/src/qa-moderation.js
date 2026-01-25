@@ -43,8 +43,10 @@ exports.moderateAnswerOnUpdate = exports.moderateAnswer = exports.moderateQuesti
 const firestore_1 = require("firebase-functions/v2/firestore");
 const params_1 = require("firebase-functions/params");
 const admin = __importStar(require("firebase-admin"));
+const alertNotifier_1 = require("./utils/alertNotifier");
 // Define secrets
 const modalApiKey = (0, params_1.defineSecret)('MODAL_API_KEY');
+const resendApiKey = (0, params_1.defineSecret)('RESEND_API_KEY');
 /**
  * Moderate content using Ollama AI on Modal
  */
@@ -133,7 +135,7 @@ Respond in JSON format:
  */
 exports.moderateQuestion = (0, firestore_1.onDocumentCreated)({
     document: 'qa_questions/{questionId}',
-    secrets: [modalApiKey],
+    secrets: [modalApiKey, resendApiKey],
     maxInstances: 10,
     minInstances: 1,
     concurrency: 5,
@@ -141,7 +143,7 @@ exports.moderateQuestion = (0, firestore_1.onDocumentCreated)({
     memory: '512MiB',
     cpu: 1,
 }, async (event) => {
-    var _a;
+    var _a, _b, _c;
     const questionId = event.params.questionId;
     const data = (_a = event.data) === null || _a === void 0 ? void 0 : _a.data();
     if (!data) {
@@ -162,6 +164,19 @@ exports.moderateQuestion = (0, firestore_1.onDocumentCreated)({
             moderatedAt: admin.firestore.FieldValue.serverTimestamp(),
         });
         console.log(`Question ${questionId}: ${result.approved ? 'APPROVED' : 'REJECTED'} - ${result.reason}`);
+        // Send email notification for approved questions
+        if (result.approved) {
+            try {
+                await (0, alertNotifier_1.sendTeaHouseQuestionAlert)(resendApiKey.value(), questionId, data.title, {
+                    name: ((_b = data.author) === null || _b === void 0 ? void 0 : _b.name) || 'Anonymous',
+                    email: ((_c = data.author) === null || _c === void 0 ? void 0 : _c.email) || 'unknown',
+                });
+            }
+            catch (notifyError) {
+                console.error(`Failed to send question notification for ${questionId}:`, notifyError);
+                // Don't fail the moderation if notification fails
+            }
+        }
     }
     catch (error) {
         console.error(`Failed to moderate question ${questionId}:`, error);
@@ -233,7 +248,7 @@ exports.moderateQuestionOnUpdate = (0, firestore_1.onDocumentUpdated)({
  */
 exports.moderateAnswer = (0, firestore_1.onDocumentCreated)({
     document: 'qa_answers/{answerId}',
-    secrets: [modalApiKey],
+    secrets: [modalApiKey, resendApiKey],
     maxInstances: 10,
     minInstances: 1,
     concurrency: 5,
@@ -241,7 +256,7 @@ exports.moderateAnswer = (0, firestore_1.onDocumentCreated)({
     memory: '512MiB',
     cpu: 1,
 }, async (event) => {
-    var _a;
+    var _a, _b, _c;
     const answerId = event.params.answerId;
     const data = (_a = event.data) === null || _a === void 0 ? void 0 : _a.data();
     if (!data) {
@@ -261,12 +276,25 @@ exports.moderateAnswer = (0, firestore_1.onDocumentCreated)({
             moderationReason: result.reason,
             moderatedAt: admin.firestore.FieldValue.serverTimestamp(),
         });
-        // If approved, increment answer count on the question
+        // If approved, increment answer count on the question and send notification
         if (result.approved) {
             const questionRef = admin.firestore().collection('qa_questions').doc(data.questionId);
             await questionRef.update({
                 answerCount: admin.firestore.FieldValue.increment(1),
             });
+            // Send email notification for approved answers
+            try {
+                const questionDoc = await questionRef.get();
+                const questionData = questionDoc.data();
+                await (0, alertNotifier_1.sendTeaHouseAnswerAlert)(resendApiKey.value(), answerId, data.questionId, (questionData === null || questionData === void 0 ? void 0 : questionData.title) || 'Unknown Question', {
+                    name: ((_b = data.author) === null || _b === void 0 ? void 0 : _b.name) || 'Anonymous',
+                    email: ((_c = data.author) === null || _c === void 0 ? void 0 : _c.email) || 'unknown',
+                });
+            }
+            catch (notifyError) {
+                console.error(`Failed to send answer notification for ${answerId}:`, notifyError);
+                // Don't fail the moderation if notification fails
+            }
         }
         console.log(`Answer ${answerId}: ${result.approved ? 'APPROVED' : 'REJECTED'} - ${result.reason}`);
     }

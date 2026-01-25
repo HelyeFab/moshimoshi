@@ -8,6 +8,7 @@
     "strict": false,
     "target": "es2017",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "skipLibCheck": true,
     "baseUrl": "..",
     "paths": {

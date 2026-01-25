@@ -62,41 +62,9 @@ interface CharacterRef {
   imageUrl: string
 }
 
-// Episode themes - locations and scenarios in Japan with character combinations
-// Each theme specifies which characters appear (Moshi always included)
-const EPISODE_THEMES = [
-  // Solo Moshi episodes (introductory)
-  { theme: 'arrival', location: 'Narita Airport', titleEn: 'Arriving in Japan', titleJa: '日本に到着', characters: ['moshi-master'] },
-
-  // Episodes with Sensei (learning cultural lessons)
-  { theme: 'temple', location: 'Senso-ji Temple', titleEn: 'Temple Visit', titleJa: 'お寺参り', characters: ['moshi-master', 'sensei-panda'] },
-  { theme: 'geisha', location: 'Kyoto Gion', titleEn: 'Kyoto Magic', titleJa: '京都の魔法', characters: ['moshi-master', 'sensei-panda'] },
-  { theme: 'castle', location: 'Osaka Castle', titleEn: 'Castle Adventure', titleJa: 'お城冒険', characters: ['moshi-master', 'sensei-panda'] },
-  { theme: 'onsen', location: 'Hot Spring Town', titleEn: 'Onsen Experience', titleJa: '温泉体験', characters: ['moshi-master', 'sensei-panda'] },
-
-  // Episodes with Yuki (relaxed, mindful adventures)
-  { theme: 'sakura', location: 'Ueno Park', titleEn: 'Cherry Blossoms', titleJa: '桜を見る', characters: ['moshi-master', 'yuki-sloth'] },
-  { theme: 'rain', location: 'Tokyo Streets', titleEn: 'Rainy Day', titleJa: '雨の日', characters: ['moshi-master', 'yuki-sloth'] },
-  { theme: 'ramen', location: 'Ramen Shop', titleEn: 'Ramen Quest', titleJa: 'ラーメン探し', characters: ['moshi-master', 'yuki-sloth'] },
-  { theme: 'konbini', location: 'Convenience Store', titleEn: 'Konbini Adventure', titleJa: 'コンビニ冒険', characters: ['moshi-master', 'yuki-sloth'] },
-
-  // Episodes with Koa (adventurous exploration)
-  { theme: 'train', location: 'Shinkansen', titleEn: 'First Train Ride', titleJa: '初めての電車', characters: ['moshi-master', 'koa-koala'] },
-  { theme: 'lost', location: 'Shibuya', titleEn: 'Lost in Tokyo', titleJa: '東京で迷子', characters: ['moshi-master', 'koa-koala'] },
-  { theme: 'arcade', location: 'Game Center', titleEn: 'Arcade Challenge', titleJa: 'ゲームセンター', characters: ['moshi-master', 'koa-koala'] },
-  { theme: 'snow', location: 'Hokkaido', titleEn: 'Snow Day', titleJa: '雪の日', characters: ['moshi-master', 'koa-koala'] },
-
-  // Group episodes (multiple friends)
-  { theme: 'matsuri', location: 'Summer Festival', titleEn: 'Festival Fun', titleJa: 'お祭り', characters: ['moshi-master', 'yuki-sloth', 'koa-koala'] },
-  { theme: 'sushi', location: 'Sushi Restaurant', titleEn: 'Sushi Surprise', titleJa: 'お寿司びっくり', characters: ['moshi-master', 'yuki-sloth', 'koa-koala'] },
-  { theme: 'karaoke', location: 'Karaoke Box', titleEn: 'Karaoke Night', titleJa: 'カラオケの夜', characters: ['moshi-master', 'yuki-sloth', 'koa-koala'] },
-  { theme: 'deer', location: 'Nara Park', titleEn: 'Deer Friends', titleJa: '鹿の友達', characters: ['moshi-master', 'yuki-sloth', 'koa-koala'] },
-  { theme: 'fishing', location: 'Tsukiji Market', titleEn: 'Fish Market Morning', titleJa: '魚市場の朝', characters: ['moshi-master', 'sensei-panda', 'koa-koala'] },
-  { theme: 'school', location: 'Japanese School', titleEn: 'Making Friends', titleJa: '友達を作る', characters: ['moshi-master', 'sensei-panda', 'yuki-sloth', 'koa-koala'] },
-
-  // Finale with all characters
-  { theme: 'goodbye', location: 'Tokyo Station', titleEn: 'Until Next Time', titleJa: 'また会う日まで', characters: ['moshi-master', 'sensei-panda', 'yuki-sloth', 'koa-koala'] },
-] as const
+// Episode themes - loaded from external JSON for easy editing
+// To add/remove episodes, edit: functions/src/config/comic-themes.json
+import EPISODE_THEMES from '../config/comic-themes.json'
 
 // JLPT levels to rotate through (weighted towards beginner)
 const JLPT_LEVELS = ['N5', 'N5', 'N5', 'N4', 'N4', 'N3'] as const
@@ -383,7 +351,9 @@ async function markQueueItemFailed(queueItemId: string, error: string): Promise<
 }
 
 /**
- * Select episode theme based on episode number (fallback when queue is empty)
+ * Select episode theme based on episode number
+ * Priority 1: Check "next" override in config (for manual scheduling)
+ * Priority 2: Cycle through episodes array based on episode number
  */
 function selectEpisodeTheme(episodeNumber: number): {
   theme: string
@@ -393,10 +363,31 @@ function selectEpisodeTheme(episodeNumber: number): {
   jlptLevel: string
   characterIds: string[]
 } {
-  const themeIndex = (episodeNumber - 1) % EPISODE_THEMES.length
+  // PRIORITY 1: Check if "next" is set in config (manual override)
+  const nextConfig = EPISODE_THEMES.next
+  if (nextConfig?.theme && nextConfig?.location && nextConfig?.characters) {
+    const nextLevel = nextConfig.jlptLevel || JLPT_LEVELS[(episodeNumber - 1) % JLPT_LEVELS.length]
+    logger.info('[ComicScheduler] Using manually set "next" episode from config', {
+      theme: nextConfig.theme,
+      location: nextConfig.location,
+      note: 'Remember to clear "next" in comic-themes.json after use!',
+    })
+    return {
+      theme: nextConfig.theme,
+      location: nextConfig.location,
+      titleEn: nextConfig.titleEn || nextConfig.theme,
+      titleJa: nextConfig.titleJa || nextConfig.theme,
+      jlptLevel: nextLevel,
+      characterIds: [...nextConfig.characters],
+    }
+  }
+
+  // PRIORITY 2: Cycle through episodes array
+  const episodes = EPISODE_THEMES.episodes
+  const themeIndex = (episodeNumber - 1) % episodes.length
   const levelIndex = (episodeNumber - 1) % JLPT_LEVELS.length
 
-  const episodeTheme = EPISODE_THEMES[themeIndex]
+  const episodeTheme = episodes[themeIndex]
   const jlptLevel = JLPT_LEVELS[levelIndex]
 
   return {

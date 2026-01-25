@@ -22,11 +22,12 @@ export const EMAIL_ASSETS = {
   doshi: `${BASE_URL}/doshi.png`,           // Red panda mascot
   doshiEmma: `${BASE_URL}/doshi-emma.JPG`,  // Developer/Emma character
 
-  // Social links (add your actual social URLs)
+  // Social links
   social: {
-    twitter: 'https://twitter.com/moshimoshiapp',
-    discord: 'https://discord.gg/moshimoshi',
-    youtube: 'https://youtube.com/@moshimoshi',
+    x: 'https://x.com/AppMoshimoshi',
+    instagram: 'https://www.instagram.com/moshimoshi.app/',
+    tiktok: 'https://www.tiktok.com/@moshimoshiapp23',
+    facebook: 'https://www.facebook.com/profile.php?id=61583293235389',
   },
 
   // App links
@@ -215,11 +216,13 @@ export function emailFooter(options?: {
   const socialHtml = showSocial
     ? `
       <div style="text-align: center; margin-bottom: 16px;">
-        <a href="${EMAIL_ASSETS.social.twitter}" style="margin: 0 8px; color: ${EMAIL_COLORS.textMuted}; text-decoration: none;">Twitter</a>
+        <a href="${EMAIL_ASSETS.social.x}" style="margin: 0 6px; color: ${EMAIL_COLORS.textMuted}; text-decoration: none;">X</a>
         <span style="color: ${EMAIL_COLORS.border};">|</span>
-        <a href="${EMAIL_ASSETS.social.discord}" style="margin: 0 8px; color: ${EMAIL_COLORS.textMuted}; text-decoration: none;">Discord</a>
+        <a href="${EMAIL_ASSETS.social.instagram}" style="margin: 0 6px; color: ${EMAIL_COLORS.textMuted}; text-decoration: none;">Instagram</a>
         <span style="color: ${EMAIL_COLORS.border};">|</span>
-        <a href="${EMAIL_ASSETS.social.youtube}" style="margin: 0 8px; color: ${EMAIL_COLORS.textMuted}; text-decoration: none;">YouTube</a>
+        <a href="${EMAIL_ASSETS.social.tiktok}" style="margin: 0 6px; color: ${EMAIL_COLORS.textMuted}; text-decoration: none;">TikTok</a>
+        <span style="color: ${EMAIL_COLORS.border};">|</span>
+        <a href="${EMAIL_ASSETS.social.facebook}" style="margin: 0 6px; color: ${EMAIL_COLORS.textMuted}; text-decoration: none;">Facebook</a>
       </div>
     `
     : ''
@@ -349,18 +352,51 @@ export function wrapEmailHtml(content: string): string {
 <html>
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="format-detection" content="telephone=no, date=no, address=no, email=no">
+  <meta name="x-apple-disable-message-reformatting">
   <title>Moshimoshi</title>
   <!--[if mso]>
   <style type="text/css">
     body, table, td {font-family: Arial, Helvetica, sans-serif !important;}
   </style>
   <![endif]-->
+  <style type="text/css">
+    /* Prevent text inflation on Android */
+    body, table, td, p, a, li, blockquote {
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    /* Remove spacing around tables on iOS */
+    table, td {
+      mso-table-lspace: 0pt;
+      mso-table-rspace: 0pt;
+    }
+    /* Better image rendering */
+    img {
+      -ms-interpolation-mode: bicubic;
+      border: 0;
+      height: auto;
+      line-height: 100%;
+      outline: none;
+      text-decoration: none;
+    }
+    /* Mobile responsive */
+    @media only screen and (max-width: 620px) {
+      .email-container {
+        width: 100% !important;
+        padding: 12px !important;
+      }
+      .email-card {
+        padding: 20px !important;
+      }
+    }
+  </style>
 </head>
-<body style="${EMAIL_STYLES.body}">
-  <div style="${EMAIL_STYLES.container}">
-    <div style="${EMAIL_STYLES.card}">
+<body style="${EMAIL_STYLES.body}; -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%;">
+  <div class="email-container" style="${EMAIL_STYLES.container}; width: 100%;">
+    <div class="email-card" style="${EMAIL_STYLES.card}">
       ${content}
     </div>
   </div>

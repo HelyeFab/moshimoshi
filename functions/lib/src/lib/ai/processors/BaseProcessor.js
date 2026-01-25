@@ -42,11 +42,14 @@ class BaseProcessor {
     }
     /**
      * Initialize OpenAI client
+     * Note: Does not throw if API key is missing - allows Ollama-only mode
      */
     initializeOpenAI() {
         const apiKey = process.env.OPEN_AI_API_KEY || process.env.OPENAI_API_KEY;
         if (!apiKey) {
-            throw new types_1.AIServiceError('OpenAI API key not configured', 'OPENAI_NOT_CONFIGURED', 500);
+            console.warn('[BaseProcessor] OpenAI API key not configured - OpenAI calls will fail');
+            this.openai = null;
+            return;
         }
         this.openai = new openai_1.default({
             apiKey,

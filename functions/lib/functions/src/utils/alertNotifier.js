@@ -41,6 +41,8 @@ exports.sendAlert = sendAlert;
 exports.sendScraperFailureAlert = sendScraperFailureAlert;
 exports.sendStoryGenerationFailureAlert = sendStoryGenerationFailureAlert;
 exports.sendStoryGenerationWarningAlert = sendStoryGenerationWarningAlert;
+exports.sendTeaHouseQuestionAlert = sendTeaHouseQuestionAlert;
+exports.sendTeaHouseAnswerAlert = sendTeaHouseAnswerAlert;
 const logger = __importStar(require("firebase-functions/logger"));
 // Configuration - alert recipients
 const ALERT_EMAILS = [
@@ -205,6 +207,51 @@ async function sendStoryGenerationWarningAlert(apiKey, storyId, warnings, detail
         details: Object.assign(Object.assign({ storyId,
             warnings }, details), { timestamp: new Date().toISOString(), action: 'Check the story in the admin panel and repair if needed' }),
         severity: 'warning',
+    });
+}
+/**
+ * Send alert for new Tea House question
+ */
+async function sendTeaHouseQuestionAlert(apiKey, questionId, title, author) {
+    return sendAlert(apiKey, {
+        subject: 'New Tea House Question',
+        message: `
+      <strong>A new question was posted in the Tea House!</strong><br><br>
+      <strong>Title:</strong> ${title}<br>
+      <strong>Author:</strong> ${author.name} (${author.email})<br><br>
+      <a href="https://moshimoshi.app/en/village/tea-house/${questionId}" style="color: #6366f1;">View Question</a>
+    `,
+        details: {
+            questionId,
+            title,
+            authorName: author.name,
+            authorEmail: author.email,
+            timestamp: new Date().toISOString(),
+        },
+        severity: 'info',
+    });
+}
+/**
+ * Send alert for new Tea House answer
+ */
+async function sendTeaHouseAnswerAlert(apiKey, answerId, questionId, questionTitle, author) {
+    return sendAlert(apiKey, {
+        subject: 'New Tea House Answer',
+        message: `
+      <strong>A new answer was posted in the Tea House!</strong><br><br>
+      <strong>Question:</strong> ${questionTitle}<br>
+      <strong>Answered by:</strong> ${author.name} (${author.email})<br><br>
+      <a href="https://moshimoshi.app/en/village/tea-house/${questionId}" style="color: #6366f1;">View Answer</a>
+    `,
+        details: {
+            answerId,
+            questionId,
+            questionTitle,
+            authorName: author.name,
+            authorEmail: author.email,
+            timestamp: new Date().toISOString(),
+        },
+        severity: 'info',
     });
 }
 //# sourceMappingURL=alertNotifier.js.map

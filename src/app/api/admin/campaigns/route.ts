@@ -19,6 +19,7 @@ const campaignSchema = z.object({
   subject: z.string().min(1, 'Subject is required').max(200),
   templateId: z.string().optional(),                                // Custom template ID
   templateVariables: z.record(z.string(), z.string()).optional(),   // Variable overrides
+  testEmail: z.string().email().optional().or(z.literal('')),       // Test email address
   segment: z.object({
     type: z.enum(['all', 'free', 'premium_monthly', 'premium_yearly']),
     respectMarketingPrefs: z.boolean(),
@@ -85,6 +86,9 @@ export const POST = withAdminAuth(
       }
       if (validatedData.templateVariables) {
         campaignDoc.templateVariables = validatedData.templateVariables
+      }
+      if (validatedData.testEmail) {
+        campaignDoc.testEmail = validatedData.testEmail
       }
 
       const campaignRef = await adminFirestore.collection('email_campaigns').add(campaignDoc)

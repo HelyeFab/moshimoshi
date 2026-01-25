@@ -82,21 +82,8 @@ export function TemplatePreviewModal({
     }
   }
 
-  // Fetch on open and when sample data changes (debounced)
-  useEffect(() => {
-    if (isOpen && templateId) {
-      const timer = setTimeout(fetchPreview, 300)
-      return () => clearTimeout(timer)
-    }
-  }, [isOpen, templateId, sampleData])
-
-  if (!isOpen) return null
-
-  const handleSampleDataChange = (name: string, value: string) => {
-    setSampleData((prev) => ({ ...prev, [name]: value }))
-  }
-
   // Deduplicate variables - custom variables take precedence over system variables
+  // IMPORTANT: This must be before the early return to avoid hooks ordering issues
   const allVariables = useMemo(() => {
     const variableMap = new Map<string, typeof SYSTEM_VARIABLES[0]>()
     // Add system variables first
@@ -105,6 +92,21 @@ export function TemplatePreviewModal({
     customVariables.forEach((v) => variableMap.set(v.name, v))
     return Array.from(variableMap.values())
   }, [customVariables])
+
+  // Fetch on open and when sample data changes (debounced)
+  useEffect(() => {
+    if (isOpen && templateId) {
+      const timer = setTimeout(fetchPreview, 300)
+      return () => clearTimeout(timer)
+    }
+  }, [isOpen, templateId, sampleData])
+
+  // Early return AFTER all hooks are called
+  if (!isOpen) return null
+
+  const handleSampleDataChange = (name: string, value: string) => {
+    setSampleData((prev) => ({ ...prev, [name]: value }))
+  }
 
   return (
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">

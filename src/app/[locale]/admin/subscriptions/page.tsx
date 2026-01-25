@@ -124,7 +124,7 @@ export default function AdminSubscriptionsPage() {
 
   // Filter users based on search and plan filter
   const filteredUsers = users.filter(user => {
-    const matchesSearch = user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch = user.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           user.displayName?.toLowerCase().includes(searchTerm.toLowerCase())
     const matchesPlan = filterPlan === 'all' || user.subscription.plan === filterPlan
     return matchesSearch && matchesPlan

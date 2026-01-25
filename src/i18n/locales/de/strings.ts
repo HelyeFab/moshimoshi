@@ -7315,4 +7315,12 @@ export const strings = {
       acknowledgeFailed: 'Speichern der Bestätigung fehlgeschlagen. Bitte versuche es erneut.',
     },
   },
+
+  // Banner
+  banners: {
+    sundayContent: {
+      message: 'Jeden Sonntag neue Inhalte!',
+      dismiss: 'Banner schließen',
+    },
+  },
 };

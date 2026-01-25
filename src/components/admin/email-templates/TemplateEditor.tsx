@@ -1,9 +1,12 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Link from '@tiptap/extension-link'
+import CodeMirror from '@uiw/react-codemirror'
+import { html } from '@codemirror/lang-html'
+import { githubLight, githubDark } from '@uiw/codemirror-theme-github'
 import { VariableInsertButton } from './VariableInsertButton'
 import type { TemplateVariable } from '@/lib/email/templates/types'
 import {
@@ -11,6 +14,34 @@ import {
   CodeBracketIcon,
   LinkIcon,
 } from '@heroicons/react/24/outline'
+
+/**
+ * Simple HTML formatter for better readability in source view
+ * Adds line breaks after block-level closing tags
+ */
+function formatHtml(htmlStr: string): string {
+  if (!htmlStr) return htmlStr
+
+  // Block-level tags that should have newlines after their closing tags
+  const blockTags = ['p', 'div', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'li', 'ul', 'ol', 'blockquote', 'table', 'tr', 'thead', 'tbody', 'section', 'article', 'header', 'footer', 'nav', 'aside']
+
+  let formatted = htmlStr
+
+  // Add newline after closing block tags (if not already followed by newline)
+  for (const tag of blockTags) {
+    const regex = new RegExp(`(</${tag}>)(?!\\n|$)`, 'gi')
+    formatted = formatted.replace(regex, '$1\n')
+  }
+
+  // Add newline after self-closing tags and <br>
+  formatted = formatted.replace(/(<br\s*\/?>)(?!\n|$)/gi, '$1\n')
+  formatted = formatted.replace(/(<hr\s*\/?>)(?!\n|$)/gi, '$1\n')
+
+  // Clean up multiple consecutive newlines
+  formatted = formatted.replace(/\n{3,}/g, '\n\n')
+
+  return formatted.trim()
+}
 
 interface TemplateEditorProps {
   htmlContent: string
@@ -32,7 +63,22 @@ export function TemplateEditor({
   minHeight = '300px',
 }: TemplateEditorProps) {
   const [activeTab, setActiveTab] = useState<TabMode>('visual')
-  const [htmlSource, setHtmlSource] = useState(htmlContent)
+  const [htmlSource, setHtmlSource] = useState(() => formatHtml(htmlContent))
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  // Track if we're editing in HTML mode to prevent circular updates
+  const isEditingHtmlRef = useRef(false)
+
+  // Detect dark mode
+  useEffect(() => {
+    const checkDarkMode = () => {
+      setIsDarkMode(document.documentElement.classList.contains('dark'))
+    }
+    checkDarkMode()
+    // Watch for changes
+    const observer = new MutationObserver(checkDarkMode)
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+    return () => observer.disconnect()
+  }, [])
 
   const editor = useEditor({
     immediatelyRender: false,
@@ -59,9 +105,30 @@ export function TemplateEditor({
     onUpdate: ({ editor }) => {
       const newHtml = editor.getHTML()
       onHtmlChange(newHtml)
-      setHtmlSource(newHtml)
+      // Only update htmlSource if not currently editing in HTML mode
+      if (!isEditingHtmlRef.current) {
+        setHtmlSource(newHtml)
+      }
     },
   })
+
+  // Format HTML when switching to HTML source view
+  useEffect(() => {
+    if (activeTab === 'html' && editor) {
+      const currentHtml = editor.getHTML()
+      const formatted = formatHtml(currentHtml)
+      setHtmlSource(formatted)
+    }
+  }, [activeTab, editor])
+
+  // Handle tab changes
+  const handleTabChange = useCallback((tab: TabMode) => {
+    // When leaving HTML mode, sync to editor
+    if (activeTab === 'html' && tab !== 'html' && editor) {
+      editor.commands.setContent(htmlSource)
+    }
+    setActiveTab(tab)
+  }, [activeTab, editor, htmlSource])
 
   // Insert variable at cursor position in editor
   const handleInsertVariable = useCallback(
@@ -81,16 +148,16 @@ export function TemplateEditor({
     [activeTab, editor, htmlSource, textContent, onHtmlChange, onTextChange]
   )
 
-  // Handle HTML source changes
-  const handleHtmlSourceChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    const newHtml = e.target.value
-    setHtmlSource(newHtml)
-    onHtmlChange(newHtml)
-    // Update editor content when switching back to visual
-    if (editor) {
-      editor.commands.setContent(newHtml)
-    }
-  }
+  // Handle HTML source changes from CodeMirror
+  const handleHtmlSourceChange = useCallback((value: string) => {
+    isEditingHtmlRef.current = true
+    setHtmlSource(value)
+    onHtmlChange(value)
+    // Delay resetting the flag to prevent race conditions
+    setTimeout(() => {
+      isEditingHtmlRef.current = false
+    }, 100)
+  }, [onHtmlChange])
 
   // Handle plain text changes
   const handleTextChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -141,7 +208,7 @@ export function TemplateEditor({
         <div className="flex gap-1">
           <button
             type="button"
-            onClick={() => setActiveTab('visual')}
+            onClick={() => handleTabChange('visual')}
             className={`px-4 py-2 rounded-t-lg text-sm font-medium transition-colors ${
               activeTab === 'visual'
                 ? 'bg-white dark:bg-dark-900 text-primary-600 dark:text-primary-400 border-t border-l border-r border-gray-300 dark:border-gray-600 -mb-px'
@@ -152,7 +219,7 @@ export function TemplateEditor({
           </button>
           <button
             type="button"
-            onClick={() => setActiveTab('html')}
+            onClick={() => handleTabChange('html')}
             className={`px-4 py-2 rounded-t-lg text-sm font-medium transition-colors ${
               activeTab === 'html'
                 ? 'bg-white dark:bg-dark-900 text-primary-600 dark:text-primary-400 border-t border-l border-r border-gray-300 dark:border-gray-600 -mb-px'
@@ -163,7 +230,7 @@ export function TemplateEditor({
           </button>
           <button
             type="button"
-            onClick={() => setActiveTab('text')}
+            onClick={() => handleTabChange('text')}
             className={`px-4 py-2 rounded-t-lg text-sm font-medium transition-colors ${
               activeTab === 'text'
                 ? 'bg-white dark:bg-dark-900 text-primary-600 dark:text-primary-400 border-t border-l border-r border-gray-300 dark:border-gray-600 -mb-px'
@@ -305,12 +372,24 @@ export function TemplateEditor({
         )}
 
         {activeTab === 'html' && (
-          <textarea
+          <CodeMirror
             value={htmlSource}
             onChange={handleHtmlSourceChange}
-            className="w-full p-4 font-mono text-sm bg-white dark:bg-dark-900 text-gray-900 dark:text-gray-100 focus:outline-none resize-none"
-            style={{ minHeight }}
+            extensions={[html()]}
+            theme={isDarkMode ? githubDark : githubLight}
+            minHeight={minHeight}
+            className="text-sm [&_.cm-editor]:!bg-white dark:[&_.cm-editor]:!bg-dark-900"
             placeholder="Enter HTML content here..."
+            basicSetup={{
+              lineNumbers: true,
+              highlightActiveLineGutter: true,
+              highlightActiveLine: true,
+              foldGutter: true,
+              autocompletion: true,
+              bracketMatching: true,
+              closeBrackets: true,
+              indentOnInput: true,
+            }}
           />
         )}
 

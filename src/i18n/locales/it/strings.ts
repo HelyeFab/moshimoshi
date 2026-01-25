@@ -7344,4 +7344,12 @@ export const strings = {
       acknowledgeFailed: 'Impossibile salvare il riconoscimento. Per favore riprova.',
     },
   },
+
+  // Banner
+  banners: {
+    sundayContent: {
+      message: 'Nuovi contenuti ogni domenica!',
+      dismiss: 'Chiudi banner',
+    },
+  },
 };

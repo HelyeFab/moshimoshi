@@ -29,6 +29,8 @@ export default function EmailCampaignsPage() {
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [successModalOpen, setSuccessModalOpen] = useState(false)
   const [successMessage, setSuccessMessage] = useState<string>('')
+  const [editingCampaign, setEditingCampaign] = useState<EmailCampaign | null>(null)
+  const [sendingTestId, setSendingTestId] = useState<string | null>(null)
 
   // Fetch campaigns on mount and when user changes
   useEffect(() => {
@@ -103,6 +105,40 @@ export default function EmailCampaignsPage() {
     }
   }
 
+  const handleEditCampaign = async (campaignId: string, campaignData: SendCampaignRequest) => {
+    try {
+      const token = await auth.currentUser?.getIdToken()
+      if (!token) {
+        throw new Error('Not authenticated')
+      }
+
+      const response = await fetch(`/api/admin/campaigns/${campaignId}`, {
+        method: 'PUT',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(campaignData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || 'Failed to update campaign')
+      }
+
+      // Refresh campaigns list
+      await fetchCampaigns()
+      setEditingCampaign(null)
+      setSuccessMessage('Campaign updated successfully!')
+      setSuccessModalOpen(true)
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : 'Failed to update campaign')
+      setErrorModalOpen(true)
+      console.error('[EmailCampaigns] Edit error:', err)
+    }
+  }
+
   const handleSendClick = (campaignId: string, campaignName: string) => {
     setCampaignToSend({ id: campaignId, name: campaignName })
     setSendModalOpen(true)
@@ -143,6 +179,38 @@ export default function EmailCampaignsPage() {
       setErrorMessage(err instanceof Error ? err.message : 'Failed to send campaign')
       setErrorModalOpen(true)
       console.error('[EmailCampaigns] Send error:', err)
+    }
+  }
+
+  const handleSendTestEmail = async (campaignId: string) => {
+    try {
+      setSendingTestId(campaignId)
+      const token = await auth.currentUser?.getIdToken()
+      if (!token) {
+        throw new Error('Not authenticated')
+      }
+
+      const response = await fetch(`/api/admin/campaigns/${campaignId}/send-test`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || 'Failed to send test email')
+      }
+
+      setSuccessMessage(`Test email sent to ${data.email}!`)
+      setSuccessModalOpen(true)
+    } catch (err) {
+      setErrorMessage(err instanceof Error ? err.message : 'Failed to send test email')
+      setErrorModalOpen(true)
+      console.error('[EmailCampaigns] Send test error:', err)
+    } finally {
+      setSendingTestId(null)
     }
   }
 
@@ -345,11 +413,14 @@ export default function EmailCampaignsPage() {
               key={campaign.id}
               campaign={campaign}
               onSend={() => handleSendClick(campaign.id, campaign.name)}
+              onSendTest={() => handleSendTestEmail(campaign.id)}
               onPreview={() => handlePreviewCampaign(campaign.id)}
               onEmailPreview={() => handleEmailPreview(campaign.id)}
+              onEdit={() => setEditingCampaign(campaign)}
               onDelete={() => handleDeleteClick(campaign.id, campaign.name)}
               onRefresh={fetchCampaigns}
               emailPreviewLoading={emailPreviewLoading}
+              sendingTest={sendingTestId === campaign.id}
             />
           ))}
         </div>
@@ -359,7 +430,16 @@ export default function EmailCampaignsPage() {
       {showNewCampaignModal && (
         <NewCampaignModal
           onClose={() => setShowNewCampaignModal(false)}
-          onCreate={handleCreateCampaign}
+          onSave={handleCreateCampaign}
+        />
+      )}
+
+      {/* Edit Campaign Modal */}
+      {editingCampaign && (
+        <NewCampaignModal
+          onClose={() => setEditingCampaign(null)}
+          onSave={(data) => handleEditCampaign(editingCampaign.id, data)}
+          campaign={editingCampaign}
         />
       )}
 
@@ -550,19 +630,25 @@ export default function EmailCampaignsPage() {
 function CampaignCard({
   campaign,
   onSend,
+  onSendTest,
   onPreview,
   onEmailPreview,
+  onEdit,
   onDelete,
   onRefresh,
   emailPreviewLoading,
+  sendingTest,
 }: {
   campaign: EmailCampaign
   onSend: () => void
+  onSendTest: () => void
   onPreview: () => void
   onEmailPreview: () => void
+  onEdit: () => void
   onDelete: () => void
   onRefresh: () => void
   emailPreviewLoading: boolean
+  sendingTest: boolean
 }) {
   const statusColors = {
     draft: 'bg-gray-100 dark:bg-dark-700 text-gray-800 dark:text-gray-200',
@@ -693,25 +779,60 @@ function CampaignCard({
 
         {/* Secondary actions - only for draft campaigns */}
         {campaign.status === 'draft' && (
-          <div className="flex gap-2">
-            <button
-              onClick={onSend}
-              className="flex-1 py-3 px-4 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 transition-colors disabled:bg-gray-300 dark:disabled:bg-dark-600 disabled:text-gray-500 flex items-center justify-center gap-2 text-sm"
-            >
-              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-              </svg>
-              Send Now
-            </button>
-            <button
-              onClick={onDelete}
-              className="p-3 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors"
-              aria-label="Delete campaign"
-            >
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-              </svg>
-            </button>
+          <div className="space-y-2">
+            {/* Send Test row - only show if testEmail is configured */}
+            {campaign.testEmail && (
+              <button
+                onClick={onSendTest}
+                disabled={sendingTest}
+                className="w-full py-2.5 px-4 bg-purple-100 dark:bg-purple-900/20 text-purple-700 dark:text-purple-300 font-medium rounded-lg hover:bg-purple-200 dark:hover:bg-purple-900/30 transition-colors flex items-center justify-center gap-2 text-sm disabled:opacity-50"
+              >
+                {sendingTest ? (
+                  <>
+                    <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                    Send Test to {campaign.testEmail}
+                  </>
+                )}
+              </button>
+            )}
+            <div className="flex gap-2">
+              <button
+                onClick={onEdit}
+                className="flex-1 py-3 px-4 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 font-medium rounded-lg hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors flex items-center justify-center gap-2 text-sm"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                Edit
+              </button>
+              <button
+                onClick={onSend}
+                className="flex-1 py-3 px-4 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 transition-colors disabled:bg-gray-300 dark:disabled:bg-dark-600 disabled:text-gray-500 flex items-center justify-center gap-2 text-sm"
+              >
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                </svg>
+                Send Now
+              </button>
+              <button
+                onClick={onDelete}
+                className="p-3 bg-red-100 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-lg hover:bg-red-200 dark:hover:bg-red-900/30 transition-colors"
+                aria-label="Delete campaign"
+              >
+                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                </svg>
+              </button>
+            </div>
           </div>
         )}
       </div>
@@ -722,27 +843,137 @@ function CampaignCard({
 /**
  * New Campaign Modal Component
  */
+// Template type for fetched Firestore templates
+interface FirestoreTemplate {
+  id: string
+  name: string
+  slug: string
+  subject: string
+  status: string
+  category: string
+}
+
 function NewCampaignModal({
   onClose,
-  onCreate,
+  onSave,
+  campaign,
 }: {
   onClose: () => void
-  onCreate: (data: SendCampaignRequest) => void
+  onSave: (data: SendCampaignRequest) => void
+  campaign?: EmailCampaign | null
 }) {
-  const [formData, setFormData] = useState<SendCampaignRequest>({
-    name: '',
-    template: 'waitlist',
-    subject: '',
-    segment: {
-      type: 'all',
-      respectMarketingPrefs: true,
-      emailVerifiedOnly: false,
-    },
+  const isEditing = !!campaign
+
+  const [formData, setFormData] = useState<SendCampaignRequest>(() => {
+    if (campaign) {
+      return {
+        name: campaign.name,
+        template: campaign.template,
+        subject: campaign.subject,
+        templateId: campaign.templateId,
+        templateVariables: campaign.templateVariables,
+        testEmail: campaign.testEmail,
+        segment: campaign.segment,
+      }
+    }
+    return {
+      name: '',
+      template: 'custom',
+      subject: '',
+      testEmail: '',
+      segment: {
+        type: 'all',
+        respectMarketingPrefs: true,
+        emailVerifiedOnly: false,
+      },
+    }
+  })
+  const [firestoreTemplates, setFirestoreTemplates] = useState<FirestoreTemplate[]>([])
+  const [templatesLoading, setTemplatesLoading] = useState(true)
+  const [selectedTemplateId, setSelectedTemplateId] = useState<string>(() => {
+    // For editing, use templateId if custom template, otherwise use the template type
+    if (campaign?.templateId) return campaign.templateId
+    if (campaign?.template && campaign.template !== 'custom') return campaign.template
+    return ''
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Fetch templates from Firestore on mount
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const token = await auth.currentUser?.getIdToken()
+        if (!token) return
+
+        const response = await fetch('/api/admin/templates?status=active', {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          setFirestoreTemplates(data.templates || [])
+          // Only auto-select first template for NEW campaigns (not editing)
+          if (!isEditing && data.templates?.length > 0 && !selectedTemplateId) {
+            const firstTemplate = data.templates[0]
+            setSelectedTemplateId(firstTemplate.id)
+            setFormData(prev => ({
+              ...prev,
+              templateId: firstTemplate.id,
+              subject: prev.subject || firstTemplate.subject,
+            }))
+          }
+        }
+      } catch (error) {
+        console.error('[NewCampaignModal] Failed to fetch templates:', error)
+      } finally {
+        setTemplatesLoading(false)
+      }
+    }
+
+    fetchTemplates()
+  }, [isEditing, selectedTemplateId])
+
+  // Handle template selection
+  const handleTemplateChange = (templateId: string) => {
+    setSelectedTemplateId(templateId)
+
+    // Check if it's a built-in template
+    const builtInTemplates = ['waitlist', 'welcome', 'password_reset']
+    if (builtInTemplates.includes(templateId)) {
+      setFormData(prev => ({
+        ...prev,
+        template: templateId as any,
+        templateId: undefined,
+      }))
+    } else {
+      // It's a Firestore template
+      const selectedTemplate = firestoreTemplates.find(t => t.id === templateId)
+      setFormData(prev => ({
+        ...prev,
+        template: 'custom',
+        templateId: templateId,
+        subject: prev.subject || selectedTemplate?.subject || '',
+      }))
+    }
+  }
+
+  const handleSubmit = (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault()
-    onCreate(formData)
+
+    // Client-side validation since button is outside form
+    if (!formData.name.trim()) {
+      alert('Campaign name is required')
+      return
+    }
+    if (!formData.subject.trim()) {
+      alert('Email subject is required')
+      return
+    }
+    if (!selectedTemplateId) {
+      alert('Please select an email template')
+      return
+    }
+
+    onSave(formData)
   }
 
   return (
@@ -761,7 +992,7 @@ function NewCampaignModal({
           </div>
           <div className="flex items-center justify-between p-4 md:p-6 border-b border-gray-200 dark:border-dark-700">
             <h2 className="text-lg md:text-2xl font-bold text-gray-900 dark:text-gray-100">
-              New Campaign
+              {isEditing ? 'Edit Campaign' : 'New Campaign'}
             </h2>
             <button
               onClick={onClose}
@@ -795,18 +1026,39 @@ function NewCampaignModal({
             <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1.5">
               Email Template
             </label>
-            <select
-              value={formData.template}
-              onChange={(e) =>
-                setFormData({ ...formData, template: e.target.value as any })
-              }
-              className="w-full px-4 py-3 md:py-2 border border-gray-200 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-900 text-gray-900 dark:text-gray-100 text-base focus:ring-2 focus:ring-primary-500 focus:border-transparent"
-            >
-              <option value="waitlist">Waitlist Thank You</option>
-              <option value="welcome">Welcome Email</option>
-              <option value="password_reset">Password Reset</option>
-              <option value="custom">Custom</option>
-            </select>
+            {templatesLoading ? (
+              <div className="w-full px-4 py-3 md:py-2 border border-gray-200 dark:border-dark-600 rounded-lg bg-gray-50 dark:bg-dark-900 text-gray-500 dark:text-gray-400 text-base">
+                Loading templates...
+              </div>
+            ) : (
+              <select
+                value={selectedTemplateId}
+                onChange={(e) => handleTemplateChange(e.target.value)}
+                className="w-full px-4 py-3 md:py-2 border border-gray-200 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-900 text-gray-900 dark:text-gray-100 text-base focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              >
+                {/* Firestore Templates */}
+                {firestoreTemplates.length > 0 && (
+                  <optgroup label="Your Templates">
+                    {firestoreTemplates.map((template) => (
+                      <option key={template.id} value={template.id}>
+                        {template.name}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
+                {/* Built-in Templates */}
+                <optgroup label="Built-in Templates">
+                  <option value="waitlist">Waitlist Thank You</option>
+                  <option value="welcome">Welcome Email</option>
+                  <option value="password_reset">Password Reset</option>
+                </optgroup>
+              </select>
+            )}
+            {selectedTemplateId && !['waitlist', 'welcome', 'password_reset'].includes(selectedTemplateId) && (
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                Using custom template from your library
+              </p>
+            )}
           </div>
 
           {/* Subject */}
@@ -885,6 +1137,23 @@ function NewCampaignModal({
               />
             </label>
           </div>
+
+          {/* Test Email */}
+          <div>
+            <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1.5">
+              Test Email (optional)
+            </label>
+            <input
+              type="email"
+              value={formData.testEmail || ''}
+              onChange={(e) => setFormData({ ...formData, testEmail: e.target.value })}
+              placeholder="your@email.com"
+              className="w-full px-4 py-3 md:py-2 border border-gray-200 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-900 text-gray-900 dark:text-gray-100 text-base focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+            />
+            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+              Send a test email to yourself before sending to all recipients
+            </p>
+          </div>
         </form>
 
         {/* Fixed bottom actions - Apple style */}
@@ -902,7 +1171,7 @@ function NewCampaignModal({
               onClick={handleSubmit}
               className="flex-1 px-4 py-3 md:py-2.5 bg-primary-500 text-white rounded-lg hover:bg-primary-600 transition-colors font-medium"
             >
-              Create
+              {isEditing ? 'Save Changes' : 'Create'}
             </button>
           </div>
         </div>

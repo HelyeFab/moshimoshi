@@ -219,3 +219,61 @@ export async function sendStoryGenerationWarningAlert(
     severity: 'warning',
   })
 }
+
+/**
+ * Send alert for new Tea House question
+ */
+export async function sendTeaHouseQuestionAlert(
+  apiKey: string | undefined,
+  questionId: string,
+  title: string,
+  author: { name: string; email: string }
+): Promise<boolean> {
+  return sendAlert(apiKey, {
+    subject: 'New Tea House Question',
+    message: `
+      <strong>A new question was posted in the Tea House!</strong><br><br>
+      <strong>Title:</strong> ${title}<br>
+      <strong>Author:</strong> ${author.name} (${author.email})<br><br>
+      <a href="https://moshimoshi.app/en/village/tea-house/${questionId}" style="color: #6366f1;">View Question</a>
+    `,
+    details: {
+      questionId,
+      title,
+      authorName: author.name,
+      authorEmail: author.email,
+      timestamp: new Date().toISOString(),
+    },
+    severity: 'info',
+  })
+}
+
+/**
+ * Send alert for new Tea House answer
+ */
+export async function sendTeaHouseAnswerAlert(
+  apiKey: string | undefined,
+  answerId: string,
+  questionId: string,
+  questionTitle: string,
+  author: { name: string; email: string }
+): Promise<boolean> {
+  return sendAlert(apiKey, {
+    subject: 'New Tea House Answer',
+    message: `
+      <strong>A new answer was posted in the Tea House!</strong><br><br>
+      <strong>Question:</strong> ${questionTitle}<br>
+      <strong>Answered by:</strong> ${author.name} (${author.email})<br><br>
+      <a href="https://moshimoshi.app/en/village/tea-house/${questionId}" style="color: #6366f1;">View Answer</a>
+    `,
+    details: {
+      answerId,
+      questionId,
+      questionTitle,
+      authorName: author.name,
+      authorEmail: author.email,
+      timestamp: new Date().toISOString(),
+    },
+    severity: 'info',
+  })
+}

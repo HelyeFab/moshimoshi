@@ -11,15 +11,14 @@ const COLLECTION = 'wordExplanationCache';
 function hashText(text) {
     return crypto_1.default.createHash('sha256').update(text).digest('hex');
 }
-async function getCachedWordExplanation(word) {
-    if (!admin_1.adminFirestore) {
-        console.warn('[WordCache] Firebase Admin not initialized - cache disabled');
+async function getCachedWordExplanation(word, dbOverride) {
+    const db = dbOverride || admin_1.adminDb;
+    if (!db)
         return null;
-    }
     try {
         const wordHash = hashText(word.trim().toLowerCase());
         const docId = wordHash;
-        const doc = await admin_1.adminFirestore.collection(COLLECTION).doc(docId).get();
+        const doc = await db.collection(COLLECTION).doc(docId).get();
         if (!doc.exists) {
             return null;
         }
@@ -38,11 +37,10 @@ async function getCachedWordExplanation(word) {
         return null;
     }
 }
-async function setCachedWordExplanation(word, explanation) {
-    if (!admin_1.adminFirestore) {
-        console.warn('[WordCache] Firebase Admin not initialized - cannot cache explanation');
+async function setCachedWordExplanation(word, explanation, dbOverride) {
+    const db = dbOverride || admin_1.adminDb;
+    if (!db)
         return;
-    }
     try {
         // Remove undefined fields to satisfy Firestore
         const sanitizedExplanation = Object.assign({}, explanation);
@@ -62,7 +60,7 @@ async function setCachedWordExplanation(word, explanation) {
             lastAccessedAt: admin_1.Timestamp.now(),
             accessCount: 1
         };
-        await admin_1.adminFirestore.collection(COLLECTION).doc(docId).set(entry, { merge: true });
+        await db.collection(COLLECTION).doc(docId).set(entry, { merge: true });
     }
     catch (error) {
         console.error('[WordCache] ❌ Failed to write cache:', error);

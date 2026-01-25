@@ -7543,4 +7543,12 @@ export const strings = {
       acknowledgeFailed: 'Failed to save acknowledgment. Please try again.',
     },
   },
+
+  // Banners
+  banners: {
+    sundayContent: {
+      message: 'New content added every Sunday!',
+      dismiss: 'Dismiss banner',
+    },
+  },
 }

@@ -78,24 +78,15 @@ interface IncompleteDraft {
   createdAt: admin.firestore.Timestamp
 }
 
-// Story themes to rotate through
-const STORY_THEMES = [
-  'A Day at School',
-  'Shopping at the Convenience Store',
-  'Visiting a Temple',
-  'Making Friends',
-  'A Trip to the Park',
-  'Cooking Japanese Food',
-  'At the Train Station',
-  'A Rainy Day',
-  'Cherry Blossom Viewing',
-  'Summer Festival',
-  'New Year Celebration',
-  'Going to the Beach',
-  'A Visit to the Doctor',
-  'At the Library',
-  'Playing Sports',
-]
+// Seasonal theme pools - loaded from external JSON for easy editing
+// To add/remove themes, edit: functions/src/config/story-themes.json
+import SEASONAL_THEMES from '../config/story-themes.json'
+
+// Configuration for theme selection
+const THEME_CONFIG = {
+  RECENT_THEMES_TO_AVOID: 20, // Don't repeat themes used in last N generations
+  YEAR_ROUND_CHANCE: 0.3,     // 30% chance to pick year-round theme instead of seasonal
+}
 
 // JLPT levels to rotate through (beginner-friendly but complete coverage)
 // Distribution: N5=37.5%, N4=25%, N3=12.5%, N2=12.5%, N1=12.5%
@@ -176,20 +167,155 @@ async function callStoryAPIWithRetry(
 }
 
 /**
- * Select today's theme, level, and page count
- * Uses day of year to rotate through themes predictably
- * Page count is randomized between 3-4 for variety
+ * Determine the current season based on month (Northern Hemisphere / Japan)
  */
-function selectThemeAndLevel(): { theme: string; jlptLevel: string; pageCount: number } {
+function getCurrentSeason(): 'spring' | 'summer' | 'autumn' | 'winter' {
+  const month = new Date().getMonth() // 0-11
+  if (month >= 2 && month <= 4) return 'spring'   // March, April, May
+  if (month >= 5 && month <= 7) return 'summer'   // June, July, August
+  if (month >= 8 && month <= 10) return 'autumn'  // September, October, November
+  return 'winter'                                  // December, January, February
+}
+
+/**
+ * Get recently used themes from story_generation_logs
+ */
+async function getRecentlyUsedThemes(): Promise<Set<string>> {
+  try {
+    const logs = await db
+      .collection('story_generation_logs')
+      .orderBy('createdAt', 'desc')
+      .limit(THEME_CONFIG.RECENT_THEMES_TO_AVOID)
+      .get()
+
+    const recentThemes = new Set<string>()
+    logs.docs.forEach(doc => {
+      const theme = doc.data().theme
+      if (theme) recentThemes.add(theme)
+    })
+
+    logger.info('[ThemeSelector] Found recent themes', {
+      count: recentThemes.size,
+      themes: Array.from(recentThemes).slice(0, 5), // Log first 5 for debugging
+    })
+
+    return recentThemes
+  } catch (error) {
+    logger.warn('[ThemeSelector] Failed to fetch recent themes, proceeding without filter', { error })
+    return new Set()
+  }
+}
+
+/**
+ * Select a random theme from pool, avoiding recently used ones
+ */
+function selectFromPool(pool: readonly string[], recentThemes: Set<string>): string | null {
+  const available = pool.filter(theme => !recentThemes.has(theme))
+
+  if (available.length === 0) {
+    return null
+  }
+
+  return available[Math.floor(Math.random() * available.length)]
+}
+
+/**
+ * Select today's theme, level, and page count
+ * - Priority 1: Check "next" override in config (for manual scheduling)
+ * - Priority 2: Uses seasonal awareness to pick appropriate themes
+ * - Priority 3: Avoids recently used themes for variety
+ * - Fallback: year-round or any pool if needed
+ */
+async function selectThemeAndLevel(): Promise<{ theme: string; jlptLevel: string; pageCount: number }> {
   const now = new Date()
   const startOfYear = new Date(now.getFullYear(), 0, 0)
   const diff = now.getTime() - startOfYear.getTime()
   const dayOfYear = Math.floor(diff / (1000 * 60 * 60 * 24))
 
-  const theme = STORY_THEMES[dayOfYear % STORY_THEMES.length]
-  const jlptLevel = JLPT_LEVELS[dayOfYear % JLPT_LEVELS.length]
   // Random page count between 3 and 4 (inclusive)
   const pageCount = Math.floor(Math.random() * 2) + 3
+
+  // PRIORITY 1: Check if "next" is set in config (manual override)
+  const nextConfig = SEASONAL_THEMES.next
+  if (nextConfig?.theme) {
+    const nextTheme = nextConfig.theme
+    const nextLevel = nextConfig.jlptLevel || JLPT_LEVELS[dayOfYear % JLPT_LEVELS.length]
+    logger.info('[ThemeSelector] Using manually set "next" theme from config', {
+      theme: nextTheme,
+      jlptLevel: nextLevel,
+      note: 'Remember to clear "next" in story-themes.json after use!',
+    })
+    return { theme: nextTheme, jlptLevel: nextLevel, pageCount }
+  }
+
+  // JLPT level uses deterministic rotation for balanced distribution
+  const jlptLevel = JLPT_LEVELS[dayOfYear % JLPT_LEVELS.length]
+
+  // Get recently used themes to avoid
+  const recentThemes = await getRecentlyUsedThemes()
+
+  // Determine current season
+  const currentSeason = getCurrentSeason()
+  logger.info('[ThemeSelector] Starting theme selection', {
+    currentSeason,
+    recentThemesCount: recentThemes.size,
+  })
+
+  let theme: string | null = null
+
+  // 30% chance to use year-round theme for variety
+  const useYearRound = Math.random() < THEME_CONFIG.YEAR_ROUND_CHANCE
+
+  if (useYearRound) {
+    // Try year-round first
+    theme = selectFromPool(SEASONAL_THEMES.yearRound, recentThemes)
+    if (theme) {
+      logger.info('[ThemeSelector] Selected year-round theme', { theme })
+    }
+  }
+
+  // If no year-round theme (or didn't try), use seasonal
+  if (!theme) {
+    theme = selectFromPool(SEASONAL_THEMES[currentSeason], recentThemes)
+    if (theme) {
+      logger.info('[ThemeSelector] Selected seasonal theme', { theme, season: currentSeason })
+    }
+  }
+
+  // Fallback 1: Try year-round if seasonal exhausted
+  if (!theme) {
+    theme = selectFromPool(SEASONAL_THEMES.yearRound, recentThemes)
+    if (theme) {
+      logger.info('[ThemeSelector] Fallback to year-round theme', { theme })
+    }
+  }
+
+  // Fallback 2: Try other seasons
+  if (!theme) {
+    const otherSeasons = (['spring', 'summer', 'autumn', 'winter'] as const).filter(s => s !== currentSeason)
+    for (const season of otherSeasons) {
+      theme = selectFromPool(SEASONAL_THEMES[season], recentThemes)
+      if (theme) {
+        logger.info('[ThemeSelector] Fallback to off-season theme', { theme, season })
+        break
+      }
+    }
+  }
+
+  // Fallback 3: If all pools exhausted, pick any theme ignoring recent history
+  if (!theme) {
+    const allThemes = [
+      ...SEASONAL_THEMES.spring,
+      ...SEASONAL_THEMES.summer,
+      ...SEASONAL_THEMES.autumn,
+      ...SEASONAL_THEMES.winter,
+      ...SEASONAL_THEMES.yearRound,
+    ]
+    theme = allThemes[Math.floor(Math.random() * allThemes.length)]
+    logger.warn('[ThemeSelector] All themes recently used, selecting random', { theme })
+  }
+
+  logger.info('[ThemeSelector] Final selection', { theme, jlptLevel, pageCount, season: currentSeason })
 
   return { theme, jlptLevel, pageCount }
 }
@@ -655,7 +781,7 @@ export async function generateDailyStory(adminKey: string): Promise<{
   duration: number
 }> {
   const startTime = Date.now()
-  const { theme, jlptLevel, pageCount } = selectThemeAndLevel()
+  const { theme, jlptLevel, pageCount } = await selectThemeAndLevel()
   let draftId: string | undefined
 
   logger.info('[StoryScheduler] Starting daily story generation', {

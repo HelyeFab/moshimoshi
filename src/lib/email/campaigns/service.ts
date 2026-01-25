@@ -25,9 +25,10 @@ import type {
 } from './types'
 
 export class CampaignService {
-  // Batch configuration for rate limiting
-  private readonly BATCH_SIZE = 50
-  private readonly BATCH_DELAY_MS = 1000
+  // Resend rate limit: 2 emails per second
+  // We send 2 emails, then wait 1 second
+  private readonly EMAILS_PER_SECOND = 2
+  private readonly RATE_LIMIT_DELAY_MS = 1000
 
   constructor() {
     ensureAdminInitialized()
@@ -36,25 +37,21 @@ export class CampaignService {
   /**
    * Query users based on segment criteria
    * Filters by subscription type, email verification, and marketing preferences
+   *
+   * OPTIMIZED: Uses batch operations to avoid N+1 query problems
    */
   async getUsersForSegment(
     segment: EmailCampaign['segment']
   ): Promise<CampaignRecipient[]> {
-    if (!adminFirestore) {
-      throw new Error('Firestore not initialized')
+    if (!adminFirestore || !adminAuth) {
+      throw new Error('Firebase not initialized')
     }
-
-    const users: CampaignRecipient[] = []
 
     // Base query on users collection
     let query: FirebaseFirestore.Query = adminFirestore.collection('users')
 
     // Filter by subscription type
-    if (segment.type === 'free') {
-      // Free users have no subscription object OR subscription.plan === 'free'
-      // For simplicity, we'll query all and filter in-memory
-      // Firestore doesn't support OR queries easily
-    } else if (segment.type === 'premium_monthly') {
+    if (segment.type === 'premium_monthly') {
       query = query
         .where('subscription.plan', '==', 'premium_monthly')
         .where('subscription.status', 'in', ['active', 'trialing'])
@@ -67,61 +64,165 @@ export class CampaignService {
     const snapshot = await query.get()
     console.log(`[CampaignService] Found ${snapshot.size} potential users for segment: ${segment.type}`)
 
-    for (const doc of snapshot.docs) {
-      const data = doc.data()
-      const uid = doc.id
-
-      // Additional filtering for 'all' and 'free' segments
-      if (segment.type === 'free') {
-        // Check if user has an active premium subscription
+    // Step 1: Filter by subscription type in memory (for 'free' segment)
+    let filteredDocs = snapshot.docs
+    if (segment.type === 'free') {
+      filteredDocs = snapshot.docs.filter((doc) => {
+        const data = doc.data()
         const isPremium =
           data.subscription &&
           (data.subscription.plan === 'premium_monthly' ||
             data.subscription.plan === 'premium_yearly') &&
           (data.subscription.status === 'active' || data.subscription.status === 'trialing')
-
-        if (isPremium) {
-          continue // Skip premium users
-        }
-      }
-
-      // Get user email from Firebase Auth
-      const email = await this.getUserEmail(uid)
-      if (!email) {
-        console.warn(`[CampaignService] No email found for user: ${uid}`)
-        continue
-      }
-
-      // Check email verified
-      if (segment.emailVerifiedOnly) {
-        const emailVerified = await this.isEmailVerified(uid)
-        if (!emailVerified) {
-          continue
-        }
-      }
-
-      // Check marketing preferences
-      if (segment.respectMarketingPrefs) {
-        const prefs = await this.getUserPreferences(uid)
-        // Only skip if user explicitly opted OUT (set to false)
-        // If preference doesn't exist, assume opt-in (default)
-        if (prefs?.notifications?.marketingEmails === false) {
-          continue // User explicitly opted out
-        }
-      }
-
-      // Check global suppression list (bounces, unsubscribes, complaints)
-      const { suppressed, reason } = await suppressionService.isEmailSuppressed(email)
-      if (suppressed) {
-        console.log(`[CampaignService] Skipping suppressed email: ${email} (${reason})`)
-        continue
-      }
-
-      users.push({ uid, email })
+        return !isPremium
+      })
+      console.log(`[CampaignService] After free filter: ${filteredDocs.length} users`)
     }
 
-    console.log(`[CampaignService] Filtered to ${users.length} eligible recipients`)
+    const uids = filteredDocs.map((doc) => doc.id)
+    if (uids.length === 0) {
+      return []
+    }
+
+    // Step 2: Batch fetch user records from Firebase Auth (100 at a time)
+    console.log(`[CampaignService] Fetching ${uids.length} user records from Auth...`)
+    const userRecords = await this.batchGetUsers(uids)
+    console.log(`[CampaignService] Got ${userRecords.size} user records`)
+
+    // Step 3: Build initial candidate list with emails
+    let candidates: { uid: string; email: string; emailVerified: boolean }[] = []
+    for (const uid of uids) {
+      const userRecord = userRecords.get(uid)
+      if (!userRecord?.email) {
+        continue
+      }
+      candidates.push({
+        uid,
+        email: userRecord.email,
+        emailVerified: userRecord.emailVerified,
+      })
+    }
+
+    // Step 4: Filter by email verification if required
+    if (segment.emailVerifiedOnly) {
+      const beforeCount = candidates.length
+      candidates = candidates.filter((c) => c.emailVerified)
+      console.log(`[CampaignService] Email verified filter: ${beforeCount} -> ${candidates.length}`)
+    }
+
+    if (candidates.length === 0) {
+      return []
+    }
+
+    // Step 5: Batch check marketing preferences if required
+    if (segment.respectMarketingPrefs) {
+      const beforeCount = candidates.length
+      const prefsMap = await this.batchGetPreferences(candidates.map((c) => c.uid))
+      candidates = candidates.filter((c) => {
+        const prefs = prefsMap.get(c.uid)
+        // Only skip if user explicitly opted OUT (set to false)
+        return prefs?.notifications?.marketingEmails !== false
+      })
+      console.log(`[CampaignService] Marketing prefs filter: ${beforeCount} -> ${candidates.length}`)
+    }
+
+    if (candidates.length === 0) {
+      return []
+    }
+
+    // Step 6: Batch check suppression list
+    const emails = candidates.map((c) => c.email)
+    console.log(`[CampaignService] Checking ${emails.length} emails against suppression list...`)
+    const suppressionResult = await suppressionService.checkBatch(emails)
+
+    const users: CampaignRecipient[] = []
+    for (const candidate of candidates) {
+      const checkResult = suppressionResult.details.get(candidate.email)
+      if (checkResult?.suppressed) {
+        continue
+      }
+      users.push({ uid: candidate.uid, email: candidate.email })
+    }
+
+    if (suppressionResult.suppressed.length > 0) {
+      console.log(`[CampaignService] Skipped ${suppressionResult.suppressed.length} suppressed emails`)
+    }
+
+    console.log(`[CampaignService] Final eligible recipients: ${users.length}`)
     return users
+  }
+
+  /**
+   * Batch fetch user records from Firebase Auth
+   * Firebase allows up to 100 users per batch
+   */
+  private async batchGetUsers(
+    uids: string[]
+  ): Promise<Map<string, { email: string | undefined; emailVerified: boolean }>> {
+    if (!adminAuth) {
+      throw new Error('Firebase Auth not initialized')
+    }
+
+    const result = new Map<string, { email: string | undefined; emailVerified: boolean }>()
+    const BATCH_SIZE = 100
+
+    for (let i = 0; i < uids.length; i += BATCH_SIZE) {
+      const batch = uids.slice(i, i + BATCH_SIZE)
+      const identifiers = batch.map((uid) => ({ uid }))
+
+      try {
+        const response = await adminAuth.getUsers(identifiers)
+        for (const user of response.users) {
+          result.set(user.uid, {
+            email: user.email,
+            emailVerified: user.emailVerified,
+          })
+        }
+      } catch (error) {
+        console.error(`[CampaignService] Error batch fetching users:`, error)
+      }
+    }
+
+    return result
+  }
+
+  /**
+   * Batch fetch user preferences from Firestore
+   */
+  private async batchGetPreferences(uids: string[]): Promise<Map<string, any>> {
+    if (!adminFirestore) {
+      throw new Error('Firestore not initialized')
+    }
+
+    const result = new Map<string, any>()
+
+    // Firestore getAll supports up to 500 documents
+    const BATCH_SIZE = 500
+
+    for (let i = 0; i < uids.length; i += BATCH_SIZE) {
+      const batch = uids.slice(i, i + BATCH_SIZE)
+      const refs = batch.map((uid) =>
+        adminFirestore!
+          .collection('users')
+          .doc(uid)
+          .collection('preferences')
+          .doc('settings')
+      )
+
+      try {
+        const snapshots = await adminFirestore.getAll(...refs)
+        for (let j = 0; j < snapshots.length; j++) {
+          const snap = snapshots[j]
+          if (snap.exists) {
+            result.set(batch[j], snap.data())
+          }
+        }
+      } catch (error) {
+        console.error(`[CampaignService] Error batch fetching preferences:`, error)
+      }
+    }
+
+    return result
   }
 
   /**
@@ -166,18 +267,28 @@ export class CampaignService {
       return
     }
 
-    // Send in batches
+    // Send emails respecting Resend's rate limit (2 emails/second)
     let sent = 0
     let failed = 0
     const errors: EmailCampaign['errors'] = []
+    const totalUsers = users.length
+    const estimatedMinutes = Math.ceil(totalUsers / this.EMAILS_PER_SECOND / 60)
 
-    for (let i = 0; i < users.length; i += this.BATCH_SIZE) {
-      const batch = users.slice(i, i + this.BATCH_SIZE)
-      console.log(
-        `[CampaignService] Sending batch ${Math.floor(i / this.BATCH_SIZE) + 1}/${Math.ceil(users.length / this.BATCH_SIZE)} (${batch.length} emails)`
-      )
+    console.log(
+      `[CampaignService] Sending ${totalUsers} emails at ${this.EMAILS_PER_SECOND}/sec (estimated: ${estimatedMinutes} minutes)`
+    )
 
-      // Send emails in parallel within batch
+    for (let i = 0; i < users.length; i += this.EMAILS_PER_SECOND) {
+      const batch = users.slice(i, i + this.EMAILS_PER_SECOND)
+
+      // Log progress every 50 emails
+      if (i % 50 === 0) {
+        console.log(
+          `[CampaignService] Progress: ${i}/${totalUsers} (${Math.round((i / totalUsers) * 100)}%)`
+        )
+      }
+
+      // Send this small batch in parallel (2 emails max)
       const results = await Promise.allSettled(
         batch.map((user) => this.sendEmailToUser(user, campaign))
       )
@@ -202,16 +313,18 @@ export class CampaignService {
         }
       }
 
-      // Update progress in Firestore
-      await campaignRef.update({
-        'stats.sentCount': sent,
-        'stats.failedCount': failed,
-        errors: errors.slice(0, 100), // Limit to 100 errors to avoid document size issues
-      })
+      // Update progress in Firestore every 20 emails to reduce writes
+      if (i % 20 === 0 || i + this.EMAILS_PER_SECOND >= users.length) {
+        await campaignRef.update({
+          'stats.sentCount': sent,
+          'stats.failedCount': failed,
+          errors: errors.slice(0, 100), // Limit to 100 errors to avoid document size issues
+        })
+      }
 
-      // Rate limit: wait before next batch
-      if (i + this.BATCH_SIZE < users.length) {
-        await new Promise((resolve) => setTimeout(resolve, this.BATCH_DELAY_MS))
+      // Rate limit: wait 1 second before next batch of 2
+      if (i + this.EMAILS_PER_SECOND < users.length) {
+        await new Promise((resolve) => setTimeout(resolve, this.RATE_LIMIT_DELAY_MS))
       }
     }
 

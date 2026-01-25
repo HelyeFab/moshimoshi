@@ -8,9 +8,11 @@
 import { onDocumentCreated, onDocumentUpdated } from 'firebase-functions/v2/firestore';
 import { defineSecret } from 'firebase-functions/params';
 import * as admin from 'firebase-admin';
+import { sendTeaHouseQuestionAlert, sendTeaHouseAnswerAlert } from './utils/alertNotifier';
 
 // Define secrets
 const modalApiKey = defineSecret('MODAL_API_KEY');
+const resendApiKey = defineSecret('RESEND_API_KEY');
 
 interface ModerationResult {
   approved: boolean;
@@ -116,7 +118,7 @@ Respond in JSON format:
 export const moderateQuestion = onDocumentCreated(
   {
     document: 'qa_questions/{questionId}',
-    secrets: [modalApiKey],
+    secrets: [modalApiKey, resendApiKey],
     maxInstances: 10,
     minInstances: 1,
     concurrency: 5,
@@ -155,6 +157,24 @@ export const moderateQuestion = onDocumentCreated(
     });
 
     console.log(`Question ${questionId}: ${result.approved ? 'APPROVED' : 'REJECTED'} - ${result.reason}`);
+
+    // Send email notification for approved questions
+    if (result.approved) {
+      try {
+        await sendTeaHouseQuestionAlert(
+          resendApiKey.value(),
+          questionId,
+          data.title,
+          {
+            name: data.author?.name || 'Anonymous',
+            email: data.author?.email || 'unknown',
+          }
+        );
+      } catch (notifyError) {
+        console.error(`Failed to send question notification for ${questionId}:`, notifyError);
+        // Don't fail the moderation if notification fails
+      }
+    }
   } catch (error) {
     console.error(`Failed to moderate question ${questionId}:`, error);
 
@@ -239,7 +259,7 @@ export const moderateQuestionOnUpdate = onDocumentUpdated(
 export const moderateAnswer = onDocumentCreated(
   {
     document: 'qa_answers/{answerId}',
-    secrets: [modalApiKey],
+    secrets: [modalApiKey, resendApiKey],
     maxInstances: 10,
     minInstances: 1,
     concurrency: 5,
@@ -277,12 +297,31 @@ export const moderateAnswer = onDocumentCreated(
       moderatedAt: admin.firestore.FieldValue.serverTimestamp(),
     });
 
-    // If approved, increment answer count on the question
+    // If approved, increment answer count on the question and send notification
     if (result.approved) {
       const questionRef = admin.firestore().collection('qa_questions').doc(data.questionId);
       await questionRef.update({
         answerCount: admin.firestore.FieldValue.increment(1),
       });
+
+      // Send email notification for approved answers
+      try {
+        const questionDoc = await questionRef.get();
+        const questionData = questionDoc.data();
+        await sendTeaHouseAnswerAlert(
+          resendApiKey.value(),
+          answerId,
+          data.questionId,
+          questionData?.title || 'Unknown Question',
+          {
+            name: data.author?.name || 'Anonymous',
+            email: data.author?.email || 'unknown',
+          }
+        );
+      } catch (notifyError) {
+        console.error(`Failed to send answer notification for ${answerId}:`, notifyError);
+        // Don't fail the moderation if notification fails
+      }
     }
 
     console.log(`Answer ${answerId}: ${result.approved ? 'APPROVED' : 'REJECTED'} - ${result.reason}`);

@@ -1,9 +1,9 @@
 # Scheduled Story Generation - Technical Onboarding Guide
 
-> **Document Version:** 1.1.0
+> **Document Version:** 1.3.0
 > **Last Updated:** 2026-01-25
 > **Author:** Technical Lead
-> **Status:** Production System
+> **Status:** Production System (Verified)
 
 ---
 
@@ -26,7 +26,7 @@
 8. [Scheduler Configuration](#8-scheduler-configuration)
 9. [Error Handling & Recovery](#9-error-handling--recovery)
 10. [Known Issues & Fixes](#10-known-issues--fixes)
-    - 10.1 Audio Endpoint Overwrites Pages (FIXED 2026-01-25)
+    - 10.1 Audio Endpoint Overwrites Pages (FIXED & VERIFIED 2026-01-25)
     - 10.2 Validation Error Messages
     - 10.3 Impact Analysis: Word Prefetch System
 11. [Debugging Guide](#11-debugging-guide)
@@ -530,29 +530,54 @@ The scheduler includes retry logic to handle cold starts.
 }
 ```
 
-### 8.3 Theme Rotation
+### 8.3 Theme Selection (Seasonal + Smart Rotation)
 
-15 predefined themes, rotating by day of year:
+**Updated 2026-01-25:** Theme selection now uses seasonal awareness and avoids recent themes.
+
+**Theme File:** `functions/src/config/story-themes.json` (edit this file to add/remove themes)
+
+#### Theme Pools (81 total themes)
+
+| Season | Months | Theme Count | Examples |
+|--------|--------|-------------|----------|
+| **Spring** | Mar-May | 14 | Cherry Blossom Viewing, Golden Week Holiday, Starting a New School Year |
+| **Summer** | Jun-Aug | 15 | Summer Festival, Watching Fireworks, Going to the Beach |
+| **Autumn** | Sep-Nov | 14 | Autumn Leaves Viewing, Harvest Moon Festival, Halloween Party |
+| **Winter** | Dec-Feb | 15 | New Year Celebration, Making Mochi, Christmas Eve in Japan |
+| **Year-Round** | Any | 24 | A Day at School, Cooking Japanese Food, At the Library |
+
+#### Selection Algorithm
 
 ```typescript
-const STORY_THEMES = [
-  'A Day at School',
-  'Cherry Blossom Viewing',
-  'Summer Festival',
-  'Visiting a Temple',
-  'Shopping Trip',
-  'Family Dinner',
-  'A Trip to the Beach',
-  'Autumn Leaves',
-  'Winter Snow',
-  'New Year Celebration',
-  'Cooking Together',
-  'Pet Adventures',
-  'Rainy Day',
-  'Sports Day',
-  'Birthday Party',
-]
+// Configuration
+const THEME_CONFIG = {
+  RECENT_THEMES_TO_AVOID: 20,  // Don't repeat last 20 themes
+  YEAR_ROUND_CHANCE: 0.3,      // 30% chance for year-round theme
+}
+
+// Selection priority:
+// 1. 30% chance: Try year-round theme (if not recently used)
+// 2. Try current season's themes (if not recently used)
+// 3. Fallback: Try year-round themes
+// 4. Fallback: Try other seasons
+// 5. Final fallback: Random from all pools (ignores recent history)
 ```
+
+#### Season Detection (Northern Hemisphere / Japan)
+
+```typescript
+function getCurrentSeason() {
+  const month = new Date().getMonth() // 0-11
+  if (month >= 2 && month <= 4) return 'spring'   // March, April, May
+  if (month >= 5 && month <= 7) return 'summer'   // June, July, August
+  if (month >= 8 && month <= 10) return 'autumn'  // September, October, November
+  return 'winter'                                  // December, January, February
+}
+```
+
+#### Recent Theme Tracking
+
+Themes are tracked via `story_generation_logs` collection. The system queries the last 20 generations to avoid repetition, ensuring users see fresh content each week.
 
 ### 8.4 JLPT Level Distribution
 
@@ -612,7 +637,7 @@ sendStoryGenerationWarningAlert()  // Pending state
 
 ## 10. Known Issues & Fixes
 
-### 10.1 Audio Endpoint Overwrites Pages (FIXED 2026-01-25)
+### 10.1 Audio Endpoint Overwrites Pages (FIXED & VERIFIED 2026-01-25)
 
 **Issue:** The audio generation endpoint received minimal page data and overwrote the full pages array, destroying `textWithFurigana`, `translation`, and `imagePrompt`.
 
@@ -681,6 +706,28 @@ if (existingPages.length > 0) {
 2. Uses spread operator (`...page`) to preserve ALL existing fields
 3. Skips page update entirely if no existing pages found (prevents empty array overwrite)
 4. Logs warning if safeguard triggered
+
+**Production Verification (2026-01-25):**
+
+Fix verified with production story generation:
+
+| Story ID | `story_1769355057545_scheduler-system` |
+|----------|----------------------------------------|
+| Theme | New Year Celebration |
+| JLPT Level | N5 |
+| Title | Akira's New Year Celebration |
+| Status | Published |
+
+**Page Field Verification:**
+
+| Field | Page 1 | Page 2 | Page 3 |
+|-------|--------|--------|--------|
+| `text` | ✅ | ✅ | ✅ |
+| `textWithFurigana` | ✅ PRESERVED | ✅ PRESERVED | ✅ PRESERVED |
+| `translation` | ✅ PRESERVED | ✅ PRESERVED | ✅ PRESERVED |
+| `audioUrl` | ✅ | ✅ | ✅ |
+
+**Result:** All page fields preserved after audio generation. Bug fix confirmed working in production.
 
 ### 10.2 Validation Error Messages
 
@@ -1117,6 +1164,10 @@ const QuizQuestionSchema = z.object({
 │  SCHEDULE:     Sunday 00:00 UTC (weekly)                        │
 │  RETRY:        Daily 06:00 UTC (pending drafts)                 │
 │                                                                 │
+│  THEMES:       81 total (seasonal + year-round)                 │
+│  ├── Spring: 14  │  Summer: 15  │  Autumn: 14  │  Winter: 15   │
+│  └── Year-round: 24  │  Avoids last 20 used themes              │
+│                                                                 │
 │  AI PROVIDERS:                                                  │
 │  ├── OpenAI (gpt-4o-mini)  → Text generation (Steps 1-6)       │
 │  ├── Gemini/Imagen         → Image generation (Steps 5-6)       │
@@ -1124,6 +1175,7 @@ const QuizQuestionSchema = z.object({
 │  └── Qwen 2.5 (Modal)      → Post-processing (Steps 8-9)        │
 │                                                                 │
 │  KEY FILES:                                                     │
+│  ├── functions/src/config/story-themes.json  ← EDIT THEMES HERE │
 │  ├── functions/src/scheduled/storyScheduler.ts                  │
 │  ├── src/app/api/admin/generate-story/route.ts                  │
 │  ├── src/app/api/admin/generate-story-audio/route.ts            │

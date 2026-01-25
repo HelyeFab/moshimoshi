@@ -7120,4 +7120,12 @@ export const strings = {
       acknowledgeFailed: 'Échec de l\'enregistrement de l\'accusé de réception. Veuillez réessayer.',
     },
   },
+
+  // Bannières
+  banners: {
+    sundayContent: {
+      message: 'Nouveau contenu chaque dimanche !',
+      dismiss: 'Fermer la bannière',
+    },
+  },
 };
