@@ -960,6 +960,7 @@ async function cleanupAudioCache(cache) {
       await cache.delete(entries[i].request);
     }
   }
+}
 
 async function cleanupImageCache(cache) {
   const keys = await cache.keys();
