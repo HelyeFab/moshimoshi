@@ -148,8 +148,9 @@ const nextConfig: NextConfig = {
     '/[locale]/learn/grammar/sitemap': ['public/data/grammar/**'],
   },
   // Remove console logs in production for cleaner output and smaller bundle
+  // TEMP: Disabled for reCAPTCHA debugging - re-enable after verifying fix
   compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
+    // removeConsole: process.env.NODE_ENV === 'production',
   },
   env: {
     // Pricing configuration - these will be available client-side
