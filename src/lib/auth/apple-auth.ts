@@ -19,6 +19,8 @@ declare global {
         signIn: () => Promise<AppleSignInResponse>
       }
     }
+    __appleAuthReady?: boolean
+    __appleAuthInitialized?: boolean
   }
 }
 
@@ -46,40 +48,80 @@ interface AppleSignInResponse {
   }
 }
 
-// Load Apple's JS SDK
-function loadAppleScript(): Promise<void> {
-  return new Promise((resolve, reject) => {
-    // Check if already loaded
-    if (window.AppleID) {
-      resolve()
-      return
-    }
+// The redirect URL configured in Apple Developer Console
+const APPLE_REDIRECT_URL = 'https://auth.moshimoshi.app/__/auth/handler'
 
-    const script = document.createElement('script')
-    script.src = 'https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js'
-    script.async = true
-    script.onload = () => resolve()
-    script.onerror = () => reject(new Error('Failed to load Apple Sign-In SDK'))
-    document.head.appendChild(script)
-  })
+/**
+ * Preload Apple's JS SDK. Call this on page load for Safari/iOS.
+ * This ensures the SDK is ready when user clicks the button.
+ */
+export function preloadAppleSDK(): void {
+  if (typeof window === 'undefined') return
+  if (window.__appleAuthReady || document.querySelector('script[src*="appleid.auth.js"]')) {
+    return
+  }
+
+  console.log('[Apple Native] Preloading Apple SDK...')
+  const script = document.createElement('script')
+  script.src = 'https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js'
+  script.async = true
+  script.onload = () => {
+    console.log('[Apple Native] SDK preloaded successfully')
+    window.__appleAuthReady = true
+    // Initialize immediately after load
+    initAppleAuth()
+  }
+  script.onerror = () => {
+    console.error('[Apple Native] Failed to preload Apple SDK')
+  }
+  document.head.appendChild(script)
 }
 
 // Initialize Apple Auth
 function initAppleAuth(): void {
-  // Get the current URL for redirect (Apple requires exact match)
-  const redirectURI = `${window.location.origin}${window.location.pathname}`
+  if (window.__appleAuthInitialized) return
+  if (!window.AppleID) return
+
+  console.log('[Apple Native] Initializing Apple Auth with redirect:', APPLE_REDIRECT_URL)
 
   window.AppleID.auth.init({
     clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID || 'com.moshimoshi.web',
     scope: 'email name',
-    redirectURI,
-    usePopup: true, // Use popup mode - works better across browsers
+    redirectURI: APPLE_REDIRECT_URL,
+    usePopup: true,
+  })
+
+  window.__appleAuthInitialized = true
+  console.log('[Apple Native] Auth initialized')
+}
+
+/**
+ * Wait for Apple SDK to be ready (with timeout)
+ */
+function waitForAppleSDK(timeoutMs: number = 3000): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (window.AppleID && window.__appleAuthInitialized) {
+      resolve()
+      return
+    }
+
+    const startTime = Date.now()
+    const checkInterval = setInterval(() => {
+      if (window.AppleID && window.__appleAuthInitialized) {
+        clearInterval(checkInterval)
+        resolve()
+      } else if (Date.now() - startTime > timeoutMs) {
+        clearInterval(checkInterval)
+        reject(new Error('Apple SDK load timeout'))
+      }
+    }, 50)
   })
 }
 
 /**
  * Sign in with Apple using the native JS SDK, then authenticate with Firebase.
- * This approach works on Safari and other browsers that block Firebase's redirect flow.
+ *
+ * IMPORTANT: Call preloadAppleSDK() on page mount for Safari/iOS to avoid popup blocking.
  */
 export async function signInWithAppleNative(): Promise<{
   user: import('firebase/auth').User
@@ -87,15 +129,17 @@ export async function signInWithAppleNative(): Promise<{
 }> {
   console.log('[Apple Native] Starting Apple Sign-In')
 
-  // Load Apple's SDK
-  await loadAppleScript()
-  console.log('[Apple Native] SDK loaded')
+  // If SDK not preloaded, try to load it now (may cause popup block on Safari)
+  if (!window.AppleID) {
+    console.log('[Apple Native] SDK not preloaded, loading now...')
+    preloadAppleSDK()
+  }
 
-  // Initialize
-  initAppleAuth()
-  console.log('[Apple Native] Auth initialized')
+  // Wait for SDK to be ready
+  await waitForAppleSDK()
+  console.log('[Apple Native] SDK ready, triggering sign-in')
 
-  // Trigger Apple Sign-In
+  // Trigger Apple Sign-In - this should be immediate after user click
   const response = await window.AppleID.auth.signIn()
   console.log('[Apple Native] Got Apple response:', {
     hasCode: !!response.authorization?.code,
@@ -111,7 +155,7 @@ export async function signInWithAppleNative(): Promise<{
   const provider = new OAuthProvider('apple.com')
   const credential = provider.credential({
     idToken: response.authorization.id_token,
-    rawNonce: undefined, // We're not using nonce for simplicity
+    rawNonce: undefined,
   })
 
   console.log('[Apple Native] Created Firebase credential, signing in...')
@@ -125,7 +169,6 @@ export async function signInWithAppleNative(): Promise<{
   console.log('[Apple Native] Firebase sign-in successful:', result.user.email)
 
   // Check if this is a new user (first sign-in)
-  // Firebase doesn't directly tell us, but we can check metadata
   const isNewUser = result.user.metadata.creationTime === result.user.metadata.lastSignInTime
 
   return {

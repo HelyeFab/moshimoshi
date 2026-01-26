@@ -56,6 +56,18 @@ function SignInContent() {
     }
   }, [authLoading, isAuthenticated])
 
+  // Preload Apple SDK for Safari/iOS to avoid popup blocking
+  useEffect(() => {
+    const deviceInfo = getDeviceInfo()
+    const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+
+    if (deviceInfo.isIOS || isSafari) {
+      import('@/lib/auth/apple-auth').then(({ preloadAppleSDK }) => {
+        preloadAppleSDK()
+      })
+    }
+  }, [])
+
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault()
     logger.auth('Sign in attempt', { email })
