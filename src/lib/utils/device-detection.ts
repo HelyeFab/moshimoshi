@@ -73,9 +73,9 @@ export function getDeviceInfo(): DeviceInfo {
 
 /**
  * Get platform-specific getRedirectResult timeout
- * iOS PWA: 15s (research shows 10-15s needed)
+ * iOS (all): 15s - Apple Sign-In on iOS Safari/Chrome needs longer timeout
  * Other platforms: 5s (current timeout works fine)
  */
 export function getAuthRedirectTimeout(): number {
-  return isIOSPWAStandalone() ? 15000 : 5000
+  return isIOSDevice() ? 15000 : 5000
 }

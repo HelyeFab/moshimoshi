@@ -16,7 +16,7 @@ import {
 import { auth } from '@/lib/firebase/client'
 import logger from '@/lib/logger'
 import { migrateUserStores, cleanupNonUserSpecificStores } from '@/lib/storage/migrate-stores'
-import { isIOSPWAStandalone, getDeviceInfo, getAuthRedirectTimeout } from '@/lib/utils/device-detection'
+import { getDeviceInfo, getAuthRedirectTimeout } from '@/lib/utils/device-detection'
 import { requestManager } from '@/lib/api/requestManager'
 import { storeEntitlementsSnapshotToken } from '@/lib/pwa/offline-entitlements'
 
@@ -587,12 +587,12 @@ function useAuthProvider(): Auth {
       provider.addScope('email')
       provider.addScope('name')
 
-      // iOS PWA standalone mode blocks popups - skip popup attempt
-      const isIOSPWA = isIOSPWAStandalone()
+      // Use redirect flow for ALL iOS devices (not just PWA)
+      // iOS Safari/Chrome block popups, so skip popup attempt entirely
+      const deviceInfo = getDeviceInfo()
 
-      if (isIOSPWA) {
-        logger.auth('[iOS PWA] Detected standalone mode - using redirect flow directly')
-        const deviceInfo = getDeviceInfo()
+      if (deviceInfo.isIOS) {
+        logger.auth('[iOS] Detected iOS device - using redirect flow directly')
         logger.auth('[Device Info]', {
           platform: deviceInfo.platform,
           isPWA: deviceInfo.isPWA,
@@ -662,13 +662,12 @@ function useAuthProvider(): Auth {
       // Use direct Firebase auth
       const provider = new GoogleAuthProvider()
 
-      // IMPROVEMENT #1: iOS PWA Preemptive Redirect
-      // iOS PWA standalone mode blocks popups - skip popup attempt
-      const isIOSPWA = isIOSPWAStandalone()
+      // Use redirect flow for ALL iOS devices (not just PWA)
+      // iOS Safari/Chrome block popups, so skip popup attempt entirely
+      const deviceInfo = getDeviceInfo()
 
-      if (isIOSPWA) {
-        logger.auth('[iOS PWA] Detected standalone mode - using redirect flow directly')
-        const deviceInfo = getDeviceInfo()
+      if (deviceInfo.isIOS) {
+        logger.auth('[iOS] Detected iOS device - using redirect flow directly')
         logger.auth('[Device Info]', {
           platform: deviceInfo.platform,
           isPWA: deviceInfo.isPWA,

@@ -9,7 +9,7 @@ import { useTranslation, buildLocalePath, useLocalePath } from '@/i18n/I18nConte
 import logger from '@/lib/logger'
 import MoshimoshiLogo from '@/components/ui/MoshimoshiLogo'
 import { useReCaptcha } from '@/components/ReCaptchaProvider'
-import { getDeviceInfo, isIOSPWAStandalone } from '@/lib/utils/device-detection'
+import { getDeviceInfo } from '@/lib/utils/device-detection'
 import { useAuth } from '@/hooks/useAuth'
 import { Eye, EyeOff } from 'lucide-react'
 
@@ -173,11 +173,12 @@ function SignInContent() {
       provider.addScope('email')
       provider.addScope('name')
 
-      const isIOSPWA = isIOSPWAStandalone()
+      const deviceInfo = getDeviceInfo()
 
-      if (isIOSPWA) {
-        logger.auth('[iOS PWA] Detected standalone mode - using redirect flow directly')
-        const deviceInfo = getDeviceInfo()
+      // Use redirect flow for ALL iOS devices (not just PWA)
+      // iOS Safari/Chrome block popups, so skip popup attempt entirely
+      if (deviceInfo.isIOS) {
+        logger.auth('[iOS] Detected iOS device - using redirect flow directly')
         logger.auth('[Device Info]', {
           platform: deviceInfo.platform,
           isPWA: deviceInfo.isPWA,
