@@ -1,8 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
 @import 'tailwindcss';
 @import './palettes.css';
 @import './fonts.css';
-
-/* Noto Sans JP is now self-hosted in fonts.css (removed Google Fonts dependency) */
 
 /* Configure dark mode for Tailwind v4 */
 @supports (color: oklch(0 0 0)) {
