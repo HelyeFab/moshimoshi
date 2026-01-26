@@ -9,7 +9,7 @@ import { getStorage } from 'firebase/storage'
 import { getAnalytics, isSupported } from 'firebase/analytics'
 import { firebaseConfig, getEffectiveAuthDomain } from './config-base'
 
-// Get the effective auth domain (Safari uses default Firebase domain due to ITP issues)
+// Get the effective auth domain (production uses same-origin proxy to avoid ITP issues)
 const effectiveConfig = {
   ...firebaseConfig,
   authDomain: getEffectiveAuthDomain(),

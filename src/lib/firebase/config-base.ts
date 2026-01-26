@@ -1,7 +1,11 @@
 // Shared Firebase client config (no initialization side effects)
 
-// Default Firebase domain (fallback if custom domain is missing)
+// Default Firebase domain (fallback for non-production environments)
 export const DEFAULT_FIREBASE_AUTH_DOMAIN = 'moshimoshi-de237.firebaseapp.com'
+
+// Production domain - requests to /__/auth/* are proxied to Firebase
+// This avoids cross-origin storage issues on Safari 16.1+ and other modern browsers
+export const PRODUCTION_AUTH_DOMAIN = 'moshimoshi.app'
 
 export const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.trim(),
@@ -15,7 +19,12 @@ export const firebaseConfig = {
 
 /**
  * Get the auth domain to use.
- * Prefer the configured custom domain when available.
+ *
+ * For production (moshimoshi.app), we use the app's own domain as authDomain.
+ * This works because Next.js proxies /__/auth/* requests to Firebase.
+ * This avoids cross-origin storage issues on Safari 16.1+, Chrome 115+, and Firefox 109+.
+ *
+ * See: https://firebase.google.com/docs/auth/web/redirect-best-practices
  */
 export function getEffectiveAuthDomain(): string {
   // Server-side: use configured domain
@@ -23,6 +32,22 @@ export function getEffectiveAuthDomain(): string {
     return firebaseConfig.authDomain || DEFAULT_FIREBASE_AUTH_DOMAIN
   }
 
+  // Client-side: check if we're on production
+  const hostname = window.location.hostname
+
+  // On production, use the app's own domain (proxied to Firebase)
+  if (hostname === 'moshimoshi.app' || hostname === 'www.moshimoshi.app') {
+    console.log('[Firebase Config] Production detected, using same-origin authDomain for ITP compatibility')
+    return hostname
+  }
+
+  // On Vercel preview deployments, also use same-origin
+  if (hostname.endsWith('.vercel.app')) {
+    console.log('[Firebase Config] Vercel preview detected, using same-origin authDomain')
+    return hostname
+  }
+
+  // Development or other environments: use configured domain
   return firebaseConfig.authDomain || DEFAULT_FIREBASE_AUTH_DOMAIN
 }
 
