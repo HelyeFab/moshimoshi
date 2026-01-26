@@ -165,15 +165,12 @@ function SignInContent() {
       // Import Firebase synchronously to preserve user gesture for popup
       const firebaseAuth = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
-      const { signInWithPopup, signInWithRedirect, OAuthProvider, setPersistence, browserLocalPersistence } = firebaseAuth
+      const { signInWithPopup, signInWithRedirect, OAuthProvider } = firebaseAuth
       console.log('[Apple SignIn] Firebase imported, auth:', auth ? 'exists' : 'null')
 
       if (!auth) {
         throw new Error('Firebase not initialized')
       }
-
-      // Ensure persistence is set before any redirect/popup to avoid Safari losing state
-      await setPersistence(auth, browserLocalPersistence)
 
       const provider = new OAuthProvider('apple.com')
       provider.addScope('email')

@@ -235,15 +235,12 @@ export default function SignUpPage() {
         sessionStorage.setItem(authFlowFlag, 'true')
       }
 
-      const { signInWithPopup, signInWithRedirect, OAuthProvider, setPersistence, browserLocalPersistence } = await import('firebase/auth')
+      const { signInWithPopup, signInWithRedirect, OAuthProvider } = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
 
       if (!auth) {
         throw new Error('Firebase not initialized')
       }
-
-      // Ensure persistence is set before any redirect/popup to avoid Safari losing state
-      await setPersistence(auth, browserLocalPersistence)
 
       const provider = new OAuthProvider('apple.com')
       provider.addScope('email')
