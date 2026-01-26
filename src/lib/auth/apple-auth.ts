@@ -48,9 +48,6 @@ interface AppleSignInResponse {
   }
 }
 
-// The redirect URL configured in Apple Developer Console
-const APPLE_REDIRECT_URL = 'https://auth.moshimoshi.app/__/auth/handler'
-
 /**
  * Preload Apple's JS SDK. Call this on page load for Safari/iOS.
  * This ensures the SDK is ready when user clicks the button.
@@ -82,12 +79,17 @@ function initAppleAuth(): void {
   if (window.__appleAuthInitialized) return
   if (!window.AppleID) return
 
-  console.log('[Apple Native] Initializing Apple Auth with redirect:', APPLE_REDIRECT_URL)
+  // For usePopup: true, redirectURI MUST be the current origin (not a different domain)
+  // Apple's popup uses postMessage to communicate back, which requires same-origin
+  // See: https://developer.apple.com/forums/thread/130666
+  const redirectURI = window.location.origin
+
+  console.log('[Apple Native] Initializing Apple Auth with redirect:', redirectURI)
 
   window.AppleID.auth.init({
     clientId: process.env.NEXT_PUBLIC_APPLE_CLIENT_ID || 'com.moshimoshi.web',
     scope: 'email name',
-    redirectURI: APPLE_REDIRECT_URL,
+    redirectURI: redirectURI,
     usePopup: true,
   })
 
