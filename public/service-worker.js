@@ -19,7 +19,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-51d0b8124d0d';
+const CACHE_VERSION = 'moshimoshi-e0c4b7497d0f';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -126,8 +126,8 @@ const MANUAL_PRECACHE_URLS = [
   '/data/kanji/jlpt_5.json'
 ];
 const PRECACHE_URLS = [
-  "/_next/static/4wt9I68I5O4Q4HJEDI7c8/_buildManifest.js",
-  "/_next/static/4wt9I68I5O4Q4HJEDI7c8/_ssgManifest.js",
+  "/_next/static/2uqRbbrEsEJ2PSwO2LbLA/_buildManifest.js",
+  "/_next/static/2uqRbbrEsEJ2PSwO2LbLA/_ssgManifest.js",
   "/_next/static/chunks/10152-c63ff6c19e120921.js",
   "/_next/static/chunks/1036-a680cf451ab48a19.js",
   "/_next/static/chunks/10409-58c9f3a9ad081a09.js",
@@ -274,7 +274,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/91979-b3beba1c376bf9da.js",
   "/_next/static/chunks/92758-2306713be271c488.js",
   "/_next/static/chunks/93171-9688cbc95e8633b0.js",
-  "/_next/static/chunks/94997-9489e3b130fbdca9.js",
+  "/_next/static/chunks/94997-af8b57cdd441a1d1.js",
   "/_next/static/chunks/98295-1545bf2ab514a125.js",
   "/_next/static/chunks/98459-769c534cbb2e4766.js",
   "/_next/static/chunks/98723-8a13142e4e7f3dba.js",
@@ -342,8 +342,8 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/auth/action/page-280c0a799783d05b.js",
   "/_next/static/chunks/app/[locale]/auth/error/page-060ac01fd685b0a2.js",
   "/_next/static/chunks/app/[locale]/auth/reset-password/page-0768b385feecdcf4.js",
-  "/_next/static/chunks/app/[locale]/auth/signin/page-c3b81351c70f76dd.js",
-  "/_next/static/chunks/app/[locale]/auth/signup/page-ac692bcb37062166.js",
+  "/_next/static/chunks/app/[locale]/auth/signin/page-0c354e782bf1cf80.js",
+  "/_next/static/chunks/app/[locale]/auth/signup/page-7a232cd3bba098ac.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-error/page-e8921802245d543f.js",
   "/_next/static/chunks/app/[locale]/auth/verify-email-success/page-1aae659abb5eba84.js",
   "/_next/static/chunks/app/[locale]/auth/verify-magic-link/page-87a81b9d5abdd508.js",
@@ -598,15 +598,10 @@ self.addEventListener('fetch', (event) => {
     url.pathname === '/_next/image' ||
     url.pathname.match(/\.(png|jpe?g|gif|webp|svg|avif)$/i);
 
-  // Skip cross-origin requests except for allowed CDNs
+  // Skip cross-origin requests (fonts are now self-hosted)
   if (url.origin !== self.location.origin) {
-    // Allow specific CDNs if needed (e.g., fonts, analytics)
-    const allowedOrigins = [
-      'https://fonts.googleapis.com',
-      'https://fonts.gstatic.com',
-    ];
-
-    if (!isImageRequest && !allowedOrigins.some(origin => url.origin === origin)) {
+    // Only allow cross-origin image requests
+    if (!isImageRequest) {
       return;
     }
   }
