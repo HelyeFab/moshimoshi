@@ -16,6 +16,10 @@ const API_VERSIONS = {
 const LOCALE_COOKIE = 'NEXT_LOCALE';
 const PRELAUNCH_AUTH_COOKIE = 'prelaunch_auth';
 
+// Test routes configuration
+// Set NEXT_PUBLIC_ENABLE_TEST_ROUTES=true in .env.local to enable test routes
+const ENABLE_TEST_ROUTES = process.env.NEXT_PUBLIC_ENABLE_TEST_ROUTES === 'true';
+
 // Routes that require authentication (not admin, just logged in)
 // These routes will redirect to signin if no session cookie exists
 const PROTECTED_ROUTES = [
@@ -123,6 +127,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Block test routes in production (when NEXT_PUBLIC_ENABLE_TEST_ROUTES is not 'true')
+  const routeWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '') || '/';
+  if (!ENABLE_TEST_ROUTES && routeWithoutLocale.startsWith('/test-')) {
+    return NextResponse.rewrite(new URL('/404', request.url));
+  }
+
   // Pre-launch lock: Redirect all non-allowed routes to landing page
   // EXCEPTION: Logged-in users (have session cookie) can bypass the lock
   // This allows existing users (e.g., developer testing) to use the full app
@@ -219,6 +229,13 @@ async function handleAdminRoute(request: NextRequest): Promise<NextResponse | nu
  * Handle API route middleware
  */
 async function handleApiRoute(request: NextRequest): Promise<NextResponse> {
+  const pathname = request.nextUrl.pathname;
+
+  // Block test API routes in production
+  if (!ENABLE_TEST_ROUTES && pathname.includes('/test-')) {
+    return NextResponse.json({ error: 'Not found' }, { status: 404 });
+  }
+
   // Extract and validate API version
   const version = extractApiVersion(request);
 
