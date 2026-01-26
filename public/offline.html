@@ -8,10 +8,7 @@
   <title>Offline - Moshimoshi</title>
   <link rel="icon" href="/favicon.ico" />
 
-  <!-- Google Fonts - Noto Sans JP -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- System fonts only - no external dependencies for offline page -->
 
   <!-- Theme detection script - runs before render to prevent flash -->
   <script>
@@ -242,7 +239,8 @@
     }
 
     body {
-      font-family: 'Noto Sans JP', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      /* System fonts only - offline page cannot load external fonts */
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', 'Meiryo', 'Segoe UI', Roboto, sans-serif;
       min-height: 100vh;
       min-height: 100dvh;
       display: flex;
