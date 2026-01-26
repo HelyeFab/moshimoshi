@@ -7,10 +7,16 @@ import { getAuth } from 'firebase/auth'
 import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, enableNetwork, disableNetwork } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 import { getAnalytics, isSupported } from 'firebase/analytics'
-import { firebaseConfig } from './config-base'
+import { firebaseConfig, getEffectiveAuthDomain } from './config-base'
+
+// Get the effective auth domain (Safari uses default Firebase domain due to ITP issues)
+const effectiveConfig = {
+  ...firebaseConfig,
+  authDomain: getEffectiveAuthDomain(),
+}
 
 // Initialize Firebase only once
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApp()
+const app = getApps().length === 0 ? initializeApp(effectiveConfig) : getApp()
 
 // Initialize services
 export const auth = getAuth(app)
