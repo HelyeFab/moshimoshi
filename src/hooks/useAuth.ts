@@ -830,15 +830,40 @@ function useAuthProvider(): Auth {
           logger.error('Error handling redirect result:', err)
 
           // WORKAROUND: On iOS Safari, Apple Sign-In redirect can fail with internal Firebase errors
-          // Check if Firebase already has the user from the redirect (auth state updated before getRedirectResult resolves)
-          if (auth.currentUser) {
-            logger.auth('[Auth Init] getRedirectResult failed but currentUser exists - creating session')
-            try {
-              await createServerSession(auth.currentUser)
-            } catch (sessionErr) {
-              logger.error('[Auth Init] Failed to create session from currentUser:', sessionErr)
-            }
-          }
+          // Wait a moment for auth state to update, then check currentUser
+          logger.auth('[Auth Init] getRedirectResult failed, waiting for auth state...')
+
+          await new Promise<void>((resolve) => {
+            // Give Firebase time to update auth state after the error
+            let resolved = false
+
+            const unsubscribeTemp = onAuthStateChanged(auth, async (user) => {
+              if (resolved) return
+
+              if (user) {
+                resolved = true
+                unsubscribeTemp()
+                logger.auth('[Auth Init] Auth state updated after error - user found:', user.email)
+                try {
+                  await createServerSession(user)
+                  logger.auth('[Auth Init] Session created successfully after redirect error recovery')
+                } catch (sessionErr) {
+                  logger.error('[Auth Init] Failed to create session after recovery:', sessionErr)
+                }
+                resolve()
+              }
+            })
+
+            // Timeout after 5 seconds if no user appears
+            setTimeout(() => {
+              if (!resolved) {
+                resolved = true
+                unsubscribeTemp()
+                logger.auth('[Auth Init] No user found after waiting for auth state')
+                resolve()
+              }
+            }, 5000)
+          })
         }
 
         // Check existing session only once
