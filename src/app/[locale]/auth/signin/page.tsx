@@ -162,8 +162,10 @@ function SignInContent() {
         sessionStorage.setItem(authFlowFlag, 'true')
       }
 
-      const { signInWithPopup, signInWithRedirect, OAuthProvider } = await import('firebase/auth')
+      // Import Firebase synchronously to preserve user gesture for popup
+      const firebaseAuth = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
+      const { signInWithPopup, signInWithRedirect, OAuthProvider } = firebaseAuth
       console.log('[Apple SignIn] Firebase imported, auth:', auth ? 'exists' : 'null')
 
       if (!auth) {
@@ -177,17 +179,21 @@ function SignInContent() {
       const deviceInfo = getDeviceInfo()
       console.log('[Apple SignIn] Device info:', deviceInfo)
 
-      // Use redirect flow for ALL iOS devices (not just PWA)
-      // iOS Safari/Chrome block popups, so skip popup attempt entirely
-      if (deviceInfo.isIOS) {
-        console.log('[Apple SignIn] iOS detected, using redirect flow')
-        // Store flag for redirect recovery (Firebase getRedirectResult fails on iOS)
+      // Detect Safari browser (blocks popups aggressively)
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+      console.log('[Apple SignIn] Is Safari:', isSafari)
+
+      // Use redirect flow for iOS devices AND Safari browser
+      // Both block popups aggressively, and the popup-then-redirect fallback doesn't work reliably
+      if (deviceInfo.isIOS || isSafari) {
+        console.log('[Apple SignIn] iOS or Safari detected, using redirect flow directly')
+        // Store flag for redirect recovery (Firebase getRedirectResult fails on iOS/Safari)
         sessionStorage.setItem('apple-redirect-pending', 'true')
         await signInWithRedirect(auth, provider)
         return
       }
 
-      console.log('[Apple SignIn] Non-iOS, trying popup flow')
+      console.log('[Apple SignIn] Non-iOS/Safari, trying popup flow')
       try {
         const result = await signInWithPopup(auth, provider)
         console.log('[Apple SignIn] Popup successful, user:', result.user.email)
