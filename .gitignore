@@ -31,6 +31,8 @@ yarn-error.log*
 .env.development
 .env
 .env.vercel.production
+02-PRODUCTION_DOCS/ENV_LOCAL_BACKUP.md
+backup.log
 
 # vercel
 .vercel
