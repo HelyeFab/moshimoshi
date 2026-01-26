@@ -63,8 +63,14 @@ const nextConfig: NextConfig = {
   async rewrites() {
     return {
       beforeFiles: [
+        // Handle auth handler at root level
         {
           source: '/__/auth/:path*',
+          destination: 'https://moshimoshi-de237.firebaseapp.com/__/auth/:path*',
+        },
+        // Handle auth handler with locale prefix (e.g., /en/__/auth/handler)
+        {
+          source: '/:locale/__/auth/:path*',
           destination: 'https://moshimoshi-de237.firebaseapp.com/__/auth/:path*',
         },
       ],
