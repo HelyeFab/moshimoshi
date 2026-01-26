@@ -808,30 +808,34 @@ function useAuthProvider(): Auth {
           // iOS needs 15s timeout due to slower auth flow
           const redirectTimeout = getAuthRedirectTimeout()
 
-          logger.auth('[Auth Init] Checking redirect result with', redirectTimeout, 'ms timeout')
+          // TEMP DEBUG: Use console.log to see in production
+          console.log('[Auth Init] Checking redirect result with', redirectTimeout, 'ms timeout')
 
           const redirectPromise = getRedirectResult(auth)
           const timeoutPromise = new Promise<null>((resolve) => {
             setTimeout(() => {
-              logger.auth('[Auth Init] Redirect result timed out after', redirectTimeout, 'ms')
+              console.log('[Auth Init] Redirect result timed out after', redirectTimeout, 'ms')
               resolve(null)
             }, redirectTimeout)
           })
 
           const result = await Promise.race([redirectPromise, timeoutPromise])
 
+          console.log('[Auth Init] Redirect result:', result ? 'user found' : 'null/timeout')
+
           if (result?.user) {
-            logger.auth('[Auth Init] Redirect result found - creating session')
+            console.log('[Auth Init] Redirect result found - creating session for:', result.user.email)
             await createServerSession(result.user)
           } else if (result === null) {
-            logger.auth('[Auth Init] No redirect result or timeout occurred')
+            console.log('[Auth Init] No redirect result or timeout occurred')
           }
         } catch (err: any) {
-          logger.error('Error handling redirect result:', err)
+          console.error('[Auth Init] Error handling redirect result:', err?.message || err)
 
           // WORKAROUND: On iOS Safari, Apple Sign-In redirect can fail with internal Firebase errors
           // Wait a moment for auth state to update, then check currentUser
-          logger.auth('[Auth Init] getRedirectResult failed, waiting for auth state...')
+          console.log('[Auth Init] getRedirectResult failed, waiting for auth state...')
+          console.log('[Auth Init] Current auth.currentUser:', auth.currentUser?.email || 'null')
 
           await new Promise<void>((resolve) => {
             // Give Firebase time to update auth state after the error
@@ -840,15 +844,17 @@ function useAuthProvider(): Auth {
             const unsubscribeTemp = onAuthStateChanged(auth, async (user) => {
               if (resolved) return
 
+              console.log('[Auth Init] onAuthStateChanged fired after error, user:', user?.email || 'null')
+
               if (user) {
                 resolved = true
                 unsubscribeTemp()
-                logger.auth('[Auth Init] Auth state updated after error - user found:', user.email)
+                console.log('[Auth Init] Auth state updated after error - user found:', user.email)
                 try {
                   await createServerSession(user)
-                  logger.auth('[Auth Init] Session created successfully after redirect error recovery')
+                  console.log('[Auth Init] Session created successfully after redirect error recovery')
                 } catch (sessionErr) {
-                  logger.error('[Auth Init] Failed to create session after recovery:', sessionErr)
+                  console.error('[Auth Init] Failed to create session after recovery:', sessionErr)
                 }
                 resolve()
               }
@@ -859,7 +865,7 @@ function useAuthProvider(): Auth {
               if (!resolved) {
                 resolved = true
                 unsubscribeTemp()
-                logger.auth('[Auth Init] No user found after waiting for auth state')
+                console.log('[Auth Init] No user found after waiting 5s for auth state')
                 resolve()
               }
             }, 5000)
