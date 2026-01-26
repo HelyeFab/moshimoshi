@@ -235,7 +235,44 @@ export default function SignUpPage() {
         sessionStorage.setItem(authFlowFlag, 'true')
       }
 
-      const { signInWithPopup, signInWithRedirect, OAuthProvider } = await import('firebase/auth')
+      const deviceInfo = getDeviceInfo()
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
+      console.log('[Apple SignUp] Device info:', deviceInfo, 'isSafari:', isSafari)
+
+      // For Safari and iOS, use Apple's native JS SDK (bypasses Firebase redirect issues)
+      if (deviceInfo.isIOS || isSafari) {
+        console.log('[Apple SignUp] Using Apple native JS SDK for Safari/iOS')
+        const { signInWithAppleNative } = await import('@/lib/auth/apple-auth')
+
+        const { user, isNewUser } = await signInWithAppleNative()
+        console.log('[Apple SignUp] Native auth successful:', user.email)
+
+        // Get Firebase ID token and create session
+        const idToken = await user.getIdToken()
+        const response = await fetch('/api/auth/apple', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ idToken })
+        })
+
+        const data = await response.json()
+
+        if (response.ok) {
+          sessionStorage.removeItem(authFlowFlag)
+          logger.auth('Account created via Apple (native), redirecting to dashboard')
+          showToast(isNewUser ? strings.auth.signup.messages.googleNewUser : strings.auth.signup.messages.googleExistingUser, 'success')
+          setTimeout(() => {
+            window.location.href = buildLocalePath('/dashboard')
+          }, 100)
+        } else {
+          console.error('Session creation failed:', data.error)
+          setError(getUserFriendlyErrorMessage(data.error?.message || data.error || strings.auth.signup.errors.sessionCreationFailed))
+        }
+        return
+      }
+
+      // For other browsers, use Firebase's popup flow
+      const { signInWithPopup, OAuthProvider } = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
 
       if (!auth) {
@@ -246,60 +283,34 @@ export default function SignUpPage() {
       provider.addScope('email')
       provider.addScope('name')
 
-      const deviceInfo = getDeviceInfo()
+      const result = await signInWithPopup(auth, provider)
+      logger.auth('Apple sign up successful', { email: result.user.email })
 
-      // Detect Safari browser (blocks popups aggressively)
-      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-      console.log('[Apple SignUp] Device info:', deviceInfo, 'isSafari:', isSafari)
+      const idToken = await result.user.getIdToken()
 
-      // Use redirect flow for iOS devices AND Safari browser
-      // Both block popups aggressively, and the popup-then-redirect fallback doesn't work reliably
-      if (deviceInfo.isIOS || isSafari) {
-        console.log('[Apple SignUp] iOS or Safari detected, using redirect flow directly')
-        // Store flag for redirect recovery (Firebase getRedirectResult fails on iOS/Safari)
-        sessionStorage.setItem('apple-redirect-pending', 'true')
-        await signInWithRedirect(auth, provider)
-        return
-      }
+      const response = await fetch('/api/auth/apple', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken })
+      })
 
-      try {
-        const result = await signInWithPopup(auth, provider)
-        logger.auth('Apple sign up successful', { email: result.user.email })
+      const data = await response.json()
 
-        const idToken = await result.user.getIdToken()
-
-        const response = await fetch('/api/auth/apple', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ idToken })
-        })
-
-        const data = await response.json()
-
-        if (response.ok) {
-          if (typeof window !== 'undefined') {
-            logger.auth('[signup] clear auth flow flag (success)')
-            sessionStorage.removeItem(authFlowFlag)
-          }
-          logger.auth('Account created via Apple, redirecting to dashboard')
-          const isNewUser = data.isNewUser
-          showToast(isNewUser ? strings.auth.signup.messages.googleNewUser : strings.auth.signup.messages.googleExistingUser, 'success')
-          setTimeout(() => {
-            window.location.href = buildLocalePath('/dashboard')
-          }, 100)
-        } else {
-          console.error('Session creation failed:', data.error)
-          const errorMessage = data.error?.message || data.error || strings.auth.signup.errors.sessionCreationFailed
-          setError(getUserFriendlyErrorMessage(errorMessage))
+      if (response.ok) {
+        if (typeof window !== 'undefined') {
+          logger.auth('[signup] clear auth flow flag (success)')
+          sessionStorage.removeItem(authFlowFlag)
         }
-      } catch (popupError: any) {
-        if (popupError.code === 'auth/popup-blocked' ||
-            popupError.code === 'auth/cancelled-popup-request') {
-          logger.auth('[Popup Blocked] Falling back to redirect flow')
-          await signInWithRedirect(auth, provider)
-        } else {
-          throw popupError
-        }
+        logger.auth('Account created via Apple, redirecting to dashboard')
+        const isNewUser = data.isNewUser
+        showToast(isNewUser ? strings.auth.signup.messages.googleNewUser : strings.auth.signup.messages.googleExistingUser, 'success')
+        setTimeout(() => {
+          window.location.href = buildLocalePath('/dashboard')
+        }, 100)
+      } else {
+        console.error('Session creation failed:', data.error)
+        const errorMessage = data.error?.message || data.error || strings.auth.signup.errors.sessionCreationFailed
+        setError(getUserFriendlyErrorMessage(errorMessage))
       }
     } catch (err: any) {
       if (typeof window !== 'undefined') {

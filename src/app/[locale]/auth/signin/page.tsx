@@ -162,45 +162,20 @@ function SignInContent() {
         sessionStorage.setItem(authFlowFlag, 'true')
       }
 
-      // Import Firebase synchronously to preserve user gesture for popup
-      const firebaseAuth = await import('firebase/auth')
-      const { auth } = await import('@/lib/firebase/config')
-      const { signInWithPopup, signInWithRedirect, OAuthProvider } = firebaseAuth
-      console.log('[Apple SignIn] Firebase imported, auth:', auth ? 'exists' : 'null')
-
-      if (!auth) {
-        throw new Error('Firebase not initialized')
-      }
-
-      const provider = new OAuthProvider('apple.com')
-      provider.addScope('email')
-      provider.addScope('name')
-
       const deviceInfo = getDeviceInfo()
-      console.log('[Apple SignIn] Device info:', deviceInfo)
-
-      // Detect Safari browser (blocks popups aggressively)
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-      console.log('[Apple SignIn] Is Safari:', isSafari)
+      console.log('[Apple SignIn] Device info:', deviceInfo, 'isSafari:', isSafari)
 
-      // Use redirect flow for iOS devices AND Safari browser
-      // Both block popups aggressively, and the popup-then-redirect fallback doesn't work reliably
+      // For Safari and iOS, use Apple's native JS SDK (bypasses Firebase redirect issues)
       if (deviceInfo.isIOS || isSafari) {
-        console.log('[Apple SignIn] iOS or Safari detected, using redirect flow directly')
-        // Store flag for redirect recovery (Firebase getRedirectResult fails on iOS/Safari)
-        sessionStorage.setItem('apple-redirect-pending', 'true')
-        await signInWithRedirect(auth, provider)
-        return
-      }
+        console.log('[Apple SignIn] Using Apple native JS SDK for Safari/iOS')
+        const { signInWithAppleNative } = await import('@/lib/auth/apple-auth')
 
-      console.log('[Apple SignIn] Non-iOS/Safari, trying popup flow')
-      try {
-        const result = await signInWithPopup(auth, provider)
-        console.log('[Apple SignIn] Popup successful, user:', result.user.email)
-        logger.auth('Apple sign in successful', { email: result.user.email })
+        const { user } = await signInWithAppleNative()
+        console.log('[Apple SignIn] Native auth successful:', user.email)
 
-        const idToken = await result.user.getIdToken()
-
+        // Get Firebase ID token and create session
+        const idToken = await user.getIdToken()
         const response = await fetch('/api/auth/apple', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -210,29 +185,59 @@ function SignInContent() {
         const data = await response.json()
 
         if (response.ok) {
-          if (typeof window !== 'undefined') {
-            sessionStorage.removeItem(authFlowFlag)
-          }
-          logger.auth('Session created, redirecting to dashboard')
+          sessionStorage.removeItem(authFlowFlag)
+          logger.auth('Session created via Apple (native), redirecting to dashboard')
           showToast(strings.auth.signin.messages.signinSuccess, 'success')
           setTimeout(() => {
             window.location.href = buildLocalePath('/dashboard')
           }, 100)
         } else {
           console.error('Session creation failed:', data)
-          const errorMessage = data.error?.message || data.error || strings.auth.signin.errors.sessionCreationFailed
-          setError(getUserFriendlyErrorMessage(errorMessage))
+          setError(getUserFriendlyErrorMessage(data.error?.message || data.error || strings.auth.signin.errors.sessionCreationFailed))
         }
-      } catch (popupError: any) {
-        console.log('[Apple SignIn] Popup error:', popupError.code, popupError.message)
-        if (popupError.code === 'auth/popup-blocked' ||
-            popupError.code === 'auth/cancelled-popup-request') {
-          console.log('[Apple SignIn] Popup blocked, falling back to redirect')
-          sessionStorage.setItem('apple-redirect-pending', 'true')
-          await signInWithRedirect(auth, provider)
-        } else {
-          throw popupError
+        return
+      }
+
+      // For other browsers, use Firebase's popup flow
+      console.log('[Apple SignIn] Non-Safari, using Firebase popup flow')
+      const { signInWithPopup, OAuthProvider } = await import('firebase/auth')
+      const { auth } = await import('@/lib/firebase/config')
+
+      if (!auth) {
+        throw new Error('Firebase not initialized')
+      }
+
+      const provider = new OAuthProvider('apple.com')
+      provider.addScope('email')
+      provider.addScope('name')
+
+      const result = await signInWithPopup(auth, provider)
+      console.log('[Apple SignIn] Popup successful, user:', result.user.email)
+      logger.auth('Apple sign in successful', { email: result.user.email })
+
+      const idToken = await result.user.getIdToken()
+
+      const response = await fetch('/api/auth/apple', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ idToken })
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        if (typeof window !== 'undefined') {
+          sessionStorage.removeItem(authFlowFlag)
         }
+        logger.auth('Session created, redirecting to dashboard')
+        showToast(strings.auth.signin.messages.signinSuccess, 'success')
+        setTimeout(() => {
+          window.location.href = buildLocalePath('/dashboard')
+        }, 100)
+      } else {
+        console.error('Session creation failed:', data)
+        const errorMessage = data.error?.message || data.error || strings.auth.signin.errors.sessionCreationFailed
+        setError(getUserFriendlyErrorMessage(errorMessage))
       }
     } catch (err: any) {
       if (typeof window !== 'undefined') {
