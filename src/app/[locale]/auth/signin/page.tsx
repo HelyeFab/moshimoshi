@@ -184,14 +184,14 @@ function SignInContent() {
       const deviceInfo = getDeviceInfo()
       console.log('[Apple SignIn] Device info:', deviceInfo)
 
-      // Detect Safari browser (use popup on Mac Safari, redirect only on iOS)
+      // Detect Safari browser (blocks popups aggressively)
       const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent)
-      const isIOS = deviceInfo.isIOS
       console.log('[Apple SignIn] Is Safari:', isSafari)
 
-      // Use redirect flow ONLY for iOS (Safari Mac supports popups)
-      if (isIOS) {
-        console.log('[Apple SignIn] iOS detected, using redirect flow directly')
+      // Use redirect flow for iOS devices AND Safari browser
+      // Both block popups aggressively, and the popup-then-redirect fallback doesn't work reliably
+      if (deviceInfo.isIOS || isSafari) {
+        console.log('[Apple SignIn] iOS or Safari detected, using redirect flow directly')
         // Store flag for redirect recovery (Firebase getRedirectResult fails on iOS/Safari)
         sessionStorage.setItem('apple-redirect-pending', 'true')
         await signInWithRedirect(auth, provider)
