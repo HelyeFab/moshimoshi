@@ -52,7 +52,10 @@ function extractLocaleFromPath(pathname: string): string {
  */
 function getLocaleAwareRedirect(request: NextRequest, path: string): URL {
   const locale = extractLocaleFromPath(request.nextUrl.pathname);
-  return new URL(`/${locale}${path}`, request.url);
+  const redirectUrl = new URL(`/${locale}${path}`, request.url);
+  // Preserve query params (critical for OAuth redirects like Apple/Firebase)
+  redirectUrl.search = request.nextUrl.search;
+  return redirectUrl;
 }
 
 /**
@@ -108,6 +111,21 @@ async function fetchSessionInfo(request: NextRequest) {
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  // Preserve OAuth redirect params when adding locale prefix
+  const hasOAuthParams =
+    request.nextUrl.searchParams.has('__firebase_request_key') ||
+    request.nextUrl.searchParams.has('state') ||
+    request.nextUrl.searchParams.has('code');
+  const hasLocalePrefix = routing.locales.some(
+    (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`)
+  );
+  if (hasOAuthParams && !hasLocalePrefix) {
+    const locale = extractLocaleFromPath(pathname);
+    const redirectUrl = new URL(`/${locale}${pathname}`, request.url);
+    redirectUrl.search = request.nextUrl.search;
+    return NextResponse.redirect(redirectUrl);
+  }
 
   // Handle API routes separately - no locale routing for APIs
   if (pathname.startsWith('/api/')) {
