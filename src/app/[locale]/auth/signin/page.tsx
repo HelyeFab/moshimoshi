@@ -153,7 +153,7 @@ function SignInContent() {
   }
 
   const handleAppleSignIn = async () => {
-    logger.auth('Apple sign in clicked')
+    console.log('[Apple SignIn] Button clicked')
     setLoading(true)
     setError('')
 
@@ -164,6 +164,7 @@ function SignInContent() {
 
       const { signInWithPopup, signInWithRedirect, OAuthProvider } = await import('firebase/auth')
       const { auth } = await import('@/lib/firebase/config')
+      console.log('[Apple SignIn] Firebase imported, auth:', auth ? 'exists' : 'null')
 
       if (!auth) {
         throw new Error('Firebase not initialized')
@@ -174,25 +175,22 @@ function SignInContent() {
       provider.addScope('name')
 
       const deviceInfo = getDeviceInfo()
+      console.log('[Apple SignIn] Device info:', deviceInfo)
 
       // Use redirect flow for ALL iOS devices (not just PWA)
       // iOS Safari/Chrome block popups, so skip popup attempt entirely
       if (deviceInfo.isIOS) {
-        logger.auth('[iOS] Detected iOS device - using redirect flow directly')
-        logger.auth('[Device Info]', {
-          platform: deviceInfo.platform,
-          isPWA: deviceInfo.isPWA,
-          isIOSPWA: deviceInfo.isIOSPWA
-        })
-
+        console.log('[Apple SignIn] iOS detected, using redirect flow')
         // Store flag for redirect recovery (Firebase getRedirectResult fails on iOS)
         sessionStorage.setItem('apple-redirect-pending', 'true')
         await signInWithRedirect(auth, provider)
         return
       }
 
+      console.log('[Apple SignIn] Non-iOS, trying popup flow')
       try {
         const result = await signInWithPopup(auth, provider)
+        console.log('[Apple SignIn] Popup successful, user:', result.user.email)
         logger.auth('Apple sign in successful', { email: result.user.email })
 
         const idToken = await result.user.getIdToken()
@@ -220,9 +218,11 @@ function SignInContent() {
           setError(getUserFriendlyErrorMessage(errorMessage))
         }
       } catch (popupError: any) {
+        console.log('[Apple SignIn] Popup error:', popupError.code, popupError.message)
         if (popupError.code === 'auth/popup-blocked' ||
             popupError.code === 'auth/cancelled-popup-request') {
-          logger.auth('[Popup Blocked] Falling back to redirect flow')
+          console.log('[Apple SignIn] Popup blocked, falling back to redirect')
+          sessionStorage.setItem('apple-redirect-pending', 'true')
           await signInWithRedirect(auth, provider)
         } else {
           throw popupError
@@ -232,7 +232,7 @@ function SignInContent() {
       if (typeof window !== 'undefined') {
         sessionStorage.removeItem(authFlowFlag)
       }
-      console.error('Apple sign in error:', err)
+      console.error('[Apple SignIn] Error:', err.code, err.message, err)
       setError(getUserFriendlyErrorMessage(err))
     } finally {
       setLoading(false)
