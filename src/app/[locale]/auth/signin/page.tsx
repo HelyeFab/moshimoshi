@@ -12,6 +12,7 @@ import { useReCaptcha } from '@/components/ReCaptchaProvider'
 import { getDeviceInfo } from '@/lib/utils/device-detection'
 import { useAuth } from '@/hooks/useAuth'
 import { Eye, EyeOff } from 'lucide-react'
+import { AuthDebugPanel } from '@/components/auth/AuthDebugPanel'
 
 const MAGIC_LINK_ENABLED = process.env.NEXT_PUBLIC_MAGIC_LINK_ENABLED === 'true'
 
@@ -31,6 +32,7 @@ function SignInContent() {
   const hasSignedOutRef = useRef(false)
   const authFlowFlag = 'auth-flow-in-progress'
   const sessionProvider = user?.authProvider || null
+  const debugEnabled = searchParams?.get('authDebug') === '1' || searchParams?.get('debug') === 'auth'
 
   useEffect(() => {
     // Clear any guest mode when on signin page
@@ -451,6 +453,7 @@ function SignInContent() {
         </div>
         </div>
       </div>
+      <AuthDebugPanel visible={!!debugEnabled} />
     </div>
   )
 }

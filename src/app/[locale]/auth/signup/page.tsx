@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { getUserFriendlyErrorMessage } from '@/utils/errorMessages'
 import { useTranslation, buildLocalePath, useLocalePath } from '@/i18n/I18nContext'
@@ -12,6 +12,7 @@ import { useReCaptcha } from '@/components/ReCaptchaProvider'
 import { getDeviceInfo } from '@/lib/utils/device-detection'
 import { useAuth } from '@/hooks/useAuth'
 import { Eye, EyeOff } from 'lucide-react'
+import { AuthDebugPanel } from '@/components/auth/AuthDebugPanel'
 
 const MAGIC_LINK_ENABLED = process.env.NEXT_PUBLIC_MAGIC_LINK_ENABLED === 'true'
 
@@ -35,6 +36,8 @@ export default function SignUpPage() {
   const hasSignedOutRef = useRef(false)
   const authFlowFlag = 'auth-flow-in-progress'
   const sessionProvider = user?.authProvider || null
+  const searchParams = useSearchParams()
+  const debugEnabled = searchParams?.get('authDebug') === '1' || searchParams?.get('debug') === 'auth'
 
   useEffect(() => {
     if (authLoading || !isAuthenticated || hasSignedOutRef.current) {
@@ -629,6 +632,7 @@ export default function SignUpPage() {
         </div>
         </div>
       </div>
+      <AuthDebugPanel visible={!!debugEnabled} />
     </div>
   )
 }
