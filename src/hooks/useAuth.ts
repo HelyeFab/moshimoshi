@@ -11,7 +11,9 @@ import {
   GoogleAuthProvider,
   OAuthProvider,
   signOut,
-  onAuthStateChanged
+  onAuthStateChanged,
+  setPersistence,
+  browserLocalPersistence,
 } from 'firebase/auth'
 import { auth } from '@/lib/firebase/client'
 import logger from '@/lib/logger'
@@ -802,6 +804,15 @@ function useAuthProvider(): Auth {
 
       // Main auth initialization logic
       const authInitPromise = (async () => {
+        try {
+          // Ensure persistence is set before redirect handling (Safari can lose state otherwise)
+          await setPersistence(auth, browserLocalPersistence)
+          console.log('[Auth Init] Persistence set to localStorage')
+          console.log('[Auth Init] authDomain:', auth.app.options.authDomain)
+        } catch (persistenceError) {
+          console.warn('[Auth Init] Failed to set persistence before redirect handling', persistenceError)
+        }
+
         // Check for redirect result on mount (for Google/Apple sign-in)
         // Also check for Apple redirect recovery flag (iOS Safari workaround)
         const appleRedirectPending = typeof window !== 'undefined' &&
