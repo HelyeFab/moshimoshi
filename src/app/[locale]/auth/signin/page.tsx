@@ -185,6 +185,8 @@ function SignInContent() {
           isIOSPWA: deviceInfo.isIOSPWA
         })
 
+        // Store flag for redirect recovery (Firebase getRedirectResult fails on iOS)
+        sessionStorage.setItem('apple-redirect-pending', 'true')
         await signInWithRedirect(auth, provider)
         return
       }

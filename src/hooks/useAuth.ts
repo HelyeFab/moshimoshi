@@ -803,6 +803,44 @@ function useAuthProvider(): Auth {
       // Main auth initialization logic
       const authInitPromise = (async () => {
         // Check for redirect result on mount (for Google/Apple sign-in)
+        // Also check for Apple redirect recovery flag (iOS Safari workaround)
+        const appleRedirectPending = typeof window !== 'undefined' &&
+          sessionStorage.getItem('apple-redirect-pending') === 'true'
+
+        if (appleRedirectPending) {
+          console.log('[Auth Init] Apple redirect recovery: waiting for auth state...')
+          sessionStorage.removeItem('apple-redirect-pending')
+
+          // Wait for onAuthStateChanged to fire with user (up to 10 seconds)
+          const appleUser = await new Promise<User | null>((resolve) => {
+            let resolved = false
+            const unsubscribeApple = onAuthStateChanged(auth, (user) => {
+              if (resolved) return
+              console.log('[Auth Init] Apple redirect recovery: auth state changed, user:', user?.email || 'null')
+              if (user) {
+                resolved = true
+                unsubscribeApple()
+                resolve(user)
+              }
+            })
+
+            // Timeout after 10 seconds
+            setTimeout(() => {
+              if (!resolved) {
+                resolved = true
+                unsubscribeApple()
+                console.log('[Auth Init] Apple redirect recovery: timeout, no user found')
+                resolve(null)
+              }
+            }, 10000)
+          })
+
+          if (appleUser) {
+            console.log('[Auth Init] Apple redirect recovery: creating session for', appleUser.email)
+            await createServerSession(appleUser)
+          }
+        }
+
         try {
           // IMPROVEMENT #2: Platform-specific timeout
           // iOS needs 15s timeout due to slower auth flow
