@@ -802,10 +802,10 @@ function useAuthProvider(): Auth {
 
       // Main auth initialization logic
       const authInitPromise = (async () => {
-        // Check for redirect result on mount (for Google sign-in)
+        // Check for redirect result on mount (for Google/Apple sign-in)
         try {
           // IMPROVEMENT #2: Platform-specific timeout
-          // iOS PWA needs 15s timeout due to slower auth flow
+          // iOS needs 15s timeout due to slower auth flow
           const redirectTimeout = getAuthRedirectTimeout()
 
           logger.auth('[Auth Init] Checking redirect result with', redirectTimeout, 'ms timeout')
@@ -826,8 +826,19 @@ function useAuthProvider(): Auth {
           } else if (result === null) {
             logger.auth('[Auth Init] No redirect result or timeout occurred')
           }
-        } catch (err) {
+        } catch (err: any) {
           logger.error('Error handling redirect result:', err)
+
+          // WORKAROUND: On iOS Safari, Apple Sign-In redirect can fail with internal Firebase errors
+          // Check if Firebase already has the user from the redirect (auth state updated before getRedirectResult resolves)
+          if (auth.currentUser) {
+            logger.auth('[Auth Init] getRedirectResult failed but currentUser exists - creating session')
+            try {
+              await createServerSession(auth.currentUser)
+            } catch (sessionErr) {
+              logger.error('[Auth Init] Failed to create session from currentUser:', sessionErr)
+            }
+          }
         }
 
         // Check existing session only once
