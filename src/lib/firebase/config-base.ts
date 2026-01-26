@@ -1,6 +1,6 @@
 // Shared Firebase client config (no initialization side effects)
 
-// Default Firebase domain (fallback for Safari due to ITP issues with custom domains)
+// Default Firebase domain (fallback if custom domain is missing)
 export const DEFAULT_FIREBASE_AUTH_DOMAIN = 'moshimoshi-de237.firebaseapp.com'
 
 export const firebaseConfig = {
@@ -14,25 +14,13 @@ export const firebaseConfig = {
 }
 
 /**
- * Get the auth domain to use, with Safari fallback.
- * Safari's ITP (Intelligent Tracking Prevention) can interfere with custom auth domains,
- * so we fall back to the default Firebase domain on Safari browsers.
+ * Get the auth domain to use.
+ * Prefer the configured custom domain when available.
  */
 export function getEffectiveAuthDomain(): string {
   // Server-side: use configured domain
   if (typeof window === 'undefined') {
     return firebaseConfig.authDomain || DEFAULT_FIREBASE_AUTH_DOMAIN
-  }
-
-  // Client-side: detect Safari
-  const userAgent = navigator.userAgent
-  const isSafari = /^((?!chrome|android).)*safari/i.test(userAgent)
-  const isIOSSafari = /iPad|iPhone|iPod/.test(userAgent)
-
-  // Use default Firebase domain for Safari to avoid ITP issues
-  if (isSafari || isIOSSafari) {
-    console.log('[Firebase Config] Safari detected, using default authDomain for ITP compatibility')
-    return DEFAULT_FIREBASE_AUTH_DOMAIN
   }
 
   return firebaseConfig.authDomain || DEFAULT_FIREBASE_AUTH_DOMAIN

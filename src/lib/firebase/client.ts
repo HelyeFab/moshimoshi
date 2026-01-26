@@ -3,7 +3,7 @@
 // Auth and other sensitive operations go through API routes
 
 import { initializeApp, getApps, getApp } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
+import { getAuth, setPersistence, browserLocalPersistence } from 'firebase/auth'
 import { getFirestore, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, enableNetwork, disableNetwork } from 'firebase/firestore'
 import { getStorage } from 'firebase/storage'
 import { getAnalytics, isSupported } from 'firebase/analytics'
@@ -20,6 +20,17 @@ const app = getApps().length === 0 ? initializeApp(effectiveConfig) : getApp()
 
 // Initialize services
 export const auth = getAuth(app)
+
+// Ensure persistence is set explicitly to avoid Safari redirect loss
+if (typeof window !== 'undefined') {
+  setPersistence(auth, browserLocalPersistence)
+    .then(() => {
+      console.log('[Auth] Persistence set to localStorage')
+    })
+    .catch((error) => {
+      console.warn('[Auth] Persistence failed, redirect results may be lost', error)
+    })
+}
 
 // Initialize Firestore with enhanced error handling and offline persistence
 let firestore: ReturnType<typeof getFirestore>
