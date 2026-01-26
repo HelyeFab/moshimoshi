@@ -57,26 +57,6 @@ const nextConfig: NextConfig = {
     ];
   },
 
-  // Proxy Firebase Auth handler to avoid cross-origin storage issues on Safari 16.1+
-  // This is Firebase's recommended Option 3 for browsers that block third-party storage
-  // See: https://firebase.google.com/docs/auth/web/redirect-best-practices
-  async rewrites() {
-    return {
-      beforeFiles: [
-        // Handle auth handler at root level
-        {
-          source: '/__/auth/:path*',
-          destination: 'https://moshimoshi-de237.firebaseapp.com/__/auth/:path*',
-        },
-        // Handle auth handler with locale prefix (e.g., /en/__/auth/handler)
-        {
-          source: '/:locale/__/auth/:path*',
-          destination: 'https://moshimoshi-de237.firebaseapp.com/__/auth/:path*',
-        },
-      ],
-    };
-  },
-
   // SEO-friendly 301 redirects
   async redirects() {
     return [
