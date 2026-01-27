@@ -1,6 +1,6 @@
 # Moshimoshi TTS System - Developer Onboarding Guide
 
-> **Last Updated:** January 2025
+> **Last Updated:** January 2026
 > **Maintainer:** Core Team
 > **Status:** Production
 

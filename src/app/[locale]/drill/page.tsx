@@ -28,6 +28,7 @@ import { enhanceWordWithType } from '@/utils/enhancedWordTypeDetection'
 import { getConjugatableWordsPractice } from '@/utils/jmdictLocalSearch'
 import { searchTatoebaExamples, type ExampleSentence } from '@/utils/tatoebaSearch'
 import { useTTS } from '@/hooks/useTTS'
+import { Volume2, Loader2 } from 'lucide-react'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
@@ -81,8 +82,14 @@ export default function DrillPage() {
 
   const debugEnabled = searchParams?.get('debug') === '1'
 
-  // TTS for example sentences
-  const { play: playTTS, loading: ttsLoading } = useTTS({ cacheFirst: true })
+  // TTS for example sentences and drill options
+  const {
+    play: playTTS,
+    preload: preloadTTS,
+    loading: ttsLoading,
+    currentText: ttsCurrentText,
+    playing: ttsPlaying,
+  } = useTTS({ cacheFirst: true })
 
   // Settings state with question count slider
   const [settings, setSettings] = useState<DrillSettings>({
@@ -522,13 +529,47 @@ export default function DrillPage() {
     setIsComplete(false)
   }
 
-  // Helper function to check if two arrays contain the same elements
-  const arraysEqual = (a: string[] | undefined, b: string[]) => {
-    if (!a || a.length !== b.length) return false
-    return a.every(item => b.includes(item)) && b.every(item => a.includes(item))
+  const FORM_PRESETS: Record<string, string[]> = {
+    basic: ['present', 'past', 'negative', 'pastNegative'],
+    polite: ['polite', 'politePast', 'politeNegative', 'politePastNegative'],
+    teForm: ['teForm', 'negativeTeForm', 'naiDeForm'],
+    potential: ['potential', 'potentialNegative', 'potentialPast', 'potentialPastNegative'],
+    passive: ['passive', 'passiveNegative', 'passivePast', 'passivePastNegative'],
+    causative: ['causative', 'causativeNegative', 'causativePast', 'causativePastNegative'],
+  }
+
+  const isPresetSelected = (presetKey: keyof typeof FORM_PRESETS) => {
+    const current = settings.conjugationForms || []
+    const preset = FORM_PRESETS[presetKey]
+    return preset.every(form => current.includes(form))
+  }
+
+  const togglePreset = (presetKey: keyof typeof FORM_PRESETS) => {
+    setSettings(prev => {
+      const current = new Set(prev.conjugationForms || [])
+      const preset = FORM_PRESETS[presetKey]
+      const hasAll = preset.every(form => current.has(form))
+
+      if (hasAll) {
+        preset.forEach(form => current.delete(form))
+      } else {
+        preset.forEach(form => current.add(form))
+      }
+
+      const next = Array.from(current)
+      return { ...prev, conjugationForms: next.length > 0 ? next : [] }
+    })
   }
 
   const currentQuestion = session?.questions[currentQuestionIndex]
+
+  // Prefetch TTS for current question options
+  useEffect(() => {
+    if (!currentQuestion?.options?.length) return
+    const uniqueOptions = Array.from(new Set(currentQuestion.options)).filter(Boolean)
+    if (uniqueOptions.length === 0) return
+    preloadTTS(uniqueOptions)
+  }, [currentQuestion?.id, currentQuestion?.options, preloadTTS])
 
   // Load examples when Rules modal opens
   useEffect(() => {
@@ -863,7 +904,9 @@ export default function DrillPage() {
               <div className="mb-6">
                 <label className="block text-sm font-medium text-foreground dark:text-dark-foreground mb-2">
                   Conjugation Forms{' '}
-                  <span className="text-xs text-muted-foreground">(Leave empty for all forms)</span>
+                  <span className="text-xs text-muted-foreground">
+                    (Select multiple or leave empty for all forms)
+                  </span>
                 </label>
                 <div className="space-y-2">
                   {/* Quick presets */}
@@ -879,19 +922,9 @@ export default function DrillPage() {
                       All Forms
                     </button>
                     <button
-                      onClick={() =>
-                        setSettings(prev => ({
-                          ...prev,
-                          conjugationForms: ['present', 'past', 'negative', 'pastNegative'],
-                        }))
-                      }
+                      onClick={() => togglePreset('basic')}
                       className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
-                        arraysEqual(settings.conjugationForms, [
-                          'present',
-                          'past',
-                          'negative',
-                          'pastNegative',
-                        ])
+                        isPresetSelected('basic')
                           ? 'border-primary-500 bg-primary-500 text-white'
                           : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
@@ -899,24 +932,9 @@ export default function DrillPage() {
                       Basic Only
                     </button>
                     <button
-                      onClick={() =>
-                        setSettings(prev => ({
-                          ...prev,
-                          conjugationForms: [
-                            'polite',
-                            'politePast',
-                            'politeNegative',
-                            'politePastNegative',
-                          ],
-                        }))
-                      }
+                      onClick={() => togglePreset('polite')}
                       className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
-                        arraysEqual(settings.conjugationForms, [
-                          'polite',
-                          'politePast',
-                          'politeNegative',
-                          'politePastNegative',
-                        ])
+                        isPresetSelected('polite')
                           ? 'border-primary-500 bg-primary-500 text-white'
                           : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
@@ -924,18 +942,9 @@ export default function DrillPage() {
                       Polite Only
                     </button>
                     <button
-                      onClick={() =>
-                        setSettings(prev => ({
-                          ...prev,
-                          conjugationForms: ['teForm', 'negativeTeForm', 'naiDeForm'],
-                        }))
-                      }
+                      onClick={() => togglePreset('teForm')}
                       className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
-                        arraysEqual(settings.conjugationForms, [
-                          'teForm',
-                          'negativeTeForm',
-                          'naiDeForm',
-                        ])
+                        isPresetSelected('teForm')
                           ? 'border-primary-500 bg-primary-500 text-white'
                           : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
@@ -943,24 +952,9 @@ export default function DrillPage() {
                       Te-Forms
                     </button>
                     <button
-                      onClick={() =>
-                        setSettings(prev => ({
-                          ...prev,
-                          conjugationForms: [
-                            'potential',
-                            'potentialNegative',
-                            'potentialPast',
-                            'potentialPastNegative',
-                          ],
-                        }))
-                      }
+                      onClick={() => togglePreset('potential')}
                       className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
-                        arraysEqual(settings.conjugationForms, [
-                          'potential',
-                          'potentialNegative',
-                          'potentialPast',
-                          'potentialPastNegative',
-                        ])
+                        isPresetSelected('potential')
                           ? 'border-primary-500 bg-primary-500 text-white'
                           : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
@@ -968,24 +962,9 @@ export default function DrillPage() {
                       Potential
                     </button>
                     <button
-                      onClick={() =>
-                        setSettings(prev => ({
-                          ...prev,
-                          conjugationForms: [
-                            'passive',
-                            'passiveNegative',
-                            'passivePast',
-                            'passivePastNegative',
-                          ],
-                        }))
-                      }
+                      onClick={() => togglePreset('passive')}
                       className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
-                        arraysEqual(settings.conjugationForms, [
-                          'passive',
-                          'passiveNegative',
-                          'passivePast',
-                          'passivePastNegative',
-                        ])
+                        isPresetSelected('passive')
                           ? 'border-primary-500 bg-primary-500 text-white'
                           : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
@@ -993,24 +972,9 @@ export default function DrillPage() {
                       Passive
                     </button>
                     <button
-                      onClick={() =>
-                        setSettings(prev => ({
-                          ...prev,
-                          conjugationForms: [
-                            'causative',
-                            'causativeNegative',
-                            'causativePast',
-                            'causativePastNegative',
-                          ],
-                        }))
-                      }
+                      onClick={() => togglePreset('causative')}
                       className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-lg border text-xs sm:text-sm transition-colors ${
-                        arraysEqual(settings.conjugationForms, [
-                          'causative',
-                          'causativeNegative',
-                          'causativePast',
-                          'causativePastNegative',
-                        ])
+                        isPresetSelected('causative')
                           ? 'border-primary-500 bg-primary-500 text-white'
                           : 'border-gray-300 dark:border-gray-600 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 hover:bg-gray-50 dark:hover:bg-dark-700'
                       }`}
@@ -1406,26 +1370,56 @@ export default function DrillPage() {
 
               {/* Answer options */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 mb-4 sm:mb-6">
-                {currentQuestion.options.map((option, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleAnswer(option)}
-                    disabled={showResult}
-                    className={`p-3 sm:p-4 text-base sm:text-lg rounded-lg border-2 transition-all min-h-[60px] sm:min-h-[auto] ${
-                      showResult && option === currentQuestion.correctAnswer
-                        ? 'bg-green-500 text-white border-green-600 dark:bg-green-600 dark:border-green-700'
-                        : showResult &&
-                            option === selectedAnswer &&
-                            option !== currentQuestion.correctAnswer
-                          ? 'bg-red-500 text-white border-red-600 dark:bg-red-600 dark:border-red-700'
-                          : option === selectedAnswer
-                            ? 'bg-primary-100 border-primary-500 dark:bg-primary-900/30 dark:border-primary-400'
-                            : 'bg-white/50 dark:bg-dark-700 border-primary-200 dark:border-dark-600 hover:bg-primary-50 dark:hover:bg-dark-600 hover:border-primary-300'
-                    } ${!showResult && !selectedAnswer ? 'hover:border-primary-400 active:scale-[0.98]' : ''}`}
-                  >
-                    {option}
-                  </button>
-                ))}
+                {currentQuestion.options.map((option, index) => {
+                  const isOptionPlaying =
+                    ttsPlaying && ttsCurrentText && ttsCurrentText === option
+                  return (
+                    <div key={index} className="relative">
+                      <button
+                        onClick={() => handleAnswer(option)}
+                        disabled={showResult}
+                        className={`w-full pr-12 sm:pr-14 p-3 sm:p-4 text-base sm:text-lg rounded-lg border-2 transition-all min-h-[60px] sm:min-h-[auto] ${
+                          showResult && option === currentQuestion.correctAnswer
+                            ? 'bg-green-500 text-white border-green-600 dark:bg-green-600 dark:border-green-700'
+                            : showResult &&
+                                option === selectedAnswer &&
+                                option !== currentQuestion.correctAnswer
+                              ? 'bg-red-500 text-white border-red-600 dark:bg-red-600 dark:border-red-700'
+                              : option === selectedAnswer
+                                ? 'bg-primary-100 border-primary-500 dark:bg-primary-900/30 dark:border-primary-400'
+                                : 'bg-white/50 dark:bg-dark-700 border-primary-200 dark:border-dark-600 hover:bg-primary-50 dark:hover:bg-dark-600 hover:border-primary-300'
+                        } ${!showResult && !selectedAnswer ? 'hover:border-primary-400 active:scale-[0.98]' : ''}`}
+                      >
+                        {option}
+                      </button>
+                      <button
+                        type="button"
+                        aria-label={`Play audio for ${option}`}
+                        onClick={async (event) => {
+                          event.stopPropagation()
+                          try {
+                            await playTTS(option)
+                          } catch (error) {
+                            console.error('[Drill] Option TTS failed:', error)
+                          }
+                        }}
+                        className={`absolute right-2 top-2 sm:right-3 sm:top-3 p-2 rounded-md bg-transparent transition-colors ${
+                          isOptionPlaying
+                            ? 'text-gray-500 dark:text-gray-400'
+                            : 'text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-gray-100'
+                        }`}
+                      >
+                        {ttsLoading && ttsCurrentText === option ? (
+                          <Loader2 className="w-4 h-4 animate-spin text-primary-500" />
+                        ) : (
+                          <Volume2
+                            className={`w-4 h-4 ${isOptionPlaying ? 'text-gray-400 animate-pulse' : ''}`}
+                          />
+                        )}
+                      </button>
+                    </div>
+                  )
+                })}
               </div>
 
               {/* Help banner - shows contextual help when user makes a mistake */}
