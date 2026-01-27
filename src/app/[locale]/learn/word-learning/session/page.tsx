@@ -259,7 +259,7 @@ function SessionContent() {
                   {currentWord.kanji && (
                     <span
                       className="text-5xl font-bold text-gray-900 dark:text-gray-100"
-                      style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                      style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                     >
                       {currentWord.kanji}
                     </span>
@@ -328,7 +328,7 @@ function SessionContent() {
                   {currentWord.kanji && (
                     <span
                       className="text-5xl font-bold text-gray-900 dark:text-gray-100"
-                      style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                      style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                     >
                       {currentWord.kanji}
                     </span>
@@ -387,7 +387,7 @@ function SessionContent() {
                   {currentWord.kanji && (
                     <span
                       className="text-5xl font-bold text-gray-900 dark:text-gray-100"
-                      style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                      style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                     >
                       {currentWord.kanji}
                     </span>

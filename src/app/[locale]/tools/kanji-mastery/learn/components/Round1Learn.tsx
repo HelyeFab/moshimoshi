@@ -236,7 +236,7 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
             animate={{ scale: 1 }}
             transition={{ type: 'spring', stiffness: 200, damping: 15 }}
             className="text-8xl font-bold text-gray-900 dark:text-gray-100 mb-4"
-            style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+            style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
           >
             {kanji.kanji}
           </motion.div>
@@ -504,7 +504,7 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
                     >
                       <div className="flex items-start gap-2 mb-2">
                         <div className="flex-1 text-lg text-gray-900 dark:text-gray-100"
-                             style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+                             style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}>
                           {sentence.japanese}
                         </div>
                         <AudioButton

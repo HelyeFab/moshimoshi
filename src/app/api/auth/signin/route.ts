@@ -349,8 +349,10 @@ export async function POST(request: NextRequest) {
         )
       }
 
-      // Check if email is verified (optional enforcement)
-      if (!userRecord.emailVerified && process.env.ENFORCE_EMAIL_VERIFICATION === 'true') {
+      // Email verification policy:
+      // Allow sign-in but mark response if user is unverified. UI can show banner.
+      const requiresVerification = !userRecord.emailVerified
+      if (requiresVerification && process.env.ENFORCE_EMAIL_VERIFICATION === 'true') {
         await logAuthAttempt(
           AuditEvent.FAILED_LOGIN,
           {
@@ -362,25 +364,9 @@ export async function POST(request: NextRequest) {
           {
             email,
             method: 'email',
-            reason: 'email_not_verified',
+            reason: 'email_not_verified_allowed',
           },
           'failure'
-        )
-
-        return NextResponse.json(
-          {
-            error: {
-              code: 'AUTH_EMAIL_NOT_VERIFIED',
-              message: 'Please verify your email before signing in',
-            },
-          },
-          { 
-            status: 403,
-            headers: {
-              ...getSecurityHeaders(),
-              ...getRateLimitHeaders(rateLimitResult),
-            },
-          }
         )
       }
 
@@ -467,6 +453,7 @@ export async function POST(request: NextRequest) {
             emailVerified: userRecord.emailVerified,
             displayName: userData.displayName || userRecord.displayName,
           },
+          requiresVerification,
           redirectTo: '/dashboard',
           recaptcha: recaptchaScore !== undefined ? {
             verified: true,

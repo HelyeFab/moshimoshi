@@ -387,7 +387,7 @@ function VocabularyContent() {
                               <span
                                 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100"
                                 style={{
-                                  fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif',
+                                  fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif',
                                 }}
                               >
                                 {word.kanji}

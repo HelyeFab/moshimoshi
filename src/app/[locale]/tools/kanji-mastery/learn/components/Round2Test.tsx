@@ -209,7 +209,7 @@ export default function Round2Test({
                       : 'bg-gray-100 dark:bg-dark-700 text-gray-900 dark:text-gray-100 hover:bg-gray-200 dark:hover:bg-dark-600'
                     }
                   `}
-                  style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                  style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                 >
                   {option}
                 </button>
@@ -286,7 +286,7 @@ export default function Round2Test({
         <div className="text-center mb-8">
           {/* Kanji display for meaning/reading tests (not recognition - that's handled above with early return) */}
           <div className="text-6xl font-bold text-gray-900 dark:text-gray-100 mb-6"
-               style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+               style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}>
             {kanji.kanji}
           </div>
 

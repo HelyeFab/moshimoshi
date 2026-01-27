@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAdmin } from '@/hooks/useAdmin'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import Modal from '@/components/ui/Modal'
@@ -25,6 +25,30 @@ interface User {
   updatedAt?: any
 }
 
+interface DiscountStatus {
+  hasDiscount: boolean
+  eligible?: boolean
+  redeemed?: boolean
+  discountType?: string
+  discountLabel?: string
+  source?: string
+  grantedAt?: string
+  grantedBy?: string
+  redeemedAt?: string
+}
+
+interface DiscountTypeInfo {
+  id: string
+  label: string
+  description: string
+  sources: string[]
+  adminGrantable: boolean
+}
+
+// Helper to format source labels
+const formatSourceLabel = (source: string) =>
+  source.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+
 export default function AdminSubscriptionsPage() {
   const { isAdmin } = useAdmin()
   const { showToast } = useToast()
@@ -38,11 +62,38 @@ export default function AdminSubscriptionsPage() {
   const [upgradeReason, setUpgradeReason] = useState('')
   const [upgrading, setUpgrading] = useState(false)
 
+  // Discount state
+  const [discountStatus, setDiscountStatus] = useState<DiscountStatus | null>(null)
+  const [discountLoading, setDiscountLoading] = useState(false)
+  const [discountTypes, setDiscountTypes] = useState<DiscountTypeInfo[]>([])
+  const [selectedDiscountType, setSelectedDiscountType] = useState<string>('')
+  const [selectedDiscountSource, setSelectedDiscountSource] = useState<string>('')
+  const [grantingDiscount, setGrantingDiscount] = useState(false)
+
   useEffect(() => {
     if (isAdmin) {
       fetchUsers()
+      fetchDiscountTypes()
     }
   }, [isAdmin])
+
+  const fetchDiscountTypes = async () => {
+    try {
+      const response = await fetch('/api/admin/discounts?types=true')
+      if (!response.ok) throw new Error('Failed to fetch discount types')
+      const data = await response.json()
+      setDiscountTypes(data.types)
+      // Set defaults if types available
+      if (data.types.length > 0) {
+        setSelectedDiscountType(data.types[0].id)
+        if (data.types[0].sources.length > 0) {
+          setSelectedDiscountSource(data.types[0].sources[0])
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching discount types:', error)
+    }
+  }
 
   const fetchUsers = async () => {
     try {
@@ -56,6 +107,78 @@ export default function AdminSubscriptionsPage() {
       showToast('Failed to load users', 'error')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchDiscountStatus = useCallback(async (uid: string) => {
+    setDiscountLoading(true)
+    try {
+      const response = await fetch(`/api/admin/discounts?uid=${uid}`)
+      if (!response.ok) throw new Error('Failed to fetch discount status')
+      const data = await response.json()
+      setDiscountStatus(data.status)
+    } catch (error) {
+      console.error('Error fetching discount status:', error)
+      setDiscountStatus({ hasDiscount: false })
+    } finally {
+      setDiscountLoading(false)
+    }
+  }, [])
+
+  const handleGrantDiscount = async () => {
+    if (!selectedUser || !selectedDiscountType || !selectedDiscountSource) return
+
+    setGrantingDiscount(true)
+    try {
+      const response = await fetch('/api/admin/discounts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          targetUserId: selectedUser.uid,
+          discountType: selectedDiscountType,
+          source: selectedDiscountSource,
+        }),
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to grant discount')
+      }
+
+      const selectedType = discountTypes.find(t => t.id === selectedDiscountType)
+      showToast(`${selectedType?.label || 'Discount'} granted to ${selectedUser.email}`, 'success')
+      await fetchDiscountStatus(selectedUser.uid)
+    } catch (error) {
+      console.error('Error granting discount:', error)
+      showToast(error instanceof Error ? error.message : 'Failed to grant discount', 'error')
+    } finally {
+      setGrantingDiscount(false)
+    }
+  }
+
+  const handleRevokeDiscount = async () => {
+    if (!selectedUser) return
+
+    setGrantingDiscount(true)
+    try {
+      const response = await fetch('/api/admin/discounts', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ targetUserId: selectedUser.uid }),
+      })
+
+      if (!response.ok) {
+        const error = await response.json()
+        throw new Error(error.error || 'Failed to revoke discount')
+      }
+
+      showToast(`Discount revoked from ${selectedUser.email}`, 'success')
+      await fetchDiscountStatus(selectedUser.uid)
+    } catch (error) {
+      console.error('Error revoking discount:', error)
+      showToast(error instanceof Error ? error.message : 'Failed to revoke discount', 'error')
+    } finally {
+      setGrantingDiscount(false)
     }
   }
 
@@ -288,6 +411,8 @@ export default function AdminSubscriptionsPage() {
                       onClick={() => {
                         setSelectedUser(user)
                         setSelectedPlan(user.subscription.plan === 'free' ? 'premium_monthly' : user.subscription.plan)
+                        setDiscountStatus(null)
+                        fetchDiscountStatus(user.uid)
                         setUpgradeModalOpen(true)
                       }}
                       className="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300 text-xs sm:text-sm font-medium"
@@ -318,6 +443,8 @@ export default function AdminSubscriptionsPage() {
                   onClick={() => {
                     setSelectedUser(user)
                     setSelectedPlan(user.subscription.plan === 'free' ? 'premium_monthly' : user.subscription.plan)
+                    setDiscountStatus(null)
+                    fetchDiscountStatus(user.uid)
                     setUpgradeModalOpen(true)
                   }}
                   className="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300 text-sm font-medium"
@@ -350,8 +477,9 @@ export default function AdminSubscriptionsPage() {
           setUpgradeModalOpen(false)
           setSelectedUser(null)
           setUpgradeReason('')
+          setDiscountStatus(null)
         }}
-        title="Manage Subscription"
+        title="Manage User"
         size="md"
       >
         {selectedUser && (
@@ -410,6 +538,127 @@ export default function AdminSubscriptionsPage() {
                   </p>
                 </div>
               )}
+
+              {/* Discount Section Divider */}
+              <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-2">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+                  Grant Discount
+                </h3>
+
+                {discountLoading ? (
+                  <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <div className="w-4 h-4 border-2 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
+                    Loading discount status...
+                  </div>
+                ) : discountStatus?.hasDiscount ? (
+                  <div className="space-y-3">
+                    {/* Current Status */}
+                    <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-3 space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">Type:</span>
+                        <span className="text-xs font-medium text-gray-900 dark:text-white">
+                          {discountStatus.discountLabel || discountStatus.discountType || 'Unknown'}
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-gray-500 dark:text-gray-400">Status:</span>
+                        {discountStatus.redeemed ? (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300">
+                            Redeemed
+                          </span>
+                        ) : discountStatus.eligible ? (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
+                            Eligible (not yet used)
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
+                            Revoked
+                          </span>
+                        )}
+                      </div>
+                      {discountStatus.source && (
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                          Source: {formatSourceLabel(discountStatus.source.replace(/^(prelaunch|thankyou)_/, ''))}
+                        </div>
+                      )}
+                      {discountStatus.grantedAt && (
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                          Granted: {new Date(discountStatus.grantedAt).toLocaleDateString('en-GB')}
+                        </div>
+                      )}
+                      {discountStatus.redeemedAt && (
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                          Redeemed: {new Date(discountStatus.redeemedAt).toLocaleDateString('en-GB')}
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Revoke Button (only if eligible and not redeemed) */}
+                    {discountStatus.eligible && !discountStatus.redeemed && (
+                      <button
+                        onClick={handleRevokeDiscount}
+                        disabled={grantingDiscount}
+                        className="w-full px-3 py-2 text-sm text-red-600 dark:text-red-400 border border-red-300 dark:border-red-700 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors disabled:opacity-50"
+                      >
+                        {grantingDiscount ? 'Revoking...' : 'Revoke Discount'}
+                      </button>
+                    )}
+                  </div>
+                ) : discountTypes.length > 0 ? (
+                  <div className="space-y-3">
+                    {/* Discount Type Selection (if multiple types available) */}
+                    {discountTypes.length > 1 && (
+                      <Dropdown
+                        label="Discount Type"
+                        value={selectedDiscountType}
+                        onChange={(value) => {
+                          setSelectedDiscountType(value)
+                          const type = discountTypes.find(t => t.id === value)
+                          if (type && type.sources.length > 0) {
+                            setSelectedDiscountSource(type.sources[0])
+                          }
+                        }}
+                        options={discountTypes.map(t => ({ value: t.id, label: t.label }))}
+                      />
+                    )}
+
+                    {/* Source/Reason Selection */}
+                    {(() => {
+                      const currentType = discountTypes.find(t => t.id === selectedDiscountType)
+                      if (!currentType) return null
+                      return (
+                        <Dropdown
+                          label="Reason"
+                          value={selectedDiscountSource}
+                          onChange={(value) => setSelectedDiscountSource(value)}
+                          options={currentType.sources.map(s => ({
+                            value: s,
+                            label: formatSourceLabel(s)
+                          }))}
+                        />
+                      )
+                    })()}
+
+                    <button
+                      onClick={handleGrantDiscount}
+                      disabled={grantingDiscount || !selectedDiscountType || !selectedDiscountSource}
+                      className="w-full px-3 py-2 text-sm text-white bg-green-600 rounded-lg hover:bg-green-700 transition-colors disabled:opacity-50"
+                    >
+                      {grantingDiscount
+                        ? 'Granting...'
+                        : `Grant ${discountTypes.find(t => t.id === selectedDiscountType)?.label || 'Discount'}`
+                      }
+                    </button>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      Discount will be auto-applied at checkout
+                    </p>
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                    No discount types available
+                  </p>
+                )}
+              </div>
             </div>
 
             <div className="flex gap-3 mt-6">

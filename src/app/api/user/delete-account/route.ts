@@ -164,8 +164,8 @@ export async function POST(request: NextRequest) {
       email: session.email,
       deletedAt: now.toISOString(),
       scheduledPermanentDeletion: permanentDeletionDate.toISOString(),
-      reason,
-      feedback,
+      ...(reason && { reason }),
+      ...(feedback && { feedback }),
       userData,
       ipAddress: request.headers.get('x-forwarded-for')?.split(',')[0] || 'unknown',
       userAgent: request.headers.get('user-agent') || 'unknown',
@@ -261,11 +261,14 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error deleting account:', error)
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     return NextResponse.json(
       {
         error: {
           code: 'INTERNAL_ERROR',
-          message: 'Failed to delete account',
+          message: process.env.NODE_ENV === 'development'
+            ? `Failed to delete account: ${errorMessage}`
+            : 'Failed to delete account',
         },
       },
       { status: 500 }

@@ -285,7 +285,7 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
               <h2
                 id="kanji-details-title"
                 className="text-7xl sm:text-8xl font-bold text-gray-900 dark:text-gray-100 mb-2"
-                style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
               >
                 {kanji.kanji}
               </h2>

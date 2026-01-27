@@ -378,7 +378,7 @@ const KanaGrid = memo(function KanaGrid({
                                     : 'border-gray-200 dark:border-dark-700'
                               }
                             `}
-                            style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                            style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                           >
                             {/* Selection button - ONLY in study/review modes */}
                             {isSelectionMode && (

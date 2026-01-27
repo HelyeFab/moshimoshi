@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useCallback, useRef, createContext, useContext, ReactNode, useMemo } from 'react'
 import {
   User,
-  signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   signInWithPopup,
   signInWithRedirect,
@@ -54,7 +53,7 @@ interface AuthState {
 }
 
 interface AuthMethods {
-  signIn: (email: string, password: string) => Promise<void>
+  signIn: (email: string, password: string, options?: { recaptchaToken?: string; rememberMe?: boolean }) => Promise<void>
   signUp: (email: string, password: string) => Promise<void>
   signInWithGoogle: () => Promise<void>
   signInWithApple: () => Promise<void>
@@ -549,7 +548,11 @@ function useAuthProvider(): Auth {
   }, [checkSession, createServerSession])
 
   // Sign in with email and password
-  const signIn = useCallback(async (email: string, password: string) => {
+  const signIn = useCallback(async (
+    email: string,
+    password: string,
+    options?: { recaptchaToken?: string; rememberMe?: boolean }
+  ) => {
     setError(null)
     setLoading(true)
 
@@ -560,16 +563,36 @@ function useAuthProvider(): Auth {
       }
       setIsGuest(false)
 
-      // Use direct Firebase auth
-      const credential = await signInWithEmailAndPassword(auth, email, password)
-      await createServerSession(credential.user)
+      const response = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          password,
+          rememberMe: options?.rememberMe ?? false,
+          ...(options?.recaptchaToken ? { recaptchaToken: options.recaptchaToken } : {}),
+        }),
+      })
+
+      const data = await response.json().catch(() => ({}))
+      if (!response.ok) {
+        const errorMessage = data?.error?.message || data?.error || 'Sign in failed'
+        throw new Error(errorMessage)
+      }
+
+      // Clear cache and refresh session state
+      sessionCache.data = null
+      sessionCache.promise = null
+      sessionCache.timestamp = 0
+
+      await checkSession(true)
     } catch (err: any) {
       setError(err.message)
       throw err
     } finally {
       setLoading(false)
     }
-  }, [createServerSession])
+  }, [checkSession])
 
   // Sign in with Apple
   const signInWithApple = useCallback(async () => {

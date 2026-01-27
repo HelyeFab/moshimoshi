@@ -10,6 +10,8 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 02-PRODUCTION_DOCS/
 ├── README.md                      # This file
 ├── authentication/                # Auth flows, OAuth, session management
+├── payments/                      # Stripe, discounts, subscriptions
+│   └── discounts/                 # Discount system documentation
 ├── email/                         # Email notifications and delivery systems
 ├── content-generation/            # AI-generated content, stories, comics
 └── community/                     # Discord, social integrations
@@ -30,6 +32,20 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 - Google Sign-In
 - Firebase Auth integration
 - Session management with JWT/Redis
+
+---
+
+### Payments (`payments/`)
+
+| Document | Description |
+|----------|-------------|
+| [discounts/DISCOUNT_SYSTEM.md](./payments/discounts/DISCOUNT_SYSTEM.md) | Config-driven discount system with admin management |
+
+**Key Topics:**
+- Stripe coupon/promo code integration
+- Admin-grantable discounts (Thank You 50%)
+- Auto-apply discounts at checkout
+- Adding new discount types
 
 ---
 
@@ -112,4 +128,4 @@ When adding new production documentation:
 
 ---
 
-*Last Updated: 2026-01-26*
+*Last Updated: 2026-01-27*

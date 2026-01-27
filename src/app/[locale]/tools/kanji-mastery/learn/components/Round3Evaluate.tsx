@@ -75,7 +75,7 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
         <div className="text-center mb-8">
           {/* Kanji Display */}
           <div className="text-7xl font-bold text-gray-900 dark:text-gray-100 mb-4"
-               style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+               style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}>
             {kanji.kanji}
           </div>
 

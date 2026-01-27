@@ -204,7 +204,7 @@ export default function AllKanaModal({
                     {/* Main character */}
                     <span
                       className="text-2xl font-medium text-gray-900 dark:text-gray-100"
-                      style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                      style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                     >
                       {displayScript === 'hiragana' ? char.hiragana : char.katakana}
                     </span>
@@ -213,7 +213,7 @@ export default function AllKanaModal({
                     {showBothKana && (
                       <span
                         className="text-xs text-gray-400 dark:text-gray-500"
-                        style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                        style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                       >
                         {displayScript === 'hiragana' ? char.katakana : char.hiragana}
                       </span>

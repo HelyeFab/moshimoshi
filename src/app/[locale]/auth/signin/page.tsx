@@ -84,7 +84,7 @@ function SignInContent() {
       const recaptchaToken = await executeRecaptcha('signin')
       logger.auth('Sign in reCAPTCHA token obtained', { hasToken: !!recaptchaToken })
 
-      await signIn(email, password)
+      await signIn(email, password, { recaptchaToken: recaptchaToken ?? undefined })
       logger.auth('Sign in successful, redirecting to dashboard')
       showToast(strings.auth.signin.messages.signinSuccess, 'success')
       // Use window.location for a hard redirect to ensure navigation
@@ -92,8 +92,21 @@ function SignInContent() {
         window.location.href = buildLocalePath('/dashboard')
       }, 100)
     } catch (err) {
-      console.error('Sign in exception:', err)
-      setError(getUserFriendlyErrorMessage(err))
+      // Don't log expected errors (disabled accounts, wrong password, etc.) as errors
+      const errorMessage = err instanceof Error ? err.message : String(err)
+      const isExpectedError = errorMessage.includes('disabled') ||
+                              errorMessage.includes('password') ||
+                              errorMessage.includes('credential') ||
+                              errorMessage.includes('not found')
+      if (!isExpectedError) {
+        console.error('Sign in exception:', err)
+      }
+      // Use i18n string for disabled accounts (scheduled for deletion)
+      if (errorMessage.toLowerCase().includes('disabled')) {
+        setError(strings.errors.auth.accountScheduledForDeletion)
+      } else {
+        setError(getUserFriendlyErrorMessage(err))
+      }
     } finally {
       setLoading(false)
     }

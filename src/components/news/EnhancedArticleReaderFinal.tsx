@@ -648,7 +648,7 @@ function FuriganaTextCore({
           letterSpacing: 'var(--letter-spacing-article)',
           color: 'var(--article-text)',
           display: className?.includes('inline') ? 'inline' : undefined,
-          fontFamily: '"Noto Sans JP", "Hiragino Sans", "Meiryo", sans-serif',
+          fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif',
         }}
       >
         {tokens.map((token: any, index: number) => {
@@ -749,7 +749,7 @@ function FuriganaTextCore({
         letterSpacing: 'var(--letter-spacing-article)',
         color: 'var(--article-text)',
         display: className?.includes('inline') ? 'inline' : undefined,
-        fontFamily: '"Noto Sans JP", "Hiragino Sans", "Meiryo", sans-serif',
+        fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif',
       }}
     />
   )

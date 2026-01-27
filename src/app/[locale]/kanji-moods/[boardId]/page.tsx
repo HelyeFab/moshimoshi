@@ -390,7 +390,7 @@ export default function MoodBoardDetailPage() {
                     >
                       {/* Kanji Display */}
                       <div className="text-8xl font-bold text-gray-800 dark:text-gray-200 mb-4"
-                           style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+                           style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}>
                         {displayKanji[currentCardIndex].kanji}
                       </div>
 
@@ -416,7 +416,7 @@ export default function MoodBoardDetailPage() {
                     >
                       {/* Kanji in top-right corner */}
                       <div className="absolute top-6 right-6 text-5xl font-bold text-gray-800 dark:text-gray-200"
-                           style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+                           style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}>
                         {displayKanji[currentCardIndex].kanji}
                       </div>
 

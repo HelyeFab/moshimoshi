@@ -289,7 +289,7 @@ export default function TextbookVocabularyStudyMode({
                   className={`font-bold text-gray-800 dark:text-gray-200 mb-4 text-center ${
                     vocabulary.japanese.length > 6 ? 'text-4xl md:text-5xl' : 'text-5xl md:text-6xl'
                   }`}
-                  style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                  style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                 >
                   {vocabulary.japanese}
                 </div>
@@ -297,7 +297,7 @@ export default function TextbookVocabularyStudyMode({
                 {/* Reading (if different from japanese) */}
                 {hasDistinctReading && (
                   <div className="text-xl text-gray-500 dark:text-gray-400 mb-2"
-                       style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}>
+                       style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}>
                     {vocabulary.reading}
                   </div>
                 )}
@@ -340,7 +340,7 @@ export default function TextbookVocabularyStudyMode({
                 {/* Japanese word in top-right corner */}
                 <div
                   className="absolute top-4 right-4 text-2xl font-bold text-gray-800 dark:text-gray-200"
-                  style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                  style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                 >
                   {vocabulary.japanese}
                 </div>
@@ -438,7 +438,7 @@ export default function TextbookVocabularyStudyMode({
                               animate={{ opacity: 1 }}
                               exit={{ opacity: 0 }}
                               className="text-sky-800 dark:text-sky-200 font-medium"
-                              style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                              style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                             >
                               {vocabulary.reading}
                             </motion.span>
@@ -493,7 +493,7 @@ export default function TextbookVocabularyStudyMode({
                             >
                               <div
                                 className="font-medium mb-1"
-                                style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                                style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                               >
                                 {vocabulary.examples[0].japanese}
                               </div>
@@ -535,7 +535,7 @@ export default function TextbookVocabularyStudyMode({
                               <div className="flex-1">
                                 <div
                                   className="text-violet-900 dark:text-violet-100 font-medium mb-1"
-                                  style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                                  style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                                 >
                                   {sentence.japanese}
                                 </div>

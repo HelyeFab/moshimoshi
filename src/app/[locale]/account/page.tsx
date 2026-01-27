@@ -15,7 +15,7 @@ import { PricingPlanCard } from '@/components/subscription/PricingPlanCard'
 import DoshiMascot from '@/components/ui/DoshiMascot'
 import Navbar from '@/components/layout/Navbar'
 import { LoadingOverlay, LoadingButton } from '@/components/ui/Loading'
-import Dialog from '@/components/ui/Dialog'
+import Modal from '@/components/ui/Modal'
 import Image from 'next/image'
 import PageContainer from '@/components/ui/PageContainer'
 import PageHeader from '@/components/ui/PageHeader'
@@ -55,6 +55,10 @@ function AccountPageContent() {
 
   const [updating, setUpdating] = useState(false)
   const [deleteModalOpen, setDeleteModalOpen] = useState(false)
+  const [deleteConfirmPhrase, setDeleteConfirmPhrase] = useState('')
+  const [deleteReason, setDeleteReason] = useState<string>('')
+  const [deleteFeedback, setDeleteFeedback] = useState('')
+  const [deleting, setDeleting] = useState(false)
   const [displayName, setDisplayName] = useState('')
   const [profileUpdated, setProfileUpdated] = useState(false)
   const [showConfetti, setShowConfetti] = useState(false)
@@ -377,11 +381,55 @@ function AccountPageContent() {
   }
 
   const handleDeleteAccount = async () => {
+    if (deleteConfirmPhrase !== strings.account.deleteAccountDialog.confirmPhrase) {
+      showToast(strings.account.toastMessages.confirmPhraseError, 'error')
+      return
+    }
+
+    setDeleting(true)
     try {
-      showToast(strings.account.toastMessages.accountDeletionRequested, 'warning')
+      const requestBody = {
+        confirmPhrase: deleteConfirmPhrase,
+        ...(deleteReason && { reason: deleteReason }),
+        ...(deleteFeedback && { feedback: deleteFeedback }),
+      }
+      console.log('[Delete Account] Sending request:', requestBody)
+
+      const response = await fetch('/api/user/delete-account', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        console.error('[Delete Account] API Error:', data)
+        throw new Error(data.error?.message || data.message || `Failed to delete account (${response.status})`)
+      }
+
+      showToast(strings.account.toastMessages.accountDeletionSuccess, 'success')
       setDeleteModalOpen(false)
+
+      // Redirect to home after a short delay
+      setTimeout(() => {
+        router.push('/')
+      }, 2000)
     } catch (error) {
       showError(error)
+    } finally {
+      setDeleting(false)
+    }
+  }
+
+  const handleCloseDeleteModal = () => {
+    if (!deleting) {
+      setDeleteModalOpen(false)
+      setDeleteConfirmPhrase('')
+      setDeleteReason('')
+      setDeleteFeedback('')
     }
   }
 
@@ -836,17 +884,108 @@ function AccountPageContent() {
         </div>
       </main>
 
-      {/* Delete Account Dialog */}
-      <Dialog
+      {/* Delete Account Modal */}
+      <Modal
         isOpen={deleteModalOpen}
-        onClose={() => setDeleteModalOpen(false)}
-        onConfirm={handleDeleteAccount}
+        onClose={handleCloseDeleteModal}
         title={strings.account.deleteAccountDialog.title}
-        message={strings.account.deleteAccountDialog.message}
-        type="danger"
-        confirmText={strings.account.deleteAccountDialog.confirmText}
-        cancelText={strings.account.deleteAccountDialog.cancelText}
-      />
+        size="md"
+        closeOnOverlayClick={!deleting}
+        closeOnEsc={!deleting}
+      >
+        <div className="space-y-4">
+          <div className="bg-red-50 dark:bg-red-900/20 rounded-lg p-4 border border-red-200 dark:border-red-800">
+            <p className="text-sm text-red-800 dark:text-red-200">
+              {strings.account.deleteAccountDialog.message}
+            </p>
+          </div>
+
+          {/* Reason (optional) */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {strings.account.deleteAccountDialog.reasonLabel}
+            </label>
+            <select
+              value={deleteReason}
+              onChange={(e) => setDeleteReason(e.target.value)}
+              disabled={deleting}
+              className="w-full px-4 py-2 bg-white dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-gray-900 dark:text-gray-100"
+            >
+              <option value="">{strings.account.deleteAccountDialog.reasonPlaceholder}</option>
+              <option value="not_using">{strings.account.deleteAccountDialog.reasons.not_using}</option>
+              <option value="privacy_concerns">{strings.account.deleteAccountDialog.reasons.privacy_concerns}</option>
+              <option value="found_alternative">{strings.account.deleteAccountDialog.reasons.found_alternative}</option>
+              <option value="technical_issues">{strings.account.deleteAccountDialog.reasons.technical_issues}</option>
+              <option value="too_expensive">{strings.account.deleteAccountDialog.reasons.too_expensive}</option>
+              <option value="other">{strings.account.deleteAccountDialog.reasons.other}</option>
+            </select>
+          </div>
+
+          {/* Feedback (optional) */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {strings.account.deleteAccountDialog.feedbackLabel}
+            </label>
+            <textarea
+              value={deleteFeedback}
+              onChange={(e) => setDeleteFeedback(e.target.value)}
+              placeholder={strings.account.deleteAccountDialog.feedbackPlaceholder}
+              maxLength={500}
+              rows={3}
+              disabled={deleting}
+              className="w-full px-4 py-2 bg-white dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-gray-900 dark:text-gray-100 resize-none"
+            />
+          </div>
+
+          {/* Confirmation phrase */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              {strings.account.deleteAccountDialog.confirmPhraseLabel.replace('{phrase}', '')}<span className="font-mono font-bold text-red-600 dark:text-red-400">{strings.account.deleteAccountDialog.confirmPhrase}</span>
+            </label>
+            <input
+              type="text"
+              value={deleteConfirmPhrase}
+              onChange={(e) => setDeleteConfirmPhrase(e.target.value)}
+              placeholder={strings.account.deleteAccountDialog.confirmPhrase}
+              disabled={deleting}
+              className="w-full px-4 py-2 bg-white dark:bg-dark-900 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-500 text-gray-900 dark:text-gray-100 font-mono"
+            />
+          </div>
+
+          {/* Info about recovery */}
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            {strings.account.deleteAccountDialog.recoveryInfo}
+          </p>
+
+          {/* Buttons */}
+          <div className="flex flex-col-reverse sm:flex-row gap-2 sm:justify-end pt-4">
+            <button
+              onClick={handleCloseDeleteModal}
+              disabled={deleting}
+              className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-600 transition-colors disabled:opacity-50"
+            >
+              {strings.account.deleteAccountDialog.cancelText}
+            </button>
+            <button
+              onClick={handleDeleteAccount}
+              disabled={deleting || deleteConfirmPhrase !== strings.account.deleteAccountDialog.confirmPhrase}
+              className="w-full sm:w-auto px-4 py-2 text-sm font-medium text-white bg-red-500 rounded-lg hover:bg-red-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {deleting ? (
+                <span className="flex items-center justify-center gap-2">
+                  <svg className="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                  </svg>
+                  {strings.account.deleteAccountDialog.deleting}
+                </span>
+              ) : (
+                strings.account.deleteAccountDialog.confirmText
+              )}
+            </button>
+          </div>
+        </div>
+      </Modal>
 
       {/* Preset Avatar Picker Modal */}
       <PresetAvatarPicker

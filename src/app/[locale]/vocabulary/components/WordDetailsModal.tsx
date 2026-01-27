@@ -311,7 +311,7 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                     {word.kanji && (
                       <span
                         className="text-4xl font-bold text-gray-900 dark:text-gray-100"
-                        style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                        style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
                       >
                         {word.kanji.split('').map((char, idx) => {
                           const isKanjiChar = /[\u4e00-\u9faf]/.test(char)
@@ -484,7 +484,7 @@ export default function WordDetailsModal({ word, isOpen, onClose, user }: WordDe
                                 <p
                                   className="text-gray-900 dark:text-gray-100 font-medium mb-1"
                                   style={{
-                                    fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif',
+                                    fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif',
                                   }}
                                 >
                                   {example.japanese}
