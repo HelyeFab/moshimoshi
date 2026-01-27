@@ -225,6 +225,7 @@ function ArticleContentWithPlayButtons({
   playingSentenceIndex,
   sentenceAudioLoading,
   isFullArticlePlaying,
+  isSentenceAudioPlaying,
   translatingSegmentIndex,
   segmentTranslations,
   className = '',
@@ -240,6 +241,7 @@ function ArticleContentWithPlayButtons({
   playingSentenceIndex: number | null
   sentenceAudioLoading: number | null
   isFullArticlePlaying: boolean
+  isSentenceAudioPlaying: boolean
   translatingSegmentIndex?: number | null
   segmentTranslations?: { [key: number]: any }
   className?: string
@@ -312,21 +314,25 @@ function ArticleContentWithPlayButtons({
                         className="inline"
                       />
                     </span>
-                    {/* Play button inline after each segment - Subtler design */}
+                    {/* Play button inline after each segment - Always visible */}
                     <button
                       onClick={() => onPlaySentence(segment, currentGlobalIndex)}
-                      disabled={isFullArticlePlaying || sentenceAudioLoading === currentGlobalIndex}
+                      disabled={
+                        isFullArticlePlaying ||
+                        sentenceAudioLoading !== null ||  // Disable all while any is loading
+                        (isSentenceAudioPlaying && playingSentenceIndex !== currentGlobalIndex)  // Disable others while one is playing
+                      }
                       className={`inline-flex items-center justify-center ml-2 w-6 h-6 rounded-full transition-all duration-200 ${
-                        playingSentenceIndex === currentGlobalIndex
-                          ? '!opacity-100 bg-primary-500 text-white shadow-md scale-110'
+                        playingSentenceIndex === currentGlobalIndex && (isSentenceAudioPlaying || sentenceAudioLoading === currentGlobalIndex)
+                          ? 'bg-primary-500 text-white shadow-md scale-110'
                           : playingSentenceIndex !== null
-                            ? 'opacity-0' // Hide other buttons when one is playing to reduce noise
+                            ? 'opacity-40' // Dim other buttons when one is playing
                             : isFullArticlePlaying
-                              ? 'opacity-0'
-                              : 'opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:scale-110 hover:bg-primary-100 dark:hover:bg-primary-900/30 text-primary-500'
+                              ? 'opacity-40'
+                              : 'opacity-100 hover:scale-110 hover:bg-primary-100 dark:hover:bg-primary-900/30 text-primary-500'
                       }`}
                       title={
-                        playingSentenceIndex === currentGlobalIndex
+                        playingSentenceIndex === currentGlobalIndex && isSentenceAudioPlaying
                           ? 'Pause segment'
                           : 'Play segment'
                       }
@@ -334,28 +340,28 @@ function ArticleContentWithPlayButtons({
                     >
                       {sentenceAudioLoading === currentGlobalIndex ? (
                         <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                      ) : playingSentenceIndex === currentGlobalIndex ? (
+                      ) : playingSentenceIndex === currentGlobalIndex && isSentenceAudioPlaying ? (
                         <Pause className="w-3 h-3" fill="currentColor" />
                       ) : (
                         <Play className="w-3 h-3" fill="currentColor" />
                       )}
                     </button>
 
-                    {/* Translation button inline after play button */}
+                    {/* Translation button inline after play button - Always visible */}
                     {onTranslateSegment && (
                       <button
                         onClick={() => onTranslateSegment(segment, currentGlobalIndex)}
                         disabled={translatingSegmentIndex === currentGlobalIndex}
                         className={`inline-flex items-center justify-center ml-1 w-6 h-6 rounded-full transition-all duration-200 ${
                           segmentTranslations?.[currentGlobalIndex]
-                            ? '!opacity-100 bg-green-500 text-white shadow-md scale-110'
+                            ? 'bg-green-500 text-white shadow-md scale-110'
                             : translatingSegmentIndex === currentGlobalIndex
-                              ? '!opacity-100 bg-blue-500 text-white animate-pulse'
+                              ? 'bg-blue-500 text-white animate-pulse'
                               : playingSentenceIndex !== null
-                                ? 'opacity-0' // Hide when audio is playing
+                                ? 'opacity-40' // Dim when audio is playing
                                 : isFullArticlePlaying
-                                  ? 'opacity-0'
-                                  : 'opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:scale-110 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-blue-500'
+                                  ? 'opacity-40'
+                                  : 'opacity-100 hover:scale-110 hover:bg-blue-100 dark:hover:bg-blue-900/30 text-blue-500'
                         }`}
                         title={
                           segmentTranslations?.[currentGlobalIndex]
@@ -374,12 +380,12 @@ function ArticleContentWithPlayButtons({
                       </button>
                     )}
 
-                    {/* Save to list button */}
+                    {/* Save to list button - Always visible */}
                     <span
                       className={`inline-flex ml-1 transition-all duration-200 ${
                         playingSentenceIndex !== null || isFullArticlePlaying
-                          ? 'opacity-0'
-                          : 'opacity-100 sm:opacity-0 sm:group-hover:opacity-100'
+                          ? 'opacity-40'
+                          : 'opacity-100'
                       }`}
                     >
                       <AddToListButton
@@ -1205,6 +1211,8 @@ export default function EnhancedArticleReader({
   // Track which sentence is currently playing (for per-sentence play buttons)
   const [playingSentenceIndex, setPlayingSentenceIndex] = useState<number | null>(null)
   const [sentenceAudioLoading, setSentenceAudioLoading] = useState<number | null>(null)
+  const [isSentenceAudioPlaying, setIsSentenceAudioPlaying] = useState(false)
+  const sentenceAudioRef = useRef<HTMLAudioElement | null>(null)
 
   // Track segment translation state
   const [translatingSegmentIndex, setTranslatingSegmentIndex] = useState<number | null>(null)
@@ -1277,6 +1285,15 @@ export default function EnhancedArticleReader({
     return () => {
       cleanupAudio(preGeneratedAudioRef.current)
       preGeneratedAudioRef.current = null
+      // Cleanup sentence audio
+      if (sentenceAudioRef.current) {
+        sentenceAudioRef.current.onplay = null
+        sentenceAudioRef.current.onpause = null
+        sentenceAudioRef.current.onended = null
+        sentenceAudioRef.current.onerror = null
+        sentenceAudioRef.current.pause()
+        sentenceAudioRef.current = null
+      }
       // Stop NHK audio if playing
       stopNhkAudio()
       // Stop TTS audio if playing
@@ -1289,6 +1306,8 @@ export default function EnhancedArticleReader({
       setCurrentRepeat(1)
       // Reset lock screen
       setIsScreenLocked(false)
+      // Reset sentence audio state
+      setIsSentenceAudioPlaying(false)
     }
   }, [article.id, stopNhkAudio, ttsStop])
 
@@ -2118,17 +2137,43 @@ export default function EnhancedArticleReader({
       ttsStop()
     }
 
-    // If this sentence is already playing, pause it
+    // If this sentence is already playing via TTS, pause it
     if (playingSentenceIndex === index && ttsPlaying) {
       ttsPause()
       return
     }
 
-    // If paused, resume it
+    // If this sentence is already playing via pre-cached audio, pause it
+    if (playingSentenceIndex === index && isSentenceAudioPlaying && sentenceAudioRef.current) {
+      sentenceAudioRef.current.pause()
+      setIsSentenceAudioPlaying(false)
+      return
+    }
+
+    // If paused TTS, resume it
     if (playingSentenceIndex === index && !ttsPlaying && currentTTSText) {
       ttsResume()
       return
     }
+
+    // If paused pre-cached audio, resume it
+    if (playingSentenceIndex === index && !isSentenceAudioPlaying && sentenceAudioRef.current && !sentenceAudioRef.current.ended) {
+      sentenceAudioRef.current.play()
+      setIsSentenceAudioPlaying(true)
+      return
+    }
+
+    // Stop any existing sentence audio before starting new one
+    if (sentenceAudioRef.current) {
+      // Remove event listeners first to prevent onerror from firing during cleanup
+      sentenceAudioRef.current.onplay = null
+      sentenceAudioRef.current.onpause = null
+      sentenceAudioRef.current.onended = null
+      sentenceAudioRef.current.onerror = null
+      sentenceAudioRef.current.pause()
+      sentenceAudioRef.current = null
+    }
+    setIsSentenceAudioPlaying(false)
 
     // Set loading state
     setSentenceAudioLoading(index)
@@ -2189,40 +2234,86 @@ export default function EnhancedArticleReader({
     }
 
     const resolvedAudioUrl = preCachedAudioUrl || normalizedAudioUrl
-    if (resolvedAudioUrl && currentSpeed !== 1.0) {
-      console.log(
-        `%c⚠️ Skipping pre-cached audio due to speed change (${currentSpeed}x) - will regenerate at correct speed`,
-        'color: #FF9800; font-weight: bold;'
-      )
-    }
 
-    if (resolvedAudioUrl && currentSpeed === 1.0) {
+    if (resolvedAudioUrl) {
       try {
         console.log(
           '%c▶️ PLAYING: Pre-Cached Sentence Audio (Priority 0)',
           'background: #2196F3; color: white; font-size: 12px; padding: 2px 6px; border-radius: 3px;'
         )
-        console.log('Source: Firebase Storage (pre-generated VOICEVOX)')
+        console.log('Source: Firebase Storage (pre-generated VOICEVOX)', {
+          url: resolvedAudioUrl,
+          sentence: sentence.substring(0, 50) + (sentence.length > 50 ? '...' : ''),
+          playbackRate: currentSpeed,
+          preservesPitch: true,
+        })
 
         const audio = new Audio(resolvedAudioUrl)
-        audio.playbackRate = 1.0
+        // preservesPitch ensures pitch stays constant when changing speed (default true, but explicit for clarity)
+        audio.preservesPitch = true
+        audio.playbackRate = Number.isFinite(currentSpeed) ? currentSpeed : 1.0
+        sentenceAudioRef.current = audio
+
+        audio.onplay = () => {
+          setIsSentenceAudioPlaying(true)
+        }
+
+        audio.onpause = () => {
+          setIsSentenceAudioPlaying(false)
+        }
 
         audio.onended = () => {
           setSentenceAudioLoading(null)
           setPlayingSentenceIndex(null)
+          setIsSentenceAudioPlaying(false)
+          sentenceAudioRef.current = null
           console.log('[Article Reader] Pre-cached sentence playback completed')
         }
 
-        audio.onerror = e => {
-          console.error('[Article Reader] Pre-cached audio playback error:', e)
+        audio.onerror = () => {
+          const mediaError = audio.error
+          const errorCode = mediaError?.code
+          const errorMessage =
+            errorCode === MediaError.MEDIA_ERR_ABORTED
+              ? 'Audio playback was aborted'
+              : errorCode === MediaError.MEDIA_ERR_NETWORK
+                ? 'Network error while loading audio'
+                : errorCode === MediaError.MEDIA_ERR_DECODE
+                  ? 'Audio decoding failed'
+                  : errorCode === MediaError.MEDIA_ERR_SRC_NOT_SUPPORTED
+                    ? 'Audio format not supported or source unavailable'
+                    : mediaError?.message || 'Unknown audio error'
+
+          console.error('[Article Reader] Pre-cached audio playback error:', {
+            code: errorCode,
+            message: errorMessage,
+            src: audio.src,
+            originalUrl: resolvedAudioUrl,
+          })
+
+          // Reset state
           setSentenceAudioLoading(null)
           setPlayingSentenceIndex(null)
+          setIsSentenceAudioPlaying(false)
+          sentenceAudioRef.current = null
+
+          // Note: Cannot fall through to API here as onerror fires asynchronously
+          // User will need to tap again to trigger API fallback
         }
 
         await audio.play()
         setSentenceAudioLoading(null)
         return // Success!
-      } catch (preCachedError) {
+      } catch (preCachedError: any) {
+        // Handle AbortError gracefully (user interrupted playback)
+        if (
+          preCachedError?.name === 'AbortError' ||
+          String(preCachedError?.message || '').includes('play() request was interrupted')
+        ) {
+          setSentenceAudioLoading(null)
+          return
+        }
+
         console.log(
           '%c⚠️ Pre-cached audio failed, falling back to API...',
           'color: #f44336; font-weight: bold;',
@@ -2265,10 +2356,21 @@ export default function EnhancedArticleReader({
           audio.playbackRate = Number.isFinite(settings.playbackSpeed)
             ? settings.playbackSpeed!
             : 1.0
+          sentenceAudioRef.current = audio
+
+          audio.onplay = () => {
+            setIsSentenceAudioPlaying(true)
+          }
+
+          audio.onpause = () => {
+            setIsSentenceAudioPlaying(false)
+          }
 
           audio.onended = () => {
             setSentenceAudioLoading(null)
             setPlayingSentenceIndex(null)
+            setIsSentenceAudioPlaying(false)
+            sentenceAudioRef.current = null
             console.log('[Article Reader] VOICEVOX sentence playback completed')
           }
 
@@ -2276,6 +2378,8 @@ export default function EnhancedArticleReader({
             console.error('[Article Reader] VOICEVOX audio playback error:', e)
             setSentenceAudioLoading(null)
             setPlayingSentenceIndex(null)
+            setIsSentenceAudioPlaying(false)
+            sentenceAudioRef.current = null
           }
 
           await audio.play()
@@ -2433,18 +2537,18 @@ export default function EnhancedArticleReader({
     }
   }
 
-  // Reset sentence playback state when TTS stops
+  // Reset sentence playback state when TTS stops (only if pre-cached audio is not playing)
   useEffect(() => {
-    if (!ttsPlaying && playingSentenceIndex !== null) {
+    if (!ttsPlaying && !isSentenceAudioPlaying && playingSentenceIndex !== null && sentenceAudioLoading === null) {
       // Small delay to allow for pause/resume transitions
       const timer = setTimeout(() => {
-        if (!ttsPlaying) {
+        if (!ttsPlaying && !isSentenceAudioPlaying) {
           setPlayingSentenceIndex(null)
         }
       }, 100)
       return () => clearTimeout(timer)
     }
-  }, [ttsPlaying, playingSentenceIndex])
+  }, [ttsPlaying, isSentenceAudioPlaying, playingSentenceIndex, sentenceAudioLoading])
 
   // Auto-enable highlight mode when grammar highlighting is turned on
   useEffect(() => {
@@ -2502,7 +2606,7 @@ export default function EnhancedArticleReader({
       <header className="sticky top-0 z-40 backdrop-blur-xl bg-white/80 dark:bg-gray-900/80 border-b border-gray-200/50 dark:border-gray-800/50 transition-all duration-300 supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <button
-            onClick={() => router.push('/stories')}
+            onClick={() => router.push(contentType === 'story' ? '/stories' : contentType === 'book' ? '/library' : '/news')}
             className="group flex items-center gap-2 px-3 py-1.5 rounded-full transition-all duration-200 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300"
           >
             <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
@@ -2638,17 +2742,20 @@ export default function EnhancedArticleReader({
               {/* Play title button */}
               <button
                 onClick={() => handlePlaySentence(displayTitle, -1)}
-                disabled={sentenceAudioLoading === -1}
+                disabled={
+                  sentenceAudioLoading !== null ||
+                  (isSentenceAudioPlaying && playingSentenceIndex !== -1)
+                }
                 className={`inline-flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 ${
-                  playingSentenceIndex === -1
+                  playingSentenceIndex === -1 && (isSentenceAudioPlaying || sentenceAudioLoading === -1)
                     ? 'bg-primary-500 text-white shadow-md scale-110'
                     : 'bg-gray-100 dark:bg-gray-800 hover:bg-primary-100 dark:hover:bg-primary-900/30 text-primary-500 hover:scale-110'
                 }`}
-                title={playingSentenceIndex === -1 ? 'Pause' : 'Play title'}
+                title={playingSentenceIndex === -1 && isSentenceAudioPlaying ? 'Pause' : 'Play title'}
               >
                 {sentenceAudioLoading === -1 ? (
                   <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
-                ) : playingSentenceIndex === -1 ? (
+                ) : playingSentenceIndex === -1 && isSentenceAudioPlaying ? (
                   <Pause className="w-4 h-4" fill="currentColor" />
                 ) : (
                   <Play className="w-4 h-4" fill="currentColor" />
@@ -2745,6 +2852,7 @@ export default function EnhancedArticleReader({
             playingSentenceIndex={playingSentenceIndex}
             sentenceAudioLoading={sentenceAudioLoading}
             isFullArticlePlaying={ttsPlaying && playingSentenceIndex === null}
+            isSentenceAudioPlaying={isSentenceAudioPlaying}
             translatingSegmentIndex={translatingSegmentIndex}
             segmentTranslations={segmentTranslations}
           />
@@ -3054,6 +3162,7 @@ export default function EnhancedArticleReader({
             showFurigana: settings.showFurigana,
             highlightMode: settings.highlightMode,
             repeatCount: 3,
+            playbackSpeed: settings.playbackSpeed,
           }}
         />
       )}

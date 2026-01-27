@@ -157,6 +157,54 @@ export async function uploadBookCoverImage(file: File): Promise<string> {
 }
 
 /**
+ * Uploads an announcement image to Firebase Storage
+ * @param file - The image file to upload
+ * @returns The public download URL of the uploaded image
+ */
+export async function uploadAnnouncementImage(file: File): Promise<string> {
+  try {
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      throw new Error('File must be an image')
+    }
+
+    // Validate file size (max 10MB before optimization)
+    const maxSize = 10 * 1024 * 1024
+    if (file.size > maxSize) {
+      throw new Error('Image file size must be less than 10MB')
+    }
+
+    // Optimize the image - use 1200x800 for announcements (landscape orientation)
+    const optimizedBlob = await optimizeImage(file, 1200, 800, 0.85)
+
+    // Check optimized size (max 2MB after optimization)
+    if (optimizedBlob.size > 2 * 1024 * 1024) {
+      throw new Error('Optimized image is still too large. Please use a smaller image.')
+    }
+
+    // Generate unique filename
+    const timestamp = Date.now()
+    const randomString = Math.random().toString(36).substring(7)
+    const filename = `announcements/${timestamp}-${randomString}.webp`
+
+    // Upload to Firebase Storage
+    const storageRef = ref(storage, filename)
+    const snapshot = await uploadBytes(storageRef, optimizedBlob, {
+      contentType: 'image/webp',
+      cacheControl: 'public, max-age=31536000', // 1 year
+    })
+
+    // Get download URL
+    const downloadURL = await getDownloadURL(snapshot.ref)
+
+    return downloadURL
+  } catch (error) {
+    console.error('Error uploading announcement image:', error)
+    throw error
+  }
+}
+
+/**
  * Validates an image URL
  * @param url - The URL to validate
  * @returns true if valid, false otherwise

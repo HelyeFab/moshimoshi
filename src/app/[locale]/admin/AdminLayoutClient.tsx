@@ -98,6 +98,7 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
     { href: '/admin', label: 'Dashboard', icon: '📊' },
     { href: '/admin/user-lookup', label: 'User Lookup', icon: '👤' },
     { href: '/admin/email-campaigns', label: 'Email Campaigns', icon: '📧' },
+    { href: '/admin/announcements', label: 'Announcements', icon: '📢' },
     { href: '/admin/scripts', label: 'Scripts', icon: '🛠️' },
     { href: '/admin/resources', label: 'Resources', icon: '📚' },
     { href: '/admin/stories', label: 'Stories', icon: '📖' },

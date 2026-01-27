@@ -10,6 +10,7 @@ import { searchJMdictWords } from '@/utils/jmdictLocalSearch'
 import { KanjiExample } from '@/types/kanji'
 import { toRomaji } from 'wanakana'
 import { kanjiService, KanjiMnemonic } from '@/services/kanjiService'
+import AddToListButton from '@/components/lists/AddToListButton'
 
 const exampleCache = new Map<string, KanjiExample[]>()
 const EXAMPLE_CACHE_PREFIX = 'kanji_examples_v1:'
@@ -439,6 +440,17 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
                             loading={ttsLoading && currentText === example.word}
                             playing={ttsPlaying && currentText === example.word}
                           />
+                          <AddToListButton
+                            content={example.word}
+                            type="word"
+                            metadata={{
+                              reading: example.reading,
+                              meaning: example.meaning,
+                              notes: `Contains ${kanji.kanji}`,
+                            }}
+                            variant="bookmark"
+                            size="small"
+                          />
                         </div>
                         <span className="text-sm text-gray-600 dark:text-gray-400">
                           {example.reading}
@@ -512,6 +524,16 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
                           onPlay={() => play(sentence.japanese, { voice: '23', speed: 0.85 })}
                           loading={ttsLoading && currentText === sentence.japanese}
                           playing={ttsPlaying && currentText === sentence.japanese}
+                        />
+                        <AddToListButton
+                          content={sentence.japanese}
+                          type="sentence"
+                          metadata={{
+                            meaning: sentence.english || '',
+                            notes: `Contains ${kanji.kanji}`,
+                          }}
+                          variant="bookmark"
+                          size="small"
                         />
                       </div>
                       {sentence.english && (

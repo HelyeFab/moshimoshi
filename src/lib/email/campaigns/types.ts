@@ -8,7 +8,7 @@
 import { Timestamp } from 'firebase-admin/firestore'
 
 export type CampaignTemplate = 'waitlist' | 'welcome' | 'password_reset' | 'custom'
-export type CampaignSegment = 'all' | 'free' | 'premium_monthly' | 'premium_yearly'
+export type CampaignSegment = 'all' | 'free' | 'premium_monthly' | 'premium_yearly' | 'custom_emails'
 export type CampaignStatus = 'draft' | 'sending' | 'sent' | 'failed'
 
 /**
@@ -32,6 +32,7 @@ export interface EmailCampaign {
     type: CampaignSegment
     respectMarketingPrefs: boolean // Check preferences.notifications.marketingEmails
     emailVerifiedOnly: boolean
+    customEmails?: string[] // For 'custom_emails' segment type
   }
 
   // Status tracking
@@ -72,6 +73,7 @@ export interface SendCampaignRequest {
     type: CampaignSegment
     respectMarketingPrefs: boolean
     emailVerifiedOnly: boolean
+    customEmails?: string[] // For 'custom_emails' segment type
   }
 }
 

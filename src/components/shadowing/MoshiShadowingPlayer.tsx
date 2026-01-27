@@ -8,7 +8,7 @@ import WordExplanationModal from '@/components/word/WordExplanationModal';
 import { GrammarHighlightedText } from '@/components/reading/GrammarHighlightedText';
 import Modal from '@/components/ui/Modal';
 import Dropdown from '@/components/ui/Dropdown';
-import { Settings, Repeat, Type, Highlighter, X, Trash2 } from 'lucide-react';
+import { Settings, Repeat, Type, Highlighter, X, Trash2, Gauge } from 'lucide-react';
 import { PlayIcon } from '@heroicons/react/24/solid';
 import { nextOnSegmentEnd, onRepeatCountChange, clampRepeatCount, type RepeatState } from '@/lib/shadowing/repeat';
 import styles from './MoshiShadowingPlayer.module.css';
@@ -25,6 +25,7 @@ interface MoshiShadowingPlayerProps {
     showFurigana?: boolean;
     highlightMode?: HighlightMode;
     repeatCount?: number;
+    playbackSpeed?: number;
   };
 }
 
@@ -47,6 +48,7 @@ export default function MoshiShadowingPlayer({
   // Settings state
   const [showFurigana, setShowFurigana] = useState(initialSettings?.showFurigana ?? true);
   const [highlightMode, setHighlightMode] = useState<HighlightMode>(initialSettings?.highlightMode ?? 'content');
+  const [playbackSpeed, setPlaybackSpeed] = useState(initialSettings?.playbackSpeed ?? 1.0);
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
 
   // Word explanation state
@@ -59,6 +61,7 @@ export default function MoshiShadowingPlayer({
   const currentRepeatRef = useRef(currentRepeat);
   const currentSentenceIndexRef = useRef(currentSentenceIndex);
   const totalSentencesRef = useRef(sentences.length);
+  const playbackSpeedRef = useRef(playbackSpeed);
   const isPlayingRef = useRef(false);
   const pauseTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const playSentenceRef = useRef<((index: number) => Promise<void>) | null>(null);
@@ -74,7 +77,8 @@ export default function MoshiShadowingPlayer({
     currentRepeatRef.current = currentRepeat;
     currentSentenceIndexRef.current = currentSentenceIndex;
     totalSentencesRef.current = sentences.length;
-  }, [repeatCount, currentRepeat, currentSentenceIndex, sentences.length]);
+    playbackSpeedRef.current = playbackSpeed;
+  }, [repeatCount, currentRepeat, currentSentenceIndex, sentences.length, playbackSpeed]);
 
   // Word explanation hook
   const {
@@ -159,12 +163,12 @@ export default function MoshiShadowingPlayer({
     const sentence = sentences[index];
     if (!sentence) return;
 
-    console.log('[MoshiShadowingPlayer] Playing sentence:', index, sentence.substring(0, 30));
+    console.log('[MoshiShadowingPlayer] Playing sentence:', index, sentence.substring(0, 30), 'speed:', playbackSpeedRef.current);
 
     try {
       await playTTS(sentence, {
         voice: 'ja-JP-NanamiNeural',
-        speed: 1.0,
+        speed: playbackSpeedRef.current,
       });
     } catch (error) {
       console.error('[MoshiShadowingPlayer] Play error:', error);
@@ -498,6 +502,35 @@ export default function MoshiShadowingPlayer({
                 <span>1x</span>
                 <span>10x</span>
               </div>
+            </div>
+
+            {/* Playback Speed */}
+            <div className="py-3 border-b border-gray-200 dark:border-dark-700">
+              <div className="flex items-center justify-between mb-3">
+                <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300">
+                  <Gauge className="w-4 h-4 text-primary-500" />
+                  {t('news.reader.playbackSpeed')}
+                </label>
+                <span className="text-lg font-semibold text-primary-500">{playbackSpeed.toFixed(2)}x</span>
+              </div>
+              <div className="grid grid-cols-5 gap-2">
+                {[0.5, 0.75, 1.0, 1.25, 1.5].map((speed) => (
+                  <button
+                    key={speed}
+                    onClick={() => setPlaybackSpeed(speed)}
+                    className={`px-2 py-2 rounded-lg text-sm font-medium transition-all ${
+                      playbackSpeed === speed
+                        ? 'bg-primary-500 text-white'
+                        : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
+                    }`}
+                  >
+                    {speed}x
+                  </button>
+                ))}
+              </div>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-2">
+                {t('news.reader.playbackSpeedHint')}
+              </p>
             </div>
 
             {/* Furigana Toggle */}

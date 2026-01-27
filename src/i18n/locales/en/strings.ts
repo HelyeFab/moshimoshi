@@ -1976,6 +1976,7 @@ export const strings = {
       highlightGrammarOnly: 'Grammar Only',
       shadowingMode: 'Shadowing Mode',
       playbackSpeed: 'Playback Speed',
+      playbackSpeedHint: 'Pitch is preserved at all speeds',
       repeatCount: 'Repeat Count',
       translation: 'Translation',
       viewOriginal: 'View Original',
@@ -7333,6 +7334,20 @@ export const strings = {
     exitConfirmMessage: 'Your current kanji mastery session will be lost if you leave now.',
     exitConfirmConfirm: 'Exit',
     exitConfirmCancel: 'Keep learning',
+    progress: {
+      title: 'Your Progress',
+      kanjiStudied: 'Kanji Studied',
+      mastered: 'Mastered',
+      accuracy: 'Accuracy',
+      dayStreak: 'Day Streak',
+      progressByLevel: 'Progress by Level',
+      studied: 'studied',
+      masteredKanji: 'Mastered Kanji',
+      inReview: 'In Review',
+      inLearning: 'In Learning',
+      hoverForDetails: 'Hover over a kanji to see details',
+      lastStudied: 'Last studied:',
+    },
   },
 
   // Q&A Forum
@@ -7570,5 +7585,10 @@ export const strings = {
       message: 'New content added every Sunday!',
       dismiss: 'Dismiss banner',
     },
+  },
+
+  // Feature Announcements
+  announcements: {
+    gotIt: 'Got it',
   },
 }

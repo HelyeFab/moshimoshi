@@ -2932,6 +2932,7 @@ export const strings = {
       highlightGrammarOnly: 'Nur Grammatik',
       shadowingMode: 'Shadowing-Modus',
       playbackSpeed: 'Wiedergabegeschwindigkeit',
+      playbackSpeedHint: 'Die Tonhöhe bleibt bei allen Geschwindigkeiten erhalten',
       repeatCount: 'Wiederholungsanzahl',
       translation: 'Übersetzung',
       viewOriginal: 'Original ansehen',
@@ -7075,6 +7076,20 @@ export const strings = {
     exitConfirmMessage: 'Deine aktuelle Kanji-Meisterschaftssitzung geht verloren, wenn du jetzt gehst.',
     exitConfirmConfirm: 'Beenden',
     exitConfirmCancel: 'Weiterlernen',
+    progress: {
+      title: 'Dein Fortschritt',
+      kanjiStudied: 'Kanji gelernt',
+      mastered: 'Gemeistert',
+      accuracy: 'Genauigkeit',
+      dayStreak: 'Tage-Serie',
+      progressByLevel: 'Fortschritt nach Level',
+      studied: 'gelernt',
+      masteredKanji: 'Gemeisterte Kanji',
+      inReview: 'In Wiederholung',
+      inLearning: 'Beim Lernen',
+      hoverForDetails: 'Hover über ein Kanji für Details',
+      lastStudied: 'Zuletzt gelernt:',
+    },
   },
   qa: {
     title: 'Teehaus',
@@ -7342,5 +7357,10 @@ export const strings = {
       message: 'Jeden Sonntag neue Inhalte!',
       dismiss: 'Banner schließen',
     },
+  },
+
+  // Feature-Ankündigungen
+  announcements: {
+    gotIt: 'Verstanden',
   },
 };

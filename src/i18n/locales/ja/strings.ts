@@ -2085,6 +2085,7 @@ export const strings = {
       highlightGrammarOnly: '文法のみ',
       shadowingMode: 'シャドーイングモード',
       playbackSpeed: '再生速度',
+      playbackSpeedHint: 'すべての速度で音程が保持されます',
       repeatCount: '繰り返し回数',
       translation: '翻訳',
       viewOriginal: '原文を見る',
@@ -7094,6 +7095,20 @@ export const strings = {
     exitConfirmMessage: '今の漢字習得セッションは終了すると失われます。',
     exitConfirmConfirm: '終了する',
     exitConfirmCancel: '学習を続ける',
+    progress: {
+      title: '学習進捗',
+      kanjiStudied: '学習した漢字',
+      mastered: '習得済み',
+      accuracy: '正解率',
+      dayStreak: '連続日数',
+      progressByLevel: 'レベル別進捗',
+      studied: '学習済み',
+      masteredKanji: '習得した漢字',
+      inReview: '復習中',
+      inLearning: '学習中',
+      hoverForDetails: '漢字にカーソルを合わせると詳細が表示されます',
+      lastStudied: '最終学習日:',
+    },
   },
   qa: {
     title: 'ティーハウス',
@@ -7305,5 +7320,10 @@ export const strings = {
       message: '毎週日曜日に新しいコンテンツを追加！',
       dismiss: 'バナーを閉じる',
     },
+  },
+
+  // 機能のお知らせ
+  announcements: {
+    gotIt: '了解',
   },
 };

@@ -47,6 +47,11 @@ export class CampaignService {
       throw new Error('Firebase not initialized')
     }
 
+    // Handle custom emails segment - lookup users by email address
+    if (segment.type === 'custom_emails' && segment.customEmails?.length) {
+      return this.getUsersByEmails(segment.customEmails, segment)
+    }
+
     // Base query on users collection
     let query: FirebaseFirestore.Query = adminFirestore.collection('users')
 
@@ -226,6 +231,84 @@ export class CampaignService {
   }
 
   /**
+   * Get users by their email addresses (for custom_emails segment)
+   * Looks up users in Firebase Auth and applies suppression filtering
+   */
+  private async getUsersByEmails(
+    emails: string[],
+    segment: EmailCampaign['segment']
+  ): Promise<CampaignRecipient[]> {
+    if (!adminAuth) {
+      throw new Error('Firebase Auth not initialized')
+    }
+
+    console.log(`[CampaignService] Looking up ${emails.length} custom email addresses...`)
+
+    const users: CampaignRecipient[] = []
+    const notFound: string[] = []
+
+    // Look up each email in Firebase Auth
+    for (const email of emails) {
+      const trimmedEmail = email.trim().toLowerCase()
+      if (!trimmedEmail) continue
+
+      try {
+        const userRecord = await adminAuth.getUserByEmail(trimmedEmail)
+
+        // Check email verification if required
+        if (segment.emailVerifiedOnly && !userRecord.emailVerified) {
+          console.log(`[CampaignService] Skipping ${trimmedEmail} - not verified`)
+          continue
+        }
+
+        users.push({ uid: userRecord.uid, email: trimmedEmail })
+      } catch (error: any) {
+        if (error.code === 'auth/user-not-found') {
+          notFound.push(trimmedEmail)
+        } else {
+          console.error(`[CampaignService] Error looking up ${trimmedEmail}:`, error)
+        }
+      }
+    }
+
+    if (notFound.length > 0) {
+      console.warn(`[CampaignService] ${notFound.length} emails not found in system:`, notFound)
+    }
+
+    // Check marketing preferences if required
+    if (segment.respectMarketingPrefs && users.length > 0) {
+      const prefsMap = await this.batchGetPreferences(users.map((u) => u.uid))
+      const filteredUsers = users.filter((u) => {
+        const prefs = prefsMap.get(u.uid)
+        return prefs?.notifications?.marketingEmails !== false
+      })
+      console.log(`[CampaignService] Marketing prefs filter: ${users.length} -> ${filteredUsers.length}`)
+      users.length = 0
+      users.push(...filteredUsers)
+    }
+
+    // Check suppression list
+    if (users.length > 0) {
+      const emailsToCheck = users.map((u) => u.email)
+      const suppressionResult = await suppressionService.checkBatch(emailsToCheck)
+
+      const finalUsers = users.filter((u) => {
+        const checkResult = suppressionResult.details.get(u.email)
+        return !checkResult?.suppressed
+      })
+
+      if (suppressionResult.suppressed.length > 0) {
+        console.log(`[CampaignService] Skipped ${suppressionResult.suppressed.length} suppressed emails`)
+      }
+
+      console.log(`[CampaignService] Final eligible custom recipients: ${finalUsers.length}`)
+      return finalUsers
+    }
+
+    return users
+  }
+
+  /**
    * Send campaign to all users in segment
    * Uses batching and rate limiting to avoid Resend API limits
    */
@@ -352,6 +435,15 @@ export class CampaignService {
     // Generate unsubscribe URL for this user
     const unsubscribeUrl = generateUnsubscribeUrl(user.email)
 
+    // Build variable context for subject line substitution
+    const variableContext = buildVariableContext(user.email, [], {
+      ...campaign.templateVariables,
+      unsubscribeUrl,
+    })
+
+    // Substitute variables in subject line
+    const subject = substituteVariables(campaign.subject, variableContext)
+
     // Append unsubscribe footer to HTML content
     const htmlWithUnsubscribe = this.appendUnsubscribeFooter(
       emailContent.html,
@@ -364,7 +456,7 @@ export class CampaignService {
 
     await sendCampaignEmail({
       to: user.email,
-      subject: campaign.subject,
+      subject,
       html: htmlWithUnsubscribe,
       text: textWithUnsubscribe,
       from: 'Moshimoshi <noreply@moshimoshi.app>',

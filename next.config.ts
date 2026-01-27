@@ -147,9 +147,9 @@ const nextConfig: NextConfig = {
     '/[locale]/learn/grammar/grammarHub': ['public/data/grammar/**'],
     '/[locale]/learn/grammar/sitemap': ['public/data/grammar/**'],
   },
-  // Console logs enabled (was: removeConsole in production)
+  // Remove console logs in production builds
   compiler: {
-    removeConsole: false,
+    removeConsole: process.env.NODE_ENV === 'production',
   },
   env: {
     // Pricing configuration - these will be available client-side

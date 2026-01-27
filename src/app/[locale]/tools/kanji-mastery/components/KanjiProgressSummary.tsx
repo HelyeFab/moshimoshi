@@ -1,10 +1,15 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
+import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { useSubscription } from '@/hooks/useSubscription'
 import { kanjiMasteryDB, type KanjiProgressRecord, type KanjiSession } from '@/lib/kanji-mastery/kanjiMasteryDB'
+import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import KanjiDetailsModal from '@/components/kanji/KanjiDetailsModal'
+import { kanjiService } from '@/services/kanjiService'
+import type { Kanji } from '@/types/kanji'
 
 interface ProgressData {
   totalStudied: number
@@ -19,6 +24,12 @@ interface ProgressData {
       mastered: number
     }
   }
+}
+
+interface MasteredKanji {
+  character: string
+  level?: string
+  lastReviewed: string
 }
 
 const LEVEL_TOTALS: Record<string, number> = {
@@ -118,8 +129,23 @@ const computeProgressFromRecords = (
 export default function KanjiProgressSummary() {
   const [progress, setProgress] = useState<ProgressData | null>(null)
   const [loading, setLoading] = useState(true)
+  const [masteredKanji, setMasteredKanji] = useState<MasteredKanji[]>([])
+  const [reviewKanji, setReviewKanji] = useState<MasteredKanji[]>([])
+  const [learningKanji, setLearningKanji] = useState<MasteredKanji[]>([])
+  const [showMasteredList, setShowMasteredList] = useState(false)
+  const [showReviewList, setShowReviewList] = useState(false)
+  const [showLearningList, setShowLearningList] = useState(false)
+  const [modalKanji, setModalKanji] = useState<Kanji | null>(null)
   const { user } = useAuth()
   const { isPremium } = useSubscription()
+  const { t } = useI18n()
+
+  const handleKanjiClick = useCallback(async (character: string) => {
+    const kanjiDetails = await kanjiService.getKanjiDetails(character)
+    if (kanjiDetails) {
+      setModalKanji(kanjiDetails)
+    }
+  }, [])
 
   useEffect(() => {
     const loadProgress = async () => {
@@ -129,26 +155,79 @@ export default function KanjiProgressSummary() {
           return
         }
 
-        if (isPremium) {
-          const response = await fetch('/api/kanji-mastery/session', {
-            method: 'GET',
-            credentials: 'same-origin',
-          })
+        const sortByDate = (a: MasteredKanji, b: MasteredKanji) =>
+          new Date(b.lastReviewed).getTime() - new Date(a.lastReviewed).getTime()
 
-          if (response.ok) {
-            const data = await response.json()
-            if (data?.progressSummary) {
-              setProgress(data.progressSummary)
+        // For premium users, fetch from Firebase API
+        if (isPremium) {
+          console.log('[KanjiProgressSummary] Premium user - fetching from Firebase API')
+          try {
+            const response = await fetch('/api/kanji-mastery/session')
+            if (response.ok) {
+              const data = await response.json()
+              console.log('[KanjiProgressSummary] Firebase API response:', data)
+
+              if (data.progressSummary) {
+                setProgress({
+                  totalStudied: data.progressSummary.totalStudied || 0,
+                  totalMastered: data.progressSummary.totalMastered || 0,
+                  averageAccuracy: data.progressSummary.averageAccuracy || 0,
+                  streakDays: data.progressSummary.streakDays || 0,
+                  lastStudyDate: data.progressSummary.lastStudyDate || null,
+                  levelProgress: data.progressSummary.levelProgress || buildEmptyProgress().levelProgress
+                })
+              }
+
+              // Use kanji progress from Firebase
+              if (data.kanjiProgress && Array.isArray(data.kanjiProgress)) {
+                const allKanji = data.kanjiProgress as Array<{
+                  character: string
+                  level?: string
+                  lastReviewed: string
+                  srsStatus?: string
+                }>
+                console.log('[KanjiProgressSummary] Kanji from Firebase:', allKanji.length, allKanji)
+
+                const mastered = allKanji
+                  .filter(k => k.srsStatus === 'mastered')
+                  .map(({ character, level, lastReviewed }) => ({ character, level, lastReviewed }))
+                  .sort(sortByDate)
+                setMasteredKanji(mastered)
+
+                const inReview = allKanji
+                  .filter(k => k.srsStatus === 'review')
+                  .map(({ character, level, lastReviewed }) => ({ character, level, lastReviewed }))
+                  .sort(sortByDate)
+                setReviewKanji(inReview)
+
+                const inLearning = allKanji
+                  .filter(k =>
+                    !k.srsStatus ||
+                    k.srsStatus === 'learning' ||
+                    k.srsStatus === 'new'
+                  )
+                  .map(({ character, level, lastReviewed }) => ({ character, level, lastReviewed }))
+                  .sort(sortByDate)
+                setLearningKanji(inLearning)
+              }
+
+              setLoading(false)
               return
             }
+          } catch (apiError) {
+            console.error('[KanjiProgressSummary] Firebase API error, falling back to IndexedDB:', apiError)
           }
         }
 
+        // Fallback to IndexedDB for free users or if API fails
+        console.log('[KanjiProgressSummary] Fetching records from IndexedDB for user:', user.uid)
         const [records, sessions, stats] = await Promise.all([
           kanjiMasteryDB.getProgressByUser(user.uid),
           kanjiMasteryDB.getSessionsByUser(user.uid),
           kanjiMasteryDB.getStatistics(user.uid)
         ])
+
+        console.log('[KanjiProgressSummary] IndexedDB - Records:', records?.length, 'Sessions:', sessions?.length)
 
         const computed = computeProgressFromRecords(
           records,
@@ -156,6 +235,53 @@ export default function KanjiProgressSummary() {
           stats?.averageAccuracy ?? 0
         )
         setProgress(computed)
+
+        // Extract kanji from sessions (kanji data is stored inside sessions, not as separate records)
+        const kanjiMap = new Map<string, {
+          character: string
+          level: string
+          lastReviewed: string
+          srsStatus?: string
+        }>()
+
+        sessions.forEach(session => {
+          session.kanji?.forEach(k => {
+            const existing = kanjiMap.get(k.character)
+            const sessionDate = session.endTime || session.startTime
+            if (!existing || new Date(sessionDate) > new Date(existing.lastReviewed)) {
+              kanjiMap.set(k.character, {
+                character: k.character,
+                level: session.level || 'Unknown',
+                lastReviewed: sessionDate,
+                srsStatus: k.srsData?.status
+              })
+            }
+          })
+        })
+
+        const allKanji = Array.from(kanjiMap.values())
+
+        const mastered = allKanji
+          .filter(k => k.srsStatus === 'mastered')
+          .map(({ character, level, lastReviewed }) => ({ character, level, lastReviewed }))
+          .sort(sortByDate)
+        setMasteredKanji(mastered)
+
+        const inReview = allKanji
+          .filter(k => k.srsStatus === 'review')
+          .map(({ character, level, lastReviewed }) => ({ character, level, lastReviewed }))
+          .sort(sortByDate)
+        setReviewKanji(inReview)
+
+        const inLearning = allKanji
+          .filter(k =>
+            !k.srsStatus ||
+            k.srsStatus === 'learning' ||
+            k.srsStatus === 'new'
+          )
+          .map(({ character, level, lastReviewed }) => ({ character, level, lastReviewed }))
+          .sort(sortByDate)
+        setLearningKanji(inLearning)
       } catch (error) {
         console.error('Failed to load progress:', error)
         setProgress(buildEmptyProgress())
@@ -196,7 +322,7 @@ export default function KanjiProgressSummary() {
     >
       <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center gap-2">
         <span>📊</span>
-        Your Progress
+        {t('kanjiMasteryTool.progress.title')}
       </h2>
 
       {/* Stats Grid */}
@@ -205,31 +331,31 @@ export default function KanjiProgressSummary() {
           <p className="text-2xl font-bold text-primary-600 dark:text-primary-400">
             {progress.totalStudied}
           </p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Kanji Studied</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">{t('kanjiMasteryTool.progress.kanjiStudied')}</p>
         </div>
         <div className="text-center">
           <p className="text-2xl font-bold text-green-600 dark:text-green-400">
             {progress.totalMastered}
           </p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Mastered</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">{t('kanjiMasteryTool.progress.mastered')}</p>
         </div>
         <div className="text-center">
           <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
             {progress.averageAccuracy}%
           </p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Accuracy</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">{t('kanjiMasteryTool.progress.accuracy')}</p>
         </div>
         <div className="text-center">
           <p className="text-2xl font-bold text-orange-600 dark:text-orange-400">
             {progress.streakDays}
           </p>
-          <p className="text-xs text-gray-600 dark:text-gray-400">Day Streak</p>
+          <p className="text-xs text-gray-600 dark:text-gray-400">{t('kanjiMasteryTool.progress.dayStreak')}</p>
         </div>
       </div>
 
       {/* Level Progress */}
       <div className="space-y-3">
-        <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">Progress by Level</h3>
+        <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100">{t('kanjiMasteryTool.progress.progressByLevel')}</h3>
         {Object.entries(progress.levelProgress).map(([level, data]) => {
           const percentage = data.total > 0 ? Math.round((data.studied / data.total) * 100) : 0
           const masteredPercentage = data.total > 0 ? Math.round((data.mastered / data.total) * 100) : 0
@@ -239,7 +365,7 @@ export default function KanjiProgressSummary() {
               <div className="flex justify-between items-center text-sm">
                 <span className="font-medium text-gray-900 dark:text-gray-100">{level}</span>
                 <span className="text-xs text-gray-600 dark:text-gray-400">
-                  {data.studied}/{data.total} studied • {data.mastered} mastered
+                  {data.studied}/{data.total} {t('kanjiMasteryTool.progress.studied')} • {data.mastered} {t('kanjiMasteryTool.progress.mastered').toLowerCase()}
                 </span>
               </div>
               <div className="relative h-3 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
@@ -263,14 +389,167 @@ export default function KanjiProgressSummary() {
         })}
       </div>
 
+      {/* Mastered Kanji List */}
+      {masteredKanji.length > 0 && (
+        <div className="mt-6 pt-4 border-t border-gray-200 dark:border-dark-700">
+          <button
+            onClick={() => setShowMasteredList(!showMasteredList)}
+            className="flex items-center justify-between w-full text-left"
+          >
+            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
+              <span className="text-green-500">✓</span>
+              {t('kanjiMasteryTool.progress.masteredKanji')} ({masteredKanji.length})
+            </h3>
+            <svg
+              className={`w-5 h-5 text-gray-500 transition-transform ${showMasteredList ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {showMasteredList && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mt-3"
+            >
+              <div className="flex flex-wrap gap-1.5">
+                {masteredKanji.map((item, idx) => (
+                  <button
+                    key={`${item.character}-${idx}`}
+                    onClick={() => handleKanjiClick(item.character)}
+                    className="w-9 h-9 flex items-center justify-center bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded text-lg font-bold text-gray-900 dark:text-gray-100 hover:bg-green-100 dark:hover:bg-green-900/30 hover:scale-110 transition-all cursor-pointer"
+                    title={`${item.level || 'Unknown level'} • Last reviewed: ${new Date(item.lastReviewed).toLocaleDateString()}`}
+                    style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                  >
+                    {item.character}
+                  </button>
+                ))}
+              </div>
+              {masteredKanji.length > 30 && (
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-2 text-center">
+                  {t('kanjiMasteryTool.progress.hoverForDetails')}
+                </p>
+              )}
+            </motion.div>
+          )}
+        </div>
+      )}
+
+      {/* In Review Kanji List */}
+      {reviewKanji.length > 0 && (
+        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-dark-700">
+          <button
+            onClick={() => setShowReviewList(!showReviewList)}
+            className="flex items-center justify-between w-full text-left"
+          >
+            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
+              <span className="text-blue-500">🔄</span>
+              {t('kanjiMasteryTool.progress.inReview')} ({reviewKanji.length})
+            </h3>
+            <svg
+              className={`w-5 h-5 text-gray-500 transition-transform ${showReviewList ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {showReviewList && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mt-3"
+            >
+              <div className="flex flex-wrap gap-1.5">
+                {reviewKanji.map((item, idx) => (
+                  <button
+                    key={`${item.character}-${idx}`}
+                    onClick={() => handleKanjiClick(item.character)}
+                    className="w-9 h-9 flex items-center justify-center bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded text-lg font-bold text-gray-900 dark:text-gray-100 hover:bg-blue-100 dark:hover:bg-blue-900/30 hover:scale-110 transition-all cursor-pointer"
+                    title={`${item.level || 'Unknown level'} • Last reviewed: ${new Date(item.lastReviewed).toLocaleDateString()}`}
+                    style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                  >
+                    {item.character}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </div>
+      )}
+
+      {/* In Learning Kanji List */}
+      {learningKanji.length > 0 && (
+        <div className="mt-4 pt-4 border-t border-gray-200 dark:border-dark-700">
+          <button
+            onClick={() => setShowLearningList(!showLearningList)}
+            className="flex items-center justify-between w-full text-left"
+          >
+            <h3 className="text-sm font-medium text-gray-900 dark:text-gray-100 flex items-center gap-2">
+              <span className="text-amber-500">📖</span>
+              {t('kanjiMasteryTool.progress.inLearning')} ({learningKanji.length})
+            </h3>
+            <svg
+              className={`w-5 h-5 text-gray-500 transition-transform ${showLearningList ? 'rotate-180' : ''}`}
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {showLearningList && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="mt-3"
+            >
+              <div className="flex flex-wrap gap-1.5">
+                {learningKanji.map((item, idx) => (
+                  <button
+                    key={`${item.character}-${idx}`}
+                    onClick={() => handleKanjiClick(item.character)}
+                    className="w-9 h-9 flex items-center justify-center bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded text-lg font-bold text-gray-900 dark:text-gray-100 hover:bg-amber-100 dark:hover:bg-amber-900/30 hover:scale-110 transition-all cursor-pointer"
+                    title={`${item.level || 'Unknown level'} • Last reviewed: ${new Date(item.lastReviewed).toLocaleDateString()}`}
+                    style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", sans-serif' }}
+                  >
+                    {item.character}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          )}
+        </div>
+      )}
+
       {/* Last Study Date */}
       {progress.lastStudyDate && (
         <div className="mt-4 pt-4 border-t border-gray-200 dark:border-dark-700">
           <p className="text-xs text-gray-600 dark:text-gray-400">
-            Last studied: {new Date(progress.lastStudyDate).toLocaleDateString()}
+            {t('kanjiMasteryTool.progress.lastStudied')} {new Date(progress.lastStudyDate).toLocaleDateString()}
           </p>
         </div>
       )}
+
+      {/* Mobile spacer */}
+      <MobileNavSpacer />
+
+      {/* Kanji Details Modal */}
+      <KanjiDetailsModal
+        kanji={modalKanji}
+        isOpen={!!modalKanji}
+        onClose={() => setModalKanji(null)}
+      />
     </motion.div>
   )
 }

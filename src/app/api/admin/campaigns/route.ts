@@ -21,9 +21,10 @@ const campaignSchema = z.object({
   templateVariables: z.record(z.string(), z.string()).optional(),   // Variable overrides
   testEmail: z.string().email().optional().or(z.literal('')),       // Test email address
   segment: z.object({
-    type: z.enum(['all', 'free', 'premium_monthly', 'premium_yearly']),
+    type: z.enum(['all', 'free', 'premium_monthly', 'premium_yearly', 'custom_emails']),
     respectMarketingPrefs: z.boolean(),
     emailVerifiedOnly: z.boolean(),
+    customEmails: z.array(z.string().email()).optional(),
   }),
 })
 

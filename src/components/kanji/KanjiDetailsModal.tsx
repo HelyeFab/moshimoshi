@@ -24,8 +24,18 @@ import { useFeature } from '@/hooks/useFeature'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useTTS } from '@/hooks/useTTS'
 import { fetchTatoebaSentences, TatoebaSentence } from '@/utils/tatoeba-client'
+import { searchJMdictWords } from '@/utils/jmdictLocalSearch'
+import { KanjiExample } from '@/types/kanji'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
+
+// Helper to check if text is a single kanji (TTS can't pronounce without context)
+const isSingleKanji = (text: string): boolean => {
+  if (text.length !== 1) return false
+  const code = text.charCodeAt(0)
+  // Kanji range: U+4E00 - U+9FAF
+  return code >= 0x4e00 && code <= 0x9faf
+}
 import { useSubscription } from '@/hooks/useSubscription'
 import KuromojiService from '@/utils/kuromojiService'
 import AddToListButton from '@/components/lists/AddToListButton'
@@ -45,6 +55,8 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
   const [loadingStrokes, setLoadingStrokes] = useState(false)
   const [exampleSentences, setExampleSentences] = useState<TatoebaSentence[]>([])
   const [loadingSentences, setLoadingSentences] = useState(false)
+  const [exampleWords, setExampleWords] = useState<KanjiExample[]>([])
+  const [loadingWords, setLoadingWords] = useState(false)
   const [furiganaTexts, setFuriganaTexts] = useState<Record<string, string>>({})
   const [showFurigana, setShowFurigana] = useState(true)
   const [mnemonic, setMnemonic] = useState<KanjiMnemonic | null>(null)
@@ -72,11 +84,12 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
   }, [isOpen])
 
 
-  // Fetch stroke count, example sentences, mnemonic, and preload audio when modal opens
+  // Fetch stroke count, example sentences, example words, mnemonic, and preload audio when modal opens
   useEffect(() => {
     if (isOpen && kanji?.kanji) {
       fetchStrokeCount(kanji.kanji)
       fetchExamples(kanji.kanji)
+      fetchExampleWords(kanji.kanji)
       fetchMnemonic(kanji.kanji, kanji.meaning)
 
       // Fetch user mnemonic and regen limit if authenticated
@@ -89,10 +102,10 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
         setMnemonicView('ai')
       }
 
-      // Preload all readings for better UX
+      // Preload readings for better UX (skip single characters - TTS can't pronounce them without context)
       const readingsToPreload: string[] = []
-      if (kanji.onyomi) readingsToPreload.push(...kanji.onyomi)
-      if (kanji.kunyomi) readingsToPreload.push(...kanji.kunyomi)
+      if (kanji.onyomi) readingsToPreload.push(...kanji.onyomi.filter(r => r.length > 1))
+      if (kanji.kunyomi) readingsToPreload.push(...kanji.kunyomi.filter(r => r.length > 1))
       if (readingsToPreload.length > 0) {
         preload(readingsToPreload, { voice: '23', speed: 0.85 })
       }
@@ -154,6 +167,44 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
       setExampleSentences([])
     } finally {
       setLoadingSentences(false)
+    }
+  }
+
+  const fetchExampleWords = async (character: string) => {
+    setLoadingWords(true)
+    try {
+      const results = await searchJMdictWords(character, 40)
+      const filtered = results.filter(result =>
+        (result.kanji || result.kana || '').includes(character)
+      )
+      const mapped = filtered
+        .map(result => ({
+          word: result.kanji || result.kana || '',
+          reading: result.kana || '',
+          meaning: result.meaning || '',
+        }))
+        .filter(example => example.word)
+
+      // Deduplicate by word to prevent multiple buttons matching same currentText
+      const seen = new Set<string>()
+      const deduped = mapped.filter(example => {
+        if (seen.has(example.word)) return false
+        seen.add(example.word)
+        return true
+      }).slice(0, 5)
+
+      setExampleWords(deduped)
+
+      // Preload audio for example words
+      if (deduped.length > 0) {
+        const wordsToPreload = deduped.map(ex => ex.word)
+        preload(wordsToPreload, { voice: '23', speed: 0.85 })
+      }
+    } catch (error) {
+      console.error('Error fetching example words:', error)
+      setExampleWords([])
+    } finally {
+      setLoadingWords(false)
     }
   }
 
@@ -599,33 +650,99 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
 
               {/* Examples Tab */}
               {activeTab === 'examples' && (
-                <div className="space-y-4">
-                  {/* Furigana Toggle */}
-                  {exampleSentences.length > 0 && (
-                    <div className="flex justify-end">
-                      <button
-                        onClick={() => setShowFurigana(!showFurigana)}
-                        className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-dark-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
-                      >
-                        <svg
-                          className="w-4 h-4"
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                          />
-                        </svg>
-                        {showFurigana ? 'Hide' : 'Show'} Furigana
-                      </button>
-                    </div>
-                  )}
+                <div className="space-y-6">
+                  {/* Example Words Section */}
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 mb-3 uppercase tracking-wider">
+                      Example Words
+                    </h3>
+                    {loadingWords ? (
+                      <div className="flex items-center justify-center py-4">
+                        <LoadingSpinner size="small" />
+                      </div>
+                    ) : exampleWords.length > 0 ? (
+                      <div className="space-y-2">
+                        {exampleWords.map((example, idx) => (
+                          <div
+                            key={`${example.word}-${idx}`}
+                            className="bg-gray-50 dark:bg-dark-700 rounded-lg p-3"
+                          >
+                            <div className="flex items-center justify-between">
+                              <div
+                              className="flex items-center gap-2 flex-1"
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                                <span className="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                  {example.word}
+                                </span>
+                                {!isSingleKanji(example.word) && (
+                                  <AudioButton
+                                    size="sm"
+                                    onPlay={() => play(example.word, { voice: '23', speed: 0.85 })}
+                                    loading={loading && currentText === example.word}
+                                    playing={playing && currentText === example.word}
+                                  />
+                                )}
+                                <AddToListButton
+                                  content={example.word}
+                                  type="word"
+                                  metadata={{
+                                    reading: example.reading,
+                                    meaning: example.meaning,
+                                    notes: `Contains ${kanji.kanji}`,
+                                  }}
+                                  variant="bookmark"
+                                  size="small"
+                                />
+                              </div>
+                              <span className="text-sm text-gray-600 dark:text-gray-400">
+                                {example.reading}
+                              </span>
+                            </div>
+                            <div className="text-sm text-gray-600 dark:text-gray-400 mt-1">
+                              {example.meaning}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-gray-400 dark:text-gray-500 text-sm italic">
+                        No example words available
+                      </p>
+                    )}
+                  </div>
 
-                  {loadingSentences ? (
+                  {/* Example Sentences Section */}
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-sm font-semibold text-gray-600 dark:text-gray-400 uppercase tracking-wider">
+                        Example Sentences
+                      </h3>
+                      {/* Furigana Toggle */}
+                      {exampleSentences.length > 0 && (
+                        <button
+                          onClick={() => setShowFurigana(!showFurigana)}
+                          className="flex items-center gap-2 text-sm px-3 py-1.5 rounded-lg bg-gray-100 dark:bg-dark-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
+                        >
+                          <svg
+                            className="w-4 h-4"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={2}
+                              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            />
+                          </svg>
+                          {showFurigana ? 'Hide' : 'Show'} Furigana
+                        </button>
+                      )}
+                    </div>
+
+                    {loadingSentences ? (
                     <div className="flex items-center justify-center py-8">
                       <LoadingSpinner size="small" />
                     </div>
@@ -693,12 +810,13 @@ export default function KanjiDetailsModal({ kanji, isOpen, onClose }: KanjiDetai
                       ))}
                     </div>
                   ) : (
-                    <div className="text-center py-8">
-                      <p className="text-gray-400 dark:text-gray-500">
-                        No example sentences available
-                      </p>
-                    </div>
-                  )}
+                      <div className="text-center py-8">
+                        <p className="text-gray-400 dark:text-gray-500">
+                          No example sentences available
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </motion.div>

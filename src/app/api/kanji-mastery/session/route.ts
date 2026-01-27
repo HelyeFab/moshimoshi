@@ -192,7 +192,7 @@ export async function GET(request: NextRequest) {
       .collection('users')
       .doc(session.uid)
       .collection('kanji_progress')
-      .select('level', 'srsData', 'kanjiId')
+      .select('level', 'srsData', 'kanjiId', 'character', 'lastReviewed')
       .get()
 
     const levelProgress: Record<string, { studied: number; total: number; mastered: number }> =
@@ -204,8 +204,21 @@ export async function GET(request: NextRequest) {
     let totalStudied = 0
     let totalMastered = 0
 
+    // Collect individual kanji progress for the response
+    const kanjiProgress: Array<{
+      character: string
+      level?: string
+      lastReviewed: string
+      srsStatus?: string
+    }> = []
+
     progressSnapshot.forEach(doc => {
-      const data = doc.data() as { level?: string; srsData?: { status?: string } }
+      const data = doc.data() as {
+        level?: string
+        srsData?: { status?: string }
+        character?: string
+        lastReviewed?: string
+      }
       totalStudied += 1
 
       const level = data.level
@@ -219,6 +232,14 @@ export async function GET(request: NextRequest) {
           levelProgress[level].mastered += 1
         }
       }
+
+      // Add to kanji progress array
+      kanjiProgress.push({
+        character: data.character || doc.id,
+        level: data.level,
+        lastReviewed: data.lastReviewed || new Date().toISOString(),
+        srsStatus: data.srsData?.status
+      })
     })
 
     const averageAccuracyPercent = Math.round(Math.max(0, stats?.averageAccuracy || 0) * 100)
@@ -277,6 +298,7 @@ export async function GET(request: NextRequest) {
         lastStudyDate: lastStudyDate || stats?.lastSessionDate || null,
         levelProgress
       },
+      kanjiProgress,
       isPremium
     })
 

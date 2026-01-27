@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-23T09:15:50.679Z
+ * Generated at: 2026-01-27T10:01:37.750Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -66,12 +66,12 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
   },
   "free": {
     "daily": {
-          "hiragana_practice": 10,
-          "katakana_practice": 10,
+          "hiragana_practice": 5,
+          "katakana_practice": 5,
           "kanji_browser": 10,
           "kanji_connection": 0,
           "kanji_mastery": 5,
-          "drawing_practice": 10,
+          "drawing_practice": 5,
           "conjugation_drill": 5,
           "grammar_explanations": 3,
           "youtube_shadowing": 3,
@@ -86,11 +86,11 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "pwa_badging": 0,
           "pwa_media_session": 0,
           "word_lookup": 15,
-          "news": 5,
-          "story": 5,
+          "news": 3,
+          "story": 3,
           "books": 0,
-          "kanji_mood_board": 5,
-          "drill": 5,
+          "kanji_mood_board": 3,
+          "drill": 3,
           "my_list": -1,
           "textbook_vocabulary": 0,
           "flashcards": 0,
@@ -102,7 +102,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
     "monthly": {
           "custom_lists": 10,
           "save_items": -1,
-          "todos": 100,
+          "todos": 50,
           "flashcard_decks": 0,
           "anki_imports": 0,
           "kanji_connection": 1,

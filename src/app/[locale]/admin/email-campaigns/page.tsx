@@ -39,14 +39,28 @@ export default function EmailCampaignsPage() {
     }
   }, [user])
 
-  const fetchCampaigns = async () => {
+  // Auto-refresh while any campaign is sending
+  useEffect(() => {
+    const hasSendingCampaign = campaigns.some((c) => c.status === 'sending')
+    if (!hasSendingCampaign) return
+
+    const interval = setInterval(() => {
+      fetchCampaigns(true) // Silent refresh - no loading spinner
+    }, 3000) // Poll every 3 seconds
+
+    return () => clearInterval(interval)
+  }, [campaigns])
+
+  const fetchCampaigns = async (silent = false) => {
     try {
-      setLoading(true)
-      setError(null)
+      if (!silent) {
+        setLoading(true)
+        setError(null)
+      }
 
       const token = await auth.currentUser?.getIdToken()
       if (!token) {
-        setError('Not authenticated')
+        if (!silent) setError('Not authenticated')
         return
       }
 
@@ -64,10 +78,14 @@ export default function EmailCampaignsPage() {
 
       setCampaigns(data.campaigns || [])
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load campaigns')
+      if (!silent) {
+        setError(err instanceof Error ? err.message : 'Failed to load campaigns')
+      }
       console.error('[EmailCampaigns] Fetch error:', err)
     } finally {
-      setLoading(false)
+      if (!silent) {
+        setLoading(false)
+      }
     }
   }
 
@@ -527,7 +545,9 @@ export default function EmailCampaignsPage() {
                 <div>
                   <p className="text-sm text-gray-500 dark:text-gray-400">Segment</p>
                   <p className="text-lg font-medium text-gray-900 dark:text-white">
-                    {previewData.segment.type}
+                    {previewData.segment.type === 'custom_emails'
+                      ? `Custom (${previewData.segment.customEmails?.length || 0} emails)`
+                      : previewData.segment.type}
                   </p>
                 </div>
               </div>
@@ -694,7 +714,9 @@ function CampaignCard({
         <div>
           <p className="text-xs text-gray-500 dark:text-gray-400">Segment</p>
           <p className="font-medium text-gray-900 dark:text-gray-100">
-            {campaign.segment.type}
+            {campaign.segment.type === 'custom_emails'
+              ? `${campaign.segment.customEmails?.length || 0} custom email(s)`
+              : campaign.segment.type}
           </p>
         </div>
         <div>
@@ -864,6 +886,7 @@ function NewCampaignModal({
 }) {
   const isEditing = !!campaign
 
+  const [validationError, setValidationError] = useState<string | null>(null)
   const [formData, setFormData] = useState<SendCampaignRequest>(() => {
     if (campaign) {
       return {
@@ -958,18 +981,23 @@ function NewCampaignModal({
 
   const handleSubmit = (e: React.FormEvent | React.MouseEvent) => {
     e.preventDefault()
+    setValidationError(null)
 
     // Client-side validation since button is outside form
     if (!formData.name.trim()) {
-      alert('Campaign name is required')
+      setValidationError('Campaign name is required')
       return
     }
     if (!formData.subject.trim()) {
-      alert('Email subject is required')
+      setValidationError('Email subject is required')
       return
     }
     if (!selectedTemplateId) {
-      alert('Please select an email template')
+      setValidationError('Please select an email template')
+      return
+    }
+    if (formData.segment.type === 'custom_emails' && (!formData.segment.customEmails || formData.segment.customEmails.length === 0)) {
+      setValidationError('Please enter at least one email address')
       return
     }
 
@@ -1006,6 +1034,14 @@ function NewCampaignModal({
         </div>
 
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-4 md:p-6 space-y-5">
+          {/* Validation Error */}
+          {validationError && (
+            <div className="bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 px-4 py-3 rounded-lg flex items-center gap-2">
+              <span className="text-lg">⚠️</span>
+              <span className="text-sm font-medium">{validationError}</span>
+            </div>
+          )}
+
           {/* Campaign Name */}
           <div>
             <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1.5">
@@ -1095,8 +1131,37 @@ function NewCampaignModal({
               <option value="free">Free Users Only</option>
               <option value="premium_monthly">Premium Monthly Subscribers</option>
               <option value="premium_yearly">Premium Yearly Subscribers</option>
+              <option value="custom_emails">Specific Email Addresses</option>
             </select>
           </div>
+
+          {/* Custom Emails Input - shown when segment type is custom_emails */}
+          {formData.segment.type === 'custom_emails' && (
+            <div>
+              <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-1.5">
+                Email Addresses
+              </label>
+              <textarea
+                value={formData.segment.customEmails?.join('\n') || ''}
+                onChange={(e) => {
+                  const emails = e.target.value
+                    .split(/[\n,]+/)
+                    .map((email) => email.trim())
+                    .filter((email) => email.length > 0)
+                  setFormData({
+                    ...formData,
+                    segment: { ...formData.segment, customEmails: emails },
+                  })
+                }}
+                placeholder="Enter email addresses (one per line or comma-separated)&#10;example1@email.com&#10;example2@email.com"
+                rows={5}
+                className="w-full px-4 py-3 md:py-2 border border-gray-200 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-900 text-gray-900 dark:text-gray-100 text-base focus:ring-2 focus:ring-primary-500 focus:border-transparent font-mono text-sm"
+              />
+              <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
+                {formData.segment.customEmails?.length || 0} email(s) entered • Users must exist in the system
+              </p>
+            </div>
+          )}
 
           {/* Filters - Apple-style toggle cards */}
           <div className="space-y-3">

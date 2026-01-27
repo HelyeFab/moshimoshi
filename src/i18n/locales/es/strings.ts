@@ -2725,6 +2725,7 @@ export const strings = {
       highlightGrammarOnly: 'Solo gramática',
       shadowingMode: 'Modo de sombreado',
       playbackSpeed: 'Velocidad de reproducción',
+      playbackSpeedHint: 'El tono se mantiene a todas las velocidades',
       repeatCount: 'Número de repeticiones',
       translation: 'Traducción',
       viewOriginal: 'Ver original',
@@ -7069,6 +7070,20 @@ export const strings = {
     exitConfirmMessage: 'Tu sesión actual de dominio de kanji se perderá si sales ahora.',
     exitConfirmConfirm: 'Salir',
     exitConfirmCancel: 'Seguir aprendiendo',
+    progress: {
+      title: 'Tu Progreso',
+      kanjiStudied: 'Kanji estudiados',
+      mastered: 'Dominados',
+      accuracy: 'Precisión',
+      dayStreak: 'Días consecutivos',
+      progressByLevel: 'Progreso por nivel',
+      studied: 'estudiados',
+      masteredKanji: 'Kanji dominados',
+      inReview: 'En revisión',
+      inLearning: 'Aprendiendo',
+      hoverForDetails: 'Pasa el cursor sobre un kanji para ver detalles',
+      lastStudied: 'Último estudio:',
+    },
   },
   qa: {
     title: 'Casa de Té',
@@ -7336,5 +7351,10 @@ export const strings = {
       message: '¡Nuevo contenido cada domingo!',
       dismiss: 'Cerrar banner',
     },
+  },
+
+  // Anuncios de funciones
+  announcements: {
+    gotIt: 'Entendido',
   },
 };

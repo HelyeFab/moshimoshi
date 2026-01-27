@@ -200,6 +200,45 @@ const CompactSettingsToolbar = memo(function CompactSettingsToolbar({
                 </button>
               </div>
 
+              {/* Playback Speed */}
+              <div>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-sm font-medium" style={{ color: 'var(--article-text)' }}>
+                    {t('news.reader.playbackSpeed')}
+                  </span>
+                  <span
+                    className="text-sm font-semibold px-2 py-1 rounded-lg"
+                    style={{
+                      backgroundColor: 'rgb(var(--palette-primary-500) / 0.1)',
+                      color: 'rgb(var(--palette-primary-600))',
+                    }}
+                  >
+                    {(settings.playbackSpeed || 1.0).toFixed(2)}x
+                  </span>
+                </div>
+                <div className="grid grid-cols-5 gap-2">
+                  {[0.5, 0.75, 1.0, 1.25, 1.5].map(speed => (
+                    <button
+                      key={speed}
+                      onClick={() => onSettingsChange({ ...settings, playbackSpeed: speed })}
+                      className="px-2 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 hover:scale-105 active:scale-95"
+                      style={{
+                        backgroundColor:
+                          (settings.playbackSpeed || 1.0) === speed
+                            ? 'rgb(var(--palette-primary-500))'
+                            : 'var(--article-accent-bg)',
+                        color: (settings.playbackSpeed || 1.0) === speed ? 'white' : 'var(--article-text)',
+                      }}
+                    >
+                      {speed}x
+                    </button>
+                  ))}
+                </div>
+                <p className="text-xs mt-2" style={{ color: 'var(--article-text-secondary)' }}>
+                  {t('news.reader.playbackSpeedHint')}
+                </p>
+              </div>
+
               {/* Audio Controls Section */}
               {showAudioControls && (
                 <>
