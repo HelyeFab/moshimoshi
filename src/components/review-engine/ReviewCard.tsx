@@ -15,6 +15,7 @@ interface ReviewCardProps {
   showAnswer: boolean
   onAudioPlay?: () => void
   leechThreshold?: number
+  showFurigana?: boolean
 }
 
 /** Check if item is a leech (8+ failures) */
@@ -36,12 +37,13 @@ export default function ReviewCard({
   showAnswer,
   onAudioPlay,
   leechThreshold = 8,
+  showFurigana = true,
 }: ReviewCardProps) {
   const leechSeverity = getLeechSeverity(content, leechThreshold)
   const isLeech = leechSeverity !== 'none'
 
   const renderContent = () => {
-    const cardProps = { content: content as ReviewableContent, mode, showAnswer, onAudioPlay }
+    const cardProps = { content: content as ReviewableContent, mode, showAnswer, onAudioPlay, showFurigana }
     switch (content.contentType) {
       case 'kana':
         return <KanaCard {...cardProps} />

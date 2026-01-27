@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "jlptLevel": "N5",
-  "totalPoints": 80,
+  "totalPoints": 81,
   "lastUpdated": "2026-01-17",
   "points": [
     {
@@ -1041,6 +1041,19 @@
         "en": "〜ので (so / because)"
       },
       "shortDescription": "Use ので for a softer reason; often more polite than から.",
+      "jlptLevel": "N5",
+      "difficulty": "beginner"
+    },
+    {
+      "id": "081-ta-kedo",
+      "order": 81,
+      "category": "miscellaneous",
+      "title": {
+        "ja": "〜たけど",
+        "romaji": "~ta kedo",
+        "en": "Although / But (past)"
+      },
+      "shortDescription": "Connect past actions with contrasting results using た-form + けど.",
       "jlptLevel": "N5",
       "difficulty": "beginner"
     }

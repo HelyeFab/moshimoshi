@@ -1892,6 +1892,11 @@ export const strings = {
   review: {
     skip: 'Passer',
     showAnswer: 'Afficher la réponse',
+    submit: 'Soumettre',
+    submitEnter: 'Soumettre (Entrée)',
+    correct: 'Correct !',
+    incorrect: 'Incorrect',
+    typeYourAnswer: 'Tapez votre réponse...',
     modes: {
       recognition: 'Reconnaissance',
       recall: 'Rappel',

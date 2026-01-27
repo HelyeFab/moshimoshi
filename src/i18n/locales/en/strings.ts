@@ -1580,6 +1580,11 @@ export const strings = {
     // Common review actions
     skip: 'Skip',
     showAnswer: 'Show Answer',
+    submit: 'Submit',
+    submitEnter: 'Submit (Enter)',
+    correct: 'Correct!',
+    incorrect: 'Incorrect',
+    typeYourAnswer: 'Type your answer...',
 
     // Review modes (used across all content types)
     modes: {

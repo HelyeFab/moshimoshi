@@ -3295,6 +3295,11 @@ export const strings = {
   review: {
     skip: 'Saltar',
     showAnswer: 'Mostrar respuesta',
+    submit: 'Enviar',
+    submitEnter: 'Enviar (Enter)',
+    correct: '¡Correcto!',
+    incorrect: 'Incorrecto',
+    typeYourAnswer: 'Escribe tu respuesta...',
     modes: {
       recognition: 'Reconocimiento',
       recall: 'Recordar',

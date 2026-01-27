@@ -1,0 +1,183 @@
+{
+  "grammarPointId": "081-ta-kedo",
+  "version": "1.0.0",
+  "totalExercises": 10,
+  "exercises": [
+    {
+      "id": "081-ta-kedo-ex-01",
+      "type": "multiple-choice",
+      "question": "Choose the correct form: 映画を（見る）＿＿、よくわからなかった。",
+      "questionRomaji": "Eiga wo (miru) __, yoku wakaranakatta.",
+      "options": [
+        { "id": "a", "text": "見たけど", "romaji": "mita kedo" },
+        { "id": "b", "text": "見ますけど", "romaji": "mimasu kedo" },
+        { "id": "c", "text": "見るけど", "romaji": "miru kedo" },
+        { "id": "d", "text": "見てけど", "romaji": "mite kedo" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Correct! 見た is the past plain form of 見る, and we add けど for contrast.",
+      "incorrectFeedback": "Not quite. Use the た-form (past plain) + けど. 見る → 見た + けど = 見たけど",
+      "explanation": "〜たけど requires the past plain form (た-form) of the verb.",
+      "difficulty": "easy"
+    },
+    {
+      "id": "081-ta-kedo-ex-02",
+      "type": "fill-in-blank",
+      "question": "Fill in the blank: ケーキを（食べる）__________、まだお腹がすいています。",
+      "correctAnswer": "食べたけど",
+      "acceptedVariations": [
+        "食べたけど",
+        "たべたけど",
+        "tabeta kedo",
+        "tabetakedo"
+      ],
+      "correctFeedback": "Perfect! 食べる → 食べた + けど = 食べたけど",
+      "incorrectFeedback": "The answer is 食べたけど (tabeta kedo). Convert 食べる to た-form and add けど.",
+      "explanation": "食べる (ru-verb) → 食べた (past plain) + けど = 食べたけど",
+      "hints": ["Convert 食べる to past plain form first", "Add けど after the た-form"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "081-ta-kedo-ex-03",
+      "type": "fill-in-blank",
+      "question": "Fill in the blank: 日本に（行く）__________、京都には行かなかった。",
+      "correctAnswer": "行ったけど",
+      "acceptedVariations": [
+        "行ったけど",
+        "いったけど",
+        "itta kedo",
+        "ittakedo"
+      ],
+      "correctFeedback": "Great! 行く → 行った + けど = 行ったけど",
+      "incorrectFeedback": "The answer is 行ったけど (itta kedo). Note: 行く → 行った (with っ).",
+      "explanation": "行く is a u-verb ending in く, so た-form is 行った (note the small っ).",
+      "hints": ["行く → 行った (note the っ)", "Then add けど"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "081-ta-kedo-ex-04",
+      "type": "multiple-choice",
+      "question": "彼に（会う）__________、話ができなかった。",
+      "questionRomaji": "Kare ni (au) __, hanashi ga dekinakatta.",
+      "options": [
+        { "id": "a", "text": "会いますけど", "romaji": "aimasu kedo" },
+        { "id": "b", "text": "会ったけど", "romaji": "atta kedo" },
+        { "id": "c", "text": "会わなかったけど", "romaji": "awanakatta kedo" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 会う → 会った + けど = 会ったけど (I met him, but...)",
+      "incorrectFeedback": "Use the affirmative past plain form: 会う → 会った + けど = 会ったけど",
+      "explanation": "会う (u-verb) → 会った (past plain) + けど. The sentence means 'I met him, but couldn't talk.'",
+      "difficulty": "medium"
+    },
+    {
+      "id": "081-ta-kedo-ex-05",
+      "type": "fill-in-blank",
+      "question": "Fill in the blank: 漢字を（勉強する）__________、まだ書けません。",
+      "correctAnswer": "勉強したけど",
+      "acceptedVariations": [
+        "勉強したけど",
+        "べんきょうしたけど",
+        "benkyou shita kedo",
+        "benkyoushitakedo"
+      ],
+      "correctFeedback": "Excellent! 勉強する → 勉強した + けど = 勉強したけど",
+      "incorrectFeedback": "The answer is 勉強したけど. For する-verbs: する → した.",
+      "explanation": "勉強する is a する-verb. する → した, so 勉強する → 勉強した.",
+      "hints": ["する verbs: する → した", "勉強する → 勉強した + けど"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "081-ta-kedo-ex-06",
+      "type": "multiple-choice",
+      "question": "電車に（乗る）__________、間に合わなかった。",
+      "questionRomaji": "Densha ni (noru) __, ma ni awanakatta.",
+      "options": [
+        { "id": "a", "text": "乗ったけど", "romaji": "notta kedo" },
+        { "id": "b", "text": "乗ってけど", "romaji": "notte kedo" },
+        { "id": "c", "text": "乗りけど", "romaji": "nori kedo" }
+      ],
+      "correctAnswer": "a",
+      "correctFeedback": "Yes! 乗る → 乗った + けど = 乗ったけど",
+      "incorrectFeedback": "The correct form is 乗ったけど (past plain + けど). 乗る → 乗った.",
+      "explanation": "乗る is a u-verb (Group 1), so 乗る → 乗った. Then add けど.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "081-ta-kedo-ex-07",
+      "type": "fill-in-blank",
+      "question": "Fill in the blank: お金を（払う）__________、商品が届きませんでした。",
+      "correctAnswer": "払ったけど",
+      "acceptedVariations": [
+        "払ったけど",
+        "はらったけど",
+        "haratta kedo",
+        "harattakedo"
+      ],
+      "correctFeedback": "Perfect! 払う → 払った + けど = 払ったけど",
+      "incorrectFeedback": "The answer is 払ったけど. 払う is a u-verb: う → った.",
+      "explanation": "払う is a u-verb ending in う. う-verbs ending in う change to った: 払う → 払った.",
+      "hints": ["U-verbs ending in う: う → った", "払う → 払った"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "081-ta-kedo-ex-08",
+      "type": "multiple-choice",
+      "question": "高いカメラを（買う）__________、あまり使っていません。",
+      "questionRomaji": "Takai kamera wo (kau) __, amari tsukatte imasen.",
+      "options": [
+        { "id": "a", "text": "買いましたけど", "romaji": "kaimashita kedo" },
+        { "id": "b", "text": "買ったけど", "romaji": "katta kedo" },
+        { "id": "c", "text": "買うけど", "romaji": "kau kedo" }
+      ],
+      "correctAnswer": "b",
+      "correctFeedback": "Correct! 買った is the past plain form. けど attaches to plain form, not polite form.",
+      "incorrectFeedback": "Use past plain form (た-form), not polite form. 買う → 買った + けど = 買ったけど",
+      "explanation": "けど attaches to plain form. 買う → 買った (past plain). Even though the sentence ends politely, けど uses plain form.",
+      "difficulty": "medium"
+    },
+    {
+      "id": "081-ta-kedo-ex-09",
+      "type": "fill-in-blank",
+      "question": "Translate to Japanese: I called my friend, but he didn't answer.",
+      "correctAnswer": "友達に電話したけど、出なかった",
+      "acceptedVariations": [
+        "友達に電話したけど、出なかった",
+        "友達に電話したけど、出なかった。",
+        "ともだちにでんわしたけど、でなかった",
+        "tomodachi ni denwa shita kedo, denakatta"
+      ],
+      "correctFeedback": "Great job! 電話する → 電話した + けど, and 出る → 出なかった (didn't answer).",
+      "incorrectFeedback": "One answer: 友達に電話したけど、出なかった。(Tomodachi ni denwa shita kedo, denakatta.)",
+      "explanation": "電話する → 電話した (called), 出る → 出なかった (didn't answer/pick up the phone)",
+      "hints": ["call = 電話する → 電話した", "answer (phone) = 出る → 出なかった (negative past)"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "081-ta-kedo-ex-10",
+      "type": "sentence-matching",
+      "question": "Match the Japanese with the English:",
+      "pairs": [
+        {
+          "japanese": "勉強したけど、テストに落ちた。",
+          "romaji": "Benkyou shita kedo, tesuto ni ochita.",
+          "english": "I studied, but I failed the test."
+        },
+        {
+          "japanese": "映画を見たけど、つまらなかった。",
+          "romaji": "Eiga wo mita kedo, tsumaranakatta.",
+          "english": "I watched the movie, but it was boring."
+        },
+        {
+          "japanese": "薬を飲んだけど、まだ頭が痛い。",
+          "romaji": "Kusuri wo nonda kedo, mada atama ga itai.",
+          "english": "I took medicine, but my head still hurts."
+        }
+      ],
+      "correctFeedback": "Perfect matching! All sentences use [た-form verb] + けど + contrasting result.",
+      "incorrectFeedback": "Review the sentences and try again. Look for the た-form verb + けど pattern.",
+      "explanation": "All sentences follow the pattern: [past action using た-form] + けど + [contrasting result].",
+      "difficulty": "hard"
+    }
+  ]
+}

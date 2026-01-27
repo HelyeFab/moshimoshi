@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "lastUpdated": "2026-01-18",
-  "totalPoints": 204,
+  "totalPoints": 205,
   "entries": [
     {
       "id": "001-x-wa-y-desu",
@@ -1510,6 +1510,28 @@
         "beginner"
       ],
       "searchText": "〜ので -node 〜ので (so / because) use ので for a softer reason; often more polite than から. miscellaneous because node beginner"
+    },
+    {
+      "id": "081-ta-kedo",
+      "level": "n5",
+      "jlptLevel": "N5",
+      "category": "miscellaneous",
+      "title": {
+        "ja": "〜たけど",
+        "romaji": "~ta kedo",
+        "en": "Although / But (past)"
+      },
+      "shortDescription": "Connect past actions with contrasting results using た-form + けど.",
+      "tags": [
+        "conjunction",
+        "contrast",
+        "past-tense",
+        "casual",
+        "conversation",
+        "ta-form",
+        "kedo"
+      ],
+      "searchText": "〜たけど ~ta kedo although but past connect past actions with contrasting results using た-form + けど. miscellaneous conjunction contrast past-tense casual conversation ta-form kedo けど"
     },
     {
       "id": "201-n4-point-1",

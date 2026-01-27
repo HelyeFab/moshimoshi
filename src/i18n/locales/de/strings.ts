@@ -98,6 +98,11 @@ export const strings = {
     items: 'Elemente',
     skip: 'Überspringen',
     showAnswer: 'Antwort anzeigen',
+    submit: 'Absenden',
+    submitEnter: 'Absenden (Enter)',
+    correct: 'Richtig!',
+    incorrect: 'Falsch',
+    typeYourAnswer: 'Geben Sie Ihre Antwort ein...',
     modes: {
       recognition: 'Erkennung',
       recall: 'Erinnerung',

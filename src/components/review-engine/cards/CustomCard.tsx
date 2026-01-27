@@ -4,24 +4,35 @@ import { ReviewableContent } from '@/lib/review-engine/core/interfaces'
 import { ReviewMode } from '@/lib/review-engine/core/types'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Volume2 } from 'lucide-react'
+import FuriganaText from '@/components/grammar/FuriganaText'
 
 interface CustomCardProps {
   content: ReviewableContent
   mode: ReviewMode
   showAnswer: boolean
   onAudioPlay?: () => void
+  showFurigana?: boolean
 }
 
 export default function CustomCard({
   content,
   mode,
   showAnswer,
-  onAudioPlay
+  onAudioPlay,
+  showFurigana = true
 }: CustomCardProps) {
 
   // Check if this is an Anki card with rich content
   const isAnkiCard = content.metadata?.source === 'anki'
   const isGrammarCard = content.contentType === 'grammar'
+
+  // Helper to render text with optional furigana for grammar cards
+  const renderJapaneseText = (text: string, className?: string) => {
+    if (isGrammarCard) {
+      return <FuriganaText text={text} showFurigana={showFurigana} className={className} />
+    }
+    return <span className={className}>{text}</span>
+  }
   const reading = content.reading || content.metadata?.reading
   const expression = content.metadata?.expression
   const meaning = content.metadata?.meaning
@@ -39,9 +50,9 @@ export default function CustomCard({
               {/* Primary content (expression/kanji) */}
               <div className="text-2xl sm:text-3xl font-bold mb-2">
                 {mode === 'recognition'
-                  ? content.primaryDisplay
+                  ? renderJapaneseText(content.primaryDisplay)
                   : isGrammarCard
-                    ? content.primaryDisplay
+                    ? renderJapaneseText(content.primaryDisplay)
                     : content.secondaryDisplay || 'Question'}
               </div>
 
@@ -101,11 +112,11 @@ export default function CustomCard({
                   <div className="text-2xl font-semibold text-primary-600 dark:text-primary-400 font-japanese">
                     {/* For sentence lists: show Japanese content as answer, not English meaning */}
                     {content.metadata?.listType === 'sentence'
-                      ? (content.metadata?.itemContent || content.primaryAnswer)
+                      ? renderJapaneseText(content.metadata?.itemContent || content.primaryAnswer)
                       : (meaning || (mode === 'recognition'
-                        ? content.primaryAnswer
+                        ? renderJapaneseText(content.primaryAnswer)
                         : isGrammarCard
-                          ? content.primaryAnswer
+                          ? renderJapaneseText(content.primaryAnswer)
                           : content.primaryDisplay))
                     }
                   </div>

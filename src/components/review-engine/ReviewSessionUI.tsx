@@ -27,7 +27,7 @@ import ReviewCard from './ReviewCard'
 import AnswerInput from './AnswerInput'
 import ProgressBar from './ProgressBar'
 import SessionSummary from './SessionSummary'
-import { X, SkipForward, ChevronRight, Check } from 'lucide-react'
+import { X, SkipForward, ChevronRight, Check, BookOpen } from 'lucide-react'
 
 export interface ReviewSessionUIProps {
   /** Content to review (already adapted to ReviewableContent format) */
@@ -83,6 +83,10 @@ export default function ReviewSessionUI({
 }: ReviewSessionUIProps) {
   const [showAnswer, setShowAnswer] = useState(false)
   const [isAnswered, setIsAnswered] = useState(false)
+  const [showFurigana, setShowFurigana] = useState(true)
+
+  // Check if content includes grammar items
+  const hasGrammarContent = content.some(item => item.contentType === 'grammar')
 
   // Initialize event hub once for gamification
   // This connects to gamificationListener automatically
@@ -215,11 +219,30 @@ export default function ReviewSessionUI({
         streak={state.statistics?.currentStreak || 0}
       />
 
+      {/* Furigana Toggle for Grammar Content */}
+      {hasGrammarContent && (
+        <div className="flex justify-end">
+          <button
+            onClick={() => setShowFurigana(!showFurigana)}
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium transition-colors ${
+              showFurigana
+                ? 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
+                : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+            }`}
+            title={showFurigana ? 'Hide furigana' : 'Show furigana'}
+          >
+            <BookOpen className="w-4 h-4" />
+            <span>ふりがな</span>
+          </button>
+        </div>
+      )}
+
       {/* Review Card */}
       <ReviewCard
         content={currentItem.content}
         mode={mode}
         showAnswer={showAnswer}
+        showFurigana={showFurigana}
         onAudioPlay={() => {
           // Could track audio plays
         }}

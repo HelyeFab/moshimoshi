@@ -25,17 +25,19 @@ export default function TextInput({
   const [submitted, setSubmitted] = useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
   
+  // Focus input when not disabled
   useEffect(() => {
-    // Focus input when component mounts or content changes
     if (!disabled && inputRef.current) {
       inputRef.current.focus()
     }
-    
-    // Reset state when content changes
+  }, [disabled])
+
+  // Reset state only when content changes (new question)
+  useEffect(() => {
     setValue('')
     setSubmitted(false)
     setConfidence(0.7)
-  }, [content, disabled])
+  }, [content.id])
   
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
@@ -55,70 +57,64 @@ export default function TextInput({
   
   return (
     <div className="mt-8 max-w-lg mx-auto">
-      <form onSubmit={handleSubmit}>
-        <div className="space-y-4">
-          {/* Text input */}
-          <div>
-            <input
-              ref={inputRef}
-              type="text"
-              value={value}
-              onChange={(e) => setValue(e.target.value)}
-              disabled={disabled}
-              placeholder="Type your answer..."
-              className={`
-                w-full px-4 py-3 text-lg rounded-lg border-2
-                transition-colors duration-200
-                ${disabled
-                  ? 'bg-gray-100 dark:bg-gray-700 cursor-not-allowed'
-                  : 'bg-soft-white dark:bg-gray-800 focus:border-primary'
-                }
-                ${showAnswer && submitted
-                  ? isCorrect()
-                    ? 'border-green-500 bg-green-50 dark:bg-green-900/20'
-                    : 'border-red-500 bg-red-50 dark:bg-red-900/20'
-                  : 'border-gray-300 dark:border-gray-600'
-                }
-              `}
-              autoComplete="off"
-              autoCorrect="off"
-              autoCapitalize="off"
-              spellCheck="false"
-            />
-          </div>
-          
-          {/* Confidence slider */}
-          {!showAnswer && (
+{/* Only show input form before submission */}
+      {!(submitted && showAnswer) && (
+        <form onSubmit={handleSubmit}>
+          <div className="space-y-4">
+            {/* Text input */}
+            <div>
+              <input
+                ref={inputRef}
+                type="text"
+                value={value}
+                onChange={(e) => setValue(e.target.value)}
+                disabled={disabled}
+                placeholder={t('review.typeYourAnswer')}
+                className={`
+                  w-full px-4 py-3 text-lg rounded-lg border-2
+                  transition-colors duration-200
+                  ${disabled
+                    ? 'bg-gray-100 dark:bg-gray-700 cursor-not-allowed'
+                    : 'bg-soft-white dark:bg-gray-800 focus:border-primary'
+                  }
+                  border-gray-300 dark:border-gray-600
+                `}
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="off"
+                spellCheck="false"
+              />
+            </div>
+
+            {/* Confidence slider */}
             <ConfidenceSlider
               value={confidence}
               onChange={setConfidence}
               disabled={disabled}
               className="mt-4"
             />
-          )}
-          
-          {/* Submit button */}
-          <button
-            type="submit"
-            disabled={disabled || !value.trim() || (submitted && showAnswer)}
-            data-submit
-            className={`
-              w-full px-6 py-3 rounded-lg font-semibold
-              border border-transparent shadow-sm
-              transition-all duration-200
-              focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-dark-900
-              ${submitted && showAnswer
-                ? 'bg-green-500 text-white cursor-default'
-                : disabled || !value.trim()
+
+            {/* Submit button */}
+            <button
+              type="submit"
+              disabled={disabled || !value.trim()}
+              data-submit
+              className={`
+                w-full px-6 py-3 rounded-lg font-semibold
+                border border-transparent shadow-sm
+                transition-all duration-200
+                focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-400 focus-visible:ring-offset-2 focus-visible:ring-offset-dark-900
+                ${disabled || !value.trim()
                   ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 cursor-not-allowed'
                   : 'bg-primary-500 text-white hover:bg-primary-600'
-              }
-            `}
-          >
-            {submitted && showAnswer ? t('review.correct') : t('review.submitEnter')}
-          </button>
-        </div>
-      </form>
+                }
+              `}
+            >
+              {t('review.submitEnter')}
+            </button>
+          </div>
+        </form>
+      )}
       
       {/* Feedback */}
       {showAnswer && submitted && (

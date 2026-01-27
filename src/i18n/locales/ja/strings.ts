@@ -3535,6 +3535,11 @@ export const strings = {
   review: {
     skip: 'スキップ',
     showAnswer: '答えを見る',
+    submit: '送信',
+    submitEnter: '送信（Enter）',
+    correct: '正解！',
+    incorrect: '不正解',
+    typeYourAnswer: '答えを入力...',
     modes: {
       recognition: '認識',
       recall: '想起',

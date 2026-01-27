@@ -1,0 +1,106 @@
+{
+  "id": "081-ta-kedo",
+  "version": "1.0.0",
+  "title": {
+    "ja": "〜たけど",
+    "romaji": "~ta kedo",
+    "en": "Although / But (past)"
+  },
+  "jlptLevel": "N5",
+  "category": "miscellaneous",
+  "explanation": {
+    "en": "This pattern connects a past action with a contrasting result or follow-up. It combines the た-form (past plain form) of a verb with けど (but/although).\n\nKey points:\n• 〜た = Past tense plain form of a verb (also used for completed actions)\n• けど = Conjunction meaning \"but\" or \"although\"\n• Pattern: [Verb in た-form] + けど = \"Although [verb]...\" / \"I [did], but...\"\n\nNuance:\n• けど is casual and commonly used in conversation\n• It softens the contrast, so it feels more like \"yeah, but…\" or \"although…\"\n• More formal alternatives: けれど, けれども (more polite), or が (formal/literary)\n\nTip: You can use たけど to start a sentence, leaving the second part implied:\n行ったけど…。= I went, but... (trailing off — listener fills in the rest)\n\nThis is a very natural and common pattern in everyday Japanese conversation.",
+    "ja": ""
+  },
+  "structure": {
+    "pattern": "[Verb た-form] + けど",
+    "components": [
+      {
+        "part": "Verb (た-form)",
+        "explanation": "Past tense plain form of a verb",
+        "examples": ["食べた", "行った", "見た", "勉強した"]
+      },
+      {
+        "part": "けど",
+        "explanation": "Casual conjunction meaning 'but' or 'although'",
+        "examples": ["けど", "けれど", "けれども"]
+      }
+    ]
+  },
+  "examples": [
+    {
+      "japanese": "映画を見たけど、よくわからなかった。",
+      "romaji": "Eiga wo mita kedo, yoku wakaranakatta.",
+      "english": "I watched the movie, but I didn't really understand it.",
+      "breakdown": {
+        "映画": "movie",
+        "を": "object marker",
+        "見た": "watched (past plain)",
+        "けど": "but",
+        "よく": "well",
+        "わからなかった": "didn't understand"
+      },
+      "notes": "Common everyday usage showing contrast"
+    },
+    {
+      "japanese": "パーティーに行ったけど、あまり楽しくなかった。",
+      "romaji": "Paatii ni itta kedo, amari tanoshiku nakatta.",
+      "english": "I went to the party, but it wasn't very fun.",
+      "breakdown": {
+        "パーティー": "party",
+        "に": "to (direction)",
+        "行った": "went (past plain)",
+        "けど": "but",
+        "あまり": "not very",
+        "楽しくなかった": "wasn't fun"
+      },
+      "notes": "Using with い-adjective negative past"
+    },
+    {
+      "japanese": "勉強したけど、テストは難しかった。",
+      "romaji": "Benkyou shita kedo, tesuto wa muzukashikatta.",
+      "english": "I studied, but the test was difficult.",
+      "breakdown": {
+        "勉強した": "studied (past plain of する verb)",
+        "けど": "but",
+        "テスト": "test",
+        "は": "topic marker",
+        "難しかった": "was difficult"
+      },
+      "notes": "Using with する-verb"
+    },
+    {
+      "japanese": "行ったけど…。",
+      "romaji": "Itta kedo...",
+      "english": "I went, but... (trailing off)",
+      "breakdown": {
+        "行った": "went (past plain)",
+        "けど": "but..."
+      },
+      "notes": "Trailing off — listener fills in the implied meaning"
+    }
+  ],
+  "relatedPoints": [
+    "079-kara-because",
+    "080-node-so",
+    "037-plain-form-past"
+  ],
+  "commonMistakes": [
+    {
+      "mistake": "Using ます-form instead of た-form before けど",
+      "correction": "けど attaches to plain form, not polite form",
+      "example": "❌ 食べましたけど → ✅ 食べたけど"
+    },
+    {
+      "mistake": "Confusing けど (but) with から (because)",
+      "correction": "けど = but/although (contrast), から = because (reason)",
+      "example": "❌ 行ったから、楽しくなかった → ✅ 行ったけど、楽しくなかった"
+    },
+    {
+      "mistake": "Using dictionary form instead of た-form",
+      "correction": "〜たけど uses past plain form, not dictionary form",
+      "example": "❌ 食べるけど → ✅ 食べたけど (for past meaning)"
+    }
+  ],
+  "tags": ["conjunction", "contrast", "past-tense", "casual", "conversation", "ta-form"]
+}

@@ -176,6 +176,11 @@ export const strings = {
     },
     skip: 'Salta',
     showAnswer: 'Mostra risposta',
+    submit: 'Invia',
+    submitEnter: 'Invia (Invio)',
+    correct: 'Corretto!',
+    incorrect: 'Sbagliato',
+    typeYourAnswer: 'Scrivi la tua risposta...',
     modes: {
       recognition: 'Riconoscimento',
       recall: 'Richiamo',
