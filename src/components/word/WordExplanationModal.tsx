@@ -88,6 +88,10 @@ export default function WordExplanationModal({
   const [loadingTatoeba, setLoadingTatoeba] = useState(false)
   const [selectedKanji, setSelectedKanji] = useState<Kanji | null>(null)
   const [kanjiModalOpen, setKanjiModalOpen] = useState(false)
+  const [isPlayingWord, setIsPlayingWord] = useState(false)
+
+  // Ref for word audio element - persists across renders for iOS compatibility
+  const wordAudioRef = React.useRef<HTMLAudioElement | null>(null)
 
   const { play, preload, playing, currentText } = useTTS()
   const {
@@ -146,9 +150,30 @@ export default function WordExplanationModal({
             })
           )
         }
-        const audio = new Audio()
+
+        // iOS FIX: Reuse a single audio element instead of creating new ones
+        // Creating new Audio elements on each click causes iOS Safari to stop working
+        if (!wordAudioRef.current) {
+          wordAudioRef.current = new Audio()
+          // CRITICAL for iOS Safari + Firebase Storage CORS
+          wordAudioRef.current.crossOrigin = 'anonymous'
+          wordAudioRef.current.preload = 'metadata'
+        }
+
+        const audio = wordAudioRef.current
+
+        // Stop any current playback and reset
+        if (!audio.paused) {
+          audio.pause()
+        }
+        audio.currentTime = 0
+
+        // Set new source and load
         audio.src = proxiedUrl
         audio.load()
+
+        // Set up state tracking
+        setIsPlayingWord(true)
 
         await new Promise<void>((resolve, reject) => {
           let resolved = false
@@ -156,14 +181,24 @@ export default function WordExplanationModal({
             if (!resolved) {
               resolved = true
               cleanup()
+              setIsPlayingWord(false)
               reject(new Error('Precomputed audio load timed out'))
             }
           }, 8000)
 
           const cleanup = () => {
+            audio.removeEventListener('loadedmetadata', onLoadedMetadata)
             audio.removeEventListener('canplaythrough', onCanPlay)
             audio.removeEventListener('error', onError)
             clearTimeout(timeoutId)
+          }
+
+          // iOS 17.4+ FIX: Use loadedmetadata which is more reliable on iOS
+          const onLoadedMetadata = () => {
+            if (resolved) return
+            resolved = true
+            cleanup()
+            resolve()
           }
 
           const onCanPlay = () => {
@@ -177,16 +212,33 @@ export default function WordExplanationModal({
             if (resolved) return
             resolved = true
             cleanup()
+            setIsPlayingWord(false)
             reject(new Error('Precomputed audio failed to load'))
           }
 
+          audio.addEventListener('loadedmetadata', onLoadedMetadata)
           audio.addEventListener('canplaythrough', onCanPlay)
           audio.addEventListener('error', onError)
+
+          // Check if already loaded (browser cache)
+          if (audio.readyState >= 1) {
+            onLoadedMetadata()
+          }
         })
+
+        // Set up ended handler to reset state
+        audio.onended = () => {
+          setIsPlayingWord(false)
+        }
+
+        audio.onerror = () => {
+          setIsPlayingWord(false)
+        }
 
         try {
           await audio.play()
         } catch (playError: any) {
+          setIsPlayingWord(false)
           if (typeof window !== 'undefined') {
             window.dispatchEvent(
               new CustomEvent('moshi-debug', {
@@ -202,6 +254,7 @@ export default function WordExplanationModal({
         return
       } catch (err) {
         console.warn('Audio playback failed, falling back to TTS', err)
+        setIsPlayingWord(false)
       }
     }
     if (explanation?.word) {
@@ -270,6 +323,13 @@ export default function WordExplanationModal({
       setActiveTab('explanation')
       setRelatedTranslations(null)
       setTatoebaExamples([])
+      setIsPlayingWord(false)
+
+      // Stop any playing word audio when word changes
+      if (wordAudioRef.current) {
+        wordAudioRef.current.pause()
+        wordAudioRef.current.currentTime = 0
+      }
 
       // Load Tatoeba examples
       const loadTatoebaExamples = async () => {
@@ -286,6 +346,22 @@ export default function WordExplanationModal({
       }
 
       loadTatoebaExamples()
+    }
+
+    // Cleanup when modal closes
+    if (!isOpen && wordAudioRef.current) {
+      wordAudioRef.current.pause()
+      wordAudioRef.current.currentTime = 0
+      setIsPlayingWord(false)
+    }
+
+    // Cleanup on unmount
+    return () => {
+      if (wordAudioRef.current) {
+        wordAudioRef.current.pause()
+        wordAudioRef.current.src = ''
+        wordAudioRef.current = null
+      }
     }
   }, [isOpen, word])
 
@@ -571,10 +647,17 @@ export default function WordExplanationModal({
             <div className="flex gap-2 items-center">
               <button
                 onClick={handlePlayWord}
-                className="p-2 rounded-full hover:bg-white/50 dark:hover:bg-black/20 transition-colors"
+                disabled={isPlayingWord}
+                className="p-2 rounded-full hover:bg-white/50 dark:hover:bg-black/20 transition-colors disabled:opacity-50"
                 title="Play pronunciation"
               >
-                <SpeakerWaveIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+                <SpeakerWaveIcon
+                  className={`w-5 h-5 ${
+                    isPlayingWord
+                      ? 'text-blue-600 dark:text-blue-400 animate-pulse'
+                      : 'text-blue-600 dark:text-blue-400'
+                  }`}
+                />
               </button>
               <AddToListButton
                 content={explanation.word}

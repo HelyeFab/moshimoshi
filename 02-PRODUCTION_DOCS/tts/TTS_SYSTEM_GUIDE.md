@@ -683,6 +683,78 @@ audio.crossOrigin = 'anonymous';
 audio.preload = 'metadata';
 ```
 
+### 5. Audio Element Reuse (iPad/iOS Replay Fix)
+
+iOS Safari has issues when creating new Audio elements on each play. Subsequent plays may fail silently.
+
+**Problem:** Creating `new Audio()` on every click works once but fails on replay.
+
+**Solution:** Reuse a single Audio element stored in a ref:
+
+```typescript
+// BAD - Creates new element each time (breaks on iOS after first play)
+const handlePlay = async () => {
+  const audio = new Audio()
+  audio.src = url
+  await audio.play()
+}
+
+// GOOD - Reuse single element (works on iOS)
+const audioRef = useRef<HTMLAudioElement | null>(null)
+
+const handlePlay = async () => {
+  if (!audioRef.current) {
+    audioRef.current = new Audio()
+    audioRef.current.crossOrigin = 'anonymous'
+    audioRef.current.preload = 'metadata'
+  }
+
+  const audio = audioRef.current
+
+  // Stop and reset before playing new source
+  if (!audio.paused) {
+    audio.pause()
+  }
+  audio.currentTime = 0
+
+  // Set new source
+  audio.src = url
+  audio.load()
+
+  // Wait for loadedmetadata (more reliable than canplaythrough on iOS 17.4+)
+  await new Promise((resolve, reject) => {
+    const onLoaded = () => {
+      audio.removeEventListener('loadedmetadata', onLoaded)
+      resolve(true)
+    }
+    audio.addEventListener('loadedmetadata', onLoaded)
+
+    // Check if already loaded
+    if (audio.readyState >= 1) onLoaded()
+  })
+
+  // Set up ended handler
+  audio.onended = () => setIsPlaying(false)
+
+  await audio.play()
+}
+
+// Cleanup on unmount
+useEffect(() => {
+  return () => {
+    if (audioRef.current) {
+      audioRef.current.pause()
+      audioRef.current.src = ''
+      audioRef.current = null
+    }
+  }
+}, [])
+```
+
+**Components using this pattern:**
+- `WordExplanationModal.tsx` - Word audio playback (uses `wordAudioRef`)
+- `useTTS.ts` hook - Already implements this correctly with `audioRef`
+
 ---
 
 ## Troubleshooting
@@ -693,6 +765,27 @@ audio.preload = 'metadata';
 2. **Verify IndexedDB** is accessible (not in private browsing)
 3. **Check network** tab for API failures
 4. **iOS**: Ensure first play is from user gesture
+
+### iOS: Audio Plays Once But Not Again
+
+**Symptom:** On iPad/iPhone, audio button works the first time but subsequent clicks do nothing.
+
+**Cause:** Creating `new Audio()` on each click. iOS Safari doesn't properly clean up audio elements.
+
+**Solution:** Reuse a single Audio element stored in a ref. See [Audio Element Reuse](#5-audio-element-reuse-ipadios-replay-fix) in iOS Compatibility section.
+
+**Quick Check:**
+```typescript
+// If you see this pattern, it will break on iOS:
+const handlePlay = () => {
+  const audio = new Audio(url)  // ❌ New element each time
+  audio.play()
+}
+
+// Change to use a ref:
+const audioRef = useRef<HTMLAudioElement | null>(null)
+// See iOS Compatibility section for full pattern
+```
 
 ### Slow First Play
 
