@@ -23,8 +23,6 @@ import {
 } from './endpoints'
 // Import scheduled leaderboard functions
 import { updateLeaderboardSnapshots, updateLeaderboardManually } from './scheduled/leaderboard'
-// Import onboarding helpers
-import { createStarterLists } from './onboarding'
 
 // Initialize Firebase Admin only if not already initialized
 if (!admin.apps.length) {
@@ -401,20 +399,6 @@ export {
  * Usage: Call with contentType: 'articles' | 'stories' | 'books' | 'all'
  */
 export { backfillSentenceData } from './admin/backfillSentenceData'
-
-/**
- * User Onboarding Trigger
- * Automatically creates starter lists when a new user document is created
- * Triggers on: users/{userId} onCreate
- */
-export const onUserCreated = onDocumentCreated('users/{userId}', async (event) => {
-  const userId = event.params.userId;
-  console.log(`[onUserCreated] New user created: ${userId}`);
-
-  // Create starter lists asynchronously
-  // This won't block user creation even if it fails
-  await createStarterLists(userId);
-});
 
 /**
  * Export Q&A moderation functions

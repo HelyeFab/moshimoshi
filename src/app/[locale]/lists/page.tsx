@@ -21,7 +21,6 @@ import { useFeature } from '@/hooks/useFeature'
 import MultiTabNotifier from '@/components/lists/MultiTabNotifier'
 import StorageWarning from '@/components/flashcards/StorageWarning'
 import ListSyncStatusIndicator from '@/components/lists/ListSyncStatusIndicator'
-import { createStarterListsIfNeeded } from '@/lib/lists/starterLists'
 import { DesktopCircularIndicator, MobileBarIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 import PageHeader from '@/components/ui/PageHeader'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
@@ -80,6 +79,8 @@ export default function MyListsPage() {
   const [editingList, setEditingList] = useState<UserList | null>(null)
   const [showEditModal, setShowEditModal] = useState(false)
   const [deletingList, setDeletingList] = useState<UserList | null>(null)
+  const [showDeleteAllDialog, setShowDeleteAllDialog] = useState(false)
+  const [isDeletingAll, setIsDeletingAll] = useState(false)
 
   useEffect(() => {
     // Only load lists after both auth and subscription have loaded
@@ -101,9 +102,6 @@ export default function MyListsPage() {
     setIsLoading(true)
     try {
       console.log('[MyListsPage] Loading lists with isPremium:', isPremium)
-
-      // Create starter lists if this is user's first visit
-      await createStarterListsIfNeeded(user.uid, isPremium || false)
 
       const userLists = await listManager.getLists(user.uid, isPremium || false)
       setLists(userLists)
@@ -182,6 +180,51 @@ export default function MyListsPage() {
     } catch (error) {
       console.error('[handleDeleteList] Error deleting list:', error)
       showToast(t('lists.errors.deleteFailed'), 'error')
+    }
+  }
+
+  const handleDeleteAllLists = async () => {
+    if (!user || lists.length === 0) return
+
+    setIsDeletingAll(true)
+
+    try {
+      let successCount = 0
+      let failCount = 0
+
+      // Delete each list sequentially to avoid overwhelming the server
+      for (const list of lists) {
+        try {
+          const success = await listManager.deleteList(list.id, user.uid, isPremium || false)
+          if (success) {
+            successCount++
+          } else {
+            failCount++
+          }
+        } catch (error) {
+          console.error(`[handleDeleteAllLists] Failed to delete list ${list.id}:`, error)
+          failCount++
+        }
+      }
+
+      // Reload lists and refresh quota
+      await loadLists()
+      await refresh()
+
+      if (failCount === 0) {
+        showToast(t('lists.success.allDeleted') || `Successfully deleted ${successCount} lists`, 'success')
+      } else {
+        showToast(
+          t('lists.errors.someDeleteFailed') || `Deleted ${successCount} lists, ${failCount} failed`,
+          'warning'
+        )
+      }
+    } catch (error) {
+      console.error('[handleDeleteAllLists] Error:', error)
+      showToast(t('lists.errors.deleteFailed'), 'error')
+    } finally {
+      setIsDeletingAll(false)
+      setShowDeleteAllDialog(false)
     }
   }
 
@@ -279,7 +322,7 @@ export default function MyListsPage() {
           {/* Loading message */}
           <div className="text-center mb-6">
             <p className="text-gray-600 dark:text-gray-400 text-sm">
-              {isPremium ? t('lists.loading.creatingStarter') || 'Creating your starter lists...' : t('common.loading')}
+              {t('common.loading')}
             </p>
           </div>
 
@@ -382,6 +425,19 @@ export default function MyListsPage() {
             <span>📥</span>
             {t('common.import')}
           </button>
+
+          {/* Delete All button - only show when there are lists */}
+          {lists.length > 0 && (
+            <button
+              onClick={() => setShowDeleteAllDialog(true)}
+              className="px-4 py-2 bg-white dark:bg-dark-800 border border-red-200
+                dark:border-red-900/50 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20
+                transition-all font-medium flex items-center gap-2 text-red-600 dark:text-red-400"
+            >
+              <Trash2 className="w-4 h-4" />
+              {t('lists.actions.deleteAll') || 'Delete All'}
+            </button>
+          )}
         </div>
 
         {/* Lists grid */}
@@ -584,6 +640,22 @@ export default function MyListsPage() {
           type="danger"
         />
       )}
+
+      {/* Delete All Confirmation Dialog */}
+      <Dialog
+        isOpen={showDeleteAllDialog}
+        onClose={() => !isDeletingAll && setShowDeleteAllDialog(false)}
+        onConfirm={handleDeleteAllLists}
+        title={t('lists.deleteAllDialog.title') || 'Delete All Lists'}
+        message={
+          t('lists.deleteAllDialog.message', { count: lists.length }) ||
+          `Are you sure you want to delete all ${lists.length} lists? This action cannot be undone and all items within these lists will be permanently removed.`
+        }
+        confirmText={t('lists.deleteAllDialog.confirm', { count: lists.length }) || `Delete All (${lists.length})`}
+        cancelText={t('common.cancel') || 'Cancel'}
+        type="danger"
+        isLoading={isDeletingAll}
+      />
 
       <StorageWarning
         warningMessage="Storage running low. Consider deleting unused lists or clearing old data."

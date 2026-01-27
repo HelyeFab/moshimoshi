@@ -1,25 +1,33 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useI18n } from '@/i18n/I18nContext'
 import { useAuth } from '@/hooks/useAuth'
 import { DoshiMascot } from '@/components/ui/DoshiMascot'
 import type { Announcement } from '@/lib/announcements/types'
 
-// Generate or retrieve a persistent visitor ID for guests
-function getVisitorId(): string {
-  if (typeof window === 'undefined') return ''
+// Auth-related paths where announcements should not be shown
+const AUTH_PATHS = [
+  '/login',
+  '/signup',
+  '/register',
+  '/auth',
+  '/forgot-password',
+  '/reset-password',
+  '/verify-email',
+]
 
-  const storageKey = 'moshimoshi-visitor-id'
-  let visitorId = localStorage.getItem(storageKey)
-
-  if (!visitorId) {
-    visitorId = `guest_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`
-    localStorage.setItem(storageKey, visitorId)
-  }
-
-  return visitorId
+/**
+ * Check if the current path is an auth-related page
+ */
+function isAuthPage(pathname: string): boolean {
+  // Remove locale prefix if present (e.g., /en/login -> /login)
+  const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '')
+  return AUTH_PATHS.some(
+    (authPath) => pathWithoutLocale === authPath || pathWithoutLocale.startsWith(`${authPath}/`)
+  )
 }
 
 // Sparkle component for decoration
@@ -55,26 +63,18 @@ function Sparkle({ className, delay = 0 }: { className?: string; delay?: number 
 export function FeatureAnnouncementOverlay() {
   const { t, strings } = useI18n()
   const { user, loading: authLoading } = useAuth()
+  const pathname = usePathname()
   const [announcement, setAnnouncement] = useState<Announcement | null>(null)
   const [loading, setLoading] = useState(true)
   const [dismissing, setDismissing] = useState(false)
   const [isVisible, setIsVisible] = useState(false)
 
-  // Fetch active announcement
+  // Fetch active announcement (only for authenticated users)
   const fetchAnnouncement = useCallback(async () => {
     try {
       setLoading(true)
 
-      // Build query params
-      const params = new URLSearchParams()
-      if (!user) {
-        const visitorId = getVisitorId()
-        if (visitorId) {
-          params.set('visitorId', visitorId)
-        }
-      }
-
-      const url = `/api/announcements/active${params.toString() ? `?${params.toString()}` : ''}`
+      const url = '/api/announcements/active'
       const response = await fetch(url)
       const data = await response.json()
 
@@ -88,29 +88,27 @@ export function FeatureAnnouncementOverlay() {
     } finally {
       setLoading(false)
     }
-  }, [user])
+  }, [])
 
-  // Fetch on mount after auth is resolved
+  // Fetch on mount after auth is resolved - only for authenticated users not on auth pages
   useEffect(() => {
-    if (!authLoading) {
+    if (!authLoading && user && !isAuthPage(pathname)) {
       fetchAnnouncement()
+    } else if (!authLoading) {
+      // Not authenticated or on auth page - don't show announcements
+      setLoading(false)
     }
-  }, [authLoading, fetchAnnouncement])
+  }, [authLoading, user, pathname, fetchAnnouncement])
 
-  // Handle dismiss
+  // Handle dismiss (only authenticated users reach this point)
   const handleDismiss = async () => {
     if (!announcement || dismissing) return
 
     setDismissing(true)
 
     try {
-      const body: { announcementId: string; visitorId?: string } = {
+      const body = {
         announcementId: announcement.id,
-      }
-
-      // Add visitorId for guests
-      if (!user) {
-        body.visitorId = getVisitorId()
       }
 
       const response = await fetch('/api/announcements/dismiss', {
@@ -146,8 +144,13 @@ export function FeatureAnnouncementOverlay() {
   // Get translated "Got it" text
   const gotItText = strings.announcements?.gotIt || t('announcements.gotIt') || 'Got it'
 
-  // Don't render if loading or no announcement
-  if (loading || !announcement) {
+  // Don't render if:
+  // - Still loading auth state
+  // - User is not authenticated
+  // - On an auth page
+  // - Still loading announcement
+  // - No announcement to show
+  if (authLoading || !user || isAuthPage(pathname) || loading || !announcement) {
     return null
   }
 
