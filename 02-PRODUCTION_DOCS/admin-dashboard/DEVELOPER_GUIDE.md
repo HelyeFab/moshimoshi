@@ -33,6 +33,8 @@
 src/app/[locale]/admin/
 ├── layout.tsx                 # Admin layout with auth check
 ├── AdminLayoutClient.tsx      # Client-side layout logic
+├── error.tsx                  # Error boundary (catches React errors)
+├── loading.tsx                # Loading state (shown during navigation)
 ├── page.tsx                   # Dashboard home page
 ├── announcements/
 │   └── page.tsx              # Example: announcements management
@@ -45,9 +47,12 @@ src/app/[locale]/admin/
 ### Key Files
 - **Layout**: `src/app/[locale]/admin/layout.tsx` - Server-side auth wrapper
 - **Client Layout**: `src/app/[locale]/admin/AdminLayoutClient.tsx` - Navigation, sidebar, responsive layout
+- **Error Boundary**: `src/app/[locale]/admin/error.tsx` - Catches and handles React errors
+- **Loading State**: `src/app/[locale]/admin/loading.tsx` - Shown during page navigation
 - **Sidebar**: `src/components/admin/AdminSidebar.tsx` - Navigation links
-- **Auth Middleware**: `src/lib/admin/adminAuth.ts` - Server-side auth utilities
+- **Auth Middleware**: `src/lib/admin/adminAuth.ts` - Server-side auth utilities (protected with 'server-only')
 - **Auth Hook**: `src/hooks/useAdmin.ts` - Client-side admin status check
+- **Firebase Admin**: `src/lib/firebase/admin.ts` - Admin SDK (protected with 'server-only')
 
 ---
 
@@ -677,6 +682,99 @@ export const POST = withAdminAuth(async (request, context) => {
 
   // Your logic
 })
+```
+
+### 6. Use 'server-only' Guards
+
+**IMPORTANT**: All server-side admin code is protected with `'server-only'` guards.
+
+**What It Does**:
+- Prevents accidental import of server code in client components
+- Build fails if you try to import admin SDK in client code
+- No runtime overhead (build-time check only)
+
+**Protected Files**:
+- `src/lib/firebase/admin.ts` - Firebase Admin SDK
+- `src/lib/admin/adminAuth.ts` - Admin authentication
+- `src/lib/firebase/auth-admin.ts` - Admin auth helper
+- `src/lib/admin/auditLogger.ts` - Audit logging
+
+**Example**:
+```typescript
+// ✅ WORKS - Server-side API route
+// src/app/api/admin/my-endpoint/route.ts
+import { adminFirestore } from '@/lib/firebase/admin'
+
+export const GET = async () => {
+  const data = await adminFirestore!.collection('items').get()
+  return Response.json({ data })
+}
+
+// ❌ BUILD ERROR - Client component
+// src/components/MyComponent.tsx
+'use client'
+import { adminFirestore } from '@/lib/firebase/admin' // ERROR!
+```
+
+**If You See This Error**:
+```
+Error: Attempted to import server-only code in client component
+```
+
+**Solution**: Use API routes instead:
+```typescript
+// ✅ CORRECT - Client calls API
+'use client'
+const response = await fetch('/api/admin/my-endpoint', {
+  credentials: 'include'
+})
+```
+
+### 7. Error Boundaries
+
+The admin dashboard has a built-in error boundary that catches React errors gracefully.
+
+**Location**: `src/app/[locale]/admin/error.tsx`
+
+**Features**:
+- Catches unhandled React errors
+- Shows user-friendly error message
+- "Try Again" button to recover
+- "Back to Dashboard" fallback
+- Error logging to console
+- Stack trace in development mode
+
+**What This Means For You**:
+- Don't worry about try-catch for every render error
+- Errors won't show blank white screen
+- Users can recover without refresh
+- Errors are logged for debugging
+
+**When Error Boundary Activates**:
+```typescript
+// This error will be caught by error boundary
+export default function MyPage() {
+  const data = somethingThatThrows() // Error!
+  return <div>{data}</div>
+}
+
+// User sees:
+// ⚠️ Something went wrong
+// [Try Again] [Back to Dashboard]
+```
+
+**Best Practice**: Still handle expected errors explicitly:
+```typescript
+// ✅ GOOD - Handle expected errors
+try {
+  const response = await fetch('/api/admin/endpoint')
+  if (!response.ok) throw new Error('Failed')
+} catch (error) {
+  setError(error.message) // Show in your UI
+}
+
+// ❌ DON'T - Rely on error boundary for expected errors
+const data = await fetch('/api/admin/endpoint') // Might fail
 ```
 
 ---

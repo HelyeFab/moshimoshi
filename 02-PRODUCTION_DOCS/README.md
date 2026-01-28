@@ -150,6 +150,7 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 | [DEVELOPER_GUIDE.md](./admin-dashboard/DEVELOPER_GUIDE.md) | Complete guide to creating and maintaining admin dashboard pages |
 | [QUICK_REFERENCE.md](./admin-dashboard/QUICK_REFERENCE.md) | Quick lookup for common admin patterns and code snippets |
 | [AUTH_FIX_SUMMARY.md](./admin-dashboard/AUTH_FIX_SUMMARY.md) | Documentation of authentication pattern fixes (2026-01-28) |
+| [SECURITY_HARDENING.md](./admin-dashboard/SECURITY_HARDENING.md) | Security improvements: 'server-only' guards, error boundaries, React version verification |
 
 **Key Topics:**
 - Cookie-based authentication pattern (server-side)
@@ -158,6 +159,9 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 - Common UI components and styling patterns
 - Security best practices for admin features
 - ESLint rules to prevent auth pattern violations
+- 'server-only' guards to prevent client-side admin imports
+- Error boundaries for graceful error handling
+- React version verification (CVE-2025-55182 patched)
 
 **Essential Reading for:**
 - ✅ New developers creating admin features
