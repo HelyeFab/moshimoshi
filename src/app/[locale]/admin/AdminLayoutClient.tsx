@@ -27,6 +27,15 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
   const [trackingOpen, setTrackingOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
 
+  const trackingItems = [
+    { href: '/admin/page-visits', label: 'Page Visits', icon: '🧭' },
+    { href: '/admin/village-traffic', label: 'Village Traffic', icon: '🏮' },
+    { href: '/admin/content-clicks', label: 'Content Clicks', icon: '📌' },
+    { href: '/admin/subscriptions', label: 'Subscriptions', icon: '💳' },
+    { href: '/admin/auth-monitor', label: 'Auth Monitor', icon: '🛡️' },
+    { href: '/admin/monitoring', label: 'Monitoring', icon: '📊' },
+  ]
+
   useEffect(() => {
     const checkSize = () => {
       if (window.innerWidth < 1024) {
@@ -54,6 +63,13 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
       router.push('/')
     }
   }, [isAdmin, isLoading, router])
+
+  useEffect(() => {
+    const isTrackingRoute = trackingItems.some(item => pathname?.startsWith(item.href))
+    if (isTrackingRoute) {
+      setTrackingOpen(true)
+    }
+  }, [pathname])
 
   if (isLoading) {
     return (
@@ -85,14 +101,6 @@ export default function AdminLayoutClient({ children }: AdminLayoutClientProps) 
       </div>
     )
   }
-
-  const trackingItems = [
-    { href: '/admin/village-traffic', label: 'Village Traffic', icon: '🏮' },
-    { href: '/admin/content-clicks', label: 'Content Clicks', icon: '📌' },
-    { href: '/admin/subscriptions', label: 'Subscriptions', icon: '💳' },
-    { href: '/admin/auth-monitor', label: 'Auth Monitor', icon: '🛡️' },
-    { href: '/admin/monitoring', label: 'Monitoring', icon: '📊' },
-  ]
 
   const navItems = [
     { href: '/admin', label: 'Dashboard', icon: '📊' },

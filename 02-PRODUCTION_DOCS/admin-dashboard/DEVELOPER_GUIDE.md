@@ -9,13 +9,14 @@
 
 1. [Architecture Overview](#architecture-overview)
 2. [Authentication Pattern](#authentication-pattern)
-3. [Creating New Admin Pages](#creating-new-admin-pages)
-4. [Established Patterns](#established-patterns)
-5. [API Route Integration](#api-route-integration)
-6. [Common Components](#common-components)
-7. [Security Best Practices](#security-best-practices)
-8. [Testing Guidelines](#testing-guidelines)
-9. [Troubleshooting](#troubleshooting)
+3. [Data Patterns & Metrics](#data-patterns--metrics)
+4. [Creating New Admin Pages](#creating-new-admin-pages)
+5. [Established Patterns](#established-patterns)
+6. [API Route Integration](#api-route-integration)
+7. [Common Components](#common-components)
+8. [Security Best Practices](#security-best-practices)
+9. [Testing Guidelines](#testing-guidelines)
+10. [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -122,6 +123,148 @@ import { getAuth } from 'firebase/auth'
 3. **Consistency**: Same pattern across all admin pages
 4. **Server-side validation**: Every request verified by middleware
 5. **CSRF protection**: Built-in with SameSite cookies
+
+---
+
+## Data Patterns & Metrics
+
+### Content View Tracking System
+
+All content views (books, stories, comics, articles) are tracked through a unified tracking endpoint.
+
+**Architecture**:
+```
+User Views Content → Content served (cache/network) → /api/track-view called → viewCount incremented atomically
+```
+
+**Endpoint**: `POST /api/track-view`
+
+**Request**:
+```typescript
+{
+  contentType: 'books' | 'stories' | 'comics' | 'news_articles',
+  contentId: string
+}
+```
+
+**Implementation**: `src/app/api/track-view/route.ts`
+
+**Features**:
+- ✅ Atomic increments using `FieldValue.increment(1)` (no race conditions)
+- ✅ Per-user deduplication (3-second window) to prevent React Strict Mode double-counting
+- ✅ Works with PWA offline caching
+- ✅ Multiple users can view same content simultaneously
+
+**Client-side integration**:
+```typescript
+// Example: src/hooks/useBookCache.ts
+fetch('/api/track-view', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    contentType: 'books',
+    contentId: bookId
+  })
+})
+  .then(response => {
+    if (response.ok) {
+      console.log('View tracked')
+    }
+  })
+  .catch(err => {
+    console.warn('Failed to track view:', err)
+  })
+```
+
+**Where it's used**:
+- `src/hooks/useBookCache.ts` - Book views
+- `src/hooks/useComicCache.ts` - Comic views
+- `src/hooks/useArticleCache.ts` - Article views
+- `src/app/[locale]/stories/[slug]/page.tsx` - Story views
+
+---
+
+### Subscription Data Location
+
+⚠️ **IMPORTANT**: Subscription/tier data is stored in a specific location in Firestore.
+
+**Correct data location**: `users/{uid}/subscription.plan`
+
+**Structure**:
+```typescript
+{
+  subscription: {
+    status: 'active' | 'canceled' | 'past_due',
+    plan: 'free' | 'premium_monthly' | 'premium_yearly',
+    stripeCustomerId: string,
+    stripeSubscriptionId: string,
+    currentPeriodEnd: Timestamp,
+    // ... other fields
+  }
+}
+```
+
+**Getting user tier** (single source of truth):
+```typescript
+import { getUserTier, isPremiumUser } from '@/lib/auth/tier-utils'
+
+const tier = getUserTier(userData)  // 'free' | 'premium_monthly' | 'premium_yearly'
+const isPremium = isPremiumUser(userData)  // boolean
+```
+
+**Implementation**: `src/lib/auth/tier-utils.ts:14-31`
+
+**Monthly Revenue Calculation**:
+```typescript
+// src/app/api/admin/stats/route.ts:63-76
+import { getUserTier } from '@/lib/auth/tier-utils'
+
+if (isPremiumUser(userData)) {
+  const tier = getUserTier(userData)  // ✅ Correct way
+  if (tier === 'premium_monthly') {
+    monthlyRevenue += PRICING_CONFIG.monthly.amount  // £8.99
+  } else if (tier === 'premium_yearly') {
+    monthlyRevenue += MONTHLY_EQUIVALENT_FROM_YEARLY  // £8.33
+  }
+}
+```
+
+**❌ Wrong patterns**:
+```typescript
+// Don't use these - they won't work:
+const tier = userData.tier  // ❌ This field doesn't exist
+const tier = userData.subscription?.tier  // ❌ Wrong field name
+```
+
+---
+
+### Activity Tracking
+
+User activity is tracked via `lastActive` field in user documents.
+
+**Implementation**: `src/lib/admin/trackActivity.ts`
+
+```typescript
+import { trackUserActivity } from '@/lib/admin/trackActivity'
+
+// In API routes
+export async function GET(request: NextRequest) {
+  const session = await getSession()
+  if (session?.uid) {
+    // Non-blocking activity tracking
+    trackUserActivity(session.uid).catch(console.error)
+  }
+
+  // Rest of your code
+}
+```
+
+**Where it's used**:
+- Content API routes (books, stories, comics, articles)
+- User activity endpoints
+- Any route where user performs meaningful actions
+
+**Dashboard metric**: "Active Today" counts users with `lastActive >= today 00:00:00`
 
 ---
 

@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { FieldValue } from 'firebase-admin/firestore'
 import { db } from '@/lib/firebase/admin'
 import { getSession } from '@/lib/auth/session'
 import { evaluate } from '@/lib/entitlements/evaluator'
 import type { EvalContext, FeatureId } from '@/types/entitlements'
+import { trackUserActivity } from '@/lib/admin/trackActivity'
 
 /**
  * GET /api/comics/episodes/[episodeId]
@@ -17,6 +19,9 @@ export async function GET(
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    // Track user activity (non-blocking)
+    trackUserActivity(session.uid).catch(console.error)
 
     const { episodeId } = await params
 
@@ -65,10 +70,8 @@ export async function GET(
       console.log('Could not calculate displayNumber, using episodeNumber as fallback')
     }
 
-    // Increment view count
-    await episodeDoc.ref.update({
-      viewCount: (data?.viewCount || 0) + 1,
-    })
+    // Note: viewCount is now tracked separately via /api/track-view
+    // This allows proper tracking whether content is served from cache or network
 
     // Transform quiz data to match BaseQuizQuestion interface
     // Comic quizzes use questionEn/questionJa, but BaseQuizQuestion expects question/questionJa

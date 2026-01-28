@@ -1,8 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { FieldValue } from 'firebase-admin/firestore';
 import { db } from '@/lib/firebase/admin';
 import { getSession } from '@/lib/auth/session';
 import { evaluateFeatureAccess, getUserPlan } from '@/lib/entitlements/server';
 import { Book, BookListResponse } from '@/types/book';
+import { trackUserActivity } from '@/lib/admin/trackActivity';
 
 /**
  * GET /api/library/books
@@ -31,6 +33,9 @@ export async function GET(request: NextRequest) {
       if (!session?.uid) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
+
+      // Track user activity (non-blocking)
+      trackUserActivity(session.uid).catch(console.error);
 
       const nowUtcISO = new Date().toISOString();
       const plan = await getUserPlan(session.uid);
@@ -62,10 +67,8 @@ export async function GET(request: NextRequest) {
 
       const data = bookDoc.data();
 
-      // Increment view count
-      await bookDoc.ref.update({
-        viewCount: (data?.viewCount || 0) + 1
-      });
+      // Note: viewCount is now tracked separately via /api/track-view
+      // This allows proper tracking whether content is served from cache or network
 
       await evaluateFeatureAccess({
         featureId: 'books',

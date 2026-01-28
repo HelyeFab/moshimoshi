@@ -692,6 +692,38 @@
         { "fieldPath": "userId", "order": "ASCENDING" },
         { "fieldPath": "answerId", "order": "ASCENDING" }
       ]
+    },
+    {
+      "collectionGroup": "page_visits",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "userId", "order": "ASCENDING" },
+        { "fieldPath": "startedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "page_visits",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "visitorId", "order": "ASCENDING" },
+        { "fieldPath": "startedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "page_visits",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "anonId", "order": "ASCENDING" },
+        { "fieldPath": "startedAt", "order": "DESCENDING" }
+      ]
+    },
+    {
+      "collectionGroup": "page_visit_daily_summaries",
+      "queryScope": "COLLECTION",
+      "fields": [
+        { "fieldPath": "isAdmin", "order": "ASCENDING" },
+        { "fieldPath": "date", "order": "ASCENDING" }
+      ]
     }
   ],
   "fieldOverrides": [

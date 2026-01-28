@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
 import { validateSession } from '@/lib/auth/session';
 import { PRICING_CONFIG, MONTHLY_EQUIVALENT_FROM_YEARLY } from '@/config/pricing';
-import { isPremiumUser } from '@/lib/auth/tier-utils';
+import { isPremiumUser, getUserTier } from '@/lib/auth/tier-utils';
 
 export async function GET(request: NextRequest) {
   try {
@@ -39,13 +39,7 @@ export async function GET(request: NextRequest) {
     const todayTimestamp = today.getTime();
 
     // Fetch real statistics from Firestore
-    const [
-      usersSnapshot,
-      subscriptionsSnapshot,
-    ] = await Promise.all([
-      adminFirestore.collection('users').get(),
-      adminFirestore.collection('subscriptions').where('status', '==', 'active').get(),
-    ]);
+    const usersSnapshot = await adminFirestore.collection('users').get();
 
     // Calculate stats
     const totalUsers = usersSnapshot.size;
@@ -55,6 +49,7 @@ export async function GET(request: NextRequest) {
     let activeUsers = 0;
     let premiumUsers = 0;
     let freeUsers = 0;
+    let monthlyRevenue = 0;
 
     usersSnapshot.forEach(doc => {
       const userData = doc.data();
@@ -65,27 +60,19 @@ export async function GET(request: NextRequest) {
         activeUsers++;
       }
 
-      // Count users by tier using subscription data
+      // Count users by tier and calculate revenue
       if (isPremiumUser(userData)) {
         premiumUsers++;
+
+        // Calculate MRR based on user tier (use getUserTier for single source of truth)
+        const tier = getUserTier(userData);
+        if (tier === 'premium_monthly') {
+          monthlyRevenue += PRICING_CONFIG.monthly.amount;
+        } else if (tier === 'premium_yearly') {
+          monthlyRevenue += MONTHLY_EQUIVALENT_FROM_YEARLY; // Convert yearly to monthly equivalent
+        }
       } else {
         freeUsers++;
-      }
-    });
-
-    // Calculate subscription stats
-    let activeSubscriptions = 0;
-    let monthlyRevenue = 0;
-
-    subscriptionsSnapshot.forEach(doc => {
-      const subData = doc.data();
-      if (subData.status === 'active') {
-        activeSubscriptions++;
-        if (subData.tier === 'premium_monthly' || subData.plan === 'premium_monthly') {
-          monthlyRevenue += PRICING_CONFIG.monthly.amount;
-        } else if (subData.tier === 'premium_yearly' || subData.plan === 'premium_yearly') {
-          monthlyRevenue += MONTHLY_EQUIVALENT_FROM_YEARLY; // Convert yearly to monthly
-        }
       }
     });
 
@@ -126,6 +113,7 @@ export async function GET(request: NextRequest) {
     let totalBookViews = 0;
     let totalStoryViews = 0;
     let totalComicViews = 0;
+    let totalArticleViews = 0;
 
     booksSnapshot?.forEach(doc => {
       totalBookViews += doc.data().viewCount || 0;
@@ -139,8 +127,28 @@ export async function GET(request: NextRequest) {
       totalComicViews += doc.data().viewCount || 0;
     });
 
-    // Articles don't have viewCount tracking, show total article count instead
-    const totalArticles = articlesSnapshot?.size || 0;
+    articlesSnapshot?.forEach(doc => {
+      totalArticleViews += doc.data().viewCount || 0;
+    });
+
+    // Get baseline stats for "since baseline" calculations
+    const baselineDoc = await adminFirestore
+      .collection('admin')
+      .doc('stats_baseline')
+      .get()
+      .catch(() => null);
+
+    const baseline = baselineDoc?.exists ? baselineDoc.data() : null;
+    const baselineDate = baseline?.timestamp?.toDate?.() || null;
+
+    // Calculate "since baseline" metrics
+    const sinceBaseline = baseline ? {
+      bookViews: Math.max(0, totalBookViews - (baseline.bookViews || 0)),
+      storyViews: Math.max(0, totalStoryViews - (baseline.storyViews || 0)),
+      comicViews: Math.max(0, totalComicViews - (baseline.comicViews || 0)),
+      articleViews: Math.max(0, totalArticleViews - (baseline.articleViews || 0)),
+      newUsers: Math.max(0, totalUsers - (baseline.totalUsers || 0)),
+    } : null;
 
     // Get recent users (last 5)
     const recentUsersSnapshot = await adminFirestore
@@ -212,7 +220,7 @@ export async function GET(request: NextRequest) {
       activeSubscriptions: premiumUsers, // Use premium users count from tier field
       monthlyRevenue: Math.round(monthlyRevenue * 100) / 100,
       // Total content views (all-time cumulative)
-      totalArticles,     // Note: Articles don't have view tracking, this is article count
+      totalArticleViews,
       totalBookViews,
       totalStoryViews,
       totalComicViews,
@@ -223,7 +231,12 @@ export async function GET(request: NextRequest) {
         newUsersChange: calculateChange(newUsersToday, yesterdayNewUsers),
         activeUsersChange: calculateChange(activeUsers, yesterdayActiveUsers),
       },
-      systemStatus
+      systemStatus,
+      // Baseline tracking (since reset)
+      baseline: baseline ? {
+        date: baselineDate,
+        sinceBaseline,
+      } : null
     });
   } catch (error) {
     console.error('[Admin Stats] Error fetching admin stats:', error);
@@ -240,6 +253,111 @@ export async function GET(request: NextRequest) {
           (error instanceof Error ? error.message : 'Unknown error') :
           undefined
       },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * POST /api/admin/stats
+ * Set a new baseline for "since reset" metrics
+ */
+export async function POST(request: NextRequest) {
+  try {
+    // Ensure Firebase Admin is initialized
+    ensureAdminInitialized();
+
+    if (!adminFirestore) {
+      return NextResponse.json({ error: 'Database not available' }, { status: 503 });
+    }
+
+    // Validate admin session
+    const session = await validateSession(request);
+    if (!session.valid || !session.payload) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check if user is admin
+    const userDoc = await adminFirestore.collection('users').doc(session.payload.uid).get();
+    const userData = userDoc?.data();
+    if (!userData?.isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized - Admin access required' }, { status: 403 });
+    }
+
+    // Get current counts to set as baseline
+    const [usersSnapshot, booksSnapshot, storiesSnapshot, comicsSnapshot, articlesSnapshot] = await Promise.all([
+      adminFirestore.collection('users').get(),
+      adminFirestore
+        .collection('books')
+        .where('status', '==', 'published')
+        .get()
+        .catch(() => null),
+      adminFirestore
+        .collection('stories')
+        .where('status', '==', 'published')
+        .get()
+        .catch(() => null),
+      adminFirestore
+        .collection('comics')
+        .where('status', '==', 'published')
+        .get()
+        .catch(() => null),
+      adminFirestore
+        .collection('news_articles')
+        .get()
+        .catch(() => null),
+    ]);
+
+    let totalBookViews = 0;
+    let totalStoryViews = 0;
+    let totalComicViews = 0;
+    let totalArticleViews = 0;
+
+    booksSnapshot?.forEach(doc => {
+      totalBookViews += doc.data().viewCount || 0;
+    });
+
+    storiesSnapshot?.forEach(doc => {
+      totalStoryViews += doc.data().viewCount || 0;
+    });
+
+    comicsSnapshot?.forEach(doc => {
+      totalComicViews += doc.data().viewCount || 0;
+    });
+
+    articlesSnapshot?.forEach(doc => {
+      totalArticleViews += doc.data().viewCount || 0;
+    });
+
+    // Save baseline
+    await adminFirestore.collection('admin').doc('stats_baseline').set({
+      timestamp: new Date(),
+      totalUsers: usersSnapshot.size,
+      bookViews: totalBookViews,
+      storyViews: totalStoryViews,
+      comicViews: totalComicViews,
+      articleViews: totalArticleViews,
+      resetBy: session.payload.uid,
+      resetByEmail: userData.email
+    });
+
+    return NextResponse.json({
+      success: true,
+      message: 'Baseline reset successfully',
+      baseline: {
+        timestamp: new Date().toISOString(),
+        totalUsers: usersSnapshot.size,
+        bookViews: totalBookViews,
+        storyViews: totalStoryViews,
+        comicViews: totalComicViews,
+        articleViews: totalArticleViews
+      }
+    });
+
+  } catch (error) {
+    console.error('[Admin Stats] Error setting baseline:', error);
+    return NextResponse.json(
+      { error: 'Failed to set baseline' },
       { status: 500 }
     );
   }

@@ -4,13 +4,13 @@
  * Analyzes Firebase Auth metadata to identify returning users
  * A returning user = logged in on day X and came back on day Y (different day)
  *
- * Uses: creationTime (when account was created) and lastSignInTime (last login)
+ * Uses: creationTime (when account was created) and lastActive (activity on site)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
 import { AdminContext } from '@/lib/admin/adminAuth';
 import { withAdminAnalyticsRateLimit } from '@/lib/api/admin-analytics-rate-limiter';
-import { adminAuth, adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
+import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
 
 interface DailyUserStats {
   date: string;
@@ -43,8 +43,8 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
   try {
     ensureAdminInitialized();
 
-    if (!adminAuth) {
-      throw new Error('Firebase Admin Auth not initialized');
+    if (!adminFirestore) {
+      throw new Error('Firebase Admin Firestore not initialized');
     }
 
     // Get the last 7 days of dates
@@ -59,33 +59,29 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
     const sevenDaysAgo = new Date(today);
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    // Fetch all users (paginated)
-    // Note: For large user bases, consider caching or aggregating this data
+    const usersSnapshot = await adminFirestore.collection('users').get();
+
     const allUsers: {
       uid: string;
       email: string | undefined;
       displayName: string | undefined;
       creationTime: string | undefined;
-      lastSignInTime: string | undefined;
+      lastActiveTime: string | undefined;
     }[] = [];
 
-    let nextPageToken: string | undefined;
+    usersSnapshot.forEach(doc => {
+      const data = doc.data();
+      const createdAt = data.createdAt?.toDate?.() || data.createdAt;
+      const lastActive = data.lastActive?.toDate?.() || data.lastActive;
 
-    do {
-      const listResult = await adminAuth.listUsers(1000, nextPageToken);
-
-      for (const user of listResult.users) {
-        allUsers.push({
-          uid: user.uid,
-          email: user.email,
-          displayName: user.displayName,
-          creationTime: user.metadata.creationTime,
-          lastSignInTime: user.metadata.lastSignInTime,
-        });
-      }
-
-      nextPageToken = listResult.pageToken;
-    } while (nextPageToken);
+      allUsers.push({
+        uid: doc.id,
+        email: data.email,
+        displayName: data.displayName,
+        creationTime: createdAt ? new Date(createdAt).toISOString() : undefined,
+        lastActiveTime: lastActive ? new Date(lastActive).toISOString() : undefined,
+      });
+    });
 
     // Initialize daily stats
     const dailyStats: Record<string, { newUsers: Set<string>; returningUsers: Set<string> }> = {};
@@ -101,8 +97,8 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
       if (!user.creationTime) continue;
 
       const createdDate = new Date(user.creationTime).toISOString().split('T')[0];
-      const lastSignInDate = user.lastSignInTime
-        ? new Date(user.lastSignInTime).toISOString().split('T')[0]
+      const lastActiveDate = user.lastActiveTime
+        ? new Date(user.lastActiveTime).toISOString().split('T')[0]
         : null;
 
       // Determine if user is NEW or RETURNING (mutually exclusive)
@@ -114,9 +110,9 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
         // User created in the last 7 days = NEW user
         dailyStats[createdDate].newUsers.add(user.uid);
         totalNewInPeriod++;
-      } else if (lastSignInDate && dates.includes(lastSignInDate)) {
+      } else if (lastActiveDate && dates.includes(lastActiveDate)) {
         // User created before 7-day window but signed in during it = RETURNING user
-        dailyStats[lastSignInDate].returningUsers.add(user.uid);
+        dailyStats[lastActiveDate].returningUsers.add(user.uid);
         totalReturningInPeriod++;
       }
     }
@@ -138,9 +134,9 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
     });
 
     const existingUsersWhoReturned = existingUsers.filter(u => {
-      if (!u.lastSignInTime) return false;
-      const lastSignIn = new Date(u.lastSignInTime);
-      return lastSignIn >= sevenDaysAgo;
+      if (!u.lastActiveTime) return false;
+      const lastActive = new Date(u.lastActiveTime);
+      return lastActive >= sevenDaysAgo;
     });
 
     const retentionRate = existingUsers.length > 0
@@ -150,9 +146,9 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
     // Build list of users - prioritize ALL returning users, then recent new users
     // This ensures returning users always appear in the list
     const activeUsersInPeriod = allUsers.filter(u => {
-      if (!u.lastSignInTime) return false;
-      const lastSignIn = new Date(u.lastSignInTime);
-      return lastSignIn >= sevenDaysAgo;
+      if (!u.lastActiveTime) return false;
+      const lastActive = new Date(u.lastActiveTime);
+      return lastActive >= sevenDaysAgo;
     });
 
     // Separate returning vs new users
@@ -172,8 +168,8 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
 
     // Sort both by last sign-in (most recent first)
     const sortByLastSignIn = (a: typeof allUsers[0], b: typeof allUsers[0]) => {
-      const aTime = a.lastSignInTime ? new Date(a.lastSignInTime).getTime() : 0;
-      const bTime = b.lastSignInTime ? new Date(b.lastSignInTime).getTime() : 0;
+      const aTime = a.lastActiveTime ? new Date(a.lastActiveTime).getTime() : 0;
+      const bTime = b.lastActiveTime ? new Date(b.lastActiveTime).getTime() : 0;
       return bTime - aTime;
     };
 
@@ -212,23 +208,23 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
             const sessionCount = sessionsSnap.data().count;
 
             // Determine if new or returning
-            const createdDate = user.creationTime
-              ? new Date(user.creationTime).toISOString().split('T')[0]
-              : null;
-            const lastSignInDate = user.lastSignInTime
-              ? new Date(user.lastSignInTime).toISOString().split('T')[0]
-              : null;
-            const isNew = createdDate && dates.includes(createdDate);
+        const createdDate = user.creationTime
+          ? new Date(user.creationTime).toISOString().split('T')[0]
+          : null;
+        const lastActiveDate = user.lastActiveTime
+          ? new Date(user.lastActiveTime).toISOString().split('T')[0]
+          : null;
+        const isNew = createdDate && dates.includes(createdDate);
 
-            return {
-              uid: user.uid,
-              email: user.email || null,
-              displayName: user.displayName || null,
-              createdAt: user.creationTime || null,
-              lastSignIn: user.lastSignInTime || null,
-              type: (isNew ? 'new' : 'returning') as 'new' | 'returning',
-              reviewSessions: sessionCount,
-            };
+        return {
+          uid: user.uid,
+          email: user.email || null,
+          displayName: user.displayName || null,
+          createdAt: user.creationTime || null,
+          lastSignIn: user.lastActiveTime || null,
+          type: (isNew ? 'new' : 'returning') as 'new' | 'returning',
+          reviewSessions: sessionCount,
+        };
           } catch (err) {
             // If we can't get sessions, still return user info
             const createdDate = user.creationTime
@@ -241,7 +237,7 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
               email: user.email || null,
               displayName: user.displayName || null,
               createdAt: user.creationTime || null,
-              lastSignIn: user.lastSignInTime || null,
+              lastSignIn: user.lastActiveTime || null,
               type: (isNew ? 'new' : 'returning') as 'new' | 'returning',
               reviewSessions: 0,
             };
@@ -264,7 +260,7 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
           email: user.email || null,
           displayName: user.displayName || null,
           createdAt: user.creationTime || null,
-          lastSignIn: user.lastSignInTime || null,
+          lastSignIn: user.lastActiveTime || null,
           type: isNew ? 'new' : 'returning',
           reviewSessions: 0,
         });

@@ -60,6 +60,26 @@ export function useComicCache(options: UseComicCacheOptions = {}): UseComicCache
           const cached = await cacheManager.get(episodeId)
           if (cached) {
             console.log('[useComicCache] Serving from cache:', episodeId)
+
+            // Track view in background (lightweight, doesn't refetch episode data)
+            // Don't await - let it run in background
+            fetch('/api/track-view', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contentType: 'comics',
+                contentId: episodeId
+              })
+            })
+              .then(response => {
+                if (response.ok) {
+                  console.log('[useComicCache] View tracked')
+                }
+              })
+              .catch(err => {
+                console.warn('[useComicCache] Failed to track view:', err)
+              })
+
             return { episode: cached, fromCache: true, error: null }
           }
         } catch (cacheError) {
@@ -70,6 +90,17 @@ export function useComicCache(options: UseComicCacheOptions = {}): UseComicCache
       // Fetch from network
       try {
         console.log('[useComicCache] Fetching from network:', episodeId)
+
+        // Track view (same call whether from cache or network)
+        fetch('/api/track-view', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contentType: 'comics',
+            contentId: episodeId
+          })
+        }).catch(err => console.warn('[useComicCache] Failed to track view:', err))
+
         const response = await fetch(`/api/comics/episodes/${episodeId}`)
 
         if (!response.ok) {

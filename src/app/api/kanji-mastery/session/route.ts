@@ -3,6 +3,7 @@ import { getSession, requireAuth } from '@/lib/auth/session'
 import { adminDb } from '@/lib/firebase/admin'
 import { getUserPlan } from '@/lib/entitlements/server'
 import { KanjiMasterySession } from '@/lib/review-engine/progress/KanjiMasteryProgressManager'
+import { trackUserActivity } from '@/lib/admin/trackActivity'
 
 export async function POST(request: NextRequest) {
   try {
@@ -15,6 +16,9 @@ export async function POST(request: NextRequest) {
         { status: 401 }
       )
     }
+
+    // Track user activity (non-blocking)
+    trackUserActivity(session.uid).catch(console.error)
 
     // Get request body
     const body = await request.json() as KanjiMasterySession
@@ -143,6 +147,9 @@ export async function GET(request: NextRequest) {
         { status: 401 }
       )
     }
+
+    // Track user activity (non-blocking)
+    trackUserActivity(session.uid).catch(console.error)
 
     const plan = await getUserPlan(session.uid)
     const isPremium = plan === 'premium_monthly' || plan === 'premium_yearly'

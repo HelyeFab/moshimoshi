@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import DoshiMascot from '@/components/ui/DoshiMascot';
 import DateRangeScrapingModal from '@/components/admin/DateRangeScrapingModal';
 import ScrapingLogsPanel from '@/components/admin/ScrapingLogsPanel';
+import Modal from '@/components/ui/Modal';
 
 interface DashboardStats {
   totalUsers: number;
@@ -15,7 +16,7 @@ interface DashboardStats {
   activeSubscriptions: number;
   monthlyRevenue: number;
   // Total content views (all-time cumulative)
-  totalArticles: number;    // Article count (no view tracking)
+  totalArticleViews: number;
   totalBookViews: number;
   totalStoryViews: number;
   totalComicViews: number;
@@ -37,6 +38,16 @@ interface DashboardStats {
     errorRate: number;
     uptime: number;
   };
+  baseline?: {
+    date: Date | null;
+    sinceBaseline: {
+      articleViews: number;
+      bookViews: number;
+      storyViews: number;
+      comicViews: number;
+      newUsers: number;
+    };
+  } | null;
 }
 
 export default function AdminDashboard() {
@@ -47,6 +58,10 @@ export default function AdminDashboard() {
   const [scrapingMessage, setScrapingMessage] = useState<string | null>(null);
   const [isScrapingModalOpen, setIsScrapingModalOpen] = useState(false);
   const [logsRefreshTrigger, setLogsRefreshTrigger] = useState(0);
+  const [resettingBaseline, setResettingBaseline] = useState(false);
+  const [showResetModal, setShowResetModal] = useState(false);
+  const [resetSuccess, setResetSuccess] = useState(false);
+  const [resetError, setResetError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchDashboardStats();
@@ -80,6 +95,39 @@ export default function AdminDashboard() {
     // Clear message after 5 seconds
     setTimeout(() => setScrapingMessage(null), 5000);
   };
+
+  async function confirmResetBaseline() {
+    setResettingBaseline(true);
+    setResetError(null);
+
+    try {
+      const response = await fetch('/api/admin/stats', {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to reset baseline');
+      }
+
+      // Refresh stats to show new baseline
+      await fetchDashboardStats();
+      setResetSuccess(true);
+
+      // Close modal after 2 seconds
+      setTimeout(() => {
+        setShowResetModal(false);
+        setResetSuccess(false);
+      }, 2000);
+    } catch (err) {
+      setResetError(err instanceof Error ? err.message : 'Unknown error');
+    } finally {
+      setResettingBaseline(false);
+    }
+  }
 
   if (loading) {
     return (
@@ -150,9 +198,9 @@ export default function AdminDashboard() {
       bgColor: 'bg-emerald-50 dark:bg-emerald-900/20',
     },
     {
-      title: 'Total Articles',
-      value: stats?.totalArticles || 0,
-      change: 'count',
+      title: 'Article Views',
+      value: stats?.totalArticleViews || 0,
+      change: stats?.baseline ? `+${stats.baseline.sinceBaseline.articleViews} since reset` : 'all-time',
       icon: '📰',
       gradient: 'from-sky-400 to-sky-600',
       bgColor: 'bg-sky-50 dark:bg-sky-900/20',
@@ -160,7 +208,7 @@ export default function AdminDashboard() {
     {
       title: 'Book Views',
       value: stats?.totalBookViews || 0,
-      change: 'all-time',
+      change: stats?.baseline ? `+${stats.baseline.sinceBaseline.bookViews} since reset` : 'all-time',
       icon: '📚',
       gradient: 'from-pink-400 to-pink-600',
       bgColor: 'bg-pink-50 dark:bg-pink-900/20',
@@ -168,7 +216,7 @@ export default function AdminDashboard() {
     {
       title: 'Story Views',
       value: stats?.totalStoryViews || 0,
-      change: 'all-time',
+      change: stats?.baseline ? `+${stats.baseline.sinceBaseline.storyViews} since reset` : 'all-time',
       icon: '📖',
       gradient: 'from-amber-400 to-amber-600',
       bgColor: 'bg-amber-50 dark:bg-amber-900/20',
@@ -176,7 +224,7 @@ export default function AdminDashboard() {
     {
       title: 'Comic Views',
       value: stats?.totalComicViews || 0,
-      change: 'all-time',
+      change: stats?.baseline ? `+${stats.baseline.sinceBaseline.comicViews} since reset` : 'all-time',
       icon: '🦝',
       gradient: 'from-rose-400 to-rose-600',
       bgColor: 'bg-rose-50 dark:bg-rose-900/20',
@@ -200,19 +248,157 @@ export default function AdminDashboard() {
         </div>
 
         <div className="relative flex items-center justify-between">
-          <div>
+          <div className="flex-1">
             <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-primary-600 to-primary-800 dark:from-primary-400 dark:to-primary-600 bg-clip-text text-transparent">
               {strings.admin?.pageTitle || 'Admin Dashboard'}
             </h2>
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1">
               {strings.admin?.pageDescription || 'Monitor and manage your application'}
             </p>
+            {stats?.baseline?.date && (
+              <p className="text-xs text-gray-500 dark:text-gray-500 mt-2">
+                📊 Tracking since: {new Date(stats.baseline.date).toLocaleDateString()}
+              </p>
+            )}
           </div>
-          <div className="hidden sm:block">
-            <DoshiMascot size="small" mood="happy" />
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => setShowResetModal(true)}
+              className="hidden sm:flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-lg transition-all duration-200 shadow-md hover:shadow-lg"
+              title="Set current metrics as baseline for tracking new growth"
+            >
+              🔄
+              <span className="hidden md:inline">Reset Baseline</span>
+            </button>
+            <div className="hidden sm:block">
+              <DoshiMascot size="small" mood="happy" />
+            </div>
           </div>
         </div>
       </div>
+
+      {/* Mobile Reset Button */}
+      {stats && (
+        <button
+          onClick={() => setShowResetModal(true)}
+          className="sm:hidden w-full flex items-center justify-center gap-2 px-4 py-3 bg-blue-500 hover:bg-blue-600 text-white text-sm font-medium rounded-xl transition-all duration-200 shadow-md active:scale-95"
+        >
+          🔄 Reset Baseline (Track New Growth)
+        </button>
+      )}
+
+      {/* Reset Baseline Modal */}
+      <Modal
+        isOpen={showResetModal}
+        onClose={() => {
+          if (!resettingBaseline) {
+            setShowResetModal(false);
+            setResetError(null);
+            setResetSuccess(false);
+          }
+        }}
+        title="🔄 Reset Metrics Baseline"
+        size="md"
+        closeOnOverlayClick={!resettingBaseline}
+      >
+        {resetSuccess ? (
+          <div className="text-center py-8">
+            <div className="text-6xl mb-4">✅</div>
+            <h3 className="text-xl font-semibold text-green-600 dark:text-green-400 mb-2">
+              Baseline Reset Successfully!
+            </h3>
+            <p className="text-gray-600 dark:text-gray-400">
+              Metrics will now track changes from this point.
+            </p>
+          </div>
+        ) : (
+          <>
+            <div className="space-y-4">
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <p className="text-sm text-gray-700 dark:text-gray-300">
+                  This will set your current metrics as the starting point for tracking new growth.
+                </p>
+              </div>
+
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-2">
+                <h4 className="font-semibold text-gray-900 dark:text-white mb-3">Current Values:</h4>
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <span className="text-gray-600 dark:text-gray-400">📰 Article Views:</span>
+                    <span className="ml-2 font-semibold text-gray-900 dark:text-white">
+                      {stats?.totalArticleViews || 0}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600 dark:text-gray-400">📚 Book Views:</span>
+                    <span className="ml-2 font-semibold text-gray-900 dark:text-white">
+                      {stats?.totalBookViews || 0}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600 dark:text-gray-400">📖 Story Views:</span>
+                    <span className="ml-2 font-semibold text-gray-900 dark:text-white">
+                      {stats?.totalStoryViews || 0}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600 dark:text-gray-400">🦝 Comic Views:</span>
+                    <span className="ml-2 font-semibold text-gray-900 dark:text-white">
+                      {stats?.totalComicViews || 0}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="text-gray-600 dark:text-gray-400">👥 Total Users:</span>
+                    <span className="ml-2 font-semibold text-gray-900 dark:text-white">
+                      {stats?.totalUsers || 0}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+                <p className="text-sm text-yellow-800 dark:text-yellow-200">
+                  <strong>Note:</strong> After reset, your dashboard will show both all-time totals and new growth since this point.
+                </p>
+              </div>
+
+              {resetError && (
+                <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                  <p className="text-sm text-red-800 dark:text-red-200">
+                    <strong>Error:</strong> {resetError}
+                  </p>
+                </div>
+              )}
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowResetModal(false)}
+                disabled={resettingBaseline}
+                className="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmResetBaseline}
+                disabled={resettingBaseline}
+                className="flex-1 px-4 py-2 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white rounded-lg transition-colors disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {resettingBaseline ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                    Resetting...
+                  </>
+                ) : (
+                  <>
+                    🔄 Reset Baseline
+                  </>
+                )}
+              </button>
+            </div>
+          </>
+        )}
+      </Modal>
 
       {/* Quick Actions - Mobile Optimized Card Grid */}
       <motion.div

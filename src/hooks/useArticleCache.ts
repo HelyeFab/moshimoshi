@@ -63,6 +63,26 @@ export function useArticleCache(options: UseArticleCacheOptions = {}): UseArticl
           const cached = await cacheManager.get(articleId)
           if (cached) {
             console.log('[useArticleCache] Serving from cache:', articleId)
+
+            // Track view in background (lightweight, doesn't refetch article data)
+            // Don't await - let it run in background
+            fetch('/api/track-view', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contentType: 'news_articles',
+                contentId: articleId
+              })
+            })
+              .then(response => {
+                if (response.ok) {
+                  console.log('[useArticleCache] View tracked')
+                }
+              })
+              .catch(err => {
+                console.warn('[useArticleCache] Failed to track view:', err)
+              })
+
             return { article: cached, fromCache: true, error: null }
           }
         } catch (cacheError) {
@@ -73,6 +93,17 @@ export function useArticleCache(options: UseArticleCacheOptions = {}): UseArticl
       // Fetch from network
       try {
         console.log('[useArticleCache] Fetching from network:', articleId)
+
+        // Track view (same call whether from cache or network)
+        fetch('/api/track-view', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contentType: 'news_articles',
+            contentId: articleId
+          })
+        }).catch(err => console.warn('[useArticleCache] Failed to track view:', err))
+
         const response = await fetch(`/api/news/article/${articleId}`)
 
         if (!response.ok) {

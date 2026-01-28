@@ -60,6 +60,26 @@ export function useBookCache(options: UseBookCacheOptions = {}): UseBookCacheRet
           const cached = await cacheManager.get(bookId)
           if (cached) {
             console.log('[useBookCache] Serving from cache:', bookId)
+
+            // Track view in background (lightweight, doesn't refetch book data)
+            // Don't await - let it run in background
+            fetch('/api/track-view', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contentType: 'books',
+                contentId: bookId
+              })
+            })
+              .then(response => {
+                if (response.ok) {
+                  console.log('[useBookCache] View tracked')
+                }
+              })
+              .catch(err => {
+                console.warn('[useBookCache] Failed to track view:', err)
+              })
+
             return { book: cached, fromCache: true, error: null }
           }
         } catch (cacheError) {
@@ -70,6 +90,17 @@ export function useBookCache(options: UseBookCacheOptions = {}): UseBookCacheRet
       // Fetch from network
       try {
         console.log('[useBookCache] Fetching from network:', bookId)
+
+        // Track view (same call whether from cache or network)
+        fetch('/api/track-view', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contentType: 'books',
+            contentId: bookId
+          })
+        }).catch(err => console.warn('[useBookCache] Failed to track view:', err))
+
         const response = await fetch(`/api/library/books?id=${bookId}`)
 
         if (!response.ok) {

@@ -41,11 +41,21 @@ export default function StoryDetailPage() {
           const cachedStory = await getStoryBySlug(slug)
           if (cachedStory) {
             setStory(normalizeCachedStory(cachedStory))
+            // Track view (will queue if offline and send when back online)
+            fetch('/api/track-view', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                contentType: 'stories',
+                contentId: cachedStory.id
+              })
+            }).catch(err => console.warn('Failed to track view:', err))
             return
           }
           throw new Error('Offline with no cached story')
         }
 
+        // Track view (will get story ID from response)
         const response = await fetch(`/api/stories/${slug}`)
 
         if (!response.ok) {
@@ -104,6 +114,16 @@ export default function StoryDetailPage() {
 
         setStory(data.story)
         await cacheStory(data.story)
+
+        // Track view
+        fetch('/api/track-view', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contentType: 'stories',
+            contentId: data.story.id
+          })
+        }).catch(err => console.warn('Failed to track view:', err))
       } catch (error) {
         console.error('[Story Detail] Error loading story:', error)
 

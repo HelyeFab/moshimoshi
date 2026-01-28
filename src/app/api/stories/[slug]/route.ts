@@ -5,6 +5,7 @@ import { getSession } from '@/lib/auth/session'
 import { getUserPlan } from '@/lib/entitlements/server'
 import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator'
 import type { Decision, EvalContext, FeatureId } from '@/types/entitlements'
+import { trackUserActivity } from '@/lib/admin/trackActivity'
 
 export async function GET(
   request: NextRequest,
@@ -22,6 +23,9 @@ export async function GET(
       console.log('[API Story Detail] No session found for slug:', slug)
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
     }
+
+    // Track user activity (non-blocking)
+    trackUserActivity(session.uid).catch(console.error)
 
     if (!adminFirestore) {
       return NextResponse.json({ error: 'Database not initialized' }, { status: 500 })
@@ -186,9 +190,8 @@ export async function GET(
       }
     }
 
-    await adminFirestore.collection('stories').doc(storyId).update({
-      viewCount: FieldValue.increment(1)
-    })
+    // Note: viewCount is now tracked separately via /api/track-view
+    // This allows proper tracking whether content is served from cache or network
 
     const story = {
       id: storyId,

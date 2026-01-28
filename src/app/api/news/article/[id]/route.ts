@@ -1,10 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { FieldValue } from 'firebase-admin/firestore';
 import { db, getAdminDb } from '@/lib/firebase/admin';
 import { getSession } from '@/lib/auth/session';
 import { getUserPlan } from '@/lib/entitlements/server';
 import { evaluate, getBucketKey } from '@/lib/entitlements/evaluator';
 import type { EvalContext } from '@/types/entitlements';
 import type { FeatureId } from '@/types/FeatureId';
+import { trackUserActivity } from '@/lib/admin/trackActivity';
 
 // Cache for individual articles
 const articleCache = new Map<string, { data: any; timestamp: number }>();
@@ -21,6 +23,9 @@ export async function GET(
     if (!session?.uid) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+
+    // Track user activity (non-blocking)
+    trackUserActivity(session.uid).catch(console.error);
 
     if (!articleId) {
       return NextResponse.json(
@@ -124,6 +129,23 @@ export async function GET(
       createdAt: data?.createdAt?.toDate?.() || data?.createdAt,
       lastUpdated: data?.lastUpdated?.toDate?.() || data?.lastUpdated
     };
+
+    // Note: viewCount is now tracked separately via /api/track-view
+    // Update usage tracking for entitlements
+    if (!isRepeat) {
+      await usageRef.set(
+        {
+          userId: session.uid,
+          date: bucketKey,
+          news: currentUsage + 1,
+          news_items: [...newsItems, articleId],
+          updatedAt: nowUtcISO
+        },
+        { merge: true }
+      ).catch(err => {
+        console.error('Failed to update usage:', err);
+      });
+    }
 
     // Cache the article
     articleCache.set(articleId, {
