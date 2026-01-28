@@ -17,6 +17,7 @@ import { EmailVerificationBanner } from '@/components/EmailVerificationBanner';
 import { SundayContentBanner } from '@/components/banners/SundayContentBanner';
 import { FeatureAnnouncementOverlay } from '@/components/announcements/FeatureAnnouncementOverlay';
 import LearningVillageTracker from '@/components/analytics/LearningVillageTracker';
+import PerfDebugPanel from '@/components/debug/PerfDebugPanel';
 import ConditionalCommandPalette from '@/components/ui/ConditionalCommandPalette';
 import TimeMachineButton from '@/components/dev/TimeMachineButton';
 import MobileBottomNav from '@/components/layout/MobileBottomNav';
@@ -76,6 +77,7 @@ export default async function LocaleLayout({
                       <EmailVerificationBanner />
                       <LearningVillageTracker />
                       {children}
+                      <PerfDebugPanel />
                       {process.env.NODE_ENV === 'development' &&
                         process.env.NEXT_PUBLIC_ENABLE_TIME_MACHINE !== 'false' && (
                           <TimeMachineButton />

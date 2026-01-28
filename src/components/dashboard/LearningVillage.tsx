@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef, useMemo } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence, MotionConfig } from 'framer-motion'
 import Link from 'next/link'
 import Masonry from 'react-masonry-css'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -206,11 +206,13 @@ function StallCard({
   index,
   isPopular,
   isOnline,
+  lowPower,
 }: {
   stall: any
   index: number
   isPopular: boolean
   isOnline: boolean
+  lowPower: boolean
 }) {
   const [isHovered, setIsHovered] = useState(false)
   const { strings } = useI18n()
@@ -235,19 +237,17 @@ function StallCard({
     <div
       className={`
           relative overflow-hidden rounded-2xl
-          bg-white/5 dark:bg-dark-800/5 backdrop-blur-md
+          bg-white/5 dark:bg-dark-800/5 ${lowPower ? '' : 'backdrop-blur-md'}
           border border-white/40 dark:border-white/20
           hover:border-primary-400/80 dark:hover:border-primary-500/80
-          shadow-xl hover:shadow-2xl ${stall.glow}
+          ${lowPower ? '' : `shadow-xl hover:shadow-2xl ${stall.glow}`}
           transition-all duration-300 cursor-pointer
           group flex flex-col
           ${heightClass}
           before:absolute before:inset-0
           before:bg-gradient-to-br before:from-white/10 before:via-transparent before:to-transparent
           before:pointer-events-none
-          after:absolute after:inset-0
-          after:shadow-inner after:rounded-2xl
-          after:pointer-events-none
+          ${lowPower ? '' : 'after:absolute after:inset-0 after:shadow-inner after:rounded-2xl after:pointer-events-none'}
         `}
     >
       {/* Animated gradient background */}
@@ -260,13 +260,15 @@ function StallCard({
       />
 
       {/* Lantern glow effect */}
-      <div
-        className="absolute -top-4 -right-4 w-24 h-24 rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-500"
-        style={{
-          background: `radial-gradient(circle, ${stall.lanternColor}40 0%, transparent 70%)`,
-          filter: `blur(20px)`,
-        }}
-      />
+      {!lowPower && (
+        <div
+          className="absolute -top-4 -right-4 w-24 h-24 rounded-full opacity-0 group-hover:opacity-50 transition-opacity duration-500"
+          style={{
+            background: `radial-gradient(circle, ${stall.lanternColor}40 0%, transparent 70%)`,
+            filter: `blur(20px)`,
+          }}
+        />
+      )}
 
       {/* Content background for better readability */}
       <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-white/5 dark:from-black/20 dark:to-black/10 pointer-events-none" />
@@ -294,7 +296,7 @@ function StallCard({
           {/* Emoji icon and stall image in a single row with space between */}
           <div className="flex items-center justify-between mb-2">
             <span
-              className={`filter drop-shadow-lg group-hover:animate-bounce flex-shrink-0 ${isFeatured ? 'text-xl sm:text-4xl' : 'text-lg sm:text-3xl'}`}
+              className={`${lowPower ? '' : 'filter drop-shadow-lg group-hover:animate-bounce'} flex-shrink-0 ${isFeatured ? 'text-xl sm:text-4xl' : 'text-lg sm:text-3xl'}`}
             >
               {stall.icon}
             </span>
@@ -377,10 +379,12 @@ function MobileStallCard({
   stall,
   isPopular,
   isOnline,
+  lowPower,
 }: {
   stall: any
   isPopular: boolean
   isOnline: boolean
+  lowPower: boolean
 }) {
   const { strings } = useI18n()
 
@@ -394,9 +398,9 @@ function MobileStallCard({
       {/* Added group for hover effects */}
       <motion.div
         whileTap={{ scale: 0.98 }}
-        className={`relative flex items-center p-3 sm:p-4 rounded-xl bg-white/10 dark:bg-dark-800/10 backdrop-blur-md
+        className={`relative flex items-center p-3 sm:p-4 rounded-xl bg-white/10 dark:bg-dark-800/10 ${lowPower ? '' : 'backdrop-blur-md'}
                    border border-white/40 dark:border-white/20 hover:border-primary-400/80 dark:hover:border-primary-500/80
-                   shadow-none group-hover:${stall.glow} transition-all duration-300 cursor-pointer h-20 sm:h-24 overflow-hidden
+                   shadow-none ${lowPower ? '' : `group-hover:${stall.glow}`} transition-all duration-300 cursor-pointer h-20 sm:h-24 overflow-hidden
                    group-hover:scale-[1.01] gap-x-2`} // Added subtle lift on hover and glow effect, and gap-x-2
       >
         {/* Top-left curved white border accent */}
@@ -437,7 +441,7 @@ function MobileStallCard({
         <div className="flex items-center space-x-3 sm:space-x-4 z-10 flex-1 min-w-0">
           {/* Emoji icon only on mobile, stall image hidden */}
           <div className="flex-shrink-0 relative w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center">
-            <span className="text-2xl sm:text-3xl filter drop-shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-transform duration-200">
+            <span className={`text-2xl sm:text-3xl ${lowPower ? '' : 'filter drop-shadow-lg group-hover:scale-110 group-hover:rotate-6'} transition-transform duration-200`}>
               {stall.icon}
             </span>
           </div>
@@ -499,6 +503,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
   const { strings } = useI18n()
   const { getLocalePath } = useLocalePath()
   const animationsEnabled = useAnimationControl()
+  const lowPower = !animationsEnabled
   const [timeOfDay, setTimeOfDay] = useState<'day' | 'evening' | 'night'>('day')
   const [districtOrder, setDistrictOrder] = useState<DistrictId[]>(DEFAULT_DISTRICT_ORDER)
 
@@ -862,7 +867,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         href: getLocalePath('/comics'),
         icon: (
           <span className="inline-block scale-[0.35] sm:scale-100 origin-center">
-            <DoshiMascot size="medium" variant="animated" />
+            <DoshiMascot size="medium" variant={lowPower ? 'static' : 'animated'} />
           </span>
         ),
         stallType: 'stage',
@@ -1287,104 +1292,102 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
   }
 
   return (
-    <div className="relative overflow-hidden rounded-none sm:rounded-2xl">
+    <MotionConfig reducedMotion={animationsEnabled ? 'never' : 'always'}>
+      <div className="relative overflow-hidden rounded-none sm:rounded-2xl">
       {/* Animation Control - Top Left Corner */}
       <div className="absolute top-4 left-4 z-50">
         <AnimationControl position="top-left" variant="glassmorphism" />
       </div>
+      {!animationsEnabled && (
+        <div className="absolute top-4 left-[88px] z-50">
+          <div className="px-2.5 py-1 rounded-full text-[11px] font-semibold tracking-wide bg-black/60 text-white border border-white/20">
+            Low Power Mode
+          </div>
+        </div>
+      )}
 
       {/* Bottom glow effect */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary-500/30 via-primary-400/10 to-transparent blur-xl pointer-events-none z-20" />
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-primary-400/20 to-transparent blur-md pointer-events-none z-20" />
+      {!lowPower && (
+        <>
+          <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-primary-500/30 via-primary-400/10 to-transparent blur-xl pointer-events-none z-20" />
+          <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-primary-400/20 to-transparent blur-md pointer-events-none z-20" />
+        </>
+      )}
 
       {/* Floating lanterns distributed throughout the height */}
-      <div className="absolute inset-0 pointer-events-none z-10">
-        {/* Lanterns starting from different heights for continuous flow */}
-        {[...Array(8)].map((_, i) => (
-          <motion.div
-            key={`distributed-lantern-${i}`}
-            className="absolute text-3xl floating-element"
-            initial={{
-              bottom: `${(i * 25) % 100}%`,
-              left: `${10 + i * 11}%`,
-              opacity: 0,
-              scale: 0.5,
-            }}
-            animate={
-              animationsEnabled
-                ? {
-                    bottom: [`${(i * 25) % 100}%`, `${((i * 25) % 100) + 120}%`],
-                    opacity: [0, 1, 1, 1, 0],
-                    scale: [0.5, 1, 1, 1, 0.8],
-                    x: [0, Math.sin(i) * 20, Math.sin(i) * -15, Math.sin(i) * 25],
-                  }
-                : {
-                    bottom: `${(i * 25) % 100}%`,
-                    opacity: 0,
-                    scale: 0.5,
-                  }
-            }
-            transition={{
-              duration: animationsEnabled ? 45 + i * 2 : 0,
-              delay: animationsEnabled ? i * 3 : 0,
-              repeat: animationsEnabled ? Infinity : 0,
-              ease: 'easeInOut',
-            }}
-            style={{
-              filter: 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.5))',
-            }}
-          >
-            🏮
-          </motion.div>
-        ))}
+      {animationsEnabled && (
+        <div className="absolute inset-0 pointer-events-none z-10">
+          {/* Lanterns starting from different heights for continuous flow */}
+          {[...Array(8)].map((_, i) => (
+            <motion.div
+              key={`distributed-lantern-${i}`}
+              className="absolute text-3xl floating-element"
+              initial={{
+                bottom: `${(i * 25) % 100}%`,
+                left: `${10 + i * 11}%`,
+                opacity: 0,
+                scale: 0.5,
+              }}
+              animate={{
+                bottom: [`${(i * 25) % 100}%`, `${((i * 25) % 100) + 120}%`],
+                opacity: [0, 1, 1, 1, 0],
+                scale: [0.5, 1, 1, 1, 0.8],
+                x: [0, Math.sin(i) * 20, Math.sin(i) * -15, Math.sin(i) * 25],
+              }}
+              transition={{
+                duration: 45 + i * 2,
+                delay: i * 3,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+              style={{
+                filter: 'drop-shadow(0 0 20px rgba(239, 68, 68, 0.5))',
+              }}
+            >
+              🏮
+            </motion.div>
+          ))}
 
-        {/* Additional lanterns from bottom for glow area effect */}
-        {[...Array(3)].map((_, i) => (
-          <motion.div
-            key={`bottom-glow-lantern-${i}`}
-            className="absolute text-4xl floating-element"
-            initial={{
-              bottom: -50,
-              left: `${30 + i * 20}%`,
-              opacity: 0,
-              scale: 0.3,
-            }}
-            animate={
-              animationsEnabled
-                ? {
-                    bottom: [-50, window.innerHeight * 1.2],
-                    opacity: [0, 0.8, 1, 0.9, 0],
-                    scale: [0.3, 1.2, 1, 1, 0.5],
-                    x: [0, Math.cos(i) * -20, Math.cos(i) * 30, Math.cos(i) * -25],
-                    rotate: [-10, 10, -5, 8, -10],
-                  }
-                : {
-                    bottom: -50,
-                    opacity: 0,
-                    scale: 0.3,
-                  }
-            }
-            transition={{
-              duration: animationsEnabled ? 55 + i * 3 : 0,
-              delay: animationsEnabled ? i * 7 + 2 : 0,
-              repeat: animationsEnabled ? Infinity : 0,
-              ease: 'easeInOut',
-            }}
-            style={{
-              filter: 'drop-shadow(0 0 15px rgba(251, 191, 36, 0.6))',
-            }}
-          >
-            🏮
-          </motion.div>
-        ))}
-      </div>
+          {/* Additional lanterns from bottom for glow area effect */}
+          {[...Array(3)].map((_, i) => (
+            <motion.div
+              key={`bottom-glow-lantern-${i}`}
+              className="absolute text-4xl floating-element"
+              initial={{
+                bottom: -50,
+                left: `${30 + i * 20}%`,
+                opacity: 0,
+                scale: 0.3,
+              }}
+              animate={{
+                bottom: [-50, window.innerHeight * 1.2],
+                opacity: [0, 0.8, 1, 0.9, 0],
+                scale: [0.3, 1.2, 1, 1, 0.5],
+                x: [0, Math.cos(i) * -20, Math.cos(i) * 30, Math.cos(i) * -25],
+                rotate: [-10, 10, -5, 8, -10],
+              }}
+              transition={{
+                duration: 55 + i * 3,
+                delay: i * 7 + 2,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+              style={{
+                filter: 'drop-shadow(0 0 15px rgba(251, 191, 36, 0.6))',
+              }}
+            >
+              🏮
+            </motion.div>
+          ))}
+        </div>
+      )}
 
       {/* Animated sky background */}
       <div
         className={`absolute inset-0 bg-gradient-to-b ${skyGradient[timeOfDay]} transition-all duration-1000 rounded-none sm:rounded-2xl`}
       >
         {/* Stars for night time */}
-        {timeOfDay === 'night' && (
+        {timeOfDay === 'night' && animationsEnabled && (
           <div className="absolute inset-0">
             {[...Array(50)].map((_, i) => (
               <motion.div
@@ -1409,23 +1412,25 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
       </div>
 
       {/* Floating lanterns - moved to main container level */}
-      <div className="absolute inset-0 h-full overflow-hidden pointer-events-none">
-        {filteredStalls.slice(0, 5).map((stall, i) => (
-          <FloatingLantern key={`lantern-${i}`} delay={i * 4} color={stall.lanternColor} />
-        ))}
+      {animationsEnabled && (
+        <div className="absolute inset-0 h-full overflow-hidden pointer-events-none">
+          {filteredStalls.slice(0, 5).map((stall, i) => (
+            <FloatingLantern key={`lantern-${i}`} delay={i * 4} color={stall.lanternColor} />
+          ))}
 
-        {/* Chinese lantern emojis of different sizes */}
-        <ChineseLantern delay={0} size="small" />
-        <ChineseLantern delay={3} size="large" />
-        <ChineseLantern delay={6} size="medium" />
-        <ChineseLantern delay={9} size="xlarge" />
-        <ChineseLantern delay={12} size="small" />
-        <ChineseLantern delay={15} size="medium" />
-        <ChineseLantern delay={18} size="large" />
-        <ChineseLantern delay={21} size="small" />
-        <ChineseLantern delay={24} size="medium" />
-        <ChineseLantern delay={27} size="xlarge" />
-      </div>
+          {/* Chinese lantern emojis of different sizes */}
+          <ChineseLantern delay={0} size="small" />
+          <ChineseLantern delay={3} size="large" />
+          <ChineseLantern delay={6} size="medium" />
+          <ChineseLantern delay={9} size="xlarge" />
+          <ChineseLantern delay={12} size="small" />
+          <ChineseLantern delay={15} size="medium" />
+          <ChineseLantern delay={18} size="large" />
+          <ChineseLantern delay={21} size="small" />
+          <ChineseLantern delay={24} size="medium" />
+          <ChineseLantern delay={27} size="xlarge" />
+        </div>
+      )}
 
       {/* Festival grounds */}
       <div className="relative z-10 container mx-auto px-4 py-12">
@@ -1441,18 +1446,22 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
             {/* Japanese Title */}
             <div className="relative mb-6">
               {/* Twinkling lights around the title */}
-              <TwinklingLight delay={0} x="10%" y="20%" color="#fbbf24" />
-              <TwinklingLight delay={0.3} x="15%" y="60%" color="#f59e0b" />
-              <TwinklingLight delay={0.6} x="85%" y="25%" color="#fbbf24" />
-              <TwinklingLight delay={0.9} x="90%" y="70%" color="#f59e0b" />
-              <TwinklingLight delay={1.2} x="5%" y="40%" color="#fcd34d" />
-              <TwinklingLight delay={1.5} x="95%" y="45%" color="#fcd34d" />
-              <TwinklingLight delay={1.8} x="12%" y="80%" color="#fbbf24" />
-              <TwinklingLight delay={2.1} x="88%" y="85%" color="#f59e0b" />
-              <TwinklingLight delay={2.4} x="20%" y="15%" color="#fcd34d" />
-              <TwinklingLight delay={2.7} x="80%" y="10%" color="#fbbf24" />
-              <TwinklingLight delay={3.0} x="25%" y="90%" color="#f59e0b" />
-              <TwinklingLight delay={3.3} x="75%" y="95%" color="#fcd34d" />
+              {animationsEnabled && (
+                <>
+                  <TwinklingLight delay={0} x="10%" y="20%" color="#fbbf24" />
+                  <TwinklingLight delay={0.3} x="15%" y="60%" color="#f59e0b" />
+                  <TwinklingLight delay={0.6} x="85%" y="25%" color="#fbbf24" />
+                  <TwinklingLight delay={0.9} x="90%" y="70%" color="#f59e0b" />
+                  <TwinklingLight delay={1.2} x="5%" y="40%" color="#fcd34d" />
+                  <TwinklingLight delay={1.5} x="95%" y="45%" color="#fcd34d" />
+                  <TwinklingLight delay={1.8} x="12%" y="80%" color="#fbbf24" />
+                  <TwinklingLight delay={2.1} x="88%" y="85%" color="#f59e0b" />
+                  <TwinklingLight delay={2.4} x="20%" y="15%" color="#fcd34d" />
+                  <TwinklingLight delay={2.7} x="80%" y="10%" color="#fbbf24" />
+                  <TwinklingLight delay={3.0} x="25%" y="90%" color="#f59e0b" />
+                  <TwinklingLight delay={3.3} x="75%" y="95%" color="#fcd34d" />
+                </>
+              )}
 
               {/* Doshi above welcome text */}
               <motion.div
@@ -1461,7 +1470,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <DoshiMascot size="medium" variant="animated" />
+                <DoshiMascot size="medium" variant={lowPower ? 'static' : 'animated'} />
               </motion.div>
 
               <motion.div
@@ -1499,22 +1508,28 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
                     学習村
                   </span>
                   {/* Gradient text on top */}
-                  <motion.span
-                    className="relative inline-block bg-gradient-to-r from-primary-400 via-pink-500 to-primary-600 bg-clip-text text-transparent animate-gradient bg-300%"
-                    animate={{
-                      backgroundPosition: ['0%', '100%', '0%'],
-                    }}
-                    transition={{
-                      duration: 5,
-                      repeat: Infinity,
-                      ease: 'linear',
-                    }}
-                    style={{
-                      backgroundSize: '300%',
-                    }}
-                  >
-                    学習村
-                  </motion.span>
+                  {animationsEnabled ? (
+                    <motion.span
+                      className="relative inline-block bg-gradient-to-r from-primary-400 via-pink-500 to-primary-600 bg-clip-text text-transparent animate-gradient bg-300%"
+                      animate={{
+                        backgroundPosition: ['0%', '100%', '0%'],
+                      }}
+                      transition={{
+                        duration: 5,
+                        repeat: Infinity,
+                        ease: 'linear',
+                      }}
+                      style={{
+                        backgroundSize: '300%',
+                      }}
+                    >
+                      学習村
+                    </motion.span>
+                  ) : (
+                    <span className="relative inline-block bg-gradient-to-r from-primary-400 via-pink-500 to-primary-600 bg-clip-text text-transparent bg-300%">
+                      学習村
+                    </span>
+                  )}
                 </span>
               </motion.h2>
             </div>
@@ -1744,6 +1759,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
                           stall={stall}
                           isPopular={isPopular(stall.id as StallId)}
                           isOnline={isOnline}
+                          lowPower={lowPower}
                         />
                       ))}
                     </motion.div>
@@ -1779,8 +1795,8 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
                   viewport={{ once: true, margin: '-50px' }}
                   transition={{ duration: 0.6 }}
                 >
-                  <div className="p-3 rounded-xl bg-white/10 backdrop-blur-md border border-white/20 shadow-lg">
-                    <span className="text-3xl filter drop-shadow-lg">{info.icon}</span>
+                  <div className={`p-3 rounded-xl bg-white/10 border border-white/20 ${lowPower ? '' : 'backdrop-blur-md shadow-lg'}`}>
+                    <span className={`text-3xl ${lowPower ? '' : 'filter drop-shadow-lg'}`}>{info.icon}</span>
                   </div>
                   <div className="flex-1">
                     <h3 className="text-2xl font-bold text-white tracking-wide uppercase text-shadow-lg">
@@ -1809,6 +1825,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
                         index={index}
                         isPopular={isPopular(stall.id as StallId)}
                         isOnline={isOnline}
+                        lowPower={lowPower}
                       />
                     </div>
                   ))}
@@ -1822,5 +1839,6 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         <MobileNavSpacer />
       </div>
     </div>
+    </MotionConfig>
   )
 }
