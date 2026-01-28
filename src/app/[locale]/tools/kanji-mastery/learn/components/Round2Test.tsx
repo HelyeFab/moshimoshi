@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { KanjiWithExamples } from '../LearnContent'
 import { CheckCircle, XCircle } from 'lucide-react'
 import { buildRound2TestSequence, type TestDefinition, type TestType } from '../testOrder'
+import { useI18n } from '@/i18n/I18nContext'
 
 interface Round2TestProps {
   kanji: KanjiWithExamples
@@ -32,6 +33,7 @@ export default function Round2Test({
   enableRandomizedOrder,
   lastTestType = null
 }: Round2TestProps) {
+  const { t } = useI18n()
   type Round2Result = { type: TestType; correct: boolean; userAnswer?: string }
   const [currentTest, setCurrentTest] = useState(0)
   const [results, setResults] = useState<Round2Result[]>([])
@@ -89,9 +91,15 @@ export default function Round2Test({
     }
     return buildRound2TestSequence(kanji, {
       lastTestType,
-      forbidOnKunAdjacency: true
+      forbidOnKunAdjacency: true,
+      questionOverrides: {
+        meaning: t('kanjiMasteryTool.round2Questions.meaning', { kanji: kanji.kanji }),
+        onyomi: t('kanjiMasteryTool.round2Questions.onyomi', { kanji: kanji.kanji }),
+        kunyomi: t('kanjiMasteryTool.round2Questions.kunyomi', { kanji: kanji.kanji }),
+        recognition: t('kanjiMasteryTool.round2Questions.recognition', { meaning: kanji.meaning })
+      }
     })
-  }, [enableRandomizedOrder, kanji, lastTestType, legacyTests])
+  }, [enableRandomizedOrder, kanji, lastTestType, legacyTests, t])
 
   const currentTestData = tests[currentTest]
 

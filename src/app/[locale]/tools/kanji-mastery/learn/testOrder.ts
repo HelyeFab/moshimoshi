@@ -17,6 +17,8 @@ export interface TestOrderOptions {
   forbidOnKunAdjacency?: boolean
   /** Max shuffle attempts before fallback rotation (default: 25). */
   maxShuffleAttempts?: number
+  /** Optional localized question overrides keyed by test type. */
+  questionOverrides?: Partial<Record<TestType, string>>
 }
 
 const hasAdjacentOnKun = (order: TestType[]): boolean => {
@@ -78,26 +80,27 @@ export function buildRound2TestSequence(
   const lastTestType = options.lastTestType ?? null
   const forbidOnKunAdjacency = options.forbidOnKunAdjacency ?? false
   const maxShuffleAttempts = options.maxShuffleAttempts ?? 25 // 25 attempts is ample for <=4 tests with constraints.
+  const questionOverrides = options.questionOverrides ?? {}
 
   const baseTests: TestDefinition[] = [
     {
       type: 'meaning',
-      question: `What is the meaning of ${kanji.kanji}?`,
+      question: questionOverrides.meaning ?? `What is the meaning of ${kanji.kanji}?`,
       answer: kanji.meaning.toLowerCase()
     },
     {
       type: 'onyomi',
-      question: `What is the on'yomi reading of ${kanji.kanji}?`,
+      question: questionOverrides.onyomi ?? `What is the on'yomi reading of ${kanji.kanji}?`,
       answer: kanji.onyomi || []
     },
     {
       type: 'kunyomi',
-      question: `What is the kun'yomi reading of ${kanji.kanji}?`,
+      question: questionOverrides.kunyomi ?? `What is the kun'yomi reading of ${kanji.kanji}?`,
       answer: kanji.kunyomi || []
     },
     {
       type: 'recognition',
-      question: `Which kanji means "${kanji.meaning}"?`,
+      question: questionOverrides.recognition ?? `Which kanji means "${kanji.meaning}"?`,
       answer: kanji.kanji
     }
   ]

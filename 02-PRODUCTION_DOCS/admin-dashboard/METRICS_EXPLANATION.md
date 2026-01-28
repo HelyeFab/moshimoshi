@@ -2,7 +2,7 @@
 
 **Status**: ACTIVE
 **Last Updated**: 2026-01-28
-**Recent Fixes**: View tracking system, Monthly Revenue calculation
+**Recent Fixes**: View tracking system, Monthly Revenue calculation, Activity tracking for "Active Today"
 
 ---
 
@@ -33,111 +33,38 @@
 - Premium Yearly: 1 user @ £8.33/month (£99.99/year)
 - **Total MRR: £35.30**
 
+### 3. "Active Today" / Returning Users Activity Tracking - FIXED ✅
+
+**Issue**: "Active Today" undercounted users because `lastActive` wasn't updated consistently.
+
+**Solution**: Page visit tracking now updates `users.lastActive` via `/api/analytics/page-visit`.
+
+**Implementation**:
+- Client tracking: `src/components/analytics/PageVisitTracker.tsx` (sends cookies)
+- Server endpoint: `src/app/api/analytics/page-visit/route.ts` (calls `trackUserActivity`)
+- Activity update helper: `src/lib/admin/trackActivity.ts`
+
+**Result**: "Active Today" and "Returning" metrics now reflect real app activity, not just sign-ins.
+
 ---
 
-## 🚨 **Known Issue: "Active Today" Shows 0**
+## ✅ **Active Today / Returning Users (Current Behavior)**
 
-### Problem
+### Active Today (Admin Dashboard)
 
-The **"Active Today" metric may show low numbers** if activity tracking isn't working.
+**Definition**: users whose `lastActive` is within today's UTC date range.
 
-**Root Cause**: `lastActive` field needs to be updated on user activity.
+**Source**: `users.lastActive` updated on every page visit.
 
-**Code Location**: `src/app/api/admin/stats/route.ts:64-66`
+**Code**: `src/app/api/admin/stats/route.ts` and `src/app/api/analytics/page-visit/route.ts`
 
-```typescript
-usersSnapshot.forEach(doc => {
-  const userData = doc.data();
-  // This checks a field that is NEVER updated ❌
-  if (userData.lastActive?.toMillis() >= todayTimestamp) {
-    activeUsers++;  // Will never increment!
-  }
-});
-```
+### Returning Users (Village Traffic)
 
-### Why This Happens
+**Definition**: users created **before** the 7-day window who were **active** within the window, based on `lastActive`.
 
-1. **No tracking code exists**: There's no code in the app that updates `lastActive` when users:
-   - Log in
-   - Read stories
-   - Use flashcards
-   - View books
-   - Do any activity
+**Source**: Firestore `users` collection (not Firebase Auth sign-in metadata).
 
-2. **Field is undefined**: All user documents have `lastActive` as `undefined` or very old timestamps
-
-### Solution: Add User Activity Tracking
-
-You need to implement user activity tracking. Here are two options:
-
-#### **Option 1: Track on API Calls (Recommended)**
-
-Add a middleware that updates `lastActive` on authenticated API calls:
-
-**Create**: `src/lib/admin/trackActivity.ts`
-```typescript
-import 'server-only'
-import { adminFirestore } from '@/lib/firebase/admin'
-
-/**
- * Track user activity by updating lastActive timestamp
- * Call this in API routes where user performs meaningful actions
- */
-export async function trackUserActivity(userId: string): Promise<void> {
-  if (!userId || !adminFirestore) return
-
-  try {
-    await adminFirestore
-      .collection('users')
-      .doc(userId)
-      .update({
-        lastActive: new Date()
-      })
-  } catch (error) {
-    // Log but don't fail the request
-    console.error('[Activity Tracking] Failed to update lastActive:', error)
-  }
-}
-```
-
-**Use in key API routes**:
-```typescript
-// Example: src/app/api/stories/[slug]/route.ts
-import { trackUserActivity } from '@/lib/admin/trackActivity'
-
-export async function GET(request, { params }) {
-  const session = await getSession()
-  if (session?.uid) {
-    // Track activity (non-blocking)
-    trackUserActivity(session.uid).catch(console.error)
-  }
-
-  // Rest of your code...
-}
-```
-
-**Add to these routes**:
-- `/api/stories/[slug]/route.ts` - When reading stories
-- `/api/library/books/route.ts` - When reading books
-- `/api/comics/episodes/[episodeId]/route.ts` - When reading comics
-- `/api/kanji-mastery/session/route.ts` - When using flashcards
-- Any other high-traffic user endpoints
-
-#### **Option 2: Track on Login (Simpler but Less Accurate)**
-
-Only update `lastActive` when user logs in:
-
-**Location**: `src/app/api/auth/signin/route.ts`
-
-Find where user profile is created/updated and add:
-```typescript
-await adminFirestore.collection('users').doc(uid).set({
-  ...userData,
-  lastActive: new Date()
-}, { merge: true })
-```
-
-**Downside**: Only shows users who logged in today, not users who are actively using the app.
+**Code**: `src/app/api/admin/analytics/returning-users/route.ts`
 
 ---
 

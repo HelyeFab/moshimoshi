@@ -7094,6 +7094,12 @@ export const strings = {
       secondary: '中学校',
     },
     kanjiPerSession: 'セッションあたりの漢字:',
+    round2Questions: {
+      meaning: '「{{kanji}}」の意味は何ですか？',
+      onyomi: '「{{kanji}}」の音読みは？',
+      kunyomi: '「{{kanji}}」の訓読みは？',
+      recognition: '「{{meaning}}」を意味する漢字はどれですか？',
+    },
     recommended: '推奨: 5-10',
     warningLargeSession: '1セッションで20漢字以上を学習すると記憶保持率が低下する可能性があります。より短く頻繁なセッションをご検討ください。',
     startingSession: 'セッション開始中...',

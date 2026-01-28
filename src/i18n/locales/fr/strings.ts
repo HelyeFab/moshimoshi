@@ -6880,6 +6880,12 @@ export const strings = {
       secondary: 'Collège',
     },
     kanjiPerSession: 'Kanji par Session :',
+    round2Questions: {
+      meaning: 'Que signifie {{kanji}} ?',
+      onyomi: 'Quel est l\'on\'yomi de {{kanji}} ?',
+      kunyomi: 'Quel est le kun\'yomi de {{kanji}} ?',
+      recognition: 'Quel kanji signifie "{{meaning}}" ?',
+    },
     recommended: 'Recommandé : 5-10',
     warningLargeSession: 'Étudier plus de 20 kanji par session peut réduire la rétention. Envisagez des sessions plus courtes et plus fréquentes.',
     startingSession: 'Démarrage de la session...',
