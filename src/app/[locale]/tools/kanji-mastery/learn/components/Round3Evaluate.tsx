@@ -28,21 +28,22 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
 
   // Calculate test performance
   const testAccuracy = progress?.round2Accuracy || 0
+  const testAccuracyPercent = Math.round(testAccuracy * 100)
   const testResults = progress?.round2Results || []
   const correctCount = testResults.filter(r => r.correct).length
   const totalTests = testResults.length
 
   const getDoshiMood = () => {
-    if (testAccuracy >= 80) return 'excited' as const
-    if (testAccuracy >= 60) return 'happy' as const
-    if (testAccuracy >= 40) return 'thinking' as const
+    if (testAccuracy >= 0.8) return 'excited' as const
+    if (testAccuracy >= 0.6) return 'happy' as const
+    if (testAccuracy >= 0.4) return 'thinking' as const
     return 'sad' as const
   }
 
   const getPerformanceMessage = () => {
-    if (testAccuracy >= 90) return 'Outstanding! You\'ve mastered this kanji!'
-    if (testAccuracy >= 70) return 'Great job! You\'re getting there!'
-    if (testAccuracy >= 50) return 'Good effort! Keep practicing!'
+    if (testAccuracy >= 0.9) return 'Outstanding! You\'ve mastered this kanji!'
+    if (testAccuracy >= 0.7) return 'Great job! You\'re getting there!'
+    if (testAccuracy >= 0.5) return 'Good effort! Keep practicing!'
     return 'Don\'t worry, you\'ll get it with more practice!'
   }
 
@@ -104,9 +105,9 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
           <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4 flex items-center justify-between">
             <span>Test Results</span>
             <span className={`text-2xl font-bold ${
-              testAccuracy >= 70 ? 'text-green-600 dark:text-green-400' : 'text-orange-600 dark:text-orange-400'
+              testAccuracy >= 0.7 ? 'text-green-600 dark:text-green-400' : 'text-orange-600 dark:text-orange-400'
             }`}>
-              {Math.round(testAccuracy)}%
+              {testAccuracyPercent}%
             </span>
           </h3>
 

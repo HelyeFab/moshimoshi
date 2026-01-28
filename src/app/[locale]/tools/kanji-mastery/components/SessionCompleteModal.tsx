@@ -20,6 +20,7 @@ export default function SessionCompleteModal({ sessionState, onGoToDashboard, on
   const completedKanji = Array.from(sessionState.progress.values()).filter(p => p.round3Rating).length
   const averageAccuracy = Array.from(sessionState.progress.values())
     .reduce((sum, p) => sum + (p.round2Accuracy || 0), 0) / totalKanji
+  const averageAccuracyPercent = Math.round(averageAccuracy * 100)
   const reviewAgainCount = sessionState.reviewAgainPile.size
 
   const sessionDuration = Math.floor((Date.now() - sessionState.startTime.getTime()) / 1000 / 60)
@@ -43,16 +44,16 @@ export default function SessionCompleteModal({ sessionState, onGoToDashboard, on
   })
 
   const getDoshiMood = () => {
-    if (averageAccuracy >= 80) return 'excited' as const
-    if (averageAccuracy >= 60) return 'happy' as const
+    if (averageAccuracy >= 0.8) return 'excited' as const
+    if (averageAccuracy >= 0.6) return 'happy' as const
     return 'thinking' as const
   }
 
   const getEncouragementMessage = () => {
-    if (averageAccuracy >= 90) return 'Incredible performance! You\'re a kanji master! 🏆'
-    if (averageAccuracy >= 75) return 'Excellent work! Keep up the great momentum! 🌟'
-    if (averageAccuracy >= 60) return 'Good job! You\'re making solid progress! 💪'
-    if (averageAccuracy >= 40) return 'Nice effort! Every session makes you stronger! 📈'
+    if (averageAccuracy >= 0.9) return 'Incredible performance! You\'re a kanji master! 🏆'
+    if (averageAccuracy >= 0.75) return 'Excellent work! Keep up the great momentum! 🌟'
+    if (averageAccuracy >= 0.6) return 'Good job! You\'re making solid progress! 💪'
+    if (averageAccuracy >= 0.4) return 'Nice effort! Every session makes you stronger! 📈'
     return 'Keep practicing! You\'re building a strong foundation! 🌱'
   }
 
@@ -88,7 +89,7 @@ export default function SessionCompleteModal({ sessionState, onGoToDashboard, on
             </div>
             <div className="bg-gray-50 dark:bg-dark-700 rounded-lg p-4 text-center">
               <div className="text-3xl font-bold text-green-600 dark:text-green-400">
-                {Math.round(averageAccuracy)}%
+                {averageAccuracyPercent}%
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">Accuracy</div>
             </div>

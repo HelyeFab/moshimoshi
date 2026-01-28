@@ -3,6 +3,8 @@
  * Simple admin role checking using existing Firebase admin auth
  */
 
+import 'server-only'
+
 import { adminAuth } from '@/lib/firebase/admin'
 import { NextRequest, NextResponse } from 'next/server'
 

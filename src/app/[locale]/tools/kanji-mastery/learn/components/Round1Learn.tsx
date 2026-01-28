@@ -12,6 +12,14 @@ import { toRomaji } from 'wanakana'
 import { kanjiService, KanjiMnemonic } from '@/services/kanjiService'
 import AddToListButton from '@/components/lists/AddToListButton'
 
+// Helper to check if text is a single kanji (TTS can't pronounce without context)
+const isSingleKanji = (text: string): boolean => {
+  if (text.length !== 1) return false
+  const code = text.charCodeAt(0)
+  // Kanji range: U+4E00 - U+9FAF
+  return code >= 0x4e00 && code <= 0x9faf
+}
+
 const exampleCache = new Map<string, KanjiExample[]>()
 const EXAMPLE_CACHE_PREFIX = 'kanji_examples_v1:'
 
@@ -24,9 +32,9 @@ interface Round1LearnProps {
 }
 
 export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplete, onExit }: Round1LearnProps) {
-  const [showReadings, setShowReadings] = useState(false)
   const [showExamples, setShowExamples] = useState(false)
   const [showSentences, setShowSentences] = useState(false)
+  const [showShortcuts, setShowShortcuts] = useState(false)
   const [sentences, setSentences] = useState<CachedSentence[]>([])
   const [fallbackExamples, setFallbackExamples] = useState<KanjiExample[]>([])
   const [mnemonic, setMnemonic] = useState<KanjiMnemonic | null>(null)
@@ -119,7 +127,10 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
 
       // Priority 2: Example words (shown when user clicks "Show Examples")
       if (kanji.examples && kanji.examples.length > 0) {
-        const exampleWords = kanji.examples.map(ex => ex.word).slice(0, 5)
+        const exampleWords = kanji.examples
+          .map(ex => ex.word)
+          .filter(word => !isSingleKanji(word)) // Skip single kanji (TTS can't pronounce without context)
+          .slice(0, 5)
         textsToPreload.push(...exampleWords)
         console.log(`[Round1Learn] 📝 Example words to prefetch (${exampleWords.length}):`, exampleWords)
       }
@@ -199,13 +210,70 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
 
   const handleContinue = () => {
     // Reset states for next kanji
-    setShowReadings(false)
     setShowExamples(false)
     setShowSentences(false)
     setSentences([])
     setMnemonic(null)
     onComplete()
   }
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ignore shortcuts if user is typing in an input or textarea
+      const target = e.target as HTMLElement
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+        return
+      }
+
+      switch (e.key) {
+        case 'Enter':
+        case ' ':
+        case 'ArrowRight':
+          e.preventDefault()
+          handleContinue()
+          break
+        case 'Escape':
+          e.preventDefault()
+          // Close shortcuts panel first if open, otherwise exit
+          if (showShortcuts) {
+            setShowShortcuts(false)
+          } else {
+            onExit()
+          }
+          break
+        case 'e':
+        case 'E':
+          e.preventDefault()
+          setShowExamples(prev => !prev)
+          break
+        case 's':
+        case 'S':
+          e.preventDefault()
+          setShowSentences(prev => !prev)
+          break
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [handleContinue, onExit, showShortcuts])
+
+  // Close shortcuts panel when clicking outside
+  useEffect(() => {
+    if (!showShortcuts) return
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      // Check if click is outside the shortcuts panel
+      if (!target.closest('.shortcuts-panel') && !target.closest('.shortcuts-badge')) {
+        setShowShortcuts(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [showShortcuts])
 
   return (
     <motion.div
@@ -215,13 +283,80 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
       className="space-y-6"
     >
       {/* Header */}
-      <div className="text-center">
+      <div className="text-center relative">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
           Round 1: Learn
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
           Kanji {currentIndex + 1} of {totalKanji}
         </p>
+
+        {/* Keyboard Shortcuts Badge - Desktop Only */}
+        <div className="hidden md:block absolute top-0 right-0">
+          <button
+            onClick={() => setShowShortcuts(!showShortcuts)}
+            className="shortcuts-badge flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors text-sm font-medium shadow-sm"
+            aria-label="Toggle keyboard shortcuts"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+            <span>Shortcuts</span>
+          </button>
+
+          {/* Shortcuts Panel */}
+          {showShortcuts && (
+            <motion.div
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="shortcuts-panel absolute top-full right-0 mt-2 bg-white dark:bg-dark-800 rounded-xl shadow-2xl border border-gray-200 dark:border-dark-700 p-4 w-80 z-50"
+            >
+              <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Keyboard Shortcuts
+              </h3>
+              <div className="space-y-2">
+                {/* Navigation */}
+                <div className="border-b border-gray-200 dark:border-dark-700 pb-2 mb-2">
+                  <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Navigation</p>
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-700 dark:text-gray-300">Continue</span>
+                      <div className="flex gap-1">
+                        <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">Enter</kbd>
+                        <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">Space</kbd>
+                        <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">→</kbd>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-700 dark:text-gray-300">Exit</span>
+                      <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">Esc</kbd>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Toggle Sections */}
+                <div>
+                  <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Toggle Sections</p>
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-700 dark:text-gray-300">Examples</span>
+                      <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">E</kbd>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-700 dark:text-gray-300">Sentences</span>
+                      <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">S</kbd>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </div>
       </div>
 
       {/* Main Kanji Card */}
@@ -306,12 +441,7 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
           )}
 
           {/* Readings Section */}
-          <motion.div
-            initial={{ height: 0 }}
-            animate={{ height: showReadings ? 'auto' : 0 }}
-            className="overflow-hidden"
-          >
-            <div className="space-y-4 mb-6">
+          <div className="space-y-4 mb-6">
               {/* Onyomi */}
               {kanji.onyomi && kanji.onyomi.length > 0 && (
                 <div>
@@ -374,26 +504,15 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
                 </div>
               )}
             </div>
-          </motion.div>
-
-          {!showReadings && (
-            <button
-              onClick={() => setShowReadings(true)}
-              className="px-6 py-2 bg-primary-100 dark:bg-primary-900/20 text-primary-600 dark:text-primary-400 rounded-lg hover:bg-primary-200 dark:hover:bg-primary-900/30 transition-colors"
-            >
-              Show Readings
-            </button>
-          )}
         </div>
 
         {/* Examples Section */}
-        {showReadings && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="border-t border-gray-200 dark:border-dark-700 pt-6"
-          >
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="border-t border-gray-200 dark:border-dark-700 pt-6"
+        >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                 Example Words
@@ -416,7 +535,7 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
                 onClick={() => setShowExamples(true)}
                 className="px-6 py-2 bg-blue-100 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 rounded-lg hover:bg-blue-200 dark:hover:bg-blue-900/30 transition-colors"
               >
-                Show Examples
+                Show Examples <span className="text-xs opacity-60">(E)</span>
               </button>
             ) : (
               <div className="space-y-3">
@@ -434,12 +553,14 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
                           <span className="text-lg font-medium text-gray-900 dark:text-gray-100">
                             {example.word}
                           </span>
-                          <AudioButton
-                            size="sm"
-                            onPlay={() => play(example.word, { voice: '23', speed: 0.85 })}
-                            loading={ttsLoading && currentText === example.word}
-                            playing={ttsPlaying && currentText === example.word}
-                          />
+                          {!isSingleKanji(example.word) && (
+                            <AudioButton
+                              size="sm"
+                              onPlay={() => play(example.word, { voice: '23', speed: 0.85 })}
+                              loading={ttsLoading && currentText === example.word}
+                              playing={ttsPlaying && currentText === example.word}
+                            />
+                          )}
                           <AddToListButton
                             content={example.word}
                             type="word"
@@ -469,16 +590,14 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
               </div>
             )}
           </motion.div>
-        )}
 
         {/* Sentences Section */}
-        {showExamples && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.2 }}
-            className="border-t border-gray-200 dark:border-dark-700 pt-6 mt-6"
-          >
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="border-t border-gray-200 dark:border-dark-700 pt-6 mt-6"
+        >
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
                 Example Sentences
@@ -501,7 +620,7 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
                 onClick={loadSentences}
                 className="px-6 py-2 bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 rounded-lg hover:bg-green-200 dark:hover:bg-green-900/30 transition-colors"
               >
-                Show Sentences
+                Show Sentences <span className="text-xs opacity-60">(S)</span>
               </button>
             ) : (
               <div className="space-y-4">
@@ -551,7 +670,6 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
               </div>
             )}
           </motion.div>
-        )}
       </motion.div>
 
       {/* Navigation Buttons */}
@@ -564,7 +682,8 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
         <button
           onClick={onExit}
           className="p-2 bg-gray-200 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-300 dark:hover:bg-dark-600 transition-all hover:scale-110"
-          aria-label="Exit session"
+          aria-label="Exit session (Esc)"
+          title="Exit session (Esc)"
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -573,7 +692,8 @@ export default function Round1Learn({ kanji, currentIndex, totalKanji, onComplet
         <button
           onClick={handleContinue}
           className="p-2 bg-primary-500 text-white rounded-full hover:bg-primary-600 transition-all hover:scale-110"
-          aria-label={currentIndex < totalKanji - 1 ? 'Next kanji' : 'Continue to testing'}
+          aria-label={currentIndex < totalKanji - 1 ? 'Next kanji (Enter)' : 'Continue to testing (Enter)'}
+          title={currentIndex < totalKanji - 1 ? 'Next kanji (Enter)' : 'Continue to testing (Enter)'}
         >
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />

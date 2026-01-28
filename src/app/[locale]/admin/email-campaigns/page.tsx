@@ -3,7 +3,6 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useAuth } from '@/hooks/useAuth'
-import { auth } from '@/lib/firebase/client'
 import { motion } from 'framer-motion'
 import Modal from '@/components/ui/Modal'
 import type { EmailCampaign, SendCampaignRequest } from '@/lib/email/campaigns/types'
@@ -58,16 +57,8 @@ export default function EmailCampaignsPage() {
         setError(null)
       }
 
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        if (!silent) setError('Not authenticated')
-        return
-      }
-
       const response = await fetch('/api/admin/campaigns', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
       })
 
       const data = await response.json()
@@ -91,17 +82,12 @@ export default function EmailCampaignsPage() {
 
   const handleCreateCampaign = async (campaignData: SendCampaignRequest) => {
     try {
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        throw new Error('Not authenticated')
-      }
-
       const response = await fetch('/api/admin/campaigns', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(campaignData),
       })
 
@@ -125,17 +111,12 @@ export default function EmailCampaignsPage() {
 
   const handleEditCampaign = async (campaignId: string, campaignData: SendCampaignRequest) => {
     try {
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        throw new Error('Not authenticated')
-      }
-
       const response = await fetch(`/api/admin/campaigns/${campaignId}`, {
         method: 'PUT',
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(campaignData),
       })
 
@@ -166,16 +147,9 @@ export default function EmailCampaignsPage() {
     if (!campaignToSend) return
 
     try {
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        throw new Error('Not authenticated')
-      }
-
       const response = await fetch(`/api/admin/campaigns/${campaignToSend.id}/send`, {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
       })
 
       const data = await response.json()
@@ -203,16 +177,9 @@ export default function EmailCampaignsPage() {
   const handleSendTestEmail = async (campaignId: string) => {
     try {
       setSendingTestId(campaignId)
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        throw new Error('Not authenticated')
-      }
-
       const response = await fetch(`/api/admin/campaigns/${campaignId}/send-test`, {
         method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
       })
 
       const data = await response.json()
@@ -234,15 +201,8 @@ export default function EmailCampaignsPage() {
 
   const handlePreviewCampaign = async (campaignId: string) => {
     try {
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        throw new Error('Not authenticated')
-      }
-
       const response = await fetch(`/api/admin/campaigns/${campaignId}/preview`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
       })
 
       const data = await response.json()
@@ -263,15 +223,8 @@ export default function EmailCampaignsPage() {
   const handleEmailPreview = async (campaignId: string) => {
     try {
       setEmailPreviewLoading(true)
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        throw new Error('Not authenticated')
-      }
-
       const response = await fetch(`/api/admin/campaigns/${campaignId}/email-preview`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
       })
 
       const data = await response.json()
@@ -300,16 +253,9 @@ export default function EmailCampaignsPage() {
     if (!campaignToDelete) return
 
     try {
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        throw new Error('Not authenticated')
-      }
-
       const response = await fetch(`/api/admin/campaigns/${campaignToDelete.id}`, {
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
       })
 
       const data = await response.json()
@@ -924,11 +870,8 @@ function NewCampaignModal({
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const token = await auth.currentUser?.getIdToken()
-        if (!token) return
-
         const response = await fetch('/api/admin/templates?status=active', {
-          headers: { Authorization: `Bearer ${token}` },
+          credentials: 'include',
         })
 
         if (response.ok) {

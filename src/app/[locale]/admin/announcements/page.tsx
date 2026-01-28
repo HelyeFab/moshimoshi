@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useRef } from 'react'
 import { useAuth } from '@/hooks/useAuth'
-import { auth } from '@/lib/firebase/client'
 import { motion, AnimatePresence } from 'framer-motion'
 import Modal from '@/components/ui/Modal'
 import { uploadAnnouncementImage, isValidImageUrl } from '@/lib/utils/imageUpload'
@@ -29,6 +28,7 @@ export default function AnnouncementsPage() {
   const [successModalOpen, setSuccessModalOpen] = useState(false)
   const [successMessage, setSuccessMessage] = useState<string>('')
   const [previewAnnouncement, setPreviewAnnouncement] = useState<Announcement | null>(null)
+  const [analyticsAnnouncement, setAnalyticsAnnouncement] = useState<Announcement | null>(null)
 
   // Fetch announcements on mount and when user changes
   useEffect(() => {
@@ -44,16 +44,8 @@ export default function AnnouncementsPage() {
         setError(null)
       }
 
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        if (!silent) setError('Not authenticated')
-        return
-      }
-
       const response = await fetch('/api/admin/announcements', {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
       })
 
       const data = await response.json()
@@ -77,17 +69,12 @@ export default function AnnouncementsPage() {
 
   const handleCreate = async (data: CreateAnnouncementData) => {
     try {
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        throw new Error('Not authenticated')
-      }
-
       const response = await fetch('/api/admin/announcements', {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(data),
       })
 
@@ -110,17 +97,12 @@ export default function AnnouncementsPage() {
 
   const handleEdit = async (id: string, data: CreateAnnouncementData) => {
     try {
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        throw new Error('Not authenticated')
-      }
-
       const response = await fetch(`/api/admin/announcements/${id}`, {
         method: 'PUT',
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify(data),
       })
 
@@ -143,17 +125,12 @@ export default function AnnouncementsPage() {
 
   const handleStatusChange = async (id: string, status: AnnouncementStatus) => {
     try {
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        throw new Error('Not authenticated')
-      }
-
       const response = await fetch(`/api/admin/announcements/${id}`, {
         method: 'PUT',
         headers: {
-          Authorization: `Bearer ${token}`,
           'Content-Type': 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({ status }),
       })
 
@@ -190,16 +167,9 @@ export default function AnnouncementsPage() {
     if (!announcementToDelete) return
 
     try {
-      const token = await auth.currentUser?.getIdToken()
-      if (!token) {
-        throw new Error('Not authenticated')
-      }
-
       const response = await fetch(`/api/admin/announcements/${announcementToDelete.id}`, {
         method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        credentials: 'include',
       })
 
       const result = await response.json()
@@ -296,6 +266,7 @@ export default function AnnouncementsPage() {
                 onUnpublish={() => handleStatusChange(announcement.id, 'draft')}
                 onArchive={() => handleStatusChange(announcement.id, 'archived')}
                 onPreview={() => setPreviewAnnouncement(announcement)}
+                onViewAnalytics={() => setAnalyticsAnnouncement(announcement)}
               />
             ))}
           </div>
@@ -412,6 +383,16 @@ export default function AnnouncementsPage() {
           />
         )}
       </AnimatePresence>
+
+      {/* Analytics Modal */}
+      <AnimatePresence>
+        {analyticsAnnouncement && (
+          <AnnouncementAnalyticsModal
+            announcement={analyticsAnnouncement}
+            onClose={() => setAnalyticsAnnouncement(null)}
+          />
+        )}
+      </AnimatePresence>
     </div>
   )
 }
@@ -427,6 +408,7 @@ function AnnouncementCard({
   onUnpublish,
   onArchive,
   onPreview,
+  onViewAnalytics,
 }: {
   announcement: Announcement
   onEdit: () => void
@@ -435,7 +417,15 @@ function AnnouncementCard({
   onUnpublish: () => void
   onArchive: () => void
   onPreview: () => void
+  onViewAnalytics: () => void
 }) {
+  const [analytics, setAnalytics] = useState<{
+    views: number
+    dismissals: number
+    dismissalRate: number
+  } | null>(null)
+  const [loadingAnalytics, setLoadingAnalytics] = useState(false)
+
   const statusColors = {
     draft: 'bg-gray-100 dark:bg-dark-700 text-gray-800 dark:text-gray-200',
     published: 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200',
@@ -446,6 +436,35 @@ function AnnouncementCard({
     if (!dateString) return 'N/A'
     return new Date(dateString).toLocaleDateString()
   }
+
+  // Fetch analytics for published/archived announcements
+  useEffect(() => {
+    if (announcement.status === 'published' || announcement.status === 'archived') {
+      const fetchAnalytics = async () => {
+        setLoadingAnalytics(true)
+        try {
+          const response = await fetch(`/api/admin/announcements/analytics/${announcement.id}`, {
+            credentials: 'include',
+          })
+
+          const data = await response.json()
+          if (data.success && data.analytics) {
+            setAnalytics({
+              views: data.analytics.totalViews,
+              dismissals: data.analytics.totalDismissals,
+              dismissalRate: data.analytics.dismissalRate,
+            })
+          }
+        } catch (error) {
+          console.error('[AnnouncementCard] Failed to fetch analytics:', error)
+        } finally {
+          setLoadingAnalytics(false)
+        }
+      }
+
+      fetchAnalytics()
+    }
+  }, [announcement.id, announcement.status])
 
   return (
     <motion.div
@@ -483,10 +502,64 @@ function AnnouncementCard({
         </p>
 
         {/* Metadata */}
-        <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 mb-4">
+        <div className="flex items-center gap-4 text-xs text-gray-500 dark:text-gray-400 mb-3">
           <span>Feature: {announcement.featureId}</span>
           <span>Created: {formatDate(announcement.createdAt)}</span>
         </div>
+
+        {/* Analytics - only show for published/archived */}
+        {(announcement.status === 'published' || announcement.status === 'archived') && (
+          <div className="mb-3 p-2.5 bg-gray-50 dark:bg-dark-900 rounded-lg border border-gray-200 dark:border-dark-600">
+            {loadingAnalytics ? (
+              <div className="flex items-center justify-center py-1">
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-primary-500"></div>
+                <span className="ml-2 text-xs text-gray-500 dark:text-gray-400">Loading analytics...</span>
+              </div>
+            ) : analytics ? (
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-xs">
+                  <span className="flex items-center gap-1.5 text-gray-700 dark:text-gray-300">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    Views
+                  </span>
+                  <span className="font-semibold text-gray-900 dark:text-gray-100">
+                    {analytics.views.toLocaleString()}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-xs">
+                  <span className="flex items-center gap-1.5 text-gray-700 dark:text-gray-300">
+                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    Dismissed
+                  </span>
+                  <span className="font-semibold text-gray-900 dark:text-gray-100">
+                    {analytics.dismissals.toLocaleString()}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between text-xs pt-1 border-t border-gray-200 dark:border-dark-600">
+                  <span className="text-gray-700 dark:text-gray-300">Engagement Rate</span>
+                  <span className="font-semibold text-primary-600 dark:text-primary-400">
+                    {analytics.dismissalRate.toFixed(1)}%
+                  </span>
+                </div>
+                <button
+                  onClick={onViewAnalytics}
+                  className="w-full mt-1.5 py-1.5 px-2 bg-gray-100 dark:bg-dark-800 hover:bg-gray-200 dark:hover:bg-dark-700 text-gray-700 dark:text-gray-300 text-xs font-medium rounded transition-colors"
+                >
+                  View Details
+                </button>
+              </div>
+            ) : (
+              <div className="text-xs text-gray-500 dark:text-gray-400 text-center py-1">
+                No analytics data yet
+              </div>
+            )}
+          </div>
+        )}
 
         {/* Actions */}
         <div className="space-y-2">
@@ -1152,6 +1225,267 @@ function AnnouncementPreview({
             <span>Got it</span>
             <span className="text-lg">✨</span>
           </motion.button>
+        </div>
+      </motion.div>
+    </motion.div>
+  )
+}
+
+/**
+ * Announcement Analytics Modal
+ * Shows detailed analytics for an announcement
+ */
+function AnnouncementAnalyticsModal({
+  announcement,
+  onClose,
+}: {
+  announcement: Announcement
+  onClose: () => void
+}) {
+  const [analytics, setAnalytics] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      try {
+        setLoading(true)
+        setError(null)
+
+        const response = await fetch(`/api/admin/announcements/analytics/${announcement.id}`, {
+          credentials: 'include',
+        })
+
+        const data = await response.json()
+
+        if (!response.ok || !data.success) {
+          throw new Error(data.error?.message || 'Failed to fetch analytics')
+        }
+
+        setAnalytics(data.analytics)
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load analytics')
+        console.error('[AnnouncementAnalyticsModal] Error:', err)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchAnalytics()
+  }, [announcement.id])
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.95, y: 20 }}
+        transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+        className="relative bg-white dark:bg-dark-800 rounded-2xl shadow-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto border border-gray-200/50 dark:border-dark-600/50 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+        onClick={(e) => e.stopPropagation()}
+      >
+        {/* Header */}
+        <div className="sticky top-0 bg-white dark:bg-dark-800 border-b border-gray-200 dark:border-dark-700 px-6 py-4 flex items-center justify-between z-10">
+          <div>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-gray-100">
+              Analytics
+            </h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400 mt-0.5 line-clamp-1">
+              {announcement.title}
+            </p>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-dark-700 transition-colors"
+            aria-label="Close"
+          >
+            <XMarkIcon className="w-5 h-5" />
+          </button>
+        </div>
+
+        {/* Content */}
+        <div className="p-6">
+          {loading ? (
+            <div className="flex items-center justify-center py-12">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
+              <span className="ml-3 text-gray-600 dark:text-gray-400">Loading analytics...</span>
+            </div>
+          ) : error ? (
+            <div className="py-12 text-center">
+              <div className="text-4xl mb-4">📊</div>
+              <p className="text-red-600 dark:text-red-400 mb-2">{error}</p>
+              <button
+                onClick={onClose}
+                className="text-sm text-gray-600 dark:text-gray-400 hover:underline"
+              >
+                Close
+              </button>
+            </div>
+          ) : analytics ? (
+            <div className="space-y-6">
+              {/* Overview Stats */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 p-4 rounded-xl border border-blue-200 dark:border-blue-800">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-2 bg-blue-500 rounded-lg">
+                      <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                      </svg>
+                    </div>
+                    <span className="text-sm font-medium text-blue-700 dark:text-blue-300">Total Views</span>
+                  </div>
+                  <p className="text-3xl font-bold text-blue-900 dark:text-blue-100">
+                    {analytics.totalViews.toLocaleString()}
+                  </p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400 mt-1">
+                    {analytics.uniqueViewers.toLocaleString()} unique viewers
+                  </p>
+                </div>
+
+                <div className="bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 p-4 rounded-xl border border-green-200 dark:border-green-800">
+                  <div className="flex items-center gap-3 mb-2">
+                    <div className="p-2 bg-green-500 rounded-lg">
+                      <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <span className="text-sm font-medium text-green-700 dark:text-green-300">Total Dismissals</span>
+                  </div>
+                  <p className="text-3xl font-bold text-green-900 dark:text-green-100">
+                    {analytics.totalDismissals.toLocaleString()}
+                  </p>
+                  <p className="text-xs text-green-600 dark:text-green-400 mt-1">
+                    {analytics.dismissalRate.toFixed(1)}% engagement rate
+                  </p>
+                </div>
+              </div>
+
+              {/* Engagement Rate Card */}
+              <div className="bg-gradient-to-br from-primary-50 to-purple-50 dark:from-primary-900/20 dark:to-purple-900/20 p-5 rounded-xl border border-primary-200 dark:border-primary-800">
+                <div className="flex items-center justify-between mb-3">
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">Engagement Rate</h3>
+                  <span className="text-2xl font-bold text-primary-600 dark:text-primary-400">
+                    {analytics.dismissalRate.toFixed(1)}%
+                  </span>
+                </div>
+                <div className="w-full bg-gray-200 dark:bg-dark-700 rounded-full h-3 overflow-hidden">
+                  <div
+                    className="bg-gradient-to-r from-primary-500 to-purple-500 h-full rounded-full transition-all duration-500"
+                    style={{ width: `${Math.min(analytics.dismissalRate, 100)}%` }}
+                  />
+                </div>
+                <p className="text-xs text-gray-600 dark:text-gray-400 mt-2">
+                  Percentage of viewers who dismissed the announcement
+                </p>
+              </div>
+
+              {/* Breakdown by User Type */}
+              <div className="space-y-3">
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                  Breakdown by User Type
+                </h3>
+
+                {/* Views Breakdown */}
+                <div className="bg-gray-50 dark:bg-dark-900 p-4 rounded-lg border border-gray-200 dark:border-dark-700">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Views</span>
+                    <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                      {analytics.totalViews.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600 dark:text-gray-400">🔐 Authenticated Users</span>
+                      <span className="font-medium text-gray-900 dark:text-gray-100">
+                        {analytics.viewsByType.authenticated.toLocaleString()}
+                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                          ({analytics.totalViews > 0 ? Math.round((analytics.viewsByType.authenticated / analytics.totalViews) * 100) : 0}%)
+                        </span>
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600 dark:text-gray-400">👤 Guest Users</span>
+                      <span className="font-medium text-gray-900 dark:text-gray-100">
+                        {analytics.viewsByType.guest.toLocaleString()}
+                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                          ({analytics.totalViews > 0 ? Math.round((analytics.viewsByType.guest / analytics.totalViews) * 100) : 0}%)
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Dismissals Breakdown */}
+                <div className="bg-gray-50 dark:bg-dark-900 p-4 rounded-lg border border-gray-200 dark:border-dark-700">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Dismissals</span>
+                    <span className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                      {analytics.totalDismissals.toLocaleString()}
+                    </span>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600 dark:text-gray-400">🔐 Authenticated Users</span>
+                      <span className="font-medium text-gray-900 dark:text-gray-100">
+                        {analytics.dismissalsByType.authenticated.toLocaleString()}
+                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                          ({analytics.totalDismissals > 0 ? Math.round((analytics.dismissalsByType.authenticated / analytics.totalDismissals) * 100) : 0}%)
+                        </span>
+                      </span>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-600 dark:text-gray-400">👤 Guest Users</span>
+                      <span className="font-medium text-gray-900 dark:text-gray-100">
+                        {analytics.dismissalsByType.guest.toLocaleString()}
+                        <span className="text-xs text-gray-500 dark:text-gray-400 ml-2">
+                          ({analytics.totalDismissals > 0 ? Math.round((analytics.dismissalsByType.guest / analytics.totalDismissals) * 100) : 0}%)
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Info Note */}
+              <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+                <div className="flex gap-3">
+                  <svg className="w-5 h-5 text-blue-600 dark:text-blue-400 flex-shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <div className="text-sm text-blue-800 dark:text-blue-200">
+                    <p className="font-medium mb-1">About Analytics</p>
+                    <p className="text-xs text-blue-700 dark:text-blue-300">
+                      Analytics are tracked in real-time. Each unique viewer is counted once per announcement.
+                      Engagement rate shows the percentage of viewers who dismissed the announcement after viewing it.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="py-12 text-center">
+              <div className="text-4xl mb-4">📊</div>
+              <p className="text-gray-600 dark:text-gray-400">No analytics data available</p>
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div className="sticky bottom-0 bg-white dark:bg-dark-800 border-t border-gray-200 dark:border-dark-700 px-6 py-4">
+          <button
+            onClick={onClose}
+            className="w-full py-2.5 px-4 bg-primary-500 hover:bg-primary-600 text-white font-medium rounded-lg transition-colors"
+          >
+            Close
+          </button>
         </div>
       </motion.div>
     </motion.div>

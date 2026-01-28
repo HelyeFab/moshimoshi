@@ -19,6 +19,22 @@
         "@typescript-eslint/no-require-imports": "off",
         "@typescript-eslint/no-explicit-any": "off"
       }
+    },
+    {
+      "files": ["src/app/**/admin/**/*"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": ["firebase/auth", "@/lib/firebase/client", "*/firebase/client*"],
+                "message": "Admin routes must use server-side authentication (cookies via 'credentials: include'). Do not import Firebase client auth. Use the admin pattern: fetch('/api/admin/*', { credentials: 'include' })"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

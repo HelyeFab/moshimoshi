@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-27T10:01:37.750Z
+ * Generated at: 2026-01-28T10:13:37.242Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -66,13 +66,13 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
   },
   "free": {
     "daily": {
-          "hiragana_practice": 5,
-          "katakana_practice": 5,
+          "hiragana_practice": 3,
+          "katakana_practice": 3,
           "kanji_browser": 10,
           "kanji_connection": 0,
-          "kanji_mastery": 5,
-          "drawing_practice": 5,
-          "conjugation_drill": 5,
+          "kanji_mastery": 3,
+          "drawing_practice": 3,
+          "conjugation_drill": 3,
           "grammar_explanations": 3,
           "youtube_shadowing": 3,
           "media_upload": 2,

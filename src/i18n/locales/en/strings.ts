@@ -5958,8 +5958,8 @@ export const strings = {
       later: 'Not Now',
       toast: {
         message: 'Install Moshimoshi for a better experience.',
-        iosMessage: 'Install Moshimoshi for a better experience. Tap Share, then "Add to Home Screen".',
-        iosInstructions: 'To install on iOS: tap Share, then "Add to Home Screen".',
+        iosMessage: 'Install Moshimoshi for a better experience. Tap menu ... → Share → More ... → Add to Home Screen.',
+        iosInstructions: 'To install on iOS: tap menu ... → Share → More ... → Add to Home Screen.',
         action: 'Install',
       },
       toastTest: {
@@ -5978,9 +5978,10 @@ export const strings = {
       instructions: 'How to install',
       ios: {
         instructions: 'How to install on iOS:',
-        step1: 'Tap the Share button',
-        step2: 'Scroll down and tap "Add to Home Screen"',
-        step3: 'Tap "Add" to install',
+        step1: 'Tap the menu button ... at the bottom of Safari',
+        step2: 'In the menu, tap "Share"',
+        step3: 'In the share sheet, tap the "More" button ...',
+        step4: 'Tap "Add to Home Screen"',
       },
       android: {
         note: 'If you see "Create shortcut", Chrome has not marked the app as installable yet. Try visiting the site a couple more times.',

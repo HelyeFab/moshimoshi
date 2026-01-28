@@ -1,21 +1,25 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { KanjiWithExamples } from '../LearnContent'
 import { CheckCircle, XCircle } from 'lucide-react'
+import { buildRound2TestSequence, type TestDefinition, type TestType } from '../testOrder'
 
 interface Round2TestProps {
   kanji: KanjiWithExamples
   currentIndex: number
   totalKanji: number
-  onComplete: (results: Array<{ type: string; correct: boolean; userAnswer?: string }>) => void
+  onComplete: (
+    results: Array<{ type: TestType; correct: boolean; userAnswer?: string }>,
+    lastTestType: TestType | null
+  ) => void
   onExit: () => void
   testMode: 'recall' | 'choice'
   distractorPool?: KanjiWithExamples[]
+  enableRandomizedOrder: boolean
+  lastTestType?: TestType | null
 }
-
-type TestType = 'meaning' | 'onyomi' | 'kunyomi' | 'recognition'
 
 export default function Round2Test({
   kanji,
@@ -24,10 +28,13 @@ export default function Round2Test({
   onComplete,
   onExit,
   testMode,
-  distractorPool = []
+  distractorPool = [],
+  enableRandomizedOrder,
+  lastTestType = null
 }: Round2TestProps) {
+  type Round2Result = { type: TestType; correct: boolean; userAnswer?: string }
   const [currentTest, setCurrentTest] = useState(0)
-  const [results, setResults] = useState<Array<{ type: string; correct: boolean; userAnswer?: string }>>([])
+  const [results, setResults] = useState<Round2Result[]>([])
   const [userInput, setUserInput] = useState('')
   const [showResult, setShowResult] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
@@ -45,36 +52,46 @@ export default function Round2Test({
     setChoiceOptions([])
   }, [kanji.kanji])
 
-  // Define test sequence
-  const allTests: Array<{ type: TestType; question: string; answer: string | string[] }> = [
-    {
-      type: 'meaning' as const,
-      question: `What is the meaning of ${kanji.kanji}?`,
-      answer: kanji.meaning.toLowerCase()
-    },
-    {
-      type: 'onyomi' as const,
-      question: `What is the on'yomi reading of ${kanji.kanji}?`,
-      answer: kanji.onyomi || []
-    },
-    {
-      type: 'kunyomi' as const,
-      question: `What is the kun'yomi reading of ${kanji.kanji}?`,
-      answer: kanji.kunyomi || []
-    },
-    {
-      type: 'recognition' as const,
-      question: `Which kanji means "${kanji.meaning}"?`,
-      answer: kanji.kanji
-    }
-  ]
+  const legacyTests: TestDefinition[] = useMemo(() => {
+    const allTests: TestDefinition[] = [
+      {
+        type: 'meaning',
+        question: `What is the meaning of ${kanji.kanji}?`,
+        answer: kanji.meaning.toLowerCase()
+      },
+      {
+        type: 'onyomi',
+        question: `What is the on'yomi reading of ${kanji.kanji}?`,
+        answer: kanji.onyomi || []
+      },
+      {
+        type: 'kunyomi',
+        question: `What is the kun'yomi reading of ${kanji.kanji}?`,
+        answer: kanji.kunyomi || []
+      },
+      {
+        type: 'recognition',
+        question: `Which kanji means "${kanji.meaning}"?`,
+        answer: kanji.kanji
+      }
+    ]
 
-  const tests = allTests.filter(test => {
-    // Skip tests that don't have answers
-    if (test.type === 'onyomi' && (!kanji.onyomi || kanji.onyomi.length === 0)) return false
-    if (test.type === 'kunyomi' && (!kanji.kunyomi || kanji.kunyomi.length === 0)) return false
-    return true
-  })
+    return allTests.filter(test => {
+      if (test.type === 'onyomi' && (!kanji.onyomi || kanji.onyomi.length === 0)) return false
+      if (test.type === 'kunyomi' && (!kanji.kunyomi || kanji.kunyomi.length === 0)) return false
+      return true
+    })
+  }, [kanji.kanji, kanji.kunyomi, kanji.meaning, kanji.onyomi])
+
+  const tests = useMemo(() => {
+    if (!enableRandomizedOrder) {
+      return legacyTests
+    }
+    return buildRound2TestSequence(kanji, {
+      lastTestType,
+      forbidOnKunAdjacency: true
+    })
+  }, [enableRandomizedOrder, kanji, lastTestType, legacyTests])
 
   const currentTestData = tests[currentTest]
 
@@ -142,7 +159,8 @@ export default function Round2Test({
       setIsCorrect(false)
     } else {
       // Complete this kanji's tests
-      onComplete(results)
+      const finalTestType = tests[tests.length - 1]?.type ?? null
+      onComplete(results, finalTestType)
     }
   }
 

@@ -5520,8 +5520,8 @@ export const strings = {
       later: '後で',
       toast: {
         message: 'より快適に使うため、Moshimoshiをインストールしましょう。',
-        iosMessage: 'より快適に使うため、Moshimoshiをインストールしましょう。共有から「ホーム画面に追加」を選んでください。',
-        iosInstructions: 'iOSでのインストール: 共有 →「ホーム画面に追加」。',
+        iosMessage: 'より快適に使うため、Moshimoshiをインストールしましょう。メニュー ... →共有→その他 ... →ホーム画面に追加。',
+        iosInstructions: 'iOSでのインストール: メニュー ... →共有→その他 ... →ホーム画面に追加。',
         action: 'インストール',
       },
       toastTest: {
@@ -5540,9 +5540,10 @@ export const strings = {
       instructions: 'インストール方法',
       ios: {
         instructions: 'iOSでのインストール方法:',
-        step1: '共有ボタンをタップ',
-        step2: '下にスクロールして「ホーム画面に追加」をタップ',
-        step3: '「追加」をタップしてインストール',
+        step1: 'Safari下部のメニューボタン ... をタップ',
+        step2: 'メニュー内の「共有」をタップ',
+        step3: '共有シート内の「その他」ボタン ... をタップ',
+        step4: '「ホーム画面に追加」をタップ',
       },
       android: {
         note: '「ショートカットを作成」と表示される場合、Chromeがまだインストール可能と判断していません。数回アクセスしてから再試行してください。',

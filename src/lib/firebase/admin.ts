@@ -2,6 +2,8 @@
 // This file should ONLY be imported in API routes and server-side code
 // Never import this in client components
 
+import 'server-only'
+
 import { initializeApp, getApps, cert, ServiceAccount } from 'firebase-admin/app'
 import { getAuth } from 'firebase-admin/auth'
 import { getFirestore, Timestamp, FieldValue, Firestore } from 'firebase-admin/firestore'

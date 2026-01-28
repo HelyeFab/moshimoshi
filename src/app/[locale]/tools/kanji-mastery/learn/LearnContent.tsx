@@ -24,6 +24,7 @@ import { kanjiMasteryDB } from '@/lib/kanji-mastery/kanjiMasteryDB'
 import { selectKanjiSmartly, selectKanjiMixed } from './kanjiSelection'
 import { useLocalePath } from '@/i18n/I18nContext'
 import { useGamificationStore } from '@/state/userGamification'
+import type { TestType } from './testOrder'
 
 // Import round components
 import Round1Learn from './components/Round1Learn'
@@ -43,7 +44,7 @@ export interface KanjiProgress {
   kanjiId: string
   round1Completed: boolean
   round2Results: Array<{
-    type: string
+    type: TestType
     correct: boolean
     userAnswer?: string
   }>
@@ -73,6 +74,7 @@ export default function LearnContent() {
   const { checkOnly } = useFeature('kanji_mastery')
   const { getItem, setItem } = useUserStorage()
   const { getLocalePath } = useLocalePath()
+  const enableRandomizedTestOrder = process.env.NEXT_PUBLIC_KANJI_TEST_RANDOMIZE === 'true'
 
   // Session parameters
   const sessionSize = parseInt(searchParams.get('size') || '5')
@@ -99,6 +101,7 @@ export default function LearnContent() {
   const [sessionComplete, setSessionComplete] = useState(false)
   const [showExitConfirm, setShowExitConfirm] = useState(false)
   const [distractorPool, setDistractorPool] = useState<KanjiWithExamples[]>([])
+  const [lastTestType, setLastTestType] = useState<TestType | null>(null)
 
   const loadAttemptedRef = useRef(false)
 
@@ -234,6 +237,7 @@ export default function LearnContent() {
         level: sessionLevel,
         mode
       })
+      setLastTestType(null)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to load kanji')
     } finally {
@@ -282,24 +286,28 @@ export default function LearnContent() {
     }
   }
 
-  const handleRound2Complete = async (results: any) => {
+  const handleRound2Complete = async (
+    results: Array<{ type: TestType; correct: boolean; userAnswer?: string }>,
+    finalTestType: TestType | null
+  ) => {
     const kanji = sessionState.kanji[sessionState.currentIndex]
     const progress = sessionState.progress.get(kanji.kanji)
 
     if (progress) {
       progress.round2Results = results
-      progress.round2Accuracy = results.filter((r: any) => r.correct).length / results.length * 100
+      const correctCount = results.filter(r => r.correct).length
+      progress.round2Accuracy = results.length > 0 ? correctCount / results.length : 0
       sessionState.progress.set(kanji.kanji, progress)
 
       // If accuracy is low, add to review again pile
-      if (progress.round2Accuracy < 70) {
+      if (progress.round2Accuracy < 0.7) {
         sessionState.reviewAgainPile.add(kanji.kanji)
       }
     }
 
     // Emit event for external services (e.g., gamification)
     if (user && progress) {
-      const correctCount = results.filter((r: any) => r.correct).length
+      const correctCount = results.filter(r => r.correct).length
       await kanjiMasteryEvents.emit('round2:complete', {
         userId: user.uid,
         kanjiId: kanji.kanji,
@@ -308,9 +316,13 @@ export default function LearnContent() {
         results,
         correctCount,
         totalTests: results.length,
-        accuracy: progress.round2Accuracy / 100,
+        accuracy: progress.round2Accuracy,
         timestamp: Date.now()
       })
+    }
+
+    if (finalTestType) {
+      setLastTestType(finalTestType)
     }
 
     if (sessionState.currentIndex < sessionState.kanji.length - 1) {
@@ -344,7 +356,7 @@ export default function LearnContent() {
           kanji: kanji.kanji,
           round: 3,
           rating,
-          accuracy: progress.round2Accuracy / 100,
+          accuracy: progress.round2Accuracy,
           timestamp: Date.now()
         })
       }
@@ -377,7 +389,7 @@ export default function LearnContent() {
           kanjiId: key,
           round1Completed: value.round1Completed || false,
           round2Results: value.round2Results || [],
-          round2Accuracy: (value.round2Accuracy || 0) / 100, // Convert percentage to decimal
+          round2Accuracy: value.round2Accuracy || 0,
           round3Rating: value.round3Rating || 3
         })
       })
@@ -590,6 +602,8 @@ export default function LearnContent() {
             onExit={handleExitRequest}
             testMode={testMode}
             distractorPool={distractorPool}
+            enableRandomizedOrder={enableRandomizedTestOrder}
+            lastTestType={lastTestType}
           />
         )}
 

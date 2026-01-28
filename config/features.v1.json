@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "version": 1,
   "description": "DoshiSensei feature entitlements configuration - Single source of truth for Stripe integration",
-  "lastUpdated": "2026-01-27",
+  "lastUpdated": "2026-01-28",
   "plans": {
     "guest": {
       "displayName": "Guest",
@@ -618,13 +618,13 @@
     },
     "free": {
       "daily": {
-        "hiragana_practice": 5,
-        "katakana_practice": 5,
+        "hiragana_practice": 3,
+        "katakana_practice": 3,
         "kanji_browser": 10,
         "kanji_connection": 0,
-        "kanji_mastery": 5,
-        "drawing_practice": 5,
-        "conjugation_drill": 5,
+        "kanji_mastery": 3,
+        "drawing_practice": 3,
+        "conjugation_drill": 3,
         "grammar_explanations": 3,
         "youtube_shadowing": 3,
         "media_upload": 2,

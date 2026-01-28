@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Download, X, Smartphone, Zap, Bell, WifiOff, Share, Plus } from 'lucide-react'
+import { Download, X, Smartphone, Zap, Bell, WifiOff, Share, Plus, MoreHorizontal, SquarePlus } from 'lucide-react'
 import { useI18n } from '@/i18n/I18nContext'
 import Image from 'next/image'
 import { a2hsManager } from '@/lib/pwa/a2hs'
@@ -179,30 +179,30 @@ export function PWAInstallPrompt() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+          className="fixed inset-0 z-50 flex items-center justify-center px-4 py-8 bg-black/50 backdrop-blur-sm overflow-y-auto"
           onClick={handleDismiss}
         >
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.9, opacity: 0 }}
-            className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl max-w-sm w-full overflow-hidden"
+            className="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl w-full max-w-sm mx-auto my-auto overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Header */}
             <div className="bg-gradient-to-r from-primary-500 to-accent-500 p-4">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center">
+              <div className="flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 min-w-0 flex-1">
+                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center flex-shrink-0">
                     <Smartphone className="w-5 h-5 text-primary-600" />
                   </div>
-                  <h3 className="text-lg font-bold text-white">
+                  <h3 className="text-base sm:text-lg font-bold text-white truncate">
                     {t('pwa.install.ios.instructions')}
                   </h3>
                 </div>
                 <button
                   onClick={handleDismiss}
-                  className="text-white/70 hover:text-white"
+                  className="text-white/70 hover:text-white flex-shrink-0"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -210,56 +210,105 @@ export function PWAInstallPrompt() {
             </div>
 
             {/* Steps */}
-            <div className="p-5 space-y-4">
+            <div className="p-4 sm:p-5 space-y-4">
               {/* Step 1 */}
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
-                  1
+              <div className="space-y-2">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
+                    1
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm sm:text-base text-gray-800 dark:text-gray-200 font-medium break-words">
+                      {t('pwa.install.ios.step1')}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <p className="text-gray-800 dark:text-gray-200 font-medium">
-                    {t('pwa.install.ios.step1')}
-                  </p>
-                  <div className="mt-2 flex items-center justify-center p-3 bg-gray-100 dark:bg-gray-800 rounded-xl">
-                    <Share className="w-6 h-6 text-blue-500" />
+                <div className="flex items-start gap-3">
+                  <div className="w-8 flex-shrink-0"></div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-start p-3 bg-gray-100 dark:bg-gray-800 rounded-xl">
+                      <div className="w-10 h-10 rounded-full bg-gray-300/40 dark:bg-gray-600/40 flex items-center justify-center">
+                        <MoreHorizontal className="w-6 h-6 text-blue-500" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Step 2 */}
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
-                  2
+              <div className="space-y-2">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
+                    2
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm sm:text-base text-gray-800 dark:text-gray-200 font-medium break-words">
+                      {t('pwa.install.ios.step2')}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <p className="text-gray-800 dark:text-gray-200 font-medium">
-                    {t('pwa.install.ios.step2')}
-                  </p>
-                  <div className="mt-2 flex items-center gap-2 p-3 bg-gray-100 dark:bg-gray-800 rounded-xl">
-                    <Plus className="w-5 h-5 text-gray-600 dark:text-gray-400" />
-                    <span className="text-sm text-gray-600 dark:text-gray-400">Add to Home Screen</span>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 flex-shrink-0"></div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-start p-3 bg-gray-100 dark:bg-gray-800 rounded-xl">
+                      <Share className="w-6 h-6 text-blue-500" />
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Step 3 */}
-              <div className="flex items-start gap-4">
-                <div className="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-sm flex-shrink-0">
-                  3
+              <div className="space-y-2">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
+                    3
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm sm:text-base text-gray-800 dark:text-gray-200 font-medium break-words">
+                      {t('pwa.install.ios.step3')}
+                    </p>
+                  </div>
                 </div>
-                <div className="flex-1">
-                  <p className="text-gray-800 dark:text-gray-200 font-medium">
-                    {t('pwa.install.ios.step3')}
-                  </p>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 flex-shrink-0"></div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-start p-3 bg-gray-100 dark:bg-gray-800 rounded-xl">
+                      <div className="w-10 h-10 rounded-full bg-gray-300/40 dark:bg-gray-600/40 flex items-center justify-center">
+                        <MoreHorizontal className="w-6 h-6 text-gray-600 dark:text-gray-400" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Step 4 */}
+              <div className="space-y-2">
+                <div className="flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-full bg-primary-500 text-white flex items-center justify-center font-bold text-xs flex-shrink-0">
+                    4
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm sm:text-base text-gray-800 dark:text-gray-200 font-medium break-words">
+                      {t('pwa.install.ios.step4')}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-8 flex-shrink-0"></div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-start p-3 bg-gray-100 dark:bg-gray-800 rounded-xl">
+                      <SquarePlus className="w-6 h-6 text-green-500" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
 
             {/* Footer */}
-            <div className="p-4 pt-0">
+            <div className="p-4 pt-0 sm:pt-0">
               <button
                 onClick={handleDismiss}
-                className="w-full py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium transition-colors"
+                className="w-full py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl font-medium transition-colors text-sm sm:text-base"
               >
                 {t('common.gotIt') || 'Got it!'}
               </button>

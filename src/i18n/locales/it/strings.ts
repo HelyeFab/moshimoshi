@@ -5387,8 +5387,8 @@ export const strings = {
       later: 'Più tardi',
       toast: {
         message: 'Installa Moshimoshi per un\'esperienza migliore.',
-        iosMessage: 'Installa Moshimoshi per un\'esperienza migliore. Tocca Condividi e poi "Aggiungi a Home".',
-        iosInstructions: 'Installazione iOS: Condividi → "Aggiungi a Home".',
+        iosMessage: 'Installa Moshimoshi per un\'esperienza migliore. Menu ... → Condividi → Altro ... → Aggiungi a Home.',
+        iosInstructions: 'Installazione iOS: Menu ... → Condividi → Altro ... → Aggiungi a Home.',
         action: 'Installa',
       },
       toastTest: {
@@ -5407,9 +5407,10 @@ export const strings = {
       instructions: 'Come installare',
       ios: {
         instructions: 'Come installare su iOS:',
-        step1: 'Tocca il pulsante Condividi',
-        step2: 'Scorri e tocca "Aggiungi a Home"',
-        step3: 'Tocca "Aggiungi" per installare',
+        step1: 'Tocca il pulsante menu ... in basso in Safari',
+        step2: 'Nel menu, tocca "Condividi"',
+        step3: 'Nel foglio di condivisione, tocca il pulsante "Altro" ...',
+        step4: 'Tocca "Aggiungi a Home"',
       },
       android: {
         note: 'Se vedi "Crea scorciatoia", Chrome non ha ancora contrassegnato l\'app come installabile. Visita il sito un paio di volte e riprova.',

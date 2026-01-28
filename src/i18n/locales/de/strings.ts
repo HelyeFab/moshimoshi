@@ -5316,8 +5316,8 @@ export const strings = {
       later: 'Später',
       toast: {
         message: 'Installieren Sie Moshimoshi für ein besseres Erlebnis.',
-        iosMessage: 'Installieren Sie Moshimoshi für ein besseres Erlebnis. Tippen Sie auf Teilen und dann auf "Zum Home-Bildschirm".',
-        iosInstructions: 'iOS-Installation: Teilen → "Zum Home-Bildschirm".',
+        iosMessage: 'Installieren Sie Moshimoshi für ein besseres Erlebnis. Menü ... → Teilen → Mehr ... → Zum Home-Bildschirm.',
+        iosInstructions: 'iOS-Installation: Menü ... → Teilen → Mehr ... → Zum Home-Bildschirm.',
         action: 'Installieren',
       },
       toastTest: {
@@ -5336,9 +5336,10 @@ export const strings = {
       instructions: 'So installieren',
       ios: {
         instructions: 'So installieren Sie auf iOS:',
-        step1: 'Tippen Sie auf die Teilen-Schaltfläche',
-        step2: 'Scrollen Sie nach unten und tippen Sie auf "Zum Home-Bildschirm"',
-        step3: 'Tippen Sie auf "Hinzufügen" zum Installieren',
+        step1: 'Tippen Sie auf die Menü-Schaltfläche ... unten in Safari',
+        step2: 'Tippen Sie im Menü auf "Teilen"',
+        step3: 'Tippen Sie im Teilen-Blatt auf die "Mehr"-Schaltfläche ...',
+        step4: 'Tippen Sie auf "Zum Home-Bildschirm"',
       },
       android: {
         note: 'Wenn "Verknüpfung erstellen" angezeigt wird, hat Chrome die App noch nicht als installierbar markiert. Besuchen Sie die Seite ein paar Mal und versuchen Sie es erneut.',

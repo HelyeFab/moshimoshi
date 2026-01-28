@@ -27,7 +27,7 @@ describe('/api/kanji-mastery/session POST', () => {
     jest.clearAllMocks()
   })
 
-  it('returns 429 when entitlement denies', async () => {
+  it('allows session save for free users (local-only)', async () => {
     mockedRequireAuth.mockResolvedValue({ uid: 'user-1' })
     mockedGetUserPlan.mockResolvedValue('free')
     mockedEvaluateFeatureAccess.mockResolvedValue({
@@ -45,6 +45,6 @@ describe('/api/kanji-mastery/session POST', () => {
     })
 
     const response = await POST(request)
-    expect(response.status).toBe(429)
+    expect(response.status).toBe(200)
   })
 })

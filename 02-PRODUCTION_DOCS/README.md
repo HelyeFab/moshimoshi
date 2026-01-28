@@ -17,12 +17,28 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── content-generation/            # AI-generated content, stories, comics
 ├── community/                     # Discord, social integrations
 ├── kanji-mastery/                 # Kanji learning tool documentation
+├── admin-dashboard/               # Admin dashboard development guide
+├── onboarding/                    # Developer onboarding guides
 └── tts/                           # Text-to-Speech system documentation
 ```
 
 ---
 
 ## Quick Reference
+
+### Onboarding (`onboarding/`)
+
+| Document | Description |
+|----------|-------------|
+| [KANJI_MASTERY_ONBOARDING.md](./onboarding/KANJI_MASTERY_ONBOARDING.md) | Kanji Mastery onboarding guide (feature flow, SRS pipeline, storage/sync) |
+
+**Key Topics:**
+- Local setup and dev commands
+- Required environment variables
+- Auth, Stripe, Redis, R2, SRS architecture
+- Testing and troubleshooting
+
+---
 
 ### Bug Reports (`BUGS/`)
 
@@ -127,6 +143,29 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 
 ---
 
+### Admin Dashboard (`admin-dashboard/`)
+
+| Document | Description |
+|----------|-------------|
+| [DEVELOPER_GUIDE.md](./admin-dashboard/DEVELOPER_GUIDE.md) | Complete guide to creating and maintaining admin dashboard pages |
+| [QUICK_REFERENCE.md](./admin-dashboard/QUICK_REFERENCE.md) | Quick lookup for common admin patterns and code snippets |
+| [AUTH_FIX_SUMMARY.md](./admin-dashboard/AUTH_FIX_SUMMARY.md) | Documentation of authentication pattern fixes (2026-01-28) |
+
+**Key Topics:**
+- Cookie-based authentication pattern (server-side)
+- Creating new admin pages following established patterns
+- API route protection with `withAdminAuth` middleware
+- Common UI components and styling patterns
+- Security best practices for admin features
+- ESLint rules to prevent auth pattern violations
+
+**Essential Reading for:**
+- ✅ New developers creating admin features
+- ✅ Anyone working on admin pages
+- ✅ Debugging authentication issues in admin routes
+
+---
+
 ### Text-to-Speech (`tts/`)
 
 | Document | Description |
@@ -174,15 +213,127 @@ Production documents should include:
 
 ---
 
-## Contributing
+## Documentation Organization Rules
 
-When adding new production documentation:
+### MANDATORY: Feature Subfolder Structure
 
-1. Place in the appropriate subfolder (or create a new one if needed)
-2. Follow the naming convention: `FEATURE_NAME.md` (uppercase with underscores)
-3. Include status and date at the top
-4. Update this README with the new document
+**Every new feature documentation MUST follow this structure:**
+
+```
+02-PRODUCTION_DOCS/
+└── feature-name/              # ✅ Feature-named subfolder (kebab-case)
+    ├── README.md             # ✅ REQUIRED: Feature overview and index
+    ├── FEATURE_GUIDE.md      # Feature-specific documentation
+    ├── API_REFERENCE.md      # API endpoints and usage
+    └── TROUBLESHOOTING.md    # Common issues and solutions
+```
+
+### Feature README Requirements
+
+Each feature subfolder **MUST include a README.md** with:
+
+1. **Feature Overview** - What the feature does and its purpose
+2. **Quick Start** - Getting started in <5 minutes
+3. **Architecture** - System design and key components
+4. **Document Index** - Links to all documentation in this folder
+5. **Related Files** - Links to key source code files with line numbers
+6. **Last Updated** - Date of last major update
+
+**Example:**
+```markdown
+# Feature Name
+
+**Status:** ACTIVE
+**Last Updated:** 2026-01-28
+
+## Overview
+Brief description of what this feature does.
+
+## Quick Start
+1. Step one
+2. Step two
+
+## Documentation
+- [FEATURE_GUIDE.md](./FEATURE_GUIDE.md) - Complete implementation guide
+- [API_REFERENCE.md](./API_REFERENCE.md) - API endpoints
+
+## Key Files
+- `src/components/Feature.tsx:123` - Main component
+- `src/lib/feature/service.ts:45` - Core logic
+```
 
 ---
 
-*Last Updated: 2026-01-27*
+## Contributing New Documentation
+
+### Step 1: Create Feature Subfolder
+
+```bash
+# Create feature folder with kebab-case naming
+mkdir -p 02-PRODUCTION_DOCS/feature-name
+
+# Create required README
+touch 02-PRODUCTION_DOCS/feature-name/README.md
+```
+
+### Step 2: Write Feature Documentation
+
+1. **Create the feature README first** - This is your index/overview
+2. **Add specific documentation** - Implementation guides, API references, etc.
+3. **Use uppercase with underscores** for non-README files: `FEATURE_GUIDE.md`
+4. **Include status and date** at the top of each document
+
+### Step 3: Update This README
+
+Add your feature to the appropriate section in **this README** (`02-PRODUCTION_DOCS/README.md`):
+
+```markdown
+### Feature Name (`feature-name/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./feature-name/README.md) | Feature overview and quick start |
+| [FEATURE_GUIDE.md](./feature-name/FEATURE_GUIDE.md) | Detailed implementation guide |
+
+**Key Topics:**
+- Topic 1
+- Topic 2
+```
+
+### Step 4: Update Main Project README
+
+**CRITICAL:** Update the main project README at the repository root:
+
+```bash
+# Edit /home/beano/DevProjects/NextJs/moshimoshi/README.md
+```
+
+Add a link to your new feature documentation in the appropriate section:
+- Update the feature list
+- Link to `02-PRODUCTION_DOCS/feature-name/README.md`
+- Briefly describe what the feature does
+
+### Checklist for New Documentation
+
+- [ ] Created feature subfolder with kebab-case name
+- [ ] Created feature README.md with required sections
+- [ ] Added all feature documentation to the subfolder
+- [ ] Updated this README (`02-PRODUCTION_DOCS/README.md`)
+- [ ] Updated main project README at repository root
+- [ ] Verified all internal links work
+- [ ] Included code references with line numbers where applicable
+
+---
+
+## Naming Conventions
+
+| Item | Convention | Example |
+|------|------------|---------|
+| Feature folder | kebab-case | `kanji-mastery/` |
+| Feature README | README.md | `README.md` |
+| Documentation files | SCREAMING_SNAKE_CASE | `API_REFERENCE.md` |
+| Bug reports | Date prefix | `2025-01-27_BUG_NAME.md` |
+
+---
+
+*Last Updated: 2026-01-28*

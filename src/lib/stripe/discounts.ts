@@ -44,6 +44,21 @@ export const DISCOUNT_TYPES = {
     ] as const,
     adminGrantable: true,
   },
+  thankyou10: {
+    id: 'thankyou10',
+    envVar: 'THANKYOU10_PROMO_CODE_ID',
+    label: 'Thank You (10%)',
+    description: 'Smaller thank you discount for community members',
+    sources: [
+      'beta_tester',
+      'bug_reporter',
+      'content_creator',
+      'community_contributor',
+      'support_compensation',
+      'other',
+    ] as const,
+    adminGrantable: true,
+  },
   // Example: Add new discount types here
   // referral: {
   //   id: 'referral',
@@ -61,7 +76,8 @@ export type DiscountType = typeof DISCOUNT_TYPES[DiscountTypeId];
 // Helper types for sources
 export type PrelaunchSource = typeof DISCOUNT_TYPES.prelaunch.sources[number];
 export type ThankYouSource = typeof DISCOUNT_TYPES.thankyou.sources[number];
-export type DiscountSource = PrelaunchSource | ThankYouSource;
+export type ThankYou10Source = typeof DISCOUNT_TYPES.thankyou10.sources[number];
+export type DiscountSource = PrelaunchSource | ThankYouSource | ThankYou10Source;
 
 // Legacy export for backwards compatibility
 export const THANKYOU_SOURCES = DISCOUNT_TYPES.thankyou.sources;

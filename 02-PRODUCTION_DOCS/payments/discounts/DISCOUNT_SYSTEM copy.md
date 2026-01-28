@@ -1,7 +1,7 @@
 # Discount System
 
 > **Status**: ACTIVE
-> **Last Updated**: 2026-01-27
+> **Last Updated**: 2026-01-28
 > **Related**: Stripe Integration, Admin Dashboard
 
 ---
@@ -16,6 +16,7 @@ Config-driven discount system that allows admins to grant promotional discounts 
 |------|----------|-------------|-----------------|
 | `prelaunch` | 25% | Pre-launch waitlist users | No (auto-granted) |
 | `thankyou` | 50% | Manual reward for community members | Yes |
+| `thankyou10` | 10% | Smaller thank you for community members | Yes |
 
 ---
 
@@ -180,6 +181,10 @@ git push
 4. Select discount type (if multiple available)
 5. Select reason/source
 6. Click **"Grant [Discount Name]"**
+7. **IMPORTANT**: Update the external tracker: `/home/beano/Life-Org/08_Moshimoshi/DISCOUNTS.md`
+   - Add entry to "Granted Discounts" table
+   - Update stats (Total Granted, Pending)
+   - Update "Last updated" date
 
 ### Revoking a Discount
 
@@ -281,7 +286,8 @@ GET /api/admin/discounts?sources=thankyou
 
 - [Stripe Integration Overview](../../01_PRE-PRODUCTION_DOCS/2-Payment-Monetization/STRIPE_INTEGRATION_OVERVIEW.md)
 - [Pre-Launch Waitlist Implementation](../../01_PRE-PRODUCTION_DOCS/2-Payment-Monetization/legacy/PRELAUNCH_WAITLIST_IMPLEMENTATION.md)
+- **External Tracker**: `/home/beano/Life-Org/08_Moshimoshi/DISCOUNTS.md` (Manual updates required)
 
 ---
 
-*Created: 2026-01-27*
+*Created: 2026-01-27 | Updated: 2026-01-28*

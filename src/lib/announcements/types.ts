@@ -53,3 +53,54 @@ export interface DismissAnnouncementRequest {
   announcementId: string
   visitorId?: string
 }
+
+/**
+ * View record stored in Firestore 'announcement_views' collection
+ * Document ID format: {visitorValue}_{announcementId}
+ */
+export interface AnnouncementView {
+  visitorId: string
+  visitorType: 'user' | 'guest'
+  visitorValue: string
+  announcementId: string
+  viewedAt: string
+}
+
+/**
+ * API request for track view endpoint
+ */
+export interface TrackViewRequest {
+  announcementId: string
+  visitorId?: string
+}
+
+/**
+ * Analytics data for an announcement
+ */
+export interface AnnouncementAnalytics {
+  announcementId: string
+  totalViews: number
+  uniqueViewers: number
+  totalDismissals: number
+  dismissalRate: number // percentage: (dismissals / views) * 100
+  viewsByType: {
+    authenticated: number
+    guest: number
+  }
+  dismissalsByType: {
+    authenticated: number
+    guest: number
+  }
+}
+
+/**
+ * API response for announcement analytics endpoint
+ */
+export interface AnnouncementAnalyticsResponse {
+  success: boolean
+  analytics: AnnouncementAnalytics | null
+  error?: {
+    code: string
+    message: string
+  }
+}

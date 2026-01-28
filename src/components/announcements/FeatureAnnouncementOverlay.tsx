@@ -100,6 +100,31 @@ export function FeatureAnnouncementOverlay() {
     }
   }, [authLoading, user, pathname, fetchAnnouncement])
 
+  // Track view when announcement is shown
+  useEffect(() => {
+    if (isVisible && announcement) {
+      // Track the view
+      const trackView = async () => {
+        try {
+          await fetch('/api/announcements/track-view', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              announcementId: announcement.id,
+            }),
+          })
+        } catch (error) {
+          console.error('[FeatureAnnouncementOverlay] Failed to track view:', error)
+          // Don't block the overlay if tracking fails
+        }
+      }
+
+      trackView()
+    }
+  }, [isVisible, announcement])
+
   // Handle dismiss (only authenticated users reach this point)
   const handleDismiss = async () => {
     if (!announcement || dismissing) return

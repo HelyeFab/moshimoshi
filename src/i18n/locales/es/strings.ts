@@ -5361,8 +5361,8 @@ export const strings = {
       later: 'Más tarde',
       toast: {
         message: 'Instala Moshimoshi para una mejor experiencia.',
-        iosMessage: 'Instala Moshimoshi para una mejor experiencia. Toca Compartir y luego "Añadir a pantalla de inicio".',
-        iosInstructions: 'Instalación en iOS: Compartir → "Añadir a pantalla de inicio".',
+        iosMessage: 'Instala Moshimoshi para una mejor experiencia. Menú ... → Compartir → Más ... → Añadir a pantalla de inicio.',
+        iosInstructions: 'Instalación en iOS: Menú ... → Compartir → Más ... → Añadir a pantalla de inicio.',
         action: 'Instalar',
       },
       toastTest: {
@@ -5381,9 +5381,10 @@ export const strings = {
       instructions: 'Cómo instalar',
       ios: {
         instructions: 'Cómo instalar en iOS:',
-        step1: 'Toca el botón Compartir',
-        step2: 'Desplázate y toca "Añadir a pantalla de inicio"',
-        step3: 'Toca "Añadir" para instalar',
+        step1: 'Toca el botón de menú ... en la parte inferior de Safari',
+        step2: 'En el menú, toca "Compartir"',
+        step3: 'En la hoja de compartir, toca el botón "Más" ...',
+        step4: 'Toca "Añadir a pantalla de inicio"',
       },
       android: {
         note: 'Si ves "Crear acceso directo", Chrome aún no ha marcado la app como instalable. Visita el sitio un par de veces y vuelve a intentarlo.',

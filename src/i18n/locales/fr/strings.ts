@@ -5267,8 +5267,8 @@ export const strings = {
       later: 'Plus tard',
       toast: {
         message: 'Installez Moshimoshi pour une meilleure expérience.',
-        iosMessage: 'Installez Moshimoshi pour une meilleure expérience. Appuyez sur Partager puis "Sur l\'écran d\'accueil".',
-        iosInstructions: 'Installation iOS : Partager → "Sur l\'écran d\'accueil".',
+        iosMessage: 'Installez Moshimoshi pour une meilleure expérience. Menu ... → Partager → Plus ... → Sur l\'écran d\'accueil.',
+        iosInstructions: 'Installation iOS : Menu ... → Partager → Plus ... → Sur l\'écran d\'accueil.',
         action: 'Installer',
       },
       toastTest: {
@@ -5287,9 +5287,10 @@ export const strings = {
       instructions: 'Comment installer',
       ios: {
         instructions: 'Comment installer sur iOS:',
-        step1: 'Appuyez sur le bouton Partager',
-        step2: 'Faites défiler et appuyez sur "Sur l\'écran d\'accueil"',
-        step3: 'Appuyez sur "Ajouter" pour installer',
+        step1: 'Appuyez sur le bouton menu ... en bas de Safari',
+        step2: 'Dans le menu, appuyez sur "Partager"',
+        step3: 'Dans la feuille de partage, appuyez sur le bouton "Plus" ...',
+        step4: 'Appuyez sur "Sur l\'écran d\'accueil"',
       },
       android: {
         note: 'Si vous voyez "Créer un raccourci", Chrome n\'a pas encore marqué l\'app comme installable. Revenez sur le site quelques fois et réessayez.',

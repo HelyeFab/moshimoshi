@@ -1,4 +1,4 @@
-import { selectKanjiMixed, type KanjiPoolItem } from '../kanjiSelection'
+import { selectKanjiMixed, selectKanjiSmartly, type KanjiPoolItem } from '../kanjiSelection'
 import type { KanjiProgressRecord } from '@/lib/kanji-mastery/kanjiMasteryDB'
 
 const makeKanji = (kanji: string, jlpt: 'N5' | 'N4'): KanjiPoolItem => ({
@@ -120,5 +120,66 @@ describe('selectKanjiMixed', () => {
 
     const selectedIds = selected.map(item => item.kanji)
     expect(selectedIds).toContain('n5-2')
+  })
+})
+
+describe('selectKanjiSmartly', () => {
+  it('prioritizes due items before weak and new items', () => {
+    const allKanji = [
+      makeKanji('d1', 'N5'),
+      makeKanji('d2', 'N5'),
+      makeKanji('w1', 'N5'),
+      makeKanji('n1', 'N5'),
+    ]
+
+    const now = new Date('2025-01-01T00:00:00.000Z')
+    const past = new Date('2024-12-01T00:00:00.000Z').toISOString()
+    const future = new Date('2025-12-01T00:00:00.000Z').toISOString()
+
+    const progressRecords: KanjiProgressRecord[] = [
+      makeProgress('d1', 'N5', past, 0.4, 'learning'),
+      makeProgress('d2', 'N5', past, 0.6, 'learning'),
+      makeProgress('w1', 'N5', future, 0.1, 'learning'),
+    ]
+
+    const selected = selectKanjiSmartly(allKanji, {
+      requestedSize: 3,
+      progressRecords,
+      now,
+      rng: () => 0.05,
+    })
+
+    const selectedIds = selected.map(item => item.kanji)
+    expect(selectedIds).toEqual(expect.arrayContaining(['d1', 'd2']))
+  })
+
+  it('avoids recently seen items in weak/new buckets when alternatives exist', () => {
+    const allKanji = [
+      makeKanji('k1', 'N5'),
+      makeKanji('k2', 'N5'),
+      makeKanji('k3', 'N5'),
+      makeKanji('k4', 'N5'),
+    ]
+
+    const now = new Date('2025-01-01T00:00:00.000Z')
+    const future = new Date('2025-12-01T00:00:00.000Z').toISOString()
+
+    const progressRecords: KanjiProgressRecord[] = [
+      makeProgress('k1', 'N5', future, 0.1, 'learning'),
+      makeProgress('k2', 'N5', future, 0.1, 'learning'),
+    ]
+
+    const recentSessionIds = new Set(['k1'])
+    const selected = selectKanjiSmartly(allKanji, {
+      requestedSize: 2,
+      progressRecords,
+      recentSessionIds,
+      now,
+      rng: () => 0.2,
+    })
+
+    const selectedIds = selected.map(item => item.kanji)
+    expect(selectedIds).toContain('k2')
+    expect(selectedIds).not.toContain('k1')
   })
 })

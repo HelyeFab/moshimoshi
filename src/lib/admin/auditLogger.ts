@@ -1,3 +1,5 @@
+import 'server-only'
+
 import { adminFirestore, getAdminDb } from '@/lib/firebase/admin';
 import { AdminAction } from '@/types/admin';
 
