@@ -9,6 +9,9 @@ export async function POST(request: NextRequest) {
   try {
     const { name, email, subject, category, message, to, userAgent } = await request.json()
 
+    // Debug: Log received userAgent
+    console.log('[Contact API] Received userAgent:', userAgent ? 'Yes' : 'No', userAgent)
+
     // Validate required fields
     if (!name || !email || !subject || !message) {
       return NextResponse.json(

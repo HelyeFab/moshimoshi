@@ -100,7 +100,14 @@ export function useUserAgent(): UserAgentInfo | null {
  */
 export function formatUserAgentForEmail(info: UserAgentInfo | null): string {
   if (!info) {
-    return '<p style="color: #6b7280;">User agent information not available</p>'
+    return `
+      <div style="background: #fef3c7; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #f59e0b;">
+        <p style="margin: 0; color: #92400e; font-size: 13px;">
+          ⚠️ <strong>Technical Details Not Available</strong><br>
+          User agent information was not captured for this submission.
+        </p>
+      </div>
+    `
   }
 
   return `

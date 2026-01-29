@@ -108,6 +108,9 @@ export default function ContactPage() {
     }
 
     try {
+      // Debug: Log userAgent before sending
+      console.log('[ContactForm] Submitting with userAgent:', userAgent)
+
       // Send email via API
       const emailMap: Record<string, string> = {
         general: 'support@moshimoshi.app',
