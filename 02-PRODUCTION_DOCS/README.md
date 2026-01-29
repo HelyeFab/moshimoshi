@@ -17,6 +17,7 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── content-generation/            # AI-generated content, stories, comics
 ├── community/                     # Discord, social integrations
 ├── kanji-mastery/                 # Kanji learning tool documentation
+├── blast-mode/                    # Blast Mode documentation
 ├── admin-dashboard/               # Admin dashboard development guide
 ├── learning-village-low-power/    # Learning Village performance optimization
 ├── onboarding/                    # Developer onboarding guides
@@ -142,6 +143,21 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 - Mobile-responsive layout (compact 36px cells)
 - i18n translations (6 languages)
 - SRS status visualization (Mastered/Review/Learning)
+
+---
+
+### Blast Mode (`blast-mode/`)
+
+| Document | Description |
+|----------|-------------|
+| [BLAST_MODE_OVERVIEW.md](./blast-mode/BLAST_MODE_OVERVIEW.md) | Blast Mode product + technical overview |
+| [BLAST_MODE_PHASED_IMPLEMENTATION.md](./blast-mode/BLAST_MODE_PHASED_IMPLEMENTATION.md) | Phased implementation plan with acceptance criteria |
+
+**Key Topics:**
+- Adaptive 6-step flow (MCQ + tiles, no typing)
+- Multi-content support (kanji, vocab, lists)
+- Step generation and distractor strategy
+- Phased rollout plan
 
 ---
 

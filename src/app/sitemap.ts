@@ -49,6 +49,7 @@ const pages = [
 
   // Tools
   { path: '/tools/kanji-mastery', priority: 0.7, changeFrequency: 'weekly' as const },
+  { path: '/tools/blast-mode', priority: 0.7, changeFrequency: 'weekly' as const },
   { path: '/review-dashboard', priority: 0.7, changeFrequency: 'daily' as const },
 
   // Community/gamification
@@ -68,7 +69,7 @@ const pages = [
   // /dashboard, /review, /settings, /account, /privacy, /terms, /showcase
   // /admin, /auth, /share, /credits, /todos
   // /learn/word-learning/session, /learn/word-learning/complete
-  // /tools/kanji-mastery/learn
+  // /tools/kanji-mastery/learn, /tools/blast-mode/learn
 ];
 
 /**

@@ -119,6 +119,18 @@ export async function POST(request: NextRequest) {
       }
     });
 
+    // Track daily content views (UTC)
+    const dateKey = new Date().toISOString().slice(0, 10);
+    const dailyDocId = `${dateKey}__${collectionName}__${contentId}`;
+    await adminFirestore.collection('content_view_daily').doc(dailyDocId).set({
+      date: dateKey,
+      contentType: collectionName,
+      contentId,
+      totalViews: FieldValue.increment(1),
+      lastViewedAt: FieldValue.serverTimestamp(),
+      updatedAt: FieldValue.serverTimestamp()
+    }, { merge: true });
+
     return NextResponse.json({
       success: true,
       message: 'View tracked',

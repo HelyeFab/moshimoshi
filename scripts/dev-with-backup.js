@@ -9,6 +9,8 @@ const PROJECT_ROOT = path.resolve(__dirname, '..');
 const ENV_FILE = path.join(PROJECT_ROOT, '.env.local');
 const BACKUP_DIR = path.join(PROJECT_ROOT, '02-PRODUCTION_DOCS');
 const BACKUP_FILE = path.join(BACKUP_DIR, 'ENV_LOCAL_BACKUP.md');
+const EXTERNAL_BACKUP_DIR = '/home/beano/Life-Org/08_Moshimoshi/Git';
+const EXTERNAL_BACKUP_FILE = path.join(EXTERNAL_BACKUP_DIR, 'env_latest.md');
 
 function backupEnv() {
   if (!fs.existsSync(ENV_FILE)) {
@@ -42,6 +44,13 @@ ${envContent}
     // Write the backup (overwrites existing)
     fs.writeFileSync(BACKUP_FILE, mdContent);
     console.log(`[Backup] .env.local saved to 02-PRODUCTION_DOCS/ENV_LOCAL_BACKUP.md`);
+
+    // Also write to external backup location
+    if (!fs.existsSync(EXTERNAL_BACKUP_DIR)) {
+      fs.mkdirSync(EXTERNAL_BACKUP_DIR, { recursive: true });
+    }
+    fs.writeFileSync(EXTERNAL_BACKUP_FILE, mdContent);
+    console.log(`[Backup] .env.local also saved to ${EXTERNAL_BACKUP_FILE}`);
   } catch (err) {
     console.error('[Backup] Failed:', err.message);
   }

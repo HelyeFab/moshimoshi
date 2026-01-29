@@ -108,21 +108,15 @@ export default function LearningPageHeader({
     if (!mode || !onModeChange) return null
 
     return (
-      <div
-        className={`flex rounded-xl p-1 ${isLightTheme ? 'bg-white/30 backdrop-blur-sm' : 'bg-gray-100 dark:bg-dark-800'}`}
-      >
+      <div className="flex p-1 bg-gray-100 dark:bg-dark-700 rounded-lg">
         {(['browse', 'study', 'review'] as ViewMode[]).map(viewMode => (
           <button
             key={viewMode}
             onClick={() => onModeChange(viewMode)}
-            className={`flex-1 px-2.5 py-1.5 rounded-lg text-sm font-medium transition-all capitalize ${
+            className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all capitalize ${
               mode === viewMode
-                ? isLightTheme
-                  ? 'bg-white text-primary-600 shadow-sm'
-                  : 'bg-gray-50 dark:bg-dark-700 text-primary-600 dark:text-primary-400 shadow-sm'
-                : isLightTheme
-                  ? 'text-gray-700 hover:text-primary-700 hover:bg-white/60'
-                  : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
+                ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
             }`}
           >
             {viewMode}
@@ -135,122 +129,46 @@ export default function LearningPageHeader({
   const renderModeActions = () => {
     if (!mode) return null
 
+    // Browse mode: no additional actions needed
     if (mode === 'browse') {
-      return (
-        <div className={`text-center text-xs font-semibold uppercase tracking-wide ${isLightTheme ? 'text-gray-700' : 'text-gray-400'}`}>
-          Browse mode - Explore at your pace
-        </div>
-      )
+      return null
     }
 
-    if (mode === 'study') {
-      return (
-        <div className="space-y-2.5">
-          <div className="flex items-center justify-between gap-2 flex-wrap">
-            <div className="flex items-center gap-2">
-              {selectedCount > 0 && (
-                <span
-                  className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
-                    isLightTheme
-                      ? 'bg-white text-primary-700'
-                      : 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
-                  }`}
-                >
-                  {selectedCount} selected
-                </span>
-              )}
-            </div>
-
-            <div className="flex gap-2">
-              {onSelectAll && (
-                <button
-                  onClick={onSelectAll}
-                  className={`px-2.5 py-1.5 text-xs rounded-md transition-colors ${
-                    isLightTheme
-                      ? 'bg-white/60 text-gray-800 hover:bg-white'
-                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                  }`}
-                >
-                  Select All
-                </button>
-              )}
-
-              {onClearSelection && selectedCount > 0 && (
-                <button
-                  onClick={onClearSelection}
-                  className={`px-2.5 py-1.5 text-xs rounded-md transition-colors ${
-                    isLightTheme
-                      ? 'bg-white/60 text-gray-800 hover:bg-white'
-                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                  }`}
-                >
-                  Clear
-                </button>
-              )}
-            </div>
-          </div>
-
-          {selectedCount > 0 ? (
-            <button
-              onClick={onStartStudy}
-              className={`w-full px-3.5 py-2 rounded-md text-sm font-semibold shadow-sm transition-all ${
-                isLightTheme
-                  ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:shadow-md hover:-translate-y-[1px]'
-                  : 'bg-primary-500 hover:bg-primary-600 text-white shadow-primary-500/30'
-              }`}
-            >
-              Start Study Session ({selectedCount} items)
-            </button>
-          ) : (
-            <div className={`text-center py-3 text-sm ${isLightTheme ? 'text-gray-600' : 'text-gray-400'}`}>
-              Select items to begin studying
-            </div>
-          )}
-        </div>
-      )
-    }
-
-    if (mode === 'review') {
+    // Study/Review modes: only show expanded content when items are selected
+    if (mode === 'study' || mode === 'review') {
       const allSelected = stats?.total && selectedCount >= stats.total
+      const isStudy = mode === 'study'
+
+      // Only render if items are selected
+      if (selectedCount === 0) return null
+
       return (
-        <div className="space-y-2.5">
-          {/* Selection controls - centered when no selection, spread when selected */}
-          <div className={`flex items-center gap-2 flex-wrap ${selectedCount > 0 ? 'justify-between' : 'justify-center'}`}>
-            {selectedCount > 0 && (
-              <span
-                className={`px-2.5 py-1 rounded-full text-xs font-semibold ${
-                  isLightTheme
-                    ? 'bg-white text-primary-700'
-                    : 'bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300'
-                }`}
-              >
-                {selectedCount} selected
-              </span>
-            )}
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.2 }}
+          className="space-y-2.5 overflow-hidden"
+        >
+          <div className="flex items-center justify-between gap-2 flex-wrap">
+            <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300">
+              {selectedCount} selected
+            </span>
 
             <div className="flex gap-2">
-              {/* Only show Select All if not all items are selected */}
               {onSelectAll && !allSelected && (
                 <button
                   onClick={onSelectAll}
-                  className={`px-2.5 py-1.5 text-xs rounded-md transition-colors ${
-                    isLightTheme
-                      ? 'bg-white/60 text-gray-800 hover:bg-white'
-                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                  }`}
+                  className="px-2.5 py-1.5 text-xs rounded-md transition-colors bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
                 >
                   Select All
                 </button>
               )}
 
-              {onClearSelection && selectedCount > 0 && (
+              {onClearSelection && (
                 <button
                   onClick={onClearSelection}
-                  className={`px-2.5 py-1.5 text-xs rounded-md transition-colors ${
-                    isLightTheme
-                      ? 'bg-white/60 text-gray-800 hover:bg-white'
-                      : 'bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600'
-                  }`}
+                  className="px-2.5 py-1.5 text-xs rounded-md transition-colors bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600"
                 >
                   Clear
                 </button>
@@ -258,23 +176,13 @@ export default function LearningPageHeader({
             </div>
           </div>
 
-          {selectedCount > 0 ? (
-            <button
-              onClick={onStartReview}
-              className={`w-full px-3.5 py-2 rounded-md text-sm font-semibold shadow-sm transition-all ${
-                isLightTheme
-                  ? 'bg-gradient-to-r from-primary-500 to-primary-600 text-white hover:shadow-md hover:-translate-y-[1px]'
-                  : 'bg-primary-600 hover:bg-primary-700 text-white shadow-primary-500/30'
-              }`}
-            >
-              Start Review Session ({selectedCount} items)
-            </button>
-          ) : (
-            <div className={`text-center py-3 text-sm ${isLightTheme ? 'text-gray-600' : 'text-gray-400'}`}>
-              Select items to begin reviewing
-            </div>
-          )}
-        </div>
+          <button
+            onClick={isStudy ? onStartStudy : onStartReview}
+            className="w-full px-3.5 py-2 rounded-md text-sm font-semibold shadow-sm transition-all bg-primary-500 hover:bg-primary-600 text-white"
+          >
+            Start {isStudy ? 'Study' : 'Review'} Session ({selectedCount} items)
+          </button>
+        </motion.div>
       )
     }
 
@@ -654,16 +562,32 @@ export default function LearningPageHeader({
           <div className="h-24 sm:h-20" aria-hidden="true" />
           <div className="fixed left-1/2 -translate-x-1/2 bottom-[6rem] sm:bottom-8 w-[calc(100%-2.5rem)] max-w-[420px] z-50 pointer-events-none">
             <div
-              className={`pointer-events-auto rounded-[22px] px-3.5 py-2.5 shadow-xl shadow-black/10 dark:shadow-black/40 backdrop-blur-2xl border ${
-                isLightTheme
-                  ? 'bg-white/85 border-white/50'
-                  : 'bg-dark-900/90 border-white/10'
-              }`}
+              className="pointer-events-auto rounded-[22px] px-3.5 py-2.5 shadow-xl shadow-black/10 dark:shadow-black/40 backdrop-blur-2xl border bg-dark-900/90 border-white/10"
             >
-              <div className="space-y-2.5">
-                {renderModeSelector()}
-                {renderModeActions()}
-              </div>
+              {mode === 'browse' ? (
+                // Browse mode: just tabs (single row, minimal)
+                <div>
+                  {renderModeSelector()}
+                </div>
+              ) : (
+                // Study/Review modes: tabs + controls (compact when empty, expands when selected)
+                <div className="space-y-2.5">
+                  <div className="flex items-center gap-2">
+                    <div className="flex-1">
+                      {renderModeSelector()}
+                    </div>
+                    {selectedCount === 0 && onSelectAll && (
+                      <button
+                        onClick={onSelectAll}
+                        className="px-2.5 py-1.5 text-xs rounded-md transition-colors bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 whitespace-nowrap"
+                      >
+                        Select All
+                      </button>
+                    )}
+                  </div>
+                  {renderModeActions()}
+                </div>
+              )}
             </div>
           </div>
         </>

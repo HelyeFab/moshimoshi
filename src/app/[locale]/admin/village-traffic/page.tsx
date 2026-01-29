@@ -10,6 +10,7 @@ import {
   TrafficBarChart,
   StatCard,
 } from '@/components/admin/charts/AdminCharts';
+import { DatePicker } from '@/components/ui/DatePicker';
 
 interface LearningVillagePageAnalytics {
   route: string;
@@ -53,6 +54,8 @@ export default function VillageTrafficPage() {
   const [learningVillageSearch, setLearningVillageSearch] = useState('');
   const [visitorsLoading, setVisitorsLoading] = useState(true);
   const [visitorsError, setVisitorsError] = useState<string | null>(null);
+  const [dailyDate, setDailyDate] = useState('');
+  const [usingDaily, setUsingDaily] = useState(true);
 
   // Returning users state
   const [userEngagement, setUserEngagement] = useState<UserEngagementData | null>(null);
@@ -73,21 +76,16 @@ export default function VillageTrafficPage() {
     return `${minutes}m ${seconds}s`;
   };
 
-  // Fetch visitor analytics
+  // Fetch visitor analytics (daily UTC by default)
   useEffect(() => {
     const fetchAnalytics = async () => {
       try {
-        const token = await auth.currentUser?.getIdToken();
-        if (!token) {
-          setVisitorsLoading(false);
-          return;
-        }
-
-        const response = await fetch('/api/admin/analytics/visitors', {
-          headers: {
-            'Authorization': `Bearer ${token}`
+        const response = await fetch(
+          `/api/admin/analytics/village-traffic-daily?date=${dailyDate || new Date().toISOString().slice(0, 10)}`,
+          {
+            credentials: 'include',
           }
-        });
+        );
 
         if (!response.ok) {
           throw new Error('Failed to fetch analytics');
@@ -95,11 +93,12 @@ export default function VillageTrafficPage() {
 
         const result = await response.json();
 
-        if (result.error) {
-          setVisitorsError(result.message || result.error);
+        if (result.error || !result.success) {
+          setVisitorsError(result.message || result.error || 'Failed to load analytics');
         } else {
           setLearningVillagePages(result.learningVillage?.pages || []);
           setLearningVillageTotals(result.learningVillage?.totals || null);
+          setUsingDaily(true);
         }
       } catch (err) {
         setVisitorsError(err instanceof Error ? err.message : 'Failed to load analytics');
@@ -111,7 +110,7 @@ export default function VillageTrafficPage() {
     if (user) {
       fetchAnalytics();
     }
-  }, [user]);
+  }, [user, dailyDate]);
 
   // Fetch returning users data
   useEffect(() => {
@@ -181,6 +180,12 @@ export default function VillageTrafficPage() {
           <p className="text-sm sm:text-base text-gray-600 dark:text-gray-400 mt-1">
             Track page views, unique visitors & returning users
           </p>
+        </div>
+      </div>
+      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
+        <DatePicker value={dailyDate} onChange={setDailyDate} />
+        <div className="text-xs text-gray-500 dark:text-gray-400">
+          {usingDaily ? 'Daily (UTC) analytics' : 'All-time analytics'}
         </div>
       </div>
 

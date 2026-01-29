@@ -1125,6 +1125,11 @@ export const strings = {
         subtitle: '漢字習得',
         description: 'SRSで漢字を習得する',
       },
+      blastMode: {
+        title: 'ブラストモード',
+        subtitle: 'ブラス ト',
+        description: '入力なしの高速ミックス練習',
+      },
       youtubeShadowing: {
         title: 'もしプレイヤー',
         subtitle: 'YouTube',
@@ -6768,6 +6773,14 @@ export const strings = {
         description: '意味のある部首を通じて漢字を学ぶ - 意味を与える構成要素。水の部首、火の部首、手の部首などを探求し、漢字のパターンを理解。',
       },
     },
+    blastMode: {
+      title: 'ブラストモード - 高速日本語学習ツール | タイピング不要、タップだけ',
+      description: 'ブラストモードで日本語を高速マスター。6種類の問題タイプで高速学習フロー、タイピング不要。漢字、語彙、カスタムリスト用のMCQ問題とタイル組み立て。モバイルフレンドリーなタップベースインターフェースで速く魅力的な日本語練習。JLPT N5-N1対応。',
+    },
+    blastModeLearn: {
+      title: 'ブラストモード学習セッション - アクティブ高速日本語練習',
+      description: 'ブラストモードセッション進行中。多肢選択問題とタイル組み立てで速い日本語学習。タイピング不要 - 移動中のモバイル学習に最適。',
+    },
   },
   story: {
     readingSettings: '読書設定',
@@ -7350,5 +7363,133 @@ export const strings = {
   // 機能のお知らせ
   announcements: {
     gotIt: '了解',
+  },
+
+  // ブラストモード
+  blastMode: {
+    title: 'ブラストモード',
+    description: 'タイピング不要の高速学習フロー - タップするだけ！',
+    backToDashboard: 'ダッシュボードに戻る',
+
+    features: {
+      fast: {
+        title: '速くて楽しい',
+        description: 'タイピング不要',
+      },
+      adaptive: {
+        title: '適応型',
+        description: 'スマート質問フロー',
+      },
+      engaging: {
+        title: '魅力的',
+        description: '6種類の問題',
+      },
+    },
+
+    configure: {
+      title: 'セッションを設定',
+      contentType: {
+        label: 'コンテンツタイプ',
+        kanji: '漢字',
+        vocabulary: '語彙',
+        mixed: 'ミックス',
+        lists: 'リスト',
+      },
+      selectList: {
+        label: 'リストを選択',
+        requiresPremium: 'リストにはプレミアムアクセスが必要です。',
+        loading: 'リストを読み込み中...',
+        noLists: 'リストが見つかりません。語彙ページから作成してください。',
+        item: '項目',
+        items: '項目',
+      },
+      jlptLevel: 'JLPTレベル',
+      kanjiPicker: {
+        label: '漢字を選択（5〜10個）',
+        searchPlaceholder: '漢字、意味、または読み方で検索',
+        selected: '選択済み：',
+        outOf: '/ 10',
+        clearAll: 'すべてクリア',
+        loading: '漢字を読み込み中...',
+        note: '5〜10個の漢字を選択すると、セッションサイズが上書きされます。',
+      },
+      sessionSize: {
+        label: 'セッションあたりの項目数',
+        items: '項目',
+      },
+    },
+
+    buttons: {
+      start: 'ブラストモードを開始',
+      starting: '開始中...',
+      next: '次へ',
+      finish: '終了',
+      exit: '終了',
+      continue: '続ける',
+      done: '完了',
+      submit: '提出 (Enter)',
+      reset: 'リセット (R)',
+      backToSetup: 'セットアップに戻る',
+    },
+
+    errors: {
+      selectList: '練習するリストを選択してください',
+      kanjiRange: '5個から10個の漢字を選択してください',
+      startFailed: 'ブラストモードセッションの開始に失敗しました',
+      loadFailed: 'セッションデータの読み込みに失敗しました',
+    },
+
+    loading: {
+      default: '読み込み中...',
+      session: 'セッションを読み込み中...',
+      redirecting: 'リダイレクト中...',
+    },
+
+    session: {
+      noSteps: 'このセッションで利用可能なステップがありません。',
+      exitConfirm: {
+        title: 'セッションを終了しますか？',
+        message: '今終了すると、進捗は保存されません。',
+      },
+      completion: {
+        title: 'セッション完了！',
+        message: '{{completedSteps}}ステップを{{accuracy}}％の正解率で完了しました！',
+      },
+    },
+
+    howItWorks: {
+      title: '使い方',
+      step1: {
+        title: '多肢選択問題',
+        description: 'オプションをタップして意味と読みの問題に答える',
+      },
+      step2: {
+        title: 'タイルを並べ替え',
+        description: 'バラバラになった日本語の単語を組み立てる',
+      },
+      step3: {
+        title: '適応型フロー',
+        description: 'コンテンツの機能に基づいて問題が適応',
+      },
+    },
+
+    screens: {
+      mcq: {
+        hint: '1-4を押すかクリックして選択',
+      },
+      reassemble: {
+        correct: '正解！',
+        incorrect: '不正解。正解：{{answer}}',
+        instructions: {
+          reorder: 'タイルをドラッグして並べ替えるか、2つのタイルをクリックして入れ替える',
+          pick: '正しい順序でタイルを選択',
+          single: '正しいタイルを選択',
+        },
+        keyboardHints: {
+          reorder: '1-9でタイルを選択 • Enterで提出 • Rでリセット',
+          pick: '1-9でタイルを選択 • Enterで提出 • Rでリセット',
+        },
+      },
+    },
   },
 };

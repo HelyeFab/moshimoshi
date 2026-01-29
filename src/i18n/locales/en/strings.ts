@@ -2768,6 +2768,11 @@ export const strings = {
         subtitle: '漢字習得',
         description: 'Master kanji with SRS',
       },
+      blastMode: {
+        title: 'Blast Mode',
+        subtitle: 'ブラス ト',
+        description: 'Fast, no-typing mixed drills',
+      },
       library: {
         title: 'Library',
         subtitle: '図書館',
@@ -7291,6 +7296,14 @@ export const strings = {
         description: 'Learn kanji through semantic radicals - the building blocks that give meaning. Explore water radicals, fire radicals, hand radicals and more to understand kanji patterns.',
       },
     },
+    blastMode: {
+      title: 'Blast Mode - High-Velocity Japanese Learning Tool | No Typing, Just Tap',
+      description: 'Master Japanese at lightning speed with Blast Mode. High-velocity learning flow with 6 question types, no typing required. MCQ questions and tile reassembly for kanji, vocabulary, and custom lists. Mobile-friendly tap-based interface for fast, engaging Japanese practice. JLPT N5-N1 support.',
+    },
+    blastModeLearn: {
+      title: 'Blast Mode Learning Session - Active High-Speed Japanese Practice',
+      description: 'Active Blast Mode session in progress. Fast-paced Japanese learning with multiple choice questions and tile reassembly. No typing required - perfect for mobile learning on the go.',
+    },
   },
   kanjiMasteryTool: {
     loading: 'Loading...',
@@ -7615,5 +7628,133 @@ export const strings = {
   // Feature Announcements
   announcements: {
     gotIt: 'Got it',
+  },
+
+  // Blast Mode
+  blastMode: {
+    title: 'Blast Mode',
+    description: 'High-velocity learning flow with no typing - just tap and go!',
+    backToDashboard: 'Back to Dashboard',
+
+    features: {
+      fast: {
+        title: 'Fast & Fun',
+        description: 'No typing required',
+      },
+      adaptive: {
+        title: 'Adaptive',
+        description: 'Smart question flow',
+      },
+      engaging: {
+        title: 'Engaging',
+        description: '6 question types',
+      },
+    },
+
+    configure: {
+      title: 'Configure Session',
+      contentType: {
+        label: 'Content Type',
+        kanji: 'Kanji',
+        vocabulary: 'Vocabulary',
+        mixed: 'Mixed',
+        lists: 'Lists',
+      },
+      selectList: {
+        label: 'Select List',
+        requiresPremium: 'Lists require Premium access.',
+        loading: 'Loading lists...',
+        noLists: 'No lists found. Create one from the vocabulary page.',
+        item: 'item',
+        items: 'items',
+      },
+      jlptLevel: 'JLPT Level',
+      kanjiPicker: {
+        label: 'Pick Kanji (5–10)',
+        searchPlaceholder: 'Search kanji, meaning, or reading',
+        selected: 'Selected:',
+        outOf: '/ 10',
+        clearAll: 'Clear all',
+        loading: 'Loading kanji...',
+        note: 'Selecting 5–10 kanji overrides the session size.',
+      },
+      sessionSize: {
+        label: 'Items per Session',
+        items: 'items',
+      },
+    },
+
+    buttons: {
+      start: 'Start Blast Mode',
+      starting: 'Starting...',
+      next: 'Next',
+      finish: 'Finish',
+      exit: 'Exit',
+      continue: 'Continue',
+      done: 'Done',
+      submit: 'Submit (Enter)',
+      reset: 'Reset (R)',
+      backToSetup: 'Back to Setup',
+    },
+
+    errors: {
+      selectList: 'Please select a list to practice',
+      kanjiRange: 'Please select between 5 and 10 kanji',
+      startFailed: 'Failed to start Blast Mode session',
+      loadFailed: 'Failed to load session data',
+    },
+
+    loading: {
+      default: 'Loading...',
+      session: 'Loading session...',
+      redirecting: 'Redirecting...',
+    },
+
+    session: {
+      noSteps: 'No steps available for this session.',
+      exitConfirm: {
+        title: 'Exit Session?',
+        message: 'Your progress will not be saved if you exit now.',
+      },
+      completion: {
+        title: 'Session Complete!',
+        message: 'You completed {{completedSteps}} steps with {{accuracy}}% accuracy!',
+      },
+    },
+
+    howItWorks: {
+      title: 'How It Works',
+      step1: {
+        title: 'Multiple Choice Questions',
+        description: 'Answer meaning and reading questions by tapping options',
+      },
+      step2: {
+        title: 'Reassemble Tiles',
+        description: 'Build Japanese words from scrambled pieces',
+      },
+      step3: {
+        title: 'Adaptive Flow',
+        description: 'Questions adapt based on content capabilities',
+      },
+    },
+
+    screens: {
+      mcq: {
+        hint: 'Press 1-4 or click to select',
+      },
+      reassemble: {
+        correct: 'Correct!',
+        incorrect: 'Incorrect. Correct answer: {{answer}}',
+        instructions: {
+          reorder: 'Drag tiles to reorder, or click two tiles to swap',
+          pick: 'Select tiles in the correct order',
+          single: 'Select the correct tile',
+        },
+        keyboardHints: {
+          reorder: 'Press 1-9 to select tiles • Enter to submit • R to reset',
+          pick: 'Press 1-9 to select tiles • Enter to submit • R to reset',
+        },
+      },
+    },
   },
 }

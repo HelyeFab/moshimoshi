@@ -34,6 +34,7 @@ export type FeatureFlag =
   | 'FLASHCARDS'                // Flashcard system
   | 'GAMES'                     // Learning games
   | 'TODOS'                     // Task manager / todos
+  | 'BLAST_MODE'                // Blast Mode learning flow
 
 /**
  * Default feature states
@@ -65,6 +66,9 @@ const DEFAULT_FEATURES: Record<FeatureFlag, boolean> = {
   // Productivity (stable)
   TODOS: true,
 
+  // Experimental
+  BLAST_MODE: true,
+
   // Advanced Features (can be toggled off for testing)
   YOUTUBE_SHADOWING: true,
   AI_STORIES: true,
@@ -85,6 +89,7 @@ const PRODUCTION_DISABLED_FEATURES: FeatureFlag[] = [
   // Example: Uncomment to disable in production
   // 'AI_STORIES',
   // 'YOUTUBE_SHADOWING',
+  'BLAST_MODE',
 ]
 
 /**
@@ -262,6 +267,11 @@ export function getFeatureMetadata(feature: FeatureFlag): {
       name: 'Task Manager',
       description: 'Study task organization and goals',
       category: 'Productivity'
+    },
+    BLAST_MODE: {
+      name: 'Blast Mode',
+      description: 'High-velocity learning flow',
+      category: 'Learning'
     },
   }
 

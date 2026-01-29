@@ -50,6 +50,32 @@ interface DashboardStats {
   } | null;
 }
 
+interface DailyActivitySummary {
+  date: string;
+  timezone: string;
+  totals: {
+    totalViews: number;
+  };
+  sections: Array<{ section: string; count: number }>;
+  contentTypes: Array<{ type: string; count: number }>;
+  topPages: Array<{
+    path: string;
+    section: string;
+    totalViews: number;
+    lastViewAt: string | null;
+    displayName?: string | null;
+  }>;
+  topContent: Array<{
+    type: string;
+    id: string;
+    path: string;
+    totalViews: number;
+    lastViewAt: string | null;
+    displayName?: string | null;
+    contentType?: string | null;
+  }>;
+}
+
 export default function AdminDashboard() {
   const { strings } = useI18n();
   const [stats, setStats] = useState<DashboardStats | null>(null);
@@ -62,9 +88,12 @@ export default function AdminDashboard() {
   const [showResetModal, setShowResetModal] = useState(false);
   const [resetSuccess, setResetSuccess] = useState(false);
   const [resetError, setResetError] = useState<string | null>(null);
+  const [dailySummary, setDailySummary] = useState<DailyActivitySummary | null>(null);
+  const [dailySummaryError, setDailySummaryError] = useState<string | null>(null);
 
   useEffect(() => {
     fetchDashboardStats();
+    fetchDailySummary();
   }, []);
 
   async function fetchDashboardStats() {
@@ -81,6 +110,25 @@ export default function AdminDashboard() {
       setError(err instanceof Error ? err.message : 'An error occurred');
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function fetchDailySummary() {
+    try {
+      setDailySummaryError(null);
+      const response = await fetch('/api/admin/analytics/daily-summary?limit=8', {
+        credentials: 'include'
+      });
+      if (!response.ok) {
+        throw new Error('Failed to fetch daily activity summary');
+      }
+      const data = await response.json();
+      if (!data?.success) {
+        throw new Error(data?.error?.message || 'Failed to load daily activity');
+      }
+      setDailySummary(data);
+    } catch (err) {
+      setDailySummaryError(err instanceof Error ? err.message : 'Failed to load daily activity');
     }
   }
 
@@ -486,6 +534,117 @@ export default function AdminDashboard() {
             </div>
           </motion.div>
         ))}
+      </motion.div>
+
+      {/* Daily Activity Summary (UTC) */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.25 }}
+        className="bg-white/80 dark:bg-dark-800/80 backdrop-blur-sm rounded-2xl shadow-lg border border-gray-200/50 dark:border-dark-700/50 p-4 sm:p-6"
+      >
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <span className="text-primary-500">🧭</span>
+              Today&apos;s Activity (UTC)
+            </h3>
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Resets daily at 00:00 UTC • Date {dailySummary?.date || '—'}
+            </p>
+          </div>
+          <button
+            onClick={fetchDailySummary}
+            className="text-xs px-3 py-1 rounded-lg bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors"
+          >
+            Refresh
+          </button>
+        </div>
+
+        {dailySummaryError ? (
+          <div className="text-sm text-red-600 dark:text-red-400">{dailySummaryError}</div>
+        ) : !dailySummary ? (
+          <div className="flex items-center justify-center py-6">
+            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-primary-500"></div>
+          </div>
+        ) : (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="space-y-3">
+                <div className="rounded-xl bg-gray-50 dark:bg-dark-700/50 p-3">
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Total Page Views</p>
+                  <p className="text-2xl font-bold text-gray-900 dark:text-white">
+                    {dailySummary.totals.totalViews.toLocaleString()}
+                  </p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+                    Active Today: {stats?.activeUsers?.toLocaleString() || 0}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">Top Sections</p>
+                  <div className="space-y-1">
+                    {dailySummary.sections.slice(0, 6).map((item) => (
+                      <div key={item.section} className="flex items-center justify-between text-sm">
+                        <span className="text-gray-700 dark:text-gray-300">{item.section}</span>
+                        <span className="font-semibold text-gray-900 dark:text-white">{item.count}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {dailySummary.contentTypes.map((item) => (
+                    <span
+                      key={item.type}
+                      className="text-xs px-2 py-1 rounded-full bg-primary-50 dark:bg-primary-900/30 text-primary-700 dark:text-primary-300"
+                    >
+                      {item.type}: {item.count}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">Top Pages</p>
+                <div className="space-y-2">
+                  {dailySummary.topPages.map((item) => (
+                    <div key={item.path} className="flex items-start justify-between gap-3 text-sm">
+                      <div className="min-w-0">
+                        <p className="text-gray-900 dark:text-white truncate">
+                          {item.displayName || item.path}
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 truncate">{item.path}</p>
+                      </div>
+                      <span className="font-semibold text-gray-900 dark:text-white">{item.totalViews}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2">Top Content</p>
+                <div className="space-y-2">
+                  {dailySummary.topContent.length === 0 ? (
+                    <p className="text-sm text-gray-500 dark:text-gray-400">No content views yet.</p>
+                  ) : (
+                    dailySummary.topContent.map((item) => (
+                      <div key={`${item.type}_${item.id}`} className="flex items-start justify-between gap-3 text-sm">
+                        <div className="min-w-0">
+                          <p className="text-gray-900 dark:text-white truncate">
+                            {item.displayName || item.path}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">
+                            {item.contentType || item.type}
+                          </p>
+                        </div>
+                        <span className="font-semibold text-gray-900 dark:text-white">{item.totalViews}</span>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+            </div>
+          </>
+        )}
       </motion.div>
 
       {/* News Scraping Section - Beautiful Mobile Cards */}

@@ -39,6 +39,7 @@ import {
 const STALL_NAMES: Record<StallId, string> = {
   'hiragana': 'Hiragana',
   'katakana': 'Katakana',
+  'blast-mode': 'Blast Mode',
   'drill': 'Drill Practice',
   'vocabulary': 'Vocabulary',
   'grammar': 'Grammar',

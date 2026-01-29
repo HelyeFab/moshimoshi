@@ -573,6 +573,7 @@ function KanjiBrowserContent() {
         const isSelected = selectedKanji.has(kanjiItem.kanji)
         const progress = kanjiProgress.get(kanjiItem.kanji)
         const isLearned = progress?.status === 'learned'
+        const isSelectionMode = viewMode === 'study' || viewMode === 'review'
 
         return (
           <motion.div
@@ -585,14 +586,21 @@ function KanjiBrowserContent() {
             className="relative"
           >
             <div
-              onClick={() => toggleSelection(kanjiItem.kanji)}
+              onClick={() => {
+                if (isSelectionMode) {
+                  toggleSelection(kanjiItem.kanji)
+                } else {
+                  // In Browse mode, clicking the card opens the modal
+                  handleKanjiClick(kanjiItem)
+                }
+              }}
               className={`
                 relative w-full aspect-square flex items-center justify-center text-2xl font-medium
                 rounded-lg transition-all overflow-hidden cursor-pointer
                 bg-white dark:bg-dark-800 border-2
                 hover:shadow-lg
                 ${
-                  isSelected
+                  isSelectionMode && isSelected
                     ? 'border-primary-500 ring-2 ring-primary-200 dark:ring-primary-800'
                     : isLearned
                       ? 'border-green-500 dark:border-green-600'
@@ -601,29 +609,33 @@ function KanjiBrowserContent() {
               `}
               style={{ fontFamily: '"Noto Sans JP", "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic", "Meiryo", "Noto Sans CJK JP", sans-serif' }}
             >
-              {/* Pin button - always visible for selection */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  toggleSelection(kanjiItem.kanji)
-                }}
-                className="absolute -top-2 -right-2 w-6 h-6 rounded-full shadow-lg z-20 transition-all hover:scale-110"
-                style={{
-                  backgroundColor: isSelected ? '#6366f1' : '#9ca3af',
-                  opacity: isSelected ? 1 : 0.5,
-                }}
-                title={isSelected ? 'Unpin' : 'Pin for study/review'}
-              />
+              {/* Half-circle selection button - only visible in Study/Review modes */}
+              {isSelectionMode && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    toggleSelection(kanjiItem.kanji)
+                  }}
+                  className="absolute -top-2 -right-2 w-6 h-6 rounded-full shadow-lg z-20 transition-all hover:scale-110"
+                  style={{
+                    backgroundColor: isSelected ? '#6366f1' : '#9ca3af',
+                    opacity: isSelected ? 1 : 0.5,
+                  }}
+                  title={isSelected ? 'Unselect' : 'Select for study/review'}
+                />
+              )}
 
-              {/* Clickable center area for modal */}
-              <button
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleKanjiClick(kanjiItem)
-                }}
-                className="absolute inset-[25%] rounded-lg hover:bg-white/10 dark:hover:bg-white/5 transition-colors z-10"
-                title="View details"
-              />
+              {/* Clickable center area for modal - only in Study/Review modes */}
+              {isSelectionMode && (
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleKanjiClick(kanjiItem)
+                  }}
+                  className="absolute inset-[25%] rounded-lg hover:bg-white/10 dark:hover:bg-white/5 transition-colors z-10"
+                  title="View details"
+                />
+              )}
 
               {/* Learned indicator - bottom right corner */}
               {isLearned && (

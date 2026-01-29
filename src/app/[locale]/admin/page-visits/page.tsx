@@ -128,6 +128,10 @@ export default function PageVisitsAdminPage() {
   const [dateFilter, setDateFilter] = useState('')
   const [contentStartDate, setContentStartDate] = useState('')
   const [contentEndDate, setContentEndDate] = useState('')
+  const [includeMarketing, setIncludeMarketing] = useState(false)
+  const [visitorTypeSummary, setVisitorTypeSummary] = useState<Array<{ name: string; value: number }>>([])
+  const [visitorSummaryDate, setVisitorSummaryDate] = useState<string | null>(null)
+  const [visitorSummaryError, setVisitorSummaryError] = useState<string | null>(null)
 
   useEffect(() => {
     const today = new Date()
@@ -207,6 +211,29 @@ export default function PageVisitsAdminPage() {
     }
   }
 
+  const fetchVisitorSummary = async (dateOverride?: string) => {
+    try {
+      setVisitorSummaryError(null)
+      const dateParam = dateOverride || dateFilter || new Date().toISOString().slice(0, 10)
+      const params = new URLSearchParams({
+        date: dateParam,
+        includeMarketing: includeMarketing ? 'true' : 'false',
+      })
+      const response = await fetch(`/api/admin/analytics/page-visits-summary?${params.toString()}`, {
+        credentials: 'include',
+      })
+      const data = await response.json()
+      if (!response.ok || !data?.success) {
+        throw new Error(data?.error?.message || 'Failed to load visitor summary')
+      }
+      setVisitorTypeSummary(Array.isArray(data.uniqueVisitors) ? data.uniqueVisitors : [])
+      setVisitorSummaryDate(data.date || dateParam)
+    } catch (err) {
+      setVisitorSummaryError(err instanceof Error ? err.message : 'Failed to load visitor summary')
+      setVisitorTypeSummary([])
+    }
+  }
+
   useEffect(() => {
     fetchVisits()
   }, [limit, filterField, filterValue, dateFilter])
@@ -219,6 +246,10 @@ export default function PageVisitsAdminPage() {
     if (!contentStartDate || !contentEndDate) return
     fetchContentSummary()
   }, [contentStartDate, contentEndDate])
+
+  useEffect(() => {
+    fetchVisitorSummary()
+  }, [dateFilter, includeMarketing])
 
   const filteredItems = useMemo(() => {
     const query = search.trim().toLowerCase()
@@ -270,6 +301,9 @@ export default function PageVisitsAdminPage() {
   }, [filteredItems])
 
   const visitorTypeBreakdown = useMemo(() => {
+    if (visitorTypeSummary.length > 0) {
+      return visitorTypeSummary
+    }
     const buckets = new Map<string, Set<string>>()
     for (const item of filteredItems) {
       const key = item.visitorType || 'unknown'
@@ -281,7 +315,7 @@ export default function PageVisitsAdminPage() {
       buckets.get(key)!.add(visitorId)
     }
     return Array.from(buckets.entries()).map(([name, set]) => ({ name, value: set.size }))
-  }, [filteredItems])
+  }, [filteredItems, visitorTypeSummary])
 
   return (
     <AdminErrorBoundary componentName="Page Visits">
@@ -438,11 +472,33 @@ export default function PageVisitsAdminPage() {
             </div>
 
             <div className="rounded-xl border border-border bg-muted/40 p-4">
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-semibold text-foreground">Visitor Type</h3>
-                <Badge variant="secondary">Breakdown</Badge>
-              </div>
-              {visitorTypeBreakdown.length === 0 ? (
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-semibold text-foreground">Visitor Type</h3>
+              <Badge variant="secondary">
+                Breakdown {visitorSummaryDate ? `(UTC ${visitorSummaryDate})` : ''}
+              </Badge>
+            </div>
+            <div className="flex items-center gap-2 mb-3">
+              <Button
+                type="button"
+                onClick={() => setIncludeMarketing(false)}
+                variant={!includeMarketing ? 'default' : 'outline'}
+                size="sm"
+              >
+                In-app only
+              </Button>
+              <Button
+                type="button"
+                onClick={() => setIncludeMarketing(true)}
+                variant={includeMarketing ? 'default' : 'outline'}
+                size="sm"
+              >
+                All traffic
+              </Button>
+            </div>
+            {visitorSummaryError ? (
+              <p className="text-destructive text-sm">❌ {visitorSummaryError}</p>
+            ) : visitorTypeBreakdown.length === 0 ? (
                 <p className="text-muted-foreground text-sm">No data for chart</p>
               ) : (
                 <div className="h-64">

@@ -168,10 +168,16 @@ export async function logAuditEvent(
     const auditKey = RedisKeys.adminAudit(event, timestamp.toISOString())
     await redis.setex(auditKey, 2592000, JSON.stringify(logEntry))
 
-    // Also store in a daily audit log hash for easier querying (maps ID → key path)
-    const dailyHashKey = `audit_daily:${timestamp.toISOString().slice(0, 10)}`
+    // Store daily audit index in a sorted set for reliable "most recent" queries
+    const dayKey = timestamp.toISOString().slice(0, 10)
+    const dailyZsetKey = `audit_daily_zset:${dayKey}`
+    const score = timestamp.getTime()
 
-    // Check for legacy SET keys and migrate to HASH
+    await redis.zadd(dailyZsetKey, score, auditKey)
+    await redis.expire(dailyZsetKey, 2592000) // 30 days
+
+    // Keep legacy daily hash for backward compatibility during transition
+    const dailyHashKey = `audit_daily:${dayKey}`
     const keyType = await redis.type(dailyHashKey)
     if (keyType === 'set') {
       // Delete legacy SET key - old format only stored IDs without key paths
@@ -261,10 +267,31 @@ export async function getAuditLogsByDate(
   limit: number = 100
 ): Promise<AuditLogEntry[]> {
   try {
+    const dailyZsetKey = `audit_daily_zset:${date}`
     const dailyHashKey = `audit_daily:${date}`
 
-    // Check key type to handle legacy SET keys from old implementation
-    // Old code used sadd (SET), new code uses hset (HASH)
+    // Prefer sorted set for accurate "most recent" ordering
+    const zsetType = await redis.type(dailyZsetKey)
+    if (zsetType === 'zset') {
+      const keys = await redis.zrevrange(dailyZsetKey, 0, limit - 1)
+      if (!keys || keys.length === 0) return []
+
+      const logs: AuditLogEntry[] = []
+      for (const key of keys) {
+        const logData = await redis.get(key as string)
+        if (logData) {
+          const log = JSON.parse(logData as string)
+          logs.push({
+            ...log,
+            timestamp: new Date(log.timestamp),
+          })
+        }
+      }
+
+      return logs.sort((a, b) => b.timestamp.getTime() - a.timestamp.getTime())
+    }
+
+    // Fallback: legacy hash store (unordered)
     const keyType = await redis.type(dailyHashKey)
 
     if (keyType === 'set') {
@@ -384,12 +411,14 @@ export async function cleanupAuditLogs(daysToKeep: number = 30): Promise<void> {
     // This is a simplified version
     console.log(`Cleaning up audit logs older than ${cutoffDate.toISOString()}`)
     
-    // Delete daily sets older than cutoff
+    // Delete daily indexes older than cutoff
     for (let i = daysToKeep; i < daysToKeep + 7; i++) {
       const date = new Date()
       date.setDate(date.getDate() - i)
-      const dailySetKey = `audit_daily:${date.toISOString().slice(0, 10)}`
-      await redis.del(dailySetKey)
+      const dayKey = date.toISOString().slice(0, 10)
+      const dailyHashKey = `audit_daily:${dayKey}`
+      const dailyZsetKey = `audit_daily_zset:${dayKey}`
+      await redis.del(dailyHashKey, dailyZsetKey)
     }
     
   } catch (error) {

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useI18n } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
+import { useUserAgent } from '@/hooks/useUserAgent'
 // Navigation is now global via NavigationWrapper in root layout
 import PageContainer from '@/components/ui/PageContainer'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -13,6 +14,7 @@ export default function ContactPage() {
   const router = useRouter()
   const { strings } = useI18n()
   const { showToast } = useToast()
+  const userAgent = useUserAgent()
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [isSubmitting, setIsSubmitting] = useState(false)
@@ -28,6 +30,17 @@ export default function ContactPage() {
 
   const [messageLength, setMessageLength] = useState(0)
   const maxMessageLength = 5000
+
+  // Pre-fill category from URL query parameter
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      const categoryParam = params.get('category')
+      if (categoryParam && ['general', 'support', 'bug', 'feature', 'feedback', 'privacy'].includes(categoryParam)) {
+        setFormData(prev => ({ ...prev, category: categoryParam }))
+      }
+    }
+  }, [])
 
   useEffect(() => {
     checkSession()
@@ -104,6 +117,9 @@ export default function ContactPage() {
         privacy: 'privacy@moshimoshi.app'
       }
 
+      // Debug: Log userAgent before sending
+      console.log('[ContactForm] Submitting with userAgent:', userAgent)
+
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
@@ -111,7 +127,8 @@ export default function ContactPage() {
         },
         body: JSON.stringify({
           ...formData,
-          to: emailMap[formData.category] || 'support@moshimoshi.app'
+          to: emailMap[formData.category] || 'support@moshimoshi.app',
+          userAgent: userAgent
         })
       })
 

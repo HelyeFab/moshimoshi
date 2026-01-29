@@ -41,6 +41,7 @@ The Admin Dashboard provides secure, cookie-authenticated administrative interfa
 | [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) | Quick lookup for common admin patterns and code snippets |
 | [AUTH_FIX_SUMMARY.md](./AUTH_FIX_SUMMARY.md) | Documentation of authentication pattern fixes (2026-01-28) |
 | [SECURITY_HARDENING.md](./SECURITY_HARDENING.md) | Security best practices and hardening measures |
+| [METRIC_MAP_AND_AUDIT.md](./METRIC_MAP_AND_AUDIT.md) | Line-level metric map + Active Today audit |
 
 ## Key Topics
 

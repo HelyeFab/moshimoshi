@@ -50,6 +50,15 @@ interface AuthEventData {
   }>
 }
 
+interface SessionDiagnostics {
+  sessionCount: number
+  sampleKey: string | null
+  sampleTtl: number | null
+  redisHost: string | null
+  usingMockRedis: boolean
+  nodeEnv: string | undefined
+}
+
 function formatEventName(event: string): string {
   return event
     .replace('auth.', '')
@@ -107,6 +116,9 @@ export default function AuthMonitorPage() {
   const [error, setError] = useState<string | null>(null)
   const [refreshing, setRefreshing] = useState(false)
   const [autoRefresh, setAutoRefresh] = useState(false)
+  const [sessionDiag, setSessionDiag] = useState<SessionDiagnostics | null>(null)
+  const [sessionDiagLoading, setSessionDiagLoading] = useState(false)
+  const [sessionDiagError, setSessionDiagError] = useState<string | null>(null)
 
   // Redirect if not admin
   useEffect(() => {
@@ -143,6 +155,32 @@ export default function AuthMonitorPage() {
     } finally {
       setLoading(false)
       setRefreshing(false)
+    }
+  }
+
+  const fetchSessionDiagnostics = async () => {
+    try {
+      setSessionDiagLoading(true)
+      const response = await fetch('/api/admin/auth-sessions-debug', {
+        credentials: 'include',
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch session diagnostics')
+      }
+
+      const result = await response.json()
+      if (result.success) {
+        setSessionDiag(result.data as SessionDiagnostics)
+        setSessionDiagError(null)
+      } else {
+        setSessionDiagError('No diagnostics available')
+      }
+    } catch (err) {
+      console.error('Error fetching session diagnostics:', err)
+      setSessionDiagError('Failed to load session diagnostics')
+    } finally {
+      setSessionDiagLoading(false)
     }
   }
 
@@ -429,6 +467,70 @@ export default function AuthMonitorPage() {
           <p className="text-xs sm:text-sm text-blue-800 dark:text-blue-200">
             <strong>Note:</strong> Read-only dashboard. Data from audit logs (Redis), Firebase Auth, and active sessions. Events retained 30 days.
           </p>
+        </div>
+
+        {/* Session Diagnostics */}
+        <div className="mt-4 sm:mt-6 bg-white dark:bg-dark-800 rounded-lg shadow-lg p-4 sm:p-6">
+          <div className="flex items-center justify-between gap-4 mb-3">
+            <h3 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
+              Session Diagnostics
+            </h3>
+            <button
+              onClick={fetchSessionDiagnostics}
+              disabled={sessionDiagLoading}
+              className="flex items-center gap-2 px-3 py-1.5 bg-gray-900 text-white rounded-lg hover:bg-gray-800 disabled:opacity-50 text-xs"
+            >
+              {sessionDiagLoading ? 'Checking...' : 'Run Check'}
+            </button>
+          </div>
+          {sessionDiagError && (
+            <p className="text-xs text-red-600 dark:text-red-400">{sessionDiagError}</p>
+          )}
+          {!sessionDiag && !sessionDiagError && (
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              Runs a quick Redis check for session keys. Use sparingly in production.
+            </p>
+          )}
+          {sessionDiag && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-gray-600 dark:text-gray-300">
+              <div className="flex items-center justify-between">
+                <span>Session keys</span>
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  {sessionDiag.sessionCount}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Sample TTL (sec)</span>
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  {sessionDiag.sampleTtl ?? '—'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Redis host</span>
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  {sessionDiag.redisHost ?? '—'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Mock Redis</span>
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  {sessionDiag.usingMockRedis ? 'YES' : 'NO'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Node env</span>
+                <span className="font-semibold text-gray-900 dark:text-white">
+                  {sessionDiag.nodeEnv ?? '—'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Sample key</span>
+                <span className="font-mono text-[11px] text-gray-700 dark:text-gray-200">
+                  {sessionDiag.sampleKey ?? '—'}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

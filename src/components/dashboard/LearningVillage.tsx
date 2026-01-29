@@ -5,6 +5,7 @@ import { motion, AnimatePresence, MotionConfig } from 'framer-motion'
 import Link from 'next/link'
 import Masonry from 'react-masonry-css'
 import DoshiMascot from '@/components/ui/DoshiMascot'
+import { isFeatureEnabled } from '@/lib/features/featureFlags'
 import { useTheme } from '@/lib/theme/ThemeContext'
 import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import { useAnimationControl } from '@/components/ui/AnimationControl'
@@ -753,6 +754,21 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         stallImage: getRandomStallImage(),
       },
       {
+        id: 'blast-mode',
+        title: cards?.blastMode?.title || 'Blast Mode',
+        subtitle: cards?.blastMode?.subtitle || 'ブラス ト',
+        description: cards?.blastMode?.description || 'Fast, no-typing mixed drills',
+        href: getLocalePath('/tools/blast-mode'),
+        icon: '⚡',
+        stallType: 'bridge',
+        color: 'from-amber-400 to-orange-600',
+        glow: 'shadow-amber-500/50',
+        doshiMood: 'excited' as const,
+        progress: 0,
+        lanternColor: '#f59e0b',
+        stallImage: getRandomStallImage(),
+      },
+      {
         id: 'kanji-connections',
         title: cards?.kanjiConnections?.title || 'Kanji Connections',
         subtitle: cards?.kanjiConnections?.subtitle || '漢字関連',
@@ -1117,6 +1133,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
       leaderboard: process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD === 'true',
       todos: process.env.NEXT_PUBLIC_FEATURE_TODOS === 'true',
       qa: process.env.NEXT_PUBLIC_FEATURE_QA === 'true',
+      'blast-mode': isFeatureEnabled('BLAST_MODE'),
     }),
     []
   )
@@ -1216,6 +1233,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         'katakana',
         'kanji-browser',
         'kanji-mastery',
+        'blast-mode',
         'kanji-connections',
         'conjugation',
       ] as StallId[],

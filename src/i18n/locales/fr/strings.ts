@@ -1566,6 +1566,11 @@ export const strings = {
         subtitle: 'Maîtrise des Kanji',
         description: 'Maîtrisez les kanji avec le SRS',
       },
+      blastMode: {
+        title: 'Blast Mode',
+        subtitle: 'ブラス ト',
+        description: 'Entraînement mixte rapide sans saisie',
+      },
       youtubeShadowing: {
         title: 'MoshiPlayer',
         subtitle: 'YouTube',
@@ -6471,6 +6476,14 @@ export const strings = {
         description: 'Apprenez les kanji à travers les radicaux sémantiques - les blocs de construction qui donnent du sens. Explorez les radicaux de l\'eau, du feu, de la main et plus encore pour comprendre les motifs des kanji.',
       },
     },
+    blastMode: {
+      title: 'Mode Blast - Outil d\'Apprentissage du Japonais à Haute Vélocité | Pas de Saisie, Juste Toucher',
+      description: 'Maîtrisez le japonais à la vitesse de l\'éclair avec le Mode Blast. Flux d\'apprentissage à haute vélocité avec 6 types de questions, aucune saisie requise. Questions à choix multiples et assemblage de tuiles pour kanji, vocabulaire et listes personnalisées. Interface tactile adaptée aux mobiles pour une pratique rapide et engageante du japonais. Support JLPT N5-N1.',
+    },
+    blastModeLearn: {
+      title: 'Session d\'Apprentissage Mode Blast - Pratique Active du Japonais à Haute Vitesse',
+      description: 'Session Mode Blast active en cours. Apprentissage rapide du japonais avec questions à choix multiples et assemblage de tuiles. Pas de saisie requise - parfait pour l\'apprentissage mobile en déplacement.',
+    },
   },
   story: {
     readingSettings: 'Paramètres de lecture',
@@ -7192,5 +7205,133 @@ export const strings = {
   // Annonces de fonctionnalités
   announcements: {
     gotIt: 'Compris',
+  },
+
+  // Mode Blast
+  blastMode: {
+    title: 'Mode Blast',
+    description: 'Flux d\'apprentissage haute vitesse sans frappe - il suffit de toucher !',
+    backToDashboard: 'Retour au Tableau de Bord',
+
+    features: {
+      fast: {
+        title: 'Rapide et Amusant',
+        description: 'Aucune frappe requise',
+      },
+      adaptive: {
+        title: 'Adaptatif',
+        description: 'Flux de questions intelligent',
+      },
+      engaging: {
+        title: 'Engageant',
+        description: '6 types de questions',
+      },
+    },
+
+    configure: {
+      title: 'Configurer la Session',
+      contentType: {
+        label: 'Type de Contenu',
+        kanji: 'Kanji',
+        vocabulary: 'Vocabulaire',
+        mixed: 'Mixte',
+        lists: 'Listes',
+      },
+      selectList: {
+        label: 'Sélectionner une Liste',
+        requiresPremium: 'Les listes nécessitent un accès Premium.',
+        loading: 'Chargement des listes...',
+        noLists: 'Aucune liste trouvée. Créez-en une depuis la page de vocabulaire.',
+        item: 'élément',
+        items: 'éléments',
+      },
+      jlptLevel: 'Niveau JLPT',
+      kanjiPicker: {
+        label: 'Choisir des Kanji (5–10)',
+        searchPlaceholder: 'Rechercher kanji, signification ou lecture',
+        selected: 'Sélectionné :',
+        outOf: '/ 10',
+        clearAll: 'Tout effacer',
+        loading: 'Chargement des kanji...',
+        note: 'Sélectionner 5 à 10 kanji remplace la taille de la session.',
+      },
+      sessionSize: {
+        label: 'Éléments par Session',
+        items: 'éléments',
+      },
+    },
+
+    buttons: {
+      start: 'Démarrer le Mode Blast',
+      starting: 'Démarrage...',
+      next: 'Suivant',
+      finish: 'Terminer',
+      exit: 'Quitter',
+      continue: 'Continuer',
+      done: 'Terminé',
+      submit: 'Soumettre (Entrée)',
+      reset: 'Réinitialiser (R)',
+      backToSetup: 'Retour à la Configuration',
+    },
+
+    errors: {
+      selectList: 'Veuillez sélectionner une liste pour pratiquer',
+      kanjiRange: 'Veuillez sélectionner entre 5 et 10 kanji',
+      startFailed: 'Échec du démarrage de la session Mode Blast',
+      loadFailed: 'Échec du chargement des données de session',
+    },
+
+    loading: {
+      default: 'Chargement...',
+      session: 'Chargement de la session...',
+      redirecting: 'Redirection...',
+    },
+
+    session: {
+      noSteps: 'Aucune étape disponible pour cette session.',
+      exitConfirm: {
+        title: 'Quitter la session ?',
+        message: 'Votre progression ne sera pas sauvegardée si vous quittez maintenant.',
+      },
+      completion: {
+        title: 'Session Terminée !',
+        message: 'Vous avez terminé {{completedSteps}} étapes avec {{accuracy}}% de précision !',
+      },
+    },
+
+    howItWorks: {
+      title: 'Comment ça Marche',
+      step1: {
+        title: 'Questions à Choix Multiples',
+        description: 'Répondez aux questions de signification et de lecture en touchant les options',
+      },
+      step2: {
+        title: 'Réassembler les Tuiles',
+        description: 'Construisez des mots japonais à partir de pièces mélangées',
+      },
+      step3: {
+        title: 'Flux Adaptatif',
+        description: 'Les questions s\'adaptent selon les capacités du contenu',
+      },
+    },
+
+    screens: {
+      mcq: {
+        hint: 'Appuyez sur 1-4 ou cliquez pour sélectionner',
+      },
+      reassemble: {
+        correct: 'Correct !',
+        incorrect: 'Incorrect. Bonne réponse : {{answer}}',
+        instructions: {
+          reorder: 'Faites glisser les tuiles pour réorganiser, ou cliquez sur deux tuiles pour échanger',
+          pick: 'Sélectionnez les tuiles dans le bon ordre',
+          single: 'Sélectionnez la bonne tuile',
+        },
+        keyboardHints: {
+          reorder: 'Appuyez sur 1-9 pour sélectionner • Entrée pour soumettre • R pour réinitialiser',
+          pick: 'Appuyez sur 1-9 pour sélectionner • Entrée pour soumettre • R pour réinitialiser',
+        },
+      },
+    },
   },
 };

@@ -57,6 +57,28 @@ export class KanjiProgressManager extends UniversalProgressManager<KanjiProgress
     await this.saveProgress(userId, 'kanji', kanjiId, updated, isPremium)
   }
 
+  async resetKanjiProgress(
+    kanjiId: string,
+    user: any | null,
+    isPremium: boolean
+  ): Promise<void> {
+    if (!user?.uid) return
+
+    const userId = user.uid
+
+    // Reset to initial state - complete clean slate
+    const resetData: KanjiProgressData = {
+      ...this.createInitialProgress(kanjiId, 'kanji'),
+      status: 'not-started',
+      viewCount: 0,
+      correctCount: 0,
+      incorrectCount: 0,
+      updatedAt: new Date().toISOString(),
+    }
+
+    await this.saveProgress(userId, 'kanji', kanjiId, resetData, isPremium)
+  }
+
   async getKanjiProgressMap(user: any | null, isPremium: boolean) {
     if (!user?.uid) return new Map<string, KanjiProgressData>()
     return this.getProgress(user.uid, 'kanji', isPremium)

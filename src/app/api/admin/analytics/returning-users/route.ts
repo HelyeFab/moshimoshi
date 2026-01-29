@@ -1,10 +1,10 @@
 /**
  * GET /api/admin/analytics/returning-users
  *
- * Analyzes Firebase Auth metadata to identify returning users
- * A returning user = logged in on day X and came back on day Y (different day)
+ * Analyzes page visit activity to identify returning users
+ * A returning user = active on at least 2 distinct days in the last 7 days (UTC)
  *
- * Uses: creationTime (when account was created) and lastActive (activity on site)
+ * Uses: users.createdAt and page_visits.startedAt (visitorType=user)
  */
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -59,7 +59,13 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
     const sevenDaysAgo = new Date(today);
     sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-    const usersSnapshot = await adminFirestore.collection('users').get();
+    const [usersSnapshot, visitsSnapshot] = await Promise.all([
+      adminFirestore.collection('users').get(),
+      adminFirestore
+        .collection('page_visits')
+        .where('startedAt', '>=', sevenDaysAgo)
+        .get(),
+    ]);
 
     const allUsers: {
       uid: string;
@@ -69,18 +75,47 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
       lastActiveTime: string | undefined;
     }[] = [];
 
+    const userById = new Map<string, typeof allUsers[0]>();
+
     usersSnapshot.forEach(doc => {
       const data = doc.data();
       const createdAt = data.createdAt?.toDate?.() || data.createdAt;
       const lastActive = data.lastActive?.toDate?.() || data.lastActive;
 
-      allUsers.push({
+      const userRecord = {
         uid: doc.id,
         email: data.email,
         displayName: data.displayName,
         creationTime: createdAt ? new Date(createdAt).toISOString() : undefined,
         lastActiveTime: lastActive ? new Date(lastActive).toISOString() : undefined,
-      });
+      };
+
+      allUsers.push(userRecord);
+      userById.set(doc.id, userRecord);
+    });
+
+    const activityDaysByUser = new Map<string, Set<string>>();
+    const activeUsersByDay = new Map<string, Set<string>>();
+
+    visitsSnapshot.forEach((doc) => {
+      const data = doc.data();
+      if (data.visitorType !== 'user') return;
+      const userId = typeof data.userId === 'string' ? data.userId : null;
+      if (!userId) return;
+      if (!data.startedAt) return;
+      const startedAt = data.startedAt.toDate ? data.startedAt.toDate() : new Date(data.startedAt);
+      const dateKey = startedAt.toISOString().split('T')[0];
+      if (!dates.includes(dateKey)) return;
+
+      if (!activityDaysByUser.has(userId)) {
+        activityDaysByUser.set(userId, new Set());
+      }
+      activityDaysByUser.get(userId)!.add(dateKey);
+
+      if (!activeUsersByDay.has(dateKey)) {
+        activeUsersByDay.set(dateKey, new Set());
+      }
+      activeUsersByDay.get(dateKey)!.add(userId);
     });
 
     // Initialize daily stats
@@ -90,81 +125,50 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
     }
 
     // Analyze each user
-    let totalNewInPeriod = 0;
-    let totalReturningInPeriod = 0;
+    const newUsersInPeriod = new Set<string>();
 
     for (const user of allUsers) {
       if (!user.creationTime) continue;
-
       const createdDate = new Date(user.creationTime).toISOString().split('T')[0];
-      const lastActiveDate = user.lastActiveTime
-        ? new Date(user.lastActiveTime).toISOString().split('T')[0]
-        : null;
-
-      // Determine if user is NEW or RETURNING (mutually exclusive)
-      // NEW = account created within the 7-day window
-      // RETURNING = account created BEFORE the 7-day window, but signed in within it
-      const isNewUser = dates.includes(createdDate);
-
-      if (isNewUser) {
-        // User created in the last 7 days = NEW user
+      if (dates.includes(createdDate)) {
         dailyStats[createdDate].newUsers.add(user.uid);
-        totalNewInPeriod++;
-      } else if (lastActiveDate && dates.includes(lastActiveDate)) {
-        // User created before 7-day window but signed in during it = RETURNING user
-        dailyStats[lastActiveDate].returningUsers.add(user.uid);
-        totalReturningInPeriod++;
+        newUsersInPeriod.add(user.uid);
       }
     }
 
+    const returningUsersSet = new Set(
+      Array.from(activityDaysByUser.entries())
+        .filter(([, days]) => days.size >= 2)
+        .map(([userId]) => userId)
+    );
+
     // Build daily breakdown
-    const dailyBreakdown: DailyUserStats[] = dates.map(date => ({
-      date,
-      newUsers: dailyStats[date].newUsers.size,
-      returningUsers: dailyStats[date].returningUsers.size,
-      totalActive: dailyStats[date].newUsers.size + dailyStats[date].returningUsers.size,
-    }));
+    const dailyBreakdown: DailyUserStats[] = dates.map(date => {
+      const activeSet = activeUsersByDay.get(date) || new Set();
+      const returningCount = Array.from(activeSet).filter(uid => returningUsersSet.has(uid)).length;
+      return {
+        date,
+        newUsers: dailyStats[date].newUsers.size,
+        returningUsers: returningCount,
+        totalActive: activeSet.size,
+      };
+    });
 
     // Calculate retention rate
     // Users who were created before the 7-day window and returned during it
-    const existingUsers = allUsers.filter(u => {
-      if (!u.creationTime) return false;
-      const created = new Date(u.creationTime);
-      return created < sevenDaysAgo;
-    });
-
-    const existingUsersWhoReturned = existingUsers.filter(u => {
-      if (!u.lastActiveTime) return false;
-      const lastActive = new Date(u.lastActiveTime);
-      return lastActive >= sevenDaysAgo;
-    });
-
-    const retentionRate = existingUsers.length > 0
-      ? Math.round((existingUsersWhoReturned.length / existingUsers.length) * 100)
+    const activeUsersSet = new Set(activityDaysByUser.keys());
+    const retentionRate = activeUsersSet.size > 0
+      ? Math.round((returningUsersSet.size / activeUsersSet.size) * 100)
       : 0;
 
     // Build list of users - prioritize ALL returning users, then recent new users
     // This ensures returning users always appear in the list
-    const activeUsersInPeriod = allUsers.filter(u => {
-      if (!u.lastActiveTime) return false;
-      const lastActive = new Date(u.lastActiveTime);
-      return lastActive >= sevenDaysAgo;
-    });
+    const activeUsersInPeriod = Array.from(activeUsersSet)
+      .map((uid) => userById.get(uid))
+      .filter((user): user is typeof allUsers[0] => Boolean(user));
 
-    // Separate returning vs new users
-    const returningUsersList = activeUsersInPeriod.filter(u => {
-      const createdDate = u.creationTime
-        ? new Date(u.creationTime).toISOString().split('T')[0]
-        : null;
-      return !createdDate || !dates.includes(createdDate); // Created before the 7-day window
-    });
-
-    const newUsersList = activeUsersInPeriod.filter(u => {
-      const createdDate = u.creationTime
-        ? new Date(u.creationTime).toISOString().split('T')[0]
-        : null;
-      return createdDate && dates.includes(createdDate); // Created within the 7-day window
-    });
+    const returningUsersList = activeUsersInPeriod.filter(u => returningUsersSet.has(u.uid));
+    const newUsersList = activeUsersInPeriod.filter(u => !returningUsersSet.has(u.uid));
 
     // Sort both by last sign-in (most recent first)
     const sortByLastSignIn = (a: typeof allUsers[0], b: typeof allUsers[0]) => {
@@ -208,13 +212,7 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
             const sessionCount = sessionsSnap.data().count;
 
             // Determine if new or returning
-        const createdDate = user.creationTime
-          ? new Date(user.creationTime).toISOString().split('T')[0]
-          : null;
-        const lastActiveDate = user.lastActiveTime
-          ? new Date(user.lastActiveTime).toISOString().split('T')[0]
-          : null;
-        const isNew = createdDate && dates.includes(createdDate);
+            const isReturning = returningUsersSet.has(user.uid);
 
         return {
           uid: user.uid,
@@ -222,15 +220,12 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
           displayName: user.displayName || null,
           createdAt: user.creationTime || null,
           lastSignIn: user.lastActiveTime || null,
-          type: (isNew ? 'new' : 'returning') as 'new' | 'returning',
+          type: (isReturning ? 'returning' : 'new') as 'new' | 'returning',
           reviewSessions: sessionCount,
         };
           } catch (err) {
             // If we can't get sessions, still return user info
-            const createdDate = user.creationTime
-              ? new Date(user.creationTime).toISOString().split('T')[0]
-              : null;
-            const isNew = createdDate && dates.includes(createdDate);
+            const isReturning = returningUsersSet.has(user.uid);
 
             return {
               uid: user.uid,
@@ -238,7 +233,7 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
               displayName: user.displayName || null,
               createdAt: user.creationTime || null,
               lastSignIn: user.lastActiveTime || null,
-              type: (isNew ? 'new' : 'returning') as 'new' | 'returning',
+              type: (isReturning ? 'returning' : 'new') as 'new' | 'returning',
               reviewSessions: 0,
             };
           }
@@ -250,10 +245,7 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
     } else {
       // No Firestore, just return basic user info
       for (const user of recentActiveUsers) {
-        const createdDate = user.creationTime
-          ? new Date(user.creationTime).toISOString().split('T')[0]
-          : null;
-        const isNew = createdDate && dates.includes(createdDate);
+        const isReturning = returningUsersSet.has(user.uid);
 
         recentUsers.push({
           uid: user.uid,
@@ -261,7 +253,7 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
           displayName: user.displayName || null,
           createdAt: user.creationTime || null,
           lastSignIn: user.lastActiveTime || null,
-          type: isNew ? 'new' : 'returning',
+          type: isReturning ? 'returning' : 'new',
           reviewSessions: 0,
         });
       }
@@ -269,8 +261,8 @@ export const GET = withAdminAnalyticsRateLimit(async (request: NextRequest, cont
 
     const summary: UserEngagementSummary = {
       totalUsers: allUsers.length,
-      newUsersLast7Days: totalNewInPeriod,
-      returningUsersLast7Days: totalReturningInPeriod,
+      newUsersLast7Days: newUsersInPeriod.size,
+      returningUsersLast7Days: returningUsersSet.size,
       retentionRate,
       dailyBreakdown,
       recentUsers,

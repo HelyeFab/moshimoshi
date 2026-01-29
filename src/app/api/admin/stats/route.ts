@@ -3,6 +3,48 @@ import { adminFirestore, ensureAdminInitialized } from '@/lib/firebase/admin';
 import { validateSession } from '@/lib/auth/session';
 import { PRICING_CONFIG, MONTHLY_EQUIVALENT_FROM_YEARLY } from '@/config/pricing';
 import { isPremiumUser, getUserTier } from '@/lib/auth/tier-utils';
+import { reviewMetrics } from '@/lib/monitoring/metrics-dashboard';
+import { metrics } from '@/lib/monitoring/metrics';
+
+const MONITORING_UPTIME_WINDOW_MINUTES = 60;
+
+const clampNumber = (value: number, min: number, max: number) => {
+  if (!Number.isFinite(value)) return min;
+  return Math.min(max, Math.max(min, value));
+};
+
+const roundTo = (value: number, decimals: number) => {
+  const factor = Math.pow(10, decimals);
+  return Math.round(value * factor) / factor;
+};
+
+const getSystemStatusFromMonitoring = () => {
+  const summary = reviewMetrics.getDashboardSummary();
+
+  const apiDuration = summary.api['api.request.duration'];
+  const apiResponseTime = Math.round(apiDuration?.p95 ?? apiDuration?.avg ?? 0);
+
+  const apiErrors = summary.api['api.error.count']?.sum ?? 0;
+  const apiRequests = summary.api['api.request.count']?.sum ?? 0;
+  const errorRate = apiRequests > 0 ? (apiErrors / apiRequests) * 100 : 0;
+
+  const cacheHits = summary.cache['cache.hit']?.sum ?? 0;
+  const cacheMisses = summary.cache['cache.miss']?.sum ?? 0;
+  const cacheTotal = cacheHits + cacheMisses;
+  const cacheHitRate = cacheTotal > 0 ? (cacheHits / cacheTotal) * 100 : 0;
+
+  const downtimeMinutes = Number(metrics.getMetric('downtime.minutes') || 0);
+  const uptime = MONITORING_UPTIME_WINDOW_MINUTES > 0
+    ? ((MONITORING_UPTIME_WINDOW_MINUTES - downtimeMinutes) / MONITORING_UPTIME_WINDOW_MINUTES) * 100
+    : 100;
+
+  return {
+    apiResponseTime,
+    cacheHitRate: roundTo(cacheHitRate, 1),
+    errorRate: roundTo(errorRate, 2),
+    uptime: roundTo(clampNumber(uptime, 0, 100), 2),
+  };
+};
 
 export async function GET(request: NextRequest) {
   try {
@@ -204,13 +246,13 @@ export async function GET(request: NextRequest) {
       return Math.round(((current - previous) / previous) * 100);
     };
 
-    // Get system metrics (simplified - you can enhance this)
+    const monitoringStatus = getSystemStatusFromMonitoring();
     const systemStatus = {
       database: 'operational',
-      apiResponseTime: Math.floor(Math.random() * 50) + 100, // This would come from monitoring
-      cacheHitRate: 94, // This would come from Redis stats
-      errorRate: 0.02, // This would come from error logs
-      uptime: 99.98 // This would come from monitoring service
+      apiResponseTime: monitoringStatus.apiResponseTime,
+      cacheHitRate: monitoringStatus.cacheHitRate,
+      errorRate: monitoringStatus.errorRate,
+      uptime: monitoringStatus.uptime,
     };
 
     return NextResponse.json({

@@ -60,9 +60,9 @@
 
 ### Returning Users (Village Traffic)
 
-**Definition**: users created **before** the 7-day window who were **active** within the window, based on `lastActive`.
+**Definition**: users who were active on **at least 2 distinct days** within the last 7 days (UTC).
 
-**Source**: Firestore `users` collection (not Firebase Auth sign-in metadata).
+**Source**: Firestore `page_visits` (visitorType = user) + `users` collection.
 
 **Code**: `src/app/api/admin/analytics/returning-users/route.ts`
 

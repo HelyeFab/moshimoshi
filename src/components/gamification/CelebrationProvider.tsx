@@ -142,7 +142,7 @@ export default function CelebrationProvider({ children }: { children: React.Reac
       {celebrationData && showCelebration && (
         <ContentCelebration
           contentTitle={celebrationData.contentTitle || 'Quiz Complete!'}
-          contentType={celebrationData.contentType || 'article'}
+          contentType={celebrationData.contentType || 'flashcard'}
           xpEarned={celebrationData.xpGained}
           readingTimeMs={
             celebrationData.readingTimeMs && celebrationData.readingTimeMs > 0

@@ -63,10 +63,37 @@ export default function KanjiStudyMode({
   const [showOnyomi, setShowOnyomi] = useState(false)
   const [showKunyomi, setShowKunyomi] = useState(false)
 
+  // Track if kanji is already learned
+  const [isLearned, setIsLearned] = useState(false)
+  const justToggledRef = useRef(false)
+
   // Timer refs for auto-hide
   const meaningTimerRef = useRef<NodeJS.Timeout | null>(null)
   const onyomiTimerRef = useRef<NodeJS.Timeout | null>(null)
   const kunyomiTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Check if kanji is already learned when kanji changes
+  useEffect(() => {
+    const checkLearnedStatus = async () => {
+      // Don't override if we just toggled the status manually
+      if (justToggledRef.current) {
+        justToggledRef.current = false
+        return
+      }
+
+      if (user?.uid && kanji) {
+        const progress = await kanjiProgressManager['getProgressItem'](
+          user.uid,
+          'kanji',
+          kanji.kanji
+        )
+        setIsLearned(progress?.status === 'learned')
+      } else {
+        setIsLearned(false)
+      }
+    }
+    checkLearnedStatus()
+  }, [kanji?.kanji, user])
 
   // Track kanji view when component mounts or kanji changes
   useEffect(() => {
@@ -172,15 +199,39 @@ export default function KanjiStudyMode({
     onNext()
   }
 
-  const handleMarkAsLearned = () => {
-    if (user) {
-      kanjiProgressManager
-        .markKanjiLearned(kanji.kanji, user, isPremium ?? false)
-        .then(() => onProgressUpdate?.(kanji.kanji, { status: 'learned' }))
-        .catch(err => console.error('[KanjiStudyMode] Failed to mark learned:', err))
+  const handleToggleLearned = async () => {
+    if (!user) {
+      showToast('Please sign in to track progress', 'warning')
+      return
     }
-    showToast('Marked as learned!', 'success')
-    setTimeout(onNext, 500)
+
+    // Mark that we're manually toggling - prevents effect from overwriting
+    justToggledRef.current = true
+
+    if (isLearned) {
+      // Reset to not-started
+      try {
+        await kanjiProgressManager.resetKanjiProgress(kanji.kanji, user, isPremium ?? false)
+        setIsLearned(false)
+        onProgressUpdate?.(kanji.kanji, { status: 'not-started' })
+        showToast(strings.kana?.messages?.progressReset || 'Progress reset', 'info')
+      } catch (err) {
+        console.error('[KanjiStudyMode] Failed to reset progress:', err)
+        justToggledRef.current = false
+      }
+    } else {
+      // Mark as learned
+      try {
+        await kanjiProgressManager.markKanjiLearned(kanji.kanji, user, isPremium ?? false)
+        setIsLearned(true)
+        onProgressUpdate?.(kanji.kanji, { status: 'learned' })
+        showToast(strings.kana?.messages?.markedAsLearned || 'Marked as learned!', 'success')
+        setTimeout(onNext, 500)
+      } catch (err) {
+        console.error('[KanjiStudyMode] Failed to mark learned:', err)
+        justToggledRef.current = false
+      }
+    }
   }
 
   return (
@@ -530,11 +581,14 @@ export default function KanjiStudyMode({
         </button>
 
         <button
-          onClick={handleMarkAsLearned}
-          className="p-4 rounded-xl bg-green-500 text-white
-                   hover:bg-green-600 transition-all shadow-lg shadow-green-500/30
-                   transform hover:scale-105 active:scale-95"
-          title="Mark as Learned"
+          onClick={handleToggleLearned}
+          className={`p-4 rounded-xl text-white transition-all shadow-lg
+                   transform hover:scale-105 active:scale-95 ${
+                     isLearned
+                       ? 'bg-green-500 hover:bg-green-600 shadow-green-500/30'
+                       : 'bg-gray-400 hover:bg-gray-500 shadow-gray-400/30'
+                   }`}
+          title={isLearned ? 'Reset Progress' : 'Mark as Learned'}
         >
           <IoCheckmarkCircle className="w-6 h-6" />
         </button>

@@ -24,6 +24,7 @@ export const STALL_OFFLINE_SUPPORT: Record<string, OfflineSupport> = {
   drill: 'partial', // Kana drills work, user progress needs sync
   'kanji-browser': 'full', // JLPT JSON precached
   'kanji-mastery': 'partial', // Data available, SRS state needs sync
+  'blast-mode': 'partial', // Uses mixed content + session flow, some sync needed
   'kanji-connections': 'partial', // Data available, premium features need network
   conjugation: 'partial', // Core data available, some features need network
 
@@ -67,6 +68,7 @@ export const STALL_IDS = [
   'my-lists',
   'kanji-browser',
   'kanji-mastery',
+  'blast-mode',
   'kanji-connections',
   'mood-boards',
   'conjugation',
@@ -144,34 +146,35 @@ export const DEFAULT_CONFIG: LearningVillageConfig = {
     { id: 'my-lists', order: 4, isPopular: false, enabled: true },
     { id: 'kanji-browser', order: 5, isPopular: false, enabled: true },
     { id: 'kanji-mastery', order: 6, isPopular: true, enabled: true },
-    { id: 'kanji-connections', order: 7, isPopular: false, enabled: true },
-    { id: 'mood-boards', order: 8, isPopular: false, enabled: true },
-    { id: 'conjugation', order: 9, isPopular: false, enabled: true },
-    { id: 'textbook-vocab', order: 10, isPopular: false, enabled: true },
+    { id: 'blast-mode', order: 7, isPopular: true, enabled: true },
+    { id: 'kanji-connections', order: 8, isPopular: false, enabled: true },
+    { id: 'mood-boards', order: 9, isPopular: false, enabled: true },
+    { id: 'conjugation', order: 10, isPopular: false, enabled: true },
+    { id: 'textbook-vocab', order: 11, isPopular: false, enabled: true },
 
     // Practice & Immersion
-    { id: 'stories', order: 11, isPopular: false, enabled: true },
-    { id: 'news', order: 12, isPopular: false, enabled: true },
-    { id: 'library', order: 13, isPopular: false, enabled: true },
-    { id: 'comics', order: 14, isPopular: true, enabled: true },
-    { id: 'youtube-shadowing', order: 15, isPopular: true, enabled: true },
-    { id: 'popular-videos', order: 16, isPopular: false, enabled: true },
-    { id: 'youtube-series', order: 17, isPopular: false, enabled: true },
-    { id: 'my-videos', order: 18, isPopular: false, enabled: true },
+    { id: 'stories', order: 12, isPopular: false, enabled: true },
+    { id: 'news', order: 13, isPopular: false, enabled: true },
+    { id: 'library', order: 14, isPopular: false, enabled: true },
+    { id: 'comics', order: 15, isPopular: true, enabled: true },
+    { id: 'youtube-shadowing', order: 16, isPopular: true, enabled: true },
+    { id: 'popular-videos', order: 17, isPopular: false, enabled: true },
+    { id: 'youtube-series', order: 18, isPopular: false, enabled: true },
+    { id: 'my-videos', order: 19, isPopular: false, enabled: true },
 
     // Review & Games
-    { id: 'flashcards', order: 19, isPopular: false, enabled: true },
-    { id: 'games', order: 20, isPopular: true, enabled: true },
-    { id: 'review-hub', order: 21, isPopular: false, enabled: true },
+    { id: 'flashcards', order: 20, isPopular: false, enabled: true },
+    { id: 'games', order: 21, isPopular: true, enabled: true },
+    { id: 'review-hub', order: 22, isPopular: false, enabled: true },
 
     // Progress & Community
-    { id: 'achievements', order: 22, isPopular: false, enabled: true },
-    { id: 'leaderboard', order: 23, isPopular: true, enabled: true },
-    { id: 'grammar', order: 24, isPopular: false, enabled: true },
-    { id: 'resources', order: 25, isPopular: false, enabled: true },
-    { id: 'blog', order: 26, isPopular: false, enabled: true },
-    { id: 'todos', order: 27, isPopular: false, enabled: true },
-    { id: 'qa', order: 28, isPopular: false, enabled: true },
+    { id: 'achievements', order: 23, isPopular: false, enabled: true },
+    { id: 'leaderboard', order: 24, isPopular: true, enabled: true },
+    { id: 'grammar', order: 25, isPopular: false, enabled: true },
+    { id: 'resources', order: 26, isPopular: false, enabled: true },
+    { id: 'blog', order: 27, isPopular: false, enabled: true },
+    { id: 'todos', order: 28, isPopular: false, enabled: true },
+    { id: 'qa', order: 29, isPopular: false, enabled: true },
   ],
 }
 

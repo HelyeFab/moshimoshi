@@ -82,6 +82,10 @@ export const redis = (!UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes
       console.log('[Mock Redis] HGETALL:', key)
       return {}
     },
+    type: async (key: string) => {
+      console.log('[Mock Redis] TYPE:', key)
+      return 'none'
+    },
     lpush: async (key: string, ...values: any[]) => {
       console.log('[Mock Redis] LPUSH:', key, values.length, 'items')
       return values.length
@@ -113,6 +117,14 @@ export const redis = (!UPSTASH_REDIS_REST_URL || UPSTASH_REDIS_REST_URL.includes
     incrby: async (key: string, increment: number) => {
       console.log('[Mock Redis] INCRBY:', key, increment)
       return increment
+    },
+    zadd: async (key: string, score: number, member: string) => {
+      console.log('[Mock Redis] ZADD:', key, score, member)
+      return 1
+    },
+    zrevrange: async (key: string, start: number, stop: number) => {
+      console.log('[Mock Redis] ZREVRANGE:', key, start, stop)
+      return []
     },
     mget: async (...keys: string[]) => {
       console.log('[Mock Redis] MGET:', keys)
