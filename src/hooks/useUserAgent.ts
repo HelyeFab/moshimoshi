@@ -2,19 +2,11 @@
 
 import { useState, useEffect } from 'react'
 import { UAParser } from 'ua-parser-js'
+import { UserAgentInfo, formatUserAgentForEmail } from '@/utils/formatUserAgent'
 
-export interface UserAgentInfo {
-  browser: string
-  browserVersion: string
-  os: string
-  osVersion: string
-  device: string
-  screen: string
-  viewport: string
-  userAgent: string
-  timezone: string
-  language: string
-}
+// Re-export for convenience
+export type { UserAgentInfo }
+export { formatUserAgentForEmail }
 
 /**
  * Custom hook to capture comprehensive user agent information
@@ -36,11 +28,23 @@ export function useUserAgent(): UserAgentInfo | null {
   const [userAgentInfo, setUserAgentInfo] = useState<UserAgentInfo | null>(null)
 
   useEffect(() => {
-    if (typeof window === 'undefined') return
+    console.log('[useUserAgent] Hook mounted, starting capture...')
+    if (typeof window === 'undefined') {
+      console.log('[useUserAgent] Window undefined, skipping')
+      return
+    }
 
     try {
       const parser = new UAParser()
       const result = parser.getResult()
+      console.log('[useUserAgent] Parsed UA:', result)
+
+      // Detect connection type (with fallback for unsupported browsers)
+      const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
+      const connectionType = connection?.effectiveType || connection?.type || 'Unknown'
+
+      // Detect touch support
+      const touchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0
 
       const info: UserAgentInfo = {
         // Browser information
@@ -68,12 +72,24 @@ export function useUserAgent(): UserAgentInfo | null {
 
         // Browser language
         language: navigator.language || 'Unknown',
+
+        // Additional context
+        referrer: document.referrer,
+        currentUrl: window.location.href,
+        cookiesEnabled: navigator.cookieEnabled,
+        connectionType: connectionType,
+        touchSupport: touchSupport,
+        pixelRatio: window.devicePixelRatio || 1,
       }
 
+      console.log('[useUserAgent] ✅ User agent info captured:', info)
       setUserAgentInfo(info)
     } catch (error) {
-      console.error('[useUserAgent] Failed to parse user agent:', error)
+      console.error('[useUserAgent] ❌ Failed to parse user agent:', error)
       // Fallback to basic info
+      const connection = (navigator as any).connection || (navigator as any).mozConnection || (navigator as any).webkitConnection
+      const touchSupport = 'ontouchstart' in window || navigator.maxTouchPoints > 0
+
       setUserAgentInfo({
         browser: 'Unknown',
         browserVersion: 'Unknown',
@@ -85,68 +101,15 @@ export function useUserAgent(): UserAgentInfo | null {
         userAgent: navigator.userAgent || 'Unknown',
         timezone: 'Unknown',
         language: navigator.language || 'Unknown',
+        referrer: document.referrer || '',
+        currentUrl: window.location.href || 'Unknown',
+        cookiesEnabled: navigator.cookieEnabled || false,
+        connectionType: connection?.effectiveType || 'Unknown',
+        touchSupport: touchSupport,
+        pixelRatio: window.devicePixelRatio || 1,
       })
     }
   }, [])
 
   return userAgentInfo
-}
-
-/**
- * Utility function to format user agent info for email templates
- *
- * @param {UserAgentInfo} info - User agent information object
- * @returns {string} Formatted HTML string for email inclusion
- */
-export function formatUserAgentForEmail(info: UserAgentInfo | null): string {
-  if (!info) {
-    return `
-      <div style="background: #fef3c7; padding: 15px; border-radius: 6px; margin: 20px 0; border-left: 4px solid #f59e0b;">
-        <p style="margin: 0; color: #92400e; font-size: 13px;">
-          ⚠️ <strong>Technical Details Not Available</strong><br>
-          User agent information was not captured for this submission.
-        </p>
-      </div>
-    `
-  }
-
-  return `
-    <div style="background: #f3f4f6; padding: 15px; border-radius: 6px; margin: 20px 0;">
-      <p style="margin: 0 0 10px 0; font-weight: bold; color: #1f2937;">Technical Details</p>
-      <table style="width: 100%; font-size: 13px; color: #374151;">
-        <tr>
-          <td style="padding: 4px 0;"><strong>Browser:</strong></td>
-          <td style="padding: 4px 0;">${info.browser} ${info.browserVersion}</td>
-        </tr>
-        <tr>
-          <td style="padding: 4px 0;"><strong>Operating System:</strong></td>
-          <td style="padding: 4px 0;">${info.os} ${info.osVersion}</td>
-        </tr>
-        <tr>
-          <td style="padding: 4px 0;"><strong>Device:</strong></td>
-          <td style="padding: 4px 0;">${info.device}</td>
-        </tr>
-        <tr>
-          <td style="padding: 4px 0;"><strong>Screen:</strong></td>
-          <td style="padding: 4px 0;">${info.screen}</td>
-        </tr>
-        <tr>
-          <td style="padding: 4px 0;"><strong>Viewport:</strong></td>
-          <td style="padding: 4px 0;">${info.viewport}</td>
-        </tr>
-        <tr>
-          <td style="padding: 4px 0;"><strong>Timezone:</strong></td>
-          <td style="padding: 4px 0;">${info.timezone}</td>
-        </tr>
-        <tr>
-          <td style="padding: 4px 0;"><strong>Language:</strong></td>
-          <td style="padding: 4px 0;">${info.language}</td>
-        </tr>
-        <tr>
-          <td style="padding: 4px 0; vertical-align: top;"><strong>User Agent:</strong></td>
-          <td style="padding: 4px 0; word-break: break-all; font-size: 11px; color: #6b7280;">${info.userAgent}</td>
-        </tr>
-      </table>
-    </div>
-  `
 }

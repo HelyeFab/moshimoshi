@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
-import { formatUserAgentForEmail } from '@/hooks/useUserAgent'
-import type { UserAgentInfo } from '@/hooks/useUserAgent'
+import { formatUserAgentForEmail } from '@/utils/formatUserAgent'
+import type { UserAgentInfo } from '@/utils/formatUserAgent'
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
