@@ -2,7 +2,8 @@
 
 **Status:** ACTIVE
 **Last Updated:** 2026-01-29
-**Commit:** f81f7012 (2026-01-28)
+**Initial Commit:** f81f7012 (2026-01-28)
+**localStorage Persistence:** 5672d0be (2026-01-29)
 
 ## Overview
 
@@ -18,12 +19,13 @@ The Learning Village page featured rich visual effects (floating lanterns, backd
 
 ### Solution
 
-A **conditional rendering system** that:
+A **conditional rendering system with persistent user preferences** that:
 1. Detects when animations are disabled via `AnimationControl`
 2. Automatically switches to "Low Power Mode"
 3. Removes/disables GPU-intensive CSS effects and animations
 4. Provides visual feedback with a "Low Power Mode" badge
-5. Maintains functionality while significantly reducing resource usage
+5. **Persists user choice in localStorage** across sessions and navigation
+6. Maintains functionality while significantly reducing resource usage
 
 ---
 
@@ -34,7 +36,8 @@ A **conditional rendering system** that:
 1. Navigate to the Learning Village (dashboard)
 2. Click the **animation control button** (top-left corner)
 3. Low Power Mode activates automatically when animations are paused
-4. Toggle again to re-enable rich visual effects
+4. **Your choice is saved** - navigate away and return, preference persists
+5. Toggle again to re-enable rich visual effects
 
 ### For Developers
 
@@ -66,6 +69,8 @@ const lowPower = !animationsEnabled
 ```
 User toggles AnimationControl
          ↓
+AnimationControl saves to localStorage ('moshimoshi:animationsEnabled')
+         ↓
 AnimationControl sets/removes 'reduce-motion' class on <html>
          ↓
 useAnimationControl() hook detects class change via MutationObserver
@@ -75,6 +80,14 @@ LearningVillage derives lowPower = !animationsEnabled
 Conditional rendering applies throughout component tree
          ↓
 GPU-intensive effects disabled, "Low Power Mode" badge shown
+
+On page load/navigation:
+         ↓
+AnimationControl reads from localStorage
+         ↓
+Restores previous user preference (or falls back to system preference)
+         ↓
+Low Power Mode state persists across sessions
 ```
 
 ### Key Components
@@ -82,7 +95,9 @@ GPU-intensive effects disabled, "Low Power Mode" badge shown
 1. **AnimationControl** (`src/components/ui/AnimationControl.tsx:1-267`)
    - Global animation toggle button
    - Manages `reduce-motion` CSS class on `<html>`
+   - **Persists user preference to localStorage**
    - Respects system preference `prefers-reduced-motion`
+   - Priority: User preference > System preference
 
 2. **useAnimationControl Hook** (`src/components/ui/AnimationControl.tsx:244-267`)
    - Exported hook for reading animation state
@@ -98,6 +113,59 @@ GPU-intensive effects disabled, "Low Power Mode" badge shown
    - Performance monitoring tool
    - Tracks FPS, long tasks, event loop lag, memory usage
    - Displays animation state
+
+---
+
+## localStorage Persistence
+
+### Storage Key
+```typescript
+const ANIMATIONS_STORAGE_KEY = 'moshimoshi:animationsEnabled'
+```
+
+### Priority System
+
+**Load Priority (on mount):**
+1. **User preference** from localStorage (`'true'` or `'false'`)
+2. **System preference** (`prefers-reduced-motion` media query)
+3. **Default** (animations enabled)
+
+### Behavior
+
+**First Visit:**
+- No localStorage value
+- Respects system `prefers-reduced-motion`
+- Defaults to animations ON if no system preference
+
+**User Toggles:**
+- Immediately saves to localStorage
+- Overrides system preference
+- Persists across all page navigation
+
+**Returning User:**
+- Reads from localStorage
+- Restores exact previous state
+- System preference ignored (user choice takes precedence)
+
+**System Preference Changes:**
+- Only applies if user has NOT set explicit preference
+- Does not override user's saved choice
+
+### Testing
+
+```javascript
+// Check current preference
+localStorage.getItem('moshimoshi:animationsEnabled')
+// Returns: "true" | "false" | null
+
+// Manually set to low power mode
+localStorage.setItem('moshimoshi:animationsEnabled', 'false')
+// Reload page → Animations OFF
+
+// Clear preference (reset to system default)
+localStorage.removeItem('moshimoshi:animationsEnabled')
+// Reload page → Uses system preference
+```
 
 ---
 
@@ -197,13 +265,20 @@ Enable performance debugging to measure impact:
 
 ---
 
+## Implemented Features
+
+- [x] **User preference persistence (localStorage)** - Completed 2026-01-29 (Commit: 5672d0be)
+  - Priority system: User preference > System preference
+  - Persists across sessions and navigation
+  - Graceful fallback for privacy mode/SSR
+
 ## Future Enhancements
 
-- [ ] Add user preference persistence (localStorage)
 - [ ] Auto-enable low power mode on battery saver detection
 - [ ] Granular control (disable only specific effects)
 - [ ] Performance benchmarks and A/B testing
 - [ ] Low power mode indicator in other components
+- [ ] User settings panel to customize low power behavior
 
 ---
 

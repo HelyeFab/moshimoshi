@@ -6,10 +6,16 @@
 ## Table of Contents
 
 1. [Core Concepts](#core-concepts)
+   - Single Source of Truth
+   - Hook-Based Detection
+   - localStorage Persistence
+   - Prop Drilling vs Context
 2. [Implementation Patterns](#implementation-patterns)
 3. [Code Examples](#code-examples)
 4. [Component-by-Component Breakdown](#component-by-component-breakdown)
 5. [Testing Guidelines](#testing-guidelines)
+   - Manual Testing (Visual, localStorage, Performance, Browser)
+   - Automated Testing (Unit, Integration, Visual Regression)
 6. [Common Pitfalls](#common-pitfalls)
 
 ---
@@ -66,7 +72,59 @@ export function useAnimationControl() {
 - Re-renders components when animation state changes
 - Cleanup on unmount prevents memory leaks
 
-### 3. Prop Drilling vs Context
+### 3. localStorage Persistence
+
+**Storage Key:** `'moshimoshi:animationsEnabled'`
+
+User preference is persisted across sessions and navigation:
+
+```tsx
+// AnimationControl.tsx:15
+const ANIMATIONS_STORAGE_KEY = 'moshimoshi:animationsEnabled'
+
+// On mount - read from localStorage
+useEffect(() => {
+  try {
+    const storedPreference = localStorage.getItem(ANIMATIONS_STORAGE_KEY)
+
+    if (storedPreference !== null) {
+      // User has explicitly set a preference
+      const enabled = storedPreference === 'true'
+      setAnimationsEnabled(enabled)
+    } else {
+      // Fall back to system preference
+      const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+      setAnimationsEnabled(!mediaQuery.matches)
+    }
+  } catch (error) {
+    console.warn('Failed to read from localStorage:', error)
+  }
+}, [])
+
+// On toggle - save to localStorage
+const handleToggle = () => {
+  const newState = !animationsEnabled
+  setAnimationsEnabled(newState)
+
+  try {
+    localStorage.setItem(ANIMATIONS_STORAGE_KEY, String(newState))
+  } catch (error) {
+    console.warn('Failed to save to localStorage:', error)
+  }
+}
+```
+
+**Priority System:**
+1. **User preference** (localStorage) - Highest priority
+2. **System preference** (`prefers-reduced-motion`) - Fallback
+3. **Default** (true) - Last resort
+
+**Error Handling:**
+- Try-catch blocks prevent crashes in privacy mode
+- Graceful degradation when localStorage unavailable
+- Console warnings for debugging
+
+### 4. Prop Drilling vs Context
 
 **Current Implementation:** Prop drilling (passing `lowPower` prop)
 
@@ -554,6 +612,21 @@ localStorage.setItem('debugPerfPanel', '1')
 - [ ] Gradient text stops animating
 - [ ] Night stars disappear (if night time)
 
+#### localStorage Persistence Verification
+
+- [ ] Toggle animations OFF
+- [ ] Check localStorage: `localStorage.getItem('moshimoshi:animationsEnabled')` should return `"false"`
+- [ ] Navigate to another page (e.g., `/kanji-browser`)
+- [ ] Return to dashboard
+- [ ] Verify Low Power Mode is still active (badge visible, no animations)
+- [ ] Toggle animations ON
+- [ ] Check localStorage: should return `"true"`
+- [ ] Refresh page (F5)
+- [ ] Verify animations are still ON
+- [ ] Clear localStorage: `localStorage.removeItem('moshimoshi:animationsEnabled')`
+- [ ] Refresh page
+- [ ] Verify it falls back to system preference or default (ON)
+
 #### Performance Verification
 
 1. Enable PerfDebugPanel: `?debugPerf=1`
@@ -606,6 +679,76 @@ describe('useAnimationControl', () => {
     await waitFor(() => {
       expect(result.current).toBe(false)
     })
+  })
+})
+
+// AnimationControl.test.tsx - localStorage persistence tests
+describe('AnimationControl localStorage persistence', () => {
+  beforeEach(() => {
+    localStorage.clear()
+  })
+
+  it('should save preference to localStorage on toggle', () => {
+    render(<AnimationControl />)
+    const button = screen.getByRole('button', { name: /pause animations/i })
+
+    fireEvent.click(button)
+
+    expect(localStorage.getItem('moshimoshi:animationsEnabled')).toBe('false')
+  })
+
+  it('should restore preference from localStorage on mount', () => {
+    localStorage.setItem('moshimoshi:animationsEnabled', 'false')
+
+    render(<AnimationControl />)
+
+    expect(document.documentElement.classList.contains('reduce-motion')).toBe(true)
+  })
+
+  it('should prioritize localStorage over system preference', () => {
+    // Mock system preference to reduce motion
+    window.matchMedia = jest.fn().mockImplementation(query => ({
+      matches: query === '(prefers-reduced-motion: reduce)',
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    }))
+
+    // But user has explicitly enabled animations
+    localStorage.setItem('moshimoshi:animationsEnabled', 'true')
+
+    render(<AnimationControl />)
+
+    // Should use localStorage value, not system preference
+    expect(document.documentElement.classList.contains('reduce-motion')).toBe(false)
+  })
+
+  it('should fall back to system preference when no localStorage value', () => {
+    window.matchMedia = jest.fn().mockImplementation(query => ({
+      matches: query === '(prefers-reduced-motion: reduce)',
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    }))
+
+    render(<AnimationControl />)
+
+    expect(document.documentElement.classList.contains('reduce-motion')).toBe(true)
+  })
+
+  it('should handle localStorage errors gracefully', () => {
+    const consoleWarnSpy = jest.spyOn(console, 'warn').mockImplementation()
+    const mockGetItem = jest.fn().mockImplementation(() => {
+      throw new Error('localStorage not available')
+    })
+    Storage.prototype.getItem = mockGetItem
+
+    render(<AnimationControl />)
+
+    expect(consoleWarnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('Failed to read'),
+      expect.any(Error)
+    )
+
+    consoleWarnSpy.mockRestore()
   })
 })
 ```
