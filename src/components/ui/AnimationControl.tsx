@@ -12,6 +12,8 @@ interface AnimationControlProps {
   variant?: 'default' | 'glassmorphism'
 }
 
+const ANIMATIONS_STORAGE_KEY = 'moshimoshi:animationsEnabled'
+
 export default function AnimationControl({
   onToggle,
   className = '',
@@ -23,17 +25,41 @@ export default function AnimationControl({
   const { showToast } = useToast()
 
   useEffect(() => {
-    // Check system preference on mount
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setPrefersReducedMotion(mediaQuery.matches)
-    setAnimationsEnabled(!mediaQuery.matches)
+    // Priority: User preference (localStorage) > System preference
+    try {
+      const storedPreference = localStorage.getItem(ANIMATIONS_STORAGE_KEY)
+
+      if (storedPreference !== null) {
+        // User has explicitly set a preference
+        const enabled = storedPreference === 'true'
+        setAnimationsEnabled(enabled)
+      } else {
+        // Fall back to system preference
+        const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
+        setPrefersReducedMotion(mediaQuery.matches)
+        setAnimationsEnabled(!mediaQuery.matches)
+      }
+    } catch (error) {
+      // localStorage might not be available (privacy mode, SSR, etc.)
+      console.warn('Failed to read animation preference from localStorage:', error)
+    }
 
     // Listen for changes to system preference
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)')
     const handleChange = (e: MediaQueryListEvent) => {
       setPrefersReducedMotion(e.matches)
-      setAnimationsEnabled(!e.matches)
-      if (e.matches) {
-        showToast('Animations disabled (system preference)', 'info')
+      // Only auto-update if user hasn't set an explicit preference
+      try {
+        const storedPreference = localStorage.getItem(ANIMATIONS_STORAGE_KEY)
+        if (storedPreference === null) {
+          setAnimationsEnabled(!e.matches)
+          if (e.matches) {
+            showToast('Animations disabled (system preference)', 'info')
+          }
+        }
+      } catch (error) {
+        // Fallback to system preference if localStorage fails
+        setAnimationsEnabled(!e.matches)
       }
     }
 
@@ -58,6 +84,14 @@ export default function AnimationControl({
   const handleToggle = () => {
     const newState = !animationsEnabled
     setAnimationsEnabled(newState)
+
+    // Persist user preference to localStorage
+    try {
+      localStorage.setItem(ANIMATIONS_STORAGE_KEY, String(newState))
+    } catch (error) {
+      console.warn('Failed to save animation preference to localStorage:', error)
+    }
+
     showToast(
       newState ? 'Animations enabled' : 'Animations paused',
       'success'

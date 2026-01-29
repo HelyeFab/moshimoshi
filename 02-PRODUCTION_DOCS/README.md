@@ -18,6 +18,7 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── community/                     # Discord, social integrations
 ├── kanji-mastery/                 # Kanji learning tool documentation
 ├── admin-dashboard/               # Admin dashboard development guide
+├── learning-village-low-power/    # Learning Village performance optimization
 ├── onboarding/                    # Developer onboarding guides
 └── tts/                           # Text-to-Speech system documentation
 ```
@@ -195,6 +196,39 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 
 ---
 
+### Learning Village Low Power Mode (`learning-village-low-power/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./learning-village-low-power/README.md) | Feature overview, architecture, and quick start guide |
+| [IMPLEMENTATION_GUIDE.md](./learning-village-low-power/IMPLEMENTATION_GUIDE.md) | Detailed implementation patterns, code examples, and testing guidelines |
+
+**Key Topics:**
+- GPU load reduction for Learning Village animations
+- Conditional rendering and CSS effect removal
+- AnimationControl toggle and useAnimationControl hook
+- Low Power Mode badge and visual indicators
+- Performance monitoring with PerfDebugPanel
+- Framer Motion MotionConfig integration
+- Browser compatibility and graceful degradation
+
+**Effects Disabled in Low Power Mode:**
+- Backdrop blur and shadow effects
+- Floating lanterns and twinkling lights
+- Animated Doshi mascot (switches to static)
+- Drop shadows and filter effects
+- Gradient text animations
+- Night sky stars
+
+**Key Files:**
+- `src/components/ui/AnimationControl.tsx:244-267` - useAnimationControl hook
+- `src/components/dashboard/LearningVillage.tsx:506` - Low power flag derivation
+- `src/components/debug/PerfDebugPanel.tsx:35-199` - Performance monitoring
+
+**Implementation Date:** 2026-01-28 (Commit: f81f7012)
+
+---
+
 ## Document Standards
 
 ### Status Indicators
@@ -341,4 +375,4 @@ Add a link to your new feature documentation in the appropriate section:
 
 ---
 
-*Last Updated: 2026-01-28*
+*Last Updated: 2026-01-29*
