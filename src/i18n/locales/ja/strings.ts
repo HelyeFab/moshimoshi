@@ -3030,6 +3030,7 @@ export const strings = {
       pinnedSuccess: '文字が復習にピン留めされました',
       unpinnedSuccess: '文字が復習からピン解除されました',
       markedAsLearned: '文字が学習済みとしてマークされました',
+      progressReset: '進捗がリセットされました',
       reviewStarting: '復習セッションを開始しています...',
       studyStarting: '学習セッションを開始しています...',
       progressSaved: '進捗が保存されました',
@@ -3080,6 +3081,9 @@ export const strings = {
             contentDesc: 'ノート、カスタム単語リスト、アプリ内で作成したコンテンツ',
             communications: 'コミュニケーション',
             communicationsDesc: 'フィードバック、サポートリクエスト、当社とのやり取り',
+            technical: '技術情報',
+            technicalDesc:
+              'お問い合わせフォームからご連絡いただく際、より良いサポートを提供し技術的な問題を診断するため、お使いのデバイスとブラウザに関する技術情報（ブラウザの種類とバージョン、オペレーティングシステム、画面解像度、タイムゾーン、言語設定）を自動的に収集します',
           },
           automatic: {
             title: '2.2 自動的に収集される情報',

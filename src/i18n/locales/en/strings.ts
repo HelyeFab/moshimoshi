@@ -3529,6 +3529,7 @@ export const strings = {
       pinnedSuccess: 'Character pinned to review',
       unpinnedSuccess: 'Character unpinned from review',
       markedAsLearned: 'Character marked as learned',
+      progressReset: 'Progress reset',
       reviewStarting: 'Starting review session...',
       studyStarting: 'Starting study session...',
       progressSaved: 'Progress saved',
@@ -3587,6 +3588,9 @@ export const strings = {
             contentDesc: 'Notes, custom word lists, and any content you create within the app',
             communications: 'Communications',
             communicationsDesc: 'Feedback, support requests, and correspondence with us',
+            technical: 'Technical Information',
+            technicalDesc:
+              'When you contact us via forms, we automatically collect technical information about your device and browser (browser type and version, operating system, screen resolution, timezone, and language settings) to help us provide better support and diagnose technical issues',
           },
           automatic: {
             title: '2.2 Information Collected Automatically',

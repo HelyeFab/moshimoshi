@@ -105,6 +105,12 @@ export default function PrivacyPolicyPage() {
                       <strong>{privacy.sections?.collection?.provided?.communications || 'Communications'}:</strong> {privacy.sections?.collection?.provided?.communicationsDesc || 'Feedback, support requests, and correspondence with us'}
                     </span>
                   </li>
+                  <li className="flex items-start gap-2">
+                    <span className="text-primary-500">•</span>
+                    <span className="text-sm text-gray-700 dark:text-gray-300">
+                      <strong>{(privacy.sections?.collection?.provided as any)?.technical || 'Technical Information'}:</strong> {(privacy.sections?.collection?.provided as any)?.technicalDesc || 'When you contact us via forms, we automatically collect technical information about your device and browser (browser type and version, operating system, screen resolution, timezone, and language settings) to help us provide better support and diagnose technical issues'}
+                    </span>
+                  </li>
                 </ul>
               </div>
 

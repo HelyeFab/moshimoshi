@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
+import { formatUserAgentForEmail } from '@/hooks/useUserAgent'
+import type { UserAgentInfo } from '@/hooks/useUserAgent'
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, subject, category, message, to } = await request.json()
+    const { name, email, subject, category, message, to, userAgent } = await request.json()
 
     // Validate required fields
     if (!name || !email || !subject || !message) {
@@ -47,6 +49,8 @@ export async function POST(request: NextRequest) {
             <h3 style="color: #1f2937; margin-top: 0;">Message</h3>
             <p style="white-space: pre-wrap;">${message}</p>
           </div>
+
+          ${userAgent ? formatUserAgentForEmail(userAgent as UserAgentInfo) : ''}
 
           <div style="margin-top: 20px; padding: 15px; background: #e5e7eb; border-radius: 8px;">
             <p style="margin: 0; font-size: 12px; color: #6b7280;">

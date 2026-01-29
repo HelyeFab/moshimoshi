@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { X, MessageSquare, Send } from 'lucide-react';
 import Dropdown from '@/components/ui/Dropdown';
+import { useUserAgent } from '@/hooks/useUserAgent';
 
 interface FeedbackWidgetProps {
   userId?: string;
@@ -8,6 +9,7 @@ interface FeedbackWidgetProps {
 }
 
 export const FeedbackWidget: React.FC<FeedbackWidgetProps> = ({ userId, userEmail }) => {
+  const userAgent = useUserAgent();
   const [isOpen, setIsOpen] = useState(false);
   const [feedback, setFeedback] = useState('');
   const [category, setCategory] = useState('general');
@@ -29,7 +31,7 @@ export const FeedbackWidget: React.FC<FeedbackWidgetProps> = ({ userId, userEmai
           userEmail,
           timestamp: new Date().toISOString(),
           url: window.location.href,
-          userAgent: navigator.userAgent
+          userAgent: userAgent
         })
       });
 

@@ -2430,6 +2430,7 @@ export const strings = {
       pinnedSuccess: 'Caractère épinglé pour révision',
       unpinnedSuccess: 'Caractère désépinglé de la révision',
       markedAsLearned: 'Caractère marqué comme appris',
+      progressReset: 'Progression réinitialisée',
       reviewStarting: 'Démarrage de la session de révision...',
       studyStarting: 'Démarrage de la session d\'étude...',
       progressSaved: 'Progression enregistrée',
@@ -2480,6 +2481,9 @@ export const strings = {
             contentDesc: 'Notes, listes de mots personnalisées et tout contenu que vous créez dans l\'application',
             communications: 'Communications',
             communicationsDesc: 'Commentaires, demandes de support et correspondance avec nous',
+            technical: 'Informations Techniques',
+            technicalDesc:
+              'Lorsque vous nous contactez via des formulaires, nous collectons automatiquement des informations techniques sur votre appareil et votre navigateur (type et version du navigateur, système d\'exploitation, résolution d\'écran, fuseau horaire et paramètres de langue) pour nous aider à fournir un meilleur support et diagnostiquer les problèmes techniques',
           },
           automatic: {
             title: '2.2 Informations collectées automatiquement',

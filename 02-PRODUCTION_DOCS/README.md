@@ -20,7 +20,8 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── admin-dashboard/               # Admin dashboard development guide
 ├── learning-village-low-power/    # Learning Village performance optimization
 ├── onboarding/                    # Developer onboarding guides
-└── tts/                           # Text-to-Speech system documentation
+├── tts/                           # Text-to-Speech system documentation
+└── user-agent-tracking/           # User agent tracking for support forms
 ```
 
 ---
@@ -226,6 +227,42 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 - `src/components/debug/PerfDebugPanel.tsx:35-199` - Performance monitoring
 
 **Implementation Date:** 2026-01-28 (Commit: f81f7012)
+
+---
+
+### User Agent Tracking (`user-agent-tracking/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./user-agent-tracking/README.md) | Comprehensive user agent tracking for support forms |
+
+**Key Topics:**
+- useUserAgent React hook for capturing browser/device info
+- Automatic technical details in support emails
+- 10 data points captured (browser, OS, device, screen, timezone, language)
+- Integration with Contact form and Feedback widget
+- Privacy policy compliance (all 6 languages)
+- Option B formatting (detailed technical section)
+
+**Data Captured:**
+- Browser name and version
+- Operating system and version
+- Device type (Desktop/Mobile/Tablet)
+- Screen resolution and viewport size
+- Timezone and language
+- Full user agent string
+
+**Key Files:**
+- `src/hooks/useUserAgent.ts` - Main hook and email formatting
+- `src/app/[locale]/contact/ContactPage.tsx:16,113` - Contact form integration
+- `src/components/support/FeedbackWidget.tsx:11,26` - Feedback widget integration
+- `src/app/api/contact/route.ts:3-4,8,52` - Contact API email template
+- `src/app/api/support/feedback/route.ts` - Feedback API (new)
+
+**Dependencies:**
+- ua-parser-js - User agent string parsing library
+
+**Implementation Date:** 2026-01-29 (Commit: pending)
 
 ---
 

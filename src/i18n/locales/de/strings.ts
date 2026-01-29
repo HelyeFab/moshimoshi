@@ -2390,6 +2390,7 @@ export const strings = {
       pinnedSuccess: 'Zeichen zur Wiederholung angeheftet',
       unpinnedSuccess: 'Zeichen von Wiederholung gelöst',
       markedAsLearned: 'Zeichen als gelernt markiert',
+      progressReset: 'Fortschritt zurückgesetzt',
       reviewStarting: 'Wiederholungssitzung wird gestartet...',
       studyStarting: 'Lernsitzung wird gestartet...',
       progressSaved: 'Fortschritt gespeichert',
@@ -2442,6 +2443,9 @@ export const strings = {
             contentDesc: 'Notizen, benutzerdefinierte Wortlisten und alle Inhalte, die Sie innerhalb der App erstellen',
             communications: 'Kommunikation',
             communicationsDesc: 'Feedback, Supportanfragen und Korrespondenz mit uns',
+            technical: 'Technische Informationen',
+            technicalDesc:
+              'Wenn Sie uns über Formulare kontaktieren, erfassen wir automatisch technische Informationen über Ihr Gerät und Ihren Browser (Browsertyp und -version, Betriebssystem, Bildschirmauflösung, Zeitzone und Spracheinstellungen), um uns bei der Bereitstellung besserer Unterstützung und der Diagnose technischer Probleme zu helfen',
           },
           automatic: {
             title: '2.2 Automatisch gesammelte Informationen',

@@ -266,8 +266,8 @@ export default function SettingsPage() {
               </Link>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                <a
-                  href="mailto:support@moshimoshi.app"
+                <Link
+                  href="/contact?category=support"
                   className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors border border-gray-200 dark:border-gray-700"
                 >
                   <span className="text-2xl">📧</span>
@@ -276,10 +276,10 @@ export default function SettingsPage() {
                       {(strings.settings?.sections as any)?.helpResources?.emailSupport?.title || 'Email Support'}
                     </p>
                     <p className="text-xs text-gray-600 dark:text-gray-400">
-                      {(strings.settings?.sections as any)?.helpResources?.emailSupport?.description || 'support@moshimoshi.app'}
+                      {(strings.settings?.sections as any)?.helpResources?.emailSupport?.description || 'Use contact form'}
                     </p>
                   </div>
-                </a>
+                </Link>
 
                 <Link
                   href="/contact"
@@ -751,8 +751,8 @@ export default function SettingsPage() {
                 </span>
               </Link>
 
-              <a
-                href="mailto:support@moshimoshi.app"
+              <Link
+                href="/contact?category=support"
                 className="flex items-center justify-between p-3 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors group"
               >
                 <div className="flex items-center gap-3">
@@ -763,14 +763,14 @@ export default function SettingsPage() {
                     </p>
                     <p className="text-sm text-gray-600 dark:text-gray-400">
                       {strings.settings?.sections?.legal?.emailSupport?.description ||
-                        'support@moshimoshi.app'}
+                        'Use contact form'}
                     </p>
                   </div>
                 </div>
                 <span className="text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300">
-                  ↗
+                  →
                 </span>
-              </a>
+              </Link>
             </div>
           </CollapsibleSection>
 
