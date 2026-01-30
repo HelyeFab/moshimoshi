@@ -16,6 +16,7 @@ import { CheckCircle, XCircle, RotateCcw, Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { TileScreenProps } from './types'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useIsMobile } from '@/hooks/useMediaQuery'
 
 // Unique tile wrapper for Reorder (handles duplicates)
 interface UniqueTile {
@@ -31,9 +32,13 @@ export function JpReassemble({
   disabled = false
 }: TileScreenProps) {
   const { t } = useTranslation()
+  const isMobile = useIsMobile()
   const isSingleChoice = correctOrder.length === 1 && tiles.length > 1
   const isPickMode = tiles.length > correctOrder.length && correctOrder.length > 1
   const canReorder = tiles.length > 1 && !isSingleChoice && !isPickMode
+  const stripShortcut = (label: string) => label.replace(/\s*\([^)]*\)\s*$/, '')
+  const resetLabel = isMobile ? stripShortcut(t('blastMode.buttons.reset')) : t('blastMode.buttons.reset')
+  const submitLabel = isMobile ? stripShortcut(t('blastMode.buttons.submit')) : t('blastMode.buttons.submit')
 
   // Convert tiles to unique objects (id = label + index)
   const [currentOrder, setCurrentOrder] = useState<UniqueTile[]>(
@@ -307,7 +312,7 @@ export function JpReassemble({
             className="gap-2"
           >
             <RotateCcw className="h-4 w-4" />
-            {t('blastMode.buttons.reset')}
+            {resetLabel}
           </Button>
           <Button
             onClick={handleSubmit}
@@ -315,20 +320,24 @@ export function JpReassemble({
             className="gap-2"
           >
             <Check className="h-4 w-4" />
-            {t('blastMode.buttons.submit')}
+            {submitLabel}
           </Button>
         </div>
       )}
       {!showFeedback && canReorder && (
         <div className="text-sm text-muted-foreground text-center space-y-1">
           <p>{t('blastMode.screens.reassemble.instructions.reorder')}</p>
-          <p>{t('blastMode.screens.reassemble.keyboardHints.reorder')}</p>
+          {isMobile === false && (
+            <p>{t('blastMode.screens.reassemble.keyboardHints.reorder')}</p>
+          )}
         </div>
       )}
       {!showFeedback && isPickMode && (
         <div className="text-sm text-muted-foreground text-center space-y-1">
           <p>{t('blastMode.screens.reassemble.instructions.pick')}</p>
-          <p>{t('blastMode.screens.reassemble.keyboardHints.pick')}</p>
+          {isMobile === false && (
+            <p>{t('blastMode.screens.reassemble.keyboardHints.pick')}</p>
+          )}
         </div>
       )}
       {!showFeedback && isSingleChoice && (

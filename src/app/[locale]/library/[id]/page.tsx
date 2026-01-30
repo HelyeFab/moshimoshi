@@ -26,6 +26,7 @@ import { useFeature } from '@/hooks/useFeature';
 import { useToast } from '@/components/ui/Toast/ToastContext';
 import { useI18n } from '@/i18n/I18nContext';
 import type { CachedBook } from '@/lib/library/book-cache.types';
+import { getFeature } from '@/lib/features/registry';
 
 export default function BookReaderPage() {
   const params = useParams();
@@ -33,9 +34,10 @@ export default function BookReaderPage() {
   const bookId = params?.id as string;
   const { user, isGuest } = useAuth();
   const { getBook } = useBookCache();
-  const { checkOnly } = useFeature('books');
+  const { checkOnly, checkAndTrack } = useFeature('books');
   const { showToast } = useToast();
-  const { strings } = useI18n();
+  const { strings, t } = useI18n();
+  const isMonthlyLimit = getFeature('books')?.limitType === 'monthly';
 
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
@@ -60,6 +62,7 @@ export default function BookReaderPage() {
   const readingStartTime = useRef<number>(Date.now());
   const accumulatedReadingTime = useRef<number>(0);
   const lastActiveTime = useRef<number>(Date.now());
+  const usageTrackedRef = useRef(false);
 
   // Track reading time when page is active
   useEffect(() => {
@@ -89,17 +92,21 @@ export default function BookReaderPage() {
 
   useEffect(() => {
     if (!bookId) return;
+    usageTrackedRef.current = false;
 
     const loadBook = async () => {
       try {
         setLoading(true);
         setError(null);
-        const decision = await checkOnly({ failOpen: false });
+        const decision = await checkOnly({ failOpen: false, metadata: { itemId: bookId } });
         if (!decision.allow) {
-          showToast(
-            strings.entitlements?.messages?.limitReached || 'Daily limit reached',
-            'warning'
-          );
+          const message = isMonthlyLimit
+            ? t('entitlements.messages.limitReachedMonthlyWithTime', {
+                feature: 'books',
+                time: t('entitlements.limits.resetsNextMonth')
+              })
+            : t('entitlements.messages.limitReached');
+          showToast(message, 'warning');
           router.push('/library');
           return;
         }
@@ -109,6 +116,10 @@ export default function BookReaderPage() {
           return;
         }
         setBook(normalizeCachedBook(result.book));
+        if (!usageTrackedRef.current) {
+          usageTrackedRef.current = true;
+          void checkAndTrack({ showUI: false, metadata: { itemId: bookId } });
+        }
       } catch (err) {
         console.error('Error loading book:', err);
         setError(err instanceof Error ? err.message : 'Failed to load book');
@@ -118,7 +129,7 @@ export default function BookReaderPage() {
     };
 
     loadBook();
-  }, [bookId, checkOnly, getBook, router, showToast, strings.entitlements?.messages?.limitReached]);
+  }, [bookId, checkAndTrack, checkOnly, getBook, router, showToast, strings.entitlements?.messages?.limitReached]);
 
   // Handle book completion
   const handleComplete = async () => {

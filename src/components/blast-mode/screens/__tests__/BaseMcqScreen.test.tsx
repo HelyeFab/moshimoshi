@@ -16,6 +16,10 @@ jest.mock('@/hooks/useTranslation', () => ({
   })
 }))
 
+jest.mock('@/hooks/useMediaQuery', () => ({
+  useIsMobile: () => false
+}))
+
 // Mock framer-motion to avoid animation issues in tests
 jest.mock('framer-motion', () => ({
   motion: {

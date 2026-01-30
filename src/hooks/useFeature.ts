@@ -59,6 +59,7 @@ interface UsageMetadata {
 const UNIQUE_ITEM_FEATURES = new Set<FeatureId>([
   'kanji_mood_board',
   'news',
+  'books',
   'comics',
   'kanji_connection',
   'textbook_vocabulary',

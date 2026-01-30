@@ -467,7 +467,7 @@
       "category": "learning",
       "lifecycle": "active",
       "permission": "do_practice",
-      "limitType": "daily",
+      "limitType": "monthly",
       "notifications": false,
       "description": "Access the library of Japanese books and reading materials"
     },
@@ -604,7 +604,6 @@
         "word_lookup": 0,
         "news": 0,
         "story": 0,
-        "books": 0,
         "kanji_mood_board": 0,
         "drill": 0,
         "blast_mode": 0,
@@ -624,6 +623,7 @@
         "anki_imports": 0,
         "kanji_connection": 0,
         "textbook_vocabulary": 0,
+        "books": 0,
         "comics": 0
       }
     },
@@ -651,7 +651,6 @@
         "word_lookup": 15,
         "news": 3,
         "story": 3,
-        "books": 1,
         "kanji_mood_board": 3,
         "drill": 3,
         "blast_mode": 1,
@@ -671,6 +670,7 @@
         "anki_imports": 0,
         "kanji_connection": 1,
         "textbook_vocabulary": 1,
+        "books": 1,
         "comics": 1
       }
     },
@@ -698,7 +698,6 @@
         "word_lookup": -1,
         "news": -1,
         "story": -1,
-        "books": -1,
         "kanji_mood_board": -1,
         "drill": -1,
         "blast_mode": -1,
@@ -718,6 +717,7 @@
         "anki_imports": 10,
         "kanji_connection": -1,
         "textbook_vocabulary": -1,
+        "books": -1,
         "comics": -1
       }
     },
@@ -745,7 +745,6 @@
         "word_lookup": -1,
         "news": -1,
         "story": -1,
-        "books": -1,
         "kanji_mood_board": -1,
         "drill": -1,
         "blast_mode": -1,
@@ -765,6 +764,7 @@
         "anki_imports": 10,
         "kanji_connection": -1,
         "textbook_vocabulary": -1,
+        "books": -1,
         "comics": -1
       }
     }

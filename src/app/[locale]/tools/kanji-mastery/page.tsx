@@ -155,6 +155,7 @@ function KanjiMasteryContent() {
           title={isReviewMode ? t('kanjiMasteryTool.titleReview') : t('kanjiMasteryTool.title')}
           description={t('kanjiMasteryTool.description')}
           backHref={isReviewMode ? returnTo : '/dashboard'}
+          alwaysUseBackHref={true}
           actions={
             usageData.hasData ? (
               <DesktopCircularIndicator

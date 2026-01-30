@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-30T13:38:14.798Z
+ * Generated at: 2026-01-30T14:58:36.465Z
  */
 
 import type { FeatureId } from '@/types/FeatureId'
@@ -295,7 +295,7 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     category: 'learning',
     lifecycle: 'active',
     permission: Permission.DO_PRACTICE,
-    limitType: 'daily',
+    limitType: 'monthly',
     notifications: false,
     description: 'Access the library of Japanese books and reading materials',
   },

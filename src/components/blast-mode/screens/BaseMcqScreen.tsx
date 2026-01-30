@@ -16,6 +16,7 @@ import { CheckCircle, XCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import type { McqScreenProps } from './types'
 import { useTranslation } from '@/hooks/useTranslation'
+import { useIsMobile } from '@/hooks/useMediaQuery'
 
 export function BaseMcqScreen({
   prompt,
@@ -25,6 +26,7 @@ export function BaseMcqScreen({
   disabled = false
 }: McqScreenProps) {
   const { t } = useTranslation()
+  const isMobile = useIsMobile()
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
   const [showFeedback, setShowFeedback] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
@@ -153,7 +155,7 @@ export function BaseMcqScreen({
       </div>
 
       {/* Keyboard hint */}
-      {!showFeedback && (
+      {!showFeedback && isMobile === false && (
         <p className="text-sm text-muted-foreground text-center">
           {t('blastMode.screens.mcq.hint')}
         </p>

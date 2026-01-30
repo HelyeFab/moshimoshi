@@ -178,6 +178,9 @@ function pickDistractorTiles(
 ): string[] {
   if (!pool || needed <= 0) return []
 
+  const isJapaneseChar = (value: string) =>
+    /[\u3040-\u30FF\u4E00-\u9FFF\u3400-\u4DBF\u3005\u30FC]/.test(value)
+
   const candidates: string[] = []
 
   if (pool.kanji && pool.kanji.length > 0) {
@@ -195,7 +198,11 @@ function pickDistractorTiles(
   const unique = Array.from(
     new Set(
       candidates.filter(
-        t => t && !correctTiles.includes(t) && !ctx.usedDistractors.has(t)
+        t =>
+          t &&
+          isJapaneseChar(t) &&
+          !correctTiles.includes(t) &&
+          !ctx.usedDistractors.has(t)
       )
     )
   )

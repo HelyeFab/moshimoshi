@@ -32,10 +32,10 @@ export function FeatureUsageIndicator({ featureId, className = '' }: FeatureUsag
 
 
   // Don't show if no decision yet or unlimited
-  const limitCount = lastDecision?.limit ?? 5;
+  const limitCount = typeof lastDecision?.limit === 'number' ? lastDecision.limit : 0;
   const isUnlimited = limitCount === -1;
 
-  if (!lastDecision || isUnlimited) {
+  if (!lastDecision || isUnlimited || limitCount <= 0) {
     return null;
   }
 
@@ -61,12 +61,13 @@ export function useFeatureUsage(featureId: FeatureId) {
   }, []);
 
 
-  const limitCount = lastDecision?.limit ?? 5;
+  const limitCount = typeof lastDecision?.limit === 'number' ? lastDecision.limit : 0;
   const isUnlimited = limitCount === -1;
-  const usedCount = lastDecision?.usageBefore ?? 0;
+  const usedCount = typeof lastDecision?.usageBefore === 'number' ? lastDecision.usageBefore : 0;
 
   // Color based on usage
   const getProgressColor = (): 'green' | 'yellow' | 'red' => {
+    if (limitCount <= 0) return 'green';
     const percentage = (usedCount / limitCount) * 100;
     if (percentage >= 100) return 'red';
     if (percentage >= 80) return 'yellow';
@@ -75,12 +76,12 @@ export function useFeatureUsage(featureId: FeatureId) {
 
   return {
     lastDecision,
-    remaining: remaining ?? 0,
+    remaining: remaining ?? Math.max(0, limitCount - usedCount),
     limitCount,
     usedCount,
     isUnlimited,
     color: getProgressColor(),
-    hasData: !!lastDecision && !isUnlimited,
+    hasData: !!lastDecision && !isUnlimited && limitCount > 0,
   };
 }
 
@@ -99,7 +100,10 @@ function DesktopCircularIndicator({
   color,
   className = ''
 }: DesktopCircularIndicatorProps) {
-  const used = limitCount - remaining;
+  if (limitCount <= 0) {
+    return null;
+  }
+  const used = Math.max(0, limitCount - remaining);
 
   return (
     <div className={`hidden sm:flex flex-col items-center ${className}`}>

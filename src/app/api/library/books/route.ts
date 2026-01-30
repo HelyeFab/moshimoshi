@@ -70,14 +70,6 @@ export async function GET(request: NextRequest) {
       // Note: viewCount is now tracked separately via /api/track-view
       // This allows proper tracking whether content is served from cache or network
 
-      await evaluateFeatureAccess({
-        featureId: 'books',
-        userId: session.uid,
-        plan,
-        nowUtcISO,
-        increment: true
-      });
-
       return NextResponse.json({
         success: true,
         book: {

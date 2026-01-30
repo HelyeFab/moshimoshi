@@ -431,6 +431,33 @@ describe('Step Generator', () => {
       expect(steps[1].stepType).toBe('jp_reassemble')
       expect(steps[2].stepType).toBe('jp_to_meaning_mcq')
     })
+
+    it('should not include Latin letters in reassemble distractor tiles', () => {
+      const item: BlastItem = {
+        id: 'vocab-tiles',
+        contentType: 'vocabulary',
+        kanji: '学校',
+        kana: 'がっこう',
+        meaningEn: 'school'
+      }
+
+      const pool = {
+        kanji: ['日', '月'],
+        vocabulary: [
+          { kanji: 'CD', kana: 'しーでぃー', meaning: 'cd' },
+          { kanji: '勉強', kana: 'べんきょう', meaning: 'study' }
+        ]
+      }
+
+      const steps = generateBlastSteps([item], pool as any)
+      const reassemble = steps.find(s => s.stepType === 'jp_reassemble')
+
+      expect(reassemble).toBeDefined()
+      expect(reassemble?.tiles?.length).toBe(4)
+      reassemble?.tiles?.forEach(tile => {
+        expect(tile).not.toMatch(/[A-Za-z]/)
+      })
+    })
   })
 
   describe('Deterministic RNG', () => {

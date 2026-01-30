@@ -97,6 +97,7 @@ export const POST = withAdminAuth(
       // Prepare variables for the test email
       const variables: Record<string, string> = {
         name: 'Test User',
+        firstName: 'Test User',
         email: campaign.testEmail,
         unsubscribeUrl: `https://moshimoshi.app/unsubscribe?email=${encodeURIComponent(campaign.testEmail)}&token=test`,
         preferencesUrl: 'https://moshimoshi.app/settings/notifications',

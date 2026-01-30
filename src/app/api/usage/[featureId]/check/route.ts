@@ -15,6 +15,7 @@ const UNIQUE_ITEM_FIELDS: Partial<Record<FeatureId, string>> = {
   kanji_mood_board: 'kanji_mood_board_boards',
   news: 'news_items',
   story: 'story_items',
+  books: 'books_items',
   comics: 'comics_items',
   kanji_connection: 'kanji_connection_items',
   textbook_vocabulary: 'textbook_vocabulary_items'

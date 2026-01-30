@@ -18,6 +18,7 @@ import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useSubscription } from '@/hooks/useSubscription'
 import { useRouter } from 'next/navigation'
 import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
+import { getFeature } from '@/lib/features/registry'
 import { getValidatedEntitlementsSnapshot, isOffline } from '@/lib/pwa/offline-entitlements'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
@@ -31,7 +32,7 @@ const JLPT_LEVELS: Array<{ value: JLPTLevel | 'all'; label: string }> = [
 ]
 
 export default function LibraryPage() {
-  const { strings } = useI18n()
+  const { strings, t } = useI18n()
   const { getLocalePath } = useLocalePath()
   const router = useRouter()
   const { showToast } = useToast()
@@ -39,6 +40,7 @@ export default function LibraryPage() {
   const { isPremium } = useSubscription()
   const { checkOnly } = useFeature('books')
   const usageData = useFeatureUsage('books')
+  const isMonthlyLimit = getFeature('books')?.limitType === 'monthly'
   const [books, setBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedLevel, setSelectedLevel] = useState<JLPTLevel | 'all'>('all')
@@ -222,12 +224,18 @@ export default function LibraryPage() {
     bookId: string
   ) => {
     event.preventDefault()
-    const decision = await checkOnly({ failOpen: false })
+    const decision = await checkOnly({ failOpen: false, metadata: { itemId: bookId } })
     if (!decision.allow) {
       const action = !isPremium
         ? { label: strings.subscription?.actions?.upgrade || 'Upgrade', onClick: () => router.push('/pricing') }
         : undefined
-      showToast(strings.entitlements?.messages?.limitReached || 'Daily limit reached', 'warning', 5000, action)
+      const message = isMonthlyLimit
+        ? t('entitlements.messages.limitReachedMonthlyWithTime', {
+            feature: 'books',
+            time: t('entitlements.limits.resetsNextMonth')
+          })
+        : t('entitlements.messages.limitReached')
+      showToast(message, 'warning', 5000, action)
       return
     }
     router.push(getLocalePath(`/library/${bookId}`))
@@ -258,6 +266,7 @@ export default function LibraryPage() {
           'Read condensed summaries of popular books in Japanese'
         }
         backHref="/dashboard"
+        alwaysUseBackHref={true}
         actions={
           usageData.hasData ? (
             <DesktopCircularIndicator

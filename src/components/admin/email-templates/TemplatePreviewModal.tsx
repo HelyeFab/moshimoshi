@@ -266,7 +266,7 @@ export function TemplatePreviewModal({
                       srcDoc={preview.html}
                       title="Email Preview"
                       className="w-full h-[600px] border-0"
-                      sandbox="allow-same-origin"
+                      sandbox="allow-same-origin allow-popups allow-popups-to-escape-sandbox"
                     />
                   </div>
                 ) : (

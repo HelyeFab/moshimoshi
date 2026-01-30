@@ -317,6 +317,7 @@ function BlastModeContent() {
           title={t('blastMode.title')}
           description={t('blastMode.description')}
           backHref="/dashboard"
+          alwaysUseBackHref={true}
           actions={
             usageData.hasData ? (
               <DesktopCircularIndicator

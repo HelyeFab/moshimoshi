@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-30T13:38:14.797Z
+ * Generated at: 2026-01-30T14:58:36.465Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -42,7 +42,6 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "word_lookup": 0,
           "news": 0,
           "story": 0,
-          "books": 0,
           "kanji_mood_board": 0,
           "drill": 0,
           "blast_mode": 0,
@@ -62,6 +61,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "anki_imports": 0,
           "kanji_connection": 0,
           "textbook_vocabulary": 0,
+          "books": 0,
           "comics": 0
     }
   },
@@ -89,7 +89,6 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "word_lookup": 15,
           "news": 3,
           "story": 3,
-          "books": 1,
           "kanji_mood_board": 3,
           "drill": 3,
           "blast_mode": 1,
@@ -109,6 +108,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "anki_imports": 0,
           "kanji_connection": 1,
           "textbook_vocabulary": 1,
+          "books": 1,
           "comics": 1
     }
   },
@@ -136,7 +136,6 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "word_lookup": -1,
           "news": -1,
           "story": -1,
-          "books": -1,
           "kanji_mood_board": -1,
           "drill": -1,
           "blast_mode": -1,
@@ -156,6 +155,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "anki_imports": 10,
           "kanji_connection": -1,
           "textbook_vocabulary": -1,
+          "books": -1,
           "comics": -1
     }
   },
@@ -183,7 +183,6 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "word_lookup": -1,
           "news": -1,
           "story": -1,
-          "books": -1,
           "kanji_mood_board": -1,
           "drill": -1,
           "blast_mode": -1,
@@ -203,6 +202,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "anki_imports": 10,
           "kanji_connection": -1,
           "textbook_vocabulary": -1,
+          "books": -1,
           "comics": -1
     }
   }
