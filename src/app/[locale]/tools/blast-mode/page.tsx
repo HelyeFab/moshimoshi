@@ -595,7 +595,7 @@ function BlastModeContent() {
               {/* Lesson Progress Panel */}
               {isLessonMode && lessonKanji.length > 0 && (
                 <div className="mb-6 rounded-lg border border-gray-200 dark:border-dark-700 p-4">
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center justify-between mb-4">
                     <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
                       {t('blastMode.lesson.progressTitle')}
                     </h3>
@@ -607,18 +607,46 @@ function BlastModeContent() {
                     </span>
                   </div>
 
-                  <div className="mb-4 flex justify-end">
-                    <button
-                      type="button"
-                      onClick={() => handleStartSession(currentLessonIndex)}
-                      className="text-xs px-3 py-2 rounded-lg border border-primary-500 text-primary-600 dark:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                  {/* Lesson Selector Dropdown */}
+                  <div className="mb-4">
+                    <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Select Lesson
+                    </label>
+                    <select
+                      value={currentLessonIndex}
+                      onChange={(e) => setCurrentLessonIndex(parseInt(e.target.value))}
+                      className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
                     >
-                      {t('blastMode.lesson.resumeLesson', { number: currentLessonIndex + 1 })}
-                    </button>
+                      {lessonKanji.map((kanjiList, index) => {
+                        const progress = lessonProgress.find(p => p.lessonIndex === index)
+                        const isCompleted = Boolean(progress?.completed)
+                        const isLocked = index > currentLessonIndex
+                        const isCurrent = index === currentLessonIndex && !isCompleted
+
+                        let status = ''
+                        if (isCompleted) status = '✓ Done'
+                        else if (isCurrent) status = 'Current'
+                        else if (isLocked) status = 'Locked'
+                        else status = 'Ready'
+
+                        return (
+                          <option
+                            key={index}
+                            value={index}
+                            disabled={isLocked}
+                          >
+                            Lesson {index + 1} - {kanjiList.length} kanji - {status}
+                          </option>
+                        )
+                      })}
+                    </select>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {lessonKanji.map((kanjiList, index) => {
+                  {/* Current Lesson Card - Only show one */}
+                  <div className="space-y-3">
+                    {(() => {
+                      const index = currentLessonIndex
+                      const kanjiList = lessonKanji[index]
                       const progress = lessonProgress.find(p => p.lessonIndex === index)
                       const isCompleted = Boolean(progress?.completed)
                       const isCurrent = index === currentLessonIndex && !isCompleted
@@ -673,11 +701,11 @@ function BlastModeContent() {
                             handleStartSession(index)
                           }}
                           disabled={isLocked}
-                          initial={{ opacity: 0, y: 20 }}
+                          initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: index * 0.05, duration: 0.3 }}
-                          whileHover={!isLocked ? { scale: 1.02, y: -2 } : {}}
-                          whileTap={!isLocked ? { scale: 0.98 } : {}}
+                          transition={{ duration: 0.2 }}
+                          whileHover={!isLocked ? { scale: 1.01, y: -1 } : {}}
+                          whileTap={!isLocked ? { scale: 0.99 } : {}}
                           className={`
                             relative overflow-hidden rounded-xl border p-4
                             ${gradientClass} ${borderClass}
@@ -740,7 +768,7 @@ function BlastModeContent() {
                                   <motion.div
                                     initial={{ width: 0 }}
                                     animate={{ width: `${accuracy}%` }}
-                                    transition={{ delay: index * 0.05 + 0.3, duration: 0.8 }}
+                                    transition={{ delay: 0.2, duration: 0.6 }}
                                     className={`h-full rounded-full ${
                                       accuracy === 100 ? 'bg-gradient-to-r from-green-500 to-green-600' :
                                       accuracy >= 80 ? 'bg-gradient-to-r from-primary-500 to-primary-600' :
@@ -774,8 +802,17 @@ function BlastModeContent() {
                           )}
                         </motion.button>
                       )
-                    })}
+                    })()}
                   </div>
+
+                  {/* Start Button */}
+                  <button
+                    type="button"
+                    onClick={() => handleStartSession(currentLessonIndex)}
+                    className="w-full mt-3 px-4 py-2 rounded-lg bg-primary-500 text-white font-medium hover:bg-primary-600 transition-colors"
+                  >
+                    {t('blastMode.lesson.resumeLesson', { number: currentLessonIndex + 1 })}
+                  </button>
                 </div>
               )}
 

@@ -3259,6 +3259,7 @@ export const strings = {
       resets: 'Si resetta {{time}}',
       resetsTomorrow: 'Si resetta domani',
       resetsIn: 'Si resetta tra {{time}}',
+      resetsNextMonth: 'Si resetta il prossimo mese',
     },
     upgrade: {
       title: 'Sblocca pratica illimitata',
@@ -3340,6 +3341,7 @@ export const strings = {
       featureLimitReached: 'Limite funzione raggiunto',
       upgradeRequired: 'Aggiorna a premium per accesso illimitato',
       limitReachedWithTime: 'Hai raggiunto il tuo limite giornaliero per {{feature}}. Si resetta {{time}}.',
+      limitReachedMonthlyWithTime: 'Hai raggiunto il tuo limite mensile per {{feature}}. Si resetta {{time}}.',
       featureUnavailable: 'Questa funzione non è attualmente disponibile',
       runningLow: 'Hai ancora {{count}} sessione/i di {{feature}} oggi',
       checkFailed: 'Impossibile verificare la disponibilità della funzione',

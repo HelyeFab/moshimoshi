@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import type { MouseEvent } from 'react'
 import { Book, JLPTLevel } from '@/types/book'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
@@ -8,12 +9,15 @@ import { Search, BookOpen, Clock, TrendingUp } from 'lucide-react'
 import { LoadingOverlay } from '@/components/ui/LoadingOverlay'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
-import { useI18n } from '@/i18n/I18nContext'
+import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import { getGradientForBook } from '@/lib/utils/gradients'
 import { useBookCache } from '@/hooks/useBookCache'
 import { useAuth } from '@/hooks/useAuth'
+import { useFeature } from '@/hooks/useFeature'
+import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useSubscription } from '@/hooks/useSubscription'
-import { EntitlementGate } from '@/components/review-engine/EntitlementGate'
+import { useRouter } from 'next/navigation'
+import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 import { getValidatedEntitlementsSnapshot, isOffline } from '@/lib/pwa/offline-entitlements'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
 
@@ -28,8 +32,13 @@ const JLPT_LEVELS: Array<{ value: JLPTLevel | 'all'; label: string }> = [
 
 export default function LibraryPage() {
   const { strings } = useI18n()
+  const { getLocalePath } = useLocalePath()
+  const router = useRouter()
+  const { showToast } = useToast()
   const { user, loading: authLoading } = useAuth()
   const { isPremium } = useSubscription()
+  const { checkOnly } = useFeature('books')
+  const usageData = useFeatureUsage('books')
   const [books, setBooks] = useState<Book[]>([])
   const [loading, setLoading] = useState(true)
   const [selectedLevel, setSelectedLevel] = useState<JLPTLevel | 'all'>('all')
@@ -208,6 +217,22 @@ export default function LibraryPage() {
     setOffset(0)
   }
 
+  const handleBookClick = async (
+    event: MouseEvent<HTMLAnchorElement>,
+    bookId: string
+  ) => {
+    event.preventDefault()
+    const decision = await checkOnly({ failOpen: false })
+    if (!decision.allow) {
+      const action = !isPremium
+        ? { label: strings.subscription?.actions?.upgrade || 'Upgrade', onClick: () => router.push('/pricing') }
+        : undefined
+      showToast(strings.entitlements?.messages?.limitReached || 'Daily limit reached', 'warning', 5000, action)
+      return
+    }
+    router.push(getLocalePath(`/library/${bookId}`))
+  }
+
   // Wait for auth to load before rendering
   if (authLoading) {
     return (
@@ -219,42 +244,52 @@ export default function LibraryPage() {
   }
 
   return (
-    <EntitlementGate featureId="books">
-      <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-dark-900 dark:to-dark-850">
-        {/* Desktop Navbar */}
-        <div className="hidden sm:block">
-          <Navbar user={user} showUserMenu={true} />
-        </div>
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white dark:from-dark-900 dark:to-dark-850">
+      {/* Desktop Navbar */}
+      <div className="hidden sm:block">
+        <Navbar user={user} showUserMenu={true} />
+      </div>
 
-        {/* Page Header */}
-        <PageHeader
-          title={strings.library?.title || 'Library'}
-          description={
-            strings.library?.pageDescription ||
-            'Read condensed summaries of popular books in Japanese'
-          }
-          backHref="/dashboard"
-        />
+      {/* Page Header */}
+      <PageHeader
+        title={strings.library?.title || 'Library'}
+        description={
+          strings.library?.pageDescription ||
+          'Read condensed summaries of popular books in Japanese'
+        }
+        backHref="/dashboard"
+        actions={
+          usageData.hasData ? (
+            <DesktopCircularIndicator
+              remaining={usageData.remaining}
+              limitCount={usageData.limitCount}
+              usedCount={usageData.usedCount}
+              color={usageData.color}
+            />
+          ) : null
+        }
+      />
+      <FeatureUsageIndicator featureId="books" />
 
-        <div className="container mx-auto px-4 py-8 max-w-7xl">
-          {/* Filters */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="mb-8 space-y-4"
-          >
-            {/* Search */}
-            <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-              <input
-                type="text"
-                placeholder="Search books by title, author, or keywords..."
-                value={searchQuery}
-                onChange={e => handleSearch(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
-              />
-            </div>
+      <div className="container mx-auto px-4 py-8 max-w-7xl">
+        {/* Filters */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="mb-8 space-y-4"
+        >
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <input
+              type="text"
+              placeholder="Search books by title, author, or keywords..."
+              value={searchQuery}
+              onChange={e => handleSearch(e.target.value)}
+              className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-primary-500 dark:focus:ring-primary-400 focus:border-primary-500 dark:focus:border-primary-400 transition-colors"
+            />
+          </div>
 
             {/* JLPT Level Filter */}
             <div className="relative">
@@ -321,7 +356,11 @@ export default function LibraryPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.05 }}
               >
-                <Link href={`/library/${book.id}`} className="block group">
+                <Link
+                  href={`/library/${book.id}`}
+                  onClick={(event) => handleBookClick(event, book.id)}
+                  className="block group"
+                >
                   <div className="bg-white dark:bg-dark-850 rounded-lg overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-gray-200 dark:border-dark-700 h-full flex flex-col">
                     {/* Cover Image or Gradient */}
                     <div className="relative h-48 overflow-hidden">
@@ -417,6 +456,5 @@ export default function LibraryPage() {
         <MobileNavSpacer />
       </div>
     </div>
-    </EntitlementGate>
   )
 }

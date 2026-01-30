@@ -3201,6 +3201,7 @@ export const strings = {
       resets: 'Setzt zurück {{time}}',
       resetsTomorrow: 'Setzt morgen zurück',
       resetsIn: 'Setzt zurück in {{time}}',
+      resetsNextMonth: 'Setzt nächsten Monat zurück',
     },
     upgrade: {
       title: 'Unbegrenzte Praxis freischalten',
@@ -3282,6 +3283,7 @@ export const strings = {
       featureLimitReached: 'Funktionslimit erreicht',
       upgradeRequired: 'Upgrade auf Premium für unbegrenzten Zugang',
       limitReachedWithTime: 'Sie haben Ihr tägliches Limit für {{feature}} erreicht. Setzt sich zurück {{time}}.',
+      limitReachedMonthlyWithTime: 'Sie haben Ihr monatliches Limit für {{feature}} erreicht. Setzt sich zurück {{time}}.',
       featureUnavailable: 'Diese Funktion ist derzeit nicht verfügbar',
       runningLow: 'Sie haben noch {{count}} {{feature}} Sitzung(en) heute',
       checkFailed: 'Verfügbarkeit der Funktion konnte nicht überprüft werden',

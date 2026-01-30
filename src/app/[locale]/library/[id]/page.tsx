@@ -21,8 +21,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer';
 import { useAuth } from '@/hooks/useAuth';
 import ContentCelebration from '@/components/shared/ContentCelebration';
-import { EntitlementGate } from '@/components/review-engine/EntitlementGate';
 import { useBookCache } from '@/hooks/useBookCache';
+import { useFeature } from '@/hooks/useFeature';
+import { useToast } from '@/components/ui/Toast/ToastContext';
+import { useI18n } from '@/i18n/I18nContext';
 import type { CachedBook } from '@/lib/library/book-cache.types';
 
 export default function BookReaderPage() {
@@ -31,6 +33,9 @@ export default function BookReaderPage() {
   const bookId = params?.id as string;
   const { user, isGuest } = useAuth();
   const { getBook } = useBookCache();
+  const { checkOnly } = useFeature('books');
+  const { showToast } = useToast();
+  const { strings } = useI18n();
 
   const [book, setBook] = useState<Book | null>(null);
   const [loading, setLoading] = useState(true);
@@ -89,6 +94,15 @@ export default function BookReaderPage() {
       try {
         setLoading(true);
         setError(null);
+        const decision = await checkOnly({ failOpen: false });
+        if (!decision.allow) {
+          showToast(
+            strings.entitlements?.messages?.limitReached || 'Daily limit reached',
+            'warning'
+          );
+          router.push('/library');
+          return;
+        }
         const result = await getBook(bookId);
         if (!result.book) {
           setError(result.error || 'Book not found');
@@ -104,7 +118,7 @@ export default function BookReaderPage() {
     };
 
     loadBook();
-  }, [bookId]);
+  }, [bookId, checkOnly, getBook, router, showToast, strings.entitlements?.messages?.limitReached]);
 
   // Handle book completion
   const handleComplete = async () => {
@@ -176,7 +190,7 @@ export default function BookReaderPage() {
     : undefined
 
   return (
-    <EntitlementGate featureId="books">
+    <>
       {loading ? (
         <LoadingOverlay />
       ) : error || !book ? (
@@ -390,13 +404,14 @@ export default function BookReaderPage() {
           onClose={() => setShowCelebration(false)}
         />
       )}
-        <MobileNavSpacer />
+          <MobileNavSpacer />
         </div>
       )}
-    </EntitlementGate>
+    </>
   );
 }
-  const normalizeCachedBook = (cached: CachedBook): Book => ({
+
+const normalizeCachedBook = (cached: CachedBook): Book => ({
     ...cached,
     createdBy: 'offline-cache',
   });

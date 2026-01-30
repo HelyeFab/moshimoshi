@@ -3251,11 +3251,13 @@ export const strings = {
       dailyLimit: 'Limite quotidienne',
       resetsTomorrow: 'Se réinitialise demain',
       resetsIn: 'Se réinitialise dans {{time}}',
+      resetsNextMonth: 'Se réinitialise le mois prochain',
     },
     messages: {
       featureLimitReached: 'Limite de fonctionnalité atteinte',
       limitReached: 'Vous avez atteint votre limite quotidienne.',
       limitReachedWithTime: 'Vous avez atteint votre limite quotidienne pour {{feature}}. Réinitialisation dans {{time}}.',
+      limitReachedMonthlyWithTime: 'Vous avez atteint votre limite mensuelle pour {{feature}}. Réinitialisation dans {{time}}.',
       upgradeRequired: 'Vous devez améliorer votre plan pour accéder à cette fonctionnalité.',
       featureUnavailable: 'Cette fonctionnalité est actuellement indisponible.',
       runningLow: 'Il vous reste {{count}} sessions {{feature}} aujourd\'hui.',

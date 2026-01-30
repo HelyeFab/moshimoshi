@@ -2450,11 +2450,13 @@ export const strings = {
       dailyLimit: '1日の制限',
       resetsTomorrow: '明日リセット',
       resetsIn: '{{time}}後にリセット',
+      resetsNextMonth: '来月リセット',
     },
     messages: {
       featureLimitReached: '機能制限に達しました',
       limitReached: '今日の制限に達しました。',
       limitReachedWithTime: '{{feature}}の1日の制限に達しました。{{time}}にリセットされます。',
+      limitReachedMonthlyWithTime: '{{feature}}の月間制限に達しました。{{time}}にリセットされます。',
       upgradeRequired: 'この機能にアクセスするにはプランのアップグレードが必要です。',
       featureUnavailable: 'この機能は現在利用できません。',
       runningLow: '今日は{{feature}}が残り{{count}}セッションです。',

@@ -2989,6 +2989,7 @@ export const strings = {
       resets: 'Se reinicia {{time}}',
       resetsTomorrow: 'Se reinicia mañana',
       resetsIn: 'Se reinicia en {{time}}',
+      resetsNextMonth: 'Se reinicia el próximo mes',
     },
     upgrade: {
       title: 'Desbloquea práctica ilimitada',
@@ -3070,6 +3071,7 @@ export const strings = {
       featureLimitReached: 'Límite de función alcanzado',
       upgradeRequired: 'Mejora a premium para acceso ilimitado',
       limitReachedWithTime: 'Has alcanzado tu límite diario para {{feature}}. Se restablece {{time}}.',
+      limitReachedMonthlyWithTime: 'Has alcanzado tu límite mensual para {{feature}}. Se restablece {{time}}.',
       featureUnavailable: 'Esta función no está disponible actualmente',
       runningLow: 'Te quedan {{count}} sesión(es) de {{feature}} hoy',
       checkFailed: 'Error al verificar la disponibilidad de la función',

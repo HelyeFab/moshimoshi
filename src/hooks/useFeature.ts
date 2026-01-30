@@ -10,6 +10,7 @@ import { useSubscription } from '@/hooks/useSubscription';
 import { useI18n } from '@/i18n/I18nContext';
 import type { FeatureId } from '@/types/FeatureId';
 import { isUnlimited } from '@/lib/entitlements/policy';
+import { getFeature } from '@/lib/features/registry';
 import { getSnapshotPolicyVersion, getValidatedEntitlementsSnapshot, isFeatureUnlimitedForPlan, isOffline, mapSnapshotTierToPlan } from '@/lib/pwa/offline-entitlements';
 import { getOfflineUsageDelta, getUsageSnapshotEntry, incrementOfflineUsageDelta, markOfflineItemSeen, hasOfflineItemSeen, syncOfflineUsageDelta, updateUsageSnapshotEntry, updateUsageSnapshotFromDecision } from '@/lib/pwa/offline-usage';
 
@@ -129,7 +130,12 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
   // Format reset time for display
   const formatResetTime = useCallback((resetAtUtc?: string): string => {
     if (!resetAtUtc) return '';
-    
+
+    const limitType = getFeature(featureId)?.limitType;
+    if (limitType === 'monthly') {
+      return t('entitlements.limits.resetsNextMonth');
+    }
+
     const resetDate = new Date(resetAtUtc);
     const now = new Date();
     const diffMs = resetDate.getTime() - now.getTime();
@@ -143,7 +149,7 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
     } else {
       return 'soon';
     }
-  }, []);
+  }, [featureId, t]);
 
   // Check only (no tracking)
   const checkOnly = useCallback(async (options: CheckOnlyOptions = {}): Promise<Decision> => {
@@ -429,18 +435,27 @@ export function useFeature(featureId: FeatureId): UseFeatureReturn {
         if (!decision.allow) {
           switch (decision.reason) {
             case 'limit_reached':
-              const resetIn = formatResetTime(decision.resetAtUtc);
+              const limitType = getFeature(featureId)?.limitType;
               // Only show upgrade action if not already premium
               const toastAction = !isPremium ? {
                 label: t('subscription.actions.upgrade'),
                 onClick: () => router.push('/pricing')
               } : undefined;
 
+              const isMonthly = limitType === 'monthly';
+              const messageKey = isMonthly
+                ? 'entitlements.messages.limitReachedMonthlyWithTime'
+                : 'entitlements.messages.limitReached';
+
+              const message = isMonthly
+                ? t(messageKey, {
+                    feature: featureId.replace('_', ' '),
+                    time: formatResetTime(decision.resetAtUtc)
+                  })
+                : t(messageKey);
+
               showToast(
-                t('entitlements.messages.limitReachedWithTime', {
-                  feature: featureId.replace('_', ' '),
-                  time: resetIn
-                }),
+                message,
                 'warning',
                 5000,
                 toastAction

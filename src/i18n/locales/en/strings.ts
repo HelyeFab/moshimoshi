@@ -2225,6 +2225,7 @@ export const strings = {
       resets: 'Resets {{time}}',
       resetsTomorrow: 'Resets tomorrow',
       resetsIn: 'Resets in {{time}}',
+      resetsNextMonth: 'Resets next month',
     },
     upgrade: {
       title: 'Unlock Unlimited Practice',
@@ -2301,6 +2302,7 @@ export const strings = {
     messages: {
       limitReached: 'Daily limit reached. Please try again tomorrow.',
       limitReachedWithTime: "You've reached your daily limit for {{feature}}. Resets {{time}}.",
+      limitReachedMonthlyWithTime: "You've reached your monthly limit for {{feature}}. Resets {{time}}.",
       signUpForMore: 'Sign up for free to get 5 daily practices',
       upgradeForUnlimited: 'Upgrade to Premium for unlimited practice',
       getUnlimitedAccess: 'Get unlimited access with Premium',
