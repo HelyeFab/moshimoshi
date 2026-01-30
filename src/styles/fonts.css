@@ -1,16 +1,16 @@
-/* Elms Sans Variable Font - Primary Font Family for App UI */
+/* Mulish Variable Font - Primary Font Family for App UI */
 @font-face {
-  font-family: 'Elms Sans';
-  src: url('/fonts/Elms_Sans/ElmsSans-VariableFont_wght.ttf') format('truetype-variations');
-  font-weight: 100 900;
+  font-family: 'Mulish';
+  src: url('/fonts/mulish/Mulish-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 200 900;
   font-style: normal;
   font-display: swap;
 }
 
 @font-face {
-  font-family: 'Elms Sans';
-  src: url('/fonts/Elms_Sans/ElmsSans-Italic-VariableFont_wght.ttf') format('truetype-variations');
-  font-weight: 100 900;
+  font-family: 'Mulish';
+  src: url('/fonts/mulish/Mulish-Italic-VariableFont_wght.ttf') format('truetype-variations');
+  font-weight: 200 900;
   font-style: italic;
   font-display: swap;
 }
@@ -18,89 +18,129 @@
 /* Static fallbacks for browsers that don't support variable fonts */
 @supports not (font-variation-settings: normal) {
   @font-face {
-    font-family: 'Elms Sans';
-    src: url('/fonts/Elms_Sans/static/ElmsSans-Thin.ttf') format('truetype');
-    font-weight: 100;
-    font-style: normal;
-    font-display: swap;
-  }
-
-  @font-face {
-    font-family: 'Elms Sans';
-    src: url('/fonts/Elms_Sans/static/ElmsSans-ExtraLight.ttf') format('truetype');
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-ExtraLight.ttf') format('truetype');
     font-weight: 200;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
-    font-family: 'Elms Sans';
-    src: url('/fonts/Elms_Sans/static/ElmsSans-Light.ttf') format('truetype');
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-Light.ttf') format('truetype');
     font-weight: 300;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
-    font-family: 'Elms Sans';
-    src: url('/fonts/Elms_Sans/static/ElmsSans-Regular.ttf') format('truetype');
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
-    font-family: 'Elms Sans';
-    src: url('/fonts/Elms_Sans/static/ElmsSans-Medium.ttf') format('truetype');
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-Medium.ttf') format('truetype');
     font-weight: 500;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
-    font-family: 'Elms Sans';
-    src: url('/fonts/Elms_Sans/static/ElmsSans-SemiBold.ttf') format('truetype');
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-SemiBold.ttf') format('truetype');
     font-weight: 600;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
-    font-family: 'Elms Sans';
-    src: url('/fonts/Elms_Sans/static/ElmsSans-Bold.ttf') format('truetype');
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
-    font-family: 'Elms Sans';
-    src: url('/fonts/Elms_Sans/static/ElmsSans-ExtraBold.ttf') format('truetype');
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-ExtraBold.ttf') format('truetype');
     font-weight: 800;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
-    font-family: 'Elms Sans';
-    src: url('/fonts/Elms_Sans/static/ElmsSans-Black.ttf') format('truetype');
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-Black.ttf') format('truetype');
     font-weight: 900;
     font-style: normal;
     font-display: swap;
   }
 
   @font-face {
-    font-family: 'Elms Sans';
-    src: url('/fonts/Elms_Sans/static/ElmsSans-Italic.ttf') format('truetype');
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-ExtraLightItalic.ttf') format('truetype');
+    font-weight: 200;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-LightItalic.ttf') format('truetype');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-Italic.ttf') format('truetype');
     font-weight: 400;
     font-style: italic;
     font-display: swap;
   }
 
   @font-face {
-    font-family: 'Elms Sans';
-    src: url('/fonts/Elms_Sans/static/ElmsSans-BoldItalic.ttf') format('truetype');
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-MediumItalic.ttf') format('truetype');
+    font-weight: 500;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-SemiBoldItalic.ttf') format('truetype');
+    font-weight: 600;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-BoldItalic.ttf') format('truetype');
     font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-ExtraBoldItalic.ttf') format('truetype');
+    font-weight: 800;
+    font-style: italic;
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: 'Mulish';
+    src: url('/fonts/mulish/static/Mulish-BlackItalic.ttf') format('truetype');
+    font-weight: 900;
     font-style: italic;
     font-display: swap;
   }
