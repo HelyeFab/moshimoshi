@@ -18,6 +18,7 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── community/                     # Discord, social integrations
 ├── kanji-mastery/                 # Kanji learning tool documentation
 ├── blast-mode/                    # Blast Mode documentation
+├── entitlements/                  # Entitlements and gating documentation
 ├── admin-dashboard/               # Admin dashboard development guide
 ├── learning-village-low-power/    # Learning Village performance optimization
 ├── onboarding/                    # Developer onboarding guides
@@ -158,6 +159,23 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 - Multi-content support (kanji, vocab, lists)
 - Step generation and distractor strategy
 - Phased rollout plan
+
+---
+
+### Entitlements & Gating (`entitlements/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./entitlements/README.md) | Overview and quick start |
+| [FEATURE_GUIDE.md](./entitlements/FEATURE_GUIDE.md) | Implementation patterns and UX standards |
+| [API_REFERENCE.md](./entitlements/API_REFERENCE.md) | Entitlements API endpoints |
+| [TROUBLESHOOTING.md](./entitlements/TROUBLESHOOTING.md) | Common issues and fixes |
+
+**Key Topics:**
+- Config-driven limits (daily/monthly, guest/free/premium)
+- Client gating patterns (EntitlementGate vs useFeature)
+- Server enforcement and usage tracking
+- Admin entitlements dashboard
 
 ---
 

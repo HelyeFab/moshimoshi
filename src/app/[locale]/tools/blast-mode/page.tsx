@@ -17,6 +17,7 @@ import PageHeader from '@/components/ui/PageHeader'
 import { motion } from 'framer-motion'
 import { Zap, BookOpen, Target, Sparkles, CheckCircle, Flame, Lock, FileText, Calendar } from 'lucide-react'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import { Select } from '@/components/ui/Select'
 import { blastSessionManager } from '@/lib/blast-mode/blastSessionManager'
 import { blastLessonManager } from '@/lib/blast-mode/blastLessonManager'
 import { DEFAULT_LESSON_SIZE, getNextLessonIndex, splitIntoLessons } from '@/lib/blast-mode/lesson-utils'
@@ -612,34 +613,41 @@ function BlastModeContent() {
                     <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Select Lesson
                     </label>
-                    <select
-                      value={currentLessonIndex}
-                      onChange={(e) => setCurrentLessonIndex(parseInt(e.target.value))}
-                      className="w-full px-3 py-2 rounded-lg border border-gray-200 dark:border-dark-700 bg-white dark:bg-dark-800 text-gray-900 dark:text-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500"
-                    >
-                      {lessonKanji.map((kanjiList, index) => {
+                    <Select
+                      value={String(currentLessonIndex)}
+                      onChange={(value) => setCurrentLessonIndex(parseInt(value))}
+                      options={lessonKanji.map((kanjiList, index) => {
                         const progress = lessonProgress.find(p => p.lessonIndex === index)
                         const isCompleted = Boolean(progress?.completed)
                         const isLocked = index > currentLessonIndex
                         const isCurrent = index === currentLessonIndex && !isCompleted
 
                         let status = ''
-                        if (isCompleted) status = '✓ Done'
-                        else if (isCurrent) status = 'Current'
-                        else if (isLocked) status = 'Locked'
-                        else status = 'Ready'
+                        let icon = null
+                        if (isCompleted) {
+                          status = '✓ Done'
+                          icon = <CheckCircle className="w-4 h-4 text-green-600" />
+                        } else if (isCurrent) {
+                          status = 'Current'
+                          icon = <Flame className="w-4 h-4 text-primary-600" />
+                        } else if (isLocked) {
+                          status = 'Locked'
+                          icon = <Lock className="w-4 h-4 text-gray-500" />
+                        } else {
+                          status = 'Ready'
+                          icon = <BookOpen className="w-4 h-4 text-gray-600" />
+                        }
 
-                        return (
-                          <option
-                            key={index}
-                            value={index}
-                            disabled={isLocked}
-                          >
-                            Lesson {index + 1} - {kanjiList.length} kanji - {status}
-                          </option>
-                        )
+                        return {
+                          value: String(index),
+                          label: `Lesson ${index + 1} - ${kanjiList.length} kanji - ${status}`,
+                          icon,
+                          disabled: isLocked
+                        }
                       })}
-                    </select>
+                      size="sm"
+                      placeholder="Select a lesson"
+                    />
                   </div>
 
                   {/* Current Lesson Card - Only show one */}
@@ -722,9 +730,10 @@ function BlastModeContent() {
                             <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-primary-600/5 animate-pulse" />
                           )}
 
-                          {/* Header with status badge */}
-                          <div className="relative flex items-center justify-between mb-3">
-                            <div className="flex items-center gap-3">
+                          {/* Content wrapper with flex */}
+                          <div className="relative flex flex-col h-full">
+                            {/* Header */}
+                            <div className="flex items-center gap-3 mb-3">
                               <StatusIcon className={`w-6 h-6 ${iconColor}`} />
                               <div>
                                 <div className="text-base font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent">
@@ -736,63 +745,67 @@ function BlastModeContent() {
                                 </div>
                               </div>
                             </div>
-                            <span className={`
-                              text-xs font-semibold px-2.5 py-1 rounded-full
-                              ${isCompleted
-                                ? 'bg-green-600 text-white dark:bg-green-500 dark:text-white'
-                                : isCurrent
-                                  ? 'bg-primary-600 text-white dark:bg-primary-500 dark:text-white'
-                                  : 'bg-gray-500/20 text-gray-700 dark:bg-gray-600/30 dark:text-gray-300'
-                              }
-                            `}>
-                              {isCompleted ? '✓ Done' : isCurrent ? 'Current' : isLocked ? 'Locked' : 'Ready'}
-                            </span>
-                          </div>
 
-                          {/* Progress bar and stats */}
-                          {progress && (
-                            <div className="space-y-2">
-                              {/* Accuracy progress bar */}
-                              <div className="space-y-1">
-                                <div className="flex items-center justify-between text-xs">
-                                  <span className="text-gray-600 dark:text-gray-400">Accuracy</span>
-                                  <span className={`font-bold ${
-                                    accuracy === 100 ? 'text-green-600 dark:text-green-400' :
-                                    accuracy >= 80 ? 'text-primary-600 dark:text-primary-400' :
-                                    'text-gray-600 dark:text-gray-400'
-                                  }`}>
-                                    {accuracy}%
-                                  </span>
+                            {/* Progress bar and stats */}
+                            {progress && (
+                              <div className="space-y-2 mb-2">
+                                {/* Accuracy progress bar */}
+                                <div className="space-y-1">
+                                  <div className="flex items-center justify-between text-xs">
+                                    <span className="text-gray-600 dark:text-gray-400">Accuracy</span>
+                                    <span className={`font-bold ${
+                                      accuracy === 100 ? 'text-green-600 dark:text-green-400' :
+                                      accuracy >= 80 ? 'text-primary-600 dark:text-primary-400' :
+                                      'text-gray-600 dark:text-gray-400'
+                                    }`}>
+                                      {accuracy}%
+                                    </span>
+                                  </div>
+                                  <div className="h-1.5 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
+                                    <motion.div
+                                      initial={{ width: 0 }}
+                                      animate={{ width: `${accuracy}%` }}
+                                      transition={{ delay: 0.2, duration: 0.6 }}
+                                      className={`h-full rounded-full ${
+                                        accuracy === 100 ? 'bg-gradient-to-r from-green-500 to-green-600' :
+                                        accuracy >= 80 ? 'bg-gradient-to-r from-primary-500 to-primary-600' :
+                                        'bg-gradient-to-r from-gray-400 to-gray-500'
+                                      }`}
+                                    />
+                                  </div>
                                 </div>
-                                <div className="h-1.5 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
-                                  <motion.div
-                                    initial={{ width: 0 }}
-                                    animate={{ width: `${accuracy}%` }}
-                                    transition={{ delay: 0.2, duration: 0.6 }}
-                                    className={`h-full rounded-full ${
-                                      accuracy === 100 ? 'bg-gradient-to-r from-green-500 to-green-600' :
-                                      accuracy >= 80 ? 'bg-gradient-to-r from-primary-500 to-primary-600' :
-                                      'bg-gradient-to-r from-gray-400 to-gray-500'
-                                    }`}
-                                  />
+
+                                {/* Additional stats */}
+                                <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-gray-400">
+                                  <span className="flex items-center gap-1">
+                                    <Target className="w-3 h-3" />
+                                    {attempts} {attempts === 1 ? 'attempt' : 'attempts'}
+                                  </span>
+                                  {lastAttempt && (
+                                    <span className="flex items-center gap-1 truncate">
+                                      <Calendar className="w-3 h-3" />
+                                      {new Date(lastAttempt).toLocaleDateString()}
+                                    </span>
+                                  )}
                                 </div>
                               </div>
+                            )}
 
-                              {/* Additional stats */}
-                              <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-gray-400">
-                                <span className="flex items-center gap-1">
-                                  <Target className="w-3 h-3" />
-                                  {attempts} {attempts === 1 ? 'attempt' : 'attempts'}
-                                </span>
-                                {lastAttempt && (
-                                  <span className="flex items-center gap-1 truncate">
-                                    <Calendar className="w-3 h-3" />
-                                    {new Date(lastAttempt).toLocaleDateString()}
-                                  </span>
-                                )}
-                              </div>
+                            {/* Status badge - bottom right using flexbox */}
+                            <div className="flex justify-end mt-auto">
+                              <span className={`
+                                text-[10px] font-medium px-1.5 py-0.5 rounded-full
+                                ${isCompleted
+                                  ? 'bg-green-600 text-white dark:bg-green-500 dark:text-white'
+                                  : isCurrent
+                                    ? 'bg-primary-600 text-white dark:bg-primary-500 dark:text-white'
+                                    : 'bg-gray-500/20 text-gray-700 dark:bg-gray-600/30 dark:text-gray-300'
+                                }
+                              `}>
+                                {isCompleted ? '✓ Done' : isCurrent ? 'Current' : isLocked ? 'Locked' : 'Ready'}
+                              </span>
                             </div>
-                          )}
+                          </div>
 
                           {/* Shine effect on hover */}
                           {!isLocked && (
