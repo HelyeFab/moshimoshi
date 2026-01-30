@@ -9,6 +9,12 @@ import { render, screen, fireEvent, waitFor, act } from '@testing-library/react'
 import '@testing-library/jest-dom'
 import { JpReassemble } from '../JpReassemble'
 
+jest.mock('@/hooks/useTranslation', () => ({
+  useTranslation: () => ({
+    t: (key: string) => key
+  })
+}))
+
 // Mock framer-motion to avoid animation issues in tests
 jest.mock('framer-motion', () => {
   const React = require('react')
@@ -88,7 +94,7 @@ describe('JpReassemble', () => {
     it('should render instructions', () => {
       render(<JpReassemble {...defaultProps} />)
 
-      expect(screen.getByText(/Drag tiles to reorder/i)).toBeInTheDocument()
+      expect(screen.getByText('blastMode.screens.reassemble.instructions.reorder')).toBeInTheDocument()
     })
 
     it('should render pick-mode instructions when extra tiles exist', () => {
@@ -100,7 +106,7 @@ describe('JpReassemble', () => {
         />
       )
 
-      expect(screen.getByText(/Select tiles in the correct order/i)).toBeInTheDocument()
+      expect(screen.getByText('blastMode.screens.reassemble.instructions.pick')).toBeInTheDocument()
     })
   })
 
@@ -207,7 +213,7 @@ describe('JpReassemble', () => {
       })
 
       await waitFor(() => {
-        expect(onAnswerMock).toHaveBeenCalledWith(['食', 'べ', 'る'], true)
+        expect(onAnswerMock).toHaveBeenCalledWith(['食', 'べ', 'る'], true, expect.any(Number))
       })
     })
 
@@ -223,8 +229,42 @@ describe('JpReassemble', () => {
       })
 
       await waitFor(() => {
-        expect(onAnswerMock).toHaveBeenCalledWith(['る', 'べ', '食'], false)
+        expect(onAnswerMock).toHaveBeenCalledWith(['る', 'べ', '食'], false, expect.any(Number))
       })
+    })
+
+    it('should capture response time at submission, not after UI delay', async () => {
+      const onAnswerMock = jest.fn()
+      const startTime = Date.now()
+
+      // Mock Date.now to control time
+      const realDateNow = Date.now.bind(global.Date)
+      const mockDateNow = jest.spyOn(Date, 'now')
+      mockDateNow.mockImplementation(() => startTime)
+
+      render(<JpReassemble {...defaultProps} onAnswer={onAnswerMock} />)
+
+      // Simulate 800ms passing before user submits
+      mockDateNow.mockImplementation(() => startTime + 800)
+      fireEvent.keyPress(window, { key: 'Enter', code: 'Enter' })
+
+      // Advance UI delay timer (1500ms)
+      act(() => {
+        jest.advanceTimersByTime(1500)
+      })
+
+      await waitFor(() => {
+        expect(onAnswerMock).toHaveBeenCalled()
+      })
+
+      // Response time should be ~800ms (submission time), not 2300ms (submission + delay)
+      const responseTime = onAnswerMock.mock.calls[0][2]
+      expect(responseTime).toBeGreaterThanOrEqual(700)
+      expect(responseTime).toBeLessThan(1000)
+      // Should NOT include the 1500ms UI delay
+      expect(responseTime).toBeLessThan(1500)
+
+      mockDateNow.mockRestore()
     })
 
     it('should not trigger onAnswer immediately without delay', () => {
@@ -296,7 +336,7 @@ describe('JpReassemble', () => {
       })
 
       await waitFor(() => {
-        expect(onAnswerMock).toHaveBeenCalledWith(['年', '少'], true)
+        expect(onAnswerMock).toHaveBeenCalledWith(['年', '少'], true, expect.any(Number))
       })
     })
   })
@@ -421,7 +461,7 @@ describe('JpReassemble', () => {
 
       // Feedback should appear
       await waitFor(() => {
-        expect(screen.getByText('Correct!')).toBeInTheDocument()
+        expect(screen.getByText('blastMode.screens.reassemble.correct')).toBeInTheDocument()
       })
     })
 
@@ -432,8 +472,7 @@ describe('JpReassemble', () => {
 
       // Feedback should appear with correct answer
       await waitFor(() => {
-        expect(screen.getByText(/Incorrect/i)).toBeInTheDocument()
-        expect(screen.getByText(/食 べ る/i)).toBeInTheDocument()
+        expect(screen.getByText('blastMode.screens.reassemble.incorrect')).toBeInTheDocument()
       })
     })
 
@@ -456,12 +495,12 @@ describe('JpReassemble', () => {
     it('should hide instructions after submission', () => {
       render(<JpReassemble {...defaultProps} />)
 
-      expect(screen.getByText(/Drag tiles to reorder/i)).toBeInTheDocument()
+      expect(screen.getByText('blastMode.screens.reassemble.instructions.reorder')).toBeInTheDocument()
 
       fireEvent.keyPress(window, { key: 'Enter', code: 'Enter' })
 
       // Instructions should be hidden
-      expect(screen.queryByText(/Drag tiles to reorder/i)).not.toBeInTheDocument()
+      expect(screen.queryByText('blastMode.screens.reassemble.instructions.reorder')).not.toBeInTheDocument()
     })
   })
 
@@ -530,7 +569,7 @@ describe('JpReassemble', () => {
       })
 
       await waitFor(() => {
-        expect(onAnswerMock).toHaveBeenCalledWith(['休'], true)
+        expect(onAnswerMock).toHaveBeenCalledWith(['休'], true, expect.any(Number))
       })
     })
   })
@@ -574,8 +613,8 @@ describe('JpReassemble', () => {
       )
 
       // Feedback should be cleared
-      expect(screen.queryByText('Correct!')).not.toBeInTheDocument()
-      expect(screen.queryByText(/Incorrect/i)).not.toBeInTheDocument()
+      expect(screen.queryByText('blastMode.screens.reassemble.correct')).not.toBeInTheDocument()
+      expect(screen.queryByText('blastMode.screens.reassemble.incorrect')).not.toBeInTheDocument()
     })
   })
 

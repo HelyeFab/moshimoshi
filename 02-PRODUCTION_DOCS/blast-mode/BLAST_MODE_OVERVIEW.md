@@ -1,7 +1,7 @@
 # Blast Mode Overview
 
 **Status:** DRAFT
-**Last Updated:** 2026-01-29
+**Last Updated:** 2026-01-30
 **Owner:** Product + Eng
 
 ---
@@ -38,6 +38,38 @@ Proposed route:
 - `src/app/[locale]/tools/blast-mode/learn/page.tsx`
 
 Separate flow, but can use shared UI patterns from `kanji-mastery` and `review-engine`.
+
+---
+
+## Lesson Mode (Kanji Only)
+
+Lesson Mode is a Blast Mode sub-flow for **kanji-only** study with strict mastery gating:
+
+- Uses **JLPT level order** as the canonical list.
+- Splits the level pool into **lessons of 5 kanji** (last lesson may be shorter).
+- **Linear progression**: a lesson must be completed at **100% accuracy** to unlock the next.
+- If a user does not reach 100%, they can **retry immediately**.
+- Retry options:
+  - **Review mistakes only** (replay incorrect steps)
+  - **Retry full lesson**
+
+UI surfaces this as a separate mode on `/tools/blast-mode`, while still sharing the existing Blast session flow and screens.
+
+### Lesson Progress Storage
+
+Lesson progress is stored locally (IndexedDB) for all users and synced to Firebase for premium users:
+
+- **IndexedDB store:** `moshimoshi-universal-progress` → `lessonProgress`
+- **Firebase collection:** `blastLessonProgress` (top-level)
+
+Stored fields:
+
+- `lessonId`, `userId`, `level`, `lessonIndex`, `lessonSize`, `totalLessons`
+- `kanjiIds`
+- `accuracy`, `completed`, `attempts`
+- `lastAttemptAt`, `updatedAt`, `completedAt`
+
+LWW sync runs on Blast Mode entry (premium users) and merges local/remote by `updatedAt`.
 
 ---
 
@@ -197,6 +229,95 @@ Priority order:
 
 - Separate flow, but should emit `SESSION_COMPLETED` via Event Hub for XP parity.
 - Store results using existing review-engine patterns where possible.
+
+---
+
+## Session Persistence (Local + Firebase)
+
+Blast Mode stores **completed sessions only**. Storage is **IndexedDB-first** for all authenticated users, with **Firebase sync for premium users only**, following the app’s storage decision patterns.
+
+### What Is Stored (Per Completed Session)
+
+Fields (minimal, analytics-ready):
+
+```ts
+interface BlastSessionRecord {
+  sessionId: string
+  userId: string
+  contentType: 'kanji' | 'vocabulary' | 'list' | 'sentence' | 'mixed'
+  level?: string
+  listId?: string
+  selectedKanji?: string[]
+  studiedItems: number
+  accuracy: number
+  completedAt: string
+  source?: string // 'blast-mode'
+}
+```
+
+**Notes**
+- `studiedItems` is **items length**, not steps.
+- `accuracy` is computed from correct answers.
+- `completedAt` is ISO string client-side; server stores as timestamp.
+
+### Local Storage (All Users)
+
+- **DB name**: `moshimoshi-universal-progress`
+- **Object store**: `sessions`
+- Storage is **always written locally** on completion.
+
+### Firebase Sync (Premium Users Only)
+
+- **Collection**: top-level `blastSessions`
+- **Doc ID**: `sessionId`
+- **Write gate**: server-side `getStorageDecision` (premium only)
+
+### API Endpoints
+
+**Save completed session**
+- `POST /api/blast/session/complete`
+- Server writes to `blastSessions` only if premium.
+
+**Fetch session history (premium only)**
+- `GET /api/blast/sessions?limit=50`
+- Returns user’s sessions ordered by `completedAt desc`.
+- Free users receive empty response (local-only).
+
+### Client Flow (Completion)
+
+1. Session ends → calculate stats.
+2. Build `BlastSessionRecord`.
+3. Save to IndexedDB.
+4. If premium: attempt Firebase sync; on failure, queue for later.
+
+### LWW Sync on Blast Mode Entry (Premium Only)
+
+On **every visit** to `/tools/blast-mode`, the client performs a lightweight **LWW (Last Write Wins)** reconciliation between IndexedDB and Firebase:
+
+1. Load **local sessions** (IndexedDB).
+2. Fetch **remote sessions** (last 50 by `completedAt desc`).
+3. **Merge by `sessionId`**:
+   - If local exists but remote missing → upload local to Firebase.
+   - If remote exists but local missing → save remote locally.
+   - If both exist → keep the one with newer `completedAt`.
+
+This ensures that deleted Firebase docs can be **recreated from local history** and that new remote sessions populate local storage.
+
+### Firestore Rules + Indexes
+
+Rules (server-only writes):
+```
+match /blastSessions/{sessionId} {
+  allow read: if isOwner(resource.data.userId);
+  allow write: if false; // Admin SDK only
+}
+```
+
+Index (history queries):
+```
+collectionGroup: blastSessions
+fields: userId ASC, completedAt DESC
+```
 
 ---
 

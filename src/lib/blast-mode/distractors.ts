@@ -100,10 +100,12 @@ function extractPOS(vocabItem: { pos?: string }): string | null {
 /**
  * Generate meaning (English) distractors
  * Strategy: Same POS, similar length, avoid synonyms
+ * @param rng - Optional random number generator (0-1), defaults to Math.random
  */
 export function generateMeaningDistractors(
   correctMeaning: string,
-  options: DistractorOptions = {}
+  options: DistractorOptions = {},
+  rng: () => number = Math.random
 ): string[] {
   const {
     count = 3,
@@ -151,17 +153,19 @@ export function generateMeaningDistractors(
   )
 
   // Shuffle and select
-  const shuffled = unique.sort(() => Math.random() - 0.5)
+  const shuffled = unique.sort(() => rng() - 0.5)
   return shuffled.slice(0, count)
 }
 
 /**
  * Generate Japanese text distractors
  * Strategy: Same length, similar kana/kanji pattern
+ * @param rng - Optional random number generator (0-1), defaults to Math.random
  */
 export function generateJapaneseDistractors(
   correctText: string,
-  options: DistractorOptions = {}
+  options: DistractorOptions = {},
+  rng: () => number = Math.random
 ): string[] {
   const {
     count = 3,
@@ -205,18 +209,20 @@ export function generateJapaneseDistractors(
   )
 
   // Shuffle and select
-  const shuffled = unique.sort(() => Math.random() - 0.5)
+  const shuffled = unique.sort(() => rng() - 0.5)
   return shuffled.slice(0, count)
 }
 
 /**
  * Generate reading (onyomi/kunyomi) distractors
  * Strategy: Same mora count, phonetic neighbors, avoid overlap
+ * @param rng - Optional random number generator (0-1), defaults to Math.random
  */
 export function generateReadingDistractors(
   correctReading: string,
   readingType: 'onyomi' | 'kunyomi',
-  options: DistractorOptions = {}
+  options: DistractorOptions = {},
+  rng: () => number = Math.random
 ): string[] {
   const {
     count = 3,
@@ -261,17 +267,19 @@ export function generateReadingDistractors(
 
   // Shuffle and select unique candidates
   const unique = Array.from(new Set(filtered))
-  const shuffled = unique.sort(() => Math.random() - 0.5)
+  const shuffled = unique.sort(() => rng() - 0.5)
   return shuffled.slice(0, count)
 }
 
 /**
  * Build complete MCQ options (correct + distractors)
  * Returns shuffled array with correct answer included
+ * @param rng - Optional random number generator (0-1), defaults to Math.random
  */
 export function buildMcqOptions(
   correctAnswer: string,
-  distractors: string[]
+  distractors: string[],
+  rng: () => number = Math.random
 ): { options: string[]; correctIndex: number } {
   // Deduplicate and filter out correct answer from distractors
   const uniqueDistractors = Array.from(
@@ -286,7 +294,7 @@ export function buildMcqOptions(
   const indices = Array.from({ length: options.length }, (_, i) => i)
 
   while (indices.length > 0) {
-    const randomIndex = Math.floor(Math.random() * indices.length)
+    const randomIndex = Math.floor(rng() * indices.length)
     const optionIndex = indices.splice(randomIndex, 1)[0]
     shuffled.push(options[optionIndex])
   }
@@ -298,38 +306,44 @@ export function buildMcqOptions(
 
 /**
  * High-level API: Generate MCQ options for meaning screen
+ * @param rng - Optional random number generator (0-1), defaults to Math.random
  */
 export function generateMeaningMcq(
   item: BlastItem,
   pool?: DistractorPool,
-  avoidList: string[] = []
+  avoidList: string[] = [],
+  rng: () => number = Math.random
 ): { options: string[]; correctIndex: number } {
-  const distractors = generateMeaningDistractors(item.meaningEn, { pool, count: 3, avoidList })
-  return buildMcqOptions(item.meaningEn, distractors)
+  const distractors = generateMeaningDistractors(item.meaningEn, { pool, count: 3, avoidList }, rng)
+  return buildMcqOptions(item.meaningEn, distractors, rng)
 }
 
 /**
  * High-level API: Generate MCQ options for Japanese screen
+ * @param rng - Optional random number generator (0-1), defaults to Math.random
  */
 export function generateJapaneseMcq(
   item: BlastItem,
   pool?: DistractorPool,
-  avoidList: string[] = []
+  avoidList: string[] = [],
+  rng: () => number = Math.random
 ): { options: string[]; correctIndex: number } {
   const correctText = item.kanji || item.kana || ''
-  const distractors = generateJapaneseDistractors(correctText, { pool, count: 3, avoidList })
-  return buildMcqOptions(correctText, distractors)
+  const distractors = generateJapaneseDistractors(correctText, { pool, count: 3, avoidList }, rng)
+  return buildMcqOptions(correctText, distractors, rng)
 }
 
 /**
  * High-level API: Generate MCQ options for reading screen
+ * @param rng - Optional random number generator (0-1), defaults to Math.random
  */
 export function generateReadingMcq(
   reading: string,
   readingType: 'onyomi' | 'kunyomi',
   pool?: DistractorPool,
-  avoidList: string[] = []
+  avoidList: string[] = [],
+  rng: () => number = Math.random
 ): { options: string[]; correctIndex: number } {
-  const distractors = generateReadingDistractors(reading, readingType, { pool, count: 3, avoidList })
-  return buildMcqOptions(reading, distractors)
+  const distractors = generateReadingDistractors(reading, readingType, { pool, count: 3, avoidList }, rng)
+  return buildMcqOptions(reading, distractors, rng)
 }

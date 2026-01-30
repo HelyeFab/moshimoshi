@@ -7419,6 +7419,11 @@ export const strings = {
 
     configure: {
       title: 'Configurar Sesión',
+      mode: {
+        label: 'Modo',
+        session: 'Sesión',
+        lesson: 'Modo Lección',
+      },
       contentType: {
         label: 'Tipo de Contenido',
         kanji: 'Kanji',
@@ -7452,6 +7457,8 @@ export const strings = {
 
     buttons: {
       start: 'Iniciar Modo Blast',
+      startLesson: 'Iniciar Lección {{number}}',
+      reviewLesson: 'Repasar Lección',
       starting: 'Iniciando...',
       next: 'Siguiente',
       finish: 'Finalizar',
@@ -7485,6 +7492,45 @@ export const strings = {
       completion: {
         title: '¡Sesión Completa!',
         message: '¡Completaste {{completedSteps}} pasos con {{accuracy}}% de precisión!',
+      },
+    },
+
+    lesson: {
+      title: 'Modo Lección',
+      subtitle: '{{size}} kanji por lección (la última puede ser más corta)',
+      progress: 'Lección {{current}} de {{total}}',
+      progressTitle: 'Progreso de lecciones',
+      lessonLabel: 'Lección {{number}}',
+      resumeLesson: 'Reanudar lección {{number}}',
+      progressEmpty: 'No hay lecciones disponibles',
+      perfectNeeded: 'Se necesita perfección para desbloquear la siguiente lección.',
+      loading: 'Cargando progreso de lecciones...',
+      kanjiCount: '{{count}} kanji en esta lección',
+      noKanji: 'Aún no se han cargado kanji',
+      accuracyLabel: 'Precisión',
+      attemptsLabel: 'Intentos',
+      lastAttemptLabel: 'Último intento',
+      errors: {
+        loadFailed: 'Error al cargar el progreso de lecciones',
+      },
+      completion: {
+        title: '¡Lección Completa!',
+        message: 'Lección {{current}} de {{total}} completada con {{accuracy}}% de precisión.',
+        nextLesson: 'Siguiente lección',
+        done: 'Todas las lecciones completadas',
+        back: 'Volver al Modo Blast',
+      },
+      retry: {
+        title: 'Se requiere puntuación perfecta',
+        message: 'Obtuviste {{accuracy}}%. Se requiere 100% para desbloquear la siguiente lección.',
+        retryMistakes: 'Revisar solo errores',
+        retryFull: 'Reintentar lección completa',
+        exit: 'Salir',
+      },
+      status: {
+        current: 'Actual',
+        completed: 'Completada',
+        locked: 'Bloqueada',
       },
     },
 

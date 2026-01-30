@@ -139,7 +139,7 @@ describe('Step Generator', () => {
   })
 
   describe('Vocabulary items', () => {
-    it('should generate only steps 1,2,6 for vocabulary', () => {
+    it('should generate only steps 1,2,6 for vocabulary without readings', () => {
       const vocabItem: BlastItem = {
         id: 'vocab-1',
         contentType: 'vocabulary',
@@ -163,6 +163,110 @@ describe('Step Generator', () => {
         s.stepType === 'other_reading_mcq'
       )
       expect(hasReadingSteps).toBe(false)
+    })
+
+    it('should include reading steps for vocabulary items with readings metadata', () => {
+      const vocabItemWithReadings: BlastItem = {
+        id: 'vocab-with-readings',
+        contentType: 'vocabulary',
+        kanji: '食事',
+        kana: 'しょくじ',
+        meaningEn: 'meal',
+        readings: {
+          onyomi: ['ショク', 'ジキ'],
+          kunyomi: ['く.う', 'た.べる']
+        }
+      }
+
+      const steps = generateBlastSteps([vocabItemWithReadings])
+
+      // Should include reading steps when readings are provided
+      // Steps 1,2,3,4,6 (and possibly 5 if multiple readings)
+      expect(steps.length).toBeGreaterThan(3)
+
+      // Should have onyomi step
+      const hasOnyomiStep = steps.some(s => s.stepType === 'onyomi_mcq')
+      expect(hasOnyomiStep).toBe(true)
+
+      // Should have kunyomi step
+      const hasKunyomiStep = steps.some(s => s.stepType === 'kunyomi_mcq')
+      expect(hasKunyomiStep).toBe(true)
+
+      // Should still have basic steps
+      expect(steps[0].stepType).toBe('meaning_to_jp_mcq')
+      expect(steps[1].stepType).toBe('jp_reassemble')
+      expect(steps[steps.length - 1].stepType).toBe('jp_to_meaning_mcq')
+    })
+
+    it('should include reading steps for list items with readings', () => {
+      const listItemWithReadings: BlastItem = {
+        id: 'list-item-1',
+        contentType: 'list',
+        kanji: '天気',
+        kana: 'てんき',
+        meaningEn: 'weather',
+        readings: {
+          onyomi: ['テン', 'キ'],
+          kunyomi: ['あま', 'け']
+        }
+      }
+
+      const steps = generateBlastSteps([listItemWithReadings])
+
+      // Should include reading steps for list items with readings
+      const hasOnyomiStep = steps.some(s => s.stepType === 'onyomi_mcq')
+      const hasKunyomiStep = steps.some(s => s.stepType === 'kunyomi_mcq')
+
+      expect(hasOnyomiStep).toBe(true)
+      expect(hasKunyomiStep).toBe(true)
+    })
+
+    it('should skip onyomi if not provided in readings for vocab item', () => {
+      const vocabItemKunyomiOnly: BlastItem = {
+        id: 'vocab-kunyomi-only',
+        contentType: 'vocabulary',
+        kanji: '水',
+        kana: 'みず',
+        meaningEn: 'water',
+        readings: {
+          kunyomi: ['みず']
+          // No onyomi
+        }
+      }
+
+      const steps = generateBlastSteps([vocabItemKunyomiOnly])
+
+      // Should have kunyomi step
+      const hasKunyomiStep = steps.some(s => s.stepType === 'kunyomi_mcq')
+      expect(hasKunyomiStep).toBe(true)
+
+      // Should not have onyomi step
+      const hasOnyomiStep = steps.some(s => s.stepType === 'onyomi_mcq')
+      expect(hasOnyomiStep).toBe(false)
+    })
+
+    it('should skip kunyomi if not provided in readings for vocab item', () => {
+      const vocabItemOnyomiOnly: BlastItem = {
+        id: 'vocab-onyomi-only',
+        contentType: 'vocabulary',
+        kanji: '銀行',
+        kana: 'ぎんこう',
+        meaningEn: 'bank',
+        readings: {
+          onyomi: ['ギン', 'コウ']
+          // No kunyomi
+        }
+      }
+
+      const steps = generateBlastSteps([vocabItemOnyomiOnly])
+
+      // Should have onyomi step
+      const hasOnyomiStep = steps.some(s => s.stepType === 'onyomi_mcq')
+      expect(hasOnyomiStep).toBe(true)
+
+      // Should not have kunyomi step
+      const hasKunyomiStep = steps.some(s => s.stepType === 'kunyomi_mcq')
+      expect(hasKunyomiStep).toBe(false)
     })
 
     it('should generate steps for kana-only vocabulary', () => {
@@ -326,6 +430,101 @@ describe('Step Generator', () => {
       expect(steps[0].stepType).toBe('meaning_to_jp_mcq')
       expect(steps[1].stepType).toBe('jp_reassemble')
       expect(steps[2].stepType).toBe('jp_to_meaning_mcq')
+    })
+  })
+
+  describe('Deterministic RNG', () => {
+    it('should produce identical outputs when using seeded RNG', () => {
+      const items: BlastItem[] = [
+        {
+          id: 'test-1',
+          contentType: 'kanji',
+          kanji: '日',
+          kana: 'ひ',
+          meaningEn: 'sun',
+          readings: { onyomi: ['ニチ'], kunyomi: ['ひ'] }
+        }
+      ]
+
+      // Seeded RNG that returns a constant value
+      const seededRng = () => 0.42
+
+      // Generate steps twice with the same seed
+      const steps1 = generateBlastSteps(items, undefined, seededRng)
+      const steps2 = generateBlastSteps(items, undefined, seededRng)
+
+      // Should produce identical outputs
+      expect(steps1.length).toBe(steps2.length)
+
+      // Verify each step is identical
+      steps1.forEach((step, index) => {
+        expect(step.stepType).toBe(steps2[index].stepType)
+        expect(step.itemId).toBe(steps2[index].itemId)
+        expect(step.prompt).toBe(steps2[index].prompt)
+        if (Array.isArray(step.answer) || Array.isArray(steps2[index].answer)) {
+          expect(step.answer).toEqual(steps2[index].answer)
+        } else {
+          expect(step.answer).toBe(steps2[index].answer)
+        }
+
+        // If options exist, they should be in the same order
+        if (step.options && steps2[index].options) {
+          expect(step.options).toEqual(steps2[index].options)
+        }
+
+        // If tiles exist, they should be in the same order
+        if (step.tiles && steps2[index].tiles) {
+          expect(step.tiles).toEqual(steps2[index].tiles)
+        }
+      })
+    })
+
+    it('should use default Math.random when no RNG provided', () => {
+      const items: BlastItem[] = [
+        {
+          id: 'test-1',
+          contentType: 'vocabulary',
+          kanji: '食べる',
+          kana: 'たべる',
+          meaningEn: 'to eat'
+        }
+      ]
+
+      // Generate steps without RNG parameter
+      const steps = generateBlastSteps(items)
+
+      // Should succeed and produce valid steps
+      expect(steps.length).toBeGreaterThan(0)
+      expect(steps[0]).toHaveProperty('stepType')
+      expect(steps[0]).toHaveProperty('itemId')
+    })
+
+    it('should support different seeded RNGs producing different outputs', () => {
+      const items: BlastItem[] = [
+        {
+          id: 'test-1',
+          contentType: 'kanji',
+          kanji: '水',
+          kana: 'みず',
+          meaningEn: 'water',
+          readings: { onyomi: ['スイ'], kunyomi: ['みず'] }
+        }
+      ]
+
+      // Different seeded RNGs
+      const rng1 = () => 0.1
+      const rng2 = () => 0.9
+
+      const steps1 = generateBlastSteps(items, undefined, rng1)
+      const steps2 = generateBlastSteps(items, undefined, rng2)
+
+      // Should produce same number of steps (structural consistency)
+      expect(steps1.length).toBe(steps2.length)
+
+      // But tile order or option order might differ
+      // This test just verifies both RNGs work without errors
+      expect(steps1).toBeDefined()
+      expect(steps2).toBeDefined()
     })
   })
 

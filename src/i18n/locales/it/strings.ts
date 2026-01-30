@@ -7454,6 +7454,11 @@ export const strings = {
 
     configure: {
       title: 'Configura Sessione',
+      mode: {
+        label: 'Modalità',
+        session: 'Sessione',
+        lesson: 'Modalità Lezione',
+      },
       contentType: {
         label: 'Tipo di Contenuto',
         kanji: 'Kanji',
@@ -7487,6 +7492,8 @@ export const strings = {
 
     buttons: {
       start: 'Avvia Modalità Blast',
+      startLesson: 'Avvia Lezione {{number}}',
+      reviewLesson: 'Rivedi Lezione',
       starting: 'Avvio in corso...',
       next: 'Avanti',
       finish: 'Termina',
@@ -7520,6 +7527,45 @@ export const strings = {
       completion: {
         title: 'Sessione Completata!',
         message: 'Hai completato {{completedSteps}} passaggi con {{accuracy}}% di precisione!',
+      },
+    },
+
+    lesson: {
+      title: 'Modalità Lezione',
+      subtitle: '{{size}} kanji per lezione (l\'ultima può essere più corta)',
+      progress: 'Lezione {{current}} di {{total}}',
+      progressTitle: 'Progresso lezioni',
+      lessonLabel: 'Lezione {{number}}',
+      resumeLesson: 'Riprendi lezione {{number}}',
+      progressEmpty: 'Nessuna lezione disponibile',
+      perfectNeeded: 'È necessario un punteggio perfetto per sbloccare la prossima lezione.',
+      loading: 'Caricamento progressi della lezione...',
+      kanjiCount: '{{count}} kanji in questa lezione',
+      noKanji: 'Nessun kanji caricato ancora',
+      accuracyLabel: 'Precisione',
+      attemptsLabel: 'Tentativi',
+      lastAttemptLabel: 'Ultimo tentativo',
+      errors: {
+        loadFailed: 'Impossibile caricare i progressi della lezione',
+      },
+      completion: {
+        title: 'Lezione Completata!',
+        message: 'Lezione {{current}} di {{total}} completata con {{accuracy}}% di precisione.',
+        nextLesson: 'Lezione successiva',
+        done: 'Tutte le lezioni completate',
+        back: 'Torna alla Modalità Blast',
+      },
+      retry: {
+        title: 'Serve un punteggio perfetto',
+        message: 'Hai ottenuto {{accuracy}}%. Serve il 100% per sbloccare la prossima lezione.',
+        retryMistakes: 'Rivedi solo gli errori',
+        retryFull: 'Riprova la lezione completa',
+        exit: 'Esci',
+      },
+      status: {
+        current: 'Attuale',
+        completed: 'Completata',
+        locked: 'Bloccata',
       },
     },
 

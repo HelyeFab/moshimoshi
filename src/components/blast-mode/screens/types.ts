@@ -5,7 +5,7 @@
 
 export interface BaseScreenProps {
   prompt: string
-  onAnswer: (answer: string | string[], correct: boolean) => void
+  onAnswer: (answer: string | string[], correct: boolean, responseTime: number) => void
   disabled?: boolean
 }
 

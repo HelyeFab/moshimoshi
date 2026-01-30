@@ -58,7 +58,7 @@ interface ProgressDBSchema extends DBSchema {
     key: number
     value: {
       id?: number
-      type: 'progress' | 'session'
+      type: 'progress' | 'session' | 'lesson'
       userId: string
       contentType: string
       data: any
@@ -71,6 +71,22 @@ interface ProgressDBSchema extends DBSchema {
       'by-timestamp': number
     }
   }
+  lessonProgress: {
+    key: number
+    value: {
+      id?: number
+      lessonId: string
+      userId: string
+      level: string
+      data: any
+      syncedAt?: Date
+    }
+    indexes: {
+      'by-lesson': string
+      'by-user': string
+      'by-level': string
+    }
+  }
 }
 
 /**
@@ -79,7 +95,7 @@ interface ProgressDBSchema extends DBSchema {
 export abstract class UniversalProgressManager<T extends ReviewProgressData = ReviewProgressData> {
   protected db: IDBPDatabase<ProgressDBSchema> | null = null
   protected dbName = 'moshimoshi-universal-progress'
-  protected dbVersion = 2
+  protected dbVersion = 3
 
   // Sync management
   protected syncTimeout: NodeJS.Timeout | null = null
@@ -146,6 +162,17 @@ export abstract class UniversalProgressManager<T extends ReviewProgressData = Re
             })
             sessionsStore.createIndex('by-session', 'sessionId', { unique: true })
             sessionsStore.createIndex('by-user', 'userId')
+          }
+
+          // Lesson progress store
+          if (!db.objectStoreNames.contains('lessonProgress')) {
+            const lessonStore = db.createObjectStore('lessonProgress', {
+              keyPath: 'id',
+              autoIncrement: true,
+            })
+            lessonStore.createIndex('by-lesson', 'lessonId', { unique: true })
+            lessonStore.createIndex('by-user', 'userId')
+            lessonStore.createIndex('by-level', 'level')
           }
 
           // Sync queue store

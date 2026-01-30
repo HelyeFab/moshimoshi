@@ -7425,6 +7425,11 @@ export const strings = {
 
     configure: {
       title: 'Sitzung konfigurieren',
+      mode: {
+        label: 'Modus',
+        session: 'Sitzung',
+        lesson: 'Lektionsmodus',
+      },
       contentType: {
         label: 'Inhaltstyp',
         kanji: 'Kanji',
@@ -7458,6 +7463,8 @@ export const strings = {
 
     buttons: {
       start: 'Blast-Modus starten',
+      startLesson: 'Lektion {{number}} starten',
+      reviewLesson: 'Lektion wiederholen',
       starting: 'Wird gestartet...',
       next: 'Weiter',
       finish: 'Beenden',
@@ -7491,6 +7498,45 @@ export const strings = {
       completion: {
         title: 'Sitzung abgeschlossen!',
         message: 'Du hast {{completedSteps}} Schritte mit {{accuracy}}% Genauigkeit abgeschlossen!',
+      },
+    },
+
+    lesson: {
+      title: 'Lektionsmodus',
+      subtitle: '{{size}} Kanji pro Lektion (die letzte kann kürzer sein)',
+      progress: 'Lektion {{current}} von {{total}}',
+      progressTitle: 'Lektionsfortschritt',
+      lessonLabel: 'Lektion {{number}}',
+      resumeLesson: 'Lektion {{number}} fortsetzen',
+      progressEmpty: 'Keine Lektionen verfügbar',
+      perfectNeeded: 'Perfekte Punktzahl nötig, um die nächste Lektion freizuschalten.',
+      loading: 'Lade Lektionsfortschritt...',
+      kanjiCount: '{{count}} Kanji in dieser Lektion',
+      noKanji: 'Noch keine Kanji geladen',
+      accuracyLabel: 'Genauigkeit',
+      attemptsLabel: 'Versuche',
+      lastAttemptLabel: 'Letzter Versuch',
+      errors: {
+        loadFailed: 'Laden des Lektionsfortschritts fehlgeschlagen',
+      },
+      completion: {
+        title: 'Lektion abgeschlossen!',
+        message: 'Lektion {{current}} von {{total}} mit {{accuracy}}% Genauigkeit abgeschlossen.',
+        nextLesson: 'Nächste Lektion',
+        done: 'Alle Lektionen abgeschlossen',
+        back: 'Zurück zum Blast-Modus',
+      },
+      retry: {
+        title: 'Perfekte Punktzahl erforderlich',
+        message: 'Du hast {{accuracy}}% erreicht. 100% sind nötig, um die nächste Lektion freizuschalten.',
+        retryMistakes: 'Nur Fehler wiederholen',
+        retryFull: 'Ganze Lektion wiederholen',
+        exit: 'Beenden',
+      },
+      status: {
+        current: 'Aktuell',
+        completed: 'Abgeschlossen',
+        locked: 'Gesperrt',
       },
     },
 

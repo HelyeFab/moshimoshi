@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { KanjiWithExamples, KanjiProgress } from '../LearnContent'
 import DoshiMascot from '@/components/ui/DoshiMascot'
@@ -17,6 +17,7 @@ interface Round3EvaluateProps {
 
 export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progress, onComplete, onExit }: Round3EvaluateProps) {
   const [selectedRating, setSelectedRating] = useState<number | null>(null)
+  const [showShortcuts, setShowShortcuts] = useState(false)
 
   const handleRatingSelect = (rating: number) => {
     setSelectedRating(rating)
@@ -25,6 +26,53 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
       setSelectedRating(null)
     }, 500)
   }
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const target = e.target as HTMLElement
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+        return
+      }
+
+      switch (e.key) {
+        case 'Enter':
+        case ' ':
+        case 'ArrowRight':
+          if (selectedRating === null) {
+            e.preventDefault()
+            handleRatingSelect(3)
+          }
+          break
+        case 'Escape':
+          e.preventDefault()
+          if (showShortcuts) {
+            setShowShortcuts(false)
+          } else {
+            onExit()
+          }
+          break
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [handleRatingSelect, onExit, selectedRating, showShortcuts])
+
+  // Close shortcuts panel when clicking outside
+  useEffect(() => {
+    if (!showShortcuts) return
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (!target.closest('.shortcuts-panel') && !target.closest('.shortcuts-badge')) {
+        setShowShortcuts(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [showShortcuts])
 
   // Calculate test performance
   const testAccuracy = progress?.round2Accuracy || 0
@@ -62,13 +110,66 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
       className="space-y-6"
     >
       {/* Header */}
-      <div className="text-center">
+      <div className="text-center relative">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
           Round 3: Evaluate
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
           Kanji {currentIndex + 1} of {totalKanji}
         </p>
+
+        {/* Keyboard Shortcuts Badge - Desktop Only */}
+        <div className="hidden md:block absolute top-0 right-0">
+          <button
+            onClick={() => setShowShortcuts(!showShortcuts)}
+            className="shortcuts-badge flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors text-sm font-medium shadow-sm"
+            aria-label="Toggle keyboard shortcuts"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+            </svg>
+            <span>Shortcuts</span>
+          </button>
+
+          {showShortcuts && (
+            <motion.div
+              initial={{ opacity: 0, y: -10, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -10, scale: 0.95 }}
+              transition={{ duration: 0.2 }}
+              className="shortcuts-panel absolute top-full right-0 mt-2 bg-white dark:bg-dark-800 rounded-xl shadow-2xl border border-gray-200 dark:border-dark-700 p-4 w-80 z-50"
+            >
+              <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Keyboard Shortcuts
+              </h3>
+              <div className="space-y-2">
+                <div className="border-b border-gray-200 dark:border-dark-700 pb-2 mb-2">
+                  <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Navigation</p>
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-700 dark:text-gray-300">Rate & Continue</span>
+                      <div className="flex gap-1">
+                        <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">Enter</kbd>
+                        <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">Space</kbd>
+                        <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">→</kbd>
+                      </div>
+                    </div>
+                    <div className="flex items-center justify-between text-sm">
+                      <span className="text-gray-700 dark:text-gray-300">Exit</span>
+                      <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">Esc</kbd>
+                    </div>
+                  </div>
+                </div>
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                  Rate & Continue uses the Medium (3) rating when no selection is made.
+                </p>
+              </div>
+            </motion.div>
+          )}
+        </div>
       </div>
 
       {/* Kanji Review Card */}

@@ -4,7 +4,7 @@
  */
 
 import { BlastItem } from '../types'
-import { getCommonJMdictWords, searchJMdictWords } from '@/utils/jmdictLocalSearch'
+import { getCommonJMdictWords } from '@/utils/jmdictLocalSearch'
 import { JapaneseWord } from '@/types/vocabulary'
 
 export interface VocabAdapterConfig {

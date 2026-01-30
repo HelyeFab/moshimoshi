@@ -246,6 +246,38 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 
 ---
 
+### Theming System (`theming/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./theming/README.md) | Theme system overview and quick start guide |
+| [THEME_GUIDE.md](./theming/THEME_GUIDE.md) | Complete implementation guide for new pages and components |
+
+**Key Topics:**
+- 10 dynamic color palettes (Sakura, Ocean, Matcha, etc.)
+- Tailwind CSS v4 with @theme directive
+- SSR-safe hydration (zero FOUC)
+- Dark mode implementation patterns
+- Japanese typography and aesthetic colors
+- Accessibility features (large text, high contrast, reduce motion)
+- Component theming patterns and best practices
+- Tiered storage (Guest/Free/Premium preferences)
+
+**Key Files:**
+- `src/styles/globals.css:136-230` - Theme variables and semantic tokens
+- `src/styles/palettes.css:1-230` - 10 color palette definitions
+- `src/lib/theme/ThemeContext.tsx` - React theme state management
+- `src/lib/theme/theme-script.ts` - SSR hydration script
+- `src/utils/preferencesManager.ts` - User preference storage
+
+**Essential Reading for:**
+- ✅ Developers creating new pages or components
+- ✅ Anyone working with colors, typography, or styling
+- ✅ Understanding dark mode implementation
+- ✅ Implementing accessible UI features
+
+---
+
 ### User Agent Tracking (`user-agent-tracking/`)
 
 | Document | Description |

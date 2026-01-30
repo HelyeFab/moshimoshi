@@ -325,8 +325,10 @@ export function splitIntoTiles(item: BlastItem): TileSplitResult {
 /**
  * Shuffle tiles for the reassembly exercise
  * Ensures the shuffled order is different from the original
+ * @param tiles - Array of tiles to shuffle
+ * @param rng - Optional random number generator (0-1), defaults to Math.random
  */
-export function shuffleTiles(tiles: string[]): string[] {
+export function shuffleTiles(tiles: string[], rng: () => number = Math.random): string[] {
   if (tiles.length <= 1) return [...tiles]
 
   let shuffled = [...tiles]
@@ -334,7 +336,7 @@ export function shuffleTiles(tiles: string[]): string[] {
   const maxAttempts = 10
 
   do {
-    shuffled = [...tiles].sort(() => Math.random() - 0.5)
+    shuffled = [...tiles].sort(() => rng() - 0.5)
     attempts++
   } while (
     attempts < maxAttempts &&

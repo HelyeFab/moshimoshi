@@ -7653,6 +7653,11 @@ export const strings = {
 
     configure: {
       title: 'Configure Session',
+      mode: {
+        label: 'Mode',
+        session: 'Session',
+        lesson: 'Lesson Mode',
+      },
       contentType: {
         label: 'Content Type',
         kanji: 'Kanji',
@@ -7686,6 +7691,8 @@ export const strings = {
 
     buttons: {
       start: 'Start Blast Mode',
+      startLesson: 'Start Lesson {{number}}',
+      reviewLesson: 'Review Lesson',
       starting: 'Starting...',
       next: 'Next',
       finish: 'Finish',
@@ -7719,6 +7726,45 @@ export const strings = {
       completion: {
         title: 'Session Complete!',
         message: 'You completed {{completedSteps}} steps with {{accuracy}}% accuracy!',
+      },
+    },
+
+    lesson: {
+      title: 'Lesson Mode',
+      subtitle: '{{size}} kanji per lesson (last lesson may be shorter)',
+      progress: 'Lesson {{current}} of {{total}}',
+      progressTitle: 'Lesson Progress',
+      lessonLabel: 'Lesson {{number}}',
+      resumeLesson: 'Resume Lesson {{number}}',
+      progressEmpty: 'No lessons available',
+      perfectNeeded: 'Perfect needed to unlock next lesson.',
+      loading: 'Loading lesson progress...',
+      kanjiCount: '{{count}} kanji in this lesson',
+      noKanji: 'No kanji loaded yet',
+      accuracyLabel: 'Accuracy',
+      attemptsLabel: 'Attempts',
+      lastAttemptLabel: 'Last attempt',
+      errors: {
+        loadFailed: 'Failed to load lesson progress',
+      },
+      completion: {
+        title: 'Lesson Complete!',
+        message: 'Lesson {{current}} of {{total}} completed with {{accuracy}}% accuracy.',
+        nextLesson: 'Next Lesson',
+        done: 'All Lessons Complete',
+        back: 'Back to Blast Mode',
+      },
+      retry: {
+        title: 'Perfect Needed to Continue',
+        message: 'You scored {{accuracy}}%. You need 100% to unlock the next lesson.',
+        retryMistakes: 'Review mistakes only',
+        retryFull: 'Retry full lesson',
+        exit: 'Exit',
+      },
+      status: {
+        current: 'Current',
+        completed: 'Completed',
+        locked: 'Locked',
       },
     },
 

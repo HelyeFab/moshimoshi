@@ -28,6 +28,8 @@ export function BaseMcqScreen({
   const [selectedOption, setSelectedOption] = useState<string | null>(null)
   const [showFeedback, setShowFeedback] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
+  const [selectionTime, setSelectionTime] = useState<number>(0)
+  const stepStartTimeRef = React.useRef<number>(Date.now())
   const timeoutRef = React.useRef<NodeJS.Timeout | null>(null)
 
   // Reset state when prompt changes
@@ -35,6 +37,8 @@ export function BaseMcqScreen({
     setSelectedOption(null)
     setShowFeedback(false)
     setIsCorrect(false)
+    setSelectionTime(0)
+    stepStartTimeRef.current = Date.now()
   }, [prompt])
 
   // Cleanup timer on unmount
@@ -49,19 +53,23 @@ export function BaseMcqScreen({
   const handleOptionSelect = (option: string) => {
     if (disabled || showFeedback) return
 
+    // Capture response time at selection (not after delay)
+    const responseTime = Date.now() - stepStartTimeRef.current
+
     setSelectedOption(option)
     const correct = option === correctAnswer
     setIsCorrect(correct)
     setShowFeedback(true)
+    setSelectionTime(responseTime)
 
     // Clear any existing timer
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current)
     }
 
-    // Auto-advance after feedback
+    // Auto-advance after feedback (UI delay does not affect response time)
     timeoutRef.current = setTimeout(() => {
-      onAnswer(option, correct)
+      onAnswer(option, correct, responseTime)
     }, 1200)
   }
 

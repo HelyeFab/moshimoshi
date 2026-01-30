@@ -10,6 +10,12 @@ import userEvent from '@testing-library/user-event'
 import '@testing-library/jest-dom'
 import { BaseMcqScreen } from '../BaseMcqScreen'
 
+jest.mock('@/hooks/useTranslation', () => ({
+  useTranslation: () => ({
+    t: (key: string) => key
+  })
+}))
+
 // Mock framer-motion to avoid animation issues in tests
 jest.mock('framer-motion', () => ({
   motion: {
@@ -60,7 +66,7 @@ describe('BaseMcqScreen', () => {
 
     it('should render keyboard hint', () => {
       render(<BaseMcqScreen {...defaultProps} />)
-      expect(screen.getByText(/Press 1-4 or click to select/i)).toBeInTheDocument()
+      expect(screen.getByText('blastMode.screens.mcq.hint')).toBeInTheDocument()
     })
   })
 
@@ -82,7 +88,7 @@ describe('BaseMcqScreen', () => {
 
       // Should call after delay
       await waitFor(() => {
-        expect(onAnswerMock).toHaveBeenCalledWith('to eat', true)
+        expect(onAnswerMock).toHaveBeenCalledWith('to eat', true, expect.any(Number))
       })
     })
 
@@ -97,7 +103,7 @@ describe('BaseMcqScreen', () => {
       })
 
       await waitFor(() => {
-        expect(onAnswerMock).toHaveBeenCalledWith('to eat', true)
+        expect(onAnswerMock).toHaveBeenCalledWith('to eat', true, expect.any(Number))
       })
     })
 
@@ -112,8 +118,42 @@ describe('BaseMcqScreen', () => {
       })
 
       await waitFor(() => {
-        expect(onAnswerMock).toHaveBeenCalledWith('to drink', false)
+        expect(onAnswerMock).toHaveBeenCalledWith('to drink', false, expect.any(Number))
       })
+    })
+
+    it('should capture response time at selection, not after UI delay', async () => {
+      const onAnswerMock = jest.fn()
+      const startTime = Date.now()
+
+      // Mock Date.now to control time
+      const realDateNow = Date.now.bind(global.Date)
+      const mockDateNow = jest.spyOn(Date, 'now')
+      mockDateNow.mockImplementation(() => startTime)
+
+      render(<BaseMcqScreen {...defaultProps} onAnswer={onAnswerMock} />)
+
+      // Simulate 500ms passing before user clicks
+      mockDateNow.mockImplementation(() => startTime + 500)
+      fireEvent.click(screen.getByText('to eat'))
+
+      // Advance UI delay timer (1200ms)
+      act(() => {
+        jest.advanceTimersByTime(1200)
+      })
+
+      await waitFor(() => {
+        expect(onAnswerMock).toHaveBeenCalled()
+      })
+
+      // Response time should be ~500ms (selection time), not 1700ms (selection + delay)
+      const responseTime = onAnswerMock.mock.calls[0][2]
+      expect(responseTime).toBeGreaterThanOrEqual(400)
+      expect(responseTime).toBeLessThan(700)
+      // Should NOT include the 1200ms UI delay
+      expect(responseTime).toBeLessThan(1200)
+
+      mockDateNow.mockRestore()
     })
 
     it('should show feedback after selection', () => {
@@ -149,7 +189,7 @@ describe('BaseMcqScreen', () => {
       })
 
       await waitFor(() => {
-        expect(onAnswerMock).toHaveBeenCalledWith('to eat', true)
+        expect(onAnswerMock).toHaveBeenCalledWith('to eat', true, expect.any(Number))
       })
     })
 
@@ -164,7 +204,7 @@ describe('BaseMcqScreen', () => {
       })
 
       await waitFor(() => {
-        expect(onAnswerMock).toHaveBeenCalledWith('to drink', false)
+        expect(onAnswerMock).toHaveBeenCalledWith('to drink', false, expect.any(Number))
       })
     })
 
@@ -179,7 +219,7 @@ describe('BaseMcqScreen', () => {
       })
 
       await waitFor(() => {
-        expect(onAnswerMock).toHaveBeenCalledWith('to sleep', false)
+        expect(onAnswerMock).toHaveBeenCalledWith('to sleep', false, expect.any(Number))
       })
     })
 
@@ -194,7 +234,7 @@ describe('BaseMcqScreen', () => {
       })
 
       await waitFor(() => {
-        expect(onAnswerMock).toHaveBeenCalledWith('to run', false)
+        expect(onAnswerMock).toHaveBeenCalledWith('to run', false, expect.any(Number))
       })
     })
 
@@ -242,7 +282,7 @@ describe('BaseMcqScreen', () => {
 
       // Should only call once with first selection
       expect(onAnswerMock).toHaveBeenCalledTimes(1)
-      expect(onAnswerMock).toHaveBeenCalledWith('to eat', true)
+      expect(onAnswerMock).toHaveBeenCalledWith('to eat', true, expect.any(Number))
     })
   })
 
@@ -273,11 +313,11 @@ describe('BaseMcqScreen', () => {
       const { rerender } = render(<BaseMcqScreen {...defaultProps} />)
 
       // Initially shows hint
-      expect(screen.getByText(/Press 1-4 or click to select/i)).toBeInTheDocument()
+      expect(screen.getByText('blastMode.screens.mcq.hint')).toBeInTheDocument()
 
       // After selection, hint should disappear
       fireEvent.click(screen.getByText('to eat'))
-      expect(screen.queryByText(/Press 1-4 or click to select/i)).not.toBeInTheDocument()
+      expect(screen.queryByText('blastMode.screens.mcq.hint')).not.toBeInTheDocument()
     })
   })
 
@@ -353,7 +393,7 @@ describe('BaseMcqScreen', () => {
       )
 
       // Hint should be visible again
-      expect(screen.getByText(/Press 1-4 or click to select/i)).toBeInTheDocument()
+      expect(screen.getByText('blastMode.screens.mcq.hint')).toBeInTheDocument()
     })
 
     it('should clear feedback when prompt changes', () => {

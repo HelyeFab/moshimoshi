@@ -7388,6 +7388,11 @@ export const strings = {
 
     configure: {
       title: 'セッションを設定',
+      mode: {
+        label: 'モード',
+        session: 'セッション',
+        lesson: 'レッスンモード',
+      },
       contentType: {
         label: 'コンテンツタイプ',
         kanji: '漢字',
@@ -7421,6 +7426,8 @@ export const strings = {
 
     buttons: {
       start: 'ブラストモードを開始',
+      startLesson: 'レッスン{{number}}を開始',
+      reviewLesson: 'レッスンを復習',
       starting: '開始中...',
       next: '次へ',
       finish: '終了',
@@ -7454,6 +7461,45 @@ export const strings = {
       completion: {
         title: 'セッション完了！',
         message: '{{completedSteps}}ステップを{{accuracy}}％の正解率で完了しました！',
+      },
+    },
+
+    lesson: {
+      title: 'レッスンモード',
+      subtitle: '1レッスン{{size}}漢字（最後は短くなる場合あり）',
+      progress: 'レッスン{{current}} / {{total}}',
+      progressTitle: 'レッスン進捗',
+      lessonLabel: 'レッスン{{number}}',
+      resumeLesson: 'レッスン{{number}}を再開',
+      progressEmpty: '利用可能なレッスンがありません',
+      perfectNeeded: '次のレッスンに進むには100%が必要です。',
+      loading: 'レッスン進捗を読み込み中...',
+      kanjiCount: 'このレッスンの漢字: {{count}}',
+      noKanji: '漢字がまだ読み込まれていません',
+      accuracyLabel: '正解率',
+      attemptsLabel: '試行回数',
+      lastAttemptLabel: '前回の挑戦',
+      errors: {
+        loadFailed: 'レッスン進捗の読み込みに失敗しました',
+      },
+      completion: {
+        title: 'レッスン完了！',
+        message: 'レッスン{{current}} / {{total}} を{{accuracy}}%の正答率で完了しました。',
+        nextLesson: '次のレッスン',
+        done: 'すべてのレッスン完了',
+        back: 'ブラストモードに戻る',
+      },
+      retry: {
+        title: '100%が必要です',
+        message: '{{accuracy}}%でした。次のレッスンに進むには100%が必要です。',
+        retryMistakes: '間違いのみ復習',
+        retryFull: 'レッスンを最初から',
+        exit: '終了',
+      },
+      status: {
+        current: '現在',
+        completed: '完了',
+        locked: 'ロック中',
       },
     },
 

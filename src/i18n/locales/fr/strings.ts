@@ -7230,6 +7230,11 @@ export const strings = {
 
     configure: {
       title: 'Configurer la Session',
+      mode: {
+        label: 'Mode',
+        session: 'Session',
+        lesson: 'Mode Leçon',
+      },
       contentType: {
         label: 'Type de Contenu',
         kanji: 'Kanji',
@@ -7263,6 +7268,8 @@ export const strings = {
 
     buttons: {
       start: 'Démarrer le Mode Blast',
+      startLesson: 'Démarrer la leçon {{number}}',
+      reviewLesson: 'Revoir la leçon',
       starting: 'Démarrage...',
       next: 'Suivant',
       finish: 'Terminer',
@@ -7296,6 +7303,45 @@ export const strings = {
       completion: {
         title: 'Session Terminée !',
         message: 'Vous avez terminé {{completedSteps}} étapes avec {{accuracy}}% de précision !',
+      },
+    },
+
+    lesson: {
+      title: 'Mode Leçon',
+      subtitle: '{{size}} kanji par leçon (la dernière peut être plus courte)',
+      progress: 'Leçon {{current}} sur {{total}}',
+      progressTitle: 'Progression des leçons',
+      lessonLabel: 'Leçon {{number}}',
+      resumeLesson: 'Reprendre la leçon {{number}}',
+      progressEmpty: 'Aucune leçon disponible',
+      perfectNeeded: 'Un score parfait est requis pour débloquer la leçon suivante.',
+      loading: 'Chargement de la progression des leçons...',
+      kanjiCount: '{{count}} kanji dans cette leçon',
+      noKanji: 'Aucun kanji chargé pour le moment',
+      accuracyLabel: 'Précision',
+      attemptsLabel: 'Tentatives',
+      lastAttemptLabel: 'Dernier essai',
+      errors: {
+        loadFailed: 'Échec du chargement de la progression des leçons',
+      },
+      completion: {
+        title: 'Leçon Terminée !',
+        message: 'Leçon {{current}} sur {{total}} terminée avec {{accuracy}}% de précision.',
+        nextLesson: 'Leçon suivante',
+        done: 'Toutes les leçons sont terminées',
+        back: 'Retour au Mode Blast',
+      },
+      retry: {
+        title: 'Score parfait requis',
+        message: 'Vous avez obtenu {{accuracy}}%. 100% est nécessaire pour débloquer la leçon suivante.',
+        retryMistakes: 'Revoir uniquement les erreurs',
+        retryFull: 'Recommencer la leçon',
+        exit: 'Quitter',
+      },
+      status: {
+        current: 'En cours',
+        completed: 'Terminée',
+        locked: 'Verrouillée',
       },
     },
 

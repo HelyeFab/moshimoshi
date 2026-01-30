@@ -75,6 +75,7 @@ export default function LearnContent() {
   const { getItem, setItem } = useUserStorage()
   const { getLocalePath } = useLocalePath()
   const enableRandomizedTestOrder = process.env.NEXT_PUBLIC_KANJI_TEST_RANDOMIZE === 'true'
+  const enableKanjiMasteryGamification = process.env.NEXT_PUBLIC_ENABLE_KANJI_MASTERY_GAMIFICATION === 'true'
 
   // Session parameters
   const sessionSize = parseInt(searchParams.get('size') || '5')
@@ -412,7 +413,7 @@ export default function LearnContent() {
       const correctCount = Math.round(session.sessionStats.totalKanji * session.sessionStats.averageAccuracy)
       const durationMs = session.sessionStats.timeSpentSeconds * 1000
 
-      if (user) {
+      if (user && enableKanjiMasteryGamification) {
         initializeEventHub(user.uid)
         await kanjiMasteryEvents.emit('session:complete', {
           sessionId: session.sessionId,
@@ -446,7 +447,7 @@ export default function LearnContent() {
         })
       }
 
-      if (process.env.NEXT_PUBLIC_ENABLE_GAMIFICATION === 'true') {
+      if (enableKanjiMasteryGamification) {
         try {
           const store = useGamificationStore.getState()
           store.setLastSessionStats({

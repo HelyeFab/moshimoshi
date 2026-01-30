@@ -128,7 +128,16 @@ Test sequence generation is handled in `src/app/[locale]/tools/kanji-mastery/lea
 
 - Kanji Mastery emits events using `kanjiMasteryEvents` in `src/app/[locale]/tools/kanji-mastery/events.ts`.
 - Session completion emits to the global Review Engine event hub.
-- Gamification updates are gated by `NEXT_PUBLIC_ENABLE_GAMIFICATION`.
+- Kanji Mastery gamification updates are gated by `NEXT_PUBLIC_ENABLE_KANJI_MASTERY_GAMIFICATION`.
+- XP award + celebration require the global gamification listener (`NEXT_PUBLIC_ENABLE_GAMIFICATION=true`).
+
+---
+
+## Feature Flags (Production)
+
+- `NEXT_PUBLIC_KANJI_TEST_RANDOMIZE=true` — Enables randomized Round 2 test order (per‑kanji shuffle).
+- `NEXT_PUBLIC_ENABLE_KANJI_MASTERY_GAMIFICATION=true` — Enables Kanji Mastery gamification hooks (session events + stats store updates).
+- `NEXT_PUBLIC_ENABLE_GAMIFICATION=true` — Enables global gamification listener (XP awards + celebrations).
 
 ---
 

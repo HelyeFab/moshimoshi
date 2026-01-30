@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-28T10:13:37.242Z
+ * Generated at: 2026-01-30T11:41:21.313Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -88,7 +88,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "word_lookup": 15,
           "news": 3,
           "story": 3,
-          "books": 0,
+          "books": 1,
           "kanji_mood_board": 3,
           "drill": 3,
           "my_list": -1,

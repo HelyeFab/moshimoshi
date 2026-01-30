@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useMemo, useState, useEffect, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { KanjiWithExamples } from '../LearnContent'
 import { CheckCircle, XCircle } from 'lucide-react'
@@ -42,6 +42,8 @@ export default function Round2Test({
   const [isCorrect, setIsCorrect] = useState(false)
   const [recognitionOptions, setRecognitionOptions] = useState<string[]>([])
   const [choiceOptions, setChoiceOptions] = useState<string[]>([])
+  const [showShortcuts, setShowShortcuts] = useState(false)
+  const inputRef = useRef<HTMLInputElement | null>(null)
 
   // Reset state when kanji changes
   useEffect(() => {
@@ -58,22 +60,22 @@ export default function Round2Test({
     const allTests: TestDefinition[] = [
       {
         type: 'meaning',
-        question: `What is the meaning of ${kanji.kanji}?`,
+        question: t('kanjiMasteryTool.round2Questions.meaning', { kanji: kanji.kanji }),
         answer: kanji.meaning.toLowerCase()
       },
       {
         type: 'onyomi',
-        question: `What is the on'yomi reading of ${kanji.kanji}?`,
+        question: t('kanjiMasteryTool.round2Questions.onyomi', { kanji: kanji.kanji }),
         answer: kanji.onyomi || []
       },
       {
         type: 'kunyomi',
-        question: `What is the kun'yomi reading of ${kanji.kanji}?`,
+        question: t('kanjiMasteryTool.round2Questions.kunyomi', { kanji: kanji.kanji }),
         answer: kanji.kunyomi || []
       },
       {
         type: 'recognition',
-        question: `Which kanji means "${kanji.meaning}"?`,
+        question: t('kanjiMasteryTool.round2Questions.recognition', { meaning: kanji.meaning }),
         answer: kanji.kanji
       }
     ]
@@ -83,7 +85,7 @@ export default function Round2Test({
       if (test.type === 'kunyomi' && (!kanji.kunyomi || kanji.kunyomi.length === 0)) return false
       return true
     })
-  }, [kanji.kanji, kanji.kunyomi, kanji.meaning, kanji.onyomi])
+  }, [kanji.kanji, kanji.kunyomi, kanji.meaning, kanji.onyomi, t])
 
   const tests = useMemo(() => {
     if (!enableRandomizedOrder) {
@@ -105,11 +107,39 @@ export default function Round2Test({
 
   useEffect(() => {
     if (currentTestData?.type === 'recognition') {
-      setRecognitionOptions(generateKanjiOptions(kanji.kanji, 4, distractorPool))
+      const options = generateKanjiOptions(kanji.kanji, 4, distractorPool)
+      if (process.env.NODE_ENV !== 'production') {
+        const correctIndex = options.indexOf(kanji.kanji)
+        console.log('[Round2Test] recognition options', {
+          kanji: kanji.kanji,
+          options,
+          correctIndex
+        })
+      }
+      setRecognitionOptions(options)
     } else if (testMode === 'choice' && currentTestData?.type) {
       setChoiceOptions(buildMultipleChoiceOptions(currentTestData.type, kanji, distractorPool, 4))
     }
   }, [currentTestData?.type, kanji, distractorPool, testMode])
+
+  const shouldUseMultipleChoice = testMode === 'choice'
+  const multipleChoiceOptions = shouldUseMultipleChoice ? choiceOptions : []
+  const useMultipleChoice = shouldUseMultipleChoice && multipleChoiceOptions.length === 4
+  const recognitionChoices = currentTestData?.type === 'recognition'
+    ? (recognitionOptions.length > 0
+      ? recognitionOptions
+      : generateKanjiOptions(kanji.kanji, 4, distractorPool))
+    : []
+
+  useEffect(() => {
+    if (!currentTestData) return
+    if (currentTestData.type === 'recognition') return
+    if (useMultipleChoice) return
+
+    requestAnimationFrame(() => {
+      inputRef.current?.focus()
+    })
+  }, [currentTest, currentTestData?.type, useMultipleChoice])
 
   const checkAnswer = (inputOverride?: string) => {
     if (!currentTestData) return
@@ -173,6 +203,7 @@ export default function Round2Test({
   }
 
   const handleSkip = () => {
+    if (!currentTestData) return
     const newResult = {
       type: currentTestData.type,
       correct: false,
@@ -182,11 +213,183 @@ export default function Round2Test({
     handleNext()
   }
 
+  const handleOptionSelect = (option: string) => {
+    if (!currentTestData || showResult) return
+
+    if (currentTestData.type === 'recognition') {
+      const correct = option === kanji.kanji
+      setUserInput(option)
+      setIsCorrect(correct)
+      setShowResult(true)
+      setResults([...results, {
+        type: currentTestData.type,
+        correct,
+        userAnswer: option
+      }])
+      return
+    }
+
+    setUserInput(option)
+    checkAnswer(option)
+  }
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (window.innerWidth < 768) return
+
+      const target = e.target as HTMLElement
+      if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+        return
+      }
+
+      if (!showResult && (currentTestData?.type === 'recognition' || useMultipleChoice)) {
+        const options = currentTestData?.type === 'recognition'
+          ? recognitionChoices
+          : multipleChoiceOptions
+        if (options.length === 4 && /^[1-4]$/.test(e.key)) {
+          e.preventDefault()
+          const index = Number(e.key) - 1
+          const option = options[index]
+          if (option) {
+            handleOptionSelect(option)
+          }
+          return
+        }
+      }
+
+      switch (e.key) {
+        case 'Enter':
+        case ' ':
+        case 'ArrowRight':
+          if (showResult) {
+            e.preventDefault()
+            handleNext()
+            return
+          }
+
+          if (userInput.trim()) {
+            e.preventDefault()
+            checkAnswer()
+          }
+          break
+        case 'Escape':
+          e.preventDefault()
+          if (showShortcuts) {
+            setShowShortcuts(false)
+          } else {
+            onExit()
+          }
+          break
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [checkAnswer, currentTestData?.type, handleNext, handleOptionSelect, multipleChoiceOptions, onExit, recognitionChoices, showResult, showShortcuts, useMultipleChoice, userInput])
+
+  // Close shortcuts panel when clicking outside
+  useEffect(() => {
+    if (!showShortcuts) return
+
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement
+      if (!target.closest('.shortcuts-panel') && !target.closest('.shortcuts-badge')) {
+        setShowShortcuts(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [showShortcuts])
+
+  const shortcutsBadge = (
+    <div className="hidden md:block absolute top-0 right-0">
+      <button
+        onClick={() => setShowShortcuts(!showShortcuts)}
+        className="shortcuts-badge flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-dark-700 text-gray-700 dark:text-gray-300 rounded-full hover:bg-gray-200 dark:hover:bg-dark-600 transition-colors text-sm font-medium shadow-sm"
+        aria-label="Toggle keyboard shortcuts"
+      >
+        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4" />
+        </svg>
+        <span>Shortcuts</span>
+      </button>
+
+      {showShortcuts && (
+        <motion.div
+          initial={{ opacity: 0, y: -10, scale: 0.95 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={{ opacity: 0, y: -10, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+          className="shortcuts-panel absolute top-full right-0 mt-2 bg-white dark:bg-dark-800 rounded-xl shadow-2xl border border-gray-200 dark:border-dark-700 p-4 w-80 z-50"
+        >
+          <h3 className="text-sm font-bold text-gray-900 dark:text-gray-100 mb-3 flex items-center gap-2">
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+            Keyboard Shortcuts
+          </h3>
+          <div className="space-y-2">
+            <div className="border-b border-gray-200 dark:border-dark-700 pb-2 mb-2">
+              <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-2">Navigation</p>
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-700 dark:text-gray-300">Continue</span>
+                  <div className="flex gap-1">
+                    <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">Enter</kbd>
+                    <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">Space</kbd>
+                    <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">→</kbd>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-700 dark:text-gray-300">Select option</span>
+                  <div className="flex gap-1">
+                    <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">1</kbd>
+                    <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">2</kbd>
+                    <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">3</kbd>
+                    <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">4</kbd>
+                  </div>
+                </div>
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-gray-700 dark:text-gray-300">Exit</span>
+                  <kbd className="px-2 py-0.5 bg-gray-100 dark:bg-dark-700 border border-gray-300 dark:border-dark-600 rounded text-xs font-mono">Esc</kbd>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      )}
+    </div>
+  )
+
+  if (!currentTestData) {
+    return (
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="space-y-6"
+      >
+        <div className="text-center relative">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
+            Round 2: Test
+          </h2>
+          <p className="text-gray-600 dark:text-gray-400">
+            Kanji {currentIndex + 1} of {totalKanji}
+          </p>
+          {shortcutsBadge}
+        </div>
+
+        <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl p-8 text-center text-gray-600 dark:text-gray-400">
+          No valid tests for this kanji.
+        </div>
+      </motion.div>
+    )
+  }
+
   if (currentTestData.type === 'recognition') {
     // Multiple choice for kanji recognition
-    const options = recognitionOptions.length > 0
-      ? recognitionOptions
-      : generateKanjiOptions(kanji.kanji, 4, distractorPool)
+    const options = recognitionChoices
 
     return (
       <motion.div
@@ -194,13 +397,14 @@ export default function Round2Test({
         animate={{ opacity: 1, y: 0 }}
         className="space-y-6"
       >
-        <div className="text-center">
+        <div className="text-center relative">
           <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
             Round 2: Test
           </h2>
           <p className="text-gray-600 dark:text-gray-400">
             Kanji {currentIndex + 1} of {totalKanji} • Test {currentTest + 1} of {tests.length}
           </p>
+          {shortcutsBadge}
         </div>
 
         <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl p-8">
@@ -213,16 +417,7 @@ export default function Round2Test({
               {options.map((option, idx) => (
                 <button
                   key={idx}
-                  onClick={() => {
-                    setUserInput(option)
-                    setIsCorrect(option === kanji.kanji)
-                    setShowResult(true)
-                    setResults([...results, {
-                      type: currentTestData.type,
-                      correct: option === kanji.kanji,
-                      userAnswer: option
-                    }])
-                  }}
+                  onClick={() => handleOptionSelect(option)}
                   disabled={showResult}
                   className={`
                     p-6 text-4xl font-bold rounded-lg transition-all
@@ -287,11 +482,6 @@ export default function Round2Test({
     )
   }
 
-  const shouldUseMultipleChoice = testMode === 'choice'
-  const multipleChoiceOptions = shouldUseMultipleChoice ? choiceOptions : []
-
-  const useMultipleChoice = shouldUseMultipleChoice && multipleChoiceOptions.length === 4
-
   // Text input for other test types
   return (
     <motion.div
@@ -299,13 +489,14 @@ export default function Round2Test({
       animate={{ opacity: 1, y: 0 }}
       className="space-y-6"
     >
-      <div className="text-center">
+      <div className="text-center relative">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
           Round 2: Test
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
           Kanji {currentIndex + 1} of {totalKanji} • Test {currentTest + 1} of {tests.length}
         </p>
+        {shortcutsBadge}
       </div>
 
       <div className="bg-white dark:bg-dark-800 rounded-2xl shadow-xl p-8">
@@ -325,10 +516,7 @@ export default function Round2Test({
               {multipleChoiceOptions.map((option, idx) => (
                 <button
                   key={`${option}-${idx}`}
-                  onClick={() => {
-                    setUserInput(option)
-                    checkAnswer(option)
-                  }}
+                  onClick={() => handleOptionSelect(option)}
                   disabled={showResult}
                   className={`p-3 sm:p-4 rounded-lg border-2 transition-all text-sm sm:text-base ${
                     showResult && option === userInput
@@ -355,6 +543,7 @@ export default function Round2Test({
                 }}
                 disabled={showResult}
                 placeholder="Type your answer..."
+                ref={inputRef}
                 className="w-full px-4 py-3 text-lg border-2 border-gray-300 dark:border-dark-600 rounded-lg bg-white dark:bg-dark-700 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:border-primary-500 disabled:bg-gray-100 dark:disabled:bg-dark-600"
                 autoFocus
               />

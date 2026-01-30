@@ -9,7 +9,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { motion, Reorder } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { CheckCircle, XCircle, RotateCcw, Check } from 'lucide-react'
@@ -43,6 +43,7 @@ export function JpReassemble({
   const [pickedTiles, setPickedTiles] = useState<UniqueTile[]>([])
   const [showFeedback, setShowFeedback] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
+  const stepStartTimeRef = React.useRef<number>(Date.now())
   const timeoutRef = React.useRef<NodeJS.Timeout | null>(null)
 
   // Reset state when tiles change
@@ -52,6 +53,7 @@ export function JpReassemble({
     setPickedTiles([])
     setShowFeedback(false)
     setIsCorrect(false)
+    stepStartTimeRef.current = Date.now()
   }, [tiles])
 
   // Cleanup timer on unmount
@@ -86,6 +88,9 @@ export function JpReassemble({
   const handleSubmit = () => {
     if (disabled || showFeedback) return
 
+    // Capture response time at submission (not after delay)
+    const responseTime = Date.now() - stepStartTimeRef.current
+
     let userAnswer: string[] = []
 
     if (canReorder) {
@@ -106,14 +111,17 @@ export function JpReassemble({
       clearTimeout(timeoutRef.current)
     }
 
-    // Auto-advance after feedback
+    // Auto-advance after feedback (UI delay does not affect response time)
     timeoutRef.current = setTimeout(() => {
-      onAnswer(userAnswer, correct)
+      onAnswer(userAnswer, correct, responseTime)
     }, 1500)
   }
 
   const handleSingleSelect = (label: string) => {
     if (disabled || showFeedback || !isSingleChoice) return
+
+    // Capture response time at selection (not after delay)
+    const responseTime = Date.now() - stepStartTimeRef.current
 
     const correct = label === correctOrder[0]
     setIsCorrect(correct)
@@ -123,8 +131,9 @@ export function JpReassemble({
       clearTimeout(timeoutRef.current)
     }
 
+    // Auto-advance after feedback (UI delay does not affect response time)
     timeoutRef.current = setTimeout(() => {
-      onAnswer([label], correct)
+      onAnswer([label], correct, responseTime)
     }, 1200)
   }
 

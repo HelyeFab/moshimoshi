@@ -19,13 +19,16 @@ interface GenerationContext {
 /**
  * Generate blast steps for all items
  * Applies adaptive rules based on content type and available data
+ * @param items - Array of BlastItems to generate steps for
+ * @param pool - Optional distractor pool
+ * @param rng - Optional random number generator (0-1), defaults to Math.random
  */
-export function generateBlastSteps(items: BlastItem[], pool?: DistractorPool): BlastStep[] {
+export function generateBlastSteps(items: BlastItem[], pool?: DistractorPool, rng?: () => number): BlastStep[] {
   const steps: BlastStep[] = []
   const ctx: GenerationContext = { usedDistractors: new Set() }
 
   for (const item of items) {
-    const itemSteps = generateStepsForItem(item, pool, ctx)
+    const itemSteps = generateStepsForItem(item, pool, ctx, rng)
     steps.push(...itemSteps)
   }
 
@@ -38,42 +41,44 @@ export function generateBlastSteps(items: BlastItem[], pool?: DistractorPool): B
 function generateStepsForItem(
   item: BlastItem,
   pool: DistractorPool | undefined,
-  ctx: GenerationContext
+  ctx: GenerationContext,
+  rng?: () => number
 ): BlastStep[] {
   const steps: BlastStep[] = []
 
   // Step 1: Meaning → Japanese (MCQ)
   // Always included for all content types
-  steps.push(createMeaningToJpStep(item, pool, ctx))
+  steps.push(createMeaningToJpStep(item, pool, ctx, rng))
 
   // Step 2: Reassemble (Tiles)
   // Included for all except pure sentences (to be refined by Agent D)
   if (item.contentType !== 'sentence' || item.tokens) {
-    steps.push(createReassembleStep(item, pool, ctx))
+    steps.push(createReassembleStep(item, pool, ctx, rng))
   }
 
-  // Steps 3-5: Reading MCQs (Kanji only)
-  if (item.contentType === 'kanji') {
+  // Steps 3-5: Reading MCQs (for items with readings metadata)
+  // Include reading steps when item.readings exists, even for non-kanji items
+  if (item.readings) {
     // Step 3: Onyomi (if available)
-    if (item.readings?.onyomi && item.readings.onyomi.length > 0) {
-      steps.push(createOnyomiStep(item, pool, ctx))
+    if (item.readings.onyomi && item.readings.onyomi.length > 0) {
+      steps.push(createOnyomiStep(item, pool, ctx, rng))
     }
 
     // Step 4: Kunyomi (if available)
-    if (item.readings?.kunyomi && item.readings.kunyomi.length > 0) {
-      steps.push(createKunyomiStep(item, pool, ctx))
+    if (item.readings.kunyomi && item.readings.kunyomi.length > 0) {
+      steps.push(createKunyomiStep(item, pool, ctx, rng))
     }
 
     // Step 5: Other Reading (secondary reading if available)
     const otherReading = pickOtherReading(item.readings)
     if (otherReading) {
-      steps.push(createOtherReadingStep(item, otherReading, pool, ctx))
+      steps.push(createOtherReadingStep(item, otherReading, pool, ctx, rng))
     }
   }
 
   // Step 6: Japanese → Meaning (MCQ)
   // Always included for all content types
-  steps.push(createJpToMeaningStep(item, pool, ctx))
+  steps.push(createJpToMeaningStep(item, pool, ctx, rng))
 
   return steps
 }
@@ -97,10 +102,11 @@ function pickOtherReading(
 function createMeaningToJpStep(
   item: BlastItem,
   pool: DistractorPool | undefined,
-  ctx: GenerationContext
+  ctx: GenerationContext,
+  rng?: () => number
 ): BlastStep {
   const correctAnswer = item.kanji || item.kana || ''
-  const mcq = generateJapaneseMcq(item, pool, Array.from(ctx.usedDistractors))
+  const mcq = generateJapaneseMcq(item, pool, Array.from(ctx.usedDistractors), rng)
   mcq.options.forEach(option => {
     if (option !== correctAnswer) ctx.usedDistractors.add(option)
   })
@@ -124,7 +130,8 @@ function createMeaningToJpStep(
 function createReassembleStep(
   item: BlastItem,
   pool: DistractorPool | undefined,
-  ctx: GenerationContext
+  ctx: GenerationContext,
+  rng?: () => number
 ): BlastStep {
   // Use Agent C's tile splitter which is item-aware and deterministic
   const tileResult = splitIntoTiles(item)
@@ -133,7 +140,7 @@ function createReassembleStep(
   // Single-tile case: add distractor tiles so user must pick the correct tile
   let tiles = correctTiles
   if (correctTiles.length === 1) {
-    const mcq = generateJapaneseMcq(item, pool, Array.from(ctx.usedDistractors))
+    const mcq = generateJapaneseMcq(item, pool, Array.from(ctx.usedDistractors), rng)
     tiles = mcq.options
     mcq.options.forEach(option => {
       if (option !== correctTiles[0]) ctx.usedDistractors.add(option)
@@ -145,7 +152,7 @@ function createReassembleStep(
     distractors.forEach(d => ctx.usedDistractors.add(d))
   }
 
-  const shuffledTiles = shuffleTiles(tiles)
+  const shuffledTiles = shuffleTiles(tiles, rng)
 
   return {
     stepType: 'jp_reassemble',
@@ -207,10 +214,11 @@ function pickDistractorTiles(
 function createOnyomiStep(
   item: BlastItem,
   pool: DistractorPool | undefined,
-  ctx: GenerationContext
+  ctx: GenerationContext,
+  rng?: () => number
 ): BlastStep {
   const correctAnswer = item.readings?.onyomi?.[0] || ''
-  const mcq = generateReadingMcq(correctAnswer, 'onyomi', pool, Array.from(ctx.usedDistractors))
+  const mcq = generateReadingMcq(correctAnswer, 'onyomi', pool, Array.from(ctx.usedDistractors), rng)
   mcq.options.forEach(option => {
     if (option !== correctAnswer) ctx.usedDistractors.add(option)
   })
@@ -235,10 +243,11 @@ function createOnyomiStep(
 function createKunyomiStep(
   item: BlastItem,
   pool: DistractorPool | undefined,
-  ctx: GenerationContext
+  ctx: GenerationContext,
+  rng?: () => number
 ): BlastStep {
   const correctAnswer = item.readings?.kunyomi?.[0] || ''
-  const mcq = generateReadingMcq(correctAnswer, 'kunyomi', pool, Array.from(ctx.usedDistractors))
+  const mcq = generateReadingMcq(correctAnswer, 'kunyomi', pool, Array.from(ctx.usedDistractors), rng)
   mcq.options.forEach(option => {
     if (option !== correctAnswer) ctx.usedDistractors.add(option)
   })
@@ -264,11 +273,12 @@ function createOtherReadingStep(
   item: BlastItem,
   otherReading: string,
   pool: DistractorPool | undefined,
-  ctx: GenerationContext
+  ctx: GenerationContext,
+  rng?: () => number
 ): BlastStep {
   const correctAnswer = otherReading
   const readingType = item.readings?.onyomi?.includes(otherReading) ? 'onyomi' : 'kunyomi'
-  const mcq = generateReadingMcq(correctAnswer, readingType, pool, Array.from(ctx.usedDistractors))
+  const mcq = generateReadingMcq(correctAnswer, readingType, pool, Array.from(ctx.usedDistractors), rng)
   mcq.options.forEach(option => {
     if (option !== correctAnswer) ctx.usedDistractors.add(option)
   })
@@ -293,10 +303,11 @@ function createOtherReadingStep(
 function createJpToMeaningStep(
   item: BlastItem,
   pool: DistractorPool | undefined,
-  ctx: GenerationContext
+  ctx: GenerationContext,
+  rng?: () => number
 ): BlastStep {
   const correctAnswer = item.meaningEn
-  const mcq = generateMeaningMcq(item, pool, Array.from(ctx.usedDistractors))
+  const mcq = generateMeaningMcq(item, pool, Array.from(ctx.usedDistractors), rng)
   mcq.options.forEach(option => {
     if (option !== correctAnswer) ctx.usedDistractors.add(option)
   })

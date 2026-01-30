@@ -70,6 +70,43 @@ const NA_ADJECTIVE_COMPATIBLE_FORMS: (keyof ExtendedConjugationForms)[] = [
 ];
 
 export class QuestionGenerator {
+  private static normalizeOption(option: string): string {
+    return option.trim();
+  }
+
+  private static uniqueOptions(options: string[]): string[] {
+    const seen = new Set<string>();
+    const result: string[] = [];
+    for (const option of options) {
+      const normalized = this.normalizeOption(option);
+      if (!normalized) continue;
+      if (seen.has(normalized)) continue;
+      seen.add(normalized);
+      result.push(normalized);
+    }
+    return result;
+  }
+
+  private static getValidForms(
+    conjugations: ExtendedConjugationForms,
+    wordType: string,
+    correctAnswer: string
+  ): string[] {
+    const compatibleForms = this.getCompatibleForms(wordType);
+    const normalizedCorrect = this.normalizeOption(correctAnswer);
+    return compatibleForms
+      .map(form => conjugations[form])
+      .filter((form): form is string => {
+        if (form === undefined || form === null) return false;
+        const normalized = this.normalizeOption(form);
+        return (
+          normalized !== '' &&
+          normalized !== 'N/A' &&
+          normalized !== normalizedCorrect
+        );
+      });
+  }
+
   /**
    * Generate multiple drill questions from a list of words
    * NOW WITH REDIS CACHING: Blazing fast on repeat sessions!
@@ -192,12 +229,29 @@ export class QuestionGenerator {
     }
 
     const distractors = this.generateDistractors(word, targetForm, correctAnswer, conjugations, wordType);
+    const validForms = this.getValidForms(conjugations, wordType, correctAnswer);
 
     if (distractors.length < 3) {
       return null;
     }
 
-    const options = this.shuffleArray([correctAnswer, ...distractors.slice(0, 3)]);
+    let options = this.uniqueOptions([correctAnswer, ...distractors.slice(0, 3)]);
+    if (options.length < 4) {
+      const extra = this.generateArtificialDistractors(
+        word,
+        correctAnswer,
+        options,
+        validForms
+      );
+      options = this.uniqueOptions([...options, ...extra]);
+      if (options.length < 4 && validForms.length > 0) {
+        for (const form of validForms) {
+          if (options.length >= 4) break;
+          options = this.uniqueOptions([...options, form]);
+        }
+      }
+    }
+    options = this.shuffleArray(options);
     const stem = this.generateQuestionStem(word, targetForm);
 
     return {
@@ -386,20 +440,8 @@ export class QuestionGenerator {
     wordType: string
   ): string[] {
     const distractors: string[] = [];
-    const compatibleForms = this.getCompatibleForms(wordType);
-
-    // Get all valid forms except the correct answer
-    // Filter out undefined values and ensure we have string[]
-    const validForms = compatibleForms
-      .map(form => conjugations[form])
-      .filter((form): form is string =>
-        form !== undefined && form !== null &&
-        form !== correctAnswer && form !== '' &&
-        form !== 'N/A' && form.trim() !== ''
-      );
-
-    // Remove duplicates
-    const uniqueForms = Array.from(new Set(validForms));
+    const validForms = this.getValidForms(conjugations, wordType, correctAnswer);
+    const uniqueForms = this.uniqueOptions(validForms);
 
     // Shuffle and take first 3
     const shuffled = this.shuffleArray(uniqueForms);
@@ -429,18 +471,27 @@ export class QuestionGenerator {
     validForms: string[]
   ): string[] {
     const artificial: string[] = [];
-    const base = (word.kanji || word.kana).slice(0, -1);
-    const endings = ['る', 'た', 'ない', 'ます', 'て', 'れば', 'よう', 'せる', 'れる', 'られる'];
+    const baseWord = word.kanji || word.kana;
+    const base = baseWord.length > 1 ? baseWord.slice(0, -1) : baseWord;
+    const endings = [
+      'る', 'た', 'ない', 'ます', 'て', 'れば', 'よう', 'せる', 'れる', 'られる',
+      'った', 'って', 'ぬ', 'ず', 'れば', 'ろ', 'よう', 'たい'
+    ];
+
+    const hasOption = (list: string[], candidate: string): boolean => {
+      const normalizedCandidate = this.normalizeOption(candidate);
+      return list.some(item => this.normalizeOption(item) === normalizedCandidate);
+    };
 
     for (const ending of endings) {
       if (artificial.length >= 3 - existingDistractors.length) break;
 
-      const candidate = base + ending;
+      const candidate = `${base}${ending}`;
       if (
-        !existingDistractors.includes(candidate) &&
-        candidate !== correctAnswer &&
-        !validForms.includes(candidate) &&
-        candidate !== (word.kanji || word.kana)
+        !hasOption(existingDistractors, candidate) &&
+        this.normalizeOption(candidate) !== this.normalizeOption(correctAnswer) &&
+        !hasOption(validForms, candidate) &&
+        this.normalizeOption(candidate) !== this.normalizeOption(baseWord)
       ) {
         artificial.push(candidate);
       }

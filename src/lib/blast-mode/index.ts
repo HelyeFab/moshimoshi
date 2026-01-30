@@ -11,7 +11,10 @@ export type {
   BlastStep,
   BlastStepAnswer,
   BlastSessionConfig,
-  BlastSessionStats
+  BlastSessionStats,
+  BlastSessionRecord,
+  BlastLessonProgressRecord,
+  BlastLessonInfo
 } from './types'
 
 // Phonetics Utilities
@@ -47,3 +50,13 @@ export {
   generateJapaneseMcq,
   generateReadingMcq
 } from './distractors'
+
+// Lesson Utilities
+export {
+  DEFAULT_LESSON_SIZE,
+  splitIntoLessons,
+  getLessonSlice,
+  getLessonId,
+  getNextLessonIndex,
+  getMistakeSteps
+} from './lesson-utils'

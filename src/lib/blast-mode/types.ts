@@ -96,3 +96,49 @@ export interface BlastSessionStats {
     }
   }
 }
+
+/**
+ * Persisted Blast Mode session record (local + Firebase)
+ */
+export interface BlastSessionRecord {
+  sessionId: string
+  userId: string
+  contentType: BlastContentType
+  level?: string
+  listId?: string
+  selectedKanji?: string[]
+  studiedItems: number
+  accuracy: number
+  completedAt: string
+  source?: string
+  mode?: 'session' | 'lesson'
+}
+
+/**
+ * Persisted Lesson Mode progress record (local + Firebase)
+ */
+export interface BlastLessonProgressRecord {
+  lessonId: string
+  userId: string
+  level: string
+  lessonIndex: number
+  lessonSize: number
+  totalLessons: number
+  kanjiIds: string[]
+  accuracy: number
+  completed: boolean
+  attempts: number
+  lastAttemptAt: string
+  completedAt?: string
+  updatedAt: string
+  source?: string
+}
+
+export interface BlastLessonInfo {
+  lessonId: string
+  level: string
+  lessonIndex: number
+  lessonSize: number
+  totalLessons: number
+  kanjiIds: string[]
+}

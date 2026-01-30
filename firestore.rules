@@ -145,6 +145,18 @@ service cloud.firestore {
       allow write: if isOwner(request.resource.data.userId);
     }
 
+    // Blast Mode sessions (premium sync via server only)
+    match /blastSessions/{sessionId} {
+      allow read: if isOwner(resource.data.userId);
+      allow write: if false; // Only server (Admin SDK) should write
+    }
+
+    // Blast Mode lesson progress (premium sync via server only)
+    match /blastLessonProgress/{lessonId} {
+      allow read: if isOwner(resource.data.userId);
+      allow write: if false; // Only server (Admin SDK) should write
+    }
+
     // Flashcard deleted cards (premium sync)
     match /flashcardDeckDeletions/{userId}/decks/{deckId} {
       allow read: if isOwner(userId);

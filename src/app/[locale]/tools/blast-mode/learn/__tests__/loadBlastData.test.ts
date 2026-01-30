@@ -1,8 +1,10 @@
 /**
  * Integration Tests for loadBlastData
- * Validates the learn data pipeline from adapters through step generation
+ * Tests the real loader function with actual data sources
+ * Uses the extracted loadBlastData module
  */
 
+import { loadBlastData, loadBlastLessonData } from '@/lib/blast-mode/loadBlastData'
 import { BlastItem, BlastStepType } from '@/lib/blast-mode/types'
 import { loadKanjiItems, kanjiToBlastItem } from '@/lib/blast-mode/adapters/kanji.adapter'
 import { loadVocabItems } from '@/lib/blast-mode/adapters/vocab.adapter'
@@ -19,7 +21,8 @@ jest.mock('@/lib/blast-mode/adapters/kanji.adapter', () => ({
 jest.mock('@/lib/blast-mode/adapters/vocab.adapter')
 jest.mock('@/services/kanjiService', () => ({
   kanjiService: {
-    getMultipleKanjiDetails: jest.fn()
+    getMultipleKanjiDetails: jest.fn(),
+    loadKanjiByLevel: jest.fn()
   }
 }))
 
@@ -31,89 +34,6 @@ jest.mock('@/lib/blast-mode/step-generator', () => ({
 jest.mock('@/lib/blast-mode/distractor-pool', () => ({
   buildDistractorPool: jest.fn()
 }))
-
-/**
- * Replica of loadBlastData from page.tsx for testing
- * This is the pure async function without React components
- */
-async function loadBlastData(
-  contentType: string,
-  size: number,
-  level: string,
-  userId: string = 'user-1',
-  isPremium: boolean = false,
-  listId?: string,
-  selectedKanji?: string[]
-): Promise<{ items: BlastItem[], steps: any[] }> {
-  let items: BlastItem[] = []
-  let listItems = []
-
-  try {
-    if (contentType === 'kanji') {
-      if (selectedKanji && selectedKanji.length > 0) {
-        const kanjiMap = await kanjiService.getMultipleKanjiDetails(selectedKanji)
-        const selected = selectedKanji
-          .map(k => kanjiMap.get(k))
-          .filter(Boolean)
-        items = selected.map(kanjiToBlastItem as any)
-      } else {
-        items = await loadKanjiItems({
-          level: level as JLPTLevel,
-          count: size,
-          selection: 'random'
-        })
-      }
-    } else if (contentType === 'vocabulary') {
-      items = await loadVocabItems({
-        count: size,
-        level,
-        selection: 'common'
-      })
-    } else if (contentType === 'mixed') {
-      const kanjiCount = Math.floor(size / 2)
-      const vocabCount = size - kanjiCount
-
-      const kanjiItems = await loadKanjiItems({
-        level: level as JLPTLevel,
-        count: kanjiCount,
-        selection: 'random'
-      })
-
-      const vocabItems = await loadVocabItems({
-        count: vocabCount,
-        level,
-        selection: 'common'
-      })
-
-      items = [...kanjiItems, ...vocabItems]
-      // Shuffle mixed items
-      items = shuffleArray(items)
-    }
-
-    const pool = await buildDistractorPool({
-      contentType,
-      level: level as JLPTLevel,
-      size,
-      items,
-      listItems
-    })
-    const steps = generateBlastSteps(items, pool)
-
-    return { items, steps }
-  } catch (error) {
-    console.error('Failed to load blast data:', error)
-    throw error
-  }
-}
-
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array]
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]]
-  }
-  return shuffled
-}
 
 describe('loadBlastData Integration', () => {
   beforeEach(() => {
@@ -294,6 +214,47 @@ describe('loadBlastData Integration', () => {
       items.forEach(item => {
         expect(item.contentType).toBe('vocabulary')
       })
+    })
+  })
+
+  describe('lesson mode (kanji only)', () => {
+    it('should load a fixed lesson slice and generate steps', async () => {
+      const levelKanji = [
+        { kanji: '日' },
+        { kanji: '月' },
+        { kanji: '火' },
+        { kanji: '水' },
+        { kanji: '木' },
+        { kanji: '金' }
+      ]
+      const lessonMap = new Map([
+        ['日', { kanji: '日', meaning: 'sun', meanings: ['sun'], onyomi: ['ニチ'], kunyomi: ['ひ'], jlpt: 'N5', strokeCount: 4, examples: [] }],
+        ['月', { kanji: '月', meaning: 'moon', meanings: ['moon'], onyomi: ['ゲツ'], kunyomi: ['つき'], jlpt: 'N5', strokeCount: 4, examples: [] }],
+        ['火', { kanji: '火', meaning: 'fire', meanings: ['fire'], onyomi: ['カ'], kunyomi: ['ひ'], jlpt: 'N5', strokeCount: 4, examples: [] }],
+        ['水', { kanji: '水', meaning: 'water', meanings: ['water'], onyomi: ['スイ'], kunyomi: ['みず'], jlpt: 'N5', strokeCount: 4, examples: [] }],
+        ['木', { kanji: '木', meaning: 'tree', meanings: ['tree'], onyomi: ['モク'], kunyomi: ['き'], jlpt: 'N5', strokeCount: 4, examples: [] }]
+      ])
+
+      ;(kanjiService.loadKanjiByLevel as jest.Mock).mockResolvedValue(levelKanji)
+      ;(kanjiService.getMultipleKanjiDetails as jest.Mock).mockResolvedValue(lessonMap)
+      ;(kanjiToBlastItem as jest.Mock).mockImplementation((k) => ({
+        id: `kanji-${k.kanji}`,
+        contentType: 'kanji',
+        kanji: k.kanji,
+        kana: k.kunyomi?.[0],
+        meaningEn: k.meaning
+      }))
+      ;(generateBlastSteps as jest.Mock).mockImplementation((items) =>
+        items.map((item: BlastItem) => ({ stepType: 'meaning_to_jp_mcq', itemId: item.id }))
+      )
+
+      const { items, steps, lesson } = await loadBlastLessonData('N5', 0, 'user-1')
+
+      expect(kanjiService.loadKanjiByLevel).toHaveBeenCalledWith('N5')
+      expect(items).toHaveLength(5)
+      expect(steps).toHaveLength(5)
+      expect(lesson.lessonIndex).toBe(0)
+      expect(lesson.kanjiIds).toEqual(['日', '月', '火', '水', '木'])
     })
   })
 

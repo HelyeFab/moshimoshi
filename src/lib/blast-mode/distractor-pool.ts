@@ -23,7 +23,8 @@ export async function buildDistractorPool(options: BuildPoolOptions): Promise<Di
   const pool: DistractorPool = { kanji: [], vocabulary: [], readings: [] }
 
   const needsKanjiPool = contentType === 'kanji' || contentType === 'mixed' || items.some(i => i.contentType === 'kanji')
-  const needsVocabPool = true
+  // Only load vocab pool if we have non-kanji content or mixed content
+  const needsVocabPool = contentType !== 'kanji' || items.some(i => i.contentType !== 'kanji')
 
   if (needsKanjiPool && level) {
     const kanjiList = await kanjiService.loadKanjiByLevel(level)

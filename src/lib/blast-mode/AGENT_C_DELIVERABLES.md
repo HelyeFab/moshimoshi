@@ -47,7 +47,7 @@ Agent C has successfully implemented all distractor and tile logic for Blast Mod
 - `splitByKanjiOrder(text: string): TileSplitResult` - Individual kanji characters (priority #3)
 - `splitByCharacter(text: string): TileSplitResult` - Character split (fallback)
 - `splitIntoTiles(item: BlastItem): TileSplitResult` - Main entry point with automatic strategy selection
-- `shuffleTiles(tiles: string[]): string[]` - Shuffle tiles for reassembly
+- `shuffleTiles(tiles: string[], rng?: () => number): string[]` - Shuffle tiles for reassembly (accepts optional RNG for deterministic tests)
 - `validateTileAnswer(userTiles: string[], correctTiles: string[]): boolean` - Validate user answer
 
 **Features:**
@@ -67,13 +67,13 @@ Agent C has successfully implemented all distractor and tile logic for Blast Mod
 **Purpose:** Generate MCQ distractors for meaning, Japanese text, and reading screens
 
 **Exports:**
-- `generateMeaningDistractors(correctMeaning: string, options: DistractorOptions): string[]` - English meaning distractors
-- `generateJapaneseDistractors(correctText: string, options: DistractorOptions): string[]` - Japanese text distractors
-- `generateReadingDistractors(correctReading: string, type: 'onyomi' | 'kunyomi', options: DistractorOptions): string[]` - Reading distractors
-- `buildMcqOptions(correctAnswer: string, distractors: string[]): { options: string[], correctIndex: number }` - Build complete MCQ with shuffling
-- `generateMeaningMcq(item: BlastItem, pool?: DistractorPool): { options: string[], correctIndex: number }` - High-level meaning MCQ
-- `generateJapaneseMcq(item: BlastItem, pool?: DistractorPool): { options: string[], correctIndex: number }` - High-level Japanese MCQ
-- `generateReadingMcq(reading: string, type: 'onyomi' | 'kunyomi', pool?: DistractorPool): { options: string[], correctIndex: number }` - High-level reading MCQ
+- `generateMeaningDistractors(correctMeaning: string, options: DistractorOptions, rng?: () => number): string[]` - English meaning distractors
+- `generateJapaneseDistractors(correctText: string, options: DistractorOptions, rng?: () => number): string[]` - Japanese text distractors
+- `generateReadingDistractors(correctReading: string, type: 'onyomi' | 'kunyomi', options: DistractorOptions, rng?: () => number): string[]` - Reading distractors
+- `buildMcqOptions(correctAnswer: string, distractors: string[], rng?: () => number): { options: string[], correctIndex: number }` - Build complete MCQ with shuffling
+- `generateMeaningMcq(item: BlastItem, pool?: DistractorPool, avoidList?: string[], rng?: () => number): { options: string[], correctIndex: number }` - High-level meaning MCQ
+- `generateJapaneseMcq(item: BlastItem, pool?: DistractorPool, avoidList?: string[], rng?: () => number): { options: string[], correctIndex: number }` - High-level Japanese MCQ
+- `generateReadingMcq(reading: string, type: 'onyomi' | 'kunyomi', pool?: DistractorPool, avoidList?: string[], rng?: () => number): { options: string[], correctIndex: number }` - High-level reading MCQ
 
 **Features:**
 - **Meaning Distractors:** Same POS, similar length, avoid synonyms
@@ -228,9 +228,15 @@ npm test -- src/lib/blast-mode/__tests__/
 
 3. Use high-level MCQ functions in step generation:
    ```typescript
+   // Basic usage (uses Math.random by default)
    const meaningMcq = generateMeaningMcq(item, pool)
    const japaneseMcq = generateJapaneseMcq(item, pool)
    const readingMcq = generateReadingMcq(reading, 'onyomi', pool)
+
+   // For deterministic tests, pass a seeded RNG
+   import seedrandom from 'seedrandom'
+   const rng = seedrandom('test-seed')
+   const meaningMcq = generateMeaningMcq(item, pool, [], rng)
    ```
 
 4. Pass MCQ options to `BlastStep`:

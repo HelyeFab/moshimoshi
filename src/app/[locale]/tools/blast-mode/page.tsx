@@ -14,10 +14,15 @@ import { LoadingOverlay } from '@/components/ui/Loading'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import { motion } from 'framer-motion'
-import { Zap, BookOpen, Target, Sparkles } from 'lucide-react'
+import { Zap, BookOpen, Target, Sparkles, CheckCircle, Flame, Lock, FileText, Calendar } from 'lucide-react'
 import MobileNavSpacer from '@/components/layout/MobileNavSpacer'
+import { blastSessionManager } from '@/lib/blast-mode/blastSessionManager'
+import { blastLessonManager } from '@/lib/blast-mode/blastLessonManager'
+import { DEFAULT_LESSON_SIZE, getNextLessonIndex, splitIntoLessons } from '@/lib/blast-mode/lesson-utils'
+import type { BlastLessonProgressRecord } from '@/lib/blast-mode/types'
 
 interface BlastModeSettings {
+  mode: 'session' | 'lesson'
   contentType: 'kanji' | 'vocabulary' | 'mixed' | 'list'
   sessionSize: number
   jlptLevel: string
@@ -47,14 +52,38 @@ function BlastModeContent() {
     }
   }, [router, getLocalePath])
 
+  // LWW sync on Blast Mode entry (premium users only)
+  useEffect(() => {
+    if (authLoading) return
+    if (!user || isGuest || !isPremium) return
+
+    blastSessionManager.syncOnEntry(user.uid, true, 50).catch(error => {
+      console.error('[BlastMode] Session sync failed:', error)
+    })
+  }, [authLoading, user, isGuest, isPremium])
+
   const [settings, setSettings] = useState<BlastModeSettings>(() => {
     if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('blastModeSettings')
-      if (saved) {
-        return JSON.parse(saved)
+      try {
+        const saved = localStorage.getItem('blastModeSettings')
+        if (saved) {
+          const parsed = JSON.parse(saved)
+          return {
+            mode: parsed.mode || 'session',
+            contentType: parsed.contentType || 'kanji',
+            sessionSize: parsed.sessionSize || 10,
+            jlptLevel: parsed.jlptLevel || 'N5',
+            listId: parsed.listId,
+            selectedKanji: parsed.selectedKanji || []
+          }
+        }
+      } catch (error) {
+        console.error('Failed to parse saved blast mode settings:', error)
+        // Fall through to return default settings
       }
     }
     return {
+      mode: 'session',
       contentType: 'kanji',
       sessionSize: 10,
       jlptLevel: 'N5',
@@ -70,8 +99,16 @@ function BlastModeContent() {
   const [kanjiSearch, setKanjiSearch] = useState('')
   const [loadingKanji, setLoadingKanji] = useState(false)
 
-  const isListMode = settings.contentType === 'list'
-  const isKanjiMode = settings.contentType === 'kanji'
+  const [lessonLoading, setLessonLoading] = useState(false)
+  const [lessonError, setLessonError] = useState<string | null>(null)
+  const [lessonKanji, setLessonKanji] = useState<string[][]>([])
+  const [lessonProgress, setLessonProgress] = useState<BlastLessonProgressRecord[]>([])
+  const [currentLessonIndex, setCurrentLessonIndex] = useState(0)
+  const [allLessonsComplete, setAllLessonsComplete] = useState(false)
+
+  const isLessonMode = settings.mode === 'lesson'
+  const isListMode = settings.contentType === 'list' && !isLessonMode
+  const isKanjiMode = settings.contentType === 'kanji' && !isLessonMode
 
   // Save settings to localStorage when they change
   useEffect(() => {
@@ -79,6 +116,12 @@ function BlastModeContent() {
       localStorage.setItem('blastModeSettings', JSON.stringify(settings))
     }
   }, [settings])
+
+  useEffect(() => {
+    if (settings.mode === 'lesson' && settings.contentType !== 'kanji') {
+      setSettings(prev => ({ ...prev, contentType: 'kanji' }))
+    }
+  }, [settings.mode, settings.contentType])
 
   useEffect(() => {
     if (!isListMode && settings.listId) {
@@ -113,6 +156,48 @@ function BlastModeContent() {
     loadKanji()
   }, [isKanjiMode, kanjiSearch, settings.jlptLevel])
 
+  useEffect(() => {
+    const loadLessonState = async () => {
+      if (!isLessonMode) return
+
+      setLessonLoading(true)
+      setLessonError(null)
+      try {
+        const levelKanji = await kanjiService.loadKanjiByLevel(settings.jlptLevel as any)
+        const kanjiIds = levelKanji.map(k => k.kanji)
+        const lessons = splitIntoLessons(kanjiIds, DEFAULT_LESSON_SIZE)
+        setLessonKanji(lessons)
+
+        if (user?.uid) {
+          if (isPremium) {
+            await blastLessonManager.syncOnEntry(user.uid, true, settings.jlptLevel, 50)
+          }
+          const progress = await blastLessonManager.getLocalLessons(user.uid, settings.jlptLevel)
+          setLessonProgress(progress)
+
+          const nextIndex = getNextLessonIndex(progress, lessons.length)
+          setCurrentLessonIndex(nextIndex)
+          setAllLessonsComplete(
+            lessons.length > 0 &&
+              nextIndex === lessons.length - 1 &&
+              progress.some(p => p.lessonIndex === nextIndex && p.completed)
+          )
+        } else {
+          setLessonProgress([])
+          setCurrentLessonIndex(0)
+          setAllLessonsComplete(false)
+        }
+      } catch (err) {
+        console.error('Failed to load lesson progress:', err)
+        setLessonError(t('blastMode.lesson.errors.loadFailed'))
+      } finally {
+        setLessonLoading(false)
+      }
+    }
+
+    loadLessonState()
+  }, [isLessonMode, settings.jlptLevel, user?.uid, isPremium, t])
+
   // Load user lists when needed
   useEffect(() => {
     const fetchLists = async () => {
@@ -141,11 +226,22 @@ function BlastModeContent() {
     fetchLists()
   }, [user?.uid, isPremium, isListMode])
 
-  const handleStartSession = async () => {
+  const handleStartSession = async (lessonOverride?: number) => {
     setIsStarting(true)
     setError(null)
 
     try {
+      if (isLessonMode) {
+        const lessonToStart = typeof lessonOverride === 'number' ? lessonOverride : currentLessonIndex
+        const params = new URLSearchParams({
+          mode: 'lesson',
+          level: settings.jlptLevel,
+          lesson: lessonToStart.toString()
+        })
+        router.push(`/tools/blast-mode/learn?${params}`)
+        return
+      }
+
       // Navigate to learning flow with settings
       if (isListMode && !settings.listId) {
         setError(t('blastMode.errors.selectList'))
@@ -280,8 +376,38 @@ function BlastModeContent() {
                 {t('blastMode.configure.title')}
               </h2>
 
-              {/* Content Type Selection */}
+              {/* Mode Selection */}
               <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
+                  {t('blastMode.configure.mode.label')}
+                </label>
+                <div className="flex flex-wrap gap-2 p-1 bg-gray-100 dark:bg-dark-700 rounded-lg">
+                  <button
+                    onClick={() => setSettings({ ...settings, mode: 'session' })}
+                    className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
+                      settings.mode === 'session'
+                        ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-gray-100'
+                    }`}
+                  >
+                    {t('blastMode.configure.mode.session')}
+                  </button>
+                  <button
+                    onClick={() => setSettings({ ...settings, mode: 'lesson' })}
+                    className={`flex-1 px-3 py-2 rounded-md text-sm font-medium transition-all ${
+                      settings.mode === 'lesson'
+                        ? 'bg-white dark:bg-dark-600 text-primary-600 dark:text-primary-400 shadow-sm'
+                        : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:text-gray-100'
+                    }`}
+                  >
+                    {t('blastMode.configure.mode.lesson')}
+                  </button>
+                </div>
+              </div>
+
+              {/* Content Type Selection */}
+              {!isLessonMode && (
+                <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-2">
                   {t('blastMode.configure.contentType.label')}
                 </label>
@@ -328,6 +454,7 @@ function BlastModeContent() {
                   </button>
                 </div>
               </div>
+              )}
 
               {/* List Selector */}
               {isListMode && (
@@ -401,6 +528,237 @@ function BlastModeContent() {
                 </div>
               </div>
 
+              {/* Lesson Mode Summary */}
+              {isLessonMode && (
+                <div className="mb-6 rounded-lg border border-gray-200 dark:border-dark-700 p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                        {t('blastMode.lesson.title')}
+                      </p>
+                      <p className="text-xs text-gray-600 dark:text-gray-400">
+                        {t('blastMode.lesson.subtitle', { size: DEFAULT_LESSON_SIZE })}
+                      </p>
+                    </div>
+                    <div className="text-sm text-gray-700 dark:text-gray-300">
+                      {lessonKanji.length > 0
+                        ? t('blastMode.lesson.progress', {
+                            current: Math.min(currentLessonIndex + 1, lessonKanji.length),
+                            total: lessonKanji.length
+                          })
+                        : t('blastMode.lesson.progressEmpty')}
+                    </div>
+                  </div>
+
+                  <div className="mt-3 text-xs text-gray-600 dark:text-gray-400">
+                    {t('blastMode.lesson.perfectNeeded')}
+                  </div>
+
+                  {lessonLoading ? (
+                    <div className="mt-3 text-sm text-gray-600 dark:text-gray-400">
+                      {t('blastMode.lesson.loading')}
+                    </div>
+                  ) : lessonError ? (
+                    <div className="mt-3 text-sm text-red-600 dark:text-red-400">
+                      {lessonError}
+                    </div>
+                  ) : (
+                    <div className="mt-3 text-sm text-gray-700 dark:text-gray-300">
+                      {lessonKanji[currentLessonIndex]?.length
+                        ? t('blastMode.lesson.kanjiCount', { count: lessonKanji[currentLessonIndex].length })
+                        : t('blastMode.lesson.noKanji')}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Lesson Progress Panel */}
+              {isLessonMode && lessonKanji.length > 0 && (
+                <div className="mb-6 rounded-lg border border-gray-200 dark:border-dark-700 p-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                      {t('blastMode.lesson.progressTitle')}
+                    </h3>
+                    <span className="text-xs text-gray-600 dark:text-gray-400">
+                      {t('blastMode.lesson.progress', {
+                        current: Math.min(currentLessonIndex + 1, lessonKanji.length),
+                        total: lessonKanji.length
+                      })}
+                    </span>
+                  </div>
+
+                  <div className="mb-4 flex justify-end">
+                    <button
+                      type="button"
+                      onClick={() => handleStartSession(currentLessonIndex)}
+                      className="text-xs px-3 py-2 rounded-lg border border-primary-500 text-primary-600 dark:text-primary-300 hover:bg-primary-50 dark:hover:bg-primary-900/20 transition-colors"
+                    >
+                      {t('blastMode.lesson.resumeLesson', { number: currentLessonIndex + 1 })}
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {lessonKanji.map((kanjiList, index) => {
+                      const progress = lessonProgress.find(p => p.lessonIndex === index)
+                      const isCompleted = Boolean(progress?.completed)
+                      const isCurrent = index === currentLessonIndex && !isCompleted
+                      const isLocked = index > currentLessonIndex
+                      const accuracy = progress ? Math.round(progress.accuracy) : 0
+                      const attempts = progress?.attempts ?? 0
+                      const lastAttempt = progress?.lastAttemptAt
+
+                      // Alternating gradient directions using palette colors
+                      const isEven = index % 2 === 0
+                      const gradientClass = isCompleted
+                        ? isEven
+                          ? 'bg-gradient-to-br from-green-500/10 via-green-600/5 to-transparent'
+                          : 'bg-gradient-to-bl from-green-500/10 via-green-600/5 to-transparent'
+                        : isCurrent
+                          ? isEven
+                            ? 'bg-gradient-to-br from-primary-500/15 via-primary-600/8 to-transparent'
+                            : 'bg-gradient-to-bl from-primary-500/15 via-primary-600/8 to-transparent'
+                          : isEven
+                            ? 'bg-gradient-to-br from-gray-500/5 via-gray-600/3 to-transparent dark:from-dark-500/10 dark:via-dark-600/5'
+                            : 'bg-gradient-to-bl from-gray-500/5 via-gray-600/3 to-transparent dark:from-dark-500/10 dark:via-dark-600/5'
+
+                      const borderClass = isCompleted
+                        ? 'border-green-500/50 dark:border-green-600/50'
+                        : isCurrent
+                          ? 'border-primary-500/60 dark:border-primary-600/60'
+                          : 'border-gray-300/40 dark:border-dark-600/50'
+
+                      // Status icon component
+                      const StatusIcon = isCompleted
+                        ? CheckCircle
+                        : isCurrent
+                          ? Flame
+                          : isLocked
+                            ? Lock
+                            : BookOpen
+
+                      const iconColor = isCompleted
+                        ? 'text-green-600 dark:text-green-400'
+                        : isCurrent
+                          ? 'text-primary-600 dark:text-primary-400'
+                          : isLocked
+                            ? 'text-gray-500 dark:text-gray-500'
+                            : 'text-gray-600 dark:text-gray-400'
+
+                      return (
+                        <motion.button
+                          key={`lesson-${index}`}
+                          type="button"
+                          onClick={() => {
+                            if (isLocked) return
+                            handleStartSession(index)
+                          }}
+                          disabled={isLocked}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.05, duration: 0.3 }}
+                          whileHover={!isLocked ? { scale: 1.02, y: -2 } : {}}
+                          whileTap={!isLocked ? { scale: 0.98 } : {}}
+                          className={`
+                            relative overflow-hidden rounded-xl border p-4
+                            ${gradientClass} ${borderClass}
+                            ${isLocked
+                              ? 'opacity-50 cursor-not-allowed'
+                              : 'cursor-pointer hover:shadow-lg hover:shadow-primary-500/20 dark:hover:shadow-primary-600/10'
+                            }
+                            transition-all duration-300 ease-out
+                            backdrop-blur-sm
+                          `}
+                        >
+                          {/* Glow effect on current lesson */}
+                          {isCurrent && (
+                            <div className="absolute inset-0 bg-gradient-to-r from-primary-500/5 to-primary-600/5 animate-pulse" />
+                          )}
+
+                          {/* Header with status badge */}
+                          <div className="relative flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-3">
+                              <StatusIcon className={`w-6 h-6 ${iconColor}`} />
+                              <div>
+                                <div className="text-base font-bold bg-gradient-to-r from-gray-900 to-gray-700 dark:from-gray-100 dark:to-gray-300 bg-clip-text text-transparent">
+                                  {t('blastMode.lesson.lessonLabel', { number: index + 1 })}
+                                </div>
+                                <div className="text-xs text-gray-600 dark:text-gray-400 mt-0.5 flex items-center gap-1">
+                                  <FileText className="w-3 h-3" />
+                                  <span>{kanjiList.length} kanji</span>
+                                </div>
+                              </div>
+                            </div>
+                            <span className={`
+                              text-xs font-semibold px-2.5 py-1 rounded-full
+                              ${isCompleted
+                                ? 'bg-green-600 text-white dark:bg-green-500 dark:text-white'
+                                : isCurrent
+                                  ? 'bg-primary-600 text-white dark:bg-primary-500 dark:text-white'
+                                  : 'bg-gray-500/20 text-gray-700 dark:bg-gray-600/30 dark:text-gray-300'
+                              }
+                            `}>
+                              {isCompleted ? '✓ Done' : isCurrent ? 'Current' : isLocked ? 'Locked' : 'Ready'}
+                            </span>
+                          </div>
+
+                          {/* Progress bar and stats */}
+                          {progress && (
+                            <div className="space-y-2">
+                              {/* Accuracy progress bar */}
+                              <div className="space-y-1">
+                                <div className="flex items-center justify-between text-xs">
+                                  <span className="text-gray-600 dark:text-gray-400">Accuracy</span>
+                                  <span className={`font-bold ${
+                                    accuracy === 100 ? 'text-green-600 dark:text-green-400' :
+                                    accuracy >= 80 ? 'text-primary-600 dark:text-primary-400' :
+                                    'text-gray-600 dark:text-gray-400'
+                                  }`}>
+                                    {accuracy}%
+                                  </span>
+                                </div>
+                                <div className="h-1.5 bg-gray-200 dark:bg-dark-700 rounded-full overflow-hidden">
+                                  <motion.div
+                                    initial={{ width: 0 }}
+                                    animate={{ width: `${accuracy}%` }}
+                                    transition={{ delay: index * 0.05 + 0.3, duration: 0.8 }}
+                                    className={`h-full rounded-full ${
+                                      accuracy === 100 ? 'bg-gradient-to-r from-green-500 to-green-600' :
+                                      accuracy >= 80 ? 'bg-gradient-to-r from-primary-500 to-primary-600' :
+                                      'bg-gradient-to-r from-gray-400 to-gray-500'
+                                    }`}
+                                  />
+                                </div>
+                              </div>
+
+                              {/* Additional stats */}
+                              <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-gray-400">
+                                <span className="flex items-center gap-1">
+                                  <Target className="w-3 h-3" />
+                                  {attempts} {attempts === 1 ? 'attempt' : 'attempts'}
+                                </span>
+                                {lastAttempt && (
+                                  <span className="flex items-center gap-1 truncate">
+                                    <Calendar className="w-3 h-3" />
+                                    {new Date(lastAttempt).toLocaleDateString()}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Shine effect on hover */}
+                          {!isLocked && (
+                            <div className="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none">
+                              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                            </div>
+                          )}
+                        </motion.button>
+                      )
+                    })}
+                  </div>
+                </div>
+              )}
+
               {/* Kanji Picker */}
               {isKanjiMode && (
                 <div className="mb-6">
@@ -468,7 +826,8 @@ function BlastModeContent() {
               )}
 
               {/* Session Size */}
-              <div className="mb-6">
+              {!isLessonMode && (
+                <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-900 dark:text-gray-100 mb-3">
                   {t('blastMode.configure.sessionSize.label')}
                 </label>
@@ -497,6 +856,7 @@ function BlastModeContent() {
                   </button>
                 </div>
               </div>
+              )}
 
               {/* Error Display */}
               {error && (
@@ -507,7 +867,7 @@ function BlastModeContent() {
 
               {/* Start Button */}
               <button
-                onClick={handleStartSession}
+                onClick={() => handleStartSession()}
                 disabled={isStarting}
                 className="w-full py-3 px-4 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 transition-colors disabled:bg-gray-300 dark:disabled:bg-dark-600 disabled:text-gray-500 dark:disabled:text-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
@@ -522,7 +882,13 @@ function BlastModeContent() {
                 ) : (
                   <>
                     <Zap className="w-5 h-5" />
-                    <span>{t('blastMode.buttons.start')}</span>
+                    <span>
+                      {isLessonMode
+                        ? allLessonsComplete
+                          ? t('blastMode.buttons.reviewLesson')
+                          : t('blastMode.buttons.startLesson', { number: currentLessonIndex + 1 })
+                        : t('blastMode.buttons.start')}
+                    </span>
                   </>
                 )}
               </button>

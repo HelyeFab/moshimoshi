@@ -14,7 +14,7 @@ interface BlastStepRendererProps {
   step: BlastStep
   stepIndex: number
   totalSteps: number
-  onAnswer: (answer: string | string[], correct: boolean) => void
+  onAnswer: (answer: string | string[], correct: boolean, responseTime: number) => void
   isAnswered: boolean
   wasCorrect?: boolean
   savedAnswer?: BlastStepAnswer
