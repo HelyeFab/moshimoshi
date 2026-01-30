@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-30T11:41:21.313Z
+ * Generated at: 2026-01-30T13:38:14.797Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -45,6 +45,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "books": 0,
           "kanji_mood_board": 0,
           "drill": 0,
+          "blast_mode": 0,
           "my_list": -1,
           "textbook_vocabulary": 0,
           "flashcards": 0,
@@ -91,6 +92,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "books": 1,
           "kanji_mood_board": 3,
           "drill": 3,
+          "blast_mode": 1,
           "my_list": -1,
           "textbook_vocabulary": 0,
           "flashcards": 0,
@@ -137,6 +139,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "books": -1,
           "kanji_mood_board": -1,
           "drill": -1,
+          "blast_mode": -1,
           "my_list": -1,
           "textbook_vocabulary": -1,
           "flashcards": -1,
@@ -183,6 +186,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "books": -1,
           "kanji_mood_board": -1,
           "drill": -1,
+          "blast_mode": -1,
           "my_list": -1,
           "textbook_vocabulary": -1,
           "flashcards": -1,

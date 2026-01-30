@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-30T11:41:21.313Z
+ * Generated at: 2026-01-30T13:38:14.798Z
  */
 
 import type { FeatureId } from '@/types/FeatureId'
@@ -318,6 +318,16 @@ export const FEATURE_REGISTRY: Record<FeatureId, FeatureDefinition> = {
     limitType: 'daily',
     notifications: false,
     description: 'Practice vocabulary and kanji with drill exercises',
+  },
+  blast_mode: {
+    id: 'blast_mode',
+    name: 'Blast Mode',
+    category: 'learning',
+    lifecycle: 'active',
+    permission: Permission.DO_PRACTICE,
+    limitType: 'daily',
+    notifications: false,
+    description: 'High-intensity adaptive practice sessions with mixed content',
   },
   my_list: {
     id: 'my_list',

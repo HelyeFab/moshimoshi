@@ -5,12 +5,13 @@ import { useRouter } from 'next/navigation'
 import { useI18n, useLocalePath } from '@/i18n/I18nContext'
 import { useToast } from '@/components/ui/Toast/ToastContext'
 import { useAuth } from '@/hooks/useAuth'
+import { useFeature } from '@/hooks/useFeature'
 import { useSubscription } from '@/hooks/useSubscription'
 import { listManager } from '@/lib/lists/ListManager'
 import type { UserList } from '@/types/userLists'
 import { kanjiService } from '@/services/kanjiService'
-import { isFeatureEnabled } from '@/lib/features/featureFlags'
 import { LoadingOverlay } from '@/components/ui/Loading'
+import { useFeatureUsage, DesktopCircularIndicator, FeatureUsageIndicator } from '@/components/entitlements/FeatureUsageIndicator'
 import Navbar from '@/components/layout/Navbar'
 import PageHeader from '@/components/ui/PageHeader'
 import { motion } from 'framer-motion'
@@ -37,6 +38,8 @@ function BlastModeContent() {
   const { showToast } = useToast()
   const { user, loading: authLoading, isGuest } = useAuth()
   const { isPremium } = useSubscription()
+  const { checkOnly } = useFeature('blast_mode')
+  const usageData = useFeatureUsage('blast_mode')
 
   // Redirect to signin if not authenticated
   useEffect(() => {
@@ -45,12 +48,7 @@ function BlastModeContent() {
     }
   }, [authLoading, user, isGuest, router, getLocalePath])
 
-  // Feature flag gate
-  useEffect(() => {
-    if (!isFeatureEnabled('BLAST_MODE')) {
-      router.push(getLocalePath('/dashboard'))
-    }
-  }, [router, getLocalePath])
+  // Feature flag removed - Blast Mode is now always available
 
   // LWW sync on Blast Mode entry (premium users only)
   useEffect(() => {
@@ -231,6 +229,17 @@ function BlastModeContent() {
     setError(null)
 
     try {
+      const decision = await checkOnly({ failOpen: false })
+      if (!decision.allow) {
+        const action = !isPremium ? {
+          label: t('subscription.actions.upgrade'),
+          onClick: () => router.push('/pricing')
+        } : undefined
+        showToast(t('entitlements.messages.limitReached'), 'warning', 5000, action)
+        setIsStarting(false)
+        return
+      }
+
       if (isLessonMode) {
         const lessonToStart = typeof lessonOverride === 'number' ? lessonOverride : currentLessonIndex
         const params = new URLSearchParams({
@@ -307,7 +316,18 @@ function BlastModeContent() {
           title={t('blastMode.title')}
           description={t('blastMode.description')}
           backHref="/dashboard"
+          actions={
+            usageData.hasData ? (
+              <DesktopCircularIndicator
+                remaining={usageData.remaining}
+                limitCount={usageData.limitCount}
+                usedCount={usageData.usedCount}
+                color={usageData.color}
+              />
+            ) : null
+          }
         />
+        <FeatureUsageIndicator featureId="blast_mode" />
 
         <div className="container mx-auto px-4 py-8 max-w-4xl">
           <div className="space-y-6">

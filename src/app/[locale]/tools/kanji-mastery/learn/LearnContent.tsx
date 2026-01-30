@@ -74,8 +74,9 @@ export default function LearnContent() {
   const { checkOnly } = useFeature('kanji_mastery')
   const { getItem, setItem } = useUserStorage()
   const { getLocalePath } = useLocalePath()
-  const enableRandomizedTestOrder = process.env.NEXT_PUBLIC_KANJI_TEST_RANDOMIZE === 'true'
-  const enableKanjiMasteryGamification = process.env.NEXT_PUBLIC_ENABLE_KANJI_MASTERY_GAMIFICATION === 'true'
+  // Feature flags removed - always enabled
+  const enableRandomizedTestOrder = true
+  const enableKanjiMasteryGamification = true
 
   // Session parameters
   const sessionSize = parseInt(searchParams.get('size') || '5')

@@ -1133,7 +1133,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
       leaderboard: process.env.NEXT_PUBLIC_FEATURE_LEADERBOARD === 'true',
       todos: process.env.NEXT_PUBLIC_FEATURE_TODOS === 'true',
       qa: process.env.NEXT_PUBLIC_FEATURE_QA === 'true',
-      'blast-mode': isFeatureEnabled('BLAST_MODE'),
+      'blast-mode': true,
     }),
     []
   )

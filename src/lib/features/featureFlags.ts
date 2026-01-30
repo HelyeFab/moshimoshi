@@ -89,7 +89,7 @@ const PRODUCTION_DISABLED_FEATURES: FeatureFlag[] = [
   // Example: Uncomment to disable in production
   // 'AI_STORIES',
   // 'YOUTUBE_SHADOWING',
-  'BLAST_MODE',
+  // BLAST_MODE feature flag removed - now always enabled
 ]
 
 /**

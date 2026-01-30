@@ -1,23 +1,26 @@
 'use client'
 
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, useRef, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@/hooks/useAuth'
 import { useI18n, useLocalePath } from '@/i18n/I18nContext'
+import { useToast } from '@/components/ui/Toast/ToastContext'
 import { LoadingOverlay } from '@/components/ui/Loading'
 import BlastSession from './BlastSession'
 import { BlastItem, BlastStep, BlastSessionStats, BlastLessonInfo, BlastContentType } from '@/lib/blast-mode/types'
 import { loadBlastData, loadBlastLessonData } from '@/lib/blast-mode/loadBlastData'
 import { useSubscription } from '@/hooks/useSubscription'
-import { isFeatureEnabled } from '@/lib/features/featureFlags'
+import { useFeature } from '@/hooks/useFeature'
 
 function LearnContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const { user, loading: authLoading, isGuest } = useAuth()
   const { isPremium } = useSubscription()
+  const { checkOnly, checkAndTrack } = useFeature('blast_mode')
   const { t } = useI18n()
   const { getLocalePath } = useLocalePath()
+  const { showToast } = useToast()
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
@@ -25,6 +28,8 @@ function LearnContent() {
   const [steps, setSteps] = useState<BlastStep[]>([])
   const [lessonInfo, setLessonInfo] = useState<BlastLessonInfo | null>(null)
   const [sessionId] = useState(`blast-${Date.now()}`)
+  const entitlementCheckedRef = useRef(false)
+  const completionTrackedRef = useRef(false)
 
   // Get session parameters
   const sessionSize = parseInt(searchParams.get('size') || '10')
@@ -43,12 +48,11 @@ function LearnContent() {
       return
     }
 
-    if (!isFeatureEnabled('BLAST_MODE')) {
-      router.push(getLocalePath('/dashboard'))
-      return
-    }
+    // Feature flag removed - Blast Mode is now always available
 
-    loadData()
+    entitlementCheckedRef.current = false
+    completionTrackedRef.current = false
+    void handleEntitlementAndLoad()
   }, [
     authLoading,
     user,
@@ -60,8 +64,29 @@ function LearnContent() {
     selectedKanji?.join(','),
     mode,
     lessonIndex,
-    isPremium
+    isPremium,
+    checkOnly
   ])
+
+  const handleEntitlementAndLoad = async () => {
+    if (entitlementCheckedRef.current) {
+      await loadData()
+      return
+    }
+
+    entitlementCheckedRef.current = true
+    const decision = await checkOnly({ failOpen: false })
+    if (!decision.allow) {
+      const action = !isPremium
+        ? { label: t('subscription.actions.upgrade'), onClick: () => router.push('/pricing') }
+        : undefined
+      showToast(t('entitlements.messages.limitReached'), 'warning', 5000, action)
+      router.push(getLocalePath('/tools/blast-mode'))
+      return
+    }
+
+    await loadData()
+  }
 
   const loadData = async () => {
     try {
@@ -103,7 +128,9 @@ function LearnContent() {
 
   const handleSessionComplete = (stats: BlastSessionStats) => {
     console.log('Session completed:', stats)
-    // TODO: Save stats to backend
+    if (completionTrackedRef.current) return
+    completionTrackedRef.current = true
+    void checkAndTrack({ showUI: true })
   }
 
   if (loading || authLoading) {

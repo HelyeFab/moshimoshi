@@ -492,6 +492,16 @@
       "description": "Practice vocabulary and kanji with drill exercises"
     },
     {
+      "id": "blast_mode",
+      "name": "Blast Mode",
+      "category": "learning",
+      "lifecycle": "active",
+      "permission": "do_practice",
+      "limitType": "daily",
+      "notifications": false,
+      "description": "High-intensity adaptive practice sessions with mixed content"
+    },
+    {
       "id": "my_list",
       "name": "My List",
       "category": "organization",
@@ -597,6 +607,7 @@
         "books": 0,
         "kanji_mood_board": 0,
         "drill": 0,
+        "blast_mode": 0,
         "my_list": -1,
         "textbook_vocabulary": 0,
         "flashcards": 0,
@@ -643,6 +654,7 @@
         "books": 1,
         "kanji_mood_board": 3,
         "drill": 3,
+        "blast_mode": 1,
         "my_list": -1,
         "textbook_vocabulary": 0,
         "flashcards": 0,
@@ -689,6 +701,7 @@
         "books": -1,
         "kanji_mood_board": -1,
         "drill": -1,
+        "blast_mode": -1,
         "my_list": -1,
         "textbook_vocabulary": -1,
         "flashcards": -1,
@@ -735,6 +748,7 @@
         "books": -1,
         "kanji_mood_board": -1,
         "drill": -1,
+        "blast_mode": -1,
         "my_list": -1,
         "textbook_vocabulary": -1,
         "flashcards": -1,
