@@ -11,6 +11,10 @@ const execAsync = promisify(exec)
 // Auto-regenerate types if JSON config has changed
 async function autoRegenerateIfNeeded(): Promise<{ regenerated: boolean; error?: string }> {
   try {
+    if (process.env.NODE_ENV === 'production') {
+      return { regenerated: false }
+    }
+
     const configPath = path.join(process.cwd(), 'config', 'features.v1.json')
     const featureIdPath = path.join(process.cwd(), 'src', 'types', 'FeatureId.ts')
 
@@ -44,8 +48,14 @@ async function autoRegenerateIfNeeded(): Promise<{ regenerated: boolean; error?:
     console.log('[Admin] Auto-regenerating entitlements types (mismatch detected)...')
     const scriptPath = path.join(process.cwd(), 'scripts', 'gen-entitlements.ts')
 
-    await execAsync(`npx tsx ${scriptPath}`, {
+    const tsxPath = path.join(process.cwd(), 'node_modules', '.bin', 'tsx')
+    await execAsync(`${tsxPath} ${scriptPath}`, {
       cwd: process.cwd(),
+      env: {
+        ...process.env,
+        HOME: '/tmp',
+        npm_config_cache: '/tmp/npm-cache'
+      }
     })
 
     console.log('[Admin] Auto-regeneration complete')
