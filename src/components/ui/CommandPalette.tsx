@@ -180,6 +180,19 @@ export default function CommandPalette({ onClose }: CommandPaletteProps) {
         shortcut: 'g d',
       },
       {
+        id: 'blast-mode',
+        title: 'Blast Mode',
+        subtitle: 'High-velocity learning flow',
+        icon: <Zap className="w-5 h-5" />,
+        action: () => {
+          router.push('/tools/blast-mode')
+          setIsOpen(false)
+        },
+        keywords: ['blast', 'mode', 'fast', 'quick', 'speed', 'velocity', 'tap', 'drill', 'kanji', 'vocab', 'ブラスト'],
+        category: 'practice',
+        shortcut: 'g bm',
+      },
+      {
         id: 'youtube',
         title: 'MoshiPlayer',
         subtitle: 'Practice with YouTube videos',
