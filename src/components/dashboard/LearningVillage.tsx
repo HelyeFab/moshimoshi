@@ -652,7 +652,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.hiragana?.subtitle || 'ひらがな',
         description: strings.dashboard?.cards?.hiragana?.description || 'Master the flowing script',
         href: getLocalePath('/learn/hiragana'),
-        icon: '🎋',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/hiragana.svg"
+            alt="Hiragana"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'bamboo',
         color: 'from-green-400 to-emerald-600',
         glow: 'shadow-green-500/50',
@@ -668,7 +676,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         description:
           strings.dashboard?.cards?.katakana?.description || 'Sharp and angular characters',
         href: getLocalePath('/learn/katakana'),
-        icon: '⚡',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/katakana.svg"
+            alt="Katakana"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'thunder',
         color: 'from-blue-400 to-indigo-600',
         glow: 'shadow-blue-500/50',
@@ -729,7 +745,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: cards?.kanjiBrowser?.subtitle || '漢字辞典',
         description: cards?.kanjiBrowser?.description || 'Browse all JLPT kanji levels',
         href: getLocalePath('/kanji-browser'),
-        icon: '📖',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/kanji.svg"
+            alt="Kanji Browser"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'library',
         color: 'from-indigo-400 to-blue-600',
         glow: 'shadow-indigo-500/50',
@@ -744,7 +768,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: cards?.kanjiMastery?.subtitle || '漢字習得',
         description: cards?.kanjiMastery?.description || 'Master kanji with SRS',
         href: getLocalePath('/tools/kanji-mastery'),
-        icon: '🎯',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/mastery.svg"
+            alt="Kanji Mastery"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'bridge',
         color: 'from-teal-400 to-cyan-600',
         glow: 'shadow-teal-500/50',
@@ -759,7 +791,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: cards?.blastMode?.subtitle || 'ブラス ト',
         description: cards?.blastMode?.description || 'Fast, no-typing mixed drills',
         href: getLocalePath('/tools/blast-mode'),
-        icon: '⚡',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/blast.svg"
+            alt="Blast Mode"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'bridge',
         color: 'from-amber-400 to-orange-600',
         glow: 'shadow-amber-500/50',
