@@ -1211,7 +1211,7 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         href: getLocalePath('/resources'),
         icon: (
           <Image
-            src="/ui/flat-icons/village/resource.svg"
+            src="/ui/flat-icons/village/resources.svg"
             alt="Resources"
             width={48}
             height={48}
