@@ -102,6 +102,32 @@ export default function BlastSession({
   const currentStep = activeSteps[currentStepIndex]
   const isLastStep = currentStepIndex === activeSteps.length - 1
 
+  useEffect(() => {
+    if (!isAnswered) return
+    if (showExitConfirm || showCompletionModal || showRetryModal) return
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null
+      if (target) {
+        const tagName = target.tagName?.toLowerCase()
+        if (tagName === 'input' || tagName === 'textarea' || target.isContentEditable) {
+          return
+        }
+      }
+
+      if (event.key === 'Enter' || event.key === ' ' || event.key === 'Spacebar' || event.key === 'ArrowRight') {
+        event.preventDefault()
+        handleNext()
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        handleBack()
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isAnswered, showExitConfirm, showCompletionModal, showRetryModal, currentStepIndex])
+
   // Handle user answer
   const handleAnswer = (answer: string | string[], correct: boolean, responseTime: number) => {
     // responseTime is now provided by UI screens (captured at selection, not including UI delay)

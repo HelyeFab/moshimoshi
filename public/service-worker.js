@@ -19,7 +19,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-8876ff31f665';
+const CACHE_VERSION = 'moshimoshi-023192b93692';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -126,8 +126,8 @@ const MANUAL_PRECACHE_URLS = [
   '/data/kanji/jlpt_5.json'
 ];
 const PRECACHE_URLS = [
-  "/_next/static/K5N7uxjQYYBGxsWW1JXqY/_buildManifest.js",
-  "/_next/static/K5N7uxjQYYBGxsWW1JXqY/_ssgManifest.js",
+  "/_next/static/1PhGmoENrrMNfY7ZdIooh/_buildManifest.js",
+  "/_next/static/1PhGmoENrrMNfY7ZdIooh/_ssgManifest.js",
   "/_next/static/chunks/10152-ef8441d3e4c2aca0.js",
   "/_next/static/chunks/1036-a680cf451ab48a19.js",
   "/_next/static/chunks/10409-58c9f3a9ad081a09.js",
@@ -495,11 +495,11 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/todos/page-c407f9d438605b91.js",
   "/_next/static/chunks/app/[locale]/tools/blast-mode/layout-e7454b52327c4f10.js",
   "/_next/static/chunks/app/[locale]/tools/blast-mode/learn/layout-e7454b52327c4f10.js",
-  "/_next/static/chunks/app/[locale]/tools/blast-mode/learn/page-ab80a500c279abc4.js",
+  "/_next/static/chunks/app/[locale]/tools/blast-mode/learn/page-a8df72380f279510.js",
   "/_next/static/chunks/app/[locale]/tools/blast-mode/page-25947003205056d6.js",
   "/_next/static/chunks/app/[locale]/tools/kanji-mastery/layout-e7454b52327c4f10.js",
   "/_next/static/chunks/app/[locale]/tools/kanji-mastery/learn/layout-e7454b52327c4f10.js",
-  "/_next/static/chunks/app/[locale]/tools/kanji-mastery/learn/page-b6a067faa869f4d4.js",
+  "/_next/static/chunks/app/[locale]/tools/kanji-mastery/learn/page-804ad899040d90fc.js",
   "/_next/static/chunks/app/[locale]/tools/kanji-mastery/page-dde225ada1e1cec7.js",
   "/_next/static/chunks/app/[locale]/tts-demo/page-7b45fcfd14df592c.js",
   "/_next/static/chunks/app/[locale]/tts-playground/page-3583641354c13690.js",
@@ -528,7 +528,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/pages/_app-f365312a4d2529fb.js",
   "/_next/static/chunks/pages/_error-ff431fa75c297bd3.js",
   "/_next/static/chunks/polyfills-42372ed130431b0a.js",
-  "/_next/static/chunks/webpack-f1f359c03e1bb709.js",
+  "/_next/static/chunks/webpack-4bcddd23463a00b6.js",
   "/_next/static/css/6e09cdf58928be98.css",
   "/_next/static/css/81be123a5de80060.css",
   "/_next/static/css/a6ae4ab4bec43017.css",

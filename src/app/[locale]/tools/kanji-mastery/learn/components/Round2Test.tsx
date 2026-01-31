@@ -45,6 +45,14 @@ export default function Round2Test({
   const [showShortcuts, setShowShortcuts] = useState(false)
   const inputRef = useRef<HTMLInputElement | null>(null)
 
+  const isDesktopShortcutsEnabled = () => {
+    if (typeof window === 'undefined') return false
+    if (window.matchMedia) {
+      return window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    }
+    return window.innerWidth >= 768
+  }
+
   // Reset state when kanji changes
   useEffect(() => {
     setCurrentTest(0)
@@ -236,7 +244,7 @@ export default function Round2Test({
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (window.innerWidth < 768) return
+      if (!isDesktopShortcutsEnabled()) return
 
       const target = e.target as HTMLElement
       if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {

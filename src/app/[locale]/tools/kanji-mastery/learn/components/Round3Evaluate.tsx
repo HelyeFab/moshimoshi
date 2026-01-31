@@ -19,6 +19,14 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
   const [selectedRating, setSelectedRating] = useState<number | null>(null)
   const [showShortcuts, setShowShortcuts] = useState(false)
 
+  const isDesktopShortcutsEnabled = () => {
+    if (typeof window === 'undefined') return false
+    if (window.matchMedia) {
+      return window.matchMedia('(hover: hover) and (pointer: fine)').matches
+    }
+    return window.innerWidth >= 768
+  }
+
   const handleRatingSelect = (rating: number) => {
     setSelectedRating(rating)
     setTimeout(() => {
@@ -30,8 +38,16 @@ export default function Round3Evaluate({ kanji, currentIndex, totalKanji, progre
   // Keyboard shortcuts
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isDesktopShortcutsEnabled()) return
+
       const target = e.target as HTMLElement
       if (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA') {
+        return
+      }
+
+      if (selectedRating === null && /^[1-5]$/.test(e.key)) {
+        e.preventDefault()
+        handleRatingSelect(Number(e.key))
         return
       }
 

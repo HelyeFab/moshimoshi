@@ -174,7 +174,9 @@ export function JpReassemble({
       } else if (e.key >= '1' && e.key <= '9') {
         const index = parseInt(e.key) - 1
         if (index < currentOrder.length) {
-          if (isPickMode) {
+          if (isSingleChoice) {
+            handleSingleSelect(currentOrder[index]?.label ?? '')
+          } else if (isPickMode) {
             handlePickTile(currentOrder[index])
           } else {
             handleTileClick(index)

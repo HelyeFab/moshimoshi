@@ -576,6 +576,28 @@ describe('JpReassemble', () => {
         expect(onAnswerMock).toHaveBeenCalledWith(['休'], true, expect.any(Number))
       })
     })
+
+    it('should allow selecting a tile via number key in single-choice mode', async () => {
+      const onAnswerMock = jest.fn()
+      render(
+        <JpReassemble
+          prompt="rest"
+          tiles={['休', '木', '本', '土']}
+          correctOrder={['木']}
+          onAnswer={onAnswerMock}
+        />
+      )
+
+      fireEvent.keyPress(window, { key: '2', code: 'Digit2' })
+
+      act(() => {
+        jest.advanceTimersByTime(1200)
+      })
+
+      await waitFor(() => {
+        expect(onAnswerMock).toHaveBeenCalledWith(['木'], true, expect.any(Number))
+      })
+    })
   })
 
   describe('State reset on tiles change', () => {
