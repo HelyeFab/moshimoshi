@@ -715,7 +715,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.vocabulary?.subtitle || '単語',
         description: strings.dashboard?.cards?.vocabulary?.description || 'Build your word power',
         href: getLocalePath('/vocabulary'),
-        icon: '📚',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/dictionary.svg"
+            alt="Vocabulary"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'library',
         color: 'from-purple-400 to-violet-600',
         glow: 'shadow-purple-500/50',
@@ -860,7 +868,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: cards?.textbookVocab?.subtitle || '教科書',
         description: cards?.textbookVocab?.description || 'Study textbook vocabulary',
         href: getLocalePath('/textbook-vocabulary'),
-        icon: '📚',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/book.svg"
+            alt="Textbook Vocab"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'calligraphy',
         color: 'from-gray-400 to-slate-600',
         glow: 'shadow-gray-500/50',
@@ -876,7 +892,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: cards?.stories?.subtitle || '物語',
         description: cards?.stories?.description || 'AI-generated stories',
         href: getLocalePath('/stories'),
-        icon: '📚',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/stories.svg"
+            alt="Stories"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'stage',
         color: 'from-indigo-400 to-blue-600',
         glow: 'shadow-indigo-500/50',
@@ -906,7 +930,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.library?.subtitle || '図書館',
         description: strings.dashboard?.cards?.library?.description || 'Read condensed books',
         href: getLocalePath('/library'),
-        icon: '📚',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/library.svg"
+            alt="Library"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'scroll',
         color: 'from-amber-400 to-orange-600',
         glow: 'shadow-amber-500/50',
@@ -1002,7 +1034,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         description:
           strings.dashboard?.cards?.flashcards?.description || 'Create and study flashcard decks',
         href: getLocalePath('/flashcards'),
-        icon: '🎴',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/flash-cards.svg"
+            alt="Flashcards"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'cards',
         color: 'from-violet-400 to-purple-600',
         glow: 'shadow-violet-500/50',
@@ -1101,7 +1141,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         description:
           strings.dashboard?.cards?.grammar?.description || 'Browse N5 and N4 grammar points',
         href: getLocalePath('/learn/grammar'),
-        icon: '📘',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/grammar.svg"
+            alt="Grammar"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'scroll',
         color: 'from-sky-400 to-blue-600',
         glow: 'shadow-sky-500/50',
