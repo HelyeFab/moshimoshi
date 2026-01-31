@@ -19,6 +19,7 @@ Complete guide for implementing theme-aware pages and components in the Moshimos
 8. [Common Mistakes](#8-common-mistakes)
 9. [Testing](#9-testing)
 10. [Reference](#10-reference)
+11. [Using SVG Icons](#11-using-svg-icons)
 
 ---
 
@@ -898,5 +899,399 @@ The Moshimoshi theme system provides:
 
 ---
 
-*Last Updated: 2026-01-30*
-*Version: 1.0*
+## 11. Using SVG Icons
+
+### 11.1 When to Replace Emojis with SVG Icons
+
+**Use SVG icons instead of emojis when:**
+- You need consistent cross-platform rendering
+- The icon is a core part of your brand/UI
+- You want precise control over sizing and colors
+- The element needs to scale perfectly at any size
+- You're building production-ready features
+
+**Keep emojis when:**
+- Quick prototyping or placeholder content
+- Casual, informal UI elements
+- Icons that don't need brand consistency
+
+### 11.2 Basic Pattern: Icon as String vs Component
+
+**Emoji (string):**
+```tsx
+const stall = {
+  id: 'my-stall',
+  title: 'My Stall',
+  icon: '🎋',  // Simple string
+}
+
+// Rendered as:
+<span>{stall.icon}</span>
+```
+
+**SVG Icon (component):**
+```tsx
+import Image from 'next/image'
+
+const stall = {
+  id: 'my-stall',
+  title: 'My Stall',
+  icon: (
+    <Image
+      src="/ui/flat-icons/village/hiragana.svg"
+      alt="Hiragana"
+      width={48}
+      height={48}
+      className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+    />
+  ),
+}
+
+// Rendered as:
+<span>{stall.icon}</span>  // Component works here too!
+```
+
+### 11.3 Image Path Pattern
+
+**CRITICAL:** Next.js serves the `/public` folder as the web root.
+
+```tsx
+// ❌ WRONG - Don't include "public" in the path
+src="/public/ui/flat-icons/village/icon.svg"
+
+// ✅ CORRECT - Path starts from public folder
+src="/ui/flat-icons/village/icon.svg"
+
+// Examples:
+File location: /public/ui/flat-icons/village/hiragana.svg
+Referenced as:   /ui/flat-icons/village/hiragana.svg
+
+File location: /public/ui/icons/logo.png
+Referenced as:   /ui/icons/logo.png
+```
+
+### 11.4 Handling Different SVG Sizes
+
+**Problem:** SVG files may have different intrinsic dimensions:
+- Small SVGs: 64×64px (hiragana.svg, katakana.svg)
+- Large SVGs: 512×512px (kanji.svg, mastery.svg, blast.svg)
+
+Using `w-full h-full` will cause larger SVGs to overflow.
+
+**Solution:** Use fixed responsive dimensions:
+
+```tsx
+// ❌ WRONG - Large SVGs will overflow
+<Image
+  src="/ui/flat-icons/village/kanji.svg"
+  alt="Kanji"
+  width={48}
+  height={48}
+  className="w-full h-full object-contain"
+/>
+
+// ✅ CORRECT - Fixed responsive sizing
+<Image
+  src="/ui/flat-icons/village/kanji.svg"
+  alt="Kanji"
+  width={48}
+  height={48}
+  className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+/>
+
+// Result:
+// Mobile: 32px × 32px (w-8 h-8)
+// Desktop: 48px × 48px (w-12 h-12)
+```
+
+### 11.5 Complete Example: Learning Village Icons
+
+**Before (emojis):**
+```tsx
+const learningStalls = [
+  {
+    id: 'hiragana',
+    title: 'Hiragana',
+    icon: '🎋',
+  },
+  {
+    id: 'katakana',
+    title: 'Katakana',
+    icon: '⚡',
+  },
+  {
+    id: 'kanji-browser',
+    title: 'Kanji Browser',
+    icon: '📖',
+  },
+]
+```
+
+**After (SVG icons):**
+```tsx
+import Image from 'next/image'
+
+const learningStalls = [
+  {
+    id: 'hiragana',
+    title: 'Hiragana',
+    icon: (
+      <Image
+        src="/ui/flat-icons/village/hiragana.svg"
+        alt="Hiragana"
+        width={48}
+        height={48}
+        className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+      />
+    ),
+  },
+  {
+    id: 'katakana',
+    title: 'Katakana',
+    icon: (
+      <Image
+        src="/ui/flat-icons/village/katakana.svg"
+        alt="Katakana"
+        width={48}
+        height={48}
+        className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+      />
+    ),
+  },
+  {
+    id: 'kanji-browser',
+    title: 'Kanji Browser',
+    icon: (
+      <Image
+        src="/ui/flat-icons/village/kanji.svg"
+        alt="Kanji Browser"
+        width={48}
+        height={48}
+        className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+      />
+    ),
+  },
+]
+```
+
+### 11.6 Recommended Icon Sizes
+
+**For UI elements (cards, buttons, lists):**
+```tsx
+// Small icons (mobile-first)
+className="w-6 h-6 sm:w-8 sm:h-8"    // 24px → 32px
+
+// Medium icons (default)
+className="w-8 h-8 sm:w-12 sm:h-12"  // 32px → 48px
+
+// Large icons (featured items)
+className="w-12 h-12 sm:w-16 sm:h-16" // 48px → 64px
+
+// Extra large icons (hero sections)
+className="w-16 h-16 sm:w-24 sm:h-24" // 64px → 96px
+```
+
+**Always include:**
+- Responsive sizes (`sm:`, `md:`, `lg:`)
+- `object-contain` to preserve aspect ratio
+- Proper `width` and `height` props for Next.js Image optimization
+
+### 11.7 SVG Organization Structure
+
+**Recommended folder structure:**
+```
+/public/ui/
+├── flat-icons/
+│   ├── village/           # Learning Village stall icons
+│   │   ├── hiragana.svg
+│   │   ├── katakana.svg
+│   │   ├── kanji.svg
+│   │   ├── mastery.svg
+│   │   └── blast.svg
+│   ├── stalls/            # Generic stall backgrounds
+│   │   ├── ceramics.png
+│   │   └── food-cart.png
+│   └── ui/                # UI elements
+│       ├── crown.png
+│       └── close-button.png
+├── icons/                 # App icons
+└── images/                # General images
+```
+
+### 11.8 Testing Checklist for SVG Icons
+
+Before committing SVG icon changes:
+
+```markdown
+## Visual Tests
+- [ ] Icons render at correct size on mobile
+- [ ] Icons render at correct size on desktop
+- [ ] Icons maintain aspect ratio (not stretched)
+- [ ] Icons are visible in light mode
+- [ ] Icons are visible in dark mode
+- [ ] No broken image placeholders
+
+## Technical Tests
+- [ ] TypeScript compiles without errors
+- [ ] No console warnings about missing images
+- [ ] Images are committed to git
+- [ ] Image paths start with `/ui/` not `/public/ui/`
+- [ ] Next.js Image component used (for optimization)
+
+## Size Verification
+- [ ] Check SVG intrinsic dimensions (64×64 vs 512×512)
+- [ ] Verify className uses fixed sizes, not w-full/h-full
+- [ ] Test different screen sizes (320px to 1920px)
+```
+
+### 11.9 Common Patterns from Codebase
+
+**Pattern examples found in production:**
+
+```tsx
+// 1. PremiumBadge.tsx - Simple icon
+<Image
+  src="/ui/flat-icons/ui/crown.png"
+  alt="Premium"
+  width={40}
+  height={40}
+  className="w-full h-full object-contain"
+/>
+
+// 2. LandingPageClient.tsx - Close button
+<Image
+  src="/ui/flat-icons/close-button.png"
+  alt="Close menu"
+  width={24}
+  height={24}
+  className="w-6 h-6"
+/>
+
+// 3. Kana Drop Game - Theme icons (array)
+const THEME_ICONS = [
+  '/ui/flat-icons/188915-pokemon-go/png/star.png',
+  '/ui/flat-icons/188915-pokemon-go/png/pokeball.png',
+  '/ui/flat-icons/4193242-animals/svg/002-buffalo.svg',
+]
+
+// 4. Learning Village - Stall backgrounds (random)
+const stallImages = [
+  '/ui/flat-icons/stalls/ceramics.png',
+  '/ui/flat-icons/stalls/food-cart.png',
+]
+const getRandomStallImage = () =>
+  stallImages[Math.floor(Math.random() * stallImages.length)]
+```
+
+### 11.10 Migration Guide: Emoji to SVG
+
+**Step-by-step process:**
+
+1. **Verify Pattern** (check 10+ examples in codebase)
+   ```bash
+   # Search for existing image patterns
+   grep -r "src=\"/ui/" src/components/
+   ```
+
+2. **Place SVG Files**
+   ```bash
+   # Add to public folder
+   /public/ui/flat-icons/[category]/[icon-name].svg
+   ```
+
+3. **Check SVG Dimensions**
+   ```bash
+   # View first 2 lines of SVG
+   head -2 /public/ui/flat-icons/village/icon.svg
+
+   # Look for: height="64" or height="512"
+   ```
+
+4. **Import Image Component**
+   ```tsx
+   import Image from 'next/image'
+   ```
+
+5. **Replace Emoji with Component**
+   ```tsx
+   // Before
+   icon: '🎋',
+
+   // After
+   icon: (
+     <Image
+       src="/ui/flat-icons/village/hiragana.svg"
+       alt="Hiragana"
+       width={48}
+       height={48}
+       className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+     />
+   ),
+   ```
+
+6. **Test TypeScript**
+   ```bash
+   npm run type-check
+   ```
+
+7. **Visual Verification**
+   - Check mobile (320px width)
+   - Check desktop (1920px width)
+   - Verify no oversized icons
+
+8. **Commit**
+   ```bash
+   git add src/components/[component].tsx
+   git add public/ui/flat-icons/[category]/
+   git commit -m "feat: Replace emoji with SVG icons in [component]"
+   ```
+
+### 11.11 Troubleshooting
+
+**Issue: Icons too large**
+```tsx
+// Problem: Using w-full h-full with large SVGs
+className="w-full h-full object-contain"
+
+// Solution: Use fixed responsive sizes
+className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+```
+
+**Issue: Broken images in production**
+```tsx
+// Problem: Wrong path
+src="/public/ui/icons/logo.svg"
+
+// Solution: Remove "public" from path
+src="/ui/icons/logo.svg"
+```
+
+**Issue: Images not optimized**
+```tsx
+// Problem: Using <img> tag
+<img src="/ui/icons/logo.svg" />
+
+// Solution: Use Next.js Image
+<Image src="/ui/icons/logo.svg" width={48} height={48} />
+```
+
+**Issue: Icons disappear on mobile**
+```tsx
+// Problem: Only desktop size specified
+className="sm:w-12 sm:h-12"
+
+// Solution: Include mobile size (without prefix)
+className="w-8 h-8 sm:w-12 sm:h-12"
+```
+
+---
+
+**Related Files:**
+- Implementation: `src/components/dashboard/LearningVillage.tsx:655-810`
+- Icons: `/public/ui/flat-icons/village/`
+- Example commit: `feat: Replace emoji icons with SVG images in Learning Village`
+
+---
+
+*Last Updated: 2026-01-31*
+*Version: 1.1*
