@@ -91,14 +91,14 @@
     "id": "genki-2-13-1544776574866",
     "japanese": "おなかが すきます",
     "reading": "おなかが すきます",
-    "meaning": "to get hungry (when expressing the condition of being hungry, おなかが　すきました　is used)",
+    "meaning": "to get hungry (when expressing the condition of being hungry, おなかが すきました is used)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
     ],
     "examples": [
       {
-        "japanese": "おなかが　すきます",
+        "japanese": "おなかが すきます",
         "reading": "",
         "english": "13"
       }
@@ -170,7 +170,7 @@
     ],
     "examples": [
       {
-        "japanese": "ご　 注[ちゅう]　もんは？",
+        "japanese": "ご 注[ちゅう] もんは？",
         "reading": "",
         "english": "13"
       }
@@ -240,7 +240,7 @@
     ],
     "examples": [
       {
-        "japanese": "そう　しましょう。",
+        "japanese": "そう しましょう。",
         "reading": "",
         "english": "13"
       }
@@ -347,14 +347,14 @@
     "id": "genki-2-13-1544776574865",
     "japanese": "のどが かわきます",
     "reading": "のどが かわきます",
-    "meaning": "to get thirsty (when expressing the condition of being thirsty, のどが　かわきました　is used)",
+    "meaning": "to get thirsty (when expressing the condition of being thirsty, のどが かわきました is used)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
     ],
     "examples": [
       {
-        "japanese": "のどが　かわきます",
+        "japanese": "のどが かわきます",
         "reading": "",
         "english": "13"
       }
@@ -437,7 +437,7 @@
     "id": "genki-2-13-1544776574859",
     "japanese": "スキー",
     "reading": "スキー",
-    "meaning": "skiing (～を　します：to ski)",
+    "meaning": "skiing (～を します：to ski)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -1260,7 +1260,7 @@
     ],
     "examples": [
       {
-        "japanese": "散歩[さんぽ]します　［ 公園[こうえん]を~］",
+        "japanese": "散歩[さんぽ]します ［ 公園[こうえん]を~］",
         "reading": "",
         "english": "13"
       }
@@ -1985,7 +1985,7 @@
     "id": "genki-2-13-1544776574858",
     "japanese": "釣り",
     "reading": "釣り",
-    "meaning": "fishing (～を　します：to fish, anble)",
+    "meaning": "fishing (～を します：to fish, anble)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -2444,7 +2444,7 @@
     ],
     "examples": [
       {
-        "japanese": "これで　お 願[ねが]いします。",
+        "japanese": "これで お 願[ねが]いします。",
         "reading": "",
         "english": "14"
       }
@@ -2593,8 +2593,8 @@
   },
   {
     "id": "genki-2-14-1544776574873",
-    "japanese": "つけます&nbsp;",
-    "reading": "つけます&nbsp;",
+    "japanese": "つけます",
+    "reading": "つけます",
     "meaning": "to turn on",
     "jlptLevel": "N5",
     "partOfSpeech": [
@@ -2692,7 +2692,7 @@
     ],
     "examples": [
       {
-        "japanese": "もう　 少[すこ]し",
+        "japanese": "もう 少[すこ]し",
         "reading": "",
         "english": "14"
       }
@@ -2714,7 +2714,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "もう　~",
+        "japanese": "もう ~",
         "reading": "",
         "english": "14"
       }
@@ -3318,7 +3318,7 @@
     ],
     "examples": [
       {
-        "japanese": "信号[しんごう]を　 右[みぎ]へ　 曲[ま]がって　ください。",
+        "japanese": "信号[しんごう]を 右[みぎ]へ 曲[ま]がって ください。",
         "reading": "",
         "english": "14"
       }
@@ -3342,7 +3342,7 @@
     ],
     "examples": [
       {
-        "japanese": "入[はい]ります　［ 喫茶店[きっさてん]に~］",
+        "japanese": "入[はい]ります ［ 喫茶店[きっさてん]に~］",
         "reading": "",
         "english": "14"
       }
@@ -3946,7 +3946,7 @@
     ],
     "examples": [
       {
-        "japanese": "教[おし]えます　［ 住所[じゅうしょ]を~］",
+        "japanese": "教[おし]えます ［ 住所[じゅうしょ]を~］",
         "reading": "",
         "english": "14"
       }
@@ -5031,7 +5031,7 @@
     "id": "genki-2-15-new-137",
     "japanese": "下ろす",
     "reading": "おろす",
-    "meaning": "to withdraw (money)　（〜を）",
+    "meaning": "to withdraw (money) （〜を）",
     "jlptLevel": "N4",
     "partOfSpeech": [],
     "examples": [
@@ -5549,7 +5549,7 @@
     "id": "genki-2-15-new-138",
     "japanese": "描く",
     "reading": "かく",
-    "meaning": "to draw; to paint　（〜を）",
+    "meaning": "to draw; to paint （〜を）",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -5847,7 +5847,7 @@
     "id": "genki-2-15-1544776574922",
     "japanese": "済みます",
     "reading": "済みます",
-    "meaning": "to live, dwell, reside, etc.&nbsp;",
+    "meaning": "to live, dwell, reside, etc.",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -6498,7 +6498,7 @@
     ],
     "examples": [
       {
-        "japanese": "あびます　［シャワーを~］",
+        "japanese": "あびます ［シャワーを~］",
         "reading": "",
         "english": "16"
       }
@@ -6612,7 +6612,7 @@
     ],
     "examples": [
       {
-        "japanese": "おろします　［お 金[かね]を~］",
+        "japanese": "おろします ［お 金[かね]を~］",
         "reading": "",
         "english": "16"
       }
@@ -6967,7 +6967,7 @@
     "id": "genki-2-16-1544776574972",
     "japanese": "ジョギング",
     "reading": "ジョギング",
-    "meaning": "jogging (~を　します：to jog)",
+    "meaning": "jogging (~を します：to jog)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -7130,7 +7130,7 @@
     ],
     "examples": [
       {
-        "japanese": "乗[の]ります　［ 電車[でんしゃ]に~］",
+        "japanese": "乗[の]ります ［ 電車[でんしゃ]に~］",
         "reading": "",
         "english": "16"
       }
@@ -7292,7 +7292,7 @@
     ],
     "examples": [
       {
-        "japanese": "入[はい]ります　［ 大学[だいがく]に~］",
+        "japanese": "入[はい]ります ［ 大学[だいがく]に~］",
         "reading": "",
         "english": "16"
       }
@@ -7408,7 +7408,7 @@
     ],
     "examples": [
       {
-        "japanese": "出[で]ます　［ 大学[だいがく]を~］",
+        "japanese": "出[で]ます ［ 大学[だいがく]を~］",
         "reading": "",
         "english": "16"
       }
@@ -7947,7 +7947,7 @@
     "id": "genki-2-16-new-198",
     "japanese": "案内する",
     "reading": "あんないする",
-    "meaning": "to show (someone) around  (place を)",
+    "meaning": "to show (someone) around (place を)",
     "jlptLevel": "N4",
     "partOfSpeech": [],
     "examples": [
@@ -7989,9 +7989,9 @@
   },
   {
     "id": "genki-2-16-new-205",
-    "japanese": "此の位（rare）",
+    "japanese": "about this much (=これぐらい/このくらい/これくらい)",
     "reading": "このぐらい",
-    "meaning": "about this much (=これぐらい/このくらい/これくらい)",
+    "meaning": "此の位（rare）",
     "jlptLevel": "N2",
     "partOfSpeech": [],
     "examples": [
@@ -8797,7 +8797,7 @@
     "id": "genki-2-16-new-191",
     "japanese": "迎えに行く",
     "reading": "むかえにいく",
-    "meaning": "to go to pickup  (place まで/ person を)",
+    "meaning": "to go to pickup (place まで/ person を)",
     "jlptLevel": "N3",
     "partOfSpeech": [],
     "examples": [
@@ -8841,7 +8841,7 @@
     "id": "genki-2-16-new-189",
     "japanese": "連れていく",
     "reading": "つれていく",
-    "meaning": "to take (someone) to (a place)  (person を place に)",
+    "meaning": "to take (someone) to (a place) (person を place に)",
     "jlptLevel": "N3",
     "partOfSpeech": [],
     "examples": [
@@ -8986,7 +8986,7 @@
     ],
     "examples": [
       {
-        "japanese": "降[お]ります　［ 電車[でんしゃ]を~］",
+        "japanese": "降[お]ります ［ 電車[でんしゃ]を~］",
         "reading": "",
         "english": "16"
       }
@@ -9263,7 +9263,7 @@
     "id": "genki-2-16-1544776574977",
     "japanese": "－番",
     "reading": "－番",
-    "meaning": "number -&nbsp;",
+    "meaning": "number -",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -9294,7 +9294,7 @@
     ],
     "examples": [
       {
-        "japanese": "［いいえ、］　まだまだです。",
+        "japanese": "［いいえ、］ まだまだです。",
         "reading": "",
         "english": "16"
       }
@@ -9586,7 +9586,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "どう　しましたか。",
+        "japanese": "どう しましたか。",
         "reading": "",
         "english": "17"
       }
@@ -9998,7 +9998,7 @@
     ],
     "examples": [
       {
-        "japanese": "入[はい]ります　［おふろに〜］",
+        "japanese": "入[はい]ります ［おふろに〜］",
         "reading": "",
         "english": "17"
       }
@@ -10460,7 +10460,7 @@
     ],
     "examples": [
       {
-        "japanese": "持[も]って　 来[き]ます",
+        "japanese": "持[も]って 来[き]ます",
         "reading": "",
         "english": "17"
       }
@@ -10484,7 +10484,7 @@
     ],
     "examples": [
       {
-        "japanese": "持[も]って　 行[い]きます",
+        "japanese": "持[も]って 行[い]きます",
         "reading": "",
         "english": "17"
       }
@@ -11350,7 +11350,7 @@
     ],
     "examples": [
       {
-        "japanese": "飲[の]みます　［ 薬[くすり]を〜］",
+        "japanese": "飲[の]みます ［ 薬[くすり]を〜］",
         "reading": "",
         "english": "17"
       }
@@ -11484,7 +11484,7 @@
     ],
     "examples": [
       {
-        "japanese": "２，３　 日[にち]",
+        "japanese": "２，３ 日[にち]",
         "reading": "",
         "english": "17"
       }
@@ -11554,7 +11554,7 @@
     ],
     "examples": [
       {
-        "japanese": "［ 健康[けんこう]］　 保険[ほけん] 証[しょう]",
+        "japanese": "［ 健康[けんこう]］ 保険[ほけん] 証[しょう]",
         "reading": "",
         "english": "17"
       }
@@ -11578,7 +11578,7 @@
     ],
     "examples": [
       {
-        "japanese": "［~が］　 痛[いた]いです。",
+        "japanese": "［~が］ 痛[いた]いです。",
         "reading": "",
         "english": "17"
       }
@@ -11709,7 +11709,7 @@
     "id": "genki-2-18-1544776575044",
     "japanese": "お祈り",
     "reading": "お祈り",
-    "meaning": "prayer (～を　します：to pray)",
+    "meaning": "prayer (～を します：to pray)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -11784,7 +11784,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "それは　おもしろいですね。",
+        "japanese": "それは おもしろいですね。",
         "reading": "",
         "english": "18"
       }
@@ -12515,7 +12515,7 @@
     "id": "genki-2-18-1544776575032",
     "japanese": "弾きます",
     "reading": "弾きます",
-    "meaning": "<div>to play (stringed instrument, piano, etc.)<br></div>",
+    "meaning": "to play (stringed instrument, piano, etc.)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -14157,7 +14157,7 @@
     "id": "genki-2-19-1544776575067",
     "japanese": "ゴルフ",
     "reading": "ゴルフ",
-    "meaning": "golf (~を　します: to play golf)",
+    "meaning": "golf (~を します: to play golf)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -14203,7 +14203,7 @@
     "id": "genki-2-19-1544776575079",
     "japanese": "ダイエット",
     "reading": "ダイエット",
-    "meaning": "diet (～を　します: to go on a diet)",
+    "meaning": "diet (～を します: to go on a diet)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -14460,7 +14460,7 @@
     ],
     "examples": [
       {
-        "japanese": "体[からだ]に　いい",
+        "japanese": "体[からだ]に いい",
         "reading": "",
         "english": "19"
       }
@@ -14475,9 +14475,9 @@
   },
   {
     "id": "genki-2-19-new-370",
-    "japanese": "何故（rare）",
+    "japanese": "why (=どうして)",
     "reading": "なぜ",
-    "meaning": "why (=どうして)",
+    "meaning": "何故（rare）",
     "jlptLevel": "N2",
     "partOfSpeech": [],
     "examples": [
@@ -15243,7 +15243,7 @@
     "id": "genki-2-19-1544776575068",
     "japanese": "相撲",
     "reading": "相撲",
-    "meaning": "sumo wrestling (～を　します: to wrestle)",
+    "meaning": "sumo wrestling (～を します: to wrestle)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -15403,8 +15403,8 @@
   },
   {
     "id": "genki-2-19-1544776575082",
-    "japanese": "葛飾北斉 <b>FIX</b>",
-    "reading": "葛飾北斉 <b>FIX</b>",
+    "japanese": "葛飾北斉 FIX",
+    "reading": "葛飾北斉 FIX",
     "meaning": "a famous Edo-period woodblock artist and painter (1760-1849)",
     "jlptLevel": "N5",
     "partOfSpeech": [
@@ -15768,7 +15768,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "おなかが　いっぱいです",
+        "japanese": "おなかが いっぱいです",
         "reading": "",
         "english": "20"
       }
@@ -15895,7 +15895,7 @@
     "id": "genki-2-20-1609729372949",
     "japanese": "どう しようかな。",
     "reading": "どう しようかな。",
-    "meaning": "どう　しようかな。",
+    "meaning": "どう しようかな。",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -15917,7 +15917,7 @@
     "id": "genki-2-20-1609729372947",
     "japanese": "どう するの？",
     "reading": "どう するの？",
-    "meaning": "どう　するの？",
+    "meaning": "どう するの？",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -16477,7 +16477,7 @@
     "id": "genki-2-20-1609729372945",
     "japanese": "国へ 帰るの?",
     "reading": "国へ 帰るの?",
-    "meaning": "国[くに]へ　 帰[かえ]るの?",
+    "meaning": "国[くに]へ 帰[かえ]るの?",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -17472,7 +17472,7 @@
     ],
     "examples": [
       {
-        "japanese": "あります　［おまつりが~］",
+        "japanese": "あります ［おまつりが~］",
         "reading": "",
         "english": "21"
       }
@@ -17722,7 +17722,7 @@
     ],
     "examples": [
       {
-        "japanese": "もう　 帰[かえ]らないと。。。",
+        "japanese": "もう 帰[かえ]らないと。。。",
         "reading": "",
         "english": "21"
       }
@@ -17768,7 +17768,7 @@
     ],
     "examples": [
       {
-        "japanese": "やめます　［かいしゃを~］",
+        "japanese": "やめます ［かいしゃを~］",
         "reading": "",
         "english": "21"
       }
@@ -18145,7 +18145,7 @@
     "id": "genki-2-21-1609729372951",
     "japanese": "仕方が ありません。",
     "reading": "仕方が ありません。",
-    "meaning": "仕方[しかた]が　ありません。",
+    "meaning": "仕方[しかた]が ありません。",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -18235,7 +18235,7 @@
     "id": "genki-2-21-new-463",
     "japanese": "刺す",
     "reading": "さす",
-    "meaning": "to bite  (～を)",
+    "meaning": "to bite (～を)",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -18562,7 +18562,7 @@
     ],
     "examples": [
       {
-        "japanese": "役[やく]に　 立[た]ちます",
+        "japanese": "役[やく]に 立[た]ちます",
         "reading": "",
         "english": "21"
       }
@@ -18925,7 +18925,7 @@
     "id": "genki-2-21-new-461",
     "japanese": "殴る",
     "reading": "なぐる",
-    "meaning": "to strike; to hit; to punch  (～を)",
+    "meaning": "to strike; to hit; to punch (～を)",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -18976,7 +18976,7 @@
     ],
     "examples": [
       {
-        "japanese": "気[き]を　つけます",
+        "japanese": "気[き]を つけます",
         "reading": "",
         "english": "21"
       }
@@ -19533,7 +19533,7 @@
     "id": "genki-2-21-1544776575130",
     "japanese": "試合",
     "reading": "試合",
-    "meaning": "game, match (～を　します: to play a game/match)",
+    "meaning": "game, match (～を します: to play a game/match)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -19581,7 +19581,7 @@
     "id": "genki-2-21-1544776575132",
     "japanese": "話",
     "reading": "話",
-    "meaning": "talk, speech, what one says, story (～を　します: to talk, tell a story)",
+    "meaning": "talk, speech, what one says, story (～を します: to talk, tell a story)",
     "jlptLevel": "N4",
     "partOfSpeech": [
       "verb"
@@ -19695,7 +19695,7 @@
     "id": "genki-2-21-new-462",
     "japanese": "踏む",
     "reading": "ふむ",
-    "meaning": "to step on  (～を)",
+    "meaning": "to step on (～を)",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -19717,7 +19717,7 @@
     "id": "genki-2-21-new-460",
     "japanese": "蹴る（rare）",
     "reading": "ける",
-    "meaning": "to kick  (～を)",
+    "meaning": "to kick (～を)",
     "jlptLevel": "N2",
     "partOfSpeech": [],
     "examples": [
@@ -19761,7 +19761,7 @@
     "id": "genki-2-21-new-459",
     "japanese": "遣る（rare）",
     "reading": "やる",
-    "meaning": "to give (to pets, plants, younger siblings, etc.)  (～を)",
+    "meaning": "to give (to pets, plants, younger siblings, etc.) (～を)",
     "jlptLevel": "N2",
     "partOfSpeech": [],
     "examples": [
@@ -19858,7 +19858,7 @@
     ],
     "examples": [
       {
-        "japanese": "~でも　 飲[の]みませんか。",
+        "japanese": "~でも 飲[の]みませんか。",
         "reading": "",
         "english": "21"
       }
@@ -19875,7 +19875,7 @@
     "id": "genki-2-21-1609729372955",
     "japanese": "～でも 飲みませんか。",
     "reading": "～でも 飲みませんか。",
-    "meaning": "～ でも　 飲[の]みませんか。",
+    "meaning": "～ でも 飲[の]みませんか。",
     "jlptLevel": "N4",
     "partOfSpeech": [
       "noun"
@@ -19904,7 +19904,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "~に　ついて",
+        "japanese": "~に ついて",
         "reading": "",
         "english": "21"
       }
@@ -19970,7 +19970,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "おめでとう　［ございます］。",
+        "japanese": "おめでとう ［ございます］。",
         "reading": "",
         "english": "22"
       }
@@ -20062,7 +20062,7 @@
     ],
     "examples": [
       {
-        "japanese": "かけます　［めがねを~］",
+        "japanese": "かけます ［めがねを~］",
         "reading": "",
         "english": "22"
       }
@@ -20110,7 +20110,7 @@
     ],
     "examples": [
       {
-        "japanese": "します　［ネクタイを~］",
+        "japanese": "します ［ネクタイを~］",
         "reading": "",
         "english": "22"
       }
@@ -20679,7 +20679,7 @@
     "id": "genki-2-22-new-521",
     "japanese": "受ける",
     "reading": "うける",
-    "meaning": "to take (an examination)  (～を)",
+    "meaning": "to take (an examination) (～を)",
     "jlptLevel": "N4",
     "partOfSpeech": [],
     "examples": [
@@ -21765,7 +21765,7 @@
     "id": "genki-2-22-new-519",
     "japanese": "間に合う",
     "reading": "まにあう",
-    "meaning": "to be in time  (～に)",
+    "meaning": "to be in time (～に)",
     "jlptLevel": "N4",
     "partOfSpeech": [],
     "examples": [

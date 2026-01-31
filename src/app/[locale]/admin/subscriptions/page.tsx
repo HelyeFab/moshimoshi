@@ -253,12 +253,19 @@ export default function AdminSubscriptionsPage() {
     return matchesSearch && matchesPlan
   })
 
+  const scheduledCancelUsers = users.filter(u =>
+    u.subscription.cancelAtPeriodEnd === true && u.subscription.status !== 'canceled'
+  )
+  const canceledUsers = users.filter(u => u.subscription.status === 'canceled')
+
   // Stats
   const stats = {
     total: users.length,
     free: users.filter(u => u.subscription.plan === 'free').length,
     monthly: users.filter(u => u.subscription.plan === 'premium_monthly').length,
-    yearly: users.filter(u => u.subscription.plan === 'premium_yearly').length
+    yearly: users.filter(u => u.subscription.plan === 'premium_yearly').length,
+    scheduledCancels: scheduledCancelUsers.length,
+    canceled: canceledUsers.length
   }
 
   const getPlanBadge = (plan: string) => {
@@ -309,7 +316,7 @@ export default function AdminSubscriptionsPage() {
       </div>
 
       {/* Stats - Mobile Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3 lg:gap-4">
         <div className="bg-white dark:bg-dark-900 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="text-lg sm:text-xl lg:text-2xl font-bold text-gray-900 dark:text-white">{stats.total}</div>
           <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Total Users</div>
@@ -325,6 +332,99 @@ export default function AdminSubscriptionsPage() {
         <div className="bg-white dark:bg-dark-900 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
           <div className="text-lg sm:text-xl lg:text-2xl font-bold text-purple-600 dark:text-purple-400">{stats.yearly}</div>
           <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Yearly</div>
+        </div>
+        <div className="bg-white dark:bg-dark-900 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-yellow-600 dark:text-yellow-400">{stats.scheduledCancels}</div>
+          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Scheduled</div>
+        </div>
+        <div className="bg-white dark:bg-dark-900 p-3 sm:p-4 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
+          <div className="text-lg sm:text-xl lg:text-2xl font-bold text-red-600 dark:text-red-400">{stats.canceled}</div>
+          <div className="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Canceled</div>
+        </div>
+      </div>
+
+      {/* Cancellation Intentions */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 sm:gap-4">
+        {/* Scheduled Cancellations */}
+        <div className="bg-white dark:bg-dark-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
+                Scheduled Cancellations
+              </h2>
+              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                {scheduledCancelUsers.length} users
+              </span>
+            </div>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Active subscriptions set to cancel at period end.
+            </p>
+          </div>
+
+          {scheduledCancelUsers.length === 0 ? (
+            <div className="px-3 sm:px-4 lg:px-6 py-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+              No scheduled cancellations.
+            </div>
+          ) : (
+            <div className="divide-y divide-gray-200 dark:divide-gray-700">
+              {scheduledCancelUsers.map(user => (
+                <div key={user.uid} className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white truncate">
+                      {user.displayName || 'Unknown'}
+                    </div>
+                    <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">
+                      {user.email}
+                    </div>
+                  </div>
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300">
+                    Scheduled
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Completed Cancellations */}
+        <div className="bg-white dark:bg-dark-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+          <div className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 border-b border-gray-200 dark:border-gray-700">
+            <div className="flex items-center justify-between">
+              <h2 className="text-sm sm:text-base font-semibold text-gray-900 dark:text-white">
+                Completed Cancellations
+              </h2>
+              <span className="text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                {canceledUsers.length} users
+              </span>
+            </div>
+            <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-400 mt-1">
+              Subscriptions with status canceled.
+            </p>
+          </div>
+
+          {canceledUsers.length === 0 ? (
+            <div className="px-3 sm:px-4 lg:px-6 py-4 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+              No completed cancellations.
+            </div>
+          ) : (
+            <div className="divide-y divide-gray-200 dark:divide-gray-700">
+              {canceledUsers.map(user => (
+                <div key={user.uid} className="px-3 sm:px-4 lg:px-6 py-3 sm:py-4 flex items-start justify-between gap-3">
+                  <div className="min-w-0">
+                    <div className="text-xs sm:text-sm font-medium text-gray-900 dark:text-white truncate">
+                      {user.displayName || 'Unknown'}
+                    </div>
+                    <div className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 truncate">
+                      {user.email}
+                    </div>
+                  </div>
+                  <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-medium bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300">
+                    Canceled
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
 

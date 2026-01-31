@@ -8,13 +8,17 @@
  */
 
 import Stripe from 'stripe';
+import { getFirestore } from 'firebase-admin/firestore';
 import { toPlan, DEFAULT_PAID_PLAN } from '../mapping/stripeMapping';
 import {
   upsertUserSubscriptionByCustomerId,
   logStripeEvent,
   getUidByCustomerId
 } from '../firestore';
+import { sendSubscriptionAlert } from '../utils/alertNotifier';
 // Node.js 20+ has native fetch support
+
+const db = getFirestore();
 
 /**
  * Helper to invalidate ALL user caches via Next.js API
@@ -102,7 +106,10 @@ async function invalidateAllUserCaches(
  *
  * @param event - The Stripe webhook event
  */
-export async function applySubscriptionEvent(event: Stripe.Event): Promise<void> {
+export async function applySubscriptionEvent(
+  event: Stripe.Event,
+  resendApiKey?: string
+): Promise<void> {
   const subscription = event.data.object as Stripe.Subscription;
   
   // Log the event with subscription details
@@ -128,13 +135,13 @@ export async function applySubscriptionEvent(event: Stripe.Event): Promise<void>
   // Route to specific handler based on event type
   switch (event.type) {
     case 'customer.subscription.created':
-      await handleSubscriptionCreated(subscription, customerId);
+      await handleSubscriptionCreated(subscription, customerId, resendApiKey);
       break;
     case 'customer.subscription.updated':
-      await handleSubscriptionUpdated(subscription, customerId);
+      await handleSubscriptionUpdated(subscription, customerId, resendApiKey, event.data.previous_attributes);
       break;
     case 'customer.subscription.deleted':
-      await handleSubscriptionDeleted(subscription, customerId);
+      await handleSubscriptionDeleted(subscription, customerId, resendApiKey);
       break;
     default:
       console.warn(`Unhandled subscription event type: ${event.type}`);
@@ -149,7 +156,8 @@ export async function applySubscriptionEvent(event: Stripe.Event): Promise<void>
  */
 async function handleSubscriptionCreated(
   subscription: Stripe.Subscription,
-  customerId: string
+  customerId: string,
+  resendApiKey?: string
 ): Promise<void> {
   console.log(`Processing subscription.created for ${subscription.id}`);
   
@@ -163,6 +171,15 @@ async function handleSubscriptionCreated(
 
     // Invalidate ALL user caches so user sees update immediately
     await invalidateAllUserCaches(customerId, 'stripe_subscription_created');
+
+    // Send subscription alert (non-blocking)
+    await sendSubscriptionLifecycleAlert(
+      resendApiKey,
+      'subscribed',
+      subscription,
+      customerId,
+      facts
+    );
   } catch (error) {
     console.error(`Failed to create subscription for customer ${customerId}:`, error);
     throw error;
@@ -178,7 +195,9 @@ async function handleSubscriptionCreated(
  */
 async function handleSubscriptionUpdated(
   subscription: Stripe.Subscription,
-  customerId: string
+  customerId: string,
+  resendApiKey?: string,
+  previousAttributes?: Stripe.Event.Data.PreviousAttributes
 ): Promise<void> {
   console.log(`Processing subscription.updated for ${subscription.id}`);
   
@@ -201,6 +220,18 @@ async function handleSubscriptionUpdated(
 
     // Invalidate ALL user caches so user sees update immediately
     await invalidateAllUserCaches(customerId, 'stripe_subscription_updated');
+
+    // Optional unsubscribe alert if status transitioned to canceled
+    const prevStatus = (previousAttributes as any)?.status;
+    if (prevStatus !== 'canceled' && subscription.status === 'canceled') {
+      await sendSubscriptionLifecycleAlert(
+        resendApiKey,
+        'unsubscribed',
+        subscription,
+        customerId,
+        facts
+      );
+    }
   } catch (error) {
     console.error(`Failed to update subscription for customer ${customerId}:`, error);
     throw error;
@@ -216,7 +247,8 @@ async function handleSubscriptionUpdated(
  */
 async function handleSubscriptionDeleted(
   subscription: Stripe.Subscription,
-  customerId: string
+  customerId: string,
+  resendApiKey?: string
 ): Promise<void> {
   console.log(`Processing subscription.deleted for ${subscription.id}`);
   
@@ -236,9 +268,68 @@ async function handleSubscriptionDeleted(
 
     // Invalidate ALL user caches so user sees update immediately (critical for security)
     await invalidateAllUserCaches(customerId, 'stripe_subscription_deleted');
+
+    // Send unsubscribe alert (non-blocking)
+    await sendSubscriptionLifecycleAlert(
+      resendApiKey,
+      'unsubscribed',
+      subscription,
+      customerId,
+      facts
+    );
   } catch (error) {
     console.error(`Failed to delete subscription for customer ${customerId}:`, error);
     throw error;
+  }
+}
+
+async function getUserIdentityByCustomerId(customerId: string): Promise<{
+  uid: string | null
+  email: string | null
+  name: string | null
+}> {
+  try {
+    const uid = await getUidByCustomerId(customerId);
+    if (!uid) return { uid: null, email: null, name: null };
+
+    const userDoc = await db.collection('users').doc(uid).get();
+    if (!userDoc.exists) return { uid, email: null, name: null };
+
+    const data = userDoc.data() || {};
+    return {
+      uid,
+      email: data.email || null,
+      name: data.displayName || null
+    };
+  } catch (error) {
+    console.error(`Failed to resolve user identity for customer ${customerId}:`, error);
+    return { uid: null, email: null, name: null };
+  }
+}
+
+async function sendSubscriptionLifecycleAlert(
+  resendApiKey: string | undefined,
+  action: 'subscribed' | 'unsubscribed',
+  subscription: Stripe.Subscription,
+  customerId: string,
+  facts: ReturnType<typeof extractSubscriptionFacts>
+): Promise<void> {
+  if (!resendApiKey) return;
+
+  try {
+    const identity = await getUserIdentityByCustomerId(customerId);
+    await sendSubscriptionAlert(resendApiKey, action, {
+      uid: identity.uid,
+      name: identity.name,
+      email: identity.email,
+      plan: facts.plan,
+      status: facts.status,
+      customerId,
+      subscriptionId: subscription.id,
+      cancelAtPeriodEnd: subscription.cancel_at_period_end ?? false
+    });
+  } catch (error) {
+    console.error(`[Webhook] Failed to send subscription ${action} alert:`, error);
   }
 }
 

@@ -277,3 +277,53 @@ export async function sendTeaHouseAnswerAlert(
     severity: 'info',
   })
 }
+
+/**
+ * Send alert for subscription lifecycle events
+ */
+export async function sendSubscriptionAlert(
+  apiKey: string | undefined,
+  action: 'subscribed' | 'unsubscribed',
+  details: {
+    uid?: string | null
+    name?: string | null
+    email?: string | null
+    plan?: string | null
+    status?: string | null
+    customerId?: string | null
+    subscriptionId?: string | null
+    cancelAtPeriodEnd?: boolean | null
+  }
+): Promise<boolean> {
+  const subject = action === 'subscribed'
+    ? 'User Subscribed'
+    : 'User Unsubscribed'
+
+  const userLabel = `${details.name || 'Unknown'} (${details.email || 'Unknown'})`
+
+  return sendAlert(apiKey, {
+    subject,
+    message: `
+      <strong>${subject}</strong><br><br>
+      <strong>User:</strong> ${userLabel}<br>
+      <strong>Plan:</strong> ${details.plan || 'unknown'}<br>
+      <strong>Status:</strong> ${details.status || 'unknown'}<br>
+      <strong>Cancel at Period End:</strong> ${details.cancelAtPeriodEnd ? 'yes' : 'no'}<br><br>
+      <strong>Stripe Customer:</strong> ${details.customerId || 'unknown'}<br>
+      <strong>Stripe Subscription:</strong> ${details.subscriptionId || 'unknown'}
+    `,
+    details: {
+      action,
+      uid: details.uid || null,
+      name: details.name || null,
+      email: details.email || null,
+      plan: details.plan || null,
+      status: details.status || null,
+      cancelAtPeriodEnd: details.cancelAtPeriodEnd ?? null,
+      customerId: details.customerId || null,
+      subscriptionId: details.subscriptionId || null,
+      timestamp: new Date().toISOString(),
+    },
+    severity: 'info',
+  })
+}

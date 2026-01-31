@@ -82,7 +82,7 @@
     ],
     "examples": [
       {
-        "japanese": "間[ま]に　 合[あ]います［ 時間[じかん]に〜］",
+        "japanese": "間[ま]に 合[あ]います［ 時間[じかん]に〜］",
         "reading": "",
         "english": "26"
       }
@@ -178,7 +178,7 @@
     ],
     "examples": [
       {
-        "japanese": "気分[きぶん]が　いい",
+        "japanese": "気分[きぶん]が いい",
         "reading": "",
         "english": "26"
       }
@@ -202,7 +202,7 @@
     ],
     "examples": [
       {
-        "japanese": "気分[きぶん]が　惡い",
+        "japanese": "気分[きぶん]が 惡い",
         "reading": "",
         "english": "26"
       }
@@ -662,7 +662,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "あんな　〜",
+        "japanese": "あんな 〜",
         "reading": "",
         "english": "26"
       }
@@ -734,7 +734,7 @@
     ],
     "examples": [
       {
-        "japanese": "燃[も]える　ごみ",
+        "japanese": "燃[も]える ごみ",
         "reading": "",
         "english": "26"
       }
@@ -1776,7 +1776,7 @@
     ],
     "examples": [
       {
-        "japanese": "これで　 終[お]わりましょう。",
+        "japanese": "これで 終[お]わりましょう。",
         "reading": "",
         "english": "35"
       }
@@ -2569,14 +2569,14 @@
     "id": "minna-2-11-1549948199633",
     "japanese": "して いらっしゃいます",
     "reading": "して いらっしゃいます",
-    "meaning": "to be doing (respectful equivalent of して　います）",
+    "meaning": "to be doing (respectful equivalent of して います）",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
     ],
     "examples": [
       {
-        "japanese": "して　いらっしゃいます",
+        "japanese": "して いらっしゃいます",
         "reading": "",
         "english": "36"
       }
@@ -2617,14 +2617,14 @@
     "id": "minna-2-11-1549948377494",
     "japanese": "使って いらっしゃるんですね。",
     "reading": "使って いらっしゃるんですね。",
-    "meaning": "You're using, aren't you? (respectful equivalent of つかって　いるんですね）",
+    "meaning": "You're using, aren't you? (respectful equivalent of つかって いるんですね）",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
     ],
     "examples": [
       {
-        "japanese": "使[つか]って　いらっしゃるんですね。",
+        "japanese": "使[つか]って いらっしゃるんですね。",
         "reading": "",
         "english": "36"
       }
@@ -2838,7 +2838,7 @@
     ],
     "examples": [
       {
-        "japanese": "大勢[たいせい]の　〜",
+        "japanese": "大勢[たいせい]の 〜",
         "reading": "",
         "english": "36"
       }
@@ -3983,8 +3983,8 @@
   },
   {
     "id": "minna-2-3-1549953799805",
-    "japanese": "<div>通います［大学に〜］<br></div>",
-    "reading": "<div>通います［大学に〜］<br></div>",
+    "japanese": "通います［大学に〜］",
+    "reading": "通います［大学に〜］",
     "meaning": "to go to and from [university], commute",
     "jlptLevel": "N5",
     "partOfSpeech": [
@@ -3992,7 +3992,7 @@
     ],
     "examples": [
       {
-        "japanese": "通[かよ]います［ 大学[だいがく]に〜］<br>",
+        "japanese": "通[かよ]います［ 大学[だいがく]に〜］",
         "reading": "",
         "english": "28"
       }
@@ -4110,7 +4110,7 @@
     ],
     "examples": [
       {
-        "japanese": "ちょうど　いい",
+        "japanese": "ちょうど いい",
         "reading": "",
         "english": "28"
       }
@@ -4199,7 +4199,7 @@
     "id": "minna-2-3-1549955150631",
     "japanese": "経験",
     "reading": "経験",
-    "meaning": "experience (〜が　あります：to be experienced, 〜を　します：to experience)",
+    "meaning": "experience (〜が あります：to be experienced, 〜を します：to experience)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -4247,7 +4247,7 @@
     "id": "minna-2-3-1549955261476",
     "japanese": "人気",
     "reading": "人気",
-    "meaning": "popularity (［がくせいに］〜が　あります：to be popular [with students])",
+    "meaning": "popularity (［がくせいに］〜が あります：to be popular [with students])",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -4842,7 +4842,7 @@
     ],
     "examples": [
       {
-        "japanese": "［ちょっと］お 願[ねが]いが　あるんですが。",
+        "japanese": "［ちょっと］お 願[ねが]いが あるんですが。",
         "reading": "",
         "english": "28"
       }
@@ -5761,7 +5761,7 @@
     "id": "minna-2-4-1549960856337",
     "japanese": "スピーチ",
     "reading": "スピーチ",
-    "meaning": "speech (〜を　します：to give/make a speech)",
+    "meaning": "speech (〜を します：to give/make a speech)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -5785,7 +5785,7 @@
     "id": "minna-2-4-1549960891051",
     "japanese": "返事",
     "reading": "返事",
-    "meaning": "reply, answer (〜を　します：to reply, answer)",
+    "meaning": "reply, answer (〜を します：to reply, answer)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -5816,7 +5816,7 @@
     ],
     "examples": [
       {
-        "japanese": "お 先[さき]に　どうそ。",
+        "japanese": "お 先[さき]に どうそ。",
         "reading": "",
         "english": "29"
       }
@@ -5864,7 +5864,7 @@
     ],
     "examples": [
       {
-        "japanese": "今[いま]の　 電車[でんしゃ]",
+        "japanese": "今[いま]の 電車[でんしゃ]",
         "reading": "",
         "english": "29"
       }
@@ -5912,7 +5912,7 @@
     ],
     "examples": [
       {
-        "japanese": "この　くらい",
+        "japanese": "この くらい",
         "reading": "",
         "english": "29"
       }
@@ -5984,7 +5984,7 @@
     ],
     "examples": [
       {
-        "japanese": "覚[おぼ]えて　いません",
+        "japanese": "覚[おぼ]えて いません",
         "reading": "",
         "english": "29"
       }
@@ -6248,7 +6248,7 @@
     ],
     "examples": [
       {
-        "japanese": "〜の　 方[ほう]",
+        "japanese": "〜の 方[ほう]",
         "reading": "",
         "english": "29"
       }
@@ -6582,7 +6582,7 @@
     ],
     "examples": [
       {
-        "japanese": "そのままに　します",
+        "japanese": "そのままに します",
         "reading": "",
         "english": "30"
       }
@@ -6982,7 +6982,7 @@
     ],
     "examples": [
       {
-        "japanese": "元[もと]の　 所[ところ]",
+        "japanese": "元[もと]の 所[ところ]",
         "reading": "",
         "english": "30"
       }
@@ -7262,7 +7262,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "ある　〜",
+        "japanese": "ある 〜",
         "reading": "",
         "english": "30"
       }
@@ -7286,7 +7286,7 @@
     ],
     "examples": [
       {
-        "japanese": "夢[ゆめ]を　 見[み]ます",
+        "japanese": "夢[ゆめ]を 見[み]ます",
         "reading": "",
         "english": "30"
       }
@@ -7380,7 +7380,7 @@
     ],
     "examples": [
       {
-        "japanese": "目[め]が　 覚[さ]めます",
+        "japanese": "目[め]が 覚[さ]めます",
         "reading": "",
         "english": "45"
       }
@@ -7932,7 +7932,7 @@
     ],
     "examples": [
       {
-        "japanese": "〜の　 方[ほう]",
+        "japanese": "〜の 方[ほう]",
         "reading": "",
         "english": "31"
       }
@@ -8548,7 +8548,7 @@
     ],
     "examples": [
       {
-        "japanese": "無理[むり]を　します",
+        "japanese": "無理[むり]を します",
         "reading": "",
         "english": "32"
       }
@@ -8661,7 +8661,7 @@
     "id": "minna-2-7-1550211177128",
     "japanese": "やけど",
     "reading": "やけど",
-    "meaning": "burning (〜を　します：to get burned)",
+    "meaning": "burning (〜を します：to get burned)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -8685,7 +8685,7 @@
     "id": "minna-2-7-1550211215301",
     "japanese": "けが",
     "reading": "けが",
-    "meaning": "injury (〜を　します：to get injured)",
+    "meaning": "injury (〜を します：to get injured)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -8709,7 +8709,7 @@
     "id": "minna-2-7-1550211283295",
     "japanese": "せき",
     "reading": "せき",
-    "meaning": "cough (〜を　します／〜が　出ます：to have a cough)",
+    "meaning": "cough (〜を します／〜が 出ます：to have a cough)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -8906,7 +8906,7 @@
     ],
     "examples": [
       {
-        "japanese": "国際[こくさい]　〜",
+        "japanese": "国際[こくさい] 〜",
         "reading": "",
         "english": "32"
       }
@@ -9254,7 +9254,7 @@
     ],
     "examples": [
       {
-        "japanese": "それは　いけませんえ。",
+        "japanese": "それは いけませんえ。",
         "reading": "",
         "english": "32"
       }
@@ -10348,7 +10348,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "どういう　〜",
+        "japanese": "どういう 〜",
         "reading": "",
         "english": "33"
       }
@@ -10414,7 +10414,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "あと　〜",
+        "japanese": "あと 〜",
         "reading": "",
         "english": "33"
       }
@@ -10595,7 +10595,7 @@
     "id": "minna-2-24-1550482564384",
     "japanese": "あいさつ",
     "reading": "あいさつ",
-    "meaning": "greeting, address (〜を　します：to greet, give an address)",
+    "meaning": "greeting, address (〜を します：to greet, give an address)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -10746,7 +10746,7 @@
     ],
     "examples": [
       {
-        "japanese": "気[き]が　つきます　［ 忘れ物[わすれもの]に〜］",
+        "japanese": "気[き]が つきます ［ 忘れ物[わすれもの]に〜］",
         "reading": "",
         "english": "34"
       }
@@ -10984,7 +10984,7 @@
     ],
     "examples": [
       {
-        "japanese": "矢印[やじるし]<br>",
+        "japanese": "矢印[やじるし]",
         "reading": "",
         "english": "34"
       }
@@ -11242,7 +11242,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "〜か　〜",
+        "japanese": "〜か 〜",
         "reading": "",
         "english": "34"
       }
@@ -11334,7 +11334,7 @@
     ],
     "examples": [
       {
-        "japanese": "お 茶[ちゃ]を　たてます",
+        "japanese": "お 茶[ちゃ]を たてます",
         "reading": "",
         "english": "34"
       }
@@ -11402,7 +11402,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "これで　いいですか。",
+        "japanese": "これで いいですか。",
         "reading": "",
         "english": "34"
       }
@@ -11660,7 +11660,7 @@
     ],
     "examples": [
       {
-        "japanese": "適当[てきとう]な　 大[おお]きさに",
+        "japanese": "適当[てきとう]な 大[おお]きさに",
         "reading": "",
         "english": "34"
       }
@@ -11730,7 +11730,7 @@
     ],
     "examples": [
       {
-        "japanese": "火[ひ]に　かけます",
+        "japanese": "火[ひ]に かけます",
         "reading": "",
         "english": "34"
       }
@@ -12788,7 +12788,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "〜の　 一[ひと]つ",
+        "japanese": "〜の 一[ひと]つ",
         "reading": "",
         "english": "37"
       }
@@ -13070,7 +13070,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "その　あと",
+        "japanese": "その あと",
         "reading": "",
         "english": "37"
       }
@@ -13140,7 +13140,7 @@
     ],
     "examples": [
       {
-        "japanese": "一匹[いっぴき]も　いません。",
+        "japanese": "一匹[いっぴき]も いません。",
         "reading": "",
         "english": "37"
       }
@@ -13428,7 +13428,7 @@
     ],
     "examples": [
       {
-        "japanese": "気持[きも]ちが　いい",
+        "japanese": "気持[きも]ちが いい",
         "reading": "",
         "english": "38"
       }
@@ -13452,7 +13452,7 @@
     ],
     "examples": [
       {
-        "japanese": "気持[きも]ちが　 悪[わる]い",
+        "japanese": "気持[きも]ちが 悪[わる]い",
         "reading": "",
         "english": "38"
       }
@@ -13476,7 +13476,7 @@
     ],
     "examples": [
       {
-        "japanese": "大[おお]きな　〜",
+        "japanese": "大[おお]きな 〜",
         "reading": "",
         "english": "38"
       }
@@ -13500,7 +13500,7 @@
     ],
     "examples": [
       {
-        "japanese": "小[ちい]さな　〜",
+        "japanese": "小[ちい]さな 〜",
         "reading": "",
         "english": "38"
       }
@@ -14040,7 +14040,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "〜と　いう",
+        "japanese": "〜と いう",
         "reading": "",
         "english": "38"
       }
@@ -14206,7 +14206,7 @@
     ],
     "examples": [
       {
-        "japanese": "似[に]て　います",
+        "japanese": "似[に]て います",
         "reading": "",
         "english": "38"
       }
@@ -14230,7 +14230,7 @@
     ],
     "examples": [
       {
-        "japanese": "性格[せいかく]<br>",
+        "japanese": "性格[せいかく]",
         "reading": "",
         "english": "38"
       }
@@ -14302,7 +14302,7 @@
     ],
     "examples": [
       {
-        "japanese": "世話[せわ]を　します",
+        "japanese": "世話[せわ]を します",
         "reading": "",
         "english": "48"
       }
@@ -14324,7 +14324,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "時間[じかん]が　たちます",
+        "japanese": "時間[じかん]が たちます",
         "reading": "",
         "english": "38"
       }
@@ -14372,7 +14372,7 @@
     ],
     "examples": [
       {
-        "japanese": "気[き]が　 強[つよ]い",
+        "japanese": "気[き]が 強[つよ]い",
         "reading": "",
         "english": "38"
       }
@@ -15153,7 +15153,7 @@
     "id": "minna-2-14-1550387777207",
     "japanese": "〜屋",
     "reading": "〜屋",
-    "meaning": "-er (e.g., bak<u>er</u>, groc<u>er</u>, etc.)",
+    "meaning": "-er (e.g., baker, grocer, etc.)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -15774,7 +15774,7 @@
     ],
     "examples": [
       {
-        "japanese": "うまく　いきます",
+        "japanese": "うまく いきます",
         "reading": "",
         "english": "40"
       }
@@ -16320,7 +16320,7 @@
     ],
     "examples": [
       {
-        "japanese": "ー 本[ほん]　(ーぽん、ーぼん）",
+        "japanese": "ー 本[ほん] (ーぽん、ーぼん）",
         "reading": "",
         "english": "40"
       }
@@ -16383,7 +16383,7 @@
     "id": "minna-2-15-1550462825080",
     "japanese": "ーミリ",
     "reading": "ーミリ",
-    "meaning": "- millimeters&nbsp;",
+    "meaning": "- millimeters",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -16952,7 +16952,7 @@
     ],
     "examples": [
       {
-        "japanese": "手[て]に　 入[い]れます",
+        "japanese": "手[て]に 入[い]れます",
         "reading": "",
         "english": "40"
       }
@@ -17120,7 +17120,7 @@
     ],
     "examples": [
       {
-        "japanese": "親切[しんせつ]に　します",
+        "japanese": "親切[しんせつ]に します",
         "reading": "",
         "english": "41"
       }
@@ -17161,7 +17161,7 @@
     "id": "minna-2-16-1550463813664",
     "japanese": "お祝い",
     "reading": "お祝い",
-    "meaning": "celebration, gift (〜を　します：\u000eto celebrate)",
+    "meaning": "celebration, gift (〜を します：\u000eto celebrate)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -17233,7 +17233,7 @@
     "id": "minna-2-16-1550463932962",
     "japanese": "興味",
     "reading": "興味",
-    "meaning": "interest (［コンピューターに］〜が　あります：to be interested [in computers])",
+    "meaning": "interest (［コンピューターに］〜が あります：to be interested [in computers])",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -17988,7 +17988,7 @@
     ],
     "examples": [
       {
-        "japanese": "とうぞ　お 幸[しあわ]せに。",
+        "japanese": "とうぞ お 幸[しあわ]せに。",
         "reading": "",
         "english": "41"
       }
@@ -18034,7 +18034,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "ある　〜",
+        "japanese": "ある 〜",
         "reading": "",
         "english": "42"
       }
@@ -19076,7 +19076,7 @@
     ],
     "examples": [
       {
-        "japanese": "エリーゼの　ために",
+        "japanese": "エリーゼの ために",
         "reading": "",
         "english": "42"
       }
@@ -19236,7 +19236,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "〜に　よって",
+        "japanese": "〜に よって",
         "reading": "",
         "english": "42"
       }
@@ -20582,7 +20582,7 @@
     ],
     "examples": [
       {
-        "japanese": "どう　なさいますか。",
+        "japanese": "どう なさいますか。",
         "reading": "",
         "english": "44"
       }
@@ -20621,7 +20621,7 @@
     "id": "minna-2-19-1550471100105",
     "japanese": "シャンプー",
     "reading": "シャンプー",
-    "meaning": "shampoo (〜を　します：to shampoo)",
+    "meaning": "shampoo (〜を します：to shampoo)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -20650,7 +20650,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "どういうふうに　なさいますか。",
+        "japanese": "どういうふうに なさいますか。",
         "reading": "",
         "english": "44"
       }
@@ -20696,7 +20696,7 @@
     ],
     "examples": [
       {
-        "japanese": "〜みたいに　して　ください。",
+        "japanese": "〜みたいに して ください。",
         "reading": "",
         "english": "44"
       }
@@ -20718,7 +20718,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "これで　よろしいでしょうか。",
+        "japanese": "これで よろしいでしょうか。",
         "reading": "",
         "english": "44"
       }
@@ -20930,7 +20930,7 @@
     ],
     "examples": [
       {
-        "japanese": "縁起[えんぎ]が　 悪[わる]い",
+        "japanese": "縁起[えんぎ]が 悪[わる]い",
         "reading": "",
         "english": "44"
       }
@@ -21240,7 +21240,7 @@
     ],
     "examples": [
       {
-        "japanese": "楽[たの]しみに　して　います",
+        "japanese": "楽[たの]しみに して います",
         "reading": "",
         "english": "45"
       }
@@ -21378,7 +21378,7 @@
     ],
     "examples": [
       {
-        "japanese": "優勝[ゆうしょう]します<br>",
+        "japanese": "優勝[ゆうしょう]します",
         "reading": "",
         "english": "45"
       }
@@ -21592,7 +21592,7 @@
     ],
     "examples": [
       {
-        "japanese": "帰[かえ]って　 来[き]ます",
+        "japanese": "帰[かえ]って 来[き]ます",
         "reading": "",
         "english": "46"
       }
@@ -21854,7 +21854,7 @@
     ],
     "examples": [
       {
-        "japanese": "〜の　 所[ところ]",
+        "japanese": "〜の 所[ところ]",
         "reading": "",
         "english": "46"
       }
@@ -21948,7 +21948,7 @@
     ],
     "examples": [
       {
-        "japanese": "今[いま]　いいですか。",
+        "japanese": "今[いま] いいですか。",
         "reading": "",
         "english": "46"
       }
@@ -22136,7 +22136,7 @@
     ],
     "examples": [
       {
-        "japanese": "ついて　います",
+        "japanese": "ついて います",
         "reading": "",
         "english": "46"
       }
@@ -22802,7 +22802,7 @@
     ],
     "examples": [
       {
-        "japanese": "〜に　よると",
+        "japanese": "〜に よると",
         "reading": "",
         "english": "47"
       }
@@ -22865,7 +22865,7 @@
     "id": "minna-2-22-1550481451749",
     "japanese": "検証",
     "reading": "検証",
-    "meaning": "makeup (〜を　します：to put on makeup)",
+    "meaning": "makeup (〜を します：to put on makeup)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -23156,7 +23156,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "いい　ことですね。",
+        "japanese": "いい ことですね。",
         "reading": "",
         "english": "48"
       }
@@ -23368,7 +23368,7 @@
     ],
     "examples": [
       {
-        "japanese": "その　 次[つぎ]",
+        "japanese": "その 次[つぎ]",
         "reading": "",
         "english": "48"
       }
@@ -23608,7 +23608,7 @@
     ],
     "examples": [
       {
-        "japanese": "ご 覧[らん]に　なります",
+        "japanese": "ご 覧[らん]に なります",
         "reading": "",
         "english": "49"
       }
@@ -23625,7 +23625,7 @@
     "id": "minna-2-24-1550482535412",
     "japanese": "ご存じです",
     "reading": "ご存じです",
-    "meaning": "to know (respectful equivalent of しって　います)",
+    "meaning": "to know (respectful equivalent of しって います)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -23796,7 +23796,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "〜と　いいます",
+        "japanese": "〜と いいます",
         "reading": "",
         "english": "49"
       }
@@ -23868,7 +23868,7 @@
     ],
     "examples": [
       {
-        "japanese": "よろしく　お 伝[つた]え　ください。",
+        "japanese": "よろしく お 伝[つた]え ください。",
         "reading": "",
         "english": "49"
       }
@@ -24390,7 +24390,7 @@
     ],
     "examples": [
       {
-        "japanese": "お 目[め]に　かかります",
+        "japanese": "お 目[め]に かかります",
         "reading": "",
         "english": "50"
       }
@@ -24884,7 +24884,7 @@
     ],
     "examples": [
       {
-        "japanese": "お 元気[げんき]で　いらっしゃいますか。",
+        "japanese": "お 元気[げんき]で いらっしゃいますか。",
         "reading": "",
         "english": "50"
       }
@@ -24908,7 +24908,7 @@
     ],
     "examples": [
       {
-        "japanese": "迷惑[めいわく]を　かけます",
+        "japanese": "迷惑[めいわく]を かけます",
         "reading": "",
         "english": "50"
       }

@@ -22,6 +22,7 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 ├── admin-dashboard/               # Admin dashboard development guide
 ├── learning-village-low-power/    # Learning Village performance optimization
 ├── onboarding/                    # Developer onboarding guides
+├── textbook-vocabulary/           # Textbook vocabulary feature documentation
 ├── tts/                           # Text-to-Speech system documentation
 └── user-agent-tracking/           # User agent tracking for support forms
 ```
@@ -204,6 +205,40 @@ This folder contains production-level documentation for the Moshimoshi Japanese 
 - ✅ New developers creating admin features
 - ✅ Anyone working on admin pages
 - ✅ Debugging authentication issues in admin routes
+
+---
+
+### Textbook Vocabulary (`textbook-vocabulary/`)
+
+| Document | Description |
+|----------|-------------|
+| [README.md](./textbook-vocabulary/README.md) | Feature overview, architecture, and quick start guide |
+| [FEATURE_GUIDE.md](./textbook-vocabulary/FEATURE_GUIDE.md) | Complete implementation guide with code examples |
+| [DATA_PIPELINE_GUIDE.md](./textbook-vocabulary/DATA_PIPELINE_GUIDE.md) | Anki deck conversion and data creation process |
+| [TROUBLESHOOTING.md](./textbook-vocabulary/TROUBLESHOOTING.md) | Common issues, debugging, and solutions |
+
+**Key Topics:**
+- 17,761 vocabulary items from 10 textbooks (Genki, Minna, Dekiru, etc.)
+- Three modes: Browse, Study (flashcards), Review (SRS)
+- URE integration with smart distractor generation (6-strategy approach)
+- Offline-first progress tracking (IndexedDB + Firebase sync)
+- Anki deck to JSON conversion pipeline
+- Entitlements system (3 lessons/day free, unlimited premium)
+- TTS audio preloading and playback
+- Performance optimization for large datasets (9K+ items)
+
+**Key Files:**
+- `src/app/[locale]/textbook-vocabulary/TextbookVocabularyPage.tsx:52` - Main orchestrator
+- `src/lib/review-engine/adapters/TextbookVocabularyAdapter.ts:70` - URE adapter
+- `src/utils/textbookVocabularyProgressManager.ts:19` - Progress tracking
+- `scripts/anki-deck-to-json.mjs` - Data conversion tool
+- `src/data/textbooks/index.json` - Textbook registry
+
+**Essential Reading for:**
+- ✅ Adding new textbooks to the platform
+- ✅ Understanding vocabulary learning workflows
+- ✅ Integrating with Universal Review Engine
+- ✅ Debugging progress tracking issues
 
 ---
 
@@ -478,4 +513,4 @@ Add a link to your new feature documentation in the appropriate section:
 
 ---
 
-*Last Updated: 2026-01-29*
+*Last Updated: 2026-01-31*

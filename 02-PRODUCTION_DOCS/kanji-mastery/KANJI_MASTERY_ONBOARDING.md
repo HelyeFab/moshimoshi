@@ -170,6 +170,27 @@ Test sequence generation is handled in `src/app/[locale]/tools/kanji-mastery/lea
 
 ---
 
+## Keyboard Shortcuts (Desktop Only)
+
+Keyboard shortcuts are enabled on desktop devices only (pointer/hover capable). They are intentionally disabled on mobile/tablet to avoid accidental input conflicts.
+
+### Round 1 (Learn)
+- **Continue / Next:** `Enter`, `Space`, or `→`
+- **Toggle Examples:** `E`
+- **Toggle Sentences:** `S`
+- **Exit Session:** `Esc`
+
+### Round 2 (Test)
+- **Continue after feedback:** `Enter`, `Space`, or `→`
+- **Multiple choice selection:** `1`–`4`
+- **Exit Session:** `Esc`
+
+### Round 3 (Evaluate)
+- **Rate Self:** `1`–`5` (Forgot → Perfect)
+- **Exit Session:** `Esc`
+
+---
+
 ## Tests
 
 - Selection logic tests: `src/app/[locale]/tools/kanji-mastery/learn/__tests__/kanjiSelection.test.ts`

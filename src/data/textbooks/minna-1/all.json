@@ -47,12 +47,12 @@
     "id": "minna-1-1-1544776574231",
     "japanese": "あの ひと あの かた",
     "reading": "あの ひと あの かた",
-    "meaning": "That person, he, she (あの　かた　is the polite equivalent of あの　ひと）",
+    "meaning": "That person, he, she (あの かた is the polite equivalent of あの ひと）",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "あの　ひと　（あの　かた）",
+        "japanese": "あの ひと （あの かた）",
         "reading": "",
         "english": "1"
       }
@@ -434,7 +434,7 @@
     ],
     "examples": [
       {
-        "japanese": "何[なん] 歳[さい]　（おいくつ）",
+        "japanese": "何[なん] 歳[さい] （おいくつ）",
         "reading": "",
         "english": "1"
       }
@@ -458,7 +458,7 @@
     ],
     "examples": [
       {
-        "japanese": "はい&nbsp;",
+        "japanese": "はい",
         "reading": "",
         "english": "1"
       }
@@ -528,7 +528,7 @@
     ],
     "examples": [
       {
-        "japanese": "~から　 来[き]ました。",
+        "japanese": "~から 来[き]ました。",
         "reading": "",
         "english": "1"
       }
@@ -552,7 +552,7 @@
     ],
     "examples": [
       {
-        "japanese": "［どうぞ］　よろしく　［お 願[ねが]いします］。",
+        "japanese": "［どうぞ］ よろしく ［お 願[ねが]いします］。",
         "reading": "",
         "english": "1"
       }
@@ -622,7 +622,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "こちらは　~さんです。",
+        "japanese": "こちらは ~さんです。",
         "reading": "",
         "english": "1"
       }
@@ -936,7 +936,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "この　~",
+        "japanese": "この ~",
         "reading": "",
         "english": "2"
       }
@@ -958,7 +958,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "その　~",
+        "japanese": "その ~",
         "reading": "",
         "english": "2"
       }
@@ -980,7 +980,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "あの　~",
+        "japanese": "あの ~",
         "reading": "",
         "english": "2"
       }
@@ -1760,7 +1760,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "［どうも］　ありがとう　［ございます］。",
+        "japanese": "［どうも］ ありがとう ［ございます］。",
         "reading": "",
         "english": "2"
       }
@@ -1852,7 +1852,7 @@
     ],
     "examples": [
       {
-        "japanese": "これから　お 世話[せわ]に　なります。",
+        "japanese": "これから お 世話[せわ]に なります。",
         "reading": "",
         "english": "2"
       }
@@ -1869,14 +1869,14 @@
     "id": "minna-1-2-1544776574310",
     "japanese": "こちらこそ ［どうぞ］ よろしく ［お願いします］",
     "reading": "こちらこそ ［どうぞ］ よろしく ［お願いします］",
-    "meaning": "Pleased to meet you, too. (response to ［どうぞ］　よろしく　［お願いします］）",
+    "meaning": "Pleased to meet you, too. (response to ［どうぞ］ よろしく ［お願いします］）",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
     ],
     "examples": [
       {
-        "japanese": "こちらこそ　［どうぞ］　よろしく　［お 願[ねが]いします］",
+        "japanese": "こちらこそ ［どうぞ］ よろしく ［お 願[ねが]いします］",
         "reading": "",
         "english": "2"
       }
@@ -2564,7 +2564,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "ーかい　（がい）",
+        "japanese": "ーかい （がい）",
         "reading": "",
         "english": "3"
       }
@@ -2794,7 +2794,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "［~を］みせて　ください。",
+        "japanese": "［~を］みせて ください。",
         "reading": "",
         "english": "3"
       }
@@ -3490,7 +3490,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "ばん　（よる）",
+        "japanese": "ばん （よる）",
         "reading": "",
         "english": "4"
       }
@@ -3735,7 +3735,7 @@
     "id": "minna-1-4-1544776574391",
     "japanese": "会議",
     "reading": "会議",
-    "meaning": "meeting, conference (～を　します：hold a meeting)",
+    "meaning": "meeting, conference (～を します：hold a meeting)",
     "jlptLevel": "N4",
     "partOfSpeech": [
       "noun"
@@ -4212,7 +4212,7 @@
     ],
     "examples": [
       {
-        "japanese": "ペキン　（ 北京[ぺきん]）",
+        "japanese": "ペキン （ 北京[ぺきん]）",
         "reading": "",
         "english": "4"
       }
@@ -5088,7 +5088,7 @@
     ],
     "examples": [
       {
-        "japanese": "ついたち　（ 1 日）",
+        "japanese": "ついたち （ 1 日）",
         "reading": "",
         "english": "5"
       }
@@ -5514,7 +5514,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "［どうも］ありがとう　ございました。",
+        "japanese": "［どうも］ありがとう ございました。",
         "reading": "",
         "english": "5"
       }
@@ -5536,7 +5536,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "どう　いたしまして。",
+        "japanese": "どう いたしまして。",
         "reading": "",
         "english": "5"
       }
@@ -5841,7 +5841,7 @@
     "id": "minna-1-6-1544776574481",
     "japanese": "書きます",
     "reading": "書きます",
-    "meaning": "To write (かきます　can also mean to draw or paint, but in this case it is written with hirigana in this book)",
+    "meaning": "To write (かきます can also mean to draw or paint, but in this case it is written with hirigana in this book)",
     "jlptLevel": "N4",
     "partOfSpeech": [
       "verb"
@@ -5896,7 +5896,7 @@
     ],
     "examples": [
       {
-        "japanese": "取[と]ります　［ 写真[しゃしん]を~］",
+        "japanese": "取[と]ります ［ 写真[しゃしん]を~］",
         "reading": "",
         "english": "6"
       }
@@ -5944,7 +5944,7 @@
     ],
     "examples": [
       {
-        "japanese": "会[あ]います　［ 友達[ともだち]に〜］",
+        "japanese": "会[あ]います ［ 友達[ともだち]に〜］",
         "reading": "",
         "english": "6"
       }
@@ -6523,7 +6523,7 @@
     "id": "minna-1-6-1544776574510",
     "japanese": "宿題",
     "reading": "宿題",
-    "meaning": "homework (～を　します：do homework)",
+    "meaning": "homework (～を します：do homework)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -6547,7 +6547,7 @@
     "id": "minna-1-6-1544776574511",
     "japanese": "テニス",
     "reading": "テニス",
-    "meaning": "tennis (～を　します：play tennis)",
+    "meaning": "tennis (～を します：play tennis)",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -6569,7 +6569,7 @@
     "id": "minna-1-6-1544776574512",
     "japanese": "サッカー",
     "reading": "サッカー",
-    "meaning": "soccer, football (～を　します：play soccer)",
+    "meaning": "soccer, football (～を します：play soccer)",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -6591,7 +6591,7 @@
     "id": "minna-1-6-1544776574513",
     "japanese": "［お］花見",
     "reading": "［お］花見",
-    "meaning": "cherry-blossom viewing (～を　します：view the cherry blossoms)",
+    "meaning": "cherry-blossom viewing (～を します：view the cherry blossoms)",
     "jlptLevel": "N4",
     "partOfSpeech": [
       "noun"
@@ -7770,7 +7770,7 @@
     ],
     "examples": [
       {
-        "japanese": "どうぞ　お 上[あ]がり　ください",
+        "japanese": "どうぞ お 上[あ]がり ください",
         "reading": "",
         "english": "7"
       }
@@ -8236,7 +8236,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "いい　（よい）",
+        "japanese": "いい （よい）",
         "reading": "",
         "english": "8"
       }
@@ -8373,7 +8373,7 @@
     "id": "minna-1-8-1544776574592",
     "japanese": "易しい",
     "reading": "易しい",
-    "meaning": "easy, tender, kind, gentle, graceful, affectionate, amiable&nbsp;",
+    "meaning": "easy, tender, kind, gentle, graceful, affectionate, amiable",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "i-adjective"
@@ -8851,7 +8851,7 @@
     "id": "minna-1-8-1544776574612",
     "japanese": "［お］仕事",
     "reading": "［お］仕事",
-    "meaning": "work, business (～を　します：do one's job, work)",
+    "meaning": "work, business (～を します：do one's job, work)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -8946,7 +8946,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "あまり&nbsp;",
+        "japanese": "あまり",
         "reading": "",
         "english": "8"
       }
@@ -9038,7 +9038,7 @@
     ],
     "examples": [
       {
-        "japanese": "［〜、］もう　一杯[いっぱい]　いかがですか。",
+        "japanese": "［〜、］もう 一杯[いっぱい] いかがですか。",
         "reading": "",
         "english": "8"
       }
@@ -9082,7 +9082,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "もう　~です［ね］。",
+        "japanese": "もう ~です［ね］。",
         "reading": "",
         "english": "8"
       }
@@ -9106,7 +9106,7 @@
     ],
     "examples": [
       {
-        "japanese": "そろそろ　 失礼[しつれい]します。",
+        "japanese": "そろそろ 失礼[しつれい]します。",
         "reading": "",
         "english": "8"
       }
@@ -9174,7 +9174,7 @@
     ],
     "examples": [
       {
-        "japanese": "シャンハイ　 上海[しゃんはい]",
+        "japanese": "シャンハイ 上海[しゃんはい]",
         "reading": "",
         "english": "8"
       }
@@ -9220,7 +9220,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "なら　こえん",
+        "japanese": "なら こえん",
         "reading": "",
         "english": "8"
       }
@@ -9405,7 +9405,7 @@
     "id": "minna-1-9-1544776574638",
     "japanese": "りょうり",
     "reading": "りょうり",
-    "meaning": "dish (cooked food), cooking (～を　します：to cook)",
+    "meaning": "dish (cooked food), cooking (～を します：to cook)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -9429,7 +9429,7 @@
     "id": "minna-1-9-1544776574639",
     "japanese": "スポーツ",
     "reading": "スポーツ",
-    "meaning": "sport (～を　します：play sports)",
+    "meaning": "sport (～を します：play sports)",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -9451,7 +9451,7 @@
     "id": "minna-1-9-1544776574640",
     "japanese": "野球",
     "reading": "野球",
-    "meaning": "baseball (～を　します：to play baseball)",
+    "meaning": "baseball (～を します：to play baseball)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -9475,7 +9475,7 @@
     "id": "minna-1-9-1544776574641",
     "japanese": "ダンス",
     "reading": "ダンス",
-    "meaning": "Dance (～を　します：to dance)",
+    "meaning": "Dance (～を します：to dance)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -9499,7 +9499,7 @@
     "id": "minna-1-9-1544776574642",
     "japanese": "旅行",
     "reading": "旅行",
-    "meaning": "trip, tour (～［を］　します：to travel, make a trip)",
+    "meaning": "trip, tour (～［を］ します：to travel, make a trip)",
     "jlptLevel": "N4",
     "partOfSpeech": [
       "verb"
@@ -9834,7 +9834,7 @@
     ],
     "examples": [
       {
-        "japanese": "細[こま]かい　お 金[かね]",
+        "japanese": "細[こま]かい お 金[かね]",
         "reading": "",
         "english": "9"
       }
@@ -9899,7 +9899,7 @@
     "id": "minna-1-9-1544776574660",
     "japanese": "約束",
     "reading": "約束",
-    "meaning": "appointment, promise (～［を］　します：to promise)",
+    "meaning": "appointment, promise (～［を］ します：to promise)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -9923,7 +9923,7 @@
     "id": "minna-1-9-1544776574661",
     "japanese": "アルバイト",
     "reading": "アルバイト",
-    "meaning": "side job (～を　します：to work part-time)",
+    "meaning": "side job (～を します：to work part-time)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -10210,7 +10210,7 @@
     ],
     "examples": [
       {
-        "japanese": "貸[か]して　ください。",
+        "japanese": "貸[か]して ください。",
         "reading": "",
         "english": "9"
       }
@@ -10298,7 +10298,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "いっしょに　いかがですか。",
+        "japanese": "いっしょに いかがですか。",
         "reading": "",
         "english": "9"
       }
@@ -10320,7 +10320,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "［~は］　ちょっと",
+        "japanese": "［~は］ ちょっと",
         "reading": "",
         "english": "9"
       }
@@ -10368,7 +10368,7 @@
     ],
     "examples": [
       {
-        "japanese": "また　 今度[こんど]　お 願[ねが]いします。",
+        "japanese": "また 今度[こんど] お 願[ねが]いします。",
         "reading": "",
         "english": "9"
       }
@@ -10462,7 +10462,7 @@
     ],
     "examples": [
       {
-        "japanese": "男[おとこ]の　 人[ひと]",
+        "japanese": "男[おとこ]の 人[ひと]",
         "reading": "",
         "english": "10"
       }
@@ -10510,7 +10510,7 @@
     ],
     "examples": [
       {
-        "japanese": "男[おとこ]の　 子[こ]",
+        "japanese": "男[おとこ]の 子[こ]",
         "reading": "",
         "english": "10"
       }
@@ -10534,7 +10534,7 @@
     ],
     "examples": [
       {
-        "japanese": "女[おんな]の　 子[こ]",
+        "japanese": "女[おんな]の 子[こ]",
         "reading": "",
         "english": "10"
       }
@@ -11374,7 +11374,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "~や　~［など］",
+        "japanese": "~や ~［など］",
         "reading": "",
         "english": "10"
       }
@@ -11396,7 +11396,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "［どうも］　すみません。",
+        "japanese": "［どうも］ すみません。",
         "reading": "",
         "english": "10"
       }
@@ -11464,7 +11464,7 @@
     ],
     "examples": [
       {
-        "japanese": "いちばん　 下[した]",
+        "japanese": "いちばん 下[した]",
         "reading": "",
         "english": "10"
       }
@@ -11486,7 +11486,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "とうきょう　デズニーランド",
+        "japanese": "とうきょう デズニーランド",
         "reading": "",
         "english": "10"
       }
@@ -11510,7 +11510,7 @@
     ],
     "examples": [
       {
-        "japanese": "います　［ 子[こ]どもが〜］",
+        "japanese": "います ［ 子[こ]どもが〜］",
         "reading": "",
         "english": "11"
       }
@@ -11582,7 +11582,7 @@
     ],
     "examples": [
       {
-        "japanese": "休[やす]みます　［ 会社[かいしゃ]を~］",
+        "japanese": "休[やす]みます ［ 会社[かいしゃ]を~］",
         "reading": "",
         "english": "11"
       }
@@ -12716,7 +12716,7 @@
     ],
     "examples": [
       {
-        "japanese": "いい　［お］ 天気[てんき]ですね。",
+        "japanese": "いい ［お］ 天気[てんき]ですね。",
         "reading": "",
         "english": "11"
       }
@@ -12764,7 +12764,7 @@
     ],
     "examples": [
       {
-        "japanese": "ちょっと　~まで。",
+        "japanese": "ちょっと ~まで。",
         "reading": "",
         "english": "11"
       }
@@ -12812,7 +12812,7 @@
     ],
     "examples": [
       {
-        "japanese": "行[い]って　きます。",
+        "japanese": "行[い]って きます。",
         "reading": "",
         "english": "11"
       }
@@ -12860,7 +12860,7 @@
     ],
     "examples": [
       {
-        "japanese": "航空[こうくう] 便[びん]　（エアマール）",
+        "japanese": "航空[こうくう] 便[びん] （エアマール）",
         "reading": "",
         "english": "11"
       }
@@ -13050,7 +13050,7 @@
     ],
     "examples": [
       {
-        "japanese": "多[おお]い　［ 人[ひと]が~］",
+        "japanese": "多[おお]い ［ 人[ひと]が~］",
         "reading": "",
         "english": "12"
       }
@@ -13567,7 +13567,7 @@
     "id": "minna-1-12-1544776574819",
     "japanese": "パーティー",
     "reading": "パーティー",
-    "meaning": "party (～を　します：to give a party)",
+    "meaning": "party (～を します：to give a party)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -13801,7 +13801,7 @@
     "id": "minna-1-12-1544776574829",
     "japanese": "生け花",
     "reading": "生け花",
-    "meaning": "flower arrangement (～を　します：to practice flower arrangement)",
+    "meaning": "flower arrangement (～を します：to practice flower arrangement)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -13990,7 +13990,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "わあ、すごい　ひとですね。",
+        "japanese": "わあ、すごい ひとですね。",
         "reading": "",
         "english": "12"
       }
@@ -14053,8 +14053,8 @@
   },
   {
     "id": "minna-1-12-1544776574841",
-    "japanese": "<div>ホンコン 香港</div>",
-    "reading": "<div>ホンコン 香港</div>",
+    "japanese": "ホンコン 香港",
+    "reading": "ホンコン 香港",
     "meaning": "Hong Kong",
     "jlptLevel": "N5",
     "partOfSpeech": [
@@ -14062,7 +14062,7 @@
     ],
     "examples": [
       {
-        "japanese": "ホンコン　（ 香港[ほんこん]）",
+        "japanese": "ホンコン （ 香港[ほんこん]）",
         "reading": "",
         "english": "12"
       }
@@ -14276,7 +14276,7 @@
     ],
     "examples": [
       {
-        "japanese": "散歩[さんぽ]します　［ 公園[こうえん]を~］",
+        "japanese": "散歩[さんぽ]します ［ 公園[こうえん]を~］",
         "reading": "",
         "english": "13"
       }
@@ -14459,7 +14459,7 @@
     "id": "minna-1-13-1544776574858",
     "japanese": "釣り",
     "reading": "釣り",
-    "meaning": "fishing (～を　します：to fish, anble)",
+    "meaning": "fishing (～を します：to fish, anble)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -14483,7 +14483,7 @@
     "id": "minna-1-13-1544776574859",
     "japanese": "スキー",
     "reading": "スキー",
-    "meaning": "skiing (～を　します：to ski)",
+    "meaning": "skiing (～を します：to ski)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -14623,14 +14623,14 @@
     "id": "minna-1-13-1544776574865",
     "japanese": "のどが かわきます",
     "reading": "のどが かわきます",
-    "meaning": "to get thirsty (when expressing the condition of being thirsty, のどが　かわきました　is used)",
+    "meaning": "to get thirsty (when expressing the condition of being thirsty, のどが かわきました is used)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
     ],
     "examples": [
       {
-        "japanese": "のどが　かわきます",
+        "japanese": "のどが かわきます",
         "reading": "",
         "english": "13"
       }
@@ -14647,14 +14647,14 @@
     "id": "minna-1-13-1544776574866",
     "japanese": "おなかが すきます",
     "reading": "おなかが すきます",
-    "meaning": "to get hungry (when expressing the condition of being hungry, おなかが　すきました　is used)",
+    "meaning": "to get hungry (when expressing the condition of being hungry, おなかが すきました is used)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
     ],
     "examples": [
       {
-        "japanese": "おなかが　すきます",
+        "japanese": "おなかが すきます",
         "reading": "",
         "english": "13"
       }
@@ -14678,7 +14678,7 @@
     ],
     "examples": [
       {
-        "japanese": "そう　しましょう。",
+        "japanese": "そう しましょう。",
         "reading": "",
         "english": "13"
       }
@@ -14702,7 +14702,7 @@
     ],
     "examples": [
       {
-        "japanese": "ご　 注[ちゅう]　もんは？",
+        "japanese": "ご 注[ちゅう] もんは？",
         "reading": "",
         "english": "13"
       }
@@ -14813,8 +14813,8 @@
   },
   {
     "id": "minna-1-14-1544776574873",
-    "japanese": "つけます&nbsp;",
-    "reading": "つけます&nbsp;",
+    "japanese": "つけます",
+    "reading": "つけます",
     "meaning": "to turn on",
     "jlptLevel": "N5",
     "partOfSpeech": [
@@ -15158,7 +15158,7 @@
     ],
     "examples": [
       {
-        "japanese": "教[おし]えます　［ 住所[じゅうしょ]を~］",
+        "japanese": "教[おし]えます ［ 住所[じゅうしょ]を~］",
         "reading": "",
         "english": "14"
       }
@@ -15230,7 +15230,7 @@
     ],
     "examples": [
       {
-        "japanese": "入[はい]ります　［ 喫茶店[きっさてん]に~］",
+        "japanese": "入[はい]ります ［ 喫茶店[きっさてん]に~］",
         "reading": "",
         "english": "14"
       }
@@ -15720,7 +15720,7 @@
     ],
     "examples": [
       {
-        "japanese": "もう　 少[すこ]し",
+        "japanese": "もう 少[すこ]し",
         "reading": "",
         "english": "14"
       }
@@ -15742,7 +15742,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "もう　~",
+        "japanese": "もう ~",
         "reading": "",
         "english": "14"
       }
@@ -15810,7 +15810,7 @@
     ],
     "examples": [
       {
-        "japanese": "信号[しんごう]を　 右[みぎ]へ　 曲[ま]がって　ください。",
+        "japanese": "信号[しんごう]を 右[みぎ]へ 曲[ま]がって ください。",
         "reading": "",
         "english": "14"
       }
@@ -15834,7 +15834,7 @@
     ],
     "examples": [
       {
-        "japanese": "これで　お 願[ねが]いします。",
+        "japanese": "これで お 願[ねが]いします。",
         "reading": "",
         "english": "14"
       }
@@ -15971,7 +15971,7 @@
     "id": "minna-1-15-1544776574922",
     "japanese": "済みます",
     "reading": "済みます",
-    "meaning": "to live, dwell, reside, etc.&nbsp;",
+    "meaning": "to live, dwell, reside, etc.",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -16402,7 +16402,7 @@
     ],
     "examples": [
       {
-        "japanese": "乗[の]ります　［ 電車[でんしゃ]に~］",
+        "japanese": "乗[の]ります ［ 電車[でんしゃ]に~］",
         "reading": "",
         "english": "16"
       }
@@ -16426,7 +16426,7 @@
     ],
     "examples": [
       {
-        "japanese": "降[お]ります　［ 電車[でんしゃ]を~］",
+        "japanese": "降[お]ります ［ 電車[でんしゃ]を~］",
         "reading": "",
         "english": "16"
       }
@@ -16474,7 +16474,7 @@
     ],
     "examples": [
       {
-        "japanese": "あびます　［シャワーを~］",
+        "japanese": "あびます ［シャワーを~］",
         "reading": "",
         "english": "16"
       }
@@ -16546,7 +16546,7 @@
     ],
     "examples": [
       {
-        "japanese": "おろします　［お 金[かね]を~］",
+        "japanese": "おろします ［お 金[かね]を~］",
         "reading": "",
         "english": "16"
       }
@@ -16570,7 +16570,7 @@
     ],
     "examples": [
       {
-        "japanese": "入[はい]ります　［ 大学[だいがく]に~］",
+        "japanese": "入[はい]ります ［ 大学[だいがく]に~］",
         "reading": "",
         "english": "16"
       }
@@ -16594,7 +16594,7 @@
     ],
     "examples": [
       {
-        "japanese": "出[で]ます　［ 大学[だいがく]を~］",
+        "japanese": "出[で]ます ［ 大学[だいがく]を~］",
         "reading": "",
         "english": "16"
       }
@@ -17135,7 +17135,7 @@
     "id": "minna-1-16-1544776574972",
     "japanese": "ジョギング",
     "reading": "ジョギング",
-    "meaning": "jogging (~を　します：to jog)",
+    "meaning": "jogging (~を します：to jog)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -17253,7 +17253,7 @@
     "id": "minna-1-16-1544776574977",
     "japanese": "－番",
     "reading": "－番",
-    "meaning": "number -&nbsp;",
+    "meaning": "number -",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -17372,7 +17372,7 @@
     ],
     "examples": [
       {
-        "japanese": "［いいえ、］　まだまだです。",
+        "japanese": "［いいえ、］ まだまだです。",
         "reading": "",
         "english": "16"
       }
@@ -17838,7 +17838,7 @@
     ],
     "examples": [
       {
-        "japanese": "持[も]って　 行[い]きます",
+        "japanese": "持[も]って 行[い]きます",
         "reading": "",
         "english": "17"
       }
@@ -17862,7 +17862,7 @@
     ],
     "examples": [
       {
-        "japanese": "持[も]って　 来[き]ます",
+        "japanese": "持[も]って 来[き]ます",
         "reading": "",
         "english": "17"
       }
@@ -17958,7 +17958,7 @@
     ],
     "examples": [
       {
-        "japanese": "飲[の]みます　［ 薬[くすり]を〜］",
+        "japanese": "飲[の]みます ［ 薬[くすり]を〜］",
         "reading": "",
         "english": "17"
       }
@@ -17982,7 +17982,7 @@
     ],
     "examples": [
       {
-        "japanese": "入[はい]ります　［おふろに〜］",
+        "japanese": "入[はい]ります ［おふろに〜］",
         "reading": "",
         "english": "17"
       }
@@ -18102,7 +18102,7 @@
     ],
     "examples": [
       {
-        "japanese": "［ 健康[けんこう]］　 保険[ほけん] 証[しょう]",
+        "japanese": "［ 健康[けんこう]］ 保険[ほけん] 証[しょう]",
         "reading": "",
         "english": "17"
       }
@@ -18268,7 +18268,7 @@
     ],
     "examples": [
       {
-        "japanese": "２，３　 日[にち]",
+        "japanese": "２，３ 日[にち]",
         "reading": "",
         "english": "17"
       }
@@ -18360,7 +18360,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "どう　しましたか。",
+        "japanese": "どう しましたか。",
         "reading": "",
         "english": "17"
       }
@@ -18406,7 +18406,7 @@
     ],
     "examples": [
       {
-        "japanese": "［~が］　 痛[いた]いです。",
+        "japanese": "［~が］ 痛[いた]いです。",
         "reading": "",
         "english": "17"
       }
@@ -18517,7 +18517,7 @@
     "id": "minna-1-18-1544776575032",
     "japanese": "弾きます",
     "reading": "弾きます",
-    "meaning": "<div>to play (stringed instrument, piano, etc.)<br></div>",
+    "meaning": "to play (stringed instrument, piano, etc.)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -18801,7 +18801,7 @@
     "id": "minna-1-18-1544776575044",
     "japanese": "お祈り",
     "reading": "お祈り",
-    "meaning": "prayer (～を　します：to pray)",
+    "meaning": "prayer (～を します：to pray)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -19018,7 +19018,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "それは　おもしろいですね。",
+        "japanese": "それは おもしろいですね。",
         "reading": "",
         "english": "18"
       }
@@ -19341,7 +19341,7 @@
     "id": "minna-1-19-1544776575067",
     "japanese": "ゴルフ",
     "reading": "ゴルフ",
-    "meaning": "golf (~を　します: to play golf)",
+    "meaning": "golf (~を します: to play golf)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -19365,7 +19365,7 @@
     "id": "minna-1-19-1544776575068",
     "japanese": "相撲",
     "reading": "相撲",
-    "meaning": "sumo wrestling (～を　します: to wrestle)",
+    "meaning": "sumo wrestling (～を します: to wrestle)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -19597,7 +19597,7 @@
     "id": "minna-1-19-1544776575079",
     "japanese": "ダイエット",
     "reading": "ダイエット",
-    "meaning": "diet (～を　します: to go on a diet)",
+    "meaning": "diet (～を します: to go on a diet)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -19652,7 +19652,7 @@
     ],
     "examples": [
       {
-        "japanese": "体[からだ]に　いい",
+        "japanese": "体[からだ]に いい",
         "reading": "",
         "english": "19"
       }
@@ -19667,8 +19667,8 @@
   },
   {
     "id": "minna-1-19-1544776575082",
-    "japanese": "葛飾北斉 <b>FIX</b>",
-    "reading": "葛飾北斉 <b>FIX</b>",
+    "japanese": "葛飾北斉 FIX",
+    "reading": "葛飾北斉 FIX",
     "meaning": "a famous Edo-period woodblock artist and painter (1760-1849)",
     "jlptLevel": "N5",
     "partOfSpeech": [
@@ -20134,7 +20134,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "おなかが　いっぱいです",
+        "japanese": "おなかが いっぱいです",
         "reading": "",
         "english": "20"
       }
@@ -20276,7 +20276,7 @@
     ],
     "examples": [
       {
-        "japanese": "あります　［おまつりが~］",
+        "japanese": "あります ［おまつりが~］",
         "reading": "",
         "english": "21"
       }
@@ -20300,7 +20300,7 @@
     ],
     "examples": [
       {
-        "japanese": "役[やく]に　 立[た]ちます",
+        "japanese": "役[やく]に 立[た]ちます",
         "reading": "",
         "english": "21"
       }
@@ -20348,7 +20348,7 @@
     ],
     "examples": [
       {
-        "japanese": "やめます　［かいしゃを~］",
+        "japanese": "やめます ［かいしゃを~］",
         "reading": "",
         "english": "21"
       }
@@ -20372,7 +20372,7 @@
     ],
     "examples": [
       {
-        "japanese": "気[き]を　つけます",
+        "japanese": "気[き]を つけます",
         "reading": "",
         "english": "21"
       }
@@ -20759,7 +20759,7 @@
     "id": "minna-1-21-1544776575130",
     "japanese": "試合",
     "reading": "試合",
-    "meaning": "game, match (～を　します: to play a game/match)",
+    "meaning": "game, match (～を します: to play a game/match)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -20807,7 +20807,7 @@
     "id": "minna-1-21-1544776575132",
     "japanese": "話",
     "reading": "話",
-    "meaning": "talk, speech, what one says, story (～を　します: to talk, tell a story)",
+    "meaning": "talk, speech, what one says, story (～を します: to talk, tell a story)",
     "jlptLevel": "N4",
     "partOfSpeech": [
       "verb"
@@ -20976,7 +20976,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "~に　ついて",
+        "japanese": "~に ついて",
         "reading": "",
         "english": "21"
       }
@@ -21024,7 +21024,7 @@
     ],
     "examples": [
       {
-        "japanese": "~でも　 飲[の]みませんか。",
+        "japanese": "~でも 飲[の]みませんか。",
         "reading": "",
         "english": "21"
       }
@@ -21070,7 +21070,7 @@
     ],
     "examples": [
       {
-        "japanese": "もう　 帰[かえ]らないと。。。",
+        "japanese": "もう 帰[かえ]らないと。。。",
         "reading": "",
         "english": "21"
       }
@@ -21166,7 +21166,7 @@
     ],
     "examples": [
       {
-        "japanese": "かけます　［めがねを~］",
+        "japanese": "かけます ［めがねを~］",
         "reading": "",
         "english": "22"
       }
@@ -21190,7 +21190,7 @@
     ],
     "examples": [
       {
-        "japanese": "します　［ネクタイを~］",
+        "japanese": "します ［ネクタイを~］",
         "reading": "",
         "english": "22"
       }
@@ -21530,7 +21530,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "おめでとう　［ございます］。",
+        "japanese": "おめでとう ［ございます］。",
         "reading": "",
         "english": "22"
       }
@@ -22242,7 +22242,7 @@
     ],
     "examples": [
       {
-        "japanese": "連[つ]れて　 行[い]きます",
+        "japanese": "連[つ]れて 行[い]きます",
         "reading": "",
         "english": "24"
       }
@@ -22266,7 +22266,7 @@
     ],
     "examples": [
       {
-        "japanese": "連[つ]れて　 来[き]ます",
+        "japanese": "連[つ]れて 来[き]ます",
         "reading": "",
         "english": "24"
       }
@@ -22423,7 +22423,7 @@
     "id": "minna-1-24-1544776575205",
     "japanese": "準備",
     "reading": "準備",
-    "meaning": "preparation (～［を］　します: to prepare)",
+    "meaning": "preparation (～［を］ します: to prepare)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -22447,7 +22447,7 @@
     "id": "minna-1-24-1544776575206",
     "japanese": "引っ越し",
     "reading": "引っ越し",
-    "meaning": "moving out (～［を］　します: to move out)",
+    "meaning": "moving out (～［を］ します: to move out)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -22847,7 +22847,7 @@
     "id": "minna-1-25-1544776575223",
     "japanese": "こと",
     "reading": "こと",
-    "meaning": "thing, matter (～の　こと: to thing about ~)",
+    "meaning": "thing, matter (～の こと: to thing about ~)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "verb"
@@ -22902,7 +22902,7 @@
     ],
     "examples": [
       {
-        "japanese": "［いろいろ］お 世話[せわ]に　なりました。",
+        "japanese": "［いろいろ］お 世話[せわ]に なりました。",
         "reading": "",
         "english": "25"
       }
@@ -22950,7 +22950,7 @@
     ],
     "examples": [
       {
-        "japanese": "どうぞ　お 元気[げんき]で。",
+        "japanese": "どうぞ お 元気[げんき]で。",
         "reading": "",
         "english": "25"
       }
@@ -24885,7 +24885,7 @@
     "id": "minna-1-1-1609729372495",
     "japanese": "持って 行きます",
     "reading": "持って 行きます",
-    "meaning": "持[も]って　 行[い]きます",
+    "meaning": "持[も]って 行[い]きます",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -24901,7 +24901,7 @@
     "id": "minna-1-1-1609729372497",
     "japanese": "持って 来ます",
     "reading": "持って 来ます",
-    "meaning": "持[も]って  来[き]ます",
+    "meaning": "持[も]って 来[き]ます",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -25433,7 +25433,7 @@
     "id": "minna-1-1-1609729372563",
     "japanese": "役に 立ちます",
     "reading": "役に 立ちます",
-    "meaning": "役[やく]に　 立[た]ちます",
+    "meaning": "役[やく]に 立[た]ちます",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -25689,7 +25689,7 @@
     "id": "minna-1-1-1609729372593",
     "japanese": "気を つけます",
     "reading": "気を つけます",
-    "meaning": "気[き]を　つけます",
+    "meaning": "気[き]を つけます",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -25743,7 +25743,7 @@
     "id": "minna-1-1-1609729372599",
     "japanese": "連れて 行きます",
     "reading": "連れて 行きます",
-    "meaning": "連[つ]れて  行[い]きます",
+    "meaning": "連[つ]れて 行[い]きます",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -25759,7 +25759,7 @@
     "id": "minna-1-1-1609729372601",
     "japanese": "連れて 来ます",
     "reading": "連れて 来ます",
-    "meaning": "連[つ]れて  来[き]ます",
+    "meaning": "連[つ]れて 来[き]ます",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -25899,7 +25899,7 @@
     "id": "minna-1-1-1609729372619",
     "japanese": "年を 取ります",
     "reading": "年を 取ります",
-    "meaning": "年[とし]を　 取[と]ります",
+    "meaning": "年[とし]を 取[と]ります",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -25936,7 +25936,7 @@
     "partOfSpeech": [],
     "examples": [
       {
-        "japanese": "be, go, come (honorific, resp. います,&nbsp; 行[い]きます,&nbsp; 来[き]ます)",
+        "japanese": "be, go, come (honorific, resp. います, 行[い]きます, 来[き]ます)",
         "reading": "",
         "english": "I"
       }
@@ -27349,7 +27349,7 @@
     "id": "minna-1-1-1609729372775",
     "japanese": "背が 高い",
     "reading": "背が 高い",
-    "meaning": "背[せ]が　 高[たか]い",
+    "meaning": "背[せ]が 高[たか]い",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "i-adjective"
@@ -27373,7 +27373,7 @@
     "id": "minna-1-1-1609729372777",
     "japanese": "頭が いい",
     "reading": "頭が いい",
-    "meaning": "頭[あたま]が　いい",
+    "meaning": "頭[あたま]が いい",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "i-adjective"
@@ -27499,7 +27499,7 @@
     "id": "minna-1-1-1609729372791",
     "japanese": "調子が いい",
     "reading": "調子が いい",
-    "meaning": "調子[ちょうし]が　いい",
+    "meaning": "調子[ちょうし]が いい",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "i-adjective"
@@ -27517,7 +27517,7 @@
     "id": "minna-1-1-1609729372793",
     "japanese": "調子が 悪い",
     "reading": "調子が 悪い",
-    "meaning": "調子[ちょうし]が　 悪[わる]い",
+    "meaning": "調子[ちょうし]が 悪[わる]い",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "i-adjective"
@@ -28095,7 +28095,7 @@
     "id": "minna-1-5-1609729372849",
     "japanese": "どう いたしまして。",
     "reading": "どう いたしまして。",
-    "meaning": "どう　いたしまして。",
+    "meaning": "どう いたしまして。",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -28211,7 +28211,7 @@
     "id": "minna-1-7-1609729372859",
     "japanese": "どうぞ お上がり ください。",
     "reading": "どうぞ お上がり ください。",
-    "meaning": "どうぞ　お 上[あ]がり ください。",
+    "meaning": "どうぞ お 上[あ]がり ください。",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -28353,7 +28353,7 @@
     "id": "minna-1-8-1609729372873",
     "japanese": "～、もう 一杯 いかがですか。",
     "reading": "～、もう 一杯 いかがですか。",
-    "meaning": "(～、)もう　 一杯[いっぱい]　いかがですか。",
+    "meaning": "(～、)もう 一杯[いっぱい] いかがですか。",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -28401,7 +28401,7 @@
     "id": "minna-1-8-1609729372877",
     "japanese": "もう ～ですね。",
     "reading": "もう ～ですね。",
-    "meaning": "もう　～です(ね)。",
+    "meaning": "もう ～です(ね)。",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -28423,7 +28423,7 @@
     "id": "minna-1-8-1609729372879",
     "japanese": "そろそろ 失礼します。",
     "reading": "そろそろ 失礼します。",
-    "meaning": "そろそろ　 失礼[しつれい]します。",
+    "meaning": "そろそろ 失礼[しつれい]します。",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -28447,7 +28447,7 @@
     "id": "minna-1-9-1609729372883",
     "japanese": "一緒に いかがですか。",
     "reading": "一緒に いかがですか。",
-    "meaning": "一緒[いっしょ]に　いかがですか。",
+    "meaning": "一緒[いっしょ]に いかがですか。",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -28471,7 +28471,7 @@
     "id": "minna-1-9-1609729372885",
     "japanese": "～は ちょっと...。",
     "reading": "～は ちょっと...。",
-    "meaning": "(～は)　ちょっと...。",
+    "meaning": "(～は) ちょっと...。",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -28515,7 +28515,7 @@
     "id": "minna-1-11-1609729372889",
     "japanese": "いい お天気ですね。",
     "reading": "いい お天気ですね。",
-    "meaning": "いい　(お) 天気[てんき]ですね。",
+    "meaning": "いい (お) 天気[てんき]ですね。",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -28563,7 +28563,7 @@
     "id": "minna-1-11-1609729372893",
     "japanese": "ちょっと ～まで。",
     "reading": "ちょっと ～まで。",
-    "meaning": "ちょっと　～まで。",
+    "meaning": "ちょっと ～まで。",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -28585,7 +28585,7 @@
     "id": "minna-1-11-1609729372895",
     "japanese": "行って いらっしゃい。",
     "reading": "行って いらっしゃい。",
-    "meaning": "行[い]って　いらっしゃい。",
+    "meaning": "行[い]って いらっしゃい。",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -28609,7 +28609,7 @@
     "id": "minna-1-11-1609729372897",
     "japanese": "行って 参ります。",
     "reading": "行って 参ります。",
-    "meaning": "行[い]って　 参[まい]ります。",
+    "meaning": "行[い]って 参[まい]ります。",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -29125,7 +29125,7 @@
     "id": "minna-1-20-1609729372945",
     "japanese": "国へ 帰るの?",
     "reading": "国へ 帰るの?",
-    "meaning": "国[くに]へ　 帰[かえ]るの?",
+    "meaning": "国[くに]へ 帰[かえ]るの?",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -29149,7 +29149,7 @@
     "id": "minna-1-20-1609729372947",
     "japanese": "どう するの？",
     "reading": "どう するの？",
-    "meaning": "どう　するの？",
+    "meaning": "どう するの？",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -29171,7 +29171,7 @@
     "id": "minna-1-20-1609729372949",
     "japanese": "どう しようかな。",
     "reading": "どう しようかな。",
-    "meaning": "どう　しようかな。",
+    "meaning": "どう しようかな。",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [
@@ -29193,7 +29193,7 @@
     "id": "minna-1-21-1609729372951",
     "japanese": "仕方が ありません。",
     "reading": "仕方が ありません。",
-    "meaning": "仕方[しかた]が　ありません。",
+    "meaning": "仕方[しかた]が ありません。",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -29241,7 +29241,7 @@
     "id": "minna-1-21-1609729372955",
     "japanese": "～でも 飲みませんか。",
     "reading": "～でも 飲みませんか。",
-    "meaning": "～ でも　 飲[の]みませんか。",
+    "meaning": "～ でも 飲[の]みませんか。",
     "jlptLevel": "N4",
     "partOfSpeech": [
       "noun"
@@ -29333,7 +29333,7 @@
     "id": "minna-1-25-1609729372963",
     "japanese": "一杯 飲みましょう。",
     "reading": "一杯 飲みましょう。",
-    "meaning": "一杯[いっぱい]　 飲[の]みましょう。",
+    "meaning": "一杯[いっぱい] 飲[の]みましょう。",
     "jlptLevel": "N4",
     "partOfSpeech": [
       "noun"
@@ -29357,7 +29357,7 @@
     "id": "minna-1-25-1609729372965",
     "japanese": "いろいろ お世話に なりました。",
     "reading": "いろいろ お世話に なりました。",
-    "meaning": "(いろいろ)　お 世話[せわ]に　なりました。",
+    "meaning": "(いろいろ) お 世話[せわ]に なりました。",
     "jlptLevel": "N4",
     "partOfSpeech": [
       "noun"
@@ -29381,7 +29381,7 @@
     "id": "minna-1-25-1609729372967",
     "japanese": "どうぞ お元気で。",
     "reading": "どうぞ お元気で。",
-    "meaning": "どうぞ　お 元気[げんき]で。",
+    "meaning": "どうぞ お 元気[げんき]で。",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -32432,7 +32432,7 @@
     ],
     "examples": [
       {
-        "japanese": "husband &amp; wife (me and my spouse)",
+        "japanese": "husband & wife (me and my spouse)",
         "reading": "",
         "english": "7"
       }
@@ -35058,7 +35058,7 @@
       {
         "japanese": "14",
         "reading": "",
-        "english": "(used only for change returned after a transaction)<br>細[こま]かい お 金[かね] = small change (9)"
+        "english": "(used only for change returned after a transaction)細[こま]かい お 金[かね] = small change (9)"
       }
     ],
     "tags": [
@@ -37666,7 +37666,7 @@
       {
         "japanese": "11",
         "reading": "",
-        "english": "皆　アメリカ人です。"
+        "english": "皆 アメリカ人です。"
       }
     ],
     "tags": [
@@ -37808,7 +37808,7 @@
       {
         "japanese": "9",
         "reading": "",
-        "english": "マリアさんは　カタカナが　少し分かります。"
+        "english": "マリアさんは カタカナが 少し分かります。"
       }
     ],
     "tags": [
@@ -38107,7 +38107,7 @@
     "id": "minna-1-1-1609729373829",
     "japanese": "未だ[まだ]",
     "reading": "未だ[まだ]",
-    "meaning": "<ol><li>yet, still</li><li>not yet (negative)</li></ol>",
+    "meaning": "yet, stillnot yet (negative)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -38116,7 +38116,7 @@
       {
         "japanese": "7",
         "reading": "",
-        "english": "もう昼ご飯を食べましたか。<br />...いいえ、 未だです。これから食べます。"
+        "english": "もう昼ご飯を食べましたか。...いいえ、 未だです。これから食べます。"
       }
     ],
     "tags": [
@@ -38555,7 +38555,7 @@
     "id": "minna-1-1-1609729373867",
     "japanese": "中々[なかなか]",
     "reading": "中々[なかなか]",
-    "meaning": "<ol><li>very, considerably</li><li>by no means (negative)</li></ol>",
+    "meaning": "very, considerablyby no means (negative)",
     "jlptLevel": "N5",
     "partOfSpeech": [
       "noun"
@@ -38804,7 +38804,7 @@
       {
         "japanese": "21",
         "reading": "",
-        "english": "どちらが勝つと思いますか。<br />勿論ドイツですよ。"
+        "english": "どちらが勝つと思いますか。勿論ドイツですよ。"
       }
     ],
     "tags": [
@@ -38912,26 +38912,10 @@
     "textbook": "minna-1"
   },
   {
-    "id": "minna-1-1-1687788633111",
-    "japanese": "Please update to the latest Anki version, then import the .colpkg/.apkg file again.",
-    "reading": "Please update to the latest Anki version, then import the .colpkg/.apkg file again.",
-    "meaning": "",
-    "jlptLevel": "N5",
-    "partOfSpeech": [],
-    "examples": [],
-    "tags": [
-      "n5",
-      "lesson-1",
-      "minna-1"
-    ],
-    "lesson": 1,
-    "textbook": "minna-1"
-  },
-  {
     "id": "minna-1-1-1464529102166",
-    "japanese": "one<div>いち、いっ</div><div>ひと</div>",
-    "reading": "one<div>いち、いっ</div><div>ひと</div>",
-    "meaning": "一",
+    "japanese": "一",
+    "reading": "いち、いっひと",
+    "meaning": "one",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -38945,9 +38929,9 @@
   },
   {
     "id": "minna-1-1-1464529251086",
-    "japanese": "two<div>に</div><div>ふた</div>",
-    "reading": "two<div>に</div><div>ふた</div>",
-    "meaning": "二",
+    "japanese": "二",
+    "reading": "にふた",
+    "meaning": "two",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -38961,9 +38945,9 @@
   },
   {
     "id": "minna-1-1-1464529562538",
-    "japanese": "three<div>さん</div><div>みっ</div>",
-    "reading": "three<div>さん</div><div>みっ</div>",
-    "meaning": "三",
+    "japanese": "三",
+    "reading": "さんみっ",
+    "meaning": "three",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -38977,9 +38961,9 @@
   },
   {
     "id": "minna-1-1-1464529806520",
-    "japanese": "four<div>し</div><div>よん、よ、よっ</div>",
-    "reading": "four<div>し</div><div>よん、よ、よっ</div>",
-    "meaning": "四",
+    "japanese": "四",
+    "reading": "しよん、よ、よっ",
+    "meaning": "four",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -38993,9 +38977,9 @@
   },
   {
     "id": "minna-1-1-1464529842129",
-    "japanese": "five<div>ご</div><div>いつ</div>",
-    "reading": "five<div>ご</div><div>いつ</div>",
-    "meaning": "五",
+    "japanese": "五",
+    "reading": "ごいつ",
+    "meaning": "five",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39009,9 +38993,9 @@
   },
   {
     "id": "minna-1-1-1464592487333",
-    "japanese": "six<div>ろく、ろっ</div><div>むっ</div>",
-    "reading": "six<div>ろく、ろっ</div><div>むっ</div>",
-    "meaning": "六",
+    "japanese": "六",
+    "reading": "ろく、ろっむっ",
+    "meaning": "six",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39025,9 +39009,9 @@
   },
   {
     "id": "minna-1-1-1464592546725",
-    "japanese": "seven<div>しち</div><div>なな</div>",
-    "reading": "seven<div>しち</div><div>なな</div>",
-    "meaning": "七",
+    "japanese": "七",
+    "reading": "しちなな",
+    "meaning": "seven",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39041,9 +39025,9 @@
   },
   {
     "id": "minna-1-1-1464592607139",
-    "japanese": "eight<div>はち、はっ</div><div>やっ</div>",
-    "reading": "eight<div>はち、はっ</div><div>やっ</div>",
-    "meaning": "八",
+    "japanese": "八",
+    "reading": "はち、はっやっ",
+    "meaning": "eight",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39057,9 +39041,9 @@
   },
   {
     "id": "minna-1-1-1464690350669",
-    "japanese": "nine<div>きゅう、く</div><div>ここの</div>",
-    "reading": "nine<div>きゅう、く</div><div>ここの</div>",
-    "meaning": "九",
+    "japanese": "九",
+    "reading": "きゅう、くここの",
+    "meaning": "nine",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39073,9 +39057,9 @@
   },
   {
     "id": "minna-1-1-1464690438068",
-    "japanese": "ten<div>じゅう、じゅっ、じっ</div><div>とお</div>",
-    "reading": "ten<div>じゅう、じゅっ、じっ</div><div>とお</div>",
-    "meaning": "十",
+    "japanese": "十",
+    "reading": "じゅう、じゅっ、じっとお",
+    "meaning": "ten",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39089,9 +39073,9 @@
   },
   {
     "id": "minna-1-1-1464690567817",
-    "japanese": "hundred<div>ひゃく、ぴゃく、びゃく</div><div><br /></div>",
-    "reading": "hundred<div>ひゃく、ぴゃく、びゃく</div><div><br /></div>",
-    "meaning": "百",
+    "japanese": "百",
+    "reading": "ひゃく、ぴゃく、びゃく",
+    "meaning": "hundred",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39105,9 +39089,9 @@
   },
   {
     "id": "minna-1-1-1464690590777",
-    "japanese": "thousand<div>せん、ぜん</div><div><br /></div>",
-    "reading": "thousand<div>せん、ぜん</div><div><br /></div>",
-    "meaning": "千",
+    "japanese": "千",
+    "reading": "せん、ぜん",
+    "meaning": "thousand",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39121,9 +39105,9 @@
   },
   {
     "id": "minna-1-1-1464690608891",
-    "japanese": "ten thousand<div>まん</div><div><br /></div>",
-    "reading": "ten thousand<div>まん</div><div><br /></div>",
-    "meaning": "万",
+    "japanese": "万",
+    "reading": "ten thousandまん",
+    "meaning": "ten thousandまん",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39137,9 +39121,9 @@
   },
   {
     "id": "minna-1-1-1464690642880",
-    "japanese": "yen, circle<div>えん</div><div>まる</div>",
-    "reading": "yen, circle<div>えん</div><div>まる</div>",
-    "meaning": "円",
+    "japanese": "円",
+    "reading": "yen, circleえんまる",
+    "meaning": "yen, circleえんまる",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39153,9 +39137,9 @@
   },
   {
     "id": "minna-1-1-1464690675874",
-    "japanese": "time<div>じ</div><div>とき</div>",
-    "reading": "time<div>じ</div><div>とき</div>",
-    "meaning": "時",
+    "japanese": "時",
+    "reading": "じとき",
+    "meaning": "time",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39169,9 +39153,9 @@
   },
   {
     "id": "minna-1-1-1464690732652",
-    "japanese": "day, sun<div>に、にち</div><div>び、ひ</div>",
-    "reading": "day, sun<div>に、にち</div><div>び、ひ</div>",
-    "meaning": "日",
+    "japanese": "日",
+    "reading": "day, sunに、にちび、ひ",
+    "meaning": "day, sunに、にちび、ひ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39185,9 +39169,9 @@
   },
   {
     "id": "minna-1-1-1464690758372",
-    "japanese": "book, basis<div>ほん</div><div>もと</div>",
-    "reading": "book, basis<div>ほん</div><div>もと</div>",
-    "meaning": "本",
+    "japanese": "本",
+    "reading": "book, basisほんもと",
+    "meaning": "book, basisほんもと",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39201,9 +39185,9 @@
   },
   {
     "id": "minna-1-1-1464690783438",
-    "japanese": "person<div>じん、にん</div><div>ひと</div>",
-    "reading": "person<div>じん、にん</div><div>ひと</div>",
-    "meaning": "人",
+    "japanese": "人",
+    "reading": "じん、にんひと",
+    "meaning": "person",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39217,9 +39201,9 @@
   },
   {
     "id": "minna-1-1-1464690814726",
-    "japanese": "moon, month<div>げつ、がつ</div><div>つき</div>",
-    "reading": "moon, month<div>げつ、がつ</div><div>つき</div>",
-    "meaning": "月",
+    "japanese": "月",
+    "reading": "moon, monthげつ、がつつき",
+    "meaning": "moon, monthげつ、がつつき",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39233,9 +39217,9 @@
   },
   {
     "id": "minna-1-1-1464690846975",
-    "japanese": "fire<div>か</div><div>ひ、び</div>",
-    "reading": "fire<div>か</div><div>ひ、び</div>",
-    "meaning": "火",
+    "japanese": "火",
+    "reading": "かひ、び",
+    "meaning": "fire",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39249,9 +39233,9 @@
   },
   {
     "id": "minna-1-1-1464690861842",
-    "japanese": "water<div>すい</div><div>みず</div>",
-    "reading": "water<div>すい</div><div>みず</div>",
-    "meaning": "水",
+    "japanese": "水",
+    "reading": "すいみず",
+    "meaning": "water",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39265,9 +39249,9 @@
   },
   {
     "id": "minna-1-1-1464690882063",
-    "japanese": "tree<div>もく</div><div>き</div>",
-    "reading": "tree<div>もく</div><div>き</div>",
-    "meaning": "木",
+    "japanese": "木",
+    "reading": "もくき",
+    "meaning": "tree",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39281,9 +39265,9 @@
   },
   {
     "id": "minna-1-1-1464690904388",
-    "japanese": "gold, money<div>きん</div><div>かね</div>",
-    "reading": "gold, money<div>きん</div><div>かね</div>",
-    "meaning": "金",
+    "japanese": "金",
+    "reading": "gold, moneyきんかね",
+    "meaning": "gold, moneyきんかね",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39297,9 +39281,9 @@
   },
   {
     "id": "minna-1-1-1464690932572",
-    "japanese": "soil<div>ど、と</div><div>つち</div>",
-    "reading": "soil<div>ど、と</div><div>つち</div>",
-    "meaning": "土",
+    "japanese": "土",
+    "reading": "ど、とつち",
+    "meaning": "soil",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39313,9 +39297,9 @@
   },
   {
     "id": "minna-1-1-1464690963334",
-    "japanese": "weekday<div>よう</div><div><br /></div>",
-    "reading": "weekday<div>よう</div><div><br /></div>",
-    "meaning": "曜",
+    "japanese": "曜",
+    "reading": "よう",
+    "meaning": "weekday",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39329,9 +39313,9 @@
   },
   {
     "id": "minna-1-1-1464691003693",
-    "japanese": "up<div>じょう</div><div>うえ、のぼ</div>",
-    "reading": "up<div>じょう</div><div>うえ、のぼ</div>",
-    "meaning": "上",
+    "japanese": "上",
+    "reading": "じょううえ、のぼ",
+    "meaning": "up",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39345,9 +39329,9 @@
   },
   {
     "id": "minna-1-1-1464691044440",
-    "japanese": "down<div>か、へ</div><div>した、くだ</div>",
-    "reading": "down<div>か、へ</div><div>した、くだ</div>",
-    "meaning": "下",
+    "japanese": "下",
+    "reading": "か、へした、くだ",
+    "meaning": "down",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39361,9 +39345,9 @@
   },
   {
     "id": "minna-1-1-1464691064208",
-    "japanese": "middle<div>ちゅう、じゅう</div><div>なか</div>",
-    "reading": "middle<div>ちゅう、じゅう</div><div>なか</div>",
-    "meaning": "中",
+    "japanese": "中",
+    "reading": "ちゅう、じゅうなか",
+    "meaning": "middle",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39377,9 +39361,9 @@
   },
   {
     "id": "minna-1-1-1464691077556",
-    "japanese": "half<div>はん</div><div><br /></div>",
-    "reading": "half<div>はん</div><div><br /></div>",
-    "meaning": "半",
+    "japanese": "半",
+    "reading": "はん",
+    "meaning": "half",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39393,9 +39377,9 @@
   },
   {
     "id": "minna-1-1-1464691101462",
-    "japanese": "mountain<div>さん</div><div>やま</div>",
-    "reading": "mountain<div>さん</div><div>やま</div>",
-    "meaning": "山",
+    "japanese": "山",
+    "reading": "さんやま",
+    "meaning": "mountain",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39409,9 +39393,9 @@
   },
   {
     "id": "minna-1-1-1464691136016",
-    "japanese": "river<div><br /></div><div>かわ、がわ</div>",
-    "reading": "river<div><br /></div><div>かわ、がわ</div>",
-    "meaning": "川",
+    "japanese": "川",
+    "reading": "かわ、がわ",
+    "meaning": "river",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39425,9 +39409,9 @@
   },
   {
     "id": "minna-1-1-1464691175675",
-    "japanese": "origin<div>げん、がん</div><div>もと</div>",
-    "reading": "origin<div>げん、がん</div><div>もと</div>",
-    "meaning": "元",
+    "japanese": "元",
+    "reading": "げん、がんもと",
+    "meaning": "origin",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39441,9 +39425,9 @@
   },
   {
     "id": "minna-1-1-1464691197766",
-    "japanese": "spirit<div>き</div><div><br /></div>",
-    "reading": "spirit<div>き</div><div><br /></div>",
-    "meaning": "気",
+    "japanese": "気",
+    "reading": "き",
+    "meaning": "spirit",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39457,9 +39441,9 @@
   },
   {
     "id": "minna-1-1-1464691214391",
-    "japanese": "heaven<div>てん</div><div><br /></div>",
-    "reading": "heaven<div>てん</div><div><br /></div>",
-    "meaning": "天",
+    "japanese": "天",
+    "reading": "てん",
+    "meaning": "heaven",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39473,9 +39457,9 @@
   },
   {
     "id": "minna-1-1-1464691257309",
-    "japanese": "I, private<div>し</div><div>わたし</div>",
-    "reading": "I, private<div>し</div><div>わたし</div>",
-    "meaning": "私",
+    "japanese": "私",
+    "reading": "I, privateしわたし",
+    "meaning": "I, privateしわたし",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39489,9 +39473,9 @@
   },
   {
     "id": "minna-1-1-1464691280040",
-    "japanese": "now<div>こん</div><div>いま</div>",
-    "reading": "now<div>こん</div><div>いま</div>",
-    "meaning": "今",
+    "japanese": "今",
+    "reading": "こんいま",
+    "meaning": "now",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39505,9 +39489,9 @@
   },
   {
     "id": "minna-1-1-1464691304817",
-    "japanese": "rice field<div><br /></div><div>た、だ</div>",
-    "reading": "rice field<div><br /></div><div>た、だ</div>",
-    "meaning": "田",
+    "japanese": "田",
+    "reading": "rice fieldた、だ",
+    "meaning": "rice fieldた、だ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39521,9 +39505,9 @@
   },
   {
     "id": "minna-1-1-1464691340524",
-    "japanese": "woman<div>じょ</div><div>おんな</div>",
-    "reading": "woman<div>じょ</div><div>おんな</div>",
-    "meaning": "女",
+    "japanese": "女",
+    "reading": "じょおんな",
+    "meaning": "woman",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39537,9 +39521,9 @@
   },
   {
     "id": "minna-1-1-1464691359981",
-    "japanese": "man<div>だん</div><div>おとこ</div>",
-    "reading": "man<div>だん</div><div>おとこ</div>",
-    "meaning": "男",
+    "japanese": "男",
+    "reading": "だんおとこ",
+    "meaning": "man",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39553,9 +39537,9 @@
   },
   {
     "id": "minna-1-1-1464691384648",
-    "japanese": "to see<div>けん</div><div>み</div>",
-    "reading": "to see<div>けん</div><div>み</div>",
-    "meaning": "見",
+    "japanese": "見",
+    "reading": "to seeけんみ",
+    "meaning": "to seeけんみ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39569,8 +39553,8 @@
   },
   {
     "id": "minna-1-1-1464691449664",
-    "japanese": "to go<div>こう、ぎょう</div><div>い</div>",
-    "reading": "to go<div>こう、ぎょう</div><div>い</div>",
+    "japanese": "to goこう、ぎょうい",
+    "reading": "to goこう、ぎょうい",
     "meaning": "行",
     "jlptLevel": "N5",
     "partOfSpeech": [],
@@ -39585,9 +39569,9 @@
   },
   {
     "id": "minna-1-1-1464691485717",
-    "japanese": "to eat<div>しょく</div><div>た</div>",
-    "reading": "to eat<div>しょく</div><div>た</div>",
-    "meaning": "食",
+    "japanese": "食",
+    "reading": "to eatしょくた",
+    "meaning": "to eatしょくた",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39601,9 +39585,9 @@
   },
   {
     "id": "minna-1-1-1464691505104",
-    "japanese": "to drink<div>いん</div><div>の</div>",
-    "reading": "to drink<div>いん</div><div>の</div>",
-    "meaning": "飲",
+    "japanese": "飲",
+    "reading": "to drinkいんの",
+    "meaning": "to drinkいんの",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39617,9 +39601,9 @@
   },
   {
     "id": "minna-1-1-1464691550496",
-    "japanese": "east<div>とう</div><div>ひがし</div>",
-    "reading": "east<div>とう</div><div>ひがし</div>",
-    "meaning": "東",
+    "japanese": "東",
+    "reading": "とうひがし",
+    "meaning": "east",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39633,9 +39617,9 @@
   },
   {
     "id": "minna-1-1-1464691572059",
-    "japanese": "west<div>せい、さい</div><div>にし</div>",
-    "reading": "west<div>せい、さい</div><div>にし</div>",
-    "meaning": "西",
+    "japanese": "西",
+    "reading": "せい、さいにし",
+    "meaning": "west",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39649,9 +39633,9 @@
   },
   {
     "id": "minna-1-1-1464691600881",
-    "japanese": "south<div>なん</div><div>みなみ</div>",
-    "reading": "south<div>なん</div><div>みなみ</div>",
-    "meaning": "南",
+    "japanese": "南",
+    "reading": "なんみなみ",
+    "meaning": "south",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39665,9 +39649,9 @@
   },
   {
     "id": "minna-1-1-1464691638507",
-    "japanese": "north<div>ほく、ほっ</div><div>きた</div>",
-    "reading": "north<div>ほく、ほっ</div><div>きた</div>",
-    "meaning": "北",
+    "japanese": "北",
+    "reading": "ほく、ほっきた",
+    "meaning": "north",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39681,9 +39665,9 @@
   },
   {
     "id": "minna-1-1-1464691702048",
-    "japanese": "mouth<div>こう</div><div>くち、ぐち</div>",
-    "reading": "mouth<div>こう</div><div>くち、ぐち</div>",
-    "meaning": "口",
+    "japanese": "口",
+    "reading": "こうくち、ぐち",
+    "meaning": "mouth",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39697,8 +39681,8 @@
   },
   {
     "id": "minna-1-1-1464691738921",
-    "japanese": "to exit<div>しゅっ、しゅつ</div><div>で、だ</div>",
-    "reading": "to exit<div>しゅっ、しゅつ</div><div>で、だ</div>",
+    "japanese": "to exitしゅっ、しゅつで、だ",
+    "reading": "to exitしゅっ、しゅつで、だ",
     "meaning": "出",
     "jlptLevel": "N5",
     "partOfSpeech": [],
@@ -39713,9 +39697,9 @@
   },
   {
     "id": "minna-1-1-1464691756541",
-    "japanese": "right<div>う、ゆう</div><div>みぎ</div>",
-    "reading": "right<div>う、ゆう</div><div>みぎ</div>",
-    "meaning": "右",
+    "japanese": "右",
+    "reading": "う、ゆうみぎ",
+    "meaning": "right",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39729,9 +39713,9 @@
   },
   {
     "id": "minna-1-1-1464691775046",
-    "japanese": "left<div>さ</div><div>ひだり</div>",
-    "reading": "left<div>さ</div><div>ひだり</div>",
-    "meaning": "左",
+    "japanese": "左",
+    "reading": "さひだり",
+    "meaning": "left",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39745,9 +39729,9 @@
   },
   {
     "id": "minna-1-1-1464691826843",
-    "japanese": "minute, to divide<div>ふん、ぶん、ぷん</div><div>わ</div>",
-    "reading": "minute, to divide<div>ふん、ぶん、ぷん</div><div>わ</div>",
-    "meaning": "分",
+    "japanese": "分",
+    "reading": "minute, to divideふん、ぶん、ぷんわ",
+    "meaning": "minute, to divideふん、ぶん、ぷんわ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39761,9 +39745,9 @@
   },
   {
     "id": "minna-1-1-1464691885330",
-    "japanese": "ahead, previous<div>せん</div><div>さき</div>",
-    "reading": "ahead, previous<div>せん</div><div>さき</div>",
-    "meaning": "先",
+    "japanese": "先",
+    "reading": "ahead, previousせんさき",
+    "meaning": "ahead, previousせんさき",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39777,9 +39761,9 @@
   },
   {
     "id": "minna-1-1-1464691965618",
-    "japanese": "birth, life<div>せい、しょう</div><div>う、なま</div>",
-    "reading": "birth, life<div>せい、しょう</div><div>う、なま</div>",
-    "meaning": "生",
+    "japanese": "生",
+    "reading": "birth, lifeせい、しょうう、なま",
+    "meaning": "birth, lifeせい、しょうう、なま",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39793,9 +39777,9 @@
   },
   {
     "id": "minna-1-1-1464691997029",
-    "japanese": "big<div>だい、たい</div><div>おお</div>",
-    "reading": "big<div>だい、たい</div><div>おお</div>",
-    "meaning": "大",
+    "japanese": "大",
+    "reading": "だい、たいおお",
+    "meaning": "big",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39809,9 +39793,9 @@
   },
   {
     "id": "minna-1-1-1464692028798",
-    "japanese": "learning<div>がく、がっ</div><div>まな</div>",
-    "reading": "learning<div>がく、がっ</div><div>まな</div>",
-    "meaning": "学",
+    "japanese": "学",
+    "reading": "がく、がっまな",
+    "meaning": "learning",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39825,9 +39809,9 @@
   },
   {
     "id": "minna-1-1-1464692042886",
-    "japanese": "outside<div>がい</div><div>そと</div>",
-    "reading": "outside<div>がい</div><div>そと</div>",
-    "meaning": "外",
+    "japanese": "外",
+    "reading": "がいそと",
+    "meaning": "outside",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39841,9 +39825,9 @@
   },
   {
     "id": "minna-1-1-1464692069808",
-    "japanese": "country<div>こく、ごく</div><div>くに</div>",
-    "reading": "country<div>こく、ごく</div><div>くに</div>",
-    "meaning": "国",
+    "japanese": "国",
+    "reading": "こく、ごくくに",
+    "meaning": "country",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39857,9 +39841,9 @@
   },
   {
     "id": "minna-1-1-1464692123706",
-    "japanese": "capital<div>きょう</div><div><br /></div>",
-    "reading": "capital<div>きょう</div><div><br /></div>",
-    "meaning": "京",
+    "japanese": "京",
+    "reading": "きょう",
+    "meaning": "capital",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39873,9 +39857,9 @@
   },
   {
     "id": "minna-1-1-1464692138766",
-    "japanese": "child<div>し</div><div>こ</div>",
-    "reading": "child<div>し</div><div>こ</div>",
-    "meaning": "子",
+    "japanese": "子",
+    "reading": "しこ",
+    "meaning": "child",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39889,9 +39873,9 @@
   },
   {
     "id": "minna-1-1-1464692162606",
-    "japanese": "small<div>しょう</div><div>ちい</div>",
-    "reading": "small<div>しょう</div><div>ちい</div>",
-    "meaning": "小",
+    "japanese": "小",
+    "reading": "しょうちい",
+    "meaning": "small",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39905,9 +39889,9 @@
   },
   {
     "id": "minna-1-1-1464692184595",
-    "japanese": "to meet<div>かい</div><div>あ</div>",
-    "reading": "to meet<div>かい</div><div>あ</div>",
-    "meaning": "会",
+    "japanese": "会",
+    "reading": "to meetかいあ",
+    "meaning": "to meetかいあ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39921,9 +39905,9 @@
   },
   {
     "id": "minna-1-1-1464692219172",
-    "japanese": "company<div>しゃ、じゃ</div><div><br /></div>",
-    "reading": "company<div>しゃ、じゃ</div><div><br /></div>",
-    "meaning": "社",
+    "japanese": "社",
+    "reading": "しゃ、じゃ",
+    "meaning": "company",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39937,9 +39921,9 @@
   },
   {
     "id": "minna-1-1-1464692246270",
-    "japanese": "father<div>ふ</div><div>ちち、とう</div>",
-    "reading": "father<div>ふ</div><div>ちち、とう</div>",
-    "meaning": "父",
+    "japanese": "父",
+    "reading": "ふちち、とう",
+    "meaning": "father",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39953,9 +39937,9 @@
   },
   {
     "id": "minna-1-1-1464692263588",
-    "japanese": "mother<div>ぼ</div><div>はは、かあ</div>",
-    "reading": "mother<div>ぼ</div><div>はは、かあ</div>",
-    "meaning": "母",
+    "japanese": "母",
+    "reading": "ぼはは、かあ",
+    "meaning": "mother",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39969,9 +39953,9 @@
   },
   {
     "id": "minna-1-1-1464692292962",
-    "japanese": "high<div>こう</div><div>たか</div>",
-    "reading": "high<div>こう</div><div>たか</div>",
-    "meaning": "高",
+    "japanese": "高",
+    "reading": "こうたか",
+    "meaning": "high",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -39985,9 +39969,9 @@
   },
   {
     "id": "minna-1-1-1464692320669",
-    "japanese": "school<div>こう</div><div><br /></div>",
-    "reading": "school<div>こう</div><div><br /></div>",
-    "meaning": "校",
+    "japanese": "校",
+    "reading": "こう",
+    "meaning": "school",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40001,9 +39985,9 @@
   },
   {
     "id": "minna-1-1-1464692336856",
-    "japanese": "every<div>まい</div><div><br /></div>",
-    "reading": "every<div>まい</div><div><br /></div>",
-    "meaning": "毎",
+    "japanese": "毎",
+    "reading": "まい",
+    "meaning": "every",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40017,9 +40001,9 @@
   },
   {
     "id": "minna-1-1-1464692349579",
-    "japanese": "word, language<div>ご</div><div><br /></div>",
-    "reading": "word, language<div>ご</div><div><br /></div>",
-    "meaning": "語",
+    "japanese": "語",
+    "reading": "word, languageご",
+    "meaning": "word, languageご",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40033,9 +40017,9 @@
   },
   {
     "id": "minna-1-1-1464692378451",
-    "japanese": "sentence, writing<div>ぶん</div><div><br /></div>",
-    "reading": "sentence, writing<div>ぶん</div><div><br /></div>",
-    "meaning": "文",
+    "japanese": "文",
+    "reading": "sentence, writingぶん",
+    "meaning": "sentence, writingぶん",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40049,9 +40033,9 @@
   },
   {
     "id": "minna-1-1-1464692402249",
-    "japanese": "to return<div>き</div><div>かえ</div>",
-    "reading": "to return<div>き</div><div>かえ</div>",
-    "meaning": "帰",
+    "japanese": "帰",
+    "reading": "to returnきかえ",
+    "meaning": "to returnきかえ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40065,8 +40049,8 @@
   },
   {
     "id": "minna-1-1-1464692429942",
-    "japanese": "to enter<div>にゅう</div><div>はい、いり、い</div>",
-    "reading": "to enter<div>にゅう</div><div>はい、いり、い</div>",
+    "japanese": "to enterにゅうはい、いり、い",
+    "reading": "to enterにゅうはい、いり、い",
     "meaning": "入",
     "jlptLevel": "N5",
     "partOfSpeech": [],
@@ -40081,9 +40065,9 @@
   },
   {
     "id": "minna-1-1-1464692458596",
-    "japanese": "member<br />いん<div><br /></div>",
-    "reading": "member<br />いん<div><br /></div>",
-    "meaning": "員",
+    "japanese": "員",
+    "reading": "いん",
+    "meaning": "member",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40097,9 +40081,9 @@
   },
   {
     "id": "minna-1-1-1464692485484",
-    "japanese": "new<div>しん</div><div>あたら</div>",
-    "reading": "new<div>しん</div><div>あたら</div>",
-    "meaning": "新",
+    "japanese": "新",
+    "reading": "しんあたら",
+    "meaning": "new",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40113,9 +40097,9 @@
   },
   {
     "id": "minna-1-1-1464692505026",
-    "japanese": "to listen<div>ぶん</div><div>き</div>",
-    "reading": "to listen<div>ぶん</div><div>き</div>",
-    "meaning": "聞",
+    "japanese": "聞",
+    "reading": "to listenぶんき",
+    "meaning": "to listenぶんき",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40129,9 +40113,9 @@
   },
   {
     "id": "minna-1-1-1464692526527",
-    "japanese": "to make<div>さく</div><div>つく</div>",
-    "reading": "to make<div>さく</div><div>つく</div>",
-    "meaning": "作",
+    "japanese": "作",
+    "reading": "to makeさくつく",
+    "meaning": "to makeさくつく",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40145,9 +40129,9 @@
   },
   {
     "id": "minna-1-1-1464692569467",
-    "japanese": "to serve, work<div>し</div><div>つか</div>",
-    "reading": "to serve, work<div>し</div><div>つか</div>",
-    "meaning": "仕",
+    "japanese": "仕",
+    "reading": "to serve, workしつか",
+    "meaning": "to serve, workしつか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40161,9 +40145,9 @@
   },
   {
     "id": "minna-1-1-1464692617918",
-    "japanese": "thing intangible<div>し</div><div>ごと、こと</div>",
-    "reading": "thing intangible<div>し</div><div>ごと、こと</div>",
-    "meaning": "事",
+    "japanese": "事",
+    "reading": "thing intangibleしごと、こと",
+    "meaning": "thing intangibleしごと、こと",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40177,9 +40161,9 @@
   },
   {
     "id": "minna-1-1-1464692634006",
-    "japanese": "electricity<div>でん</div><div><br /></div>",
-    "reading": "electricity<div>でん</div><div><br /></div>",
-    "meaning": "電",
+    "japanese": "電",
+    "reading": "でん",
+    "meaning": "electricity",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40193,9 +40177,9 @@
   },
   {
     "id": "minna-1-1-1464692661861",
-    "japanese": "car<div>しゃ</div><div>くるま</div>",
-    "reading": "car<div>しゃ</div><div>くるま</div>",
-    "meaning": "車",
+    "japanese": "車",
+    "reading": "しゃくるま",
+    "meaning": "car",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40209,9 +40193,9 @@
   },
   {
     "id": "minna-1-1-1464692689901",
-    "japanese": "to rest<div>きゅう</div><div>やす</div>",
-    "reading": "to rest<div>きゅう</div><div>やす</div>",
-    "meaning": "休",
+    "japanese": "休",
+    "reading": "to restきゅうやす",
+    "meaning": "to restきゅうやす",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40225,8 +40209,8 @@
   },
   {
     "id": "minna-1-1-1464692718027",
-    "japanese": "to say<div>げん</div><div>い、こと</div>",
-    "reading": "to say<div>げん</div><div>い、こと</div>",
+    "japanese": "to sayげんい、こと",
+    "reading": "to sayげんい、こと",
     "meaning": "言",
     "jlptLevel": "N5",
     "partOfSpeech": [],
@@ -40241,9 +40225,9 @@
   },
   {
     "id": "minna-1-1-1464692737896",
-    "japanese": "to read<div>どく</div><div>よ</div>",
-    "reading": "to read<div>どく</div><div>よ</div>",
-    "meaning": "読",
+    "japanese": "読",
+    "reading": "to readどくよ",
+    "meaning": "to readどくよ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40257,9 +40241,9 @@
   },
   {
     "id": "minna-1-1-1464692757369",
-    "japanese": "to think<div>し</div><div>おも</div>",
-    "reading": "to think<div>し</div><div>おも</div>",
-    "meaning": "思",
+    "japanese": "思",
+    "reading": "to thinkしおも",
+    "meaning": "to thinkしおも",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40273,9 +40257,9 @@
   },
   {
     "id": "minna-1-1-1464692775840",
-    "japanese": "next<div>じ</div><div>つぎ</div>",
-    "reading": "next<div>じ</div><div>つぎ</div>",
-    "meaning": "次",
+    "japanese": "次",
+    "reading": "じつぎ",
+    "meaning": "next",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40289,9 +40273,9 @@
   },
   {
     "id": "minna-1-1-1464692792302",
-    "japanese": "what<div><br /><div>なに、なん</div></div>",
-    "reading": "what<div><br /><div>なに、なん</div></div>",
-    "meaning": "何",
+    "japanese": "何",
+    "reading": "なに、なん",
+    "meaning": "what",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40305,9 +40289,9 @@
   },
   {
     "id": "minna-1-1-1464693753247",
-    "japanese": "noon<div>ご</div><div><br /></div>",
-    "reading": "noon<div>ご</div><div><br /></div>",
-    "meaning": "午",
+    "japanese": "午",
+    "reading": "ご",
+    "meaning": "noon",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40321,9 +40305,9 @@
   },
   {
     "id": "minna-1-1-1464693774509",
-    "japanese": "after<div>ご</div><div>あと、うし</div>",
-    "reading": "after<div>ご</div><div>あと、うし</div>",
-    "meaning": "後",
+    "japanese": "後",
+    "reading": "ごあと、うし",
+    "meaning": "after",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40337,9 +40321,9 @@
   },
   {
     "id": "minna-1-1-1464693861665",
-    "japanese": "before<div>ぜん</div><div>まえ</div>",
-    "reading": "before<div>ぜん</div><div>まえ</div>",
-    "meaning": "前",
+    "japanese": "前",
+    "reading": "ぜんまえ",
+    "meaning": "before",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40353,9 +40337,9 @@
   },
   {
     "id": "minna-1-1-1464693885499",
-    "japanese": "name<div>めい</div><div>な</div>",
-    "reading": "name<div>めい</div><div>な</div>",
-    "meaning": "名",
+    "japanese": "名",
+    "reading": "めいな",
+    "meaning": "name",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40369,9 +40353,9 @@
   },
   {
     "id": "minna-1-1-1464693905232",
-    "japanese": "white<div>はく</div><div>しろ</div>",
-    "reading": "white<div>はく</div><div>しろ</div>",
-    "meaning": "白",
+    "japanese": "白",
+    "reading": "はくしろ",
+    "meaning": "white",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40385,9 +40369,9 @@
   },
   {
     "id": "minna-1-1-1464693924039",
-    "japanese": "rain<div>う</div><div>あめ</div>",
-    "reading": "rain<div>う</div><div>あめ</div>",
-    "meaning": "雨",
+    "japanese": "雨",
+    "reading": "うあめ",
+    "meaning": "rain",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40401,9 +40385,9 @@
   },
   {
     "id": "minna-1-1-1464694015112",
-    "japanese": "to write<div>しょ</div><div>か</div>",
-    "reading": "to write<div>しょ</div><div>か</div>",
-    "meaning": "書",
+    "japanese": "書",
+    "reading": "to writeしょか",
+    "meaning": "to writeしょか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40417,9 +40401,9 @@
   },
   {
     "id": "minna-1-1-1464694040453",
-    "japanese": "friend<div>ゆう</div><div>とも</div>",
-    "reading": "friend<div>ゆう</div><div>とも</div>",
-    "meaning": "友",
+    "japanese": "友",
+    "reading": "ゆうとも",
+    "meaning": "friend",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40433,9 +40417,9 @@
   },
   {
     "id": "minna-1-1-1464694178196",
-    "japanese": "between<div>かん</div><div>あいだ</div>",
-    "reading": "between<div>かん</div><div>あいだ</div>",
-    "meaning": "間",
+    "japanese": "間",
+    "reading": "かんあいだ",
+    "meaning": "between",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40449,9 +40433,9 @@
   },
   {
     "id": "minna-1-1-1464694188114",
-    "japanese": "house<div>か</div><div>いえ</div>",
-    "reading": "house<div>か</div><div>いえ</div>",
-    "meaning": "家",
+    "japanese": "家",
+    "reading": "かいえ",
+    "meaning": "house",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40465,9 +40449,9 @@
   },
   {
     "id": "minna-1-1-1464694211778",
-    "japanese": "to speak<div>わ</div><div>はな、はなし</div>",
-    "reading": "to speak<div>わ</div><div>はな、はなし</div>",
-    "meaning": "話",
+    "japanese": "話",
+    "reading": "to speakわはな、はなし",
+    "meaning": "to speakわはな、はなし",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40481,9 +40465,9 @@
   },
   {
     "id": "minna-1-1-1464694241106",
-    "japanese": "few, little bit<br /><div>しょう</div><div>すこ、すく</div>",
-    "reading": "few, little bit<br /><div>しょう</div><div>すこ、すく</div>",
-    "meaning": "<div>少</div>",
+    "japanese": "少",
+    "reading": "few, little bitしょうすこ、すく",
+    "meaning": "few, little bitしょうすこ、すく",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40497,9 +40481,9 @@
   },
   {
     "id": "minna-1-1-1464694259070",
-    "japanese": "old<div>こ</div><div>ふる</div>",
-    "reading": "old<div>こ</div><div>ふる</div>",
-    "meaning": "古",
+    "japanese": "古",
+    "reading": "こふる",
+    "meaning": "old",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40513,9 +40497,9 @@
   },
   {
     "id": "minna-1-1-1464694282454",
-    "japanese": "to know<div>ち</div><div>し</div>",
-    "reading": "to know<div>ち</div><div>し</div>",
-    "meaning": "知",
+    "japanese": "知",
+    "reading": "to knowちし",
+    "meaning": "to knowちし",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40529,9 +40513,9 @@
   },
   {
     "id": "minna-1-1-1464694313285",
-    "japanese": "to come<div>らい</div><div>く、き、こ</div>",
-    "reading": "to come<div>らい</div><div>く、き、こ</div>",
-    "meaning": "来",
+    "japanese": "来",
+    "reading": "to comeらいく、き、こ",
+    "meaning": "to comeらいく、き、こ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40545,9 +40529,9 @@
   },
   {
     "id": "minna-1-1-1464694374090",
-    "japanese": "to live locationwise<div>じゅう</div><div>す</div>",
-    "reading": "to live locationwise<div>じゅう</div><div>す</div>",
-    "meaning": "住",
+    "japanese": "住",
+    "reading": "to live locationwiseじゅうす",
+    "meaning": "to live locationwiseじゅうす",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40561,9 +40545,9 @@
   },
   {
     "id": "minna-1-1-1464694410459",
-    "japanese": "right, correct<div>しょう</div><div>ただ</div>",
-    "reading": "right, correct<div>しょう</div><div>ただ</div>",
-    "meaning": "正",
+    "japanese": "正",
+    "reading": "right, correctしょうただ",
+    "meaning": "right, correctしょうただ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40577,9 +40561,9 @@
   },
   {
     "id": "minna-1-1-1464694432317",
-    "japanese": "year<div>ねん</div><div>とし</div>",
-    "reading": "year<div>ねん</div><div>とし</div>",
-    "meaning": "年",
+    "japanese": "年",
+    "reading": "ねんとし",
+    "meaning": "year",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40593,9 +40577,9 @@
   },
   {
     "id": "minna-1-1-1464694449430",
-    "japanese": "to sell<div>ばい</div><div>う</div>",
-    "reading": "to sell<div>ばい</div><div>う</div>",
-    "meaning": "売",
+    "japanese": "売",
+    "reading": "to sellばいう",
+    "meaning": "to sellばいう",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40609,9 +40593,9 @@
   },
   {
     "id": "minna-1-1-1464694477275",
-    "japanese": "to buy<div>ばい</div><div>か</div>",
-    "reading": "to buy<div>ばい</div><div>か</div>",
-    "meaning": "買",
+    "japanese": "買",
+    "reading": "to buyばいか",
+    "meaning": "to buyばいか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40625,9 +40609,9 @@
   },
   {
     "id": "minna-1-1-1464694493985",
-    "japanese": "town<div>ちょう</div><div>まち</div>",
-    "reading": "town<div>ちょう</div><div>まち</div>",
-    "meaning": "町",
+    "japanese": "町",
+    "reading": "ちょうまち",
+    "meaning": "town",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40641,9 +40625,9 @@
   },
   {
     "id": "minna-1-1-1464694630924",
-    "japanese": "long<div>ちょう</div><div>なが</div>",
-    "reading": "long<div>ちょう</div><div>なが</div>",
-    "meaning": "長",
+    "japanese": "長",
+    "reading": "ちょうなが",
+    "meaning": "long",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40657,9 +40641,9 @@
   },
   {
     "id": "minna-1-1-1464694670177",
-    "japanese": "way, road<div>どう</div><div>みち</div>",
-    "reading": "way, road<div>どう</div><div>みち</div>",
-    "meaning": "道",
+    "japanese": "道",
+    "reading": "way, roadどうみち",
+    "meaning": "way, roadどうみち",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40673,9 +40657,9 @@
   },
   {
     "id": "minna-1-1-1464694706814",
-    "japanese": "snow<div>せつ</div><div>ゆき</div>",
-    "reading": "snow<div>せつ</div><div>ゆき</div>",
-    "meaning": "雪",
+    "japanese": "雪",
+    "reading": "せつゆき",
+    "meaning": "snow",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40689,9 +40673,9 @@
   },
   {
     "id": "minna-1-1-1464694734761",
-    "japanese": "to stand<div>りつ</div><div>た</div>",
-    "reading": "to stand<div>りつ</div><div>た</div>",
-    "meaning": "立",
+    "japanese": "立",
+    "reading": "to standりつた",
+    "meaning": "to standりつた",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40705,9 +40689,9 @@
   },
   {
     "id": "minna-1-1-1464694757549",
-    "japanese": "self<div>じ</div><div><br /></div>",
-    "reading": "self<div>じ</div><div><br /></div>",
-    "meaning": "自",
+    "japanese": "自",
+    "reading": "じ",
+    "meaning": "self",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40721,9 +40705,9 @@
   },
   {
     "id": "minna-1-1-1464694796868",
-    "japanese": "night<div>や</div><div>よる、よ</div>",
-    "reading": "night<div>や</div><div>よる、よ</div>",
-    "meaning": "夜",
+    "japanese": "夜",
+    "reading": "やよる、よ",
+    "meaning": "night",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40737,9 +40721,9 @@
   },
   {
     "id": "minna-1-1-1464694820922",
-    "japanese": "morning<div>ちょう</div><div>あさ</div>",
-    "reading": "morning<div>ちょう</div><div>あさ</div>",
-    "meaning": "朝",
+    "japanese": "朝",
+    "reading": "ちょうあさ",
+    "meaning": "morning",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40753,9 +40737,9 @@
   },
   {
     "id": "minna-1-1-1464694858516",
-    "japanese": "to hold<div>じ</div><div>も</div>",
-    "reading": "to hold<div>じ</div><div>も</div>",
-    "meaning": "持",
+    "japanese": "持",
+    "reading": "to holdじも",
+    "meaning": "to holdじも",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40769,9 +40753,9 @@
   },
   {
     "id": "minna-1-1-1464694876123",
-    "japanese": "hand<div>しゅ</div><div>て</div>",
-    "reading": "hand<div>しゅ</div><div>て</div>",
-    "meaning": "手",
+    "japanese": "手",
+    "reading": "しゅて",
+    "meaning": "hand",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40785,9 +40769,9 @@
   },
   {
     "id": "minna-1-1-1464694902586",
-    "japanese": "paper<div>し</div><div>がみ、かみ</div>",
-    "reading": "paper<div>し</div><div>がみ、かみ</div>",
-    "meaning": "紙",
+    "japanese": "紙",
+    "reading": "しがみ、かみ",
+    "meaning": "paper",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40801,9 +40785,9 @@
   },
   {
     "id": "minna-1-1-1464694936760",
-    "japanese": "to like, be fond of<div>こう</div><div>す、この</div>",
-    "reading": "to like, be fond of<div>こう</div><div>す、この</div>",
-    "meaning": "好",
+    "japanese": "好",
+    "reading": "to like, be fond ofこうす、この",
+    "meaning": "to like, be fond ofこうす、この",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40817,9 +40801,9 @@
   },
   {
     "id": "minna-1-1-1464694969007",
-    "japanese": "near, close<div>きん</div><div>ちか</div>",
-    "reading": "near, close<div>きん</div><div>ちか</div>",
-    "meaning": "近",
+    "japanese": "近",
+    "reading": "near, closeきんちか",
+    "meaning": "near, closeきんちか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40833,9 +40817,9 @@
   },
   {
     "id": "minna-1-1-1464694998697",
-    "japanese": "bright<div>めい</div><div>あか</div>",
-    "reading": "bright<div>めい</div><div>あか</div>",
-    "meaning": "明",
+    "japanese": "明",
+    "reading": "めいあか",
+    "meaning": "bright",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40849,9 +40833,9 @@
   },
   {
     "id": "minna-1-1-1464695022640",
-    "japanese": "ill, sick<div>びょう</div><div><br /></div>",
-    "reading": "ill, sick<div>びょう</div><div><br /></div>",
-    "meaning": "病",
+    "japanese": "病",
+    "reading": "ill, sickびょう",
+    "meaning": "ill, sickびょう",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40865,9 +40849,9 @@
   },
   {
     "id": "minna-1-1-1464695055327",
-    "japanese": "institution<div>いん</div><div><br /></div>",
-    "reading": "institution<div>いん</div><div><br /></div>",
-    "meaning": "院",
+    "japanese": "院",
+    "reading": "いん",
+    "meaning": "institution",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40881,9 +40865,9 @@
   },
   {
     "id": "minna-1-1-1464695182360",
-    "japanese": "to reflect, projection<div>えい</div><div>うつ</div>",
-    "reading": "to reflect, projection<div>えい</div><div>うつ</div>",
-    "meaning": "映",
+    "japanese": "映",
+    "reading": "to reflect, projectionえいうつ",
+    "meaning": "to reflect, projectionえいうつ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40897,9 +40881,9 @@
   },
   {
     "id": "minna-1-1-1464695310972",
-    "japanese": "picture<div>が、かく</div><div><br /></div>",
-    "reading": "picture<div>が、かく</div><div><br /></div>",
-    "meaning": "画",
+    "japanese": "画",
+    "reading": "が、かく",
+    "meaning": "picture",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40913,9 +40897,9 @@
   },
   {
     "id": "minna-1-1-1464695328024",
-    "japanese": "to sing<div>か</div><div>うた</div>",
-    "reading": "to sing<div>か</div><div>うた</div>",
-    "meaning": "歌",
+    "japanese": "歌",
+    "reading": "to singかうた",
+    "meaning": "to singかうた",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40929,9 +40913,9 @@
   },
   {
     "id": "minna-1-1-1464695341321",
-    "japanese": "city<div>し</div><div>いち</div>",
-    "reading": "city<div>し</div><div>いち</div>",
-    "meaning": "市",
+    "japanese": "市",
+    "reading": "しいち",
+    "meaning": "city",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40945,9 +40929,9 @@
   },
   {
     "id": "minna-1-1-1464695375327",
-    "japanese": "place<div>じょ、しょ</div><div>ところ、どころ</div>",
-    "reading": "place<div>じょ、しょ</div><div>ところ、どころ</div>",
-    "meaning": "所",
+    "japanese": "所",
+    "reading": "じょ、しょところ、どころ",
+    "meaning": "place",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40961,9 +40945,9 @@
   },
   {
     "id": "minna-1-1-1464695431381",
-    "japanese": "to make efforts<div>べん</div><div>つと</div>",
-    "reading": "to make efforts<div>べん</div><div>つと</div>",
-    "meaning": "勉",
+    "japanese": "勉",
+    "reading": "to make effortsべんつと",
+    "meaning": "to make effortsべんつと",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40977,9 +40961,9 @@
   },
   {
     "id": "minna-1-1-1464695479918",
-    "japanese": "strong<div>きょう、ごう</div><div>つよ</div>",
-    "reading": "strong<div>きょう、ごう</div><div>つよ</div>",
-    "meaning": "強",
+    "japanese": "強",
+    "reading": "きょう、ごうつよ",
+    "meaning": "strong",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -40993,9 +40977,9 @@
   },
   {
     "id": "minna-1-1-1464695525421",
-    "japanese": "to exist<div>ゆう</div><div>あ</div>",
-    "reading": "to exist<div>ゆう</div><div>あ</div>",
-    "meaning": "有",
+    "japanese": "有",
+    "reading": "to existゆうあ",
+    "meaning": "to existゆうあ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41009,9 +40993,9 @@
   },
   {
     "id": "minna-1-1-1464695549736",
-    "japanese": "travel<div>りょ</div><div>たび</div>",
-    "reading": "travel<div>りょ</div><div>たび</div>",
-    "meaning": "旅",
+    "japanese": "旅",
+    "reading": "りょたび",
+    "meaning": "travel",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41025,9 +41009,9 @@
   },
   {
     "id": "minna-1-1-1464695573289",
-    "japanese": "ancient times<div><br /><div>むかし</div></div>",
-    "reading": "ancient times<div><br /><div>むかし</div></div>",
-    "meaning": "昔",
+    "japanese": "昔",
+    "reading": "ancient timesむかし",
+    "meaning": "ancient timesむかし",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41041,9 +41025,9 @@
   },
   {
     "id": "minna-1-1-1464695617243",
-    "japanese": "repitition symbol<br /><div><br /></div><div><br /></div>",
-    "reading": "repitition symbol<br /><div><br /></div><div><br /></div>",
-    "meaning": "々",
+    "japanese": "々",
+    "reading": "repitition symbol",
+    "meaning": "repitition symbol",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41057,9 +41041,9 @@
   },
   {
     "id": "minna-1-1-1464695659515",
-    "japanese": "God<div>じん、しん、こう</div><div>かみ</div>",
-    "reading": "God<div>じん、しん、こう</div><div>かみ</div>",
-    "meaning": "神",
+    "japanese": "神",
+    "reading": "じん、しん、こうかみ",
+    "meaning": "God",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41073,9 +41057,9 @@
   },
   {
     "id": "minna-1-1-1464695681472",
-    "japanese": "early<div>そう</div><div>はや</div>",
-    "reading": "early<div>そう</div><div>はや</div>",
-    "meaning": "早",
+    "japanese": "早",
+    "reading": "そうはや",
+    "meaning": "early",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41089,9 +41073,9 @@
   },
   {
     "id": "minna-1-1-1464695708453",
-    "japanese": "to get up<div>き</div><div>お</div>",
-    "reading": "to get up<div>き</div><div>お</div>",
-    "meaning": "起",
+    "japanese": "起",
+    "reading": "to get upきお",
+    "meaning": "to get upきお",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41105,9 +41089,9 @@
   },
   {
     "id": "minna-1-1-1464695728039",
-    "japanese": "cow<div>ぎゅう</div><div>うし</div>",
-    "reading": "cow<div>ぎゅう</div><div>うし</div>",
-    "meaning": "牛",
+    "japanese": "牛",
+    "reading": "ぎゅううし",
+    "meaning": "cow",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41121,9 +41105,9 @@
   },
   {
     "id": "minna-1-1-1464695749557",
-    "japanese": "to use<div>し</div><div>つか</div>",
-    "reading": "to use<div>し</div><div>つか</div>",
-    "meaning": "使",
+    "japanese": "使",
+    "reading": "to useしつか",
+    "meaning": "to useしつか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41137,8 +41121,8 @@
   },
   {
     "id": "minna-1-1-1464695784343",
-    "japanese": "to work<div>どう</div><div>はたら、ばたら</div>",
-    "reading": "to work<div>どう</div><div>はたら、ばたら</div>",
+    "japanese": "to workどうはたら、ばたら",
+    "reading": "to workどうはたら、ばたら",
     "meaning": "働",
     "jlptLevel": "N5",
     "partOfSpeech": [],
@@ -41153,9 +41137,9 @@
   },
   {
     "id": "minna-1-1-1464695873208",
-    "japanese": "to link, to lead<div>れん</div><div>つ</div>",
-    "reading": "to link, to lead<div>れん</div><div>つ</div>",
-    "meaning": "連",
+    "japanese": "連",
+    "reading": "to link, to leadれんつ",
+    "meaning": "to link, to leadれんつ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41169,9 +41153,9 @@
   },
   {
     "id": "minna-1-1-1464695894727",
-    "japanese": "to separate<div>べつ</div><div>わか</div>",
-    "reading": "to separate<div>べつ</div><div>わか</div>",
-    "meaning": "別",
+    "japanese": "別",
+    "reading": "to separateべつわか",
+    "meaning": "to separateべつわか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41185,9 +41169,9 @@
   },
   {
     "id": "minna-1-1-1464695925523",
-    "japanese": "time, degrees<div>ど</div><div><br /></div>",
-    "reading": "time, degrees<div>ど</div><div><br /></div>",
-    "meaning": "度",
+    "japanese": "度",
+    "reading": "time, degreesど",
+    "meaning": "time, degreesど",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41201,9 +41185,9 @@
   },
   {
     "id": "minna-1-1-1464695944424",
-    "japanese": "red<div>せき</div><div>あか</div>",
-    "reading": "red<div>せき</div><div>あか</div>",
-    "meaning": "赤",
+    "japanese": "赤",
+    "reading": "せきあか",
+    "meaning": "red",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41217,9 +41201,9 @@
   },
   {
     "id": "minna-1-1-1464695961940",
-    "japanese": "blue<div>せい</div><div>あお</div>",
-    "reading": "blue<div>せい</div><div>あお</div>",
-    "meaning": "青",
+    "japanese": "青",
+    "reading": "せいあお",
+    "meaning": "blue",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41233,9 +41217,9 @@
   },
   {
     "id": "minna-1-1-1464695990984",
-    "japanese": "colour<div>しき、しょく</div><div>いろ</div>",
-    "reading": "colour<div>しき、しょく</div><div>いろ</div>",
-    "meaning": "色",
+    "japanese": "色",
+    "reading": "しき、しょくいろ",
+    "meaning": "colour",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41249,9 +41233,9 @@
   },
   {
     "id": "minna-1-1-1464697044579",
-    "japanese": "thing tangible<div>ぶつ</div><div>もの</div>",
-    "reading": "thing tangible<div>ぶつ</div><div>もの</div>",
-    "meaning": "物",
+    "japanese": "物",
+    "reading": "thing tangibleぶつもの",
+    "meaning": "thing tangibleぶつもの",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41265,9 +41249,9 @@
   },
   {
     "id": "minna-1-1-1464697064471",
-    "japanese": "bird<div>ちょう</div><div>とり</div>",
-    "reading": "bird<div>ちょう</div><div>とり</div>",
-    "meaning": "鳥",
+    "japanese": "鳥",
+    "reading": "ちょうとり",
+    "meaning": "bird",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41281,9 +41265,9 @@
   },
   {
     "id": "minna-1-1-1464697150661",
-    "japanese": "ingredients, fare<div>りょう</div><div><br /></div>",
-    "reading": "ingredients, fare<div>りょう</div><div><br /></div>",
-    "meaning": "料",
+    "japanese": "料",
+    "reading": "ingredients, fareりょう",
+    "meaning": "ingredients, fareりょう",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41297,9 +41281,9 @@
   },
   {
     "id": "minna-1-1-1464697181475",
-    "japanese": "reason<div>り</div><div><br /></div>",
-    "reading": "reason<div>り</div><div><br /></div>",
-    "meaning": "理",
+    "japanese": "理",
+    "reading": "り",
+    "meaning": "reason",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41313,9 +41297,9 @@
   },
   {
     "id": "minna-1-1-1464697214966",
-    "japanese": "special<div>とく、とっ</div><div><br /></div>",
-    "reading": "special<div>とく、とっ</div><div><br /></div>",
-    "meaning": "特",
+    "japanese": "特",
+    "reading": "とく、とっ",
+    "meaning": "special",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41329,9 +41313,9 @@
   },
   {
     "id": "minna-1-1-1464697280538",
-    "japanese": "cheap, ease<div>あん</div><div>やす</div>",
-    "reading": "cheap, ease<div>あん</div><div>やす</div>",
-    "meaning": "安",
+    "japanese": "安",
+    "reading": "cheap, easeあんやす",
+    "meaning": "cheap, easeあんやす",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41345,9 +41329,9 @@
   },
   {
     "id": "minna-1-1-1464697322605",
-    "japanese": "food, cooked rice<div>はん</div><div><br /></div>",
-    "reading": "food, cooked rice<div>はん</div><div><br /></div>",
-    "meaning": "飯",
+    "japanese": "飯",
+    "reading": "food, cooked riceはん",
+    "meaning": "food, cooked riceはん",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41361,9 +41345,9 @@
   },
   {
     "id": "minna-1-1-1464697348920",
-    "japanese": "meat<div>にく</div><div><br /></div>",
-    "reading": "meat<div>にく</div><div><br /></div>",
-    "meaning": "肉",
+    "japanese": "肉",
+    "reading": "にく",
+    "meaning": "meat",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41377,9 +41361,9 @@
   },
   {
     "id": "minna-1-1-1464697381440",
-    "japanese": "bad, wrong<div>あく</div><div>わる</div>",
-    "reading": "bad, wrong<div>あく</div><div>わる</div>",
-    "meaning": "悪",
+    "japanese": "悪",
+    "reading": "bad, wrongあくわる",
+    "meaning": "bad, wrongあくわる",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41393,9 +41377,9 @@
   },
   {
     "id": "minna-1-1-1464697398092",
-    "japanese": "body<div>たい</div><div>からだ</div>",
-    "reading": "body<div>たい</div><div>からだ</div>",
-    "meaning": "体",
+    "japanese": "体",
+    "reading": "たいからだ",
+    "meaning": "body",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41409,9 +41393,9 @@
   },
   {
     "id": "minna-1-1-1464697452909",
-    "japanese": "sky, empty<div>くう</div><div>そら、あ、から</div>",
-    "reading": "sky, empty<div>くう</div><div>そら、あ、から</div>",
-    "meaning": "空",
+    "japanese": "空",
+    "reading": "sky, emptyくうそら、あ、から",
+    "meaning": "sky, emptyくうそら、あ、から",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41425,9 +41409,9 @@
   },
   {
     "id": "minna-1-1-1464697487250",
-    "japanese": "port, harbour<div>こう</div><div>みなと</div>",
-    "reading": "port, harbour<div>こう</div><div>みなと</div>",
-    "meaning": "港",
+    "japanese": "港",
+    "reading": "port, harbourこうみなと",
+    "meaning": "port, harbourこうみなと",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41441,9 +41425,9 @@
   },
   {
     "id": "minna-1-1-1464697532723",
-    "japanese": "to arrive/reach, to wear<div>ちゃく</div><div>つ、き</div>",
-    "reading": "to arrive/reach, to wear<div>ちゃく</div><div>つ、き</div>",
-    "meaning": "着",
+    "japanese": "着",
+    "reading": "to arrive/reach, to wearちゃくつ、き",
+    "meaning": "to arrive/reach, to wearちゃくつ、き",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41457,9 +41441,9 @@
   },
   {
     "id": "minna-1-1-1464697551609",
-    "japanese": "same<div>どう</div><div>おな</div>",
-    "reading": "same<div>どう</div><div>おな</div>",
-    "meaning": "同",
+    "japanese": "同",
+    "reading": "どうおな",
+    "meaning": "same",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41473,9 +41457,9 @@
   },
   {
     "id": "minna-1-1-1464697563397",
-    "japanese": "sea<div>かい</div><div>うみ</div>",
-    "reading": "sea<div>かい</div><div>うみ</div>",
-    "meaning": "海",
+    "japanese": "海",
+    "reading": "かいうみ",
+    "meaning": "sea",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41489,9 +41473,9 @@
   },
   {
     "id": "minna-1-1-1464697594147",
-    "japanese": "noon, daytime<div>ちゅう</div><div>ひる</div>",
-    "reading": "noon, daytime<div>ちゅう</div><div>ひる</div>",
-    "meaning": "昼",
+    "japanese": "昼",
+    "reading": "noon, daytimeちゅうひる",
+    "meaning": "noon, daytimeちゅうひる",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41505,9 +41489,9 @@
   },
   {
     "id": "minna-1-1-1464697616428",
-    "japanese": "he<div><br /><div>かれ、かの</div></div>",
-    "reading": "he<div><br /><div>かれ、かの</div></div>",
-    "meaning": "彼",
+    "japanese": "彼",
+    "reading": "かれ、かの",
+    "meaning": "he",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41521,9 +41505,9 @@
   },
   {
     "id": "minna-1-1-1464697668518",
-    "japanese": "age, replace<div>だい</div><div>か</div>",
-    "reading": "age, replace<div>だい</div><div>か</div>",
-    "meaning": "代",
+    "japanese": "代",
+    "reading": "age, replaceだいか",
+    "meaning": "age, replaceだいか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41537,9 +41521,9 @@
   },
   {
     "id": "minna-1-1-1464697743060",
-    "japanese": "to stay, to keep<div>りゅう、る</div><div><br /></div>",
-    "reading": "to stay, to keep<div>りゅう、る</div><div><br /></div>",
-    "meaning": "留",
+    "japanese": "留",
+    "reading": "to stay, to keepりゅう、る",
+    "meaning": "to stay, to keepりゅう、る",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41553,9 +41537,9 @@
   },
   {
     "id": "minna-1-1-1464697768235",
-    "japanese": "family<div>ぞく</div><div><br /></div>",
-    "reading": "family<div>ぞく</div><div><br /></div>",
-    "meaning": "族",
+    "japanese": "族",
+    "reading": "ぞく",
+    "meaning": "family",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41569,9 +41553,9 @@
   },
   {
     "id": "minna-1-1-1464697805748",
-    "japanese": "parent, intimacy<div>しん</div><div>おや、した</div>",
-    "reading": "parent, intimacy<div>しん</div><div>おや、した</div>",
-    "meaning": "親",
+    "japanese": "親",
+    "reading": "parent, intimacyしんおや、した",
+    "meaning": "parent, intimacyしんおや、した",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41585,8 +41569,8 @@
   },
   {
     "id": "minna-1-1-1464697838923",
-    "japanese": "to cut<div>せつ</div><div>き、きっ</div>",
-    "reading": "to cut<div>せつ</div><div>き、きっ</div>",
+    "japanese": "to cutせつき、きっ",
+    "reading": "to cutせつき、きっ",
     "meaning": "切",
     "jlptLevel": "N5",
     "partOfSpeech": [],
@@ -41601,9 +41585,9 @@
   },
   {
     "id": "minna-1-1-1464697868436",
-    "japanese": "English, excellent<div>えい</div><div><br /></div>",
-    "reading": "English, excellent<div>えい</div><div><br /></div>",
-    "meaning": "英",
+    "japanese": "英",
+    "reading": "English, excellentえい",
+    "meaning": "English, excellentえい",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41617,9 +41601,9 @@
   },
   {
     "id": "minna-1-1-1464697887595",
-    "japanese": "shop<div>てん</div><div>みせ</div>",
-    "reading": "shop<div>てん</div><div>みせ</div>",
-    "meaning": "店",
+    "japanese": "店",
+    "reading": "てんみせ",
+    "meaning": "shop",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41633,9 +41617,9 @@
   },
   {
     "id": "minna-1-1-1464697940457",
-    "japanese": "past,to leave<div>きょ、こ</div><div>さ</div>",
-    "reading": "past,to leave<div>きょ、こ</div><div>さ</div>",
-    "meaning": "去",
+    "japanese": "去",
+    "reading": "past,to leaveきょ、こさ",
+    "meaning": "past,to leaveきょ、こさ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41649,9 +41633,9 @@
   },
   {
     "id": "minna-1-1-1464697968017",
-    "japanese": "to hurry, emergency<div>きゅう</div><div>いそ</div>",
-    "reading": "to hurry, emergency<div>きゅう</div><div>いそ</div>",
-    "meaning": "急",
+    "japanese": "急",
+    "reading": "to hurry, emergencyきゅういそ",
+    "meaning": "to hurry, emergencyきゅういそ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41665,9 +41649,9 @@
   },
   {
     "id": "minna-1-1-1464697990442",
-    "japanese": "to ride<div>じょう</div><div>の</div>",
-    "reading": "to ride<div>じょう</div><div>の</div>",
-    "meaning": "乗",
+    "japanese": "乗",
+    "reading": "to rideじょうの",
+    "meaning": "to rideじょうの",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41681,9 +41665,9 @@
   },
   {
     "id": "minna-1-1-1464698024234",
-    "japanese": "to hit<div>とう</div><div>あ</div>",
-    "reading": "to hit<div>とう</div><div>あ</div>",
-    "meaning": "当",
+    "japanese": "当",
+    "reading": "to hitとうあ",
+    "meaning": "to hitとうあ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41697,9 +41681,9 @@
   },
   {
     "id": "minna-1-1-1464698045710",
-    "japanese": "sound<div>おん</div><div>おと、ね</div>",
-    "reading": "sound<div>おん</div><div>おと、ね</div>",
-    "meaning": "音",
+    "japanese": "音",
+    "reading": "おんおと、ね",
+    "meaning": "sound",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41713,9 +41697,9 @@
   },
   {
     "id": "minna-1-1-1464698088258",
-    "japanese": "pleasure<div>がく、がっ、らく</div><div>たの</div>",
-    "reading": "pleasure<div>がく、がっ、らく</div><div>たの</div>",
-    "meaning": "楽",
+    "japanese": "楽",
+    "reading": "がく、がっ、らくたの",
+    "meaning": "pleasure",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41729,9 +41713,9 @@
   },
   {
     "id": "minna-1-1-1464698104764",
-    "japanese": "doctor, medicine<div>い</div><div><br /></div>",
-    "reading": "doctor, medicine<div>い</div><div><br /></div>",
-    "meaning": "医",
+    "japanese": "医",
+    "reading": "doctor, medicineい",
+    "meaning": "doctor, medicineい",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41745,9 +41729,9 @@
   },
   {
     "id": "minna-1-1-1464698129463",
-    "japanese": "person<div>しゃ</div><div>もの</div>",
-    "reading": "person<div>しゃ</div><div>もの</div>",
-    "meaning": "者",
+    "japanese": "者",
+    "reading": "しゃもの",
+    "meaning": "person",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41761,9 +41745,9 @@
   },
   {
     "id": "minna-1-1-1464698153271",
-    "japanese": "death, to die<div>し</div><div>し</div>",
-    "reading": "death, to die<div>し</div><div>し</div>",
-    "meaning": "死",
+    "japanese": "死",
+    "reading": "death, to dieしし",
+    "meaning": "death, to dieしし",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41777,9 +41761,9 @@
   },
   {
     "id": "minna-1-1-1464698179112",
-    "japanese": "mind, meaning<div>い</div><div><br /></div>",
-    "reading": "mind, meaning<div>い</div><div><br /></div>",
-    "meaning": "意",
+    "japanese": "意",
+    "reading": "mind, meaningい",
+    "meaning": "mind, meaningい",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41793,9 +41777,9 @@
   },
   {
     "id": "minna-1-1-1464698224971",
-    "japanese": "flavour, tastes<div>み</div><div>あじ</div>",
-    "reading": "flavour, tastes<div>み</div><div>あじ</div>",
-    "meaning": "味",
+    "japanese": "味",
+    "reading": "flavour, tastesみあじ",
+    "meaning": "flavour, tastesみあじ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41809,9 +41793,9 @@
   },
   {
     "id": "minna-1-1-1464698332155",
-    "japanese": "to pour, to shed tears<div>ちゅう</div><div>そそ</div>",
-    "reading": "to pour, to shed tears<div>ちゅう</div><div>そそ</div>",
-    "meaning": "注",
+    "japanese": "注",
+    "reading": "to pour, to shed tearsちゅうそそ",
+    "meaning": "to pour, to shed tearsちゅうそそ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41825,9 +41809,9 @@
   },
   {
     "id": "minna-1-1-1464698355548",
-    "japanese": "summer<div>か</div><div>なつ</div>",
-    "reading": "summer<div>か</div><div>なつ</div>",
-    "meaning": "夏",
+    "japanese": "夏",
+    "reading": "かなつ",
+    "meaning": "summer",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41841,9 +41825,9 @@
   },
   {
     "id": "minna-1-1-1464698390751",
-    "japanese": "fish<div>ぎょ</div><div>さかな、うお</div>",
-    "reading": "fish<div>ぎょ</div><div>さかな、うお</div>",
-    "meaning": "魚",
+    "japanese": "魚",
+    "reading": "ぎょさかな、うお",
+    "meaning": "fish",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41857,9 +41841,9 @@
   },
   {
     "id": "minna-1-1-1464698409902",
-    "japanese": "temple<div>じ</div><div>てら、でら</div>",
-    "reading": "temple<div>じ</div><div>てら、でら</div>",
-    "meaning": "寺",
+    "japanese": "寺",
+    "reading": "じてら、でら",
+    "meaning": "temple",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41873,9 +41857,9 @@
   },
   {
     "id": "minna-1-1-1464698440557",
-    "japanese": "wide, spacious<div>こう</div><div>ひろ</div>",
-    "reading": "wide, spacious<div>こう</div><div>ひろ</div>",
-    "meaning": "広",
+    "japanese": "広",
+    "reading": "wide, spaciousこうひろ",
+    "meaning": "wide, spaciousこうひろ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41889,9 +41873,9 @@
   },
   {
     "id": "minna-1-1-1464698493225",
-    "japanese": "to roll<div>てん</div><div>ころ</div>",
-    "reading": "to roll<div>てん</div><div>ころ</div>",
-    "meaning": "転",
+    "japanese": "転",
+    "reading": "to rollてんころ",
+    "meaning": "to rollてんころ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41905,9 +41889,9 @@
   },
   {
     "id": "minna-1-1-1464698542961",
-    "japanese": "to borrow<div>しゃく、しゃっ</div><div>か</div>",
-    "reading": "to borrow<div>しゃく、しゃっ</div><div>か</div>",
-    "meaning": "借",
+    "japanese": "借",
+    "reading": "to borrowしゃく、しゃっか",
+    "meaning": "to borrowしゃく、しゃっか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41921,9 +41905,9 @@
   },
   {
     "id": "minna-1-1-1464698558960",
-    "japanese": "to run<div>そう</div><div>はし</div>",
-    "reading": "to run<div>そう</div><div>はし</div>",
-    "meaning": "走",
+    "japanese": "走",
+    "reading": "to runそうはし",
+    "meaning": "to runそうはし",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41937,9 +41921,9 @@
   },
   {
     "id": "minna-1-1-1464698589593",
-    "japanese": "to build<div>けん</div><div>たて、た</div>",
-    "reading": "to build<div>けん</div><div>たて、た</div>",
-    "meaning": "建",
+    "japanese": "建",
+    "reading": "to buildけんたて、た",
+    "meaning": "to buildけんたて、た",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41953,9 +41937,9 @@
   },
   {
     "id": "minna-1-1-1464698611766",
-    "japanese": "ground<div>ち、じ</div><div><br /></div>",
-    "reading": "ground<div>ち、じ</div><div><br /></div>",
-    "meaning": "地",
+    "japanese": "地",
+    "reading": "ち、じ",
+    "meaning": "ground",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41969,9 +41953,9 @@
   },
   {
     "id": "minna-1-1-1464698655762",
-    "japanese": "place<div>じょう</div><div>ば</div>",
-    "reading": "place<div>じょう</div><div>ば</div>",
-    "meaning": "場",
+    "japanese": "場",
+    "reading": "じょうば",
+    "meaning": "place",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -41985,9 +41969,9 @@
   },
   {
     "id": "minna-1-1-1464698675425",
-    "japanese": "foot, leg<div>そく</div><div>あし、た</div>",
-    "reading": "foot, leg<div>そく</div><div>あし、た</div>",
-    "meaning": "足",
+    "japanese": "足",
+    "reading": "foot, legそくあし、た",
+    "meaning": "foot, legそくあし、た",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42001,9 +41985,9 @@
   },
   {
     "id": "minna-1-1-1464698729848",
-    "japanese": "to go through, to commute<div>つう</div><div>とお、かよ</div>",
-    "reading": "to go through, to commute<div>つう</div><div>とお、かよ</div>",
-    "meaning": "通",
+    "japanese": "通",
+    "reading": "to go through, to commuteつうとお、かよ",
+    "meaning": "to go through, to commuteつうとお、かよ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42017,9 +42001,9 @@
   },
   {
     "id": "minna-1-1-1464698842251",
-    "japanese": "companion, offer<div>きょう</div><div>ども、そな</div>",
-    "reading": "companion, offer<div>きょう</div><div>ども、そな</div>",
-    "meaning": "供",
+    "japanese": "供",
+    "reading": "companion, offerきょうども、そな",
+    "meaning": "companion, offerきょうども、そな",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42033,9 +42017,9 @@
   },
   {
     "id": "minna-1-1-1464698863208",
-    "japanese": "generation<div>せ、せい</div><div>よ</div>",
-    "reading": "generation<div>せ、せい</div><div>よ</div>",
-    "meaning": "世",
+    "japanese": "世",
+    "reading": "せ、せいよ",
+    "meaning": "generation",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42049,9 +42033,9 @@
   },
   {
     "id": "minna-1-1-1464698913380",
-    "japanese": "world, view, limit<div>かい</div><div><br /></div>",
-    "reading": "world, view, limit<div>かい</div><div><br /></div>",
-    "meaning": "界",
+    "japanese": "界",
+    "reading": "world, view, limitかい",
+    "meaning": "world, view, limitかい",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42065,9 +42049,9 @@
   },
   {
     "id": "minna-1-1-1464698940390",
-    "japanese": "all<div>ぜん</div><div>まった、すべ</div>",
-    "reading": "all<div>ぜん</div><div>まった、すべ</div>",
-    "meaning": "全",
+    "japanese": "全",
+    "reading": "ぜんまった、すべ",
+    "meaning": "all",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42081,9 +42065,9 @@
   },
   {
     "id": "minna-1-1-1464698975764",
-    "japanese": "part, section<div>ぶ、へ</div><div><br /></div>",
-    "reading": "part, section<div>ぶ、へ</div><div><br /></div>",
-    "meaning": "部",
+    "japanese": "部",
+    "reading": "part, sectionぶ、へ",
+    "meaning": "part, sectionぶ、へ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42097,9 +42081,9 @@
   },
   {
     "id": "minna-1-1-1464699001040",
-    "japanese": "to begin<div>し</div><div>はじ</div>",
-    "reading": "to begin<div>し</div><div>はじ</div>",
-    "meaning": "始",
+    "japanese": "始",
+    "reading": "to beginしはじ",
+    "meaning": "to beginしはじ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42113,9 +42097,9 @@
   },
   {
     "id": "minna-1-1-1464699014162",
-    "japanese": "week<div>しゅう</div><div><br /></div>",
-    "reading": "week<div>しゅう</div><div><br /></div>",
-    "meaning": "週",
+    "japanese": "週",
+    "reading": "しゅう",
+    "meaning": "week",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42129,9 +42113,9 @@
   },
   {
     "id": "minna-1-1-1464699061999",
-    "japanese": "by means of, compared with<div>い</div><div><br /></div>",
-    "reading": "by means of, compared with<div>い</div><div><br /></div>",
-    "meaning": "以",
+    "japanese": "以",
+    "reading": "by means of, compared withい",
+    "meaning": "by means of, compared withい",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42145,9 +42129,9 @@
   },
   {
     "id": "minna-1-1-1464699111786",
-    "japanese": "to think, consider, idea<div>こう</div><div>かんが</div>",
-    "reading": "to think, consider, idea<div>こう</div><div>かんが</div>",
-    "meaning": "考",
+    "japanese": "考",
+    "reading": "to think, consider, ideaこうかんが",
+    "meaning": "to think, consider, ideaこうかんが",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42161,9 +42145,9 @@
   },
   {
     "id": "minna-1-1-1464699139602",
-    "japanese": "to open<div>かい</div><div>あ、ひら</div>",
-    "reading": "to open<div>かい</div><div>あ、ひら</div>",
-    "meaning": "開",
+    "japanese": "開",
+    "reading": "to openかいあ、ひら",
+    "meaning": "to openかいあ、ひら",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42177,9 +42161,9 @@
   },
   {
     "id": "minna-1-1-1464699179599",
-    "japanese": "shop, house<div>おく</div><div>や</div>",
-    "reading": "shop, house<div>おく</div><div>や</div>",
-    "meaning": "屋",
+    "japanese": "屋",
+    "reading": "shop, houseおくや",
+    "meaning": "shop, houseおくや",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42193,9 +42177,9 @@
   },
   {
     "id": "minna-1-1-1464699244576",
-    "japanese": "direction, way, person<div>ほう</div><div>かた、がた</div>",
-    "reading": "direction, way, person<div>ほう</div><div>かた、がた</div>",
-    "meaning": "方",
+    "japanese": "方",
+    "reading": "direction, way, personほうかた、がた",
+    "meaning": "direction, way, personほうかた、がた",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42209,9 +42193,9 @@
   },
   {
     "id": "minna-1-1-1464699277945",
-    "japanese": "transport, luck<div>うん</div><div>はこ</div>",
-    "reading": "transport, luck<div>うん</div><div>はこ</div>",
-    "meaning": "運",
+    "japanese": "運",
+    "reading": "transport, luckうんはこ",
+    "meaning": "transport, luckうんはこ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42225,9 +42209,9 @@
   },
   {
     "id": "minna-1-1-1464699305018",
-    "japanese": "to move<div>どう</div><div>うご</div>",
-    "reading": "to move<div>どう</div><div>うご</div>",
-    "meaning": "動",
+    "japanese": "動",
+    "reading": "to moveどううご",
+    "meaning": "to moveどううご",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42241,9 +42225,9 @@
   },
   {
     "id": "minna-1-1-1464699327822",
-    "japanese": "to teach<div>きょう</div><div>おし</div>",
-    "reading": "to teach<div>きょう</div><div>おし</div>",
-    "meaning": "教",
+    "japanese": "教",
+    "reading": "to teachきょうおし",
+    "meaning": "to teachきょうおし",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42257,9 +42241,9 @@
   },
   {
     "id": "minna-1-1-1464699351564",
-    "japanese": "room<div>しつ</div><div><br /></div>",
-    "reading": "room<div>しつ</div><div><br /></div>",
-    "meaning": "室",
+    "japanese": "室",
+    "reading": "しつ",
+    "meaning": "room",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42273,9 +42257,9 @@
   },
   {
     "id": "minna-1-1-1464699401636",
-    "japanese": "year, age<div>さい、せい</div><div><br /></div>",
-    "reading": "year, age<div>さい、せい</div><div><br /></div>",
-    "meaning": "歳",
+    "japanese": "歳",
+    "reading": "year, ageさい、せい",
+    "meaning": "year, ageさい、せい",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42289,9 +42273,9 @@
   },
   {
     "id": "minna-1-1-1464699418813",
-    "japanese": "to learn<div>しゅう</div><div>なら</div>",
-    "reading": "to learn<div>しゅう</div><div>なら</div>",
-    "meaning": "習",
+    "japanese": "習",
+    "reading": "to learnしゅうなら",
+    "meaning": "to learnしゅうなら",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42305,9 +42289,9 @@
   },
   {
     "id": "minna-1-1-1464699449936",
-    "japanese": "main, lord, master<div>しゅ</div><div>おも、ぬし</div>",
-    "reading": "main, lord, master<div>しゅ</div><div>おも、ぬし</div>",
-    "meaning": "主",
+    "japanese": "主",
+    "reading": "main, lord, masterしゅおも、ぬし",
+    "meaning": "main, lord, masterしゅおも、ぬし",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42321,9 +42305,9 @@
   },
   {
     "id": "minna-1-1-1464699505515",
-    "japanese": "to tie, to join<div>けっ、けつ</div><div>むす</div>",
-    "reading": "to tie, to join<div>けっ、けつ</div><div>むす</div>",
-    "meaning": "結",
+    "japanese": "結",
+    "reading": "to tie, to joinけっ、けつむす",
+    "meaning": "to tie, to joinけっ、けつむす",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42337,9 +42321,9 @@
   },
   {
     "id": "minna-1-1-1464699546891",
-    "japanese": "marriage<div>こん</div><div><br /></div>",
-    "reading": "marriage<div>こん</div><div><br /></div>",
-    "meaning": "婚",
+    "japanese": "婚",
+    "reading": "こん",
+    "meaning": "marriage",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42353,9 +42337,9 @@
   },
   {
     "id": "minna-1-1-1464699662350",
-    "japanese": "to collect, to gather<div>しゅう</div><div>あつ</div>",
-    "reading": "to collect, to gather<div>しゅう</div><div>あつ</div>",
-    "meaning": "集",
+    "japanese": "集",
+    "reading": "to collect, to gatherしゅうあつ",
+    "meaning": "to collect, to gatherしゅうあつ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42369,9 +42353,9 @@
   },
   {
     "id": "minna-1-1-1464699725488",
-    "japanese": "to start, to reveal<div>はっ、はつ、ぱつ</div><div><br /></div>",
-    "reading": "to start, to reveal<div>はっ、はつ、ぱつ</div><div><br /></div>",
-    "meaning": "発",
+    "japanese": "発",
+    "reading": "to start, to revealはっ、はつ、ぱつ",
+    "meaning": "to start, to revealはっ、はつ、ぱつ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42385,9 +42369,9 @@
   },
   {
     "id": "minna-1-1-1464699768473",
-    "japanese": "to express, to surface<div>ぴょう、ひょう</div><div>あらわ、おもて</div>",
-    "reading": "to express, to surface<div>ぴょう、ひょう</div><div>あらわ、おもて</div>",
-    "meaning": "表",
+    "japanese": "表",
+    "reading": "to express, to surfaceぴょう、ひょうあらわ、おもて",
+    "meaning": "to express, to surfaceぴょう、ひょうあらわ、おもて",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42401,9 +42385,9 @@
   },
   {
     "id": "minna-1-1-1464699807906",
-    "japanese": "goods, refinement<div>ひん</div><div>じな、しな</div>",
-    "reading": "goods, refinement<div>ひん</div><div>じな、しな</div>",
-    "meaning": "品",
+    "japanese": "品",
+    "reading": "goods, refinementひんじな、しな",
+    "meaning": "goods, refinementひんじな、しな",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42417,9 +42401,9 @@
   },
   {
     "id": "minna-1-1-1464699837307",
-    "japanese": "character, letter<div>じ</div><div><br /></div>",
-    "reading": "character, letter<div>じ</div><div><br /></div>",
-    "meaning": "字",
+    "japanese": "字",
+    "reading": "character, letterじ",
+    "meaning": "character, letterじ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42433,9 +42417,9 @@
   },
   {
     "id": "minna-1-1-1464699873096",
-    "japanese": "lively, active<div>かつ、かっ</div><div><br /></div>",
-    "reading": "lively, active<div>かつ、かっ</div><div><br /></div>",
-    "meaning": "活",
+    "japanese": "活",
+    "reading": "lively, activeかつ、かっ",
+    "meaning": "lively, activeかつ、かっ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42449,9 +42433,9 @@
   },
   {
     "id": "minna-1-1-1464699933040",
-    "japanese": "to copy, capture image<div>しゃ</div><div>うつ</div>",
-    "reading": "to copy, capture image<div>しゃ</div><div>うつ</div>",
-    "meaning": "写",
+    "japanese": "写",
+    "reading": "to copy, capture imageしゃうつ",
+    "meaning": "to copy, capture imageしゃうつ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42465,9 +42449,9 @@
   },
   {
     "id": "minna-1-1-1464700028880",
-    "japanese": "true, genuine<div>しん</div><div>ま</div>",
-    "reading": "true, genuine<div>しん</div><div>ま</div>",
-    "meaning": "真",
+    "japanese": "真",
+    "reading": "true, genuineしんま",
+    "meaning": "true, genuineしんま",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42481,9 +42465,9 @@
   },
   {
     "id": "minna-1-1-1464700056303",
-    "japanese": "to walk<div>ほ、ぽ</div><div>ある</div>",
-    "reading": "to walk<div>ほ、ぽ</div><div>ある</div>",
-    "meaning": "歩",
+    "japanese": "歩",
+    "reading": "to walkほ、ぽある",
+    "meaning": "to walkほ、ぽある",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42497,9 +42481,9 @@
   },
   {
     "id": "minna-1-1-1464700086096",
-    "japanese": "field<div>や</div><div>の</div>",
-    "reading": "field<div>や</div><div>の</div>",
-    "meaning": "野",
+    "japanese": "野",
+    "reading": "やの",
+    "meaning": "field",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42513,9 +42497,9 @@
   },
   {
     "id": "minna-1-1-1464700101630",
-    "japanese": "eye<div>もく</div><div>め</div>",
-    "reading": "eye<div>もく</div><div>め</div>",
-    "meaning": "目",
+    "japanese": "目",
+    "reading": "もくめ",
+    "meaning": "eye",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42529,9 +42513,9 @@
   },
   {
     "id": "minna-1-1-1464700138737",
-    "japanese": "target, -ish<div>てき</div><div>まと</div>",
-    "reading": "target, -ish<div>てき</div><div>まと</div>",
-    "meaning": "的",
+    "japanese": "的",
+    "reading": "target, -ishてきまと",
+    "meaning": "target, -ishてきまと",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42545,9 +42529,9 @@
   },
   {
     "id": "minna-1-1-1464700164877",
-    "japanese": "power<div>りょく、りき</div><div>ちから</div>",
-    "reading": "power<div>りょく、りき</div><div>ちから</div>",
-    "meaning": "力",
+    "japanese": "力",
+    "reading": "りょく、りきちから",
+    "meaning": "power",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42561,9 +42545,9 @@
   },
   {
     "id": "minna-1-1-1464700203382",
-    "japanese": "ocean, overseas, Western<div>よう</div><div><br /></div>",
-    "reading": "ocean, overseas, Western<div>よう</div><div><br /></div>",
-    "meaning": "洋",
+    "japanese": "洋",
+    "reading": "ocean, overseas, Westernよう",
+    "meaning": "ocean, overseas, Westernよう",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42577,9 +42561,9 @@
   },
   {
     "id": "minna-1-1-1464700221412",
-    "japanese": "clothes<div>ふく</div><div><br /></div>",
-    "reading": "clothes<div>ふく</div><div><br /></div>",
-    "meaning": "服",
+    "japanese": "服",
+    "reading": "ふく",
+    "meaning": "clothes",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42593,9 +42577,9 @@
   },
   {
     "id": "minna-1-1-1464700264583",
-    "japanese": "hall<div>どう</div><div><br /></div>",
-    "reading": "hall<div>どう</div><div><br /></div>",
-    "meaning": "堂",
+    "japanese": "堂",
+    "reading": "どう",
+    "meaning": "hall",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42609,9 +42593,9 @@
   },
   {
     "id": "minna-1-1-1464700296235",
-    "japanese": "to instruct<div>じゅ</div><div>さず</div>",
-    "reading": "to instruct<div>じゅ</div><div>さず</div>",
-    "meaning": "授",
+    "japanese": "授",
+    "reading": "to instructじゅさず",
+    "meaning": "to instructじゅさず",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42625,9 +42609,9 @@
   },
   {
     "id": "minna-1-1-1464700353727",
-    "japanese": "vocation, business<div>ぎょう</div><div><br /></div>",
-    "reading": "vocation, business<div>ぎょう</div><div><br /></div>",
-    "meaning": "業",
+    "japanese": "業",
+    "reading": "vocation, businessぎょう",
+    "meaning": "vocation, businessぎょう",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42641,9 +42625,9 @@
   },
   {
     "id": "minna-1-1-1464700401715",
-    "japanese": "test, to try<div>し</div><div>こころ</div>",
-    "reading": "test, to try<div>し</div><div>こころ</div>",
-    "meaning": "試",
+    "japanese": "試",
+    "reading": "test, to tryしこころ",
+    "meaning": "test, to tryしこころ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42657,9 +42641,9 @@
   },
   {
     "id": "minna-1-1-1464700457130",
-    "japanese": "to examine<div>けん</div><div><br /></div>",
-    "reading": "to examine<div>けん</div><div><br /></div>",
-    "meaning": "験",
+    "japanese": "験",
+    "reading": "to examineけん",
+    "meaning": "to examineけん",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42673,9 +42657,9 @@
   },
   {
     "id": "minna-1-1-1464700482198",
-    "japanese": "to lend, loan<div>たい</div><div>か</div>",
-    "reading": "to lend, loan<div>たい</div><div>か</div>",
-    "meaning": "貸",
+    "japanese": "貸",
+    "reading": "to lend, loanたいか",
+    "meaning": "to lend, loanたいか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42689,9 +42673,9 @@
   },
   {
     "id": "minna-1-1-1464700513464",
-    "japanese": "drawing, to devise<div>と、ず</div><div>はか</div>",
-    "reading": "drawing, to devise<div>と、ず</div><div>はか</div>",
-    "meaning": "図",
+    "japanese": "図",
+    "reading": "drawing, to deviseと、ずはか",
+    "meaning": "drawing, to deviseと、ずはか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42705,9 +42689,9 @@
   },
   {
     "id": "minna-1-1-1464700538345",
-    "japanese": "building, hall<div>かん</div><div><br /></div>",
-    "reading": "building, hall<div>かん</div><div><br /></div>",
-    "meaning": "館",
+    "japanese": "館",
+    "reading": "building, hallかん",
+    "meaning": "building, hallかん",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42721,9 +42705,9 @@
   },
   {
     "id": "minna-1-1-1464700584116",
-    "japanese": "end, over, last<div>しゅう</div><div>お</div>",
-    "reading": "end, over, last<div>しゅう</div><div>お</div>",
-    "meaning": "終",
+    "japanese": "終",
+    "reading": "end, over, lastしゅうお",
+    "meaning": "end, over, lastしゅうお",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42737,9 +42721,9 @@
   },
   {
     "id": "minna-1-1-1464700617184",
-    "japanese": "inn, to lodge in<div>しゅく</div><div>やど</div>",
-    "reading": "inn, to lodge in<div>しゅく</div><div>やど</div>",
-    "meaning": "宿",
+    "japanese": "宿",
+    "reading": "inn, to lodge inしゅくやど",
+    "meaning": "inn, to lodge inしゅくやど",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42753,9 +42737,9 @@
   },
   {
     "id": "minna-1-1-1464700644134",
-    "japanese": "title, topic<div>だい</div><div><br /></div>",
-    "reading": "title, topic<div>だい</div><div><br /></div>",
-    "meaning": "題",
+    "japanese": "題",
+    "reading": "title, topicだい",
+    "meaning": "title, topicだい",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42769,9 +42753,9 @@
   },
   {
     "id": "minna-1-1-1470880798889",
-    "japanese": "spring<div>しゅん</div><div>はる</div>",
-    "reading": "spring<div>しゅん</div><div>はる</div>",
-    "meaning": "春",
+    "japanese": "春",
+    "reading": "しゅんはる",
+    "meaning": "spring",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42785,9 +42769,9 @@
   },
   {
     "id": "minna-1-1-1470880827013",
-    "japanese": "autumn<div>しゅう</div><div>あき</div>",
-    "reading": "autumn<div>しゅう</div><div>あき</div>",
-    "meaning": "秋",
+    "japanese": "秋",
+    "reading": "しゅうあき",
+    "meaning": "autumn",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42801,9 +42785,9 @@
   },
   {
     "id": "minna-1-1-1470880851972",
-    "japanese": "winter<div>とう</div><div>ふゆ</div>",
-    "reading": "winter<div>とう</div><div>ふゆ</div>",
-    "meaning": "冬",
+    "japanese": "冬",
+    "reading": "とうふゆ",
+    "meaning": "winter",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42817,9 +42801,9 @@
   },
   {
     "id": "minna-1-1-1470880892699",
-    "japanese": "flower<div>か</div><div>はな、ばな</div>",
-    "reading": "flower<div>か</div><div>はな、ばな</div>",
-    "meaning": "花",
+    "japanese": "花",
+    "reading": "かはな、ばな",
+    "meaning": "flower",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42833,9 +42817,9 @@
   },
   {
     "id": "minna-1-1-1470880959403",
-    "japanese": "Mr, Mrs, condition<div>よう</div><div>さま</div>",
-    "reading": "Mr, Mrs, condition<div>よう</div><div>さま</div>",
-    "meaning": "様",
+    "japanese": "様",
+    "reading": "Mr, Mrs, conditionようさま",
+    "meaning": "Mr, Mrs, conditionようさま",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42849,9 +42833,9 @@
   },
   {
     "id": "minna-1-1-1470881001766",
-    "japanese": "negative, non-<div>ふ、ぶ</div><div><br /></div>",
-    "reading": "negative, non-<div>ふ、ぶ</div><div><br /></div>",
-    "meaning": "不",
+    "japanese": "不",
+    "reading": "negative, non-ふ、ぶ",
+    "meaning": "negative, non-ふ、ぶ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42865,9 +42849,9 @@
   },
   {
     "id": "minna-1-1-1470881027928",
-    "japanese": "older sister<div>し</div><div>あね、ねえ</div>",
-    "reading": "older sister<div>し</div><div>あね、ねえ</div>",
-    "meaning": "姉",
+    "japanese": "姉",
+    "reading": "older sisterしあね、ねえ",
+    "meaning": "older sisterしあね、ねえ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42881,9 +42865,9 @@
   },
   {
     "id": "minna-1-1-1470881069766",
-    "japanese": "older brother<div>きょう</div><div>あに、にい</div>",
-    "reading": "older brother<div>きょう</div><div>あに、にい</div>",
-    "meaning": "兄",
+    "japanese": "兄",
+    "reading": "older brotherきょうあに、にい",
+    "meaning": "older brotherきょうあに、にい",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42897,9 +42881,9 @@
   },
   {
     "id": "minna-1-1-1470881105884",
-    "japanese": "China<div>かん</div><div><br /></div>",
-    "reading": "China<div>かん</div><div><br /></div>",
-    "meaning": "漢",
+    "japanese": "漢",
+    "reading": "かん",
+    "meaning": "China",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42913,9 +42897,9 @@
   },
   {
     "id": "minna-1-1-1470881127712",
-    "japanese": "to graduate<div>そつ</div><div><br /></div>",
-    "reading": "to graduate<div>そつ</div><div><br /></div>",
-    "meaning": "卒",
+    "japanese": "卒",
+    "reading": "to graduateそつ",
+    "meaning": "to graduateそつ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42929,9 +42913,9 @@
   },
   {
     "id": "minna-1-1-1470881177784",
-    "japanese": "craft, construction<div>こう、く</div><div><br /></div>",
-    "reading": "craft, construction<div>こう、く</div><div><br /></div>",
-    "meaning": "工",
+    "japanese": "工",
+    "reading": "craft, constructionこう、く",
+    "meaning": "craft, constructionこう、く",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42945,9 +42929,9 @@
   },
   {
     "id": "minna-1-1-1470881231754",
-    "japanese": "to polish, study<div>けん</div><div>と</div>",
-    "reading": "to polish, study<div>けん</div><div>と</div>",
-    "meaning": "研",
+    "japanese": "研",
+    "reading": "to polish, studyけんと",
+    "meaning": "to polish, studyけんと",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42961,9 +42945,9 @@
   },
   {
     "id": "minna-1-1-1470881282723",
-    "japanese": "quality, matter<div>しつ、しち</div><div><br /></div>",
-    "reading": "quality, matter<div>しつ、しち</div><div><br /></div>",
-    "meaning": "質",
+    "japanese": "質",
+    "reading": "quality, matterしつ、しち",
+    "meaning": "quality, matterしつ、しち",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42977,9 +42961,9 @@
   },
   {
     "id": "minna-1-1-1470881405439",
-    "japanese": "question<div>もん</div><div>と</div>",
-    "reading": "question<div>もん</div><div>と</div>",
-    "meaning": "問",
+    "japanese": "問",
+    "reading": "もんと",
+    "meaning": "question",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -42993,9 +42977,9 @@
   },
   {
     "id": "minna-1-1-1470881443219",
-    "japanese": "many, much<div>た</div><div>おお</div>",
-    "reading": "many, much<div>た</div><div>おお</div>",
-    "meaning": "多",
+    "japanese": "多",
+    "reading": "many, muchたおお",
+    "meaning": "many, muchたおお",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43009,9 +42993,9 @@
   },
   {
     "id": "minna-1-1-1470891183628",
-    "japanese": "research<div>きゅう</div><div>きわ</div>",
-    "reading": "research<div>きゅう</div><div>きわ</div>",
-    "meaning": "究",
+    "japanese": "究",
+    "reading": "きゅうきわ",
+    "meaning": "research",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43025,9 +43009,9 @@
   },
   {
     "id": "minna-1-1-1472017458451",
-    "japanese": "plate<div><br /></div><div>さら、ざら</div>",
-    "reading": "plate<div><br /></div><div>さら、ざら</div>",
-    "meaning": "皿",
+    "japanese": "皿",
+    "reading": "さら、ざら",
+    "meaning": "plate",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43041,9 +43025,9 @@
   },
   {
     "id": "minna-1-1-1472017486097",
-    "japanese": "voice<div>せい</div><div>こえ</div>",
-    "reading": "voice<div>せい</div><div>こえ</div>",
-    "meaning": "声",
+    "japanese": "声",
+    "reading": "せいこえ",
+    "meaning": "voice",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43057,9 +43041,9 @@
   },
   {
     "id": "minna-1-1-1472017516062",
-    "japanese": "tea<div>ちゃ、さ</div><div><br /></div>",
-    "reading": "tea<div>ちゃ、さ</div><div><br /></div>",
-    "meaning": "茶",
+    "japanese": "茶",
+    "reading": "ちゃ、さ",
+    "meaning": "tea",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43073,9 +43057,9 @@
   },
   {
     "id": "minna-1-1-1472017548106",
-    "japanese": "to stop<div>し</div><div>と</div>",
-    "reading": "to stop<div>し</div><div>と</div>",
-    "meaning": "止",
+    "japanese": "止",
+    "reading": "to stopしと",
+    "meaning": "to stopしと",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43089,9 +43073,9 @@
   },
   {
     "id": "minna-1-1-1472017590789",
-    "japanese": "sheet of something<div>まい</div><div><br /></div>",
-    "reading": "sheet of something<div>まい</div><div><br /></div>",
-    "meaning": "枚",
+    "japanese": "枚",
+    "reading": "sheet of somethingまい",
+    "meaning": "sheet of somethingまい",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43105,9 +43089,9 @@
   },
   {
     "id": "minna-1-1-1472017623410",
-    "japanese": "both<div>りょう</div><div><br /></div>",
-    "reading": "both<div>りょう</div><div><br /></div>",
-    "meaning": "両",
+    "japanese": "両",
+    "reading": "りょう",
+    "meaning": "both",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43121,9 +43105,9 @@
   },
   {
     "id": "minna-1-1-1472017670616",
-    "japanese": "none<div>む、ぶ</div><div>な</div>",
-    "reading": "none<div>む、ぶ</div><div>な</div>",
-    "meaning": "無",
+    "japanese": "無",
+    "reading": "む、ぶな",
+    "meaning": "none",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43137,9 +43121,9 @@
   },
   {
     "id": "minna-1-1-1472017835560",
-    "japanese": "to pay<div><br /><div>はら、ばら</div></div>",
-    "reading": "to pay<div><br /><div>はら、ばら</div></div>",
-    "meaning": "払",
+    "japanese": "払",
+    "reading": "to payはら、ばら",
+    "meaning": "to payはら、ばら",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43153,9 +43137,9 @@
   },
   {
     "id": "minna-1-1-1472017910260",
-    "japanese": "heart, mind<div>しん</div><div>こころ</div>",
-    "reading": "heart, mind<div>しん</div><div>こころ</div>",
-    "meaning": "心",
+    "japanese": "心",
+    "reading": "heart, mindしんこころ",
+    "meaning": "heart, mindしんこころ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43169,9 +43153,9 @@
   },
   {
     "id": "minna-1-1-1472017970474",
-    "japanese": "to laugh<div>しょう</div><div>わら、え</div>",
-    "reading": "to laugh<div>しょう</div><div>わら、え</div>",
-    "meaning": "笑",
+    "japanese": "笑",
+    "reading": "to laughしょうわら、え",
+    "meaning": "to laughしょうわら、え",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43185,9 +43169,9 @@
   },
   {
     "id": "minna-1-1-1472018010128",
-    "japanese": "to discontinue<div>ぜっ、ぜつ</div><div>た</div>",
-    "reading": "to discontinue<div>ぜっ、ぜつ</div><div>た</div>",
-    "meaning": "絶",
+    "japanese": "絶",
+    "reading": "to discontinueぜっ、ぜつた",
+    "meaning": "to discontinueぜっ、ぜつた",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43201,9 +43185,9 @@
   },
   {
     "id": "minna-1-1-1472018039545",
-    "japanese": "opposite<div>たい</div><div>つい</div>",
-    "reading": "opposite<div>たい</div><div>つい</div>",
-    "meaning": "対",
+    "japanese": "対",
+    "reading": "たいつい",
+    "meaning": "opposite",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43217,9 +43201,9 @@
   },
   {
     "id": "minna-1-1-1472018073047",
-    "japanese": "pain<div>つう</div><div>いた</div>",
-    "reading": "pain<div>つう</div><div>いた</div>",
-    "meaning": "痛",
+    "japanese": "痛",
+    "reading": "つういた",
+    "meaning": "pain",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43233,9 +43217,9 @@
   },
   {
     "id": "minna-1-1-1472018110295",
-    "japanese": "utmost<div>さい</div><div>もっと</div>",
-    "reading": "utmost<div>さい</div><div>もっと</div>",
-    "meaning": "最",
+    "japanese": "最",
+    "reading": "さいもっと",
+    "meaning": "utmost",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43249,9 +43233,9 @@
   },
   {
     "id": "minna-1-1-1472018154534",
-    "japanese": "to continue<div>ぞく</div><div>つづ</div>",
-    "reading": "to continue<div>ぞく</div><div>つづ</div>",
-    "meaning": "続",
+    "japanese": "続",
+    "reading": "to continueぞくつづ",
+    "meaning": "to continueぞくつづ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43265,9 +43249,9 @@
   },
   {
     "id": "minna-1-1-1475123917035",
-    "japanese": "<div>to trust, to believe</div>しん<div><br /></div>",
-    "reading": "<div>to trust, to believe</div>しん<div><br /></div>",
-    "meaning": "信",
+    "japanese": "信",
+    "reading": "to trust, to believeしん",
+    "meaning": "to trust, to believeしん",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43281,9 +43265,9 @@
   },
   {
     "id": "minna-1-1-1475123951767",
-    "japanese": "to pass through<div>けい</div><div><br /></div>",
-    "reading": "to pass through<div>けい</div><div><br /></div>",
-    "meaning": "経",
+    "japanese": "経",
+    "reading": "to pass throughけい",
+    "meaning": "to pass throughけい",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43297,9 +43281,9 @@
   },
   {
     "id": "minna-1-1-1475123986082",
-    "japanese": "stand, number of machines<div>たい、だい</div><div><br /></div>",
-    "reading": "stand, number of machines<div>たい、だい</div><div><br /></div>",
-    "meaning": "台",
+    "japanese": "台",
+    "reading": "stand, number of machinesたい、だい",
+    "meaning": "stand, number of machinesたい、だい",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43313,9 +43297,9 @@
   },
   {
     "id": "minna-1-1-1475124005224",
-    "japanese": "wind<div>ふう、ふ</div><div>かぜ</div>",
-    "reading": "wind<div>ふう、ふ</div><div>かぜ</div>",
-    "meaning": "風",
+    "japanese": "風",
+    "reading": "ふう、ふかぜ",
+    "meaning": "wind",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43329,9 +43313,9 @@
   },
   {
     "id": "minna-1-1-1475124021521",
-    "japanese": "dog<div>けん</div><div>いぬ</div>",
-    "reading": "dog<div>けん</div><div>いぬ</div>",
-    "meaning": "犬",
+    "japanese": "犬",
+    "reading": "けんいぬ",
+    "meaning": "dog",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43345,9 +43329,9 @@
   },
   {
     "id": "minna-1-1-1475124073469",
-    "japanese": "heavy, to pile up<div>じゅう、ちょう</div><div>おも、かさ</div>",
-    "reading": "heavy, to pile up<div>じゅう、ちょう</div><div>おも、かさ</div>",
-    "meaning": "重",
+    "japanese": "重",
+    "reading": "heavy, to pile upじゅう、ちょうおも、かさ",
+    "meaning": "heavy, to pile upじゅう、ちょうおも、かさ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43361,9 +43345,9 @@
   },
   {
     "id": "minna-1-1-1475124114652",
-    "japanese": "first<div>しょ</div><div>はじ、はつ</div>",
-    "reading": "first<div>しょ</div><div>はじ、はつ</div>",
-    "meaning": "初",
+    "japanese": "初",
+    "reading": "しょはじ、はつ",
+    "meaning": "first",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43377,9 +43361,9 @@
   },
   {
     "id": "minna-1-1-1475124127920",
-    "japanese": "young<div>わか</div><div><br /></div>",
-    "reading": "young<div>わか</div><div><br /></div>",
-    "meaning": "若",
+    "japanese": "若",
+    "reading": "わか",
+    "meaning": "young",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43393,9 +43377,9 @@
   },
   {
     "id": "minna-1-1-1475124157875",
-    "japanese": "to send<div>そう</div><div>おく</div>",
-    "reading": "to send<div>そう</div><div>おく</div>",
-    "meaning": "送",
+    "japanese": "送",
+    "reading": "to sendそうおく",
+    "meaning": "to sendそうおく",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43409,9 +43393,9 @@
   },
   {
     "id": "minna-1-1-1475124198003",
-    "japanese": "happiness<div>こう</div><div>しあわ、さいわ</div>",
-    "reading": "happiness<div>こう</div><div>しあわ、さいわ</div>",
-    "meaning": "幸",
+    "japanese": "幸",
+    "reading": "こうしあわ、さいわ",
+    "meaning": "happiness",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43425,9 +43409,9 @@
   },
   {
     "id": "minna-1-1-1475124231612",
-    "japanese": "to measure<div>けい</div><div>はか</div>",
-    "reading": "to measure<div>けい</div><div>はか</div>",
-    "meaning": "計",
+    "japanese": "計",
+    "reading": "to measureけいはか",
+    "meaning": "to measureけいはか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43441,9 +43425,9 @@
   },
   {
     "id": "minna-1-1-1475124260167",
-    "japanese": "late<div>ち</div><div>おく、おそ</div>",
-    "reading": "late<div>ち</div><div>おく、おそ</div>",
-    "meaning": "遅",
+    "japanese": "遅",
+    "reading": "ちおく、おそ",
+    "meaning": "late",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43457,9 +43441,9 @@
   },
   {
     "id": "minna-1-1-1475124293274",
-    "japanese": "to deliver<div>ぱい、はい</div><div>くば</div>",
-    "reading": "to deliver<div>ぱい、はい</div><div>くば</div>",
-    "meaning": "配",
+    "japanese": "配",
+    "reading": "to deliverぱい、はいくば",
+    "meaning": "to deliverぱい、はいくば",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43473,9 +43457,9 @@
   },
   {
     "id": "minna-1-1-1475124325181",
-    "japanese": "younger brother<div>だい、で</div><div>おとうと</div>",
-    "reading": "younger brother<div>だい、で</div><div>おとうと</div>",
-    "meaning": "弟",
+    "japanese": "弟",
+    "reading": "younger brotherだい、でおとうと",
+    "meaning": "younger brotherだい、でおとうと",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43489,9 +43473,9 @@
   },
   {
     "id": "minna-1-1-1475124357756",
-    "japanese": "younger sister<div>まい</div><div>いもうと</div>",
-    "reading": "younger sister<div>まい</div><div>いもうと</div>",
-    "meaning": "妹",
+    "japanese": "妹",
+    "reading": "younger sisterまいいもうと",
+    "meaning": "younger sisterまいいもうと",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43505,9 +43489,9 @@
   },
   {
     "id": "minna-1-1-1475735271963",
-    "japanese": "to write down<div>き</div><div><br /></div>",
-    "reading": "to write down<div>き</div><div><br /></div>",
-    "meaning": "記",
+    "japanese": "記",
+    "reading": "to write downき",
+    "meaning": "to write downき",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43521,9 +43505,9 @@
   },
   {
     "id": "minna-1-1-1475735296571",
-    "japanese": "silver<br /><div>ぎん</div><div><br /></div>",
-    "reading": "silver<br /><div>ぎん</div><div><br /></div>",
-    "meaning": "銀",
+    "japanese": "銀",
+    "reading": "ぎん",
+    "meaning": "silver",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43537,9 +43521,9 @@
   },
   {
     "id": "minna-1-1-1475735367931",
-    "japanese": "number of times, to turn<div>かい</div><div>まわ</div>",
-    "reading": "number of times, to turn<div>かい</div><div>まわ</div>",
-    "meaning": "回",
+    "japanese": "回",
+    "reading": "number of times, to turnかいまわ",
+    "meaning": "number of times, to turnかいまわ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43553,9 +43537,9 @@
   },
   {
     "id": "minna-1-1-1475735386246",
-    "japanese": "evening<div><br /></div><div>ゆう</div>",
-    "reading": "evening<div><br /></div><div>ゆう</div>",
-    "meaning": "夕",
+    "japanese": "夕",
+    "reading": "ゆう",
+    "meaning": "evening",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43569,9 +43553,9 @@
   },
   {
     "id": "minna-1-1-1475735401946",
-    "japanese": "black<div>こく</div><div>くろ</div>",
-    "reading": "black<div>こく</div><div>くろ</div>",
-    "meaning": "黒",
+    "japanese": "黒",
+    "reading": "こくくろ",
+    "meaning": "black",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43585,9 +43569,9 @@
   },
   {
     "id": "minna-1-1-1475735427739",
-    "japanese": "task, to use<div>よう</div><div><br /></div>",
-    "reading": "task, to use<div>よう</div><div><br /></div>",
-    "meaning": "用",
+    "japanese": "用",
+    "reading": "task, to useよう",
+    "meaning": "task, to useよう",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43601,9 +43585,9 @@
   },
   {
     "id": "minna-1-1-1475735459122",
-    "japanese": "to keep, to protect<div>す、しゅ</div><div>まも</div>",
-    "reading": "to keep, to protect<div>す、しゅ</div><div>まも</div>",
-    "meaning": "守",
+    "japanese": "守",
+    "reading": "to keep, to protectす、しゅまも",
+    "meaning": "to keep, to protectす、しゅまも",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43617,9 +43601,9 @@
   },
   {
     "id": "minna-1-1-1475735485481",
-    "japanese": "the end of<div>まつ</div><div>すえ</div>",
-    "reading": "the end of<div>まつ</div><div>すえ</div>",
-    "meaning": "末",
+    "japanese": "末",
+    "reading": "the end ofまつすえ",
+    "meaning": "the end ofまつすえ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43633,9 +43617,9 @@
   },
   {
     "id": "minna-1-1-1475735514486",
-    "japanese": "to wait<div>たい</div><div>ま、まち</div>",
-    "reading": "to wait<div>たい</div><div>ま、まち</div>",
-    "meaning": "待",
+    "japanese": "待",
+    "reading": "to waitたいま、まち",
+    "meaning": "to waitたいま、まち",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43649,9 +43633,9 @@
   },
   {
     "id": "minna-1-1-1475735547582",
-    "japanese": "to remain<div>ざん</div><div>のこ</div>",
-    "reading": "to remain<div>ざん</div><div>のこ</div>",
-    "meaning": "残",
+    "japanese": "残",
+    "reading": "to remainざんのこ",
+    "meaning": "to remainざんのこ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43665,9 +43649,9 @@
   },
   {
     "id": "minna-1-1-1475735563211",
-    "japanese": "order, number<div>ばん</div><div><br /></div>",
-    "reading": "order, number<div>ばん</div><div><br /></div>",
-    "meaning": "番",
+    "japanese": "番",
+    "reading": "order, numberばん",
+    "meaning": "order, numberばん",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43681,9 +43665,9 @@
   },
   {
     "id": "minna-1-1-1475735574248",
-    "japanese": "station<div>えき</div><div><br /></div>",
-    "reading": "station<div>えき</div><div><br /></div>",
-    "meaning": "駅",
+    "japanese": "駅",
+    "reading": "えき",
+    "meaning": "station",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43697,9 +43681,9 @@
   },
   {
     "id": "minna-1-1-1475735606196",
-    "japanese": "theory, to explain<div>せつ、せっ</div><div><br /></div>",
-    "reading": "theory, to explain<div>せつ、せっ</div><div><br /></div>",
-    "meaning": "説",
+    "japanese": "説",
+    "reading": "theory, to explainせつ、せっ",
+    "meaning": "theory, to explainせつ、せっ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43713,9 +43697,9 @@
   },
   {
     "id": "minna-1-1-1475735634644",
-    "japanese": "idea, proposal<div>あん</div><div><br /></div>",
-    "reading": "idea, proposal<div>あん</div><div><br /></div>",
-    "meaning": "案",
+    "japanese": "案",
+    "reading": "idea, proposalあん",
+    "meaning": "idea, proposalあん",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43729,9 +43713,9 @@
   },
   {
     "id": "minna-1-1-1475735662903",
-    "japanese": "inside, inner<div>ない</div><div>うち</div>",
-    "reading": "inside, inner<div>ない</div><div>うち</div>",
-    "meaning": "内",
+    "japanese": "内",
+    "reading": "inside, innerないうち",
+    "meaning": "inside, innerないうち",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43745,9 +43729,9 @@
   },
   {
     "id": "minna-1-1-1475735680410",
-    "japanese": "to forget<div>ぼう</div><div>わす</div>",
-    "reading": "to forget<div>ぼう</div><div>わす</div>",
-    "meaning": "忘",
+    "japanese": "忘",
+    "reading": "to forgetぼうわす",
+    "meaning": "to forgetぼうわす",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43761,9 +43745,9 @@
   },
   {
     "id": "minna-1-1-1475744068373",
-    "japanese": "face<div>がん</div><div>かお、がお</div>",
-    "reading": "face<div>がん</div><div>かお、がお</div>",
-    "meaning": "顔",
+    "japanese": "顔",
+    "reading": "がんかお、がお",
+    "meaning": "face",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43777,9 +43761,9 @@
   },
   {
     "id": "minna-1-1-1475744120782",
-    "japanese": "emotion, condition<div>じょう</div><div>なさ</div>",
-    "reading": "emotion, condition<div>じょう</div><div>なさ</div>",
-    "meaning": "情",
+    "japanese": "情",
+    "reading": "emotion, conditionじょうなさ",
+    "meaning": "emotion, conditionじょうなさ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43793,9 +43777,9 @@
   },
   {
     "id": "minna-1-1-1475744149705",
-    "japanese": "to get angry<div>ど</div><div>おこ、いか</div>",
-    "reading": "to get angry<div>ど</div><div>おこ、いか</div>",
-    "meaning": "怒",
+    "japanese": "怒",
+    "reading": "to get angryどおこ、いか",
+    "meaning": "to get angryどおこ、いか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43809,9 +43793,9 @@
   },
   {
     "id": "minna-1-1-1475744169950",
-    "japanese": "change, abnormal<div>へん</div><div>か</div>",
-    "reading": "change, abnormal<div>へん</div><div>か</div>",
-    "meaning": "変",
+    "japanese": "変",
+    "reading": "change, abnormalへんか",
+    "meaning": "change, abnormalへんか",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43825,9 +43809,9 @@
   },
   {
     "id": "minna-1-1-1475744192322",
-    "japanese": "mutual<div>しょう、そう</div><div>あい</div>",
-    "reading": "mutual<div>しょう、そう</div><div>あい</div>",
-    "meaning": "相",
+    "japanese": "相",
+    "reading": "しょう、そうあい",
+    "meaning": "mutual",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43841,9 +43825,9 @@
   },
   {
     "id": "minna-1-1-1475744221346",
-    "japanese": "sideways<div>おう</div><div>よこ</div>",
-    "reading": "sideways<div>おう</div><div>よこ</div>",
-    "meaning": "横",
+    "japanese": "横",
+    "reading": "おうよこ",
+    "meaning": "sideways",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43857,9 +43841,9 @@
   },
   {
     "id": "minna-1-1-1475744236163",
-    "japanese": "to compare<div>ひ</div><div>くら</div>",
-    "reading": "to compare<div>ひ</div><div>くら</div>",
-    "meaning": "比",
+    "japanese": "比",
+    "reading": "to compareひくら",
+    "meaning": "to compareひくら",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43873,9 +43857,9 @@
   },
   {
     "id": "minna-1-1-1475744314231",
-    "japanese": "to change into<div>か、け</div><div>ば</div>",
-    "reading": "to change into<div>か、け</div><div>ば</div>",
-    "meaning": "化",
+    "japanese": "化",
+    "reading": "to change intoか、けば",
+    "meaning": "to change intoか、けば",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43889,9 +43873,9 @@
   },
   {
     "id": "minna-1-1-1475744345381",
-    "japanese": "to differ<div>い</div><div>ちが</div>",
-    "reading": "to differ<div>い</div><div>ちが</div>",
-    "meaning": "違",
+    "japanese": "違",
+    "reading": "to differいちが",
+    "meaning": "to differいちが",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43905,9 +43889,9 @@
   },
   {
     "id": "minna-1-1-1475744397782",
-    "japanese": "sad<div>ひ</div><div>かな</div>",
-    "reading": "sad<div>ひ</div><div>かな</div>",
-    "meaning": "悲",
+    "japanese": "悲",
+    "reading": "ひかな",
+    "meaning": "sad",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43921,9 +43905,9 @@
   },
   {
     "id": "minna-1-1-1475744470893",
-    "japanese": "to investigate<div>ちょう</div><div>しら</div>",
-    "reading": "to investigate<div>ちょう</div><div>しら</div>",
-    "meaning": "調",
+    "japanese": "調",
+    "reading": "to investigateちょうしら",
+    "meaning": "to investigateちょうしら",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43937,9 +43921,9 @@
   },
   {
     "id": "minna-1-1-1475744490326",
-    "japanese": "to inspect<div>さ</div><div><br /></div>",
-    "reading": "to inspect<div>さ</div><div><br /></div>",
-    "meaning": "査",
+    "japanese": "査",
+    "reading": "to inspectさ",
+    "meaning": "to inspectさ",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43953,9 +43937,9 @@
   },
   {
     "id": "minna-1-1-1475744526173",
-    "japanese": "fruit, result<div>か</div><div>は</div>",
-    "reading": "fruit, result<div>か</div><div>は</div>",
-    "meaning": "果",
+    "japanese": "果",
+    "reading": "fruit, resultかは",
+    "meaning": "fruit, resultかは",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43969,9 +43953,9 @@
   },
   {
     "id": "minna-1-1-1475744554177",
-    "japanese": "to sense, to feel<div>かん</div><div><br /></div>",
-    "reading": "to sense, to feel<div>かん</div><div><br /></div>",
-    "meaning": "感",
+    "japanese": "感",
+    "reading": "to sense, to feelかん",
+    "meaning": "to sense, to feelかん",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],
@@ -43985,9 +43969,9 @@
   },
   {
     "id": "minna-1-1-1475744595603",
-    "japanese": "answer<div>とう</div><div>こた、こたえ</div>",
-    "reading": "answer<div>とう</div><div>こた、こたえ</div>",
-    "meaning": "答",
+    "japanese": "答",
+    "reading": "とうこた、こたえ",
+    "meaning": "answer",
     "jlptLevel": "N5",
     "partOfSpeech": [],
     "examples": [],

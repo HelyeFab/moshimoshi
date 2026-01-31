@@ -23,6 +23,7 @@ import Stripe from 'stripe';
 // Define secrets for webhook
 const stripeSecretKey = defineSecret('STRIPE_SECRET_KEY');
 const stripeWebhookSecret = defineSecret('STRIPE_WEBHOOK_SECRET');
+const resendApiKey = defineSecret('RESEND_API_KEY');
 
 /**
  * Main Stripe webhook handler
@@ -38,7 +39,7 @@ export const stripeWebhook: HttpsFunction = onRequest(
   {
     region: 'europe-west1',
     maxInstances: 100,
-    secrets: [stripeSecretKey, stripeWebhookSecret]
+    secrets: [stripeSecretKey, stripeWebhookSecret, resendApiKey]
   },
   async (req, res) => {
     // Only accept POST requests
@@ -130,7 +131,7 @@ export const stripeWebhook: HttpsFunction = onRequest(
         case 'customer.subscription.pending_update_applied':
         case 'customer.subscription.pending_update_expired':
         case 'customer.subscription.trial_will_end':
-          await applySubscriptionEvent(event);
+          await applySubscriptionEvent(event, resendApiKey.value());
           break;
 
         // Invoice events

@@ -53,6 +53,14 @@ const ALERT_EMAILS = [
 | New Question | User posts a question that passes moderation | Info | `qa-moderation.ts` |
 | New Answer | User posts an answer that passes moderation | Info | `qa-moderation.ts` |
 
+### 5. Subscription Alerts
+
+| Alert | Trigger | Severity | File |
+|-------|---------|----------|------|
+| User Subscribed | `customer.subscription.created` webhook | Info | `handlers/subscriptions.ts` |
+| User Unsubscribed | `customer.subscription.deleted` webhook | Info | `handlers/subscriptions.ts` |
+| User Unsubscribed (status transition) | `customer.subscription.updated` when status becomes `canceled` | Info | `handlers/subscriptions.ts` |
+
 ## Architecture
 
 ```
@@ -189,6 +197,7 @@ interface AlertPayload {
 | `sendStoryGenerationWarningAlert` | Story generation warnings | `apiKey, storyId, warnings[], details` |
 | `sendTeaHouseQuestionAlert` | New Q&A question | `apiKey, questionId, title, author{name, email}` |
 | `sendTeaHouseAnswerAlert` | New Q&A answer | `apiKey, answerId, questionId, questionTitle, author{name, email}` |
+| `sendSubscriptionAlert` | Subscribe/unsubscribe notifications | `apiKey, action, details{uid,name,email,plan,status,customerId,subscriptionId,cancelAtPeriodEnd}` |
 
 ## Email Format
 

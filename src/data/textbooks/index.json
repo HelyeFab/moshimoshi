@@ -1,9 +1,9 @@
 {
-  "totalCards": 17761,
+  "totalCards": 17759,
   "textbooks": {
     "genki-1": {
       "title": "Genki 1",
-      "cardCount": 1496
+      "cardCount": 1495
     },
     "genki-2": {
       "title": "Genki 2",
@@ -15,7 +15,7 @@
     },
     "minna-1": {
       "title": "Minna 1",
-      "cardCount": 2029
+      "cardCount": 2028
     },
     "minna-2": {
       "title": "Minna 2",
