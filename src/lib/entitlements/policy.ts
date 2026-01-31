@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-30T14:58:36.465Z
+ * Generated at: 2026-01-31T10:18:50.429Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -69,7 +69,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
     "daily": {
           "hiragana_practice": 3,
           "katakana_practice": 3,
-          "kanji_browser": 10,
+          "kanji_browser": 5,
           "kanji_connection": 0,
           "kanji_mastery": 3,
           "drawing_practice": 3,
@@ -101,7 +101,7 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "comics": 0
     },
     "monthly": {
-          "custom_lists": 10,
+          "custom_lists": 5,
           "save_items": -1,
           "todos": 50,
           "flashcard_decks": 0,

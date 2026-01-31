@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-30T14:58:36.465Z
+ * Generated at: 2026-01-31T10:18:50.430Z
  */
 
 import type { FeatureId } from '@/types/FeatureId'

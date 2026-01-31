@@ -1002,9 +1002,13 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         description: strings.dashboard?.cards?.comics?.description || 'Moshi Goes to Japan',
         href: getLocalePath('/comics'),
         icon: (
-          <span className="inline-block scale-[0.35] sm:scale-100 origin-center">
-            <DoshiMascot size="medium" variant={lowPower ? 'static' : 'animated'} />
-          </span>
+          <Image
+            src="/ui/flat-icons/village/comic.svg"
+            alt="Moshi Comics"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
         ),
         stallType: 'stage',
         color: 'from-rose-400 to-orange-500',
@@ -1252,7 +1256,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.blog?.subtitle || 'ブログ',
         description: strings.dashboard?.cards?.blog?.description || 'Read articles and updates',
         href: getLocalePath('/blog'),
-        icon: '✍️',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/blogging.svg"
+            alt="Blogging"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'scroll',
         color: 'from-teal-400 to-cyan-600',
         glow: 'shadow-teal-500/50',
@@ -1294,7 +1306,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         description:
           strings.dashboard?.cards?.qa?.description || 'Share wisdom, ask questions, help others',
         href: getLocalePath('/village/tea-house'),
-        icon: '🍵',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/bubble-tea.svg"
+            alt="Tea House"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'community',
         color: 'from-green-400 to-teal-600',
         glow: 'shadow-green-500/50',
