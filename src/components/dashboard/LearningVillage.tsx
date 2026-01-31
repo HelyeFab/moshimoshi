@@ -746,7 +746,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.lists?.pageDescription || 'リスト',
         description: strings.lists?.pageDescription || 'Create and manage custom study lists',
         href: getLocalePath('/lists'),
-        icon: '📋',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/my-lists.svg"
+            alt="My Lists"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'scroll',
         color: 'from-cyan-400 to-teal-600',
         glow: 'shadow-cyan-500/50',
@@ -877,7 +885,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: cards?.conjugation?.subtitle || '活用',
         description: cards?.conjugation?.description || 'Practice verb conjugations',
         href: getLocalePath('/learn/conjugation'),
-        icon: '🔤',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/conjugation.svg"
+            alt="Conjugation"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'archery',
         color: 'from-orange-400 to-amber-600',
         glow: 'shadow-orange-500/50',
@@ -1189,7 +1205,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.resources?.subtitle || 'リソース',
         description: strings.dashboard?.cards?.resources?.description || 'Learning resources',
         href: getLocalePath('/resources'),
-        icon: '🎌',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/resource.svg"
+            alt="Resources"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'library',
         color: 'from-purple-400 to-indigo-600',
         glow: 'shadow-purple-500/50',
