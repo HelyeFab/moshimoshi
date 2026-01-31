@@ -699,7 +699,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.drill?.subtitle || 'ドリル',
         description: strings.dashboard?.cards?.drill?.description || 'Quick drill exercises',
         href: getLocalePath('/drill'),
-        icon: '⚡',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/drill.svg"
+            alt="Drill"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'school',
         color: 'from-indigo-400 to-purple-600',
         glow: 'shadow-indigo-500/50',
@@ -823,7 +831,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         description:
           cards?.kanjiConnections?.description || 'Premium: Families, Radicals & Patterns',
         href: getLocalePath('/kanji-connection'),
-        icon: '🔮',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/connected.svg"
+            alt="Kanji Connections"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'map',
         color: 'from-sky-400 to-blue-600',
         glow: 'shadow-sky-500/50',
@@ -838,7 +854,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: cards?.moodBoards?.subtitle || 'ムード',
         description: cards?.moodBoards?.description || 'Learn kanji by themes',
         href: getLocalePath('/kanji-moods'),
-        icon: '🗺️',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/mood.svg"
+            alt="Mood Boards"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'restaurant',
         color: 'from-yellow-400 to-orange-600',
         glow: 'shadow-yellow-500/50',
@@ -915,7 +939,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.news?.subtitle || 'ニュース',
         description: strings.dashboard?.cards?.news?.description || 'Read Japanese news',
         href: getLocalePath('/news'),
-        icon: '🗞️',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/newspaper.svg"
+            alt="News"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'scroll',
         color: 'from-emerald-400 to-green-600',
         glow: 'shadow-emerald-500/50',
@@ -972,7 +1004,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: cards?.youtubeShadowing?.subtitle || 'YouTube',
         description: cards?.youtubeShadowing?.description || 'Practice with YouTube',
         href: getLocalePath('/youtube-shadowing'),
-        icon: '📺',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/player.svg"
+            alt="MoshiPlayer"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'music',
         color: 'from-pink-400 to-rose-600',
         glow: 'shadow-pink-500/50',
@@ -987,7 +1027,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: cards?.popularVideos?.subtitle || '人気動画',
         description: cards?.popularVideos?.description || 'Most watched by the community',
         href: getLocalePath('/popular-videos'),
-        icon: '🔥',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/treniding-videos.svg"
+            alt="Trending Videos"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'cinema',
         color: 'from-red-500 to-orange-600',
         glow: 'shadow-orange-500/50',
@@ -1003,7 +1051,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         description:
           strings.dashboard?.cards?.youtubeSeries?.description || 'Track YouTube channels',
         href: getLocalePath('/youtube-series'),
-        icon: '📺',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/series.svg"
+            alt="YouTube Series"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'cards',
         color: 'from-amber-400 to-yellow-600',
         glow: 'shadow-amber-500/50',
@@ -1018,7 +1074,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         subtitle: strings.dashboard?.cards?.myVideos?.subtitle || 'ビデオ',
         description: strings.dashboard?.cards?.myVideos?.description || 'Your saved videos',
         href: getLocalePath('/my-videos'),
-        icon: '🎬',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/my-videos.svg"
+            alt="My Videos"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'theater',
         color: 'from-rose-400 to-pink-600',
         glow: 'shadow-rose-500/50',
@@ -1181,7 +1245,15 @@ export default function LearningVillage({ welcomeCard, welcomeData }: LearningVi
         description:
           strings.dashboard?.cards?.todos?.description || 'Organize your study tasks and goals',
         href: getLocalePath('/todos'),
-        icon: '✅',
+        icon: (
+          <Image
+            src="/ui/flat-icons/village/to-do-list.svg"
+            alt="Task Manager"
+            width={48}
+            height={48}
+            className="w-8 h-8 sm:w-12 sm:h-12 object-contain"
+          />
+        ),
         stallType: 'utility',
         color: 'from-purple-400 to-indigo-600',
         glow: 'shadow-purple-500/50',
