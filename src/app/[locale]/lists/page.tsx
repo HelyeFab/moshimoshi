@@ -212,10 +212,10 @@ export default function MyListsPage() {
       await refresh()
 
       if (failCount === 0) {
-        showToast(t('lists.success.allDeleted') || `Successfully deleted ${successCount} lists`, 'success')
+        showToast(t('lists.success.allDeleted', { count: successCount }), 'success')
       } else {
         showToast(
-          t('lists.errors.someDeleteFailed') || `Deleted ${successCount} lists, ${failCount} failed`,
+          t('lists.errors.someDeleteFailed', { success: successCount, failed: failCount }),
           'warning'
         )
       }

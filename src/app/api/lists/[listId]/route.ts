@@ -177,11 +177,19 @@ export async function DELETE(
     // Delete the list
     await listRef.delete()
 
-    console.log('[API DELETE] List deleted successfully')
+    // Record deletion tombstone to prevent resurrection from stale local data
+    const deletedListsRef = db.collection('users').doc(session.uid).collection('deletedLists')
+    await deletedListsRef.doc(listId).set({
+      deletedAt: Date.now(),
+      listName: listDoc.data()?.name || 'Unknown'
+    })
+
+    console.log('[API DELETE] List deleted and tombstone recorded successfully')
 
     return NextResponse.json({
       success: true,
       message: 'List deleted successfully',
+      deletedListId: listId
     })
   } catch (error) {
     console.error('[API DELETE] Error deleting list:', error)

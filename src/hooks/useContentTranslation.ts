@@ -6,8 +6,11 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
-import { TranslationMode, ReadingSettings } from '@/types/story'
-import { TranslationResult } from '@/lib/ai/processors/TranslationProcessor'
+import { TranslationMode as StoryTranslationMode, ReadingSettings } from '@/types/story'
+import {
+  TranslationResult,
+  TranslationMode as ProcessorTranslationMode,
+} from '@/lib/ai/processors/TranslationProcessor'
 import { doc, getDoc } from 'firebase/firestore'
 import { firestore } from '@/lib/firebase/client'
 
@@ -54,7 +57,7 @@ function splitIntoChunks(text: string, maxChars: number): string[] {
 function mergeTranslationResults(
   results: TranslationResult[],
   originalText: string,
-  mode: TranslationMode
+  mode: ProcessorTranslationMode
 ): TranslationResult {
   const translatedText = results.map(r => r.translatedText || '').join('\n').trim()
   const avgConfidence =
@@ -95,7 +98,7 @@ function mergeTranslationResults(
 interface TranslationCacheDocument {
   textHash: string
   translationId: string
-  mode: TranslationMode
+  mode: StoryTranslationMode
   userLevel: 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
   confidence: number
   usageCount: number
@@ -112,7 +115,7 @@ interface TranslationCacheDocument {
 // ============================================
 
 export interface ContentTranslationSettings {
-  mode: TranslationMode
+  mode: StoryTranslationMode
   userLevel: 'N5' | 'N4' | 'N3' | 'N2' | 'N1'
   showConfidence: boolean
   includeGrammarNotes: boolean
@@ -137,7 +140,7 @@ export interface UseContentTranslationReturn {
   // Translation functions
   translateText: (
     text: string,
-    mode?: TranslationMode,
+    mode?: StoryTranslationMode,
     options?: {
       onProgress?: (partial: TranslationResult, info: { chunkIndex: number; totalChunks: number }) => void
     }
@@ -152,7 +155,7 @@ export interface UseContentTranslationReturn {
   ) => Promise<TranslationResult | null>
 
   // Batch operations
-  translateBatch: (texts: string[], mode?: TranslationMode) => Promise<TranslationResult[]>
+  translateBatch: (texts: string[], mode?: StoryTranslationMode) => Promise<TranslationResult[]>
 
   // Cache management
   clearCache: () => void
@@ -168,7 +171,7 @@ export interface UseContentTranslationReturn {
     totalCachedTranslations: number
     cacheHitRate: number
     costSavings: number
-    popularModes: Array<{ mode: TranslationMode; count: number }>
+    popularModes: Array<{ mode: StoryTranslationMode; count: number }>
   }>
 
   // State
@@ -256,7 +259,7 @@ export function useContentTranslation(
   const translateText = useCallback(
     async (
       text: string,
-      mode: TranslationMode = settings.mode,
+      mode: StoryTranslationMode = settings.mode,
       options?: {
         onProgress?: (partial: TranslationResult, info: { chunkIndex: number; totalChunks: number }) => void
       }
@@ -551,7 +554,7 @@ export function useContentTranslation(
   const translateBatch = useCallback(
     async (
       texts: string[],
-      mode: TranslationMode = settings.mode
+      mode: StoryTranslationMode = settings.mode
     ): Promise<TranslationResult[]> => {
       if (mode === 'off') return []
 

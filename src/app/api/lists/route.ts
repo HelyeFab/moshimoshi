@@ -55,10 +55,23 @@ export async function GET(request: NextRequest) {
       lists.push(list);
     });
 
-    console.log('[GET /api/lists] Found', lists.length, 'lists in Firebase for user:', session.uid);
+    // Fetch recently deleted list IDs (last 30 days) to prevent resurrection
+    const deletedListsRef = db.collection('users').doc(session.uid).collection('deletedLists');
+    const thirtyDaysAgo = Date.now() - (30 * 24 * 60 * 60 * 1000);
+    const deletedSnapshot = await deletedListsRef
+      .where('deletedAt', '>', thirtyDaysAgo)
+      .get();
+
+    const deletedListIds: string[] = [];
+    deletedSnapshot.forEach(doc => {
+      deletedListIds.push(doc.id);
+    });
+
+    console.log('[GET /api/lists] Found', lists.length, 'lists and', deletedListIds.length, 'recently deleted for user:', session.uid);
 
     return NextResponse.json({
       lists,
+      deletedListIds,
       storage: {
         location: 'both',
         syncEnabled: true

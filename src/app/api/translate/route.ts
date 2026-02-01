@@ -218,7 +218,7 @@ export async function POST(request: NextRequest) {
       });
 
     } else {
-      throw new Error(response.error || 'Translation failed');
+      throw new Error('Translation failed');
     }
 
   } catch (error) {

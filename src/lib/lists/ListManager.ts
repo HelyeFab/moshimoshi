@@ -24,6 +24,11 @@ interface ListManagerDB {
     timestamp: number;
     retryCount: number;
   };
+  deletedLists: {
+    listId: string;
+    userId: string;
+    deletedAt: number;
+  };
 }
 
 class ListManager {
@@ -91,8 +96,8 @@ class ListManager {
       console.log('[ListManager] TabCoordinator initialized, isLeader:', this.tabCoordinator.isLeader());
     }
 
-    this.db = await openDB<ListManagerDB>('UserListsDB', 1, {
-      upgrade(db) {
+    this.db = await openDB<ListManagerDB>('UserListsDB', 2, {
+      upgrade(db, oldVersion) {
         // Lists store
         if (!db.objectStoreNames.contains('lists')) {
           const listsStore = db.createObjectStore('lists', { keyPath: 'id' });
@@ -105,6 +110,14 @@ class ListManager {
         if (!db.objectStoreNames.contains('syncQueue')) {
           const syncStore = db.createObjectStore('syncQueue', { keyPath: 'id' });
           syncStore.createIndex('timestamp', 'timestamp');
+        }
+
+        // Deletion tombstones - added in version 2
+        // Tracks deleted list IDs to prevent resurrection from stale local data
+        if (!db.objectStoreNames.contains('deletedLists')) {
+          const deletedStore = db.createObjectStore('deletedLists', { keyPath: 'listId' });
+          deletedStore.createIndex('userId', 'userId');
+          deletedStore.createIndex('deletedAt', 'deletedAt');
         }
       },
       blocking() {
@@ -197,7 +210,7 @@ class ListManager {
 
       if (response.ok) {
         const data = await response.json();
-        const { lists, storage } = data;
+        const { lists, deletedListIds, storage } = data;
 
         // Check storage location from response
         if (storage?.location === 'local') {
@@ -221,6 +234,30 @@ class ListManager {
           const mergedLists: UserList[] = [];
           const processedIds = new Set<string>();
 
+          // Combine local tombstones with server-provided deleted list IDs
+          // Server tombstones are authoritative - they come from deletions on other devices
+          const localTombstones = await db.getAllFromIndex('deletedLists', 'userId', userId);
+          const tombstoneIds = new Set(localTombstones.map(t => t.listId));
+
+          // Add server-provided deleted list IDs to tombstones
+          // This is the key fix: server tells us what was deleted on other devices
+          const serverDeletedIds = new Set<string>(deletedListIds || []);
+          for (const deletedId of serverDeletedIds) {
+            tombstoneIds.add(deletedId);
+            // Also save to local IndexedDB for offline access
+            if (!localTombstones.some(t => t.listId === deletedId)) {
+              await db.put('deletedLists', {
+                listId: deletedId,
+                userId: userId,
+                deletedAt: Date.now()
+              });
+            }
+          }
+
+          if (serverDeletedIds.size > 0) {
+            console.log('[ListManager] Server provided', serverDeletedIds.size, 'deleted list IDs as tombstones');
+          }
+
           // Process server lists (these are the source of truth if they exist)
           for (const serverList of (lists || [])) {
             const localList = localListsMap.get(serverList.id);
@@ -233,13 +270,62 @@ class ListManager {
               mergedLists.push(localList);
             }
             processedIds.add(serverList.id);
+
+            // Clear tombstone if server has the list (it was re-created or never actually deleted)
+            if (tombstoneIds.has(serverList.id)) {
+              await db.delete('deletedLists', serverList.id);
+              tombstoneIds.delete(serverList.id);
+            }
           }
 
-          // Add any local-only lists that don't exist on server yet
-          // (These might be newly created and haven't synced yet)
+          // Process local-only lists - check if they should be synced or deleted
+          // A local-only list should be DELETED (not synced) if:
+          // 1. It's in the tombstone list (deleted on another device)
+          // 2. OR it doesn't exist on server AND was created before the last server sync
+          const listsToDeleteLocally: string[] = [];
+          const listsToSync: UserList[] = [];
+
           for (const localList of localLists) {
-            if (!processedIds.has(localList.id)) {
+            if (processedIds.has(localList.id)) {
+              continue; // Already processed from server
+            }
+
+            // Check if this list was deleted (exists in tombstones)
+            if (tombstoneIds.has(localList.id)) {
+              console.log('[ListManager] Skipping tombstoned list:', localList.name, localList.id);
+              listsToDeleteLocally.push(localList.id);
+              continue;
+            }
+
+            // List doesn't exist on server and not in tombstones
+            // This could be:
+            // 1. A new list created offline (should sync)
+            // 2. A list deleted on another device (should NOT sync)
+            //
+            // Heuristic: If the server returned ANY lists, it means we have connectivity
+            // and the server is authoritative. A local-only list that's not on server
+            // was likely deleted elsewhere. Only sync if the list was created very recently
+            // (within last 5 minutes) to handle the "just created offline" case.
+            const RECENT_THRESHOLD_MS = 5 * 60 * 1000; // 5 minutes
+            const now = Date.now();
+            const isRecentlyCreated = (now - localList.createdAt) < RECENT_THRESHOLD_MS;
+
+            if (isRecentlyCreated) {
+              // Likely a new list created offline - sync it
+              console.log('[ListManager] Local-only list is recent, will sync:', localList.name);
               mergedLists.push(localList);
+              listsToSync.push(localList);
+            } else {
+              // Old list not on server - was deleted elsewhere, record tombstone
+              console.log('[ListManager] Local-only list not on server, treating as deleted:', localList.name, localList.id);
+              listsToDeleteLocally.push(localList.id);
+
+              // Record tombstone to prevent future resurrection
+              await db.put('deletedLists', {
+                listId: localList.id,
+                userId: userId,
+                deletedAt: now
+              });
             }
           }
 
@@ -258,12 +344,14 @@ class ListManager {
             await tx.done;
           }, 'getLists');
 
-          const localOnlyLists = localLists.filter(list => !processedIds.has(list.id));
-          const shouldSyncLocal = localOnlyLists.length > 0 &&
-            (typeof navigator === 'undefined' || navigator.onLine);
-          if (shouldSyncLocal) {
+          // Only sync truly new lists (created recently)
+          if (listsToSync.length > 0 && (typeof navigator === 'undefined' || navigator.onLine)) {
+            console.log('[ListManager] Syncing', listsToSync.length, 'recently created lists to server');
             void this.syncLocalListsToServer(userId);
           }
+
+          // Clean up old tombstones (older than 30 days)
+          void this.cleanupOldTombstones(userId);
 
           return mergedLists.sort((a, b) => b.updatedAt - a.updatedAt);
         }
@@ -520,8 +608,16 @@ class ListManager {
       return 0;
     }
 
+    // Get tombstones to avoid re-uploading deleted lists
+    const tombstones = await db.getAllFromIndex('deletedLists', 'userId', userId);
+    const tombstoneIds = new Set(tombstones.map(t => t.listId));
+
     let syncedCount = 0;
     let warnedForeignLists = false;
+
+    // Only sync lists created recently (within 5 minutes) to avoid resurrecting old deleted lists
+    const RECENT_THRESHOLD_MS = 5 * 60 * 1000; // 5 minutes
+    const now = Date.now();
 
     for (const list of localLists) {
       if (list.userId !== userId) {
@@ -529,6 +625,19 @@ class ListManager {
           console.warn('[ListManager.syncLocalListsToServer] Skipping lists for a different user');
           warnedForeignLists = true;
         }
+        continue;
+      }
+
+      // Skip tombstoned lists
+      if (tombstoneIds.has(list.id)) {
+        console.log('[ListManager.syncLocalListsToServer] Skipping tombstoned list:', list.name);
+        continue;
+      }
+
+      // Skip old lists - they were likely deleted on server
+      const isRecentlyCreated = (now - list.createdAt) < RECENT_THRESHOLD_MS;
+      if (!isRecentlyCreated) {
+        console.log('[ListManager.syncLocalListsToServer] Skipping old list (likely deleted on server):', list.name);
         continue;
       }
 
@@ -540,7 +649,8 @@ class ListManager {
         });
 
         if (checkResponse.status === 404) {
-          // List doesn't exist on server, create it
+          // List doesn't exist on server - only create if it's recent
+          console.log('[ListManager.syncLocalListsToServer] Syncing recent list to server:', list.name);
           const response = await fetch('/api/lists/sync', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -692,6 +802,16 @@ class ListManager {
 
     const shouldUseServer = typeof navigator === 'undefined' || navigator.onLine;
 
+    // Record tombstone to prevent resurrection from stale data on other devices
+    const recordTombstone = async () => {
+      await db.put('deletedLists', {
+        listId,
+        userId,
+        deletedAt: Date.now()
+      });
+      console.log('[ListManager] Recorded deletion tombstone for list:', listId);
+    };
+
     // Delete from server AND IndexedDB when online
     if (shouldUseServer) {
       try {
@@ -702,6 +822,7 @@ class ListManager {
 
         if (response.ok) {
           await db.delete('lists', listId);
+          await recordTombstone();
 
           // Broadcast to other tabs
           this.tabCoordinator?.broadcast({
@@ -727,6 +848,7 @@ class ListManager {
 
     if (list && list.userId === userId) {
       await db.delete('lists', listId);
+      await recordTombstone();
 
       // Broadcast to other tabs
       this.tabCoordinator?.broadcast({
@@ -741,6 +863,34 @@ class ListManager {
     }
 
     return false;
+  }
+
+  /**
+   * Clean up old tombstones to prevent IndexedDB bloat
+   * Removes tombstones older than 30 days
+   */
+  private async cleanupOldTombstones(userId: string): Promise<void> {
+    try {
+      const db = await this.initDB();
+      const TOMBSTONE_MAX_AGE_MS = 30 * 24 * 60 * 60 * 1000; // 30 days
+      const cutoffTime = Date.now() - TOMBSTONE_MAX_AGE_MS;
+
+      const tombstones = await db.getAllFromIndex('deletedLists', 'userId', userId);
+      let cleanedCount = 0;
+
+      for (const tombstone of tombstones) {
+        if (tombstone.deletedAt < cutoffTime) {
+          await db.delete('deletedLists', tombstone.listId);
+          cleanedCount++;
+        }
+      }
+
+      if (cleanedCount > 0) {
+        console.log(`[ListManager] Cleaned up ${cleanedCount} old tombstones`);
+      }
+    } catch (error) {
+      console.error('[ListManager] Error cleaning up tombstones:', error);
+    }
   }
 
   // Export list as CSV or JSON
