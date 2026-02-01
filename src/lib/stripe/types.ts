@@ -54,65 +54,59 @@ export interface StripeConfig {
 }
 
 // Pricing configuration (would typically come from env vars)
+const MONTHLY_FEATURES = [
+  'pricing.features.monthly.everythingFree',
+  'pricing.features.monthly.learnFaster',
+  'pricing.features.monthly.readMore',
+  'pricing.features.monthly.goDeeper',
+  'pricing.features.monthly.buildHabits',
+  'pricing.features.monthly.crossDeviceSync',
+  'pricing.features.monthly.prioritySupport',
+  'pricing.features.monthly.futureFeaturesUnlimited',
+];
+
+const YEARLY_FEATURES = [
+  ...MONTHLY_FEATURES,
+  'pricing.features.yearly.twoMonthsFree',
+];
+
 export const PRICING_PLANS: PricingPlan[] = [
   {
     id: 'free',
-    name: 'Free',
-    description: 'Get started with basic features',
+    name: 'pricing.planNames.free',
+    description: 'pricing.planDescriptions.free',
     price: 0,
     currency: PRICING_CONFIG.currency,
     interval: 'month',
     features: [
-      'pricing.features.free.hiraganaKatakana',
-      'pricing.features.free.kanjiBrowser',
-      'pricing.features.free.kanjiMastery',
-      'pricing.features.free.drills',
-      'pricing.features.free.vocabulary',
-      'pricing.features.free.moodboards',
-      'pricing.features.free.moshiPlayer',
-      'pricing.features.free.aiStoriesNews',
-      'pricing.features.free.basicProgressTracking'
+      'pricing.features.free.startLearning',
+      'pricing.features.free.dailyPractice',
+      'pricing.features.free.limitedStoriesNews',
+      'pricing.features.free.basicProgressTracking',
+      'pricing.features.free.learnAtYourPace',
     ],
     stripePriceId: ''
   },
   {
     id: 'premium_monthly',
-    name: 'Premium Monthly',
-    description: 'Full access with monthly billing',
+    name: 'pricing.planNames.premiumMonthly',
+    description: 'pricing.planDescriptions.premiumMonthly',
     price: PRICING_CONFIG.monthly.amount,
     currency: PRICING_CONFIG.currency,
     interval: 'month',
-    features: [
-      'pricing.features.monthly.everythingFree',
-      'pricing.features.monthly.unlimitedMoodboards',
-      'pricing.features.monthly.unlimitedStories',
-      'pricing.features.monthly.unlimitedNews',
-      'pricing.features.monthly.unlimitedDrawPractice',
-      'pricing.features.monthly.fullMoshiPlayer',
-      'pricing.features.monthly.kanjiConnection',
-      'pricing.features.monthly.moshiComics',
-      'pricing.features.monthly.textbookVocab',
-      'pricing.features.monthly.drillCustomLists',
-      'pricing.features.monthly.ankiImports',
-      'pricing.features.monthly.unlimitedLists',
-      'pricing.features.monthly.library',
-      'pricing.features.monthly.crossDeviceSync',
-      'pricing.features.monthly.prioritySupport'
-    ],
+    features: MONTHLY_FEATURES,
     stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_MONTHLY || '',
-    popular: true
+    popular: false,
   },
   {
     id: 'premium_yearly',
-    name: 'Premium Yearly',
-    description: 'Best value with annual billing',
+    name: 'pricing.planNames.premiumYearly',
+    description: 'pricing.planDescriptions.premiumYearly',
     price: PRICING_CONFIG.yearly.amount,
     currency: PRICING_CONFIG.currency,
     interval: 'year',
-    features: [
-      'pricing.features.yearly.everythingMonthly',
-      'pricing.features.yearly.twoMonthsFree',
-    ],
-    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_YEARLY || ''
+    features: YEARLY_FEATURES,
+    stripePriceId: process.env.NEXT_PUBLIC_STRIPE_PRICE_YEARLY || '',
+    popular: true,
   }
 ];

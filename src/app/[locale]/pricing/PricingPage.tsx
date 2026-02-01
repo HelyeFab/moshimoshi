@@ -143,10 +143,10 @@ export default function PricingPage() {
                 <div className="p-8">
                   {/* Plan name and price */}
                   <h3 className="text-2xl font-bold text-gray-900 dark:text-white">
-                    {plan.name}
+                    {t(plan.name)}
                   </h3>
                   <p className="mt-2 text-gray-600 dark:text-gray-400">
-                    {plan.description}
+                    {t(plan.description)}
                   </p>
                   <div className="mt-6">
                     <span className="text-4xl font-bold text-gray-900 dark:text-white">

@@ -1,7 +1,7 @@
 # Blast Mode Overview
 
-**Status:** DRAFT
-**Last Updated:** 2026-01-30
+**Status:** ACTIVE
+**Last Updated:** 2026-02-01
 **Owner:** Product + Eng
 
 ---
@@ -32,7 +32,7 @@ Core idea: **6 potential screens** per item, with adaptive skips.
 
 ## Entry Point
 
-Proposed route:
+Routes:
 
 - `src/app/[locale]/tools/blast-mode/page.tsx`
 - `src/app/[locale]/tools/blast-mode/learn/page.tsx`

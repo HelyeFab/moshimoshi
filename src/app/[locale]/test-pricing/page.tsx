@@ -8,6 +8,47 @@ export default function PricingTestPage() {
           Pricing Page Comparison Test
         </h1>
 
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 mb-8">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
+            English Copy Preview (Test)
+          </h2>
+          <div className="grid md:grid-cols-3 gap-6">
+            <div className="rounded-xl border border-gray-200 dark:border-gray-700 p-6 bg-gray-50 dark:bg-gray-900">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Free</h3>
+              <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                <li>Start learning today</li>
+                <li>Daily practice in kana, kanji, and drills</li>
+                <li>Limited stories &amp; news</li>
+                <li>Basic progress tracking</li>
+                <li>Learn at your own pace</li>
+              </ul>
+            </div>
+
+            <div className="rounded-xl border border-primary-500 p-6 bg-white dark:bg-gray-800 shadow-md">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Premium Monthly</h3>
+              <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                <li>Everything in Free, plus:</li>
+                <li>Learn faster with unlimited practice</li>
+                <li>Read more with unlimited stories, news, and comics</li>
+                <li>Go deeper with full Kanji Connection + Textbook Vocabulary</li>
+                <li>Build real habits with unlimited drills &amp; mastery</li>
+                <li>Keep progress everywhere with cross-device sync</li>
+                <li>Priority support</li>
+                <li>Every new feature included — always unlimited</li>
+              </ul>
+            </div>
+
+            <div className="rounded-xl border border-green-500 p-6 bg-white dark:bg-gray-800 shadow-md">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3">Premium Yearly</h3>
+              <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                <li>Everything in Premium Monthly</li>
+                <li>Best value — save 7% (2 months free)</li>
+                <li>Every new feature included — always unlimited</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
         <div className="bg-yellow-50 dark:bg-yellow-900/20 border-2 border-yellow-400 dark:border-yellow-600 rounded-lg p-6 mb-8">
           <h2 className="text-xl font-semibold text-yellow-800 dark:text-yellow-300 mb-2">
             ⚠️ Conflict Detected

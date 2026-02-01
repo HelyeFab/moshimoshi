@@ -11,6 +11,7 @@ interface PricingPlanCardProps {
   onSelect: (plan: PricingPlan) => void;
   isLoading?: boolean;
   isCurrentPlan?: boolean;
+  isPremiumUser?: boolean;
   user?: any;
   variant?: 'default' | 'compact';
   className?: string;
@@ -21,6 +22,7 @@ export function PricingPlanCard({
   onSelect,
   isLoading = false,
   isCurrentPlan = false,
+  isPremiumUser = false,
   user,
   variant = 'default',
   className = '',
@@ -39,7 +41,7 @@ export function PricingPlanCard({
     }
 
     if (plan.id === 'free') {
-      return t('pricing.buttons.downgrade');
+      return isPremiumUser ? t('pricing.buttons.downgrade') : t('pricing.buttons.signUpFree');
     }
 
     return t('pricing.buttons.upgradeNow');
@@ -74,10 +76,10 @@ export function PricingPlanCard({
       <div className={variant === 'compact' ? 'p-4' : 'p-8'}>
         {/* Plan name and price */}
         <h3 className={`${variant === 'compact' ? 'text-xl' : 'text-2xl'} font-bold text-gray-900 dark:text-white`}>
-          {plan.name}
+          {t(plan.name)}
         </h3>
         <p className={`${variant === 'compact' ? 'mt-1' : 'mt-2'} text-gray-600 dark:text-gray-400`}>
-          {plan.description}
+          {t(plan.description)}
         </p>
         <div className={variant === 'compact' ? 'mt-2' : 'mt-6'}>
           <span className={`${variant === 'compact' ? 'text-3xl' : 'text-4xl'} font-bold text-gray-900 dark:text-white`}>

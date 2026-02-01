@@ -23,6 +23,8 @@ function PricingContent() {
   const { showToast } = useToast();
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
   const [showVideoLimitBanner, setShowVideoLimitBanner] = useState(false);
+  const isPremiumUser = subscription?.status === 'active' &&
+    (subscription?.plan === 'premium_monthly' || subscription?.plan === 'premium_yearly');
 
   // Gated feature IDs that free users can't access
   const gatedFeatures = ['kanji_connection', 'comics', 'textbook_vocabulary', 'books', 'flashcards', 'my_videos'];
@@ -150,6 +152,7 @@ function PricingContent() {
                 onSelect={handleSelectPlan}
                 isLoading={loadingPlan === plan.id}
                 isCurrentPlan={isCurrentPlan(plan.id)}
+                isPremiumUser={isPremiumUser}
                 user={user}
               />
             ))}
