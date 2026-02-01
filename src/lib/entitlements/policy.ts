@@ -1,7 +1,7 @@
 /**
  * GENERATED FILE - DO NOT EDIT
  * Generated from: config/features.v1.json
- * Generated at: 2026-01-31T18:28:38.523Z
+ * Generated at: 2026-02-01T12:52:49.717Z
  */
 
 import type { FeatureId } from '@/types/FeatureId';
@@ -71,11 +71,11 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "katakana_practice": 3,
           "kanji_browser": 5,
           "kanji_connection": 0,
-          "kanji_mastery": 3,
+          "kanji_mastery": 1,
           "drawing_practice": 3,
           "conjugation_drill": 3,
           "grammar_explanations": 3,
-          "youtube_shadowing": 3,
+          "youtube_shadowing": 1,
           "media_upload": 2,
           "stall_layout_customization": 1,
           "flashcard_daily_reviews": 0,
@@ -86,12 +86,12 @@ export const PLAN_LIMITS: Record<PlanType, PlanLimits> = {
           "pwa_fs_access": 0,
           "pwa_badging": 0,
           "pwa_media_session": 0,
-          "word_lookup": 15,
-          "news": 3,
-          "story": 3,
-          "kanji_mood_board": 3,
-          "drill": 3,
-          "blast_mode": 2,
+          "word_lookup": 8,
+          "news": 1,
+          "story": 1,
+          "kanji_mood_board": 1,
+          "drill": 1,
+          "blast_mode": 1,
           "my_list": -1,
           "textbook_vocabulary": 0,
           "flashcards": 0,

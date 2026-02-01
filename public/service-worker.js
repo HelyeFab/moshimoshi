@@ -19,7 +19,7 @@ const log = DEBUG ? console.log.bind(console) : () => {};
 const warn = DEBUG ? console.warn.bind(console) : () => {};
 // Always keep console.error for critical issues
 
-const CACHE_VERSION = 'moshimoshi-b0b2881282aa';
+const CACHE_VERSION = 'moshimoshi-821496c96d5d';
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 const AUDIO_CACHE = `${CACHE_VERSION}-audio`;
 const PAGES_CACHE = `${CACHE_VERSION}-pages`;
@@ -126,8 +126,8 @@ const MANUAL_PRECACHE_URLS = [
   '/data/kanji/jlpt_5.json'
 ];
 const PRECACHE_URLS = [
-  "/_next/static/BSTsQv2eRXsYVcDr7RHVR/_buildManifest.js",
-  "/_next/static/BSTsQv2eRXsYVcDr7RHVR/_ssgManifest.js",
+  "/_next/static/D3Iojna2vBmTpjQH_RRA_/_buildManifest.js",
+  "/_next/static/D3Iojna2vBmTpjQH_RRA_/_ssgManifest.js",
   "/_next/static/chunks/10152-ef8441d3e4c2aca0.js",
   "/_next/static/chunks/1036-a680cf451ab48a19.js",
   "/_next/static/chunks/10409-58c9f3a9ad081a09.js",
@@ -162,7 +162,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/24258-463e2ef51c80bc96.js",
   "/_next/static/chunks/24366-6101194aa4c1ff3d.js",
   "/_next/static/chunks/24909-e6034bdbe90d1a47.js",
-  "/_next/static/chunks/25352-f1c0619d40546587.js",
+  "/_next/static/chunks/25352-df0f13d88b5c2c11.js",
   "/_next/static/chunks/25760-5a31a6708e5afa36.js",
   "/_next/static/chunks/26823-34c76b1d6c440283.js",
   "/_next/static/chunks/27183-804b337612556fc2.js",
@@ -177,7 +177,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/34244-024ad41a6321516b.js",
   "/_next/static/chunks/3509-f60824423c91d525.js",
   "/_next/static/chunks/35925-c3dbe8f5843da83e.js",
-  "/_next/static/chunks/363642f4-9c205dcd9aea5ef1.js",
+  "/_next/static/chunks/363642f4-3d6e3061f6f7a2a9.js",
   "/_next/static/chunks/36996-5a51412719734de1.js",
   "/_next/static/chunks/37005-7144c80a4d480360.js",
   "/_next/static/chunks/37553-28669643b9d942b8.js",
@@ -225,7 +225,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/62310-f7486dea3b363a6d.js",
   "/_next/static/chunks/62675-229e2feae50db795.js",
   "/_next/static/chunks/63-52baec9cf791023d.js",
-  "/_next/static/chunks/6335-0326d7ee3f70ce6d.js",
+  "/_next/static/chunks/6335-ee6966802c28ed26.js",
   "/_next/static/chunks/63790-5d51db9e7c6b5dc7.js",
   "/_next/static/chunks/64445-9aaa11589ddf0e34.js",
   "/_next/static/chunks/64543-7005cd150132b513.js",
@@ -235,7 +235,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/68645-3db87573959f6f2c.js",
   "/_next/static/chunks/68689-50c9dd4e65cbb019.js",
   "/_next/static/chunks/68727-9c10895e89df7dac.js",
-  "/_next/static/chunks/68792-28de852e351afda8.js",
+  "/_next/static/chunks/68792-f0344127c1e82552.js",
   "/_next/static/chunks/69000-b063f7123f3e8d25.js",
   "/_next/static/chunks/69294-47d134f2f3cfaaf2.js",
   "/_next/static/chunks/70e0d97a-589a37b07df0bca7.js",
@@ -277,7 +277,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/91543-9e260f7b089d417b.js",
   "/_next/static/chunks/91979-b3beba1c376bf9da.js",
   "/_next/static/chunks/92758-2306713be271c488.js",
-  "/_next/static/chunks/94997-722be0b3bb7ccfbe.js",
+  "/_next/static/chunks/94997-023cec89561b6588.js",
   "/_next/static/chunks/95125-69d1051d31730985.js",
   "/_next/static/chunks/95858-65c8e079c3083475.js",
   "/_next/static/chunks/97825-4db850dd05bb0e8c.js",
@@ -484,7 +484,7 @@ const PRECACHE_URLS = [
   "/_next/static/chunks/app/[locale]/test-flashcards/page-8f2195ac3143994a.js",
   "/_next/static/chunks/app/[locale]/test-furigana/page-ae533b84f5f27822.js",
   "/_next/static/chunks/app/[locale]/test-install-toast/page-ea17c3689ddae879.js",
-  "/_next/static/chunks/app/[locale]/test-limits-display/page-53f6e76bf1732bd9.js",
+  "/_next/static/chunks/app/[locale]/test-limits-display/page-4ee0ae69a5d287f0.js",
   "/_next/static/chunks/app/[locale]/test-modal/page-c83426691cf50553.js",
   "/_next/static/chunks/app/[locale]/test-notifications/page-29436e6c8dbab317.js",
   "/_next/static/chunks/app/[locale]/test-pricing/alternative/page-c066bfd0f7406a9f.js",

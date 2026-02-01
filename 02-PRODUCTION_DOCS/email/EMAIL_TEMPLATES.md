@@ -70,6 +70,8 @@ Access via: **Create Template → Choose Starter**
 | `variables` | Custom variable definitions |
 | `status` | `draft`, `active`, or `archived` |
 
+> ⚠️ **Important:** Only templates with `status: 'active'` appear in the Email Campaigns template selector. New templates default to `draft` — remember to activate them before using in campaigns.
+
 ---
 
 ## HTML Template Structure
@@ -500,6 +502,8 @@ Content-Type: application/json
   "variables": []
 }
 ```
+
+> 💡 **Tip:** Set `"status": "active"` if you want the template immediately available in campaigns. Otherwise, update it later via PUT.
 
 ### Update Template
 ```
